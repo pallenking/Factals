@@ -9,9 +9,9 @@ import SwiftUI
 
 @main
 struct fooDocTry3App: App {
-    var body: some Scene {
-        DocumentGroup(newDocument: fooDocTry3Document()) { file in
-            ContentView(document: file.$document)
-        }
-    }
+	var body: some Scene {
+		DocumentGroup(newDocument: fooDocTry3Document()) { file in
+			ContentView(document: file.$document)
+		}
+	}
 }

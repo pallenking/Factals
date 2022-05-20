@@ -35,6 +35,7 @@ struct fooDocTry3Document: FileDocument {
 	}
 	
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+		//assert(text != nil)
 		let data = text.data(using: .utf8)!
 		return .init(regularFileWithContents: data)
 	}
