@@ -6,7 +6,7 @@
 //
 // Part.swift -- Base class for Factal Workbench Models C2017PAK
 
-import SceneKit
-class Part : NSObject, Codable, ObservableObject {		//, Equatable, PolyWrappable, NSCopying
-
-}
+//import SceneKit
+//class Part : NSObject, Codable, ObservableObject {		//, Equatable, PolyWrappable, NSCopying
+//
+//}

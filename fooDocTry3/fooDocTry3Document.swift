@@ -15,6 +15,42 @@ extension UTType {
 	}
 }
 
+struct fooDocTry3Document: FileDocument {
+	var scene: SCNScene
+	var partz: SCNScene
+
+	private static let onlyScene = true
+	static var readableContentTypes: [UTType] { [.exampleText] }
+
+	init(configuration: ReadConfiguration) throws {
+		if let data = configuration.file.regularFileContents {
+			let _		 		= String  (data: data, encoding: .utf8)
+			let sScene			= SCNScene(named:"art.scnassets/ship.scn")!//SCNScene()//(data: data, encoding: .utf8)
+			self.init(scene:sScene)
+		}
+		else {
+			throw CocoaError(.fileReadCorruptFile)
+		}
+	}
+
+	init(scene:SCNScene?=SCNScene(named:"art.scnassets/ship.scn")!) {
+		self.scene				= scene!
+		self.scene.groomScene()
+		self.partz				= makePartz()
+		self.partz.groomScene()
+	}
+	
+	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+//		let data 				= text .data(using:.utf8)!
+//		let data				= scene.data(using:.utf8)
+		let data				= "".data(using:.utf8)!
+			///Value of type 'SCNScene' has no member 'data'
+			///Cannot infer contextual base in reference to member 'utf8'
+
+		return .init(regularFileWithContents: data)
+	}
+}
+
 extension SCNScene {
 	func printModel() {
 		print("rootNode.name = '\(rootNode.name ?? "<nil>")'")
@@ -56,74 +92,36 @@ extension SCNScene {
 	}
 }
 
-struct fooDocTry3Document: FileDocument {
-	var scene: SCNScene
-	var partz: SCNScene
 
-	private static let onlyScene = true
-	static var readableContentTypes: [UTType] { [.exampleText] }
 
-	init(configuration: ReadConfiguration) throws {
-		if let data = configuration.file.regularFileContents {
-			let _		 		= String  (data: data, encoding: .utf8)
-			let sScene			= SCNScene(named:"art.scnassets/ship.scn")!//SCNScene()//(data: data, encoding: .utf8)
-			self.init(scene:sScene)
-		}
-		else {
-			throw CocoaError(.fileReadCorruptFile)
-		}
+
+	typealias PolyWrap = Part
+	class Part : Codable /* PartProtocol*/ {
+		func polyWrap() -> PolyWrap {	polyWrap() }
+		func polyUnwrap() -> Part 	{	Part()		}
 	}
+	//protocol PartProtocol {
+	//	func polyWrap() -> PolyWrap
+	//}
 
-	init(scene:SCNScene?=SCNScene(named:"art.scnassets/ship.scn")!) {
-		self.scene				= scene!
-		self.scene.groomScene()
-		self.partz				= makePartz()
-		self.partz.groomScene()
-	}
+func serializeDeserialize(_ inPart:Part) throws -> Part? {
+
+	 //  - INSERT -  PolyWrap's
+	let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
+
+		 //  - ENCODE -  PolyWrap as JSON
+		let jsonData 			= try JSONEncoder().encode(inPolyPart)
+
+			print(String(data:jsonData, encoding:.utf8) ?? "")
+
+		 //  - DECODE -  PolyWrap from JSON
+		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
+
+	 //  - REMOVE -  PolyWrap's
+	let outPart				= outPoly.polyUnwrap()
+	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
+	let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
 	
-	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-//		let data 				= text .data(using:.utf8)!
-//		let data				= scene.data(using:.utf8)
-		let data				= "".data(using:.utf8)!
-			///Value of type 'SCNScene' has no member 'data'
-			///Cannot infer contextual base in reference to member 'utf8'
-
-		return .init(regularFileWithContents: data)
-	}
-
-
-
-
-
-		typealias PolyWrap = Part
-		class Part : Codable /* PartProtocol*/ {
-			func polyWrap() -> PolyWrap {	polyWrap() }
-			func polyUnwrap() -> Part 	{	Part()		}
-		}
-		//protocol PartProtocol {
-		//	func polyWrap() -> PolyWrap
-		//}
-
-	func serializeDeserialize(_ inPart:Part) throws -> Part? {
-
-		 //  - INSERT -  PolyWrap's
-		let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
-
-			 //  - ENCODE -  PolyWrap as JSON
-			let jsonData 			= try JSONEncoder().encode(inPolyPart)
-
-				print(String(data:jsonData, encoding:.utf8) ?? "")
-
-			 //  - DECODE -  PolyWrap from JSON
-			let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
-
-		 //  - REMOVE -  PolyWrap's
-		let outPart				= outPoly.polyUnwrap()
-		 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
-		let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
-		
-		return outPart
-	}
-
-
+	return outPart
 }
+
