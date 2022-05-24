@@ -13,6 +13,8 @@
 		9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9FEE6F1F2835779000E9E2AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1E2835779000E9E2AE /* Preview Assets.xcassets */; };
 		9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
+		9FEE6F2A283C1E7C00E9E2AE /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F29283C1E7C00E9E2AE /* Part.swift */; };
+		9FEE6F2C283C239000E9E2AE /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2B283C239000E9E2AE /* Vew.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		9FEE6F202835779000E9E2AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FEE6F212835779000E9E2AE /* fooDocTry3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = fooDocTry3.entitlements; sourceTree = "<group>"; };
 		9FEE6F272837C54E00E9E2AE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		9FEE6F29283C1E7C00E9E2AE /* Part.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
+		9FEE6F2B283C239000E9E2AE /* Vew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vew.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				9FEE6F152835778A00E9E2AE /* fooDocTry3App.swift */,
 				9FEE6F172835778A00E9E2AE /* fooDocTry3Document.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
+				9FEE6F2B283C239000E9E2AE /* Vew.swift */,
+				9FEE6F29283C1E7C00E9E2AE /* Part.swift */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
 				9FEE6F202835779000E9E2AE /* Info.plist */,
@@ -148,6 +154,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FEE6F2A283C1E7C00E9E2AE /* Part.swift in Sources */,
+				9FEE6F2C283C239000E9E2AE /* Vew.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* fooDocTry3Document.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* fooDocTry3App.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
