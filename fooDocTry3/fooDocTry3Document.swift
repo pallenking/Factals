@@ -35,54 +35,56 @@ extension SCNScene {
 		let cameraNode 			= SCNNode()
 		cameraNode.name			= "camera"
 		cameraNode.camera 		= SCNCamera()
-		rootNode.addChildNode(cameraNode)
-		
-		// place the camera
 		cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
-																				//		// create and add a light to the scene
-																				//		let lightNode = SCNNode()
-																				//		lightNode.light = SCNLight()
-																				//		lightNode.light!.type = .omni
-																				//		lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-																				//		rootNode.addChildNode(lightNode)
-																				//
-																				//		// create and add an ambient light to the scene
-																				//		let ambientLightNode = SCNNode()
-																				//		ambientLightNode.light = SCNLight()
-																				//		ambientLightNode.light!.type = .ambient
-																				//		ambientLightNode.light!.color = NSColor.darkGray
-																				//		rootNode.addChildNode(ambientLightNode)
+		rootNode.addChildNode(cameraNode)
+
+		// create and add a light to the scene
+		let lightNode 			= SCNNode()
+		lightNode.name			= "light"
+		lightNode.light 		= SCNLight()
+		lightNode.light!.type 	= .omni
+		lightNode.position 		= SCNVector3(x: 0, y: 10, z: 10)
+		rootNode.addChildNode(lightNode)
+
+		// create and add an ambient light to the scene
+		let ambientLightNode 	= SCNNode()
+		ambientLightNode.name	= "ambient"
+		ambientLightNode.light 	= SCNLight()
+		ambientLightNode.light!.type = .ambient
+		ambientLightNode.light!.color = NSColor.darkGray
+		rootNode.addChildNode(ambientLightNode)
 	}
 }
 
 struct fooDocTry3Document: FileDocument {
-	var text: String
 	var scene: SCNScene
+	var partz: SCNScene
 
 	private static let onlyScene = true
 	static var readableContentTypes: [UTType] { [.exampleText] }
 
 	init(configuration: ReadConfiguration) throws {
 		if let data = configuration.file.regularFileContents {
-			let sText 			= String  (data: data, encoding: .utf8)
+			let _		 		= String  (data: data, encoding: .utf8)
 			let sScene			= SCNScene(named:"art.scnassets/ship.scn")!//SCNScene()//(data: data, encoding: .utf8)
-			self.init(text:sText, scene:sScene)
+			self.init(scene:sScene)
 		}
 		else {
 			throw CocoaError(.fileReadCorruptFile)
 		}
 	}
 
-	init(text:String?="Hello, world!", scene:SCNScene?=SCNScene(named:"art.scnassets/ship.scn")!) {
-		self.text				= text!
+	init(scene:SCNScene?=SCNScene(named:"art.scnassets/ship.scn")!) {
 		self.scene				= scene!
-		scene!.groomScene()
+		self.scene.groomScene()
+		self.partz				= makePartz()
+		self.partz.groomScene()
 	}
 	
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-		let data 				= text .data(using:.utf8)!
-
-//		let data2				= scene.data(using:.utf8)
+//		let data 				= text .data(using:.utf8)!
+//		let data				= scene.data(using:.utf8)
+		let data				= "".data(using:.utf8)!
 			///Value of type 'SCNScene' has no member 'data'
 			///Cannot infer contextual base in reference to member 'utf8'
 

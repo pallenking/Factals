@@ -12,9 +12,9 @@ struct ContentView: View {
 	@Binding var document: fooDocTry3Document
 	var body: some View {
 		HStack {
-			TextField("Enter", text: $document.text)
-				.frame(width:200, height:400)
-				.padding()
+//			TextField("Enter", text: $document.text)
+//				.frame(width:200, height:400)
+//				.padding()
 			SceneView(
 				scene: 		 document.scene,
 				pointOfView: document.scene.cameraNode,
@@ -25,8 +25,8 @@ struct ContentView: View {
 			)
 				.frame(width:400, height:400)
 			SceneView(
-				scene: 		 document.scene,
-				pointOfView: document.scene.cameraNode,
+				scene: 		 document.partz,
+				pointOfView: document.partz.cameraNode,
 				options: [
 					.allowsCameraControl,
 					.autoenablesDefaultLighting
