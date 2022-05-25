@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  fooDocTry3
+//  FooDocTry3
 //
 //  Created by Allen King on 5/18/22.
 //
@@ -13,7 +13,7 @@ class JetModel: ObservableObject {
 }
 
 struct ContentView: View {
-	@Binding var document: fooDocTry3Document
+	@Binding var document: FooDocTry3Document
 	@StateObject var jetModel 	= JetModel()
 	var body: some View {
 		VStack {
@@ -25,7 +25,7 @@ struct ContentView: View {
 					pointOfView: document.scene.cameraNode,
 					options: [
 						.allowsCameraControl,
-						.autoenablesDefaultLighting
+				//		.autoenablesDefaultLighting
 					]
 				)
 					.frame(width:400, height:400)
@@ -34,7 +34,7 @@ struct ContentView: View {
 					pointOfView: jetModel.scene.cameraNode,
 					options: [
 						.allowsCameraControl,
-						.autoenablesDefaultLighting
+					//	.autoenablesDefaultLighting
 					]
 				)
 					.frame(width:400, height:400)

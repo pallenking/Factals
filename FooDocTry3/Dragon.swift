@@ -1,13 +1,11 @@
 //
 //  Vew.swift
-//  fooDocTry3
+//  FooDocTry3
 //
 //  Created by Allen King on 5/23/22.
 //
 
 import SceneKit
-//class Vew : Codable, ObservableObject {		//, NSObject, Equatable, PolyWrappable, NSCopying
-//}
 
 func dragonCurve(segments:Int=1024) -> SCNScene {
 	let scene					= SCNScene()
@@ -31,7 +29,8 @@ func dragonCurve(segments:Int=1024) -> SCNScene {
 		position.x				+= len * [0,1,0,-1][direction]
 		position.y				+= len * [1,0,-1,0][direction]
 
-		position.z				+= len / 100
+		 // Makes picture prettier
+		position.z				+= len / 50
 	}
 	return scene
 }

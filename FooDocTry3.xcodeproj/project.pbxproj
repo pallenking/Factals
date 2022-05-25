@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9FEE6F162835778A00E9E2AE /* fooDocTry3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* fooDocTry3App.swift */; };
-		9FEE6F182835778A00E9E2AE /* fooDocTry3Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* fooDocTry3Document.swift */; };
+		9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */; };
+		9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */; };
 		9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
 		9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9FEE6F1F2835779000E9E2AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1E2835779000E9E2AE /* Preview Assets.xcassets */; };
 		9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
-		9FEE6F2A283C1E7C00E9E2AE /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F29283C1E7C00E9E2AE /* Part.swift */; };
-		9FEE6F2C283C239000E9E2AE /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2B283C239000E9E2AE /* Vew.swift */; };
+		9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2B283C239000E9E2AE /* Dragon.swift */; };
+		9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9FEE6F122835778A00E9E2AE /* fooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9FEE6F152835778A00E9E2AE /* fooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fooDocTry3App.swift; sourceTree = "<group>"; };
-		9FEE6F172835778A00E9E2AE /* fooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fooDocTry3Document.swift; sourceTree = "<group>"; };
+		9FEE6F122835778A00E9E2AE /* FooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3App.swift; sourceTree = "<group>"; };
+		9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3Document.swift; sourceTree = "<group>"; };
 		9FEE6F192835778A00E9E2AE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9FEE6F1B2835779000E9E2AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FEE6F1E2835779000E9E2AE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9FEE6F202835779000E9E2AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FEE6F212835779000E9E2AE /* fooDocTry3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = fooDocTry3.entitlements; sourceTree = "<group>"; };
 		9FEE6F272837C54E00E9E2AE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		9FEE6F29283C1E7C00E9E2AE /* Part.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
-		9FEE6F2B283C239000E9E2AE /* Vew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vew.swift; sourceTree = "<group>"; };
+		9FEE6F2B283C239000E9E2AE /* Dragon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon.swift; sourceTree = "<group>"; };
+		9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene++.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 		9FEE6F092835778A00E9E2AE = {
 			isa = PBXGroup;
 			children = (
-				9FEE6F142835778A00E9E2AE /* fooDocTry3 */,
+				9FEE6F142835778A00E9E2AE /* FooDocTry3 */,
 				9FEE6F132835778A00E9E2AE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,26 +53,26 @@
 		9FEE6F132835778A00E9E2AE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9FEE6F122835778A00E9E2AE /* fooDocTry3.app */,
+				9FEE6F122835778A00E9E2AE /* FooDocTry3.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9FEE6F142835778A00E9E2AE /* fooDocTry3 */ = {
+		9FEE6F142835778A00E9E2AE /* FooDocTry3 */ = {
 			isa = PBXGroup;
 			children = (
-				9FEE6F152835778A00E9E2AE /* fooDocTry3App.swift */,
-				9FEE6F172835778A00E9E2AE /* fooDocTry3Document.swift */,
+				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
+				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9FEE6F2B283C239000E9E2AE /* Vew.swift */,
-				9FEE6F29283C1E7C00E9E2AE /* Part.swift */,
+				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
+				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
 				9FEE6F202835779000E9E2AE /* Info.plist */,
 				9FEE6F212835779000E9E2AE /* fooDocTry3.entitlements */,
 				9FEE6F1D2835779000E9E2AE /* Preview Content */,
 			);
-			path = fooDocTry3;
+			path = FooDocTry3;
 			sourceTree = "<group>";
 		};
 		9FEE6F1D2835779000E9E2AE /* Preview Content */ = {
@@ -86,9 +86,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9FEE6F112835778A00E9E2AE /* fooDocTry3 */ = {
+		9FEE6F112835778A00E9E2AE /* FooDocTry3 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9FEE6F242835779000E9E2AE /* Build configuration list for PBXNativeTarget "fooDocTry3" */;
+			buildConfigurationList = 9FEE6F242835779000E9E2AE /* Build configuration list for PBXNativeTarget "FooDocTry3" */;
 			buildPhases = (
 				9FEE6F0E2835778A00E9E2AE /* Sources */,
 				9FEE6F0F2835778A00E9E2AE /* Frameworks */,
@@ -98,9 +98,9 @@
 			);
 			dependencies = (
 			);
-			name = fooDocTry3;
+			name = FooDocTry3;
 			productName = fooDocTry3;
-			productReference = 9FEE6F122835778A00E9E2AE /* fooDocTry3.app */;
+			productReference = 9FEE6F122835778A00E9E2AE /* FooDocTry3.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -118,7 +118,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9FEE6F0D2835778A00E9E2AE /* Build configuration list for PBXProject "fooDocTry3" */;
+			buildConfigurationList = 9FEE6F0D2835778A00E9E2AE /* Build configuration list for PBXProject "FooDocTry3" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -131,7 +131,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9FEE6F112835778A00E9E2AE /* fooDocTry3 */,
+				9FEE6F112835778A00E9E2AE /* FooDocTry3 */,
 			);
 		};
 /* End PBXProject section */
@@ -154,10 +154,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FEE6F2A283C1E7C00E9E2AE /* Part.swift in Sources */,
-				9FEE6F2C283C239000E9E2AE /* Vew.swift in Sources */,
-				9FEE6F182835778A00E9E2AE /* fooDocTry3Document.swift in Sources */,
-				9FEE6F162835778A00E9E2AE /* fooDocTry3App.swift in Sources */,
+				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
+				9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */,
+				9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */,
+				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,7 +287,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"fooDocTry3/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"FooDocTry3/Preview Content\"";
 				DEVELOPMENT_TEAM = D45V5JYQ5Y;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -315,7 +315,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"fooDocTry3/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"FooDocTry3/Preview Content\"";
 				DEVELOPMENT_TEAM = D45V5JYQ5Y;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -337,7 +337,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9FEE6F0D2835778A00E9E2AE /* Build configuration list for PBXProject "fooDocTry3" */ = {
+		9FEE6F0D2835778A00E9E2AE /* Build configuration list for PBXProject "FooDocTry3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9FEE6F222835779000E9E2AE /* Debug */,
@@ -346,7 +346,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9FEE6F242835779000E9E2AE /* Build configuration list for PBXNativeTarget "fooDocTry3" */ = {
+		9FEE6F242835779000E9E2AE /* Build configuration list for PBXNativeTarget "FooDocTry3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9FEE6F252835779000E9E2AE /* Debug */,
