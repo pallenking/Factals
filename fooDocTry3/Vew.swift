@@ -9,12 +9,12 @@ import SceneKit
 //class Vew : Codable, ObservableObject {		//, NSObject, Equatable, PolyWrappable, NSCopying
 //}
 
-func makePartz() -> SCNScene {
+func dragonCurve(segments:Int=1024) -> SCNScene {
 	let scene					= SCNScene()
 	var direction				= 0
 	var position				= SCNVector3(0,0,0)
 
-	for i in 0..<1024{
+	for i in 0..<segments{
 	
 		 // All scenens should have a  camera
 		let square 				= SCNNode(geometry: SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.01))
@@ -26,10 +26,12 @@ func makePartz() -> SCNScene {
 		direction				+= dragon(index:i) ? 1 : -1 + 4		// left : right
 		direction				%= 4
 
-		 // Move that direction
+		 // Move in that x/y direction
 		let len					= 0.25
 		position.x				+= len * [0,1,0,-1][direction]
 		position.y				+= len * [1,0,-1,0][direction]
+
+		position.z				+= len / 100
 	}
 	return scene
 }
@@ -38,14 +40,15 @@ func makePartz() -> SCNScene {
 	1. Every corner point has an index, in 0..<BIG
 	2. The point is either a left turn, or a right turn, depending on dragon(index:)
 	3. dragon(index:) returns the bit to the left of the right-most 1.
-		0	 0 0 0 0 	0 or 1		<special case>
-		1	 0 0(0)1	0
-		2	 0(0)1 0	0
-		3	 0 0(1)1	1
-		4	(0)1 0 0	0
-		5	 0 1(0)1	0
-		6	 0(1)1 0	1
-		7	 0 1(1)1	1
+	  index  in binary		returns (0:left, 1:right):
+		0	  0 0 0 0 		(0) or (1)		<special case>
+		1	  0 0(0)1		(0)
+		2	  0(0)1 0		(0)
+		3	  0 0(1)1		(1)
+		4	 (0)1 0 0		(0)
+		5	  0 1(0)1		(0)
+		6	  0(1)1 0		(1)
+		7	  0 1(1)1		(1)
  */
 func dragon(index:Int) -> Bool {
 	guard index != 0 else {		return false	} // special case

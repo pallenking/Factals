@@ -15,16 +15,20 @@ extension UTType {
 	}
 }
 
+//class FwDocument: NSDocument	{
 struct fooDocTry3Document: FileDocument {
 	var scene: SCNScene
-	var partz: SCNScene
 
 	private static let onlyScene = true
 	static var readableContentTypes: [UTType] { [.exampleText] }
 
 	init(configuration: ReadConfiguration) throws {
-		if let data = configuration.file.regularFileContents {
-			let _		 		= String  (data: data, encoding: .utf8)
+		let x : FileWrapper		= configuration.file
+		let y : Data? 			= x.regularFileContents
+
+		if let data 			= configuration.file.regularFileContents {
+			let s		 		= String  (data: data, encoding: .utf8)
+		//	let sScene			= SCNScene(rawValue:s)
 			let sScene			= SCNScene(named:"art.scnassets/ship.scn")!//SCNScene()//(data: data, encoding: .utf8)
 			self.init(scene:sScene)
 		}
@@ -33,11 +37,9 @@ struct fooDocTry3Document: FileDocument {
 		}
 	}
 
-	init(scene:SCNScene?=SCNScene(named:"art.scnassets/ship.scn")!) {
+	init(scene:SCNScene? = dragonCurve(segments:1024)) {
 		self.scene				= scene!
 		self.scene.groomScene()
-		self.partz				= makePartz()
-		self.partz.groomScene()
 	}
 	
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
@@ -61,7 +63,10 @@ extension SCNScene {
 	}
 	var cameraNode : SCNNode {
 		return rootNode.childNode(withName: "camera", recursively: false) ?? {
-			fatalError("something's amiss")
+			groomScene()						// Try a groom once
+			return rootNode.childNode(withName: "camera", recursively: false) ?? {
+				fatalError("something's amiss")	// still a problem
+			}()
 		}()
 	}
 

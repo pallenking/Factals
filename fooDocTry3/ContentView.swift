@@ -8,12 +8,16 @@
 import SwiftUI
 import SceneKit
 
+class JetModel: ObservableObject {
+	@Published var scene : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
+}
+
 struct ContentView: View {
 	@Binding var document: fooDocTry3Document
+	@StateObject var jetModel 	= JetModel()
 	var body: some View {
 		VStack {
-			TextField("Enter", text: $document.text)
-				.frame(width:200, height:400)
+			Text("Dragon Jet")
 				.padding()
 			HStack {
 				SceneView(
@@ -26,8 +30,8 @@ struct ContentView: View {
 				)
 					.frame(width:400, height:400)
 				SceneView(
-					scene: 		 document.partz,
-					pointOfView: document.partz.cameraNode,
+					scene: 		 jetModel.scene,
+					pointOfView: jetModel.scene.cameraNode,
 					options: [
 						.allowsCameraControl,
 						.autoenablesDefaultLighting
