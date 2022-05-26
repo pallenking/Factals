@@ -20,18 +20,19 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		let wrapper:FileWrapper	= configuration.file
 		let data : Data? 		= wrapper.regularFileContents
 		if let data 			= data {
-			let s		 		= String(data: data, encoding: .utf8)
-			print("ERROR FileDocument(configuration:) finds '\(s)'. Generating NULL document")
-			let sScene			= SCNScene()									//named:"art.scnassets/ship.scn")!//(data: data, encoding: .utf8)
-		//	let sScene			= SCNScene(rawValue:s)
-		//	let sScene			= SCNScene(named:"art.scnassets/ship.scn")!
-		//	let sScene			= SCNScene(data: data, encoding: .utf8)
-			self.init(scene:sScene)
+			let s		 		= SCNScene(data: data, encoding: .utf8)
+			self.init(scene:s)
 		}
 		else {
 			throw CocoaError(.fileReadCorruptFile)
 		}
 	}
+//			let s		 		= String(data: data, encoding: .utf8)
+		//	print("ERROR FileDocument(configuration:) finds '\(s)'. Generating NULL document")
+		//	let sScene			= SCNScene()									//named:"art.scnassets/ship.scn")!//(data: data, encoding: .utf8)
+		//	let sScene			= SCNScene(rawValue:s)
+		//	let sScene			= SCNScene(named:"art.scnassets/ship.scn")!
+		//	let sScene			= SCNScene(data: data, encoding: .utf8)
 
 	init(scene scene_:SCNScene? = dragonCurve(segments:1024)) {
 		scene					= scene_!

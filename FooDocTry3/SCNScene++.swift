@@ -21,13 +21,8 @@ extension SCNScene {
 
 	 // Add Lights and Camera
 	func groomScene() {
-
-		 // create and add a light to the scene
-		addLight(name:"light", lightType:.omni, position:SCNVector3(0, 0, 15))
-
-		 // create and add an ambient light to the scene
-		addLight(name:"ambient", lightType:.ambient, color:NSColor.darkGray)
 		
+		 // create and add a light to the scene:
 		func addLight(name:String, lightType:SCNLight.LightType, color:Any?=nil, position:SCNVector3?=nil) {
 			let newLight 		= SCNNode()
 			newLight.name		= name
@@ -41,34 +36,34 @@ extension SCNScene {
 			}
 			rootNode.addChildNode(newLight)
 		}
+		addLight(name:"light",   lightType:.omni, position:SCNVector3(0, 0, 15))
+		addLight(name:"ambient", lightType:.ambient, color:NSColor.darkGray)
+
 		 // Add camera
 		let cameraNode 			= SCNNode()
 		cameraNode.name			= "camera"
 		cameraNode.camera 		= SCNCamera()
-		cameraNode.position = SCNVector3(0, 0, 15)
+		cameraNode.position 	= SCNVector3(0, 0, 15)
 		rootNode.addChildNode(cameraNode)
 	}
-
+	// FwDocument 
 	 // Data in the SCNScene
 	var data : Data? {
-		let url					= URL(string:"xxx")!
-		write(to:url, options:nil, delegate:nil, progressHandler:nil)
-
-		let dataUrl = NSURL(string: "http://fitgym.mynmi.net/fitgymconnection.php")
-		let theData = NSData(contentsOf: dataUrl! as URL)
-		var dataValues = try! JSONSerialization.jsonObject(with: theData! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
-
-//		let data				= scene.data(using:.utf8)
-		let data				= "".data(using:.utf8)!
-		fatalError()
+		let url					= URL(fileURLWithPath:"t1")
+		write(to:url, options:nil, delegate:nil, progressHandler:nil)			//URL(string:"xxx")!
+		let data				= NSData(contentsOf:url) as? Data				//Data(url:url)		//"String OKAY".data(using:.utf8)!
+		//fatalError("debug me")
 		return data
 	}
 	 // SCNScene from Data
 	convenience init?(data:Data, encoding:String.Encoding) {
+		 // This is broken
 		let url0				= URL(string:"xx")
 		let url					= URL(dataRepresentation:data, relativeTo:url0)!		//let url = URL(string:"xxx")!
+		// read(from:url, options:nil, delegate:nil, progressHandler:nil)		// WHY NO SUCH CALL ???
 		let options:[SCNSceneSource.LoadingOption:Any] = [:]
 		try? self.init(url:url, options:options)
+		//fatalError("debug me")
 	}
 
 	func printModel() {

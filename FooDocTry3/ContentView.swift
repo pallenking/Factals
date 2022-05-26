@@ -18,6 +18,7 @@ struct ContentView: View {
 	var body: some View {
 		VStack {
 			Text("Dragon Jet")
+				.bold()
 				.padding()
 			HStack {
 				SceneView(
