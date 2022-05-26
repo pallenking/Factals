@@ -46,25 +46,47 @@ extension SCNScene {
 		cameraNode.position 	= SCNVector3(0, 0, 15)
 		rootNode.addChildNode(cameraNode)
 	}
-	// FwDocument 
+
+
+
+	// FileDocument:
 	 // Data in the SCNScene
 	var data : Data? {
-		let url					= URL(fileURLWithPath:"t1")
-		write(to:url, options:nil, delegate:nil, progressHandler:nil)			//URL(string:"xxx")!
-		let data				= NSData(contentsOf:url) as? Data				//Data(url:url)		//"String OKAY".data(using:.utf8)!
+		let path				= NSTemporaryDirectory()
+		let directoryURL		= URL(fileURLWithPath:path)
+		let fileURL				= directoryURL.appendingPathComponent("t1.scn")
+		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)			//URL(string:"xxx")!
+		let data				= try? Data(contentsOf:fileURL)				//Data(url:url)		//"String OKAY".data(using:.utf8)!
 		//fatalError("debug me")
 		return data
 	}
 	 // SCNScene from Data
 	convenience init?(data:Data, encoding:String.Encoding) {
-		 // This is broken
-		let url0				= URL(string:"xx")
-		let url					= URL(dataRepresentation:data, relativeTo:url0)!		//let url = URL(string:"xxx")!
-		// read(from:url, options:nil, delegate:nil, progressHandler:nil)		// WHY NO SUCH CALL ???
-		let options:[SCNSceneSource.LoadingOption:Any] = [:]
-		try? self.init(url:url, options:options)
+		let path				= NSTemporaryDirectory()
+		let directoryURL		= URL(fileURLWithPath:path)
+		let fileURL				= directoryURL.appendingPathComponent("t1.scn")
+		do {
+			try data.write(to: fileURL)
+		} catch {
+			print("error writing file: \(error)")
+		}
+		do {
+			try self.init(url: fileURL)
+		} catch {
+			print("error initing from url: \(error)")
+			return nil
+		}
+		
+//		 // This is broken, even worse wrong!
+//		let url0				= URL(string:"xx")
+//		let url					= URL(dataRepresentation:data, relativeTo:url0)!		//let url = URL(string:"xxx")!
+//		// read(from:url, options:nil, delegate:nil, progressHandler:nil)		// WHY NO SUCH CALL ???
+//		let options:[SCNSceneSource.LoadingOption:Any] = [:]
+//		try? self.init(url:url, options:options)
 		//fatalError("debug me")
 	}
+
+
 
 	func printModel() {
 		print("rootNode.name = '\(rootNode.name ?? "<nil>")'")
@@ -78,33 +100,33 @@ extension SCNScene {
 
 
 
-	typealias PolyWrap = Part
-	class Part : Codable /* PartProtocol*/ {
-		func polyWrap() -> PolyWrap {	polyWrap() }
-		func polyUnwrap() -> Part 	{	Part()		}
-	}
-	//protocol PartProtocol {
-	//	func polyWrap() -> PolyWrap
-	//}
-
-func serializeDeserialize(_ inPart:Part) throws -> Part? {
-
-	 //  - INSERT -  PolyWrap's
-	let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
-
-		 //  - ENCODE -  PolyWrap as JSON
-		let jsonData 			= try JSONEncoder().encode(inPolyPart)
-
-			print(String(data:jsonData, encoding:.utf8) ?? "")
-
-		 //  - DECODE -  PolyWrap from JSON
-		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
-
-	 //  - REMOVE -  PolyWrap's
-	let outPart				= outPoly.polyUnwrap()
-	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
-	let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
-	
-	return outPart
-}
+//	typealias PolyWrap = Part
+//	class Part : Codable /* PartProtocol*/ {
+//		func polyWrap() -> PolyWrap {	polyWrap() }
+//		func polyUnwrap() -> Part 	{	Part()		}
+//	}
+//	//protocol PartProtocol {
+//	//	func polyWrap() -> PolyWrap
+//	//}
+//
+//func serializeDeserialize(_ inPart:Part) throws -> Part? {
+//
+//	 //  - INSERT -  PolyWrap's
+//	let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
+//
+//		 //  - ENCODE -  PolyWrap as JSON
+//		let jsonData 			= try JSONEncoder().encode(inPolyPart)
+//
+//			print(String(data:jsonData, encoding:.utf8) ?? "")
+//
+//		 //  - DECODE -  PolyWrap from JSON
+//		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
+//
+//	 //  - REMOVE -  PolyWrap's
+//	let outPart				= outPoly.polyUnwrap()
+//	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
+//	let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
+//
+//	return outPart
+//}
 
