@@ -7,16 +7,27 @@
 
 import SwiftUI
 import SceneKit
-import UniformTypeIdentifiers													//extension UTType {
-																				//	static var exampleText: UTType { UTType(importedAs: "com.example.plain-text") }
-																				//}
-struct FooDocTry3Document: FileDocument {			// not NSDocument!!
+import UniformTypeIdentifiers
 
-	//private static let onlyScene = true
-	static var readableContentTypes: [UTType] { [.sceneKitScene] }
+var defaultScene : SCNScene		=
+//	dragonCurve(segments:1024)
+	aRootVew()
+
+struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 	 // Model of a FooDocTry3Document:
 	var scene: SCNScene
+
+	init(scene scene_:SCNScene? = defaultScene) {
+		scene					= scene_!
+		scene.groomScene()
+	}
+
+/* ============== BEGIN FileDocument protocol: */
+	static	 var readableContentTypes: [UTType] { [.sceneKitScene] }
+	//https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
+    //static var writableContentTypes: [UTType] { get }
+	//private static let onlyScene = true
 																				//	static var readableContentTypes: [UTType] { [.exampleText] }
 	init(configuration: ReadConfiguration) throws {
 		let wrapper:FileWrapper	= configuration.file
@@ -30,14 +41,15 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			throw CocoaError(.fileReadCorruptFile)
 		}
 	}
-
-	init(scene scene_:SCNScene? = dragonCurve(segments:1024)) {
-		scene					= scene_!
-		scene.groomScene()
-	}
 	
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		return .init(regularFileWithContents:scene.data!)
 	}
 }
+//https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
+extension UTType {
+	static var fooDocTry3: UTType { UTType(importedAs: "com.example.plain-text") }
+//	static var exampleText: UTType { UTType(importedAs: "com.example.plain-text") }
+}
 
+/* ============== END FileDocument protocol: */

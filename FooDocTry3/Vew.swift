@@ -5,6 +5,20 @@
 
 import SceneKit
 
+func aRootVew() -> SCNScene {
+	let scene					= SCNScene()
+	let sphere					= SCNNode(geometry: SCNSphere(radius: 1.0))	//SCNNode(geometry: SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.01))
+	sphere.name					= "sphere"
+	scene.rootNode.addChildNode(sphere)
+
+	rootVew						= Vew(scn: sphere)
+
+	return scene
+}
+
+var rootVew : Vew?				= nil
+
+
 class Vew : NSObject, ObservableObject, Codable {	//
 //
 //	// MARK: - 2. Object Variables:
