@@ -24,7 +24,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //
 //	 // Glue these Neighbors together: (both Always present)
 //	@Published var part : Part 				// Part which this Vew represents	// was let
-//	var scn			:  SCNNode				// Scn which draws this Vew
+	var scn			:  SCNNode				// Scn which draws this Vew
 //
 //	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 //	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
@@ -51,6 +51,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //	// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
 //
 //	 // MARK: - 3. Factory
+	init(scn scn_:SCNNode?=nil) {
 //	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil, expose expose_:Expose? = nil) {
 //
 //		 // Link to Part:
@@ -59,12 +60,14 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //		name					= "_" + part.name 	// View's name is Part's with '_'
 //		expose					= expose_ ?? part.initialExpose
 //
-//		 // Make SCN from supplied skin:
-//		scn						= scn_ ?? SCNNode()
-//		scn.name 				= self.scn.name ?? ("*-" + part.name)
-//
-//		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-//
+		 // Make SCN from supplied skin:
+		scn						= scn_ ?? SCNNode()
+		scn.name 				= self.scn.name ??
+			"foo"
+//			("*-" + part.name)
+
+		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
 //		  // Visible Shape:
 //		// Jog
 //		if let jogStr	 		= part.localConfig["jog"]?.asString,
@@ -73,7 +76,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //		  						  SCNVector3(from:jogStr + " 0 0") {
 //			jog 				= jogVect
 //		}
-//	}
+	}
 //	init(forPort port:Port) {
 //		name					= "_" + port.name 	// View's name is Part's with '_'
 //		expose					= .open
@@ -90,7 +93,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //	}
 //	 // MARK: - 3.5 Codable
 //	enum VewKeys : CodingKey { 	case name, color000, keep, parent, children, part, scn, bBox, jog, force}
-//	func encode(to encoder: Encoder) throws {
+	enum VewKeys : CodingKey { 	case scn}
+	func encode(to encoder: Encoder) throws {
 ////		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 //		var container 			= encoder.container(keyedBy:VewKeys.self)
 //		try container.encode(name, 		forKey:.name 	)
@@ -104,24 +108,24 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //		try container.encode(jog, 		forKey:.jog		)
 //		try container.encode(force, 	forKey:.force	)
 //		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))
-//	}
-//	required init(from decoder: Decoder) throws {
-//		let container 			= try decoder.container(keyedBy:VewKeys.self)
+	}
+	required init(from decoder: Decoder) throws {
+		let container 			= try decoder.container(keyedBy:VewKeys.self)
 //		name 					= try container.decode(		String.self, forKey:.name 	)
 //	//	color000				= try container.decode(	  NSColor?.self, forKey:.color000)
 //		keep					= try container.decode(		  Bool.self, forKey:.keep	)
 //		parent					= try container.decode( 	  Vew?.self, forKey:.parent	)
 //		children				= try container.decode(		 [Vew].self, forKey:.children)
 //		part 					= try container.decode(		  Part.self, forKey:.part 	)
-//	//	scn						= try container.decode(	   SCNNode.self, forKey:.scn	)
+	//	scn						= try container.decode(	   SCNNode.self, forKey:.scn	)
+		scn						= SCNNode()		// OOOOPS
 //		bBox 					= try container.decode(		  BBox.self, forKey:.bBox 	)
 //		jog						= try container.decode(SCNVector3?.self, forKey:.jog	)
 //		force					= try container.decode(SCNVector3 .self, forKey:.force	)
-//		scn						= SCNNode()		// OOOOPS
 //
-//		super.init()
+		super.init()
 // 		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
-//	}
+	}
 //	 // MARK: - 3.6 NSCopying
 //	func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy 			= Vew()
