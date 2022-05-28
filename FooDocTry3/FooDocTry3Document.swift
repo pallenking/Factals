@@ -11,28 +11,25 @@ import UniformTypeIdentifiers													//extension UTType {
 																				//	static var exampleText: UTType { UTType(importedAs: "com.example.plain-text") }
 																				//}
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
-	var scene: SCNScene
 
 	//private static let onlyScene = true
 	static var readableContentTypes: [UTType] { [.sceneKitScene] }
+
+	 // Model of a FooDocTry3Document:
+	var scene: SCNScene
 																				//	static var readableContentTypes: [UTType] { [.exampleText] }
 	init(configuration: ReadConfiguration) throws {
 		let wrapper:FileWrapper	= configuration.file
 		let data : Data? 		= wrapper.regularFileContents
-		if let data 			= data {
-//			let s		 		= String  (data: data, encoding: .utf8)
+		if let data 			= data	// If non-nil
+		{									// data -> SCNScene:
 			let s : SCNScene?	= SCNScene(data: data, encoding: .utf8)
-			self.init(scene:s)
+			self.init(scene:s)				// -> FooDocTry3Document
 		}
 		else {
 			throw CocoaError(.fileReadCorruptFile)
 		}
 	}
-		//	print("ERROR FileDocument(configuration:) finds '\(s)'. Generating NULL document")
-		//	let sScene			= SCNScene()									//named:"art.scnassets/ship.scn")!//(data: data, encoding: .utf8)
-		//	let sScene			= SCNScene(rawValue:s)
-		//	let sScene			= SCNScene(named:"art.scnassets/ship.scn")!
-		//	let sScene			= SCNScene(data: data, encoding: .utf8)
 
 	init(scene scene_:SCNScene? = dragonCurve(segments:1024)) {
 		scene					= scene_!

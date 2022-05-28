@@ -13,7 +13,7 @@ class JetModel: ObservableObject {
 }
 
 struct ContentView: View {
-	@Binding var document: FooDocTry3Document
+	@Binding     var document: FooDocTry3Document
 	@StateObject var jetModel 	= JetModel()
 	var body: some View {
 		VStack {
@@ -24,19 +24,13 @@ struct ContentView: View {
 				SceneView(
 					scene: 		 document.scene,
 					pointOfView: document.scene.cameraNode,
-					options: [
-						.allowsCameraControl,
-				//		.autoenablesDefaultLighting
-					]
+					options: [.allowsCameraControl, .autoenablesDefaultLighting]
 				)
 					.frame(width:400, height:400)
 				SceneView(
 					scene: 		 jetModel.scene,
 					pointOfView: jetModel.scene.cameraNode,
-					options: [
-						.allowsCameraControl,
-					//	.autoenablesDefaultLighting
-					]
+					options: [.allowsCameraControl, .autoenablesDefaultLighting]
 				)
 					.frame(width:400, height:400)
 			}

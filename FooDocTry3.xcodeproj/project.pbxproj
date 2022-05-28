@@ -15,6 +15,8 @@
 		9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2B283C239000E9E2AE /* Dragon.swift */; };
 		9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */; };
+		9FEE6FD92841A70F00E9E2AE /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
+		9FEE6FDA2841A70F00E9E2AE /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD82841A70F00E9E2AE /* Part.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		9FEE6F272837C54E00E9E2AE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		9FEE6F2B283C239000E9E2AE /* Dragon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon.swift; sourceTree = "<group>"; };
 		9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene++.swift"; sourceTree = "<group>"; };
+		9FEE6FD72841A70E00E9E2AE /* Vew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vew.swift; sourceTree = "<group>"; };
+		9FEE6FD82841A70F00E9E2AE /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,9 +67,11 @@
 			children = (
 				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
-				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
+				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
+				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
+				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
+				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
 				9FEE6F202835779000E9E2AE /* Info.plist */,
@@ -156,6 +162,8 @@
 			files = (
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */,
+				9FEE6FDA2841A70F00E9E2AE /* Part.swift in Sources */,
+				9FEE6FD92841A70F00E9E2AE /* Vew.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */,
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,

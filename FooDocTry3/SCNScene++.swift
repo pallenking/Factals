@@ -47,46 +47,29 @@ extension SCNScene {
 		rootNode.addChildNode(cameraNode)
 	}
 
-
-
-	// FileDocument:
+	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
 	var data : Data? {
-		let path				= NSTemporaryDirectory()
-		let directoryURL		= URL(fileURLWithPath:path)
-		let fileURL				= directoryURL.appendingPathComponent("t1.scn")
-		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)			//URL(string:"xxx")!
-		let data				= try? Data(contentsOf:fileURL)				//Data(url:url)		//"String OKAY".data(using:.utf8)!
-		//fatalError("debug me")
+					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
+					// 2. Get file to data
+		let data				= try? Data(contentsOf:fileURL)
 		return data
 	}
-	 // SCNScene from Data
+	 // initialize new SCNScene from Data
 	convenience init?(data:Data, encoding:String.Encoding) {
-		let path				= NSTemporaryDirectory()
-		let directoryURL		= URL(fileURLWithPath:path)
-		let fileURL				= directoryURL.appendingPathComponent("t1.scn")
-		do {
+		do {		// 1. Write data to file.
 			try data.write(to: fileURL)
 		} catch {
 			print("error writing file: \(error)")
 		}
-		do {
+		do {		// 2. Init self from file
 			try self.init(url: fileURL)
 		} catch {
 			print("error initing from url: \(error)")
 			return nil
 		}
-		
-//		 // This is broken, even worse wrong!
-//		let url0				= URL(string:"xx")
-//		let url					= URL(dataRepresentation:data, relativeTo:url0)!		//let url = URL(string:"xxx")!
-//		// read(from:url, options:nil, delegate:nil, progressHandler:nil)		// WHY NO SUCH CALL ???
-//		let options:[SCNSceneSource.LoadingOption:Any] = [:]
-//		try? self.init(url:url, options:options)
-		//fatalError("debug me")
 	}
-
-
 
 	func printModel() {
 		print("rootNode.name = '\(rootNode.name ?? "<nil>")'")
@@ -97,9 +80,16 @@ extension SCNScene {
 	}
 }
 
+var fileURL : URL 		= 	{
+	let path				= NSTemporaryDirectory()
+	let directoryURL		= URL(fileURLWithPath:path)
+			// Must have suffix ".scn". Reason: ???
+	return directoryURL.appendingPathComponent("t1.scn")
+}()
 
 
-
+// //// -- WORTHY GEM: -- ///// //
+//
 //	typealias PolyWrap = Part
 //	class Part : Codable /* PartProtocol*/ {
 //		func polyWrap() -> PolyWrap {	polyWrap() }

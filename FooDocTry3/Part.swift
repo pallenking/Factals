@@ -34,7 +34,7 @@ class Part : NSObject, ObservableObject {		//, Equatable///, Codable, NSCopying,
 //	var nLinesLeft	: UInt8		= 0			// left to print in current atom
 //	var uidForDeinit			= "uninitialized"
 
-	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
+//	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
  // BIG PROBLEMS: (Loops!)
 //	{	willSet(v) {	markTree(dirty:v)  									}	}
 
