@@ -5,44 +5,66 @@
 
 import SceneKit
 
+// ////////////////////////////////////////////////////////////////////
+// Shim,
 func aRootVew() -> SCNScene {
 	let scene					= SCNScene()
-	let sphere					= SCNNode(geometry: SCNSphere(radius: 1.0))	//SCNNode(geometry: SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.01))
-	sphere.name					= "sphere"
-	scene.rootNode.addChildNode(sphere)
 
-	rootVew						= Vew(scn: sphere)
+	let obj1					= SCNNode(geometry: SCNSphere(radius: 1.0))
+	obj1.name					= "sphere"
+	scene.rootNode.addChildNode(obj1)
+
+	let obj2					= SCNNode(geometry: SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.1))	//SCNNode(geometry:
+	obj2.name					= "square"
+	obj2.position				= SCNVector3(1,1,1)
+	scene.rootNode.addChildNode(obj2)
+
+	rootVew						= Vew(scn: scene.rootNode)
 
 	return scene
 }
-
 var rootVew : Vew?				= nil
 
+// above is shim,
+// ////////////////////////////////////////////////////////////////////
 
-class Vew : NSObject, ObservableObject, Codable {	//
-//
-//	// MARK: - 2. Object Variables:
-//	@Published var name :  String			// Cannot be String! because of FwAny
-//	 // Hierarchy:
-//	var fullName	: String	{
-//		name=="_ROOT" ? name :	// Leftmost component
-//		parent==nil   ? ""   :
-//		parent!.fullName + "/" + name		// add lefter component
-//	}
-//	@Published var color000	: NSColor? = nil
+class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
+
+	// MARK: - 2. Object Variables:
+/*
+ */
+
+//	// MARK: - Names, children
+   @Published
+	var name :  String			// Cannot be String! because of FwAny
+	var children 	: [Vew]	= []
+	var child0		:  Vew?	{	return children.count == 0 ? nil : children[0] }
+	var parent		:  Vew?	= nil
+	var root		:  Vew?	{	get {fatalError("Vew has no .root")}	set(v){}		}
+
+	 // Hierarchy:
+	var fullName	: String	{
+		name=="_ROOT" ? name :	// Leftmost component
+		parent==nil   ? ""   :
+		parent!.fullName + "/" + name		// add lefter component
+	}
+
+//	@Published
+//	 var color000	: NSColor? = nil
 ////	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
 //	var keep		:  Bool		= false		// used in reVew
-//	var parent		:  Vew?	= nil
-//	var children 	: [Vew]	= []
-//	var child0		:  Vew?	{	return children.count == 0 ? nil : children[0] }
-//
-//	 // Glue these Neighbors together: (both Always present)
-//	@Published var part : Part 				// Part which this Vew represents	// was let
+
+
+	 // Glue these Neighbors together: (both Always present)
+
+	@Published var part : Part 				// Part which this Vew represents	// was let
+
 	var scn			:  SCNNode				// Scn which draws this Vew
-//
+
+
 //	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 //	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
-//
+
 //	@Published var expose : Expose	= .open {// how the insides are currently exposed
 //		willSet(v) {
 //			if v != expose, parent != nil {		// ignore simple cases
@@ -51,6 +73,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //			}
 //		}
 //	}
+
 //	var jog			: SCNVector3? = nil		// some machines require this
 //	var force		: SCNVector3 = .zero 	// for Animation for positioning
 //																				 // Branch's Actor call for atomic?
@@ -65,15 +88,15 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //	// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
 //
 //	 // MARK: - 3. Factory
-	init(scn scn_:SCNNode?=nil) {
+	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil) {
 //	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil, expose expose_:Expose? = nil) {
-//
-//		 // Link to Part:
-//		let part				= part_ ?? .null
-//		self.part 				= part
-//		name					= "_" + part.name 	// View's name is Part's with '_'
+
+		 // Link to Part:
+		let part				= part_ ?? .null
+		self.part 				= part
+		name					= "_" + part.name 	// View's name is Part's with '_'
 //		expose					= expose_ ?? part.initialExpose
-//
+
 		 // Make SCN from supplied skin:
 		scn						= scn_ ?? SCNNode()
 		scn.name 				= self.scn.name ??
@@ -107,16 +130,16 @@ class Vew : NSObject, ObservableObject, Codable {	//
 //	}
 //	 // MARK: - 3.5 Codable
 //	enum VewKeys : CodingKey { 	case name, color000, keep, parent, children, part, scn, bBox, jog, force}
-	enum VewKeys : CodingKey { 	case scn}
+	enum VewKeys : CodingKey { 	case name, scn, part}
 	func encode(to encoder: Encoder) throws {
 ////		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
-//		var container 			= encoder.container(keyedBy:VewKeys.self)
-//		try container.encode(name, 		forKey:.name 	)
+		var container 			= encoder.container(keyedBy:VewKeys.self)
+		try container.encode(name, 		forKey:.name 	)
 //	//	try container.encode(color000,	forKey:.color000)
 //		try container.encode(keep, 		forKey:.keep	)
 //		try container.encode(parent, 	forKey:.parent	)
 //		try container.encode(children, 	forKey:.children)
-//		try container.encode(part, 		forKey:.part 	)
+		try container.encode(part, 		forKey:.part 	)
 //	//	try container.encode(scn, 		forKey:.scn		)
 //		try container.encode(bBox, 		forKey:.bBox 	)
 //		try container.encode(jog, 		forKey:.jog		)
@@ -125,12 +148,12 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:VewKeys.self)
-//		name 					= try container.decode(		String.self, forKey:.name 	)
+		name 					= try container.decode(		String.self, forKey:.name 	)
 //	//	color000				= try container.decode(	  NSColor?.self, forKey:.color000)
 //		keep					= try container.decode(		  Bool.self, forKey:.keep	)
 //		parent					= try container.decode( 	  Vew?.self, forKey:.parent	)
 //		children				= try container.decode(		 [Vew].self, forKey:.children)
-//		part 					= try container.decode(		  Part.self, forKey:.part 	)
+		part 					= try container.decode(		  Part.self, forKey:.part 	)
 	//	scn						= try container.decode(	   SCNNode.self, forKey:.scn	)
 		scn						= SCNNode()		// OOOOPS
 //		bBox 					= try container.decode(		  BBox.self, forKey:.bBox 	)

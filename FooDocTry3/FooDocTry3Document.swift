@@ -9,21 +9,26 @@ import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
 
-var defaultScene : SCNScene		=
-//	dragonCurve(segments:1024)
-	aRootVew()
+var defaultScene : SCNScene		{
+	dragonCurve(segments:1024)
+//	aRootVew()
+}
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 	 // Model of a FooDocTry3Document:
-	var scene: SCNScene
+	var model : Part
+	var vew	  : Vew
+	var scene : SCNScene
 
-	init(scene scene_:SCNScene? = defaultScene) {
-		scene					= scene_!
+	init(model:Part = Part(), scene:SCNScene = defaultScene) {
+		self.model 				= model
+		self.scene				= scene
+		vew	  					= Vew(forPart: model, scn: scene.rootNode)
 		scene.groomScene()
 	}
 
-/* ============== BEGIN FileDocument protocol: */
+	/* ============== BEGIN FileDocument protocol: */
 	static	 var readableContentTypes: [UTType] { [.sceneKitScene] }
 	//https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
     //static var writableContentTypes: [UTType] { get }
@@ -34,8 +39,10 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		let data : Data? 		= wrapper.regularFileContents
 		if let data 			= data	// If non-nil
 		{									// data -> SCNScene:
-			let s : SCNScene?	= SCNScene(data: data, encoding: .utf8)
-			self.init(scene:s)				// -> FooDocTry3Document
+			let scene:SCNScene?	= SCNScene(data: data, encoding: .utf8)
+			let string:String?	= String  (data: data, encoding: .utf8)
+			let model: Part?	= Part	  (data: data, encoding: .utf8)
+			self.init(model:model!)				// -> FooDocTry3Document
 		}
 		else {
 			throw CocoaError(.fileReadCorruptFile)

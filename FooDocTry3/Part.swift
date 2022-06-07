@@ -5,51 +5,70 @@ import SwiftUI
 
 var defaultPrtIndex = 0
 
+protocol HasChildren {
+	associatedtype T
+	associatedtype TRoot
+	var name		: String	{	get	set		}
+	var children 	: [T]		{	get	set		}
+	var child0	 	:  T?		{	get 		}
+	/*weak*/
+	var parent		:  T?		{	get	set		}
+
+	 // Helpers
+	var root		:  TRoot?	{	get	set		}
+	var fullName	: String	{	get			}
+}
+extension HasChildren {
+																				//	@objc dynamic
+																				//	var fullName	: String	{
+																				//		let rv					= name=="ROOT"  ? 		   name :	// Leftmost component
+																				//								  name=="_ROOT" ? 		   name :	// Leftmost component
+																				//								  parent==nil  ? "" :
+																				//								  parent!.fullName + "/" + name		// add lefter component
+																				//		return rv
+																				//	}
+}
+
  /// Base class for Factal Workbench Models
 // @objc ??
-class Part : NSObject, ObservableObject {		//, Equatable///, Codable, NSCopying, PolyWrappable
+class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatable, NSCopying, PolyWrappable
 
 	 // MARK: - 2. Object Variables:
-	@objc dynamic var name		= "<unnamed>"
-//	var children	: [Part]	= []
-//	var child0		:  Part?	{	return children.count == 0 ? nil : children[0] }
-//	weak var parent :  Part?	= nil 			// add the parent property
 
- // nil root defers to parent's root.
-//	var root		: RootPart?  {
-//		get {
-//			if root_ == nil {
-//				root_ = parent?.root			// set to our parent's root ##RECURSIVE
-//				if root_ != nil {// ?? .null	// print if it is not nil
-//					print("##--##--##--## fixed '\(pp(.fullName))' .root <- \(root_?.fullName ?? "nil")")
-//				}
-//			}
-//			return root_
-//		}
-//		set (v) {	root_ 		= v												}
-//	}
-//	weak private var root_ : RootPart?	= nil 			// the root
+//	var localConfig	: FwConfig				// Configuration of Part
 
-//	 // Ugly:
-//	var nLinesLeft	: UInt8		= 0			// left to print in current atom
-//	var uidForDeinit			= "uninitialized"
+   @objc dynamic
+	var name					= "<unnamed>"
+	var children	: [Part]	= []
+	var child0		:  Part?	{	return children.count == 0 ? nil : children[0] }
+   weak
+	var parent :  Part?	= nil 			// add the parent property
+
+	typealias RootPart			= Part	// STUB
+	lazy var root	: RootPart? = root__		// Lazy provides caching
+	var root__		: RootPart? {		 		// NO CACHING, no var!
+		return parent != nil ? parent!.root : self	// set to our parent's root ##RECURSIVE
+	}
 
 //	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
  // BIG PROBLEMS: (Loops!)
 //	{	willSet(v) {	markTree(dirty:v)  									}	}
 
-//	var localConfig	: FwConfig				// Configuration of Part
+//	 // Ugly:
+//	var nLinesLeft	: UInt8		= 0			// left to print in current atom
+//	var uidForDeinit			= "uninitialized"
 
 
 	 // MARK: - 2.1 Sugar
 //	var parts 		: [Part]	{ 		children 								}
-//	@objc dynamic var fullName	: String	{
-//		let rv					= name=="ROOT" ? 		   name :	// Leftmost component
-//								  parent==nil  ? "" :
-//								  parent!.fullName + "/" + name		// add lefter component
-//		return rv
-//	}
+	@objc dynamic var fullName	: String	{
+		let rv					= name=="ROOT" ? 		   name :	// Leftmost component
+								  parent==nil  ? "" :
+								  parent!.fullName + "/" + name		// add lefter component
+		return rv
+	}
 //	var fullName16 	: String	{		return fullName.field(16)				}
+
 //	 // - Array of unsettled ports. Elements are closures that returns the Port's name
 //	func unsettledPorts()	-> [()->String]	{
 //		var rv					= [()->String]()
@@ -265,6 +284,39 @@ class Part : NSObject, ObservableObject {		//, Equatable///, Codable, NSCopying,
 //		atSer(3, logd("Decoded  as? Part       \(str)"))
 //	}
 //// END CODABLE /////////////////////////////////////////////////////////////////
+
+
+	// FileDocument requires these interfaces:
+	 // Data in the SCNScene
+	var data : Data? {
+	//	self.data?.write(to: <#T##Foundation.URL#>)
+//					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+//		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
+//					// 2. Get file to data
+//		let data				= try? Data(contentsOf:fileURL)
+		return nil
+	}
+	 // initialize new SCNScene from Data
+	convenience init?(data:Data, encoding:String.Encoding) {
+
+		do {		// 1. Write data to file.
+			try data.write(to: fileURL)
+		} catch {
+			print("error writing file: \(error)")
+		}
+
+		do {		// 2. Init self from file
+			fatalError("debug me:")
+			try self.init()
+//			try self.init(url: fileURL)
+		} catch {
+			print("error initing from url: \(error)")
+			return nil
+		}
+	}
+
+
+
 //	 // MARK: - 3.6 NSCopying
 //	func copy(with zone: NSZone?=nil) -> Any {
 //bug;	let theCopy 			= Part()
@@ -1472,6 +1524,7 @@ class Part : NSObject, ObservableObject {		//, Equatable///, Codable, NSCopying,
 //		return rv
 //	}
 //	 // MARK: - 16. Global Constants
+	static let null 			= Part()
 //	static let null 			= Part(["n":"null"])	// Any use of this should fail (NOT IMPLEMENTED)
 //	 // MARK: - 17. Debugging Aids
 //	override var description	  : String 	{	return  "\"\(pp(.short))\""	}
@@ -1482,7 +1535,9 @@ class Part : NSObject, ObservableObject {		//, Equatable///, Codable, NSCopying,
 ////	static var body : some Vew {
 ////		Text("Part.body lives here")
 ////	}
+
 }
+
 // /// Pretty print an up:Bool as String
 //func ppUp(_ up:Bool?=nil) -> String {
 //	return up==nil ? "<nil>" : up! ? "up" : "down"
