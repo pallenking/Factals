@@ -29,34 +29,50 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	}
 
 	/* ============== BEGIN FileDocument protocol: */
-	static	 var readableContentTypes: [UTType] { [.sceneKitScene] }
-	//https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
-    //static var writableContentTypes: [UTType] { get }
+	static var readableContentTypes: [UTType] { [.fooDocTry3, .sceneKitScene] }
+	static var writableContentTypes: [UTType] { [.fooDocTry3] }
 	//private static let onlyScene = true
 																				//	static var readableContentTypes: [UTType] { [.exampleText] }
 	init(configuration: ReadConfiguration) throws {
-		let wrapper:FileWrapper	= configuration.file
-		let data : Data? 		= wrapper.regularFileContents
-		if let data 			= data	// If non-nil
-		{									// data -> SCNScene:
-			let scene:SCNScene?	= SCNScene(data: data, encoding: .utf8)
-			let string:String?	= String  (data: data, encoding: .utf8)
+/*	struct FileDocumentReadConfiguration (FileDocument: typealias ReadConfiguration = ~)
+		let contentType : UTType		// The expected uniform type of the file contents.
+		let existingFile: FileWrapper?	// The file wrapper containing the document content.
+*/
+		guard let data : Data 	= configuration.file.regularFileContents else {
+								  throw CocoaError(.fileReadCorruptFile)		}
+		switch configuration.contentType {
+		case .fooDocTry3:
 			let model: Part?	= Part	  (data: data, encoding: .utf8)
 			self.init(model:model!)				// -> FooDocTry3Document
-		}
-		else {
-			throw CocoaError(.fileReadCorruptFile)
+		case .sceneKitScene:
+			let scene:SCNScene?	= SCNScene(data: data, encoding: .utf8)
+			self.init(scene:scene!)				// -> FooDocTry3Document
+		default:
+			throw CocoaError(.fileWriteUnknown)
 		}
 	}
 	
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-		return .init(regularFileWithContents:scene.data!)
+/*	struct FileDocumentWriteConfiguration (FileDocument: typealias WriteConfiguration = ~)
+		let contentType : UTType		// The expected uniform type of the file contents.
+		let existingFile: FileWrapper?	// The file wrapper containing the current document content. nil if the document is unsaved.
+*/
+		switch configuration.contentType {
+		case .fooDocTry3:
+			return .init(regularFileWithContents:scene.data!)
+		case .sceneKitScene:
+			return .init(regularFileWithContents:scene.data!)
+		default:
+			throw CocoaError(.fileWriteUnknown)
+		}
 	}
 }
+
+//https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
+//https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
 //https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
 extension UTType {
-	static var fooDocTry3: UTType { UTType(importedAs: "com.example.plain-text") }
-//	static var exampleText: UTType { UTType(importedAs: "com.example.plain-text") }
+	static var fooDocTry3: UTType 	{ UTType(importedAs: "com.example.fooDoc") 	}
 }
 
 /* ============== END FileDocument protocol: */
