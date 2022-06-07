@@ -17,8 +17,45 @@
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string></string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.fooTry3</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>FooTry3 document</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.example.fooDoc</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>fooTry3</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.sceneKitScene</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SceneKit</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.sceneKitScene</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>scn</string>
+				</array>
+			</dict>
+		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
