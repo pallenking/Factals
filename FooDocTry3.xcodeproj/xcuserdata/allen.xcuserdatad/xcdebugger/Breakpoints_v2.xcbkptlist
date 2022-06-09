@@ -110,8 +110,8 @@
             filePath = "FooDocTry3/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
             landmarkName = "data"
             landmarkType = "24">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "FooDocTry3/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
+            startingLineNumber = "389"
+            endingLineNumber = "389"
             landmarkName = "init?(data:encoding:)"
             landmarkType = "7">
          </BreakpointContent>

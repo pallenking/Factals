@@ -5,20 +5,93 @@ import SwiftUI
 
 var defaultPrtIndex = 0
 
-protocol HasChildren {
-	associatedtype T
+protocol HasChildren : Equatable {		//NSObject : BinaryInteger
+	associatedtype T where T : Equatable
 	associatedtype TRoot
 	var name		: String	{	get	set		}
 	var children 	: [T]		{	get	set		}
-	var child0	 	:  T?		{	get 		}
-	/*weak*/
-	var parent		:  T?		{	get	set		}
+	var parent		:  T?		{	get	set		}		/*weak*/
 
 	 // Helpers
 	var root		:  TRoot?	{	get	set		}
+	var child0	 	:  T?		{	get 		}
 	var fullName	: String	{	get			}
+
+	// MARK: - 4.2 Manage Tree
+	/// Add a child part
+	/// - Parameters:
+	///   - child: child to add
+	///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
+	/// dirtyness of child is inhereted by self
+	func addChild(_ child:T?, atIndex index:Int?) 										// (child is not dirtied any more)
+	func removeChildren()
+
+	var parents : [T] 			{	get			}
+	 /// Ancestor array starting with self
+	var selfNParents : [T]	 	{	get			}
+	/// Ancestor array, from self up to but excluding 'inside'
+	func selfNParents(upto:T?) -> [T]
+
+	func find<T>(inMe2 searchSelfToo:Bool, all searchParent:Bool, maxLevel:Int?, except exception:T?,
+			  firstWith closureResult:(T) -> Bool) -> T?
+
 }
 extension HasChildren {
+
+	 /// Ancestor array starting with parent
+	var parents : [T] {
+		var rv 		 : [T]		= []
+		var ancestor :  T?		= parent
+		while ancestor != nil {
+			rv.append(ancestor!)
+			ancestor 			= nil//ancestor!.parent
+		}
+		return rv
+	}
+	 /// Ancestor array starting with self
+	var selfNParents : [T] {
+		return selfNParents()
+	}
+	 /// Ancestor array, from self up to but excluding 'inside'
+	func selfNParents(upto:T?=nil) -> [T] {
+		var rv 		 : [T]		= []
+		var ancestor :  T?		= Self.self as? Self.T		//???
+		while ancestor != nil, 			// ancestor exists and
+			  ancestor! != upto  {		// not at explicit limit
+//		  ancestor!.name != "ROOT" {
+			rv.append(ancestor!)
+			ancestor 			= nil//ancestor!.parent
+		}
+		return rv
+	}
+
+		/// find if closure is true:
+	func find<T>(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:T?=nil,
+			  firstWith closureResult:(T) -> Bool) -> T?
+	{
+		 // Check self:
+		if let selfT			= self as? T,	// Why needed? E Better way?
+		  searchSelfToo,
+		  closureResult(selfT) == true {		// Self match
+			return selfT
+		}
+		if (maxLevel ?? 1) > 0 {			// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
+			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
+			 // Check children:
+			//?let orderedChildren = upInWorld ? children.reversed() : children
+			for child in children { //where child != exception! {	// Child match
+fatalError()
+//				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
+//					return sv
+//				}
+			}
+		}
+		 // Check parent
+		if searchParent {
+//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
+		}
+		return nil
+	}
 																				//	@objc dynamic
 																				//	var fullName	: String	{
 																				//		let rv					= name=="ROOT"  ? 		   name :	// Leftmost component
@@ -505,52 +578,52 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 
 
 
-//	// MARK: - 4.2 Manage Tree
-//	/// Add a child part
-//	/// - Parameters:
-//	///   - child: child to add
-//	///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
-//	/// dirtyness of child is inhereted by self
-//	func addChild(_ child:Part?, atIndex index:Int?=nil) {
-//		guard let child 		= child else {		return						}
-//		assert(self != child, "can't add self to self")
-//
-//		 // Find right spot in children
-//		var doppelganger : Int?	= children.firstIndex(of:child)	// child already in children
-//		if var i 				= index {
-//			if i < 0 {
-//				i = children.count - i		// Negative indices are distance from end
-//			}
-//			assert(i>=0 && i<=children.count, "index \(i) out of range")
-//			children.insert(child, at:i)	// add at index i
-//			if let d			= doppelganger {
-//				doppelganger	= d + (i < d ? 1 : 0)
-//			}
-//		}
-//		else {
-//			children.append(child)			// add at end
-//		}
-//
-//		if let d				= doppelganger {
-//			children.remove(at:d)
-//		}
-//
-//		 // link
-//		child.parent			= self
-//		child.root				= self.root
-//
-//		 // Process tree dirtyness:
+	// MARK: - 4.2 Manage Tree
+	/// Add a child part
+	/// - Parameters:
+	///   - child: child to add
+	///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
+	/// dirtyness of child is inhereted by self
+	func addChild(_ child:Part?, atIndex index:Int?=nil) {
+		guard let child 		= child else {		return						}
+		assert(self != child, "can't add self to self")
+
+		 // Find right spot in children
+		var doppelganger : Int?	= children.firstIndex(of:child)	// child already in children
+		if var i 				= index {
+			if i < 0 {
+				i = children.count - i		// Negative indices are distance from end
+			}
+			assert(i>=0 && i<=children.count, "index \(i) out of range")
+			children.insert(child, at:i)	// add at index i
+			if let d			= doppelganger {
+				doppelganger	= d + (i < d ? 1 : 0)
+			}
+		}
+		else {
+			children.append(child)			// add at end
+		}
+
+		if let d				= doppelganger {
+			children.remove(at:d)
+		}
+
+		 // link
+		child.parent			= self
+		child.root				= self.root
+
+		 // Process tree dirtyness:
 //		markTree(dirty:.vew)				// ? tree has dirty.vew
 //		markTree(dirty:child.dirty)			// ? tree also inherits child's other dirtynesses
-//	}										// (child is not dirtied any more)
-//	func removeChildren() {
-//		children.removeAll()
+	}										// (child is not dirtied any more)
+	func removeChildren() {
+		children.removeAll()
 //		markTree(dirty:.vew)
-//	}
-//	/// Groom Part tree after construction.
-//	/// - Parameters:
-//	///   - parent_: ---- if known
-//	///   - root_: ---- set in Part
+	}
+	/// Groom Part tree after construction.
+	/// - Parameters:
+	///   - parent_: ---- if known
+	///   - root_: ---- set in Part
 //	func groomModel(parent parent_:Part?, root root_:RootPart?)  {
 //		parent					= parent_
 //		let r					=  root_				// from arg
@@ -671,32 +744,32 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 //		}
 //		return nil          // no Net in any of m1's parents
 //	}
-//	 /// Ancestor array starting with parent
-//	var parents : [Part] {
-//		var rv 		 : [Part]	= []
-//		var ancestor :  Part?	= parent
-//		while ancestor != nil {
-//			rv.append(ancestor!)
-//			ancestor 			= ancestor!.parent
-//		}
-//		return rv
-//	}
-//	/// Ancestor array starting with self
-//	var selfNParents : [Part] {
-//		return selfNParents()
-//	}
-//	/// Ancestor array, from self up to but excluding 'inside'
-//	func selfNParents(upto:Part?=nil) -> [Part] {
-//		var rv 		 : [Part]	= []
-//		var ancestor :  Part?	= self
-//		while ancestor != nil, 			// ancestor exists and
-//			  ancestor! != upto  {		// not at explicit limit
-////		  ancestor!.name != "ROOT" {
-//			rv.append(ancestor!)
-//			ancestor 			= ancestor!.parent
-//		}
-//		return rv
-//	}
+																				//	 /// Ancestor array starting with parent
+																				//	var parents : [Part] {
+																				//		var rv 		 : [Part]	= []
+																				//		var ancestor :  Part?	= parent
+																				//		while ancestor != nil {
+																				//			rv.append(ancestor!)
+																				//			ancestor 			= ancestor!.parent
+																				//		}
+																				//		return rv
+																				//	}
+																				//	/// Ancestor array starting with self
+																				//	var selfNParents : [Part] {
+																				//		return selfNParents()
+																				//	}
+																				//	/// Ancestor array, from self up to but excluding 'inside'
+																				//	func selfNParents(upto:Part?=nil) -> [Part] {
+																				//		var rv 		 : [Part]	= []
+																				//		var ancestor :  Part?	= self
+																				//		while ancestor != nil, 			// ancestor exists and
+																				//			  ancestor! != upto  {		// not at explicit limit
+																				////		  ancestor!.name != "ROOT" {
+																				//			rv.append(ancestor!)
+																				//			ancestor 			= ancestor!.parent
+																				//		}
+																				//		return rv
+																				//	}
 //
 //	/// Class Inheritance Ancestor Array, from self up to but excluding 'inside'
 //	var inheritedClasses : [String] {
@@ -938,51 +1011,51 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 //	//		 *)	placeStacked
 //	//		 *) placeByLinks
 //
-//	// MARK: - 9.0 make a Vew for Part
-//	 /// Make a new Vew for self, and add it to parentVew
-//	func addNewVew(in parentVew:Vew?) -> Vew? {
-//		let v					= VewForSelf()//Vew(forPart:self)
-//		v!.name					= "_" + name			// UNNEEDED
-//		parentVew?.addChild(v)
-//		return v
-//	}
-//	func VewForSelf() -> Vew? 	{		return Vew(forPart:self)				}
-//
-//	 // MARK: - 9.1 reVew
-//	 /// Ensure Vew has proper child Vew's
-//	/// - Parameter vew_: 	------ Possible Vew of self
-//	/// - Parameter pVew:   ------ Possible Vew of parent
-//	/// - Either vew or parentVew must be non-nil
-//	/// * Depending on self.expose:Expose
-//	/// * --- .open -> full; .atomic -> sphere; .invisible -> nothing
-//	func reVew(intoVew vew_:Vew?=nil, parentVew pVew:Vew?=nil) {
-//		var vew 				= vew_ ??	// 1 supplied as ARG, or from parent:
-//								  pVew?.find(part:self, maxLevel:1)
-//								  			// 2. FIND in parentVew by part
-//								// 202006PAK: after animation, vew is old "M_xxxx" vew
-//		 // Discard if it doesn't match self, or names mismatch.
-//		if let v				= vew,		// Vew supplied and
-//		 (v.part !== self ||				//  it seems wrong:	//!=
-//		  v.name != "_" + v.part.name) {
-//			vew				= nil				// don't use it
-//		}
+	// MARK: - 9.0 make a Vew for Part
+	 /// Make a new Vew for self, and add it to parentVew
+	func addNewVew(in parentVew:Vew?) -> Vew? {
+		let v					= VewForSelf()//Vew(forPart:self)
+		v!.name					= "_" + name			// UNNEEDED
+		parentVew?.addChild(v)
+		return v
+	}
+	func VewForSelf() -> Vew? 	{		return Vew(forPart:self)				}
+
+	 // MARK: - 9.1 reVew
+	 /// Ensure Vew has proper child Vew's
+	/// - Parameter vew_: 	------ Possible Vew of self
+	/// - Parameter pVew:   ------ Possible Vew of parent
+	/// - Either vew or parentVew must be non-nil
+	/// * Depending on self.expose:Expose
+	/// * --- .open -> full; .atomic -> sphere; .invisible -> nothing
+	func reVew(intoVew vew_:Vew?=nil, parentVew pVew:Vew?=nil) {
+		var vew 				= vew_ ??	// 1 supplied as ARG, or from parent:
+								  pVew?.find(part:self, maxLevel:1)
+								  			// 2. FIND in parentVew by part
+								// 202006PAK: after animation, vew is old "M_xxxx" vew
+		 // Discard if it doesn't match self, or names mismatch.
+		if let v				= vew,		// Vew supplied and
+		 (v.part !== self ||				//  it seems wrong:	//!=
+		  v.name != "_" + v.part.name) {
+			vew				= nil				// don't use it
+		}
 //
 //		switch vew?.expose ?? initialExpose {// (if no vew, use default in part)
 //
 //		case .open:					// //// Show insides of Part ////////////
-//			vew					= vew ?? 	// 3. CREATE:
-//								  addNewVew(in:pVew)
-//			 // Remove old skins:
-//			vew!.scn.find(name:"s-atomic")?.removeFromParent()
-//			markTree(dirty:.size)
-//
-//			 // For the moment, we open all Vews
-//			for childPart in children {
-//				if	childPart.testNReset(dirty:.vew) ||		// 210719PAK do first, so it gets cleared
-//				 	childPart.initialExpose == .open    {
-//					childPart.reVew(parentVew:vew!)
-//				}
-//			}
+			vew					= vew ?? 	// 3. CREATE:
+								  addNewVew(in:pVew)
+			 // Remove old skins:
+	//		vew!.scn.find(name:"s-atomic")?.removeFromParent()
+		//	markTree(dirty:.size)
+
+			 // For the moment, we open all Vews
+			for childPart in children {
+		//		if	childPart.testNReset(dirty:.vew) ||		// 210719PAK do first, so it gets cleared
+		//		 	childPart.initialExpose == .open    {
+					childPart.reVew(parentVew:vew!)
+		//		}
+			}
 //
 //		case .atomic:				// //// "think harder"
 //			vew					= vew ?? 	// 3. CREATE:
@@ -1001,7 +1074,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 //		}
 //		vew?.expose				= vew?.expose ?? initialExpose	// for the future
 //		vew?.keep				= true
-//	}
+	}
 //	   /// - Link:			Position Views (e.g. lookAt)
 //	  /// -	Atom:			Mark unused
 //	 /// -	Part:			remove Views for unused Parts

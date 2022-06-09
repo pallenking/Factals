@@ -88,8 +88,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //	// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
 //
 //	 // MARK: - 3. Factory
-	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil) {
-//	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil, expose expose_:Expose? = nil) {
+	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil) {//, expose expose_:Expose? = nil) {
 
 		 // Link to Part:
 		let part				= part_ ?? .null
@@ -200,6 +199,8 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //
 //	 // MARK: - 4.2 Manage Tree
 //	 /// Array of ancestor. The first element is self:
+
+
 //	var selfNParents : [Vew] {			// Ancestor array starting with self self
 //		return selfNParents()
 //	}
@@ -222,24 +223,25 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //	func parents(inside:Vew?=nil) -> [Vew] {
 //		return parent?.selfNParents(upto:inside) ?? []
 //	}
-//	func addChild(_ vew:Vew?, atIndex ind:Int?=nil) {
-//		guard let vew 			= vew else {
-//			return							// no part, nuttin to do
-//		}
-//		if let i = ind {					// Index specified
-//			children.insert(vew, at:i)
-//		}
-//		else {								// Index nil --> append
-//			children.append(vew)
-//		}
-//		vew.parent 				= self
-////      assert(part.parent == parent?.part, "fails consistency check")
-//        part.parent?.markTree(dirty:.size)	// Affects parent's size
-////      part.markTree(dirty:.vew)
-//
-//		// Add the "entry SCNNode" for the vew
+
+	func addChild(_ vew:Vew?, atIndex ind:Int?=nil) {
+		guard let vew 			= vew else {
+			return							// no part, nuttin to do
+		}
+		if let i = ind {					// Index specified
+			children.insert(vew, at:i)
+		}
+		else {								// Index nil --> append
+			children.append(vew)
+		}
+		vew.parent 				= self
+	//	assert(part.parent == parent?.part, "fails consistency check")
+//		part.parent?.markTree(dirty:.size)	// Affects parent's size
+	//	part.markTree(dirty:.vew)
+
+		// Add the "entry SCNNode" for the vew
 //		scn.addChild(node:vew.scn)			// wire scn tree isomorphically
-//	}
+	}
 //	func replaceChild(_ oldVew:Vew?, withVew newVew:Vew) {
 //		let i					= children.firstIndex(of:oldVew ?? .null)
 //		oldVew?.scn.removeFromParent()		// remove old
@@ -256,14 +258,19 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //			panic("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
 //		}
 //	}
-//	func removeAllChildren() {
+	func removeAllChildren() {
+		removeChildren()
+	}
+
+	func removeChildren() {
+		children.removeAll()				// or = []
 //		for childVew in children { 			// Remove all child Vews
 //			childVew.scn.removeFromParent()		// Remove their skins first (needed?)
 //			childVew.removeFromParent()			// Remove them
 //		}
-//	//	part.markTree(dirty:.vew)
-////		scn.removeAllChildren()				// wipe out my skin
-//	}
+	//	part.markTree(dirty:.vew)
+//		scn.removeAllChildren()				// wipe out my skin
+	}
 //
 //	typealias VewOperation 		= (Vew) -> ()
 //	func forAllSubViews(_ viewOperation : VewOperation)  {
@@ -283,69 +290,70 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //		return fwScene?.config4scene[name]	// make this part of new RootPart class
 //	 }
 //
-//	 // MARK: - 4.6 Find Children
-//	 /// FIND child Vew by its NAME:
-//	func find(name:String,					inMe2 searchSelfToo:Bool=false,
-//				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
-//	{
-//		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-//		{(vew:Vew) -> Bool in
-//			return vew.name == name		// view's name matches
-//		}
-//	}
-//	 /// FIND child Vew by its PART:
-//	func find(part:Part, 				 	 inMe2 searchSelfToo:Bool=false,
-//				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
-//	{
-//		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-//		{(vew:Vew) -> Bool in
-//			return vew.part === part	// view's part matches
-////			return vew.part == part		// view's part matches
-//		}
-//	}
-//	 /// FIND child Vew by its Part's NAME:
-//	func find(forPartNamed name:String,		 inMe2 searchSelfToo:Bool=false,
-//				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
-//	{
-//		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-//		{(vew:Vew) -> Bool in
-//			return vew.part.name == name	// view's part.name matches
-//		}
-//	}
-//	 /// FIND child Vew by its SCNNode:	// 20210214PAK not used
-//	func find(scnNode node:SCNNode,		 	inMe2 searchSelfToo:Bool=false,
-//				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
-//	{
-//		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-//		{(vew:Vew) -> Bool in
-//			return vew.scn == node			// view's SCNNode
-//		}
-//	}
-//		/// find if closure is true:
-//	func find(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:Vew?=nil,
-//			  firstWith closureResult:(Vew) -> Bool) -> Vew?
-//	{
-//		 // Check self:
-//		if searchSelfToo      == true &&
-//		  closureResult(self) == true {		// Self match
-//			return self
-//		}
-//		if (maxLevel ?? 1) > 0 {			// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
-//			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
-//			 // Check children:
-//			//?let orderedChildren = upInWorld ? children.reversed() : children
-//			for child in children where child != exception {	// Child match
-//				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
-//					return sv
-//				}
-//			}
-//		}
-//		 // Check parent
-//		if searchParent {
-//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
-//		}
-//		return nil
-//	}
+	 // MARK: - 4.6 Find Children
+	 /// FIND child Vew by its NAME:
+	func find(name:String,					inMe2 searchSelfToo:Bool=false,
+				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	{
+		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		{(vew:Vew) -> Bool in
+			return vew.name == name		// view's name matches
+		}
+	}
+	 /// FIND child Vew by its PART:
+	func find(part:Part, 				 	 inMe2 searchSelfToo:Bool=false,
+				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	{
+		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		{(vew:Vew) -> Bool in
+			return vew.part === part	// view's part matches
+//			return vew.part == part		// view's part matches
+		}
+	}
+	 /// FIND child Vew by its Part's NAME:
+	func find(forPartNamed name:String,		 inMe2 searchSelfToo:Bool=false,
+				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	{
+		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		{(vew:Vew) -> Bool in
+			return vew.part.name == name	// view's part.name matches
+		}
+	}
+	 /// FIND child Vew by its SCNNode:	// 20210214PAK not used
+	func find(scnNode node:SCNNode,		 	inMe2 searchSelfToo:Bool=false,
+				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	{
+		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		{(vew:Vew) -> Bool in
+			return vew.scn == node			// view's SCNNode
+		}
+	}
+																				//		/// find if closure is true:
+																				//	func find<T>(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:Vew?=nil,
+																				//			  firstWith closureResult:(T) -> Bool) -> T?
+																				//	{
+																				//		 // Check self:
+																				//		if let selfT			= self as? T,	// Why needed? E Better way?
+																				//		  searchSelfToo,
+																				//		  closureResult(selfT) == true {		// Self match
+																				//			return selfT
+																				//		}
+																				//		if (maxLevel ?? 1) > 0 {			// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
+																				//			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
+																				//			 // Check children:
+																				//			//?let orderedChildren = upInWorld ? children.reversed() : children
+																				//			for child in children where child != exception {	// Child match
+																				//				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
+																				//					return sv
+																				//				}
+																				//			}
+																				//		}
+																				//		 // Check parent
+																				//		if searchParent {
+																				//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
+																				//		}
+																				//		return nil
+																				//	}
 //	 // MARK: - 9. 3D Support
 //	/// Convert Position from Vew to self's Vew
 //	/// - Parameters:
@@ -552,15 +560,15 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //		}
 //	}
 //
-//	// MARK: - 9 Update Vew + :
-//	   /// Update the Vew Tree from Part Tree
-//	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
-//	 /// - Parameter log: 		-- log the obtaining of locks.
-//	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
+	// MARK: - 9 Update Vew + :
+	   /// Update the Vew Tree from Part Tree
+	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
+	 /// - Parameter log: 		-- log the obtaining of locks.
+	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
 //		guard let fwScene		= part.root?.fwDocument?.fwScene else {	return }
 //		var needsViewLock		= needsLockArg		// nil if lock obtained
-//		let vRoot				= self
-//		let pRoot				= part.root!
+		let vRoot				= self
+		let pRoot				= part.root!
 //
 //		 // This was to fix errors in dirtyBits, although atomic entities breaks it horribly!
 //		//let _					= pRoot.rectifyTreeDirtyBits()	// fixes, logs results
@@ -595,9 +603,9 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //			" _ reVew _   Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
 //			atRve(6, log ? logd("rootPart.reVew():....") : nop)
 //
-//			  // 2. Update Vew tree objects from Part tree
-//			 // (Also build a sparse SCN "entry point" tree for Vew tree)
-///**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
+			  // 2. Update Vew tree objects from Part tree
+			 // (Also build a sparse SCN "entry point" tree for Vew tree)
+/**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
 //			pRoot.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
 //		}
 //		 // ----   Adjust   S I Z E s   ---- //
@@ -633,7 +641,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 //								  nil							// we locked nothing
 ///**/	SCNTransaction.commit()
 //		fwScene.unlock(rootVewAs:unlockName, logIf:log)	// Release VIEW LOCK
-//	}
+	}
 //	 // MARK: - 9.5 Wire Box
 //	func updateWireBox() {
 //
