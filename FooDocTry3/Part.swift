@@ -289,16 +289,39 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
 	var data : Data? {
-	//	self.data?.write(to: <#T##Foundation.URL#>)
-//					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+// A: (WORKS)
+		let encoder 			= JSONEncoder()
+		encoder.outputFormatting = .prettyPrinted
+		let data 				= try! encoder.encode(self)
+		return data
+
+// B: (THROWS)
+//		let data 				= try? JSONSerialization.data(withJSONObject:self)
+//		return data
+
+// C:				// 1. Write SCNScene to file. (older, SCNScene supported serialization)
 //		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
 //					// 2. Get file to data
 //		let data				= try? Data(contentsOf:fileURL)
-		return nil
 	}
-	 // initialize new SCNScene from Data
-	convenience init?(data:Data, encoding:String.Encoding) {
 
+	 // initialize new Part from Data
+	convenience init?(data:Data, encoding:String.Encoding) {
+// A: (BROKEN)
+//		let newPart : Part?		= try? JSONDecoder().decode(Part.self, from:data)
+		//self					= try! JSONDecoder().decode(Part.self, from:data)
+		//Cannot assign to value: 'self' is immutable
+
+// B: (DEBUG/BROKEN)
+		let decoder : Decoder?	= JSONDecoder() as? Decoder
+	//	decoder.data			= data
+		do {
+			try self.init(from:decoder!)
+		} catch {
+			fatalError("funny: \(error)")
+		}
+
+// C: (BLOCKED)
 		do {		// 1. Write data to file.
 			try data.write(to: fileURL)
 		} catch {
@@ -306,9 +329,10 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 		}
 
 		do {		// 2. Init self from file
+			self.init()//url: fileURL)
 			fatalError("debug me:")
-			try self.init()
-//			try self.init(url: fileURL)
+		//    Argument passed to call that takes no arguments
+//			try self.init(NSObject, forKeyPath: <#T##String#>, options: <#T##NSKeyValueObservingOptions#>, context: <#T##void?#>)
 		} catch {
 			print("error initing from url: \(error)")
 			return nil

@@ -9,9 +9,11 @@ import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
 
-var defaultScene : SCNScene		{
-	dragonCurve(segments:1024)
-//	aRootVew()
+  // PlatformDocument.init() calls FooDocTry3Document.init() with NO args.
+ // Here we declare its content:
+var defaultSceneForNewDocument : SCNScene		{
+//	dragonCurve(segments:1024)	// for testing
+	aRootVew()					// future direction
 }
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
@@ -21,7 +23,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	var vew	  : Vew
 	var scene : SCNScene
 
-	init(model:Part = Part(), scene:SCNScene = defaultScene) {
+	init(model:Part = Part(), scene:SCNScene = defaultSceneForNewDocument) {
 		self.model 				= model
 		self.scene				= scene
 		vew	  					= Vew(forPart: model, scn: scene.rootNode)
@@ -59,7 +61,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 */
 		switch configuration.contentType {
 		case .fooDocTry3:
-			return .init(regularFileWithContents:scene.data!)
+			return .init(regularFileWithContents:model.data!)
 		case .sceneKitScene:
 			return .init(regularFileWithContents:scene.data!)
 		default:
