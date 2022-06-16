@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
+		9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */; };
 		9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */; };
 		9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
+		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
 		9FEE6F122835778A00E9E2AE /* FooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3App.swift; sourceTree = "<group>"; };
 		9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3Document.swift; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
+				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
@@ -96,6 +101,7 @@
 			children = (
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
+				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 			);
 			path = "Extensions++";
 			sourceTree = "<group>";
@@ -171,6 +177,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */,
+				9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,

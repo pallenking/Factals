@@ -22,8 +22,8 @@ struct ContentView: View {
 				.padding()
 			HStack {
 				SceneView(
-					scene: 		 document.scene,
-					pointOfView: document.scene.cameraNode,
+					scene: 		 document.state.scene,
+					pointOfView: document.state.scene.cameraNode,
 					options: [.allowsCameraControl, .autoenablesDefaultLighting]
 				)
 					.frame(width:400, height:400)

@@ -9,25 +9,47 @@ import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
 
-  // PlatformDocument.init() calls FooDocTry3Document.init() with NO args.
- // Here we declare its content:
-var defaultSceneForNewDocument : SCNScene		{
-//	dragonCurve(segments:1024)	// for testing
-	aRootVew()					// future direction
+//  // PlatformDocument.init() calls FooDocTry3Document.init() with NO args.
+// // Here we declare its content:
+//var defaultSceneForNewDocument : SCNScene		{
+////	dragonCurve(segments:1024)	// for testing
+//	aRootVew()					// future direction
+//}
+
+struct DocState {
+	var model : Part
+	var vew	  : Vew
+	var scene : SCNScene
+}
+func newDocState() -> DocState		{
+//// A:
+//	let scene					= dragonCurve(segments:1024)// for testing
+////	let scene						= aRootVew()					//  future direction
+//	let part : Part?			= nil						// unused
+
+// B:
+	let part					= Part()//"parts":[Part()]])
+	part.addChild(Part())
+	part.addChild(Part())
+	let scene					= SCNScene()
+	let vew	  					= Vew(forPart:part, scn: scene.rootNode)
+
+// //////
+	scene.groomScene()
+	return DocState(model:part, vew:vew, scene:scene)
 }
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 	 // Model of a FooDocTry3Document:
-	var model : Part
-	var vew	  : Vew
-	var scene : SCNScene
+	var state : DocState
 
-	init(model:Part = Part(), scene:SCNScene = defaultSceneForNewDocument) {
-		self.model 				= model
-		self.scene				= scene
-		vew	  					= Vew(forPart: model, scn: scene.rootNode)
-		scene.groomScene()
+//	init(model:Part = Part(), scene:SCNScene = defaultSceneForNewDocument) {
+//		self.model 				= model
+//		self.scene				= scene
+//		vew	  					= Vew(forPart: model, scn: scene.rootNode)
+	init(state:DocState=newDocState()) {
+		self.state 				= state
 	}
 
 	/* ============== BEGIN FileDocument protocol: */
@@ -44,11 +66,13 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 								  throw CocoaError(.fileReadCorruptFile)		}
 		switch configuration.contentType {
 		case .fooDocTry3:
-			let model: Part?	= Part	  (data: data, encoding: .utf8)
-			self.init(model:model!)				// -> FooDocTry3Document
+			let part: Part!		= Part	  (data: data, encoding: .utf8)!
+			let state0 			= DocState(model:part, vew:Vew(), scene:SCNScene())
+			self.init(state:state0)				// -> FooDocTry3Document
 		case .sceneKitScene:
-			let scene:SCNScene?	= SCNScene(data: data, encoding: .utf8)
-			self.init(scene:scene!)				// -> FooDocTry3Document
+			let scene:SCNScene!	= SCNScene(data: data, encoding: .utf8)!
+			let state0 			= DocState(model:Part(), vew:Vew(), scene:scene)
+			self.init(state:state0)				// -> FooDocTry3Document
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -61,9 +85,9 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 */
 		switch configuration.contentType {
 		case .fooDocTry3:
-			return .init(regularFileWithContents:model.data!)
+			return .init(regularFileWithContents:state.model.data!)
 		case .sceneKitScene:
-			return .init(regularFileWithContents:scene.data!)
+			return .init(regularFileWithContents:state.scene.data!)
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
