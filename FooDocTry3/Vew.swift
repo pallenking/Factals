@@ -7,7 +7,7 @@ import SceneKit
 
 // ////////////////////////////////////////////////////////////////////
 // Shim,
-func aRootVew() -> SCNScene {
+func aSimpleScene() -> SCNScene {
 	let scene					= SCNScene()
 
 	let obj1					= SCNNode(geometry: SCNSphere(radius: 1.0))

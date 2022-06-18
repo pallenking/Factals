@@ -73,12 +73,12 @@
 			children = (
 				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
-				9FEE6FDB2843182A00E9E2AE /* Extensions++ */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
+				9FEE6FDB2843182A00E9E2AE /* Extensions++ */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
 				9FEE6F202835779000E9E2AE /* Info.plist */,

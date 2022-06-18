@@ -23,11 +23,11 @@
 				<string>public.fooTry3</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>FooTry3 document</string>
+			<string>FooTry3 Document</string>
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string></string>
+			<string>com.example.fooTry3</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -49,7 +49,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string></string>
+			<string>abcdefgFOO</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
