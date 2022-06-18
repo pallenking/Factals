@@ -9,7 +9,7 @@ import Foundation
 
  // Adorn Part, Vew, and SCNNode with children
 protocol HasChildren : Equatable {		//NSObject : BinaryInteger
-	associatedtype T where T : Equatable
+	associatedtype T where T : HasChildren
 	associatedtype TRoot
 
 	var name		: String	{	get	set		}
@@ -33,10 +33,8 @@ protocol HasChildren : Equatable {		//NSObject : BinaryInteger
 	var parents : [T] 			{	get			}
 	 /// Ancestor array starting with self
 	var selfNParents : [T]	 	{	get			}
-	/// Ancestor array, from self up to but excluding 'inside'
+	 /// Ancestor array, from self up to but excluding 'inside'
 	func selfNParents(upto:T?) -> [T]
-
-//	func find<T>(inMe2:Bool, all:Bool, maxLevel:Int?, except:T?, firstWith:ValidationClosure<T>) -> T?
 }
 
 // MARK: Parents
@@ -70,7 +68,7 @@ extension HasChildren {
 	}
 }
 
-// MARK: Searching
+ // MARK: Searching
 extension HasChildren {
 	typealias ValidationClosure<T> = (T) -> T?
 
@@ -89,17 +87,14 @@ extension HasChildren {
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
 
 			for child in children { //where child != exception! {	// Child match
-				fatalError()
-				if let childT	= child as? T,
-				  let sv		= childT.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:validationClosure)
-				{
+				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:validationClosure) {
 					return sv
 				}
 			}
 		}
 		 // Check parent
 		if searchParent {
-//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:validationClosure)
+			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, /*except:self,*/ firstWith:validationClosure)
 		}
 		return nil
 	}
