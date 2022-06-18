@@ -36,7 +36,7 @@ protocol HasChildren : Equatable {		//NSObject : BinaryInteger
 	/// Ancestor array, from self up to but excluding 'inside'
 	func selfNParents(upto:T?) -> [T]
 
-	func find<T>(inMe2:Bool, all:Bool, maxLevel:Int?, except:T?, firstWith:ValidationClosure) -> T?
+//	func find<T>(inMe2:Bool, all:Bool, maxLevel:Int?, except:T?, firstWith:ValidationClosure<T>) -> T?
 }
 
 // MARK: Parents
@@ -72,11 +72,11 @@ extension HasChildren {
 
 // MARK: Searching
 extension HasChildren {
-	typealias ValidationClosure = (T) -> T?
+	typealias ValidationClosure<T> = (T) -> T?
 
 		/// find if closure is true:
-	func find(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:T?=nil,
-			  firstWith validationClosure:ValidationClosure) -> T?
+	func find<T>(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:T?=nil,
+			  firstWith validationClosure:ValidationClosure<T>) -> T?
 	{
 		 // Check self:
 		if searchSelfToo,

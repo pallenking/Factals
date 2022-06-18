@@ -46,10 +46,10 @@
             filePath = "FooDocTry3/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "init?(data:encoding:)"
-            landmarkType = "7">
+            startingLineNumber = "296"
+            endingLineNumber = "296"
+            landmarkName = "Part"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

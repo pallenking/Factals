@@ -9,10 +9,6 @@ var defaultPrtIndex = 0
 // @objc ??
 class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable, NSCopying, PolyWrappable
 {
-	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Part) -> Part?) -> T? {
-		fatalError()
-		return nil
-	}
 	
 	 // MARK: - 2. Object Variables:
 
@@ -801,7 +797,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 																				//	/// - except	-- don't search, already search
 																				//	func find(	inMe2	 :Bool	= false, 	all searchParent:Bool=false,
 																				//			 	maxLevel :Int?	= nil,   	except exception:Part?=nil,
-																				//			  	firstWith validationClosure:ValidationClosure) -> Part? { /// Search by closure:
+																				//			  	firstWith validationClosure:ValidationClosure<T>) -> Part? { /// Search by closure:
 																				//		 // Check self:
 																				//		if inMe2,
 																				//		  let cr 				= partClosure(self) {		// Self match?

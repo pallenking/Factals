@@ -334,7 +334,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	}
 																				//		/// find if closure is true:
 																				//	func find<T>(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:Vew?=nil,
-																				//			  firstWith closureResult:ValidationClosure) -> T?
+																				//			  firstWith closureResult:ValidationClosure<T>) -> T?
 																				//	{
 																				//		 // Check self:
 																				//		if let selfT			= self as? T,	// Why needed? E Better way?
