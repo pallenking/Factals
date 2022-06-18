@@ -9,9 +9,10 @@ var defaultPrtIndex = 0
 // @objc ??
 class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable, NSCopying, PolyWrappable
 {
-//	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Part) -> Part?) -> T? {
-//		<#code#>
-//	}
+	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Part) -> Part?) -> T? {
+		fatalError()
+		return nil
+	}
 	
 	 // MARK: - 2. Object Variables:
 
@@ -793,36 +794,36 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 ////			return aPart == part ? aPart : nil
 ////		} )
 //	}
-//	 /// First where closure is true:
-//	/// - inMe2		-- search this node as well
-//	/// - all		-- search parent outward
-//	/// - maxLevel	-- search children down to this level
-//	/// - except	-- don't search, already search
-//	func find(	inMe2	 :Bool	= false, 	all searchParent:Bool=false,
-//			 	maxLevel :Int?	= nil,   	except exception:Part?=nil,
-//			  	firstWith partClosure:Part2PartClosure) -> Part? { /// Search by closure:
-//		 // Check self:
-//		if inMe2,
-//		  let cr 				= partClosure(self) {		// Self match?
-//			return cr
-//		}
-//		if (maxLevel ?? 1) > 0 {		// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
-//			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
-//			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
-//			 // Check children:
-//			for child in orderedChildren where child != exception { // don't redo exception
-//				if let rv 		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:partClosure) {
-//					return rv
-//				}
-//			}
-//		}
-//		if searchParent,						// Check parent
-//		  let p					= parent,		// Have parent
-//		  p.name != "ROOT" {					// parent not ROOT
-//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:partClosure)
-//		}
-//		return nil
-//	}
+																				//	 /// First where closure is true:
+																				//	/// - inMe2		-- search this node as well
+																				//	/// - all		-- search parent outward
+																				//	/// - maxLevel	-- search children down to this level
+																				//	/// - except	-- don't search, already search
+																				//	func find(	inMe2	 :Bool	= false, 	all searchParent:Bool=false,
+																				//			 	maxLevel :Int?	= nil,   	except exception:Part?=nil,
+																				//			  	firstWith validationClosure:ValidationClosure) -> Part? { /// Search by closure:
+																				//		 // Check self:
+																				//		if inMe2,
+																				//		  let cr 				= partClosure(self) {		// Self match?
+																				//			return cr
+																				//		}
+																				//		if (maxLevel ?? 1) > 0 {		// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
+																				//			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
+																				//			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
+																				//			 // Check children:
+																				//			for child in orderedChildren where child != exception { // don't redo exception
+																				//				if let rv 		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:validationClosure) {
+																				//					return rv
+																				//				}
+																				//			}
+																				//		}
+																				//		if searchParent,						// Check parent
+																				//		  let p					= parent,		// Have parent
+																				//		  p.name != "ROOT" {					// parent not ROOT
+																				//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:validationClosure)
+																				//		}
+																				//		return nil
+																				//	}
 //	// MARK: - 4.8 Matches Path
 //	/// Get a Proxy Part matching path
 //	/// # The Path must specify a Part inside self.

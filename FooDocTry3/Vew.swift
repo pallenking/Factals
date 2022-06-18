@@ -29,9 +29,9 @@ var rootVew : Vew?				= nil
 // ////////////////////////////////////////////////////////////////////
 
 class Vew : NSObject, HasChildren, ObservableObject, Codable {
-//	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Vew) -> Vew?) -> T? {
-//		...
-//	}
+	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Vew) -> Vew?) -> T? {
+		fatalError()
+	}
 	
 
 	// MARK: - 2. Object Variables:
@@ -334,7 +334,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	}
 																				//		/// find if closure is true:
 																				//	func find<T>(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:Vew?=nil,
-																				//			  firstWith closureResult:(T) -> Bool) -> T?
+																				//			  firstWith closureResult:ValidationClosure) -> T?
 																				//	{
 																				//		 // Check self:
 																				//		if let selfT			= self as? T,	// Why needed? E Better way?

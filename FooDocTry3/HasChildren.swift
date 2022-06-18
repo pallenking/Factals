@@ -7,10 +7,10 @@
 
 import Foundation
 
+ // Adorn Part, Vew, and SCNNode with children
 protocol HasChildren : Equatable {		//NSObject : BinaryInteger
 	associatedtype T where T : Equatable
 	associatedtype TRoot
-	typealias ValidationClosure = (T) -> T?
 
 	var name		: String	{	get	set		}
 	var children 	: [T]		{	get	set		}
@@ -72,31 +72,34 @@ extension HasChildren {
 
 // MARK: Searching
 extension HasChildren {
+	typealias ValidationClosure = (T) -> T?
 
 		/// find if closure is true:
-	func find<T>(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:T?=nil,
-			  firstWith closureResult:ValidationClosure) -> T?
+	func find(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:T?=nil,
+			  firstWith validationClosure:ValidationClosure) -> T?
 	{
 		 // Check self:
-		if let selfT			= self as? T,	// Why needed? E Better way?
-		  searchSelfToo,
-		  closureResult(selfT) != nil {		// Self match
+		if searchSelfToo,
+		  let selfT				= self as? T,	// Why needed? E Better way?
+		  validationClosure(selfT) != nil {		// Self match
 			return selfT
 		}
+		 // Check children:
 		if (maxLevel ?? 1) > 0 {			// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
-			 // Check children:
-			//?let orderedChildren = upInWorld ? children.reversed() : children
+
 			for child in children { //where child != exception! {	// Child match
 				fatalError()
-				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
+				if let childT	= child as? T,
+				  let sv		= childT.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:validationClosure)
+				{
 					return sv
 				}
 			}
 		}
 		 // Check parent
 		if searchParent {
-//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
+//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:validationClosure)
 		}
 		return nil
 	}
