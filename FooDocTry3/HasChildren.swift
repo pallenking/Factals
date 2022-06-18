@@ -10,6 +10,8 @@ import Foundation
 protocol HasChildren : Equatable {		//NSObject : BinaryInteger
 	associatedtype T where T : Equatable
 	associatedtype TRoot
+	typealias ValidationClosure = (T) -> T?
+
 	var name		: String	{	get	set		}
 	var children 	: [T]		{	get	set		}
 	var parent		:  T?		{	get	set		}		/*weak*/
@@ -34,10 +36,10 @@ protocol HasChildren : Equatable {		//NSObject : BinaryInteger
 	/// Ancestor array, from self up to but excluding 'inside'
 	func selfNParents(upto:T?) -> [T]
 
-	func find<T>(inMe2 searchSelfToo:Bool, all searchParent:Bool, maxLevel:Int?, except exception:T?,
-			  firstWith closureResult:(T) -> Bool) -> T?
-
+	func find<T>(inMe2:Bool, all:Bool, maxLevel:Int?, except:T?, firstWith:ValidationClosure) -> T?
 }
+
+// MARK: Parents
 extension HasChildren {
 
 	 /// Ancestor array starting with parent
@@ -66,15 +68,19 @@ extension HasChildren {
 		}
 		return rv
 	}
+}
+
+// MARK: Searching
+extension HasChildren {
 
 		/// find if closure is true:
 	func find<T>(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:T?=nil,
-			  firstWith closureResult:(T) -> Bool) -> T?
+			  firstWith closureResult:ValidationClosure) -> T?
 	{
 		 // Check self:
 		if let selfT			= self as? T,	// Why needed? E Better way?
 		  searchSelfToo,
-		  closureResult(selfT) == true {		// Self match
+		  closureResult(selfT) != nil {		// Self match
 			return selfT
 		}
 		if (maxLevel ?? 1) > 0 {			// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
@@ -82,10 +88,10 @@ extension HasChildren {
 			 // Check children:
 			//?let orderedChildren = upInWorld ? children.reversed() : children
 			for child in children { //where child != exception! {	// Child match
-fatalError()
-//				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
-//					return sv
-//				}
+				fatalError()
+				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
+					return sv
+				}
 			}
 		}
 		 // Check parent

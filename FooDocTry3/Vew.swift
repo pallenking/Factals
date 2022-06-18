@@ -28,7 +28,11 @@ var rootVew : Vew?				= nil
 // above is shim,
 // ////////////////////////////////////////////////////////////////////
 
-class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
+class Vew : NSObject, HasChildren, ObservableObject, Codable {
+//	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Vew) -> Vew?) -> T? {
+//		...
+//	}
+	
 
 	// MARK: - 2. Object Variables:
 /*
@@ -296,8 +300,8 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
 	{
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-		{(vew:Vew) -> Bool in
-			return vew.name == name		// view's name matches
+		{vew in
+			return vew.name == name	? vew : nil // view's name matches
 		}
 	}
 	 /// FIND child Vew by its PART:
@@ -305,9 +309,8 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
 	{
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-		{(vew:Vew) -> Bool in
-			return vew.part === part	// view's part matches
-//			return vew.part == part		// view's part matches
+		{vew in
+			return vew.part === part ? vew : nil	// view's part matches
 		}
 	}
 	 /// FIND child Vew by its Part's NAME:
@@ -315,8 +318,8 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
 	{
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-		{(vew:Vew) -> Bool in
-			return vew.part.name == name	// view's part.name matches
+		{vew in
+			return vew.part.name == name ? vew : nil // view's part matches
 		}
 	}
 	 /// FIND child Vew by its SCNNode:	// 20210214PAK not used
@@ -324,8 +327,9 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {	//
 				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
 	{
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
-		{(vew:Vew) -> Bool in
-			return vew.scn == node			// view's SCNNode
+		{vew in
+			return vew.scn == node ? vew : nil // view's part matches
+//			return vew.scn == node			// view's SCNNode
 		}
 	}
 																				//		/// find if closure is true:

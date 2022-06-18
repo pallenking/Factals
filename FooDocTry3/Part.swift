@@ -7,8 +7,12 @@ var defaultPrtIndex = 0
 
  /// Base class for Factal Workbench Models
 // @objc ??
-class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatable, NSCopying, PolyWrappable
-
+class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable, NSCopying, PolyWrappable
+{
+//	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Part) -> Part?) -> T? {
+//		<#code#>
+//	}
+	
 	 // MARK: - 2. Object Variables:
 
 //	var localConfig	: FwConfig				// Configuration of Part
@@ -762,6 +766,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 //					{	$0.fullName.contains(desiredName) ? $0 : nil			} )
 ////					{	$0.fullName == desiredName ? $0 : nil					} )
 //	}
+
 //	func find(	path				:Path,
 //
 //				all searchParent :Bool	= false,
@@ -774,6 +779,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject {					//, Equatabl
 ////			return part.partMatching(path:path)		// part.fullName == "/net0/bun0/c/prev.S"
 ////		} )
 //	}
+
 //	func find(	part				:Part,
 //
 //				all searchParent :Bool	= false,

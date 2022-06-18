@@ -38,7 +38,7 @@ func newDocState() -> DocState		{
 		}
 		scene.groomScene()
 		vew	  					= Vew(forPart:part, scn: scene.rootNode)
-	//	vew?.updateVewTree()
+		vew?.updateVewTree()
 
 	default:
 		fatalError("newDocState stateType:\(stateType) is ILLEGAL")
