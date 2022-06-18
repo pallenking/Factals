@@ -98,7 +98,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 //https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
 //https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
 extension UTType {
-	static var fooDocTry3: UTType 	{ UTType(importedAs: "com.example.fooDoc") 	}
+	static var fooDocTry3: UTType 	{ UTType(exportedAs: "com.example.footry3") 	}
 }
 
 /* ============== END FileDocument protocol: */
