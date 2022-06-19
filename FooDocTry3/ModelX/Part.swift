@@ -37,34 +37,32 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 
 
 	 // MARK: - 2.1 Sugar
-//	var parts 		: [Part]	{ 		children 								}
-	@objc dynamic var fullName	: String	{
-		let rv					= name=="ROOT" ? 		   name :	// Leftmost component
-								  parent==nil  ? "" :
-								  parent!.fullName + "/" + name		// add lefter component
-		return rv
-	}
+	var parts 		: [Part]	{ 		children 								}
+																				//	@objc dynamic var fullName	: String	{
+																				//		let rv					= name=="ROOT" ? 		   name :	// Leftmost component
+																				//								  parent==nil  ? "" :
+																				//								  parent!.fullName + "/" + name		// add lefter component
+																				//		return rv
+																				//	}
 //	var fullName16 	: String	{		return fullName.field(16)				}
 
-//	 // - Array of unsettled ports. Elements are closures that returns the Port's name
-//	func unsettledPorts()	-> [()->String]	{
-//		var rv					= [()->String]()
-//		for child in children {
-//			rv					+= child.unsettledPorts()
-//		}
-//		return rv
-//	}
-/*
-- (int) unsettledPorts;	{
-	assert(coerceTo(Net, self) or coerceTo(Atom, self), (@"%@ * illegal", self.className));
-	int rv = 0;
-	for (id elt in self.parts)
-		if (coerceTo(Part, elt))
-			rv += [elt unsettledPorts];
-	return rv;
-}
+																				//	 // - Array of unsettled ports. Elements are closures that returns the Port's name
+																				//	func unsettledPorts()	-> [()->String]	{
+																				//		var rv					= [()->String]()
+																				//		for child in children {
+																				//			rv					+= child.unsettledPorts()
+																				//		}
+																				//		return rv
+																				//	}
 
- */
+																				//- (int) unsettledPorts;	{
+																				//	assert(coerceTo(Net, self) or coerceTo(Atom, self), (@"%@ * illegal", self.className));
+																				//	int rv = 0;
+																				//	for (id elt in self.parts)
+																				//		if (coerceTo(Part, elt))
+																				//			rv += [elt unsettledPorts];
+																				//	return rv;
+																				//}
 
 //	 // MARK: - 2.4 Display Suggestions
 //	var initialExpose : Expose	= .open		// Hint to use on dumb creation of views. (never changed)
@@ -263,61 +261,46 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //// END CODABLE /////////////////////////////////////////////////////////////////
 
 
-	// FileDocument requires these interfaces:
-	 // Data in the SCNScene
-	var data : Data? {
-// A: (TEST ME)
-		let data 				= try! JSONEncoder().encode(self)
-
-// B: (WORKS)
-//		let encoder 			= JSONEncoder()
-//		encoder.outputFormatting = .prettyPrinted
-//		let data 				= try! encoder.encode(self)
-
-// C: (THROWS)
-//		let data 				= try? JSONSerialization.data(withJSONObject:self)
-
-// D:				// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-//		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
-//					// 2. Get file to data
-//		let data				= try? Data(contentsOf:fileURL)
-
-		return data
-	}
-
-	 // initialize new Part from Data
-	convenience init?(data:Data, encoding:String.Encoding) {
-// A: (BROKEN)
-//		let newPart : Part?		= try? JSONDecoder().decode(Part.self, from:data)
-		//self					= try! JSONDecoder().decode(Part.self, from:data)
-		//Cannot assign to value: 'self' is immutable
-
-// B: (DEBUG/BROKEN)
-		let decoder : Decoder?	= JSONDecoder() as? Decoder
-	//	decoder.data			= data
-		do {
-			try self.init(from:decoder!)
-		} catch {
-			fatalError("funny: \(error)")
-		}
-
-// C: (BLOCKED)
-		do {		// 1. Write data to file.
-			try data.write(to: fileURL)
-		} catch {
-			print("error writing file: \(error)")
-		}
-
-		do {		// 2. Init self from file
-			self.init()//url: fileURL)
-			fatalError("debug me:")
-		//    Argument passed to call that takes no arguments
-//			try self.init(NSObject, forKeyPath: <#T##String#>, options: <#T##NSKeyValueObservingOptions#>, context: <#T##void?#>)
-		} //catch {
-		 //	print("error initing from url: \(error)")
-		//	return nil
-		//}
-	}
+																				//	// FileDocument requires these interfaces:
+																				//	 // Data in the SCNScene
+																				//	var data : Data? {
+																				//		return try! JSONEncoder().encode(self)
+																				//	}															// B: (WORKS)	//let encoder 			= JSONEncoder()
+																				//																				//encoder.outputFormatting = .prettyPrinted
+																				//																				//let data 				= try! encoder.encode(self)
+																				//	 // initialize new Part from Data
+																				//	convenience init?(data:Data, encoding:String.Encoding) {
+																				//// A: (BROKEN)
+																				//		let newPart : Part?		= try? JSONDecoder().decode(Part.self, from:data)
+																				////		self					= newPart
+																				//		//Cannot assign to value: 'self' is immutable
+																				//
+																				//// B: (DEBUG/BROKEN)
+																				//		let decoder : Decoder?	= JSONDecoder() as? Decoder
+																				//	//	decoder.data			= data
+																				//		do {
+																				//			try self.init(from:decoder!)
+																				//		} catch {
+																				//			fatalError("funny: \(error)")
+																				//		}
+																				//
+																				//// C: (BLOCKED)
+																				//		do {		// 1. Write data to file.
+																				//			try data.write(to: fileURL)
+																				//		} catch {
+																				//			print("error writing file: \(error)")
+																				//		}
+																				//
+																				//		do {		// 2. Init self from file
+																				//			self.init()//url: fileURL)
+																				//			fatalError("debug me:")
+																				//		//    Argument passed to call that takes no arguments
+																				////			try self.init(NSObject, forKeyPath: <#T##String#>, options: <#T##NSKeyValueObservingOptions#>, context: <#T##void?#>)
+																				//		} //catch {
+																				//		 //	print("error initing from url: \(error)")
+																				//		//	return nil
+																				//		//}
+																				//	}
 
 
 
@@ -1535,14 +1518,20 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //	 // MARK: - 17. Debugging Aids
 //	override var description	  : String 	{	return  "\"\(pp(.short))\""	}
 //	override var debugDescription : String	{	return   "'\(pp(.short))'"		}
-////	var summary					  : String	{	return   "<\(pp(.short))>"		}
-//
+	override var description	  : String 	{	return  "\(fullName):\(fwClassName)"}
+//	override var debugDescription : String	{	return   "Part named \(name)"	}
+//	static var summary			  : String	{	return   "-summary-"			}
+
 ////	 // MARK: - 19. Inspector SwiftUI.Vew
 ////	static var body : some Vew {
 ////		Text("Part.body lives here")
 ////	}
-
 }
+//extension Part: CustomStringConvertible {
+//    override var description: String {
+//        return "(\(x), \(y))"
+//    }
+//}
 
 // /// Pretty print an up:Bool as String
 //func ppUp(_ up:Bool?=nil) -> String {

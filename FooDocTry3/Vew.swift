@@ -29,14 +29,12 @@ var rootVew : Vew?				= nil
 // ////////////////////////////////////////////////////////////////////
 
 class Vew : NSObject, HasChildren, ObservableObject, Codable {
-	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Vew) -> Vew?) -> T? {
-		fatalError()
-	}
+																				//	func find<T>(inMe2: Bool, all: Bool, maxLevel: Int?, except: T?, firstWith: (Vew) -> Vew?) -> T? {
+																				//		fatalError()
+																				//	}
 	
 
 	// MARK: - 2. Object Variables:
-/*
- */
 
 //	// MARK: - Names, children
    @Published
@@ -46,13 +44,12 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	var parent		:  Vew?	= nil
 	var root		:  Vew?	{	get {fatalError("Vew has no .root")}	set(v){}		}
 
-	 // Hierarchy:
-	var fullName	: String	{
-		name=="_ROOT" ? name :	// Leftmost component
-		parent==nil   ? ""   :
-		parent!.fullName + "/" + name		// add lefter component
-	}
-
+																				//	 // Hierarchy:
+																				//	var fullName	: String	{
+																				//		name=="_ROOT" ? name :	// Leftmost component
+																				//		parent==nil   ? ""   :
+																				//		parent!.fullName + "/" + name		// add lefter component
+																				//	}
 //	@Published
 //	 var color000	: NSColor? = nil
 ////	{	willSet(v) {	part.markTree(dirty:.paint)							}	}

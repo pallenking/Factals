@@ -37,7 +37,7 @@ protocol HasChildren : Equatable {		//NSObject : BinaryInteger
 	func selfNParents(upto:T?) -> [T]
 }
 
-// MARK: Parents
+ // MARK: Parents
 extension HasChildren {
 
 	 /// Ancestor array starting with parent
@@ -67,6 +67,18 @@ extension HasChildren {
 		return rv
 	}
 }
+
+ // MARK: Full Name
+extension HasChildren {
+	dynamic var fullName	: String	{
+		let rv					= name.suffix(4)=="ROOT" ? name :	// Leftmost component
+								  parent==nil  ? "" :
+								  parent!.fullName + "/" + name		// add lefter component
+		return rv
+	}
+//	var fullName16 	: String	{		return fullName.field(16)				}
+}
+
 
  // MARK: Searching
 extension HasChildren {

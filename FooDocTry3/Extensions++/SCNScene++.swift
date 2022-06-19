@@ -80,6 +80,15 @@ extension SCNScene {
 	}
 }
 
+protocol FileDocumentHelper {
+	var data : Data?		{ set get }
+	init?(data:Data, encoding:String.Encoding)
+}
+extension FileDocumentHelper {
+
+}
+
+
 var fileURL : URL 				= 	{
 	let path					= NSTemporaryDirectory()
 	let directoryURL			= URL(fileURLWithPath:path)

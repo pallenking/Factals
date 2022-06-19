@@ -1,199 +1,99 @@
 ////  FwTypes.swift -- Factal Workbench: common Swift types C2018PAK
 //import SceneKit
 //
-//  // ///////////////////////////////////////////////////////////////////////////
-// /// For FactalWorkbench (SwiftFactal) Parts
-protocol  FwAny  {		// : Codable : Equatable
-//	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String
-	var  fwClassName	: String 	{	get										}
-}
-//protocol  FwAnyC : FwAny, Codable  { }		// : Codable : Equatable
-//
-// // For building:
-//typealias PartClosure 		= () -> Part?
-//typealias FwConfig  		= [String:FwAny]									//https://blog.bobthedeveloper.io/generic-protocols-with-associated-type-7e2b6e079ee2
-//typealias FwConfigC 		= [String:FwAnyC]
-// // An attempt
-////typealias FwConfig  		= [ArgKey:FwAny]
-////typealias FwConfigC  		= [ArgKey:FwAnyC]
-//
-// // FwAny: Types known to the Factal Workbench (FW) system
-//extension Bool			: FwAnyC 	{}
-//extension  Int			: FwAnyC 	{}
-//extension UInt			: FwAnyC 	{}
-//extension  Int16		: FwAnyC 	{}
-//extension UInt16		: FwAnyC 	{}
-//extension  Int8			: FwAnyC 	{}
-//extension UInt8			: FwAnyC 	{}
-//extension Float			: FwAnyC 	{}
-//extension Double		: FwAnyC 	{}
-//extension CGFloat 		: FwAnyC	{}
-//extension String		: FwAnyC 	{}
-//
-//extension Vew			: FwAnyC 	{}	//x Extension outside of file declaring class 'Vew' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-extension Part			: FwAny 	{}
-//extension Part			: FwAnyC 	{}
-//extension BBox			: FwAnyC 	{}
-//
-//extension Event			: FwAnyC 	{}
-//extension Log			: FwAnyC 	{}
-//extension Path			: FwAnyC 	{}
-//
-//extension SCNVector4	: FwAnyC 	{}
-//extension SCNVector3	: FwAnyC 	{}
-//
-//extension NSColor		: FwAny 	{}	//x Extension outside of file declaring class 'NSColor' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-//extension SCNMatrix4	: FwAny 	{}	//code Extension outside of file declaring struct 'CATransform3D' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-//
-//extension Array 		: FwAny		{}							//extension Array : FwAny where Element : Codable {}
-////extension Array 		: FwAnyC  where Element : Codable {}							//extension Array : FwAnyC 	{}	//extend 'FwAny' requires that 'Element' conform to 'Encodable'
-////extension Array  		: Codable where Element : Codable {}
-////	// Conformance of 'Array<Element>' to protocol 'Encodable' conflicts with
-//	// that stated in the type's module 'Swift' and will be ignored; there
-//	// cannot be more than one conformance, even with different conditional bounds
-//
-//func mini_playground() {
-//	let x : [Codable] = ["abc", 0, 7.2]
-//	print(x)
-////	let u : Array<Codable>, Codable = ["abc", 0, 7.2] as [Codable]
-////	let jsonData = try JSONEncoder().encode(u)
-////		// Protocol 'Codable' (aka 'Decodable & Encodable') as a type cannot conform to 'Encodable'
-//	var y : [String : Codable] = [:]
-//	y["abc"] = "abc"
-//	y["aaa"] = 0
-//	y["327"] = 7.2
-//}
-//
-//extension Dictionary	: FwAny 	{}	//extend Type 'Key' does not conform to protocol 'Encodable'
-//extension Dictionary	: FwAnyC where Key : Codable, Value : Codable 	{}
-////extension Dictionary	: FwAnyC where Key : String, Value : Codable 	{}
-////struct CodableDictionary<Key : Hashable, Value : Codable> : Codable where Key : CodingKey {
-////extension Dictionary<Key, Value> : FwAnyC where Key : Hashable && Encodable, CodingKey, Value : Codable { }
-//
-//
-// // perhaps expunge from FwAny:
-//extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
-//extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
-//extension FwScene		: FwAny 	{}	// Extension outside of file declaring class 'FwScene' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
-//extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-//extension SCNConstraint	: FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-//extension SCNGeometry	: FwAny 	{	// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-//	func pp(_ mode: PpMode?, _ aux: FwConfig) -> String {
-//		return ppDefault(self:self, mode:mode, aux:aux)
-//	}
-//}
-//extension SCNAudioSource: FwAny 	{
-//	func pp(_ mode: PpMode?, _ aux: FwConfig) -> String {
-//		return ppDefault(self:self, mode:mode, aux:aux)		//fatalError("\n\n" + "SCNAudioSource not supported\n\n")
-//	}
-//}
-//extension SCNAudioPlayer: FwAny 	{
-//	func pp(_ mode: PpMode?, _ aux: FwConfig) -> String {
-//		return ppDefault(self:self, mode:mode, aux:aux)		//fatalError("\n\n" + "SCNAudioPlayer not supported\n\n")
-//	}}
-//
-//
 ///* Future
 //CGFloat.NativeType)
 //*/
+// // For building:
+//typealias PartClosure 	= () -> Part?
+//typealias FwConfig 		= [String:FwAny]										//https://blog.bobthedeveloper.io/generic-protocols-with-associated-type-7e2b6e079ee2
 //
-// /// This extending of FwAny allows uniform default values.
-//extension FwAny  {
-//	 // Default implementation, with default values:
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOCLOG.params4aux) -> String {
-//		return pp(mode, aux)
-//		//Type of expression is ambiguous without more context
-//		//switch mode! {
-//		//case .uidClass:
-//		//	return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
-//		//case .classUid:
-//		//	return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"
-//		//default:
+//  // ///////////////////////////////////////////////////////////////////////////
+// /// PROTOCOL for all FactalWorkbench (SwiftFactal) Parts
+//protocol  FwAny {		// : Codable : Equatable
+//	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	//      Call this
+//  //Default argument not permitted in a protocol method:
+// //	func pp(_ mode:PpMode?, _ aux:FwConfig=[:]) -> String	//      Call this
+//	func pp_(_ mode:PpMode?, _ aux:FwConfig) -> String	// Implement this
+//	var  fwClassName	: String 	{	get											}
+//}
+// /// This extending of FwAny allows uniform default values. ??Maybe not needed??
+//extension FwAny  {	
+//	  // callers        use pp(..)   This has correct defauts
+//	 // implementations use pp_(..). This does all the work
+//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4pp) -> String {	// PROTOCOL
+//		return pp_(mode, aux)
 //	}
 //}
-//
 // /// Pretty Print Modes:
 //enum PpMode : Int {
 //	// How to PrettyPrint Name and Class:
-//	case fwClassName	// (Really should be "class"?)		(e.g: "Port"
-//	case uid			// Uid								(e.g: "4C4")
-//	case uidClass		// Uid:Class						(e.g: "4C4:Port")
-//	case classUid		// Class<uid>						(e.g: "Port<4C4>")
-//
+//	case fwClassName		// (Really should be "class"?)		(e.g: "Port"
 //	case name			// name in parent, a single token 	(e.g: "P")
-//	case nameUidClass	// name/Uid:Class					(e.g: "P/4C4:Port")
-//
 //	case fullName		// path in composition 				(e.g: "/net/a.P")
-//	case fullNameUidClass//Identifier: fullName/Uid:Class	(e.g: "ROOT/max.P/4C4:Port")
-//
+//	case id				// Identifier: name/Uid:Class		(e.g: "P/xxx:Port")
 //	// How to PrettyPrint Contents:
-//	case phrase			// shortened form, sub short		(e.g: [z:1]
-//	case short			// shortest, canonic form			(e.g: [0.0, 0.0, 0.0]
+//	case phrase			// shortest							(e.g: 1/4 line)
 //	case line			// single line, often used in .tree	(e.g: 1 line)
 //	case tree			// tree of all elements				(e.g: multi-line)
+////	case full
 //}
 //
-//// ///////////////////////////// FW_EVENT //////////////////////////////////////
-//enum FwType : String {
-//	case nop					= "nop"
-//	case writeHeadConcieve		= "writeHeadConcieve"
-//	case writeHeadLabor			= "writeHeadLabor"
-//	case clockPrevious			= "clockPrevious"
-//	case reconfigure			= "reconfigure"
-//}
+// // /// EXTENSIONS
+////enum FwKinds { case Bool, Int, Int16, Int8, Float, Double, CGFloat, String, NSColor,
+////					Part, View, BBox, SCNNode, SCNMaterial, SCNConstraint, Log,
+////					SCNMatrix4, SCNVector4, SCNVector3, Array, Dictionary, NSNull, Path
+////}
 //
-//enum FwError: Error {
-//	case string(_ kind:String)		// To Swift.throw a meaningess string
-//}
+//extension Bool			: FwAny 	{}
+//extension  Int			: FwAny 	{}
+//extension UInt			: FwAny 	{}
+//extension  Int16		: FwAny 	{}
+//extension UInt16		: FwAny 	{}
+//extension  Int8			: FwAny 	{}
+//extension UInt8			: FwAny 	{}
+//extension Float			: FwAny 	{}
+//extension Double		: FwAny 	{}
+//extension CGFloat 		: FwAny		{}
+//extension String		: FwAny 	{}
+//extension NSColor		: FwAny 	{}
 //
-//class FwEvent {							// NOT NSObject
-//	let fwType : FwType
+//extension Part			: FwAny 	{}
+//extension View			: FwAny 	{}
+//extension BBox			: FwAny 	{}
 //
-//	let	nsType : Int 			= 999
-//		// As defined in NSEvent.NSEventType:
-//		//NSLeftMouseUp 		NSRightMouseDown 	NSRightMouseUp NSMouseMoved
-//		//NSLeftMouseDragged	NSRightMouseDragged
-//		//NSMouseEntered 		NSMouseExited
-//		//NSKeyDown 			NSKeyUp 			NSFlagsChanged (deleted PAK170906)
-//		//NSPeriodic 			NSCursorUpdate		NSScrollNSTablet 	NSTablet
-//		//NSOtherMouse 			NSOtherMouseUp		NSOtherMouseDragged
-//		//NSEventTypeGesture	NSEventTypeMagnify	NSEventTypeSwipe 	NSEventTypeRotate
-//		//NSEventTypeBeginGesture NSEventTypeEndGesture NSEventTypeSmartMagnify NSEventTypeQuickLook
-//	var clicks		 : Int		= 0		// 1, 2, 3?
-//	var key			 :Character = " "
-//	var modifierFlags : Int64	= 0
-//		// As defined in NSEvent.modifierFlags:
-//		// NSAlphaShiftKeyMask 	NSShiftKeyMask 		NSControlKeyMask 	NSAlternateKeyMask
-//		// NSCommandKeyMask 	NSNumericPadKeyMask NSHelpKeyMask 		NSFunctionKeyMask
-//	var mousePosition:SCNVector3 = .zero	// after[self convertPoint:[theEvent locationInWindow] fromVew:nil]
-//	var deltaPosition:SCNVector3 = .zero	// since last time
-//	var deltaPercent :SCNVector3 = .zero	// since last time, in percent of screen
-//	var scrollWheelDelta		= 0.0
+//extension SCNNode		: FwAny 	{}
+//extension SCNMaterial	: FwAny 	{}
+//extension SCNConstraint	: FwAny 	{}
+//extension SCNGeometry	: FwAny 	{
+//	func pp_(_ mode: PpMode?, _ aux: FwConfig) -> String { fatalError("\n\n" + "SCNGeometry not supported\n\n") }}
+//extension SCNAudioSource: FwAny 	{											
+//	func pp_(_ mode: PpMode?, _ aux: FwConfig) -> String { fatalError("\n\n" + "SCNAudioSource not supported\n\n") }}
+//extension SCNAudioPlayer: FwAny 	{											
+//	func pp_(_ mode: PpMode?, _ aux: FwConfig) -> String { fatalError("\n\n" + "SCNAudioPlayer not supported\n\n") }}
 //
-//	init(fwType f:FwType) {
-//		fwType 					= f
-//	}
-//}
-//// ///////////////////////////// END FW_EVENT //////////////////////////////////////
+//extension Event			: FwAny 	{}
+//extension Log			: FwAny 	{}
+//extension Path			: FwAny 	{}
+//
+//extension SCNMatrix4	: FwAny 	{}
+//extension SCNVector4	: FwAny 	{}
+//extension SCNVector3	: FwAny 	{}
+//extension Array			: FwAny 	{}
+//extension Dictionary	: FwAny 	{}
+//extension NSNull		: FwAny 	{}
 //
 // // DEFAULT IMPLEMENTATIONS, set to work for most uninteresting types
-extension FwAny  {
-	var fwClassName 	: String 		{ 	/// spruce up desc.
-		let cName 			= String(describing:type(of:self))
-		return [
-			"SCNNode"		:"Scn",
-			"Broadcast"		:"Bcast",
-		][cName] ?? cName
-	}
-																				//	var fwClassName 	: String 		{ 	/// spruce up desc.
-																				//		let cName 			= String(describing:type(of:self))
-																				//		return [
-																				//			"SCNNode"		:"Scn",
-																				//			"Broadcast"		:"Bcast",
-																				//		][cName] ?? cName
-																				//	}
-//	 // Any to Any
-//	// Shorter Coersion methods: E.G: x as? String ?? "<not string>"  -> x.string
+//extension FwAny  {
+//	var fwClassName 	: String 		{ 	/// spruce up desc.
+//		let cName 			= String(describing:type(of:self))
+//		return [
+//			"SCNNode"		:"Scn",
+//			"Broadcast"		:"Bcast",
+//		][cName] ?? cName
+//	}
+//	 /// Any to Any
+//	/// Shorter Coersion methods: E.G: x as? String ?? "<not string>"  -> x.string
 //
 //	/// * < TypeA >.as< TypeB >_ -- convert TypeA to TypeB! if possible, else use a standard default.
 //	var asBool_ 		  : Bool	{	return asBool ?? false					}
@@ -270,7 +170,7 @@ extension FwAny  {
 //				255*c.redComponent, 255*c.greenComponent, 255*c.blueComponent)	}
 //		if let s = self as? String	{	return s								}
 //		if let f = self as? FwConfig{	return f.pp(.line)						}
-//		return pp(.line)
+//		return pp(.line)						
 //	}
 //	var asColor_ 		  : NSColor	{	return asColor ?? .purple				}
 //	var asColor 		  : NSColor?{	return self as? NSColor					}
@@ -280,7 +180,7 @@ extension FwAny  {
 //	var asFwAny	 		  : FwAny	{	return self								}
 //	var asPart_ 		  : Part	{	return asPart!							}
 //	var asPart	 		  : Part?	{	return self	as? Part					}
-}
+//}
 //
 //extension Dictionary {
 //	  // Easy access: E.g: boolOfKey = hash.bool_("key"), "_" ==> if nil use default
@@ -304,7 +204,7 @@ extension FwAny  {
 //										   return x==nil ? nil : Int8(int:x!)	}
 //	func uInt8_    (_ k:Key) -> UInt8	{  return    uInt8(k) ?? 0				}
 //	func uInt8     (_ k:Key) -> UInt8?	{  let x=self[k] as? Int
-//										   return x==nil ? nil : UInt8(fwAny:x!)}
+//										   return x==nil ? nil : UInt8(int:x!)}
 //	func float_    (_ k:Key) -> Float	{  return    float(k) ?? 0.0			}
 //	func float     (_ k:Key) -> Float?	{  return (self[k] as? FwAny)?.asFloat 	}
 //	func double_   (_ k:Key) -> Double	{  return    double(k) ?? 0.0			}
@@ -325,6 +225,39 @@ extension FwAny  {
 ////	func scnNode   (_ k:Key) -> SCNNode?{  return (self[k] as? FwAny)?.asSCNNode}
 //	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
 //	func fwAny     (_ k:Key) -> FwAny?	{  return  self[k] as? FwAny			}
+//
+//// PROBABLY USELESS
+////	 /// :H: Trailing "$"	-- Look in parents and Controller.current
+////	func bool$_    (_ k:Key) -> Bool		{  return    bool$(k) ??  false		}
+////	func bool$ 	   (_ k:Key) -> Bool?		{  return   lookup(k) as? Bool		??
+////										  Controller.current[k] as? Bool		}
+////	func int$_     (_ k:Key) -> Int			{  return     int$(k) ??  0			}
+////	func int$      (_ k:Key) -> Int?		{  return   lookup(k) as? Int 		??
+////										  Controller.current[k] as? Int		}
+////	func float$_   (_ k:Key) -> Float		{  return   float$(k) ??  0.0		}
+////	func float$    (_ k:Key) -> Float?		{  return   lookup(k) as? Float   	??
+////										  Controller.current[k] as? Float		}
+////	func cgFloat$_ (_ k:Key) -> CGFloat  	{  return cgFloat$(k) ??  0.0		}
+////	func cgFloat$  (_ k:Key) -> CGFloat? 	{  return   lookup(k) as? CGFloat 	??
+////										  Controller.current[k] as? CGFloat	}
+////	func string$_  (_ k:Key) -> String 		{  return  string$(k) ??  ""		}
+////	func string$   (_ k:Key) -> String?		{  return   lookup(k) as? String  	??
+////										  Controller.current[k] as? String	}
+////	func color0$_  (_ k:Key) -> NSColor  	{  return  color0$(k) ??  .purple	}
+////	func color0$   (_ k:Key) -> NSColor? 	{  return   lookup(k) as? NSColor 	??
+////										  Controller.current[k] as? NSColor	}
+////	func part$_    (_ k:Key) -> Part 		{  return    part$(k) ??  .null		}
+////	func part$     (_ k:Key) -> Part?		{  return   lookup(k) as? Part 		??
+////										  Controller.current[k] as? Part		}
+////	func fwConfig$_(_ k:Key) -> FwConfig 	{ return fwConfig$(k) ??  [:]		}
+////	func fwConfig$ (_ k:Key) -> FwConfig?	{  return   lookup(k) as? FwConfig	??
+////										  Controller.current[k] as? FwConfig	}
+////	func scnNode$_ (_ k:Key) -> SCNNode  	{  return scnNode$(k) ??  SCNNode()	}
+////	func scnNode$  (_ k:Key) -> SCNNode? 	{  return   lookup(k) as? SCNNode 	??
+////										  Controller.current[k] as? SCNNode	}
+////	func fwAny$_   (_ k:Key) -> FwAny 		{  return   fwAny$(k) ??  fwNull	}
+////	func fwAny$    (_ k:Key) -> FwAny?		{  return   lookup(k) 				??
+////										  Controller.current[k]				}
 ////	 // Look in all parent
 ////	private func lookup(_ key:Key) -> FwAny? {
 ////		var s : Dictionary<Key, Value>?	= self
@@ -350,179 +283,92 @@ extension FwAny  {
 //																				//})
 //	for (key1, value1) in d1 {
 //		if let value0 			= d0[key1] { 	/// key1 in d0: possible conflict
-//			atBld(9, print("Dictionary Conflict, Key: \(key1.field(20)) " +
-//					"was \(value0.pp(.short).field(10)) \t<-- \(value1.pp(.short))"))
-////			atBld(9, DOCLOG.log("Dictionary Conflict, Key: \(key1.field(20)) " +
-////					"was \(value0.pp(.phrase).field(10)) \t<-- \(value1.pp(.phrase))"))
-////			if let v0			= value0 as? Equatable,
-////			  let v1			= value1 as? Equatable,
-////			  v0 == v1 {} else {
-////				atBld(9, DOCLOG.log("Dictionary Conflict, Key: \(key1.field(20)) " +
-////					"was \(value0.pp(.phrase).field(10)) \t<-- \(value1.pp(.phrase))"))
-////			}
+//			atBld(9, FwLog!.log("Dictionary Conflict, Key: \(key1.field(20)) " +
+//					"was \(value0.pp(.phrase).field(10)) \t<-- \(value1.pp(.phrase))"))
 //		}
 //		rv[key1] = value1
 //	}
 //	return rv
 //}
-//
-//
-////extension Dictionary<Key, Value> where Key : Comparable, Hashable {
 //extension Dictionary {
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=[:]) -> String	{
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig=[:]) -> String	{
 //		switch mode! {
-//		case .phrase, .short:
-//			return count == 0 ? "[:]" : "[:\(count) elts]"
+//		case .phrase:
+//			return count == 0 ? "[]" : "[:\(count) elts]"
 //		case .line, .tree:
-//			var (rv, sep)		= ("[", "")
-//			let k3				= Array(keys)//.sorted() //.sortIfComparable()
-//			let m 				= mode == .tree ? PpMode.line : PpMode.short
-//
-///*
-//	func equalsPart<K, V>(_ dict:Dictionary<K, V>) -> Bool where V : EqualsPart, Key : Comparable {
-//		guard let dict		= dict as? Dictionary	else {		return false	}
-//		guard keys.count == dict.keys.count 		else {		return false	}
-//		for key in keys.sorted() {
-//*/
-//
-//			for key in k3 {
-//				let val			= self[key]
-//				let keyStr		= "\(key)"
-//				let valStr		= "\((val as! FwAny).pp(m))"
-////				let keyStr		= key is FwAny ? "\(key)" :
-////								  "?\(String(describing:type(of:key)))"
-////				let valStr		= val is FwAny ? "\((val as! FwAny).pp(m))" :
-////								  "?\(String(describing:type(of:val)))"
-//				rv				+= "\(sep)\(keyStr):\(valStr)"
-//				sep 			=  mode == .tree ? ",\n": ", "
+//			var (rv, sep)			= ("[", "")
+//			let k3					= Array(keys).sortIfComparable()
+//				//.sorted(by:{(a, b) -> Bool in return a.key < b.key}) {		
+//				//.sorted(by:{((key: Key, value: Value), (key: Key, value: Value)) -> Bool in
+//				//.sorted(by:>)	//Referencing operator function '<' on 'Comparable' requires that '(key: Key, value: Value)' conform to 'Comparable'
+//				//.sorted(by:<)
+//				//.sorted(by:{$0.key < $1.key}) {
+//				//.sorted(by: ((key: Key, value: Value), (key: Key, value: Value)) -> Bool) -> [(key: Key, value: Value)]
+//				//let k2 : Dictionary<Key, Value>.Keys = keys
+//			for keyX in k3 {
+//				let valX	= self[keyX]
+//				if let keyY = keyX as? FwAny,
+//				  let valY 	= valX as? FwAny
+//				{
+//					let m 	= mode == .tree ? PpMode.line : PpMode.phrase
+//					rv		+= "\(sep)\(keyY):\(valY.pp(m))"
+//				}
+//				else {
+//					rv 		+= sep + "?\(String(describing:type(of:keyX)))" +
+//									 ":\(String(describing:type(of:valX)))"
+//				}
+//				sep 		=  mode == .tree ? ",\n": ", "
 //			}
-////			var (rv, sep)			= ("[", "")
-////			let k3					= Array(keys).sortIfComparable()
-////				//.sorted(by:{(a, b) -> Bool in return a.key < b.key}) {
-////				//.sorted(by:{((key: Key, value: Value), (key: Key, value: Value)) -> Bool in
-////				//.sorted(by:>)	//Referencing operator function '<' on 'Comparable' requires that '(key: Key, value: Value)' conform to 'Comparable'
-////				//.sorted(by:<)
-////				//.sorted(by:{$0.key < $1.key}) {
-////				//.sorted(by: ((key: Key, value: Value), (key: Key, value: Value)) -> Bool) -> [(key: Key, value: Value)]
-////				//let k2 : Dictionary<Key, Value>.Keys = keys
-////			for keyX in k3 {
-////				let valX	= self[keyX]
-////				if let keyY = keyX as? FwAny,
-////				  let valY 	= valX as? FwAny
-////				{
-////					let m 	= mode == .tree ? PpMode.line : PpMode.short
-////					rv		+= "\(sep)\(keyY):\(valY.pp(m))"
-////				}
-////				else {
-////					rv 		+= sep + "?\(String(describing:type(of:keyX)))" +
-////									 ":\(String(describing:type(of:valX)))"
-////				}
-////				sep 		=  mode == .tree ? ",\n": ", "
-////			}
 //			return rv + "]"
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux) // NO: return super.pp_(mode, aux)
 //		}
-//	}
-//}
-//
-//
-//protocol EqualsPart {
-//	func equalsPart<E>(_ part:E) -> Bool where E:EqualsPart
-//}
-//extension Dictionary where Value : EqualsPart {
-//	func equalsPart<K, V>(_ dict:Dictionary<K, V>) -> Bool where V : EqualsPart, Key : Comparable {
-//		guard let dict		= dict as? Dictionary	else {		return false	}
-//		guard keys.count == dict.keys.count 		else {		return false	}
-//		for key in keys.sorted() {
-//			if let val1 	= self[key],
-//			   let val2		= dict[key],
-//			   val1.equalsPart(val2) == false {
-//				return false
-//			}
-//		}
-//		return true
-//	}
-//	func equalsPart(_ part:EqualsPart) -> Bool	 {		return false			}
-//}
-//extension Array where Element : EqualsPart {
-//	func equalsPart<E>(_ array:Array<E>) -> Bool where E : EqualsPart {
-//		guard count == array.count					else {		return false	}
-//		for i in 0..<array.count
-//		  where self[i].equalsPart(array[i]) == false {
-//			return false
-//		}
-//		return true
-//	}
-//	func equalsPart(_ part:EqualsPart) -> Bool	{		 return false			}
-//}
-//
-//protocol Nib2Bool {
-//	var bool	: Bool 		{ set get }
-//	var int 	: Int		{ set get }
-//	var string	: String	{ set get }
-//}
-//extension NSTextField : Nib2Bool {
-//	var bool : Bool {
-//		set(v) 	{	stringValue		= String(v)									}
-//		get 	{	Bool(stringValue) ?? false 									} /// PUNT
-//	}
-//	var int : Int {
-//		set(v) 	{	stringValue		= String(v)									}
-//		get 	{	Int(stringValue) ?? 0	 									} /// PUNT
-//	}
-//	var string : String {
-//		set(v) 	{	stringValue		= v											}
-//		get 	{	stringValue 		 										}
 //	}
 //}
 //
 // // Only gets called after CLASS.pp() has given up. It doesn't support exceptions
-//func ppDefault(self:FwAny, mode:PpMode?, aux:FwConfig) -> String {
+//			//if self.responds(to:#selector(FwAny.pp(_:_:))) {	}
+//func ppFwDefault(self:FwAny, mode:PpMode?, aux:FwConfig) -> String {
 //	switch mode! {
 //	case .fwClassName:
 //		return self.fwClassName
 //	case .name:							// -> ""
-//		return ""
+//		return "_"
 //	case .fullName:						// -> .name
 //		return self.pp(.name,   aux)
-//	case .fullNameUidClass:						// -> uid + name + fwClassName
+//	case .id:							// -> uid + name + fwClassName
 //		return "\(self.pp(.fullName, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
-//	case .nameUidClass:
-//		return "\(self.pp(    .name, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
-//	case .uidClass:
-//		return "\(ppUid(self as? Uid)):\(self.pp(.fwClassName))"	// e.g: "xxx:Port"
-//	case .classUid:
-//		return "\(self.pp(.fwClassName))(\(ppUid(self as? Uid)))"	// e.g: "Port<xxx>"
-//	case .uid:							// -> uid
-//		return ppUid(self as? Uid)
-//	case .phrase:						// -> .fullNameUidClass
-//		return self.pp(.fullNameUidClass,		aux)
-//	case .short:						// -> .phrase
-//		return self.pp(.phrase,		aux)
-//	case .line:							// -> .short
-//		return self.pp(.short, aux)
+////		return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//	case .phrase:						// -> .id
+//		return self.pp(.id,		aux)
+//	case .line:							// -> .phrase
+//		return self.pp(.phrase, aux)
 //	case .tree:							// -> .line
 //		return self.pp(.line,   aux)
-////	default:							// -> ERROR
-////		let x = self.pp(.fullNameUidClass)
-////		return "ppDefault ERROR: \(x) unsuported"
+//	default:							// -> ERROR
+//		return "ERROR: pp mode value unsuported"
 //	}
 //}
 //
-//// PROBLEM WITH THIS APPROACH: Both the lhs and rhs of ??= are evaluated before it is!
-//// BUT, if the lhs!=nil, you don't want to evaluate rhs! DOLT!!
+//// BUG:
+////	e.g: Cannot convert value of type '[SCNMaterial]' to expected argument type 'inout Any?'
+////	e.g:	self.scn.name? 				??= "*-" + part.name	// DOESN'T WORK
 //infix operator ??= : AssignmentPrecedence
-///// If lhs is nil, assign rhs to it
-///// - Parameters:
-/////   - lhs: --- update if nil
-/////   - rhs: --- new value to replace it with
-////public func ??=<T>(lhs:inout T?, rhs: T?) {
-////	if lhs == nil,					// lhs is nil
-////	  let rhs_			= rhs {		// rhs isn't nil
-////		lhs 			= rhs_
+////func ??=( lhs: inout FwAny?, rhs:FwAny?)	{
+////	if lhs==nil {
+////		lhs 			= rhs
 ////	}
 ////}
+//
+///// If lhs is nil, assign lhs to it.
+///// - Parameters:
+/////   - lhs: --- updated if lhs is nil
+/////   - rhs: 
+//public func ??=<T>(lhs:inout T?, rhs: T?) {
+//	if lhs == nil {
+//		lhs = rhs
+//	}
+//}
 //
 ////func |(  left:Bool, right:Bool) -> Bool {	return left | right		/* OR */	}
 ////func &(  left:Bool, right:Bool) -> Bool {	return left & right		/* OR */	}
@@ -548,7 +394,7 @@ extension FwAny  {
 //	init?(fwAny:FwAny) {
 //		let val:Bool?					=
 //				fwAny is Bool 	?			 fwAny as? Bool				:
-//				fwAny is String ? (
+//				fwAny is String ? (	
 //					fwAny as! String == "0" ?	false :		// good coersion
 //					fwAny as! String == "1" ?	true  :		// good coersion
 //												Bool(fwAny as! String))	:
@@ -560,16 +406,15 @@ extension FwAny  {
 //		}
 //		self.init(val!) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 //	}
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
-//		if mode == .short {
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+//		if mode == .phrase {
 //			return self ? "true" : "false"										}
-//		 // NO: return super.pp(mode, aux)
-//		return ppDefault(self:self, mode:mode, aux:aux)
+//		return ppFwDefault(self:self, mode:mode, aux:aux)
+//				// NO: return super.pp_(mode, aux)
 //	}
 //}
-//var  trueF			= true		// true  which supresses optimizer warning
-//var  trueF_ :Bool?	= true		// true  which supresses optimizer warning
 //var falseF			= false		// false which supresses optimizer warning
+//var  trueF			= true		// true  which supresses optimizer warning
 //var  zeroF			= 0			// zero  which supresses optimizer warning
 //
 ////////////////////////// 		Int			/////////////////////////////////
@@ -585,17 +430,16 @@ extension FwAny  {
 //		}
 //		self.init(val!) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 //	}
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:				//
-//			// Type of expression is ambiguous without more context
-//			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return String(self)
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //	static func + ( d0:Int, d1:Int) -> Int {
@@ -626,16 +470,16 @@ extension FwAny  {
 ////			return self[value]
 ////		}
 ////	}
-//	func pp(_ mode:PpMode?	= .tree, _ aux:FwConfig) -> String {
+//	func pp_(_ mode:PpMode?	= .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:
-//			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return String(self)
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //	static func + ( d0:UInt, d1:UInt) -> UInt {
@@ -669,16 +513,16 @@ extension FwAny  {
 ////			return self[value]
 ////		}
 ////	}
-//	func pp(_ mode:PpMode?	= .tree, _ aux:FwConfig) -> String {
+//	func pp_(_ mode:PpMode?	= .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:
-//			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return String(self)
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //	static func + ( d0:Int16, d1:Int16) -> Int16 {
@@ -709,16 +553,16 @@ extension FwAny  {
 ////			return self[value]
 ////		}
 ////	}
-//	func pp(_ mode:PpMode?	= .tree, _ aux:FwConfig) -> String {
+//	func pp_(_ mode:PpMode?	= .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:
-//			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return String(self)
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //	static func + ( d0:UInt16, d1:UInt16) -> UInt16 {
@@ -761,7 +605,7 @@ extension FwAny  {
 //		}
 //		self.init(val!) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 //	}
-//	func pp(_ mode: PpMode?, _ aux: FwConfig) -> String {
+//	func pp_(_ mode: PpMode?, _ aux: FwConfig) -> String {
 //		return String(self)
 //	}
 //	static func + ( d0:Int8, d1:Int8) -> Int8 {
@@ -787,22 +631,11 @@ extension FwAny  {
 //}
 //
 //extension UInt8 {
-////	init?(int n:Int) {
-////		if n<0 || n>=256 {
-////			return nil
-////		}
-////		self.init(n)
-////	}
-//	init?(fwAny:FwAny?) {
-//		if fwAny != nil,							// Valid (non-nil) value supplied
-//		  let n					= fwAny!.asInt,		// It can become an Int
-//		  n >= 0 && n < 256 {						// It fits in a UInt8?
-//			self.init(n)								// yes
-//		}else{
-//			return nil									// no
-//		}
+//	init(int n:Int) {
+//		assert(n>=0 && n<256, "overflow")
+//		self.init(n)
 //	}
-//	func pp(_ mode: PpMode?, _ aux: FwConfig) -> String {
+//	func pp_(_ mode: PpMode?, _ aux: FwConfig) -> String {
 //		return String(self)
 //	}
 //	static func + ( d0:UInt8, d1:UInt8) -> UInt8 {
@@ -834,16 +667,16 @@ extension FwAny  {
 ////		let rand		= (Float(arc4random()) / 4294967296) // 0xFFFFFFFF + 1
 //		return n1 + (n2 - n1) * rand
 //	}
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:
-//			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return String(self)
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //}
@@ -854,17 +687,16 @@ extension FwAny  {
 //		let rand		= (Double(arc4random()) / 0xFFFFFFFF)
 //		return n1 + (n2 - n1) * rand
 //	}
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:
-//bug;		return "\(self.pp(.fullName, aux)) :\(self.fwClassName)"
-////			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return String(self)
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //}
@@ -890,16 +722,16 @@ extension FwAny  {
 //		let rand		= (CGFloat(arc4random()) / 0xFFFFFFFF)
 //		return n1 + (n2 - n1) * rand
 //	}
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:
-//			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self as? Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return self.description
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //}
@@ -923,10 +755,6 @@ extension FwAny  {
 //	return abs(left-right) > Double(epsilon)									}
 //func !~==( left:CGFloat, right:CGFloat) -> Bool {
 //	return abs(left-right) > CGFloat(epsilon)									}
-////func +=(left:String?, right:String?) -> String? {
-////	return left == nil || right == nil ? nil
-////										: left! + right!
-////}
 //
 //// https://stackoverflow.com/questions/45562662/how-can-i-use-string-slicing-subscripts-in-swift-4
 ////					let text		= "Hello world"
@@ -939,30 +767,8 @@ extension FwAny  {
 ////					//let newStr = str.substring(from: index) // Swift 3
 ////					let newStr = String(valStr[index...]) // Swift 4
 //extension String : Uid {
-//	var uid: UInt16 {		return uidFooFoo(nsOb:(self as NSObject))	}	//SwiftFactals
-////	var uid: UInt16 {		return SwiftFactals.uid(nsOb:(self as NSObject))	}	//SwiftFactals
+//	var uid: UInt16 {		return SwiftFactals.uid(nsOb:(self as? NSObject)!)	}
 //}
-//extension String {
-//	init(bool:Bool) {			// Bool -> String
-//		self						= bool ? "t" : "f"
-//	}
-//}
-//extension String.StringInterpolation {
-//	mutating func appendInterpolation(_ value: Float, decimals:Int) {
-//		appendInterpolation(fmt("%.*f", value, decimals))
-//	}
-//}
-//
-//extension Bool {
-//	init(string:String) {		// String -> Bool
-//		let cvt = ["t":true,  "true":true,
-//				   "f":false, "false":false, "":false]
-//		let x						= cvt[string]		// very proplematic
-//		assert(x != nil, "Cannot convert String \(string) to Bool")
-//		self						= x!
-//	}
-//}
-//
 //extension String {
 //	subscript(value: NSRange) -> Substring {
 //		return self[value.lowerBound..<value.upperBound]
@@ -1045,59 +851,29 @@ extension FwAny  {
 //				self + String(repeating:fill!,count:-excess)// E:abc_____ G:abc_____
 //		}
 //	}
-//	func wrap(min:Int=0, cur:Int=0, max:Int=80) -> String {
-//		var rv					= ""
-//		var column				= cur
-//		forEach({						// paw through characters
-//			rv.append($0)					// put each to output
-//			if $0 == "\n" {				// '\n' -> start new line
-//				column			= min
-//				rv.append(String(repeating:" ", count:min))
-//			}
-//			else if  column < max {		// normal, go to next
-//				column			= column + 1
-//			}
-//			else {
-//				column			= min			// begin next line
-//				rv.append("\n" + String(repeating:" ", count:min))
-//			}
-//			//column				=
-//			//	$0 == "\n" ?		min :
-//			//	column < max ?		column + 1 :
-//			//	{	rv.append("\n" + String(repeating:" ", count:min))
-//			//		return min					// begin next line
-//			//	} ()
-//			//column				=
-//			//	$0 == "\n" ?		min :		// a) "\n" starts new line
-//			//	column < max ?		column + 1 :// b) normal next character
-//			//	{	rv.append("\n" + String(repeating:" ", count:min))
-//			//		return min					// c) begin next line
-//			//	} ()
-//		})
-//		return rv
-//	}
+//
 //	func contains(substring str:String) -> Bool {
 //		return range(of:str) != nil												}
-////	func fieldTests() {
-////		print("abcdefghijklmnopqrstuvwxyz".field(-14, dots:false), "|")
-////		print("abcdefghijklmnopqrstuvwxyz".field(-14, dots:true),  "|")
-////		print("abcdefgh".field(-14, 				  dots:false), "|")
-////		print("abcdefgh".field(-14, 				  dots:true),  "|")
-////		print("abcdefghijklmnopqrstuvwxyz".field( 14, dots:false), "|")
-////		print("abcdefghijklmnopqrstuvwxyz".field( 14, dots:true),  "|")
-////		print("abcdefgh".field( 14, 				  dots:false), "|")
-////		print("abcdefgh".field( 14, 				  dots:true),  "|")
-////	}
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+//	func fieldTests() {
+//		print("abcdefghijklmnopqrstuvwxyz".field(-14, dots:false), "|")
+//		print("abcdefghijklmnopqrstuvwxyz".field(-14, dots:true),  "|")
+//		print("abcdefgh".field(-14, 				  dots:false), "|")
+//		print("abcdefgh".field(-14, 				  dots:true),  "|")
+//		print("abcdefghijklmnopqrstuvwxyz".field( 14, dots:false), "|")
+//		print("abcdefghijklmnopqrstuvwxyz".field( 14, dots:true),  "|")
+//		print("abcdefgh".field( 14, 				  dots:false), "|")
+//		print("abcdefgh".field( 14, 				  dots:true),  "|")
+//	}
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 //		switch mode! {
-//		case .fullNameUidClass:
-//			return "\(ppUid(self, post:"."))\"\(self)\":\(self.fwClassName)"
+//		case .id:
+//			return "\(ppUid(self, post:"."))\"\(self)\" :\(self.fwClassName)"
 //		case .name:
 //			return "_"
-//		case .phrase, .short, .line, .tree:
+//		case .phrase, .line, .tree:
 //			return self
 //		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //	func stripLeadingNewLines() -> (String, String) {
@@ -1122,18 +898,19 @@ extension FwAny  {
 //		return str
 //	}
 //	func shortenStringDescribing() -> String {
-//		  // Eliminate hex address, which is from first " " to following "|"
-//		 // e.g. "<SCNNode: 0x6040001e4d00 pos(5.000000 15.000000 5.000000) | light=<SCNLight: 0x6040001e4700 | type=omni> | no child>"
+//		  /// Eliminate hex address, which is from first " " to following "|"
+//		 /// e.g. "<SCNNode: 0x6040001e4d00 pos(5.000000 15.000000 5.000000) | light=<SCNLight: 0x6040001e4700 | type=omni> | no child>"
 //		let regex = try! NSRegularExpression(pattern: "\\b0x[0-9a-f]*")
 //		var str = regex.stringByReplacingMatches(in: self, options: [],
 //								range:NSRange(0..<self.count), withTemplate: "")
-//		 // Use shorter names:
+//		 /// Use shorter names:
 //		for (key,val) in [
-//			"|":"",
+//			"  ":" ",   				"|":"",
 //			"00"			:"",
-//			"SCN"			:"", 		"Geometry:"		:"",
+//			"SCN"			:"", 		"Geometry: "	:"",
 //			"Cylinder"		:"Cyl",		"3DPictureframe":"3DFrame",
-//			"elements"		:"elts",
+//
+//		/*	"elementsXX":"elts",	*/	"elements "		:"elts",
 //
 //			"radius"		:"r", 		"height"		:"h",
 //			"width"			:"w", 		"length"		:"l", 	"chamferRadius":"cr",
@@ -1142,100 +919,80 @@ extension FwAny  {
 //			"innerRadius"	:"iR", 		"outerRadius"	:"oR",
 //			"'material'"	: "",
 //
-//			"SwiftFactals."	:"",		"SwiftFactalTests."	:"",	// remove an extra "."
-//			"SwiftFactals"	:"",		"SwiftFactalTests"	:"",
-//		] {
-//			str 				= str.replacingOccurrences(of:key, with:val)
+//			"SwiftFactals."	:"", 		"SwiftFactals"	:"",
+//						  ] {
+//			str = str.replacingOccurrences(of:key, with:val)
 //		}
-//		 // remove all dual spaces
-//		var strPre				= str
-//		repeat {
-//			strPre				= str
-//			str 				= str.replacingOccurrences(of:"  ", with:" ")
-//		} while strPre.count != str.count
 //		return str
 //	}
 //}
 //
 // // 180623 Why doesn't this work?		// public?
 //extension NSObject : Uid {
-//	var uid: UInt16 			{ 	return uidFooFoo(nsOb:self)					}
-//}
 //
-//extension NSObject {
-//	// MARK: - 14. Logging
-//	/// Log critical actions with a line that starts with
-//	/// - Parameters:
-//	///   - banner: Descriptive message to display before message
-//	///   - format: printf format
-//	///   - args: printf args
-//	///   - terminator: for print
-//	func loga(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//		let msg					= String(format:format, arguments:args)
-//		let (nls, msg2)			= msg.stripLeadingNewLines()
-//		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
-//		APPLOG.log(str, terminator:terminator)
+//	var uid: UInt16 			{ 	return SwiftFactals.uid(nsOb:self)			}
+////	func fooFoo() {}
+//
+//
+//	func testExceptionHandler2(string: String, filename: String) -> Bool {
+//
+//		NSObject.startHandlingExceptions()
+//
+//		 // Test 1: OPEN file for writing:
+//		let nextEntry			= wallTime("YYMMDD.HHMMSS: ") + " FOO MUM BAR\n"
+//		let documentDirURL 		= try! FileManager.default.url(
+//										for:.documentDirectory,
+//										in:.userDomainMask,
+//										appropriateFor:nil,
+//										create:true)
+//		let fileURL 			= documentDirURL.appendingPathComponent("logOfRuns")
+//		let fileUpdater			= try? FileHandle(forUpdating:fileURL)
+//
+//		fileUpdater!.seekToEndOfFile()		// Start writing at EOF
+//		fileUpdater!.write(nextEntry.data(using:.utf8)!)
+//		fileUpdater!.closeFile()
+//	
+//		 // Test 2: 
+//		guard let fileHandle	= FileHandle(forUpdatingAtPath: filename) else { return false }
+//		// will cause seekToEndOfFile to throw an excpetion
+//		fileHandle.closeFile()
+//		fileHandle.seekToEndOfFile()
+//		fileHandle.write(string.data(using:.utf8)!)
+//
+//		NSObject.stopHandlingExceptions()
+//	
+//		return true
 //	}
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//		let msg					= String(format:format, arguments:args)
-//		let (nls, msg2)			= msg.stripLeadingNewLines()
-//		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
-//		DOCLOG.log(str, terminator:terminator)
+//
+//	static var existingHandler: (@convention(c) (NSException) -> Void)?
+//	static func startHandlingExceptions() {
+//		NSObject.existingHandler = NSGetUncaughtExceptionHandler()
+//		NSSetUncaughtExceptionHandler({ exception in
+//			print("exception: \(exception))")
+//			NSObject.existingHandler?(exception)
+//		})
 //	}
-//}
-//extension NSObject {
-//	@objc dynamic var fwClassName : String {
+//	static func stopHandlingExceptions() {
+//		NSSetUncaughtExceptionHandler(NSObject.existingHandler)
+//		NSObject.existingHandler = nil
+//	}
+//
+//	var fwClassName : String {
 //		get {
-//			let cn				= className
-//					// AD Hoc fix for NSHostingView:
-//			for (pattern, replace) in [
-//				("NSHostingView", "NSHostingView"),
-//			]{
-//				if cn.contains(pattern) {
-//					//print("--- --- --- --- --- --- REPLACE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(replace)")
-//					return replace
-//				}
+//			var cn		= className
+//			let module	= "SwiftFactals"
+//			if cn.hasPrefix(module) {
+//				cn		= String(cn.dropFirst(module.count + 1))
 //			}
-//					// Try to remove namespace from Bundle, and some canned ones
-//			let bmi					= Bundle.main.infoDictionary!["CFBundleExecutable"] as? String
-//			var namespaces 			= bmi == nil ? [] : [bmi!]
-//			 // HACK Required to run XCTests BUG
-//			namespaces.append(contentsOf: ["SwiftFactals", "SwiftFactalsTests"])
-//			for namespace in namespaces {
-//				if cn.hasPrefix(namespace + ".") {
-////				if cn.hasPrefix(namespace),
-////				   cn.dropFirst(namespace.count).prefix(1) == "." {										//, "className '\(myDomain)' isn't proper")
-//					let cn2		= String(cn.dropFirst(namespace.count + 1))
-//					//print("--- --- --- --- --- --- DELETE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn2)")
-//					return cn2
-//				}
-//			}
-//			  // Some names (e.g. SCNNodes) come through without a namespace
-//			 //print("--- --- --- --- --- --- RAW >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn)")
 //			return cn
 //		}
 //	}
-//}
-//func possibleNameSpaces() -> [String] {
-//	return [
-////		Bundle.main.infoDictionary!["CFBundleExecutable"] as! String,
-//		"FooDocTry3",
-////		"SwiftFactalsTests",
-//	]
-//}
-//
-// /// Get AnyClass from name String
-//func classFrom<T>(string:String) -> T.Type where T : Any {
-//	for namespace in possibleNameSpaces() {
-//		 // Desired Class:
-//		let aClass		: AnyClass?	= NSClassFromString("\(namespace).\(string)")
-//		 // Desired T/Specified Class:
-//		let aTClass					= aClass as? T.Type	//30
-//		if aTClass != nil {
-//			return aTClass!
-//		}
+//	 // MARK: ??. log
+//	func logg(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
+//		let (nl, fmt)			= format.stripLeadingNewLines()
+//		let str					= nl + "\(ppUid(self)):\(self.fwClassName):".field(-18) + fmt
+//		FwLog!.log(banner:banner, str, args, terminator:terminator)
 //	}
-//	fatalError("classFrom(string:\(string)) FAILS")
 //}
 //
 //extension Array where Element: Equatable {
@@ -1248,11 +1005,18 @@ extension FwAny  {
 //		}
 //		return unique
 //	}
-//	mutating func appendIfAbsent(_ anObject:Element){
-//		if !self.contains(anObject) {
-//			self.append(anObject)
+//	mutating func fooBar(anObject:Element) -> Element? {
+//		if self.contains(anObject) {
+//			return anObject
 //		}
+//		return nil
 //	}
+////	mutating func addIfAbsent(anObject:Element) -> Element {
+////		if !self.contains(anObject) {
+////			self.append(anObject)
+////		}
+////		return anObject
+////	}
 //	mutating func setObject(at index:Int, toValue:Element) {
 //		while self.count <= index {				// extend self to have an object[index]
 //			self.append(toValue)
@@ -1274,33 +1038,35 @@ extension FwAny  {
 //		return sorted()
 //	}
 //}
-//
 //extension Array {
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
+//	func sortIfComparable() -> Array {
+//		return self
+//	}
+//	func pp_(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 //		switch mode! {
-//			case .phrase, .short:
-//				return count == 0 ? "[]" : "[\(count) elts]"
+//			case .phrase:
+//				return count == 0 ? "[]" : "[:\(count) elts]"
 //			case .line:
 //				var (rv, sep)	= ("[", "")
 //				for elt in self {
-//					rv			+= sep + ppDefault(self:elt as! FwAny, mode:.short, aux:aux)
+//					rv			+= sep + ppFwDefault(self:elt as! FwAny, mode:.phrase, aux:aux)
 //					sep 		= ", "
 //				}
 //				return rv + "]"
 //			case .tree:
 //				var (sep, rv)	= ("", "[")
 //				for elt in self {
-//					rv			+= sep + ppDefault(self:elt as! FwAny, mode:.line, aux:aux)
+//					rv			+= sep + ppFwDefault(self:elt as! FwAny, mode:.line, aux:aux)
 //					sep 		= ",\n "
 //				}
 //				return rv + "]"
 //			default:
-//				return ppDefault(self:self, mode:mode, aux:aux)
+//				return ppFwDefault(self:self, mode:mode, aux:aux)
 //		}
 //	}
 //}
 //
-////class BoxedArray<T> : MutableCollection {	// NOT NSObject
+////class BoxedArray<T> : MutableCollection {
 ////
 ////	var array : Array<T> 		= []
 ////
@@ -1317,24 +1083,14 @@ extension FwAny  {
 ////		set(newValue) { array[index] = newValue }
 ////	}
 ////}
-//extension Data {
-//	var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
-//		guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
-//			  let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-//			  let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-//			  												else { return nil 	}
-//		return prettyPrintedString
-//	}
-//}
-//
 //extension NSColor {
-//	func pp(_ mode:PpMode? = .tree, _ aux_: FwConfig) -> String {
+//	func pp_(_ mode:PpMode? = .tree, _ aux_: FwConfig) -> String {
 //		return "NSColor"
 ////		panic(); return "yeuch"
 //	}
 //}
 //extension NSNull {
-//	func pp(_ mode:PpMode? = .tree, _ aux_: FwConfig) -> String {
+//	func pp_(_ mode:PpMode? = .tree, _ aux_: FwConfig) -> String {
 //		return "NSNull"
 ////		panic(); return "yeuch"
 //	}
@@ -1354,8 +1110,72 @@ extension FwAny  {
 //	}
 //}
 //
+//							//// TESTING ////
+//func fwTypesTest() -> Bool {
+//	print("""
+//		\n\n\n
+//		 ============================================================================
+//		======================== Testing with fwTypesTest(): =========================
+//		""")
+//
+//	 /// All these Object Kinds
+//	let objects :[FwAny] = [
+//		SCNMatrix4(1.0,2.0,3.0,4.0,  1.1,1.2,1.3,1.4,  2.1,2.2,2.3,2.4,  1.1,1.2,1.3,1.4),
+//		SCNVector3(1,2,3),
+//		String("abcdefg"),
+//		Bool(true),
+//		Int(1234),
+//		Int16(32767),					// No Int8 or UInt*
+//		Float(12.34),
+//		CGFloat(777.2),
+//		//Array(),
+//		//Dictionary(),
+//		//NSObject(),					// needs work
+// // 190627 eliminated
+////		Port(),
+////		MaxOr(),						// needs work, ...
+////		Net(["parts":[Port(), MaxOr()]]),
+//		//-------- top -------
+//		SCNVector4(1.0,2.0,3.0,4.0),	// ppXYZMask == 7?
+//		SCNMatrix4Identity,				// test the various stringification of various forms
+//					]
+//					
+//
+//	for obj in objects {
+//		print("\n"+"======== \(obj.pp(.fwClassName)) ==========")
+//		print("   pp( .fwClassName )  -->  \(obj.pp(.fwClassName))")
+//		print("   pp( .id        )  -->  \(obj.pp(.id))")
+//		print("   pp( .name      )  -->  \(obj.pp(.name))")
+//		print("   pp( .fullName  )  -->  \(obj.pp(.fullName))")
+//		print("   pp( .phrase    )  -->  \(obj.pp(.phrase))")
+//		print("   pp( .line      )  -->  \(obj.pp(.line))")
+//		print("   pp( .tree      )  --> ------------------\n\(obj.pp(.tree))"
+//			   + "\n" + "-----------------------------------------------")
+//	}
+////	print("Look okay? [y]")
+////	let pass = readLine()
+////	let p						= pass == nil || pass == "y" || pass == ""
+////	print("\"\(pass)\" -> " + (p ? "PASS" : "FAIL\n"))
+////	return p
+//	return true
+//}
+//
 ///// No Operation
 ///// * A legal statement that does nothing and returns nothing.
 //var nop : () 		{		return 												}
+////func nop()		{					}
+//
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+////
+////// want Swift equivalent for: void panic_gutsC(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)))
+//////int	 fprintf(FILE * __restrict, const char * __restrict, ...) __printflike(2, 3);
+//////#define __printflike(a,b) __attribute__((format(printf, a, b)))
+////
+////func fmt(_ format:String, _ args:CVarArg...) -> String {
+////	return  String(format:format, arguments:args)
+////}
+////
 //
 //

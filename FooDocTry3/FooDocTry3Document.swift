@@ -10,7 +10,7 @@ import SceneKit
 import UniformTypeIdentifiers
 
 struct DocState {
-	var model	: Part
+	var model	: RootPart
 	var vew		: Vew
 	var scene	: SCNScene
 }
@@ -18,7 +18,7 @@ struct DocState {
 let stateType = 3		// quiet compiler errors
 func newDocState() -> DocState		{
 
-	var part	: Part?			= nil
+	var rootPart	: RootPart?	= nil
 	var vew		: Vew?			= nil
 	var scene	: SCNScene
 
@@ -29,22 +29,23 @@ func newDocState() -> DocState		{
 		scene					= aSimpleScene()				// future direction
 	case 3:
 		scene					= SCNScene()
-		part					= Part()//"parts":[Part()]])
-		part?.name				= "ROOT"
+		rootPart				= RootPart()//"parts":[Part()]])
+		rootPart?.name			= "ROOT"
 		for i in 1...2 {
 			let p				= Part()
 			p.name				= "p\(i)"
-			part!.addChild(p)
+			rootPart!.addChild(p)
 		}
+		let _ = rootPart?.fwClassName
 		scene.groomScene()
-		vew	  					= Vew(forPart:part, scn: scene.rootNode)
+		vew	  					= Vew(forPart:rootPart, scn: scene.rootNode)
 		vew?.updateVewTree()
 
 	default:
 		fatalError("newDocState stateType:\(stateType) is ILLEGAL")
 	}
 
-	return DocState(model:part ?? Part(), vew:vew ?? Vew(), scene:scene)
+	return DocState(model:rootPart ?? RootPart(), vew:vew ?? Vew(), scene:scene)
 }
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
@@ -70,12 +71,12 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 								  throw CocoaError(.fileReadCorruptFile)		}
 		switch configuration.contentType {
 		case .fooDocTry3:
-			let part: Part!		= Part	  (data: data, encoding: .utf8)!
-			let state0 			= DocState(model:part, vew:Vew(), scene:SCNScene())
+			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
+			let state0 			= DocState(model:rootPart, vew:Vew(), scene:SCNScene())
 			self.init(state:state0)				// -> FooDocTry3Document
 		case .sceneKitScene:
 			let scene:SCNScene!	= SCNScene(data: data, encoding: .utf8)!
-			let state0 			= DocState(model:Part(), vew:Vew(), scene:scene)
+			let state0 			= DocState(model:RootPart(), vew:Vew(), scene:scene)
 			self.init(state:state0)				// -> FooDocTry3Document
 		default:
 			throw CocoaError(.fileWriteUnknown)
