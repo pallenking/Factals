@@ -10,26 +10,26 @@ protocol  FwAny  {		// : Codable : Equatable
 //protocol  FwAnyC : FwAny, Codable  { }		// : Codable : Equatable
 //
 // // For building:
-//typealias PartClosure 		= () -> Part?
-//typealias FwConfig  		= [String:FwAny]									//https://blog.bobthedeveloper.io/generic-protocols-with-associated-type-7e2b6e079ee2
+//typealias PartClosure   	= () -> Part?
+typealias FwConfig  		= [String:FwAny]									//https://blog.bobthedeveloper.io/generic-protocols-with-associated-type-7e2b6e079ee2
 //typealias FwConfigC 		= [String:FwAnyC]
 // // An attempt
-////typealias FwConfig  		= [ArgKey:FwAny]
-////typealias FwConfigC  		= [ArgKey:FwAnyC]
-//
-// // FwAny: Types known to the Factal Workbench (FW) system
-//extension Bool			: FwAnyC 	{}
-//extension  Int			: FwAnyC 	{}
-//extension UInt			: FwAnyC 	{}
-//extension  Int16		: FwAnyC 	{}
-//extension UInt16		: FwAnyC 	{}
-//extension  Int8			: FwAnyC 	{}
-//extension UInt8			: FwAnyC 	{}
-//extension Float			: FwAnyC 	{}
-//extension Double		: FwAnyC 	{}
-//extension CGFloat 		: FwAnyC	{}
-//extension String		: FwAnyC 	{}
-//
+////typealias FwConfig  	= [ArgKey:FwAny]
+////typealias FwConfigC   	= [ArgKey:FwAnyC]
+
+ // FwAny: Types known to the Factal Workbench (FW) system
+extension Bool			: FwAny 	{}
+extension  Int			: FwAny 	{}
+extension UInt			: FwAny 	{}
+extension  Int16		: FwAny 	{}
+extension UInt16		: FwAny 	{}
+extension  Int8			: FwAny 	{}
+extension UInt8			: FwAny 	{}
+extension Float			: FwAny 	{}
+extension Double		: FwAny 	{}
+//extension CGFloat  	: FwAny 	{}
+extension String		: FwAny 	{}
+
 //extension Vew			: FwAnyC 	{}	//x Extension outside of file declaring class 'Vew' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension Part			: FwAny 	{}
 //extension Part			: FwAnyC 	{}

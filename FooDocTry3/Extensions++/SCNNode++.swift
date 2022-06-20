@@ -7,16 +7,47 @@ import SceneKit
 //		s-<name>	-- SCNNode used for Skin of Vew _<name>
 //		w-...		-- SCNNode bounding box  of Vew _<name>
 
-extension SCNNode /*: HasChildren */ {
-////	var name: String {	get	set		}
-//	var children: [SCNNode] 	{	get { childNodes }	set(v) { fatalError() }	}
-//	var child0: SCNNode? 		{	get { childNodes[0] }						}
-////	var parent: SCNNode? 		{	get	set		}
-////	var root: SCNNode? 			{	get	set		}
-////	var fullName: String 		{	get	set		}
-//	typealias T = SCNNode
-//	typealias TRoot = SCNNode
+extension SCNNode : HasChildren  {
+//	var name: String {	get	set		}
+	var name: String {
+		get 		{
+//			let x 				= self._name
+			let x				= (self as! SCNNode).name
+			return x
+		}	// Function call causes an infinite recursion
+//		get 		{	(self as! SCNNode).name		}	// Function call causes an infinite recursion
+		set(v)		{	(self as! SCNNode).name = v	}	// Function call causes an infinite recursion
+	}
+	var fullName: String {
+		get			{	fatalError()											}
+	}
+	var children: [SCNNode] {
+		get 		{	return childNodes										}
+		set(v)		{	fatalError() 											} //childNodes = v }
+	}
+	var child0 :  SCNNode?	{	childNodes.count == 0 ? nil : childNodes[0] 	}
+//	var parent: SCNNode? 		{	get	set		}
+	var parent: SCNNode? {
+		get 		{	fatalError()											}//self.parent}
+		set(v) 		{	fatalError()											}//self.parent = v}
+	}
+//	var root: SCNNode? 			{	get	set										}
+	var root		:  SCNNode?	{
+		get 		{	fatalError("Vew has no .root")}
+		set(v)		{	fatalError("Vew has no .root")}
+	}
+	
+	func addChild(_ child: SCNNode?, atIndex index: Int?) {
+		fatalError()
+	}
+	
+	func removeChildren() {
+		fatalError()
+	}
 
+	typealias T 				= SCNNode
+	typealias TRoot 			= SCNNode
+	
 	// : not Codable	// : ObservableObject
 
 	// Superclass properties of interest:
@@ -181,18 +212,18 @@ extension SCNNode /*: HasChildren */ {
 ////		return parentsFullName + "/" + lastName
 //	}
 //	var deapth : Int 				{ return parent != nil ? parent!.deapth + 1 : 0}
-//	  /// Add child node
-//	 /// Semantic Sugar, to make SCNNode, Vew, and Part all use term children
-//	/// - entries are unique
-//	func addChild(node:SCNNode) {
-//		if !children.contains(node) {		// no duplicates allowed
-//			addChildNode(node)					// adds at end
-//		}
-//	}
-//	func addChild(node:SCNNode, atIndex index:Int?=nil) {
-//		let ind					= index ?? children.count
-//		insertChildNode(node, at:ind)
-//	}
+	  /// Add child node
+	 /// Semantic Sugar, to make SCNNode, Vew, and Part all use term children
+	/// - entries are unique
+	func addChild(node:SCNNode) {
+		if !children.contains(node) {		// no duplicates allowed
+			addChildNode(node)					// adds at end
+		}
+	}
+	func addChild(node:SCNNode, atIndex index:Int?=nil) {
+		let ind					= index ?? children.count
+		insertChildNode(node, at:ind)
+	}
 //	func removeAllChildren() {
 //		for s in children {
 //			s.removeFromParent()			// remove all child SCNs

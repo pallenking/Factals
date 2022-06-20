@@ -36,8 +36,7 @@ func newDocState() -> DocState		{
 			p.name				= "p\(i)"
 			rootPart!.addChild(p)
 		}
-		let _ = rootPart?.fwClassName
-		scene.groomScene()
+		scene.addLightsAndCamera()
 		vew	  					= Vew(forPart:rootPart, scn: scene.rootNode)
 		vew?.updateVewTree()
 
