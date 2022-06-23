@@ -30,10 +30,10 @@ func newDocState() -> DocState		{
 	case 3:
 		scene					= SCNScene()
 		rootPart				= RootPart()//"parts":[Part()]])
-		rootPart?.name			= "ROOT"
+		rootPart?.nam			= "ROOT"
 		for i in 1...2 {
 			let p				= Part()
-			p.name				= "p\(i)"
+			p.nam				= "p\(i)"
 			rootPart!.addChild(p)
 		}
 		scene.addLightsAndCamera()

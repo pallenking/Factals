@@ -8,11 +8,11 @@
 import Foundation
 
  // Adorn Part, Vew, and SCNNode with children
-protocol HasChildren : Equatable {		//NSObject : BinaryInteger
+protocol HasChildren : AnyObject {		//NSObject : BinaryInteger : Equatable
 	associatedtype T where T : HasChildren
 	associatedtype TRoot
 
-	var name		: String	{	get	set		}
+	var nam			: String	{	get	set		}
 	var children 	: [T]		{	get	set		}
 	var parent		:  T?		{	get	set		}		/*weak*/
 
@@ -57,9 +57,9 @@ extension HasChildren {
 	 /// Ancestor array, from self up to but excluding 'inside'
 	func selfNParents(upto:T?=nil) -> [T] {
 		var rv 		 : [T]		= []
-		var ancestor :  T?		= Self.self as? Self.T		//???
+		var ancestor :  T?		= self as? T		//Self.self as? Self.T		//???
 		while ancestor != nil, 			// ancestor exists and
-			  ancestor! != upto  {		// not at explicit limit
+			  ancestor! !== upto  {		// not at explicit limit
 //		  ancestor!.name != "ROOT" {
 			rv.append(ancestor!)
 			ancestor 			= nil//ancestor!.parent
@@ -71,9 +71,9 @@ extension HasChildren {
  // MARK: Full Name
 extension HasChildren {
 	dynamic var fullName	: String	{
-		let rv					= name.suffix(4)=="ROOT" ? name :	// Leftmost component
+		let rv					= nam.suffix(4)=="ROOT" ? nam :	// Leftmost component
 								  parent==nil  ? "" :
-								  parent!.fullName + "/" + name		// add lefter component
+								  parent!.fullName + "/" + nam		// add lefter component
 		return rv
 	}
 //	var fullName16 	: String	{		return fullName.field(16)				}

@@ -38,7 +38,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 
 //	// MARK: - Names, children
    @Published
-	var name :  String			// Cannot be String! because of FwAny
+	var nam 		:  String			// ("name" conflicts with SCNNode)
 	var children 	: [Vew]	= []
 	var child0		:  Vew?	{	return children.count == 0 ? nil : children[0] }
 	var parent		:  Vew?	= nil
@@ -94,7 +94,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 		 // Link to Part:
 		let part				= part_ ?? .null
 		self.part 				= part
-		name					= "_" + part.name 	// View's name is Part's with '_'
+		nam						= "_" + part.nam 	// View's name is Part's with '_'
 //		expose					= expose_ ?? part.initialExpose
 
 		 // Make SCN from supplied skin:
@@ -134,7 +134,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	func encode(to encoder: Encoder) throws {
 ////		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:VewKeys.self)
-		try container.encode(name, 		forKey:.name 	)
+		try container.encode(nam, 		forKey:.name 	)
 //	//	try container.encode(color000,	forKey:.color000)
 //		try container.encode(keep, 		forKey:.keep	)
 //		try container.encode(parent, 	forKey:.parent	)
@@ -148,7 +148,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:VewKeys.self)
-		name 					= try container.decode(		String.self, forKey:.name 	)
+		nam 					= try container.decode(		String.self, forKey:.name 	)
 //	//	color000				= try container.decode(	  NSColor?.self, forKey:.color000)
 //		keep					= try container.decode(		  Bool.self, forKey:.keep	)
 //		parent					= try container.decode( 	  Vew?.self, forKey:.parent	)
@@ -298,7 +298,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	{
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
 		{vew in
-			return vew.name == name	? vew : nil // view's name matches
+			return vew.nam == name	? vew : nil // view's name matches
 		}
 	}
 	 /// FIND child Vew by its PART:
@@ -316,7 +316,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	{
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
 		{vew in
-			return vew.part.name == name ? vew : nil // view's part matches
+			return vew.part.nam == name ? vew : nil // view's part matches
 		}
 	}
 	 /// FIND child Vew by its SCNNode:	// 20210214PAK not used

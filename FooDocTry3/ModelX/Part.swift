@@ -15,7 +15,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //	var localConfig	: FwConfig				// Configuration of Part
 
    @objc dynamic
-	var name					= "<unnamed>"
+	var nam					= "<unnamed>"
 	var children	: [Part]	= []
 	var child0		:  Part?	{	return children.count == 0 ? nil : children[0] }
    weak
@@ -907,7 +907,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 	 /// Make a new Vew for self, and add it to parentVew
 	func addNewVew(in parentVew:Vew?) -> Vew? {
 		let v					= VewForSelf()//Vew(forPart:self)
-		v!.name					= "_" + name			// UNNEEDED
+		v!.nam					= "_" + nam			// UNNEEDED
 		parentVew?.addChild(v)
 		return v
 	}
@@ -928,7 +928,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 		 // Discard if it doesn't match self, or names mismatch.
 		if let v				= vew,		// Vew supplied and
 		 (v.part !== self ||				//  it seems wrong:	//!=
-		  v.name != "_" + v.part.name) {
+		  v.nam != "_" + v.part.nam) {
 			vew				= nil				// don't use it
 		}
 //
@@ -1520,7 +1520,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //	override var debugDescription : String	{	return   "'\(pp(.short))'"		}
 	override var description	  : String 	{	return  "\(fullName):\(fwClassName)"}
 //	override var debugDescription : String	{	return   "Part named \(name)"	}
-//	static var summary			  : String	{	return   "-summary-"			}
+	static var summary			  : String	{	return   "Part is basic model element"	}
 
 ////	 // MARK: - 19. Inspector SwiftUI.Vew
 ////	static var body : some Vew {
