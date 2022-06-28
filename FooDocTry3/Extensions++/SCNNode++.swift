@@ -6,7 +6,7 @@ import SceneKit
 //		*-<name>	-- SCNNode pointed to by	  Vew _<name>
 //		s-<name>	-- SCNNode used for Skin of Vew _<name>
 //		w-...		-- SCNNode bounding box  of Vew _<name>
-
+//j∆
 //extension SCNNode : HasChildren  {
 class SCNNodeFW : SCNNode, HasChildren   {
 //	typealias T = SCNNode

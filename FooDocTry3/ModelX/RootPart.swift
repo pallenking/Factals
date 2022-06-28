@@ -28,7 +28,7 @@ class RootPart : Part {
 //	var partTrunk : Part?	{	return child0									}
 //
 //	// MARK: - 2.4.4 Building
-////	var indexForClass			= ["":0]	// index of naming Part
+	var indexForClass			= ["":0]	// index of naming Part
 //	var wireNumber				= 0			// Used in construction
 //	var wBoxNameIndex			= 1			// Index of wire box for name
 //	var originNameIndex			= 1			// Index of origin
@@ -146,15 +146,59 @@ class RootPart : Part {
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
 	var data : Data? {
-//					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-//		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
-//					// 2. Get file to data
+					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+
+// func write(_ __fd: Int32, _ __buf: UnsafeRawPointer!, _ __nbyte: Int) -> Int
+//fatalError()
+	//	let j					= JSONEncoder() as! Encoder
+		do {
+
+
+			struct GroceryProduct: Codable {
+				var name: String
+				var points: Int
+				var description: String?
+			}
+			let pear = GroceryProduct(name: "Pear", points: 250, description: "A ripe pear.")
+
+			let encoder = JSONEncoder()
+			encoder.outputFormatting = .prettyPrinted
+			let data = try encoder.encode(self)
+			print(String(data: data, encoding: .utf8)!)
+
+
+
+			let je 				= JSONEncoder()
+			je.outputFormatting = .prettyPrinted
+			let data2 			= try je.encode(self)
+			//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+			print(String(data: data2, encoding: .utf8)!)
+
+
+	//		let data			= try JSONEncoder().encode(self)
+//			let data			= try self.encode(to:j)
+	//		let data			= try self.encode(to:JSONEncoder())
+			return data2
+		} catch {
+			print("\(error)")
+			return nil
+		}
+
+		//open func encode<T>(_ value: T) throws -> Data where T : Encodable
+
+//		write(to:fileURL, options:0, delegate:nil, progressHandler:nil)
+					// 2. Get file to data
 //		let data				= try? Data(contentsOf:fileURL)
-//		return data
-		return nil
 	}
 	 // initialize new SCNScene from Data
+//		let jsonData = jsonString.data(using: .utf8)!
+//		let user = try! JSONDecoder().decode(User.self, from: jsonData)
+//		print(user.last_name)
 	convenience init?(data:Data, encoding:String.Encoding) {
+		let p					= try! JSONDecoder().decode(RootPart.self, from:data)
+	//	self.init(from:p)
+		self.init(data:data, encoding:encoding)
+
 //		do {		// 1. Write data to file.
 //			try data.write(to: fileURL)
 //		} catch {
@@ -166,7 +210,6 @@ class RootPart : Part {
 //			print("error initing from url: \(error)")
 //			return nil
 //		}
-		return nil
 	}
 
 

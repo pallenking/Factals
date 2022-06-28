@@ -3,7 +3,7 @@
 import SceneKit
 import SwiftUI
 
-var defaultPrtIndex = 0
+//var defaultPrtIndex = 0
 
  /// Base class for Factal Workbench Models
 // @objc ??
@@ -12,16 +12,16 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 	
 	 // MARK: - 2. Object Variables:
 
-//	var localConfig	: FwConfig				// Configuration of Part
+	var localConfig	: FwConfig				// Configuration of Part
 
    @objc dynamic
-	var nam					= "<unnamed>"
+	var nam						= "<unnamed>"
 	var children	: [Part]	= []
 	var child0		:  Part?	{	return children.count == 0 ? nil : children[0] }
    weak
 	var parent :  Part?	= nil 			// add the parent property
 
-	typealias RootPart			= Part	// STUB
+//	typealias RootPart			= Part	// STUB
 	lazy var root	: RootPart? = root__		// Lazy provides caching
 	var root__		: RootPart? {		 		// NO CACHING, no var!
 		return parent != nil ? parent!.root : self	// set to our parent's root ##RECURSIVE
@@ -95,41 +95,42 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //						markTree(dirty:.vew)
 //																		}	}	}
 //// ///////////////////////////// Factory //////////////////////////////////////
-//	// MARK: - 3. Part Factory
-//	/// Base class for Factal Workbench Models
-//	/// - Value "n", "name", "named": name of element
-//	/// - Parameter config: FwConfig configuration hash
- //	init(_ config:FwConfig = [:]) {
-//		localConfig				= config		// Set as my local configuration hash
-//
- //		super.init() 	// NSObject \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	// MARK: - 3. Part Factory
+	/// Base class for Factal Workbench Models
+	/// - Value "n", "name", "named": name of element
+	/// - Parameter config: FwConfig configuration hash
+ 	init(_ config:FwConfig = [:]) {
+		localConfig				= config		// Set as my local configuration hash
+
+ 		super.init() 	// NSObject \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 //		uidForDeinit			= ppUid(self)
-//
-//		var nam : String?		= nil
-//		 // Do this early, to improve creation printout
-//		for key in ["n", "name", "named"] {		// (Name has 3 keys)
-//			if let na:String 	= localConfig[key] as? String {
-//				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
-//				nam				= na
-//				localConfig[key] = nil			// remove from config
-//			}
-//		}			// -- Name was given
-//		name					= nam ?? {
-//			if let prefix		= prefixForClass[fwClassName]
-//			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-//				let index		= DOC?.indexForClass[prefix] ?? 0
-//				DOC?.indexForClass[prefix] = index + 1		// for next
-//				return prefix + String(index)
-//			}else{	// -- Use fallback
-//				defaultPrtIndex	+= 1
-//				return "prt" + String(defaultPrtIndex)
-//			}
-//		}()
-//
-//		 // Print out invocation
-//		let n					= ("\'" + name + "\'").field(-8)
-//		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
-//
+
+		var na : String?		= nil
+		 // Do this early, to improve creation printout
+		for key in ["n", "name", "named"] {		// (Name has 3 keys)
+			if let n:String 	= localConfig[key] as? String {
+				assert(na==nil, "Conflicting names: '\(na!)' != '\(n)' found")
+				na				= n
+				localConfig[key] = nil			// remove from config
+			}
+		}			// -- Name was given
+		nam						= na ?? {
+			if let prefix		= prefixForClass[fwClassName]
+			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
+				let r:RootPart	= self.root!
+				let index		= r.indexForClass[prefix] ?? 0
+				r.indexForClass[prefix] = index + 1		// for next
+				return prefix + String(index)
+			}else{	// -- Use fallback
+				defaultPrtIndex	+= 1
+				return "prt" + String(defaultPrtIndex)
+			}
+		}()
+
+		 // Print out invocation
+		let n					= ("\'" + nam + "\'").field(-8)
+		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
+
 //		 // Options:
 //		if let valStr			= localConfig["expose"] as? String,
 //		  let e : Expose		= Expose(string:valStr) {
@@ -156,10 +157,10 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //			spin 				= s
 //			localConfig["spin"] = nil
 //		}
-//		if type(of:self) == Part.self && localConfig["parts"] != nil {
-//			panic("key 'parts' can only be used in Atoms, not Parts")
-//		}
- //	}
+		if type(of:self) == Part.self && localConfig["parts"] != nil {
+			fatalError("key 'parts' can only be used in Atoms, not Parts")
+		}
+ 	}
 //	func setTree(root:RootPart, parent:Part?) {
 ////			//  "Root mismatch")
 ////		assertWarn(self.parent === parent, "\(fullName): Parent:\(self.parent?.fullName ?? "nil") should be \(parent?.fullName ?? "nil")")
@@ -185,10 +186,10 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //	 // START CODABLE ///////////////////////////////////////////////////////////////
 //	 // MARK: - 3.5 Codable
 //	 //https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
-//	enum PartsKeys: String, CodingKey {
+	enum PartsKeys: String, RawRepresentable, CodingKey {
 //		//case uid			// IGNORE
-//		case name
-//		case children		// --- (SUBSUMES .parts)
+		case nam
+		case children		// --- (SUBSUMES .parts)
 //		//case parent		// IGNORE, weak, reconstructed
 //		//case root_		// IGNORE, weak regenerate
 //
@@ -206,14 +207,14 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		case spin
 //		case shrink			// commented out
 //		case placeSelf		// new
-//	}
+	}
 //
-//	func encode(to encoder: Encoder) throws  {
-//		//try super.encode(to:encoder)	// NSObject isn't codable
-//		var container 			= encoder.container(keyedBy:PartsKeys.self)
-//
-//		try container.encode(name, 			forKey:.name)
-//		try container.encode(children,		forKey:.children)		// ignore parts. (it's sugar for children)
+	func encode(to encoder: Encoder) throws  {
+		//try super.encode(to:encoder)	// NSObject isn't codable
+		var container 			= encoder.container(keyedBy:PartsKeys.self)
+
+		try container.encode(nam, 			forKey:.name)
+		try container.encode(children,		forKey:.children)		// ignore parts. (it's sugar for children)
 //
 //		try container.encode(nLinesLeft,	forKey:.nLinesLeft)		// ignore parts. (it's sugar for children)
 //		try container.encode(uidForDeinit,	forKey:.uidForDeinit)		// ignore parts. (it's sugar for children)
@@ -228,17 +229,17 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		try container.encode(shrink,		forKey:.shrink)
 //		try container.encode(placeSelf,		forKey:.placeSelf)
 //		atSer(3, logd("Encoded  as? Part        '\(fullName)' dirty:\(dirty.pp())"))
-//	}
-//
-//	required init(from decoder: Decoder) throws {
-//		//try super.init(from:decoder)	// NSObject isn't codable
+	}
+
+	required init(from decoder: Decoder) throws {
+		//try super.init(from:decoder)	// NSObject isn't codable
 //		localConfig				= [:]//try container.decode(FwConfig.self,forKey:.localConfig)
-//		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-//		let container 			= try decoder.container(keyedBy:PartsKeys.self)
+		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		let container 			= try decoder.container(keyedBy:PartsKeys.self)
 //			//  po container.allKeys: 0 elements
 //
-//		name 					= try container.decode(	   String.self, forKey:.name)
-//		children				= try container.decode([PolyWrap].self, forKey:.children)
+		nam 					= try container.decode(	   String.self, forKey:.nam)
+		children				= try container.decode([PolyWrap].self, forKey:.children)
 //		children.forEach({ $0.parent = self})	// set parent
 //		// root?
 //		nLinesLeft				= try container.decode(		UInt8.self, forKey:.nLinesLeft)
@@ -257,7 +258,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		str						+= "\(children.count) children, "
 //		str						+= "dirty:\(dirty.pp())"
 //		atSer(3, logd("Decoded  as? Part       \(str)"))
-//	}
+	}
 //// END CODABLE /////////////////////////////////////////////////////////////////
 
 
@@ -1513,8 +1514,8 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		return rv
 //	}
 //	 // MARK: - 16. Global Constants
-	static let null 			= Part()
-//	static let null 			= Part(["n":"null"])	// Any use of this should fail (NOT IMPLEMENTED)
+//	static let null 			= Part()
+	static let null 			= Part(["n":"null"])	// Any use of this should fail (NOT IMPLEMENTED)
 //	 // MARK: - 17. Debugging Aids
 //	override var description	  : String 	{	return  "\"\(pp(.short))\""	}
 //	override var debugDescription : String	{	return   "'\(pp(.short))'"		}

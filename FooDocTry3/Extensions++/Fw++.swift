@@ -42,6 +42,10 @@ extension Part			: FwAny 	{}
 //extension SCNVector4	: FwAnyC 	{}
 //extension SCNVector3	: FwAnyC 	{}
 //
+
+
+
+
 //extension NSColor		: FwAny 	{}	//x Extension outside of file declaring class 'NSColor' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 //extension SCNMatrix4	: FwAny 	{}	//code Extension outside of file declaring struct 'CATransform3D' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 //
@@ -999,7 +1003,7 @@ extension FwAny  {
 //	}
 //}
 //
-//extension String {
+extension String {
 //	subscript (bounds: CountableClosedRange<Int>) -> String {
 //		let start = index(startIndex, offsetBy: bounds.lowerBound)
 //		let end = index(startIndex, offsetBy: bounds.upperBound)
@@ -1010,41 +1014,41 @@ extension FwAny  {
 //		let end = index(startIndex, offsetBy: bounds.upperBound)
 //		return String(self[start..<end])
 //	}
-//
-//	 /// Fixed length field to format a String
-//	/// - Parameters:
-//	///		- _: 		------ length of field, in characters
-//	///		- dots: 	------ add "..." at end, to show truncation
-//	///		- fill: 	------ string to fill with
-//	/// - Parameter grow: ------ allow long fields to exceed length
-//	func field(_ length:Int, dots:Bool=true, fill:Character?=" ", grow:Bool=false) -> String {
-//		let excess 				= self.count - abs(length)	// amount string is too big
-//		if excess > 0 && grow {
-//			return self
-//		}
-//		let truncLen			= max(0, abs(length) - (dots ? 2:0))
-//		let truncDots			= dots ? "..":""
-//
-//		//										excess=-5 <0	excess=3 >0
-//		// 	Arguments:			\	Input:	abc				abcdefghijk
-//		// 	length---------dots--			--------		--------
-//		// 	>0 (RIGHT)		no			  A:_____abc	  B:defghijk
-//		// 	>0 (RIGHT)		yes			  C:_____abc	  D:..fghijk
-//
-//		// 	<0 (LEFT)		no			  E:abc_____	  F:abcdefgh
-//		// 	<0 (LEFT)		yes			  G:abc_____	  H:abcdef..
-//		if (length >= 0) {								// RIGHT justified
-//			return excess > 0 ?								//    dots      !dots
-//				truncDots + String(suffix(truncLen)):		// D:..fghijk B:defghijk
-//				   fill==nil ? self :						//      A:abc      C:abc
-//				String(repeating:fill!,count:-excess) + self// A:_____abc C:_____abc
-//		} else {
-//			return excess > 0 ?							// LEFT justified
-//				String(prefix(truncLen)) + truncDots :		// F:abcdefgh H:abcdef..
-//				   fill==nil ? self :						//      E:abc      G:abc
-//				self + String(repeating:fill!,count:-excess)// E:abc_____ G:abc_____
-//		}
-//	}
+
+	 /// Fixed length field to format a String
+	/// - Parameters:
+	///		- _: 		------ length of field, in characters
+	///		- dots: 	------ add "..." at end, to show truncation
+	///		- fill: 	------ string to fill with
+	/// - Parameter grow: ------ allow long fields to exceed length
+	func field(_ length:Int, dots:Bool=true, fill:Character?=" ", grow:Bool=false) -> String {
+		let excess 				= self.count - abs(length)	// amount string is too big
+		if excess > 0 && grow {
+			return self
+		}
+		let truncLen			= max(0, abs(length) - (dots ? 2:0))
+		let truncDots			= dots ? "..":""
+
+		//										excess=-5 <0	excess=3 >0
+		// 	Arguments:			\	Input:	abc				abcdefghijk
+		// 	length---------dots--			--------		--------
+		// 	>0 (RIGHT)		no			  A:_____abc	  B:defghijk
+		// 	>0 (RIGHT)		yes			  C:_____abc	  D:..fghijk
+
+		// 	<0 (LEFT)		no			  E:abc_____	  F:abcdefgh
+		// 	<0 (LEFT)		yes			  G:abc_____	  H:abcdef..
+		if (length >= 0) {								// RIGHT justified
+			return excess > 0 ?								//    dots      !dots
+				truncDots + String(suffix(truncLen)):		// D:..fghijk B:defghijk
+				   fill==nil ? self :						//      A:abc      C:abc
+				String(repeating:fill!,count:-excess) + self// A:_____abc C:_____abc
+		} else {
+			return excess > 0 ?							// LEFT justified
+				String(prefix(truncLen)) + truncDots :		// F:abcdefgh H:abcdef..
+				   fill==nil ? self :						//      E:abc      G:abc
+				self + String(repeating:fill!,count:-excess)// E:abc_____ G:abc_____
+		}
+	}
 //	func wrap(min:Int=0, cur:Int=0, max:Int=80) -> String {
 //		var rv					= ""
 //		var column				= cur
@@ -1155,7 +1159,7 @@ extension FwAny  {
 //		} while strPre.count != str.count
 //		return str
 //	}
-//}
+}
 //
 // // 180623 Why doesn't this work?		// public?
 //extension NSObject : Uid {

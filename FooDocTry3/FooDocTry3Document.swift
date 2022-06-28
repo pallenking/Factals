@@ -13,38 +13,11 @@ struct DocState {
 	var model	: RootPart
 	var vew		: Vew
 	var scene	: SCNScene
-}
-
-let stateType = 3		// quiet compiler errors
-func newDocState() -> DocState		{
-
-	var rootPart	: RootPart?	= nil
-	var vew		: Vew?			= nil
-	var scene	: SCNScene
-
-	switch stateType {
-	case 1:
-		scene					= dragonCurve(segments:1024)	// for testing
-	case 2:
-		scene					= aSimpleScene()				// future direction
-	case 3:
-		scene					= SCNScene()
-		rootPart				= RootPart()//"parts":[Part()]])
-		rootPart?.nam			= "ROOT"
-		for i in 1...2 {
-			let p				= Part()
-			p.nam				= "p\(i)"
-			rootPart!.addChild(p)
-		}
-		scene.addLightsAndCamera()
-		vew	  					= Vew(forPart:rootPart, scn: scene.rootNode)
-		vew?.updateVewTree()
-
-	default:
-		fatalError("newDocState stateType:\(stateType) is ILLEGAL")
+	init(model:RootPart?, vew:Vew?=nil, scene:SCNScene?=nil) {
+		self.model				= model	?? RootPart()
+		self.vew				= vew 	?? Vew(forPart:model)
+		self.scene				= scene	?? { fatalError()}()	//SCNNode(
 	}
-
-	return DocState(model:rootPart ?? RootPart(), vew:vew ?? Vew(), scene:scene)
 }
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
@@ -53,8 +26,39 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	var state : DocState
 
 	let newDocStateType			= 1
-	init(state:DocState 		= newDocState()) {
-		self.state 				= state
+	init(state:DocState?=nil) {
+		self.state 				= state ?? { //newDocState()
+			var rootPart : RootPart? = nil
+			var vew		 : Vew?	= nil
+			var scene	 : SCNScene
+
+			  // Generate a new document:
+			 //
+			let stateType 		= 3
+			switch stateType {
+			case 1:
+				scene			= dragonCurve(segments:1024)	// Dragon Curve
+			case 2:
+				scene			= aSimpleScene()				// Two Cubes and a Sphere
+			case 3:
+				scene			= SCNScene()					// A Part Tree
+				rootPart		= RootPart()//"parts":[Part()]])
+				rootPart?.nam	= "ROOT"
+				for i in 1...2 {
+					let p		= Part()
+					p.nam		= "p\(i)"
+					rootPart!.addChild(p)
+				}
+				scene.addLightsAndCamera()
+				vew	  			= Vew(forPart:rootPart, scn: scene.rootNode)
+				vew?.updateVewTree()
+
+			default:
+				fatalError("newDocState stateType:\(stateType) is ILLEGAL")
+			}
+
+			return DocState(model:rootPart ?? RootPart(), vew:vew ?? Vew(), scene:scene)
+		}()
 	}
 
 	/* ============== BEGIN FileDocument protocol: */
@@ -71,8 +75,8 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
-			let state0 			= DocState(model:rootPart, vew:Vew(), scene:SCNScene())
-			self.init(state:state0)				// -> FooDocTry3Document
+			let docState 		= DocState(model:rootPart, vew:Vew(), scene:SCNScene())
+			self.init(state:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:
 			let scene:SCNScene!	= SCNScene(data: data, encoding: .utf8)!
 			let state0 			= DocState(model:RootPart(), vew:Vew(), scene:scene)
