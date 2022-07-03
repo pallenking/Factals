@@ -11,67 +11,67 @@ https://developer.apple.com/documentation/scenekit/scntransaction/1523078-lock
 lock to ensure that your modifications take effect as intended.
  */
 class RootPart : Part {
-//
-//	 // MARK: - 2.1 Object Variables
-//	var	simulator		: Simulator
-//	var log 			: Log
-//	var title							= ""
-//	var ansConfig		: FwConfig 		= [:]
-//	weak var fwDocument	: FwDocument?	= nil
-//
-//	 // MARK: - 2.3 Part Tree Lock
-//	 // Semaphor to exclude SCNSceneRenderer thread
-//	let partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
-//	var partTreeOwner : String?	= nil  		// root lock Owner's name
-//	var partTreeOwnerPrev:String? = nil
-//	var partTreeVerbose			= true
-//	var partTrunk : Part?	{	return child0									}
-//
+
+	 // MARK: - 2.1 Object Variables
+	var	simulator		: Simulator
+	var log 			: Log
+	var title							= ""
+	var ansConfig		: FwConfig		= [:]
+	var fwDocument		: FooDocTry3Document? = nil	//FwDocument
+
+	 // MARK: - 2.3 Part Tree Lock
+	 // Semaphor to exclude SCNSceneRenderer thread
+	let partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
+	var partTreeOwner : String?	= nil  		// root lock Owner's name
+	var partTreeOwnerPrev:String? = nil
+	var partTreeVerbose			= true
+	var partTrunk : Part?	{	return child0									}
+
 //	// MARK: - 2.4.4 Building
-	var indexForClass			= ["":0]	// index of naming Part
-//	var wireNumber				= 0			// Used in construction
-//	var wBoxNameIndex			= 1			// Index of wire box for name
-//	var originNameIndex			= 1			// Index of origin
-//	var breakAtWireNo			= -1		// default OFF
-//
-//	// MARK: - 3. Part Factory
-//	override init(_ config:FwConfig = [:]) {		/// WHY IS THIS NEEDED?
-//		simulator				= Simulator([:])
-//		log						= Log(params4docLog, title:"RootPart([:])'s Log(params4docLog)")
-//		super.init(["name":"ROOT"] + config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-//		simulator.rootPart		= self
-//	}
-//
+	var indexFor:Dictionary<String,Int>	= ["":0]	// index of named items (<Class>,"wire","WBox","origin","breakAtWire"
+//	var wireNumber				= 0			// Used in construction				//	"wire"
+//	var originNameIndex			= 1			// Index of origin (of SCNGeometry)	//	"WBox"
+//	var wBoxNameIndex			= 1			// Index of wire box for name		//	"origin"
+//	var breakAtWireNo			= -1		// default OFF						//	"breakAtWire"
+
+	// MARK: - 3. Part Factory
+	override init(_ config:FwConfig = [:]) {		/// WHY IS THIS NEEDED?
+		simulator				= Simulator([:])
+		log						= Log(params4docLog, title:"RootPart([:])'s Log(params4docLog)")
+		super.init(["name":"ROOT"] + config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+bug//	simulator.rootPart		= self
+	}
+
 //// START CODABLE ///////////////////////////////////////////////////////////////
-//	 // MARK: - 3.5 Codable
-//	enum RootPartKeys: String, CodingKey {
-//		case simulator
-//		case log
-//		case title
-//		case ansConfig
+	 // MARK: - 3.5 Codable
+	enum RootPartKeys: String, CodingKey {
+		case simulator
+		case log
+		case title
+		case ansConfig
 //	//	NO FwDocument,
-//	//	case partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
-//		case partTreeOwner 			// String?
-//		case partTreeOwnerPrev		// String?
+//	//	case partTreeLock 			// DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
+		case partTreeOwner 			// String?
+		case partTreeOwnerPrev		// String?
 //		case partTreeVerbose		// Bool
 //		case wireNumber
 //		case wBoxNameIndex
 //		case originNameIndex
 //		case breakAtWireNo
-//	}
-//	 // Serialize 					// po container.contains(.name)
-//	override func encode(to encoder: Encoder) throws  {
-//		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
-//		var container 			= encoder.container(keyedBy:RootPartKeys.self)
-//
-//		try container.encode(simulator,			forKey:.simulator				)
-//		try container.encode(log,				forKey:.log						)
-//		try container.encode(title,				forKey:.title					)
-////		try container.encode(ansConfig,			forKey:.ansConfig,				)		// TODO requires work!
+	}
+	 // Serialize 					// po container.contains(.name)
+	override func encode(to encoder: Encoder) throws  {
+		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
+		var container 			= encoder.container(keyedBy:RootPartKeys.self)
+
+		try container.encode(simulator,			forKey:.simulator				)
+		try container.encode(log,				forKey:.log						)
+		try container.encode(title,				forKey:.title					)
+	//	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
 //
 //	//	try container.encode(partTreeLock, 		forKey:.partTreeLock 			)
-//		try container.encode(partTreeOwner,		forKey:.partTreeOwner 			)
-//		try container.encode(partTreeOwnerPrev,	forKey:.partTreeOwnerPrev		)
+		try container.encode(partTreeOwner,		forKey:.partTreeOwner 			)
+		try container.encode(partTreeOwnerPrev,	forKey:.partTreeOwnerPrev		)
 //		try container.encode(partTreeVerbose,	forKey:.partTreeVerbose			)
 //
 //		try container.encode(wireNumber, 		forKey:.wireNumber 				)
@@ -79,18 +79,18 @@ class RootPart : Part {
 //		try container.encode(originNameIndex,	forKey:.originNameIndex			)
 //		try container.encode(breakAtWireNo,		forKey:.breakAtWireNo			)
 //		atSer(3, logd("Encoded"))
-//	}
-//	 // Deserialize
-//	required init(from decoder: Decoder) throws {
-//		let container 			= try decoder.container(keyedBy:RootPartKeys.self)
-//
-//		simulator				= try container.decode(Simulator.self, forKey:.simulator	)
-//		log						= try container.decode(		 Log.self, forKey:.log			)
-//		title					= try container.decode(   String.self, forKey:.title		)
-////		ansConfig				= try container.decode(	FwConfig.self, forKey:.ansConfig	)
+	}
+	 // Deserialize
+	required init(from decoder: Decoder) throws {
+		let container 			= try decoder.container(keyedBy:RootPartKeys.self)
+
+		simulator				= try container.decode(Simulator.self, forKey:.simulator	)
+		log						= try container.decode(		 Log.self, forKey:.log			)
+		title					= try container.decode(   String.self, forKey:.title		)
+//		ansConfig				= try container.decode(	FwConfig.self, forKey:.ansConfig	)
 //	//	partTreeLock 			= try container.decode(		 Int.self, forKey:.partTreeLock	)
-//		partTreeOwner			= try container.decode(  String?.self, forKey:.partTreeOwner)
-//		partTreeOwnerPrev		= try container.decode(	 String?.self, forKey:.partTreeOwnerPrev)
+		partTreeOwner			= try container.decode(  String?.self, forKey:.partTreeOwner)
+		partTreeOwnerPrev		= try container.decode(	 String?.self, forKey:.partTreeOwnerPrev)
 //		partTreeVerbose			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 //		wireNumber				= try container.decode(		 Int.self, forKey:.wireNumber	)
 //		wBoxNameIndex			= try container.decode(		 Int.self, forKey:.wBoxNameIndex)
@@ -100,20 +100,20 @@ class RootPart : Part {
 //	//	self.config			= [:]
 //	//	rootPart.addChild(rootPart)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //	//	rootPart.groomModel(parent:rootPart)// establish parent, ctl
-//		try super.init(from:decoder)
+		try super.init(from:decoder)
 //		atSer(3, logd("Decoded  as? RootPart \(ppUid(self))"))
-//	}
+	}
 //// END CODABLE /////////////////////////////////////////////////////////////////
 //	 // MARK: - 3.6 NSCopying
-//	override func copy(with zone: NSZone?=nil) -> Any {
-//		let theCopy : RootPart		= super.copy(with:zone) as! RootPart
+	override func copy(with zone: NSZone?=nil) -> Any {
+		let theCopy : RootPart		= super.copy(with:zone) as! RootPart
 //		theCopy.simulator		= self.simulator
 //		theCopy.log				= self.log
 //		theCopy.title			= self.title
 //		theCopy.ansConfig		= self.ansConfig
 //	//	theCopy.partTreeLock 	= self.partTreeLock
-//		theCopy.partTreeOwner	= self.partTreeOwner
-//		theCopy.partTreeOwnerPrev = self.partTreeOwnerPrev
+		theCopy.partTreeOwner	= self.partTreeOwner
+		theCopy.partTreeOwnerPrev = self.partTreeOwnerPrev
 //		theCopy.partTreeVerbose	= self.partTreeVerbose
 //		theCopy.wireNumber		= self.wireNumber
 //		theCopy.wBoxNameIndex	= self.wBoxNameIndex
@@ -121,23 +121,26 @@ class RootPart : Part {
 //		theCopy.breakAtWireNo	= self.breakAtWireNo
 //		atSer(3, logd("copy(with as? RootPart       '\(fullName)'"))
 //		return theCopy
-//	}
+bug;	return ""
+	}
 //	 // MARK: - 3.7 Equitable
-//	func varsOfRootPartEq(_ rhs:Part) -> Bool {
-//		guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
-//		return simulator		== rhsAsRootPart.simulator
+	func varsOfRootPartEq(_ rhs:Part) -> Bool {
+bug;return false
+		guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
+		return true
+//			&&	simulator		== rhsAsRootPart.simulator
 //			&& log				== rhsAsRootPart.log
 //			&& title			== rhsAsRootPart.title
 //		//	&& ansConfig		== rhsAsRootPart.ansConfig				//Protocol 'FwAny' as a type cannot conform to 'Equatable'
-//			&& partTreeLock 	== rhsAsRootPart.partTreeLock
-//			&& partTreeOwner	== rhsAsRootPart.partTreeOwner
-//			&& partTreeOwnerPrev == rhsAsRootPart.partTreeOwnerPrev
+//			&& partaTreeLock 	== rhsAsRootPart.partTreeLock
+			&& partTreeOwner	== rhsAsRootPart.partTreeOwner
+			&& partTreeOwnerPrev == rhsAsRootPart.partTreeOwnerPrev
 //			&& partTreeVerbose  == rhsAsRootPart.partTreeVerbose
 //			&& wireNumber		== rhsAsRootPart.wireNumber
 //			&& wBoxNameIndex	== rhsAsRootPart.wBoxNameIndex
 //			&& originNameIndex	== rhsAsRootPart.originNameIndex
 //			&& breakAtWireNo	== rhsAsRootPart.breakAtWireNo
-//	}
+	}
 //	override func equalsPart(_ part:Part) -> Bool {
 //		return	super.equalsPart(part) && varsOfRootPartEq(part)
 //	}
@@ -241,27 +244,27 @@ class RootPart : Part {
 //			}
 //		})
 //	}
-//	convenience init(fromLibrary selectionString:String, fwDocument:FwDocument?) {
-//
-//		 // Make tree's root (a RootPart):
-//		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-//
-//		self.root				= self				// Every Part, including rootPart, points to rootPart
-//		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
-//		title					= "'\(selectionString)' not found"
-//
-//		 // Find the Library that contains the trunk for self, the root.
-//		if let lib				= Library.library(fromSelector:selectionString, fwDocument:nil) {
-//			let ans :ScanAnswer	= lib.answer		// found
-//			title				= "'\(selectionString)' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
-//			ansConfig			= ans.ansConfig
-//			let ansTrunk:Part?	= ans.ansTrunkClosure!()
-//			addChild(ansTrunk)
-//		}
-//		markTree(dirty:.vew)
+	convenience init(fromLibrary selectionString:String) {//, fwDocument:FwDocument?) {
+
+		 // Make tree's root (a RootPart):
+		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+		self.root				= self				// Every Part, including rootPart, points to rootPart
+		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
+		title					= "'\(selectionString)' not found"
+
+		 // Find the Library that contains the trunk for self, the root.
+		if let lib				= Library.library(fromSelector:selectionString) {
+			let ans :ScanAnswer	= lib.answer		// found
+			title				= "'\(selectionString)' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
+			ansConfig			= ans.ansConfig
+			let ansTrunk:Part?	= ans.ansTrunkClosure!()
+			addChild(ansTrunk)
+		}
+		markTree(dirty:.vew)
 //		atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
 //									"found:\(title), returns:\n\(pp(.tree))"))
-//	}
+	}
 //
 //	// MARK: - 4. Build
 //	func wireAndGroom() {
@@ -301,85 +304,85 @@ class RootPart : Part {
 //		 //  8. Done, release partTree Lock
 //		atBld(3, logd("DONE BUILDING PART \"\(title)\""))
 //	}
-//
-//	  // MARK: - 5. Lock
-//	 // ///////////////// LOCK Parts Tree /////////////
-//	// https://stackoverflow.com/questions/31700071/scenekit-threads-what-to-do-on-which-thread
-//
-//	/// Get the lock for the partTree:
-//	/// - Parameters:
-//	///   - lockName: description of Lock
-//	///   - wait: logs if wait
-//	///   - logIf: allows logging
-//	/// - Returns: lock obtained
-// 	func lock(partTreeAs lockName:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
-//		guard lockName != nil 		else {	return true 						}
-//		let u_name			= ppUid(self) + " '\(lockName!)'".field(-20)
-//
-//		atBld(3, {					// === ///// BEFORE GETTING:
-//			let val0		= partTreeLock.value ?? -99
-//			let msg			= " //######\(u_name)      GET Part LOCK: v:\(val0)"
-//			 // Log:
-//			!logIf || !debugOutterLock ? nop 		 		// less verbose
-//			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(partTreeOwner ?? "-")', PROBABLE WAIT..."))
-//			 : 		   partTreeVerbose ? atBld(4, logd(msg))// normal
-//			 : 		   					 nop			 	// silent
-//		}())
-//
-//		 /// === Get partTree lock:
-///**/	while partTreeLock.wait(timeout:.distantFuture) != .success {//.distantFuture//.now() + waitSec		//let waitSec			= 2.0
-//			 // === ///// FAILED to get lock:
-//			let val0		= partTreeLock.value ?? -99
-//			let msg			= "\(u_name)      FAILED Part LOCK v:\(val0)"
-//			wait  			? atBld(4, logd(" //######\(msg)")) :
-//			partTreeVerbose ? atBld(4, logd(" //######\(msg)")) :
-//							  nop
-//			panic(msg)	// for debug only
-//			return false
-//		}
-//
-//		 // === SUCCEEDED to get lock:
-//		assert(partTreeOwner==nil, "\(lockName!) Locking, but \(partTreeOwner!) lingers ")
-//		partTreeOwner		= lockName
-//		atBld(3, {						// === /////  AFTER GETTING:
-//			let msg			= "\(u_name)      GOT Part LOCK: v:\(partTreeLock.value ?? -99)"
-//			!logIf ? nop
-//				: partTreeOwner != "renderScene" ? logd(" //######\(msg)")
-//				:				 partTreeVerbose ? logd(" //######\(msg)")
-//				:							 	   nop 		// print nothing
-//		}())
-// 		return true
-// 	}
-// 	func unlock(partTreeAs lockName:String?, logIf:Bool=true) {
-//		guard lockName != nil 		else {	return 	 						}
-//		assert(partTreeOwner != nil, "Attempting to unlock ownerless lock")
-//		assert(partTreeOwner == lockName, "Releasing (as '\(lockName!)') Part lock owned by '\(partTreeOwner!)'")
-//		let u_name			= ppUid(self) + " '\(partTreeOwner!)'".field(-20)
-//		atBld(3, {
-//			let val0		= partTreeLock.value ?? -99
-//			let msg			= "\(u_name)  RELEASE Part LOCK: v:\(val0)"
-//			!logIf ? nop
-//				: partTreeOwner != "renderScene" ? logd(" \\\\######\(msg)")
-//				:				 partTreeVerbose ? logd(" \\\\######\(msg)")
-//				:								   nop
-//		}())
-//
-//		 // update name/state BEFORE signals
-//		partTreeOwnerPrev	= partTreeOwner
-//		partTreeOwner 		= nil
-//		 // Unlock Part's DispatchSemaphore:
-//		partTreeLock.signal()
-//
-//		atBld(3, {
-//			let val0		= partTreeLock.value ?? -99
-//			let msg			= "\(u_name) RELEASED Part LOCK v:\(val0)"
-//			!debugOutterLock || !logIf 			  ? nop		// less verbose
-//			 : partTreeOwnerPrev != "renderScene" ? atCon(4, logd(" \\\\######\(msg)"))
-//			 :				     partTreeVerbose  ? atCon(4, logd(" \\\\######\(msg)"))
-//			 :	 		    					    nop
-//		}())
-//	}
-//
+
+	  // MARK: - 5. Lock
+	 // ///////////////// LOCK Parts Tree /////////////
+	// https://stackoverflow.com/questions/31700071/scenekit-threads-what-to-do-on-which-thread
+
+	/// Get the lock for the partTree:
+	/// - Parameters:
+	///   - lockName: description of Lock
+	///   - wait: logs if wait
+	///   - logIf: allows logging
+	/// - Returns: lock obtained
+ 	func lock(partTreeAs lockName:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
+		guard lockName != nil 		else {	return true 						}
+		let u_name			= ppUid(self) + " '\(lockName!)'".field(-20)
+
+		atBld(3, {					// === ///// BEFORE GETTING:
+			let val0		= partTreeLock.value ?? -99
+			let msg			= " //######\(u_name)      GET Part LOCK: v:\(val0)"
+			 // Log:
+			!logIf || !debugOutterLock ? nop 		 		// less verbose
+			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(partTreeOwner ?? "-")', PROBABLE WAIT..."))
+			 : 		   partTreeVerbose ? atBld(4, logd(msg))// normal
+			 : 		   					 nop			 	// silent
+		}())
+
+		 /// === Get partTree lock:
+/**/	while partTreeLock.wait(timeout:.distantFuture) != .success {//.distantFuture//.now() + waitSec		//let waitSec			= 2.0
+			 // === ///// FAILED to get lock:
+			let val0		= partTreeLock.value ?? -99
+			let msg			= "\(u_name)      FAILED Part LOCK v:\(val0)"
+			wait  			? atBld(4, logd(" //######\(msg)")) :
+			partTreeVerbose ? atBld(4, logd(" //######\(msg)")) :
+							  nop
+			panic(msg)	// for debug only
+			return false
+		}
+
+		 // === SUCCEEDED to get lock:
+		assert(partTreeOwner==nil, "\(lockName!) Locking, but \(partTreeOwner!) lingers ")
+		partTreeOwner		= lockName
+		atBld(3, {						// === /////  AFTER GETTING:
+			let msg			= "\(u_name)      GOT Part LOCK: v:\(partTreeLock.value ?? -99)"
+			!logIf ? nop
+				: partTreeOwner != "renderScene" ? logd(" //######\(msg)")
+				:				 partTreeVerbose ? logd(" //######\(msg)")
+				:							 	   nop 		// print nothing
+		}())
+ 		return true
+ 	}
+ 	func unlock(partTreeAs lockName:String?, logIf:Bool=true) {
+		guard lockName != nil 		else {	return 	 						}
+		assert(partTreeOwner != nil, "Attempting to unlock ownerless lock")
+		assert(partTreeOwner == lockName, "Releasing (as '\(lockName!)') Part lock owned by '\(partTreeOwner!)'")
+		let u_name			= ppUid(self) + " '\(partTreeOwner!)'".field(-20)
+		atBld(3, {
+			let val0		= partTreeLock.value ?? -99
+			let msg			= "\(u_name)  RELEASE Part LOCK: v:\(val0)"
+			!logIf ? nop
+				: partTreeOwner != "renderScene" ? logd(" \\\\######\(msg)")
+				:				 partTreeVerbose ? logd(" \\\\######\(msg)")
+				:								   nop
+		}())
+
+		 // update name/state BEFORE signals
+		partTreeOwnerPrev	= partTreeOwner
+		partTreeOwner 		= nil
+		 // Unlock Part's DispatchSemaphore:
+		partTreeLock.signal()
+
+		atBld(3, {
+			let val0		= partTreeLock.value ?? -99
+			let msg			= "\(u_name) RELEASED Part LOCK v:\(val0)"
+			!debugOutterLock || !logIf 			  ? nop		// less verbose
+			 : partTreeOwnerPrev != "renderScene" ? atCon(4, logd(" \\\\######\(msg)"))
+			 :				     partTreeVerbose  ? atCon(4, logd(" \\\\######\(msg)"))
+			 :	 		    					    nop
+		}())
+	}
+
 //	 // MARK: - 8. Reenactment Simulator
 //	 // Inject message
 //	func sendMessage(fwType:FwType) {

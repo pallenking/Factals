@@ -14,7 +14,7 @@ struct DocState {
 	var vew		: Vew
 	var scene	: SCNScene
 	init(model:RootPart?, vew:Vew?=nil, scene:SCNScene?=nil) {
-		self.model				= model	?? RootPart()
+		self.model				= model	?? RootPart([:])
 		self.vew				= vew 	?? Vew(forPart:model)
 		self.scene				= scene	?? { fatalError()}()	//SCNNode(
 	}

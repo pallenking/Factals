@@ -12,6 +12,23 @@
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
 		9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
+		9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */; };
+		9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A1286B8F5B00C8C22A /* Log.swift */; };
+		9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A4286B958700C8C22A /* PolyWrap.swift */; };
+		9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A6286B962300C8C22A /* CommonErrors.swift */; };
+		9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Configurations.swift */; };
+		9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AB286BA57900C8C22A /* Library.swift */; };
+		9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AC286BA57900C8C22A /* LangDeser.swift */; };
+		9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AD286BA57900C8C22A /* TivoRemote.swift */; };
+		9FEE51B3286BA57A00C8C22A /* Proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AE286BA57A00C8C22A /* Proto.swift */; };
+		9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AF286BA57A00C8C22A /* Tests01.swift */; };
+		9FEE51B7286BA61000C8C22A /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51B5286BA61000C8C22A /* Random.swift */; };
+		9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51B6286BA61000C8C22A /* Uid.swift */; };
+		9FEE51BC286BAF2E00C8C22A /* SCNGeometry++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */; };
+		9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */; };
+		9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */; };
+		9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51BF286BCF0A00C8C22A /* BBox.swift */; };
+		9FEE521728720A2300C8C22A /* FwScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521628720A2300C8C22A /* FwScene.swift */; };
 		9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */; };
 		9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */; };
 		9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
@@ -31,6 +48,23 @@
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
 		9FEE519E286B507500C8C22A /* SubPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubPart.swift; sourceTree = "<group>"; };
+		9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredLog.swift; sourceTree = "<group>"; };
+		9FEE51A1286B8F5B00C8C22A /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		9FEE51A4286B958700C8C22A /* PolyWrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyWrap.swift; sourceTree = "<group>"; };
+		9FEE51A6286B962300C8C22A /* CommonErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonErrors.swift; sourceTree = "<group>"; };
+		9FEE51A8286BA2D700C8C22A /* Configurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configurations.swift; sourceTree = "<group>"; };
+		9FEE51AB286BA57900C8C22A /* Library.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		9FEE51AC286BA57900C8C22A /* LangDeser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LangDeser.swift; sourceTree = "<group>"; };
+		9FEE51AD286BA57900C8C22A /* TivoRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TivoRemote.swift; sourceTree = "<group>"; };
+		9FEE51AE286BA57A00C8C22A /* Proto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Proto.swift; sourceTree = "<group>"; };
+		9FEE51AF286BA57A00C8C22A /* Tests01.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests01.swift; sourceTree = "<group>"; };
+		9FEE51B5286BA61000C8C22A /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		9FEE51B6286BA61000C8C22A /* Uid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Uid.swift; sourceTree = "<group>"; };
+		9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNGeometry++.swift"; sourceTree = "<group>"; };
+		9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNMatrix++.swift"; sourceTree = "<group>"; };
+		9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector++.swift"; sourceTree = "<group>"; };
+		9FEE51BF286BCF0A00C8C22A /* BBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBox.swift; sourceTree = "<group>"; };
+		9FEE521628720A2300C8C22A /* FwScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwScene.swift; sourceTree = "<group>"; };
 		9FEE6F122835778A00E9E2AE /* FooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3App.swift; sourceTree = "<group>"; };
 		9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3Document.swift; sourceTree = "<group>"; };
@@ -63,6 +97,7 @@
 			children = (
 				9F19CA34285EB0730072C50E /* RootPart.swift */,
 				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
+				9FEE51A4286B958700C8C22A /* PolyWrap.swift */,
 				9FEE519E286B507500C8C22A /* SubPart.swift */,
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 			);
@@ -80,8 +115,23 @@
 		9FEE519D286B4F1C00C8C22A /* ControllerX */ = {
 			isa = PBXGroup;
 			children = (
+				9FEE521628720A2300C8C22A /* FwScene.swift */,
+				9FEE51A1286B8F5B00C8C22A /* Log.swift */,
+				9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */,
 			);
 			path = ControllerX;
+			sourceTree = "<group>";
+		};
+		9FEE51AA286BA53800C8C22A /* HaveNWant Networks */ = {
+			isa = PBXGroup;
+			children = (
+				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
+				9FEE51AB286BA57900C8C22A /* Library.swift */,
+				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
+				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
+				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
+			);
+			path = "HaveNWant Networks";
 			sourceTree = "<group>";
 		};
 		9FEE6F092835778A00E9E2AE = {
@@ -103,9 +153,11 @@
 		9FEE6F142835778A00E9E2AE /* FooDocTry3 */ = {
 			isa = PBXGroup;
 			children = (
+				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
 				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
+				9FEE51AA286BA53800C8C22A /* HaveNWant Networks */,
 				9F19CA33285EAF730072C50E /* ModelX */,
 				9FEE519C286B4EDF00C8C22A /* VewX */,
 				9F19CA31285EA5090072C50E /* Simulator.swift */,
@@ -132,9 +184,16 @@
 		9FEE6FDB2843182A00E9E2AE /* Extensions++ */ = {
 			isa = PBXGroup;
 			children = (
+				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
-				9FE1AF0B2852971400A56193 /* Fw++.swift */,
+				9FEE51A6286B962300C8C22A /* CommonErrors.swift */,
+				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
+				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
+				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
+				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
+				9FEE51B5286BA61000C8C22A /* Random.swift */,
+				9FEE51B6286BA61000C8C22A /* Uid.swift */,
 			);
 			path = "Extensions++";
 			sourceTree = "<group>";
@@ -210,19 +269,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FEE51BC286BAF2E00C8C22A /* SCNGeometry++.swift in Sources */,
+				9FEE51B3286BA57A00C8C22A /* Proto.swift in Sources */,
 				9FEE519F286B507600C8C22A /* SubPart.swift in Sources */,
+				9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */,
+				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
 				9F19CA35285EB0730072C50E /* RootPart.swift in Sources */,
+				9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */,
+				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
 				9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */,
+				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
+				9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */,
 				9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */,
+				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
+				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
+				9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */,
+				9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
 				9FEE6FDA2841A70F00E9E2AE /* Part.swift in Sources */,
 				9FEE6FD92841A70F00E9E2AE /* Vew.swift in Sources */,
+				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
+				9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */,
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
+				9FEE521728720A2300C8C22A /* FwScene.swift in Sources */,
+				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,
+				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

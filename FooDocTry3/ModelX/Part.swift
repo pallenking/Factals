@@ -24,10 +24,12 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //	typealias RootPart			= Part	// STUB
 	lazy var root	: RootPart? = root__		// Lazy provides caching
 	var root__		: RootPart? {		 		// NO CACHING, no var!
-		return parent != nil ? parent!.root : self	// set to our parent's root ##RECURSIVE
+		return parent?.root 		// our parent has a root
+			 ?? self as? RootPart	// we are the root
+			 ?? nil					// curious?
 	}
 
-//	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
+	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
  // BIG PROBLEMS: (Loops!)
 //	{	willSet(v) {	markTree(dirty:v)  									}	}
 
@@ -64,37 +66,37 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 																				//	return rv;
 																				//}
 
-//	 // MARK: - 2.4 Display Suggestions
-//	var initialExpose : Expose	= .open		// Hint to use on dumb creation of views. (never changed)
-//			// See View.expose for GUI interactions
-//	@Published var flipped : Bool = false
-//	{	didSet {	if flipped != oldValue {
-//						markTree(dirty:.size)
-//																		}	}	}
-//	 // MARK: - 2.2b INTERNAL to Part
-//	@Published var lat : Latitude = Latitude.northPole 			// Xyzzy87 markTree
-//	{	didSet {	if lat != oldValue {
-//						markTree(dirty:.size)
-//																		}	}	}
-//  //@Published var longitude
-//	@Published var spin : UInt8 = 0
-//	{	didSet {	if spin != oldValue {
-//						markTree(dirty:.size)
-//																		}	}	}
-//	@Published var shrink : Int8 = 0			// smaller or larger as one goes in
-//	{	didSet {	if shrink != oldValue {
-//						markTree(dirty:.size)
-//																		}	}	}
-//	 // MARK: - 2.2c EXTERNAL to Part
-//	// - position[3], 						external to Part, in Vew
-//
-//	 // MARK: - 2.5 SwiftUI Stuff
-//	 // just put here to get things working?
-//	@Published var placeSelf = ""			// from config!
-//	{	didSet {	if placeSelf != oldValue {
-//						markTree(dirty:.vew)
-//																		}	}	}
-//// ///////////////////////////// Factory //////////////////////////////////////
+	 // MARK: - 2.4 Display Suggestions
+	var initialExpose : Expose	= .open		// Hint to use on dumb creation of views. (never changed)
+			// See View.expose for GUI interactions
+	@Published var flipped : Bool = false
+	{	didSet {	if flipped != oldValue {
+						markTree(dirty:.size)
+																		}	}	}
+	 // MARK: - 2.2b INTERNAL to Part
+	@Published var lat : Latitude = Latitude.northPole 			// Xyzzy87 markTree
+	{	didSet {	if lat != oldValue {
+						markTree(dirty:.size)
+																		}	}	}
+  //@Published var longitude
+	@Published var spin : UInt8 = 0
+	{	didSet {	if spin != oldValue {
+						markTree(dirty:.size)
+																		}	}	}
+	@Published var shrink : Int8 = 0			// smaller or larger as one goes in
+	{	didSet {	if shrink != oldValue {
+						markTree(dirty:.size)
+																		}	}	}
+	 // MARK: - 2.2c EXTERNAL to Part
+	// - position[3], 						external to Part, in Vew
+
+	 // MARK: - 2.5 SwiftUI Stuff
+	 // just put here to get things working?
+	@Published var placeSelf = ""			// from config!
+	{	didSet {	if placeSelf != oldValue {
+						markTree(dirty:.vew)
+																		}	}	}
+// ///////////////////////////// Factory //////////////////////////////////////
 	// MARK: - 3. Part Factory
 	/// Base class for Factal Workbench Models
 	/// - Value "n", "name", "named": name of element
@@ -118,8 +120,8 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 			if let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
 				let r:RootPart	= self.root!
-				let index		= r.indexForClass[prefix] ?? 0
-				r.indexForClass[prefix] = index + 1		// for next
+				let index		= r.indexFor[prefix] ?? 0
+				r.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
 			}else{	// -- Use fallback
 				defaultPrtIndex	+= 1
@@ -127,9 +129,9 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 			}
 		}()
 
-		 // Print out invocation
-		let n					= ("\'" + nam + "\'").field(-8)
-		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
+//		 // Print out invocation
+//		let n					= ("\'" + nam + "\'").field(-8)
+//		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
 
 //		 // Options:
 //		if let valStr			= localConfig["expose"] as? String,
@@ -196,7 +198,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		case nLinesLeft		// new
 //		case uidForDeinit	// new
 //
-//		case dirty
+		case dirty
 //		case localConfig	// ERRORS: want FwConfig to be Codable?
 //		case config		// IGNORE: temp/debug FwConfig	= ["placeSelfy":"foo31"]
 //		case initialExpose 	// --- (an Expose)	=.open	// Hint to use on dumb creation of views. (never changed)
@@ -213,7 +215,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 		//try super.encode(to:encoder)	// NSObject isn't codable
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
 
-		try container.encode(nam, 			forKey:.name)
+		try container.encode(nam, 			forKey:.nam)
 		try container.encode(children,		forKey:.children)		// ignore parts. (it's sugar for children)
 //
 //		try container.encode(nLinesLeft,	forKey:.nLinesLeft)		// ignore parts. (it's sugar for children)
@@ -221,7 +223,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //
 //	//	try container.encode(localConfig,	foarKey:.localConfig)	// FwConfig not Codable!//Protocol 'FwAny' as a type cannot conform to 'Encodable'
 //	//	try container.encode(config,		forKey:.config) 		// Type '(String) -> FwAny?' cannot conform to 'Encodable'
-//		try container.encode(dirty,			forKey:.dirty)			// ??rawValue?? //	var dirty : DirtyBits
+		try container.encode(dirty,			forKey:.dirty)			// ??rawValue?? //	var dirty : DirtyBits
 //		try container.encode(initialExpose,	forKey:.initialExpose)
 //		try container.encode(flipped, 		forKey:.flipped)
 //		try container.encode(lat,			forKey:.lat)
@@ -233,7 +235,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 
 	required init(from decoder: Decoder) throws {
 		//try super.init(from:decoder)	// NSObject isn't codable
-//		localConfig				= [:]//try container.decode(FwConfig.self,forKey:.localConfig)
+		localConfig				= [:]//try container.decode(FwConfig.self,forKey:.localConfig)
 		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		let container 			= try decoder.container(keyedBy:PartsKeys.self)
 //			//  po container.allKeys: 0 elements
@@ -246,7 +248,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		uidForDeinit			= try container.decode(    String.self, forKey:.uidForDeinit)
 //		localConfig 			= [:]	// PUNT
 //		//config				= [:]	// PUNT
-//		dirty					= try container.decode( DirtyBits.self, forKey:.dirty)
+		dirty					= try container.decode( DirtyBits.self, forKey:.dirty)
 //		initialExpose			= try container.decode(	   Expose.self, forKey:.initialExpose)
 //		flipped					= try container.decode(		 Bool.self, forKey:.flipped)
 //		lat						= try container.decode(  Latitude.self, forKey:.lat)
@@ -305,9 +307,9 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 
 
 
-//	 // MARK: - 3.6 NSCopying
-//	func copy(with zone: NSZone?=nil) -> Any {
-//bug;	let theCopy 			= Part()
+	 // MARK: - 3.6 NSCopying
+	func copy(with zone: NSZone?=nil) -> Any {
+bug;	let theCopy 			= Part()
 ////		let theCopy : Part		= super.copy(with:zone) as! Part
 //		theCopy.name			= self.name
 //		theCopy.children		= self.children
@@ -323,8 +325,8 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		theCopy.shrink			= self.shrink
 //		theCopy.placeSelf		= self.placeSelf
 //		atSer(3, logd("copy(with as? Part       '\(fullName)'"))
-//		return theCopy
-//	}
+		return theCopy
+	}
 //
 //	func copyXX(with zone: NSZone?=nil) -> Any {
 //		do {		/* Use Codable to make the copy*/ // THIS DOES NOT WORK!!
@@ -340,7 +342,8 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		}
 //	}
 	 // MARK: - 3.7 Equitable
-//	func varsOfPartEq(_ rhs:Part) -> Bool {
+	func varsOfPartEq(_ rhs:Part) -> Bool {
+bug;return false
 //		var rv  =  name			== rhs.name
 //		 	//	&& parent		== rhs.parent			// weak
 //			//	&& children		== rhs.children			// DOESN'T SEEM TO WORK
@@ -365,7 +368,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //			rv 					= children[i].equalsPart(rhs.children[i])
 //		}
 //		return rv
-//	}
+	}
 //	// https://forums.swift.org/t/implement-equatable-protocol-in-a-class-hierarchy/13844
 //	// https://stackoverflow.com/questions/39909805/how-to-properly-implement-the-equatable-protocol-in-a-class-hierarchy
 //	// https://jayeshkawli.ghost.io/using-equatable/
@@ -862,25 +865,25 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //			elt.receiveMessage(event:event)
 //		}
 //	}
-//	 // MARK: - 8. Reenactment Simulator
-//
-//	/// Reset all Parts of tree
-//	func reset() {
-//		for child in children {
-//			child.reset()
-//		}
-//	}
-	  /// Perform one micro-step in time simulation
-	 /// - up -- direction of scan
-//	func simulate(up upLocal:Bool) {
-//		 // Step all my parts:
-//		let orderedChildren		= upLocal ? children : children.reversed()
-//		for child in orderedChildren {
-//			let upInEnt 		= child.flipped ^^ upLocal
-//			child.simulate(up:upInEnt)		// step all somponents
-//		}
-//	}
-//
+	 // MARK: - 8. Reenactment Simulator
+
+	/// Reset all Parts of tree
+	func reset() {
+		for child in children {
+			child.reset()
+		}
+	}
+	  // Perform one micro-step in time simulation
+	 // - up -- direction of scan
+	func simulate(up upLocal:Bool) {
+		 // Step all my parts:
+		let orderedChildren		= upLocal ? children : children.reversed()
+		for child in orderedChildren {
+			let upInEnt 		= child.flipped ^^ upLocal
+			child.simulate(up:upInEnt)		// step all somponents
+		}
+	}
+
 //	  // MARK: - 9. 3D Support
 //	  // :H: RExxx -- update xxx efficiently
 //	 // Views are constructed in 4 phases: reVew, Skins, reSize and place
