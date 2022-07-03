@@ -39,7 +39,7 @@ class RootPart : Part {
 		simulator				= Simulator([:])
 		log						= Log(params4docLog, title:"RootPart([:])'s Log(params4docLog)")
 		super.init(["name":"ROOT"] + config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-bug//	simulator.rootPart		= self
+		simulator.rootPart		= self
 	}
 
 //// START CODABLE ///////////////////////////////////////////////////////////////

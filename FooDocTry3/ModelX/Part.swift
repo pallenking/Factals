@@ -117,9 +117,9 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 			}
 		}			// -- Name was given
 		nam						= na ?? {
-			if let prefix		= prefixForClass[fwClassName]
+			if let prefix		= prefixForClass[fwClassName],
+			  let r:RootPart	= self.root
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let r:RootPart	= self.root!
 				let index		= r.indexFor[prefix] ?? 0
 				r.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
