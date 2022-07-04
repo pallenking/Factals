@@ -16,6 +16,7 @@ func dragonCurve(segments:Int=1024) -> SCNScene {
 	
 		 // All scenens should have a  camera
 		let square 				= SCNNode(geometry: SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.01))
+//		square.color0			= NSColor("darkgreen")!//.change(alphaTo:0.3)
 		square.name				= "square\(i)"
 		square.position 		= position
 		scene.rootNode.addChildNode(square)

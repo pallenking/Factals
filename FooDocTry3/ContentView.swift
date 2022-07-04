@@ -22,12 +22,19 @@ struct ContentView: View {
 	var body: some View {
 		HStack {
 			VStack {
+				let rootNode		= document.state.scene.rootNode
+				let str				= "\(rootNode.childNodes)"
+				Text(str)
+//				 .frame(width:80)
+//				 .lineLimit(10)
+//				 .wrap(80)
+				 .padding()
 				SceneView(
 					scene: 		 document.state.scene,
 					pointOfView: document.state.scene.cameraNode,
 					options: [.allowsCameraControl, .autoenablesDefaultLighting]
 				)
-					.frame(width:400, height:400)
+					.frame(width:600, height:400)
 			}
 			VStack {
 				SceneView(

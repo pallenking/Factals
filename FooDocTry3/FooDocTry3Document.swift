@@ -49,9 +49,10 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 					p.nam		= "p\(i)"
 					rootPart!.addChild(p)
 				}
-				scene.addLightsAndCamera()
-				vew	  			= Vew(forPart:rootPart, scn: scene.rootNode)
+				vew	  			= Vew(forPart:rootPart, scn:scene.rootNode)
 				vew?.updateVewTree()
+
+				scene.addLightsAndCamera()
 
 			default:
 				fatalError("newDocState stateType:\(stateType) is ILLEGAL")

@@ -58,23 +58,7 @@ class SCNNodeFW : SCNNode, HasChildren   {
 //	 /// Color of material[0]
 //	// Should figure out a Kosher way of setting colors
 ////	@Published 		//Non-static property 'color0' declared inside an extension cannot have a wrapper
-//	var color0 : NSColor {
-//		get {	 material_0()?.diffuse.contents as? NSColor ?? .black		}
-////		get {	 material_0()?.reflective.contents as? NSColor ?? .black		}
-//		set(newColor) {
-//			if let m 			= material_0() {
-//				m.lightingModel	= .blinn		// 190220 Try it out!s
-//				//m0?.locksAmbientWithDiffuse = true
-//				///https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started self[k]!.asCGFloat
-//				var color2		= newColor
-//				if let skinAlpha = DOC.fwScene?.config4scene.cgFloat("skinAlpha") {
-//					color2		= color2.change(alphaTo:skinAlpha)
-//				}
-//				m.diffuse.contents = color2 //newColor//color2//
-//				m.specular.contents = NSColor.white
-//			}
-//		}
-//	}
+
 //	 // Several ways to flip, each has problems:
 //	  /// 1. ugly, inverts Z along with Y:
 //	 //rotation 				= SCNVector4Make(1, 0, 0, CGFloat.pi)
@@ -90,66 +74,66 @@ class SCNNodeFW : SCNNode, HasChildren   {
 //			 transform.m22	= value == true ? -1.0 : 1.0
 //		 }
 //	 }
-//	 /// Set Colors of material[0]:
-//	func color0(		diffuse		: NSColor?=nil,
-//						specular	: NSColor? = nil,
-//						ambient		: NSColor? = nil,
-//						reflective	: NSColor? = nil,
-//						metalness	: NSColor? = nil,
-//						roughness	: NSColor? = nil,
-//						multiply	: NSColor? = nil,
-//						normal		: NSColor? = nil,
-//						emission	: NSColor? = nil,
-//						transparent	: NSColor? = nil)
-//	{
-//		let m0 = material_0()
-//		//m0?.locksAmbientWithDiffuse = true
-//		m0?.lightingModel		= .blinn		// 190220 Try it out!s
-//		if diffuse != nil {
-//  			m0?.diffuse.contents = diffuse!			//NSColor("darkGray")
-//		}
-//		if specular != nil {
-//  			m0?.specular.contents = specular!		//NSColor.white
-//		}
-//		if ambient != nil {
-//  			m0?.ambient.contents = ambient!			//NSColor("darkGray")
-//		}
-//		if reflective != nil {
-//  			m0?.reflective.contents	= reflective!	//NSColor("darkGray")
-//		}
-//		if metalness != nil {
-//  			m0?.metalness.contents = metalness!		//NSColor("darkGray")
-//		}
-//		if roughness != nil {
-//  			m0?.roughness.contents = roughness!		//NSColor("darkGray")
-//		}
-//		if multiply != nil {
-//  			m0?.multiply.contents = multiply!		//NSColor("darkGray")
-//		}
-//		if normal != nil {
-//  			m0?.normal.contents = normal!			//NSColor("darkGray")
-//		}
-//		if emission != nil {
-//  			m0?.emission.contents = emission!		//NSColor("darkGray")
-//		}
-//		if transparent != nil {
-//  			m0?.transparent.contents = transparent!	//NSColor("darkGray")
-//		}
-//	}
-//	func material_0() -> SCNMaterial? {
-//		let geom : SCNGeometry? = geometry 			// I have a geometry
-//						?? (childNodes.count <= 0 ? nil // no child nodes
-//						  : childNodes[0].geometry)	// child node has geometry
-//		assert(geom != nil, "Setting color0 before its geometry has been established")
-//		geom!.name				= "material"
-//
-//		var rv 		: SCNMaterial? = geom?.materials[0]
-//		if rv==nil {
-//			rv 					= SCNMaterial()
-//			geom!.materials.append(rv!)
-//		}
-//		return rv!
-//	}
+	 /// Set Colors of material[0]:
+	func color0(		diffuse		: NSColor?=nil,
+						specular	: NSColor? = nil,
+						ambient		: NSColor? = nil,
+						reflective	: NSColor? = nil,
+						metalness	: NSColor? = nil,
+						roughness	: NSColor? = nil,
+						multiply	: NSColor? = nil,
+						normal		: NSColor? = nil,
+						emission	: NSColor? = nil,
+						transparent	: NSColor? = nil)
+	{
+		let m0 = material_0()
+		//m0?.locksAmbientWithDiffuse = true
+		m0?.lightingModel		= .blinn		// 190220 Try it out!s
+		if diffuse != nil {
+  			m0?.diffuse.contents = diffuse!			//NSColor("darkGray")
+		}
+		if specular != nil {
+  			m0?.specular.contents = specular!		//NSColor.white
+		}
+		if ambient != nil {
+  			m0?.ambient.contents = ambient!			//NSColor("darkGray")
+		}
+		if reflective != nil {
+  			m0?.reflective.contents	= reflective!	//NSColor("darkGray")
+		}
+		if metalness != nil {
+  			m0?.metalness.contents = metalness!		//NSColor("darkGray")
+		}
+		if roughness != nil {
+  			m0?.roughness.contents = roughness!		//NSColor("darkGray")
+		}
+		if multiply != nil {
+  			m0?.multiply.contents = multiply!		//NSColor("darkGray")
+		}
+		if normal != nil {
+  			m0?.normal.contents = normal!			//NSColor("darkGray")
+		}
+		if emission != nil {
+  			m0?.emission.contents = emission!		//NSColor("darkGray")
+		}
+		if transparent != nil {
+  			m0?.transparent.contents = transparent!	//NSColor("darkGray")
+		}
+	}
+	func material_0() -> SCNMaterial? {
+		let geom : SCNGeometry? = geometry 			// I have a geometry
+						?? (childNodes.count <= 0 ? nil // no child nodes
+						  : childNodes[0].geometry)	// child node has geometry
+		assert(geom != nil, "Setting color0 before its geometry has been established")
+		geom!.name				= "material"
+
+		var rv 		: SCNMaterial? = geom?.materials[0]
+		if rv==nil {
+			rv 					= SCNMaterial()
+			geom!.materials.append(rv!)
+		}
+		return rv!
+	}
 ////	var focusBehavior: SCNNodeFocusBehavior
 //	   // Q: This occurs in Part, Vew, and SCNNode!
 //	//	var transform	: SCNMatrix4 {
