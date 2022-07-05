@@ -575,7 +575,7 @@ bug
 		//let _					= pRoot.rectifyTreeDirtyBits()	// fixes, logs results
 
 		 // debug test
-//		rootpart("l0.P").markTree(dirty:.paint)
+		rootpart("p2").markTree(dirty:.paint)
 //		rootPart.dirtySubTree(.paint)
 
 /**/	SCNTransaction.begin()

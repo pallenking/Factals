@@ -47,7 +47,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 					p.nam		= "p\(i)"
 					rootPart.addChild(p)
 				}
-					scene			= FwScene(fwConfig:[:])					// A Part Tree
+				scene			= FwScene(fwConfig:[:])					// A Part Tree
 				vew				= Vew(forPart:rootPart, scn:scene.rootNode)
 
 			default:
