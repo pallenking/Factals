@@ -1,0 +1,280 @@
+# .lldbinit -- lldb initialization file for SwiftFactals C180306PAK
+#
+# 20210912 LLDBInitFile in $(SRCROOT)
+#	Edit Schemata: LLDBInitFile empty!
+# 20201226 Installation on allenM1:
+#	command source ~/Documents/SwiftFactals/.lldbinit
+#	lldb reads ~/.lldbinit on startup. ln -s ~/Documents/SwiftFactals/.lldbinit ~/.
+#command alias foobar print 33333
+command alias ? e Controller.current!.printDebuggerHints()
+
+#### PrettyPrint target <t> in following ways:
+# 		where <t> is s:self, m:model, v:vew, n:SCNNode or " "+<variableName>
+# pt<target> -- tree				self and children, multi-line
+# pl<target> -- line				self 1-line
+# pp<target> -- phrase				self short
+# pi<target> -- uidClass			e.g. 456:Port
+#  piN<t>    -- idN					e.g. "foo"			\ which?
+#  nameUidClass<t> - name/Uid:Class e.g: "P/456:Port"	/
+#  piUc<t>   -- Uid:Class			e.g: "456:Port"		<-- pi
+#  piCu<t>   -- Class<uid>			e.g: "Port<456>"
+#  piU<t>    -- uid					e.g: "456")
+#  piFuc<t>  -- fullName/Uid:Class	e.g: "ROOT/max/P/456:Port"
+# ps<t>      -- ???
+# pf<target> -- full name			e.g. /net/foo/a.P
+# pn<target> -- name				e.g. "P"
+# pc<target> -- fwClassName			e.g. Port
+
+# http://lldb.llvm.org/tutorial.html
+# http://stackoverflow.com/questions/10198975/how-can-i-create-a-lldb-alias-that-evaluates-its-argument-using-expression
+# https://github.com/alloy/LLDB-Is-It-Not     180303 autoload
+
+settings set target.inline-breakpoint-strategy always
+
+## :H:
+######## ---- First  Character: -------- [Pp] -------------- {p: print without property hash; P is with)
+######## ---- Middle Character(s): ----- [pc,pn,pnu,pf,pi,piUc,piCu,piU,piFuc,pp,ps,pl,pt] -- Tree with Ports and Links
+command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, Log.params4aux + ["ppDagOrder":true]))/'
+command regex pn     's/^(.+)$/e Swift.print(%1.pp(.name,	 Log.params4aux + ["ppDagOrder":true]))/'
+command regex pnu    's/^(.+)$/e Swift.print(%1.pp(.nameUidClass,Log.params4aux + ["ppDagOrder":true]))/'
+command regex pf     's/^(.+)$/e Swift.print(%1.pp(.fullName,Log.params4aux + ["ppDagOrder":true]))/'
+command regex pi     's/^(.+)$/e Swift.print(%1.pp(.uidClass,Log.params4aux + ["ppDagOrder":true]))/'
+command regex piUc   's/^(.+)$/e Swift.print(%1.pp(.uidClass,Log.params4aux + ["ppDagOrder":true]))/'
+command regex piCu   's/^(.+)$/e Swift.print(%1.pp(.classUid,Log.params4aux + ["ppDagOrder":true]))/'
+command regex piU    's/^(.+)$/e Swift.print(%1.pp(.uid,	 Log.params4aux + ["ppDagOrder":true]))/'
+command regex piFuc  's/^(.+)$/e Swift.print(%1.pp(.fullNameUidClass, Log.params4aux + ["ppDagOrder":true]))/'
+command regex pp     's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true]))/'
+command regex ps     's/^(.+)$/e Swift.print(%1.pp(.short,	 Log.params4aux + ["ppDagOrder":true]), terminator:"\n")/'
+command regex pl     's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux))/'
+command regex pt     's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true]), terminator:"\n")/'
+#
+command regex ppL    's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]))/'
+command regex plL    's/^(.+)$/e Swift.print(%1.pp(.line, 	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]))/'
+command regex ptL    's/^(.+)$/e Swift.print(%1.pp(.tree, 	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]), terminator:"")/'
+#
+command regex ppP    's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true]))/'
+command regex plP    's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true]))/'
+command regex ptP    's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true], terminator:""))/'
+#
+command regex ppLP   's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true]))/'
+command regex plLP   's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true]))/'
+command regex ptLP   's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true], terminator:"")/'
+
+##---------------- 's' is for self
+command alias pcs       pc self
+command alias pns       pn self
+command alias pfs       pf self
+command alias pis       pi self
+#command alias piNs      piN self	#broken
+command alias piUcs     piUc self
+command alias piCus     piCu self
+command alias piUs      piU self
+command alias piFucs    piFuc self
+
+command alias pps       pp self
+command alias pls       pl self
+command alias pts       pt self
+
+command alias ppLs      ppL self
+command alias plLs      plL self
+command alias ptLs      ptL self
+
+command alias ppPs      ppP self
+command alias plPs      plP self
+command alias ptPs      ptP self
+
+command alias ppLPs     ppLP self
+command alias plLPs     plLP self
+command alias ptLPs     ptLP self
+#command alias pos       po self		# "unable to create the requested alias"
+
+##---------------- 'm' is for whole model
+command alias pcm       pc    rootPart
+command alias pnm       pn    rootPart
+command alias pfm       pf    rootPart
+#command alias pim      pi    rootPart
+command alias pim       pi    rootPart
+#command alias piNm		piN   rootPart
+command alias piUcm		piUc  rootPart
+command alias piCum		piCu  rootPart
+command alias piUm		piU   rootPart
+command alias piFucm	piFuc rootPart
+
+command alias ppm       pp    rootPart
+command alias plm       pl    rootPart
+command alias ptm       pt    rootPart
+
+command alias ppLm      ppL   rootPart
+command alias plLm      plL   rootPart
+command alias ptLm      ptL   rootPart
+command alias ppPm      ppP   rootPart
+command alias plPm      plP   rootPart
+command alias ptPm      ptP   rootPart
+
+command alias ppLPm     ppLP  rootPart
+command alias plLPm     plLP  rootPart
+command alias ptLPm     ptLP  rootPart
+#command alias pom       po   rootPart
+
+##---------------- 'v' is for whole vew
+command alias pcv       pc    rootVew
+command alias pnv       pn    rootVew
+command alias pfv       pf    rootVew
+#command alias piv      pi    rootVew
+command alias piv       pi    rootVew
+#command alias piNv		piN   rootVew
+command alias piUcv		piUc  rootVew
+command alias piCuv		piCu  rootVew
+command alias piUv		piU   rootVew
+command alias piFucv	piFuc rootVew
+
+command alias ppv       pp   rootVew
+command alias plv       pl   rootVew
+command alias ptv       pt   rootVew
+
+#command alias ptv_     e 	Swift.print("abc\n".pp(.tree     ), terminator:"")
+#----BAD
+#command alias ptv_     e 	Swift.print("abc\n"?.pp(.tree     ) ?? "nil\n", terminator:"")
+command alias ptv_      e 	Swift.print(rootvew()?.pp(.tree     ) ?? "nil\n", terminator:"")
+
+command alias ppLv      ppL  rootVew
+command alias plLv      plL  rootVew
+command alias ptLv      ptL  rootVew
+command alias ppPv      ppP  rootVew
+command alias plPv      plP  rootVew
+command alias ptPv      ptP  rootVew
+
+command alias ppLPv     ppLP rootVew
+command alias plLPv     plLP rootVew
+command alias ptLPv     ptLP rootVew
+#command alias pov      po   rootVew
+
+##---------------- 'n' is for all SCNNodes in Trunk
+command alias pcn       pc   rootScn
+command alias pnn       pn   rootScn
+command alias pfn       pf   rootScn
+#command alias pin      pi   rootScn
+command alias pin       pi   rootScn
+#command alias piNn      piN  rootScn
+command alias piUcn     piUc rootScn
+command alias piCun     piCu rootScn
+command alias piUn      piU  rootScn
+command alias piFucn    piFuc rootScn
+
+command alias ppn       pp   rootScn
+command alias pln       pl   rootScn
+command alias ptn       pt   rootScn
+
+command alias ppLn      ppL  rootScn
+command alias plLn      plL  rootScn
+command alias ptLn      ptL  rootScn
+command alias ppPn      ppP  rootScn
+command alias plPn      plP  rootScn
+command alias ptPn      ptP  rootScn
+
+command alias ppLPn     ppLP rootScn
+command alias plLPn     plLP rootScn
+command alias ptLPn     ptLP rootScn
+#command alias pon      po   rootScn
+
+###---------------- 'N' is for all SCNNodes in Trunk
+#command alias pcN       pc   rootScn
+#command alias pnN       pn   rootScn
+#command alias pfN       pf   rootScn
+##command alias piN      pi   rootScn
+#command alias piN       pi   rootScn
+#command alias piNN      piN  rootScn
+#command alias piUcN     piUc rootScn
+#command alias piCuN     piCu rootScn
+#command alias piUN      piU  rootScn
+#command alias piFucN    piFuc rootScn
+#
+#command alias ppN       pp   rootScn
+#command alias plN       pl   rootScn
+#command alias ptN       pt   rootScn
+#
+#command alias ppLN      ppL  rootScn
+#command alias plLN      plL  rootScn
+#command alias ptLN      ptL  rootScn
+#command alias ppPN      ppP  rootScn
+#command alias plPN      plP  rootScn
+#command alias ptPN      ptP  rootScn
+#
+#command alias ppLPN     ppLP rootScn
+#command alias plLPN     plLP rootScn
+#command alias ptLPN     ptLP rootScn
+##command alias poN      po   rootScn
+
+# In the wind:
+     # replace 'selfBoundingBox SwiftFactals.FwBBox 0x000060000007b4c0' with '(FwBBox) [3>5, ...
+     # p1: 'String' has no 1-line summary
+     ### HELP p1 selfStr
+     #command regex pi     's/^(.+)$/expression -- Swift.print(%1.fullname)/'  ## ??? pi ; fullname;
+     # CGPoint support
+
+# print [.line, .tree,...] with
+#     parameters, bbox [scn, fw]
+#              e.g: p Swift.print( pp(.tree, ["ppPorts":true]))o
+
+# sometimes the option does the wrong thing, like ["t1":String, "t2":String] instead of [t1, t2]
+
+# Proposals:
+# pt(parameters) [...]         "P"        ? ptPs, ptPm, ptP<>, ...
+# pt(links)      [...]         "L"    ? ptLs, ptLm, ptL<>, ...
+
+# Easy specification of additional print parameters e.g. "ppParam":true
+#
+##-----------------    PRINT Objective C
+#command regex pi      's/^(.+)$/expression -- pInfo(%1)/'          H E L P
+
+##-----------------    retain counts (not precise, but often interesting and helpful)
+command regex prc      's/^(.+)$/expression -- (int)[%1 retainCount]/'
+#
+##-----------------
+#command alias ogl     expression -- ogl()
+
+##-----------------    Print RAW
+command alias  pr      frame v -R
+
+########## ########## ########## ########## ########## ########## ########## 
+# -- SUMMARIES:
+type summary add --summary-string  "Part.name=${var.name}"  Part
+type summary add --summary-string  "Vew.name=${var.name} part:${var.part.name}"  Vew
+########## ########## ########## ########## ########## ########## ########## 
+#
+command  alias fwHelp 				expression fwHelp()
+command  alias pFwcConfig			expression printFwcConfig()
+### command alias pFwcConfig		### expression fwHelp("C")
+command  alias pFwcState			expression printFwcState()
+### command alias pFwcState			### expression fwHelp("c")
+###command regex pFwState2			's/^(.+)$/e Swift.print(%1.ppFwState())/'
+###command alias ppControllerState expression -- Swift.print(sendApp(key:"C"))
+
+### allenM1:
+command alias lldbinitFooDocTry3	command source ~/Documents/Documents-allenM1/FooDocTry3/LLDBInitFile
+command alias lldbinitSwiftFactals	command source ~/Documents/Documents-allenM1/SwiftFactals/LLDBInitFile
+command alias lldbinitFactalWorkbench command source ~/Documents/Documents-allenM1/FactalWorkbenchb/.lldbinit
+command alias lldbinit				lldbinitFooDocTry3
+### macLap:
+#command alias lldbinit				command source ~/src/factal/SwiftFactals/LLDBInitFile
+#command alias lldbinitFactalWorkbench command source ~/src/factal/FactalWorkbenchb/.lldbinit
+
+# FILE A BUG REPORT: Would like, but Broken:
+# BROKEN:							command source $(SRCROOT)/LLDBInitFile	# WANTED BADLY
+# BROKEN:							command source "~/Documents/Documents - allenM1/SwiftFactals/LLDBInitFile"
+# BROKEN:							command source ~/Documents/Documents\ -\ allenM1/SwiftFactals/LLDBInitFile
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # LOADING .lldbinit for SwiftFactals COMPLETE # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# reload with  lldbinit  = '  command source ~/Documents/SwiftFactals/.lldbinit  '
+#    N.B: must have symbolic link ~/.lldbinit ->  ~/Documents/SwiftFactals/.lldbinit
+## Common Commands: ptm, plv, ppn, pfs, ptPm, plLm
+# :H: Character 1:   p- -: Pretty Print
+# :H: Character 2:   -p -:.phrase; -l -:.line,          -t--:.tree,
+# :H: Character 2:   -c -:classF;  -n -:name,           -f--:fullName, -i--:.id,aaaaaaa
+# :H: Character 2.5: --L-:ppLinks; --P-:ppParameters
+# :H: Character 3:   -- s:self;    ---m:root_Experiment ---v:root Vew  --n-:root SCNNode
+## use rootpart("<name>") and rootvew("<name>") to find a part in tree
+## pFwcState, pFwcConfig fwHelp("C")
+

@@ -1131,40 +1131,40 @@ extension String {
 		}
 		return str
 	}
-//	func shortenStringDescribing() -> String {
-//		  // Eliminate hex address, which is from first " " to following "|"
-//		 // e.g. "<SCNNode: 0x6040001e4d00 pos(5.000000 15.000000 5.000000) | light=<SCNLight: 0x6040001e4700 | type=omni> | no child>"
-//		let regex = try! NSRegularExpression(pattern: "\\b0x[0-9a-f]*")
-//		var str = regex.stringByReplacingMatches(in: self, options: [],
-//								range:NSRange(0..<self.count), withTemplate: "")
-//		 // Use shorter names:
-//		for (key,val) in [
-//			"|":"",
-//			"00"			:"",
-//			"SCN"			:"", 		"Geometry:"		:"",
-//			"Cylinder"		:"Cyl",		"3DPictureframe":"3DFrame",
-//			"elements"		:"elts",
-//
-//			"radius"		:"r", 		"height"		:"h",
-//			"width"			:"w", 		"length"		:"l", 	"chamferRadius":"cr",
-//			"topRadius"		:"rT", 		"bottomRadius"	:"rB",
-//			"ringRadius"	:"rR", 		"pipeRadius"	:"rP",
-//			"innerRadius"	:"iR", 		"outerRadius"	:"oR",
-//			"'material'"	: "",
-//
-//			"SwiftFactals."	:"",		"SwiftFactalTests."	:"",	// remove an extra "."
-//			"SwiftFactals"	:"",		"SwiftFactalTests"	:"",
-//		] {
-//			str 				= str.replacingOccurrences(of:key, with:val)
-//		}
-//		 // remove all dual spaces
-//		var strPre				= str
-//		repeat {
-//			strPre				= str
-//			str 				= str.replacingOccurrences(of:"  ", with:" ")
-//		} while strPre.count != str.count
-//		return str
-//	}
+	func shortenStringDescribing() -> String {
+		  // Eliminate hex address, which is from first " " to following "|"
+		 // e.g. "<SCNNode: 0x6040001e4d00 pos(5.000000 15.000000 5.000000) | light=<SCNLight: 0x6040001e4700 | type=omni> | no child>"
+		let regex = try! NSRegularExpression(pattern: "\\b0x[0-9a-f]*")
+		var str = regex.stringByReplacingMatches(in: self, options: [],
+								range:NSRange(0..<self.count), withTemplate: "")
+		 // Use shorter names:
+		for (key,val) in [
+			"|":"",
+			"00"			:"",
+			"SCN"			:"", 		"Geometry:"		:"",
+			"Cylinder"		:"Cyl",		"3DPictureframe":"3DFrame",
+			"elements"		:"elts",
+
+			"radius"		:"r", 		"height"		:"h",
+			"width"			:"w", 		"length"		:"l", 	"chamferRadius":"cr",
+			"topRadius"		:"rT", 		"bottomRadius"	:"rB",
+			"ringRadius"	:"rR", 		"pipeRadius"	:"rP",
+			"innerRadius"	:"iR", 		"outerRadius"	:"oR",
+			"'material'"	: "",
+
+			"SwiftFactals."	:"",		"SwiftFactalTests."	:"",	// remove an extra "."
+			"SwiftFactals"	:"",		"SwiftFactalTests"	:"",
+		] {
+			str 				= str.replacingOccurrences(of:key, with:val)
+		}
+		 // remove all dual spaces
+		var strPre				= str
+		repeat {
+			strPre				= str
+			str 				= str.replacingOccurrences(of:"  ", with:" ")
+		} while strPre.count != str.count
+		return str
+	}
 }
 //
  // 180623 Why doesn't this work?		// public?

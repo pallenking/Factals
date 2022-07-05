@@ -26,7 +26,8 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	let newDocStateType			= 1
 	init(state:DocState?=nil) {
 		self.state 				= state ?? { //newDocState()
-			var rootPart : RootPart? = nil
+			var rootPart : RootPart = RootPart()
+			rootPart.nam		= "ROOT"
 			var vew		 : Vew
 			var scene	 : FwScene
 
@@ -41,21 +42,19 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 				scene			= aSimpleScene()				// Two Cubes and a Sphere
 				vew				= Vew(scn: scene.rootNode)
 			case 3:
-				scene			= FwScene()					// A Part Tree
-				rootPart		= RootPart()//"parts":[Part()]])
-				rootPart?.nam	= "ROOT"
 				for i in 1...2 {
 					let p		= Part()
 					p.nam		= "p\(i)"
-					rootPart!.addChild(p)
+					rootPart.addChild(p)
 				}
+				scene			= FwScene()					// A Part Tree
 				vew				= Vew(forPart:rootPart, scn:scene.rootNode)
 
 			default:
 				fatalError("newDocState stateType:\(stateType) is ILLEGAL")
 			}
 
-			vew.updateVewTree()
+			vew.updateVewTree()					// rootPart -> rootView, rootScn
 			scene.addLightsAndCamera()
 
 			return DocState(model:rootPart ?? RootPart(), scene:scene)

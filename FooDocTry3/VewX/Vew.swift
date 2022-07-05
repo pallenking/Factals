@@ -7,6 +7,12 @@ import SceneKit
 
 // ////////////////////////////////////////////////////////////////////
 // Shim,
+class LinkVew : Vew {}
+class NetVew  : Vew {
+	var heightLeaf = 0.0
+	var heightTree = 0.0
+}
+
 func aSimpleScene() -> FwScene {
 	let scene					= FwScene()
 
@@ -49,7 +55,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //	@Published
 //	 var color000	: NSColor? = nil
 ////	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
-//	var keep		:  Bool		= false		// used in reVew
+	var keep		:  Bool		= false		// used in reVew
 
 
 	 // Glue these Neighbors together: (both Always present)
@@ -59,8 +65,8 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	var scn			:  SCNNode				// Scn which draws this Vew
 
 
-//	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
-//	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
+	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
+	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
 
 //	@Published var expose : Expose	= .open {// how the insides are currently exposed
 //		willSet(v) {
@@ -95,9 +101,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 
 		 // Make SCN from supplied skin:
 		scn						= scn_ ?? SCNNode()
-		scn.name 				= self.scn.name ??
-			"foo"
-//			("*-" + part.name)
+		scn.name 				= self.scn.name ?? ("*-" + part.nam)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
@@ -126,18 +130,18 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //	}
 //	 // MARK: - 3.5 Codable
 //	enum VewKeys : CodingKey { 	case name, color000, keep, parent, children, part, scn, bBox, jog, force}
-	enum VewKeys : CodingKey { 	case name, scn, part}
+	enum VewKeys : CodingKey { 	case name, keep, scn, bBox, part}
 	func encode(to encoder: Encoder) throws {
 ////		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:VewKeys.self)
 		try container.encode(nam, 		forKey:.name 	)
 //	//	try container.encode(color000,	forKey:.color000)
-//		try container.encode(keep, 		forKey:.keep	)
+		try container.encode(keep, 		forKey:.keep	)
 //		try container.encode(parent, 	forKey:.parent	)
 //		try container.encode(children, 	forKey:.children)
 		try container.encode(part, 		forKey:.part 	)
 //	//	try container.encode(scn, 		forKey:.scn		)
-//		try container.encode(bBox, 		forKey:.bBox 	)
+		try container.encode(bBox, 		forKey:.bBox 	)
 //		try container.encode(jog, 		forKey:.jog		)
 //		try container.encode(force, 	forKey:.force	)
 //		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))
@@ -146,13 +150,13 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 		let container 			= try decoder.container(keyedBy:VewKeys.self)
 		nam 					= try container.decode(		String.self, forKey:.name 	)
 //	//	color000				= try container.decode(	  NSColor?.self, forKey:.color000)
-//		keep					= try container.decode(		  Bool.self, forKey:.keep	)
+		keep					= try container.decode(		  Bool.self, forKey:.keep	)
 //		parent					= try container.decode( 	  Vew?.self, forKey:.parent	)
 //		children				= try container.decode(		 [Vew].self, forKey:.children)
 		part 					= try container.decode(		  Part.self, forKey:.part 	)
 	//	scn						= try container.decode(	   SCNNode.self, forKey:.scn	)
 		scn						= SCNNode()		// OOOOPS
-//		bBox 					= try container.decode(		  BBox.self, forKey:.bBox 	)
+		bBox 					= try container.decode(		  BBox.self, forKey:.bBox 	)
 //		jog						= try container.decode(SCNVector3?.self, forKey:.jog	)
 //		force					= try container.decode(SCNVector3 .self, forKey:.force	)
 //
@@ -160,21 +164,22 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 // 		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
 	}
 //	 // MARK: - 3.6 NSCopying
-//	func copy(with zone: NSZone?=nil) -> Any {
-//		let theCopy 			= Vew()
+	func copy(with zone: NSZone?=nil) -> Any {
+bug
+		let theCopy 			= Vew()
 //		theCopy.name 			= name
 //	//	theCopy.color000		= color000
-//		theCopy.keep 			= keep
+		theCopy.keep 			= keep
 //		theCopy.parent 			= parent
 //		theCopy.children 		= children
 //		theCopy.part 			= part
 //	//	theCopy.scn 			= scn
-//		theCopy.bBox 			= bBox
+		theCopy.bBox 			= bBox
 //		theCopy.jog 			= jog
 //		theCopy.force 			= force
 //		atSer(3, logd("copy(with as? Vew       '\(fullName)'"))
-//		return theCopy
-//	}
+		return theCopy
+	}
 //
 ////	 // MARK: - 3.7 Equitable
 ////	func varsOfVewEq(_ rhs:Part) -> Bool {
@@ -406,16 +411,16 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 ////			}
 ////		}
 //	}
-//
-//	    /// Convert bBox from vew to self's Vew
-//	   /// - parameter bBox: -- Bounding Box in vew to transfer
-//	  /// - parameter vew: -- Vew of bBox
-//	 /// - Ignore animation
-//	func convert(bBox:BBox, from vew:Vew) -> BBox {
-//		let transform			= scn.convertTransform(.identity, from:vew.scn)
-//		let rv					= bBox.transformed(by:transform)
-//		return rv
-//	}
+
+	    /// Convert bBox from vew to self's Vew
+	   /// - parameter bBox: -- Bounding Box in vew to transfer
+	  /// - parameter vew: -- Vew of bBox
+	 /// - Ignore animation
+	func convert(bBox:BBox, from vew:Vew) -> BBox {
+		let transform			= scn.convertTransform(.identity, from:vew.scn)
+		let rv					= bBox.transformed(by:transform)
+		return rv
+	}
 //	 /// Find a parent with a physis body, to take force
 //	var intertialVew : Vew? {
 //		for vew in selfNParents {
@@ -562,17 +567,15 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
-//		guard let fwScene		= part.root?.fwDocument?.fwScene else {	return }
-//		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let vRoot				= self
 		let pRoot				= part.root!
-//
-//		 // This was to fix errors in dirtyBits, although atomic entities breaks it horribly!
-//		//let _					= pRoot.rectifyTreeDirtyBits()	// fixes, logs results
-//
-//		 // debug test
-////		rootpart("l0.P").markTree(dirty:.paint)
-////		rootPart.dirtySubTree(.paint)
+
+		 // This was to fix errors in dirtyBits, although atomic entities breaks it horribly!
+		//let _					= pRoot.rectifyTreeDirtyBits()	// fixes, logs results
+
+		 // debug test
+//		rootpart("l0.P").markTree(dirty:.paint)
+//		rootPart.dirtySubTree(.paint)
 //
 ///**/	SCNTransaction.begin()
 //		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
@@ -734,118 +737,118 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //			Log .nul.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 //		}
 //	}
-//	 // MARK: - 15. PrettyPrint
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
-//		let log					= part.root?.log
-//		switch mode! {
-//			case .name:
-//				return self.name
-//			case .fullName:
-//				return self.fullName
-//			case .phrase, .short:
-//				var rv 			= name + ppUid(pre:"/", self) + ":" + fwClassName + " "
-//				rv 				+= "->"  + part.pp(.fullNameUidClass)
-//				rv				+= ", ->" + scn.pp(.fullNameUidClass)
-//				return rv
-//			case .line:
-//				let ppViewOptions = aux.string("ppViewOptions") ?? "UFVSPLETBIW" // Default to ALL
-//				let ppViewTight = aux.bool_("ppViewTight")
-//				func tight<T>(_ a:T, _ b:T) -> T 	{ 	return ppViewTight ? a : b	}
-//
-//				  // 	(Tight==false:)
-//				 //  a68:Ff|    _net0:NetVew  s:  *-net0/2a0 p:  net0/aff:Net   . . . .  o+pI[-0.6-1.5-0.0]     w[-0.6-1.5-100.0] f-2.0< 3.2, -1.1< 4.1, -2.0< 2.0
-//				 //  AaaaBbCcDddddddddEeeeeeeFffffffffffGgggHhhIiiiiiJjjjjKkkkkkLlllllllMmmNnnnnnnnnnnnnnnnOoooooooooooooooooooooPpppppppppppppppppppppppppppppppp
-//				 //  c77:Ff|     _v:Vew      *-v/6a4       v/6a4:Mirror. . . . .  o+IY[y:-0.4]  f=-1.5< 1.5, -1.0< 0.1, -1.5< 1.5
-//				 //  AaaaBbCcDddddddEeeeFffffffffGgggHIiiiiiIiiiJKkkkkkLlllllllllMmmNnnnnnnnnnnnPpppppppppppppppppppppppppppppppp
-//
-//				var rv			= ""						// /// PLACEMENT:
-//				if ppViewOptions.contains("U") {				 	// Uid:
-//					rv			+= ppUid(self, post:":")	 	 		  // (A)
-//				}
-//				if ppViewOptions.contains("F") {				 	// Flipped:
-//					rv			+= part.upInWorld ? "F" : " "			  // (B)
-//					rv			+= part.flipped   ? "f" : " "			  // (B)
-//				}
-//															// Indent
-//				rv 				+= log?.indentString() ?? "Ccc.."		  // (C)
-//				if ppViewOptions.contains("V") {					// Vew (self):
-//					rv			+= name.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
-//					rv			+= fwClassName.field(-tight(5,7),dots:false)// (E)
-//				}
-//															// /// LINKAGES:
-//				if ppViewOptions.contains("S") {					// Scn:
-//					rv			+= tight("", " s:")						  // (F)
-//					rv			+= (scn.name ?? "<none>").field(tight(5,8), dots:false)
-//					rv			+= ppUid(pre:"/", scn)					  // (G)
-//				}
-//				if ppViewOptions.contains("P") {					// Part:
-//					rv			+= tight("", " p:")						  // (H)
-//					rv			+= part.name.field(6)					  // (I)
-//					rv			+= ppUid(pre:"/", part) + ":"			  // (J)
-//					rv			+= part.pp(.fwClassName).field(-tight(4,6), dots:false) // (K)
-//				}
-//															// /// SKINS:
-//																	// UNIndent
-//				rv 				=  log?.unIndent(previous:rv) ?? "Ccc.."  // (L)
-//
-//				if ppViewOptions.contains("L") {					 // Leaf:
-//					let s		= self as? NetVew
-//					rv			+= s==nil ? "   " :
-//								   "\(s!.heightLeaf)/\(s!.heightTree)"
-//				}
-//				if ppViewOptions.contains("E"),					 	// Expose:
-//				  !ppViewTight {
-//					rv			+= " " + expose.pp(.short, aux)			  // (M)
-//					rv			+= keep ? "+" : "-"						  // (M)
-//				}
-//				var rv1			= ""						// /// POSITIONS:
-//				if ppViewOptions.contains("T") {				 	// Transform:
-//					let tr		= scn.transform.pp(.phrase, aux)		  // (N)
-//					rv1			+= tr=="I" ? "" : (tight("", " p") + tr + " ")
-//				}
-//				 // hasActions ??
-//				if ppViewOptions.contains("B") {					// physics Body:
-//					let pr		= scn.physicsBody == nil ? "I" :		// ("I" -> "")
-//								  scn.presentation.transform.pp(.phrase, aux)
-//					rv1			+= pr=="I" ? "" : "b" + pr				  // (*)
-//				}
-//				if ppViewOptions.contains("I") {				 	// pIvot:
-//					let pi		= scn.pivot.pp(.phrase, aux)			  // (*)
-//					rv1			+= pi=="I" ? "" : tight(pi, "i" + pi + " ")
-//				}
-//				let nCols		= tight(12, aux.int_("ppNCols4Posns"))
-//				rv				+= rv1.field(-nCols, dots:false) + " "
-//
-//				rv				+= !ppViewOptions.contains("W") ? ""
-//								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.short) + " "
-//				if !(self is LinkVew) {
-//					 // SceneKit's BBox:
-//					if aux.bool_("ppScnBBox") {
-//						rv += tight("","s") + scn.bBox().pp(.line, aux)
-//					}
-//					 // Factal Workbench BBox:
-//					if aux.bool_("ppFwBBox") {
-//						rv += tight("","f") + bBox.pp(.line, aux)		  // (O)
-//					}
-//				}
-//				return rv
-//			case .tree:
-//				var rv			= ""
-//				rv				+= pp(.line, aux) + "\n"// print 1-line of self
-//				 // Print children
-//				for child in children {
-//					if child.parent != self {
-//						rv 		+= "!!! parent bad !!!"
-//					}
-//					log?.nIndent += 1					// at increased indent
-//					rv 			+= child.pp(.tree, aux)	// ### RECURSIVE
-//					log?.nIndent -= 1
-//				}
-//				return rv
-//			default:
-//				return ppDefault(self:self, mode:mode, aux:aux) // NO: return super.pp(mode, aux)
-//		}
-//	}
+	 // MARK: - 15. PrettyPrint
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
+		let log					= part.root?.log
+		switch mode! {
+			case .name:
+				return self.nam
+			case .fullName:
+				return self.fullName
+			case .phrase, .short:
+				var rv 			= nam + ppUid(pre:"/", self) + ":" + fwClassName + " "
+				rv 				+= "->"  + part.pp(.fullNameUidClass)
+				rv				+= ", ->" + scn.pp(.fullNameUidClass)
+				return rv
+			case .line:
+				let ppViewOptions = aux.string("ppViewOptions") ?? "UFVSPLETBIW" // Default to ALL
+				let ppViewTight = aux.bool_("ppViewTight")
+				func tight<T>(_ a:T, _ b:T) -> T 	{ 	return ppViewTight ? a : b	}
+
+				  // 	(Tight==false:)
+				 //  a68:Ff|    _net0:NetVew  s:  *-net0/2a0 p:  net0/aff:Net   . . . .  o+pI[-0.6-1.5-0.0]     w[-0.6-1.5-100.0] f-2.0< 3.2, -1.1< 4.1, -2.0< 2.0
+				 //  AaaaBbCcDddddddddEeeeeeeFffffffffffGgggHhhIiiiiiJjjjjKkkkkkLlllllllMmmNnnnnnnnnnnnnnnnOoooooooooooooooooooooPpppppppppppppppppppppppppppppppp
+				 //  c77:Ff|     _v:Vew      *-v/6a4       v/6a4:Mirror. . . . .  o+IY[y:-0.4]  f=-1.5< 1.5, -1.0< 0.1, -1.5< 1.5
+				 //  AaaaBbCcDddddddEeeeFffffffffGgggHIiiiiiIiiiJKkkkkkLlllllllllMmmNnnnnnnnnnnnPpppppppppppppppppppppppppppppppp
+
+				var rv			= ""						// /// PLACEMENT:
+				if ppViewOptions.contains("U") {				 	// Uid:
+					rv			+= ppUid(self, post:":")	 	 		  // (A)
+				}
+				if ppViewOptions.contains("F") {				 	// Flipped:
+					rv			+= part.upInWorld ? "F" : " "			  // (B)
+					rv			+= part.flipped   ? "f" : " "			  // (B)
+				}
+															// Indent
+				rv 				+= log?.indentString() ?? "Ccc.."		  // (C)
+				if ppViewOptions.contains("V") {					// Vew (self):
+					rv			+= nam.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
+					rv			+= fwClassName.field(-tight(5,7),dots:false)// (E)
+				}
+															// /// LINKAGES:
+				if ppViewOptions.contains("S") {					// Scn:
+					rv			+= tight("", " s:")						  // (F)
+					rv			+= (scn.name ?? "<none>").field(tight(5,8), dots:false)
+					rv			+= ppUid(pre:"/", scn)					  // (G)
+				}
+				if ppViewOptions.contains("P") {					// Part:
+					rv			+= tight("", " p:")						  // (H)
+					rv			+= part.nam.field(6)					  // (I)
+					rv			+= ppUid(pre:"/", part) + ":"			  // (J)
+					rv			+= part.pp(.fwClassName).field(-tight(4,6), dots:false) // (K)
+				}
+															// /// SKINS:
+																	// UNIndent
+				rv 				=  log?.unIndent(previous:rv) ?? "Ccc.."  // (L)
+
+				if ppViewOptions.contains("L") {					 // Leaf:
+					let s		= self as? NetVew
+					rv			+= s==nil ? "   " :
+								   "\(s!.heightLeaf)/\(s!.heightTree)"
+				}
+				if ppViewOptions.contains("E"),					 	// Expose:
+				  !ppViewTight {
+bug//				rv			+= " " + expose.pp(.short, aux)			  // (M)
+					rv			+= keep ? "+" : "-"						  // (M)
+				}
+				var rv1			= ""						// /// POSITIONS:
+				if ppViewOptions.contains("T") {				 	// Transform:
+					let tr		= scn.transform.pp(.phrase, aux)		  // (N)
+					rv1			+= tr=="I" ? "" : (tight("", " p") + tr + " ")
+				}
+				 // hasActions ??
+				if ppViewOptions.contains("B") {					// physics Body:
+					let pr		= scn.physicsBody == nil ? "I" :		// ("I" -> "")
+								  scn.presentation.transform.pp(.phrase, aux)
+					rv1			+= pr=="I" ? "" : "b" + pr				  // (*)
+				}
+				if ppViewOptions.contains("I") {				 	// pIvot:
+					let pi		= scn.pivot.pp(.phrase, aux)			  // (*)
+					rv1			+= pi=="I" ? "" : tight(pi, "i" + pi + " ")
+				}
+				let nCols		= tight(12, aux.int_("ppNCols4Posns"))
+				rv				+= rv1.field(-nCols, dots:false) + " "
+
+				rv				+= !ppViewOptions.contains("W") ? ""
+								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.short) + " "
+				if !(self is LinkVew) {
+					 // SceneKit's BBox:
+					if aux.bool_("ppScnBBox") {
+						rv += tight("","s") + scn.bBox().pp(.line, aux)
+					}
+					 // Factal Workbench BBox:
+					if aux.bool_("ppFwBBox") {
+						rv += tight("","f") + bBox.pp(.line, aux)		  // (O)
+					}
+				}
+				return rv
+			case .tree:
+				var rv			= ""
+				rv				+= pp(.line, aux) + "\n"// print 1-line of self
+				 // Print children
+				for child in children {
+					if child.parent != self {
+						rv 		+= "!!! parent bad !!!"
+					}
+					log?.nIndent += 1					// at increased indent
+					rv 			+= child.pp(.tree, aux)	// ### RECURSIVE
+					log?.nIndent -= 1
+				}
+				return rv
+			default:
+				return ppDefault(self:self, mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+		}
+	}
 //	func panic(_ message: @autoclosure () -> String=("")) { //ppUid(self)
 //		print("\n\n\(fullName) \(part.root?.log.ppCurThread ?? "?") \(pp(.fullNameUidClass))" +
 //			": --------------\n\(message())\n" + "----------------------------\n")
@@ -856,7 +859,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 	static let null 			= Vew(forPart:.null)	/// Any use of this should fail
 
 //	 // MARK: - 17. Debugging Aids
-//	override var description	  : String {	return  "\"\(pp(.short))\""	}
-//	override var debugDescription : String {	return   "'\(pp(.short))'" 	}
+	override var description	  : String {	return  "\"\(pp(.short))\""	}
+	override var debugDescription : String {	return   "'\(pp(.short))'" 	}
 ////	var summary					  : String {	return   "<\(pp(.short))>" 		}
 }

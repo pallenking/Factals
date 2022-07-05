@@ -14,6 +14,8 @@ extension SCNNode /*: HasChildren */ {
 //	var parent: SCNNode? 		{	get	set		}
 //	var root: SCNNode? 			{	get	set		}
 //	var fullName: String 		{	get	set		}
+//	var fullName: String 		{	get	{ fatalError()							} }
+
 	typealias T = SCNNode
 	typealias TRoot = SCNNode
 
@@ -166,12 +168,12 @@ extension SCNNode /*: HasChildren */ {
 //	//	}
 //	// 	// root of tree (Cap Vew) has nil parent
 //	//	static var stopit : SCNNode? = nil
-//	func bBox() -> BBox				{
-//		let s					= self
-//		let b					= s.boundingBox
-//		return BBox(b.min, b.max)
-//	}
-//
+	func bBox() -> BBox				{
+		let s					= self
+		let b					= s.boundingBox
+		return BBox(b.min, b.max)
+	}
+
 //	  // MARK: - 3. Factory
 //	  /// Make from LINES
 //	 convenience init(lines:[Int32], withPoints points:[SCNVector3], color0:NSColor = .black, name:String? = nil) {
@@ -188,16 +190,13 @@ extension SCNNode /*: HasChildren */ {
 //		 self.name				= name
 //		 geometry?.materials 	= [material]
 //	 }
-//
-//	 // MARK: - 4.2 Manage Tree
-//	var fullName	: String	{
-//		let rv					= parent==nil || name==nil || name!=="*-ROOT" ? "" :
-//								  parent!.fullName + "/" + (name ?? "?")
-//		return rv
-////		let parentsFullName 	= parent?.fullName ?? ""
-////		let lastName			= name ?? "?"
-////		return parentsFullName + "/" + lastName
-//	}
+
+	 // MARK: - 4.2 Manage Tree
+	var fullName	: String	{
+		let parentsFullName 	= parent?.fullName ?? ""
+		let lastName			= name ?? "?"
+		return parentsFullName + "/" + lastName
+	}
 //	var deapth : Int 				{ return parent != nil ? parent!.deapth + 1 : 0}
 	  /// Add child node
 	 /// Semantic Sugar, to make SCNNode, Vew, and Part all use term children
@@ -269,139 +268,141 @@ extension SCNNode /*: HasChildren */ {
 		return nil
 	}
 
-//	 // MARK: - 15. PrettyPrint
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
-//		var rv					= ""
-//		switch mode! {
-//		case .name:
-//			rv					= name ?? "_"
-//		case .fullName:			//return fullName
-//			if name != "*-ROOT" {
-//				rv				+= parent?.pp(.fullName) ?? ""
-//				rv				+= "/"
-//				rv				+= name ?? "unnamed225"
-//			}
-////			rv 					+= name == "*-ROOT" ? "" :
-////								(parent?.pp(.fullName) ?? "") + "/" + (name ?? "unnamed225")
-//		case .fullNameUidClass, .short:
-//			return "\(ppUid(self, post:"."))\(self.fullName) :\(self.fwClassName)"
-//		//	return (name ?? "<no name>") + ppUid(pre:"/", self) + ":" + fwClassName
-////		case .phrase:
-////			rv					= "SCNNode[ " + (name ?? "")  + ":"
-////			rv					+= pp(.fwClassName, aux).field(-3, dots:false)
-//		case .line:
-//			//AaaBbbbbbCcccccccDdddddEeeeeeeeeeeeeeeeeeeeeeeeeFffGggggggggggggggggggggggggggggggggggggggggg
-//			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
-//			rv					= DOCLOG.obNindent(ob:self)	//			(AB)
-//			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
-//			rv 					=  DOCLOG.unIndent(previous:rv)	// unindent	 (D)
-//			rv					+= self.scn1Line(aux) 			//		  (E..G)
-//
-//		case .tree:
-//			 /// 1. MAIN: print self on 1 line
-//			rv					= pp(.line) + "\n"
-//
-//			 /// 2. Create SCNNode Physics Body line:
-//			if physicsBody?.type == .dynamic,
-//			  transform != presentation.transform {	// presentationInstance isPresentationInstance
-//				let pbStuff		= physicsBody == nil ? " \\" :
-//								  " \\PB\(physicsBody!.isAffectedByGravity ? ":gra" : "")"
-//				let pbs2		= pbStuff.field(-8, dots:false, fill:"_")
-//				rv				+= DOCLOG.obNindent(ob:presentation) + pbs2
-//				rv 				=  DOCLOG.unIndent(previous:rv)
-//				rv				+= presentation.scn1Line(prefix:"", aux) + "\n"
-//			}
-//
-//			 /// 3. SCNNode Constraints:
-//			for constraint in constraints ?? [] {
-//				rv				+= DOCLOG.obNindent(ob:constraint) + " \\"
-//				DOCLOG.nIndent	+= 1
-//				let nicknames	= ["SCNLookAtConstraint":"LookAt",
-//								   "SCNBillboardConstraint":"Billboard"]
-//				var cName		= nicknames[constraint.fwClassName] ?? constraint.fwClassName
-//				if let c 		= constraint as? SCNLookAtConstraint,
-//				  let cTarget	= c.target {
-//					cName		+= ": " + cTarget.fullName
-//				}
-//				rv				+= "\(cName)\n"
-//				DOCLOG.nIndent	-= 1
-//			}
-//					/* Also someday: SCNPhysicsField, SCNParticleSystem */
-//			 /// 4. Materials
-//			DOCLOG.nIndent		+= 1
-//			if aux.bool_("ppScnMaterial") {
-//				for material in geometry?.materials ?? [] {
+	 // MARK: - 15. PrettyPrint
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=[:]) -> String {
+		var rv					= ""
+		switch mode! {
+		case .name:
+			rv					= name ?? "_"
+		case .fullName:			//return fullName
+			if name != "*-ROOT" {
+				rv				+= parent?.pp(.fullName) ?? ""
+				rv				+= "/"
+				rv				+= name ?? "unnamed225"
+			}
+//			rv 					+= name == "*-ROOT" ? "" :
+//								(parent?.pp(.fullName) ?? "") + "/" + (name ?? "unnamed225")
+		case .fullNameUidClass, .short:
+			let fn				= fullName
+			return "\(ppUid(self, post:"."))\(fn) :\(fwClassName)"
+		//	return (name ?? "<no name>") + ppUid(pre:"/", self) + ":" + fwClassName
+//		case .phrase:
+//			rv					= "SCNNode[ " + (name ?? "")  + ":"
+//			rv					+= pp(.fwClassName, aux).field(-3, dots:false)
+		case .line:
+			//AaaBbbbbbCcccccccDdddddEeeeeeeeeeeeeeeeeeeeeeeeeFffGggggggggggggggggggggggggggggggggggggggggg
+			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
+			rv					= DOCLOG.obNindent(ob:self)	//			(AB)
+			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
+			rv 					=  DOCLOG.unIndent(previous:rv)	// unindent	 (D)
+			rv					+= self.scn1Line(aux) 			//		  (E..G)
+
+		case .tree:
+			 /// 1. MAIN: print self on 1 line
+			rv					= pp(.line) + "\n"
+
+			 /// 2. Create SCNNode Physics Body line:
+			if physicsBody?.type == .dynamic,
+			  transform != presentation.transform {	// presentationInstance isPresentationInstance
+				let pbStuff		= physicsBody == nil ? " \\" :
+								  " \\PB\(physicsBody!.isAffectedByGravity ? ":gra" : "")"
+				let pbs2		= pbStuff.field(-8, dots:false, fill:"_")
+				rv				+= DOCLOG.obNindent(ob:presentation) + pbs2
+				rv 				=  DOCLOG.unIndent(previous:rv)
+				rv				+= presentation.scn1Line(prefix:"", aux) + "\n"
+			}
+
+			 /// 3. SCNNode Constraints:
+			for constraint in constraints ?? [] {
+				rv				+= DOCLOG.obNindent(ob:constraint) + " \\"
+				DOCLOG.nIndent	+= 1
+				let nicknames	= ["SCNLookAtConstraint":"LookAt",
+								   "SCNBillboardConstraint":"Billboard"]
+				var cName		= nicknames[constraint.fwClassName] ?? constraint.fwClassName
+				if let c 		= constraint as? SCNLookAtConstraint,
+				  let cTarget	= c.target {
+					cName		+= ": " + cTarget.fullName
+				}
+				rv				+= "\(cName)\n"
+				DOCLOG.nIndent	-= 1
+			}
+					/* Also someday: SCNPhysicsField, SCNParticleSystem */
+			 /// 4. Materials
+			DOCLOG.nIndent		+= 1
+			if aux.bool_("ppScnMaterial") {
+bug//			for material in geometry?.materials ?? [] {
 ////					rv			+= " " + material.ppSCNMaterialColors(debugDescription) + "\n"
 //					rv			+= material.pp(.line) + "\n"
 //				}
-//			}
-//	//		 /// 5. SCNAudioPlayer Sound
-//	//		for audioPlayer in audioPlayers {
-//	//			rv				+= log.obNindent(ob:audioPlayer) + " \\sound:"
-//	//			rv 				+= log.unIndent()
-//	//	//		assert(audioPlayer.audioNode == self, "")
-//	//			let audioSource	= audioPlayer.audioSource
-//	//			rv				+= "name:??\n"
-//	//		}
-//
-//			 /// 6. LAST print lower Parts, some are Ports
-//			for child in children {	// !upInWorld? [children objectEnumerator]: [self.parts reverseObjectEnumerator]) {
-//		//		Log.log("child:\(child.fullName)")
-////				if child.name?.hasPrefix("tic") == false {				// Don't show pole tics
-////				if !(child.name?.hasPrefix("tic"))! {					// Don't show pole tics
-//				if child.name == nil || !child.name!.hasPrefix("tic") {	// Don't show pole tics
-//					rv			+= child.pp(.tree)
-//				}
-//			}
-//			DOCLOG.nIndent		-= 1
-//		default:
+			}
+	//		 /// 5. SCNAudioPlayer Sound
+	//		for audioPlayer in audioPlayers {
+	//			rv				+= log.obNindent(ob:audioPlayer) + " \\sound:"
+	//			rv 				+= log.unIndent()
+	//	//		assert(audioPlayer.audioNode == self, "")
+	//			let audioSource	= audioPlayer.audioSource
+	//			rv				+= "name:??\n"
+	//		}
+
+			 /// 6. LAST print lower Parts, some are Ports
+			for child in children {	// !upInWorld? [children objectEnumerator]: [self.parts reverseObjectEnumerator]) {
+		//		Log.log("child:\(child.fullName)")
+//				if child.name?.hasPrefix("tic") == false {				// Don't show pole tics
+//				if !(child.name?.hasPrefix("tic"))! {					// Don't show pole tics
+				if child.name == nil || !child.name!.hasPrefix("tic") {	// Don't show pole tics
+					rv			+= child.pp(.tree)
+				}
+			}
+			DOCLOG.nIndent		-= 1
+		default:
+bug
 //			rv					=  ppDefault(self:self, mode:mode, aux:aux)
-//		}
-//		return rv
-//	}
-//	func scn1Line(prefix:String="", _ aux:FwConfig) -> String {
-//		var p					= transform.pp(.phrase)				// position	 (E)
-//		p						= p == "I0" ? "" : ("p" + p + " ")
-//		var t					= pivot.pp(.phrase)
-//		t						= t == "I0" ? "" : ("i" + t + " ")
-//		let ppNCols4ScnPosn 	= aux.int_("ppNCols4ScnPosn")
-//		var rv2					= (prefix + p + t).field(-ppNCols4ScnPosn, dots:false) + " "// (E)
-//		if aux.bool_("ppScnBBox") {
-//			rv2					+= "s" + bBox().pp(.line)
-//		}
-//
-//		// display position in trunk:
-//		if DOCLOG.params4aux.string_("ppViewOptions").contains("W") {
-//			let rootScn			= DOC.fwScene!.rootScn
-//			let p				= convertPosition(.zero, to:rootScn)
-//			rv2					+= p.pp(.short).field(-11, dots:false)
-//		}
-//
-////		rv						+= physicsBody != nil ? "pb" : "--"	// debugging
-//		rv2						+= isHidden ? "#H " :
-//								   fmt("%02x ", categoryBitMask) 	//	 (F)
-//		if let scnCom			= self as? SCNComment {
-//			rv2					+= scnCom.comment					//	 (G)
-//		}
-//		else if let g = geometry {
-//			let material 		= g.materials[0]
-//			if let n 			= material.name {					//	 (G)
-//				rv2 			+=  n + " "
-//			}
-//			let geos			= String(describing:g).shortenStringDescribing()
-//			if geos.contains("3DPictureframe") {					//	 (G)
-//				rv2				+= "3DPictureframe:" + bBox().pp(.line) //+ "y=\(position.y)"
-////				rv2				+= "3DPictureframe:" + BBox(pair:boundingBox).pp(.line) //+ "y=\(position.y)"
-//			}
-//			else {
-//				rv2				+= geos								//	 (G)
-//			}
-//		}
-//		else {
-//			rv2					+= "geom:nil"
-//		}
-//		return rv2
-//	}
+		}
+		return rv
+	}
+	func scn1Line(prefix:String="", _ aux:FwConfig) -> String {
+		var p					= transform.pp(.phrase)				// position	 (E)
+		p						= p == "I0" ? "" : ("p" + p + " ")
+		var t					= pivot.pp(.phrase)
+		t						= t == "I0" ? "" : ("i" + t + " ")
+		let ppNCols4ScnPosn 	= aux.int_("ppNCols4ScnPosn")
+		var rv2					= (prefix + p + t).field(-ppNCols4ScnPosn, dots:false) + " "// (E)
+		if aux.bool_("ppScnBBox") {
+			rv2					+= "s" + bBox().pp(.line)
+		}
+
+		// display position in trunk:
+		if DOCLOG.params4aux.string_("ppViewOptions").contains("W") {
+			let rootScn			= DOC.state.scene.rootScn //fwScene!.rootScn
+			let p				= convertPosition(.zero, to:rootScn)
+			rv2					+= p.pp(.short).field(-11, dots:false)
+		}
+
+//		rv						+= physicsBody != nil ? "pb" : "--"	// debugging
+		rv2						+= isHidden ? "#H " :
+								   fmt("%02x ", categoryBitMask) 	//	 (F)
+		if let scnCom			= self as? SCNComment {
+			rv2					+= scnCom.comment					//	 (G)
+		}
+		else if let g = geometry {
+			let material 		= g.materials[0]
+			if let n 			= material.name {					//	 (G)
+				rv2 			+=  n + " "
+			}
+			let geos			= String(describing:g).shortenStringDescribing()
+			if geos.contains("3DPictureframe") {					//	 (G)
+				rv2				+= "3DPictureframe:" + bBox().pp(.line) //+ "y=\(position.y)"
+//				rv2				+= "3DPictureframe:" + BBox(pair:boundingBox).pp(.line) //+ "y=\(position.y)"
+			}
+			else {
+				rv2				+= geos								//	 (G)
+			}
+		}
+		else {
+			rv2					+= "geom:nil"
+		}
+		return rv2
+	}
 	 // MARK: - 16. Global Constants
 	static let null : SCNNode	= {
 		let n					= SCNComment("null scn")		/// Any use of this should fail
