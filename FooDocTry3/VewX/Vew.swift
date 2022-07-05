@@ -7,8 +7,8 @@ import SceneKit
 
 // ////////////////////////////////////////////////////////////////////
 // Shim,
-func aSimpleScene() -> SCNScene {
-	let scene					= SCNScene()
+func aSimpleScene() -> FwScene {
+	let scene					= FwScene()
 
 	let obj1					= SCNNode(geometry: SCNSphere(radius: 1.0))
 	obj1.name					= "sphere"

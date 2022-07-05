@@ -41,7 +41,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 				scene			= aSimpleScene()				// Two Cubes and a Sphere
 				vew				= Vew(scn: scene.rootNode)
 			case 3:
-				scene			= SCNScene()					// A Part Tree
+				scene			= FwScene()					// A Part Tree
 				rootPart		= RootPart()//"parts":[Part()]])
 				rootPart?.nam	= "ROOT"
 				for i in 1...2 {
@@ -76,10 +76,10 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
-			let docState 		= DocState(model:rootPart, scene:SCNScene())
+			let docState 		= DocState(model:rootPart, scene:FwScene())
 			self.init(state:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:
-			let scene:SCNScene!	= SCNScene(data: data, encoding: .utf8)!
+			let scene:FwScene!	= FwScene(data: data, encoding: .utf8)!
 			let state0 			= DocState(model:RootPart(), scene:scene)
 			self.init(state:state0)				// -> FooDocTry3Document
 		default:

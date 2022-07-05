@@ -48,7 +48,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //	{	willSet(v) {	markTree(dirty:v)  									}	}
 
 //	 // Ugly:
-//	var nLinesLeft	: UInt8		= 0			// left to print in current atom
+	var nLinesLeft	: UInt8		= 0			// left to print in current atom
 //	var uidForDeinit			= "uninitialized"
 
 
@@ -209,7 +209,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		//case parent		// IGNORE, weak, reconstructed
 //		//case root_		// IGNORE, weak regenerate
 //
-//		case nLinesLeft		// new
+		case nLinesLeft		// new
 //		case uidForDeinit	// new
 //
 		case dirty
@@ -232,7 +232,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 		try container.encode(nam, 			forKey:.nam)
 		try container.encode(children,		forKey:.children)		// ignore parts. (it's sugar for children)
 //
-//		try container.encode(nLinesLeft,	forKey:.nLinesLeft)		// ignore parts. (it's sugar for children)
+		try container.encode(nLinesLeft,	forKey:.nLinesLeft)		// ignore parts. (it's sugar for children)
 //		try container.encode(uidForDeinit,	forKey:.uidForDeinit)		// ignore parts. (it's sugar for children)
 //
 //	//	try container.encode(localConfig,	foarKey:.localConfig)	// FwConfig not Codable!//Protocol 'FwAny' as a type cannot conform to 'Encodable'
@@ -258,7 +258,7 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 		children				= try container.decode([PolyWrap].self, forKey:.children)
 //		children.forEach({ $0.parent = self})	// set parent
 //		// root?
-//		nLinesLeft				= try container.decode(		UInt8.self, forKey:.nLinesLeft)
+		nLinesLeft				= try container.decode(		UInt8.self, forKey:.nLinesLeft)
 //		uidForDeinit			= try container.decode(    String.self, forKey:.uidForDeinit)
 //		localConfig 			= [:]	// PUNT
 //		//config				= [:]	// PUNT
@@ -327,7 +327,7 @@ bug;	let theCopy 			= Part()
 ////		let theCopy : Part		= super.copy(with:zone) as! Part
 //		theCopy.name			= self.name
 //		theCopy.children		= self.children
-//		theCopy.nLinesLeft		= self.nLinesLeft
+		theCopy.nLinesLeft		= self.nLinesLeft
 //		theCopy.uidForDeinit	= self.uidForDeinit
 //		theCopy.localConfig		= self.localConfig
 //	//	theCopy.config			= self.config
@@ -361,7 +361,7 @@ bug;return false
 //		var rv  =  name			== rhs.name
 //		 	//	&& parent		== rhs.parent			// weak
 //			//	&& children		== rhs.children			// DOESN'T SEEM TO WORK
-//				&& nLinesLeft	== rhs.nLinesLeft
+				&& nLinesLeft	== rhs.nLinesLeft
 //			//	&& uidForDeinit	== rhs.uidForDeinit		// allowed to differ
 //			//	&& dirty		== rhs.dirty			// allowed to differ
 //			//	&& localConfig	== rhs.localConfig		// not Equitable
@@ -701,6 +701,7 @@ bug;return false
 //	/// Up has 2 meanings:
 //	///	- UPsidedown (as controlled by fliped)
 //	///	- Port opens UP
+	let upInWorld 				= true	// STUB
 //	var upInWorld : Bool {						// true --> flipped in World
 //		var rv 					= false
 //		for part in selfNParents {
@@ -839,7 +840,7 @@ bug;return false
 				logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 				return self								// .:. match!
 			}
-			if part.name != path.atomTokens[index]{	// name MISMATCH
+			if part.nam != path.atomTokens[index]{	// name MISMATCH
 				return nil								// .:. nfg
 			}
 		}
@@ -1427,34 +1428,34 @@ bug;return false
 		var rv					= ""
 		switch mode! {
 		case .name:
-			return name
+			return nam
 		case .fullName:
 			rv					+= fullName
 		case .fullNameUidClass:
-			return "\(name)\(ppUid(pre:"/", self)):\(fwClassName)"
+			return "\(nam)\(ppUid(pre:"/", self)):\(fwClassName)"
 //		case .uidClass:
 //			return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
 //		case .classUid:
 //			return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"
 		case .phrase, .short:
-			return "\(name):\(pp(.fwClassName, aux)) \(children.count) children"
+			return "\(nam):\(pp(.fwClassName, aux)) \(children.count) children"
 		case .line:
 			  //      AaBbbbbbCccDdddddddddddddddddddddddEeeeeeeeeeeee
 			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 			rv					= ppUid(self, post:"", aux:aux)
-			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
+//			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
 			rv 					+= root?.log.indentString() ?? "____"				// Bb..
 //			rv 					+= root?.log.indentString() ?? "Bb..."				// Bb..
 			let ind				= parent?.children.firstIndex(of:self)
 			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
 				// adds "name;class<unindent><Expose><ramId>":
 			rv					+= ppCenterPart(aux)								// Dd..
-			if config("physics")?.asBool ?? false {
-				rv				+= "physics,"
-			}
-			if aux.bool_("ppParam") {
-				rv 				+= localConfig.pp(.line)
-			}
+//			if config("physics")?.asBool ?? false {
+//				rv				+= "physics,"
+//			}
+//			if aux.bool_("ppParam") {
+//				rv 				+= localConfig.pp(.line)
+//			}
 																					// Ee..
 		case .tree:
 			let ppDagOrder 		= aux.bool_("ppDagOrder")	// Print Ports early
@@ -1474,7 +1475,7 @@ bug;return false
 		return rv
 	}
 	func ppCenterPart(_ aux:FwConfig) -> String {
-		var rv 			 		=  name.field(10) + ":"					// " net0:"
+		var rv 			 		=  nam.field(10) + ":"					// " net0:"
 		rv 						+= fwClassName.field(-6, dots:false)	// "Net "
 		rv 						+= root?.log.unIndent(previous:rv) ?? "___ "
 		rv						+= initialExpose.pp(.short, aux)		// "o"
