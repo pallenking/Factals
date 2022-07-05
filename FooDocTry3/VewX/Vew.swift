@@ -567,6 +567,7 @@ bug
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
+		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let vRoot				= self
 		let pRoot				= part.root!
 
@@ -576,38 +577,38 @@ bug
 		 // debug test
 //		rootpart("l0.P").markTree(dirty:.paint)
 //		rootPart.dirtySubTree(.paint)
-//
+
 ///**/	SCNTransaction.begin()
 //		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
-//
-//			   /// Is Part Tree dirty? If so, obtain lock
-//			  /// - Parameters:
-//			 ///   - dirty: kind dirty (.vew, .size, or .paint) to check
-//			///    - viewLockName: Owner of lock; nil -> no lock needed
-//		   ///     - log: log the message
-//		  ///      - message: massage to log
-//		 ///      - Returns: Work
-//		func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
-//			if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-//				guard fwScene.lock(rootVewAs:viewLockName, logIf:log) else {
-//					fatalError("updateVewTree(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
-//				}
-//				viewLockName 	= nil				// mark gotten
-//				return true
-//			}
-//			return false
-//		}
-//
-//		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
-//		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
-//			" _ reVew _   Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
-//			atRve(6, log ? logd("rootPart.reVew():....") : nop)
-//
+
+			   /// Is Part Tree dirty? If so, obtain lock
+			  /// - Parameters:
+			 ///   - dirty: kind dirty (.vew, .size, or .paint) to check
+			///    - viewLockName: Owner of lock; nil -> no lock needed
+		   ///     - log: log the message
+		  ///      - message: massage to log
+		 ///      - Returns: Work
+		func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
+			if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
+				guard DOC.state.scene.lock(rootVewAs:viewLockName, logIf:log) else {
+					fatalError("updateVewTree(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
+				}
+				viewLockName 	= nil				// mark gotten
+				return true
+			}
+			return false
+		}
+
+		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
+		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
+			" _ reVew _   Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
+			atRve(6, log ? logd("rootPart.reVew():....") : nop)
+
 			  // 2. Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
 //			pRoot.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
-//		}
+		}
 //		 // ----   Adjust   S I Z E s   ---- //
 //		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
 //			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
@@ -636,10 +637,11 @@ bug
 //			pRoot  .applyLinkForces(in:vRoot)		// Apply   Forces (zero out .force)
 //			pRoot .rotateLinkSkins (in:vRoot)		// Rotate Link Skins
 //		}
-//		let unlockName			= needsLockArg == nil ? nil :	// no lock wanted
-//								  needsViewLock == nil ? needsLockArg :// we locked it!
-//								  nil							// we locked nothing
+		let unlockName			= needsLockArg  == nil ? nil :	// no lock wanted
+								  needsViewLock == nil ? needsLockArg :// we locked it!
+								  nil							// we locked nothing
 ///**/	SCNTransaction.commit()
+		DOC?.state.scene.unlock(rootVewAs:unlockName, logIf:log)	// Release VIEW LOCK
 //		fwScene.unlock(rootVewAs:unlockName, logIf:log)	// Release VIEW LOCK
 	}
 //	 // MARK: - 9.5 Wire Box
