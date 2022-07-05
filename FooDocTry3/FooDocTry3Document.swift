@@ -11,11 +11,9 @@ import UniformTypeIdentifiers
 
 struct DocState {
 	var model	: RootPart
-	var vew		: Vew
 	var scene	: SCNScene
-	init(model:RootPart?, vew:Vew?=nil, scene:SCNScene?=nil) {
+	init(model:RootPart?, scene:SCNScene?=nil) {
 		self.model				= model	?? RootPart([:])
-		self.vew				= vew 	?? Vew(forPart:model)
 		self.scene				= scene	?? { fatalError()}()	//SCNNode(
 	}
 }
@@ -29,7 +27,6 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	init(state:DocState?=nil) {
 		self.state 				= state ?? { //newDocState()
 			var rootPart : RootPart? = nil
-			var vew		 : Vew?	= nil
 			var scene	 : SCNScene
 
 			  // Generate a new document:
@@ -49,8 +46,8 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 					p.nam		= "p\(i)"
 					rootPart!.addChild(p)
 				}
-				vew	  			= Vew(forPart:rootPart, scn:scene.rootNode)
-				vew?.updateVewTree()
+				let vew			= Vew(forPart:rootPart, scn:scene.rootNode)
+				vew.updateVewTree()
 
 				scene.addLightsAndCamera()
 
@@ -58,7 +55,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 				fatalError("newDocState stateType:\(stateType) is ILLEGAL")
 			}
 
-			return DocState(model:rootPart ?? RootPart(), vew:vew ?? Vew(), scene:scene)
+			return DocState(model:rootPart ?? RootPart(), scene:scene)
 		}()
 	}
 
@@ -76,11 +73,11 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
-			let docState 		= DocState(model:rootPart, vew:Vew(), scene:SCNScene())
+			let docState 		= DocState(model:rootPart, scene:SCNScene())
 			self.init(state:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:
 			let scene:SCNScene!	= SCNScene(data: data, encoding: .utf8)!
-			let state0 			= DocState(model:RootPart(), vew:Vew(), scene:scene)
+			let state0 			= DocState(model:RootPart(), scene:scene)
 			self.init(state:state0)				// -> FooDocTry3Document
 		default:
 			throw CocoaError(.fileWriteUnknown)
