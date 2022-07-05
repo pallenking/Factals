@@ -369,9 +369,9 @@ bug//	if let curLockStr		= DOC?.fwScene?.rootVewOwner {
 		"toggelOpen6"					: "op6",
 	]
 	var params4aux : FwConfig	{	config4log									}
-	static let nul : Log		= {
+	static let null : Log		= {
 		let params				= params4appLog
-		let rv					= Log(params, title:".nul = Log(params4app)")
+		let rv					= Log(params, title:".null = Log(params4app)")
 		return rv
 	}()
 

@@ -32,6 +32,7 @@
 		9FEE521D28749C2A00C8C22A /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE521C28749C2A00C8C22A /* LLDBInitFile */; };
 		9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521E2874A42000C8C22A /* LldbInit.swift */; };
 		9FEE52212874AB7300C8C22A /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52202874AB7300C8C22A /* Path.swift */; };
+		9FEE52232874D9A100C8C22A /* NSColor++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52222874D9A100C8C22A /* NSColor++.swift */; };
 		9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */; };
 		9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */; };
 		9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
@@ -71,6 +72,7 @@
 		9FEE521C28749C2A00C8C22A /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = "<group>"; };
 		9FEE521E2874A42000C8C22A /* LldbInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LldbInit.swift; sourceTree = "<group>"; };
 		9FEE52202874AB7300C8C22A /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		9FEE52222874D9A100C8C22A /* NSColor++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSColor++.swift"; sourceTree = "<group>"; };
 		9FEE6F122835778A00E9E2AE /* FooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3App.swift; sourceTree = "<group>"; };
 		9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3Document.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
 				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
 				9FEE51B5286BA61000C8C22A /* Random.swift */,
+				9FEE52222874D9A100C8C22A /* NSColor++.swift */,
 				9FEE52202874AB7300C8C22A /* Path.swift */,
 				9FEE51B6286BA61000C8C22A /* Uid.swift */,
 				9FEE521E2874A42000C8C22A /* LldbInit.swift */,
@@ -291,6 +294,7 @@
 				9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
 				9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */,
+				9FEE52232874D9A100C8C22A /* NSColor++.swift in Sources */,
 				9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,

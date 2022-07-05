@@ -17,11 +17,11 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 
 ////	Application Singletons:
 //var APPDEL	 : AppDelegate? 	{	NSApp.delegate as? AppDelegate			}
-//var APPLOG	 : Log 				{	APPDEL?.log ?? Log.nul					}
+//var APPLOG	 : Log 				{	APPDEL?.log ?? Log.null					}
 
 let DOCCTLR						= NSDocumentController.shared
 var DOC   	 : FooDocTry3Document!		// (Currently Active) App must insure continuity
-var DOCLOG   : Log 					{	DOC?.state.model.log ?? Log.nul			}
+var DOCLOG   : Log 					{	DOC?.state.model.log ?? Log.null			}
 // A basic tutorial :http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
 
 

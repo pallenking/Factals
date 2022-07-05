@@ -47,7 +47,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 					p.nam		= "p\(i)"
 					rootPart.addChild(p)
 				}
-				scene			= FwScene()					// A Part Tree
+					scene			= FwScene(fwConfig:[:])					// A Part Tree
 				vew				= Vew(forPart:rootPart, scn:scene.rootNode)
 
 			default:
@@ -75,11 +75,11 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
-			let docState 		= DocState(model:rootPart, scene:FwScene())
+				let docState 		= DocState(model:rootPart, scene:FwScene(fwConfig:[:]))
 			self.init(state:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:
-			let scene:FwScene!	= FwScene(data: data, encoding: .utf8)!
-			let state0 			= DocState(model:RootPart(), scene:scene)
+			let scene:FwScene?	= FwScene(data: data, encoding: .utf8)
+			let state0 			= DocState(model:RootPart(), scene:scene!)
 			self.init(state:state0)				// -> FooDocTry3Document
 		default:
 			throw CocoaError(.fileWriteUnknown)

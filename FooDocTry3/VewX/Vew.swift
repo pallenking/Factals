@@ -14,7 +14,7 @@ class NetVew  : Vew {
 }
 
 func aSimpleScene() -> FwScene {
-	let scene					= FwScene()
+	let scene					= FwScene(fwConfig:[:])
 
 	let obj1					= SCNNode(geometry: SCNSphere(radius: 1.0))
 	obj1.name					= "sphere"
@@ -78,7 +78,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //	}
 
 //	var jog			: SCNVector3? = nil		// some machines require this
-//	var force		: SCNVector3 = .zero 	// for Animation for positioning
+	var force		: SCNVector3 = .zero 	// for Animation for positioning
 //																				 // Branch's Actor call for atomic?
 //																				//		if p is Branch ||			// we are Branch
 //																				//		   p is Leaf 		{			// we are Leaf
@@ -578,8 +578,8 @@ bug
 //		rootpart("l0.P").markTree(dirty:.paint)
 //		rootPart.dirtySubTree(.paint)
 
-///**/	SCNTransaction.begin()
-//		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
+/**/	SCNTransaction.begin()
+		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
 
 			   /// Is Part Tree dirty? If so, obtain lock
 			  /// - Parameters:
@@ -598,51 +598,49 @@ bug
 			}
 			return false
 		}
-
 		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
 		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
-			" _ reVew _   Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
-			atRve(6, log ? logd("rootPart.reVew():....") : nop)
+			" _ reVew _   Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
+		{	atRve(6, log ? logd("rootPart.reVew():....") : nop)
 
 			  // 2. Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
-//			pRoot.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
+			pRoot.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
 		}
-//		 // ----   Adjust   S I Z E s   ---- //
-//		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
-//			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
-//			atRsi(6, log ? logd("rootPart.reSize():....") : nop)
-//
-///**/		pRoot.reSize(inVew:rootVew)				// also causes rePosition as necessary
-//
-//			rootVew.bBox		|= BBox.unity		// insure a 1x1x1 minimum
-//
-//			pRoot.rePosition(vew:rootVew,first:true)// === only outter vew centered
+		 // ----   Adjust   S I Z E s   ---- //
+		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
+			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
+		{	atRsi(6, log ? logd("rootPart.reSize():....") : nop)
+
+/**/		pRoot.reSize(inVew:rootVew)				// also causes rePosition as necessary
+
+			rootVew.bBox		|= BBox.unity		// insure a 1x1x1 minimum
+
+			pRoot.rePosition(vew:rootVew,first:true)// === only outter vew centered
 //			rootVew.orBBoxIntoParent()
-//			pRoot.reSizePost(vew:vRoot)				// === (set link Billboard constraints)
-//	//		rootVew.bBox		= .empty			// Set view's bBox EMPTY
-//		}
-//		 // -----   P A I N T   Skins ----- //
-//		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
-//			" _ rePaint _ Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
-//
-///**/		pRoot.rePaint(on:vRoot)					// Ports color, Links position
-//
-//			 // All changes above cause rePaint and get here. Let system know!
-//			pRoot.fwDocument!.fwView!.needsDisplay = true
-//
-//			 // THESE SEEM IN THE WRONG PLACE!!!
-//			pRoot.computeLinkForces(in:vRoot) 		// Compute Forces (.force == 0 initially)
-//			pRoot  .applyLinkForces(in:vRoot)		// Apply   Forces (zero out .force)
-//			pRoot .rotateLinkSkins (in:vRoot)		// Rotate Link Skins
-//		}
+			pRoot.reSizePost(vew:vRoot)				// === (set link Billboard constraints)
+	//		rootVew.bBox		= .empty			// Set view's bBox EMPTY
+		}
+		 // -----   P A I N T   Skins ----- //
+		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
+			" _ rePaint _ Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
+		{
+/**/		pRoot.rePaint(on:vRoot)					// Ports color, Links position
+
+			 // All changes above cause rePaint and get here. Let system know!
+bug//		pRoot.fwDocument!.fwView!.needsDisplay = true
+
+			 // THESE SEEM IN THE WRONG PLACE!!!
+			pRoot.computeLinkForces(in:vRoot) 		// Compute Forces (.force == 0 initially)
+			pRoot  .applyLinkForces(in:vRoot)		// Apply   Forces (zero out .force)
+			pRoot .rotateLinkSkins (in:vRoot)		// Rotate Link Skins
+		}
 		let unlockName			= needsLockArg  == nil ? nil :	// no lock wanted
 								  needsViewLock == nil ? needsLockArg :// we locked it!
 								  nil							// we locked nothing
-///**/	SCNTransaction.commit()
+/**/	SCNTransaction.commit()
 		DOC?.state.scene.unlock(rootVewAs:unlockName, logIf:log)	// Release VIEW LOCK
-//		fwScene.unlock(rootVewAs:unlockName, logIf:log)	// Release VIEW LOCK
 	}
 //	 // MARK: - 9.5 Wire Box
 //	func updateWireBox() {
@@ -736,7 +734,7 @@ bug
 //		if let root				= part.root {
 //			root.log.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 //		}else{
-//			Log .nul.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+//			Log .null.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 //		}
 //	}
 	 // MARK: - 15. PrettyPrint
@@ -800,8 +798,8 @@ bug
 				}
 				if ppViewOptions.contains("E"),					 	// Expose:
 				  !ppViewTight {
-bug//				rv			+= " " + expose.pp(.short, aux)			  // (M)
-					rv			+= keep ? "+" : "-"						  // (M)
+	//				rv			+= " " + expose.pp(.short, aux)			  // (M)
+	//				rv			+= keep ? "+" : "-"						  // (M)
 				}
 				var rv1			= ""						// /// POSITIONS:
 				if ppViewOptions.contains("T") {				 	// Transform:

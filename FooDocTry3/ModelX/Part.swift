@@ -4,6 +4,11 @@ import SceneKit
 import SwiftUI
 
 class Link : Part {
+	 // MARK: -- Set Link's end position
+	override func reSizePost(vew:Vew) {				//  find endpoints
+//		let (p, s)				= linkEndPositions(in:vew as! LinkVew)!
+//		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line))"))
+	}
 	override func mark_line(_ aux:FwConfig, _ line:String) -> String {
 		var rv					= ""
 		if aux["ppLinks"]?.asBool ?? false {
@@ -532,48 +537,48 @@ bug;return false
 	/// - Parameters:
 	///   - parent_: ---- if known
 	///   - root_: ---- set in Part
-//	func groomModel(parent parent_:Part?, root root_:RootPart?)  {
-//		parent					= parent_
-//		let r					=  root_				// from arg
-//								?? root					// my root
-//								?? self as? RootPart 	// me, if I'm a RootPart
-//								?? child0 as? RootPart	// if PolyWrapped
-//		root					= r
-//		markTree(dirty:.vew)						// set dirty vew
-//
-//		 // Do whole tree
-//		for child in children {						// do children
-//			child.groomModel(parent:self, root:root)	// ### RECURSIVE
-//		}
-//	}
-//	func groomModelPostWires(root:RootPart)  {
-//		 // Check for duplicate names:
-//		var allNames : [String] = []
-//		for child in children {
-//			assertWarn(allNames.contains(child.name) == false, "contains duplicate name \(name)")
-//			allNames.append(child.name)
-//		}
-//		 // Do whole tree
-//		for child in children {
-//			child.groomModelPostWires(root:root) 	// ### RECURSIVE
-//		}
-//	}
-//
-//	 // Get Part's configuration from localConfig of Part and parents, and model
-//	func config(_ name:String) -> FwAny? {
-//		 // Look in self and parents:
-//		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
-//			if let rv			= s.localConfig[name] {
-//				return rv						// return an ancestor's config
-//			}
-//		}
-//		return root?.ansConfig[name] ??		// Look in common places: // 21200301PAK: Review: sometimes ans Config is also dumped into Part.config?
-//			   DOC?.fwScene?.config4scene[name]
+	func groomModel(parent parent_:Part?, root root_:RootPart?)  {
+		parent					= parent_
+		let r					=  root_				// from arg
+								?? root					// my root
+								?? self as? RootPart 	// me, if I'm a RootPart
+								?? child0 as? RootPart	// if PolyWrapped
+		root					= r
+		markTree(dirty:.vew)						// set dirty vew
+
+		 // Do whole tree
+		for child in children {						// do children
+			child.groomModel(parent:self, root:root)	// ### RECURSIVE
+		}
+	}
+	func groomModelPostWires(root:RootPart)  {
+		 // Check for duplicate names:
+		var allNames : [String] = []
+		for child in children {
+			assertWarn(allNames.contains(child.nam) == false, "contains duplicate name \(nam)")
+			allNames.append(child.nam)
+		}
+		 // Do whole tree
+		for child in children {
+			child.groomModelPostWires(root:root) 	// ### RECURSIVE
+		}
+	}
+
+	 // Get Part's configuration from localConfig of Part and parents, and model
+	func config(_ name:String) -> FwAny? {
+		 // Look in self and parents:
+		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
+			if let rv			= s.localConfig[name] {
+				return rv						// return an ancestor's config
+			}
+		}
+		return root?.ansConfig[name] ??		// Look in common places: // 21200301PAK: Review: sometimes ans Config is also dumped into Part.config?
+			   DOC?.state.scene.config4scene[name]
+	 }
+	  /// Lookup Part's configuration from only this Part
+//	 func configLocal(_ name:String) -> FwAny? {
+//		 return 			      localConfig[name]		// in our config hash
 //	 }
-//	  /// Lookup Part's configuration from only this Part
-////	 func configLocal(_ name:String) -> FwAny? {
-////		 return 			      localConfig[name]		// in our config hash
-////	 }
 //	 // MARK: - 4.3 Iterate over parts
 //	typealias PartOperation 	= (Part) -> ()
 //	func forAllParts(_ partOperation : PartOperation)  {
@@ -986,77 +991,77 @@ bug;return false
 //		vew?.expose				= vew?.expose ?? initialExpose	// for the future
 //		vew?.keep				= true
 	}
-//	   /// - Link:			Position Views (e.g. lookAt)
-//	  /// -	Atom:			Mark unused
-//	 /// -	Part:			remove Views for unused Parts
-//	func reVewPost(vew:Vew) {
-//		vew.keep				= false
+	   /// - Link:			Position Views (e.g. lookAt)
+	  /// -	Atom:			Mark unused
+	 /// -	Part:			remove Views for unused Parts
+	func reVewPost(vew:Vew) {
+		vew.keep				= false
 //		if vew.expose == .open {
-//			for childVew in vew.children {				// (Post Recursion)
-//				childVew.part.reVewPost(vew:childVew)
-//			}
+			for childVew in vew.children {				// (Post Recursion)
+				childVew.part.reVewPost(vew:childVew)
+			}
 //		}
-//	}
-//	     // MARK: - 9.2 reSize
-//	    /// Re-pack vew and children
-//	   /// - May be called multiply, at the start with .zero .bBox, and after packing internal atoms.
-//      /// - Parameter vew: -- The Vew to use
-//     /// - Returns: nothing
-//	func reSize(inVew vew:Vew) {
-//
-//		 //------ Put on my   Skin   on me.
-//		vew.bBox				= .empty			// Set view's bBox EMPTY
-//		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
-//
-//		 //------ reSize all  _CHILD Atoms_
-//		var first				= true
-//		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
-//		for childVew in orderedChildren where// For all Children, except
-//		  !(childVew.part is Port) 				// ignore child Ports (Atom handles)
-//		{	let childPart		= childVew.part
-//
-//			 // 1. Repack insides (if dirty size):
-//			if childPart.testNReset(dirty:.size) {
-//				childPart.reSize(inVew:childVew)	// #### HEAD RECURSIVEptv
-//			}
-//			  // If our shape was just added recently, it has no parent.
-//			 //   That it is "dangling" signals we should swap it in
-//			if childVew.scn.parent == nil {
-///*bug;*/		vew.scn.removeAllChildren()
-//				vew.scn.addChild(node:childVew.scn)
-//			}
-//
-//			 // 2. Reposition:
-//			childPart.rePosition(vew:childVew, first:first)
+	}
+	     // MARK: - 9.2 reSize
+	    /// Re-pack vew and children
+	   /// - May be called multiply, at the start with .zero .bBox, and after packing internal atoms.
+      /// - Parameter vew: -- The Vew to use
+     /// - Returns: nothing
+	func reSize(inVew vew:Vew) {
+
+		 //------ Put on my   Skin   on me.
+		vew.bBox				= .empty			// Set view's bBox EMPTY
+		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
+
+		 //------ reSize all  _CHILD Atoms_
+		var first				= true
+		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
+		for childVew in orderedChildren where// For all Children, except
+		  !(childVew.part is Port) 				// ignore child Ports (Atom handles)
+		{	let childPart		= childVew.part
+
+			 // 1. Repack insides (if dirty size):
+			if childPart.testNReset(dirty:.size) {
+				childPart.reSize(inVew:childVew)	// #### HEAD RECURSIVEptv
+			}
+			  // If our shape was just added recently, it has no parent.
+			 //   That it is "dangling" signals we should swap it in
+			if childVew.scn.parent == nil {
+/*bug;*/		vew.scn.removeAllChildren()
+				vew.scn.addChild(node:childVew.scn)
+			}
+
+			 // 2. Reposition:
+			childPart.rePosition(vew:childVew, first:first)
 //			childVew.orBBoxIntoParent()			// child.bbox -> bbox
-//			childVew.keep		= true
-//			first				= false
-//		}
-//
-//		 //------ Part PROPERTIES for new skin:
-//		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
-//
+			childVew.keep		= true
+			first				= false
+		}
+
+		 //------ Part PROPERTIES for new skin:
+		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
+
 //		 // ------ color0
 //		if let colorStr 		= config("color")?.asString,					//localConfig["color"]?.asString,
 //		  let c	 				= NSColor(colorStr),
 //		  vew.expose == .open {			// Hack: atomic not colored				//localConfig["color"] = nil
 //			vew.scn.color0 		= c			// in SCNNode, material 0's reflective color
 //		}
-//		markTree(dirty:.paint)
-//
-//		 //------ Activate Physics:
-//		if let physConf			= localConfig["physics"] {
-//			physics(vew:vew, setConfiguration:physConf)
-//		}
-//	}
-//	 // MARK: - 9.3 reSkin
-//	/// Put full skin onto Sphere
-//	/// - chooses full, atomic, or invisible, according to expose
-//    /// - Parameter vew: -- The Vew to use
-//    /// - Parameter expose_: -- Exposure. If nil, use View's exposure
-//    /// - returns: -- The BBox of the part with new skins on. 
-//    /// - note: The BBox of the view's SCNNode is INVALID at this point. (This is from a problem with non-zero gaps)
-//	func reSkin(_ expose_:Expose?=nil, onto vew:Vew) -> BBox 	{
+		markTree(dirty:.paint)
+
+		 //------ Activate Physics:
+		if let physConf			= localConfig["physics"] {
+			physics(vew:vew, setConfiguration:physConf)
+		}
+	}
+	 // MARK: - 9.3 reSkin
+	/// Put full skin onto Sphere
+	/// - chooses full, atomic, or invisible, according to expose
+    /// - Parameter vew: -- The Vew to use
+    /// - Parameter expose_: -- Exposure. If nil, use View's exposure
+    /// - returns: -- The BBox of the part with new skins on.
+    /// - note: The BBox of the view's SCNNode is INVALID at this point. (This is from a problem with non-zero gaps)
+	func reSkin(_ expose_:Expose?=nil, onto vew:Vew) -> BBox 	{
 //		vew.expose				= expose_ ?? vew.expose
 //		switch vew.expose {
 //		case .invis, .null:
@@ -1064,282 +1069,283 @@ bug;return false
 //		case .atomic:
 //			return reSkin(atomOnto:vew) 		// atomic skin (sphere/line)
 //		case .open:
-//			return reSkin(fullOnto:vew)			// skin of Part
+			return reSkin(fullOnto:vew)			// skin of Part
 //		}
-//	}
-//	/// Put on full skins onto a Part
-//    /// - Parameter vew: -- The Vew to use.
-//	/// - Returns: FW Bounding Box of skin
-//	/// - vew.bBox contains value bBox SHOULD be
-//	/// - Called _ONCE_ to get skin, as Views are constructed:
-//	func reSkin(fullOnto vew:Vew) -> BBox  {	// Bare Part
-//		 // No Full Skin overrides; make purple
-//		let bBox				= reSkin(atomOnto:vew)		// Expedient: uses atomic skins
-//		vew.scn.children[0].color0 = .purple
-//		return bBox
-//	}
-//	static let atomicRadius 	= CGFloat(1)
-//	func reSkin(atomOnto vew:Vew) -> BBox 	{
-//
-//		 // Remove most child skins:
-//		for childScn in vew.scn.children {
-//			if childScn.name != "s-atomic" {
-//				childScn.removeFromParent()
-//			}
+	}
+	/// Put on full skins onto a Part
+    /// - Parameter vew: -- The Vew to use.
+	/// - Returns: FW Bounding Box of skin
+	/// - vew.bBox contains value bBox SHOULD be
+	/// - Called _ONCE_ to get skin, as Views are constructed:
+	func reSkin(fullOnto vew:Vew) -> BBox  {	// Bare Part
+		 // No Full Skin overrides; make purple
+		let bBox				= reSkin(atomOnto:vew)		// Expedient: uses atomic skins
+		vew.scn.children[0].color0 = .purple
+		return bBox
+	}
+	static let atomicRadius 	= CGFloat(1)
+	func reSkin(atomOnto vew:Vew) -> BBox 	{
+
+		 // Remove most child skins:
+		for childScn in vew.scn.children {
+			if childScn.name != "s-atomic" {
+				childScn.removeFromParent()
+			}
+		}
+		 // Ensure 1 skin exists:
+		var scn4atom : SCNNode
+		if vew.scn.children.count == 0 {		// no children
+			scn4atom 			= SCNNode(geometry:SCNSphere(radius:Part.atomicRadius/2)) //SCNNode(geometry:SCNHemisphere(radius:0.5, slice:0.5, cap:false))
+			scn4atom.name		= "s-atomic"		// Make atomic skin
+			scn4atom.color0		= .black			//systemColor
+			vew.scn.addChild(node:scn4atom, atIndex:0)
+		}
+		scn4atom				= vew.scn.children[0]
+		return scn4atom.bBox() * scn4atom.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
+	}
+	func reSkin(invisibleOnto vew:Vew) -> BBox {
+		vew.scn.removeAllChildren()
+//		 // Remove skin named "s-..."
+//		if let skin				= vew.scn.find(name:"s-", prefixMatch:true) {
+//			skin.removeFromParent()
 //		}
-//		 // Ensure 1 skin exists:
-//		var scn4atom : SCNNode
-//		if vew.scn.children.count == 0 {		// no children
-//			scn4atom 			= SCNNode(geometry:SCNSphere(radius:Part.atomicRadius/2)) //SCNNode(geometry:SCNHemisphere(radius:0.5, slice:0.5, cap:false))
-//			scn4atom.name		= "s-atomic"		// Make atomic skin
-//			scn4atom.color0		= .black			//systemColor
-//			vew.scn.addChild(node:scn4atom, atIndex:0)
-//		}
-//		scn4atom				= vew.scn.children[0]
-//		return scn4atom.bBox() * scn4atom.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
-//	}
-//	func reSkin(invisibleOnto vew:Vew) -> BBox {
-//		vew.scn.removeAllChildren()
-////		 // Remove skin named "s-..."
-////		if let skin				= vew.scn.find(name:"s-", prefixMatch:true) {
-////			skin.removeFromParent()
-////		}
-////		assert(vew.scn.find(name:"s-", prefixMatch:true)==nil, "Part had more than one skin")
-//		return .empty
-//	}
-//
-//	/// Confures a physicsBody for a Vew.
-//	/// - Parameters:
-//	///    vew: 				specifies scn
-//	func foo(vew:Vew, setConfiguration config:FwAny?) {
-//	}
-//	
-//	/// Confures a physicsBody for a Vew.
-//	/// - Parameters:
-//	///   * vew 				specifies scn
-//	///   * config
-//	///   - FwConfig	==> recognizes keys: gravity, force, and impulse
-//	///   - Bool	         ==> enable gravity
-//	///   - nil			==> remove any physicsBody
-//	func physics(vew:Vew, setConfiguration config:FwAny?) {
-//		guard let config 		= config else {
-//			vew.scn.physicsBody	= nil			// remove physicsBody
-//			return
-//		}
-//		assert(!(self is Port) && !(self is Link), "Ports and Links cannot have physics property")
-//
-//		 // PhysicsBody Shape is   A SPHERE
-//		let physicsShape		= SCNNode(geometry:SCNSphere(radius:1.5))	// (acceptable simplification)
-//		physicsShape.name		= "q" + name
-//		let shape 				= SCNPhysicsShape(node:physicsShape)
-//		let pb					= SCNPhysicsBody(type:.dynamic, shape:shape)//kinematic OK
-//		vew.scn.physicsBody		= pb
-//
-//		 // Default PhysicsBody properties
-//		pb.contactTestBitMask	= FwNodeCategory.collides.rawValue
-//		pb.angularVelocityFactor = .zero
-//		pb.rollingFriction		= 0.0	// resistance to rolling motion.
-//		pb.restitution			= 1.5	// It determines how much kinetic energy the body loses or gains in collisions.
-//		pb.damping				= 0.8	// It reduces the body’s linear velocity.
-//		pb.usesDefaultMomentOfInertia = false // does SceneKit automatically calculates the body’s moment of inertia or allows setting a custom value.
-//		// not used currently:
-//		//	pb.resetTransform()
-//		//	pb.mass				= 1 	// The mass of the body, in kilograms.
-//		//	pb.charge			= 0 	// electric charge of the body, in coulombs.
-//		//	pb.angularDamping	= 1		// It reduces the body’s angular velocity.
-//		//	pb.momentOfInertia 	= SCNVector3(1,1,1) // The moment of inertia, expressed in the local coordinate system of the node that contains the body.
-//
-//		 // Settable PhysicsBody's properties:
-//		if let config			= config.asFwConfig {
-//			for (key, value) in config {
-//				let val			= SCNVector3(from:value) ?? SCNVector3(0,0.1,0)
-//				switch key {
-//				case "impulse":
-//					pb.applyForce(val, at: SCNVector3.zero, asImpulse:true)
-//				case "force":
-//					pb.applyForce(val, at: SCNVector3.zero, asImpulse:false)
-//				case "gravity":
-//					let v 			= value.asBool
-//					assert(v != nil, "gravity: value (\(value)) is not Bool")
-//					pb.isAffectedByGravity = v!
-//				default:
-//					break
-//				}
-//			}
-//			pb.isAffectedByGravity	= false
-//		}
-//		else if let doGravity	= config.asBool {
-//			pb.isAffectedByGravity	= doGravity
-//		}
-//	}
-//	func reSizePost(vew:Vew) {
-//
-//		 // Do   CHILDREN   first
-//		for childVew in vew.children { //where !(childVew is LinkVew) {
-//			childVew.part.reSizePost(vew:childVew)		// #### HEAD RECURSIVE
-//		}
-//		  // Reset transforms if there's a PHYSICS BODY:
-//		 //https://stackoverflow.com/questions/51456876/setting-scnnode-presentation-position/51679718?noredirect=1#comment91086879_51679718
-//		if let pb				= vew.scn.physicsBody {
-//			pb.resetTransform()			// scn.transform -> scn.presentation.transform
-//		}
+//		assert(vew.scn.find(name:"s-", prefixMatch:true)==nil, "Part had more than one skin")
+		return .empty
+	}
+
+	/// Confures a physicsBody for a Vew.
+	/// - Parameters:
+	///    vew: 				specifies scn
+	func foo(vew:Vew, setConfiguration config:FwAny?) {
+	}
+	
+	/// Confures a physicsBody for a Vew.
+	/// - Parameters:
+	///   * vew 				specifies scn
+	///   * config
+	///   - FwConfig	==> recognizes keys: gravity, force, and impulse
+	///   - Bool	         ==> enable gravity
+	///   - nil			==> remove any physicsBody
+	func physics(vew:Vew, setConfiguration config:FwAny?) {
+		guard let config 		= config else {
+			vew.scn.physicsBody	= nil			// remove physicsBody
+			return
+		}
+		assert(!(self is Port) && !(self is Link), "Ports and Links cannot have physics property")
+
+		 // PhysicsBody Shape is   A SPHERE
+		let physicsShape		= SCNNode(geometry:SCNSphere(radius:1.5))	// (acceptable simplification)
+		physicsShape.name		= "q" + nam
+		let shape 				= SCNPhysicsShape(node:physicsShape)
+		let pb					= SCNPhysicsBody(type:.dynamic, shape:shape)//kinematic OK
+		vew.scn.physicsBody		= pb
+
+		 // Default PhysicsBody properties
+		pb.contactTestBitMask	= FwNodeCategory.collides.rawValue
+		pb.angularVelocityFactor = .zero
+		pb.rollingFriction		= 0.0	// resistance to rolling motion.
+		pb.restitution			= 1.5	// It determines how much kinetic energy the body loses or gains in collisions.
+		pb.damping				= 0.8	// It reduces the body’s linear velocity.
+		pb.usesDefaultMomentOfInertia = false // does SceneKit automatically calculates the body’s moment of inertia or allows setting a custom value.
+		// not used currently:
+		//	pb.resetTransform()
+		//	pb.mass				= 1 	// The mass of the body, in kilograms.
+		//	pb.charge			= 0 	// electric charge of the body, in coulombs.
+		//	pb.angularDamping	= 1		// It reduces the body’s angular velocity.
+		//	pb.momentOfInertia 	= SCNVector3(1,1,1) // The moment of inertia, expressed in the local coordinate system of the node that contains the body.
+
+		 // Settable PhysicsBody's properties:
+		if let config			= config.asFwConfig {
+			for (key, value) in config {
+				let val			= SCNVector3(from:value) ?? SCNVector3(0,0.1,0)
+				switch key {
+				case "impulse":
+					pb.applyForce(val, at: SCNVector3.zero, asImpulse:true)
+				case "force":
+					pb.applyForce(val, at: SCNVector3.zero, asImpulse:false)
+				case "gravity":
+					let v 			= value.asBool
+					assert(v != nil, "gravity: value (\(value)) is not Bool")
+					pb.isAffectedByGravity = v!
+				default:
+					break
+				}
+			}
+			pb.isAffectedByGravity	= false
+		}
+		else if let doGravity	= config.asBool {
+			pb.isAffectedByGravity	= doGravity
+		}
+	}
+	func reSizePost(vew:Vew) {
+
+		 // Do   CHILDREN   first
+		for childVew in vew.children { //where !(childVew is LinkVew) {
+			childVew.part.reSizePost(vew:childVew)		// #### HEAD RECURSIVE
+		}
+		  // Reset transforms if there's a PHYSICS BODY:
+		 //https://stackoverflow.com/questions/51456876/setting-scnnode-presentation-position/51679718?noredirect=1#comment91086879_51679718
+		if let pb				= vew.scn.physicsBody {
+			pb.resetTransform()			// scn.transform -> scn.presentation.transform
+		}
 //		vew.updateWireBox()				// Add/Refresh my wire box scn
-//		vew.scn.isHidden		= false	// Include elements hiden for sizing:
-//	}
-//	 // MARK: - 9.4 rePosition
-//	func rePosition(vew:Vew, first:Bool=false) {
-//		if vew.parent != nil {
-//			 // Get Placement Modep
-//			let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
-//								parent?.config("placeMy")?.asString ?? // My Parent has placy MY
-//											   "linky"				   // default is position by links
-//			  // Set NEW's orientation (flip, lat, spin) at origin
-//			vew.scn.transform	= SCNMatrix4(.origin,
-//									 flip	 : flipped,
-//									 latitude: CGFloat(lat.rawValue) * .pi/8,
-//									 spin	 : CGFloat(spin)		 * .pi/8)
-//			if first {								// First has center at parent's origin
-//				let newBip		= vew.bBox * vew.scn.transform //new bBox in parent
-//				vew.scn.position = -newBip.center
-//			}
-//			else if placeMode.hasPrefix("stack") {	// Position Stacked
-//				assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
-//			} 
-//			else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
-//				assert(placeByLinks(inVew:vew, mode:placeMode)	// try link first
-//					|| placeStacked(inVew:vew, mode:"stacky"), "placeByLinks and placeStacked failed")
-//			} 
-//			else {
-//				panic("positioning method '\(placeMode)' unknown")
-//			}
-//		}
-//	}
-//	  /// STACK selfNode onto side, per PARENT's placeBy:
-//	 /// - e.g: "placeMy":"stackX 1 1" stacks on -x axis, aligning corners in +y and +z
-//	func placeStacked(inVew vew:Vew, mode:String) -> Bool {
-//		if vew.parent != nil {
-//			  // :H:		 	   ..BBoxInP -- BoundingBox In Parent coords
-//			 // 			 StacKeD objects -- are those already included in parent
-//			// 					  NEW object -- being added, (= self)
-//			var newBip			= vew.bBox * vew.scn.transform //new bBox in parent
-//			var rv				= -newBip.center // center selfNode in parent
-//			newBip.center		= .zero
+		vew.scn.isHidden		= false	// Include elements hiden for sizing:
+	}
+	 // MARK: - 9.4 rePosition
+	func rePosition(vew:Vew, first:Bool=false) {
+		if vew.parent != nil {
+			 // Get Placement Modep
+			let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
+								parent?.config("placeMy")?.asString ?? // My Parent has placy MY
+											   "linky"				   // default is position by links
+			  // Set NEW's orientation (flip, lat, spin) at origin
+			vew.scn.transform	= SCNMatrix4(.origin,
+									 flip	 : flipped,
+									 latitude: CGFloat(lat.rawValue) * .pi/8,
+									 spin	 : CGFloat(spin)		 * .pi/8)
+			if first {								// First has center at parent's origin
+				let newBip		= vew.bBox * vew.scn.transform //new bBox in parent
+				vew.scn.position = -newBip.center
+			}
+			else if placeMode.hasPrefix("stack") {	// Position Stacked
+				assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
+			}
+			else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
+				assert(
+//					placeByLinks(inVew:vew, mode:placeMode ||	// try link first
+					placeStacked(inVew:vew, mode:"stacky"), "placeByLinks and placeStacked failed")
+			}
+			else {
+				panic("positioning method '\(placeMode)' unknown")
+			}
+		}
+	}
+	  /// STACK selfNode onto side, per PARENT's placeBy:
+	 /// - e.g: "placeMy":"stackX 1 1" stacks on -x axis, aligning corners in +y and +z
+	func placeStacked(inVew vew:Vew, mode:String) -> Bool {
+		if vew.parent != nil {
+			  // :H:		 	   ..BBoxInP -- BoundingBox In Parent coords
+			 // 			 StacKeD objects -- are those already included in parent
+			// 					  NEW object -- being added, (= self)
+			var newBip			= vew.bBox * vew.scn.transform //new bBox in parent
+			var rv				= -newBip.center // center selfNode in parent
+			newBip.center		= .zero
 //			atRsi(4, vew.log(">>===== Position \(self.fullName) by:\(mode) (stacked) in \(parent?.fullName ?? "nil") "))
-//			let stkBip 			= vew.parent!.bBox
-//			rv		 			+= stkBip.center // center of stacked in parent
-//			let span			= stkBip.size + newBip.size	// of both parent and self
-//			let slop			= stkBip.size - newBip.size	// amount parent is bigger than self
+			let stkBip 			= vew.parent!.bBox
+			rv		 			+= stkBip.center // center of stacked in parent
+			let span			= stkBip.size + newBip.size	// of both parent and self
+			let slop			= stkBip.size - newBip.size	// amount parent is bigger than self
 //			atRsi(6, vew.log("   newBip:\(newBip.pp(.phrase)) stkBip:\(stkBip.pp(.phrase))"))
 //			atRsi(5, vew.log("   span:\(span.pp(.short)) slop:\(slop.pp(.short))"))	//\(stkBip.size.pp(.phrase)) += \(newBip.size.pp(.phrase)):
-//
-//			  // e.g. mode = "stackY 0.5 1"
-//			 // determine: u0,u1,u2, stackSign, alignU1, alignU2
-//			let modeWords:[Substring] = mode.split(separator:" ")
-//			let c 				= String(modeWords[0].last!)
-//			guard let stackAxis:Int = ["x":0,"y":1,"z":2,"X":3,"Y":4,"Z":5][c] else {
-//				panic("No x/y/z axis specifier in  mode:\(mode)")
-//				return false
-//			}
-//			  // Determine which Axis to stack on (u0), and which others to center:
-//			let (u0, u1, u2)	= (stackAxis%3, (stackAxis+1)%3, (stackAxis+2)%3)	// 0=x, 1=y, 2=z
-//			let stackSign:CGFloat =  stackAxis < 3 ? 0.5 : -0.5
-//			 // Align to:	 -1:minusCorners, 0:centers, 1:plusCorners
-//			var alignU1 		= Float(0.0)	/// ( stackAxis + 1 ) % 3
-//			if modeWords.count > 1,
-//			  let a1 			= Float(modeWords[1]) {
-//				alignU1			= 0.5 * a1
-//			}
-//			var alignU2 		= Float(0.0)	/// ( stackAxis + 2 ) % 3
-//			if modeWords.count > 2,
-//			  let a2 			= Float(modeWords[2]) {
-//				alignU2			= 0.5 * a2
-//			}
-//			let ax				= ["x","y","z"] 
+
+			  // e.g. mode = "stackY 0.5 1"
+			 // determine: u0,u1,u2, stackSign, alignU1, alignU2
+			let modeWords:[Substring] = mode.split(separator:" ")
+			let c 				= String(modeWords[0].last!)
+			guard let stackAxis:Int = ["x":0,"y":1,"z":2,"X":3,"Y":4,"Z":5][c] else {
+				panic("No x/y/z axis specifier in  mode:\(mode)")
+				return false
+			}
+			  // Determine which Axis to stack on (u0), and which others to center:
+			let (u0, u1, u2)	= (stackAxis%3, (stackAxis+1)%3, (stackAxis+2)%3)	// 0=x, 1=y, 2=z
+			let stackSign:CGFloat =  stackAxis < 3 ? 0.5 : -0.5
+			 // Align to:	 -1:minusCorners, 0:centers, 1:plusCorners
+			var alignU1 		= Float(0.0)	/// ( stackAxis + 1 ) % 3
+			if modeWords.count > 1,
+			  let a1 			= Float(modeWords[1]) {
+				alignU1			= 0.5 * a1
+			}
+			var alignU2 		= Float(0.0)	/// ( stackAxis + 2 ) % 3
+			if modeWords.count > 2,
+			  let a2 			= Float(modeWords[2]) {
+				alignU2			= 0.5 * a2
+			}
+			let ax				= ["x","y","z"]
 //			atRsi(5, vew.log("   Stack:\(stackSign > 0 ? "+" : "-")\(ax[u0]): Align \(ax[u1])=\(alignU1), \(ax[u2])=\(alignU1)"))
-//
-//			 // the move (delta) to put self's bBox centered within parent's bBox
-//			   // Place next Vew (self) on side of stacked parts   \\\
-//			  //   Calculation done in p parent's coord system      \\\
-//			 //   assumes self.transform has only 90deg's turns      \\\
-//			//( Consider just \[min+---o----------------+max  stk     )))
-//			 //\   the X axis:/[  min+-o--+max                new    ///
-//			  //\  o = origin/      AABBBBBCCCCCCCCCCCCCC           ///
-//			   //\   span: A + 2*B + C,   slop = A + C             ///
-//
-//			/*==Parent's Coords     	IN MORE DETAIL:
-//			||                      0      2        v~---- origin
-//			||   stkBBox            +---s--+        o<----------- parent SCNNode
-//			||                    +====p===+
-//			||   slop:             --            p - s = -1
-//			||   span:     +====p===+--s---+     p + s = 3
-//			||   newSelfPosition   +===p===+
-//			\\   selfBip:          +===p===+         |
-//			 >>==                /       /         /position xform
-//			//                  +===p===+         o<--------------- self SCNNode
-//			\\==My Coords   -.5     .5*/
-//
-//			 // Stack self in axis u0, onto a side of parent, extending it:
-//			rv[u0] 				+= span[u0] * stackSign		// NB: SCNVector3[Int] yields component numbered Int
-//			 // Center self on Parent's face: [-1:left, 0:center, 1:right]
-//			rv[u1] 				+= slop[u1] * alignU1
-//			rv[u2] 				+= slop[u2] * alignU2
-//
-//			let gap				= config("gapStackingInbetween")?.asCGFloat ?? 0.0
-//			rv[u0] 				+= gap * stackSign		/// gap on stacking axis
-//				 // H A C K: !!!!
-//			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
-//	//		let delta			= newBip.center - stkBip.center
-//	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
+
+			 // the move (delta) to put self's bBox centered within parent's bBox
+			   // Place next Vew (self) on side of stacked parts   \\\
+			  //   Calculation done in p parent's coord system      \\\
+			 //   assumes self.transform has only 90deg's turns      \\\
+			//( Consider just \[min+---o----------------+max  stk     )))
+			 //\   the X axis:/[  min+-o--+max                new    ///
+			  //\  o = origin/      AABBBBBCCCCCCCCCCCCCC           ///
+			   //\   span: A + 2*B + C,   slop = A + C             ///
+
+			/*==Parent's Coords     	IN MORE DETAIL:
+			||                      0      2        v~---- origin
+			||   stkBBox            +---s--+        o<----------- parent SCNNode
+			||                    +====p===+
+			||   slop:             --            p - s = -1
+			||   span:     +====p===+--s---+     p + s = 3
+			||   newSelfPosition   +===p===+
+			\\   selfBip:          +===p===+         |
+			 >>==                /       /         /position xform
+			//                  +===p===+         o<--------------- self SCNNode
+			\\==My Coords   -.5     .5*/
+
+			 // Stack self in axis u0, onto a side of parent, extending it:
+			rv[u0] 				+= span[u0] * stackSign		// NB: SCNVector3[Int] yields component numbered Int
+			 // Center self on Parent's face: [-1:left, 0:center, 1:right]
+			rv[u1] 				+= slop[u1] * alignU1
+			rv[u2] 				+= slop[u2] * alignU2
+
+			let gap				= config("gapStackingInbetween")?.asCGFloat ?? 0.0
+			rv[u0] 				+= gap * stackSign		/// gap on stacking axis
+				 // H A C K: !!!!
+			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
+	//		let delta			= newBip.center - stkBip.center
+	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
 //			atRsi(4, vew.log("<<===== rv=\(rv.pp(.short))\n"))
-//			vew.scn.position	= rv + (vew.jog ?? .zero)
-//	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
-//		}
-//		return true		// Success
-//	}
+			vew.scn.position	= rv //+ (vew.jog ?? .zero)
+	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
+		}
+		return true		// Success
+	}
 //	  /// Place Atoms by Links
 //	 /// - raw parts not positioned by links:
 //	func placeByLinks(inVew vew:Vew, mode:String?=nil) -> Bool {
 //		return false		 
 //	}
 //
-//	   // MARK: - 9.5: Render Protocol
-//	 // MARK: - 9.5.2: didApplyAnimations 		-- Compute spring forces
-//	func computeLinkForces(in vew:Vew) {
-//		for childVew in vew.children {			// by Vew
-//			childVew.part.computeLinkForces(in:childVew) // #### HEAD RECURSIVE
-//		}
-//	}
-//	  // MARK: - 9.5.3: did Simulate Physics 	-- Apply spring forces
-//	 /// Distribute Forces
-//	func applyLinkForces(in vew:Vew) {
-//		for childVew in vew.children {			// repeat over Vew tree
-//			childVew.part.applyLinkForces(in:childVew) // #### HEAD RECURSIVE
-//		}
-//		if let pb 				= vew.scn.physicsBody,
-//		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
-//			pb.applyForce(vew.force, asImpulse:false)
-//			atRve(9, logd(" Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))"))
-////			atRve(9, logd(" posn: \(vew.scn.transform.pp(.line))"))
-//		}
-//		vew.force				= .zero
-//	}
-//	 // MARK: - 9.5.5: will Render Scene -- Rotate Links toward camera
-//	func rotateLinkSkins(in vew:Vew) {
-//		for childVew in vew.children {			// by Vew
-//			childVew.part.rotateLinkSkins(in:childVew) // #### HEAD RECURSIVE
-//		}
-//	}
-//
-//
-//	  // MARK: - 9.6: Paint Image:
-//	func rePaint(on vew:Vew) 	{		/* prototype */
-//		for childVew in vew.children 				// by Vew
-//		  where childVew.part.testNReset(dirty:.paint) {
-//			childVew.part.rePaint(on:childVew)		// #### HEAD RECURSIVE
-//		}
-//		assertWarn(!vew.scn.transform.isNan, "vew.scn.transform == nan!")
-//	}
-//
+	   // MARK: - 9.5: Render Protocol
+	 // MARK: - 9.5.2: didApplyAnimations 		-- Compute spring forces
+	func computeLinkForces(in vew:Vew) {
+		for childVew in vew.children {			// by Vew
+			childVew.part.computeLinkForces(in:childVew) // #### HEAD RECURSIVE
+		}
+	}
+	  // MARK: - 9.5.3: did Simulate Physics 	-- Apply spring forces
+	 /// Distribute Forces
+	func applyLinkForces(in vew:Vew) {
+		for childVew in vew.children {			// repeat over Vew tree
+			childVew.part.applyLinkForces(in:childVew) // #### HEAD RECURSIVE
+		}
+		if let pb 				= vew.scn.physicsBody,
+		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
+			pb.applyForce(vew.force, asImpulse:false)
+			atRve(9, logd(" Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))"))
+//			atRve(9, logd(" posn: \(vew.scn.transform.pp(.line))"))
+		}
+		vew.force				= .zero
+	}
+	 // MARK: - 9.5.5: will Render Scene -- Rotate Links toward camera
+	func rotateLinkSkins(in vew:Vew) {
+		for childVew in vew.children {			// by Vew
+			childVew.part.rotateLinkSkins(in:childVew) // #### HEAD RECURSIVE
+		}
+	}
+
+
+	  // MARK: - 9.6: Paint Image:
+	func rePaint(on vew:Vew) 	{		/* prototype */
+		for childVew in vew.children 				// by Vew
+		  where childVew.part.testNReset(dirty:.paint) {
+			childVew.part.rePaint(on:childVew)		// #### HEAD RECURSIVE
+		}
+		assertWarn(!vew.scn.transform.isNan, "vew.scn.transform == nan!")
+	}
+
 //	 // MARK: - 13. IBActions
 //	 /// Prosses keyboard key
 //    /// - Parameter from: ---- NSEvent to process

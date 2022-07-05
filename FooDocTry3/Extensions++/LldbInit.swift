@@ -45,14 +45,9 @@ func rootvew(_ name:String?=nil) -> Vew  {
 var  rootScn  : SCNNode  	{	return rootscn()								}
 func rootscn(_ name:String?=nil) -> SCNNode	{
 	guard let docState 			= DOC?.state else {
-//	guard let fwScene 			= DOC.fwScene else {
-		print("rootscn(): is nil! Ignore next line(s)")
+		print("DOC! is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}
-//	guard let fwScene 			= DOC.fwScene else {
-//		print("rootscn(): is nil! Ignore next line(s)")
-//		return .null
-//	}
 	var scnRv					= docState.scene.rootScn				//fwScene.rootScn 	// Root
 
 	 // Search for named SCN:

@@ -7,54 +7,44 @@ import SceneKit
 //		s-<name>	-- SCNNode used for Skin of Vew _<name>
 //		w-...		-- SCNNode bounding box  of Vew _<name>
 //j∆
+
 extension SCNNode /*: HasChildren */ {
-//	var name: String {	get	set		}
-	var children: [SCNNode] 	{	get { childNodes }	set(v) { fatalError() }	}
-	var child0: SCNNode? 		{	get { childNodes[0] }						}
-//	var parent: SCNNode? 		{	get	set		}
-//	var root: SCNNode? 			{	get	set		}
-//	var fullName: String 		{	get	set		}
-//	var fullName: String 		{	get	{ fatalError()							} }
 
 	typealias T = SCNNode
 	typealias TRoot = SCNNode
-
-//extension SCNNode : HasChildren  {
-//class SCNNodeFW : SCNNode, HasChildren   {
-//	typealias T = SCNNode
-//	typealias TRoot = SCNNode
-//
-//	var nam : String {//Cannot override mutable property 'name' of type 'String?' with covariant type 'String'
-//		get 		{		return super.name ?? "<>"							}
-//		set(v)		{		super.nam = v										}
-//	}	// Function call causes an infinite recursion
-//	var fullName: String {
-//		get			{	fatalError()											}
-//	}
-//	var children: [SCNNode] {
-//		get 		{	fatalError();return []}//childNodes										}
-//		set(v)		{	fatalError() 											} //childNodes = v }
-//	}
-//	var child0 :  SCNNode?	{	childNodes.count == 0 ? nil : childNodes[0] as? SCNNode 	}
-//	override var parent: SCNNode? {
-//		get 		{	fatalError()											}//self.parent}
-//		set(v) 		{	fatalError()											}//self.parent = v}
-//	}
-//	var root		:  SCNNode?	{
-//		get 		{	fatalError("Vew has no .root")}
-//		set(v)		{	fatalError("Vew has no .root")}
-//	}
-//
-//	func addChild(_ child: SCNNode?, atIndex index: Int?) {
-//		fatalError()
-//	}
-//
-//	func removeChildren() {
-//		fatalError()
-//	}
-
-	// : not Codable	// : ObservableObject
-
+																				//extension SCNNode : HasChildren  {
+																				//class SCNNodeFW : SCNNode, HasChildren   {
+																				//	typealias T = SCNNode
+																				//	typealias TRoot = SCNNode
+																				//
+																				//	var nam : String {//Cannot override mutable property 'name' of type 'String?' with covariant type 'String'
+																				//		get 		{		return super.name ?? "<>"							}
+																				//		set(v)		{		super.nam = v										}
+																				//	}	// Function call causes an infinite recursion
+																				//	var fullName: String {
+																				//		get			{	fatalError()											}
+																				//	}
+																				//	var children: [SCNNode] {
+																				//		get 		{	fatalError();return []}//childNodes										}
+																				//		set(v)		{	fatalError() 											} //childNodes = v }
+																				//	}
+																				//	var child0 :  SCNNode?	{	childNodes.count == 0 ? nil : childNodes[0] as? SCNNode 	}
+																				//	override var parent: SCNNode? {
+																				//		get 		{	fatalError()											}//self.parent}
+																				//		set(v) 		{	fatalError()											}//self.parent = v}
+																				//	}
+																				//	var root		:  SCNNode?	{
+																				//		get 		{	fatalError("Vew has no .root")}
+																				//		set(v)		{	fatalError("Vew has no .root")}
+																				//	}
+																				//
+																				//	func addChild(_ child: SCNNode?, atIndex index: Int?) {
+																				//		fatalError()
+																				//	}
+																				//
+																				//	func removeChildren() {
+																				//		fatalError()
+																				//	}
 	// Superclass properties of interest:
 	//\\var 	transform
 	//\\var 	position
@@ -66,26 +56,52 @@ extension SCNNode /*: HasChildren */ {
 	//\\var		actionKeys: [String] 	// The list of keys for which the node has attached actions.
 
 //	 // MARK: - 2. Sugar for Object Variables:
-//	var children : [SCNNode]		{	return childNodes						}
+//	var name: String {	get	set		}
+	var children: [SCNNode] 	{	get { childNodes }	set(v) { fatalError() }	}
+	var child0: SCNNode? 		{	get { childNodes[0] }						}
+																				//	var parent: SCNNode? 		{	get	set		}
+																				//	var root: SCNNode? 			{	get	set		}
+																				//	var fullName: String 		{	get	set		}
+																				//	var fullName: String 		{	get	{ fatalError()							} }
 //	 /// Color of material[0]
 //	// Should figure out a Kosher way of setting colors
 ////	@Published 		//Non-static property 'color0' declared inside an extension cannot have a wrapper
+	var color0 : NSColor {
+		get {	 material_0()?.diffuse.contents as? NSColor ?? .black		}
+//		get {	 material_0()?.reflective.contents as? NSColor ?? .black		}
+		set(newColor) {
+			if let m 			= material_0() {
+				m.lightingModel	= .blinn		// 190220 Try it out!s
+				//m0?.locksAmbientWithDiffuse = true
+				///https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started self[k]!.asCGFloat
+				var color2		= newColor
+				if let skinAlpha = DOC.state.scene.config4scene.cgFloat("skinAlpha") {
+					color2		= color2.change(alphaTo:skinAlpha)
+				}
+				m.diffuse.contents = color2 //newColor//color2//
+				m.specular.contents = NSColor.white
+			}
+		}
+	}
 
-//	 // Several ways to flip, each has problems:
-//	  /// 1. ugly, inverts Z along with Y:
-//	 //rotation 				= SCNVector4Make(1, 0, 0, CGFloat.pi)
-//	  /// 2. IY ++, Some skins show as black, because inside out
-//	 //scale 					= SCNVector3(1, -1, 1)
-//	 var flipped : Bool? {
-//		 /// 3. causes Inside Out meshes, which are mostly tollerated
-//		 get {			/// Transform CGFloat to Bool?
-//			 let m22			= transform.m22
-//			 return m22 ~== 1.0 ? true : m22 ~== -1.0 ? false : nil
-//		 }
-//		 set (value) {	/// Transform Bool? to CGFloat
-//			 transform.m22	= value == true ? -1.0 : 1.0
-//		 }
-//	 }
+
+
+
+	 // Several ways to flip, each has problems:
+	  /// 1. ugly, inverts Z along with Y:
+	 //rotation 				= SCNVector4Make(1, 0, 0, CGFloat.pi)
+	  /// 2. IY ++, Some skins show as black, because inside out
+	 //scale 					= SCNVector3(1, -1, 1)
+	 var flipped : Bool? {
+		 /// 3. causes Inside Out meshes, which are mostly tollerated
+		 get {			/// Transform CGFloat to Bool?
+			 let m22			= transform.m22
+			 return m22 ~== 1.0 ? true : m22 ~== -1.0 ? false : nil
+		 }
+		 set (value) {	/// Transform Bool? to CGFloat
+			 transform.m22	= value == true ? -1.0 : 1.0
+		 }
+	 }
 	 /// Set Colors of material[0]:
 	func color0(		diffuse		: NSColor?=nil,
 						specular	: NSColor? = nil,
@@ -210,14 +226,14 @@ extension SCNNode /*: HasChildren */ {
 		let ind					= index ?? children.count
 		insertChildNode(node, at:ind)
 	}
-//	func removeAllChildren() {
-//		for s in children {
-//			s.removeFromParent()			// remove all child SCNs
-//		}
-//	}
-//	func removeFromParent() {
-//		removeFromParentNode()				// remove scn from parent
-//	}
+	func removeAllChildren() {
+		for s in children {
+			s.removeFromParent()			// remove all child SCNs
+		}
+	}
+	func removeFromParent() {
+		removeFromParentNode()				// remove scn from parent
+	}
 	 // MARK: - 4.6 Find Children
 	// WHY THESE TWO?
 	 /// flat search of one layer.

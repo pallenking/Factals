@@ -33,15 +33,15 @@ import SceneKit
 ////     coords:          |
 ////             ====== SCREEN ========================= SCREEN		[x, y]
 //// https://learnopengl.com/Getting-started/Coordinate-Systems
-//
-// // Kinds of Nodes
-//enum FwNodeCategory : Int {
-//	case byDefault				= 0x1		// default unpicable (piced by system)
-//	case picable 				= 0x2		// picable
-//	case adornment				= 0x4		// unpickable e.g. bounding box
-//	case collides				= 0x8		// Experimental
-//}
-//			//projectPoint(_:)
+
+ // Kinds of Nodes
+enum FwNodeCategory : Int {
+	case byDefault				= 0x1		// default unpicable (piced by system)
+	case picable 				= 0x2		// picable
+	case adornment				= 0x4		// unpickable e.g. bounding box
+	case collides				= 0x8		// Experimental
+}
+			//projectPoint(_:)
 class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 
 	  // MARK: - 2. Object Variables:
@@ -67,73 +67,99 @@ class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 
 //	var cameraNode				= SCNNode()		// Creates 2D rendition
 //	var pole					= SCNNode()		// focus of mouse rotator
-//
-//	var config4scene : FwConfig {
-//		get			{ 			return config4scene_ 							}
-//		set(config) {
-//			config4scene_ 		= config
-//			if let anim			= config.bool("animatePhysics") {
-//				animatePhysics 	= anim
-//			}
-//			if config.bool("isPaused") ?? false {
-//				panic("SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
-//			}
-//			if let gravAny33:FwAny = config["gravity"] {		// GLOBAL
-//				if let gravityVect : SCNVector3 = SCNVector3(from:gravAny33) {
-//					physicsWorld.gravity = gravityVect
-//				}
-//				else if let gravityY: Double = gravAny33.asDouble {
-//					physicsWorld.gravity.y = gravityY
-//				}
-//			}
-//			if let speed		= config.cgFloat("speed") {
-//				physicsWorld.speed = speed
-//			}
-//			physicsWorld.contactDelegate = self	/// Physics Contact Protocol is below
-//		}
-//	};private var config4scene_ : FwConfig = [:]
-//
-//	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
-//	var animatePhysics : Bool {
-//		get {			return !super.isPaused									}
-//		set(v) {		super.isPaused = !v										}
-//	}
-//
-//	 // MARK: - 3. Factory
-//	init(fwConfig:FwConfig) {		//controller ctl:Controller? = nil, 
-//		super.init()
-//
-//		config4scene		= fwConfig
+
+	var config4scene : FwConfig {
+		get			{ 			return config4scene_ 							}
+		set(config) {
+			config4scene_ 		= config
+			if let anim			= config.bool("animatePhysics") {
+				animatePhysics 	= anim
+			}
+			if config.bool("isPaused") ?? false {
+				panic("SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
+			}
+			if let gravAny33:FwAny = config["gravity"] {		// GLOBAL
+				if let gravityVect : SCNVector3 = SCNVector3(from:gravAny33) {
+					physicsWorld.gravity = gravityVect
+				}
+				else if let gravityY: Double = gravAny33.asDouble {
+					physicsWorld.gravity.y = gravityY
+				}
+			}
+			if let speed		= config.cgFloat("speed") {
+				physicsWorld.speed = speed
+			}
+			physicsWorld.contactDelegate = self	/// Physics Contact Protocol is below
+		}
+	};private var config4scene_ : FwConfig = [:]
+
+	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
+	var animatePhysics : Bool {
+		get {			return !super.isPaused									}
+		set(v) {		super.isPaused = !v										}
+	}
+
+	 // MARK: - 3. Factory
+	init(fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
+		super.init()
+
+		config4scene		= fwConfig
 //		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
-//
-//		// TO DO:
-//		   // 1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
-//		  // Docs: Status Bar Programming Topics
-//		 //https://www.raywenderlich.com/450-menus-and-popovers-in-menu-bar-apps-for-macos
-//
-//		  //  2. In SCNView show
-//		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
-//		//GDPerformanceMonitor.sharedInstance.configure(configuration: { (textLabel) in
-//		//	textLabel?.backgroundColor = .black
-//		//	textLabel?.textColor = .white
-//		//	textLabel?.layer.borderColor = UIColor.black.cgColor
-//		//})
-//		//GDPerformanceMonitor.sharedInstance.startMonitoring()
-//
-//		 //190707: This HANGS on 2'nd time	//cocoahead 2:
-//		//fwView?.background		= NSColor("veryLightGray")!
-//		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
-//	}
-//
-//	 // MARK: - 3.5 Codable
-//	 // ///////// Serialize
-//	func encode(to encoder: Encoder) throws  {
-//		fatalError("FwScene.encode(coder..) unexpectantly called")
-//	}
-//	 // ///////// Deserialize
-//	required init(coder aDecoder: NSCoder) {
-//		fatalError("FwScene.init(coder..) unexpectantly called")
-//	}
+
+		// TO DO:
+		   // 1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
+		  // Docs: Status Bar Programming Topics
+		 //https://www.raywenderlich.com/450-menus-and-popovers-in-menu-bar-apps-for-macos
+
+		  //  2. In SCNView show
+		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
+		//GDPerformanceMonitor.sharedInstance.configure(configuration: { (textLabel) in
+		//	textLabel?.backgroundColor = .black
+		//	textLabel?.textColor = .white
+		//	textLabel?.layer.borderColor = UIColor.black.cgColor
+		//})
+		//GDPerformanceMonitor.sharedInstance.startMonitoring()
+
+		 //190707: This HANGS on 2'nd time	//cocoahead 2:
+		//fwView?.background		= NSColor("veryLightGray")!
+		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
+	}
+
+	// FileDocument requires these interfaces:
+	 // Data in the SCNScene
+	var data : Data? {
+					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
+					// 2. Get file to data
+		let data				= try? Data(contentsOf:fileURL)
+		return data
+	}
+	 // initialize new SCNScene from Data
+	convenience init?(data:Data, encoding:String.Encoding) {
+		do {		// 1. Write data to file.
+			try data.write(to: fileURL)
+		} catch {
+			print("error writing file: \(error)")
+		}
+		do {		// 2. Init self from file
+bug
+			try self.init(fwConfig:[:])
+	//		try super.init(url: fileURL)
+		} catch {
+			print("error initing from url: \(error)")
+			return nil
+		}
+	}
+
+	 // MARK: - 3.5 Codable
+	 // ///////// Serialize
+	func encode(to encoder: Encoder) throws  {
+		fatalError("FwScene.encode(coder..) unexpectantly called")
+	}
+	 // ///////// Deserialize
+	required init(coder aDecoder: NSCoder) {
+		fatalError("FwScene.init(coder..) unexpectantly called")
+	}
 //	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 //	 // MARK: - 3.7 Equitable substitute
 //
