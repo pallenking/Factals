@@ -85,7 +85,7 @@ extension BBox			: FwAny 	{}
 //
 //extension Event		: FwAny 	{}
 //extension Log			: FwAny 	{}
-//extension Path		: FwAny 	{}
+extension Path			: FwAny 	{}
 //
 extension SCNVector4	: FwAny 	{}
 extension SCNVector3	: FwAny 	{}

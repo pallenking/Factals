@@ -18,12 +18,8 @@ func aSimpleScene() -> SCNScene {
 	obj2.name					= "square"
 	obj2.position				= SCNVector3(1,1,1)
 	scene.rootNode.addChildNode(obj2)
-
-	rootVew						= Vew(scn: scene.rootNode)
-
 	return scene
 }
-var rootVew : Vew?				= nil
 
 // above is shim,
 // ////////////////////////////////////////////////////////////////////
@@ -856,9 +852,9 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //		machineTrap()				// transfer control to debugger
 //	}
 //
-//	  // MARK: - 16. Global Constants
-//	static let null 			= Vew(forPart:.null)	/// Any use of this should fail
-//
+	  // MARK: - 16. Global Constants
+	static let null 			= Vew(forPart:.null)	/// Any use of this should fail
+
 //	 // MARK: - 17. Debugging Aids
 //	override var description	  : String {	return  "\"\(pp(.short))\""	}
 //	override var debugDescription : String {	return   "'\(pp(.short))'" 	}

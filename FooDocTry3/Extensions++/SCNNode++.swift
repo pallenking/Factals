@@ -209,18 +209,18 @@ class SCNNodeFW : SCNNode, HasChildren   {
 //	func removeFromParent() {
 //		removeFromParentNode()				// remove scn from parent
 //	}
-//	 // MARK: - 4.6 Find Children
-//	// WHY THESE TWO?
-//	 /// flat search of one layer.
-//	func find(name:String, prefixMatch:Bool=false, maxLevel:Int?=nil) -> SCNNode? 	{
-//		 /// Check children only to 1 level:
-//		return find(inMe2:false, all:false, maxLevel:maxLevel, firstWith:
-//		{(scn:SCNNode) -> Bool in
-//			return prefixMatch ?
-//					scn.name?.hasPrefix(name) ?? false :
-//					scn.name == name
-//		} )
-//	}
+	 // MARK: - 4.6 Find Children
+	// WHY THESE TWO?
+	 /// flat search of one layer.
+	func find(name:String, prefixMatch:Bool=false, maxLevel:Int?=nil) -> SCNNode? 	{
+		 /// Check children only to 1 level:
+		return find(inMe2:false, all:false, maxLevel:maxLevel, firstWith:
+		{(scn:SCNNode) -> Bool in
+			return prefixMatch ?
+					scn.name?.hasPrefix(name) ?? false :
+					scn.name == name
+		} )
+	}
 ////	 /// hierarchical search
 ////	func find(name:String, maxLevel:Int) -> SCNNode? 	{
 ////		 /// Check children only to 1 level:
@@ -229,36 +229,36 @@ class SCNNodeFW : SCNNode, HasChildren   {
 ////			return scn.name == name
 ////		} )
 ////	}
-//
-//	 /// First where closure is true:
-//	typealias ScnPredicate 	= (SCNNode) -> Bool
-//	func find(inMe2				:Bool		= false,
-//			  all searchParent	:Bool 		= false,
-//			  maxLevel			:Int?		= nil,
-//			  except exception	:SCNNode? 	= nil,
-//			  firstWith closureResult:ScnPredicate)-> SCNNode? /// Search by closure:
-//	{
-//		 /// Check self:
-//		if inMe2,
-//		  closureResult(self) {			// Self match?
-//			return self
-//		}
-//		if (maxLevel ?? 1) > 0 {		// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
-//			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
-//			 /// Check children:
-//			for child in children where child != exception { // don't redo exception
-//				if let rv 		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
-//					return rv
-//				}
-//			}
-//		}
-//		 /// Check parent
-//		if searchParent {
-//			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
-//		}
-//		return nil
-//	}
-//
+
+	 /// First where closure is true:
+	typealias ScnPredicate 	= (SCNNode) -> Bool
+	func find(inMe2				:Bool		= false,
+			  all searchParent	:Bool 		= false,
+			  maxLevel			:Int?		= nil,
+			  except exception	:SCNNode? 	= nil,
+			  firstWith closureResult:ScnPredicate)-> SCNNode? /// Search by closure:
+	{
+		 /// Check self:
+		if inMe2,
+		  closureResult(self) {			// Self match?
+			return self
+		}
+		if (maxLevel ?? 1) > 0 {		// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
+			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
+			 /// Check children:
+			for child in children where child != exception { // don't redo exception
+				if let rv 		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
+					return rv
+				}
+			}
+		}
+		 /// Check parent
+		if searchParent {
+			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
+		}
+		return nil
+	}
+
 //	 // MARK: - 15. PrettyPrint
 //	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 //		var rv					= ""
@@ -392,12 +392,12 @@ class SCNNodeFW : SCNNode, HasChildren   {
 //		}
 //		return rv2
 //	}
-//	 // MARK: - 16. Global Constants
-//	static let null : SCNNode	= {
-//		let n					= SCNComment("null scn")		/// Any use of this should fail
-//		n.name					= "null scn"
-//		return n
-//	} ()
+	 // MARK: - 16. Global Constants
+	static let null : SCNNode	= {
+		let n					= SCNComment("null scn")		/// Any use of this should fail
+		n.name					= "null scn"
+		return n
+	} ()
 //     // MARK: - 17. Debugging Aids
 //	override open var description	   : String {	return  "\"\(pp(.short))\""}
 //	override open var debugDescription : String {	return   "'\(pp(.short))'"	}		// works 181120

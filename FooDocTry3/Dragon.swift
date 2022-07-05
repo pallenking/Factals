@@ -7,8 +7,8 @@
 
 import SceneKit
 
-func dragonCurve(segments:Int=1024) -> SCNScene {
-	let scene					= SCNScene()
+func dragonCurve(segments:Int=1024) -> FwScene {
+	let scene					= FwScene()
 	var direction				= 0
 	var position				= SCNVector3(0,0,0)
 

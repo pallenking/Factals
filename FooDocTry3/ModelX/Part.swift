@@ -3,6 +3,20 @@
 import SceneKit
 import SwiftUI
 
+class Link : Part {
+	override func mark_line(_ aux:FwConfig, _ line:String) -> String {
+		var rv					= ""
+		if aux["ppLinks"]?.asBool ?? false {
+			rv					+= super.mark_line(aux, pp(.tree, aux)) // (ppLine has no \n)
+		}
+		return rv
+	}
+}
+class Port : Part {
+	static let reservedPortNames = [ "P", "S", "T", "U", "B", "KIND", "share"]
+}
+
+
 //var defaultPrtIndex = 0
 
  /// Base class for Factal Workbench Models
@@ -735,48 +749,48 @@ bug;return false
 //		return upInWorld ? "up" : "down"
 //	}
 //
-//		 // MARK: - 4.6 Find Children
-//	   /// A boolean predicate of a Part
-//	typealias Part2PartClosure 	= (Part) -> Part?
-//	 /// Find Part with desired name
-//	/// - name		-- sought name
-//	func find(	name desiredName:String,
-//
-//				all searchParent :Bool	= false,
-//				inMe2 searchSelfToo:Bool=false,
-//				maxLevel 		:Int?	= nil,
-//				except exception:Part?	= nil) -> Part? { // Search by name:
-//		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
-//					{	$0.fullName.contains(desiredName) ? $0 : nil			} )
-////					{	$0.fullName == desiredName ? $0 : nil					} )
-//	}
+		 // MARK: - 4.6 Find Children
+	   /// A boolean predicate of a Part
+	typealias Part2PartClosure 	= (Part) -> Part?
+	 /// Find Part with desired name
+	/// - name		-- sought name
+	func find(	name desiredName:String,
 
-//	func find(	path				:Path,
-//
-//				all searchParent :Bool	= false,
-//				inMe2 searchSelfToo:Bool = false,
-//				maxLevel 		:Int?	= nil,
-//				except exception:Part?	= nil) -> Part? { // Search by Path:
-//		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
-//					{	$0.partMatching(path:path) 								} )
-////		{(part:Part) -> Part? in
-////			return part.partMatching(path:path)		// part.fullName == "/net0/bun0/c/prev.S"
-////		} )
-//	}
+				all searchParent :Bool	= false,
+				inMe2 searchSelfToo:Bool=false,
+				maxLevel 		:Int?	= nil,
+				except exception:Part?	= nil) -> Part? { // Search by name:
+		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
+					{	$0.fullName.contains(desiredName) ? $0 : nil			} )
+//					{	$0.fullName == desiredName ? $0 : nil					} )
+	}
 
-//	func find(	part				:Part,
-//
-//				all searchParent :Bool	= false,
-//				inMe2 searchSelfToo:Bool = false,
-//				maxLevel 		:Int?	= nil,
-//				except exception:Part?	= nil) -> Part? { // Search for Part:
-//		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
-//					{	$0 === part ? $0 : nil	 								} )
-////					{	$0 == part ? $0 : nil	 								} )
-////		{(aPart:Part) -> Part? in
-////			return aPart == part ? aPart : nil
-////		} )
-//	}
+	func find(	path				:Path,
+
+				all searchParent :Bool	= false,
+				inMe2 searchSelfToo:Bool = false,
+				maxLevel 		:Int?	= nil,
+				except exception:Part?	= nil) -> Part? { // Search by Path:
+		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
+					{	$0.partMatching(path:path) 								} )
+//		{(part:Part) -> Part? in
+//			return part.partMatching(path:path)		// part.fullName == "/net0/bun0/c/prev.S"
+//		} )
+	}
+
+	func find(	part				:Part,
+
+				all searchParent :Bool	= false,
+				inMe2 searchSelfToo:Bool = false,
+				maxLevel 		:Int?	= nil,
+				except exception:Part?	= nil) -> Part? { // Search for Part:
+		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
+					{	$0 === part ? $0 : nil	 								} )
+//					{	$0 == part ? $0 : nil	 								} )
+//		{(aPart:Part) -> Part? in
+//			return aPart == part ? aPart : nil
+//		} )
+	}
 																				//	 /// First where closure is true:
 																				//	/// - inMe2		-- search this node as well
 																				//	/// - all		-- search parent outward
@@ -807,36 +821,36 @@ bug;return false
 																				//		}
 																				//		return nil
 																				//	}
-//	// MARK: - 4.8 Matches Path
-//	/// Get a Proxy Part matching path
-//	/// # The Path must specify a Part inside self.
-//	/// - Parameter path: ---- the path
-//	/// - Returns: ---- the part matching the path
-//	func partMatching(path:Path) -> Part? {
-//
-//		 // Does my Path's tokens match Atom:
-//		for (index, part) in selfNParents.enumerated() {
-//			assert(!(self is Port), "Ports can only be last element of a Path")
-//			if index >= path.atomTokens.count {		// Past last token?
-//				return self								// .:. match!
-//			}
-//			if index == path.atomTokens.count-1,	// At the token to the left of the first '/'?
-//			  path.atomTokens[index] == "" {		  // "" before --> Absolute Path
-//				logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
-//				return self								// .:. match!
-//			}
-//			if part.name != path.atomTokens[index]{	// name MISMATCH
-//				return nil								// .:. nfg
-//			}
-//		}
-//		if parent == nil, 							// no parents and
-//		  path.atomTokens.count != 0 {				  //  still more tokens?
-//			return nil									// mismatch
-//		}
-//		return self									// Match
-//	}
-//
-//
+	// MARK: - 4.8 Matches Path
+	/// Get a Proxy Part matching path
+	/// # The Path must specify a Part inside self.
+	/// - Parameter path: ---- the path
+	/// - Returns: ---- the part matching the path
+	func partMatching(path:Path) -> Part? {
+
+		 // Does my Path's tokens match Atom:
+		for (index, part) in selfNParents.enumerated() {
+			assert(!(self is Port), "Ports can only be last element of a Path")
+			if index >= path.atomTokens.count {		// Past last token?
+				return self								// .:. match!
+			}
+			if index == path.atomTokens.count-1,	// At the token to the left of the first '/'?
+			  path.atomTokens[index] == "" {		  // "" before --> Absolute Path
+				logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
+				return self								// .:. match!
+			}
+			if part.name != path.atomTokens[index]{	// name MISMATCH
+				return nil								// .:. nfg
+			}
+		}
+		if parent == nil, 							// no parents and
+		  path.atomTokens.count != 0 {				  //  still more tokens?
+			return nil									// mismatch
+		}
+		return self									// Match
+	}
+
+
 //	 // MARK: - 5. Wiring
 //	/// Scan self and children for wires to add to model
 //	/// - Wires are gathered after model is built, and applied at later phase
@@ -1406,116 +1420,116 @@ bug;return false
 //		}
 //		return rv
 //	}
-//
-//	 //	 MARK: - 15. PrettyPrint
-//	// Override: Method does not override any method from its superclass
-//	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{		// Why is this not an override
-//		var rv					= ""
-//		switch mode! {
-//		case .name:
-//			return name
-//		case .fullName:
-//			rv					+= fullName
-//		case .fullNameUidClass:
-//			return "\(name)\(ppUid(pre:"/", self)):\(fwClassName)"
-////		case .uidClass:
-////			return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
-////		case .classUid:
-////			return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"
-//		case .phrase, .short:
-//			return "\(name):\(pp(.fwClassName, aux)) \(children.count) children"
-//		case .line:
-//			  //      AaBbbbbbCccDdddddddddddddddddddddddEeeeeeeeeeeee
-//			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
-//			rv					= ppUid(self, post:"", aux:aux)
-//			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
-//			rv 					+= root?.log.indentString() ?? "____"				// Bb..
-////			rv 					+= root?.log.indentString() ?? "Bb..."				// Bb..
-//			let ind				= parent?.children.firstIndex(of:self)
-//			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
-//				// adds "name;class<unindent><Expose><ramId>":
-//			rv					+= ppCenterPart(aux)								// Dd..
-//			if config("physics")?.asBool ?? false {
-//				rv				+= "physics,"
-//			}
-//			if aux.bool_("ppParam") {
-//				rv 				+= localConfig.pp(.line)
-//			}
-//																					// Ee..
-//		case .tree:
-//			let ppDagOrder 		= aux.bool_("ppDagOrder")	// Print Ports early
-//			let reverseOrder	= ppDagOrder && (upInWorld ^^ printTopDown) //trueF//falseF//
-//
-//			if ppDagOrder {				// Dag Order
-//				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
-//				rv				+= ppSelf	 (aux)
-//			}
-//			else {
-//				rv				+= ppSelf	 (aux)
-//				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
-//			}
-//		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
-//		}
-//		return rv
-//	}
-//	func ppCenterPart(_ aux:FwConfig) -> String {
-//		var rv 			 		=  name.field(10) + ":"					// " net0:"
-//		rv 						+= fwClassName.field(-6, dots:false)	// "Net "
-//		rv 						+= root?.log.unIndent(previous:rv) ?? "___ "
-//		rv						+= initialExpose.pp(.short, aux)		// "o"
-//		rv						+= dirty.pp()
-////		rv						+= " s:\(spin)"
-////		rv						+= " l:\(lat)"
-//		return rv + " "
-//	}
-//	  //	 MARK: - 15.1 pp support
-//	 /// Print children
-//	func ppSelf(_ aux:FwConfig) -> String {
-//		let rv					= mark_line(aux, pp(.line, aux) + "\n")
-//		return rv
-//	}
-//	 /// Print children
-//	func ppChildren(_ aux:FwConfig, reverse:Bool, ppPorts:Bool) -> String {
-//		var rv					= ""
-//		root?.log.nIndent		+= 1
-//		let orderedChildren		= reverse ? children.reversed() : children
-//		for child in orderedChildren where ppPorts || !(child is Port) {
-//			 // Exclude undesireable Links
-//			if !(child is Link) || aux["ppLinks"]?.asBool == true {
-//				rv				+= mark_line(aux, child.pp(.tree, aux)) // (ppLine has no \n)
-//			}
-//		}
-//		root?.log.nIndent		-= 1
-//		return rv
-//	}
-//	 /// Print Ports
-//	func printPorts(_ aux:FwConfig, early:Bool) -> String {
-//		var rv 					= ""
-//		root?.log.nIndent			+= 1
-//		if DOCLOG.ppPorts {		// early ports // !(port.flipped && ppDagOrder)
-//			for part in children {
-//				if let port 	= part as? Port,
-//				  early == port.upInWorld {
-//					rv			+=  mark_line(aux, port.pp(.line, aux) + "\n")
-//				}
-//			}
-//		}
-//		root?.log.nIndent			-= 1
-//		return rv
-//	}
-//	 /// Marking line with '_'s improves readability
-//	func mark_line(_ aux:FwConfig, _ line:String) -> String {
-//		var rv					= line
-//		if nLinesLeft == 1 {
-//			let sta 			= line.index(line.startIndex, offsetBy: 0)
-//			let end 			= line.index(line.startIndex, offsetBy: min(line.count, 30))
-//			let range			= Range(uncheckedBounds:(lower:sta, upper:end))
-//			rv					= line.replacingOccurrences(of:" ", with:"_", range:range)
-//		}
-//		nLinesLeft				-= nLinesLeft != 0 ? 1 : 0	// decrement if non-zero
-//		return rv
-//	}
+
+	 //	 MARK: - 15. PrettyPrint
+	// Override: Method does not override any method from its superclass
+	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{		// Why is this not an override
+		var rv					= ""
+		switch mode! {
+		case .name:
+			return name
+		case .fullName:
+			rv					+= fullName
+		case .fullNameUidClass:
+			return "\(name)\(ppUid(pre:"/", self)):\(fwClassName)"
+//		case .uidClass:
+//			return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
+//		case .classUid:
+//			return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"
+		case .phrase, .short:
+			return "\(name):\(pp(.fwClassName, aux)) \(children.count) children"
+		case .line:
+			  //      AaBbbbbbCccDdddddddddddddddddddddddEeeeeeeeeeeee
+			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
+			rv					= ppUid(self, post:"", aux:aux)
+			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
+			rv 					+= root?.log.indentString() ?? "____"				// Bb..
+//			rv 					+= root?.log.indentString() ?? "Bb..."				// Bb..
+			let ind				= parent?.children.firstIndex(of:self)
+			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
+				// adds "name;class<unindent><Expose><ramId>":
+			rv					+= ppCenterPart(aux)								// Dd..
+			if config("physics")?.asBool ?? false {
+				rv				+= "physics,"
+			}
+			if aux.bool_("ppParam") {
+				rv 				+= localConfig.pp(.line)
+			}
+																					// Ee..
+		case .tree:
+			let ppDagOrder 		= aux.bool_("ppDagOrder")	// Print Ports early
+			let reverseOrder	= ppDagOrder && (upInWorld ^^ printTopDown) //trueF//falseF//
+
+			if ppDagOrder {				// Dag Order
+				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
+				rv				+= ppSelf	 (aux)
+			}
+			else {
+				rv				+= ppSelf	 (aux)
+				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
+			}
+		default:
+			return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
+		}
+		return rv
+	}
+	func ppCenterPart(_ aux:FwConfig) -> String {
+		var rv 			 		=  name.field(10) + ":"					// " net0:"
+		rv 						+= fwClassName.field(-6, dots:false)	// "Net "
+		rv 						+= root?.log.unIndent(previous:rv) ?? "___ "
+		rv						+= initialExpose.pp(.short, aux)		// "o"
+		rv						+= dirty.pp()
+//		rv						+= " s:\(spin)"
+//		rv						+= " l:\(lat)"
+		return rv + " "
+	}
+	  //	 MARK: - 15.1 pp support
+	 /// Print children
+	func ppSelf(_ aux:FwConfig) -> String {
+		let rv					= mark_line(aux, pp(.line, aux) + "\n")
+		return rv
+	}
+	 /// Print children
+	func ppChildren(_ aux:FwConfig, reverse:Bool, ppPorts:Bool) -> String {
+		var rv					= ""
+		root?.log.nIndent		+= 1
+		let orderedChildren		= reverse ? children.reversed() : children
+		for child in orderedChildren where ppPorts || !(child is Port) {
+			 // Exclude undesireable Links
+			if !(child is Link) || aux["ppLinks"]?.asBool == true {
+				rv				+= mark_line(aux, child.pp(.tree, aux)) // (ppLine has no \n)
+			}
+		}
+		root?.log.nIndent		-= 1
+		return rv
+	}
+	 /// Print Ports
+	func printPorts(_ aux:FwConfig, early:Bool) -> String {
+		var rv 					= ""
+		root?.log.nIndent			+= 1
+		if DOCLOG.ppPorts {		// early ports // !(port.flipped && ppDagOrder)
+			for part in children {
+				if let port 	= part as? Port,
+				  early == port.upInWorld {
+					rv			+=  mark_line(aux, port.pp(.line, aux) + "\n")
+				}
+			}
+		}
+		root?.log.nIndent			-= 1
+		return rv
+	}
+	 /// Marking line with '_'s improves readability
+	func mark_line(_ aux:FwConfig, _ line:String) -> String {
+		var rv					= line
+		if nLinesLeft == 1 {
+			let sta 			= line.index(line.startIndex, offsetBy: 0)
+			let end 			= line.index(line.startIndex, offsetBy: min(line.count, 30))
+			let range			= Range(uncheckedBounds:(lower:sta, upper:end))
+			rv					= line.replacingOccurrences(of:" ", with:"_", range:range)
+		}
+		nLinesLeft				-= nLinesLeft != 0 ? 1 : 0	// decrement if non-zero
+		return rv
+	}
 //	 // MARK: - 16. Global Constants
 //	static let null 			= Part()
 	static let null 			= Part(["n":"null"])	// Any use of this should fail (NOT IMPLEMENTED)

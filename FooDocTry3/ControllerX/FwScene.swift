@@ -55,16 +55,16 @@ class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil
 	}
-//
-//	 // ///////// SCNNode Tree:
-//	var rootScn  : SCNNode	{	return rootNode									}	//scnRoot
-//	var trunkScn : SCNNode? {
-//		if let tv				= trunkVew  {
-//			return tv.scn
-//		}
-//		fatalError("trunkVew is nil")
-//	}
-//
+
+	 // ///////// SCNNode Tree:
+	var rootScn  : SCNNode	{	return rootNode									}	//scnRoot
+	var trunkScn : SCNNode? {
+		if let tv				= trunkVew  {
+			return tv.scn
+		}
+		fatalError("trunkVew is nil")
+	}
+
 //	var cameraNode				= SCNNode()		// Creates 2D rendition
 //	var pole					= SCNNode()		// focus of mouse rotator
 //
