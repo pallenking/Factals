@@ -22,9 +22,10 @@ struct ContentView: View {
 	var body: some View {
 		HStack {
 			VStack {
-				let rootNode		= document.state.scene.rootNode
-				let str				= "\(rootNode.childNodes)"
+				let rootNode:SCNNode = document.state.scene.rootNode
+				let str				= "\(rootNode.childNodes.count) scn nodes"
 				Text(str)
+				 .foregroundColor(.red)
 //				 .frame(width:80)
 //				 .lineLimit(10)
 //				 .wrap(80)

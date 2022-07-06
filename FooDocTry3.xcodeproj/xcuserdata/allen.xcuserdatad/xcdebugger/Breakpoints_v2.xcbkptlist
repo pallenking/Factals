@@ -94,8 +94,8 @@
             filePath = "FooDocTry3/FooDocTry3Document.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "fileWrapper(configuration:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -279,22 +279,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "96BF3EAE-3029-431C-B98A-69FBD2A7A91E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/FooDocTry3Document.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "init(state:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "0779DD87-0C71-4971-B3A9-E417A022CE66"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -318,8 +302,8 @@
             filePath = "FooDocTry3/VewX/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "616"
-            endingLineNumber = "616"
+            startingLineNumber = "618"
+            endingLineNumber = "618"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +334,8 @@
             filePath = "FooDocTry3/VewX/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "612"
-            endingLineNumber = "612"
+            startingLineNumber = "614"
+            endingLineNumber = "614"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -439,22 +423,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "40072BDE-A8B9-49A0-92CE-8B4B9E225991"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/VewX/Vew.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "575"
-            endingLineNumber = "575"
-            landmarkName = "updateVewTree(needsViewLock:logIf:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "99F7AD5A-A2C0-4577-AD95-FF428651D712"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -462,9 +430,73 @@
             filePath = "FooDocTry3/VewX/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "647"
-            endingLineNumber = "647"
+            startingLineNumber = "649"
+            endingLineNumber = "649"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7348FEB9-6DD3-4D51-84A5-3B1576CBC64F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/VewX/Vew.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "622"
+            endingLineNumber = "622"
+            landmarkName = "updateVewTree(needsViewLock:logIf:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1360ABBD-A26D-4C01-8376-8B775E143824"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/VewX/Vew.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "571"
+            endingLineNumber = "571"
+            landmarkName = "updateVewTree(needsViewLock:logIf:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9E4BFBC7-DE9C-4CC0-BD81-135125F2DD74"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/VewX/Vew.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "608"
+            endingLineNumber = "608"
+            landmarkName = "updateVewTree(needsViewLock:logIf:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D534A6FD-5222-4316-9CF3-D9DDCA811171"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/FooDocTry3Document.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "init(state:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

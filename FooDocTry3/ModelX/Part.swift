@@ -1079,9 +1079,9 @@ bug;return false
 	/// - Called _ONCE_ to get skin, as Views are constructed:
 	func reSkin(fullOnto vew:Vew) -> BBox  {	// Bare Part
 		 // No Full Skin overrides; make purple
-		let bBox				= reSkin(atomOnto:vew)		// Expedient: uses atomic skins
+		let atomBBox			= reSkin(atomOnto:vew)		// Expedient: uses atomic skins
 		vew.scn.children[0].color0 = .purple
-		return bBox
+		return atomBBox
 	}
 	static let atomicRadius 	= CGFloat(1)
 	func reSkin(atomOnto vew:Vew) -> BBox 	{

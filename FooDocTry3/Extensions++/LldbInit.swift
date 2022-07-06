@@ -45,7 +45,7 @@ func rootvew(_ name:String?=nil) -> Vew  {
 }
 
  /// Access to current root  SCNNode  being debugged
-var  rootScn  : SCNNode  	{	return rootscn()								}
+var  rootScn  : SCNNode  	{ return (DOC?.state.scene.rootScn)!				}
 func rootscn(_ name:String?=nil) -> SCNNode	{
 	guard let docState 			= DOC?.state else {
 		print("DOC! is nil! rootscn(\(name ?? "") is .null")

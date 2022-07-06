@@ -49,17 +49,14 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			default:
 				fatalError("newDocState stateType:\(stateType) is ILLEGAL")
 			}
-//			vew					= Vew(forPart:rootPart, scn:scene.rootNode)
-//			 let x = vew.pp(.tree)
-//			vew.updateVewTree()					// rootPart -> rootView, rootScn
-//			 let y = vew.pp(.tree)
-//			scene.addLightsAndCamera()
-
 			return DocState(model:rootPart, scene:scene)
 		}()
-		DOC						= self			// YEUCH
 
-		var vew		 : Vew		= Vew(forPart:rootPart, scn:state?.scene.rootNode)//.scene!.rootNode)
+		DOC						= self			// YEUCH
+		let rootScn				= self.state.scene.rootScn
+
+		let vew		 : Vew		= Vew(forPart:rootPart, scn:rootScn)//.scene!.rootNode)
+		rootVew					= vew		// YEUCH: register vew for debugger's "ptv"
 		vew.updateVewTree()					// rootPart -> rootView, rootScn
 		state?.scene.addLightsAndCamera()
 	}

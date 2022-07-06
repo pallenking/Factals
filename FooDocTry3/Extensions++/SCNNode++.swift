@@ -425,10 +425,10 @@ bug
 		n.name					= "null scn"
 		return n
 	} ()
-//     // MARK: - 17. Debugging Aids
-//	override open var description	   : String {	return  "\"\(pp(.short))\""}
-//	override open var debugDescription : String {	return   "'\(pp(.short))'"	}		// works 181120
-////	var summary					  	   : String {	return   "<\(pp(.short))>"	}
+     // MARK: - 17. Debugging Aids
+	override open var description	   : String {	return  "\"\(pp(.short))\""}
+	override open var debugDescription : String {	return   "'\(pp(.short))'"	}		// works 181120
+//	var summary					  	   : String {	return   "<\(pp(.short))>"	}
 }
 
 class SCNComment : SCNNode {

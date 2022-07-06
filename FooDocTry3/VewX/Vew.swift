@@ -570,10 +570,12 @@ bug
 	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
 		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let pRoot				= part.root!
-//		let vRoot				= self
-//		let vRoot				= rootVew			// UGH
-		let vRoot				= Vew(forPart:pRoot)// get a new Vew for root
-		rootVew					= vRoot
+
+		 // Get a NEW Vew. (Someday, just clean out old one)
+		let vRoot				= self				// self is rootVew
+//		let vRoot				= rootVew
+	//	let vRoot				= Vew(forPart:pRoot)// get a new Vew for root
+	//	rootVew					= vRoot
 
 		 // This was to fix errors in dirtyBits, although atomic entities breaks it horribly!
 		//let _					= pRoot.rectifyTreeDirtyBits()	// fixes, logs results
