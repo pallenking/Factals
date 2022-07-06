@@ -612,21 +612,23 @@ bug
 			  // 2. Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
-			pRoot.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
+			pRoot.reVewPost(vew:vRoot)				// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
+//			pRoot.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
 			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
 		{	//atRsi(6, log ? logd("rootPart.reSize():....") : nop)
 
-/**/		pRoot.reSize(inVew:rootVew)				// also causes rePosition as necessary
+/**/		pRoot.reSize(inVew:vRoot)				// also causes rePosition as necessary
+//			pRoot.reSize(inVew:rootVew)				// also causes rePosition as necessary
 
-			rootVew.bBox		|= BBox.unity		// insure a 1x1x1 minimum
+			vRoot.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 
-			pRoot.rePosition(vew:rootVew,first:true)// === only outter vew centered
-//			rootVew.orBBoxIntoParent()
+			pRoot.rePosition(vew:vRoot, first:true) // === only outter vew centered
+//			vRoot.orBBoxIntoParent()
 			pRoot.reSizePost(vew:vRoot)				// === (set link Billboard constraints)
-	//		rootVew.bBox		= .empty			// Set view's bBox EMPTY
+	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 		}
 		 // -----   P A I N T   Skins ----- //
 		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
