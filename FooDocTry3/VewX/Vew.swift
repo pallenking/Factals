@@ -62,7 +62,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 
 	 // Glue these Neighbors together: (both Always present)
 
-	@Published var part : Part 				// Part which this Vew represents	// was let
+	@Published var part : Part?				// Part which this Vew represents	// was let
 
 	var scn			:  SCNNode				// Scn which draws this Vew
 
@@ -239,7 +239,7 @@ bug
 			children.append(vew)
 		}
 		vew.parent 				= self
-		assert(part.parent == parent?.part, "fails consistency check")
+		assert(part?.parent == parent?.part, "fails consistency check")
 //		part.parent?.markTree(dirty:.size)	// Affects parent's size
 	//	part.markTree(dirty:.vew)
 
@@ -257,7 +257,7 @@ bug
 	func removeFromParent() {
 		if let i		 		= parent?.children.firstIndex(of:self)	{
 			parent?.children.remove(at:i)
-			parent?.part.markTree(dirty:.size)	//.vew
+			parent?.part?.markTree(dirty:.size)	//.vew
 		}else{
 			panic("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
 		}
@@ -287,7 +287,7 @@ bug
 	  /// Lookup configuration from Part's localConfig, and scene
 	 func config(_ name:String) -> FwAny? {
 		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
-			if let rv			= s.part.localConfig[name] {
+			if let rv			= s.part?.localConfig[name] {
 				return rv						// return an ancestor's config
 			}
 		}
@@ -320,7 +320,7 @@ bug
 	{
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
 		{vew in
-			return vew.part.nam == name ? vew : nil // view's part matches
+			return vew.part?.nam == name ? vew : nil // view's part matches
 		}
 	}
 	 /// FIND child Vew by its SCNNode:	// 20210214PAK not used
@@ -571,7 +571,7 @@ bug
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
 		var needsViewLock		= needsLockArg		// nil if lock obtained
-		let pRoot				= part.root!
+		let pRoot				= part?.root!
 
 		 // Get a NEW Vew. (Someday, just clean out old one)
 		let vRoot				= self				// self is rootVew
@@ -597,7 +597,7 @@ bug
 		  ///      - message: massage to log
 		 ///      - Returns: Work
 		func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
-			if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
+			if pRoot?.testNReset(dirty:dirty) ?? false { // DIRTY? Get VIEW LOCK:
 				guard DOC.state.scene.lock(rootVewAs:viewLockName, logIf:log) else {
 					fatalError("updateVewTree(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 				}
@@ -613,38 +613,38 @@ bug
 
 			  // 2. Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
-/**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
-			pRoot.reVewPost(vew:vRoot)				// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
-//			pRoot.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
+/**/		pRoot?.reVew(intoVew:vRoot, parentVew:nil)
+			pRoot?.reVewPost(vew:vRoot)				// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
+//			pRoot?.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
 			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
 		{	//atRsi(6, log ? logd("rootPart.reSize():....") : nop)
 
-/**/		pRoot.reSize(inVew:vRoot)				// also causes rePosition as necessary
-//			pRoot.reSize(inVew:rootVew)				// also causes rePosition as necessary
+/**/		pRoot?.reSize(inVew:vRoot)				// also causes rePosition as necessary
+//			pRoot?.reSize(inVew:rootVew)				// also causes rePosition as necessary
 
 			vRoot.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 
-			pRoot.rePosition(vew:vRoot, first:true) // === only outter vew centered
+			pRoot?.rePosition(vew:vRoot, first:true) // === only outter vew centered
 //			vRoot.orBBoxIntoParent()
-			pRoot.reSizePost(vew:vRoot)				// === (set link Billboard constraints)
+			pRoot?.reSizePost(vew:vRoot)				// === (set link Billboard constraints)
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 		}
 		 // -----   P A I N T   Skins ----- //
 		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
 			" _ rePaint _ Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
 		{
-/**/		pRoot.rePaint(on:vRoot)					// Ports color, Links position
+/**/		pRoot?.rePaint(on:vRoot)				// Ports color, Links position
 
 			 // All changes above cause rePaint and get here. Let system know!
 //			pRoot.fwDocument!.fwView!.needsDisplay = true
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
-			pRoot.computeLinkForces(in:vRoot) 		// Compute Forces (.force == 0 initially)
-			pRoot  .applyLinkForces(in:vRoot)		// Apply   Forces (zero out .force)
-			pRoot .rotateLinkSkins (in:vRoot)		// Rotate Link Skins
+			pRoot?.computeLinkForces(in:vRoot) 		// Compute Forces (.force == 0 initially)
+			pRoot?  .applyLinkForces(in:vRoot)		// Apply   Forces (zero out .force)
+			pRoot? .rotateLinkSkins (in:vRoot)		// Rotate Link Skins
 		}
 		let unlockName			= needsLockArg  == nil ? nil :	// no lock wanted
 								  needsViewLock == nil ? needsLockArg :// we locked it!
@@ -749,7 +749,7 @@ bug
 //	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
-		let log					= part.root?.log
+		let log					= part?.root?.log
 		switch mode! {
 			case .name:
 				return self.nam
@@ -757,7 +757,7 @@ bug
 				return self.fullName
 			case .phrase, .short:
 				var rv 			= nam + ppUid(pre:"/", self) + ":" + fwClassName + " "
-				rv 				+= "->"  + part.pp(.fullNameUidClass)
+				rv 				+= "->"  + (part?.pp(.fullNameUidClass) ?? "<Vew.pp>")
 				rv				+= ", ->" + scn.pp(.fullNameUidClass)
 				return rv
 			case .line:
@@ -776,8 +776,8 @@ bug
 					rv			+= ppUid(self, post:":")	 	 		  // (A)
 				}
 				if ppViewOptions.contains("F") {				 	// Flipped:
-					rv			+= part.upInWorld ? "F" : " "			  // (B)
-					rv			+= part.flipped   ? "f" : " "			  // (B)
+					rv			+= part?.upInWorld ?? false ? "F" : " "			  // (B)
+					rv			+= part?.flipped   ?? false ? "f" : " "			  // (B)
 				}
 															// Indent
 				rv 				+= log?.indentString() ?? "Ccc.."		  // (C)
@@ -793,9 +793,9 @@ bug
 				}
 				if ppViewOptions.contains("P") {					// Part:
 					rv			+= tight("", " p:")						  // (H)
-					rv			+= part.nam.field(6)					  // (I)
+					rv			+= part?.nam.field(6) ?? ""				  // (I)
 					rv			+= ppUid(pre:"/", part) + ":"			  // (J)
-					rv			+= part.pp(.fwClassName).field(-tight(4,6), dots:false) // (K)
+					rv			+= part?.pp(.fwClassName).field(-tight(4,6), dots:false) ?? "<Vew.pp2>" // (K)
 				}
 															// /// SKINS:
 																	// UNIndent

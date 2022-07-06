@@ -41,7 +41,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			case 3:		// Test Pattern of Parts -> Vew -> scn
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
 				 // Add some children
-				for i in 1...2 {
+				for i in 1...3 {
 					let p		= Sphere()
 					p.nam		= "p\(i)"
 					rootPart.addChild(p)
