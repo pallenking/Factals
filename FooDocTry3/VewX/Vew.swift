@@ -8,9 +8,11 @@ import SceneKit
 // ////////////////////////////////////////////////////////////////////
 // Shim,
 class LinkVew : Vew {}
-class NetVew  : Vew {
-	var heightLeaf = 0.0
-	var heightTree = 0.0
+
+class NetVew : Vew {
+	 // Outside has heightLeaf=0, first branch=1, ...
+	var heightLeaf	: UInt8		= 0		// height in current tree
+	var heightTree	: UInt8		= 0		// max height of whole tree
 }
 
 func aSimpleScene() -> FwScene {

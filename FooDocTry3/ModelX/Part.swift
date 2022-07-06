@@ -1009,36 +1009,37 @@ bug;return false
      /// - Returns: nothing
 	func reSize(inVew vew:Vew) {
 
-		 //------ Put on my   Skin   on me.
+		 //------ 1. Put on my   Skin   on me.
+		assert(vew.bBox == .empty, "Set view's bBox EMPTY")
 		vew.bBox				= .empty			// Set view's bBox EMPTY
 		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
 
-		 //------ reSize all  _CHILD Atoms_
+		 //------ 2. reSize all  _CHILD Atoms_
 		var first				= true
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
 		for childVew in orderedChildren where// For all Children, except
 		  !(childVew.part is Port) 				// ignore child Ports (Atom handles)
 		{	let childPart		= childVew.part
 
-			 // 1. Repack insides (if dirty size):
+			 // 2A. Repack insides (if dirty size):
 			if childPart.testNReset(dirty:.size) {
 				childPart.reSize(inVew:childVew)	// #### HEAD RECURSIVEptv
 			}
-			  // If our shape was just added recently, it has no parent.
-			 //   That it is "dangling" signals we should swap it in
-			if childVew.scn.parent == nil {
-/*bug;*/		vew.scn.removeAllChildren()
-				vew.scn.addChild(node:childVew.scn)
-			}
+//			  // If our shape was just added recently, it has no parent.
+//			 //   That it is "dangling" signals we should swap it in
+//			if childVew.scn.parent == nil {
+///*bug;*/		vew.scn.removeAllChildren()
+//				vew.scn.addChild(node:childVew.scn)
+//			}
 
-			 // 2. Reposition:
+			 // 2B. Reposition:
 			childPart.rePosition(vew:childVew, first:first)
 //			childVew.orBBoxIntoParent()			// child.bbox -> bbox
 			childVew.keep		= true
 			first				= false
 		}
 
-		 //------ Part PROPERTIES for new skin:
+		 //------ 3. Part PROPERTIES for new skin:
 		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
 
 //		 // ------ color0

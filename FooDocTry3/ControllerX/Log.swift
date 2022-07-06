@@ -348,7 +348,7 @@ bug
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
 //		if let curLockStr		= DOC?.state.model.rootVewOwner {
-bug//	if let curLockStr		= DOC?.fwScene?.rootVewOwner {
+//bug	if let curLockStr		= DOC?.fwScene?.rootVewOwner {
 ////		if let curLockStr		= DOC?.fwScene?.rootVewOwner {
 //			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
 //		}
