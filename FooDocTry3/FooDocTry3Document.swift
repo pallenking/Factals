@@ -41,8 +41,8 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			case 3:		// Test Pattern of Parts -> Vew -> scn
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
 				 // Add some children
-				for i in 1...3 {
-					let p		= Part()
+				for i in 1...2 {
+					let p		= Sphere()
 					p.nam		= "p\(i)"
 					rootPart.addChild(p)
 				}
@@ -52,12 +52,12 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			return DocState(model:rootPart, scene:scene)
 		}()
 
+		 // KNOWN EARLY
 		DOC						= self			// YEUCH
 		let rootScn				= self.state.scene.rootScn
+		let rootVew				= Vew(forPart:rootPart, scn:rootScn)//.scene!.rootNode)
 
-		let vew		 : Vew		= Vew(forPart:rootPart, scn:rootScn)//.scene!.rootNode)
-		rootVew					= vew		// YEUCH: register vew for debugger's "ptv"
-		vew.updateVewTree()					// rootPart -> rootView, rootScn
+		rootVew.updateVewTree()					// rootPart -> rootView, rootScn
 		state?.scene.addLightsAndCamera()
 	}
 

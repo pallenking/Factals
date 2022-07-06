@@ -46,30 +46,6 @@ extension SCNScene {
 		cameraNode.position 	= SCNVector3(0, 0, 15)
 		rootNode.addChildNode(cameraNode)
 	}
-//
-//	// FileDocument requires these interfaces:
-//	 // Data in the SCNScene
-//	var data : Data? {
-//					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-//		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
-//					// 2. Get file to data
-//		let data				= try? Data(contentsOf:fileURL)
-//		return data
-//	}
-//	 // initialize new SCNScene from Data
-//	convenience init?(data:Data, encoding:String.Encoding) {
-//		do {		// 1. Write data to file.
-//			try data.write(to: fileURL)
-//		} catch {
-//			print("error writing file: \(error)")
-//		}
-//		do {		// 2. Init self from file
-//			try self.init(url: fileURL)
-//		} catch {
-//			print("error initing from url: \(error)")
-//			return nil
-//		}
-//	}
 
 	func printModel() {
 		print("rootNode.name = '\(rootNode.name ?? "<nil>")'")

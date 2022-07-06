@@ -953,7 +953,7 @@ bug;return false
 		if let v				= vew,		// Vew supplied and
 		 (v.part !== self ||				//  it seems wrong:	//!=
 		  v.nam != "_" + v.part.nam) {
-			vew				= nil				// don't use it
+			vew					= nil			// don't use it
 		}
 //
 //		switch vew?.expose ?? initialExpose {// (if no vew, use default in part)
@@ -1012,7 +1012,7 @@ bug;return false
 		 //------ 1. Put on my   Skin   on me.
 		assert(vew.bBox == .empty, "Set view's bBox EMPTY")
 		vew.bBox				= .empty			// Set view's bBox EMPTY
-		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
+//		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
 
 		 //------ 2. reSize all  _CHILD Atoms_
 		var first				= true

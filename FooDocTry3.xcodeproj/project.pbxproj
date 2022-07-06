@@ -34,6 +34,9 @@
 		9FEE52212874AB7300C8C22A /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52202874AB7300C8C22A /* Path.swift */; };
 		9FEE52232874D9A100C8C22A /* NSColor++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52222874D9A100C8C22A /* NSColor++.swift */; };
 		9FEE52252875F84F00C8C22A /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
+		9FEE52272875FEE200C8C22A /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
+		9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52282876023A00C8C22A /* CommonAtoms.swift */; };
+		9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE522A287602B400C8C22A /* CommonParts.swift */; };
 		9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */; };
 		9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */; };
 		9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
@@ -75,6 +78,9 @@
 		9FEE52202874AB7300C8C22A /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		9FEE52222874D9A100C8C22A /* NSColor++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSColor++.swift"; sourceTree = "<group>"; };
 		9FEE52242875F84F00C8C22A /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
+		9FEE52262875FEE200C8C22A /* Atom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
+		9FEE52282876023A00C8C22A /* CommonAtoms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAtoms.swift; sourceTree = "<group>"; };
+		9FEE522A287602B400C8C22A /* CommonParts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonParts.swift; sourceTree = "<group>"; };
 		9FEE6F122835778A00E9E2AE /* FooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3App.swift; sourceTree = "<group>"; };
 		9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3Document.swift; sourceTree = "<group>"; };
@@ -107,6 +113,9 @@
 			children = (
 				9F19CA34285EB0730072C50E /* RootPart.swift */,
 				9FEE52242875F84F00C8C22A /* Net.swift */,
+				9FEE52282876023A00C8C22A /* CommonAtoms.swift */,
+				9FEE52262875FEE200C8C22A /* Atom.swift */,
+				9FEE522A287602B400C8C22A /* CommonParts.swift */,
 				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
 				9FEE51A4286B958700C8C22A /* PolyWrap.swift */,
 				9FEE519E286B507500C8C22A /* SubPart.swift */,
@@ -297,11 +306,13 @@
 				9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
 				9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */,
+				9FEE52272875FEE200C8C22A /* Atom.swift in Sources */,
 				9FEE52232874D9A100C8C22A /* NSColor++.swift in Sources */,
 				9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
+				9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */,
 				9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */,
 				9FEE52252875F84F00C8C22A /* Net.swift in Sources */,
@@ -317,6 +328,7 @@
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwScene.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,
+				9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */,
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
 			);

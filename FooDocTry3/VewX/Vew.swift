@@ -284,17 +284,17 @@ bug
 //			child.forAllSubViews(viewOperation)
 //		}
 //	}
-//	  /// Lookup configuration from Part's localConfig, and scene
-//	 func config(_ name:String) -> FwAny? {
-//		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
-//			if let rv			= s.part.localConfig[name] {
-//				return rv						// return an ancestor's config
-//			}
-//		}
-//		let fwScene				= part.root?.fwDocument?.fwScene
-//		return fwScene?.config4scene[name]	// make this part of new RootPart class
-//	 }
-//
+	  /// Lookup configuration from Part's localConfig, and scene
+	 func config(_ name:String) -> FwAny? {
+		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
+			if let rv			= s.part.localConfig[name] {
+				return rv						// return an ancestor's config
+			}
+		}
+		let fwScene				= DOC.state.scene//part.root?.fwDocument?.fwScene
+		return fwScene.config4scene[name]	// make this part of new RootPart class
+	 }
+
 	 // MARK: - 4.6 Find Children
 	 /// FIND child Vew by its NAME:
 	func find(name:String,					inMe2 searchSelfToo:Bool=false,
