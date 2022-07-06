@@ -526,12 +526,12 @@ bug;return false
 		child.root				= self.root
 
 		 // Process tree dirtyness:
-//		markTree(dirty:.vew)				// ? tree has dirty.vew
-//		markTree(dirty:child.dirty)			// ? tree also inherits child's other dirtynesses
+		markTree(dirty:.vew)				// ? tree has dirty.vew
+		markTree(dirty:child.dirty)			// ? tree also inherits child's other dirtynesses
 	}										// (child is not dirtied any more)
 	func removeChildren() {
 		children.removeAll()
-//		markTree(dirty:.vew)
+		markTree(dirty:.vew)
 	}
 	/// Groom Part tree after construction.
 	/// - Parameters:
@@ -962,17 +962,17 @@ bug;return false
 			vew					= vew ?? 	// 3. CREATE:
 								  addNewVew(in:pVew)
 			 // Remove old skins:
-	//		vew!.scn.find(name:"s-atomic")?.removeFromParent()
-		//	markTree(dirty:.size)
+			vew!.scn.find(name:"s-atomic")?.removeFromParent()
+			markTree(dirty:.size)
 
 			 // For the moment, we open all Vews
 			for childPart in children {
-		//		if	childPart.testNReset(dirty:.vew) ||		// 210719PAK do first, so it gets cleared
-		//		 	childPart.initialExpose == .open    {
+				if	childPart.testNReset(dirty:.vew) ||		// 210719PAK do first, so it gets cleared
+				 	childPart.initialExpose == .open    {
 					childPart.reVew(parentVew:vew!)
-		//		}
+				}
 			}
-//
+
 //		case .atomic:				// //// "think harder"
 //			vew					= vew ?? 	// 3. CREATE:
 //								  addNewVew(in:pVew)

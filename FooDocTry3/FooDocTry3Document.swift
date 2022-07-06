@@ -25,10 +25,9 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 	let newDocStateType			= 1
 	init(state:DocState?=nil) {
-		self.state 				= state ?? { //newDocState()
-			var rootPart : RootPart = RootPart()
+		self.state 				= state ?? { 		// state given
+			var rootPart : RootPart = RootPart()	// create state
 			rootPart.nam		= "ROOT"
-			var vew		 : Vew
 			var scene	 : FwScene
 
 			  // Generate a new document:
@@ -37,28 +36,32 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			switch stateType {
 			case 1:
 				scene			= dragonCurve(segments:1024)	// Dragon Curve
-				vew				= Vew(scn: scene.rootNode)
 			case 2:
 				scene			= aSimpleScene()				// Two Cubes and a Sphere
-				vew				= Vew(scn: scene.rootNode)
-			case 3:
-				for i in 1...2 {
+			case 3:		// Test Pattern of Parts -> Vew -> scn
+				scene			= FwScene(fwConfig:[:])					// A Part Tree
+				 // Add some children
+				for i in 1...3 {
 					let p		= Part()
 					p.nam		= "p\(i)"
 					rootPart.addChild(p)
 				}
-				scene			= FwScene(fwConfig:[:])					// A Part Tree
-				vew				= Vew(forPart:rootPart, scn:scene.rootNode)
-
 			default:
 				fatalError("newDocState stateType:\(stateType) is ILLEGAL")
 			}
+//			vew					= Vew(forPart:rootPart, scn:scene.rootNode)
+//			 let x = vew.pp(.tree)
+//			vew.updateVewTree()					// rootPart -> rootView, rootScn
+//			 let y = vew.pp(.tree)
+//			scene.addLightsAndCamera()
 
-			vew.updateVewTree()					// rootPart -> rootView, rootScn
-			scene.addLightsAndCamera()
-
-			return DocState(model:rootPart ?? RootPart(), scene:scene)
+			return DocState(model:rootPart, scene:scene)
 		}()
+		DOC						= self			// YEUCH
+
+		var vew		 : Vew		= Vew(forPart:rootPart, scn:state?.scene.rootNode)//.scene!.rootNode)
+		vew.updateVewTree()					// rootPart -> rootView, rootScn
+		state?.scene.addLightsAndCamera()
 	}
 
 	/* ============== BEGIN FileDocument protocol: */

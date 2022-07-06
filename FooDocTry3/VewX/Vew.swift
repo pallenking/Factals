@@ -237,12 +237,12 @@ bug
 			children.append(vew)
 		}
 		vew.parent 				= self
-	//	assert(part.parent == parent?.part, "fails consistency check")
+		assert(part.parent == parent?.part, "fails consistency check")
 //		part.parent?.markTree(dirty:.size)	// Affects parent's size
 	//	part.markTree(dirty:.vew)
 
 		// Add the "entry SCNNode" for the vew
-//		scn.addChild(node:vew.scn)			// wire scn tree isomorphically
+		scn.addChild(node:vew.scn)			// wire scn tree isomorphically
 	}
 //	func replaceChild(_ oldVew:Vew?, withVew newVew:Vew) {
 //		let i					= children.firstIndex(of:oldVew ?? .null)
@@ -251,25 +251,26 @@ bug
 //		addChild(newVew, atIndex:i)			// add new
 //		part.markTree(dirty:.size)			// recalculate size
 //	}
-//	 // Remove if parent exists
-//	func removeFromParent() {
-//		if let i		 		= parent?.children.firstIndex(of:self)	{
-//			parent?.children.remove(at:i)
-//			parent?.part.markTree(dirty:.size)	//.vew
-//		}else{
-//			panic("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
-//		}
-//	}
+	 // Remove if parent exists
+	func removeFromParent() {
+		if let i		 		= parent?.children.firstIndex(of:self)	{
+			parent?.children.remove(at:i)
+			parent?.part.markTree(dirty:.size)	//.vew
+		}else{
+			panic("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
+		}
+	}
 	func removeAllChildren() {
 		removeChildren()
 	}
 
 	func removeChildren() {
+		for childVew in children { 			// Remove all child Vews
+			childVew.scn.removeFromParent()		// Remove their skins first (needed?)
+			childVew.removeFromParent()			// Remove them
+		}
+bug
 		children.removeAll()				// or = []
-//		for childVew in children { 			// Remove all child Vews
-//			childVew.scn.removeFromParent()		// Remove their skins first (needed?)
-//			childVew.removeFromParent()			// Remove them
-//		}
 	//	part.markTree(dirty:.vew)
 //		scn.removeAllChildren()				// wipe out my skin
 	}
@@ -568,14 +569,17 @@ bug
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
 		var needsViewLock		= needsLockArg		// nil if lock obtained
-		let vRoot				= self
 		let pRoot				= part.root!
+//		let vRoot				= self
+//		let vRoot				= rootVew			// UGH
+		let vRoot				= Vew(forPart:pRoot)// get a new Vew for root
+		rootVew					= vRoot
 
 		 // This was to fix errors in dirtyBits, although atomic entities breaks it horribly!
 		//let _					= pRoot.rectifyTreeDirtyBits()	// fixes, logs results
 
 		 // debug test
-		rootpart("p2").markTree(dirty:.paint)
+//		rootpart("p2").markTree(dirty:.paint)
 //		rootPart.dirtySubTree(.paint)
 
 /**/	SCNTransaction.begin()
@@ -601,7 +605,7 @@ bug
 		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
 		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
 			" _ reVew _   Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
-		{	atRve(6, log ? logd("rootPart.reVew():....") : nop)
+		{	//atRve(6, log ? logd("rootPart.reVew():....") : nop)
 
 			  // 2. Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
@@ -611,7 +615,7 @@ bug
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
 			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
-		{	atRsi(6, log ? logd("rootPart.reSize():....") : nop)
+		{	//atRsi(6, log ? logd("rootPart.reSize():....") : nop)
 
 /**/		pRoot.reSize(inVew:rootVew)				// also causes rePosition as necessary
 
@@ -629,7 +633,7 @@ bug
 /**/		pRoot.rePaint(on:vRoot)					// Ports color, Links position
 
 			 // All changes above cause rePaint and get here. Let system know!
-bug//		pRoot.fwDocument!.fwView!.needsDisplay = true
+//			pRoot.fwDocument!.fwView!.needsDisplay = true
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
 			pRoot.computeLinkForces(in:vRoot) 		// Compute Forces (.force == 0 initially)

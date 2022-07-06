@@ -28,7 +28,10 @@ func rootpart(_ name:String?=nil) -> Part  {
 }
 
  /// Access to current Vew Tree
-var  rootVew  : Vew  			{	return rootvew()							}
+var  rootVew  : Vew  			{
+	get 		{	return DOC.state.scene.rootVew								}
+	set (v)		{	DOC.state.scene.rootVew = v									}
+}
 func rootvew(_ name:String?=nil) -> Vew  {
 	guard let docState 			= DOC?.state else {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
