@@ -5,7 +5,9 @@ import SceneKit
  /// For FactalWorkbench (SwiftFactal) Parts
 typealias PartClosure   	= () -> Part?
 typealias FwConfig  		= [String:FwAny]									//https://blog.bobthedeveloper.io/generic-protocols-with-associated-type-7e2b6e079ee2
-protocol  FwAny : Codable  {		// : Equatable
+// ALREADY TRUE: extension Dictionary : Codable where Key == String, Value == FwAny	{		}
+
+protocol FwAny : Codable  {		// : Equatable
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String
 	var  fwClassName	: String 	{	get										}
 }
@@ -61,7 +63,7 @@ extension FwAny  {
 	// Shorter Coersion methods: E.G: x as? String ?? "<not string>"  -> x.string
 }
 
-//protocol  FwAnyC : FwAny, Codable  { }		// : Codable : Equatable
+protocol  FwAnyC : FwAny, Codable  { }		// : Codable : Equatable
 // // An attempt
 ////typealias FwConfig  	= [ArgKey:FwAny]
 ////typealias FwConfigC   	= [ArgKey:FwAnyC]

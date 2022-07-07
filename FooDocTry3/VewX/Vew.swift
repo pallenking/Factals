@@ -62,7 +62,8 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 
 	 // Glue these Neighbors together: (both Always present)
 
-	@Published var part : Part?				// Part which this Vew represents	// was let
+	@Published
+	 var part : Part?				// Part which this Vew represents	// was let
 
 	var scn			:  SCNNode				// Scn which draws this Vew
 
@@ -93,7 +94,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //	// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
 //
 //	 // MARK: - 3. Factory
-	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil) {//, expose expose_:Expose? = nil) {
+	init(forPart part_:Part, scn scn_:SCNNode?=nil) {//, expose expose_:Expose? = nil) {
 
 		 // Link to Part:
 		let part				= part_ ?? .null
@@ -115,6 +116,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //		  						  SCNVector3(from:jogStr + " 0 0") {
 //			jog 				= jogVect
 //		}
+		print(" \(ppUid(self)) \(self.fwClassName)([]) name:\(nam)")
 	}
 //	init(forPort port:Port) {
 //		name					= "_" + port.name 	// View's name is Part's with '_'
@@ -168,7 +170,7 @@ class Vew : NSObject, HasChildren, ObservableObject, Codable {
 //	 // MARK: - 3.6 NSCopying
 	func copy(with zone: NSZone?=nil) -> Any {
 bug
-		let theCopy 			= Vew()
+		let theCopy 			= Vew(forPart:part!, scn: SCNNode())
 //		theCopy.name 			= name
 //	//	theCopy.color000		= color000
 		theCopy.keep 			= keep

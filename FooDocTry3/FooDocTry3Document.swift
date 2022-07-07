@@ -51,13 +51,18 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			}
 			return DocState(model:rootPart, scene:scene)
 		}()
+		// Now self.state has full DocState, holding rootPart
+		let lldbRootScn:SCNNode	= rootScn
 
 		 // KNOWN EARLY
-		DOC						= self			// YEUCH
-		let rootScn				= self.state.scene.rootScn
-		let rootVew				= Vew(forPart:rootPart, scn:rootScn)//.scene!.rootNode)
+		DOC						= self				// INSTALL
+		let scene				= self.state.scene
+		let rootScn				= scene.rootScn		// INSTALL scn
 
-		rootVew.updateVewTree()					// rootPart -> rootView, rootScn
+		let rVew				= Vew(forPart:self.state.model, scn:rootScn)//.scene!.rootNode)
+		scene.rootVew			= rVew			// INSTALL vew
+
+		rVew.updateVewTree()					// rootPart -> rootView, rootScn
 		state?.scene.addLightsAndCamera()
 	}
 

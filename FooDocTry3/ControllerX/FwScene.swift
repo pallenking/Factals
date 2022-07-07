@@ -46,11 +46,11 @@ class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 
 	  // MARK: - 2. Object Variables:
 	 // ///////// Vew Tree:
-	var rootVew  : Vew			= Vew()	// Initially a dummy: no part, no scn
+	var rootVew  : Vew			= Vew(forPart:.null, scn:.null)	// Initially a dummy: no part, no scn
 	let rootVewLock 			= DispatchSemaphore(value:1)
 	var rootVewOwner : String?	= nil
 	var rootVewOwnerPrev:String? = nil
-	var rootVewVerbose 		= false
+	var rootVewVerbose 			= false
 	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
 		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil

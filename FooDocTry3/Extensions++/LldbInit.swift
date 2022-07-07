@@ -10,13 +10,7 @@ import SceneKit
  */
 
  /// Access to current Part Tree
-var rootPart  : RootPart		{	return rootpart() as! RootPart				}
-//var rootPart  : RootPart		{
-//	return DOC?.rootPart ?? {
-//		print("DOC?.rootPart is nil")
-//		return RootPart()
-//	} ()
-//}
+var rootPart  : RootPart		{	return (DOC?.state.model)!					}
 func rootpart(_ name:String?=nil) -> Part  {
 	if var rv : Part			= DOC?.state.model {//rootPart {
 		if name != nil {			// Search for sought Part	//maxLevel:1,
@@ -45,7 +39,7 @@ func rootvew(_ name:String?=nil) -> Vew  {
 }
 
  /// Access to current root  SCNNode  being debugged
-var  rootScn  : SCNNode  	{ return (DOC?.state.scene.rootScn)!				}
+var  rootScn  : SCNNode  	{  DOC?.state.scene.rootScn ?? .null				}
 func rootscn(_ name:String?=nil) -> SCNNode	{
 	guard let docState 			= DOC?.state else {
 		print("DOC! is nil! rootscn(\(name ?? "") is .null")

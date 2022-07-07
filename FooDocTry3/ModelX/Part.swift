@@ -148,9 +148,12 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 			}
 		}()
 
-//		 // Print out invocation
-//		let n					= ("\'" + nam + "\'").field(-8)
+		 // Print out invocation
+		let n					= ("\'" + nam + "\'").field(-8)
+//		var bla	: FwConfig		= [:]			// Configuration of Part
+//		let x : FwConfig = bla.pp(.line)
 //		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
+		print(" \(ppUid(self)) \(self.fwClassName)([]) name:\(n)")
 
 //		 // Options:
 //		if let valStr			= localConfig["expose"] as? String,
