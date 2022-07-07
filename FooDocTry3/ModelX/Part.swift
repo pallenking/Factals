@@ -955,7 +955,7 @@ bug;return false
 		 // Discard if it doesn't match self, or names mismatch.
 		if let v				= vew,		// Vew supplied and
 		 (v.part !== self ||				//  it seems wrong:	//!=
-		  v.nam != "_" + (v.part?.nam ?? "<reVew>")) {
+		  v.nam != "_" + v.part.nam) {
 			vew					= nil			// don't use it
 		}
 //
@@ -1001,7 +1001,7 @@ bug;return false
 		vew.keep				= false
 //		if vew.expose == .open {
 			for childVew in vew.children {				// (Post Recursion)
-				childVew.part?.reVewPost(vew:childVew)
+				childVew.part.reVewPost(vew:childVew)
 			}
 //		}
 	}
@@ -1022,26 +1022,26 @@ bug;return false
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
 		for childVew in orderedChildren where// For all Children, except
 		  !(childVew.part is Port) 				// ignore child Ports (Atom handles)
-		{	if let childPart	= childVew.part {
+		{	let childPart	= childVew.part
 
-				 // 2A. Repack insides (if dirty size):
-				if childPart.testNReset(dirty:.size) {
-					childPart.reSize(inVew:childVew)	// #### HEAD RECURSIVEptv
-				}
-	//			  // If our shape was just added recently, it has no parent.
-	//			 //   That it is "dangling" signals we should swap it in
-	//			if childVew.scn.parent == nil {
-	///*bug;*/		vew.scn.removeAllChildren()
-	//				vew.scn.addChild(node:childVew.scn)
-	//			}
-
-				 // 2B. Reposition:
-				childPart.rePosition(vew:childVew, first:first)
-	//			childVew.orBBoxIntoParent()			// child.bbox -> bbox
-				childVew.keep		= true
-				first				= false
+			 // 2A. Repack insides (if dirty size):
+			if childPart.testNReset(dirty:.size) {
+				childPart.reSize(inVew:childVew)	// #### HEAD RECURSIVEptv
 			}
+//			  // If our shape was just added recently, it has no parent.
+//			 //   That it is "dangling" signals we should swap it in
+//			if childVew.scn.parent == nil {
+///*bug;*/		vew.scn.removeAllChildren()
+//				vew.scn.addChild(node:childVew.scn)
+//			}
+
+			 // 2B. Reposition:
+			childPart.rePosition(vew:childVew, first:first)
+//			childVew.orBBoxIntoParent()			// child.bbox -> bbox
+			childVew.keep		= true
+			first				= false
 		}
+
 		 //------ 3. Part PROPERTIES for new skin:
 		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
 
@@ -1185,7 +1185,7 @@ bug;return false
 
 		 // Do   CHILDREN   first
 		for childVew in vew.children { //where !(childVew is LinkVew) {
-			childVew.part?.reSizePost(vew:childVew)		// #### HEAD RECURSIVE
+			childVew.part.reSizePost(vew:childVew)		// #### HEAD RECURSIVE
 		}
 		  // Reset transforms if there's a PHYSICS BODY:
 		 //https://stackoverflow.com/questions/51456876/setting-scnnode-presentation-position/51679718?noredirect=1#comment91086879_51679718
@@ -1316,14 +1316,14 @@ bug;return false
 	 // MARK: - 9.5.2: didApplyAnimations 		-- Compute spring forces
 	func computeLinkForces(in vew:Vew) {
 		for childVew in vew.children {			// by Vew
-			childVew.part?.computeLinkForces(in:childVew) // #### HEAD RECURSIVE
+			childVew.part.computeLinkForces(in:childVew) // #### HEAD RECURSIVE
 		}
 	}
 	  // MARK: - 9.5.3: did Simulate Physics 	-- Apply spring forces
 	 /// Distribute Forces
 	func applyLinkForces(in vew:Vew) {
 		for childVew in vew.children {			// repeat over Vew tree
-			childVew.part?.applyLinkForces(in:childVew) // #### HEAD RECURSIVE
+			childVew.part.applyLinkForces(in:childVew) // #### HEAD RECURSIVE
 		}
 		if let pb 				= vew.scn.physicsBody,
 		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
@@ -1336,7 +1336,7 @@ bug;return false
 	 // MARK: - 9.5.5: will Render Scene -- Rotate Links toward camera
 	func rotateLinkSkins(in vew:Vew) {
 		for childVew in vew.children {			// by Vew
-			childVew.part?.rotateLinkSkins(in:childVew) // #### HEAD RECURSIVE
+			childVew.part.rotateLinkSkins(in:childVew) // #### HEAD RECURSIVE
 		}
 	}
 
@@ -1344,8 +1344,8 @@ bug;return false
 	  // MARK: - 9.6: Paint Image:
 	func rePaint(on vew:Vew) 	{		/* prototype */
 		for childVew in vew.children 				// by Vew
-		  where childVew.part?.testNReset(dirty:.paint) ?? false {
-			childVew.part?.rePaint(on:childVew)		// #### HEAD RECURSIVE
+		  where childVew.part.testNReset(dirty:.paint) {
+			childVew.part.rePaint(on:childVew)		// #### HEAD RECURSIVE
 		}
 		assertWarn(!vew.scn.transform.isNan, "vew.scn.transform == nan!")
 	}
