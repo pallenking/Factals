@@ -63,6 +63,10 @@ class CommonPart : Part {
 //		return	super.equalsPart(part) && varsOfCommonPartEq(part)
 //	}
  
+ 	override func reSize(inVew vew:Vew) {
+		let bBox				= reSkin(fullOnto:vew)
+		//super.reSize(inVew:vew)
+	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.find(name:"s-Box") ?? {
