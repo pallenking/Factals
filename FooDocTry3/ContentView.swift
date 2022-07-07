@@ -22,20 +22,33 @@ struct ContentView: View {
 	var body: some View {
 		HStack {
 			VStack {
+				let rootPart:Part	=  document.state.model
+				let rootVew :Vew	=  document.state.scene.rootVew
 				let rootNode:SCNNode = document.state.scene.rootNode
-				let str				= "\(rootNode.childNodes.count) scn nodes"
+				let str				= "rootNode has \(rootNode.childNodes.count) scn nodes"
+				let aux				= /*Log.params4aux +*/ ["ppDagOrder":true]
 				Text(str)
 				 .foregroundColor(.red)
 //				 .frame(width:80)
 //				 .lineLimit(10)
 //				 .wrap(80)
 				 .padding()
+
 				SceneView(
 					scene: 		 document.state.scene,
 					pointOfView: document.state.scene.cameraNode,
 					options: [.allowsCameraControl, .autoenablesDefaultLighting]
 				)
-					.frame(width:600, height:400)
+				 .frame(width:600, height:400)
+
+				HStack {
+					Button(action: {Swift.print(rootPart.pp(.tree, aux), terminator:"\n") })
+					{	Text("ptm").padding(.top, 300)							}
+					Button(action: {Swift.print(rootVew .pp(.tree, aux), terminator:"\n") })
+					{	Text("ptv").padding(.top, 300)								}
+					Button(action: {Swift.print(rootNode.pp(.tree, aux), terminator:"\n") })
+					{	Text("ptn").padding(.top, 300)								}
+				}
 			}
 			VStack {
 				SceneView(
@@ -49,7 +62,7 @@ struct ContentView: View {
 					pointOfView: dragonModel.scene.cameraNode,
 					options: [.allowsCameraControl, .autoenablesDefaultLighting]
 				)
-					.frame(width:200, height:200)
+					.frame(width:200, height:300)
 			}
 		}
 	}
