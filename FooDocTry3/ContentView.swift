@@ -26,7 +26,7 @@ struct ContentView: View {
 				let rootVew :Vew	=  document.state.scene.rootVew
 				let rootNode:SCNNode = document.state.scene.rootNode
 				let str				= "rootNode has \(rootNode.childNodes.count) scn nodes"
-				let aux				= /*Log.params4aux +*/ ["ppDagOrder":true]
+				let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 				Text(str)
 				 .foregroundColor(.red)
 //				 .frame(width:80)

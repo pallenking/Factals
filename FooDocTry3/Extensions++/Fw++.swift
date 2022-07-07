@@ -360,8 +360,8 @@ func +( d0:FwConfig, d1:FwConfig) -> FwConfig {
 																				//})
 	for (key1, value1) in d1 {
 		if let value0 			= d0[key1] { 	/// key1 in d0: possible conflict
-			atBld(9, print("Dictionary Conflict, Key: \(key1.field(20)) " +
-					"was \(value0.pp(.short).field(10)) \t<-- \(value1.pp(.short))"))
+	//		atBld(9, print("Dictionary Conflict, Key: \(key1.field(20)) " +
+	//				"was \(value0.pp(.short).field(10)) \t<-- \(value1.pp(.short))"))
 //			atBld(9, DOCLOG.log("Dictionary Conflict, Key: \(key1.field(20)) " +
 //					"was \(value0.pp(.phrase).field(10)) \t<-- \(value1.pp(.phrase))"))
 //			if let v0			= value0 as? Equatable,
