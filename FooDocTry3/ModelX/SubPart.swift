@@ -108,10 +108,11 @@ extension Part {
 		return rv != 0
 	}
 }
+var defaultPrtIndex = 0
 
  /// Establish defaults for named Parts (e.g. prv3):
-var defaultPrtIndex = 0
 let prefixForClass = [						// prefix for naming Part
+ // Undefined symbol: FwShapes.prefixForClass.unsafeMutableAddressor : [Swift.String : Swift.String]
 		"Part"		:"prt",				"PolyWrap"	:"---", //"PolyWrap"	:"___",
 	/**/"Box"		:"box",				"Atom"		:"atm",
 		"Sphere"	:"sph",				"Cylinder"	:"cyl",

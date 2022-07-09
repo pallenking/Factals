@@ -2,6 +2,7 @@
 
 import SceneKit
 import SwiftUI
+import FwShapes
 
 class Link : Part {
 	 // MARK: -- Set Link's end position
