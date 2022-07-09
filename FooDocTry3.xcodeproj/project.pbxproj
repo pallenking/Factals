@@ -37,6 +37,7 @@
 		9FEE52272875FEE200C8C22A /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
 		9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52282876023A00C8C22A /* CommonAtoms.swift */; };
 		9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE522A287602B400C8C22A /* CommonParts.swift */; };
+		9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */; };
 		9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */; };
 		9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */; };
 		9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
@@ -81,6 +82,7 @@
 		9FEE52262875FEE200C8C22A /* Atom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
 		9FEE52282876023A00C8C22A /* CommonAtoms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAtoms.swift; sourceTree = "<group>"; };
 		9FEE522A287602B400C8C22A /* CommonParts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonParts.swift; sourceTree = "<group>"; };
+		9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsFoo.swift; sourceTree = "<group>"; };
 		9FEE6F122835778A00E9E2AE /* FooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3App.swift; sourceTree = "<group>"; };
 		9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3Document.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		9FEE519C286B4EDF00C8C22A /* VewX */ = {
 			isa = PBXGroup;
 			children = (
+				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 			);
 			path = VewX;
@@ -135,6 +138,8 @@
 		9FEE519D286B4F1C00C8C22A /* ControllerX */ = {
 			isa = PBXGroup;
 			children = (
+				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
+				9F19CA31285EA5090072C50E /* Simulator.swift */,
 				9FEE521628720A2300C8C22A /* FwScene.swift */,
 				9FEE51A1286B8F5B00C8C22A /* Log.swift */,
 				9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */,
@@ -146,10 +151,12 @@
 			isa = PBXGroup;
 			children = (
 				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
-				9FEE51AB286BA57900C8C22A /* Library.swift */,
-				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
-				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
 				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
+				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
+				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
+				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
+				9FEE51AB286BA57900C8C22A /* Library.swift */,
+				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 			);
 			path = "HaveNWant Networks";
 			sourceTree = "<group>";
@@ -174,17 +181,13 @@
 		9FEE6F142835778A00E9E2AE /* FooDocTry3 */ = {
 			isa = PBXGroup;
 			children = (
-				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
 				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
-				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE51AA286BA53800C8C22A /* HaveNWant Networks */,
 				9F19CA33285EAF730072C50E /* ModelX */,
 				9FEE519C286B4EDF00C8C22A /* VewX */,
-				9F19CA31285EA5090072C50E /* Simulator.swift */,
 				9FEE519D286B4F1C00C8C22A /* ControllerX */,
 				9FEE6FDB2843182A00E9E2AE /* Extensions++ */,
-				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
 				9FEE6F202835779000E9E2AE /* Info.plist */,
@@ -320,6 +323,7 @@
 				9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
 				9FEE6FDA2841A70F00E9E2AE /* Part.swift in Sources */,
+				9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */,
 				9FEE6FD92841A70F00E9E2AE /* Vew.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */,

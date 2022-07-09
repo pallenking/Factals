@@ -34,11 +34,9 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			 //
 			let stateType 		= 3
 			switch stateType {
-			case 1:
-				scene			= dragonCurve(segments:1024)	// Dragon Curve
-			case 2:
-				scene			= aSimpleScene()				// Two Cubes and a Sphere
-			case 3:		// Test Pattern of Parts -> Vew -> scn
+			case 1:		// Test Pattern of Parts -> Vew -> scn
+				scene			= FwScene(fwConfig:[:])					// A Part Tree
+			case 2:		// Test Pattern of Parts -> Vew -> scn
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
 				 // Add some children
 //				let b			= Box(["size":"2 1 2", "color":"red"])
@@ -97,6 +95,10 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 													p.nam		= "p\(i)"
 													rootPart.addChild(p)
 												}
+			case 3:
+				scene			= dragonCurve(segments:1024)	// Dragon Curve
+			case 4:
+				scene			= aSimpleScene()				// Two Cubes and a Sphere
 			default:
 				fatalError("newDocState stateType:\(stateType) is ILLEGAL")
 			}

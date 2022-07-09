@@ -64,7 +64,8 @@ class Library : NSObject {
 
 	 // MARK: - 1. Register all Libraries HERE!
 	static let libraryList = [
-		Proto(		"Proto"		),				// Prototype Tests
+//		Proto(		"Proto"		),				// Prototype Tests
+		TestsFoo(	"TestsFoo"	),				// New Regression Tests for FooTry3
 //		Tests01(	"Tests01"	),				// Standard Regression Tests
 //		TivoRemote(	"TivoRemote"),				// Operation of Tivo Remote
 //		LangDeser(	"LangDeser"	),				// Language Deserializer

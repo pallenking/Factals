@@ -16,7 +16,7 @@ class LangDeser : Library {
 //  // Change just one of the following r () to x#r () to select it for building
 // //
 //// ///////////////////////////////////////////////////////////////////////
-// // MARK: - * Tivo World
+// // MARK: - * Tivo WorlTestsFood
 // // , "", "", "", "", "", ""
 //state.scanSubMenu	= "Language Deserializer"
 //let wordType		= ["proposition", "determinat", "nouns", "auxiliary", "verbs", "cp"]
