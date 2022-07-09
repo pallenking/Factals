@@ -83,6 +83,7 @@
 		9FEE52282876023A00C8C22A /* CommonAtoms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAtoms.swift; sourceTree = "<group>"; };
 		9FEE522A287602B400C8C22A /* CommonParts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonParts.swift; sourceTree = "<group>"; };
 		9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsFoo.swift; sourceTree = "<group>"; };
+		9FEE522F287A0C7600C8C22A /* FwShapes */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FwShapes; sourceTree = "<group>"; };
 		9FEE6F122835778A00E9E2AE /* FooDocTry3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FooDocTry3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3App.swift; sourceTree = "<group>"; };
 		9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooDocTry3Document.swift; sourceTree = "<group>"; };
@@ -164,6 +165,7 @@
 		9FEE6F092835778A00E9E2AE = {
 			isa = PBXGroup;
 			children = (
+				9FEE522F287A0C7600C8C22A /* FwShapes */,
 				9FEE521C28749C2A00C8C22A /* LLDBInitFile */,
 				9FEE6F142835778A00E9E2AE /* FooDocTry3 */,
 				9FEE6F132835778A00E9E2AE /* Products */,
