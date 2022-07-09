@@ -63,8 +63,8 @@ private let params4pp_ : FwConfig = [
 				// Floating Point Accuracy:
 	 		   // fmt("%*.*f", A, B, x) (e.g. %5.2f)
 	//"ppFloatA": 2, "ppFloatB":0,	// good, small
-	  "ppFloatA": 4, "ppFloatB":1,	// good, .1, tight printout
-//	  "ppFloatA": 5, "ppFloatB":2,	// good, .01 for bug hunting
+//	  "ppFloatA": 4, "ppFloatB":1,	// good, .1, tight printout
+	  "ppFloatA": 5, "ppFloatB":2,	// good, .01 for bug hunting
 	//"ppFloatA": 7, "ppFloatB":4,	// BIG,  .0001 ACCURACY
 	//"ppFloatA": 4, "ppFloatB":2,
 	//"ppFloatA": 5, "ppFloatB":2,

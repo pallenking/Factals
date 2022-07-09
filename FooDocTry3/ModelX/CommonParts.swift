@@ -70,7 +70,8 @@ class CommonPart : Part {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.find(name:"s-Box") ?? {
 			let scn				= SCNNode()
-			scn.geometry		= SCNBox(width:size.x, height:size.y, length:size.z, chamferRadius:0)
+			scn.geometry		= SCNBox(width:1.0, height:1.0, length:1.0, chamferRadius:0)
+//			scn.geometry		= SCNBox(width:size.x, height:size.y, length:size.z, chamferRadius:0)		// removed 20210709
 			scn.name			= "s-Box"
 			scn.scale			= size
 			scn.color0			= NSColor.green//.change(saturationBy:0.4, fadeTo:0.5)
@@ -98,7 +99,8 @@ class Sphere : CommonPart {
 class Cylinder : CommonPart {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.find(name:"s-Cyl") ?? {
-			let scn				= SCNNode(geometry:SCNCylinder(radius:size.x, height:size.z))//SCNCylinder(radius:0.5, height:1)
+			let scn				= SCNNode(geometry:SCNCylinder(radius:1.0, height:1.0))//SCNCylinder(radius:0.5, height:1)
+//			let scn				= SCNNode(geometry:SCNCylinder(radius:size.x, height:size.z))//SCNCylinder(radius:0.5, height:1)
 			vew.scn.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Cyl"
 			scn.scale			= size
@@ -114,7 +116,7 @@ class Hemisphere : CommonPart {
 			let scn				= SCNNode()
 			vew.scn.addChild(node:scn, atIndex:0)
 			scn.name			= "s-HSphr"
-			scn.geometry		= SCNHemisphere(radius:1, slice:0)
+			scn.geometry		= SCNHemisphere(radius:1.0, slice:0)
 			scn.scale			= size
 			scn.color0			= .green
 			return scn
