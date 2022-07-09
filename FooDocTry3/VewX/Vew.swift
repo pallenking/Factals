@@ -555,18 +555,18 @@ bug
 //		scn.position			+= movedBy
 //		atRsi(4, log("<<===== Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))"))
 //	}
-//	func orBBoxIntoParent() {
-//		if let parentVew 		= parent {
-//			let myBip 			= bBox * scn.transform
-//			parentVew.bBox		|= myBip	// Accumulate me into parent
-//		}
-//	}
+	func orBBoxIntoParent() {
+		if let parentVew 		= parent {
+			let myBip 			= bBox * scn.transform
+			parentVew.bBox		|= myBip	// Accumulate me into parent
+		}
+	}
 //	func logSpots(_ spots:[SpotData]) {		// Print for debug
 //		for (i, spot) in spots.enumerated() {
 //			log("   \(i): \(spot.pp())")
 //		}
 //	}
-//
+
 	// MARK: - 9 Update Vew + :
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
@@ -629,7 +629,7 @@ bug
 
 			vRoot.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 
-			pRoot.rePosition(vew:vRoot, first:true) // === only outter vew centered
+			pRoot.rePosition(vew:vRoot) 			// === only outter vew centered
 //			vRoot.orBBoxIntoParent()
 			pRoot.reSizePost(vew:vRoot)				// === (set link Billboard constraints)
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY

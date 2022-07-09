@@ -1018,7 +1018,6 @@ bug;return false
 //		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
 
 		 //------ 2. reSize all  _CHILD Atoms_
-		var first				= true
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
 		for childVew in orderedChildren where// For all Children, except
 		  !(childVew.part is Port) 				// ignore child Ports (Atom handles)
@@ -1028,18 +1027,16 @@ bug;return false
 			if childPart.testNReset(dirty:.size) {
 				childPart.reSize(inVew:childVew)	// #### HEAD RECURSIVEptv
 			}
-//			  // If our shape was just added recently, it has no parent.
-//			 //   That it is "dangling" signals we should swap it in
-//			if childVew.scn.parent == nil {
-///*bug;*/		vew.scn.removeAllChildren()
-//				vew.scn.addChild(node:childVew.scn)
-//			}
-
+								//			  // If our shape was just added recently, it has no parent.
+								//			 //   That it is "dangling" signals we should swap it in
+								//			if childVew.scn.parent == nil {
+								///*bug;*/		vew.scn.removeAllChildren()
+								//				vew.scn.addChild(node:childVew.scn)
+								//			}
 			 // 2B. Reposition:
-			childPart.rePosition(vew:childVew, first:first)
-//			childVew.orBBoxIntoParent()			// child.bbox -> bbox
+			childPart.rePosition(vew:childVew)
+			childVew.orBBoxIntoParent()			// child.bbox -> bbox
 			childVew.keep		= true
-			first				= false
 		}
 
 		 //------ 3. Part PROPERTIES for new skin:
@@ -1196,19 +1193,26 @@ bug;return false
 		vew.scn.isHidden		= false	// Include elements hiden for sizing:
 	}
 	 // MARK: - 9.4 rePosition
-	func rePosition(vew:Vew, first:Bool=false) {
-		guard vew.parent != nil else { fatalError("func rePosition(vew:Vew")}
+	func rePosition(vew:Vew) {
+
 		 // Get Placement Modep
-								
 		let placeMode			=  localConfig["placeMe"]?.asString ?? // I have place ME
 								parent?.config("placeMy")?.asString ?? // My Parent has placy MY
 											   "linky"				   // default is position by links
-		  // Set NEW's orientation (flip, lat, spin) at origin
+		 // Set NEW's orientation from flip, lat, and spin, but at origin
 		vew.scn.transform		= SCNMatrix4(.origin,
 								 flip	 : flipped,
 								 latitude: CGFloat(lat.rawValue) * .pi/8,
 								 spin	 : CGFloat(spin)		 * .pi/8)
-		if first {								// First has center at parent's origin
+		 // If no parent:
+		if parent == nil {
+			let newBip			= vew.bBox * vew.scn.transform //new bBox in parent
+			vew.scn.position 	= -newBip.center
+			return
+		}
+
+		guard let vewParent = vew.parent else { fatalError("self.parent exists, so should vew.parent!") }
+		if vewParent.bBox.isEmpty {								// First has center at parent's origin
 			let newBip			= vew.bBox * vew.scn.transform //new bBox in parent
 			vew.scn.position 	= -newBip.center
 		}
@@ -1264,7 +1268,7 @@ bug;return false
 			  let a2 			= Float(modeWords[2]) {
 				alignU2			= 0.5 * a2
 			}
-			let ax				= ["x","y","z"]
+//			let ax				= ["x","y","z"]
 //			atRsi(5, vew.log("   Stack:\(stackSign > 0 ? "+" : "-")\(ax[u0]): Align \(ax[u1])=\(alignU1), \(ax[u2])=\(alignU1)"))
 
 			 // the move (delta) to put self's bBox centered within parent's bBox

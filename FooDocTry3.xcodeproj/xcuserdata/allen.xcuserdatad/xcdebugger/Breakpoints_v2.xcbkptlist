@@ -385,7 +385,7 @@
             startingLineNumber = "655"
             endingLineNumber = "655"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -401,7 +401,7 @@
             startingLineNumber = "627"
             endingLineNumber = "627"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -417,7 +417,7 @@
             startingLineNumber = "575"
             endingLineNumber = "575"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -481,7 +481,7 @@
             startingLineNumber = "623"
             endingLineNumber = "623"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -513,7 +513,7 @@
             startingLineNumber = "618"
             endingLineNumber = "618"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -631,22 +631,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "38F45223-661B-4122-8603-8CCAD8BDFD5F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/ModelX/Part.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1039"
-            endingLineNumber = "1039"
-            landmarkName = "reSize(inVew:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "856B2028-A5F2-4F40-9849-AD412409A3F5"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -654,9 +638,9 @@
             filePath = "FooDocTry3/ModelX/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1200"
-            endingLineNumber = "1200"
-            landmarkName = "rePosition(vew:first:)"
+            startingLineNumber = "1197"
+            endingLineNumber = "1197"
+            landmarkName = "rePosition(vew:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -670,9 +654,41 @@
             filePath = "FooDocTry3/ModelX/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1211"
-            endingLineNumber = "1211"
-            landmarkName = "rePosition(vew:first:)"
+            startingLineNumber = "1207"
+            endingLineNumber = "1207"
+            landmarkName = "rePosition(vew:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EF4C88EF-A24D-44FB-8F70-C7AA9809C3F1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/ModelX/Part.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1017"
+            endingLineNumber = "1017"
+            landmarkName = "reSize(inVew:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A397D8F-CBF8-456E-8C40-A6C3F17EC488"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/ModelX/Part.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1238"
+            endingLineNumber = "1238"
+            landmarkName = "placeStacked(inVew:mode:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
