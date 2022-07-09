@@ -29,13 +29,29 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			var rootPart : RootPart = RootPart()	// create state
 			rootPart.nam		= "ROOT"
 			var scene	 : FwScene
+//
+//			 // Find the Library that contains the trunk for self, the root.
+//			if let lib				= Library.library(fromSelector:selectionString) {
+//				let ans :ScanAnswer	= lib.answer		// found
+//				title				= "'\(selectionString)' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
+//				ansConfig			= ans.ansConfig
+//				let ansTrunk:Part?	= ans.ansTrunkClosure!()
+//				addChild(ansTrunk)
+//			}
+//			markTree(dirty:.vew)
+//			atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
+//										"found:\(title), returns:\n\(pp(.tree))"))
+
+
 
 			  // Generate a new document:
 			 //
-			let stateType 		= 3
+			let stateType 		= 2
 			switch stateType {
 			case 1:		// Test Pattern of Parts -> Vew -> scn
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
+				
+
 			case 2:		// Test Pattern of Parts -> Vew -> scn
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
 				 // Add some children
