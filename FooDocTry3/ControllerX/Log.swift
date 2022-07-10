@@ -269,7 +269,7 @@ bug
 		 // Print new Log, if it has changed:
  		if logNo != Log.currentLogNo {						// Same as last time
 			Log.currentLogNo	= logNo							// switch to new
-										//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
+			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
 										//	//	var x				= "33".pp(.line) ?? "nil"// GOOD
 			var x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:(verbosity?.pp(.line))"
 //			var x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"

@@ -10,10 +10,10 @@ class TestsFoo : Library {
 		 // MARK: - * Tivo World
 		state.scanSubMenu		= "Proto Menu"
 		xr("Prototype HaveNWant", e, { Part(["parts":[
-					Sphere(		["size":"2 2 2"]),								//	//	b.color0		= NSColor.red
-					Cylinder(	["size":"2 2 2"]),								//		rootPart.addChild(b)
-					Box(		["size":"2 2 2"]),								//		for i in 1...3 {
-					Hemisphere(	["size":"2 2 2"]),								//			let p		= Sphere()
+			Sphere(		["size":"2 2 2"]),		//	//	b.color0		= NSColor.red
+			Cylinder(	["size":"2 2 2"]),		//		rootPart.addChild(b)
+//			Box(		["size":"2 2 2"]),		//		for i in 1...3 {
+//			Hemisphere(	["size":"2 2 2"]),		//			let p		= Sphere()
 		]]) })
 	}
 }

@@ -2,7 +2,7 @@
 
 import SceneKit
 import SwiftUI
-import FwShapes
+//import FwShapes
 
 class Link : Part {
 	 // MARK: -- Set Link's end position
@@ -41,13 +41,25 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
    weak
 	var parent :  Part?	= nil 			// add the parent property
 
-//	typealias RootPart			= Part	// STUB
-	lazy var root	: RootPart? = root__		// Lazy provides caching
-	var root__		: RootPart? {		 		// NO CACHING, no var!
-		return parent?.root 		// our parent has a root
-			 ?? self as? RootPart	// we are the root
-			 ?? nil					// curious?
+	var root : RootPart? {		 		// NO CACHING, no var!
+		get { let rv			=
+//								  rootCached		??
+								  parent?.root		??
+								  self as? RootPart
+			rootCached			= rv
+			return rv
+		} set (v) {
+			rootCached			= v
+		}
 	}
+	var rootCached : RootPart?	= nil
+
+//	lazy var root	: RootPart? = root__		// Lazy provides caching
+//	var root__		: RootPart? {		 		// NO CACHING, no var!
+//		return parent?.root 		// our parent has a root
+//			 ?? self as? RootPart	// we are the root
+//			 ?? nil					// curious?
+//	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
  // BIG PROBLEMS: (Loops!)

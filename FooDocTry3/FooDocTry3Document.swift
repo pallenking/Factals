@@ -72,14 +72,17 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		let lldbRootScn:SCNNode	= rootScn
 
 		 // KNOWN EARLY
-		DOC						= self				// INSTALL
-		let scene				= self.state.scene
-		let rootScn				= scene.rootScn		// INSTALL scn
+		DOC						= self				// INSTALL FooDocTry3
+		let scene				= self.state.scene	// INSTALL SCNScene
+		let rootScn				= scene.rootScn		// INSTALL SCNNode
 
 		let rVew				= Vew(forPart:self.state.model, scn:rootScn)//.scene!.rootNode)
 		scene.rootVew			= rVew			// INSTALL vew
 
 		rVew.updateVewTree()					// rootPart -> rootView, rootScn
+		//let x = rVew.pp(.tree)
+
+
 		state?.scene.addLightsAndCamera()
 	}
 

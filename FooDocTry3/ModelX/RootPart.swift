@@ -250,7 +250,7 @@ bug;return false
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.root				= self				// Every Part, including rootPart, points to rootPart
-//		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
+		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
 		title					= "'\(selectionString)' not found"
 
 		 // Find the Library that contains the trunk for self, the root.
