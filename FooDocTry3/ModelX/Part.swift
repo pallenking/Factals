@@ -41,18 +41,19 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
    weak
 	var parent :  Part?	= nil 			// add the parent property
 
-	var root : RootPart? {		 		// NO CACHING, no var!
-		get { let rv			=
-//								  rootCached		??
-								  parent?.root		??
-								  self as? RootPart
-			rootCached			= rv
-			return rv
-		} set (v) {
-			rootCached			= v
-		}
-	}
-	var rootCached : RootPart?	= nil
+//	var root : RootPart? {		 		// NO CACHING, no var!
+//		get { let rv			=
+////								  rootCached		??
+//								  parent?.root		??
+//								  self as? RootPart
+//			rootCached			= rv
+//			return rv
+//		} set (v) {
+//			rootCached			= v
+//		}
+//	}
+//	var rootCached : RootPart?	= nil
+	var root : RootPart?		= nil
 
 //	lazy var root	: RootPart? = root__		// Lazy provides caching
 //	var root__		: RootPart? {		 		// NO CACHING, no var!
@@ -197,8 +198,12 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 	//	if type(of:self) == Part.self && localConfig["parts"] != nil {
 	//		fatalError("key 'parts' can only be used in Atoms, not Parts")
 	//	}
-		if let a 				= localConfig["parts"] as? [Part] {
-			a.forEach { addChild($0) }						// add children in "parts"
+		if let childrenA 		= localConfig["parts"] as? [Part] {
+			childrenA.forEach { child in
+				addChild(child)
+//				child.parent	= self
+//				child.root		= root
+			}						// add children in "parts"
 			localConfig["parts"] = nil
 		}
 	//	if let parts 			= localConfig["parts"] {
@@ -208,17 +213,17 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 	//		localConfig["parts"] = nil
 	//	}
  	}
-//	func setTree(root:RootPart, parent:Part?) {
-////			//  "Root mismatch")
-////		assertWarn(self.parent === parent, "\(fullName): Parent:\(self.parent?.fullName ?? "nil") should be \(parent?.fullName ?? "nil")")
-////		assertWarn(self.root   === root,   "\(fullName): Root:\(self  .root?  .fullName ?? "nil") should be \(root   .fullName         )")
-//		self.parent 			= parent
-//		self.root   			= root
-//		for child in children {
-//			child.setTree(root:root, parent:self)
-//		}
-//	}
-//																//	WTF:	isMember(of:Part.Type) // && localConfig["parts"]
+	func setTree(root:RootPart, parent:Part?) {
+//			//  "Root mismatch")
+//		assertWarn(self.parent === parent, "\(fullName): Parent:\(self.parent?.fullName ?? "nil") should be \(parent?.fullName ?? "nil")")
+//		assertWarn(self.root   === root,   "\(fullName): Root:\(self  .root?  .fullName ?? "nil") should be \(root   .fullName         )")
+		self.parent 			= parent
+		self.root   			= root
+		for child in children {
+			child.setTree(root:root, parent:self)
+		}
+	}
+																//	WTF:	isMember(of:Part.Type) // && localConfig["parts"]
 //	deinit {
 //		// 20210109: executes properly, but in AppDelegate it causes: (note Controller.deinit!)
 //		//		EXC_BAD_ACCESS (code=1, address=0x368bb2a8b60)
@@ -1482,9 +1487,9 @@ bug;return false
 			rv					= ppUid(self, post:"", aux:aux)
 //			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
 			rv 					+= root?.log.indentString() ?? "____"				// Bb..
-//			rv 					+= root?.log.indentString() ?? "Bb..."				// Bb..
 			let ind				= parent?.children.firstIndex(of:self)
-			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
+			let c				= root == nil ? "x" : "<"
+			rv					+= ind != nil ? c + fmt("%2d", Int(ind!)) : "<##"	// Cc..
 				// adds "name;class<unindent><Expose><ramId>":
 			rv					+= ppCenterPart(aux)								// Dd..
 //			if config("physics")?.asBool ?? false {

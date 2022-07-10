@@ -803,11 +803,13 @@ bug
 																	// UNIndent
 				rv 				=  log?.unIndent(previous:rv) ?? "Ccc.."  // (L)
 
-				if ppViewOptions.contains("L") {					 // Leaf:
-					let s		= self as? NetVew
-					rv			+= s==nil ? "   " :
-								   "\(s!.heightLeaf)/\(s!.heightTree)"
-				}
+//	//	//	//	if ppViewOptions.contains("L") {					 // Leaf:
+//	//	//	//		if let s	= self as? NetVew {
+//	//	//	//			rv		+= "\(s.heightLeaf)/\(s.heightTree)"
+//	//	//	//		}else{
+//	//	//	//			rv		+= "   "
+//	//	//	//		}
+//	//	//	//	}
 				if ppViewOptions.contains("E"),					 	// Expose:
 				  !ppViewTight {
 	//				rv			+= " " + expose.pp(.short, aux)			  // (M)

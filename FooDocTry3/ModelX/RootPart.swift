@@ -258,8 +258,11 @@ bug;return false
 			let ans :ScanAnswer	= lib.answer		// found
 			title				= "'\(selectionString)' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
 			ansConfig			= ans.ansConfig
-			let ansTrunk:Part?	= ans.ansTrunkClosure!()
+
+/* */		let ansTrunk:Part?	= ans.ansTrunkClosure!()
+
 			addChild(ansTrunk)
+			setTree(root:self, parent:nil)
 		}else{
 			fatalError("RootPart(fromLibrary) -- no RootPart generated")
 		}

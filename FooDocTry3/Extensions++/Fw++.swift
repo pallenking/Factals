@@ -113,13 +113,13 @@ extension Array			: FwAny	where Element : Codable	{						}//extension Array : Fw
 //}
 //
 //extension Dictionary	: FwAny 	{}	//extend Type 'Key' does not conform to protocol 'Encodable'
-//extension Dictionary	: FwAnyC where Key : Codable,       Value : Codable 	{}
+extension Dictionary : FwAny where Key : Codable,       Value : Codable 	{}
 ////extension Dictionary	: FwAnyC where Key : String,    Value : Codable 	{}
 ////struct CodableDictionary<Key : Hashable, Value : Codable> : Codable where Key : CodingKey {
 ////extension Dictionary<Key, Value> : FwAnyC where Key : Hashable && Encodable, CodingKey, Value : Codable { }
-extension Dictionary : FwAny where Key : Codable , Value : Codable  {
-	func ppAbba(_ foo:Key) -> String {	"fixedString"}
-}//, CodingKey, Codable { }
+//extension Dictionary : FwAny where Key : Codable , Value : Codable  {	}
+//	func ppAbba(_ foo:Key) -> String {	"fixedString"}
+//, CodingKey, Codable { }
 
 
 
