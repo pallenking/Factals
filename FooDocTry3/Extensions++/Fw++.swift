@@ -63,7 +63,7 @@ extension FwAny  {
 	// Shorter Coersion methods: E.G: x as? String ?? "<not string>"  -> x.string
 }
 
-protocol  FwAnyC : FwAny, Codable  { }		// : Codable : Equatable
+//protocol  FwAnyC : FwAny, Codable  { }		// : Codable : Equatable
 // // An attempt
 ////typealias FwConfig  	= [ArgKey:FwAny]
 ////typealias FwConfigC   	= [ArgKey:FwAnyC]

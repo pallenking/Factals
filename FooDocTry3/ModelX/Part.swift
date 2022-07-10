@@ -169,54 +169,45 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
 		print(" \(ppUid(self)) \(self.fwClassName)([]) name:\(n)")
 
-//		 // Options:
-//		if let valStr			= localConfig["expose"] as? String,
-//		  let e : Expose		= Expose(string:valStr) {
-//			initialExpose		= e
-//			localConfig["expose"] = nil
-//		}
-//		for key in ["f", "flip", "flipped"] {
-//			if let ff			= localConfig[key],		// in config
-//			  let f				= Bool(fwAny:ff) {			// can be Bool
-//				flipped 		= f
-//				localConfig[key] = nil
-//			}
-//		}
-//		for key in ["lat", "latitude"] {
-//			if let ff			= localConfig[key] {
-//				if let f		= Int(fwAny:ff),
-//				  let g			= Latitude(rawValue:f) {
-//					lat				= g
-//					localConfig[key] = nil
-//				}
-//			}
-//		}
-//		if let s				= UInt8(fwAny:localConfig["spin"]) {
-//			spin 				= s
-//			localConfig["spin"] = nil
-//		}
-	//	if type(of:self) == Part.self && localConfig["parts"] != nil {
-	//		fatalError("key 'parts' can only be used in Atoms, not Parts")
-	//	}
+		 // Options:
+		if let valStr			= localConfig["expose"] as? String,
+		  let e : Expose		= Expose(string:valStr) {
+			initialExpose		= e
+			localConfig["expose"] = nil
+		}
+		for key in ["f", "flip", "flipped"] {
+			if let ff			= localConfig[key],		// in config
+			  let f				= Bool(fwAny:ff) {			// can be Bool
+				flipped 		= f
+				localConfig[key] = nil
+			}
+		}
+		for key in ["lat", "latitude"] {
+			if let ff			= localConfig[key] {
+				if let f		= Int(fwAny:ff),
+				  let g			= Latitude(rawValue:f) {
+					lat				= g
+					localConfig[key] = nil
+				}
+			}
+		}
+		if let s				= UInt8(fwAny:localConfig["spin"]) {
+			spin 				= s
+			localConfig["spin"] = nil
+		}
+																				//	if type(of:self) == Part.self && localConfig["parts"] != nil {
+																				//		fatalError("key 'parts' can only be used in Atoms, not Parts")
+																				//	}
 		if let childrenA 		= localConfig["parts"] as? [Part] {
 			childrenA.forEach { child in
 				addChild(child)
-//				child.parent	= self
-//				child.root		= root
+				child.parent	= self
+			//	child.root		= root
 			}						// add children in "parts"
 			localConfig["parts"] = nil
 		}
-	//	if let parts 			= localConfig["parts"] {
-	//		let arrayOfParts	= parts as? [Part]
-	//		assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
-	//		arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
-	//		localConfig["parts"] = nil
-	//	}
  	}
 	func setTree(root:RootPart, parent:Part?) {
-//			//  "Root mismatch")
-//		assertWarn(self.parent === parent, "\(fullName): Parent:\(self.parent?.fullName ?? "nil") should be \(parent?.fullName ?? "nil")")
-//		assertWarn(self.root   === root,   "\(fullName): Root:\(self  .root?  .fullName ?? "nil") should be \(root   .fullName         )")
 		self.parent 			= parent
 		self.root   			= root
 		for child in children {

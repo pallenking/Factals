@@ -9,7 +9,40 @@ import SceneKit
 	3. pt pCon2Spot
  */
 
- /// Access to current Part Tree
+func lldbPrint(ob:FwAny, mode:PpMode) {
+	print("lldbPrint")
+	print(ob.pp(.fwClassName, /*Log.params4aux +*/ ["ppDagOrder":true]))
+}
+
+/*
+command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, Log.params4aux + ["ppDagOrder":true]))/'
+command regex pn     's/^(.+)$/e Swift.print(%1.pp(.name,	 Log.params4aux + ["ppDagOrder":true]))/'
+command regex pnu    's/^(.+)$/e Swift.print(%1.pp(.nameUidClass,Log.params4aux + ["ppDagOrder":true]))/'
+command regex pf     's/^(.+)$/e Swift.print(%1.pp(.fullName,Log.params4aux + ["ppDagOrder":true]))/'
+command regex pi     's/^(.+)$/e Swift.print(%1.pp(.uidClass,Log.params4aux + ["ppDagOrder":true]))/'
+command regex piUc   's/^(.+)$/e Swift.print(%1.pp(.uidClass,Log.params4aux + ["ppDagOrder":true]))/'
+command regex piCu   's/^(.+)$/e Swift.print(%1.pp(.classUid,Log.params4aux + ["ppDagOrder":true]))/'
+command regex piU    's/^(.+)$/e Swift.print(%1.pp(.uid,	 Log.params4aux + ["ppDagOrder":true]))/'
+command regex piFuc  's/^(.+)$/e Swift.print(%1.pp(.fullNameUidClass, Log.params4aux + ["ppDagOrder":true]))/'
+command regex pp     's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true]))/'
+command regex ps     's/^(.+)$/e Swift.print(%1.pp(.short,	 Log.params4aux + ["ppDagOrder":true]), terminator:"\n")/'
+command regex pl     's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux))/'
+#command regex pt    's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true]), terminator:"\n")/'
+command regex pt     's/^(.+)$/e lldbPrint(  %1,   .tree                                         ), terminator:"\n")/'
+#
+command regex ppL    's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]))/'
+command regex plL    's/^(.+)$/e Swift.print(%1.pp(.line, 	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]))/'
+command regex ptL    's/^(.+)$/e Swift.print(%1.pp(.tree, 	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]), terminator:"")/'
+#
+command regex ppP    's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true]))/'
+command regex plP    's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true]))/'
+command regex ptP    's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true], terminator:""))/'
+#
+command regex ppLP   's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true]))/'
+command regex plLP   's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true]))/'
+command regex ptLP   's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true], terminator:"")/'
+ */
+ /// Access to current ////// Part Tree //////
 var rootPart  : RootPart		{	return (DOC?.state.model)!					}
 func rootpart(_ name:String?=nil) -> Part  {
 	if var rv : Part			= DOC?.state.model {//rootPart {
@@ -21,7 +54,7 @@ func rootpart(_ name:String?=nil) -> Part  {
 	return .null				// Strange hack
 }
 
- /// Access to current Vew Tree
+ /// Access to current ////// Vew Tree //////
 var  rootVew  : Vew  			{
 	get 		{	return DOC.state.scene.rootVew								}
 	set (v)		{	DOC.state.scene.rootVew = v									}
@@ -38,7 +71,7 @@ func rootvew(_ name:String?=nil) -> Vew  {
 	return rv
 }
 
- /// Access to current root  SCNNode  being debugged
+ /// Access to current ////// SCNNode Tree  ////// 
 var  rootScn  : SCNNode  	{  DOC?.state.scene.rootScn ?? .null				}
 func rootscn(_ name:String?=nil) -> SCNNode	{
 	guard let docState 			= DOC?.state else {
