@@ -244,13 +244,13 @@ bug;return false
 //			}
 //		})
 //	}
-	convenience init(fromLibrary selectionString:String) {//, fwDocument:FwDocument?) {
+	convenience init(fromLibrary selectionString:String) {	//, fwDocument:FooDocTry3Document?
 
 		 // Make tree's root (a RootPart):
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.root				= self				// Every Part, including rootPart, points to rootPart
-		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
+//		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
 		title					= "'\(selectionString)' not found"
 
 		 // Find the Library that contains the trunk for self, the root.
@@ -260,6 +260,8 @@ bug;return false
 			ansConfig			= ans.ansConfig
 			let ansTrunk:Part?	= ans.ansTrunkClosure!()
 			addChild(ansTrunk)
+		}else{
+			fatalError("RootPart(fromLibrary) -- no RootPart generated")
 		}
 		markTree(dirty:.vew)
 //		atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +

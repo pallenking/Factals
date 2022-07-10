@@ -1191,7 +1191,9 @@ extension NSObject {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
-		let str					= nls + "(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
+		let str					= nls +            "www:\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
+//		let str					= nls + "(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
+
 		DOCLOG.log(str, terminator:terminator)
 	}
 }

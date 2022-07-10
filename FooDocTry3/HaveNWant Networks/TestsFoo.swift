@@ -9,18 +9,12 @@ class TestsFoo : Library {
 
 		 // MARK: - * Tivo World
 		state.scanSubMenu		= "Proto Menu"
-//		r("Prototype HaveNWant", e, { Net(["parts":[
-//			Actor(["n":"wheelA", "placeMy":"linky",
-//				"con":Tunnel(["struc":["z", "y"], "f":1]),
-//				"parts":[
-//					MaxOr( ["n":"ma", "share":["z", "y"], "f":0]),
-//					MinAnd(["n":"mi", "share":["a", "b", "c", "d"], "P":"ma", "f":1]),
-//					MinAnd(["n":"mj", "share":["a", "b"], "f":1]),
-//				],
-//				"evi":Tunnel(["struc":["a", "b", "c", "d"], "placeMy":"stackz 0 -1"]),
-//			]),
-//			Generator(["n":"lo", "events":["a", "b", "c", "d", "again"], "P":"wheelA/evi"]),
-//		]]) })
+		xr("Prototype HaveNWant", e, { Part(["parts":[
+					Sphere(		["size":"2 2 2"]),								//	//	b.color0		= NSColor.red
+					Cylinder(	["size":"2 2 2"]),								//		rootPart.addChild(b)
+					Box(		["size":"2 2 2"]),								//		for i in 1...3 {
+					Hemisphere(	["size":"2 2 2"]),								//			let p		= Sphere()
+		]]) })
 	}
 }
 

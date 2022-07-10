@@ -23,100 +23,48 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	 // Model of a FooDocTry3Document:
 	var state : DocState
 
-	let newDocStateType			= 1
 	init(state:DocState?=nil) {
 		self.state 				= state ?? { 		// state given
-			var rootPart : RootPart = RootPart()	// create state
-			rootPart.nam		= "ROOT"
 			var scene	 : FwScene
-//
-//			 // Find the Library that contains the trunk for self, the root.
-//			if let lib				= Library.library(fromSelector:selectionString) {
-//				let ans :ScanAnswer	= lib.answer		// found
-//				title				= "'\(selectionString)' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
-//				ansConfig			= ans.ansConfig
-//				let ansTrunk:Part?	= ans.ansTrunkClosure!()
-//				addChild(ansTrunk)
-//			}
-//			markTree(dirty:.vew)
-//			atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
-//										"found:\(title), returns:\n\(pp(.tree))"))
-
-
+			var rootPart:RootPart? = nil
 
 			  // Generate a new document:
 			 //
-			let stateType 		= 2
-			switch stateType {
-			case 1:		// Test Pattern of Parts -> Vew -> scn
+			switch 1 {
+			case 1:		// ///// Library-defined RootPart -> Vew -> scn
+				//	   selectionString+------FUNCTION-----------+-wantName:---wantNumber:
+			//	let entry		= nil	//	 Blank scene		|	nil			-1
+			//	let entry		= 34	//	 entry N			|	nil			N *
+				let entry		= "xr()"//	 entry with xr()	|	"xr()"		-1
+			//	let entry		= "name"//	 entry named scene	|	"name" *	-1
+				rootPart		= RootPart(fromLibrary:entry)//, fwDocument:self)
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
-				
 
-			case 2:		// Test Pattern of Parts -> Vew -> scn
+			case 2:		// ///// RootPart defined here -> Vew -> scn
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
 				 // Add some children
-//				let b			= Box(["size":"2 1 2", "color":"red"])
-				//"1.0 1.0 1.0""0.5 0.5 0.5"
-		//		b.color0		= NSColor.red
-//				rootPart.addChild(b)
-//				for i in 1...3 {
-//					let p		= Sphere()
-//					p.nam		= "p\(i)"
-//					rootPart.addChild(p)
-//				}
-										//		 // Add some children
-										//		let b			= Box(["size":, "color":"red"])
-										//		//"2 2 2""1.99 1.99 1.99""1.8 1.8 1.8""1 1 1""0.9 0.9 0.9"
-										//		//
-								//		//		b.color0		= NSColor.red
-										//		rootPart.addChild(b)
-								// "0.2 0.2 0.2" --> -0.02< 0.02		1/10
-								// "0.3 0.3 0.3" --> -0.05< 0.05		1/6
-								// "0.4 0.4 0.4" --> -0.08< 0.08		1/5
-								// "0.5 0.5 0.5" --> -0.12< 0.12		1/4
-								// "1.0 1.0 1.0" --> -0.50< 0.50		1/2				good
-								// "2 2 2"		 --> -2.0< 2.0			2
-								// 1.8 --> -1.6< 1.6		2x  - 0.2
-								// 0.8 --> -0.x< 0.2		x/2 + 0
-								// 0.6 --> -0.2< 0.2		x/2 + 0
-								// 0.4 --> -0.1< 0.1		x/2 + 0
-												for (i, px) in [		// IS
-													Sphere(		["size":"2 2 2"]),
-													Cylinder(	["size":"2 2 2"]),
-													Box(		["size":"2 2 2"]),
-													Hemisphere(	["size":"2 2 2"]),
-				//									Box(["size":"2 2 2"]),
-				//									Box(["size":"2 2 2"]),
-								////					"0.2 0.2 0.2",		// -0.02< 0.02		0.2*0.2 / 2
-								////					"0.4 0.4 0.4",		// -0.08< 0.08		0.4*0.4 / 2
-								////					"0.6 0.6 0.6",		// -0.18< 0.18		0.6*0.6 / 2
-								////					"0.8 0.8 0.8",		// -0.32< 0.32		0.8*0.8 / 2
-								////					"1.0 1.0 1.0",		// -0.50< 0.50		1.0*1.0 / 2
-								////					"1.2 1.2 1.2",		// -0.72< 0.72		1.2*1.2 / 2
-								////					"1.4 1.4 1.4",		// -0.98< 0.98		1.4*1.4 / 2
-								////					"1.6 1.6 1.6",		// -1.28< 1.28		1.6*1.6 / 2
-								////					"1.8 1.8 1.8",		// -1.62< 1.62		1.8*1.8 / 2
-								////					"2.0 2.0 2.0",		// -2.00< 2.00		2.0*2.0 / 2
-								////					"2.2 2.2 2.2",		// -2.42< 2.42		2.2*2.2 / 2
-								////					"2.4 2.4 2.4",		// -2.88< 2.88		2.4*2.4 / 2
-								//
-								////					" 4  4  4",			//  -8.00< 8.00		 4* 4 /2
-								////					" 5  5  5",			// -12.50<12.50		 5* 5 /2
-								////					"10 10 10",			// -50.00<50.00		10x10 /2
-								////					"20 20 20",			//-200.00<200.00,	20x20 /2
-								////					"40 40 40",			//-800.00<800.00
-												].enumerated() {
-//													let p		= px(["size":v3])
-													let p		= px
-													p.nam		= "p\(i)"
-													rootPart.addChild(p)
-												}
-			case 3:
+				let rootPart	= RootPart(["name":"ROOT"])	// create state
+				for (i, px) in [		// IS									//		let b			= Box(["size":"2 1 2", "color":"red"])
+					Sphere(		["size":"2 2 2"]),								//	//	b.color0		= NSColor.red
+					Cylinder(	["size":"2 2 2"]),								//		rootPart.addChild(b)
+					Box(		["size":"2 2 2"]),								//		for i in 1...3 {
+					Hemisphere(	["size":"2 2 2"]),								//			let p		= Sphere()
+				].enumerated() {												//			p.nam		= "p\(i)"
+					let p		= px											//			rootPart.addChild(p)
+					p.nam		= "p\(i)"										//		}							//
+					rootPart.addChild(p)										//		let b			= Box(["size":"2 1 2", "color":"red"])
+				}																//	//	b.color0		= NSColor.red
+
+			case 3:		// ///// Dragon Curve -> scn
 				scene			= dragonCurve(segments:1024)	// Dragon Curve
-			case 4:
+				rootPart		= RootPart(["name":"ROOT"])	// create state
+
+			case 4:		// ///// A Simple Scene -> scn
 				scene			= aSimpleScene()				// Two Cubes and a Sphere
+				rootPart		= RootPart(["name":"ROOT"])	// create state
+
 			default:
-				fatalError("newDocState stateType:\(stateType) is ILLEGAL")
+				fatalError("stateType is ILLEGAL")
 			}
 			return DocState(model:rootPart, scene:scene)
 		}()

@@ -182,9 +182,19 @@ class Part : NSObject, HasChildren, Codable, ObservableObject 					//, Equatable
 //			spin 				= s
 //			localConfig["spin"] = nil
 //		}
-		if type(of:self) == Part.self && localConfig["parts"] != nil {
-			fatalError("key 'parts' can only be used in Atoms, not Parts")
+	//	if type(of:self) == Part.self && localConfig["parts"] != nil {
+	//		fatalError("key 'parts' can only be used in Atoms, not Parts")
+	//	}
+		if let a 				= localConfig["parts"] as? [Part] {
+			a.forEach { addChild($0) }						// add children in "parts"
+			localConfig["parts"] = nil
 		}
+	//	if let parts 			= localConfig["parts"] {
+	//		let arrayOfParts	= parts as? [Part]
+	//		assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
+	//		arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
+	//		localConfig["parts"] = nil
+	//	}
  	}
 //	func setTree(root:RootPart, parent:Part?) {
 ////			//  "Root mismatch")

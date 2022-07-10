@@ -269,15 +269,18 @@ bug
 		 // Print new Log, if it has changed:
  		if logNo != Log.currentLogNo {						// Same as last time
 			Log.currentLogNo	= logNo							// switch to new
-			print("\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
+										//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
+										//	//	var x				= "33".pp(.line) ?? "nil"// GOOD
+			var x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:(verbosity?.pp(.line))"
+//			var x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
+			print(x)
 			let evNo			= breakAt % Log.entryNosPlog
 			if evNo != 0 && (breakAt/Log.entryNosPlog == logNo) {
 				print("                                   breakpoint at EVent N(O)umber \(evNo)")
 			}
 		}
 		 // Print Simulator's time, if it has changed:
-		let rootPart			= DOC?.state.model
-		if let sim				= rootPart?.simulator,
+		if let sim				= DOC?.state.model.simulator,
 //		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
 		  simTimeLastLog != nil
 		{
