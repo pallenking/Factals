@@ -5,7 +5,7 @@
 # 20201226 Installation on allenM1:
 #	command source ~/Documents/SwiftFactals/.lldbinit
 #	lldb reads ~/.lldbinit on startup. ln -s ~/Documents/SwiftFactals/.lldbinit ~/.
-#command alias foobar print 33333
+command alias idFoo print("304958")
 command alias ? e Controller.current!.printDebuggerHints()
 
 #### PrettyPrint target <t> in following ways:
@@ -34,34 +34,35 @@ settings set target.inline-breakpoint-strategy always
 ## :H:
 ######## ---- First  Character: -------- [Pp] -------------- {p: print without property hash; P is with)
 ######## ---- Middle Character(s): ----- [pc,pn,pnu,pf,pi,piUc,piCu,piU,piFuc,pp,ps,pl,pt] -- Tree with Ports and Links
+#command regex pc     's/^(.+)$/e lldbPrint(ob:%1, mode:.fwClassName)/'
 command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, Log.params4aux + ["ppDagOrder":true]))/'
-command regex pn     's/^(.+)$/e Swift.print(%1.pp(.name,	 Log.params4aux + ["ppDagOrder":true]))/'
-command regex pnu    's/^(.+)$/e Swift.print(%1.pp(.nameUidClass,Log.params4aux + ["ppDagOrder":true]))/'
-command regex pf     's/^(.+)$/e Swift.print(%1.pp(.fullName,Log.params4aux + ["ppDagOrder":true]))/'
-command regex pi     's/^(.+)$/e Swift.print(%1.pp(.uidClass,Log.params4aux + ["ppDagOrder":true]))/'
-command regex piUc   's/^(.+)$/e Swift.print(%1.pp(.uidClass,Log.params4aux + ["ppDagOrder":true]))/'
-command regex piCu   's/^(.+)$/e Swift.print(%1.pp(.classUid,Log.params4aux + ["ppDagOrder":true]))/'
-command regex piU    's/^(.+)$/e Swift.print(%1.pp(.uid,	 Log.params4aux + ["ppDagOrder":true]))/'
-command regex piFuc  's/^(.+)$/e Swift.print(%1.pp(.fullNameUidClass, Log.params4aux + ["ppDagOrder":true]))/'
-command regex pp     's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true]))/'
-command regex ps     's/^(.+)$/e Swift.print(%1.pp(.short,	 Log.params4aux + ["ppDagOrder":true]), terminator:"\n")/'
-command regex pl     's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux))/'
-#command regex pt    's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true]), terminator:"\n")/'
-command regex pt     's/^(.+)$/e lldbPrint(  %1,   .tree                                         ), terminator:"\n")/'
-#
-command regex ppL    's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]))/'
-command regex plL    's/^(.+)$/e Swift.print(%1.pp(.line, 	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]))/'
-command regex ptL    's/^(.+)$/e Swift.print(%1.pp(.tree, 	 Log.params4aux + ["ppDagOrder":true, "ppLinks":true]), terminator:"")/'
-#
-command regex ppP    's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true]))/'
-command regex plP    's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true]))/'
-command regex ptP    's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true], terminator:""))/'
-#
-command regex ppLP   's/^(.+)$/e Swift.print(%1.pp(.phrase,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true]))/'
-command regex plLP   's/^(.+)$/e Swift.print(%1.pp(.line,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true]))/'
-command regex ptLP   's/^(.+)$/e Swift.print(%1.pp(.tree,	 Log.params4aux + ["ppDagOrder":true, "ppParam":true, "ppLinks":true], terminator:"")/'
 
-##---------------- 's' is for self
+command regex pn     's/^(.+)$/e lldbPrint(ob:%1, mode:.name)/'
+command regex pnu    's/^(.+)$/e lldbPrint(ob:%1, mode:.nameUidClass)/'
+command regex pf     's/^(.+)$/e lldbPrint(ob:%1, mode:.fullName)/'
+command regex pi     's/^(.+)$/e lldbPrint(ob:%1, mode:.uidClass)/'
+command regex piUc   's/^(.+)$/e lldbPrint(ob:%1, mode:.uidClass)/'
+command regex piCu   's/^(.+)$/e lldbPrint(ob:%1, mode:.classUid)/'
+command regex piU    's/^(.+)$/e lldbPrint(ob:%1, mode:.uid)/'
+command regex piFuc  's/^(.+)$/e lldbPrint(ob:%1, mode:.fullNameUidClass)/'
+command regex pp     's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
+command regex ps     's/^(.+)$/e lldbPrint(ob:%1, mode:.short)/'
+command regex pl     's/^(.+)$/e lldbPrint(ob:%1, mode:.line)/'
+command regex pt     's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+#                                                                               #
+command regex ppL    's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
+command regex plL    's/^(.+)$/e lldbPrint(ob:%1, mode:.line )/'
+command regex ptL    's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+#                                                                               #
+command regex ppP    's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
+command regex plP    's/^(.+)$/e lldbPrint(ob:%1, mode:.line )/'
+command regex ptP    's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+#                                                                               #
+command regex ppLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
+command regex plLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.line)/'
+command regex ptLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+
+##---------------- 's' is for sel/f
 command alias pcs       pc self
 command alias pns       pn self
 command alias pfs       pf self

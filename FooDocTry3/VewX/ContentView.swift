@@ -42,7 +42,10 @@ struct ContentView: View {
 				 .frame(width:600, height:400)
 
 				HStack {
-					Button(action: {Swift.print(rootPart.pp(.tree, aux), terminator:"\n") })
+					
+
+//					Button(action: {Swift.print(rootPart.pp(.tree, aux), terminator:"\n") })
+					Button(action: {lldbPrint(ob:rootPart, mode:.tree)})
 					{	Text("ptm").padding(.top, 300)							}
 					Button(action: {Swift.print(rootVew .pp(.tree, aux), terminator:"\n") })
 					{	Text("ptv").padding(.top, 300)								}

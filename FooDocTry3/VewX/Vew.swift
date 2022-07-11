@@ -617,7 +617,6 @@ bug
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
 			pRoot.reVewPost(vew:vRoot)				// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
-//			pRoot?.reVewPost(vew:rootVew)			// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
@@ -625,7 +624,6 @@ bug
 		{	//atRsi(6, log ? logd("rootPart.reSize():....") : nop)
 
 /**/		pRoot.reSize(inVew:vRoot)				// also causes rePosition as necessary
-//			pRoot.reSize(inVew:rootVew)				// also causes rePosition as necessary
 
 			vRoot.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 
@@ -778,11 +776,21 @@ bug
 					rv			+= ppUid(self, post:":")	 	 		  // (A)
 				}
 				if ppViewOptions.contains("F") {				 	// Flipped:
-					rv			+= part.upInWorld ?? false ? "F" : " "			  // (B)
-					rv			+= part.flipped   ?? false ? "f" : " "			  // (B)
+					rv			+= part.upInWorld ? "F" : " "			  // (B)
+					rv			+= part.flipped   ? "f" : " "			  // (B)
 				}
 															// Indent
-				rv 				+= log?.indentString() ?? "Ccc.."		  // (C)
+				rv 				+= log?.indentString() ?? "____"		  // (C)
+				if let ind		= parent?.children.firstIndex(of:self) {
+					assert(part.root != nil, "how come, since parent!=nil")
+					rv			+= fmt("<%2d", Int(ind))					// Cc..
+				}else{
+					rv			+= "<##"
+				}
+//				let ind			= parent?.children.firstIndex(of:self)
+//				let c			= root == nil ? "x" : "<"
+//				rv				+= ind != nil ? c + fmt("%2d", Int(ind!)) : "<##"	// Cc..
+
 				if ppViewOptions.contains("V") {					// Vew (self):
 					rv			+= nam.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
 					rv			+= fwClassName.field(-tight(5,7),dots:false)// (E)

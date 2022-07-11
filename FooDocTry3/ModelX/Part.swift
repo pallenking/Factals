@@ -1466,40 +1466,44 @@ bug;return false
 			rv					+= fullName
 		case .fullNameUidClass:
 			return "\(nam)\(ppUid(pre:"/", self)):\(fwClassName)"
-//		case .uidClass:
-//			return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
-//		case .classUid:
-//			return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"
+		case .uidClass:
+			return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
+		case .classUid:
+			return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"
 		case .phrase, .short:
 			return "\(nam):\(pp(.fwClassName, aux)) \(children.count) children"
 		case .line:
 			  //      AaBbbbbbCccDdddddddddddddddddddddddEeeeeeeeeeeee
 			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 			rv					= ppUid(self, post:"", aux:aux)
-//			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
-			rv 					+= root?.log.indentString() ?? "____"				// Bb..
-			let ind				= parent?.children.firstIndex(of:self)
-			let c				= root == nil ? "x" : "<"
-			rv					+= ind != nil ? c + fmt("%2d", Int(ind!)) : "<##"	// Cc..
+//			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")// Aa
+			rv 					+= root?.log.indentString() ?? "____"		// Bb..
+
+			rv					+= (root != nil ? "<" : "X")				// C
+			if let ind			= parent?.children.firstIndex(of:self) {
+				rv				+= fmt("%2d", Int(ind))						// cc
+			}else{
+				rv				+= "##"
+			}
 				// adds "name;class<unindent><Expose><ramId>":
-			rv					+= ppCenterPart(aux)								// Dd..
+			rv					+= ppCenterPart(aux)						// Dd..
 //			if config("physics")?.asBool ?? false {
 //				rv				+= "physics,"
 //			}
 //			if aux.bool_("ppParam") {
 //				rv 				+= localConfig.pp(.line)
 //			}
-																					// Ee..
+																			// Ee..
 		case .tree:
 			let ppDagOrder 		= aux.bool_("ppDagOrder")	// Print Ports early
 			let reverseOrder	= ppDagOrder && (upInWorld ^^ printTopDown) //trueF//falseF//
 
 			if ppDagOrder {				// Dag Order
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
-				rv				+= ppSelf	 (aux)
+				rv				+= ppSelf(aux)
 			}
 			else {
-				rv				+= ppSelf	 (aux)
+				rv				+= ppSelf(aux)
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
 			}
 		default:
