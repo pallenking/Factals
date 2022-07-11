@@ -1061,12 +1061,12 @@ bug;return false
 		 //------ 3. Part PROPERTIES for new skin:
 		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
 
-//		 // ------ color0
-//		if let colorStr 		= config("color")?.asString,					//localConfig["color"]?.asString,
-//		  let c	 				= NSColor(colorStr),
-//		  vew.expose == .open {			// Hack: atomic not colored				//localConfig["color"] = nil
-//			vew.scn.color0 		= c			// in SCNNode, material 0's reflective color
-//		}
+		 // ------ color0
+		if let colorStr 		= config("color")?.asString,					//localConfig["color"]?.asString,
+		  let c	 				= NSColor(colorStr)
+		  /*vew.expose == .open*/ {			// Hack: atomic not colored				//localConfig["color"] = nil
+			vew.scn.color0 		= c			// in SCNNode, material 0's reflective color
+		}
 		markTree(dirty:.paint)
 
 		 //------ Activate Physics:

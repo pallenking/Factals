@@ -9,6 +9,7 @@ import SceneKit
 	3. pt pCon2Spot
  */
 
+func breakToDebugger() {			panic("Break To Debugger")					}
 func lldbPrint(ob:FwAny, mode:PpMode) {
 	print(ob.pp(.tree, DOCLOG.params4aux + ["ppDagOrder":true]), terminator:"")
 }

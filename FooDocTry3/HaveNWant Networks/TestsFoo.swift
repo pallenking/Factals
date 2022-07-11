@@ -9,11 +9,11 @@ class TestsFoo : Library {
 
 		 // MARK: - * Tivo World
 		state.scanSubMenu		= "Proto Menu"
-		xr("Prototype HaveNWant", e, { Part(["parts":[
-			Sphere(		["size":"2 2 2"]),		//	//	b.color0		= NSColor.red
-			Cylinder(	["size":"2 2 2"]),		//		rootPart.addChild(b)
-//			Box(		["size":"2 2 2"]),		//		for i in 1...3 {
-//			Hemisphere(	["size":"2 2 2"]),		//			let p		= Sphere()
+		xr("Prototype HaveNWant", e, { Part(["colorX":"yellow", "parts":[
+			Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
+			Cylinder(	["size":"1 1 1", "color":"red"]),		//		rootPart.addChild(b)
+			Box(		["size":"1 1 1"]),		//		for i in 1...3 {
+			Hemisphere(	["size":"1 1 1"]),		//			let p		= Sphere()
 		]]) })
 	}
 }

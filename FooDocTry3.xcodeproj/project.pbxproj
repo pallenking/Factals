@@ -54,6 +54,7 @@
 /* Begin PBXFileReference section */
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
+		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
 		9FEE519E286B507500C8C22A /* SubPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubPart.swift; sourceTree = "<group>"; };
@@ -164,6 +165,7 @@
 		9FEE6F092835778A00E9E2AE = {
 			isa = PBXGroup;
 			children = (
+				9F369DD6287C68F700196211 /* README.md */,
 				9FEE521C28749C2A00C8C22A /* LLDBInitFile */,
 				9FEE6F142835778A00E9E2AE /* FooDocTry3 */,
 				9FEE6F132835778A00E9E2AE /* Products */,

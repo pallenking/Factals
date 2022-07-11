@@ -5,7 +5,7 @@ import SceneKit
  /// For FactalWorkbench (SwiftFactal) Parts
 typealias PartClosure   	= () -> Part?
 typealias FwConfig  		= [String:FwAny]									//https://blog.bobthedeveloper.io/generic-protocols-with-associated-type-7e2b6e079ee2
-// ALREADY TRUE: extension Dictionary : Codable where Key == String, Value == FwAny	{		}
+/* ALREADY TRUE: */extension Dictionary : Codable where Key == String, Value == FwAny	{		}
 
 protocol FwAny : Codable  {		// : Equatable
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String
@@ -112,8 +112,9 @@ extension Array			: FwAny	where Element : Codable	{						}//extension Array : Fw
 //	y["327"] = 7.2
 //}
 //
-//extension Dictionary	: FwAny 	{}	//extend Type 'Key' does not conform to protocol 'Encodable'
+//extension Dictionary : FwAny 	{}	//extend Type 'Key' does not conform to protocol 'Encodable'
 extension Dictionary : FwAny where Key : Codable,       Value : Codable 	{}
+
 ////extension Dictionary	: FwAnyC where Key : String,    Value : Codable 	{}
 ////struct CodableDictionary<Key : Hashable, Value : Codable> : Codable where Key : CodingKey {
 ////extension Dictionary<Key, Value> : FwAnyC where Key : Hashable && Encodable, CodingKey, Value : Codable { }
