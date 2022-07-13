@@ -636,7 +636,7 @@ bug
 		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
 			" _ rePaint _ Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
 		{
-/**/		pRoot.rePaint(on:vRoot)					// Ports color, Links position
+/**/		pRoot.rePaint(on:vRoot)				// Ports color, Links position
 
 			 // All changes above cause rePaint and get here. Let system know!
 //			pRoot.fwDocument!.fwView!.needsDisplay = true
