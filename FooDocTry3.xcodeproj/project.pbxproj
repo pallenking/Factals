@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
+		9F1DF6C3287F29BB00DD3625 /* FwShapes in Frameworks */ = {isa = PBXBuildFile; productRef = 9F1DF6C2287F29BB00DD3625 /* FwShapes */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
 		9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
+		9F1DF6C0287F27E900DD3625 /* FwShapes */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FwShapes; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F1DF6C3287F29BB00DD3625 /* FwShapes in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +128,13 @@
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 			);
 			path = ModelX;
+			sourceTree = "<group>";
+		};
+		9F1DF6C1287F29BB00DD3625 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9FEE519C286B4EDF00C8C22A /* VewX */ = {
@@ -165,10 +175,12 @@
 		9FEE6F092835778A00E9E2AE = {
 			isa = PBXGroup;
 			children = (
+				9F1DF6C0287F27E900DD3625 /* FwShapes */,
 				9F369DD6287C68F700196211 /* README.md */,
 				9FEE521C28749C2A00C8C22A /* LLDBInitFile */,
 				9FEE6F142835778A00E9E2AE /* FooDocTry3 */,
 				9FEE6F132835778A00E9E2AE /* Products */,
+				9F1DF6C1287F29BB00DD3625 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -243,6 +255,9 @@
 			dependencies = (
 			);
 			name = FooDocTry3;
+			packageProductDependencies = (
+				9F1DF6C2287F29BB00DD3625 /* FwShapes */,
+			);
 			productName = fooDocTry3;
 			productReference = 9FEE6F122835778A00E9E2AE /* FooDocTry3.app */;
 			productType = "com.apple.product-type.application";
@@ -536,6 +551,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9F1DF6C2287F29BB00DD3625 /* FwShapes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FwShapes;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9FEE6F0A2835778A00E9E2AE /* Project object */;
 }
