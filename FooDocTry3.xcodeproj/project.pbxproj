@@ -7,6 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F1900E628808DA80078DB6C /* EnumTypesFoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */; };
+		9F1900F828808DC10078DB6C /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
+		9F1900F928808DC10078DB6C /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
+		9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E928808DC00078DB6C /* MultiLink.swift */; };
+		9F1900FB28808DC10078DB6C /* Previous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900EA28808DC00078DB6C /* Previous.swift */; };
+		9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900EB28808DC00078DB6C /* CommonLeafs.swift */; };
+		9F1900FD28808DC10078DB6C /* TimingChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900ED28808DC00078DB6C /* TimingChain.swift */; };
+		9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900EE28808DC00078DB6C /* DiscreteTime.swift */; };
+		9F1900FF28808DC10078DB6C /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900EF28808DC00078DB6C /* Generator.swift */; };
+		9F19010028808DC10078DB6C /* WorldModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F028808DC00078DB6C /* WorldModel.swift */; };
+		9F19010128808DC10078DB6C /* FwBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F128808DC00078DB6C /* FwBundle.swift */; };
+		9F19010228808DC10078DB6C /* EditNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F228808DC00078DB6C /* EditNet.swift */; };
+		9F19010328808DC10078DB6C /* Leaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F328808DC00078DB6C /* Leaf.swift */; };
+		9F19010428808DC10078DB6C /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F428808DC00078DB6C /* Net.swift */; };
+		9F19010528808DC10078DB6C /* GenAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F528808DC00078DB6C /* GenAtom.swift */; };
+		9F19010628808DC10078DB6C /* ConvPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* ConvPort.swift */; };
+		9F19010728808DC10078DB6C /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F728808DC10078DB6C /* Tunnel.swift */; };
+		9F19010928808E890078DB6C /* SoundAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010828808E890078DB6C /* SoundAtom.swift */; };
+		9F19010B28808EC90078DB6C /* Splitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010A28808EC90078DB6C /* Splitter.swift */; };
+		9F19010D28808EE70078DB6C /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010C28808EE70078DB6C /* Share.swift */; };
+		9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010E28808EF80078DB6C /* MultiPort.swift */; };
+		9F19011128808F070078DB6C /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011028808F070078DB6C /* Port.swift */; };
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
@@ -52,6 +74,28 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTypesFoo.swift; sourceTree = "<group>"; };
+		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
+		9F1900E928808DC00078DB6C /* MultiLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiLink.swift; sourceTree = "<group>"; };
+		9F1900EA28808DC00078DB6C /* Previous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Previous.swift; sourceTree = "<group>"; };
+		9F1900EB28808DC00078DB6C /* CommonLeafs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonLeafs.swift; sourceTree = "<group>"; };
+		9F1900ED28808DC00078DB6C /* TimingChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimingChain.swift; sourceTree = "<group>"; };
+		9F1900EE28808DC00078DB6C /* DiscreteTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscreteTime.swift; sourceTree = "<group>"; };
+		9F1900EF28808DC00078DB6C /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
+		9F1900F028808DC00078DB6C /* WorldModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldModel.swift; sourceTree = "<group>"; };
+		9F1900F128808DC00078DB6C /* FwBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwBundle.swift; sourceTree = "<group>"; };
+		9F1900F228808DC00078DB6C /* EditNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNet.swift; sourceTree = "<group>"; };
+		9F1900F328808DC00078DB6C /* Leaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaf.swift; sourceTree = "<group>"; };
+		9F1900F428808DC00078DB6C /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Net.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Net.swift; sourceTree = "<group>"; };
+		9F1900F528808DC00078DB6C /* GenAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenAtom.swift; sourceTree = "<group>"; };
+		9F1900F628808DC00078DB6C /* ConvPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvPort.swift; sourceTree = "<group>"; };
+		9F1900F728808DC10078DB6C /* Tunnel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tunnel.swift; sourceTree = "<group>"; };
+		9F19010828808E890078DB6C /* SoundAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundAtom.swift; sourceTree = "<group>"; };
+		9F19010A28808EC90078DB6C /* Splitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Splitter.swift; sourceTree = "<group>"; };
+		9F19010C28808EE70078DB6C /* Share.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
+		9F19010E28808EF80078DB6C /* MultiPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPort.swift; sourceTree = "<group>"; };
+		9F19011028808F070078DB6C /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Port.swift; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -111,18 +155,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F1900EC28808DC00078DB6C /* Generator */ = {
+			isa = PBXGroup;
+			children = (
+				9F1900ED28808DC00078DB6C /* TimingChain.swift */,
+				9F1900EE28808DC00078DB6C /* DiscreteTime.swift */,
+				9F1900EF28808DC00078DB6C /* Generator.swift */,
+				9F1900F028808DC00078DB6C /* WorldModel.swift */,
+			);
+			path = Generator;
+			sourceTree = "<group>";
+		};
 		9F19CA33285EAF730072C50E /* ModelX */ = {
 			isa = PBXGroup;
 			children = (
-				9F19CA34285EB0730072C50E /* RootPart.swift */,
+				9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */,
+				9F1900F428808DC00078DB6C /* Net.swift */,
 				9FEE52242875F84F00C8C22A /* Net.swift */,
+				9F1900E828808DC00078DB6C /* Actor.swift */,
+				9F1900F228808DC00078DB6C /* EditNet.swift */,
+				9F1900F728808DC10078DB6C /* Tunnel.swift */,
+				9F1900F128808DC00078DB6C /* FwBundle.swift */,
+				9F1900EC28808DC00078DB6C /* Generator */,
+				9F1900EB28808DC00078DB6C /* CommonLeafs.swift */,
+				9F1900F328808DC00078DB6C /* Leaf.swift */,
+				9F1900EA28808DC00078DB6C /* Previous.swift */,
+				9F1900E928808DC00078DB6C /* MultiLink.swift */,
+				9F1900E728808DC00078DB6C /* Link.swift */,
+				9F1900F628808DC00078DB6C /* ConvPort.swift */,
+				9F1900F528808DC00078DB6C /* GenAtom.swift */,
+				9F19010828808E890078DB6C /* SoundAtom.swift */,
 				9FEE52282876023A00C8C22A /* CommonAtoms.swift */,
+				9F19010A28808EC90078DB6C /* Splitter.swift */,
 				9FEE52262875FEE200C8C22A /* Atom.swift */,
+				9F19010C28808EE70078DB6C /* Share.swift */,
+				9F19010E28808EF80078DB6C /* MultiPort.swift */,
+				9F19011028808F070078DB6C /* Port.swift */,
 				9FEE522A287602B400C8C22A /* CommonParts.swift */,
+				9F19CA34285EB0730072C50E /* RootPart.swift */,
 				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
 				9FEE51A4286B958700C8C22A /* PolyWrap.swift */,
 				9FEE519E286B507500C8C22A /* SubPart.swift */,
-				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 			);
 			path = ModelX;
 			sourceTree = "<group>";
@@ -210,6 +283,7 @@
 		9FEE6FDB2843182A00E9E2AE /* Extensions++ */ = {
 			isa = PBXGroup;
 			children = (
+				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
@@ -300,8 +374,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FEE51BC286BAF2E00C8C22A /* SCNGeometry++.swift in Sources */,
+				9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */,
 				9FEE51B3286BA57A00C8C22A /* Proto.swift in Sources */,
 				9FEE519F286B507600C8C22A /* SubPart.swift in Sources */,
+				9F19010028808DC10078DB6C /* WorldModel.swift in Sources */,
+				9F19010228808DC10078DB6C /* EditNet.swift in Sources */,
 				9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */,
 				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
 				9F19CA35285EB0730072C50E /* RootPart.swift in Sources */,
@@ -309,34 +386,53 @@
 				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
 				9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */,
+				9F1900FB28808DC10078DB6C /* Previous.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
+				9F19010428808DC10078DB6C /* Net.swift in Sources */,
+				9F1900E628808DA80078DB6C /* EnumTypesFoo.swift in Sources */,
 				9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */,
 				9FEE52272875FEE200C8C22A /* Atom.swift in Sources */,
 				9FEE52232874D9A100C8C22A /* NSColor++.swift in Sources */,
 				9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */,
+				9F19010128808DC10078DB6C /* FwBundle.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
+				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
+				9F1900F828808DC10078DB6C /* Link.swift in Sources */,
 				9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */,
 				9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */,
 				9FEE52252875F84F00C8C22A /* Net.swift in Sources */,
 				9FEE52212874AB7300C8C22A /* Path.swift in Sources */,
+				9F1900FD28808DC10078DB6C /* TimingChain.swift in Sources */,
 				9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */,
+				9F19010B28808EC90078DB6C /* Splitter.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
 				9FEE6FDA2841A70F00E9E2AE /* Part.swift in Sources */,
+				9F19010928808E890078DB6C /* SoundAtom.swift in Sources */,
 				9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */,
+				9F19010D28808EE70078DB6C /* Share.swift in Sources */,
 				9FEE6FD92841A70F00E9E2AE /* Vew.swift in Sources */,
+				9F19010628808DC10078DB6C /* ConvPort.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
+				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
+				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */,
+				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,
+				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,
+				9F19010328808DC10078DB6C /* Leaf.swift in Sources */,
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwScene.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,
+				9F19011128808F070078DB6C /* Port.swift in Sources */,
 				9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */,
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
+				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
+				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
