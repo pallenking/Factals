@@ -12,6 +12,12 @@
 		9F0295D12880921800DD0004 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F0295D32880923000DD0004 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
 		9F0295D52880923800DD0004 /* FwViewOutTakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D42880923800DD0004 /* FwViewOutTakes.swift */; };
+		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
+		9F0295D92880926D00DD0004 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D72880926D00DD0004 /* Event.swift */; };
+		9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
+		9F0295DD288092F800DD0004 /* SCNVector9XCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DC288092F800DD0004 /* SCNVector9XCTest.swift */; };
+		9F0295DF2880932200DD0004 /* CG++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DE2880932200DD0004 /* CG++.swift */; };
+		9F0295E52880936400DD0004 /* SwiftTryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295E42880936400DD0004 /* SwiftTryCatch.m */; };
 		9F1900E628808DA80078DB6C /* EnumTypesFoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */; };
 		9F1900F828808DC10078DB6C /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
 		9F1900F928808DC10078DB6C /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
@@ -94,6 +100,16 @@
 		9F0295D02880921800DD0004 /* FwView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		9F0295D42880923800DD0004 /* FwViewOutTakes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwViewOutTakes.swift; sourceTree = "<group>"; };
+		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
+		9F0295D72880926D00DD0004 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		9F0295DA2880928600DD0004 /* FwTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwTypes.swift; sourceTree = "<group>"; };
+		9F0295DC288092F800DD0004 /* SCNVector9XCTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNVector9XCTest.swift; sourceTree = "<group>"; };
+		9F0295DE2880932200DD0004 /* CG++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CG++.swift"; sourceTree = "<group>"; };
+		9F0295E02880936400DD0004 /* FooDocTry3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FooDocTry3-Bridging-Header.h"; sourceTree = "<group>"; };
+		9F0295E12880936400DD0004 /* SwiftTryCatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftTryCatch.h; sourceTree = "<group>"; };
+		9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MachineTrap.h"; sourceTree = "<group>"; };
+		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		9F0295E42880936400DD0004 /* SwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftTryCatch.m; sourceTree = "<group>"; };
 		9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTypesFoo.swift; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -328,20 +344,30 @@
 		9FEE6FDB2843182A00E9E2AE /* Extensions++ */ = {
 			isa = PBXGroup;
 			children = (
+				9F0295D72880926D00DD0004 /* Event.swift */,
+				9F0295D62880926D00DD0004 /* Self++.swift */,
+				9FEE52202874AB7300C8C22A /* Path.swift */,
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
+				9F0295DA2880928600DD0004 /* FwTypes.swift */,
 				9FE1AF0B2852971400A56193 /* Fw++.swift */,
+				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
-				9FEE51A6286B962300C8C22A /* CommonErrors.swift */,
 				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
 				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
-				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
 				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
-				9FEE51B5286BA61000C8C22A /* Random.swift */,
+				9F0295DC288092F800DD0004 /* SCNVector9XCTest.swift */,
 				9FEE52222874D9A100C8C22A /* NSColor++.swift */,
-				9FEE52202874AB7300C8C22A /* Path.swift */,
+				9FEE51B5286BA61000C8C22A /* Random.swift */,
 				9FEE51B6286BA61000C8C22A /* Uid.swift */,
+				9F0295DE2880932200DD0004 /* CG++.swift */,
+				9FEE51A6286B962300C8C22A /* CommonErrors.swift */,
 				9FEE521E2874A42000C8C22A /* LldbInit.swift */,
+				9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */,
+				9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */,
+				9F0295E12880936400DD0004 /* SwiftTryCatch.h */,
+				9F0295E42880936400DD0004 /* SwiftTryCatch.m */,
+				9F0295E02880936400DD0004 /* FooDocTry3-Bridging-Header.h */,
 			);
 			path = "Extensions++";
 			sourceTree = "<group>";
@@ -378,6 +404,7 @@
 				TargetAttributes = {
 					9FEE6F112835778A00E9E2AE = {
 						CreatedOnToolsVersion = 13.4;
+						LastSwiftMigration = 1340;
 					};
 				};
 			};
@@ -431,6 +458,7 @@
 				9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */,
 				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
 				9F190122288090240078DB6C /* InspecBase.swift in Sources */,
+				9F0295DD288092F800DD0004 /* SCNVector9XCTest.swift in Sources */,
 				9F19CA35285EB0730072C50E /* RootPart.swift in Sources */,
 				9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */,
 				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,
@@ -448,6 +476,7 @@
 				9F19010128808DC10078DB6C /* FwBundle.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
+				9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */,
 				9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
 				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
@@ -460,6 +489,7 @@
 				9FEE52212874AB7300C8C22A /* Path.swift in Sources */,
 				9F1900FD28808DC10078DB6C /* TimingChain.swift in Sources */,
 				9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */,
+				9F0295E52880936400DD0004 /* SwiftTryCatch.m in Sources */,
 				9F19010B28808EC90078DB6C /* Splitter.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
 				9FEE6FDA2841A70F00E9E2AE /* Part.swift in Sources */,
@@ -485,6 +515,7 @@
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwScene.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,
+				9F0295D82880926D00DD0004 /* Self++.swift in Sources */,
 				9F19011128808F070078DB6C /* Port.swift in Sources */,
 				9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */,
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
@@ -492,6 +523,8 @@
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
 				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
+				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,
+				9F0295D92880926D00DD0004 /* Event.swift in Sources */,
 				9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -617,6 +650,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = fooDocTry3/fooDocTry3.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -637,6 +671,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = abcFoo.fooDocTry3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "FooDocTry3/Extensions++/FooDocTry3-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -646,6 +682,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = fooDocTry3/fooDocTry3.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -666,6 +703,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = abcFoo.fooDocTry3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "FooDocTry3/Extensions++/FooDocTry3-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
