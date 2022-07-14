@@ -1,5 +1,6 @@
 #  FooDocTry3 README
 
+1. Why is SwiftFactals repository listed in 
 
 1. Rename FooDocTry3 to SwiftFactals2
 2. Add testing infrastructure
