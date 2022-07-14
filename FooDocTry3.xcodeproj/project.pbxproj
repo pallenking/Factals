@@ -29,6 +29,16 @@
 		9F19010D28808EE70078DB6C /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010C28808EE70078DB6C /* Share.swift */; };
 		9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010E28808EF80078DB6C /* MultiPort.swift */; };
 		9F19011128808F070078DB6C /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011028808F070078DB6C /* Port.swift */; };
+		9F19011C288090240078DB6C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
+		9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190113288090240078DB6C /* InspecSCNVector3.swift */; };
+		9F19011E288090240078DB6C /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190114288090240078DB6C /* Document.xib */; };
+		9F19011F288090240078DB6C /* InspecParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190115288090240078DB6C /* InspecParts.swift */; };
+		9F190120288090240078DB6C /* Jnspec.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F190116288090240078DB6C /* Jnspec.storyboard */; };
+		9F190121288090240078DB6C /* LinkVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190117288090240078DB6C /* LinkVew.swift */; };
+		9F190122288090240078DB6C /* InspecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190118288090240078DB6C /* InspecBase.swift */; };
+		9F190123288090240078DB6C /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190119288090240078DB6C /* Vew.swift */; };
+		9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011A288090240078DB6C /* GeneralSettingsView.swift */; };
+		9F190125288090240078DB6C /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
@@ -96,6 +106,16 @@
 		9F19010C28808EE70078DB6C /* Share.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		9F19010E28808EF80078DB6C /* MultiPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPort.swift; sourceTree = "<group>"; };
 		9F19011028808F070078DB6C /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Port.swift; sourceTree = "<group>"; };
+		9F190112288090240078DB6C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		9F190113288090240078DB6C /* InspecSCNVector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecSCNVector3.swift; sourceTree = "<group>"; };
+		9F190114288090240078DB6C /* Document.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Document.xib; sourceTree = "<group>"; };
+		9F190115288090240078DB6C /* InspecParts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecParts.swift; sourceTree = "<group>"; };
+		9F190116288090240078DB6C /* Jnspec.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Jnspec.storyboard; sourceTree = "<group>"; };
+		9F190117288090240078DB6C /* LinkVew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkVew.swift; sourceTree = "<group>"; };
+		9F190118288090240078DB6C /* InspecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecBase.swift; sourceTree = "<group>"; };
+		9F190119288090240078DB6C /* Vew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vew.swift; path = ../../../SwiftFactals/SwiftFactals/Vew/Vew.swift; sourceTree = "<group>"; };
+		9F19011A288090240078DB6C /* GeneralSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
+		9F19011B288090240078DB6C /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -203,8 +223,18 @@
 		9FEE519C286B4EDF00C8C22A /* VewX */ = {
 			isa = PBXGroup;
 			children = (
-				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
+				9F190119288090240078DB6C /* Vew.swift */,
+				9F190117288090240078DB6C /* LinkVew.swift */,
+				9F190115288090240078DB6C /* InspecParts.swift */,
+				9F190118288090240078DB6C /* InspecBase.swift */,
+				9F19011A288090240078DB6C /* GeneralSettingsView.swift */,
+				9F190113288090240078DB6C /* InspecSCNVector3.swift */,
+				9F190116288090240078DB6C /* Jnspec.storyboard */,
+				9F190112288090240078DB6C /* MainMenu.xib */,
+				9F19011B288090240078DB6C /* Preferences.storyboard */,
+				9F190114288090240078DB6C /* Document.xib */,
+				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 			);
 			path = VewX;
 			sourceTree = "<group>";
@@ -359,10 +389,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F19011E288090240078DB6C /* Document.xib in Resources */,
 				9FEE6F1F2835779000E9E2AE /* Preview Assets.xcassets in Resources */,
+				9F190120288090240078DB6C /* Jnspec.storyboard in Resources */,
+				9F19011C288090240078DB6C /* MainMenu.xib in Resources */,
 				9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */,
 				9FEE521D28749C2A00C8C22A /* LLDBInitFile in Resources */,
 				9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */,
+				9F190125288090240078DB6C /* Preferences.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,11 +415,13 @@
 				9F19010228808DC10078DB6C /* EditNet.swift in Sources */,
 				9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */,
 				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
+				9F190122288090240078DB6C /* InspecBase.swift in Sources */,
 				9F19CA35285EB0730072C50E /* RootPart.swift in Sources */,
 				9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */,
 				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
 				9FE1AF0C2852971400A56193 /* Fw++.swift in Sources */,
+				9F190121288090240078DB6C /* LinkVew.swift in Sources */,
 				9F1900FB28808DC10078DB6C /* Previous.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
 				9F19010428808DC10078DB6C /* Net.swift in Sources */,
@@ -397,8 +433,10 @@
 				9F19010128808DC10078DB6C /* FwBundle.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
+				9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
 				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
+				9F19011F288090240078DB6C /* InspecParts.swift in Sources */,
 				9F1900F828808DC10078DB6C /* Link.swift in Sources */,
 				9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */,
 				9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */,
@@ -421,6 +459,7 @@
 				9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */,
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,
+				9F190123288090240078DB6C /* Vew.swift in Sources */,
 				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,
 				9F19010328808DC10078DB6C /* Leaf.swift in Sources */,
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
@@ -433,6 +472,7 @@
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
+				9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
