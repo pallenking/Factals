@@ -29,9 +29,9 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			var rootPart:RootPart? = nil
 
 			  // Generate a new document:
-			 //
-			switch 1 {
-			case 1:		// ///// Library-defined RootPart -> Vew -> scn
+//			 //
+//			switch 1 {
+//			case 1:		// ///// Library-defined RootPart -> Vew -> scn
 				//	   selectionString+------FUNCTION-----------+-wantName:---wantNumber:
 			//	let entry		= nil	//	 Blank scene		|	nil			-1
 			//	let entry		= 34	//	 entry N			|	nil			N *
@@ -40,32 +40,32 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 				rootPart		= RootPart(fromLibrary:entry)//, fwDocument:self)
 				scene			= FwScene(fwConfig:[:])					// A Part Tree
 
-			case 2:		// ///// RootPart defined here -> Vew -> scn
-				scene			= FwScene(fwConfig:[:])					// A Part Tree
-				 // Add some children
-				let rootPart	= RootPart(["name":"ROOT"])	// create state
-				for (i, px) in [		// IS									//		let b			= Box(["size":"2 1 2", "color":"red"])
-					Sphere(		["size":"2 2 2"]),								//	//	b.color0		= NSColor.red
-					Cylinder(	["size":"2 2 2"]),								//		rootPart.addChild(b)
-					Box(		["size":"2 2 2"]),								//		for i in 1...3 {
-					Hemisphere(	["size":"2 2 2"]),								//			let p		= Sphere()
-				].enumerated() {												//			p.nam		= "p\(i)"
-					let p		= px											//			rootPart.addChild(p)
-					p.nam		= "p\(i)"										//		}							//
-					rootPart.addChild(p)										//		let b			= Box(["size":"2 1 2", "color":"red"])
-				}																//	//	b.color0		= NSColor.red
-
-			case 3:		// ///// Dragon Curve -> scn
-				scene			= dragonCurve(segments:1024)	// Dragon Curve
-				rootPart		= RootPart(["name":"ROOT"])	// create state
-
-			case 4:		// ///// A Simple Scene -> scn
-				scene			= aSimpleScene()				// Two Cubes and a Sphere
-				rootPart		= RootPart(["name":"ROOT"])	// create state
-
-			default:
-				fatalError("stateType is ILLEGAL")
-			}
+//			case 2:		// ///// RootPart defined here -> Vew -> scn
+//				scene			= FwScene(fwConfig:[:])					// A Part Tree
+//				 // Add some children
+//				let rootPart	= RootPart(["name":"ROOT"])	// create state
+//				for (i, px) in [		// IS									//		let b			= Box(["size":"2 1 2", "color":"red"])
+//					Sphere(		["size":"2 2 2"]),								//	//	b.color0		= NSColor.red
+//					Cylinder(	["size":"2 2 2"]),								//		rootPart.addChild(b)
+//					Box(		["size":"2 2 2"]),								//		for i in 1...3 {
+//					Hemisphere(	["size":"2 2 2"]),								//			let p		= Sphere()
+//				].enumerated() {												//			p.nam		= "p\(i)"
+//					let p		= px											//			rootPart.addChild(p)
+//					p.nam		= "p\(i)"										//		}							//
+//					rootPart.addChild(p)										//		let b			= Box(["size":"2 1 2", "color":"red"])
+//				}																//	//	b.color0		= NSColor.red
+//
+//			case 3:		// ///// Dragon Curve -> scn
+//				scene			= dragonCurve(segments:1024)	// Dragon Curve
+//				rootPart		= RootPart(["name":"ROOT"])	// create state
+//
+//			case 4:		// ///// A Simple Scene -> scn
+//				scene			= aSimpleScene()				// Two Cubes and a Sphere
+//				rootPart		= RootPart(["name":"ROOT"])	// create state
+//
+//			default:
+//				fatalError("stateType is ILLEGAL")
+//			}
 			return DocState(model:rootPart, scene:scene)
 		}()
 		// Now self.state has full DocState, holding rootPart

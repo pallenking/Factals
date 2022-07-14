@@ -25,14 +25,7 @@ struct ContentView: View {
 				let rootPart:Part	=  document.state.model
 				let rootVew :Vew	=  document.state.scene.rootVew
 				let rootNode:SCNNode = document.state.scene.rootNode
-				let str				= "rootNode has \(rootNode.childNodes.count) scn nodes"
 				let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
-				Text(str)
-				 .foregroundColor(.red)
-//				 .frame(width:80)
-//				 .lineLimit(10)
-//				 .wrap(80)
-				 .padding()
 
 				SceneView(
 					scene: 		 document.state.scene,
@@ -48,7 +41,6 @@ struct ContentView: View {
 					Button(action: {	lldbPrint(ob:rootVew, mode:.tree) 	}	)
 					{	Text("ptv").padding(.top, 300)							}
 					Button(action: {Swift.print(rootNode.pp(.tree, aux), terminator:"\n") })
-//					Button(action: {	lldbPrint(ob:rootNode, mode:.tree)	}	)
 					{	Text("ptn").padding(.top, 300)							}
 					Spacer()
 					Button(action: {	breakToDebugger()					}	)
