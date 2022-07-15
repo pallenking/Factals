@@ -9,7 +9,7 @@ class TestsFoo : Library {
 
 		 // MARK: - * Tivo World
 		state.scanSubMenu		= "Proto Menu"
-		xr("Prototype HaveNWant", e, { Part(["colorX":"yellow", "parts":[
+		r("Prototype HaveNWant", e, { Part(["colorX":"yellow", "parts":[
 			Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
 			Cylinder(	["size":"1 1 1", "color":"red"]),		//		rootPart.addChild(b)
 			Box(		["size":"1 1 1"]),		//		for i in 1...3 {

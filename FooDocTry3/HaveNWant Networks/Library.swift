@@ -66,9 +66,9 @@ class Library : NSObject {
 	static let libraryList = [
 //		Proto(		"Proto"		),				// Prototype Tests
 		TestsFoo(	"TestsFoo"	),				// New Regression Tests for FooTry3
-//		Tests01(	"Tests01"	),				// Standard Regression Tests
-//		TivoRemote(	"TivoRemote"),				// Operation of Tivo Remote
-//		LangDeser(	"LangDeser"	),				// Language Deserializer
+		Tests01(	"Tests01"	),				// Standard Regression Tests
+		TivoRemote(	"TivoRemote"),				// Operation of Tivo Remote
+		LangDeser(	"LangDeser"	),				// Language Deserializer
 	]
 	 // MARK: - 2. Register all Libraries HERE!
 	var name : String
@@ -104,7 +104,11 @@ class Library : NSObject {
 	/**/	lib.loadTest(args:args, state:&state)		// state persists across library probes
 			 // Return selected test if valid:
 			if lib.answer.ansTrunkClosure != nil {
-				assert(rv == nil, "Two entries for selector: '\(s)'\n\t\t\(rv!.answer.ansTestNum):\(rv!.name).\(rv!.answer.ansLineNumber!)\n\t\t\(lib.answer.ansTestNum):\(lib.name).\(lib.answer.ansLineNumber!)")
+				assert(rv == nil, """
+					Two entries for selector: '\(s)'
+							\(rv!.name.field(12)):\(rv!.answer.ansTestNum)\t line:\(rv!.answer.ansLineNumber!)
+							\(lib.name.field(12)):\(lib.answer.ansTestNum)\t line:\(lib.answer.ansLineNumber!)
+					""")
 				rv				= lib
 			}
 		}								// no, loop for another
@@ -285,8 +289,7 @@ extension Library {
 		if let z1 	  	  		= z {
 			rv["z"] 	  		= z1
 		}
-bug
-		return rv//["camera":rv]
+		return ["camera":rv]
 	}
 	 /// 2b. Neutered Camera Parameters:
 	func cameraX(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil) -> FwConfig {
