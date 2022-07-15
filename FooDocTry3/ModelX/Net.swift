@@ -1,9 +1,9 @@
 //  Net.swift -- A collection of Atoms wired together C2018PAK
 
-import SceneKit
-
-/// A Net is a collection of Atoms wired together
-class Net : Part {		// Atom // Part
+//import SceneKit
+//
+///// A Net is a collection of Atoms wired together
+//class Net : Part {		// Atom // Part
 //
 //	 // MARK: - 3. Part Factory
 //	override init(_ config:FwConfig = [:]) {
@@ -174,4 +174,4 @@ class Net : Part {		// Atom // Part
 //		}
 //		return rv
 //	}
-}
+//}

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
 		9F0295D32880923000DD0004 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
-		9F0295D52880923800DD0004 /* FwViewOutTakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D42880923800DD0004 /* FwViewOutTakes.swift */; };
 		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
 		9F0295D92880926D00DD0004 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D72880926D00DD0004 /* Event.swift */; };
 		9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
@@ -95,7 +94,6 @@
 		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
 		9F0295D02880921800DD0004 /* FwView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
-		9F0295D42880923800DD0004 /* FwViewOutTakes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwViewOutTakes.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
 		9F0295D72880926D00DD0004 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		9F0295DA2880928600DD0004 /* FwTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwTypes.swift; sourceTree = "<group>"; };
@@ -232,15 +230,15 @@
 				9F19010828808E890078DB6C /* SoundAtom.swift */,
 				9FEE52282876023A00C8C22A /* CommonAtoms.swift */,
 				9F19010A28808EC90078DB6C /* Splitter.swift */,
-				9FEE52262875FEE200C8C22A /* Atom.swift */,
 				9F0295ED2880979500DD0004 /* Atom.swift */,
+				9FEE52262875FEE200C8C22A /* Atom.swift */,
 				9F19010C28808EE70078DB6C /* Share.swift */,
 				9F19010E28808EF80078DB6C /* MultiPort.swift */,
 				9F19011028808F070078DB6C /* Port.swift */,
 				9FEE522A287602B400C8C22A /* CommonParts.swift */,
 				9F19CA34285EB0730072C50E /* RootPart.swift */,
-				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
 				9F0295E72880964300DD0004 /* Part.swift */,
+				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
 				9FEE51A4286B958700C8C22A /* PolyWrap.swift */,
 				9FEE519E286B507500C8C22A /* SubPart.swift */,
 			);
@@ -250,8 +248,8 @@
 		9FEE519C286B4EDF00C8C22A /* VewX */ = {
 			isa = PBXGroup;
 			children = (
-				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9F190119288090240078DB6C /* Vew.swift */,
+				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F190115288090240078DB6C /* InspecParts.swift */,
 				9F190118288090240078DB6C /* InspecBase.swift */,
@@ -277,7 +275,6 @@
 				9F0295D02880921800DD0004 /* FwView.swift */,
 				9FEE521628720A2300C8C22A /* FwScene.swift */,
 				9F0295D22880923000DD0004 /* Sounds.swift */,
-				9F0295D42880923800DD0004 /* FwViewOutTakes.swift */,
 			);
 			path = ControllerX;
 			sourceTree = "<group>";
@@ -350,8 +347,8 @@
 				9FEE52202874AB7300C8C22A /* Path.swift */,
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 				9F0295DA2880928600DD0004 /* FwTypes.swift */,
-				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 				9F0295EA288096D800DD0004 /* Fw++.swift */,
+				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
@@ -359,10 +356,10 @@
 				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
 				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
 				9F0295DC288092F800DD0004 /* SCNVector9XCTest.swift */,
+				9F0295DE2880932200DD0004 /* CG++.swift */,
 				9FEE52222874D9A100C8C22A /* NSColor++.swift */,
 				9FEE51B5286BA61000C8C22A /* Random.swift */,
 				9FEE51B6286BA61000C8C22A /* Uid.swift */,
-				9F0295DE2880932200DD0004 /* CG++.swift */,
 				9FEE51A6286B962300C8C22A /* CommonErrors.swift */,
 				9FEE521E2874A42000C8C22A /* LldbInit.swift */,
 				9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */,
@@ -505,7 +502,6 @@
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,
 				9F190123288090240078DB6C /* Vew.swift in Sources */,
 				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,
-				9F0295D52880923800DD0004 /* FwViewOutTakes.swift in Sources */,
 				9F19010328808DC10078DB6C /* Leaf.swift in Sources */,
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
