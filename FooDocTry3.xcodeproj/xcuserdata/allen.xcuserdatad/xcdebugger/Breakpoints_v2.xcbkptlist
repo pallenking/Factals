@@ -536,7 +536,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "ACDBC8BE-5663-44F6-BCC2-552A8F797E89"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FooDocTry3/ModelX/CommonParts.swift"
@@ -1102,9 +1102,9 @@
             filePath = "../SwiftFactals/SwiftFactals/Model/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1154"
-            endingLineNumber = "1154"
-            landmarkName = "rePosition(vew:first:)"
+            startingLineNumber = "1152"
+            endingLineNumber = "1152"
+            landmarkName = "rePosition(vew:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1118,8 +1118,8 @@
             filePath = "../SwiftFactals/SwiftFactals/Model/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "983"
-            endingLineNumber = "983"
+            startingLineNumber = "982"
+            endingLineNumber = "982"
             landmarkName = "reSize(inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1150,9 +1150,9 @@
             filePath = "../SwiftFactals/SwiftFactals/Model/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1146"
-            endingLineNumber = "1146"
-            landmarkName = "rePosition(vew:first:)"
+            startingLineNumber = "1144"
+            endingLineNumber = "1144"
+            landmarkName = "rePosition(vew:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1166,8 +1166,8 @@
             filePath = "../SwiftFactals/SwiftFactals/Vew/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1182,9 +1182,25 @@
             filePath = "../SwiftFactals/SwiftFactals/Vew/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "564"
-            endingLineNumber = "564"
+            startingLineNumber = "562"
+            endingLineNumber = "562"
             landmarkName = "updateVewTree(needsViewLock:logIf:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AFD9B4DA-CDD9-425A-B985-FD20DC66D0E0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../SwiftFactals/SwiftFactals/Model/Part.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "961"
+            endingLineNumber = "961"
+            landmarkName = "reSize(inVew:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

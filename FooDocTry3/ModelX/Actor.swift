@@ -308,7 +308,7 @@ class Actor : Net {
 //			 /// First Repack:
 //			childPart    .reSize(inVew vew:childVew)		// #### HEAD RECURSIVE
 //			 /// Then Reposition:
-//			childPart.rePosition(vew:childVew, first:first)
+//			childPart.rePosition(vew:childVew)
 //			childVew.orBBoxIntoParent()
 //			first				= false
 //			childVew.placed	= true

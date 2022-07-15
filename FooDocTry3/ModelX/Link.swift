@@ -351,7 +351,7 @@ class Link : Atom {
 		return .empty						// Xyzzy19e	// Xyzzy44	vsb
 	}
 	 // MARK: - 9.4 rePosition
-	override func rePosition(vew:Vew, first:Bool=false) {
+	override func rePosition(vew:Vew) {
 		// A Link's position is determined by its two ends. Nothing is done here.
 	}
 		// Xyzzy19e

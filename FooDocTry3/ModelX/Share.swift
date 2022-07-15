@@ -62,7 +62,7 @@ class Share : Port { // ///////////// The common parts//////////////////////////
 		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
 	}
 	 // MARK: - 9.4 rePosition
-	override func rePosition(vew:Vew, first:Bool=false) {
+	override func rePosition(vew:Vew) {
 		panic("I never get here!!")
 		vew.scn.transform		= SCNMatrix4(basicConSpot().center)	/// position at the portConSpot
 	}

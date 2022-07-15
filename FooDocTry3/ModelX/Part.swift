@@ -1003,7 +1003,7 @@
 ////				vew!.removeAllChildren()	// might eliminate later
 //////				markTree(dirty:.size)		// (.vew loops endlessly!)
 ////			}
-////			let _				= reSkin(atomOnto:vew!)	// Put on skin.
+////			let _				= reSkin(atomicOnto:vew!)	// Put on skin.
 ////
 ////		default:					// ////  including .invisible
 ////			if vew != nil {					// might linger
@@ -1087,7 +1087,7 @@
 ////		case .invis, .null:
 ////			return reSkin(invisibleOnto:vew)	// no skin visible
 ////		case .atomic:
-////			return reSkin(atomOnto:vew) 		// atomic skin (sphere/line)
+////			return reSkin(atomicOnto:vew) 		// atomic skin (sphere/line)
 ////		case .open:
 //			return reSkin(fullOnto:vew)			// skin of Part
 ////		}
@@ -1099,12 +1099,12 @@
 //	/// - Called _ONCE_ to get skin, as Views are constructed:
 //	func reSkin(fullOnto vew:Vew) -> BBox  {	// Bare Part
 //		 // No Full Skin overrides; make purple
-//		let atomBBox			= reSkin(atomOnto:vew)		// Expedient: uses atomic skins
+//		let atomBBox			= reSkin(atomicOnto:vew)		// Expedient: uses atomic skins
 //		vew.scn.children[0].color0 = .purple
 //		return atomBBox
 //	}
 //	static let atomicRadius 	= CGFloat(1)
-//	func reSkin(atomOnto vew:Vew) -> BBox 	{
+//	func reSkin(atomicOnto vew:Vew) -> BBox 	{
 //
 //		 // Remove most child skins:
 //		for childScn in vew.scn.children {

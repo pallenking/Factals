@@ -583,7 +583,7 @@ class Port : Part, PortTalk {
 //		panic("Port.reSize")
 //	}
 	 // MARK: - 9.4 rePosition
-	override func rePosition(vew:Vew, first:Bool=false) {
+	override func rePosition(vew:Vew) {
 bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition me (a Port)
 		vew.scn.transform		= SCNMatrix4(0, -height/2, 0, flip:flipped)/// lone Port
 	}
@@ -594,9 +594,9 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		let  curTubeColor0		= tube?.color0
 		let     tubeColor0	 	= upInWorld ? NSColor.green : .red
 		tube?.color0			= NSColor(mix:NSColor.whiteX, with:value, of:tubeColor0)
-		if tube?.color0 != curTubeColor0 {
-			vew.scn.play(sound:value>0.5 ? "tick1" : "tock0")
-		}
+//		if tube?.color0 != curTubeColor0 {
+//			vew.scn.play(sound:value>0.5 ? "tick1" : "tock0")
+//		}
 				// Cone with connectedTo's value:
 		let cone				= vew.scn.find(name:"s-Cone", maxLevel:2)
 		if let val				= connectedTo?.value {		//	GET to my INPUT
