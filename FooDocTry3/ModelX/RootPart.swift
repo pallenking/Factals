@@ -420,7 +420,8 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		switch mode! {
 		case .line:
 			var rv 				= super.pp(mode, aux)
-bug;		return rv
+			rv					+= " \"\(title)\""
+			return rv
 		default:
 			return super.pp(mode, aux)
 		}
