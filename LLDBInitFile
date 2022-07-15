@@ -5,8 +5,8 @@
 # 20201226 Installation on allenM1:
 #	command source ~/Documents/SwiftFactals/.lldbinit
 #	lldb reads ~/.lldbinit on startup. ln -s ~/Documents/SwiftFactals/.lldbinit ~/.
-command alias idFoo print("304958")
-command alias ? e Controller.current!.printDebuggerHints()
+command alias idFoo e print("304958")
+command alias QM    e Controller.current!.printDebuggerHints()
 
 #### PrettyPrint target <t> in following ways:
 # 		where <t> is s:self, m:model, v:vew, n:SCNNode or " "+<variableName>
@@ -37,30 +37,30 @@ settings set target.inline-breakpoint-strategy always
 #command regex pc     's/^(.+)$/e lldbPrint(ob:%1, mode:.fwClassName)/'
 command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, Log.params4aux + ["ppDagOrder":true]))/'
 
-command regex pn     's/^(.+)$/e lldbPrint(ob:%1, mode:.name)/'
-command regex pnu    's/^(.+)$/e lldbPrint(ob:%1, mode:.nameUidClass)/'
-command regex pf     's/^(.+)$/e lldbPrint(ob:%1, mode:.fullName)/'
-command regex pi     's/^(.+)$/e lldbPrint(ob:%1, mode:.uidClass)/'
-command regex piUc   's/^(.+)$/e lldbPrint(ob:%1, mode:.uidClass)/'
-command regex piCu   's/^(.+)$/e lldbPrint(ob:%1, mode:.classUid)/'
-command regex piU    's/^(.+)$/e lldbPrint(ob:%1, mode:.uid)/'
+command regex pn     's/^(.+)$/e lldbPrint(ob:%1, mode:.name			)/'
+command regex pnu    's/^(.+)$/e lldbPrint(ob:%1, mode:.nameUidClass	)/'
+command regex pf     's/^(.+)$/e lldbPrint(ob:%1, mode:.fullName		)/'
+command regex pi     's/^(.+)$/e lldbPrint(ob:%1, mode:.uidClass		)/'
+command regex piUc   's/^(.+)$/e lldbPrint(ob:%1, mode:.uidClass		)/'
+command regex piCu   's/^(.+)$/e lldbPrint(ob:%1, mode:.classUid		)/'
+command regex piU    's/^(.+)$/e lldbPrint(ob:%1, mode:.uid				)/'
 command regex piFuc  's/^(.+)$/e lldbPrint(ob:%1, mode:.fullNameUidClass)/'
-command regex pp     's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
-command regex ps     's/^(.+)$/e lldbPrint(ob:%1, mode:.short)/'
-command regex pl     's/^(.+)$/e lldbPrint(ob:%1, mode:.line)/'
-command regex pt     's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+command regex pp     's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase			)/'
+command regex ps     's/^(.+)$/e lldbPrint(ob:%1, mode:.short			)/'
+command regex pl     's/^(.+)$/e lldbPrint(ob:%1, mode:.line			)/'
+command regex pt     's/^(.+)$/e lldbPrint(ob:%1, mode:.tree,			["ppDagOrder":true])/'
 #                                                                               #
-command regex ppL    's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
-command regex plL    's/^(.+)$/e lldbPrint(ob:%1, mode:.line )/'
-command regex ptL    's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+command regex ppL    's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase,			["ppLinks":true])/'
+command regex plL    's/^(.+)$/e lldbPrint(ob:%1, mode:.line,			["ppLinks":true])/'
+command regex ptL    's/^(.+)$/e lldbPrint(ob:%1, mode:.tree,			["ppDagOrder":true, "ppLinks":true])/'
 #                                                                               #
-command regex ppP    's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
-command regex plP    's/^(.+)$/e lldbPrint(ob:%1, mode:.line )/'
-command regex ptP    's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+command regex ppP    's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase,			["ppParameters":true])/'
+command regex plP    's/^(.+)$/e lldbPrint(ob:%1, mode:.line,			["ppParameters":true])/'
+command regex ptP    's/^(.+)$/e lldbPrint(ob:%1, mode:.tree,			["ppDagOrder":true, "ppParameters":true])/'
 #                                                                               #
-command regex ppLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase)/'
-command regex plLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.line)/'
-command regex ptLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.tree)/'
+command regex ppLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.phrase,			["ppLinks":true, "ppParameters":true])/'
+command regex plLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.line,			["ppLinks":true, "ppParameters":true])/'
+command regex ptLP   's/^(.+)$/e lldbPrint(ob:%1, mode:.tree,			["ppDagOrder":true, "ppLinks":true, "ppParameters":true]])/'
 
 ##---------------- 's' is for sel/f
 command alias pcs       pc self
@@ -178,34 +178,6 @@ command alias ppLPn     ppLP rootScn
 command alias plLPn     plLP rootScn
 command alias ptLPn     ptLP rootScn
 #command alias pon      po   rootScn
-
-###---------------- 'N' is for all SCNNodes in Trunk
-#command alias pcN       pc   rootScn
-#command alias pnN       pn   rootScn
-#command alias pfN       pf   rootScn
-##command alias piN      pi   rootScn
-#command alias piN       pi   rootScn
-#command alias piNN      piN  rootScn
-#command alias piUcN     piUc rootScn
-#command alias piCuN     piCu rootScn
-#command alias piUN      piU  rootScn
-#command alias piFucN    piFuc rootScn
-#
-#command alias ppN       pp   rootScn
-#command alias plN       pl   rootScn
-#command alias ptN       pt   rootScn
-#
-#command alias ppLN      ppL  rootScn
-#command alias plLN      plL  rootScn
-#command alias ptLN      ptL  rootScn
-#command alias ppPN      ppP  rootScn
-#command alias plPN      plP  rootScn
-#command alias ptPN      ptP  rootScn
-#
-#command alias ppLPN     ppLP rootScn
-#command alias plLPN     plLP rootScn
-#command alias ptLPN     ptLP rootScn
-##command alias poN      po   rootScn
 
 # In the wind:
      # replace 'selfBoundingBox SwiftFactals.FwBBox 0x000060000007b4c0' with '(FwBBox) [3>5, ...

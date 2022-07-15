@@ -269,45 +269,45 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 //		atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
 //									"found:\(title), returns:\n\(pp(.tree))"))
 	}
-//
-//	// MARK: - 4. Build
-//	func wireAndGroom() {
-//		atBld(4, logd("Raw Network:" + "\n" + pp(.tree)))
-//
-//		 //  1. GATHER LINKS as wirelist:
-//		atBld(4, logd("------- GATHERING potential Links:"))
-//		var linkUps : [()->()]	= []
-//		gatherLinkUps(into:&linkUps)
-//
-//		 //  2. ADD LINKS:
-//		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
-//		linkUps.forEach { 	addLink in 		addLink() 							}
-//		setTree(root:self, parent:nil)
-//
-//		 //  3. Grooom post wires:
-//		atBld(4, logd("------- Grooming Parts..."))
-//		groomModelPostWires(root:self)				// + +  + +
-//		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark rootPart dirty after installing new trunk
-//																				//markTree(dirty:.vew) 	// Mark rootPart dirty after installing new trunk
-//																				//dirty.turnOn(.vew)
-//		 //  4. Reset
-//		atBld(4, logd("------- Reset..."))
-//		reset()
-//
-//		 //  5. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
-//		title					+= " (\(portCount()) Ports)"
-//
-//		 //  6. Print
-//		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree))))
-//
-//		 //  7. Report UNUSED Keys:
-//		let unused				= ppUnusedKeys()
-//		atBld(3, logd(unused.count == 0 ? "<<<<<<<<   All keys properly used >>>>>>>>"
-//			: " \n <<<<<<<<<<<<<<<<<<<<<<<<   Danger. Unused keys:\n" + unused + " <<<<<<<<<<<<<<<<<<<<<<<<\n" ))
-//
-//		 //  8. Done, release partTree Lock
-//		atBld(3, logd("DONE BUILDING PART \"\(title)\""))
-//	}
+
+	// MARK: - 4. Build
+	func wireAndGroom() {
+		atBld(4, logd("Raw Network:" + "\n" + pp(.tree)))
+
+		 //  1. GATHER LINKS as wirelist:
+		atBld(4, logd("------- GATHERING potential Links:"))
+		var linkUps : [()->()]	= []
+		gatherLinkUps(into:&linkUps)
+
+		 //  2. ADD LINKS:
+		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
+		linkUps.forEach { 	addLink in 		addLink() 							}
+		setTree(root:self, parent:nil)
+
+		 //  3. Grooom post wires:
+		atBld(4, logd("------- Grooming Parts..."))
+		groomModelPostWires(root:self)				// + +  + +
+		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark rootPart dirty after installing new trunk
+																				//markTree(dirty:.vew) 	// Mark rootPart dirty after installing new trunk
+																				//dirty.turnOn(.vew)
+		 //  4. Reset
+		atBld(4, logd("------- Reset..."))
+		reset()
+
+		 //  5. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
+		title					+= " (\(portCount()) Ports)"
+
+		 //  6. Print
+		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree))))
+
+		 //  7. Report UNUSED Keys:
+		let unused				= ppUnusedKeys()
+		atBld(3, logd(unused.count == 0 ? "<<<<<<<<   All keys properly used >>>>>>>>"
+			: " \n <<<<<<<<<<<<<<<<<<<<<<<<   Danger. Unused keys:\n" + unused + " <<<<<<<<<<<<<<<<<<<<<<<<\n" ))
+
+		 //  8. Done, release partTree Lock
+		atBld(3, logd("DONE BUILDING PART \"\(title)\""))
+	}
 
 	  // MARK: - 5. Lock
 	 // ///////////////// LOCK Parts Tree /////////////

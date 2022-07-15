@@ -30,21 +30,36 @@ struct ContentView: View {
 				SceneView(
 					scene: 		 document.state.scene,
 					pointOfView: document.state.scene.cameraNode,
-					options: [.allowsCameraControl, .autoenablesDefaultLighting]
+					options: [.allowsCameraControl,
+							  .autoenablesDefaultLighting,
+							  .jitteringEnabled,
+							  .rendersContinuously,
+							  .temporalAntialiasingEnabled
+					]
 				)
 				 .frame(width:600, height:400)
-
+/*
+SceneView(			    scene:SCNScene?,
+	 			  pointOfView:SCNNode?,
+	 				  options:SceneView.Options,
+	 preferredFramesPerSecond:Int,
+			 antialiasingMode:SCNAntialiasingMode,
+					 delegate:SCNSceneRendererDelegate?,
+					technique:SCNTechnique?)
+ */
 				HStack {
 					Spacer()
-					Button(action: {	lldbPrint(ob:rootPart, mode:.tree)	}	)
-					{	Text("ptm").padding(.top, 300)							}
-					Button(action: {	lldbPrint(ob:rootVew, mode:.tree) 	}	)
-					{	Text("ptv").padding(.top, 300)							}
-					Button(action: {Swift.print(rootNode.pp(.tree, aux), terminator:"\n") })
-					{	Text("ptn").padding(.top, 300)							}
+					Button(action: {	lldbPrint(ob:rootPart, mode:.tree)		}){
+						Text("ptm").padding(.top, 300)							}
+					Button(action: {	lldbPrint(ob:rootPart, mode:.tree)		}){
+						Text("ptLm").padding(.top, 300)							}
+					Button(action: {	lldbPrint(ob:rootVew, mode:.tree) 		}){
+						Text("ptv").padding(.top, 300)							}
+					Button(action: {Swift.print(rootNode.pp(.tree, aux), terminator:"\n") }){
+						Text("ptn").padding(.top, 300)							}
 					Spacer()
-					Button(action: {	breakToDebugger()					}	)
-					{	Text("LLDB").padding(.top, 300)							}
+					Button(action: {	breakToDebugger()						}){
+						Text("LLDB").padding(.top, 300)							}
 				}
 			}
 			VStack {

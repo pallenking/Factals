@@ -25,6 +25,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 	init(state:DocState?=nil) {
 		self.state 				= state ?? { 		// state given
+			var scene			= FwScene(fwConfig:[:])					// A Part Tree
 
 			 // Generate a new document. Several Ways:
 			//	   selectionString+------FUNCTION-----------+-wantName:---wantNumber:
@@ -34,7 +35,8 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		//	let entry			= "name"//	 entry named scene	|	"name" *	-1
 
 			let rootPart		= RootPart(fromLibrary:entry)
-			var scene			= FwScene(fwConfig:[:])					// A Part Tree
+			rootPart.wireAndGroom()
+
 			return DocState(model:rootPart, scene:scene)
 		}()
 		// Now self.state has full DocState, holding rootPart
