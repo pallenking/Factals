@@ -1096,14 +1096,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D0ED3530-1B51-460B-A3AA-A1324D5A33C7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../SwiftFactals/SwiftFactals/Model/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1150"
-            endingLineNumber = "1150"
+            startingLineNumber = "1154"
+            endingLineNumber = "1154"
             landmarkName = "rePosition(vew:first:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1137,6 +1137,22 @@
             startingLineNumber = "521"
             endingLineNumber = "521"
             landmarkName = "config(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C15FA83F-273C-46AF-8D4F-8EAD35BE1C26"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../SwiftFactals/SwiftFactals/Model/Part.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1146"
+            endingLineNumber = "1146"
+            landmarkName = "rePosition(vew:first:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
