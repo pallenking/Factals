@@ -633,14 +633,14 @@ class Atom : Part {	//Part//FwPart
 //
 //	 // MARK: - 9.1 reVew
 // // UNNEEDED since Ports are in children
-////	override func reVew(intoVew vew:Vew?, parentVew:Vew?) {
-////		super.reVew(intoVew:vew, parentVew:parentVew)
+////	override func reVew(vew vew:Vew?, parentVew:Vew?) {
+////		super.reVew(vew:vew, parentVew:parentVew)
 ////
 ////			// ///// reView PORTS
 ////		if initialExpose == .open {
 ////			let vew				= vew ?? parentVew!.find(part:self, maxLevel:1)
 ////			for (_, port) in ports {			// FOR ALL Ports
-////				port.reVew(intoVew:nil, parentVew:vew)
+////				port.reVew(vew:nil, parentVew:vew)
 ////			}
 ////		}
 ////	}
@@ -657,11 +657,11 @@ class Atom : Part {	//Part//FwPart
 //		|		Port	Port	Port			|
 //		+---------------------------------------+
 //	 */
-	override func reSize(inVew vew:Vew) {
+	override func reSize(vew:Vew) {
 		vew.children.forEach {$0.keep = false}	// mark all Views as unused
 
 				// 1. Resizes all  _CHILD Atoms_ FIRST (inside inner box) FIRST
-		super.reSize(inVew:vew)
+		super.reSize(vew:vew)
 
 				// 2. reSize  _CHILD Ports_ around the packed Atoms        LAST
 	//	if vew.expose == .open {
@@ -672,7 +672,7 @@ bug;		let ports = ["P" : Port()]
 				if let portVew	= vew.find(name:"_" + portName, maxLevel:1) {
 					portVew.keep = true
 					if port.testNReset(dirty:.size) {
-						port.reSize(inVew:portVew)	// 2A. Pack Port (why is this needed)
+						port.reSize(vew:portVew)	// 2A. Pack Port (why is this needed)
 					}
 	//				rePosition(portVew:portVew)		// 2B. Reposition Port via Atom:
 

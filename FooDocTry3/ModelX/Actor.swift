@@ -295,8 +295,8 @@ class Actor : Net {
     var linkDisplayInvisible = false	// Ignore link invisibility
 
 //	 reSize; fw boundIntoVew
-//	 override func reSize(inVew vew:Vew) {
-//		super.reSize(inVew vew:vew)
+//	 override func reSize(vew:Vew) {
+//		super.reSize(vew vew:vew)
 //	panic("Un-debugged")
 //		  //// 1. BOUND all, in order of v.superViews (==self.parts):  DO NOT PLACE
 //		 /**/	// CONtext (if it exists)
@@ -306,7 +306,7 @@ class Actor : Net {
 //		for childVew in vew.children {			// Subviews:
 //			let childPart		= childVew.part
 //			 /// First Repack:
-//			childPart    .reSize(inVew vew:childVew)		// #### HEAD RECURSIVE
+//			childPart    .reSize(vew vew:childVew)		// #### HEAD RECURSIVE
 //			 /// Then Reposition:
 //			childPart.rePosition(vew:childVew)
 //			childVew.orBBoxIntoParent()

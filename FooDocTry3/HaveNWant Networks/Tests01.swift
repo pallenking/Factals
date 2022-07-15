@@ -1612,7 +1612,7 @@ r("+Gen 3 Bulbs", eSim + camera(s:90,u:0) + vel(-4) + log(eve:5, dat:5) +
 		[],
 		"again"]]),
 ]]) })
-xxr("-bug struct['a']", eSim + eXYtight + camera(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
+xr("-bug struct['a']", eSim + eXYtight + camera(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
 	Mirror([n:"a", P:"b,l:5"]),
 	Mirror([n:"b", "gain":-1, "offset":1, f:1]),
 ]]) })

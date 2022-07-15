@@ -451,8 +451,8 @@ class Splitter : Atom {
 	// \\ \\ \\ \\ \\ \\ \\ \\ \ 3D Support\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\  //
 	//  \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\//
 	 // MARK: - 9.2 reSize
-	override func reSize(inVew vew:Vew) {
-		super.reSize(inVew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+	override func reSize(vew:Vew) {
+		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {

@@ -491,8 +491,8 @@ class Port : Part, PortTalk {
 	override func simulate(up upLocal:Bool) {									}
 
 	  // MARK: - 9.1 reVew
-	override func reVew(intoVew:Vew?, parentVew:Vew?) {
-		let vew					= intoVew						// 1. vew specified
+	override func reVew(vew:Vew?, parentVew:Vew?) {
+		let vew					= vew							// 1. vew specified
 					?? parentVew?.find(part:self, maxLevel:1)	// 2. vew in parent:
 					?? addNewVew(in:parentVew)!					// 3. vew created
 		assert(vew.part === self, "sanity check")// "=="?
@@ -578,8 +578,8 @@ class Port : Part, PortTalk {
 		return scnDisc
 	}
 	 // MARK: - 9.2 reSize
-//	override func reSize(inVew vew:Vew) {
-//		super.reSize(inVew:vew)
+//	override func reSize(vew:Vew) {
+//		super.reSize(vew:vew)
 //		panic("Port.reSize")
 //	}
 	 // MARK: - 9.4 rePosition
@@ -588,7 +588,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		vew.scn.transform		= SCNMatrix4(0, -height/2, 0, flip:flipped)/// lone Port
 	}
 	 // MARK: - 9.5: RePaint:
-	override func rePaint(on vew:Vew) {
+	override func rePaint(vew:Vew) {
 				// Tube with connectedTo's value:
 		let tube				= vew.scn.find(name:"s-Tube", maxLevel:2)
 		let  curTubeColor0		= tube?.color0

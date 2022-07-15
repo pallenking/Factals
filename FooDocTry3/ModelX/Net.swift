@@ -82,7 +82,7 @@
 //	   // MARK: - 9.0 make a Vew for a Net
 //	override func VewForSelf() -> Vew? {	return NetVew(forPart:self)			}
 //	  // MARK: - 9.1 reVew
-//	override func reVew(intoVew:Vew?, parentVew:Vew?) {
+//	override func reVew(vew:Vew?, parentVew:Vew?) {
 //		let vew : Vew?			= intoVew
 //								?? parentVew?.find(part:self, maxLevel:1)	// should do by name?
 //		 // Tree Height:
@@ -91,15 +91,15 @@
 //		vewNet?.heightLeaf		= pVewNet != nil ? (pVewNet!.heightLeaf + 1) : 1
 //		vewNet?.heightTree		= vewNet?.heightLeaf ?? 0	// layer in current Net //BUGSVILLE
 //
-//		super.reVew(intoVew:vew, parentVew:parentVew) //\/\/\/\/\/\/\/\/\/
+//		super.reVew(vew:vew, parentVew:parentVew) //\/\/\/\/\/\/\/\/\/
 //
 //		 // Tree Height in parent is at least:
 //		pVewNet?.heightTree 	= max(pVewNet?.heightTree ?? 0, vewNet?.heightTree ?? 0)
 //	}
 //	  // MARK: - 9.2 reSize
-	override func reSize(inVew vew:Vew) {
+	override func reSize(vew:Vew) {
 		nop
-//		super.reSize(inVew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+//		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 //		 // (this initializes skin to initial size)
 //
 //		 // Minimum Size:

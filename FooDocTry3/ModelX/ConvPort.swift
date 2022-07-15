@@ -216,7 +216,7 @@ class ConvPort : Port {
 }
 
 
-//***** AFTER reVew(intoVew:Vew?, parentVew:Vew?):
+//***** AFTER reVew(vew:Vew?, parentVew:Vew?):
 //   _l0:LinkVew o- w[ 0.0 0.0 0.0]  ->aa4@,aa4@
 //  |   _P:Vew   o+ w[ 0.0 0.0 0.0] f 0.0< 0.0,  0.0< 0.0,  0.0< 0.0
 //Ff|   _S:Vew   o+ w[ 0.0 0.0 0.0] f 0.0< 0.0,  0.0< 0.0,  0.0< 0.0
@@ -229,7 +229,7 @@ class ConvPort : Port {
 
 // "CURIOUS -- link position with nil ends"
 
- //**** reSize(inVew:) calls:
+ //**** reSize(vew:) calls:
 //***** AFTER reSkin(fullOnto:Vew):
 //*-l0                       [ 0.0 0.0 0.0]01 geom:nil
 //| s-Link                   [ 0.0 0.0 0.0]#H geom:nil
@@ -243,7 +243,7 @@ class ConvPort : Port {
 //| *-P     .pI[0.0 0.8 0.0] [ 0.0 0.8 0.0]01 <Sphere:  r=0.1>
 //| *-S     .pI[0.0 4.8 0.0] [ 0.0 4.8 0.0]01 <Sphere:  r=0.1>
 
-//***** AFTER rePaint(on:)
+//***** AFTER rePaint(vew:)
 	//*** super.sdarePaint(on
 //| s-Link p<-1.0 1.0-4.0>I   [ 0.0 0.8 0.0]01 geom:nil
 
@@ -264,5 +264,5 @@ class ConvPort : Port {
 
 //***** reSizePost(vew:Vew)
 //	vew.scn.transform = SCNMatrix4(row1v3:row2v3:row3v3:row4v3:)
-//	//***** rePaint(on vew:Vew)
+//	//***** rePaint(vew:Vew)
 //	.dual: geom.materials[i].diffuse.contents = NSImage(size:)

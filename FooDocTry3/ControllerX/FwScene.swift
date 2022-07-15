@@ -631,21 +631,21 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			self.rootPart.computeLinkForces(in:self.rootVew)
+			self.rootPart.computeLinkForces(vew:self.rootVew)
 		}
 	}
 	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			self.rootPart.applyLinkForces(in:self.rootVew)
+			self.rootPart.applyLinkForces(vew:self.rootVew)
 		}
 	}
 	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
 	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			self.rootPart.rotateLinkSkins(in:self.rootVew)
+			self.rootPart.rotateLinkSkins(vew:self.rootVew)
 		}
 	}
 //	   // ODD Timing:

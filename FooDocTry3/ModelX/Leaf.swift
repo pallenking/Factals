@@ -94,8 +94,8 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		leafOperation(self)
 	}
 	 // MARK: - 9.2 reSize
-	override func reSize(inVew vew:Vew) {
-		super.reSize(inVew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	override func reSize(vew:Vew) {
+		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		 // Minimum Size:
 		if let ms				= minSize {
 			vew.bBox.size		|>= ms

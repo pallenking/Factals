@@ -296,9 +296,9 @@ class DiscreteTime : Atom {
 			super.rePosition(portVew:vew)
 		}
 	}
-	override func reVew(intoVew:Vew?, parentVew:Vew?) {
+	override func reVew(vew:Vew?, parentVew:Vew?) {
 	  // / Add InspecVc
-		super.reVew(intoVew:intoVew, parentVew:parentVew)
+		super.reVew(vew:vew, parentVew:parentVew)
 		 // inspecNibName --> automatically add an InspecVc panel
 		// (might move into -postBuild
 		if inspecNibName != nil && !inspecIsOpen! {

@@ -186,18 +186,18 @@ class Link : Atom {
 		return LinkVew(forPart:self)
 	}
 	 // MARK: - 9.1 reVew
-	override func reVew(intoVew:Vew?, parentVew:Vew?) {
+	override func reVew(vew:Vew?, parentVew:Vew?) {
 		if trueF {//trueF//falseF//
 			 // Use inherited reVew
-			super.reVew(intoVew:intoVew, parentVew:parentVew) //\/\/\/\/\/\/\/\/\/
+			super.reVew(vew:vew, parentVew:parentVew) //\/\/\/\/\/\/\/\/\/
 		}
 //		else { 		// EXPERIMENTAL, unused
 //			 // Insure Vew of Link
-//			let linksVew : Vew?	= intoVew ??								// from arg
+//			let linksVew : Vew?	= vew ??								// from arg
 //								  parentVew?.find(part:self, maxLevel:1) ?? // from parent
 //								  addNewVew(in:parentVew)					// create
 //			 // reVew Link's Ports ourselves. (Inherited reVew in Atom may not work)
-//			markTree(dirty:.size)	// NEEDED, if no super.reVew(intoVew:)	// 2. why needed
+//			markTree(dirty:.size)	// NEEDED, if no super.reVew(vew:)	// 2. why needed
 //			for childPart in children {
 //				if	childPart.testNReset(dirty:.vew) {						// 3. can't put in
 //					childPart.reVew(parentVew:linksVew)
@@ -253,7 +253,7 @@ class Link : Atom {
 		return nil
 	}
 	  // MARK: - 9.2 reSize (position its ends)
-	override func reSize(inVew vew:Vew) {
+	override func reSize(vew:Vew) {
 		atRsi(8, logd("<><> L 9.2:   \\reSize Link '\(vew.part.fullName)'"))
 		 // This should go in Link.reSkin!
 		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link skins picable
@@ -273,7 +273,7 @@ class Link : Atom {
 		  //  from Atom's, it's superclass.	.:. Don't call super
 		 //------ NOT SURE WHY THIS IS HERE (except it must be)
 		vew.bBox				= .empty			// ??? Set view's bBox EMPTY
-		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
+		vew.bBox				= reSkin(vew:vew)	// Put skin on Part
 		markTree(dirty:.paint)
 	}
 	 // MARK: -- Set Link's end position
@@ -448,7 +448,7 @@ bug	// NEVER USED?
 
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
-	override func computeLinkForces(in vew:Vew) {
+	override func computeLinkForces(vew:Vew) {
 		atRsi(8, logd("<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'"))
 		guard !vew.scn.transform.isNan else {
 			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
@@ -460,7 +460,7 @@ bug	// NEVER USED?
 			let sPinPar			= lvp.localPosition(of:.zero, inSubVew:lv.sCon2Vew)// e.g: p9/t3.P
 			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lv.pCon2Vew)// e.g: p9/t1.P
 //			if pPinPar.isNan {				/// FOR DEBUG
-//				computeLinkForces(in:vew)		// might go recursive!
+//				computeLinkForces(vew:vew)		// might go recursive!
 //				return
 //			}
 			let delta 			= sPinPar - pPinPar
@@ -489,7 +489,7 @@ bug	// NEVER USED?
 	}		// Xyzzy19e
 	 // MARK: - 9.5.4: will Render Scene -- Rotate Links toward camera
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
-	override func rotateLinkSkins(in vew:Vew) {	// create Line transform
+	override func rotateLinkSkins(vew:Vew) {	// create Line transform
 		let linkVew				= vew as! LinkVew
 
 		 // This section is in rePaint, because cameraNode changes positions!
@@ -541,12 +541,12 @@ bug	// NEVER USED?
 	var imageWidth : Int				 	{ 	return 3						}
 	var imageHeight: Int					{ 	return 300						}
 	 /// Paint red and green onto Link skins
-	override func rePaint(on vew:Vew) 		{		// paint red and green
+	override func rePaint(vew:Vew) 		{		// paint red and green
 		atRsi(8, logd("<><> L 9.6:   \\rePaint"))
 		 // S and P port of a link have no views, but their .paint bits must be cleared:
 		let _ 				= ports.map 	{	$1.dirty.turnOff(.paint) 		}
 
-		super.rePaint(on:vew)				// hits my endPorts
+		super.rePaint(vew:vew)				// hits my endPorts
 
 		if linkSkinType == .dual {
 			guard let linkVew = vew as? LinkVew else {	fatalError("paranoia")	}

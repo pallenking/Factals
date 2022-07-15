@@ -510,8 +510,8 @@ class Bulb : Splitter { //######################################################
 		scn.position.y			= max(r-0.2, 0)		// ensure sphere and Port overlap
 		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
 	}
-	override func reSize(inVew vew:Vew) {
-		super.reSize(inVew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+	override func reSize(vew:Vew) {
+		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{

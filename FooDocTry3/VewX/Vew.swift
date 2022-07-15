@@ -615,7 +615,7 @@
 //
 //			  // 2. Update Vew tree objects from Part tree
 //			 // (Also build a sparse SCN "entry point" tree for Vew tree)
-///**/		pRoot.reVew(intoVew:vRoot, parentVew:nil)
+///**/		pRoot.reVew(vew:vRoot, parentVew:nil)
 //			pRoot.reVewPost(vew:vRoot)				// link *Con2Vew, *EndV		//print(rootvew("_l0").pp(.tree))
 //		}
 //		 // ----   Adjust   S I Z E s   ---- //
@@ -623,7 +623,7 @@
 //			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
 //		{	//atRsi(6, log ? logd("rootPart.reSize():....") : nop)
 //
-///**/		pRoot.reSize(inVew:vRoot)				// also causes rePosition as necessary
+///**/		pRoot.reSize(vew:vRoot)				// also causes rePosition as necessary
 //
 //			vRoot.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 //
@@ -636,14 +636,14 @@
 //		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
 //			" _ rePaint _ Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')")
 //		{
-///**/		pRoot.rePaint(on:vRoot)				// Ports color, Links position
+///**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
 //
 //			 // All changes above cause rePaint and get here. Let system know!
 ////			pRoot.fwDocument!.fwView!.needsDisplay = true
 //
 //			 // THESE SEEM IN THE WRONG PLACE!!!
-//			pRoot.computeLinkForces(in:vRoot) 		// Compute Forces (.force == 0 initially)
-//			pRoot  .applyLinkForces(in:vRoot)		// Apply   Forces (zero out .force)
+//			pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
+//			pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
 //			pRoot .rotateLinkSkins (in:vRoot)		// Rotate Link Skins
 //		}
 //		let unlockName			= needsLockArg  == nil ? nil :	// no lock wanted

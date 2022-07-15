@@ -410,7 +410,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	}
 
 	 // MARK: - 9.3 reSkin
-	override func reSkin(_ expose:Expose?=nil, onto vew:Vew) -> BBox 	{
+	override func reSkin(_ expose:Expose?=nil, vew:Vew) -> BBox 	{
 		// invisible?
 		return .empty						// Root Part is invisible
 	}

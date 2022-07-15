@@ -966,7 +966,7 @@
 //	/// - Either vew or parentVew must be non-nil
 //	/// * Depending on self.expose:Expose
 //	/// * --- .open -> full; .atomic -> sphere; .invisible -> nothing
-//	func reVew(intoVew vew_:Vew?=nil, parentVew pVew:Vew?=nil) {
+//	func reVew(vew vew_:Vew?=nil, parentVew pVew:Vew?=nil) {
 //		var vew 				= vew_ ??	// 1 supplied as ARG, or from parent:
 //								  pVew?.find(part:self, maxLevel:1)
 //								  			// 2. FIND in parentVew by part
@@ -1029,12 +1029,12 @@
 //	   /// - May be called multiply, at the start with .zero .bBox, and after packing internal atoms.
 //      /// - Parameter vew: -- The Vew to use
 //     /// - Returns: nothing
-//	func reSize(inVew vew:Vew) {
+//	func reSize(vew:Vew) {
 //
 //		 //------ 1. Put on my   Skin   on me.
 //		assert(vew.bBox == .empty, "Set view's bBox EMPTY")
 //		vew.bBox				= .empty			// Set view's bBox EMPTY
-////		vew.bBox				= reSkin(onto:vew)	// Put skin on Part
+////		vew.bBox				= reSkin(vew:vew)	// Put skin on Part
 //
 //		 //------ 2. reSize all  _CHILD Atoms_
 //		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
@@ -1044,7 +1044,7 @@
 //
 //			 // 2A. Repack insides (if dirty size):
 //			if childPart.testNReset(dirty:.size) {
-//				childPart.reSize(inVew:childVew)	// #### HEAD RECURSIVEptv
+//				childPart.reSize(vew:childVew)	// #### HEAD RECURSIVEptv
 //			}
 //								//			  // If our shape was just added recently, it has no parent.
 //								//			 //   That it is "dangling" signals we should swap it in
@@ -1081,7 +1081,7 @@
 //    /// - Parameter expose_: -- Exposure. If nil, use View's exposure
 //    /// - returns: -- The BBox of the part with new skins on.
 //    /// - note: The BBox of the view's SCNNode is INVALID at this point. (This is from a problem with non-zero gaps)
-//	func reSkin(_ expose_:Expose?=nil, onto vew:Vew) -> BBox 	{
+//	func reSkin(_ expose_:Expose?=nil, vew:Vew) -> BBox 	{
 ////		vew.expose				= expose_ ?? vew.expose
 ////		switch vew.expose {
 ////		case .invis, .null:
@@ -1337,16 +1337,16 @@
 ////
 //	   // MARK: - 9.5: Render Protocol
 //	 // MARK: - 9.5.2: didApplyAnimations 		-- Compute spring forces
-//	func computeLinkForces(in vew:Vew) {
+//	func computeLinkForces(vew:Vew) {
 //		for childVew in vew.children {			// by Vew
-//			childVew.part.computeLinkForces(in:childVew) // #### HEAD RECURSIVE
+//			childVew.part.computeLinkForces(vew:childVew) // #### HEAD RECURSIVE
 //		}
 //	}
 //	  // MARK: - 9.5.3: did Simulate Physics 	-- Apply spring forces
 //	 /// Distribute Forces
-//	func applyLinkForces(in vew:Vew) {
+//	func applyLinkForces(vew:Vew) {
 //		for childVew in vew.children {			// repeat over Vew tree
-//			childVew.part.applyLinkForces(in:childVew) // #### HEAD RECURSIVE
+//			childVew.part.applyLinkForces(vew:childVew) // #### HEAD RECURSIVE
 //		}
 //		if let pb 				= vew.scn.physicsBody,
 //		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
@@ -1357,18 +1357,18 @@
 //		vew.force				= .zero
 //	}
 //	 // MARK: - 9.5.5: will Render Scene -- Rotate Links toward camera
-//	func rotateLinkSkins(in vew:Vew) {
+//	func rotateLinkSkins(vew:Vew) {
 //		for childVew in vew.children {			// by Vew
-//			childVew.part.rotateLinkSkins(in:childVew) // #### HEAD RECURSIVE
+//			childVew.part.rotateLinkSkins(vew:childVew) // #### HEAD RECURSIVE
 //		}
 //	}
 //
 //
 //	  // MARK: - 9.6: Paint Image:
-//	func rePaint(on vew:Vew) 	{		/* prototype */
+//	func rePaint(vew:Vew) 	{		/* prototype */
 //		for childVew in vew.children 				// by Vew
 //		  where childVew.part.testNReset(dirty:.paint) {
-//			childVew.part.rePaint(on:childVew)		// #### HEAD RECURSIVE
+//			childVew.part.rePaint(vew:childVew)		// #### HEAD RECURSIVE
 //		}
 //		assertWarn(!vew.scn.transform.isNan, "vew.scn.transform == nan!")
 //	}
