@@ -148,21 +148,21 @@ func ppDOC() -> String {									///
 //			deapth:deapth)
 //	}
 //}
-//extension RootPart		: FwStatus	{								 /// RootPart
-//	func ppFwState(deapth:Int=999) -> String {
-//		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
-//		return ppFwStateHelper("RootPart     ", uid:self,
-//			myLine:"\(rown) dirty:'\(dirty.pp())' " +
-//				   "partTrunk:\(ppUid(partTrunk, showNil:true)) ",
-//			otherLines:{ deapth in
-//				var rv			=  self.simulator.ppFwState()
+extension RootPart		: FwStatus	{								 /// RootPart
+	func ppFwState(deapth:Int=999) -> String {
+		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
+		return ppFwStateHelper("RootPart     ", uid:self,
+			myLine:"\(rown) dirty:'\(dirty.pp())' " +
+				   "partTrunk:\(ppUid(partTrunk, showNil:true)) ",
+			otherLines:{ deapth in
+bug;			var rv			=  ""//self.simulator.ppFwState()
 //				rv				+= self.log.ppFwState()
-//				return rv
-//			},
-//			deapth:deapth)
-//	}
-////bug; return "extension RootPart : FwStatus needs HELP"	}
-//}
+				return rv
+			},
+			deapth:deapth)
+	}
+//bug; return "extension RootPart : FwStatus needs HELP"	}
+}
 //extension Simulator				: FwStatus	{						  /// Simulator
 //	func ppFwState(deapth:Int=999) -> String {
 //		var myLine 				= "not built "

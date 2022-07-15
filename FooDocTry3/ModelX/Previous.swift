@@ -366,7 +366,7 @@ class Previous : Atom {
 					if minorMode != nextminorMode {
 						self.minorMode = nextminorMode
 						src4		= minorMode		// push mode into machine
-//Expression took 15258ms to type-check (limit: 200ms)
+						//Expression took 15258ms to type-check (limit: 200ms)
 bug;						atDat(4, logd("Mode Port: " + //%% curMode=%-->%",
 								(mvc! ? fmt("M=%.2f ", mModeValue) : "") +	//		cm? ["" addF:"M=%.2f ", mModeValue]: "",
 								(nvc! ? fmt("N=%.2f ", nModeValue) : "") +

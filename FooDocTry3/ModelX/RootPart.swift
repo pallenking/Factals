@@ -125,8 +125,7 @@ bug;	return ""
 	}
 //	 // MARK: - 3.7 Equitable
 	func varsOfRootPartEq(_ rhs:Part) -> Bool {
-bug;return false
-		guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
+bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		return true
 //			&&	simulator		== rhsAsRootPart.simulator
 //			&& log				== rhsAsRootPart.log
@@ -416,14 +415,14 @@ bug;return false
 		return .empty						// Root Part is invisible
 	}
 
-//	 // MARK: - 15. PrettyPrint
-////	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-////		switch mode! {
-////		case .line:
-////			var rv 				= super.pp(mode, aux)
-////bug;		return rv
-////		default:
-////			return super.pp(mode, aux)
-////		}
-////	}
+	 // MARK: - 15. PrettyPrint
+	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+		switch mode! {
+		case .line:
+			var rv 				= super.pp(mode, aux)
+bug;		return rv
+		default:
+			return super.pp(mode, aux)
+		}
+	}
 }

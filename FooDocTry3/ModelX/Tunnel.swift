@@ -50,8 +50,7 @@ class Tunnel : FwBundle {
 		return rhsAsTunnel.minSize == minSize
 	}
 	override func equalsPart(_ part:Part) -> Bool {
-		bug;return false
-//		return	super.equalsPart(part) && varsOfTunnelEq(part)
+		return	super.equalsPart(part) && varsOfTunnelEq(part)
 	}
 	 // MARK: - 8. Reenactment Simulator
 	/*							====== Experiment 2 =====		====== Experiment 1 =====

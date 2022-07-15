@@ -726,7 +726,7 @@
 ////							//		let animateIt			= fwScene.config4scene.bool_("animatePole")
 ////							//		if animateIt {	 // Animate 3D Cursor Pole motion"
 ////							//			SCNTransaction.begin()
-////							//bug;//		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
+////							//bug //		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 ////							//		}
 ////							//
 ////							//		fwScene.pole.worldPosition	= wPosn

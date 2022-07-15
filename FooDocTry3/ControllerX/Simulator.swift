@@ -142,10 +142,10 @@ class Simulator : NSObject, Codable {
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //		atSer(3, logd("Decoded  as? Controller"))
 	}
-//// END CODABLE /////////////////////////////////////////////////////////////////
-//	 // MARK: - 3.6 NSCopying
-//	func copy(with zone: NSZone?=nil) -> Any {
-//bug;	let theCopy : Simulator		= Simulator([:])//super.copy(with:zone) as! Simulator
+// END CODABLE /////////////////////////////////////////////////////////////////
+	 // MARK: - 3.6 NSCopying
+	func copy(with zone: NSZone?=nil) -> Any {
+bug;	let theCopy : Simulator		= Simulator([:])//super.copy(with:zone) as! Simulator
 //		theCopy.simBuilt_			= self.simBuilt_
 //		theCopy.simEnabled_			= self.simEnabled_
 //		theCopy.simTaskRunning		= self.simTaskRunning
@@ -157,12 +157,13 @@ class Simulator : NSObject, Codable {
 //		theCopy.config4sim_			= self.config4sim_
 //		theCopy.timingChains 		= self.timingChains
 //		atSer(3, logd("copy(with as? Simulator       ''"))
-//		return theCopy
-//	}
+		return theCopy
+	}
 //
 //	 // MARK: - 3.7 Equitable
-//	func varsOfSimulatorEq(_ rhs:Part) -> Bool {
-//		guard let rhsAsSimulator	= rhs as? Simulator else {	return false		}
+	func varsOfSimulatorEq(_ rhs:Part) -> Bool {
+		guard let rhsAsSimulator	= rhs as? Simulator else {	return false		}
+bug;	return false
 //		return simBuilt_		== rhsAsSimulator.simBuilt_
 //			&& simEnabled_		== rhsAsSimulator.simEnabled_
 //			&& simTaskRunning	== rhsAsSimulator.simTaskRunning
@@ -180,10 +181,11 @@ class Simulator : NSObject, Codable {
 //			&& unsettledOwned	== rhsAsSimulator.unsettledOwned
 //			&& timeNow			== rhsAsSimulator.timeNow
 //			&& simTimeStep		== rhsAsSimulator.simTimeStep
-//	}
-//	func equalsPart(_ part:Part) -> Bool {
-//bug;	return	false//super.equalsPart(part) && varsOfSimulatorEq(part)
-//	}
+	}
+	func equalsPart(_ part:Part) -> Bool {
+bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
+		//Value of type 'NSObject' has no member 'equalsPart'
+	}
 //
 	   // MARK: - 8. Reenactment Simulator
 	  /// Start Simulation Task
