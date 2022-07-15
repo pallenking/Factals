@@ -1,22 +1,22 @@
 //  Simulator.swift -- simulation control elements C190715PAK
 import SceneKit
 
-extension Part {
-	 // - Array of unsettled ports. Elements are closures that returns the Port's name
-	func unsettledPorts()	-> [()->String]	{
-		var rv					= [()->String]()
-		for child in children {
-			rv					+= child.unsettledPorts()
-		}
-		return rv
-	}
-}
+//extension Part {
+//	 // - Array of unsettled ports. Elements are closures that returns the Port's name
+//	func unsettledPorts()	-> [()->String]	{
+//		var rv					= [()->String]()
+//		for child in children {
+//			rv					+= child.unsettledPorts()
+//		}
+//		return rv
+//	}
+//}
 
 class Simulator : NSObject, Codable {
-//
-//	 // MARK: - 2. Object Variables:
-//	var timingChains:[TimingChain] = []
-//
+
+	 // MARK: - 2. Object Variables:
+	var timingChains:[TimingChain] = []
+
 	// MARK: - 2.1 Operational STATE
 	 /// Simulation is fully built and running
 	var simBuilt : Bool {				// simulator is running (mostly for Log)

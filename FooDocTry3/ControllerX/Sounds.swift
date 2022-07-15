@@ -18,8 +18,8 @@ protocol SoundFoo : SCNNode  {
 extension SCNNode : SoundFoo {
 	func play(sound: String) {
 		print("::::::::::::::::: PLAYING SOUND \(sound) :::::::::::")
-		assert(APPDEL != nil, "play(sound:\(sound)), but APPDEL is nil")
-		APPDEL!.appSounds.play(sound:sound, onNode:self)
+bug//	assert(APPDEL != nil, "play(sound:\(sound)), but APPDEL is nil")
+//		APPDEL!.appSounds.play(sound:sound, onNode:self)
 	}
 }
 //extension SoundFoo {
@@ -35,7 +35,7 @@ class Sounds : NSObject {					// NOT NSObject
 			assert(knownSources[name] == nil, "Redefinition of sounds not suported!")
 			knownSources[name] 	= source// register soundSource
 			source.isPositional = false
-			source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
+bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 		//	source.rate 		= 1
 			source.load()				// load audio data into soundSource
 			atCon(6, logd("SUCCEEDED loading name:\(name.field(-20)) path:\"\(path)\""))
@@ -48,10 +48,11 @@ class Sounds : NSObject {					// NOT NSObject
 		if trueF {				//trueF//falseF
 			return
 		}
-		guard let node			= onNode ?? DOC?.fwScene?.rootScn else {
+		guard let node			= onNode ?? DOC?.state.scene.rootScn else {
+//		guard let node			= onNode ?? DOC?.fwScene?.rootScn else {
 			return print("###### Couldn't find SCNNode to play sound")
 		}
-		DOC.fwView?.audioListener = node
+bug//	DOC.fwView?.audioListener = node
 
 		 // Get audio source:
 		guard let source		= knownSources[sound] else {

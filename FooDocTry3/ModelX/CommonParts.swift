@@ -46,7 +46,7 @@ class CommonPart : Part {
 		let container 		= try decoder.container(keyedBy:CommonPartKeys.self)
 
 		size 				= try container.decode(SCNVector3.self, forKey:.size)
-		atSer(3, logd("Decoded  as? CommonPart        named  '\(nam)' size:\(size.pp(.line))"))
+		atSer(3, logd("Decoded  as? CommonPart        named  '\(name)' size:\(size.pp(.line))"))
 	}
 	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {

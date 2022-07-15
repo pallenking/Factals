@@ -1,6 +1,7 @@
 #  FooDocTry3 README
 
 1. Why is SwiftFactals repository listed in 
+2. How did you get to rev coparison
 
 1. Rename FooDocTry3 to SwiftFactals2
 2. Add testing infrastructure

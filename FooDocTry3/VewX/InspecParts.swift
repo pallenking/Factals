@@ -179,7 +179,7 @@ struct InspecAtom : View {												 // Atom
 				Picker("", selection:Binding<String>(	get:{ "" }, set:{		// Always out of range
 					let port	= atom.ports[$0]!
 					let newVew	= rootVew.find(part:port, inMe2:true) ?? vew
-					atom.root?.fwDocument?.showInspecFor(vew:newVew, allowNew:false)
+bug//				atom.root?.fwDocument?.showInspecFor(vew:newVew, allowNew:false)
 //					DOc.showInspecFor(vew:newVew, allowNew:false)
 				} )) {
 					ForEach(Array(atom.ports.keys.enumerated()), id:\.element) { _, key in
@@ -328,7 +328,7 @@ struct InspecPart : View {												 // Part
 				Picker("", selection:Binding<Int>(	get:{ -1 }, set:{		// Always out of range
 					let nav		= navList[$0]					// Set notification
 					let newVew	= rootVew.find(part:nav, inMe2:true) ?? vew
-					part.root!.fwDocument!.showInspecFor(vew:newVew, allowNew:false)
+bug//				part.root!.fwDocument!.showInspecFor(vew:newVew, allowNew:false)
 //					DOc.showInspecFor(vew:newVew, allowNew:false)
 				} ) ) {
  					ForEach(navList, id:\.self) { aPart in

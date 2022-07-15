@@ -388,34 +388,34 @@ bug;return false
 		}())
 	}
 
-//	 // MARK: - 8. Reenactment Simulator
-//	 // Inject message
-//	func sendMessage(fwType:FwType) {
-//		atEve(9, logd("      all parts ||  sendMessage(\(fwType))."))
-//		let fwEvent 			= FwEvent(fwType:fwType)
-//		return rootPart.receiveMessage(event:fwEvent)
-//	}
-//
-//	  /// Count of all Ports in root
-//	 /// - Returns: Number of Ports
-//	func portCount() -> Int {
-//		var rv  				= 0
-//		let _ 					= find(firstWith:
-//		{(part:Part) -> Part? in		// Count Ports:
-//			if part is Port {
-//				rv				+= 1	// Count Ports in tree
-//			}
-//			return nil		// nil -> not found -> look at all in self
-//		})
-//		return rv
-//	}
-//
-//	 // MARK: - 9.3 reSkin
-//	override func reSkin(_ expose:Expose?=nil, onto vew:Vew) -> BBox 	{
-//		// invisible?
-//		return .empty						// Root Part is invisible
-//	}
-//
+	 // MARK: - 8. Reenactment Simulator
+	 // Inject message
+	func sendMessage(fwType:FwType) {
+		atEve(9, logd("      all parts ||  sendMessage(\(fwType))."))
+		let fwEvent 			= FwEvent(fwType:fwType)
+		return rootPart.receiveMessage(event:fwEvent)
+	}
+
+	  /// Count of all Ports in root
+	 /// - Returns: Number of Ports
+	func portCount() -> Int {
+		var rv  				= 0
+		let _ 					= find(firstWith:
+		{(part:Part) -> Part? in		// Count Ports:
+			if part is Port {
+				rv				+= 1	// Count Ports in tree
+			}
+			return nil		// nil -> not found -> look at all in self
+		})
+		return rv
+	}
+
+	 // MARK: - 9.3 reSkin
+	override func reSkin(_ expose:Expose?=nil, onto vew:Vew) -> BBox 	{
+		// invisible?
+		return .empty						// Root Part is invisible
+	}
+
 //	 // MARK: - 15. PrettyPrint
 ////	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 ////		switch mode! {

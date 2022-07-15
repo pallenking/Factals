@@ -91,7 +91,7 @@ class PolyWrap : Part {
 
 		//name = ""
 		localConfig				= [:]
-		atSer(3, logd("Decoded  as? PolyWrap   named '\(nam)', partType\(newbiePartType)"))
+		atSer(3, logd("Decoded  as? PolyWrap   named '\(name)', partType\(newbiePartType)"))
 		self.addChild(newbiePart)
 	}
 //	 // MARK: - 3.6 NSCopying
@@ -142,7 +142,7 @@ extension Part {
 	@objc func polyWrap() -> PolyWrap {
 		 // stitch in our PolyWrap in where we were
 		let p					= PolyWrap([:])				// (B) backlink
-		p.nam					= "---"
+		p.name					= "---"
 		p.addChild(self)
 		parent					= p
 
