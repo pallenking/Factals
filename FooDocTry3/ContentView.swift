@@ -14,18 +14,6 @@ class JetModel: ObservableObject {
 class DragonModel: ObservableObject {
 	@Published var scene : SCNScene = dragonCurve(segments:1024)
 }
-/*
-
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            SceneView(scene: scene,
-            		  pointOfView: camera,
-            		  options: [],
-            		  delegate: cameraController)
-                .gesture(dragGesture)
-        }
-    }
- */
 extension SCNCameraController : ObservableObject {	}
 
 struct ContentView: View {
@@ -34,40 +22,23 @@ struct ContentView: View {
 	@StateObject var dragonModel	= DragonModel()
 //	@StateObject var cameraController: SCNCameraController
 
-	func onDragEnded(_ msg:String="") {
-		print("onDragEnded: \(msg)")
-		// set state, process the last drag position we saw, etc
-	}
-	func gestures() -> some Gesture {
-//		let drag3				= DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
-//		  .onChanged(cameraController.onDragChange(value:))
-//		  .onEnded(  cameraController.onDragEnded(value:))
-		let drag 				= DragGesture(minimumDistance: 0)
-		  .onChanged(	{ drag in 	self.onDragEnded("Drag Changed")			})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
-		  .onEnded(		{ drag in 	self.onDragEnded("Drag Ended")		  		})
-		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
-		  .onChanged(	{ delta in	self.onDragEnded("Pinch Changed")	 		})
-		  .onEnded(		{ delta in 	self.onDragEnded("Pinch Ended")				})
-		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
-		  .onChanged(	{ delta in	self.onDragEnded("Rotation Changed")		})
-		  .onEnded(		{ delta in	self.onDragEnded("Rotation Ended")			})
-		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
-		  .onChanged(	{ _ 	in	self.onDragEnded("Press Changed")			})
-		  .onEnded(		{ delta in	self.onDragEnded("Press Ended")				})
-		let combinedGesture = drag
-		  .simultaneously(with: hackyPinch)
-		  .simultaneously(with: hackyRotation)
-		  .exclusively(before: hackyPress)
-		return combinedGesture
-//		/// The pinch and rotation may not be needed - in my case I don't but
-//		///   obviously this might be very dependent on what you want to achieve
-	}
-
-    var dragGesture: some Gesture {
-		gestures()
-    }
+	let drag 					= DragGesture()
+	 .onChanged({ _ in       print("drag changed")        })
+//	let pinch 					= MagnificationGesture()
+//	 .onChanged({ _ in       print("pinch changed")        })
+//	let combinedGesture			= pinch.simultaneously(with: drag)
+//	@State private var show = false
 
 	var body: some View {
+		ZStack {
+			SceneView(scene:SCNScene(named:"art.scnassets/ship.scn"))
+			 .gesture(drag)
+		}
+	}
+
+	var body2: some View {
+		//@GestureState var dragGestureActive: Bool = false
+		//@State var dragOffset: CGSize = .zero
 		HStack {
 			VStack {
 				let rootPart:Part	=  document.state.model
@@ -80,18 +51,19 @@ struct ContentView: View {
 					pointOfView: document.state.scene.cameraNode,
 					options: [.allowsCameraControl,
 							  .autoenablesDefaultLighting,
-//							  .jitteringEnabled,
+							//.jitteringEnabled,
 							  .rendersContinuously,
 							  .temporalAntialiasingEnabled
 					],
 					preferredFramesPerSecond:30,
 			 		//antialiasingMode:SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
 					delegate:document.state.scene			// SCNSceneRendererDelegate
-//					technique:SCNTechnique?
+					//technique:SCNTechnique?
 				)
 				 .gesture(dragGesture)
 				 .border(Color.black, width: 3)
 				// .frame(width:600, height:400)
+
 				HStack {
 					Spacer()
 					Button(action: {	lldbPrint(ob:rootPart, mode:.tree)		}){
@@ -124,4 +96,29 @@ struct ContentView: View {
 			}
 		}
 	}
+
+    var dragGesture: some Gesture {												//let drag3				= DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
+		gestures()																//  .onChanged(cameraController.onDragChange(value:))
+    }																			//  .onEnded(  cameraController.onDragEnded(value:))
+
+	func gestures() -> some Gesture {
+		let drag 				= DragGesture(minimumDistance: 0)
+		  .onChanged(	{ drag in 	self.onDragEnded("Drag Changed")			})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
+		  .onEnded(		{ drag in 	self.onDragEnded("Drag Ended")		  		})
+		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
+		  .onChanged(	{ delta in	self.onDragEnded("Pinch Changed")	 		})
+		  .onEnded(		{ delta in 	self.onDragEnded("Pinch Ended")				})
+		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
+		  .onChanged(	{ delta in	self.onDragEnded("Rotation Changed")		})
+		  .onEnded(		{ delta in	self.onDragEnded("Rotation Ended")			})
+		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
+		  .onChanged(	{ _ 	in	self.onDragEnded("Press Changed")			})
+		  .onEnded(		{ delta in	self.onDragEnded("Press Ended")				})
+		let combinedGesture = drag
+		  .simultaneously(with: hackyPinch)
+		  .simultaneously(with: hackyRotation)
+		  .exclusively(before: hackyPress)
+		return combinedGesture
+	}
+	func onDragEnded(_ msg:String="") {	print("onDragEnded: \(msg)") }	// set state, process the last drag position we saw, etc
 }
