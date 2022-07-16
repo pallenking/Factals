@@ -34,55 +34,37 @@ struct ContentView: View {
 	@StateObject var dragonModel	= DragonModel()
 //	@StateObject var cameraController: SCNCameraController
 
-	func onDragEnded() {
-	 bug // set state, process the last drag position we saw, etc
+	func onDragEnded(_ msg:String="") {
+		print("onDragEnded: \(msg)")
+		// set state, process the last drag position we saw, etc
+	}
+	func gestures() -> some Gesture {
+//		let drag3				= DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
+//		  .onChanged(cameraController.onDragChange(value:))
+//		  .onEnded(  cameraController.onDragEnded(value:))
+		let drag 				= DragGesture(minimumDistance: 0)
+		  .onChanged(	{ drag in 	self.onDragEnded("Drag Changed")			})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
+		  .onEnded(		{ drag in 	self.onDragEnded("Drag Ended")		  		})
+		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
+		  .onChanged(	{ delta in	self.onDragEnded("Pinch Changed")	 		})
+		  .onEnded(		{ delta in 	self.onDragEnded("Pinch Ended")				})
+		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
+		  .onChanged(	{ delta in	self.onDragEnded("Rotation Changed")		})
+		  .onEnded(		{ delta in	self.onDragEnded("Rotation Ended")			})
+		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
+		  .onChanged(	{ _ 	in	self.onDragEnded("Press Changed")			})
+		  .onEnded(		{ delta in	self.onDragEnded("Press Ended")				})
+		let combinedGesture = drag
+		  .simultaneously(with: hackyPinch)
+		  .simultaneously(with: hackyRotation)
+		  .exclusively(before: hackyPress)
+		return combinedGesture
+//		/// The pinch and rotation may not be needed - in my case I don't but
+//		///   obviously this might be very dependent on what you want to achieve
 	}
 
     var dragGesture: some Gesture {
-//        DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
-//            .onChanged(cameraController.onDragChange(value:))
-//            .onEnded(cameraController.onDragEnded(value:))
-
-		DragGesture(minimumDistance: 0)
-//			  .onChanged({ drag in
-//			   // Do stuff with the drag - maybe record what the value is in case things get lost later on
-//			  })
-//			  .onEnded({ drag in
-//				self.onDragEnded()
-//			  })
-//
-//			 let hackyPinch = MagnificationGesture(minimumScaleDelta: 0.0)
-//			  .onChanged({ delta in
-//				self.onDragEnded()
-//			  })
-//			  .onEnded({ delta in
-//				self.onDragEnded()
-//			  })
-//
-//			let hackyRotation = RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))
-//			  .onChanged({ delta in
-//				self.onDragEnded()
-//			  })
-//			  .onEnded({ delta in
-//				self.onDragEnded()
-//			  })
-//
-//			let hackyPress = LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
-//			  .onChanged({ _ in
-//				self.onDragEnded()
-//			  })
-//			  .onEnded({ delta in
-//				self.onDragEnded()
-//			  })
-//
-//			let combinedGesture = drag
-//			  .simultaneously(with: hackyPinch)
-//			  .simultaneously(with: hackyRotation)
-//			  .exclusively(before: hackyPress)
-//
-//		/// The pinch and rotation may not be needed - in my case I don't but
-//		///   obviously this might be very dependent on what you want to achieve
-
+		gestures()
     }
 
 	var body: some View {
@@ -102,11 +84,10 @@ struct ContentView: View {
 							  .rendersContinuously,
 							  .temporalAntialiasingEnabled
 					],
-					preferredFramesPerSecond:10,
+					preferredFramesPerSecond:30,
 			 		//antialiasingMode:SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-					delegate:document.state.scene			// FwScene
-//					delegate:SCNSceneRendererDelegate?,
-//					technique:SCNTechnique?)
+					delegate:document.state.scene			// SCNSceneRendererDelegate
+//					technique:SCNTechnique?
 				)
 				 .gesture(dragGesture)
 				 .border(Color.black, width: 3)
