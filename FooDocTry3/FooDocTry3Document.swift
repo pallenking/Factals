@@ -10,11 +10,11 @@ import SceneKit
 import UniformTypeIdentifiers
 
 struct DocState {
-	var model	: RootPart
-	var scene	: FwScene
-	init(model:RootPart?, scene:FwScene?=nil) {
-		self.model				= model	?? RootPart([:])
-		self.scene				= scene	?? { fatalError()}()	//SCNNode(
+	var rootPart: RootPart
+	var fwScene	: FwScene
+	init(rootPart:RootPart?, fwScene:FwScene?=nil) {
+		self.rootPart				= rootPart	?? RootPart([:])
+		self.fwScene				= fwScene	?? { fatalError()}()	//SCNNode(
 	}
 }
 
@@ -25,7 +25,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 	init(state:DocState?=nil) {
 		self.state 				= state ?? { 		// state given
-			var scene			= FwScene(fwConfig:[:])					// A Part Tree
+			var fwScene			= FwScene(fwConfig:[:])					// A Part Tree
 
 			 // Generate a new document. Several Ways:
 			//	   selectionString+------FUNCTION-----------+-wantName:---wantNumber:
@@ -37,24 +37,24 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			let rootPart		= RootPart(fromLibrary:entry)
 			rootPart.wireAndGroom()
 
-			return DocState(model:rootPart, scene:scene)
+			return DocState(rootPart:rootPart, fwScene:fwScene)
 		}()
 		// Now self.state has full DocState, holding rootPart
-		self.state.model.fwDocument = self			// WHY IS THIS NEEDED?
+		self.state.rootPart.fwDocument = self			// WHY IS THIS NEEDED?
 
 		 // KNOWN EARLY
 		DOC						= self				// INSTALL FooDocTry3
-		let scene				= self.state.scene	// INSTALL SCNScene
+		let scene				= self.state.fwScene	// INSTALL SCNScene
 		let rootScn				= scene.rootScn		// INSTALL SCNNode
 
-		let rVew				= Vew(forPart:self.state.model, scn:rootScn)//.scene!.rootNode)
+		let rVew				= Vew(forPart:self.state.rootPart, scn:rootScn)//.scene!.rootNode)
 		scene.rootVew			= rVew			// INSTALL vew
 
 		rVew.updateVewTree()					// rootPart -> rootView, rootScn
 		//let x = rVew.pp(.tree)
 
 
-		state?.scene.addLightsAndCamera()
+		state?.fwScene.addLightsAndCamera()
 	}
 
 	/* ============== BEGIN FileDocument protocol: */
@@ -71,11 +71,11 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
-				let docState 		= DocState(model:rootPart, scene:FwScene(fwConfig:[:]))
+				let docState 		= DocState(rootPart:rootPart, fwScene:FwScene(fwConfig:[:]))
 			self.init(state:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:
 			let scene:FwScene?	= FwScene(data: data, encoding: .utf8)
-			let state0 			= DocState(model:RootPart(), scene:scene!)
+			let state0 			= DocState(rootPart:RootPart(), fwScene:scene!)
 			self.init(state:state0)				// -> FooDocTry3Document
 		default:
 			throw CocoaError(.fileWriteUnknown)
@@ -88,9 +88,9 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			//		let existingFile: FileWrapper?	// The file wrapper containing the current document content. nil if the document is unsaved.
 		switch configuration.contentType {
 		case .fooDocTry3:
-			return .init(regularFileWithContents:state.model.data!)
+			return .init(regularFileWithContents:state.rootPart.data!)
 		case .sceneKitScene:
-			return .init(regularFileWithContents:state.scene.data!)
+			return .init(regularFileWithContents:state.fwScene.data!)
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -190,7 +190,7 @@ bug//	if !DOCCTLR.documents.contains(self) {
 bug//	atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 		 // Scene:
 		if toParams4scene.count > 0 {
-			let scene			= state.scene
+			let scene			= state.fwScene
 			atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
 			scene.config4scene += toParams4scene
 		}

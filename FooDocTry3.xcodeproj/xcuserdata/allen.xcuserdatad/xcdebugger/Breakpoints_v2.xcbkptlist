@@ -1304,7 +1304,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "890FBA50-44AB-4223-A6FD-207D0FB34BA7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FooDocTry3/ControllerX/FwScene.swift"
@@ -1329,6 +1329,70 @@
             startingLineNumber = "626"
             endingLineNumber = "626"
             landmarkName = "renderer(_:updateAtTime:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9E3FDB66-D41D-4A41-AC79-D0943C0B44EB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "ContentView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "9E3FDB66-D41D-4A41-AC79-D0943C0B44EB - 9c369093e54f7244"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FooDocTry3.ContentView.onDragEnded(Swift.String) -&gt; ()"
+                  moduleName = "FooDocTry3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/Documents/Documents%20-%20allenM1/fooDocTry3/FooDocTry3/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "100">
+               </Location>
+               <Location
+                  uuid = "9E3FDB66-D41D-4A41-AC79-D0943C0B44EB - f1ac375cc54e7c7b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 0 of FooDocTry3.ContentView.onDragEnded(Swift.String) -&gt; ()"
+                  moduleName = "FooDocTry3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/Documents/Documents%20-%20allenM1/fooDocTry3/FooDocTry3/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A8052DD8-17CA-4D22-AEC7-EFC49BACF8DF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "gestures()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

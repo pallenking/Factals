@@ -372,14 +372,14 @@ func originMark(size:Float) -> SCNNode {		// was myGlJack3
 
 	let rv				= SCNComment("OriginMark(size:\(size))")
 
-	let originNameIndex = DOC.state.model.indexFor["origin"] ?? 1					// rv.name = fmt("o-%d", DOC.rootPart.originNameIndex)
-	DOC.state.model.indexFor["origin"] = originNameIndex + 1						// DOC.rootPart.originNameIndex += 1
+	let originNameIndex = DOC.state.rootPart.indexFor["origin"] ?? 1					// rv.name = fmt("o-%d", DOC.rootPart.originNameIndex)
+	DOC.state.rootPart.indexFor["origin"] = originNameIndex + 1						// DOC.rootPart.originNameIndex += 1
 	rv.name				= fmt("o-%d", originNameIndex)
- //	let model			= DOC.state.model
- //	rv.name				= fmt("o-%d", model.originNameIndex)
- //	model.originNameIndex += 1
-//	rv.name				= fmt("o-%d", model.originNameIndex)
-//	model.originNameIndex += 1
+ //	let rootPart			= DOC.state.rootPart
+ //	rv.name				= fmt("o-%d", rootPart.originNameIndex)
+ //	rootPart.originNameIndex += 1
+//	rv.name				= fmt("o-%d", rootPart.originNameIndex)
+//	rootPart.originNameIndex += 1
 	rv.geometry 		= SCNGeometry.lines(lines:indices, withPoints:vertices)
 	return rv
 }

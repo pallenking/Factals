@@ -280,7 +280,7 @@ bug
 			}
 		}
 		 // Print Simulator's time, if it has changed:
-		if let sim				= DOC?.state.model.simulator,
+		if let sim				= DOC?.state.rootPart.simulator,
 //		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
 		  simTimeLastLog != nil
 		{
@@ -350,7 +350,7 @@ bug
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
-//		if let curLockStr		= DOC?.state.model.rootVewOwner {
+//		if let curLockStr		= DOC?.state.rootPart.rootVewOwner {
 //bug	if let curLockStr		= DOC?.fwScene?.rootVewOwner {
 ////		if let curLockStr		= DOC?.fwScene?.rootVewOwner {
 //			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"

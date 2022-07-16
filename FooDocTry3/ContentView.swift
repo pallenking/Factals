@@ -27,14 +27,14 @@ struct ContentView: View {
 		//@State var dragOffset: CGSize = .zero
 		HStack {
 			VStack {
-				let rootPart:Part	=  document.state.model
-				let rootVew :Vew	=  document.state.scene.rootVew
-				let rootNode:SCNNode = document.state.scene.rootNode
+				let rootPart:Part	=  document.state.rootPart
+				let rootVew :Vew	=  document.state.fwScene.rootVew
+				let rootNode:SCNNode = document.state.fwScene.rootNode
 				let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 
 				SceneView(
-					scene: 		 document.state.scene,
-					pointOfView: document.state.scene.cameraNode,
+					scene: 		 document.state.fwScene,
+					pointOfView: document.state.fwScene.cameraNode,
 					options: [//.allowsCameraControl,
 							  .autoenablesDefaultLighting,
 							  .jitteringEnabled,
@@ -43,7 +43,7 @@ struct ContentView: View {
 					],
 					preferredFramesPerSecond:30,
 			 		//antialiasingMode:SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-					delegate:document.state.scene			// FwScene			// SCNSceneRendererDelegate
+					delegate:document.state.fwScene			// FwScene			// SCNSceneRendererDelegate
 					//technique:SCNTechnique?
 				)
 				 .gesture(gestures() )

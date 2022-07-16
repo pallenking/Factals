@@ -208,7 +208,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 	@objc func simulationTask() {
 		guard simBuilt				else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled			else {	return 								}
-		if let rp : RootPart	= DOC?.state.model  {
+		if let rp : RootPart	= DOC?.state.rootPart  {
 			guard rp.fwDocument != nil else {
 			
 			 return print("Simulating with sim\(ppUid(self)) root\(ppUid(rp)) fwDocument==nil") }

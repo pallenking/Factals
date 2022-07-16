@@ -412,12 +412,12 @@ bug//	doc?.fwView?.pointOfView = cameraNode
 		 let laStr				= config4scene.string("lookAt"),
 		  laStr != ""
 		{
-			let laPart 			= doc.state.model.find(path:Path(withName:laStr), inMe2:true)
+			let laPart 			= doc.state.rootPart.find(path:Path(withName:laStr), inMe2:true)
 //			let laPart 			= doc.rootPart.find(path:Path(withName:laStr), inMe2:true)
 			assertWarn(laPart != nil, "lookAt: '\(laStr)' failed to find part")
 			lookAtPart			= laPart ?? 				// from configure
 								  rootVew.child0?.part ??	// from rootVew child[0]
-								  doc.state.model			// from doc
+								  doc.state.rootPart			// from doc
 		}
 	}
 	 // MARK: - 9.C Mouse Rotator
@@ -552,7 +552,7 @@ bug//	if let nsRectSize		= rootPart.fwDocument?.fwView?.frame.size {
 			panic("rootPart.fwDocument is nil"); return							}
 
 		 // 1. Get LOCKS for PartTree and VewTree
-		guard	doc.state.model.lock(partTreeAs:lockStr) else {
+		guard	doc.state.rootPart.lock(partTreeAs:lockStr) else {
 //		guard	doc.rootPart.lock(partTreeAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get PART lock")		// or
 		}
@@ -589,7 +589,7 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 		atRve(6, logd("updateVewTree(needsViewLock:) completed"))
 
 		 // 5. Look At Node:
-/*x*/	lookAtPart				= lookAtPart ?? doc.state.model//rootPart
+/*x*/	lookAtPart				= lookAtPart ?? doc.state.rootPart//rootPart
 		if lookAtPart != nil {
 			lookAtVew 			= rootVew.find(part:lookAtPart!, inMe2:true)
 		}
@@ -601,7 +601,7 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 
 		// 6. UNLOCK PartTree and VewTree:
 		unlock(              rootVewAs:lockStr)
-		doc.state.model.unlock(partTreeAs:lockStr)
+		doc.state.rootPart.unlock(partTreeAs:lockStr)
 	}
 
 	// ///////////  SCNSceneRendererDelegate:  /////////////////////////////
@@ -721,21 +721,21 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 			nop
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			doc.state.model.forAllParts({	$0.markTree(dirty:.vew)		})
+			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.vew)		})
 			rootVew.updateVewTree()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			doc.state.model.forAllParts({	$0.markTree(dirty:.size)		})
+			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
 			rootVew.updateVewTree()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			doc.state.model.forAllParts({	$0.markTree(dirty:.paint)		})
+			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
 			rootVew.updateVewTree()
 		case "w":
 			print("\n******************** 'w': ==== FwScene Camera = [\(ppCam())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwScene: --> rootPart")
-			if doc.state.model.processKey(from:nsEvent, inVew:vew) {
+			if doc.state.rootPart.processKey(from:nsEvent, inVew:vew) {
 				print("ERROR: fwScene.Process('x') failed")
 			}
 			return true								// recognize both
