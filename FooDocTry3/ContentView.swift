@@ -22,21 +22,14 @@ struct ContentView: View {
 	@StateObject var dragonModel	= DragonModel()
 //	@StateObject var cameraController: SCNCameraController
 
-	let drag 					= DragGesture()
-	 .onChanged({ _ in       print("drag changed")        })
-//	let pinch 					= MagnificationGesture()
-//	 .onChanged({ _ in       print("pinch changed")        })
-//	let combinedGesture			= pinch.simultaneously(with: drag)
-//	@State private var show = false
-
-	var body: some View {
+	var body1: some View {
 		ZStack {
 			SceneView(scene:SCNScene(named:"art.scnassets/ship.scn"))
 			 .gesture(drag)
 		}
 	}
 
-	var body2: some View {
+	var body: some View {
 		//@GestureState var dragGestureActive: Bool = false
 		//@State var dragOffset: CGSize = .zero
 		HStack {
@@ -49,9 +42,9 @@ struct ContentView: View {
 				SceneView(
 					scene: 		 document.state.scene,
 					pointOfView: document.state.scene.cameraNode,
-					options: [.allowsCameraControl,
+					options: [//.allowsCameraControl,
 							  .autoenablesDefaultLighting,
-							//.jitteringEnabled,
+							  .jitteringEnabled,
 							  .rendersContinuously,
 							  .temporalAntialiasingEnabled
 					],
@@ -60,9 +53,8 @@ struct ContentView: View {
 					delegate:document.state.scene			// SCNSceneRendererDelegate
 					//technique:SCNTechnique?
 				)
-				 .gesture(dragGesture)
-				 .border(Color.black, width: 3)
-				// .frame(width:600, height:400)
+				 .gesture(gestures())
+				 .border(Color.black, width: 3)									// .frame(width:600, height:400)
 
 				HStack {
 					Spacer()
@@ -96,11 +88,6 @@ struct ContentView: View {
 			}
 		}
 	}
-
-    var dragGesture: some Gesture {												//let drag3				= DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
-		gestures()																//  .onChanged(cameraController.onDragChange(value:))
-    }																			//  .onEnded(  cameraController.onDragEnded(value:))
-
 	func gestures() -> some Gesture {
 		let drag 				= DragGesture(minimumDistance: 0)
 		  .onChanged(	{ drag in 	self.onDragEnded("Drag Changed")			})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
