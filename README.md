@@ -4,11 +4,11 @@
 1. Rename FooDocTry3 to SwiftFactals2
 2. How did you get to rev coparison
 3. Add testing infrastructure
+3. use URLComponents
 
 SCENEKIT Research
 1. pic hook
 2. keyboard hook
-
 
 20220713 FIXED 
 1. On main branch now push now says “no upstream branch”!Github.com’s got all but the last 6 local commits.  

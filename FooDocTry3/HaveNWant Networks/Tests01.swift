@@ -389,7 +389,7 @@ r("Box stackx 3", e + camera(s:5,u:5) + log(all:8), { Net([placeMy:"stackx -1 -1
 //	Box(			[n:"b", color:"orange", size:"1 1 1"]),
 //	Box(			[n:"c", color:"yellow", size:"1 4 1"]),
 ]]) })
-r("+ Splitters family portrait", eXYtight + ["ppXYZMaskX":7] + camera(s:45,u:10), { Net([placeMy:"stackx -1 0", parts:[
+xr("+ Splitters family portrait", eXYtight + ["ppXYZMaskX":7] + camera(s:45,u:10), { Net([placeMy:"stackx -1 0", parts:[
 	Broadcast(		[n:"a"]),		MaxOr(			[n:"b"]),
 	MinAnd(			[n:"c"]),		Bayes(			[n:"d"]),
 	Hamming(		[n:"e"]),		Multiply(		[n:"f"]),
@@ -1612,7 +1612,7 @@ r("+Gen 3 Bulbs", eSim + camera(s:90,u:0) + vel(-4) + log(eve:5, dat:5) +
 		[],
 		"again"]]),
 ]]) })
-xr("-bug struct['a']", eSim + eXYtight + camera(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
+xxr("-bug struct['a']", eSim + eXYtight + camera(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
 	Mirror([n:"a", P:"b,l:5"]),
 	Mirror([n:"b", "gain":-1, "offset":1, f:1]),
 ]]) })

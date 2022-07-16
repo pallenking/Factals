@@ -36,10 +36,10 @@ struct ContentView: View {
 					scene: 		 document.state.fwScene,
 					pointOfView: document.state.fwScene.cameraNode,
 					options: [//.allowsCameraControl,
-							  .autoenablesDefaultLighting,
-							  .jitteringEnabled,
-							  .rendersContinuously,
-							  .temporalAntialiasingEnabled
+//							  .autoenablesDefaultLighting,
+//							  .jitteringEnabled,
+//							  .rendersContinuously,
+//							  .temporalAntialiasingEnabled
 					],
 					preferredFramesPerSecond:30,
 			 		//antialiasingMode:SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,

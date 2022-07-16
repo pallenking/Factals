@@ -20,6 +20,10 @@ struct DocState {
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
+//	@IBOutlet weak
+//	 var fwView		: FwView?				// IB sets this
+	 var fwView		: SCNView?				// IB sets this
+
 	 // Model of a FooDocTry3Document:
 	var state : DocState
 

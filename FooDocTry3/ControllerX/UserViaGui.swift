@@ -38,34 +38,37 @@ bug//	let view				= DOC?.fwView
 		atEve(3, print("\t\t" + "** No Part FOUND\n"))
 		return nil
 	}
-	func findVew(at mouse:CGPoint) -> Vew? {
-		var msg					= "******************************************\n modelPic:\t"
-
-		 // Find the 3D Vew for the Part under the mouse:
-		let configHitTest : [SCNHitTestOption:Any]? = [
-			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-					FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
-					FwNodeCategory.byDefault.rawValue  ,
-			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-		  //.sortResults:1, 			// (implied)
-			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
-		]
-//bug;	return nil
-		//						 + +   + +
-//		let hits				= DOC.fwView?.hitTest(mouse, options:configHitTest) ?? []
-		//						 + +   + +
+//	func findVew(at mouse:CGPoint) -> Vew? {
+//		var msg					= "******************************************\n modelPic:\t"
+//
+//		 // Find the 3D Vew for the Part under the mouse:
+//		let configHitTest : [SCNHitTestOption:Any]? = [
+//			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+//			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+//			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
+//					FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
+//					FwNodeCategory.byDefault.rawValue  ,
+//			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+//		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+//		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+//			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+//		  //.sortResults:1, 			// (implied)
+//			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+//		]
+//bug;	let fwView				= DOC.fwView
+//		//return nil
+//		//						 + +   + +
+//		let hits:[SCNHitTestResult]	= fwView?.hitTest(mouse, options:configHitTest) ?? []
+//		//						 + +   + +
 //
 //		 // SELECT HIT; prefer any child to its parents:
 //		var rv					= rootVew			// Nothing hit -> root
-//		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
-//			if hits.count > 0 {
+//		if var pickedScn		= fwView?.trunkVew?.scn {	// pic trunkVew
+////		if var pickedScn		= fwView?.trunkVew?.scn {	// pic trunkVew
+//
+////			if hits.count > 0 {
 //				 // There is a HIT on a 3D object:
-//				let sortedHits	= hits.sorted { $0.node.deapth > $1.node.deapth }
+//				let sortedHits	= hits.sorted { $0.node.depth > $1.node.depth }
 //				pickedScn		= sortedHits[0].node // pic node with lowest deapth
 //				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
 //
@@ -90,17 +93,17 @@ bug//	let view				= DOC?.fwView
 //						let _	= vew
 //					}
 //				}
-//			}else{
-//				 // Background hit
-//				msg				+= "background -> trunkVew"
-//			}
-//		}else{
-//			print("trunkVew.scn nil")
+////			}else{
+////				 // Background hit
+////				msg				+= "background -> trunkVew"
+////			}
+////		}else{
+////			print("trunkVew.scn nil")
 //		}
 //		atEve(3, print("\n" + msg))
-//		return rv
-bug;	return nil
-	}
+////		return rv
+//bug;	return nil
+//	}
 
 
 //class FwView: SCNView {
