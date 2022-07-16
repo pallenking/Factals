@@ -64,6 +64,8 @@ class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 		}
 		fatalError("trunkVew is nil")
 	}
+	 // ///////// Part Tree:
+	var rootPart : RootPart		{	rootVew.part as! RootPart					}
 
 //	var cameraNode				= SCNNode()		// Creates 2D rendition
 	var pole					= SCNNode()		// focus of mouse rotator
@@ -670,7 +672,6 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
     func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {
 		panic("physicsWorld(_, didEnd:contact")
 	}
-	var rootPart : RootPart		{	rootVew.part as! RootPart					}
 	 // MARK: - 13. IBActions
 	 /// Prosses keyboard key
     /// - Parameter from: -- NSEvent to process
