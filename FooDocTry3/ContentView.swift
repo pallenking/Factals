@@ -22,13 +22,6 @@ struct ContentView: View {
 	@StateObject var dragonModel	= DragonModel()
 //	@StateObject var cameraController: SCNCameraController
 
-	var body1: some View {
-		ZStack {
-			SceneView(scene:SCNScene(named:"art.scnassets/ship.scn"))
-			 .gesture(drag)
-		}
-	}
-
 	var body: some View {
 		//@GestureState var dragGestureActive: Bool = false
 		//@State var dragOffset: CGSize = .zero
@@ -53,7 +46,7 @@ struct ContentView: View {
 					delegate:document.state.scene			// SCNSceneRendererDelegate
 					//technique:SCNTechnique?
 				)
-				 .gesture(gestures())
+				 .gesture(gestures() )
 				 .border(Color.black, width: 3)									// .frame(width:600, height:400)
 
 				HStack {
