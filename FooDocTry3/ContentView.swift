@@ -43,7 +43,7 @@ struct ContentView: View {
 					],
 					preferredFramesPerSecond:30,
 			 		//antialiasingMode:SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-					delegate:document.state.scene			// SCNSceneRendererDelegate
+					delegate:document.state.scene			// FwScene			// SCNSceneRendererDelegate
 					//technique:SCNTechnique?
 				)
 				 .gesture(gestures() )

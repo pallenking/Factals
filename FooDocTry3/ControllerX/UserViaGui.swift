@@ -9,9 +9,103 @@
 import SceneKit
 
 class UserViaGui {
+
+
+					  // ///////////////////////// //////////// //
+					 // ///                   /// //
+					// ///		 PIC         /// //
+				   // ///                   /// //
+	 // //////////// ///////////////////////// //
+	
+	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
+	/// - Parameter nsEvent: mouse down
+	/// - Returns: The Vew of the part pressed
+	func modelPic(with nsEvent:NSEvent) -> Vew?
+	{
+		 // CONVERT to window coordinates
+bug//	let view				= DOC?.fwView
+//		if let mouse 			= view?.convert(nsEvent.locationInWindow, from:view),
+//		   // SELECT 3D point from 2D position
+//		  let picdVew			= findVew(at:mouse)
+//		{
+//			 // DISPATCH to PART that was pic'ed
+//			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) == false {
+//				atEve(3, print("\t\t" + "\(picdVew.part.pp(.fullName)).processKey('') ignored\n"))
+//				return nil
+//			}
+//			return picdVew
+//		}
+		atEve(3, print("\t\t" + "** No Part FOUND\n"))
+		return nil
+	}
+	func findVew(at mouse:CGPoint) -> Vew? {
+		var msg					= "******************************************\n modelPic:\t"
+
+		 // Find the 3D Vew for the Part under the mouse:
+		let configHitTest : [SCNHitTestOption:Any]? = [
+			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
+					FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
+					FwNodeCategory.byDefault.rawValue  ,
+			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+		  //.sortResults:1, 			// (implied)
+			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+		]
+//bug;	return nil
+		//						 + +   + +
+//		let hits				= DOC.fwView?.hitTest(mouse, options:configHitTest) ?? []
+		//						 + +   + +
+//
+//		 // SELECT HIT; prefer any child to its parents:
+//		var rv					= rootVew			// Nothing hit -> root
+//		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
+//			if hits.count > 0 {
+//				 // There is a HIT on a 3D object:
+//				let sortedHits	= hits.sorted { $0.node.deapth > $1.node.deapth }
+//				pickedScn		= sortedHits[0].node // pic node with lowest deapth
+//				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+//
+//				 // If Node not picable,
+//				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+//				  let parent 	= pickedScn.parent 	// try its parent:
+//				{
+//					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
+//					pickedScn 	= parent				// use parent
+//					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
+//				}
+//				 // Got SCN, get its Vew
+//				if let cv		= trunkVew,
+//				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
+//				{
+//					rv			= vew
+//					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+//				}else{
+//					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
+//					if let cv	= trunkVew,				// for debug only
+//					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
+//						let _	= vew
+//					}
+//				}
+//			}else{
+//				 // Background hit
+//				msg				+= "background -> trunkVew"
+//			}
+//		}else{
+//			print("trunkVew.scn nil")
+//		}
+//		atEve(3, print("\n" + msg))
+//		return rv
+bug;	return nil
+	}
+
+
 //class FwView: SCNView {
-																				 // MARK: - 2. Object Variables:
-																				 //\\\///\\\///\\\  SCNView conforms to SCNSceneRenderer:
+// MARK: - 2. Object Variables:
+//\\\///\\\///\\\  SCNView conforms to SCNSceneRenderer:
 																				 //\\\ SCNView.sceneTime					-
 																				 //\\\ SCNView.autoenablesDefaultLighting	-
 																				 //\\\ SCNView.hitTest:options:				***
@@ -95,28 +189,29 @@ class UserViaGui {
 //		isAutoRepeat 		= false
 //		let _ 				= DOC?.processKey(from:nsEvent, inVew:nil)
 //	}
-//
-//	// ///////////////////////////////////////
-//	//
-//	//			M   M  OO  U  U  SSS EEEE
-//	//			MM MM O  O U  U S    E
-//	//			M M M O  O U  U  SS  EEE
-//	//			M   M O  O U  U    S E
-//	//			M   M  OO   UU  SSS  EEEE
-//	//
-//	// ///////////////////////////////////////
-//	 // MARK: - 13.2 Mouse
-//	//  ====== LEFT MOUSE ======
-//	let nsTrackPad				= true//false//
-//	let duration				= Float(1)
-//	var mouseWasDragged			= false
-//	override func mouseDown(with nsEvent:NSEvent) {
-//		motionFromLastEvent(with:nsEvent)
-//		if !nsTrackPad  {					// 3-button Mouse
+
+	// ///////////////////////////////////////
+	//
+	//			M   M  OO  U  U  SSS EEEE
+	//			MM MM O  O U  U S    E
+	//			M M M O  O U  U  SS  EEE
+	//			M   M O  O U  U    S E
+	//			M   M  OO   UU  SSS  EEEE
+	//
+	// ///////////////////////////////////////
+	 // MARK: - 13.2 Mouse
+	//  ====== LEFT MOUSE ======
+	let nsTrackPad				= true//false//
+	let duration				= Float(1)
+	var mouseWasDragged			= false
+	func mouseDown(with nsEvent:NSEvent) {
+		motionFromLastEvent(with:nsEvent)
+bug
+		if !nsTrackPad  {					// 3-button Mouse
 //			let _				= fwScene?.modelPic(with:nsEvent)
-//		}
+		}
 //		fwScene?.updateCameraRotator(for:"Left mouseDown", overTime:duration)
-//	}
+	}
 //	override func mouseDragged(with nsEvent:NSEvent) {
 //		if nsTrackPad  {					// Trackpad
 //			motionFromLastEvent(with:nsEvent)
@@ -162,10 +257,10 @@ class UserViaGui {
 //		fwScene?.cameraZoom		*= delta
 //		fwScene?.updateCameraRotator(for:"Scroll Wheel")
 //	}
-//
-//	 // MARK: - 13.4 Mouse Variables
-//	func motionFromLastEvent(with nsEvent:NSEvent) {
-//		let delt2d :CGPoint		= convert(nsEvent.locationInWindow, from: nil)//nil=screen
+
+	 // MARK: - 13.4 Mouse Variables
+	func motionFromLastEvent(with nsEvent:NSEvent) {
+bug//		let delt2d :CGPoint		= convert(nsEvent.locationInWindow, from: nil)//nil=screen
 //		// convert(_ point: NSPoint, from view: NSView?) -> NSPoint
 //
 //		let eventPosn			= SCNVector3(delt2d.x, delt2d.y, 0)		// BAD: unprojectPoint(
@@ -173,11 +268,11 @@ class UserViaGui {
 //		let prevPosn : SCNVector3 = lastPosition ?? eventPosn
 //		deltaPosition			= eventPosn - prevPosn
 //		lastPosition			= eventPosn
-//	}
-//
-//	var lastPosition : SCNVector3? = nil				// spot cursor hit
-//	var deltaPosition			= SCNVector3.zero
-//
+	}
+
+	var lastPosition : SCNVector3? = nil				// spot cursor hit
+	var deltaPosition			= SCNVector3.zero
+
 //	func spinNUp(with nsEvent:NSEvent) {
 //		fwScene!.cameraPoleSpin	 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 //		fwScene!.cameraHorizonUp += deltaPosition.y  * 0.2	// * self.cameraZoom/10.0

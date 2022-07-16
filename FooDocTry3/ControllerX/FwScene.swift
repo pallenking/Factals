@@ -718,7 +718,6 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 			guard write(to:fileURL, delegate:nil) == false else {
 				fatalError("writing dumpSCN.\(suffix) failed")
 			}
-//			assert(write(to:fileURL, delegate:nil), "writing dumpSCN.\(suffix) failed")
 			nop
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
@@ -766,96 +765,96 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 		}
 		return true					// comes here if recognized
 	}
-
-					  // ///////////////////////// //////////// //
-					 // ///                   /// //
-					// ///		 PIC         /// //
-				   // ///                   /// //
-	 // //////////// ///////////////////////// //
-	
-	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
-	/// - Parameter nsEvent: mouse down
-	/// - Returns: The Vew of the part pressed
-	func modelPic(with nsEvent:NSEvent) -> Vew?
-	{
-		 // CONVERT to window coordinates
-bug//	let view				= DOC?.fwView
-//		if let mouse 			= view?.convert(nsEvent.locationInWindow, from:view),
-//		   // SELECT 3D point from 2D position
-//		  let picdVew			= findVew(at:mouse)
-//		{
-//			 // DISPATCH to PART that was pic'ed
-//			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) == false {
-//				atEve(3, print("\t\t" + "\(picdVew.part.pp(.fullName)).processKey('') ignored\n"))
-//				return nil
-//			}
-//			return picdVew
-//		}
-		atEve(3, print("\t\t" + "** No Part FOUND\n"))
-		return nil
-	}
-	func findVew(at mouse:CGPoint) -> Vew? {
-		var msg					= "******************************************\n modelPic:\t"
-
-		 // Find the 3D Vew for the Part under the mouse:
-		let configHitTest : [SCNHitTestOption:Any]? = [
-			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-					FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
-					FwNodeCategory.byDefault.rawValue  ,		
-			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-		  //.sortResults:1, 			// (implied)
-			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
-		]
-bug;	return nil
-//		//						 + +   + +
-//		let hits				= DOC.fwView?.hitTest(mouse, options:configHitTest) ?? []
-//		//						 + +   + +
 //
-//		 // SELECT HIT; prefer any child to its parents:
-//		var rv					= rootVew			// Nothing hit -> root
-//		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
-//			if hits.count > 0 {
-//				 // There is a HIT on a 3D object:
-//				let sortedHits	= hits.sorted { $0.node.deapth > $1.node.deapth }
-//				pickedScn		= sortedHits[0].node // pic node with lowest deapth
-//				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+//														  // ///////////////////////// //////////// //
+//														 // ///                   /// //
+//														// ///		 PIC         /// //
+//													   // ///                   /// //
+//										 // //////////// ///////////////////////// //
+//										
+//										/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
+//										/// - Parameter nsEvent: mouse down
+//										/// - Returns: The Vew of the part pressed
+//										func modelPic(with nsEvent:NSEvent) -> Vew?
+//										{
+//											 // CONVERT to window coordinates
+//									bug//	let view				= DOC?.fwView
+//									//		if let mouse 			= view?.convert(nsEvent.locationInWindow, from:view),
+//									//		   // SELECT 3D point from 2D position
+//									//		  let picdVew			= findVew(at:mouse)
+//									//		{
+//									//			 // DISPATCH to PART that was pic'ed
+//									//			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) == false {
+//									//				atEve(3, print("\t\t" + "\(picdVew.part.pp(.fullName)).processKey('') ignored\n"))
+//									//				return nil
+//									//			}
+//									//			return picdVew
+//									//		}
+//											atEve(3, print("\t\t" + "** No Part FOUND\n"))
+//											return nil
+//										}
+//										func findVew(at mouse:CGPoint) -> Vew? {
+//											var msg					= "******************************************\n modelPic:\t"
 //
-//				 // If Node not picable,
-//				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-//				  let parent 	= pickedScn.parent 	// try its parent:
-//				{
-//					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
-//					pickedScn 	= parent				// use parent
-//					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
-//				}
-//				 // Got SCN, get its Vew
-//				if let cv		= trunkVew,
-//				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
-//				{
-//					rv			= vew
-//					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
-//				}else{
-//					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
-//					if let cv	= trunkVew,				// for debug only
-//					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
-//						let _	= vew
-//					}
-//				}
-//			}else{
-//				 // Background hit
-//				msg				+= "background -> trunkVew"
-//			}
-//		}else{
-//			print("trunkVew.scn nil")
-//		}
-//		atEve(3, print("\n" + msg))
-//		return rv
-	}
+//											 // Find the 3D Vew for the Part under the mouse:
+//											let configHitTest : [SCNHitTestOption:Any]? = [
+//												.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+//												.boundingBoxOnly	:false,	// search for objects by bounding box only.
+//												.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
+//														FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
+//														FwNodeCategory.byDefault.rawValue  ,		
+//												.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+//											  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+//											  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+//												.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+//											  //.sortResults:1, 			// (implied)
+//												.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+//											]
+//									bug;	return nil
+//									//		//						 + +   + +
+//									//		let hits				= DOC.fwView?.hitTest(mouse, options:configHitTest) ?? []
+//									//		//						 + +   + +
+//									//
+//									//		 // SELECT HIT; prefer any child to its parents:
+//									//		var rv					= rootVew			// Nothing hit -> root
+//									//		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
+//									//			if hits.count > 0 {
+//									//				 // There is a HIT on a 3D object:
+//									//				let sortedHits	= hits.sorted { $0.node.deapth > $1.node.deapth }
+//									//				pickedScn		= sortedHits[0].node // pic node with lowest deapth
+//									//				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+//									//
+//									//				 // If Node not picable,
+//									//				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+//									//				  let parent 	= pickedScn.parent 	// try its parent:
+//									//				{
+//									//					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
+//									//					pickedScn 	= parent				// use parent
+//									//					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
+//									//				}
+//									//				 // Got SCN, get its Vew
+//									//				if let cv		= trunkVew,
+//									//				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
+//									//				{
+//									//					rv			= vew
+//									//					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+//									//				}else{
+//									//					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
+//									//					if let cv	= trunkVew,				// for debug only
+//									//					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
+//									//						let _	= vew
+//									//					}
+//									//				}
+//									//			}else{
+//									//				 // Background hit
+//									//				msg				+= "background -> trunkVew"
+//									//			}
+//									//		}else{
+//									//			print("trunkVew.scn nil")
+//									//		}
+//									//		atEve(3, print("\n" + msg))
+//									//		return rv
+//										}
 	
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
