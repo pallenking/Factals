@@ -1,6 +1,6 @@
 #  FooDocTry3 README
 
-1. Why is SwiftFactals repository listed after drag; how are SF and FDT3 linked? 
+1. After drag from SF to FDT3, it seems SF and FDT3 are linked! why?
 1. Rename FooDocTry3 to SwiftFactals2
 2. How did you get to rev coparison
 3. Add testing infrastructure
