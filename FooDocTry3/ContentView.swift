@@ -82,30 +82,29 @@ struct ContentView: View {
 		}
 	}
 	func gestures() -> some Gesture {
-		let drag 				= DragGesture(minimumDistance: 0)
-		  .onChanged(	{ drag in 	self.onDragEnded("Drag Changed \(drag)")	})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
-		  .onEnded(		{ drag in 	self.onDragEnded("Drag Ended \(drag)")		})
-		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
-		  .onChanged(	{ delta in	self.onDragEnded("Pinch Changed \(delta)")	})
-		  .onEnded(		{ delta in 	self.onDragEnded("Pinch Ended \(delta)")	})
+//		let drag 				= DragGesture(minimumDistance: 0)
+//		  .onChanged(	{ drag in 	self.onDragEnded("Drag Changed \(drag)")	})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
+//		  .onEnded(		{ drag in 	self.onDragEnded("Drag Ended \(drag)")		})
+//		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
+//		  .onChanged(	{ delta in	self.onDragEnded("Pinch Changed \(delta)")	})
+//		  .onEnded(		{ delta in 	self.onDragEnded("Pinch Ended \(delta)")	})
 		let tap1				= TapGesture(count:1)
 		  .onEnded(		{ delta in 	self.onDragEnded("Tap1 Ended \(delta)")	})
-		let tap2				= TapGesture(count:2)
-		  .onEnded(		{ delta in 	self.onDragEnded("Tap2 Ended \(delta)")	})
-
-		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
-		  .onChanged(	{ delta in	self.onDragEnded("Rotation Changed \(delta)")})
-		  .onEnded(		{ delta in	self.onDragEnded("Rotation Ended \(delta)")	})
-		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
-		  .onChanged(	{ delta in	self.onDragEnded("Press Changed \(delta)")	})
-		  .onEnded(		{ delta in	self.onDragEnded("Press Ended \(delta)")	})
-		let combinedGesture = drag
-		  .simultaneously(with: hackyPinch)
-		  .simultaneously(with: hackyRotation)
-		  .simultaneously(with: tap1)
-		  .simultaneously(with: tap2)
-//		  .exclusively(before: hackyPress)
-		return combinedGesture
+//		let tap2				= TapGesture(count:2)
+//		  .onEnded(		{ delta in 	self.onDragEnded("Tap2 Ended \(delta)")	})
+//		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
+//		  .onChanged(	{ delta in	self.onDragEnded("Rotation Changed \(delta)")})
+//		  .onEnded(		{ delta in	self.onDragEnded("Rotation Ended \(delta)")	})
+//		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
+//		  .onChanged(	{ delta in	self.onDragEnded("Press Changed \(delta)")	})
+//		  .onEnded(		{ delta in	self.onDragEnded("Press Ended \(delta)")	})
+//		let combinedGesture = drag
+//		  .simultaneously(with: hackyPinch)
+//		  .simultaneously(with: hackyRotation)
+//		  .simultaneously(with: tap1)
+//		  .simultaneously(with: tap2)
+////		  .exclusively(before: hackyPress)
+		return tap1//combinedGesture
 	}
 	func onDragEnded(_ msg:String="") {	print("onDragEnded: \(msg)") }	// set state, process the last drag position we saw, etc
 }

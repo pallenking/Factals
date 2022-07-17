@@ -1342,10 +1342,10 @@
             filePath = "FooDocTry3/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "ContentView"
-            landmarkType = "14">
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "gestures()"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "9E3FDB66-D41D-4A41-AC79-D0943C0B44EB - 9c369093e54f7244"
