@@ -15,9 +15,7 @@
 		9F0295DD288092F800DD0004 /* SCNVector9XCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DC288092F800DD0004 /* SCNVector9XCTest.swift */; };
 		9F0295DF2880932200DD0004 /* CG++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DE2880932200DD0004 /* CG++.swift */; };
 		9F0295E52880936400DD0004 /* SwiftTryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295E42880936400DD0004 /* SwiftTryCatch.m */; };
-		9F0295E92880968700DD0004 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295E72880964300DD0004 /* Part.swift */; };
-		9F0295EC2880972600DD0004 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295EA288096D800DD0004 /* Fw++.swift */; };
-		9F0295EE2880979500DD0004 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295ED2880979500DD0004 /* Atom.swift */; };
+		9F0295EE2880979500DD0004 /* Atom0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295ED2880979500DD0004 /* Atom0.swift */; };
 		9F1900E628808DA80078DB6C /* EnumTypesFoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */; };
 		9F1900F828808DC10078DB6C /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
 		9F1900F928808DC10078DB6C /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
@@ -31,7 +29,6 @@
 		9F19010128808DC10078DB6C /* FwBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F128808DC00078DB6C /* FwBundle.swift */; };
 		9F19010228808DC10078DB6C /* EditNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F228808DC00078DB6C /* EditNet.swift */; };
 		9F19010328808DC10078DB6C /* Leaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F328808DC00078DB6C /* Leaf.swift */; };
-		9F19010428808DC10078DB6C /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F428808DC00078DB6C /* Net.swift */; };
 		9F19010528808DC10078DB6C /* GenAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F528808DC00078DB6C /* GenAtom.swift */; };
 		9F19010628808DC10078DB6C /* ConvPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* ConvPort.swift */; };
 		9F19010728808DC10078DB6C /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F728808DC10078DB6C /* Tunnel.swift */; };
@@ -47,12 +44,14 @@
 		9F190120288090240078DB6C /* Jnspec.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F190116288090240078DB6C /* Jnspec.storyboard */; };
 		9F190121288090240078DB6C /* LinkVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190117288090240078DB6C /* LinkVew.swift */; };
 		9F190122288090240078DB6C /* InspecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190118288090240078DB6C /* InspecBase.swift */; };
-		9F190123288090240078DB6C /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190119288090240078DB6C /* Vew.swift */; };
 		9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011A288090240078DB6C /* GeneralSettingsView.swift */; };
 		9F190125288090240078DB6C /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F3510692882F4700096B223 /* UserViaGui.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3510682882F4700096B223 /* UserViaGui.swift */; };
+		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
+		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
+		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9FA1BA5B2881950000B14D60 /* Bogus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA1BA5A2881950000B14D60 /* Bogus.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
@@ -106,9 +105,8 @@
 		9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MachineTrap.h"; sourceTree = "<group>"; };
 		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F0295E42880936400DD0004 /* SwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftTryCatch.m; sourceTree = "<group>"; };
-		9F0295E72880964300DD0004 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Part.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Part.swift; sourceTree = "<group>"; };
-		9F0295EA288096D800DD0004 /* Fw++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Fw++.swift"; path = "../../../SwiftFactals/SwiftFactals/Extensions ++/Fw++.swift"; sourceTree = "<group>"; };
-		9F0295ED2880979500DD0004 /* Atom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Atom.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Atom.swift; sourceTree = "<group>"; };
+		9F0295EA288096D800DD0004 /* Fw++0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Fw++0.swift"; path = "../../../SwiftFactals/SwiftFactals/Extensions ++/Fw++0.swift"; sourceTree = "<group>"; };
+		9F0295ED2880979500DD0004 /* Atom0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Atom0.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Atom0.swift; sourceTree = "<group>"; };
 		9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTypesFoo.swift; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -122,7 +120,7 @@
 		9F1900F128808DC00078DB6C /* FwBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwBundle.swift; sourceTree = "<group>"; };
 		9F1900F228808DC00078DB6C /* EditNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNet.swift; sourceTree = "<group>"; };
 		9F1900F328808DC00078DB6C /* Leaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaf.swift; sourceTree = "<group>"; };
-		9F1900F428808DC00078DB6C /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Net.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Net.swift; sourceTree = "<group>"; };
+		9F1900F428808DC00078DB6C /* Net0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Net0.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Net0.swift; sourceTree = "<group>"; };
 		9F1900F528808DC00078DB6C /* GenAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenAtom.swift; sourceTree = "<group>"; };
 		9F1900F628808DC00078DB6C /* ConvPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvPort.swift; sourceTree = "<group>"; };
 		9F1900F728808DC10078DB6C /* Tunnel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tunnel.swift; sourceTree = "<group>"; };
@@ -138,13 +136,14 @@
 		9F190116288090240078DB6C /* Jnspec.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Jnspec.storyboard; sourceTree = "<group>"; };
 		9F190117288090240078DB6C /* LinkVew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkVew.swift; sourceTree = "<group>"; };
 		9F190118288090240078DB6C /* InspecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecBase.swift; sourceTree = "<group>"; };
-		9F190119288090240078DB6C /* Vew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vew.swift; path = ../../../SwiftFactals/SwiftFactals/Vew/Vew.swift; sourceTree = "<group>"; };
+		9F190119288090240078DB6C /* Vew0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vew0.swift; path = ../../../SwiftFactals/SwiftFactals/Vew/Vew0.swift; sourceTree = "<group>"; };
 		9F19011A288090240078DB6C /* GeneralSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		9F19011B288090240078DB6C /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F3510682882F4700096B223 /* UserViaGui.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViaGui.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9F4A3AD9288B386300574925 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		9FA1BA5A2881950000B14D60 /* Bogus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bogus.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
@@ -187,7 +186,6 @@
 		9FEE6F2B283C239000E9E2AE /* Dragon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon.swift; sourceTree = "<group>"; };
 		9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene++.swift"; sourceTree = "<group>"; };
 		9FEE6FD72841A70E00E9E2AE /* Vew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vew.swift; sourceTree = "<group>"; };
-		9FEE6FD82841A70F00E9E2AE /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		9FEE70A8284318B500E9E2AE /* SCNNode++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode++.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -217,7 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */,
-				9F1900F428808DC00078DB6C /* Net.swift */,
+				9F1900F428808DC00078DB6C /* Net0.swift */,
 				9FEE52242875F84F00C8C22A /* Net.swift */,
 				9F1900E828808DC00078DB6C /* Actor.swift */,
 				9F1900F228808DC00078DB6C /* EditNet.swift */,
@@ -234,15 +232,14 @@
 				9F19010828808E890078DB6C /* SoundAtom.swift */,
 				9FEE52282876023A00C8C22A /* CommonAtoms.swift */,
 				9F19010A28808EC90078DB6C /* Splitter.swift */,
-				9F0295ED2880979500DD0004 /* Atom.swift */,
+				9F0295ED2880979500DD0004 /* Atom0.swift */,
 				9FEE52262875FEE200C8C22A /* Atom.swift */,
 				9F19010C28808EE70078DB6C /* Share.swift */,
 				9F19010E28808EF80078DB6C /* MultiPort.swift */,
 				9F19011028808F070078DB6C /* Port.swift */,
 				9FEE522A287602B400C8C22A /* CommonParts.swift */,
 				9F19CA34285EB0730072C50E /* RootPart.swift */,
-				9F0295E72880964300DD0004 /* Part.swift */,
-				9FEE6FD82841A70F00E9E2AE /* Part.swift */,
+				9F4A3AD9288B386300574925 /* Part.swift */,
 				9FEE51A4286B958700C8C22A /* PolyWrap.swift */,
 				9FEE519E286B507500C8C22A /* SubPart.swift */,
 			);
@@ -260,7 +257,7 @@
 		9FEE519C286B4EDF00C8C22A /* VewX */ = {
 			isa = PBXGroup;
 			children = (
-				9F190119288090240078DB6C /* Vew.swift */,
+				9F190119288090240078DB6C /* Vew0.swift */,
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F190115288090240078DB6C /* InspecParts.swift */,
@@ -361,7 +358,7 @@
 				9FEE52202874AB7300C8C22A /* Path.swift */,
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 				9F0295DA2880928600DD0004 /* FwTypes.swift */,
-				9F0295EA288096D800DD0004 /* Fw++.swift */,
+				9F0295EA288096D800DD0004 /* Fw++0.swift */,
 				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
@@ -476,17 +473,16 @@
 				9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */,
 				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
+				9F4A3ADB288B396800574925 /* Fw++.swift in Sources */,
 				9F190121288090240078DB6C /* LinkVew.swift in Sources */,
 				9F1900FB28808DC10078DB6C /* Previous.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
-				9F19010428808DC10078DB6C /* Net.swift in Sources */,
 				9F1900E628808DA80078DB6C /* EnumTypesFoo.swift in Sources */,
 				9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */,
 				9FEE52232874D9A100C8C22A /* NSColor++.swift in Sources */,
 				9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */,
 				9F19010128808DC10078DB6C /* FwBundle.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
-				9F0295EC2880972600DD0004 /* Fw++.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */,
 				9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */,
@@ -514,19 +510,20 @@
 				9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */,
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,
-				9F190123288090240078DB6C /* Vew.swift in Sources */,
 				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,
 				9F19010328808DC10078DB6C /* Leaf.swift in Sources */,
 				9F3510692882F4700096B223 /* UserViaGui.swift in Sources */,
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
+				9F4A3ADA288B386300574925 /* Part.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwScene.swift in Sources */,
+				9F96952F288B3B2800106DBC /* Net.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,
 				9F0295D82880926D00DD0004 /* Self++.swift in Sources */,
 				9F19011128808F070078DB6C /* Port.swift in Sources */,
 				9FA1BA5B2881950000B14D60 /* Bogus.swift in Sources */,
 				9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */,
-				9F0295EE2880979500DD0004 /* Atom.swift in Sources */,
+				9F0295EE2880979500DD0004 /* Atom0.swift in Sources */,
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
@@ -534,7 +531,6 @@
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,
 				9F0295D92880926D00DD0004 /* Event.swift in Sources */,
-				9F0295E92880968700DD0004 /* Part.swift in Sources */,
 				9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
