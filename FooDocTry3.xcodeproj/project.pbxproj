@@ -52,6 +52,7 @@
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
 		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
+		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9FA1BA5B2881950000B14D60 /* Bogus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA1BA5A2881950000B14D60 /* Bogus.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
@@ -105,7 +106,6 @@
 		9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MachineTrap.h"; sourceTree = "<group>"; };
 		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F0295E42880936400DD0004 /* SwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftTryCatch.m; sourceTree = "<group>"; };
-		9F0295EA288096D800DD0004 /* Fw++0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Fw++0.swift"; path = "../../../SwiftFactals/SwiftFactals/Extensions ++/Fw++0.swift"; sourceTree = "<group>"; };
 		9F0295ED2880979500DD0004 /* Atom0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Atom0.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Atom0.swift; sourceTree = "<group>"; };
 		9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTypesFoo.swift; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
@@ -120,7 +120,6 @@
 		9F1900F128808DC00078DB6C /* FwBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwBundle.swift; sourceTree = "<group>"; };
 		9F1900F228808DC00078DB6C /* EditNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNet.swift; sourceTree = "<group>"; };
 		9F1900F328808DC00078DB6C /* Leaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaf.swift; sourceTree = "<group>"; };
-		9F1900F428808DC00078DB6C /* Net0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Net0.swift; path = ../../../SwiftFactals/SwiftFactals/Model/Net0.swift; sourceTree = "<group>"; };
 		9F1900F528808DC00078DB6C /* GenAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenAtom.swift; sourceTree = "<group>"; };
 		9F1900F628808DC00078DB6C /* ConvPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvPort.swift; sourceTree = "<group>"; };
 		9F1900F728808DC10078DB6C /* Tunnel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tunnel.swift; sourceTree = "<group>"; };
@@ -136,7 +135,6 @@
 		9F190116288090240078DB6C /* Jnspec.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Jnspec.storyboard; sourceTree = "<group>"; };
 		9F190117288090240078DB6C /* LinkVew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkVew.swift; sourceTree = "<group>"; };
 		9F190118288090240078DB6C /* InspecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecBase.swift; sourceTree = "<group>"; };
-		9F190119288090240078DB6C /* Vew0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vew0.swift; path = ../../../SwiftFactals/SwiftFactals/Vew/Vew0.swift; sourceTree = "<group>"; };
 		9F19011A288090240078DB6C /* GeneralSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		9F19011B288090240078DB6C /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 			isa = PBXGroup;
 			children = (
 				9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */,
-				9F1900F428808DC00078DB6C /* Net0.swift */,
 				9FEE52242875F84F00C8C22A /* Net.swift */,
 				9F1900E828808DC00078DB6C /* Actor.swift */,
 				9F1900F228808DC00078DB6C /* EditNet.swift */,
@@ -257,7 +254,6 @@
 		9FEE519C286B4EDF00C8C22A /* VewX */ = {
 			isa = PBXGroup;
 			children = (
-				9F190119288090240078DB6C /* Vew0.swift */,
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F190115288090240078DB6C /* InspecParts.swift */,
@@ -358,7 +354,6 @@
 				9FEE52202874AB7300C8C22A /* Path.swift */,
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
 				9F0295DA2880928600DD0004 /* FwTypes.swift */,
-				9F0295EA288096D800DD0004 /* Fw++0.swift */,
 				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
@@ -459,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F969530288B3DF500106DBC /* Vew.swift in Sources */,
 				9FEE51BC286BAF2E00C8C22A /* SCNGeometry++.swift in Sources */,
 				9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */,
 				9FEE51B3286BA57A00C8C22A /* Proto.swift in Sources */,
