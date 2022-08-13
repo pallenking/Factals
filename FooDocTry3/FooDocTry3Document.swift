@@ -21,8 +21,7 @@ struct DocState {
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 //	@IBOutlet weak
-//	 var fwView		: FwView?				// IB sets this
-	 var fwView		: SCNView?				// IB sets this
+	 var fwView		: FwView?	//SCNView?		// IB sets this
 
 	 // Model of a FooDocTry3Document:
 	var state : DocState
@@ -54,7 +53,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		let rVew				= Vew(forPart:self.state.rootPart, scn:rootScn)//.scene!.rootNode)
 		scene.rootVew			= rVew			// INSTALL vew
 
-		rVew.updateVewTree()					// rootPart -> rootView, rootScn
+		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
 		//let x = rVew.pp(.tree)
 
 

@@ -573,9 +573,9 @@ bug//	if let nsRectSize		= rootPart.fwDocument?.fwView?.frame.size {
 		rootScn.name			= "*-ROOT"
 		assert(rootScn.children.count == 0, "should have been made with no children")	//rootScn.removeAllChildren()
 
-bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
-//		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
-//		doc.fwView?.isPlaying	= true		// WTF??
+		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
+		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
+		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add supporting Actors to scene
 		updateCamera()
@@ -585,8 +585,8 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 		}
 
 		 // 4. Update Vew Tree
-/**/	rootVew.updateVewTree(needsViewLock:nil)
-		atRve(6, logd("updateVewTree(needsViewLock:) completed"))
+/**/	rootVew.updateVewSizePaint(needsViewLock:nil)
+		atRve(6, logd("updateVewSizePaint(needsViewLock:) completed"))
 
 		 // 5. Look At Node:
 /*x*/	lookAtPart				= lookAtPart ?? doc.state.rootPart//rootPart
@@ -625,8 +625,8 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
 		DispatchQueue.main.async {
 			r.isPlaying			= true
-			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewTree"))
-			self.rootVew.updateVewTree(needsViewLock:"renderLoop", logIf:false)		//false//true
+			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+			self.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
 		}
 	}
 	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
@@ -722,15 +722,15 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.vew)		})
-			rootVew.updateVewTree()
+			rootVew.updateVewSizePaint()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
-			rootVew.updateVewTree()
+			rootVew.updateVewSizePaint()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
-			rootVew.updateVewTree()
+			rootVew.updateVewSizePaint()
 		case "w":
 			print("\n******************** 'w': ==== FwScene Camera = [\(ppCam())]\n")
 		case "x":
@@ -876,7 +876,7 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 //		atAni(5, part.logg("Removed old Vew '\(vew.fullName)' and its SCNNode"))
 //		vew.scn.removeFromParent()
 //		vew.removeFromParent()
-//		updateVewTree(needsLock:"toggelOpen4")
+//		updateVewSizePaint(needsLock:"toggelOpen4")
 //
 //		// ===== Release Locks for two resources, in reverse order: =========
 //		unlock(            rootVewAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
@@ -896,7 +896,7 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 //			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
 //
 //			 //*******// Imprint animation parameters JUST BEFORE start:
-//			updateVewTree()				// Update SCN's at START of animation
+//			updateVewSizePaint()				// Update SCN's at START of animation
 //			 //*******//
 //
 //			 // Animate Vew morph, from self to newVew:
@@ -922,7 +922,7 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 //				oldScn.removeFromParent()
 //				vew.removeFromParent()
 //				//*******//
-//				self.updateVewTree()	// Imprint AFTER animation
+//				self.updateVewSizePaint()	// Imprint AFTER animation
 //				//*******//	// //// wants a third animatio	qn (someday):
 //			}
 //			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
@@ -948,11 +948,11 @@ bug//	doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 	//		 /// Imprint Initial Vew, before newScn has non-zero size
 	//		viewNew.scn.scale 	= xPct//.zero
 	//		self   .scn.scale 	= .unity
-	//		fws.updateVewTree(needsLock:"toggelOpen5")	//\\//\\//\\//\\ To beginning of animation
+	//		fws.updateVewSizePaint(needsLock:"toggelOpen5")	//\\//\\//\\//\\ To beginning of animation
 	//		 /// Imprint Final Vew
 	//		viewNew.scn.scale 	= .unity
 	//		self   .scn.scale 	= .zero//xPct//
-	//		fws.updateVewTree(needsLock:"toggelOpen6")	//\\//\\//\\//\\ To end of animation
+	//		fws.updateVewSizePaint(needsLock:"toggelOpen6")	//\\//\\//\\//\\ To end of animation
 	//
 	//		 /// Remove old vew and its SCNNode
 	//		atAni(4, log("Removed old Vew '\(fullName)' and its SCNNode"))

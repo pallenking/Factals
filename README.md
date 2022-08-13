@@ -7,7 +7,7 @@
 3. use URLComponents
 
 SCENEKIT Research
-1. pic hook
+1. rotor and pic hook together
 2. keyboard hook
 
 20220713 FIXED 

@@ -27,25 +27,19 @@ struct ContentView: View {
 		//@State var dragOffset: CGSize = .zero
 		HStack {
 			VStack {
-				let rootPart:Part	=  document.state.rootPart
-				let rootVew :Vew	=  document.state.fwScene.rootVew
-				let rootNode:SCNNode = document.state.fwScene.rootNode
+				let rootPart:Part	= document.state.rootPart
+				let scene			= document.state.fwScene
+				let rootVew :Vew	= scene.rootVew
+				let rootNode		= scene.rootNode
 				let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
-
-//				SceneView(
-//					scene: 		 document.state.fwScene,
-//					pointOfView: document.state.fwScene.cameraNode,
-//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-//				)
-//				 .frame(width:600, height:400)
 				SceneView(
-					scene: 		 document.state.fwScene,
-					pointOfView: document.state.fwScene.cameraNode,
-					options: [.allowsCameraControl,
-							  .autoenablesDefaultLighting,
-							  .jitteringEnabled,
-							  .rendersContinuously,
-							  .temporalAntialiasingEnabled
+					scene			: scene,
+					pointOfView		: scene.cameraNode,
+					options			: [.allowsCameraControl,
+									   .autoenablesDefaultLighting,
+									   .jitteringEnabled,
+									   .rendersContinuously,
+									   .temporalAntialiasingEnabled
 					],
 					preferredFramesPerSecond:30,
 			 		antialiasingMode:.none,										//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
@@ -54,20 +48,21 @@ struct ContentView: View {
 				)
 				 .gesture(gestures() )
 				 .border(Color.black, width: 3)									// .frame(width:600, height:400)
+				//.frame(width:600, height:400)
 
 				HStack {
 					Spacer()
-					Button(action: {	lldbPrint(ob:rootPart, mode:.tree)		}){
-						Text("ptm").padding(.top, 300)							}
-					Button(action: {	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) }){
-						Text("ptLm").padding(.top, 300)							}
-					Button(action: {	lldbPrint(ob:rootVew, mode:.tree) 		}){
-						Text("ptv").padding(.top, 300)							}
-					Button(action: {Swift.print(rootNode.pp(.tree, aux), terminator:"\n") }){
-						Text("ptn").padding(.top, 300)							}
+					Button(label:{	Text( "ptm").padding(.top, 300)				})
+					{	lldbPrint(ob:rootPart, mode:.tree)						}
+					Button(label:{	Text("ptLm").padding(.top, 300)				})
+					{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 	}
+					Button(label:{	Text( "ptv").padding(.top, 300)				})
+					{	lldbPrint(ob:rootVew, mode:.tree) 						}
+					Button(label:{	Text( "ptn").padding(.top, 300)				})
+					{	Swift.print(rootNode.pp(.tree, aux), terminator:"\n") 	}
 					Spacer()
-					Button(action: {	breakToDebugger()						}){
-						Text("LLDB").padding(.top, 300)							}
+					Button(label: {	Text("LLDB").padding(.top, 300) 			})
+					{	breakToDebugger()										}
 				}
 				Spacer()
 			}

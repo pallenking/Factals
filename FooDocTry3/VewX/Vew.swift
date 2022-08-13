@@ -515,7 +515,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateVewTree(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
+	func updateVewSizePaint(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let fwScene		= part.root?.fwDocument?.state.fwScene else {	return }
 		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let vRoot				= self
@@ -535,7 +535,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard fwScene.lock(rootVewAs:viewLockName, logIf:log) else {
-							fatalError("updateVewTree(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
+							fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 						}
 						viewLockName = nil		// mark gotten
 						return true
@@ -545,7 +545,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 
 		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
 		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
-			" _ reVew _   Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
+			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 			atRve(6, log ? logd("rootPart.reVew():....") : nop)
 
 			  // 2. Update Vew tree objects from Part tree
@@ -555,7 +555,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
-			" _ reSize _  Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
+			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 			atRsi(6, log ? logd("rootPart.reSize():....") : nop)
 
 /**/		pRoot.reSize(vew:vRoot)				// also causes rePosition as necessary
@@ -569,7 +569,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		}
 		 // -----   P A I N T   Skins ----- //
 		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
-			" _ rePaint _ Vews (per updateVewTree(needsLock:'\(needsViewLock ?? "nil")')") {
+			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
 /**/		pRoot.rePaint(vew:vRoot)					// Ports color, Links position
 

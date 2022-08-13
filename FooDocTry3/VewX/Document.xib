@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="20037"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="FwDocument" customModule="SwiftFactals" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="FwDocument" customModule="FooDocTry3" customModuleProvider="target">
             <connections>
                 <outlet property="fwView" destination="xtF-9X-bIy" id="qZg-SV-8Sy"/>
                 <outlet property="window" destination="xOd-HO-29H" id="I4E-cP-vjt"/>
@@ -19,13 +19,13 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="133" y="235" width="571" height="468"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <value key="minSize" type="size" width="94" height="86"/>
             <view key="contentView" wantsLayer="YES" id="gIp-Ho-8D9">
                 <rect key="frame" x="0.0" y="0.0" width="571" height="468"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <sceneView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xtF-9X-bIy" customClass="FwView" customModule="SwiftFactals" customModuleProvider="target">
+                    <sceneView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xtF-9X-bIy" customClass="FwView" customModule="FooDocTry3" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="571" height="468"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" name="unemphasizedSelectedContentBackgroundColor" catalog="System" colorSpace="catalog"/>
