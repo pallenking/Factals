@@ -560,11 +560,16 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		assert(rootScn.name==nil,		  "change in ugly brittle initialization")
 
 		// --------- Link rootVew and rootScn to rootPart
-		rootVew.name			= "_ROOT"			// do we really want to do this?
-		rootVew.part			= rootPart
-		rootVew.part.name		= "ROOT"
-		rootVew.scn				= rootScn
-		rootScn.name			= "*-ROOT"
+		assert(rootVew.name == "_ROOT", "Root improperly set")
+		assert(rootVew.part == rootPart, "Root improperly set")
+		assert(rootVew.part.name == "ROOT", "Root improperly set")
+		assert(rootVew.scn == rootScn, "Root improperly set")
+		assert(rootScn.name == "*-ROOT", "Root improperly set")
+//		rootVew.name			= "_ROOT"			// do we really want to do this?
+//		rootVew.part			= rootPart
+//		rootVew.part.name		= "ROOT"
+//		rootVew.scn				= rootScn
+//		rootScn.name			= "*-ROOT"
 
 		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame

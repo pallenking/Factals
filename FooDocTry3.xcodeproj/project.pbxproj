@@ -252,7 +252,7 @@
 			path = FooDocTry3Tests;
 			sourceTree = "<group>";
 		};
-		9FEE519C286B4EDF00C8C22A /* VewX */ = {
+		9FEE519C286B4EDF00C8C22A /* Vew */ = {
 			isa = PBXGroup;
 			children = (
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
@@ -266,12 +266,15 @@
 				9F19011B288090240078DB6C /* Preferences.storyboard */,
 				9F190114288090240078DB6C /* Document.xib */,
 			);
-			path = VewX;
+			path = Vew;
 			sourceTree = "<group>";
 		};
-		9FEE519D286B4F1C00C8C22A /* ControllerX */ = {
+		9FEE519D286B4F1C00C8C22A /* App and Control */ = {
 			isa = PBXGroup;
 			children = (
+				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
+				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
+				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
 				9F0295CC288091EF00DD0004 /* FwDocument.swift */,
@@ -283,7 +286,7 @@
 				9FEE521628720A2300C8C22A /* FwScene.swift */,
 				9F0295D22880923000DD0004 /* Sounds.swift */,
 			);
-			path = ControllerX;
+			path = "App and Control";
 			sourceTree = "<group>";
 		};
 		9FEE51AA286BA53800C8C22A /* HaveNWant Networks */ = {
@@ -322,13 +325,10 @@
 		9FEE6F142835778A00E9E2AE /* FooDocTry3 */ = {
 			isa = PBXGroup;
 			children = (
-				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
-				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
-				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE51AA286BA53800C8C22A /* HaveNWant Networks */,
 				9F19CA33285EAF730072C50E /* ModelX */,
-				9FEE519C286B4EDF00C8C22A /* VewX */,
-				9FEE519D286B4F1C00C8C22A /* ControllerX */,
+				9FEE519C286B4EDF00C8C22A /* Vew */,
+				9FEE519D286B4F1C00C8C22A /* App and Control */,
 				9FEE6FDB2843182A00E9E2AE /* Extensions++ */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
