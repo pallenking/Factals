@@ -494,8 +494,7 @@ bug	// NEVER USED?
 
 		 // This section is in rePaint, because cameraNode changes positions!
 		guard let fwScene		= DOC?.state.fwScene else {
-//		guard let fwScene		= root?.fwDocument?.fwScene else {
-			print("############ rotateLinkSkins with root?.fwDocument? == nil #######")
+			print("############ rotateLinkSkins with DOC? == nil #######")
 			return
 		}
 		let camera				= fwScene.cameraNode.position

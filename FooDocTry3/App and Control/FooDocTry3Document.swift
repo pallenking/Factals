@@ -42,8 +42,6 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			rootPart_.wireAndGroom()
 			return DocState(rootPart:rootPart_, fwScene:fwScene)
 		} ()
-		// Now self.state has full DocState, holding rootPart
-//		state.rootPart.fwDocument = self		// WHY IS THIS NEEDED?
 
 		 // KNOWN EARLY
 		DOC						= self				// INSTALL FooDocTry3
@@ -57,7 +55,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		//let x = rVew.pp(.tree)
 
 		state.fwScene.addLightsAndCamera()
-	}	// --> windowControllerDidLoadNib
+	}	// --> SceneView --> didLoadNib()
 
 	/* ============== BEGIN FileDocument protocol: */
 	static var readableContentTypes: [UTType] { [.fooDocTry3, .sceneKitScene] }
@@ -108,28 +106,27 @@ bug//	if !DOCCTLR.documents.contains(self) {
 //			DOCCTLR.addDocument(self)	// we install ourselves!!!				//makeWindowControllers() /// VERY SUSPECT -- 210507PAK:makes 2'nd window
 //			showWindows()				// The nib should be loaded by here
 //		}
-	}
-//	override func makeWindowControllers() {
-//		atDoc(3, logg( "== == == == FwDocument.makeWindowControllers()"))
-//		super.makeWindowControllers()
-//	}
-	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
-		atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
-//		assert(DOC! === self, "sanity check failed")
-//		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
-//		assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
-
-		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
-		 		// Link it in:
-		assert(fwView != nil, "nib loaded, but fwView not set by IB")
-		fwView!.delegate		= fwScene		// delegate
-		fwView!.fwScene			= fwScene		// delegate		220815PAK: Needed only for rotator
-bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (but who)
-		//fwView!.autoenablesDefaultLighting = true
-		//fwView!.allowsCameraControl = true
-
-		didLoadNib()
-	}
+	}																			//	override func makeWindowControllers() {
+																				//		atDoc(3, logg( "== == == == FwDocument.makeWindowControllers()"))
+																				//		super.makeWindowControllers()
+																				//	}
+																				//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
+																				//bug;	atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
+																				////		assert(DOC! === self, "sanity check failed")
+																				////		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
+																				////		assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
+																				//
+																				//		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
+																				//		 		// Link it in:
+																				//		assert(fwView != nil, "nib loaded, but fwView not set by IB")
+																				//		fwView!.delegate		= fwScene		// delegate
+																				//		fwView!.fwScene			= fwScene		// delegate		220815PAK: Needed only for rotator
+																				//bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (but who)
+																				//		//fwView!.autoenablesDefaultLighting = true
+																				//		//fwView!.allowsCameraControl = true
+																				//
+																				//		didLoadNib()
+																				//	}
 	func didLoadNib() {
 
 		updateDocConfigs(from:state.rootPart.ansConfig)	// This time including fwScene
@@ -165,26 +162,29 @@ bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (
 			 // --------- To Scene:
 			if params4scene[name] != nil {
 				toParams4scene[name] = value	// 2a: Entry with pre-existing key
-				used			= true 											}
+				used			= true
+			}
 			 // Dump val:FwConfig of "scene" into fwScene.config4scene
 			if let scene		= config.fwConfig("scene") {
 				toParams4scene	+= scene 		// 2b. all entries in "scene"
-				used			= true 											}
+				used			= true
+			}
 			if let ppViewOptions = config.string("ppViewOptions") {
 				toParams4scene["ppViewOptions"] = ppViewOptions
-				used			= true		}	// 2c. Entry ppViewOptions
+				used			= true			// 2c. Entry ppViewOptions
+			}
 
 			 // --------- To Simulator:
 			if params4sim[name] != nil {
 				toParams4sim[name] = value		// 3. Entry with pre-existing key
-				used			= true 											}
-
+				used			= true
+			}
 			 // --------- To Log:
 			if name.hasPrefix("pp") ||			// 1a:      pp... entry
 			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
 				toParams4docLog[name] = value		// affect our DOCLOG
-				used			= true											}
-
+				used			= true
+			}
 			if !used {
 				unused[name]	= value
 			}

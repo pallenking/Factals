@@ -415,7 +415,7 @@ class Port : Part, PortTalk {
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-		let trunkScn			= DOC!.state.fwScene.trunkScn	//root!.fwDocument!
+		let trunkScn			= DOC!.state.fwScene.trunkScn
 		repeat {			//.transform	// my position in parent
 			let activeScn		= aVew.scn.physicsBody==nil ? aVew.scn
 														    : aVew.scn.presentation

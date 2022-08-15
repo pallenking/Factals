@@ -238,7 +238,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				return rv						// return an ancestor's config
 			}
 		}
-		let fwScene				= DOC?.state.fwScene	//part.root?.fwDocument
+		let fwScene				= DOC?.state.fwScene
 		return fwScene?.config4scene[name]	// make this part of new RootPart class
 	 }
 
@@ -516,7 +516,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let fwScene		= DOC?.state.fwScene else {	return }	//part.root?.fwDocument
+		guard let fwScene		= DOC?.state.fwScene else {	return }
 		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let vRoot				= self
 		assert(rootVew === vRoot, "rootVew === vRoot")
@@ -572,10 +572,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
 /**/		pRoot.rePaint(vew:vRoot)					// Ports color, Links position
-
-			 // All changes above cause rePaint and get here. Let system know!
-//bug?		pRoot.fwDocument!.fwView!.needsDisplay = true
-			
+																					 // All changes above cause rePaint and get here. Let system know!
+																		//bug?		pRoot.fwDocument!.fwView!.needsDisplay = true
 			 // THESE SEEM IN THE WRONG PLACE!!!
 			pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
 			pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
@@ -655,7 +653,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	}	// calls toggelOpen()
 							//
 							//	func movePole() {
-							//		let doc					= part.root!.fwDocument!
+							//		let doc					= DOC!	//part.root!.fwDocument!
 							//		let fwScene				= doc.fwScene!
 							//		let localPoint			= falseF ? bBox.center : .origin				//trueF//falseF//
 							//		let wPosn				= scn.convertPosition(localPoint, to:fwScene.rootScn)

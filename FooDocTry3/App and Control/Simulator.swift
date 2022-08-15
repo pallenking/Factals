@@ -209,9 +209,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 		guard simBuilt				else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled			else {	return 								}
 		if let rp : RootPart	= DOC?.state.rootPart  {
-//			guard rp.fwDocument != nil else {
-//			 return print("Simulating with sim\(ppUid(self)) root\(ppUid(rp)) fwDocument==nil") }
-																					//if !isSettled() || kickstart > 0 {
+
 			// semaphore:
 			guard rp.lock(partTreeAs:"simulationTask", logIf:simLogLocks) else {
 				fatalError("simulationTask couldn't get PART lock")

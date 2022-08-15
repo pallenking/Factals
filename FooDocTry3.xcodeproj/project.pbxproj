@@ -307,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				9F369DD6287C68F700196211 /* README.md */,
-				9FEE521C28749C2A00C8C22A /* LLDBInitFile */,
 				9FEE6F142835778A00E9E2AE /* FooDocTry3 */,
 				9FA1BA59288194B000B14D60 /* FooDocTry3Tests */,
 				9FEE6F132835778A00E9E2AE /* Products */,
@@ -370,6 +369,7 @@
 				9FEE51B6286BA61000C8C22A /* Uid.swift */,
 				9FEE51A6286B962300C8C22A /* CommonErrors.swift */,
 				9FEE521E2874A42000C8C22A /* LldbInit.swift */,
+				9FEE521C28749C2A00C8C22A /* LLDBInitFile */,
 				9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */,
 				9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */,
 				9F0295E12880936400DD0004 /* SwiftTryCatch.h */,

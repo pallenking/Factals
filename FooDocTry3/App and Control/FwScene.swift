@@ -345,8 +345,7 @@ bug
 	}
 
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-		//let doc				= DOC//rootPart.fwDocument
-//		let doc					= part.root!.fwDocument!
+//		let doc					= DOC
 //		let fwScene				= doc.fwScene!
 //		let localPoint			= falseF ? bBox.center : .origin				//trueF//falseF//
 //		let wPosn				= scn.convertPosition(localPoint, to:fwScene.rootScn)
@@ -359,7 +358,7 @@ bug
 bug;//		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 		}
 
-		pole.worldPosition	= wPosn
+		pole.worldPosition		= wPosn
 
 		if animateIt {
 bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration ?? 1.0)/3)
@@ -369,7 +368,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	}
 	
 	var lookAtPart : Part? 		= nil
-	var lookAtVew : Vew?	= nil
+	var lookAtVew : Vew?		= nil
 	 /// Update camera formation, configuration, and pointing
 	func updateCamera() {
 		
@@ -465,7 +464,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		 // Set zoom per horiz/vert:
 		var zoomSize			= bSize.y	// default when height dominates
 		//var orientation		= "Portrait "
-		if let nsRectSize		= DOC?.fwView?.frame.size {		//rootPart.fwDocument
+		if let nsRectSize		= DOC?.fwView?.frame.size {
 			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
 				zoomSize		= bSize.x	// when width dominates
 				//orientation	= "Landscape"
@@ -685,7 +684,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let modifierKeys		= nsEvent.modifierFlags
 		let cmd 				= modifierKeys.contains(.command)
 		let alt 				= modifierKeys.contains(.option)
-		let doc					= DOC!//rootPart.fwDocument!
+		let doc					= DOC!
 
 		switch character {
 		case "r": // (+ cmd)
