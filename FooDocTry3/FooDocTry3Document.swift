@@ -26,8 +26,8 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	 // Model of a FooDocTry3Document:
 	var state : DocState
 
-	init(state:DocState?=nil) {
-		self.state 				= state ?? { 		// state given
+	init(state state_:DocState?=nil) {
+		state	 				= state_ ?? { 		// state given
 			let fwScene			= FwScene(fwConfig:[:])					// A Part Tree
 
 			// Generate a new document.
@@ -43,21 +43,20 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			return DocState(rootPart:rootPart_, fwScene:fwScene)
 		} ()
 		// Now self.state has full DocState, holding rootPart
-//		self.state.rootPart.fwDocument = self		// WHY IS THIS NEEDED?
+//		state.rootPart.fwDocument = self		// WHY IS THIS NEEDED?
 
 		 // KNOWN EARLY
 		DOC						= self				// INSTALL FooDocTry3
-		let scene				= self.state.fwScene// INSTALL SCNScene
+		let scene				= state.fwScene		// INSTALL SCNScene
 		let rootScn				= scene.rootScn		// INSTALL SCNNode
 
-		let rVew				= Vew(forPart:self.state.rootPart, scn:rootScn)//.scene!.rootNode)
+		let rVew				= Vew(forPart:state.rootPart, scn:rootScn)//.scene!.rootNode)
 		scene.rootVew			= rVew				// INSTALL vew
 
 		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
 		//let x = rVew.pp(.tree)
 
-
-		state?.fwScene.addLightsAndCamera()
+		state.fwScene.addLightsAndCamera()
 	}
 
 	/* ============== BEGIN FileDocument protocol: */
@@ -132,8 +131,7 @@ bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (
 		didLoadNib()
 	}
 	func didLoadNib() {
-//		let x = rootPart
-		assert(state.rootPart.dirty.isOn(.vew), "sanity: newly loaded root should have dirty Vew")
+
 		updateDocConfigs(from:state.rootPart.ansConfig)	// This time including fwScene
 
 				// Build Views:
@@ -194,7 +192,7 @@ bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (
 
 		  // Output buckets to component configurations
 		 // Q: scattering via = or += paradigm?
-bug//	atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
+		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 		 // Scene:
 		if toParams4scene.count > 0 {
 			let scene			= state.fwScene
@@ -216,7 +214,7 @@ bug//	atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->")
 			atCon(2, logd("\t -> UNACCOUNTED FOR:         \(unused.pp(.line))"))
 		}
 	}
-	func logd(_ x:String) {		panic("func logd(_ x:String")}
+	func logd(_ x:String) {		print("[[XXXXFooDocTry3DocumentXXXX: \(x)") }
 
 	 // MARK: - 5.1 Make Associated Inspectors:
 	func makeInspectors() {
