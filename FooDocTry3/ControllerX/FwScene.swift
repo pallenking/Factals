@@ -546,8 +546,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	///   - rootPart: -- base of model
 	///   - lockStr: -- if non-nil, get this lock
 	func installRootPart(_ rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
-		guard let doc			= DOC else {
-			panic("DOC is nil"); return											}
+		guard let doc			= DOC else {	panic("DOC is nil"); return		}
 
 		 // 1. Get LOCKS for PartTree and VewTree
 		guard	doc.state.rootPart.lock(partTreeAs:lockStr) else {
@@ -564,20 +563,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		rootVew.name			= "_ROOT"			// do we really want to do this?
 		rootVew.part			= rootPart
 		rootVew.part.name		= "ROOT"
-		if rootVew.children.count != 0 {
-			atRve(6, logd("Erasing previous \(rootVew.children.count) Vews"))
-			rootVew.children.removeAll()
-		}
-		assert(rootVew.children.count == 0, "should have been made with no children")	//rootVew.removeAllChildren()
-		
 		rootVew.scn				= rootScn
 		rootScn.name			= "*-ROOT"
-
-		if rootScn.children.count != 0 {
-			atRve(6, logd("Erasing previous \(rootScn.children.count) SCNNodes"))
-			rootScn.children.forEach { $0.removeFromParentNode()	}		//	= []	//.removeAll()
-		}
-		assert(rootScn.children.count == 0, "should have been made with no children")	//rootScn.removeAllChildren()
 
 		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
