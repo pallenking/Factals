@@ -17,7 +17,7 @@ class RootPart : Part {
 	var log 			: Log
 	var title							= ""
 	var ansConfig		: FwConfig		= [:]
-	var fwDocument		: FooDocTry3Document? = nil	//FwDocument
+//	var fwDocument		: FooDocTry3Document? = nil	//FwDocument
 
 	 // MARK: - 2.3 Part Tree Lock
 	 // Semaphor to exclude SCNSceneRenderer thread
@@ -249,7 +249,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.root				= self				// Every Part, including rootPart, points to rootPart
-		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
+//		self.fwDocument			= fwDocument		// RootPart's backpointer, if there is one
 		title					= "'\(selectionString)' not found"
 
 		 // Find the Library that contains the trunk for self, the root.
@@ -265,7 +265,9 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		}else{
 			fatalError("RootPart(fromLibrary) -- no RootPart generated")
 		}
-		markTree(dirty:.vew)
+		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
+//		self.dirty.turnOn(.vew)
+//		markTree(dirty:.vew)
 //		atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
 //									"found:\(title), returns:\n\(pp(.tree))"))
 	}
@@ -304,6 +306,8 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		let unused				= ppUnusedKeys()
 		atBld(3, logd(unused.count == 0 ? "<<<<<<<<   All keys properly used >>>>>>>>"
 			: " \n <<<<<<<<<<<<<<<<<<<<<<<<   Danger. Unused keys:\n" + unused + " <<<<<<<<<<<<<<<<<<<<<<<<\n" ))
+
+		//dirtySubTree(.vew)		// NOT NEEDED
 
 		 //  8. Done, release partTree Lock
 		atBld(3, logd("DONE BUILDING PART \"\(title)\""))
@@ -392,7 +396,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	func sendMessage(fwType:FwType) {
 		atEve(9, logd("      all parts ||  sendMessage(\(fwType))."))
 		let fwEvent 			= FwEvent(fwType:fwType)
-		return rootPart.receiveMessage(event:fwEvent)
+		return receiveMessage(event:fwEvent)
 	}
 
 	  /// Count of all Ports in root

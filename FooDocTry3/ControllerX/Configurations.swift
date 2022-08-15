@@ -100,81 +100,81 @@ private let params4sim_ : FwConfig = [
 
   // MARK: - F: Scene Params
  /// FwScene Viewing parameters
-private let params4scene_ : FwConfig = [:
-////	"initialDisplayMode"		: "invisible"	// mostly expunged
-////	"physics"					: ??
-///**/"linkVelocityLog2"			: Float(-5.0),	// link velocity = 2^n units/sec //slow:-6.0
-//
-///**/"placeMe"					:"linky",		// place me (self)	//"stackY"
-///**/"placeMy"					:"linky",		// place my parts	//"stackY"
-/////**/"placeMe"					:"stacky",		// place me (self)	//"stackY"
-/////**/"placeMy"					:"stacky",		// place my parts	//"stackY"
-// //	"skinAlpha"					: 0.3,			// nil -> 1
-//	"bitHeight"					: Float(1.0),	// radius of Port
-///**/"bitRadius"					: Float(1.0),	// radius of Port
-//	"atomRadius"				: Float(1.0),	// radius of Atom
-//	"factalHeight"				: Float(3.0),	// factal scn height
-//	"factalWidth"				: Float(4.0),	// factal scn height xx factal scn width/depth/bigRadius
-//	"factalTorusSmallRad"		: Float(0.5),	// factalTorusSmallRad
-////	"bundleHeight"				: Float(4.0),	// length of tunnel taper			*/
-////	"bundleRadius"				: Float(1.0),	// radius of post
-//
-//	  // ///  Gap_: USER DEFINITIONS ////////////////////////////////////////////
-//	 // indent for each layer of FwBundle terminal block:
-//	"gapTerminalBlock"			: CGFloat([0, 0.04, 0.2]	[2]),	// !=0 --> ^P broken
-//	 // gap around atom to disambiguate bounding boxes:
-//	"gapAroundAtom"				: CGFloat([0, 0.01, 0.2]	[0]),	// !=0 --> ^P broken
-//	 // linear between successive Atoms:
-//	"gapStackingInbetween"		: CGFloat([0, 0.1,  0.2]	[0]),	// OK
-//	 // between boss & worker if no link:
-//	"gapLinkDirect"				: CGFloat(0.1),
-//	 // min gap between boss and worker, if link:
-//	"gapLinkFluff"				: CGFloat(1),
-//
-////	"linkRadius"				: Float(0.25),	// radius of link (<0.2? 1pix line: <0? ainvis
-////	"linkEventRadius"			: Float(-1),	// radius of link (<0.2? 1pix line: <0? ainvis
-////	"linkDisplayInvisible"		: false,		// Ignore link invisibility
-////	"displayAsNonatomic"		: false,		// Ignore initiallyAsAtom marking
-//	 //////// Ports
-////	"signalSize"				: Float(1.0),	// size of bands that display
-//
-//	 // Animate actions:
-//	"animatePhysics"			: true,			// Animate SCNNode physics
-//	"animateChain"				: true, 		// Animate Timing Chain state
-////	"animateBirth"				: true,			// when OFF, new elt is in final place immediately
-//	"animateFlash"				: false, 		//false//
-//	"animatePan"				: true,			//false//
-//	"animatePole"				: true,			//false//
-//	"animateOpen"				: true,			//false//
-//
-//	"lookAt"					: "",
-//	"vanishingPoint"			: Double.infinity,
-//	//"render3DMode"			: render3Dcartoon,
-//	"picPan"					: false,		// picking object pans it to center
-//
-//	"pole"						: true,			//false//true//
-//	"poleTics"					: true,			//false//true//
-//
-//	"camera"					: "",			// so ansConfig overrites
-//	 // Breaks for debugging:
-//	"breakAtViewOf"				: "",
-//	"breakAtBoundOf"			: "",
-//	"debugOverlapOf"			: "",
-//	"breakAtRenderOf"			: "",
-//
-//	 // 11. 3D Display ******** 3D Display
-//	"displayPortNames"			: true,
-//	"displayLinkNames"			: true,
-//	"displayAtomNames"			: true,
-//	"displayLeafNames"			: false,
-//	"displayLeafFont"			: false,		// default 0 is no leaf names
-//	"displayNetNames"			: true,
-//	"displayLabels"				: true,
-//	"fontNumber"				: 6,			// default font index; 0 small, 6 big
-////	"rotRate"					: Float(0.0003/(2*Float.pi)),
-//	 // bounding Boxes: default is unneeded
-//
-//	"wBox"						: "colors",		// "none", "gray", "white", "black", "colors"
+private let params4scene_ : FwConfig = [
+//	"initialDisplayMode"		: "invisible"	// mostly expunged
+//	"physics"					: ??
+/**/"linkVelocityLog2"			: Float(-5.0),	// link velocity = 2^n units/sec //slow:-6.0
+
+/**/"placeMe"					:"linky",		// place me (self)	//"stackY"
+/**/"placeMy"					:"linky",		// place my parts	//"stackY"
+///**/"placeMe"					:"stacky",		// place me (self)	//"stackY"
+///**/"placeMy"					:"stacky",		// place my parts	//"stackY"
+ //	"skinAlpha"					: 0.3,			// nil -> 1
+	"bitHeight"					: Float(1.0),	// radius of Port
+/**/"bitRadius"					: Float(1.0),	// radius of Port
+	"atomRadius"				: Float(1.0),	// radius of Atom
+	"factalHeight"				: Float(3.0),	// factal scn height
+	"factalWidth"				: Float(4.0),	// factal scn height xx factal scn width/depth/bigRadius
+	"factalTorusSmallRad"		: Float(0.5),	// factalTorusSmallRad
+//	"bundleHeight"				: Float(4.0),	// length of tunnel taper			*/
+//	"bundleRadius"				: Float(1.0),	// radius of post
+
+	  // ///  Gap_: USER DEFINITIONS ////////////////////////////////////////////
+	 // indent for each layer of FwBundle terminal block:
+	"gapTerminalBlock"			: CGFloat([0, 0.04, 0.2]	[2]),	// !=0 --> ^P broken
+	 // gap around atom to disambiguate bounding boxes:
+	"gapAroundAtom"				: CGFloat([0, 0.01, 0.2]	[0]),	// !=0 --> ^P broken
+	 // linear between successive Atoms:
+	"gapStackingInbetween"		: CGFloat([0, 0.1,  0.2]	[0]),	// OK
+	 // between boss & worker if no link:
+	"gapLinkDirect"				: CGFloat(0.1),
+	 // min gap between boss and worker, if link:
+	"gapLinkFluff"				: CGFloat(1),
+
+//	"linkRadius"				: Float(0.25),	// radius of link (<0.2? 1pix line: <0? ainvis
+//	"linkEventRadius"			: Float(-1),	// radius of link (<0.2? 1pix line: <0? ainvis
+//	"linkDisplayInvisible"		: false,		// Ignore link invisibility
+//	"displayAsNonatomic"		: false,		// Ignore initiallyAsAtom marking
+	 //////// Ports
+//	"signalSize"				: Float(1.0),	// size of bands that display
+
+	 // Animate actions:
+	"animatePhysics"			: true,			// Animate SCNNode physics
+	"animateChain"				: true, 		// Animate Timing Chain state
+//	"animateBirth"				: true,			// when OFF, new elt is in final place immediately
+	"animateFlash"				: false, 		//false//
+	"animatePan"				: true,			//false//
+	"animatePole"				: true,			//false//
+	"animateOpen"				: true,			//false//
+
+	"lookAt"					: "",
+	"vanishingPoint"			: Double.infinity,
+	//"render3DMode"			: render3Dcartoon,
+	"picPan"					: false,		// picking object pans it to center
+
+	"pole"						: true,			//false//true//
+	"poleTics"					: true,			//false//true//
+
+	"camera"					: "",			// so ansConfig overrites
+	 // Breaks for debugging:
+	"breakAtViewOf"				: "",
+	"breakAtBoundOf"			: "",
+	"debugOverlapOf"			: "",
+	"breakAtRenderOf"			: "",
+
+	 // 11. 3D Display ******** 3D Display
+	"displayPortNames"			: true,
+	"displayLinkNames"			: true,
+	"displayAtomNames"			: true,
+	"displayLeafNames"			: false,
+	"displayLeafFont"			: false,		// default 0 is no leaf names
+	"displayNetNames"			: true,
+	"displayLabels"				: true,
+	"fontNumber"				: 6,			// default font index; 0 small, 6 big
+//	"rotRate"					: Float(0.0003/(2*Float.pi)),
+	 // bounding Boxes: default is unneeded
+
+	"wBox"						: "colors",		// "none", "gray", "white", "black", "colors"
 ]
 
 let wBoxColorOf:[String:NSColor] = [

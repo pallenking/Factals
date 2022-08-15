@@ -28,30 +28,30 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 	init(state:DocState?=nil) {
 		self.state 				= state ?? { 		// state given
-			var fwScene			= FwScene(fwConfig:[:])					// A Part Tree
+			let fwScene			= FwScene(fwConfig:[:])					// A Part Tree
 
-			 // Generate a new document. Several Ways:
-			//	   selectionString+------FUNCTION-----------+-wantName:---wantNumber:
+			// Generate a new document.
+			
+			// Several Ways: selectionString+---FUNCTION--------+-wantName:---wantNumber:
 		//	let entry			= nil	//	 Blank scene		|	nil			-1
 		//	let entry			= 34	//	 entry N			|	nil			N *
 			let entry			= "xr()"//	 entry with xr()	|	"xr()"		-1
 		//	let entry			= "name"//	 entry named scene	|	"name" *	-1
+			let rootPart_		= RootPart(fromLibrary:entry)
 
-			let rootPart		= RootPart(fromLibrary:entry)
-			rootPart.wireAndGroom()
-
-			return DocState(rootPart:rootPart, fwScene:fwScene)
-		}()
+			rootPart_.wireAndGroom()
+			return DocState(rootPart:rootPart_, fwScene:fwScene)
+		} ()
 		// Now self.state has full DocState, holding rootPart
-		self.state.rootPart.fwDocument = self			// WHY IS THIS NEEDED?
+//		self.state.rootPart.fwDocument = self		// WHY IS THIS NEEDED?
 
 		 // KNOWN EARLY
 		DOC						= self				// INSTALL FooDocTry3
-		let scene				= self.state.fwScene	// INSTALL SCNScene
+		let scene				= self.state.fwScene// INSTALL SCNScene
 		let rootScn				= scene.rootScn		// INSTALL SCNNode
 
 		let rVew				= Vew(forPart:self.state.rootPart, scn:rootScn)//.scene!.rootNode)
-		scene.rootVew			= rVew			// INSTALL vew
+		scene.rootVew			= rVew				// INSTALL vew
 
 		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
 		//let x = rVew.pp(.tree)
@@ -114,36 +114,40 @@ bug//	if !DOCCTLR.documents.contains(self) {
 //		atDoc(3, logg( "== == == == FwDocument.makeWindowControllers()"))
 //		super.makeWindowControllers()
 //	}
-//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
-//		atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
-//		assert(DOC == self, "sanity check failed")
+	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
+		atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
+//		assert(DOC! === self, "sanity check failed")
 //		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
 //		assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
-//
-//		 		// Create FwScene programatically:
-//		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
-//		 		// Link it in:
-//		assert(fwView != nil, "nib loaded, but fwView not set by IB")
-//		fwView!.delegate		= fwScene		//\\ delegate
-//		fwView!.fwScene			= fwScene		  // same		210712PAK: why so many?
-//		fwView!.scene			= fwScene		 //  same
-//		//fwView!.autoenablesDefaultLighting = true
-//		//fwView!.allowsCameraControl = true
-//		assert(rootPart.dirty.isOn(.vew), "sanity: newly loaded root should have dirty Vew")
-//		updateDocConfigs(from:rootPart.ansConfig)	// This time including fwScene
-//
-//				// Build Views:
-///*x*/	fwScene.updateVews(fromRootPart:rootPart, reason:"InstallRootPart")
-//
-//		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:rootPart.title) ))
-//
-//		displayName				= rootPart.title
+
+		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
+		 		// Link it in:
+		assert(fwView != nil, "nib loaded, but fwView not set by IB")
+		fwView!.delegate		= fwScene		// delegate
+		fwView!.fwScene			= fwScene		// delegate		220815PAK: Needed only for rotator
+bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (but who)
+		//fwView!.autoenablesDefaultLighting = true
+		//fwView!.allowsCameraControl = true
+
+		didLoadNib()
+	}
+	func didLoadNib() {
+//		let x = rootPart
+		assert(state.rootPart.dirty.isOn(.vew), "sanity: newly loaded root should have dirty Vew")
+		updateDocConfigs(from:state.rootPart.ansConfig)	// This time including fwScene
+
+				// Build Views:
+/*x*/	state.fwScene.updateVews(fromRootPart:state.rootPart, reason:"InstallRootPart")
+
+		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:state.rootPart.title) ))
+
+//		displayName				= state.rootPart.title
 //		window0?.title			= displayName									//makeInspectors()
-//		makeInspectors()
-//
-//				// Start Up Simulation:
-//		rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
-//	}
+		makeInspectors()
+
+				// Start Up Simulation:
+		state.rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
+	}
 	   /// Called after a new experiment is loaded.
 	  /// Spreads a new configuration from the selected experiment into various hashes.
 	 /// This is a catch-all and somewhat ad-hoc and HAIRY!!!
@@ -200,12 +204,12 @@ bug//	atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->")
 		 // Simulator
 		if toParams4sim.count > 0 {
 			atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
-			rootPart.simulator.config4sim += toParams4sim
+			DOC?.state.rootPart.simulator.config4sim += toParams4sim
 		}
 		 // Log:
 		if toParams4docLog.count > 0 {
 			atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
-			rootPart.log.config4log	+= toParams4docLog
+			DOC?.state.rootPart.log.config4log	+= toParams4docLog
 		}
 		 // Unaccounted for
 		if unused.count > 0 {
@@ -233,7 +237,7 @@ bug;return
 //		}
 	}
 	func showInspec(for name:String) {
-		if let part	= rootPart.find(name:name),
+		if let part	= state.rootPart.find(name:name),
 		  let vew	= rootVew.find(part:part) {
 			showInspecFor(vew:vew, allowNew:true)
 		}

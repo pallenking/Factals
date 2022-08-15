@@ -415,7 +415,7 @@ class Port : Part, PortTalk {
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-		let trunkScn			= root!.fwDocument!.state.fwScene.trunkScn
+		let trunkScn			= DOC!.state.fwScene.trunkScn	//root!.fwDocument!
 		repeat {			//.transform	// my position in parent
 			let activeScn		= aVew.scn.physicsBody==nil ? aVew.scn
 														    : aVew.scn.presentation
@@ -450,7 +450,7 @@ class Port : Part, PortTalk {
 		if openingUp {		// want largest upper value:
 			rv.y				+= spotIC.radius	// assume straight up
 			rv.y				= max(rv.y, exclude?.max.y ?? rv.y)	// Exclude zone too?
-		}else{				// want smallest lower value:
+		} else {				// want smallest lower value:
 			rv.y				-= spotIC.radius	// assume straight down
 			rv.y				= min(rv.y, exclude?.min.y ?? rv.y) // Exclude zone too?
 		}

@@ -19,7 +19,14 @@ class FwView : SCNView {
 	 //\\\ SCNView.delegate						***
 
 	 //\\\ SCNView.scene		same as fwScene:
-	var fwScene : FwScene?		= nil
+//	var fwScene : FwScene?		= nil			// USED ONLY FOR CAMERA
+	var fwScene : FwScene? {
+		get 		{		DOC?.state.fwScene							}
+		set(v)		{		if var doc = DOC, let val = v {
+								doc.state.fwScene = val
+							}
+					}
+	}
 
 	 // MARK: - 3. Factory
 	override init(frame:CGRect, options:[String : Any]? = nil) {
@@ -50,7 +57,7 @@ class FwView : SCNView {
 
 	 // MARK: - 3.7 Equitable
 	func varsOfFwViewEq(_ rhs:Part) -> Bool {
-		guard let rhsAsFwView	= rhs as? FwView else {	return false		}
+		guard let rhsAsFwView	= rhs as? FwView else {		return false		}
 bug;	return false
 	}
 	func equalsPart(_ part:Part) -> Bool {

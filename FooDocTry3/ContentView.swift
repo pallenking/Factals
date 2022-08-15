@@ -46,6 +46,8 @@ struct ContentView: View {
 					delegate:document.state.fwScene								// FwScene // SCNSceneRendererDelegate
 				//	technique:SCNTechnique?
 				)
+				 .onAppear {
+				 	document.didLoadNib()										}
 				 .gesture(gestures() )
 				 .border(Color.black, width: 3)									// .frame(width:600, height:400)
 				//.frame(width:600, height:400)

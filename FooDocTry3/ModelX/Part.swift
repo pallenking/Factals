@@ -904,7 +904,7 @@ bug
 			vew				= nil				// don't use it
 		}
 
-		switch vew?.expose ?? initialExpose {// (if no vew, use default in part)
+		switch vew?.expose ?? initialExpose{// (if no vew, use default in part)
 
 		case .open:					// //// Show insides of Part ////////////
 			vew					= vew ?? 	// 3. CREATE:
@@ -1149,14 +1149,16 @@ bug
 									 flip	 : flipped,
 									 latitude: CGFloat(lat.rawValue) * .pi/8,
 									 spin	 : CGFloat(spin)		 * .pi/8)
-			let first			= vew.parent?.bBox.isEmpty ?? true
-			if first {								// First has center at parent's origin
+			 // First has center at parent's origni
+			if vew.parent?.bBox.isEmpty ?? true {
 				let newBip		= vew.bBox * vew.scn.transform //new bBox in parent
 				vew.scn.position = -newBip.center
 			}
+			 // Place by stacking
 			else if placeMode.hasPrefix("stack") {	// Position Stacked
 				assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
-			} 
+			}
+			 // Place by links, errs -> stacking
 			else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
 				assert(placeByLinks(inVew:vew, mode:placeMode)	// try link first
 					|| placeStacked(inVew:vew, mode:"stacky"), "placeByLinks and placeStacked failed")

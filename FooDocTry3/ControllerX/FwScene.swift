@@ -345,7 +345,7 @@ bug
 	}
 
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-		let doc					= rootPart.fwDocument
+		//let doc				= DOC//rootPart.fwDocument
 //		let doc					= part.root!.fwDocument!
 //		let fwScene				= doc.fwScene!
 //		let localPoint			= falseF ? bBox.center : .origin				//trueF//falseF//
@@ -376,7 +376,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		 // ///// Camera:
 		cameraNode.name			= "camera"
 		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		let doc					= rootPart.fwDocument
+		//let doc				= rootPart.fwDocument
 bug//	doc?.fwView?.pointOfView = cameraNode
 //		doc?.fwView?.audioListener = cameraNode
 
@@ -408,16 +408,15 @@ bug//	doc?.fwView?.pointOfView = cameraNode
 		}
 
 		 // Camera looks at target:
-		if let doc				= doc,
+		if let state			= DOC?.state,
 		 let laStr				= config4scene.string("lookAt"),
 		  laStr != ""
 		{
-			let laPart 			= doc.state.rootPart.find(path:Path(withName:laStr), inMe2:true)
-//			let laPart 			= doc.rootPart.find(path:Path(withName:laStr), inMe2:true)
+			let laPart 			= state.rootPart.find(path:Path(withName:laStr), inMe2:true)
 			assertWarn(laPart != nil, "lookAt: '\(laStr)' failed to find part")
 			lookAtPart			= laPart ?? 				// from configure
 								  rootVew.child0?.part ??	// from rootVew child[0]
-								  doc.state.rootPart			// from doc
+								  state.rootPart			// from doc
 		}
 	}
 	 // MARK: - 9.C Mouse Rotator
@@ -548,8 +547,8 @@ bug//	if let nsRectSize		= rootPart.fwDocument?.fwView?.frame.size {
 	///   - rootPart: -- rootPart
 	///   - lockStr: -- if non-nil, get this lock
 	func updateVews(fromRootPart rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
-		guard let doc			= rootPart.fwDocument else {
-			panic("rootPart.fwDocument is nil"); return							}
+		guard let doc			= DOC else {
+			panic("DOC is nil"); return											}
 
 		 // 1. Get LOCKS for PartTree and VewTree
 		guard	doc.state.rootPart.lock(partTreeAs:lockStr) else {
@@ -685,7 +684,7 @@ bug//	if let nsRectSize		= rootPart.fwDocument?.fwView?.frame.size {
 		let modifierKeys		= nsEvent.modifierFlags
 		let cmd 				= modifierKeys.contains(.command)
 		let alt 				= modifierKeys.contains(.option)
-		let doc					= rootPart.fwDocument!
+		let doc					= DOC!//rootPart.fwDocument!
 
 		switch character {
 		case "r": // (+ cmd)

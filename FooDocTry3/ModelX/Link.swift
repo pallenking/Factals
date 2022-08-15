@@ -493,7 +493,7 @@ bug	// NEVER USED?
 		let linkVew				= vew as! LinkVew
 
 		 // This section is in rePaint, because cameraNode changes positions!
-		guard let fwScene		= root?.fwDocument?.state.fwScene else {
+		guard let fwScene		= DOC?.state.fwScene else {
 //		guard let fwScene		= root?.fwDocument?.fwScene else {
 			print("############ rotateLinkSkins with root?.fwDocument? == nil #######")
 			return

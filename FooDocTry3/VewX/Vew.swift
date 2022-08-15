@@ -238,7 +238,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				return rv						// return an ancestor's config
 			}
 		}
-		let fwScene				= part.root?.fwDocument?.state.fwScene
+		let fwScene				= DOC?.state.fwScene	//part.root?.fwDocument
 		return fwScene?.config4scene[name]	// make this part of new RootPart class
 	 }
 
@@ -516,7 +516,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let fwScene		= part.root?.fwDocument?.state.fwScene else {	return }
+		guard let fwScene		= DOC?.state.fwScene else {	return }	//part.root?.fwDocument
 		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let vRoot				= self
 		assert(rootVew === vRoot, "rootVew === vRoot")

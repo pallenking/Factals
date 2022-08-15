@@ -46,7 +46,7 @@ enum DirtyBits : UInt8, CaseIterable, Codable {//, Identifiable
 }
 
 extension Part {
-	/// Set a dirty bit on this node, and go up through all parents, and insure set.
+	/// Turn a dirty bit ON this node, and go up through all parents, and insure set.
 	/// - parameter dirty: selects which bit is addressed
 	/// - Marks the bit from the selected node, through parents to the root.
 	/// - Stops if it encounters node marked with this bit
@@ -63,16 +63,21 @@ extension Part {
 		}
 //		SCNTransaction.unlock()
 	}
+	
+	/// Ensure the dirtyBits of all leaf nodes are included here
+	/// - Parameter gotLock: OBSOLETE
+	/// - Returns: The correct dirtyness
 	func rectifyTreeDirtyBits(gotLock:Bool=false) -> DirtyBits {
 //		gotLock ? nop : SCNTransaction.lock()
-						// --- dirtyness of children:
+
+						// --- Do for all Children
 		var childrenDirtyRaw	= DirtyBits.clean.rawValue
 		for child in children {			// cleanse
 
 			childrenDirtyRaw	|= child.rectifyTreeDirtyBits(gotLock:true).rawValue
 
 		}
-		 				// --- dirtyness of self
+		 				// --- Do for self
 		let nodeDirtyRaw		= dirty.rawValue
 						// --- bits in childrenDirty but not in nodeDirty are errors
 		let extraBits 			= childrenDirtyRaw & ~nodeDirtyRaw
@@ -84,6 +89,11 @@ extension Part {
 //		gotLock ? nop : SCNTransaction.unlock()
 		return dirty
 	}												// all dirty: Vew, Size, Paint
+	
+	/// Set dirtyness bits of all child Parts.
+	/// - Parameters:
+	///   - gotLock: OBSOLETE
+	///   - dirtyness: kind of dirtyness bits involved
 	func dirtySubTree(gotLock:Bool=false, _ dirtyness:DirtyBits = .vsp) {
 //		gotLock ? nop : SCNTransaction.lock()
 		let dirtyRaw			= dirtyness.rawValue | dirty.rawValue
