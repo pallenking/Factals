@@ -544,32 +544,40 @@ bug//	if let nsRectSize		= rootPart.fwDocument?.fwView?.frame.size {
 
 	 /// Build Vew tree from Part tree
 	/// - Parameters:
-	///   - rootPart: -- rootPart
+	///   - rootPart: -- base of model
 	///   - lockStr: -- if non-nil, get this lock
-	func updateVews(fromRootPart rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
+	func installRootPart(_ rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
 		guard let doc			= DOC else {
 			panic("DOC is nil"); return											}
 
 		 // 1. Get LOCKS for PartTree and VewTree
 		guard	doc.state.rootPart.lock(partTreeAs:lockStr) else {
-//		guard	doc.rootPart.lock(partTreeAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get PART lock")		// or
 		}
 		guard lock(rootVewAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get VIEW lock")
 		}
 
-		assert(rootVew.part.name=="null", "change in ugly brittle initialization")		//rootVew= Vew(forPart:doc.rootPart, scn:scnRoot)
-		assert(rootScn.name==nil,		  "change in ugly brittle initialization")
+//		assert(rootVew.part.name=="null", "change in ugly brittle initialization")		//rootVew= Vew(forPart:doc.rootPart, scn:scnRoot)
+//		assert(rootScn.name==nil,		  "change in ugly brittle initialization")
 
 		// --------- Link rootVew and rootScn to rootPart
 		rootVew.name			= "_ROOT"			// do we really want to do this?
 		rootVew.part			= rootPart
 		rootVew.part.name		= "ROOT"
+		if rootVew.children.count != 0 {
+			atRve(6, logd("Erasing previous \(rootVew.children.count) Vews"))
+			rootVew.children.removeAll()
+		}
 		assert(rootVew.children.count == 0, "should have been made with no children")	//rootVew.removeAllChildren()
 		
 		rootVew.scn				= rootScn
 		rootScn.name			= "*-ROOT"
+
+		if rootScn.children.count != 0 {
+			atRve(6, logd("Erasing previous \(rootScn.children.count) SCNNodes"))
+			rootScn.children.forEach { $0.removeFromParentNode()	}		//	= []	//.removeAll()
+		}
 		assert(rootScn.children.count == 0, "should have been made with no children")	//rootScn.removeAllChildren()
 
 		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView

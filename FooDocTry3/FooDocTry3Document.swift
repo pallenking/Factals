@@ -57,7 +57,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 		//let x = rVew.pp(.tree)
 
 		state.fwScene.addLightsAndCamera()
-	}
+	}	// --> windowControllerDidLoadNib
 
 	/* ============== BEGIN FileDocument protocol: */
 	static var readableContentTypes: [UTType] { [.fooDocTry3, .sceneKitScene] }
@@ -134,8 +134,8 @@ bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (
 
 		updateDocConfigs(from:state.rootPart.ansConfig)	// This time including fwScene
 
-				// Build Views:
-/*x*/	state.fwScene.updateVews(fromRootPart:state.rootPart, reason:"InstallRootPart")
+				// Build Vews after nib loading:
+/*x*/	state.fwScene.installRootPart(state.rootPart, reason:"InstallRootPart")
 
 		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:state.rootPart.title) ))
 

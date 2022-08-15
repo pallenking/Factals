@@ -231,6 +231,7 @@ extension SCNNode /*: HasChildren */ {
 			s.removeFromParent()			// remove all child SCNs
 		}
 	}
+
 	func removeFromParent() {
 		removeFromParentNode()				// remove scn from parent
 	}
