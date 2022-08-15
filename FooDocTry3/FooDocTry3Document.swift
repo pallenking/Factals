@@ -218,7 +218,7 @@ bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (
 
 	 // MARK: - 5.1 Make Associated Inspectors:
 	func makeInspectors() {
-bug;return
+		print("code makeInspectors")
 //		let library				= APPDEL!.library
 //		let config2				= params4scene + library.answer.ansConfig
 //			// TODO: should move ansConfig stuff into wireAndGroom
@@ -230,8 +230,8 @@ bug;return
 //				for name in names {								// make one for each
 //					showInspec(for:name)
 //				}
-//			}
-//			else { panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
+//			} else {
+//				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
 //		}
 	}
 	func showInspec(for name:String) {

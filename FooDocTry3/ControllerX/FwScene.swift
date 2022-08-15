@@ -376,9 +376,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		 // ///// Camera:
 		cameraNode.name			= "camera"
 		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		//let doc				= rootPart.fwDocument
-bug//	doc?.fwView?.pointOfView = cameraNode
-//		doc?.fwView?.audioListener = cameraNode
+		DOC?.fwView?.pointOfView = cameraNode
+		DOC?.fwView?.audioListener = cameraNode
 
 		let cam					= SCNCamera()
 		//cam.wantsExposureAdaptation: Bool	//A Boolean value that determines whether SceneKit automatically adjusts the exposure level.
@@ -466,12 +465,12 @@ bug//	doc?.fwView?.pointOfView = cameraNode
 		 // Set zoom per horiz/vert:
 		var zoomSize			= bSize.y	// default when height dominates
 		//var orientation		= "Portrait "
-bug//	if let nsRectSize		= rootPart.fwDocument?.fwView?.frame.size {
-//			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
-//				zoomSize		= bSize.x	// when width dominates
-//				//orientation	= "Landscape"
-//			}
-//		}
+		if let nsRectSize		= DOC?.fwView?.frame.size {		//rootPart.fwDocument
+			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
+				zoomSize		= bSize.x	// when width dominates
+				//orientation	= "Landscape"
+			}
+		}
 		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
 		  vanishingPoint.isFinite {			// Perspective
 			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
