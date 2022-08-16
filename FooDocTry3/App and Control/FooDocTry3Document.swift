@@ -45,16 +45,17 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 		 // KNOWN EARLY
 		DOC						= self				// INSTALL FooDocTry3
-		let scene				= state.fwScene		// INSTALL SCNScene
-		let rootScn				= scene.rootScn		// INSTALL SCNNode
-
-		let rVew				= Vew(forPart:state.rootPart, scn:rootScn)//.scene!.rootNode)
-		scene.rootVew			= rVew				// INSTALL vew
-
-		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
-		//let x = rVew.pp(.tree)
-
-		state.fwScene.addLightsAndCamera()
+//		let scene				= state.fwScene		// INSTALL SCNScene
+//		let rootScn				= scene.rootScn		// INSTALL SCNNode
+//
+//		let rVew				= Vew(forPart:state.rootPart, scn:rootScn)//.scene!.rootNode)
+//		scene.rootVew			= rVew				// INSTALL vew
+//
+//		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
+//		//let x = rVew.pp(.tree)
+//
+//		state.fwScene.addLights()		//		state.fwScene.addLightsAndCamera()
+//		state.fwScene.addCamera()
 	}	// --> SceneView --> didLoadNib()
 
 	/* ============== BEGIN FileDocument protocol: */
@@ -128,8 +129,15 @@ bug//	if !DOCCTLR.documents.contains(self) {
 																				//		didLoadNib()
 																				//	}
 	func didLoadNib() {
+		 // Spread configuration information
+		updateDocConfigs(from:state.rootPart.ansConfig)
 
-		updateDocConfigs(from:state.rootPart.ansConfig)	// This time including fwScene
+		let rVew				= Vew(forPart:state.rootPart, scn:rootScn)//.scene!.rootNode)
+		let scene				= state.fwScene
+		scene.rootVew			= rVew				// INSTALL vew
+		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
+
+		scene.addLights()														//scene.addLightsAndCamera()
 
 				// Build Vews after nib loading:
 /*x*/	state.fwScene.installRootPart(state.rootPart, reason:"InstallRootPart")

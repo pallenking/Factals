@@ -12,16 +12,20 @@ extension SCNScene {
 	 // Get camera node from SCNScene; generate if necessary
 	var cameraNode : SCNNode {
 		return rootNode.childNode(withName: "camera", recursively: false) ?? {
-			addLightsAndCamera()						// Try a groom once
+			addCamera()
 			return rootNode.childNode(withName: "camera", recursively: false) ?? {
 				fatalError("something's amiss")	// Still a problem
 			}()
 		}()
 	}
-
-	 // Add Lights and Camera
-	func addLightsAndCamera() {
-		
+	func addCamera() {
+		let cameraNode 			= SCNNode()
+		cameraNode.name			= "camera"
+		cameraNode.camera 		= SCNCamera()
+		cameraNode.position 	= SCNVector3(0, 0, 15)
+		rootNode.addChildNode(cameraNode)
+	}
+	func addLights() {
 		 // create and add a light to the scene:
 		func addLight(name:String, lightType:SCNLight.LightType, color:Any?=nil, position:SCNVector3?=nil) {
 			let newLight 		= SCNNode()
@@ -38,13 +42,6 @@ extension SCNScene {
 		}
 		addLight(name:"light",   lightType:.omni, position:SCNVector3(0, 0, 15))
 		addLight(name:"ambient", lightType:.ambient, color:NSColor.darkGray)
-
-		 // Add camera
-		let cameraNode 			= SCNNode()
-		cameraNode.name			= "camera"
-		cameraNode.camera 		= SCNCamera()
-		cameraNode.position 	= SCNVector3(0, 0, 15)
-		rootNode.addChildNode(cameraNode)
 	}
 
 	func printModel() {
