@@ -20,13 +20,6 @@ extension SCNScene {
 		}
 		assert(cameraNode != nil, "var cameraNode! found nil")
 		return cameraNode!
-//		if rootNode.childNode(withName:"camera", recursively:false) == nil {
-//			let x				= self /**/ as! FwScene
-//			x.insureCamera()
-//		}
-//		let rv					= rootNode.childNode(withName: "camera", recursively: false)
-//		assert(rv != nil, "something's amiss")
-//		return rv!
 	}
 	func addLights() {
 		 // create and add a light to the scene:

@@ -94,7 +94,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9F0295CC288091EF00DD0004 /* FwDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwDocument.swift; sourceTree = "<group>"; };
 		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
 		9F0295D02880921800DD0004 /* FwView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
@@ -277,7 +276,6 @@
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
-				9F0295CC288091EF00DD0004 /* FwDocument.swift */,
 				9F19CA31285EA5090072C50E /* Simulator.swift */,
 				9FEE51A1286B8F5B00C8C22A /* Log.swift */,
 				9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */,
