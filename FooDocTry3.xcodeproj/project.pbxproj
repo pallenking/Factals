@@ -269,7 +269,7 @@
 			path = Vew;
 			sourceTree = "<group>";
 		};
-		9FEE519D286B4F1C00C8C22A /* App and Control */ = {
+		9FEE519D286B4F1C00C8C22A /* Control and App */ = {
 			isa = PBXGroup;
 			children = (
 				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
@@ -286,7 +286,7 @@
 				9FEE521628720A2300C8C22A /* FwScene.swift */,
 				9F0295D22880923000DD0004 /* Sounds.swift */,
 			);
-			path = "App and Control";
+			path = "Control and App";
 			sourceTree = "<group>";
 		};
 		9FEE51AA286BA53800C8C22A /* HaveNWant Networks */ = {
@@ -327,7 +327,7 @@
 				9FEE51AA286BA53800C8C22A /* HaveNWant Networks */,
 				9F19CA33285EAF730072C50E /* ModelX */,
 				9FEE519C286B4EDF00C8C22A /* Vew */,
-				9FEE519D286B4F1C00C8C22A /* App and Control */,
+				9FEE519D286B4F1C00C8C22A /* Control and App */,
 				9FEE6FDB2843182A00E9E2AE /* Extensions++ */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
