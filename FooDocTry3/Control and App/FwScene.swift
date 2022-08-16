@@ -367,16 +367,16 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	}
 	
 	var lookAtPart : Part? 		= nil
-	var lookAtVew : Vew?		= nil
+	var lookAtVew  : Vew?		= nil
 	 /// Update camera formation, configuration, and pointing
-	func insureCamera() {
-		guard let rootScn		= DOC?.state.fwScene.rootScn else {		return 	}
+	func insureCameraNode() -> SCNNode {
+		guard let rootScn		= DOC?.state.fwScene.rootScn else {		fatalError("insureCameraNode() found DOC==nil") 	}
 
-		if rootScn.find(name:"camera") == nil {
-			addCameraNode(config:config4scene)
-		}
+		let camera				= rootScn.find(name:"camera")
+								?? addCameraNode(config:config4scene)
+		return camera
 	}
-	func addCameraNode(config:FwConfig) {
+	func addCameraNode(config:FwConfig) -> SCNNode {
 		 // ///// Camera:
 		let camNode 			= SCNNode()
 		camNode.name			= "camera"
@@ -421,6 +421,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 								  rootVew.child0?.part ??	// from rootVew child[0]
 								  state.rootPart			// from doc
 		}
+		return camNode
 	}
 	 // MARK: - 9.C Mouse Rotator
 	 // Uses Cylindrical Coordinates
@@ -572,7 +573,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add supporting Actors to scene
-		insureCamera()
+		let _ 					= insureCameraNode()
 		updateLights()
 		if config4scene.bool_("pole") {
 			updatePole()
