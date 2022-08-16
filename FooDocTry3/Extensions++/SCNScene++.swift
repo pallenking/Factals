@@ -19,7 +19,6 @@ extension SCNScene {
 			cameraNode			= x.insureCameraNode()
 		}
 		assert(cameraNode != nil, "var cameraNode! found nil")
-		rootNode.addChild(node:cameraNode!)	// move to end
 		return cameraNode!
 //		if rootNode.childNode(withName:"camera", recursively:false) == nil {
 //			let x				= self /**/ as! FwScene
