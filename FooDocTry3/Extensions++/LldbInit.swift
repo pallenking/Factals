@@ -15,7 +15,7 @@ func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true
 }
 
  /// Access to current ////// Part Tree //////
-//var rootPart  : RootPart		{	return (DOC?.state.rootPart)!					}
+var rootPart  : RootPart		{	return (DOC?.state.rootPart)!				}
 func rootpart(_ name:String?=nil) -> Part  {
 	if var rv : Part			= DOC?.state.rootPart {//rootPart {
 		if name != nil {			// Search for sought Part	//maxLevel:1,
@@ -69,35 +69,34 @@ func fwHelp(_ key:String="?") {
 }
  // Send a key to controller:
 func sendApp(key:String="?") {
-bug
-//	if let doc				= DOC,
-//	   let ginnedUpEvent	= NSEvent.keyEvent(
-//			with			: NSEvent.EventType(rawValue: 10)!,//keyDown,
-//			location		: NSZeroPoint,
-//			modifierFlags	: NSEvent.ModifierFlags(rawValue: 0),
-//			timestamp		: 0.0,
-//			windowNumber	: 0,
-//			context			: nil,
-//			characters		: key,
-//			charactersIgnoringModifiers: key,
-//			isARepeat		: false,
-//			keyCode			: 0)
-//	{
-//		let _			 	= doc.processKey(from:ginnedUpEvent, inVew:nil)
-//	}
-//	else {
-//		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")
-//		switch key {
-//		case "C":
-//			printFwcConfig()	// Controller Configuration
-//		case "c":
-//			printFwcState()		// Current controller state
-//		case "?":
-//			printDebuggerHints()
-//		default:
-//			fatalError("sendApp finds nil Controller.current")
-//		}
-//	}
+	if let doc				= DOC,
+	   let ginnedUpEvent	= NSEvent.keyEvent(
+			with			: NSEvent.EventType(rawValue: 10)!,//keyDown,
+			location		: NSZeroPoint,
+			modifierFlags	: NSEvent.ModifierFlags(rawValue: 0),
+			timestamp		: 0.0,
+			windowNumber	: 0,
+			context			: nil,
+			characters		: key,
+			charactersIgnoringModifiers: key,
+			isARepeat		: false,
+			keyCode			: 0)
+	{
+		let _			 	= doc.processKey(from:ginnedUpEvent, inVew:nil)
+	}
+	else {
+		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")
+		switch key {
+		case "C":
+			printFwcConfig()	// Controller Configuration
+		case "c":
+			printFwcState()		// Current controller state
+		case "?":
+			printDebuggerHints()
+		default:
+			fatalError("sendApp finds nil Controller.current")
+		}
+	}
 }
 func printDebuggerHints() {
 	print ("\n=== Controller commands:",

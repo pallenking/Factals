@@ -215,6 +215,7 @@ class Link : Atom {
 
 	 // MARK: -- Connect LinkVew's [sp]Con2Vew endpoints and constraints:
 	override func reVewPost(vew:Vew) 	{	// Add constraints
+//		sendApp(key:"?")
 		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
 
 		 // Connect LinkVew to its two end Port's Vew	  // :H: [S/P] CONnectd 2 Vew
@@ -352,7 +353,7 @@ class Link : Atom {
 	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(vew:Vew) {
-		// A Link's position is determined by its two ends. Nothing is done here.
+		// Do Nothing, a Link's position is determined by its two ends. Nothing is done here.
 	}
 		// Xyzzy19e
 	 // Position one Link Ports, from its [ps]EndV

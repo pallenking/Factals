@@ -26,6 +26,13 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	 // Model of a FooDocTry3Document:
 	var state : DocState
 
+//	 // MARK: - 2.2 Sugar
+//	var windowController0 : NSWindowController? {		// First NSWindowController
+//		return windowControllers.count > 0 ? windowControllers[0] : nil			}
+//	var window0 : NSWindow? 	{						// First NSWindow
+//		return windowController0?.window										}
+//
+
 	init(state state_:DocState?=nil) {
 		state	 				= state_ ?? { 		// state given
 			let fwScene			= FwScene(fwConfig:params4scene)				// A Part Tree
@@ -85,10 +92,18 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			throw CocoaError(.fileWriteUnknown)
 		}
 	}
-
-
-
-
+//	// MARK: - 4 Enablers
+//			// The  nib file  name of the document:
+//	override var windowNibName:NSNib.Name? {		return "Document"			}
+//			// Enable Auto Savea:
+//	override class var autosavesInPlace: Bool {		return false				}
+//			// Enable Asynchronous Writing:
+//	override func canAsynchronouslyWrite(to:URL, ofType:String, for:NSDocument.SaveOperationType) -> Bool {
+//		return false															}
+//			// Enable Asynchronous Reading:
+//	override class func canConcurrentlyReadDocuments(ofType:String) -> Bool {
+//		return false // ofType == "public.plain-text"
+//	}
 
 	 // MARK: - 5 Groom
 	func registerWithDocController() {
@@ -284,7 +299,112 @@ bug//			// Remember window for next creation
 	  /// Manage Inspec's:
 	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
 	var inspecLastVew : Vew? = nil
-	
+
+	 // MARK: - 13. IBActions
+	 /// Prosses keyboard key
+    /// - Parameter from: -- NSEvent to process
+    /// - Parameter vew: -- The Vew to use
+	/// - Returns: The key was recognized
+	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
+			return false
+		}
+
+		 // First, all registered TimingChains:
+		for timingChain in rootPart.simulator.timingChains {
+			if timingChain.processKey(from:nsEvent, inVew:vew) {
+				return true 						// timingChain handled it
+			}
+		}
+
+		 // Second, check fwScene:
+		if state.fwScene == nil {
+			Swift.print("fwDocument(\(pp(.uid, [:])).fwScene=nil")
+		}
+		else if state.fwScene.processKey(from:nsEvent, inVew:vew) {
+				return true 					// fwScene handled
+		}
+
+//		 // Simulator:
+//		if rootPart.simulator.processKey(from:nsEvent, inVew:vew) {
+//			return true 						// simulator handled it
+//		}
+
+		 // Controller:
+		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
+			return false						/* FwDocument has no key-ups */
+		}
+		 // Sim EVENTS						// /// Key DOWN ///////
+		let cmd 				= nsEvent.modifierFlags.contains(.command)
+		let alt 				= nsEvent.modifierFlags.contains(.option)
+		var aux : FwConfig		= DOCLOG.params4aux //gets us params4pp
+//		var aux : FwConfig		= Log.params4aux 	//gets us params4pp
+		aux["ppParam"]			= alt		// Alternate means print parameters
+
+		switch character {
+		case "u": // + cmd
+			if cmd {
+				panic("Press 'cmd u'   A G A I N    to retest")	// break to debugger
+			}
+		case Character("\u{1b}"):				// Escape
+			Swift.print("\n******************** 'esc':  === EXIT PROGRAM\n")
+			NSSound.beep()
+			exit(0)								// exit program (hack: brute force)
+		case "b":
+			Swift.print("\n******************** 'b': ======== ('?' for debugger hints)")
+			panic("keyboard break to debugger")
+		case "d":
+			Swift.print("\n******************** 'd': ======== ('?' for debugger hints)")
+			let l1v 			= rootvew("_l1")
+			Swift.print(l1v.scn.transform.pp(.tree))
+//			l1v.part.rotateLinkSkins(vew:l1v)
+		// //////////////////////////// //
+		// ////// Part / Vew   //////// //
+		// //////////////////////////// //
+		 // print out parts, views
+		 // Command Syntax:
+		 // mM/lL 		normal  /  normal + links	L	 ==> Links
+		 // ml/ML		normal  /  normal + ports	ROOT ==> Ports
+		 //
+		case "m":
+			aux["ppDagOrder"]	= true
+			Swift.print("\n******************** 'm': === Parts:")
+			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+		case "M":
+			aux["ppPorts"]		= true
+			aux["ppDagOrder"]	= true
+			Swift.print("\n******************** 'M': === Parts and Ports:")
+			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+		case "l":
+			aux["ppLinks"]		= true
+			aux["ppDagOrder"]	= true
+			Swift.print("\n******************** 'l': === Parts, Links:")
+			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+		case "L":
+			aux["ppPorts"]		= true
+			aux["ppDagOrder"]	= true
+			aux["ppLinks"]		= true
+			Swift.print("\n******************** 'L': === Parts, Ports, Links:")
+			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+
+		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
+		case "C":
+			printFwcConfig()			// Controller Configuration
+		case "c":
+			printFwcState()				// Current controller state
+		case "?":
+			printDebuggerHints()
+			return false				// anonymous printout
+
+		default:
+			return false				// nobody decoded
+		}
+		return true						// someone decoded
+	}
+//	  /// Manage Inspec's:
+//	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
+//	var inspecLastVew : Vew? = nil
+
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format_, arguments:args)
