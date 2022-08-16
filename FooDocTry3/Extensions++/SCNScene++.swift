@@ -9,21 +9,15 @@ import SceneKit
 
 extension SCNScene {
 
-	 // Get camera node from SCNScene; generate if necessary
+	 // Get camera node from SCNNode
 	var cameraNode : SCNNode {
-		return rootNode.childNode(withName: "camera", recursively: false) ?? {
-			addCamera()
-			return rootNode.childNode(withName: "camera", recursively: false) ?? {
-				fatalError("something's amiss")	// Still a problem
-			}()
-		}()
-	}
-	func addCamera() {
-		let cameraNode 			= SCNNode()
-		cameraNode.name			= "camera"
-		cameraNode.camera 		= SCNCamera()
-		cameraNode.position 	= SCNVector3(0, 0, 15)
-		rootNode.addChildNode(cameraNode)
+		if rootNode.childNode(withName:"camera", recursively:false) == nil {
+			let x				= self /**/ as! FwScene
+			x.insureCamera()
+		}
+		let rv					= rootNode.childNode(withName: "camera", recursively: false)
+		assert(rv != nil, "something's amiss")
+		return rv!
 	}
 	func addLights() {
 		 // create and add a light to the scene:

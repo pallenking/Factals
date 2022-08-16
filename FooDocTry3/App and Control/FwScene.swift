@@ -67,7 +67,6 @@ class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 	 // ///////// Part Tree:
 	var rootPart : RootPart		{	rootVew.part as! RootPart					}
 
-//	var cameraNode				= SCNNode()		// Creates 2D rendition
 	var pole					= SCNNode()		// focus of mouse rotator
 
 	var config4scene : FwConfig {
@@ -370,26 +369,32 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	var lookAtPart : Part? 		= nil
 	var lookAtVew : Vew?		= nil
 	 /// Update camera formation, configuration, and pointing
-	func updateCamera() {
-		
-		 // ///// Camera:
-		cameraNode.name			= "camera"
-		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		DOC?.fwView?.pointOfView = cameraNode
-		DOC?.fwView?.audioListener = cameraNode
+	func insureCamera() {
+		guard let rootScn		= DOC?.state.fwScene.rootScn else {		return 	}
 
-		let cam					= SCNCamera()
-		//cam.wantsExposureAdaptation: Bool	//A Boolean value that determines whether SceneKit automatically adjusts the exposure level.
-		//cam.exposureAdaptationBrighteningSpeedFactor: CGFloat// The relative duration of automatically animated exposure transitions from dark to bright areas.
-		//cam.exposureAdaptationDarkeningSpeedFactor: CGFloat
-		cam.automaticallyAdjustsZRange = true
-		//cam.zNear				= 1
-		//cam.zFar				= 100
-		cameraNode.camera		= cam
-		rootScn.addChild(node:cameraNode)
+		if rootScn.find(name:"camera") == nil {
+			addCameraNode(config:config4scene)
+		}
+	}
+	func addCameraNode(config:FwConfig) {
+		 // ///// Camera:
+		let camNode 			= SCNNode()
+		camNode.name			= "camera"
+		camNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+		DOC?.fwView?.pointOfView = camNode
+		DOC?.fwView?.audioListener = camNode
+
+		let camera				= SCNCamera()
+		camera.wantsExposureAdaptation = false				//A Boolean value that determines whether SceneKit automatically adjusts the exposure level.
+		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+		camera.exposureAdaptationDarkeningSpeedFactor = 1
+		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
+															//cam.zFar				= 100
+		camNode.camera		= camera
+		rootScn.addChild(node:camNode)
 
 		 // Configure Camera from Source Code:
-		if let c 				= config4scene.fwConfig("camera") {
+		if let c 				= config.fwConfig("camera") {
 			if let h 			= c.float("h"), !h.isNan {	// Pole Height
 				cameraPoleHeight = CGFloat(h)						
 			}
@@ -554,28 +559,20 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		guard lock(rootVewAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get VIEW lock")
 		}
-
-//		assert(rootVew.part.name=="null", "change in ugly brittle initialization")		//rootVew= Vew(forPart:doc.rootPart, scn:scnRoot)
-//		assert(rootScn.name==nil,		  "change in ugly brittle initialization")
-
+			
 		// --------- Link rootVew and rootScn to rootPart
-		assert(rootVew.name == "_ROOT", "Root improperly set")
-		assert(rootVew.part == rootPart, "Root improperly set")
-		assert(rootVew.part.name == "ROOT", "Root improperly set")
-		assert(rootVew.scn == rootScn, "Root improperly set")
-		assert(rootScn.name == "*-ROOT", "Root improperly set")
-//		rootVew.name			= "_ROOT"			// do we really want to do this?
-//		rootVew.part			= rootPart
-//		rootVew.part.name		= "ROOT"
-//		rootVew.scn				= rootScn
-//		rootScn.name			= "*-ROOT"
+		assert(rootVew.name == "_ROOT", 	"Root improperly set")		//		rootVew.name			= "_ROOT"			// do we really want to do this?
+		assert(rootVew.part == rootPart, 	"Root improperly set")		//		rootVew.part			= rootPart
+		assert(rootVew.part.name == "ROOT", "Root improperly set")		//		rootVew.part.name		= "ROOT"
+		assert(rootVew.scn == rootScn, 		"Root improperly set")		//		rootVew.scn				= rootScn
+		assert(rootScn.name == "*-ROOT", 	"Root improperly set")		//		rootScn.name			= "*-ROOT"
 
 		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
 		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add supporting Actors to scene
-		updateCamera()
+		insureCamera()
 		updateLights()
 		if config4scene.bool_("pole") {
 			updatePole()
