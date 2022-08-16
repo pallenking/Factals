@@ -12,11 +12,11 @@ extension SCNScene {
 	 // Get camera node from SCNNode
 	var cameraNode : SCNNode {
 		var cameraNode			= rootNode.childNode(withName:"camera", recursively:false)
-		if let cn				= cameraNode {
+		if let cn				= cameraNode {			// If one exists
 			cn.removeFromParentNode()
+			rootNode.addChild(node:cn)						// move to end
 		} else {
-			let x				= self /**/ as! FwScene
-			cameraNode			= x.insureCameraNode()
+			cameraNode			= (self /**/ as! FwScene).insureCameraNode()		// make at end
 		}
 		assert(cameraNode != nil, "var cameraNode! found nil")
 		return cameraNode!

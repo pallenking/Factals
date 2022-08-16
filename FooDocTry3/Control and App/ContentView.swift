@@ -67,6 +67,8 @@ struct ContentView: View {
 					Spacer()
 					Button(label: {	Text("LLDB").padding(.top, 300) 			})
 					{	breakToDebugger()										}
+					Button(label:{	Text( "  ")									}){}
+						.buttonStyle(.borderless)
 				}
 				Spacer()
 //			}
