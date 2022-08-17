@@ -127,11 +127,10 @@ struct ContentView: View {
 	func onGesture(_ msg:String="") {	print("onGesture: \(msg)") }	// set state, process the last drag position we saw, etc
 
 	//  ====== LEFT MOUSE ======
-	func dragGesture(value:DragGesture.Value) {
-nop
-		let delta			= value.location - value.startLocation
-		print("\(value.location) \(delta)")
+	func dragGesture(value v:DragGesture.Value) {
+		let delta			= v.location - v.startLocation
+		print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 		DOC.state.fwScene.spinNUp(delta:delta)			// change Spin and Up of camera
-		DOC.state.fwScene.updateCameraRotator(for:"dragGesture")
+		DOC.state.fwScene.updateCameraTransform(for:"dragGesture")
 	}
 }

@@ -202,19 +202,19 @@ bug//	let view				= DOC?.fwView
 	//			M   M  OO   UU  SSS  EEEE
 	//
 	// ///////////////////////////////////////
-	 // MARK: - 13.2 Mouse
-	//  ====== LEFT MOUSE ======
-	let nsTrackPad				= true//false//
-	let duration				= Float(1)
-	var mouseWasDragged			= false
-	func mouseDown(with nsEvent:NSEvent) {
-		motionFromLastEvent(with:nsEvent)
-bug
-		if !nsTrackPad  {					// 3-button Mouse
-//			let _				= fwScene?.modelPic(with:nsEvent)
-		}
-//		fwScene?.updateCameraRotator(for:"Left mouseDown", overTime:duration)
-	}
+//	 // MARK: - 13.2 Mouse
+//	//  ====== LEFT MOUSE ======
+//	let nsTrackPad				= true//false//
+//	let duration				= Float(1)
+//	var mouseWasDragged			= false
+//	func mouseDown(with nsEvent:NSEvent) {
+//		motionFromLastEvent(with:nsEvent)
+//bug
+//		if !nsTrackPad  {					// 3-button Mouse
+////			let _				= fwScene?.modelPic(with:nsEvent)
+//		}
+////		fwScene?.updateCameraRotator(for:"Left mouseDown", overTime:duration)
+//	}
 //	override func mouseDragged(with nsEvent:NSEvent) {
 //		if nsTrackPad  {					// Trackpad
 //			motionFromLastEvent(with:nsEvent)

@@ -437,7 +437,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 	  // MARK: - 9.D Update
 	 // Compute Camera Transform from pole config
-	func updateCameraRotator(for message:String?=nil, overTime duration:Float=0.0) {
+	func updateCameraTransform(for message:String?=nil, overTime duration:Float=0.0) {
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
 		   //
@@ -597,7 +597,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
 
-		updateCameraRotator(for:"Built")
+		updateCameraTransform(for:"Built")
 
 		// 6. UNLOCK PartTree and VewTree:
 		unlock(              rootVewAs:lockStr)
@@ -884,7 +884,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		unlock(            rootVewAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 //		experiment!.unlock(partTreeAs:"toggelOpen")
 
-		updateCameraRotator(for:"Built")
+		updateCameraTransform(for:"Built")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 	}
