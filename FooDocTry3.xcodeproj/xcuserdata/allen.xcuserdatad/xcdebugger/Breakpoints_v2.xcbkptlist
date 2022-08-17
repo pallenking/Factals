@@ -510,8 +510,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "gestures()"
             landmarkType = "7">
          </BreakpointContent>
@@ -562,6 +562,38 @@
                   offsetFromSymbolStart = "260">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "86882F59-BAAE-40C3-93E3-C46ABE0E4D09"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/Control and App/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "dragGesture(value:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B4C69B4A-850D-44EC-9498-993DE64958DF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/Control and App/FwScene.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
+            landmarkName = "updateCameraRotator(for:overTime:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

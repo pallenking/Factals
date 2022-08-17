@@ -36,7 +36,7 @@ struct ContentView: View {
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
 					options			: [.autoenablesDefaultLighting,
-		//							   .allowsCameraControl,
+		//**/						   .allowsCameraControl,
 									   .jitteringEnabled,
 									   .rendersContinuously,
 									   .temporalAntialiasingEnabled
@@ -91,37 +91,47 @@ struct ContentView: View {
 	func gestures() -> some Gesture {
 		let drag 				= DragGesture(minimumDistance: 0)
 		  .onChanged(
-			{	drag in onGesture("Drag Changed \(drag)")	})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
+			{	drag in dragGesture(value:drag)			})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
+//			{	drag in onGesture("Drag Changed \(drag)")	})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
 		  .onEnded(
 			{	drag in onGesture("Drag Ended \(drag)")		})
-//		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
-//		  .onChanged(
-//			{	delta in onGesture("Pinch Changed \(delta)")	})
-//		  .onEnded(
-//			{	delta in onGesture("Pinch Ended \(delta)")	})
+																				//		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
+																				//		  .onChanged(
+																				//			{	delta in onGesture("Pinch Changed \(delta)")	})
+																				//		  .onEnded(
+																				//			{	delta in onGesture("Pinch Ended \(delta)")	})
 		let tap1				= TapGesture(count:1)
 		  .onEnded(
 			{	delta in onGesture("Tap1 Ended \(delta)")	})
 		let tap2				= TapGesture(count:2)
 		  .onEnded(
 			{	delta in onGesture("Tap2 Ended \(delta)")	})
-//		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
-//		  .onChanged(
-//			{	delta in onGesture("Rotation Changed \(delta)")})
-//		  .onEnded(
-//			{	delta in onGesture("Rotation Ended \(delta)")	})
-//		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
-//		  .onChanged(
-//			{	delta in onGesture("Press Changed \(delta)")	})
-//		  .onEnded(
-//			{	delta in onGesture("Press Ended \(delta)")	})
+																				//		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
+																				//		  .onChanged(
+																				//			{	delta in onGesture("Rotation Changed \(delta)")})
+																				//		  .onEnded(
+																				//			{	delta in onGesture("Rotation Ended \(delta)")	})
+																				//		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
+																				//		  .onChanged(
+																				//			{	delta in onGesture("Press Changed \(delta)")	})
+																				//		  .onEnded(
+																				//			{	delta in onGesture("Press Ended \(delta)")	})
 		let combinedGesture = drag
-//		  .simultaneously(with: hackyPinch)
-//		  .simultaneously(with: hackyRotation)
+																				//		  .simultaneously(with: hackyPinch)
+																				//		  .simultaneously(with: hackyRotation)
 		  .simultaneously(with: tap1)
 		  .simultaneously(with: tap2)
-//		  .exclusively(before: hackyPress)
+																				//		  .exclusively(before: hackyPress)
 		return combinedGesture
 	}
 	func onGesture(_ msg:String="") {	print("onGesture: \(msg)") }	// set state, process the last drag position we saw, etc
+
+	//  ====== LEFT MOUSE ======
+	func dragGesture(value:DragGesture.Value) {
+nop
+		let delta			= value.location - value.startLocation
+		print("\(value.location) \(delta)")
+		DOC.state.fwScene.spinNUp(delta:delta)			// change Spin and Up of camera
+		DOC.state.fwScene.updateCameraRotator(for:"dragGesture")
+	}
 }

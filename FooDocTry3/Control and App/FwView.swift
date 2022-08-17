@@ -116,14 +116,14 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 	let duration				= Float(1)
 	var mouseWasDragged			= false
 	override func mouseDown(with nsEvent:NSEvent) {
-		motionFromLastEvent(with:nsEvent)
+bug;	motionFromLastEvent(with:nsEvent)
 		if !nsTrackPad  {					// 3-button Mouse
 			let _				= true //fwScene?.modelPic(with:nsEvent)
 		}
 		fwScene?.updateCameraRotator(for:"Left mouseDown", overTime:duration)
 	}
 	override func mouseDragged(with nsEvent:NSEvent) {
-		if nsTrackPad  {					// Trackpad
+bug;	if nsTrackPad  {					// Trackpad
 			motionFromLastEvent(with:nsEvent)
 			mouseWasDragged 	= true		// drag cancels pic
 			spinNUp(with:nsEvent)			// change Spin and Up of camera
@@ -131,10 +131,10 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 		}
 	}
 	override func mouseUp(with nsEvent:NSEvent) {
-		if nsTrackPad  {					// Trackpad
+bug;	if nsTrackPad  {					// Trackpad
 			motionFromLastEvent(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up
-				let _			= true //fwScene?.modelPic(with:nsEvent)
+				bug//let _			= fwScene?.modelPic(with:nsEvent)
 			}
 			mouseWasDragged 	= false
 			fwScene?.updateCameraRotator(for:"Left mouseUp", overTime:duration)
@@ -143,17 +143,17 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 //	 //  ====== RIGHT MOUSE ======			Right Mouse not used
 	 //  ====== CENTER MOUSE ======
 	override func otherMouseDown(with nsEvent:NSEvent)	{
-		motionFromLastEvent(with:nsEvent)
+bug;	motionFromLastEvent(with:nsEvent)
 		fwScene?.updateCameraRotator(for:"Other mouseDown", overTime:duration)
 	}
 	override func otherMouseDragged(with nsEvent:NSEvent) {
-		motionFromLastEvent(with:nsEvent)
+bug;	motionFromLastEvent(with:nsEvent)
 		spinNUp(with:nsEvent)
 		mouseWasDragged 		= true		// drag cancels pic
 		fwScene?.updateCameraRotator(for:"Other mouseDragged")
 	}
 	override func otherMouseUp(with nsEvent:NSEvent) {
-		motionFromLastEvent(with:nsEvent)
+bug;	motionFromLastEvent(with:nsEvent)
 		fwScene?.updateCameraRotator(for:"Other mouseUp", overTime:duration)
 		print("camera = [\(fwScene!.ppCam())]")
 		//at("All", 3, print("camera = [\(fwScene!.ppCam())]"))
@@ -162,7 +162,7 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 
 	 //  ====== CENTER SCROLL WHEEL ======
 	override func scrollWheel(with nsEvent:NSEvent) {
-		let d					= CGFloat(nsEvent.deltaY)
+bug;	let d					= CGFloat(nsEvent.deltaY)
 		let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 		fwScene?.cameraZoom		*= delta
 		fwScene?.updateCameraRotator(for:"Scroll Wheel")

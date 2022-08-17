@@ -365,7 +365,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			SCNTransaction.commit()
 		}
 	}
-	
+
 	var lookAtPart : Part? 		= nil
 	var lookAtVew  : Vew?		= nil
 	 /// Update camera formation, configuration, and pointing
@@ -430,6 +430,11 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	var cameraHorizonUp	: CGFloat = 0					// in degrees
 	var cameraZoom		: CGFloat = 1.0
 
+	func spinNUp(delta:CGPoint) {
+		cameraPoleSpin			-= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		cameraHorizonUp			+= delta.y  * 0.2		// * self.cameraZoom/10.0
+	}
+
 	  // MARK: - 9.D Update
 	 // Compute Camera Transform from pole config
 	func updateCameraRotator(for message:String?=nil, overTime duration:Float=0.0) {
@@ -479,8 +484,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
 		  vanishingPoint.isFinite {			// Perspective
 			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
-		}else 								// Orthographic
-		if let cam				= cameraNode.camera {
+		}	 								// Orthographic
+		else if let cam			= cameraNode.camera {
 			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
 			cam.orthographicScale = Double(zoomSize * cameraZoom * 0.75)

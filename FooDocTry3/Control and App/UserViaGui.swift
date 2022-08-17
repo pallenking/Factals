@@ -276,10 +276,11 @@ bug//		let delt2d :CGPoint		= convert(nsEvent.locationInWindow, from: nil)//nil=
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
-//	func spinNUp(with nsEvent:NSEvent) {
+	func spinNUp(delta:CGPoint) {
+bug
 //		fwScene!.cameraPoleSpin	 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 //		fwScene!.cameraHorizonUp += deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
-//	}
+	}
 //
 //	 // MARK: - 13.3 TOUCHPAD Enters
 //	// ///////////////////////////////////////

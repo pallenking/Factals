@@ -145,6 +145,7 @@
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9FA1BA5A2881950000B14D60 /* Bogus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bogus.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
+		9FDBBED628AC45DB00445219 /* PrintBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBuffer.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
 		9FEE519E286B507500C8C22A /* SubPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubPart.swift; sourceTree = "<group>"; };
 		9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredLog.swift; sourceTree = "<group>"; };
@@ -305,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				9F369DD6287C68F700196211 /* README.md */,
+				9FDBBED628AC45DB00445219 /* PrintBuffer.swift */,
 				9FEE6F142835778A00E9E2AE /* FooDocTry3 */,
 				9FA1BA59288194B000B14D60 /* FooDocTry3Tests */,
 				9FEE6F132835778A00E9E2AE /* Products */,
