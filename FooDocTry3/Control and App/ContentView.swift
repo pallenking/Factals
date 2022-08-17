@@ -91,34 +91,33 @@ struct ContentView: View {
 	func gestures() -> some Gesture {
 		let drag 				= DragGesture(minimumDistance: 0)
 		  .onChanged(
-			{	drag in dragGesture(value:drag)			})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
-//			{	drag in onGesture("Drag Changed \(drag)")	})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
+			{	d in dragGesture(value:d)			})   // Do stuff with the drag - maybe record what the value is in case things get lost later on
 		  .onEnded(
-			{	drag in onGesture("Drag Ended \(drag)")		})
-																				//		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
-																				//		  .onChanged(
-																				//			{	delta in onGesture("Pinch Changed \(delta)")	})
-																				//		  .onEnded(
-																				//			{	delta in onGesture("Pinch Ended \(delta)")	})
+			{	d in dragGestureEnd(value:d)		})
+		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
+		  .onChanged(
+			{	delta in onGesture("Pinch Changed \(delta)")	})
+		  .onEnded(
+			{	delta in onGesture("Pinch Ended \(delta)")	})
 		let tap1				= TapGesture(count:1)
 		  .onEnded(
-			{	delta in onGesture("Tap1 Ended \(delta)")	})
+			{	d in tapGesture(value:d, count:1)			})
 		let tap2				= TapGesture(count:2)
 		  .onEnded(
-			{	delta in onGesture("Tap2 Ended \(delta)")	})
-																				//		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
-																				//		  .onChanged(
-																				//			{	delta in onGesture("Rotation Changed \(delta)")})
-																				//		  .onEnded(
-																				//			{	delta in onGesture("Rotation Ended \(delta)")	})
-																				//		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
-																				//		  .onChanged(
-																				//			{	delta in onGesture("Press Changed \(delta)")	})
-																				//		  .onEnded(
-																				//			{	delta in onGesture("Press Ended \(delta)")	})
+			{	d in tapGesture(value:d, count:2)			})
+		let hackyRotation 		= RotationGesture(minimumAngleDelta: Angle(degrees: 0.0))// OMIT??
+		  .onChanged(
+			{	delta in onGesture("Rotation Changed \(delta)")})
+		  .onEnded(
+			{	delta in onGesture("Rotation Ended \(delta)")	})
+		let hackyPress 			= LongPressGesture(minimumDuration: 0.0, maximumDistance: 0.0)
+		  .onChanged(
+			{	delta in onGesture("Press Changed \(delta)")	})
+		  .onEnded(
+			{	delta in onGesture("Press Ended \(delta)")	})
 		let combinedGesture = drag
-																				//		  .simultaneously(with: hackyPinch)
-																				//		  .simultaneously(with: hackyRotation)
+		  .simultaneously(with: hackyPinch)
+		  .simultaneously(with: hackyRotation)
 		  .simultaneously(with: tap1)
 		  .simultaneously(with: tap2)
 																				//		  .exclusively(before: hackyPress)
@@ -127,18 +126,38 @@ struct ContentView: View {
 	func onGesture(_ msg:String="") {	print("onGesture: \(msg)") }	// set state, process the last drag position we saw, etc
 
 	//  ====== LEFT MOUSE ======
-//	var deltaAngle:FwScene.SelfiePole
 	func dragGesture(value v:DragGesture.Value) {
 		let delta			= v.location - v.startLocation
-		print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
-								
+	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 		let fwScene			= DOC.state.fwScene
+								
 		var newAngle : FwScene.SelfiePole = fwScene.lastSelfiePole
-		newAngle.cameraPoleSpin -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		newAngle.cameraPoleSpin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 		newAngle.cameraHorizonUp += delta.y  * 0.2		// * self.cameraZoom/10.0
 		fwScene.updateCameraTransform(to:newAngle, for:"dragGesture")
 	}
+	func dragGestureEnd(value v:DragGesture.Value) {
+		let delta			= v.location - v.startLocation
+	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
+		let fwScene			= DOC.state.fwScene
+
+		fwScene.lastSelfiePole.cameraPoleSpin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		fwScene.lastSelfiePole.cameraHorizonUp += delta.y  * 0.2		// * self.cameraZoom/10.0
+		fwScene.updateCameraTransform(for:"dragGestureEnd")
+	}
+	func tapGesture(value v:TapGesture.Value, count:Int) {
+		print("tapGesture \(count)")
+		//let v			= v.location	//'TapGesture.Value' has no member 'location'
+		switch count {
+		case 1: nop
+		case 2: nop
+		default: nop
+		}
+	}
 }
+
+
+
 /*
 {
 
