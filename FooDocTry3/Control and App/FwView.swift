@@ -183,10 +183,10 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
-	func spinNUp(with nsEvent:NSEvent) {
-		fwScene!.cameraPoleSpin	 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		fwScene!.cameraHorizonUp += deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
-	}
+//	func spinNUp(with nsEvent:NSEvent) {
+//		fwScene!.cameraPoleSpin	 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+//		fwScene!.cameraHorizonUp += deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+//	}
 
 	 // MARK: - 13.3 TOUCHPAD Enters
 	// ///////////////////////////////////////

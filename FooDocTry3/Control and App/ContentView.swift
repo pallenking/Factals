@@ -127,10 +127,43 @@ struct ContentView: View {
 	func onGesture(_ msg:String="") {	print("onGesture: \(msg)") }	// set state, process the last drag position we saw, etc
 
 	//  ====== LEFT MOUSE ======
+//	var deltaAngle:FwScene.SelfiePole
 	func dragGesture(value v:DragGesture.Value) {
 		let delta			= v.location - v.startLocation
 		print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
-		DOC.state.fwScene.spinNUp(delta:delta)			// change Spin and Up of camera
-		DOC.state.fwScene.updateCameraTransform(for:"dragGesture")
+								
+		let fwScene			= DOC.state.fwScene
+		var newAngle : FwScene.SelfiePole = fwScene.lastSelfiePole
+		newAngle.cameraPoleSpin -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		newAngle.cameraHorizonUp += delta.y  * 0.2		// * self.cameraZoom/10.0
+		fwScene.updateCameraTransform(to:newAngle, for:"dragGesture")
 	}
 }
+/*
+{
+
+        
+        public var time: Date		/// The time associated with the drag gesture's current event.
+        public var location: CGPoint/// The location of the drag gesture's current event.
+        public var startLocation: CGPoint/// The location of the drag gesture's first event.
+        public var translation: CGSize { get } /// The total translation from the start of the drag gesture to the
+
+        /// A prediction, based on the current drag velocity, of where the final
+        /// location will be if dragging stopped now.
+        public var predictedEndLocation: CGPoint { get }
+
+        /// A prediction, based on the current drag velocity, of what the final
+        /// translation will be if dragging stopped now.
+        public var predictedEndTranslation: CGSize { get }
+
+        /// Returns a Boolean value indicating whether two values are equal.
+        ///
+        /// Equality is the inverse of inequality. For any values `a` and `b`,
+        /// `a == b` implies that `a != b` is `false`.
+        ///
+        /// - Parameters:
+        ///   - lhs: A value to compare.
+        ///   - rhs: Another value to compare.
+        public static func == (a: DragGesture.Value, b: DragGesture.Value) -> Bool
+    }
+ */
