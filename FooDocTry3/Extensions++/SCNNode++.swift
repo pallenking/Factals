@@ -75,7 +75,7 @@ extension SCNNode /*: HasChildren */ {
 				//m0?.locksAmbientWithDiffuse = true
 				///https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started self[k]!.asCGFloat
 				var color2		= newColor
-				if let skinAlpha = DOC.state.fwScene.config4scene.cgFloat("skinAlpha") {
+				if let skinAlpha = DOC.docState.fwScene.config4scene.cgFloat("skinAlpha") {
 					color2		= color2.change(alphaTo:skinAlpha)
 				}
 				m.diffuse.contents = color2 //newColor//color2//
@@ -390,7 +390,7 @@ bug
 
 		// display position in trunk:
 		if DOCLOG.params4aux.string_("ppViewOptions").contains("W") {
-			let rootScn			= DOC.state.fwScene.rootScn //fwScene!.rootScn
+			let rootScn			= DOC.docState.fwScene.rootScn //fwScene!.rootScn
 			let p				= convertPosition(.zero, to:rootScn)
 			rv2					+= p.pp(.short).field(-11, dots:false)
 		}

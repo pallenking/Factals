@@ -24,7 +24,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	 var fwView		: FwView?	//SCNView?		// IB sets this
 
 	 // Model of a FooDocTry3Document:
-	var state : DocState
+	var docState : DocState
 
 //	 // MARK: - 2.2 Sugar
 //	var windowController0 : NSWindowController? {		// First NSWindowController
@@ -34,7 +34,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 //
 
 	init(state state_:DocState?=nil) {
-		state	 				= state_ ?? { 			// State NOT given:
+		docState	 				= state_ ?? { 			// State NOT given:
 			let fwScene			= FwScene(fwConfig:params4scene)				// A Part Tree
 
 			// Generate a new document.
@@ -85,9 +85,9 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 			//		let existingFile: FileWrapper?	// The file wrapper containing the current document content. nil if the document is unsaved.
 		switch configuration.contentType {
 		case .fooDocTry3:
-			return .init(regularFileWithContents:state.rootPart.data!)
+			return .init(regularFileWithContents:docState.rootPart.data!)
 		case .sceneKitScene:
-			return .init(regularFileWithContents:state.fwScene.data!)
+			return .init(regularFileWithContents:docState.fwScene.data!)
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -135,27 +135,27 @@ bug//	if !DOCCTLR.documents.contains(self) {
 	func didLoadNib() {			// after init(state,...)
 
 		 // Spread configuration information
-		updateDocConfigs(from:state.rootPart.ansConfig)
+		updateDocConfigs(from:docState.rootPart.ansConfig)
 
 		 // Generate Vew tree
-		let rVew				= Vew(forPart:state.rootPart, scn:rootScn)//.scene!.rootNode)
-		let scene				= state.fwScene
+		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
+		let scene				= docState.fwScene
 		scene.rootVew			= rVew				// INSTALL vew
 		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
 
 		scene.addLights()														//scene.addLightsAndCamera()
 
 				// Build Vews after nib loading:
-/*x*/	state.fwScene.installRootPart(state.rootPart, reason:"InstallRootPart")
+/*x*/	docState.fwScene.installRootPart(docState.rootPart, reason:"InstallRootPart")
 
-		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:state.rootPart.title) ))
+		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:docState.rootPart.title) ))
 
 //		displayName				= state.rootPart.title
 //		window0?.title			= displayName									//makeInspectors()
 		makeInspectors()
 
 				// Start Up Simulation:
-		state.rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
+		docState.rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
 	}
 	   /// Called after a new experiment is loaded.
 	  /// Spreads a new configuration from the selected experiment into various hashes.
@@ -209,19 +209,19 @@ bug//	if !DOCCTLR.documents.contains(self) {
 		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 		 // Scene:
 		if toParams4scene.count > 0 {
-			let scene			= state.fwScene
+			let scene			= docState.fwScene
 			atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
 			scene.config4scene += toParams4scene
 		}
 		 // Simulator
 		if toParams4sim.count > 0 {
 			atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
-			DOC?.state.rootPart.simulator.config4sim += toParams4sim
+			DOC?.docState.rootPart.simulator.config4sim += toParams4sim
 		}
 		 // Log:
 		if toParams4docLog.count > 0 {
 			atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
-			DOC?.state.rootPart.log.config4log	+= toParams4docLog
+			DOC?.docState.rootPart.log.config4log	+= toParams4docLog
 		}
 		 // Unaccounted for
 		if unused.count > 0 {
@@ -249,7 +249,7 @@ bug//	if !DOCCTLR.documents.contains(self) {
 //		}
 	}
 	func showInspec(for name:String) {
-		if let part	= state.rootPart.find(name:name),
+		if let part	= docState.rootPart.find(name:name),
 		  let vew	= rootVew.find(part:part) {
 			showInspecFor(vew:vew, allowNew:true)
 		}
@@ -318,10 +318,10 @@ bug//			// Remember window for next creation
 		}
 
 		 // Second, check fwScene:
-		if state.fwScene == nil {
+		if docState.fwScene == nil {
 			Swift.print("fwDocument(\(pp(.uid, [:])).fwScene=nil")
 		}
-		else if state.fwScene.processKey(from:nsEvent, inVew:vew) {
+		else if docState.fwScene.processKey(from:nsEvent, inVew:vew) {
 				return true 					// fwScene handled
 		}
 

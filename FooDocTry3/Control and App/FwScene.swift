@@ -370,7 +370,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	var lookAtVew  : Vew?		= nil
 	 /// Update camera formation, configuration, and pointing
 	func insureCameraNode() -> SCNNode {
-		guard let rootScn		= DOC?.state.fwScene.rootScn else {		fatalError("insureCameraNode() found DOC==nil") 	}
+		guard let rootScn		= DOC?.docState.fwScene.rootScn else {		fatalError("insureCameraNode() found DOC==nil") 	}
 
 		let camera				= rootScn.find(name:"camera")
 								?? addCameraNode(config:config4scene)
@@ -412,7 +412,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		}
 
 		 // Camera looks at target:
-		if let state			= DOC?.state,
+		if let state			= DOC?.docState,
 		 let laStr				= config4scene.string("lookAt"),
 		  laStr != ""
 		{
@@ -564,7 +564,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		guard let doc			= DOC else {	panic("DOC is nil"); return		}
 
 		 // 1. Get LOCKS for PartTree and VewTree
-		guard	doc.state.rootPart.lock(partTreeAs:lockStr) else {
+		guard	doc.docState.rootPart.lock(partTreeAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get PART lock")		// or
 		}
 		guard lock(rootVewAs:lockStr) else {
@@ -594,7 +594,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		atRve(6, logd("updateVewSizePaint(needsViewLock:) completed"))
 
 		 // 5. Look At Node:
-/*x*/	lookAtPart				= lookAtPart ?? doc.state.rootPart//rootPart
+/*x*/	lookAtPart				= lookAtPart ?? doc.docState.rootPart//rootPart
 		if lookAtPart != nil {
 			lookAtVew 			= rootVew.find(part:lookAtPart!, inMe2:true)
 		}
@@ -606,7 +606,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		// 6. UNLOCK PartTree and VewTree:
 		unlock(              rootVewAs:lockStr)
-		doc.state.rootPart.unlock(partTreeAs:lockStr)
+		doc.docState.rootPart.unlock(partTreeAs:lockStr)
 	}
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -728,21 +728,21 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			nop
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.vew)		})
+			doc.docState.rootPart.forAllParts({	$0.markTree(dirty:.vew)		})
 			rootVew.updateVewSizePaint()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
+			doc.docState.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
 			rootVew.updateVewSizePaint()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			doc.state.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
+			doc.docState.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
 			rootVew.updateVewSizePaint()
 		case "w":
 			print("\n******************** 'w': ==== FwScene Camera = [\(ppCam())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwScene: --> rootPart")
-			if doc.state.rootPart.processKey(from:nsEvent, inVew:vew) {
+			if doc.docState.rootPart.processKey(from:nsEvent, inVew:vew) {
 				print("ERROR: fwScene.Process('x') failed")
 			}
 			return true								// recognize both

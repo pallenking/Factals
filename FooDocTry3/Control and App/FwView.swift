@@ -21,9 +21,9 @@ class FwView : SCNView {
 	 //\\\ SCNView.scene		same as fwScene:
 //	var fwScene : FwScene?		= nil			// USED ONLY FOR CAMERA
 	var fwScene : FwScene? {
-		get 		{		DOC?.state.fwScene							}
+		get 		{		DOC?.docState.fwScene							}
 		set(v)		{		if var doc = DOC, let val = v {
-								doc.state.fwScene = val
+								doc.docState.fwScene = val
 							}
 					}
 	}

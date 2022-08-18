@@ -15,9 +15,9 @@ func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true
 }
 
  /// Access to current ////// Part Tree //////
-var rootPart  : RootPart		{	return (DOC?.state.rootPart)!				}
+var rootPart  : RootPart		{	return (DOC?.docState.rootPart)!				}
 func rootpart(_ name:String?=nil) -> Part  {
-	if var rv : Part			= DOC?.state.rootPart {//rootPart {
+	if var rv : Part			= DOC?.docState.rootPart {//rootPart {
 		if name != nil {			// Search for sought Part	//maxLevel:1,
 			rv					= rv.find(name:name!, inMe2:true) ?? rv
 		}
@@ -28,11 +28,11 @@ func rootpart(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  rootVew  : Vew  			{
-	get 		{	return DOC.state.fwScene.rootVew								}
-	set (v)		{	DOC.state.fwScene.rootVew = v									}
+	get 		{	return DOC.docState.fwScene.rootVew								}
+	set (v)		{	DOC.docState.fwScene.rootVew = v									}
 }
 func rootvew(_ name:String?=nil) -> Vew  {
-	guard let docState 			= DOC?.state else {
+	guard let docState 			= DOC?.docState else {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
 	}
@@ -44,9 +44,9 @@ func rootvew(_ name:String?=nil) -> Vew  {
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-var  rootScn  : SCNNode  	{  DOC?.state.fwScene.rootScn ?? .null				}
+var  rootScn  : SCNNode  	{  DOC?.docState.fwScene.rootScn ?? .null				}
 func rootscn(_ name:String?=nil) -> SCNNode	{
-	guard let docState 			= DOC?.state else {
+	guard let docState 			= DOC?.docState else {
 		print("DOC! is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}

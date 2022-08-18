@@ -280,7 +280,7 @@ bug
 			}
 		}
 		 // Print Simulator's time, if it has changed:
-		if let sim				= DOC?.state.rootPart.simulator,
+		if let sim				= DOC?.docState.rootPart.simulator,
 //		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
 		  simTimeLastLog != nil
 		{

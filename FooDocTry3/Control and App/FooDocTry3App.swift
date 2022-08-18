@@ -21,7 +21,7 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 
 //let DOCCTLR						= NSDocumentController.shared
 var DOC   	 : FooDocTry3Document!		// (Currently Active) App must insure continuity
-var DOCLOG   : Log 					{	DOC?.state.rootPart.log ?? Log.null			}
+var DOCLOG   : Log 					{	DOC?.docState.rootPart.log ?? Log.null			}
 // A basic tutorial :http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
 
 

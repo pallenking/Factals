@@ -27,8 +27,8 @@ struct ContentView: View {
 		//@State var dragOffset: CGSize = .zero
 //		HStack {
 			VStack {
-				let rootPart:Part	= document.state.rootPart
-				let scene			= document.state.fwScene
+				let rootPart:Part	= document.docState.rootPart
+				let scene			= document.docState.fwScene
 				let rootVew :Vew	= scene.rootVew
 				let rootNode		= scene.rootNode
 				let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
@@ -43,7 +43,7 @@ struct ContentView: View {
 					],
 					preferredFramesPerSecond:30,
 			 		antialiasingMode:.none,										//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-					delegate:document.state.fwScene								// FwScene // SCNSceneRendererDelegate
+					delegate:document.docState.fwScene								// FwScene // SCNSceneRendererDelegate
 				//	technique:SCNTechnique?
 				)
 				 .onAppear {
@@ -133,7 +133,7 @@ struct ContentView: View {
 
 	//  ====== LEFT MOUSE ======
 	func dragGesture(value v:DragGesture.Value) {
-		let fwScene				= DOC.state.fwScene
+		let fwScene				= DOC.docState.fwScene
 		let delta				= v.location - v.startLocation
 	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 								
@@ -143,7 +143,7 @@ struct ContentView: View {
 		fwScene.updateCameraTransform(to:newPole, for:"dragGesture")
 	}
 	func dragGestureEnd(value v:DragGesture.Value) {
-		let fwScene				= DOC.state.fwScene
+		let fwScene				= DOC.docState.fwScene
 		let delta				= v.location - v.startLocation
 	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 
@@ -152,7 +152,7 @@ struct ContentView: View {
 		fwScene.updateCameraTransform(for:"dragGestureEnd")
 	}
 	func tapGesture(value v:TapGesture.Value, count:Int) {
-		let fwScene				= DOC.state.fwScene
+		let fwScene				= DOC.docState.fwScene
 		print("tapGesture value:'\(v)' count:\(count)")
 		//let v					= v.location	//'TapGesture.Value' has no member 'location'
 		switch count {
@@ -171,7 +171,7 @@ struct ContentView: View {
 												eventNumber:0,		// WTF
 												clickCount:count,
 												pressure:1.0)!
-			let x:Vew? 			= DOC.state.fwScene.modelPic(with:nsEvent)
+			let x:Vew? 			= DOC.docState.fwScene.modelPic(with:nsEvent)
 																				//			let nsEvent:NSEvent = NSEvent.keyEvent(with:.leftMouseDown,
 																				//												   location:location,
 																				//												   modifierFlags:0,

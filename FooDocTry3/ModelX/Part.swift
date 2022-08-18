@@ -123,7 +123,7 @@ class Part : NSObject, Codable, NSCopying, ObservableObject, PolyWrappable {		//
 		name					= nam ?? {
 			if let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let rootPart	= DOC?.state.rootPart	//rootPart
+				let rootPart	= DOC?.docState.rootPart	//rootPart
 				let index		= rootPart?.indexFor[prefix] ?? 0
 				rootPart?.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
@@ -524,7 +524,7 @@ bug
 			}
 		}
 		return root?.ansConfig[name] ??		// Look in common places: // 21200301PAK: Review: sometimes ans Config is also dumped into Part.config?
-			   DOC?.state.fwScene.config4scene[name] //fwScene?
+			   DOC?.docState.fwScene.config4scene[name] //fwScene?
 	}
 	  /// Lookup Part's configuration from only this Part
 //	 func configLocal(_ name:String) -> FwAny? {
