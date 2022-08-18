@@ -440,11 +440,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	}
 	var lastSelfiePole = SelfiePole()						// init to default
 
-//	func spinNUp(delta:CGPoint) {
-//		cameraPoleSpin			-= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-//		cameraHorizonUp			+= delta.y  * 0.2		// * self.cameraZoom/10.0
-//	}
-
 	 // Compute Camera Transform from pole config
 	func updateCameraTransform(to:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) {
 		let cam					= to ?? lastSelfiePole
@@ -790,10 +785,10 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	func modelPic(with nsEvent:NSEvent) -> Vew?
 	{
 		 // CONVERT to window coordinates
-	let view				= DOC?.fwView
-		if let mouse 			= view?.convert(nsEvent.locationInWindow, from:view),
+		if let view				= DOC?.fwView,
+		  let mouse : NSPoint?	= view.convert(nsEvent.locationInWindow, from:view),
 		   // SELECT 3D point from 2D position
-		  let picdVew			= findVew(at:mouse)
+		  let picdVew			= findVew(at:mouse!)
 		{
 			 // DISPATCH to PART that was pic'ed
 			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) == false {

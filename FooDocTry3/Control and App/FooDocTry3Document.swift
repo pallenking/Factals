@@ -34,7 +34,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 //
 
 	init(state state_:DocState?=nil) {
-		state	 				= state_ ?? { 		// state given
+		state	 				= state_ ?? { 			// State NOT given:
 			let fwScene			= FwScene(fwConfig:params4scene)				// A Part Tree
 
 			// Generate a new document.
