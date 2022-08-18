@@ -154,24 +154,23 @@ struct ContentView: View {
 	func tapGesture(value v:TapGesture.Value, count:Int) {
 		let fwScene				= DOC.docState.fwScene
 		print("tapGesture value:'\(v)' count:\(count)")
-		//let v					= v.location	//'TapGesture.Value' has no member 'location'
-		switch count {
-		case 1: nop
-		case 2: nop			// Double click  (HACK: use last drag location)
 
-			 // Make NSEvent for Double Click
-			let a				= fwScene.cameraNode.transform.position
-			let location		= NSPoint(x: a.x, y: a.y)
-			let nsEvent:NSEvent = NSEvent.mouseEvent(	with:.leftMouseDown,
-												location:location,
-												modifierFlags:.numericPad,//?? :NSEvent.ModifierFlags,
-												timestamp:0,		// WTF
-												windowNumber:0,		// WTF
-												context:nil,		// WTF
-												eventNumber:0,		// WTF
-												clickCount:count,
-												pressure:1.0)!
-			let x:Vew? 			= DOC.docState.fwScene.modelPic(with:nsEvent)
+		 // Make NSEvent for Double Click
+		let a					= fwScene.cameraNode.transform.position
+		let location			= NSPoint(x: a.x, y: a.y)
+		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
+											location:location,
+											modifierFlags:.numericPad,//?? :NSEvent.ModifierFlags,
+			/* WTF: */			  timestamp:0,windowNumber:0,context:nil,eventNumber:0,
+											clickCount:count,
+											pressure:1.0)!
+
+		 // dispatch Pic event
+		let x:Vew? 			= DOC.docState.fwScene.modelPic(with:nsEvent)
+//		print(windowController0)
+		print(x ?? "<<nil>>")
+	}
+}
 																				//			let nsEvent:NSEvent = NSEvent.keyEvent(with:.leftMouseDown,
 																				//												   location:location,
 																				//												   modifierFlags:0,
@@ -183,39 +182,11 @@ struct ContentView: View {
 																				//												   isARepeat:false,
 																				//												   keyCode:0
 																				//												  )!
-								
-		default: nop
-		}
-	}
-}
-
-
-
 /*
-{
-
-        
-        public var time: Date		/// The time associated with the drag gesture's current event.
-        public var location: CGPoint/// The location of the drag gesture's current event.
-        public var startLocation: CGPoint/// The location of the drag gesture's first event.
-        public var translation: CGSize { get } /// The total translation from the start of the drag gesture to the
-
-        /// A prediction, based on the current drag velocity, of where the final
-        /// location will be if dragging stopped now.
-        public var predictedEndLocation: CGPoint { get }
-
-        /// A prediction, based on the current drag velocity, of what the final
-        /// translation will be if dragging stopped now.
-        public var predictedEndTranslation: CGSize { get }
-
-        /// Returns a Boolean value indicating whether two values are equal.
-        ///
-        /// Equality is the inverse of inequality. For any values `a` and `b`,
-        /// `a == b` implies that `a != b` is `false`.
-        ///
-        /// - Parameters:
-        ///   - lhs: A value to compare.
-        ///   - rhs: Another value to compare.
-        public static func == (a: DragGesture.Value, b: DragGesture.Value) -> Bool
-    }
+		public var time: Date							/// The time associated with the drag gesture's current event.
+		public var location: CGPoint					/// The location of the drag gesture's current event.
+		public var startLocation: CGPoint				/// The location of the drag gesture's first event.
+		public var translation: CGSize { get } 			/// The total translation from the start of the drag gesture to the
+		public var predictedEndLocation: CGPoint { get}	/// A prediction, based on the current drag velocity, of where the final
+		public var predictedEndTranslation: CGSize { get}/// A prediction, based on the current drag velocity, of what the final
  */

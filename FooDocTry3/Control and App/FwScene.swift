@@ -782,8 +782,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
-	func modelPic(with nsEvent:NSEvent) -> Vew?
-	{
+	func modelPic(with nsEvent:NSEvent) -> Vew? {
+		assert(DOC?.fwView != nil, "DOC?.fwView")
+
 		 // CONVERT to window coordinates
 		if let view				= DOC?.fwView,
 		  let mouse : NSPoint?	= view.convert(nsEvent.locationInWindow, from:view),

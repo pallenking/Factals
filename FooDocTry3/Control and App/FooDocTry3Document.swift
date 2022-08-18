@@ -26,12 +26,12 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	 // Model of a FooDocTry3Document:
 	var docState : DocState
 
-//	 // MARK: - 2.2 Sugar
-//	var windowController0 : NSWindowController? {		// First NSWindowController
-//		return windowControllers.count > 0 ? windowControllers[0] : nil			}
-//	var window0 : NSWindow? 	{						// First NSWindow
-//		return windowController0?.window										}
-//
+	 // MARK: - 2.2 Sugar
+	var windowController0 : NSWindowController? {		// First NSWindowController
+bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil			}
+	var window0 : NSWindow? 	{						// First NSWindow
+		return windowController0?.window										}
+
 
 	init(state state_:DocState?=nil) {
 		docState	 				= state_ ?? { 			// State NOT given:
