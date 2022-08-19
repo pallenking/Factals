@@ -132,7 +132,7 @@ bug//	if !DOCCTLR.documents.contains(self) {
 																				//
 																				//		didLoadNib()
 																				//	}
-	func didLoadNib() {			// after init(state,...)
+	func didLoadNib(to view:Any) {			// after init(state,...)
 
 		 // Spread configuration information
 		updateDocConfigs(from:docState.rootPart.ansConfig)

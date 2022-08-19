@@ -26,7 +26,7 @@ struct ContentView: View {
 		//@GestureState var dragGestureActive: Bool = false
 		//@State var dragOffset: CGSize = .zero
 //		HStack {
-			VStack {
+//			VStack {
 				let rootPart:Part	= document.docState.rootPart
 				let scene			= document.docState.fwScene
 				let rootVew :Vew	= scene.rootVew
@@ -35,11 +35,11 @@ struct ContentView: View {
 				SceneView(
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
-					options			: [.autoenablesDefaultLighting,
-		//**/						   .allowsCameraControl,
-									   .jitteringEnabled,
-									   .rendersContinuously,
-									   .temporalAntialiasingEnabled
+					options			: [//.autoenablesDefaultLighting,
+		//**/						   //.allowsCameraControl,
+									   //.jitteringEnabled,
+									   //.rendersContinuously,
+									   //.temporalAntialiasingEnabled
 					],
 					preferredFramesPerSecond:30,
 			 		antialiasingMode:.none,										//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
@@ -47,7 +47,7 @@ struct ContentView: View {
 				//	technique:SCNTechnique?
 				)
 				 .onAppear {
-				 	document.didLoadNib()										}
+				 	document.didLoadNib(to:self)								}
 				 .gesture(gestures() )
 				 .border(Color.black, width: 3)									// .frame(width:600, height:400)\
 				// .onKeyDown {		 }
@@ -87,7 +87,7 @@ struct ContentView: View {
 //				)
 //					.frame(width:200, height:300)
 //			}
-		}
+//		}
 	}
 	func gestures() -> some Gesture {
 		let drag 				= DragGesture(minimumDistance: 0)

@@ -43,7 +43,7 @@ class Link : Atom {
 	 // MARK: - 2. Object Variables:
 	 // MARK: - specify type of line:
 	var linkSkinType : LinkSkinType
-	let usePlane	  			= true											//false//true//
+	let usePlane	  			= false											//false//true//
 	/// See notes at end
 	lazy var   pUpConvPort : ConvPort = ConvPort.nullConveyor
 	lazy var sDownConvPort : ConvPort = ConvPort.nullConveyor
