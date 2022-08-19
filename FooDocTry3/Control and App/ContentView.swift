@@ -18,13 +18,10 @@ extension SCNCameraController : ObservableObject {	}
 
 struct ContentView: View {
 	@Binding     var document: FooDocTry3Document
-	@StateObject var jetModel 		= JetModel()
-	@StateObject var dragonModel	= DragonModel()
-//	@StateObject var cameraController: SCNCameraController
+//	@StateObject var jetModel 		= JetModel()
+//	@StateObject var dragonModel	= DragonModel()
 
 	var body: some View {
-		//@GestureState var dragGestureActive: Bool = false
-		//@State var dragOffset: CGSize = .zero
 		VStack {
 			let rootPart:Part	= document.docState.rootPart
 			let scene			= document.docState.fwScene
@@ -32,7 +29,7 @@ struct ContentView: View {
 			let rootNode		= scene.rootNode
 			let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 			ZStack {
-				KeyPressReceiver { key in print(key) }
+				KeyPressReceiver { 		key in keyPressed(x:key) 					}
 				SceneView(
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
@@ -45,7 +42,6 @@ struct ContentView: View {
 					preferredFramesPerSecond:30,
 			 		antialiasingMode:.none,										//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
 					delegate:document.docState.fwScene								// FwScene // SCNSceneRendererDelegate
-				//	technique:SCNTechnique?
 				)
 				 .onAppear {
 				 	document.didLoadNib(to:self)								}
@@ -171,8 +167,8 @@ struct ContentView: View {
 //		print(windowController0)
 		print(x ?? "<<nil>>")
 	}
-	func keyPressed() {
-	
+	func keyPressed(x:Character) {
+		print("func keyPressed('\(x)':Character)")
 	}
 
 
