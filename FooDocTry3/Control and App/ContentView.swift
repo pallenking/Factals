@@ -25,13 +25,14 @@ struct ContentView: View {
 	var body: some View {
 		//@GestureState var dragGestureActive: Bool = false
 		//@State var dragOffset: CGSize = .zero
-//		HStack {
-//			VStack {
-				let rootPart:Part	= document.docState.rootPart
-				let scene			= document.docState.fwScene
-				let rootVew :Vew	= scene.rootVew
-				let rootNode		= scene.rootNode
-				let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
+		VStack {
+			let rootPart:Part	= document.docState.rootPart
+			let scene			= document.docState.fwScene
+			let rootVew :Vew	= scene.rootVew
+			let rootNode		= scene.rootNode
+			let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
+			ZStack {
+				KeyPressReceiver { key in print(key) }
 				SceneView(
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
@@ -52,25 +53,25 @@ struct ContentView: View {
 				 .border(Color.black, width: 3)									// .frame(width:600, height:400)\
 				// .onKeyDown {		 }
 				//.frame(width:600, height:400)
-
-				HStack {
-					Spacer()
-					Button(label:{	Text( "ptm").padding(.top, 300)				})
-					{	lldbPrint(ob:rootPart, mode:.tree)						}
-					Button(label:{	Text("ptLm").padding(.top, 300)				})
-					{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 	}
-					Button(label:{	Text( "  ")									}){}
-						.buttonStyle(.borderless)
-					Button(label:{	Text( "ptv").padding(.top, 300)				})
-					{	lldbPrint(ob:rootVew, mode:.tree) 						}
-					Button(label:{	Text( "ptn").padding(.top, 300)				})
-					{	Swift.print(rootNode.pp(.tree, aux), terminator:"\n") 	}
-					Spacer()
-					Button(label: {	Text("LLDB").padding(.top, 300) 			})
-					{	breakToDebugger()										}
-					Button(label:{	Text( "  ")									}){}
-						.buttonStyle(.borderless)
-				}
+			}
+			HStack {
+				Spacer()
+				Button(label:{	Text( "ptm").padding(.top, 300)				})
+				{	lldbPrint(ob:rootPart, mode:.tree)						}
+				Button(label:{	Text("ptLm").padding(.top, 300)				})
+				{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 	}
+				Button(label:{	Text( "  ")									}){}
+					.buttonStyle(.borderless)
+				Button(label:{	Text( "ptv").padding(.top, 300)				})
+				{	lldbPrint(ob:rootVew, mode:.tree) 						}
+				Button(label:{	Text( "ptn").padding(.top, 300)				})
+				{	Swift.print(rootNode.pp(.tree, aux), terminator:"\n") 	}
+				Spacer()
+				Button(label: {	Text("LLDB").padding(.top, 300) 			})
+				{	breakToDebugger()										}
+				Button(label:{	Text( "  ")									}){}
+					.buttonStyle(.borderless)
+			}
 				Spacer()
 //			}
 //			VStack {
@@ -87,7 +88,7 @@ struct ContentView: View {
 //				)
 //					.frame(width:200, height:300)
 //			}
-//		}
+		}
 	}
 	func gestures() -> some Gesture {
 		let drag 				= DragGesture(minimumDistance: 0)
@@ -170,6 +171,11 @@ struct ContentView: View {
 //		print(windowController0)
 		print(x ?? "<<nil>>")
 	}
+	func keyPressed() {
+	
+	}
+
+
 }
 																				//			let nsEvent:NSEvent = NSEvent.keyEvent(with:.leftMouseDown,
 																				//												   location:location,

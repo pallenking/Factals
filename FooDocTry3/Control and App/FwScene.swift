@@ -783,7 +783,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent) -> Vew? {
-		assert(DOC?.fwView != nil, "DOC?.fwView")
+		assert(DOC?.fwView != nil, "need to set up DOC.fwView")
 
 		 // CONVERT to window coordinates
 		if let view				= DOC?.fwView,
