@@ -1,27 +1,29 @@
 //
-//  KeyPressView.swift
+//  NSEventReceiver.swift
 //      Concept by Zev Eisenberg, repackaged for NSEvent capture by Allen King on 8/18/22.
 //
 //	Usage Case:
-//	ZStack {
-//		NSEventReceiverView { 	nsEvent in receivedEvent(nsEvent:nsEvent) 		}
-//		 // Another A SwiftUI view, to have it's NSEvent's "stolen". E.g:
-//		SceneView(scene:..., pointOfView:..., options:[], ...)
-//	}
+//		ZStack {
+//			 // This View goes underneath:
+//			NSEventReceiver { 	nsEvent in receivedEvent(nsEvent:nsEvent) 		}
+//			 // The View to have it's NSEvent's "stolen". E.g:
+//			SceneView(scene:..., pointOfView:..., options:[], ...)
+//		}
 
 import SwiftUI
 
-struct NSEventReceiverView: NSViewRepresentable {									//	typealias NSViewType = NSView
+struct NSEventReceiver: NSViewRepresentable {
 	let handler: (NSEvent) -> Void
 
-	func makeNSView(context:Context) -> KeyPressView {
-		KeyPressView(handler: handler)
+	func makeNSView(context:Context) -> NSEventReceiverView {
+		NSEventReceiverView(handler: handler)
 	}
-	func updateNSView(_ nsView: KeyPressView, context: Context) {
+	func updateNSView(_ nsView: NSEventReceiverView, context: Context) {
 	}
 }
 
-final class KeyPressView: NSView {
+ // Supporting class:
+final class NSEventReceiverView: NSView {
 	let handler: (NSEvent) -> Void
 
 	init(handler: @escaping (NSEvent) -> Void) {

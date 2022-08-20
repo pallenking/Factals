@@ -8,18 +8,18 @@
 import SwiftUI
 import SceneKit
 
-class JetModel: ObservableObject {
-	@Published var scene : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
-}
-class DragonModel: ObservableObject {
-	@Published var scene : SCNScene = dragonCurve(segments:1024)
-}
+//class JetModel: ObservableObject {
+//	@Published var scene : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
+//}
+//class DragonModel: ObservableObject {
+//	@Published var scene : SCNScene = dragonCurve(segments:1024)
+//}
 extension SCNCameraController : ObservableObject {	}
 
 struct ContentView: View {
 	@Binding     var document: FooDocTry3Document
-//	@StateObject var jetModel 		= JetModel()
-//	@StateObject var dragonModel	= DragonModel()
+//	@StateObject var jetModel 	= JetModel()
+//	@StateObject var dragonModel = DragonModel()
 
 	var body: some View {
 		VStack {
@@ -29,7 +29,7 @@ struct ContentView: View {
 			let rootNode		= scene.rootNode
 			let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 			ZStack {
-				NSEventReceiverView { nsEvent in receivedEvent(nsEvent:nsEvent)		}
+				NSEventReceiver { nsEvent in receivedEvent(nsEvent:nsEvent)		}
 				SceneView(
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
