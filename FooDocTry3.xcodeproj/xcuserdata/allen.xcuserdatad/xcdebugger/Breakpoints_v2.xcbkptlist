@@ -158,8 +158,8 @@
             filePath = "FooDocTry3/ModelX/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "846"
-            endingLineNumber = "846"
+            startingLineNumber = "849"
+            endingLineNumber = "849"
             landmarkName = "placeByLinks(inVew:mode:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -544,7 +544,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
                   endingLineNumber = "72"
-                  offsetFromSymbolStart = "116">
+                  offsetFromSymbolStart = "104">
                </Location>
                <Location
                   uuid = "03FAF28E-CDEE-4830-8B0F-957DC17C73E3 - 690a8ed70b48e7dc"
@@ -559,7 +559,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
                   endingLineNumber = "72"
-                  offsetFromSymbolStart = "260">
+                  offsetFromSymbolStart = "248">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -711,22 +711,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "04520C1A-82FE-403E-8C99-D0C1E5B053C0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Control and App/ContentView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "tapGesture(value:count:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "57BA2EF3-B576-49E0-BF3D-C2F4649DBBE3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -750,8 +734,8 @@
             filePath = "FooDocTry3/Control and App/KeyPressView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "keyDown(with:)"
             landmarkType = "7">
             <Locations>
@@ -791,16 +775,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1863CCB8-FBC3-43AF-8A28-E5DB0C19F7B8"
+            uuid = "E567C7BF-80F2-4D7E-AD19-4A85F31299C1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "keyPressed(x:)"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "receivedEvent(nsEvent:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

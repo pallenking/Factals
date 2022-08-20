@@ -29,7 +29,7 @@ struct ContentView: View {
 			let rootNode		= scene.rootNode
 			let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 			ZStack {
-				KeyPressReceiver { 		key in keyPressed(x:key) 					}
+				NSEventReceiverView { nsEvent in receivedEvent(nsEvent:nsEvent)		}
 				SceneView(
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
@@ -161,17 +161,25 @@ struct ContentView: View {
 			/* WTF: */			  timestamp:0,windowNumber:0,context:nil,eventNumber:0,
 											clickCount:count,
 											pressure:1.0)!
-
 		 // dispatch Pic event
-		let x:Vew? 			= DOC.docState.fwScene.modelPic(with:nsEvent)
+		let x:Vew? 				= DOC.docState.fwScene.modelPic(with:nsEvent)
 //		print(windowController0)
 		print(x ?? "<<nil>>")
 	}
-	func keyPressed(x:Character) {
-		print("func keyPressed('\(x)':Character)")
+	func receivedEvent(nsEvent:NSEvent) {
+		print("--- func received(nsEvent:\(nsEvent))")
+		switch nsEvent.type {
+		case .keyDown:
+			let characters		= nsEvent.charactersIgnoringModifiers ?? "X"
+			let char :Character = characters.count==0 ? "X" : Character(characters[0...0])
+			print("    key = \(char)")
+			let fwScene			= DOC.docState.fwScene
+			if fwScene.processKey(from:nsEvent, inVew:nil) {
+				return
+			}
+		default: nop
+		}
 	}
-
-
 }
 																				//			let nsEvent:NSEvent = NSEvent.keyEvent(with:.leftMouseDown,
 																				//												   location:location,

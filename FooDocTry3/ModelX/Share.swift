@@ -238,8 +238,8 @@ class HammingSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	override func bidOfShare() 			  -> Float	{		return 1			}
 	override func basicConSpot() -> ConSpot {	 // look at particular type of share:
 		let r					= radius
-		return ConSpot(center:SCNVector3(0, 1*r, 0), radius:1*r)		//1
-//		return ConSpot(center:SCNVector3(0, 0*r, 0), radius:0*r)		//1
+		return ConSpot(center:SCNVector3(0, 0.5*r, 0), radius:1*r)		//1
+//		return ConSpot(center:SCNVector3(0, 1*r, 0), radius:1*r)		//1
 	}
 }
 

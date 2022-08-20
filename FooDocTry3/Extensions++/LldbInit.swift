@@ -71,7 +71,7 @@ func fwHelp(_ key:String="?") {
 func sendApp(key:String="?") {
 	if let doc				= DOC,
 	   let ginnedUpEvent	= NSEvent.keyEvent(
-			with			: NSEvent.EventType(rawValue: 10)!,//keyDown,
+			with			: .keyDown, //NSEvent.EventType(rawValue: 10)!,//keyDown,
 			location		: NSZeroPoint,
 			modifierFlags	: NSEvent.ModifierFlags(rawValue: 0),
 			timestamp		: 0.0,

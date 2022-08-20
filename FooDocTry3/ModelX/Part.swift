@@ -1139,33 +1139,32 @@ bug
 	}
 	 // MARK: - 9.4 rePosition
 	func rePosition(vew:Vew) { //}, first:Bool=false) {
-		if vew.parent != nil {
-			 // Get Placement Modep
-			let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
-								parent?.config("placeMy")?.asString ?? // My Parent has placy MY
-											   "linky"				   // default is position by links
-			  // Set NEW's orientation (flip, lat, spin) at origin
-			vew.scn.transform	= SCNMatrix4(.origin,
-									 flip	 : flipped,
-									 latitude: CGFloat(lat.rawValue) * .pi/8,
-									 spin	 : CGFloat(spin)		 * .pi/8)
-			 // First has center at parent's origni
-			if vew.parent?.bBox.isEmpty ?? true {
-				let newBip		= vew.bBox * vew.scn.transform //new bBox in parent
-				vew.scn.position = -newBip.center
-			}
-			 // Place by stacking
-			else if placeMode.hasPrefix("stack") {	// Position Stacked
-				assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
-			}
-			 // Place by links, errs -> stacking
-			else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
-				assert(placeByLinks(inVew:vew, mode:placeMode)	// try link first
-					|| placeStacked(inVew:vew, mode:"stacky"), "placeByLinks and placeStacked failed")
-			} 
-			else {
-				panic("positioning method '\(placeMode)' unknown")
-			}
+		guard vew.parent != nil else {		return			}
+		 // Get Placement Modep
+		let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
+							parent?.config("placeMy")?.asString ?? // My Parent has placy MY
+										   "linky"				   // default is position by links
+		  // Set NEW's orientation (flip, lat, spin) at origin
+		vew.scn.transform	= SCNMatrix4(.origin,
+								 flip	 : flipped,
+								 latitude: CGFloat(lat.rawValue) * .pi/8,
+								 spin	 : CGFloat(spin)		 * .pi/8)
+		 // First has center at parent's origni
+		if vew.parent?.bBox.isEmpty ?? true {
+			let newBip		= vew.bBox * vew.scn.transform //new bBox in parent
+			vew.scn.position = -newBip.center
+		}
+		 // Place by stacking
+		else if placeMode.hasPrefix("stack") {	// Position Stacked
+			assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
+		}
+		 // Place by links, errs -> stacking
+		else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
+			assert(placeByLinks(inVew:vew, mode:placeMode)	// try link first
+				|| placeStacked(inVew:vew, mode:"stacky"), "placeByLinks and placeStacked failed")
+		}
+		else {
+			panic("positioning method '\(placeMode)' unknown")
 		}
 	}
 	  /// STACK selfNode onto side, per PARENT's placeBy:

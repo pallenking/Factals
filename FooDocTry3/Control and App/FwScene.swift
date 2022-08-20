@@ -786,8 +786,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		assert(DOC?.fwView != nil, "need to set up DOC.fwView")
 
 		 // CONVERT to window coordinates
-		if let view				= DOC?.fwView,
-		  let mouse : NSPoint?	= view.convert(nsEvent.locationInWindow, from:view),
+		if let mouse : NSPoint?	= DOC?.fwView?.convert(nsEvent.locationInWindow, from:DOC?.fwView),
 		   // SELECT 3D point from 2D position
 		  let picdVew			= findVew(at:mouse!)
 		{

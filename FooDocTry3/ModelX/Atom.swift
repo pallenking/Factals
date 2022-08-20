@@ -336,8 +336,11 @@ class Atom : Part {	//Part//FwPart
 
 		 // 1.  Make a Broadcast Splitter Atom:
 		let newName				= "\(name)\(toPort.name)"
-		let newBcast 			= Broadcast(["name":newName])
+		let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])
 		newBcast.flipped		= true		// add flipped  //false add unflipped
+//		let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
+//							parent?.config("placeMy")?.asString ?? // My Parent has placy MY
+//										   "linky"				   // default is position by links
 
 		 // 2.  Find a spot to insert it (above or below):
 		let papaNet				= toPort.atom!.enclosingNet! /// Find Net

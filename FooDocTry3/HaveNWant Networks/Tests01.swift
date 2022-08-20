@@ -864,7 +864,7 @@ r("+ All various flips B", eXYtight + camera(s:0,u:0) + log(eve:5, dat:5), {
 		]]),
 	]])
 })
-	xr("+ All various flips B", eXYtight + camera(s:0,u:0) + log(eve:5, dat:5), {
+	r("+ All various flips B", eXYtight + camera(s:0,u:0) + log(eve:5, dat:5), {
 		Net([parts:[
 			Broadcast([n:"ma", P:["x"]]),
 			MaxOr(	  [n:"x"]),
@@ -879,6 +879,23 @@ r("+ Show Link skin types", eSim + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + 
 	Broadcast([n:"a", share:["x,l:2,t:invisible"], jog+X:"0.5 0 0",f:1]), // no line
  	Mirror(   [n:"x", "gain":0, "offset":1, f:1]),
 ]]) })
+xr("+ Show Link skin types", eSim + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+	Hamming([n:"d", share:["x", "y"],  f:1]),
+ 	Hamming([n:"c", share:["x"],  f:1]),		// no line
+	Net([placeMy:"stackx -1 1", parts:[
+ 		Mirror(   [n:"x", "gain":0, "offset":1, f:1]),
+ 		Mirror(   [n:"y", "gain":0, "offset":1, f:1]),
+// 		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
+	] ])
+]]) })
+	r("- placement of autoBroadcast", eSim + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+		Hamming([n:"d", share:["x"],  f:1]),
+		Hamming([n:"c", share:["x"],  f:1]),		// no line
+		Net([placeMy:"stackx", parts:[
+			Mirror(   [n:"x", "gain":0, "offset":1, f:1]),
+		] ])
+	]]) })
+
  //200418: lock name fault
 r("+ All L2 forms?",  e + camera(s:10,u:10) + ["scene":[gravity:"0 0 8"]], { Net([n:"net", placeMy:"stackX -1", parts:[
 	Net([placeMy:"linky", parts:[
