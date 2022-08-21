@@ -398,26 +398,26 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		camera.exposureAdaptationDarkeningSpeedFactor = 1
 		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 															//cam.zFar				= 100
-		camNode.camera		= camera
+		camNode.camera			= camera
 		rootScn.addChild(node:camNode)
 
 		 // Configure Camera from Source Code:
-//		if let c 				= config.fwConfig("camera") {
-//			var lastSelfiePole:SelfiePole
-//			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-//				lastSelfiePole.cameraPoleHeight = CGFloat(h)
-//			}
-//			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-//				lastSelfiePole.cameraHorizonUp = -CGFloat(u)		/* in degrees */
-//			}
-//			if let s 			= c.float("s"), !s.isNan {	// Spin
-//				lastSelfiePole.cameraPoleSpin 	= CGFloat(s) 		/* in degrees */
-//			}
-//			if let z 			= c.float("z"), !z.isNan {	// Zoom
-//				lastSelfiePole.cameraZoom 		= CGFloat(z)
-//			}
-//			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
-//		}
+		if let c 				= config.fwConfig("camera") {
+			var lastSelfiePole	= SelfiePole()
+			if let h 			= c.float("h"), !h.isNan {	// Pole Height
+				lastSelfiePole.cameraPoleHeight = CGFloat(h)
+			}
+			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
+				lastSelfiePole.cameraHorizonUp = -CGFloat(u)		/* in degrees */
+			}
+			if let s 			= c.float("s"), !s.isNan {	// Spin
+				lastSelfiePole.cameraPoleSpin 	= CGFloat(s) 		/* in degrees */
+			}
+			if let z 			= c.float("z"), !z.isNan {	// Zoom
+				lastSelfiePole.cameraZoom 		= CGFloat(z)
+			}
+			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
+		}
 
 		 // Camera looks at target:
 		if let state			= DOC?.docState,

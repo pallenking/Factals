@@ -137,7 +137,7 @@ struct ContentView: View {
 								
 		var newPole : FwScene.SelfiePole = fwScene.lastSelfiePole
 		newPole.cameraPoleSpin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		newPole.cameraHorizonUp += delta.y  * 0.2		// * self.cameraZoom/10.0
+		newPole.cameraHorizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
 		fwScene.updateCameraTransform(to:newPole, for:"dragGesture")
 	}
 	func dragGestureEnd(value v:DragGesture.Value) {
@@ -146,7 +146,7 @@ struct ContentView: View {
 	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 
 		fwScene.lastSelfiePole.cameraPoleSpin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		fwScene.lastSelfiePole.cameraHorizonUp += delta.y  * 0.2		// * self.cameraZoom/10.0
+		fwScene.lastSelfiePole.cameraHorizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
 		fwScene.updateCameraTransform(for:"dragGestureEnd")
 	}
 	func tapGesture(value v:TapGesture.Value, count:Int) {
