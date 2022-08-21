@@ -127,7 +127,7 @@ class Part : NSObject, Codable, NSCopying, ObservableObject, PolyWrappable {		//
 				let index		= rootPart?.indexFor[prefix] ?? 0
 				rootPart?.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
-			}else{	// -- Use fallback
+			} else {	// -- Use fallback
 				defaultPrtIndex	+= 1
 				return "prt" + String(defaultPrtIndex)
 			}
@@ -506,7 +506,7 @@ bug
 		 // Check for duplicate names:
 		var allNames : [String] = []
 		for child in children {
-			assertWarn(allNames.contains(child.name) == false, "contains duplicate name \(name)")
+			assertWarn(!allNames.contains(child.name), "\(self.fullName) contains duplicate name \(child.name)")
 			allNames.append(child.name)
 		}
 		 // Do whole tree

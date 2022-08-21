@@ -62,7 +62,7 @@ func assertWarn(_ truthValue:Bool, _ message:@autoclosure()->String="assert fail
 	if truthValue == false {
 		let msg					= message()
 		warningLog.append(msg)
-		print("\n############# WARNING: \(msg)\n\t\t\t  ##########################")
+		print("\n############# WARNING: \(msg) #############")
 	}
 }
  // Get thee to a debugger.  Should:

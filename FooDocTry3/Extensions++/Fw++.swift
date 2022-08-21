@@ -331,7 +331,7 @@ extension Dictionary {
 }
  /// When keys conflict, pick existing
 func resolveKeys(_ val1:FwAny, _ val2:FwAny) -> FwAny {		return val1			}
-func +=( d0: inout FwConfig, d1:FwConfig) 			  {	d0 = d0 + d1			}
+func +=( d0: inout FwConfig, d1:FwConfig) 			  {		d0 = d0 + d1		}
 ////func +=( left: inout FwConfig, right:FwConfig){ 	left=left + right	}
 func +( d0:FwConfig, d1:FwConfig) -> FwConfig {
 	var rv					= d0
@@ -1179,33 +1179,36 @@ bug//	APPLOG.log(str, terminator:terminator)
 extension NSObject {
 	@objc dynamic var fwClassName : String {
 		get {
-			let cn				= className
-					// AD Hoc fix for NSHostingView:
-			for (pattern, replace) in [
-				("NSHostingView", "NSHostingView"),
-			]{
-				if cn.contains(pattern) {
-					//print("--- --- --- --- --- --- REPLACE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(replace)")
-					return replace
-				}
-			}
-					// Try to remove namespace from Bundle, and some canned ones
-			let bmi					= Bundle.main.infoDictionary!["CFBundleExecutable"] as? String
-			var namespaces 			= bmi == nil ? [] : [bmi!]
-			 // HACK Required to run XCTests BUG
-			namespaces.append(contentsOf: ["SwiftFactals", "SwiftFactalsTests"])
-			for namespace in namespaces {
-				if cn.hasPrefix(namespace + ".") {
-//				if cn.hasPrefix(namespace),
-//				   cn.dropFirst(namespace.count).prefix(1) == "." {										//, "className '\(myDomain)' isn't proper")
-					let cn2		= String(cn.dropFirst(namespace.count + 1))
-					//print("--- --- --- --- --- --- DELETE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn2)")
-					return cn2
-				}
-			}
-			  // Some names (e.g. SCNNodes) come through without a namespace
-			 //print("--- --- --- --- --- --- RAW >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn)")
-			return cn
+			let classNamePath		= className
+			let classNameElements	= classNamePath.split(separator:".")
+			let rv					= classNameElements.last
+			return String(rv!)
+//			 // AD Hoc fix for NSHostingView:
+//			for (pattern, replace) in [
+//				("NSHostingView", "NSHostingView"),
+//			]{
+//				if classNamePath.contains(pattern) {
+//					//print("--- --- --- --- --- --- REPLACE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(replace)")
+//					return replace
+//				}
+//			}
+//					// Try to remove namespace from Bundle, and some canned ones
+//			let bmi					= Bundle.main.infoDictionary!["CFBundleExecutable"] as? String
+//			var namespaces 			= bmi == nil ? [] : [bmi!]
+//			 // HACK Required to run XCTests BUG
+//			namespaces.append(contentsOf: ["SwiftFactals", "SwiftFactalsTests"])
+//			for namespace in namespaces {
+//				if classNamePath.hasPrefix(namespace + ".") {
+////				if cn.hasPrefix(namespace),
+////				   cn.dropFirst(namespace.count).prefix(1) == "." {										//, "className '\(myDomain)' isn't proper")
+//					let cn2		= String(classNamePath.dropFirst(namespace.count + 1))
+//					//print("--- --- --- --- --- --- DELETE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn2)")
+//					return cn2
+//				}
+//			}
+//			  // Some names (e.g. SCNNodes) come through without a namespace
+//			 //print("--- --- --- --- --- --- RAW >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn)")
+//			return classNamePath
 		}
 	}
 }

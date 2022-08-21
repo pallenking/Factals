@@ -414,6 +414,8 @@ func ppBuildErrorsNWarnings(title:String) -> String {
 	let errors 					= logNErrors	   == 1 ? "error"   : "errors"
 	let warnings 				= warningLog.count == 1 ? "warning" : "warnings"
 	var rv 						= """
+		######
+		######
 		##################### WARNINGS ##########################################
 		###### \"\(title)\":  Compillation has \(logNErrors) \(errors), \(warningLog.count) \(warnings):\n
 		"""
@@ -422,7 +424,9 @@ func ppBuildErrorsNWarnings(title:String) -> String {
 	}
 	rv							+= """
 		#########################################################################\n
-		"""				
+		######
+		######
+		"""
 	return rv
 }
 

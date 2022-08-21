@@ -199,7 +199,7 @@ class Library : NSObject {
 		state.scanTestNum += 1
 		if args!.argOnlyIndex {					// Wants Index
 
-			 // Display only those entries starting with a "+"
+			 // //// Display only those entries starting with a "+" ////////////
 			if testName?.hasPrefix("+") ?? false {	// 'trueF {//' trueF/falseF//
 	//why?		assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
 				let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
@@ -219,7 +219,7 @@ class Library : NSObject {
 												//}
 			}
 		}
-		else {									// Wants Test
+		else {		// ///////////// Wants Test ///////////////////////////////
 			let title			= testName != nil ? "\(testName!)" : "unnamed_\(state.scanTestNum)"
 			let matchReason0 : String? =
 				args!.argName != nil &&				// Name exists

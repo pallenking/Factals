@@ -34,26 +34,50 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		return windowController0?.window										}
 
 
-	init(state state_:DocState?=nil) {
-		docState	 				= state_ ?? { 			// State NOT given:
-			let fwScene			= FwScene(fwConfig:params4scene)				// A Part Tree
+//	init(state state_:DocState?=nil) {
+//		docState	 				= state_ ?? { 			// State NOT given:
+//			let fwScene			= FwScene(fwConfig:params4scene)				// A Part Tree
+//
+//			// Generate a new document.
+//
+//			// Several Ways: selectionString+---FUNCTION--------+-wantName:---wantNumber:
+//		//	let entry			= nil	//	 Blank scene		|	nil			-1
+//		//	let entry			= 34	//	 entry N			|	nil			N *
+//			let entry			= "xr()"//	 entry with xr()	|	"xr()"		-1
+//		//	let entry			= "name"//	 entry named scene	|	"name" *	-1
+//			let rootPart_		= RootPart(fromLibrary:entry)
+//
+//			rootPart_.wireAndGroom()
+//			return DocState(rootPart:rootPart_, fwScene:fwScene)
+//		} ()
+//
+//		 // KNOWN EARLY
+//		DOC						= self				// INSTALL FooDocTry3
+//	}	// --> SceneView --> didLoadNib()
+	init(state:DocState?=nil) {
+		if state != nil {
+			docState			= state!			// given
+			DOC					= self				// INSTALL FooDocTry3
+			return
+		}
+		let fwScene				= FwScene(fwConfig:params4scene)				// A Part Tree
 
-			// Generate a new document.
-			
-			// Several Ways: selectionString+---FUNCTION--------+-wantName:---wantNumber:
-		//	let entry			= nil	//	 Blank scene		|	nil			-1
-		//	let entry			= 34	//	 entry N			|	nil			N *
-			let entry			= "xr()"//	 entry with xr()	|	"xr()"		-1
-		//	let entry			= "name"//	 entry named scene	|	"name" *	-1
-			let rootPart_		= RootPart(fromLibrary:entry)
+		// Generate a new document.
 
-			rootPart_.wireAndGroom()
-			return DocState(rootPart:rootPart_, fwScene:fwScene)
-		} ()
+		// Several Ways: selectionString+---FUNCTION--------+-wantName:---wantNumber:
+	//	let entry				= nil	//	 Blank scene		|	nil			-1
+	//	let entry				= 34	//	 entry N			|	nil			N *
+		let entry				= "xr()"//	 entry with xr()	|	"xr()"		-1
+	//	let entry				= "name"//	 entry named scene	|	"name" *	-1
+		let rootPart_			= RootPart(fromLibrary:entry)
+//		rootPart_.wireAndGroom()
 
-		 // KNOWN EARLY
+		docState	 			= DocState(rootPart:rootPart_, fwScene:fwScene)
 		DOC						= self				// INSTALL FooDocTry3
-	}	// --> SceneView --> didLoadNib()
+
+		rootPart_.wireAndGroom()
+		updateDocConfigs(from:docState.rootPart.ansConfig)
+	}
 
 	/* ============== BEGIN FileDocument protocol: */
 	static var readableContentTypes: [UTType] { [.fooDocTry3, .sceneKitScene] }
@@ -69,7 +93,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
-				let docState 		= DocState(rootPart:rootPart, fwScene:FwScene(fwConfig:[:]))
+			let docState 		= DocState(rootPart:rootPart, fwScene:FwScene(fwConfig:[:]))
 			self.init(state:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:
 			let scene:FwScene?	= FwScene(data: data, encoding: .utf8)
@@ -134,10 +158,8 @@ bug//	if !DOCCTLR.documents.contains(self) {
 																				//		didLoadNib()
 																				//	}
 	func didLoadNib(to view:Any) {			// after init(state,...)
-
-		 // Spread configuration information
-		updateDocConfigs(from:docState.rootPart.ansConfig)
-
+																						 // Spread configuration information
+																				//		updateDocConfigs(from:docState.rootPart.ansConfig)
 		 // Generate Vew tree
 		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
 		let scene				= docState.fwScene
@@ -213,6 +235,7 @@ bug//	if !DOCCTLR.documents.contains(self) {
 			let scene			= docState.fwScene
 			atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
 			scene.config4scene += toParams4scene
+			nop
 		}
 		 // Simulator
 		if toParams4sim.count > 0 {

@@ -4,32 +4,25 @@
 //
 //  Created by Allen King on 5/18/22.
 //
-
 import SwiftUI
 import SceneKit
 
-//class JetModel: ObservableObject {
-//	@Published var scene : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
-//}
-//class DragonModel: ObservableObject {
-//	@Published var scene : SCNScene = dragonCurve(segments:1024)
-//}
 extension SCNCameraController : ObservableObject {	}
 
 struct ContentView: View {
 	@Binding     var document: FooDocTry3Document
-//	@StateObject var jetModel 	= JetModel()
-//	@StateObject var dragonModel = DragonModel()
 
 	var body: some View {
 		VStack {
-			let rootPart:Part	= document.docState.rootPart
+			let rootPart:RootPart = document.docState.rootPart
+//			document.updateDocConfigs(from:rootPart.ansConfig)
 			let scene			= document.docState.fwScene
 			let rootVew :Vew	= scene.rootVew
 			let rootNode		= scene.rootNode
 			let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 			ZStack {
 				NSEventReceiver { nsEvent in receivedEvent(nsEvent:nsEvent)		}
+//   			 .background(NSColor("verylightgray")!)
 				SceneView(
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
@@ -48,7 +41,6 @@ struct ContentView: View {
 				 .gesture(gestures())
 				 .border(Color.black, width: 3)
 //				 .background(NSColor("verylightgray")!)
-				// .onKeyDown {		 }
 				//.frame(width:600, height:400)
 			}
 			HStack {
@@ -57,8 +49,7 @@ struct ContentView: View {
 				{	lldbPrint(ob:rootPart, mode:.tree)						}
 				Button(label:{	Text("ptLm").padding(.top, 300)				})
 				{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 	}
-				Button(label:{	Text( "  ")									}){}
-					.buttonStyle(.borderless)
+				Button(label:{		Text( "  ") }){}.buttonStyle(.borderless)
 				Button(label:{	Text( "ptv").padding(.top, 300)				})
 				{	lldbPrint(ob:rootVew, mode:.tree) 						}
 				Button(label:{	Text( "ptn").padding(.top, 300)				})
@@ -66,25 +57,9 @@ struct ContentView: View {
 				Spacer()
 				Button(label: {	Text("LLDB").padding(.top, 300) 			})
 				{	breakToDebugger()										}
-				Button(label:{	Text( "  ")									}){}
-					.buttonStyle(.borderless)
+				Button(label:{		Text( "  ")}){} .buttonStyle(.borderless)
 			}
-				Spacer()
-//			}
-//			VStack {
-//				SceneView(
-//					scene: 		 jetModel.scene,
-//					pointOfView: jetModel.scene.cameraNode,
-//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-//				)
-//					.frame(width:200, height:200)
-//				SceneView(
-//					scene: 		 dragonModel.scene,
-//					pointOfView: dragonModel.scene.cameraNode,
-//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-//				)
-//					.frame(width:200, height:300)
-//			}
+			//Spacer()
 		}
 	}
 	func gestures() -> some Gesture {
