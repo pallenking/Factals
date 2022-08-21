@@ -17,7 +17,8 @@ struct ContentView: View {
 			let rootPart:RootPart = document.docState.rootPart
 //			document.updateDocConfigs(from:rootPart.ansConfig)
 			let scene			= document.docState.fwScene
-			let rootVew :Vew	= scene.rootVew
+			let cameraNode		= scene.cameraNode
+//			let rootVew :Vew	= scene.rootVew
 			let rootNode		= scene.rootNode
 			let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 			ZStack {
@@ -25,7 +26,7 @@ struct ContentView: View {
 //   			 .background(NSColor("verylightgray")!)
 				SceneView(
 					scene			: scene,
-					pointOfView		: scene.cameraNode,
+					pointOfView		: cameraNode,
 					options			: [//.autoenablesDefaultLighting,
 		//**/						   //.allowsCameraControl,
 									   //.jitteringEnabled,

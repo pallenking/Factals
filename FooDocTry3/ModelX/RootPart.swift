@@ -308,7 +308,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		//dirtySubTree(.vew)		// NOT NEEDED
 
 		 //  8. Done, release partTree Lock
-		atBld(3, logd("DONE BUILDING PART \"\(title)\""))
+		atBld(3, logd("BUILT PART \"\(title)\""))
 	}
 
 	  // MARK: - 5. Lock

@@ -384,9 +384,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	}
 	func addCameraNode(config:FwConfig) -> SCNNode {
 		 // ///// Camera:
-		let camNode 			= SCNNode()
-		camNode.name			= "camera"
-		camNode.position 		= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+		let cameraNode 			= SCNNode()
+		cameraNode.name			= "camera"
+		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 
 // THESE DANGLE:
 //		DOC?.fwView?.pointOfView = camNode
@@ -398,8 +398,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		camera.exposureAdaptationDarkeningSpeedFactor = 1
 		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 															//cam.zFar				= 100
-		camNode.camera			= camera
-		rootScn.addChild(node:camNode)
+		cameraNode.camera		= camera
+		rootScn.addChild(node:cameraNode)
 
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
@@ -430,7 +430,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 								  rootVew.child0?.part ??	// from rootVew child[0]
 								  state.rootPart			// from doc
 		}
-		return camNode
+		return cameraNode
 	}
 	 // MARK: - 9.C Mouse Rotator
 	 // Uses Cylindrical Coordinates
