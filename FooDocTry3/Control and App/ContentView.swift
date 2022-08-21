@@ -167,16 +167,19 @@ struct ContentView: View {
 		print(x ?? "<<nil>>")
 	}
 	func receivedEvent(nsEvent:NSEvent) {
-		print("--- func received(nsEvent:\(nsEvent))")
+		//print("--- func received(nsEvent:\(nsEvent))")
 		switch nsEvent.type {
 		case .keyDown:
 			let characters		= nsEvent.charactersIgnoringModifiers ?? "X"
 			let char :Character = characters.count==0 ? "X" : Character(characters[0...0])
-			print("    key = \(char)")
-			let fwScene			= DOC.docState.fwScene
-			if fwScene.processKey(from:nsEvent, inVew:nil) {
+			//print("    key = \(char)")
+			if DOC!.processKey(from:nsEvent, inVew:nil) {
 				return
 			}
+//			let fwScene			= DOC.docState.fwScene
+//			if fwScene.processKey(from:nsEvent, inVew:nil) {
+//				return
+//			}
 		default: nop
 		}
 	}

@@ -22,7 +22,6 @@ struct NSEventReceiver: NSViewRepresentable {
 	}
 }
 
- // Supporting class:
 final class NSEventReceiverView: NSView {
 	let handler: (NSEvent) -> Void
 

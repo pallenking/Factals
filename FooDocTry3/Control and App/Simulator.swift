@@ -240,42 +240,42 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 		}
 	}
 
-//// MARK: - 13. IBActions
-//		/// Prosses keyboard key
-//	   /// - Parameter from: -- NSEvent to process
-//	  ///  - Parameter vew:         -- The Vew to use
-//	 ///   - Returns: Key was recognized
-//	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
-//		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
-//			return false
-//		}
-//		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
-//			return false						// Simulator has no key-ups
-//		}
-//	//	let shift 				= nsEvent.modifierFlags.contains(.shift)
-//		switch character {
-//		case " ":							// perhaps "+ shift"
-//			 // One more cycle, stop if running:
-//			simEnabled 			= !simEnabled
-//			if simEnabled {
-//				kickstart		= 4
-//			}	// (Not using ppLog -- log numbers to be independent of
-//			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(kickstart)")
-//			return true
-//		case "k":							// kickstart simulator
-//			simEnabled 			= true
-//			kickstart			= 4
-//			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(kickstart)")
-//			return true
-//		case "?":
-//			Swift.print ("   === Simulator        commands:",
-//				"\t' '             -- Toggel simEnabled: run(-1) / stop(0) ",
-//				"\t'k'             -- kickstart simulator",
-////				"\t' ' + shift     -- Set simEnabled = 1: Run 1 cycle, then stop",
-//				separator:"\n")
-//		default:
-//			nop
-//		}
-//		return false
-//	}
+// MARK: - 13. IBActions
+		/// Prosses keyboard key
+	   /// - Parameter from: -- NSEvent to process
+	  ///  - Parameter vew:         -- The Vew to use
+	 ///   - Returns: Key was recognized
+	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
+			return false
+		}
+		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
+			return false						// Simulator has no key-ups
+		}
+	//	let shift 				= nsEvent.modifierFlags.contains(.shift)
+		switch character {
+		case " ":							// perhaps "+ shift"
+			 // One more cycle, stop if running:
+			simEnabled 			= !simEnabled
+			if simEnabled {
+				kickstart		= 4
+			}	// (Not using ppLog -- log numbers to be independent of
+			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(kickstart)")
+			return true
+		case "k":							// kickstart simulator
+			simEnabled 			= true
+			kickstart			= 4
+			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(kickstart)")
+			return true
+		case "?":
+			Swift.print ("=== Simulator        commands:",
+				"\t' '             -- Toggel simEnabled: run(-1) / stop(0) ",
+				"\t'k'             -- kickstart simulator",
+//				"\t' ' + shift     -- Set simEnabled = 1: Run 1 cycle, then stop",
+				separator:"\n")
+		default:
+			nop
+		}
+		return false
+	}
 }

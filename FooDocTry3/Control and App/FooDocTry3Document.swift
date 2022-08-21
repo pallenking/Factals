@@ -325,10 +325,10 @@ bug//			// Remember window for next creation
 				return true 					// fwScene handled
 		}
 
-//		 // Simulator:
-//		if rootPart.simulator.processKey(from:nsEvent, inVew:vew) {
-//			return true 						// simulator handled it
-//		}
+		 // Simulator:
+		if rootPart.simulator.processKey(from:nsEvent, inVew:vew) {
+			return true 						// simulator handled it
+		}
 
 		 // Controller:
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
