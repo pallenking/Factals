@@ -324,7 +324,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
 			return rv
 		}
-		fatalError("convert(position:from:) failed")
+		fatalError("convert(position:from:) found root")
 	}
 //	func localPositionX(of position:SCNVector3, inSubVew vew:Vew) -> SCNVector3 {
 ////		atRsi(6, log("localPosition(of:\(position.pp(.line)), inSubVew:'\(vew.parent!.pp(.fullName))')"))
@@ -370,6 +370,10 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		let rv					= bBox.transformed(by:transform)
 		return rv
 	}
+//	func convertToLocal(windowPosition:NSPoint) -> SCNVector3 {
+//		windowPositionV3		= SCNVector3(windowPosition.x, windowPosition.y, 0)
+//		return scn.convertPosition(windowPositionV3, from:nil)
+//	}
 	 /// Find a parent with a physis body, to take force
 	var intertialVew : Vew? {
 		for vew in selfNParents {

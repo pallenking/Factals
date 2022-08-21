@@ -328,8 +328,8 @@ struct InspecPart : View {												 // Part
 				Picker("", selection:Binding<Int>(	get:{ -1 }, set:{		// Always out of range
 					let nav		= navList[$0]					// Set notification
 					let newVew	= rootVew.find(part:nav, inMe2:true) ?? vew
-bug//				part.root!.fwDocument!.showInspecFor(vew:newVew, allowNew:false)
-//					DOc.showInspecFor(vew:newVew, allowNew:false)
+//					part.root!.fwDocument!.showInspecFor(vew:newVew, allowNew:false)
+					DOC.showInspecFor(vew:newVew, allowNew:false)
 				} ) ) {
  					ForEach(navList, id:\.self) { aPart in
 						let ind = navList.firstIndex(of:aPart)!

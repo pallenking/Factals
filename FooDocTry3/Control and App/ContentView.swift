@@ -166,6 +166,7 @@ struct ContentView: View {
 //		print(windowController0)
 		print(x ?? "<<nil>>")
 	}
+
 	func receivedEvent(nsEvent:NSEvent) {
 		//print("--- func received(nsEvent:\(nsEvent))")
 		switch nsEvent.type {

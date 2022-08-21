@@ -67,6 +67,12 @@ class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 	 // ///////// Part Tree:
 	var rootPart : RootPart		{	rootVew.part as! RootPart					}
 
+	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
+		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
+		let vpV3 : SCNVector3	= rootVew.scn.convertPosition(wpV3, from:nil)
+		return NSPoint(x:vpV3.x, y:vpV3.y)
+	}
+
 	var pole					= SCNNode()		// focus of mouse rotator
 
 	var config4scene : FwConfig {
@@ -381,8 +387,10 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let camNode 			= SCNNode()
 		camNode.name			= "camera"
 		camNode.position 		= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		DOC?.fwView?.pointOfView = camNode
-		DOC?.fwView?.audioListener = camNode
+
+// THESE DANGLE:
+//		DOC?.fwView?.pointOfView = camNode
+//		DOC?.fwView?.audioListener = camNode
 
 		let camera				= SCNCamera()
 		camera.wantsExposureAdaptation = false				//A Boolean value that determines whether SceneKit automatically adjusts the exposure level.
@@ -480,12 +488,14 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		 // Set zoom per horiz/vert:
 		var zoomSize			= bSize.y	// default when height dominates
 		//var orientation		= "Portrait "
-		if let nsRectSize		= DOC?.fwView?.frame.size {
-			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
-				zoomSize		= bSize.x	// when width dominates
-				//orientation	= "Landscape"
-			}
-		}
+		let scn					= DOC.docState.fwScene.rootVew.scn
+////		if let nsRectSize		= DOC.docState.fwScene.rootVew.frame.size {
+////		if let nsRectSize		= DOC?.fwView?.frame.size {
+//			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
+//				zoomSize		= bSize.x	// when width dominates
+//				//orientation	= "Landscape"
+//			}
+//		}
 		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
 		  vanishingPoint.isFinite {			// Perspective
 			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
@@ -578,9 +588,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		assert(rootVew.scn == rootScn, 		"Root improperly set")		//		rootVew.scn				= rootScn
 		assert(rootScn.name == "*-ROOT", 	"Root improperly set")		//		rootScn.name			= "*-ROOT"
 
-		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
-		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
-		doc.fwView?.isPlaying	= true		// WTF??
+//		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
+//		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
+//		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add supporting Actors to scene
 		let _ 					= insureCameraNode()
@@ -614,7 +624,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 // /////////////////////////////////////////////////////////////////////////////
 
 	// SCNSceneRenderer SCNDebugOptions
-//https://iosdevelopers.slack.com/archives/CKA5E2RRC/p1608840518199300?thread_ts=1608775058.167600&cid=CKA5E2RRC
+	//https://iosdevelopers.slack.com/archives/CKA5E2RRC/p1608840518199300?thread_ts=1608775058.167600&cid=CKA5E2RRC
 	enum SCNSceneRendererMode { case OFF, onMainThread}	//, normal
 	var scnSceneRendererMode : SCNSceneRendererMode = .OFF
 	var logRenderDelegate		= false		//false//true
@@ -623,7 +633,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	func dispatchSomewhere(_ closure:DispatchWorkItem) {
 		switch scnSceneRendererMode {
 		case .OFF:	nop
-//		case .normal: closure
+		//case .normal: closure
 		case .onMainThread: DispatchQueue.main.async(execute: closure)
 		}
 	}
@@ -783,12 +793,13 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent) -> Vew? {
-		assert(DOC?.fwView != nil, "need to set up DOC.fwView")
+//		assert(DOC?.fwView != nil, "need to set up DOC.fwView")
 
 		 // CONVERT to window coordinates
-		if let mouse : NSPoint?	= DOC?.fwView?.convert(nsEvent.locationInWindow, from:DOC?.fwView),
+		let pt : NSPoint		= nsEvent.locationInWindow
+		let mouse : NSPoint		= DOC!.docState.fwScene.convertToRoot(windowPosition:pt)
 		   // SELECT 3D point from 2D position
-		  let picdVew			= findVew(at:mouse!)
+		if let picdVew			= findVew(at:mouse)
 		{
 			 // DISPATCH to PART that was pic'ed
 			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) == false {
@@ -818,47 +829,47 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 		//										 + +   + +
-		let hits:[SCNHitTestResult]	= DOC.fwView?.hitTest(mouse, options:configHitTest) ?? []
+bug//	let hits:[SCNHitTestResult]	= DOC.fwView?.hitTest(mouse, options:configHitTest) ?? []
 		//										 + +   + +
 
 		 // SELECT HIT; prefer any child to its parents:
 		var rv					= rootVew			// Nothing hit -> root
 		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
-			if hits.count > 0 {
-				 // There is a HIT on a 3D object:
-				let sortedHits	= hits//.sorted { (a : SCNHitTestResult, b : SCNHitTestResult)  in
-//					a.node.deapth > b.node.deapth
+//			if hits.count > 0 {
+//				 // There is a HIT on a 3D object:
+//				let sortedHits	= hits//.sorted { (a : SCNHitTestResult, b : SCNHitTestResult)  in
+////					a.node.deapth > b.node.deapth
+////				}
+//				pickedScn		= sortedHits[0].node // pic node with lowest deapth
+//				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+//
+//				 // If Node not picable,
+//				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+//				  let parent 	= pickedScn.parent 	// try its parent:
+//				{
+//					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
+//					pickedScn 	= parent				// use parent
+//					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
 //				}
-				pickedScn		= sortedHits[0].node // pic node with lowest deapth
-				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
-
-				 // If Node not picable,
-				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-				  let parent 	= pickedScn.parent 	// try its parent:
-				{
-					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
-					pickedScn 	= parent				// use parent
-					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
-				}
-				 // Got SCN, get its Vew
-				if let cv		= trunkVew,
-				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
-				{
-					rv			= vew
-					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
-				}else{
-					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
-					if let cv	= trunkVew,				// for debug only
-					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
-						let _	= vew
-					}
-				}
-			}else{
+//				 // Got SCN, get its Vew
+//				if let cv		= trunkVew,
+//				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
+//				{
+//					rv			= vew
+//					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+//				}else{
+//					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
+//					if let cv	= trunkVew,				// for debug only
+//					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
+//						let _	= vew
+//					}
+//				}
+//			}else{
 				 // Background hit
 				msg				+= "background -> trunkVew"
-			}
-		}else{
-			print("trunkVew.scn nil")
+//			}
+//		}else{
+//			print("trunkVew.scn nil")
 		}
 		atEve(3, print("\n" + msg))
 		return rv

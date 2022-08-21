@@ -21,7 +21,7 @@ struct DocState {
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 //	@IBOutlet weak
-	 var fwView		: FwView?	//SCNView?		// IB sets this
+//	 var fwView		: FwView?	//SCNView?		// IB sets this
 
 	 // Model of a FooDocTry3Document:
 	var docState : DocState
@@ -285,10 +285,10 @@ bug//	if !DOCCTLR.documents.contains(self) {
 
 				// Position on screen: Quite AD HOC!!
 		win!.orderFront(self)				// Doesn't work -- not front when done!
-//		win!.makeKeyAndOrderFront(self)
+		win!.makeKeyAndOrderFront(self)
 		win!.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
 
-bug//			// Remember window for next creation
+			// Remember window for next creation
 //		inspecWin4vew[vew]		= win
 //		inspecLastVew			= vew
 	}
@@ -401,9 +401,6 @@ bug//			// Remember window for next creation
 		}
 		return true						// someone decoded
 	}
-//	  /// Manage Inspec's:
-//	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
-//	var inspecLastVew : Vew? = nil
 
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
