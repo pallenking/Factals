@@ -40,6 +40,7 @@ final class NSEventReceiverView: NSView {
 	}
 	override var acceptsFirstResponder: Bool { true 							}
 
+	 // Capture first responder messages ///////////////////////////////////////
 	override func keyDown(with nsEvent: NSEvent) {
 		handler(nsEvent)
 	}	// Don't call super, or we'll get the system beep

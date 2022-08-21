@@ -45,8 +45,9 @@ struct ContentView: View {
 				)
 				 .onAppear {
 				 	document.didLoadNib(to:self)								}
-				 .gesture(gestures() )
-				 .border(Color.black, width: 3)									// .frame(width:600, height:400)\
+				 .gesture(gestures())
+				 .border(Color.black, width: 3)
+//				 .background(NSColor("verylightgray")!)
 				// .onKeyDown {		 }
 				//.frame(width:600, height:400)
 			}

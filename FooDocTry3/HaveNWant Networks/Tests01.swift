@@ -879,7 +879,7 @@ r("+ Show Link skin types", eSim + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + 
 	Broadcast([n:"a", share:["x,l:2,t:invisible"], jog+X:"0.5 0 0",f:1]), // no line
  	Mirror(   [n:"x", "gain":0, "offset":1, f:1]),
 ]]) })
-xr("+ Generate AppIcon", eSim + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+xr("+ Generate AppIcon", e + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 	MaxOr(	[n:"m", share:["a,l:0", "b,l:0", "c,l:0"],  f:1]),
 	Hamming([n:"a", share:["y,l:0", "x,l:0"],  f:1]),
  	Hamming([n:"b", share:["y,l:0"],  f:1]),		// no line

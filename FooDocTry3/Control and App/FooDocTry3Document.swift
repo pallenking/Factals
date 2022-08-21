@@ -22,6 +22,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
 //	@IBOutlet weak
 //	 var fwView		: FwView?	//SCNView?		// IB sets this
+//	 var fwView		: SCNView?		{	NSHostingView(rootView: <#T##_#>)}
 
 	 // Model of a FooDocTry3Document:
 	var docState : DocState
