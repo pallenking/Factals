@@ -232,54 +232,87 @@ bug
 			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
 		}
 	}
-	 // MARK: - 9.B Lights, Axis, Camera
-	 //		or autoenablesDefaultLighting = true?
-	func updateLights() {
-		 // ///// Light 4: Ambient white
-		let light4 				= SCNNode()			//https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started
-		light4.name				= "light4"
-		light4.light 			= SCNLight()
-		light4.light!.type 		= SCNLight.LightType.ambient
-		light4.light!.color 	= NSColor.white//blue//
-		light4.light!.intensity	= 500
-		rootScn.addChildNode(light4)
+	 // MARK: - 9.B Camera
+	 // Get camera node from SCNNode
+	var cameraNode :CameraNode = CameraNode([:])
+	 /// Update camera formation, configuration, and pointing
+	func reconfigCameraNode() {
 
-		 // ///// Light 5: Omni white
-		let light5				= SCNNode()
-		light5.name				= "light5"
-		light5.light 			= SCNLight()
-		light5.light!.type 		= SCNLight.LightType.omni
-		light5.light!.color 	= NSColor.green//white
-		light5.position 		= SCNVector3Make(0, 50, 50)
-		light5.light!.intensity	= 500				// 1000 is nominal
-		rootScn.addChildNode(light5)
-
-		 // ///// Light 6: Omni white
-		let light6				= SCNNode()
-		light6.name				= "light6"
-		light6.light 			= SCNLight()
-		light6.light!.type 		= SCNLight.LightType.omni
-		light6.light!.color 	= NSColor.red//white
-		light6.position 		= SCNVector3Make(0, -50, -50)
-		light6.light!.intensity	= 100
-		rootScn.addChildNode(light6)
-									//let light = SCNLight()
-									//light.type = SCNLightTypeSpot
-									//light.spotInnerAngle = 30.0
-									//light.spotOuterAngle = 80.0
-									//light.castsShadow = true
-									//let lightNode = SCNNode()
-									//lightNode.light = light
-									//lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
-									//...
-									//let constraint = SCNLookAtConstraint(target: cubeNode)
-									//constraint.gimbalLockEnabled = true
-									//cameraNode.constraints = [constraint]
-									//lightNode.constraints = [constraint]
-		  // ///////////////////////////////////////////////////////////////////
+		if let camera			= rootScn.find(name:"camera") {
+			camera.removeFromParentNode()
+		}
+		cameraNode				=  CameraNode(config4scene)
+		rootScn.addChild(node:cameraNode)
 	}
-
-	  // ///////////////////////////////////////////////////////////////////////
+	 // MARK: - 9.C Lights
+	func addLights() {
+		 // create and add a light to the scene:
+		func addLight(name:String, lightType:SCNLight.LightType, color:Any?=nil, position:SCNVector3?=nil, intensity:CGFloat=100) {
+			let newLight 		= SCNNode()
+			newLight.name		= name
+			newLight.light 		= SCNLight()
+			newLight.light!.type = lightType
+			if let color		= color {
+				newLight.light!.color = color
+			}
+			newLight.light!.intensity = intensity
+			if let position		= position {
+				newLight.position = position
+			}
+			rootNode.addChildNode(newLight)
+		}
+		addLight(name:"light",   lightType:.omni, 	position:SCNVector3(0, 0, 15))
+		addLight(name:"ambient", lightType:.ambient,color:NSColor.darkGray)
+		addLight(name:"light4",  lightType:.ambient,color:NSColor.white, intensity:500)				//blue//
+		addLight(name:"light5",  lightType:.omni, 	color:NSColor.green, intensity:500)				//blue//
+		addLight(name:"light6",  lightType:.omni,	color:NSColor.red, 	 intensity:500)				//blue//
+//		addLight(name:"light7",  lightType:.ambient,color:NSColor.white, intensity:500)				//blue//
+	}																			 //		or autoenablesDefaultLighting = true?
+																				//	func updateLights() {
+																				//		 // ///// Light 4: Ambient white
+																				////		let light4 				= SCNNode()			//https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started
+																				////		light4.name				= "light4"
+																				////		light4.light 			= SCNLight()
+																				////		light4.light!.type 		= SCNLight.LightType.ambient
+																				////		light4.light!.color 	= NSColor.white//blue//
+																				////		light4.light!.intensity	= 500
+																				////		rootScn.addChildNode(light4)
+																				//
+																				//		 // ///// Light 5: Omni white
+																				//		let light5				= SCNNode()
+																				//		light5.name				= "light5"
+																				//		light5.light 			= SCNLight()
+																				//		light5.light!.type 		= SCNLight.LightType.omni
+																				//		light5.light!.color 	= NSColor.green//white
+																				//		light5.position 		= SCNVector3Make(0, 50, 50)
+																				//		light5.light!.intensity	= 500				// 1000 is nominal
+																				//		rootScn.addChildNode(light5)
+																				//
+																				//		 // ///// Light 6: Omni white
+																				//		let light6				= SCNNode()
+																				//		light6.name				= "light6"
+																				//		light6.light 			= SCNLight()
+																				//		light6.light!.type 		= SCNLight.LightType.omni
+																				//		light6.light!.color 	= NSColor.red//white
+																				//		light6.position 		= SCNVector3Make(0, -50, -50)
+																				//		light6.light!.intensity	= 100
+																				//		rootScn.addChildNode(light6)
+																				//									//let light = SCNLight()
+																				//									//light.type = SCNLightTypeSpot
+																				//									//light.spotInnerAngle = 30.0
+																				//									//light.spotOuterAngle = 80.0
+																				//									//light.castsShadow = true
+																				//									//let lightNode = SCNNode()
+																				//									//lightNode.light = light
+																				//									//lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
+																				//									//...
+																				//									//let constraint = SCNLookAtConstraint(target: cubeNode)
+																				//									//constraint.gimbalLockEnabled = true
+																				//									//cameraNode.constraints = [constraint]
+																				//									//lightNode.constraints = [constraint]
+																				//		  // ///////////////////////////////////////////////////////////////////
+																				//	}
+	 // MARK: - 9.D Pole
 	 // ///// Rebuild the Rotator Pole afresh
 	func updatePole() {
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
@@ -371,67 +404,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			SCNTransaction.commit()
 		}
 	}
-
+	 // MARK: - 9.E Look AT
 	var lookAtPart : Part? 		= nil
 	var lookAtVew  : Vew?		= nil
-	 /// Update camera formation, configuration, and pointing
-	func insureCameraNode() -> SCNNode {
-		guard let rootScn		= DOC?.docState.fwScene.rootScn else {		fatalError("insureCameraNode() found DOC==nil") 	}
-
-		let camera				= rootScn.find(name:"camera")
-								?? addCameraNode(config:config4scene)
-		return camera
-	}
-	func addCameraNode(config:FwConfig) -> SCNNode {
-		 // ///// Camera:
-		let cameraNode 			= SCNNode()
-		cameraNode.name			= "camera"
-		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-
-// THESE DANGLE:
-//		DOC?.fwView?.pointOfView = camNode
-//		DOC?.fwView?.audioListener = camNode
-
-		let camera				= SCNCamera()
-		camera.wantsExposureAdaptation = false				//A Boolean value that determines whether SceneKit automatically adjusts the exposure level.
-		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
-		camera.exposureAdaptationDarkeningSpeedFactor = 1
-		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-															//cam.zFar				= 100
-		cameraNode.camera		= camera
-		rootScn.addChild(node:cameraNode)
-
-		 // Configure Camera from Source Code:
-		if let c 				= config.fwConfig("camera") {
-			var lastSelfiePole	= SelfiePole()
-			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-				lastSelfiePole.cameraPoleHeight = CGFloat(h)
-			}
-			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				lastSelfiePole.cameraHorizonUp = -CGFloat(u)		/* in degrees */
-			}
-			if let s 			= c.float("s"), !s.isNan {	// Spin
-				lastSelfiePole.cameraPoleSpin 	= CGFloat(s) 		/* in degrees */
-			}
-			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				lastSelfiePole.cameraZoom 		= CGFloat(z)
-			}
-			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
-		}
-
-		 // Camera looks at target:
-		if let state			= DOC?.docState,
-		 let laStr				= config4scene.string("lookAt"),
-		  laStr != ""
-		{
-			let laPart 			= state.rootPart.find(path:Path(withName:laStr), inMe2:true)
-			assertWarn(laPart != nil, "lookAt: '\(laStr)' failed to find part")
-			lookAtPart			= laPart ?? 				// from configure
-								  rootVew.child0?.part ??	// from rootVew child[0]
-								  state.rootPart			// from doc
-		}
-		return cameraNode
-	}
 	 // MARK: - 9.C Mouse Rotator
 	 // Uses Cylindrical Coordinates
 	struct SelfiePole {
@@ -582,28 +557,24 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		}
 			
 		// --------- Link rootVew and rootScn to rootPart
-		assert(rootVew.name == "_ROOT", 	"Root improperly set")		//		rootVew.name			= "_ROOT"			// do we really want to do this?
-		assert(rootVew.part == rootPart, 	"Root improperly set")		//		rootVew.part			= rootPart
-		assert(rootVew.part.name == "ROOT", "Root improperly set")		//		rootVew.part.name		= "ROOT"
-		assert(rootVew.scn == rootScn, 		"Root improperly set")		//		rootVew.scn				= rootScn
-		assert(rootScn.name == "*-ROOT", 	"Root improperly set")		//		rootScn.name			= "*-ROOT"
+		assert(rootVew.name == "_ROOT", 	"rootVew.name incorrect")	//		rootVew.name			= "_ROOT"			// do we really want to do this?
+		assert(rootVew.part == rootPart, 	"rootVew.part incorrect")	//		rootVew.part			= rootPart
+		assert(rootVew.part.name == "ROOT","rootVew.part.name incorrect")//		rootVew.part.name		= "ROOT"
+		assert(rootVew.scn == rootScn, 		"rootVew.scn incorrect")	//		rootVew.scn				= rootScn
+		assert(rootScn.name == "*-ROOT", 	"rootScn.name incorrect")	//		rootScn.name			= "*-ROOT"
 
 //		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 //		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
 //		doc.fwView?.isPlaying	= true		// WTF??
 
-		 // 3. Add supporting Actors to scene
-		let _ 					= insureCameraNode()
-		updateLights()
+		 // 3. Add Camera, Light, and Pole
+		addLights()														//scene.addLightsAndCamera()
+		reconfigCameraNode()
 		if config4scene.bool_("pole") {
 			updatePole()
 		}
 
-		 // 4. Update Vew Tree
-/**/	rootVew.updateVewSizePaint(needsViewLock:nil)
-		atRve(6, logd("updateVewSizePaint(needsViewLock:) completed"))
-
-		 // 5. Look At Node:
+		 // 4. Look At Node:
 /*x*/	lookAtPart				= lookAtPart ?? doc.docState.rootPart//rootPart
 		if lookAtPart != nil {
 			lookAtVew 			= rootVew.find(part:lookAtPart!, inMe2:true)
@@ -613,6 +584,10 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
 
 		updateCameraTransform(for:"installRootPart")
+
+		 // 4. Update Vew Tree
+/**/	rootVew.updateVewSizePaint(needsViewLock:nil)
+		atRve(6, logd("updateVewSizePaint(needsViewLock:) completed"))
 
 		// 6. UNLOCK PartTree and VewTree:
 		unlock(              rootVewAs:lockStr)

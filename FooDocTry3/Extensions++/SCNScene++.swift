@@ -7,48 +7,6 @@
 
 import SceneKit
 
-extension SCNScene {
-
-	 // Get camera node from SCNNode
-	var cameraNode : SCNNode {
-		var cameraNode			= rootNode.childNode(withName:"camera", recursively:false)
-		if let cn				= cameraNode {			// If one exists
-			cn.removeFromParentNode()
-			rootNode.addChild(node:cn)						// move to end
-		} else {
-			cameraNode			= (self /**/ as! FwScene).insureCameraNode()		// make at end
-		}
-		assert(cameraNode != nil, "var cameraNode! found nil")
-		return cameraNode!
-	}
-	func addLights() {
-		 // create and add a light to the scene:
-		func addLight(name:String, lightType:SCNLight.LightType, color:Any?=nil, position:SCNVector3?=nil) {
-			let newLight 		= SCNNode()
-			newLight.name		= name
-			newLight.light 		= SCNLight()
-			newLight.light!.type = lightType
-			if let color		= color {
-				newLight.light!.color = color
-			}
-			if let position		= position {
-				newLight.position = position
-			}
-			rootNode.addChildNode(newLight)
-		}
-		addLight(name:"light",   lightType:.omni, position:SCNVector3(0, 0, 15))
-		addLight(name:"ambient", lightType:.ambient, color:NSColor.darkGray)
-	}
-
-	func printModel() {
-		print("rootNode.name = '\(rootNode.name ?? "<nil>")'")
-		print("rootNode.children = '\(rootNode.childNodes.count)'")
-		for scn in rootNode.childNodes {
-			print("name:'\(scn.name ?? "<nil>")'")
-		}
-	}
-}
-
 protocol FileDocumentHelper {
 	var data : Data?		{ set get }
 	init?(data:Data, encoding:String.Encoding)
@@ -57,7 +15,6 @@ extension FileDocumentHelper {
 
 }
 
-
 var fileURL : URL 				= 	{
 	let path					= NSTemporaryDirectory()
 	let directoryURL			= URL(fileURLWithPath:path)
@@ -65,7 +22,7 @@ var fileURL : URL 				= 	{
 	return directoryURL.appendingPathComponent("t1.scn")
 }()
 
-// //// -- WORTHY GEM: -- ///// //
+// //// -- WORTHY GEMS: -- ///// //
 //
 //	typealias PolyWrap = Part
 //	class Part : Codable /* PartProtocol*/ {

@@ -15,18 +15,13 @@ struct ContentView: View {
 	var body: some View {
 		VStack {
 			let rootPart:RootPart = document.docState.rootPart
-//			document.updateDocConfigs(from:rootPart.ansConfig)
 			let scene			= document.docState.fwScene
-			let cameraNode		= scene.cameraNode
-//			let rootVew :Vew	= scene.rootVew
-			let rootNode		= scene.rootNode
 			let aux				= DOCLOG.params4aux + ["ppDagOrder":true]
 			ZStack {
 				NSEventReceiver { nsEvent in receivedEvent(nsEvent:nsEvent)		}
-//   			 .background(NSColor("verylightgray")!)
 				SceneView(
 					scene			: scene,
-					pointOfView		: cameraNode,
+					pointOfView		: scene.cameraNode,
 					options			: [//.autoenablesDefaultLighting,
 		//**/						   //.allowsCameraControl,
 									   //.jitteringEnabled,
@@ -41,7 +36,7 @@ struct ContentView: View {
 				 	document.didLoadNib(to:self)								}
 				 .gesture(gestures())
 				 .border(Color.black, width: 3)
-//				 .background(NSColor("verylightgray")!)
+//				 .background(NSColor("verylightgray")!)		// HELP
 				//.frame(width:600, height:400)
 			}
 			HStack {
@@ -52,9 +47,9 @@ struct ContentView: View {
 				{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 	}
 				Button(label:{		Text( "  ") }){}.buttonStyle(.borderless)
 				Button(label:{	Text( "ptv").padding(.top, 300)				})
-				{	lldbPrint(ob:rootVew, mode:.tree) 						}
+				{	lldbPrint(ob:scene.rootVew, mode:.tree) 				}
 				Button(label:{	Text( "ptn").padding(.top, 300)				})
-				{	Swift.print(rootNode.pp(.tree, aux), terminator:"\n") 	}
+				{	lldbPrint(ob:scene.rootNode, mode:.tree)			 	}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 				Spacer()
 				Button(label: {	Text("LLDB").padding(.top, 300) 			})
 				{	breakToDebugger()										}
@@ -130,7 +125,7 @@ struct ContentView: View {
 		print("tapGesture value:'\(v)' count:\(count)")
 
 		 // Make NSEvent for Double Click
-		let a					= fwScene.cameraNode.transform.position
+		let a					= fwScene.cameraNode.position
 		let location			= NSPoint(x: a.x, y: a.y)
 		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
 											location:location,

@@ -343,38 +343,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "661629DD-EA1B-4B71-B50C-92ED01159770"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Extensions++/SCNScene++.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "addLights()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7C273D87-18C1-4DBB-9D51-00C4CF93F488"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Extensions++/SCNScene++.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14"
-            endingLineNumber = "14"
-            landmarkName = "cameraNode"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "13C3F490-069B-4857-AE8C-3B29305FAC47"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -382,8 +350,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -398,8 +366,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -510,8 +478,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "gestures()"
             landmarkType = "7">
          </BreakpointContent>
@@ -567,22 +535,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B4C69B4A-850D-44EC-9498-993DE64958DF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Control and App/FwScene.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
-            landmarkName = "updateCameraTransform(to:for:overTime:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "2E4EE2E0-7032-4EEB-9819-7986A8BF4929"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -590,8 +542,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "dragGestureEnd(value:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -606,8 +558,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "gestures()"
             landmarkType = "7">
          </BreakpointContent>
@@ -622,8 +574,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "gestures()"
             landmarkType = "7">
          </BreakpointContent>
@@ -638,8 +590,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "tapGesture(value:count:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -654,8 +606,8 @@
             filePath = "FooDocTry3/Control and App/FwScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "800"
-            endingLineNumber = "800"
+            startingLineNumber = "775"
+            endingLineNumber = "775"
             landmarkName = "modelPic(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -718,8 +670,8 @@
             filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "receivedEvent(nsEvent:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -743,22 +695,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6B686832-6782-47D6-BA01-BFA27435B9D3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Control and App/FwScene.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "491"
-            endingLineNumber = "491"
-            landmarkName = "updateCameraTransform(to:for:overTime:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "8DE5363B-973D-4389-9FB6-51D5B328F462"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -769,22 +705,6 @@
             startingLineNumber = "279"
             endingLineNumber = "279"
             landmarkName = "camera(h:s:u:z:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "08F52399-74A2-43A5-BA17-2A1E9634A149"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Control and App/FwScene.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "addCameraNode(config:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -840,14 +760,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D11D53F8-8392-4046-8168-8029764A6377"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FooDocTry3/Control and App/FooDocTry3Document.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "updateDocConfigs(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -856,14 +776,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9A2B2FB3-011E-4649-B1F6-E137C9FD31D3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FooDocTry3/Control and App/FooDocTry3Document.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "updateDocConfigs(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -872,14 +792,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "478DFE13-46CE-40E7-8FF2-1BA2F08478F4"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FooDocTry3/Control and App/FooDocTry3Document.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "didLoadNib(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -913,22 +833,6 @@
             startingLineNumber = "17"
             endingLineNumber = "17"
             landmarkName = "init(rootPart:fwScene:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EF6DEAF4-1CBB-457B-8588-F20E474FD122"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Control and App/FooDocTry3Document.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "init(state:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -999,33 +903,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7F292931-FC49-4744-9920-D6C3EDADBBF8"
-            shouldBeEnabled = "Yes"
+            uuid = "DA5BDFE3-F447-4AF8-8979-8E46A8989858"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Extensions++/SCNScene++.swift"
+            filePath = "FooDocTry3/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "cameraNode"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DA5BDFE3-F447-4AF8-8979-8E46A8989858"
+            uuid = "17A48B50-18FE-4BCB-A6B9-149A8A997929"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/Control and App/FooDocTry3Document.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "updateDocConfigs(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "23284494-3A50-49D8-BCEA-6BE857151F4F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FooDocTry3/Control and App/ContentView.swift"
+            filePath = "FooDocTry3/Control and App/FwScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "573"
+            endingLineNumber = "573"
+            landmarkName = "installRootPart(_:reason:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0DAA9A04-880C-4301-ADAB-0D7DD3B47234"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/Extensions++/CameraNode.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "init(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

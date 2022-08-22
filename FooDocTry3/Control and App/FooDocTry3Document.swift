@@ -12,11 +12,12 @@ import UniformTypeIdentifiers
 struct DocState {
 	var rootPart: RootPart
 	var fwScene	: FwScene
-	init(rootPart:RootPart?, fwScene:FwScene?=nil) {
-		self.rootPart				= rootPart	?? RootPart([:])
-		self.fwScene				= fwScene	?? { fatalError()}()	//SCNNode(
+	init(rootPart:RootPart?=nil, fwScene:FwScene?=nil) {
+		self.rootPart			= rootPart	?? RootPart([:])
+		self.fwScene			= fwScene	?? FwScene(fwConfig:[:])//{ fatalError()}()	//SCNNode(
 	}
 }
+let DocStateNull				= DocState()	//
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
@@ -25,7 +26,7 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 //	 var fwView		: SCNView?		{	NSHostingView(rootView: <#T##_#>)}
 
 	 // Model of a FooDocTry3Document:
-	var docState : DocState
+	var docState : DocState!
 
 	 // MARK: - 2.2 Sugar
 	var windowController0 : NSWindowController? {		// First NSWindowController
@@ -33,50 +34,25 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	var window0 : NSWindow? 	{						// First NSWindow
 		return windowController0?.window										}
 
-
-//	init(state state_:DocState?=nil) {
-//		docState	 				= state_ ?? { 			// State NOT given:
-//			let fwScene			= FwScene(fwConfig:params4scene)				// A Part Tree
-//
-//			// Generate a new document.
-//
-//			// Several Ways: selectionString+---FUNCTION--------+-wantName:---wantNumber:
-//		//	let entry			= nil	//	 Blank scene		|	nil			-1
-//		//	let entry			= 34	//	 entry N			|	nil			N *
-//			let entry			= "xr()"//	 entry with xr()	|	"xr()"		-1
-//		//	let entry			= "name"//	 entry named scene	|	"name" *	-1
-//			let rootPart_		= RootPart(fromLibrary:entry)
-//
-//			rootPart_.wireAndGroom()
-//			return DocState(rootPart:rootPart_, fwScene:fwScene)
-//		} ()
-//
-//		 // KNOWN EARLY
-//		DOC						= self				// INSTALL FooDocTry3
-//	}	// --> SceneView --> didLoadNib()
-	init(state:DocState?=nil) {
-		if state != nil {
-			docState			= state!			// given
-			DOC					= self				// INSTALL FooDocTry3
-			return
-		}
-		let fwScene				= FwScene(fwConfig:params4scene)				// A Part Tree
-
-		// Generate a new document.
-
-		// Several Ways: selectionString+---FUNCTION--------+-wantName:---wantNumber:
+	init(docState docState_:DocState) {
+		docState			= docState_			// given
+		DOC					= self				// INSTALL FooDocTry3
+		return
+	}
+	init() {
+		// Generate a new docState		//---FUNCTION-----------+-wantName:---wantNumber:
 	//	let entry				= nil	//	 Blank scene		|	nil			-1
 	//	let entry				= 34	//	 entry N			|	nil			N *
 		let entry				= "xr()"//	 entry with xr()	|	"xr()"		-1
 	//	let entry				= "name"//	 entry named scene	|	"name" *	-1
-		let rootPart_			= RootPart(fromLibrary:entry)
-//		rootPart_.wireAndGroom()
 
-		docState	 			= DocState(rootPart:rootPart_, fwScene:fwScene)
+		let rootPart			= RootPart(fromLibrary:entry)
+		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
+		docState	 			= DocState(rootPart:rootPart, fwScene:fwScene)
 		DOC						= self				// INSTALL FooDocTry3
 
-		rootPart_.wireAndGroom()
-		updateDocConfigs(from:docState.rootPart.ansConfig)
+		updateDocConfigs(from:rootPart.ansConfig)
+		rootPart.wireAndGroom()
 	}
 
 	/* ============== BEGIN FileDocument protocol: */
@@ -94,11 +70,11 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		case .fooDocTry3:
 			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
 			let docState 		= DocState(rootPart:rootPart, fwScene:FwScene(fwConfig:[:]))
-			self.init(state:docState)			// -> FooDocTry3Document
+			self.init(docState:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:
 			let scene:FwScene?	= FwScene(data: data, encoding: .utf8)
-			let state0 			= DocState(rootPart:RootPart(), fwScene:scene!)
-			self.init(state:state0)				// -> FooDocTry3Document
+			let docState 		= DocState(rootPart:RootPart(), fwScene:scene!)
+			self.init(docState:docState)				// -> FooDocTry3Document
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -158,7 +134,7 @@ bug//	if !DOCCTLR.documents.contains(self) {
 																				//		didLoadNib()
 																				//	}
 	func didLoadNib(to view:Any) {			// after init(state,...)
-																						 // Spread configuration information
+		// view:Any is bogus													 // Spread configuration information
 																				//		updateDocConfigs(from:docState.rootPart.ansConfig)
 		 // Generate Vew tree
 		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
@@ -166,16 +142,14 @@ bug//	if !DOCCTLR.documents.contains(self) {
 		scene.rootVew			= rVew				// INSTALL vew
 		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
 
-		scene.addLights()														//scene.addLightsAndCamera()
+//		scene.addLights()														//scene.addLightsAndCamera()
 
 				// Build Vews after nib loading:
 /*x*/	docState.fwScene.installRootPart(docState.rootPart, reason:"InstallRootPart")
 
 		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:docState.rootPart.title) ))
-
-//		displayName				= state.rootPart.title
-//		window0?.title			= displayName									//makeInspectors()
-		makeInspectors()
+																				// displayName				= state.rootPart.title
+		makeInspectors()														// window0?.title			= displayName									//makeInspectors()
 
 				// Start Up Simulation:
 		docState.rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
@@ -240,12 +214,12 @@ bug//	if !DOCCTLR.documents.contains(self) {
 		 // Simulator
 		if toParams4sim.count > 0 {
 			atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
-			DOC?.docState.rootPart.simulator.config4sim += toParams4sim
+			docState.rootPart.simulator.config4sim += toParams4sim
 		}
 		 // Log:
 		if toParams4docLog.count > 0 {
 			atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
-			DOC?.docState.rootPart.log.config4log	+= toParams4docLog
+			docState.rootPart.log.config4log += toParams4docLog
 		}
 		 // Unaccounted for
 		if unused.count > 0 {

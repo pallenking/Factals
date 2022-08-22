@@ -48,6 +48,7 @@
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F3E49A828B27238003D450D /* NSEventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* NSEventReceiver.swift */; };
+		9F3E49BD28B2DABB003D450D /* CameraNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49BC28B2DABB003D450D /* CameraNode.swift */; };
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
 		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
@@ -141,6 +142,7 @@
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* NSEventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSEventReceiver.swift; sourceTree = "<group>"; };
+		9F3E49BC28B2DABB003D450D /* CameraNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraNode.swift; sourceTree = "<group>"; };
 		9F4A3AD9288B386300574925 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9FA1BA5A2881950000B14D60 /* Bogus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bogus.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9F969540288B4E8800106DBC /* SwiftUI++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
+				9F3E49BC28B2DABB003D450D /* CameraNode.swift */,
 				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
 				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
 				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
@@ -492,6 +495,7 @@
 				9F19011F288090240078DB6C /* InspecParts.swift in Sources */,
 				9F1900F828808DC10078DB6C /* Link.swift in Sources */,
 				9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */,
+				9F3E49BD28B2DABB003D450D /* CameraNode.swift in Sources */,
 				9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* FooDocTry3Document.swift in Sources */,
 				9FEE52212874AB7300C8C22A /* Path.swift in Sources */,
