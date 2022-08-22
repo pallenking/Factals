@@ -29,16 +29,16 @@ class CameraNode : SCNNode {
 		if let c 				= config.fwConfig("camera") {
 			var lastSelfiePole	= FwScene.SelfiePole()
 			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-				lastSelfiePole.cameraPoleHeight = CGFloat(h)
+				lastSelfiePole.height = CGFloat(h)
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				lastSelfiePole.cameraHorizonUp = -CGFloat(u)		/* in degrees */
+				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
-				lastSelfiePole.cameraPoleSpin 	= CGFloat(s) 		/* in degrees */
+				lastSelfiePole.spin 	= CGFloat(s) 		/* in degrees */
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				lastSelfiePole.cameraZoom 		= CGFloat(z)
+				lastSelfiePole.zoom 		= CGFloat(z)
 			}
 			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
 		}

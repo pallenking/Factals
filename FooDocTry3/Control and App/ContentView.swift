@@ -107,8 +107,8 @@ struct ContentView: View {
 	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 								
 		var newPole : FwScene.SelfiePole = fwScene.lastSelfiePole
-		newPole.cameraPoleSpin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		newPole.cameraHorizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+		newPole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		newPole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
 		fwScene.updateCameraTransform(to:newPole, for:"dragGesture")
 	}
 	func dragGestureEnd(value v:DragGesture.Value) {
@@ -116,8 +116,8 @@ struct ContentView: View {
 		let delta				= v.location - v.startLocation
 	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 
-		fwScene.lastSelfiePole.cameraPoleSpin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		fwScene.lastSelfiePole.cameraHorizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+		fwScene.lastSelfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		fwScene.lastSelfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
 		fwScene.updateCameraTransform(for:"dragGestureEnd")
 	}
 	func tapGesture(value v:TapGesture.Value, count:Int) {
@@ -154,11 +154,11 @@ struct ContentView: View {
 //				return
 //			}
 		case .scrollWheel: nop
-			let d					= CGFloat(nsEvent.deltaY)
+			let d					= nsEvent.deltaY
 			let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			let scene				= DOC.docState.fwScene
-			var pole				= scene.lastSelfiePole
-			pole.cameraZoom 		*= delta
+			scene.lastSelfiePole.zoom *= delta
+			print("receivedEvent(type:.scrollWheel) found pole\(scene.lastSelfiePole.uid).zoom = \(scene.lastSelfiePole.zoom)")
 			scene.updateCameraTransform(for:"Scroll Wheel")
 		default:
 			print("33333333 receivedEvent(type:\(nsEvent.type)) EEEEEEE")

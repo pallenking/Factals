@@ -47,10 +47,6 @@ final class NSEventReceiverView: NSView {
 
 	override func scrollWheel(with nsEvent:NSEvent) {
 		handler(nsEvent)
-//		let d					= CGFloat(nsEvent.deltaY)
-//		let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-//		fwScene?.cameraZoom		*= delta
-//		fwScene?.updateCameraRotator(for:"Scroll Wheel")
 	}
 
 	 // Add methods like this

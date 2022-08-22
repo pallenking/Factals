@@ -311,21 +311,18 @@ bug//	if !DOCCTLR.documents.contains(self) {
 		 // First, all registered TimingChains:
 		for timingChain in rootPart.simulator.timingChains {
 			if timingChain.processKey(from:nsEvent, inVew:vew) {
-				return true 						// timingChain handled it
+				return true 				// handled by timingChain
 			}
 		}
 
-		 // Second, check fwScene:
-		if docState.fwScene == nil {
-			Swift.print("fwDocument(\(pp(.uid, [:])).fwScene=nil")
-		}
-		else if docState.fwScene.processKey(from:nsEvent, inVew:vew) {
-				return true 					// fwScene handled
+		 // Second, check fwScene:												// assert(docState.fwScene != nil, "fwDocument(\(pp(.uid, [:])).fwScene=nil")
+		if docState.fwScene.processKey(from:nsEvent, inVew:vew) {
+			return true 					// handled by fwScene
 		}
 
 		 // Simulator:
 		if rootPart.simulator.processKey(from:nsEvent, inVew:vew) {
-			return true 						// simulator handled it
+			return true 					// handled by simulator
 		}
 
 		 // Controller:

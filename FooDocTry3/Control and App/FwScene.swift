@@ -410,28 +410,29 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	 // MARK: - 9.C Mouse Rotator
 	 // Uses Cylindrical Coordinates
 	struct SelfiePole {
-		var cameraPoleHeight: CGFloat // = 0
-		var cameraPoleSpin	: CGFloat // = 0					// in degrees
-		var cameraHorizonUp	: CGFloat // = 0					// in degrees
-		var cameraZoom		: CGFloat // = 1.0
-		init() {
-			cameraPoleHeight	= 0
-			cameraPoleSpin		= 0					// in degrees
-			cameraHorizonUp		= 0					// in degrees
-			cameraZoom			= 1.0
-		}
+		var height		: CGFloat = 0
+		var spin  		: CGFloat = 0					// in degrees
+		var horizonUp	: CGFloat = 0					// in degrees
+		var zoom		: CGFloat = 1.0
+		var uid			: UInt16  = randomUid()
+//		init() {
+//			height				= 0
+//			spin				= 0					// in degrees
+//			horizonUp		= 0					// in degrees
+//			zoom				= 1.0
+//		}
 	}
 	var lastSelfiePole = SelfiePole()						// init to default
 
 	 // Compute Camera Transform from pole config
 	func updateCameraTransform(to:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) {
-		let cam					= to ?? lastSelfiePole
+		let pole				= to ?? lastSelfiePole
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
 		   //
 		  // From Origin to Camera, in steps: Pole about Origin
 		 //  ---- spun about Y axis
-		let spin				= cam.cameraPoleSpin * .pi / 180.0
+		let spin				= pole.spin * .pi / 180.0
 		var poleSpinAboutY		= SCNMatrix4MakeRotation(spin, 0, 1, 0)
 
 		 //  ---- translated above Point of Interest by cameraPoleHeight
@@ -439,14 +440,14 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let lookAtWorldPosn		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		 assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 		let lap 				= lookAtWorldPosn
-		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+cam.cameraPoleHeight, lap.z)
+		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+pole.height, lap.z)
 
 		 //  ---- With a boom (crane or derek) raised upward above the horizon:
-		let upTilt				= cam.cameraHorizonUp * .pi / 180.0
+		let upTilt				= pole.horizonUp * .pi / 180.0
 		let riseAboveHoriz		= SCNMatrix4MakeRotation(upTilt, 1, 0, 0)
 
 		 //  ---- move out boom from pole, looking backward:
-		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 10*cam.cameraZoom) //cameraZoom)//10 ad hoc .5
+		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 10*pole.zoom) //cameraZoom)//10 ad hoc .5
 
 		let newCameraXform		= toEndOfBoom * riseAboveHoriz * poleSpinAboutY
 		assert(!newCameraXform.isNan, "newCameraXform is Not a Number")
@@ -478,7 +479,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		else if let c			= cameraNode.camera {
 			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
 			c.usesOrthographicProjection = true		// camera’s magnification factor
-			c.orthographicScale = Double(zoomSize * cam.cameraZoom * 0.75)
+			c.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
 		}
 
 //		 // NEW WAY -- BROKEN: Transform root bbox into camera:
@@ -965,8 +966,8 @@ bug//	let hits:[SCNHitTestResult]	= DOC.fwView?.hitTest(mouse, options:configHit
 //				rv				+= "\(obj.description.shortenStringDescribing())\n"
 //			}
 			let c = lastSelfiePole
-			rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.cameraPoleHeight,
-					c.cameraPoleSpin, c.cameraHorizonUp, c.cameraZoom) // in degrees
+			rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
+					c.spin, c.horizonUp, c.zoom) // in degrees
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
@@ -977,7 +978,7 @@ bug//	let hits:[SCNHitTestResult]	= DOC.fwView?.hitTest(mouse, options:configHit
 	func ppCam() -> String {
 		let c = lastSelfiePole
 		return fmt("h:%.0f, s:%.0f, u:%.0f, z:%.3f",
-				c.cameraPoleHeight, c.cameraPoleSpin, c.cameraHorizonUp, c.cameraZoom)
+				c.height, c.spin, c.horizonUp, c.zoom)
 	}
 }
 
