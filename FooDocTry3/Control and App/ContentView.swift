@@ -153,7 +153,15 @@ struct ContentView: View {
 //			if fwScene.processKey(from:nsEvent, inVew:nil) {
 //				return
 //			}
-		default: nop
+		case .scrollWheel: nop
+			let d					= CGFloat(nsEvent.deltaY)
+			let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
+			let scene				= DOC.docState.fwScene
+			var pole				= scene.lastSelfiePole
+			pole.cameraZoom 		*= delta
+			scene.updateCameraTransform(for:"Scroll Wheel")
+		default:
+			print("33333333 receivedEvent(type:\(nsEvent.type)) EEEEEEE")
 		}
 	}
 }
