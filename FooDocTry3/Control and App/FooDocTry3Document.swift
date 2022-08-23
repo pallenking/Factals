@@ -17,7 +17,7 @@ struct DocState {
 		self.fwScene			= fwScene	?? FwScene(fwConfig:[:])//{ fatalError()}()	//SCNNode(
 	}
 }
-let DocStateNull				= DocState()	//
+//let docStateNull				= DocState()	//
 
 struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 
@@ -49,6 +49,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		let rootPart			= RootPart(fromLibrary:entry)
 		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
 		docState	 			= DocState(rootPart:rootPart, fwScene:fwScene)
+
 		DOC						= self				// INSTALL FooDocTry3
 
 		updateDocConfigs(from:rootPart.ansConfig)
@@ -112,10 +113,11 @@ bug//	if !DOCCTLR.documents.contains(self) {
 //			DOCCTLR.addDocument(self)	// we install ourselves!!!				//makeWindowControllers() /// VERY SUSPECT -- 210507PAK:makes 2'nd window
 //			showWindows()				// The nib should be loaded by here
 //		}
-	}																			//	override func makeWindowControllers() {
-																				//		atDoc(3, logg( "== == == == FwDocument.makeWindowControllers()"))
-																				//		super.makeWindowControllers()
-																				//	}
+	}
+	func makeWindowControllers() { bug
+//.		atDoc(3, logg( "== == == == FwDocument.makeWindowControllers()"))
+//		super.makeWindowControllers()
+	}
 																				//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
 																				//bug;	atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
 																				////		assert(DOC! === self, "sanity check failed")
