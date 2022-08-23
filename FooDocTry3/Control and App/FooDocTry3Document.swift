@@ -28,23 +28,13 @@ struct FooDocTry3Document: FileDocument {			// not NSDocument!!
 	 // Model of a FooDocTry3Document:
 	var docState : DocState!
 
-	 // MARK: - 2.2 Sugar
-	var windowController0 : NSWindowController? {		// First NSWindowController
-bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil			}
-	var window0 : NSWindow? 	{						// First NSWindow
-		return windowController0?.window										}
-
-	init(docState docState_:DocState) {
-		docState			= docState_			// given
-		DOC					= self				// INSTALL FooDocTry3
-		return
-	}
+	 // No document supplied
 	init() {
 		// Generate a new docState		//---FUNCTION-----------+-wantName:---wantNumber:
-	//	let entry				= nil	//	 Blank scene		|	nil			-1
-	//	let entry				= 34	//	 entry N			|	nil			N *
+		//let entry				= nil	//	 Blank scene		|	nil			-1
+		//let entry				= 34	//	 entry N			|	nil			N *
 		let entry				= "xr()"//	 entry with xr()	|	"xr()"		-1
-	//	let entry				= "name"//	 entry named scene	|	"name" *	-1
+		//let entry				= "name"//	 entry named scene	|	"name" *	-1
 
 		let rootPart			= RootPart(fromLibrary:entry)
 		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
@@ -54,6 +44,12 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 		updateDocConfigs(from:rootPart.ansConfig)
 		rootPart.wireAndGroom()
+	}
+	 // Document supplied
+	init(docState docState_:DocState) {
+		docState			= docState_			// given
+		DOC					= self				// INSTALL FooDocTry3
+		return
 	}
 
 	/* ============== BEGIN FileDocument protocol: */
@@ -94,22 +90,29 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			throw CocoaError(.fileWriteUnknown)
 		}
 	}
-//	// MARK: - 4 Enablers
-//			// The  nib file  name of the document:
-//	override var windowNibName:NSNib.Name? {		return "Document"			}
-//			// Enable Auto Savea:
-//	override class var autosavesInPlace: Bool {		return false				}
-//			// Enable Asynchronous Writing:
-//	override func canAsynchronouslyWrite(to:URL, ofType:String, for:NSDocument.SaveOperationType) -> Bool {
-//		return false															}
-//			// Enable Asynchronous Reading:
-//	override class func canConcurrentlyReadDocuments(ofType:String) -> Bool {
-//		return false // ofType == "public.plain-text"
-//	}
+
+	 // MARK: - 2.2 Sugar
+	var windowController0 : NSWindowController? {		// First NSWindowController
+bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil			}
+	var window0 : NSWindow? 	{						// First NSWindow
+		return windowController0?.window										}
+	// MARK: - 4 Enablers
+			// The  nib file  name of the document:
+	var windowNibName:NSNib.Name? 	{		return "Document"					}
+			// Enable Auto Savea:
+	var autosavesInPlace: Bool 		{		return false						}
+			// Enable Asynchronous Writing:
+	func canAsynchronouslyWrite(to:URL, ofType:String, for:NSDocument.SaveOperationType) -> Bool {
+		return false
+	}		// Enable Asynchronous Reading:
+	func canConcurrentlyReadDocuments(ofType:String) -> Bool {
+		return false // ofType == "public.plain-text"
+	}
 
 	 // MARK: - 5 Groom
-	func registerWithDocController() {
-bug//	if !DOCCTLR.documents.contains(self) {
+	//https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit
+	func registerWithDocController() { bug
+//		if !DOCCTLR.documents.contains(self) {
 //			DOCCTLR.addDocument(self)	// we install ourselves!!!				//makeWindowControllers() /// VERY SUSPECT -- 210507PAK:makes 2'nd window
 //			showWindows()				// The nib should be loaded by here
 //		}

@@ -3,11 +3,14 @@
 //  FooDocTry3
 //
 //  Created by Allen King on 5/18/22.
-//	20220822PAK: Imported and Funged from  AppDelegate.swift -- for SwiftFactals  C2018PAK
+//	20220822PAK: Imported and Funged from:  AppDelegate.swift -- for SwiftFactals  C2018PAK
 //
 
-// Note:
-// Some of the Application base classes have nameing conflicts with SceneKit
+import Cocoa
+import SwiftUI
+
+// 		File Naming Notes:
+// Some of the Application-base classes have nameing conflicts with SceneKit
 //		base		twitteling		App's subclass		comment
 //		Document	prepend Fw		FwDocument
 // There are 2 cases:
@@ -16,15 +19,11 @@
 // Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
 //				FW's subclass strips NS. e.g: DocumentController
 
-
-import Cocoa
-import SwiftUI
-
   //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")				// 180127 FactalWrokbench UNRELEASED
   //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
   //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")		// 210710 Post
-//	let (majorVersion, minorVersion, nameVersion) = (6, 0, "FooDocTry3 re-App")	// 220628
-	let (majorVersion, minorVersion, nameVersion) = (6, 1, "FooDocTry3 re-App")	// 220822
+  //let (majorVersion, minorVersion, nameVersion) = (6, 0, "FooDocTry3 re-App")	// 220628
+	let (majorVersion, minorVersion, nameVersion) = (6, 1, "FooDocTry3++")		// 220822
 
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 	 // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
@@ -37,11 +36,10 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 var APP : FooDocTry3App! 	= nil
 var DOC   	 : FooDocTry3Document!		// (Currently Active) App must insure continuity
 var DOCLOG   : Log 					{	DOC?.docState.rootPart.log ?? Log.null			}
- // WAS:
-//var APPDEL	 : AppDelegate? 	{	NSApp.delegate as? AppDelegate			}
-//var APPLOG	 : Log 				{	APPDEL?.log ?? Log.null					}
-//let DOCCTLR						= NSDocumentController.shared
-
+																				 // WAS:
+																				//var APPDEL	 : AppDelegate? 	{	NSApp.delegate as? AppDelegate			}
+																				//var APPLOG	 : Log 				{	APPDEL?.log ?? Log.null					}
+																				//let DOCCTLR						= NSDocumentController.shared
 @main
 struct FooDocTry3App: App {
 	 // MARK: - 2. Object Variables:
