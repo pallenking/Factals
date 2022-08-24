@@ -35,7 +35,7 @@ struct ContentView: View {
 				 .onAppear {
 				 	document.didLoadNib(to:self)								}
 	//A			 .gesture(gestures())
-				 .border(Color.black, width: 3)
+				//.border(Color.black, width: 3)
 //				 .background(NSColor("verylightgray")!)		// HELP
 				//.frame(width:600, height:400)
 			}
@@ -55,7 +55,7 @@ struct ContentView: View {
 				{	breakToDebugger()										}
 				Button(label:{		Text( "  ")}){} .buttonStyle(.borderless)
 			}
-			//Spacer()
+			Spacer()
 		}
 	}
 	// SEE "//	func gestures() -> some Gesture" below

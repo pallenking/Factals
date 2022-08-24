@@ -678,15 +678,14 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let nsTrackPad				= true//false//
 		let duration				= Float(1)
 		var mouseWasDragged			= false
-		let fwScene					= DOCfwScene
 
 		switch nsEvent.type {
 		case .keyDown:
 			if nsEvent.isARepeat {	return }			// Ignore repeats
-			isAutoRepeat 			= true
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
 			guard !isAutoRepeat		else { fatalError("the above isARepeat didn't work!")}
+			isAutoRepeat 			= true
 			if DOC!.processKey(from:nsEvent, inVew:nil) {
 				if char != "?" {		// okay for "?" to get here
 					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
@@ -701,40 +700,40 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		case .leftMouseDown:
 			motionFromLastEvent(with:nsEvent)
 			if !nsTrackPad  {					// 3-button Mouse
-				let _				= true //fwScene?.modelPic(with:nsEvent)
+				modelPic(with:nsEvent)
 			}
-			fwScene.updateCameraTransform(for:"Left mouseDown", overTime:duration)
+			updateCameraTransform(for:"Left mouseDown", overTime:duration)
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged 	= true		// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				fwScene.updateCameraTransform(for:"Left mouseDragged")
+				updateCameraTransform(for:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
-					bug//let _			= fwScene?.modelPic(with:nsEvent)
+					let _			= modelPic(with:nsEvent)
 				}
 				mouseWasDragged 	= false
-				fwScene.updateCameraTransform(for:"Left mouseUp", overTime:duration)
+				updateCameraTransform(for:"Left mouseUp", overTime:duration)
 			}
 		 //  ====== CENTER MOUSE ======
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			fwScene.updateCameraTransform(for:"Other mouseDown", overTime:duration)
+			updateCameraTransform(for:"Other mouseDown", overTime:duration)
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
 			mouseWasDragged 		= true		// drag cancels pic
-			fwScene.updateCameraTransform(for:"Other mouseDragged")
+			updateCameraTransform(for:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			fwScene.updateCameraTransform(for:"Other mouseUp", overTime:duration)
-			print("camera = [\(fwScene.ppCam())]")
+			updateCameraTransform(for:"Other mouseUp", overTime:duration)
+			print("camera = [\(ppCam())]")
 			//at("All", 3, print("camera = [\(fwScene!.ppCam())]"))
-			atEve(9, print("\(fwScene.cameraNode.transform.pp(.tree)))"))
+			atEve(9, print("\(cameraNode.transform.pp(.tree)))"))
 		 //  ====== CENTER SCROLL WHEEL ======
 		case .scrollWheel: nop
 			let d					= nsEvent.deltaY
@@ -820,8 +819,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			print("\n******************** 'n': ==== SCNNodes:")
 			DOCLOG.ppIndentCols = 3
 			print(rootScn.pp(.tree), terminator:"")
-			//print(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
-			//print("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
+			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
+			//aprint("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
 		case "#":
 			let documentDirURL	= try! FileManager.default.url(
 											for:.documentDirectory,
