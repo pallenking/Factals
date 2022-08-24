@@ -549,10 +549,10 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	///   - rootPart: -- base of model
 	///   - lockStr: -- if non-nil, get this lock
 	func installRootPart(_ rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
-		guard let doc			= DOC else {	panic("DOC is nil"); return		}
+		//guard let doc			= DOC else {	panic("DOC is nil"); return		}
 
 		 // 1. Get LOCKS for PartTree and VewTree
-		guard	doc.docState.rootPart.lock(partTreeAs:lockStr) else {
+		guard	DOCrootPartQ!.lock(partTreeAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get PART lock")		// or
 		}
 		guard lock(rootVewAs:lockStr) else {
@@ -578,9 +578,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		}
 
 		 // 4. Look At Node:
-/*x*/	lookAtPart				= lookAtPart ?? doc.docState.rootPart//rootPart
-		if lookAtPart != nil {
-			lookAtVew 			= rootVew.find(part:lookAtPart!, inMe2:true)
+		if let lookAtPart		= lookAtPart ?? DOCrootPartQ {
+			lookAtVew 			= rootVew.find(part:lookAtPart, inMe2:true)
 		}
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
@@ -594,7 +593,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		// 6. UNLOCK PartTree and VewTree:
 		unlock(              rootVewAs:lockStr)
-		doc.docState.rootPart.unlock(partTreeAs:lockStr)
+		DOCrootPart.unlock(partTreeAs:lockStr)
 	}
 
 // /////////////////////////////////////////////////////////////////////////////
