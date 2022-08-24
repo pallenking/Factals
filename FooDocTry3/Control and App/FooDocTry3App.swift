@@ -33,11 +33,20 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 																				//let aVariable = appDelegate.someVariable
 																				// OBSOLETE: A basic tutorial :http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
 ////	Application Singletons:
-var APP		: FooDocTry3App! 	= nil
-var DOC		: FooDocTry3Document!		// (Currently Active) App must insure continuity
-var DOCstate: DocState				{	DOC.docState							}
-var DOCstateQ:DocState?				{	DOC?.docState							}
-var DOCLOG  : Log 					{	DOCstate.rootPart.log ?? Log.null	}
+var APP			: FooDocTry3App!	// NEVER CHANGES
+									// CHANGES:
+var DOC			: FooDocTry3Document!		// (Currently Active) App must insure continuity
+
+ // Shgar on DOC
+var DOCstate	: DocState				{	DOC.docState						}
+var DOCstateQ	: DocState?				{	DOC?.docState						}
+
+var DOCfwScene	: FwScene				{	DOC.docState.fwScene				}
+var DOCfwSceneQ	: FwScene?				{	DOC?.docState.fwScene				}
+var DOCrootPart	: RootPart				{	DOC.docState.rootPart				}
+var DOCrootPartQ: RootPart?				{	DOC?.docState.rootPart				}
+
+var DOCLOG  	: Log 					{	DOCrootPartQ?.log ?? Log.null		}
 																				 // WAS:
 																				//var APPDEL	 : AppDelegate? 	{	NSApp.delegate as? AppDelegate			}
 																				//var APPLOG	 : Log 				{	APPDEL?.log ?? Log.null					}
