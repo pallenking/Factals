@@ -820,9 +820,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			print("\n******************** 'n': ==== SCNNodes:")
 			DOCLOG.ppIndentCols = 3
 			print(rootScn.pp(.tree), terminator:"")
-//			print(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
-			print(x, terminator:"")
-//			print("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
+			//print(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
+			//print("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
 		case "#":
 			let documentDirURL	= try! FileManager.default.url(
 											for:.documentDirectory,
