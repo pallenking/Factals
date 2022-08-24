@@ -9,16 +9,6 @@
 import Cocoa
 import SwiftUI
 
-// 		File Naming Notes:
-// Some of the Application-base classes have nameing conflicts with SceneKit
-//		base		twitteling		App's subclass		comment
-//		Document	prepend Fw		FwDocument
-// There are 2 cases:
-// Case 1: base is the generic name.			  e.g: Document.
-//				FW's subclass is "Fw" + basename. e.g: FwDocument
-// Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
-//				FW's subclass strips NS. e.g: DocumentController
-
   //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")				// 180127 FactalWrokbench UNRELEASED
   //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
   //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")		// 210710 Post
@@ -32,27 +22,38 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 																				//let appDelegate = UIApplication.shared.delegate as! AppDelegate
 																				//let aVariable = appDelegate.someVariable
 																				// OBSOLETE: A basic tutorial :http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
-////	Application Singletons:
-var APP			: FooDocTry3App!	// NEVER CHANGES
-									// CHANGES:
-var DOC			: FooDocTry3Document!		// (Currently Active) App must insure continuity
+
+ // 	File Naming Notes:
+// Some of the Application-base classes have nameing conflicts with SceneKit
+//		base		twitteling		App's subclass		comment
+//		Document	prepend Fw		FwDocument
+// There are 2 cases:
+// Case 1: base is the generic name.			  e.g: Document.
+//				FW's subclass is "Fw" + basename. e.g: FwDocument
+// Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
+//				FW's subclass strips NS. e.g: DocumentController
+
+////	Application Singletons:		(Currently Active) App must insure continuity)
+var APP				: FooDocTry3App!		// NEVER CHANGES
+var DOC				: FooDocTry3Document!	// CHANGES:
 
  // Shgar on DOC
-var DOCstate	: DocState				{	DOC.docState						}
-var DOCstateQ	: DocState?				{	DOC?.docState						}
+var DOCstate		: DocState		{	DOC.docState							}
+var DOCstateQ		: DocState?		{	DOC?.docState							}
+var DOCfwScene		: FwScene		{	DOC.docState.fwScene					}
+var DOCfwSceneQ		: FwScene?		{	DOC?.docState.fwScene					}
+var DOCrootPart		: RootPart		{	DOC.docState.rootPart					}
+var DOCrootPartQ	: RootPart?		{	DOC?.docState.rootPart					}
+var DOCLOG  		: Log 			{	DOCrootPartQ?.log ?? Log.null			}
 
-var DOCfwScene	: FwScene				{	DOC.docState.fwScene				}
-var DOCfwSceneQ	: FwScene?				{	DOC?.docState.fwScene				}
-var DOCrootPart	: RootPart				{	DOC.docState.rootPart				}
-var DOCrootPartQ: RootPart?				{	DOC?.docState.rootPart				}
-
-var DOCLOG  	: Log 					{	DOCrootPartQ?.log ?? Log.null		}
-																				 // WAS:
-																				//var APPDEL	 : AppDelegate? 	{	NSApp.delegate as? AppDelegate			}
-																				//var APPLOG	 : Log 				{	APPDEL?.log ?? Log.null					}
-																				//let DOCCTLR						= NSDocumentController.shared
 @main
 struct FooDocTry3App: App {
+
+	var body: some Scene {
+		DocumentGroup(newDocument: FooDocTry3Document()) { file in
+			ContentView(document: file.$document)
+		}
+	}
 	 // MARK: - 2. Object Variables:
 	var log	: Log				= Log(params4appLog, title:"AppDelegate's Log(params4appLog)")
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
@@ -73,7 +74,7 @@ struct FooDocTry3App: App {
 		get			{	return regressScene_										}
 		set(v)	 	{
 			regressScene_ 		= v
-//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
+			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
 		}
 	};private var regressScene_ = 0
 
@@ -86,7 +87,6 @@ struct FooDocTry3App: App {
 		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		APP = self
-//		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		 // Configure App with defaults:
 		config4app/*active*/	= params4app
@@ -108,7 +108,6 @@ struct FooDocTry3App: App {
 			print("❤️ ❤️   ❤️ ❤️      ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️      ❤️ ❤️   ❤️ ❤️\n")
 			printFwcState()
 		}() )
-//		NSApplication.shared.delegate = self		// Go Live in system!
 	}
 
 	  // App Will Finish Launching ///////////////////////////
@@ -116,7 +115,7 @@ struct FooDocTry3App: App {
 	// MARK: 4.1 APP Launching
 	var appSounds				= Sounds()
 	mutating func applicationWillFinishLaunching(_ notification:Notification) {
-///		atCon(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
+		atCon(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
 
 		 // Load Sounds
 		appSounds.load(name:"aTest",		path:"BadName.wav")		// BAD, but no error
@@ -127,29 +126,31 @@ struct FooDocTry3App: App {
 		appSounds.load(name:"tock0",		path:"Tock_SB.wav")
 
 		 // Update Menues:
-///		atCon(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwScene Menus: "))
+		atCon(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwScene Menus: "))
 		buildSceneMenus()
 
-		  // Set Apple Event Manager so FactalWorkbench will recieve URL's
-		 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
-		let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
-//		appleEventManager.setEventHandler(self,
-//			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
-//			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-	}
+		 // but self is struct!
+		//	  // Set Apple Event Manager so FactalWorkbench will recieve URL's
+		//	 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
+		//	let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
+		//	appleEventManager.setEventHandler(self,
+		//		andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
+		//		forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
+	}//
+
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
 	//    someone double-clicked it again or used the dock to activate it.
 	func applicationShouldHandleReopen(_ sender:NSApplication, hasVisibleWindows:Bool) -> Bool {
-		return !hasVisibleWindows// handle windows if none visible
-//		return false			// Don't open any windows
+		return !hasVisibleWindows	// handle windows if none visible
+		//return false				// Don't open any windows
 	}
 	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-		return true 			// final, untested 210710PAK no workey
-//		return false 			// conservative, must deal with no-FwDocument situation
+		return true 				// final, untested 210710PAK no workey
+		//return false 				// conservative, must deal with no-FwDocument situation
 	}
-//	 // MARK: - 4.3 APP Menu Bar Items
-	weak var sceneMenu:NSMenu!	//	@IBOutlet weak 	var sceneMenu		:NSMenu!
+	 // MARK: - 4.3 APP Menu Bar Items
+	weak var sceneMenu:NSMenu!		//	@IBOutlet weak 	var sceneMenu		:NSMenu!
 
 	func appPreferences(_ sender: Any) {		// Show App preferences
 		print("'⌘,': AppDelegate.appPreferences(): PREF WINDOW UNDEF")
@@ -198,13 +199,13 @@ struct FooDocTry3App: App {
 								  addMenuEntry(forPath:path, tag:elt.tag, inMenu:menuTree)
 				menuOfPath[path] = menuTree // remember the nsMenuInTree:
 			}
-//			 // Make new entry:
-//			let menuItem		= NSMenuItem(title:elt.title,
-//											 action:#selector(scheneAction(_:)),
-//											 keyEquivalent:"")	//action:#selector(scheneAction(sender:)),
-//			menuItem.tag 		= elt.tag// + 1
-//			menuTree.addItem(menuItem)	// insert into base (currently)
-//			atMen(9, log("Built tag:\(elt.tag)"))		// Build
+			 // Make new menu entry:
+			// let menuItem		= NSMenuItem(title:elt.title,
+			// 								 action:#selector(scheneAction(_:)),
+			// 								 keyEquivalent:"")	//action:#selector(scheneAction(sender:)),
+			// menuItem.tag 		= elt.tag// + 1
+			// menuTree.addItem(menuItem)	// insert into base (currently)
+			atMen(9, log("Built tag:\(elt.tag)"))		// Build
 		}
 	}
 	func addMenuEntry(forPath path:String, tag:Int, inMenu:NSMenu) -> NSMenu {
@@ -283,14 +284,14 @@ bug;	let rv					= NSMenu(title:path)
 
 	 // MARK: - MENU / Next / Demo
 	//. @IBAction
-	mutating func scheneAction(_ sender:NSMenuItem) {
+	func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 
 		 // Find scene number for Library lookup:
 		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu
 											: regressScene	// from last time
-		regressScene			= sceneNumber + 1			// next regressScene
+//!!	regressScene			= sceneNumber + 1			// next regressScene
 
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
 		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
@@ -303,6 +304,12 @@ bug;	let rv					= NSMenu(title:path)
 		doc.registerWithDocController()	// a new DOc must be registered
 	}
 
+	 // MARK: - 17. Debugging Aids
+	var description	  	 : String 	{	return  "\"FooDocTry3App\""				}
+	var debugDescription : String	{	return   "'FooDocTry3App'"				}
+	var summary			 : String	{	return   "<FooDocTry3App>"				}
+
+	 // MARK: - 20. Log
 	  ///  Write 1-line summary of this usage
 	func logRunInfo(_ comment:String) {
 		//return
@@ -336,22 +343,8 @@ bug;	let rv					= NSMenu(title:path)
 			// 20201225 Wouldn't create logOfRuns; must do manually
 		}
 	}
-
-	 // MARK: - 17. Debugging Aids
-	var description	  	 : String 	{	return  "\"FooDocTry3App\""				}
-	var debugDescription : String	{	return   "'FooDocTry3App'"				}
-	var summary			 : String	{	return   "<FooDocTry3App>"				}
-
-	 // MARK: - 20. Log
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format_, arguments:args)
 		log.log(banner:banner, msg, terminator:terminator)
-	}
-
-
-	var body: some Scene {
-		DocumentGroup(newDocument: FooDocTry3Document()) { file in
-			ContentView(document: file.$document)
-		}
 	}
 }

@@ -526,8 +526,8 @@
             filePath = "FooDocTry3/Control and App/FwScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "913"
-            endingLineNumber = "913"
+            startingLineNumber = "900"
+            endingLineNumber = "900"
             landmarkName = "modelPic(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -894,8 +894,8 @@
             filePath = "FooDocTry3/Control and App/FooDocTry3App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>

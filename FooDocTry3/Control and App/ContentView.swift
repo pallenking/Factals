@@ -11,14 +11,14 @@ extension SCNCameraController : ObservableObject {	}
 
 struct ContentView: View {
 	@Binding     var document: FooDocTry3Document
-	let win0 : NSWindow?		= DOC.window0
+	//let win0 : NSWindow?		= DOC.window0
 	var body: some View {
 		VStack {
 			let rootPart:RootPart = document.docState.rootPart
 			let scene			= document.docState.fwScene
 			//let aux			= DOCLOG.params4aux + ["ppDagOrder":true]
 			ZStack {
-				NSEventReceiver { nsEvent in DOCstate.fwScene.receivedEvent(nsEvent:nsEvent)		}
+				NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
 				SceneView(
 					scene			: scene,
 					pointOfView		: scene.cameraNode,
@@ -127,7 +127,7 @@ struct ContentView: View {
 																				//
 																				//	//  ====== LEFT MOUSE ======
 																				//	func dragGesture(value v:DragGesture.Value) {
-																				//		let fwScene				= DOCstate.fwScene
+																				//		let fwScene				= DOCfwScene
 																				//		let delta				= v.location - v.startLocation
 																				//	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 																				//
@@ -137,7 +137,7 @@ struct ContentView: View {
 																				//		fwScene.updateCameraTransform(to:newPole, for:"dragGesture")
 																				//	}
 																				//	func dragGestureEnd(value v:DragGesture.Value) {
-																				//		let fwScene				= DOCstate.fwScene
+																				//		let fwScene				= DOCfwScene
 																				//		let delta				= v.location - v.startLocation
 																				//	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 																				//
@@ -146,7 +146,7 @@ struct ContentView: View {
 																				//		fwScene.updateCameraTransform(for:"dragGestureEnd")
 																				//	}
 																				//	func tapGesture(value v:TapGesture.Value, count:Int) {
-																				//		let fwScene				= DOCstate.fwScene
+																				//		let fwScene				= DOCfwScene
 																				//		print("tapGesture value:'\(v)' count:\(count)")
 																				//
 																				//		 // Make NSEvent for Double Click
@@ -159,7 +159,7 @@ struct ContentView: View {
 																				//											clickCount:count,
 																				//											pressure:1.0)!
 																				//		 // dispatch Pic event
-																				//		let x:Vew? 				= DOCstate.fwScene.modelPic(with:nsEvent)
+																				//		let x:Vew? 				= DOCfwScene.modelPic(with:nsEvent)
 																				////		print(windowController0)
 																				//		print(x ?? "<<nil>>")
 																				//	}

@@ -524,7 +524,7 @@ bug
 			}
 		}
 		return root?.ansConfig[name] ??		// Look in common places: // 21200301PAK: Review: sometimes ans Config is also dumped into Part.config?
-			   DOCstate.fwScene.config4scene[name] //fwScene?
+			   DOCfwScene.config4scene[name] //fwScene?
 	}
 	  /// Lookup Part's configuration from only this Part
 //	 func configLocal(_ name:String) -> FwAny? {

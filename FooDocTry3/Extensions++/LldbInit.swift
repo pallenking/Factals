@@ -28,8 +28,8 @@ func rootpart(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  rootVew  : Vew  			{
-	get 		{	return DOCstate.fwScene.rootVew								}
-	set (v)		{	DOCstate.fwScene.rootVew = v									}
+	get 		{	return DOCfwScene.rootVew								}
+	set (v)		{	DOCfwScene.rootVew = v									}
 }
 func rootvew(_ name:String?=nil) -> Vew  {
 	guard let docState 			= DOCstateQ else {

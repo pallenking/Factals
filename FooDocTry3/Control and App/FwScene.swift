@@ -464,8 +464,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		 // Set zoom per horiz/vert:
 		var zoomSize			= bSize.y	// default when height dominates
 		//var orientation		= "Portrait "
-		let scn					= DOCstate.fwScene.rootVew.scn
-////		if let nsRectSize		= DOCstate.fwScene.rootVew.frame.size {
+		let scn					= DOCfwScene.rootVew.scn
+////		if let nsRectSize		= DOCfwScene.rootVew.frame.size {
 ////		if let nsRectSize		= DOC?.fwView?.frame.size {
 //			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
 //				zoomSize		= bSize.x	// when width dominates
@@ -678,7 +678,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let nsTrackPad				= true//false//
 		let duration				= Float(1)
 		var mouseWasDragged			= false
-		let fwScene					= DOCstate.fwScene
+		let fwScene					= DOCfwScene
 
 		switch nsEvent.type {
 		case .keyDown:
@@ -686,38 +686,18 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			isAutoRepeat 			= true
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
-																				//			let characters	 		= String()
-																				//			guard let chx			= nsEvent.charactersIgnoringModifiers?.first else {
-																				//				return															}
-																				//			let char				= Character(chx)
-																				//			assert(nsEvent.charactersIgnoringModifiers!.count == 1, "multiple keystrokes not supported")
-																				//			let char :Character = characters.count==0 ? "X" : Character(characters[0...0])
-																				//			if isAutoRepeat {
-																				//				print("the above isARepeat didn't work!")
-																				//			}
-																							//print("    key = \(char)")
+			guard !isAutoRepeat		else { fatalError("the above isARepeat didn't work!")}
 			if DOC!.processKey(from:nsEvent, inVew:nil) {
 				if char != "?" {		// okay for "?" to get here
 					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
 				}
 			}
-																				//			let fwScene			= DOCstate.fwScene
-																				//			if fwScene.processKey(from:nsEvent, inVew:nil) {
-																				//				return
-																				//			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			isAutoRepeat 		= false
-			DOC?.processKey(from:nsEvent, inVew:nil)
+			let _				= DOC?.processKey(from:nsEvent, inVew:nil)
 
-		case .scrollWheel: nop
-			let d					= nsEvent.deltaY
-			let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			let scene				= DOCstate.fwScene
-			scene.lastSelfiePole.zoom *= delta
-			print("receivedEvent(type:.scrollWheel) found pole\(scene.lastSelfiePole.uid).zoom = \(scene.lastSelfiePole.zoom)")
-			scene.updateCameraTransform(for:"Scroll Wheel")
-
+		 //  ====== LEFT MOUSE ======
 		case .leftMouseDown:
 			motionFromLastEvent(with:nsEvent)
 			if !nsTrackPad  {					// 3-button Mouse
@@ -740,7 +720,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 				mouseWasDragged 	= false
 				fwScene.updateCameraTransform(for:"Left mouseUp", overTime:duration)
 			}
-	//	 //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //  ====== CENTER MOUSE ======
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
@@ -757,27 +736,35 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			//at("All", 3, print("camera = [\(fwScene!.ppCam())]"))
 			atEve(9, print("\(fwScene.cameraNode.transform.pp(.tree)))"))
 		 //  ====== CENTER SCROLL WHEEL ======
-//		case 8:	// override func touchesBegan(with event:NSEvent) {
-//			let t 					= event.touches(matching:.began, in:self)
-//			for touch in t {
-//				let _:CGPoint		= touch.location(in:nil)
-//			}
-//		}
-//		case 9:	//override func touchesMoved(with event:NSEvent) {
-//			let t 					= event.touches(matching:.began, in:self)
-//			for touch in t {
-//				let prevLoc			= touch.previousLocation(in:nil)
-//				let loc				= touch.location(in:nil)
-//				atEve(3, (print("\(prevLoc) \(loc)")))
-//	//			let prevKey			= soloKeyboard?.keyAt(point:prevLoc)
-//	//			let key				= soloKeyboard?.keyAt(point:loc)
-//	//			key?.curPoint		= loc
-//			}
-//		case 10:	//override func touchesEnded(with event:NSEvent) {
-//			let t 					= event.touches(matching:.began, in:self)
-//			for touch in t {
-//				let _:CGPoint		= touch.location(in:nil)
-//			}
+		case .scrollWheel: nop
+			let d					= nsEvent.deltaY
+			let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
+			let scene				= DOCfwScene
+			scene.lastSelfiePole.zoom *= delta
+			print("receivedEvent(type:.scrollWheel) found pole\(scene.lastSelfiePole.uid).zoom = \(scene.lastSelfiePole.zoom)")
+			scene.updateCameraTransform(for:"Scroll Wheel")
+		 //  ====== RIGHT MOUSE ======			Right Mouse not used
+
+		//case 8:	// override func touchesBegan(with event:NSEvent) {
+		//	let t 					= event.touches(matching:.began, in:self)
+		//	for touch in t {
+		//		let _:CGPoint		= touch.location(in:nil)
+		//	}
+		//case 9:	//override func touchesMoved(with event:NSEvent) {
+		//	let t 					= event.touches(matching:.began, in:self)
+		//	for touch in t {
+		//		let prevLoc			= touch.previousLocation(in:nil)
+		//		let loc				= touch.location(in:nil)
+		//		atEve(3, (print("\(prevLoc) \(loc)")))
+		//	//	let prevKey			= soloKeyboard?.keyAt(point:prevLoc)
+		//	//	let key				= soloKeyboard?.keyAt(point:loc)
+		//	//	key?.curPoint		= loc
+		//	}
+		//case 10:	//override func touchesEnded(with event:NSEvent) {
+		//	let t 					= event.touches(matching:.began, in:self)
+		//	for touch in t {
+		//		let _:CGPoint		= touch.location(in:nil)
+		//	}
 		default:
 			print("33333333 receivedEvent(type:\(nsEvent.type)) EEEEEEE")
 		}
@@ -832,8 +819,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		case "n":	
 			print("\n******************** 'n': ==== SCNNodes:")
 			DOCLOG.ppIndentCols = 3
-			let x				= rootScn.pp(.tree)
-//			let x				= rootScn.pp(.tree, ["ppIndentCols":3] )
+			print(rootScn.pp(.tree), terminator:"")
+//			print(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
 			print(x, terminator:"")
 //			print("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
 		case "#":
