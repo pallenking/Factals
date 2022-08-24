@@ -33,9 +33,11 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 																				//let aVariable = appDelegate.someVariable
 																				// OBSOLETE: A basic tutorial :http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
 ////	Application Singletons:
-var APP : FooDocTry3App! 	= nil
-var DOC   	 : FooDocTry3Document!		// (Currently Active) App must insure continuity
-var DOCLOG   : Log 					{	DOC?.docState.rootPart.log ?? Log.null			}
+var APP		: FooDocTry3App! 	= nil
+var DOC		: FooDocTry3Document!		// (Currently Active) App must insure continuity
+var DOCstate: DocState				{	DOC.docState							}
+var DOCstateQ:DocState?				{	DOC?.docState							}
+var DOCLOG  : Log 					{	DOCstate.rootPart.log ?? Log.null	}
 																				 // WAS:
 																				//var APPDEL	 : AppDelegate? 	{	NSApp.delegate as? AppDelegate			}
 																				//var APPLOG	 : Log 				{	APPDEL?.log ?? Log.null					}
@@ -271,7 +273,8 @@ bug;	let rv					= NSMenu(title:path)
 
 
 	 // MARK: - MENU / Next / Demo
-	/*. @IBAction*/ mutating func scheneAction(_ sender:NSMenuItem) {
+	//. @IBAction
+	mutating func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 

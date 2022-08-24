@@ -208,7 +208,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 	@objc func simulationTask() {
 		guard simBuilt				else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled			else {	return 								}
-		if let rp : RootPart	= DOC?.docState.rootPart  {
+		if let rp : RootPart	= DOCstateQ?.rootPart  {
 
 			// semaphore:
 			guard rp.lock(partTreeAs:"simulationTask", logIf:simLogLocks) else {

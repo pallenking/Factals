@@ -12,8 +12,8 @@ func ppFwcConfig() -> String {
 	return						"""
 		CONFIGURATIONS:
 		 DOCLOG       .config4log:  \(w( DOCLOG		 .config4log.pp(.line)	))
-		 rootPart     .ansConfig:   \(w( DOC.docState.rootPart.ansConfig.pp(.line)	))
-		 simulator    .config4sim:  \(w( DOC.docState.rootPart.simulator.config4sim.pp(.line)	))
+		 rootPart     .ansConfig:   \(w( DOCstate.rootPart.ansConfig.pp(.line)	))
+		 simulator    .config4sim:  \(w( DOCstate.rootPart.simulator.config4sim.pp(.line)	))
 		"""
 //		 APPDEL       .config4app:  \(w( APPDEL?	 .config4app.pp(.line) ?? "(APPDEL==nil)"))
 //		 fwScene      .config4scene:\(w( DOC.fwScene?.config4scene.pp(.line) ?? "[:]"))

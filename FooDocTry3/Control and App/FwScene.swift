@@ -426,7 +426,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 	 // Compute Camera Transform from pole config
 	func updateCameraTransform(to:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) {
-		let pole				= to ?? lastSelfiePole
+		let pole : FwScene.SelfiePole = to ?? lastSelfiePole
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
 		   //
@@ -447,7 +447,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let riseAboveHoriz		= SCNMatrix4MakeRotation(upTilt, 1, 0, 0)
 
 		 //  ---- move out boom from pole, looking backward:
-		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 10*pole.zoom) //cameraZoom)//10 ad hoc .5
+		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50*pole.zoom) //cameraZoom)//10 ad hoc .5
 
 		let newCameraXform		= toEndOfBoom * riseAboveHoriz * poleSpinAboutY
 		assert(!newCameraXform.isNan, "newCameraXform is Not a Number")
@@ -464,8 +464,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		 // Set zoom per horiz/vert:
 		var zoomSize			= bSize.y	// default when height dominates
 		//var orientation		= "Portrait "
-		let scn					= DOC.docState.fwScene.rootVew.scn
-////		if let nsRectSize		= DOC.docState.fwScene.rootVew.frame.size {
+		let scn					= DOCstate.fwScene.rootVew.scn
+////		if let nsRectSize		= DOCstate.fwScene.rootVew.frame.size {
 ////		if let nsRectSize		= DOC?.fwView?.frame.size {
 //			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
 //				zoomSize		= bSize.x	// when width dominates
@@ -538,7 +538,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			SCNTransaction.commit()
 		}
 		else {
+
 			cameraNode.transform = newCameraXform
+
 		}
 	}
 
@@ -666,6 +668,142 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		panic("physicsWorld(_, didEnd:contact")
 	}
 	 // MARK: - 13. IBActions
+	 // MARK: - 13.1 Keys
+	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys
+
+	func receivedEvent(nsEvent:NSEvent) {
+		//print("--- func received(nsEvent:\(nsEvent))")
+
+		// MARK: - 13.2 Mouse
+		//  ====== LEFT MOUSE ======
+		let nsTrackPad				= true//false//
+		let duration				= Float(1)
+		var mouseWasDragged			= false
+		let fwScene					= DOCstate.fwScene
+
+		switch nsEvent.type {
+		case .keyDown:
+			if nsEvent.isARepeat {	return }			// Ignore repeats
+			isAutoRepeat 			= true
+			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
+			assert(char.count==1, "multiple keystrokes not supported")
+																				//			let characters	 		= String()
+																				//			guard let chx			= nsEvent.charactersIgnoringModifiers?.first else {
+																				//				return															}
+																				//			let char				= Character(chx)
+																				//			assert(nsEvent.charactersIgnoringModifiers!.count == 1, "multiple keystrokes not supported")
+																				//			let char :Character = characters.count==0 ? "X" : Character(characters[0...0])
+																				//			if isAutoRepeat {
+																				//				print("the above isARepeat didn't work!")
+																				//			}
+																							//print("    key = \(char)")
+			if DOC!.processKey(from:nsEvent, inVew:nil) {
+				if char != "?" {		// okay for "?" to get here
+					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
+				}
+			}
+																				//			let fwScene			= DOCstate.fwScene
+																				//			if fwScene.processKey(from:nsEvent, inVew:nil) {
+																				//				return
+																				//			}
+		case .keyUp:
+			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
+			isAutoRepeat 		= false
+			DOC?.processKey(from:nsEvent, inVew:nil)
+
+		case .scrollWheel: nop
+			let d					= nsEvent.deltaY
+			let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
+			let scene				= DOCstate.fwScene
+			scene.lastSelfiePole.zoom *= delta
+			print("receivedEvent(type:.scrollWheel) found pole\(scene.lastSelfiePole.uid).zoom = \(scene.lastSelfiePole.zoom)")
+			scene.updateCameraTransform(for:"Scroll Wheel")
+
+		case .leftMouseDown:
+			motionFromLastEvent(with:nsEvent)
+			if !nsTrackPad  {					// 3-button Mouse
+				let _				= true //fwScene?.modelPic(with:nsEvent)
+			}
+			fwScene.updateCameraTransform(for:"Left mouseDown", overTime:duration)
+		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
+			if nsTrackPad  {					// Trackpad
+				motionFromLastEvent(with:nsEvent)
+				mouseWasDragged 	= true		// drag cancels pic
+				spinNUp(with:nsEvent)			// change Spin and Up of camera
+				fwScene.updateCameraTransform(for:"Left mouseDragged")
+			}
+		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
+			if nsTrackPad  {					// Trackpad
+				motionFromLastEvent(with:nsEvent)
+				if !mouseWasDragged {			// UnDragged Up
+					bug//let _			= fwScene?.modelPic(with:nsEvent)
+				}
+				mouseWasDragged 	= false
+				fwScene.updateCameraTransform(for:"Left mouseUp", overTime:duration)
+			}
+	//	 //  ====== RIGHT MOUSE ======			Right Mouse not used
+		 //  ====== CENTER MOUSE ======
+		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
+			motionFromLastEvent(with:nsEvent)
+			fwScene.updateCameraTransform(for:"Other mouseDown", overTime:duration)
+		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
+			motionFromLastEvent(with:nsEvent)
+			spinNUp(with:nsEvent)
+			mouseWasDragged 		= true		// drag cancels pic
+			fwScene.updateCameraTransform(for:"Other mouseDragged")
+		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
+			motionFromLastEvent(with:nsEvent)
+			fwScene.updateCameraTransform(for:"Other mouseUp", overTime:duration)
+			print("camera = [\(fwScene.ppCam())]")
+			//at("All", 3, print("camera = [\(fwScene!.ppCam())]"))
+			atEve(9, print("\(fwScene.cameraNode.transform.pp(.tree)))"))
+		 //  ====== CENTER SCROLL WHEEL ======
+//		case 8:	// override func touchesBegan(with event:NSEvent) {
+//			let t 					= event.touches(matching:.began, in:self)
+//			for touch in t {
+//				let _:CGPoint		= touch.location(in:nil)
+//			}
+//		}
+//		case 9:	//override func touchesMoved(with event:NSEvent) {
+//			let t 					= event.touches(matching:.began, in:self)
+//			for touch in t {
+//				let prevLoc			= touch.previousLocation(in:nil)
+//				let loc				= touch.location(in:nil)
+//				atEve(3, (print("\(prevLoc) \(loc)")))
+//	//			let prevKey			= soloKeyboard?.keyAt(point:prevLoc)
+//	//			let key				= soloKeyboard?.keyAt(point:loc)
+//	//			key?.curPoint		= loc
+//			}
+//		case 10:	//override func touchesEnded(with event:NSEvent) {
+//			let t 					= event.touches(matching:.began, in:self)
+//			for touch in t {
+//				let _:CGPoint		= touch.location(in:nil)
+//			}
+		default:
+			print("33333333 receivedEvent(type:\(nsEvent.type)) EEEEEEE")
+		}
+	}
+	 // MARK: - 13.4 Mouse Variables
+	func motionFromLastEvent(with nsEvent:NSEvent) {
+		if let view				= DOC.window0?.contentView {
+			let delt2d :CGPoint	= view.convert(nsEvent.locationInWindow, from: nil)//nil=screen
+			// convert(_ point: NSPoint, from view: NSView?) -> NSPoint
+
+			let eventPosn		= SCNVector3(delt2d.x, delt2d.y, 0)		// BAD: unprojectPoint(
+			 // Movement since last
+			let prevPosn : SCNVector3 = lastPosition ?? eventPosn
+			deltaPosition		= eventPosn - prevPosn
+			lastPosition		= eventPosn
+		}
+	}
+	var lastPosition : SCNVector3? = nil				// spot cursor hit
+	var deltaPosition			= SCNVector3.zero
+
+	func spinNUp(with nsEvent:NSEvent) {
+		lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+		lastSelfiePole.horizonUp += deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+	}
+
 	 /// Prosses keyboard key
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use

@@ -21,7 +21,7 @@
 //	 //\\\ SCNView.scene		same as fwScene:
 ////	var fwScene : FwScene?		= nil			// USED ONLY FOR CAMERA
 //	var fwScene : FwScene? {
-//		get 		{		DOC?.docState.fwScene							}
+//		get 		{		DOCstate.fwScene							}
 //		set(v)		{		if var doc = DOC, let val = v {
 //								doc.docState.fwScene = val
 //							}
