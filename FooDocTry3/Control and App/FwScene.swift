@@ -6,7 +6,7 @@
 import SceneKit
 
 //		Concepts:
-//	The camera is positioned in the world with a "camera" matrix.
+//	The camera is positioned in the world with the camera transform
 //
 //                3D MODEL SPACE       camera
 //    model             v                ^         LOCAL

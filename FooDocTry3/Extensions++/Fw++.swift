@@ -932,7 +932,7 @@ func !~==( left:CGFloat, right:CGFloat) -> Bool {
 //					//let newStr = str.substring(from: index) // Swift 3
 //					let newStr = String(valStr[index...]) // Swift 4
 extension String : Uid {
-	var uid: UInt16 {		return uidFooFoo(nsOb:(self as NSObject))	}	//SwiftFactals
+	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}	//SwiftFactals
 }
 extension String {
 	init(bool:Bool) {			// Bool -> String
@@ -1151,7 +1151,7 @@ extension String {
 
  // 180623 Why doesn't this work?		// public?
 extension NSObject : Uid {
-	var uid: UInt16 			{ 	return uidFooFoo(nsOb:self)					}
+	var uid: UInt16 			{ 	return uid4Ns(nsOb:self)					}
 }
 
 extension NSObject {

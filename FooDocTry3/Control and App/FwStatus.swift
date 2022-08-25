@@ -23,11 +23,11 @@ func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)		}
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
 func ppFwcState() -> String
-{//	bug; return ""
+{
 	var rv : String				 = ""//APPDEL?.ppFwState() ?? ""// APPlication DELegate
 	rv							+= ppDOC()					// current DOCument
-//	rv							+= DOCLOG .ppFwState()		// DOCLOG
-//	rv							+= DOCCTLR.ppFwState()		// nsDOCumentConTroLleR
+	rv							+= DOCLOG .ppFwState()		// DOCLOG
+	rv							+= DOCCTLR.ppFwState()		// nsDOCumentConTroLleR
 	return rv
 }
 func ppFwStateHelper(_ fwClassName_	: String,
@@ -60,6 +60,7 @@ func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 protocol FwStatus {
 	func ppFwState(deapth:Int) -> String
 }
+
 //extension AppDelegate		: FwStatus	{							/// AppDelegate
 //	func ppFwState(deapth:Int=999) -> String {
 //		let emptyEntry			= APPDEL?.config4app["emptyEntry"] ?? "xr()"
@@ -79,8 +80,8 @@ protocol FwStatus {
 //	}
 //}
 func ppDOC() -> String {									///
-	let m						= ppUid(DOC! as! Uid)
-	let msg						= DOC == nil ? "-- none selected" : "currently selected(\(m))"
+	//let m						= ppUid(DOC)
+	let msg						= DOC == nil ? "(not selected)" : "(currently selected)"
 	let uid : String			= ppUid(pre:" ", DOC as! Uid, post:"  DOC \(msg)", showNil:true)
 	return uid + "\n"
 //	return ppUid(pre:" ", DOC, post:"  DOC \(msg)", showNil:true) + "\n"
@@ -94,6 +95,7 @@ extension NSDocumentController	: FwStatus {		 		 /// NSDocumentController
 			otherLines:{ deapth in
 				var rv			= ""
 				for document in self.documents {
+					rv			+= "\t\t\t a document\n" //document.ppFwState(deapth:deapth)
 //					if let doc	= document as? FwDocument {
 //						rv		+= doc.ppFwState(deapth:deapth)
 //					}
@@ -112,42 +114,44 @@ extension Log				: FwStatus	{									/// Log
 		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth)
 	}
 }
-//// MARK: - DOCUMENT
+// MARK: - DOCUMENT
+extension FooDocTry3Document	: FwStatus	{			  /// FooDocTry3Document
 //extension FwDocument			: FwStatus	{						 /// FwDocument
-//	func ppFwState(deapth:Int=999) -> String {
-//		let wcc					= windowControllers.count
-//		return ppFwStateHelper("FwDocument   ", uid:self,
-//			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""): " 					+
-//				"wc0:\(   ppUid(windowController0, showNil:true)) "				+
-//				"w0:\(    ppUid(window0, 		   showNil:true)) "				+
-//				"fwView:\(ppUid(fwView,		       showNil:true)) "				+
-//				"paramPrefix:'\(documentParamPrefix.pp())'",
-//			otherLines:{ deapth in
-//
-//				 // Controller:
-//				var rv			=  self.rootPart.ppFwState(deapth:deapth)
-//
-//				 // Window Controllers
-//				for windowController in self.windowControllers {
-//					rv		+= windowController.ppFwState(deapth:deapth)
-//				}
-//
-//				 // Inspectors:
-//				if self.inspecWin4vew.count > 0 {
-//					rv			+= DOCLOG.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
-//					DOCLOG.nIndent += 1
-////					self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-//					for inspec in self.inspecWin4vew.keys {
-//						let win	= self.inspecWin4vew[inspec]
-//						rv		+= win?.ppFwState(deapth:0) ?? "----"
-//					}
-//					DOCLOG.nIndent -= 1
-//				}
-//				return rv
-//			},
-//			deapth:deapth)
-//	}
-//}
+	func ppFwState(deapth:Int=999) -> String {
+		let wcc					= 12345//windowControllers.count
+		return ppFwStateHelper("FwDocument   ", uid:self,
+			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""): "
+				+ "wc0:\(   ppUid(windowController0, showNil:true)) "
+				+ "w0:\(    ppUid(window0, 		   showNil:true)) ",
+		//.		+ "fwView:\(ppUid(fwView,		       showNil:true)) "
+		//.		+ "paramPrefix:'\(documentParamPrefix.pp())'",
+			otherLines:{ deapth in
+
+				 // Controller:
+		//.		var rv			=  self.rootPart.ppFwState(deapth:deapth)
+
+		//.		 // Window Controllers
+		//.		for windowController in self.windowControllers {
+		//.			rv		+= windowController.ppFwState(deapth:deapth)
+		//.		}
+				var rv = ""
+				 // Inspectors:
+				if self.inspecWin4vew.count > 0 {
+					rv			+= DOCLOG.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
+					DOCLOG.nIndent += 1
+//					self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
+					for inspec in self.inspecWin4vew.keys {
+						let win	= self.inspecWin4vew[inspec]
+						rv		+= win?.ppFwState(deapth:0) ?? "----"
+					}
+					DOCLOG.nIndent -= 1
+				}
+				return rv
+			},
+			deapth:deapth
+		)
+	}
+}
 extension RootPart		: FwStatus	{								 /// RootPart
 	func ppFwState(deapth:Int=999) -> String {
 		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"

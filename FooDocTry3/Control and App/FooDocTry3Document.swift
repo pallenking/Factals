@@ -19,8 +19,8 @@ struct DocState {
 }
 //let docStateNull				= DocState()	//
 
-struct FooDocTry3Document: FileDocument {//}, Uid {
-//	var uid: UInt16				=
+struct FooDocTry3Document: FileDocument, Uid {
+	var uid: UInt16				= randomUid()
 
 //	@IBOutlet weak
 //	 var fwView		: FwView?	//SCNView?		// IB sets this

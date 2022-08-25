@@ -38,16 +38,18 @@ var APP				: FooDocTry3App!		// NEVER CHANGES
 var DOC				: FooDocTry3Document!	// CHANGES:
 
  // Shgar on DOC
-var DOCstate		: DocState		{	DOC.docState							}
-var DOCstateQ		: DocState?		{	DOC?.docState							}
-var DOCfwScene		: FwScene		{	DOC.docState.fwScene					}
-var DOCfwSceneQ		: FwScene?		{	DOC?.docState.fwScene					}
-var DOCrootPart		: RootPart		{	DOC.docState.rootPart					}
-var DOCrootPartQ	: RootPart?		{	DOC?.docState.rootPart					}
-var DOCLOG  		: Log 			{	DOCrootPartQ?.log ?? Log.null			}
+var DOCstate		: DocState	{	DOC.docState								}
+var DOCstateQ		: DocState?	{	DOC?.docState								}
+var DOCfwScene		: FwScene	{	DOC.docState.fwScene						}
+var DOCfwSceneQ		: FwScene?	{	DOC?.docState.fwScene						}
+var DOCrootPart		: RootPart	{	DOC.docState.rootPart						}
+var DOCrootPartQ	: RootPart?	{	DOC?.docState.rootPart						}
+var DOCLOG  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
+let DOCCTLR						= NSDocumentController.shared
 
 @main
-struct FooDocTry3App: App {
+struct FooDocTry3App: App, Uid {
+	var uid: UInt16				= randomUid()
 
 	var body: some Scene {
 		DocumentGroup(newDocument: FooDocTry3Document()) { file in

@@ -52,7 +52,7 @@ func uidStrDashes(nilLike obj:Uid?) -> String {			// no object
 	return  String(repeating: "-", count:uidDigits)
 }
  /// Generate Uid of NSObject from hash of address
-func uidFooFoo(nsOb:NSObject) -> UInt16 {
+func uid4Ns(nsOb:NSObject) -> UInt16 {
 	 /// Get bits of pointer to object:
 	let str						= fmt("%p", nsOb).dropFirst(2)	// remove "0x"//"12345"//
 	let i						= UInt64(str, radix:16) ?? 0
