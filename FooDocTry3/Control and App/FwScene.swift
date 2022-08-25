@@ -235,6 +235,7 @@ bug
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
 	var cameraNode :CameraNode = CameraNode([:])
+
 	 /// Update camera formation, configuration, and pointing
 	func reconfigCameraNode() {
 
@@ -424,9 +425,13 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	}
 	var lastSelfiePole = SelfiePole()						// init to default
 
-	 // Compute Camera Transform from pole config
-	func updateCameraTransform(to:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) {
-		let pole : FwScene.SelfiePole = to ?? lastSelfiePole
+	/// Compute Camera Transform from pole config
+	/// - Parameters:
+	///   - from: defines direction of camera
+	///   - message: for logging only
+	///   - duration: for animation
+	func updateCameraTransform(from:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) {
+		let pole : SelfiePole	= from ?? lastSelfiePole
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
 		   //
@@ -463,9 +468,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		 // Set zoom per horiz/vert:
 		var zoomSize			= bSize.y	// default when height dominates
-		//var orientation		= "Portrait "
+		var orientation			= "Portrait "
 		let scn					= DOCfwScene.rootVew.scn
-////		if let nsRectSize		= DOCfwScene.rootVew.frame.size {
+//		if let nsRectSize		= DOCfwScene.rootVew.frame.size {
 ////		if let nsRectSize		= DOC?.fwView?.frame.size {
 //			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
 //				zoomSize		= bSize.x	// when width dominates
@@ -474,7 +479,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		}
 		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
 		  vanishingPoint.isFinite {			// Perspective
-			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
+			print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
 		}	 								// Orthographic
 		else if let c			= cameraNode.camera {
 			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
@@ -678,6 +683,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let nsTrackPad				= true//false//
 		let duration				= Float(1)
 		var mouseWasDragged			= false
+		let frame : NSRect?			= nsEvent.window?.contentView?.frame
 
 		switch nsEvent.type {
 		case .keyDown:

@@ -147,13 +147,13 @@ class Tests01 : Library {
 		let eSim : FwConfig		= e + [simEnabled:true]
 		let eSimX: FwConfig		= e						// Neuter eSim
 		let eTight : FwConfig	= e + [	// For debugging Link positions:
-			"ppViewTight"	:true,		 	// eliminate titles in print
-			"ppIndentCols"	:7,				// limit of tree height indentations
-			"ppViewOptions"	:"UFVTWB",		// just Posn, World, and FwBBox
-			"ppXYZWena"		:"XY",			// 3 axis(xyz), world coords,
-			"ppNNameCols"	:6,				// shortened name
-			"ppNClassCols"	:6,				// shortened class
-			"ppNCols4Posns"	:15,
+			"ppViewTight"		:true,		// eliminate titles in print
+			"ppIndentCols"		:7,			// limit of tree height indentations
+			"ppViewOptions"		:"UFVTWB",	// just Posn, World, and FwBBox
+			"ppXYZWena"			:"XY",		// 3 axis(xyz), world coords,
+			"ppNNameCols"		:6,			// shortened name
+			"ppNClassCols"		:6,			// shortened class
+			"ppNCols4VewPosns"	:15,
 		//	"ppFloatA":5, "ppFloatB":2,		// 2 desimal digits: F5.2 (default is F4.1)
 		]
 		let eYtight				= eTight + [
@@ -170,7 +170,7 @@ class Tests01 : Library {
 //			"ppXYZWena"		:"XY",			// 3 axis(xyz), world coords,
 //			"ppNNameCols"	:6,				// shortened name
 //			"ppNClassCols"	:6,				// shortened class
-//			"ppNCols4Posns"	:15,
+//			"ppNCols4VewPosns":15,
 //		//	"ppFloatA":5, "ppFloatB":2,		// 2 desimal digits: F5.2 (default is F4.1)
 //		]
 //		let eYtight				= eXYtight + [
@@ -879,7 +879,7 @@ r("+ Show Link skin types", eSim + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + 
 	Broadcast([n:"a", share:["x,l:2,t:invisible"], jog+X:"0.5 0 0",f:1]), // no line
  	Mirror(   [n:"x", "gain":0, "offset":1, f:1]),
 ]]) })
-xr("+ Generate AppIcon", e + camera(h:0,s:10,u:10,z:10) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+xr("+ Generate AppIcon", e + camera(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 	MaxOr(	[n:"m", share:["a,l:0", "b,l:0.4", "c,l:0"],  f:1]),
 	Hamming([n:"a", share:["y,l:0.4", "x,l:0"],  f:1]),
  	Hamming([n:"b", share:["y,l:0"], f:1]),		// no line

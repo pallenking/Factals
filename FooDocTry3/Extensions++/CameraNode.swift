@@ -20,25 +20,25 @@ class CameraNode : SCNNode {
 		
 		self.camera				= SCNCamera()
 		camera!.name			= "SCNCamera"
-		camera!.wantsExposureAdaptation = false				//A Boolean value that determines whether SceneKit automatically adjusts the exposure level.
+		camera!.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
 		camera!.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
 		camera!.exposureAdaptationDarkeningSpeedFactor = 1
 		camera!.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
-			var lastSelfiePole	= FwScene.SelfiePole()
+			var pole			= FwScene.SelfiePole()
 			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-				lastSelfiePole.height = CGFloat(h)
+				pole.height = CGFloat(h)
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+				pole.horizonUp	= -CGFloat(u)		/* in degrees */
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
-				lastSelfiePole.spin 	= CGFloat(s) 		/* in degrees */
+				pole.spin 		= CGFloat(s) 		/* in degrees */
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				lastSelfiePole.zoom 		= CGFloat(z)
+				pole.zoom 		= CGFloat(z)
 			}
 			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
 		}

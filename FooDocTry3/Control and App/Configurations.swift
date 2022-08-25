@@ -58,8 +58,8 @@ private let params4pp_ : FwConfig = [
 	"ppNClassCols"		: 8,		// columns printout for names
 	"ppNUid4Tree"		: 3,  //0/3/4/ hex digits of UID identifier for parts 0...4
 	"ppNUid4Ctl" 		: 3,  //0//3//4// hex digits of UID identifier for controllers //0
-	"ppNCols4Posns"		: 20,		// columns printout for position  //20/18/15/14/./
-	"ppNCols4ScnPosn"	: 35,		// columns printout for position  //25/20/18/14/./
+	"ppNCols4VewPosns"	: 20,		// columns printout for position  //20/18/15/14/./
+	"ppNCols4ScnPosn"	: 40,		// columns printout for SCN position  //25/20/18/14/./
 				// Floating Point Accuracy:
 	 		   // fmt("%*.*f", A, B, x) (e.g. %5.2f)
 	//"ppFloatA": 2, "ppFloatB":0,	// good, small

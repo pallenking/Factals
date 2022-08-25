@@ -326,40 +326,40 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		}
 		fatalError("convert(position:from:) found root")
 	}
-//	func localPositionX(of position:SCNVector3, inSubVew vew:Vew) -> SCNVector3 {
-////		atRsi(6, log("localPosition(of:\(position.pp(.line)), inSubVew:'\(vew.parent!.pp(.fullName))')"))
-//		 // Go from vew toward self
-//		if vew == self {
-//			return position
+	func localPositionX(of position:SCNVector3, inSubVew vew:Vew) -> SCNVector3 {
+//		atRsi(6, log("localPosition(of:\(position.pp(.line)), inSubVew:'\(vew.parent!.pp(.fullName))')"))
+		 // Go from vew toward self
+		if vew == self {
+			return position
+		}
+		if let vewParent		= vew.parent {
+			let vewScn			= vew.scn.physicsBody==nil ? vew.scn
+														   : vew.scn.presentation
+			let vewParentScn	= vewParent.scn.physicsBody==nil ? vewParent.scn
+																 : vewParent.scn.presentation
+			let pInParent		= vewScn.transform * position
+			// we now have position in our parent's view
+			let rv				= vew.localPosition(of:pInParent, inSubVew:vewParent)
+
+//			let activeScn		= vew.scn.physicsBody==nil ? vew.scn : vew.scn.presentation
+//			let pInParent		= activeScn.transform * position
+//			let rv				= convert(position:pInParent, in:vewParent)
+	//		rv					= convertPosition(rv, from:activeScn)
+			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
+			return rv
+		}
+		fatalError("localPosition(of:inSubVew:) failed")
+//		 /// Go from vew toward self
+//		var rv					= position
+//		atRsi(9, log(" position=\(rv.pp(.line))  (in \(vew.pp(.fullName)))"))
+//		for v in vew.selfNParents(upto:self) {	// vew, v+, ... s-, self
+//			if let parentsScn 	= v.parent?.scn {
+//				let activeScn	= v.scn.physicsBody==nil ? v.scn : v.scn.presentation
+//				rv				= parentsScn.convertPosition(rv, from:activeScn)
+//				atRsi(9, log(" position=\(rv.pp(.line))  (in \(v.parent!.pp(.fullName)))"))
+//			}
 //		}
-//		if let vewParent		= vew.parent {
-//			let vewScn			= vew.scn.physicsBody==nil ? vew.scn
-//														   : vew.scn.presentation
-//			let vewParentScn	= vewParent.scn.physicsBody==nil ? vewParent.scn
-//																 : vewParent.scn.presentation
-//			let pInParent		= vewScn.transform * position
-//			// we now have position in our parent's view
-//			let rv				= vew.localPosition(of:pInParent, inSubVew:vewParent)
-//
-////			let activeScn		= vew.scn.physicsBody==nil ? vew.scn : vew.scn.presentation
-////			let pInParent		= activeScn.transform * position
-////			let rv				= convert(position:pInParent, in:vewParent)
-//	//		rv					= convertPosition(rv, from:activeScn)
-//			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
-//			return rv
-//		}
-//		fatalError("localPosition(of:inSubVew:) failed")
-////		 /// Go from vew toward self
-////		var rv					= position
-////		atRsi(9, log(" position=\(rv.pp(.line))  (in \(vew.pp(.fullName)))"))
-////		for v in vew.selfNParents(upto:self) {	// vew, v+, ... s-, self
-////			if let parentsScn 	= v.parent?.scn {
-////				let activeScn	= v.scn.physicsBody==nil ? v.scn : v.scn.presentation
-////				rv				= parentsScn.convertPosition(rv, from:activeScn)
-////				atRsi(9, log(" position=\(rv.pp(.line))  (in \(v.parent!.pp(.fullName)))"))
-////			}
-////		}
-//	}
+	}
 
 	    /// Convert bBox from vew to self's Vew
 	   /// - parameter bBox: -- Bounding Box in vew to transfer
@@ -766,7 +766,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 					let pi		= scn.pivot.pp(.phrase, aux)			  // (*)
 					rv1			+= pi=="I" ? "" : tight(pi, "i" + pi + " ")
 				}
-				let nCols		= tight(12, aux.int_("ppNCols4Posns"))
+				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
 				rv				+= !ppViewOptions.contains("W") ? ""
