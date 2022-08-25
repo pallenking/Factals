@@ -827,7 +827,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			print("\(rootVew.pp(.tree))", terminator:"")
 		case "n":	
 			print("\n******************** 'n': ==== SCNNodes:")
-			DOCLOG.ppIndentCols = 3
+			DOClog.ppIndentCols = 3
 			print(rootScn.pp(.tree), terminator:"")
 			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
 			//aprint("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")

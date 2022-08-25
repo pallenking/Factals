@@ -345,7 +345,7 @@ bug
 	}
 	static var ppLogFromBlank : String {
 		let nLog				= 3		// a quick approximation
-		return  String(repeating: " ", count:DOCLOG.ppLogFromString().count + nLog)
+		return  String(repeating: " ", count:DOClog.ppLogFromString().count + nLog)
 	}
 
 	 /// Character to represent Transaction ID:
@@ -386,7 +386,7 @@ var debugOutterLock				= false		// default value
 
 // MARK: - PreLog
 func preLog(_ item:String) {
-	if DOCLOG.config4log.bool_("debugPreLog") {
+	if DOClog.config4log.bool_("debugPreLog") {
 		print("######### " + item)
 	}
 }
@@ -399,12 +399,12 @@ func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let msg						= fmt(format, args)
 	warningLog.append(msg)
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	DOCLOG.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
+	DOClog.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
 }
 func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
 	logNErrors					+= 1
-	DOCLOG.log(banner:targName + "ERROR \(logNErrors) ", 		format, args)
+	DOClog.log(banner:targName + "ERROR \(logNErrors) ", 		format, args)
 }
 
 func ppBuildErrorsNWarnings(title:String) -> String {

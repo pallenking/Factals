@@ -128,7 +128,7 @@ enum Event : Codable, Equatable {	// Uid,
 					}
 				}
 			}
-			atEve(4, DOCLOG.log("- - - - - eventUnrand((events.pp()))"))
+			atEve(4, DOClog.log("- - - - - eventUnrand((events.pp()))"))
 			 // paw through all elements of outter array
 			return "broken"
 		}

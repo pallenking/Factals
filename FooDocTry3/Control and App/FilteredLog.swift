@@ -3,7 +3,7 @@
 import Foundation
 
 //	at<A>(<V>, {...}) executes an action dependent on "arguments" <A> and <V>.
-//	If the current DOCLOG.verbosity[<A>] is >= <V> the closure is executed.
+//	If the current DOClog.verbosity[<A>] is >= <V> the closure is executed.
 //
 //	The following verbosities <V> are defined:
 //		// 0 : silent (prints nothing)		// 5 : Normal
@@ -27,7 +27,7 @@ import Foundation
 //		// ins	-- INSpectors		-
 //		// all	-- ALL OF ABOVE		-
 //
-//	E.g: the following will print "construction message" if DOCLOG.verbosity
+//	E.g: the following will print "construction message" if DOClog.verbosity
 //	calls for >=3 verbosity messages:
 //			atCon(3, Log(<construction message>))
 
@@ -69,14 +69,14 @@ func at(con:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 }
 
  /// Common Filter routine:
-/// * Executes the closure if the priority in DOCLOG.filter[area] >= verbosity
+/// * Executes the closure if the priority in DOClog.filter[area] >= verbosity
 /// - parameters:
 ///   - area: 	= the kind of message, where the message is from.
 ///   - verbosity:	= the priority of the message, how important 0<msgPri<10
 ///   - action: = an automatically generated closure which does a (log) operation
 func at(_ area:String, _ verbos:Int, _ action:@autoclosure()->Void) {	// Location supplied
 	assert(verbos >= 0 && verbos < 10, "Message priorities must be in range 0...9")
-	let log						= DOCLOG
+	let log						= DOClog
 	if let verbosity			= log.verbosity
 	{	if //trueF 								|| // DEBUGGING
 		  (verbosity[area]  ?? -1) >= verbos	|| // verbosity[area]  high enough	OR

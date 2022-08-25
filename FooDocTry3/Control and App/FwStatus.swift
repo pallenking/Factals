@@ -11,7 +11,7 @@ func printFwcState()  {		print(ppFwcState())									}
 func ppFwcConfig() -> String {
 	return						"""
 		CONFIGURATIONS:
-		 DOCLOG       .config4log:  \(w( DOCLOG		 .config4log.pp(.line)	))
+		 DOClog       .config4log:  \(w( DOClog		 .config4log.pp(.line)	))
 		 rootPart     .ansConfig:   \(w( DOCstate.rootPart.ansConfig.pp(.line)	))
 		 simulator    .config4sim:  \(w( DOCstate.rootPart.simulator.config4sim.pp(.line)	))
 		"""
@@ -26,8 +26,8 @@ func ppFwcState() -> String
 {
 	var rv : String				 = ""//APPDEL?.ppFwState() ?? ""// APPlication DELegate
 	rv							+= ppDOC()					// current DOCument
-	rv							+= DOCLOG .ppFwState()		// DOCLOG
-	rv							+= DOCCTLR.ppFwState()		// nsDOCumentConTroLleR
+	rv							+= DOClog .ppFwState()		// DOClog
+	rv							+= DOCctlr.ppFwState()		// nsDOCumentConTroLleR
 	return rv
 }
 func ppFwStateHelper(_ fwClassName_	: String,
@@ -39,17 +39,17 @@ func ppFwStateHelper(_ fwClassName_	: String,
 {			// My Lines:
 	var rv						= ppFwPrefix(uid:uid, fwClassName_) + myLine + "\n"
 			// Other Lines:
-	DOCLOG.nIndent				+= 1
+	DOClog.nIndent				+= 1
 	rv 							+= otherLines?(deapth) ?? ""
-	DOCLOG.nIndent				-= 1
+	DOClog.nIndent				-= 1
 	return rv
 }
 func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 	 // align uid printouts for ctl and part to 4 characters
 	var rv						= ppUid(pre:" ", uid, showNil:true).field(-5) + " "
-	rv 							+= DOCLOG.indentString()
+	rv 							+= DOClog.indentString()
 	rv							+= fmt("%-12@", fwClassName_)
-	return DOCLOG.unIndent(previous:rv)
+	return DOClog.unIndent(previous:rv)
 }
 
 // //// /  ///// /  ///// /  ///// /  ///// /  ///// /  ///// /  ///// /  /////
@@ -90,7 +90,7 @@ func ppDOC() -> String {									///
 extension NSDocumentController	: FwStatus {		 		 /// NSDocumentController
 	func ppFwState(deapth:Int=999) -> String {
 		let ct					= self.documents.count
-		return ppFwStateHelper("DOCCTLR      ", uid:self,
+		return ppFwStateHelper("DOCctlr      ", uid:self,
 			myLine:"\(ct) FwDocument" + (ct != 1 ? "s:" : ":"),
 			otherLines:{ deapth in
 				var rv			= ""
@@ -111,7 +111,7 @@ extension Log				: FwStatus	{									/// Log
 		let msg					= !logEvents ? "disabled" :
 			"Log \(logNo): \"\(title)\": entryNo:\(entryNo), breakAt:\(breakAt), " +
 			"verbosity:\(verbosity?.pp(.line) ?? "-"),"// + stk
-		let logKind				= (title[0...0] == "A" ? "APPLOG" : "DOCLOG").field(-13)
+		let logKind				= (title[0...0] == "A" ? "APPLOG" : "DOClog").field(-13)
 		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth)
 	}
 }
@@ -149,14 +149,14 @@ extension NSDocument/*FwDocument*/		: FwStatus	{						 /// FwDocument
 //				var rv = ""
 //				 // Inspectors:
 //				if self.inspecWin4vew.count > 0 {
-//					rv			+= DOCLOG.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
-//					DOCLOG.nIndent += 1
+//					rv			+= DOClog.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
+//					DOClog.nIndent += 1
 ////					self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
 //					for inspec in self.inspecWin4vew.keys {
 //						let win	= self.inspecWin4vew[inspec]
 //						rv		+= win?.ppFwState(deapth:0) ?? "----"
 //					}
-//					DOCLOG.nIndent -= 1
+//					DOClog.nIndent -= 1
 //				}
 				return rv
 			},
@@ -186,14 +186,14 @@ extension NSDocument/*FwDocument*/		: FwStatus	{						 /// FwDocument
 //				var rv = ""
 //				 // Inspectors:
 //				if self.inspecWin4vew.count > 0 {
-//					rv			+= DOCLOG.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
-//					DOCLOG.nIndent += 1
+//					rv			+= DOClog.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
+//					DOClog.nIndent += 1
 ////					self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
 //					for inspec in self.inspecWin4vew.keys {
 //						let win	= self.inspecWin4vew[inspec]
 //						rv		+= win?.ppFwState(deapth:0) ?? "----"
 //					}
-//					DOCLOG.nIndent -= 1
+//					DOClog.nIndent -= 1
 //				}
 //				return rv
 //			},

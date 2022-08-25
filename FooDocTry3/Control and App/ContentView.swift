@@ -16,7 +16,7 @@ struct ContentView: View {
 		VStack {
 			let rootPart:RootPart = document.docState.rootPart
 			let scene			= document.docState.fwScene
-			//let aux			= DOCLOG.params4aux + ["ppDagOrder":true]
+			//let aux			= DOClog.params4aux + ["ppDagOrder":true]
 			ZStack {
 				NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
 				SceneView(

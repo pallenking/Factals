@@ -44,8 +44,8 @@ var DOCfwScene		: FwScene	{	DOC.docState.fwScene						}
 var DOCfwSceneQ		: FwScene?	{	DOC?.docState.fwScene						}
 var DOCrootPart		: RootPart	{	DOC.docState.rootPart						}
 var DOCrootPartQ	: RootPart?	{	DOC?.docState.rootPart						}
-var DOCLOG  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
-let DOCCTLR						= NSDocumentController.shared
+var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
+let DOCctlr						= NSDocumentController.shared
 
 @main
 struct FooDocTry3App: App, Uid {

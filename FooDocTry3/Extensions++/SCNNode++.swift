@@ -309,9 +309,9 @@ extension SCNNode /*: HasChildren */ {
 		case .line:
 			//AaaBbbbbbCcccccccDdddddEeeeeeeeeeeeeeeeeeeeeeeeeFffGggggggggggggggggggggggggggggggggggggggggg
 			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
-			rv					= DOCLOG.obNindent(ob:self)	//			(AB)
+			rv					= DOClog.obNindent(ob:self)	//			(AB)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
-			rv 					=  DOCLOG.unIndent(previous:rv)	// unindent	 (D)
+			rv 					=  DOClog.unIndent(previous:rv)	// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
 
 		case .tree:
@@ -324,15 +324,15 @@ extension SCNNode /*: HasChildren */ {
 				let pbStuff		= physicsBody == nil ? " \\" :
 								  " \\PB\(physicsBody!.isAffectedByGravity ? ":gra" : "")"
 				let pbs2		= pbStuff.field(-8, dots:false, fill:"_")
-				rv				+= DOCLOG.obNindent(ob:presentation) + pbs2
-				rv 				=  DOCLOG.unIndent(previous:rv)
+				rv				+= DOClog.obNindent(ob:presentation) + pbs2
+				rv 				=  DOClog.unIndent(previous:rv)
 				rv				+= presentation.scn1Line(prefix:"", aux) + "\n"
 			}
 
 			 /// 3. SCNNode Constraints:
 			for constraint in constraints ?? [] {
-				rv				+= DOCLOG.obNindent(ob:constraint) + " \\"
-				DOCLOG.nIndent	+= 1
+				rv				+= DOClog.obNindent(ob:constraint) + " \\"
+				DOClog.nIndent	+= 1
 				let nicknames	= ["SCNLookAtConstraint":"LookAt",
 								   "SCNBillboardConstraint":"Billboard"]
 				var cName		= nicknames[constraint.fwClassName] ?? constraint.fwClassName
@@ -341,11 +341,11 @@ extension SCNNode /*: HasChildren */ {
 					cName		+= ": " + cTarget.fullName
 				}
 				rv				+= "\(cName)\n"
-				DOCLOG.nIndent	-= 1
+				DOClog.nIndent	-= 1
 			}
 					/* Also someday: SCNPhysicsField, SCNParticleSystem */
 			 /// 4. Materials
-			DOCLOG.nIndent		+= 1
+			DOClog.nIndent		+= 1
 			if aux.bool_("ppScnMaterial") {
 bug//			for material in geometry?.materials ?? [] {
 ////					rv			+= " " + material.ppSCNMaterialColors(debugDescription) + "\n"
@@ -370,7 +370,7 @@ bug//			for material in geometry?.materials ?? [] {
 					rv			+= child.pp(.tree)
 				}
 			}
-			DOCLOG.nIndent		-= 1
+			DOClog.nIndent		-= 1
 		default:
 bug
 //			rv					=  ppDefault(self:self, mode:mode, aux:aux)
@@ -389,7 +389,7 @@ bug
 		}
 
 		// display position in trunk:
-		if DOCLOG.params4aux.string_("ppViewOptions").contains("W") {
+		if DOClog.params4aux.string_("ppViewOptions").contains("W") {
 			let rootScn			= DOCfwScene.rootScn //fwScene!.rootScn
 			let p				= convertPosition(.zero, to:rootScn)
 			rv2					+= p.pp(.short).field(-11, dots:false)

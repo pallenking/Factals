@@ -9,7 +9,7 @@ protocol Uid {
  ///  pp the Uid
 func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig=[:]) -> String {
 	 // For fwConTroL elements:
-	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? DOCLOG.ppNUid4Ctl
+	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? DOClog.ppNUid4Ctl
 	 // For Parts, Vews, and SCN Stuff:
 	if obj==nil ? false :			// obj==nil --> uses ppNUid4Ctl (AD HOC?)
 	   obj is Part 			||
@@ -17,7 +17,7 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 	   obj is SCNNode 		||
 	   obj is SCNConstraint	||
 	   obj is SCNPhysicsBody {
-		uidDigits			= aux.int("ppNUid4Tree") ?? DOCLOG.ppNUid4Tree
+		uidDigits			= aux.int("ppNUid4Tree") ?? DOClog.ppNUid4Tree
 	}
 	assert(uidDigits >= 0 && uidDigits <= 4, "ppUid( haa illegal uidDigits=\(uidDigits)")
 
@@ -38,7 +38,7 @@ func ppUidFoo(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false) -> 
 	return "ppUidFoo is for debug"
 }
 //func testPpUidFoo () -> Bool {
-//	let y  : String				= ppUid(pre:"pre:", DOCLOG, post:":post")
+//	let y  : String				= ppUid(pre:"pre:", DOClog, post:":post")
 //	return y.hasPrefix("pre:") && y.hasSuffix("post")
 //}
 
@@ -46,9 +46,9 @@ func ppUidFoo(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false) -> 
 func uidStrDashes(nilLike obj:Uid?) -> String {			// no object
 	let forTree					= obj is Part || obj is Vew || obj is SCNNode
 							   || obj is SCNConstraint || obj is SCNPhysicsBody
-	let uidDigits 				= DOCLOG == nil ? 	4	// a desparate situation -- no DOCLOG
-								: forTree ? 	DOCLOG.ppNUid4Tree
-								:				DOCLOG.ppNUid4Ctl
+	let uidDigits 				= DOClog == nil ? 	4	// a desparate situation -- no DOClog
+								: forTree ? 	DOClog.ppNUid4Tree
+								:				DOClog.ppNUid4Ctl
 	return  String(repeating: "-", count:uidDigits)
 }
  /// Generate Uid of NSObject from hash of address

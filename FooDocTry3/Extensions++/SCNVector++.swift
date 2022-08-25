@@ -281,7 +281,7 @@ extension SCNVector3 {			// : Codable (see SCNVector9XCTest)
 		try container.encode(self.x, forKey:.x)
 		try container.encode(self.y, forKey:.y)
 		try container.encode(self.z, forKey:.z)
-		atSer(3, DOCLOG.log("Encoded  ScnVector3"))
+		atSer(3, DOClog.log("Encoded  ScnVector3"))
 	}
 	 // Deserialize
 	public init(from decoder: Decoder) throws {
@@ -441,7 +441,7 @@ extension SCNVector4 {
 		try container.encode(self.y, forKey:.y)
 		try container.encode(self.z, forKey:.z)
 		try container.encode(self.w, forKey:.w)
-		atSer(3, DOCLOG.log("Encoded  ScnVector4      named"))
+		atSer(3, DOClog.log("Encoded  ScnVector4      named"))
 	}
 	 // Deserialize
 	public init(from decoder: Decoder) throws {

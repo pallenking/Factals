@@ -192,11 +192,11 @@ class Part : NSObject, Codable, NSCopying, ObservableObject, PolyWrappable {		//
 	deinit {
 		// 20210109: executes properly, but in AppDelegate it causes: (note Controller.deinit!)
 		//		EXC_BAD_ACCESS (code=1, address=0x368bb2a8b60)
-		//atBld(0, DOCLOG.log("###  DEINIT   \(fwClassName.field(-13))\(self.pp(.uidClass))"))
+		//atBld(0, DOClog.log("###  DEINIT   \(fwClassName.field(-13))\(self.pp(.uidClass))"))
 		// workaround:
 //		atBld(3, print("#### DEINIT   \(fwClassName.field(-13))"))								// WORKS
  //		print("#### DEINIT   \(uidForDeinit):\(fwClassName.field(-13))")						// WORKS
-	//	atBld(3, DOCLOG.log("#### DEINIT   \(uidForDeinit):\(fwClassName.field(-13))'\(name)'"))	// FAILED 20210911PAK
+	//	atBld(3, DOClog.log("#### DEINIT   \(uidForDeinit):\(fwClassName.field(-13))'\(name)'"))	// FAILED 20210911PAK
 //		atBld(3, print("#### DEINIT   \(fwClassName.field(-13)) \(ppUid(self))"))				// FAILS
 	}
 
@@ -1346,7 +1346,7 @@ bug				 // Let fwPart handle it:
 //		let msg					= String(format:format, arguments:args)
 //		let (nls, str2)			= msg.stripLeadingNewLines()
 //		let str					= nls + (pp(.uidClass) + ":").field(-nFullN) + str2
-//		DOCLOG.log(str, terminator:terminator)
+//		DOClog.log(str, terminator:terminator)
 //	}
 	func warning(_ format:String, _ args:CVarArg...) {
 		let fmtWithArgs			= String(format:format, arguments:args)
@@ -1461,7 +1461,7 @@ bug				 // Let fwPart handle it:
 	func printPorts(_ aux:FwConfig, early:Bool) -> String {
 		var rv 					= ""
 		root?.log.nIndent			+= 1
-		if DOCLOG.ppPorts {		// early ports // !(port.flipped && ppDagOrder)
+		if DOClog.ppPorts {		// early ports // !(port.flipped && ppDagOrder)
 			for part in children {
 				if let port 	= part as? Port,
 				  early == port.upInWorld {

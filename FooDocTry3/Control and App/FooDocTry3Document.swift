@@ -113,8 +113,8 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	 // MARK: - 5 Groom
 	//https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit
 	func registerWithDocController() { bug
-//		if !DOCCTLR.documents.contains(self) {
-//			DOCCTLR.addDocument(self)	// we install ourselves!!!				//makeWindowControllers() /// VERY SUSPECT -- 210507PAK:makes 2'nd window
+//		if !DOCctlr.documents.contains(self) {
+//			DOCctlr.addDocument(self)	// we install ourselves!!!				//makeWindowControllers() /// VERY SUSPECT -- 210507PAK:makes 2'nd window
 //			showWindows()				// The nib should be loaded by here
 //		}
 	}
@@ -126,7 +126,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																				//bug;	atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
 																				////		assert(DOC! === self, "sanity check failed")
 																				////		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
-																				////		assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
+																				////		assert(DOCctlr.documents.contains(self), "self not in DOCctlr.documents!")
 																				//
 																				//		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
 																				//		 		// Link it in:
@@ -199,7 +199,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			 // --------- To Log:
 			if name.hasPrefix("pp") ||			// 1a:      pp... entry
 			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
-				toParams4docLog[name] = value		// affect our DOCLOG
+				toParams4docLog[name] = value		// affect our DOClog
 				used			= true
 			}
 			if !used {
@@ -338,7 +338,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		 // Sim EVENTS						// /// Key DOWN ///////
 		let cmd 				= nsEvent.modifierFlags.contains(.command)
 		let alt 				= nsEvent.modifierFlags.contains(.option)
-		var aux : FwConfig		= DOCLOG.params4aux //gets us params4pp
+		var aux : FwConfig		= DOClog.params4aux //gets us params4pp
 //		var aux : FwConfig		= Log.params4aux 	//gets us params4pp
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
@@ -406,7 +406,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format_, arguments:args)
-		DOCLOG.log(banner:banner, msg, terminator:terminator)
+		DOClog.log(banner:banner, msg, terminator:terminator)
 	}
 
 	 // MARK: - 15. PrettyPrint
@@ -414,9 +414,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 bug;	return "fixMe"
 //		switch mode! {
 //		case .line:
-//			return DOCLOG.indentString() /*?? " "*/ + " " + fwClassName.field(-6, dots:false)	// Can't use fwClassName; FwDocument is not an FwAny
+//			return DOClog.indentString() /*?? " "*/ + " " + fwClassName.field(-6, dots:false)	// Can't use fwClassName; FwDocument is not an FwAny
 //		case .tree:
-//			return DOCLOG.indentString() /*?? " "*/ + " " + fwClassName.field(-6, dots:false) + "\n"
+//			return DOClog.indentString() /*?? " "*/ + " " + fwClassName.field(-6, dots:false) + "\n"
 //		default:
 //			return ppDefault(self:self as! FwAny, mode:mode, aux:aux)	// NO: return super.pp(mode, aux)
 //		}

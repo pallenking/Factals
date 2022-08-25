@@ -99,7 +99,7 @@ CGFloat.NativeType)
  /// This extending of FwAny allows uniform default values.
 extension FwAny  {
 	 // Default implementation, with default values:
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOCLOG.params4aux) -> String {
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String {
 		return pp(mode, aux)
 		//Type of expression is ambiguous without more context
 		//switch mode! {
@@ -344,12 +344,12 @@ func +( d0:FwConfig, d1:FwConfig) -> FwConfig {
 		if let value0 			= d0[key1] { 	/// key1 in d0: possible conflict
 			atBld(9, print("Dictionary Conflict, Key: \(key1.field(20)) " +
 					"was \(value0.pp(.short).field(10)) \t<-- \(value1.pp(.short))"))
-//			atBld(9, DOCLOG.log("Dictionary Conflict, Key: \(key1.field(20)) " +
+//			atBld(9, DOClog.log("Dictionary Conflict, Key: \(key1.field(20)) " +
 //					"was \(value0.pp(.phrase).field(10)) \t<-- \(value1.pp(.phrase))"))
 //			if let v0			= value0 as? Equatable,
 //			  let v1			= value1 as? Equatable,
 //			  v0 == v1 {} else {
-//				atBld(9, DOCLOG.log("Dictionary Conflict, Key: \(key1.field(20)) " +
+//				atBld(9, DOClog.log("Dictionary Conflict, Key: \(key1.field(20)) " +
 //					"was \(value0.pp(.phrase).field(10)) \t<-- \(value1.pp(.phrase))"))
 //			}
 		}
@@ -1172,7 +1172,7 @@ bug//	APPLOG.log(str, terminator:terminator)
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
 		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
-		DOCLOG.log(str, terminator:terminator)
+		DOClog.log(str, terminator:terminator)
 	}
 }
 extension NSObject {
