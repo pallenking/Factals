@@ -29,31 +29,43 @@ struct ContentView: View {
 									   //.temporalAntialiasingEnabled
 					],
 					preferredFramesPerSecond:30,
-			 		antialiasingMode:.none,										//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-					delegate:document.docState.fwScene								// FwScene // SCNSceneRendererDelegate
+			 		antialiasingMode:.none,				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
+					delegate:document.docState.fwScene	// FwScene // SCNSceneRendererDelegate
 				)
 				 .onAppear {
 				 	document.didLoadNib(to:self)								}
-	//A			 .gesture(gestures())	// Removed 20220825 to Gestures.swift
-				//.border(Color.black, width: 3)
+				.border(Color.black, width: 3)
 //				 .background(NSColor("verylightgray")!)		// HELP
-				//.frame(width:600, height:400)
+	//A			 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 			}
 			HStack {
+				HStack {
+					Text("  Control:")
+					Button(label:{	Text( "state").padding(.top, 300)				})
+					{	printFwcState()												}
+					Button(label:{	Text( "config").padding(.top, 300)				})
+					{	printFwcConfig()											}
+				}
 				Spacer()
-				Button(label:{	Text( "ptm").padding(.top, 300)				})
-				{	lldbPrint(ob:rootPart, mode:.tree)						}
-				Button(label:{	Text("ptLm").padding(.top, 300)				})
-				{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 	}
-				Button(label:{		Text( "  ") }){}.buttonStyle(.borderless)
-				Button(label:{	Text( "ptv").padding(.top, 300)				})
-				{	lldbPrint(ob:scene.rootVew, mode:.tree) 				}
-				Button(label:{	Text( "ptn").padding(.top, 300)				})
-				{	lldbPrint(ob:scene.rootNode, mode:.tree)			 	}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+				HStack {
+					Text("Model:")
+					Button(label:{	Text( "ptm").padding(.top, 300)					})
+					{	lldbPrint(ob:rootPart, mode:.tree)							}
+					Button(label:{	Text("ptLm").padding(.top, 300)					})
+					{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 		}
+					Text(" ")
+					Button(label:{	Text( "ptv").padding(.top, 300)					})
+					{	lldbPrint(ob:scene.rootVew, mode:.tree) 					}
+					Button(label:{	Text( "ptn").padding(.top, 300)					})
+					{	lldbPrint(ob:scene.rootNode, mode:.tree)			 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+				}
 				Spacer()
-				Button(label: {	Text("LLDB").padding(.top, 300) 			})
-				{	breakToDebugger()										}
-				Button(label:{		Text( "  ")}){} .buttonStyle(.borderless)
+				HStack {
+					Text("Debug:")
+					Button(label: {	Text("LLDB").padding(.top, 300) 				})
+					{	breakToDebugger()											}
+					Text(" ")
+				}
 			}
 			Spacer()
 		}

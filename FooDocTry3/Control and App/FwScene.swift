@@ -234,17 +234,22 @@ bug
 	}
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
-	var cameraNode :CameraNode = CameraNode([:])
+	var cameraNode :CameraNode = CameraNode()
 
-	 /// Update camera formation, configuration, and pointing
-	func reconfigCameraNode() {
-
-		if let camera			= rootScn.find(name:"camera") {
-			camera.removeFromParentNode()
-		}
-		cameraNode				=  CameraNode(config4scene)
-		rootScn.addChild(node:cameraNode)
-	}
+//	 /// Update camera formation, configuration, and pointing
+//	func reconfigCameraNode(_ config:FwConfig) {
+////		let camera : SCNNode	= rootScn.find(name:"camera") ?? {
+////			cameraNode			=  CameraNode(config4scene)
+////			rootScn.addChild(node:cameraNode)
+////		} ()
+//		cameraNode.configureCamera(config4scene)
+//
+////		if let camera			= rootScn.find(name:"camera") {
+////			camera.removeFromParentNode()
+////		}
+////		cameraNode				=  CameraNode(config4scene)
+////		rootScn.addChild(node:cameraNode)
+//	}
 	 // MARK: - 9.C Lights
 	func addLights() {
 		 // create and add a light to the scene:
@@ -577,7 +582,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		 // 3. Add Camera, Light, and Pole
 		addLights()														//scene.addLightsAndCamera()
-		reconfigCameraNode()
+		cameraNode.configureCamera(config4scene)
 		if config4scene.bool_("pole") {
 			updatePole()
 		}
@@ -680,10 +685,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		// MARK: - 13.2 Mouse
 		//  ====== LEFT MOUSE ======
-		let nsTrackPad				= true//false//
-		let duration				= Float(1)
-		var mouseWasDragged			= false
-		let frame : NSRect?			= nsEvent.window?.contentView?.frame
+		let nsTrackPad			= true//false//
+		let duration			= Float(1)
+		var mouseWasDragged		= false
 
 		switch nsEvent.type {
 		case .keyDown:
@@ -691,7 +695,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
 			guard !isAutoRepeat		else { fatalError("the above isARepeat didn't work!")}
-			isAutoRepeat 			= true
+			isAutoRepeat 		= true
 			if DOC!.processKey(from:nsEvent, inVew:nil) {
 				if char != "?" {		// okay for "?" to get here
 					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
@@ -712,7 +716,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
-				mouseWasDragged 	= true		// drag cancels pic
+				mouseWasDragged = true		// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
 				updateCameraTransform(for:"Left mouseDragged")
 			}
@@ -720,9 +724,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
-					let _			= modelPic(with:nsEvent)
+					let _		= modelPic(with:nsEvent)
 				}
-				mouseWasDragged 	= false
+				mouseWasDragged = false
 				updateCameraTransform(for:"Left mouseUp", overTime:duration)
 			}
 		 //  ====== CENTER MOUSE ======
@@ -732,7 +736,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			mouseWasDragged 		= true		// drag cancels pic
+			mouseWasDragged 	= true		// drag cancels pic
 			updateCameraTransform(for:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
@@ -742,33 +746,33 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			atEve(9, print("\(cameraNode.transform.pp(.tree)))"))
 		 //  ====== CENTER SCROLL WHEEL ======
 		case .scrollWheel: nop
-			let d					= nsEvent.deltaY
-			let delta : CGFloat		= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			let scene				= DOCfwScene
+			let d				= nsEvent.deltaY
+			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
+			let scene			= DOCfwScene
 			scene.lastSelfiePole.zoom *= delta
 			print("receivedEvent(type:.scrollWheel) found pole\(scene.lastSelfiePole.uid).zoom = \(scene.lastSelfiePole.zoom)")
 			scene.updateCameraTransform(for:"Scroll Wheel")
 		 //  ====== RIGHT MOUSE ======			Right Mouse not used
 
 		//case 8:	// override func touchesBegan(with event:NSEvent) {
-		//	let t 					= event.touches(matching:.began, in:self)
+		//	let t 				= event.touches(matching:.began, in:self)
 		//	for touch in t {
-		//		let _:CGPoint		= touch.location(in:nil)
+		//		let _:CGPoint	= touch.location(in:nil)
 		//	}
 		//case 9:	//override func touchesMoved(with event:NSEvent) {
-		//	let t 					= event.touches(matching:.began, in:self)
+		//	let t 				= event.touches(matching:.began, in:self)
 		//	for touch in t {
-		//		let prevLoc			= touch.previousLocation(in:nil)
-		//		let loc				= touch.location(in:nil)
+		//		let prevLoc		= touch.previousLocation(in:nil)
+		//		let loc			= touch.location(in:nil)
 		//		atEve(3, (print("\(prevLoc) \(loc)")))
-		//	//	let prevKey			= soloKeyboard?.keyAt(point:prevLoc)
-		//	//	let key				= soloKeyboard?.keyAt(point:loc)
-		//	//	key?.curPoint		= loc
+		//	//	let prevKey		= soloKeyboard?.keyAt(point:prevLoc)
+		//	//	let key			= soloKeyboard?.keyAt(point:loc)
+		//	//	key?.curPoint	= loc
 		//	}
 		//case 10:	//override func touchesEnded(with event:NSEvent) {
-		//	let t 					= event.touches(matching:.began, in:self)
+		//	let t 				= event.touches(matching:.began, in:self)
 		//	for touch in t {
-		//		let _:CGPoint		= touch.location(in:nil)
+		//		let _:CGPoint	= touch.location(in:nil)
 		//	}
 		default:
 			print("33333333 receivedEvent(type:\(nsEvent.type)) EEEEEEE")
@@ -776,7 +780,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	}
 	 // MARK: - 13.4 Mouse Variables
 	func motionFromLastEvent(with nsEvent:NSEvent) {
-		if let view				= DOC.window0?.contentView {
+		if let view				= nsEvent.window?.contentView {
 			let delt2d :CGPoint	= view.convert(nsEvent.locationInWindow, from: nil)//nil=screen
 			// convert(_ point: NSPoint, from view: NSView?) -> NSPoint
 
@@ -792,7 +796,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 	func spinNUp(with nsEvent:NSEvent) {
 		lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		lastSelfiePole.horizonUp += deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+		lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 
 	 /// Prosses keyboard key
@@ -897,14 +901,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent) -> Vew? {
-//		assert(DOC?.fwView != nil, "need to set up DOC.fwView")
 
-		 // CONVERT to window coordinates
-		let pt : NSPoint		= nsEvent.locationInWindow
-		let mouse : NSPoint		= DOC!.docState.fwScene.convertToRoot(windowPosition:pt)
-		   // SELECT 3D point from 2D position
-		if let picdVew			= findVew(at:mouse)
-		{
+		if let picdVew			= findVew(nsEvent:nsEvent) {
 			 // DISPATCH to PART that was pic'ed
 			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) == false {
 				atEve(3, print("\t\t" + "\(picdVew.part.pp(.fullName)).processKey('') ignored\n"))
@@ -915,9 +913,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		atEve(3, print("\t\t" + "** No Part FOUND\n"))
 		return nil
 	}
-	func findVew(at mouse:CGPoint) -> Vew? {
-		var msg					= "******************************************\n modelPic:\t"
-
+	func findVew(nsEvent:NSEvent) -> Vew? {
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -932,8 +928,18 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		  //.sortResults:1, 			// (implied)
 			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
+		 // CONVERT to window coordinates
+		let pt : NSPoint		= nsEvent.locationInWindow
+		let mouse : NSPoint		= DOC!.docState.fwScene.convertToRoot(windowPosition:pt)
+		let fwView: NSView?		= nsEvent.window?.contentView
+		var msg					= "******************************************\n findVew(nsEvent:)\t"
 		//										 + +   + +
-bug//	let hits:[SCNHitTestResult]	= DOC.fwView?.hitTest(mouse, options:configHitTest) ?? []
+	//	let x					= fwView?.hitTest(mouse, options:configHitTest)// ?? [SCNHitTestResult]()
+//		let hits:[SCNHitTestResult] = fwView?.hitTest(mouse, options:configHitTest) ?? []
+
+//- (NSArray<SCNHitTestResult *> *)hitTest:(CGPoint)point options:(nullable NSDictionary<SCNHitTestOption, id> *)options;
+
+//		let hits:[SCNHitTestResult]	= fwView?.hitTest(mouse, options:configHitTest) ?? []
 		//										 + +   + +
 
 		 // SELECT HIT; prefer any child to its parents:

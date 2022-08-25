@@ -79,7 +79,8 @@ protocol FwStatus {
 //	}
 //}
 func ppDOC() -> String {									///
-	let msg						= DOC == nil ? "-- none selected" : "currently selected(\(ppUid(DOC! as! Uid)))"
+	let m						= ppUid(DOC! as! Uid)
+	let msg						= DOC == nil ? "-- none selected" : "currently selected(\(m))"
 	let uid : String			= ppUid(pre:" ", DOC as! Uid, post:"  DOC \(msg)", showNil:true)
 	return uid + "\n"
 //	return ppUid(pre:" ", DOC, post:"  DOC \(msg)", showNil:true) + "\n"

@@ -19,7 +19,8 @@ struct DocState {
 }
 //let docStateNull				= DocState()	//
 
-struct FooDocTry3Document: FileDocument {			// not NSDocument!!
+struct FooDocTry3Document: FileDocument {//}, Uid {
+//	var uid: UInt16				=
 
 //	@IBOutlet weak
 //	 var fwView		: FwView?	//SCNView?		// IB sets this

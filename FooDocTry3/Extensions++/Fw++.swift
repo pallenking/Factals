@@ -933,7 +933,6 @@ func !~==( left:CGFloat, right:CGFloat) -> Bool {
 //					let newStr = String(valStr[index...]) // Swift 4
 extension String : Uid {
 	var uid: UInt16 {		return uidFooFoo(nsOb:(self as NSObject))	}	//SwiftFactals
-//	var uid: UInt16 {		return SwiftFactals.uid(nsOb:(self as NSObject))	}	//SwiftFactals
 }
 extension String {
 	init(bool:Bool) {			// Bool -> String

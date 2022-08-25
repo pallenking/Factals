@@ -9,8 +9,10 @@ import SceneKit
 
 class CameraNode : SCNNode {
 
-	init(_ config:FwConfig) {															//	func addCameraNode(config:FwConfig) -> SCNNode {
-		super.init()																	 // ///// Camera:
+	override init() 				{	super.init()							}
+	required init?(coder: NSCoder)	{	fatalError("init(coder:) has not been implemented")	}
+
+	func configureCamera(_ config:FwConfig) {
 		name					= "camera"
 		position 				= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 		
@@ -43,5 +45,4 @@ class CameraNode : SCNNode {
 			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
 		}
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
