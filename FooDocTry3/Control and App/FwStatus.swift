@@ -321,11 +321,11 @@ extension NSWindow : FwStatus {									   /// NSWindow
 		//		"deapth:\(deapth) "												+
    			       "title:'\(title)' "											+
    			   "contentVC:\(ppUid(contentViewController, showNil:true)) "		+
-			    "contentV:\(ppUid(contentView,  		 showNil:true)) "		+
+			 "contentView:\(ppUid(contentView,  		 showNil:true)) "		+
 				"delegate:\(ppUid(delegate as? String, 	 showNil:true)) " 		,
-			otherLines:{ deapth in		//			uidStrDashes(nilLike
-				return self.contentView?.ppFwState(deapth:deapth) ?? ""
-			},
+//			otherLines:{ deapth in		//			uidStrDashes(nilLike
+//				return self.contentView?.ppFwState(deapth:deapth) ?? ""
+//			},
 			deapth:deapth)
 	}
 }
