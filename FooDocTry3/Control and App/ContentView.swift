@@ -50,13 +50,13 @@ struct ContentView: View {
 		HStack {
 			VStack {
 				let rootPart:RootPart = document.docState.rootPart
-				let scene			= document.docState.fwScene
+				let fwScene			= document.docState.fwScene
 				//let aux			= DOClog.params4aux + ["ppDagOrder":true]
 				ZStack {
 					NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
 					SceneView(
-						scene			: scene,
-						pointOfView		: scene.cameraNode,
+						scene			: fwScene,
+						pointOfView		: fwScene.cameraNode,
 						options			: [//.autoenablesDefaultLighting,
 			//**/						   //.allowsCameraControl,
 										   //.jitteringEnabled,
@@ -91,9 +91,9 @@ struct ContentView: View {
 						{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 		}
 						Text(" ")
 						Button(label:{	Text( "ptv").padding(.top, 300)					})
-						{	lldbPrint(ob:scene.rootVew, mode:.tree) 					}
+						{	lldbPrint(ob:fwScene.rootVew, mode:.tree) 					}
 						Button(label:{	Text( "ptn").padding(.top, 300)					})
-						{	lldbPrint(ob:scene.rootNode, mode:.tree)			 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+						{	lldbPrint(ob:fwScene.rootNode, mode:.tree)			 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 					}
 					Spacer()
 					HStack {

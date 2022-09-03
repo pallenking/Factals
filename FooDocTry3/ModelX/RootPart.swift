@@ -235,7 +235,7 @@ bug;	guard let poly		= self as? PolyWrap else { fatalError()}
 //		return theCopy
 bug;	return ""
 	}
-//	 // MARK: - 3.7 Equitable
+//	 // MARK: - 3.7 Equitable  Equatable
 	func varsOfRootPartEq(_ rhs:Part) -> Bool {
 bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		return true
