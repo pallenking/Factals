@@ -18,7 +18,7 @@ extension FileDocumentHelper {
 var fileURL : URL 				= 	{
 	let path					= NSTemporaryDirectory()
 	let directoryURL			= URL(fileURLWithPath:path)
-			// Must have suffix ".scn". Reason: ???
+	 // Must have suffix ".scn". Reason: ???
 	return directoryURL.appendingPathComponent("t1.scn")
 }()
 

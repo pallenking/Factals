@@ -32,6 +32,7 @@ struct ContentView: View {
 			 		antialiasingMode:.none,				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
 					delegate:document.docState.fwScene	// FwScene // SCNSceneRendererDelegate
 				)
+				.allowsHitTesting(	true)
 				 .onAppear {
 				 	document.didLoadNib(to:self)								}
 				.border(Color.black, width: 3)

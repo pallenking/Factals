@@ -429,10 +429,8 @@ class Atom : Part {	//Part//FwPart
 				 // STATE: self!, srcPortName!, trgAny!
 				let wireNumber	= (root.indexFor["wire"] ?? 0) + 1				// root.wireNumber += 1
 				root.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
-				 // Break at Wire?
 				let breakAtWireNo = root.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
-//				let brk			= wireNumber == root.breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(log.entryNo-1)")
 				atBld(4, logd("L\(wireNumber)'s source:\(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:\(trgAny.pp(.line))"))
 
@@ -443,7 +441,6 @@ class Atom : Part {	//Part//FwPart
 					 // WIRE:   self.(srcPortName)  -->  trgAny
 					let trgAnyIn = trgAny
 					if wireNumber == breakAtWireNo {
-//					if wireNumber == root.breakAtWireNo {
 						panic("Break at wiring up wire \(wireNumber)")
 					}
 

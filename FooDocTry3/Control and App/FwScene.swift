@@ -681,7 +681,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys
 
 	func receivedEvent(nsEvent:NSEvent) {
-		//print("--- func received(nsEvent:\(nsEvent))")
+		print("--- func received(nsEvent:\(nsEvent))")
 
 		// MARK: - 13.2 Mouse
 		//  ====== LEFT MOUSE ======
@@ -860,7 +860,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			print("\n******************** 'w': ==== FwScene Camera = [\(ppCam())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwScene: --> rootPart")
-			if doc.docState.rootPart.processKey(from:nsEvent, inVew:vew) {
+			if doc.docState.rootPart.processKey(from:nsEvent, inVew:vew!) {
 				print("ERROR: fwScene.Process('x') failed")
 			}
 			return true								// recognize both
@@ -913,6 +913,14 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		atEve(3, print("\t\t" + "** No Part FOUND\n"))
 		return nil
 	}
+
+	func hitTest(_ point:CGPoint, options:[SCNHitTestOption:Any]?=nil) -> [SCNHitTestResult] {
+//		return super.hitTest(point, options:options)//Value of type 'SCNScene' has no member 'hitTest'
+		return [SCNHitTestResult()]
+	}
+//		let w = FwScene(fwConfig:[:])
+//		let x					= w.hitTest(mouse, options:configHitTest)// ?? [SCNHitTestResult]()
+
 	func findVew(nsEvent:NSEvent) -> Vew? {
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -933,13 +941,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let mouse : NSPoint		= DOC!.docState.fwScene.convertToRoot(windowPosition:pt)
 		let fwView: NSView?		= nsEvent.window?.contentView
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
+
 		//										 + +   + +
-	//	let x					= fwView?.hitTest(mouse, options:configHitTest)// ?? [SCNHitTestResult]()
-//		let hits:[SCNHitTestResult] = fwView?.hitTest(mouse, options:configHitTest) ?? []
-
-//- (NSArray<SCNHitTestResult *> *)hitTest:(CGPoint)point options:(nullable NSDictionary<SCNHitTestOption, id> *)options;
-
-//		let hits:[SCNHitTestResult]	= fwView?.hitTest(mouse, options:configHitTest) ?? []
+		let hits:[SCNHitTestResult]	= hitTest(mouse, options:configHitTest) ?? []
 		//										 + +   + +
 
 		 // SELECT HIT; prefer any child to its parents:

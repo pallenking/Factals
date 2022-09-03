@@ -1298,7 +1298,7 @@ bug
     /// - Parameter from: ---- NSEvent to process
     /// - Parameter vew: ---- The 3D scene Vew to use
 	/// - Returns: Key was recognized
-	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processKey(from nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		if nsEvent.type == .keyUp || nsEvent.type == .keyDown {
 			let kind			= nsEvent.type == .keyUp ? ".keyUp" : ".keyDown"
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
@@ -1310,7 +1310,7 @@ bug
 			if nsEvent.clickCount == 1 {			
 				 		// // // 2. Debug switch to select Instantiation:
 				let alt 				= nsEvent.modifierFlags.contains(.option)
-			DOC.showInspecFor(vew:vew!, allowNew:alt)							//false
+				DOC.showInspecFor(vew:vew, allowNew:alt)							//false
 				return true
 			}
 						// Double Click: show/hide insides

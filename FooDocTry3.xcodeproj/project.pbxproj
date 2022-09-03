@@ -47,6 +47,7 @@
 		9F190125288090240078DB6C /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
+		9F217D4E28C38BBA009849B3 /* XXXFwDocumentXXX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */; };
 		9F3E49A828B27238003D450D /* NSEventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* NSEventReceiver.swift */; };
 		9F3E49BD28B2DABB003D450D /* CameraNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49BC28B2DABB003D450D /* CameraNode.swift */; };
 		9F3E4A0B28B7A7C4003D450D /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* Gestures.swift */; };
@@ -141,6 +142,7 @@
 		9F19011B288090240078DB6C /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
+		9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXFwDocumentXXX.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* NSEventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSEventReceiver.swift; sourceTree = "<group>"; };
 		9F3E49BC28B2DABB003D450D /* CameraNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraNode.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 			children = (
 				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
+				9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F3E49A728B27238003D450D /* NSEventReceiver.swift */,
@@ -476,6 +479,7 @@
 				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
 				9F190122288090240078DB6C /* InspecBase.swift in Sources */,
 				9F0295DD288092F800DD0004 /* SCNVector9XCTest.swift in Sources */,
+				9F217D4E28C38BBA009849B3 /* XXXFwDocumentXXX.swift in Sources */,
 				9F19CA35285EB0730072C50E /* RootPart.swift in Sources */,
 				9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */,
 				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,

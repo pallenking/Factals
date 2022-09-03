@@ -33,9 +33,12 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 // Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
 //				FW's subclass strips NS. e.g: DocumentController
 
-////	Application Singletons:		(Currently Active) App must insure continuity)
-var APP				: FooDocTry3App!		// NEVER CHANGES
-var DOC				: FooDocTry3Document!	// CHANGES:
+////	Application Singletons:
+var APP				: FooDocTry3App!		// NEVER CHANGES (after inz)
+
+// * * *
+var DOC				: FooDocTry3Document!	// CHANGES:	App must insure continuity) Right now: Punt!
+// * * *
 
  // Shgar on DOC
 var DOCstate		: DocState	{	DOC.docState								}

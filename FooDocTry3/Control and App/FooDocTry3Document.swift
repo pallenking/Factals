@@ -267,30 +267,30 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	 ///   - allowNew: window, else use existing
 	func showInspecFor(vew:Vew, allowNew:Bool) { //
 		let inspec				= Inspec(vew:vew)
-		let hc					= NSHostingController(rootView:inspec)
-		 hc.view.frame			= NSRect(x:0, y:0, width:400, height:0)	// questionable use
+		let hostCtlr			= NSHostingController(rootView:inspec)
+		 hostCtlr.view.frame	= NSRect(x:0, y:0, width:400, height:0)	// questionable use
 
 				// Find window to use
-		var win : NSWindow?		= inspecWin4vew[vew]	// EXISTING window
-		if win == nil && allowNew {	// Not found, and window creation allowed
-			win					= NSWindow(contentViewController:hc)	// new
+		var window : NSWindow?	= inspecWin4vew[vew]	// EXISTING window
+		if window == nil && allowNew {	// Not found, and window creation allowed
+			window				= NSWindow(contentViewController:hostCtlr)	// new
 		}
-		if win == nil && inspecLastVew != nil {	// Not found, and window creation not allowed
-			win					= inspecWin4vew[inspecLastVew!]
+		if window == nil && inspecLastVew != nil {	// Not found, and window creation not allowed
+			window				= inspecWin4vew[inspecLastVew!]
 		}
-		if win == nil {				// Not found, despirately create one
-			win					= NSWindow(contentViewController:hc)	// new
+		if window == nil {				// Not found, despirately create one
+			window				= NSWindow(contentViewController:hostCtlr)	// new
 		}
-		assert(win != nil, "Unable to fine NSWindow")
-		win!.contentViewController = hc		// if successful
+		assert(window != nil, "Unable to fine NSWindow")
+		window!.contentViewController = hostCtlr		// if successful
 
 				// Title window
-		win!.title				= vew.part.fullName
+		window!.title			= vew.part.fullName
 
 				// Position on screen: Quite AD HOC!!
-		win!.orderFront(self)				// Doesn't work -- not front when done!
-		win!.makeKeyAndOrderFront(self)
-		win!.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
+		window!.orderFront(self)				// Doesn't work -- not front when done!
+		window!.makeKeyAndOrderFront(self)
+		window!.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
 
 			// Remember window for next creation
 //		inspecWin4vew[vew]		= win

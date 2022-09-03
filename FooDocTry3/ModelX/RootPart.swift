@@ -26,12 +26,8 @@ class RootPart : Part {
 	var partTreeVerbose			= true
 	var partTrunk : Part?	{	return child0									}
 
-//	// MARK: - 2.4.4 Building
-	var indexFor:Dictionary<String,Int>	= ["":0]	// index of named items (<Class>,"wire","WBox","origin","breakAtWire"
-//	var wireNumber				= 0			// Used in construction				//	"wire"
-//	var originNameIndex			= 1			// Index of origin (of SCNGeometry)	//	"WBox"
-//	var wBoxNameIndex			= 1			// Index of wire box for name		//	"origin"
-//	var breakAtWireNo			= -1		// default OFF						//	"breakAtWire"
+	// MARK: - 2.4.4 Building
+	var indexFor:Dictionary<String,Int>	= ["":0] // index of named items (<Class>,"wire","WBox","origin","breakAtWire"
 
 	// MARK: - 3. Part Factory
 	override init(_ config:FwConfig = [:]) {		/// WHY IS THIS NEEDED?
@@ -53,10 +49,6 @@ class RootPart : Part {
 		case partTreeOwner 			// String?
 		case partTreeOwnerPrev		// String?
 //		case partTreeVerbose		// Bool
-//		case wireNumber
-//		case wBoxNameIndex
-//		case originNameIndex
-//		case breakAtWireNo
 	}
 	 // Serialize 					// po container.contains(.name)
 	override func encode(to encoder: Encoder) throws  {
@@ -73,10 +65,6 @@ class RootPart : Part {
 		try container.encode(partTreeOwnerPrev,	forKey:.partTreeOwnerPrev		)
 //		try container.encode(partTreeVerbose,	forKey:.partTreeVerbose			)
 //
-//		try container.encode(wireNumber, 		forKey:.wireNumber 				)
-//		try container.encode(wBoxNameIndex,		forKey:.wBoxNameIndex			)
-//		try container.encode(originNameIndex,	forKey:.originNameIndex			)
-//		try container.encode(breakAtWireNo,		forKey:.breakAtWireNo			)
 //		atSer(3, logd("Encoded"))
 	}
 	 // Deserialize
@@ -91,10 +79,6 @@ class RootPart : Part {
 		partTreeOwner			= try container.decode(  String?.self, forKey:.partTreeOwner)
 		partTreeOwnerPrev		= try container.decode(	 String?.self, forKey:.partTreeOwnerPrev)
 //		partTreeVerbose			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
-//		wireNumber				= try container.decode(		 Int.self, forKey:.wireNumber	)
-//		wBoxNameIndex			= try container.decode(		 Int.self, forKey:.wBoxNameIndex)
-//		originNameIndex			= try container.decode(		 Int.self, forKey:.originNameIndex)
-//		breakAtWireNo			= try container.decode(		 Int.self, forKey:.breakAtWireNo)
 //		 // Recreate parts:
 //	//	self.config			= [:]
 //	//	rootPart.addChild(rootPart)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -114,10 +98,6 @@ class RootPart : Part {
 		theCopy.partTreeOwner	= self.partTreeOwner
 		theCopy.partTreeOwnerPrev = self.partTreeOwnerPrev
 //		theCopy.partTreeVerbose	= self.partTreeVerbose
-//		theCopy.wireNumber		= self.wireNumber
-//		theCopy.wBoxNameIndex	= self.wBoxNameIndex
-//		theCopy.originNameIndex	= self.originNameIndex
-//		theCopy.breakAtWireNo	= self.breakAtWireNo
 //		atSer(3, logd("copy(with as? RootPart       '\(fullName)'"))
 //		return theCopy
 bug;	return ""
@@ -134,114 +114,82 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 			&& partTreeOwner	== rhsAsRootPart.partTreeOwner
 			&& partTreeOwnerPrev == rhsAsRootPart.partTreeOwnerPrev
 //			&& partTreeVerbose  == rhsAsRootPart.partTreeVerbose
-//			&& wireNumber		== rhsAsRootPart.wireNumber
-//			&& wBoxNameIndex	== rhsAsRootPart.wBoxNameIndex
-//			&& originNameIndex	== rhsAsRootPart.originNameIndex
-//			&& breakAtWireNo	== rhsAsRootPart.breakAtWireNo
 	}
 //	override func equalsPart(_ part:Part) -> Bool {
 //		return	super.equalsPart(part) && varsOfRootPartEq(part)
 //	}
-
-
-	// FileDocument requires these interfaces:
+																				//	1. Write SCNScene to file. (older, SCNScene supported serialization)
+																				//	func write(_ __fd: Int32, _ __buf: UnsafeRawPointer!, _ __nbyte: Int) -> Int
+																				//	write(to:fileURL, options:0, delegate:nil, progressHandler:nil)
+	  // FileDocument requires these interfaces:
 	 // Data in the SCNScene
 	var data : Data? {
-					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-
-// func write(_ __fd: Int32, _ __buf: UnsafeRawPointer!, _ __nbyte: Int) -> Int
-//fatalError()
-	//	let j					= JSONEncoder() as! Encoder
 		do {
-
-
-			struct GroceryProduct: Codable {
-				var name: String
-				var points: Int
-				var description: String?
-			}
-			let pear = GroceryProduct(name: "Pear", points: 250, description: "A ripe pear.")
-
-			let encoder = JSONEncoder()
-			encoder.outputFormatting = .prettyPrinted
-			let data = try encoder.encode(self)
-			print(String(data: data, encoding: .utf8)!)
-
-
-
 			let je 				= JSONEncoder()
 			je.outputFormatting = .prettyPrinted
-			let data2 			= try je.encode(self)
-			//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+			let data2 			= try je.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+		//	let data			= try self.encode(to:je)
+		//	let data			= try? Data(contentsOf:fileURL)	// 2. Get file to data
 			print(String(data: data2, encoding: .utf8)!)
-
-
-	//		let data			= try JSONEncoder().encode(self)
-//			let data			= try self.encode(to:j)
-	//		let data			= try self.encode(to:JSONEncoder())
 			return data2
 		} catch {
 			print("\(error)")
 			return nil
 		}
-
-		//open func encode<T>(_ value: T) throws -> Data where T : Encodable
-
-//		write(to:fileURL, options:0, delegate:nil, progressHandler:nil)
-					// 2. Get file to data
-//		let data				= try? Data(contentsOf:fileURL)
 	}
 	 // initialize new SCNScene from Data
 //		let jsonData = jsonString.data(using: .utf8)!
 //		let user = try! JSONDecoder().decode(User.self, from: jsonData)
 //		print(user.last_name)
 	convenience init?(data:Data, encoding:String.Encoding) {
-		let p					= try! JSONDecoder().decode(RootPart.self, from:data)
+	//	let p					= try! JSONDecoder().decode(RootPart.self, from:data)
 	//	self.init(from:p)
-		self.init(data:data, encoding:encoding)
+	//	self.init(data:data, encoding:encoding)
 
-//		do {		// 1. Write data to file.
-//			try data.write(to: fileURL)
-//		} catch {
-//			print("error writing file: \(error)")
-//		}
-//		do {		// 2. Init self from file
-//			try self.init(url: fileURL)
-//		} catch {
-//			print("error initing from url: \(error)")
-//			return nil
-//		}
+		do {		// 1. Write data to file.
+			try data.write(to: fileURL)
+		} catch {
+			print("error writing file: \(error)")
+		}
+		do {		// 2. Init self from file
+			try self.init(url: fileURL)
+		} catch {
+			print("error initing from url: \(error)")
+			return nil
+		}
 	}
+//	override init(url:URL){
+//		super.init(url:url)
+//	}
 
 
-//
-//	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
-//	func virtualize() {
-//		forAllParts(
-//		{ part in
-//			if let partAsPort		= part as? Port {
-//				assert(partAsPort.con2asStr == nil, "partAsPort.con2asStr should be empty before Virtualize")
-//				partAsPort.con2asStr = partAsPort.connectedTo == nil ? ""
-//									 : partAsPort.connectedTo!.fullName
-//				partAsPort.connectedTo = nil		// disconnect
-//			}
-//		})
-//	}
-//	/// Add weak references to Port.connectedTo from their absolute path as a string
-//	func realize() {
-//		forAllParts(
-//		{ part in
-//			if let partAsPort		= part as? Port {			// is Port
-//				assert(partAsPort.connectedTo == nil, "partAsPort.connectedTo should be empty before Embed")
-//				if let name			= partAsPort.con2asStr {		// Has absolute toName
-//					if let toPort	= rootPart.find(name:name, inMe2:true) as? Port {
-//						partAsPort.connectedTo = toPort					// Port found
-//					}
-//				}
-//				partAsPort.con2asStr = nil			// virtual name removed
-//			}
-//		})
-//	}
+	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
+	func virtualize() {
+		forAllParts(
+		{ part in
+			if let partAsPort		= part as? Port {
+				assert(partAsPort.con2asStr == nil, "partAsPort.con2asStr should be empty before Virtualize")
+				partAsPort.con2asStr = partAsPort.connectedTo == nil ? ""
+									 : partAsPort.connectedTo!.fullName
+				partAsPort.connectedTo = nil		// disconnect
+			}
+		})
+	}
+	/// Add weak references to Port.connectedTo from their absolute path as a string
+	func realize() {
+		forAllParts(
+		{ part in
+			if let partAsPort		= part as? Port {			// is Port
+				assert(partAsPort.connectedTo == nil, "partAsPort.connectedTo should be empty before Embed")
+				if let name			= partAsPort.con2asStr {		// Has absolute toName
+					if let toPort	= rootPart.find(name:name, inMe2:true) as? Port {
+						partAsPort.connectedTo = toPort					// Port found
+					}
+				}
+				partAsPort.con2asStr = nil			// virtual name removed
+			}
+		})
+	}
 	convenience init(fromLibrary selectionString:String) {	//, fwDocument:FooDocTry3Document?
 
 		 // Make tree's root (a RootPart):
