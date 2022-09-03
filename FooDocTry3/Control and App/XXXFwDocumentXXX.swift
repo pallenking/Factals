@@ -104,93 +104,93 @@
 //	//	Swift.print("#### DEINIT   \(ppUid(self):FwDocument)")			// FAILS
 //	}
 //
-//	 // MARK: - 3.4 NSKeyedArchiver Serialization
-//	// ////////////// NSDocument calls these: /////////////////////////////
-//
-//	   // http://meandmark.com/blog/2016/03/saving-game-data-with-nscoding-in-swift/
-//	  //  https://stackoverflow.com/questions/53097261/how-to-solve-deprecation-of-unarchiveobjectwithfile
-//	 // WRITE to data (e.g. file) from objects		USES NSKeyedArchiver
-//	override func data(ofType typeName: String) throws -> Data {
-//		do {
-//			 // ---- 1. Get LOCKS for PartTree
-//			let lockStr			= "writePartTree"
-//			guard	rootPart.lock(partTreeAs:lockStr) else {
-//				fatalError("\(lockStr) couldn't get PART lock")		// or
-//			}
-//
-//							// PREPARE
-//			atSer(3, logd("Writing data(ofType:\(typeName))"))
-//			 // ---- 2. Retract weak crossReference .connectedTo in Ports, replace with absolute string
-///* */		rootPart.virtualize()
-//
-//			let aux : FwConfig	= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-//			atSer(5, logd("========== rootPart to Serialize:\n\(rootPart.pp(.tree, aux))", terminator:""))
-//
-//			 // ---- 3. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
-///* */		let inPolyPart:PolyWrap	= rootPart.polyWrap()	// modifies rootPart
-//			atSer(5, logd("========== inPolyPart with Poly's Wrapped :\n\(inPolyPart.pp(.tree, aux))", terminator:""))
-//
-//							// MAKE ARCHIVE
-//			 // Pretty Print the virtualized, PolyWrap'ed structure, using JSON
-////			let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
-//			if falseF {
-//				let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
-//				guard let jsonString = jsonData.prettyPrintedJSONString else {
-//					fatalError("\n" + "========== JSON: FAILED")	}
-//				atSer(5, logd("========== JSON: " + (jsonString as String)))
-//			}
-//			 // ---- 4. ARCHIVE the virtualized, PolyWrapped structure
-//			let archiver = NSKeyedArchiver(requiringSecureCoding:true)
-//																	// *******:
-//			try archiver.encodeEncodable(inPolyPart, forKey:NSKeyedArchiveRootObjectKey)
-//			archiver.finishEncoding()
-//
-//							// RESTORE
-//			 // ---- 3. REMOVE -  PolyWrap's
-///* */		let rp				= inPolyPart.polyUnwrap() as? RootPart
-//			assert(rp != nil, "inPolyPart.polyUnwrap()")
-//			rootPart			= rp!
-//
-//			 // ---- 2. Replace weak references
-///* */		rootPart.realize()			// put references back	// *******
-//			rootPart.groomModel(parent:nil, root:rootPart)
-//			atSer(5, logd("========== rootPart unwrapped:\n\(rootPart.pp(.tree, ["ppDagOrder":false]))", terminator:""))
-//
-//			 // ---- 1. Get LOCKS for PartTree
-//			rootPart.unlock(partTreeAs:lockStr)
-//								
-//			rootPart.indexFor	= [:]			// HACK! should store in fwDocument!
-//
-//			atSer(3, logd("Wrote   rootPart!"))
-//			return archiver.encodedData
-//		}
-//		catch let error {
-//			fatalError("\n" + "encodeEncodable throws error: '\(error)'")
-//		}
-//	}
-//	override func read(from savedData:Data, ofType typeName: String) throws {
-//		logd("\n" + "read(from:Data, ofType:      ''\(typeName.description)''       )")
-//		guard let unarchiver : NSKeyedUnarchiver = try? NSKeyedUnarchiver(forReadingFrom:savedData) else {
-//				fatalError("NSKeyedUnarchiver cannot read data (its nil or throws)")
-//		}
-//		let inPolyPart			= try? unarchiver.decodeTopLevelDecodable(PolyWrap.self, forKey:NSKeyedArchiveRootObjectKey)
-//								?? {	fatalError("decodeTopLevelDecodable(:forKey:) throws")} ()
-//		unarchiver.finishDecoding()
-//		guard let inPolyPart 	= inPolyPart else {	throw MyError.funcky 	}
-//
-//		  // Groom rootPart and whole tree
-//		 // 1. Unwrap PolyParts
-//		rootPart				= inPolyPart.polyUnwrap() as? RootPart
-//		 // 2. Groom .root and .parent in all parts:
-//		rootPart.groomModel(parent:nil, root:rootPart)
-//		 // 3. Groom .fwDocument in rootPart
-//		rootPart.fwDocument 	= self		// Use my FwDocument
-//		 // 4. Remove symbolic links on Ports
-//		rootPart.realize()
-//
-//		logd("read(from:ofType:)  -- SUCCEEDED")
-//	}
-//
+					//	 // MARK: - 3.4 NSKeyedArchiver Serialization
+					//	// ////////////// NSDocument calls these: /////////////////////////////
+					//
+					//	   // http://meandmark.com/blog/2016/03/saving-game-data-with-nscoding-in-swift/
+					//	  //  https://stackoverflow.com/questions/53097261/how-to-solve-deprecation-of-unarchiveobjectwithfile
+					//	 // WRITE to data (e.g. file) from objects		USES NSKeyedArchiver
+					//	override func data(ofType typeName: String) throws -> Data {
+					//		do {
+					//			 // ---- 1. Get LOCKS for PartTree
+					//			let lockStr			= "writePartTree"
+					//			guard	rootPart.lock(partTreeAs:lockStr) else {
+					//				fatalError("\(lockStr) couldn't get PART lock")		// or
+					//			}
+					//
+					//							// PREPARE
+					//			atSer(3, logd("Writing data(ofType:\(typeName))"))
+					//			 // ---- 2. Retract weak crossReference .connectedTo in Ports, replace with absolute string
+					///* */		rootPart.virtualize()
+					//
+					//			let aux : FwConfig	= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
+					//			atSer(5, logd("========== rootPart to Serialize:\n\(rootPart.pp(.tree, aux))", terminator:""))
+					//
+					//			 // ---- 3. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
+					///* */		let inPolyPart:PolyWrap	= rootPart.polyWrap()	// modifies rootPart
+					//			atSer(5, logd("========== inPolyPart with Poly's Wrapped :\n\(inPolyPart.pp(.tree, aux))", terminator:""))
+					//
+					//							// MAKE ARCHIVE
+					//			 // Pretty Print the virtualized, PolyWrap'ed structure, using JSON
+					////			let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
+					//			if falseF {
+					//				let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
+					//				guard let jsonString = jsonData.prettyPrintedJSONString else {
+					//					fatalError("\n" + "========== JSON: FAILED")	}
+					//				atSer(5, logd("========== JSON: " + (jsonString as String)))
+					//			}
+					//			 // ---- 4. ARCHIVE the virtualized, PolyWrapped structure
+					//			let archiver = NSKeyedArchiver(requiringSecureCoding:true)
+					//																	// *******:
+					//			try archiver.encodeEncodable(inPolyPart, forKey:NSKeyedArchiveRootObjectKey)
+					//			archiver.finishEncoding()
+					//
+					//							// RESTORE
+					//			 // ---- 3. REMOVE -  PolyWrap's
+					///* */		let rp				= inPolyPart.polyUnwrap() as? RootPart
+					//			assert(rp != nil, "inPolyPart.polyUnwrap()")
+					//			rootPart			= rp!
+					//
+					//			 // ---- 2. Replace weak references
+					///* */		rootPart.realize()			// put references back	// *******
+					//			rootPart.groomModel(parent:nil, root:rootPart)
+					//			atSer(5, logd("========== rootPart unwrapped:\n\(rootPart.pp(.tree, ["ppDagOrder":false]))", terminator:""))
+					//
+					//			 // ---- 1. Get LOCKS for PartTree
+					//			rootPart.unlock(partTreeAs:lockStr)
+					//
+					//			rootPart.indexFor	= [:]			// HACK! should store in fwDocument!
+					//
+					//			atSer(3, logd("Wrote   rootPart!"))
+					//			return archiver.encodedData
+					//		}
+					//		catch let error {
+					//			fatalError("\n" + "encodeEncodable throws error: '\(error)'")
+					//		}
+					//	}
+					//	override func read(from savedData:Data, ofType typeName: String) throws {
+					//		logd("\n" + "read(from:Data, ofType:      ''\(typeName.description)''       )")
+					//		guard let unarchiver : NSKeyedUnarchiver = try? NSKeyedUnarchiver(forReadingFrom:savedData) else {
+					//				fatalError("NSKeyedUnarchiver cannot read data (its nil or throws)")
+					//		}
+					//		let inPolyPart			= try? unarchiver.decodeTopLevelDecodable(PolyWrap.self, forKey:NSKeyedArchiveRootObjectKey)
+					//								?? {	fatalError("decodeTopLevelDecodable(:forKey:) throws")} ()
+					//		unarchiver.finishDecoding()
+					//		guard let inPolyPart 	= inPolyPart else {	throw MyError.funcky 	}
+					//
+					//		  // Groom rootPart and whole tree
+					//		 // 1. Unwrap PolyParts
+					//		rootPart				= inPolyPart.polyUnwrap() as? RootPart
+					//		 // 2. Groom .root and .parent in all parts:
+					//		rootPart.groomModel(parent:nil, root:rootPart)
+					//		 // 3. Groom .fwDocument in rootPart
+					//		rootPart.fwDocument 	= self		// Use my FwDocument
+					//		 // 4. Remove symbolic links on Ports
+					//		rootPart.realize()
+					//
+					//		logd("read(from:ofType:)  -- SUCCEEDED")
+					//	}
+					//
 //// START CODABLE ///////////////////////////////////////////////////////////////
 ////	 // MARK: - 3.5 Codable
 ////	enum DocumentKeys: String, CodingKey {

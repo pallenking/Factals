@@ -36,7 +36,7 @@ class RootPart : Part {
 		super.init(["name":"ROOT"] + config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.rootPart		= self
 	}
-
+	
 //// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
 	enum RootPartKeys: String, CodingKey {
@@ -44,12 +44,44 @@ class RootPart : Part {
 		case log
 		case title
 		case ansConfig
+		case indexFor
 //	//	NO FwDocument,
 //	//	case partTreeLock 			// DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 		case partTreeOwner 			// String?
 		case partTreeOwnerPrev		// String?
 //		case partTreeVerbose		// Bool
 	}
+
+	// // // // // // // // // // // // // // // // // // // // // // // // // //
+	func readyForEncodable() {
+//		guard lock(partTreeAs:"writePartTree") else { fatalError("'writePartTree' couldn't get PART lock") }
+
+/* */	virtualize() 	// ---- 2. Retract weak crossReference .connectedTo in Ports, replace with absolute string
+		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
+		atSer(5, logd("========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
+						// ---- 3. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
+/* */	let inPolyPart:PolyWrap	= polyWrap()	// modifies slef
+		atSer(5, logd("========== inPolyPart with Poly's Wrapped :\n\(inPolyPart.pp(.tree, aux))", terminator:""))
+	}
+
+	func recoverFromDecodable() -> RootPart {
+bug;	guard let poly		= self as? PolyWrap else { fatalError()}
+		 // ---- 3. REMOVE -  PolyWrap's
+/* */	let rp				= poly.polyUnwrap() as! RootPart
+//* */	let rp				= polyUnwrap() as? RootPart
+////	self				= rp!
+
+		 // ---- 2. Replace weak references
+/* */	rp.realize()			// put references back	// *******
+		rp.groomModel(parent:nil, root:rootPart)
+		rp.indexFor	= [:]		// HACK! should store in fwDocument!
+		atSer(5, logd("========== rootPart unwrapped:\n\(rootPart.pp(.tree, ["ppDagOrder":false]))", terminator:""))
+		
+//		rootPart.unlock(partTreeAs:lockStr) // ---- 1. Get LOCKS for PartTree
+		return rp
+	}
+	// // // // // // // // // // // // // // // // // // // // // // // // // //
+
 	 // Serialize 					// po container.contains(.name)
 	override func encode(to encoder: Encoder) throws  {
 		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
@@ -59,6 +91,7 @@ class RootPart : Part {
 		try container.encode(log,				forKey:.log						)
 		try container.encode(title,				forKey:.title					)
 	//	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
+		try container.encode(indexFor, 			forKey:.indexFor 				)
 //
 //	//	try container.encode(partTreeLock, 		forKey:.partTreeLock 			)
 		try container.encode(partTreeOwner,		forKey:.partTreeOwner 			)
@@ -75,6 +108,7 @@ class RootPart : Part {
 		log						= try container.decode(		 Log.self, forKey:.log			)
 		title					= try container.decode(   String.self, forKey:.title		)
 //		ansConfig				= try container.decode(	FwConfig.self, forKey:.ansConfig	)
+		indexFor				= try container.decode(Dictionary<String,Int>.self, forKey:.ansConfig)
 //	//	partTreeLock 			= try container.decode(		 Int.self, forKey:.partTreeLock	)
 		partTreeOwner			= try container.decode(  String?.self, forKey:.partTreeOwner)
 		partTreeOwnerPrev		= try container.decode(	 String?.self, forKey:.partTreeOwnerPrev)
@@ -86,6 +120,105 @@ class RootPart : Part {
 		try super.init(from:decoder)
 //		atSer(3, logd("Decoded  as? RootPart \(ppUid(self))"))
 	}
+	
+	
+
+
+
+
+
+
+//	 // MARK: - 3.4 NSKeyedArchiver Serialization
+//	// ////////////// NSDocument calls these: /////////////////////////////
+//
+//	   // http://meandmark.com/blog/2016/03/saving-game-data-with-nscoding-in-swift/
+//	  //  https://stackoverflow.com/questions/53097261/how-to-solve-deprecation-of-unarchiveobjectwithfile
+//	 // WRITE to data (e.g. file) from objects		USES NSKeyedArchiver
+//	/*override*/ func data(ofType typeName: String) throws -> Data {
+									//		do {
+									//			 // ---- 1. Get LOCKS for PartTree
+									//			let lockStr			= "writePartTree"
+									//			guard	rootPart.lock(partTreeAs:lockStr) else {
+									//				fatalError("\(lockStr) couldn't get PART lock")		// or
+									//			}
+									//
+									//							// PREPARE
+									//			atSer(3, logd("Writing data(ofType:\(typeName))"))
+									//			 // ---- 2. Retract weak crossReference .connectedTo in Ports, replace with absolute string
+									///* */		rootPart.virtualize()
+									//
+									//			let aux : FwConfig	= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
+									//			atSer(5, logd("========== rootPart to Serialize:\n\(rootPart.pp(.tree, aux))", terminator:""))
+									//
+									//			 // ---- 3. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
+									///* */		let inPolyPart:PolyWrap	= rootPart.polyWrap()	// modifies rootPart
+									//			atSer(5, logd("========== inPolyPart with Poly's Wrapped :\n\(inPolyPart.pp(.tree, aux))", terminator:""))
+									//
+									//							// MAKE ARCHIVE
+									//			 // Pretty Print the virtualized, PolyWrap'ed structure, using JSON
+									////			let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
+									//			if falseF {
+									//				let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
+									//				guard let jsonString = jsonData.prettyPrintedJSONString else {
+									//					fatalError("\n" + "========== JSON: FAILED")	}
+									//				atSer(5, logd("========== JSON: " + (jsonString as String)))
+									//			}
+									//			 // ---- 4. ARCHIVE the virtualized, PolyWrapped structure
+									//			let archiver = NSKeyedArchiver(requiringSecureCoding:true)
+									//																	// *******:
+									//			try archiver.encodeEncodable(inPolyPart, forKey:NSKeyedArchiveRootObjectKey)
+									//			archiver.finishEncoding()
+									//
+									//							// RESTORE
+									//			 // ---- 3. REMOVE -  PolyWrap's
+									///* */		let rp				= inPolyPart.polyUnwrap() as? RootPart
+									//			assert(rp != nil, "inPolyPart.polyUnwrap()")
+									//			rootPart			= rp!
+									//
+									//			 // ---- 2. Replace weak references
+									///* */		rootPart.realize()			// put references back	// *******
+									//			rootPart.groomModel(parent:nil, root:rootPart)
+									//			atSer(5, logd("========== rootPart unwrapped:\n\(rootPart.pp(.tree, ["ppDagOrder":false]))", terminator:""))
+									//
+									//			 // ---- 1. Get LOCKS for PartTree
+									//			rootPart.unlock(partTreeAs:lockStr)
+									//
+									//			rootPart.indexFor	= [:]			// HACK! should store in fwDocument!
+									//
+									//			atSer(3, logd("Wrote   rootPart!"))
+									//			return archiver.encodedData
+									//		}
+									//		catch let error {
+									//			fatalError("\n" + "encodeEncodable throws error: '\(error)'")
+									//		}
+//	}
+//	override func read(from savedData:Data, ofType typeName: String) throws {
+//		logd("\n" + "read(from:Data, ofType:      ''\(typeName.description)''       )")
+//		guard let unarchiver : NSKeyedUnarchiver = try? NSKeyedUnarchiver(forReadingFrom:savedData) else {
+//				fatalError("NSKeyedUnarchiver cannot read data (its nil or throws)")
+//		}
+//		let inPolyPart			= try? unarchiver.decodeTopLevelDecodable(PolyWrap.self, forKey:NSKeyedArchiveRootObjectKey)
+//								?? {	fatalError("decodeTopLevelDecodable(:forKey:) throws")} ()
+//		unarchiver.finishDecoding()
+//		guard let inPolyPart 	= inPolyPart else {	throw MyError.funcky 	}
+//
+//		  // Groom rootPart and whole tree
+//		 // 1. Unwrap PolyParts
+//		rootPart				= inPolyPart.polyUnwrap() as? RootPart
+//		 // 2. Groom .root and .parent in all parts:
+//		rootPart.groomModel(parent:nil, root:rootPart)
+//		 // 3. Groom .fwDocument in rootPart
+//		rootPart.fwDocument 	= self		// Use my FwDocument
+//		 // 4. Remove symbolic links on Ports
+//		rootPart.realize()
+//
+//		logd("read(from:ofType:)  -- SUCCEEDED")
+//	}
+//
+
+
+
+
 //// END CODABLE /////////////////////////////////////////////////////////////////
 //	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {
@@ -152,7 +285,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 			print("error writing file: \(error)")
 		}
 		do {		// 2. Init self from file
-			try self.init(url: fileURL)
+			bug;self.init()//try self.init(url: fileURL)
 		} catch {
 			print("error initing from url: \(error)")
 			return nil
@@ -270,12 +403,12 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	///   - logIf: allows logging
 	/// - Returns: lock obtained
  	func lock(partTreeAs lockName:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
-		guard lockName != nil 		else {	return true 						}
-		let u_name			= ppUid(self) + " '\(lockName!)'".field(-20)
-
+		guard lockName != nil else {	return true 							}
+		let u_name				= ppUid(self) + " '\(lockName!)'".field(-20)
+								
 		atBld(3, {					// === ///// BEFORE GETTING:
-			let val0		= partTreeLock.value ?? -99
-			let msg			= " //######\(u_name)      GET Part LOCK: v:\(val0)"
+			let val0			= partTreeLock.value ?? -99
+			let msg				= " //######\(u_name)      GET Part LOCK: v:\(val0)"
 			 // Log:
 			!logIf || !debugOutterLock ? nop 		 		// less verbose
 			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(partTreeOwner ?? "-")', PROBABLE WAIT..."))
