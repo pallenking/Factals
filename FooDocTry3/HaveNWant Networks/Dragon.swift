@@ -31,7 +31,7 @@ func dragonCurve(segments:Int=1024) -> FwScene {
 		position.y				+= len * [1,0,-1,0][direction]
 
 		 // Makes picture prettier
-		position.z				+= len / 50
+		position.z				+= len / 20		//50
 	}
 	return scene
 }

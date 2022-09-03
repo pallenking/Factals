@@ -238,17 +238,16 @@ bug
 
 //	 /// Update camera formation, configuration, and pointing
 //	func reconfigCameraNode(_ config:FwConfig) {
-////		let camera : SCNNode	= rootScn.find(name:"camera") ?? {
-////			cameraNode			=  CameraNode(config4scene)
-////			rootScn.addChild(node:cameraNode)
-////		} ()
+//	//	let camera : SCNNode	= rootScn.find(name:"camera") ?? {
+//	//		cameraNode			=  CameraNode(config4scene)
+//	//		rootScn.addChild(node:cameraNode)
+//	//	} ()
 //		cameraNode.configureCamera(config4scene)
-//
-////		if let camera			= rootScn.find(name:"camera") {
-////			camera.removeFromParentNode()
-////		}
-////		cameraNode				=  CameraNode(config4scene)
-////		rootScn.addChild(node:cameraNode)
+//	//	if let camera			= rootScn.find(name:"camera") {
+//	//		camera.removeFromParentNode()
+//	//	}
+//	//	cameraNode				=  CameraNode(config4scene)
+//	//	rootScn.addChild(node:cameraNode)
 //	}
 	 // MARK: - 9.C Lights
 	func addLights() {
