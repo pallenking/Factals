@@ -80,11 +80,11 @@ struct ArgKey : ExpressibleByStringLiteral, Hashable {							//	typealias String
 
 //	foo([.n:"foof", "ss":"ss"])
 
-func foo(_ arg:[ArgKey:String]) {
-	for (fooKey, string) in arg {
-		print("   \(fooKey) -> \(string)")
-	}
-}
+//func foo(_ arg:[ArgKey:String]) {
+//	for (fooKey, string) in arg {
+//		print("   \(fooKey) -> \(string)")
+//	}
+//}
 
 private let n 		= "n"	   	;private let name	= "name"	;private let named	= "named"
 private let f		= "f"		;private let flip	= "flip"	;private let flipped = "flipped"

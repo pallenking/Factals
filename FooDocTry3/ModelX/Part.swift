@@ -1062,8 +1062,8 @@ bug
 	/// Confures a physicsBody for a Vew.
 	/// - Parameters:
 	///    vew: 				specifies scn
-	func foo(vew:Vew, setConfiguration config:FwAny?) {
-	}
+//	func foo(vew:Vew, setConfiguration config:FwAny?) {
+//	}
 	
 	/// Confures a physicsBody for a Vew.
 	/// - Parameters:

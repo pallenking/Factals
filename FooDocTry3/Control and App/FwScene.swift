@@ -42,7 +42,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 			//projectPoint(_:)
-class FwScene : SCNScene, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
 	 // ///////// Vew Tree:
@@ -234,7 +234,7 @@ bug
 	}
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
-	var cameraNode :CameraNode = CameraNode()
+	var cameraNode : CameraNode = CameraNode()
 
 //	 /// Update camera formation, configuration, and pointing
 //	func reconfigCameraNode(_ config:FwConfig) {
@@ -604,64 +604,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		unlock(              rootVewAs:lockStr)
 		DOCrootPart.unlock(partTreeAs:lockStr)
 	}
-
-// /////////////////////////////////////////////////////////////////////////////
-// ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-
-	// SCNSceneRenderer SCNDebugOptions
-	//https://iosdevelopers.slack.com/archives/CKA5E2RRC/p1608840518199300?thread_ts=1608775058.167600&cid=CKA5E2RRC
-	enum SCNSceneRendererMode { case OFF, onMainThread}	//, normal
-	var scnSceneRendererMode : SCNSceneRendererMode = .OFF
-	var logRenderDelegate		= false		//false//true
-	// Running on CVDisplayLink(8) Queue:
-	//	com.apple.scenekit.renderingQueue.SwiftFactals.FwView0x7fe3c00067a0 (serial)
-	func dispatchSomewhere(_ closure:DispatchWorkItem) {
-		switch scnSceneRendererMode {
-		case .OFF:	nop
-		//case .normal: closure
-		case .onMainThread: DispatchQueue.main.async(execute: closure)
-		}
-	}
-
-	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
-	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
-		DispatchQueue.main.async {
-			r.isPlaying			= true
-			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			self.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
-		}
-	}
-	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
-	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			self.rootPart.computeLinkForces(vew:self.rootVew)
-		}
-	}
-	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
-	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			self.rootPart.applyLinkForces(vew:self.rootVew)
-		}
-	}
-	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
-	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			self.rootPart.rotateLinkSkins(vew:self.rootVew)
-		}
-	}
-//	   // ODD Timing:
-//	  // MARK: - 9.5.@: did Render Scene
-//	public func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-//		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
-//	}
-//	  // MARK: - 9.5.*: Did Apply Constraints At Time
-//	public func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
-//		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
-//	}
 
 	 // MARK: - 9.E Physics Contact Protocol
 	   // //////////////////////////////////////////////////////////////////////

@@ -53,26 +53,40 @@ struct ContentView: View {
 				let fwScene			= document.docState.fwScene
 				//let aux			= DOClog.params4aux + ["ppDagOrder":true]
 				ZStack {
-					NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
-					SceneView(
-						scene			: fwScene,
+	//				NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
+					let nsViewsArgs		= NSViewsArgs(
+						fwScene			: fwScene,
 						pointOfView		: fwScene.cameraNode,
-						options			: [//.autoenablesDefaultLighting,
-			//**/						   //.allowsCameraControl,
-										   //.jitteringEnabled,
-										   //.rendersContinuously,
-										   //.temporalAntialiasingEnabled
-						],
+						options			: [.autoenablesDefaultLighting,
+			//**/						   .allowsCameraControl,
+										   .jitteringEnabled,
+										   .rendersContinuously,
+										   .temporalAntialiasingEnabled						],
 						preferredFramesPerSecond:30,
-						antialiasingMode:.none,				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-						delegate:document.docState.fwScene	// FwScene // SCNSceneRendererDelegate
+						antialiasingMode:.none,									//SCNAntialiasingMode //SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
+						delegate:nil,				// document.docState.fwScene // SCNSceneRendererDelegate
+						technique:nil
 					)
-					.allowsHitTesting(	true)
-					 .onAppear {
-						document.didLoadNib(to:self)								}
-					.border(Color.black, width: 3)
-	//				 .background(NSColor("verylightgray")!)		// HELP
-		//A			 .gesture(gestures())	// Removed 20220825 to Gestures.swift
+					TheFwViewRepresented(args:nsViewsArgs)
+																				//		SceneView(
+																				//			scene			: fwScene,
+																				//			pointOfView		: fwScene.cameraNode,
+																				//			options			: [//.autoenablesDefaultLighting,
+																				//		//**/				   //.allowsCameraControl,
+																				//							   //.jitteringEnabled,
+																				//							   //.rendersContinuously,
+																				//							   //.temporalAntialiasingEnabled
+																				//			],
+																				//			preferredFramesPerSecond:30,
+																				//			antialiasingMode:.none,				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
+																				//			delegate:document.docState.fwScene	// FwScene // SCNSceneRendererDelegate
+																				//		)
+																				//		.allowsHitTesting(	true)
+																				//		 .onAppear {
+																				//			document.didLoadNib(to:self)								}
+																				//		.border(Color.black, width: 3)
+																				////		 .background(NSColor("verylightgray")!)		// HELP
+																				//	//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 				}
 				HStack {
 					HStack {
