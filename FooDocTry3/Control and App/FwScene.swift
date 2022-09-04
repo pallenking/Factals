@@ -569,11 +569,24 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		}
 			
 		// --------- Link rootVew and rootScn to rootPart
-		assert(rootVew.name == "_ROOT", 	"rootVew.name incorrect")	//		rootVew.name			= "_ROOT"			// do we really want to do this?
-		assert(rootVew.part == rootPart, 	"rootVew.part incorrect")	//		rootVew.part			= rootPart
-		assert(rootVew.part.name == "ROOT","rootVew.part.name incorrect")//		rootVew.part.name		= "ROOT"
-		assert(rootVew.scn == rootScn, 		"rootVew.scn incorrect")	//		rootVew.scn				= rootScn
-		assert(rootScn.name == "*-ROOT", 	"rootScn.name incorrect")	//		rootScn.name			= "*-ROOT"
+		func checkIt<T : Equatable >(_ name:inout T, _ correctName:T, _ problem:String) {
+			if name != correctName {
+				warning(problem)
+				name = correctName
+			}
+		}
+		checkIt(&rootVew.name, "_ROOT", "rootVew.name '\(rootVew.name)' incorrect")
+//		assert(rootVew.name == "_ROOT", 	"rootVew.name incorrect")			// rootVew.name		= "_ROOT"			// do we really want to do this?
+
+		checkIt(&rootVew.part, rootPart, 	"rootVew.part incorrect")			// rootVew.part		= rootPart
+//		assert(rootVew.part == rootPart, 	"rootVew.part incorrect")			// rootVew.part		= rootPart
+		checkIt(&rootVew.part.name, "ROOT", "rootVew.part incorrect")			// rootVew.part		= rootPart
+//		assert(  rootVew.part.name == "ROOT","rootVew.part.name incorrect")		// rootVew.part.name= "ROOT"
+
+		checkIt(&rootVew.scn, rootScn, "rootVew.scn incorrect")					// rootVew.part		= rootPart
+//		assert(rootVew.scn == rootScn, "rootVew.scn incorrect")					// rootVew.scn		= rootScn
+		checkIt(&rootScn.name, "*-ROOT", "rootScn.name incorrect")				// rootVew.part		= rootPart
+//		assert(rootScn.name == "*-ROOT", "rootScn.name incorrect")				// rootScn.name		= "*-ROOT"
 
 //		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 //		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame

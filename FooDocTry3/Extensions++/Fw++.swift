@@ -1182,32 +1182,6 @@ extension NSObject {
 			let classNameElements	= classNamePath.split(separator:".")
 			let rv					= classNameElements.last
 			return String(rv!)
-//			 // AD Hoc fix for NSHostingView:
-//			for (pattern, replace) in [
-//				("NSHostingView", "NSHostingView"),
-//			]{
-//				if classNamePath.contains(pattern) {
-//					//print("--- --- --- --- --- --- REPLACE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(replace)")
-//					return replace
-//				}
-//			}
-//					// Try to remove namespace from Bundle, and some canned ones
-//			let bmi					= Bundle.main.infoDictionary!["CFBundleExecutable"] as? String
-//			var namespaces 			= bmi == nil ? [] : [bmi!]
-//			 // HACK Required to run XCTests BUG
-//			namespaces.append(contentsOf: ["SwiftFactals", "SwiftFactalsTests"])
-//			for namespace in namespaces {
-//				if classNamePath.hasPrefix(namespace + ".") {
-////				if cn.hasPrefix(namespace),
-////				   cn.dropFirst(namespace.count).prefix(1) == "." {										//, "className '\(myDomain)' isn't proper")
-//					let cn2		= String(classNamePath.dropFirst(namespace.count + 1))
-//					//print("--- --- --- --- --- --- DELETE >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn2)")
-//					return cn2
-//				}
-//			}
-//			  // Some names (e.g. SCNNodes) come through without a namespace
-//			 //print("--- --- --- --- --- --- RAW >>   \(ppUid(self)) :\(className.field(-30)) -> name=\(cn)")
-//			return classNamePath
 		}
 	}
 }

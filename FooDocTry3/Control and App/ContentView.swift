@@ -18,21 +18,20 @@ class DragonModel: ObservableObject {
 
 struct ContentView: View {
 	@Binding     var document: FooDocTry3Document
-	@StateObject var jetModel 		= JetModel()
+	@StateObject var jetModel 		= JetModel()		// bric-à-brac Models
 	@StateObject var dragonModel	= DragonModel()
-
 
 	 // From PW: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
 	var scene: SCNScene? {
 		SCNScene(named: "Models.scnassets/Avatar.scn")
 	}
 
-	var cameraNode: SCNNode? {
-		let cameraNode = SCNNode()
-		cameraNode.camera = SCNCamera()
-		cameraNode.position = SCNVector3(x: 0, y: 0, z: 20)
-		return cameraNode
-	}
+//	var cameraNode: SCNNode? {
+//		let cameraNode = SCNNode()
+//		cameraNode.camera = SCNCamera()
+//		cameraNode.position = SCNVector3(x: 0, y: 0, z: 20)
+//		return cameraNode
+//	}
 //	var body: some View {
 //		SceneView(
 //			scene: scene,
@@ -51,23 +50,21 @@ struct ContentView: View {
 			VStack {
 				let rootPart:RootPart = document.docState.rootPart
 				let fwScene			= document.docState.fwScene
-				//let aux			= DOClog.params4aux + ["ppDagOrder":true]
-				ZStack {
-	//				NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
-					let nsViewsArgs		= NSViewsArgs(
-						fwScene			: fwScene,
-						pointOfView		: fwScene.cameraNode,
-						options			: [.autoenablesDefaultLighting,
-			//**/						   .allowsCameraControl,
-										   .jitteringEnabled,
-										   .rendersContinuously,
-										   .temporalAntialiasingEnabled						],
+				// let aux			= DOClog.params4aux + ["ppDagOrder":true]
+				ZStack {														// NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
+					FwSceneAsSwiftUIView(args:NSViewsArgs(
+						fwScene		: fwScene,
+						pointOfView	: fwScene.cameraNode,
+						options		: [.autoenablesDefaultLighting,
+			//**/					   .allowsCameraControl,
+									   .jitteringEnabled,
+									   .rendersContinuously,
+									   .temporalAntialiasingEnabled				],
 						preferredFramesPerSecond:30,
 						antialiasingMode:.none,									//SCNAntialiasingMode //SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
 						delegate:nil,				// document.docState.fwScene // SCNSceneRendererDelegate
 						technique:nil
-					)
-					TheFwViewRepresented(args:nsViewsArgs)
+					))
 																				//		SceneView(
 																				//			scene			: fwScene,
 																				//			pointOfView		: fwScene.cameraNode,
@@ -81,32 +78,32 @@ struct ContentView: View {
 																				//			antialiasingMode:.none,				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
 																				//			delegate:document.docState.fwScene	// FwScene // SCNSceneRendererDelegate
 																				//		)
-																				//		.allowsHitTesting(	true)
-																				//		 .onAppear {
-																				//			document.didLoadNib(to:self)								}
-																				//		.border(Color.black, width: 3)
-																				////		 .background(NSColor("verylightgray")!)		// HELP
-																				//	//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
+					.allowsHitTesting(	true)
+					.onAppear {
+						document.didLoadNib(to:self)								}
+					.border(Color.black, width: 3)
+			//		 .background(NSColor("verylightgray")!)		// HELP
+				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 				}
 				HStack {
 					HStack {
 						Text("  Control:")
 						Button(label:{	Text( "state").padding(.top, 300)				})
 						{	printFwcState()												}
-						Button(label:{	Text( "config").padding(.top, 300)				})
+						Button(label:{	Text("config").padding(.top, 300)				})
 						{	printFwcConfig()											}
 					}
 					Spacer()
 					HStack {
 						Text("Model:")
-						Button(label:{	Text( "ptm").padding(.top, 300)					})
+						Button(label:{	Text(   "ptm").padding(.top, 300)				})
 						{	lldbPrint(ob:rootPart, mode:.tree)							}
-						Button(label:{	Text("ptLm").padding(.top, 300)					})
+						Button(label:{	Text(  "ptLm").padding(.top, 300)				})
 						{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 		}
 						Text(" ")
-						Button(label:{	Text( "ptv").padding(.top, 300)					})
+						Button(label:{	Text(   "ptv").padding(.top, 300)				})
 						{	lldbPrint(ob:fwScene.rootVew, mode:.tree) 					}
-						Button(label:{	Text( "ptn").padding(.top, 300)					})
+						Button(label:{	Text(   "ptn").padding(.top, 300)				})
 						{	lldbPrint(ob:fwScene.rootNode, mode:.tree)			 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 					}
 					Spacer()
@@ -119,20 +116,20 @@ struct ContentView: View {
 				}
 				Spacer()
 			}
-			VStack {
-				SceneView(
-					scene: 		 jetModel.scene,
-					pointOfView: /*jetModel.scene.*/cameraNode,
-					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-				)
-					.frame(width:200, height:200)
-				SceneView(
-					scene: 		 dragonModel.scene,
-					pointOfView: /*dragonModel.scene.*/cameraNode,
-					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-				)
-					.frame(width:200, height:300)
-			}
+//			VStack {
+//				SceneView(
+//					scene: 		 jetModel.scene,
+//					pointOfView: jetModel.scene.cameraNode,
+//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
+//				)
+//				 .frame(width:200, height:200)
+//				SceneView(
+//					scene: 		 dragonModel.scene,
+//					pointOfView: dragonModel.scene.cameraNode,
+//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
+//				)
+//				 .frame(width:200, height:300)
+//			}
 		}
 	}
 }

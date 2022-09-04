@@ -78,14 +78,6 @@ struct ArgKey : ExpressibleByStringLiteral, Hashable {							//	typealias String
 //	static let spin$3	: Self = ("spin","3")
 }
 
-//	foo([.n:"foof", "ss":"ss"])
-
-//func foo(_ arg:[ArgKey:String]) {
-//	for (fooKey, string) in arg {
-//		print("   \(fooKey) -> \(string)")
-//	}
-//}
-
 private let n 		= "n"	   	;private let name	= "name"	;private let named	= "named"
 private let f		= "f"		;private let flip	= "flip"	;private let flipped = "flipped"
 private let P		= "P"		;private let S		= "S"		;private let T		= "T"

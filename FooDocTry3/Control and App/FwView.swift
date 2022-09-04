@@ -4,10 +4,6 @@
 import SceneKit
 import SwiftUI
 
-//extension SCNView {
-//	func foo() -> Int { 3 }
-//}
-
 struct NSViewsArgs {
 	let fwScene 				: FwScene
 	let pointOfView 			: CameraNode
@@ -18,23 +14,26 @@ struct NSViewsArgs {
 	let technique				: SCNTechnique?
 }
 
-		// Wrap a
+		// Wrap a FwScene as a SwiftUI View
 
-final class TheFwViewRepresented : NSViewRepresentable {
-	typealias NSViewType = FwView
-
-	let args					: NSViewsArgs
+final class FwSceneAsSwiftUIView : NSViewRepresentable {
+	typealias NSViewType = FwView	// represent FwView's inside
+	var args					: NSViewsArgs
+	 // On creation, stash away the args:
 	init(args:NSViewsArgs)	{
 		self.args				= args
 	}
-						
+	 // Later, use args to make FwView
 	func makeNSView(context: Context) -> FwView {
 		let frame				= CGRect(origin:.zero, size: CGSize(width:400, height:400))
-		let rv					= FwView(frame:frame)
+		let rv	:	FwView		= FwView(frame:frame, options:[:])	//Dictionary<String:Any>()
 		rv.scene 				= args.fwScene
 		rv.pointOfView 			= args.pointOfView
 		rv.preferredFramesPerSecond = args.preferredFramesPerSecond
 		rv.antialiasingMode		= args.antialiasingMode
+
+		  // Configure Options of FwView
+		 // There must be a better way to do this:
 		if args.options.contains(.allowsCameraControl) {
 			rv.allowsCameraControl = true
 		}

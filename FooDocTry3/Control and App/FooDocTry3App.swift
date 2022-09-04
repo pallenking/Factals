@@ -40,13 +40,15 @@ var APP				: FooDocTry3App!		// NEVER CHANGES (after inz)
 var DOC				: FooDocTry3Document!	// CHANGES:	App must insure continuity) Right now: Punt!
 // * * *
 
- // Shgar on DOC
-var DOCstate		: DocState	{	DOC.docState								}
+ // Shugar on DOC
+var DOCstate		: DocState	{	DOC .docState								}
+var DOCfwScene		: FwScene	{	DOC .docState.fwScene						}
+var DOCrootPart		: RootPart	{	DOC .docState.rootPart						}
+ // Places where optionality is needed
 var DOCstateQ		: DocState?	{	DOC?.docState								}
-var DOCfwScene		: FwScene	{	DOC.docState.fwScene						}
-var DOCfwSceneQ		: FwScene?	{	DOC?.docState.fwScene						}
-var DOCrootPart		: RootPart	{	DOC.docState.rootPart						}
-var DOCrootPartQ	: RootPart?	{	DOC?.docState.rootPart						}
+var DOCfwSceneQ		: FwScene?	{	DOC?.docState?.fwScene						}
+var DOCrootPartQ	: RootPart?	{	DOC?.docState?.rootPart						}
+ // Others:
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
 

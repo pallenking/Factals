@@ -17,7 +17,6 @@ struct DocState {
 		self.fwScene			= fwScene	?? FwScene(fwConfig:[:])//{ fatalError()}()	//SCNNode(
 	}
 }
-//let docStateNull				= DocState()	//
 
 struct FooDocTry3Document: FileDocument, Uid {
 	var uid: UInt16				= randomUid()
@@ -31,17 +30,17 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 	 // No document supplied
 	init() {
+																 //    INTERNAL:
 		// Generate a new docState		//---FUNCTION-----------+-wantName:---wantNumber:
-		//let entry				= nil	//	 Blank scene		|	nil			-1
-		//let entry				= 34	//	 entry N			|	nil			N *
-		let entry				= "xr()"//	 entry with xr()	|	"xr()"		-1
-		//let entry				= "name"//	 entry named scene	|	"name" *	-1
-
-		let rootPart			= RootPart(fromLibrary:entry)
+		//**/	let select		= nil	//	 Blank scene		|	nil			-1
+		//**/	let select		= 34	//	 entry N			|	nil			N *
+		/**/	let select		= "xr()"//	 entry with xr()	|	"xr()"		-1
+		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
+		let rootPart			= RootPart(fromLibrary:select)
 		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
 		docState	 			= DocState(rootPart:rootPart, fwScene:fwScene)
 
-		DOC						= self				// INSTALL FooDocTry3
+		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 
 		updateDocConfigs(from:rootPart.ansConfig)
 		rootPart.wireAndGroom()
@@ -142,16 +141,18 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	func didLoadNib(to view:Any) {			// after init(state,...)
 		// view:Any is bogus													 // Spread configuration information
 																				//		updateDocConfigs(from:docState.rootPart.ansConfig)
-		 // Generate Vew tree
-		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
-		let scene				= docState.fwScene
-		scene.rootVew			= rVew				// INSTALL vew
-		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
-
-//		scene.addLights()														//scene.addLightsAndCamera()
-
 				// Build Vews after nib loading:
 /*x*/	docState.fwScene.installRootPart(docState.rootPart, reason:"InstallRootPart")
+
+		 // Generate Vew tree
+		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
+		docState.fwScene.rootVew = rVew				// INSTALL vew
+		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
+
+		//scene.addLights()//scene.addLightsAndCamera()
+
+//				// Build Vews after nib loading:
+///*x*/	docState.fwScene.installRootPart(docState.rootPart, reason:"InstallRootPart")
 
 		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:docState.rootPart.title) ))
 																				// displayName				= state.rootPart.title
@@ -212,10 +213,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 		 // Scene:
 		if toParams4scene.count > 0 {
-			let scene			= docState.fwScene
+			let fwScene			= docState.fwScene
 			atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
-			scene.config4scene += toParams4scene
-			nop
+			fwScene.config4scene += toParams4scene
 		}
 		 // Simulator
 		if toParams4sim.count > 0 {
@@ -411,19 +411,16 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
-bug;	return "fixMe"
-//		switch mode! {
-//		case .line:
-//			return DOClog.indentString() /*?? " "*/ + " " + fwClassName.field(-6, dots:false)	// Can't use fwClassName; FwDocument is not an FwAny
-//		case .tree:
-//			return DOClog.indentString() /*?? " "*/ + " " + fwClassName.field(-6, dots:false) + "\n"
-//		default:
-//			return ppDefault(self:self as! FwAny, mode:mode, aux:aux)	// NO: return super.pp(mode, aux)
-//		}
+//bug;	return "fixMe"
+		switch mode! {
+		case .line:
+			return DOClog.indentString() + " FooDocTry3Document"				// Can't use fwClassName; FwDocument is not an FwAny
+		case .tree:
+			return DOClog.indentString() + " FooDocTry3Document" + "\n"
+		default:
+			return ppDefault(self:self as! FwAny, mode:mode, aux:aux)			// NO: return super.pp(mode, aux)
+		}
 	}
-
-
-
 }
 
 //https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
