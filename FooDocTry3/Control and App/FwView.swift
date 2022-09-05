@@ -6,7 +6,7 @@ import SwiftUI
 
 struct NSViewsArgs {
 	let fwScene 				: FwScene
-	let pointOfView 			: SCNNode?		//CameraNode
+	let pointOfView 			: CameraNode? //SCNNode?		//
 	let options 				: SceneView.Options			//= []					//.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
 	let preferredFramesPerSecond: Int						//= 30
 	let antialiasingMode 		: SCNAntialiasingMode		//= .none				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
@@ -31,6 +31,8 @@ final class FwSceneAsSwiftUIView : NSViewRepresentable {
 		rv.preferredFramesPerSecond = args.preferredFramesPerSecond
 		rv.antialiasingMode		= args.antialiasingMode
 		rv.delegate				= args.delegate ?? rv	// nil --> rv's delegate is rv!
+		 // Back link UGLY
+		args.fwScene.fwView		= rv
 
 		  // Configure Options of FwView
 		 // There must be a better way to do this:

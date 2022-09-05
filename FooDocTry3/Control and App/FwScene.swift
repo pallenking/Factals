@@ -66,6 +66,8 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 	}
 	 // ///////// Part Tree:
 	var rootPart : RootPart		{	rootVew.part as! RootPart					}
+	weak
+	 var fwView	 : FwView?		= nil
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
@@ -108,7 +110,6 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 
 	 // MARK: - 3. Factory
 	init(fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
-		cameraNode			= CameraNode()
 		super.init()
 
 		config4scene		= fwConfig
@@ -133,7 +134,6 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
 	init?(named name:String) {
-		cameraNode				= CameraNode()
 		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
 
 		//	Must call a designated initializer of the superclass 'SCNScene'
@@ -286,7 +286,15 @@ bug
 	}
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
-	var cameraNode : CameraNode
+	var cameraNode : CameraNode! = nil
+	func addCameraNode(_ config:FwConfig) {
+		if cameraNode == nil || cameraNode!.parent == nil {
+			rootScn.find(name:"camera")?.removeFromParent()
+			cameraNode			= CameraNode()
+			cameraNode!.name	= "camera"
+			rootScn.addChildNode(cameraNode!)
+		}
+	}
 
 //	 /// Update camera formation, configuration, and pointing
 //	func reconfigCameraNode(_ config:FwConfig) {
@@ -316,7 +324,7 @@ bug
 			if let position		= position {
 				newLight.position = position
 			}
-			rootNode.addChildNode(newLight)
+			rootScn.addChildNode(newLight)
 		}
 		addLight(name:"light",   lightType:.omni, 	position:SCNVector3(0, 0, 15))
 		addLight(name:"ambient", lightType:.ambient,color:NSColor.darkGray)
@@ -517,7 +525,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		 // OLD WAY -- SORTA WORKS:  Transform root bbox into camera:
 		let bBox				= rootVew.bBox			// in world coords
-		let transform2eye		= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let transform2eye		= SCNMatrix4Invert(cameraNode!.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 //		let x					= cameraNode.camera?.projectionTransform
 		let bBoxScreen			= bBox.transformed(by:transform2eye)
 		let bSize				= bBoxScreen.size
@@ -601,8 +609,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		else {
 
 			cameraNode.transform = newCameraXform
-			print("\(newCameraXform.pp(.tree))")
 
+			//print("\(newCameraXform.pp(.tree))")
 		}
 	}
 
@@ -639,8 +647,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add Camera, Light, and Pole
-		addLights()														//scene.addLightsAndCamera()
-		cameraNode.configureCamera(config4scene)
+		addLights()
+		addCameraNode(config4scene)
+		
 		if config4scene.bool_("pole") {
 			updatePole()
 		}
@@ -937,58 +946,54 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 		 // CONVERT to window coordinates
-		let pt : NSPoint		= nsEvent.locationInWindow
-		let mouse : NSPoint		= DOC!.docState.fwScene.convertToRoot(windowPosition:pt)
-		let fwView: NSView?		= nsEvent.window?.contentView
+		let pt 	  	: NSPoint	= nsEvent.locationInWindow
+		let mouse 	: NSPoint	= DOC!.docState.fwScene.convertToRoot(windowPosition:pt)
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
-		//										 + +   + +
-		let hits:[SCNHitTestResult]	= hitTest(mouse, options:configHitTest) ?? []
-		//										 + +   + +
+								//		 + +   + +
+		var hits:[SCNHitTestResult]	= hitTest(mouse, options:configHitTest)
+								//		 + +   + +
 
 		 // SELECT HIT; prefer any child to its parents:
-		var rv					= rootVew			// Nothing hit -> root
+		var rv					= rootVew			// return root by default
 		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
-//			if hits.count > 0 {
-//				 // There is a HIT on a 3D object:
-//				let sortedHits	= hits//.sorted { (a : SCNHitTestResult, b : SCNHitTestResult)  in
-////					a.node.deapth > b.node.deapth
-////				}
-//				pickedScn		= sortedHits[0].node // pic node with lowest deapth
-//				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
-//
-//				 // If Node not picable,
-//				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-//				  let parent 	= pickedScn.parent 	// try its parent:
-//				{
-//					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
-//					pickedScn 	= parent				// use parent
-//					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
-//				}
-//				 // Got SCN, get its Vew
-//				if let cv		= trunkVew,
-//				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
-//				{
-//					rv			= vew
-//					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
-//				}else{
-//					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
-//					if let cv	= trunkVew,				// for debug only
-//					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
-//						let _	= vew
-//					}
-//				}
-//			}else{
+			if hits.count > 0 {
+				 // There is a HIT on a 3D object:
+				let sortedHits	= hits.sorted { (a : SCNHitTestResult, b : SCNHitTestResult)  in
+					a.node.position.z > b.node.position.z
+				}
+				pickedScn		= sortedHits[0].node // pic node with lowest deapth
+				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+
+				 // If Node not picable,
+				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+				  let parent 	= pickedScn.parent 	// try its parent:
+				{
+					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
+					pickedScn 	= parent				// use parent
+					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
+				}
+				 // Got SCN, get its Vew
+				if let cv		= trunkVew,
+				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
+				{
+					rv			= vew
+					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+				}else{
+					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
+					if let cv	= trunkVew,				// for debug only
+					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
+						let _	= vew
+					}
+				}
+			}else{
 				 // Background hit
 				msg				+= "background -> trunkVew"
-//			}
-//		}else{
-//			print("trunkVew.scn nil")
+			}
 		}
 		atEve(3, print("\n" + msg))
 		return rv
 	}
-	
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
 

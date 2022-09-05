@@ -231,6 +231,10 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	func logd(_ x:String) {		print("[[XXXXFooDocTry3DocumentXXXX: \(x)") }
 
 	 // MARK: - 5.1 Make Associated Inspectors:
+	  /// Manage Inspec's:
+	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
+	var inspecLastVew : Vew? = nil
+
 	func makeInspectors() {
 		print("code makeInspectors")
 //		let library				= APPDEL!.library
@@ -248,15 +252,15 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 //				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
 //		}
 	}
-	func showInspec(for name:String) {
-		if let part	= docState.rootPart.find(name:name),
-		  let vew	= rootVew.find(part:part) {
-			showInspecFor(vew:vew, allowNew:true)
-		}
-		else {
-			warning("Inspector for '\(name)' could not be opened")
-		}
-	}
+//	func showInspec(for name:String) {
+//		if let part	= docState.rootPart.find(name:name),
+//		  let vew	= rootVew.find(part:part) {
+//			showInspecFor(vew:vew, allowNew:true)
+//		}
+//		else {
+//			warning("Inspector for '\(name)' could not be opened")
+//		}
+//	}
 		/// Show an Inspec for a vew.
 	   /// - Parameters:
 	  ///   - vew: vew to inspec
@@ -264,7 +268,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	func showInspecFor(vew:Vew, allowNew:Bool) { //
 		let inspec				= Inspec(vew:vew)
 		let hostCtlr			= NSHostingController(rootView:inspec)
-		 hostCtlr.view.frame	= NSRect(x:0, y:0, width:400, height:0)	// questionable use
+		hostCtlr.view.frame		= NSRect(x:0, y:0, width:400, height:0)	// questionable use
 
 				// Find window to use
 		var window : NSWindow?	= inspecWin4vew[vew]	// EXISTING window
@@ -289,16 +293,12 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		window!.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
 
 			// Remember window for next creation
-//		inspecWin4vew[vew]		= win
-//		inspecLastVew			= vew
+//		inspecWin4vew[vew]		= window
 	}
 
 	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
 		Swift.print("modelDispatch(fwEvent: to:")
 	}
-	  /// Manage Inspec's:
-	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
-	var inspecLastVew : Vew? = nil
 
 	 // MARK: - 13. IBActions
 	 /// Prosses keyboard key

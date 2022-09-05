@@ -39,7 +39,7 @@ struct ContentView: View {
 						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
 					FwSceneAsSwiftUIView(args:NSViewsArgs(
 						fwScene		: fwScene,
-						pointOfView	: nil, //fwScene.cameraNode,
+						pointOfView	: fwScene.cameraNode,
 						options		: [.autoenablesDefaultLighting,
 			//**/					   .allowsCameraControl,
 									   .jitteringEnabled,
