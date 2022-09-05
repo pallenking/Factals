@@ -19,7 +19,8 @@ struct DocState {
 }
 
 struct FooDocTry3Document: FileDocument, Uid {
-	var uid: UInt16				= randomUid()
+	var uid:UInt16				= randomUid()
+	var someState:UInt8			= 0
 
 //	@IBOutlet weak
 //	 var fwView		: FwView?	//SCNView?		// IB sets this
@@ -65,7 +66,7 @@ struct FooDocTry3Document: FileDocument, Uid {
 								  throw CocoaError(.fileReadCorruptFile)		}
 		switch configuration.contentType {
 		case .fooDocTry3:
-			let rootPart: RootPart!	= RootPart(data: data, encoding: .utf8)!
+			let rootPart: RootPart!	= RootPart.from(data: data, encoding: .utf8)
 			let docState 		= DocState(rootPart:rootPart, fwScene:FwScene(fwConfig:[:]))
 			self.init(docState:docState)			// -> FooDocTry3Document
 		case .sceneKitScene:

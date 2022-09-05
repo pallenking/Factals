@@ -108,6 +108,7 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 
 	 // MARK: - 3. Factory
 	init(fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
+		cameraNode			= CameraNode()
 		super.init()
 
 		config4scene		= fwConfig
@@ -132,6 +133,7 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
 	init?(named name:String) {
+		cameraNode				= CameraNode()
 		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
 
 		//	Must call a designated initializer of the superclass 'SCNScene'
@@ -284,7 +286,7 @@ bug
 	}
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
-	var cameraNode : CameraNode = CameraNode()
+	var cameraNode : CameraNode
 
 //	 /// Update camera formation, configuration, and pointing
 //	func reconfigCameraNode(_ config:FwConfig) {
@@ -599,6 +601,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		else {
 
 			cameraNode.transform = newCameraXform
+			print("\(newCameraXform.pp(.tree))")
 
 		}
 	}
@@ -618,23 +621,19 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		}
 			
 		// --------- Link rootVew and rootScn to rootPart
-		rootVew.name		 	= "_ROOT"
-		rootVew.part			= rootPart
-		rootVew.part.name		= "ROOT"
-		rootVew.scn				= rootScn
-		rootScn.name			= "*-ROOT"
-										// // --------- Link rootVew and rootScn to rootPart
-										// func checkIt<T : Equatable >(_ tIs:inout T, _ tGood:T) {
-										// 	if tIs != tGood {
-										// 		print("--- Found \(tIs):\(T.self), should be \(tGood):\(T.self)")
-										// 		tIs = tGood
-										// 	}
-										// }		// current:			// correct:
-										// checkIt(&rootVew.name, 		"_ROOT")
-										// checkIt(&rootVew.part, 		rootPart)
-										// checkIt(&rootVew.part.name,	"ROOT")
-										// checkIt(&rootVew.scn, 		rootScn)
-										// checkIt(&rootScn.name, 		"*-ROOT")
+											// // --------- Link rootVew and rootScn to rootPart
+											// func checkIt<T : Equatable >(_ tIs:inout T, _ tGood:T) {
+											// 	if tIs != tGood {
+											// 		print("--- Found \(tIs):\(T.self), should be \(tGood):\(T.self)")
+											// 		tIs = tGood
+											// 	}
+											// }		// current:			// correct:
+		rootVew.name		 	= "_ROOT"	// checkIt(&rootVew.name, 		"_ROOT")
+		rootVew.part			= rootPart	// checkIt(&rootVew.part, 		rootPart)
+		rootVew.part.name		= "ROOT"	// checkIt(&rootVew.part.name,	"ROOT")
+		rootVew.scn				= rootScn	// checkIt(&rootVew.scn, 		rootScn)
+		rootScn.name			= "*-ROOT"	// checkIt(&rootScn.name, 		"*-ROOT")
+
 //		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 //		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
 //		doc.fwView?.isPlaying	= true		// WTF??

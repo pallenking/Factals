@@ -25,48 +25,29 @@ struct ContentView: View {
 	@StateObject var dragonModel	= DragonModel()
 
 	 // From PW: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
-	var scene: SCNScene? {
-		SCNScene(named: "Models.scnassets/Avatar.scn")
-	}
-
-//	var cameraNode: SCNNode? {
-//		let cameraNode = SCNNode()
-//		cameraNode.camera = SCNCamera()
-//		cameraNode.position = SCNVector3(x: 0, y: 0, z: 20)
-//		return cameraNode
-//	}
-//	var body: some View {
-//		SceneView(
-//			scene: scene,
-//			pointOfView: cameraNode,
-//			options: [
-//				.allowsCameraControl,
-//				.autoenablesDefaultLighting,
-//				.temporalAntialiasingEnabled
-//			]
-//		)
+//	var scene: SCNScene? {
+//		SCNScene(named: "Models.scnassets/Avatar.scn")
 //	}
 
-	//let win0 : NSWindow?		= DOC.window0
 	var body: some View {
 		HStack {
 			VStack {
 				let rootPart:RootPart = document.docState.rootPart
 				let fwScene			= document.docState.fwScene
-				// let aux			= DOClog.params4aux + ["ppDagOrder":true]
-				ZStack {														// NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
-					let x : ContentView = self
+				ZStack {
+					NSEventReceiver { nsEvent in
+						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
 					FwSceneAsSwiftUIView(args:NSViewsArgs(
 						fwScene		: fwScene,
 						pointOfView	: nil, //fwScene.cameraNode,
 						options		: [.autoenablesDefaultLighting,
-			/**/					   .allowsCameraControl,
+			//**/					   .allowsCameraControl,
 									   .jitteringEnabled,
 									   .rendersContinuously,
 									   .temporalAntialiasingEnabled				],
 						preferredFramesPerSecond:30,
 						antialiasingMode:.none,
-						delegate:nil	// self // document.docState.fwScene // SCNSceneRendererDelegate
+						delegate:nil
 //						technique:nil
 					))
 					.allowsHitTesting(	true)
@@ -75,10 +56,9 @@ struct ContentView: View {
 					.border(Color.black, width: 10)
 			//		 .background(NSColor("verylightgray")!)		// HELP
 				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
-
-//					SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil)
-//					.border(Color.yellow, width: 10)
 				}
+//				SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil)
+//				 .border(Color.yellow, width: 10)
 				HStack {
 					HStack {
 						Text("  Control:")
@@ -99,6 +79,8 @@ struct ContentView: View {
 						{	lldbPrint(ob:fwScene.rootVew, mode:.tree) 					}
 						Button(label:{	Text(   "ptn").padding(.top, 300)				})
 						{	lldbPrint(ob:fwScene.rootNode, mode:.tree)			 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+						Button(label:{	Text(   "reV").padding(.top, 300)				})
+						{	document.someState	+= 1							 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 					}
 					Spacer()
 					HStack {

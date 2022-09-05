@@ -260,41 +260,26 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		do {
 			let je 				= JSONEncoder()
 			je.outputFormatting = .prettyPrinted
-			let data2 			= try je.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
-		//	let data			= try self.encode(to:je)
-		//	let data			= try? Data(contentsOf:fileURL)	// 2. Get file to data
-			print(String(data: data2, encoding: .utf8)!)
-			return data2
-		} catch {
-			print("\(error)")
-			return nil
-		}
+			let data 			= try je.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+			//print(String(data: data, encoding: .utf8)!)
+			return data
+		} catch {				print("\(error)")								}
+		return nil
 	}
-	 // initialize new SCNScene from Data
-//		let jsonData = jsonString.data(using: .utf8)!
-//		let user = try! JSONDecoder().decode(User.self, from: jsonData)
-//		print(user.last_name)
+	static func from(data:Data, encoding:String.Encoding) -> RootPart {
+		try! JSONDecoder().decode(RootPart.self, from:data)
+	}
 	convenience init?(data:Data, encoding:String.Encoding) {
-	//	let p					= try! JSONDecoder().decode(RootPart.self, from:data)
-	//	self.init(from:p)
-	//	self.init(data:data, encoding:encoding)
-
-		do {		// 1. Write data to file.
-			try data.write(to: fileURL)
-		} catch {
-			print("error writing file: \(error)")
-		}
-		do {		// 2. Init self from file
-			bug;self.init()//try self.init(url: fileURL)
-		} catch {
-			print("error initing from url: \(error)")
-			return nil
-		}
+		bug
+	//	let rootPart 			= try! JSONDecoder().decode(RootPart.self, from:data)
+	//	self.init(data:data, encoding:encoding)		// INFINITE
+		do {		// 1. Write data to file. (Make this a loopback)
+			try data.write(to:fileURL)
+			//self.init(url: fileURL)
+			bug;self.init()		//try self.init(url: fileURL)
+		} catch {		print("error using file: \(error)")					}
+		return nil
 	}
-//	override init(url:URL){
-//		super.init(url:url)
-//	}
-
 
 	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
 	func virtualize() {

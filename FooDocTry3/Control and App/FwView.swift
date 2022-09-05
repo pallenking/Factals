@@ -30,7 +30,7 @@ final class FwSceneAsSwiftUIView : NSViewRepresentable {
 		rv.pointOfView 			= args.pointOfView
 		rv.preferredFramesPerSecond = args.preferredFramesPerSecond
 		rv.antialiasingMode		= args.antialiasingMode
-		rv.delegate				= args.delegate
+		rv.delegate				= args.delegate ?? rv	// nil --> rv's delegate is rv!
 
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
