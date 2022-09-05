@@ -15,9 +15,13 @@ extension FileDocumentHelper {
 
 }
 
+func urlOfLocalFile(named name:String) -> URL {
+	let directoryURL			= URL(fileURLWithPath:NSTemporaryDirectory())
+	return directoryURL.appendingPathComponent(name)
+}
+
 var fileURL : URL 				= 	{
-	let path					= NSTemporaryDirectory()
-	let directoryURL			= URL(fileURLWithPath:path)
+	let directoryURL			= URL(fileURLWithPath:NSTemporaryDirectory())
 	 // Must have suffix ".scn". Reason: ???
 	return directoryURL.appendingPathComponent("t1.scn")
 }()

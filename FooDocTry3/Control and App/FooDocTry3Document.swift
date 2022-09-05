@@ -149,11 +149,6 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		docState.fwScene.rootVew = rVew				// INSTALL vew
 		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
 
-		//scene.addLights()//scene.addLightsAndCamera()
-
-//				// Build Vews after nib loading:
-///*x*/	docState.fwScene.installRootPart(docState.rootPart, reason:"InstallRootPart")
-
 		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:docState.rootPart.title) ))
 																				// displayName				= state.rootPart.title
 		makeInspectors()														// window0?.title			= displayName									//makeInspectors()

@@ -6,12 +6,12 @@ import SwiftUI
 
 struct NSViewsArgs {
 	let fwScene 				: FwScene
-	let pointOfView 			: CameraNode
-	let options 				: SceneView.Options	//.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
-	let preferredFramesPerSecond: Int
-	let antialiasingMode 		: SCNAntialiasingMode				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
+	let pointOfView 			: SCNNode?		//CameraNode
+	let options 				: SceneView.Options			//= []					//.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
+	let preferredFramesPerSecond: Int						//= 30
+	let antialiasingMode 		: SCNAntialiasingMode		//= .none				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
 	let delegate 				: SCNSceneRendererDelegate?
-	let technique				: SCNTechnique?
+	let technique				: SCNTechnique?				= nil
 }
 
 		// Wrap a FwScene as a SwiftUI View
@@ -25,12 +25,12 @@ final class FwSceneAsSwiftUIView : NSViewRepresentable {
 	}
 	 // Later, use args to make FwView
 	func makeNSView(context: Context) -> FwView {
-		let frame				= CGRect(origin:.zero, size: CGSize(width:400, height:400))
-		let rv	:	FwView		= FwView(frame:frame, options:[:])	//Dictionary<String:Any>()
+		let rv	:	FwView		= FwView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
 		rv.scene 				= args.fwScene
 		rv.pointOfView 			= args.pointOfView
 		rv.preferredFramesPerSecond = args.preferredFramesPerSecond
 		rv.antialiasingMode		= args.antialiasingMode
+		rv.delegate				= args.delegate
 
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
@@ -42,14 +42,14 @@ final class FwSceneAsSwiftUIView : NSViewRepresentable {
 		}
 		if args.options.contains(.jitteringEnabled) {
 			//view.jitteringEnabled = true
-			print("****** view.jitteringEnabled not implemented ******")
+			warning("****** view.jitteringEnabled not implemented ******")
 		}
 		if args.options.contains(.rendersContinuously) {
 			rv.rendersContinuously = true
 		}
 		if args.options.contains(.temporalAntialiasingEnabled) {
 			//view.temporalAntialiasingEnabled = true
-			print("****** view.temporalAntialiasingEnabled not implemented ******")
+			warning("****** view.temporalAntialiasingEnabled not implemented ******")
 		}
 		return rv
 	}

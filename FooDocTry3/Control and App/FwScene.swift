@@ -131,6 +131,56 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		//fwView?.background		= NSColor("veryLightGray")!
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
+	init?(named name:String) {
+		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
+
+		//	Must call a designated initializer of the superclass 'SCNScene'
+// 1.	super.init(named:name) //, inDirectory:"", options:[:])
+						//		let y  							= SCNScene(named:name)!
+						//		let w0 							= y.scene
+						//		let w1 							= y.sceneSource
+						//		let w2 : SCNPhysicsWorld		= y.physicsWorld
+						//		self.physicsWorld				= w2
+						//		let w3 : SCNNode				= y.rootNode
+						//		let w4 							= y.layerRootNode
+						//		let w5 : SCNMaterialProperty	= y.background
+						//		let w6 							= y.environment
+						//		let w7 							= y.userAttributes
+// 2.	do { try super.init(url:url!)											}
+//		catch { fatalError()													}
+
+    	super.init()
+		let options 			= [SCNSceneSource.LoadingOption : Any]()
+		let sceneSource			= SCNSceneSource(url:url!, options:options)!
+		let node				= sceneSource.entryWithIdentifier("ship.scn", withClass: SCNNode.self)!
+
+		//let armature 			= sceneSource.entryWithIdentifier("Armature", withClass: SCNNode.self)!
+		//armature.removeAllAnimations()
+		//node.addChildNode(armature)
+		//loadAnimation("rest", daeNamed: daeNamed)
+		//playAnimation("rest")
+	}
+//	init(modelNamed:String, daeNamed:String){
+//		let url					= Bundle.main.url(forResource:"ship", withExtension: "scn", subdirectory: "art.scnassets")
+//		let sceneSource 		= SCNSceneSource(url:url!, options: nil)!
+//
+//		let node				= sceneSource.entryWithIdentifier(modelNamed, withClass: SCNNode.self)!
+//
+//		//let armature 			= sceneSource.entryWithIdentifier("Armature", withClass: SCNNode.self)!
+//		
+//		//store and trigger the "rest" animation
+//		
+//		node.position 			= SCNVector3(0, 10, 0)
+//	}
+
+
+//	override init() {
+//		super.init()
+//	}
+//
+//	required init(coder aDecoder: NSCoder)? {
+//		super.init(coder: aDecoder)
+//	}
 
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
@@ -558,10 +608,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	///   - rootPart: -- base of model
 	///   - lockStr: -- if non-nil, get this lock
 	func installRootPart(_ rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
-		//guard let doc			= DOC else {	panic("DOC is nil"); return		}
 
 		 // 1. Get LOCKS for PartTree and VewTree
-		guard	DOCrootPartQ!.lock(partTreeAs:lockStr) else {
+		guard DOCrootPart.lock(partTreeAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get PART lock")		// or
 		}
 		guard lock(rootVewAs:lockStr) else {
@@ -569,25 +618,23 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		}
 			
 		// --------- Link rootVew and rootScn to rootPart
-		func checkIt<T : Equatable >(_ name:inout T, _ correctName:T, _ problem:String) {
-			if name != correctName {
-				warning(problem)
-				name = correctName
-			}
-		}
-		checkIt(&rootVew.name, "_ROOT", "rootVew.name '\(rootVew.name)' incorrect")
-//		assert(rootVew.name == "_ROOT", 	"rootVew.name incorrect")			// rootVew.name		= "_ROOT"			// do we really want to do this?
-
-		checkIt(&rootVew.part, rootPart, 	"rootVew.part incorrect")			// rootVew.part		= rootPart
-//		assert(rootVew.part == rootPart, 	"rootVew.part incorrect")			// rootVew.part		= rootPart
-		checkIt(&rootVew.part.name, "ROOT", "rootVew.part incorrect")			// rootVew.part		= rootPart
-//		assert(  rootVew.part.name == "ROOT","rootVew.part.name incorrect")		// rootVew.part.name= "ROOT"
-
-		checkIt(&rootVew.scn, rootScn, "rootVew.scn incorrect")					// rootVew.part		= rootPart
-//		assert(rootVew.scn == rootScn, "rootVew.scn incorrect")					// rootVew.scn		= rootScn
-		checkIt(&rootScn.name, "*-ROOT", "rootScn.name incorrect")				// rootVew.part		= rootPart
-//		assert(rootScn.name == "*-ROOT", "rootScn.name incorrect")				// rootScn.name		= "*-ROOT"
-
+		rootVew.name		 	= "_ROOT"
+		rootVew.part			= rootPart
+		rootVew.part.name		= "ROOT"
+		rootVew.scn				= rootScn
+		rootScn.name			= "*-ROOT"
+										// // --------- Link rootVew and rootScn to rootPart
+										// func checkIt<T : Equatable >(_ tIs:inout T, _ tGood:T) {
+										// 	if tIs != tGood {
+										// 		print("--- Found \(tIs):\(T.self), should be \(tGood):\(T.self)")
+										// 		tIs = tGood
+										// 	}
+										// }		// current:			// correct:
+										// checkIt(&rootVew.name, 		"_ROOT")
+										// checkIt(&rootVew.part, 		rootPart)
+										// checkIt(&rootVew.part.name,	"ROOT")
+										// checkIt(&rootVew.scn, 		rootScn)
+										// checkIt(&rootScn.name, 		"*-ROOT")
 //		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
 //		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
 //		doc.fwView?.isPlaying	= true		// WTF??

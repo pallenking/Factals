@@ -192,7 +192,7 @@ state.scanSubMenu				= "Micro Forms"
 //	Broadcast([P:"t1"]),	// Did FAIL (g/t1/t2/ works)
 //	Hamming([n:"t1"]),
 //]]) })
-xxr("e Part()", e, { Part() })
+r("e Part()",   e, { Part() })
 r("Port()",		e, { Port() })
 r("Atom()",		e, { Atom() })
 // Having an Atom having a Part as a child is odd
@@ -240,13 +240,13 @@ r("Port", 		e + camera(s:-134,u:5), { Port()						})
 
  // MARK: - * Basic Atoms
 state.scanSubMenu				= "Basic Atoms"
-r("Broatcast",  	e,	{ Broadcast([n:"a", "lat":1])})				// 190311 +
-r("Portless",  		e,  { Portless( [n:"a"]) 		})				// 190311 +
+r("Broatcast",  		e,	{ Broadcast([n:"a", "lat":1])})				// 190311 +
+r("Portless",  			e,  { Portless( [n:"a"]) 		})				// 190311 +
 r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
-r("MaxOr", 	   		e,  { MaxOr([    n:"a"]) 		})				// 190311 +
+r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
 r("MaxOr flipped",		e,  { MaxOr([    n:"a", f:1])	}) 	 			// 190311 +
 r("Ago",				e,  { Ago([      n:"a"])		}) 				// 190311 +
-r("Previous",			eSim + camera(s:45,u:10), { Previous([n:"a"])})	// 190311 +
+xr("Previous",			eSim + camera(s:45,u:10), { Previous([n:"a"])})	// 190311 +
 r("NetPrevious", eSim + camera(s:45,u:10), {
 	Net([placeMy:"stackZ -1", "minSizeX":"3.14159 2 2", parts:[
 		Net([placeMy:"stackX -1", "minSizeX":"2.717 3 3", parts:[
@@ -871,7 +871,7 @@ r("+ Show Link skin types", eSim + camera(h:0,s:-48,u:-10,z:0.815) + velX(-9) + 
 	Broadcast([n:"a", share:["x,l:2,t:invisible"], jog+X:"0.5 0 0",f:1]), // no line
  	Mirror(   [n:"x", "gain":0, "offset":1, f:1]),
 ]]) })
-xr("+ Generate AppIcon", e + camera(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+xxr("+ Generate AppIcon", e + camera(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 	MaxOr(	[n:"m", share:["a,l:0", "b,l:0.4", "c,l:0"],  f:1]),
 	Hamming([n:"a", share:["y,l:0.4", "x,l:0"],  f:1]),
  	Hamming([n:"b", share:["y,l:0"], f:1]),		// no line

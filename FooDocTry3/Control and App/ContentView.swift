@@ -10,10 +10,13 @@ import SceneKit
 extension SCNCameraController : ObservableObject {	}
 
 class JetModel: ObservableObject {
-	@Published var scene : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
+//	@Published var fwScene : FwScene  = FwScene(fwConfig:[:])
+//	@Published var fwScene : FwScene  = FwScene(named:"art.scnassets/ship.scn")!
+	@Published var scene   : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
 }
 class DragonModel: ObservableObject {
-	@Published var scene : SCNScene = dragonCurve(segments:1024)
+//	@Published var fwScene : FwScene  = dragonCurve(segments:1024)
+	@Published var scene   : SCNScene = dragonCurve(segments:1024)
 }
 
 struct ContentView: View {
@@ -52,38 +55,29 @@ struct ContentView: View {
 				let fwScene			= document.docState.fwScene
 				// let aux			= DOClog.params4aux + ["ppDagOrder":true]
 				ZStack {														// NSEventReceiver { nsEvent in DOCfwScene.receivedEvent(nsEvent:nsEvent)		}
+					let x : ContentView = self
 					FwSceneAsSwiftUIView(args:NSViewsArgs(
 						fwScene		: fwScene,
-						pointOfView	: fwScene.cameraNode,
+						pointOfView	: nil, //fwScene.cameraNode,
 						options		: [.autoenablesDefaultLighting,
-			//**/					   .allowsCameraControl,
+			/**/					   .allowsCameraControl,
 									   .jitteringEnabled,
 									   .rendersContinuously,
 									   .temporalAntialiasingEnabled				],
 						preferredFramesPerSecond:30,
-						antialiasingMode:.none,									//SCNAntialiasingMode //SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-						delegate:nil,				// document.docState.fwScene // SCNSceneRendererDelegate
-						technique:nil
+						antialiasingMode:.none,
+						delegate:nil	// self // document.docState.fwScene // SCNSceneRendererDelegate
+//						technique:nil
 					))
-																				//		SceneView(
-																				//			scene			: fwScene,
-																				//			pointOfView		: fwScene.cameraNode,
-																				//			options			: [//.autoenablesDefaultLighting,
-																				//		//**/				   //.allowsCameraControl,
-																				//							   //.jitteringEnabled,
-																				//							   //.rendersContinuously,
-																				//							   //.temporalAntialiasingEnabled
-																				//			],
-																				//			preferredFramesPerSecond:30,
-																				//			antialiasingMode:.none,				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
-																				//			delegate:document.docState.fwScene	// FwScene // SCNSceneRendererDelegate
-																				//		)
 					.allowsHitTesting(	true)
 					.onAppear {
-						document.didLoadNib(to:self)								}
-					.border(Color.black, width: 3)
+						document.didLoadNib(to:self)							}
+					.border(Color.black, width: 10)
 			//		 .background(NSColor("verylightgray")!)		// HELP
 				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
+
+//					SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil)
+//					.border(Color.yellow, width: 10)
 				}
 				HStack {
 					HStack {
@@ -116,20 +110,22 @@ struct ContentView: View {
 				}
 				Spacer()
 			}
-//			VStack {
-//				SceneView(
-//					scene: 		 jetModel.scene,
-//					pointOfView: jetModel.scene.cameraNode,
-//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-//				)
+			VStack {
+//				FwSceneAsSwiftUIView(args:NSViewsArgs( 	//SceneView(
+//					fwScene		: jetModel.scene as! FwScene,
+//					pointOfView	: nil,//jetModel.scene.cameraNode,
+//					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
+//					preferredFramesPerSecond : 30,
+//					antialiasingMode : .none, delegate:nil
+//				))
 //				 .frame(width:200, height:200)
-//				SceneView(
-//					scene: 		 dragonModel.scene,
-//					pointOfView: dragonModel.scene.cameraNode,
-//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-//				)
-//				 .frame(width:200, height:300)
-//			}
+				SceneView(
+					scene	   : dragonModel.scene,
+					pointOfView: nil,//dragonModel.scene.cameraNode,
+					options: [.allowsCameraControl, .autoenablesDefaultLighting]
+				)
+				 .frame(width:200, height:300)
+			}
 		}
 	}
 }
