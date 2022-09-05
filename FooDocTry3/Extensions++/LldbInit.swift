@@ -99,7 +99,7 @@ func sendApp(key:String="?") {
 	}
 }
 func printDebuggerHints() {
-	print ("\n=== Controller commands:",
+	print ("=== Controller   commands:",
 	//	"\t" + "<esc>           -- exit program",
 		"\t'u'+cmd         -- go to lldb for retest",
 		"\t"+"esc             -- beep and exit",  /*Character("\u{1b}")*/

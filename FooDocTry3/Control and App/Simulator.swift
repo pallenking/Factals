@@ -268,7 +268,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(kickstart)")
 			return true
 		case "?":
-			Swift.print ("=== Simulator        commands:",
+			Swift.print ("=== Simulator   commands:",
 				"\t' '             -- Toggel simEnabled: run(-1) / stop(0) ",
 				"\t'k'             -- kickstart simulator",
 //				"\t' ' + shift     -- Set simEnabled = 1: Run 1 cycle, then stop",

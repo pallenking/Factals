@@ -169,9 +169,9 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 //		let node				= sceneSource.entryWithIdentifier(modelNamed, withClass: SCNNode.self)!
 //
 //		//let armature 			= sceneSource.entryWithIdentifier("Armature", withClass: SCNNode.self)!
-//		
+//
 //		//store and trigger the "rest" animation
-//		
+//
 //		node.position 			= SCNVector3(0, 10, 0)
 //	}
 
@@ -870,7 +870,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			print("\n******************** 'f':   === FwScene: animatePhysics <-- \(msg)")
 			return true								// recognize both
 		case "?":
-			Swift.print ("\n=== FwScene      commands:",
+			Swift.print ("\n=== FwScene   commands:",
 				"\t'r'             -- r sound test",
 				"\t'r'+cmd         -- go to lldb for rerun",
 				"\t'v'             -- print Vew tree",

@@ -42,14 +42,14 @@ final class FwSceneAsSwiftUIView : NSViewRepresentable {
 		}
 		if args.options.contains(.jitteringEnabled) {
 			//view.jitteringEnabled = true
-			warning("****** view.jitteringEnabled not implemented ******")
+			print("****** view.jitteringEnabled not implemented ******")//warning
 		}
 		if args.options.contains(.rendersContinuously) {
 			rv.rendersContinuously = true
 		}
 		if args.options.contains(.temporalAntialiasingEnabled) {
 			//view.temporalAntialiasingEnabled = true
-			warning("****** view.temporalAntialiasingEnabled not implemented ******")
+			print("****** view.temporalAntialiasingEnabled not implemented ******")
 		}
 		return rv
 	}
@@ -138,35 +138,35 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 
 	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
-		DispatchQueue.main.async {
-			r.isPlaying			= true
-			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			self.fwScene!.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
-		}
+//		DispatchQueue.main.async {
+//			r.isPlaying			= true
+//			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+//			self.fwScene!.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
+//		}
 	}
 	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			let fws				= self.fwScene!
-			fws.rootPart.computeLinkForces(vew:fws.rootVew)
-		}
+//		DispatchQueue.main.async {
+//			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+//			let fws				= self.fwScene!
+//			fws.rootPart.computeLinkForces(vew:fws.rootVew)
+//		}
 	}
 	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			let fws				= self.fwScene!
-			fws.rootPart.applyLinkForces(vew:fws.rootVew)
-		}
+//		DispatchQueue.main.async {
+//			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+//			let fws				= self.fwScene!
+//			fws.rootPart.applyLinkForces(vew:fws.rootVew)
+//		}
 	}
 	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
 	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			let fws				= self.fwScene!
-			fws.rootPart.rotateLinkSkins(vew:fws.rootVew)
-		}
+//		DispatchQueue.main.async {
+//			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+//			let fws				= self.fwScene!
+//			fws.rootPart.rotateLinkSkins(vew:fws.rootVew)
+//		}
 	}
 	   // ODD Timing:
 	  // MARK: - 9.5.@: did Render Scene
