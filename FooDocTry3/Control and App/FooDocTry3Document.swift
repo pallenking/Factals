@@ -12,33 +12,29 @@ import UniformTypeIdentifiers
 struct DocState {
 	var rootPart: RootPart
 	var fwScene	: FwScene
-	init(rootPart:RootPart?=nil, fwScene:FwScene?=nil) {
-		self.rootPart			= rootPart	?? RootPart([:])
-		self.fwScene			= fwScene	?? FwScene(fwConfig:[:])//{ fatalError()}()	//SCNNode(
-	}
 }
 
 struct FooDocTry3Document: FileDocument, Uid {
 	var uid:UInt16				= randomUid()
-	var someState:UInt8			= 0
+	var redo:UInt8				= 0
 
-//	@IBOutlet weak
-//	 var fwView		: FwView?	//SCNView?		// IB sets this
-//	 var fwView		: SCNView?		{	NSHostingView(rootView: <#T##_#>)}
+//	@IBOutlet weak		// (IB sets this)
+//	 var fwView		: FwView?
 
 	 // Model of a FooDocTry3Document:
 	var docState : DocState!
 
 	 // No document supplied
-	init() {
-																 //    INTERNAL:
-		// Generate a new docState		//---FUNCTION-----------+-wantName:---wantNumber:
+	init() {													 //    INTERNAL:
+		//			RootPart:			//---FUNCTION-----------+-wantName:---wantNumber:
 		//**/	let select		= nil	//	 Blank scene		|	nil			-1
 		//**/	let select		= 34	//	 entry N			|	nil			N *
 		/**/	let select		= "xr()"//	 entry with xr()	|	"xr()"		-1
 		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
 		let rootPart			= RootPart(fromLibrary:select)
+		 //			FwScene:
 		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
+		 //			DocState:
 		docState	 			= DocState(rootPart:rootPart, fwScene:fwScene)
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC

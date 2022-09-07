@@ -130,6 +130,7 @@ bug
 		return  String(repeating: "| ", count:n)
 	}
 	 /// Returns the string " |" to END indentation
+	 // Consider using field()
 	func unIndent(previous:String) -> String {
 		let nUnIndent			= ppIndentCols/2 - nIndent
 		if nUnIndent > 0 {

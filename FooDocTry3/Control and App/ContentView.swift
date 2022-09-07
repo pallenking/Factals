@@ -37,7 +37,7 @@ struct ContentView: View {
 				ZStack {
 					NSEventReceiver { nsEvent in
 						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
-					FwSceneAsSwiftUIView(args:NSViewsArgs(
+					FwSceneAsSwiftUIView(args:FwViewsArgs(
 						fwScene		: fwScene,
 						pointOfView	: fwScene.cameraNode,
 						options		: [.autoenablesDefaultLighting,
@@ -50,15 +50,14 @@ struct ContentView: View {
 						delegate:nil
 //						technique:nil
 					))
-					.allowsHitTesting(	true)
-					.onAppear {
+					 .allowsHitTesting(	true)
+					 .onAppear {
 						document.didLoadNib(to:self)							}
-					.border(Color.black, width: 10)
-			//		 .background(NSColor("verylightgray")!)		// HELP
+					 .border(Color.black, width: 10)
+					 .background()//(NSColor("verylightgray")!)		// HELP
 				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 				}
-//				SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil)
-//				 .border(Color.yellow, width: 10)
+//				SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
 				HStack {
 					HStack {
 						Text("  Control:")
@@ -80,7 +79,7 @@ struct ContentView: View {
 						Button(label:{	Text(   "ptn").padding(.top, 300)				})
 						{	lldbPrint(ob:fwScene.rootNode, mode:.tree)			 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 						Button(label:{	Text(   "reV").padding(.top, 300)				})
-						{	document.someState	+= 1							 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+						{	document.redo += 1									 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 					}
 					Spacer()
 					HStack {
@@ -93,7 +92,7 @@ struct ContentView: View {
 				Spacer()
 			}
 			VStack {
-//				FwSceneAsSwiftUIView(args:NSViewsArgs( 	//SceneView(
+//				FwSceneAsSwiftUIView(args:FwViewsArgs( 	//SceneView(
 //					fwScene		: jetModel.scene as! FwScene,
 //					pointOfView	: nil,//jetModel.scene.cameraNode,
 //					options		: [.allowsCameraControl, .autoenablesDefaultLighting],

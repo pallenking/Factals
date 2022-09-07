@@ -2,14 +2,14 @@
 
 import SceneKit
 
-   /// BBox is used during Placement,
-  /// shadows SCN.boundingBox, but with includes only placed views
+   // BBox is used during Placement,
+  // shadows SCN.boundingBox, but with includes only placed views
 
 func == (aBox:BBox, bBox:BBox) -> Bool {
 	return aBox.min == bBox.min && aBox.max == bBox.max
 }
 
- /// extend a BBox by another BBox
+ // extend a BBox by another BBox
 func + (aBox:BBox, bBox:BBox) -> BBox {
 	let min						= aBox.min + bBox.min
 	let max						= aBox.max + bBox.max
@@ -18,10 +18,8 @@ func + (aBox:BBox, bBox:BBox) -> BBox {
 func += ( bBox: inout BBox, aBox:BBox) {
 	bBox						= bBox + aBox
 }
-																				// the above loops infinitely.  It ssems b +
-																				//	let orOf 					= bBox | aBox
-																				//	bBox						= orOf
- /// extend a BBox so it includes an point
+
+ // extend a BBox so it includes an point
 func | (bbox:BBox, point:SCNVector3) -> BBox {
 	let min 					= minPerAxis(bbox.min, point)
 	let max 					= maxPerAxis(bbox.max, point)
@@ -31,7 +29,7 @@ func |= ( bbox: inout BBox, point:SCNVector3) {
 	bbox 						= bbox | point
 }
 
- /// "_+_" extends size by SCNVector3
+ // "_+_" extends size by SCNVector3
 func + (bbox:BBox, sizeVect:SCNVector3) -> BBox {
 	var rv						= bbox
 	rv.size						+= sizeVect
@@ -50,7 +48,7 @@ func += ( bbox: inout BBox, sizeVect:SCNVector3) {
 //}
 
 
- /// "_*_" scales a FwBBox's size
+ // "_*_" scales a FwBBox's size
 func * (bbox:BBox, scale:CGFloat) -> BBox {
 	var rv						= bbox
 	rv.size						*= scale
@@ -60,7 +58,7 @@ func *= (bBox: inout BBox, scale:CGFloat) {
 	bBox 						= bBox * scale
 }
 
- /// Biggest BBox encompassing both simultaneously
+ // Biggest BBox encompassing both simultaneously
 func & (a:BBox, b:BBox) -> BBox {
 	let max 					= minPerAxis(a.max, b.max)
 	let min 					= maxPerAxis(a.min, b.min)
@@ -73,7 +71,7 @@ func & (a:BBox, b:BBox) -> BBox {
 func &= (a: inout BBox, b:BBox) {
 	a 							= a & b
 }
- /// Smallest BBox encompassing one or the other
+ // Smallest BBox encompassing one or the other
 func | (a:BBox, b:BBox) -> BBox {
 	let max 					= maxPerAxis(a.max, b.max)
 	let min 					= minPerAxis(a.min, b.min)
@@ -83,7 +81,7 @@ func |= (a: inout BBox, b:BBox) {
 	a 							= a | b
 }
 
- /// Transform
+ // Transform
 func * (bBox:BBox, transform:SCNMatrix4) -> BBox {
 	return bBox.transformed(by: transform)
 }
@@ -91,7 +89,7 @@ func *= (bBox: inout BBox, transform:SCNMatrix4) {
 	bBox 						= bBox * transform
 }
 
- /// Approximately Equal
+ // Approximately Equal
 func ~==( left:BBox, right:BBox) -> Bool {
 	return left.min ~== right.min && left.max ~== right.max
 }
@@ -101,7 +99,8 @@ struct BBox : Codable {
          // MARK: - 2. Object Variables:
 	public var min 	: SCNVector3
 	public var max 	: SCNVector3
-	// derrived
+
+	 // derrived
 	var isEmpty	: Bool   	{
 		return min.x >= max.x-eps || min.y >= max.y-eps || min.z >= max.z-eps	}
 	var isNan	: Bool 		{ return min.isNan || max.isNan						}
@@ -228,5 +227,5 @@ struct BBox : Codable {
 	 // MARK: - 17. Debugging Aids
 	var description			:String	{	return "\"\(pp(.short))\""				}
 	var debugDescription 	:String	{	return  "'\(pp(.short))'"				}
-//	var summary				:String	{	return  "<\(pp(.short))>"				}
+	var summary				:String	{	return  "<\(pp(.short))>"				}
 }

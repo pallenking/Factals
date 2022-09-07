@@ -311,7 +311,7 @@ extension SCNNode /*: HasChildren */ {
 			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
 			rv					= DOClog.obNindent(ob:self)	//			(AB)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
-			rv 					=  DOClog.unIndent(previous:rv)	// unindent	 (D)
+			rv 					= DOClog.unIndent(previous:rv)	// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
 
 		case .tree:
@@ -347,33 +347,38 @@ extension SCNNode /*: HasChildren */ {
 			 /// 4. Materials
 			DOClog.nIndent		+= 1
 			if aux.bool_("ppScnMaterial") {
-bug//			for material in geometry?.materials ?? [] {
-////					rv			+= " " + material.ppSCNMaterialColors(debugDescription) + "\n"
-//					rv			+= material.pp(.line) + "\n"
-//				}
+				for material in geometry?.materials ?? [] {
+					rv			+= " " + material.ppSCNMaterialColors(debugDescription) + "\n"
+					rv			+= material.pp(.line) + "\n"
+				}
 			}
-	//		 /// 5. SCNAudioPlayer Sound
-	//		for audioPlayer in audioPlayers {
-	//			rv				+= log.obNindent(ob:audioPlayer) + " \\sound:"
-	//			rv 				+= log.unIndent()
-	//	//		assert(audioPlayer.audioNode == self, "")
-	//			let audioSource	= audioPlayer.audioSource
-	//			rv				+= "name:??\n"
-	//		}
+			 /// 5. SCNAudioPlayer Sound
+			for audioPlayer in audioPlayers {
+				rv				+= DOClog.obNindent(ob:audioPlayer) + " \\sound:"
+				rv 				=  DOClog.unIndent(previous:rv)					//+=
+			//	assert(audioPlayer.audioNode == self, "wtf audioPlayer")
+				let audioSource	= audioPlayer.audioSource
+				rv				+= "name:??\n"
+			}
+			if let light 		= light {
+				rv				+= DOClog.obNindent(ob:light) + " \\light:"
+				rv 				=  DOClog.unIndent(previous:rv)					//+=
+			}
+			if let camera 		= camera {
+				rv				+= DOClog.obNindent(ob:light) + " \\camera:"
+				rv 				=  DOClog.unIndent(previous:rv)
+			}
 
 			 /// 6. LAST print lower Parts, some are Ports
 			for child in children {	// !upInWorld? [children objectEnumerator]: [self.parts reverseObjectEnumerator]) {
-		//		Log.log("child:\(child.fullName)")
-//				if child.name?.hasPrefix("tic") == false {				// Don't show pole tics
-//				if !(child.name?.hasPrefix("tic"))! {					// Don't show pole tics
-				if child.name == nil || !child.name!.hasPrefix("tic") {	// Don't show pole tics
+				DOClog.log("child:\(child.fullName)")
+				if child.name!.hasPrefix("tic") {
 					rv			+= child.pp(.tree)
 				}
 			}
 			DOClog.nIndent		-= 1
 		default:
-bug
-//			rv					=  ppDefault(self:self, mode:mode, aux:aux)
+/*bug?*/	rv					=  ppDefault(self:self, mode:mode, aux:aux)
 		}
 		return rv
 	}

@@ -113,7 +113,7 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		super.init()
 
 		config4scene		= fwConfig
-//		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
+		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
 		// TO DO:
 		   // 1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
@@ -313,6 +313,11 @@ bug
 	func addLights() {
 		 // create and add a light to the scene:
 		func addLight(name:String, lightType:SCNLight.LightType, color:Any?=nil, position:SCNVector3?=nil, intensity:CGFloat=100) {
+			 // Detect a Straggler
+			let oldLight		= rootScn.find(name:name)
+			assert(oldLight == nil, "Who put this light here? !!!")
+			oldLight?.removeFromParentNode()
+
 			let newLight 		= SCNNode()
 			newLight.name		= name
 			newLight.light 		= SCNLight()
@@ -325,8 +330,9 @@ bug
 				newLight.position = position
 			}
 			rootScn.addChildNode(newLight)
+			let x 				= newLight.pp(.tree)
 		}
-		addLight(name:"light",   lightType:.omni, 	position:SCNVector3(0, 0, 15))
+		addLight(name:"light1",  lightType:.omni, 	position:SCNVector3(0, 0, 15))
 		addLight(name:"ambient", lightType:.ambient,color:NSColor.darkGray)
 		addLight(name:"light4",  lightType:.ambient,color:NSColor.white, intensity:500)				//blue//
 		addLight(name:"light5",  lightType:.omni, 	color:NSColor.green, intensity:500)				//blue//
@@ -523,69 +529,40 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		assert(newCameraXform.at(3,3) == 1.0, "why?")	// Understand cameraXform.at(3,3). Is it 1.0? is it prudent to change it here
 
 
-		 // OLD WAY -- SORTA WORKS:  Transform root bbox into camera:
-		let bBox				= rootVew.bBox			// in world coords
-		let transform2eye		= SCNMatrix4Invert(cameraNode!.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
-//		let x					= cameraNode.camera?.projectionTransform
-		let bBoxScreen			= bBox.transformed(by:transform2eye)
-		let bSize				= bBoxScreen.size
+		  // Determine magnification so all parts of the 3D object are seen.
+		 //
+		let rootVewBbInWorld	= rootVew.bBox			// in world coords
+		let world2eye			= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
+		let rootVewSizeInEye	= rootVewBbInEye.size
+		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
 
-		 // Set zoom per horiz/vert:
-		var zoomSize			= bSize.y	// default when height dominates
-		var orientation			= "Portrait "
-		let scn					= DOCfwScene.rootVew.scn
-//		if let nsRectSize		= DOCfwScene.rootVew.frame.size {
-////		if let nsRectSize		= DOC?.fwView?.frame.size {
-//			if bSize.x * nsRectSize.height > nsRectSize.width * bSize.y {
-//				zoomSize		= bSize.x	// when width dominates
-//				//orientation	= "Landscape"
-//			}
-//		}
-		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
-		  vanishingPoint.isFinite {			// Perspective
-			print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
-		}	 								// Orthographic
-		else if let c			= cameraNode.camera {
-			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
-			c.usesOrthographicProjection = true		// camera’s magnification factor
-			c.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
+					// Landscape window ------------------
+		var orientation			= "Landscape"
+		var orthoScale			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
+		 // Is side going to be clipped off?
+		let ratioHigher			= nsRectSize.height / nsRectSize.width
+		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
+			orthoScale			*= ratioHigher
 		}
-
-//		 // NEW WAY -- BROKEN: Transform root bbox into camera:
-//		let rootBbInWorld		= rootVew.bBox			// in world coords
-//		let world2eye			= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
-//		let rootBbInEye			= rootBbInWorld.transformed(by:world2eye)
-//		let rootSize			= rootBbInEye.size
-//		guard let nsRectSize	= Fw.view?.frame.size  else  {	fatalError()	}
-//
-//		 // Determine magnification so all parts of the 3D object are seen.
-//		var orthoScale :CGFloat	= 1.0		// A 1 unit size cube just fills entire screen
-//											//  e.g. image in extremes of smaller dimension are offscreen
-//		 // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
-//		// https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-//		if nsRectSize.width > nsRectSize.height {	// Landscape window
-//			orthoScale			= rootSize.x			// scale is image width
-//	//		 // Is top or side going to be clipped off?
-//	//		let ratio			= nsRectSize.height / nsRectSize.width
-//	//		let maxVisY			= ratio * rootSize.x
-//	//		if rootSize.y > maxVisY {
-//	//			orthoScale		*= ratio
-//	//		}
-//		}else{										// Portrait window
-//			orthoScale			= rootSize.y			// scale is image height 
-//	//		 // Is left or right going to be clipped off?
-//	//		let ratio			= nsRectSize.width / nsRectSize.height
-//	//		let maxVisX			= ratio * rootSize.y
-//	//		if rootSize.x > maxVisX {
-//	//			orthoScale		*= ratio
-//	//		}
-//		}
-//		print(fmt("upCam: rbie:\(rootBbInEye.pp(.line)), ortho:%.2f)",orthoScale))
-//		if true {		// Orthographica
-//			let cam				= cameraNode.camera!
-//			cam.usesOrthographicProjection = true		// camera’s magnification factor
-//			cam.orthographicScale = Double(orthoScale * cameraZoom * 1.1)
-//		}
+		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
+					// Portrait window ------------------
+			orientation			= "Portrait"
+			orthoScale			= rootVewSizeInEye.y
+			 // Is top going to be clipped off?
+			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
+				orthoScale		/= ratioHigher
+			}
+		}
+		let vanishingPoint 		= config4scene.double("vanishingPoint")
+		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
+			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
+			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
+			guard let cam		= cameraNode.camera else { fatalError("cameraNode.camera is nil") 	}
+			cam.usesOrthographicProjection = true		// camera’s magnification factor
+			cam.orthographicScale = Double(orthoScale * pole.zoom * 0.75)
+		}
+		print(fmt("\(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", orthoScale, vanishingPoint ?? -.infinity))
 
 		if duration > 0.0,
 		  config4scene.bool("animatePan") ?? false
@@ -620,10 +597,10 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	///   - lockStr: -- if non-nil, get this lock
 	func installRootPart(_ rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
 
-		 // 1. Get LOCKS for PartTree and VewTree
+		 // 1. Get LOCKS for PartTree
 		guard DOCrootPart.lock(partTreeAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get PART lock")		// or
-		}
+		}// 2.           and VewTree
 		guard lock(rootVewAs:lockStr) else {
 			fatalError("\(lockStr ?? "-") couldn't get VIEW lock")
 		}
@@ -638,7 +615,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 											// }		// current:			// correct:
 		rootVew.name		 	= "_ROOT"	// checkIt(&rootVew.name, 		"_ROOT")
 		rootVew.part			= rootPart	// checkIt(&rootVew.part, 		rootPart)
-		rootVew.part.name		= "ROOT"	// checkIt(&rootVew.part.name,	"ROOT")
+		rootVew.part.name		= "ROOT"	// checkIt(&rootVew.part.name,	"ROOT")			// matches
 		rootVew.scn				= rootScn	// checkIt(&rootVew.scn, 		rootScn)
 		rootScn.name			= "*-ROOT"	// checkIt(&rootScn.name, 		"*-ROOT")
 

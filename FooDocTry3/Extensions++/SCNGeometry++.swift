@@ -471,40 +471,42 @@ extension SCNMaterial {
   reflective=<SCNMaterialProperty: 0x600002c12200 | contents=sRGB IEC61966-2.1 colorspace 0.501961 0.501961 1 0.501961>\n>"
 
  */
-func ppSCNMaterialColors(_ str:String) -> String {
-	let lines					= str.split(separator:"\n")
-		//	0: "<SCNMaterial: 0x100d2fc30"		/// SKIP
-		//	1: "  diffuse=<SCNMaterialProperty: 0x600002c2d000 | contents=Generic Gray Gamma 2.2 Profile colorspace 0 1>"
-		//	2: "  specular=<SCNMaterialProperty: 0x600002c2cf80 | contents=Generic Gray Gamma 2.2 Profile colorspace 1 1>"
-		//	3: ">"								/// SKIP
-	var (rv, separator)			= ("", "")
-	if lines.count > 1 {
-		// (Skip over lines[0]; it's just SCNMaterial)
-		for line in lines[1..<lines.count - 1] 
-				where line != ")>>>" && line != ")>>" && line != ">"
-		{
-			let split 			= line.split(separator:"=")
-			assert(split.count >= 3, "format has changed")
+extension SCNMaterial {
+	func ppSCNMaterialColors(_ str:String) -> String {
+		let lines				= str.split(separator:"\n")
+			//	0: "<SCNMaterial: 0x100d2fc30"		/// SKIP
+			//	1: "  diffuse=<SCNMaterialProperty: 0x600002c2d000 | contents=Generic Gray Gamma 2.2 Profile colorspace 0 1>"
+			//	2: "  specular=<SCNMaterialProperty: 0x600002c2cf80 | contents=Generic Gray Gamma 2.2 Profile colorspace 1 1>"
+			//	3: ">"								/// SKIP
+		var (rv, separator)		= ("", "")
+		if lines.count > 1 {
+			// (Skip over lines[0]; it's just SCNMaterial)
+			for line in lines[1..<lines.count - 1]
+					where line != ")>>>" && line != ")>>" && line != ">"
+			{
+				let split 		= line.split(separator:"=")
+				assert(split.count >= 3, "format has changed")
 
-			 /// split[0]: Color Property:
-			let split0			= split[0].replacingOccurrences(of:"  ", with:"")
-			let shortNames 		= [	"diffuse"		: "difu",
-									"specular"		: "spcu",
-									"reflective"	: "refl",
-									"ambient"		: "ambi",
-									"metalness"		: "metl",
-									"roughness"		: "roug",
-									"normal"		: "norm",
-									"emission"		: "emis",
-									"transparent"	: "trns"	] 
-			if let sName		= shortNames[split0] {
-				rv				+= separator + sName + ":"		
-bug//			rv				+= NSColor.ppColor(scnString:aString(split[2])) ?? "<Bad Color>"
-			}else{
-				rv				+= separator + "unknown:<?>"
+				 /// split[0]: Color Property:
+				let split0		= split[0].replacingOccurrences(of:"  ", with:"")
+				let shortNames 	= [	"diffuse"		: "difu",
+										"specular"		: "spcu",
+										"reflective"	: "refl",
+										"ambient"		: "ambi",
+										"metalness"		: "metl",
+										"roughness"		: "roug",
+										"normal"		: "norm",
+										"emission"		: "emis",
+										"transparent"	: "trns"	]
+				if let sName	= shortNames[split0] {
+					rv			+= separator + sName + ":"
+	bug//			rv			+= NSColor.ppColor(scnString:aString(split[2])) ?? "<Bad Color>"
+				}else{
+					rv			+= separator + "unknown:<?>"
+				}
+				separator			= ", "
 			}
-			separator			= ", "
 		}
+		return rv
 	}
-	return rv
 }
