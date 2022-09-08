@@ -7,26 +7,19 @@
 
 import SceneKit
 
-class CameraNode : SCNNode {
+class CameraNode : SCNNode {		// CameraNode()
 
-	override init() 				{	super.init()							}
-	required init?(coder: NSCoder)	{	fatalError("init(coder:) has not been implemented")	}
-
-	func configureCamera(_ config:FwConfig) {
-		name					= "camera"
-		position 				= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+	init(_ config:FwConfig) {										super.init()
 		
-		// THESE DANGLE:
-		// DOC?.fwView?.pointOfView = camNode
-		// DOC?.fwView?.audioListener = camNode
-		
-		self.camera				= SCNCamera()
+		camera					= SCNCamera()
 		camera!.name			= "SCNCamera"
 		camera!.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
 		camera!.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
 		camera!.exposureAdaptationDarkeningSpeedFactor = 1
 		camera!.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-
+		//camera!.zNear			= 1
+		//camera!.zFar			= 100
+														// NOOO	addChildNode(camera!)
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
 			var pole			= FwScene.SelfiePole()
@@ -45,4 +38,6 @@ class CameraNode : SCNNode {
 			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
 		}
 	}
+
+	required init?(coder: NSCoder)	{	fatalError("init(coder:) has not been implemented")	}
 }

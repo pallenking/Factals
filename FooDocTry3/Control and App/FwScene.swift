@@ -288,102 +288,60 @@ bug
 	 // Get camera node from SCNNode
 	var cameraNode : CameraNode! = nil
 	func addCameraNode(_ config:FwConfig) {
-		if cameraNode == nil || cameraNode!.parent == nil {
-			rootScn.find(name:"camera")?.removeFromParent()
-			cameraNode			= CameraNode()
-			cameraNode!.name	= "camera"
-			rootScn.addChildNode(cameraNode!)
-		}
-	}
 
-//	 /// Update camera formation, configuration, and pointing
-//	func reconfigCameraNode(_ config:FwConfig) {
-//	//	let camera : SCNNode	= rootScn.find(name:"camera") ?? {
-//	//		cameraNode			=  CameraNode(config4scene)
-//	//		rootScn.addChild(node:cameraNode)
-//	//	} ()
-//		cameraNode.configureCamera(config4scene)
-//	//	if let camera			= rootScn.find(name:"camera") {
-//	//		camera.removeFromParentNode()
-//	//	}
-//	//	cameraNode				=  CameraNode(config4scene)
-//	//	rootScn.addChild(node:cameraNode)
-//	}
+		 // Detect a Straggler
+		if let stragglerNode	= rootScn.find(name:"camera") {
+			let msg				= stragglerNode == cameraNode ? "" : " and no match to cameraNode"
+			warning("Who put this camera here? !!!" + msg)
+			stragglerNode.removeFromParentNode()
+		}
+		cameraNode				= CameraNode(config)
+		cameraNode.name			= "camera"
+		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+		rootScn.addChildNode(cameraNode!)
+		let x = rootScn.pp()
+	}
 	 // MARK: - 9.C Lights
 	func addLights() {
-		 // create and add a light to the scene:
-		func addLight(name:String, lightType:SCNLight.LightType, color:Any?=nil, position:SCNVector3?=nil, intensity:CGFloat=100) {
-			 // Detect a Straggler
-			let oldLight		= rootScn.find(name:name)
-			assert(oldLight == nil, "Who put this light here? !!!")
-			oldLight?.removeFromParentNode()
+		let _ 					= helper("light1",	.omni,	 position:SCNVector3(0, 0, 15))
+		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
+		let _ 					= helper("ambient2",.ambient,color:NSColor.white, intensity:500)				//blue//
+		let _ 					= helper("omni1",	.omni,	 color:NSColor.green, intensity:500)				//blue//
+//		let _ 					= helper("omni2",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
+//		let spot 				= helper("spot",	.spot,	 position:SCNVector3(1.5, 1.5, 1.5))
+//		 spot.light!.spotInnerAngle = 30.0
+//		 spot.light!.spotOuterAngle = 80.0
+//		 spot.light!.castsShadow = true
+//		 let constraint = SCNLookAtConstraint(target:nil)
+//		 constraint.isGimbalLockEnabled = true
+//		 cameraNode.constraints = [constraint]
+//		 spot.constraints = [constraint]
 
-			let newLight 		= SCNNode()
-			newLight.name		= name
-			newLight.light 		= SCNLight()
-			newLight.light!.type = lightType
+		func helper(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
+					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
+			 // Detect a Straggler
+			if let stragglerNode = rootScn.find(name:name) {
+				warning("Who put the node named '\(name)' here? !!!")
+				stragglerNode.removeFromParentNode()
+			}
+			let light			= SCNLight()
+			light.type 			= lightType
 			if let color		= color {
-				newLight.light!.color = color
+				light.color = color
 			}
-			newLight.light!.intensity = intensity
+
+			let rv 				= SCNNode()
+			rv.light			= light
+			rv.name				= name
+			light.intensity 	= intensity
 			if let position		= position {
-				newLight.position = position
+				rv.position 	= position
 			}
-			rootScn.addChildNode(newLight)
-			let x 				= newLight.pp(.tree)
+			rootScn.addChildNode(rv)											// rootScn.addChild(node:newLight)
+			return rv
 		}
-		addLight(name:"light1",  lightType:.omni, 	position:SCNVector3(0, 0, 15))
-		addLight(name:"ambient", lightType:.ambient,color:NSColor.darkGray)
-		addLight(name:"light4",  lightType:.ambient,color:NSColor.white, intensity:500)				//blue//
-		addLight(name:"light5",  lightType:.omni, 	color:NSColor.green, intensity:500)				//blue//
-		addLight(name:"light6",  lightType:.omni,	color:NSColor.red, 	 intensity:500)				//blue//
-//		addLight(name:"light7",  lightType:.ambient,color:NSColor.white, intensity:500)				//blue//
-	}																			 //		or autoenablesDefaultLighting = true?
-																				//	func updateLights() {
-																				//		 // ///// Light 4: Ambient white
-																				////		let light4 				= SCNNode()			//https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started
-																				////		light4.name				= "light4"
-																				////		light4.light 			= SCNLight()
-																				////		light4.light!.type 		= SCNLight.LightType.ambient
-																				////		light4.light!.color 	= NSColor.white//blue//
-																				////		light4.light!.intensity	= 500
-																				////		rootScn.addChildNode(light4)
-																				//
-																				//		 // ///// Light 5: Omni white
-																				//		let light5				= SCNNode()
-																				//		light5.name				= "light5"
-																				//		light5.light 			= SCNLight()
-																				//		light5.light!.type 		= SCNLight.LightType.omni
-																				//		light5.light!.color 	= NSColor.green//white
-																				//		light5.position 		= SCNVector3Make(0, 50, 50)
-																				//		light5.light!.intensity	= 500				// 1000 is nominal
-																				//		rootScn.addChildNode(light5)
-																				//
-																				//		 // ///// Light 6: Omni white
-																				//		let light6				= SCNNode()
-																				//		light6.name				= "light6"
-																				//		light6.light 			= SCNLight()
-																				//		light6.light!.type 		= SCNLight.LightType.omni
-																				//		light6.light!.color 	= NSColor.red//white
-																				//		light6.position 		= SCNVector3Make(0, -50, -50)
-																				//		light6.light!.intensity	= 100
-																				//		rootScn.addChildNode(light6)
-																				//									//let light = SCNLight()
-																				//									//light.type = SCNLightTypeSpot
-																				//									//light.spotInnerAngle = 30.0
-																				//									//light.spotOuterAngle = 80.0
-																				//									//light.castsShadow = true
-																				//									//let lightNode = SCNNode()
-																				//									//lightNode.light = light
-																				//									//lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
-																				//									//...
-																				//									//let constraint = SCNLookAtConstraint(target: cubeNode)
-																				//									//constraint.gimbalLockEnabled = true
-																				//									//cameraNode.constraints = [constraint]
-																				//									//lightNode.constraints = [constraint]
-																				//		  // ///////////////////////////////////////////////////////////////////
-																				//	}
-	 // MARK: - 9.D Pole
+	}
+	  // MARK: - 9.D Pole
 	 // ///// Rebuild the Rotator Pole afresh
 	func updatePole() {
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
@@ -625,7 +583,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add Camera, Light, and Pole
-		addLights()
+	//	addLights()
 		addCameraNode(config4scene)
 		
 		if config4scene.bool_("pole") {

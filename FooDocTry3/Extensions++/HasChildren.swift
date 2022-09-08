@@ -79,7 +79,6 @@ extension HasChildren {
 //	var fullName16 	: String	{		return fullName.field(16)				}
 }
 
-
  // MARK: Searching
 extension HasChildren {
 	typealias ValidationClosure<T> = (T) -> T?

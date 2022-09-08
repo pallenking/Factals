@@ -9,7 +9,6 @@ import SceneKit
 //j∆
 
 extension SCNNode /*: HasChildren */ {
-
 	typealias T = SCNNode
 	typealias TRoot = SCNNode
 																				//extension SCNNode : HasChildren  {
@@ -213,25 +212,24 @@ extension SCNNode /*: HasChildren */ {
 		let lastName			= name ?? "?"
 		return parentsFullName + "/" + lastName
 	}
-//	var deapth : Int 				{ return parent != nil ? parent!.deapth + 1 : 0}
 	  /// Add child node
 	 /// Semantic Sugar, to make SCNNode, Vew, and Part all use term children
 	/// - entries are unique
 	func addChild(node:SCNNode) {
-		if !children.contains(node) {		// no duplicates allowed
-			addChildNode(node)					// adds at end
-		}
+		guard !childNodes.contains(node) else { fatalError("no duplicates allowed")}
+		addChildNode(node)					// adds at end
 	}
 	func addChild(node:SCNNode, atIndex index:Int?=nil) {
+		guard !childNodes.contains(node) else { fatalError("no duplicates allowed")}
 		let ind					= index ?? children.count
 		insertChildNode(node, at:ind)
 	}
+
 	func removeAllChildren() {
 		for s in children {
 			s.removeFromParent()			// remove all child SCNs
 		}
 	}
-
 	func removeFromParent() {
 		removeFromParentNode()				// remove scn from parent
 	}
@@ -355,30 +353,32 @@ extension SCNNode /*: HasChildren */ {
 			 /// 5. SCNAudioPlayer Sound
 			for audioPlayer in audioPlayers {
 				rv				+= DOClog.obNindent(ob:audioPlayer) + " \\sound:"
-				rv 				=  DOClog.unIndent(previous:rv)					//+=
+				rv 				=  DOClog.unIndent(previous:rv) + "\n"
 			//	assert(audioPlayer.audioNode == self, "wtf audioPlayer")
 				let audioSource	= audioPlayer.audioSource
 				rv				+= "name:??\n"
 			}
 			if let light 		= light {
 				rv				+= DOClog.obNindent(ob:light) + " \\light:"
-				rv 				=  DOClog.unIndent(previous:rv)					//+=
+				rv 				=  DOClog.unIndent(previous:rv) + "\n"
 			}
 			if let camera 		= camera {
-				rv				+= DOClog.obNindent(ob:light) + " \\camera:"
-				rv 				=  DOClog.unIndent(previous:rv)
+				rv				+= DOClog.obNindent(ob:camera) + " \\camera:"
+				rv 				=  DOClog.unIndent(previous:rv) + "\n"
 			}
 
 			 /// 6. LAST print lower Parts, some are Ports
 			for child in children {	// !upInWorld? [children objectEnumerator]: [self.parts reverseObjectEnumerator]) {
-				DOClog.log("child:\(child.fullName)")
-				if child.name!.hasPrefix("tic") {
+		//		rv				+= "child:'\(child.fullName)' "
+//				DOClog.log("child:\(child.fullName)")
+				if child.name == nil || !child.name!.hasPrefix("tic") {	// Don't show pole tics
+//				if child.name!.hasPrefix("tic") {
 					rv			+= child.pp(.tree)
 				}
 			}
 			DOClog.nIndent		-= 1
 		default:
-/*bug?*/	rv					=  ppDefault(self:self, mode:mode, aux:aux)
+bug		//	rv					=  ppDefault(self:self, mode:mode, aux:aux)
 		}
 		return rv
 	}

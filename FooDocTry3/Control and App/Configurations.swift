@@ -78,7 +78,7 @@ private let params4docLog_		= params4logs_ + params4pp_
 
 	private let breakLogIdIndex		= 3//240/3/0:off
 								// + +  + +
-	private let breakLogEvNum		= 13
+	private let breakLogEvNum		= -12
 								// + +  + +
 	private let params4logs_	: FwConfig = [
 		"debugPreLog"		: true,		// Debug setting of logs before there is a Log ()
