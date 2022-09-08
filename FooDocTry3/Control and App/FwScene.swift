@@ -457,7 +457,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	///   - from: defines direction of camera
 	///   - message: for logging only
 	///   - duration: for animation
-	func updateCameraTransform(from:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) {
+	func updateCameraTransform(from:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) { //updateCameraRotator
 		let pole : SelfiePole	= from ?? lastSelfiePole
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
@@ -485,10 +485,17 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		assert(!newCameraXform.isNan, "newCameraXform is Not a Number")
 		assert(newCameraXform.at(3,3) == 1.0, "why?")	// Understand cameraXform.at(3,3). Is it 1.0? is it prudent to change it here
 
+				//		 // OLD WAY -- SORTA WORKS:  Transform root bbox into camera:
+				//		let bBox				= rootVew.bBox			// in world coords
+				//		let transform2eye		= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+				////		let x					= cameraNode.camera?.projectionTransform
+				//		let bBoxScreen			= bBox.transformed(by:transform2eye)
+				//		let bSize				= bBoxScreen.size
 
 		  // Determine magnification so all parts of the 3D object are seen.
 		 //
-		let rootVewBbInWorld	= rootVew.bBox			// in world coords
+print("\n\nDetermine magnification so all parts of the\n\n")
+		let rootVewBbInWorld	= BBox(size:3, 3, 3)//rootVew.bBox			// in world coords
 		let world2eye			= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
@@ -496,21 +503,22 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 					// Landscape window ------------------
 		var orientation			= "Landscape"
-		var orthoScale			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
+		var zoomSize			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
 		 // Is side going to be clipped off?
 		let ratioHigher			= nsRectSize.height / nsRectSize.width
 		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
-			orthoScale			*= ratioHigher
+			zoomSize			*= ratioHigher
 		}
 		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
 					// Portrait window ------------------
 			orientation			= "Portrait"
-			orthoScale			= rootVewSizeInEye.y
+			zoomSize			= rootVewSizeInEye.y
 			 // Is top going to be clipped off?
 			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
-				orthoScale		/= ratioHigher
+				zoomSize		/= ratioHigher
 			}
 		}
+
 		let vanishingPoint 		= config4scene.double("vanishingPoint")
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
@@ -518,9 +526,22 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			let x = rootNode.pp()
 			guard let cam		= cameraNode.camera else { fatalError("cameraNode.camera is nil") 	}
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
-			cam.orthographicScale = Double(orthoScale * pole.zoom * 0.75)
+			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
 		}
-		print(fmt("\(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", orthoScale, vanishingPoint ?? -.infinity))
+		print(fmt("\(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", zoomSize, vanishingPoint ?? -.infinity))
+				//
+				//		 // Set zoom per horiz/vert:
+				//		var zoomSize			= bSize.y	// default when height dominates
+				//		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
+				//		  vanishingPoint.isFinite {			// Perspective
+				//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
+				//		} 								// Orthographic
+				//		else if let cam			= cameraNode.camera {
+				//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
+				//			cam.usesOrthographicProjection = true		// camera’s magnification factor
+				//			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
+				////			cam.orthographicScale = Double(orthoScale * pole.zoom * 0.75)
+				//		}
 
 		if duration > 0.0,
 		  config4scene.bool("animatePan") ?? false
@@ -582,7 +603,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add Camera, Light, and Pole
-		addLights()
+		addLights()								// was updateLights
 		addCameraNode(config4scene)
 		
 		if config4scene.bool_("pole") {

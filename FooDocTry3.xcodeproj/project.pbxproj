@@ -290,7 +290,6 @@
 				9F3E49A728B27238003D450D /* NSEventReceiver.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
-				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
 				9F19CA31285EA5090072C50E /* Simulator.swift */,
 				9FEE51A1286B8F5B00C8C22A /* Log.swift */,
 				9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */,
@@ -308,6 +307,7 @@
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
 				9FEE51AB286BA57900C8C22A /* Library.swift */,
+				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
 				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 			);
 			path = "HaveNWant Networks";
