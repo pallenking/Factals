@@ -24,8 +24,6 @@ struct ContentView: View {
 	@StateObject var jetModel 		= JetModel()		// bric-à-brac Models
 	@StateObject var dragonModel	= DragonModel()
 
-	 // From PW: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
-
 	var body: some View {
 		HStack {
 			VStack {
@@ -54,7 +52,8 @@ struct ContentView: View {
 				//	 .background()//(NSColor("verylightgray")!)		// HELP
 				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 				}
-//				SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
+	 			 // From PW: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
+				// SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
 				HStack {
 					HStack {
 						Text("  Control:")

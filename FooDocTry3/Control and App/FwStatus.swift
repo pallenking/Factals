@@ -9,14 +9,14 @@ func printFwcState()  {		print(ppFwcState())									}
   /// Print System Components' Configuration:
  /// - Returns: Configuration of all Controllers, one per line
 func ppFwcConfig() -> String {
-	return						"""
+	return """
 		CONFIGURATIONS:
-		 DOClog       .config4log:  \(w( DOClog		 .config4log.pp(.line)	))
+		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
+		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
+		 fwScene      .config4scene:\(w( DOCfwScene.config4scene	.pp(.line)	))
 		 rootPart     .ansConfig:   \(w( DOCstate.rootPart.ansConfig.pp(.line)	))
-		 simulator    .config4sim:  \(w( DOCstate.rootPart.simulator.config4sim.pp(.line)	))
+		 simulator    .config4sim:  \(w( DOCstate.rootPart.simulator.config4sim.pp(.line) ))
 		"""
-//		 APPDEL       .config4app:  \(w( APPDEL?	 .config4app.pp(.line) ?? "(APPDEL==nil)"))
-//		 fwScene      .config4scene:\(w( DOC.fwScene?.config4scene.pp(.line) ?? "[:]"))
 }
 func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)		}
 
