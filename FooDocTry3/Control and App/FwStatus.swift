@@ -49,7 +49,7 @@ func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 	var rv						= ppUid(pre:" ", uid, showNil:true).field(-5) + " "
 	rv 							+= DOClog.indentString()
 	rv							+= fmt("%-12@", fwClassName_)
-	return DOClog.unIndent(previous:rv)
+	return DOClog.unIndent(rv)
 }
 
 // //// /  ///// /  ///// /  ///// /  ///// /  ///// /  ///// /  ///// /  /////
@@ -149,7 +149,7 @@ extension NSDocument/*FwDocument*/		: FwStatus	{						 /// FwDocument
 //				var rv = ""
 //				 // Inspectors:
 //				if self.inspecWin4vew.count > 0 {
-//					rv			+= DOClog.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
+//					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
 //					DOClog.nIndent += 1
 ////					self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
 //					for inspec in self.inspecWin4vew.keys {
@@ -186,7 +186,7 @@ extension NSDocument/*FwDocument*/		: FwStatus	{						 /// FwDocument
 //				var rv = ""
 //				 // Inspectors:
 //				if self.inspecWin4vew.count > 0 {
-//					rv			+= DOClog.obNindent(ob:self) + "Inspectors:\n"	// deapth:\(deapth)
+//					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
 //					DOClog.nIndent += 1
 ////					self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
 //					for inspec in self.inspecWin4vew.keys {

@@ -131,7 +131,7 @@ bug
 	}
 	 /// Returns the string " |" to END indentation
 	 // Consider using field()
-	func unIndent(previous:String) -> String {
+	func unIndent(_ previous:String) -> String {
 		let nUnIndent			= ppIndentCols/2 - nIndent
 		if nUnIndent > 0 {
 			return previous +  String(repeating: ". ", count:abs(nUnIndent))
@@ -141,7 +141,7 @@ bug
 		}
 	}
 	 /// e.g. " " + UID + " "
-	func obNindent(ob:Uid?) -> String {
+	func pidNindent(for ob:Uid?) -> String {
 		return ppUid(pre:" ", ob, post:"  ") + indentString()
 	}
 

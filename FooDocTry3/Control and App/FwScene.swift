@@ -299,7 +299,6 @@ bug
 		cameraNode.name			= "camera"
 		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 		rootScn.addChildNode(cameraNode!)
-		let x = rootScn.pp()
 	}
 	 // MARK: - 9.C Lights
 	func addLights() {
@@ -583,7 +582,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //		doc.fwView?.isPlaying	= true		// WTF??
 
 		 // 3. Add Camera, Light, and Pole
-	//	addLights()
+		addLights()
 		addCameraNode(config4scene)
 		
 		if config4scene.bool_("pole") {

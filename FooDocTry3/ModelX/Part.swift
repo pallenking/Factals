@@ -1430,8 +1430,8 @@ bug				 // Let fwPart handle it:
 	func ppCenterPart(_ aux:FwConfig) -> String {
 		var rv 			 		=  name.field(10) + ":"					// " net0:"
 		rv 						+= fwClassName.field(-6, dots:false)	// "Net "
-		rv 						=  root?.log.unIndent(previous:rv) ?? "___ "
-//		rv 						+= root?.log.unIndent(previous:rv) ?? "___ "
+		rv 						=  root?.log.unIndent(rv) ?? "___ "
+//		rv 						+= root?.log.unIndent(rv) ?? "___ "
 		rv						+= initialExpose.pp(.short, aux)		// "o"
 		rv						+= dirty.pp()
 //		rv						+= " s:\(spin)"

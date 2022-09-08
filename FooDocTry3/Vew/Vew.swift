@@ -739,7 +739,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				}
 															// /// SKINS:
 																	// UNIndent
-				rv 				=  log?.unIndent(previous:rv) ?? "Ccc.."  // (L)
+				rv 				=  log?.unIndent(rv) ?? "Ccc.."  // (L)
 
 				if ppViewOptions.contains("L") {					 // Leaf:
 					let s		= self as? NetVew

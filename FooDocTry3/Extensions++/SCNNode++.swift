@@ -307,9 +307,9 @@ extension SCNNode /*: HasChildren */ {
 		case .line:
 			//AaaBbbbbbCcccccccDdddddEeeeeeeeeeeeeeeeeeeeeeeeeFffGggggggggggggggggggggggggggggggggggggggggg
 			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
-			rv					= DOClog.obNindent(ob:self)	//			(AB)
+			rv					= DOClog.pidNindent(for:self)	//			(AB)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
-			rv 					= DOClog.unIndent(previous:rv)	// unindent	 (D)
+			rv 					= DOClog.unIndent(rv)	// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
 
 		case .tree:
@@ -322,14 +322,14 @@ extension SCNNode /*: HasChildren */ {
 				let pbStuff		= physicsBody == nil ? " \\" :
 								  " \\PB\(physicsBody!.isAffectedByGravity ? ":gra" : "")"
 				let pbs2		= pbStuff.field(-8, dots:false, fill:"_")
-				rv				+= DOClog.obNindent(ob:presentation) + pbs2
-				rv 				=  DOClog.unIndent(previous:rv)
+				rv				+= DOClog.pidNindent(for:presentation) + pbs2
+				rv 				=  DOClog.unIndent(rv)
 				rv				+= presentation.scn1Line(prefix:"", aux) + "\n"
 			}
 
 			 /// 3. SCNNode Constraints:
 			for constraint in constraints ?? [] {
-				rv				+= DOClog.obNindent(ob:constraint) + " \\"
+				rv				+= DOClog.pidNindent(for:constraint) + " \\"
 				DOClog.nIndent	+= 1
 				let nicknames	= ["SCNLookAtConstraint":"LookAt",
 								   "SCNBillboardConstraint":"Billboard"]
@@ -352,29 +352,27 @@ extension SCNNode /*: HasChildren */ {
 			}
 			 /// 5. SCNAudioPlayer Sound
 			for audioPlayer in audioPlayers {
-				rv				+= DOClog.obNindent(ob:audioPlayer) + " \\sound:"
-				rv 				=  DOClog.unIndent(previous:rv) + "\n"
+				rv				+= DOClog.pidNindent(for:audioPlayer) + " \\sound:"
+				rv 				=  DOClog.unIndent(rv) + "\n"
 			//	assert(audioPlayer.audioNode == self, "wtf audioPlayer")
 				let audioSource	= audioPlayer.audioSource
 				rv				+= "name:??\n"
 			}
-			if let light 		= light {
-				rv				+= DOClog.obNindent(ob:light) + " \\light:"
-				rv 				=  DOClog.unIndent(previous:rv) + "\n"
-			}
-			if let camera 		= camera {
-				rv				+= DOClog.obNindent(ob:camera) + " \\camera:"
-				rv 				=  DOClog.unIndent(previous:rv) + "\n"
-			}
+			 // Surpurflus info:
+			//if let light 		= light {
+			//	rv				+= DOClog.pidNindent(for:light) + " \\light:"
+			//	rv 				=  DOClog.unIndent(rv) + "\n"
+			//}
+			//if let camera 		= camera {
+			//	rv				+= DOClog.pidNindent(for:camera) + " \\camera:"
+			//	rv 				=  DOClog.unIndent(rv) + "\n"
+			//}
 
 			 /// 6. LAST print lower Parts, some are Ports
-			for child in children {	// !upInWorld? [children objectEnumerator]: [self.parts reverseObjectEnumerator]) {
-		//		rv				+= "child:'\(child.fullName)' "
-//				DOClog.log("child:\(child.fullName)")
-				if child.name == nil || !child.name!.hasPrefix("tic") {	// Don't show pole tics
-//				if child.name!.hasPrefix("tic") {
-					rv			+= child.pp(.tree)
-				}
+			for child in children {
+				guard child.name != nil else {  fatalError("scn with nil name")  }
+				rv				+= child.name! == "*-pole" ? child.pp(.line)+"\n" : child.pp(.tree)
+//				rv				+= child.pp(.tree)
 			}
 			DOClog.nIndent		-= 1
 		default:
