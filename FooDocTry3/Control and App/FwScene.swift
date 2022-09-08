@@ -45,6 +45,8 @@ enum FwNodeCategory : Int {
 class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
+	 // ///////// Part Tree:
+//	var rootPart : RootPart		{	rootVew.part as! RootPart					}
 	 // ///////// Vew Tree:
 	var rootVew  : Vew			= Vew(forPart:.null, scn:.null)	// Initially a dummy: no part, no scn
 	let rootVewLock 			= DispatchSemaphore(value:1)
@@ -64,8 +66,6 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		}
 		fatalError("trunkVew is nil")
 	}
-	 // ///////// Part Tree:
-	var rootPart : RootPart		{	rootVew.part as! RootPart					}
 	weak
 	 var fwView	 : FwView?		= nil
 
@@ -558,6 +558,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
+			let x = rootNode.pp()
 			guard let cam		= cameraNode.camera else { fatalError("cameraNode.camera is nil") 	}
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
 			cam.orthographicScale = Double(orthoScale * pole.zoom * 0.75)
