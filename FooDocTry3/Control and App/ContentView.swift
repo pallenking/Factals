@@ -48,11 +48,11 @@ struct ContentView: View {
 					 .allowsHitTesting(	true)
 					 .onAppear {
 						document.didLoadNib(to:self)							}
-					 .border(Color.black, width: 10)
+				//	 .border(Color.black, width: 10)
 				//	 .background()//(NSColor("verylightgray")!)		// HELP
 				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 				}
-	 			 // From PW: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
+	 			 // From Peter Wu: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
 				// SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
 				HStack {
 					HStack {

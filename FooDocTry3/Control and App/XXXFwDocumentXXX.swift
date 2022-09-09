@@ -267,7 +267,7 @@
 //		updateDocConfigs(from:rootPart.ansConfig)	// This time including fwScene
 //
 //				// Build Views:
-///*x*/	fwScene.updateVews(fromRootPart:rootPart, reason:"InstallRootPart")
+///*x*/	fwScene.updateVews(fromRootPart:rootPart, reason:"Install RootPart")
 //
 //		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:rootPart.title) ))
 //

@@ -520,7 +520,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let fwScene		= DOCfwSceneQ else {	return }
+		guard let fwScene		= DOCfwSceneQ else {	return 					}
 		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let vRoot				= self
 		assert(rootVew === vRoot, "rootVew === vRoot")

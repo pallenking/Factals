@@ -10,7 +10,6 @@ import SceneKit
 class CameraNode : SCNNode {		// CameraNode()
 
 	init(_ config:FwConfig) {										super.init()
-		
 		camera					= SCNCamera()
 		camera!.name			= "SCNCamera"
 		camera!.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
@@ -22,9 +21,9 @@ class CameraNode : SCNNode {		// CameraNode()
 														// NOOO	addChildNode(camera!)
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
-			var pole			= FwScene.SelfiePole()
+			var pole			= SelfiePole()
 			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-				pole.height = CGFloat(h)
+				pole.height 	= CGFloat(h)
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
 				pole.horizonUp	= -CGFloat(u)		/* in degrees */

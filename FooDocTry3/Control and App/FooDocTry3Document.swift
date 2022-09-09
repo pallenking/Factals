@@ -33,7 +33,7 @@ struct FooDocTry3Document: FileDocument, Uid {
 		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
 		let rootPart			= RootPart(fromLibrary:select)
 		 //			FwScene:
-		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
+		let fwScene				= FwScene(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
 		 //			DocState:
 		docState	 			= DocState(rootPart:rootPart, fwScene:fwScene)
 
@@ -41,7 +41,7 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 		updateDocConfigs(from:rootPart.ansConfig)
 		rootPart.wireAndGroom()
-	}
+	}											// next comes  didLoadNib(to
 	 // Document supplied
 	init(docState docState_:DocState) {
 		docState			= docState_			// given
@@ -118,37 +118,45 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 //.		atDoc(3, logg( "== == == == FwDocument.makeWindowControllers()"))
 //		super.makeWindowControllers()
 	}
-																				//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
-																				//bug;	atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
-																				////		assert(DOC! === self, "sanity check failed")
-																				////		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
-																				////		assert(DOCctlr.documents.contains(self), "self not in DOCctlr.documents!")
-																				//
-																				//		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
-																				//		 		// Link it in:
-																				//		assert(fwView != nil, "nib loaded, but fwView not set by IB")
-																				//		fwView!.delegate		= fwScene		// delegate
-																				//		fwView!.fwScene			= fwScene		// delegate		220815PAK: Needed only for rotator
-																				//bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (but who)
-																				//		//fwView!.autoenablesDefaultLighting = true
-																				//		//fwView!.allowsCameraControl = true
-																				//
-																				//		didLoadNib()
-																				//	}
-	func didLoadNib(to view:Any) {			// after init(state,...)
-		// view:Any is bogus													 // Spread configuration information
-																				//		updateDocConfigs(from:docState.rootPart.ansConfig)
-				// Build Vews after nib loading:
-/*x*/	docState.fwScene.installRootPart(docState.rootPart, reason:"InstallRootPart")
-
-		 // Generate Vew tree
-		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
-		docState.fwScene.rootVew = rVew				// INSTALL vew
-		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
-
+																//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
+																//bug;	atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
+																////		assert(DOC! === self, "sanity check failed")
+																////		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
+																////		assert(DOCctlr.documents.contains(self), "self not in DOCctlr.documents!")
+																//
+																//		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
+																//		 		// Link it in:
+																//		assert(fwView != nil, "nib loaded, but fwView not set by IB")
+																//		fwView!.delegate		= fwScene		// delegate
+																//		fwView!.fwScene			= fwScene		// delegate		220815PAK: Needed only for rotator
+																//bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (but who)
+																//		//fwView!.autoenablesDefaultLighting = true
+																//		//fwView!.allowsCameraControl = true
+																//
+																//		didLoadNib()
+																//	}
+																 // Spread configuration information
+																//		updateDocConfigs(from:docState.rootPart.ansConfig)
+	func didLoadNib(to view:Any) {
+																//	 // 1. 	LOCK					// PartTree
+																//	guard DOCrootPart.lock(partTreeAs:"didLoadNib") else {
+																//		fatalError("didLoadNib couldn't get PART lock")		// or
+																//	}		          				// VewTree
+																//	guard DOCfwScene .lock(rootVewAs:"didLoadNib") else {
+																//		fatalError("didLoadNib  couldn't get VIEW lock")
+																//	}
+				// Build Vews after View is loaded:
+/*x*/	docState.fwScene.updateVewNScnFromModel()
+																//	// 6. UNLOCK PartTree and VewTree:
+																//	DOCfwScene .unlock( rootVewAs:"didLoadNib")
+																//	DOCrootPart.unlock(partTreeAs:"didLoadNib")
+																//		 // Generate Vew tree
+																//		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
+																//		docState.fwScene.rootVew = rVew				// INSTALL vew
+																//		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
 		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:docState.rootPart.title) ))
-																				// displayName				= state.rootPart.title
-		makeInspectors()														// window0?.title			= displayName									//makeInspectors()
+																// displayName	= state.rootPart.title
+		makeInspectors()										// window0?.title= displayName									//makeInspectors()
 
 				// Start Up Simulation:
 		docState.rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works

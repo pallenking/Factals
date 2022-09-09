@@ -878,14 +878,14 @@ bug
 	// MARK: - 9.0 make a Vew for Part
 	 /// Make a new Vew for self, and add it to parentVew
 	func addNewVew(in parentVew:Vew?) -> Vew? {
-		let v					= VewForSelf()//Vew(forPart:self)
+		let v					= VewForSelf()
 		v!.name					= "_" + name			// UNNEEDED
 		parentVew?.addChild(v)
 		return v
 	}
 	func VewForSelf() -> Vew? 	{		return Vew(forPart:self)				}
 
-	 // MARK: - 9.1 reVew
+	  // MARK: - 9.1 reVew
 	 /// Ensure Vew has proper child Vew's
 	/// - Parameter vew_: 	------ Possible Vew of self
 	/// - Parameter pVew:   ------ Possible Vew of parent

@@ -53,6 +53,7 @@
 		9F3E4A0B28B7A7C4003D450D /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* Gestures.swift */; };
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
 		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
+		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
 		9F6822F728C9163D00ACB9F0 /* FwSceneAsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* FwSceneAsSwiftUIView.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
@@ -149,6 +150,7 @@
 		9F3E49BC28B2DABB003D450D /* CameraNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraNode.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
 		9F4A3AD9288B386300574925 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
+		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
 		9F6822F628C9163D00ACB9F0 /* FwSceneAsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwSceneAsSwiftUIView.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9FA1BA5A2881950000B14D60 /* Bogus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bogus.swift; sourceTree = "<group>"; };
@@ -284,8 +286,10 @@
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
 				9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9FEE521628720A2300C8C22A /* FwScene.swift */,
 				9F6822F628C9163D00ACB9F0 /* FwSceneAsSwiftUIView.swift */,
+				9FEE521628720A2300C8C22A /* FwScene.swift */,
+				9F3E49BC28B2DABB003D450D /* CameraNode.swift */,
+				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295D02880921800DD0004 /* FwView.swift */,
 				9F3E49A728B27238003D450D /* NSEventReceiver.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
@@ -370,7 +374,6 @@
 				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9F969540288B4E8800106DBC /* SwiftUI++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
-				9F3E49BC28B2DABB003D450D /* CameraNode.swift */,
 				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
 				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
 				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
@@ -490,6 +493,7 @@
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
 				9F4A3ADB288B396800574925 /* Fw++.swift in Sources */,
 				9F190121288090240078DB6C /* LinkVew.swift in Sources */,
+				9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */,
 				9F1900FB28808DC10078DB6C /* Previous.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
 				9F1900E628808DA80078DB6C /* EnumTypesFoo.swift in Sources */,

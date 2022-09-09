@@ -361,7 +361,7 @@ bug
 	static let shortNames		= [
 		 // Name in code			/// Name returned / printed
 		"buildSceneMenus"				: "men",
-		"InstallRootPart"				: "ins",
+		"updateVewNScn"					: "ins",
 		"scheneAction"					: "sa ",
 		"buildVew"						: "bv ",	 // Short Thread Name
 		"renderLoop"					: "ren",

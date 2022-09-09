@@ -46,9 +46,9 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 
 	  // MARK: - 2. Object Variables:
 	 // ///////// Part Tree:
-//	var rootPart : RootPart		{	rootVew.part as! RootPart					}
-	 // ///////// Vew Tree:
-	var rootVew  : Vew			= Vew(forPart:.null, scn:.null)	// Initially a dummy: no part, no scn
+	var rootPart : RootPart														//{	rootVew.part as! RootPart}
+	 // ///////// Vew Tree
+	var rootVew  : Vew				//			= .null
 	let rootVewLock 			= DispatchSemaphore(value:1)
 	var rootVewOwner : String?	= nil
 	var rootVewOwnerPrev:String? = nil
@@ -59,7 +59,8 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 	}
 
 	 // ///////// SCNNode Tree:
-	var rootScn  : SCNNode	{	return rootNode									}	//scnRoot
+	var rootScn  : SCNNode		= SCNNode()
+//	var rootScn  : SCNNode	{	return rootNode									}	//scnRoot
 	var trunkScn : SCNNode? {
 		if let tv				= trunkVew  {
 			return tv.scn
@@ -109,10 +110,14 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 	}
 
 	 // MARK: - 3. Factory
-	init(fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
+	init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
+		self.rootPart			= rootPart ?? {		fatalError()	}()
+		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
+//		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
+							
 		super.init()
 
-		config4scene		= fwConfig
+		config4scene			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
 		// TO DO:
@@ -130,14 +135,15 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		//GDPerformanceMonitor.sharedInstance.startMonitoring()
 
 		 //190707: This HANGS on 2'nd time	//cocoahead 2:
-		//fwView?.background		= NSColor("veryLightGray")!
+		//fwView?.background	= NSColor("veryLightGray")!
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
-	init?(named name:String) {
-		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
+	init?(rootPart:RootPart, named name:String) {
+		self.rootPart			= rootPart
+		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
 
 		//	Must call a designated initializer of the superclass 'SCNScene'
-// 1.	super.init(named:name) //, inDirectory:"", options:[:])
+// 1.	super.init(named:name) //, inDirectory:"", options:[:])					// PW
 						//		let y  							= SCNScene(named:name)!
 						//		let w0 							= y.scene
 						//		let w1 							= y.sceneSource
@@ -148,11 +154,13 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 						//		let w5 : SCNMaterialProperty	= y.background
 						//		let w6 							= y.environment
 						//		let w7 							= y.userAttributes
+		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
 // 2.	do { try super.init(url:url!)											}
 //		catch { fatalError()													}
 
     	super.init()
 		let options 			= [SCNSceneSource.LoadingOption : Any]()
+
 		let sceneSource			= SCNSceneSource(url:url!, options:options)!
 		let node				= sceneSource.entryWithIdentifier("ship.scn", withClass: SCNNode.self)!
 
@@ -287,7 +295,7 @@ bug
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
 	var cameraNode : CameraNode! = nil
-	func addCameraNode(_ config:FwConfig) {
+	func updateCamerasScn(_ config:FwConfig) {
 
 		 // Detect a Straggler
 		if let stragglerNode	= rootScn.find(name:"camera") {
@@ -301,12 +309,12 @@ bug
 		rootScn.addChildNode(cameraNode!)
 	}
 	 // MARK: - 9.C Lights
-	func addLights() {
-		let _ 					= helper("light1",	.omni,	 position:SCNVector3(0, 0, 15))
+	func updateLightsScn() {
+		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
 		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
 		let _ 					= helper("ambient2",.ambient,color:NSColor.white, intensity:500)				//blue//
-		let _ 					= helper("omni1",	.omni,	 color:NSColor.green, intensity:500)				//blue//
-//		let _ 					= helper("omni2",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
+		let _ 					= helper("omni2",	.omni,	 color:NSColor.green, intensity:500)				//blue//
+//		let _ 					= helper("omni3",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
 //		let spot 				= helper("spot",	.spot,	 position:SCNVector3(1.5, 1.5, 1.5))
 //		 spot.light!.spotInnerAngle = 30.0
 //		 spot.light!.spotOuterAngle = 80.0
@@ -342,24 +350,32 @@ bug
 	}
 	  // MARK: - 9.D Pole
 	 // ///// Rebuild the Rotator Pole afresh
-	func updatePole() {
+	func updatePoleScn() {			// was updatePole()
+		guard config4scene.bool_("pole") else {	return							}
+
+		let name				= "*-pole"
+		 // Detect a Straggler
+		if let stragglerNode = rootScn.find(name:name) {
+			warning("Who put the node named '\(name)' here? !!!")
+			stragglerNode.removeFromParentNode()
+		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		pole					= SCNNode()				// New pole
 		pole.categoryBitMask	= FwNodeCategory.adornment.rawValue
 		rootScn.addChild(node:pole)
-		pole.name				= "*-pole"
+		pole.name				= name
 
 		 // X/Z Poles (thinner)
 		let r : CGFloat			= 0.03
 		for i in 0..<2 {
 			let arm 			= SCNNode(geometry:SCNCylinder(radius:r, height:axesLen.x))
 			arm.categoryBitMask = FwNodeCategory.adornment.rawValue
-			pole.addChild(node:arm)
 			arm.transform		= SCNMatrix4Rotate(SCNMatrix4.identity, CGFloat.pi/2,
 								(i == 0 ? 1 : 0), 0, (i == 1 ? 1 : 0)  )
 			arm.name			= "s-Cyl\(i)"
 			arm.color0			= .lightGray
 			arm.color0(emission:systemColor)
+			pole.addChild(node:arm)
 
 			let nTics			= [axesLen.x, axesLen.z][i]
 			addTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
@@ -367,31 +383,31 @@ bug
 		 // Y Pole (thicker) 
 		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
 		upPole.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		pole.addChild(node:upPole)
 		upPole.position.y		+= axesLen.y / 2
 		upPole.name				= "s-CylT"
 		upPole.color0			= .lightGray
 		upPole.color0(emission:systemColor)
 		addTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
+		pole.addChild(node:upPole)
 
 
 		 // Experimental label
 		let geom				= SCNText(string:"Origin", extrusionDepth:1)
 		geom.containerFrame		= CGRect(x:-0.5, y:-0.5, width:1, height:1)
 		let label		 		= SCNNode(geometry:geom)
-		pole.addChild(node:label)
 		label.name				= "Origin"
 		label.color0			= .black
 		label.color0(emission:systemColor)
+		pole.addChild(node:label)
 
 
 		 // Origin Node is a pyramid
 		let origin		 		= SCNNode(geometry:SCNSphere(radius:r*4))
 		origin.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		pole.addChild(node:origin)
 		origin.name				= "s-Pyr"
 		origin.color0			= .black
 		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
+		pole.addChild(node:origin)
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
 		if config4scene.bool("poleTics") ?? false {
@@ -436,20 +452,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	var lookAtPart : Part? 		= nil
 	var lookAtVew  : Vew?		= nil
 	 // MARK: - 9.C Mouse Rotator
-	 // Uses Cylindrical Coordinates
-	struct SelfiePole {
-		var height		: CGFloat = 0
-		var spin  		: CGFloat = 0					// in degrees
-		var horizonUp	: CGFloat = 0					// in degrees
-		var zoom		: CGFloat = 1.0
-		var uid			: UInt16  = randomUid()
-//		init() {
-//			height				= 0
-//			spin				= 0					// in degrees
-//			horizonUp		= 0					// in degrees
-//			zoom				= 1.0
-//		}
-	}
 	var lastSelfiePole = SelfiePole()						// init to default
 
 	/// Compute Camera Transform from pole config
@@ -470,7 +472,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		 //  ---- translated above Point of Interest by cameraPoleHeight
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		let lookAtWorldPosn		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
-		 assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
+		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 		let lap 				= lookAtWorldPosn
 		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+pole.height, lap.z)
 
@@ -494,8 +496,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		  // Determine magnification so all parts of the 3D object are seen.
 		 //
-print("\n\nDetermine magnification so all parts of the\n\n")
-		let rootVewBbInWorld	= BBox(size:3, 3, 3)//rootVew.bBox			// in world coords
+		print("\n\nDetermine magnification so all parts fit on screen\n\n")
+		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
 		let world2eye			= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
@@ -570,47 +572,30 @@ print("\n\nDetermine magnification so all parts of the\n\n")
 		}
 	}
 
-	 /// Build Vew tree from Part tree
+	 /// Build Vew and SCN tree from Part tree
 	/// - Parameters:
-	///   - rootPart: -- base of model
 	///   - lockStr: -- if non-nil, get this lock
-	func installRootPart(_ rootPart:RootPart, reason lockStr:String?=nil) { 	// Make the  _VIEW_  from Experiment
+	func updateVewNScnFromModel() { 	// Make the  _VIEW_  from Experiment
 
-		 // 1. Get LOCKS for PartTree
-		guard DOCrootPart.lock(partTreeAs:lockStr) else {
-			fatalError("\(lockStr ?? "-") couldn't get PART lock")		// or
-		}// 2.           and VewTree
-		guard lock(rootVewAs:lockStr) else {
-			fatalError("\(lockStr ?? "-") couldn't get VIEW lock")
+		// At Entry: RootPart is correctly installed
+		//			 No
+
+	//	assert(rootVew			!= nil,		"Paranoid check of rootVew 2")
+		assert(rootVew.name 	== "_ROOT", "Paranoid check of rootVew 2")
+		assert(rootVew.part		== rootPart,"Paranoid check of rootVew 3")
+		assert(rootVew.part.name == "ROOT", "Paranoid check of rootVew 4")
+		assert(rootVew.scn 		== rootScn, "Paranoid check of rootVew 5")
+		assert(rootScn.name		== "*-ROOT","Paranoid check of rootVew 6")
+
+		 // 1. 	GET LOCKS				// PartTree
+		guard DOCrootPart.lock(partTreeAs:"didLoadNib") else {
+			fatalError("didLoadNib couldn't get PART lock")		// or
+		}		          				// VewTree
+		guard DOCfwScene .lock(rootVewAs:"didLoadNib") else {
+			fatalError("didLoadNib  couldn't get VIEW lock")
 		}
-			
-		// --------- Link rootVew and rootScn to rootPart
-											// // --------- Link rootVew and rootScn to rootPart
-											// func checkIt<T : Equatable >(_ tIs:inout T, _ tGood:T) {
-											// 	if tIs != tGood {
-											// 		print("--- Found \(tIs):\(T.self), should be \(tGood):\(T.self)")
-											// 		tIs = tGood
-											// 	}
-											// }		// current:			// correct:
-		rootVew.name		 	= "_ROOT"	// checkIt(&rootVew.name, 		"_ROOT")
-		rootVew.part			= rootPart	// checkIt(&rootVew.part, 		rootPart)
-		rootVew.part.name		= "ROOT"	// checkIt(&rootVew.part.name,	"ROOT")			// matches
-		rootVew.scn				= rootScn	// checkIt(&rootVew.scn, 		rootScn)
-		rootScn.name			= "*-ROOT"	// checkIt(&rootScn.name, 		"*-ROOT")
-
-//		doc.fwView?.showsStatistics = true	// MUST BE HERE, DOESN'T WORK in FwView
-//		doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
-//		doc.fwView?.isPlaying	= true		// WTF??
-
-		 // 3. Add Camera, Light, and Pole
-		addLights()								// was updateLights
-		addCameraNode(config4scene)
-		
-		if config4scene.bool_("pole") {
-			updatePole()
-		}
-
-		 // 4. Look At Node:
+																				// doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
+		 // 2. Set LookAtNode's position
 		if let lookAtPart		= lookAtPart ?? DOCrootPartQ {
 			lookAtVew 			= rootVew.find(part:lookAtPart, inMe2:true)
 		}
@@ -618,15 +603,19 @@ print("\n\nDetermine magnification so all parts of the\n\n")
 		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
 
-		updateCameraTransform(for:"installRootPart")
+		 // 3. Update Vew Tree
+/**/	rootVew.updateVewSizePaint(needsViewLock:nil)		// rootPart -> rootView, rootScn
 
-		 // 4. Update Vew Tree
-/**/	rootVew.updateVewSizePaint(needsViewLock:nil)
-		atRve(6, logd("updateVewSizePaint(needsViewLock:) completed"))
+		 // 4. Add Camera, Light, and Pole at end
+		updateLightsScn()							// was updateLights
+		updateCamerasScn(config4scene)
+		updatePoleScn()
+
+		updateCameraTransform(for:"install RootPart")
 
 		// 6. UNLOCK PartTree and VewTree:
-		unlock(              rootVewAs:lockStr)
-		DOCrootPart.unlock(partTreeAs:lockStr)
+		DOCfwScene .unlock( rootVewAs:"didLoadNib")
+		DOCrootPart.unlock(partTreeAs:"didLoadNib")
 	}
 
 	 // MARK: - 9.E Physics Contact Protocol
@@ -713,10 +702,11 @@ print("\n\nDetermine magnification so all parts of the\n\n")
 		case .scrollWheel: nop
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			let scene			= DOCfwScene
-			scene.lastSelfiePole.zoom *= delta
-			print("receivedEvent(type:.scrollWheel) found pole\(scene.lastSelfiePole.uid).zoom = \(scene.lastSelfiePole.zoom)")
-			scene.updateCameraTransform(for:"Scroll Wheel")
+			lastSelfiePole.zoom *= delta
+//			let scene			= DOCfwScene
+//			scene.lastSelfiePole.zoom *= delta
+			print("receivedEvent(type:.scrollWheel) found pole\(lastSelfiePole.uid).zoom = \(lastSelfiePole.zoom)")
+			updateCameraTransform(for:"Scroll Wheel")
 		 //  ====== RIGHT MOUSE ======			Right Mouse not used
 
 		//case 8:	// override func touchesBegan(with event:NSEvent) {
@@ -918,7 +908,8 @@ print("\n\nDetermine magnification so all parts of the\n\n")
 				let sortedHits	= hits.sorted { (a : SCNHitTestResult, b : SCNHitTestResult)  in
 					a.node.position.z > b.node.position.z
 				}
-				pickedScn		= sortedHits[0].node // pic node with lowest deapth
+				let hit			= sortedHits[0]
+				pickedScn		= hit.node // pic node with lowest deapth
 				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
 
 				 // If Node not picable,

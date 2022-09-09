@@ -28,10 +28,23 @@ class FwView : SCNView, SCNSceneRendererDelegate {
 		super.init(frame:frame, options:options) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		atCon(6, logd("initXXX:        FwView/\(ppUid(self)):()"))		// <\(pp(.uidClass))>
 
-//		showsStatistics 		= true			// doesn't work here
-//		window!.backgroundColor = NSColor.yellow// doesn't work here // cocoahead x: only frame
+		showsStatistics 		= true			// doesn't work here
 		isPlaying/*animations*/	= true			// works here?
-
+		debugOptions = [
+			SCNDebugOptions.showBoundingBoxes,	//Display the bounding boxes for any nodes with content.
+			SCNDebugOptions.showWireframe,		//Display geometries in the scene with wireframe rendering.
+			SCNDebugOptions.renderAsWireframe,	//Display only wireframe placeholders for geometries in the scene.
+			SCNDebugOptions.showSkeletons,		//Display visualizations of the skeletal animation parameters for relevant geometries.
+			SCNDebugOptions.showCreases,		//Display nonsmoothed crease regions for geometries affected by surface subdivision.
+			SCNDebugOptions.showConstraints,	//Display visualizations of the constraint objects acting on nodes in the scene.
+				// Cameras and Lighting
+			SCNDebugOptions.showCameras,		//Display visualizations for nodes in the scene with attached cameras and their fields of view.
+			SCNDebugOptions.showLightInfluences,//Display the locations of each SCNLight object in the scene.
+			SCNDebugOptions.showLightExtents,	//Display the regions affected by each SCNLight object in the scene.
+				// Debugging Physicsfa
+			SCNDebugOptions.showPhysicsShapes,	//Display the physics shapes for any nodes with attached SCNPhysicsBody objects.
+			SCNDebugOptions.showPhysicsFields,	//Display the regions affected by each SCNPhysicsField object in the scene.
+		]
 		allowsCameraControl 	= false			// dare to turn it on?
 		autoenablesDefaultLighting = false		// dare to turn it on?
 	}
@@ -59,56 +72,38 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 	
 	
 	
-	//
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////
-
-	// SCNSceneRenderer SCNDebugOptions
-	//https://iosdevelopers.slack.com/archives/CKA5E2RRC/p1608840518199300?thread_ts=1608775058.167600&cid=CKA5E2RRC
-//	enum SCNSceneRendererMode { case OFF, onMainThread}	//, normal
-//	var scnSceneRendererMode : SCNSceneRendererMode = .OFF
-//	var logRenderDelegate		= false		//false//true
-//	// Running on CVDisplayLink(8) Queue:
-//	//	com.apple.scenekit.renderingQueue.SwiftFactals.FwView0x7fe3c00067a0 (serial)
-//	func dispatchSomewhere(_ closure:DispatchWorkItem) {
-//		switch scnSceneRendererMode {
-//		case .OFF:	nop
-//		case .onMainThread: DispatchQueue.main.async(execute: closure)
-//		}
-//	}
+  // called by SCNSceneRenderer,  SCNDebugOptions
 
 	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
-//		DispatchQueue.main.async {
-//			r.isPlaying			= true
-//			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-//			self.fwScene!.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
-//		}
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+			DOCfwScene.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
+		}
 	}
 	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-//		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-//			let fws				= self.fwScene!
-//			fws.rootPart.computeLinkForces(vew:fws.rootVew)
-//		}
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+			DOCrootPart.computeLinkForces(vew:DOCfwScene.rootVew)
+		}
 	}
 	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-//		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-//			let fws				= self.fwScene!
-//			fws.rootPart.applyLinkForces(vew:fws.rootVew)
-//		}
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+			DOCrootPart.applyLinkForces(vew:DOCfwScene.rootVew)
+		}
 	}
 	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
 	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
-//		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-//			let fws				= self.fwScene!
-//			fws.rootPart.rotateLinkSkins(vew:fws.rootVew)
-//		}
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+			DOCrootPart.rotateLinkSkins(vew:DOCfwScene.rootVew)
+		}
 	}
 	   // ODD Timing:
 	  // MARK: - 9.5.@: did Render Scene

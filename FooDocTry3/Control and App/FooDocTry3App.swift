@@ -232,9 +232,6 @@ bug;	let rv					= NSMenu(title:path)
 		//coreDataStack.viewContext.automaticallyMergesChangesFromParent = true
 			//https://www.alfianlosari.com/posts/building-expense-tracker-ios-macos-app-with-coredata-cloudkit-syncing/
 
-		//MyDocumentController.init()
-//		fwScene.scnRoot.showsStatistics = true	// (Banana.AAPLAppDelegate)
-
 		 // Add entry on system's menu bar: (DOESN'T WORK)
 		let systemMenuBar 		= NSStatusBar.system
 		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)

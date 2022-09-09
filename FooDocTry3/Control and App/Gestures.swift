@@ -56,7 +56,7 @@ class XXXX_StuffToSave {
 		let delta				= v.location - v.startLocation
 	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 
-		var newPole : FwScene.SelfiePole = fwScene.lastSelfiePole
+		var newPole:SelfiePole	= fwScene.lastSelfiePole
 		newPole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 		newPole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
 		fwScene.updateCameraTransform(from:newPole, for:"dragGesture")
