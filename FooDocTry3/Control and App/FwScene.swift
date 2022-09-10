@@ -138,40 +138,26 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		//fwView?.background	= NSColor("veryLightGray")!
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
-	init?(rootPart:RootPart, named name:String) {
+	init(scene: SCNScene) {
+		rootPart				= DOCrootPart
+		rootVew					= Vew(forPart:rootPart, scn:rootScn)
+		super.init()
+		scene
+		
+	}
+	init?(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
 		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
 		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
 
-		 // 1. ERROR: Must call a designated initializer of the superclass 'SCNScene' // PW:
-	//	super.init(named:name) //, inDirectory:"", options:[:])
-
-		 // 2. ERROR: Must call a designated initializer of the superclass 'SCNScene'
-	//	do { try super.init(url:url!)											}
-	//	catch { fatalError()													}
-
-    	super.init()
-
+		super.init()
+		
 		 // 3. Copy from SCNScene(named:name)
-		let y  					= SCNScene(named:name)!
-	//	 // 3a. ERROR: Getter Only
-	//	background				= y.background
-	//	physicsWorld 			= y.physicsWorld
-		  physicsWorld.gravity	=   y.physicsWorld.gravity	// plus dozens of others
-	//	rootNode				= y.rootNode
-	//	 // 3b. ERROR: 'SCNScene' has no such member
-	//	y.sceneSource
-	//	y.layerRootNode
-	//	y.environment
-	//	y.userAttributes
-	//	 // 3c. Static member 'scene' cannot be used on instance
-	//	y.scene
-
-		 // 4. load source
-		let options 			= [SCNSceneSource.LoadingOption : Any]()
-		let sceneSource			= SCNSceneSource(url:url!, options:options)!
-		let node				= sceneSource.entryWithIdentifier("ship.scn", withClass: SCNNode.self)!
+		if let y  					= scene {
+			physicsWorld.gravity	= y.physicsWorld.gravity	// plus dozens of others
+		}
 	}
+	
 	init(modelNamed:String, daeNamed:String){
 		let url					= Bundle.main.url(forResource:"ship", withExtension: "scn", subdirectory: "art.scnassets")
 		let sceneSource 		= SCNSceneSource(url:url!, options: nil)!

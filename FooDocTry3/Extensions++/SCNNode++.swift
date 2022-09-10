@@ -359,19 +359,20 @@ extension SCNNode /*: HasChildren */ {
 				rv				+= "name:??\n"
 			}
 			 // Surpurflus info:
-			//if let light 		= light {
-			//	rv				+= DOClog.pidNindent(for:light) + " \\light:"
-			//	rv 				=  DOClog.unIndent(rv) + "\n"
-			//}
-			//if let camera 		= camera {
-			//	rv				+= DOClog.pidNindent(for:camera) + " \\camera:"
-			//	rv 				=  DOClog.unIndent(rv) + "\n"
-			//}
+			if let light 		= light {
+				rv				+= DOClog.pidNindent(for:light) + " \\light:"
+				rv 				=  DOClog.unIndent(rv) + "\n"
+			}
+			if let camera 		= camera {
+				rv				+= DOClog.pidNindent(for:camera) + " \\camera:"
+				rv 				=  DOClog.unIndent(rv) + "\n"
+			}
 
 			 /// 6. LAST print lower Parts, some are Ports
 			for child in children {
 				guard child.name != nil else {  fatalError("scn with nil name")  }
 				rv				+= child.name! == "*-pole" ? child.pp(.line)+"\n" : child.pp(.tree)
+	//			rv				+= child.name! == "*-pole" ? child.pp(.line)+"\n" : child.pp(.tree)
 //				rv				+= child.pp(.tree)
 			}
 			DOClog.nIndent		-= 1

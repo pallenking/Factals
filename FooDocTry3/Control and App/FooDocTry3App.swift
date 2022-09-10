@@ -5,6 +5,11 @@
 //  Created by Allen King on 5/18/22.
 //	20220822PAK: Imported and Funged from:  AppDelegate.swift -- for SwiftFactals  C2018PAK
 //
+/*
+state object
+add to environment
+ */
+
 
 import Cocoa
 import SwiftUI
@@ -88,7 +93,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 	};private var regressScene_ = 0
 
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
-	var library 				= Library("AppsLib")
+	var library 				= Library("APP's Library")
 
 	 // MARK: - 3. Factory
 

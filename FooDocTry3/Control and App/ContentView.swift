@@ -88,14 +88,14 @@ struct ContentView: View {
 				Spacer()
 			}
 			VStack {
-//				FwSceneAsSwiftUIView(args:FwViewsArgs( 	//SceneView(
-//					fwScene		: jetModel.scene as! FwScene,
-//					pointOfView	: nil,//jetModel.scene.cameraNode,
-//					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
-//					preferredFramesPerSecond : 30,
-//					antialiasingMode : .none, delegate:nil
-//				))
-//				 .frame(width:200, height:200)
+				FwSceneAsSwiftUIView(args:FwViewsArgs( 	//SceneView(
+					fwScene		: FwScene(scene:jetModel.scene),
+					pointOfView	: nil,//jetModel.scene.cameraNode,
+					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
+					preferredFramesPerSecond : 30,
+					antialiasingMode : .none, delegate:nil
+				))
+				 .frame(width:200, height:200)
 				SceneView(
 					scene	   : dragonModel.scene,
 					pointOfView: nil,//dragonModel.scene.cameraNode,
