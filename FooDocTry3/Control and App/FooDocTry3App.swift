@@ -53,7 +53,9 @@ var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
 
 @main
-struct FooDocTry3App: App, Uid {
+struct FooDocTry3App: App, Uid, FwAny {
+	var fwClassName: String		= "FooDocTry3App"
+	
 	var uid: UInt16				= randomUid()
 
 	var body: some Scene {
@@ -306,6 +308,25 @@ bug;	let rv					= NSMenu(title:path)
 
 		doc.makeWindowControllers()
 		doc.registerWithDocController()	// a new DOc must be registered
+	}
+	 // MARK: - 15. PrettyPrint
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
+		switch mode {
+		case .tree:
+			var rv = ""
+//			for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
+//				rv				+= "\(msg) =       \(obj.categoryBitMask)-"
+//				rv				+= "\(obj.description.shortenStringDescribing())\n"
+//			}
+	//		let c = lastSelfiePole
+	//		rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
+	//				c.spin, c.horizonUp, c.zoom) // in degrees
+			return rv
+		default:
+			return ppDefault(self:self, mode:mode, aux:aux)
+		}
+//		return "FwScene: scnTrunk:'\(scnRoot.name ?? "<unnamed>")',  trunkVew:'\(trunkVew?.name ?? "<unnamed>")'"
+//		return "FwScene: scnRoot=\(scnRoot.name ?? "<unnamed>")"
 	}
 
 	 // MARK: - 17. Debugging Aids

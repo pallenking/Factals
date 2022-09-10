@@ -141,47 +141,52 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 	init?(rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
 		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
-
-		//	Must call a designated initializer of the superclass 'SCNScene'
-// 1.	super.init(named:name) //, inDirectory:"", options:[:])					// PW
-						//		let y  							= SCNScene(named:name)!
-						//		let w0 							= y.scene
-						//		let w1 							= y.sceneSource
-						//		let w2 : SCNPhysicsWorld		= y.physicsWorld
-						//		self.physicsWorld				= w2
-						//		let w3 : SCNNode				= y.rootNode
-						//		let w4 							= y.layerRootNode
-						//		let w5 : SCNMaterialProperty	= y.background
-						//		let w6 							= y.environment
-						//		let w7 							= y.userAttributes
 		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
-// 2.	do { try super.init(url:url!)											}
-//		catch { fatalError()													}
+
+		 // 1. ERROR: Must call a designated initializer of the superclass 'SCNScene' // PW:
+	//	super.init(named:name) //, inDirectory:"", options:[:])
+
+		 // 2. ERROR: Must call a designated initializer of the superclass 'SCNScene'
+	//	do { try super.init(url:url!)											}
+	//	catch { fatalError()													}
 
     	super.init()
-		let options 			= [SCNSceneSource.LoadingOption : Any]()
 
+		 // 3. Copy from SCNScene(named:name)
+		let y  					= SCNScene(named:name)!
+	//	 // 3a. ERROR: Getter Only
+	//	background				= y.background
+	//	physicsWorld 			= y.physicsWorld
+		  physicsWorld.gravity	=   y.physicsWorld.gravity	// plus dozens of others
+	//	rootNode				= y.rootNode
+	//	 // 3b. ERROR: 'SCNScene' has no such member
+	//	y.sceneSource
+	//	y.layerRootNode
+	//	y.environment
+	//	y.userAttributes
+	//	 // 3c. Static member 'scene' cannot be used on instance
+	//	y.scene
+
+		 // 4. load source
+		let options 			= [SCNSceneSource.LoadingOption : Any]()
 		let sceneSource			= SCNSceneSource(url:url!, options:options)!
 		let node				= sceneSource.entryWithIdentifier("ship.scn", withClass: SCNNode.self)!
-
+	}
+	init(modelNamed:String, daeNamed:String){
+		let url					= Bundle.main.url(forResource:"ship", withExtension: "scn", subdirectory: "art.scnassets")
+		let sceneSource 		= SCNSceneSource(url:url!, options: nil)!
+		let node				= sceneSource.entryWithIdentifier(modelNamed, withClass: SCNNode.self)!
+		rootPart 				= RootPart([:])		// HACK !!!!
+		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
+		super.init()
 		//let armature 			= sceneSource.entryWithIdentifier("Armature", withClass: SCNNode.self)!
 		//armature.removeAllAnimations()
 		//node.addChildNode(armature)
 		//loadAnimation("rest", daeNamed: daeNamed)
 		//playAnimation("rest")
+
+		node.position 			= SCNVector3(0, 10, 0)
 	}
-//	init(modelNamed:String, daeNamed:String){
-//		let url					= Bundle.main.url(forResource:"ship", withExtension: "scn", subdirectory: "art.scnassets")
-//		let sceneSource 		= SCNSceneSource(url:url!, options: nil)!
-//
-//		let node				= sceneSource.entryWithIdentifier(modelNamed, withClass: SCNNode.self)!
-//
-//		//let armature 			= sceneSource.entryWithIdentifier("Armature", withClass: SCNNode.self)!
-//
-//		//store and trigger the "rest" animation
-//
-//		node.position 			= SCNVector3(0, 10, 0)
-//	}
 
 
 //	override init() {
@@ -297,7 +302,7 @@ bug
 	var cameraNode : CameraNode! = nil
 	func updateCamerasScn(_ config:FwConfig) {
 
-		 // Detect a Straggler
+		 // Delete any Straggler
 		if let stragglerNode	= rootScn.find(name:"camera") {
 			let msg				= stragglerNode == cameraNode ? "" : " and no match to cameraNode"
 			warning("Who put this camera here? !!!" + msg)
@@ -326,7 +331,7 @@ bug
 
 		func helper(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
-			 // Detect a Straggler
+			 // Delete any Straggler
 			if let stragglerNode = rootScn.find(name:name) {
 				warning("Who put the node named '\(name)' here? !!!")
 				stragglerNode.removeFromParentNode()
@@ -354,7 +359,7 @@ bug
 		guard config4scene.bool_("pole") else {	return							}
 
 		let name				= "*-pole"
-		 // Detect a Straggler
+		 // Delete any Straggler
 		if let stragglerNode = rootScn.find(name:name) {
 			warning("Who put the node named '\(name)' here? !!!")
 			stragglerNode.removeFromParentNode()
@@ -546,29 +551,27 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 				//		}
 
 		if duration > 0.0,
-		  config4scene.bool("animatePan") ?? false
-		{
-			SCNTransaction.begin()			// Delay for double click
-			atRve(8, logd("  /#######  SCNTransaction: BEGIN All"))
-			SCNTransaction.animationDuration 	= CFTimeInterval(0.5)
+		  config4scene.bool("animatePan") ?? false {
+			SCNTransaction.begin()			// Delay for double click effect
+			atRve(8, logd("  /#######  animatePan: BEGIN All"))
+			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
 			cameraNode.transform *= 0.999999	// virtually no effect
-			SCNTransaction.completionBlock 		= {
+			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, self.logd("  /#######  SCNTransaction: BEGIN Completion Block"))
+				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
+
 				self.cameraNode.transform = newCameraXform
-				atRve(8, self.logd("  \\#######  SCNTransaction: COMMIT Completion Block"))
+
+				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
 			}
-			atRve(8, logd("  \\#######  SCNTransaction: COMMIT All"))
+			atRve(8, logd("  \\#######  animatePan: COMMIT All"))
 			SCNTransaction.commit()
 		}
 		else {
-
 			cameraNode.transform = newCameraXform
-
-			//print("\(newCameraXform.pp(.tree))")
 		}
 	}
 

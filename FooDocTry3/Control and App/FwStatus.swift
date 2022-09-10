@@ -23,8 +23,8 @@ func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)		}
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
 func ppFwcState() -> String
-{
-	var rv : String				 = ""//APPDEL?.ppFwState() ?? ""// APPlication DELegate
+{//Value of type 'FooDocTry3App' has no member 'ppFwState'
+	var rv : String				 = APP?.ppFwState() ?? ""// APPlication DELegate
 	rv							+= ppDOC()					// current DOCument
 	rv							+= DOClog .ppFwState()		// DOClog
 	rv							+= DOCctlr.ppFwState()		// nsDOCumentConTroLleR
@@ -61,24 +61,24 @@ protocol FwStatus {
 	func ppFwState(deapth:Int) -> String
 }
 
-//extension AppDelegate		: FwStatus	{							/// AppDelegate
-//	func ppFwState(deapth:Int=999) -> String {
-//		let emptyEntry			= APPDEL?.config4app["emptyEntry"] ?? "xr()"
-//		return ppFwStateHelper("APPDEL       ", uid:self,
-//			myLine:"regressScene:\(regressScene), " +
-//				"emptyEntry:'\(emptyEntry.asString ?? "<emptyEntry not String>")'",
-//			otherLines:{ deapth in
-//						// Menu Creation:
-//				var rv			= self.library.ppFwState()
-//				for lib in Library.libraryList {
-//					rv			+= lib					.ppFwState(deapth:deapth)
-//				}
-//				rv				+= self.log.ppFwState()
-//			return rv
-//			},
-//			deapth:deapth)
-//	}
-//}
+extension FooDocTry3App : FwStatus	{							/// AppDelegate
+	func ppFwState(deapth:Int=999) -> String {
+		let emptyEntry			= APP?.config4app["emptyEntry"] ?? "xr()"
+		return ppFwStateHelper("APPDEL       ", uid:self,
+			myLine:"regressScene:\(regressScene), " +
+				"emptyEntry:'\(emptyEntry.asString ?? "<emptyEntry not String>")'",
+			otherLines:{ deapth in
+						// Menu Creation:
+				var rv			= self.library.ppFwState()
+				for lib in Library.libraryList {
+					rv			+= lib					.ppFwState(deapth:deapth)
+				}
+				rv				+= self.log.ppFwState()
+			return rv
+			},
+			deapth:deapth)
+	}
+}
 func ppDOC() -> String {									///
 	//let m						= ppUid(DOC)
 	let msg						= DOC == nil ? "(not selected)" : "(currently selected)"

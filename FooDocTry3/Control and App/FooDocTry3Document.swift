@@ -138,18 +138,8 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																 // Spread configuration information
 																//		updateDocConfigs(from:docState.rootPart.ansConfig)
 	func didLoadNib(to view:Any) {
-																//	 // 1. 	LOCK					// PartTree
-																//	guard DOCrootPart.lock(partTreeAs:"didLoadNib") else {
-																//		fatalError("didLoadNib couldn't get PART lock")		// or
-																//	}		          				// VewTree
-																//	guard DOCfwScene .lock(rootVewAs:"didLoadNib") else {
-																//		fatalError("didLoadNib  couldn't get VIEW lock")
-																//	}
 				// Build Vews after View is loaded:
 /*x*/	docState.fwScene.updateVewNScnFromModel()
-																//	// 6. UNLOCK PartTree and VewTree:
-																//	DOCfwScene .unlock( rootVewAs:"didLoadNib")
-																//	DOCrootPart.unlock(partTreeAs:"didLoadNib")
 																//		 // Generate Vew tree
 																//		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
 																//		docState.fwScene.rootVew = rVew				// INSTALL vew

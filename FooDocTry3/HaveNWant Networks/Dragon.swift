@@ -21,8 +21,6 @@ func dragonCurve(segments:Int=1024) -> FwScene {
 		square.position 		= position
 //		rv.rootNode.addChild(node:square)
 		rv.rootNode.addChildNode(square)
-//		let x = rv.rootNode
-//		let y = x.pp(.tree)
 
 		 // Dragon index says left/right turn
 		direction				+= dragon(index:i) ? 1 : -1 + 4		// left : right
