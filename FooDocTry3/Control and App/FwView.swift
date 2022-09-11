@@ -49,6 +49,7 @@ class FwView : SCNView, SCNSceneRendererDelegate {
 		autoenablesDefaultLighting = false		// dare to turn it on?
 	}
 
+
 	 // MARK: - 3.5 Codable
 	required init?(coder decoder: NSCoder) {
 		super.init(coder:decoder) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/

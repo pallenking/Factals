@@ -31,7 +31,7 @@ struct FwSceneAsSwiftUIView : NSViewRepresentable {		// was final class
 	 // Later, use args to make FwView
 	func makeNSView(context: Context) -> FwView {
 		let rv	:	FwView		= FwView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
-		rv.scene 				= args.fwScene
+		rv.scene 				= args.fwScene as! SCNScene
 		rv.pointOfView 			= args.pointOfView
 		rv.backgroundColor		= NSColor("veryLightGray")!
 		rv.preferredFramesPerSecond = args.preferredFramesPerSecond

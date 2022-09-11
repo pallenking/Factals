@@ -42,7 +42,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 			//projectPoint(_:)
-class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelegate
+class FwScene : NSObject/*SCNScene, SCNPhysicsContactDelegate */ {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
 	 // ///////// Part Tree:
@@ -57,6 +57,10 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil
 	}
+	weak
+	 var fwView	 : FwView?		= nil
+
+	var scnScene : SCNScene
 
 	 // ///////// SCNNode Tree:
 	var rootScn  : SCNNode		= SCNNode()
@@ -67,8 +71,6 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		}
 		fatalError("trunkVew is nil")
 	}
-	weak
-	 var fwView	 : FwView?		= nil
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
@@ -90,33 +92,32 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 			}
 			if let gravAny33:FwAny = config["gravity"] {		// GLOBAL
 				if let gravityVect : SCNVector3 = SCNVector3(from:gravAny33) {
-					physicsWorld.gravity = gravityVect
+					scnScene.physicsWorld.gravity = gravityVect
 				}
 				else if let gravityY: Double = gravAny33.asDouble {
-					physicsWorld.gravity.y = gravityY
+					scnScene.physicsWorld.gravity.y = gravityY
 				}
 			}
 			if let speed		= config.cgFloat("speed") {
-				physicsWorld.speed = speed
+				scnScene.physicsWorld.speed = speed
 			}
-			physicsWorld.contactDelegate = self	/// Physics Contact Protocol is below
+bug//		scnScene.physicsWorld.contactDelegate = scnScene	/// Physics Contact Protocol is below
 		}
 	};private var config4scene_ : FwConfig = [:]
 
 	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
 	var animatePhysics : Bool {
-		get {			return !super.isPaused									}
-		set(v) {		super.isPaused = !v										}
+		get {			return !scnScene.isPaused									}
+		set(v) {		scnScene.isPaused = !v										}
 	}
 
 	 // MARK: - 3. Factory
 	init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
 		self.rootPart			= rootPart ?? {		fatalError()	}()
 		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
-//		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
-							
-		super.init()
+		self.scnScene			= SCNScene()
 
+		super.init()
 		config4scene			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
@@ -124,9 +125,6 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		   // 1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
 		  // Docs: Status Bar Programming Topics
 		 //https://www.raywenderlich.com/450-menus-and-popovers-in-menu-bar-apps-for-macos
-
-		  //  2. In SCNView show
-		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
 		//GDPerformanceMonitor.sharedInstance.configure(configuration: { (textLabel) in
 		//	textLabel?.backgroundColor = .black
 		//	textLabel?.textColor = .white
@@ -134,63 +132,36 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		//})
 		//GDPerformanceMonitor.sharedInstance.startMonitoring()
 
-		 //190707: This HANGS on 2'nd time	//cocoahead 2:
+		  //  2. In SCNView show
+		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
 		//fwView?.background	= NSColor("veryLightGray")!
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
 	init(scene: SCNScene) {
 		rootPart				= DOCrootPart
 		rootVew					= Vew(forPart:rootPart, scn:rootScn)
+		scnScene				= scene
 		super.init()
-		scene
-		
 	}
 	init?(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
 		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
-		let url					= Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
-
+		self.scnScene			= SCNScene(named:"ship")!						// let url = Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
 		super.init()
-		
-		 // 3. Copy from SCNScene(named:name)
-		if let y  					= scene {
-			physicsWorld.gravity	= y.physicsWorld.gravity	// plus dozens of others
-		}
-	}
-	
-	init(modelNamed:String, daeNamed:String){
-		let url					= Bundle.main.url(forResource:"ship", withExtension: "scn", subdirectory: "art.scnassets")
-		let sceneSource 		= SCNSceneSource(url:url!, options: nil)!
-		let node				= sceneSource.entryWithIdentifier(modelNamed, withClass: SCNNode.self)!
-		rootPart 				= RootPart([:])		// HACK !!!!
-		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
-		super.init()
-		//let armature 			= sceneSource.entryWithIdentifier("Armature", withClass: SCNNode.self)!
-		//armature.removeAllAnimations()
-		//node.addChildNode(armature)
-		//loadAnimation("rest", daeNamed: daeNamed)
-		//playAnimation("rest")
-
-		node.position 			= SCNVector3(0, 10, 0)
-	}
-
-
-//	override init() {
-//		super.init()
-//	}
-//
-//	required init(coder aDecoder: NSCoder)? {
-//		super.init(coder: aDecoder)
-//	}
+	}	
 
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
 	var data : Data? {
-					// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-		write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
+
+		do {		// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+bug//		try self.write(to: fileURL)
+		} catch {
+			print("error writing file: \(error)")
+		}
 					// 2. Get file to data
 		let data				= try? Data(contentsOf:fileURL)
-		return data
+		return data//Cannot convert value of type '() -> ()' to expected argument type 'Int'
 	}
 	 // initialize new SCNScene from Data
 	convenience init?(data:Data, encoding:String.Encoding) {
@@ -199,14 +170,15 @@ class FwScene : SCNScene, SCNPhysicsContactDelegate {	//, SCNSceneRendererDelega
 		} catch {
 			print("error writing file: \(error)")
 		}
-		do {		// 2. Init self from file
+		self.init(fwConfig:[:])
 bug
-			try self.init(fwConfig:[:])
-	//		try super.init(url: fileURL)
-		} catch {
-			print("error initing from url: \(error)")
-			return nil
-		}
+//		do {		// 2. Init self from file
+//			try self.init(fwConfig:[:])
+//	//		try super.init(url: fileURL)
+//		} catch {
+//			print("error initing from url: \(error)")
+//			return nil
+//		}
 	}
 
 	 // MARK: - 3.5 Codable
@@ -516,7 +488,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-			let x = rootNode.pp()
 			guard let cam		= cameraNode.camera else { fatalError("cameraNode.camera is nil") 	}
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
 			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
@@ -784,9 +755,10 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			guard write(to:fileURL, delegate:nil) == false else {
-				fatalError("writing dumpSCN.\(suffix) failed")
-			}
+bug
+//			guard self.write(to:fileURL, delegate:nil) == false else {
+//				fatalError("writing dumpSCN.\(suffix) failed")
+//			}
 			nop
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
@@ -922,8 +894,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 						let _	= vew
 					}
 				}
-			}else{
-				 // Background hit
+			}else{		// Background hit
 				msg				+= "background -> trunkVew"
 			}
 		}

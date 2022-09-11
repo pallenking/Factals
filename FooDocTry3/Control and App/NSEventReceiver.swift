@@ -42,7 +42,7 @@ final class NSEventReceiverView: NSView {
 
 	 // Capture all first responder messages ///////////////////////////////////////
 //W	 // WANTED:
-//W	func sendNSEvent(nsEvent:NSEvent) {
+//W	func sendNSEvent(nsEvent:NSEvent) {		// PW
 //W
 //W	}
 	 // MARK: - 13.1 Keys

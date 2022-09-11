@@ -266,7 +266,7 @@ extension SCNScene : FwStatus	{									/// SCNScene
 			myLine				= "rootVew:\(ppUid(fwSelf.rootVew,  showNil:true)) "
 			myLine				+= fwSelf.rootVewOwner != nil ? "OWNER:'\(fwSelf.rootVewOwner!)' " : "UNOWNED "
 			myLine				+= "pole:w\(fwSelf.pole.convertPosition(.zero, to:rootScn).pp(.short)) "
-			myLine				+= "animatePhysics:\(fwSelf.animatePhysics)(isPaused:\(fwSelf.isPaused))"
+			myLine				+= "animatePhysics:\(fwSelf.animatePhysics)(isPaused:\(fwSelf.scnScene.isPaused))"
 //			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lv.pCon2Vew)// e.g: p9/t1.P
 		}
 		return ppFwStateHelper(idStr, uid:self,
