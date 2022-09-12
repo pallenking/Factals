@@ -80,34 +80,6 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 
 
 
- // ORPHAN, WAS IN defunct FwView
-//		showsStatistics 		= true			// doesn't work here
-//		isPlaying/*animations*/	= true			// works here?
-//		debugOptions = [
-//			SCNDebugOptions.showBoundingBoxes,	//Display the bounding boxes for any nodes with content.
-//			SCNDebugOptions.showWireframe,		//Display geometries in the scene with wireframe rendering.
-//			SCNDebugOptions.renderAsWireframe,	//Display only wireframe placeholders for geometries in the scene.
-//			SCNDebugOptions.showSkeletons,		//Display visualizations of the skeletal animation parameters for relevant geometries.
-//			SCNDebugOptions.showCreases,		//Display nonsmoothed crease regions for geometries affected by surface subdivision.
-//			SCNDebugOptions.showConstraints,	//Display visualizations of the constraint objects acting on nodes in the scene.
-//				// Cameras and Lighting
-//			SCNDebugOptions.showCameras,		//Display visualizations for nodes in the scene with attached cameras and their fields of view.
-//			SCNDebugOptions.showLightInfluences,//Display the locations of each SCNLight object in the scene.
-//			SCNDebugOptions.showLightExtents,	//Display the regions affected by each SCNLight object in the scene.
-//				// Debugging Physicsfa
-//			SCNDebugOptions.showPhysicsShapes,	//Display the physics shapes for any nodes with attached SCNPhysicsBody objects.
-//			SCNDebugOptions.showPhysicsFields,	//Display the regions affected by each SCNPhysicsField object in the scene.
-//		]
-//		allowsCameraControl 	= false			// dare to turn it on?
-//		autoenablesDefaultLighting = false		// dare to turn it on?
-//	 // MARK: - 17. Debugging Aids
-//	override func  becomeFirstResponder()	-> Bool	{	return true				}
-//	override func validateProposedFirstResponder(_ responder: NSResponder,
-//					   for event: NSEvent?) -> Bool {	return true				}
-//	override func resignFirstResponder()	-> Bool	{	return true				}
-
-
-
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
 		let vpV3 : SCNVector3	= rootVew.scn.convertPosition(wpV3, from:nil)
@@ -158,29 +130,13 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
 		// TO DO:
-		   // 1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
-		  // Docs: Status Bar Programming Topics
-		 //https://www.raywenderlich.com/450-menus-and-popovers-in-menu-bar-apps-for-macos
-		//GDPerformanceMonitor.sharedInstance.configure(configuration: { (textLabel) in
-		//	textLabel?.backgroundColor = .black
-		//	textLabel?.textColor = .white
-		//	textLabel?.layer.borderColor = UIColor.black.cgColor
-		//})
-		//GDPerformanceMonitor.sharedInstance.startMonitoring()
+		  // 1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
 
 		  //  2. In SCNView show
 		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
 		//fwView?.background	= NSColor("veryLightGray")!
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
-
-//	init(scene: SCNScene) {
-//		rootPart				= RootPart(["name":"null"])	//DOCrootPart
-//		scnScene				= scene
-//		//scnScene.physicsWorld.contactDelegate = ??/// Physics Contact Protocol is below
-//		rootVew					= Vew(forPart:rootPart, scn:scene.rootNode)
-//		super.init()
-//	}
 	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
 		assert(scene != nil, "FwScene(scene is nil")
@@ -939,21 +895,22 @@ bug
 		]
 		 // CONVERT to window coordinates
 		let pt 	  	: NSPoint	= nsEvent.locationInWindow
-		let mouse 	: NSPoint	= DOC!.docState.fwScene.convertToRoot(windowPosition:pt)
+		let mouse 	: NSPoint	= convertToRoot(windowPosition:pt)
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
 								//		 + +   + +
-		var hits:[SCNHitTestResult]	= hitTest(mouse, options:configHitTest)
+		let hits:[SCNHitTestResult]	= hitTest(mouse, options:configHitTest)
 								//		 + +   + +
 
+//        let hits 				= scnView.hitTest(mouse, options:configHitTest)
+//        if let tappednode = hits.first?.node
+
 		 // SELECT HIT; prefer any child to its parents:
-		var rv					= rootVew			// return root by default
+		var rv					= rootVew			// default
 		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
 			if hits.count > 0 {
 				 // There is a HIT on a 3D object:
-				let sortedHits	= hits.sorted { (a : SCNHitTestResult, b : SCNHitTestResult)  in
-					a.node.position.z > b.node.position.z
-				}
+				let sortedHits	= hits.sorted {	$0.node.position.z > $1.node.position.z }
 				let hit			= sortedHits[0]
 				pickedScn		= hit.node // pic node with lowest deapth
 				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
@@ -1116,4 +1073,39 @@ bug
 				c.height, c.spin, c.horizonUp, c.zoom)
 	}
 }
+
+
+ // ORPHAN, WAS IN defunct FwView
+//		showsStatistics 		= true			// doesn't work here
+//		isPlaying/*animations*/	= true			// works here?
+//		debugOptions = [
+//			SCNDebugOptions.showBoundingBoxes,	//Display the bounding boxes for any nodes with content.
+//			SCNDebugOptions.showWireframe,		//Display geometries in the scene with wireframe rendering.
+//			SCNDebugOptions.renderAsWireframe,	//Display only wireframe placeholders for geometries in the scene.
+//			SCNDebugOptions.showSkeletons,		//Display visualizations of the skeletal animation parameters for relevant geometries.
+//			SCNDebugOptions.showCreases,		//Display nonsmoothed crease regions for geometries affected by surface subdivision.
+//			SCNDebugOptions.showConstraints,	//Display visualizations of the constraint objects acting on nodes in the scene.
+//				// Cameras and Lighting
+//			SCNDebugOptions.showCameras,		//Display visualizations for nodes in the scene with attached cameras and their fields of view.
+//			SCNDebugOptions.showLightInfluences,//Display the locations of each SCNLight object in the scene.
+//			SCNDebugOptions.showLightExtents,	//Display the regions affected by each SCNLight object in the scene.
+//				// Debugging Physicsfa
+//			SCNDebugOptions.showPhysicsShapes,	//Display the physics shapes for any nodes with attached SCNPhysicsBody objects.
+//			SCNDebugOptions.showPhysicsFields,	//Display the regions affected by each SCNPhysicsField object in the scene.
+//		]
+//		allowsCameraControl 	= false			// dare to turn it on?
+//		autoenablesDefaultLighting = false		// dare to turn it on?
+//	 // MARK: - 17. Debugging Aids
+//	override func  becomeFirstResponder()	-> Bool	{	return true				}
+//	override func validateProposedFirstResponder(_ responder: NSResponder,
+//					   for event: NSEvent?) -> Bool {	return true				}
+//	override func resignFirstResponder()	-> Bool	{	return true				}
+
+ //https://openbase.com/swift/GDPerformanceView
+//GDPerformanceMonitor.sharedInstance.configure(configuration: { (textLabel) in
+//	textLabel?.backgroundColor = .black
+//	textLabel?.textColor = .white
+//	textLabel?.layer.borderColor = UIColor.black.cgColor
+//})
+//GDPerformanceMonitor.sharedInstance.startMonitoring()
 
