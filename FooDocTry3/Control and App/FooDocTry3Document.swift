@@ -18,9 +18,6 @@ struct FooDocTry3Document: FileDocument, Uid {
 	var uid:UInt16				= randomUid()
 	var redo:UInt8				= 0
 
-//	@IBOutlet weak		// (IB sets this)
-//	 var fwView		: FwView?
-
 	 // Model of a FooDocTry3Document:
 	var docState : DocState!
 
@@ -87,12 +84,51 @@ struct FooDocTry3Document: FileDocument, Uid {
 			throw CocoaError(.fileWriteUnknown)
 		}
 	}
-
 	 // MARK: - 2.2 Sugar
 	var windowController0 : NSWindowController? {		// First NSWindowController
 bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil			}
 	var window0 : NSWindow? 	{						// First NSWindow
 		return windowController0?.window										}
+
+
+
+
+// //// -- WORTHY GEMS: -- ///// //
+//
+//	typealias PolyWrap = Part
+//	class Part : Codable /* PartProtocol*/ {
+//		func polyWrap() -> PolyWrap {	polyWrap() }
+//		func polyUnwrap() -> Part 	{	Part()		}
+//	}
+//	//protocol PartProtocol {
+//	//	func polyWrap() -> PolyWrap
+//	//}
+//
+//func serializeDeserialize(_ inPart:Part) throws -> Part? {
+//
+//	 //  - INSERT -  PolyWrap's
+//	let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
+//
+//		 //  - ENCODE -  PolyWrap as JSON
+//		let jsonData 			= try JSONEncoder().encode(inPolyPart)
+//
+//			print(String(data:jsonData, encoding:.utf8) ?? "")
+//
+//		 //  - DECODE -  PolyWrap from JSON
+//		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
+//
+//	 //  - REMOVE -  PolyWrap's
+//	let outPart				= outPoly.polyUnwrap()
+//	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
+//	let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
+//
+//	return outPart
+//}
+
+
+
+
+
 	// MARK: - 4 Enablers
 			// The  nib file  name of the document:
 	var windowNibName:NSNib.Name? 	{		return "Document"					}

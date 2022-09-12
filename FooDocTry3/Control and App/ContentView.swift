@@ -32,8 +32,9 @@ struct ContentView: View {
 				ZStack {
 					NSEventReceiver { nsEvent in
 						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
-					FwSceneAsSwiftUIView(args:FwViewsArgs(
+					SCNSceneAsSwiftUIView(SCNViewsArgs(
 						fwScene		: fwScene,
+						scnScene	: nil,
 						pointOfView	: nil, //fwScene.cameraNode,
 						options		: [.autoenablesDefaultLighting,
 			//**/					   .allowsCameraControl,
@@ -88,8 +89,9 @@ struct ContentView: View {
 				Spacer()
 			}
 			VStack {
-				FwSceneAsSwiftUIView(args:FwViewsArgs( 	//SceneView(
-					fwScene		: FwScene(scene:jetModel.scene),
+				SCNSceneAsSwiftUIView(SCNViewsArgs( 	//SceneView(
+					fwScene		: nil,
+					scnScene	: jetModel.scene,
 					pointOfView	: nil,//jetModel.scene.cameraNode,
 					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 					preferredFramesPerSecond : 30,

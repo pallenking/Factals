@@ -271,7 +271,6 @@ extension FwScene : FwStatus	{									 /// FwScene
 extension SCNScene : FwStatus	{									/// SCNScene
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNScene     ", uid:self,
-//			myLine: myLine,
 			otherLines:{ deapth in
 				return self.physicsWorld.ppFwState(deapth:deapth)
 			},
@@ -344,7 +343,7 @@ extension NSViewController : FwStatus {					  /// NSViewController
 		return  nibName == nil ? 		"Nib nil"	 	: "Nib loaded"
 	}
 }
-extension NSView : FwStatus	{								  /// NSView, FwView
+extension NSView : FwStatus	{								 		 /// NSView
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= fwClassName.field(-13)
 		return ppFwStateHelper(msg, uid:self,
@@ -353,13 +352,8 @@ extension NSView : FwStatus	{								  /// NSView, FwView
 				"superview:\(ppUid(superview, showNil:true)) "					+
 				   "window:\(ppUid(window,    showNil:true)) " 					+
 				(self.needsDisplay ? "needsDisplay " : "noRedisplay ") 			,//+
-//				(!(self is FwView) ? "" :
-//				  "fwScene:\(ppUid(DOC.fwScene,showNil:true)) "
-//				)																,
 			otherLines:{ deapth in
-						// FwView outputs FwScene too
-				var rv			= ""//(self as? FwView)?.fwScene?.ppFwState() ?? ""
-						// Subviews
+				var rv			= ""
 				if deapth > 0 {
 					for view in self.subviews {
 						rv			+= view.ppFwState(deapth:deapth-1)

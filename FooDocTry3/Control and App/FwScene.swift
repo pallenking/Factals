@@ -57,20 +57,56 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil
 	}
-	weak
-	 var fwView	 : FwView?		= nil
-
+	//weak
+	var scnView	 : SCNView?		= nil
 	var scnScene : SCNScene
 
 	 // ///////// SCNNode Tree:
-	var rootScn  : SCNNode		= SCNNode()
-//	var rootScn  : SCNNode	{	return rootNode									}	//scnRoot
+	var rootScn  : SCNNode	{	scnScene.rootNode									}	//scnRoot
 	var trunkScn : SCNNode? {
 		if let tv				= trunkVew  {
 			return tv.scn
 		}
 		fatalError("trunkVew is nil")
 	}
+//	var rootScn  : SCNNode		= SCNNode()
+////	var rootScn  : SCNNode	{	return rootNode									}	//scnRoot
+//	var trunkScn : SCNNode? {
+//		if let tv				= trunkVew  {
+//			return tv.scn
+//		}
+//		fatalError("trunkVew is nil")
+//	}
+
+
+
+ // ORPHAN, WAS IN defunct FwView
+//		showsStatistics 		= true			// doesn't work here
+//		isPlaying/*animations*/	= true			// works here?
+//		debugOptions = [
+//			SCNDebugOptions.showBoundingBoxes,	//Display the bounding boxes for any nodes with content.
+//			SCNDebugOptions.showWireframe,		//Display geometries in the scene with wireframe rendering.
+//			SCNDebugOptions.renderAsWireframe,	//Display only wireframe placeholders for geometries in the scene.
+//			SCNDebugOptions.showSkeletons,		//Display visualizations of the skeletal animation parameters for relevant geometries.
+//			SCNDebugOptions.showCreases,		//Display nonsmoothed crease regions for geometries affected by surface subdivision.
+//			SCNDebugOptions.showConstraints,	//Display visualizations of the constraint objects acting on nodes in the scene.
+//				// Cameras and Lighting
+//			SCNDebugOptions.showCameras,		//Display visualizations for nodes in the scene with attached cameras and their fields of view.
+//			SCNDebugOptions.showLightInfluences,//Display the locations of each SCNLight object in the scene.
+//			SCNDebugOptions.showLightExtents,	//Display the regions affected by each SCNLight object in the scene.
+//				// Debugging Physicsfa
+//			SCNDebugOptions.showPhysicsShapes,	//Display the physics shapes for any nodes with attached SCNPhysicsBody objects.
+//			SCNDebugOptions.showPhysicsFields,	//Display the regions affected by each SCNPhysicsField object in the scene.
+//		]
+//		allowsCameraControl 	= false			// dare to turn it on?
+//		autoenablesDefaultLighting = false		// dare to turn it on?
+//	 // MARK: - 17. Debugging Aids
+//	override func  becomeFirstResponder()	-> Bool	{	return true				}
+//	override func validateProposedFirstResponder(_ responder: NSResponder,
+//					   for event: NSEvent?) -> Bool {	return true				}
+//	override func resignFirstResponder()	-> Bool	{	return true				}
+
+
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
@@ -111,14 +147,13 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 		set(v) {		scnScene.isPaused = !v										}
 	}
 
-	 // MARK: - 3. Factory
-	init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
-		self.rootPart			= rootPart ?? {		fatalError()	}()
-		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
-		self.scnScene			= SCNScene()
 		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
+	 // MARK: - 3. Factory
+	convenience init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
 
-		super.init()
+		guard rootPart != nil else {	fatalError("FwScene(rootPart is nil")	}
+		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
+
 		config4scene			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
@@ -138,16 +173,19 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 		//fwView?.background	= NSColor("veryLightGray")!
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
-	init(scene: SCNScene) {
-		scnScene				= scene
-		rootPart				= RootPart(["name":"null"])	//DOCrootPart
-		rootVew					= Vew(forPart:rootPart, scn:rootScn)
-		super.init()
-	}
-	init?(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
+
+//	init(scene: SCNScene) {
+//		rootPart				= RootPart(["name":"null"])	//DOCrootPart
+//		scnScene				= scene
+//		//scnScene.physicsWorld.contactDelegate = ??/// Physics Contact Protocol is below
+//		rootVew					= Vew(forPart:rootPart, scn:scene.rootNode)
+//		super.init()
+//	}
+	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
-		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
-		self.scnScene			= SCNScene(named:"ship")!						// let url = Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")
+		assert(scene != nil, "FwScene(scene is nil")
+		self.scnScene			= scene!
+		self.rootVew			= Vew(forPart:rootPart, scn:scene!.rootNode)
 		super.init()
 	}	
 
@@ -258,7 +296,7 @@ bug
 	}
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
-	var cameraNode : CameraNode! = nil
+	var cameraNode : CameraNode! { scnScene.cameraNode				}
 	func updateCamerasScn(_ config:FwConfig) {
 
 		 // Delete any Straggler
@@ -267,10 +305,10 @@ bug
 			warning("Who put this camera here? !!!" + msg)
 			stragglerNode.removeFromParentNode()
 		}
-		cameraNode				= CameraNode(config)
-		cameraNode.name			= "camera"
-		cameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		rootScn.addChildNode(cameraNode!)
+		let newCameraNode		= CameraNode(config)
+		newCameraNode.name			= "camera"
+		newCameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+		rootScn.addChildNode(newCameraNode)
 	}
 	 // MARK: - 9.C Lights
 	func updateLightsScn() {
@@ -465,7 +503,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		let world2eye			= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
+		guard let nsRectSize	= scnView?.frame.size  else  {	fatalError()	}
 
 					// Landscape window ------------------
 		var orientation			= "Landscape"
@@ -545,8 +583,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		assert(rootVew.name 	== "_ROOT", "Paranoid check of rootVew 2")
 		assert(rootVew.part		== rootPart,"Paranoid check of rootVew 3")
 		assert(rootVew.part.name == "ROOT", "Paranoid check of rootVew 4")
-		assert(rootVew.scn 		== rootScn, "Paranoid check of rootVew 5")
-		assert(rootScn.name		== "*-ROOT","Paranoid check of rootVew 6")
 
 		 // 1. 	GET LOCKS				// PartTree
 		guard DOCrootPart.lock(partTreeAs:"didLoadNib") else {

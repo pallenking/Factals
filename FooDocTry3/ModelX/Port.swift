@@ -417,10 +417,10 @@ class Port : Part, PortTalk {
 		 //
 		let trunkScn			= DOCfwScene.trunkScn
 		repeat {			//.transform	// my position in parent
-			let activeScn		= aVew.scn.physicsBody==nil ? aVew.scn
-														    : aVew.scn.presentation
+			let scn				= aVew.scn
+			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
 			let t				= activeScn.transform
-			rv.center			= t * rv.center			// (SCNVector3)
+			rv.center			= t * rv.center						// (SCNVector3)
 			rv.radius			= length(t.m3x3 * .uY) * rv.radius	// might be scaling
 			rv.exclude			= rv.exclude==nil ? aVew.bBox * t :
 								 (rv.exclude! * t | aVew.bBox * t)
