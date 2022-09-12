@@ -42,7 +42,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 			//projectPoint(_:)
-class FwScene : NSObject/*SCNScene, SCNPhysicsContactDelegate */ {	//, SCNSceneRendererDelegate
+class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDelegate */ {	//,
 
 	  // MARK: - 2. Object Variables:
 	 // ///////// Part Tree:
@@ -101,7 +101,7 @@ class FwScene : NSObject/*SCNScene, SCNPhysicsContactDelegate */ {	//, SCNSceneR
 			if let speed		= config.cgFloat("speed") {
 				scnScene.physicsWorld.speed = speed
 			}
-bug//		scnScene.physicsWorld.contactDelegate = scnScene	/// Physics Contact Protocol is below
+			//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 		}
 	};private var config4scene_ : FwConfig = [:]
 
@@ -116,6 +116,7 @@ bug//		scnScene.physicsWorld.contactDelegate = scnScene	/// Physics Contact Prot
 		self.rootPart			= rootPart ?? {		fatalError()	}()
 		self.rootVew			= Vew(forPart:rootPart, scn:rootScn)
 		self.scnScene			= SCNScene()
+		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 
 		super.init()
 		config4scene			= fwConfig
@@ -138,9 +139,9 @@ bug//		scnScene.physicsWorld.contactDelegate = scnScene	/// Physics Contact Prot
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
 	init(scene: SCNScene) {
-		rootPart				= DOCrootPart
-		rootVew					= Vew(forPart:rootPart, scn:rootScn)
 		scnScene				= scene
+		rootPart				= RootPart(["name":"null"])	//DOCrootPart
+		rootVew					= Vew(forPart:rootPart, scn:rootScn)
 		super.init()
 	}
 	init?(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
@@ -590,6 +591,54 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
     func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {
 		panic("physicsWorld(_, didEnd:contact")
 	}
+
+
+	
+// /////////////////////////////////////////////////////////////////////////////
+// ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
+  // called by SCNSceneRenderer,  SCNDebugOptions
+
+	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
+	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+			DOCfwScene.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
+		}
+	}
+	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
+	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+			DOCrootPart.computeLinkForces(vew:DOCfwScene.rootVew)
+		}
+	}
+	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
+	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+			DOCrootPart.applyLinkForces(vew:DOCfwScene.rootVew)
+		}
+	}
+	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
+	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+			DOCrootPart.rotateLinkSkins(vew:DOCfwScene.rootVew)
+		}
+	}
+	   // ODD Timing:
+	  // MARK: - 9.5.@: did Render Scene
+	public func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
+	}
+	  // MARK: - 9.5.*: Did Apply Constraints At Time
+	public func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
+		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
+	}
+
+
+
 	 // MARK: - 13. IBActions
 	 // MARK: - 13.1 Keys
 	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys

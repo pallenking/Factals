@@ -256,21 +256,22 @@ extension Library : FwStatus {								/// Library or Tests01
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth)
 	}
 }
+extension FwScene : FwStatus	{									 /// FwScene
+	func ppFwState(deapth:Int=999) -> String {
+		var myLine				= "rootVew:\(ppUid(self.rootVew,  showNil:true)) "
+		myLine					+= self.rootVewOwner != nil ? "OWNER:'\(self.rootVewOwner!)' " : "UNOWNED "
+		myLine					+= "pole:w\(self.pole.convertPosition(.zero, to:rootScn).pp(.short)) "
+		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"
+		return ppFwStateHelper("FwScene      ", uid:self,
+			myLine: myLine,
+			deapth:deapth)
+	}
+}
 
 extension SCNScene : FwStatus	{									/// SCNScene
 	func ppFwState(deapth:Int=999) -> String {
-		var idStr				= "SCNScene     "
-		var myLine				= ""
-		if let fwSelf			= self as? FwScene {
-			idStr				= "FwScene      "
-			myLine				= "rootVew:\(ppUid(fwSelf.rootVew,  showNil:true)) "
-			myLine				+= fwSelf.rootVewOwner != nil ? "OWNER:'\(fwSelf.rootVewOwner!)' " : "UNOWNED "
-			myLine				+= "pole:w\(fwSelf.pole.convertPosition(.zero, to:rootScn).pp(.short)) "
-			myLine				+= "animatePhysics:\(fwSelf.animatePhysics)(isPaused:\(fwSelf.scnScene.isPaused))"
-//			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lv.pCon2Vew)// e.g: p9/t1.P
-		}
-		return ppFwStateHelper(idStr, uid:self,
-			myLine: myLine,
+		return ppFwStateHelper("SCNScene     ", uid:self,
+//			myLine: myLine,
 			otherLines:{ deapth in
 				return self.physicsWorld.ppFwState(deapth:deapth)
 			},

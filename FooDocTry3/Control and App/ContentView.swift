@@ -34,7 +34,7 @@ struct ContentView: View {
 						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
 					FwSceneAsSwiftUIView(args:FwViewsArgs(
 						fwScene		: fwScene,
-						pointOfView	: fwScene.cameraNode,
+						pointOfView	: nil, //fwScene.cameraNode,
 						options		: [.autoenablesDefaultLighting,
 			//**/					   .allowsCameraControl,
 									   .jitteringEnabled,
@@ -42,7 +42,7 @@ struct ContentView: View {
 									   .temporalAntialiasingEnabled				],
 						preferredFramesPerSecond:30,
 						antialiasingMode:.none,
-						delegate:nil
+						delegate:fwScene
 //						technique:nil
 					))
 					 .allowsHitTesting(	true)
@@ -93,7 +93,8 @@ struct ContentView: View {
 					pointOfView	: nil,//jetModel.scene.cameraNode,
 					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 					preferredFramesPerSecond : 30,
-					antialiasingMode : .none, delegate:nil
+					antialiasingMode : .none,
+					delegate	: nil
 				))
 				 .frame(width:200, height:200)
 				SceneView(

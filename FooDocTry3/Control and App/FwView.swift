@@ -54,108 +54,61 @@ class FwView : SCNView, SCNSceneRendererDelegate {
 	required init?(coder decoder: NSCoder) {
 		super.init(coder:decoder) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
-	 // MARK: - 3.6 NSCopying
-	func copy(with zone: NSZone?=nil) -> Any {
-		let theCopy : FwView	= FwView(frame:CGRect(x: 100, y: 200, width: 300, height: 400))//super.copy(with:zone) as! FwView
-	//	theCopy.con				= self.con
-		atSer(3, logd("copy(with as? FwView       ''"))
-		return theCopy
-	}
+//	 // MARK: - 3.6 NSCopying
+//	func copy(with zone: NSZone?=nil) -> Any {
+//		let theCopy : FwView	= FwView(frame:CGRect(x: 100, y: 200, width: 300, height: 400))//super.copy(with:zone) as! FwView
+//	//	theCopy.con				= self.con
+//		atSer(3, logd("copy(with as? FwView       ''"))
+//		return theCopy
+//	}
 
-	 // MARK: - 3.7 Equitable
-	func varsOfFwViewEq(_ rhs:Part) -> Bool {
-		guard let rhsAsFwView	= rhs as? FwView else {		return false		}
-bug;	return false
-	}
-	func equalsPart(_ part:Part) -> Bool {
-bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
-	}
+//	 // MARK: - 3.7 Equitable
+//	func varsOfFwViewEq(_ rhs:Part) -> Bool {
+//		guard let rhsAsFwView	= rhs as? FwView else {		return false		}
+//bug;	return false
+//	}
+//	func equalsPart(_ part:Part) -> Bool {
+//bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
+//	}
 	
-	
-	
-// /////////////////////////////////////////////////////////////////////////////
-// ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-  // called by SCNSceneRenderer,  SCNDebugOptions
 
-	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
-	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			DOCfwScene.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
-		}
-	}
-	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
-	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			DOCrootPart.computeLinkForces(vew:DOCfwScene.rootVew)
-		}
-	}
-	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
-	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			DOCrootPart.applyLinkForces(vew:DOCfwScene.rootVew)
-		}
-	}
-	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
-	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			DOCrootPart.rotateLinkSkins(vew:DOCfwScene.rootVew)
-		}
-	}
-	   // ODD Timing:
-	  // MARK: - 9.5.@: did Render Scene
-	public func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
-	}
-	  // MARK: - 9.5.*: Did Apply Constraints At Time
-	public func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
-		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
-	}
-
-
-
-
-	 // MARK: - 13.1 Keys
-	// ////////////////////////////////////
-	//
-	//			K  K EEEE Y   Y  SSS
-	//			K K  E     Y Y  S
-	//			KK   EEE    Y    SS
-	//			K K  E      Y      S
-	//			K  K EEEE   Y   SSS
-	//
-	// //////////////////////////////////
-	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys
-	override func keyDown(with nsEvent:NSEvent) {
-		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
-			return
-		}
-		assert(nsEvent.charactersIgnoringModifiers!.count == 1, "multiple keystrokes not supported")
-		if nsEvent.isARepeat {				// Ignore repeats
-			return
-		}
-		if isAutoRepeat {
-			print("the above isARepeat didn't work!")
-		}
-		isAutoRepeat 			= true
-		 		// Let Document process key:
-		if let doc				= DOC,
-		  true {//doc.processKey(from:nsEvent, inVew:nil) == false {
-
-			if character != "?" {	// okay for "?" to get here
-				atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
-			}
-		}
-	}
-	override func keyUp(with nsEvent:NSEvent) {
-		assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-		isAutoRepeat 		= false
-		let _ 				= true //DOC?.processKey(from:nsEvent, inVew:nil)
-	}
+//	 // MARK: - 13.1 Keys
+//	// ////////////////////////////////////
+//	//
+//	//			K  K EEEE Y   Y  SSS
+//	//			K K  E     Y Y  S
+//	//			KK   EEE    Y    SS
+//	//			K K  E      Y      S
+//	//			K  K EEEE   Y   SSS
+//	//
+//	// //////////////////////////////////
+//	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys
+//	override func keyDown(with nsEvent:NSEvent) {
+//		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
+//			return
+//		}
+//		assert(nsEvent.charactersIgnoringModifiers!.count == 1, "multiple keystrokes not supported")
+//		if nsEvent.isARepeat {				// Ignore repeats
+//			return
+//		}
+//		if isAutoRepeat {
+//			print("the above isARepeat didn't work!")
+//		}
+//		isAutoRepeat 			= true
+//		 		// Let Document process key:
+//		if let doc				= DOC,
+//		  true {//doc.processKey(from:nsEvent, inVew:nil) == false {
+//
+//			if character != "?" {	// okay for "?" to get here
+//				atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
+//			}
+//		}
+//	}
+//	override func keyUp(with nsEvent:NSEvent) {
+//		assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
+//		isAutoRepeat 		= false
+//		let _ 				= true //DOC?.processKey(from:nsEvent, inVew:nil)
+//	}
 
 	// ///////////////////////////////////////
 	//
@@ -224,59 +177,59 @@ bug;	return	false//super.equalsPart(part) && varsOfFwViewEq(part)
 //		fwScene?.updateCameraRotator(for:"Scroll Wheel")
 //	}
 
-	 // MARK: - 13.4 Mouse Variables
-	func motionFromLastEvent(with nsEvent:NSEvent) {
-		let delt2d :CGPoint		= convert(nsEvent.locationInWindow, from: nil)//nil=screen
-		// convert(_ point: NSPoint, from view: NSView?) -> NSPoint
-
-		let eventPosn			= SCNVector3(delt2d.x, delt2d.y, 0)		// BAD: unprojectPoint(
-		 // Movement since last
-		let prevPosn : SCNVector3 = lastPosition ?? eventPosn
-		deltaPosition			= eventPosn - prevPosn
-		lastPosition			= eventPosn
-	}
-
-	var lastPosition : SCNVector3? = nil				// spot cursor hit
-	var deltaPosition			= SCNVector3.zero
+//	 // MARK: - 13.4 Mouse Variables
+//	func motionFromLastEvent(with nsEvent:NSEvent) {
+//		let delt2d :CGPoint		= convert(nsEvent.locationInWindow, from: nil)//nil=screen
+//		// convert(_ point: NSPoint, from view: NSView?) -> NSPoint
+//
+//		let eventPosn			= SCNVector3(delt2d.x, delt2d.y, 0)		// BAD: unprojectPoint(
+//		 // Movement since last
+//		let prevPosn : SCNVector3 = lastPosition ?? eventPosn
+//		deltaPosition			= eventPosn - prevPosn
+//		lastPosition			= eventPosn
+//	}
+//
+//	var lastPosition : SCNVector3? = nil				// spot cursor hit
+//	var deltaPosition			= SCNVector3.zero
 
 //	func spinNUp(with nsEvent:NSEvent) {
 //		fwScene!.cameraPoleSpin	 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 //		fwScene!.cameraHorizonUp += deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 //	}
 
-	 // MARK: - 13.3 TOUCHPAD Enters
-	// ///////////////////////////////////////
-	//
-	//			TTTTT  OO  U  U  CC  H  H PPP   AA  DDD
-	//			  T   O  O U  U C  C H  H P  P A  A D  D
-	//			  T   O  O U  U C    HHHH PPP  AAAA D  D
-	//			  T   O  O U  U C  C H  H P    A  A D  D
-	//			  T    OO   UU   CC  H  H P    A  A DDD
-	//
-	// //////////////////////////////////////
-	override func touchesBegan(with event:NSEvent) {
-		let t 					= event.touches(matching:.began, in:self)
-		for touch in t {
-			let _:CGPoint		= touch.location(in:nil)
-		}
-	}
-	override func touchesMoved(with event:NSEvent) {
-		let t 					= event.touches(matching:.began, in:self)
-		for touch in t {
-			let prevLoc			= touch.previousLocation(in:nil)
-			let loc				= touch.location(in:nil)
-			atEve(3, (print("\(prevLoc) \(loc)")))
-//			let prevKey			= soloKeyboard?.keyAt(point:prevLoc)
-//			let key				= soloKeyboard?.keyAt(point:loc)
-//			key?.curPoint		= loc
-		}
-	}
-	override func touchesEnded(with event:NSEvent) {
-		let t 					= event.touches(matching:.began, in:self)
-		for touch in t {
-			let _:CGPoint		= touch.location(in:nil)
-		}
-	}
+//	 // MARK: - 13.3 TOUCHPAD Enters
+//	// ///////////////////////////////////////
+//	//
+//	//			TTTTT  OO  U  U  CC  H  H PPP   AA  DDD
+//	//			  T   O  O U  U C  C H  H P  P A  A D  D
+//	//			  T   O  O U  U C    HHHH PPP  AAAA D  D
+//	//			  T   O  O U  U C  C H  H P    A  A D  D
+//	//			  T    OO   UU   CC  H  H P    A  A DDD
+//	//
+//	// //////////////////////////////////////
+//	override func touchesBegan(with event:NSEvent) {
+//		let t 					= event.touches(matching:.began, in:self)
+//		for touch in t {
+//			let _:CGPoint		= touch.location(in:nil)
+//		}
+//	}
+//	override func touchesMoved(with event:NSEvent) {
+//		let t 					= event.touches(matching:.began, in:self)
+//		for touch in t {
+//			let prevLoc			= touch.previousLocation(in:nil)
+//			let loc				= touch.location(in:nil)
+//			atEve(3, (print("\(prevLoc) \(loc)")))
+//	//		let prevKey			= soloKeyboard?.keyAt(point:prevLoc)
+//	//		let key				= soloKeyboard?.keyAt(point:loc)
+//	//		key?.curPoint		= loc
+//		}
+//	}
+//	override func touchesEnded(with event:NSEvent) {
+//		let t 					= event.touches(matching:.began, in:self)
+//		for touch in t {
+//			let _:CGPoint		= touch.location(in:nil)
+//		}
+//	}
 	 // MARK: - 13.4 First Responder
 			 func acceptsFirstResponder()	-> Bool	{	return true				}
 	 // MARK: - 15. PrettyPrint
