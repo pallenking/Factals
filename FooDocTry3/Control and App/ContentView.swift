@@ -32,7 +32,7 @@ struct ContentView: View {
 				ZStack {
 					NSEventReceiver { nsEvent in
 						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
-					SCNSceneAsSwiftUIView(SCNViewsArgs(
+					SCNSceneHostingView(SCNViewsArgs(
 						fwScene		: fwScene,
 						scnScene	: nil,
 						pointOfView	: nil, //fwScene.cameraNode,
@@ -89,7 +89,7 @@ struct ContentView: View {
 				Spacer()
 			}
 			VStack {
-				SCNSceneAsSwiftUIView(SCNViewsArgs( 	//SceneView(
+				SCNSceneHostingView(SCNViewsArgs( 	//SceneView(
 					fwScene		: nil,
 					scnScene	: jetModel.scene,
 					pointOfView	: nil,//jetModel.scene.cameraNode,

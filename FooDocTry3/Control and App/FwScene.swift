@@ -871,10 +871,10 @@ bug
 		return nil
 	}
 
-	func hitTest(_ point:CGPoint, options:[SCNHitTestOption:Any]?=nil) -> [SCNHitTestResult] {
-//		return super.hitTest(point, options:options)//Value of type 'SCNScene' has no member 'hitTest'
-		return [SCNHitTestResult()]
-	}
+//	func hitTest(_ point:CGPoint, options:[SCNHitTestOption:Any]?=nil) -> [SCNHitTestResult] {
+////		return super.hitTest(point, options:options)//Value of type 'SCNScene' has no member 'hitTest'
+//		return [SCNHitTestResult()]
+//	}
 //		let w = FwScene(fwConfig:[:])
 //		let x					= w.hitTest(mouse, options:configHitTest)// ?? [SCNHitTestResult]()
 
@@ -899,7 +899,7 @@ bug
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
 								//		 + +   + +
-		let hits:[SCNHitTestResult]	= hitTest(mouse, options:configHitTest)
+		let hits:[SCNHitTestResult]	= scnView!.hitTest(mouse, options:configHitTest)
 								//		 + +   + +
 
 //        let hits 				= scnView.hitTest(mouse, options:configHitTest)

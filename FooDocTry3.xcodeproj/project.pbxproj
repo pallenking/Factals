@@ -54,7 +54,7 @@
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
 		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
-		9F6822F728C9163D00ACB9F0 /* SCNSceneAsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SCNSceneAsSwiftUIView.swift */; };
+		9F6822F728C9163D00ACB9F0 /* SCNSceneHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SCNSceneHostingView.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
@@ -151,7 +151,7 @@
 		9F3E4A0A28B7A7C4003D450D /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
 		9F4A3AD9288B386300574925 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
-		9F6822F628C9163D00ACB9F0 /* SCNSceneAsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneAsSwiftUIView.swift; sourceTree = "<group>"; };
+		9F6822F628C9163D00ACB9F0 /* SCNSceneHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneHostingView.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9FA1BA5A2881950000B14D60 /* Bogus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bogus.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
@@ -286,7 +286,7 @@
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
 				9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9F6822F628C9163D00ACB9F0 /* SCNSceneAsSwiftUIView.swift */,
+				9F6822F628C9163D00ACB9F0 /* SCNSceneHostingView.swift */,
 				9FEE521628720A2300C8C22A /* FwScene.swift */,
 				9F3E49BC28B2DABB003D450D /* CameraNode.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
@@ -481,7 +481,7 @@
 				9FEE519F286B507600C8C22A /* SubPart.swift in Sources */,
 				9F19010028808DC10078DB6C /* WorldModel.swift in Sources */,
 				9F19010228808DC10078DB6C /* EditNet.swift in Sources */,
-				9F6822F728C9163D00ACB9F0 /* SCNSceneAsSwiftUIView.swift in Sources */,
+				9F6822F728C9163D00ACB9F0 /* SCNSceneHostingView.swift in Sources */,
 				9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */,
 				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
 				9F190122288090240078DB6C /* InspecBase.swift in Sources */,

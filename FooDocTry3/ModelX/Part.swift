@@ -1310,7 +1310,7 @@ bug
 			if nsEvent.clickCount == 1 {			
 				 		// // // 2. Debug switch to select Instantiation:
 				let alt 				= nsEvent.modifierFlags.contains(.option)
-				DOC.showInspecFor(vew:vew, allowNew:alt)							//false
+				DOC.showInspecFor(vew:vew, allowNew:alt)							//false PW
 				return true
 			}
 						// Double Click: show/hide insides

@@ -1,9 +1,10 @@
 //
-//  SCNSceneAsSwiftUIView.swift
+//  SCNSceneHostingView.swift
 //  FooDocTry3
 //
 //  Created by Allen King on 9/7/22.
 //
+//	Allows SceneKit functionality in a SwiftUI View
 
 import SceneKit
 import SwiftUI
@@ -21,7 +22,7 @@ struct SCNViewsArgs {
 
 		// Wrap a FwScene as a SwiftUI View
 
-struct SCNSceneAsSwiftUIView : NSViewRepresentable {
+struct SCNSceneHostingView : NSViewRepresentable {
 	// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView's inside
 	var args					: SCNViewsArgs
@@ -33,9 +34,7 @@ struct SCNSceneAsSwiftUIView : NSViewRepresentable {
 	 // Later, use args to make SCNView
 	func makeNSView(context: Context) -> SCNView {
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
-		let scnScene			= args.scnScene
-								?? SCNScene(named:"art.scnassets/ship.scn")
-								?? SCNScene()
+		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
 		scnView.scene			= scnScene
 		scnView.pointOfView 	= args.pointOfView
 		scnView.backgroundColor	= NSColor("veryLightGray")!
@@ -45,7 +44,7 @@ struct SCNSceneAsSwiftUIView : NSViewRepresentable {
 
 		 // Connect FwScene
 		if let fwScene			= args.fwScene {
-			fwScene.scnView		= scnView			// Link things SCNSceneAsSwiftUIView generated
+			fwScene.scnView		= scnView			// Link things SCNSceneHostingView generated
 			fwScene.scnScene	= scnView.scene!
 			let rootScn			= scnScene.rootNode
 			rootScn.name		= "*-ROOT"
