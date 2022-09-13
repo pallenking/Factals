@@ -47,13 +47,11 @@ var DOC				: FooDocTry3Document!	// CHANGES:	App must insure continuity) Right n
 // * * *
 
  // Shugar on DOC
-var DOCstate		: DocState	{	DOC .docState								}
-var DOCfwScene		: FwScene	{	DOC .docState.fwScene						}
-var DOCrootPart		: RootPart	{	DOC .docState.fwScene.rootPart				}
+var DOCfwScene		: FwScene	{	DOC .fwScene								}
+var DOCrootPart		: RootPart	{	DOC .fwScene.rootPart						}
  // Places where optionality is needed
-var DOCstateQ		: DocState?	{	DOC?.docState								}
-var DOCfwSceneQ		: FwScene?	{	DOC?.docState?.fwScene						}
-var DOCrootPartQ	: RootPart?	{	DOC?.docState?.fwScene.rootPart				}
+var DOCfwSceneQ		: FwScene?	{	DOC?.fwScene								}
+var DOCrootPartQ	: RootPart?	{	DOC?.fwScene.rootPart						}
  // Others:
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
@@ -296,19 +294,18 @@ bug;	let rv					= NSMenu(title:path)
 
 	 // MARK: - MENU / Next / Demo
 	//. @IBAction
-	func scheneAction(_ sender:NSMenuItem) {
+	mutating func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 
 		 // Find scene number for Library lookup:
 		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu
 											: regressScene	// from last time
-//!!	regressScene			= sceneNumber + 1			// next regressScene
+		regressScene			= sceneNumber + 1			// next regressScene
 
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
 		let fwScene				= FwScene(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
-		let docState			= DocState(fwScene:fwScene)
-		let doc					= FooDocTry3Document(docState:docState)
+		let doc					= FooDocTry3Document(fwScene:fwScene)
 
 		DOC						= doc		// register
 

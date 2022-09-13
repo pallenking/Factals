@@ -373,7 +373,7 @@ func originMark(size:Float) -> SCNNode {		// was myGlJack3
 	let rv						= SCNComment("OriginMark(size:\(size))")
 
 	let originNameIndex = DOCfwScene.rootPart.indexFor["origin"] ?? 1					// rv.name = fmt("o-%d", DOC.rootPart.originNameIndex)
-	DOCstate.fwScene.rootPart.indexFor["origin"] = originNameIndex + 1						// DOC.rootPart.originNameIndex += 1
+	DOCfwScene.rootPart.indexFor["origin"] = originNameIndex + 1						// DOC.rootPart.originNameIndex += 1
 	rv.name						= fmt("o-%d", originNameIndex)
  //	let rootPart				= DOC.state.rootPart
  //	rv.name						= fmt("o-%d", rootPart.originNameIndex)

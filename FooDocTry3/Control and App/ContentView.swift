@@ -27,8 +27,8 @@ struct ContentView: View {
 	var body: some View {
 		HStack {
 			VStack {
-				let rootPart:RootPart = document.docState.fwScene.rootPart
-				let fwScene			= document.docState.fwScene
+				let rootPart:RootPart = document.fwScene.rootPart
+				let fwScene			= document.fwScene
 				ZStack {
 					NSEventReceiver { nsEvent in
 						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
@@ -66,15 +66,16 @@ struct ContentView: View {
 					Spacer()
 					HStack {
 						Text("Model:")
+						let fws				= fwScene
 						Button(label:{	Text(   "ptm").padding(.top, 300)				})
 						{	lldbPrint(ob:rootPart, mode:.tree)							}
 						Button(label:{	Text(  "ptLm").padding(.top, 300)				})
 						{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 		}
 						Text(" ")
 						Button(label:{	Text(   "ptv").padding(.top, 300)				})
-						{	lldbPrint(ob:fwScene.rootVew, mode:.tree) 					}
+						{	bug}//lldbPrint(ob:fwScene.rootVew?, mode:.tree) 				}
 						Button(label:{	Text(   "ptn").padding(.top, 300)				})
-						{	lldbPrint(ob:fwScene.scnScene.rootNode, mode:.tree)	 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+						{	bug}//lldbPrint(ob:fwScene?.scnScene.rootNode, mode:.tree) 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 						Button(label:{	Text(   "reV").padding(.top, 300)				})
 						{	document.redo += 1									 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 					}

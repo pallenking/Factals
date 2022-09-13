@@ -281,7 +281,7 @@ bug
 			}
 		}
 		 // Print Simulator's time, if it has changed:
-		if let sim				= DOCstateQ?.fwScene.rootPart.simulator,
+		if let sim				= DOCfwSceneQ?.rootPart.simulator,
 //		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
 		  simTimeLastLog != nil
 		{
