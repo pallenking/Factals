@@ -15,9 +15,9 @@ func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true
 }
 
  /// Access to current ////// Part Tree //////
-var rootPart  : RootPart		{	return DOCstate.rootPart					}
+var rootPart  : RootPart		{	return DOCstate.fwScene.rootPart			}
 func rootpart(_ name:String?=nil) -> Part  {
-	if var rv : Part			= DOCstateQ?.rootPart {//rootPart {
+	if var rv : Part			= DOCstateQ?.fwScene.rootPart {//rootPart {
 		if name != nil {			// Search for sought Part	//maxLevel:1,
 			rv					= rv.find(name:name!, inMe2:true) ?? rv
 		}

@@ -27,7 +27,7 @@ struct ContentView: View {
 	var body: some View {
 		HStack {
 			VStack {
-				let rootPart:RootPart = document.docState.rootPart
+				let rootPart:RootPart = document.docState.fwScene.rootPart
 				let fwScene			= document.docState.fwScene
 				ZStack {
 					NSEventReceiver { nsEvent in

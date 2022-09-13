@@ -122,7 +122,7 @@ class Part : NSObject, Codable, NSCopying, ObservableObject, PolyWrappable {		//
 		}			// -- Name was given
 		name					= nam ?? {
 			if let prefix		= prefixForClass[fwClassName],
-			  let rootPart		= DOCstateQ?.rootPart	//rootPart
+			  let rootPart		= DOCfwSceneQ?.rootPart	//rootPart
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
 				let index		= rootPart.indexFor[prefix] ?? 0
 				rootPart.indexFor[prefix] = index + 1		// for next

@@ -14,8 +14,8 @@ func ppFwcConfig() -> String {
 		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
 		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
 		 fwScene      .config4scene:\(w( DOCfwScene.config4scene	.pp(.line)	))
-		 rootPart     .ansConfig:   \(w( DOCstate.rootPart.ansConfig.pp(.line)	))
-		 simulator    .config4sim:  \(w( DOCstate.rootPart.simulator.config4sim.pp(.line) ))
+		 rootPart     .ansConfig:   \(w( DOCfwScene.rootPart.ansConfig.pp(.line)	))
+		 simulator    .config4sim:  \(w( DOCfwScene.rootPart.simulator.config4sim.pp(.line) ))
 		"""
 }
 func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)		}

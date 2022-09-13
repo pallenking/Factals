@@ -49,11 +49,11 @@ var DOC				: FooDocTry3Document!	// CHANGES:	App must insure continuity) Right n
  // Shugar on DOC
 var DOCstate		: DocState	{	DOC .docState								}
 var DOCfwScene		: FwScene	{	DOC .docState.fwScene						}
-var DOCrootPart		: RootPart	{	DOC .docState.rootPart						}
+var DOCrootPart		: RootPart	{	DOC .docState.fwScene.rootPart				}
  // Places where optionality is needed
 var DOCstateQ		: DocState?	{	DOC?.docState								}
 var DOCfwSceneQ		: FwScene?	{	DOC?.docState?.fwScene						}
-var DOCrootPartQ	: RootPart?	{	DOC?.docState?.rootPart						}
+var DOCrootPartQ	: RootPart?	{	DOC?.docState?.fwScene.rootPart				}
  // Others:
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
@@ -306,8 +306,8 @@ bug;	let rv					= NSMenu(title:path)
 //!!	regressScene			= sceneNumber + 1			// next regressScene
 
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
-		let fwScene				= FwScene(fwConfig:params4scene + rootPart.ansConfig)
-		let docState			= DocState(rootPart:rootPart, fwScene:fwScene)
+		let fwScene				= FwScene(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
+		let docState			= DocState(fwScene:fwScene)
 		let doc					= FooDocTry3Document(docState:docState)
 
 		DOC						= doc		// register

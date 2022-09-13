@@ -840,21 +840,21 @@ bug
 			nop
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			doc.docState.rootPart.forAllParts({	$0.markTree(dirty:.vew)		})
+			doc.docState.fwScene.rootPart.forAllParts({	$0.markTree(dirty:.vew)		})
 			rootVew.updateVewSizePaint()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			doc.docState.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
+			doc.docState.fwScene.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
 			rootVew.updateVewSizePaint()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			doc.docState.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
+			doc.docState.fwScene.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
 			rootVew.updateVewSizePaint()
 		case "w":
 			print("\n******************** 'w': ==== FwScene Camera = [\(ppCam())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwScene: --> rootPart")
-			if doc.docState.rootPart.processKey(from:nsEvent, inVew:vew!) {
+			if doc.docState.fwScene.rootPart.processKey(from:nsEvent, inVew:vew!) {
 				print("ERROR: fwScene.Process('x') failed")
 			}
 			return true								// recognize both
