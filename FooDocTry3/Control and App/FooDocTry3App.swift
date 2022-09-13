@@ -58,11 +58,18 @@ let DOCctlr						= NSDocumentController.shared
 
 @main
 struct FooDocTry3App: App, Uid, FwAny {
-	var fwClassName: String		= "FooDocTry3App"
-	
 	var uid: UInt16				= randomUid()
+	var fwClassName: String		= "FooDocTry3App"
+//	@Environment(\.scenePhase) private var scenePhase
 
 	var body: some Scene {
+//		WindowGroup {
+//			//MailViewer().environmentObject(model) // Passed through the environment.
+//		}
+ // 20220913: This causes funnies
+//		Settings {
+//			//SettingsView(model: model) // Passed as an observed object.
+//		}
 		DocumentGroup(newDocument: FooDocTry3Document()) { file in
 			ContentView(document: file.$document)
 		}
@@ -304,7 +311,7 @@ bug;	let rv					= NSMenu(title:path)
 		regressScene			= sceneNumber + 1			// next regressScene
 
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
-		let fwGuts				= FwGuts(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
+		let fwGuts				= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
 		let doc					= FooDocTry3Document(fwGuts:fwGuts)
 
 		DOC						= doc		// register

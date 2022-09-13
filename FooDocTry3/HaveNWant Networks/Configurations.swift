@@ -100,7 +100,7 @@ private let params4sim_ : FwConfig = [
 
   // MARK: - F: Scene Params
  /// FwGuts Viewing parameters
-private let params4scene_ : FwConfig = [
+private let params4guts_ : FwConfig = [
 //	"initialDisplayMode"		: "invisible"	// mostly expunged
 //	"physics"					: ??
 /**/"linkVelocityLog2"			: Float(-5.0),	// link velocity = 2^n units/sec //slow:-6.0
@@ -203,7 +203,7 @@ var params4pp		: FwConfig		{ 	return applyPrefixTo(params4pp_		)	}
 
 var params4docLog	: FwConfig		{	return applyPrefixTo(params4docLog_	) 	}
 var params4sim		: FwConfig		{	return applyPrefixTo(params4sim_	) 	}
-var params4scene	: FwConfig		{	return applyPrefixTo(params4scene_	) 	}
+var params4guts		: FwConfig		{	return applyPrefixTo(params4guts_	) 	}
 
 func applyPrefixTo(_ config:FwConfig) -> FwConfig {
 

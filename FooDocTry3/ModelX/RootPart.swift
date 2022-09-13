@@ -17,6 +17,7 @@ class RootPart : Part {
 	var log 			: Log
 	var title							= ""
 	var ansConfig		: FwConfig		= [:]
+	var fwGuts			: FwGuts!
 
 	 // MARK: - 2.3 Part Tree Lock
 	 // Semaphor to exclude SCNSceneRenderer thread

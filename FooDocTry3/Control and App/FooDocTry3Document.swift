@@ -18,14 +18,15 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 	 // No document supplied
 	init() {													 //    INTERNAL:
-		//			RootPart:			//---FUNCTION-----------+-wantName:---wantNumber:
+		//			Make RootPart:		//---FUNCTION-----------+-wantName:---wantNumber:
 		//**/	let select		= nil	//	 Blank scene		|	nil			-1
 		//**/	let select		= 34	//	 entry N			|	nil			N *
 		/**/	let select		= "xr()"//	 entry with xr()	|	"xr()"		-1
 		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
 		let rootPart			= RootPart(fromLibrary:select)
-		 //			FwGuts:
-		fwGuts					= FwGuts(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
+
+		 //			Make FwGuts:
+		fwGuts					= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 
@@ -153,7 +154,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																////		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
 																////		assert(DOCctlr.documents.contains(self), "self not in DOCctlr.documents!")
 																//
-																//		let fwGuts				= FwGuts(fwConfig:params4scene)	// 3D visualization
+																//		let fwGuts				= FwGuts(fwConfig:params4guts)	// 3D visualization
 																//		 		// Link it in:
 																//		assert(fwView != nil, "nib loaded, but fwView not set by IB")
 																//		fwView!.delegate		= fwGuts		// delegate
@@ -166,7 +167,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																//	}
 																 // Spread configuration information
 																//		updateDocConfigs(from:docState.rootPart.ansConfig)
-	func didLoadNib(to view:Any) {
+	mutating func didLoadNib(to view:Any) {
 				// Build Vews after View is loaded:
 /*x*/	fwGuts.updateVewNScnFromModel()
 																//		 // Generate Vew tree
@@ -187,7 +188,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		if config.count == 0 				{	return							}
 
 		 // Buckets to sort config into:
-		var toParams4scene : FwConfig = [:]
+		var toParams4guts  : FwConfig = [:]
 		var toParams4sim   : FwConfig = [:]
 		var toParams4docLog: FwConfig = [:]
 		var unused		   : FwConfig = [:]
@@ -197,17 +198,17 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			var used			= false
 
 			 // --------- To Scene:
-			if params4scene[name] != nil {
-				toParams4scene[name] = value	// 2a: Entry with pre-existing key
+			if params4guts[name] != nil {
+				toParams4guts[name] = value	// 2a: Entry with pre-existing key
 				used			= true
 			}
-			 // Dump val:FwConfig of "scene" into fwGuts.config4scene
+			 // Dump val:FwConfig of "scene" into fwGuts.config4guts
 			if let scene		= config.fwConfig("scene") {
-				toParams4scene	+= scene 		// 2b. all entries in "scene"
+				toParams4guts	+= scene 		// 2b. all entries in "scene"
 				used			= true
 			}
 			if let ppViewOptions = config.string("ppViewOptions") {
-				toParams4scene["ppViewOptions"] = ppViewOptions
+				toParams4guts["ppViewOptions"] = ppViewOptions
 				used			= true			// 2c. Entry ppViewOptions
 			}
 
@@ -231,9 +232,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		 // Q: scattering via = or += paradigm?
 		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 		 // Scene:
-		if toParams4scene.count > 0 {
-			atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
-			fwGuts.config4scene += toParams4scene
+		if toParams4guts.count > 0 {
+			atCon(2, logd("\t -> config4guts:            \(toParams4guts.pp(.line))"))
+			fwGuts.config4guts += toParams4guts
 		}
 		 // Simulator
 		if toParams4sim.count > 0 {
@@ -257,32 +258,32 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
 	var inspecLastVew : Vew? = nil
 
-	func makeInspectors() {
+	mutating func makeInspectors() {
 		print("code makeInspectors")
-//		let library				= APPDEL!.library
-//		let config2				= params4scene + library.answer.ansConfig
-//			// TODO: should move ansConfig stuff into wireAndGroom
-//		if let vew2inspec		= config2["inspec"] {
-//			if let name			= vew2inspec as? String {	// Single String
-//				showInspec(for:name)
-//			}
-//			else if let names 	= vew2inspec as? [String] {	// Array of Strings
-//				for name in names {								// make one for each
-//					showInspec(for:name)
-//				}
-//			} else {
-//				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
-//		}
+		let library				= APP.library
+		let config2				= params4guts + library.answer.ansConfig
+			// TODO: should move ansConfig stuff into wireAndGroom
+		if let vew2inspec		= config2["inspec"] {
+			if let name			= vew2inspec as? String {	// Single String
+				showInspec(for:name)
+			}
+			else if let names 	= vew2inspec as? [String] {	// Array of Strings
+				for name in names {								// make one for each
+					showInspec(for:name)
+				}
+			} else {
+				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
+		}
 	}
-//	func showInspec(for name:String) {
-//		if let part	= docState.rootPart.find(name:name),
-//		  let vew	= rootVew.find(part:part) {
-//			showInspecFor(vew:vew, allowNew:true)
-//		}
-//		else {
-//			warning("Inspector for '\(name)' could not be opened")
-//		}
-//	}
+	mutating func showInspec(for name:String) {
+		if let part	= fwGuts.rootPart.find(name:name),
+		  let vew	= rootVew.find(part:part) {
+			showInspecFor(vew:vew, allowNew:true)
+		}
+		else {
+			warning("Inspector for '\(name)' could not be opened")
+		}
+	}
 		/// Show an Inspec for a vew.
 	   /// - Parameters:
 	  ///   - vew: vew to inspec
@@ -303,17 +304,6 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
 			window!.contentViewController = hostCtlr		// if successful
 		}
-																				//				// Find window to use
-																				//		var window : NSWindow?	= inspecWin4vew[vew]	// EXISTING window
-																				//		if window == nil && allowNew {	// Not found, and window creation allowed
-																				//			window				= NSWindow(contentViewController:hostCtlr)	// new
-																				//		}
-																				//		if window == nil && inspecLastVew != nil {	// Not found, and window creation not allowed
-																				//			window				= inspecWin4vew[inspecLastVew!]
-																				//		}
-																				//		if window == nil {				// Not found, despirately create one
-																				//			window				= NSWindow(contentViewController:hostCtlr)	// new
-																				//		}
 		guard let window = window else { fatalError("Unable to fine NSWindow")	}
 
 				// Title window

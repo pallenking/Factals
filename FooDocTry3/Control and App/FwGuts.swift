@@ -88,7 +88,7 @@ class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDe
 
 	var pole					= SCNNode()		// focus of mouse rotator
 
-	var config4scene : FwConfig {
+	var config4guts : FwConfig {
 		get			{ 			return config4scene_ 							}
 		set(config) {
 			config4scene_ 		= config
@@ -126,7 +126,7 @@ class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDe
 		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
 		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
 
-		config4scene			= fwConfig
+		config4guts			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
 		// TO DO:
@@ -339,7 +339,7 @@ bug
 	  // MARK: - 9.D Pole
 	 // ///// Rebuild the Rotator Pole afresh
 	func updatePoleScn() {			// was updatePole()
-		guard config4scene.bool_("pole") else {	return							}
+		guard config4guts.bool_("pole") else {	return							}
 
 		let name				= "*-pole"
 		 // Delete any Straggler
@@ -398,7 +398,7 @@ bug
 		pole.addChild(node:origin)
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if config4scene.bool("poleTics") ?? false {
+		if config4guts.bool("poleTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -421,7 +421,7 @@ bug;	let fwGuts				= DOCfwGuts
 
 		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
-		let animateIt			= config4scene.bool_("animatePole")
+		let animateIt			= config4guts.bool_("animatePole")
 		if animateIt {	 // Animate 3D Cursor Pole motion"
 			SCNTransaction.begin()
 //			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
@@ -516,7 +516,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			}
 		}
 
-		let vanishingPoint 		= config4scene.double("vanishingPoint")
+		let vanishingPoint 		= config4guts.double("vanishingPoint")
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
@@ -528,7 +528,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 									//
 									//		 // Set zoom per horiz/vert:
 									//		var zoomSize			= bSize.y	// default when height dominates
-									//		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
+									//		if let vanishingPoint 	= config4guts.double("vanishingPoint"),
 									//		  vanishingPoint.isFinite {			// Perspective
 									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
 									//		} 								// Orthographic
@@ -540,7 +540,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 									//		}
 
 		if duration > 0.0,
-		  config4scene.bool("animatePan") ?? false {
+		  config4guts.bool("animatePan") ?? false {
 			SCNTransaction.begin()			// Delay for double click effect
 			atRve(8, logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
@@ -598,7 +598,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 		 // 4. Add Camera, Light, and Pole at end
 		updateLightsScn()							// was updateLights
-		updateCamerasScn(config4scene)
+		updateCamerasScn(config4guts)
 		updatePoleScn()
 
 		updateCameraTransform(for:"install RootPart")
@@ -1007,7 +1007,7 @@ bug
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 	}
-//		if config4scene.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
+//		if config4guts.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 //
 //			 // Mark old SCNNode as Morphing
 //			let oldScn			= vew.scn

@@ -285,7 +285,7 @@
 //		if config.count == 0 				{	return							}
 //
 //		 // Buckets to sort config into:
-//		var toParams4scene : FwConfig = [:]
+//		var toParams4guts : FwConfig = [:]
 //		var toParams4sim   : FwConfig = [:]
 //		var toParams4docLog: FwConfig = [:]
 //		var unused		   : FwConfig = [:]
@@ -296,14 +296,14 @@
 //
 //			 // --------- To Scene:
 //			if params4scene[name] != nil {
-//				toParams4scene[name] = value	// 2a: Entry with pre-existing key
+//				toParams4guts[name] = value	// 2a: Entry with pre-existing key
 //				used			= true 											}
-//			 // Dump val:FwConfig of "scene" into fwGuts.config4scene
+//			 // Dump val:FwConfig of "scene" into fwGuts.config4guts
 //			if let scene		= config.fwConfig("scene") {
-//				toParams4scene	+= scene 		// 2b. all entries in "scene"
+//				toParams4guts	+= scene 		// 2b. all entries in "scene"
 //				used			= true 											}
 //			if let ppViewOptions = config.string("ppViewOptions") {
-//				toParams4scene["ppViewOptions"] = ppViewOptions
+//				toParams4guts["ppViewOptions"] = ppViewOptions
 //				used			= true		}	// 2c. Entry ppViewOptions
 //
 //			 // --------- To Simulator:
@@ -326,12 +326,12 @@
 //		 // Q: scattering via = or += paradigm?
 //		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 //		 // Scene:
-//		if toParams4scene.count > 0 {
+//		if toParams4guts.count > 0 {
 //			if fwGuts != nil {
-//				atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
-//				fwGuts!.config4scene += toParams4scene
+//				atCon(2, logd("\t -> config4guts:            \(toParams4guts.pp(.line))"))
+//				fwGuts!.config4guts += toParams4guts
 //			}else{
-//				atCon(2, logd("\t -> IGNORING fwGuts==nil: \(toParams4scene.pp(.line))"))
+//				atCon(2, logd("\t -> IGNORING fwGuts==nil: \(toParams4guts.pp(.line))"))
 //			}
 //		}
 //		 // Simulator
