@@ -1,5 +1,7 @@
 #  FooDocTry3 README
 
+1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
+
 1. After drag from SF to FDT3, it seems SF and FDT3 are linked! why?
 1. Rename FooDocTry3 to SwiftFactals2
 2. How did you get to rev coparison

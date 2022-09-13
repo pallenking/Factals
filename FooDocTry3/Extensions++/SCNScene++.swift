@@ -27,10 +27,8 @@ var fileURL : URL 				= 	{
 }()
 
 extension SCNScene {
-	var cameraNode : CameraNode {
-		let camera 				= rootNode.find(name:"camera")
-		let rv 					= camera as! CameraNode
-		return rv
+	var cameraNode : SCNNode? {
+		rootNode.find(name:"camera")
 	}
 }
 

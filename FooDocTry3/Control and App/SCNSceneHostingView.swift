@@ -12,7 +12,7 @@ import SwiftUI
 struct SCNViewsArgs {
 	let fwScene					: FwScene?
 	let scnScene 				: SCNScene?
-	let pointOfView 			: CameraNode?
+	let pointOfView 			: SCNNode?
 	let options 				: SceneView.Options			//= []					//.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
 	let preferredFramesPerSecond: Int						//= 30
 	let antialiasingMode 		: SCNAntialiasingMode		//= .none				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,

@@ -130,8 +130,6 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
 		// TO DO:
-		  // 1. Might want to add camera:[s: u: z:] to status bar //cocoahead 4
-
 		  //  2. In SCNView show
 		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
 		//fwView?.background	= NSColor("veryLightGray")!
@@ -252,20 +250,52 @@ bug
 	}
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
-	var cameraNode : CameraNode! { scnScene.cameraNode				}
+	var cameraNode : SCNNode?	{	scnScene.cameraNode							}
 	func updateCamerasScn(_ config:FwConfig) {
 
 		 // Delete any Straggler
-		if let stragglerNode	= rootScn.find(name:"camera") {
-			let msg				= stragglerNode == cameraNode ? "" : " and no match to cameraNode"
+		if let stragglerScn		= rootScn.find(name:"camera") {
+			let msg				= stragglerScn == cameraNode ? "" : " and no match to cameraNode"
 			warning("Who put this camera here? !!!" + msg)
-			stragglerNode.removeFromParentNode()
+			stragglerScn.removeFromParentNode()
 		}
-		let newCameraNode		= CameraNode(config)
-		newCameraNode.name			= "camera"
-		newCameraNode.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		rootScn.addChildNode(newCameraNode)
+
+		 // Just make a whole new camera system from scratch
+		let camera				= SCNCamera()
+		camera.name				= "SCNCamera"
+		camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
+		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+		camera.exposureAdaptationDarkeningSpeedFactor = 1
+		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
+		//camera.zNear			= 1
+		//camera.zFar			= 100
+														// NOOO	addChildNode(camera!)
+		let newCameraScn		= SCNNode()
+		newCameraScn.camera		= camera
+		newCameraScn.name		= "camera"
+		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+		rootScn.addChildNode(newCameraScn)
 	}
+
+
+
+//		 // Configure Camera from Source Code:
+//		if let c 				= config.fwConfig("camera") {
+//			var f				= DOCfwScene
+//			if let h 			= c.float("h"), !h.isNan {	// Pole Height
+//				f.lastSelfiePole.height	= CGFloat(h)
+//			}
+//			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
+//				f.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+//			}
+//			if let s 			= c.float("s"), !s.isNan {	// Spin
+//				f.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+//			}
+//			if let z 			= c.float("z"), !z.isNan {	// Zoom
+//				f.lastSelfiePole.zoom = CGFloat(z)
+//			}
+//			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
+//		}
 	 // MARK: - 9.C Lights
 	func updateLightsScn() {
 		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
@@ -385,17 +415,16 @@ bug
 	}
 
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-//		let doc					= DOC
-//		let fwScene				= doc.fwScene!
-//		let localPoint			= falseF ? bBox.center : .origin				//trueF//falseF//
-//		let wPosn				= scn.convertPosition(localPoint, to:fwScene.rootScn)
+bug;	let fwScene				= DOCfwScene
+		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
+		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:fwScene.rootScn)
 
 		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
 		let animateIt			= config4scene.bool_("animatePole")
 		if animateIt {	 // Animate 3D Cursor Pole motion"
 			SCNTransaction.begin()
-bug;//		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
+//			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 		}
 
 		pole.worldPosition		= wPosn
@@ -406,6 +435,13 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			SCNTransaction.commit()
 		}
 	}
+//			for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
+//				rv				+= "\(msg) =       \(obj.categoryBitMask)-"
+//				rv				+= "\(obj.description.shortenStringDescribing())\n"
+//			}
+	//		let c = lastSelfiePole
+	//		rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
+	//				c.spin, c.horizonUp, c.zoom) // in degrees
 	 // MARK: - 9.E Look AT
 	var lookAtPart : Part? 		= nil
 	var lookAtVew  : Vew?		= nil
@@ -417,8 +453,8 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	///   - from: defines direction of camera
 	///   - message: for logging only
 	///   - duration: for animation
-	func updateCameraTransform(from:SelfiePole?=nil, for message:String?=nil, overTime duration:Float=0.0) { //updateCameraRotator
-		let pole : SelfiePole	= from ?? lastSelfiePole
+	func updateCameraTransform(for message:String?=nil, overTime duration:Float=0.0) { //updateCameraRotator
+		let pole : SelfiePole	= lastSelfiePole
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
 		   //
@@ -451,18 +487,20 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 				////		let x					= cameraNode.camera?.projectionTransform
 				//		let bBoxScreen			= bBox.transformed(by:transform2eye)
 				//		let bSize				= bBoxScreen.size
+		if cameraNode == nil {
+			print("cameraNode is nil")
+			return
+		}
 
 		  // Determine magnification so all parts of the 3D object are seen.
 		 //
-		print("\n\nDetermine magnification so all parts fit on screen\n\n")
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(cameraNode!.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 		guard let nsRectSize	= scnView?.frame.size  else  {	fatalError()	}
 
-					// Landscape window ------------------
-		var orientation			= "Landscape"
+		var orientation			= "Height Dominated"
 		var zoomSize			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
 		 // Is side going to be clipped off?
 		let ratioHigher			= nsRectSize.height / nsRectSize.width
@@ -470,8 +508,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			zoomSize			*= ratioHigher
 		}
 		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
-					// Portrait window ------------------
-			orientation			= "Portrait"
+			orientation			= "Width Dominated"
 			zoomSize			= rootVewSizeInEye.y
 			 // Is top going to be clipped off?
 			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
@@ -483,24 +520,24 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-			guard let cam		= cameraNode.camera else { fatalError("cameraNode.camera is nil") 	}
+			guard let cam		= cameraNode!.camera else { fatalError("cameraNode.camera is nil") 	}
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
 			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
 		}
-		print(fmt("\(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", zoomSize, vanishingPoint ?? -.infinity))
-				//
-				//		 // Set zoom per horiz/vert:
-				//		var zoomSize			= bSize.y	// default when height dominates
-				//		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
-				//		  vanishingPoint.isFinite {			// Perspective
-				//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
-				//		} 								// Orthographic
-				//		else if let cam			= cameraNode.camera {
-				//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
-				//			cam.usesOrthographicProjection = true		// camera’s magnification factor
-				//			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
-				////			cam.orthographicScale = Double(orthoScale * pole.zoom * 0.75)
-				//		}
+		print(fmt("FwScene resize \(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", zoomSize, vanishingPoint ?? -.infinity))
+									//
+									//		 // Set zoom per horiz/vert:
+									//		var zoomSize			= bSize.y	// default when height dominates
+									//		if let vanishingPoint 	= config4scene.double("vanishingPoint"),
+									//		  vanishingPoint.isFinite {			// Perspective
+									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
+									//		} 								// Orthographic
+									//		else if let cam			= cameraNode.camera {
+									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
+									//			cam.usesOrthographicProjection = true		// camera’s magnification factor
+									//			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
+									////			cam.orthographicScale = Double(orthoScale * pole.zoom * 0.75)
+									//		}
 
 		if duration > 0.0,
 		  config4scene.bool("animatePan") ?? false {
@@ -508,13 +545,13 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			atRve(8, logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
-			cameraNode.transform *= 0.999999	// virtually no effect
+			cameraNode!.transform *= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
 				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				self.cameraNode.transform = newCameraXform
+				self.cameraNode!.transform = newCameraXform
 
 				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -523,7 +560,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			SCNTransaction.commit()
 		}
 		else {
-			cameraNode.transform = newCameraXform
+			cameraNode!.transform = newCameraXform
 		}
 	}
 
@@ -698,7 +735,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			updateCameraTransform(for:"Other mouseUp", overTime:duration)
 			print("camera = [\(ppCam())]")
 			//at("All", 3, print("camera = [\(fwScene!.ppCam())]"))
-			atEve(9, print("\(cameraNode.transform.pp(.tree)))"))
+			atEve(9, print("\(cameraNode?.transform.pp(.tree) ?? "cameraNode is nil")"))
 		 //  ====== CENTER SCROLL WHEEL ======
 		case .scrollWheel: nop
 			let d				= nsEvent.deltaY

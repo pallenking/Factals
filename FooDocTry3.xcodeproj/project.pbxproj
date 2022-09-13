@@ -59,7 +59,7 @@
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
 		9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
-		9F969542288C8F7F00106DBC /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
+		9F969542288C8F7F00106DBC /* XXXFwViewXXX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* XXXFwViewXXX.swift */; };
 		9FA1BA5B2881950000B14D60 /* Bogus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA1BA5A2881950000B14D60 /* Bogus.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
@@ -100,7 +100,7 @@
 
 /* Begin PBXFileReference section */
 		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
-		9F0295D02880921800DD0004 /* FwView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
+		9F0295D02880921800DD0004 /* XXXFwViewXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXFwViewXXX.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
 		9F0295D72880926D00DD0004 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -285,14 +285,14 @@
 				9FEE6F152835778A00E9E2AE /* FooDocTry3App.swift */,
 				9FEE6F172835778A00E9E2AE /* FooDocTry3Document.swift */,
 				9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */,
+				9F0295D02880921800DD0004 /* XXXFwViewXXX.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
+				9F3E49A728B27238003D450D /* NSEventReceiver.swift */,
 				9F6822F628C9163D00ACB9F0 /* SCNSceneHostingView.swift */,
 				9FEE521628720A2300C8C22A /* FwScene.swift */,
+				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F3E49BC28B2DABB003D450D /* CameraNode.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
-				9F0295D02880921800DD0004 /* FwView.swift */,
-				9F3E49A728B27238003D450D /* NSEventReceiver.swift */,
-				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
 				9F19CA31285EA5090072C50E /* Simulator.swift */,
 				9FEE51A1286B8F5B00C8C22A /* Log.swift */,
@@ -543,7 +543,7 @@
 				9F19011128808F070078DB6C /* Port.swift in Sources */,
 				9FA1BA5B2881950000B14D60 /* Bogus.swift in Sources */,
 				9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */,
-				9F969542288C8F7F00106DBC /* FwView.swift in Sources */,
+				9F969542288C8F7F00106DBC /* XXXFwViewXXX.swift in Sources */,
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,

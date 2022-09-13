@@ -56,10 +56,10 @@ class XXXX_StuffToSave {
 		let delta				= v.location - v.startLocation
 	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 
-		var newPole:SelfiePole	= fwScene.lastSelfiePole
-		newPole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		newPole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-		fwScene.updateCameraTransform(from:newPole, for:"dragGesture")
+		var selfiePole			= fwScene.lastSelfiePole
+		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+		fwScene.updateCameraTransform(for:"dragGesture")
 	}
 	func dragGestureEnd(value v:DragGesture.Value) {
 		let fwScene				= DOCfwScene
@@ -75,7 +75,7 @@ class XXXX_StuffToSave {
 		print("tapGesture value:'\(v)' count:\(count)")
 
 		 // Make NSEvent for Double Click
-		let a					= fwScene.cameraNode.position
+		let a					= fwScene.cameraNode!.position
 		let location			= NSPoint(x: a.x, y: a.y)
 		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
 											location:location,

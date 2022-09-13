@@ -320,13 +320,6 @@ bug;	let rv					= NSMenu(title:path)
 		switch mode {
 		case .tree:
 			var rv = ""
-//			for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
-//				rv				+= "\(msg) =       \(obj.categoryBitMask)-"
-//				rv				+= "\(obj.description.shortenStringDescribing())\n"
-//			}
-	//		let c = lastSelfiePole
-	//		rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
-	//				c.spin, c.horizonUp, c.zoom) // in degrees
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
