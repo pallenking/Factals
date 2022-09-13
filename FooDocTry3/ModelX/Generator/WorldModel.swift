@@ -85,6 +85,7 @@ class WorldModel : Atom {
 		prob			= try container.decode(  	 Float.self, forKey:.prob)
 		atSer(3, logd("Decoded  as? WorldModel named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : WorldModel = super.copy(with:zone) as! WorldModel

@@ -7,7 +7,7 @@ import SwiftUI
 
  /// Base class for Factal Workbench Models
 // @objc ??
-class Part : NSObject, Codable, NSCopying, ObservableObject, PolyWrappable {		//, Equatable
+class Part : NSResponder, Codable, NSCopying, ObservableObject, PolyWrappable {		//, Equatable
 
 	 // MARK: - 2. Object Variables:
 	@objc dynamic var name		= "<unnamed>"
@@ -178,6 +178,7 @@ class Part : NSObject, Codable, NSCopying, ObservableObject, PolyWrappable {		//
 			localConfig["parts"] = nil
 		}
 	}
+	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
 	func setTree(root:RootPart, parent:Part?) {
 //			//  "Root mismatch")
 //		assertWarn(self.parent === parent, "\(fullName): Parent:\(self.parent?.fullName ?? "nil") should be \(parent?.fullName ?? "nil")")
@@ -276,7 +277,7 @@ class Part : NSObject, Codable, NSCopying, ObservableObject, PolyWrappable {		//
 		str						+= "dirty:\(dirty.pp())"
 		atSer(3, logd("Decoded  as? Part       \(str)"))
 	}
-// END CODABLE /////////////////////////////////////////////////////////////////
+	// END CODABLE /////////////////////////////////////////////////////////////////
 	 // MARK: - 3.6 NSCopying
 	func copy(with zone: NSZone?=nil) -> Any {
 bug;	let theCopy 			= Part()

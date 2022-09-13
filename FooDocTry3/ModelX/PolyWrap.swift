@@ -94,7 +94,9 @@ class PolyWrap : Part {
 		atSer(3, logd("Decoded  as? PolyWrap   named '\(name)', partType\(newbiePartType)"))
 		self.addChild(newbiePart)
 	}
-//	 // MARK: - 3.6 NSCopying
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	
+	//	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy : PolyWrap	= super.copy(with:zone) as! PolyWrap
 //bug		//theCopy.con			= self.con

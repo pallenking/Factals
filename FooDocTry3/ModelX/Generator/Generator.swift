@@ -101,6 +101,7 @@ class Generator : Net {
 	required init(from decoder: Decoder) throws {
 		try super.init(from:decoder)
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : Generator		= super.copy(with:zone) as! Generator

@@ -230,6 +230,7 @@ class Port : Part, PortTalk {
 								  "conTo:\(connectedTo?.fullName ?? "nil")"
 		atSer(3, logd("Decoded  as? Port       \(msg)"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : Port		= super.copy(with:zone) as! Port

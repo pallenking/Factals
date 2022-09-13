@@ -115,6 +115,7 @@ class Atom : Part {	//Part//FwPart
 		bindings 				= try container.decode([String:String]?.self, forKey:.bindings)
 		atSer(3, logd("Decoded  as? Atom       '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : Atom		= super.copy(with:zone) as! Atom

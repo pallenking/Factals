@@ -60,6 +60,7 @@ class SoundAtom : Atom {
 		playing	 				= try container.decode(  Bool.self, forKey:.playing)
 		atSer(3, logd("Decoded  as? SoundAtom  named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	 // MARK: - 3.7 Equitable
 	func varsOfSoundAtomEq(_ rhs:Part) -> Bool {

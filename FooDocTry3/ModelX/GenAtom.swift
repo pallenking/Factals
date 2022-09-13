@@ -80,6 +80,7 @@ class GenAtom : Atom {
 		loop	 				= try container.decode( Bool.self, forKey:.loop)
 		atSer(3, logd("Decoded  as? GenAtom    named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{
 		var rv 					= super.hasPorts()

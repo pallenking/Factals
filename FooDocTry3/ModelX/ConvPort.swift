@@ -77,6 +77,7 @@ class ConvPort : Port {
 		atSer(3, logd("Decoded  as? ConvPort"))
 	}
 	 // MARK: - 3.6 NSCopying
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : ConvPort	= super.copy(with:zone) as! ConvPort
 		theCopy.outPort	 		= self.outPort

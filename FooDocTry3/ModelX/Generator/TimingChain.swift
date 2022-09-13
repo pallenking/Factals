@@ -118,6 +118,7 @@ class TimingChain : Atom {
 		retractPort	 	= try container.decode( 		 Port.self, forKey:.retractPort)
 		atSer(3, logd("Decoded  as? TimingChan named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : TimingChain		= super.copy(with:zone) as! TimingChain

@@ -296,35 +296,46 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	   /// - Parameters:
 	  ///   - vew: vew to inspec
 	 ///   - allowNew: window, else use existing
-	func showInspecFor(vew:Vew, allowNew:Bool) { //
+	mutating func showInspecFor(vew:Vew, allowNew:Bool) { //
 		let inspec				= Inspec(vew:vew)
-		let hostCtlr			= NSHostingController(rootView:inspec)
-		hostCtlr.view.frame		= NSRect(x:0, y:0, width:400, height:0)	// questionable use
 
-				// Find window to use
-		var window : NSWindow?	= inspecWin4vew[vew]	// EXISTING window
-		if window == nil && allowNew {	// Not found, and window creation allowed
-			window				= NSWindow(contentViewController:hostCtlr)	// new
+				// Get inspector's window
+		var window : NSWindow?	= inspecWin4vew[vew]	// EXISTING?
+		if window == nil, !allowNew,
+		  let lv				= inspecLastVew {
+			window				= inspecWin4vew[lv]		// try LAST
 		}
-		if window == nil && inspecLastVew != nil {	// Not found, and window creation not allowed
-			window				= inspecWin4vew[inspecLastVew!]
+		if window == nil {								// make NEW
+			let hostCtlr		= NSHostingController(rootView:inspec)
+			hostCtlr.view.frame	= NSRect(x:0, y:0, width:400, height:0)	// questionable use
+			window				= NSWindow(contentViewController:hostCtlr)	// create
+			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
+			window!.contentViewController = hostCtlr		// if successful
 		}
-		if window == nil {				// Not found, despirately create one
-			window				= NSWindow(contentViewController:hostCtlr)	// new
-		}
-		assert(window != nil, "Unable to fine NSWindow")
-		window!.contentViewController = hostCtlr		// if successful
+																				//				// Find window to use
+																				//		var window : NSWindow?	= inspecWin4vew[vew]	// EXISTING window
+																				//		if window == nil && allowNew {	// Not found, and window creation allowed
+																				//			window				= NSWindow(contentViewController:hostCtlr)	// new
+																				//		}
+																				//		if window == nil && inspecLastVew != nil {	// Not found, and window creation not allowed
+																				//			window				= inspecWin4vew[inspecLastVew!]
+																				//		}
+																				//		if window == nil {				// Not found, despirately create one
+																				//			window				= NSWindow(contentViewController:hostCtlr)	// new
+																				//		}
+		guard let window = window else { fatalError("Unable to fine NSWindow")	}
 
 				// Title window
-		window!.title			= vew.part.fullName
+		window.title			= vew.part.fullName
 
 				// Position on screen: Quite AD HOC!!
-		window!.orderFront(self)				// Doesn't work -- not front when done!
-		window!.makeKeyAndOrderFront(self)
-		window!.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
+		window.orderFront(self)				// Doesn't work -- not front when done!
+		window.makeKeyAndOrderFront(self)
+		window.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
 
 			// Remember window for next creation
-//		inspecWin4vew[vew]		= window
+		inspecWin4vew[vew]		= window
+		inspecLastVew			= vew
 	}
 
 	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {

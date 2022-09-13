@@ -67,6 +67,7 @@ class FwBundle : Net {
 		label	 			= try container.decode(String.self,   forKey:.label)
 		atSer(3, logd("Decoded  as? FwBundle     named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 
 
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!

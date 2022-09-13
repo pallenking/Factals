@@ -895,14 +895,11 @@ bug
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent) -> Vew? {
-
 		if let picdVew			= findVew(nsEvent:nsEvent) {
 			 // DISPATCH to PART that was pic'ed
-			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) == false {
-				atEve(3, print("\t\t" + "\(picdVew.part.pp(.fullName)).processKey('') ignored\n"))
-				return nil
+			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) {
+				return picdVew
 			}
-			return picdVew
 		}
 		atEve(3, print("\t\t" + "** No Part FOUND\n"))
 		return nil

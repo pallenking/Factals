@@ -110,6 +110,7 @@ class Actor : Net {
 		linkDisplayInvisible	= try container.decode(Bool  .self, forKey:.linkDisplayInvisible)
 		atSer(3, logd("Decoded  as? Actor      named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : Actor		= super.copy(with:zone) as! Actor

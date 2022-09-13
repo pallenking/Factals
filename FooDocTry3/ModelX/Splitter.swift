@@ -112,6 +112,7 @@ class Splitter : Atom {
 		a1 						= try container.decode( Float.self,	forKey:.a1)
 		atSer(3, logd("Decoded  as? Splitter   named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	 // MARK: - 3.7 Equitable
 	func varsOfSplitterEq(_ rhs:Part) -> Bool {

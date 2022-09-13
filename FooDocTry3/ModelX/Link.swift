@@ -142,6 +142,7 @@ class Link : Atom {
 		maxColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
 		atSer(3, logd("Decoded  as? Link       named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : Link		= super.copy(with:zone) as! Link

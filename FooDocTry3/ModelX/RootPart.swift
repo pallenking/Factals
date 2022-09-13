@@ -335,6 +335,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 //		atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
 //									"found:\(title), returns:\n\(pp(.tree))"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 
 	// MARK: - 4. Build
 	func wireAndGroom() {

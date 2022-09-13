@@ -58,6 +58,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		type	 			= try container.decode(String.self, forKey:.type)
 		atSer(3, logd("Decoded  as? Leaf       named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : Leaf		= super.copy(with:zone) as! Leaf

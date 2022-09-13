@@ -80,6 +80,7 @@ class DiscreteTime : Atom {
 		anonValue				= try container.decode(   Float.self, forKey:.anonValue)
 		atSer(3, logd("Decoded  as? DiscTime   named  '\(name)'"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	override func copy(with zone: NSZone?=nil) -> Any {

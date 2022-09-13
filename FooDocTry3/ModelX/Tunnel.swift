@@ -36,6 +36,7 @@ class Tunnel : FwBundle {
 		minSize 				= try container.decode(SCNVector3?.self, forKey:.minSize)
 		atSer(3, logd("Decoded  as? Tunnel        named  '\(name)' minSize = \(minSize?.pp(.line) ?? "nil")"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying
 	override func copy(with zone: NSZone?=nil) -> Any {
 		let theCopy : Tunnel	= super.copy(with:zone) as! Tunnel

@@ -14,6 +14,7 @@ class Portless : Atom {
 	override func hasPorts() -> [String:String]			{	[:]					}
 	 // Deserialize
 	required init(from decoder: Decoder) throws { try super.init(from:decoder)	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
@@ -44,6 +45,7 @@ class Ago : Atom {
 
 	 // MARK: - 3.5 Codable
 	required init(from decoder: Decoder) throws { try super.init(from:decoder)	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 
 	// MARK: - 8. Reenactment Simulator
@@ -161,6 +163,7 @@ class Mirror : Atom {
 		offset					= try container.decode(Float.self, forKey:.offset)
 		atSer(3, logd("Decoded  as? Mirror"))
 	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	 // MARK: - 3.7 Equitable
 	func varsOfMirrortEq(_ rhs:Part) -> Bool {
