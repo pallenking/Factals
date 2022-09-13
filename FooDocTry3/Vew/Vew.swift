@@ -237,8 +237,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				return rv						// return an ancestor's config
 			}
 		}
-		let fwScene				= DOCfwSceneQ
-		return fwScene?.config4scene[name]	// make this part of new RootPart class
+		let fwGuts				= DOCfwGutsQ
+		return fwGuts?.config4scene[name]	// make this part of new RootPart class
 	 }
 
 	 // MARK: - 4.6 Find Children
@@ -519,7 +519,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let fwScene		= DOCfwSceneQ else {	return 					}
+		guard let fwGuts		= DOCfwGutsQ else {	return 					}
 		var needsViewLock		= needsLockArg		// nil if lock obtained
 		let vRoot				= self
 		assert(rootVew === vRoot, "rootVew === vRoot")
@@ -537,7 +537,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						guard fwScene.lock(rootVewAs:viewLockName, logIf:log) else {
+						guard fwGuts.lock(rootVewAs:viewLockName, logIf:log) else {
 							fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 						}
 						viewLockName = nil		// mark gotten
@@ -586,7 +586,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 								  needsViewLock == nil ? needsLockArg :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		fwScene.unlock(rootVewAs:unlockName, logIf:log)	// Release VIEW LOCK
+		fwGuts.unlock(rootVewAs:unlockName, logIf:log)	// Release VIEW LOCK
 	}
 	 // MARK: - 9.5 Wire Box
 	func updateWireBox() {
@@ -657,18 +657,18 @@ class Vew : NSObject, ObservableObject, Codable {	//
 							//
 							//	func movePole() {
 							//		let doc					= DOC!	//part.root!.fwDocument!
-							//		let fwScene				= doc.fwScene!
+							//		let fwGuts				= doc.fwGuts!
 							//		let localPoint			= falseF ? bBox.center : .origin				//trueF//falseF//
-							//		let wPosn				= scn.convertPosition(localPoint, to:fwScene.rootScn)
-							//		assert(fwScene.pole.worldPosition.isNan == false, "Pole has position = NAN")
+							//		let wPosn				= scn.convertPosition(localPoint, to:fwGuts.rootScn)
+							//		assert(fwGuts.pole.worldPosition.isNan == false, "Pole has position = NAN")
 							//
-							//		let animateIt			= fwScene.config4scene.bool_("animatePole")
+							//		let animateIt			= fwGuts.config4scene.bool_("animatePole")
 							//		if animateIt {	 // Animate 3D Cursor Pole motion"
 							//			SCNTransaction.begin()
 							//bug //		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 							//		}
 							//
-							//		fwScene.pole.worldPosition	= wPosn
+							//		fwGuts.pole.worldPosition	= wPosn
 							//
 							//		if animateIt {
 							//			SCNTransaction.animationDuration = CFTimeInterval(doc.fwView!.duration/3)

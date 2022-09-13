@@ -52,30 +52,30 @@ class XXXX_StuffToSave {
 
 	//  ====== LEFT MOUSE ======
 	func dragGesture(value v:DragGesture.Value) {
-		let fwScene				= DOCfwScene
+		let fwGuts				= DOCfwGuts
 		let delta				= v.location - v.startLocation
 	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 
-		var selfiePole			= fwScene.lastSelfiePole
+		var selfiePole			= fwGuts.lastSelfiePole
 		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-		fwScene.updateCameraTransform(for:"dragGesture")
+		fwGuts.updateCameraTransform(for:"dragGesture")
 	}
 	func dragGestureEnd(value v:DragGesture.Value) {
-		let fwScene				= DOCfwScene
+		let fwGuts				= DOCfwGuts
 		let delta				= v.location - v.startLocation
 	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 
-		fwScene.lastSelfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		fwScene.lastSelfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-		fwScene.updateCameraTransform(for:"dragGestureEnd")
+		fwGuts.lastSelfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+		fwGuts.lastSelfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+		fwGuts.updateCameraTransform(for:"dragGestureEnd")
 	}
 	func tapGesture(value v:TapGesture.Value, count:Int) {
-		let fwScene				= DOCfwScene
+		let fwGuts				= DOCfwGuts
 		print("tapGesture value:'\(v)' count:\(count)")
 
 		 // Make NSEvent for Double Click
-		let a					= fwScene.cameraNode!.position
+		let a					= fwGuts.cameraNode!.position
 		let location			= NSPoint(x: a.x, y: a.y)
 		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
 											location:location,
@@ -84,7 +84,7 @@ class XXXX_StuffToSave {
 											clickCount:count,
 											pressure:1.0)!
 		 // dispatch Pic event
-		let x:Vew? 				= DOCfwScene.modelPic(with:nsEvent)
+		let x:Vew? 				= DOCfwGuts.modelPic(with:nsEvent)
 //		print(windowController0)
 		print(x ?? "<<nil>>")
 	}

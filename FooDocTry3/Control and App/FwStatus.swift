@@ -13,9 +13,9 @@ func ppFwcConfig() -> String {
 		CONFIGURATIONS:
 		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
 		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
-		 fwScene      .config4scene:\(w( DOCfwScene.config4scene	.pp(.line)	))
-		 rootPart     .ansConfig:   \(w( DOCfwScene.rootPart.ansConfig.pp(.line)	))
-		 simulator    .config4sim:  \(w( DOCfwScene.rootPart.simulator.config4sim.pp(.line) ))
+		 fwGuts      .config4scene:\(w( DOCfwGuts.config4scene	.pp(.line)	))
+		 rootPart     .ansConfig:   \(w( DOCfwGuts.rootPart.ansConfig.pp(.line)	))
+		 simulator    .config4sim:  \(w( DOCfwGuts.rootPart.simulator.config4sim.pp(.line) ))
 		"""
 }
 func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)		}
@@ -256,13 +256,13 @@ extension Library : FwStatus {								/// Library or Tests01
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth)
 	}
 }
-extension FwScene : FwStatus	{									 /// FwScene
+extension FwGuts : FwStatus	{									 /// FwGuts
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= "rootVew:\(ppUid(self.rootVew,  showNil:true)) "
 		myLine					+= self.rootVewOwner != nil ? "OWNER:'\(self.rootVewOwner!)' " : "UNOWNED "
 		myLine					+= "pole:w\(self.pole.convertPosition(.zero, to:rootScn).pp(.short)) "
 		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"
-		return ppFwStateHelper("FwScene      ", uid:self,
+		return ppFwStateHelper("FwGuts      ", uid:self,
 			myLine: myLine,
 			deapth:deapth)
 	}

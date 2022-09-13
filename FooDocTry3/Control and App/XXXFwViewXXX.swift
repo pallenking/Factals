@@ -1,4 +1,4 @@
-////  FwView.swift -- A 2D NSView which displays a 3D FwScene
+////  FwView.swift -- A 2D NSView which displays a 3D FwGuts
 ///// Key, Mouse, and Touch Events; mouse rotator, mouse pic, ...
 //
 //import SceneKit
@@ -15,7 +15,7 @@
 //	 //\\\ 	  .pointOfView					?
 //	 //\\\ 	  .projectPoint:unprojectPoint: ?
 //	 //\\\ 	  .delegate						***
-//	 //\\\ SCNView.scene		same as fwScene:
+//	 //\\\ SCNView.scene		same as fwGuts:
 //	 // MARK: - 3. Factory
 //	override init(frame:CGRect, options:[String : Any]? = nil) {
 //

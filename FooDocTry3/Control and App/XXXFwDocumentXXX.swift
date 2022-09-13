@@ -27,7 +27,7 @@
 ////	var indexFor			= ["":0]	// index of naming Part
 //
 //	 // MARK: - 2.2 Sugar
-//	var fwScene    : FwScene?	{		fwView?.fwScene							}
+//	var fwGuts    : FwGuts?	{		fwView?.fwGuts							}
 //	var windowController0 : NSWindowController? {		// First NSWindowController
 //		return windowControllers.count > 0 ? windowControllers[0] : nil			}
 //	var window0 : NSWindow? 	{						// First NSWindow
@@ -91,7 +91,7 @@
 //		try read(from:data, ofType:type)		// loads fwContoller
 //
 //bug		 //************//
-///*??*/	fwScene?.updateVews(fromRootPart:rootPart)
+///*??*/	fwGuts?.updateVews(fromRootPart:rootPart)
 //		 //************//
 //
 ////		makeInspectors()
@@ -254,20 +254,20 @@
 //		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
 //		assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
 //
-//		 		// Create FwScene programatically:
-//		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
+//		 		// Create FwGuts programatically:
+//		let fwGuts				= FwGuts(fwConfig:params4scene)	// 3D visualization
 //		 		// Link it in:
 //		assert(fwView != nil, "nib loaded, but fwView not set by IB")
-//		fwView!.delegate		= fwScene		//\\ delegate
-//		fwView!.fwScene			= fwScene		  // same		210712PAK: why so many?
-//		fwView!.scene			= fwScene		 //  same
+//		fwView!.delegate		= fwGuts		//\\ delegate
+//		fwView!.fwGuts			= fwGuts		  // same		210712PAK: why so many?
+//		fwView!.scene			= fwGuts		 //  same
 //		//fwView!.autoenablesDefaultLighting = true
 //		//fwView!.allowsCameraControl = true
 //		assert(rootPart.dirty.isOn(.vew), "sanity: newly loaded root should have dirty Vew")
-//		updateDocConfigs(from:rootPart.ansConfig)	// This time including fwScene
+//		updateDocConfigs(from:rootPart.ansConfig)	// This time including fwGuts
 //
 //				// Build Views:
-///*x*/	fwScene.updateVews(fromRootPart:rootPart, reason:"Install RootPart")
+///*x*/	fwGuts.updateVews(fromRootPart:rootPart, reason:"Install RootPart")
 //
 //		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:rootPart.title) ))
 //
@@ -298,7 +298,7 @@
 //			if params4scene[name] != nil {
 //				toParams4scene[name] = value	// 2a: Entry with pre-existing key
 //				used			= true 											}
-//			 // Dump val:FwConfig of "scene" into fwScene.config4scene
+//			 // Dump val:FwConfig of "scene" into fwGuts.config4scene
 //			if let scene		= config.fwConfig("scene") {
 //				toParams4scene	+= scene 		// 2b. all entries in "scene"
 //				used			= true 											}
@@ -327,11 +327,11 @@
 //		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 //		 // Scene:
 //		if toParams4scene.count > 0 {
-//			if fwScene != nil {
+//			if fwGuts != nil {
 //				atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
-//				fwScene!.config4scene += toParams4scene
+//				fwGuts!.config4scene += toParams4scene
 //			}else{
-//				atCon(2, logd("\t -> IGNORING fwScene==nil: \(toParams4scene.pp(.line))"))
+//				atCon(2, logd("\t -> IGNORING fwGuts==nil: \(toParams4scene.pp(.line))"))
 //			}
 //		}
 //		 // Simulator
@@ -430,12 +430,12 @@
 //			}
 //		}
 //
-//		 // Second, check fwScene:
-//		if fwScene == nil {
-//			Swift.print("fwDocument(\(pp(.uid, [:])).fwScene=nil")
+//		 // Second, check fwGuts:
+//		if fwGuts == nil {
+//			Swift.print("fwDocument(\(pp(.uid, [:])).fwGuts=nil")
 //		}
-//		else if fwScene!.processKey(from:nsEvent, inVew:vew) {
-//				return true 					// fwScene handled
+//		else if fwGuts!.processKey(from:nsEvent, inVew:vew) {
+//				return true 					// fwGuts handled
 //		}
 //
 //		 // Simulator:

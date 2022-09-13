@@ -10,7 +10,7 @@ import SceneKit
 import SwiftUI
 
 struct SCNViewsArgs {
-	let fwScene					: FwScene?
+	let fwGuts					: FwGuts?
 	let scnScene 				: SCNScene?
 	let pointOfView 			: SCNNode?
 	let options 				: SceneView.Options			//= []					//.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
@@ -20,7 +20,7 @@ struct SCNViewsArgs {
 	let technique				: SCNTechnique?				= nil
 }
 
-		// Wrap a FwScene as a SwiftUI View
+		// Wrap a FwGuts as a SwiftUI View
 
 struct SCNSceneHostingView : NSViewRepresentable {
 	// was final class
@@ -42,13 +42,13 @@ struct SCNSceneHostingView : NSViewRepresentable {
 		scnView.antialiasingMode = args.antialiasingMode
 		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
-		 // Connect FwScene
-		if let fwScene			= args.fwScene {
-			fwScene.scnView		= scnView			// Link things SCNSceneHostingView generated
-			fwScene.scnScene	= scnView.scene!
+		 // Connect FwGuts
+		if let fwGuts			= args.fwGuts {
+			fwGuts.scnView		= scnView			// Link things SCNSceneHostingView generated
+			fwGuts.scnScene	= scnView.scene!
 			let rootScn			= scnScene.rootNode
 			rootScn.name		= "*-ROOT"
-			fwScene.rootVew.scn = rootScn			// set Vew with new scn root
+			fwGuts.rootVew.scn = rootScn			// set Vew with new scn root
 		}
 		  // Configure Options of FwView
 		 // There must be a better way to do this:

@@ -1,4 +1,4 @@
-//  FwScene.swift -- All the 3D things in a FwView 2D window  C2018PAK
+//  FwGuts.swift -- All the 3D things in a FwView 2D window  C2018PAK
 
 // Supports: Camera, Lights, 3D Cursor,
 //   Collisions, Animations (esp for positioning)
@@ -42,7 +42,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 			//projectPoint(_:)
-class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDelegate */ {	//,
+class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDelegate */ {	//,
 
 	  // MARK: - 2. Object Variables:
 	 // ///////// Part Tree:
@@ -123,7 +123,7 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 	 // MARK: - 3. Factory
 	convenience init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
 
-		guard rootPart != nil else {	fatalError("FwScene(rootPart is nil")	}
+		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
 		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
 
 		config4scene			= fwConfig
@@ -137,7 +137,7 @@ class FwScene : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactD
 	}
 	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
-		assert(scene != nil, "FwScene(scene is nil")
+		assert(scene != nil, "FwGuts(scene is nil")
 		self.scnScene			= scene!
 		self.rootVew			= Vew(forPart:rootPart, scn:scene!.rootNode)
 		super.init()
@@ -177,11 +177,11 @@ bug
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
-		fatalError("FwScene.encode(coder..) unexpectantly called")
+		fatalError("FwGuts.encode(coder..) unexpectantly called")
 	}
 	 // ///////// Deserialize
 	required init(coder aDecoder: NSCoder) {
-		fatalError("FwScene.init(coder..) unexpectantly called")
+		fatalError("FwGuts.init(coder..) unexpectantly called")
 	}
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	 // MARK: - 3.7 Equitable substitute
@@ -281,7 +281,7 @@ bug
 
 //		 // Configure Camera from Source Code:
 //		if let c 				= config.fwConfig("camera") {
-//			var f				= DOCfwScene
+//			var f				= DOCfwGuts
 //			if let h 			= c.float("h"), !h.isNan {	// Pole Height
 //				f.lastSelfiePole.height	= CGFloat(h)
 //			}
@@ -415,9 +415,9 @@ bug
 	}
 
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-bug;	let fwScene				= DOCfwScene
+bug;	let fwGuts				= DOCfwGuts
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:fwScene.rootScn)
+		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:fwGuts.rootScn)
 
 		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
@@ -524,7 +524,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
 			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
 		}
-	//	print(fmt("FwScene resize \(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", zoomSize, vanishingPoint ?? -.infinity))
+	//	print(fmt("FwGuts resize \(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", zoomSize, vanishingPoint ?? -.infinity))
 									//
 									//		 // Set zoom per horiz/vert:
 									//		var zoomSize			= bSize.y	// default when height dominates
@@ -581,7 +581,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		guard DOCrootPart.lock(partTreeAs:"didLoadNib") else {
 			fatalError("didLoadNib couldn't get PART lock")		// or
 		}		          				// VewTree
-		guard DOCfwScene .lock(rootVewAs:"didLoadNib") else {
+		guard DOCfwGuts .lock(rootVewAs:"didLoadNib") else {
 			fatalError("didLoadNib  couldn't get VIEW lock")
 		}
 																				// doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
@@ -604,7 +604,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		updateCameraTransform(for:"install RootPart")
 
 		// 6. UNLOCK PartTree and VewTree:
-		DOCfwScene .unlock( rootVewAs:"didLoadNib")
+		DOCfwGuts .unlock( rootVewAs:"didLoadNib")
 		DOCrootPart.unlock(partTreeAs:"didLoadNib")
 	}
 
@@ -632,28 +632,28 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			DOCfwScene.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
+			DOCfwGuts.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
 		}
 	}
 	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			DOCrootPart.computeLinkForces(vew:DOCfwScene.rootVew)
+			DOCrootPart.computeLinkForces(vew:DOCfwGuts.rootVew)
 		}
 	}
 	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			DOCrootPart.applyLinkForces(vew:DOCfwScene.rootVew)
+			DOCrootPart.applyLinkForces(vew:DOCfwGuts.rootVew)
 		}
 	}
 	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
 	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			DOCrootPart.rotateLinkSkins(vew:DOCfwScene.rootVew)
+			DOCrootPart.rotateLinkSkins(vew:DOCfwGuts.rootVew)
 		}
 	}
 	   // ODD Timing:
@@ -734,14 +734,14 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			motionFromLastEvent(with:nsEvent)
 			updateCameraTransform(for:"Other mouseUp", overTime:duration)
 			print("camera = [\(ppCam())]")
-			//at("All", 3, print("camera = [\(fwScene!.ppCam())]"))
+			//at("All", 3, print("camera = [\(fwGuts!.ppCam())]"))
 			atEve(9, print("\(cameraNode?.transform.pp(.tree) ?? "cameraNode is nil")"))
 		 //  ====== CENTER SCROLL WHEEL ======
 		case .scrollWheel: nop
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			lastSelfiePole.zoom *= delta
-//			let scene			= DOCfwScene
+//			let scene			= DOCfwGuts
 //			scene.lastSelfiePole.zoom *= delta
 			print("receivedEvent(type:.scrollWheel) found pole\(lastSelfiePole.uid).zoom = \(lastSelfiePole.zoom)")
 			updateCameraTransform(for:"Scroll Wheel")
@@ -840,31 +840,31 @@ bug
 			nop
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			doc.fwScene.rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
+			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
 			rootVew.updateVewSizePaint()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			doc.fwScene.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
+			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
 			rootVew.updateVewSizePaint()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			doc.fwScene.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
+			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
 			rootVew.updateVewSizePaint()
 		case "w":
-			print("\n******************** 'w': ==== FwScene Camera = [\(ppCam())]\n")
+			print("\n******************** 'w': ==== FwGuts Camera = [\(ppCam())]\n")
 		case "x":
-			print("\n******************** 'x':   === FwScene: --> rootPart")
-			if doc.fwScene.rootPart.processKey(from:nsEvent, inVew:vew!) {
-				print("ERROR: fwScene.Process('x') failed")
+			print("\n******************** 'x':   === FwGuts: --> rootPart")
+			if doc.fwGuts.rootPart.processKey(from:nsEvent, inVew:vew!) {
+				print("ERROR: fwGuts.Process('x') failed")
 			}
 			return true								// recognize both
 		case "f": 					// // f // //
 			animatePhysics 		= !animatePhysics
 			let msg 			= animatePhysics ? "Run   " : "Freeze"
-			print("\n******************** 'f':   === FwScene: animatePhysics <-- \(msg)")
+			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
 		case "?":
-			Swift.print ("\n=== FwScene   commands:",
+			Swift.print ("\n=== FwGuts   commands:",
 				"\t'r'             -- r sound test",
 				"\t'r'+cmd         -- go to lldb for rerun",
 				"\t'v'             -- print Vew tree",
@@ -874,7 +874,7 @@ bug
 				"\t'V'             -- build the Model's Views",
 				"\t'T'             -- Size and pack the Model's Views",
 				"\t'P'             -- Paint the skins of Views",
-				"\t'w'             -- print FwScene camera",
+				"\t'w'             -- print FwGuts camera",
 				"\t'x'             -- send to model",
 				"\t'f'             -- Freeze SceneKit Animations",
 				separator:"\n")
@@ -909,7 +909,7 @@ bug
 ////		return super.hitTest(point, options:options)//Value of type 'SCNScene' has no member 'hitTest'
 //		return [SCNHitTestResult()]
 //	}
-//		let w = FwScene(fwConfig:[:])
+//		let w = FwGuts(fwConfig:[:])
 //		let x					= w.hitTest(mouse, options:configHitTest)// ?? [SCNHitTestResult]()
 
 	func findVew(nsEvent:NSEvent) -> Vew? {
@@ -1054,7 +1054,7 @@ bug
 	//			let morpher 		= SCNMorpher()  
 	//			morpher.targets 	= [scn.geometry!]  	/// our old geometry will morph to 0
 	//		let node = SCNNode(geometry: SCNBox(width: 0, height: 0, length: 5, chamferRadius: 0))  
-	//		Controller.current?.fwScene.rootNode.addChildNode(node)  
+	//		Controller.current?.fwGuts.rootNode.addChildNode(node)  
 	//		node.morpher = morpher  
 	//		let anim = CABasicAnimation(keyPath: "morpher.weights[0]")  
 	//		anim.fromValue = 0.0  
@@ -1098,8 +1098,8 @@ bug
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
-//		return "FwScene: scnTrunk:'\(scnRoot.name ?? "<unnamed>")',  trunkVew:'\(trunkVew?.name ?? "<unnamed>")'"
-//		return "FwScene: scnRoot=\(scnRoot.name ?? "<unnamed>")"
+//		return "FwGuts: scnTrunk:'\(scnRoot.name ?? "<unnamed>")',  trunkVew:'\(trunkVew?.name ?? "<unnamed>")'"
+//		return "FwGuts: scnRoot=\(scnRoot.name ?? "<unnamed>")"
 	}
 	func ppCam() -> String {
 		let c = lastSelfiePole

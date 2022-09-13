@@ -10,12 +10,12 @@ import SceneKit
 extension SCNCameraController : ObservableObject {	}
 
 class JetModel: ObservableObject {
-//	@Published var fwScene : FwScene  = FwScene(fwConfig:[:])
-//	@Published var fwScene : FwScene  = FwScene(named:"art.scnassets/ship.scn")!
+//	@Published var fwGuts : FwGuts  = FwGuts(fwConfig:[:])
+//	@Published var fwGuts : FwGuts  = FwGuts(named:"art.scnassets/ship.scn")!
 	@Published var scene   : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
 }
 class DragonModel: ObservableObject {
-//	@Published var fwScene : FwScene  = dragonCurve(segments:1024)
+//	@Published var fwGuts : FwGuts  = dragonCurve(segments:1024)
 	@Published var scene   : SCNScene = dragonCurve(segments:1024)
 }
 
@@ -27,15 +27,15 @@ struct ContentView: View {
 	var body: some View {
 		HStack {
 			VStack {
-				let rootPart:RootPart = document.fwScene.rootPart
-				let fwScene			= document.fwScene
+				let rootPart:RootPart = document.fwGuts.rootPart
+				let fwGuts			= document.fwGuts
 				ZStack {
 					NSEventReceiver { nsEvent in
-						DOCfwScene.receivedEvent(nsEvent:nsEvent)				}
+						DOCfwGuts.receivedEvent(nsEvent:nsEvent)				}
 					SCNSceneHostingView(SCNViewsArgs(
-						fwScene		: fwScene,
+						fwGuts		: fwGuts,
 						scnScene	: nil,
-						pointOfView	: nil, //fwScene.cameraNode,
+						pointOfView	: nil, //fwGuts.cameraNode,
 						options		: [.autoenablesDefaultLighting,
 			//**/					   .allowsCameraControl,
 									   .jitteringEnabled,
@@ -43,7 +43,7 @@ struct ContentView: View {
 									   .temporalAntialiasingEnabled				],
 						preferredFramesPerSecond:30,
 						antialiasingMode:.none,
-						delegate:fwScene
+						delegate:fwGuts
 //						technique:nil
 					))
 					 .allowsHitTesting(	true)
@@ -54,7 +54,7 @@ struct ContentView: View {
 				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 				}
 	 			 // From Peter Wu: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
-				// SceneView(scene:fwScene, pointOfView:fwScene.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
+				// SceneView(scene:fwGuts, pointOfView:fwGuts.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
 				HStack {
 					HStack {
 						Text("  Control:")
@@ -66,16 +66,16 @@ struct ContentView: View {
 					Spacer()
 					HStack {
 						Text("Model:")
-						let fws				= fwScene
+						let fws				= fwGuts
 						Button(label:{	Text(   "ptm").padding(.top, 300)				})
 						{	lldbPrint(ob:rootPart, mode:.tree)							}
 						Button(label:{	Text(  "ptLm").padding(.top, 300)				})
 						{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 		}
 						Text(" ")
 						Button(label:{	Text(   "ptv").padding(.top, 300)				})
-						{	bug}//lldbPrint(ob:fwScene.rootVew?, mode:.tree) 				}
+						{	bug}//lldbPrint(ob:fwGuts.rootVew?, mode:.tree) 				}
 						Button(label:{	Text(   "ptn").padding(.top, 300)				})
-						{	bug}//lldbPrint(ob:fwScene?.scnScene.rootNode, mode:.tree) 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+						{	bug}//lldbPrint(ob:fwGuts?.scnScene.rootNode, mode:.tree) 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 						Button(label:{	Text(   "reV").padding(.top, 300)				})
 						{	document.redo += 1									 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 					}
@@ -91,7 +91,7 @@ struct ContentView: View {
 			}
 			VStack {
 				SCNSceneHostingView(SCNViewsArgs( 	//SceneView(
-					fwScene		: nil,
+					fwGuts		: nil,
 					scnScene	: jetModel.scene,
 					pointOfView	: nil,//jetModel.scene.cameraNode,
 					options		: [.allowsCameraControl, .autoenablesDefaultLighting],

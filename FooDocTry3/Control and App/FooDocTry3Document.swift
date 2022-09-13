@@ -9,17 +9,12 @@ import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
 
-//struct DocState {
-////	var rootPart: RootPart
-//	var fwScene	: FwScene
-//}
-
 struct FooDocTry3Document: FileDocument, Uid {
 	var uid:UInt16				= randomUid()
 	var redo:UInt8				= 0
 
 	 // Model of a FooDocTry3Document:
-	var fwScene : FwScene!
+	var fwGuts : FwGuts!
 
 	 // No document supplied
 	init() {													 //    INTERNAL:
@@ -29,8 +24,8 @@ struct FooDocTry3Document: FileDocument, Uid {
 		/**/	let select		= "xr()"//	 entry with xr()	|	"xr()"		-1
 		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
 		let rootPart			= RootPart(fromLibrary:select)
-		 //			FwScene:
-		fwScene					= FwScene(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
+		 //			FwGuts:
+		fwGuts					= FwGuts(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 
@@ -38,8 +33,8 @@ struct FooDocTry3Document: FileDocument, Uid {
 		rootPart.wireAndGroom()
 	}											// next comes  didLoadNib(to
 	 // Document supplied
-	init(fwScene fwScene_:FwScene) {
-		fwScene				= fwScene_			// given
+	init(fwGuts fwGuts_:FwGuts) {
+		fwGuts				= fwGuts_			// given
 		DOC					= self				// INSTALL FooDocTry3
 		return
 	}
@@ -58,12 +53,12 @@ struct FooDocTry3Document: FileDocument, Uid {
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)
-			let fwScene			= FwScene(rootPart:rootPart, fwConfig:[:])
-			self.init(fwScene:fwScene)			// -> FooDocTry3Document
+			let fwGuts			= FwGuts(rootPart:rootPart, fwConfig:[:])
+			self.init(fwGuts:fwGuts)			// -> FooDocTry3Document
 		case .sceneKitScene:
-			let scene:FwScene?	= FwScene(data: data, encoding: .utf8)
-			assert(scene != nil, "FwScene(data:) failed")
-			self.init(fwScene:scene!)				// -> FooDocTry3Document
+			let scene:FwGuts?	= FwGuts(data: data, encoding: .utf8)
+			assert(scene != nil, "FwGuts(data:) failed")
+			self.init(fwGuts:scene!)				// -> FooDocTry3Document
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -75,9 +70,9 @@ struct FooDocTry3Document: FileDocument, Uid {
 			//		let existingFile: FileWrapper?	// The file wrapper containing the current document content. nil if the document is unsaved.
 		switch configuration.contentType {
 		case .fooDocTry3:
-			return .init(regularFileWithContents:fwScene.rootPart.data!)
+			return .init(regularFileWithContents:fwGuts.rootPart.data!)
 		case .sceneKitScene:
-			return .init(regularFileWithContents:fwScene.data!)
+			return .init(regularFileWithContents:fwGuts.data!)
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -158,12 +153,12 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																////		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
 																////		assert(DOCctlr.documents.contains(self), "self not in DOCctlr.documents!")
 																//
-																//		let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
+																//		let fwGuts				= FwGuts(fwConfig:params4scene)	// 3D visualization
 																//		 		// Link it in:
 																//		assert(fwView != nil, "nib loaded, but fwView not set by IB")
-																//		fwView!.delegate		= fwScene		// delegate
-																//		fwView!.fwScene			= fwScene		// delegate		220815PAK: Needed only for rotator
-																//bug;	fwView!.scene			= fwScene		// delegate		// somebody elses responsibility! (but who)
+																//		fwView!.delegate		= fwGuts		// delegate
+																//		fwView!.fwGuts			= fwGuts		// delegate		220815PAK: Needed only for rotator
+																//bug;	fwView!.scene			= fwGuts		// delegate		// somebody elses responsibility! (but who)
 																//		//fwView!.autoenablesDefaultLighting = true
 																//		//fwView!.allowsCameraControl = true
 																//
@@ -173,17 +168,17 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																//		updateDocConfigs(from:docState.rootPart.ansConfig)
 	func didLoadNib(to view:Any) {
 				// Build Vews after View is loaded:
-/*x*/	fwScene.updateVewNScnFromModel()
+/*x*/	fwGuts.updateVewNScnFromModel()
 																//		 // Generate Vew tree
 																//		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
-																//		docState.fwScene.rootVew = rVew				// INSTALL vew
+																//		docState.fwGuts.rootVew = rVew				// INSTALL vew
 																//		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
-		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:fwScene.rootPart.title) ))
+		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:fwGuts.rootPart.title) ))
 																// displayName	= state.rootPart.title
 		makeInspectors()										// window0?.title= displayName									//makeInspectors()
 
 				// Start Up Simulation:
-		fwScene.rootPart.simulator.simBuilt = true		// maybe before config4log, so loading simEnable works
+		fwGuts.rootPart.simulator.simBuilt = true		// maybe before config4log, so loading simEnable works
 	}
 	   /// Called after a new experiment is loaded.
 	  /// Spreads a new configuration from the selected experiment into various hashes.
@@ -206,7 +201,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 				toParams4scene[name] = value	// 2a: Entry with pre-existing key
 				used			= true
 			}
-			 // Dump val:FwConfig of "scene" into fwScene.config4scene
+			 // Dump val:FwConfig of "scene" into fwGuts.config4scene
 			if let scene		= config.fwConfig("scene") {
 				toParams4scene	+= scene 		// 2b. all entries in "scene"
 				used			= true
@@ -238,17 +233,17 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		 // Scene:
 		if toParams4scene.count > 0 {
 			atCon(2, logd("\t -> config4scene:            \(toParams4scene.pp(.line))"))
-			fwScene.config4scene += toParams4scene
+			fwGuts.config4scene += toParams4scene
 		}
 		 // Simulator
 		if toParams4sim.count > 0 {
 			atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
-			fwScene.rootPart.simulator.config4sim += toParams4sim
+			fwGuts.rootPart.simulator.config4sim += toParams4sim
 		}
 		 // Log:
 		if toParams4docLog.count > 0 {
 			atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
-			fwScene.rootPart.log.config4log += toParams4docLog
+			fwGuts.rootPart.log.config4log += toParams4docLog
 		}
 		 // Unaccounted for
 		if unused.count > 0 {
@@ -355,9 +350,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			}
 		}
 
-		 // Second, check fwScene:												// assert(docState.fwScene != nil, "fwDocument(\(pp(.uid, [:])).fwScene=nil")
-		if fwScene.processKey(from:nsEvent, inVew:vew) {
-			return true 					// handled by fwScene
+		 // Second, check fwGuts:												// assert(docState.fwGuts != nil, "fwDocument(\(pp(.uid, [:])).fwGuts=nil")
+		if fwGuts.processKey(from:nsEvent, inVew:vew) {
+			return true 					// handled by fwGuts
 		}
 
 		 // Simulator:

@@ -35,7 +35,7 @@ struct ScanArgs : Codable {
 class ScanState : Codable {
 	var uid			: UInt16	= randomUid()
 	var scanTestNum	: Int		= 0
-	var scanSubMenu : String	= ""		// name of current FwScene sub-menu
+	var scanSubMenu : String	= ""		// name of current FwGuts sub-menu
 	var scanCatalog	: [ScanElement]	= []	// Catalog of Library
 	var scanEOFencountered:Bool = false	// marks scan done
 }
@@ -208,7 +208,7 @@ class Library : NSObject {
 												//class ScanState : Codable {
 												//	var uid			: UInt16	= randomUid()
 												//	var scanTestNum	: Int		= 0
-												//	var scanSubMenu : String	= ""		// name of current FwScene sub-menu
+												//	var scanSubMenu : String	= ""		// name of current FwGuts sub-menu
 												//	var scanEOFencountered:Bool = false	// marks scan done
 												//	var scanList	: [ScanElement]	= []	// Index of Library
 												//}

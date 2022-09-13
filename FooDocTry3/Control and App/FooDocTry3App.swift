@@ -47,11 +47,11 @@ var DOC				: FooDocTry3Document!	// CHANGES:	App must insure continuity) Right n
 // * * *
 
  // Shugar on DOC
-var DOCfwScene		: FwScene	{	DOC .fwScene								}
-var DOCrootPart		: RootPart	{	DOC .fwScene.rootPart						}
+var DOCfwGuts		: FwGuts	{	DOC .fwGuts									}
+var DOCrootPart		: RootPart	{	DOC .fwGuts.rootPart						}
  // Places where optionality is needed
-var DOCfwSceneQ		: FwScene?	{	DOC?.fwScene								}
-var DOCrootPartQ	: RootPart?	{	DOC?.fwScene.rootPart						}
+var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts									}
+var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
  // Others:
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
@@ -82,7 +82,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 		}
 	};private var config4app_ : FwConfig = [:]
 
-	 // Keeps FwScene menue in sync with itself:
+	 // Keeps FwGuts menue in sync with itself:
 	var regressScene : Int {				// number of next "^r" regression test
 		get			{	return regressScene_										}
 		set(v)	 	{
@@ -139,7 +139,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 		appSounds.load(name:"tock0",		path:"Tock_SB.wav")
 
 		 // Update Menues:
-		atCon(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwScene Menus: "))
+		atCon(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
 		buildSceneMenus()
 
 		 // but self is struct!
@@ -180,7 +180,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 		print("'?': AppDelegate.appConfiguration():")
 		fwHelp()
 	}
-	 // MARK: - 4.4 FwScene Menu
+	 // MARK: - 4.4 FwGuts Menu
 	// BUILD SCENE MENUS ////////////////////////////////
 	var menuOfPath : [String:NSMenu] = [:]			// [path : Menu]
 	mutating func buildSceneMenus() {
@@ -304,8 +304,8 @@ bug;	let rv					= NSMenu(title:path)
 		regressScene			= sceneNumber + 1			// next regressScene
 
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
-		let fwScene				= FwScene(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
-		let doc					= FooDocTry3Document(fwScene:fwScene)
+		let fwGuts				= FwGuts(rootPart:rootPart, fwConfig:params4scene + rootPart.ansConfig)
+		let doc					= FooDocTry3Document(fwGuts:fwGuts)
 
 		DOC						= doc		// register
 
@@ -321,8 +321,8 @@ bug;	let rv					= NSMenu(title:path)
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
-//		return "FwScene: scnTrunk:'\(scnRoot.name ?? "<unnamed>")',  trunkVew:'\(trunkVew?.name ?? "<unnamed>")'"
-//		return "FwScene: scnRoot=\(scnRoot.name ?? "<unnamed>")"
+//		return "FwGuts: scnTrunk:'\(scnRoot.name ?? "<unnamed>")',  trunkVew:'\(trunkVew?.name ?? "<unnamed>")'"
+//		return "FwGuts: scnRoot=\(scnRoot.name ?? "<unnamed>")"
 	}
 
 	 // MARK: - 17. Debugging Aids

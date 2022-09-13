@@ -122,7 +122,7 @@ class Part : NSResponder, Codable, NSCopying, ObservableObject, PolyWrappable {	
 		}			// -- Name was given
 		name					= nam ?? {
 			if let prefix		= prefixForClass[fwClassName],
-			  let rootPart		= DOCfwSceneQ?.rootPart	//rootPart
+			  let rootPart		= DOCfwGutsQ?.rootPart	//rootPart
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
 				let index		= rootPart.indexFor[prefix] ?? 0
 				rootPart.indexFor[prefix] = index + 1		// for next
@@ -525,7 +525,7 @@ bug
 			}
 		}
 		return root?.ansConfig[name] ??		// Look in common places: // 21200301PAK: Review: sometimes ans Config is also dumped into Part.config?
-			   DOCfwScene.config4scene[name] //fwScene?
+			   DOCfwGuts.config4scene[name] //fwGuts?
 	}
 	  /// Lookup Part's configuration from only this Part
 //	 func configLocal(_ name:String) -> FwAny? {
@@ -1317,13 +1317,13 @@ bug
 						// Double Click: show/hide insides
 			if nsEvent.clickCount > 1 {
 				if vew != nil {
-bug//				DOC.fwScene?.toggelOpen(vew:vew!)
+bug//				DOC.fwGuts?.toggelOpen(vew:vew!)
 				}
 										//if vew != nil,
-										//  let scene	= fwScene {
+										//  let scene	= fwGuts {
 										//	scene.toggelOpen(vew:vew!)
 										//}
-										//fwScene?.toggelOpen(vew:vew!)
+										//fwGuts?.toggelOpen(vew:vew!)
 			}
 			else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
 				

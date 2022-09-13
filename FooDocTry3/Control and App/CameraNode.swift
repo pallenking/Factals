@@ -23,7 +23,7 @@
 //														// NOOO	addChildNode(camera!)
 //		 // Configure Camera from Source Code:
 //		if let c 				= config.fwConfig("camera") {
-//			var f				= DOCfwScene
+//			var f				= DOCfwGuts
 //			if let h 			= c.float("h"), !h.isNan {	// Pole Height
 //				f.lastSelfiePole.height	= CGFloat(h)
 //			}

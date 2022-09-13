@@ -79,7 +79,7 @@
 		9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */; };
 		9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */; };
 		9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51BF286BCF0A00C8C22A /* BBox.swift */; };
-		9FEE521728720A2300C8C22A /* FwScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521628720A2300C8C22A /* FwScene.swift */; };
+		9FEE521728720A2300C8C22A /* FwGuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521628720A2300C8C22A /* FwGuts.swift */; };
 		9FEE521D28749C2A00C8C22A /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE521C28749C2A00C8C22A /* LLDBInitFile */; };
 		9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521E2874A42000C8C22A /* LldbInit.swift */; };
 		9FEE52212874AB7300C8C22A /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52202874AB7300C8C22A /* Path.swift */; };
@@ -174,7 +174,7 @@
 		9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNMatrix++.swift"; sourceTree = "<group>"; };
 		9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector++.swift"; sourceTree = "<group>"; };
 		9FEE51BF286BCF0A00C8C22A /* BBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BBox.swift; sourceTree = "<group>"; };
-		9FEE521628720A2300C8C22A /* FwScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwScene.swift; sourceTree = "<group>"; };
+		9FEE521628720A2300C8C22A /* FwGuts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwGuts.swift; sourceTree = "<group>"; };
 		9FEE521C28749C2A00C8C22A /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = "<group>"; };
 		9FEE521E2874A42000C8C22A /* LldbInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LldbInit.swift; sourceTree = "<group>"; };
 		9FEE52202874AB7300C8C22A /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
@@ -289,7 +289,7 @@
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9F3E49A728B27238003D450D /* NSEventReceiver.swift */,
 				9F6822F628C9163D00ACB9F0 /* SCNSceneHostingView.swift */,
-				9FEE521628720A2300C8C22A /* FwScene.swift */,
+				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F3E49BC28B2DABB003D450D /* CameraNode.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
@@ -536,7 +536,7 @@
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9F4A3ADA288B386300574925 /* Part.swift in Sources */,
-				9FEE521728720A2300C8C22A /* FwScene.swift in Sources */,
+				9FEE521728720A2300C8C22A /* FwGuts.swift in Sources */,
 				9F96952F288B3B2800106DBC /* Net.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,
 				9F0295D82880926D00DD0004 /* Self++.swift in Sources */,

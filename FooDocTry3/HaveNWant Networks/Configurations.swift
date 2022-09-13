@@ -99,7 +99,7 @@ private let params4sim_ : FwConfig = [
 ]
 
   // MARK: - F: Scene Params
- /// FwScene Viewing parameters
+ /// FwGuts Viewing parameters
 private let params4scene_ : FwConfig = [
 //	"initialDisplayMode"		: "invisible"	// mostly expunged
 //	"physics"					: ??

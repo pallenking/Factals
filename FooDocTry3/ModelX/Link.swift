@@ -495,13 +495,13 @@ bug	// NEVER USED?
 		let linkVew				= vew as! LinkVew
 
 		 // This section is in rePaint, because cameraNode changes positions!
-		guard let fwScene		= DOCfwSceneQ else {
+		guard let fwGuts		= DOCfwGutsQ else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
-		guard fwScene.cameraNode != nil else {
+		guard fwGuts.cameraNode != nil else {
 			return																}
 
-		let camera				= fwScene.cameraNode!.position
+		let camera				= fwGuts.cameraNode!.position
 
 		 // Get ends of link, and set positions
 		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {
