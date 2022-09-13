@@ -1,5 +1,5 @@
 //
-//  SCNSceneHostingView.swift
+//  SceneKitHostingView.swift
 //  FooDocTry3
 //
 //  Created by Allen King on 9/7/22.
@@ -22,7 +22,7 @@ struct SCNViewsArgs {
 
 		// Wrap a FwGuts as a SwiftUI View
 
-struct SCNSceneHostingView : NSViewRepresentable {
+struct SceneKitHostingView : NSViewRepresentable {
 	// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView's inside
 	var args					: SCNViewsArgs
@@ -44,8 +44,9 @@ struct SCNSceneHostingView : NSViewRepresentable {
 
 		 // Connect FwGuts
 		if let fwGuts			= args.fwGuts {
-			fwGuts.scnView		= scnView			// Link things SCNSceneHostingView generated
-			fwGuts.scnScene	= scnView.scene!
+			fwGuts.scnView		= scnView			// Link things SceneKitHostingView generated
+			guard let scnScene	= scnView.scene else {	fatalError("makeNSView with nil SCNScene") }
+			fwGuts.scnScene		= scnScene
 			let rootScn			= scnScene.rootNode
 			rootScn.name		= "*-ROOT"
 			fwGuts.rootVew.scn = rootScn			// set Vew with new scn root

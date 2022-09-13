@@ -13,7 +13,7 @@ func ppFwcConfig() -> String {
 		CONFIGURATIONS:
 		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
 		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
-		 fwGuts      .config4scene:\(w( DOCfwGuts.config4scene	.pp(.line)	))
+		 fwGuts       .config4scene:\(w( DOCfwGuts.config4scene		.pp(.line)	))
 		 rootPart     .ansConfig:   \(w( DOCfwGuts.rootPart.ansConfig.pp(.line)	))
 		 simulator    .config4sim:  \(w( DOCfwGuts.rootPart.simulator.config4sim.pp(.line) ))
 		"""

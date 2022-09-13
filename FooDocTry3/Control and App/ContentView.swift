@@ -32,7 +32,7 @@ struct ContentView: View {
 				ZStack {
 					NSEventReceiver { nsEvent in
 						DOCfwGuts.receivedEvent(nsEvent:nsEvent)				}
-					SCNSceneHostingView(SCNViewsArgs(
+					SceneKitHostingView(SCNViewsArgs(
 						fwGuts		: fwGuts,
 						scnScene	: nil,
 						pointOfView	: nil, //fwGuts.cameraNode,
@@ -90,7 +90,7 @@ struct ContentView: View {
 				Spacer()
 			}
 			VStack {
-				SCNSceneHostingView(SCNViewsArgs( 	//SceneView(
+				SceneKitHostingView(SCNViewsArgs( 	//SceneView(
 					fwGuts		: nil,
 					scnScene	: jetModel.scene,
 					pointOfView	: nil,//jetModel.scene.cameraNode,
