@@ -288,7 +288,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	   /// - Parameters:
 	  ///   - vew: vew to inspec
 	 ///   - allowNew: window, else use existing
-	mutating func showInspecFor(vew:Vew, allowNew:Bool) { //
+	mutating func showInspecFor(vew:Vew, allowNew:Bool) { // PW what is going on here?
 		let inspec				= Inspec(vew:vew)
 
 				// Get inspector's window

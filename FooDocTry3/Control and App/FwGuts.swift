@@ -57,7 +57,6 @@ class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDe
 		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil
 	}
-	//weak
 	var scnView	 : SCNView?		= nil
 	var scnScene : SCNScene
 
@@ -69,16 +68,7 @@ class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDe
 		}
 		fatalError("trunkVew is nil")
 	}
-//	var rootScn  : SCNNode		= SCNNode()
-////	var rootScn  : SCNNode	{	return rootNode									}	//scnRoot
-//	var trunkScn : SCNNode? {
-//		if let tv				= trunkVew  {
-//			return tv.scn
-//		}
-//		fatalError("trunkVew is nil")
-//	}
-
-
+	var fooDocTry3Document : FooDocTry3Document!
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
@@ -673,7 +663,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys
 
 	func receivedEvent(nsEvent:NSEvent) {
-		print("--- func received(nsEvent:\(nsEvent))")
+		//print("--- func received(nsEvent:\(nsEvent))")
 
 		// MARK: - 13.2 Mouse
 		//  ====== LEFT MOUSE ======
