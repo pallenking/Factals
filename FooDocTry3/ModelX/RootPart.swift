@@ -309,7 +309,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 			}
 		})
 	}
-	convenience init(fromLibrary selectionString:String) {	//, fwDocument:FooDocTry3Document?
+	convenience init(fromLibrary selectionString:String) {
 
 		 // Make tree's root (a RootPart):
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/

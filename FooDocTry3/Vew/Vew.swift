@@ -574,7 +574,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
 			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
-/**/		pRoot.rePaint(vew:vRoot)					// Ports color, Links position
+/**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
 																					 // All changes above cause rePaint and get here. Let system know!
 																		//bug?		pRoot.fwDocument!.fwView!.needsDisplay = true
 			 // THESE SEEM IN THE WRONG PLACE!!!

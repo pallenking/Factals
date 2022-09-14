@@ -5,29 +5,6 @@
 //  Created by Allen King on 5/18/22.
 //	20220822PAK: Imported and Funged from:  AppDelegate.swift -- for SwiftFactals  C2018PAK
 //
-/*
-state object
-add to environment
- */
-
-
-import Cocoa
-import SwiftUI
-import SceneKit
-
-  //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")				// 180127 FactalWrokbench UNRELEASED
-  //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
-  //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")		// 210710 Post
-  //let (majorVersion, minorVersion, nameVersion) = (6, 0, "FooDocTry3 re-App")	// 220628
-	let (majorVersion, minorVersion, nameVersion) = (6, 1, "FooDocTry3++")		// 220822
-
-var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
-	 // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
-																				// IGNORED:
-																				//https://stackoverflow.com/questions/24046164/how-do-i-get-a-reference-to-the-app-delegate-in-swift
-																				//let appDelegate = UIApplication.shared.delegate as! AppDelegate
-																				//let aVariable = appDelegate.someVariable
-																				// OBSOLETE: A basic tutorial :http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
 
  // 	File Naming Notes:
 // Some of the Application-base classes have nameing conflicts with SceneKit
@@ -38,6 +15,20 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 //				FW's subclass is "Fw" + basename. e.g: FwDocument
 // Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
 //				FW's subclass strips NS. e.g: DocumentController
+
+ // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
+var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+
+import Cocoa
+import SwiftUI
+import SceneKit
+
+
+  //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")				// 180127 FactalWrokbench UNRELEASED
+  //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
+  //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")		// 210710 Post
+  //let (majorVersion, minorVersion, nameVersion) = (6, 0, "FooDocTry3 re-App")	// 220628
+	let (majorVersion, minorVersion, nameVersion) = (6, 1, "FooDocTry3++")		// 220822
 
 ////	Application Singletons:
 var APP				: FooDocTry3App!		// NEVER CHANGES (after inz)
@@ -56,11 +47,15 @@ var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
 
+
+
+
 @main
 struct FooDocTry3App: App, Uid, FwAny {
 	var uid: UInt16				= randomUid()
 	var fwClassName: String		= "FooDocTry3App"
 //	@Environment(\.scenePhase) private var scenePhase
+//	Flock o Swifts: "make state object, add to environment"	PW
 
 	var body: some Scene {
 //		WindowGroup {

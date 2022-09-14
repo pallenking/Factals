@@ -26,68 +26,72 @@ struct ContentView: View {
 
 	var body: some View {
 		HStack {
-			VStack {
-				let rootPart:RootPart = document.fwGuts.rootPart
-				let fwGuts			= document.fwGuts
-				ZStack {
-					NSEventReceiver { nsEvent in
-						DOCfwGuts.receivedEvent(nsEvent:nsEvent)				}
-					SceneKitHostingView(SCNViewsArgs(
-						fwGuts		: fwGuts,
-						scnScene	: nil,
-						pointOfView	: nil, //fwGuts.cameraNode,
-						options		: [.autoenablesDefaultLighting,
-			//**/					   .allowsCameraControl,
-									   .jitteringEnabled,
-									   .rendersContinuously,
-									   .temporalAntialiasingEnabled				],
-						preferredFramesPerSecond:30,
-						antialiasingMode:.none,
-						delegate:fwGuts
-//						technique:nil
-					))
-					 .allowsHitTesting(	true)
-					 .onAppear {
-						document.didLoadNib(to:self)							}
-				//	 .border(Color.black, width: 10)
-				//	 .background()//(NSColor("verylightgray")!)		// HELP
-				//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
+			if let fwGuts		= document.fwGuts {
+				VStack {
+					let rootPart:RootPart = document.fwGuts.rootPart
+					ZStack {
+						NSEventReceiver { nsEvent in
+							DOCfwGuts.receivedEvent(nsEvent:nsEvent)				}
+						SceneKitHostingView(SCNViewsArgs(
+							fwGuts		: fwGuts,
+							scnScene	: nil,
+							pointOfView	: fwGuts.cameraNode,
+							options		: [.autoenablesDefaultLighting,
+				//**/					   .allowsCameraControl,
+										   .jitteringEnabled,
+										   .rendersContinuously,
+										   .temporalAntialiasingEnabled				],
+							preferredFramesPerSecond:30,
+							antialiasingMode:.none,
+							delegate:fwGuts
+	//						technique:nil
+						))
+						 .allowsHitTesting(	true)
+						 .onAppear {
+							document.didLoadNib(to:self)							}
+					//	 .border(Color.black, width: 10)
+					//	 .background()//(NSColor("verylightgray")!)		// HELP
+					//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
+					}
+					HStack {
+						HStack {
+							Text("  Control:")
+							Button(label:{	Text( "state").padding(.top, 300)				})
+							{	printFwcState()												}
+							Button(label:{	Text("config").padding(.top, 300)				})
+							{	printFwcConfig()											}
+						}
+						Spacer()
+						HStack {
+							Text("Model:")
+							let fws				= fwGuts
+							Button(label:{	Text(   "ptm").padding(.top, 300)		})
+							{	lldbPrint(ob:rootPart, mode:.tree)					}
+							Button(label:{	Text(  "ptLm").padding(.top, 300)		})
+							{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true])}
+							Text(" ")
+							Button(label:{	Text(   "ptv").padding(.top, 300)		})
+							{	lldbPrint(ob:fwGuts.rootVew, mode:.tree) 			}
+							Button(label:{	Text(   "ptn").padding(.top, 300)		})
+							{	lldbPrint(ob:fwGuts.scnScene.rootNode, mode:.tree) 	}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+							Button(label:{	Text(   "reV").padding(.top, 300)		})
+							{	document.redo += 1									}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+						}
+						Spacer()
+						HStack {
+							Text("Debug:")
+							Button(label: {	Text("LLDB").padding(.top, 300) 				})
+							{	breakToDebugger()											}
+							Text(" ")
+						}
+					}
+					Spacer()
 				}
 	 			 // From Peter Wu: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
 				// SceneView(scene:fwGuts, pointOfView:fwGuts.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
-				HStack {
-					HStack {
-						Text("  Control:")
-						Button(label:{	Text( "state").padding(.top, 300)				})
-						{	printFwcState()												}
-						Button(label:{	Text("config").padding(.top, 300)				})
-						{	printFwcConfig()											}
-					}
-					Spacer()
-					HStack {
-						Text("Model:")
-						let fws				= fwGuts
-						Button(label:{	Text(   "ptm").padding(.top, 300)				})
-						{	lldbPrint(ob:rootPart, mode:.tree)							}
-						Button(label:{	Text(  "ptLm").padding(.top, 300)				})
-						{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true]) 		}
-						Text(" ")
-						Button(label:{	Text(   "ptv").padding(.top, 300)				})
-						{	bug}//lldbPrint(ob:fwGuts.rootVew?, mode:.tree) 				}
-						Button(label:{	Text(   "ptn").padding(.top, 300)				})
-						{	bug}//lldbPrint(ob:fwGuts?.scnScene.rootNode, mode:.tree) 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
-						Button(label:{	Text(   "reV").padding(.top, 300)				})
-						{	document.redo += 1									 		}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
-					}
-					Spacer()
-					HStack {
-						Text("Debug:")
-						Button(label: {	Text("LLDB").padding(.top, 300) 				})
-						{	breakToDebugger()											}
-						Text(" ")
-					}
-				}
-				Spacer()
+			} else {
+				Button(label:{Text("Document has nil fwGuts").padding(.top, 300)})
+				{	fatalError(" ERROR ")										}
 			}
 			VStack {
 				SceneKitHostingView(SCNViewsArgs( 	//SceneView(

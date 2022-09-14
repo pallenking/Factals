@@ -15,8 +15,6 @@ class CommonPart : Part {
 	override init(_ config:FwConfig = [:]) {
 
 		super.init(config)		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		let c:[String:FwAny] = localConfig as! Swift.Dictionary<Swift.String, FooDocTry3.FwAny>
-//let x = c.pp(.tree)
 		if let vectStr		= localConfig["size"] as? String,
 		  let vect			= SCNVector3(from:vectStr) {
 			size 			= vect
