@@ -157,7 +157,6 @@ class Port : Part, PortTalk {
 	 // MARK: - 2.2 Connections:
 	weak var connectedTo : Port? = nil			// visible inside SF
 //	{	didSet { con2ib = connectedTo ?? con2ib				}					}
-	var con2asStr : String?		= nil
 
 	var con2ib : Port {//= self//Port()
 		get 	{ return  connectedTo ?? self									}
@@ -193,7 +192,7 @@ class Port : Part, PortTalk {
 		case valuePrev
 		case value
 		case connectedTo
-		case con2asStr
+//		case con2asStr
 		case noCheck
 		case dominant
 	}
@@ -204,9 +203,8 @@ class Port : Part, PortTalk {
 
 		try container.encode(valuePrev,	 forKey:.valuePrev)
 		try container.encode(value,		 forKey:.value)
-		assert(connectedTo==nil, "Must searialize virtualized Ports")
-		try container.encode(connectedTo,forKey:.connectedTo)
-		try container.encode(con2asStr,	 forKey:.con2asStr)
+		let connectedToString	= connectedTo?.fullName ?? ""
+		try container.encode(connectedToString, forKey:.connectedTo)			// try container.encode(connectedTo,forKey:.connectedTo)
 		try container.encode(noCheck,	 forKey:.noCheck)
 		try container.encode(dominant,	 forKey:.dominant)
 
@@ -219,9 +217,9 @@ class Port : Part, PortTalk {
 
 		value 					= try container.decode(  Float.self, forKey:.value)
 		valuePrev				= try container.decode(  Float.self, forKey:.valuePrev)
-		connectedTo				= try container.decode(Port?.self,forKey:.connectedTo)
-		assert(connectedTo==nil, "Must searialize virtualized Ports")
-		con2asStr				= try container.decode(String?.self, forKey:.con2asStr)
+bug;	let connectedToString	= try container.decode(String?.self,forKey:.connectedTo)
+//		connectedTo				= try container.decode(Port?.self,forKey:.connectedTo)
+		assert(connectedTo==nil, "Encodable requires Ports be virtualized")
 		noCheck 				= try container.decode(   Bool.self, forKey:.noCheck)
 		dominant				= try container.decode(   Bool.self, forKey:.dominant)
 
@@ -237,7 +235,6 @@ class Port : Part, PortTalk {
 		theCopy.value			= self.value
 		theCopy.valuePrev		= self.valuePrev
 		theCopy.connectedTo		= self.connectedTo
-		theCopy.con2asStr		= self.con2asStr
 		theCopy.noCheck			= self.noCheck
 		theCopy.dominant		= self.dominant
 		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
@@ -249,7 +246,6 @@ class Port : Part, PortTalk {
 		return	 value     == rhsAsPort.value
 			&& 	 valuePrev == rhsAsPort.valuePrev
 			&& connectedTo == rhsAsPort.connectedTo
-			&&   con2asStr == rhsAsPort.con2asStr
 			&&     noCheck == rhsAsPort.noCheck
 			&& 	  dominant == rhsAsPort.dominant
 	}
@@ -642,8 +638,8 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			}else{
 				rv 				+= "nil"
 			}
-			rv					+= con2asStr == nil || connectedTo == nil ? "" : " ???:"
-			rv					+= con2asStr == nil ? "" : " \"\(con2asStr!)\" "
+//			rv					+= con2asStr == nil || connectedTo == nil ? "" : " ???:"
+//			rv					+= con2asStr == nil ? "" : " \"\(con2asStr!)\" "
 			return rv
 //			  // Print out the non-Link:
 //			 // If we are connected to anything, what is it sending to us

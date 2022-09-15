@@ -50,20 +50,23 @@ final class NSEventReceiverView: NSView {
 	override func keyUp(with event:NSEvent) 			{	handler(event)	}
 	 // MARK: - 13.2 Mouse
 	 //  ====== LEFT MOUSE ======
-	override func mouseDown(with event:NSEvent) 		{	handler(event)	}
-	override func mouseDragged(with event:NSEvent) 		{	handler(event)	}
-	override func mouseUp(with event:NSEvent) 			{	handler(event)	}
+	override func mouseDown(with 		event:NSEvent)		{	handler(event)	}
+	override func mouseDragged(with 	event:NSEvent)		{	handler(event)	}
+	override func mouseUp(with 			event:NSEvent)		{	handler(event)	}
 	 //  ====== CENTER MOUSE ======
-	override func otherMouseDown(with event:NSEvent)	{	handler(event)	}
-	override func otherMouseDragged(with event:NSEvent)	{	handler(event)	}
-	override func otherMouseUp(with event:NSEvent)		{	handler(event)	}
+	override func otherMouseDown(with 	event:NSEvent)		{	handler(event)	}
+	override func otherMouseDragged(with event:NSEvent)		{	handler(event)	}
+	override func otherMouseUp(with 	event:NSEvent)		{	handler(event)	}
 	 //  ====== CENTER SCROLL WHEEL ======
-	override func scrollWheel(with event:NSEvent) 		{	handler(event)	}
+	override func scrollWheel(with 		event:NSEvent) 		{	handler(event)	}
 	 //  ====== RIGHT MOUSE ======			Right Mouse not used
+/*override*/ func rightmouseDown(with 	event:NSEvent) 		{	handler(event)	}
+/*override*/ func rightmouseDragged(with event:NSEvent) 	{	handler(event)	}
+/*override*/ func rightmouseUp(with 	event:NSEvent) 		{	handler(event)	}
 	 // MARK: - 13.3 TOUCHPAD Enters
-	override func touchesBegan(with event:NSEvent)		{	handler(event)	}
-	override func touchesMoved(with event:NSEvent)		{	handler(event)	}
-	override func touchesEnded(with event:NSEvent)		{	handler(event)	}
+	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
+	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
+	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
 
 	 // MARK: - 15. PrettyPrint
 	 // MARK: - 17. Debugging Aids
@@ -72,4 +75,5 @@ final class NSEventReceiverView: NSView {
 					   for event: NSEvent?) -> Bool {	return true				}
 	override func resignFirstResponder()	-> Bool	{	return true				}
 }
+
 

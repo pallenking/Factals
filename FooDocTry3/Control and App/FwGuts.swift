@@ -181,7 +181,7 @@ bug
 //	var wiggledPart	  : Part?	= nil
 //	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 //
-	 // MARK: - 9.A Locks
+	 // MARK: - 4.? Vew Locks
 	 /// Optain DispatchSemaphor for Vew Tree
 	func lock(rootVewAs lockName:String?=nil, logIf:Bool=true) -> Bool {
 		guard lockName != nil else {	return true		/* no lock needed */	}
@@ -238,55 +238,7 @@ bug
 			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
 		}
 	}
-	 // MARK: - 9.B Camera
-	 // Get camera node from SCNNode
-	var cameraScn : SCNNode?	{	scnScene.cameraScn							}
-	func updateCamerasScn(_ config:FwConfig) {
-
-		 // Delete any Straggler
-		if let stragglerScn		= rootScn.find(name:"camera") {
-			let msg				= stragglerScn == cameraScn ? "" : " and no match to cameraScn"
-			warning("Who put this camera here? !!!" + msg)
-			stragglerScn.removeFromParentNode()
-		}
-
-		 // Just make a whole new camera system from scratch
-		let camera				= SCNCamera()
-		camera.name				= "SCNCamera"
-		camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
-		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
-		camera.exposureAdaptationDarkeningSpeedFactor = 1
-		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-		//camera.zNear			= 1
-		//camera.zFar			= 100
-														// NOOO	addChildNode(camera!)
-		let newCameraScn		= SCNNode()
-		newCameraScn.camera		= camera
-		newCameraScn.name		= "camera"
-		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		rootScn.addChildNode(newCameraScn)
-	}
-
-
-
-//		 // Configure Camera from Source Code:
-//		if let c 				= config.fwConfig("camera") {
-//			var f				= DOCfwGuts
-//			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-//				f.lastSelfiePole.height	= CGFloat(h)
-//			}
-//			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-//				f.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
-//			}
-//			if let s 			= c.float("s"), !s.isNan {	// Spin
-//				f.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
-//			}
-//			if let z 			= c.float("z"), !z.isNan {	// Zoom
-//				f.lastSelfiePole.zoom = CGFloat(z)
-//			}
-//			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
-//		}
-	 // MARK: - 9.C Lights
+	 // MARK: - 9.B Lights
 	func updateLightsScn() {
 		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
 		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
@@ -329,7 +281,35 @@ bug
 			return rv
 		}
 	}
-	  // MARK: - 9.D Pole
+	 // MARK: - 9.C Camera
+	 // Get camera node from SCNNode
+	var cameraScn : SCNNode?	{	scnScene.cameraScn							}
+	func updateCamerasScn(_ config:FwConfig) {
+
+		 // Delete any Straggler
+		if let stragglerScn		= rootScn.find(name:"camera") {
+			let msg				= stragglerScn == cameraScn ? "" : " and no match to cameraScn"
+			warning("Who put this camera here? !!!" + msg)
+			stragglerScn.removeFromParentNode()
+		}
+
+		 // Just make a whole new camera system from scratch
+		let camera				= SCNCamera()
+		camera.name				= "SCNCamera"
+		camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
+		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+		camera.exposureAdaptationDarkeningSpeedFactor = 1
+		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
+		//camera.zNear			= 1
+		//camera.zFar			= 100
+														// NOOO	addChildNode(camera!)
+		let newCameraScn		= SCNNode()
+		newCameraScn.camera		= camera
+		newCameraScn.name		= "camera"
+		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+		rootScn.addChildNode(newCameraScn)
+	}
+	  // MARK: - 9.D LookAtPole
 	 // ///// Rebuild the Rotator Pole afresh
 	func updatePoleScn() {			// was updatePole()
 		guard config4guts.bool_("pole") else {	return							}
@@ -423,7 +403,7 @@ bug;	let fwGuts				= DOCfwGuts
 		pole.worldPosition		= wPosn
 
 		if animateIt {
-bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration ?? 1.0)/3)
+			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
 			atRve(8, logd("  \\#######  SCNTransaction: COMMIT"))
 			SCNTransaction.commit()
 		}
@@ -657,19 +637,19 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 
 	 // MARK: - 13. IBActions
-	 // MARK: - 13.1 Keys
-	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys
-	var mouseWasDragged			= false
+	var isAutoRepeat : Bool 	= false 	// filter out AUTOREPEAT keys
+	var mouseWasDragged			= false		// have dragging cancel pic
 
 	func receivedEvent(nsEvent:NSEvent) {
-		//print("--- func received(nsEvent:\(nsEvent))")
-
-		// MARK: - 13.2 Mouse
-		//  ====== LEFT MOUSE ======
+		print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
 
 		switch nsEvent.type {
+
+	 	   // MARK: - 13.1 Keyboard
+		  //  ====== KEYBOARD ======
+		 //
 		case .keyDown:
 			if nsEvent.isARepeat {	return }			// Ignore repeats
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
@@ -686,7 +666,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			isAutoRepeat 		= false
 			let _				= DOC?.processKey(from:nsEvent, inVew:nil)
 
-		 //  ====== LEFT MOUSE ======
+		   // MARK: - 13.2 Mouse
+		  //  ====== LEFT MOUSE ======
+		 //
 		case .leftMouseDown:
 			motionFromLastEvent(with:nsEvent)
 			if !nsTrackPad  {					// 3-button Mouse
@@ -709,7 +691,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 				mouseWasDragged = false
 				updatePole2Camera(duration:duration, reason:"Left mouseUp")
 			}
-		 //  ====== CENTER MOUSE (scroll wheel) ======
+
+		  //  ====== CENTER MOUSE (scroll wheel) ======
+		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
 			updatePole2Camera(duration:duration, reason:"Other mouseDown")
@@ -723,7 +707,9 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			print("camera = [\(ppCam())]")
 			//at("All", 3, print("camera = [\(fwGuts!.ppCam())]"))
 			atEve(9, print("\(cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
-		 //  ====== CENTER SCROLL WHEEL ======
+
+		  //  ====== CENTER SCROLL WHEEL ======
+		 //
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
@@ -732,8 +718,10 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //			scene.lastSelfiePole.zoom *= delta
 			print("receivedEvent(type:.scrollWheel) found pole\(lastSelfiePole.uid).zoom = \(lastSelfiePole.zoom)")
 			updatePole2Camera(reason:"Scroll Wheel")
-		 //  ====== RIGHT MOUSE ======			Right Mouse not used
 
+		  //  ====== RIGHT MOUSE ======			Right Mouse not used
+		 //
+	
 		//case 8:	// override func touchesBegan(with event:NSEvent) {
 		//	let t 				= event.touches(matching:.began, in:self)
 		//	for touch in t {

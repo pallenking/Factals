@@ -57,7 +57,7 @@ class RootPart : Part {
 	func readyForEncodable() {
 //		guard lock(partTreeAs:"writePartTree") else { fatalError("'writePartTree' couldn't get PART lock") }
 
-/* */	virtualize() 	// ---- 2. Retract weak crossReference .connectedTo in Ports, replace with absolute string
+//* */	virtualize() 	// ---- 2. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
 		atSer(5, logd("========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
 						// ---- 3. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
@@ -73,7 +73,7 @@ bug;	guard let poly		= self as? PolyWrap else { fatalError()}
 ////	self				= rp!
 
 		 // ---- 2. Replace weak references
-/* */	rp.realize()			// put references back	// *******
+//* */	rp.realize()			// put references back	// *******
 		rp.groomModel(parent:nil, root:rootPart)
 		rp.indexFor	= [:]		// HACK! should store in fwDocument!
 		atSer(5, logd("========== rootPart unwrapped:\n\(rootPart.pp(.tree, ["ppDagOrder":false]))", terminator:""))
@@ -283,32 +283,32 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	}
 
 	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
-	func virtualize() {
-		forAllParts(
-		{ part in
-			if let partAsPort		= part as? Port {
-				assert(partAsPort.con2asStr == nil, "partAsPort.con2asStr should be empty before Virtualize")
-				partAsPort.con2asStr = partAsPort.connectedTo == nil ? ""
-									 : partAsPort.connectedTo!.fullName
-				partAsPort.connectedTo = nil		// disconnect
-			}
-		})
-	}
+//	func virtualize() {
+//		forAllParts(
+//		{ part in
+//			if let partAsPort		= part as? Port {
+//				assert(partAsPort.con2asStr == nil, "partAsPort.con2asStr should be empty before Virtualize")
+//				partAsPort.con2asStr = partAsPort.connectedTo == nil ? ""
+//									 : partAsPort.connectedTo!.fullName
+//				partAsPort.connectedTo = nil		// disconnect
+//			}
+//		})
+//	}
 	/// Add weak references to Port.connectedTo from their absolute path as a string
-	func realize() {
-		forAllParts(
-		{ part in
-			if let partAsPort		= part as? Port {			// is Port
-				assert(partAsPort.connectedTo == nil, "partAsPort.connectedTo should be empty before Embed")
-				if let name			= partAsPort.con2asStr {		// Has absolute toName
-					if let toPort	= rootPart.find(name:name, inMe2:true) as? Port {
-						partAsPort.connectedTo = toPort					// Port found
-					}
-				}
-				partAsPort.con2asStr = nil			// virtual name removed
-			}
-		})
-	}
+//	func realize() {
+//		forAllParts(
+//		{ part in
+//			if let partAsPort		= part as? Port {			// is Port
+//				assert(partAsPort.connectedTo == nil, "partAsPort.connectedTo should be empty before Embed")
+//				if let name			= partAsPort.con2asStr {		// Has absolute toName
+//					if let toPort	= rootPart.find(name:name, inMe2:true) as? Port {
+//						partAsPort.connectedTo = toPort					// Port found
+//					}
+//				}
+//				partAsPort.con2asStr = nil			// virtual name removed
+//			}
+//		})
+//	}
 	convenience init(fromLibrary selectionString:String) {
 
 		 // Make tree's root (a RootPart):
