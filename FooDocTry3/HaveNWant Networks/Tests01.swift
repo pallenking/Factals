@@ -1318,7 +1318,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Generator
 state.scanSubMenu				= "Generator"
-r("+ Shaft Spin 3", eSim + camera(s:45,u:0,z:0.7) + vel(-3) + log(eve:5, dat:5) + ["wBoxX":"none"], {
+xxr("+ Shaft Spin 3", eSim + camera(s:45,u:0,z:0.7) + vel(-3) + log(eve:5, dat:5) + ["wBoxX":"none"], {
   Net([parts:[
 	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",

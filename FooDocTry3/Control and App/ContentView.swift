@@ -41,6 +41,9 @@ struct ContentView: View {
 										   .jitteringEnabled,
 										   .rendersContinuously,
 										   .temporalAntialiasingEnabled				],
+//			//							   .jitteringEnabled,
+//			//							   .temporalAntialiasingEnabled,
+//										   .rendersContinuously],
 							preferredFramesPerSecond:30,
 							antialiasingMode:.none,
 							delegate:fwGuts
