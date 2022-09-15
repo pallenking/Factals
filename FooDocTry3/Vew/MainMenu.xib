@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21223" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21223"/>
     </dependencies>
     <objects>
@@ -16,9 +15,9 @@
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
-                <menuItem title="SwiftFactals" id="1Xt-HY-uBw">
+                <menuItem title="FooDocTry3" id="1Xt-HY-uBw">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="SwiftFactals" systemMenu="apple" id="uQy-DD-JDr">
+                    <menu key="submenu" title="FooDocTry3" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
                             <menuItem title="About SwiftFactals" id="5kV-Vb-QxS">
                                 <modifierMask key="keyEquivalentModifierMask"/>

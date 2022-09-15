@@ -442,7 +442,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	///   - from: defines direction of camera
 	///   - message: for logging only
 	///   - duration: for animation
-	func updateCameraTransform(for message:String?=nil, overTime duration:Float=0.0) { //updateCameraRotator
+	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 		let pole : SelfiePole	= lastSelfiePole
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
@@ -590,7 +590,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		updateCamerasScn(config4guts)
 		updatePoleScn()
 
-		updateCameraTransform(for:"install RootPart")
+		updatePole2Camera(reason:"install RootPart")
 
 		// 6. UNLOCK PartTree and VewTree:
 		DOCfwGuts .unlock( rootVewAs:"didLoadNib")
@@ -692,13 +692,13 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			if !nsTrackPad  {					// 3-button Mouse
 				modelPic(with:nsEvent)
 			}
-			updateCameraTransform(for:"Left mouseDown", overTime:duration)
+			updatePole2Camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true		// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				updateCameraTransform(for:"Left mouseDragged")
+				updatePole2Camera(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
@@ -707,19 +707,19 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 					let _		= modelPic(with:nsEvent)
 				}
 				mouseWasDragged = false
-				updateCameraTransform(for:"Left mouseUp", overTime:duration)
+				updatePole2Camera(duration:duration, reason:"Left mouseUp")
 			}
 		 //  ====== CENTER MOUSE (scroll wheel) ======
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			updateCameraTransform(for:"Other mouseDown", overTime:duration)
+			updatePole2Camera(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			updateCameraTransform(for:"Other mouseDragged")
+			updatePole2Camera(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			updateCameraTransform(for:"Other mouseUp", overTime:duration)
+			updatePole2Camera(duration:duration, reason:"Other mouseUp")
 			print("camera = [\(ppCam())]")
 			//at("All", 3, print("camera = [\(fwGuts!.ppCam())]"))
 			atEve(9, print("\(cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
@@ -731,7 +731,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 //			let scene			= DOCfwGuts
 //			scene.lastSelfiePole.zoom *= delta
 			print("receivedEvent(type:.scrollWheel) found pole\(lastSelfiePole.uid).zoom = \(lastSelfiePole.zoom)")
-			updateCameraTransform(for:"Scroll Wheel")
+			updatePole2Camera(reason:"Scroll Wheel")
 		 //  ====== RIGHT MOUSE ======			Right Mouse not used
 
 		//case 8:	// override func touchesBegan(with event:NSEvent) {
@@ -990,7 +990,7 @@ bug
 //		unlock(            rootVewAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 //		experiment!.unlock(partTreeAs:"toggelOpen")
 
-		updateCameraTransform(for:"toggelOpen")
+		updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 	}

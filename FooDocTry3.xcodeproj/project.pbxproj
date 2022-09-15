@@ -36,7 +36,6 @@
 		9F19010D28808EE70078DB6C /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010C28808EE70078DB6C /* Share.swift */; };
 		9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010E28808EF80078DB6C /* MultiPort.swift */; };
 		9F19011128808F070078DB6C /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011028808F070078DB6C /* Port.swift */; };
-		9F19011C288090240078DB6C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190113288090240078DB6C /* InspecSCNVector3.swift */; };
 		9F19011E288090240078DB6C /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190114288090240078DB6C /* Document.xib */; };
 		9F19011F288090240078DB6C /* InspecParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190115288090240078DB6C /* InspecParts.swift */; };
@@ -453,7 +452,6 @@
 				9F19011E288090240078DB6C /* Document.xib in Resources */,
 				9FEE6F1F2835779000E9E2AE /* Preview Assets.xcassets in Resources */,
 				9F190120288090240078DB6C /* Jnspec.storyboard in Resources */,
-				9F19011C288090240078DB6C /* MainMenu.xib in Resources */,
 				9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */,
 				9FEE521D28749C2A00C8C22A /* LLDBInitFile in Resources */,
 				9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */,
