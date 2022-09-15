@@ -78,6 +78,7 @@ class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDe
 
 	var pole					= SCNNode()		// focus of mouse rotator
 
+// Zev: change to didSet and stop storing the backing var yourself
 	var config4guts : FwConfig {
 		get			{ 			return config4scene_ 							}
 		set(config) {

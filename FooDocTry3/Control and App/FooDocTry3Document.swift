@@ -298,6 +298,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			window				= inspecWin4vew[lv]		// try LAST
 		}
 		if window == nil {								// make NEW
+// INSPECTOR NOT SwiftUI !!
 			let hostCtlr		= NSHostingController(rootView:inspec)
 			hostCtlr.view.frame	= NSRect(x:0, y:0, width:400, height:0)	// questionable use
 			window				= NSWindow(contentViewController:hostCtlr)	// create

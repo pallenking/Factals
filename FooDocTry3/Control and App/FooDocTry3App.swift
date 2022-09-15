@@ -68,6 +68,12 @@ struct FooDocTry3App: App, Uid, FwAny {
 		DocumentGroup(newDocument: FooDocTry3Document()) { file in
 			ContentView(document: file.$document)
 		}
+		WindowGroup {
+			Text("Hello, World!")
+				.padding()
+		}
+		// https://khorbushko.github.io/article/2021/04/25/window-group.html
+		.handlesExternalEvents(matching: [])
 	}
 	 // MARK: - 2. Object Variables:
 	var log	: Log				= Log(params4appLog, title:"AppDelegate's Log(params4appLog)")
