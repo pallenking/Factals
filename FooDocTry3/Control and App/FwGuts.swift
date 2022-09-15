@@ -238,7 +238,8 @@ bug
 			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
 		}
 	}
-	 // MARK: - 9.B Lights
+	 // MARK: -
+	 // MARK: - 9.1 Lights
 	func updateLightsScn() {
 		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
 		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
@@ -281,7 +282,7 @@ bug
 			return rv
 		}
 	}
-	 // MARK: - 9.C Camera
+	 // MARK: - 9.2 Camera
 	 // Get camera node from SCNNode
 	var cameraScn : SCNNode?	{	scnScene.cameraScn							}
 	func updateCamerasScn(_ config:FwConfig) {
@@ -309,7 +310,7 @@ bug
 		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 		rootScn.addChildNode(newCameraScn)
 	}
-	  // MARK: - 9.D LookAtPole
+	  // MARK: - 9.3.1 Look At Pole
 	 // ///// Rebuild the Rotator Pole afresh
 	func updatePoleScn() {			// was updatePole()
 		guard config4guts.bool_("pole") else {	return							}
@@ -387,6 +388,12 @@ bug
 		}
 	}
 
+	 // MARK: 9.3.2 Look At Spot
+	var lookAtPart : Part? 		= nil
+	var lookAtVew  : Vew?		= nil
+	var lastSelfiePole 			= SelfiePole()						// init to default
+
+	 // MARK: 9.3.3 Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 bug;	let fwGuts				= DOCfwGuts
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
@@ -411,11 +418,6 @@ bug;	let fwGuts				= DOCfwGuts
 	//		let c = lastSelfiePole
 	//		rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
 	//				c.spin, c.horizonUp, c.zoom) // in degrees
-	 // MARK: - 9.E Look AT
-	var lookAtPart : Part? 		= nil
-	var lookAtVew  : Vew?		= nil
-	 // MARK: - 9.C Mouse Rotator
-	var lastSelfiePole = SelfiePole()						// init to default
 
 	/// Compute Camera Transform from pole config
 	/// - Parameters:
@@ -577,7 +579,51 @@ bug;	let fwGuts				= DOCfwGuts
 		DOCrootPart.unlock(partTreeAs:"didLoadNib")
 	}
 
-	 // MARK: - 9.E Physics Contact Protocol
+// /////////////////////////////////////////////////////////////////////////////
+// ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
+  // called by SCNSceneRenderer,  SCNDebugOptions
+
+		// MARK: - SCNSceneRendererDelegate
+	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
+	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+			DOCfwGuts.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
+		}
+	}
+	  // MARK: 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
+	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+			DOCrootPart.computeLinkForces(vew:DOCfwGuts.rootVew)
+		}
+	}
+	  // MARK: 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
+	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+			DOCrootPart.applyLinkForces(vew:DOCfwGuts.rootVew)
+		}
+	}
+	  // MARK: 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
+	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
+		DispatchQueue.main.async {
+			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+			DOCrootPart.rotateLinkSkins(vew:DOCfwGuts.rootVew)
+		}
+	}
+	   // ODD Timing:
+	  // MARK: 9.5.5: did Render Scene
+	public func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
+	}
+	  // MARK: 9.5.6: Did Apply Constraints At Time
+	public func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
+		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
+	}
+
+	 // MARK: - 9.7 Physics Contact Protocol
 	   // //////////////////////////////////////////////////////////////////////
 	  //
 	func physicsWorld(_ world:SCNPhysicsWorld, didBegin  contact:SCNPhysicsContact) {
@@ -591,51 +637,9 @@ bug;	let fwGuts				= DOCfwGuts
 	}
 
 	
-// /////////////////////////////////////////////////////////////////////////////
-// ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-  // called by SCNSceneRenderer,  SCNDebugOptions
-
-	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
-	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			DOCfwGuts.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
-		}
-	}
-	  // MARK: - 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
-	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			DOCrootPart.computeLinkForces(vew:DOCfwGuts.rootVew)
-		}
-	}
-	  // MARK: - 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
-	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			DOCrootPart.applyLinkForces(vew:DOCfwGuts.rootVew)
-		}
-	}
-	  // MARK: - 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
-	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
-		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			DOCrootPart.rotateLinkSkins(vew:DOCfwGuts.rootVew)
-		}
-	}
-	   // ODD Timing:
-	  // MARK: - 9.5.@: did Render Scene
-	public func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
-	}
-	  // MARK: - 9.5.*: Did Apply Constraints At Time
-	public func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
-		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
-	}
 
 
-
+	  // MARK: -
 	 // MARK: - 13. IBActions
 	var isAutoRepeat : Bool 	= false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
@@ -647,7 +651,6 @@ bug;	let fwGuts				= DOCfwGuts
 
 		switch nsEvent.type {
 
-	 	   // MARK: - 13.1 Keyboard
 		  //  ====== KEYBOARD ======
 		 //
 		case .keyDown:
@@ -666,7 +669,6 @@ bug;	let fwGuts				= DOCfwGuts
 			isAutoRepeat 		= false
 			let _				= DOC?.processKey(from:nsEvent, inVew:nil)
 
-		   // MARK: - 13.2 Mouse
 		  //  ====== LEFT MOUSE ======
 		 //
 		case .leftMouseDown:
