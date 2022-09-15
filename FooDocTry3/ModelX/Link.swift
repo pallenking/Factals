@@ -494,14 +494,14 @@ bug	// NEVER USED?
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
 		let linkVew				= vew as! LinkVew
 
-		 // This section is in rePaint, because cameraNode changes positions!
+		 // This section is in rePaint, because camera changes positions!
 		guard let fwGuts		= DOCfwGutsQ else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
-		guard fwGuts.cameraNode != nil else {
+		guard fwGuts.cameraScn != nil else {
 			return																}
 
-		let camera				= fwGuts.cameraNode!.position
+		let camera				= fwGuts.cameraScn!.position
 
 		 // Get ends of link, and set positions
 		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {

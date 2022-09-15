@@ -11,7 +11,7 @@ import SceneKit
 //                3D MODEL SPACE       camera
 //    model             v                ^         LOCAL
 //     coords:          |                |					getModelViewMatrix()
-//                \ ∏ Tmodel i/    trans = cameraNode.transform
+//                \ ∏ Tmodel i/    trans = cameraScn.transform
 //                 \  Matrix /           |
 //    world    =====    v   =============*============ WORLD		[x, y, z, 1]
 //     coords:          |
@@ -240,12 +240,12 @@ bug
 	}
 	 // MARK: - 9.B Camera
 	 // Get camera node from SCNNode
-	var cameraNode : SCNNode?	{	scnScene.cameraNode							}
+	var cameraScn : SCNNode?	{	scnScene.cameraScn							}
 	func updateCamerasScn(_ config:FwConfig) {
 
 		 // Delete any Straggler
 		if let stragglerScn		= rootScn.find(name:"camera") {
-			let msg				= stragglerScn == cameraNode ? "" : " and no match to cameraNode"
+			let msg				= stragglerScn == cameraScn ? "" : " and no match to cameraScn"
 			warning("Who put this camera here? !!!" + msg)
 			stragglerScn.removeFromParentNode()
 		}
@@ -297,11 +297,14 @@ bug
 //		 spot.light!.spotInnerAngle = 30.0
 //		 spot.light!.spotOuterAngle = 80.0
 //		 spot.light!.castsShadow = true
-//		 let constraint = SCNLookAtConstraint(target:nil)
+//		 let constraint 		= SCNLookAtConstraint(target:nil)
 //		 constraint.isGimbalLockEnabled = true
-//		 cameraNode.constraints = [constraint]
-//		 spot.constraints = [constraint]
-
+//		 cameraScn.constraints 	= [constraint]
+//		 spot.constraints 		= [constraint]
+//		for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraScn)] {
+//			rv					+= "\(msg) =       \(obj.categoryBitMask)-"
+//			rv					+= "\(obj.description.shortenStringDescribing())\n"
+//		}
 		func helper(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
 			 // Delete any Straggler
@@ -425,10 +428,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			SCNTransaction.commit()
 		}
 	}
-//			for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
-//				rv				+= "\(msg) =       \(obj.categoryBitMask)-"
-//				rv				+= "\(obj.description.shortenStringDescribing())\n"
-//			}
 	//		let c = lastSelfiePole
 	//		rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
 	//				c.spin, c.horizonUp, c.zoom) // in degrees
@@ -473,19 +472,19 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 
 				//		 // OLD WAY -- SORTA WORKS:  Transform root bbox into camera:
 				//		let bBox				= rootVew.bBox			// in world coords
-				//		let transform2eye		= SCNMatrix4Invert(cameraNode.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
-				////		let x					= cameraNode.camera?.projectionTransform
+				//		let transform2eye		= SCNMatrix4Invert(cameraScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+				////	let x					= cameraScn.camera?.projectionTransform
 				//		let bBoxScreen			= bBox.transformed(by:transform2eye)
 				//		let bSize				= bBoxScreen.size
-		if cameraNode == nil {
-			print("cameraNode is nil")
+		if cameraScn == nil {
+			print("cameraScn is nil")
 			return
 		}
 
 		  // Determine magnification so all parts of the 3D object are seen.
 		 //
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(cameraNode!.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(cameraScn!.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 		guard let nsRectSize	= scnView?.frame.size  else  {	fatalError()	}
@@ -510,7 +509,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-			guard let cam		= cameraNode!.camera else { fatalError("cameraNode.camera is nil") 	}
+			guard let cam		= cameraScn!.camera else { fatalError("cameraScn.camera is nil") 	}
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
 			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
 		}
@@ -522,7 +521,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 									//		  vanishingPoint.isFinite {			// Perspective
 									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
 									//		} 								// Orthographic
-									//		else if let cam			= cameraNode.camera {
+									//		else if let cam			= cameraScn.camera {
 									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
 									//			cam.usesOrthographicProjection = true		// camera’s magnification factor
 									//			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
@@ -535,13 +534,13 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			atRve(8, logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
-			cameraNode!.transform *= 0.999999	// virtually no effect
+			cameraScn!.transform *= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
 				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				self.cameraNode!.transform = newCameraXform
+				self.cameraScn!.transform = newCameraXform
 
 				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -550,7 +549,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 			SCNTransaction.commit()
 		}
 		else {
-			cameraNode!.transform = newCameraXform
+			cameraScn!.transform = newCameraXform
 		}
 	}
 
@@ -611,7 +610,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		panic("physicsWorld(_, didEnd:contact")
 	}
 
-
 	
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
@@ -661,6 +659,7 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 	 // MARK: - 13. IBActions
 	 // MARK: - 13.1 Keys
 	var isAutoRepeat : Bool 	= false // filter out AUTOREPEAT keys
+	var mouseWasDragged			= false
 
 	func receivedEvent(nsEvent:NSEvent) {
 		//print("--- func received(nsEvent:\(nsEvent))")
@@ -669,7 +668,6 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 		//  ====== LEFT MOUSE ======
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
-		var mouseWasDragged		= false
 
 		switch nsEvent.type {
 		case .keyDown:
@@ -711,23 +709,22 @@ bug//		SCNTransaction.animationDuration = CFTimeInterval((doc?.fwView!.duration 
 				mouseWasDragged = false
 				updateCameraTransform(for:"Left mouseUp", overTime:duration)
 			}
-		 //  ====== CENTER MOUSE ======
+		 //  ====== CENTER MOUSE (scroll wheel) ======
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
 			updateCameraTransform(for:"Other mouseDown", overTime:duration)
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			mouseWasDragged 	= true		// drag cancels pic
 			updateCameraTransform(for:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			updateCameraTransform(for:"Other mouseUp", overTime:duration)
 			print("camera = [\(ppCam())]")
 			//at("All", 3, print("camera = [\(fwGuts!.ppCam())]"))
-			atEve(9, print("\(cameraNode?.transform.pp(.tree) ?? "cameraNode is nil")"))
+			atEve(9, print("\(cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 		 //  ====== CENTER SCROLL WHEEL ======
-		case .scrollWheel: nop
+		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			lastSelfiePole.zoom *= delta
@@ -1076,20 +1073,13 @@ bug
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .tree:
-			var rv = ""
-//			for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
-//				rv				+= "\(msg) =       \(obj.categoryBitMask)-"
-//				rv				+= "\(obj.description.shortenStringDescribing())\n"
-//			}
-			let c = lastSelfiePole
-			rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
-					c.spin, c.horizonUp, c.zoom) // in degrees
+			let c 				= lastSelfiePole
+			var rv 				= fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
+									  c.spin, c.horizonUp, c.zoom) // in degrees
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
-//		return "FwGuts: scnTrunk:'\(scnRoot.name ?? "<unnamed>")',  trunkVew:'\(trunkVew?.name ?? "<unnamed>")'"
-//		return "FwGuts: scnRoot=\(scnRoot.name ?? "<unnamed>")"
 	}
 	func ppCam() -> String {
 		let c = lastSelfiePole

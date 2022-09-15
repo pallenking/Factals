@@ -1,5 +1,5 @@
 ////
-////  CameraNode.swift
+////  cameraScn.swift
 ////  FooDocTry3
 ////
 ////  Created by Allen King on 8/21/22.
@@ -9,7 +9,7 @@
 //
 //import SceneKit
 //
-//class CameraNode : SCNNode {
+//class cameraScn : SCNNode {
 //
 //	init(_ config:FwConfig) {										super.init()
 //		camera					= SCNCamera()

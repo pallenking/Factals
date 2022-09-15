@@ -27,7 +27,7 @@ var fileURL : URL 				= 	{
 }()
 
 extension SCNScene {
-	var cameraNode : SCNNode? {
+	var cameraScn : SCNNode? {
 		rootNode.find(name:"camera")
 	}
 }

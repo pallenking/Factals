@@ -35,7 +35,7 @@ struct ContentView: View {
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
-							pointOfView	: fwGuts.cameraNode,
+							pointOfView	: fwGuts.cameraScn,
 							options		: [.autoenablesDefaultLighting,
 				//**/					   .allowsCameraControl,
 										   .jitteringEnabled,
@@ -88,7 +88,7 @@ struct ContentView: View {
 					Spacer()
 				}
 	 			 // From Peter Wu: https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
-				// SceneView(scene:fwGuts, pointOfView:fwGuts.cameraNode, options:[], delegate:nil) .border(Color.yellow, width: 10)
+				// SceneView(scene:fwGuts, pointOfView:fwGuts.cameraScn, options:[], delegate:nil) .border(Color.yellow, width: 10)
 			} else {
 				Button(label:{Text("Document has nil fwGuts").padding(.top, 300)})
 				{	fatalError(" ERROR ")										}
@@ -97,7 +97,7 @@ struct ContentView: View {
 				SceneKitHostingView(SCNViewsArgs( 	//SceneView(
 					fwGuts		: nil,
 					scnScene	: jetModel.scene,
-					pointOfView	: nil,//jetModel.scene.cameraNode,
+					pointOfView	: nil,//jetModel.scene.cameraScn,
 					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 					preferredFramesPerSecond : 30,
 					antialiasingMode : .none,
@@ -106,7 +106,7 @@ struct ContentView: View {
 				 .frame(width:200, height:200)
 				SceneView(
 					scene	   : dragonModel.scene,
-					pointOfView: nil,//dragonModel.scene.cameraNode,
+					pointOfView: nil,//dragonModel.scene.cameraScn,
 					options: [.allowsCameraControl, .autoenablesDefaultLighting]
 				)
 				 .frame(width:200, height:300)
