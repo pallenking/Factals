@@ -25,6 +25,25 @@ struct ContentView: View {
 	@StateObject var dragonModel	= DragonModel()
 
 	var body: some View {
+		Text("Hello World!")
+		 .toolbar {
+			ToolbarItem(placement: .primaryAction) {
+				Menu {
+//					Button(action: {}) {
+//						Label("Create a file", systemImage: "doc")
+//					}
+					Button(label:{	Label("Create a file", systemImage: "doc")		})
+					{	print("button pressed")								}
+
+					Button(action: {}) {
+						Label("Create a folder", systemImage: "folder")
+					}
+				}
+				label: {
+					Label("Add", systemImage: "plus")
+				}
+			}
+		}.frame(width:200, height: 20, alignment:.center)
 		HStack {
 			if let fwGuts		= document.fwGuts {
 				VStack {
@@ -67,7 +86,6 @@ struct ContentView: View {
 						Spacer()
 						HStack {
 							Text("Model:")
-							let fws				= fwGuts
 							Button(label:{	Text(   "ptm").padding(.top, 300)		})
 							{	lldbPrint(ob:rootPart, mode:.tree)					}
 							Button(label:{	Text(  "ptLm").padding(.top, 300)		})

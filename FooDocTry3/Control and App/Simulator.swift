@@ -19,28 +19,44 @@ class Simulator : NSObject, Codable {
 
 	// MARK: - 2.1 Operational STATE
 	 /// Simulation is fully built and running
-	var simBuilt : Bool {				// simulator is running (mostly for Log)
-		get		 {		return simBuilt_										}
-		set(val) {		// whenever simEnabled gets set, try to start simulations
-			simBuilt_			= val
-			if simEnabled_ && simBuilt_ {
+	var simBuilt : Bool = false	{		// sim constructed?
+		didSet {		// whenever simEnabled gets set, try to start simulations
+			if simEnabled && simBuilt {
 				simTaskRunning	= false	// (so startSimulationTask notices)
 				startSimulationTask()	// try irrespective of simTaskRunning
 			}
 		}
-	};private var simBuilt_	 	= false		// sim constructed?
+	}
+//	var simBuilt : Bool {				// simulator is running (mostly for Log)
+//		get		 {		return simBuilt_										}
+//		set(val) {		// whenever simEnabled gets set, try to start simulations
+//			simBuilt_			= val
+//			if simEnabled_ && simBuilt_ {
+//				simTaskRunning	= false	// (so startSimulationTask notices)
+//				startSimulationTask()	// try irrespective of simTaskRunning
+//			}
+//		}
+//	};private var simBuilt_	 	= false		// sim constructed?
 
 	 /// Enable simulation task to run:
-	var simEnabled	  	: Bool {
-		get 	 {		return simEnabled_ 										}
-		set(val) {		// whenever simEnabled gets set, try to start simulations
-			simEnabled_			= val
+	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
+		didSet {
 			if simBuilt {
-				simTaskRunning	= false	// (so startSimulationTask notices)
-				startSimulationTask()	// try irrespective of simTaskRunning
+				simTaskRunning	= false		// (so startSimulationTask notices)
+				startSimulationTask()		// try irrespective of simTaskRunning
 			}
 		}
-	};private var simEnabled_ 	= false		// sim enabled to run?
+	}
+//	var simEnabled	  	: Bool {
+//		get 	 {		return simEnabled_ 										}
+//		set(val) {		// whenever simEnabled gets set, try to start simulations
+//			simEnabled_			= val
+//			if simBuilt {
+//				simTaskRunning	= false	// (so startSimulationTask notices)
+//				startSimulationTask()	// try irrespective of simTaskRunning
+//			}
+//		}
+//	};private var simEnabled_ 	= false		// sim enabled to run?
 	var simTaskRunning			= false		// sim task pending?
 
 	// MARK: - 2.2 Manage Cycle Simulator

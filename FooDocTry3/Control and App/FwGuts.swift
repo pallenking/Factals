@@ -42,7 +42,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 			//projectPoint(_:)
-class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDelegate */ {	//,
+class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*SCNScene */ {	//,
 
 	  // MARK: - 2. Object Variables:
 	 // ///////// Part Tree:
@@ -78,18 +78,11 @@ class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDe
 
 	var pole					= SCNNode()		// focus of mouse rotator
 
-// Zev: change to didSet and stop storing the backing var yourself
-	var config4guts : FwConfig {
-		get			{ 			return config4scene_ 							}
-		set(config) {
-			config4scene_ 		= config
-			if let anim			= config.bool("animatePhysics") {
-				animatePhysics 	= anim
-			}
-			if config.bool("isPaused") ?? false {
-				panic("SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
-			}
-			if let gravAny33:FwAny = config["gravity"] {		// GLOBAL
+	var config4guts : FwConfig = [:] {
+		didSet {	//if config4guts != oldValue {
+			animatePhysics 		= config4guts.bool("animatePhysics") ?? false
+			assert(config4guts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
+			if let gravAny33	= config4guts["gravity"] {
 				if let gravityVect : SCNVector3 = SCNVector3(from:gravAny33) {
 					scnScene.physicsWorld.gravity = gravityVect
 				}
@@ -97,13 +90,12 @@ class FwGuts : NSObject, SCNSceneRendererDelegate/*SCNScene, SCNPhysicsContactDe
 					scnScene.physicsWorld.gravity.y = gravityY
 				}
 			}
-			if let speed		= config.cgFloat("speed") {
+			if let speed		= config4guts.cgFloat("speed") {
 				scnScene.physicsWorld.speed = speed
 			}
 			//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 		}
-	};private var config4scene_ : FwConfig = [:]
-
+	}
 	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
 	var animatePhysics : Bool {
 		get {			return !scnScene.isPaused									}
@@ -184,7 +176,7 @@ bug
 //
 	 // MARK: - 4.? Vew Locks
 	 /// Optain DispatchSemaphor for Vew Tree
-	func lock(rootVewAs lockName:String?=nil, logIf:Bool=true) -> Bool {
+	func lock(vewTreeAs lockName:String?=nil, logIf:Bool=true) -> Bool {
 		guard lockName != nil else {	return true		/* no lock needed */	}
 
 		let u_name			= ppUid(self) + " '\(lockName!)'".field(-20)
@@ -216,7 +208,7 @@ bug
 		}())
 		return true
 	}
-	func unlock(rootVewAs lockName:String?=nil, logIf:Bool=true) {
+	func unlock(vewTreeAs lockName:String?=nil, logIf:Bool=true) {
 		guard lockName != nil else {	return 			/* no lock to return */	}
 		assert(rootVewOwner != nil, "releasing VewTreeLock but 'rootVewOwner' is nil")
 		assert(rootVewOwner == lockName!, "Releasing (as '\(lockName!)') Vew lock owned by '\(rootVewOwner!)'")
@@ -550,10 +542,10 @@ bug;	let fwGuts				= DOCfwGuts
 		assert(rootVew.part.name == "ROOT", "Paranoid check of rootVew 4")
 
 		 // 1. 	GET LOCKS				// PartTree
-		guard DOCrootPart.lock(partTreeAs:"didLoadNib") else {
+		guard rootPart.lock(partTreeAs:"didLoadNib") else {
 			fatalError("didLoadNib couldn't get PART lock")		// or
 		}		          				// VewTree
-		guard DOCfwGuts .lock(rootVewAs:"didLoadNib") else {
+		guard lock(vewTreeAs:"didLoadNib") else {
 			fatalError("didLoadNib  couldn't get VIEW lock")
 		}
 																				// doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
@@ -576,8 +568,8 @@ bug;	let fwGuts				= DOCfwGuts
 		updatePole2Camera(reason:"install RootPart")
 
 		// 6. UNLOCK PartTree and VewTree:
-		DOCfwGuts .unlock( rootVewAs:"didLoadNib")
-		DOCrootPart.unlock(partTreeAs:"didLoadNib")
+		unlock( 		 vewTreeAs:"didLoadNib")
+		rootPart.unlock(partTreeAs:"didLoadNib")
 	}
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -636,11 +628,8 @@ bug;	let fwGuts				= DOCfwGuts
     func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {
 		panic("physicsWorld(_, didEnd:contact")
 	}
-
-	
-
-
 	  // MARK: -
+
 	 // MARK: - 13. IBActions
 	var isAutoRepeat : Bool 	= false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic

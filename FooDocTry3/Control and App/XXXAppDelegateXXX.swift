@@ -42,24 +42,36 @@
 //	 // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 //
 //	 // Keep regressScene up to date
-//	var config4app : FwConfig {
-//		get			{	return config4app_ }
-//		set(val)	{
-//			config4app_			= val
-//			if let rsn 			= config4app_.int("regressScene") {
+//	var config4app : FwConfig	= [:] {
+//		didSet {
+//			if let rsn 			= config4app.int("regressScene") {
 //				regressScene	= rsn
 //			}
 //		}
-//	};private var config4app_ : FwConfig = [:]
+//	}
+// //var config4appX : FwConfig {
+// //	get			{	return config4app_ }
+// //	set(val)	{
+// //		config4app_			= val
+// //		if let rsn 			= config4app_.int("regressScene") {
+// //			regressScene	= rsn
+// //		}
+// //	}
+// //};private var config4app_ : FwConfig = [:]
 //
 //	 // Keeps FwScene menue in sync with itself:
 //	var regressScene : Int {				// number of next "^r" regression test
-//		get			{	return regressScene_										}
-//		set(v)	 	{
-//			regressScene_ 		= v
+//		didSet {
 //			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
 //		}
-//	};private var regressScene_ = 0
+//	}
+//	//var regressScene : Int {				// number of next "^r" regression test
+//	//	get			{	return regressScene_										}
+//	//	set(v)	 	{
+//	//		regressScene_ 		= v
+//	//		sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
+//	//	}
+//	//};private var regressScene_ = 0
 //
 //	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 //	var library 				= Library("AppsLib")
@@ -172,7 +184,7 @@
 //			let tokens:[String.SubSequence] = elt.subMenu.split(separator:"/")
 //			for i in 0..<tokens.count {		 // From full path to root:
 //				assert(i == 0, "/ in sceneMenu, unsupported now")
-//	
+//
 //				 //  Check there are menus for Paths A, A/B, A/B/C, where A,B,C are nameTokens:
 //				let path 		= String(tokens[0...i].joined(separator:"/"))
 //				menuTree		= menuOfPath[path] ?? 	// exists

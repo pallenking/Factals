@@ -25,35 +25,33 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 	var logEvents				= true
 
 	 /// Configure Log facilities
-	var config4log : FwConfig {
-		get			{ 			return config4log_ 								}
-		set(config) {
-			config4log_ 		= config
+	var config4log : FwConfig = [:] {
+		didSet {
 			// WARNING: Do not use Log inside here! It's not set up yet!
 
 			 // Unpack frequently used config hash elements to object parameters
-			if let pic 			= config.int("ppIndentCols")	{
+			if let pic 			= config4log.int("ppIndentCols")	{
 				ppIndentCols 	= pic
 			}	
-			if let ppp			= config.bool("ppPorts") 		{
+			if let ppp			= config4log.bool("ppPorts") 		{
 				ppPorts			= ppp
 			}	
-			if let uidd4p		= config .int("ppNUid4Tree") 	{
+			if let uidd4p		= config4log .int("ppNUid4Tree") 	{
 				ppNUid4Tree 	= uidd4p
 			}	
-			if let uidd4c		= config .int("ppNUid4Ctl")		{
+			if let uidd4c		= config4log .int("ppNUid4Ctl")		{
 				ppNUid4Ctl 		= uidd4c
 			}	
-			if let lo			= config.bool("debugOutterLock"){
+			if let lo			= config4log.bool("debugOutterLock"){
 				debugOutterLock	= lo
 			}	
-			if let lev			= config.bool("logEvents")		{
+			if let lev			= config4log.bool("logEvents")		{
 				logEvents		= lev
 			}	
-			if let t 			= config.bool("logTime")		{
+			if let t 			= config4log.bool("logTime")		{
 				logTime			= t
 			}
-			if let ba			= config .int("breakAt")		{ // (composite, )
+			if let ba			= config4log .int("breakAt")		{ // (composite, )
 				let curBa		= entryNo<0 ? -1 : entryNo%Log.entryNosPlog
 				if ba>0 && ba<curBa { // DON'T USE assert(:), it relies on Log!
 					panic("Setting  breakAt = \(ba) TOO LATE. Set it after \(curBa)")
@@ -62,12 +60,12 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 			}
 
 			 // Load verbosity filter from keys starting with "logPri4", if there are any.
-			let verbosityHash	= verbosityInfoFrom(config)
+			let verbosityHash	= verbosityInfoFrom(config4log)
 			if  verbosityHash.count > 0 {
 				verbosity 	= verbosityHash		// Set verbosity filter
 			}										// Otherwise do nothing.
 		}
-	};private var config4log_ : FwConfig = [:]
+	}
 
 	func ppVerbosityOf(_ config:FwConfig) -> String {
 bug
@@ -97,10 +95,13 @@ bug
 		return rv
 	}
 
-	var verbosity : [String:Int]? {
-		get		{	verbosity_													}
-		set(v)	{	verbosity_ = v				/* for debug */					}
-	}; private var verbosity_ : [String:Int]? = [:]	 // Current logging verbosity filter to select log messages
+	var verbosity : [String:Int]? = [:] {	 // Current logging verbosity filter to select log messages
+		didSet	{	nop							/* for debug */					}
+	}
+	//var verbosity : [String:Int]? {
+	//	get		{	verbosity_													}
+	//	set(v)	{	verbosity_ = v				/* for debug */					}
+	//}; private var verbosity_ : [String:Int]? = [:]	 // Current logging verbosity filter to select log messages
 //	var verbosity : [String:Int]?	= [:]	 // Current logging verbosity filter to select log messages
 
 	/// UGLY: what if different threads using log?

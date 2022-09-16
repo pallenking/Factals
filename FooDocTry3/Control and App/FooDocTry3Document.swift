@@ -64,14 +64,22 @@ struct FooDocTry3Document: FileDocument, Uid {
 			throw CocoaError(.fileWriteUnknown)
 		}
 	}
-	
+	struct FileError : Error {
+		case fooDoc
+	}
+
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 			//	struct FileDocumentWriteConfiguration (FileDocument: typealias WriteConfiguration = ~)
 			//		let contentType : UTType		// The expected uniform type of the file contents.
 			//		let existingFile: FileWrapper?	// The file wrapper containing the current document content. nil if the document is unsaved.
 		switch configuration.contentType {
 		case .fooDocTry3:
-			return .init(regularFileWithContents:fwGuts.rootPart.data!)
+			guard let dat		= fwGuts.rootPart.data else {
+				panic("FooDocTry3Document.fwGuts.rootpPart.data is nil")
+				let d			= fwGuts.rootPart.data
+				throw Error.self
+			}
+			return .init(regularFileWithContents:dat)
 		case .sceneKitScene:
 			return .init(regularFileWithContents:fwGuts.data!)
 		default:
@@ -256,8 +264,8 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	 // MARK: - 5.1 Make Associated Inspectors:
 	  /// Manage Inspec's:
 	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
-	var inspecLastVew : Vew? = nil
-
+	var inspecLastVew : Vew? 	= nil
+	var inspecWindow  : NSWindow? = nil
 	mutating func makeInspectors() {
 		print("code makeInspectors")
 		let library				= APP.library
@@ -290,17 +298,23 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	 ///   - allowNew: window, else use existing
 	mutating func showInspecFor(vew:Vew, allowNew:Bool) { // PW what is going on here?
 		let inspec				= Inspec(vew:vew)
+		var window : NSWindow?	= nil
 
-				// Get inspector's window
-		var window : NSWindow?	= inspecWin4vew[vew]	// EXISTING?
-		if window == nil, !allowNew,
-		  let lv				= inspecLastVew {
-			window				= inspecWin4vew[lv]		// try LAST
+		if let iw				= inspecWindow {		// New, less functional manner
+			iw.close()
+			inspecWindow		= nil
+		} else {										// Old broken way
+			 // Find an existing NSWindow for the inspec
+			window 					= inspecWin4vew[vew]	// EXISTING?
+			if window == nil, !allowNew,
+			  let lv				= inspecLastVew {
+				window				= inspecWin4vew[lv]		// try LAST
+			}
 		}
 		if window == nil {								// make NEW
-// INSPECTOR NOT SwiftUI !!
 			let hostCtlr		= NSHostingController(rootView:inspec)
 			hostCtlr.view.frame	= NSRect(x:0, y:0, width:400, height:0)	// questionable use
+			 // Create Inspector Window (Note: NOT SwiftUI !!)
 			window				= NSWindow(contentViewController:hostCtlr)	// create
 			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
 			window!.contentViewController = hostCtlr		// if successful
@@ -309,6 +323,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 				// Title window
 		window.title			= vew.part.fullName
+		window.subtitle			= "subtitle for Inspec"
 
 				// Position on screen: Quite AD HOC!!
 		window.orderFront(self)				// Doesn't work -- not front when done!
@@ -316,8 +331,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		window.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
 
 			// Remember window for next creation
-		inspecWin4vew[vew]		= window
-		inspecLastVew			= vew
+		inspecWindow			= window		// activate New way
+//		inspecWin4vew[vew]		= window		// activate Old way
+//		inspecLastVew			= vew			// activate Old way
 	}
 
 	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {

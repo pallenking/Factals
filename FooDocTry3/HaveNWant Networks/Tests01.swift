@@ -246,7 +246,7 @@ r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
 r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
 r("MaxOr flipped",		e,  { MaxOr([    n:"a", f:1])	}) 	 			// 190311 +
 r("Ago",				e,  { Ago([      n:"a"])		}) 				// 190311 +
-xr("Previous",			eSim + camera(s:45,u:10), { Previous([n:"a"])})	// 190311 +
+xxr("Previous",			eSim + camera(s:45,u:10), { Previous([n:"a"])})	// 190311 +
 r("NetPrevious", eSim + camera(s:45,u:10), {
 	Net([placeMy:"stackZ -1", "minSizeX":"3.14159 2 2", parts:[
 		Net([placeMy:"stackX -1", "minSizeX":"2.717 3 3", parts:[
@@ -1318,7 +1318,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Generator
 state.scanSubMenu				= "Generator"
-xxr("+ Shaft Spin 3", eSim + camera(s:45,u:0,z:0.7) + vel(-3) + log(eve:5, dat:5) + ["wBoxX":"none"], {
+xr("+ Shaft Spin 3", eSim + camera(s:45,u:0,z:0.7) + vel(-3) + log(eve:5, dat:5) + ["wBoxX":"none"], {
   Net([parts:[
 	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",

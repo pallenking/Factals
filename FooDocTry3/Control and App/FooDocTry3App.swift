@@ -47,9 +47,6 @@ var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
 
-
-
-
 @main
 struct FooDocTry3App: App, Uid, FwAny {
 	var uid: UInt16				= randomUid()
@@ -57,7 +54,25 @@ struct FooDocTry3App: App, Uid, FwAny {
 //	@Environment(\.scenePhase) private var scenePhase
 //	Flock o Swifts: "make state object, add to environment"	PW
 
+	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 	var body: some Scene {
+					 // From Zev.Helge:
+					//		DocumentGroup(newDocument:FooDocTry3Document()) { file in				//newDocument:SVGShaperDocument.newDocument
+					//			ContentView(document: file.$document)
+					//// ?			 .focusedValue(.document, file.document)
+					//		}
+					//		.windowStyle(TitleBarWindowStyle())
+					//		.windowToolbarStyle(UnifiedWindowToolbarStyle())
+					//		.commands {
+					//			TextFormattingCommands()
+					//			SidebarCommands()
+					//// ?			AboutCommands()
+					//// ?			SparkleCommands()
+					//// ?			ExampleSVGsMenu()
+					//		}
+					//	}
+					//	var bodyX: any Scene {	// Ignore other body
+
 //		WindowGroup {
 //			//MailViewer().environmentObject(model) // Passed through the environment.
 //		}
@@ -68,36 +83,48 @@ struct FooDocTry3App: App, Uid, FwAny {
 		DocumentGroup(newDocument: FooDocTry3Document()) { file in
 			ContentView(document: file.$document)
 		}
-		WindowGroup {
-			Text("Hello, World!")
-				.padding()
-		}
-		// https://khorbushko.github.io/article/2021/04/25/window-group.html
-		.handlesExternalEvents(matching: [])
+//		WindowGroup {
+//			Text("Hello, World!")
+//				.padding()
+//		}
+//		// https://khorbushko.github.io/article/2021/04/25/window-group.html
+//		.handlesExternalEvents(matching: [])
 	}
 	 // MARK: - 2. Object Variables:
 	var log	: Log				= Log(params4appLog, title:"AppDelegate's Log(params4appLog)")
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keep regressScene up to date
-	var config4app : FwConfig {
-		get			{	return config4app_ }
-		set(val)	{
-			config4app_			= val
-			if let rsn 			= config4app_.int("regressScene") {
+	var config4app : FwConfig	= [:] {
+		didSet	{
+			if let rsn 			= config4app.int("regressScene") {
 				regressScene	= rsn
 			}
 		}
-	};private var config4app_ : FwConfig = [:]
+	}
+//	var config4app : FwConfig {
+//		get			{	return config4app_ }
+//		set(val)	{
+//			config4app_			= val
+//			if let rsn 			= config4app_.int("regressScene") {
+//				regressScene	= rsn
+//			}
+//		}
+//	};private var config4app_ : FwConfig = [:]
 
 	 // Keeps FwGuts menue in sync with itself:
-	var regressScene : Int {				// number of next "^r" regression test
-		get			{	return regressScene_										}
-		set(v)	 	{
-			regressScene_ 		= v
+//	var regressScene : Int {				// number of next "^r" regression test
+//		get			{	return regressScene_										}
+//		set(v)	 	{
+//			regressScene_ 		= v
+//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
+//		}
+//	};private var regressScene_ = 0
+	var regressScene : Int 		= 0	{		// number of the next "^r" regression test
+		didSet 	{
 			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
 		}
-	};private var regressScene_ = 0
+	}
 
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
