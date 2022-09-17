@@ -955,20 +955,20 @@ bug
 		assert(vew.expose != .null, "")
 		let part				= vew.part
 
-//		 // ========= Get Locks for two resources, in order: =============
-//		guard experiment!.lock(partTreeAs:"toggelOpen") else {
-//			fatalError("toggelOpen couldn't get PART lock")	}		// or
-//		guard lock(rootVewAs:"toggelOpen") else {fatalError("couldn't get lock") }
-//
-//		assert(!(part is Link), "cannot toggelOpen a Link")
-//		atAni(5, part.logg("Removed old Vew '\(vew.fullName)' and its SCNNode"))
-//		vew.scn.removeFromParent()
-//		vew.removeFromParent()
-//		updateVewSizePaint(needsLock:"toggelOpen4")
-//
-//		// ===== Release Locks for two resources, in reverse order: =========
-//		unlock(            rootVewAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-//		experiment!.unlock(partTreeAs:"toggelOpen")
+		 // ========= Get Locks for two resources, in order: =============
+		guard rootPart.lock(partTreeAs:"toggelOpen") else {
+			fatalError("toggelOpen couldn't get PART lock")	}		// or
+		guard lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
+
+		assert(!(part is Link), "cannot toggelOpen a Link")
+		atAni(5, part.root!.log.log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
+		vew.scn.removeFromParent()
+		vew.removeFromParent()
+		vew.updateVewSizePaint(needsViewLock:"toggelOpen4") 
+
+		// ===== Release Locks for two resources, in reverse order: =========
+		unlock(          vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+		rootPart.unlock(partTreeAs:"toggelOpen")
 
 		updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))

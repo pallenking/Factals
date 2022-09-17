@@ -64,8 +64,8 @@ struct FooDocTry3Document: FileDocument, Uid {
 			throw CocoaError(.fileWriteUnknown)
 		}
 	}
-	struct FileError : Error {
-		case fooDoc
+	enum DocError : Error {
+		case text(String)
 	}
 
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
@@ -77,7 +77,7 @@ struct FooDocTry3Document: FileDocument, Uid {
 			guard let dat		= fwGuts.rootPart.data else {
 				panic("FooDocTry3Document.fwGuts.rootpPart.data is nil")
 				let d			= fwGuts.rootPart.data
-				throw Error.self
+				throw DocError.text("FooDocTry3Document.fwGuts.rootpPart.data is nil")
 			}
 			return .init(regularFileWithContents:dat)
 		case .sceneKitScene:
