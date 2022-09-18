@@ -213,7 +213,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")
-		fwHelp()
+		fwHelp("?")
 	}
 	 // MARK: - 4.4 FwGuts Menu
 	// BUILD SCENE MENUS ////////////////////////////////

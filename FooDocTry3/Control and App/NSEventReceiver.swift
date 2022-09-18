@@ -39,15 +39,11 @@ final class NSEventReceiverView: NSView {
 		window?.makeFirstResponder(self)
 	}
 	override var acceptsFirstResponder: Bool { true 							}
+//W	func sendNSEvent(nsEvent:NSEvent) {}	// WANTED: Capture all first responder messages, PW
 
-	 // Capture all first responder messages ///////////////////////////////////////
-//W	 // WANTED:
-//W	func sendNSEvent(nsEvent:NSEvent) {		// PW
-//W
-//W	}
 	 // MARK: - 13.1 Keys
-	override func keyDown(with event:NSEvent) 			{	handler(event)	}
-	override func keyUp(with event:NSEvent) 			{	handler(event)	}
+	override func keyDown(with 			event:NSEvent) 		{	handler(event)	}
+	override func keyUp(with 			event:NSEvent) 		{	handler(event)	}
 	 // MARK: - 13.2 Mouse
 	 //  ====== LEFT MOUSE ======
 	override func mouseDown(with 		event:NSEvent)		{	handler(event)	}

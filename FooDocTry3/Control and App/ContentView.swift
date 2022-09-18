@@ -32,7 +32,7 @@ struct ContentView: View {
 //					Button(action: {}) {
 //						Label("Create a file", systemImage: "doc")
 //					}
-					Button(label:{	Label("Create a file", systemImage: "doc")		})
+					Button(label:{	Label("Create a file", systemImage: "doc")	})
 					{	print("button pressed")								}
 
 					Button(action: {}) {
@@ -50,7 +50,7 @@ struct ContentView: View {
 					let rootPart:RootPart = document.fwGuts.rootPart
 					ZStack {
 						NSEventReceiver { nsEvent in
-							DOCfwGuts.receivedEvent(nsEvent:nsEvent)				}
+							DOCfwGuts.receivedEvent(nsEvent:nsEvent)			}
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
@@ -59,7 +59,7 @@ struct ContentView: View {
 				//**/					   .allowsCameraControl,
 										   .jitteringEnabled,
 										   .rendersContinuously,
-										   .temporalAntialiasingEnabled				],
+										   .temporalAntialiasingEnabled			],
 //			//							   .jitteringEnabled,
 //			//							   .temporalAntialiasingEnabled,
 //										   .rendersContinuously],
@@ -70,7 +70,7 @@ struct ContentView: View {
 						))
 						 .allowsHitTesting(	true)
 						 .onAppear {
-							document.didLoadNib(to:self)							}
+							document.didLoadNib(to:self)						}
 					//	 .border(Color.black, width: 10)
 					//	 .background()//(NSColor("verylightgray")!)		// HELP
 					//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
@@ -78,31 +78,31 @@ struct ContentView: View {
 					HStack {
 						HStack {
 							Text("  Control:")
-							Button(label:{	Text( "state").padding(.top, 300)				})
-							{	printFwcState()												}
-							Button(label:{	Text("config").padding(.top, 300)				})
-							{	printFwcConfig()											}
+							Button(label:{	Text( "state").padding(.top, 300)	})
+							{	printFwcState()									}
+							Button(label:{	Text("config").padding(.top, 300)	})
+							{	printFwcConfig()								}
 						}
 						Spacer()
 						HStack {
 							Text("Model:")
-							Button(label:{	Text(   "ptm").padding(.top, 300)		})
-							{	lldbPrint(ob:rootPart, mode:.tree)					}
-							Button(label:{	Text(  "ptLm").padding(.top, 300)		})
+							Button(label:{	Text(   "ptm").padding(.top, 300)	})
+							{	lldbPrint(ob:rootPart, mode:.tree)				}
+							Button(label:{	Text(  "ptLm").padding(.top, 300)	})
 							{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true])}
 							Text(" ")
-							Button(label:{	Text(   "ptv").padding(.top, 300)		})
-							{	lldbPrint(ob:fwGuts.rootVew, mode:.tree) 			}
-							Button(label:{	Text(   "ptn").padding(.top, 300)		})
-							{	lldbPrint(ob:fwGuts.scnScene.rootNode, mode:.tree) 	}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
-							Button(label:{	Text(   "reV").padding(.top, 300)		})
-							{	document.redo += 1									}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+							Button(label:{	Text(   "ptv").padding(.top, 300)	})
+							{	lldbPrint(ob:fwGuts.rootVew, mode:.tree) 		}
+							Button(label:{	Text(   "ptn").padding(.top, 300)	})
+							{	lldbPrint(ob:fwGuts.scnScene.rootNode, mode:.tree)}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+							Button(label:{	Text(   "reV").padding(.top, 300)	})
+							{	document.redo += 1								}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 						}
 						Spacer()
 						HStack {
 							Text("Debug:")
-							Button(label: {	Text("LLDB").padding(.top, 300) 				})
-							{	breakToDebugger()											}
+							Button(label: {	Text("LLDB").padding(.top, 300) 	})
+							{	breakToDebugger()								}
 							Text(" ")
 						}
 					}

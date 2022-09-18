@@ -216,7 +216,6 @@ class Link : Atom {
 
 	 // MARK: -- Connect LinkVew's [sp]Con2Vew endpoints and constraints:
 	override func reVewPost(vew:Vew) 	{	// Add constraints
-//		sendApp(key:"?")
 		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
 
 		 // Connect LinkVew to its two end Port's Vew	  // :H: [S/P] CONnectd 2 Vew

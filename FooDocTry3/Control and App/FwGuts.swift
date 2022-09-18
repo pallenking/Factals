@@ -717,17 +717,17 @@ bug;	let fwGuts				= DOCfwGuts
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
-		case .magnify:		bug
-		case .smartMagnify:	bug
-		case .swipe:		bug
-		case .rotate:		bug
-		case .gesture:		bug
-		case .directTouch:	bug
-		case .tabletPoint:	bug
-		case .tabletProximity: bug
-		case .pressure:		bug
-		case .changeMode:	bug
-		case .mouseMoved:	bug	//override func touchesMoved(with event:NSEvent) {
+		case .magnify:			bug
+		case .smartMagnify:		bug
+		case .swipe:			bug
+		case .rotate:			bug
+		case .gesture:			bug
+		case .directTouch:		bug
+		case .tabletPoint:		bug
+		case .tabletProximity:	bug
+		case .pressure:			bug
+		case .changeMode:		bug
+		case .mouseMoved:		bug
 			let t 				= nsEvent.touches(matching:.moved, in:scnView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)

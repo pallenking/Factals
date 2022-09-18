@@ -218,11 +218,11 @@ type summary add --summary-string  "Part.name=${var.name}"  Part
 type summary add --summary-string  "Vew.name=${var.name} part:${var.part.name}"  Vew
 ########## ########## ########## ########## ########## ########## ########## 
 #
-command  alias fwHelp 				expression fwHelp()
+command  alias fwHelp 				expression fwHelp("?")
 command  alias pFwcConfig			expression printFwcConfig()
-### command alias pFwcConfig		### expression fwHelp("C")
+### command alias pFwcConfig	### expression fwHelp("C")
 command  alias pFwcState			expression printFwcState()
-### command alias pFwcState			### expression fwHelp("c")
+### command alias pFwcState		### expression fwHelp("c")
 ###command regex pFwState2			's/^(.+)$/e Swift.print(%1.ppFwState())/'
 ###command alias ppControllerState expression -- Swift.print(sendApp(key:"C"))
 
