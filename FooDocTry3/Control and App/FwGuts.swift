@@ -631,7 +631,7 @@ bug;	let fwGuts				= DOCfwGuts
 	  // MARK: -
 
 	 // MARK: - 13. IBActions
-	var isAutoRepeat : Bool 	= false 	// filter out AUTOREPEAT keys
+	var nextIsAutoRepeat : Bool 	= false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
 
 	func receivedEvent(nsEvent:NSEvent) {
@@ -647,8 +647,7 @@ bug;	let fwGuts				= DOCfwGuts
 			if nsEvent.isARepeat {	return }			// Ignore repeats
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
-			guard !isAutoRepeat		else { fatalError("the above isARepeat didn't work!")}
-			isAutoRepeat 		= true
+			nextIsAutoRepeat 	= true
 			if DOC!.processKey(from:nsEvent, inVew:nil) {
 				if char != "?" {		// okay for "?" to get here
 					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
@@ -656,7 +655,7 @@ bug;	let fwGuts				= DOCfwGuts
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-			isAutoRepeat 		= false
+			nextIsAutoRepeat 	= false
 			let _				= DOC?.processKey(from:nsEvent, inVew:nil)
 
 		  //  ====== LEFT MOUSE ======
@@ -713,27 +712,33 @@ bug;	let fwGuts				= DOCfwGuts
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
-	
-		//case 8:	// override func touchesBegan(with event:NSEvent) {
-		//	let t 				= event.touches(matching:.began, in:self)
-		//	for touch in t {
-		//		let _:CGPoint	= touch.location(in:nil)
-		//	}
-		//case 9:	//override func touchesMoved(with event:NSEvent) {
-		//	let t 				= event.touches(matching:.began, in:self)
-		//	for touch in t {
-		//		let prevLoc		= touch.previousLocation(in:nil)
-		//		let loc			= touch.location(in:nil)
-		//		atEve(3, (print("\(prevLoc) \(loc)")))
-		//	//	let prevKey		= soloKeyboard?.keyAt(point:prevLoc)
-		//	//	let key			= soloKeyboard?.keyAt(point:loc)
-		//	//	key?.curPoint	= loc
-		//	}
-		//case 10:	//override func touchesEnded(with event:NSEvent) {
-		//	let t 				= event.touches(matching:.began, in:self)
-		//	for touch in t {
-		//		let _:CGPoint	= touch.location(in:nil)
-		//	}
+		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
+			let t 				= nsEvent.touches(matching:.began, in:scnView)
+			for touch in t {
+				let _:CGPoint	= touch.location(in:nil)
+			}
+		case .magnify:		bug
+		case .smartMagnify:	bug
+		case .swipe:		bug
+		case .rotate:		bug
+		case .gesture:		bug
+		case .directTouch:	bug
+		case .tabletPoint:	bug
+		case .tabletProximity: bug
+		case .pressure:		bug
+		case .changeMode:	bug
+		case .mouseMoved:	bug	//override func touchesMoved(with event:NSEvent) {
+			let t 				= nsEvent.touches(matching:.moved, in:scnView)
+			for touch in t {
+				let prevLoc		= touch.previousLocation(in:nil)
+				let loc			= touch.location(in:nil)
+				atEve(3, (print("\(prevLoc) \(loc)")))
+			}
+		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
+			let t 				= nsEvent.touches(matching:.ended, in:scnView)
+			for touch in t {
+				let _:CGPoint	= touch.location(in:nil)
+			}
 		default:
 			print("33333333 receivedEvent(type:\(nsEvent.type)) EEEEEEE")
 		}
@@ -964,7 +969,7 @@ bug
 		atAni(5, part.root!.log.log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
 		vew.scn.removeFromParent()
 		vew.removeFromParent()
-		vew.updateVewSizePaint(needsViewLock:"toggelOpen4") 
+		vew.updateVewSizePaint(needsViewLock:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
 		unlock(          vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")

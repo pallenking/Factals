@@ -349,25 +349,21 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 			return false
 		}
-
-		 // First, all registered TimingChains:
+		 // Check registered TimingChains
 		for timingChain in rootPart.simulator.timingChains {
-			if timingChain.processKey(from:nsEvent, inVew:vew) {
-				return true 				// handled by timingChain
-			}
+			guard timingChain.processKey(from:nsEvent, inVew:vew) == false else {
+				return true 				/* handled by timingChain */		}
 		}
-
-		 // Second, check fwGuts:												// assert(docState.fwGuts != nil, "fwDocument(\(pp(.uid, [:])).fwGuts=nil")
-		if fwGuts.processKey(from:nsEvent, inVew:vew) {
-			return true 					// handled by fwGuts
+		 // Check fwGuts:
+		guard fwGuts.processKey(from:nsEvent, inVew:vew) == false else {
+			return true 					/* handled by fwGuts */
 		}
-
-		 // Simulator:
-		if rootPart.simulator.processKey(from:nsEvent, inVew:vew) {
+		 // Check Simulator:
+		guard rootPart.simulator.processKey(from:nsEvent, inVew:vew) == false else  {
 			return true 					// handled by simulator
 		}
 
-		 // Controller:
+		 // Check Controller:
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
 			return false						/* FwDocument has no key-ups */
 		}
