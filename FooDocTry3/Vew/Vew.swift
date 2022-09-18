@@ -575,8 +575,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
 /**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
-																					 // All changes above cause rePaint and get here. Let system know!
-																		//bug?		pRoot.fwDocument!.fwView!.needsDisplay = true
+
 			 // THESE SEEM IN THE WRONG PLACE!!!
 			pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
 			pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)

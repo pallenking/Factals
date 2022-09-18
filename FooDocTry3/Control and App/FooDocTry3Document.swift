@@ -27,6 +27,7 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 		 //			Make FwGuts:
 		fwGuts					= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
+		fwGuts.fooDocTry3Document = self
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 
@@ -49,17 +50,19 @@ struct FooDocTry3Document: FileDocument, Uid {
 			//	struct FileDocumentReadConfiguration (FileDocument: typealias ReadConfiguration = ~)
 			//		let contentType : UTType		// The expected uniform type of the file contents.
 			//		let existingFile: FileWrapper?	// The file wrapper containing the document content.
-		guard let data : Data 	= configuration.file.regularFileContents else {
+bug;	guard let data : Data 	= configuration.file.regularFileContents else {
 								  throw CocoaError(.fileReadCorruptFile)		}
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)
 			let fwGuts			= FwGuts(rootPart:rootPart, fwConfig:[:])
 			self.init(fwGuts:fwGuts)			// -> FooDocTry3Document
+			fwGuts.fooDocTry3Document = self
 		case .sceneKitScene:
-			let scene:FwGuts?	= FwGuts(data: data, encoding: .utf8)
-			assert(scene != nil, "FwGuts(data:) failed")
-			self.init(fwGuts:scene!)				// -> FooDocTry3Document
+			guard let fwGuts	= FwGuts(data: data, encoding: .utf8) else {
+				fatalError("FwGuts(data:) failed")								}
+			self.init(fwGuts:fwGuts)				// -> FooDocTry3Document
+			fwGuts.fooDocTry3Document = self
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -75,9 +78,10 @@ struct FooDocTry3Document: FileDocument, Uid {
 		switch configuration.contentType {
 		case .fooDocTry3:
 			guard let dat		= fwGuts.rootPart.data else {
-				panic("FooDocTry3Document.fwGuts.rootpPart.data is nil")
-				let d			= fwGuts.rootPart.data
-				throw DocError.text("FooDocTry3Document.fwGuts.rootpPart.data is nil")
+				panic("FooDocTry3Document.fwGuts.rootPart.data is nil")
+				let d			= fwGuts.rootPart.data						// for debugger ss 
+				panic("FooDocTry3Document.fwGuts.rootPart.data is nil")
+				throw DocError.text("FooDocTry3Document.fwGuts.rootPart.data is nil")
 			}
 			return .init(regularFileWithContents:dat)
 		case .sceneKitScene:
@@ -156,36 +160,36 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 //.		atDoc(3, logg( "== == == == FwDocument.makeWindowControllers()"))
 //		super.makeWindowControllers()
 	}
-																//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
-																//bug;	atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
-																////		assert(DOC! === self, "sanity check failed")
-																////		assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
-																////		assert(DOCctlr.documents.contains(self), "self not in DOCctlr.documents!")
-																//
-																//		let fwGuts				= FwGuts(fwConfig:params4guts)	// 3D visualization
-																//		 		// Link it in:
-																//		assert(fwView != nil, "nib loaded, but fwView not set by IB")
 																//		fwView!.delegate		= fwGuts		// delegate
 																//		fwView!.fwGuts			= fwGuts		// delegate		220815PAK: Needed only for rotator
 																//bug;	fwView!.scene			= fwGuts		// delegate		// somebody elses responsibility! (but who)
-																//		//fwView!.autoenablesDefaultLighting = true
-																//		//fwView!.allowsCameraControl = true
-																//
-																//		didLoadNib()
-																//	}
-																 // Spread configuration information
-																//		updateDocConfigs(from:docState.rootPart.ansConfig)
 	mutating func didLoadNib(to view:Any) {
 				// Build Vews after View is loaded:
-/*x*/	fwGuts.updateVewNScnFromModel()
-																//		 // Generate Vew tree
-																//		let rVew				= Vew(forPart:docState.rootPart, scn:rootScn)//.scene!.rootNode)
-																//		docState.fwGuts.rootVew = rVew				// INSTALL vew
-																//		rVew.updateVewSizePaint()					// rootPart -> rootView, rootScn
-		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:fwGuts.rootPart.title) ))
-																// displayName	= state.rootPart.title
-		makeInspectors()										// window0?.title= displayName									//makeInspectors()
+/**/	fwGuts.updateVewNScnFromModel()
+		guard let view			= fwGuts.scnView else {fatalError("fwGuts.scnView == nil")}
+		view.showsStatistics 	= true			// doesn't work here
+		view.isPlaying/*animations*/ = true		// works here?
+		view.debugOptions = [
+			SCNDebugOptions.showBoundingBoxes,	//Display the bounding boxes for any nodes with content.
+			SCNDebugOptions.showWireframe,		//Display geometries in the scene with wireframe rendering.
+			SCNDebugOptions.renderAsWireframe,	//Display only wireframe placeholders for geometries in the scene.
+			SCNDebugOptions.showSkeletons,		//Display visualizations of the skeletal animation parameters for relevant geometries.
+			SCNDebugOptions.showCreases,		//Display nonsmoothed crease regions for geometries affected by surface subdivision.
+			SCNDebugOptions.showConstraints,	//Display visualizations of the constraint objects acting on nodes in the scene.
+				// Cameras and Lighting
+			SCNDebugOptions.showCameras,		//Display visualizations for nodes in the scene with attached cameras and their fields of view.
+			SCNDebugOptions.showLightInfluences,//Display the locations of each SCNLight object in the scene.
+			SCNDebugOptions.showLightExtents,	//Display the regions affected by each SCNLight object in the scene.
+				// Debugging Physics
+			SCNDebugOptions.showPhysicsShapes,	//Display the physics shapes for any nodes with attached SCNPhysicsBody objects.
+			SCNDebugOptions.showPhysicsFields,	//Display the regions affected by each SCNPhysicsField object in the scene.
+		]
+		view.allowsCameraControl 	= false			// dare to turn it on?
+		view.autoenablesDefaultLighting = false		// dare to turn it on?
 
+		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:fwGuts.rootPart.title) ))
+
+		makeInspectors()
 				// Start Up Simulation:
 		fwGuts.rootPart.simulator.simBuilt = true		// maybe before config4log, so loading simEnable works
 	}

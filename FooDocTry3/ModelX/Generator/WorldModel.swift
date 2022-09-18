@@ -188,9 +188,9 @@ class WorldModel : Atom {
 		if nsEvent.type == .keyDown {
 			switch character {
 			case "S":
-				let el			= eventLimit >= 0 ?	// any Limits?
-									-1 			  :		// yes: START by turnomg limits OFF
-									eventNow			// no:  STOP by limiting events
+				let el			= eventLimit >= 0 	// any Limits?
+								?	-1 			  		// yes: START by turnomg limits OFF
+								:	eventNow			// no:  STOP by limiting events
 				atEve(4, logd("\n" + "=== EVENT: Key 'S' DOWN: eventLimit = \(el) (was \(eventLimit)) eventNow=\(eventNow)"))
 				eventLimit		= el					// N.B: other process reads and starts
 				return true

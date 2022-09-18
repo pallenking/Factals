@@ -56,7 +56,10 @@ extension SCNNode /*: HasChildren */ {
 
 //	 // MARK: - 2. Sugar for Object Variables:
 //	var name: String {	get	set		}
-	var children: [SCNNode] 	{	get { childNodes }	set(v) { fatalError() }	}
+	var children: [SCNNode] 	{
+		get 	{ childNodes }
+		set(v) 	{ fatalError() }
+	}
 	var child0: SCNNode? 		{	get { childNodes[0] }						}
 																				//	var parent: SCNNode? 		{	get	set		}
 																				//	var root: SCNNode? 			{	get	set		}

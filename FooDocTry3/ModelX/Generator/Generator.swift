@@ -27,7 +27,6 @@ class Generator : Net {
 		let config				= defaultCon + argCon
 
 		super.init(config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-//		Generator([P:wheelA/evi, events:[6 elts], placeMy:stacky]) name:'lo'
 
 		  //  WorldModel.swift   Args (if needed)
 		 //  -- Basic discrete time/value data source

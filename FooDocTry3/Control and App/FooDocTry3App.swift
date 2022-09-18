@@ -340,8 +340,9 @@ bug;	let rv					= NSMenu(title:path)
 
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
 		let fwGuts				= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
-		rootPart.fwGuts			= fwGuts	// owner
 		let doc					= FooDocTry3Document(fwGuts:fwGuts)
+		rootPart.fwGuts			= fwGuts	// owner
+		fwGuts.fooDocTry3Document = doc
 
 		DOC						= doc		// register
 

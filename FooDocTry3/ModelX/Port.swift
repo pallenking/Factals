@@ -391,8 +391,7 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 		  // AVew will not exist when it (and its parents) are atomized.
 		 // Search upward thru its parents for a visible Vew
 		while aVew == nil, 						// we have no Vew yet
-		  let aParent			= aPart.parent		// but we have a parent
-		{	bug
+		  let aParent			= aPart.parent {	// but we do have a parent
 			atRsi(8, aPart.logd(" not in Vew! (rv = [\(rv.pp())]) See if parent '\(aParent.fullName)' has Vew"))
 
 			 // Move to parent if Vew for slf is not currently being viewed
@@ -400,10 +399,10 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 			aVew				= inVew.find(part:aPart, inMe2:true)
 			rv					= .zero
 		}
-		guard var aVew 			= aVew else {	panic("No Vew could be found for Part \(self.fullName)) in its parents")
+		guard var aVew else {
+			panic("No Vew could be found for Part \(self.fullName)) in its parents")
 			return rv
 		}
-
 		 // Now rv contain's self's portConSpot, in aVewq
 		let enaPpWp				= root?.log.params4aux.string("ppViewOptions")?.contains("W") ?? false
 		let worldPosition 		= !enaPpWp ? "" :
@@ -412,7 +411,7 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-		let trunkScn			= DOCfwGuts.trunkScn
+		let trunkScn			= root?.fwGuts?.trunkScn							//DOCfwGuts.
 		repeat {			//.transform	// my position in parent
 			let scn				= aVew.scn
 			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation

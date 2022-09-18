@@ -20,7 +20,6 @@ class RootPart : Part {
 	var fwGuts			: FwGuts!
 
 	 // MARK: - 2.3 Part Tree Lock
-	 // Semaphor to exclude SCNSceneRenderer thread
 	let partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var partTreeOwner : String?	= nil  		// root lock Owner's name
 	var partTreeOwnerPrev:String? = nil

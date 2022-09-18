@@ -279,7 +279,7 @@ class Link : Atom {
 	}
 	 // MARK: -- Set Link's end position
 	override func reSizePost(vew:Vew) {				//  find endpoints
-		let (p, s)				= linkEndPositions(in:vew as! LinkVew)!
+		guard let (p, s)		= linkEndPositions(in:vew as! LinkVew) else { return }
 		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line))"))
 	}
 
@@ -393,16 +393,16 @@ bug	// NEVER USED?
 		 let sCon2SpotIp		= sCon2Port.portConSpot(inVew:parentVew)
 		assertWarn(!(pCon2SpotIp.center.isNan || sCon2SpotIp.center.isNan), "\(linkVew.fullName) reSizePost: found nan connect spot")
 
-		// Center point of each end, in world coordinates
-			 // :H: _CENT_er				// of spot
-			// :H: SETBACK
-		   // :H: END 						// actual line endpoint
-		  // :H: _P_osition, _L_ength
-		 // :H: scn_V_ector3, scn_F_loat
-			/*										<==============* lCentRayUnit
-			*<------------------ lCentV, lCentL ------------------>*
-		  pCentVip												sCentVip
-			*/
+		 // Center point of each end, in world coordinates
+		// :H: _CENT_er				// of spot
+		// :H: SETBACK
+		// :H: END 						// actual line endpoint
+		// :H: _P_osition, _L_ength
+		// :H: scn_V_ector3, scn_F_loat
+		//												<==============* lCentRayUnit
+		//		*<------------------ lCentV, lCentL ------------------>*
+		//	  pCentVip												sCentVip
+
  		let  pCentVip 			= pCon2SpotIp.center	// e.g: p9/t1.P // SCNVector3(0,2,0)
 		 let sCentVip			= sCon2SpotIp.center	// e.g: p9/t3.P // SCNVector3(0,0,-2)
 		assertWarn(!(pCentVip.isNan || sCentVip.isNan), "\(linkVew.fullName) rePaint [sp]PinP: found nan position")

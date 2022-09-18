@@ -228,8 +228,6 @@ class ConvPort : Port {
 //***** AFTER reVewPost(vew:Vew):
 //   _l0:LinkVew    w[ 0.0 0.0 0.0]  ->b08@,300@
 
-// "CURIOUS -- link position with nil ends"
-
  //**** reSize(vew:) calls:
 //***** AFTER reSkin(fullOnto:Vew):
 //*-l0                       [ 0.0 0.0 0.0]01 geom:nil

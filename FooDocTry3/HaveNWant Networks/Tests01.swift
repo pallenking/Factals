@@ -1264,20 +1264,12 @@ r("+'f': link positioning", e + camera(s:90,u:5) + ["animatePhysics":false], { N
  		Broadcast([n:"t5d"]),
 	]]),
 ]]) })
-	xxr("+'f': link positioning", e + ["animatePhysics":true, "scene":[gravity:"0 1 0"]], { Net([placeMy:"linky", parts:[
-		MaxOr([n:"t1a", f:1, jog:"6 0 0"]),
-		Hamming([n:"t3a", f:0, share:"t1a", P:"t5a", phys:[gravity:0]]),//+X/[gravity:1]/1/
-//
-////	Broadcast([n:"t1", 			phys:[gravity:1]]),		// Bug: DOESN'T WORK!!
-//	Broadcast([n:"t1", 			phys:1]),				// Works
-//
-//
+	xr("+'f': link positioning", e + ["animatePhysics":true, "scene":[gravity:"0 10 0"]], { Net([placeMy:"linky", parts:[
+		MaxOr([n:"t1a", f:1, jog:"6 0 0"]),						   // gravity: 1,0,true,false, or "0 0 0" "0 1 0"
+		Hamming([n:"t3a", f:0, share:"t1a", P:"t5a", phys:[gravity:"0 10 0"]]),//+X/[gravity:1]/1/
 		Broadcast([n:"t5a"]),
 	]]) })
-/*
-			Hamming([phys:[gravity:xx]])	where xx = 1,0,true,false, "0 0 0"
-			e + ["scene":[gravity:"0 0 8"]]
-*/
+
 	r("- share bug", e + camera(s:0,u:5), { Net([placeMy:"linky", parts:[
 		MaxOr([n:"t1", f:0]),
 		Hamming([n:"t2", f:1, P:"t1", phys:1]),// share
@@ -1318,7 +1310,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Generator
 state.scanSubMenu				= "Generator"
-xr("+ Shaft Spin 3", eSim + camera(s:45,u:0,z:0.7) + vel(-3) + log(eve:5, dat:5) + ["wBoxX":"none"], {
+xxr("+ Shaft Spin 3", eSimX + camera(s:45,u:10) + vel(-3) + log(eve:5, dat:5) + ["wBoxX":"none"], {
   Net([parts:[
 	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",
@@ -1331,7 +1323,8 @@ xr("+ Shaft Spin 3", eSim + camera(s:45,u:0,z:0.7) + vel(-3) + log(eve:5, dat:5)
 		],
 		"evi":Tunnel([struc:["a", "b", "c", "d"], placeMy:"stackz 0 -1"]),
 	]),
-	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a","b","c","d"], "again"], P:"wheelA/evi"]),
+	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a","b","c","d"], "again"],
+			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
 	xxr("- debug ports replication", e + camera(s:45,u:0,z:0.7) + vel(-3) + log(eve:5, dat:5) + ["wBoxX":"none"], {
 	  Net([parts:[

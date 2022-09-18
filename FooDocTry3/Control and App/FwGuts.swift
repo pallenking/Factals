@@ -82,11 +82,11 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 		didSet {	//if config4guts != oldValue {
 			animatePhysics 		= config4guts.bool("animatePhysics") ?? false
 			assert(config4guts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
-			if let gravAny33	= config4guts["gravity"] {
-				if let gravityVect : SCNVector3 = SCNVector3(from:gravAny33) {
+			if let gravityAny	= config4guts["gravity"] {
+				if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
 					scnScene.physicsWorld.gravity = gravityVect
 				}
-				else if let gravityY: Double = gravAny33.asDouble {
+				else if let gravityY: Double = gravityAny.asDouble {
 					scnScene.physicsWorld.gravity.y = gravityY
 				}
 			}
@@ -302,6 +302,25 @@ bug
 		newCameraScn.name		= "camera"
 		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 		rootScn.addChildNode(newCameraScn)
+
+		 // Configure Camera from Source Code:
+		if let c 				= config.fwConfig("camera") {
+			if let h 			= c.float("h"), !h.isNan {	// Pole Height
+				lastSelfiePole.height = CGFloat(h)
+			}
+			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
+				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+			}
+			if let s 			= c.float("s"), !s.isNan {	// Spin
+				lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+			}
+			if let z 			= c.float("z"), !z.isNan {	// Zoom
+				lastSelfiePole.zoom = CGFloat(z)
+			}
+			atRve(2, logd("=== Set camera=\(c.pp(.line))"))
+		}
+
+
 	}
 	  // MARK: - 9.3.1 Look At Pole
 	 // ///// Rebuild the Rotator Pole afresh
@@ -575,7 +594,7 @@ bug;	let fwGuts				= DOCfwGuts
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////
-  // called by SCNSceneRenderer,  SCNDebugOptions
+  // called by SCNSceneRenderer
 
 		// MARK: - SCNSceneRendererDelegate
 	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
@@ -635,7 +654,7 @@ bug;	let fwGuts				= DOCfwGuts
 	var mouseWasDragged			= false		// have dragging cancel pic
 
 	func receivedEvent(nsEvent:NSEvent) {
-		print("--- func received(nsEvent:\(nsEvent))")
+		//print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
 
@@ -648,7 +667,7 @@ bug;	let fwGuts				= DOCfwGuts
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
 			nextIsAutoRepeat 	= true
-			if DOC!.processKey(from:nsEvent, inVew:nil) {
+			if fooDocTry3Document.processKey(from:nsEvent, inVew:nil) == false {
 				if char != "?" {		// okay for "?" to get here
 					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
 				}
@@ -656,7 +675,7 @@ bug;	let fwGuts				= DOCfwGuts
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			nextIsAutoRepeat 	= false
-			let _				= DOC?.processKey(from:nsEvent, inVew:nil)
+			let _				= fooDocTry3Document.processKey(from:nsEvent, inVew:nil)
 
 		  //  ====== LEFT MOUSE ======
 		 //
@@ -712,11 +731,12 @@ bug;	let fwGuts				= DOCfwGuts
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
-		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:scnView)
-			for touch in t {
-				let _:CGPoint	= touch.location(in:nil)
-			}
+
+//	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
+//	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
+//	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
+
+		  //  ====== TOUCH PAD ======
 		case .magnify:			bug
 		case .smartMagnify:		bug
 		case .swipe:			bug
@@ -727,6 +747,12 @@ bug;	let fwGuts				= DOCfwGuts
 		case .tabletProximity:	bug
 		case .pressure:			bug
 		case .changeMode:		bug
+
+		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
+			let t 				= nsEvent.touches(matching:.began, in:scnView)
+			for touch in t {
+				let _:CGPoint	= touch.location(in:nil)
+			}
 		case .mouseMoved:		bug
 			let t 				= nsEvent.touches(matching:.moved, in:scnView)
 			for touch in t {
@@ -776,7 +802,8 @@ bug;	let fwGuts				= DOCfwGuts
 		let modifierKeys		= nsEvent.modifierFlags
 		let cmd 				= modifierKeys.contains(.command)
 		let alt 				= modifierKeys.contains(.option)
-		let doc					= DOC!
+		let doc					= fooDocTry3Document!
+//		let doc					= DOC!
 
 		switch character {
 		case "r": // (+ cmd)
@@ -805,11 +832,9 @@ bug;	let fwGuts				= DOCfwGuts
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-bug
-//			guard self.write(to:fileURL, delegate:nil) == false else {
-//				fatalError("writing dumpSCN.\(suffix) failed")
-//			}
-			nop
+bug//		guard self.write(to:fileURL, options:[]) == false else {
+//	//		guard self.write(to:fileURL, delegate:nil) == false else {
+	 //			fatalError("writing dumpSCN.\(suffix) failed")					}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
@@ -876,13 +901,6 @@ bug
 		atEve(3, print("\t\t" + "** No Part FOUND\n"))
 		return nil
 	}
-
-//	func hitTest(_ point:CGPoint, options:[SCNHitTestOption:Any]?=nil) -> [SCNHitTestResult] {
-////		return super.hitTest(point, options:options)//Value of type 'SCNScene' has no member 'hitTest'
-//		return [SCNHitTestResult()]
-//	}
-//		let w = FwGuts(fwConfig:[:])
-//		let x					= w.hitTest(mouse, options:configHitTest)// ?? [SCNHitTestResult]()
 
 	func findVew(nsEvent:NSEvent) -> Vew? {
 		 // Find the 3D Vew for the Part under the mouse:
@@ -1075,25 +1093,6 @@ bug
 
 
  // ORPHAN, WAS IN defunct FwView
-//		showsStatistics 		= true			// doesn't work here
-//		isPlaying/*animations*/	= true			// works here?
-//		debugOptions = [
-//			SCNDebugOptions.showBoundingBoxes,	//Display the bounding boxes for any nodes with content.
-//			SCNDebugOptions.showWireframe,		//Display geometries in the scene with wireframe rendering.
-//			SCNDebugOptions.renderAsWireframe,	//Display only wireframe placeholders for geometries in the scene.
-//			SCNDebugOptions.showSkeletons,		//Display visualizations of the skeletal animation parameters for relevant geometries.
-//			SCNDebugOptions.showCreases,		//Display nonsmoothed crease regions for geometries affected by surface subdivision.
-//			SCNDebugOptions.showConstraints,	//Display visualizations of the constraint objects acting on nodes in the scene.
-//				// Cameras and Lighting
-//			SCNDebugOptions.showCameras,		//Display visualizations for nodes in the scene with attached cameras and their fields of view.
-//			SCNDebugOptions.showLightInfluences,//Display the locations of each SCNLight object in the scene.
-//			SCNDebugOptions.showLightExtents,	//Display the regions affected by each SCNLight object in the scene.
-//				// Debugging Physicsfa
-//			SCNDebugOptions.showPhysicsShapes,	//Display the physics shapes for any nodes with attached SCNPhysicsBody objects.
-//			SCNDebugOptions.showPhysicsFields,	//Display the regions affected by each SCNPhysicsField object in the scene.
-//		]
-//		allowsCameraControl 	= false			// dare to turn it on?
-//		autoenablesDefaultLighting = false		// dare to turn it on?
 //	 // MARK: - 17. Debugging Aids
 //	override func  becomeFirstResponder()	-> Bool	{	return true				}
 //	override func validateProposedFirstResponder(_ responder: NSResponder,

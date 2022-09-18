@@ -277,18 +277,10 @@ extension Library {
 	// 2. Camera Parameters:
 	func camera(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil) -> FwConfig {
 		var rv : FwConfig 		= [:]
-		if let h1 		  		= h {
-			rv["h"] 	  		= h1
-		}		
-		if let s1 	  	  		= s {
-			rv["s"] 	  		= s1
-		}		
-		if let u1 	  	  		= u {
-			rv["u"] 	  		= u1
-		}		
-		if let z1 	  	  		= z {
-			rv["z"] 	  		= z1
-		}
+		if let h {	rv["h"] 	= h												}
+		if let s {	rv["s"] 	= s												}
+		if let u {	rv["u"] 	= u												}
+		if let z {	rv["z"]		= z												}
 		return ["camera":rv]
 	}
 	 /// 2b. Neutered Camera Parameters:

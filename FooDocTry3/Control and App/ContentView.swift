@@ -10,13 +10,10 @@ import SceneKit
 extension SCNCameraController : ObservableObject {	}
 
 class JetModel: ObservableObject {
-//	@Published var fwGuts : FwGuts  = FwGuts(fwConfig:[:])
-//	@Published var fwGuts : FwGuts  = FwGuts(named:"art.scnassets/ship.scn")!
-	@Published var scene   : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
+	@Published var scene : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
 }
 class DragonModel: ObservableObject {
-//	@Published var fwGuts : FwGuts  = dragonCurve(segments:1024)
-	@Published var scene   : SCNScene = dragonCurve(segments:1024)
+	@Published var scene : SCNScene = dragonCurve(segments:1024)
 }
 
 struct ContentView: View {
