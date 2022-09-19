@@ -249,6 +249,9 @@ extension FwAny  {
 		if let s = self as? String	{	return Double(s)						}
 		return nil
 	}
+//	func scnVector3_(_ k:Key)-> SCNVector3?{return    self[k] as? SCNVector3	}
+	var asScnVector3_ 	  : SCNVector3{	return asScnVector3 ?? .origin			}
+	var asScnVector3 	  : SCNVector3?{return self as? SCNVector3				}
 	var asString_ 		  : String	{	return asString ?? ""					}
 	var asString 		  : String?	{
 		if let b = self as? Bool  	{	return b ? "true" : "false"				}
@@ -285,39 +288,41 @@ extension Dictionary {
 	func uInt_     (_ k:Key) -> UInt	{  return     uInt(k) ?? 0				}
 	func uInt      (_ k:Key) -> UInt?	{  return     self[k] as? UInt			}
 	func int16_    (_ k:Key) -> Int16	{  return    int16(k) ?? 0				}
-	func int16	   (_ k:Key) -> Int16?	{  let x=self[k] as? Int
-										   return x==nil ? nil : Int16(x!) 	}
+	func int16	   (_ k:Key) -> Int16?	{  let    x = self[k] as? Int
+										   return x==nil ? nil : Int16(x!) 		}
 	func uInt16_   (_ k:Key) -> UInt16	{  return   uInt16(k) ?? 0				}
-	func uInt16    (_ k:Key) -> UInt16?	{  let x=self[k] as? Int
+	func uInt16    (_ k:Key) -> UInt16?	{  let    x = self[k] as? Int
 										   return x==nil ? nil : UInt16(x!) 	}
-
 	func int8_     (_ k:Key) -> Int8	{  return     int8(k) ?? 0				}
-	func int8	   (_ k:Key) -> Int8?	{  let x=self[k] as? Int
+	func int8	   (_ k:Key) -> Int8?	{  let    x = self[k] as? Int
 										   return x==nil ? nil : Int8(int:x!)	}
 	func uInt8_    (_ k:Key) -> UInt8	{  return    uInt8(k) ?? 0				}
-	func uInt8     (_ k:Key) -> UInt8?	{  let x=self[k] as? Int
+	func uInt8     (_ k:Key) -> UInt8?	{  let    x = self[k] as? Int
 										   return x==nil ? nil : UInt8(fwAny:x!)}
 	func float_    (_ k:Key) -> Float	{  return    float(k) ?? 0.0			}
-	func float     (_ k:Key) -> Float?	{  return (self[k] as? FwAny)?.asFloat 	}
-	func double_   (_ k:Key) -> Double	{  return    double(k) ?? 0.0			}
-	func double    (_ k:Key) -> Double?	{  return (self[k] as? FwAny)?.asDouble }
+	func float     (_ k:Key) -> Float?	{  return    (self[k] as? FwAny)?.asFloat}
+	func double_   (_ k:Key) -> Double	{  return   double(k) ?? 0.0			}
+	func double    (_ k:Key) -> Double?	{  return    (self[k] as? FwAny)?.asDouble}
 	func cgFloat_  (_ k:Key) -> CGFloat {  return  cgFloat(k) ?? 0.0			}
-	func cgFloat   (_ k:Key) -> CGFloat?{  return (self[k] as? FwAny)?.asCGFloat}
+	func cgFloat   (_ k:Key) -> CGFloat?{  return    (self[k] as? FwAny)?.asCGFloat}
+	func scnVector3(_ k:Key) -> SCNVector3?{return    self[k] as? SCNVector3	}
+	func scnVector3_(_ k:Key)-> SCNVector3?{return    self[k] as? SCNVector3	}
 	func string_   (_ k:Key) -> String 	{  return   string(k) ?? ""				}
-	func string    (_ k:Key) -> String?	{  return (self[k] as? FwAny)?.asString }
+	func string    (_ k:Key) -> String?	{  return    (self[k] as? FwAny)?.asString}
 	func color0_   (_ k:Key) -> NSColor {  return   color0(k) ?? .purple		}
 	func color0    (_ k:Key) -> NSColor?{  return     self[k] as? NSColor		}
-//	func color0    (_ k:Key) -> NSColor?{  return (self[k] as? FwAny)?.asNSColor}
+//	func color0    (_ k:Key) -> NSColor?{  return    (self[k] as? FwAny)?.asNSColor}
 	func part_     (_ k:Key) -> Part 	{  return     part(k) ?? .null			}
-	func part      (_ k:Key) -> Part?	{  return (self[k] as? FwAny)?.asPart	}
+	func part      (_ k:Key) -> Part?	{  return    (self[k] as? FwAny)?.asPart}
 	func fwConfig_ (_ k:Key) -> FwConfig{  return fwConfig(k) ?? [:]			}
-	func fwConfig  (_ k:Key) -> FwConfig?{ return (self[k] as? FwAny)?.asFwConfig}
+	func fwConfig  (_ k:Key) -> FwConfig?{ return    (self[k] as? FwAny)?.asFwConfig}
 	func scnNode_  (_ k:Key) -> SCNNode {  return  scnNode(k) ?? SCNNode()		}
 	func scnNode   (_ k:Key) -> SCNNode?{  return     self[k] as? SCNNode 		}
-//	func scnNode   (_ k:Key) -> SCNNode?{  return (self[k] as? FwAny)?.asSCNNode}
+//	func scnNode   (_ k:Key) -> SCNNode?{  return    (self[k] as? FwAny)?.asSCNNode}
 	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
-	func fwAny     (_ k:Key) -> FwAny?	{  return  self[k] as? FwAny			}
-//	 // Look in all parent
+	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
+
+//	 // Look in all parenta
 //	private func lookup(_ key:Key) -> FwAny? {
 //		var s : Dictionary<Key, Value>?	= self
 //		while s != nil {
@@ -370,7 +375,7 @@ extension Dictionary {
 			let k3				= Array(keys)//.sorted() //.sortIfComparable()
 			let m 				= mode == .tree ? PpMode.line : PpMode.short
 
-/*
+/* PW4
 	func equalsPart<K, V>(_ dict:Dictionary<K, V>) -> Bool where V : EqualsPart, Key : Comparable {
 		guard let dict		= dict as? Dictionary	else {		return false	}
 		guard keys.count == dict.keys.count 		else {		return false	}

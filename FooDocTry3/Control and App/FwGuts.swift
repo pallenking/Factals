@@ -437,8 +437,10 @@ bug;	let fwGuts				= DOCfwGuts
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		let lookAtWorldPosn		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
-		let lap 				= lookAtWorldPosn
-		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+selfiePole.at.y, lap.z)
+
+		poleSpinAboutY.position	= lookAtWorldPosn + selfiePole.at
+//		let lap 				= lookAtWorldPosn
+//		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+selfiePole.at.y, lap.z)
 
 		 //  ---- With a boom (crane or derek) raised upward above the horizon:
 		let upTilt				= selfiePole.horizonUp * .pi / 180.0
@@ -463,7 +465,7 @@ bug;	let fwGuts				= DOCfwGuts
 		}
 
 		  // Determine magnification so all parts of the 3D object are seen.
-		 //
+		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
 		let world2eye			= SCNMatrix4Invert(cameraScn!.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
@@ -554,9 +556,12 @@ bug;	let fwGuts				= DOCfwGuts
 
 		 // 3.  Configure SelfiePole:
 		if let c 				= config4fwGuts.fwConfig("selfiePole") {
-			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-				lastSelfiePole.height = CGFloat(h)
+			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
+				lastSelfiePole.at = at
 			}
+//			if let h 			= c.float("h"), !h.isNan {	// Pole Height
+//				lastSelfiePole.height = CGFloat(h)
+//			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
 				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
 			}
@@ -747,7 +752,6 @@ bug;	let fwGuts				= DOCfwGuts
 			motionFromLastEvent(with:nsEvent)
 			updatePole2Camera(duration:duration, reason:"Other mouseUp")
 			print("camera = [\(ppCam())]")
-			//at("All", 3, print("camera = [\(fwGuts!.ppCam())]"))
 			atEve(9, print("\(cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -880,7 +884,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
 			rootVew.updateVewSizePaint()
 		case "w":
-			print("\n******************** 'w': ==== FwGuts Camera = [\(ppCam())]\n")
+			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwGuts: --> rootPart")
 			if doc.fwGuts.rootPart.processKey(from:nsEvent, inVew:vew!) {
@@ -1108,18 +1112,30 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .tree:
-			let c 				= lastSelfiePole
-//			var rv 				= fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.at.y,
-//									  c.spin, c.horizonUp, c.zoom) // in degrees
-			return rv
+
+
+bug
+//	var rootPart 				: RootPart														//{	rootVew.part as! RootPart}
+//	var rootVew  				: Vew				//			= .null
+//	var rootVewOwner 			: String?	= nil
+//	var rootVewOwnerPrev		:String? = nil
+//	var rootVewVerbose 			= false
+//	var scnView	 				: SCNView?		= nil
+//	var scnScene				: SCNScene
+//	var rootScn  				: SCNNode	{	scnScene.rootNode									}	//scnRoot
+//	var fooDocTry3Document : FooDocTry3Document!
+
+
+
+
+			return lastSelfiePole.pp()
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
 	func ppCam() -> String {
 		let c = lastSelfiePole
-		return fmt("h:%.0f, s:%.0f, u:%.0f, z:%.3f",
-				c.height, c.spin, c.horizonUp, c.zoom)
+		return fmt("h:%s, s:%.0f, u:%.0f, z:%.3f", c.at.pp(.short), c.spin, c.horizonUp, c.zoom)
 	}
 }
 
