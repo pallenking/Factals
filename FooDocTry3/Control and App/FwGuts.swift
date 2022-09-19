@@ -3,14 +3,14 @@
 // Coordinates Operation of root, vew, and scn
 
 import SceneKit
-
- // Kinds of Nodes
-enum FwNodeCategory : Int {
-	case byDefault				= 0x1		// default unpicable (piced by system)
-	case picable 				= 0x2		// picable
-	case adornment				= 0x4		// unpickable e.g. bounding box
-	case collides				= 0x8		// Experimental
-}
+//
+// // Kinds of Nodes
+//enum FwNodeCategory : Int {
+//	case byDefault				= 0x1		// default unpicable (piced by system)
+//	case picable 				= 0x2		// picable
+//	case adornment				= 0x4		// unpickable e.g. bounding box
+//	case collides				= 0x8		// Experimental
+//}
 			//projectPoint(_:)
 class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*SCNScene */ {	//,
 
@@ -32,12 +32,6 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 	var fwScn	 : FwScn//!		= nil
 
 	var fooDocTry3Document : FooDocTry3Document!
-
-	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
-		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
-		let vpV3 : SCNVector3	= rootVew.scn.convertPosition(wpV3, from:nil)
-		return NSPoint(x:vpV3.x, y:vpV3.y)
-	}
 
 	var config4fwGuts : FwConfig = [:] {
 		didSet {	//if config4fwGuts != oldValue {
@@ -198,7 +192,7 @@ bug
 	}
 	 // MARK: 9.3.2 Look At Spot
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
-	var pole					= SCNNode()				// focus of mouse rotator
+//	var pole					= SCNNode()				// focus of mouse rotator
 	var lastSelfiePole 			= SelfiePole()			// init to default
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -557,7 +551,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		]
 		 // CONVERT to window coordinates
 		let pt 	  	: NSPoint	= nsEvent.locationInWindow
-		let mouse 	: NSPoint	= convertToRoot(windowPosition:pt)
+		let mouse 	: NSPoint	= fwScn.convertToRoot(windowPosition:pt)
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
 								//		 + +   + +
@@ -677,21 +671,6 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 //			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
 			SCNTransaction.commit()
 		}
-	}
-
-	//https://forums.developer.apple.com/thread/111572
-	//			let morpher 		= SCNMorpher()  
-	//			morpher.targets 	= [scn.geometry!]  	/// our old geometry will morph to 0
-	//		let node = SCNNode(geometry: SCNBox(width: 0, height: 0, length: 5, chamferRadius: 0))  
-	//		Controller.current?.fwGuts.rootNode.addChildNode(node)  
-	//		node.morpher = morpher  
-	//		let anim = CABasicAnimation(keyPath: "morpher.weights[0]")  
-	//		anim.fromValue = 0.0  
-	//		anim.toValue = 1.0 
-	//		anim.autoreverses = true
-	//		anim.duration = 1  
-	//		node.addAnimation(anim, forKey: nil)  
-
 	//	else {			/// just TEST CODE:
 	//		let x				= CGFloat(0.2)
 	//		let xPct			= SCNVector3(x, x, x)
@@ -710,6 +689,20 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	//		scn.removeFromParent()
 	//		removeFromParent()
 	//	}
+	//https://forums.developer.apple.com/thread/111572
+	//			let morpher 		= SCNMorpher()
+	//			morpher.targets 	= [scn.geometry!]  	/// our old geometry will morph to 0
+	//		let node = SCNNode(geometry: SCNBox(width: 0, height: 0, length: 5, chamferRadius: 0))
+	//		Controller.current?.fwGuts.rootNode.addChildNode(node)
+	//		node.morpher = morpher
+	//		let anim = CABasicAnimation(keyPath: "morpher.weights[0]")
+	//		anim.fromValue = 0.0
+	//		anim.toValue = 1.0
+	//		anim.autoreverses = true
+	//		anim.duration = 1
+	//		node.addAnimation(anim, forKey: nil)
+	}
+
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{

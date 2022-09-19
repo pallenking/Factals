@@ -49,8 +49,8 @@ class FwScn {
 
 	var scnView	 : SCNView!		= nil
 	var scnScene : SCNScene!
-	var rootScn  : SCNNode	{	scnScene.rootNode									}	//scnRoot
 
+	var rootScn  : SCNNode	{	scnScene.rootNode									}	//scnRoot
 	var trunkScn : SCNNode? {
 		if let tv				= fwGuts?.trunkVew  {
 			return tv.scn
@@ -63,8 +63,8 @@ class FwScn {
 		set(v) {		scnScene.isPaused = !v									}
 	}
 
-	init() {
-	}
+//	init() {
+//	}
 	init(fwGuts: FwGuts? = nil, scnView: SCNView? = nil, scnScene: SCNScene) {
 		self.scnView = scnView
 		self.scnScene = scnScene
@@ -134,7 +134,7 @@ class FwScn {
 	  // MARK: - 9.3.1 Look At Pole
 	 // ///// Rebuild the Axis Markings
 	func addAxesScn() {			// was updatePole()
-		guard fwGuts.config4fwGuts.bool_("axisMark") else {	return					}
+		guard fwGuts.config4fwGuts.bool_("showAxis") else {	return					}
 
 		let name				= "*-pole"
 		 // Delete any Straggler
@@ -307,6 +307,12 @@ bug;	let fwGuts				= DOCfwGuts
 		fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize)
 	}
 
+	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
+		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
+		let vpV3 : SCNVector3	= rootVew.scn.convertPosition(wpV3, from:nil)
+		return NSPoint(x:vpV3.x, y:vpV3.y)
+	}
+
 	 /// Build  Vew and SCN  tree from  Part  tree for the first time
 	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
 		assert(rootVew.name 	== "_ROOT", "Paranoid check")
@@ -370,4 +376,12 @@ bug;	let fwGuts				= DOCfwGuts
 		fwGuts.unlock(	 vewTreeAs:"createVews")
 		rootPart.unlock(partTreeAs:"createVews")
 	}
+}
+
+ // Kinds of Nodes
+enum FwNodeCategory : Int {
+	case byDefault				= 0x1		// default unpicable (piced by system)
+	case picable 				= 0x2		// picable
+	case adornment				= 0x4		// unpickable e.g. bounding box
+	case collides				= 0x8		// Experimental
 }

@@ -152,7 +152,7 @@ private let params4guts_ : FwConfig = [
 	//"render3DMode"			: render3Dcartoon,
 	"picPan"					: false,		// picking object pans it to center
 
-	"axisMark"					: true,			//false//true//
+	"showAxis"					: true,			//false//true//
 	"axisTics"					: true,			//false//true//
 
 	"camera"					: "",			// so ansConfig overrites
