@@ -497,10 +497,10 @@ bug	// NEVER USED?
 		guard let fwGuts		= DOCfwGutsQ else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
-		guard fwGuts.cameraScn != nil else {
+		guard fwGuts.fwScn.scnScene.cameraScn != nil else {
 			return																}
 
-		let camera				= fwGuts.cameraScn!.position
+		let camera				= fwGuts.fwScn.scnScene.cameraScn!.position
 
 		 // Get ends of link, and set positions
 		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {

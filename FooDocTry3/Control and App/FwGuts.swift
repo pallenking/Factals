@@ -50,7 +50,10 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 
 	var config4fwGuts : FwConfig = [:] {
 		didSet {	//if config4fwGuts != oldValue {
-			animatePhysics 		= config4fwGuts.bool("animatePhysics") ?? false
+
+			let x				= config4fwGuts.bool("animatePhysics") ?? false
+			fwScn.animatePhysics = x
+
 			assert(config4fwGuts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
 			if let gravityAny	= config4fwGuts["gravity"] {
 				if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
@@ -66,39 +69,33 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 			//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 		}
 	}
-	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
-	var animatePhysics : Bool {
-		get {			return !fwScn.scnScene.isPaused							}
-		set(v) {		fwScn.scnScene.isPaused = !v							}
-	}
+//	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
+//	var animatePhysics : Bool {
+//		get {			return !fwScn.scnScene.isPaused							}
+//		set(v) {		fwScn.scnScene.isPaused = !v							}
+//	}
 
 		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	 // MARK: - 3. Factory
 	convenience init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
 		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
+
 		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
-		fwScn					= FwScn()
-		fwScn.fwGuts			= self
 
 		config4fwGuts			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
-		// TO DO:
-		  //  2. In SCNView show
-		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
-		//fwView?.background	= NSColor("veryLightGray")!
-		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
-	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
-//	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
+	init(scene scene_:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
-		assert(scene != nil, "FwGuts(scene is nil")
-bug//;	self.fwScn.scnScene		= fwScn.scnScene
-		self.rootVew			= Vew(forPart:rootPart, scn:scene!.rootNode)
-		self.fwScn				= FwScn(scnScene:scene!)
+		assert(scene_ != nil, "FwGuts(scene is nil")
+		self.rootVew			= Vew(forPart:rootPart, scn:scene_!.rootNode)
+		self.fwScn				= FwScn(scnScene:scene_!)
+
 		super.init()
+
 		 // Back Links
-		self.fwScn.fwGuts		= self
+		fwScn.fwGuts			= self
 	}
 
 	// FileDocument requires these interfaces:
@@ -216,7 +213,7 @@ bug
 	}
 	 // MARK: -
 	 // MARK: - 9.1 Lights
-	func updateLightsScn() {
+	func addLightsToScn() {
 		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
 		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
 		let _ 					= helper("ambient2",.ambient,color:NSColor.white, intensity:500)				//blue//
@@ -236,17 +233,14 @@ bug
 //		}
 		func helper(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
-			 // Delete any Straggler
-			if let stragglerNode = rootScn.find(name:name) {
-				warning("Who put the node named '\(name)' here? !!!")
-				stragglerNode.removeFromParentNode()
-			}
+			 // Complain Straggler
+			assert(rootScn.find(name:name) == nil, "Who put the node named '\(name)' here? !!!")
+
 			let light			= SCNLight()
 			light.type 			= lightType
 			if let color		= color {
 				light.color = color
 			}
-
 			let rv 				= SCNNode()
 			rv.light			= light
 			rv.name				= name
@@ -260,15 +254,9 @@ bug
 	}
 	 // MARK: - 9.2 Camera
 	 // Get camera node from SCNNode
-	var cameraScn : SCNNode?	{	fwScn.scnScene.cameraScn					}
-	func updateCamerasScn(_ config:FwConfig) {
-
-		 // Delete any Straggler
-		if let stragglerScn		= rootScn.find(name:"camera") {
-			let msg				= stragglerScn == cameraScn ? "" : " and no match to cameraScn"
-			warning("Who put this camera here? !!!" + msg)
-			stragglerScn.removeFromParentNode()
-		}
+//	var cameraScn : SCNNode?	{	fwScn.scnScene.cameraScn					}
+	func addCameraToScn(_ config:FwConfig) {
+		assert(rootScn.find(name:"camera") == nil, "Who put the node named '\("camera")' here? !!!")
 
 		 // Just make a whole new camera system from scratch
 		let camera				= SCNCamera()
@@ -288,7 +276,7 @@ bug
 	}
 	  // MARK: - 9.3.1 Look At Pole
 	 // ///// Rebuild the Axis Markings
-	func updateAxisMarkScn() {			// was updatePole()
+	func addAxesScn() {			// was updatePole()
 		guard config4fwGuts.bool_("axisMark") else {	return					}
 
 		let name				= "*-pole"
@@ -402,8 +390,9 @@ bug;	let fwGuts				= DOCfwGuts
 	///   - message: for logging only
 	///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-
-		zoom4fullScreen(selfiePole:lastSelfiePole, cameraScn:cameraScn!)
+		let cameraScn			= fwScn.scnScene.cameraScn!
+								//
+		zoom4fullScreen(selfiePole:lastSelfiePole, cameraScn:cameraScn)
 
 		if duration > 0.0,
 		  config4fwGuts.bool("animatePan") ?? false {
@@ -411,13 +400,13 @@ bug;	let fwGuts				= DOCfwGuts
 			atRve(8, logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
-			cameraScn!.transform *= 0.999999	// virtually no effect
+			cameraScn.transform *= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
 				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				self.cameraScn!.transform = self.lastSelfiePole.transform
+				cameraScn.transform = self.lastSelfiePole.transform
 
 				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -426,7 +415,7 @@ bug;	let fwGuts				= DOCfwGuts
 			SCNTransaction.commit()
 		}
 		else {
-			self.cameraScn!.transform = self.lastSelfiePole.transform
+			cameraScn.transform = self.lastSelfiePole.transform
 		}
 	}
 		
@@ -489,6 +478,11 @@ bug;	let fwGuts				= DOCfwGuts
 		 // 2. Update Vew and Scn Tree
 /**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
 
+		 // 6. Add Lights, Camera and SelfiePole
+		addLightsToScn()							// was updateLights
+		addCameraToScn(config4fwGuts)
+		addAxesScn()
+
 		 // 3.  Configure SelfiePole:
 		if let c 				= config4fwGuts.fwConfig("selfiePole") {
 			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
@@ -520,11 +514,6 @@ bug;	let fwGuts				= DOCfwGuts
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
-
-		 // 6. Add Camera, Light, and Pole at end
-		updateLightsScn()							// was updateLights
-		updateCamerasScn(config4fwGuts)
-		updateAxisMarkScn()
 
 		updatePole2Camera(reason:"install RootPart")
 
@@ -687,7 +676,7 @@ bug;	let fwGuts				= DOCfwGuts
 			motionFromLastEvent(with:nsEvent)
 			updatePole2Camera(duration:duration, reason:"Other mouseUp")
 			print("camera = [\(ppCam())]")
-			atEve(9, print("\(cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
+			atEve(9, print("\(fwScn.scnScene.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
@@ -827,8 +816,8 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			}
 			return true								// recognize both
 		case "f": 					// // f // //
-			animatePhysics 		= !animatePhysics
-			let msg 			= animatePhysics ? "Run   " : "Freeze"
+			fwScn.animatePhysics = !fwScn.animatePhysics
+			let msg 			= fwScn.animatePhysics ? "Run   " : "Freeze"
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
 		case "?":

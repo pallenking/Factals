@@ -7,6 +7,12 @@
 
 import SceneKit
 
+		// TO DO:
+		  //  2. In SCNView show
+		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
+		//fwView?.background	= NSColor("veryLightGray")!
+		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
+
 
 //		Concepts:
 //	The camera is positioned in the world with the camera transform
@@ -45,17 +51,22 @@ class FwScn {
 	var scnScene : SCNScene!
 	var rootScn  : SCNNode	{	scnScene.rootNode									}	//scnRoot
 
-	init() {
-	}
-	init(fwGuts: FwGuts? = nil, scnView: SCNView? = nil, scnScene: SCNScene) {
-		self.scnView = scnView
-		self.scnScene = scnScene
-	}
-
 	var trunkScn : SCNNode? {
 		if let tv				= fwGuts?.trunkVew  {
 			return tv.scn
 		}
 		fatalError("trunkVew is nil")
+	}
+	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
+	var animatePhysics : Bool {
+		get {			return !scnScene.isPaused								}
+		set(v) {		scnScene.isPaused = !v									}
+	}
+
+	init() {
+	}
+	init(fwGuts: FwGuts? = nil, scnView: SCNView? = nil, scnScene: SCNScene) {
+		self.scnView = scnView
+		self.scnScene = scnScene
 	}
 }
