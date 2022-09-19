@@ -13,7 +13,7 @@ class JetModel: ObservableObject {
 	@Published var scene : SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
 }
 class DragonModel: ObservableObject {
-	@Published var scene : SCNScene = dragonCurve(segments:1024)
+	@Published var scene   : SCNScene = dragonCurve(segments:1024)
 }
 
 struct ContentView: View {
@@ -22,25 +22,6 @@ struct ContentView: View {
 	@StateObject var dragonModel	= DragonModel()
 
 	var body: some View {
-		Text("Hello World!")
-		 .toolbar {
-			ToolbarItem(placement: .primaryAction) {
-				Menu {
-//					Button(action: {}) {
-//						Label("Create a file", systemImage: "doc")
-//					}
-					Button(label:{	Label("Create a file", systemImage: "doc")	})
-					{	print("button pressed")								}
-
-					Button(action: {}) {
-						Label("Create a folder", systemImage: "folder")
-					}
-				}
-				label: {
-					Label("Add", systemImage: "plus")
-				}
-			}
-		}.frame(width:200, height: 20, alignment:.center)
 		HStack {
 			if let fwGuts		= document.fwGuts {
 				VStack {
@@ -52,14 +33,12 @@ struct ContentView: View {
 							fwGuts		: fwGuts,
 							scnScene	: nil,
 							pointOfView	: fwGuts.cameraScn,
-							options		: [.autoenablesDefaultLighting,
-				//**/					   .allowsCameraControl,
-										   .jitteringEnabled,
-										   .rendersContinuously,
-										   .temporalAntialiasingEnabled			],
-//			//							   .jitteringEnabled,
-//			//							   .temporalAntialiasingEnabled,
-//										   .rendersContinuously],
+							options		: [//	.autoenablesDefaultLighting,
+										//	.allowsCameraControl,// NO we do that
+			//								.jitteringEnabled,
+											.rendersContinuously,
+			//								.temporalAntialiasingEnabled,
+										  ],
 							preferredFramesPerSecond:30,
 							antialiasingMode:.none,
 							delegate:fwGuts
@@ -132,3 +111,19 @@ struct ContentView: View {
 		}
 	}
 }
+
+
+//		Text("Hello World!")
+//		 .toolbar {
+//			ToolbarItem(placement: .primaryAction) {
+//				Menu {
+//					Button(label:{	Label("Create a file", systemImage: "doc")	})
+//					{	print("button pressed")									}
+//					Button(label:{	Label("Create a folder", systemImage: "folder")	})
+//					{															}
+//				}
+//				label: {
+//					Label("Add", systemImage: "plus")
+//				}
+//			}
+//		}.frame(width:200, height: 20, alignment:.center)

@@ -382,15 +382,15 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	 // ///////////////// LOCK Parts Tree /////////////
 	// https://stackoverflow.com/questions/31700071/scenekit-threads-what-to-do-on-which-thread
 
-	/// Get the lock for the partTree:
+	/// Lock the Part Tree:
 	/// - Parameters:
-	///   - lockName: description of Lock
+	///   - newOwner: of the lock. nil->don't get lock
 	///   - wait: logs if wait
 	///   - logIf: allows logging
 	/// - Returns: lock obtained
- 	func lock(partTreeAs lockName:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
-		guard lockName != nil else {	return true 							}
-		let u_name				= ppUid(self) + " '\(lockName!)'".field(-20)
+ 	func lock(partTreeAs newOwner:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
+		guard newOwner != nil else {	return true 							}
+		let u_name				= ppUid(self) + " '\(newOwner!)'".field(-20)
 								
 		atBld(3, {					// === ///// BEFORE GETTING:
 			let val0			= partTreeLock.value ?? -99
@@ -415,8 +415,8 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		}
 
 		 // === SUCCEEDED to get lock:
-		assert(partTreeOwner==nil, "\(lockName!) Locking, but \(partTreeOwner!) lingers ")
-		partTreeOwner		= lockName
+		assert(partTreeOwner==nil, "\(newOwner!) Locking, but \(partTreeOwner!) lingers ")
+		partTreeOwner		= newOwner
 		atBld(3, {						// === /////  AFTER GETTING:
 			let msg			= "\(u_name)      GOT Part LOCK: v:\(partTreeLock.value ?? -99)"
 			!logIf ? nop
@@ -426,10 +426,15 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		}())
  		return true
  	}
- 	func unlock(partTreeAs lockName:String?, logIf:Bool=true) {
-		guard lockName != nil 		else {	return 	 						}
+	
+	/// Unlock the Part tree
+	/// - Parameters:
+	///   - lockName:  of the lock. nil->don't get lock
+	///   - logIf: allows logging
+ 	func unlock(partTreeAs newOwner:String?, logIf:Bool=true) {
+		guard let newOwner else {	return 	 									}
 		assert(partTreeOwner != nil, "Attempting to unlock ownerless lock")
-		assert(partTreeOwner == lockName, "Releasing (as '\(lockName!)') Part lock owned by '\(partTreeOwner!)'")
+		assert(partTreeOwner == newOwner, "Releasing (as '\(newOwner)') Part lock owned by '\(partTreeOwner!)'")
 		let u_name			= ppUid(self) + " '\(partTreeOwner!)'".field(-20)
 		atBld(3, {
 			let val0		= partTreeLock.value ?? -99

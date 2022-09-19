@@ -175,11 +175,15 @@ bug
 //	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 //
 	 // MARK: - 4.? Vew Locks
-	 /// Optain DispatchSemaphor for Vew Tree
+	/// Optain DispatchSemaphor for Vew Tree
+	/// - Parameters:
+	///   - lockName: get lock under this name. nil --> don't lock
+	///   - logIf: logIf description
+	/// - Returns: description
 	func lock(vewTreeAs lockName:String?=nil, logIf:Bool=true) -> Bool {
-		guard lockName != nil else {	return true		/* no lock needed */	}
+		guard let lockName else {	return true		/* no lock needed */		}
 
-		let u_name			= ppUid(self) + " '\(lockName!)'".field(-20)
+		let u_name			= ppUid(self) + " '\(lockName)'".field(-20)
 		atRve(3, {
 			let val0		= rootVewLock.value ?? -99	/// (wait if <=0)
 			if logIf && debugOutterLock {
@@ -200,7 +204,7 @@ bug
 		}
 
 		 // === Succeeded:
-		assert(rootVewOwner==nil, "\(lockName!) Locking, but \(rootVewOwner!) lingers ")
+		assert(rootVewOwner==nil, "\(lockName) Locking, but previous owner '\(rootVewOwner!)' lingers ")
 		rootVewOwner 		= lockName
 		atRve(3, {						/// AFTER GETTING:
 			let val0		= rootVewLock.value ?? -99
@@ -401,7 +405,7 @@ bug
 	}
 
 	 // MARK: 9.3.2 Look At Spot
-	var lookAtPart : Part? 		= nil
+//	var lookAtPart : Part? 		= nil
 	var lookAtVew  : Vew?		= nil
 	var lastSelfiePole 			= SelfiePole()						// init to default
 
@@ -547,37 +551,31 @@ bug;	let fwGuts				= DOCfwGuts
 		}
 	}
 
-	 /// Build Vew and SCN tree from Part tree
-	/// - Parameters:
-	///   - lockStr: -- if non-nil, get this lock
-	func updateVewNScnFromModel() { 	// Make the  _VIEW_  from Experiment
-
-		// At Entry: RootPart is correctly installed
-		//			 No
-
-	//	assert(rootVew			!= nil,		"Paranoid check of rootVew 2")
-		assert(rootVew.name 	== "_ROOT", "Paranoid check of rootVew 2")
-		assert(rootVew.part		== rootPart,"Paranoid check of rootVew 3")
-		assert(rootVew.part.name == "ROOT", "Paranoid check of rootVew 4")
+	 /// Build Vew and SCN tree from Part tree for the first time
+	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
+		assert(rootVew.name 	== "_ROOT", "Paranoid check")
+		assert(rootVew.part		== rootPart,"Paranoid check")
+		assert(rootVew.part.name == "ROOT", "Paranoid check")
+		assert(rootVew.part.children.count == 1, "Paranoid check")
 
 		 // 1. 	GET LOCKS				// PartTree
-		guard rootPart.lock(partTreeAs:"didLoadNib") else {
-			fatalError("didLoadNib couldn't get PART lock")		// or
+		guard rootPart.lock(partTreeAs:"createVews") else {
+			fatalError("createVews couldn't get PART lock")		// or
 		}		          				// VewTree
-		guard lock(vewTreeAs:"didLoadNib") else {
-			fatalError("didLoadNib  couldn't get VIEW lock")
+		guard lock(vewTreeAs:"createVews") else {
+			fatalError("createVews  couldn't get VIEW lock")
 		}
-																				// doc.fwView?.window!.backgroundColor = NSColor.yellow // why? cocoahead x: only frame
+
 		 // 2. Set LookAtNode's position
-		if let lookAtPart		= lookAtPart ?? DOCrootPartQ {
-			lookAtVew 			= rootVew.find(part:lookAtPart, inMe2:true)
-		}
+//		if let lookAtPart		= lookAtPart ?? DOCrootPartQ {
+//			lookAtVew 			= rootVew.find(part:lookAtPart, inMe2:true)
+//		}
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
 
 		 // 3. Update Vew Tree
-/**/	rootVew.updateVewSizePaint(needsViewLock:nil)		// rootPart -> rootView, rootScn
+/**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
 
 		 // 4. Add Camera, Light, and Pole at end
 		updateLightsScn()							// was updateLights
@@ -587,8 +585,8 @@ bug;	let fwGuts				= DOCfwGuts
 		updatePole2Camera(reason:"install RootPart")
 
 		// 6. UNLOCK PartTree and VewTree:
-		unlock( 		 vewTreeAs:"didLoadNib")
-		rootPart.unlock(partTreeAs:"didLoadNib")
+		unlock( 		 vewTreeAs:"createVews")
+		rootPart.unlock(partTreeAs:"createVews")
 	}
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -601,28 +599,44 @@ bug;	let fwGuts				= DOCfwGuts
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+			guard self.rootPart.lock(partTreeAs:"updateAtTime", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
+			guard self         .lock(vewTreeAs: "updateAtTime", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
 			DOCfwGuts.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
+			self    .rootPart.unlock(partTreeAs:"updateAtTime", logIf:false)
+			self             .unlock(vewTreeAs: "updateAtTime", logIf:false)
 		}
 	}
 	  // MARK: 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+			guard self.rootPart.lock(partTreeAs:"didApplyAnimations", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
+			guard self         .lock(vewTreeAs: "didApplyAnimations", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
 			DOCrootPart.computeLinkForces(vew:DOCfwGuts.rootVew)
+			self    .rootPart.unlock(partTreeAs:"didApplyAnimations", logIf:false)
+			self             .unlock(vewTreeAs: "didApplyAnimations", logIf:false)
 		}
 	}
 	  // MARK: 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+			guard self.rootPart.lock(partTreeAs:"didSimulatePhysics", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
+			guard self         .lock(vewTreeAs: "didSimulatePhysics", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
 			DOCrootPart.applyLinkForces(vew:DOCfwGuts.rootVew)
+			self    .rootPart.unlock(partTreeAs:"didSimulatePhysics", logIf:false)
+			self             .unlock(vewTreeAs: "didSimulatePhysics", logIf:false)
 		}
 	}
 	  // MARK: 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
 	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+			guard self.rootPart.lock(partTreeAs:"willRenderScene", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
+			guard self         .lock(vewTreeAs: "willRenderScene", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
 			DOCrootPart.rotateLinkSkins(vew:DOCfwGuts.rootVew)
+			self      .rootPart.unlock(partTreeAs:"willRenderScene", logIf:false)
+			self               .unlock(vewTreeAs: "willRenderScene", logIf:false)
 		}
 	}
 	   // ODD Timing:
@@ -654,7 +668,7 @@ bug;	let fwGuts				= DOCfwGuts
 	var mouseWasDragged			= false		// have dragging cancel pic
 
 	func receivedEvent(nsEvent:NSEvent) {
-		//print("--- func received(nsEvent:\(nsEvent))")
+		print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
 
@@ -696,7 +710,9 @@ bug;	let fwGuts				= DOCfwGuts
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
-					let _		= modelPic(with:nsEvent)
+					if let vew	= modelPic(with:nsEvent) {
+						lookAtVew	= vew			// found a Vew: Look at it!
+					}
 				}
 				mouseWasDragged = false
 				updatePole2Camera(duration:duration, reason:"Left mouseUp")
