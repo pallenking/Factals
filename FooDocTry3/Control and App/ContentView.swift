@@ -34,7 +34,7 @@ struct ContentView: View {
 							scnScene	: nil,
 							pointOfView	: fwGuts.cameraScn,
 							options		: [//	.autoenablesDefaultLighting,
-										//	.allowsCameraControl,// NO we do that
+										  //.allowsCameraControl,	// so we can control it
 			//								.jitteringEnabled,
 											.rendersContinuously,
 			//								.temporalAntialiasingEnabled,

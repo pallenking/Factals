@@ -116,33 +116,33 @@ CONTEXT: findProgramToWatch:
 		 			"d",
 		 			"e",
 				] 					]
-		r("- bug: drive with sequence", eXYtight + ["simEnabled":true] + camera(s:90,u:0), { Net(["placeMy":"linky", "parts":[
+		r("- bug: drive with sequence", eXYtight + ["simEnabled":true] + selfiePole(s:90,u:0), { Net(["placeMy":"linky", "parts":[
 			Mirror(["n":"v", "P":"s", "gain":-1, "offset":1]),
 			Sequence(["n":"s", "f":1, "share":["a"]]),//, "a", "a", ]]),
 			Tunnel(of:.genMirror,["struc":["a"]]),
 		]]) })
-		r("- bug: why call reSize twice", eXYtight + camera(s:90,u:0), { Net(["placeMy":"linky", "parts":[
+		r("- bug: why call reSize twice", eXYtight + selfiePole(s:90,u:0), { Net(["placeMy":"linky", "parts":[
 			Sequence( ["f":1, "share":["a", "b"]]),
 //			Broadcast(["f":1, "share":["a", "b"]]),
 			Tunnel(of:.genAtom,  ["struc":["a", "b"]]),
 		]]) })
-		r("- bug: drive with sequence", eXYtight + camera(s:90,u:0), { Net(["placeMy":"linky", "parts":[
+		r("- bug: drive with sequence", eXYtight + selfiePole(s:90,u:0), { Net(["placeMy":"linky", "parts":[
 //			Broadcast(["f":1, "share":["a"]]),
 			Sequence( ["f":1, "share":["a"]]),
 			Broadcast(["n":"a"]),
 		]]) })
 
 		// WORKS:
-		xxr("- bug: drive with sequence", e + camera(s:0,u:0), { Net(["parts":[
+		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Sequence(["f":1, "share":["a","b","c"]]),
 			Tunnel(["struc":["a","b","c"]]),
 		]]) })
-		r("+ bug: ? Leaf and GenAtom overlap", e + camera(s:0,u:0), { Net(["parts":[
+		r("+ bug: ? Leaf and GenAtom overlap", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Tunnel(  ["struc":["a", "b"]]),						// in X
 			FwBundle(["placeMy":"stackz", "struc":["a", "b"]]),	// in Z
 			FwBundle(["struc":["placeMy:stackx", "a", "b"]]),						// Vert
 		]]) })
-		r("+ bug: ? Net and Box overlap", e + camera(s:0,u:0), {
+		r("+ bug: ? Net and Box overlap", e + selfiePole(s:0,u:0), {
 			Net(["parts":[
 				Box(),
 			]

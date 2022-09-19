@@ -275,13 +275,13 @@ extension Library {
 	func velX(_ vel:Float) -> FwConfig 	{	return [:] 							}
 
 	// 2. Camera Parameters:
-	func camera(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil) -> FwConfig {
+	func selfiePole(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil) -> FwConfig {
 		var rv : FwConfig 		= [:]
 		if let h {	rv["h"] 	= h												}
 		if let s {	rv["s"] 	= s												}
 		if let u {	rv["u"] 	= u												}
 		if let z {	rv["z"]		= z												}
-		return ["camera":rv]
+		return ["selfiePole":rv]
 	}
 	 /// 2b. Neutered Camera Parameters:
 	func cameraX(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil) -> FwConfig {

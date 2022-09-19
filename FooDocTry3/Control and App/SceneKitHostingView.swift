@@ -13,7 +13,7 @@ struct SCNViewsArgs {
 	let fwGuts					: FwGuts?
 	let scnScene 				: SCNScene?
 	let pointOfView 			: SCNNode?
-	let options 				: SceneView.Options			//= []					//.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
+	let options 				: SceneView.Options			//= []	.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
 	let preferredFramesPerSecond: Int						//= 30
 	let antialiasingMode 		: SCNAntialiasingMode		//= .none				//SCNAntialiasingModeNone, //SCNAntialiasingModeMultisampling2X SCNAntialiasingMode,
 	let delegate 				: SCNSceneRendererDelegate?	// (An SCNView, could hardwire)

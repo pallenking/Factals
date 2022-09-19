@@ -490,11 +490,10 @@ bug
 	///   - root_: ---- set in Part
 	func groomModel(parent parent_:Part?, root root_:RootPart?)  {
 		parent					= parent_
-		let r					=  root_				// from arg
+		root					=  root_				// from arg
 								?? root					// my root
 								?? self as? RootPart 	// me, if I'm a RootPart
 								?? child0 as? RootPart	// if PolyWrapped
-		root					= r
 		markTree(dirty:.vew)						// set dirty vew
 
 		 // Do whole tree

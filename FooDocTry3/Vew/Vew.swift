@@ -238,7 +238,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 			}
 		}
 		let fwGuts				= DOCfwGutsQ
-		return fwGuts?.config4guts[name]	// make this part of new RootPart class
+		return fwGuts?.config4fwGuts[name]	// make this part of new RootPart class
 	 }
 
 	 // MARK: - 4.6 Find Children
@@ -518,9 +518,9 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateVewSizePaint(needsViewLock needsLockArg:String?=nil, logIf log:Bool=true) { // VIEWS
+	func updateVewSizePaint(needsViewLock named:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let fwGuts		= DOCfwGutsQ else {	return 					}
-		var needsViewLock		= needsLockArg		// nil if lock obtained
+		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
 		assert(rootVew === vRoot, "rootVew === vRoot")
 		let pRoot				= part.root!
@@ -581,8 +581,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 			pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
 			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
 		}
-		let unlockName			= needsLockArg == nil ? nil :	// no lock wanted
-								  needsViewLock == nil ? needsLockArg :// we locked it!
+		let unlockName			= named == nil ? nil :	// no lock wanted
+								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
 		fwGuts.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
@@ -661,7 +661,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 							//		let wPosn				= scn.convertPosition(localPoint, to:fwGuts.rootScn)
 							//		assert(fwGuts.pole.worldPosition.isNan == false, "Pole has position = NAN")
 							//
-							//		let animateIt			= fwGuts.config4guts.bool_("animatePole")
+							//		let animateIt			= fwGuts.config4fwGuts.bool_("animatePole")
 							//		if animateIt {	 // Animate 3D Cursor Pole motion"
 							//			SCNTransaction.begin()
 							//bug //		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))

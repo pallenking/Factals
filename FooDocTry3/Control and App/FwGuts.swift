@@ -76,8 +76,6 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 		return NSPoint(x:vpV3.x, y:vpV3.y)
 	}
 
-	var pole					= SCNNode()		// focus of mouse rotator
-
 	var config4fwGuts : FwConfig = [:] {
 		didSet {	//if config4fwGuts != oldValue {
 			animatePhysics 		= config4fwGuts.bool("animatePhysics") ?? false
@@ -312,9 +310,9 @@ bug
 		rootScn.addChildNode(newCameraScn)
 	}
 	  // MARK: - 9.3.1 Look At Pole
-	 // ///// Rebuild the Rotator Pole afresh
-	func updatePoleScn() {			// was updatePole()
-		guard config4fwGuts.bool_("pole") else {	return							}
+	 // ///// Rebuild the Axis Markings
+	func updateAxisMarkScn() {			// was updatePole()
+		guard config4fwGuts.bool_("axisMark") else {	return					}
 
 		let name				= "*-pole"
 		 // Delete any Straggler
@@ -341,7 +339,7 @@ bug
 			pole.addChild(node:arm)
 
 			let nTics			= [axesLen.x, axesLen.z][i]
-			addTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
+			addAxisTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
 		}
 		 // Y Pole (thicker) 
 		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
@@ -350,7 +348,7 @@ bug
 		upPole.name				= "s-CylT"
 		upPole.color0			= .lightGray
 		upPole.color0(emission:systemColor)
-		addTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
+		addAxisTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
 		pole.addChild(node:upPole)
 
 
@@ -372,8 +370,8 @@ bug
 		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
 		pole.addChild(node:origin)
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
-	func addTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if config4fwGuts.bool("poleTics") ?? false {
+	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
+		if config4fwGuts.bool("axisTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -391,6 +389,7 @@ bug
 
 	 // MARK: 9.3.2 Look At Spot
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
+	var pole					= SCNNode()				// focus of mouse rotator
 	var lastSelfiePole 			= SelfiePole()			// init to default
 
 	 // MARK: 9.3.3 Look At Updates
@@ -425,13 +424,13 @@ bug;	let fwGuts				= DOCfwGuts
 	///   - message: for logging only
 	///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-		let pole : SelfiePole	= lastSelfiePole
+		let selfiePole : SelfiePole	= lastSelfiePole
 
 			// Imagine a camera A on a selfie stick, pointing back to the holder B
 		   //
 		  // From Origin to Camera, in steps: Pole about Origin
 		 //  ---- spun about Y axis
-		let spin				= pole.spin * .pi / 180.0
+		let spin				= selfiePole.spin * .pi / 180.0
 		var poleSpinAboutY		= SCNMatrix4MakeRotation(spin, 0, 1, 0)
 
 		 //  ---- translated above Point of Interest by cameraPoleHeight
@@ -439,14 +438,14 @@ bug;	let fwGuts				= DOCfwGuts
 		let lookAtWorldPosn		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 		let lap 				= lookAtWorldPosn
-		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+pole.height, lap.z)
+		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+selfiePole.height, lap.z)
 
 		 //  ---- With a boom (crane or derek) raised upward above the horizon:
-		let upTilt				= pole.horizonUp * .pi / 180.0
+		let upTilt				= selfiePole.horizonUp * .pi / 180.0
 		let riseAboveHoriz		= SCNMatrix4MakeRotation(upTilt, 1, 0, 0)
 
 		 //  ---- move out boom from pole, looking backward:
-		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50*pole.zoom) //cameraZoom)//10 ad hoc .5
+		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50*selfiePole.zoom) //cameraZoom)//10 ad hoc .5
 
 		let newCameraXform		= toEndOfBoom * riseAboveHoriz * poleSpinAboutY
 		assert(!newCameraXform.isNan, "newCameraXform is Not a Number")
@@ -493,7 +492,7 @@ bug;	let fwGuts				= DOCfwGuts
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
 			guard let cam		= cameraScn!.camera else { fatalError("cameraScn.camera is nil") 	}
 			cam.usesOrthographicProjection = true		// camera’s magnification factor
-			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
+			cam.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
 		}
 	//	print(fmt("FwGuts resize \(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", zoomSize, vanishingPoint ?? -.infinity))
 									//
@@ -550,9 +549,11 @@ bug;	let fwGuts				= DOCfwGuts
 			fatalError("createVews  couldn't get VIEW lock")
 		}
 
+		 // 2. Update Vew and Scn Tree
+/**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
 
-		 // Configure Camera from Source Code:
-		if let c 				= config4fwGuts.fwConfig("camera") {
+		 // 3.  Configure SelfiePole:
+		if let c 				= config4fwGuts.fwConfig("selfiePole") {
 			if let h 			= c.float("h"), !h.isNan {	// Pole Height
 				lastSelfiePole.height = CGFloat(h)
 			}
@@ -568,46 +569,28 @@ bug;	let fwGuts				= DOCfwGuts
 			atRve(2, logd("=== Set camera=\(c.pp(.line))"))
 		}
 
-		 // Camera looks at target:
-		if let doc				= fooDocTry3Document,
-		 let laStr				= config4fwGuts.string("lookAt"),
-		  laStr != ""
-		{
-			let laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true)
-			lookAtVew 			=
-
-			assertWarn(laPart != nil, "lookAt: '\(laStr)' failed to find part")
-			lookAtPart			= laPart ?? 				// from configure
-								  rootVew.child0?.part ??	// from rootVew child[0]
-								  doc.rootPart				// from doc
+		 // 4.  Configure Camera target:
+		lookAtVew				= trunkVew
+		if let laStr			= config4fwGuts.string("lookAt"),
+		  laStr != "",
+		  let laPart
+		   			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
+			lookAtVew 			=  rootVew.find(part:laPart)
 		}
-//		if let doc				= fooDocTry3Document,
-//		 let laStr				= config4scene.string("lookAt"),
-//		  laStr != ""
-//		{
-//			let laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true)
-//			assertWarn(laPart != nil, "lookAt: '\(laStr)' failed to find part")
-//			lookAtPart			= laPart ?? 				// from configure
-//								  rootVew.child0?.part ??	// from rootVew child[0]
-//								  doc.rootPart				// from doc
-//		}
 
-		 // 2. Set LookAtNode's position
+		 // 5. Set LookAtNode's position
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
 
-		 // 3. Update Vew Tree
-/**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
-
-		 // 4. Add Camera, Light, and Pole at end
+		 // 6. Add Camera, Light, and Pole at end
 		updateLightsScn()							// was updateLights
 		updateCamerasScn(config4fwGuts)
-		updatePoleScn()
+		updateAxisMarkScn()
 
 		updatePole2Camera(reason:"install RootPart")
 
-		// 6. UNLOCK PartTree and VewTree:
+		// 7. UNLOCK PartTree and VewTree:
 		unlock( 		 vewTreeAs:"createVews")
 		rootPart.unlock(partTreeAs:"createVews")
 	}

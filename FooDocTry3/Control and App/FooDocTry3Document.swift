@@ -164,29 +164,31 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																//		fwView!.fwGuts			= fwGuts		// delegate		220815PAK: Needed only for rotator
 																//bug;	fwView!.scene			= fwGuts		// delegate		// somebody elses responsibility! (but who)
 	mutating func didLoadNib(to view:Any) {
+
 				// Build Vews after View is loaded:
 /**/	fwGuts.createVewNScn()
+
 		guard let view			= fwGuts.scnView else {fatalError("fwGuts.scnView == nil")}
-		view.isPlaying			= true		// playing animations?  (works here?)
-	//	view.showsStatistics 	= true			// doesn't work here
-		view.debugOptions 		= [
-//	//		SCNDebugOptions.showBoundingBoxes,	//Display the bounding boxes for any nodes with content.
-//		//	SCNDebugOptions.showWireframe,		//Display geometries in the scene with wireframe rendering.
-////			SCNDebugOptions.renderAsWireframe,	//Display only wireframe placeholders for geometries in the scene.
-////			SCNDebugOptions.showSkeletons,		//Display visualizations of the skeletal animation parameters for relevant geometries.
-////			SCNDebugOptions.showCreases,		//Display nonsmoothed crease regions for geometries affected by surface subdivision.
-////			SCNDebugOptions.showConstraints,	//Display visualizations of the constraint objects acting on nodes in the scene.
-////				// Cameras and Lighting
-////			SCNDebugOptions.showCameras,		//Display visualizations for nodes in the scene with attached cameras and their fields of view.
-////			SCNDebugOptions.showLightInfluences,//Display the locations of each SCNLight object in the scene.
-////			SCNDebugOptions.showLightExtents,	//Display the regions affected by each SCNLight object in the scene.
-////				// Debugging Physics
-////			SCNDebugOptions.showPhysicsShapes,	//Display the physics shapes for any nodes with attached SCNPhysicsBody objects.
-////			SCNDebugOptions.showPhysicsFields,	//Display the regions affected by each SCNPhysicsField object in the scene.
+		view.isPlaying			= true			// does nothing
+		view.showsStatistics 	= true			// works fine
+		view.debugOptions 		= [			// enable display of:
+//	//		SCNDebugOptions.showBoundingBoxes,	// bounding boxes for nodes with content.
+		//	SCNDebugOptions.showWireframe,		// geometries as wireframe.
+	 	//	SCNDebugOptions.renderAsWireframe,	// only wireframe of geometry
+	// 		SCNDebugOptions.showSkeletons,		//?EH? skeletal animation parameters
+	//		SCNDebugOptions.showCreases,		//?EH? nonsmoothed crease regions affected by subdivisions.
+	//		SCNDebugOptions.showConstraints,	//?EH? constraint objects acting on nodes.
+	 			// Cameras and Lighting
+	//		SCNDebugOptions.showCameras,		//?EH? Display visualizations for nodes in the scene with attached cameras and their fields of view.
+	//		SCNDebugOptions.showLightInfluences,//?EH? locations of each SCNLight object
+	//		SCNDebugOptions.showLightExtents,	//?EH? regions affected by each SCNLight
+				// Debugging Physics
+		//	SCNDebugOptions.showPhysicsShapes,	// physics shapes for nodes with SCNPhysicsBody.
+			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
 		]
-////		view.allowsCameraControl 	= false			// dare to turn it on?
-////		view.autoenablesDefaultLighting = false		// dare to turn it on?
-//
+//	 //	view.allowsCameraControl = false			// dare to turn it on?
+//	 //	view.autoenablesDefaultLighting = false		// dare to turn it on?
+
 		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:fwGuts.rootPart.title) ))
 
 		makeInspectors()
