@@ -389,8 +389,8 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	///   - logIf: allows logging
 	/// - Returns: lock obtained
  	func lock(partTreeAs newOwner:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
-		guard newOwner != nil else {	return true 							}
-		let u_name				= ppUid(self) + " '\(newOwner!)'".field(-20)
+		guard let newOwner else {	return true 								}
+		let u_name				= ppUid(self) + " '\(newOwner)'".field(-20)
 								
 		atBld(3, {					// === ///// BEFORE GETTING:
 			let val0			= partTreeLock.value ?? -99
@@ -415,7 +415,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		}
 
 		 // === SUCCEEDED to get lock:
-		assert(partTreeOwner==nil, "\(newOwner!) Locking, but \(partTreeOwner!) lingers ")
+		assert(partTreeOwner==nil, "\(newOwner) Locking, but \(partTreeOwner!) lingers ")
 		partTreeOwner		= newOwner
 		atBld(3, {						// === /////  AFTER GETTING:
 			let msg			= "\(u_name)      GOT Part LOCK: v:\(partTreeLock.value ?? -99)"

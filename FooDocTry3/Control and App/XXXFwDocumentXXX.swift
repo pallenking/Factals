@@ -299,7 +299,7 @@
 //			if params4scene[name] != nil {
 //				toParams4guts[name] = value	// 2a: Entry with pre-existing key
 //				used			= true 											}
-//			 // Dump val:FwConfig of "scene" into fwGuts.config4guts
+//			 // Dump val:FwConfig of "scene" into fwGuts.config4fwGuts
 //			if let scene		= config.fwConfig("scene") {
 //				toParams4guts	+= scene 		// 2b. all entries in "scene"
 //				used			= true 											}
@@ -329,8 +329,8 @@
 //		 // Scene:
 //		if toParams4guts.count > 0 {
 //			if fwGuts != nil {
-//				atCon(2, logd("\t -> config4guts:            \(toParams4guts.pp(.line))"))
-//				fwGuts!.config4guts += toParams4guts
+//				atCon(2, logd("\t -> config4fwGuts:            \(toParams4guts.pp(.line))"))
+//				fwGuts!.config4fwGuts += toParams4guts
 //			}else{
 //				atCon(2, logd("\t -> IGNORING fwGuts==nil: \(toParams4guts.pp(.line))"))
 //			}

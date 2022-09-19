@@ -214,7 +214,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 				toParams4guts[name] = value	// 2a: Entry with pre-existing key
 				used			= true
 			}
-			 // Dump val:FwConfig of "scene" into fwGuts.config4guts
+			 // Dump val:FwConfig of "scene" into fwGuts.config4fwGuts
 			if let scene		= config.fwConfig("scene") {
 				toParams4guts	+= scene 		// 2b. all entries in "scene"
 				used			= true
@@ -245,8 +245,8 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 		 // Scene:
 		if toParams4guts.count > 0 {
-			atCon(2, logd("\t -> config4guts:            \(toParams4guts.pp(.line))"))
-			fwGuts.config4guts += toParams4guts
+			atCon(2, logd("\t -> config4fwGuts:            \(toParams4guts.pp(.line))"))
+			fwGuts.config4fwGuts += toParams4guts
 		}
 		 // Simulator
 		if toParams4sim.count > 0 {

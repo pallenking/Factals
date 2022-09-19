@@ -78,11 +78,11 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 
 	var pole					= SCNNode()		// focus of mouse rotator
 
-	var config4guts : FwConfig = [:] {
-		didSet {	//if config4guts != oldValue {
-			animatePhysics 		= config4guts.bool("animatePhysics") ?? false
-			assert(config4guts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
-			if let gravityAny	= config4guts["gravity"] {
+	var config4fwGuts : FwConfig = [:] {
+		didSet {	//if config4fwGuts != oldValue {
+			animatePhysics 		= config4fwGuts.bool("animatePhysics") ?? false
+			assert(config4fwGuts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
+			if let gravityAny	= config4fwGuts["gravity"] {
 				if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
 					scnScene.physicsWorld.gravity = gravityVect
 				}
@@ -90,7 +90,7 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 					scnScene.physicsWorld.gravity.y = gravityY
 				}
 			}
-			if let speed		= config4guts.cgFloat("speed") {
+			if let speed		= config4fwGuts.cgFloat("speed") {
 				scnScene.physicsWorld.speed = speed
 			}
 			//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
@@ -109,7 +109,7 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
 		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
 
-		config4guts			= fwConfig
+		config4fwGuts			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 
 		// TO DO:
@@ -178,7 +178,7 @@ bug
 	/// Optain DispatchSemaphor for Vew Tree
 	/// - Parameters:
 	///   - lockName: get lock under this name. nil --> don't lock
-	///   - logIf: logIf description
+	///   - logIf: log the description
 	/// - Returns: description
 	func lock(vewTreeAs lockName:String?=nil, logIf:Bool=true) -> Bool {
 		guard let lockName else {	return true		/* no lock needed */		}
@@ -212,6 +212,10 @@ bug
 		}())
 		return true
 	}
+	/// Release DispatchSemaphor for Vew Tree
+	/// - Parameters:
+	///   - lockName: get lock under this name. nil --> don't lock
+	///   - logIf: log the description
 	func unlock(vewTreeAs lockName:String?=nil, logIf:Bool=true) {
 		guard lockName != nil else {	return 			/* no lock to return */	}
 		assert(rootVewOwner != nil, "releasing VewTreeLock but 'rootVewOwner' is nil")
@@ -306,30 +310,11 @@ bug
 		newCameraScn.name		= "camera"
 		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 		rootScn.addChildNode(newCameraScn)
-
-		 // Configure Camera from Source Code:
-		if let c 				= config.fwConfig("camera") {
-			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-				lastSelfiePole.height = CGFloat(h)
-			}
-			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
-			}
-			if let s 			= c.float("s"), !s.isNan {	// Spin
-				lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
-			}
-			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				lastSelfiePole.zoom = CGFloat(z)
-			}
-			atRve(2, logd("=== Set camera=\(c.pp(.line))"))
-		}
-
-
 	}
 	  // MARK: - 9.3.1 Look At Pole
 	 // ///// Rebuild the Rotator Pole afresh
 	func updatePoleScn() {			// was updatePole()
-		guard config4guts.bool_("pole") else {	return							}
+		guard config4fwGuts.bool_("pole") else {	return							}
 
 		let name				= "*-pole"
 		 // Delete any Straggler
@@ -388,7 +373,7 @@ bug
 		pole.addChild(node:origin)
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if config4guts.bool("poleTics") ?? false {
+		if config4fwGuts.bool("poleTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -405,9 +390,8 @@ bug
 	}
 
 	 // MARK: 9.3.2 Look At Spot
-//	var lookAtPart : Part? 		= nil
-	var lookAtVew  : Vew?		= nil
-	var lastSelfiePole 			= SelfiePole()						// init to default
+	var lookAtVew  : Vew?		= nil					// Vew we are looking at
+	var lastSelfiePole 			= SelfiePole()			// init to default
 
 	 // MARK: 9.3.3 Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
@@ -417,7 +401,7 @@ bug;	let fwGuts				= DOCfwGuts
 
 		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
-		let animateIt			= config4guts.bool_("animatePole")
+		let animateIt			= config4fwGuts.bool_("animatePole")
 		if animateIt {	 // Animate 3D Cursor Pole motion"
 			SCNTransaction.begin()
 //			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
@@ -503,7 +487,7 @@ bug;	let fwGuts				= DOCfwGuts
 			}
 		}
 
-		let vanishingPoint 		= config4guts.double("vanishingPoint")
+		let vanishingPoint 		= config4fwGuts.double("vanishingPoint")
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
@@ -515,7 +499,7 @@ bug;	let fwGuts				= DOCfwGuts
 									//
 									//		 // Set zoom per horiz/vert:
 									//		var zoomSize			= bSize.y	// default when height dominates
-									//		if let vanishingPoint 	= config4guts.double("vanishingPoint"),
+									//		if let vanishingPoint 	= config4fwGuts.double("vanishingPoint"),
 									//		  vanishingPoint.isFinite {			// Perspective
 									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
 									//		} 								// Orthographic
@@ -527,7 +511,7 @@ bug;	let fwGuts				= DOCfwGuts
 									//		}
 
 		if duration > 0.0,
-		  config4guts.bool("animatePan") ?? false {
+		  config4fwGuts.bool("animatePan") ?? false {
 			SCNTransaction.begin()			// Delay for double click effect
 			atRve(8, logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
@@ -566,10 +550,49 @@ bug;	let fwGuts				= DOCfwGuts
 			fatalError("createVews  couldn't get VIEW lock")
 		}
 
-		 // 2. Set LookAtNode's position
-//		if let lookAtPart		= lookAtPart ?? DOCrootPartQ {
-//			lookAtVew 			= rootVew.find(part:lookAtPart, inMe2:true)
+
+		 // Configure Camera from Source Code:
+		if let c 				= config4fwGuts.fwConfig("camera") {
+			if let h 			= c.float("h"), !h.isNan {	// Pole Height
+				lastSelfiePole.height = CGFloat(h)
+			}
+			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
+				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+			}
+			if let s 			= c.float("s"), !s.isNan {	// Spin
+				lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+			}
+			if let z 			= c.float("z"), !z.isNan {	// Zoom
+				lastSelfiePole.zoom = CGFloat(z)
+			}
+			atRve(2, logd("=== Set camera=\(c.pp(.line))"))
+		}
+
+		 // Camera looks at target:
+		if let doc				= fooDocTry3Document,
+		 let laStr				= config4fwGuts.string("lookAt"),
+		  laStr != ""
+		{
+			let laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true)
+			lookAtVew 			=
+
+			assertWarn(laPart != nil, "lookAt: '\(laStr)' failed to find part")
+			lookAtPart			= laPart ?? 				// from configure
+								  rootVew.child0?.part ??	// from rootVew child[0]
+								  doc.rootPart				// from doc
+		}
+//		if let doc				= fooDocTry3Document,
+//		 let laStr				= config4scene.string("lookAt"),
+//		  laStr != ""
+//		{
+//			let laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true)
+//			assertWarn(laPart != nil, "lookAt: '\(laStr)' failed to find part")
+//			lookAtPart			= laPart ?? 				// from configure
+//								  rootVew.child0?.part ??	// from rootVew child[0]
+//								  doc.rootPart				// from doc
 //		}
+
+		 // 2. Set LookAtNode's position
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
@@ -579,7 +602,7 @@ bug;	let fwGuts				= DOCfwGuts
 
 		 // 4. Add Camera, Light, and Pole at end
 		updateLightsScn()							// was updateLights
-		updateCamerasScn(config4guts)
+		updateCamerasScn(config4fwGuts)
 		updatePoleScn()
 
 		updatePole2Camera(reason:"install RootPart")
@@ -1013,7 +1036,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 	}
-//		if config4guts.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
+//		if config4fwGuts.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 //
 //			 // Mark old SCNNode as Morphing
 //			let oldScn			= vew.scn
