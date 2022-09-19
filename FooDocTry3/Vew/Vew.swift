@@ -634,13 +634,14 @@ class Vew : NSObject, ObservableObject, Codable {	//
 			return bBoxScn
 		} ()
 
-		 // Customize existing bBox:
+		 // Set bBox size by it's .scale transform modifier
 		wBoxScn.position		= bBox.center	//(bBox.min + bBox.max) / 2	// Read bBox
 		wBoxScn.scale			= bBox.size / 2	//(bBox.min - bBox.max) / 2
 		wBoxScn.color0 			= color1
 		 // Put size in as SCNNode comment
-		let bBoxCom 			= wBoxScn as? SCNComment
-		bBoxCom?.comment 		= "bb:\(bBox.pp(.line))"
+		if let bBoxCom 			= wBoxScn as? SCNComment {
+			bBoxCom.comment 	= "bb:\(bBox.pp(.line))"
+		}
 		 // Undo hidden
 		wBoxScn.isHidden		= false
 	}

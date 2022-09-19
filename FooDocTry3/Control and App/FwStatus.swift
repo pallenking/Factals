@@ -261,7 +261,7 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 		var myLine				= "rootVew:\(ppUid(self.rootVew,  showNil:true)) "
 		myLine					+= self.rootVewOwner != nil ? "OWNER:'\(self.rootVewOwner!)' " : "UNOWNED "
 		myLine					+= "pole:w\(self.pole.convertPosition(.zero, to:rootScn).pp(.short)) "
-		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"
+		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.fwScn.scnScene.isPaused))"
 		return ppFwStateHelper("FwGuts      ", uid:self,
 			myLine: myLine,
 			deapth:deapth)

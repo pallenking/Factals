@@ -1,38 +1,8 @@
 //  FwGuts.swift -- All the 3D things in a FwView 2D window  C2018PAK
 
-// Supports: Camera, Lights, 3D Cursor,
-//   Collisions, Animations (esp for positioning)
+// Coordinates Operation of root, vew, and scn
 
 import SceneKit
-
-//		Concepts:
-//	The camera is positioned in the world with the camera transform
-//
-//                3D MODEL SPACE       camera
-//    model             v                ^         LOCAL
-//     coords:          |                |					getModelViewMatrix()
-//                \ ∏ Tmodel i/    trans = cameraScn.transform
-//                 \  Matrix /           |
-//    world    =====    v   =============*============ WORLD		[x, y, z, 1]
-//     coords:          |
-//               \ trans.inverse /
-//                \   Matrix    /
-//    camera   ======   v    ========================= EYE			[x, y, z, 1]
-//     coords:          |
-//                \ PROJECTION /
-//                 \  Matrix  /pm
-//    clip     ======   v    ========================= ?        	[x, y, 1]
-//     coords:          |
-//                \ Perspective/         (not used)
-//                 \ division /
-//    device   ======   v    ========================= RETINA:		[x, y, 1]
-//     coords:          |								CLIP
-//                 \ Viewport /  A = | fx 0  cx |  Intrinsic Matrix
-//                  \ Matrix /       | 0  fy cy |  f = focal length
-//    window            v			 			   c = center of image
-//     coords:          |
-//             ====== SCREEN ========================= SCREEN		[x, y]
-// https://learnopengl.com/Getting-started/Coordinate-Systems
 
  // Kinds of Nodes
 enum FwNodeCategory : Int {
@@ -57,17 +27,19 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil
 	}
-	var scnView	 : SCNView?		= nil
-	var scnScene : SCNScene
 
-	 // ///////// SCNNode Tree:
-	var rootScn  : SCNNode	{	scnScene.rootNode									}	//scnRoot
-	var trunkScn : SCNNode? {
-		if let tv				= trunkVew  {
-			return tv.scn
-		}
-		fatalError("trunkVew is nil")
-	}
+	 // ///////// SCNNode Stuff
+	var fwScn	 : FwScn//!		= nil
+
+//	var scnView	 : SCNView?		= nil
+//	var scnScene : SCNScene
+//	var rootScn  : SCNNode	{	scnScene.rootNode									}	//scnRoot
+//	var trunkScn : SCNNode? {
+//		if let tv				= trunkVew  {
+//			return tv.scn
+//		}
+//		fatalError("trunkVew is nil")
+//	}
 	var fooDocTry3Document : FooDocTry3Document!
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
@@ -82,30 +54,31 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 			assert(config4fwGuts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
 			if let gravityAny	= config4fwGuts["gravity"] {
 				if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
-					scnScene.physicsWorld.gravity = gravityVect
+					fwScn.scnScene.physicsWorld.gravity = gravityVect
 				}
 				else if let gravityY: Double = gravityAny.asDouble {
-					scnScene.physicsWorld.gravity.y = gravityY
+					fwScn.scnScene.physicsWorld.gravity.y = gravityY
 				}
 			}
 			if let speed		= config4fwGuts.cgFloat("speed") {
-				scnScene.physicsWorld.speed = speed
+				fwScn.scnScene.physicsWorld.speed = speed
 			}
 			//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 		}
 	}
 	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
 	var animatePhysics : Bool {
-		get {			return !scnScene.isPaused									}
-		set(v) {		scnScene.isPaused = !v										}
+		get {			return !fwScn.scnScene.isPaused							}
+		set(v) {		fwScn.scnScene.isPaused = !v							}
 	}
 
 		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	 // MARK: - 3. Factory
 	convenience init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
-
 		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
 		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
+		fwScn					= FwScn()
+		fwScn.fwGuts			= self
 
 		config4fwGuts			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
@@ -117,12 +90,16 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 	}
 	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
+//	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
 		assert(scene != nil, "FwGuts(scene is nil")
-		self.scnScene			= scene!
+bug//;	self.fwScn.scnScene		= fwScn.scnScene
 		self.rootVew			= Vew(forPart:rootPart, scn:scene!.rootNode)
+		self.fwScn				= FwScn(scnScene:scene!)
 		super.init()
-	}	
+		 // Back Links
+		self.fwScn.fwGuts		= self
+	}
 
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
@@ -283,7 +260,7 @@ bug
 	}
 	 // MARK: - 9.2 Camera
 	 // Get camera node from SCNNode
-	var cameraScn : SCNNode?	{	scnScene.cameraScn							}
+	var cameraScn : SCNNode?	{	fwScn.scnScene.cameraScn					}
 	func updateCamerasScn(_ config:FwConfig) {
 
 		 // Delete any Straggler
@@ -396,7 +373,7 @@ bug
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 bug;	let fwGuts				= DOCfwGuts
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:fwGuts.rootScn)
+		let wPosn				= fwScn.scnScene.rootNode.convertPosition(localPoint, to:fwGuts.fwScn.rootScn)
 
 		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
@@ -414,9 +391,10 @@ bug;	let fwGuts				= DOCfwGuts
 			SCNTransaction.commit()
 		}
 	}
-	//		let c = lastSelfiePole
-	//		rv += fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
-	//				c.spin, c.horizonUp, c.zoom) // in degrees
+
+
+
+
 
 	/// Compute Camera Transform from pole config
 	/// - Parameters:
@@ -424,53 +402,46 @@ bug;	let fwGuts				= DOCfwGuts
 	///   - message: for logging only
 	///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-		let selfiePole : SelfiePole	= lastSelfiePole
 
-			// Imagine a camera A on a selfie stick, pointing back to the holder B
-		   //
-		  // From Origin to Camera, in steps: Pole about Origin
-		 //  ---- spun about Y axis
-		let spin				= selfiePole.spin * .pi / 180.0
-		var poleSpinAboutY		= SCNMatrix4MakeRotation(spin, 0, 1, 0)
+		zoom4fullScreen(selfiePole:lastSelfiePole, cameraScn:cameraScn!)
 
-		 //  ---- translated above Point of Interest by cameraPoleHeight
-		let posn				= lookAtVew?.bBox.center ?? .zero
-		let lookAtWorldPosn		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
-		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
+		if duration > 0.0,
+		  config4fwGuts.bool("animatePan") ?? false {
+			SCNTransaction.begin()			// Delay for double click effect
+			atRve(8, logd("  /#######  animatePan: BEGIN All"))
+			SCNTransaction.animationDuration = CFTimeInterval(0.5)
+			 // 181002 must do something, or there is no delay
+			cameraScn!.transform *= 0.999999	// virtually no effect
+			SCNTransaction.completionBlock = {
+				SCNTransaction.begin()			// Animate Camera Update
+				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
+				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-		poleSpinAboutY.position	= lookAtWorldPosn + selfiePole.at
-//		let lap 				= lookAtWorldPosn
-//		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+selfiePole.at.y, lap.z)
+				self.cameraScn!.transform = self.lastSelfiePole.transform
 
-		 //  ---- With a boom (crane or derek) raised upward above the horizon:
-		let upTilt				= selfiePole.horizonUp * .pi / 180.0
-		let riseAboveHoriz		= SCNMatrix4MakeRotation(upTilt, 1, 0, 0)
-
-		 //  ---- move out boom from pole, looking backward:
-		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50*selfiePole.zoom) //cameraZoom)//10 ad hoc .5
-
-		let newCameraXform		= toEndOfBoom * riseAboveHoriz * poleSpinAboutY
-		assert(!newCameraXform.isNan, "newCameraXform is Not a Number")
-		assert(newCameraXform.at(3,3) == 1.0, "why?")	// Understand cameraXform.at(3,3). Is it 1.0? is it prudent to change it here
-
-				//		 // OLD WAY -- SORTA WORKS:  Transform root bbox into camera:
-				//		let bBox				= rootVew.bBox			// in world coords
-				//		let transform2eye		= SCNMatrix4Invert(cameraScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
-				////	let x					= cameraScn.camera?.projectionTransform
-				//		let bBoxScreen			= bBox.transformed(by:transform2eye)
-				//		let bSize				= bBoxScreen.size
-		if cameraScn == nil {
-			print("cameraScn is nil")
-			return
+				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
+				SCNTransaction.commit()
+			}
+			atRve(8, logd("  \\#######  animatePan: COMMIT All"))
+			SCNTransaction.commit()
 		}
+		else {
+			self.cameraScn!.transform = self.lastSelfiePole.transform
+		}
+	}
+		
+	/// Set Camera's transform so that all parts of the scene are seen.
+	/// - Parameters:
+	///   - selfiePole: look points looking at it's origin
+	///   - camScn: camera
+	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn camScn:SCNNode) {
 
-		  // Determine magnification so all parts of the 3D object are seen.
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(cameraScn!.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(camScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-		guard let nsRectSize	= scnView?.frame.size  else  {	fatalError()	}
+		guard let nsRectSize	= fwScn.scnView?.frame.size  else  {	fatalError()	}
 
 		var orientation			= "Height Dominated"
 		var zoomSize			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
@@ -487,53 +458,17 @@ bug;	let fwGuts				= DOCfwGuts
 				zoomSize		/= ratioHigher
 			}
 		}
-
 		let vanishingPoint 		= config4fwGuts.double("vanishingPoint")
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-			guard let cam		= cameraScn!.camera else { fatalError("cameraScn.camera is nil") 	}
-			cam.usesOrthographicProjection = true		// camera’s magnification factor
-			cam.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
+			guard let c:SCNCamera = camScn.camera else { fatalError("cameraScn.camera is nil") 	}
+			c.usesOrthographicProjection = true		// camera’s magnification factor
+			c.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
+		} else {
+			camScn.transform	= selfiePole.transform
 		}
-	//	print(fmt("FwGuts resize \(orientation):\(rootVewBbInEye.pp(.line)), vanishingPoint:%.2f)", zoomSize, vanishingPoint ?? -.infinity))
-									//
-									//		 // Set zoom per horiz/vert:
-									//		var zoomSize			= bSize.y	// default when height dominates
-									//		if let vanishingPoint 	= config4fwGuts.double("vanishingPoint"),
-									//		  vanishingPoint.isFinite {			// Perspective
-									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), vanishingPoint:%.2f)", vanishingPoint))
-									//		} 								// Orthographic
-									//		else if let cam			= cameraScn.camera {
-									//			//print(fmt("\(orientation):\(bBoxScreen.pp(.line)), zoomSize:%.2f)", zoomSize))
-									//			cam.usesOrthographicProjection = true		// camera’s magnification factor
-									//			cam.orthographicScale = Double(zoomSize * pole.zoom * 0.75)
-									////			cam.orthographicScale = Double(orthoScale * pole.zoom * 0.75)
-									//		}
-
-		if duration > 0.0,
-		  config4fwGuts.bool("animatePan") ?? false {
-			SCNTransaction.begin()			// Delay for double click effect
-			atRve(8, logd("  /#######  animatePan: BEGIN All"))
-			SCNTransaction.animationDuration = CFTimeInterval(0.5)
-			 // 181002 must do something, or there is no delay
-			cameraScn!.transform *= 0.999999	// virtually no effect
-			SCNTransaction.completionBlock = {
-				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
-				SCNTransaction.animationDuration = CFTimeInterval(duration)
-
-				self.cameraScn!.transform = newCameraXform
-
-				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
-				SCNTransaction.commit()
-			}
-			atRve(8, logd("  \\#######  animatePan: COMMIT All"))
-			SCNTransaction.commit()
-		}
-		else {
-			cameraScn!.transform = newCameraXform
-		}
+		logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize)
 	}
 
 	 /// Build Vew and SCN tree from Part tree for the first time
@@ -785,19 +720,19 @@ bug;	let fwGuts				= DOCfwGuts
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:scnView)
+			let t 				= nsEvent.touches(matching:.began, in:fwScn.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:scnView)
+			let t 				= nsEvent.touches(matching:.moved, in:fwScn.scnView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:scnView)
+			let t 				= nsEvent.touches(matching:.ended, in:fwScn.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
@@ -959,7 +894,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
 								//		 + +   + +
-		let hits:[SCNHitTestResult]	= scnView!.hitTest(mouse, options:configHitTest)
+		let hits:[SCNHitTestResult]	= fwScn.scnView!.hitTest(mouse, options:configHitTest)
 								//		 + +   + +
 
 //        let hits 				= scnView.hitTest(mouse, options:configHitTest)

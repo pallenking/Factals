@@ -341,6 +341,7 @@ bug;	let rv					= NSMenu(title:path)
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
 		let fwGuts				= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
 		let doc					= FooDocTry3Document(fwGuts:fwGuts)
+		 // Backlinks
 		rootPart.fwGuts			= fwGuts	// owner
 		fwGuts.fooDocTry3Document = doc
 

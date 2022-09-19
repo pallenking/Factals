@@ -168,7 +168,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 				// Build Vews after View is loaded:
 /**/	fwGuts.createVewNScn()
 
-		guard let view			= fwGuts.scnView else {fatalError("fwGuts.scnView == nil")}
+		guard let view			= fwGuts.fwScn.scnView else {fatalError("fwGuts.scnView == nil")}
 		view.isPlaying			= true			// does nothing
 		view.showsStatistics 	= true			// works fine
 		view.debugOptions 		= [			// enable display of:

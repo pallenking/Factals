@@ -44,9 +44,9 @@ struct SceneKitHostingView : NSViewRepresentable {
 
 		 // Connect FwGuts
 		if let fwGuts			= args.fwGuts {
-			fwGuts.scnView		= scnView			// Link things SceneKitHostingView generated
+			fwGuts.fwScn.scnView = scnView			// Link things SceneKitHostingView generated
 			guard let scnScene	= scnView.scene else {	fatalError("makeNSView with nil SCNScene") }
-			fwGuts.scnScene		= scnScene
+			fwGuts.fwScn.scnScene = scnScene
 			let rootScn			= scnScene.rootNode
 			rootScn.name		= "*-ROOT"
 			fwGuts.rootVew.scn = rootScn			// set Vew with new scn root
@@ -73,6 +73,7 @@ struct SceneKitHostingView : NSViewRepresentable {
 		return scnView
 	}
 	
-	 // Unsupported
-	func updateNSView(_ nsView: SCNView, context: Context) {	}
+	func updateNSView(_ nsView: SCNView, context: Context) {
+		print("----------- SceneKitHostingView.updateNSView called")
+	}
 }

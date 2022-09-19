@@ -48,7 +48,7 @@ bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 		if trueF {				//trueF//falseF
 			return
 		}
-		guard let node			= onNode ?? DOCfwGutsQ?.rootScn else {
+		guard let node			= onNode ?? DOCfwGutsQ?.fwScn.rootScn else {
 			return print("###### Couldn't find SCNNode to play sound")
 		}
 bug//	DOC.fwView?.audioListener = node

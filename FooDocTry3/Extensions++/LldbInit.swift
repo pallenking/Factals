@@ -44,13 +44,13 @@ func rootvew(_ name:String?=nil) -> Vew  {
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-var  rootScn  : SCNNode  		{  DOCfwGutsQ?.rootScn ?? .null				}
+var  rootScn  : SCNNode  		{  DOCfwGutsQ?.fwScn.rootScn ?? .null				}
 func rootscn(_ name:String?=nil) -> SCNNode	{
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}
-	var scnRv					= fwGuts.rootScn				//fwGuts.rootScn 	// Root
+	var scnRv					= fwGuts.fwScn.rootScn				//fwGuts.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {
