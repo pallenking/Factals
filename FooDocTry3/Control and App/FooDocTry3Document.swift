@@ -166,7 +166,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	mutating func didLoadNib(to view:Any) {
 
 				// Build Vews after View is loaded:
-/**/	fwGuts.createVewNScn()
+/**/	fwGuts.fwScn.createVewNScn()
 
 		guard let view			= fwGuts.fwScn.scnView else {fatalError("fwGuts.scnView == nil")}
 		view.isPlaying			= true			// does nothing

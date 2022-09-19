@@ -59,7 +59,7 @@ class XXXX_StuffToSave {
 		var selfiePole			= fwGuts.lastSelfiePole
 		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-		fwGuts.updatePole2Camera(reason:"dragGesture")
+		fwGuts.fwScn.updatePole2Camera(reason:"dragGesture")
 	}
 	func dragGestureEnd(value v:DragGesture.Value) {
 		let fwGuts				= DOCfwGuts
@@ -68,7 +68,7 @@ class XXXX_StuffToSave {
 
 		fwGuts.lastSelfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 		fwGuts.lastSelfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-		fwGuts.updatePole2Camera(reason:"dragGestureEnd")
+		fwGuts.fwScn.updatePole2Camera(reason:"dragGestureEnd")
 	}
 	func tapGesture(value v:TapGesture.Value, count:Int) {
 		let fwGuts				= DOCfwGuts

@@ -212,315 +212,315 @@ bug
 		}
 	}
 	 // MARK: -
-	 // MARK: - 9.1 Lights
-	func addLightsToScn() {
-		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
-		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
-		let _ 					= helper("ambient2",.ambient,color:NSColor.white, intensity:500)				//blue//
-		let _ 					= helper("omni2",	.omni,	 color:NSColor.green, intensity:500)				//blue//
-//		let _ 					= helper("omni3",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
-//		let spot 				= helper("spot",	.spot,	 position:SCNVector3(1.5, 1.5, 1.5))
-//		 spot.light!.spotInnerAngle = 30.0
-//		 spot.light!.spotOuterAngle = 80.0
-//		 spot.light!.castsShadow = true
-//		 let constraint 		= SCNLookAtConstraint(target:nil)
-//		 constraint.isGimbalLockEnabled = true
-//		 cameraScn.constraints 	= [constraint]
-//		 spot.constraints 		= [constraint]
-//		for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraScn)] {
-//			rv					+= "\(msg) =       \(obj.categoryBitMask)-"
-//			rv					+= "\(obj.description.shortenStringDescribing())\n"
+//	 // MARK: - 9.1 Lights
+//	func addLightsToScn() {
+//		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
+//		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
+//		let _ 					= helper("ambient2",.ambient,color:NSColor.white, intensity:500)				//blue//
+//		let _ 					= helper("omni2",	.omni,	 color:NSColor.green, intensity:500)				//blue//
+////		let _ 					= helper("omni3",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
+////		let spot 				= helper("spot",	.spot,	 position:SCNVector3(1.5, 1.5, 1.5))
+////		 spot.light!.spotInnerAngle = 30.0
+////		 spot.light!.spotOuterAngle = 80.0
+////		 spot.light!.castsShadow = true
+////		 let constraint 		= SCNLookAtConstraint(target:nil)
+////		 constraint.isGimbalLockEnabled = true
+////		 cameraScn.constraints 	= [constraint]
+////		 spot.constraints 		= [constraint]
+////		for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraScn)] {
+////			rv					+= "\(msg) =       \(obj.categoryBitMask)-"
+////			rv					+= "\(obj.description.shortenStringDescribing())\n"
+////		}
+//		func helper(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
+//					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
+//			 // Complain Straggler
+//			assert(rootScn.find(name:name) == nil, "Who put the node named '\(name)' here? !!!")
+//
+//			let light			= SCNLight()
+//			light.type 			= lightType
+//			if let color		= color {
+//				light.color = color
+//			}
+//			let rv 				= SCNNode()
+//			rv.light			= light
+//			rv.name				= name
+//			light.intensity 	= intensity
+//			if let position		= position {
+//				rv.position 	= position
+//			}
+//			rootScn.addChildNode(rv)											// rootScn.addChild(node:newLight)
+//			return rv
 //		}
-		func helper(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
-					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
-			 // Complain Straggler
-			assert(rootScn.find(name:name) == nil, "Who put the node named '\(name)' here? !!!")
-
-			let light			= SCNLight()
-			light.type 			= lightType
-			if let color		= color {
-				light.color = color
-			}
-			let rv 				= SCNNode()
-			rv.light			= light
-			rv.name				= name
-			light.intensity 	= intensity
-			if let position		= position {
-				rv.position 	= position
-			}
-			rootScn.addChildNode(rv)											// rootScn.addChild(node:newLight)
-			return rv
-		}
-	}
-	 // MARK: - 9.2 Camera
-	 // Get camera node from SCNNode
-//	var cameraScn : SCNNode?	{	fwScn.scnScene.cameraScn					}
-	func addCameraToScn(_ config:FwConfig) {
-		assert(rootScn.find(name:"camera") == nil, "Who put the node named '\("camera")' here? !!!")
-
-		 // Just make a whole new camera system from scratch
-		let camera				= SCNCamera()
-		camera.name				= "SCNCamera"
-		camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
-		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
-		camera.exposureAdaptationDarkeningSpeedFactor = 1
-		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-		//camera.zNear			= 1
-		//camera.zFar			= 100
-														// NOOO	addChildNode(camera!)
-		let newCameraScn		= SCNNode()
-		newCameraScn.camera		= camera
-		newCameraScn.name		= "camera"
-		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		rootScn.addChildNode(newCameraScn)
-	}
-	  // MARK: - 9.3.1 Look At Pole
-	 // ///// Rebuild the Axis Markings
-	func addAxesScn() {			// was updatePole()
-		guard config4fwGuts.bool_("axisMark") else {	return					}
-
-		let name				= "*-pole"
-		 // Delete any Straggler
-		if let stragglerNode = rootScn.find(name:name) {
-			warning("Who put the node named '\(name)' here? !!!")
-			stragglerNode.removeFromParentNode()
-		}
-		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
-		pole					= SCNNode()				// New pole
-		pole.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		rootScn.addChild(node:pole)
-		pole.name				= name
-
-		 // X/Z Poles (thinner)
-		let r : CGFloat			= 0.03
-		for i in 0..<2 {
-			let arm 			= SCNNode(geometry:SCNCylinder(radius:r, height:axesLen.x))
-			arm.categoryBitMask = FwNodeCategory.adornment.rawValue
-			arm.transform		= SCNMatrix4Rotate(SCNMatrix4.identity, CGFloat.pi/2,
-								(i == 0 ? 1 : 0), 0, (i == 1 ? 1 : 0)  )
-			arm.name			= "s-Cyl\(i)"
-			arm.color0			= .lightGray
-			arm.color0(emission:systemColor)
-			pole.addChild(node:arm)
-
-			let nTics			= [axesLen.x, axesLen.z][i]
-			addAxisTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
-		}
-		 // Y Pole (thicker) 
-		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
-		upPole.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		upPole.position.y		+= axesLen.y / 2
-		upPole.name				= "s-CylT"
-		upPole.color0			= .lightGray
-		upPole.color0(emission:systemColor)
-		addAxisTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
-		pole.addChild(node:upPole)
-
-
-		 // Experimental label
-		let geom				= SCNText(string:"Origin", extrusionDepth:1)
-		geom.containerFrame		= CGRect(x:-0.5, y:-0.5, width:1, height:1)
-		let label		 		= SCNNode(geometry:geom)
-		label.name				= "Origin"
-		label.color0			= .black
-		label.color0(emission:systemColor)
-		pole.addChild(node:label)
-
-
-		 // Origin Node is a pyramid
-		let origin		 		= SCNNode(geometry:SCNSphere(radius:r*4))
-		origin.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		origin.name				= "s-Pyr"
-		origin.color0			= .black
-		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
-		pole.addChild(node:origin)
-	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
-	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if config4fwGuts.bool("axisTics") ?? false {
-			let pos				= toNode.position
-			for j in Int(from)...Int(to) where j != 0 {
-				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
-				tic.categoryBitMask	= FwNodeCategory.adornment.rawValue
-				tic.name		= "tic\(j)"
-				tic.transform 	= SCNMatrix4MakeRotation(.pi/2, 1, 0, 0)
-				tic.position 	= SCNVector3(0, CGFloat(j), 0) - pos
-				tic.scale		= SCNVector3(1, 1, 0.5)				
-				tic.color0		= .black
-				tic.color0(emission:systemColor)
-				toNode.addChild(node:tic)
-			}
-		}
-	}
+//	}
+//	 // MARK: - 9.2 Camera
+//	 // Get camera node from SCNNode
+////	var cameraScn : SCNNode?	{	fwScn.scnScene.cameraScn					}
+//	func addCameraToScn(_ config:FwConfig) {
+//		assert(rootScn.find(name:"camera") == nil, "Who put the node named '\("camera")' here? !!!")
+//
+//		 // Just make a whole new camera system from scratch
+//		let camera				= SCNCamera()
+//		camera.name				= "SCNCamera"
+//		camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
+//		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+//		camera.exposureAdaptationDarkeningSpeedFactor = 1
+//		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
+//		//camera.zNear			= 1
+//		//camera.zFar			= 100
+//														// NOOO	addChildNode(camera!)
+//		let newCameraScn		= SCNNode()
+//		newCameraScn.camera		= camera
+//		newCameraScn.name		= "camera"
+//		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
+//		rootScn.addChildNode(newCameraScn)
+//	}
+//	  // MARK: - 9.3.1 Look At Pole
+//	 // ///// Rebuild the Axis Markings
+//	func addAxesScn() {			// was updatePole()
+//		guard config4fwGuts.bool_("axisMark") else {	return					}
+//
+//		let name				= "*-pole"
+//		 // Delete any Straggler
+//		if let stragglerNode = rootScn.find(name:name) {
+//			warning("Who put the node named '\(name)' here? !!!")
+//			stragglerNode.removeFromParentNode()
+//		}
+//		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
+//		pole					= SCNNode()				// New pole
+//		pole.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//		rootScn.addChild(node:pole)
+//		pole.name				= name
+//
+//		 // X/Z Poles (thinner)
+//		let r : CGFloat			= 0.03
+//		for i in 0..<2 {
+//			let arm 			= SCNNode(geometry:SCNCylinder(radius:r, height:axesLen.x))
+//			arm.categoryBitMask = FwNodeCategory.adornment.rawValue
+//			arm.transform		= SCNMatrix4Rotate(SCNMatrix4.identity, CGFloat.pi/2,
+//								(i == 0 ? 1 : 0), 0, (i == 1 ? 1 : 0)  )
+//			arm.name			= "s-Cyl\(i)"
+//			arm.color0			= .lightGray
+//			arm.color0(emission:systemColor)
+//			pole.addChild(node:arm)
+//
+//			let nTics			= [axesLen.x, axesLen.z][i]
+//			addAxisTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
+//		}
+//		 // Y Pole (thicker)
+//		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
+//		upPole.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//		upPole.position.y		+= axesLen.y / 2
+//		upPole.name				= "s-CylT"
+//		upPole.color0			= .lightGray
+//		upPole.color0(emission:systemColor)
+//		addAxisTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
+//		pole.addChild(node:upPole)
+//
+//
+//		 // Experimental label
+//		let geom				= SCNText(string:"Origin", extrusionDepth:1)
+//		geom.containerFrame		= CGRect(x:-0.5, y:-0.5, width:1, height:1)
+//		let label		 		= SCNNode(geometry:geom)
+//		label.name				= "Origin"
+//		label.color0			= .black
+//		label.color0(emission:systemColor)
+//		pole.addChild(node:label)
+//
+//
+//		 // Origin Node is a pyramid
+//		let origin		 		= SCNNode(geometry:SCNSphere(radius:r*4))
+//		origin.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//		origin.name				= "s-Pyr"
+//		origin.color0			= .black
+//		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
+//		pole.addChild(node:origin)
+//	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
+//	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
+//		if config4fwGuts.bool("axisTics") ?? false {
+//			let pos				= toNode.position
+//			for j in Int(from)...Int(to) where j != 0 {
+//				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
+//				tic.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//				tic.name		= "tic\(j)"
+//				tic.transform 	= SCNMatrix4MakeRotation(.pi/2, 1, 0, 0)
+//				tic.position 	= SCNVector3(0, CGFloat(j), 0) - pos
+//				tic.scale		= SCNVector3(1, 1, 0.5)
+//				tic.color0		= .black
+//				tic.color0(emission:systemColor)
+//				toNode.addChild(node:tic)
+//			}
+//		}
+//	}
 
 	 // MARK: 9.3.2 Look At Spot
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
 	var pole					= SCNNode()				// focus of mouse rotator
 	var lastSelfiePole 			= SelfiePole()			// init to default
 
-	 // MARK: 9.3.3 Look At Updates
-	func movePole(toWorldPosition wPosn:SCNVector3) {
-bug;	let fwGuts				= DOCfwGuts
-		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= fwScn.scnScene.rootNode.convertPosition(localPoint, to:fwGuts.fwScn.rootScn)
-
-		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
-
-		let animateIt			= config4fwGuts.bool_("animatePole")
-		if animateIt {	 // Animate 3D Cursor Pole motion"
-			SCNTransaction.begin()
-//			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
-		}
-
-		pole.worldPosition		= wPosn
-
-		if animateIt {
-			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
-			atRve(8, logd("  \\#######  SCNTransaction: COMMIT"))
-			SCNTransaction.commit()
-		}
-	}
-
-
+//	 // MARK: 9.3.3 Look At Updates
+//	func movePole(toWorldPosition wPosn:SCNVector3) {
+//bug;	let fwGuts				= DOCfwGuts
+//		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
+//		let wPosn				= fwScn.scnScene.rootNode.convertPosition(localPoint, to:fwGuts.fwScn.rootScn)
+//
+//		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
+//
+//		let animateIt			= config4fwGuts.bool_("animatePole")
+//		if animateIt {	 // Animate 3D Cursor Pole motion"
+//			SCNTransaction.begin()
+////			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
+//		}
+//
+//		pole.worldPosition		= wPosn
+//
+//		if animateIt {
+//			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
+//			atRve(8, logd("  \\#######  SCNTransaction: COMMIT"))
+//			SCNTransaction.commit()
+//		}
+//	}
 
 
 
-	/// Compute Camera Transform from pole config
-	/// - Parameters:
-	///   - from: defines direction of camera
-	///   - message: for logging only
-	///   - duration: for animation
-	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-		let cameraScn			= fwScn.scnScene.cameraScn!
-								//
-		zoom4fullScreen(selfiePole:lastSelfiePole, cameraScn:cameraScn)
 
-		if duration > 0.0,
-		  config4fwGuts.bool("animatePan") ?? false {
-			SCNTransaction.begin()			// Delay for double click effect
-			atRve(8, logd("  /#######  animatePan: BEGIN All"))
-			SCNTransaction.animationDuration = CFTimeInterval(0.5)
-			 // 181002 must do something, or there is no delay
-			cameraScn.transform *= 0.999999	// virtually no effect
-			SCNTransaction.completionBlock = {
-				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
-				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				cameraScn.transform = self.lastSelfiePole.transform
-
-				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
-				SCNTransaction.commit()
-			}
-			atRve(8, logd("  \\#######  animatePan: COMMIT All"))
-			SCNTransaction.commit()
-		}
-		else {
-			cameraScn.transform = self.lastSelfiePole.transform
-		}
-	}
-		
-	/// Set Camera's transform so that all parts of the scene are seen.
-	/// - Parameters:
-	///   - selfiePole: look points looking at it's origin
-	///   - camScn: camera
-	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn camScn:SCNNode) {
-
-		 //		(ortho-good, check perspective)
-		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(camScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
-		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
-		let rootVewSizeInEye	= rootVewBbInEye.size
-		guard let nsRectSize	= fwScn.scnView?.frame.size  else  {	fatalError()	}
-
-		var orientation			= "Height Dominated"
-		var zoomSize			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
-		 // Is side going to be clipped off?
-		let ratioHigher			= nsRectSize.height / nsRectSize.width
-		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
-			zoomSize			*= ratioHigher
-		}
-		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
-			orientation			= "Width Dominated"
-			zoomSize			= rootVewSizeInEye.y
-			 // Is top going to be clipped off?
-			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
-				zoomSize		/= ratioHigher
-			}
-		}
-		let vanishingPoint 		= config4fwGuts.double("vanishingPoint")
-		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
-			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
-			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-			guard let c:SCNCamera = camScn.camera else { fatalError("cameraScn.camera is nil") 	}
-			c.usesOrthographicProjection = true		// camera’s magnification factor
-			c.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
-		} else {
-			camScn.transform	= selfiePole.transform
-		}
-		logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize)
-	}
-
-	 /// Build Vew and SCN tree from Part tree for the first time
-	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
-		assert(rootVew.name 	== "_ROOT", "Paranoid check")
-		assert(rootVew.part		== rootPart,"Paranoid check")
-		assert(rootVew.part.name == "ROOT", "Paranoid check")
-		assert(rootVew.part.children.count == 1, "Paranoid check")
-
-		 // 1. 	GET LOCKS				// PartTree
-		guard rootPart.lock(partTreeAs:"createVews") else {
-			fatalError("createVews couldn't get PART lock")		// or
-		}		          				// VewTree
-		guard lock(vewTreeAs:"createVews") else {
-			fatalError("createVews  couldn't get VIEW lock")
-		}
-
-		 // 2. Update Vew and Scn Tree
-/**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
-
-		 // 6. Add Lights, Camera and SelfiePole
-		addLightsToScn()							// was updateLights
-		addCameraToScn(config4fwGuts)
-		addAxesScn()
-
-		 // 3.  Configure SelfiePole:
-		if let c 				= config4fwGuts.fwConfig("selfiePole") {
-			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
-				lastSelfiePole.at = at
-			}
-//			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-//				lastSelfiePole.height = CGFloat(h)
+//	/// Compute Camera Transform from pole config
+//	/// - Parameters:
+//	///   - from: defines direction of camera
+//	///   - message: for logging only
+//	///   - duration: for animation
+//	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
+//		let cameraScn			= fwScn.scnScene.cameraScn!
+//								//
+//		zoom4fullScreen(selfiePole:lastSelfiePole, cameraScn:cameraScn)
+//
+//		if duration > 0.0,
+//		  config4fwGuts.bool("animatePan") ?? false {
+//			SCNTransaction.begin()			// Delay for double click effect
+//			atRve(8, logd("  /#######  animatePan: BEGIN All"))
+//			SCNTransaction.animationDuration = CFTimeInterval(0.5)
+//			 // 181002 must do something, or there is no delay
+//			cameraScn.transform *= 0.999999	// virtually no effect
+//			SCNTransaction.completionBlock = {
+//				SCNTransaction.begin()			// Animate Camera Update
+//				atRve(8, self.logd("  /#######  animatePan: BEGIN Completion Block"))
+//				SCNTransaction.animationDuration = CFTimeInterval(duration)
+//
+//				cameraScn.transform = self.lastSelfiePole.transform
+//
+//				atRve(8, self.logd("  \\#######  animatePan: COMMIT Completion Block"))
+//				SCNTransaction.commit()
 //			}
-			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
-			}
-			if let s 			= c.float("s"), !s.isNan {	// Spin
-				lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
-			}
-			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				lastSelfiePole.zoom = CGFloat(z)
-			}
-			atRve(2, logd("=== Set camera=\(c.pp(.line))"))
-		}
-
-		 // 4.  Configure Initial Camera Target:
-		lookAtVew				= trunkVew				// default
-		if let laStr			= config4fwGuts.string("lookAt"), laStr != "",
-		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
-			lookAtVew 			=  rootVew.find(part:laPart)
-		}
-
-		 // 5. Set LookAtNode's position
-		let posn				= lookAtVew?.bBox.center ?? .zero
-		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
-		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
-
-		updatePole2Camera(reason:"install RootPart")
-
-		// 7. UNLOCK PartTree and VewTree:
-		unlock( 		 vewTreeAs:"createVews")
-		rootPart.unlock(partTreeAs:"createVews")
-	}
+//			atRve(8, logd("  \\#######  animatePan: COMMIT All"))
+//			SCNTransaction.commit()
+//		}
+//		else {
+//			cameraScn.transform = self.lastSelfiePole.transform
+//		}
+//	}
+//		
+//	/// Set Camera's transform so that all parts of the scene are seen.
+//	/// - Parameters:
+//	///   - selfiePole: look points looking at it's origin
+//	///   - camScn: camera
+//	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn camScn:SCNNode) {
+//
+//		 //		(ortho-good, check perspective)
+//		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
+//		let world2eye			= SCNMatrix4Invert(camScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+//		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
+//		let rootVewSizeInEye	= rootVewBbInEye.size
+//		guard let nsRectSize	= fwScn.scnView?.frame.size  else  {	fatalError()	}
+//
+//		var orientation			= "Height Dominated"
+//		var zoomSize			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
+//		 // Is side going to be clipped off?
+//		let ratioHigher			= nsRectSize.height / nsRectSize.width
+//		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
+//			zoomSize			*= ratioHigher
+//		}
+//		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
+//			orientation			= "Width Dominated"
+//			zoomSize			= rootVewSizeInEye.y
+//			 // Is top going to be clipped off?
+//			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
+//				zoomSize		/= ratioHigher
+//			}
+//		}
+//		let vanishingPoint 		= config4fwGuts.double("vanishingPoint")
+//		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
+//			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
+//			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
+//			guard let c:SCNCamera = camScn.camera else { fatalError("cameraScn.camera is nil") 	}
+//			c.usesOrthographicProjection = true		// camera’s magnification factor
+//			c.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
+//		} else {
+//			camScn.transform	= selfiePole.transform
+//		}
+//		logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize)
+//	}
+//
+//	 /// Build Vew and SCN tree from Part tree for the first time
+//	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
+//		assert(rootVew.name 	== "_ROOT", "Paranoid check")
+//		assert(rootVew.part		== rootPart,"Paranoid check")
+//		assert(rootVew.part.name == "ROOT", "Paranoid check")
+//		assert(rootVew.part.children.count == 1, "Paranoid check")
+//
+//		 // 1. 	GET LOCKS				// PartTree
+//		guard rootPart.lock(partTreeAs:"createVews") else {
+//			fatalError("createVews couldn't get PART lock")		// or
+//		}		          				// VewTree
+//		guard lock(vewTreeAs:"createVews") else {
+//			fatalError("createVews  couldn't get VIEW lock")
+//		}
+//
+//		 // 2. Update Vew and Scn Tree
+///**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
+//
+//		 // 6. Add Lights, Camera and SelfiePole
+//		fwScn.addLightsToScn()							// was updateLights
+//		fwScn.addCameraToScn(config4fwGuts)
+//		fwScn.addAxesScn()
+//
+//		 // 3.  Configure SelfiePole:
+//		if let c 				= config4fwGuts.fwConfig("selfiePole") {
+//			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
+//				lastSelfiePole.at = at
+//			}
+////			if let h 			= c.float("h"), !h.isNan {	// Pole Height
+////				lastSelfiePole.height = CGFloat(h)
+////			}
+//			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
+//				lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+//			}
+//			if let s 			= c.float("s"), !s.isNan {	// Spin
+//				lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+//			}
+//			if let z 			= c.float("z"), !z.isNan {	// Zoom
+//				lastSelfiePole.zoom = CGFloat(z)
+//			}
+//			atRve(2, logd("=== Set camera=\(c.pp(.line))"))
+//		}
+//
+//		 // 4.  Configure Initial Camera Target:
+//		lookAtVew				= trunkVew				// default
+//		if let laStr			= config4fwGuts.string("lookAt"), laStr != "",
+//		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
+//			lookAtVew 			=  rootVew.find(part:laPart)
+//		}
+//
+//		 // 5. Set LookAtNode's position
+//		let posn				= lookAtVew?.bBox.center ?? .zero
+//		pole.worldPosition		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
+//		assert(!pole.worldPosition.isNan, "About to use a NAN World Position")
+//
+//		updatePole2Camera(reason:"install RootPart")
+//
+//		// 7. UNLOCK PartTree and VewTree:
+//		unlock( 		 vewTreeAs:"createVews")
+//		rootPart.unlock(partTreeAs:"createVews")
+//	}
 
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
@@ -643,13 +643,13 @@ bug;	let fwGuts				= DOCfwGuts
 			if !nsTrackPad  {					// 3-button Mouse
 				modelPic(with:nsEvent)
 			}
-			updatePole2Camera(duration:duration, reason:"Left mouseDown")
+			fwScn.updatePole2Camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true		// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				updatePole2Camera(reason:"Left mouseDragged")
+				fwScn.updatePole2Camera(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
@@ -660,21 +660,21 @@ bug;	let fwGuts				= DOCfwGuts
 					}
 				}
 				mouseWasDragged = false
-				updatePole2Camera(duration:duration, reason:"Left mouseUp")
+				fwScn.updatePole2Camera(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			updatePole2Camera(duration:duration, reason:"Other mouseDown")
+			fwScn.updatePole2Camera(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			updatePole2Camera(reason:"Other mouseDragged")
+			fwScn.updatePole2Camera(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			updatePole2Camera(duration:duration, reason:"Other mouseUp")
+			fwScn.updatePole2Camera(duration:duration, reason:"Other mouseUp")
 			print("camera = [\(ppCam())]")
 			atEve(9, print("\(fwScn.scnScene.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
@@ -687,7 +687,7 @@ bug;	let fwGuts				= DOCfwGuts
 //			let scene			= DOCfwGuts
 //			scene.lastSelfiePole.zoom *= delta
 			print("receivedEvent(type:.scrollWheel) found pole\(lastSelfiePole.uid).zoom = \(lastSelfiePole.zoom)")
-			updatePole2Camera(reason:"Scroll Wheel")
+			fwScn.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -953,7 +953,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		unlock(          vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart.unlock(partTreeAs:"toggelOpen")
 
-		updatePole2Camera(reason:"toggelOpen")
+		fwScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 	}
