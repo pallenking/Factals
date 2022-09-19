@@ -438,7 +438,7 @@ bug;	let fwGuts				= DOCfwGuts
 		let lookAtWorldPosn		= lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 		let lap 				= lookAtWorldPosn
-		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+selfiePole.height, lap.z)
+		poleSpinAboutY.position	= SCNVector3(lap.x, lap.y+selfiePole.at.y, lap.z)
 
 		 //  ---- With a boom (crane or derek) raised upward above the horizon:
 		let upTilt				= selfiePole.horizonUp * .pi / 180.0
@@ -569,12 +569,10 @@ bug;	let fwGuts				= DOCfwGuts
 			atRve(2, logd("=== Set camera=\(c.pp(.line))"))
 		}
 
-		 // 4.  Configure Camera target:
-		lookAtVew				= trunkVew
-		if let laStr			= config4fwGuts.string("lookAt"),
-		  laStr != "",
-		  let laPart
-		   			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
+		 // 4.  Configure Initial Camera Target:
+		lookAtVew				= trunkVew				// default
+		if let laStr			= config4fwGuts.string("lookAt"), laStr != "",
+		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
 			lookAtVew 			=  rootVew.find(part:laPart)
 		}
 
@@ -602,47 +600,59 @@ bug;	let fwGuts				= DOCfwGuts
 
 		// MARK: - SCNSceneRendererDelegate
 	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
-	func renderer(_ r:SCNSceneRenderer, updateAtTime t: TimeInterval) {
+	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			guard self.rootPart.lock(partTreeAs:"updateAtTime", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
-			guard self         .lock(vewTreeAs: "updateAtTime", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
-			DOCfwGuts.rootVew.updateVewSizePaint(needsViewLock:"renderLoop", logIf:false)		//false//true
-			self    .rootPart.unlock(partTreeAs:"updateAtTime", logIf:false)
-			self             .unlock(vewTreeAs: "updateAtTime", logIf:false)
+			let v				= "updateAtTime"
+			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v+" couldn't get PART lock")}
+			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
+
+			DOCfwGuts.rootVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
+
+			self    .rootPart.unlock(partTreeAs:v, logIf:false)
+			self             .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	  // MARK: 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			guard self.rootPart.lock(partTreeAs:"didApplyAnimations", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
-			guard self         .lock(vewTreeAs: "didApplyAnimations", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
+			let v				= "didApplyAnimationsAtTime"
+			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v+" couldn't get PART lock")}
+			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
+
 			DOCrootPart.computeLinkForces(vew:DOCfwGuts.rootVew)
-			self    .rootPart.unlock(partTreeAs:"didApplyAnimations", logIf:false)
-			self             .unlock(vewTreeAs: "didApplyAnimations", logIf:false)
+
+			self    .rootPart.unlock(partTreeAs:v, logIf:false)
+			self             .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	  // MARK: 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			guard self.rootPart.lock(partTreeAs:"didSimulatePhysics", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
-			guard self         .lock(vewTreeAs: "didSimulatePhysics", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
+			let v				= "didSimulatePhysicsAtTime"
+			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v+" couldn't get PART lock")}
+			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
+
 			DOCrootPart.applyLinkForces(vew:DOCfwGuts.rootVew)
-			self    .rootPart.unlock(partTreeAs:"didSimulatePhysics", logIf:false)
-			self             .unlock(vewTreeAs: "didSimulatePhysics", logIf:false)
+
+			self    .rootPart.unlock(partTreeAs:v, logIf:false)
+			self             .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	  // MARK: 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
 	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			guard self.rootPart.lock(partTreeAs:"willRenderScene", logIf:false) else {fatalError("didLoadNib couldn't get PART lock")}
-			guard self         .lock(vewTreeAs: "willRenderScene", logIf:false) else {fatalError("didLoadNib couldn't get VIEW lock")}
+			let v				= "willRenderScene"
+			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v)}
+			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v)}
+
 			DOCrootPart.rotateLinkSkins(vew:DOCfwGuts.rootVew)
-			self      .rootPart.unlock(partTreeAs:"willRenderScene", logIf:false)
-			self               .unlock(vewTreeAs: "willRenderScene", logIf:false)
+
+			self      .rootPart.unlock(partTreeAs:v, logIf:false)
+			self               .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	   // ODD Timing:
@@ -1009,7 +1019,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		atAni(5, part.root!.log.log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
 		vew.scn.removeFromParent()
 		vew.removeFromParent()
-		vew.updateVewSizePaint(needsViewLock:"toggelOpen4")
+		vew.updateVewSizePaint(needsLock:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
 		unlock(          vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
@@ -1099,8 +1109,8 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		switch mode {
 		case .tree:
 			let c 				= lastSelfiePole
-			var rv 				= fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.height,
-									  c.spin, c.horizonUp, c.zoom) // in degrees
+//			var rv 				= fmt("\t\t\t\t[h:%.2f, s:%.0f, u:%.0f, z:%.4f]", c.at.y,
+//									  c.spin, c.horizonUp, c.zoom) // in degrees
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)

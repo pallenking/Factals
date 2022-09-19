@@ -138,23 +138,22 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		return theCopy
 	}
 
-//	 // MARK: - 3.7 Equitable
-//	func varsOfVewEq(_ rhs:Part) -> Bool {
-//		guard let rhsAsVew	= rhs as? Vew else {	return false		}
-//		return name				== rhsAsVew.name
-//		//	&& color000			== rhsAsVew.color000
-//			&& keep				== rhsAsVew.keep
-//			&& parent			== rhsAsVew.parent
-//			&& children			== rhsAsVew.children
-//			&& part				== rhsAsVew.part
-//		//	&& scn				== rhsAsVew.scn
-//			&& bBox				== rhsAsVew.bBox
-//			&& jog				== rhsAsVew.jog
-//			&& force			== rhsAsVew.force
-//	}
-//	override func equalsPart(_ part:Part) -> Bool {
-//		return	super.equalsPart(part) && varsOfVewEq(part)
-//	}
+	 // MARK: - 3.7 Equitable
+	func varsOfVewEq(_ rhs:Vew) -> Bool {
+		return name				== rhs.name
+		//	&& color000			== rhs.color000
+			&& keep				== rhs.keep
+			&& parent			== rhs.parent
+			&& children			== rhs.children
+			&& part				== rhs.part
+		//	&& scn				== rhs.scn
+			&& bBox				== rhs.bBox
+			&& jog				== rhs.jog
+			&& force			== rhs.force
+	}
+	func equalsPart(_ vew:Vew) -> Bool {
+		return	varsOfVewEq(vew)
+	}
 
 	 // MARK: - 4.2 Manage Tree
 	 /// Array of ancestor. The first element is self:
@@ -518,7 +517,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:			-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateVewSizePaint(needsViewLock named:String?=nil, logIf log:Bool=true) { // VIEWS
+	func updateVewSizePaint(needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let fwGuts		= DOCfwGutsQ else {	return 					}
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self

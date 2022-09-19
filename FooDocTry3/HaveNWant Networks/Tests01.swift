@@ -1265,7 +1265,7 @@ r("+'f': link positioning", e + selfiePole(s:90,u:5) + ["animatePhysics":false],
 	]]),
 ]]) })
 	xr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
-		lookAt:"t1a", "scene":[gravity:"0 10 0"]], { Net([placeMy:"linky", parts:[
+			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { Net([placeMy:"linky", parts:[
 		MaxOr([n:"t1a", f:1, jog:"6 0 0"]),						   // gravity: 1,0,true,false, or "0 0 0" "0 1 0"
 		Hamming([n:"t3a", f:0, share:"t1a", P:"t5a", phys:[gravity:"0 10 0"]]),//+X/[gravity:1]/1/
 		Broadcast([n:"t5a"]),

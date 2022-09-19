@@ -313,7 +313,7 @@ bug;	let theCopy 			= Part()
 		}
 	}
 	 // MARK: - 3.7 Equitable
-	func varsOfPartEq(_ rhs:Part) -> Bool {
+	func varsOfPartEq(_ rhs:Part) -> Bool {			// PW rip this out, declaring Equitable
 		var rv  =  name			== rhs.name
 		 	//	&& parent		== rhs.parent			// weak
 			//	&& children		== rhs.children			// DOESN'T SEEM TO WORK

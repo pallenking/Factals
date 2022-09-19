@@ -66,19 +66,16 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 			}										// Otherwise do nothing.
 		}
 	}
-
 	func ppVerbosityOf(_ config:FwConfig) -> String {
-bug
-//		let verbosityHash		= verbosityInfoFrom(config)
-//		if verbosityHash.count > 0 {
-//			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
-//			msg				 	+= "=\(verbosityHash.pp(.line)) Cause:"
-//			msg					+= config.string_("cause")
-//			return msg
-//		}
+		let verbosityHash		= verbosityInfoFrom(config)
+		if verbosityHash.count > 0 {
+			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
+			msg				 	+= "=\(verbosityHash.pp(.line)) Cause:"
+			msg					+= config.string_("cause")
+			return msg
+		}
 		return ""
 	}
-
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
 		   // Process logPri4*** keys. SEMANTICS:
 		  //   If NONE with prefix "logPri4" are found, verbosity is unchanged
@@ -94,17 +91,11 @@ bug
 		}
 		return rv
 	}
-
 	var verbosity : [String:Int]? = [:] {	 // Current logging verbosity filter to select log messages
 		didSet	{	nop							/* for debug */					}
 	}
-	//var verbosity : [String:Int]? {
-	//	get		{	verbosity_													}
-	//	set(v)	{	verbosity_ = v				/* for debug */					}
-	//}; private var verbosity_ : [String:Int]? = [:]	 // Current logging verbosity filter to select log messages
-//	var verbosity : [String:Int]?	= [:]	 // Current logging verbosity filter to select log messages
 
-	/// UGLY: what if different threads using log?
+	 /// REALLY UGLY: what if different threads using log?
 	var msgPriority : Int?			= nil		// hack: pass argument to message via global
 	var msgFilter   : String?		= nil
 
@@ -130,7 +121,7 @@ bug
 		let n					= max(nIndent - minus, 0)
 		return  String(repeating: "| ", count:n)
 	}
-	 /// Returns the string " |" to END indentation
+	  /// Returns the string " |" to END indentation
 	 // Consider using field()
 	func unIndent(_ previous:String) -> String {
 		let nUnIndent			= ppIndentCols/2 - nIndent
@@ -242,27 +233,26 @@ bug
 	}
 
 	 // MARK: - 3.7 Equitable
-	func varsOfLogEq(_ rhs:Part) -> Bool {
-		guard let rhsAsLog	= rhs as? Log else {	return false		}
-		return title			== rhsAsLog.title
-			&& logNo			== rhsAsLog.logNo
-			&& entryNo			== rhsAsLog.entryNo
-			&& breakAt			== rhsAsLog.breakAt
-			&& logEvents		== rhsAsLog.logEvents
-			&& verbosity		== rhsAsLog.verbosity
-			&& msgPriority		== rhsAsLog.msgPriority
-			&& msgFilter		== rhsAsLog.msgFilter
-			&& simTimeLastLog	== rhsAsLog.simTimeLastLog
-			&& logTime			== rhsAsLog.logTime
-			&& ppIndentCols		== rhsAsLog.ppIndentCols
-			&& ppPorts			== rhsAsLog.ppPorts
-			&& ppNUid4Tree		== rhsAsLog.ppNUid4Tree
-			&& ppNUid4Ctl		== rhsAsLog.ppNUid4Ctl
-			&& nIndent			== rhsAsLog.nIndent
+	func varsOfLogEq(_ rhs:Log) -> Bool {
+		return title			== rhs.title
+			&& logNo			== rhs.logNo
+			&& entryNo			== rhs.entryNo
+			&& breakAt			== rhs.breakAt
+			&& logEvents		== rhs.logEvents
+			&& verbosity		== rhs.verbosity
+			&& msgPriority		== rhs.msgPriority
+			&& msgFilter		== rhs.msgFilter
+			&& simTimeLastLog	== rhs.simTimeLastLog
+			&& logTime			== rhs.logTime
+			&& ppIndentCols		== rhs.ppIndentCols
+			&& ppPorts			== rhs.ppPorts
+			&& ppNUid4Tree		== rhs.ppNUid4Tree
+			&& ppNUid4Ctl		== rhs.ppNUid4Ctl
+			&& nIndent			== rhs.nIndent
 	}
-//	override func equalsPart(_ part:Part) -> Bool {
-//		return	super.equalsPart(part) && varsOfLogEq(part)
-//	}
+	func equalsPart(_ log:Log) -> Bool {
+		return	varsOfLogEq(log)
+	}
 
 
 	// MARK: - 5. Log
