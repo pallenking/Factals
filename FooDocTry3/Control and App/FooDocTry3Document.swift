@@ -10,13 +10,12 @@ import SceneKit
 import UniformTypeIdentifiers
 
 struct FooDocTry3Document: FileDocument, Uid {
-	var uid:UInt16				= randomUid()
+	let uid:UInt16				= randomUid()
 	var redo:UInt8				= 0
 
-	 // Model of a FooDocTry3Document:
-	var fwGuts : FwGuts!
+	var fwGuts : FwGuts!				// content
 
-	 // No document supplied
+	 // No Document supplied, make:
 	init() {													 //    INTERNAL:
 		//			Make RootPart:		//---FUNCTION-----------+-wantName:---wantNumber:
 		//**/	let select		= nil	//	 Blank scene		|	nil			-1
@@ -451,7 +450,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String	{
 //bug;	return "fixMe"
 		switch mode! {
 		case .line:
@@ -459,7 +458,8 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		case .tree:
 			return DOClog.indentString() + " FooDocTry3Document" + "\n"
 		default:
-			return ppDefault(self:self as! FwAny, mode:mode, aux:aux)			// NO: return super.pp(mode, aux)
+			return ppDefault(self:self, mode:mode, aux:aux)						// NO: return super.pp(mode, aux)
+//			return ppDefault(self:self as! FwAny, mode:mode, aux:aux)			// NO: return super.pp(mode, aux)
 		}
 	}
 }

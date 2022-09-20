@@ -28,7 +28,7 @@ struct ContentView: View {
 					let rootPart:RootPart = document.fwGuts.rootPart
 					ZStack {
 						NSEventReceiver { nsEvent in
-							DOCfwGuts.receivedEvent(nsEvent:nsEvent)			}
+							DOCfwGuts.eventCentral.receivedEvent(nsEvent:nsEvent)}
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
@@ -41,7 +41,7 @@ struct ContentView: View {
 										  ],
 							preferredFramesPerSecond:30,
 							antialiasingMode:.none,
-							delegate:fwGuts
+							delegate:fwGuts.eventCentral
 	//						technique:nil
 						))
 						 .allowsHitTesting(	true)

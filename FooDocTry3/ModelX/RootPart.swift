@@ -462,13 +462,6 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	}
 
 	 // MARK: - 8. Reenactment Simulator
-	 // Inject message
-	func sendMessage(fwType:FwType) {
-		atEve(9, logd("      all parts ||  sendMessage(\(fwType))."))
-		let fwEvent 			= FwEvent(fwType:fwType)
-		return receiveMessage(event:fwEvent)
-	}
-
 	  /// Count of all Ports in root
 	 /// - Returns: Number of Ports
 	func portCount() -> Int {

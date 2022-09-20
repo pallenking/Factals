@@ -821,16 +821,16 @@ bug
 	   //------------- Reenactment Simulator -- simulation protocol ----
 	  // MARK: - 7. Simulator Messages
 	 // Inject message
-//	func sendMessage(fwType:FwType) {
-//		atEve(4, log("      all parts ||  sendMessage(\(fwType))."))
-//		let fwEvent 			= FwEvent(fwType:fwType)
-//		return receiveMessage(event:fwEvent)
-//	}
+	func sendMessage(fwType:FwType) {
+		atEve(4, logd("      all parts ||  sendMessage(\(fwType))."))
+		let fwEvent 			= FwEvent(fwType:fwType)
+		return receiveMessage(fwEvent:fwEvent)
+	}
 	 /// Recieve message and broadcast to all children
-	func receiveMessage(event:FwEvent) {
+	func receiveMessage(fwEvent:FwEvent) {
 	//	atEve(4, log("$$$$$$$$ all parts receiveMessage:\(fwTypeDefnNames[fwEvent->fwType])") )))
 		for elt in children {				// do for our parts too
-			elt.receiveMessage(event:event)
+			elt.receiveMessage(fwEvent:fwEvent)
 		}
 	}
 	 // MARK: - 8. Reenactment Simulator

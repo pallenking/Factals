@@ -34,7 +34,7 @@ extension Vew			: FwAnyC 	{}	//x Extension outside of file declaring class 'Vew'
 extension Part			: FwAnyC 	{}
 extension BBox			: FwAnyC 	{}
 
-extension FwwEvent			: FwAnyC 	{}
+extension FwwEvent		: FwAnyC 	{}
 extension Log			: FwAnyC 	{}
 extension Path			: FwAnyC 	{}
 
@@ -50,6 +50,10 @@ extension Array 		: FwAny		{}							//extension Array : FwAny where Element : Co
 //	// Conformance of 'Array<Element>' to protocol 'Encodable' conflicts with
 	// that stated in the type's module 'Swift' and will be ignored; there
 	// cannot be more than one conformance, even with different conditional bounds
+
+extension SCNScene 		: FwAny		{}
+extension SCNView 		: FwAny		{}
+extension FooDocTry3Document : FwAny {}
 
 func mini_playground() {
 	let x : [Codable] = ["abc", 0, 7.2]
@@ -74,6 +78,8 @@ extension Dictionary	: FwAnyC where Key : Codable, Value : Codable 	{}
 extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension FwGuts		: FwAny 	{}	// Extension outside of file declaring class 'FwGuts' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
+extension EventCentral	: FwAny		{}
+extension FwScn			: FwAny		{}
 extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNConstraint	: FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNGeometry	: FwAny 	{	// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
@@ -91,23 +97,15 @@ extension SCNAudioPlayer: FwAny 	{
 		return ppDefault(self:self, mode:mode, aux:aux)		//fatalError("\n\n" + "SCNAudioPlayer not supported\n\n")
 	}}
 
-
 /* Future
 CGFloat.NativeType)
 */
 
- /// This extending of FwAny allows uniform default values.
+ /// This extension provides uniform default values.
 extension FwAny  {
 	 // Default implementation, with default values:
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String {
 		return pp(mode, aux)
-		//Type of expression is ambiguous without more context
-		//switch mode! {
-		//case .uidClass:
-		//	return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
-		//case .classUid:
-		//	return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"
-		//default:
 	}
 }
 

@@ -243,14 +243,14 @@ class Actor : Net {
 	}
 
 	 // MARK: - 7. Simulator Messages
-	override func receiveMessage(event:FwEvent) {
+	override func receiveMessage(fwEvent:FwEvent) {
 
 		 // Actors convert event:.clockPrevious --> clock Previous
-		if event.fwType == .clockPrevious {
+		if fwEvent.fwType == .clockPrevious {
 			clockPrevious()
 			return
 		}
-		super.receiveMessage(event:event)		// default behavior
+		super.receiveMessage(fwEvent:fwEvent)		// default behavior
 	}
 
 	 // Propigate cockPrevious to all contents registered in previousClocks
