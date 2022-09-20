@@ -94,26 +94,18 @@ class RootVew : Vew {
 	var lastSelfiePole 			= SelfiePole()			// init to default
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		var rv					= ""
+	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+		var rv					= super.pp(mode, aux)
 		switch mode! {
 		case .phrase:
-			rv 					+= "FwScn:\(ppUid(self))"
+			rv 					+= "RootVew:\(ppUid(self))"
 		case .short:
-			rv					+= "\(pp(.phrase)) scnView:\(scnView.pp(.phrase)) scnScene:\(scnScene.pp(.phrase))"
+			rv 					+= "RootVew:\(ppUid(self))"
 		case .line:
-			rv 					+= "\(pp(.short)) rootScn:\(rootScn.pp(.phrase))"
-									// missing uid,	fwGuts, and animatePhysics
+			rv 					+= "RootVew:\(ppUid(self))"
 		default:
-bug//		return FwAny.pp(mode, aux)
-// /// This extension provides uniform default values.
-//extension FwAny  {
-//	 // Default implementation, with default values:
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String {
-//		return pp(mode, aux)
-//	}
-//	 // N.B: If this loops forever, check self's class .pp protocol
-//}
+			rv 					+= "RootVew:\(ppUid(self))"
+			rv 					+= "RootVew:\(ppUid(self))"
 		}
 		return rv
 	}

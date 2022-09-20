@@ -68,8 +68,9 @@ protocol FwStatus {
 extension FooDocTry3App : FwStatus	{						  /// FooDocTry3App
 	func ppFwState(deapth:Int=999) -> String {
 		let emptyEntry			= APP?.config4app["emptyEntry"] ?? "xr()"
-		return ppFwStateHelper("APP          ", uid:self,
-			myLine:"regressScene:\(regressScene), " +
+		return ppFwStateHelper("FooDocTry3App", uid:self,
+//		return ppFwStateHelper("APP          ", uid:self,
+			myLine:" regressScene:\(regressScene), " +
 				"emptyEntry:'\(emptyEntry.asString ?? "<emptyEntry not String>")'",
 			otherLines:{ deapth in
 						// Menu Creation:
@@ -129,7 +130,7 @@ extension Log : FwStatus {												/// Log
 extension FooDocTry3Document : FwStatus	{				 /// FooDocTry3Document
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FooDocTry3Doc", uid:self,
-			myLine:"\(self.pp(.uidClass)) redo:\(redo) \(fwGuts.pp(.uidClass))",
+			myLine:" \(fwGuts.pp(.uidClass)) redo:\(redo)",
 			otherLines:{ deapth in
 				var rv			= fwGuts.ppFwState(deapth:deapth)
 				 // Inspectors:
@@ -151,24 +152,19 @@ extension FooDocTry3Document : FwStatus	{				 /// FooDocTry3Document
 // MARK: - DOCUMENT
 extension NSDocument/*FwDocument*/ : FwStatus	{				 /// FwDocument
 	func ppFwState(deapth:Int=999) -> String {
-bug;	let wcc					= windowControllers.count
+	let wcc					= windowControllers.count
 		return ppFwStateHelper("NSDocument   ", uid:self,
-			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""): ADD MORE HERE",
+			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
 			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
 			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
 			//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
 			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
 			otherLines:{ deapth in
-//
-//				 // Controller:
-//		//.		var rv			=  self.rootPart.ppFwState(deapth:deapth)
-				var rv = ""
-
+				var rv			= ""//  self.rootPart.ppFwState(deapth:deapth) // Controller:
 				 // Window Controllers
 				for windowController in self.windowControllers {
 					rv		+= windowController.ppFwState(deapth:deapth)
 				}
-//				var rv = ""
 //				 // Inspectors:
 //				if self.inspecWin4vew.count > 0 {
 //					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
@@ -188,17 +184,17 @@ bug;	let wcc					= windowControllers.count
 }
 extension FwGuts : FwStatus	{									 /// FwGuts
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootPart     		 .pp(.nameUidClass) + " "
-		myLine					+= rootVew     		 .pp(.nameUidClass) + " "
-		myLine					+= fwScn       		 .pp(.nameUidClass) + " "
-		myLine					+= eventCentral		 .pp(.nameUidClass) + " "
-		myLine					+= fooDocTry3Document.pp(.nameUidClass)
+		var myLine				= rootPart     		 .pp(.classUid) + " "
+		myLine					+= rootVew     		 .pp(.classUid) + " "
+		myLine					+= fwScn       		 .pp(.classUid) + " "
+		myLine					+= eventCentral		 .pp(.classUid) + " "
+		myLine					+= fooDocTry3Document.pp(.classUid)
 
 		return ppFwStateHelper("FwGuts      ", uid:self,
 			myLine: myLine,
 			otherLines:{ deapth in
 				 // Controller:
-				var rv			=   self.fwScn.ppFwState(deapth:deapth)
+				var rv			=   self.fwScn  .ppFwState(deapth:deapth)
 				rv				+=  self.rootVew.ppFwState(deapth:deapth)
 				return rv
 			},
@@ -269,13 +265,10 @@ extension RootVew : FwStatus	{									 /// RootVew
 }
 extension FwScn : FwStatus	{										   /// FwScn
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= fwGuts   .pp(.classUid) + " "
-		myLine					+= scnView .pp(.classUid) + " "
+		var myLine				=  scnView .pp(.classUid) + " "
 		myLine					+= scnScene.pp(.classUid) + " "
-		myLine					+= rootScn .pp(.classUid) + " "
-		myLine					+= (trunkScn?.pp(.classUid) ?? "") + " "
 		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"
-		return ppFwStateHelper("FwGuts      ", uid:self,
+		return ppFwStateHelper("FwScn       ", uid:self,
 			myLine:myLine,
 			deapth:deapth)
 	}
@@ -341,7 +334,7 @@ extension NSWindow : FwStatus {									   /// NSWindow
 extension NSViewController : FwStatus {					  /// NSViewController
 	func ppFwState(deapth:Int=999) -> String {
 		let rob					= representedObject as? NSView//FwStatus
-		return ppFwStateHelper("FwViewCtlr   ", uid:self,
+		return ppFwStateHelper("NSViewCtlr   ", uid:self,
 			myLine: ppState +
 				  " view:\(ppUid(view, 		showNil:true))" 					+
 				" repObj:\(ppUid(rob, 		showNil:true))" 					+
@@ -377,7 +370,6 @@ extension NSView : FwStatus	{								 		 /// NSView
 			deapth:deapth)
 	}
 }
-
 extension NSException : FwStatus	{							 /// NSException
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("NSException  ", uid:self,

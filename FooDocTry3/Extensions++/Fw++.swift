@@ -51,9 +51,13 @@ extension Array 		: FwAny		{}							//extension Array : FwAny where Element : Co
 	// that stated in the type's module 'Swift' and will be ignored; there
 	// cannot be more than one conformance, even with different conditional bounds
 
-extension SCNScene 		: FwAny		{}
-extension SCNView 		: FwAny		{}
-extension FooDocTry3Document : FwAny {}
+extension SCNScene 		: FwAny		{
+	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{	return "SCNScene:\(ppUid(self))" }
+}
+extension SCNView 		: FwAny		{
+	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{	return "SCNView:\(ppUid(self))" }
+}
+extension FooDocTry3Document : FwAny { }
 
 func mini_playground() {
 	let x : [Codable] = ["abc", 0, 7.2]
