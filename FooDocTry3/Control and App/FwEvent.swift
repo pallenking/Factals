@@ -247,5 +247,29 @@ class EventCentral : NSObject, SCNSceneRendererDelegate {
 		rootVew.lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 		rootVew.lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
+	 // MARK: - 15. PrettyPrint
+	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+		var rv					= ""
+		switch mode! {
+		case .phrase:
+			rv 					+= "FwScn:\(ppUid(self))"
+		case .short:
+			rv					+= "\(pp(.phrase)) scnView:\(scnView.pp(.phrase)) scnScene:\(scnScene.pp(.phrase))"
+		case .line:
+			rv 					+= "\(pp(.short)) rootScn:\(rootScn.pp(.phrase))"
+									// missing uid,	fwGuts, and animatePhysics
+		default:
+bug//		return FwAny.pp(mode, aux)
+// /// This extension provides uniform default values.
+//extension FwAny  {
+//	 // Default implementation, with default values:
+//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String {
+//		return pp(mode, aux)
+//	}
+//	 // N.B: If this loops forever, check self's class .pp protocol
+//}
+		}
+		return rv
+	}
 
 }

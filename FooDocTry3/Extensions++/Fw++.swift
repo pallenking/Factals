@@ -107,11 +107,12 @@ extension FwAny  {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String {
 		return pp(mode, aux)
 	}
+	 // N.B: If this loops forever, check self's class .pp protocol
 }
 
  /// Pretty Print Modes:
 enum PpMode : Int {
-	// How to PrettyPrint Name and Class:
+	 // How to PrettyPrint Name and Class:
 	case fwClassName	// (Really should be "class"?)		(e.g: "Port"
 	case uid			// Uid								(e.g: "4C4")
 	case uidClass		// Uid:Class						(e.g: "4C4:Port")
@@ -123,7 +124,7 @@ enum PpMode : Int {
 	case fullName		// path in composition 				(e.g: "/net/a.P")
 	case fullNameUidClass//Identifier: fullName/Uid:Class	(e.g: "ROOT/max.P/4C4:Port")
 
-	// How to PrettyPrint Contents:
+	 // How to PrettyPrint Contents:
 	case phrase			// shortened form, sub short		(e.g: [z:1]
 	case short			// shortest, canonic form			(e.g: [0.0, 0.0, 0.0]
 	case line			// single line, often used in .tree	(e.g: 1 line)

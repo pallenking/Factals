@@ -397,7 +397,6 @@ print("############ eventDownPause = false -- releaseEvent")
 			if retractPort != nil {
 				rv				+= "retractPort:\(retractPort!.pp(.fullName)) "
 			}
-
 		default:
 			break
 		}

@@ -47,7 +47,6 @@
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
-		9F1E3CE228D4991F004548C9 /* AppDelegateFoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE128D4991F004548C9 /* AppDelegateFoo.swift */; };
 		9F1E3CE428D8C9CF004548C9 /* FwScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE328D8C9CF004548C9 /* FwScn.swift */; };
 		9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* RootVew.swift */; };
 		9F1E3CE828D94CF7004548C9 /* FwEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE728D94CF7004548C9 /* FwEvent.swift */; };
@@ -556,7 +555,6 @@
 				9FA1BA5B2881950000B14D60 /* Bogus.swift in Sources */,
 				9FEE52292876023A00C8C22A /* CommonAtoms.swift in Sources */,
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
-				9F1E3CE228D4991F004548C9 /* AppDelegateFoo.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
 				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,

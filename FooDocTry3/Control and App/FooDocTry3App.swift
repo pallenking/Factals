@@ -47,14 +47,14 @@ var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
 
-@main
+@main										// callse AppDelegateFoo.swift
 struct FooDocTry3App: App, Uid, FwAny {
 	var uid: UInt16				= randomUid()
 	var fwClassName: String		= "FooDocTry3App"
 //	@Environment(\.scenePhase) private var scenePhase
 //	Flock o Swifts: "make state object, add to environment"	PW
 
-	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+	//@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 	var body: some Scene {
 					 // From Zev.Helge:
 					//		DocumentGroup(newDocument:FooDocTry3Document()) { file in				//newDocument:SVGShaperDocument.newDocument
@@ -80,8 +80,12 @@ struct FooDocTry3App: App, Uid, FwAny {
 //		Settings {
 //			//SettingsView(model: model) // Passed as an observed object.
 //		}
+	//	WindowGroup {	//https://stackoverflow.com/questions/65379307/swiftui-macos-nswindow-instance
+	//		ContentView(document:file.$document)
+	//	//	ContentView(document: Binding<FooDocTry3Document>)
+	//	}
 		DocumentGroup(newDocument: FooDocTry3Document()) { file in
-			ContentView(document: file.$document)
+			ContentView( document: file.$document)
 		}
 //		WindowGroup {
 //			Text("Hello, World!")

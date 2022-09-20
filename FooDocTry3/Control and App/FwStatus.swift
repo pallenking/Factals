@@ -188,10 +188,10 @@ bug;	let wcc					= windowControllers.count
 }
 extension FwGuts : FwStatus	{									 /// FwGuts
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootPart     .pp(.nameUidClass) + " "
-		myLine					+= rootVew     .pp(.nameUidClass) + " "
-		myLine					+= fwScn       .pp(.nameUidClass) + " "
-		myLine					+= eventCentral.pp(.nameUidClass) + " "
+		var myLine				= rootPart     		 .pp(.nameUidClass) + " "
+		myLine					+= rootVew     		 .pp(.nameUidClass) + " "
+		myLine					+= fwScn       		 .pp(.nameUidClass) + " "
+		myLine					+= eventCentral		 .pp(.nameUidClass) + " "
 		myLine					+= fooDocTry3Document.pp(.nameUidClass)
 
 		return ppFwStateHelper("FwGuts      ", uid:self,

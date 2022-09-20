@@ -141,10 +141,7 @@ class FwScn : Uid {
 
 		let name				= "*-pole"
 		 // Delete any Straggler
-		if let stragglerNode = rootScn.find(name:name) {
-			warning("Who put the node named '\(name)' here? !!!")
-			stragglerNode.removeFromParentNode()
-		}
+		assert(rootScn.find(name:name) == nil, "Who put the node named '\(name)' here? !!!")
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		var pole				= SCNNode()				// New pole
 		pole.categoryBitMask	= FwNodeCategory.adornment.rawValue
@@ -379,7 +376,33 @@ bug;	let fwGuts				= DOCfwGuts
 		fwGuts.rootVew.unlock(	 vewTreeAs:"createVews")
 		rootPart.unlock(partTreeAs:"createVews")
 	}
+	
+	 // MARK: - 15. PrettyPrint
+	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+		var rv					= ""
+		switch mode! {
+		case .phrase:
+			rv 					+= "FwScn:\(ppUid(self))"
+		case .short:
+			rv					+= "\(pp(.phrase)) scnView:\(scnView.pp(.phrase)) scnScene:\(scnScene.pp(.phrase))"
+		case .line:
+			rv 					+= "\(pp(.short)) rootScn:\(rootScn.pp(.phrase))"
+									// missing uid,	fwGuts, and animatePhysics
+		default:
+bug//		return FwAny.pp(mode, aux)
+// /// This extension provides uniform default values.
+//extension FwAny  {
+//	 // Default implementation, with default values:
+//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String {
+//		return pp(mode, aux)
+//	}
+//	 // N.B: If this loops forever, check self's class .pp protocol
+//}
+		}
+		return rv
+	}
 }
+
 
  // Kinds of Nodes
 enum FwNodeCategory : Int {
