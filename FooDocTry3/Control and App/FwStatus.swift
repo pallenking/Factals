@@ -256,14 +256,44 @@ extension Library : FwStatus {								/// Library or Tests01
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth)
 	}
 }
+
+extension RootVew : FwStatus	{									 /// FwGuts
+	func ppFwState(deapth:Int=999) -> String {
+		var myLine				= "rootVew:\(ppUid(self.trunkVew,  showNil:true)) "
+		myLine					+= self.rootVewOwner != nil ? "OWNER:'\(self.rootVewOwner!)' " : "UNOWNED "
+		myLine					+= "pole:w[OPS]"//\(self.fwScn.convertPosition(.zero, to:rootScn).pp(.short)) "
+		myLine					+= "animatePhysics:\(self.fwGuts.fwScn.animatePhysics)(isPaused:\(self.fwGuts.fwScn.scnScene.isPaused))"
+		return ppFwStateHelper("RootVew     ", uid:self,
+			myLine: myLine,
+			deapth:deapth)
+	}
+}
+extension FwScn : FwStatus	{									 /// FwGuts
+	func ppFwState(deapth:Int=999) -> String {
+		var myLine				= fwGuts   .pp(.classUid) + " "
+//		myLine					+= scnView .pp(.classUid) + " "
+//		myLine					+= scnScene.pp(.classUid) + " "
+		myLine					+= rootScn .pp(.classUid) + " "
+//		myLine					+= trunkScn.pp(.classUid) + " "
+		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"
+		return ppFwStateHelper("FwGuts      ", uid:self,
+			myLine: myLine,
+			deapth:deapth)
+	}
+}
+
 extension FwGuts : FwStatus	{									 /// FwGuts
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= "rootVew:\(ppUid(self.rootVew,  showNil:true)) "
-		myLine					+= self.rootVewOwner != nil ? "OWNER:'\(self.rootVewOwner!)' " : "UNOWNED "
-		myLine					+= "pole:w[OOPS]"//\(self.fwScn.convertPosition(.zero, to:rootScn).pp(.short)) "
+		var myLine				= "pole:w[OPS]"//\(self.fwScn.convertPosition(.zero, to:rootScn).pp(.short)) "
 		myLine					+= "animatePhysics:\(self.fwScn.animatePhysics)(isPaused:\(self.fwScn.scnScene.isPaused))"
 		return ppFwStateHelper("FwGuts      ", uid:self,
 			myLine: myLine,
+			otherLines:{ deapth in
+				 // Controller:
+				var rv			=   self.fwScn.ppFwState(deapth:deapth)
+				rv				+=  self.rootVew.ppFwState(deapth:deapth)
+				return rv
+			},
 			deapth:deapth)
 	}
 }

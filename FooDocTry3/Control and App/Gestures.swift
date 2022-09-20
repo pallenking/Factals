@@ -10,10 +10,10 @@ import SceneKit
 class XXXX_StuffToSave {
 	func gestures() -> some Gesture {
 		let drag 				= DragGesture(minimumDistance: 0)
-		  .onChanged(   // Do stuff with the drag - maybe record what the value is in case things get lost later on
-			{	d in self.dragGesture(value:d)									})
-		  .onEnded(
-			{	d in self.dragGestureEnd(value:d)								})
+//		  .onChanged(   // Do stuff with the drag - maybe record what the value is in case things get lost later on
+//			{	d in self.dragGesture(value:d)									})
+//		  .onEnded(
+//			{	d in self.dragGestureEnd(value:d)								})
 
 		let hackyPinch 			= MagnificationGesture(minimumScaleDelta: 0.0)			// OMIT??
 		  .onChanged(
@@ -50,26 +50,26 @@ class XXXX_StuffToSave {
 	}
 	func onGesture(_ msg:String="") {	print("onGesture: \(msg)") }	// set state, process the last drag position we saw, etc
 
-	//  ====== LEFT MOUSE ======
-	func dragGesture(value v:DragGesture.Value) {
-		let fwGuts				= DOCfwGuts
-		let delta				= v.location - v.startLocation
-	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
-
-		var selfiePole			= fwGuts.lastSelfiePole
-		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-		fwGuts.fwScn.updatePole2Camera(reason:"dragGesture")
-	}
-	func dragGestureEnd(value v:DragGesture.Value) {
-		let fwGuts				= DOCfwGuts
-		let delta				= v.location - v.startLocation
-	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
-
-		fwGuts.lastSelfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-		fwGuts.lastSelfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-		fwGuts.fwScn.updatePole2Camera(reason:"dragGestureEnd")
-	}
+//	//  ====== LEFT MOUSE ======
+//	func dragGesture(value v:DragGesture.Value) {
+//		let fwGuts				= DOCfwGuts
+//		let delta				= v.location - v.startLocation
+//	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
+//
+//		var selfiePole			= fwGuts.lastSelfiePole
+//		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+//		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+//		fwGuts.fwScn.updatePole2Camera(reason:"dragGesture")
+//	}
+//	func dragGestureEnd(value v:DragGesture.Value) {
+//		let fwGuts				= DOCfwGuts
+//		let delta				= v.location - v.startLocation
+//	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
+//
+//		fwGuts.lastSelfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+//		fwGuts.lastSelfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+//		fwGuts.fwScn.updatePole2Camera(reason:"dragGestureEnd")
+//	}
 	func tapGesture(value v:TapGesture.Value, count:Int) {
 		let fwGuts				= DOCfwGuts
 		print("tapGesture value:'\(v)' count:\(count)")

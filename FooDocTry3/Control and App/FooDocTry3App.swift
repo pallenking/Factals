@@ -342,7 +342,7 @@ bug;	let rv					= NSMenu(title:path)
 		let fwGuts				= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
 		let doc					= FooDocTry3Document(fwGuts:fwGuts)
 		 // Backlinks
-		rootPart.fwGuts			= fwGuts	// owner
+		rootPart.fwGuts			= fwGuts
 		fwGuts.fooDocTry3Document = doc
 
 		DOC						= doc		// register

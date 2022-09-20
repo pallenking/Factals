@@ -27,7 +27,10 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 		 //			Make FwGuts:
 		fwGuts					= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
+
+		 // back pointers
 		fwGuts.fooDocTry3Document = self
+		rootPart.fwGuts			= fwGuts
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 

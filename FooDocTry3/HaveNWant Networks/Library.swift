@@ -205,18 +205,6 @@ class Library : NSObject {
 				let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
 				let elt			= ScanElement(tag:state.scanTestNum, title:title, subMenu:state.scanSubMenu)
 				state.scanCatalog.append(elt)
-												//class ScanState : Codable {
-												//	var uid			: UInt16	= randomUid()
-												//	var scanTestNum	: Int		= 0
-												//	var scanSubMenu : String	= ""		// name of current FwGuts sub-menu
-												//	var scanEOFencountered:Bool = false	// marks scan done
-												//	var scanList	: [ScanElement]	= []	// Index of Library
-												//}
-												//struct ScanElement	: Codable {
-												//	var tag		  	: Int
-												//	var title	  	: String
-												//	var subMenu	  	: String
-												//}
 			}
 		}
 		else {		// ///////////// Wants Test ///////////////////////////////

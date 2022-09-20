@@ -58,6 +58,7 @@
 //		assert(emptyEntry != nil, "config4app contains no key 'emptyEntry'")
 //
 //		rootPart				= RootPart(fromLibrary:emptyEntry!, fwDocument:self)
+// Backlinks 20220919PAK:	rootPart.fwGuts			= fwGuts
 //		if rootPart == nil {
 //			throw MyError.libraryFailure
 //		}
@@ -72,6 +73,7 @@
 //		DOC						= self			// not kosher!
 //
 //		rootPart				= RootPart(fromLibrary:selectionString, fwDocument:self)
+// Backlinks 20220919PAK:	rootPart.fwGuts			= fwGuts
 //		if rootPart == nil {
 //			throw MyError.libraryFailure
 //		}
@@ -81,6 +83,7 @@
 //	init(for url:URL?, withContentsOf contents:URL, ofType type: String) throws {
 //		if falseF	{	panic("");	throw MyError.funcky						}
 //		rootPart				= RootPart()
+// Backlinks 20220919PAK:	rootPart.fwGuts			= fwGuts
 //
 //		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //		fileType				= type			// Document for type:typename is somehow bound to file suffix: "sf" in inof.plist	//typeName == "DocumentType" ? "(for .sf files)" : ""	// AD HOC

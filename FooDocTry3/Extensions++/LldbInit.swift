@@ -27,7 +27,7 @@ func rootpart(_ name:String?=nil) -> Part  {
 }
 
  /// Access to current ////// Vew Tree //////
-var  rootVew  : Vew  			{
+var  rootVew  : RootVew {
 	get 		{	return DOCfwGuts.rootVew								}
 	set (v)		{	DOCfwGuts.rootVew = v									}
 }

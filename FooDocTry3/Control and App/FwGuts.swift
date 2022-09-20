@@ -15,22 +15,9 @@ import SceneKit
 class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*SCNScene */ {	//,
 
 	  // MARK: - 2. Object Variables:
-	 // ///////// Part Tree:
 	var rootPart : RootPart														//{	rootVew.part as! RootPart}
-	 // ///////// Vew Tree
-	var rootVew  : Vew				//			= .null
-	let rootVewLock 			= DispatchSemaphore(value:1)
-	var rootVewOwner : String?	= nil
-	var rootVewOwnerPrev:String? = nil
-	var rootVewVerbose 			= false
-	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
-		let children			= rootVew.children
-		return children.count > 0 ? children[0] : nil
-	}
-
-	 // ///////// SCNNode Stuff
-	var fwScn	 : FwScn//!		= nil
-
+	var rootVew  : RootVew
+	var fwScn	 : FwScn
 	var fooDocTry3Document : FooDocTry3Document!
 
 	var config4fwGuts : FwConfig = [:] {
@@ -63,18 +50,18 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 
 		config4fwGuts			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
-
 	}
 	init(scene scene_:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
 		assert(scene_ != nil, "FwGuts(scene is nil")
-		self.rootVew			= Vew(forPart:rootPart, scn:scene_!.rootNode)
+		self.rootVew			= RootVew(forPart:rootPart, scn:scene_!.rootNode)
 		self.fwScn				= FwScn(scnScene:scene_!)
 
 		super.init()
 
 		 // Back Links
 		fwScn.fwGuts			= self
+		rootVew.fwGuts			= self
 	}
 
 	// FileDocument requires these interfaces:
@@ -125,76 +112,6 @@ bug
 	var wiggledPart	  : Part?	= nil
 	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 
-	 // MARK: - 4.? Vew Locks
-	/// Optain DispatchSemaphor for Vew Tree
-	/// - Parameters:
-	///   - lockName: get lock under this name. nil --> don't lock
-	///   - logIf: log the description
-	/// - Returns: description
-	func lock(vewTreeAs lockName:String?=nil, logIf:Bool=true) -> Bool {
-		guard let lockName else {	return true		/* no lock needed */		}
-
-		let u_name			= ppUid(self) + " '\(lockName)'".field(-20)
-		atRve(3, {
-			let val0		= rootVewLock.value ?? -99	/// (wait if <=0)
-			if logIf && debugOutterLock {
-				logd("//#######\(u_name)      GET Vew  LOCK: v:\(val0)" )
-			}
-		}() )
-
-		 // === Get trunkVew DispatchSemaphore:
-		while rootVewLock.wait(timeout:.distantFuture) != .success {		//.distantFuture//.now() + waitSec		//let waitSec			= 2.0
-			 // === Failed to get lock:
-			let val0		= rootVewLock.value ?? -99
-			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
-//			wait   			? atRve(4, logd("//#######\(msg)")) :
-			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :
-							  nop
-			panic(msg)	// for debug only
-			return false
-		}
-
-		 // === Succeeded:
-		assert(rootVewOwner==nil, "\(lockName) Locking, but previous owner '\(rootVewOwner!)' lingers ")
-		rootVewOwner 		= lockName
-		atRve(3, {						/// AFTER GETTING:
-			let val0		= rootVewLock.value ?? -99
-			!logIf ? nop : logd("//#######" + u_name + "      GOT Vew  LOCK: v:\(val0)")
-		}())
-		return true
-	}
-	/// Release DispatchSemaphor for Vew Tree
-	/// - Parameters:
-	///   - lockName: get lock under this name. nil --> don't lock
-	///   - logIf: log the description
-	func unlock(vewTreeAs lockName:String?=nil, logIf:Bool=true) {
-		guard lockName != nil else {	return 			/* no lock to return */	}
-		assert(rootVewOwner != nil, "releasing VewTreeLock but 'rootVewOwner' is nil")
-		assert(rootVewOwner == lockName!, "Releasing (as '\(lockName!)') Vew lock owned by '\(rootVewOwner!)'")
-		let u_name			= ppUid(self) + " '\(rootVewOwner!)'".field(-20)
-		atRve(3, {
-			let val0		= rootVewLock.value ?? -99
-			let msg			= "\(u_name)  RELEASE Vew  LOCK: v:\(val0)"
-			!logIf ? nop	: logd("\\\\#######\(msg)")
-		}())
-
-		 // update name/state BEFORE signals
-		rootVewOwnerPrev 	= rootVewOwner
-		rootVewOwner 		= nil
-
-		 // Unlock View's DispatchSemaphore:
-		rootVewLock.signal()
-
-		if debugOutterLock && logIf {
-			let val0		= rootVewLock.value ?? -99
-			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
-		}
-	}
-	 // MARK: 9.3.2 Look At Spot
-	var lookAtVew  : Vew?		= nil					// Vew we are looking at
-//	var pole					= SCNNode()				// focus of mouse rotator
-	var lastSelfiePole 			= SelfiePole()			// init to default
-
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////
@@ -207,12 +124,12 @@ bug
 			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
 			let v				= "updateAtTime"
 			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v+" couldn't get PART lock")}
-			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
+			guard self.rootVew .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
 
 			DOCfwGuts.rootVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
 
 			self    .rootPart.unlock(partTreeAs:v, logIf:false)
-			self             .unlock(vewTreeAs: v, logIf:false)
+			self    .rootVew .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	  // MARK: 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
@@ -221,12 +138,12 @@ bug
 			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
 			let v				= "didApplyAnimationsAtTime"
 			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v+" couldn't get PART lock")}
-			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
+			guard self.rootVew .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
 
 			DOCrootPart.computeLinkForces(vew:DOCfwGuts.rootVew)
 
 			self    .rootPart.unlock(partTreeAs:v, logIf:false)
-			self             .unlock(vewTreeAs: v, logIf:false)
+			self    .rootVew .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	  // MARK: 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
@@ -235,12 +152,12 @@ bug
 			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
 			let v				= "didSimulatePhysicsAtTime"
 			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v+" couldn't get PART lock")}
-			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
+			guard self.rootVew .lock(vewTreeAs: v, logIf:false) else {fatalError(v+" couldn't get VIEW lock")}
 
 			DOCrootPart.applyLinkForces(vew:DOCfwGuts.rootVew)
 
 			self    .rootPart.unlock(partTreeAs:v, logIf:false)
-			self             .unlock(vewTreeAs: v, logIf:false)
+			self    .rootVew .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	  // MARK: 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
@@ -249,12 +166,12 @@ bug
 			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
 			let v				= "willRenderScene"
 			guard self.rootPart.lock(partTreeAs:v, logIf:false) else {fatalError(v)}
-			guard self         .lock(vewTreeAs: v, logIf:false) else {fatalError(v)}
+			guard self.rootVew .lock(vewTreeAs: v, logIf:false) else {fatalError(v)}
 
 			DOCrootPart.rotateLinkSkins(vew:DOCfwGuts.rootVew)
 
 			self      .rootPart.unlock(partTreeAs:v, logIf:false)
-			self               .unlock(vewTreeAs: v, logIf:false)
+			self      .rootVew .unlock(vewTreeAs: v, logIf:false)
 		}
 	}
 	   // ODD Timing:
@@ -329,7 +246,7 @@ bug
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= modelPic(with:nsEvent) {
-						lookAtVew	= vew			// found a Vew: Look at it!
+						rootVew.lookAtVew	= vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
@@ -348,7 +265,7 @@ bug
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			fwScn.updatePole2Camera(duration:duration, reason:"Other mouseUp")
-			print("camera = [\(ppCam())]")
+//			print("camera = [\(ppCam())]")
 			atEve(9, print("\(fwScn.scnScene.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -356,10 +273,10 @@ bug
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			lastSelfiePole.zoom *= delta
+			rootVew.lastSelfiePole.zoom *= delta
 //			let scene			= DOCfwGuts
 //			scene.lastSelfiePole.zoom *= delta
-			print("receivedEvent(type:.scrollWheel) found pole\(lastSelfiePole.uid).zoom = \(lastSelfiePole.zoom)")
+			print("receivedEvent(type:.scrollWheel) found pole\(rootVew.lastSelfiePole.uid).zoom = \(rootVew.lastSelfiePole.zoom)")
 			fwScn.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -419,8 +336,8 @@ bug
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+		rootVew.lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+		rootVew.lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 
 	 /// Prosses keyboard key
@@ -562,39 +479,38 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 //        if let tappednode = hits.first?.node
 
 		 // SELECT HIT; prefer any child to its parents:
-		var rv					= rootVew			// default
-		if var pickedScn		= trunkVew?.scn {	// pic trunkVew
-			if hits.count > 0 {
-				 // There is a HIT on a 3D object:
-				let sortedHits	= hits.sorted {	$0.node.position.z > $1.node.position.z }
-				let hit			= sortedHits[0]
-				pickedScn		= hit.node // pic node with lowest deapth
-				msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+		var rv : Vew			= rootVew			// default
+		var pickedScn			= fwScn.rootScn 	// default
+		if hits.count > 0 {
+			 // There is a HIT on a 3D object:
+			let sortedHits	= hits.sorted {	$0.node.position.z > $1.node.position.z }
+			let hit			= sortedHits[0]
+			pickedScn		= hit.node // pic node with lowest deapth
+			msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
 
-				 // If Node not picable,
-				while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+			 // If Node not picable,
+			while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
 				  let parent 	= pickedScn.parent 	// try its parent:
-				{
-					msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
-					pickedScn 	= parent				// use parent
-					msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
-				}
-				 // Got SCN, get its Vew
-				if let cv		= trunkVew,
-				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
-				{
-					rv			= vew
-					msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
-				}else{
-					panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
-					if let cv	= trunkVew,				// for debug only
-					  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
-						let _	= vew
-					}
-				}
-			}else{		// Background hit
-				msg				+= "background -> trunkVew"
+			{
+				msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
+				pickedScn 	= parent				// use parent
+				msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
 			}
+			 // Got SCN, get its Vew
+			if let cv		= rootVew.trunkVew,
+			  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
+			{
+				rv			= vew
+bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+			}else{
+				panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
+				if let cv	= rootVew.trunkVew,			// for debug only
+				  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
+					let _	= vew
+				}
+			}
+		} else {		// Background hit
+			msg				+= "background -> trunkVew"
 		}
 		atEve(3, print("\n" + msg))
 		return rv
@@ -613,7 +529,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		 // ========= Get Locks for two resources, in order: =============
 		guard rootPart.lock(partTreeAs:"toggelOpen") else {
 			fatalError("toggelOpen couldn't get PART lock")	}		// or
-		guard lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
+		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
 
 		assert(!(part is Link), "cannot toggelOpen a Link")
 		atAni(5, part.root!.log.log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
@@ -622,7 +538,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		vew.updateVewSizePaint(needsLock:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
-		unlock(          vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+		rootVew .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart.unlock(partTreeAs:"toggelOpen")
 
 		fwScn.updatePole2Camera(reason:"toggelOpen")
@@ -708,8 +624,6 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .tree:
-
-
 bug
 //	var rootPart 				: RootPart														//{	rootVew.part as! RootPart}
 //	var rootVew  				: Vew				//			= .null
@@ -720,19 +634,15 @@ bug
 //	var scnScene				: SCNScene
 //	var rootScn  				: SCNNode	{	scnScene.rootNode									}	//scnRoot
 //	var fooDocTry3Document : FooDocTry3Document!
-
-
-
-
-			return lastSelfiePole.pp()
+			return rootVew.lastSelfiePole.pp()
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
-	func ppCam() -> String {
-		let c = lastSelfiePole
-		return fmt("h:%s, s:%.0f, u:%.0f, z:%.3f", c.at.pp(.short), c.spin, c.horizonUp, c.zoom)
-	}
+//	func ppCam() -> String {
+//		let c = lastSelfiePole
+//		return fmt("h:%s, s:%.0f, u:%.0f, z:%.3f", c.at.pp(.short), c.spin, c.horizonUp, c.zoom)
+//	}
 }
 
 

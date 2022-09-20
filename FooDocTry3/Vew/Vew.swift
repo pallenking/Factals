@@ -536,7 +536,9 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						guard fwGuts.lock(vewTreeAs:viewLockName, logIf:log) else {
+						guard let fwGuts = part.root?.fwGuts else { fatalError("### part.root?.fwGuts is nil ###")}
+						let rootVew = fwGuts.rootVew
+						guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
 							fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 						}
 						viewLockName = nil		// mark gotten
@@ -584,7 +586,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		fwGuts.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
+		fwGuts.rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
 	}
 	 // MARK: - 9.5 Wire Box
 	func updateWireBox() {
