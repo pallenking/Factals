@@ -1329,7 +1329,7 @@ bug//				DOC.fwGuts?.toggelOpen(vew:vew!)
 bug				 // Let fwPart handle it:
 				print("-------- mouseDragged (click \(nsEvent.clickCount))\n")
 
-				 // Process the Event to the picked Part's Vew:
+				 // Process the FwwEvent to the picked Part's Vew:
 //				let m : Part 	= vew!.part
 //				m.sendPicEvent(nsEvent, toModelOf:vew)	// was pickedVew
 //				[m sendPickEvent:&fwEvent toModelOf:pickedVew]

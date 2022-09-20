@@ -8,7 +8,7 @@ import SceneKit
 class DiscreteTime : Atom {
 
 	 // MARK: - 2. Object Variables:
-	var resetTo			: Event?	= nil	// event at reset
+	var resetTo			: FwwEvent?	= nil	// event at reset
 	var inspecNibName	: String?	= nil 	// "nib"
 	var inspecIsOpen	: Bool? 	= nil	// kind of a hack
 	var incrementalEvents: Bool 	= false	// Next event inherets previous
@@ -32,7 +32,7 @@ class DiscreteTime : Atom {
 			inspecNibName		= nibString
 			localConfig["nib"]	= nil
 		}
-		if let str 				= localConfig["resetTo"] as? Event {	//String
+		if let str 				= localConfig["resetTo"] as? FwwEvent {	//String
 			resetTo				= str
 		}
 		if let incEv 			= localConfig["incrementalEvents"] as? Bool {
@@ -73,7 +73,7 @@ class DiscreteTime : Atom {
 		try super.init(from:decoder)
         let container 			= try decoder.container(keyedBy:DiscreteTimeKeys.self)
     
-		resetTo					= try container.decode(   Event.self, forKey:.resetTo)
+		resetTo					= try container.decode(   FwwEvent.self, forKey:.resetTo)
 		inspecNibName			= try container.decode(  String.self, forKey:.inspecNibName)
 		inspecIsOpen 			= try container.decode(   Bool.self, forKey:.inspecIsOpen)
 		incrementalEvents		= try container.decode(    Bool.self, forKey:.incrementalEvents)
@@ -144,13 +144,13 @@ class DiscreteTime : Atom {
 		ports["P"]?.portPastLinks?.take(value:0.0, key:nil)	// Perhaps discreteTimes[*]
 	}
 	 /// Load the next event to the target bundle:
-	func loadTargetBundle(event:Event) {
+	func loadTargetBundle(event:FwwEvent) {
 		let pPort				= ports["P"]!				// Perhaps discreteTimes[*]
 		let targetPort			= pPort.portPastLinks
 		self.anonValue 			= 1.0
 		switch event {
-		case .anArray(let eventArray):	 // Event is an Array
-			atEve(4, logd("|| LOAD Event '\(eventArray.pp())' into target \(pPort.fullName)"))
+		case .anArray(let eventArray):	 // FwwEvent is an Array
+			atEve(4, logd("|| LOAD FwwEvent '\(eventArray.pp())' into target \(pPort.fullName)"))
 
 			 // First element of an array might set the current anonymous value
 			if let ea0 			= eventArray.first {
@@ -163,38 +163,38 @@ class DiscreteTime : Atom {
 			if !incrementalEvents {
 /**/			targetPort?.take(value:0.0, key:nil)	// nil -> all
 			}
-			 // Load Event:
+			 // Load FwwEvent:
 /**/		if let label 		= loadEvent(event:event) {
 				let tunnel		= targetPort!.atom! as! Tunnel
 				tunnel.label	= label
 //				targetBundle?.label = label // GUI: Labels in events are moved onto the bundle
 			}
 			root!.simulator.kickstart = 4 		// start simulator when event loads
-		case .aString(let eventStr):	 	// Event is an String
+		case .aString(let eventStr):	 	// FwwEvent is an String
 			if eventStr == "incrementalEvents" {// "incrementalEvents" -- reserved word
 				self.incrementalEvents = true	//  (do not use as signal name)
-				atEve(4, logd("|| Event 'incrementalEvents' -- hold previous values"))
+				atEve(4, logd("|| FwwEvent 'incrementalEvents' -- hold previous values"))
 				return
 			}
 			loadTargetBundle(event: .anArray([event]))	// package up eventStr
-		case .aProb(let prob):			 	// Event is a Floating Point --> Random Events (for easy first tests)
-			atEve(4, logd("|| Event '\(prob)': RANDOMIZE targetBundle \(targetPort?.fullName ?? "?232")"))
+		case .aProb(let prob):			 	// FwwEvent is a Floating Point --> Random Events (for easy first tests)
+			atEve(4, logd("|| FwwEvent '\(prob)': RANDOMIZE targetBundle \(targetPort?.fullName ?? "?232")"))
 			 // Put in random data
 			let value = prob <= Float.random(from:0.0, to:1.0)
 			panic("This doesn't give independent random values!")
 			targetPort?.take(value:value ? 1.0 : 0.0, key:"*")
 		 // Epochs are unsupported
-		case .anEpoch(let eInt):			 // Event is a single number
-			atEve(4, logd("|| Event '\(eInt)': Epoch Mark")) /// Integer --> 0 Epoch Mark
-		default: 				// e.g: Event is an NSInteger, etc. -- no effect on
-			atEve(4, atEve(4, logd("|| Event '\(event.pp(.line))': targetBundle '\(pPort.connectedTo?.fullName ?? "-")' UNCHANGED")))
+		case .anEpoch(let eInt):			 // FwwEvent is a single number
+			atEve(4, logd("|| FwwEvent '\(eInt)': Epoch Mark")) /// Integer --> 0 Epoch Mark
+		default: 				// e.g: FwwEvent is an NSInteger, etc. -- no effect on
+			atEve(4, atEve(4, logd("|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.connectedTo?.fullName ?? "-")' UNCHANGED")))
 		}
 	}
 	  /// Load an event into the target bundle.
 	 /// The event may be a String, Number, or Array
 	/// - parameter event: - data to be loaded through 
 	/// - returns: a label for display (e.g. for Morse Code)
-	func loadEvent(event:Event) -> String? {
+	func loadEvent(event:FwwEvent) -> String? {
 		var rv_label:String? 	= nil// A label that the event has for the bundle.
 									//  e.g: the name of the letter for Morse Code
 		switch event {

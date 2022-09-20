@@ -13,7 +13,7 @@ class TimingChain : Atom {
 	var discreteTimes: [DiscreteTime] = []
 								
 	 // our Status:
-    var event		:Event? = nil	// event being executed
+    var event		:FwwEvent? = nil	// event being executed
 	var state 		: UInt8	= 0	{	// of timing chain
 		didSet {
 			if animateChain && state != oldValue {
@@ -110,7 +110,7 @@ class TimingChain : Atom {
 
 		worldModel	 	= try container.decode(    WorldModel.self, forKey:.worldModel)
 		discreteTimes	= try container.decode([DiscreteTime].self, forKey:.discreteTimes)
-		event	 		= try container.decode( 		Event.self, forKey:.event)
+		event	 		= try container.decode( 		FwwEvent.self, forKey:.event)
 		state	 		= try container.decode( 	    UInt8.self, forKey:.state)
 		animateChain	= try container.decode( 	     Bool.self, forKey:.animateChain)
 		eventDownPause	= try container.decode( 		 Bool.self, forKey:.eventDownPause)
@@ -203,15 +203,15 @@ class TimingChain : Atom {
 	override func simulate(up upLocal:Bool) {	 /// Step all my parts:
 		guard let simulator		= root?.simulator else { return /* no sim */	}
 		guard simulator.simEnabled				  else { return /* not emabled */}
-		 // Check for Event
+		 // Check for FwwEvent
 		if (state == 0) {	// when State Machine becomes idle
 			if let nextEvent = worldModel?.dequeEvent() { 	/// DUPLICATED in IBActions
-				 // DEQUEUED a pending World Experiment Event:
+				 // DEQUEUED a pending World Experiment FwwEvent:
 				assert(state == 0, "    TimingChain Gone Busy")
 				atEve(4, logd("    TimingChain: worldModel?.dequeEvent '\(nextEvent.pp())'"))
 				assert(self.event==nil, "Should be space by now")
 
-				 // Receive Event inside ourselves:
+				 // Receive FwwEvent inside ourselves:
 				event				= nextEvent		// Symbolic, Destined for targetBundle
 
 				retractPort			= nil			// default param
@@ -254,7 +254,7 @@ class TimingChain : Atom {
 				}
 				simulator.kickstart = 4 		// start simulator before State 2
 			}
-			atEve(7, logd("|| LOAD Event '\(event?.pp() ?? "nil")' complete"))
+			atEve(7, logd("|| LOAD FwwEvent '\(event?.pp() ?? "nil")' complete"))
 			event				= nil		// done with event, even if async
 
 			nextState			= 2
@@ -363,10 +363,10 @@ class TimingChain : Atom {
 		}
 		return false
 	}
-	  // MARK: - 8.1 Event Chain
+	  // MARK: - 8.1 FwwEvent Chain
 	 // Get an event from users (e.g. PushButtonBidirNsV, keyboard, ...)
 	func releaseEvent() {
-		atEve(4, logd("    TimingChain: Release Event"))
+		atEve(4, logd("    TimingChain: Release FwwEvent"))
 		eventDownPause			= false			// assert lock, which blocks till up
 print("############ eventDownPause = false -- releaseEvent")
 		root!.simulator.kickstart = 4			// set simulator to run, to pick event up

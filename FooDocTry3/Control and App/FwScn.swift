@@ -70,6 +70,7 @@ class FwScn : Uid {
 	init(fwGuts: FwGuts? = nil, scnView: SCNView? = nil, scnScene: SCNScene) {
 		self.scnView = scnView
 		self.scnScene = scnScene
+		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	}
 	 // MARK: - 9.1 Lights
 	func addLightsToScn() {

@@ -34,7 +34,7 @@ extension Vew			: FwAnyC 	{}	//x Extension outside of file declaring class 'Vew'
 extension Part			: FwAnyC 	{}
 extension BBox			: FwAnyC 	{}
 
-extension Event			: FwAnyC 	{}
+extension FwwEvent			: FwAnyC 	{}
 extension Log			: FwAnyC 	{}
 extension Path			: FwAnyC 	{}
 
@@ -144,35 +144,35 @@ enum FwType : String {
 enum FwError: Error {
 	case string(_ kind:String)		// To Swift.throw a meaningess string
 }
-
-class FwEvent {							// NOT NSObject
-	let fwType : FwType
-
-	let	nsType : Int 			= 999
-		// As defined in NSEvent.NSEventType:
-		//NSLeftMouseUp 		NSRightMouseDown 	NSRightMouseUp NSMouseMoved
-		//NSLeftMouseDragged	NSRightMouseDragged
-		//NSMouseEntered 		NSMouseExited
-		//NSKeyDown 			NSKeyUp 			NSFlagsChanged (deleted PAK170906)
-		//NSPeriodic 			NSCursorUpdate		NSScrollNSTablet 	NSTablet
-		//NSOtherMouse 			NSOtherMouseUp		NSOtherMouseDragged
-		//NSEventTypeGesture	NSEventTypeMagnify	NSEventTypeSwipe 	NSEventTypeRotate
-		//NSEventTypeBeginGesture NSEventTypeEndGesture NSEventTypeSmartMagnify NSEventTypeQuickLook
-	var clicks		 : Int		= 0		// 1, 2, 3?
-	var key			 :Character = " "
-	var modifierFlags : Int64	= 0
-		// As defined in NSEvent.modifierFlags:
-		// NSAlphaShiftKeyMask 	NSShiftKeyMask 		NSControlKeyMask 	NSAlternateKeyMask
-		// NSCommandKeyMask 	NSNumericPadKeyMask NSHelpKeyMask 		NSFunctionKeyMask
-	var mousePosition:SCNVector3 = .zero	// after[self convertPoint:[theEvent locationInWindow] fromVew:nil]
-	var deltaPosition:SCNVector3 = .zero	// since last time
-	var deltaPercent :SCNVector3 = .zero	// since last time, in percent of screen
-	var scrollWheelDelta		= 0.0
-
-	init(fwType f:FwType) {
-		fwType 					= f
-	}
-}
+//
+//class FwEvent {							// NOT NSObject
+//	let fwType : FwType
+//
+//	let	nsType : Int 			= 999
+//		// As defined in NSEvent.NSEventType:
+//		//NSLeftMouseUp 		NSRightMouseDown 	NSRightMouseUp NSMouseMoved
+//		//NSLeftMouseDragged	NSRightMouseDragged
+//		//NSMouseEntered 		NSMouseExited
+//		//NSKeyDown 			NSKeyUp 			NSFlagsChanged (deleted PAK170906)
+//		//NSPeriodic 			NSCursorUpdate		NSScrollNSTablet 	NSTablet
+//		//NSOtherMouse 			NSOtherMouseUp		NSOtherMouseDragged
+//		//NSEventTypeGesture	NSEventTypeMagnify	NSEventTypeSwipe 	NSEventTypeRotate
+//		//NSEventTypeBeginGesture NSEventTypeEndGesture NSEventTypeSmartMagnify NSEventTypeQuickLook
+//	var clicks		 : Int		= 0		// 1, 2, 3?
+//	var key			 :Character = " "
+//	var modifierFlags : Int64	= 0
+//		// As defined in NSEvent.modifierFlags:
+//		// NSAlphaShiftKeyMask 	NSShiftKeyMask 		NSControlKeyMask 	NSAlternateKeyMask
+//		// NSCommandKeyMask 	NSNumericPadKeyMask NSHelpKeyMask 		NSFunctionKeyMask
+//	var mousePosition:SCNVector3 = .zero	// after[self convertPoint:[theEvent locationInWindow] fromVew:nil]
+//	var deltaPosition:SCNVector3 = .zero	// since last time
+//	var deltaPercent :SCNVector3 = .zero	// since last time, in percent of screen
+//	var scrollWheelDelta		= 0.0
+//
+//	init(fwType f:FwType) {
+//		fwType 					= f
+//	}
+//}
 // ///////////////////////////// END FW_EVENT //////////////////////////////////////
 
  // DEFAULT IMPLEMENTATIONS, set to work for most uninteresting types

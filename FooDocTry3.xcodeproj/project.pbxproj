@@ -10,7 +10,7 @@
 		9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
 		9F0295D32880923000DD0004 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
 		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
-		9F0295D92880926D00DD0004 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D72880926D00DD0004 /* Event.swift */; };
+		9F0295D92880926D00DD0004 /* FwwEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D72880926D00DD0004 /* FwwEvent.swift */; };
 		9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
 		9F0295DD288092F800DD0004 /* SCNVector9XCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DC288092F800DD0004 /* SCNVector9XCTest.swift */; };
 		9F0295DF2880932200DD0004 /* CG++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DE2880932200DD0004 /* CG++.swift */; };
@@ -50,6 +50,7 @@
 		9F1E3CE228D4991F004548C9 /* AppDelegateFoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE128D4991F004548C9 /* AppDelegateFoo.swift */; };
 		9F1E3CE428D8C9CF004548C9 /* FwScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE328D8C9CF004548C9 /* FwScn.swift */; };
 		9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* RootVew.swift */; };
+		9F1E3CE828D94CF7004548C9 /* FwEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE728D94CF7004548C9 /* FwEvent.swift */; };
 		9F3E49A828B27238003D450D /* NSEventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* NSEventReceiver.swift */; };
 		9F3E4A0B28B7A7C4003D450D /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* Gestures.swift */; };
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
@@ -103,7 +104,7 @@
 		9F0295D02880921800DD0004 /* XXXFwViewXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXFwViewXXX.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
-		9F0295D72880926D00DD0004 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		9F0295D72880926D00DD0004 /* FwwEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwwEvent.swift; sourceTree = "<group>"; };
 		9F0295DA2880928600DD0004 /* FwTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwTypes.swift; sourceTree = "<group>"; };
 		9F0295DC288092F800DD0004 /* SCNVector9XCTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNVector9XCTest.swift; sourceTree = "<group>"; };
 		9F0295DE2880932200DD0004 /* CG++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CG++.swift"; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		9F1E3CE128D4991F004548C9 /* AppDelegateFoo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateFoo.swift; sourceTree = "<group>"; };
 		9F1E3CE328D8C9CF004548C9 /* FwScn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwScn.swift; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* RootVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVew.swift; sourceTree = "<group>"; };
+		9F1E3CE728D94CF7004548C9 /* FwEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwEvent.swift; sourceTree = "<group>"; };
 		9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXFwDocumentXXX.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* NSEventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSEventReceiver.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				9F3E49A728B27238003D450D /* NSEventReceiver.swift */,
 				9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
+				9F1E3CE728D94CF7004548C9 /* FwEvent.swift */,
 				9F1E3CE328D8C9CF004548C9 /* FwScn.swift */,
 				9F1E3CE528D926C5004548C9 /* RootVew.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
@@ -372,7 +375,7 @@
 		9FEE6FDB2843182A00E9E2AE /* Extensions++ */ = {
 			isa = PBXGroup;
 			children = (
-				9F0295D72880926D00DD0004 /* Event.swift */,
+				9F0295D72880926D00DD0004 /* FwwEvent.swift */,
 				9F0295D62880926D00DD0004 /* Self++.swift */,
 				9FEE52202874AB7300C8C22A /* Path.swift */,
 				9FAA4A0328524C40009332C9 /* HasChildren.swift */,
@@ -542,6 +545,7 @@
 				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,
 				9F19010328808DC10078DB6C /* Leaf.swift in Sources */,
 				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
+				9F1E3CE828D94CF7004548C9 /* FwEvent.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9F4A3ADA288B386300574925 /* Part.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwGuts.swift in Sources */,
@@ -558,7 +562,7 @@
 				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,
-				9F0295D92880926D00DD0004 /* Event.swift in Sources */,
+				9F0295D92880926D00DD0004 /* FwwEvent.swift in Sources */,
 				9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

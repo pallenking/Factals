@@ -1,10 +1,11 @@
-//  Event.swift -- generate digital words C190822PAK
+//  FwwEvent.swift -- generate digital words C190822PAK
 import SceneKit
 
-enum Event : Codable, Equatable {	// Uid, 
+ // An event used by the Simulator
+enum FwwEvent : Codable, Equatable {	// Uid, 
 	//var uid 		: UInt16 		{ 	return SwiftFactals.uid(nsOb:self)	}
 	case aString(String)
-	case anArray([Event])
+	case anArray([FwwEvent])
 	case anEpoch(Int)
 	case aProb(Float)
 	case aNil_
@@ -23,9 +24,9 @@ enum Event : Codable, Equatable {	// Uid,
 			self				= .aProb(prob)
 		}
 		else if let arr 		= any! as? Array<Any> {
-			var rv 				= [Event]()
+			var rv 				= [FwwEvent]()
 			for elt in arr {
-				if let eElt		= Event(any:elt) {
+				if let eElt		= FwwEvent(any:elt) {
 					rv.append(eElt)
 				}
 				else {
@@ -40,7 +41,7 @@ enum Event : Codable, Equatable {	// Uid,
 	}
 	init(from decoder: Decoder) throws 		{		fatalError()	}
 	func encode(to encoder: Encoder) throws {		fatalError()	}
-	mutating func add(event:Event) {
+	mutating func add(event:FwwEvent) {
 		if case .anArray(var a) = self {
 			a.append(event)
 		}
@@ -71,7 +72,7 @@ enum Event : Codable, Equatable {	// Uid,
 	  */
 
 	 // 161201 This code is a shadow of what it started out as, and could be rebuilt
-	func eventUnrand(events:Event) -> String {
+	func eventUnrand(events:FwwEvent) -> String {
 		if case .anArray(let eventsArray) = events {
 			for event in eventsArray {
 				if case .aString(var eventString) = event {

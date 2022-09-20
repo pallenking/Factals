@@ -3,16 +3,8 @@
 // Coordinates Operation of root, vew, and scn
 
 import SceneKit
-//
-// // Kinds of Nodes
-//enum FwNodeCategory : Int {
-//	case byDefault				= 0x1		// default unpicable (piced by system)
-//	case picable 				= 0x2		// picable
-//	case adornment				= 0x4		// unpickable e.g. bounding box
-//	case collides				= 0x8		// Experimental
-//}
-			//projectPoint(_:)
-class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*SCNScene */ {	//,
+
+class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 
 	  // MARK: - 2. Object Variables:
 	var rootPart : RootPart														//{	rootVew.part as! RootPart}
@@ -22,7 +14,6 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 
 	var config4fwGuts : FwConfig = [:] {
 		didSet {	//if config4fwGuts != oldValue {
-
 			let x				= config4fwGuts.bool("animatePhysics") ?? false
 			fwScn.animatePhysics = x
 
@@ -41,7 +32,6 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 			//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 		}
 	}
-		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	 // MARK: - 3. Factory
 	convenience init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
 		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
@@ -51,17 +41,17 @@ class FwGuts : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate /*S
 		config4fwGuts			= fwConfig
 		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 	}
-	init(scene scene_:SCNScene?=nil, rootPart:RootPart, named name:String) {
+	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
-		assert(scene_ != nil, "FwGuts(scene is nil")
-		self.rootVew			= RootVew(forPart:rootPart, scn:scene_!.rootNode)
-		self.fwScn				= FwScn(scnScene:scene_!)
+		guard let scene else { fatalError("FwGuts(scene is nil")}
+		self.rootVew			= RootVew(forPart:rootPart, scn:scene.rootNode)
+		self.fwScn				= FwScn(scnScene:scene)
 
 		super.init()
 
 		 // Back Links
-		fwScn.fwGuts			= self
 		rootVew.fwGuts			= self
+		fwScn.fwGuts			= self
 	}
 
 	// FileDocument requires these interfaces:
@@ -281,12 +271,11 @@ bug
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
+		case .rightMouseDown:	bug
+		case .rightMouseDragged:bug
+		case .rightMouseUp:		bug
 
-//	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
-//	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
-//	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
-
-		  //  ====== TOUCH PAD ======
+		  //  ====== TOUCH PAD ====== (no touchesBegan, touchesMoved, touchesEnded)
 		case .magnify:			bug
 		case .smartMagnify:		bug
 		case .swipe:			bug
