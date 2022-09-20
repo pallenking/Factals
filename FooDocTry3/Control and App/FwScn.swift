@@ -304,7 +304,7 @@ bug;	let fwGuts				= DOCfwGuts
 		} else {
 			camScn.transform	= selfiePole.transform
 		}
-		fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize)
+		atRsi(7, fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize))
 	}
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {

@@ -130,7 +130,7 @@ extension Log : FwStatus {												/// Log
 extension FooDocTry3Document : FwStatus	{				 /// FooDocTry3Document
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FooDocTry3Doc", uid:self,
-			myLine:" \(fwGuts.pp(.uidClass)) redo:\(redo)",
+			myLine:" \(fwGuts.pp(.classUid)) redo:\(redo)",
 			otherLines:{ deapth in
 				var rv			= fwGuts.ppFwState(deapth:deapth)
 				 // Inspectors:

@@ -74,6 +74,6 @@ struct SceneKitHostingView : NSViewRepresentable {
 	}
 	
 	func updateNSView(_ nsView: SCNView, context: Context) {
-		print("----------- SceneKitHostingView.updateNSView called")
+		atRnd(4, print("----------- SceneKitHostingView.updateNSView called"))
 	}
 }

@@ -275,7 +275,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	var inspecLastVew : Vew? 	= nil
 	var inspecWindow  : NSWindow? = nil
 	mutating func makeInspectors() {
-		print("code makeInspectors")
+		atIns(7, print("code makeInspectors"))
 		let library				= APP.library
 		let config2				= params4guts + library.answer.ansConfig
 			// TODO: should move ansConfig stuff into wireAndGroom
