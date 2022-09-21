@@ -36,7 +36,7 @@ class FwEvent {							// NOT NSObject
 	}
 }
 
-class EventCentral : NSObject, SCNSceneRendererDelegate {
+class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 	var fwGuts : FwGuts!
 
 	override init() {
@@ -49,7 +49,6 @@ class EventCentral : NSObject, SCNSceneRendererDelegate {
   // called by SCNSceneRenderer
 
 		// MARK: - SCNSceneRendererDelegate
-	  // MARK: - 9.5.1: Update At Time					-- Update Vew and Scn from Part
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
@@ -62,7 +61,6 @@ class EventCentral : NSObject, SCNSceneRendererDelegate {
 			else { fatalError("renderer(_ r:SCNSceneRenderer, updateAtTime")	}
 		}
 	}
-	  // MARK: 9.5.2: Did Apply Animations At Time	-- Compute Spring force L+P*
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
@@ -74,7 +72,6 @@ class EventCentral : NSObject, SCNSceneRendererDelegate {
 			else { fatalError("renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime")	}
 		}
 	}
-	  // MARK: 9.5.3: Did Simulate Physics At Time	-- Apply spring forces	  P*
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
@@ -85,7 +82,6 @@ class EventCentral : NSObject, SCNSceneRendererDelegate {
 			}
 		}
 	}
-	  // MARK: 9.5.4: Will Render Scene				-- Rotate Links to cam	L+P*
 	public func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
@@ -97,13 +93,23 @@ class EventCentral : NSObject, SCNSceneRendererDelegate {
 		}
 	}
 	   // ODD Timing:
-	  // MARK: 9.5.5: did Render Scene
 	public func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
 		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
 	}
-	  // MARK: 9.5.6: Did Apply Constraints At Time
 	public func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
 		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
+	}
+
+// /////////////////////////////////////////////////////////////////////////////
+// ///////////////////  SCNPhysicsContactDelegate:  ////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
+
+		// MARK: - SCNSceneRendererDelegate
+	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+	}
+	func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
+	}
+	func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
 	}
 
 	 // MARK: - 13. IBActions

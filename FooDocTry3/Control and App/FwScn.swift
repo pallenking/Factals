@@ -313,7 +313,8 @@ bug;	let fwGuts				= DOCfwGuts
 		return NSPoint(x:vpV3.x, y:vpV3.y)
 	}
 
-	 /// Build  Vew and SCN  tree from  Part  tree for the first time
+	 /// Build  Vew and SCN  tree from  Part  tree for the first time.
+	///   (This assures updateVewNScn work)
 	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
 		assert(rootVew.name 	== "_ROOT", "Paranoid check")
 		assert(rootVew.part		== rootPart,"Paranoid check")

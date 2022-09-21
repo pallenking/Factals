@@ -78,11 +78,9 @@ class Simulator : NSObject, Codable {
 	weak var rootPart	: RootPart? = nil
 //
 	// MARK: - 3. Factory
-	init(_ config:FwConfig) {
+	override init() {
 		super.init()
-
 //		atCon(6, logd("init(\(config4sim.pp(.line)))"))
-		config4sim				= config
 	}
 
 	 /// Controls the Simulator's operation
@@ -161,7 +159,7 @@ class Simulator : NSObject, Codable {
 // END CODABLE /////////////////////////////////////////////////////////////////
 	 // MARK: - 3.6 NSCopying
 	func copy(with zone: NSZone?=nil) -> Any {
-bug;	let theCopy : Simulator		= Simulator([:])//super.copy(with:zone) as! Simulator
+bug;	let theCopy : Simulator		= Simulator()//super.copy(with:zone) as! Simulator
 //		theCopy.simBuilt_			= self.simBuilt_
 //		theCopy.simEnabled_			= self.simEnabled_
 //		theCopy.simTaskRunning		= self.simTaskRunning

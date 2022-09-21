@@ -24,7 +24,8 @@ enum FwwEvent : Codable, Equatable {	// Uid,
 			self				= .aProb(prob)
 		}
 		else if let arr 		= any! as? Array<Any> {
-			var rv 				= [FwwEvent]()
+			var rv : [FwwEvent]	= []
+//			var rv 				= [FwwEvent]()
 			for elt in arr {
 				if let eElt		= FwwEvent(any:elt) {
 					rv.append(eElt)

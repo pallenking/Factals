@@ -271,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
+				9F1E3CE528D926C5004548C9 /* RootVew.swift */,
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F190115288090240078DB6C /* InspecParts.swift */,
 				9F190118288090240078DB6C /* InspecBase.swift */,
@@ -296,7 +297,6 @@
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F1E3CE728D94CF7004548C9 /* FwEvent.swift */,
 				9F1E3CE328D8C9CF004548C9 /* FwScn.swift */,
-				9F1E3CE528D926C5004548C9 /* RootVew.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,

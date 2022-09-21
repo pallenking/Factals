@@ -30,11 +30,13 @@ class RootPart : Part {
 	var indexFor:Dictionary<String,Int>	= ["":0] // index of named items (<Class>,"wire","WBox","origin","breakAtWire"
 
 	// MARK: - 3. Part Factory
-	override init(_ config:FwConfig = [:]) {		/// WHY IS THIS NEEDED?
-		simulator				= Simulator([:])
-		log						= Log(params4docLog, title:"RootPart([:])'s Log(params4docLog)")
-		super.init(["name":"ROOT"] + config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		simulator.rootPart		= self
+	init() {
+		simulator				= Simulator()
+		simulator.config4sim	= params4sim
+		log						= Log(title:"RootPart([:])'s Log(params4docLog)")
+		log.config4log			= params4docLog
+
+		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	
 //// START CODABLE ///////////////////////////////////////////////////////////////

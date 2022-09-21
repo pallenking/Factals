@@ -139,14 +139,15 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
-	init(_ config:FwConfig = [:], title:String) {			//_ config:FwConfig=[:]
+	init(title:String)	{			//_ config:FwConfig=[:]
+//	init(_ config:FwConfig = [:], title:String) {			//_ config:FwConfig=[:]
 		super.init()
 
 		Log.maximumLogNo		+= 1
 		logNo					= Log.maximumLogNo				// Logs have unique number
 		self.title				= title
 
-		config4log/*active*/	= config + ["cause":"Log" + "([\(config.count) elts], title:\"\(title)\")"]
+//		config4log/*active*/	= config + ["cause":"Log" + "([\(config.count) elts], title:\"\(title)\")"]
 	}		// N.B: during init context, loading config4log does not trigger its 'didSet'
 
 // START CODABLE ///////////////////////////////////////////////////////////////
@@ -365,7 +366,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 	]
 	var params4aux : FwConfig	{	config4log									}
 	static let null : Log		= {
-		let rv					= Log([:], title:".null = Log(params4app)")
+		let rv					= Log(title:".null = Log(params4app)")
 		rv.config4log			= params4appLog
 		return rv
 	}()

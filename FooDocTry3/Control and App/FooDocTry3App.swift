@@ -95,7 +95,11 @@ struct FooDocTry3App: App, Uid, FwAny {
 //		.handlesExternalEvents(matching: [])
 	}
 	 // MARK: - 2. Object Variables:
-	var log	: Log				= Log(params4appLog, title:"AppDelegate's Log(params4appLog)")
+	var log	: Log				{
+		let rv					= Log(title:"AppDelegate's Log(params4appLog)")
+		rv.config4log			= params4appLog
+		return rv
+	}
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keep regressScene up to date
