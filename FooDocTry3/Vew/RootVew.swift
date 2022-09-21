@@ -6,6 +6,7 @@
 //
 
 import SceneKit
+
 class RootVew : Vew {
 	weak
 	 var fwGuts : FwGuts!
@@ -17,9 +18,15 @@ class RootVew : Vew {
 		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil
 	}
+	 // MARK: x.3.2 Look At Spot
+	var lookAtVew  : Vew?		= nil					// Vew we are looking at
+//	var pole					= SCNNode()				// focus of mouse rotator
+	var lastSelfiePole : SelfiePole!					// init to default
+
 	init(forPart part:Part?=nil, scn:SCNNode?=nil) {
 			//RootVew
 		super.init(forPart:part, scn:scn)
+		lastSelfiePole			= SelfiePole(rootVew:self)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
@@ -88,10 +95,6 @@ class RootVew : Vew {
 			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
 		}
 	}
-	 // MARK: 9.3.2 Look At Spot
-	var lookAtVew  : Vew?		= nil					// Vew we are looking at
-//	var pole					= SCNNode()				// focus of mouse rotator
-	var lastSelfiePole 			= SelfiePole()			// init to default
 
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{

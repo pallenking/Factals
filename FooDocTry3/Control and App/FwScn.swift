@@ -65,8 +65,6 @@ class FwScn : Uid {
 		set(v) {		scnScene.isPaused = !v									}
 	}
 
-//	init() {
-//	}
 	init(fwGuts: FwGuts? = nil, scnView: SCNView? = nil, scnScene: SCNScene) {
 		self.scnView = scnView
 		self.scnScene = scnScene

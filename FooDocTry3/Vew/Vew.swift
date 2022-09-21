@@ -769,6 +769,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
+				let rootScn		= part.root?.fwGuts.rootVew.scn					//= part.root?.fwGuts.fwScn.rootScn
 				rv				+= !ppViewOptions.contains("W") ? ""
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.short) + " "
 				if !(self is LinkVew) {

@@ -140,11 +140,11 @@ struct FooDocTry3App: App, Uid, FwAny {
 	 // MARK: - 3. Factory
 
 	init () {
-		printFwcState()
-		print("FooDocTry3App.init()")
+		APP = self				// Register  (HOAKEY)
+		let _					= Log.null		// create here
+
 		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
-		APP = self
 
 		 // Configure App with defaults:
 		config4app/*active*/	= params4app

@@ -22,15 +22,15 @@ struct SCNViewsArgs {
 
 		// Wrap a FwGuts as a SwiftUI View
 
-struct SceneKitHostingView : NSViewRepresentable {
-	// was final class
-	typealias NSViewType 		= SCNView	// represent SCNView's inside
-	var args					: SCNViewsArgs
+struct SceneKitHostingView : NSViewRepresentable {								// was final class
+	typealias NSViewType 		= SCNView	// represent SCNView inside
 
 	 // On creation, save the args for later
 	init(_ args:SCNViewsArgs)	{
 		self.args				= args
 	}
+	var args					: SCNViewsArgs
+
 	 // Later, use args to make SCNView
 	func makeNSView(context: Context) -> SCNView {
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
@@ -44,12 +44,12 @@ struct SceneKitHostingView : NSViewRepresentable {
 
 		 // Connect FwGuts
 		if let fwGuts			= args.fwGuts {
-			fwGuts.fwScn.scnView = scnView			// Link things SceneKitHostingView generated
-			guard let scnScene	= scnView.scene else {	fatalError("makeNSView with nil SCNScene") }
+			guard let scnScene	= scnView.scene else {	fatalError("makeNSView cannot get SCNScene from SCNView") }
 			fwGuts.fwScn.scnScene = scnScene
+			fwGuts.fwScn.scnView = scnView			// Link things SceneKitHostingView generated
+//??			fwGuts.rootVew.scn	= rootScn			// set Vew with new scn root
 			let rootScn			= scnScene.rootNode
 			rootScn.name		= "*-ROOT"
-			fwGuts.rootVew.scn = rootScn			// set Vew with new scn root
 		}
 		  // Configure Options of FwView
 		 // There must be a better way to do this:

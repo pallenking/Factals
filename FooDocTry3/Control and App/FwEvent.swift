@@ -180,7 +180,6 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			fwGuts.fwScn.updatePole2Camera(duration:duration, reason:"Other mouseUp")
-//			print("camera = [\(ppCam())]")
 			atEve(9, print("\(fwGuts.fwScn.scnScene.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======

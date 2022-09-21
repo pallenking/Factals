@@ -151,14 +151,14 @@ bug
 			}
 	  //case "r" alone:
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			rootScn.play(sound:"Oooooooo")		//GameStarting
+			fwScn.rootScn.play(sound:"Oooooooo")		//GameStarting
 		case "v":	
 			print("\n******************** 'v': ==== Views:")
-			print("\(rootVew.pp(.tree))", terminator:"")
+			print("\(self.rootVew.pp(.tree))", terminator:"")
 		case "n":	
 			print("\n******************** 'n': ==== SCNNodes:")
 			DOClog.ppIndentCols = 3
-			print(rootScn.pp(.tree), terminator:"")
+			print(fwScn.rootScn.pp(.tree), terminator:"")
 			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
 			//aprint("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
 		case "#":
@@ -253,7 +253,8 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+			.rootNode:fwScn.rootScn,	// The root of the node hierarchy to be searched.
+//			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 		 // CONVERT to window coordinates
 		let pt 	  	: NSPoint	= nsEvent.locationInWindow
@@ -407,31 +408,21 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 	//		anim.duration = 1
 	//		node.addAnimation(anim, forKey: nil)
 	}
-
-
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
-		case .tree:
-bug
-//	var rootPart 				: RootPart														//{	rootVew.part as! RootPart}
-//	var rootVew  				: Vew				//			= .null
-//	var rootVewOwner 			: String?	= nil
-//	var rootVewOwnerPrev		:String? = nil
-//	var rootVewVerbose 			= false
-//	var scnView	 				: SCNView?		= nil
-//	var scnScene				: SCNScene
-//	var rootScn  				: SCNNode	{	scnScene.rootNode									}	//scnRoot
-//	var fooDocTry3Document : FooDocTry3Document!
+		case .line:
+			var rv				= rootPart     		 .pp(.classUid) + " "		//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
+			rv					+= rootVew     		 .pp(PpMode.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
+			rv					+= fwScn       		 .pp(.classUid) + " "		//	rv				+= "\(obj.description.shortenStringDescribing())\n"
+			rv					+= eventCentral		 .pp(.classUid) + " "		//}
+			rv					+= fooDocTry3Document.pp(.classUid)
+			rv					+= " SelfiePole:" + rootVew.lastSelfiePole.pp()
 			return rootVew.lastSelfiePole.pp()
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
-//	func ppCam() -> String {
-//		let c = lastSelfiePole
-//		return fmt("h:%s, s:%.0f, u:%.0f, z:%.3f", c.at.pp(.short), c.spin, c.horizonUp, c.zoom)
-//	}
 }
 
 
