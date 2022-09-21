@@ -136,6 +136,8 @@ struct FooDocTry3App: App, Uid, FwAny {
 	 // MARK: - 3. Factory
 
 	init () {
+		printFwcState()
+		print("FooDocTry3App.init()")
 		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		APP = self

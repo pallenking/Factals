@@ -365,8 +365,8 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 	]
 	var params4aux : FwConfig	{	config4log									}
 	static let null : Log		= {
-		let params				= params4appLog
-		let rv					= Log(params, title:".null = Log(params4app)")
+		let rv					= Log([:], title:".null = Log(params4app)")
+		rv.config4log			= params4appLog
 		return rv
 	}()
 

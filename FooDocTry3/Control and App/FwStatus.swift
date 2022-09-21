@@ -13,18 +13,20 @@ func ppFwcConfig() -> String {
 		CONFIGURATIONS:
 		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
 		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
-		 fwGuts       .config4fwGuts:\(w( DOCfwGuts.config4fwGuts		.pp(.line)	))
+		 fwGuts       .config4fwGuts:\(w(DOCfwGuts .config4fwGuts	.pp(.line)	))
 		 rootPart     .ansConfig:   \(w( DOCfwGuts.rootPart.ansConfig.pp(.line)	))
 		 simulator    .config4sim:  \(w( DOCfwGuts.rootPart.simulator.config4sim.pp(.line) ))
 		"""
 }
-func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)		}
+private func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)}
 
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
 func ppFwcState() -> String
-{//Value of type 'FooDocTry3App' has no member 'ppFwState'
-	var rv : String				 = APP?   .ppFwState() ?? ""// APPlication DELegate
+{
+	guard let APP else {	return "FooDocTry3App: APP==nil, No Application registered"}
+	var rv : String				 = APP    .ppFwState()
+	guard let DOC else {	return rv + "FooDocTry3App: DOC==nil, No Current Document ("}
 	rv							+= DOC    .ppFwState()		// current DOCument
 //	rv							+= ppDOC()					// current DOCument
 	rv							+= DOClog .ppFwState()		// DOClog
