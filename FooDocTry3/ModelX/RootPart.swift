@@ -311,7 +311,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 	convenience init(fromLibrary selectionString:String) {
 
 		 // Make tree's root (a RootPart):
-		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+.		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.root				= self				// Every Part, including rootPart, points to rootPart
 		title					= "'\(selectionString)' not found"

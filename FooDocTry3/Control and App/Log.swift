@@ -147,7 +147,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 		self.title				= title
 
 		config4log/*active*/	= config + ["cause":"Log" + "([\(config.count) elts], title:\"\(title)\")"]
-	}
+	}		// N.B: during init context, loading config4log does not trigger its 'didSet'
 
 // START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
