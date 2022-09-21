@@ -34,13 +34,13 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		}
 	}
 	 // MARK: - 3. Factory
-	convenience init(rootPart:RootPart?=nil, fwConfig:FwConfig) {		//controller ctl:Controller? = nil,
+	convenience init(rootPart:RootPart?=nil) {		//controller ctl:Controller? = nil,
 		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
 
 		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
 
-		config4fwGuts			= fwConfig
-		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
+//		config4fwGuts			= fwConfig
+//		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
 	}
 	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
 		self.rootPart			= rootPart
@@ -77,7 +77,7 @@ bug//		try self.write(to: fileURL)
 		} catch {
 			print("error writing file: \(error)")
 		}
-		self.init(fwConfig:[:])
+		self.init()
 bug
 //		do {		// 2. Init self from file
 //			try self.init(fwConfig:[:])

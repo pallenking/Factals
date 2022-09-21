@@ -348,14 +348,17 @@ bug;	let rv					= NSMenu(title:path)
 											: regressScene	// from last time
 		regressScene			= sceneNumber + 1			// next regressScene
 
+		 // Make new Document
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
-		let fwGuts				= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
+		let fwGuts				= FwGuts(rootPart:rootPart)
 		let doc					= FooDocTry3Document(fwGuts:fwGuts)
-		 // Backlinks
+
+		 // Backlinks, config
 		rootPart.fwGuts			= fwGuts
 		fwGuts.fooDocTry3Document = doc
+		fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
 
-		DOC						= doc		// register
+		DOC						= doc		// register (UGLY!!!)
 
 		doc.makeWindowControllers()
 		doc.registerWithDocController()	// a new DOc must be registered

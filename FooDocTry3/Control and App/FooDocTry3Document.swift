@@ -15,8 +15,7 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 	var fwGuts : FwGuts!				// content
 
-	 // No Document supplied, make:
-	init() {													 //    INTERNAL:
+	init() {	// Build an EMPTY document						 //    INTERNAL:
 		//			Make RootPart:		//---FUNCTION-----------+-wantName:---wantNumber:
 		//**/	let select		= nil	//	 Blank scene		|	nil			-1
 		//**/	let select		= 34	//	 entry N			|	nil			N *
@@ -24,9 +23,9 @@ struct FooDocTry3Document: FileDocument, Uid {
 		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
 		let rootPart			= RootPart(fromLibrary:select)
 
-		 //			Make FwGuts:
-		fwGuts					= FwGuts(rootPart:rootPart, fwConfig:params4guts + rootPart.ansConfig)
-
+		 //		Make FwGuts:
+		fwGuts					= FwGuts(rootPart:rootPart)
+		fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
 		 // back pointers
 		fwGuts.fooDocTry3Document = self
 		rootPart.fwGuts			= fwGuts
@@ -52,12 +51,14 @@ struct FooDocTry3Document: FileDocument, Uid {
 			//	struct FileDocumentReadConfiguration (FileDocument: typealias ReadConfiguration = ~)
 			//		let contentType : UTType		// The expected uniform type of the file contents.
 			//		let existingFile: FileWrapper?	// The file wrapper containing the document content.
-bug;	guard let data : Data 	= configuration.file.regularFileContents else {
-								  throw CocoaError(.fileReadCorruptFile)		}
+		guard let data : Data 	= configuration.file.regularFileContents else {
+			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
+			throw CocoaError(.fileReadCorruptFile)								}
 		switch configuration.contentType {
 		case .fooDocTry3:
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)
-			let fwGuts			= FwGuts(rootPart:rootPart, fwConfig:[:])
+			let fwGuts			= FwGuts(rootPart:rootPart)
+			fwGuts.config4fwGuts = params4guts
 			self.init(fwGuts:fwGuts)			// -> FooDocTry3Document
 			fwGuts.fooDocTry3Document = self
 		case .sceneKitScene:
