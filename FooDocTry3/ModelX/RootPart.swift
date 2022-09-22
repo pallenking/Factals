@@ -489,6 +489,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		var rv 				= super.pp(mode, aux)
 		if mode! == .line {
 			rv					+= " \"\(title)\""
+		}
 		return rv
 	}
 }

@@ -34,15 +34,12 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		}
 	}
 	 // MARK: - 3. Factory
-	convenience init(rootPart:RootPart?=nil) {		//controller ctl:Controller? = nil,
+	convenience init(rootPart:RootPart) {		//controller ctl:Controller? = nil,
 		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
 
-		self.init(scene:SCNScene(), rootPart:rootPart!, named:"")
-
-//		config4fwGuts			= fwConfig
-//		atCon(6, logd("init(fwConfig:\(fwConfig.pp(.line).wrap(min: 30, cur: 44, max: 100))"))
+		self.init(scene:SCNScene(), rootPart:rootPart)
 	}
-	init(scene:SCNScene?=nil, rootPart:RootPart, named name:String) {
+	init(scene:SCNScene?=nil, rootPart:RootPart) {
 		self.rootPart			= rootPart
 		guard let scene else { fatalError("FwGuts(scene is nil")}
 		self.rootVew			= RootVew(forPart:rootPart, scn:scene.rootNode)
@@ -72,13 +69,13 @@ bug//		try self.write(to: fileURL)
 	}
 	 // initialize new SCNScene from Data
 	convenience init?(data:Data, encoding:String.Encoding) {
-		do {		// 1. Write data to file.
-			try data.write(to: fileURL)
-		} catch {
-			print("error writing file: \(error)")
-		}
-		self.init()
-bug
+		fatalError("FwGuts.init?(data:Data")
+	//	do {		// 1. Write data to file.
+	//		try data.write(to: fileURL)
+	//	} catch {
+	//		print("error writing file: \(error)")
+	//	}
+	//	self.init()
 //		do {		// 2. Init self from file
 //			try self.init(fwConfig:[:])
 //	//		try super.init(url: fileURL)

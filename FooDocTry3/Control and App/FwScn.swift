@@ -314,10 +314,10 @@ bug;	let fwGuts				= DOCfwGuts
 	 /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	///   (This assures updateVewNScn work)
 	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
-		assert(rootVew.name 	== "_ROOT", "Paranoid check")
-		assert(rootVew.part		== rootPart,"Paranoid check")
-		assert(rootVew.part.name == "ROOT", "Paranoid check")
-		assert(rootVew.part.children.count == 1, "Paranoid check")
+		assert(rootVew.name 	== "_ROOT", "Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
+		assert(rootVew.part		== rootPart,"Paranoid check, rootVew.part != rootPart")
+		assert(rootVew.part.name == "ROOT", "Paranoid check: rootVew.part.name=\(rootVew.part.name) !=\"ROOT\"")
+		assert(rootPart.children.count == 1,"Paranoid check: rootPart has \(rootPart.children.count) children, !=1")
 
 		 // 1. 	GET LOCKS				// PartTree
 		guard rootPart.lock(partTreeAs:"createVews") else {
