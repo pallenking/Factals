@@ -43,7 +43,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		super.init()
 	}
 	func reconfigureWith(config:FwConfig) {
-	}
+bug	}
 
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////

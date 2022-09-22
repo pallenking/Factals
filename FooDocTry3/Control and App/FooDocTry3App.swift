@@ -101,35 +101,25 @@ struct FooDocTry3App: App, Uid, FwAny {
 		return rv
 	}
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
-
-	 // Keep regressScene up to date
-	var config4app : FwConfig	= [:] 
-	mutating func reconfigureWith(config:FwConfig) {
-		config4app				= config
-		if let rsn 				= config4app.int("regressScene") {
-			regressScene		= rsn
-		}
-	}					//	var config4app : FwConfig {
-						//		get			{	return config4app_ }
-						//		set(val)	{
-						//			config4app_			= val
-						//			if let rsn 			= config4app_.int("regressScene") {
-						//				regressScene	= rsn
-						//			}
-						//		}
-						//	};private var config4app_ : FwConfig = [:]
-	var regressScene : Int 		= 0	{		// number of the next "^r" regression test
-		didSet 	{
+	private var regressScene : Int = 0			// number of the next "^r" regression test
+															 // Keeps FwGuts menue in sync with itself:
+															//	var regressScene : Int {				// number of next "^r" regression test
+															//		get			{	return regressScene_										}
+															//		set(v)	 	{
+															//			regressScene_ 		= v
+															//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
+															//		}
+															//	};private var regressScene_ = 0
+	 // Keep regressScene up to date						//var config4app : FwConfig {
+	var config : FwConfig		= [:]						//	get			{	return config4app_ }
+	mutating func reconfigureWith(config c:FwConfig) {		//	set(val)	{
+		config					= c							//		config4app_			= val
+		if let rsn 				= c.int("regressScene") {	//		if let rsn 			= config4app_.int("regressScene") {
+			regressScene		= rsn						//			regressScene	= rsn
 			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
-		}
-	}					 // Keeps FwGuts menue in sync with itself:
-						//	var regressScene : Int {				// number of next "^r" regression test
-						//		get			{	return regressScene_										}
-						//		set(v)	 	{
-						//			regressScene_ 		= v
-						//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
-						//		}
-						//	};private var regressScene_ = 0
+		}													//		}
+	}														//	}
+															//};private var config4app_ : FwConfig = [:]
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
 
@@ -137,13 +127,14 @@ struct FooDocTry3App: App, Uid, FwAny {
 
 	init () {
 		APP = self				// Register  (HOAKEY)
-		let _					= Log.null		// create here
-
-		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
-
+		let _					= Log.null		// create here, ahead of action
 
 		 // Configure App with defaults:
-		config4app/*active*/	= params4app
+		config					+= params4app
+		reconfigureWith(config:config)
+		
+		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
+		
 		atCon(3, {
 			print("AppDelegate(\(log.config4log.pp(.line).wrap(min: 13, cur:13, max: 100))), " +
 						  "verbosity:\(log.ppVerbosityOf(params4app).pp(.short))])")

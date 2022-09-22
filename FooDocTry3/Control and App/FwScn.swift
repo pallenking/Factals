@@ -86,7 +86,20 @@ class FwScn : Uid {
 		if let speed		= config.cgFloat("speed") {
 			scnScene.physicsWorld.speed = speed
 		}
-		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
+bug;	scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
+//		if params4guts[name] != nil {
+//			toParams4guts[name] = value	// 2a: Entry with pre-existing key
+//			used			= true
+//		}
+	//	 // Dump val:FwConfig of "scene" into fwGuts.config4fwGuts
+	//	if let scene		= config.fwConfig("scene") {
+	//		toParams4guts	+= scene 		// 2b. all entries in "scene"
+	//		used			= true
+	//	}
+	//	if let ppViewOptions = config.string("ppViewOptions") {
+	//		toParams4guts["ppViewOptions"] = ppViewOptions
+	//		used			= true			// 2c. Entry ppViewOptions
+	//	}
 	}
 	
 	 // MARK: - 4.1 Lights

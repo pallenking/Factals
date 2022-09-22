@@ -11,12 +11,17 @@ func printFwcState()  {		print(ppFwcState())									}
 func ppFwcConfig() -> String {
 	return """
 		CONFIGURATIONS:
-		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
-		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
-		 fwGuts       .config4fwGuts:\(w(DOCfwGuts .config4fwGuts	.pp(.line)	))
-		 rootPart     .ansConfig:   \(w( DOCfwGuts.rootPart.ansConfig.pp(.line)	))
-		 simulator    .config4sim:  \(w( DOCfwGuts.rootPart.simulator.config4sim.pp(.line) ))
+		 APP.config:  \(w( APP.config.pp(.line)	))
+		 DOC.config:  \(w( DOC.config.pp(.line)	))
 		"""
+//	return """
+//		CONFIGURATIONS:
+//		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
+//		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
+//		 fwGuts       .config4fwGuts:\(w(DOCfwGuts .config4fwGuts	.pp(.line)	))
+//		 rootPart     .ansConfig:   \(w( DOCfwGuts.rootPart.ansConfig.pp(.line)	))
+//		 simulator    .config4sim:  \(w( DOCfwGuts.rootPart.simulator.config4sim.pp(.line) ))
+//		"""
 }
 private func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)}
 
@@ -70,9 +75,9 @@ protocol FwStatus {
 
 extension FooDocTry3App : FwStatus	{						  /// FooDocTry3App
 	func ppFwState(deapth:Int=999) -> String {
-		let emptyEntry			= APP?.config4app["emptyEntry"] ?? "xr()"
+		let emptyEntry			= APP?.config["emptyEntry"] ?? "xr()"
+		let regressScene		= APP?.config.int("regressScene") ?? -1
 		return ppFwStateHelper("FooDocTry3App", uid:self,
-//		return ppFwStateHelper("APP          ", uid:self,
 			myLine:" regressScene:\(regressScene), " +
 				"emptyEntry:'\(emptyEntry.asString ?? "<emptyEntry not String>")'",
 			otherLines:{ deapth in

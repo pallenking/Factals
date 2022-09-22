@@ -60,7 +60,37 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 				}
 				breakAt 		= ba
 			}
-
+/*
+				 // --------- To Log:
+				if name.hasPrefix("pp") ||			// 1a:      pp... entry
+				   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
+					toParams4docLog[name] = value		// affect our DOClog
+					used			= true
+				}
+//				if !used {
+//					unused[name]	= value
+//				}
+			}
+	
+			  // Output buckets to component configurations
+			 // Q: scattering via = or += paradigm?
+			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
+			 // Scene:
+			if toParams4guts.count > 0 {
+				atCon(2, logd("\t -> config4fwGuts:            \(toParams4guts.pp(.line))"))
+				fwGuts.config4fwGuts += toParams4guts
+			}
+			 // Simulator
+			if toParams4sim.count > 0 {
+				atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
+				fwGuts.rootPart.simulator.config4sim += toParams4sim
+			}
+			 // Log:
+			if toParams4docLog.count > 0 {
+				atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
+				fwGuts.rootPart.log.config4log += toParams4docLog
+			}
+ */
 			 // Load verbosity filter from keys starting with "logPri4", if there are any.
 			let verbosityHash	= verbosityInfoFrom(config4log)
 			if  verbosityHash.count > 0 {

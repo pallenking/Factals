@@ -15,6 +15,12 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 	var fwGuts : FwGuts!				// content
 
+	var config : FwConfig		= [:]
+	mutating func reconfigureWith(config c:FwConfig) {
+		config					= c
+//		if let rsn 				= c.int("regressScene") { regressScene = rsn }
+	}
+
 	init() {	// Build an EMPTY document						 //    INTERNAL:
 		//			Make RootPart:		//---FUNCTION-----------+-wantName:---wantNumber:
 		//**/	let select		= nil	//	 Blank scene		|	nil			-1
@@ -22,17 +28,18 @@ struct FooDocTry3Document: FileDocument, Uid {
 		/**/	let select		= "xr()"//	 entry with xr()	|	"xr()"		-1
 		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
 		let rootPart			= RootPart(fromLibrary:select)
+		 //			Distribute build-answer config
+		APP.config				+= rootPart.ansConfig			// fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
+		config					+= rootPart.ansConfig
 
 		 //		Make FwGuts:
 		fwGuts					= FwGuts(rootPart:rootPart)
-		fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
-		 // back pointers
-		fwGuts.fooDocTry3Document = self
-		rootPart.fwGuts			= fwGuts
+		fwGuts.fooDocTry3Document = self		// backpointer
+		rootPart.fwGuts			= fwGuts		// backpointer
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 
-		updateDocConfigs(from:rootPart.ansConfig)
+//		updateDocConfigs(from:rootPart.ansConfig)
 		rootPart.wireAndGroom()
 	}											// next comes  didLoadNib(to
 	 // Document supplied
@@ -197,76 +204,74 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 				// Start Up Simulation:
 		fwGuts.rootPart.simulator.simBuilt = true		// maybe before config4log, so loading simEnable works
 	}
-	   /// Called after a new experiment is loaded.
-	  /// Spreads a new configuration from the selected experiment into various hashes.
-	 /// This is a catch-all and somewhat ad-hoc and HAIRY!!!
-	func updateDocConfigs(from config:FwConfig) {
-		if config.count == 0 				{	return							}
-
+//	   /// Called after a new experiment is loaded.
+//	  /// Spreads a new configuration from the selected experiment into various hashes.
+//	 /// This is a catch-all and somewhat ad-hoc and HAIRY!!!
+//	func updateDocConfigs(from config:FwConfig) {
+//		if config.count == 0 				{	return							}
+//
 		 // Buckets to sort config into:
-		var toParams4guts  : FwConfig = [:]
-		var toParams4sim   : FwConfig = [:]
-		var toParams4docLog: FwConfig = [:]
-		var unused		   : FwConfig = [:]
-
-		 // Sort configuration into buckets:
-		for (name, value) in config {		// Paw through give configuration:
-			var used			= false
-
-			 // --------- To Scene:
-			if params4guts[name] != nil {
-				toParams4guts[name] = value	// 2a: Entry with pre-existing key
-				used			= true
-			}
-			 // Dump val:FwConfig of "scene" into fwGuts.config4fwGuts
-			if let scene		= config.fwConfig("scene") {
-				toParams4guts	+= scene 		// 2b. all entries in "scene"
-				used			= true
-			}
-			if let ppViewOptions = config.string("ppViewOptions") {
-				toParams4guts["ppViewOptions"] = ppViewOptions
-				used			= true			// 2c. Entry ppViewOptions
-			}
-
-			 // --------- To Simulator:
-			if params4sim[name] != nil {
-				toParams4sim[name] = value		// 3. Entry with pre-existing key
-				used			= true
-			}
-			 // --------- To Log:
-			if name.hasPrefix("pp") ||			// 1a:      pp... entry
-			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
-				toParams4docLog[name] = value		// affect our DOClog
-				used			= true
-			}
-			if !used {
-				unused[name]	= value
-			}
-		}
-
-		  // Output buckets to component configurations
-		 // Q: scattering via = or += paradigm?
-		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
-		 // Scene:
-		if toParams4guts.count > 0 {
-			atCon(2, logd("\t -> config4fwGuts:            \(toParams4guts.pp(.line))"))
-			fwGuts.config4fwGuts += toParams4guts
-		}
-		 // Simulator
-		if toParams4sim.count > 0 {
-			atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
-			fwGuts.rootPart.simulator.config4sim += toParams4sim
-		}
-		 // Log:
-		if toParams4docLog.count > 0 {
-			atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
-			fwGuts.rootPart.log.config4log += toParams4docLog
-		}
-		 // Unaccounted for
-		if unused.count > 0 {
-			atCon(2, logd("\t -> UNACCOUNTED FOR:         \(unused.pp(.line))"))
-		}
-	}
+//		var toParams4guts  : FwConfig = [:]
+//		var toParams4sim   : FwConfig = [:]
+//		var toParams4docLog: FwConfig = [:]
+//		var unused		   : FwConfig = [:]
+//
+//		 // Sort configuration into buckets:
+//		for (name, value) in config {		// Paw through give configuration:
+//			var used			= false
+		//	 // --------- To Scene:
+		//	if params4guts[name] != nil {
+		//		toParams4guts[name] = value	// 2a: Entry with pre-existing key
+		//		used			= true
+		//	}
+		//	 // Dump val:FwConfig of "scene" into fwGuts.config4fwGuts
+		//	if let scene		= config.fwConfig("scene") {
+		//		toParams4guts	+= scene 		// 2b. all entries in "scene"
+		//		used			= true
+		//	}
+		//	if let ppViewOptions = config.string("ppViewOptions") {
+		//		toParams4guts["ppViewOptions"] = ppViewOptions
+		//		used			= true			// 2c. Entry ppViewOptions
+		//	}
+	//		 // --------- To Simulator:
+	//		if params4sim[name] != nil {
+	//			toParams4sim[name] = value		// 3. Entry with pre-existing key
+	//			used			= true
+	//		}
+//			 // --------- To Log:
+//			if name.hasPrefix("pp") ||			// 1a:      pp... entry
+//			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
+//				toParams4docLog[name] = value		// affect our DOClog
+//				used			= true
+//			}
+////			if !used {
+////				unused[name]	= value
+////			}
+//	//	}
+//
+//		  // Output buckets to component configurations
+//		 // Q: scattering via = or += paradigm?
+//		atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
+//		 // Scene:
+//		if toParams4guts.count > 0 {
+//			atCon(2, logd("\t -> config4fwGuts:            \(toParams4guts.pp(.line))"))
+//			fwGuts.config4fwGuts += toParams4guts
+//		}
+//		 // Simulator
+//		if toParams4sim.count > 0 {
+//			atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
+//			fwGuts.rootPart.simulator.config4sim += toParams4sim
+//		}
+//		 // Log:
+//		if toParams4docLog.count > 0 {
+//			atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
+//			fwGuts.rootPart.log.config4log += toParams4docLog
+//		}
+//		 // Unaccounted for
+//		if unused.count > 0 {
+//			atCon(2, logd("\t -> UNACCOUNTED FOR:         \(unused.pp(.line))"))
+//		}
+//	}
 	func logd(_ x:String) {		print("[[XXXXFooDocTry3DocumentXXXX: \(x)") }
 
 	 // MARK: - 5.1 Make Associated Inspectors:

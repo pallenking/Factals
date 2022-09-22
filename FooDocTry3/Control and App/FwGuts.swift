@@ -24,8 +24,8 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 		super.init()
 
-		rootPart	.fwGuts		= self
-		eventCentral.fwGuts		= self 		 // Back Link
+		rootPart	.fwGuts		= self 		 // Back Link
+		eventCentral.fwGuts		= self
 	}
 	func add(scene:SCNScene?=nil) {
 		assert(rootVew == nil, "only one View per FwGuts")
