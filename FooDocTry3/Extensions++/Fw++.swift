@@ -35,7 +35,7 @@ extension Part			: FwAnyC 	{}
 extension BBox			: FwAnyC 	{}
 
 extension FwwEvent		: FwAnyC 	{}
-extension Log			: FwAnyC 	{}
+extension Logger			: FwAnyC 	{}
 extension Path			: FwAnyC 	{}
 
 extension SCNVector4	: FwAnyC 	{}
@@ -1164,7 +1164,7 @@ extension NSObject : Uid {
 
 extension NSObject {
 	// MARK: - 14. Logging
-	/// Log critical actions with a line that starts with
+	/// Logger critical actions with a line that starts with
 	/// - Parameters:
 	///   - banner: Descriptive message to display before message
 	///   - format: printf format

@@ -1,22 +1,22 @@
-// Log.swift -- common support files C2018PAK
+// Logger.swift -- common support files C2018PAK
 
-// Log must deal with the case that it should handle it's own printing before Log
+// Logger must deal with the case that it should handle it's own printing before Logger
 
 import SceneKit
 
-class Log : NSObject, Codable, FwAny {								// NOT NSObject
+class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
-	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
+	static var maximumLogNo		= 0			// Next Logger index to assign. (Now exist 0..<nextLogIndex)
 	static let entryNosPlog		= 1000000	// H: EventNUMber, LogNUMber
 
 	 // MARK: - 2. Object Variables:
-	 // Identification of Log
+	 // Identification of Logger
 	var title 					= "untitled"
 	var logNo		   			= -1		// Index number of this log
 
-	 // Each Log has an event number
+	 // Each Logger has an event number
 	var entryNo		   			= 1			// Current entry number (runs 1...)
 
 	 // Breakpoint
@@ -24,7 +24,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 
 	var logEvents				= true
 
-	 /// Configure Log facilities
+	 /// Configure Logger facilities
 	func setConfiguration(to config:FwConfig) {
 
 		 // Unpack frequently used config hash elements to object parameters
@@ -50,15 +50,15 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 			logTime			= t
 		}
 		if let ba			= config .int("breakAt")		{ // (composite, )
-			let curBa		= entryNo<0 ? -1 : entryNo%Log.entryNosPlog
-			if ba>0 && ba<curBa { 		// DON'T USE assert(:), it relies on Log!
+			let curBa		= entryNo<0 ? -1 : entryNo%Logger.entryNosPlog
+			if ba>0 && ba<curBa { 		// DON'T USE assert(:), it relies on Logger!
 				panic("Setting  breakAt = \(ba) TOO LATE. Set it after \(curBa)")
 			}
 			breakAt 		= ba
 		}
 									//		var toParams4docLog		= FwConfig()
 									//		for (name, value) in config {
-									//			 // --------- To Log:
+									//			 // --------- To Logger:
 									//			if name.hasPrefix("pp") ||			// 1a:      pp... entry
 									//			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
 									//				toParams4docLog[name] = value		// affect our DOClog
@@ -78,7 +78,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 		if verbosityHash.count > 0 {
 			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
 			msg				 	+= "=\(verbosityHash.pp(.line)) Cause:"
-			msg					+= config.string_("cause")
+bug;			msg					+= config.string_("cause")
 			return msg
 		}
 		return ""
@@ -147,14 +147,13 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
 	init(title:String)	{			//_ config:FwConfig=[:]
-//	init(_ config:FwConfig = [:], title:String) {			//_ config:FwConfig=[:]
 		super.init()
 
-		Log.maximumLogNo		+= 1
-		logNo					= Log.maximumLogNo				// Logs have unique number
+		Logger.maximumLogNo		+= 1
+		logNo					= Logger.maximumLogNo				// Logs have unique number
 		self.title				= title
 
-//		config4log/*active*/	= config + ["cause":"Log" + "([\(config.count) elts], title:\"\(title)\")"]
+//		config4log/*active*/	= config + ["cause":"Logger" + "([\(config.count) elts], title:\"\(title)\")"]
 	}		// N.B: during init context, loading config4log does not trigger its 'didSet'
 
 // START CODABLE ///////////////////////////////////////////////////////////////
@@ -220,7 +219,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 // END CODABLE /////////////////////////////////////////////////////////////////
 	 // MARK: - 3.6 NSCopying
 	func copy(with zone: NSZone?=nil) -> Any {
-		let theCopy 			= Log(title:"theCopyFoo")//: Log		= super.copy(with:zone) as! Log
+		let theCopy 			= Logger(title:"theCopyFoo")//: Logger		= super.copy(with:zone) as! Logger
 		theCopy.title			= self.title
 		theCopy.logNo			= self.logNo
 		theCopy.entryNo			= self.entryNo
@@ -236,12 +235,12 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 		theCopy.ppNUid4Tree		= self.ppNUid4Tree
 		theCopy.ppNUid4Ctl		= self.ppNUid4Ctl
 		theCopy.nIndent			= self.nIndent
-		atSer(3, logd("copy(with as? Log       ''"))
+		atSer(3, logd("copy(with as? Logger       ''"))
 		return theCopy
 	}
 
 	 // MARK: - 3.7 Equitable
-	func varsOfLogEq(_ rhs:Log) -> Bool {
+	func varsOfLogEq(_ rhs:Logger) -> Bool {
 		return title			== rhs.title
 			&& logNo			== rhs.logNo
 			&& entryNo			== rhs.entryNo
@@ -258,24 +257,24 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 			&& ppNUid4Ctl		== rhs.ppNUid4Ctl
 			&& nIndent			== rhs.nIndent
 	}
-	func equalsPart(_ log:Log) -> Bool {
+	func equalsPart(_ log:Logger) -> Bool {
 		return	varsOfLogEq(log)
 	}
 
 
-	// MARK: - 5. Log
+	// MARK: - 5. Logger
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 
-		 // Print new Log, if it has changed:
- 		if logNo != Log.currentLogNo {						// Same as last time
-			Log.currentLogNo	= logNo							// switch to new
+		 // Print new Logger, if it has changed:
+ 		if logNo != Logger.currentLogNo {						// Same as last time
+			Logger.currentLogNo	= logNo							// switch to new
 			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
 										//	//	var x				= "33".pp(.line) ?? "nil"// GOOD
-			var x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:(verbosity?.pp(.line))"
-//			var x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
+			var x				= "\(logNo). ######## Switching to Logger \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:(verbosity?.pp(.line))"
+//			var x				= "\(logNo). ######## Switching to Logger \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
 			print(x)
-			let evNo			= breakAt % Log.entryNosPlog
-			if evNo != 0 && (breakAt/Log.entryNosPlog == logNo) {
+			let evNo			= breakAt % Logger.entryNosPlog
+			if evNo != 0 && (breakAt/Logger.entryNosPlog == logNo) {
 				print("                                   breakpoint at EVent N(O)umber \(evNo)")
 			}
 		}
@@ -308,10 +307,10 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 		print(newLines + fmt("%d.%03d%@", logNo, entryNo, rv), terminator:terminator ?? "\n" )
 
 		 // Breakpoint Stop?
-		let ba					= breakAt % Log.entryNosPlog
-		if entryNo == ba && logNo == breakAt / Log.entryNosPlog {
+		let ba					= breakAt % Logger.entryNosPlog
+		if entryNo == ba && logNo == breakAt / Logger.entryNosPlog {
 			let baStr			= fmt("%03d", ba)
-			panic("Break at \(breakAt/Log.entryNosPlog).\(baStr) encountered.  (idIndex.entryNo)")
+			panic("Break at \(breakAt/Logger.entryNosPlog).\(baStr) encountered.  (idIndex.entryNo)")
 		}
 		entryNo					+= 1		// go on to next log number
 	}
@@ -353,7 +352,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 //		if let curLockStr		= DOC?.state.rootPart.rootVewOwner {
 //bug	if let curLockStr		= DOC?.fwGuts?.rootVewOwner {
 ////		if let curLockStr		= DOC?.fwGuts?.rootVewOwner {
-//			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
+//			return Logger.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
 //		}
 		return ".,."
 	}
@@ -372,15 +371,15 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 		"toggelOpen6"					: "op6",
 	]
 	var params4aux : FwConfig	{	DOC.config			} // MOVE ME
-	static let null : Log		= {
-		let rv					= Log(title:".null = Log(params4app)")
+	static let null : Logger		= {
+		let rv					= Logger(title:".null = Logger(params4app)")
 //		rv.config4log			= params4appLog
 		return rv
 	}()
 
-	override var description	  : String { return  "Log\(logNo) \"\(title)\""	}
-	override var debugDescription : String { return "'Log\(logNo) \"\(title)\"'"}
-	var summary					  : String { return "<Log\(logNo) \"\(title)\">"}
+	override var description	  : String { return  "Logger\(logNo) \"\(title)\""	}
+	override var debugDescription : String { return "'Logger\(logNo) \"\(title)\"'"}
+	var summary					  : String { return "<Logger\(logNo) \"\(title)\">"}
 }
 var debugOutterLock	= false		// default value
 

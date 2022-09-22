@@ -101,7 +101,7 @@
 //	}
 //
 //	deinit {
-//		// N.B: Log.log("...") evokes simulteneity lock error
+//		// N.B: Logger.log("...") evokes simulteneity lock error
 //		Swift.print("#### DEINIT   \(uidForDeinit):FwDocument")			// WORKS
 //	//	Swift.print("#### DEINIT   \(uid):FwDocument")					// FAILS
 //	//	Swift.print("#### DEINIT   \(ppUid(self):FwDocument)")			// FAILS
@@ -201,7 +201,7 @@
 ////	}
 ////	public required init(from decoder: Decoder) throws {
 ////		panic()
-////		log /*oops*/			= Log(params4docLog, title:"FwDocument(from:)'s Log(params4docLog)")
+////		log /*oops*/			= Logger(params4docLog, title:"FwDocument(from:)'s Logger(params4docLog)")
 ////	xxx	DOCLOG?.config4log/*active*/= params4docLog + params4pp //+["cause":"FwDocument(from:)"]
 ////		let container 			= try decoder.container(keyedBy:DocumentKeys.self)
 ////
@@ -315,7 +315,7 @@
 //				toParams4sim[name] = value		// 3. Entry with pre-existing key
 //				used			= true 											}
 //
-//			 // --------- To Log:
+//			 // --------- To Logger:
 //			if name.hasPrefix("pp") ||			// 1a:      pp... entry
 //			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
 //				toParams4docLog[name] = value		// affect our DOCLOG
@@ -343,7 +343,7 @@
 //			atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
 //			rootPart.simulator.config4sim += toParams4sim
 //		}
-//		 // Log:
+//		 // Logger:
 //		if toParams4docLog.count > 0 {
 //			atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
 //			rootPart.log.config4log	+= toParams4docLog
@@ -455,7 +455,7 @@
 //		let cmd 				= nsEvent.modifierFlags.contains(.command)
 //		let alt 				= nsEvent.modifierFlags.contains(.option)
 //		var aux : FwConfig		= DOCLOG.params4aux //gets us params4pp
-////		var aux : FwConfig		= Log.params4aux 	//gets us params4pp
+////		var aux : FwConfig		= Logger.params4aux 	//gets us params4pp
 //		aux["ppParam"]			= alt		// Alternate means print parameters
 //
 //		switch character {

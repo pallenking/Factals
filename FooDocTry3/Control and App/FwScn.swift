@@ -46,7 +46,7 @@ import SceneKit
 
 class FwScn : Uid {
 	var uid		 : UInt16		= randomUid()
-	var log			 : Log 	{	fwGuts.rootPart.log								}
+	var log			 : Logger 	{	fwGuts.rootPart.logger						}
 
 	weak
 	 var fwGuts	 : FwGuts!		= nil
@@ -69,6 +69,11 @@ class FwScn : Uid {
 		set(v) {		scnScene.isPaused = !v									}
 	}
 
+	// MARK: - 14. Building
+	var logger : Logger { fwGuts.logger											}
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+		logger.log(banner:banner, format_, args, terminator:terminator)
+	}
 	 // MARK: - 3.1 init
 	init(fwGuts:FwGuts?=nil, scnView:SCNView?=nil, scnScene:SCNScene) {
 		self.scnView = scnView

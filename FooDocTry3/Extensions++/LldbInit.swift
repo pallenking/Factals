@@ -162,7 +162,7 @@ func printDebuggerHints() {
 	2B. ================ Operational Configuration
 	//		e.g:  doc.config.int_("breakAt")
 	doc["breakAt"].asInt_   DEPRICATED
-	Log.current.breakAt
+	Logger.current.breakAt
 
 	2C. ================ Printing Data
 				<Part>.config(name)?.asString        	--> String

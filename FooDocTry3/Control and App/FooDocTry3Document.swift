@@ -150,8 +150,6 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 
 
-
-
 	// MARK: - 4 Enablers
 			// The  nib file  name of the document:
 	var windowNibName:NSNib.Name? 	{		return "Document"					}
@@ -321,7 +319,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		 // Sim EVENTS						// /// Key DOWN ///////
 		let cmd 				= nsEvent.modifierFlags.contains(.command)
 		let alt 				= nsEvent.modifierFlags.contains(.option)
-		var aux : FwConfig		= config //gets us params4pp					// DOClog.params4aux Log.params4aux
+		var aux : FwConfig		= config //gets us params4pp					// DOClog.params4aux Logger.params4aux
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
 		switch character {
@@ -385,20 +383,20 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		return true						// someone decoded
 	}
 
-	 // MARK: - 14. Logging
+	// MARK: - 14. Building
+	var logger : Logger { fwGuts.logger											}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		let msg					= String(format:format_, arguments:args)
-bug//	log.log(banner:banner, msg, terminator:terminator)
+		logger.log(banner:banner, format_, args, terminator:terminator)
 	}
-
+	
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String	{
-		var log : Log			= fwGuts.rootPart.log
+//		var log : Logger			= fwGuts.rootPart.log
 		switch mode! {
 		case .line:
-			return log.indentString() + " FooDocTry3Document"				// Can't use fwClassName; FwDocument is not an FwAny
+			return logger.indentString() + " FooDocTry3Document"				// Can't use fwClassName; FwDocument is not an FwAny
 		case .tree:
-			return log.indentString() + " FooDocTry3Document" + "\n"
+			return logger.indentString() + " FooDocTry3Document" + "\n"
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)						// NO: return super.pp(mode, aux)
 		}

@@ -125,10 +125,10 @@ extension NSDocumentController : FwStatus {		 		 /// NSDocumentController
 			deapth:deapth)
 	}
 }
-extension Log : FwStatus {												/// Log
+extension Logger : FwStatus {												/// Logger
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= !logEvents ? "disabled" :
-			"Log \(logNo): \"\(title)\": entryNo:\(entryNo), breakAt:\(breakAt), " +
+			"Logger \(logNo): \"\(title)\": entryNo:\(entryNo), breakAt:\(breakAt), " +
 			"verbosity:\(verbosity?.pp(.line) ?? "-"),"// + stk
 		let logKind				= (title[0...0] == "A" ? "APPLOG" : "DOClog").field(-13)
 		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth)
@@ -203,8 +203,11 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 			myLine: myLine,
 			otherLines:{ deapth in
 				 // Controller:
-				var rv			=   self.fwScn  .ppFwState(deapth:deapth)
-				rv				+=  self.rootVew.ppFwState(deapth:deapth)
+				var rv			=  self.fwScn  .ppFwState(deapth:deapth)
+				rv				+= self.rootVew.ppFwState(deapth:deapth)
+				rv				+= self.logger.ppFwState()
+				return rv
+
 				return rv
 			},
 			deapth:deapth)
@@ -216,11 +219,11 @@ extension RootPart : FwStatus	{								    /// RootPart
 		return ppFwStateHelper("RootPart     ", uid:self,
 			myLine:"\(rown) dirty:'\(dirty.pp())' " +
 				   "partTrunk:\(ppUid(partTrunk, showNil:true)) ",
-			otherLines:{ deapth in
-				var rv			=  ""//self.simulator.ppFwState()
-				rv				+= self.log.ppFwState()
-				return rv
-			},
+//			otherLines:{ deapth in
+//				var rv			=  ""//self.simulator.ppFwState()
+//				rv				+= self.log.ppFwState()
+//				return rv
+//			},
 			deapth:deapth)
 	}																			//bug; return "extension RootPart : FwStatus needs HELP"	}
 }

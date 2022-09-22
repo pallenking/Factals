@@ -22,8 +22,6 @@ class RootVew : Vew {
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
 	var lastSelfiePole : SelfiePole!					// init to default
 
-	var log			 : Log 	{	fwGuts.rootPart.log								}
-
 	func setConfiguration(to:FwConfig) {								//get			{			return config4sim_
 	}
 
@@ -98,6 +96,12 @@ class RootVew : Vew {
 		}
 	}
 
+	// MARK: - 14. Building
+	var logger : Logger { fwGuts.logger											}
+//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+//		logger.log(banner:banner, format_, args, terminator:terminator)
+//	}
+//	var log			 : Logger 	{	fwGuts.rootPart.log								}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		var rv					= ""//super.pp(mode, aux)

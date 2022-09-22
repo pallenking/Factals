@@ -14,7 +14,7 @@ class RootPart : Part {
 
 	 // MARK: - 2.1 Object Variables
 	var	simulator		: Simulator
-	var log 			: Log
+//	var log 			: Logger
 	var title							= ""
 	var ansConfig		: FwConfig		= [:]
 	var fwGuts			: FwGuts!
@@ -33,14 +33,13 @@ class RootPart : Part {
 	init() {
 		simulator				= Simulator()
 //		simulator.config4sim	= params4sim
-		log						= Log(title:"RootPart([:])'s Log(params4docLog)")
 //		log.config4log			= params4docLog
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.rootPart		= self
 	}
 	func setConfiguration(to config:FwConfig) {
-		log		 .setConfiguration(to:config)
+		logger	 .setConfiguration(to:config)
 		simulator.setConfiguration(to:config)
 		//assert(log.rootPart == self, 	   "commented out -- no owner")
 		assert(simulator.rootPart == self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
@@ -96,7 +95,7 @@ bug;	guard let poly		= self as? PolyWrap else { fatalError()}
 		var container 			= encoder.container(keyedBy:RootPartKeys.self)
 
 		try container.encode(simulator,			forKey:.simulator				)
-		try container.encode(log,				forKey:.log						)
+//		try container.encode(log,				forKey:.log						)
 		try container.encode(title,				forKey:.title					)
 	//	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
 		try container.encode(indexFor, 			forKey:.indexFor 				)
@@ -113,7 +112,7 @@ bug;	guard let poly		= self as? PolyWrap else { fatalError()}
 		let container 			= try decoder.container(keyedBy:RootPartKeys.self)
 
 		simulator				= try container.decode(Simulator.self, forKey:.simulator	)
-		log						= try container.decode(		 Log.self, forKey:.log			)
+//		log						= try container.decode(	  Logger.self, forKey:.log			)
 		title					= try container.decode(   String.self, forKey:.title		)
 //		ansConfig				= try container.decode(	FwConfig.self, forKey:.ansConfig	)
 		indexFor				= try container.decode(Dictionary<String,Int>.self, forKey:.ansConfig)
@@ -340,9 +339,6 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)
 //		markTree(dirty:.vew)
-		
-//		atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
-//									"found:\(title), returns:\n\(pp(.tree))"))
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 
@@ -404,7 +400,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		atBld(3, {					// === ///// BEFORE GETTING:
 			let val0			= partTreeLock.value ?? -99
 			let msg				= " //######\(u_name)      GET Part LOCK: v:\(val0)"
-			 // Log:
+			 // Logger:
 			!logIf || !debugOutterLock ? nop 		 		// less verbose
 			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(partTreeOwner ?? "-")', PROBABLE WAIT..."))
 			 : 		   partTreeVerbose ? atBld(4, logd(msg))// normal
@@ -491,6 +487,11 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		return .empty						// Root Part is invisible
 	}
 
+	// MARK: - 14. Building
+	var logger : Logger { fwGuts.logger											}
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+		logger.log(banner:banner, format_, args, terminator:terminator)
+	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		var rv 				= super.pp(mode, aux)

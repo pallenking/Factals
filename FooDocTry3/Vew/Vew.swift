@@ -685,14 +685,14 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let (nl, fmt)			= format.stripLeadingNewLines()
 		if let root				= part.root {
-			root.log.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			root.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
-			Log .null.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			Logger .null.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
-		let log					= part.root?.log
+		let logger				= part.root?.logger
 		switch mode! {
 			case .name:
 				return self.name
@@ -723,7 +723,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 					rv			+= part.flipped   ? "f" : " "			  // (B)
 				}
 															// Indent
-				rv 				+= log?.indentString() ?? "Ccc.."		  // (C)
+				rv 				+= logger?.indentString() ?? "Ccc.."		  // (C)
 				if ppViewOptions.contains("V") {					// Vew (self):
 					rv			+= name.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
 					rv			+= fwClassName.field(-tight(5,7),dots:false)// (E)
@@ -742,7 +742,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				}
 															// /// SKINS:
 																	// UNIndent
-				rv 				=  log?.unIndent(rv) ?? "Ccc.."  // (L)
+				rv 				=  logger?.unIndent(rv) ?? "Ccc.."  // (L)
 
 				if ppViewOptions.contains("L") {					 // Leaf:
 					let s		= self as? NetVew
@@ -794,9 +794,9 @@ class Vew : NSObject, ObservableObject, Codable {	//
 					if child.parent != self {
 						rv 		+= "!!! parent bad !!!"
 					}
-					log?.nIndent += 1					// at increased indent
+					logger?.nIndent += 1					// at increased indent
 					rv 			+= child.pp(.tree, aux)	// ### RECURSIVE
-					log?.nIndent -= 1
+					logger?.nIndent -= 1
 				}
 				return rv
 			default:
@@ -804,7 +804,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		}
 	}
 	func panic(_ message: @autoclosure () -> String=("")) { //ppUid(self)
-		print("\n\n\(fullName) \(part.root?.log.ppCurThread ?? "?") \(pp(.fullNameUidClass))" +
+		let logger				= part.root?.logger
+		print("\n\n\(fullName) \(part.root?.logger.ppCurThread ?? "?") \(pp(.fullNameUidClass))" +
 			": --------------\n\(message())\n" + "----------------------------\n")
 		machineTrap()				// transfer control to debugger
 	}

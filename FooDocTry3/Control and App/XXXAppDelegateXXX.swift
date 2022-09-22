@@ -25,11 +25,11 @@
 //
 ////	Application Singletons:
 //var APPDEL	 : AppDelegate? 		{	NSApp.delegate as? AppDelegate			}
-//var APPLOG	 : Log 					{	APPDEL?.log ?? Log.null					}
+//var APPLOG	 : Logger 					{	APPDEL?.log ?? Logger.null					}
 //
 //let DOCCTLR						= NSDocumentController.shared
 //var DOC   	 : FwDocument!		// (Currently Active) App must insure continuity
-//var DOCLOG   : Log 					{	DOC?.rootPart?.log ?? Log.null			}
+//var DOCLOG   : Logger 					{	DOC?.rootPart?.log ?? Logger.null			}
 //// A basic tutorial :http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
 //
 ////@MainActor?
@@ -37,7 +37,7 @@
 //class AppDelegate: NSObject, NSApplicationDelegate {// UIResponder
 //
 //	 // MARK: - 2. Object Variables:
-//	var log	: Log				= Log(params4appLog, title:"AppDelegate's Log(params4appLog)")
+//	var log	: Logger				= Logger(params4appLog, title:"AppDelegate's Logger(params4appLog)")
 //	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 //	 // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 //
@@ -228,7 +228,7 @@
 //			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
 //		}
 //
-//		 // Log program usage instances
+//		 // Logger program usage instances
 //		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
 //		atCon(7, printFwcState())
 //		atCon(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
@@ -332,7 +332,7 @@
 //	override var debugDescription : String	{	return   "'Application'"		}
 ////			 var summary		  : String	{	return   "<Application>"		}
 //
-//	 // MARK: - 20. Log
+//	 // MARK: - 20. Logger
 //	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 //		let msg					= String(format:format_, arguments:args)
 //		log.log(banner:banner, msg, terminator:terminator)

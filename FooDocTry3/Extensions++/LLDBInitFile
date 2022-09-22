@@ -37,7 +37,7 @@ settings set target.inline-breakpoint-strategy always
 ######## ---- First  Character: -------- [Pp] -------------- {p: print without property hash; P is with)
 ######## ---- Middle Character(s): ----- [pc,pn,pnu,pf,pi,piUc,piCu,piU,piFuc,pp,ps,pl,pt] -- Tree with Ports and Links
 #command regex pc     's/^(.+)$/e lldbPrint(ob:%1, mode:.fwClassName)/'
-command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, Log.params4aux + ["ppDagOrder":true]))/'
+command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, Logger.params4aux + ["ppDagOrder":true]))/'
 
 command regex pn     's/^(.+)$/e lldbPrint(ob:%1, mode:.name			)/'
 command regex pnu    's/^(.+)$/e lldbPrint(ob:%1, mode:.nameUidClass	)/'

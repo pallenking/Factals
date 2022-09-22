@@ -13,7 +13,11 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	var fwScn		 : FwScn!
 	var eventCentral : EventCentral
 	var document 	 : FooDocTry3Document!
-	var log			 : Log 	{	rootPart.log									}
+	var logger 		 : Logger
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+		logger.log(banner:banner, format_, args, terminator:terminator)
+	}
+//	var log			 : Logger 	{	rootPart.log									}
 
 	func setConfiguration(to config:FwConfig) {
 		rootPart	.setConfiguration(to:config)
@@ -25,6 +29,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	init(rootPart r:RootPart) {
 		rootPart				= r
 		eventCentral			= EventCentral()
+		logger					= Logger(title:"FwGut's Logger")
 
 		super.init()
 
@@ -142,7 +147,7 @@ bug//		try self.write(to: fileURL)
 			print("\(self.rootVew.pp(.tree))", terminator:"")
 		case "n":	
 			print("\n******************** 'n': ==== SCNNodes:")
-			rootPart.log.ppIndentCols = 3
+			rootPart.logger.ppIndentCols = 3
 //			DOClog.ppIndentCols = 3
 			print(fwScn.rootScn.pp(.tree), terminator:"")
 			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
@@ -308,7 +313,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
 
 		assert(!(part is Link), "cannot toggelOpen a Link")
-		atAni(5, part.root!.log.log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
+		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
 		vew.scn.removeFromParent()
 		vew.removeFromParent()
 		vew.updateVewSizePaint(needsLock:"toggelOpen4")

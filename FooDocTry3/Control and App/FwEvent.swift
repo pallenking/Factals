@@ -39,7 +39,6 @@ class FwEvent {							// NOT NSObject
 class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 	weak // owner
 	 var fwGuts : FwGuts!
-	var log			 : Log 	{	fwGuts.rootPart.log								}
 
 	override init() {
 		super.init()
@@ -255,6 +254,11 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	func spinNUp(with nsEvent:NSEvent) {
 		rootVew.lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 		rootVew.lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+	}
+	// MARK: - 14. Building
+	var logger : Logger { DOC.logger											}
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+		logger.log(banner:banner, format_, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{

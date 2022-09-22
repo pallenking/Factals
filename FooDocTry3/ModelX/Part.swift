@@ -1348,14 +1348,14 @@ bug				 // Let fwPart handle it:
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
 		warningLog.append(targName + fmtWithArgs)
-		root != nil ? root!.log.log(banner:"WARNING", targName + fmtWithArgs + "\n")
+		root != nil ? root!.log(banner:"WARNING", targName + fmtWithArgs + "\n")
 					: print("WARNING" + targName + fmtWithArgs  + "\n")
 	}
 	func error(_ format:String, _ args:CVarArg...) {
 		logNErrors 				+= 1
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
-		root != nil ? root!.log.log(banner:"ERROR", targName + fmtWithArgs + "\n")
+		root != nil ? root!.log(banner:"ERROR", targName + fmtWithArgs + "\n")
 					: print("ERROR", targName + fmtWithArgs + "\n")
 	}
 
@@ -1393,7 +1393,7 @@ bug				 // Let fwPart handle it:
 			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 			rv					= ppUid(self, post:"", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
-			rv 					+= root?.log.indentString() ?? "____"				// Bb..
+			rv 					+= root?.logger.indentString() ?? "____"				// Bb..
 //			rv 					+= root?.log.indentString() ?? "Bb..."				// Bb..
 			let ind				= parent?.children.firstIndex(of:self)
 			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
@@ -1426,7 +1426,7 @@ bug				 // Let fwPart handle it:
 	func ppCenterPart(_ aux:FwConfig) -> String {
 		var rv 			 		=  name.field(10) + ":"					// " net0:"
 		rv 						+= fwClassName.field(-6, dots:false)	// "Net "
-		rv 						=  root?.log.unIndent(rv) ?? "___ "
+		rv 						=  root?.logger.unIndent(rv) ?? "___ "
 //		rv 						+= root?.log.unIndent(rv) ?? "___ "
 		rv						+= initialExpose.pp(.short, aux)		// "o"
 		rv						+= dirty.pp()
@@ -1443,7 +1443,7 @@ bug				 // Let fwPart handle it:
 	 /// Print children
 	func ppChildren(_ aux:FwConfig, reverse:Bool, ppPorts:Bool) -> String {
 		var rv					= ""
-		root?.log.nIndent		+= 1
+		root?.logger.nIndent		+= 1
 		let orderedChildren		= reverse ? children.reversed() : children
 		for child in orderedChildren where ppPorts || !(child is Port) {
 			 // Exclude undesireable Links
@@ -1451,13 +1451,13 @@ bug				 // Let fwPart handle it:
 				rv				+= mark_line(aux, child.pp(.tree, aux)) // (ppLine has no \n)
 			}
 		}
-		root?.log.nIndent		-= 1
+		root?.logger.nIndent		-= 1
 		return rv
 	}
 	 /// Print Ports
 	func printPorts(_ aux:FwConfig, early:Bool) -> String {
 		var rv 					= ""
-		root?.log.nIndent			+= 1
+		root?.logger.nIndent			+= 1
 		if DOClog.ppPorts {		// early ports // !(port.flipped && ppDagOrder)
 			for part in children {
 				if let port 	= part as? Port,
@@ -1466,7 +1466,7 @@ bug				 // Let fwPart handle it:
 				}
 			}
 		}
-		root?.log.nIndent			-= 1
+		root?.logger.nIndent			-= 1
 		return rv
 	}
 	 /// Marking line with '_'s improves readability

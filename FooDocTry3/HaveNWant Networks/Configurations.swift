@@ -3,7 +3,7 @@
 import SceneKit
 
 // Default constants, used to configure the 6 sub-system of Factal Workbench:
-//		a) Apps, b) App Logs, c) Pretty Print,  d) Doc Log, e) Simulator, f) 3D Scene
+//		a) Apps, b) App Logs, c) Pretty Print,  d) Doc Logger, e) Simulator, f) 3D Scene
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 // 20220912PAK: Simplification: all merged into one hash
 
@@ -75,7 +75,7 @@ private let params4pp_ : FwConfig = [
 	//"ppFloatA": 3, "ppFloatB":1,
 ]
  // MARK: -
- // MARK: - D: Parameters Doc Log
+ // MARK: - D: Parameters Doc Logger
 private let params4docLog_		= params4logs_ + params4pp_
 	+ log(all:7)		//			//! (bld:1)/(bld:2)/(all:8)/(all:5)
 	+ log(prefix:"*", all:0)		//! 1	// key prefix "*" is for XCTest
@@ -85,10 +85,10 @@ private let params4docLog_		= params4logs_ + params4pp_
 	private let breakLogEvNum		= -12
 								// + +  + +
 	private let params4logs_	: FwConfig = [
-		"debugPreLog"		: true,		// Debug setting of logs before there is a Log ()
+		"debugPreLog"		: true,		// Debug setting of logs before there is a Logger ()
 		"debugOutterLock"	: false,	//true//false// Helpful logging, quite noisy
 			 // BreakAt is composite: logId * entryNosPlog + logEvent:
-		"breakAt"			: breakLogEvNum<0 ? 0 : breakLogEvNum + breakLogIdIndex * Log.entryNosPlog,
+		"breakAt"			: breakLogEvNum<0 ? 0 : breakLogEvNum + breakLogIdIndex * Logger.entryNosPlog,
 			 // * is for XCTests:
 		"*breakAt"			: 0,		// No breaks for XCTest
 	]
@@ -99,7 +99,7 @@ private let params4sim_ : FwConfig = [
 	"simEnabled"				: false,
 	"simTaskPeriod" 			: 0.01,//5 1 .05// Simulation task retry delay nil->no Task
 	"simTimeStep"				: 0.01,			// Time between UP and DOWN scan (or vice versa)
-	"simLogLocks"				: false,//true//false// Log simulation lock activity
+	"simLogLocks"				: false,//true//false// Logger simulation lock activity
 ]
 
   // MARK: - F: Scene Params

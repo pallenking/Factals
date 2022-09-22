@@ -44,10 +44,10 @@ var DOCrootPart		: RootPart	{	DOC .fwGuts.rootPart						}
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts									}
 var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
  // Others:
-var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
+var DOClog  		: Logger 		{	DOCrootPartQ?.logger ?? Logger.null				}
 let DOCctlr						= NSDocumentController.shared
 //
-//var DOClog  		: Log 		{	DOC?.fwGuts.rootPart.log ?? Log.null				}
+//var DOClog  		: Logger 		{	DOC?.fwGuts.rootPart.log ?? Logger.null				}
 //
 
 @main										// callse AppDelegateFoo.swift
@@ -97,8 +97,8 @@ struct FooDocTry3App: App, Uid, FwAny {
 //		.handlesExternalEvents(matching: [])
 	}
 	 // MARK: - 2. Object Variables:
-	var log	: Log				{
-		let rv					= Log(title:"App's Log")
+	var log	: Logger				{
+		let rv					= Logger(title:"App's Logger")
 //		rv.config4log			= params4appLog
 		return rv
 	}
@@ -129,7 +129,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 
 	init () {
 		APP = self				// Register  (HOAKEY)
-		let _					= Log.null		// create here, ahead of action
+		let _					= Logger.null		// create here, ahead of action
 
 		 // Configure App with defaults:
 		config					+= params4all
@@ -280,7 +280,7 @@ bug;	let rv					= NSMenu(title:path)
 			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
 		}
 
-		 // Log program usage instances
+		 // Logger program usage instances
 		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
 		atCon(7, printFwcState())
 //.		atCon(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
@@ -370,7 +370,7 @@ bug;	let rv					= NSMenu(title:path)
 	var debugDescription : String	{	return   "'FooDocTry3App'"				}
 	var summary			 : String	{	return   "<FooDocTry3App>"				}
 
-	 // MARK: - 20. Log
+	 // MARK: - 20. Logger
 	  ///  Write 1-line summary of this usage
 	func logRunInfo(_ comment:String) {
 		//return

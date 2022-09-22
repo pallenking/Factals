@@ -7,7 +7,7 @@ class Simulator : NSObject, Codable {
 	var timingChains:[TimingChain] = []
 
 	// MARK: - 2.1 Operational STATE
-	 /// Simulation is fully built and running						////	var simBuilt : Bool {				// simulator is running (mostly for Log)
+	 /// Simulation is fully built and running						////	var simBuilt : Bool {				// simulator is running (mostly for Logger)
 	var simBuilt : Bool = false	{		// sim constructed?			//		get		 {		return simBuilt_										}
 		didSet {		// whenever simEnabled gets set, try to st	//		set(val) {		// whenever simEnabled gets set, try to start simulationsart simulation
 			if simEnabled && simBuilt {								////			simBuilt_			= val
@@ -220,6 +220,11 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 		}
 	}
 
+	// MARK: - 14. Building
+	var logger : Logger { rootPart?.fwGuts.logger ?? .null						}
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+		logger.log(banner:banner, format_, args, terminator:terminator)
+	}//Cannot convert return expression of type 'Optional<_>' to return type 'Logger'
 // MARK: - 13. IBActions
 		/// Prosses keyboard key
 	   /// - Parameter from: -- NSEvent to process

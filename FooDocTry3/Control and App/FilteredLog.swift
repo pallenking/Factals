@@ -1,4 +1,4 @@
-//  FilteredLog.swift -- selective filtering of Log messages ©2021PAK
+//  FilteredLog.swift -- selective filtering of Logger messages ©2021PAK
 
 import Foundation
 
@@ -29,7 +29,7 @@ import Foundation
 //
 //	E.g: the following will print "construction message" if DOClog.verbosity
 //	calls for >=3 verbosity messages:
-//			atCon(3, Log(<construction message>))
+//			atCon(3, Logger(<construction message>))
 
  // Functions called by logee, sugar to shorten commonly used cliche.
 func atCon(_ pri:Int, _ act:@autoclosure()->Void) { return at("con",pri,act())	}
@@ -84,8 +84,8 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure()->Void) {	// Locatio
 		{
 			if log.msgFilter != nil || log.msgPriority != nil {
 				let c			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
-				let new			= Log.pp(filter:area, priority:verbos)
-				let now			= Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
+				let new			= Logger.pp(filter:area, priority:verbos)
+				let now			= Logger.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
 				print(c + " '\(new)' found log '\(log.title)' busy doing '\(now)'")
 			}
 			log.msgFilter		= area

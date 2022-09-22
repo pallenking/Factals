@@ -407,7 +407,7 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 			return rv
 		}
 		 // Now rv contain's self's portConSpot, in aVewq
-		let enaPpWp				= root?.log.params4aux.string("ppViewOptions")?.contains("W") ?? false
+		let enaPpWp				= root?.fwGuts.logger.params4aux.string("ppViewOptions")?.contains("W") ?? false
 		let rootScn				= root!.fwGuts.rootVew.scn
 		let worldPosition 		= !enaPpWp ? "" :
 								"w" + aVew.scn.convertPosition(rv.center, to:rootScn).pp(.short) + " "		// wp wrong
@@ -620,7 +620,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			// e.g: "Ff| |/            P:Port  . . . o| <0.00> -> /prt4/prt2/t1.s0
 			var rv				= ppUid(self, post:"", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")
-			rv 					+= root?.log.indentString(minus:1) ?? "//AX//"
+			rv 					+= root?.fwGuts.logger.indentString(minus:1) ?? "//AX//"
 			rv					+= self.upInWorld 	? 	"|/   " : 
 								   						"|\\   "
 			rv					+= ppCenterPart(aux)	// adds "name;class<unindent><Expose><ramId>"

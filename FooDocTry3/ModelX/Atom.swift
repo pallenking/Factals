@@ -404,7 +404,7 @@ class Atom : Part {	//Part//FwPart
 	var defaultLinkProps : FwConfig	{ return [:]		}
 	override func gatherLinkUps(into linkUpList:inout [() -> ()]) {    //super gatherWiresInto:wirelist];
 		guard let root			= root else {	fatalError("no root")			}
-		let log					= root.log
+		let logger					= root.logger
 
 /**/	super.gatherLinkUps(into:&linkUpList)
 		   // /////////////////////////////////////////////////////////////////////
@@ -432,7 +432,7 @@ class Atom : Part {	//Part//FwPart
 				root.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
 				let breakAtWireNo = root.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
-				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(log.entryNo-1)")
+				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(logger.entryNo-1)")
 				atBld(4, logd("L\(wireNumber)'s source:\(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:\(trgAny.pp(.line))"))
 
   /* **************************************************************************/
