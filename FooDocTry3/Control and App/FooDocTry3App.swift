@@ -46,6 +46,9 @@ var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
  // Others:
 var DOClog  		: Log 		{	DOCrootPartQ?.log ?? Log.null				}
 let DOCctlr						= NSDocumentController.shared
+//
+//var DOClog  		: Log 		{	DOC?.fwGuts.rootPart.log ?? Log.null				}
+//
 
 @main										// callse AppDelegateFoo.swift
 struct FooDocTry3App: App, Uid, FwAny {

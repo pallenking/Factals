@@ -7,6 +7,7 @@ import SceneKit
 class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
+
 	var rootPart	 : RootPart														//{	rootVew.part as! RootPart}
 	var rootVew 	 : RootVew!
 	var fwScn		 : FwScn!

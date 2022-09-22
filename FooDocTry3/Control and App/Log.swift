@@ -61,17 +61,17 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 			}
 			breakAt 		= ba
 		}
-//		var toParams4docLog		= FwConfig()
-//		for (name, value) in config {
-//			 // --------- To Log:
-//			if name.hasPrefix("pp") ||			// 1a:      pp... entry
-//			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
-//				toParams4docLog[name] = value		// affect our DOClog
-//			}
-//				  // Output buckets to component configurations
-//			 // Q: scattering via = or += paradigm?
-//			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
-//		}
+									//		var toParams4docLog		= FwConfig()
+									//		for (name, value) in config {
+									//			 // --------- To Log:
+									//			if name.hasPrefix("pp") ||			// 1a:      pp... entry
+									//			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
+									//				toParams4docLog[name] = value		// affect our DOClog
+									//			}
+									//				  // Output buckets to component configurations
+									//			 // Q: scattering via = or += paradigm?
+									//			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
+									//		}
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
 		let verbosityHash	= verbosityInfoFrom(config)
 		if  verbosityHash.count > 0 {
@@ -387,15 +387,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 	override var debugDescription : String { return "'Log\(logNo) \"\(title)\"'"}
 	var summary					  : String { return "<Log\(logNo) \"\(title)\">"}
 }
-var debugOutterLock				= false		// default value
-
-// MARK: - PreLog
-func preLog(_ item:String) {
-	if DOClog.config4log.bool_("debugPreLog") {
-		print("######### " + item)
-	}
-}
-
+var debugOutterLock	= false		// default value
 
 var warningLog : [String] 		= []
 var logNErrors					= 0

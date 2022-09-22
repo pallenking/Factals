@@ -32,9 +32,9 @@ class RootPart : Part {
 	// MARK: - 3. Part Factory
 	init() {
 		simulator				= Simulator()
-		simulator.config4sim	= params4sim
+//		simulator.config4sim	= params4sim
 		log						= Log(title:"RootPart([:])'s Log(params4docLog)")
-		log.config4log			= params4docLog
+//		log.config4log			= params4docLog
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
@@ -337,6 +337,7 @@ bug;	guard let rhsAsRootPart	= rhs as? RootPart else {	return false		}
 		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)
 //		markTree(dirty:.vew)
+		
 //		atBld(5, APPLOG.log("<< << <<  RootPart(fromLibraryEntry:\(selectionString)) " +
 //									"found:\(title), returns:\n\(pp(.tree))"))
 	}

@@ -232,7 +232,7 @@ extension Simulator : FwStatus	{								  /// Simulator
 			if simEnabled {
 				myLine			= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
 				myLine			+= "t:\(timeNow) "///
-				let x			= config4sim.double("simTaskPeriod")
+				let x			= rootPart?.fwGuts.document.config.double("simTaskPeriod")
 				myLine			+= "dt=\(x != nil ? String(x!) : "nil") "
 				myLine			+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
 				if isSettled() {

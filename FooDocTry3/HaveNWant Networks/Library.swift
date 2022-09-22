@@ -304,3 +304,4 @@ func log(prefix:String="",
 func logX(prefix:String="",
 		  con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, 
 		  dat:Int=0, rve:Int=0, ani:Int=0, ins:Int=0, all:Int=0) -> FwConfig { return [:] }
+//txp000449680
