@@ -54,8 +54,7 @@ let DOCctlr						= NSDocumentController.shared
 struct FooDocTry3App: App, Uid, FwAny {
 	var uid: UInt16				= randomUid()
 	var fwClassName: String		= "FooDocTry3App"
-//	@Environment(\.scenePhase) private var scenePhase
-//	Flock o Swifts: "make state object, add to environment"	PW
+//	@Environment(\.scenePhase) private var scenePhase Flock o Swifts: "make state object, add to environment"	PW
 
 	//@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 	var body: some Scene {
@@ -104,7 +103,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 		return rv
 	}
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
-	private var regressScene : Int = 0			// number of the next "^r" regression test
+	var regressScene : Int = 0	//private?	// number of the next "^r" regression test
 															 // Keeps FwGuts menue in sync with itself:
 															//	var regressScene : Int {				// number of next "^r" regression test
 															//		get			{	return regressScene_										}
@@ -115,7 +114,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 															//	};private var regressScene_ = 0
 	 // Keep regressScene up to date						//var config4app : FwConfig {
 	var config : FwConfig		= [:]						//	get			{	return config4app_ }
-	mutating func reconfigureWith(config c:FwConfig) {		//	set(val)	{
+	mutating func setConfiguration(to c:FwConfig) {		//	set(val)	{
 		config					= c							//		config4app_			= val
 		if let rsn 				= c.int("regressScene") {	//		if let rsn 			= config4app_.int("regressScene") {
 			regressScene		= rsn						//			regressScene	= rsn
@@ -134,7 +133,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 
 		 // Configure App with defaults:
 		config					+= params4all
-		reconfigureWith(config:config)
+		setConfiguration(to:config)
 		
 		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 		
@@ -343,12 +342,12 @@ bug;	let rv					= NSMenu(title:path)
 		let fwGuts				= FwGuts(rootPart:rootPart)
 		var doc					= FooDocTry3Document(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
-//		doc.config				+= rootPart.ansConfig
-		doc.reconfigureWith(config:doc.config + rootPart.ansConfig)
+		doc.setConfiguration(to:doc.config + rootPart.ansConfig)
 
 		rootPart.fwGuts			= fwGuts
 		fwGuts.document 		= doc
 //		fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
+
 		fwGuts.add(scene:nil)
 
 		doc.makeWindowControllers()

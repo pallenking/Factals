@@ -13,12 +13,13 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	var fwScn		 : FwScn!
 	var eventCentral : EventCentral
 	var document 	 : FooDocTry3Document!
+	var log			 : Log 	{	rootPart.log									}
 
-	func reconfigureWith(config:FwConfig) {
-		rootPart	.reconfigureWith(config:config)
-		rootVew		.reconfigureWith(config:config)
-		fwScn		.reconfigureWith(config:config)
-		eventCentral.reconfigureWith(config:config)
+	func setConfiguration(to config:FwConfig) {
+		rootPart	.setConfiguration(to:config)
+		rootVew?	.setConfiguration(to:config) ?? log("fwGuts: rootVew nil")
+		fwScn?		.setConfiguration(to:config) ?? print("fwGuts: fwScn nil")
+		eventCentral.setConfiguration(to:config)
 	}
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {
@@ -33,6 +34,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	func add(scene:SCNScene?=nil) {
 		assert(rootVew == nil, "only one View per FwGuts")
 		assert(fwScn   == nil, "only one View per FwGuts")
+
 		let scene				= scene ?? SCNScene()
 		scene.isPaused			= false					// OFF while building
 		rootVew					= RootVew(forPart:rootPart, scn:scene.rootNode)

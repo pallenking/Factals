@@ -37,10 +37,13 @@ class RootPart : Part {
 //		log.config4log			= params4docLog
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		simulator.rootPart		= self
 	}
-	func reconfigureWith(config:FwConfig) {
-		log		 .reconfigureWith(config:config)
-		simulator.reconfigureWith(config:config)
+	func setConfiguration(to config:FwConfig) {
+		log		 .setConfiguration(to:config)
+		simulator.setConfiguration(to:config)
+		//assert(log.rootPart == self, 	   "commented out -- no owner")
+		assert(simulator.rootPart == self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
 	}
 //// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable

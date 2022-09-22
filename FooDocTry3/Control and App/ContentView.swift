@@ -26,6 +26,7 @@ struct ContentView: View {
 			if let fwGuts		= document.fwGuts {
 				VStack {
 					let rootPart:RootPart = document.fwGuts.rootPart
+					let fwScn	= fwGuts.fwScn
 					ZStack {
 						NSEventReceiver { nsEvent in
 							DOCfwGuts.eventCentral.receivedEvent(nsEvent:nsEvent)}

@@ -37,13 +37,15 @@ class FwEvent {							// NOT NSObject
 }
 
 class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
-	var fwGuts : FwGuts!
+	weak // owner
+	 var fwGuts : FwGuts!
+	var log			 : Log 	{	fwGuts.rootPart.log								}
 
 	override init() {
 		super.init()
 	}
-	func reconfigureWith(config:FwConfig) {
-bug	}
+	func setConfiguration(to:FwConfig) {
+	}
 
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////

@@ -25,13 +25,8 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 	var logEvents				= true
 
 	 /// Configure Log facilities
+	func setConfiguration(to config:FwConfig) {
 
-//	var config4log : FwConfig = [:]
-	func reconfigureWith(config:FwConfig) {								//get			{			return config4sim_
-//		config4log				= config								//set(config) {
-//		if let con				= config {								//	config4sim_		= config
-//		if let se				= config["simEnabled"] {				//	config4sim_		= config
-		 // WARNING: Do not use Log inside here! It's not set up yet!
 		 // Unpack frequently used config hash elements to object parameters
 		if let pic 			= config.int("ppIndentCols")	{
 			ppIndentCols 	= pic

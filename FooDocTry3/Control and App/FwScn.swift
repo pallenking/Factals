@@ -46,6 +46,7 @@ import SceneKit
 
 class FwScn : Uid {
 	var uid		 : UInt16		= randomUid()
+	var log			 : Log 	{	fwGuts.rootPart.log								}
 
 	weak
 	 var fwGuts	 : FwGuts!		= nil
@@ -53,13 +54,15 @@ class FwScn : Uid {
 	var scnView	 : SCNView!		= nil
 	var scnScene : SCNScene!
 
-	var rootScn  : SCNNode	{	scnScene.rootNode									}	//scnRoot
+	var rootScn  : SCNNode	{	scnScene.rootNode								}	//scnRoot
 	var trunkScn : SCNNode? {
 		if let tv				= fwGuts?.rootVew.trunkVew  {
 			return tv.scn
 		}
 		fatalError("trunkVew is nil")
 	}
+
+
 	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
 	var animatePhysics : Bool {
 		get {			return !scnScene.isPaused								}
@@ -70,9 +73,11 @@ class FwScn : Uid {
 	init(fwGuts:FwGuts?=nil, scnView:SCNView?=nil, scnScene:SCNScene) {
 		self.scnView = scnView
 		self.scnScene = scnScene
+
+
 		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	}
-	func reconfigureWith(config:FwConfig) {
+	func setConfiguration(to config:FwConfig) {
 		assert(config.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics = config.bool("animatePhysics") ?? false
 

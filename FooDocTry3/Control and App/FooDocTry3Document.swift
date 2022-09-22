@@ -9,16 +9,21 @@ import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
 
-struct FooDocTry3Document: FileDocument, Uid {
+struct FooDocTry3Document: FileDocument, Equatable, Uid {
+	
 	let uid:UInt16				= randomUid()
 	var redo:UInt8				= 0
 
 	var fwGuts : FwGuts!				// content
 
 	var config : FwConfig		= [:]
-	mutating func reconfigureWith(config c:FwConfig) {
+	mutating func setConfiguration(to c:FwConfig) {
 		config					= c
-//		if let rsn 				= c.int("regressScene") { regressScene = rsn }
+		fwGuts.setConfiguration(to:c)
+		assert(fwGuts.document == self, "FooDocTry3.reconfigureWith ERROR with log (or func == ERROR")
+	}
+	static func == (lhs: FooDocTry3Document, rhs: FooDocTry3Document) -> Bool {
+		lhs.uid == rhs.uid				// almost good enough 2^-16			//&& lhs.config == rhs.config	// slow? broken
 	}
 
 	init() {	// Build an EMPTY document						 //    INTERNAL:
@@ -34,8 +39,10 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 		 //		Make FwGuts:
 		fwGuts					= FwGuts(rootPart:rootPart)
-		fwGuts.document 		= self
-		rootPart.fwGuts			= fwGuts		// backpointer
+		fwGuts.document 		= self			// delegate
+		rootPart.fwGuts			= fwGuts		// delegate
+
+		setConfiguration(to:config)
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 
@@ -381,7 +388,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format_, arguments:args)
-		log.log(banner:banner, msg, terminator:terminator)
+bug//	log.log(banner:banner, msg, terminator:terminator)
 	}
 
 	 // MARK: - 15. PrettyPrint

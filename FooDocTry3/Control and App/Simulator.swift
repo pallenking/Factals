@@ -49,7 +49,7 @@ class Simulator : NSObject, Codable {
 
 	 /// Controls the Simulator's operation
 //	var config4sim : FwConfig	= [:]
-	func reconfigureWith(config:FwConfig) {
+	func setConfiguration(to config:FwConfig) {
 		if let se				= config["simEnabled"] {
 			if let simEn		= se as? Bool {
 				simEnabled 		= simEn
