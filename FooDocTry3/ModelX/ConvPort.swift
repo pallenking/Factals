@@ -202,14 +202,12 @@ class ConvPort : Port {
 	}
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		var rv = super.pp(mode, aux)
-		switch mode! {
-		case .tree:
+		if mode == .tree {
 			var sep				= ""
 			for seg in array {
 				rv 				+= "\t\t\t\t\t\t\(sep) [\(seg.heightPct): val=\(seg.val)]\n"
 				sep				= "  "
 			}
-		default: nop
 		}
 		return rv
 	}

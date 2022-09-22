@@ -42,6 +42,9 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		scnView.antialiasingMode = args.antialiasingMode
 		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
+
+ppFwcState()
+
 		 // Connect FwGuts
 		if let fwGuts			= args.fwGuts {
 			guard let scnScene	= scnView.scene else {	fatalError("makeNSView cannot get SCNScene from SCNView") }

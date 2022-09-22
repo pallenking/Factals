@@ -42,7 +42,6 @@ struct FooDocTry3Document: FileDocument, Uid {
 		return
 	}
 
-	/* ============== BEGIN FileDocument protocol: */
 	static var readableContentTypes: [UTType] { [.fooDocTry3, .sceneKitScene] }
 	static var writableContentTypes: [UTType] { [.fooDocTry3] }
 	//private static let onlyScene = true
@@ -452,7 +451,6 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String	{
-//bug;	return "fixMe"
 		switch mode! {
 		case .line:
 			return DOClog.indentString() + " FooDocTry3Document"				// Can't use fwClassName; FwDocument is not an FwAny
@@ -460,7 +458,6 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			return DOClog.indentString() + " FooDocTry3Document" + "\n"
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)						// NO: return super.pp(mode, aux)
-//			return ppDefault(self:self as! FwAny, mode:mode, aux:aux)			// NO: return super.pp(mode, aux)
 		}
 	}
 }
@@ -473,5 +470,3 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 extension UTType {
 	static var fooDocTry3: UTType 	{ UTType(exportedAs: "com.example.footry3") 	}
 }
-
-/* ============== END FileDocument protocol: */

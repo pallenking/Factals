@@ -20,7 +20,6 @@ class RootVew : Vew {
 	}
 	 // MARK: x.3.2 Look At Spot
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
-//	var pole					= SCNNode()				// focus of mouse rotator
 	var lastSelfiePole : SelfiePole!					// init to default
 
 	init(forPart part:Part?=nil, scn:SCNNode?=nil) {
@@ -98,7 +97,7 @@ class RootVew : Vew {
 
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		var rv					= super.pp(mode, aux)
+		var rv					= ""//super.pp(mode, aux)
 		switch mode! {
 		case .phrase:
 			rv 					+= "RootVew:\(ppUid(self))"
@@ -107,7 +106,6 @@ class RootVew : Vew {
 		case .line:
 			rv 					+= "RootVew:\(ppUid(self))"
 		default:
-			rv 					+= "RootVew:\(ppUid(self))"
 			rv 					+= "RootVew:\(ppUid(self))"
 		}
 		return rv

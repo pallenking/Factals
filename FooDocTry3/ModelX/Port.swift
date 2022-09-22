@@ -72,14 +72,15 @@ class Port : Part, PortTalk {
 	No redraw. Redraw from another button does update it.
 	*/
 
-	@Published var value 		: Float	= 0.0
+	@Published
+	 var value 		: Float	= 0.0
 	{	didSet {	if value != oldValue {
-						markTree(dirty:.paint)
-																		}	}	}
-	@Published var valuePrev	: Float	= 0.0		// @objc dynamic
+						markTree(dirty:.paint)							}	}	}
+	@Published
+	 var valuePrev	: Float	= 0.0		// @objc dynamic
 	{	didSet {	if valuePrev != oldValue {
-						markTree(dirty:.paint)
-																		}	}	}
+						markTree(dirty:.paint)							}	}	}
+
 	func take(value newValue:Float, key:String?=nil) {
 		assert(key==nil,		"Key mode only supported on MPort, not on Port"	)
 		assert(!newValue.isNaN,		"Setting Port value with NAN"				)
@@ -155,8 +156,10 @@ class Port : Part, PortTalk {
 	}
 
 	 // MARK: - 2.2 Connections:
-	weak var connectedTo : Port? = nil			// visible inside SF
+	weak
+	 var connectedTo : Port? = nil			// visible inside SF
 //	{	didSet { con2ib = connectedTo ?? con2ib				}					}
+	var con2asStr : String?		= nil
 
 	var con2ib : Port {//= self//Port()
 		get 	{ return  connectedTo ?? self									}
@@ -611,14 +614,12 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		switch mode! {
 		case .fullName:						// -> .name
 			return (parent?.pp(.fullName) ?? "") + "." + name
-//			return super.pp(mode, aux)			//return self.fullName//pp(.name,   aux)
 		case .phrase, .short:
 			return self.pp(.fullNameUidClass, aux)
 		case .line:
 			// e.g: "Ff| |/            P:Port  . . . o| <0.00> -> /prt4/prt2/t1.s0
 			var rv				= ppUid(self, post:"", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")
-//log("")
 			rv 					+= root?.log.indentString(minus:1) ?? "//AX//"
 			rv					+= self.upInWorld 	? 	"|/   " : 
 								   						"|\\   "
@@ -635,23 +636,13 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 				let sc			= portPastLinksPp(ppStr:&rv)
 				 // now, the last good port:
 				rv 				+= " ->\(sc.connectedTo?.fullName ?? "nil")"
-			}else{
-				rv 				+= "nil"
+				if con2asStr != nil  {			// check for error
+					rv			+= "### ERROR: con2asStr!=nil"
+				}
+			} else if con2asStr != nil {
+				rv 				+= "-> \"\(con2asStr!)'"
 			}
-//			rv					+= con2asStr == nil || connectedTo == nil ? "" : " ???:"
-//			rv					+= con2asStr == nil ? "" : " \"\(con2asStr!)\" "
 			return rv
-//			  // Print out the non-Link:
-//			 // If we are connected to anything, what is it sending to us
-//			if connectedTo==nil {
-//				return rv + "-nil"
-//			}
-//			rv 					+= "<" + connectedTo!.ppPortOutValues()
-//			let sc				= portPastLinksPp(ppStr:&rv)
-//
-//			 // now, the last good port:
-//			return rv + " ->\(sc.connectedTo?.fullName ?? "nil")"
-
 		default:
 			return super.pp(mode, aux)
 		}

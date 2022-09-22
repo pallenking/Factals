@@ -170,15 +170,12 @@ class GenAtom : Atom {
 
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		switch mode! {
-		case .line:
-			var rv 				= super.pp(mode, aux)
+		var rv 					= super.pp(mode, aux)
+		if mode! == .line {
 			rv 					+= loop ?? false ? " loop" : ""
 			rv					+= value==nil || value!.isNaN ? ""
 									: fmt(" value=%.2f", value!)
-			return rv
-		default:
-			return super.pp(mode, aux)
 		}
+		return rv
 	}
 }

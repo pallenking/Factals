@@ -186,13 +186,14 @@ extension NSDocument/*FwDocument*/ : FwStatus	{				 /// FwDocument
 }
 extension FwGuts : FwStatus	{									 /// FwGuts
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootPart     		 .pp(.classUid) + " "
-		myLine					+= rootVew     		 .pp(.classUid) + " "
+		var myLine				= ""
+//		myLine					+= rootPart    		 .pp(.classUid) + " "
 		myLine					+= fwScn       		 .pp(.classUid) + " "
+		myLine					+= rootVew     		 .pp(.classUid) + " "
 		myLine					+= eventCentral		 .pp(.classUid) + " "
 		myLine					+= fooDocTry3Document.pp(.classUid)
 
-		return ppFwStateHelper("FwGuts      ", uid:self,
+		return ppFwStateHelper("FwGuts       ", uid:self,
 			myLine: myLine,
 			otherLines:{ deapth in
 				 // Controller:
@@ -267,7 +268,10 @@ extension RootVew : FwStatus	{									 /// RootVew
 }
 extension FwScn : FwStatus	{										   /// FwScn
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				=  scnView .pp(.classUid) + " "
+//var fwGuts	 : FwGuts!		= nil
+//var scnView	 : SCNView!		= nil
+		var myLine				= fwGuts != nil ? "fwGuts==nil " : ""
+		myLine					=  scnView?.pp(.classUid) ?? "" + " "
 		myLine					+= scnScene.pp(.classUid) + " "
 		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"
 		return ppFwStateHelper("FwScn       ", uid:self,

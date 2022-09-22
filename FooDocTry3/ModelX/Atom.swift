@@ -920,7 +920,7 @@ class Atom : Part {	//Part//FwPart
 			if aux.bool_("ppParam") {			// Ad Hoc: if printing Param's,
 				return rv							// don't print extra
 			}
-			rv				+= bindings==nil ? "" : "bindings:\(bindings!.pp(.line)) "
+			rv					+= bindings==nil ? "" : "bindings:\(bindings!.pp(.line)) "
 		case .tree:
 			let ppDagOrder 		= aux.bool_("ppDagOrder")	// Print Ports early
 			let reverseOrder	= ppDagOrder && (upInWorld ^^ printTopDown)

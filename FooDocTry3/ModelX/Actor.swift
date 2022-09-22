@@ -367,7 +367,7 @@ class Actor : Net {
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		var rv 				= super.pp(mode, aux)
 		switch mode! {
-		case .line:
+		case .line:			// add to end of line
 			if aux.bool_("ppParam") {	// a long line, display nothing else.
 				return rv
 			}
@@ -386,10 +386,10 @@ class Actor : Net {
 				}
 				rv			+= ") "
 			}
-			return rv
 		default:
-			return super.pp(mode, aux)
+			break
 		}
+		return rv
 	}
 	func printContents() {
 		panic()

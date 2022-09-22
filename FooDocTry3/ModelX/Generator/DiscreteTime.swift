@@ -311,21 +311,12 @@ class DiscreteTime : Atom {
 		 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		var rv					= super.pp(mode, aux)
-		switch mode! {
-		case .phrase, .short, .line:
+		if mode! == .line {
 			if aux.bool_("ppParam") {	// a long line, display nothing else.
 				return rv
 			}
 			rv					+= " resetTo='\(resetTo?.pp(.line) ?? "nil")'"
 			rv					+= " inspecNibName='\(inspecNibName ?? "nil")'"
-//			if resetTo != nil {
-//				rv				+= " resetTo='\(resetTo!.pp(.line))'"
-//			}
-//			if inspecNibName != nil {
-//				rv				+= " inspecNibName='\(inspecNibName!)'"
-//			}
-		default:
-			break
 		}
 		return rv
 	}
