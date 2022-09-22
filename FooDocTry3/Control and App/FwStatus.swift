@@ -26,11 +26,12 @@ func ppFwcState() -> String
 {
 	guard let APP else {	return "FooDocTry3App: APP==nil, No Application registered"}
 	var rv : String				 = APP    .ppFwState()
-	guard let DOC else {	return rv + "FooDocTry3App: DOC==nil, No Current Document ("}
-	rv							+= DOC    .ppFwState()		// current DOCument
-//	rv							+= ppDOC()					// current DOCument
-	rv							+= DOClog .ppFwState()		// DOClog
-	rv							+= DOCctlr.ppFwState()		// nsDOCumentConTroLleR
+	rv							+= ppDOC()					// current DOCument
+	if DOC != nil {
+	//	rv						+= DOC    .ppFwState()		// current DOCument
+		rv						+= DOClog .ppFwState()		// DOClog
+		rv						+= DOCctlr.ppFwState()		// nsDOCumentConTroLleR
+	}
 	return rv
 }
 func ppFwStateHelper(_ fwClassName_	: String,
@@ -95,7 +96,7 @@ extension Library : FwStatus {								/// Library or Tests01
 func ppDOC() -> String {									///
 	//let m						= ppUid(DOC)
 	let msg						= DOC == nil ? "(not selected)" : "(currently selected)"
-	let uid : String			= ppUid(pre:" ", DOC as! Uid, post:"  DOC \(msg)", showNil:true)
+	let uid : String			= ppUid(pre:" ", DOC, post:"  DOC \(msg)", showNil:true)
 	return uid + "\n"
 //	return ppUid(pre:" ", DOC, post:"  DOC \(msg)", showNil:true) + "\n"
 }

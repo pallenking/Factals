@@ -35,6 +35,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	func makeNSView(context: Context) -> SCNView {
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
 		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
+		scnScene.isPaused		= false					// perhaps enabled later
 		scnView.scene			= scnScene
 		scnView.pointOfView 	= args.pointOfView
 		scnView.backgroundColor	= NSColor("veryLightGray")!

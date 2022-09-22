@@ -96,7 +96,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 	}
 	 // MARK: - 2. Object Variables:
 	var log	: Log				{
-		let rv					= Log(title:"AppDelegate's Log(params4appLog)")
+		let rv					= Log(title:"App's Log")
 		rv.config4log			= params4appLog
 		return rv
 	}
@@ -351,6 +351,7 @@ bug;	let rv					= NSMenu(title:path)
 		 // Make new Document
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
 		let fwGuts				= FwGuts(rootPart:rootPart)
+		fwGuts.add(scene:nil)
 		let doc					= FooDocTry3Document(fwGuts:fwGuts)
 
 		 // Backlinks, config

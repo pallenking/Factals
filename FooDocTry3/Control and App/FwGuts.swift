@@ -8,15 +8,14 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
 	var rootPart	 : RootPart														//{	rootVew.part as! RootPart}
-	var rootVew 	 : RootVew
-	var fwScn		 : FwScn
+	var rootVew 	 : RootVew!
+	var fwScn		 : FwScn!
 	var eventCentral : EventCentral
 	var fooDocTry3Document : FooDocTry3Document!
 
 	var config4fwGuts : FwConfig = [:] {
-		didSet {	//if config4fwGuts != oldValue {
-			let x				= config4fwGuts.bool("animatePhysics") ?? false
-			fwScn.animatePhysics = x
+		didSet {
+			fwScn.animatePhysics = config4fwGuts.bool("animatePhysics") ?? false
 
 			assert(config4fwGuts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
 			if let gravityAny	= config4fwGuts["gravity"] {
@@ -34,26 +33,25 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		}
 	}
 	 // MARK: - 3. Factory
-	convenience init(rootPart:RootPart) {		//controller ctl:Controller? = nil,
-		guard rootPart != nil else {	fatalError("FwGuts(rootPart is nil")	}
-
-		self.init(scene:SCNScene(), rootPart:rootPart)
-	}
-	init(scene:SCNScene?=nil, rootPart:RootPart) {
-		self.rootPart			= rootPart
-		guard let scene else { fatalError("FwGuts(scene is nil")}
-		self.rootVew			= RootVew(forPart:rootPart, scn:scene.rootNode)
-		self.fwScn				= FwScn(scnScene:scene)
-		self.eventCentral		= EventCentral()
+	init(rootPart r:RootPart) {
+		rootPart				= r
+		eventCentral			= EventCentral()
 
 		super.init()
 
-		 // Back Links
-		rootVew.fwGuts			= self
-		fwScn.fwGuts			= self
-		eventCentral.fwGuts		= self
+		rootPart	.fwGuts		= self
+		eventCentral.fwGuts		= self 		 // Back Link
 	}
-
+	func add(scene:SCNScene?=nil) {
+		assert(rootVew == nil, "only one View per FwGuts")
+		assert(fwScn   == nil, "only one View per FwGuts")
+		let scene				= scene ?? SCNScene()
+		scene.isPaused			= false					// OFF while building
+		rootVew					= RootVew(forPart:rootPart, scn:scene.rootNode)
+		rootVew.fwGuts			= self
+		fwScn					= FwScn(scnScene:scene)
+		fwScn.fwGuts			= self
+	}
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
 	var data : Data? {

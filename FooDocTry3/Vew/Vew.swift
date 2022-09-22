@@ -536,8 +536,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						guard let fwGuts = part.root?.fwGuts else { fatalError("### part.root?.fwGuts is nil ###")}
-						let rootVew = fwGuts.rootVew
+						guard let rootVew = part.root?.fwGuts.rootVew else {
+							fatalError("### part.root?.fwGuts.rootVew is nil ###")}
 						guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
 							fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 						}

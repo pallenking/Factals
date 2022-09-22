@@ -65,12 +65,17 @@ class FwScn : Uid {
 		set(v) {		scnScene.isPaused = !v									}
 	}
 
-	init(fwGuts: FwGuts? = nil, scnView: SCNView? = nil, scnScene: SCNScene) {
+	 // MARK: - 3.1 init
+	init(fwGuts:FwGuts?=nil, scnView:SCNView?=nil, scnScene:SCNScene) {
 		self.scnView = scnView
 		self.scnScene = scnScene
 		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	}
-	 // MARK: - 9.1 Lights
+	func newConfig(_ config:FwConfig) {
+	
+	}
+	
+	 // MARK: - 4.1 Lights
 	func addLightsToScn() {
 		let _ 					= helper("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
 		let _ 					= helper("ambient1",.ambient,color:NSColor.darkGray)
@@ -110,7 +115,7 @@ class FwScn : Uid {
 			return rv
 		}
 	}
-	 // MARK: - 9.2 Camera
+	 // MARK: - 4.2 Camera
 	 // Get camera node from SCNNode
 //	var cameraScn : SCNNode?	{	fwScn.scnScene.cameraScn					}
 	func addCameraToScn(_ config:FwConfig) {
@@ -132,7 +137,7 @@ class FwScn : Uid {
 		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 		rootScn.addChildNode(newCameraScn)
 	}
-	  // MARK: - 9.3.1 Look At Pole
+	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func addAxesScn() {			// was updatePole()
 		guard fwGuts.config4fwGuts.bool_("showAxis") else {	return					}
@@ -207,7 +212,7 @@ class FwScn : Uid {
 		}
 	}
 
-	 // MARK: 9.3.3 Look At Updates
+	 // MARK: 4.4 - Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 bug;	let fwGuts				= DOCfwGuts
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
