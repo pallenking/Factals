@@ -48,24 +48,23 @@ class Simulator : NSObject, Codable {
 	weak var rootPart	: RootPart? = nil
 
 	 /// Controls the Simulator's operation
-	var config4sim : FwConfig	= [:]
-	func reconfigureWith(config:FwConfig) {								//get			{			return config4sim_
-		config4sim				= config								//set(config) {
-		if let se				= config["simEnabled"] {				//	config4sim_		= config
-			if let simEn		= se as? Bool {							//	if let se			= config["simEnabled"] {
-				simEnabled 		= simEn									//		if let simEn	= se as? Bool {
-			}else{														//			simEnabled 	= simEn
-				panic("simEnabled:\(se.pp(.line)) is not Bool")			//		}else{
-			}															//			panic("simEnabled:\(se.pp(.line)) is not Bool")
-		}																//		}
-		if let tStep			= config4sim.float("simTimeStep") {		//	}
-			simTimeStep 		= tStep									//	if let tStep		= config4sim.float("simTimeStep") {
-		}																//		simTimeStep 	= tStep
-		if let pst				= config4sim.bool("simLogLocks") {		//	}
-			simLogLocks	 		= pst									//	if let pst			= config4sim.bool("simLogLocks") {
-		}																//		simLogLocks	 	= pst
-	}																	//	}
-																		//}; private var config4sim_ : FwConfig = [:]
+//	var config4sim : FwConfig	= [:]
+	func reconfigureWith(config:FwConfig) {
+		if let se				= config["simEnabled"] {
+			if let simEn		= se as? Bool {
+				simEnabled 		= simEn
+			}else{
+				panic("simEnabled:\(se.pp(.line)) is not Bool")
+			}
+		}
+		if let tStep			= config.float("simTimeStep") {
+			simTimeStep 		= tStep
+		}
+		if let pst				= config.bool("simLogLocks") {
+			simLogLocks	 		= pst
+		}
+	}
+																		
 	// MARK: - 3. Factory
 	override init() {
 		super.init()
@@ -178,7 +177,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 				simTaskRunning	= true
 				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
 			}
-			let taskPeriod		= config4sim.double("simTaskPeriod") ?? 0.01
+			let taskPeriod		= rootPart?.fwGuts.document.config.double("simTaskPeriod") ?? 0.01
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
 			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
 		}else{

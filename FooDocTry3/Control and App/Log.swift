@@ -26,7 +26,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 
 	 /// Configure Log facilities
 
-	var config4log : FwConfig = [:]
+//	var config4log : FwConfig = [:]
 	func reconfigureWith(config:FwConfig) {								//get			{			return config4sim_
 //		config4log				= config								//set(config) {
 //		if let con				= config {								//	config4sim_		= config
@@ -54,7 +54,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 		if let t 			= config.bool("logTime")		{
 			logTime			= t
 		}
-		if let ba			= config4log .int("breakAt")		{ // (composite, )
+		if let ba			= config .int("breakAt")		{ // (composite, )
 			let curBa		= entryNo<0 ? -1 : entryNo%Log.entryNosPlog
 			if ba>0 && ba<curBa { 		// DON'T USE assert(:), it relies on Log!
 				panic("Setting  breakAt = \(ba) TOO LATE. Set it after \(curBa)")
@@ -73,7 +73,7 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 //			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 //		}
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
-		let verbosityHash	= verbosityInfoFrom(config4log)
+		let verbosityHash	= verbosityInfoFrom(config)
 		if  verbosityHash.count > 0 {
 			verbosity 		= verbosityHash	// Set verbosity filter
 		}										// Otherwise do nothing.
@@ -376,10 +376,10 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 		"toggelOpen5"					: "op5",
 		"toggelOpen6"					: "op6",
 	]
-	var params4aux : FwConfig	{	config4log									}
+	var params4aux : FwConfig	{	DOC.config			} // MOVE ME
 	static let null : Log		= {
 		let rv					= Log(title:".null = Log(params4app)")
-		rv.config4log			= params4appLog
+//		rv.config4log			= params4appLog
 		return rv
 	}()
 

@@ -97,7 +97,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 	 // MARK: - 2. Object Variables:
 	var log	: Log				{
 		let rv					= Log(title:"App's Log")
-		rv.config4log			= params4appLog
+//		rv.config4log			= params4appLog
 		return rv
 	}
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
@@ -130,14 +130,14 @@ struct FooDocTry3App: App, Uid, FwAny {
 		let _					= Log.null		// create here, ahead of action
 
 		 // Configure App with defaults:
-		config					+= params4app
+		config					+= params4all
 		reconfigureWith(config:config)
 		
 		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 		
 		atCon(3, {
-			print("AppDelegate(\(log.config4log.pp(.line).wrap(min: 13, cur:13, max: 100))), " +
-						  "verbosity:\(log.ppVerbosityOf(params4app).pp(.short))])")
+			print("AppDelegate(\(config.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
+						  "verbosity:\(log.ppVerbosityOf(config).pp(.short))])")
 
 			   // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김
 			  // ⌘:apple, ⏎:enter

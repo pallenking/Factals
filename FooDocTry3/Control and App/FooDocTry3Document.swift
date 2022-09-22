@@ -283,10 +283,8 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	var inspecWindow  : NSWindow? = nil
 	mutating func makeInspectors() {
 		atIns(7, print("code makeInspectors"))
-		let library				= APP.library
-		let config2				= params4guts + library.answer.ansConfig
 			// TODO: should move ansConfig stuff into wireAndGroom
-		if let vew2inspec		= config2["inspec"] {
+		if let vew2inspec		= config["inspec"] {
 			if let name			= vew2inspec as? String {	// Single String
 				showInspec(for:name)
 			}

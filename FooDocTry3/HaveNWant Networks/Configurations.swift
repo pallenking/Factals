@@ -2,13 +2,12 @@
 
 import SceneKit
 
-// Default constants used to configure the 6 sub-system of Factal Workbench:
+// Default constants, used to configure the 6 sub-system of Factal Workbench:
 //		a) Apps, b) App Logs, c) Pretty Print,  d) Doc Log, e) Simulator, f) 3D Scene
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
+// 20220912PAK: Simplification: all merged into one hash
 
-private let params4all_ : FwConfig = [
-	"foo":"bar"
-]
+//private let params4all_ : FwConfig = [ "foo":"bar" ]
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
@@ -198,19 +197,6 @@ let wBoxColorOf:[String:NSColor] = [
 	  "WorldModel"	:NSColor.red,
 ]
 
-  // MARK: - External linkage
- /// Initial Parameters for configuration:
-/// 20211001: only one prefix XCTest:"*" is implemented
-/// depend on whether XCTest is running
-var params4all		: FwConfig		{	return applyPrefixTo(params4all_	) 	}
-var params4app		: FwConfig		{	return applyPrefixTo(params4app_	) 	}
-var params4appLog	: FwConfig		{	return applyPrefixTo(params4appLog_	) 	}
-var params4pp		: FwConfig		{ 	return applyPrefixTo(params4pp_		)	}
-
-var params4docLog	: FwConfig		{	return applyPrefixTo(params4docLog_	) 	}
-var params4sim		: FwConfig		{	return applyPrefixTo(params4sim_	) 	}
-var params4guts		: FwConfig		{	return applyPrefixTo(params4guts_	) 	}
-
 func applyPrefixTo(_ config:FwConfig) -> FwConfig {
 
 	 // Prefix "*" is for XCTests:
@@ -229,6 +215,28 @@ func applyPrefixTo(_ config:FwConfig) -> FwConfig {
 	}
 	return rv
 }
+
+  // MARK: - External linkage
+ /// Initial Parameters for configuration:
+/// 20211001: only one prefix XCTest:"*" is implemented
+/// depend on whether XCTest is running
+var params4all 		: FwConfig	=	{	applyPrefixTo(params4all_)	}()
+var params4all_		: FwConfig		{	return
+	params4app_		+
+	params4appLog_	+
+	params4pp_		+
+	params4docLog_	+
+	params4sim_		+
+//	params4guts		+
+	params4app_		+
+	params4appLog_	+
+	params4pp_		+
+	params4docLog_	+
+	params4sim_		+
+	params4guts_
+}
+
+//var params4app		: FwConfig		{	return applyPrefixTo(params4app_	) 	}
 
 	  /// Use prefix codes to conditionally include keys
 	 /// - Parameters:
