@@ -6,6 +6,10 @@ import SceneKit
 //		a) Apps, b) App Logs, c) Pretty Print,  d) Doc Log, e) Simulator, f) 3D Scene
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 
+private let params4all_ : FwConfig = [
+	"foo":"bar"
+]
+
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
 private let params4app_ : FwConfig = [
@@ -198,6 +202,7 @@ let wBoxColorOf:[String:NSColor] = [
  /// Initial Parameters for configuration:
 /// 20211001: only one prefix XCTest:"*" is implemented
 /// depend on whether XCTest is running
+var params4all		: FwConfig		{	return applyPrefixTo(params4all_	) 	}
 var params4app		: FwConfig		{	return applyPrefixTo(params4app_	) 	}
 var params4appLog	: FwConfig		{	return applyPrefixTo(params4appLog_	) 	}
 var params4pp		: FwConfig		{ 	return applyPrefixTo(params4pp_		)	}

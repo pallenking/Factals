@@ -1,62 +1,32 @@
 //  Simulator.swift -- simulation control elements C190715PAK
 import SceneKit
 
-//extension Part {
-//	 // - Array of unsettled ports. Elements are closures that returns the Port's name
-//	func unsettledPorts()	-> [()->String]	{
-//		var rv					= [()->String]()
-//		for child in children {
-//			rv					+= child.unsettledPorts()
-//		}
-//		return rv
-//	}
-//}
-
 class Simulator : NSObject, Codable {
 
 	 // MARK: - 2. Object Variables:
 	var timingChains:[TimingChain] = []
 
 	// MARK: - 2.1 Operational STATE
-	 /// Simulation is fully built and running
-	var simBuilt : Bool = false	{		// sim constructed?
-		didSet {		// whenever simEnabled gets set, try to start simulations
-			if simEnabled && simBuilt {
-				simTaskRunning	= false	// (so startSimulationTask notices)
-				startSimulationTask()	// try irrespective of simTaskRunning
-			}
-		}
-	}
-//	var simBuilt : Bool {				// simulator is running (mostly for Log)
-//		get		 {		return simBuilt_										}
-//		set(val) {		// whenever simEnabled gets set, try to start simulations
-//			simBuilt_			= val
-//			if simEnabled_ && simBuilt_ {
-//				simTaskRunning	= false	// (so startSimulationTask notices)
-//				startSimulationTask()	// try irrespective of simTaskRunning
-//			}
-//		}
-//	};private var simBuilt_	 	= false		// sim constructed?
-
-	 /// Enable simulation task to run:
-	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
-		didSet {
-			if simBuilt {
-				simTaskRunning	= false		// (so startSimulationTask notices)
-				startSimulationTask()		// try irrespective of simTaskRunning
-			}
-		}
-	}
-//	var simEnabled	  	: Bool {
-//		get 	 {		return simEnabled_ 										}
-//		set(val) {		// whenever simEnabled gets set, try to start simulations
-//			simEnabled_			= val
-//			if simBuilt {
-//				simTaskRunning	= false	// (so startSimulationTask notices)
-//				startSimulationTask()	// try irrespective of simTaskRunning
-//			}
-//		}
-//	};private var simEnabled_ 	= false		// sim enabled to run?
+	 /// Simulation is fully built and running						////	var simBuilt : Bool {				// simulator is running (mostly for Log)
+	var simBuilt : Bool = false	{		// sim constructed?			//		get		 {		return simBuilt_										}
+		didSet {		// whenever simEnabled gets set, try to st	//		set(val) {		// whenever simEnabled gets set, try to start simulationsart simulation
+			if simEnabled && simBuilt {								////			simBuilt_			= val
+				simTaskRunning	= false	// (so startSimulationTask 	//			if simEnabled_ && simBuilt_ {notices)
+				startSimulationTask()	// try irrespective of simTa//				simTaskRunning	= false	// (so startSimulationTask notices)skRunning
+			}														////				startSimulationTask()	// try irrespective of simTaskRunning
+		}															////			}
+	}																////		}
+																	////	};private var simBuilt_	 	= false		// sim constructed?
+	 /// Enable simulation task to run:																					//
+	var simEnabled : Bool 	 	= false {	// sim enabled to run?{				//var simEnabled	  	: Bool {
+		didSet {																//	get 	 {		return simEnabled_ 										}																					//
+			if simBuilt {														//	set(val) {		// whenever simEnabled gets set, try to start simulations																					//
+				simTaskRunning	= false		// (so startSimulationTask notices)	//		simEnabled_			= val
+				startSimulationTask()		// try irrespect~ of simTaskRunning	//		if simBuilt {
+			}																	//			simTaskRunning	= false	// (so startSimulationTask notices)
+		}																		//			startSimulationTask()	// try irrespective of simTaskRunning
+	}																			//		}
+																				//};private var simEnabled_ 	= false		// sim enabled to run?
 	var simTaskRunning			= false		// sim task pending?
 
 	// MARK: - 2.2 Manage Cycle Simulator
@@ -76,35 +46,32 @@ class Simulator : NSObject, Codable {
 	var simTimeStep		: Float = 0.01
 	var globalDagDirUp	: Bool	= true
 	weak var rootPart	: RootPart? = nil
-//
+
+	 /// Controls the Simulator's operation
+	var config4sim : FwConfig	= [:]
+	func reconfigureWith(config:FwConfig) {								//get			{			return config4sim_
+		config4sim				= config								//set(config) {
+		if let se				= config["simEnabled"] {				//	config4sim_		= config
+			if let simEn		= se as? Bool {							//	if let se			= config["simEnabled"] {
+				simEnabled 		= simEn									//		if let simEn	= se as? Bool {
+			}else{														//			simEnabled 	= simEn
+				panic("simEnabled:\(se.pp(.line)) is not Bool")			//		}else{
+			}															//			panic("simEnabled:\(se.pp(.line)) is not Bool")
+		}																//		}
+		if let tStep			= config4sim.float("simTimeStep") {		//	}
+			simTimeStep 		= tStep									//	if let tStep		= config4sim.float("simTimeStep") {
+		}																//		simTimeStep 	= tStep
+		if let pst				= config4sim.bool("simLogLocks") {		//	}
+			simLogLocks	 		= pst									//	if let pst			= config4sim.bool("simLogLocks") {
+		}																//		simLogLocks	 	= pst
+	}																	//	}
+																		//}; private var config4sim_ : FwConfig = [:]
 	// MARK: - 3. Factory
 	override init() {
 		super.init()
 //		atCon(6, logd("init(\(config4sim.pp(.line)))"))
 	}
-
-	 /// Controls the Simulator's operation
-	var config4sim : FwConfig {
-		get			{			return config4sim_								}
-		set(config) {
-			config4sim_		= config
-			if let se			= config["simEnabled"] {
-				if let simEn	= se as? Bool {
-					simEnabled 	= simEn
-				}else{
-					panic("simEnabled:\(se.pp(.line)) is not Bool")
-				}
-			}
-			if let tStep		= config4sim.float("simTimeStep") {
-				simTimeStep 	= tStep
-			}
-			if let pst			= config4sim.bool("simLogLocks") {
-				simLogLocks	 	= pst
-			}
-		}
-	}; private var config4sim_ : FwConfig = [:]
-
-// START CODABLE ///////////////////////////////////////////////////////////////
+// START CODABLE //////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
 	enum SimulatorKeys: String, CodingKey {
 //		case timingChains

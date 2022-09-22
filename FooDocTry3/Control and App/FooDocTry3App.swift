@@ -103,37 +103,33 @@ struct FooDocTry3App: App, Uid, FwAny {
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keep regressScene up to date
-	var config4app : FwConfig	= [:] {
-		didSet	{
-			if let rsn 			= config4app.int("regressScene") {
-				regressScene	= rsn
-			}
+	var config4app : FwConfig	= [:] 
+	mutating func reconfigureWith(config:FwConfig) {
+		config4app				= config
+		if let rsn 				= config4app.int("regressScene") {
+			regressScene		= rsn
 		}
-	}
-//	var config4app : FwConfig {
-//		get			{	return config4app_ }
-//		set(val)	{
-//			config4app_			= val
-//			if let rsn 			= config4app_.int("regressScene") {
-//				regressScene	= rsn
-//			}
-//		}
-//	};private var config4app_ : FwConfig = [:]
-
-	 // Keeps FwGuts menue in sync with itself:
-//	var regressScene : Int {				// number of next "^r" regression test
-//		get			{	return regressScene_										}
-//		set(v)	 	{
-//			regressScene_ 		= v
-//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
-//		}
-//	};private var regressScene_ = 0
+	}					//	var config4app : FwConfig {
+						//		get			{	return config4app_ }
+						//		set(val)	{
+						//			config4app_			= val
+						//			if let rsn 			= config4app_.int("regressScene") {
+						//				regressScene	= rsn
+						//			}
+						//		}
+						//	};private var config4app_ : FwConfig = [:]
 	var regressScene : Int 		= 0	{		// number of the next "^r" regression test
 		didSet 	{
 			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
 		}
-	}
-
+	}					 // Keeps FwGuts menue in sync with itself:
+						//	var regressScene : Int {				// number of next "^r" regression test
+						//		get			{	return regressScene_										}
+						//		set(v)	 	{
+						//			regressScene_ 		= v
+						//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
+						//		}
+						//	};private var regressScene_ = 0
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
 

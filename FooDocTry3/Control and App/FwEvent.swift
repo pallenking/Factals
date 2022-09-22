@@ -42,6 +42,8 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	override init() {
 		super.init()
 	}
+	func reconfigureWith(config:FwConfig) {
+	}
 
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////

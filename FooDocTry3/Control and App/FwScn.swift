@@ -71,8 +71,22 @@ class FwScn : Uid {
 		self.scnScene = scnScene
 		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	}
-	func newConfig(_ config:FwConfig) {
-	
+	func reconfigureWith(config:FwConfig) {
+		assert(config.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
+		animatePhysics = config.bool("animatePhysics") ?? false
+
+		if let gravityAny	= config["gravity"] {
+			if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
+				scnScene.physicsWorld.gravity = gravityVect
+			}
+			else if let gravityY: Double = gravityAny.asDouble {
+				scnScene.physicsWorld.gravity.y = gravityY
+			}
+		}
+		if let speed		= config.cgFloat("speed") {
+			scnScene.physicsWorld.speed = speed
+		}
+		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	}
 	
 	 // MARK: - 4.1 Lights

@@ -13,24 +13,9 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	var eventCentral : EventCentral
 	var fooDocTry3Document : FooDocTry3Document!
 
-	var config4fwGuts : FwConfig = [:] {
-		didSet {
-			fwScn.animatePhysics = config4fwGuts.bool("animatePhysics") ?? false
-
-			assert(config4fwGuts.bool("isPaused") == nil, "SCNScene.isPaused is now depricated, use 'animatePhysics' instead")
-			if let gravityAny	= config4fwGuts["gravity"] {
-				if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
-					fwScn.scnScene.physicsWorld.gravity = gravityVect
-				}
-				else if let gravityY: Double = gravityAny.asDouble {
-					fwScn.scnScene.physicsWorld.gravity.y = gravityY
-				}
-			}
-			if let speed		= config4fwGuts.cgFloat("speed") {
-				fwScn.scnScene.physicsWorld.speed = speed
-			}
-			//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
-		}
+	var config4fwGuts : FwConfig = [:]
+	func reconfigureWith(config:FwConfig) {
+		config4fwGuts			= config
 	}
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {

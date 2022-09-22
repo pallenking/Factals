@@ -38,6 +38,8 @@ class RootPart : Part {
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
+	func reconfigureWith(config:FwConfig) {
+	}
 	
 //// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
