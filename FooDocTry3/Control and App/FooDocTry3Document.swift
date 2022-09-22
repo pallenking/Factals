@@ -34,7 +34,7 @@ struct FooDocTry3Document: FileDocument, Uid {
 
 		 //		Make FwGuts:
 		fwGuts					= FwGuts(rootPart:rootPart)
-		fwGuts.fooDocTry3Document = self		// backpointer
+		fwGuts.document 		= self
 		rootPart.fwGuts			= fwGuts		// backpointer
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
@@ -64,14 +64,16 @@ struct FooDocTry3Document: FileDocument, Uid {
 		case .fooDocTry3:
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)
 			let fwGuts			= FwGuts(rootPart:rootPart)
-			fwGuts.config4fwGuts = params4guts
+
 			self.init(fwGuts:fwGuts)			// -> FooDocTry3Document
-			fwGuts.fooDocTry3Document = self
+
+			config				+= rootPart.ansConfig	// from library
+			fwGuts.document 	= self
 		case .sceneKitScene:
 			guard let fwGuts	= FwGuts(data: data, encoding: .utf8) else {
 				fatalError("FwGuts(data:) failed")								}
 			self.init(fwGuts:fwGuts)				// -> FooDocTry3Document
-			fwGuts.fooDocTry3Document = self
+			fwGuts.document = self
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}

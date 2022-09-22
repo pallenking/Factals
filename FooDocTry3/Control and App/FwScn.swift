@@ -7,6 +7,7 @@
 
 import SceneKit
 
+// https://medium.com/@gabriel_lewis/how-to-debug-scenekit-and-arkit-in-xcode-ebd105ee36c9
 		// TO DO:
 		  //  2. In SCNView show
 		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
@@ -167,7 +168,7 @@ bug;	scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact P
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func addAxesScn() {			// was updatePole()
-		guard fwGuts.config4fwGuts.bool_("showAxis") else {	return					}
+		guard fwGuts.document.config.bool_("showAxis") else {	return					}
 
 		let name				= "*-pole"
 		 // Delete any Straggler
@@ -223,7 +224,7 @@ bug;	scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact P
 		pole.addChild(node:origin)
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if fwGuts.config4fwGuts.bool("axisTics") ?? false {
+		if fwGuts.document.config.bool("axisTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -247,7 +248,7 @@ bug;	let fwGuts				= DOCfwGuts
 
 ///		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
-		let animateIt			= fwGuts.config4fwGuts.bool_("animatePole")
+		let animateIt			= fwGuts.document.config.bool_("animatePole")
 		if animateIt {	 // Animate 3D Cursor Pole motion"
 			SCNTransaction.begin()
 //			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
@@ -272,7 +273,7 @@ bug;	let fwGuts				= DOCfwGuts
 		zoom4fullScreen(selfiePole:fwGuts.rootVew.lastSelfiePole, cameraScn:cameraScn)
 
 		if duration > 0.0,
-		  fwGuts.config4fwGuts.bool("animatePan") ?? false {
+		  fwGuts.document.config.bool("animatePan") ?? false {
 			SCNTransaction.begin()			// Delay for double click effect
 			atRve(8, fwGuts.logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
@@ -324,7 +325,7 @@ bug;	let fwGuts				= DOCfwGuts
 				zoomSize		/= ratioHigher
 			}
 		}
-		let vanishingPoint 		= fwGuts.config4fwGuts.double("vanishingPoint")
+		let vanishingPoint 		= fwGuts.document.config.double("vanishingPoint")
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
@@ -364,11 +365,11 @@ bug;	let fwGuts				= DOCfwGuts
 
 		 // 6. Add Lights, Camera and SelfiePole
 		addLightsToScn()							// was updateLights
-		addCameraToScn(fwGuts.config4fwGuts)
+		addCameraToScn(fwGuts.document.config)
 		addAxesScn()
 
 		 // 3.  Configure SelfiePole:
-		if let c 				= fwGuts.config4fwGuts.fwConfig("selfiePole") {
+		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
 			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
 				fwGuts.rootVew.lastSelfiePole.at = at
 			}
@@ -386,7 +387,7 @@ bug;	let fwGuts				= DOCfwGuts
 
 		 // 4.  Configure Initial Camera Target:
 		fwGuts.rootVew.lookAtVew = fwGuts.rootVew.trunkVew				// default
-		if let laStr			= fwGuts.config4fwGuts.string("lookAt"), laStr != "",
+		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
 		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
 			fwGuts.rootVew.lookAtVew = rootVew.find(part:laPart)
 		}

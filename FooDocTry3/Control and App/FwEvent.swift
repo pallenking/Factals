@@ -122,7 +122,7 @@ bug	}
 		print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
-		let fooDoc				= fwGuts.fooDocTry3Document
+		let fooDoc				= fwGuts.document
 
 		switch nsEvent.type {
 

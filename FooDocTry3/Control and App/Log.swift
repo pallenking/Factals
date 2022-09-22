@@ -28,75 +28,55 @@ class Log : NSObject, Codable, FwAny {								// NOT NSObject
 
 	var config4log : FwConfig = [:]
 	func reconfigureWith(config:FwConfig) {								//get			{			return config4sim_
-		config4log				= config								//set(config) {
-		if let se				= config["simEnabled"] {				//	config4sim_		= config
-			 // WARNING: Do not use Log inside here! It's not set up yet!
-			 // Unpack frequently used config hash elements to object parameters
-			if let pic 			= config4log.int("ppIndentCols")	{
-				ppIndentCols 	= pic
-			}	
-			if let ppp			= config4log.bool("ppPorts") 		{
-				ppPorts			= ppp
-			}	
-			if let uidd4p		= config4log .int("ppNUid4Tree") 	{
-				ppNUid4Tree 	= uidd4p
-			}	
-			if let uidd4c		= config4log .int("ppNUid4Ctl")		{
-				ppNUid4Ctl 		= uidd4c
-			}	
-			if let lo			= config4log.bool("debugOutterLock"){
-				debugOutterLock	= lo
-			}	
-			if let lev			= config4log.bool("logEvents")		{
-				logEvents		= lev
-			}	
-			if let t 			= config4log.bool("logTime")		{
-				logTime			= t
-			}
-			if let ba			= config4log .int("breakAt")		{ // (composite, )
-				let curBa		= entryNo<0 ? -1 : entryNo%Log.entryNosPlog
-				if ba>0 && ba<curBa { // DON'T USE assert(:), it relies on Log!
-					panic("Setting  breakAt = \(ba) TOO LATE. Set it after \(curBa)")
-				}
-				breakAt 		= ba
-			}
-/*
-				 // --------- To Log:
-				if name.hasPrefix("pp") ||			// 1a:      pp... entry
-				   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
-					toParams4docLog[name] = value		// affect our DOClog
-					used			= true
-				}
-//				if !used {
-//					unused[name]	= value
-//				}
-			}
-	
-			  // Output buckets to component configurations
-			 // Q: scattering via = or += paradigm?
-			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
-			 // Scene:
-			if toParams4guts.count > 0 {
-				atCon(2, logd("\t -> config4fwGuts:            \(toParams4guts.pp(.line))"))
-				fwGuts.config4fwGuts += toParams4guts
-			}
-			 // Simulator
-			if toParams4sim.count > 0 {
-				atCon(2, logd("\t -> doc.simulator.config4sim:\(toParams4sim.pp(.line))"))
-				fwGuts.rootPart.simulator.config4sim += toParams4sim
-			}
-			 // Log:
-			if toParams4docLog.count > 0 {
-				atCon(2, logd("\t -> doc.log.config4log:      \(toParams4docLog.pp(.line).wrap(min: 36, cur: 62, max: 100))"))
-				fwGuts.rootPart.log.config4log += toParams4docLog
-			}
- */
-			 // Load verbosity filter from keys starting with "logPri4", if there are any.
-			let verbosityHash	= verbosityInfoFrom(config4log)
-			if  verbosityHash.count > 0 {
-				verbosity 	= verbosityHash		// Set verbosity filter
-			}										// Otherwise do nothing.
+//		config4log				= config								//set(config) {
+//		if let con				= config {								//	config4sim_		= config
+//		if let se				= config["simEnabled"] {				//	config4sim_		= config
+		 // WARNING: Do not use Log inside here! It's not set up yet!
+		 // Unpack frequently used config hash elements to object parameters
+		if let pic 			= config.int("ppIndentCols")	{
+			ppIndentCols 	= pic
 		}
+		if let ppp			= config.bool("ppPorts") 		{
+			ppPorts			= ppp
+		}
+		if let uidd4p		= config .int("ppNUid4Tree") 	{
+			ppNUid4Tree 	= uidd4p
+		}
+		if let uidd4c		= config .int("ppNUid4Ctl")		{
+			ppNUid4Ctl 		= uidd4c
+		}
+		if let lo			= config.bool("debugOutterLock"){
+			debugOutterLock	= lo
+		}
+		if let lev			= config.bool("logEvents")		{
+			logEvents		= lev
+		}
+		if let t 			= config.bool("logTime")		{
+			logTime			= t
+		}
+		if let ba			= config4log .int("breakAt")		{ // (composite, )
+			let curBa		= entryNo<0 ? -1 : entryNo%Log.entryNosPlog
+			if ba>0 && ba<curBa { 		// DON'T USE assert(:), it relies on Log!
+				panic("Setting  breakAt = \(ba) TOO LATE. Set it after \(curBa)")
+			}
+			breakAt 		= ba
+		}
+//		var toParams4docLog		= FwConfig()
+//		for (name, value) in config {
+//			 // --------- To Log:
+//			if name.hasPrefix("pp") ||			// 1a:      pp... entry
+//			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
+//				toParams4docLog[name] = value		// affect our DOClog
+//			}
+//				  // Output buckets to component configurations
+//			 // Q: scattering via = or += paradigm?
+//			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
+//		}
+		 // Load verbosity filter from keys starting with "logPri4", if there are any.
+		let verbosityHash	= verbosityInfoFrom(config4log)
+		if  verbosityHash.count > 0 {
+			verbosity 		= verbosityHash	// Set verbosity filter
+		}										// Otherwise do nothing.
 	}
 	func ppVerbosityOf(_ config:FwConfig) -> String {
 		let verbosityHash		= verbosityInfoFrom(config)

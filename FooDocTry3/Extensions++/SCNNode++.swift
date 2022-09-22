@@ -77,7 +77,7 @@ extension SCNNode /*: HasChildren */ {
 				//m0?.locksAmbientWithDiffuse = true
 				///https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started self[k]!.asCGFloat
 				var color2		= newColor
-				if let skinAlpha = DOCfwGuts.config4fwGuts.cgFloat("skinAlpha") {
+				if let skinAlpha = DOC.config.cgFloat("skinAlpha") {
 					color2		= color2.change(alphaTo:skinAlpha)
 				}
 				m.diffuse.contents = color2 //newColor//color2//

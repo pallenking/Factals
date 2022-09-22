@@ -518,18 +518,14 @@ bug
 	 // Get Part's configuration from localConfig of Part and parents, and model
 	func config(_ name:String) -> FwAny? {
 		 // Look in self and parents:
-		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
+		for s in selfNParents {					 // look in: self, parent?,...,root
 			if let rv			= s.localConfig[name] {
-				return rv						// return an ancestor's config
+				return rv							 // found in self and ancestor's config
 			}
-		}
-		return root?.ansConfig[name] ??		// Look in common places: // 21200301PAK: Review: sometimes ans Config is also dumped into Part.config?
-			   DOCfwGuts.config4fwGuts[name] //fwGuts?
+		}										 // Look in application:
+		return root?.fwGuts.document.config[name] ?? // Look in doument
+			   APP?					.config[name]	 // Application?a
 	}
-	  /// Lookup Part's configuration from only this Part
-//	 func configLocal(_ name:String) -> FwAny? {
-//		 return 			      localConfig[name]		// in our config hash
-//	 }
 	 // MARK: - 4.3 Iterate over parts
 	typealias PartOperation 	= (Part) -> ()
 	func forAllParts(_ partOperation : PartOperation)  {

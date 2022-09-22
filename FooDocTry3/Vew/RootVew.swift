@@ -22,6 +22,9 @@ class RootVew : Vew {
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
 	var lastSelfiePole : SelfiePole!					// init to default
 
+	func reconfigureWith(config:FwConfig) {								//get			{			return config4sim_
+bug	}
+
 	init(forPart part:Part?=nil, scn:SCNNode?=nil) {	super.init(forPart:part, scn:scn)
 		lastSelfiePole			= SelfiePole(rootVew:self)
 	}

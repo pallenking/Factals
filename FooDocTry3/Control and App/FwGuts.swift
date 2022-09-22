@@ -11,11 +11,13 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	var rootVew 	 : RootVew!
 	var fwScn		 : FwScn!
 	var eventCentral : EventCentral
-	var fooDocTry3Document : FooDocTry3Document!
+	var document 	 : FooDocTry3Document!
 
-	var config4fwGuts : FwConfig = [:]
 	func reconfigureWith(config:FwConfig) {
-		config4fwGuts			= config
+		rootPart	.reconfigureWith(config:config)
+		rootVew		.reconfigureWith(config:config)
+		fwScn		.reconfigureWith(config:config)
+		eventCentral.reconfigureWith(config:config)
 	}
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {
@@ -121,7 +123,7 @@ bug//		try self.write(to: fileURL)
 		let modifierKeys		= nsEvent.modifierFlags
 		let cmd 				= modifierKeys.contains(.command)
 		let alt 				= modifierKeys.contains(.option)
-		let doc					= fooDocTry3Document!
+		let doc					= document!
 
 		switch character {
 		case "r": // (+ cmd)
@@ -137,7 +139,8 @@ bug//		try self.write(to: fileURL)
 			print("\(self.rootVew.pp(.tree))", terminator:"")
 		case "n":	
 			print("\n******************** 'n': ==== SCNNodes:")
-			DOClog.ppIndentCols = 3
+			rootPart.log.ppIndentCols = 3
+//			DOClog.ppIndentCols = 3
 			print(fwScn.rootScn.pp(.tree), terminator:"")
 			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
 			//aprint("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
@@ -315,7 +318,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 
-		if config4fwGuts.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
+		if document.config.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 
 			 // Mark old SCNNode as Morphing
 			let oldScn			= vew.scn
@@ -396,7 +399,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			rv					+= rootVew     		 .pp(PpMode.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			rv					+= fwScn       		 .pp(.classUid) + " "		//	rv				+= "\(obj.description.shortenStringDescribing())\n"
 			rv					+= eventCentral		 .pp(.classUid) + " "		//}
-			rv					+= fooDocTry3Document.pp(.classUid)
+			rv					+= document.pp(.classUid)
 			rv					+= " SelfiePole:" + rootVew.lastSelfiePole.pp()
 			return rootVew.lastSelfiePole.pp()
 		default:

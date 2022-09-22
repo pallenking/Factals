@@ -236,8 +236,11 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				return rv						// return an ancestor's config
 			}
 		}
-		let fwGuts				= DOCfwGutsQ
-		return fwGuts?.config4fwGuts[name]	// make this part of new RootPart class
+		return part.root?.fwGuts.document.config[name]			// make this part of new RootPart class
+//		if let doc				= part.root?.fwGuts.document {
+//			return doc.config[name]			// make this part of new RootPart class
+//		}
+//		return nil
 	 }
 
 	 // MARK: - 4.6 Find Children

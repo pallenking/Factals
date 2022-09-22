@@ -39,8 +39,9 @@ class RootPart : Part {
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	func reconfigureWith(config:FwConfig) {
+		log		 .reconfigureWith(config:config)
+		simulator.reconfigureWith(config:config)
 	}
-	
 //// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
 	enum RootPartKeys: String, CodingKey {

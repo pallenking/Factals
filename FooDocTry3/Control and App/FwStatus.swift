@@ -197,7 +197,7 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 		myLine					+= fwScn       		 .pp(.classUid) + " "
 		myLine					+= rootVew     		 .pp(.classUid) + " "
 		myLine					+= eventCentral		 .pp(.classUid) + " "
-		myLine					+= fooDocTry3Document.pp(.classUid)
+		myLine					+= document.pp(.classUid)
 
 		return ppFwStateHelper("FwGuts       ", uid:self,
 			myLine: myLine,
@@ -303,17 +303,12 @@ extension SCNPhysicsWorld : FwStatus	{					 /// SCNPhysicsWorld
 }
 		// ///////////////////////////////////// //
 
-// MARK: - WINDOWS
-//extension FwWindowController {
-//	//Overriding non-@objc declarations from extensions is not supported:
-//	//override func ppFwState() -> String {}
-//}
 extension NSWindowController : FwStatus {				  /// NSWindowController
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("\("NSWindowCtlr ")", uid:self,
 			myLine:
 				ppState() + (windowNibName == nil ? "," : ":\"\(windowNibName!)\" ") +
-//?				ppUid(pre:"doc:",document as? FwDocument,post:" ",showNil:true) +
+				ppUid(pre:"doc:",document as? NSDocument,post:" ",showNil:true) +
 				ppUid(pre:"win:", 	 window,  			 post:" ",showNil:true) +
 				ppUid(pre:"nibOwner:", owner as? Uid,	 post:" ",showNil:true) ,
 			otherLines:{ deapth in
