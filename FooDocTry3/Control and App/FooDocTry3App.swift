@@ -46,9 +46,6 @@ var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
  // Others:
 var DOClog  		: Logger 		{	DOCrootPartQ?.logger ?? Logger.null				}
 let DOCctlr						= NSDocumentController.shared
-//
-//var DOClog  		: Logger 		{	DOC?.fwGuts.rootPart.log ?? Logger.null				}
-//
 
 @main										// callse AppDelegateFoo.swift
 struct FooDocTry3App: App, Uid, FwAny {
@@ -99,7 +96,6 @@ struct FooDocTry3App: App, Uid, FwAny {
 	 // MARK: - 2. Object Variables:
 	var log	: Logger				{
 		let rv					= Logger(title:"App's Logger")
-//		rv.config4log			= params4appLog
 		return rv
 	}
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
@@ -189,7 +185,8 @@ struct FooDocTry3App: App, Uid, FwAny {
 	 // Reactivates an already running application because
 	//    someone double-clicked it again or used the dock to activate it.
 	func applicationShouldHandleReopen(_ sender:NSApplication, hasVisibleWindows:Bool) -> Bool {
-		return !hasVisibleWindows	// handle windows if none visible
+		return true
+		//return !hasVisibleWindows	// handle windows if none visible
 		//return false				// Don't open any windows
 	}
 	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
@@ -339,17 +336,17 @@ bug;	let rv					= NSMenu(title:path)
 
 		 // Make new Document
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
+
 		let fwGuts				= FwGuts(rootPart:rootPart)
-		fwGuts.addRootVewNFwScn()
+		let i					= fwGuts.newViewIndex()		// first one (more not supportd
+
+		assert(i == 1, "mult Views/window not yet supported")
 		var doc					= FooDocTry3Document(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
 		doc.setConfiguration(to:doc.config + rootPart.ansConfig)
 
 		rootPart.fwGuts			= fwGuts
 		fwGuts.document 		= doc
-//		fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
-//		fwGuts.addRootVewNFwScn()
-
 		doc.makeWindowControllers()
 		doc.registerWithDocController()	// a new DOc must be registered
 	}

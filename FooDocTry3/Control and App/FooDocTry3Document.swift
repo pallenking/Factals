@@ -36,7 +36,8 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 
 		 //		Makes new FGuts
 		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart and EventCentral
-		fwGuts.addRootVewNFwScn()							// add RootVew  and FwScn
+		let i 					= fwGuts.newViewIndex()		// add RootVew  and FwScn
+
 		fwGuts.document 		= self			// delegate
 		rootPart.fwGuts			= fwGuts		// delegate
 
@@ -178,11 +179,11 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																//		fwView!.fwGuts			= fwGuts		// delegate		220815PAK: Needed only for rotator
 																//bug;	fwView!.scene			= fwGuts		// delegate		// somebody elses responsibility! (but who)
 	mutating func didLoadNib(to view:Any) {
-
+	  for i in 0...fwGuts.fwScn.count {
 				// Build Vews after View is loaded:
-/**/	fwGuts.fwScn.createVewNScn()
+/**/	fwGuts.fwScn[i]!.createVewNScn()
 
-		guard let view			= fwGuts.fwScn.scnView else {fatalError("fwGuts.scnView == nil")}
+		guard let view			= fwGuts.fwScn[i]!.scnView else {fatalError("fwGuts.scnView == nil")}
 		view.isPlaying			= true			// does nothing
 		view.showsStatistics 	= true			// works fine
 		view.debugOptions 		= [			// enable display of:
@@ -203,11 +204,12 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 //	 //	view.allowsCameraControl = false			// dare to turn it on?
 //	 //	view.autoenablesDefaultLighting = false		// dare to turn it on?
 
-		atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:fwGuts.rootPart.title) ))
+	  }
+	  atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:fwGuts.rootPart.title) ))
 
-		makeInspectors()
+	  makeInspectors()
 				// Start Up Simulation:
-		fwGuts.rootPart.simulator.simBuilt = true		// maybe before config4log, so loading simEnable works
+	  fwGuts.rootPart.simulator.simBuilt = true		// maybe before config4log, so loading simEnable works
 	}
 	func logd(_ x:String) {		print("[[XXXXFooDocTry3DocumentXXXX: \(x)") }
 

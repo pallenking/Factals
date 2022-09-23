@@ -14,7 +14,6 @@ class RootPart : Part {
 
 	 // MARK: - 2.1 Object Variables
 	var	simulator		: Simulator
-//	var log 			: Logger
 	var title							= ""
 	var ansConfig		: FwConfig		= [:]
 	var fwGuts			: FwGuts!

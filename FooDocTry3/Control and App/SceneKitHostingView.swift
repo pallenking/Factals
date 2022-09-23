@@ -46,14 +46,14 @@ ppFwcState()
 		let rootScn				= scnScene.rootNode
 		rootScn.name			= "*-ROOT"
 		
+		let i					= args.fwGuts!.fwScn.count
 		//	guard let scnScene	= scnView.scene else {	fatalError("makeNSView cannot get SCNScene from SCNView") }
-		if let fwScn			= args.fwGuts?.fwScn {
-			fwScn.scnScene		= scnScene
-			fwScn.scnView		= scnView			// Link things SceneKitHostingView generated
-			args.fwGuts!.rootVew.scn = rootScn 		// set Vew with new scn root
-bug//		args.fwGuts?.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
-		}
-		return scnView
+		let fwScn				= args.fwGuts!.fwScn
+		fwScn[i]!.scnScene	= scnScene
+		fwScn[i]!.scnView		= scnView			// Link things SceneKitHostingView generated
+		args.fwGuts!.rootVew[i]!.scn = rootScn 		// set Vew with new scn root
+bug//	args.fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
+
 
 
 		  // Configure Options of FwView
@@ -75,8 +75,8 @@ bug//		args.fwGuts?.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
 			//view.temporalAntialiasingEnabled = true
 			print("****** view.temporalAntialiasingEnabled not implemented ******")
 		}
+		return scnView
 	}
-	
 	func updateNSView(_ nsView: SCNView, context: Context) {
 		atRnd(4, print("----------- SceneKitHostingView.updateNSView called"))
 	}

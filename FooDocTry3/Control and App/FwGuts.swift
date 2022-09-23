@@ -9,21 +9,22 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	  // MARK: - 2. Object Variables:
 
 	var rootPart	 : RootPart														//{	rootVew.part as! RootPart}
-	var rootVew 	 : RootVew!
-	var fwScn		 : FwScn!
+	var rootVew 	 : [RootVew?]		= []
+	var fwScn		 : [FwScn?]			= []
 	var eventCentral : EventCentral
 	var document 	 : FooDocTry3Document!
 	var logger 		 : Logger
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}
-//	var log			 : Logger 	{	rootPart.log									}
 
-	func setConfiguration(to config:FwConfig) {
-		rootPart	.setConfiguration(to:config)
-		rootVew?	.setConfiguration(to:config) ?? log("fwGuts: rootVew nil")
-		fwScn?		.setConfiguration(to:config) ?? print("fwGuts: fwScn nil")
-		eventCentral.setConfiguration(to:config)
+	func setConfiguration(to config:FwConfig) { // *****
+		rootPart       .setConfiguration(to:config)
+		for i in 0..<rootVew.count { //}, fwScn) {
+			rootVew[i]?.setConfiguration(to:config) ?? log("fwGuts: rootVew nil")
+			fwScn[i]?  .setConfiguration(to:config) ?? print("fwGuts: fwScn nil")
+		}
+		eventCentral   .setConfiguration(to:config)
 	}
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {
@@ -37,29 +38,30 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		eventCentral.fwGuts		= self
 	}
 
-	func addRootVewNFwScn() {
-		assert(rootVew == nil, "only one View per FwGuts")
-		assert(  fwScn == nil, "only one View per FwGuts")
+	func newViewIndex() -> Int {
+		let i				= rootVew.count
+		assert(i == fwScn.count, "paranoid mismatch")
 
-		 // Component parts, owned and used by FwGuts
+		 // Make BASIC Component Parts (owned and used by FwGuts)
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
 		let scnScene			= SCNScene() 			// ?? SCNScene(named:"art.scnassets/ship.scn")
 		scnScene.isPaused		= false					// perhaps enabled later
 		scnView.scene			= scnScene
-//		scnView.pointOfView 	= args.pointOfView
+	  //scnView.pointOfView 	= args.pointOfView
 		scnView.backgroundColor	= NSColor("veryLightGray")!
-//		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
-//		scnView.antialiasingMode = args.antialiasingMode
-//		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
-		 // Now the FwScn for it:
-		fwScn					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
-		fwScn.fwGuts			= self
+	  //scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+	  //scnView.antialiasingMode = args.antialiasingMode
+	  //scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
-		fwScn.scnScene.physicsWorld.contactDelegate = eventCentral
-
-		rootVew					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
-		assert(rootVew != nil, "Didn't make RootVew")
-		rootVew!.fwGuts			= self
+		 // Make RootVew and FwScn
+		let fs					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
+		 fs.fwGuts				= self
+		 fs.scnScene.physicsWorld.contactDelegate = eventCentral
+		 fwScn.append(fs)
+		let rv					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
+		 rv.fwGuts				= self
+		 rootVew.append(rv)
+		 return i
 	}
 
 
@@ -109,10 +111,10 @@ bug//		try self.write(to: fileURL)
 	 // MARK: - 4? locks
 	func lockBoth(_ msg:String) {
 		guard rootPart.lock(partTreeAs:msg, logIf:false) else {fatalError(msg+" couldn't get PART lock")}
-		guard rootVew .lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
+		guard rootVew[0]!.lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
 	}
 	func unlockBoth(_ msg:String) {
-		rootVew .unlock(vewTreeAs: msg, logIf:false)
+		rootVew[0]!.unlock(vewTreeAs: msg, logIf:false)
 		rootPart.unlock(partTreeAs:msg, logIf:false)
 	}
 
@@ -157,7 +159,7 @@ bug//		try self.write(to: fileURL)
 			}
 	  //case "r" alone:
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			fwScn.rootScn.play(sound:"Oooooooo")		//GameStarting
+			fwScn[0]!.rootScn.play(sound:"Oooooooo")		//GameStarting
 		case "v":	
 			print("\n******************** 'v': ==== Views:")
 			print("\(self.rootVew.pp(.tree))", terminator:"")
@@ -165,7 +167,7 @@ bug//		try self.write(to: fileURL)
 			print("\n******************** 'n': ==== SCNNodes:")
 			rootPart.logger.ppIndentCols = 3
 //			DOClog.ppIndentCols = 3
-			print(fwScn.rootScn.pp(.tree), terminator:"")
+			print(fwScn[0]!.rootScn.pp(.tree), terminator:"")
 			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
 			//aprint("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
 		case "#":
@@ -183,15 +185,15 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
-			rootVew.updateVewSizePaint()
+			rootVew[0]!.updateVewSizePaint()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
-			rootVew.updateVewSizePaint()
+			rootVew[0]!.updateVewSizePaint()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
-			rootVew.updateVewSizePaint()
+			rootVew[0]!.updateVewSizePaint()
 		case "w":
 			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
 		case "x":
@@ -201,8 +203,8 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			}
 			return true								// recognize both
 		case "f": 					// // f // //
-			fwScn.animatePhysics = !fwScn.animatePhysics
-			let msg 			= fwScn.animatePhysics ? "Run   " : "Freeze"
+			fwScn[0]!.animatePhysics = !fwScn[0]!.animatePhysics
+			let msg 			= fwScn[0]!.animatePhysics ? "Run   " : "Freeze"
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
 		case "?":
@@ -260,24 +262,24 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:fwScn.rootScn,	// The root of the node hierarchy to be searched.
+			.rootNode:fwScn[0]!.rootScn,// The root of the node hierarchy to be searched.
 //			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 		 // CONVERT to window coordinates
 		let pt 	  	: NSPoint	= nsEvent.locationInWindow
-		let mouse 	: NSPoint	= fwScn.convertToRoot(windowPosition:pt)
+		let mouse 	: NSPoint	= fwScn[0]!.convertToRoot(windowPosition:pt)
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
 								//		 + +   + +
-		let hits:[SCNHitTestResult]	= fwScn.scnView!.hitTest(mouse, options:configHitTest)
+		let hits:[SCNHitTestResult]	= fwScn[0]!.scnView!.hitTest(mouse, options:configHitTest)
 								//		 + +   + +
 
 //        let hits 				= scnView.hitTest(mouse, options:configHitTest)
 //        if let tappednode = hits.first?.node
 
 		 // SELECT HIT; prefer any child to its parents:
-		var rv : Vew			= rootVew			// default
-		var pickedScn			= fwScn.rootScn 	// default
+		var rv : Vew			= rootVew[0]!		// default
+		var pickedScn			= fwScn[0]!.rootScn 	// default
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:
 			let sortedHits	= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -294,14 +296,14 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 				msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
 			}
 			 // Got SCN, get its Vew
-			if let cv		= rootVew.trunkVew,
+			if let cv		= rootVew[0]!.trunkVew,
 			  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
 			{
 				rv			= vew
 bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			}else{
 				panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
-				if let cv	= rootVew.trunkVew,			// for debug only
+				if let cv	= rootVew[0]!.trunkVew,			// for debug only
 				  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
 					let _	= vew
 				}
@@ -326,7 +328,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 		 // ========= Get Locks for two resources, in order: =============
 		guard rootPart.lock(partTreeAs:"toggelOpen") else {
 			fatalError("toggelOpen couldn't get PART lock")	}		// or
-		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
+		guard  rootVew[0]!.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
 
 		assert(!(part is Link), "cannot toggelOpen a Link")
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
@@ -335,10 +337,10 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 		vew.updateVewSizePaint(needsLock:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
-		rootVew .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-		rootPart.unlock(partTreeAs:"toggelOpen")
+		rootVew[0]!.unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+		rootPart   .unlock(partTreeAs:"toggelOpen")
 
-		fwScn.updatePole2Camera(reason:"toggelOpen")
+		fwScn[0]!.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 
@@ -352,7 +354,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
 
 			 //*******// Imprint animation parameters JUST BEFORE start:
-			DOCfwGuts.rootVew.updateVewSizePaint()				// Update SCN's at START of animation
+			DOCfwGuts.rootVew[0]!.updateVewSizePaint()				// Update SCN's at START of animation
 			 //*******//
 
 			 // Animate Vew morph, from self to newVew:
@@ -378,7 +380,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 				oldScn.removeFromParent()
 				vew.removeFromParent()
 				//*******//
-				self.rootVew.updateVewSizePaint()	// Imprint AFTER animation
+				self.rootVew[0]!.updateVewSizePaint()	// Imprint AFTER animation
 				//*******//	// //// wants a third animatio	qn (someday):
 			}
 //			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
@@ -424,8 +426,8 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			rv					+= fwScn       		 .pp(.classUid) + " "		//	rv				+= "\(obj.description.shortenStringDescribing())\n"
 			rv					+= eventCentral		 .pp(.classUid) + " "		//}
 			rv					+= document.pp(.classUid)
-			rv					+= " SelfiePole:" + rootVew.lastSelfiePole.pp()
-			return rootVew.lastSelfiePole.pp()
+			rv					+= " SelfiePole:" + rootVew[0]!.lastSelfiePole.pp()
+			return rootVew[0]!.lastSelfiePole.pp()
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}

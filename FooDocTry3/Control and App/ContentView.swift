@@ -33,7 +33,7 @@ struct ContentView: View {
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
-							pointOfView	: fwGuts.fwScn.scnScene.cameraScn,
+							pointOfView	: fwGuts.fwScn[0]!.scnScene.cameraScn,
 							options		: [//	.autoenablesDefaultLighting,
 										  //.allowsCameraControl,	// so we can control it
 			//								.jitteringEnabled,
@@ -71,7 +71,7 @@ struct ContentView: View {
 							Button(label:{	Text(   "ptv").padding(.top, 300)	})
 							{	lldbPrint(ob:fwGuts.rootVew, mode:.tree) 		}
 							Button(label:{	Text(   "ptn").padding(.top, 300)	})
-							{	lldbPrint(ob:fwGuts.fwScn.scnScene.rootNode, mode:.tree)}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+							{	lldbPrint(ob:fwGuts.fwScn[0]!.scnScene.rootNode, mode:.tree)}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 							Button(label:{	Text(   "reV").padding(.top, 300)	})
 							{	document.redo += 1								}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 						}

@@ -397,7 +397,7 @@ bug		//	rv					=  ppDefault(self:self, mode:mode, aux:aux)
 
 		// display position in trunk:
 		if DOClog.params4aux.string_("ppViewOptions").contains("W") {
-			let rootScn			= DOCfwGuts.fwScn.rootScn //fwGuts!.rootScn
+			let rootScn			= DOCfwGuts.fwScn[0]!.rootScn //fwGuts!.rootScn
 			let p				= convertPosition(.zero, to:rootScn)
 			rv2					+= p.pp(.short).field(-11, dots:false)
 		}

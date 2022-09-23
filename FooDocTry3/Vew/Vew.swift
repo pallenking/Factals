@@ -541,7 +541,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard let rootVew = part.root?.fwGuts.rootVew else {
 							fatalError("### part.root?.fwGuts.rootVew is nil ###")}
-						guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
+						guard rootVew[0]!.lock(vewTreeAs:viewLockName, logIf:log) else {
 							fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 						}
 						viewLockName = nil		// mark gotten
@@ -589,7 +589,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		fwGuts.rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
+		fwGuts.rootVew[0]!.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
 	}
 	 // MARK: - 9.5 Wire Box
 	func updateWireBox() {
@@ -687,7 +687,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		if let root				= part.root {
 			root.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
-			Logger .null.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			Logger.null.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
 	}
 	 // MARK: - 15. PrettyPrint
@@ -772,7 +772,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= part.root?.fwGuts.rootVew.scn					//= part.root?.fwGuts.fwScn.rootScn
+				let rootScn		= part.root?.fwGuts.rootVew[0]!.scn					//= part.root?.fwGuts.fwScn.rootScn
 				rv				+= !ppViewOptions.contains("W") ? ""
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.short) + " "
 				if !(self is LinkVew) {

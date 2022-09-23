@@ -56,7 +56,7 @@ class FwScn : Uid {
 
 	var rootScn  : SCNNode	{	scnScene.rootNode								}	//scnRoot
 	var trunkScn : SCNNode? {
-		if let tv				= fwGuts?.rootVew.trunkVew  {
+		if let tv				= fwGuts?.rootVew[0]!.trunkVew  {
 			return tv.scn
 		}
 		fatalError("trunkVew is nil")
@@ -265,7 +265,7 @@ bug;	let fwGuts				= DOCfwGuts
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 		let cameraScn			= scnScene.cameraScn!
 								//
-		zoom4fullScreen(selfiePole:fwGuts.rootVew.lastSelfiePole, cameraScn:cameraScn)
+		zoom4fullScreen(selfiePole:fwGuts.rootVew[0]!.lastSelfiePole, cameraScn:cameraScn)
 
 		if duration > 0.0,
 		  fwGuts.document.config.bool("animatePan") ?? false {
@@ -279,7 +279,7 @@ bug;	let fwGuts				= DOCfwGuts
 				atRve(8, self.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				cameraScn.transform = self.fwGuts.rootVew.lastSelfiePole.transform
+				cameraScn.transform = self.fwGuts.rootVew[0]!.lastSelfiePole.transform
 
 				atRve(8, self.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -288,7 +288,7 @@ bug;	let fwGuts				= DOCfwGuts
 			SCNTransaction.commit()
 		}
 		else {
-			cameraScn.transform = self.fwGuts.rootVew.lastSelfiePole.transform
+			cameraScn.transform = self.fwGuts.rootVew[0]!.lastSelfiePole.transform
 		}
 	}
 		
@@ -351,7 +351,7 @@ bug;	let fwGuts				= DOCfwGuts
 		guard rootPart.lock(partTreeAs:"createVews") else {
 			fatalError("createVews couldn't get PART lock")		// or
 		}		          				// VewTree
-		guard fwGuts.rootVew.lock(vewTreeAs:"createVews") else {
+		guard fwGuts.rootVew[0]!.lock(vewTreeAs:"createVews") else {
 			fatalError("createVews  couldn't get VIEW lock")
 		}
 
@@ -366,32 +366,32 @@ bug;	let fwGuts				= DOCfwGuts
 		 // 3.  Configure SelfiePole:
 		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
 			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
-				fwGuts.rootVew.lastSelfiePole.at = at
+				fwGuts.rootVew[0]!.lastSelfiePole.at = at
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				fwGuts.rootVew.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+				fwGuts.rootVew[0]!.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
-				fwGuts.rootVew.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+				fwGuts.rootVew[0]!.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				fwGuts.rootVew.lastSelfiePole.zoom = CGFloat(z)
+				fwGuts.rootVew[0]!.lastSelfiePole.zoom = CGFloat(z)
 			}
 			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
 		}
 
 		 // 4.  Configure Initial Camera Target:
-		fwGuts.rootVew.lookAtVew = fwGuts.rootVew.trunkVew				// default
+		fwGuts.rootVew[0]!.lookAtVew = fwGuts.rootVew[0]!.trunkVew				// default
 		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
 		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
-			fwGuts.rootVew.lookAtVew = rootVew.find(part:laPart)
+			fwGuts.rootVew[0]!.lookAtVew = rootVew.find(part:laPart)
 		}
 
 		 // 5. Set LookAtNode's position
-		let posn				= fwGuts.rootVew.lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= fwGuts.rootVew.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
+		let posn				= fwGuts.rootVew[0]!.lookAtVew?.bBox.center ?? .zero
+		let worldPosition		= fwGuts.rootVew[0]!.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		fwGuts.rootVew.lastSelfiePole.at = worldPosition
+		fwGuts.rootVew[0]!.lastSelfiePole.at = worldPosition
 //		let posn				= fwGuts.lookAtVew?.bBox.center ?? .zero
 //bug;	fwGuts.pole.worldPosition = fwGuts.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 //		assert(!fwGuts.pole.worldPosition.isNan, "About to use a NAN World Position")
@@ -400,7 +400,7 @@ bug;	let fwGuts				= DOCfwGuts
 		updatePole2Camera(reason:"install RootPart")
 
 		// 7. UNLOCK PartTree and VewTree:
-		fwGuts.rootVew.unlock(	 vewTreeAs:"createVews")
+		fwGuts.rootVew[0]!.unlock(	 vewTreeAs:"createVews")
 		rootPart.unlock(partTreeAs:"createVews")
 	}
 	
