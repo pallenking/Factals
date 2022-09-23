@@ -24,6 +24,12 @@ class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 
 	var logEvents				= true
 
+	var verbosity   : [String:Int]? = [:] 	 // Current logging verbosity filter to select log messages
+
+	 /// REALLY UGLY: what if different threads using log?
+	var msgPriority : Int?			= nil		// hack: pass argument to message via global
+	var msgFilter   : String?		= nil
+
 	 /// Configure Logger facilities
 	func setConfiguration(to config:FwConfig) {
 
@@ -68,20 +74,11 @@ class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 									//			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
 									//		}
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
-		let verbosityHash	= verbosityInfoFrom(config)
-		if  verbosityHash.count > 0 {
-			verbosity 		= verbosityHash	// Set verbosity filter
-		}										// Otherwise do nothing.
-	}
-	func ppVerbosityOf(_ config:FwConfig) -> String {
-		let verbosityHash		= verbosityInfoFrom(config)
-		if verbosityHash.count > 0 {
-			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
-			msg				 	+= "=\(verbosityHash.pp(.line)) Cause:"
-bug;			msg					+= config.string_("cause")
-			return msg
-		}
-		return ""
+		verbosity 			= verbosityInfoFrom(config)
+									//		let verbosityHash = verbosityInfoFrom(config)
+									//		if  verbosityHash.count > 0 {//
+									//			verbosity 		= verbosityHash	// Set verbosity filter
+									//		}										// Otherwise do nothing.
 	}
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
 		   // Process logPri4*** keys. SEMANTICS:
@@ -98,14 +95,16 @@ bug;			msg					+= config.string_("cause")
 		}
 		return rv
 	}
-	var verbosity : [String:Int]? = [:] {	 // Current logging verbosity filter to select log messages
-		didSet	{	nop							/* for debug */					}
+	func ppVerbosityOf(_ config:FwConfig) -> String {
+		let verbosityHash		= verbosityInfoFrom(config)
+		if verbosityHash.count > 0 {
+			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
+			msg				 	+= "=\(verbosityHash.pp(.line)) Cause:"
+bug;			msg					+= config.string_("cause")
+			return msg
+		}
+		return ""
 	}
-
-	 /// REALLY UGLY: what if different threads using log?
-	var msgPriority : Int?			= nil		// hack: pass argument to message via global
-	var msgFilter   : String?		= nil
-
 	static func pp(filter:String?, priority:Int?) -> String {
 		return (filter ?? "f=0") + (priority == nil ? "-" : String(priority!))
 	}

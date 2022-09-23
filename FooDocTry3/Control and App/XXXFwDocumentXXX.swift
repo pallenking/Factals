@@ -258,7 +258,7 @@
 //		assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
 //
 //		 		// Create FwGuts programatically:
-//		let fwGuts				= FwGuts(fwConfig:params4scene)	// 3D visualization
+//		let fwGuts				= FwGuts( ... fwConfig:params4scene)	// 3D visualization
 //		fwGuts.fooDocTry3Doc	= self	// added 20220918
 //		 		// Link it in:
 //		assert(fwView != nil, "nib loaded, but fwView not set by IB")

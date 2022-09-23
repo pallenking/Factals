@@ -9,6 +9,8 @@
 import SceneKit
 import SwiftUI
 
+		// Wrap a FwGuts as a SwiftUI View
+
 struct SCNViewsArgs {
 	let fwGuts					: FwGuts?
 	let scnScene 				: SCNScene?
@@ -19,9 +21,6 @@ struct SCNViewsArgs {
 	let delegate 				: SCNSceneRendererDelegate?
 	let technique				: SCNTechnique?				= nil
 }
-
-		// Wrap a FwGuts as a SwiftUI View
-
 struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView inside
 
@@ -33,28 +32,30 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 
 	 // Later, use args to make SCNView
 	func makeNSView(context: Context) -> SCNView {
-		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
 		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
-		scnScene.isPaused		= false					// perhaps enabled later
+		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
 		scnView.scene			= scnScene
 		scnView.pointOfView 	= args.pointOfView
 		scnView.backgroundColor	= NSColor("veryLightGray")!
 		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
 		scnView.antialiasingMode = args.antialiasingMode
 		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
-
-
 ppFwcState()
-
-		 // Connect FwGuts
-		if let fwGuts			= args.fwGuts {
-			guard let scnScene	= scnView.scene else {	fatalError("makeNSView cannot get SCNScene from SCNView") }
-			fwGuts.fwScn.scnScene = scnScene
-			fwGuts.fwScn.scnView = scnView			// Link things SceneKitHostingView generated
-//??			fwGuts.rootVew.scn	= rootScn			// set Vew with new scn root
-			let rootScn			= scnScene.rootNode
-			rootScn.name		= "*-ROOT"
+		 // Configure SCNScene
+		scnScene.isPaused		= false					// perhaps enabled later
+		let rootScn				= scnScene.rootNode
+		rootScn.name			= "*-ROOT"
+		
+		//	guard let scnScene	= scnView.scene else {	fatalError("makeNSView cannot get SCNScene from SCNView") }
+		if let fwScn			= args.fwGuts?.fwScn {
+			fwScn.scnScene		= scnScene
+			fwScn.scnView		= scnView			// Link things SceneKitHostingView generated
+			args.fwGuts!.rootVew.scn = rootScn 		// set Vew with new scn root
+bug//		args.fwGuts?.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
 		}
+		return scnView
+
+
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
 		if args.options.contains(.allowsCameraControl) {
@@ -74,7 +75,6 @@ ppFwcState()
 			//view.temporalAntialiasingEnabled = true
 			print("****** view.temporalAntialiasingEnabled not implemented ******")
 		}
-		return scnView
 	}
 	
 	func updateNSView(_ nsView: SCNView, context: Context) {

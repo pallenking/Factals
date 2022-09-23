@@ -19,7 +19,7 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 	var config : FwConfig		= [:]
 	mutating func setConfiguration(to c:FwConfig) {
 		config					= c
-		fwGuts.setConfiguration(to:c)
+		fwGuts?.setConfiguration(to:c)
 		assert(fwGuts.document == self, "FooDocTry3.reconfigureWith ERROR with log (or func == ERROR")
 	}
 	static func == (lhs: FooDocTry3Document, rhs: FooDocTry3Document) -> Bool {
@@ -33,15 +33,14 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 		/**/	let select		= "xr()"//	 entry with xr()	|	"xr()"		-1
 		//**/	let select		= "name"//	 entry named scene	|	"name" *	-1
 		let rootPart			= RootPart(fromLibrary:select)
-		 //			Distribute build-answer config
-		APP.config				+= rootPart.ansConfig			// fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
-		config					+= rootPart.ansConfig
 
-		 //		Make FwGuts:
-		fwGuts					= FwGuts(rootPart:rootPart)
+		 //		Makes new FGuts
+		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart and EventCentral
+		fwGuts.addRootVewNFwScn()							// add RootVew  and FwScn
 		fwGuts.document 		= self			// delegate
 		rootPart.fwGuts			= fwGuts		// delegate
 
+		config					+= rootPart.ansConfig
 		setConfiguration(to:config)
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC

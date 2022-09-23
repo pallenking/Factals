@@ -66,7 +66,7 @@ class FwScn : Uid {
 	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
 	var animatePhysics : Bool {
 		get {			return !scnScene.isPaused								}
-		set(v) {		scnScene.isPaused = !v									}
+		set(v) {		scnScene?.isPaused = !v									}
 	}
 
 	// MARK: - 14. Building
@@ -74,19 +74,17 @@ class FwScn : Uid {
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}
+								//
 	 // MARK: - 3.1 init
-	init(fwGuts:FwGuts?=nil, scnView:SCNView?=nil, scnScene:SCNScene) {
-		self.scnView = scnView
-		self.scnScene = scnScene
-
-
-		//scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
+	init(scnView:SCNView, scnScene:SCNScene) {		//?=nil
+		self.scnView 			= scnView
+		self.scnScene 			= scnScene
 	}
 	func setConfiguration(to config:FwConfig) {
 		assert(config.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics = config.bool("animatePhysics") ?? false
 
-		if let gravityAny	= config["gravity"] {
+		if let gravityAny		= config["gravity"] {
 			if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
 				scnScene.physicsWorld.gravity = gravityVect
 			}
@@ -94,23 +92,10 @@ class FwScn : Uid {
 				scnScene.physicsWorld.gravity.y = gravityY
 			}
 		}
-		if let speed		= config.cgFloat("speed") {
+		if let speed			= config.cgFloat("speed") {
 			scnScene.physicsWorld.speed = speed
 		}
-bug;	scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
-//		if params4guts[name] != nil {
-//			toParams4guts[name] = value	// 2a: Entry with pre-existing key
-//			used			= true
-//		}
-	//	 // Dump val:FwConfig of "scene" into fwGuts.config4fwGuts
-	//	if let scene		= config.fwConfig("scene") {
-	//		toParams4guts	+= scene 		// 2b. all entries in "scene"
-	//		used			= true
-	//	}
-	//	if let ppViewOptions = config.string("ppViewOptions") {
-	//		toParams4guts["ppViewOptions"] = ppViewOptions
-	//		used			= true			// 2c. Entry ppViewOptions
-	//	}
+//bug;	scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
 	}
 	
 	 // MARK: - 4.1 Lights

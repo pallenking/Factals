@@ -48,7 +48,6 @@ class Simulator : NSObject, Codable {
 	weak var rootPart	: RootPart? = nil
 
 	 /// Controls the Simulator's operation
-//	var config4sim : FwConfig	= [:]
 	func setConfiguration(to config:FwConfig) {
 		if let se				= config["simEnabled"] {
 			if let simEn		= se as? Bool {

@@ -36,17 +36,33 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		rootPart	.fwGuts		= self 		 // Back Link
 		eventCentral.fwGuts		= self
 	}
-	func add(scene:SCNScene?=nil) {
-		assert(rootVew == nil, "only one View per FwGuts")
-		assert(fwScn   == nil, "only one View per FwGuts")
 
-		let scene				= scene ?? SCNScene()
-		scene.isPaused			= false					// OFF while building
-		rootVew					= RootVew(forPart:rootPart, scn:scene.rootNode)
-		rootVew.fwGuts			= self
-		fwScn					= FwScn(scnScene:scene)
+	func addRootVewNFwScn() {
+		assert(rootVew == nil, "only one View per FwGuts")
+		assert(  fwScn == nil, "only one View per FwGuts")
+
+		 // Component parts, owned and used by FwGuts
+		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
+		let scnScene			= SCNScene() 			// ?? SCNScene(named:"art.scnassets/ship.scn")
+		scnScene.isPaused		= false					// perhaps enabled later
+		scnView.scene			= scnScene
+//		scnView.pointOfView 	= args.pointOfView
+		scnView.backgroundColor	= NSColor("veryLightGray")!
+//		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+//		scnView.antialiasingMode = args.antialiasingMode
+//		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+		 // Now the FwScn for it:
+		fwScn					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
 		fwScn.fwGuts			= self
+
+		fwScn.scnScene.physicsWorld.contactDelegate = eventCentral
+
+		rootVew					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
+		assert(rootVew != nil, "Didn't make RootVew")
+		rootVew!.fwGuts			= self
 	}
+
+
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
 	var data : Data? {

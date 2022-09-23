@@ -340,6 +340,7 @@ bug;	let rv					= NSMenu(title:path)
 		 // Make new Document
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
 		let fwGuts				= FwGuts(rootPart:rootPart)
+		fwGuts.addRootVewNFwScn()
 		var doc					= FooDocTry3Document(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
 		doc.setConfiguration(to:doc.config + rootPart.ansConfig)
@@ -347,8 +348,7 @@ bug;	let rv					= NSMenu(title:path)
 		rootPart.fwGuts			= fwGuts
 		fwGuts.document 		= doc
 //		fwGuts.config4fwGuts	= params4guts + rootPart.ansConfig
-
-		fwGuts.add(scene:nil)
+//		fwGuts.addRootVewNFwScn()
 
 		doc.makeWindowControllers()
 		doc.registerWithDocController()	// a new DOc must be registered

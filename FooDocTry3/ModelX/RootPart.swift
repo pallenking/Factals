@@ -39,9 +39,7 @@ class RootPart : Part {
 		simulator.rootPart		= self
 	}
 	func setConfiguration(to config:FwConfig) {
-		logger	 .setConfiguration(to:config)
 		simulator.setConfiguration(to:config)
-		//assert(log.rootPart == self, 	   "commented out -- no owner")
 		assert(simulator.rootPart == self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
 	}
 //// START CODABLE ///////////////////////////////////////////////////////////////
