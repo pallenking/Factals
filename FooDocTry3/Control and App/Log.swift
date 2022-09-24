@@ -31,7 +31,7 @@ class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 	var msgFilter   : String?		= nil
 
 	 /// Configure Logger facilities
-	func setConfiguration(to config:FwConfig) {
+	func pushToCtlrs(config:FwConfig) {
 
 		 // Unpack frequently used config hash elements to object parameters
 		if let pic 			= config.int("ppIndentCols")	{

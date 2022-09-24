@@ -80,7 +80,7 @@ class FwScn : Uid {
 		self.scnView 			= scnView
 		self.scnScene 			= scnScene
 	}
-	func setConfiguration(to config:FwConfig) {
+	func pushToCtlrs(config:FwConfig) {
 		assert(config.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics = config.bool("animatePhysics") ?? false
 
@@ -95,7 +95,7 @@ class FwScn : Uid {
 		if let speed			= config.cgFloat("speed") {
 			scnScene.physicsWorld.speed = speed
 		}
-//bug;	scnScene.physicsWorld.contactDelegate = nil//scnScene	/// Physics Contact Protocol is below
+		assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "Paranoia: set in SceneKitHostingView")
 	}
 	
 	 // MARK: - 4.1 Lights
@@ -342,6 +342,7 @@ bug;	let fwGuts				= DOCfwGuts
 	 /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	///   (This assures updateVewNScn work)
 	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
+		let rootPart			= fwGuts.rootPart
 		assert(rootVew.name 	== "_ROOT", "Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
 		assert(rootVew.part		== rootPart,"Paranoid check, rootVew.part != rootPart")
 		assert(rootVew.part.name == "ROOT", "Paranoid check: rootVew.part.name=\(rootVew.part.name) !=\"ROOT\"")
@@ -383,7 +384,7 @@ bug;	let fwGuts				= DOCfwGuts
 		 // 4.  Configure Initial Camera Target:
 		fwGuts.rootVew[0]!.lookAtVew = fwGuts.rootVew[0]!.trunkVew				// default
 		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
-		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
+		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {		//xyzzy99
 			fwGuts.rootVew[0]!.lookAtVew = rootVew.find(part:laPart)
 		}
 
@@ -401,7 +402,7 @@ bug;	let fwGuts				= DOCfwGuts
 
 		// 7. UNLOCK PartTree and VewTree:
 		fwGuts.rootVew[0]!.unlock(	 vewTreeAs:"createVews")
-		rootPart.unlock(partTreeAs:"createVews")
+		rootPart.unlock(partTreeAs:"createVews")	//xyzzy99
 	}
 	
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{

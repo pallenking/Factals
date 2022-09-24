@@ -17,9 +17,9 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 	var fwGuts : FwGuts!				// content
 
 	var config : FwConfig		= [:]
-	mutating func setConfiguration(to c:FwConfig) {
+	mutating func pushToCtlrs(config c:FwConfig) {
 		config					= c
-		fwGuts?.setConfiguration(to:c)
+		fwGuts?.pushToCtlrs(config:c)	// COMPONENT 1
 		assert(fwGuts.document == self, "FooDocTry3.reconfigureWith ERROR with log (or func == ERROR")
 	}
 	static func == (lhs: FooDocTry3Document, rhs: FooDocTry3Document) -> Bool {
@@ -42,7 +42,7 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 		rootPart.fwGuts			= fwGuts		// delegate
 
 		config					+= rootPart.ansConfig
-		setConfiguration(to:config)
+		pushToCtlrs(config:config)
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 
@@ -299,8 +299,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 			return false
 		}
+		let rootPart2 : RootPart! = vew?.part.root// ?? .null
 		 // Check registered TimingChains
-		for timingChain in rootPart.simulator.timingChains {
+		for timingChain in rootPart2.simulator.timingChains {
 			guard timingChain.processKey(from:nsEvent, inVew:vew) == false else {
 				return true 				/* handled by timingChain */		}
 		}
@@ -309,7 +310,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			return true 					/* handled by fwGuts */
 		}
 		 // Check Simulator:
-		guard rootPart.simulator.processKey(from:nsEvent, inVew:vew) == false else  {
+		guard rootPart2?.simulator.processKey(from:nsEvent, inVew:vew) == false else  {
 			return true 					// handled by simulator
 		}
 
@@ -351,23 +352,23 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		case "m":
 			aux["ppDagOrder"]	= true
 			Swift.print("\n******************** 'm': === Parts:")
-			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
 		case "M":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			Swift.print("\n******************** 'M': === Parts and Ports:")
-			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
 		case "l":
 			aux["ppLinks"]		= true
 			aux["ppDagOrder"]	= true
 			Swift.print("\n******************** 'l': === Parts, Links:")
-			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
 		case "L":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			aux["ppLinks"]		= true
 			Swift.print("\n******************** 'L': === Parts, Ports, Links:")
-			Swift.print(rootPart.pp(.tree, aux), terminator:"")
+			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "C":

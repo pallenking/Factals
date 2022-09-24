@@ -6,29 +6,29 @@ class Simulator : NSObject, Codable {
 	 // MARK: - 2. Object Variables:
 	var timingChains:[TimingChain] = []
 
-	// MARK: - 2.1 Operational STATE
-	 /// Simulation is fully built and running						////	var simBuilt : Bool {				// simulator is running (mostly for Logger)
-	var simBuilt : Bool = false	{		// sim constructed?			//		get		 {		return simBuilt_										}
-		didSet {		// whenever simEnabled gets set, try to st	//		set(val) {		// whenever simEnabled gets set, try to start simulationsart simulation
-			if simEnabled && simBuilt {								////			simBuilt_			= val
-				simTaskRunning	= false	// (so startSimulationTask 	//			if simEnabled_ && simBuilt_ {notices)
-				startSimulationTask()	// try irrespective of simTa//				simTaskRunning	= false	// (so startSimulationTask notices)skRunning
-			}														////				startSimulationTask()	// try irrespective of simTaskRunning
-		}															////			}
-	}																////		}
-																	////	};private var simBuilt_	 	= false		// sim constructed?
-	 /// Enable simulation task to run:																					//
-	var simEnabled : Bool 	 	= false {	// sim enabled to run?{				//var simEnabled	  	: Bool {
-		didSet {																//	get 	 {		return simEnabled_ 										}																					//
-			if simBuilt {														//	set(val) {		// whenever simEnabled gets set, try to start simulations																					//
-				simTaskRunning	= false		// (so startSimulationTask notices)	//		simEnabled_			= val
-				startSimulationTask()		// try irrespect~ of simTaskRunning	//		if simBuilt {
-			}																	//			simTaskRunning	= false	// (so startSimulationTask notices)
-		}																		//			startSimulationTask()	// try irrespective of simTaskRunning
-	}																			//		}
-																				//};private var simEnabled_ 	= false		// sim enabled to run?
-	var simTaskRunning			= false		// sim task pending?
-
+//	// MARK: - 2.1 Operational STATE
+//	 /// Simulation is fully built and running						////	var simBuilt : Bool {				// simulator is running (mostly for Logger)
+//	var simBuilt : Bool = false	{		// sim constructed?			//		get		 {		return simBuilt_										}
+//		didSet {		// whenever simEnabled gets set, try to st	//		set(val) {		// whenever simEnabled gets set, try to start simulationsart simulation
+//			if simEnabled && simBuilt {								////			simBuilt_			= val
+//				simTaskRunning	= false	// (so startSimulationTask 	//			if simEnabled_ && simBuilt_ {notices)
+//				startSimulationTask()	// try irrespective of simTa//				simTaskRunning	= false	// (so startSimulationTask notices)skRunning
+//			}														////				startSimulationTask()	// try irrespective of simTaskRunning
+//		}															////			}
+//	}																////		}
+//																	////	};private var simBuilt_	 	= false		// sim constructed?
+//	 /// Enable simulation task to run:																					//
+//	var simEnabled : Bool 	 	= false {	// sim enabled to run?{				//var simEnabled	  	: Bool {
+//		didSet {																//	get 	 {		return simEnabled_ 										}																					//
+//			if simBuilt {														//	set(val) {		// whenever simEnabled gets set, try to start simulations																					//
+//				simTaskRunning	= false		// (so startSimulationTask notices)	//		simEnabled_			= val
+//				startSimulationTask()		// try irrespect~ of simTaskRunning	//		if simBuilt {
+//			}																	//			simTaskRunning	= false	// (so startSimulationTask notices)
+//		}																		//			startSimulationTask()	// try irrespective of simTaskRunning
+//	}																			//		}
+//																				//};private var simEnabled_ 	= false		// sim enabled to run?
+//	var simTaskRunning			= false		// sim task pending?
+//
 	// MARK: - 2.2 Manage Cycle Simulator
 	var kickstart	  	:UInt8	= 0		// set to get simulator going
 	var unsettledOwned	:Int	= 0		// by things like links
@@ -48,7 +48,7 @@ class Simulator : NSObject, Codable {
 	weak var rootPart	: RootPart? = nil
 
 	 /// Controls the Simulator's operation
-	func setConfiguration(to config:FwConfig) {
+	func pushToCtlrs(config:FwConfig) {
 		if let se				= config["simEnabled"] {
 			if let simEn		= se as? Bool {
 				simEnabled 		= simEn
@@ -208,6 +208,29 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 		}																				//}
 		startSimulationTask()		// reStartSimulationTask
 	}
+	// MARK: - 2.1 Operational STATE
+	 /// Simulation is fully built and running						////	var simBuilt : Bool {				// simulator is running (mostly for Logger)
+	var simBuilt : Bool = false	{		// sim constructed?			//		get		 {		return simBuilt_										}
+		didSet {		// whenever simEnabled gets set, try to st	//		set(val) {		// whenever simEnabled gets set, try to start simulationsart simulation
+			if simEnabled && simBuilt {								////			simBuilt_			= val
+				simTaskRunning	= false	// (so startSimulationTask 	//			if simEnabled_ && simBuilt_ {notices)
+				startSimulationTask()	// try irrespective of simTa//				simTaskRunning	= false	// (so startSimulationTask notices)skRunning
+			}														////				startSimulationTask()	// try irrespective of simTaskRunning
+		}															////			}
+	}																////		}
+																	////	};private var simBuilt_	 	= false		// sim constructed?
+	 /// Enable simulation task to run:																					//
+	var simEnabled : Bool 	 	= false {	// sim enabled to run?{				//var simEnabled	  	: Bool {
+		didSet {																//	get 	 {		return simEnabled_ 										}																					//
+			if simBuilt {														//	set(val) {		// whenever simEnabled gets set, try to start simulations																					//
+				simTaskRunning	= false		// (so startSimulationTask notices)	//		simEnabled_			= val
+				startSimulationTask()		// try irrespect~ of simTaskRunning	//		if simBuilt {
+			}																	//			simTaskRunning	= false	// (so startSimulationTask notices)
+		}																		//			startSimulationTask()	// try irrespective of simTaskRunning
+	}																			//		}
+																				//};private var simEnabled_ 	= false		// sim enabled to run?
+	var simTaskRunning			= false		// sim task pending?
+
 	var simLogLocks				= false	// OVERWRITTEN by Configuration
 	 /// Stop the simulation task
 	func stopSimulationTask() {

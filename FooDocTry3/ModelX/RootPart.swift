@@ -37,9 +37,9 @@ class RootPart : Part {
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.rootPart		= self
 	}
-	func setConfiguration(to config:FwConfig) {
-		simulator.setConfiguration(to:config)
+	func pushToCtlrs(config:FwConfig) {
 		assert(simulator.rootPart == self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
+		simulator.pushToCtlrs(config:config) 	// CUSTOMER 1
 	}
 //// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
@@ -69,6 +69,7 @@ class RootPart : Part {
 	}
 
 	func recoverFromDecodable() -> RootPart {
+		let rootPart2 : RootPart! = self//vew?.part.root// ?? .null
 bug;	guard let poly		= self as? PolyWrap else { fatalError()}
 		 // ---- 3. REMOVE -  PolyWrap's
 /* */	let rp				= poly.polyUnwrap() as! RootPart
@@ -77,9 +78,9 @@ bug;	guard let poly		= self as? PolyWrap else { fatalError()}
 
 		 // ---- 2. Replace weak references
 //* */	rp.realize()			// put references back	// *******
-		rp.groomModel(parent:nil, root:rootPart)
+		rp.groomModel(parent:nil, root:rootPart2)
 		rp.indexFor	= [:]		// HACK! should store in fwDocument!
-		atSer(5, logd("========== rootPart unwrapped:\n\(rootPart.pp(.tree, ["ppDagOrder":false]))", terminator:""))
+		atSer(5, logd("========== rootPart unwrapped:\n\(rootPart2.pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
 //		rootPart.unlock(partTreeAs:lockStr) // ---- 1. Get LOCKS for PartTree
 		return rp

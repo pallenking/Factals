@@ -32,6 +32,8 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 
 	 // Later, use args to make SCNView
 	func makeNSView(context: Context) -> SCNView {
+
+		 // Make new scnScene and scnView:
 		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
 		scnView.scene			= scnScene
@@ -40,21 +42,20 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
 		scnView.antialiasingMode = args.antialiasingMode
 		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
-ppFwcState()
+
 		 // Configure SCNScene
 		scnScene.isPaused		= false					// perhaps enabled later
 		let rootScn				= scnScene.rootNode
 		rootScn.name			= "*-ROOT"
 		
-		let i					= args.fwGuts!.fwScn.count
-		//	guard let scnScene	= scnView.scene else {	fatalError("makeNSView cannot get SCNScene from SCNView") }
-		let fwScn				= args.fwGuts!.fwScn
-		fwScn[i]!.scnScene	= scnScene
+		let fwGuts				= args.fwGuts!
+		let i					= fwGuts.fwScn.count - 1
+		let fwScn				= fwGuts.fwScn
+		fwScn[i]!.scnScene		= scnScene
 		fwScn[i]!.scnView		= scnView			// Link things SceneKitHostingView generated
-		args.fwGuts!.rootVew[i]!.scn = rootScn 		// set Vew with new scn root
-bug//	args.fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
-
-
+		fwGuts.rootVew[i]!.scn	= rootScn 		// set Vew with new scn root
+		assert(fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
+		fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
 
 		  // Configure Options of FwView
 		 // There must be a better way to do this:

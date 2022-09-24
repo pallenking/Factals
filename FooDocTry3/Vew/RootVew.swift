@@ -22,14 +22,12 @@ class RootVew : Vew {
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
 	var lastSelfiePole : SelfiePole!					// init to default
 
-	func setConfiguration(to:FwConfig) {								//get			{			return config4sim_
-	}
-
 	init(forPart part:Part?=nil, scn:SCNNode?=nil) {	super.init(forPart:part, scn:scn)
 		lastSelfiePole			= SelfiePole(rootVew:self)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
+	func pushToCtlrs(config:FwConfig) {	/* nada */ }
 	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
 	/// - Parameters:
@@ -117,5 +115,4 @@ class RootVew : Vew {
 		}
 		return rv
 	}
-
 }

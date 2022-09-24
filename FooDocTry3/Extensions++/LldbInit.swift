@@ -15,16 +15,16 @@ func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true
 }
 
  /// Access to current ////// Part Tree //////
-var rootPart  : RootPart		{	return DOCfwGuts.rootPart			}
-func rootpart(_ name:String?=nil) -> Part  {
-	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
-		if name != nil {			// Search for sought Part	//maxLevel:1,
-			rv					= rv.find(name:name!, inMe2:true) ?? rv
-		}
-		return rv
-	}
-	return .null				// Strange hack
-}
+//var rootPart  : RootPart		{	return DOCfwGuts.rootPart			}
+//func rootpart(_ name:String?=nil) -> Part  {
+//	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
+//		if name != nil {			// Search for sought Part	//maxLevel:1,
+//			rv					= rv.find(name:name!, inMe2:true) ?? rv
+//		}
+//		return rv
+//	}
+//	return .null				// Strange hack
+//}
 
  /// Access to current ////// Vew Tree //////
 var  rootVew  : RootVew {

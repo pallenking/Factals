@@ -18,13 +18,13 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}
 
-	func setConfiguration(to config:FwConfig) { // *****
-		rootPart       .setConfiguration(to:config)
+	func pushToCtlrs(config:FwConfig) { // *****
+		rootPart       .pushToCtlrs(config:config)
 		for i in 0..<rootVew.count { //}, fwScn) {
-			rootVew[i]?.setConfiguration(to:config) ?? log("fwGuts: rootVew nil")
-			fwScn[i]?  .setConfiguration(to:config) ?? print("fwGuts: fwScn nil")
+			rootVew[i]?.pushToCtlrs(config:config) ?? log("fwGuts: rootVew nil")
+			fwScn[i]?  .pushToCtlrs(config:config) ?? print("fwGuts: fwScn nil")
 		}
-		eventCentral   .setConfiguration(to:config)
+		eventCentral   .pushToCtlrs(config:config)
 	}
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {
@@ -57,6 +57,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		let fs					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
 		 fs.fwGuts				= self
 		 fs.scnScene.physicsWorld.contactDelegate = eventCentral
+		 assert(fs.scnScene.physicsWorld.contactDelegate === eventCentral, "Paranoia: set in SceneKitHostingView")
 		 fwScn.append(fs)
 		let rv					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
 		 rv.fwGuts				= self

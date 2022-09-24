@@ -1,6 +1,35 @@
 //  FwwEvent.swift -- generate digital words C190822PAK
 import SceneKit
 
+class FwEvent {							// NOT NSObject
+	let fwType : FwType
+
+	let	nsType : Int 			= 999
+		// As defined in NSEvent.NSEventType:
+		//NSLeftMouseUp 		NSRightMouseDown 	NSRightMouseUp NSMouseMoved
+		//NSLeftMouseDragged	NSRightMouseDragged
+		//NSMouseEntered 		NSMouseExited
+		//NSKeyDown 			NSKeyUp 			NSFlagsChanged (deleted PAK170906)
+		//NSPeriodic 			NSCursorUpdate		NSScrollNSTablet 	NSTablet
+		//NSOtherMouse 			NSOtherMouseUp		NSOtherMouseDragged
+		//NSEventTypeGesture	NSEventTypeMagnify	NSEventTypeSwipe 	NSEventTypeRotate
+		//NSEventTypeBeginGesture NSEventTypeEndGesture NSEventTypeSmartMagnify NSEventTypeQuickLook
+	var clicks	   : Int		= 0		// 1, 2, 3?
+	var key			: Character = " "
+	var modifierFlags: Int64	= 0
+		// As defined in NSEvent.modifierFlags:
+		// NSAlphaShiftKeyMask 	NSShiftKeyMask 		NSControlKeyMask 	NSAlternateKeyMask
+		// NSCommandKeyMask 	NSNumericPadKeyMask NSHelpKeyMask 		NSFunctionKeyMask
+	var mousePosition:SCNVector3 = .zero	// after[self convertPoint:[theEvent locationInWindow] fromVew:nil]
+	var deltaPosition:SCNVector3 = .zero	// since last time
+	var deltaPercent :SCNVector3 = .zero	// since last time, in percent of screen
+	var scrollWheelDelta		= 0.0
+
+	init(fwType f:FwType) {
+		fwType 					= f
+	}
+}
+
  // An event used by the Simulator
 enum FwwEvent : Codable, Equatable {	// Uid, 
 	//var uid 		: UInt16 		{ 	return SwiftFactals.uid(nsOb:self)	}
