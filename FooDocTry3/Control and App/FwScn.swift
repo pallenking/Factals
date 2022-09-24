@@ -299,7 +299,7 @@ bug;	let fwGuts				= DOCfwGuts
 	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn camScn:SCNNode) {
 
 		 //		(ortho-good, check perspective)
-		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
+		let rootVewBbInWorld	= fwGuts!.rootVew[0]!.bBox//BBox(size:3, 3, 3)//			// in world coords
 		let world2eye			= SCNMatrix4Invert(camScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
@@ -335,17 +335,20 @@ bug;	let fwGuts				= DOCfwGuts
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
-		let vpV3 : SCNVector3	= rootVew.scn.convertPosition(wpV3, from:nil)
+		let vpV3 : SCNVector3	= fwGuts!.rootVew[0]!.scn.convertPosition(wpV3, from:nil)
 		return NSPoint(x:vpV3.x, y:vpV3.y)
 	}
 
 	 /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	///   (This assures updateVewNScn work)
 	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
+		let j					= fwGuts!.fwScn.firstIndex { $0 != nil && $0! === self	}!
+		let i					= Int(j)
+
 		let rootPart			= fwGuts.rootPart
-		assert(rootVew.name 	== "_ROOT", "Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
-		assert(rootVew.part		== rootPart,"Paranoid check, rootVew.part != rootPart")
-		assert(rootVew.part.name == "ROOT", "Paranoid check: rootVew.part.name=\(rootVew.part.name) !=\"ROOT\"")
+		assert(fwGuts.rootVew[i]!.name 	== "_ROOT", "Paranoid check: rootVew.name=\(fwGuts.rootVew[i]!.name) !=\"_ROOT\"")
+		assert(fwGuts.rootVew[i]!.part		== rootPart,"Paranoid check, rootVew.part != rootPart")
+		assert(fwGuts.rootVew[i]!.part.name == "ROOT", "Paranoid check: rootVew.part.name=\(fwGuts.rootVew[i]!.part.name) !=\"ROOT\"")
 		assert(rootPart.children.count == 1,"Paranoid check: rootPart has \(rootPart.children.count) children, !=1")
 
 		 // 1. 	GET LOCKS				// PartTree
@@ -357,7 +360,7 @@ bug;	let fwGuts				= DOCfwGuts
 		}
 
 		 // 2. Update Vew and Scn Tree
-/**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
+/**/	fwGuts.rootVew[i]!.updateVewSizePaint()		// rootPart -> rootView, rootScn
 
 		 // 6. Add Lights, Camera and SelfiePole
 		addLightsToScn()							// was updateLights
@@ -367,30 +370,30 @@ bug;	let fwGuts				= DOCfwGuts
 		 // 3.  Configure SelfiePole:
 		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
 			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
-				fwGuts.rootVew[0]!.lastSelfiePole.at = at
+				fwGuts.rootVew[i]!.lastSelfiePole.at = at
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				fwGuts.rootVew[0]!.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+				fwGuts.rootVew[i]!.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
-				fwGuts.rootVew[0]!.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+				fwGuts.rootVew[i]!.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				fwGuts.rootVew[0]!.lastSelfiePole.zoom = CGFloat(z)
+				fwGuts.rootVew[i]!.lastSelfiePole.zoom = CGFloat(z)
 			}
 			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
 		}
 
 		 // 4.  Configure Initial Camera Target:
-		fwGuts.rootVew[0]!.lookAtVew = fwGuts.rootVew[0]!.trunkVew				// default
+		fwGuts.rootVew[0]!.lookAtVew = fwGuts.rootVew[i]!.trunkVew				// default
 		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
 		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {		//xyzzy99
-			fwGuts.rootVew[0]!.lookAtVew = rootVew.find(part:laPart)
+			fwGuts.rootVew[i]!.lookAtVew = fwGuts.rootVew[i]!.find(part:laPart)
 		}
 
 		 // 5. Set LookAtNode's position
-		let posn				= fwGuts.rootVew[0]!.lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= fwGuts.rootVew[0]!.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
+		let posn				= fwGuts.rootVew[i]!.lookAtVew?.bBox.center ?? .zero
+		let worldPosition		= fwGuts.rootVew[i]!.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		fwGuts.rootVew[0]!.lastSelfiePole.at = worldPosition
 //		let posn				= fwGuts.lookAtVew?.bBox.center ?? .zero
@@ -401,7 +404,7 @@ bug;	let fwGuts				= DOCfwGuts
 		updatePole2Camera(reason:"install RootPart")
 
 		// 7. UNLOCK PartTree and VewTree:
-		fwGuts.rootVew[0]!.unlock(	 vewTreeAs:"createVews")
+		fwGuts.rootVew[i]!.unlock(	 vewTreeAs:"createVews")
 		rootPart.unlock(partTreeAs:"createVews")	//xyzzy99
 	}
 	

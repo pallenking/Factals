@@ -134,7 +134,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts.modelPic(with:nsEvent) {
-						rootVew.lookAtVew	= vew			// found a Vew: Look at it!
+						fwGuts.rootVew[0]!.lookAtVew	= vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
@@ -160,10 +160,10 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootVew.lastSelfiePole.zoom *= delta
+			fwGuts.rootVew[0]!.lastSelfiePole.zoom *= delta
 //			let scene			= DOCfwGuts
 //			scene.lastSelfiePole.zoom *= delta
-			print("receivedEvent(type:.scrollWheel) found pole\(rootVew.lastSelfiePole.uid).zoom = \(rootVew.lastSelfiePole.zoom)")
+			print("receivedEvent(type:.scrollWheel) found pole\(fwGuts.rootVew[0]!.lastSelfiePole.uid).zoom = \(fwGuts.rootVew[0]!.lastSelfiePole.zoom)")
 			fwGuts.fwScn[0]!.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -222,6 +222,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
+		let rootVew						= fwGuts.rootVew[0]!
 		rootVew.lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 		rootVew.lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}

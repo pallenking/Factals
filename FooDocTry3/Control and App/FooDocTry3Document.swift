@@ -180,7 +180,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 																//		fwView!.fwGuts			= fwGuts		// delegate		220815PAK: Needed only for rotator
 																//bug;	fwView!.scene			= fwGuts		// delegate		// somebody elses responsibility! (but who)
 	mutating func didLoadNib(to view:Any) {
-	  for i in 0...fwGuts.fwScn.count {
+	  for i in 0..<fwGuts.fwScn.count {
 				// Build Vews after View is loaded:
 /**/	fwGuts.fwScn[i]!.createVewNScn()
 
@@ -236,7 +236,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	}
 	mutating func showInspec(for name:String) {
 		if let part	= fwGuts.rootPart.find(name:name),
-		  let vew	= rootVew.find(part:part) {
+		  let vew	= fwGuts.rootVew[0]!.find(part:part) {
 			showInspecFor(vew:vew, allowNew:true)
 		}
 		else {

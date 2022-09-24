@@ -192,8 +192,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "266"
             endingLineNumber = "266"
-            landmarkName = "init(fromLibrary:)"
-            landmarkType = "7">
+            landmarkName = "data"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -224,8 +224,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "308"
             endingLineNumber = "308"
-            landmarkName = "wireAndGroom()"
-            landmarkType = "7">
+            landmarkName = "RootPart"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -480,8 +480,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
             endingLineNumber = "72"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "sendApp(key:)"
+            landmarkType = "9">
             <Locations>
                <Location
                   uuid = "03FAF28E-CDEE-4830-8B0F-957DC17C73E3 - 690a8ed70b48e7dc"
@@ -496,7 +496,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
                   endingLineNumber = "72"
-                  offsetFromSymbolStart = "116">
+                  offsetFromSymbolStart = "104">
                </Location>
                <Location
                   uuid = "03FAF28E-CDEE-4830-8B0F-957DC17C73E3 - 690a8ed70b48e7dc"
@@ -511,7 +511,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
                   endingLineNumber = "72"
-                  offsetFromSymbolStart = "244">
+                  offsetFromSymbolStart = "276">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -672,8 +672,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "166"
             endingLineNumber = "166"
-            landmarkName = "updateDocConfigs(from:)"
-            landmarkType = "7">
+            landmarkName = "FooDocTry3Document"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -688,8 +688,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "216"
             endingLineNumber = "216"
-            landmarkName = "updateDocConfigs(from:)"
-            landmarkType = "7">
+            landmarkName = "FooDocTry3Document"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -704,8 +704,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "150"
             endingLineNumber = "150"
-            landmarkName = "didLoadNib(to:)"
-            landmarkType = "7">
+            landmarkName = "FooDocTry3Document"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -720,8 +720,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "257"
             endingLineNumber = "257"
-            landmarkName = "init(fromLibrary:)"
-            landmarkType = "7">
+            landmarkName = "RootPart"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -736,8 +736,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "17"
             endingLineNumber = "17"
-            landmarkName = "init(rootPart:fwScene:)"
-            landmarkType = "7">
+            landmarkName = "FooDocTry3Document"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -816,8 +816,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "19"
             endingLineNumber = "19"
-            landmarkName = "body"
-            landmarkType = "24">
+            landmarkName = "ContentView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -832,7 +832,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "176"
             endingLineNumber = "176"
-            landmarkName = "updateDocConfigs(from:)"
+            landmarkName = "makeWindowControllers()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -896,8 +896,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "87"
             endingLineNumber = "87"
-            landmarkName = "init()"
-            landmarkType = "7">
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -946,6 +946,38 @@
             endingLineNumber = "66"
             landmarkName = "init(configuration:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "ED4D2F80-02A6-4A9D-8975-5CF5A67F85AC - f7ad1678e7766e89"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FooDocTry3.FooDocTry3Document.init(configuration: SwiftUI.FileDocumentReadConfiguration) throws -&gt; FooDocTry3.FooDocTry3Document"
+                  moduleName = "FooDocTry3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/Documents/Swift-HaveNWant/FooDocTry3/FooDocTry3/Control%20and%20App/FooDocTry3Document.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "784">
+               </Location>
+               <Location
+                  uuid = "ED4D2F80-02A6-4A9D-8975-5CF5A67F85AC - f7ad1678e7766e89"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FooDocTry3.FooDocTry3Document.init(configuration: SwiftUI.FileDocumentReadConfiguration) throws -&gt; FooDocTry3.FooDocTry3Document"
+                  moduleName = "FooDocTry3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/Documents/Swift-HaveNWant/FooDocTry3/FooDocTry3/Control%20and%20App/FooDocTry3Document.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "892">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1025,6 +1057,38 @@
             startingLineNumber = "450"
             endingLineNumber = "450"
             landmarkName = "updateCameraTransform(to:for:overTime:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FA793E39-A1FB-4789-8988-D7B15471A23E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/Control and App/Log.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "setControllers(config:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9B8D0EB3-BA32-4FF7-9B46-CD3398BFC117"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/Vew/Vew.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "init(forPart:scn:expose:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

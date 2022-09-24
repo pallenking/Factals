@@ -58,6 +58,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 
 		 // Make new scnScene and scnView:
 		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
+		scnScene.isPaused		= false					// perhaps enabled later
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
 		scnView.scene			= scnScene
 		scnView.pointOfView 	= args.pointOfView
@@ -67,20 +68,27 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
 		 // Configure SCNScene
-		scnScene.isPaused		= false					// perhaps enabled later
 		let rootScn				= scnScene.rootNode
 		rootScn.name			= "*-ROOT"
-		
 		if let fwGuts			= args.fwGuts {
 			let i				= fwGuts.fwScn.count - 1
 			let fwScn			= fwGuts.fwScn
 			fwScn[i]!.scnScene	= scnScene
 			fwScn[i]!.scnView	= scnView			// Link things SceneKitHostingView generated
 			fwGuts.rootVew[i]!.scn = rootScn 		// set Vew with new scn root
-			assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
-			scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
-//			assert(fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
-//			fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
+
+			let pw				= scnScene.physicsWorld
+			if pw.contactDelegate != nil {
+				assert(pw.contactDelegate !== fwGuts.eventCentral, "")
+			}
+			pw.contactDelegate = fwGuts.eventCentral
+			print(" ........... FwGuts:\(fmt("%04x", fwGuts.uid)) Vew:\(i)........." +
+				  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-2 \(fwGuts.eventCentral)")
+	//		assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
+	//		scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
+//	//		assert(fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
+//	//		fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
+
 		} else {
 			warning("makeNSView: args.fwGuts is nil")
 		}

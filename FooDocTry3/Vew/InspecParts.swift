@@ -178,7 +178,7 @@ struct InspecAtom : View {												 // Atom
 				Text("Ports:")
 				Picker("", selection:Binding<String>(	get:{ "" }, set:{		// Always out of range
 					let port	= atom.ports[$0]!
-					let newVew	= rootVew.find(part:port, inMe2:true) ?? vew
+					let newVew	= rootVewL.find(part:port, inMe2:true) ?? vew
 bug//				atom.root?.fwDocument?.showInspecFor(vew:newVew, allowNew:false)
 //					DOc.showInspecFor(vew:newVew, allowNew:false)
 				} )) {
@@ -327,7 +327,7 @@ struct InspecPart : View {												 // Part
 				Text("Inspect:")
 				Picker("", selection:Binding<Int>(	get:{ -1 }, set:{		// Always out of range
 					let nav		= navList[$0]					// Set notification
-					let newVew	= rootVew.find(part:nav, inMe2:true) ?? vew
+					let newVew	= rootVewL.find(part:nav, inMe2:true) ?? vew
 //					part.root!.fwDocument!.showInspecFor(vew:newVew, allowNew:false)
 					DOC.showInspecFor(vew:newVew, allowNew:false)
 				} ) ) {

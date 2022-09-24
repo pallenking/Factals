@@ -7,10 +7,17 @@ import SceneKit
 class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
-
-	var rootPart	 : RootPart														//{	rootVew.part as! RootPart}
-	var rootVew 	 : [RootVew?]		= []
-	var fwScn		 : [FwScn?]			= []
+	var rootPart : RootPart													//{	rootVew.part as! RootPart}
+	var rootVew  : [RootVew?]	= []
+	var fwScn	 : [FwScn?]		= []
+	func rootVew(of fwScn_:FwScn) -> RootVew {
+		let j					= fwScn.firstIndex { $0 != nil && $0! === fwScn_}
+		return rootVew[Int(j!)]!
+	}
+	func fwScn(of rootVew_:RootVew) -> FwScn {
+		let j					= rootVew.firstIndex { $0 != nil && $0! === rootVew_}
+		return fwScn[Int(j!)]!
+	}
 	var eventCentral : EventCentral
 	var document 	 : FooDocTry3Document!
 	var logger 		 : Logger
@@ -39,9 +46,8 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	}
 
 	func newViewIndex() -> Int {
-		let i				= rootVew.count
+		let i					= rootVew.count
 		assert(i == fwScn.count, "paranoid mismatch")
-		print(" ........... %04s: i:\(i).........", uid)
 
 		 // Make BASIC Component Parts (owned and used by FwGuts)
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
@@ -53,6 +59,9 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	  //scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
 	  //scnView.antialiasingMode = args.antialiasingMode
 	  //scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+
+		print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
+				  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")
 
 		 // Make RootVew and FwScn
 		let fs					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil

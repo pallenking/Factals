@@ -15,7 +15,6 @@ class RootVew : Vew {
 	var rootVewOwnerPrev:String? = nil
 	var rootVewVerbose 			= false
 	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
-		let children			= rootVew.children
 		return children.count > 0 ? children[0] : nil
 	}
 	 // MARK: x.3.2 Look At Spot

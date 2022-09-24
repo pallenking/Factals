@@ -63,23 +63,8 @@ class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 			}
 			breakAt 		= ba
 		}
-									//		var toParams4docLog		= FwConfig()
-									//		for (name, value) in config {
-									//			 // --------- To Logger:
-									//			if name.hasPrefix("pp") ||			// 1a:      pp... entry
-									//			   name.hasPrefix("logPri4") {		// 1b: logPri4... entry
-									//				toParams4docLog[name] = value		// affect our DOClog
-									//			}
-									//				  // Output buckets to component configurations
-									//			 // Q: scattering via = or += paradigm?
-									//			atCon(2, logd( "==== updateDocConfigs. ansConfig\(config.pp(.phrase)) ->"))
-									//		}
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
 		verbosity 			= verbosityInfoFrom(config)
-									//		let verbosityHash = verbosityInfoFrom(config)
-									//		if  verbosityHash.count > 0 {//
-									//			verbosity 		= verbosityHash	// Set verbosity filter
-									//		}										// Otherwise do nothing.
 	}
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
 		   // Process logPri4*** keys. SEMANTICS:

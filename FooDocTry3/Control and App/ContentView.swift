@@ -91,24 +91,24 @@ struct ContentView: View {
 				Button(label:{Text("Document has nil fwGuts").padding(.top, 300)})
 				{	fatalError(" ERROR ")										}
 			}
-			VStack {
-				SceneKitHostingView(SCNViewsArgs( 	//SceneView(
-					fwGuts		: nil,
-					scnScene	: jetModel.scene,
-					pointOfView	: nil,//jetModel.scene.cameraScn,
-					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
-					preferredFramesPerSecond : 30,
-					antialiasingMode : .none,
-					delegate	: nil
-				))
-				 .frame(width:200, height:200)
-				SceneView(
-					scene	   : dragonModel.scene,
-					pointOfView: nil,//dragonModel.scene.cameraScn,
-					options: [.allowsCameraControl, .autoenablesDefaultLighting]
-				)
-				 .frame(width:200, height:300)
-			}
+//			VStack {
+//				SceneKitHostingView(SCNViewsArgs( 	//SceneView(
+//					fwGuts		: nil,
+//					scnScene	: jetModel.scene,
+//					pointOfView	: nil,//jetModel.scene.cameraScn,
+//					options		: [.allowsCameraControl, .autoenablesDefaultLighting],
+//					preferredFramesPerSecond : 30,
+//					antialiasingMode : .none,
+//					delegate	: nil
+//				))
+//				 .frame(width:200, height:200)
+//				SceneView(
+//					scene	   : dragonModel.scene,
+//					pointOfView: nil,//dragonModel.scene.cameraScn,
+//					options: [.allowsCameraControl, .autoenablesDefaultLighting]
+//				)
+//				 .frame(width:200, height:300)
+//			}
 		}
 	}
 }
