@@ -195,21 +195,21 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	 //			fatalError("writing dumpSCN.\(suffix) failed")					}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
+			rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
 			rootVew[0]!.updateVewSizePaint()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.size)		})
+			rootPart.forAllParts({	$0.markTree(dirty:.size)		})
 			rootVew[0]!.updateVewSizePaint()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			doc.fwGuts.rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
+			rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
 			rootVew[0]!.updateVewSizePaint()
 		case "w":
 			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwGuts: --> rootPart")
-			if doc.fwGuts.rootPart.processKey(from:nsEvent, inVew:vew!) {
+			if rootPart.processKey(from:nsEvent, inVew:vew!) {
 				print("ERROR: fwGuts.Process('x') failed")
 			}
 			return true								// recognize both
@@ -327,6 +327,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 	}
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
+		let i 					= 0			// only element 0 for now
 
 		 // Toggel vew.expose: .open <--> .atomic
 		vew.expose 				= vew.expose == .open   ? .atomic :
@@ -339,7 +340,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 		 // ========= Get Locks for two resources, in order: =============
 		guard rootPart.lock(partTreeAs:"toggelOpen") else {
 			fatalError("toggelOpen couldn't get PART lock")	}		// or
-		guard  rootVew[0]!.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
+		guard  rootVew[i]!.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
 
 		assert(!(part is Link), "cannot toggelOpen a Link")
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
@@ -348,10 +349,10 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 		vew.updateVewSizePaint(needsLock:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
-		rootVew[0]!.unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+		rootVew[i]!.unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart   .unlock(partTreeAs:"toggelOpen")
 
-		fwScn[0]!.updatePole2Camera(reason:"toggelOpen")
+		fwScn[i]!.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 
@@ -365,7 +366,7 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
 
 			 //*******// Imprint animation parameters JUST BEFORE start:
-			DOCfwGuts.rootVew[0]!.updateVewSizePaint()				// Update SCN's at START of animation
+			DOCfwGuts.rootVew[i]!.updateVewSizePaint()				// Update SCN's at START of animation
 			 //*******//
 
 			 // Animate Vew morph, from self to newVew:

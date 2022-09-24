@@ -395,7 +395,7 @@ bug;	let fwGuts				= DOCfwGuts
 		let posn				= fwGuts.rootVew[i]!.lookAtVew?.bBox.center ?? .zero
 		let worldPosition		= fwGuts.rootVew[i]!.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		fwGuts.rootVew[0]!.lastSelfiePole.at = worldPosition
+		fwGuts.rootVew[i]!.lastSelfiePole.at = worldPosition
 //		let posn				= fwGuts.lookAtVew?.bBox.center ?? .zero
 //bug;	fwGuts.pole.worldPosition = fwGuts.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 //		assert(!fwGuts.pole.worldPosition.isNan, "About to use a NAN World Position")

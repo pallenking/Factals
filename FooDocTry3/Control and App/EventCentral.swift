@@ -28,7 +28,9 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			if let f			= self.fwGuts {
 
 				f.lockBoth("updateAtTime")
-				f.rootVew[0]!.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
+				for i in 0..<f.rootVew.count {
+					f.rootVew[i]!.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
+				}
 				f.unlockBoth("updateAtTime")
 			}
 			else { fatalError("renderer(_ r:SCNSceneRenderer, updateAtTime")	}

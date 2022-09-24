@@ -408,14 +408,14 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 		}
 		 // Now rv contain's self's portConSpot, in aVewq
 		let enaPpWp				= root?.fwGuts.logger.params4aux.string("ppViewOptions")?.contains("W") ?? false
-		let rootScn				= root!.fwGuts.rootVew[0]!.scn
+		let rootScn				= root!.fwGuts.rootVew[zeroIndex]!.scn
 		let worldPosition 		= !enaPpWp ? "" :
 								"w" + aVew.scn.convertPosition(rv.center, to:rootScn).pp(.short) + " "		// wp wrong
 		atRsi(8, aVew.log("INPUT spot=[\(rv.pp())]\(worldPosition). OUTPUT to '\(inVew.pp(.fullName))'"))
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-		let trunkScn			= root?.fwGuts?.fwScn[0]!.trunkScn							//DOCfwGuts.
+		let trunkScn			= root?.fwGuts?.fwScn[zeroIndex]!.trunkScn							//DOCfwGuts.
 		repeat {			//.transform	// my position in parent
 			let scn				= aVew.scn
 			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation

@@ -18,6 +18,7 @@
 
  // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+var zeroIndex = 0
 
 import Cocoa
 import SwiftUI
