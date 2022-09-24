@@ -1,0 +1,18 @@
+eed  | light1  . . . . . .  0          01 geom:nil
+ 1fc  | |  \light: ##
+ eed  | light1  . . . . . .  0          01 geom:nil
+ 1fc  | |  \light:. . . . . 
+
+ 3a2  | camera  . . . . . .  [ 0.0 0.01001 geom:nil
+| |  \camera:. . . . . 
+
+
+ ee1  | light   . . . . . .  [ 0.0 0.01501 geom:nil
+ f1f  | ambient . . . . . .  0          01 geom:nil
+ ae5  | camera  . . . . . .  [ 0.0 0.01501 geom:nil
+
+ 6d4  | light1  . . . . . .  [ 0.0 0.01501 geom:nil
+ af8  | ambient1. . . . . .  0          01 geom:nil
+ 73a  | ambient2. . . . . .  0          01 geom:nil
+ 4d6  | omni1   . . . . . .  0          01 geom:nil
+ 31e  | camera  . . . . . .  [ 0.0 0.05001 geom:nil
