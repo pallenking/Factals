@@ -17,15 +17,16 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 	var fwGuts : FwGuts!				// content
 
 	var config : FwConfig		= [:]
-	mutating func pushToCtlrs(config c:FwConfig) {
+	mutating func setControllers(config c:FwConfig) {
 		config					= c
-		fwGuts?.pushToCtlrs(config:c)	// COMPONENT 1
+		fwGuts?.setControllers(config:c)	// COMPONENT 1
 		assert(fwGuts.document == self, "FooDocTry3.reconfigureWith ERROR with log (or func == ERROR")
 	}
 	static func == (lhs: FooDocTry3Document, rhs: FooDocTry3Document) -> Bool {
 		lhs.uid == rhs.uid				// almost good enough 2^-16			//&& lhs.config == rhs.config	// slow? broken
 	}
 
+	 // @main uses this to generate a blank document
 	init() {	// Build an EMPTY document						 //    INTERNAL:
 		//			Make RootPart:		//---FUNCTION-----------+-wantName:---wantNumber:
 		//**/	let select		= nil	//	 Blank scene		|	nil			-1
@@ -42,7 +43,7 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 		rootPart.fwGuts			= fwGuts		// delegate
 
 		config					+= rootPart.ansConfig
-		pushToCtlrs(config:config)
+		setControllers(config:config)
 
 		DOC						= self	// INSTALL self:FooDocTry3 as current DOC
 

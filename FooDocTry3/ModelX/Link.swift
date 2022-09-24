@@ -492,6 +492,7 @@ bug	// NEVER USED?
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
 		let linkVew				= vew as! LinkVew
+		
 
 		 // This section is in rePaint, because camera changes positions!
 		guard let fwGuts		= DOCfwGutsQ else {

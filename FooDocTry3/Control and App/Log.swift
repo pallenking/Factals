@@ -1,6 +1,7 @@
 // Logger.swift -- common support files C2018PAK
 
 // Logger must deal with the case that it should handle it's own printing before Logger
+// lifeCycleLogger
 
 import SceneKit
 
@@ -31,7 +32,7 @@ class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 	var msgFilter   : String?		= nil
 
 	 /// Configure Logger facilities
-	func pushToCtlrs(config:FwConfig) {
+	func setControllers(config:FwConfig) {
 
 		 // Unpack frequently used config hash elements to object parameters
 		if let pic 			= config.int("ppIndentCols")	{
@@ -370,7 +371,7 @@ bug;			msg					+= config.string_("cause")
 		"toggelOpen6"					: "op6",
 	]
 	var params4aux : FwConfig	{	DOC.config			} // MOVE ME
-	static let null : Logger		= {
+	static let null : Logger	= {
 		let rv					= Logger(title:".null = Logger(params4app)")
 //		rv.config4log			= params4appLog
 		return rv

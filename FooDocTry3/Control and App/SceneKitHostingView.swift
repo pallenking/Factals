@@ -21,6 +21,17 @@ struct SCNViewsArgs {
 	let delegate 				: SCNSceneRendererDelegate?
 	let technique				: SCNTechnique?				= nil
 }
+//class Coordinator: NSObject {
+//	var iii					= 0
+////	@Binding var rating: Int
+//
+//	init(iii:Int) {//*rating: Binding<Int>*/) {
+//		self.iii				= iii
+//		super.init()
+//bug		//$rating = rating
+////		rating					= 0
+//	}
+//}
 struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView inside
 
@@ -30,8 +41,20 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	}
 	var args					: SCNViewsArgs
 
+//	var coord : Coordinator		= Coordinator(iii:-1)
+
+//	func makeCoordinator() {
+//		coord.iii				+= 1
+//	}
 	 // Later, use args to make SCNView
-	func makeNSView(context: Context) -> SCNView {
+	func makeNSView(context: Context) -> SCNView {		// typedef Context = NSViewRepresentableContext<Self>
+
+//		makeCoordinator()
+		let coordinator			= context.coordinator	// View.Coordinator
+		let transaction			= context.transaction
+		//let transPlist		= transaction.plist
+		let environment			= context.environment
+		//let preferenceBridge	= context.preferenceBridge
 
 		 // Make new scnScene and scnView:
 		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
@@ -48,15 +71,19 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		let rootScn				= scnScene.rootNode
 		rootScn.name			= "*-ROOT"
 		
-		let fwGuts				= args.fwGuts!
-		let i					= fwGuts.fwScn.count - 1
-		let fwScn				= fwGuts.fwScn
-		fwScn[i]!.scnScene		= scnScene
-		fwScn[i]!.scnView		= scnView			// Link things SceneKitHostingView generated
-		fwGuts.rootVew[i]!.scn	= rootScn 		// set Vew with new scn root
-		assert(fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
-		fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
-
+		if let fwGuts			= args.fwGuts {
+			let i				= fwGuts.fwScn.count - 1
+			let fwScn			= fwGuts.fwScn
+			fwScn[i]!.scnScene	= scnScene
+			fwScn[i]!.scnView	= scnView			// Link things SceneKitHostingView generated
+			fwGuts.rootVew[i]!.scn = rootScn 		// set Vew with new scn root
+			assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
+			scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
+//			assert(fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
+//			fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
+		} else {
+			warning("makeNSView: args.fwGuts is nil")
+		}
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
 		if args.options.contains(.allowsCameraControl) {

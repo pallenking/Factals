@@ -37,9 +37,9 @@ class RootPart : Part {
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.rootPart		= self
 	}
-	func pushToCtlrs(config:FwConfig) {
+	func setControllers(config:FwConfig) {
 		assert(simulator.rootPart == self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
-		simulator.pushToCtlrs(config:config) 	// CUSTOMER 1
+		simulator.setControllers(config:config) 	// CUSTOMER 1
 	}
 //// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable

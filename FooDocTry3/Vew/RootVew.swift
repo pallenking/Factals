@@ -27,7 +27,7 @@ class RootVew : Vew {
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
-	func pushToCtlrs(config:FwConfig) {	/* nada */ }
+	func setControllers(config:FwConfig) {	/* nada */ }
 	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
 	/// - Parameters:

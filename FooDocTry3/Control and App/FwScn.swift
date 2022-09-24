@@ -80,7 +80,7 @@ class FwScn : Uid {
 		self.scnView 			= scnView
 		self.scnScene 			= scnScene
 	}
-	func pushToCtlrs(config:FwConfig) {
+	func setControllers(config:FwConfig) {
 		assert(config.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics = config.bool("animatePhysics") ?? false
 

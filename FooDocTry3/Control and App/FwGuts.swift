@@ -18,13 +18,13 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}
 
-	func pushToCtlrs(config:FwConfig) { // *****
-		rootPart       .pushToCtlrs(config:config)
+	func setControllers(config:FwConfig) { // *****
+		rootPart       .setControllers(config:config)
 		for i in 0..<rootVew.count { //}, fwScn) {
-			rootVew[i]?.pushToCtlrs(config:config) ?? log("fwGuts: rootVew nil")
-			fwScn[i]?  .pushToCtlrs(config:config) ?? print("fwGuts: fwScn nil")
+			rootVew[i]!.setControllers(config:config)// ?? log("fwGuts: rootVew nil")
+			fwScn[i]!  .setControllers(config:config)// ?? print("fwGuts: fwScn nil")
 		}
-		eventCentral   .pushToCtlrs(config:config)
+		eventCentral   .setControllers(config:config)
 	}
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {
@@ -41,6 +41,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	func newViewIndex() -> Int {
 		let i				= rootVew.count
 		assert(i == fwScn.count, "paranoid mismatch")
+		print(" ........... %04s: i:\(i).........", uid)
 
 		 // Make BASIC Component Parts (owned and used by FwGuts)
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])

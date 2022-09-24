@@ -110,7 +110,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 															//	};private var regressScene_ = 0
 	 // Keep regressScene up to date						//var config4app : FwConfig {
 	var config : FwConfig		= [:]						//	get			{	return config4app_ }
-	mutating func pushToCtlrs(config c:FwConfig) {		//	set(val)	{
+	mutating func setControllers(config c:FwConfig) {		//	set(val)	{
 		config					= c							//		config4app_			= val
 		if let rsn 				= c.int("regressScene") {	//		if let rsn 			= config4app_.int("regressScene") {
 			regressScene		= rsn						//			regressScene	= rsn
@@ -129,7 +129,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 
 		 // Configure App with defaults:
 		config					+= params4all
-		pushToCtlrs(config:config)
+		setControllers(config:config)
 		
 		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 		
@@ -343,7 +343,7 @@ bug;	let rv					= NSMenu(title:path)
 		assert(i == 1, "mult Views/window not yet supported")
 		var doc					= FooDocTry3Document(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
-		doc.pushToCtlrs(config:doc.config + rootPart.ansConfig)
+		doc.setControllers(config:doc.config + rootPart.ansConfig)
 
 		rootPart.fwGuts			= fwGuts
 		fwGuts.document 		= doc

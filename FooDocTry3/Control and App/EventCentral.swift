@@ -1,5 +1,5 @@
 //
-//  FwEvent.swift
+//  EventCentral.swift
 //  FooDocTry3
 //
 //  Created by Allen King on 9/19/22.
@@ -14,7 +14,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	override init() {
 		super.init()
 	}
-	func pushToCtlrs(config:FwConfig) {	/* nada */ }
+	func setControllers(config:FwConfig) {	/* nada */ }
 
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////

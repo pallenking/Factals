@@ -48,7 +48,7 @@ class Simulator : NSObject, Codable {
 	weak var rootPart	: RootPart? = nil
 
 	 /// Controls the Simulator's operation
-	func pushToCtlrs(config:FwConfig) {
+	func setControllers(config:FwConfig) {
 		if let se				= config["simEnabled"] {
 			if let simEn		= se as? Bool {
 				simEnabled 		= simEn
