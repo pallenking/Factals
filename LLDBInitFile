@@ -9,8 +9,8 @@
 #	command source ~/Documents/SwiftFactals/.lldbinit
 #	lldb reads ~/.lldbinit on startup. ln -s ~/Documents/SwiftFactals/.lldbinit ~/.
 command alias idFoo e print("345678")
-command alias ieFoo print '$(SRCROOT)
-# random comment with $(SRCROOT)
+command alias ieFoo print '$(SRCROOT) '$(PROJECT_DIR)
+# random comment with $(SRCROOT) $(PROJECT_DIR)
 command alias QM    e Controller.current!.printDebuggerHints()
 
 #### PrettyPrint target <t> in following ways:
@@ -232,7 +232,7 @@ command  alias pFwcState			expression printFwcState()
 ##############################
 # FILE A BUG REPORT: Would like, but Broken:
 # BROKEN, but wanted badly:
-command alias lldbinitX				  command source $(SRCROOT)/LLDBInitFile
+command alias lldbinitX				  command source $(PROJECT_DIR)/LLDBInitFile
 
 ### allenM1:
 command alias lldbinitFooDocTry3	  command source ~/DocLocal/HaveNWant/FooDocTry3/LLDBInitFile
