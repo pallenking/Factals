@@ -1,13 +1,15 @@
 # .lldbinit -- lldb initialization file for SwiftFactals C180306PAK
-# FlockOfSwift: command regex json 's/(.+)/expr let input = %1; print(String(data: try! JSONSerialization.data(withJSONObject: (input is String ? try! JSONSerialization.jsonObject(with: (input as! String).data(using: .utf8)!, options: []) : (input is Data ? (try! JSONSerialization.jsonObject(with: input as! Data, options: [])) : input as! Any)), options: [.prettyPrinted]), encoding: .utf8)!)/'
-# https://soffes.blog/debugging-json-data-in-lldb
 #
-# 20210912 LLDBInitFile in $(SRCROOT)
+# https://soffes.blog/debugging-json-data-in-lldb
+# FlockOfSwift: command regex json 's/(.+)/expr let input = %1; print(String(data: try! JSONSerialization.data(withJSONObject: (input is String ? try! JSONSerialization.jsonObject(with: (input as! String).data(using: .utf8)!, options: []) : (input is Data ? (try! JSONSerialization.jsonObject(with: input as! Data, options: [])) : input as! Any)), options: [.prettyPrinted]), encoding: .utf8)!)/'
+#
+# 20210912 LLDBInitFile in SRCROOT
 #	Edit Schemata: LLDBInitFile empty!
 # 20201226 Installation on allenM1:
 #	command source ~/Documents/SwiftFactals/.lldbinit
 #	lldb reads ~/.lldbinit on startup. ln -s ~/Documents/SwiftFactals/.lldbinit ~/.
-command alias idFoo e print("304958")
+command alias idFoo e print("345678")
+command alias ieFoo print '$(SRCROOT)
 command alias QM    e Controller.current!.printDebuggerHints()
 
 #### PrettyPrint target <t> in following ways:
@@ -37,7 +39,7 @@ settings set target.inline-breakpoint-strategy always
 ######## ---- First  Character: -------- [Pp] -------------- {p: print without property hash; P is with)
 ######## ---- Middle Character(s): ----- [pc,pn,pnu,pf,pi,piUc,piCu,piU,piFuc,pp,ps,pl,pt] -- Tree with Ports and Links
 #command regex pc     's/^(.+)$/e lldbPrint(ob:%1, mode:.fwClassName)/'
-command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, Logger.params4aux + ["ppDagOrder":true]))/'
+command regex pc     's/^(.+)$/e Swift.print(%1.pp(.fwClassName, DOClog.params4aux + ["ppDagOrder":true]))/'
 
 command regex pn     's/^(.+)$/e lldbPrint(ob:%1, mode:.name			)/'
 command regex pnu    's/^(.+)$/e lldbPrint(ob:%1, mode:.nameUidClass	)/'
@@ -218,27 +220,25 @@ type summary add --summary-string  "Part.name=${var.name}"  Part
 type summary add --summary-string  "Vew.name=${var.name} part:${var.part.name}"  Vew
 ########## ########## ########## ########## ########## ########## ########## 
 #
-command  alias fwHelp 				expression fwHelp("?")
-command  alias pFwcConfig			expression printFwcConfig()
+command     alias fwHelp 		expression fwHelp("?")
+command     alias pFwcConfig	expression printFwcConfig()
 ### command alias pFwcConfig	### expression fwHelp("C")
 command  alias pFwcState			expression printFwcState()
 ### command alias pFwcState		### expression fwHelp("c")
 ###command regex pFwState2			's/^(.+)$/e Swift.print(%1.ppFwState())/'
 ###command alias ppControllerState expression -- Swift.print(sendApp(key:"C"))
 
-### allenM1:
-command alias lldbinitFooDocTry3	command source ~/Documents/Documents-allenM1/FooDocTry3/LLDBInitFile
-command alias lldbinitSwiftFactals	command source ~/Documents/Documents-allenM1/SwiftFactals/LLDBInitFile
-command alias lldbinitFactalWorkbench command source ~/Documents/Documents-allenM1/FactalWorkbenchb/.lldbinit
-command alias lldbinit				lldbinitFooDocTry3
-### macLap:
-#command alias lldbinit				command source ~/src/factal/SwiftFactals/LLDBInitFile
-#command alias lldbinitFactalWorkbench command source ~/src/factal/FactalWorkbenchb/.lldbinit
-
+##############################
 # FILE A BUG REPORT: Would like, but Broken:
-# BROKEN:							command source $(SRCROOT)/LLDBInitFile	# WANTED BADLY
-# BROKEN:							command source "~/Documents/Documents - allenM1/SwiftFactals/LLDBInitFile"
-# BROKEN:							command source ~/Documents/Documents\ -\ allenM1/SwiftFactals/LLDBInitFile
+# BROKEN, but wanted badly:
+command alias lldbinitX				  command source $(SRCROOT)/LLDBInitFile
+
+### allenM1:
+command alias lldbinitFooDocTry3	  command source ~/DocLocal/HaveNWant/FooDocTry3/LLDBInitFile
+command alias lldbinitSwiftFactals	  command source ~/DocLocal/HaveNWant/SwiftFactals/LLDBInitFile
+command alias lldbinitFactalWorkbench command source ~/DocLocal/HaveNWant/FactalWorkbench/LLDBInitFile
+command alias lldbinit				  lldbinitFooDocTry3
+##############################
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # LOADING .lldbinit for SwiftFactals COMPLETE # # # # #
