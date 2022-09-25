@@ -14,24 +14,24 @@ func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true
 	print(ob.pp(.tree, DOClog.params4aux + aux), terminator:"")
 }
 
- /// Access to current ////// Part Tree //////
-//var rootPartL  : RootPart		{	return DOCfwGuts.rootPart			}
-//func rootpartL(_ name:String?=nil) -> Part  {
-//	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
-//		if name != nil {			// Search for sought Part	//maxLevel:1,
-//			rv					= rv.find(name:name!, inMe2:true) ?? rv
-//		}
-//		return rv
-//	}
-//	return .null				// Strange hack
-//}
+ // Access to current ////// Part Tree //////
+var rootPartL  : RootPart		{	return DOCfwGuts.rootPart			}
+func rootpartL(_ name:String?=nil) -> Part  {
+	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
+		if name != nil {			// Search for sought Part	//maxLevel:1,
+			rv					= rv.find(name:name!, inMe2:true) ?? rv
+		}
+		return rv
+	}
+	return .null				// Strange hack
+}
 
  /// Access to current ////// Vew Tree //////
 var  rootVewL  : RootVew {
 	get 		{	return DOCfwGuts.rootVews[0]								}
 	set (v)		{	DOCfwGuts.rootVews[0] = v									}
 }
-func rootvew(_ name:String?=nil) -> Vew  {
+func rootvewL(_ name:String?=nil) -> Vew  {
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
@@ -44,8 +44,8 @@ func rootvew(_ name:String?=nil) -> Vew  {
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-//var  rootScn  : SCNNode  		{  DOCfwGutsQ?.fwScn.rootScn ?? .null				}
-func rootscn(_ name:String?=nil) -> SCNNode	{
+var  rootScnL : SCNNode  		{  DOCfwGutsQ?.fwScns[zeroIndex].rootScn ?? .null				}
+func rootscnL(_ name:String?=nil) -> SCNNode	{
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
 		return .null

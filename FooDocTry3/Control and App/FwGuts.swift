@@ -73,6 +73,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		let rv					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
 		 rv.fwGuts				= self
 		 rootVews.append(rv)
+
 		return i
 	}
 

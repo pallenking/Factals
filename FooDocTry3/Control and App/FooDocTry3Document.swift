@@ -339,7 +339,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			panic("keyboard break to debugger")
 		case "d":
 			Swift.print("\n******************** 'd': ======== ('?' for debugger hints)")
-			let l1v 			= rootvew("_l1")
+			let l1v 			= rootvewL("_l1")
 			Swift.print(l1v.scn.transform.pp(.tree))
 //			l1v.part.rotateLinkSkins(vew:l1v)
 		// //////////////////////////// //
@@ -352,24 +352,24 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		 //
 		case "m":
 			aux["ppDagOrder"]	= true
-			Swift.print("\n******************** 'm': === Parts:")
-			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
+			print("\n******************** 'm': === Parts:")
+			print(rootPart2?.pp(.tree, aux), terminator:"")
 		case "M":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
-			Swift.print("\n******************** 'M': === Parts and Ports:")
-			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
+			print("\n******************** 'M': === Parts and Ports:")
+			print(rootPart2?.pp(.tree, aux), terminator:"")
 		case "l":
 			aux["ppLinks"]		= true
 			aux["ppDagOrder"]	= true
-			Swift.print("\n******************** 'l': === Parts, Links:")
-			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
+			print("\n******************** 'l': === Parts, Links:")
+			print(rootPart2?.pp(.tree, aux), terminator:"")
 		case "L":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			aux["ppLinks"]		= true
-			Swift.print("\n******************** 'L': === Parts, Ports, Links:")
-			Swift.print(rootPart2?.pp(.tree, aux), terminator:"")
+			print("\n******************** 'L': === Parts, Ports, Links:")
+			print(rootPart2?.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "C":
