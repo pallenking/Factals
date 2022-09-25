@@ -44,12 +44,12 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		rootPart	.fwGuts		= self 		 // Back Link
 		eventCentral.fwGuts		= self
 	}
-
-	func newViewIndex(scnScene:SCNScene=SCNScene()) -> Int {
+	 /// generate a new View, returning its index
+	func newViewIndex(scnScene s:SCNScene?=nil) -> Int {
 
 		 // Make BASIC Component Parts (owned and used by FwGuts)
 		// --------------- A: SCNScene
-//		let scnScene			= SCNScene() 			// ?? SCNScene(named:"art.scnassets/ship.scn")
+		let scnScene			= s ?? SCNScene() 	// ?? SCNScene(named:"art.scnassets/ship.scn")
 		scnScene.isPaused		= false					// OFF while bulding
 											//print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
 											//		  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")
@@ -77,7 +77,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		 rootVews.append(rv)
 
 		assert(rootVews.count == fwScns.count, "paranoid: rootVews and fwScns size mismatch")
-		return rootVews.count
+		return rootVews.count - 1
 	}
 
 

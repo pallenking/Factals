@@ -32,7 +32,7 @@ struct ContentView: View {
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
-							pointOfView	: fwGuts.fwScns[zeroIndex].scnScene.cameraScn,
+							pointOfView	: fwGuts.fwScns.count == 0 ? nil : fwGuts.fwScns[zeroIndex].scnScene.cameraScn,
 							options		: [//	.autoenablesDefaultLighting,
 										  //.allowsCameraControl,	// so we can control it
 			//								.jitteringEnabled,
