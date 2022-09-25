@@ -10,6 +10,7 @@
 #	lldb reads ~/.lldbinit on startup. ln -s ~/Documents/SwiftFactals/.lldbinit ~/.
 command alias idFoo e print("345678")
 command alias ieFoo print '$(SRCROOT)
+# random comment with $(SRCROOT)
 command alias QM    e Controller.current!.printDebuggerHints()
 
 #### PrettyPrint target <t> in following ways:
@@ -241,7 +242,7 @@ command alias lldbinit				  lldbinitFooDocTry3
 ##############################
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # LOADING .lldbinit for SwiftFactals COMPLETE # # # # #
+# # # # # LOADING .lldbinit for FooDocTry3 COMPLETE # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # reload with  lldbinit  = '  command source ~/Documents/SwiftFactals/.lldbinit  '
 #    N.B: must have symbolic link ~/.lldbinit ->  ~/Documents/SwiftFactals/.lldbinit
