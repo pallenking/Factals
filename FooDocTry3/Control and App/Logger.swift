@@ -355,7 +355,7 @@ bug;			msg					+= config.string_("cause")
 		"toggelOpen5"					: "op5",
 		"toggelOpen6"					: "op6",
 	]
-	var params4aux : FwConfig	{	DOC.config			} // MOVE ME
+	var params4aux : FwConfig	{	DOC?.config ?? [:]		} // MOVE ME
 	static let null : Logger	= {
 		let rv					= Logger(title:".null = Logger(params4app)")
 //		rv.config4log			= params4appLog

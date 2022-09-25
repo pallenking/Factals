@@ -23,6 +23,7 @@ class RootVew : Vew {
 
 	init(forPart part:Part, scn:SCNNode) {		//?=nil
 		super.init(forPart:part, scn:scn)
+	//	self.name				= "_" + 
 
 		lastSelfiePole			= SelfiePole(rootVew:self)
 	}

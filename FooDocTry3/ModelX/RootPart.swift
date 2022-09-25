@@ -31,10 +31,7 @@ class RootPart : Part {
 	// MARK: - 3. Part Factory
 	init() {
 		simulator				= Simulator()
-//		simulator.config4sim	= params4sim
-//		log.config4log			= params4docLog
-
-		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.rootPart		= self
 	}
 	func setControllers(config:FwConfig) {
