@@ -54,6 +54,7 @@ class FwScn : Uid {
 	var scnView	 : SCNView!		= nil
 	var scnScene : SCNScene!
 
+	var scn		 : SCNNode		{	scnScene.rootNode							}
 	var rootScn  : SCNNode		{	scnScene.rootNode							}	//scnRoot
 	var trunkScn : SCNNode? 	{
 		if let tv				= rootScn.child0  {
@@ -63,6 +64,7 @@ class FwScn : Uid {
 		fatalError("trunkVew is nil")
 	}
 
+	
 
 	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
 	var animatePhysics : Bool {

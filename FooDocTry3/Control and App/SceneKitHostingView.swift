@@ -56,42 +56,11 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 			let environment		= context.environment
 			//let preferenceBridge = context.preferenceBridge
 		}
-		let fwGuts				= args.fwGuts
-		let i					= fwGuts?.newViewIndex()
-
-/**/	 // Make new scnScene and scnView:
-/**/	let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
-/**/	scnScene.isPaused		= false					// perhaps enabled later
-/**/	let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
-/**/	scnView.scene			= scnScene
-/**/	//scnView.pointOfView 	= args.pointOfView
-/**/	scnView.backgroundColor	= NSColor("veryLightGray")!
-/**/	//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
-/**/	//scnView.antialiasingMode = args.antialiasingMode
-/**/	//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
-
-		 // Configure SCNScene
-		let rootScn				= scnScene.rootNode
-		rootScn.name			= "*-ROOT"
-//.		if let fwGuts			= args.fwGuts {
-//.		let i					= fwGuts.fwScns.count - 1
-//.		let fwScn				= fwGuts.fwScns
-		fwGuts!.fwScns[i!].scnScene = scnScene
-		fwGuts!.fwScns[i!].scnView = scnView			// Link things SceneKitHostingView generated
-		fwGuts!.rootVews[i!].scn = rootScn 		// set Vew with new scn root
-
-		//let pw				= scnScene.physicsWorld
-		//if pw.contactDelegate != nil {
-		//	assert(pw.contactDelegate !== fwGuts.eventCentral, "")
-		//}
-		//print(" ........... FwGuts:\(fmt("%04x", fwGuts.uid)) Vew:\(i)........." +
-		//	  "\(String(describing: pw.contactDelegate)) <-2 \(fwGuts.eventCentral)")
-		//	pw.contactDelegate	= fwGuts.eventCentral
-//.		} else {
-//.			warning("makeNSView: args.fwGuts is nil")
-//.		}
+		guard let fwGuts		= args.fwGuts else {	fatalError("args.fwGuts is nil") }
+		let i					= fwGuts.newViewIndex()
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
+		let scnView				= fwGuts.fwScns[i].scnView!
 		if args.options.contains(.allowsCameraControl) {
 			scnView.allowsCameraControl = true
 		}
@@ -111,6 +80,37 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		}
 		return scnView
 	}
+									//		 // Make new scnScene and scnView:
+									//		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
+									//		scnScene.isPaused		= false					// perhaps enabled later
+									//		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
+									//		scnView.scene			= scnScene
+									//		//scnView.pointOfView 	= args.pointOfView
+									//		scnView.backgroundColor	= NSColor("veryLightGray")!
+									//		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+									//		//scnView.antialiasingMode = args.antialiasingMode
+									/**/	//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+
+											 // Configure SCNScene
+									//		let rootScn				= scnScene.rootNode
+										//.	rootScn.name			= "*-ROOT"
+									//.		if let fwGuts			= args.fwGuts {
+									//.		let i					= fwGuts.fwScns.count - 1
+									//.		let fwScn				= fwGuts.fwScns
+									//.		fwGuts!.fwScns[i!].scnScene = scnScene
+									//.		fwGuts!.fwScns[i!].scnView = scnView			// Link things SceneKitHostingView generated
+									//.		fwGuts!.rootVews[i!].scn = rootScn 		// set Vew with new scn root
+
+											//let pw				= scnScene.physicsWorld
+											//if pw.contactDelegate != nil {
+											//	assert(pw.contactDelegate !== fwGuts.eventCentral, "")
+											//}
+											//print(" ........... FwGuts:\(fmt("%04x", fwGuts.uid)) Vew:\(i)........." +
+											//	  "\(String(describing: pw.contactDelegate)) <-2 \(fwGuts.eventCentral)")
+											//	pw.contactDelegate	= fwGuts.eventCentral
+									//.		} else {
+									//.			warning("makeNSView: args.fwGuts is nil")
+									//.		}
 	func updateNSView(_ nsView: SCNView, context: Context) {
 		atRnd(4, print("----------- SceneKitHostingView.updateNSView called"))
 	}

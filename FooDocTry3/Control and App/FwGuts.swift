@@ -45,37 +45,39 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		eventCentral.fwGuts		= self
 	}
 
-	func newViewIndex() -> Int {
-		let i					= rootVews.count
-		assert(i == fwScns.count, "paranoid mismatch")
+	func newViewIndex(scnScene:SCNScene=SCNScene()) -> Int {
 
 		 // Make BASIC Component Parts (owned and used by FwGuts)
-		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
+		// --------------- A: SCNScene
+//		let scnScene			= SCNScene() 			// ?? SCNScene(named:"art.scnassets/ship.scn")
+		scnScene.isPaused		= false					// OFF while bulding
+											//print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
+											//		  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")
+		scnScene.physicsWorld.contactDelegate = eventCentral
 
-		let scnScene			= SCNScene() 			// ?? SCNScene(named:"art.scnassets/ship.scn")
-		scnScene.isPaused		= false					// perhaps enabled later
-		scnView.scene			= scnScene
+		// --------------- B: SCNView ((A))
+		let scnView	: SCNView	= SCNView()					//frame:CGRect(x:0, y:0, width:0, height:0))//400 400
+		scnView.scene			= scnScene				// register 3D-scene with 2D-View
 		//scnView.pointOfView 	= args.pointOfView
 		scnView.backgroundColor	= NSColor("veryLightGray")!
 		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
 		//scnView.antialiasingMode = args.antialiasingMode
-		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+//?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
-//		print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
-//				  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")
-		scnScene.physicsWorld.contactDelegate = eventCentral
-
-		 // Make RootVew and FwScn
+		// --------------- C: FwScn ((A, B))
 		let fs					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
 		 fs.fwGuts				= self
-		 fs.scnScene.physicsWorld.contactDelegate = eventCentral
-		 assert(fs.scnScene.physicsWorld.contactDelegate === eventCentral, "Paranoia: set in SceneKitHostingView")
+		 fs.scn.name			= "*-ROOT"
 		 fwScns.append(fs)
+
+		// --------------- D: RootVew ((rootPart, A))
 		let rv					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
 		 rv.fwGuts				= self
+	//	 rv.scn 				= fs.scn 			// set Vew with new scn root
 		 rootVews.append(rv)
 
-		return i
+		assert(rootVews.count == fwScns.count, "paranoid: rootVews and fwScns size mismatch")
+		return rootVews.count
 	}
 
 
