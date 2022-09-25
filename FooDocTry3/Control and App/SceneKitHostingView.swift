@@ -81,14 +81,9 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 			if pw.contactDelegate != nil {
 				assert(pw.contactDelegate !== fwGuts.eventCentral, "")
 			}
-			pw.contactDelegate = fwGuts.eventCentral
-			print(" ........... FwGuts:\(fmt("%04x", fwGuts.uid)) Vew:\(i)........." +
-				  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-2 \(fwGuts.eventCentral)")
-	//		assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
-	//		scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
-//	//		assert(fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "")
-//	//		fwGuts.fwScn[i]!.scnScene.physicsWorld.contactDelegate = fwGuts.eventCentral
-
+//			print(" ........... FwGuts:\(fmt("%04x", fwGuts.uid)) Vew:\(i)........." +
+//				  "\(String(describing: pw.contactDelegate)) <-2 \(fwGuts.eventCentral)")
+			pw.contactDelegate	= fwGuts.eventCentral
 		} else {
 			warning("makeNSView: args.fwGuts is nil")
 		}

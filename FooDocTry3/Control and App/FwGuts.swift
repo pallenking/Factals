@@ -60,8 +60,9 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	  //scnView.antialiasingMode = args.antialiasingMode
 	  //scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
-		print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
-				  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")
+//		print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
+//				  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")
+		scnScene.physicsWorld.contactDelegate = eventCentral
 
 		 // Make RootVew and FwScn
 		let fs					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
@@ -72,7 +73,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		let rv					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
 		 rv.fwGuts				= self
 		 rootVews.append(rv)
-		 return i
+		return i
 	}
 
 

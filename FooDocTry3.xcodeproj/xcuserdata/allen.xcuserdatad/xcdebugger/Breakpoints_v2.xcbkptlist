@@ -484,14 +484,14 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "03FAF28E-CDEE-4830-8B0F-957DC17C73E3 - 690a8ed70b48e7dc"
+                  uuid = "03FAF28E-CDEE-4830-8B0F-957DC17C73E3 - f60bc04da9667c05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "FooDocTry3.sendApp(key: Swift.String) -&gt; ()"
                   moduleName = "FooDocTry3"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/Documents/Swift-HaveNWant/FooDocTry3/FooDocTry3/Extensions++/LldbInit.swift"
+                  urlString = "file:///Users/allen/DocLocal/FooDocTry3/FooDocTry3/Extensions++/LldbInit.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
@@ -499,14 +499,14 @@
                   offsetFromSymbolStart = "104">
                </Location>
                <Location
-                  uuid = "03FAF28E-CDEE-4830-8B0F-957DC17C73E3 - 690a8ed70b48e7dc"
+                  uuid = "03FAF28E-CDEE-4830-8B0F-957DC17C73E3 - f60bc04da9667c05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "FooDocTry3.sendApp(key: Swift.String) -&gt; ()"
                   moduleName = "FooDocTry3"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/Documents/Swift-HaveNWant/FooDocTry3/FooDocTry3/Extensions++/LldbInit.swift"
+                  urlString = "file:///Users/allen/DocLocal/FooDocTry3/FooDocTry3/Extensions++/LldbInit.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
@@ -948,14 +948,14 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "ED4D2F80-02A6-4A9D-8975-5CF5A67F85AC - f7ad1678e7766e89"
+                  uuid = "ED4D2F80-02A6-4A9D-8975-5CF5A67F85AC - 2caf098cde319b89"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "FooDocTry3.FooDocTry3Document.init(configuration: SwiftUI.FileDocumentReadConfiguration) throws -&gt; FooDocTry3.FooDocTry3Document"
                   moduleName = "FooDocTry3"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/Documents/Swift-HaveNWant/FooDocTry3/FooDocTry3/Control%20and%20App/FooDocTry3Document.swift"
+                  urlString = "file:///Users/allen/DocLocal/FooDocTry3/FooDocTry3/Control%20and%20App/FooDocTry3Document.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "67"
@@ -963,14 +963,14 @@
                   offsetFromSymbolStart = "784">
                </Location>
                <Location
-                  uuid = "ED4D2F80-02A6-4A9D-8975-5CF5A67F85AC - f7ad1678e7766e89"
+                  uuid = "ED4D2F80-02A6-4A9D-8975-5CF5A67F85AC - 2caf098cde319b89"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "FooDocTry3.FooDocTry3Document.init(configuration: SwiftUI.FileDocumentReadConfiguration) throws -&gt; FooDocTry3.FooDocTry3Document"
                   moduleName = "FooDocTry3"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/Documents/Swift-HaveNWant/FooDocTry3/FooDocTry3/Control%20and%20App/FooDocTry3Document.swift"
+                  urlString = "file:///Users/allen/DocLocal/FooDocTry3/FooDocTry3/Control%20and%20App/FooDocTry3Document.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "67"
@@ -1080,7 +1080,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9B8D0EB3-BA32-4FF7-9B46-CD3398BFC117"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FooDocTry3/Vew/Vew.swift"
@@ -1089,6 +1089,22 @@
             startingLineNumber = "56"
             endingLineNumber = "56"
             landmarkName = "init(forPart:scn:expose:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "17FBFAE2-5055-48D4-9D68-35C2C5ED0BED"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FooDocTry3/Control and App/FwGuts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "newViewIndex()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
