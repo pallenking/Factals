@@ -31,7 +31,7 @@ private let params4appLog_		= params4logs_ + params4pp_
 	+ log(doc:docSerBldN, bld:docSerBldN, ser:docSerBldN)
 //	+ log(rve:9, rsi:9, rnd:9, ani:9)
 //	+ log(rsi:5)
-	+ log(prefix:"*", all:0)  		//! "*" is for XCTest variants
+	+ log(prefix:"*", all:8)  		//! "*" is for XCTest variants
 
  // MARK: - C: Pretty Print
 private let params4pp_ : FwConfig = [
@@ -77,8 +77,8 @@ private let params4pp_ : FwConfig = [
  // MARK: -
  // MARK: - D: Parameters Doc Logger
 private let params4docLog_		= params4logs_ + params4pp_
-	+ log(all:7)		//			//! (bld:1)/(bld:2)/(all:8)/(all:5)
-	+ log(prefix:"*", all:0)		//! 1	// key prefix "*" is for XCTest
+	+ log(all:8)		//			//! (bld:1)/(bld:2)/(all:8)/(all:5)
+	+ log(prefix:"*", all:8)		//! 1	// key prefix "*" is for XCTest
 
 	private let breakLogIdIndex		= 3//240/3/0:off
 								// + +  + +

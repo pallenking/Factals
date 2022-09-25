@@ -108,7 +108,7 @@ CGFloat.NativeType)
  /// This extension provides uniform default values.
 extension FwAny  {
 	 // Default implementation, with default values:
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog.params4aux) -> String {
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog2.params4aux) -> String {
 		return pp(mode, aux)
 	}
 	 // N.B: If this loops forever, check self's class .pp protocol
@@ -1180,7 +1180,7 @@ bug//	APPLOG.log(str, terminator:terminator)
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
 		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
-		DOClog.log(str, terminator:terminator)
+		DOClog2.log(str, terminator:terminator)
 	}
 }
 extension NSObject {

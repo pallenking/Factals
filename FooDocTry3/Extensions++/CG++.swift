@@ -46,13 +46,11 @@ extension CGFloat {		// convert to Float
 		var container 		= encoder.container(keyedBy:CGFloatKeys.self)
 		let aFloat			= Float(self)
 		try container.encode(aFloat, forKey:.float)
-		atSer(3, DOClog.log("Encoded  CGFloat as Float"))
 	}
 	 /// Deserialize
 	init(from decoder: Decoder) throws {
 		let container 		= try decoder.container(keyedBy:CGFloatKeys.self)
 		let aFloat			= try container.decode(Float.self, forKey:.float)
 		self				= CGFloat(aFloat)
-		atSer(3, DOClog.log("Decoded  as? CGFloat"))
 	}
 }

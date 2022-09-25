@@ -98,7 +98,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var mouseWasDragged			= false		// have dragging cancel pic
 
 	func receivedEvent(nsEvent:NSEvent) {
-		print("--- func received(nsEvent:\(nsEvent))")
+	//	print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
 		let fooDoc				= fwGuts.document

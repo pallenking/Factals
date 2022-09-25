@@ -11,13 +11,13 @@ import SceneKit
 
 // playground 20220925
 func ffffff() {
-	Swift.print(DOCfwGuts.pp(.fwClassName, DOClog.params4aux + ["ppDagOrder":true]))	//DOClog.params4aux Logger.params4aux
+	Swift.print(DOCfwGuts.pp(.fwClassName, params4aux + ["ppDagOrder":true]))	//DOClog.params4aux Logger.params4aux
 }
 //
 
 func breakToDebugger() {			panic("Break To Debugger")					}
 func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true]
-	print(ob.pp(.tree, DOClog.params4aux + aux), terminator:"")
+	print(ob.pp(.tree, params4aux + aux), terminator:"")
 }
 
  // Access to current ////// Part Tree //////

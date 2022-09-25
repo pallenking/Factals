@@ -13,15 +13,8 @@ func ppFwcConfig() -> String {
 		CONFIGURATIONS:
 		 APP.config:  \(w( APP.config.pp(.line)	))
 		 DOC.config:  \(w( DOC.config.pp(.line)	))
+		 params4pp:   \(w(  params4pp.pp(.line) ))
 		"""
-//	return """
-//		CONFIGURATIONS:
-//		 APP          .config4app:  \(w( APP	   .config4app		.pp(.line)	))
-//		 DOClog       .config4log:  \(w( DOClog	   .config4log		.pp(.line)	))
-//		 fwGuts       .config4fwGuts:\(w(DOCfwGuts .config4fwGuts	.pp(.line)	))
-//		 rootPart     .ansConfig:   \(w( DOCfwGuts.rootPart.ansConfig.pp(.line)	))
-//		 simulator    .config4sim:  \(w( DOCfwGuts.rootPart.simulator.config4sim.pp(.line) ))
-//		"""
 }
 private func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)}
 

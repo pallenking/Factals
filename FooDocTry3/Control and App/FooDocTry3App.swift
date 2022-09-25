@@ -19,6 +19,7 @@
  // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 var zeroIndex = 0
+let params4aux : FwConfig 	=	params4all_
 
 import Cocoa
 import SwiftUI
@@ -45,7 +46,7 @@ var DOCrootPart		: RootPart	{	DOC .fwGuts.rootPart						}
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts									}
 var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
  // Others:
-var DOClog  		: Logger 	{	DOCfwGutsQ?.logger ?? .null					}
+var DOClog2  		: Logger 	{	DOCfwGutsQ?.logger ?? .null					}
 //var DOClog  		: Logger 	{	DOCrootPartQ?.logger ?? Logger.null			}
 let DOCctlr						= NSDocumentController.shared
 

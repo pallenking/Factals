@@ -821,11 +821,11 @@ bug
 	 // Inject message
 	func sendMessage(fwType:FwType) {
 		atEve(4, logd("      all parts ||  sendMessage(\(fwType))."))
-		let fwEvent 			= FwEvent(fwType:fwType)
+		let fwEvent 			= HnwEvent(fwType:fwType)
 		return receiveMessage(fwEvent:fwEvent)
 	}
 	 /// Recieve message and broadcast to all children
-	func receiveMessage(fwEvent:FwEvent) {
+	func receiveMessage(fwEvent:HnwEvent) {
 	//	atEve(4, log("$$$$$$$$ all parts receiveMessage:\(fwTypeDefnNames[fwEvent->fwType])") )))
 		for elt in children {				// do for our parts too
 			elt.receiveMessage(fwEvent:fwEvent)
@@ -1460,7 +1460,7 @@ bug				 // Let fwPart handle it:
 	func printPorts(_ aux:FwConfig, early:Bool) -> String {
 		var rv 					= ""
 		root?.logger.nIndent			+= 1
-		if DOClog.ppPorts {		// early ports // !(port.flipped && ppDagOrder)
+		if root?.logger.ppPorts ?? false {		// early ports // !(port.flipped && ppDagOrder)
 			for part in children {
 				if let port 	= part as? Port,
 				  early == port.upInWorld {

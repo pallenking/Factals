@@ -16,7 +16,7 @@ extension NSEvent {
 	}
 }
 
-class FwEvent {							// NOT NSObject
+class HnwEvent {							// NOT NSObject
 	let fwType : FwType
 
 	let	nsType : Int 			= 999
@@ -174,7 +174,7 @@ enum FwwEvent : Codable, Equatable {	// Uid,
 					}
 				}
 			}
-			atEve(4, DOClog.log("- - - - - eventUnrand((events.pp()))"))
+			//atEve(4, D OClog.log("- - - - - eventUnrand((events.pp()))"))
 			 // paw through all elements of outter array
 			return "broken"
 		}
@@ -223,8 +223,8 @@ enum FwwEvent : Codable, Equatable {	// Uid,
 		}
 	}
 }
-func makeFwEvent(fwType:FwType) -> FwEvent {
-	let rv : FwEvent			= FwEvent(fwType:fwType)
+func makeFwEvent(fwType:FwType) -> HnwEvent {
+	let rv : HnwEvent			= HnwEvent(fwType:fwType)
 //	rv.fwType 					= fwType
 	return rv;
 }
