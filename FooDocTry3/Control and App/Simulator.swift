@@ -45,7 +45,7 @@ class Simulator : NSObject, Codable {
 	var timeNow			: Float	= 0.0
 	var simTimeStep		: Float = 0.01
 	var globalDagDirUp	: Bool	= true
-	weak var rootPart	: RootPart? = nil
+	weak var rootPart	: RootPart! = nil
 
 	 /// Controls the Simulator's operation
 	func setControllers(config:FwConfig) {
@@ -243,7 +243,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 	}
 
 	// MARK: - 14. Building
-	var logger : Logger { rootPart?.fwGuts.logger ?? .null						}
+	var logger : Logger { rootPart.fwGuts.logger ?? .null						}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}//Cannot convert return expression of type 'Optional<_>' to return type 'Logger'

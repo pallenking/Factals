@@ -91,6 +91,8 @@ class Part : NSResponder, Codable, NSCopying, ObservableObject, PolyWrappable {	
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
+	var logger : Logger			{ 	root?.logger ?? .null						}
+
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew
 

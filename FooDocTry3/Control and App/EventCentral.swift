@@ -232,12 +232,12 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		let rootVew						= fwGuts.rootVews[zeroIndex]
+		let rootVew				= fwGuts.rootVews[zeroIndex]
 		rootVew.lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 		rootVew.lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 	// MARK: - 14. Building
-	var logger : Logger { DOC.logger											}
+	var logger : Logger 		{	fwGuts.logger								}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}

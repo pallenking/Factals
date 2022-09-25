@@ -94,7 +94,6 @@ class RootVew : Vew {
 	}
 
 	// MARK: - 14. Building
-	var logger : Logger { fwGuts.logger											}
 //	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 //		logger.log(banner:banner, format_, args, terminator:terminator)
 //	}

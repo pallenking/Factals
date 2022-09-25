@@ -45,7 +45,8 @@ var DOCrootPart		: RootPart	{	DOC .fwGuts.rootPart						}
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts									}
 var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
  // Others:
-var DOClog  		: Logger 		{	DOCrootPartQ?.logger ?? Logger.null				}
+var DOClog  		: Logger 	{	DOCfwGutsQ?.logger ?? .null					}
+//var DOClog  		: Logger 	{	DOCrootPartQ?.logger ?? Logger.null			}
 let DOCctlr						= NSDocumentController.shared
 
 @main										// callse AppDelegateFoo.swift

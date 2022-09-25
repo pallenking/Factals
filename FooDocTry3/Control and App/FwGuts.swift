@@ -51,14 +51,15 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 		 // Make BASIC Component Parts (owned and used by FwGuts)
 		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
+
 		let scnScene			= SCNScene() 			// ?? SCNScene(named:"art.scnassets/ship.scn")
 		scnScene.isPaused		= false					// perhaps enabled later
 		scnView.scene			= scnScene
-	  //scnView.pointOfView 	= args.pointOfView
+		//scnView.pointOfView 	= args.pointOfView
 		scnView.backgroundColor	= NSColor("veryLightGray")!
-	  //scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
-	  //scnView.antialiasingMode = args.antialiasingMode
-	  //scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+		//scnView.antialiasingMode = args.antialiasingMode
+		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
 //		print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
 //				  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")

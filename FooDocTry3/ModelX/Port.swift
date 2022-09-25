@@ -407,7 +407,8 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 			return rv
 		}
 		 // Now rv contain's self's portConSpot, in aVewq
-		let enaPpWp				= root?.fwGuts.logger.params4aux.string("ppViewOptions")?.contains("W") ?? false
+		let enaPpWp				= logger.params4aux.string("ppViewOptions")?.contains("W") ?? false
+//		let enaPpWp				= root?.fwGuts.logger.params4aux.string("ppViewOptions")?.contains("W") ?? false
 		let rootScn				= root!.fwGuts.rootVews[zeroIndex].scn
 		let worldPosition 		= !enaPpWp ? "" :
 								"w" + aVew.scn.convertPosition(rv.center, to:rootScn).pp(.short) + " "		// wp wrong

@@ -48,45 +48,48 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 //	}
 	 // Later, use args to make SCNView
 	func makeNSView(context: Context) -> SCNView {		// typedef Context = NSViewRepresentableContext<Self>
+		if trueF {
+//			makeCoordinator()
+			let coordinator		= context.coordinator	// View.Coordinator
+			let transaction		= context.transaction
+			//let transPlist	= transaction.plist
+			let environment		= context.environment
+			//let preferenceBridge = context.preferenceBridge
+		}
+		let fwGuts				= args.fwGuts
+		let i					= fwGuts?.newViewIndex()
 
-//		makeCoordinator()
-		let coordinator			= context.coordinator	// View.Coordinator
-		let transaction			= context.transaction
-		//let transPlist		= transaction.plist
-		let environment			= context.environment
-		//let preferenceBridge	= context.preferenceBridge
-
-		 // Make new scnScene and scnView:
-		let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
-		scnScene.isPaused		= false					// perhaps enabled later
-		let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
-		scnView.scene			= scnScene
-		scnView.pointOfView 	= args.pointOfView
-		scnView.backgroundColor	= NSColor("veryLightGray")!
-		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
-		scnView.antialiasingMode = args.antialiasingMode
-		scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+/**/	 // Make new scnScene and scnView:
+/**/	let scnScene			= args.scnScene ?? SCNScene() 					// ?? SCNScene(named:"art.scnassets/ship.scn")
+/**/	scnScene.isPaused		= false					// perhaps enabled later
+/**/	let scnView	: SCNView	= SCNView(frame:CGRect(x:0, y:0, width:400, height:400))//, options:[:])
+/**/	scnView.scene			= scnScene
+/**/	//scnView.pointOfView 	= args.pointOfView
+/**/	scnView.backgroundColor	= NSColor("veryLightGray")!
+/**/	//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+/**/	//scnView.antialiasingMode = args.antialiasingMode
+/**/	//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
 		 // Configure SCNScene
 		let rootScn				= scnScene.rootNode
 		rootScn.name			= "*-ROOT"
-		if let fwGuts			= args.fwGuts {
-			let i				= fwGuts.fwScns.count - 1
-			let fwScn			= fwGuts.fwScns
-			fwScn[i].scnScene	= scnScene
-			fwScn[i].scnView	= scnView			// Link things SceneKitHostingView generated
-			fwGuts.rootVews[i].scn = rootScn 		// set Vew with new scn root
+//.		if let fwGuts			= args.fwGuts {
+//.		let i					= fwGuts.fwScns.count - 1
+//.		let fwScn				= fwGuts.fwScns
+		fwGuts!.fwScns[i!].scnScene = scnScene
+		fwGuts!.fwScns[i!].scnView = scnView			// Link things SceneKitHostingView generated
+		fwGuts!.rootVews[i!].scn = rootScn 		// set Vew with new scn root
 
-			let pw				= scnScene.physicsWorld
-			if pw.contactDelegate != nil {
-				assert(pw.contactDelegate !== fwGuts.eventCentral, "")
-			}
-//			print(" ........... FwGuts:\(fmt("%04x", fwGuts.uid)) Vew:\(i)........." +
-//				  "\(String(describing: pw.contactDelegate)) <-2 \(fwGuts.eventCentral)")
-			pw.contactDelegate	= fwGuts.eventCentral
-		} else {
-			warning("makeNSView: args.fwGuts is nil")
-		}
+		//let pw				= scnScene.physicsWorld
+		//if pw.contactDelegate != nil {
+		//	assert(pw.contactDelegate !== fwGuts.eventCentral, "")
+		//}
+		//print(" ........... FwGuts:\(fmt("%04x", fwGuts.uid)) Vew:\(i)........." +
+		//	  "\(String(describing: pw.contactDelegate)) <-2 \(fwGuts.eventCentral)")
+		//	pw.contactDelegate	= fwGuts.eventCentral
+//.		} else {
+//.			warning("makeNSView: args.fwGuts is nil")
+//.		}
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
 		if args.options.contains(.allowsCameraControl) {

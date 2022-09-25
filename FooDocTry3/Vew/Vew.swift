@@ -49,6 +49,10 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	// 2. IY ++, Some skins show as black, because inside out: 		scale = SCNVector3(1, -1, 1)
 	// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
 
+
+	var logger : Logger			{ 	part.root?.logger ?? .null					}
+
+
 	 // MARK: - 3. Factory
 	init(forPart part_:Part?=nil, scn scn_:SCNNode?=nil, expose expose_:Expose? = nil) {
 
@@ -698,7 +702,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
-		let logger				= part.root?.logger
+//		let logger				= part.root?.logger
 		switch mode! {
 			case .name:
 				return self.name
@@ -729,7 +733,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 					rv			+= part.flipped   ? "f" : " "			  // (B)
 				}
 															// Indent
-				rv 				+= logger?.indentString() ?? "Ccc.."		  // (C)
+				rv 				+= logger.indentString() ?? "Ccc.."		  // (C)
 				if ppViewOptions.contains("V") {					// Vew (self):
 					rv			+= name.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
 					rv			+= fwClassName.field(-tight(5,7),dots:false)// (E)
@@ -748,7 +752,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				}
 															// /// SKINS:
 																	// UNIndent
-				rv 				=  logger?.unIndent(rv) ?? "Ccc.."  // (L)
+				rv 				=  logger.unIndent(rv) ?? "Ccc.."  // (L)
 
 				if ppViewOptions.contains("L") {					 // Leaf:
 					let s		= self as? NetVew
@@ -800,9 +804,9 @@ class Vew : NSObject, ObservableObject, Codable {	//
 					if child.parent != self {
 						rv 		+= "!!! parent bad !!!"
 					}
-					logger?.nIndent += 1					// at increased indent
+					logger.nIndent += 1					// at increased indent
 					rv 			+= child.pp(.tree, aux)	// ### RECURSIVE
-					logger?.nIndent -= 1
+					logger.nIndent -= 1
 				}
 				return rv
 			default:
@@ -810,7 +814,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		}
 	}
 	func panic(_ message: @autoclosure () -> String=("")) { //ppUid(self)
-		let logger				= part.root?.logger
+//		let logger				= part.root?.logger
 		print("\n\n\(fullName) \(part.root?.logger.ppCurThread ?? "?") \(pp(.fullNameUidClass))" +
 			": --------------\n\(message())\n" + "----------------------------\n")
 		machineTrap()				// transfer control to debugger
