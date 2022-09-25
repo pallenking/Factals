@@ -71,11 +71,11 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		let rootScn				= scnScene.rootNode
 		rootScn.name			= "*-ROOT"
 		if let fwGuts			= args.fwGuts {
-			let i				= fwGuts.fwScn.count - 1
-			let fwScn			= fwGuts.fwScn
-			fwScn[i]!.scnScene	= scnScene
-			fwScn[i]!.scnView	= scnView			// Link things SceneKitHostingView generated
-			fwGuts.rootVew[i]!.scn = rootScn 		// set Vew with new scn root
+			let i				= fwGuts.fwScns.count - 1
+			let fwScn			= fwGuts.fwScns
+			fwScn[i].scnScene	= scnScene
+			fwScn[i].scnView	= scnView			// Link things SceneKitHostingView generated
+			fwGuts.rootVews[i].scn = rootScn 		// set Vew with new scn root
 
 			let pw				= scnScene.physicsWorld
 			if pw.contactDelegate != nil {

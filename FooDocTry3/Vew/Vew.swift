@@ -524,8 +524,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		guard let fwGuts		= part.root?.fwGuts else {	return 				}
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
-		for i in 0..<fwGuts.rootVew.count {
-			assert(fwGuts.rootVew[i]! === vRoot, "rootVew === vRoot")
+		for i in 0..<fwGuts.rootVews.count {
+			assert(fwGuts.rootVews[i] === vRoot, "rootVew === vRoot")
 		}
 		let pRoot				= part.root!
 
@@ -543,8 +543,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard let fwGuts = part.root?.fwGuts else {
 							fatalError("### part.root?.fwGuts is nil ###")		}
-						for i in 0..<fwGuts.rootVew.count {
-							guard fwGuts.rootVew[i]!.lock(vewTreeAs:viewLockName, logIf:log) else {
+						for i in 0..<fwGuts.rootVews.count {
+							guard fwGuts.rootVews[i].lock(vewTreeAs:viewLockName, logIf:log) else {
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 							}
 						}
@@ -593,8 +593,8 @@ class Vew : NSObject, ObservableObject, Codable {	//
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		for rv in fwGuts.rootVew {
-			rv!.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
+		for rv in fwGuts.rootVews {
+			rv.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
 		}
 	}
 	 // MARK: - 9.5 Wire Box
@@ -778,7 +778,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= part.root?.fwGuts.rootVew[0]!.scn					//= part.root?.fwGuts.fwScn.rootScn
+				let rootScn		= part.root?.fwGuts.rootVews[0].scn					//= part.root?.fwGuts.fwScn.rootScn
 				rv				+= !ppViewOptions.contains("W") ? ""
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.short) + " "
 				if !(self is LinkVew) {

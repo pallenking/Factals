@@ -75,7 +75,7 @@ class XXXX_StuffToSave {
 		print("tapGesture value:'\(v)' count:\(count)")
 
 		 // Make NSEvent for Double Click
-		let a					= fwGuts.fwScn[0]!.scnScene.cameraScn!.position
+		let a					= fwGuts.fwScns[zeroIndex].scnScene.cameraScn!.position
 		let location			= NSPoint(x: a.x, y: a.y)
 		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
 											location:location,

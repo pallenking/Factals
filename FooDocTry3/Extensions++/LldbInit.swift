@@ -28,15 +28,15 @@ func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true
 
  /// Access to current ////// Vew Tree //////
 var  rootVewL  : RootVew {
-	get 		{	return DOCfwGuts.rootVew[0]!								}
-	set (v)		{	DOCfwGuts.rootVew[0]! = v									}
+	get 		{	return DOCfwGuts.rootVews[0]								}
+	set (v)		{	DOCfwGuts.rootVews[0] = v									}
 }
 func rootvew(_ name:String?=nil) -> Vew  {
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
 	}
-	var rv : Vew				= fwGuts.rootVew[0]!
+	var rv : Vew				= fwGuts.rootVews[0]
 	if name != nil {			// Search for named Vew
 		rv						= rv.find(name:name!, inMe2:true) ?? rv
 	}
@@ -50,7 +50,7 @@ func rootscn(_ name:String?=nil) -> SCNNode	{
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}
-	var scnRv					= fwGuts.fwScn[0]!.rootScn				//fwGuts.rootScn 	// Root
+	var scnRv					= fwGuts.fwScns[0].rootScn				//fwGuts.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {

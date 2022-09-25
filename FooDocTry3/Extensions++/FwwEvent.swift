@@ -1,6 +1,21 @@
 //  FwwEvent.swift -- generate digital words C190822PAK
 import SceneKit
 
+var uglyArray : [RootVew] = []
+
+extension NSEvent {
+	var rootVew : (Int, RootVew?) {
+		bug
+		return (0, nil)
+//		let contentVew			= window?.contentView
+//		for document in DOCctlr.documents {
+//			for fwScn in fwScns {
+//
+//			}
+//		}
+	}
+}
+
 class FwEvent {							// NOT NSObject
 	let fwType : FwType
 

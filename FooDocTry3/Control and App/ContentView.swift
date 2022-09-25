@@ -26,14 +26,14 @@ struct ContentView: View {
 			if let fwGuts		= document.fwGuts {
 				VStack {
 					let rootPart:RootPart = document.fwGuts.rootPart
-					let fwScn	= fwGuts.fwScn
+					let fwScn	= fwGuts.fwScns
 					ZStack {
 						NSEventReceiver { nsEvent in
 							DOCfwGuts.eventCentral.receivedEvent(nsEvent:nsEvent)}
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
-							pointOfView	: fwGuts.fwScn[0]!.scnScene.cameraScn,
+							pointOfView	: fwGuts.fwScns[zeroIndex].scnScene.cameraScn,
 							options		: [//	.autoenablesDefaultLighting,
 										  //.allowsCameraControl,	// so we can control it
 			//								.jitteringEnabled,
@@ -69,9 +69,9 @@ struct ContentView: View {
 							{	lldbPrint(ob:rootPart, mode:.tree, ["ppLinks":true])}
 							Text(" ")
 							Button(label:{	Text(   "ptv").padding(.top, 300)	})
-							{	lldbPrint(ob:fwGuts.rootVew, mode:.tree) 		}
+							{	lldbPrint(ob:fwGuts.rootVews, mode:.tree) 		}
 							Button(label:{	Text(   "ptn").padding(.top, 300)	})
-							{	lldbPrint(ob:fwGuts.fwScn[0]!.scnScene.rootNode, mode:.tree)}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+							{	lldbPrint(ob:fwGuts.fwScns[zeroIndex].scnScene.rootNode, mode:.tree)}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 							Button(label:{	Text(   "reV").padding(.top, 300)	})
 							{	document.redo += 1								}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
 						}

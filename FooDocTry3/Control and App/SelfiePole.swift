@@ -36,7 +36,7 @@ struct SelfiePole {
 		 //  ---- translated above Point of Interest by cameraPoleHeight
 		let lookAtVew			= Vew.null
 		let posn				= lookAtVew.bBox.center //?? .zero
-		let rootScn				= rootVew.fwGuts.fwScn[0]!.rootScn
+		let rootScn				= rootVew.fwGuts.fwScns[zeroIndex].rootScn
 		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:rootScn) //?? .zero
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 
