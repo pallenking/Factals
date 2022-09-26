@@ -28,7 +28,7 @@ struct ContentView: View {
 					let rootPart:RootPart = document.fwGuts.rootPart
 					ZStack {
 						NSEventReceiver { nsEvent in
-							fwGuts.eventCentral.processEvent(nsEvent:nsEvent)}
+							fwGuts.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)}
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,

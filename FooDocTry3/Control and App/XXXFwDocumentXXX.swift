@@ -422,7 +422,7 @@
 //    /// - Parameter from: -- NSEvent to process
 //    /// - Parameter vew: -- The Vew to use
 //	/// - Returns: The key was recognized
-//	func processEvent(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+//	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 //		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 //			return false
 //		}

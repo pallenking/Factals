@@ -97,7 +97,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
 
-	func processEvent(nsEvent:NSEvent) {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) {
 	//	print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
@@ -124,7 +124,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
 			nextIsAutoRepeat 	= true
-			if fwGuts.processEvent(from:nsEvent, inVew:nil) == false {
+			if fwGuts.processEvent(nsEvent:nsEvent, inVew:nil) == false {
 				if char != "?" {		// okay for "?" to get here
 					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
 				}
@@ -132,7 +132,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			nextIsAutoRepeat 	= false
-			let _				= fwGuts.processEvent(from:nsEvent, inVew:nil)
+			let _				= fwGuts.processEvent(nsEvent:nsEvent, inVew:nil)
 
 		  //  ====== LEFT MOUSE ======
 		 //
