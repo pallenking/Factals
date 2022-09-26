@@ -14,12 +14,13 @@ import SceneKit
 
  // Uses Cylindrical Coordinates
 struct SelfiePole {
+	var uid			: UInt16  		= randomUid()
+	weak var rootVew: RootVew!							// owner
+
 	var at							= SCNVector3.origin	// world
 	var spin  		: CGFloat 		= 0					// in degrees
 	var horizonUp	: CGFloat 		= 0					// in degrees
 	var zoom		: CGFloat 		= 1.0
-	var uid			: UInt16  		= randomUid()
-	var rootVew		: RootVew							// owner
 
 	init(rootVew:RootVew) {
 		self.rootVew				= rootVew

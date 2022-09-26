@@ -57,7 +57,9 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 			//let preferenceBridge = context.preferenceBridge
 		}
 		guard let fwGuts		= args.fwGuts else {	fatalError("args.fwGuts is nil") }
+								//		++			++
 		let i					= fwGuts.newViewIndex()
+								//		++			++
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
 		let scnView				= fwGuts.fwScns[i].scnView!

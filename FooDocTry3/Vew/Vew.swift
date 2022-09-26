@@ -640,10 +640,6 @@ class Vew : NSObject, ObservableObject, Codable {	//
 			let wBoxNameIndex	= root.indexFor["WBox"] ?? 1
 			root.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
-//			bBoxScn.name		= fmt("w-%d", root.wBoxNameIndex)
-//			bBoxScn.name		= fmt("w-%d", DOC.rootPart.wBoxNameIndex)
-//			root.wBoxNameIndex += 1  // (next index)
-
 			bBoxScn.geometry 	= SCNGeometry.lines(lines:indices, withPoints:corners) //material.diffuse.contents = color0		// BUG doesn't work, all are white
 			bBoxScn.categoryBitMask = FwNodeCategory.adornment.rawValue			//material.lightingModel 	= .blinn
 			return bBoxScn

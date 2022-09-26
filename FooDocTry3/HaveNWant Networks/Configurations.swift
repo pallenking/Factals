@@ -7,7 +7,15 @@ import SceneKit
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 // 20220912PAK: Simplification: all merged into one hash
 
-//private let params4all_ : FwConfig = [ "foo":"bar" ]
+  // MARK: - External linkage
+ /// Initial Parameters for configuration:
+var params4all		: FwConfig		{	return
+	params4app_		+
+	params4appLog_	+
+	params4pp_		+
+	params4docLog_	+
+	params4sim_
+}
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
@@ -197,66 +205,47 @@ let wBoxColorOf:[String:NSColor] = [
 	  "WorldModel"	:NSColor.red,
 ]
 
-func applyPrefixTo(_ config:FwConfig) -> FwConfig {
-
-	 // Prefix "*" is for XCTests:
-	let prefix					= isRunningXcTests ? "*" : ""
-
-	var rv : FwConfig			= [:]	// rebuild Return Value in this
-	for (key, val) in config {
-		assert(!(val is Dictionary<String, Any> || val is Array<Any>), "not programmed for recursive yet")
-
-		if let filteredKey		= filterKey(prefix:prefix, key:key),
-		  rv[filteredKey] == nil ||		// Never seen the filtered key before or
-		  filteredKey != key 			// High-priority (transformed) key
-		{
-			rv[filteredKey]		= val		// use key
-		}
-	}
-	return rv
-}
-
-  // MARK: - External linkage
- /// Initial Parameters for configuration:
-/// 20211001: only one prefix XCTest:"*" is implemented
-/// depend on whether XCTest is running
-var params4all 		: FwConfig	=	{	applyPrefixTo(params4all_)	}()
-var params4all_		: FwConfig		{	return
-	params4app_		+
-	params4appLog_	+
-	params4pp_		+
-	params4docLog_	+
-	params4sim_		+
-//	params4guts		+
-	params4app_		+
-	params4appLog_	+
-	params4pp_		+
-	params4docLog_	+
-	params4sim_		+
-	params4guts_
-}
-
-//var params4app		: FwConfig		{	return applyPrefixTo(params4app_	) 	}
-
-	  /// Use prefix codes to conditionally include keys
-	 /// - Parameters:
-	///   - key: if of form <prefix><body> return <body> else return key
-   ///   - prefix: operating mode, stripped from keys if present
-  /// - Returns: reformed key
- /// e.g: "*abc"
-func filterKey(prefix:String, key:String) -> String? {
-	for pre in definedParamPrefices {
-		if key.hasPrefix(pre) {		// Is Prefix'ed name
-			return pre != prefix ? nil :			// prefix mismatch --> drop key
-				String(key.dropFirst(pre.count))	// match remove prefix of key
-		}
-	}
-//	if definedParamPrefices.contains(prefix),// legal prefix
-//	  key.hasPrefix(prefix) {					// part of key ?
-//		return String(key.dropFirst(prefix.count))	// yes, remove prefix of key
+//func applyPrefixTo(_ config:FwConfig) -> FwConfig {
+//
+//	 // Prefix "*" is for XCTests:
+//	let prefix					= isRunningXcTests ? "*" : ""
+//
+//	var rv : FwConfig			= [:]	// rebuild Return Value in this
+//	for (key, val) in config {
+//		assert(!(val is Dictionary<String, Any> || val is Array<Any>), "not programmed for recursive yet")
+//
+//		if let filteredKey		= filterKey(prefix:prefix, key:key),
+//		  rv[filteredKey] == nil ||		// Never seen the filtered key before or
+//		  filteredKey != key 			// High-priority (transformed) key
+//		{
+//			rv[filteredKey]		= val		// use key
+//		}
 //	}
-	return key
-}
+//	return rv
+//}
+
+//
+////var params4app		: FwConfig		{	return applyPrefixTo(params4app_	) 	}
+//
+//	  /// Use prefix codes to conditionally include keys
+//	 /// - Parameters:
+//	///   - key: if of form <prefix><body> return <body> else return key
+//   ///   - prefix: operating mode, stripped from keys if present
+//  /// - Returns: reformed key
+// /// e.g: "*abc"
+//func filterKey(prefix:String, key:String) -> String? {
+//	for pre in definedParamPrefices {
+//		if key.hasPrefix(pre) {		// Is Prefix'ed name
+//			return pre != prefix ? nil :			// prefix mismatch --> drop key
+//				String(key.dropFirst(pre.count))	// match remove prefix of key
+//		}
+//	}
+////	if definedParamPrefices.contains(prefix),// legal prefix
+////	  key.hasPrefix(prefix) {					// part of key ?
+////		return String(key.dropFirst(prefix.count))	// yes, remove prefix of key
+////	}
+//	return key
+//}
 
 // MARK: - Conditional Configuration Keys
 	 // 20210930: Only prefix "*" is supported

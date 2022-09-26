@@ -393,7 +393,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	}
 	
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=DOClog2.params4aux) -> String	{
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4aux) -> String	{
 //		var log : Logger			= fwGuts.rootPart.log
 		switch mode! {
 		case .line:

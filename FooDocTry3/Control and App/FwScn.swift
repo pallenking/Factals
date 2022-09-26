@@ -240,7 +240,7 @@ class FwScn : Uid {
 
 	 // MARK: 4.4 - Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-bug;	let fwGuts				= DOCfwGuts
+		guard let fwGuts		= fwGuts else {	return }
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
 		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:rootScn)
 
@@ -332,9 +332,8 @@ bug;	let fwGuts				= DOCfwGuts
 			guard let c:SCNCamera = camScn.camera else { fatalError("cameraScn.camera is nil") 	}
 			c.usesOrthographicProjection = true		// camera’s magnification factor
 			c.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
-		} else {
-			camScn.transform	= selfiePole.transform
 		}
+		camScn.transform	= selfiePole.transform
 		atRsi(7, fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize))
 	}
 

@@ -9,12 +9,6 @@ import SceneKit
 	3. pt pCon2Spot
  */
 
-// playground 20220925
-func ffffff() {
-	Swift.print(DOCfwGuts.pp(.fwClassName, params4aux + ["ppDagOrder":true]))	//DOClog.params4aux Logger.params4aux
-}
-//
-
 func breakToDebugger() {			panic("Break To Debugger")					}
 func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true]
 	print(ob.pp(.tree, params4aux + aux), terminator:"")

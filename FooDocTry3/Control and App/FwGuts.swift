@@ -11,11 +11,11 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	var rootVews : [RootVew]	= []
 	var fwScns	 : [FwScn]		= []
 	func rootVew(of fwScn_:FwScn) -> RootVew {
-		let j					= fwScns.firstIndex { $0 != nil && $0 === fwScn_}
+		let j					= fwScns.firstIndex { $0 === fwScn_}
 		return rootVews[Int(j!)]
 	}
 	func fwScn(of rootVew_:RootVew) -> FwScn {
-		let j					= rootVews.firstIndex { $0 != nil && $0 === rootVew_}
+		let j					= rootVews.firstIndex {$0 === rootVew_}
 		return fwScns[Int(j!)]
 	}
 	var eventCentral : EventCentral
@@ -46,6 +46,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	}
 	 /// generate a new View, returning its index
 	func newViewIndex(scnScene s:SCNScene?=nil) -> Int {
+		let rv					= rootVews.count
 
 		 // Make BASIC Component Parts (owned and used by FwGuts)
 		// --------------- A: SCNScene
@@ -65,19 +66,19 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 //?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
 		// --------------- C: FwScn ((A, B))
-		let fs					= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
-		 fs.fwGuts				= self
-		 fs.scn.name			= "*-ROOT"
-		 fwScns.append(fs)
+		let fScn				= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
+		 fScn.fwGuts			= self
+		 fScn.scn.name			= "*-ROOT"
+		 fwScns.append(fScn)
 
 		// --------------- D: RootVew ((rootPart, A))
-		let rv					= RootVew(forPart:rootPart, scn:scnScene.rootNode)
-		 rv.fwGuts				= self
+		let rVew				= RootVew(forPart:rootPart, scn:scnScene.rootNode)
+		 rVew.fwGuts			= self
 	//	 rv.scn 				= fs.scn 			// set Vew with new scn root
-		 rootVews.append(rv)
+		 rootVews.append(rVew)
 
 		assert(rootVews.count == fwScns.count, "paranoid: rootVews and fwScns size mismatch")
-		return rootVews.count - 1
+		return rv
 	}
 
 
@@ -332,7 +333,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
 			{
 				rv			= vew
-bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			}else{
 				panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
 				if let cv	= rootVews[zeroIndex].trunkVew,			// for debug only
@@ -387,7 +388,8 @@ bug	//				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
 
 			 //*******// Imprint animation parameters JUST BEFORE start:
-			DOCfwGuts.rootVews[i].updateVewSizePaint()				// Update SCN's at START of animation
+			rootVews[i].updateVewSizePaint()			// Update SCN's at START of animation
+//			DOCfwGuts.rootVews[i].updateVewSizePaint()	// Update SCN's at START of animation
 			 //*******//
 
 			 // Animate Vew morph, from self to newVew:

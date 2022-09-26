@@ -495,7 +495,7 @@ bug	// NEVER USED?
 		
 
 		 // This section is in rePaint, because camera changes positions!
-		guard let fwGuts		= DOCfwGutsQ else {
+		guard let fwGuts		= root?.fwGuts else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
 		guard fwGuts.fwScns[zeroIndex].scnScene.cameraScn != nil else {

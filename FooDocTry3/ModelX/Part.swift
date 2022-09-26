@@ -124,7 +124,8 @@ class Part : NSResponder, Codable, NSCopying, ObservableObject, PolyWrappable {	
 		}			// -- Name was given
 		name					= nam ?? {
 			if let prefix		= prefixForClass[fwClassName],
-			  let rootPart		= DOCfwGutsQ?.rootPart	//rootPart
+//			  let rootPart		= DOCfwGutsQ?.rootPart	//rootPart
+			  let rootPart		= root
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
 				let index		= rootPart.indexFor[prefix] ?? 0
 				rootPart.indexFor[prefix] = index + 1		// for next
@@ -1302,25 +1303,19 @@ bug
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			print("    NSEvent (clicks:\(nsEvent.clickCount)) ==> \(pp(.fullName)) :" 
+			var doc				= root?.fwGuts.document
+			print("    NSEvent (clicks:\(nsEvent.clickCount)) ==> \(pp(.fullName)) :"
 											+ "\(pp(.fwClassName))\n\(pp(.tree))")
 			 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 			if nsEvent.clickCount == 1 {			
 				 		// // // 2. Debug switch to select Instantiation:
-				let alt 				= nsEvent.modifierFlags.contains(.option)
-				DOC.showInspecFor(vew:vew, allowNew:alt)							//false PW
+				let alt 		= nsEvent.modifierFlags.contains(.option)
+				doc?.showInspecFor(vew:vew, allowNew:alt)							//false PW
 				return true
 			}
 						// Double Click: show/hide insides
 			if nsEvent.clickCount > 1 {
-				if vew != nil {
-bug//				DOC.fwGuts?.toggelOpen(vew:vew!)
-				}
-										//if vew != nil,
-										//  let scene	= fwGuts {
-										//	scene.toggelOpen(vew:vew!)
-										//}
-										//fwGuts?.toggelOpen(vew:vew!)
+				doc?.fwGuts?.toggelOpen(vew:vew)
 			}
 			else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
 				

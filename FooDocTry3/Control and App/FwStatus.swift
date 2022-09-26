@@ -13,7 +13,7 @@ func ppFwcConfig() -> String {
 		CONFIGURATIONS:
 		 APP.config:  \(w( APP.config.pp(.line)	))
 		 DOC.config:  \(w( DOC.config.pp(.line)	))
-		 params4pp:   \(w(  params4pp.pp(.line) ))
+		 params4aux:  \(w( params4aux.pp(.line) ))
 		"""
 }
 private func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)}
@@ -26,7 +26,7 @@ func ppFwcState() -> String
 	var rv : String				 = APP    .ppFwState()
 	rv							+= ppDOC()					// current DOCument
 	if DOC != nil {
-	//	rv						+= DOC    .ppFwState()		// current DOCument
+		rv						+= DOC    .ppFwState()		// current DOCument
 		rv						+= DOClog .ppFwState()		// DOClog
 		rv						+= DOCctlr.ppFwState()		// nsDOCumentConTroLleR
 	}
@@ -92,7 +92,6 @@ extension Library : FwStatus {								/// Library or Tests01
 	}
 }
 func ppDOC() -> String {									///
-	//let m						= ppUid(DOC)
 	let msg						= DOC == nil ? "(not selected)" : "(currently selected)"
 	let uid : String			= ppUid(pre:" ", DOC, post:"  DOC \(msg)", showNil:true)
 	return uid + "\n"

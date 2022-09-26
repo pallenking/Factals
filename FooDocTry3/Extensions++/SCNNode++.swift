@@ -236,6 +236,19 @@ extension SCNNode /*: HasChildren */ {
 	func removeFromParent() {
 		removeFromParentNode()				// remove scn from parent
 	}
+
+	var root : SCNNode {
+		return self.parent?.root ?? self
+	}
+	func fwScn(attachedTo fwGuts:FwGuts) -> FwScn {
+		let rootScn				= root
+		for fwScn in fwGuts.fwScns {
+			if fwScn.scn == rootScn {
+				return fwScn
+			}
+		}
+		fatalError()
+	}
 	 // MARK: - 4.6 Find Children
 	// WHY THESE TWO?
 	 /// flat search of one layer.
@@ -312,7 +325,7 @@ extension SCNNode /*: HasChildren */ {
 			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
 			rv					= DOClog.pidNindent(for:self)	//			(AB)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
-			rv 					= DOClog.unIndent(rv)	// unindent	 (D)
+			rv 					= DOClog.unIndent(rv)			// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
 
 		case .tree:
@@ -396,7 +409,9 @@ bug		//	rv					=  ppDefault(self:self, mode:mode, aux:aux)
 		}
 
 		// display position in trunk:
-		if DOClog.params4aux.string_("ppViewOptions").contains("W") {
+		// Schleze a little and use use global, not DOClog's while available
+		if params4aux.string_("ppViewOptions").contains("W") {
+		//if DOClog.params4aux.string_("ppViewOptions").contains("W") {
 			let rootScn			= DOCfwGuts.fwScns[zeroIndex].rootScn //fwGuts!.rootScn
 			let p				= convertPosition(.zero, to:rootScn)
 			rv2					+= p.pp(.short).field(-11, dots:false)

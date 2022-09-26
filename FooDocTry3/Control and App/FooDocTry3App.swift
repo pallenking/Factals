@@ -16,10 +16,12 @@
 // Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
 //				FW's subclass strips NS. e.g: DocumentController
 
- // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
-var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
-var zeroIndex = 0
-let params4aux : FwConfig 	=	params4all_
+// // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
+//var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+var zeroIndex = 0								// Used 37 times
+
+// 20220926PAK: Occasionally (e.g. pp) can't get here. use global
+let params4aux : FwConfig 	=	[:]//params4all_
 
 import Cocoa
 import SwiftUI
@@ -41,12 +43,12 @@ var DOC				: FooDocTry3Document!	// CHANGES:	App must insure continuity) Right n
 
  // Shugar on DOC
 var DOCfwGuts		: FwGuts	{	DOC .fwGuts									}
-var DOCrootPart		: RootPart	{	DOC .fwGuts.rootPart						}
+//var DOCrootPart	: RootPart	{	DOC .fwGuts.rootPart						}		// 0
  // Places where optionality is needed
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts									}
 var DOCrootPartQ	: RootPart?	{	DOC?.fwGuts.rootPart						}
  // Others:
-var DOClog2  		: Logger 	{	DOCfwGutsQ?.logger ?? .null					}
+var DOClog  		: Logger 	{	DOCfwGutsQ?.logger ?? .null					}
 //var DOClog  		: Logger 	{	DOCrootPartQ?.logger ?? Logger.null			}
 let DOCctlr						= NSDocumentController.shared
 
@@ -134,7 +136,7 @@ struct FooDocTry3App: App, Uid, FwAny {
 		config					+= params4all
 		setControllers(config:config)
 		
-		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
+		//atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 		
 		atCon(3, {
 			print("AppDelegate(\(config.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +

@@ -334,11 +334,9 @@ bug;			msg					+= config.string_("cause")
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
-//		if let curLockStr		= DOC?.state.rootPart.rootVewOwner {
-//bug	if let curLockStr		= DOC?.fwGuts?.rootVewOwner {
-////		if let curLockStr		= DOC?.fwGuts?.rootVewOwner {
-//			return Logger.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
-//		}
+		if let curLockStr		= DOC?.fwGuts?.rootPart.partTreeOwner {
+			return Logger.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
+		}
 		return ".,."
 	}
 	static let shortNames		= [
@@ -355,7 +353,8 @@ bug;			msg					+= config.string_("cause")
 		"toggelOpen5"					: "op5",
 		"toggelOpen6"					: "op6",
 	]
-	var params4aux : FwConfig	{	DOC?.config ?? [:]		} // MOVE ME
+	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
+	var params4aux : FwConfig	{	DOC?.config ?? [:]		}
 	static let null : Logger	= {
 		let rv					= Logger(title:".null = Logger(params4app)")
 //		rv.config4log			= params4appLog

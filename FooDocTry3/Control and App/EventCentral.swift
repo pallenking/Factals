@@ -103,8 +103,18 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		let duration			= Float(1)
 		let fooDoc				= fwGuts.document
 
-		nsEvent.window?.contentView
-
+//		for view in nsEvent.window?.contentView?.subviews ?? [] {
+//			print("--- nsEvent.window?.contentView?.subviews[i]: \(view) ")
+//			for subv in view.subviews {
+//				print("-------- subv: \(subv) ")
+//				if let scnView	= subv as? SCNView {
+//					if let scnScene = scnView.scene {
+//						print("#### gotit \(scnScene) ")
+//					}
+//					print("-------- subv: \(scnView) ")
+//				}
+//			}
+//		}
 		switch nsEvent.type {
 
 		  //  ====== KEYBOARD ======
@@ -171,8 +181,6 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom *= delta
-//			let scene			= DOCfwGuts
-//			scene.lastSelfiePole.zoom *= delta
 			print("receivedEvent(type:.scrollWheel) found pole\(fwGuts.rootVews[zeroIndex].lastSelfiePole.uid).zoom = \(fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom)")
 			fwGuts.fwScns[zeroIndex].updatePole2Camera(reason:"Scroll Wheel")
 
