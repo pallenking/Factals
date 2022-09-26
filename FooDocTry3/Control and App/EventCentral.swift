@@ -102,6 +102,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
 		let fooDoc				= fwGuts.document
+		let fwScn0				= fwGuts.rootVew0?.fwScn
 
 //		for view in nsEvent.window?.contentView?.subviews ?? [] {
 //			print("--- nsEvent.window?.contentView?.subviews[i]: \(view) ")
@@ -141,39 +142,39 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts.modelPic(with:nsEvent)
 			}
-			fwGuts.fwScns[zeroIndex].updatePole2Camera(duration:duration, reason:"Left mouseDown")
+			fwScn0?.updatePole2Camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true		// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				fwGuts.fwScns[zeroIndex].updatePole2Camera(reason:"Left mouseDragged")
+				fwScn0?.updatePole2Camera(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts.modelPic(with:nsEvent) {
-						fwGuts.rootVews[zeroIndex].lookAtVew	= vew			// found a Vew: Look at it!
+						fwGuts.rootVew0.lookAtVew	= vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
-				fwGuts.fwScns[zeroIndex].updatePole2Camera(duration:duration, reason:"Left mouseUp")
+				fwScn0?.updatePole2Camera(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			fwGuts.fwScns[zeroIndex].updatePole2Camera(duration:duration, reason:"Other mouseDown")
+			fwScn0?.updatePole2Camera(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			fwGuts.fwScns[zeroIndex].updatePole2Camera(reason:"Other mouseDragged")
+			fwScn0?.updatePole2Camera(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			fwGuts.fwScns[zeroIndex].updatePole2Camera(duration:duration, reason:"Other mouseUp")
-			atEve(9, print("\(fwGuts.fwScns[zeroIndex].scnScene.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
+			fwScn0?.updatePole2Camera(duration:duration, reason:"Other mouseUp")
+			atEve(9, print("\(fwScn0?.scnScene.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
@@ -182,7 +183,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom *= delta
 			print("processEvent(type:.scrollWheel) found pole\(fwGuts.rootVews[zeroIndex].lastSelfiePole.uid).zoom = \(fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom)")
-			fwGuts.fwScns[zeroIndex].updatePole2Camera(reason:"Scroll Wheel")
+			fwScn0?.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -203,19 +204,19 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:fwGuts.fwScns[zeroIndex].scnView)
+			let t 				= nsEvent.touches(matching:.began, in:fwScn0?.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:fwGuts.fwScns[zeroIndex].scnView)
+			let t 				= nsEvent.touches(matching:.moved, in:fwScn0?.scnView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:fwGuts.fwScns[zeroIndex].scnView)
+			let t 				= nsEvent.touches(matching:.ended, in:fwScn0?.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}

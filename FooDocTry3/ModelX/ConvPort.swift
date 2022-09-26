@@ -123,7 +123,7 @@ class ConvPort : Port {
 		}
 
 		 // Determine ConvPort velocity
-		var logVel 				= config("linkVelocityLog2")?.asFloat ?? -5		// ~ in Configurations dominates
+		var logVel 				= config("linkVelocityLog2")?.asFloat ?? -5		// ~ in Configuration dominates
 		if let linksVel			= localConfig["v"]?.asFloat {
  			logVel				+= linksVel	// Link may override local
 		}

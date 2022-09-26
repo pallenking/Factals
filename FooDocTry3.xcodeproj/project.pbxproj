@@ -68,7 +68,7 @@
 		9FEE51A3286B8F5B00C8C22A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A1286B8F5B00C8C22A /* Logger.swift */; };
 		9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A4286B958700C8C22A /* PolyWrap.swift */; };
 		9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A6286B962300C8C22A /* CommonErrors.swift */; };
-		9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Configurations.swift */; };
+		9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Configuration.swift */; };
 		9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AB286BA57900C8C22A /* Library.swift */; };
 		9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AC286BA57900C8C22A /* LangDeser.swift */; };
 		9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AD286BA57900C8C22A /* TivoRemote.swift */; };
@@ -169,7 +169,7 @@
 		9FEE51A1286B8F5B00C8C22A /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		9FEE51A4286B958700C8C22A /* PolyWrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyWrap.swift; sourceTree = "<group>"; };
 		9FEE51A6286B962300C8C22A /* CommonErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonErrors.swift; sourceTree = "<group>"; };
-		9FEE51A8286BA2D700C8C22A /* Configurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configurations.swift; sourceTree = "<group>"; };
+		9FEE51A8286BA2D700C8C22A /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		9FEE51AB286BA57900C8C22A /* Library.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		9FEE51AC286BA57900C8C22A /* LangDeser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LangDeser.swift; sourceTree = "<group>"; };
 		9FEE51AD286BA57900C8C22A /* TivoRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TivoRemote.swift; sourceTree = "<group>"; };
@@ -322,7 +322,7 @@
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
 				9FEE51AB286BA57900C8C22A /* Library.swift */,
-				9FEE51A8286BA2D700C8C22A /* Configurations.swift */,
+				9FEE51A8286BA2D700C8C22A /* Configuration.swift */,
 				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 			);
 			path = "HaveNWant Networks";
@@ -540,7 +540,7 @@
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
 				9F1E3CE428D8C9CF004548C9 /* FwScn.swift in Sources */,
-				9FEE51A9286BA2D700C8C22A /* Configurations.swift in Sources */,
+				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FooDocTry3App.swift in Sources */,
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,
 				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,

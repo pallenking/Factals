@@ -7,17 +7,19 @@ import SceneKit
 class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
-	var rootPart : RootPart													//{	rootVew.part as! RootPart}
+	var rootPart :  RootPart													//{	rootVew.part as! RootPart}
 	var rootVews : [RootVew]	= []
-	var fwScns	 : [FwScn]		= []
-	func rootVew(of fwScn_:FwScn) -> RootVew {
-		let j					= fwScns.firstIndex { $0 === fwScn_}
+	var rootVew0 :  RootVew?	{ rootVews.count > 0 ? rootVews[zeroIndex] : nil }
+
+//	var fwScns	 : [FwScn]		= []
+	func rootVew(of fwScn:FwScn) -> RootVew {
+		let j					= fwScns.firstIndex { $0 === fwScn}
 		return rootVews[Int(j!)]
 	}
-	func fwScn(of rootVew_:RootVew) -> FwScn {
-		let j					= rootVews.firstIndex {$0 === rootVew_}
-		return fwScns[Int(j!)]
-	}
+//	func fwScn(of rootVew_:RootVew) -> FwScn {
+//		let j					= rootVews.firstIndex {$0 === rootVew_}
+//		return fwScns[Int(j!)]
+//	}
 	var eventCentral : EventCentral
 	var document 	 : FooDocTry3Document!
 	var logger 		 : Logger
@@ -29,7 +31,6 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		rootPart       .setControllers(config:config)
 		for i in 0..<rootVews.count { //}, fwScn) {
 			rootVews[i].setControllers(config:config)// ?? log("fwGuts: rootVew nil")
-			fwScns[i]  .setControllers(config:config)// ?? print("fwGuts: fwScn nil")
 		}
 		eventCentral   .setControllers(config:config)
 	}

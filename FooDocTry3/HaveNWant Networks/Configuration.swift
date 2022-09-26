@@ -1,4 +1,4 @@
-//  Configurations.swift -- Configure Factal Workbench ©2019PAK
+//  Configuration.swift -- Configure Factal Workbench ©2019PAK
 
 import SceneKit
 

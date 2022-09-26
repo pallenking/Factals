@@ -17,6 +17,8 @@ class RootVew : Vew {
 	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
 		return children.count > 0 ? children[0] : nil
 	}
+	var fwScn : FwScn
+
 	 // MARK: x.3.2 Look At Spot
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
 	var lastSelfiePole : SelfiePole!					// init to default
@@ -27,7 +29,9 @@ class RootVew : Vew {
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
-	func setControllers(config:FwConfig) {	/* nada */ }
+	func setControllers(config:FwConfig) {
+		fwScn.setControllers(config:config)
+	}
 	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
 	/// - Parameters:
