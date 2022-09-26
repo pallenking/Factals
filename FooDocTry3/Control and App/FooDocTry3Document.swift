@@ -296,22 +296,22 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use
 	/// - Returns: The key was recognized
-	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processEvent(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 			return false
 		}
 		let rootPart2 : RootPart! = vew?.part.root// ?? .null
 		 // Check registered TimingChains
 		for timingChain in rootPart2.simulator.timingChains {
-			guard timingChain.processKey(from:nsEvent, inVew:vew) == false else {
+			guard timingChain.processEvent(from:nsEvent, inVew:vew) == false else {
 				return true 				/* handled by timingChain */		}
 		}
 		 // Check fwGuts:
-		guard fwGuts.processKey(from:nsEvent, inVew:vew) == false else {
+		guard fwGuts.processEvent(from:nsEvent, inVew:vew) == false else {
 			return true 					/* handled by fwGuts */
 		}
 		 // Check Simulator:
-		guard rootPart2?.simulator.processKey(from:nsEvent, inVew:vew) == false else  {
+		guard rootPart2?.simulator.processEvent(from:nsEvent, inVew:vew) == false else  {
 			return true 					// handled by simulator
 		}
 

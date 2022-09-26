@@ -162,7 +162,7 @@ bug//		try self.write(to: fileURL)
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use
 	/// - Returns: Key was recognized
-	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processEvent(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
  		let character			= nsEvent.charactersIgnoringModifiers!.first!
 		if nsEvent.type == .keyUp {			// ///// Key UP ////// //
 			return false
@@ -228,7 +228,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwGuts: --> rootPart")
-			if rootPart.processKey(from:nsEvent, inVew:vew!) {
+			if rootPart.processEvent(from:nsEvent, inVew:vew!) {
 				print("ERROR: fwGuts.Process('x') failed")
 			}
 			return true								// recognize both
@@ -274,7 +274,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	func modelPic(with nsEvent:NSEvent) -> Vew? {
 		if let picdVew			= findVew(nsEvent:nsEvent) {
 			 // DISPATCH to PART that was pic'ed
-			if picdVew.part.processKey(from:nsEvent, inVew:picdVew) {
+			if picdVew.part.processEvent(from:nsEvent, inVew:picdVew) {
 				return picdVew
 			}
 		}

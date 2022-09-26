@@ -349,10 +349,10 @@ class TimingChain : Atom {
 	}
 
 	 // MARK: - 13. IBActions
-	override func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	override func processEvent(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		if nsEvent.type == .keyDown {		// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
-			if worldModel?.processKey(from:nsEvent, inVew:vew) ?? false {
+			if worldModel?.processEvent(from:nsEvent, inVew:vew) ?? false {
 				root!.simulator.kickstart = 4	// set simulator to run, to pick event up
 				return true				// other process processes it
 			}

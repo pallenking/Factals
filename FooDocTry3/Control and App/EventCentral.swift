@@ -97,7 +97,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
 
-	func receivedEvent(nsEvent:NSEvent) {
+	func processEvent(nsEvent:NSEvent) {
 	//	print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= true//false//
 		let duration			= Float(1)
@@ -124,7 +124,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
 			nextIsAutoRepeat 	= true
-			if fooDoc?.processKey(from:nsEvent, inVew:nil) == false {
+			if fwGuts.processEvent(from:nsEvent, inVew:nil) == false {
 				if char != "?" {		// okay for "?" to get here
 					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
 				}
@@ -132,7 +132,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			nextIsAutoRepeat 	= false
-			let _				= fooDoc?.processKey(from:nsEvent, inVew:nil)
+			let _				= fwGuts.processEvent(from:nsEvent, inVew:nil)
 
 		  //  ====== LEFT MOUSE ======
 		 //
@@ -181,7 +181,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom *= delta
-			print("receivedEvent(type:.scrollWheel) found pole\(fwGuts.rootVews[zeroIndex].lastSelfiePole.uid).zoom = \(fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom)")
+			print("processEvent(type:.scrollWheel) found pole\(fwGuts.rootVews[zeroIndex].lastSelfiePole.uid).zoom = \(fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom)")
 			fwGuts.fwScns[zeroIndex].updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -220,7 +220,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("33333333 receivedEvent(type:\(nsEvent.type)) EEEEEEE")
+			print("33333333 processEvent(type:\(nsEvent.type)) EEEEEEE")
 		}
 	}
 	 // MARK: - 13.4 Mouse Variables

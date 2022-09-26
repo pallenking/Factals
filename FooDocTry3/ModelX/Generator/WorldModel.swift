@@ -179,7 +179,7 @@ class WorldModel : Atom {
 	}
 
 	// MARK: - 13. IBActions
-	override func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	override func processEvent(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 			return false				// no character there
 		}

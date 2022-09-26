@@ -5,7 +5,7 @@
 //	Usage Case:
 //		ZStack {
 //			 // This View goes underneath:
-//			NSEventReceiver { 	nsEvent in receivedEvent(nsEvent:nsEvent) 		}
+//			NSEventReceiver { 	nsEvent in processEvent(nsEvent:nsEvent) 		}
 //			 // The View to have it's NSEvent's "stolen". E.g:
 //			SceneView(scene:..., pointOfView:..., options:[], ...)
 //		}

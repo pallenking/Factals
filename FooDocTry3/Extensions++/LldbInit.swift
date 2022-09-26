@@ -82,7 +82,7 @@ func sendApp(key:String="?") {
 			isARepeat		: false,
 			keyCode			: 0)
 	{
-		let _			 	= doc.processKey(from:ginnedUpEvent, inVew:nil)
+		let _			 	= doc.processEvent(from:ginnedUpEvent, inVew:nil)
 	}
 	else {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")

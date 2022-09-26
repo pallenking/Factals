@@ -422,14 +422,14 @@
 //    /// - Parameter from: -- NSEvent to process
 //    /// - Parameter vew: -- The Vew to use
 //	/// - Returns: The key was recognized
-//	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+//	func processEvent(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 //		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 //			return false
 //		}
 //
 //		 // First, all registered TimingChains:
 //		for timingChain in rootPart.simulator.timingChains {
-//			if timingChain.processKey(from:nsEvent, inVew:vew) {
+//			if timingChain.processEvent(from:nsEvent, inVew:vew) {
 //				return true 						// timingChain handled it
 //			}
 //		}
@@ -438,12 +438,12 @@
 //		if fwGuts == nil {
 //			Swift.print("fwDocument(\(pp(.uid, [:])).fwGuts=nil")
 //		}
-//		else if fwGuts!.processKey(from:nsEvent, inVew:vew) {
+//		else if fwGuts!.processEvent(from:nsEvent, inVew:vew) {
 //				return true 					// fwGuts handled
 //		}
 //
 //		 // Simulator:
-//		if rootPart.simulator.processKey(from:nsEvent, inVew:vew) {
+//		if rootPart.simulator.processEvent(from:nsEvent, inVew:vew) {
 //			return true 						// simulator handled it
 //		}
 //

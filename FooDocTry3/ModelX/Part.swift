@@ -1297,7 +1297,7 @@ bug
     /// - Parameter from: ---- NSEvent to process
     /// - Parameter vew: ---- The 3D scene Vew to use
 	/// - Returns: Key was recognized
-	func processKey(from nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	func processEvent(from nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		if nsEvent.type == .keyUp || nsEvent.type == .keyDown {
 			let kind			= nsEvent.type == .keyUp ? ".keyUp" : ".keyDown"
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")

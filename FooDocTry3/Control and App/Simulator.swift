@@ -253,7 +253,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfSimulatorEq(part)
 	   /// - Parameter from: -- NSEvent to process
 	  ///  - Parameter vew:         -- The Vew to use
 	 ///   - Returns: Key was recognized
-	func processKey(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processEvent(from nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 			return false
 		}
