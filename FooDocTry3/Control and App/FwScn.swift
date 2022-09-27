@@ -41,10 +41,14 @@ import SceneKit
 
 class FwScn : Uid {
 	var uid		 : UInt16		= randomUid()
-	var log			 : Logger 	{	fwGuts.rootPart.logger						}
+	var log		 : Logger 		{	rootVew.fwGuts.logger						}
+//	var log		 : Logger 		{	fwGuts.rootPart.logger						}
+	var logger 	 : Logger 		{	rootVew.fwGuts.logger						}
 
+//	weak
+//	 var fwGuts	 : FwGuts!		= nil
 	weak
-	 var fwGuts	 : FwGuts!		= nil
+	 var rootVew : RootVew!		= nil
 
 	var scnView	 : SCNView!		= nil
 	var scnScene : SCNScene!
@@ -69,15 +73,22 @@ class FwScn : Uid {
 	}
 
 	// MARK: - 14. Building
-	var logger : Logger { fwGuts.logger											}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}
-								//
+
 	 // MARK: - 3.1 init
-	init(scnView:SCNView, scnScene:SCNScene) {		//?=nil
-		self.scnView 			= scnView
-		self.scnScene 			= scnScene
+	init(scnScene ss:SCNScene, scnView sv:SCNView?=nil) {
+				// get Scene and View:
+		scnScene 				= ss				// remember
+		scnScene.isPaused		= true				// Pause animations while bulding
+		scnView					= sv ?? SCNView()	// remember
+		scnView.scene			= scnScene			// register 3D-scene with 2D-View:
+		scnView.backgroundColor	= NSColor("veryLightGray")!
+		//scnView.pointOfView 	= args.pointOfView
+		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+		//scnView.antialiasingMode = args.antialiasingMode
+		//scnView.delegate		= ??args.delegate	// nil --> rv's delegate is rv!
 	}
 	func setControllers(config:FwConfig) {
 		assert(config.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
@@ -94,7 +105,7 @@ class FwScn : Uid {
 		if let speed			= config.cgFloat("speed") {
 			scnScene.physicsWorld.speed = speed
 		}
-		assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "Paranoia: set in SceneKitHostingView")
+/////	assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "Paranoia: set in SceneKitHostingView")
 	}
 	
 	 // MARK: - 4.1 Lights
@@ -138,8 +149,6 @@ class FwScn : Uid {
 		}
 	}
 	 // MARK: - 4.2 Camera
-	 // Get camera node from SCNNode
-//	var cameraScn : SCNNode?	{	fwScn.scnScene.cameraScn					}
 	func addCameraToScn(_ config:FwConfig) {
 		assert(rootScn.find(name:"camera") == nil, "Who put the node named '\("camera")' here? !!!")
 
@@ -159,10 +168,16 @@ class FwScn : Uid {
 		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
 		rootScn.addChildNode(newCameraScn)
 	}
+	 // Get camera node from SCNNode
+	var cameraScn : SCNNode? {
+		let rootNode			= scnScene.rootNode
+		let rv					= rootNode.find(name:"camera")
+		return rv
+	}
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func addAxesScn() {			// was updatePole()
-		guard fwGuts.document.config.bool_("showAxis") else {	return					}
+		guard rootVew.fwGuts.document.config.bool_("showAxis") else {	return					}
 
 		let name				= "*-pole"
 		 // Delete any Straggler
@@ -218,7 +233,7 @@ class FwScn : Uid {
 		pole.addChild(node:origin)
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if fwGuts.document.config.bool("axisTics") ?? false {
+		if rootVew.fwGuts.document.config.bool("axisTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -236,7 +251,7 @@ class FwScn : Uid {
 
 	 // MARK: 4.4 - Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-		guard let fwGuts		= fwGuts else {	return }
+		guard let fwGuts		= rootVew.fwGuts else {		return				}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
 		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:rootScn)
 
@@ -256,49 +271,50 @@ class FwScn : Uid {
 			SCNTransaction.commit()
 		}
 	}
-	/// Compute Camera Transform from pole config
-	/// - Parameters:
-	///   - from: defines direction of camera
-	///   - message: for logging only
-	///   - duration: for animation
-	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-		let cameraScn			= scnScene.cameraScn!
-								//
-//		let rootVew				= fwGuts.rootVewOf(fwScn:self)
-		let rootVew				= fwGuts.rootVewOf(fwScn:self)
-		zoom4fullScreen(selfiePole:rootVew.lastSelfiePole, cameraScn:cameraScn)
-
-		if duration > 0.0,
-		  fwGuts.document.config.bool("animatePan") ?? false {
-			SCNTransaction.begin()			// Delay for double click effect
-			atRve(8, fwGuts.logd("  /#######  animatePan: BEGIN All"))
-			SCNTransaction.animationDuration = CFTimeInterval(0.5)
-			 // 181002 must do something, or there is no delay
-			cameraScn.transform *= 0.999999	// virtually no effect
-			SCNTransaction.completionBlock = {
-				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, self.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
-				SCNTransaction.animationDuration = CFTimeInterval(duration)
-
-				cameraScn.transform = rootVew.lastSelfiePole.transform
-
-				atRve(8, self.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
-				SCNTransaction.commit()
-			}
-			atRve(8, fwGuts.logd("  \\#######  animatePan: COMMIT All"))
-			SCNTransaction.commit()
-		}
-		else {
-			cameraScn.transform = rootVew.lastSelfiePole.transform
-		}
-	}
+//	/// Compute Camera Transform from pole config
+//	/// - Parameters:
+//	///   - from: defines direction of camera
+//	///   - message: for logging only
+//	///   - duration: for animation
+//	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
+//		let cameraScn			= scnScene.cameraScn!
+//								//
+////		let rootVew				= fwGuts.rootVewOf(fwScn:self)
+//		let rootVew				= rootVew.fwGuts.rootVewOf(fwScn:self)
+//		zoom4fullScreen(selfiePole:rootVew.lastSelfiePole, cameraScn:cameraScn)
+//
+//		if duration > 0.0,
+//		  fwGuts.document.config.bool("animatePan") ?? false {
+//			SCNTransaction.begin()			// Delay for double click effect
+//			atRve(8, fwGuts.logd("  /#######  animatePan: BEGIN All"))
+//			SCNTransaction.animationDuration = CFTimeInterval(0.5)
+//			 // 181002 must do something, or there is no delay
+//			cameraScn.transform *= 0.999999	// virtually no effect
+//			SCNTransaction.completionBlock = {
+//				SCNTransaction.begin()			// Animate Camera Update
+//				atRve(8, self.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
+//				SCNTransaction.animationDuration = CFTimeInterval(duration)
+//
+//				cameraScn.transform = rootVew.lastSelfiePole.transform
+//
+//				atRve(8, self.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
+//				SCNTransaction.commit()
+//			}
+//			atRve(8, fwGuts.logd("  \\#######  animatePan: COMMIT All"))
+//			SCNTransaction.commit()
+//		}
+//		else {
+//			cameraScn.transform = rootVew.lastSelfiePole.transform
+//		}
+//	}
 		
 	/// Set Camera's transform so that all parts of the scene are seen.
 	/// - Parameters:
 	///   - selfiePole: look points looking at it's origin
 	///   - camScn: camera
 	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn camScn:SCNNode) {
-		let rootVew				= fwGuts.rootVewOf(fwScn:self)
+		guard let rootVew		= rootVew 		 else {	fatalError("FwScn.rootVew is nil")}	//fwGuts.rootVewOf(fwScn:self)
+		guard let fwGuts		= rootVew.fwGuts else {	fatalError("FwScn.fwGuts is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
@@ -322,7 +338,7 @@ class FwScn : Uid {
 				zoomSize		/= ratioHigher
 			}
 		}
-		let vanishingPoint 		= fwGuts.document.config.double("vanishingPoint")
+		let vanishingPoint 		= rootVew.fwGuts.document.config.double("vanishingPoint")
 		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
 			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
 			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
@@ -335,7 +351,7 @@ class FwScn : Uid {
 	}
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
-		let rootVew				= fwGuts.rootVewOf(fwScn:self)
+//		let rootVew				= fwGuts.rootVewOf(fwScn:self)
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
 		let vpV3 : SCNVector3	= rootScn.convertPosition(wpV3, from:nil)
 		return NSPoint(x:vpV3.x, y:vpV3.y)
@@ -344,7 +360,8 @@ class FwScn : Uid {
 	 /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	///   (This assures updateVewNScn work)
 	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
-		let rootVew				= fwGuts.rootVewOf(fwScn:self)
+		guard let rootVew		= rootVew 		 else {	fatalError("FwScn.rootVew is nil")}	//fwGuts.rootVewOf(fwScn:self)
+		guard let fwGuts		= rootVew.fwGuts else {	fatalError("FwScn.fwGuts is nil")}
 
 		let rootPart			= fwGuts.rootPart
 		assert(rootVew.name 	== "_ROOT", "Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
@@ -402,7 +419,7 @@ class FwScn : Uid {
 //		assert(!fwGuts.pole.worldPosition.isNan, "About to use a NAN World Position")
 
 		 // Do one, just for good luck
-		updatePole2Camera(reason:"install RootPart")
+		rootVew.updatePole2Camera(reason:"install RootPart")
 
 		// 7. UNLOCK PartTree and VewTree:
 		rootVew.unlock(	 vewTreeAs:"createVews")

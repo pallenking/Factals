@@ -29,6 +29,7 @@ struct ContentView: View {
 				//	let pov			= fwGuts.rootVew0?.fwScn.scnScene.cameraScn
 					ZStack {
 						NSEventReceiver { nsEvent in
+							nop
 							fwGuts.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)}
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,

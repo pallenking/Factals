@@ -343,9 +343,10 @@ bug;	let rv					= NSMenu(title:path)
 		let rootPart			= RootPart(fromLibrary:"\(regressScene)")
 
 		let fwGuts				= FwGuts(rootPart:rootPart)
-		let i					= fwGuts.newViewIndex()		// first one (more not supportd
+//		let x					= RootVew(forPart: rootPart, scnScene: <#T##SCNScene#>)
+//		let i					= fwGuts.newViewIndex()		// first one (more not supportd
+//		assert(i == 1, "mult Views/window not yet supported")
 
-		assert(i == 1, "mult Views/window not yet supported")
 		var doc					= FooDocTry3Document(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
 		doc.setControllers(config:doc.config + rootPart.ansConfig)

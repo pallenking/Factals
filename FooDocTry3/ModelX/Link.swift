@@ -488,22 +488,15 @@ bug	// NEVER USED?
 			}
 		}
 	}		// Xyzzy19e
-//		 // This section is in rePaint, because camera changes positions!
-//		guard let fwGuts		= root?.fwGuts else {
-//			print("############ rotateLinkSkins with DOC? == nil #######")
-//			return																}
-//		guard fwGuts.fwScns[zeroIndex].scnScene.cameraScn != nil else {
-//		guard fwGuts.fwScns[zeroIndex].scnScene.cameraScn != nil else {
-//		guard fwScn.scnScene.cameraScn != nil else {
-//			return																}
+
 	 // MARK: - 9.5.4: will Render Scene -- Rotate Links toward camera
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
 		guard let fwScn			= vew.rootVew?.fwScn else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
-		guard let camera		= fwScn.scnScene.cameraScn?.position else {	return }
-		guard let linkVew		= vew as? LinkVew else { fatalError("This should not")}
+		guard let camera		= fwScn.cameraScn?.position else {	return 		}
+		guard let linkVew		= vew as? LinkVew 	 else { fatalError("This should not")}
 
 		 // Get ends of link, and set positions
 		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {

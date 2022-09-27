@@ -51,34 +51,29 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 		rootPart	.fwGuts		= self 		 // Back Link
 		eventCentral.fwGuts		= self
+
+		 // Make one Vew
+		let ch0					= newViewIndex()
+										//		let rootVew1			= RootVew(forPart:rootPart, scnScene:nil)
+										//		rootVews.append(rootVew1)
+										//		assert(rootVews.count == 1, "huh? paranoia")
 	}
 	 /// generate a new View, returning its index
 	func newViewIndex(scnScene s:SCNScene?=nil) -> Int {
-		let rv					= rootVews.count
+		let viewIndexRv			= rootVews.count
 
-		 // Make BASIC Component Parts (owned and used by FwGuts)
+		 // Get BASIC Component Part (owned and used by FwGuts)
 		// --------------- A: SCNScene
-		let scnScene			= s ?? SCNScene() 	// ?? SCNScene(named:"art.scnassets/ship.scn")
+		let scnScene			= s ?? SCNScene(named:"art.scnassets/ship.scn") ?? SCNScene()
 		scnScene.isPaused		= true				// Pause animations while bulding
 		scnScene.physicsWorld.contactDelegate = eventCentral
 
-		// --------------- B: SCNView ((A))
-		let scnView	: SCNView	= SCNView()					//frame:CGRect(x:0, y:0, width:0, height:0))//400 400
-		scnView.scene			= scnScene				// register 3D-scene with 2D-View
-		//scnView.pointOfView 	= args.pointOfView
-		scnView.backgroundColor	= NSColor("veryLightGray")!
-		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
-		//scnView.antialiasingMode = args.antialiasingMode
-//?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
-
 		// --------------- C: RootVew ((rootPart, A))
-		let rVew				= RootVew(forPart:rootPart, scn:scnScene.rootNode)
-		 rVew.fwGuts			= self
-	//	 rv.scn 				= fs.scn 			// set Vew with new scn root
-		 rootVews.append(rVew)
-		return rv
+		let newRootVew			= RootVew(forPart:rootPart, scnScene:scnScene)
+		 newRootVew.fwGuts		= self				// Set Owner
+		 rootVews.append(newRootVew)
+		return viewIndexRv
 	}
-
 
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
@@ -376,7 +371,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		rootVews[i].unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart   .unlock(partTreeAs:"toggelOpen")
 
-		rootVew.fwScn.updatePole2Camera(reason:"toggelOpen")
+		rootVew.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 
@@ -461,7 +456,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			var rv				= rootPart     	.pp(.classUid) + " "		//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews     .pp(PpMode.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			rv					+= eventCentral	.pp(.classUid) + " "		//}
-			rv					+= document		.pp(.classUid)
+			if let document {rv	+= document		.pp(.classUid)					}
 			rv					+= " SelfiePole:" + rootVews[zeroIndex].lastSelfiePole.pp()
 			return rv
 		default:

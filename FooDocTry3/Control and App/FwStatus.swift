@@ -266,6 +266,10 @@ extension RootVew : FwStatus	{									 /// RootVew
 //		myLine					+= fwScns       	.pp(.classUid) + " "
 		return ppFwStateHelper("RootVew     ", uid:self,
 			myLine:myLine,
+			otherLines: { deapth in
+				var rv			=  self.fwScn.ppFwState()
+				return rv
+			},
 			deapth:deapth)
 	}
 }
@@ -273,7 +277,7 @@ extension FwScn : FwStatus	{										   /// FwScn
 	func ppFwState(deapth:Int=999) -> String {
 //var fwGuts	 : FwGuts!		= nil
 //var scnView	 : SCNView!		= nil
-		var myLine				= fwGuts != nil ? "fwGuts==nil " : ""
+		var myLine				= rootVew != nil ? "Delegate rootVew==nil " : ""
 		myLine					=  scnView?.pp(.classUid) ?? "" + " "
 		myLine					+= scnScene.pp(.classUid) + " "
 		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"

@@ -113,6 +113,60 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 									//.		} else {
 									//.			warning("makeNSView: args.fwGuts is nil")
 									//.		}
+
+									//		// --------------- B: SCNView ((A))
+									//		let scnView	: SCNView	= SCNView()					//frame:CGRect(x:0, y:0, width:0, height:0))//400 400
+									//		scnView.scene			= scnScene				// register 3D-scene with 2D-View
+									//		//scnView.pointOfView 	= args.pointOfView
+									//		scnView.backgroundColor	= NSColor("veryLightGray")!
+									//		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+									//		//scnView.antialiasingMode = args.antialiasingMode
+									////?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+
+									//	 /// generate a new View, returning its index
+									//	func newViewIndex(scnScene s:SCNScene?=nil) -> Int {
+									//		let rv					= rootVews.count
+									//
+									//		 // Make BASIC Component Parts (owned and used by FwGuts)
+									//		// --------------- A: SCNScene
+									//		let scnScene			= s ?? SCNScene() 	// ?? SCNScene(named:"art.scnassets/ship.scn")
+									//		scnScene.isPaused		= true				// Pause animations while bulding
+									//		scnScene.physicsWorld.contactDelegate = eventCentral
+									//
+									//		// --------------- C: RootVew ((rootPart, A))
+									//		let newRootVew			= RootVew(forPart:rootPart, scnScene:scnScene)
+									//		 newRootVew.fwGuts		= self
+									//	//	 newRootVew.scn 		= fs.scn 			// set Vew with new scn root
+									//		 rootVews.append(newRootVew)
+									//		return rv
+									//	}
+									////		// --------------- B: SCNView ((A))
+									////		let scnView	: SCNView	= SCNView()					//frame:CGRect(x:0, y:0, width:0, height:0))//400 400
+									////		scnView.scene			= scnScene				// register 3D-scene with 2D-View
+									////		//scnView.pointOfView 	= args.pointOfView
+									////		scnView.backgroundColor	= NSColor("veryLightGray")!
+									////		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+									////		//scnView.antialiasingMode = args.antialiasingMode
+									//////?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+
+
+
+									//	init(forPart part:Part, scnScene:SCNScene) {		//?=nil
+									////		let scnView	: SCNView	= SCNView()
+									////		scnView.scene			= scnScene				// register 3D-scene with 2D-View
+									////		//scnView.pointOfView 	= args.pointOfView
+									////		scnView.backgroundColor	= NSColor("veryLightGray")!
+									////		//scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
+									////		//scnView.antialiasingMode = args.antialiasingMode
+									//////?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
+									//
+									//		self.fwScn				= FwScn(scnScene:scnScene)
+									//
+									//		super.init(forPart:part, scn:scnScene.rootNode)
+									//		lastSelfiePole			= SelfiePole(rootVew:self)
+									//	}
+
+
 	func updateNSView(_ nsView: SCNView, context: Context) {
 		atRnd(4, print("----------- SceneKitHostingView.updateNSView called"))
 	}

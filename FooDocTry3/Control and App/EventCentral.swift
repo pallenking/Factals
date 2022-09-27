@@ -18,9 +18,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 
 // /////////////////////////////////////////////////////////////////////////////
 // ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-  // called by SCNSceneRenderer
-
+// ////////////////////////////////////// called by SCNSceneRenderer ///////////
 		// MARK: - SCNSceneRendererDelegate
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
@@ -85,7 +83,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 // ///////////////////  SCNPhysicsContactDelegate:  ////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////
 
-		// MARK: - SCNSceneRendererDelegate
+		// MARK: - SCNPhysicsContactDelegate
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 	}
 	func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
@@ -101,8 +99,10 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	//	print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
-		let fooDoc				= fwGuts.document
-		let fwScn0				= fwGuts.rootVew0?.fwScn
+//		let fooDoc				= fwGuts.document
+		let rootVew0			= fwGuts.rootVew0
+		let fwScn0				= rootVew0?.fwScn
+		let channel				= 0	//debug
 
 		switch nsEvent.type {
 
@@ -130,13 +130,13 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts.modelPic(with:nsEvent)
 			}
-			fwScn0?.updatePole2Camera(duration:duration, reason:"Left mouseDown")
+			rootVew0?.updatePole2Camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true		// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				fwScn0?.updatePole2Camera(reason:"Left mouseDragged")
+				rootVew0?.updatePole2Camera(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
@@ -147,22 +147,22 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 					}
 				}
 				mouseWasDragged = false
-				fwScn0?.updatePole2Camera(duration:duration, reason:"Left mouseUp")
+				rootVew0?.updatePole2Camera(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			fwScn0?.updatePole2Camera(duration:duration, reason:"Other mouseDown")
+			rootVew0?.updatePole2Camera(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			fwScn0?.updatePole2Camera(reason:"Other mouseDragged")
+			rootVew0?.updatePole2Camera(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			fwScn0?.updatePole2Camera(duration:duration, reason:"Other mouseUp")
-			atEve(9, print("\(fwScn0?.scnScene.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
+			rootVew0?.updatePole2Camera(duration:duration, reason:"Other mouseUp")
+			atEve(9, print("\(fwScn0?.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
@@ -171,7 +171,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom *= delta
 			print("processEvent(type:.scrollWheel) found pole\(fwGuts.rootVews[zeroIndex].lastSelfiePole.uid).zoom = \(fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom)")
-			fwScn0?.updatePole2Camera(reason:"Scroll Wheel")
+			rootVew0?.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //

@@ -24,7 +24,7 @@
 //			window.titleVisibility = .hidden
 //			window.titlebarAppearsTransparent = true
 //			window.isOpaque = false
-//			window.backgroundColor = NSColor.clear
+//	//		window.backgroundColor = NSColor.clear
 //		}
 ////		SVGShaperConfiguration.registerForChangeNotifications()
 ////		SVGConverterService.activate()
