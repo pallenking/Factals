@@ -59,9 +59,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		 // Make BASIC Component Parts (owned and used by FwGuts)
 		// --------------- A: SCNScene
 		let scnScene			= s ?? SCNScene() 	// ?? SCNScene(named:"art.scnassets/ship.scn")
-		scnScene.isPaused		= false					// OFF while bulding
-											//print(" ........... FwGuts:\(fmt("%04x", uid)) Vew:\(i)........." +
-											//		  "\(String(describing: scnScene.physicsWorld.contactDelegate)) <-1 \(eventCentral)")
+		scnScene.isPaused		= true				// Pause animations while bulding
 		scnScene.physicsWorld.contactDelegate = eventCentral
 
 		// --------------- B: SCNView ((A))
@@ -73,13 +71,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		//scnView.antialiasingMode = args.antialiasingMode
 //?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
-//		// --------------- C: FwScn ((A, B))
-//		let fScn				= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
-//		 fScn.fwGuts			= self
-//		 fScn.scn.name			= "*-ROOT"
-//		 fwScns.append(fScn)
-
-		// --------------- D: RootVew ((rootPart, A))
+		// --------------- C: RootVew ((rootPart, A))
 		let rVew				= RootVew(forPart:rootPart, scn:scnScene.rootNode)
 		 rVew.fwGuts			= self
 	//	 rv.scn 				= fs.scn 			// set Vew with new scn root
