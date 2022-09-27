@@ -17,9 +17,11 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	@Published var color000	: NSColor? = nil
 	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
 	var keep		:  Bool		= false		// used in reVew
-	var parent		:  Vew?	= nil
-	var children 	: [Vew]	= []
-	var child0		:  Vew?	{	return children.count == 0 ? nil : children[0] }
+	var parent		:  Vew?		= nil
+	var children 	: [Vew]		= []
+	var child0		:  Vew?		{	return children.count == 0 ? nil : children[0] }
+	var rootVewRaw	: Vew?		{	parent?.rootVewRaw ?? self					}
+	var rootVew		: RootVew?	{	rootVewRaw as? RootVew						}
 
 	 // Glue these Neighbors together: (both Always present)
 	@Published var part : Part 				// Part which this Vew represents	// was let

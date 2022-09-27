@@ -356,9 +356,8 @@ class TimingChain : Atom {
 				root!.simulator.kickstart = 4	// set simulator to run, to pick event up
 				return true				// other process processes it
 			}
-		}
-		else	  // ///////// key UP  ///////
-		if eventDownPause {
+		}		  // ///////// key UP  ///////
+		else if eventDownPause {
 			releaseEvent()				// retract event
 		}
 		return false

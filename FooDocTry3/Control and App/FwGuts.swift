@@ -12,9 +12,16 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	var rootVew0 :  RootVew?	{ rootVews.count > 0 ? rootVews[zeroIndex] : nil }
 
 //	var fwScns	 : [FwScn]		= []
-	func rootVew(of fwScn:FwScn) -> RootVew {
-		let j					= fwScns.firstIndex { $0 === fwScn}
-		return rootVews[Int(j!)]
+	func rootVewOf(fwScn:FwScn) -> RootVew {
+		for rv in rootVews {
+			if rv.fwScn === fwScn {
+				return rv
+			}
+		}
+		fatalError("rootVewOf(fwScn:FwScn) failure")
+	}
+	func indexOf(rootVew:Vew) -> Int? {
+		return rootVews.firstIndex(where: { $0 == rootVew} )
 	}
 //	func fwScn(of rootVew_:RootVew) -> FwScn {
 //		let j					= rootVews.firstIndex {$0 === rootVew_}
@@ -66,19 +73,17 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		//scnView.antialiasingMode = args.antialiasingMode
 //?		//scnView.delegate		= args.delegate	// nil --> rv's delegate is rv!
 
-		// --------------- C: FwScn ((A, B))
-		let fScn				= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
-		 fScn.fwGuts			= self
-		 fScn.scn.name			= "*-ROOT"
-		 fwScns.append(fScn)
+//		// --------------- C: FwScn ((A, B))
+//		let fScn				= FwScn(scnView:scnView, scnScene:scnScene)	// .scnScene! and .scnView! are nil
+//		 fScn.fwGuts			= self
+//		 fScn.scn.name			= "*-ROOT"
+//		 fwScns.append(fScn)
 
 		// --------------- D: RootVew ((rootPart, A))
 		let rVew				= RootVew(forPart:rootPart, scn:scnScene.rootNode)
 		 rVew.fwGuts			= self
 	//	 rv.scn 				= fs.scn 			// set Vew with new scn root
 		 rootVews.append(rVew)
-
-		assert(rootVews.count == fwScns.count, "paranoid: rootVews and fwScns size mismatch")
 		return rv
 	}
 
@@ -181,7 +186,7 @@ bug//		try self.write(to: fileURL)
 			}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			fwScns[zeroIndex].rootScn.play(sound:"Oooooooo")		//GameStarting
+			rootVew0?.fwScn.rootScn.play(sound:"Oooooooo")		//GameStarting
 		case "v":	
 			print("\n******************** 'v': ==== Views:")
 			print("\(self.rootVews.pp(.tree))", terminator:"")
@@ -190,8 +195,8 @@ bug//		try self.write(to: fileURL)
 			rootPart.logger.ppIndentCols = 3
 //			DOClog.ppIndentCols = 3
 //			print(fwScn[0]!.rootScn.pp(.tree), terminator:"")
-			for fwScn in fwScns {
-				print(fwScn.rootScn.pp(.tree), terminator:"")
+			for rootVew in rootVews {
+				print(rootVew.fwScn.rootScn.pp(.tree), terminator:"")
 			}
 			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
 			//aprint("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
@@ -235,9 +240,9 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			return true								// recognize both
 		case "f": 					// // f // //
 			var msg					= ""
-			for fwScn in fwScns {
-				fwScn.animatePhysics = !fwScn.animatePhysics
-				msg 				+= fwScn.animatePhysics ? "Run   " : "Freeze"
+			for rootVew in rootVews {
+				rootVew.fwScn.animatePhysics = !rootVew.fwScn.animatePhysics
+				msg 				+= rootVew.fwScn.animatePhysics ? "Run   " : "Freeze"
 			}
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
@@ -284,6 +289,9 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	}
 
 	func findVew(nsEvent:NSEvent) -> Vew? {
+		guard let rootVewOfEv	= nsEvent.rootVew else {	return nil 			}
+		let fwScnOfEv 			= rootVewOfEv.fwScn
+
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -296,24 +304,24 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:fwScns[zeroIndex].rootScn,// The root of the node hierarchy to be searched.
+			.rootNode:rootVew0?.fwScn.rootScn,// The root of the node hierarchy to be searched.
 //			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 		 // CONVERT to window coordinates
 		let pt 	  	: NSPoint	= nsEvent.locationInWindow
-		let mouse 	: NSPoint	= fwScns[zeroIndex].convertToRoot(windowPosition:pt)
+		let mouse 	: NSPoint	= fwScnOfEv.convertToRoot(windowPosition:pt)
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
 								//		 + +   + +
-		let hits:[SCNHitTestResult]	= fwScns[zeroIndex].scnView!.hitTest(mouse, options:configHitTest)
+		let hits:[SCNHitTestResult]	= fwScnOfEv.scnView!.hitTest(mouse, options:configHitTest)
 								//		 + +   + +
 
 //        let hits 				= scnView.hitTest(mouse, options:configHitTest)
 //        if let tappednode = hits.first?.node
 
 		 // SELECT HIT; prefer any child to its parents:
-		var rv : Vew			= rootVews[0]		// default
-		var pickedScn			= fwScns[0].rootScn 	// default
+		var rv : Vew			= rootVewOfEv			// default
+		var pickedScn			= fwScnOfEv.rootScn 	// default
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:
 			let sortedHits	= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -351,6 +359,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
 		let i 					= 0			// only element 0 for now
+		let rootVew				= vew.rootVew as! RootVew
 
 		 // Toggel vew.expose: .open <--> .atomic
 		vew.expose 				= vew.expose == .open   ? .atomic :
@@ -375,7 +384,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		rootVews[i].unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart   .unlock(partTreeAs:"toggelOpen")
 
-		fwScns[i].updatePole2Camera(reason:"toggelOpen")
+		rootVew.fwScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 
@@ -457,11 +466,10 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
-			var rv				= rootPart     		 .pp(.classUid) + " "		//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
-			rv					+= rootVews     		 .pp(PpMode.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
-			rv					+= fwScns       		 .pp(.classUid) + " "		//	rv				+= "\(obj.description.shortenStringDescribing())\n"
-			rv					+= eventCentral		 .pp(.classUid) + " "		//}
-			rv					+= document.pp(.classUid)
+			var rv				= rootPart     	.pp(.classUid) + " "		//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
+			rv					+= rootVews     .pp(PpMode.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
+			rv					+= eventCentral	.pp(.classUid) + " "		//}
+			rv					+= document		.pp(.classUid)
 			rv					+= " SelfiePole:" + rootVews[zeroIndex].lastSelfiePole.pp()
 			return rv
 		default:
@@ -477,12 +485,3 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 //	override func validateProposedFirstResponder(_ responder: NSResponder,
 //					   for event: NSEvent?) -> Bool {	return true				}
 //	override func resignFirstResponder()	-> Bool	{	return true				}
-
- //https://openbase.com/swift/GDPerformanceView
-//GDPerformanceMonitor.sharedInstance.configure(configuration: { (textLabel) in
-//	textLabel?.backgroundColor = .black
-//	textLabel?.textColor = .white
-//	textLabel?.layer.borderColor = UIColor.black.cgColor
-//})
-//GDPerformanceMonitor.sharedInstance.startMonitoring()
-

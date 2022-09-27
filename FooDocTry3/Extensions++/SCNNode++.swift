@@ -412,7 +412,7 @@ bug		//	rv					=  ppDefault(self:self, mode:mode, aux:aux)
 		// Schleze a little and use use global, not DOClog's while available
 		if params4aux.string_("ppViewOptions").contains("W") {
 		//if DOClog.params4aux.string_("ppViewOptions").contains("W") {
-			let rootScn			= DOCfwGuts.fwScns[zeroIndex].rootScn //fwGuts!.rootScn
+			let rootScn			= DOCfwGuts.rootVew0!.fwScn.rootScn
 			let p				= convertPosition(.zero, to:rootScn)
 			rv2					+= p.pp(.short).field(-11, dots:false)
 		}
@@ -462,3 +462,16 @@ class SCNComment : SCNNode {
 	}
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")	}
 }
+
+ //https://openbase.com/swift/GDPerformanceView
+//GDPerformanceMonitor.sharedInstance.configure(configuration: { (textLabel) in
+//	textLabel?.backgroundColor = .black
+//	textLabel?.textColor = .white
+//	textLabel?.layer.borderColor = UIColor.black.cgColor
+//})
+//GDPerformanceMonitor.sharedInstance.startMonitoring()
+		// TO DO:
+		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
+		//fwView?.background	= NSColor("veryLightGray")!
+		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
+

@@ -44,13 +44,13 @@ func rootvewL(_ name:String?=nil) -> Vew  {
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-var  rootScnL : SCNNode  		{  DOCfwGutsQ?.fwScns[zeroIndex].rootScn ?? .null				}
+var  rootScnL : SCNNode  		{  DOCfwGutsQ?.rootVews[zeroIndex].fwScn.rootScn ?? .null				}
 func rootscnL(_ name:String?=nil) -> SCNNode	{
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}
-	var scnRv					= fwGuts.fwScns[0].rootScn				//fwGuts.rootScn 	// Root
+	var scnRv					= fwGuts.rootVews[zeroIndex].fwScn.rootScn				//fwGuts.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {
@@ -82,7 +82,7 @@ func sendApp(key:String="?") {
 			isARepeat		: false,
 			keyCode			: 0)
 	{
-		let _			 	= doc.processEvent(from:ginnedUpEvent, inVew:nil)
+		let _			 	= doc.processEvent(nsEvent:ginnedUpEvent, inVew:nil)
 	}
 	else {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")

@@ -62,7 +62,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 								//		++			++
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
-		let scnView				= fwGuts.fwScns[i].scnView!
+		let scnView				= fwGuts.rootVews[i].fwScn.scnView!
 		if args.options.contains(.allowsCameraControl) {
 			scnView.allowsCameraControl = true
 		}

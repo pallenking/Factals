@@ -99,23 +99,11 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) {
 	//	print("--- func received(nsEvent:\(nsEvent))")
-		let nsTrackPad			= true//false//
+		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
 		let fooDoc				= fwGuts.document
 		let fwScn0				= fwGuts.rootVew0?.fwScn
 
-//		for view in nsEvent.window?.contentView?.subviews ?? [] {
-//			print("--- nsEvent.window?.contentView?.subviews[i]: \(view) ")
-//			for subv in view.subviews {
-//				print("-------- subv: \(subv) ")
-//				if let scnView	= subv as? SCNView {
-//					if let scnScene = scnView.scene {
-//						print("#### gotit \(scnScene) ")
-//					}
-//					print("-------- subv: \(scnView) ")
-//				}
-//			}
-//		}
 		switch nsEvent.type {
 
 		  //  ====== KEYBOARD ======
@@ -155,7 +143,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts.modelPic(with:nsEvent) {
-						fwGuts.rootVew0.lookAtVew	= vew			// found a Vew: Look at it!
+						fwGuts.rootVew0?.lookAtVew	= vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false

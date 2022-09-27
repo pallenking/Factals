@@ -415,23 +415,24 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-		let trunkScn			= root?.fwGuts?.fwScns[zeroIndex].trunkScn							//DOCfwGuts.
-		repeat {			//.transform	// my position in parent
-			let scn				= aVew.scn
-			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
-			let t				= activeScn.transform
-			rv.center			= t * rv.center						// (SCNVector3)
-			rv.radius			= length(t.m3x3 * .uY) * rv.radius	// might be scaling
-			rv.exclude			= rv.exclude==nil ? aVew.bBox * t :
-								 (rv.exclude! * t | aVew.bBox * t)
-			let wpStr 			= !enaPpWp || trunkScn==nil ? "" :
-								"w" + aVew.scn.convertPosition(rv.center, to:trunkScn).pp(.short) + " "
-			guard aVew.parent != nil else {
-				break															}
-
-			aVew					= aVew.parent!
-			atRsi(8, aVew.log("  now spot=[\(rv.pp())]\(wpStr) (after \(t.pp(.phrase)))"))
-		} while aVew != inVew			// we have not found desired Vew		// // HIghest part self is a part of..	From Long Ago...
+bug//		let trunkScn : SCNNode	= root?.rootVew0?.fwScn.rootScnFoo//rootScn							//DOCfwGuts.
+////		let trunkScn			= root?.fwGuts?.fwScns[zeroIndex].trunkScn							//DOCfwGuts.
+//		repeat {			//.transform	// my position in parent
+//			let scn				= aVew.scn
+//			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
+//			let t				= activeScn.transform
+//			rv.center			= t * rv.center						// (SCNVector3)
+//			rv.radius			= length(t.m3x3 * .uY) * rv.radius	// might be scaling
+//			rv.exclude			= rv.exclude==nil ? aVew.bBox * t :
+//								 (rv.exclude! * t | aVew.bBox * t)
+//			let wpStr 			= !enaPpWp || trunkScn==nil ? "" :
+//								"w" + aVew.scn.convertPosition(rv.center, to:trunkScn).pp(.short) + " "
+//			guard aVew.parent != nil else {
+//				break															}
+//
+//			aVew					= aVew.parent!
+//			atRsi(8, aVew.log("  now spot=[\(rv.pp())]\(wpStr) (after \(t.pp(.phrase)))"))
+//		} while aVew != inVew			// we have not found desired Vew		// // HIghest part self is a part of..	From Long Ago...
 																				//let hiPart  			= ancestorThats(childOf:commonVew.part)!
 		return rv																//let hiVew 			= commonVew.find(part:hiPart)!
 	}																			//let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform

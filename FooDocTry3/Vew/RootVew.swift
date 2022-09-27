@@ -24,6 +24,7 @@ class RootVew : Vew {
 	var lastSelfiePole : SelfiePole!					// init to default
 
 	init(forPart part:Part, scn:SCNNode) {		//?=nil
+		self.fwScn				= scn as! FwScn
 		super.init(forPart:part, scn:scn)
 		lastSelfiePole			= SelfiePole(rootVew:self)
 	}

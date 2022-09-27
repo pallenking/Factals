@@ -186,7 +186,7 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= ""
 //		myLine					+= rootPart    	.pp(.classUid) + " "
-		myLine					+= fwScns       	.pp(.classUid) + " "
+//		myLine					+= fwScns       	.pp(.classUid) + " "
 		myLine					+= rootVews     	.pp(.classUid) + " "
 		myLine					+= eventCentral	.pp(.classUid) + " "
 		myLine					+= document		.pp(.classUid)
@@ -196,8 +196,8 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 			otherLines:{deapth in
 				 // Controller:
 				var rv			= ""
-				for i in 0...self.fwScns.count {
-					rv			=  self.fwScns[i]  .ppFwState(deapth:deapth)
+				for i in 0...self.rootVews.count {
+//					rv			=  self.fwScns[i]  .ppFwState(deapth:deapth)
 					rv			+= self.rootVews[i].ppFwState(deapth:deapth)
 				}
 				rv				+= self.logger.ppFwState()
@@ -262,7 +262,8 @@ extension RootVew : FwStatus	{									 /// RootVew
 		var myLine				= "rootVew:\(ppUid(self.trunkVew,  showNil:true)) "
 		myLine					+= self.rootVewOwner != nil ? "OWNER:'\(self.rootVewOwner!)' " : "UNOWNED "
 		myLine					+= "pole:w[OPS]"//\(self.fwScn.convertPosition(.zero, to:rootScn).pp(.short)) "
-		myLine					+= "animatePhysics:\(self.fwGuts.fwScns[zeroIndex].animatePhysics)(isPaused:\(self.fwGuts.fwScns[zeroIndex].scnScene.isPaused))"
+		myLine					+= "animatePhysics:\(self.fwGuts.rootVew0!.fwScn.animatePhysics)(isPaused:\(self.fwGuts.rootVew0!.fwScn.scnScene.isPaused))"
+//		myLine					+= fwScns       	.pp(.classUid) + " "
 		return ppFwStateHelper("RootVew     ", uid:self,
 			myLine:myLine,
 			deapth:deapth)

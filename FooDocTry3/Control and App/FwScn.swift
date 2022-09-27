@@ -8,11 +8,6 @@
 import SceneKit
 
 // https://medium.com/@gabriel_lewis/how-to-debug-scenekit-and-arkit-in-xcode-ebd105ee36c9
-		// TO DO:
-		  //  2. In SCNView show
-		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
-		//fwView?.background	= NSColor("veryLightGray")!
-		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 
 
 //		Concepts:
@@ -56,6 +51,7 @@ class FwScn : Uid {
 
 	var scn		 : SCNNode		{	scnScene.rootNode							}
 	var rootScn  : SCNNode		{	scnScene.rootNode							}	//scnRoot
+	var rootScnFoo = SCNNode()
 	var trunkScn : SCNNode? 	{
 		if let tv				= rootScn.child0  {
 //		if let tv				= fwGuts?.rootVews[0]!.trunkVew  {
@@ -268,7 +264,8 @@ class FwScn : Uid {
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 		let cameraScn			= scnScene.cameraScn!
 								//
-		let rootVew				= fwGuts.rootVew(of:self)
+//		let rootVew				= fwGuts.rootVewOf(fwScn:self)
+		let rootVew				= fwGuts.rootVewOf(fwScn:self)
 		zoom4fullScreen(selfiePole:rootVew.lastSelfiePole, cameraScn:cameraScn)
 
 		if duration > 0.0,
@@ -301,7 +298,7 @@ class FwScn : Uid {
 	///   - selfiePole: look points looking at it's origin
 	///   - camScn: camera
 	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn camScn:SCNNode) {
-		let rootVew				= fwGuts.rootVew(of:self)
+		let rootVew				= fwGuts.rootVewOf(fwScn:self)
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
@@ -338,7 +335,7 @@ class FwScn : Uid {
 	}
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
-		let rootVew				= fwGuts.rootVew(of:self)
+		let rootVew				= fwGuts.rootVewOf(fwScn:self)
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
 		let vpV3 : SCNVector3	= rootScn.convertPosition(wpV3, from:nil)
 		return NSPoint(x:vpV3.x, y:vpV3.y)
@@ -347,7 +344,7 @@ class FwScn : Uid {
 	 /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	///   (This assures updateVewNScn work)
 	func createVewNScn() { 	// Make the  _VIEW_  from Experiment
-		let rootVew				= fwGuts.rootVew(of:self)
+		let rootVew				= fwGuts.rootVewOf(fwScn:self)
 
 		let rootPart			= fwGuts.rootPart
 		assert(rootVew.name 	== "_ROOT", "Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")

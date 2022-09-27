@@ -61,6 +61,7 @@ struct ContentView: View {
 							{	printFwcConfig()								}
 						}
 						Spacer()
+						let x = fwGuts.rootVew0?.fwScn.scnScene.rootNode
 						HStack {
 							Text("Model:")
 							Button(label:{	Text(   "ptm").padding(.top, 300)	})
@@ -71,9 +72,9 @@ struct ContentView: View {
 							Button(label:{	Text(   "ptv").padding(.top, 300)	})
 							{	lldbPrint(ob:fwGuts.rootVews, mode:.tree) 		}
 							Button(label:{	Text(   "ptn").padding(.top, 300)	})
-							{	lldbPrint(ob:fwGuts.rootVew0?.fwScn.scnScene.rootNode, mode:.tree)}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+							{	lldbPrint(ob:x!, mode:.tree)}
 							Button(label:{	Text(   "reV").padding(.top, 300)	})
-							{	document.redo += 1								}//				{	Swift.print(scene.rootNode.pp(.tree, aux), terminator:"\n") 	}
+							{	document.redo += 1								}
 						}
 						Spacer()
 						HStack {

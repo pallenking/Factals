@@ -1,20 +1,41 @@
 //  FwwEvent.swift -- generate digital words C190822PAK
 import SceneKit
 
-var uglyArray : [RootVew] = []
-
 extension NSEvent {
-	var rootVew : (Int, RootVew?) {
-		bug
-		return (0, nil)
+	var rootVew : RootVew? {
+		let fwGuts 				= DOCfwGuts
+		if let nsViewOfEv 		= window?.contentView {
+			for rootVew in fwGuts.rootVews {
+				let scnView		= rootVew.fwScn.scnView!
+				if scnView.isDescendant(of:nsViewOfEv) {
+					return rootVew
+				}
+			}
+		}
+		return nil
+	}
+}
+		//	print("--- nsEvent.window?.contentView?.subviews[i]: \(view) ")
+		//	for subv in view.subviews {
+		//		print("-------- subv: \(subv) ")
+		//		if let scnView	= subv as? SCNView {
+		//			if let scnScene = scnView.scene {
+		//				print("#### gotit \(scnScene) ")
+		//			}
+		//			print("-------- subv: \(scnView) ")
+		//		}
+		//	}
+//	var rootVew : (Int, RootVew?) {
+//		bug
+//		return (0, nil)
 //		let contentVew			= window?.contentView
 //		for document in DOCctlr.documents {
 //			for fwScn in fwScns {
 //
 //			}
 //		}
-	}
-}
+//	}
+
 
 class HnwEvent {							// NOT NSObject
 	let fwType : FwType
