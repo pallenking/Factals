@@ -29,8 +29,9 @@ struct ContentView: View {
 				//	let pov			= fwGuts.rootVew0?.fwScn.scnScene.cameraScn
 					ZStack {
 						NSEventReceiver { nsEvent in
-							nop
-							fwGuts.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)}
+bug;						guard let rootVew = fwGuts.rootVew0 else {fatalError("rootVew0 nil")}		// 0 is DANGEROUS
+							rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
+						}
 						SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
@@ -43,7 +44,7 @@ struct ContentView: View {
 										  ],
 							preferredFramesPerSecond:30,
 							antialiasingMode:.none,
-							delegate:fwGuts.eventCentral
+							delegate:nil				// O O O P S   fwGuts.eventCentral
 	//						technique:nil
 						))
 						 .allowsHitTesting(	true)

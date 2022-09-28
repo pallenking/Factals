@@ -187,8 +187,8 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 		var myLine				= ""
 //		myLine					+= rootPart    	.pp(.classUid) + " "
 //		myLine					+= fwScns       	.pp(.classUid) + " "
-		myLine					+= rootVews     	.pp(.classUid) + " "
-		myLine					+= eventCentral	.pp(.classUid) + " "
+	//	myLine					+= rootVews     	.pp(.classUid) + " "
+//		myLine					+= eventCentral	.pp(.classUid) + " "
 		myLine					+= document		.pp(.classUid)
 
 		return ppFwStateHelper("FwGuts       ", uid:self,
@@ -196,9 +196,8 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 			otherLines:{deapth in
 				 // Controller:
 				var rv			= ""
-				for i in 0...self.rootVews.count {
-//					rv			=  self.fwScns[i]  .ppFwState(deapth:deapth)
-					rv			+= self.rootVews[i].ppFwState(deapth:deapth)
+				for rootVew in self.rootVews {
+					rv			+= rootVew.ppFwState(deapth:deapth)
 				}
 				rv				+= self.logger.ppFwState()
 				return rv

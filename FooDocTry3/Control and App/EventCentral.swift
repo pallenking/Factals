@@ -9,7 +9,7 @@ import SceneKit
 
 class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
 	weak // owner
-	 var fwGuts : FwGuts!
+	 var rootVew : RootVew!
 
 	override init() {
 		super.init()
@@ -23,52 +23,37 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			if let f			= self.fwGuts {
-
-				f.lockBoth("updateAtTime")
-				for rootVew in f.rootVews {
-					rootVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
-				}
-				f.unlockBoth("updateAtTime")
-			}
-			else { fatalError("renderer(_ r:SCNSceneRenderer, updateAtTime")	}
+			let rVew			= self.rootVew!
+			rVew.lockBoth("updateAtTime")
+			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
+			rVew.unlockBoth("updateAtTime")
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			if let f			= self.fwGuts {
-				f.lockBoth("didApplyAnimationsAtTime")
-				for rootVew in f.rootVews {
-					f.rootPart.computeLinkForces(vew:rootVew)
-				}
-				f.unlockBoth("didApplyAnimationsAtTime")
-			}
-			else { fatalError("renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime")	}
+			let rVew			= self.rootVew!
+			rVew .lockBoth("didApplyAnimationsAtTime")
+			rVew .part.computeLinkForces(vew:rVew)
+			rVew .unlockBoth("didApplyAnimationsAtTime")
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			if let f			= self.fwGuts {
-				f.lockBoth("didSimulatePhysicsAtTime")
-				for rootVew in f.rootVews {
-					f.rootPart.applyLinkForces(vew:rootVew)
-				}
-				f.unlockBoth("didSimulatePhysicsAtTime")
-			}
+			let rVew			= self.rootVew!
+			rVew.lockBoth("didSimulatePhysicsAtTime")
+			rVew.part.applyLinkForces(vew:rVew)
+			rVew.unlockBoth("didSimulatePhysicsAtTime")
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			if let f			= self.fwGuts {
-				f.lockBoth("willRenderScene")
-				for rootVew in f.rootVews {
-					f.rootPart.rotateLinkSkins(vew:rootVew)
-				}
-				f.unlockBoth("willRenderScene")
-			}
+			let rVew			= self.rootVew!
+			rVew.lockBoth("willRenderScene")
+			rVew.part.rotateLinkSkins(vew:rVew)
+			rVew.unlockBoth("willRenderScene")
 		}
 	}
 	   // ODD Timing:
@@ -100,8 +85,9 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
 //		let fooDoc				= fwGuts.document
-		let rootVew0			= fwGuts.rootVew0
-		let fwScn0				= rootVew0?.fwScn
+		let rootVew				= rootVew
+		let fwScn				= rootVew!.fwScn
+		let fwGuts				= rootVew!.fwGuts!		// why ! ??
 		let channel				= 0	//debug
 
 		switch nsEvent.type {
@@ -130,13 +116,13 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts.modelPic(with:nsEvent)
 			}
-			rootVew0?.updatePole2Camera(duration:duration, reason:"Left mouseDown")
+			rootVew?.updatePole2Camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true		// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				rootVew0?.updatePole2Camera(reason:"Left mouseDragged")
+				rootVew?.updatePole2Camera(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
@@ -147,22 +133,22 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 					}
 				}
 				mouseWasDragged = false
-				rootVew0?.updatePole2Camera(duration:duration, reason:"Left mouseUp")
+				rootVew?.updatePole2Camera(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			rootVew0?.updatePole2Camera(duration:duration, reason:"Other mouseDown")
+			rootVew?.updatePole2Camera(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			rootVew0?.updatePole2Camera(reason:"Other mouseDragged")
+			rootVew?.updatePole2Camera(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			rootVew0?.updatePole2Camera(duration:duration, reason:"Other mouseUp")
-			atEve(9, print("\(fwScn0?.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
+			rootVew?.updatePole2Camera(duration:duration, reason:"Other mouseUp")
+			atEve(9, print("\(fwScn.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
@@ -171,7 +157,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom *= delta
 			print("processEvent(type:.scrollWheel) found pole\(fwGuts.rootVews[zeroIndex].lastSelfiePole.uid).zoom = \(fwGuts.rootVews[zeroIndex].lastSelfiePole.zoom)")
-			rootVew0?.updatePole2Camera(reason:"Scroll Wheel")
+			rootVew?.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -192,19 +178,19 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:fwScn0?.scnView)
+			let t 				= nsEvent.touches(matching:.began, in:fwScn.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:fwScn0?.scnView)
+			let t 				= nsEvent.touches(matching:.moved, in:fwScn.scnView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:fwScn0?.scnView)
+			let t 				= nsEvent.touches(matching:.ended, in:fwScn.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
@@ -229,12 +215,12 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		let rootVew				= fwGuts.rootVews[zeroIndex]
+		let rootVew				= rootVew!		//fwGuts.rootVews[zeroIndex]
 		rootVew.lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 		rootVew.lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 	// MARK: - 14. Building
-	var logger : Logger 		{	fwGuts.logger								}
+	var logger : Logger 		{	rootVew.fwGuts.logger								}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		logger.log(banner:banner, format_, args, terminator:terminator)
 	}

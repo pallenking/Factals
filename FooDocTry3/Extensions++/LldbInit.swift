@@ -11,7 +11,7 @@ import SceneKit
 
 func breakToDebugger() {			panic("Break To Debugger")					}
 func lldbPrint(ob:FwAny, mode:PpMode, _ aux:FwConfig=[:]) {	//["ppDagOrder":true]
-	print(ob.pp(.tree, params4aux + aux), terminator:"")
+	print(ob.pp(.tree, params4aux + aux))	//, terminator:""
 }
 
  // Access to current ////// Part Tree //////

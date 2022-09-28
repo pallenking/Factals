@@ -1,5 +1,5 @@
 //
-//  FwScn.swift
+//  FwScn.swift -- Manages SCNNode Shapes tree, SCNScene and SCNView
 //  FooDocTry3
 //
 //  Created by Allen King on 9/19/22.
@@ -426,8 +426,20 @@ class FwScn : Uid {
 		rootPart.unlock(partTreeAs:"createVews")	//xyzzy99
 	}
 	
+//	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+//		return "FwScn:\(ppUid(self))"
+//	}
+	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		return "FwScn:\(ppUid(self))"
+		var rv 					= self.pp(.classUid) + " "//"FwScn:\(ppUid(self))"
+		switch mode! {
+		case .line: nop
+bug//		rv					+= eventCentral	.pp(.classUid) + " "
+  //		rv					+= fwScn		.pp(.classUid) + " "		//}
+		default:
+			rv 					+= "RootVew:\(ppUid(self))"
+		}
+		return rv
 	}
 }
 

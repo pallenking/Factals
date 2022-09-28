@@ -12,22 +12,22 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	var rootVew0 :  RootVew?	{ rootVews.count > 0 ? rootVews[zeroIndex] : nil }
 
 //	var fwScns	 : [FwScn]		= []
-	func rootVewOf(fwScn:FwScn) -> RootVew {
-		for rv in rootVews {
-			if rv.fwScn === fwScn {
-				return rv
-			}
-		}
-		fatalError("rootVewOf(fwScn:FwScn) failure")
-	}
-	func indexOf(rootVew:Vew) -> Int? {
-		return rootVews.firstIndex(where: { $0 == rootVew} )
-	}
+//	func rootVewOf(fwScn:FwScn) -> RootVew {
+//		for rv in rootVews {
+//			if rv.fwScn === fwScn {
+//				return rv
+//			}
+//		}
+//		fatalError("rootVewOf(fwScn:FwScn) failure")
+//	}
+//	func indexOf(rootVew:Vew) -> Int? {
+//		return rootVews.firstIndex(where: { $0 == rootVew} )
+//	}
 //	func fwScn(of rootVew_:RootVew) -> FwScn {
 //		let j					= rootVews.firstIndex {$0 === rootVew_}
 //		return fwScns[Int(j!)]
 //	}
-	var eventCentral : EventCentral
+//	var eventCentral : EventCentral
 	var document 	 : FooDocTry3Document!
 	var logger 		 : Logger
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
@@ -39,18 +39,17 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		for i in 0..<rootVews.count { //}, fwScn) {
 			rootVews[i].setControllers(config:config)// ?? log("fwGuts: rootVew nil")
 		}
-		eventCentral   .setControllers(config:config)
 	}
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {
 		rootPart				= r
-		eventCentral			= EventCentral()
+//		eventCentral			= EventCentral()
 		logger					= Logger(title:"FwGut's Logger")
 
 		super.init()
 
 		rootPart	.fwGuts		= self 		 // Back Link
-		eventCentral.fwGuts		= self
+//		eventCentral.fwGuts		= self
 
 		 // Make one Vew
 		let ch0					= newViewIndex()
@@ -60,19 +59,16 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	}
 	 /// generate a new View, returning its index
 	func newViewIndex(scnScene s:SCNScene?=nil) -> Int {
-		let viewIndexRv			= rootVews.count
 
-		 // Get BASIC Component Part (owned and used by FwGuts)
-		// --------------- A: SCNScene
+		 // --------------- A: Get BASIC Component Part (owned and used by FwGuts)
 		let scnScene			= s ?? SCNScene(named:"art.scnassets/ship.scn") ?? SCNScene()
 		scnScene.isPaused		= true				// Pause animations while bulding
-		scnScene.physicsWorld.contactDelegate = eventCentral
 
-		// --------------- C: RootVew ((rootPart, A))
+		 // --------------- B: RootVew ((rootPart, A))
 		let newRootVew			= RootVew(forPart:rootPart, scnScene:scnScene)
 		 newRootVew.fwGuts		= self				// Set Owner
 		 rootVews.append(newRootVew)
-		return viewIndexRv
+		return rootVews.count - 1
 	}
 
 	// FileDocument requires these interfaces:
@@ -118,19 +114,19 @@ bug//		try self.write(to: fileURL)
 	 // MARK: - 3.6 NSCopying				// ## IMPLEMENT!
 	 // MARK: - 3.7 Equitable substitute
 
-	 // MARK: - 4? locks
-	func lockBoth(_ msg:String) {
-		guard rootPart.lock(partTreeAs:msg, logIf:false) else {fatalError(msg+" couldn't get PART lock")}
-		for rootVew in rootVews {
-			guard rootVew.lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
-		}
-	}
-	func unlockBoth(_ msg:String) {
-		for rootVew in rootVews {
-			rootVew.unlock(vewTreeAs: msg, logIf:false)
-		}
-		rootPart.unlock(partTreeAs:msg, logIf:false)
-	}
+//	 // MARK: - 4? locks
+//	func lockBoth(_ msg:String) {
+//		guard rootPart.lock(partTreeAs:msg, logIf:false) else {fatalError(msg+" couldn't get PART lock")}
+//		for rootVew in rootVews {
+//			guard rootVew.lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
+//		}
+//	}
+//	func unlockBoth(_ msg:String) {
+//		for rootVew in rootVews {
+//			rootVew.unlock(vewTreeAs: msg, logIf:false)
+//		}
+//		rootPart.unlock(partTreeAs:msg, logIf:false)
+//	}
 
 	  // MARK: - 9.0 3D Support
 	 // mouse may "paw through" parts, using wiggle
@@ -455,7 +451,6 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		case .line:
 			var rv				= rootPart     	.pp(.classUid) + " "		//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews     .pp(PpMode.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
-			rv					+= eventCentral	.pp(.classUid) + " "		//}
 			if let document {rv	+= document		.pp(.classUid)					}
 			rv					+= " SelfiePole:" + rootVews[zeroIndex].lastSelfiePole.pp()
 			return rv

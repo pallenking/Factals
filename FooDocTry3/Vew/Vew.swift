@@ -20,7 +20,7 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
 	var child0		:  Vew?		{	return children.count == 0 ? nil : children[0] }
-	var rootVewRaw	: Vew?		{	parent?.rootVewRaw ?? self					}
+	var rootVewRaw	:  Vew?		{	parent?.rootVewRaw ?? self					}
 	var rootVew		: RootVew?	{	rootVewRaw as? RootVew						}
 
 	 // Glue these Neighbors together: (both Always present)

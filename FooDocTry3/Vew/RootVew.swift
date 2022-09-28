@@ -10,6 +10,8 @@ import SceneKit
 class RootVew : Vew {
 	weak
 	 var fwGuts : FwGuts!
+
+	var rootPart : RootPart		{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
 	let rootVewLock 			= DispatchSemaphore(value:1)
 	var rootVewOwner : String?	= nil
 	var rootVewOwnerPrev:String? = nil
@@ -18,6 +20,7 @@ class RootVew : Vew {
 		return children.count > 0 ? children[0] : nil
 	}
 	var fwScn : FwScn
+	var eventCentral : EventCentral
 
 	 // MARK: x.3.2 Look At Spot
 	var lookAtVew  : Vew?		= nil					// Vew we are looking at
@@ -26,19 +29,32 @@ class RootVew : Vew {
 	 /// generate a new View, returning its index
 	init(forPart rootPart:RootPart, scnScene:SCNScene) {		//?=nil
 		fwScn					= FwScn(scnScene:scnScene)
+		eventCentral			= EventCentral()
+		fwScn.scnScene.physicsWorld.contactDelegate = eventCentral
+
 		super.init(forPart:rootPart, scn:scnScene.rootNode)
-							//?	newRootVew.fwGuts		= self
-							//	newRootVew.scn 			= fs.scn 			// set Vew with new scn root
-							//	rootVews.append(newRootVew)
-							//	return rv
+
+		eventCentral.rootVew	= self						// owner
+
 		 // Set the base scn to comply as a Vew
-		scn 					= fwScn.scnScene.rootNode	// set RootVew with new scn root
+		assert(scn === fwScn.scnScene.rootNode, "set RootVew with new scn root")
+//		scn 					= fwScn.scnScene.rootNode	// set RootVew with new scn root
 		lastSelfiePole			= SelfiePole(rootVew:self)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func setControllers(config:FwConfig) {
-		fwScn.setControllers(config:config)
+		eventCentral.setControllers(config:config)
+		fwScn		.setControllers(config:config)
+	}
+	 // MARK: - 4? locks
+	func lockBoth(_ msg:String) {
+		guard rootPart.lock(partTreeAs:msg, logIf:false) else {fatalError(msg+" couldn't get PART lock")}
+		guard lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
+	}
+	func unlockBoth(_ msg:String) {
+		unlock(vewTreeAs: msg, logIf:false)
+		rootPart.unlock(partTreeAs:msg, logIf:false)
 	}
 	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
@@ -158,6 +174,8 @@ class RootVew : Vew {
 			rv 					+= "RootVew:\(ppUid(self))"
 		case .line:
 			rv 					+= "RootVew:\(ppUid(self))"
+			rv					+= eventCentral	.pp(.classUid) + " "
+bug	//		rv					+= FwScn		.pp(.classUid) + " "		//}
 		default:
 			rv 					+= "RootVew:\(ppUid(self))"
 		}
