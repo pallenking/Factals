@@ -415,9 +415,8 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-bug//		let trunkScn : SCNNode	= root?.rootVew0?.fwScn.rootScnFoo//rootScn							//DOCfwGuts.
-////		let trunkScn			= root?.fwGuts?.fwScns[zeroIndex].trunkScn							//DOCfwGuts.
-//		repeat {			//.transform	// my position in parent
+bug//		let trunkScn : SCNNode	= root?.rootVew0?.fwScn.rootScnFoo//rootScn	//DOCfwGuts.	var rootScnFoo = SCNNode()
+////		let trunkScn			= root?.fwGuts?.fwScns[zeroIndex].trunkScn	//DOCfwGuts.	//	repeat {	//.transform	// my position in parent
 //			let scn				= aVew.scn
 //			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
 //			let t				= activeScn.transform

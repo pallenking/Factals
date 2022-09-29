@@ -55,11 +55,9 @@ class FwScn : Uid {
 
 	var scn		 : SCNNode		{	scnScene.rootNode							}
 	var rootScn  : SCNNode		{	scnScene.rootNode							}	//scnRoot
-	var rootScnFoo = SCNNode()
 	var trunkScn : SCNNode? 	{
-		if let tv				= rootScn.child0  {
-//		if let tv				= fwGuts?.rootVews[0]!.trunkVew  {
-			return tv
+		if let ts				= rootScn.child0  {
+			return ts
 		}
 		fatalError("trunkVew is nil")
 	}
@@ -380,12 +378,12 @@ class FwScn : Uid {
 		 // 2. Update Vew and Scn Tree
 /**/	rootVew.updateVewSizePaint()		// rootPart -> rootView, rootScn
 
-		 // 6. Add Lights, Camera and SelfiePole
+		 // 3. Add Lights, Camera and SelfiePole
 		addLightsToScn()							// was updateLights
 		addCameraToScn(fwGuts.document.config)
 		addAxesScn()
 
-		 // 3.  Configure SelfiePole:
+		 // 4.  Configure SelfiePole:
 		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
 			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
 				rootVew.lastSelfiePole.at = at
@@ -402,14 +400,14 @@ class FwScn : Uid {
 			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
 		}
 
-		 // 4.  Configure Initial Camera Target:
+		 // 5.  Configure Initial Camera Target:
 		rootVew.lookAtVew		= rootVew.trunkVew				// default
 		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
 		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {		//xyzzy99
 			rootVew.lookAtVew	= rootVew.find(part:laPart)
 		}
 
-		 // 5. Set LookAtNode's position
+		 // 6. Set LookAtNode's position
 		let posn				= rootVew.lookAtVew?.bBox.center ?? .zero
 		let worldPosition		= rootVew.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
@@ -426,9 +424,6 @@ class FwScn : Uid {
 		rootPart.unlock(partTreeAs:"createVews")	//xyzzy99
 	}
 	
-//	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-//		return "FwScn:\(ppUid(self))"
-//	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		var rv 					= self.pp(.classUid) + " "//"FwScn:\(ppUid(self))"

@@ -35,6 +35,7 @@ class RootVew : Vew {
 		super.init(forPart:rootPart, scn:scnScene.rootNode)
 
 		eventCentral.rootVew	= self						// owner
+		fwScn.rootVew			= self
 
 		 // Set the base scn to comply as a Vew
 		assert(scn === fwScn.scnScene.rootNode, "set RootVew with new scn root")

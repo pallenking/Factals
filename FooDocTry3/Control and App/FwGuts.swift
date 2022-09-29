@@ -43,25 +43,26 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	 // MARK: - 3. Factory
 	init(rootPart r:RootPart) {
 		rootPart				= r
-//		eventCentral			= EventCentral()
 		logger					= Logger(title:"FwGut's Logger")
 
 		super.init()
 
-		rootPart	.fwGuts		= self 		 // Back Link
-//		eventCentral.fwGuts		= self
+		rootPart	.fwGuts		= self 		 // owner (Back Link)
 
-		 // Make one Vew
-		let ch0					= newViewIndex()
-										//		let rootVew1			= RootVew(forPart:rootPart, scnScene:nil)
-										//		rootVews.append(rootVew1)
-										//		assert(rootVews.count == 1, "huh? paranoia")
+		 // Make FwGuts without any RootVews! 
+
+	 // REMOVED
+	//	 // Make one Vew (BUGS HERE)
+	//	let ch0					= newViewIndex()
+	//									//		let rootVew1			= RootVew(forPart:rootPart, scnScene:nil)
+	//									//		rootVews.append(rootVew1)
+	//									//		assert(rootVews.count == 1, "huh? paranoia")
 	}
 	 /// generate a new View, returning its index
 	func newViewIndex(scnScene s:SCNScene?=nil) -> Int {
 
-		 // --------------- A: Get BASIC Component Part (owned and used by FwGuts)
-		let scnScene			= s ?? SCNScene(named:"art.scnassets/ship.scn") ?? SCNScene()
+		 // --------------- A: Get BASIC Component Part (owned and used here)
+		let scnScene			= s ?? SCNScene()//named:"art.scnassets/ship.scn") ?? SCNScene()
 		scnScene.isPaused		= true				// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))

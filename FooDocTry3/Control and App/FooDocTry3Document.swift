@@ -37,8 +37,6 @@ struct FooDocTry3Document: FileDocument, Equatable, Uid {
 
 		 //		Makes new FGuts
 		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart and EventCentral
-		let ch0 				= fwGuts.newViewIndex()		// add RootVew  and FwScn
-
 		fwGuts.document 		= self			// delegate
 		rootPart.fwGuts			= fwGuts		// delegate
 
