@@ -4,7 +4,10 @@ import SceneKit
 
  // External Global interface (misc, lldb)
 func printFwcConfig() {		print(ppFwcConfig())								}
-func printFwcState()  {		print(ppFwcState())									}
+func printFwcState()  {
+	DOClog.ppIndentCols = 20		// sort of permanent!
+	print(ppFwcState())
+}
 
   /// Print System Components' Configuration:
  /// - Returns: Configuration of all Controllers, one per line
@@ -21,8 +24,7 @@ private func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
 func ppFwcState() -> String
-{
-	guard let APP else {	return "FooDocTry3App: APP==nil, No Application registered"}
+{	guard let APP else {	return "FooDocTry3App: APP==nil, No Application registered"}
 	var rv : String				 = APP    .ppFwState()
 	rv							+= ppDOC()					// current DOCument
 	if DOC != nil {
@@ -66,7 +68,7 @@ protocol FwStatus {
 	func ppFwState(deapth:Int) -> String
 }
 
-extension FooDocTry3App : FwStatus	{						  /// FooDocTry3App
+extension FooDocTry3App : FwStatus	{						  ///FooDocTry3App
 	func ppFwState(deapth:Int=999) -> String {
 		let emptyEntry			= APP?.config["emptyEntry"] ?? "xr()"
 		let regressScene		= APP?.config.int("regressScene") ?? -1
@@ -85,7 +87,7 @@ extension FooDocTry3App : FwStatus	{						  /// FooDocTry3App
 			deapth:deapth)
 	}
 }
-extension Library : FwStatus {								/// Library or Tests01
+extension Library : FwStatus {								///Library or ///Tests01
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= "(>X<)"
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth)
@@ -107,10 +109,6 @@ extension NSDocumentController : FwStatus {		 		 /// NSDocumentController
 				var rv			= ""
 				for document in self.documents {	//NSDocument
 					rv			+= document.ppFwState(deapth:deapth)
-					if let doc	= document as? FooDocTry3Document { //FwDocument {
-						//Cast from 'NSDocument' to unrelated type 'FooDocTry3Document' always fails
-						rv		+= doc.ppFwState(deapth:deapth)
-					}
 				}
 				return rv
 			},
@@ -129,7 +127,7 @@ extension Logger : FwStatus {												/// Logger
 // MARK: - DOCUMENT
 extension FooDocTry3Document : FwStatus	{				 /// FooDocTry3Document
 	func ppFwState(deapth:Int=999) -> String {
-		return ppFwStateHelper("FooDocTry3Doc", uid:self,
+		return ppFwStateHelper("FooDocTry3Do", uid:self,
 			myLine:" \(fwGuts.pp(.classUid)) redo:\(redo)",
 			otherLines:{ deapth in
 				var rv			= fwGuts.ppFwState(deapth:deapth)
@@ -184,7 +182,7 @@ extension NSDocument/*FwDocument*/ : FwStatus	{				 /// FwDocument
 }
 extension FwGuts : FwStatus	{									 /// FwGuts
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= ""
+		var myLine				= document.fwGuts === self ? "" : "OWNER:'\(document!)' BAD"
 //		myLine					+= rootPart    	.pp(.classUid) + " "
 //		myLine					+= fwScns       	.pp(.classUid) + " "
 	//	myLine					+= rootVews     	.pp(.classUid) + " "
@@ -207,50 +205,52 @@ extension FwGuts : FwStatus	{									 /// FwGuts
 }
 extension RootPart : FwStatus	{								    /// RootPart
 	func ppFwState(deapth:Int=999) -> String {
+		let myLine				= fwGuts.rootPart === self ? "" : "OWNER:'\(fwGuts!)' BAD"
 		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
 		return ppFwStateHelper("RootPart     ", uid:self,
-			myLine:"\(rown) dirty:'\(dirty.pp())' " +
+			myLine:myLine + "\(rown) dirty:'\(dirty.pp())' " +
 				   "partTrunk:\(ppUid(partTrunk, showNil:true)) ",
-//			otherLines:{ deapth in
-//				var rv			=  ""//self.simulator.ppFwState()
+			otherLines:{ deapth in
+				var rv			=  self.simulator.ppFwState()
 //				rv				+= self.log.ppFwState()
-//				return rv
-//			},
+				return rv
+			},
 			deapth:deapth)
 	}																			//bug; return "extension RootPart : FwStatus needs HELP"	}
 }
 extension Simulator : FwStatus	{								  /// Simulator
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine 				= "not built "
+		var myLine				= rootPart.simulator === self ? "" : "OWNER:'\(rootPart!)' BAD"
 		if simBuilt {
-			myLine 				= "built, disabled"
+			var myLine2 			= "built, disabled"
 			if simEnabled {
-				myLine			= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
-				myLine			+= "t:\(timeNow) "///
+				myLine2			= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
+				myLine2			+= "t:\(timeNow) "///
 				let x			= rootPart?.fwGuts.document.config.double("simTaskPeriod")
-				myLine			+= "dt=\(x != nil ? String(x!) : "nil") "
-				myLine			+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
+				myLine2			+= "dt=\(x != nil ? String(x!) : "nil") "
+				myLine2			+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
 				if isSettled() {
-					myLine		+= "SETTLED "
+					myLine2		+= "SETTLED "
 				}else{
-					myLine		+= "RUNNING("
+					myLine2		+= "RUNNING("
 					if let unPorts = rootPart?.unsettledPorts(),
 					  unPorts.count > 0 {
-						myLine	+= "unsettled Ports:["
-						myLine	+= unPorts.map({hash in hash() }).joined(separator:",")				//.joined(separator:"/")
-						myLine	+= "]"
+						myLine2	+= "unsettled Ports:["
+						myLine2	+= unPorts.map({hash in hash() }).joined(separator:",")				//.joined(separator:"/")
+						myLine2	+= "]"
 					}
 //					let nPortsUn = DOC.rootPart.unsettledPorts().count
 //					myLine 		+= nPortsUn 	  <= 0 ? "" : "Ports:\(nPortsUn) "
-					myLine		+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
-					myLine		+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
-					if myLine.hasSuffix(" ") {
-						myLine	= String(myLine.dropLast())
+					myLine2		+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
+					myLine2		+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
+					if myLine2.hasSuffix(" ") {
+						myLine2	= String(myLine2.dropLast())
 					}
-					myLine		+= ") "
+					myLine2		+= ") "
 				}
-				myLine			+= kickstart <= 0 ? "" : "kickstart:\(kickstart) "
+				myLine2			+= kickstart <= 0 ? "" : "kickstart:\(kickstart) "
 			}
+			myLine				+= myLine2
 		}
 		return ppFwStateHelper("Simulator    ", uid:self, myLine:myLine, deapth:deapth)
 	}
@@ -258,30 +258,48 @@ extension Simulator : FwStatus	{								  /// Simulator
 
 extension RootVew : FwStatus	{									 /// RootVew
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= "rootVew:\(ppUid(self.trunkVew,  showNil:true)) "
-		myLine					+= self.rootVewOwner != nil ? "OWNER:'\(self.rootVewOwner!)' " : "UNOWNED "
-		myLine					+= "pole:w[OPS]"//\(self.fwScn.convertPosition(.zero, to:rootScn).pp(.short)) "
-		myLine					+= "animatePhysics:\(self.fwGuts.rootVew0!.fwScn.animatePhysics)(isPaused:\(self.fwGuts.rootVew0!.fwScn.scnScene.isPaused))"
+		var myLine				= fwGuts.rootVews[zeroIndex] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD"
+		myLine					+= "rootVew:\(ppUid(trunkVew,  showNil:true)) "
+		myLine					+= "OWNER:" + (rootVewOwner != nil ? rootVewOwner! : "UNOWNED") + " "
+		myLine					+= "pole:\(lastSelfiePole.pp()) "
+//		myLine					+= "w[\(fwScn.scn.convertPosition(.zero, to:rootScn).pp(.short))] "
+		myLine					+= "animatePhysics:\(fwGuts.rootVew0!.fwScn.animatePhysics) (isPaused:\(fwScn.scnScene.isPaused))"
 //		myLine					+= fwScns       	.pp(.classUid) + " "
-		return ppFwStateHelper("RootVew     ", uid:self,
+		return ppFwStateHelper("RootVew      ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.fwScn.ppFwState()
+				var rv			=  self.fwScn		.ppFwState()
+				rv				+= self.eventCentral.ppFwState()
 				return rv
 			},
 			deapth:deapth)
 	}
 }
-extension FwScn : FwStatus	{										   /// FwScn
+
+extension EventCentral : FwStatus	{							 ///EventCentral
+	func ppFwState(deapth:Int=999) -> String {
+		var myLine				= rootVew.eventCentral === self ? "" : "OWNER:'\(rootVew!)' BAD"
+		return ppFwStateHelper("EventCentral ", uid:self,
+			myLine:myLine,
+			deapth:deapth)
+	}
+}
+
+extension FwScn : FwStatus	{										   ///FwScn
 	func ppFwState(deapth:Int=999) -> String {
 //var fwGuts	 : FwGuts!		= nil
 //var scnView	 : SCNView!		= nil
-		var myLine				= rootVew != nil ? "Delegate rootVew==nil " : ""
-		myLine					=  scnView?.pp(.classUid) ?? "" + " "
+		var myLine				= rootVew.fwScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+		myLine					+=  scnView?.pp(.classUid) ?? "" + " "
 		myLine					+= scnScene.pp(.classUid) + " "
-		myLine					+= "animatePhysics:\(self.animatePhysics)(isPaused:\(self.scnScene.isPaused))"
-		return ppFwStateHelper("FwScn       ", uid:self,
+		myLine					+= "animatePhysics:\(animatePhysics)(isPaused:\(scnScene.isPaused))"
+		return ppFwStateHelper("FwScn        ", uid:self,
 			myLine:myLine,
+			otherLines: { deapth in
+				var rv			=  self.scnScene.ppFwState()
+				rv				+= self.scnView?.ppFwState() ?? "#### fwScn.scnView is nil ####\n"
+				return rv
+			},
 			deapth:deapth)
 	}
 }
@@ -332,9 +350,9 @@ extension NSWindow : FwStatus {									   /// NSWindow
    			   "contentVC:\(ppUid(contentViewController, showNil:true)) "		+
 			 "contentView:\(ppUid(contentView,  		 showNil:true)) "		+
 				"delegate:\(ppUid(delegate as? String, 	 showNil:true)) " 		,
-//			otherLines:{ deapth in		//			uidStrDashes(nilLike
-//				return self.contentView?.ppFwState(deapth:deapth) ?? ""
-//			},
+			otherLines:{ deapth in		//			uidStrDashes(nilLike
+				return self.contentView?.ppFwState(deapth:deapth) ?? ""
+			},
 			deapth:deapth)
 	}
 }

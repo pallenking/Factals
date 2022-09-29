@@ -189,7 +189,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			guard let view			= rootVew.fwScn.scnView else {fatalError("fwScn.scnView == nil")}
 			view.isPlaying			= true			// does nothing
 			view.showsStatistics 	= true			// works fine
-			view.debugOptions 		= [			// enable display of:
+			view.debugOptions 		= [				// enable display of:
 	//	//		SCNDebugOptions.showBoundingBoxes,	// bounding boxes for nodes with content.
 			//	SCNDebugOptions.showWireframe,		// geometries as wireframe.
 			//	SCNDebugOptions.renderAsWireframe,	// only wireframe of geometry

@@ -33,7 +33,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	 // 2. Later, use args to make SCNView
 	func makeNSView(context: Context) -> SCNView {		// typedef Context = NSViewRepresentableContext<Self>
 //		if trueF {
-////wtf?		makeCoordinator()
+////wtf?	makeCoordinator()
 //			let coordinator		= context.coordinator	// View.Coordinator
 //			let transaction		= context.transaction
 //		//	let transPlist		= transaction.plist		// 'plist' is inaccessible due to 'internal' protection level
@@ -45,6 +45,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		let i					= fwGuts.newViewIndex()
 		let scnView				= fwGuts.rootVews[i].fwScn.scnView!
 								//		++			++
+//		printFwcState()
 		  // Configure Options of FwView
 		 // There must be a better way to do this:
 		if args.options.contains(.allowsCameraControl) {

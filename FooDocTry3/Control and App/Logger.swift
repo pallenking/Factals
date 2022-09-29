@@ -10,7 +10,6 @@ class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Logger index to assign. (Now exist 0..<nextLogIndex)
-	static let entryNosPlog		= 1000000	// H: EventNUMber, LogNUMber
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Logger
@@ -22,6 +21,7 @@ class Logger : NSObject, Codable, FwAny {								// NOT NSObject
 
 	 // Breakpoint
 	var breakAt					= 0			// Composite: logNo * entryNosPlog + eNum
+	static let entryNosPlog		= 1000000	// H: EventNUMber, LogNUMber
 
 	var logEvents				= true
 

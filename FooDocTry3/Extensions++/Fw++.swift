@@ -52,18 +52,18 @@ extension Array 		: FwAny		{}							//extension Array : FwAny where Element : Co
 	// cannot be more than one conformance, even with different conditional bounds
 
 extension SCNScene 		: FwAny		{
-	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{	return "SCNScene:\(ppUid(self)) HELP " }
+	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{	return "SCNScene:\(ppUid(self)) " }
 }
 extension NSView 		: FwAny		{		// also SCNView
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		let name				= self is SCNView ? "SCNView" : "NSView"
-		return "\(name):\(ppUid(self)) HELP "
+		return "\(name):\(ppUid(self)) "
 	}
 }
 //extension SCNView 					{
 //	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 //		let name				= self is SCNView ? "SCNView" : "NSView"
-//		return "\(name):\(ppUid(self)) HELP "
+//		return "\(name):\(ppUid(self)) "
 //	}
 //}
 extension FooDocTry3Document : FwAny { }
