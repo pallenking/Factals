@@ -30,12 +30,10 @@ struct ContentView: View {
 					let myRootViewIndex = fwGuts
 					ZStack {
 						NSEventReceiver { nsEvent in
-							let viewNumber = nsEvent.windowNumber
-							assert(viewNumber >= 0 && viewNumber < fwGuts.rootVews.count, "viewNumber:\(viewNumber) illegal")
-bug;						let rootVew = fwGuts.rootVews[viewNumber]	// 0 is DANGEROUS
+							let rootVew = fwGuts.rootVews[zeroIndex]	// zeroIndex is DANGEROUS
 							rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
 						}
-						let x	= SceneKitHostingView(SCNViewsArgs(
+						let sceneKitHostingView	= SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
 							pointOfView	: nil, //pov,
@@ -56,7 +54,7 @@ bug;						let rootVew = fwGuts.rootVews[viewNumber]	// 0 is DANGEROUS
 					//	 .border(Color.black, width: 10)
 					//	 .background()//(NSColor("verylightgray")!)		// HELP
 					//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
-						x
+						sceneKitHostingView
 					}
 					HStack {
 						HStack {

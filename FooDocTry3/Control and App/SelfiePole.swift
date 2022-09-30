@@ -26,11 +26,10 @@ struct SelfiePole {
 		self.rootVew				= rootVew
 	}
 
+	 // Computes the transform from a camera A on a selfie stick back to the origin
 	var transform : SCNMatrix4 {
-			// Imagine a camera A on a selfie stick, pointing back to the holder B
-		   //
-		  // From Origin to Camera, in steps: Pole about Origin
-		 //  ---- spun about Y axis
+		  // From the Origin to the Camera, in steps:
+		 //  ---- spin about Y axis
 		let spin				= spin * .pi / 180.0
 		var poleSpinAboutY		= SCNMatrix4MakeRotation(spin, 0, 1, 0)
 
@@ -38,6 +37,7 @@ struct SelfiePole {
 		let lookAtVew			= Vew.null
 		let posn				= lookAtVew.bBox.center //?? .zero
 		let rootScn				= rootVew.fwScn.rootScn
+//suspect:
 		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:rootScn) //?? .zero
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 

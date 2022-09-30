@@ -96,93 +96,93 @@ command alias ptLPs     ptLP self
 #command alias pos       po self		# "unable to create the requested alias"
 
 ##---------------- 'm' is for whole model
-command alias pcm       pc    rootPart
-command alias pnm       pn    rootPart
-command alias pfm       pf    rootPart
-#command alias pim      pi    rootPart
-command alias pim       pi    rootPart
-#command alias piNm		piN   rootPart
-command alias piUcm		piUc  rootPart
-command alias piCum		piCu  rootPart
-command alias piUm		piU   rootPart
-command alias piFucm	piFuc rootPart
+command alias pcm       pc    rootPartL
+command alias pnm       pn    rootPartL
+command alias pfm       pf    rootPartL
+#command alias pim      pi    rootPartL
+command alias pim       pi    rootPartL
+#command alias piNm		piN   rootPartL
+command alias piUcm		piUc  rootPartL
+command alias piCum		piCu  rootPartL
+command alias piUm		piU   rootPartL
+command alias piFucm	piFuc rootPartL
 
-command alias ppm       pp    rootPart
-command alias plm       pl    rootPart
-command alias ptm       pt    rootPart
+command alias ppm       pp    rootPartL
+command alias plm       pl    rootPartL
+command alias ptm       pt    rootPartL
 
-command alias ppLm      ppL   rootPart
-command alias plLm      plL   rootPart
-command alias ptLm      ptL   rootPart
-command alias ppPm      ppP   rootPart
-command alias plPm      plP   rootPart
-command alias ptPm      ptP   rootPart
+command alias ppLm      ppL   rootPartL
+command alias plLm      plL   rootPartL
+command alias ptLm      ptL   rootPartL
+command alias ppPm      ppP   rootPartL
+command alias plPm      plP   rootPartL
+command alias ptPm      ptP   rootPartL
 
-command alias ppLPm     ppLP  rootPart
-command alias plLPm     plLP  rootPart
-command alias ptLPm     ptLP  rootPart
-#command alias pom       po   rootPart
+command alias ppLPm     ppLP  rootPartL
+command alias plLPm     plLP  rootPartL
+command alias ptLPm     ptLP  rootPartL
+#command alias pom       po   rootPartL
 
 ##---------------- 'v' is for whole vew
-command alias pcv       pc    rootVew
-command alias pnv       pn    rootVew
-command alias pfv       pf    rootVew
-#command alias piv      pi    rootVew
-command alias piv       pi    rootVew
-#command alias piNv		piN   rootVew
-command alias piUcv		piUc  rootVew
-command alias piCuv		piCu  rootVew
-command alias piUv		piU   rootVew
-command alias piFucv	piFuc rootVew
+command alias pcv       pc    rootVewL
+command alias pnv       pn    rootVewL
+command alias pfv       pf    rootVewL
+#command alias piv      pi    rootVewL
+command alias piv       pi    rootVewL
+#command alias piNv		piN   rootVewL
+command alias piUcv		piUc  rootVewL
+command alias piCuv		piCu  rootVewL
+command alias piUv		piU   rootVewL
+command alias piFucv	piFuc rootVewL
 
-command alias ppv       pp   rootVew
-command alias plv       pl   rootVew
-command alias ptv       pt   rootVew
+command alias ppv       pp    rootVewL
+command alias plv       pl    rootVewL
+command alias ptv       pt    rootVewL
 
 #command alias ptv_     e 	Swift.print("abc\n".pp(.tree     ), terminator:"")
 #----BAD
 #command alias ptv_     e 	Swift.print("abc\n"?.pp(.tree     ) ?? "nil\n", terminator:"")
 command alias ptv_      e 	Swift.print(rootvew()?.pp(.tree     ) ?? "nil\n", terminator:"")
 
-command alias ppLv      ppL  rootVew
-command alias plLv      plL  rootVew
-command alias ptLv      ptL  rootVew
-command alias ppPv      ppP  rootVew
-command alias plPv      plP  rootVew
-command alias ptPv      ptP  rootVew
+command alias ppLv      ppL   rootVewL
+command alias plLv      plL   rootVewL
+command alias ptLv      ptL   rootVewL
+command alias ppPv      ppP   rootVewL
+command alias plPv      plP   rootVewL
+command alias ptPv      ptP   rootVewL
 
-command alias ppLPv     ppLP rootVew
-command alias plLPv     plLP rootVew
-command alias ptLPv     ptLP rootVew
-#command alias pov      po   rootVew
+command alias ppLPv     ppLP  rootVewL
+command alias plLPv     plLP  rootVewL
+command alias ptLPv     ptLP  rootVewL
+#command alias pov      po    rootVewL
 
 ##---------------- 'n' is for all SCNNodes in Trunk
-command alias pcn       pc   rootScn
-command alias pnn       pn   rootScn
-command alias pfn       pf   rootScn
-#command alias pin      pi   rootScn
-command alias pin       pi   rootScn
-#command alias piNn      piN  rootScn
-command alias piUcn     piUc rootScn
-command alias piCun     piCu rootScn
-command alias piUn      piU  rootScn
-command alias piFucn    piFuc rootScn
+command alias pcn       pc    rootScnL
+command alias pnn       pn    rootScnL
+command alias pfn       pf    rootScnL
+#command alias pin      pi    rootScnL
+command alias pin       pi    rootScnL
+#command alias piNn      piN  rootScnL
+command alias piUcn     piUc  rootScnL
+command alias piCun     piCu  rootScnL
+command alias piUn      piU   rootScnL
+command alias piFucn    piFuc rootScnL
 
-command alias ppn       pp   rootScn
-command alias pln       pl   rootScn
-command alias ptn       pt   rootScn
+command alias ppn       pp    rootScnL
+command alias pln       pl    rootScnL
+command alias ptn       pt    rootScnL
 
-command alias ppLn      ppL  rootScn
-command alias plLn      plL  rootScn
-command alias ptLn      ptL  rootScn
-command alias ppPn      ppP  rootScn
-command alias plPn      plP  rootScn
-command alias ptPn      ptP  rootScn
+command alias ppLn      ppL   rootScnL
+command alias plLn      plL   rootScnL
+command alias ptLn      ptL   rootScnL
+command alias ppPn      ppP   rootScnL
+command alias plPn      plP   rootScnL
+command alias ptPn      ptP   rootScnL
 
-command alias ppLPn     ppLP rootScn
-command alias plLPn     plLP rootScn
-command alias ptLPn     ptLP rootScn
-#command alias pon      po   rootScn
+command alias ppLPn     ppLP  rootScnL
+command alias plLPn     plLP  rootScnL
+command alias ptLPn     ptLP  rootScnL
+#command alias pon      po    rootScnL
 
 # In the wind:
      # replace 'selfBoundingBox SwiftFactals.FwBBox 0x000060000007b4c0' with '(FwBBox) [3>5, ...
@@ -245,8 +245,8 @@ command alias lldbinit				  lldbinitFooDocTry3
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # LOADING .lldbinit for FooDocTry3 COMPLETE # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# reload with  lldbinit  = '  command source ~/Documents/SwiftFactals/.lldbinit  '
-#    N.B: must have symbolic link ~/.lldbinit ->  ~/Documents/SwiftFactals/.lldbinit
+# reload with  lldbinit  = '  command source ~/DocLocal/HaveNWant/FooDocTry3/LLDBInitFile '
+#    N.B: Edit Schema; in tabs [run | debug]; in field 'lldb init file' enter:$(SRCROOT)/LLDBInitFile
 ## Common Commands: ptm, plv, ppn, pfs, ptPm, plLm
 # :H: Character 1:   p- -: Pretty Print
 # :H: Character 2:   -p -:.phrase; -l -:.line,          -t--:.tree,

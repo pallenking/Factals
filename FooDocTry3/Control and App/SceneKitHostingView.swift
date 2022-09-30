@@ -23,6 +23,8 @@ struct SCNViewsArgs {
 	let delegate 				: SCNSceneRendererDelegate?
 	let technique				: SCNTechnique?				= nil
 }
+
+//final class SceneKitHostingView : NSViewRepresentable {	//Thread 1: Fatal error: NSViewRepresentables must be value types: SceneKitHostingView
 struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView inside
 	var scenekitViewNumber		: Int?	= nil

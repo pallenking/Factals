@@ -84,11 +84,9 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	//	print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
-//		let fooDoc				= fwGuts.document
 		let rootVew				= rootVew
 		let fwScn				= rootVew!.fwScn
 		let fwGuts				= rootVew!.fwGuts!		// why ! ??
-		let channel				= 0	//debug
 
 		switch nsEvent.type {
 

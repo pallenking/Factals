@@ -27,6 +27,7 @@ import Cocoa
 import SwiftUI
 import SceneKit
 
+var fooBar:Int = 42
 
   //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")				// 180127 FactalWrokbench UNRELEASED
   //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
