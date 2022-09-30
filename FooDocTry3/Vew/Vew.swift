@@ -825,4 +825,6 @@ class Vew : NSObject, ObservableObject, Codable {	//
 	override var description	  : String {	return  "\"\(pp(.short))\""	}
 	override var debugDescription : String {	return   "'\(pp(.short))'" 	}
 //	var summary					  : String {	return   "<\(pp(.short))>" 		}
+	 // MARK: - 20. Extension variables
+	var adornTargetVew 			  : Vew?	= nil
 }

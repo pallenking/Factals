@@ -185,7 +185,7 @@ bug;	return	/*super.equalsPart(part) &&*/ varsOfPathEq(part)
 	}
 
          // MARK: - 17. Debugging Aids
-//	override var description	  :String 	{	return  "\"\(pp(.short))\""		}
-//	override var debugDescription :String	{	return   "'\(pp(.short))'"		}
-//	var summary			 :String	{	return   "<\(pp(.short))>"				}
+	override var description	  :String 	{	return  "\"\(pp(.short))\""		}
+	override var debugDescription :String	{	return   "'\(pp(.short))'"		}
+	var summary			 :String	{	return   "<\(pp(.short))>"				}
 }

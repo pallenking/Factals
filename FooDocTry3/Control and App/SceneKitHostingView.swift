@@ -12,7 +12,9 @@ import SwiftUI
 		// Wrap a FwGuts as a SwiftUI View
 
 struct SCNViewsArgs {
-	let fwGuts					: FwGuts?
+	var scenekitViewNumber		: Int						= 0
+	let fwGuts					: FwGuts?					// owner
+
 	let scnScene 				: SCNScene?
 	let pointOfView 			: SCNNode?
 	let options 				: SceneView.Options			//= []	.autoenablesDefaultLighting,//.allowsCameraControl,//.jitteringEnabled,//.rendersContinuously,//.temporalAntialiasingEnabled
@@ -23,6 +25,7 @@ struct SCNViewsArgs {
 }
 struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView inside
+	var scenekitViewNumber		: Int?	= nil
 
 	 // 1. On creation, save the args for later
 	init(_ args:SCNViewsArgs)	{
@@ -42,8 +45,8 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 //		}
 		guard let fwGuts		= args.fwGuts else {	fatalError("args.fwGuts is nil") }
 		 // Get new ViewIndex	//		++			++
-		let i					= fwGuts.newViewIndex()
-		let scnView				= fwGuts.rootVews[i].fwScn.scnView!
+		let sceneVewIndex		= fwGuts.newViewIndex()
+		let scnView				= fwGuts.rootVews[sceneVewIndex].fwScn.scnView!
 								//		++			++
 //		printFwcState()
 		  // Configure Options of FwView

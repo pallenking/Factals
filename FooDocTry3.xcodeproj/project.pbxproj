@@ -57,6 +57,7 @@
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F6822F728C9163D00ACB9F0 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */; };
+		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
@@ -158,6 +159,7 @@
 		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
+		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9FA1BA5A2881950000B14D60 /* Bogus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bogus.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
+				9F6B9AB628E6711600E23DEC /* VewConfig.swift */,
 				9F1E3CE528D926C5004548C9 /* RootVew.swift */,
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F190115288090240078DB6C /* InspecParts.swift */,
@@ -531,6 +534,7 @@
 				9F0295E52880936400DD0004 /* SwiftTryCatch.m in Sources */,
 				9F19010B28808EC90078DB6C /* Splitter.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
+				9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */,
 				9F19010928808E890078DB6C /* SoundAtom.swift in Sources */,
 				9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */,
 				9F19010D28808EE70078DB6C /* Share.swift in Sources */,

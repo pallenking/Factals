@@ -18,21 +18,24 @@ class DragonModel: ObservableObject {
 
 struct ContentView: View {
 	@Binding     var document: FooDocTry3Document
-	@StateObject var jetModel 		= JetModel()		// bric-à-brac Models
-	@StateObject var dragonModel	= DragonModel()
-
+	@StateObject var jetModel 	= JetModel()		// bric-à-brac Models
+	@StateObject var dragonModel = DragonModel()
+								//
 	var body: some View {
 		HStack {
-			if let fwGuts			= document.fwGuts {
+			if let fwGuts		= document.fwGuts {
 				VStack {
 					let rootPart:RootPart = document.fwGuts.rootPart
-				//	let pov			= fwGuts.rootVew0?.fwScn.scnScene.cameraScn
+				//	let pov		= fwGuts.rootVew0?.fwScn.scnScene.cameraScn
+					let myRootViewIndex = fwGuts
 					ZStack {
 						NSEventReceiver { nsEvent in
-bug;						guard let rootVew = fwGuts.rootVew0 else {fatalError("rootVew0 nil")}		// 0 is DANGEROUS
+							let viewNumber = nsEvent.windowNumber
+							assert(viewNumber >= 0 && viewNumber < fwGuts.rootVews.count, "viewNumber:\(viewNumber) illegal")
+bug;						let rootVew = fwGuts.rootVews[viewNumber]	// 0 is DANGEROUS
 							rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
 						}
-						SceneKitHostingView(SCNViewsArgs(
+						let x	= SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
 							scnScene	: nil,
 							pointOfView	: nil, //pov,
@@ -53,6 +56,7 @@ bug;						guard let rootVew = fwGuts.rootVew0 else {fatalError("rootVew0 nil")}	
 					//	 .border(Color.black, width: 10)
 					//	 .background()//(NSColor("verylightgray")!)		// HELP
 					//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
+						x
 					}
 					HStack {
 						HStack {

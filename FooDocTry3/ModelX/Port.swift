@@ -402,7 +402,7 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 			aVew				= inVew.find(part:aPart, inMe2:true)
 			rv					= .zero
 		}
-		guard var aVew else {
+		guard var aVew : Vew else {
 			panic("No Vew could be found for Part \(self.fullName)) in its parents")
 			return rv
 		}
@@ -414,11 +414,9 @@ bug;	let connectedToString	= try container.decode(String?.self,forKey:.connected
 		atRsi(8, aVew.log("INPUT spot=[\(rv.pp())]\(worldPosition). OUTPUT to '\(inVew.pp(.fullName))'"))
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
-bug		 //
+		 //
+		let trunkScn			= aVew.rootVew!.fwScn.scn
 		while aVew != inVew {
-			guard let trunkScn	= root!.fwGuts.rootVew0?.fwScn.scn else { break }
-//			let trunkScn : SCNNode	= root?.rootVew0?.fwScn.rootScnFoo//rootScn	//DOCfwGuts.	var rootScnFoo = SCNNode()
-////		let trunkScn		= root?.fwGuts?.fwScns[zeroIndex].trunkScn	//DOCfwGuts.	//	repeat {	//.transform
 			 // my position in parent
 			let scn				= aVew.scn
 			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation

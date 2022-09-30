@@ -709,34 +709,34 @@ bug
 	typealias Part2PartClosure 	= (Part) -> Part?
 	 /// Find Part with desired name
 	/// - name		-- sought name
-	func find(	name desiredName:String,
-	
-				all searchParent :Bool	= false,
-				inMe2 searchSelfToo:Bool=false,
-				maxLevel 		:Int?	= nil,
-				except exception:Part?	= nil) -> Part? { // Search by name:
+	func find(name desiredName:String,
+
+			  all searchParent :Bool	= false,
+			  inMe2 searchSelfToo:Bool=false,
+			  maxLevel 		:Int?	= nil,
+			  except exception:Part?	= nil) -> Part? { // Search by name:
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
 					{	$0.fullName.contains(desiredName) ? $0 : nil			} )
 //					{	$0.fullName == desiredName ? $0 : nil					} )
 	}
-	func find(	path				:Path,
+	func find(path				:Path,
 
-				all searchParent :Bool	= false,
-				inMe2 searchSelfToo:Bool = false,
-				maxLevel 		:Int?	= nil,
-				except exception:Part?	= nil) -> Part? { // Search by Path:
+			  all searchParent :Bool	= false,
+			  inMe2 searchSelfToo:Bool = false,
+			  maxLevel 		:Int?	= nil,
+			  except exception:Part?	= nil) -> Part? { // Search by Path:
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
 					{	$0.partMatching(path:path) 								} )
 //		{(part:Part) -> Part? in
 //			return part.partMatching(path:path)		// part.fullName == "/net0/bun0/c/prev.S"
 //		} )
 	}
-	func find(	part				:Part,
+	func find(part				:Part,
 
-				all searchParent :Bool	= false,
-				inMe2 searchSelfToo:Bool = false,
-				maxLevel 		:Int?	= nil,
-				except exception:Part?	= nil) -> Part? { // Search for Part:
+			  all searchParent :Bool	= false,
+			  inMe2 searchSelfToo:Bool = false,
+			  maxLevel 		:Int?	= nil,
+			  except exception:Part?	= nil) -> Part? { // Search for Part:
 		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
 					{	$0 === part ? $0 : nil	 								} )
 //					{	$0 == part ? $0 : nil	 								} )
@@ -749,9 +749,9 @@ bug
 	/// - all		-- search parent outward
 	/// - maxLevel	-- search children down to this level
 	/// - except	-- don't search, already search
-	func find(	inMe2	 :Bool	= false, 	all searchParent:Bool=false,
-			 	maxLevel :Int?	= nil,   	except exception:Part?=nil,
-			  	firstWith partClosure:Part2PartClosure) -> Part? { /// Search by closure:
+	func find(inMe2	 :Bool		= false, 	all searchParent:Bool=false,
+			  maxLevel :Int?	= nil,   	except exception:Part?=nil,
+			  firstWith partClosure:Part2PartClosure) -> Part? { /// Search by closure:
 		 // Check self:
 		if inMe2,
 		  let cr 				= partClosure(self) {		// Self match?
