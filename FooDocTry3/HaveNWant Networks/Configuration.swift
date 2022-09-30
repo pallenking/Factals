@@ -10,16 +10,16 @@ import SceneKit
   // MARK: - External linkage
  /// Initial Parameters for configuration:
 var params4all		: FwConfig		{	return
-	params4app_		+
-	params4appLog_	+
-	params4pp_		+
-	params4docLog_	+
-	params4sim_
+	params4app		+
+	params4appLog	+
+	params4pp		+
+	params4docLog	+
+	params4sim
 }
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
-private let params4app_ : FwConfig = [
+private let params4app : FwConfig = [
 	"soundVolume"	 			: 0.1,		// 0:quiet, 1:normal, 10:loud
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 
@@ -35,14 +35,12 @@ private let params4app_ : FwConfig = [
   // Controls logging of the Application
  // Terms in FilterLog.swift
 let docSerBldN					= 8//0/5/8/
-private let params4appLog_		= params4logs_ + params4pp_
+private let params4appLog		= params4logs_ + params4pp
 	+ log(doc:docSerBldN, bld:docSerBldN, ser:docSerBldN)
-//	+ log(rve:9, rsi:9, rnd:9, ani:9)
-//	+ log(rsi:5)
 	+ log(prefix:"*", all:8)  		//! "*" is for XCTest variants
 
  // MARK: - C: Pretty Print
-private let params4pp_ : FwConfig = [
+private let params4pp : FwConfig = [
 				// What:
 	"ppRootOfTree"		: true, 	// trees includes Root (and Trunk)
 	"ppLinks"			: false, 	// pp includes Links  //true//
@@ -84,7 +82,7 @@ private let params4pp_ : FwConfig = [
 ]
  // MARK: -
  // MARK: - D: Parameters Doc Logger
-private let params4docLog_		= params4logs_ + params4pp_
+private let params4docLog		= params4logs_ + params4pp
 	+ log(all:8)		//			//! (bld:1)/(bld:2)/(all:8)/(all:5)
 	+ log(prefix:"*", all:8)		//! 1	// key prefix "*" is for XCTest
 
@@ -103,7 +101,7 @@ private let params4docLog_		= params4logs_ + params4pp_
 
   // MARK: - E: Sim Params
  /// Parameters for simulation
-private let params4sim_ : FwConfig = [
+private let params4sim : FwConfig = [
 	"simEnabled"				: false,
 	"simTaskPeriod" 			: 0.01,//5 1 .05// Simulation task retry delay nil->no Task
 	"simTimeStep"				: 0.01,			// Time between UP and DOWN scan (or vice versa)
@@ -204,48 +202,6 @@ let wBoxColorOf:[String:NSColor] = [
 	  "TimingChain"	:NSColor.red,
 	  "WorldModel"	:NSColor.red,
 ]
-
-//func applyPrefixTo(_ config:FwConfig) -> FwConfig {
-//
-//	 // Prefix "*" is for XCTests:
-//	let prefix					= isRunningXcTests ? "*" : ""
-//
-//	var rv : FwConfig			= [:]	// rebuild Return Value in this
-//	for (key, val) in config {
-//		assert(!(val is Dictionary<String, Any> || val is Array<Any>), "not programmed for recursive yet")
-//
-//		if let filteredKey		= filterKey(prefix:prefix, key:key),
-//		  rv[filteredKey] == nil ||		// Never seen the filtered key before or
-//		  filteredKey != key 			// High-priority (transformed) key
-//		{
-//			rv[filteredKey]		= val		// use key
-//		}
-//	}
-//	return rv
-//}
-
-//
-////var params4app		: FwConfig		{	return applyPrefixTo(params4app_	) 	}
-//
-//	  /// Use prefix codes to conditionally include keys
-//	 /// - Parameters:
-//	///   - key: if of form <prefix><body> return <body> else return key
-//   ///   - prefix: operating mode, stripped from keys if present
-//  /// - Returns: reformed key
-// /// e.g: "*abc"
-//func filterKey(prefix:String, key:String) -> String? {
-//	for pre in definedParamPrefices {
-//		if key.hasPrefix(pre) {		// Is Prefix'ed name
-//			return pre != prefix ? nil :			// prefix mismatch --> drop key
-//				String(key.dropFirst(pre.count))	// match remove prefix of key
-//		}
-//	}
-////	if definedParamPrefices.contains(prefix),// legal prefix
-////	  key.hasPrefix(prefix) {					// part of key ?
-////		return String(key.dropFirst(prefix.count))	// yes, remove prefix of key
-////	}
-//	return key
-//}
 
 // MARK: - Conditional Configuration Keys
 	 // 20210930: Only prefix "*" is supported
