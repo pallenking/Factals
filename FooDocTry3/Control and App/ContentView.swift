@@ -59,11 +59,11 @@ struct ContentView: View {
  59a  | NSDocument   . . . . . . . . . . . . . Has 1 wc:   #ADD MORE HERE#
  96a  | | NSWindowCtlr . . . . . . . . . . . . nilNameNib,doc:59a win:66a nibOwner:96a
  66a  | | | NSWindow     . . . . . . . . . . . title:'Untitled' contentVC:fae contentView:745 delegate:---
- 745  | | | | _TtGC7SwiftUI13NSHostingViewGVS_15ModifiedConten... . . . . . . . . . 3 children superview:bf8 window:66a noRedisplay
- 529  | | | | | _TtGC7SwiftUI16PlatformViewHostGVS_P10$1cd823a88... . . . . . . . . 1 children superview:745 window:66a noRedisplay
- 18d  | | | | | | NSEventReceiverView                               . . . . . . . . 0 children superview:529 window:66a noRedisplay
- cd0  | | | | | _TtGC7SwiftUI16PlatformViewHostGVS_P10$1cd823a88... . . . . . . . . 1 children superview:745 window:66a noRedisplay
- 579  | | | | | | SCNView                                           . . . . . . . . 0 children superview:cd0 window:66a noRedisplay
+ 745  | | | | _TtGC7SwiftUI13NSHostingViewGVS_15ModifiedConten... . . .NSHostingView . . . . . . 3 children superview:bf8 window:66a noRedisplay
+ 529  | | | | | _TtGC7SwiftUI16PlatformViewHostGVS_P10$1cd823a88... . . .PlatformViewHost. . . . 1 children superview:745 window:66a noRedisplay
+ 18d  | | | | | | NSEventReceiverView                               . . . .NSEventReceiverView . 0 children superview:529 window:66a noRedisplay
+ cd0  | | | | | _TtGC7SwiftUI16PlatformViewHostGVS_P10$1cd823a88... . . .PlatformViewHost. . . . 1 children superview:745 window:66a noRedisplay
+ 579  | | | | | | SCNView                                           . . . .SCNView       . . . . 0 children superview:cd0 window:66a noRedisplay
  519  | | | | | _TtC7SwiftUIP33_9FEBA96B0BC70E1682E82D239F242E73... . . . . . . . . 2 children superview:745 window:66a noRedisplay
  e02  | | | | | | NSButtonBezelView                                 . . . . . . . . 0 children superview:519 window:66a noRedisplay
  0c3  | | | | | | _TtCC7SwiftUIP33_9FEBA96B0BC70E1682E82D239F242E7... . . . . . . . 1 children superview:519 window:66a noRedisplay

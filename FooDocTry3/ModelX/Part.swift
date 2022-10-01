@@ -1394,8 +1394,7 @@ bug				 // Let fwPart handle it:
 			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 			rv					= ppUid(self, post:"", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
-			rv 					+= root?.logger.indentString() ?? "____"				// Bb..
-//			rv 					+= root?.log.indentString() ?? "Bb..."				// Bb..
+			rv 					+= root?.logger.indentString() ?? "____"			// Bb..
 			let ind				= parent?.children.firstIndex(of:self)
 			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
 				// adds "name;class<unindent><Expose><ramId>":

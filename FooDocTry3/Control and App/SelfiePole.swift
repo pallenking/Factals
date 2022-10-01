@@ -58,7 +58,7 @@ struct SelfiePole {
 	}
 
 	func pp() -> String {
-		return fmt("\t\t\t\t[at:%@, s:%.0f, u:%.0f, z:%.4f]", at.pp(.short), spin, horizonUp, zoom)
+		return fmt("[at:%@, s:%.0f, u:%.0f, z:%.4f]", at.pp(.short), spin, horizonUp, zoom)
 	}
 //		return fmt("h:%s, s:%.0f, u:%.0f, z:%.3f", c.at.pp(.short), c.spin, c.horizonUp, c.zoom)
 //		return fmt("[at:%s, s:%.0f, u:%.0f, z:%.4f]", at.pp(), spin, horizonUp, zoom)

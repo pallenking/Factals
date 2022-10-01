@@ -530,9 +530,9 @@ class Vew : NSObject, ObservableObject, Codable {	//
 		guard let fwGuts		= part.root?.fwGuts else {	return 				}
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
-		for rootVew in fwGuts.rootVews {
-			assert(rootVew === vRoot, "rootVew !== vRoot")
-		}
+//		for rootVew in fwGuts.rootVews {
+//			assert(rootVew === vRoot, "rootVew !== vRoot")
+//		}
 		let pRoot				= part.root!
 
 /**/	SCNTransaction.begin()
