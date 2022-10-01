@@ -78,7 +78,7 @@ struct ContentView: View {
 							{	printFwcConfig()								}
 						}
 						Spacer()
-						let x = fwGuts.rootVew0?.fwScn.scnScene.rootNode
+						let rootNode = fwGuts.rootVew0?.fwScn.scnScene.rootNode
 						HStack {
 							Text("Model:")
 							Button(label:{	Text(   "ptm").padding(.top, 300)	})
@@ -88,9 +88,19 @@ struct ContentView: View {
 							Text(" ")
 							Button(label:{	Text(   "ptv").padding(.top, 300)	})
 							{	lldbPrint(ob:fwGuts.rootVews, mode:.tree) 		}
+//							{	for (i, rootVew) in fwGuts.rootVews.enumerated() {
+//									print("-------- ptv:   (rootVews[\(i)]/\(ppUid(rootVew))):")
+//									lldbPrint(ob:rootVew, mode:.tree)
+//								}
+//							}
 							Button(label:{	Text(   "ptn").padding(.top, 300)	})
-							{	lldbPrint(ob:x!, mode:.tree)}
-							Button(label:{	Text(   "reV").padding(.top, 300)	})
+							{	lldbPrint(ob:rootNode!, mode:.tree)}
+//							{	for (i, rootVew) in fwGuts.rootVews.enumerated() {
+//									print("-------- ptn:   (rootVews[\(i)]/\(ppUid(rootVew)).fwScn(\(ppUid(rootVew.fwScn)))):")
+//									lldbPrint(ob:rootVew.fwScn.rootScn, mode:.tree)
+//								}
+//							}
+							Button(label:{	Text(   "redo").padding(.top, 300)	})
 							{	document.redo += 1								}
 						}
 						Spacer()

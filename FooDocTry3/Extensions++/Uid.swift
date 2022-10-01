@@ -34,13 +34,6 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 	let mask		= UInt16(max - 1)			// e.g: 0x00000FFF
 	return pre + fmt("%0*x", uidDigits, obj!.uid & mask) + post
 }
-func ppUidFoo(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false) -> String {
-	return "ppUidFoo is for debug"
-}
-//func testPpUidFoo () -> Bool {
-//	let y  : String				= ppUid(pre:"pre:", DOClog, post:":post")
-//	return y.hasPrefix("pre:") && y.hasSuffix("post")
-//}
 
  /// pp nil object as dashes ("-")s Uid with proper indents
 func uidStrDashes(nilLike obj:Uid?) -> String {			// no object

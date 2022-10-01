@@ -173,17 +173,19 @@ bug//		try self.write(to: fileURL)
 			rootVew0?.fwScn.rootScn.play(sound:"Oooooooo")		//GameStarting
 		case "v":	
 			print("\n******************** 'v': ==== Views:")
-			print("\(self.rootVews.pp(.tree))", terminator:"")
-		case "n":	
+			for rootVew in rootVews {
+				print("-------- ptv   rootVews(\(ppUid(rootVew))):")
+				print("\(rootVew.pp(.tree))", terminator:"")
+			}
+		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
 			rootPart.logger.ppIndentCols = 3
 //			DOClog.ppIndentCols = 3
-//			print(fwScn[0]!.rootScn.pp(.tree), terminator:"")
 			for rootVew in rootVews {
+				print("-------- ptn   rootVews(\(ppUid(rootVew))).fwScn(\(ppUid(rootVew.fwScn)))" +
+					  ".rootScn(\(ppUid(rootVew.fwScn.rootScn))):")
 				print(rootVew.fwScn.rootScn.pp(.tree), terminator:"")
 			}
-			//aprint(rootScn.pp(.tree, ["ppIndentCols":3]), terminator:"") )
-			//aprint("\(rootScn.pp(a.tree, ["ppIndentCols":14] ))", terminator:"")
 		case "#":
 			let documentDirURL	= try! FileManager.default.url(
 											for:.documentDirectory,

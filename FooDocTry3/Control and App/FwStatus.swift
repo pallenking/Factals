@@ -284,7 +284,7 @@ extension FwScn : FwStatus	{										    ///FwScn
 		var myLine				= rootVew.fwScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		myLine					+=  scnView?.pp(.classUid) ?? "" + " "
 		myLine					+= scnScene.pp(.classUid) + " "
-		myLine					+= "animatePhysics:\(animatePhysics)(isPaused:\(scnScene.isPaused))"
+		myLine					+= "animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("FwScn        ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
@@ -298,6 +298,7 @@ extension FwScn : FwStatus	{										    ///FwScn
 extension SCNScene : FwStatus	{									 ///SCNScene
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNScene     ", uid:self,
+			myLine:"isPaused:\(isPaused)",
 			otherLines:{ deapth in
 				return self.physicsWorld.ppFwState(deapth:deapth-1)
 			},
