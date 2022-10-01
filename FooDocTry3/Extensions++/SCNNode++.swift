@@ -393,7 +393,7 @@ extension SCNNode /*: HasChildren */ {
 			}
 			DOClog.nIndent		-= 1
 		default:
-bug		//	rv					=  ppDefault(self:self, mode:mode, aux:aux)
+			rv					=  ppDefault(self:self, mode:mode, aux:aux)	//bug?
 		}
 		return rv
 	}

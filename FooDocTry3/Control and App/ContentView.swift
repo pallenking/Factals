@@ -26,8 +26,6 @@ struct ContentView: View {
 			if let fwGuts		= document.fwGuts {
 				VStack {
 					let rootPart:RootPart = document.fwGuts.rootPart
-				//	let pov		= fwGuts.rootVew0?.fwScn.scnScene.cameraScn
-					let myRootViewIndex = fwGuts
 					ZStack {
 						NSEventReceiver { nsEvent in
 							let rootVew = fwGuts.rootVews[zeroIndex]	// zeroIndex is DANGEROUS
@@ -35,8 +33,8 @@ struct ContentView: View {
 						}
 						let sceneKitHostingView	= SceneKitHostingView(SCNViewsArgs(
 							fwGuts		: fwGuts,
-							scnScene	: nil,
-							pointOfView	: nil, //pov,
+							scnScene	: nil,	// no specific background scene
+							pointOfView	: nil,	// rootVew.fwScn.cameraScn, //pov,
 							options		: [//	.autoenablesDefaultLighting,
 										  //.allowsCameraControl,	// so we can control it
 			//								.jitteringEnabled,
@@ -56,6 +54,21 @@ struct ContentView: View {
 					//A	 .gesture(gestures())	// Removed 20220825 to Gestures.swift
 						sceneKitHostingView
 					}
+/*
+ 003  DOCctlr      . . . . . . . . . . . . . . 1 FwDocument:
+ 59a  | NSDocument   . . . . . . . . . . . . . Has 1 wc:   #ADD MORE HERE#
+ 96a  | | NSWindowCtlr . . . . . . . . . . . . nilNameNib,doc:59a win:66a nibOwner:96a
+ 66a  | | | NSWindow     . . . . . . . . . . . title:'Untitled' contentVC:fae contentView:745 delegate:---
+ 745  | | | | _TtGC7SwiftUI13NSHostingViewGVS_15ModifiedConten... . . . . . . . . . 3 children superview:bf8 window:66a noRedisplay
+ 529  | | | | | _TtGC7SwiftUI16PlatformViewHostGVS_P10$1cd823a88... . . . . . . . . 1 children superview:745 window:66a noRedisplay
+ 18d  | | | | | | NSEventReceiverView                               . . . . . . . . 0 children superview:529 window:66a noRedisplay
+ cd0  | | | | | _TtGC7SwiftUI16PlatformViewHostGVS_P10$1cd823a88... . . . . . . . . 1 children superview:745 window:66a noRedisplay
+ 579  | | | | | | SCNView                                           . . . . . . . . 0 children superview:cd0 window:66a noRedisplay
+ 519  | | | | | _TtC7SwiftUIP33_9FEBA96B0BC70E1682E82D239F242E73... . . . . . . . . 2 children superview:745 window:66a noRedisplay
+ e02  | | | | | | NSButtonBezelView                                 . . . . . . . . 0 children superview:519 window:66a noRedisplay
+ 0c3  | | | | | | _TtCC7SwiftUIP33_9FEBA96B0BC70E1682E82D239F242E7... . . . . . . . 1 children superview:519 window:66a noRedisplay
+ e92  | | | | | | | _TtCOCV7SwiftUI11DisplayList11ViewUpdater8Platfo... . . . . . . 0 children superview:0c3 window:66a noRedisplay
+ */
 					HStack {
 						HStack {
 							Text("  Control:")

@@ -157,6 +157,7 @@ class RootVew : Vew {
 		}
 		else {
 			cameraScn.transform = rootVew.lastSelfiePole.transform
+			print("cameraScn:\(cameraScn.pp(.uid)) \(reason ?? "no reason"), tramsform:\n\(cameraScn.transform.pp(.tree)))")
 		}
 	}
 

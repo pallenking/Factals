@@ -357,7 +357,6 @@ bug;			msg					+= config.string_("cause")
 	var params4aux : FwConfig	{	DOC?.config ?? [:]		}
 	static let null : Logger	= {
 		let rv					= Logger(title:".null = Logger(params4app)")
-//		rv.config4log			= params4appLog
 		return rv
 	}()
 

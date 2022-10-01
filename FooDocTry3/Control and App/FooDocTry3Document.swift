@@ -355,23 +355,23 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		case "m":
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'm': === Parts:")
-			print(rootPart2?.pp(.tree, aux), terminator:"")
+			print(rootPart2.pp(.tree, aux), terminator:"")
 		case "M":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'M': === Parts and Ports:")
-			print(rootPart2?.pp(.tree, aux), terminator:"")
+			print(rootPart2.pp(.tree, aux), terminator:"")
 		case "l":
 			aux["ppLinks"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'l': === Parts, Links:")
-			print(rootPart2?.pp(.tree, aux), terminator:"")
+			print(rootPart2.pp(.tree, aux), terminator:"")
 		case "L":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			aux["ppLinks"]		= true
 			print("\n******************** 'L': === Parts, Ports, Links:")
-			print(rootPart2?.pp(.tree, aux), terminator:"")
+			print(rootPart2.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "C":
