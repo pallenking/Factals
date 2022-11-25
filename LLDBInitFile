@@ -399,11 +399,11 @@ command     alias pFwcState		expression printFwcState()
 ############################### FILE A BUG REPORT: Would like, but BROKEN. wanted badly:
 #command alias lldbinit		command source ~/.lldbinit					# DOESN'T WORK
 #command alias lldbinit		command source $(PROJECT_DIR)/LLDBInitFile	# DOESN'T WORK
-#command alias lldbinit		command source $(SRCROOT)/LLDBInitFile		# DOESN'T WORK
+command alias lldbinit		command source $(SRCROOT)/LLDBInitFile		# DOESN'T WORK
 #command alias lldbinit		lldbinitFactals								# DOESN'T WORK
 
 ## allenM1:
-command alias lldbinit			 	  command source ~/DocLocal/HaveNWant/Factals/LLDBInitFile
+#command alias lldbinit			 	  command source ~/DocLocal/HaveNWant/Factals/LLDBInitFile
 command alias lldbinitFactals	 	  command source ~/DocLocal/HaveNWant/Factals/LLDBInitFile
 command alias lldbinitFooDocTry3	  command source ~/DocLocal/HaveNWant/FooDocTry3Clone/LLDBInitFile
 command alias lldbinitSwiftFactals	  command source ~/DocLocal/HaveNWant/SwiftFactals/LLDBInitFile
