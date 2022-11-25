@@ -16,3 +16,310 @@ eed  | light1  . . . . . .  0          01 geom:nil
  73a  | ambient2. . . . . .  0          01 geom:nil
  4d6  | omni1   . . . . . .  0          01 geom:nil
  31e  | camera  . . . . . .  [ 0.0 0.05001 geom:nil
+
+
+================================================================ PROBLEM 1:
+[logging] open flag(s) 0x01000000 are reserved for VFS use and do not affect behaviour when passed to sqlite3_open_v2
+
+
+================================================================ PROBLEM 2:
+[logging-persist] cannot open file  open(/private/var/db/DetachedSignatures) - Undefined error: 0
+
+================================================================ PROBLEM 3:
+Main Thread Checker: UI API called on a background thread: -[NSResponder init]
+PID: 30582, TID: 939321, Thread name: (none), Queue name: NSDocumentController Opening (QOS: UNSPECIFIED), QoS: 0
+Backtrace:
+4   FooDocTry3     104c4db8c $s10 FooDocTry3 4 Part     CyACSDySSAA5 FwAny_ pGcfc + 2356
+5   FooDocTry3     10494c738 $s10 FooDocTry3 8 RootPart CACycfc + 1332
+6   FooDocTry3     10494c1d4 $s10 FooDocTry3 8 RootPart CACycfC + 44
+7   FooDocTry3     1049541c4 $s10 FooDocTry3 8 RootPart C11 fromLibrary ACSS_tcfC + 256	   //RootPart:344 init(fromLibrary
+8   FooDocTry3     104b44104 $s10 FooDocTry3 0abC8 Document VACycfC + 532
+9   FooDocTry3     104c06808 $s10 FooDocTry3 0abC3 AppV4bodyQrvgAA0abC8DocumentVycfu_ + 32
+10  SwiftUI        1c534d664 OUTLINED_FUNCTION_3 + 14860
+11  SwiftUI        1c5f909b0 OUTLINED_FUNCTION_151 + 1292
+12  SwiftUI        1c5f90708 OUTLINED_FUNCTION_151 + 612
+13  SwiftUI        1c5f9075c OUTLINED_FUNCTION_151 + 696
+14  AppKit         1a20f388c -[NSDocument initForURL:withContentsOfURL:ofType:error:] + 196
+15  AppKit         1a2121334 -[NSDocumentController makeDocumentForURL:withContentsOfURL:ofType:error:] + 296
+16  AppKit         1a21208b0 __104-[NSDocumentController makeDocumentForURL:withContentsOfURL:alternateContents:ofType:completionHandler:]_block_invoke + 76
+17  Foundation     19f91e350 __NSBLOCKOPERATION_IS_CALLING_OUT_TO_A_BLOCK__ + 24
+18  Foundation     19f91e210 -[NSBlockOperation main] + 104
+19  Foundation     19f91e1a0 __NSOPERATION_IS_INVOKING_MAIN__ + 16
+20  Foundation     19f91d5b8 -[NSOperation start] + 708
+
+
+
+RootPart.from(data:encoding:) ERROR:
+	'keyNotFound(
+		RootPartKeys(
+			stringValue:"partTreeVerbose", intValue:nil),
+		Swift.DecodingError.Context(
+			codingPath:[],
+			debugDescription:"No value associated with key 
+				RootPartKeys(
+					stringValue:\"partTreeVerbose\", 
+					intValue: nil
+				) (
+				\"partTreeVerbose\"
+				).",
+			underlyingError: nil
+		)
+	)
+	
+
+
+top
+0		NSTheme 	Hosting view	  -			View 		SCNView
+		Frame		Controller					Host
+
+1		NSTheme		Hosting View	Hosting		View	|
+		Frame		Controller		view		Host	|
+														|
+2		NSTheme		Hosting View	Hosting		View	|	NSEventRec-
+		Frame		Controller		view		Host	|	eiverView
+														|
+3		NSTheme		Hosting View	Hosting		View	|
+		Frame		Controller		view		Host	|
+											+
+4		NSTheme		Hosting View	Hosting		Observable	Horizontal\		Vertical\	Overlay	|	ZStack		NSEventReceiver
+		Frame		Controller		view		DocBox		Stack-	  4X	Stack-	2X			|		2X
+												InView		Center	  /		Center	/  			|
+																	  							|
+5		NSTheme		Hosting View	Hosting		Observable	Horizontal\		Vertical\	Overlay	|	ZStack		NSSceneKit
+		Frame		Controller		view		DocBox		Stack-	  4X	Stack-	2X			|		2X		HostingView
+												InView		Center	  /		Center	/  			|
+																	  							|
+6		NSTheme		Hosting View	Hosting		Observable	Horizontal\		Vertical\	Overlay	|	ZStack
+		Frame		Controller		view		DocBox		Stack-	  4X	Stack-	2X			|		2X
+												InView		Center	  /		Center	/  			|
+																	  							|
+7		NSTheme		Hosting View	Hosting		Observable	Horizontal\		Vertical\	Overlay	|	ZStack		_ShapeView<
+		Frame		Controller		view		DocBox		Stack-	  4X	Stack-	2X			|		1X		Rectangle Inset
+												InView		Center	  /		Center	/  			|
+
+8		NSTheme		Hosting View	Hosting		Observable	Horizontal\		Vertical\	Overlay
+		Frame		Controller		view		DocBox		Stack-	  4X	Stack-	2X			
+												InView		Center	  /		Center	/  			
+
+9		NSTheme		Hosting View	Hosting		Observable	Horizontal\		Vertical\
+		Frame		Controller		view		DocBox		Stack-	  4X	Stack-	2X			
+												InView		Center	  /		Center	/  			
+
+10		NSTheme		Hosting View	Hosting		Observable	Horizontal\		Vertical\
+		Frame		Controller		view		DocBox		Stack-	  4X	Stack-	1X			
+												InView		Center	  /		Center	/  			
+
+11		NSTheme		Hosting View	Hosting		Observable	Horizontal\	
+		Frame		Controller		view		DocBox		Stack-	  4X
+												InView		Center	  /	
+
+12		NSTheme		Hosting View	Hosting		Observable	Horizontal\	
+		Frame		Controller		view		DocBox		Stack-	  3X
+												InView		Center	  /	
+
+13		NSTheme		Hosting View	Hosting		Observable	Horizontal\	
+		Frame		Controller		view		DocBox		Stack-	  2X
+												InView		Center	  /	
+
+14		NSTheme		Hosting View	Hosting		Observable	Horizontal\	
+		Frame		Controller		view		DocBox		Stack-	  1X
+												InView		Center	  /	
+15		NSTheme		Hosting View	Hosting		Observable
+		Frame		Controller		view		DocBox		
+												InView		
+16		NSTheme		Hosting View	Hosting
+		Frame		Controller		view	
+											
+17		NSTheme		NSVisual
+		Frame		Effect View
+
+18		NSTheme
+		Frame
+
+
+
+
+
+
+
+
+
+
+
+
+================
+NSThemeFrame
+	Hosting View Controller
+		ViewHost
+			SCNView						1
+
+		HostingView
+			ViewHost
+				NSEventReceiverView 3X	2,3,4
+
+NSThemeFrame										18
+	NSVisualEffectView								17
+	HostingViewController
+		HostingView									16
+			ObservableDocBoxInView					15
+				HorizontalStack-Center 		1x		14
+				HorizontalStack-Center 		2x		13
+				HorizontalStack-Center 		3x		12
+				HorizontalStack-Center 		4x		11
+					VerticalStack-Center	1x		10
+					VerticalStack-Center	2x		9
+						Overlay						8
+							ZStack			1x
+								_ShapeView<Rect>	7
+							ZStack			2x		6
+								NSSceneKitHostingView 5
+			.					NSEventReceiver		4
+			ViewHost								3
+				NSEventReceiverView					2
+			ViewHost								1
+		ViewHost												1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+############  1. (1bd:Atom).equalsPart(a79:Atom)  ###########
+1bd  <##         a:Atom  oV 
+258  |\            P:Port  o  0.00>
+ ??====(!identical,  equatable)====??  CALCULATED
+a79  <##         a:Atom  oV 
+1db  |\            P:Port  o  0.00>
+1.029 1bd:Atom: Testing Atom:    'a:Atom 1 children'.equals('a:Atom 1 children')
+1.030 1bd:Atom: Testing Part:    'a:Atom 1 children'.equals('a:Atom 1 children')
+1.031 258:Port: Testing Port:    'P/258:Port'.equals('P/1db:Port')
+1.032 258:Port: Testing Part:    'P/258:Port'.equals('P/1db:Port')
+1.033 258:Port: Result Part:     'P/258:Port' == 'P/1db:Port' ---> true
+
+1.034 2e0f:Dict.Testing Dict:    Optional('P/258:Port').equals(Optional('P/1db:Port'))
+1.035 2e6f:Dict.Result Dict:     ["P": 'P/258:Port'] == ["P": 'P/1db:Port'] ---> false
+1.036 1bd:Atom: Result Part:     'a:Atom 1 children' == 'a:Atom 1 children' ---> false
+ ??====(!identical, !equatable)====??  ACTUAL
+
+/Users/allen/DocLocal/HaveNWant/Factals/FactalsTests/FactalsTests.swift:204: error: -[FactalsTests.FactalsTests testPartIdenticalEquatable] : XCTAssertEqual failed: ("false") is not equal to ("true") - testPartEquitable 0: 1bd:Atom  == a79:Atom isn't true
+
+1.037 1bd:Atom: Testing Atom:    'a:Atom 1 children'.equals('a:Atom 1 children')
+1.038 1bd:Atom: Testing Part:    'a:Atom 1 children'.equals('a:Atom 1 children')
+1.039 258:Port: Testing Port:    'P/258:Port'.equals('P/1db:Port')
+1.040 258:Port: Testing Part:    'P/258:Port'.equals('P/1db:Port')
+1.041 258:Port: Result Part:     'P/258:Port' == 'P/1db:Port' ---> true
+1.042 a6a7:DictiTesting Dict:    Optional('P/258:Port').equals(Optional('P/1db:Port'))
+1.043 a322:DictiResult Dict:     ["P": 'P/258:Port'] == ["P": 'P/1db:Port'] ---> false
+1.044 1bd:Atom: Result Part:     'a:Atom 1 children' == 'a:Atom 1 children' ---> false
+/Users/allen/DocLocal/HaveNWant/Factals/FactalsTests/FactalsTests.swift:208: error: -[FactalsTests.FactalsTests testPartIdenticalEquatable] : XCTAssertEqual failed: ("true") is not equal to ("false") - !testPartEquitable 0: 1bd:Atom  == a79:Atom isn't true
+	--------------------------------
+	---   a   B U G   to fix!    ---
+	--------------------------------
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.029 Aflt-    bfb:Atom:         Testing Atom:    'a:Atom 1 children'.equals('a:Atom 1 children')
+1.030 Aflt-    bfb:Atom:         Testing Part:    'a:Atom 1 children'.equals('a:Atom 1 children')
+1.031 Aflt-    001:Port:         Testing Port:    'P/001:Port'.equals('P/b75:Port')
+1.032 Aflt-    001:Port:         Testing Part:    'P/001:Port'.equals('P/b75:Port')
+1.033 Aflt-    001:Port:         Result  Part:    'P/001:Port' == 'P/b75:Port' ---> true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.019 Aflt-    ffc:Atom:         Testing Part: a.ffc:Atom == a.bf8:Atom
+1.020 Aflt-    ffc:Atom:         Testing ATom:    .equals(a.bf8:Atom)
+1.021 Aflt-    ffc:Atom:         Testing PArt:    .equals(a.bf8:Atom)
+1.022 Aflt-    ffc:Atom:         Testing Atom:    .equals(a.bf8:Atom) ---> false
+1.023 Aflt-    ffc:Atom:         Testing Atom:    .equals(a.bf8:Atom) ---> false
+1.024 Aflt-    ffc:Atom:         Result  Part: a.ffc:Atom == a.bf8:Atom  ---> false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"breakAt" : breakLogEvNum<0 ? 0 :
+	    breakLogEvNum + breakLogIdIndex * Logger.entryNosPlog,
+	     ***********     *************
+	        evNum     +         idIndex * L..
+			  	    logNo
+			
+breakAtEvent
+breakAtLogger
+
+Tivo Service # 746002190A710FE
+
+d80:     _ROOT:RootVew s:  *-ROOT/c20 p:  ROOT/8f5:RootPa. . . . . . . . . .     o- w0 rootVew:d80 (1 Nodes) LockVal:1 UNOWNED
+ MISSING from rootVews rootVew.parts MISMATCH
+ MISSING from rootVews rootVew.parts MISMATCH
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+viewAppearedFor(scnViewsArgs:SceneKitArgs) {//scnViewsArgs.sceneIndex
+	createVewNScn(sceneIndex:args.sceneIndex)
+		rootVew.updateVewSizePaint(vewConfig:vewConfig)
+			hasDirty(.vew)
+				vRoot.adorn(from:pRoot, using:vewConfig)
+		touchLightScns()
+		getCameraScn([:])
+		getAxesScn()
