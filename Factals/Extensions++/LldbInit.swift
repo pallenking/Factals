@@ -28,15 +28,15 @@ func rootpartL(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  rootVew0  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[0]								}
+	get 		{	return DOCfwGuts.rootVews[0] ?? { fatalError("rootVews[0]")}() }
 	set (v)		{		   DOCfwGuts.rootVews[0] = v							}
 }
 var  rootVew1  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[1]								}
+	get 		{	return DOCfwGuts.rootVews[1] ?? { fatalError("rootVews[1]")}() }
 	set (v)		{		   DOCfwGuts.rootVews[1] = v							}
 }
 var  rootVew2  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[2]								}
+	get 		{	return DOCfwGuts.rootVews[2] ?? { fatalError("rootVews[2]")}() }
 	set (v)		{		   DOCfwGuts.rootVews[2] = v							}
 }
 
@@ -45,21 +45,28 @@ func rootvewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
 	}
-	var rv : Vew				= fwGuts.rootVews[index]
-	if name != nil {			// Search for named Vew
-		rv						= rv.find(name:name!, inMe2:true) ?? rv
+	guard var rootVew : Vew		= fwGuts.rootVews[index] else {
+		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
+		return .null
 	}
-	return rv
+	if name != nil {			// Search for named Vew
+		rootVew					= rootVew.find(name:name!, inMe2:true) ?? rootVew
+	}
+	return rootVew
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-var  rootScnL : SCNNode  		{  DOCfwGutsQ?.rootVews[zeroIndex].fwScn.rootScn ?? .null				}
-func rootscnL(_ name:String?=nil) -> SCNNode	{
+var  rootScn0 : SCNNode  		{
+	get 		{	return DOCfwGuts.rootVews[0]!.scn 							}
+	set (v)		{		   DOCfwGuts.rootVews[0]!.scn = v						}
+}
+//var  rootScnL : SCNNode  		{  DOCfwGutsQ?.rootVews[zeroIndex].fwScn.rootScn ?? .null				}
+func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}
-	var scnRv					= fwGuts.rootVews[zeroIndex].fwScn.rootScn				//fwGuts.rootScn 	// Root
+	var scnRv					= fwGuts.rootVews[index]!.fwScn.rootScn				//fwGuts.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {

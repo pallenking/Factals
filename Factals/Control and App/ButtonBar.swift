@@ -13,7 +13,7 @@ struct ButtonBar: View {
 
 	var body: some View {
 		let fwGuts 				= document.fwGuts
-		let rootVews			= fwGuts?.rootVews ?? []
+		let rootVews			= fwGuts?.rootVews ?? [:]
 		VStack {
 			 //  --- B U T T O N S  ---
 			HStack {	// FULL!
@@ -26,22 +26,22 @@ struct ButtonBar: View {
 				}
 				Text(" ")
 				Button(label:{	Text(   "ptv")									})
-				{	for (i, rootVew) in (fwGuts?.rootVews ?? []).enumerated() {
-						print("\(i)] ", terminator:"")
+				{	for (key, rootVew) in fwGuts?.rootVews ?? [:] {
+						print("\(key)] ", terminator:"")
 						lldbPrint(rootVew, mode:.tree, terminator:"")
 					}
 				}
-				Button(label:{	Text("0")}) { lldbPrint(rootVews[0], mode:.tree)}
-				Button(label:{	Text("1")}) { lldbPrint(rootVews[1], mode:.tree)}
+			//	Button(label:{	Text("0")}) { lldbPrint(rootVews[0], mode:.tree)}
+			//	Button(label:{	Text("1")}) { lldbPrint(rootVews[1], mode:.tree)}
 			//	Button(label:{	Text("2")}) { lldbPrint(rootVews[2], mode:.tree)}
 				Button(label:{	Text(   "ptn")									})
-				{	for (i, r) in (fwGuts?.rootVews ?? []).enumerated() {
-						print("\(i)] ", terminator:"")
-						lldbPrint(r.scn, mode:.tree, terminator:"")
-					}
+				{	for (key, rootVew) in fwGuts?.rootVews ?? [:] {
+						print("\(key)] ", terminator:"")
+						lldbPrint(rootVew.scn, mode:.tree, terminator:"")
+					}// Tuple type 'Dictionary<Int, RootVew>.Element'  (aka '(key: Int, value: RootVew)') has no member 'scn'
 				}
-				Button(label:{	Text("0")}) { lldbPrint(rootVews[0].scn, mode:.tree)}
-				Button(label:{	Text("1")}) { lldbPrint(rootVews[1].scn, mode:.tree)}
+			//	Button(label:{	Text("0")}) { lldbPrint(rootVews[0].scn, mode:.tree)}
+			//	Button(label:{	Text("1")}) { lldbPrint(rootVews[1].scn, mode:.tree)}
 			//	Button(label:{	Text("2")}) { lldbPrint(rootVews[2].scn, mode:.tree)}
 				Spacer()
 				Button(label: {	Text("LLDB") 									})

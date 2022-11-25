@@ -187,7 +187,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 				 // Controller:
 				var rv			= ""
 				rv				+= self.rootPart.ppFwState()
-				for rootVew in self.rootVews {
+				for (key, rootVew) in self.rootVews {
 					rv			+= rootVew.ppFwState(deapth:deapth-1)
 				}
 				rv				+= self.logger.ppFwState()
@@ -254,9 +254,12 @@ extension Simulator : FwStatus	{									///Simulator
 extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
 		guard let fwGuts		= fwGuts else {	return "no fwGuts!" 			}
-		let myI					= fwGuts.rootVews.firstIndex { $0 === self } ?? -1
+		guard let myI			= fwGuts.rootVews.firstIndex(where:{ $0.value === self })
+			else {		bug;			return "Oops 2087"						}
+		let (key, rootVew)		= fwGuts.rootVews[myI]
+
 		let myLine				= ppLine()
-		let myName				= "RootVew \(myI)    "
+		let myName				= "RootVew \(key)    "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in

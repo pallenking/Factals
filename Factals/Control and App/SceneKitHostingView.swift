@@ -33,7 +33,7 @@ struct SceneKitView: View {
 			 // /////////
 			EventReceiver { nsEvent in
 				let fwGuts	= scnViewsArgs.fwGuts!
-				let rootVew = fwGuts.rootVews[scnViewsArgs.sceneIndex]
+				let rootVew = fwGuts.rootVews[scnViewsArgs.sceneIndex]!
 				 // send to Event Central:
 				rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
 			}

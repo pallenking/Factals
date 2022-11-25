@@ -121,12 +121,15 @@ extension RootVew {
 	func ppLine() -> String {
 		guard let rootVew		= rootVew			else {	return "Vew.rootVew == nil "}
 		guard let fwGuts 		= rootVew.fwGuts 	else {	return "Vew.rootVew?.fwGuts == nil "}
-		let i					= fwGuts.rootVews.firstIndex { $0 === self 		} ?? -1
+
+		guard let myI			= fwGuts.rootVews.firstIndex(where:{ $0.value === self })
+			else {		bug;		return "Oops 2242"							}
+		let (key, _)			= fwGuts.rootVews[myI]
 //		var rv					= "trunkVew:\(ppUid(trunkVew, showNil:true)) "
 		var rv					= "rootVew:\(ppUid(rootVew, showNil:true)) "
 		rv						+= "(\(nodeCount()) Nodes) "
 		rv						+= "LockVal:\(rootVewLock.value ?? -99) "
-		rv						+= fwGuts.rootVews[i] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
+		rv						+= fwGuts.rootVews[key] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
 		rv						+=  rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 		rv						+= "pole:\(lastSelfiePole.pp())-"
 		rv						+= "w[\(fwScn.scn.convertPosition(.zero, to:nil).pp(.short))] "

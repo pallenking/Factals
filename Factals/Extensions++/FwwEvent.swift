@@ -6,7 +6,8 @@ extension NSEvent {
 		let fwGuts 				= DOCfwGuts
 		if let nsViewOfEv 		= window?.contentView {
 			 // Search for
-			for rootVew in fwGuts.rootVews {
+			for key in fwGuts.rootVews.keys {
+				let rootVew		= fwGuts.rootVews[key]!
 				if let scnView	= rootVew.fwScn.scnView,
 				  scnView.isDescendant(of:nsViewOfEv) {
 					return rootVew

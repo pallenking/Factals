@@ -342,19 +342,16 @@ bug;	let rv					= NSMenu(title:path)
 
 		let fwGuts				= FwGuts(rootPart:rootPart)
 
-bug		//let i					= fwGuts.newViewIndex()		// first one (more not supportd
-		 // --------------- A: Get BASIC Component Part (owned and used here)
+bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		let scnScene			= SCNScene()									//named:"art.scnassets/ship.scn") ?? SCNScene()
 		scnScene.isPaused		= true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
 		let newRootVew			= RootVew(forPart:fwGuts.rootPart, scnScene:scnScene)
-		newRootVew.fwGuts		= fwGuts			// Set Owner
-		fwGuts.rootVews.append(newRootVew)
-		
 		let i					= fwGuts.rootVews.count - 1
-		assert(i == 0, "mult Views/window not yet supported")
-
+		fwGuts.rootVews[i]		= newRootVew									//		fwGuts.rootVews.append(newRootVew)
+		newRootVew.fwGuts		= fwGuts			// Set Owner
+		
 		var doc					= FactalsDocument(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
 		doc.pushControllersConfig(to:doc.config + rootPart.ansConfig)

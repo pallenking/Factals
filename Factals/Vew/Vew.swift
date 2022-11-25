@@ -517,8 +517,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard let fwGuts = part.root?.fwGuts else {
 							fatalError("### part.root?.fwGuts is nil ###")		}
-						for i in 0..<fwGuts.rootVews.count {
-							guard fwGuts.rootVews[i].lock(vewTreeAs:viewLockName, logIf:log) else {
+//						for i in 0..<fwGuts.rootVews.count {
+						for key in fwGuts.rootVews.keys {
+							guard fwGuts.rootVews[key]!.lock(vewTreeAs:viewLockName, logIf:log) else {
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 							}
 						}
@@ -573,8 +574,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		for rv in fwGuts.rootVews {
-			rv.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
+		for rootVew in fwGuts.rootVews.values {
+			rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
 		}
 	}
 	 // MARK: - 9.5 Wire Box
@@ -734,7 +735,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= part.root?.fwGuts?.rootVews[0].scn					//= part.root?.fwGuts?.fwScn.rootScn
+bug;			let rootScn		= part.root?.fwGuts?.rootVews[0]!.scn					//= part.root?.fwGuts?.fwScn.rootScn
 				rv				+= !ppViewOptions.contains("W") ? ""
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.short) + " "
 				if !(self is LinkVew) {
