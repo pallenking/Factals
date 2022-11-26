@@ -52,16 +52,14 @@ let vewConfig4					= VewConfig.subVew(["name":"vewConfig1"])
 let vewConfigAllToDeapth4		= VewConfig.openAllChildren(toDeapth:4)
 
 extension Vew {
-	func adorn(from part:Part, using config:VewConfig) {
+	func adorn(using config:VewConfig) {
 		atRve(3, log("adorn(from:\(part.pp(.fullName).field(-25)) using:\(config.pp(.fullNameUidClass))"))
-		assert(part === self.part, "paranoia")
 		assert(name == "_" + part.name, "paranoia")
 
 		 // Remove old skins:
 		scn.find(name:"s-atomic")?.removeFromParent()
 		part.markTree(dirty:.size)
-//		let _				= part.reSkin(invisibleOnto:self)	// might linger
-		let _				= part.reSkin(fullOnto:self)		// skin of Part
+		let bbox				= part.reSkin(fullOnto:self)		// skin of Part
 
 		switch config {
 		case .openPath(let path):
@@ -72,7 +70,7 @@ extension Vew {
 			}
 			let subVew			= Vew(forPart:subPart)
 			addChild(subVew)
-			adorn(from:subPart, using:config)
+			adorn(using:config)	//from:subPart,
 									//	touchVews(ofConfig:VewConfig.openPath(to:path))
 							//			 // Descend path, explode area
 							//			adornTargetVew		= nil			// HACK
@@ -85,17 +83,15 @@ extension Vew {
 							//				}
 							//			}
 		case .openAllChildren(let deapth):
-//bug
-//let x = pp(.uid)
 			if deapth <= 1 {	break											}
 			 // open our child Vews
 			for childPart in part.children {
-				adorn(from:childPart, using: .openAllChildren(toDeapth:deapth-1))
+				adorn(using: .openAllChildren(toDeapth:deapth-1))//from:childPart,
 			}
 		case .subVewList(let vewConfigs):
 			for childVew in children {
 				for vewConfig in vewConfigs {
-					childVew.adorn(from: part, using:vewConfig)
+					childVew.adorn(using:vewConfig)
 				}
 			}
 		case .subVew(let fwConfig):

@@ -535,7 +535,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 
 			if let vewConfig	= vewConfig {	// NEW WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-				vRoot.adorn(from:pRoot, using:vewConfig)
+				vRoot.adorn(using:vewConfig)
 			}
 			else {								// OLD WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
