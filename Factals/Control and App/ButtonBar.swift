@@ -27,16 +27,16 @@ struct ButtonBar: View {
 				Text(" ")
 				Button(label:{	Text(   "ptv")									})
 				{	for (key, rootVew) in fwGuts?.rootVews ?? [:] {
-						print("\(key)] ", terminator:"")
+						print("===== Slot \(key): =====")
 						lldbPrint(rootVew, mode:.tree, terminator:"")
 					}
 				}
-			//	Button(label:{	Text("0")}) { lldbPrint(rootVews[0], mode:.tree)}
+			//	Button(label:{	Text("0")}) { lldbPrint(rootVews[0]?, mode:.tree)}
 			//	Button(label:{	Text("1")}) { lldbPrint(rootVews[1], mode:.tree)}
 			//	Button(label:{	Text("2")}) { lldbPrint(rootVews[2], mode:.tree)}
 				Button(label:{	Text(   "ptn")									})
 				{	for (key, rootVew) in fwGuts?.rootVews ?? [:] {
-						print("\(key)] ", terminator:"")
+						print("===== Slot \(key): =====")
 						lldbPrint(rootVew.scn, mode:.tree, terminator:"")
 					}// Tuple type 'Dictionary<Int, RootVew>.Element'  (aka '(key: Int, value: RootVew)') has no member 'scn'
 				}

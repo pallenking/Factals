@@ -61,17 +61,16 @@ extension Part {
 	func adorn(in parentVew:Vew, openChildrenUsing config:VewConfig) {
 		atRve(3, parentVew.part.logd("adorn(in:\(parentVew.pp(.fullName).field(-25)) openChildrenUsing:\(config.pp(.fullNameUidClass))"))
 
-		 // See if a Vew for part is already a parentVew:
+		 // If a Vew for part is already in parentVew, use it:
 		var vew					= parentVew.children.first { $0.part === self}
-		 // Check pre-existing is about correct
-		if vew?.name != "_" + name ||
-		   vew?.part !== self {
-			vew					= nil
+		if vew != nil,					// Check if correct
+		   vew!.name != "_" + name ||
+		   vew!.part !== self {
+			vew					= nil		// no, rebuild
 		}
-		guard let vew else {
-			let vew				= Vew(forPart:self)
+		if vew == nil {					// Must create a new View?
+			vew					= VewForSelf()
 			parentVew.addChild(vew)
-			return adorn(in:parentVew, openChildrenUsing:config)	// try again, with Vew installed
 		}
 
 		 // Remove any old skins:
@@ -79,7 +78,6 @@ extension Part {
 		 // Add new skins:
 		let bbox				= parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
 		parentVew.part.markTree(dirty:.size)
-
 
 		switch config {
 		case .openPath(let path):
@@ -90,7 +88,7 @@ extension Part {
 			if deapth <= 1 {	break											}
 			 // open our child Vews
 			for childPart in children {
-				childPart.adorn(in:vew, openChildrenUsing:.openAllChildren(toDeapth:deapth-1))
+				childPart.adorn(in:vew!, openChildrenUsing:.openAllChildren(toDeapth:deapth-1))
 			}
 		case .subVewList(let vewConfigs):
 			for vewConfig in vewConfigs {

@@ -57,8 +57,8 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		baseView.showsStatistics = true			// works fine
 		baseView.debugOptions 	= [				// enable display of:
 	//		SCNDebugOptions.showBoundingBoxes,	// bounding boxes for nodes with content.
-			SCNDebugOptions.showWireframe,		// geometries as wireframe.
-			SCNDebugOptions.renderAsWireframe,	// only wireframe of geometry
+		//	SCNDebugOptions.showWireframe,		// geometries as wireframe.
+		//	SCNDebugOptions.renderAsWireframe,	// only wireframe of geometry
 	// 		SCNDebugOptions.showSkeletons,		//?EH? skeletal animation parameters
 	//		SCNDebugOptions.showCreases,		//?EH? nonsmoothed crease regions affected by subdivisions.
 	//		SCNDebugOptions.showConstraints,	//?EH? constraint objects acting on nodes.
