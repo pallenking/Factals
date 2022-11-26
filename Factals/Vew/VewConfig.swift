@@ -53,7 +53,16 @@ let vewConfigAllToDeapth4		= VewConfig.openAllChildren(toDeapth:4)
 
 extension Vew {
 	func adorn(from part:Part, using config:VewConfig) {
-		atTst(3, log("adorn(from:\(part.pp(.fullName)) using:\(config.pp(.fullNameUidClass))"))
+		atRve(3, log("adorn(from:\(part.pp(.fullName).field(-25)) using:\(config.pp(.fullNameUidClass))"))
+		assert(part === self.part, "paranoia")
+		assert(name == "_" + part.name, "paranoia")
+
+		 // Remove old skins:
+		scn.find(name:"s-atomic")?.removeFromParent()
+		part.markTree(dirty:.size)
+//		let _				= part.reSkin(invisibleOnto:self)	// might linger
+		let _				= part.reSkin(fullOnto:self)		// skin of Part
+
 		switch config {
 		case .openPath(let path):
 			var part : Part?	= part				// a part already

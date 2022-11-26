@@ -517,7 +517,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard let fwGuts = part.root?.fwGuts else {
 							fatalError("### part.root?.fwGuts is nil ###")		}
-//						for i in 0..<fwGuts.rootVews.count {
+						 // Lock all root Vews:
 						for key in fwGuts.rootVews.keys {
 							guard fwGuts.rootVews[key]!.lock(vewTreeAs:viewLockName, logIf:log) else {
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
@@ -534,7 +534,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
 			if let vewConfig	= vewConfig {	// NEW WAY
-let x = vRoot.pp()
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
 				vRoot.adorn(from:pRoot, using:vewConfig)
 			}
