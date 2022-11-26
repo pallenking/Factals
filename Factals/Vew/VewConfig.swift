@@ -61,9 +61,8 @@ extension Part {
 	func adorn(in parentVew:Vew, openChildrenUsing config:VewConfig) {
 		atRve(3, parentVew.part.logd("adorn(in:\(parentVew.pp(.fullName).field(-25)) openChildrenUsing:\(config.pp(.fullNameUidClass))"))
 
-		 // See if there is already a Vew:
-		var vew					= parentVew.children.first(where:{ v in
-									v.part === self})
+		 // See if a Vew for part is already a parentVew:
+		var vew					= parentVew.children.first { $0.part === self}
 		 // Check pre-existing is about correct
 		if vew?.name != "_" + name ||
 		   vew?.part !== self {

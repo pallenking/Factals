@@ -498,10 +498,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let fwGuts		= part.root?.fwGuts else {	return 				}
+		guard let fwGuts		= part.root?.fwGuts else {	print("OOOPS 29872"); return }
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
 		let pRoot				= part.root!
+		guard let pTrunk		= pRoot.children.first else {print("OOOPS 48080"); return }
 
 /**/	SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
@@ -535,7 +536,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 
 			if let vewConfig {					// NEW WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-				pRoot.adorn(in:vRoot, openChildrenUsing:vewConfig)
+				pTrunk.adorn(in:vRoot, openChildrenUsing:vewConfig)
 			}
 			else {								// OLD WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
