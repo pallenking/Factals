@@ -26,19 +26,19 @@ struct SceneKitArgs {
 }
 
 struct SceneKitView: View {
-	let scnViewsArgs : SceneKitArgs
+	let sceneKitArgs : SceneKitArgs
 
     var body: some View {
 		ZStack {
 			 // /////////
 			EventReceiver { nsEvent in
-				let fwGuts	= scnViewsArgs.fwGuts!
-				let rootVew = fwGuts.rootVews[scnViewsArgs.sceneIndex]!
+				let fwGuts	= sceneKitArgs.fwGuts!
+				let rootVew = fwGuts.rootVews[sceneKitArgs.sceneIndex]!
 				 // send to Event Central:
 				rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
 			}
 			 // ////////////////
-			SceneKitHostingView(scnViewsArgs)
+			SceneKitHostingView(sceneKitArgs)
 			 .allowsHitTesting(true)
 		}
     }

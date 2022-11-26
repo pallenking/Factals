@@ -40,13 +40,15 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		rootPart.fwGuts			= self 		 // owner (Back Link)
 		 // Make FwGuts without any RootVews!
 	}
-	func viewAppearedFor(scnViewsArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
-		 // Access rootVew:
-		guard let rootVew		= rootVews[scnViewsArgs.sceneIndex] else {
-			fatalError("no rootVews[\(scnViewsArgs.sceneIndex)")
+	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
+		print(sceneKitArgs.title + " View APPEARED")
+
+		 // Access rootVews for sceneKitArgs.sceneIndex:
+		guard let rootVew		= rootVews[sceneKitArgs.sceneIndex] else {
+			fatalError("no rootVews[\(sceneKitArgs.sceneIndex)")
 		}
 		let fwScn				= rootVew.fwScn
-		fwScn.createVewNScn(sceneIndex:scnViewsArgs.sceneIndex, vewConfig:scnViewsArgs.vewConfig)
+		fwScn.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
 		guard let baseView		= fwScn.scnView else { fatalError("fwScn.scnView == nil") }

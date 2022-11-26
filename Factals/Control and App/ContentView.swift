@@ -31,7 +31,7 @@ struct ContentView: View {
     }
 
  	var body: some View {
- 		let select 					= 1//1/3
+ 		let select 					= 3//1/3
 		if select == 1 {	 	bodySimple									}
 		if select == 2 { 		bodyJet										}
 		if select == 3 { 		bodyAll										}
@@ -39,7 +39,7 @@ struct ContentView: View {
   	var bodySimple: some View {		// Single HNW View
  		VStack {
  			 //  --- H a v e N W a n t  1  ---
- 			SceneKitView(scnViewsArgs:SceneKitArgs(
+ 			let sceneKitArgs		= SceneKitArgs(
  				sceneIndex	: 0,
  				title		: "0: Big main view",
  				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
@@ -48,9 +48,14 @@ struct ContentView: View {
  				fwGuts		: document.fwGuts,
  				options		: [.rendersContinuously],	//.allowsCameraControl, 
  				preferredFramesPerSecond:30
- 			))
+ 			)
+			SceneKitView(sceneKitArgs:sceneKitArgs)
 			 .frame(maxWidth: .infinity)
  			 .border(.black, width:2)
+			 .onAppear() {
+				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+			 }
+//didLoadNib
 			ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
 			// 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
  		}
@@ -60,7 +65,7 @@ struct ContentView: View {
  		HStack {
  			if let fwGuts			= document.fwGuts {
 				HStack {	 // JET
-					SceneKitHostingView(SceneKitArgs( 	//SceneView(
+					let sceneKitArgs	= SceneKitArgs( 	//SceneView(
 						sceneIndex	: 0,
 						title		: "Jet",
 						vewConfig	: .null,
@@ -69,9 +74,13 @@ struct ContentView: View {
 						fwGuts		: fwGuts,
 						options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 						preferredFramesPerSecond : 30
-					))
+					)
+					SceneKitHostingView(sceneKitArgs)
 					 .frame(maxWidth: .infinity)
 					 .border(.black, width:2)
+					 .onAppear() {
+						document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+					 }
 				}
  			}
  			else {
@@ -87,7 +96,7 @@ struct ContentView: View {
 				VStack {
 					HStack {
 						 //  --- H a v e N W a n t  0  ---
-						SceneKitView(scnViewsArgs:SceneKitArgs(
+						let sceneKitArgs	= SceneKitArgs(
 							sceneIndex	: 0,
 							title		: "0: Big main view",
 							vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
@@ -96,9 +105,13 @@ struct ContentView: View {
 							fwGuts		: fwGuts,
 							options		: [.allowsCameraControl, .rendersContinuously],
 							preferredFramesPerSecond:30
-						))
+						)
+						SceneKitView(sceneKitArgs:sceneKitArgs)
 						 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 						 .border(.black, width:2)
+						 .onAppear() {
+							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+						 }
 						Text(":0")
 					}
 					ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
@@ -107,7 +120,7 @@ struct ContentView: View {
 					HStack {
 						Text("1:")
 						 //  --- H a v e N W a n t  1  ---
-						SceneKitView(scnViewsArgs:SceneKitArgs(
+						let sceneKitArgs	= SceneKitArgs(
 							sceneIndex	: 1,
 							title		: "1: Second smaller view",
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
@@ -116,10 +129,13 @@ struct ContentView: View {
 							fwGuts		: fwGuts,
 							options		: [.allowsCameraControl, .rendersContinuously],
 							preferredFramesPerSecond:30
-						))
+						)
+						SceneKitView(sceneKitArgs:sceneKitArgs)
 						 .frame(maxWidth: .infinity)
-	//					 .frame(width:300, height:200)
 						 .border(.black, width:2)
+						 .onAppear() {
+							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+						 }
 					}
 					HStack {
 						Text("x:")
@@ -131,6 +147,7 @@ struct ContentView: View {
 						)
 						 .frame(width:150, height:150)
 						 .border(.black, width:2)
+						 .onAppear() {	print("x: Dragon APPEARED") }
 						 .onAppear() {
 							guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
 							let i = dragonModel.value
@@ -143,7 +160,7 @@ struct ContentView: View {
 						 }
 						 // --- J E T ---
 						Text("2:")
-						SceneKitHostingView(SceneKitArgs( 	//SceneView(
+						let sceneKitArgs	= SceneKitArgs( 	//SceneView(
 							sceneIndex	: 2,
 							title		: "2: Jet View",
 							vewConfig	: .null,
@@ -152,9 +169,13 @@ struct ContentView: View {
 							fwGuts		: fwGuts,
 							options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 							preferredFramesPerSecond : 30
-						))
+						)
+						SceneKitHostingView(sceneKitArgs)
 						 .frame(width:150, height:150)
 						 .border(.black, width:2)
+						 .onAppear() {
+							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+						 }
 						Spacer()
 					}
 				}
