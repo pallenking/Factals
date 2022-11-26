@@ -23,53 +23,54 @@ struct ContentView: View {
 	@StateObject var	dragonModel	= DragonModel()		// test Model 2
 
 	 // from https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
-    var cameraNode: SCNNode? {
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 2)
-        return cameraNode
-    }
-
- 	var body: some View {
- 		let select 					= 1//1/3
+//	var cameraNode: SCNNode? {
+//		let rv					= DOCfwGuts.rootVews[0].scn
+//		let cameraNode 			= SCNNode()
+//		cameraNode.camera		= SCNCamera()
+//		cameraNode.position 	= SCNVector3(x: 0, y: 0, z: 2)
+//		return cameraNode
+//	}
+								
+	var body: some View {
+		let select 				= 1//1/3
 		if select == 1 {	 	bodySimple									}
 		if select == 2 { 		bodyJet										}
 		if select == 3 { 		bodyAll										}
- 	}
-  	var bodySimple: some View {		// Single HNW View
- 		VStack {
- 			 //  --- H a v e N W a n t  1  ---
- 			let sceneKitArgs		= SceneKitArgs(
- 				sceneIndex	: 0,
- 				title		: "0: Big main view",
- 				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
- 				background	: nil,	 // no specific background scene
- 				pointOfView	: cameraNode,//nil,//document.fwGuts.rootVews[0].lookAtVew?.scn,//
- 				fwGuts		: document.fwGuts,
- 				options		: [.rendersContinuously],	//.allowsCameraControl, 
- 				preferredFramesPerSecond:30
- 			)
+	}
+	var bodySimple: some View {		// Single HNW View
+		VStack {
+			 //  --- H a v e N W a n t  1  ---
+			let sceneKitArgs	= SceneKitArgs(
+				sceneIndex	: 0,
+				title		: "0: Big main view",
+				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
+				background	: nil,	 // no specific background scene
+				pointOfView	: nil,//cameraNode,//nil,//document.fwGuts.rootVews[0].lookAtVew?.scn,//
+				fwGuts		: document.fwGuts,
+				options		: [.rendersContinuously],	//.allowsCameraControl,
+				preferredFramesPerSecond:30
+			)
 			SceneKitView(sceneKitArgs:sceneKitArgs)
 			 .frame(maxWidth: .infinity)
- 			 .border(.black, width:2)
+			 .border(.black, width:2)
 			 .onAppear() {						//was didLoadNib
 				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 			 }
 			ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
 			// 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
- 		}
- 	}
+		}
+	}
 
- 	var bodyJet: some View {
- 		HStack {
- 			if let fwGuts			= document.fwGuts {
+	var bodyJet: some View {
+		HStack {
+			if let fwGuts			= document.fwGuts {
 				HStack {	 // JET
 					let sceneKitArgs	= SceneKitArgs( 	//SceneView(
 						sceneIndex	: 0,
 						title		: "Jet",
 						vewConfig	: .null,
 						background	: jetModel.scene,
-						pointOfView	: cameraNode,//nil,//jetModel.scene.cameraScn,
+						pointOfView	: nil,//cameraNode,//nil,//jetModel.scene.cameraScn,
 						fwGuts		: fwGuts,
 						options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 						preferredFramesPerSecond : 30
@@ -81,13 +82,13 @@ struct ContentView: View {
 						document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 					 }
 				}
- 			}
- 			else {
- 				Button(label:{Text("Document has nil fwGuts").padding(.top, 300) } 	)
- 				{	fatalError(" ERROR ")											}
- 			}
- 		}
- 	}
+			}
+			else {
+				Button(label:{Text("Document has nil fwGuts").padding(.top, 300) } 	)
+				{	fatalError(" ERROR ")											}
+			}
+		}
+	}
 
 	var bodyAll: some View {	// bodyAll
 		HStack {		// ***** 3 VStacks columns
@@ -100,7 +101,7 @@ struct ContentView: View {
 							title		: "0: Big main view",
 							vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
 							background	: nil,	 // no specific background scene
- 							pointOfView	: cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//
+							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//
 							fwGuts		: fwGuts,
 							options		: [.allowsCameraControl, .rendersContinuously],
 							preferredFramesPerSecond:30
@@ -124,7 +125,7 @@ struct ContentView: View {
 							title		: "1: Second smaller view",
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
 							background	: nil,	// no specific background scene
-							pointOfView	: cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//rootVew.fwScn.cameraScn, //pov,//nil,//
+							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//rootVew.fwScn.cameraScn, //pov,//nil,//
 							fwGuts		: fwGuts,
 							options		: [.allowsCameraControl, .rendersContinuously],
 							preferredFramesPerSecond:30
@@ -141,7 +142,7 @@ struct ContentView: View {
 						 // --- D R A G O N ---
 						SceneView(
 							scene		: dragonModel.scene,
-							pointOfView	: cameraNode,//nil,//dragonModel.scene.rootNode,//.childNode(withName: "ship", recursively: true),
+							pointOfView	: nil,//cameraNode,//nil,//dragonModel.scene.rootNode,//.childNode(withName: "ship", recursively: true),
 							options		: [.allowsCameraControl, .autoenablesDefaultLighting]
 						)
 						 .frame(width:150, height:150)
@@ -164,7 +165,7 @@ struct ContentView: View {
 							title		: "2: Jet View",
 							vewConfig	: .null,
 							background	: jetModel.scene,
-							pointOfView	: cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//jetModel.scene.cameraScn,
+							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//jetModel.scene.cameraScn,
 							fwGuts		: fwGuts,
 							options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 							preferredFramesPerSecond : 30

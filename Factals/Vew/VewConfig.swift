@@ -25,7 +25,7 @@ enum VewConfig : FwAny {
 		case .subVewList(let vewConfigs): nop			// array of directives, to
 			return ".subVewList([\(vewConfigs.count)])"
 		case .subVew(let fwConfig): nop
-			return ".subVew(fwConfig:\(fwConfig.count))"
+			return ".subVew(fwConfig:[\(fwConfig.count) elts])"
 		}
 	}
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
@@ -48,7 +48,7 @@ enum VewConfig : FwAny {
 let vewConfig1					= VewConfig.openPath(to:Path(withName: "ROOT/a.P"))
 let vewConfig2					= VewConfig.openAllChildren(toDeapth:8)
 let vewConfig3					= VewConfig.subVewList([vewConfig1, vewConfig2])
-let vewConfig4					= VewConfig.subVew(["name":"vewConfig1"])
+//let vewConfig4  				= VewConfig.subVew(["name":"vewConfig1"])
 let vewConfigAllToDeapth4		= VewConfig.openAllChildren(toDeapth:4)
 
 extension Part {

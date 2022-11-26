@@ -31,12 +31,13 @@ struct SceneKitView: View {
     var body: some View {
 		ZStack {
 			 // /////////
-			EventReceiver { nsEvent in
+			EventReceiver(handler: { nsEvent in
 				let fwGuts	= sceneKitArgs.fwGuts!
-				let rootVew = fwGuts.rootVews[sceneKitArgs.sceneIndex]!
-				 // send to Event Central:
-				rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
-			}
+				if let rootVew = fwGuts.rootVews[sceneKitArgs.sceneIndex] {
+					 // send to Event Central:
+					rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
+				}
+			})
 			 // ////////////////
 			SceneKitHostingView(sceneKitArgs)
 			 .allowsHitTesting(true)

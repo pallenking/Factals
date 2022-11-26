@@ -101,10 +101,10 @@ class FwScn : Uid {
 	}
 	 // MARK: - 4.1 Lights
 	func touchLightScns() {
-		let _ 					= touchLight("omni1",	.omni,	 position:SCNVector3(0, 0, 15))
-		let _ 					= touchLight("ambient1",.ambient,color:NSColor.darkGray)
-		let _ 					= touchLight("ambient2",.ambient,color:NSColor.white, intensity:500)				//blue//
-		let _ 					= touchLight("omni2",	.omni,	 color:NSColor.green, intensity:500)				//blue//
+		let _ 					= touchLight("*-omni1",	.omni, position:SCNVector3(0, 0, 15))
+		let _ 					= touchLight("*-amb1",.ambient,color:NSColor.darkGray)
+		let _ 					= touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
+		let _ 					= touchLight("*-omni2",	.omni, color:NSColor.green, intensity:500)				//blue//
 //		let _ 					= helper("omni3",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
 //		let spot 				= helper("spot",	.spot,	 position:SCNVector3(1.5, 1.5, 1.5))
 //		 spot.light!.spotInnerAngle = 30.0
@@ -144,7 +144,7 @@ class FwScn : Uid {
 	 // MARK: - 4.2 Camera
 	func getCameraScn(_ config:FwConfig) -> SCNNode {
 //		assert(rootScn.find(name:"camera") == nil, "addCameraToScn(): \"camera\" node already exists !!!")
-		let name				= "camera"
+		let name				= "*-camera"
 		if let rv				= rootScn.find(name:name) {
 			return rv
 		}
