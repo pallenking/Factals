@@ -41,7 +41,8 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		 // Make FwGuts without any RootVews!
 	}
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
-		atAni(4, logd(sceneKitArgs.title + " APPEARED"))
+		atRnd(4, DOClogger.log("=== Slot \(sceneKitArgs.sceneIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
+//logd	atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
 		 // Access rootVews for sceneKitArgs.sceneIndex:
 		guard let rootVew		= rootVews[sceneKitArgs.sceneIndex] else {

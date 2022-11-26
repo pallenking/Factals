@@ -52,10 +52,9 @@ struct ContentView: View {
 			SceneKitView(sceneKitArgs:sceneKitArgs)
 			 .frame(maxWidth: .infinity)
  			 .border(.black, width:2)
-			 .onAppear() {
+			 .onAppear() {						//was didLoadNib
 				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 			 }
-//didLoadNib
 			ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
 			// 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
  		}
