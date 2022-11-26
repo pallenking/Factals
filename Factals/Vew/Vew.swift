@@ -533,9 +533,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
 			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
-			if let vewConfig	= vewConfig {	// NEW WAY
+			if let vewConfig {					// NEW WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-				vRoot.adorn(using:vewConfig)
+				pRoot.adorn(in:vRoot, openChildrenUsing:vewConfig)
 			}
 			else {								// OLD WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
