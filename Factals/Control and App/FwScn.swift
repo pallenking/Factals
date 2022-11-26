@@ -361,7 +361,7 @@ class FwScn : Uid {
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(sceneIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
 		guard let rootVew		= rootVew 		 else {	fatalError("FwScn.rootVew is nil")}	//fwGuts.rootVewOf(fwScn:self)
-		guard let fwGuts		= rootVew.fwGuts else {	fatalError("FwScn.fwGuts is nil")}
+		guard let fwGuts		= rootVew.fwGuts else {	fatalError("FwScn.rootVew.fwGuts is nil")}
 
 		let rootPart			= fwGuts.rootPart
 		assert(rootVew.name == "_ROOT", 	"Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
@@ -379,7 +379,7 @@ class FwScn : Uid {
 		}
 
 		 // 2. Update Vew and Scn Tree
-		/**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// rootPart -> rootView, rootScn
+/**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// rootPart -> rootView, rootScn
 
 		 // 3. Add Lights, Camera and SelfiePole
 		touchLightScns()						// was updateLights

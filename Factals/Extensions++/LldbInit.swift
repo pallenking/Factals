@@ -40,7 +40,7 @@ var  rootVew2  : RootVew {
 	set (v)		{		   DOCfwGuts.rootVews[2] = v							}
 }
 
-func rootvewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
+func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
 		return .null

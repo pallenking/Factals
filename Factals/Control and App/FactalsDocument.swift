@@ -353,7 +353,7 @@ bug
 			panic("keyboard break to debugger")
 		case "d":
 			print("\n******************** 'd': ========('?' for debugger hints)")
-			let l1v 			= rootvewL("_l1")
+			let l1v 			= rootVewL("_l1")
 			print(l1v.scn.transform.pp(.tree))
 //			l1v.part.rotateLinkSkins(vew:l1v)
 		// //////////////////////////// //

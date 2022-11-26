@@ -31,7 +31,7 @@ struct ContentView: View {
     }
 
  	var body: some View {
- 		let select 					= 3//1/3
+ 		let select 					= 1//1/3
 		if select == 1 {	 	bodySimple									}
 		if select == 2 { 		bodyJet										}
 		if select == 3 { 		bodyAll										}
