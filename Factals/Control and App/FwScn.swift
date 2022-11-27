@@ -169,7 +169,7 @@ class FwScn : Uid {
 	 // Get camera node from SCNNode
 	var cameraScn : SCNNode? {
 		let rootNode			= scnScene.rootNode
-		let rv					= rootNode.find(name:"camera")
+		let rv					= rootNode.find(name:"*-camera")
 		return rv
 	}
 	  // MARK: - 4.3 Axes
