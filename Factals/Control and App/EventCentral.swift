@@ -81,12 +81,11 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var mouseWasDragged			= false		// have dragging cancel pic
 
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) {
-	//	print("--- func received(nsEvent:\(nsEvent))")
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
-		let rootVew				= rootVew
-		let fwScn				= rootVew!.fwScn
-		let fwGuts				= rootVew!.fwGuts		// why ! ??
+		guard let rootVew else {	return										}
+		let fwScn				= rootVew.fwScn
+		let fwGuts				= rootVew.fwGuts		// why ! ??
 
 		switch nsEvent.type {
 
@@ -114,49 +113,49 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts?.modelPic(with:nsEvent)
 			}
-			rootVew?.updatePole2Camera(duration:duration, reason:"Left mouseDown")
+			rootVew.updatePole2Camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true			// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				rootVew?.updatePole2Camera(reason:"Left mouseDragged")
+				rootVew.updatePole2Camera(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts?.modelPic(with:nsEvent) {
-						rootVew!.lookAtVew = vew			// found a Vew: Look at it!
+						rootVew.lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
-				rootVew?.updatePole2Camera(duration:duration, reason:"Left mouseUp")
+				rootVew.updatePole2Camera(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			rootVew?.updatePole2Camera(duration:duration, reason:"Other mouseDown")
+			rootVew.updatePole2Camera(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			rootVew?.updatePole2Camera(reason:"Other mouseDragged")
+			rootVew.updatePole2Camera(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			rootVew?.updatePole2Camera(duration:duration, reason:"Other mouseUp")
-			atEve(9, print("\(fwScn.cameraScn?.transform.pp(.tree) ?? "cameraScn is nil")"))
+			rootVew.updatePole2Camera(duration:duration, reason:"Other mouseUp")
+			atEve(9, print("\( fwScn.getCameraScn().transform.pp(PpMode.tree))"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta:CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootVew!.lastSelfiePole!.zoom *= delta
-			let p				= rootVew!.lastSelfiePole!
+			rootVew.lastSelfiePole!.zoom *= delta
+			let p				= rootVew.lastSelfiePole!
 		//	print("processEvent(type:.scrollWheel) found pole\(p.pp()).zoom = \(p.zoom)")
-			rootVew?.updatePole2Camera(reason:"Scroll Wheel")
+			rootVew.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //

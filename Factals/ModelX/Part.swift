@@ -1360,10 +1360,10 @@ bug				 // Let fwPart handle it:
 				print("-------- mouseDragged (click \(nsEvent.clickCount))\n")
 
 				 // Process the FwwEvent to the picked Part's Vew:
-//				let m : Part 	= vew!.part
-//				m.sendPicEvent(nsEvent, toModelOf:vew)	// was pickedVew
-//				[m sendPickEvent:&fwEvent toModelOf:pickedVew]
-//				[self.simNsVc buildRootFwVforBrain:self.brain]	// model may have changed, so remake vew
+				let m : Part 	= vew!.part
+bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)	
+			//	[m sendPickEvent:&fwEvent toModelOf:pickedVew]
+			//	[self.simNsVc buildRootFwVforBrain:self.brain]	// model may have changed, so remake vew
 			}
 			root?.fwGuts?.document = doc				// Put struct back
 		}

@@ -14,8 +14,8 @@
             filePath = "Factals/Control and App/EventCentral.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "Factals/Control and App/EventCentral.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3088,8 +3088,8 @@
             filePath = "Factals/Control and App/EventCentral.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "pp(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3138,8 +3138,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "171"
             endingLineNumber = "171"
-            landmarkName = "cameraScn"
-            landmarkType = "24">
+            landmarkName = "FwScn"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3328,8 +3328,8 @@
             filePath = "Factals/Control and App/EventCentral.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3344,8 +3344,8 @@
             filePath = "Factals/Control and App/EventCentral.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3362,8 +3362,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "28"
             endingLineNumber = "28"
-            landmarkName = "cameraNode"
-            landmarkType = "24">
+            landmarkName = "ContentView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

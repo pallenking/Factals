@@ -142,12 +142,17 @@ class FwScn : Uid {
 		}
 	}
 	 // MARK: - 4.2 Camera
-	func getCameraScn(_ config:FwConfig) -> SCNNode {
-//		assert(rootScn.find(name:"camera") == nil, "addCameraToScn(): \"camera\" node already exists !!!")
+	func getCameraScn() -> SCNNode {
 		let name				= "*-camera"
 		if let rv				= rootScn.find(name:name) {
-			return rv
+			return rv			// already exists
 		}
+
+		 // Make new camera system:
+		let cameraScn			= SCNNode()
+		cameraScn.name			= name
+		cameraScn.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
+		rootScn.addChildNode(cameraScn)
 
 		 // Just make a whole new camera system from scratch
 		let camera				= SCNCamera()
@@ -158,20 +163,15 @@ class FwScn : Uid {
 		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 		//camera.zNear			= 1
 		//camera.zFar			= 100
-														// NOOO	addChildNode(camera!)
-		let newCameraScn		= SCNNode()
-		newCameraScn.camera		= camera
-		newCameraScn.name		= name
-		newCameraScn.position 	= SCNVector3(0, 0, 100)	// HACK: must agree with updateCameraRotator
-		rootScn.addChildNode(newCameraScn)
-		return newCameraScn
+		cameraScn.camera		= camera
+		return cameraScn
 	}
-	 // Get camera node from SCNNode
-	var cameraScn : SCNNode? {
-		let rootNode			= scnScene.rootNode
-		let rv					= rootNode.find(name:"*-camera")
-		return rv
-	}
+//	 // Get camera node from SCNNode
+//	var cameraScn : SCNNode? {
+//		let rootNode			= scnScene.rootNode
+//		let rv					= rootNode.find(name:"*-camera")
+//		return rv
+//	}
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func getAxesScn() -> SCNNode {			// was updatePole()
@@ -383,7 +383,7 @@ class FwScn : Uid {
 
 		 // 3. Add Lights, Camera and SelfiePole
 		touchLightScns()						// was updateLights
-		let _ = getCameraScn([:])//fwGuts.document.config)
+		let _ = getCameraScn()				//fwGuts.document.config)
 		let _ = getAxesScn()
 
 		 // 4.  Configure SelfiePole:
