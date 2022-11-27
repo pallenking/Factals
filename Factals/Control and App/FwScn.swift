@@ -142,7 +142,7 @@ class FwScn : Uid {
 		}
 	}
 	 // MARK: - 4.2 Camera
-	func getCameraScn() -> SCNNode {
+	func touchCameraScn() -> SCNNode {
 		let name				= "*-camera"
 		if let rv				= rootScn.find(name:name) {
 			return rv			// already exists
@@ -383,7 +383,7 @@ class FwScn : Uid {
 
 		 // 3. Add Lights, Camera and SelfiePole
 		touchLightScns()						// was updateLights
-		let _ = getCameraScn()				//fwGuts.document.config)
+		let _ = touchCameraScn()				//fwGuts.document.config)
 		let _ = getAxesScn()
 
 		 // 4.  Configure SelfiePole:

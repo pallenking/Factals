@@ -137,7 +137,7 @@ class RootVew : Vew {
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 		let rootVew				= self			//rootVew.fwGuts.rootVewOf(fwScn:self)
 		let fwScn				= fwScn
-		let cameraScn			= fwScn.getCameraScn()
+		let cameraScn			= fwScn.touchCameraScn()
 
 		fwScn.zoom4fullScreen(selfiePole:rootVew.lastSelfiePole, cameraScn:cameraScn)
 

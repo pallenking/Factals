@@ -492,7 +492,7 @@ bug	// Never USED?
 		guard let fwScn			= vew.rootVew?.fwScn else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
-		let camera				= fwScn.getCameraScn().position					//guard let camera = fwScn.getCameraScn().position else {	return 	}
+		let camera				= fwScn.touchCameraScn().position				//guard let camera = fwScn.touchCameraScn().position else {	return 	}
 		guard let linkVew		= vew as? LinkVew 	 else { fatalError("This should not")}
 
 		 // Get ends of link, and set positions
