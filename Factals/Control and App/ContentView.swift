@@ -17,19 +17,23 @@ class DragonModel: 		ObservableObject {
 	@Published var value:Int = 0
 }
 // /////////////////////////////////////////////////////////////////////////////
+struct MenuSection: Codable, Identifiable {
+	var id: ObjectIdentifier
+	init(from: Decoder) throws 		{	fatalError("init(from:) UNIMPLEMENTED")	}
+	func encode(to: Encoder) throws {	fatalError("encode(to:) UNIMPLEMENTED")	}
+}
+struct MenuItem: Codable, Equatable, Identifiable {
+	var id: ObjectIdentifier
+	init(from: Decoder) throws 		{	fatalError("init(from:) UNIMPLEMENTED")	}
+	func encode(to: Encoder) throws {	fatalError("encode(to:) UNIMPLEMENTED")	}
+}
+//let menu						= [MenuItem(id:3), MenuItem(id:4), MenuItem(id:5) ]
+//let menu 						= Bundle.main.decode([MenuSection].self, from: "menu.json")
+
 struct ContentView: View {
 	@Binding     var document		: FactalsDocument	// the Document
 	@StateObject var	   jetModel	=    JetModel()		// test Model 1
 	@StateObject var	dragonModel	= DragonModel()		// test Model 2
-
-	 // from https://stackoverflow.com/questions/56743724/swiftui-how-to-add-a-scenekit-scene
-//	var cameraNode: SCNNode? {
-//		let rv					= DOCfwGuts.rootVews[0].scn
-//		let cameraNode 			= SCNNode()
-//		cameraNode.camera		= SCNCamera()
-//		cameraNode.position 	= SCNVector3(x: 0, y: 0, z: 2)
-//		return cameraNode
-//	}
 								
 	var body: some View {
 		let select 				= 1//1/3
@@ -59,6 +63,42 @@ struct ContentView: View {
 			ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
 			// 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
 		}
+		 .toolbar {
+			ToolbarItem(placement: .primaryAction) {
+			 //	NavigationView {
+			 //		List {
+			 //			ForEach (menu) { section in
+			 //				Section (header: Text (section.name)) {
+			 //					ForEach (section.items) { item in
+			 //						Text (item.name)
+			 //					}
+			 //				}
+			 //			}
+			 //		}
+			 //		.navigationTitle ("Menu")
+			 //		.listStyle(GroupedListStyle())
+			 //	}
+				Menu("Act") {
+					Button("Duplicate", 			action: {print("duplicate")})
+					Button("Rename",				action: {print("rename")})
+					Button("Delete…",				action: {print("delete")})
+					Menu("Copy") {
+						Button("Copy",				action: {print("copy")})
+						Button("Copy Formatted", 	action: {print("copyFormatted")})
+						Button("Copy Library Path", action: {print("copyPath") })
+					}
+			//	}
+			//	Menu {
+					Button(label:{	Label("Create a file", systemImage: "doc")	})
+					{	print("button pressed")									}
+					Button(label:{	Label("Create a folder", systemImage: "folder")	})
+					{															}
+				}
+				//label: {
+				//	Label("Add", systemImage: "plus")
+				//}
+			}
+		}//.frame(width:200, height: 20, alignment:.center) // WON'T WORK!!
 	}
 
 	var bodyJet: some View {
@@ -203,19 +243,3 @@ struct ContentView: View {
  0c3  | | | | | | _TtCC7SwiftUIP33_9FEBA96B0BC70E1682E82D239F242E7... . . . . . . . 1 children superview:519 window:66a noRedisplay
  e92  | | | | | | | _TtCOCV7SwiftUI11DisplayList11ViewUpdater8Platfo... . . . . . . 0 children superview:0c3 window:66a noRedisplay
  */
-
-
-//		Text("Hello World!")
-//		 .toolbar {
-//			ToolbarItem(placement: .primaryAction) {
-//				Menu {
-//					Button(label:{	Label("Create a file", systemImage: "doc")	})
-//					{	print("button pressed")									}
-//					Button(label:{	Label("Create a folder", systemImage: "folder")	})
-//					{															}
-//				}
-//				label: {
-//					Label("Add", systemImage: "plus")
-//				}
-//			}
-//		}.frame(width:200, height: 20, alignment:.center)
