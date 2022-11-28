@@ -17,18 +17,6 @@ class DragonModel: 		ObservableObject {
 	@Published var value:Int = 0
 }
 // /////////////////////////////////////////////////////////////////////////////
-struct MenuSection: Codable, Identifiable {
-	var id: ObjectIdentifier
-	init(from: Decoder) throws 		{	fatalError("init(from:) UNIMPLEMENTED")	}
-	func encode(to: Encoder) throws {	fatalError("encode(to:) UNIMPLEMENTED")	}
-}
-struct MenuItem: Codable, Equatable, Identifiable {
-	var id: ObjectIdentifier
-	init(from: Decoder) throws 		{	fatalError("init(from:) UNIMPLEMENTED")	}
-	func encode(to: Encoder) throws {	fatalError("encode(to:) UNIMPLEMENTED")	}
-}
-//let menu						= [MenuItem(id:3), MenuItem(id:4), MenuItem(id:5) ]
-//let menu 						= Bundle.main.decode([MenuSection].self, from: "menu.json")
 
 struct ContentView: View {
 	@Binding     var document		: FactalsDocument	// the Document
@@ -60,45 +48,54 @@ struct ContentView: View {
 			 .onAppear() {						//was didLoadNib
 				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 			 }
-			ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
+	//		ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
 			// 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
 		}
-		 .toolbar {
-			ToolbarItem(placement: .primaryAction) {
-			 //	NavigationView {
-			 //		List {
-			 //			ForEach (menu) { section in
-			 //				Section (header: Text (section.name)) {
-			 //					ForEach (section.items) { item in
-			 //						Text (item.name)
-			 //					}
-			 //				}
-			 //			}
-			 //		}
-			 //		.navigationTitle ("Menu")
-			 //		.listStyle(GroupedListStyle())
-			 //	}
-				Menu("Act") {
-					Button("Duplicate", 			action: {print("duplicate")})
-					Button("Rename",				action: {print("rename")})
-					Button("Delete…",				action: {print("delete")})
-					Menu("Copy") {
-						Button("Copy",				action: {print("copy")})
-						Button("Copy Formatted", 	action: {print("copyFormatted")})
-						Button("Copy Library Path", action: {print("copyPath") })
-					}
-			//	}
-			//	Menu {
-					Button(label:{	Label("Create a file", systemImage: "doc")	})
-					{	print("button pressed")									}
-					Button(label:{	Label("Create a folder", systemImage: "folder")	})
-					{															}
-				}
-				//label: {
-				//	Label("Add", systemImage: "plus")
-				//}
-			}
-		}//.frame(width:200, height: 20, alignment:.center) // WON'T WORK!!
+//		 .toolbar {
+//			ToolbarItem(placement: .primaryAction) {
+//				NavigationView {
+//					List {
+//						Button("Duplicate", 			action: {print("duplicate")})
+//						Button("Rename",				action: {print("rename")})
+//						Button("Delete…",				action: {print("delete")})
+//						Menu("Copy") {
+//							Button("Copy",				action: {print("copy")})
+//							Button("Copy Formatted", 	action: {print("copyFormatted")})
+//							Button("Copy Library Path", action: {print("copyPath") })
+//						}
+////						ForEach (menu123) { section in
+////							Section (header: Text (section.name)) {
+////								ForEach (section.items) { item in
+////									Text (item.name)
+////								}
+////							}
+////						}
+//					}
+//					.navigationTitle ("Menu")
+//			 //		.listStyle(ListStyle.grouped)
+//			//		.listStyle(GroupedListStyle())
+//				}
+////				Menu("Act") {
+////					Button("Duplicate", 			action: {print("duplicate")})
+////					Button("Rename",				action: {print("rename")})
+////					Button("Delete…",				action: {print("delete")})
+////					Menu("Copy") {
+////						Button("Copy",				action: {print("copy")})
+////						Button("Copy Formatted", 	action: {print("copyFormatted")})
+////						Button("Copy Library Path", action: {print("copyPath") })
+////					}
+////			//	}
+////			//	Menu {
+////					Button(label:{	Label("Create a file", systemImage: "doc")	})
+////					{	print("button pressed")									}
+////					Button(label:{	Label("Create a folder", systemImage: "folder")	})
+////					{															}
+////				}
+////				//label: {
+////				//	Label("Add", systemImage: "plus")
+////				//}
+//			}
+//		}//.frame(width:200, height: 20, alignment:.center) // WON'T WORK!!
 	}
 
 	var bodyJet: some View {

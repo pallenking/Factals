@@ -146,6 +146,10 @@
 		9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
 		9FBD6E4729258E2500F14075 /* ButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* ButtonBar.swift */; };
+		9FC1F1C0293418E60025E80D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BE293418E60025E80D /* Helper.swift */; };
+		9FC1F1C1293418E60025E80D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BE293418E60025E80D /* Helper.swift */; };
+		9FC1F1C2293418E60025E80D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BF293418E60025E80D /* Menu.swift */; };
+		9FC1F1C3293418E60025E80D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BF293418E60025E80D /* Menu.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
 		9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */; };
 		9FEE51A3286B8F5B00C8C22A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A1286B8F5B00C8C22A /* Logger.swift */; };
@@ -258,6 +262,8 @@
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* ButtonBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBar.swift; sourceTree = "<group>"; };
+		9FC1F1BE293418E60025E80D /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = idine/Helper.swift; sourceTree = SOURCE_ROOT; };
+		9FC1F1BF293418E60025E80D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = idine/Menu.swift; sourceTree = SOURCE_ROOT; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
 		9FDBBED628AC45DB00445219 /* PrintBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBuffer.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
@@ -397,9 +403,11 @@
 				9FEE6F152835778A00E9E2AE /* FactalsApp.swift */,
 				9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9FBD6E4629258E2500F14075 /* ButtonBar.swift */,
-				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */,
+				9FBD6E4629258E2500F14075 /* ButtonBar.swift */,
+				9FC1F1BE293418E60025E80D /* Helper.swift */,
+				9FC1F1BF293418E60025E80D /* Menu.swift */,
+				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F1E3CE728D94CF7004548C9 /* EventCentral.swift */,
@@ -659,6 +667,7 @@
 				9F417F5328EB954F0047B359 /* SCNMatrix++.swift in Sources */,
 				9F417F1E28EB941E0047B359 /* Leaf.swift in Sources */,
 				9F417F2628EB94380047B359 /* Splitter.swift in Sources */,
+				9FC1F1C3293418E60025E80D /* Menu.swift in Sources */,
 				9F417F4828EB94EE0047B359 /* FwwEvent.swift in Sources */,
 				9F417F4F28EB953E0047B359 /* SCNScene++.swift in Sources */,
 				9F417F5128EB95450047B359 /* SCNNode++.swift in Sources */,
@@ -690,6 +699,7 @@
 				9F417F3C28EB94BA0047B359 /* EventReceiver.swift in Sources */,
 				9F417F4D28EB95350047B359 /* Fw++.swift in Sources */,
 				9F417F1B28EB94130047B359 /* Generator.swift in Sources */,
+				9FC1F1C1293418E60025E80D /* Helper.swift in Sources */,
 				9F417F5528EB95550047B359 /* Equatable.swift in Sources */,
 				9F417F3328EB946E0047B359 /* LinkVew.swift in Sources */,
 				9F417F2F28EB94580047B359 /* SubPart.swift in Sources */,
@@ -747,6 +757,7 @@
 				9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
 				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
+				9FC1F1C2293418E60025E80D /* Menu.swift in Sources */,
 				9F19011F288090240078DB6C /* InspecParts.swift in Sources */,
 				9F1900F828808DC10078DB6C /* Link.swift in Sources */,
 				9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */,
@@ -778,6 +789,7 @@
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9F4A3ADA288B386300574925 /* Part.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwGuts.swift in Sources */,
+				9FC1F1C0293418E60025E80D /* Helper.swift in Sources */,
 				9F96952F288B3B2800106DBC /* Net.swift in Sources */,
 				9FBD6E4729258E2500F14075 /* ButtonBar.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,

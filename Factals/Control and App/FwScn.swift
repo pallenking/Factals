@@ -157,12 +157,12 @@ class FwScn : Uid {
 		 // Just make a whole new camera system from scratch
 		let camera				= SCNCamera()
 		camera.name				= "SCNCamera"
-		camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
-		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
-		camera.exposureAdaptationDarkeningSpeedFactor = 1
-		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-		//camera.zNear			= 1
-		//camera.zFar			= 100
+	//	camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
+	//	camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+	//	camera.exposureAdaptationDarkeningSpeedFactor = 1
+	//	camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
+		camera.zNear			= 1
+		camera.zFar				= 100
 		cameraScn.camera		= camera
 		return cameraScn
 	}
