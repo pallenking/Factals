@@ -138,7 +138,7 @@ extension RootVew {
 		rv						+=  rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 		rv						+= "pole:\(lastSelfiePole.pp())-"
 		rv						+= "w[\(fwScn.scn.convertPosition(.zero, to:nil).pp(.short))] "
-		rv						+= "lookAtVew:\(lookAtVew?.pp() ?? "?")"
+		rv						+= "lookAtVew:\(lookAtVew?.pp(.fullName) ?? "?")"
 		assert(eventCentral.rootVew == self, "EventCentral link BAD")
 		return rv
 	}

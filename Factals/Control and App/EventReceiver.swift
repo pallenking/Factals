@@ -7,7 +7,7 @@
 //			 // This View goes underneath:
 //			EventReceiver { 	nsEvent in processEvent(nsEvent:nsEvent) 		}
 //			 // The View to have it's NSEvent's "stolen". E.g:
-//			SceneView(scene:..., pointOfView:..., options:[], ...)
+//			SceneView(...)
 //		}
 
 import SwiftUI
@@ -16,7 +16,6 @@ struct EventReceiver: NSViewRepresentable {
 	let handler: (NSEvent) -> Void
 
 	func makeNSView(context:Context) -> EventReceiverView {
-//		viewModel.color = .blue
 		return EventReceiverView(handler: handler)
 	}
 	func updateNSView(_ nsView: EventReceiverView, context: Context) {
@@ -36,7 +35,8 @@ final class EventReceiverView: NSView {
 	}
 
 	 // Make self first responder to receive key press events
-	override func viewDidMoveToWindow() {	        super.viewDidMoveToWindow()
+	override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
 		window?.makeFirstResponder(self)
 	}
 	override var acceptsFirstResponder: Bool { true 							}

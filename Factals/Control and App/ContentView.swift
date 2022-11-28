@@ -37,18 +37,18 @@ struct ContentView: View {
 				title		: "0: Big main view",
 				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
 				background	: nil,	 // no specific background scene
-				pointOfView	: nil,//cameraNode,//nil,//document.fwGuts.rootVews[0].lookAtVew?.scn,//
+				pointOfView	: nil,	//cameraNode,//nil,//document.fwGuts.rootVews[0].lookAtVew?.scn,//
 				fwGuts		: document.fwGuts,
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30
 			)
 			SceneKitView(sceneKitArgs:sceneKitArgs)
-			 .frame(maxWidth: .infinity)
+			 .frame(maxWidth:.infinity)
 			 .border(.black, width:2)
 			 .onAppear() {						//was didLoadNib
 				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 			 }
-	//		ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
+			ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
 			// 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
 		}
 //		 .toolbar {

@@ -87,7 +87,8 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		rv.rendersContinuously	= args.options.contains(.rendersContinuously)
 		//scrvnView.temporalAntialiasingEnabled = args.options.contains(.temporalAntialiasingEnabled)
 		rv.preferredFramesPerSecond = args.preferredFramesPerSecond
-		atRnd(4, DOClogger.log("\t\t\t   ==>>  Made \(rv.pp(.line)) vewConfig:'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
+		atRnd(4, DOClogger.log("\t\t\t   ==>>  Made \(rv.pp(.line)) vewConfig:" +
+			"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
 		return rv
 	}
 	func updateNSView(_ nsView: SCNView, context: Context) {

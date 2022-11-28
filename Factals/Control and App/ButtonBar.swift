@@ -27,7 +27,7 @@ struct ButtonBar: View {
 				Text(" ")
 				Button(label:{	Text(   "ptv")									})
 				{	for (key, rootVew) in fwGuts?.rootVews ?? [:] {
-						print("===== Slot \(key): =====")
+						print("===== Vew of Slot \(key): =====")
 						lldbPrint(rootVew, mode:.tree, terminator:"")
 					}
 				}
@@ -36,7 +36,7 @@ struct ButtonBar: View {
 			//	Button(label:{	Text("2")}) { lldbPrint(rootVews[2], mode:.tree)}
 				Button(label:{	Text(   "ptn")									})
 				{	for (key, rootVew) in fwGuts?.rootVews ?? [:] {
-						print("===== Slot \(key): =====")
+						print("===== SCNNodes of Slot \(key): =====")
 						lldbPrint(rootVew.scn, mode:.tree, terminator:"")
 					}// Tuple type 'Dictionary<Int, RootVew>.Element'  (aka '(key: Int, value: RootVew)') has no member 'scn'
 				}

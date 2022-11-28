@@ -70,10 +70,13 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 
 		// MARK: - SCNPhysicsContactDelegate
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+		bug
 	}
 	func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
+		bug
 	}
 	func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
+		bug
 	}
 
 	 // MARK: - 13. IBActions
@@ -83,7 +86,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) {
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
-		guard let rootVew else {	return										}
+		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
 		let fwScn				= rootVew.fwScn
 		let fwGuts				= rootVew.fwGuts		// why ! ??
 
@@ -96,10 +99,9 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
 			nextIsAutoRepeat 	= true
-			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false {
-				if char != "?" {		// okay for "?" to get here
-					atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
-				}
+			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
+			  char != "?" {		// okay for "?" to get here
+				atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")

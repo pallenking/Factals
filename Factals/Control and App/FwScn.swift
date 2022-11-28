@@ -69,15 +69,15 @@ class FwScn : Uid {
 	}
 
 	 // MARK: - 3.1 init
-	init(scnScene ss:SCNScene, scnView sv:SCNView?=nil, args a:SceneKitArgs?=nil) {
+	init(scnScene ss:SCNScene, scnView sv:SCNView?=nil, args:SceneKitArgs?=nil) {
 				// get Scene and View:
-		scnScene 				= ss				// remember
+		scnScene 				= ss				// remember in self.scnScene
 		scnScene.isPaused		= true				// Pause animations while bulding
-		scnView					= sv ?? SCNView()	// remember
+		scnView					= sv ?? SCNView()	// remember or make a new one
 		scnView.scene			= scnScene			// register 3D-scene with 2D-View:
 		scnView.backgroundColor	= NSColor("veryLightGray")!
 		scnView.antialiasingMode = .multisampling16X
-		guard let args			= a else {			return						}
+		guard let args			else {			return							}
 		scnView.pointOfView 	= args.pointOfView
 		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
 	//	scnView.delegate		=
@@ -100,11 +100,12 @@ class FwScn : Uid {
 /////	assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "Paranoia: set in SceneKitHostingView")
 	}
 	 // MARK: - 4.1 Lights
-	func touchLightScns() {
-		let _ 					= touchLight("*-omni1",	.omni, position:SCNVector3(0, 0, 15))
-		let _ 					= touchLight("*-amb1",.ambient,color:NSColor.darkGray)
-		let _ 					= touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
-		let _ 					= touchLight("*-omni2",	.omni, color:NSColor.green, intensity:500)				//blue//
+	func touchLightScns() -> [SCNNode] {
+		let a 					= touchLight("*-omni1",	.omni, position:SCNVector3(0, 0, 15))
+		let b 					= touchLight("*-amb1",.ambient,color:NSColor.darkGray)
+		let c 					= touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
+		let d 					= touchLight("*-omni2",	.omni, color:NSColor.green, intensity:500)				//blue//
+		return [a,b,c,d]
 //		let _ 					= helper("omni3",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
 //		let spot 				= helper("spot",	.spot,	 position:SCNVector3(1.5, 1.5, 1.5))
 //		 spot.light!.spotInnerAngle = 30.0
@@ -174,7 +175,7 @@ class FwScn : Uid {
 //	}
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
-	func getAxesScn() -> SCNNode {			// was updatePole()
+	func touchAxesScn() -> SCNNode {			// was updatePole()
 		let name				= "*-pole"
 		 //
 		if let rv 				= rootScn.find(name:name) {
@@ -310,14 +311,14 @@ class FwScn : Uid {
 	/// Set Camera's transform so that all parts of the scene are seen.
 	/// - Parameters:
 	///   - selfiePole: look points looking at it's origin
-	///   - camScn: camera
-	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn camScn:SCNNode) {
+	///   - cameraScn: camera SCNNode
+	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn:SCNNode) {
 		guard let rootVew		= rootVew 		 else {	fatalError("FwScn.rootVew is nil")}	//fwGuts.rootVewOf(fwScn:self)
 		guard let fwGuts		= rootVew.fwGuts else {	fatalError("FwScn.fwGuts is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(camScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(cameraScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 		guard let nsRectSize	= scnView?.frame.size  else  {	fatalError()	}
@@ -337,17 +338,18 @@ class FwScn : Uid {
 				zoomSize		/= ratioHigher
 			}
 		}
-//Thread 1: Simultaneous accesses to 0x600003da6798, but modification requires exclusive access
-//		let vanishingPoint 		= rootVew.fwGuts.document.config.double("vanishingPoint")
-//		if (vanishingPoint?.isFinite ?? true) == false {		// Ortho if no vp, or vp=inf
-//			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
-//			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-//			guard let c:SCNCamera = camScn.camera else { fatalError("cameraScn.camera is nil") 	}
-//			c.usesOrthographicProjection = true		// camera’s magnification factor
-//			c.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
-//		}
-		camScn.transform	= selfiePole.transform
-		//atRsi(7, fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize))
+		 // Orthographic or Vanishing Point
+		let vanishingPoint 		= rootVew.fwGuts.document.config.double("vanishingPoint") //Thread 1: Simultaneous accesses to 0x600003da6798, but modification requires exclusive access
+		if vanishingPoint == nil || vanishingPoint!.isFinite {	// Ortho if no vp or vp=inf
+			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
+			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
+			guard let camCam:SCNCamera = cameraScn.camera else { fatalError("cameraScn.camera is nil") 	}
+			camCam.usesOrthographicProjection = true		// camera’s magnification factor
+			camCam.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
+		}
+		 // Set in Camera:
+		cameraScn.transform	= selfiePole.transform
+		atRsi(7, fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize))
 	}
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
@@ -382,9 +384,9 @@ class FwScn : Uid {
 /**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// rootPart -> rootView, rootScn
 
 		 // 3. Add Lights, Camera and SelfiePole
-		touchLightScns()						// was updateLights
-		let _ = touchCameraScn()				//fwGuts.document.config)
-		let _ = getAxesScn()
+		let _ 					= touchLightScns()			// was updateLights
+		let _ 					= touchCameraScn()			// (had fwGuts.document.config)
+		let _ 					= touchAxesScn()
 
 		 // 4.  Configure SelfiePole:
 //!		//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
@@ -419,7 +421,7 @@ class FwScn : Uid {
 		rootVew.lastSelfiePole.at = worldPosition
 
 		 // Do one, just for good luck
-		rootVew.updatePole2Camera(reason:"install RootPart")
+		rootVew.updatePole2Camera(reason:"to createVewNScn")
 
 		// 7. UNLOCK PartTree and VewTree:
 		rootVew.unlock(	 vewTreeAs:lockName)
