@@ -19,10 +19,10 @@ class DragonModel: 		ObservableObject {
 // /////////////////////////////////////////////////////////////////////////////
 
 struct ContentView: View {
-	@Binding     var document	 : FactalsDocument		// the Document
-	@StateObject var    jetModel =    JetModel()		// test Model 1
-	@StateObject var dragonModel = DragonModel()		// test Model 2 (an ObservableObject)
-								
+	@Binding		var document	: FactalsDocument	// the Document
+	@StateObject 	var    jetModel =    JetModel()		// test Model 1 (instantiates an observable object)
+	@StateObject 	var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
+//	@ObservedObject var dragonModel = DragonModel()		// test Model 2 (an ObservableObject)
 	var body: some View {
 		let select 				= 1//1/3
 		if select == 1 {	 	bodySimple									}
@@ -49,7 +49,7 @@ struct ContentView: View {
 				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 			 }
 			ButtonBar(document:$document)
-	//		ButtonBarFoo(document:$document, dragon: Binding<DragonModel>) // 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
+	//		ButtonBarFoo(document:$document, dragon:$dragonModel) // 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DrAagonModel>'
 		}
 		 .toolbar {
 			ToolbarItem(placement: .primaryAction) {	//.primaryAction//.principal//.status//

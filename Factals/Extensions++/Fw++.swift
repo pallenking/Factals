@@ -366,76 +366,63 @@ extension Dictionary {
 //	func scnNode   (_ k:Key) -> SCNNode?{  return    (self[k] as? FwAny)?.asSCNNode}
 	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
-}																				//if let val:FwAny = resolveValuesX(valueLhs, and:valueRhs, forKey:keyRhs) {
-																				//	valueRhs 	= val				// And resolvable
-																				//}
-																			//if let vRhsEqu	= valueRhs as? (any Equatable),
-																			//   let vLhsEqu	= valueLhs as? (any Equatable) {
-																			//	print("+( lhs.Value=\(vLhsEqu), rhs.Value=\(vRhsEqu)) -> FwConfig")
-																			//	//let x		= vLhsEqu.equals(rhs:vRhsEqu)
-																			//	let x		= vLhsEqu == vRhsEqu
-																			//	//if let val	= resolveValuesX(vLhsEqu, and:vRhsEqu, forKey:keyRhs) {
-																			//	//	valueRhs = val				// And resolvable
-																			//	//}
-																			//}
-																			// 20211015PAK: DOClogger calls .first calls +<Dict,Dict>, which fails
-func +=( dict1: inout FwConfig, dict2:FwConfig) 	  {	dict1 = dict1 + dict2	}
+}
 
- /// Vanilla "lhs + rhs"
+func +=( dict1: inout FwConfig, dict2:FwConfig) 	{	dict1 = dict1 + dict2	}
+func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable
+													{	dict1 = dict1 + dict2	}
 func +( lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	var rv						= lhs						// initial values, older, overwritten
-	 // Sort so comparisons match on successive runs
-	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})		// key is String
+	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
 	for (keyRhs, valueRhs) in rhsSorted {
 		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-			guard let valueLhsComp = valueLhs as? (any Comparable),	// Value is Comperable
-				  let valueRhsComp = valueRhs as? (any Comparable)
-				//valueLhsComp != valueRhsComp				//Binary operator '==' cannot be applied to two 'any Comparable' operands
-			else {
-				atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
-				rv[keyRhs] 		= valueRhs
-				continue
-			}
+			atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 		}
-		else {
-			rv[keyRhs] 			= valueRhs
-		}
+		rv[keyRhs] 			= valueRhs
 	}
 	return rv
-}//PW
+}
+
 func +<Value>( lhs:[String:Value], rhs:[String:Value]) -> [String:Value]
-											where Value:FwAny, Value:Equatable {	//func +<Value>( lhs:FwConfig, rhs:FwConfig) -> FwConfig where Value:FwAny, Value:Comparable {
+						where Value:FwAny, Value:Equatable {
+//func +<Value>( lhs:FwConfig, rhs:FwConfig) -> FwConfig where Value:FwAny, Value:Comparable {
 bug
 	var rv						= lhs
-	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})				//(by: {(lhs,rhs) in lhs.key > rhs.key})
-	for (keyRhs, valRhs) in rhsSorted {		// Go through lhs Dictionary
-		if let valLhs : Value	= lhs[keyRhs], 	// if key is in rhs Dictionary too
-		  valLhs != valRhs {
-			atBld(9, DOClogger.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
-			rv[keyRhs] 			= valRhs
+	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})
+	for (key, var valRhs) in rhsSorted {	// Go through lhs Dictionary
+		if let valLhs : Value	= lhs[key] {	// if key is in rhs Dictionary too
+			if valLhs != valRhs {					// same key, different values
+//				if (key == "f" || key == "flip") {		// fancy xoring!
+//					if let v0	= lhs as? Bool,
+//					  let v1	= rhs as? Bool {
+//						valRhs	= v0 ^^ v1
+//					}
+//				}
+				atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
+				rv[key] 			= valRhs
+			}
 		}
 	}
 	return rv
 }
-	/// When keys conflict, pick existing
-//func resolveValues<Value>(_ lhs:Value, and rhs:Value, forKey key:String)
-//								-> Value? where Value:FwAny, Value:Equatable {
-// // 20221105PAK: Abandoned
-////		// Case 1: Multiple values for key "flip" or "f" exor
-////	if (key == "f" || key == "flip"),
-////	  let v0					= lhs as? Bool,
-////	  let v1					= rhs as? Bool {
-////		let rv : Value? 		= (v0 ^^ v1) as? Value	// PW: Why is "as? Value" required: Value:FwAny
-////bug;	return rv
-////	}
-//		// Complain if destructive
-//	if lhs != rhs {
-//		atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) " +
-//				"was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
-//	}
-//		// Return second.
-//	return rhs
-//}
+ /// When keys conflict, pick existing	 // 20221105PAK: Abandoned
+func resolveValues<Value>(_ lhs:Value, and rhs:Value, forKey key:String) -> Value?
+								where Value:FwAny, Value:Equatable {
+		// Case 1: Multiple values for key "flip" or "f" exor
+	if (key == "f" || key == "flip"),
+	  let v0					= lhs as? Bool,
+	  let v1					= rhs as? Bool {
+		let rv : Value? 		= (v0 ^^ v1) as? Value	// PW: Why is "as? Value" required: Value:FwAny
+		return rv
+	}
+		// Complain if destructive
+	if lhs != rhs {
+		atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) " +
+				"was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
+	}
+		// Return second.
+	return rhs
+}
 																				// /// Determine value when a common key is detected with two values
 																				//func resolveValuesX<Value:FwAny>(_ lhs:Value, and rhs:Value, forKey key:String) -> FwAny? {//} where Value:FwAny {
 																				//	 // Case 1: Multiple values for key "flip" or "f"
@@ -444,24 +431,6 @@ bug
 																				//	  let v1					= rhs as? Bool {
 																				//		let rv : Bool	 		= v0 ^^ v1
 																				//bug;	return rv			// PW: Why is "as? Value" required: Value:FwAny
-																				//	}
-																				//	 // Return second.
-																				//	return rhs
-																				//}
-																				// /// When keys conflict, pick existing
-																				//func resolveValuesX<Value>(_ lhs:Value, and rhs:Value, forKey key:String)
-																				//								-> FwAny? where Value:FwAny, Value:Equatable {
-																				//	 // Case 1: Multiple values for key "flip" or "f"
-																				//	if (key == "f" || key == "flip"),
-																				//	  let v0					= lhs as? Bool,
-																				//	  let v1					= rhs as? Bool {
-																				//		let rv : Bool	 		= v0 ^^ v1
-																				//bug;	return rv			// PW: Why is "as? Value" required: Value:FwAny
-																				//	}
-																				//	 // Complain if destructive
-																				//	if lhs != rhs {
-																				//		atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) " +
-																				//				"was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
 																				//	}
 																				//	 // Return second.
 																				//	return rhs

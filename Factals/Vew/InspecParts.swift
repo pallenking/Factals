@@ -327,22 +327,22 @@ struct InspecPart : View {												 // Part
 				let navList		= part.selfNParents.reversed() + part.children
 				let selfIndex	= part.selfNParents.count - 1
 				Text("Inspect: BUGGY")
-			//	Picker("", selection:Binding<Int>(
-			//		get:{ -1 },
-			//		set:{		// Always out of range
-			//			let nav		= navList[$0]					// Set notification
-			//			let newVew	= rootVewL.find(part:nav, inMe2:true) ?? vew
-			//			doc?.showInspecFor(vew:newVew, allowNew:false)
-			//		} ) )
-			//	{
- 			//		ForEach(navList, id:\.self) { aPart in // PW Generic struct 'ForEach' requires that 'Part' conform to 'Hashable'
-			//			let ind = navList.firstIndex(where: {$0 === aPart})!
-			//			let label = ind <  selfIndex ? "/ \(aPart.name)" :
-			//						ind == selfIndex ? "- \(aPart.name)" :
-			//										  "\\ \(aPart.name)"
-			//			Text(label).tag(ind)
-			//		}
-			//	}												.frame(width:30)
+				Picker("", selection:Binding<Int>(
+					get:{ -1 },
+					set:{		// Always out of range
+						let nav		= navList[$0]					// Set notification
+bug;				//	let newVew	= rootVewL.find(part:nav, inMe2:true) ?? vew
+					//	doc?.showInspecFor(vew:newVew, allowNew:false)
+					} ) )
+				{
+ 					ForEach(navList, id:\.self) { aPart in					
+						let ind = navList.firstIndex(where: {$0 === aPart})!
+						let label = ind <  selfIndex ? "/ \(aPart.name)" :
+									ind == selfIndex ? "- \(aPart.name)" :
+													  "\\ \(aPart.name)"
+						Text(label).tag(ind)
+					}
+				}												.frame(width:30)
 			}
 			HStack {						// ========================== LINE 2
 
