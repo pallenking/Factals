@@ -323,3 +323,51 @@ viewAppearedFor(scnViewsArgs:SceneKitArgs) {//scnViewsArgs.sceneIndex
 		touchLightScns()
 		getCameraScn([:])
 		getAxesScn()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3.034 Arsi7    :656                        fillScreen -2<2, -2<2, -52<-48  Width Dominated  zoom:4.86)
+ 725  FactalsApp   . . . . . . . . . . regressScene:-1, emptyEntry:'xr()'
+ c06  | APP's Library. . . . . . . . . (>X<)
+ cd4  | TestsFoo     . . . . . . . . . (>X<)
+ 1de  | Tests01      . . . . . . . . . (>X<)
+ 9a1  | TivoRemote   . . . . . . . . . (>X<)
+ a10  | LangDeser    . . . . . . . . . (>X<)
+ c96  | APPLOG       . . . . . . . . . Logger 1: "App's Logger": entryNo:1, breakAtEvent:-21 in:3, verbosity:[:4 elts],
+ 8f5  DOC (currently selected)
+ 8f5  FactalsDocume. . . . . . . . . . 
+ 656  | FwGuts       . . . . . . . . . 
+ dd9  | | RootPart     . . . . . . . . rootPart:dd9 (2 Ports) UNOWNED dirty:' ' 
+ bc6  | | | Simulator    . . . . . . . 
+ f05  | | RootVew 0    . . . . . . . . rootVew:f05 (6 Nodes) LockVal:1 UNOWNED pole:[at:0, s:0, u:0, z:1.0000]-w[0] lookAtVew:f05:  | |    _ROOT:RootVew s:  *-ROOT/2d6 p:  ROOT/dd9:RootPa. . . . . . . .     o- w0 
+829:  | | |    _prt2:NetVew  s:  *-prt2/5cc p:  prt2/218:Net   . . . . . . . 0/0 o+ w[0-10] 
+b15:Ff| | | |    _prt1:Vew     s:  *-prt1/761 p:  prt1/357:MaxOr . . . . . .     o+ w[010] 
+3e2:F | | | | |       _P:Vew     s:     *-P/422 p:     P/3c2:Port  . . . . .     o+ w[020] 
+698:Ff| | | |       _a:Vew     s:     *-a/d34 p:     a/107:Hammin. . . . . .     o+ w[0-00] 
+4da:F | | | | |       _P:Vew     s:     *-P/294 p:     P/cbd:Port  . . . . .     o+ w[010] 
+
+ 6a8  | | | FwScn        . . . . . . . rootScn:2d6 (76 SCNNodes) animatePhysics:false
+ bf5  | | | | SCNScene     . . . . . . isPaused:true
+ d3c  | | | | | SCNPhysicsWor. . . . . gravity:[y:-1], speed:1.0000, timeStep:0.0167
+ 480  | | | | SCNView      . . . . . . 0 children superview:a9c window:4b2 noRedisplay 
+ 5fa  | | | EventCentral . . . . . . . 
+ c94  | | DOClogger    . . . . . . . . Logger 3: "FwGut's Logger": entryNo:35, breakAtEvent:-21 in:3, verbosity:[:4 elts],
+ c94  DOClogger    . . . . . . . . . . Logger 3: "FwGut's Logger": entryNo:35, breakAtEvent:-21 in:3, verbosity:[:4 elts],
+ de0  DOCctlr      . . . . . . . . . . 1 FwDocument:
+ a0b  | NSDocument   . . . . . . . . . Has 1 wc:   #ADD MORE HERE#
+ 254  | | NSWindowCtlr . . . . . . . . nilNameNib;;doc:a0b win:4b2 nibOwner:254 
+ 4b2  | | | NSWindow     . . . . . . . title:'Untitled' contentVC:959 contentView:e64 delegate:--- 
+ ---  | | | \ contentVew OMITTED

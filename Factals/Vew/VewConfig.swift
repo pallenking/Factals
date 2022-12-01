@@ -95,7 +95,8 @@ extension Part {
 				adorn(in:parentVew, openChildrenUsing:vewConfig)
 			}
 		case .subVew(let fwConfig): nop
-bug//		self.part.localConfig	= fwConfig	//??
+			self.localConfig	= fwConfig	//??
+			print("??? adorn(.subVew(let fwConfig): ???")
 			//panic(".subVew(\(fwConfig.pp(.phrase))")
 		}
 	}

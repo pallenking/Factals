@@ -27,7 +27,7 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 	var body: some View {
 		VStack(alignment:.leading)  {					// Add Class Inspectors
 			let inheritedClasses:[String] = vew.part.inheritedClasses
-			ForEach (0..<inheritedClasses.count) { claz in
+			ForEach (0..<inheritedClasses.count) { claz in		// need , id: \.id
 
 				 // Dispatch via switch
 				let cl			= inheritedClasses[claz]
@@ -71,14 +71,10 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
  // // // 3. Debug switch to select Previews:
 let inspectedPreview			= Vew(forPort:Port())	// 1. HNW RootPart
 
-//struct InspecV_Previews: PreviewProvider {
-//	@ObservedObject var insp 	= inspectedPreview
-//	static var previews: some View {	/// WHY: doesn't preview work?
-//		Inspec(inspec:inspectedPreview)
-//	}
-//}
 struct InspecTest : View {
-	@State private var placeSelfy 			= "placeSelfy"		//	@Binding private var placeSelfy = repD3View.part.placeMy // @ObservedObject private var placeSelfy = repD3View.part.placeMy
+	@State private var placeSelfy 			= "placeSelfy"
+//	@Binding private var placeSelfy 		= repD3View.part.placeMy
+//  @ObservedObject private var placeSelfy	= repD3View.part.placeMy
 
 	@State private  var indexStr : String 	= "0"
 //	let indexInt 							InspecCommonPart= 0

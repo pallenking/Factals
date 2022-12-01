@@ -1251,7 +1251,8 @@ extension Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
-		let str					= nls + (note + ":" + ppUid(self)).field(-28) + msg2	//-nFullN uidClass
+		let str					= nls + (note + ppUid(self) + ":Logd").field(-28) + msg2	//-nFullN uidClass
+//		let str					= nls + (note + ":" + ppUid(self)).field(-28) + msg2	//-nFullN uidClass
 		DOClogger.log(str, terminator:terminator)
 	}
 }

@@ -156,7 +156,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			let delta:CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootVew.lastSelfiePole!.zoom *= delta
 			let p				= rootVew.lastSelfiePole!
-		//	print("processEvent(type:.scrollWheel) found pole\(p.pp()).zoom = \(p.zoom)")
+			print("processEvent(type:  .scrollWheel  ) found pole\(p.pp()).zoom = \(p.zoom)")
 			rootVew.updatePole2Camera(reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used

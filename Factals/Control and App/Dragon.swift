@@ -7,6 +7,33 @@
 
 import SceneKit
 
+/* dragon -- turn left (false) or right (true)?
+	1. Every corner point has an index, in 0..<BIG
+	2. The point is either a left turn, or a right turn, depending on dragon(index:)
+	3. Consider binary representation of index.
+	4. Return the bit to the left of the right-most 1.
+	5. Notation in the following:
+			']'  = rightmost '1' in index
+			'O>' = 0 to the left of '[',  '0'  = 0 that is not O>
+			'I>' = 1 to the left of '[',  '1'  = 1 that is not I>
+	  index  in binary		Return value: 0=left, 1=right
+		1	  0 0(O>]		(0)
+		2	  0(O>] 0		(0)
+		3	  0 0(I>]		(1)
+		4	 (O>] 0 0		(0)
+		5	  0 1(O>]		(0)
+		6	  0(I>] 0		(1)
+		7	  0 1(I>]		(1)
+ */
+func dragon(index:Int) -> Bool {
+	guard index != 0 else {		return false	} // special case
+	var j = index
+	while j & 1 == 0 {
+		j /= 2			// alternately: j <<= 1
+	}					// Move left till we find a 1
+	return j & 2 == 0	// Bit after that is left/right
+}
+
 func dragonCurve(segments:Int=1024) -> SCNScene {
 	let rv						= SCNScene()
 	let rootNode				= rv.rootNode
@@ -44,30 +71,6 @@ func dragonCurve(segments:Int=1024) -> SCNScene {
 		position.z				+= len / 20		//50
 	}
 	return rv
-}
-
-/* dragon -- turn left or right?
-	1. Every corner point has an index, in 0..<BIG
-	2. The point is either a left turn, or a right turn, depending on dragon(index:)
-	3. dragon(index:) returns the bit to the left of the right-most 1. Consider:
-
-	  index  in binary		returns (0:left, 1:right):
-		0	  0 0 0 0 		(0) or (1)		<special case>
-		1	  0 0(O>]		(0)
-		2	  0(O>] 0		(0)
-		3	  0 0(I>]		(1)
-		4	 (O>] 0 0		(0)
-		5	  0 1(O>]		(0)
-		6	  0(I>] 0		(1)
-		7	  0 1(I>]		(1)
- */
-func dragon(index:Int) -> Bool {
-	guard index != 0 else {		return false	} // special case
-	var j = index
-	while j & 1 == 0 {
-		j /= 2			// alternately: j <<= 1
-	}					// Move left till we find a 1
-	return j & 2 == 0	// Bit after that is left/right
 }
 
 //extension SCNNode {

@@ -19,9 +19,9 @@ class DragonModel: 		ObservableObject {
 // /////////////////////////////////////////////////////////////////////////////
 
 struct ContentView: View {
-	@Binding     var document		: FactalsDocument	// the Document
-	@StateObject var	   jetModel	=    JetModel()		// test Model 1
-	@StateObject var	dragonModel	= DragonModel()		// test Model 2
+	@Binding     var document	 : FactalsDocument		// the Document
+	@StateObject var    jetModel =    JetModel()		// test Model 1
+	@StateObject var dragonModel = DragonModel()		// test Model 2 (an ObservableObject)
 								
 	var body: some View {
 		let select 				= 1//1/3
@@ -48,60 +48,46 @@ struct ContentView: View {
 			 .onAppear() {						//was didLoadNib
 				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 			 }
-			ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
-			// 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
+			ButtonBar(document:$document)
+	//		ButtonBarFoo(document:$document, dragon: Binding<DragonModel>) // 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DragonModel>'
 		}
-//		 .toolbar {
-//			ToolbarItem(placement: .primaryAction) {
-//				NavigationView {
-//					List {
-//						Button("Duplicate", 			action: {print("duplicate")})
-//						Button("Rename",				action: {print("rename")})
-//						Button("Delete…",				action: {print("delete")})
-//						Menu("Copy") {
-//							Button("Copy",				action: {print("copy")})
-//							Button("Copy Formatted", 	action: {print("copyFormatted")})
-//							Button("Copy Library Path", action: {print("copyPath") })
-//						}
-////						ForEach (menu123) { section in
-////							Section (header: Text (section.name)) {
-////								ForEach (section.items) { item in
-////									Text (item.name)
-////								}
-////							}
-////						}
-//					}
-//					.navigationTitle ("Menu")
-//			 //		.listStyle(ListStyle.grouped)
-//			//		.listStyle(GroupedListStyle())
-//				}
-////				Menu("Act") {
-////					Button("Duplicate", 			action: {print("duplicate")})
-////					Button("Rename",				action: {print("rename")})
-////					Button("Delete…",				action: {print("delete")})
-////					Menu("Copy") {
-////						Button("Copy",				action: {print("copy")})
-////						Button("Copy Formatted", 	action: {print("copyFormatted")})
-////						Button("Copy Library Path", action: {print("copyPath") })
-////					}
-////			//	}
-////			//	Menu {
-////					Button(label:{	Label("Create a file", systemImage: "doc")	})
-////					{	print("button pressed")									}
-////					Button(label:{	Label("Create a folder", systemImage: "folder")	})
-////					{															}
-////				}
-////				//label: {
-////				//	Label("Add", systemImage: "plus")
-////				//}
-//			}
-//		}//.frame(width:200, height: 20, alignment:.center) // WON'T WORK!!
+		 .toolbar {
+			ToolbarItem(placement: .primaryAction) {	//.primaryAction//.principal//.status//
+				NavigationStack {	// was NavigationView
+					List {	// Menu("Act") { // Menu
+						Button("a") 		{	print("a") 						}
+						Button(label:{	Label("b", systemImage: "plus")			})
+						{	print("b")											}
+						Menu("c...") {
+							Button("c1")	{	print("c1")						}
+							Button("c2")	{	print("c2")						}
+						}														//ForEach (menu123) { section in
+																				//	Section (header: Text (section.name)) {
+																				//		ForEach (section.items) { item in
+																				//			Text (item.name)
+																				//		}
+																				//	}
+					}															//}
+					.navigationTitle ("Menu")
+					.listStyle(DefaultListStyle())		// GroupedListStyle is unavailable in macOS
+				}
+			}
+			ToolbarItem(placement: .primaryAction) {
+				NavigationStack {
+					List {
+						Button("a") 		{	print("a") 						}
+					}															//}
+					.navigationTitle ("Menu")
+					.listStyle(DefaultListStyle())
+				}
+			}
+		}
 	}
 
 	var bodyJet: some View {
 		HStack {
 			if let fwGuts			= document.fwGuts {
-				HStack {	 // JET
+				VStack {	 // JET
 					let sceneKitArgs	= SceneKitArgs( 	//SceneView(
 						sceneIndex	: 0,
 						title		: "Jet",
@@ -118,6 +104,7 @@ struct ContentView: View {
 					 .onAppear() {
 						document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 					 }
+					ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
 				}
 			}
 			else {
@@ -140,7 +127,7 @@ struct ContentView: View {
 							background	: nil,	 // no specific background scene
 							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//
 							fwGuts		: fwGuts,
-							options		: [.allowsCameraControl, .rendersContinuously],
+							options		: [.rendersContinuously],	//.allowsCameraControl,
 							preferredFramesPerSecond:30
 						)
 						SceneKitView(sceneKitArgs:sceneKitArgs)
@@ -164,7 +151,7 @@ struct ContentView: View {
 							background	: nil,	// no specific background scene
 							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//rootVew.fwScn.cameraScn, //pov,//nil,//
 							fwGuts		: fwGuts,
-							options		: [.allowsCameraControl, .rendersContinuously],
+							options		: [.rendersContinuously],				//.allowsCameraControl,
 							preferredFramesPerSecond:30
 						)
 						SceneKitView(sceneKitArgs:sceneKitArgs)

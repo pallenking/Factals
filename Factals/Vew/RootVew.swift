@@ -9,7 +9,7 @@ import SceneKit
 
 class RootVew : Vew {
 	weak
-	 var fwGuts : FwGuts!
+	 var fwGuts : FwGuts!		// Owner
 
 	var rootPart : RootPart		{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
 	let rootVewLock 			= DispatchSemaphore(value:1)
@@ -23,7 +23,7 @@ class RootVew : Vew {
 	var eventCentral : EventCentral
 
 	 // MARK: x.3.2 Look At Spot
-	var lookAtVew  : Vew?		= nil						// Vew we are looking at
+	var lookAtVew	   : Vew?	= nil						// Vew we are looking at
 	var lastSelfiePole : SelfiePole!						// init to default
 
 	 /// generate a new View, returning its index

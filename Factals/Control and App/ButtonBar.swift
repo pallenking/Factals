@@ -7,6 +7,30 @@
 
 import SwiftUI
 
+struct ButtonBarFoo: View {
+	@Binding var document		: FactalsDocument	// the Document type
+	@Binding var dragon			: DragonModel
+
+	var body: some View {
+		let fwGuts 				= document.fwGuts
+		let rootVews			= fwGuts?.rootVews ?? [:]
+		let rootVew0 : RootVew?	= rootVews.count == 0 ? nil : rootVews[0]
+		VStack {
+			HStack {
+				if let rootPart = fwGuts?.rootPart {
+					Button(label:{	Text(   "ptm")								})
+					{	lldbPrint(rootPart, mode:.tree)							}
+				}
+				Text("pole:\(rootVew0?.lastSelfiePole.pp() ?? "(rootVew0=nil)") ")
+				Spacer()
+				Button(label: {	Text("Dragon:value++")							}) //\(dragonValue)++
+				{	dragon.value += 1											}	// %64
+				Text(" ")
+			}
+		}
+		 .padding(5)
+	}
+}
 struct ButtonBar: View {
 	@Binding var document		: FactalsDocument	// the Document type
 //	@Binding var dragonValue	: Int
@@ -14,6 +38,7 @@ struct ButtonBar: View {
 	var body: some View {
 		let fwGuts 				= document.fwGuts
 		let rootVews			= fwGuts?.rootVews ?? [:]
+		let rootVew0 : RootVew?	= rootVews.count == 0 ? nil : rootVews[0] 
 		VStack {
 			 //  --- B U T T O N S  ---
 			HStack {	// FULL!
@@ -54,6 +79,7 @@ struct ButtonBar: View {
 				{	printFwcState()												}
 				Button(label:{	Text("config").padding(.top, 300)				})
 				{	printFwcConfig()											}
+				Text("pole:\(rootVew0?.lastSelfiePole.pp() ?? "-") ")
 				Spacer()
 				Button(label: {	Text("Dragon:XX")								}) //\(dragonValue)++
 				{}//dragonValue += 1							}	// %64
