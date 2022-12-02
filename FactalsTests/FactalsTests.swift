@@ -359,7 +359,7 @@ final class FactalsTests: XCTestCase {
 		 // Build every part in the library
 		let firstNumber			= 1
 		let lastNumber			= 1200//74//12//31//1200	// Limit of tests
-		for testNum in firstNumber..<lastNumber {
+		for testNum in firstNumber...lastNumber {
 
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 			let rootPart		= RootPart(fromLibrary:"entry\(testNum)")	//, fwDocument:nil

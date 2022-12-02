@@ -36,10 +36,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	 // nil root defers to parent's root.
 	var root		: RootPart?  {
 		get {								//return parent?.root ?? self as? RootPart
-			if let parent {					// up the parent tree
-				return parent.root				// RECURSIVELY
-			}
-			return self as? RootPart 		// top should be RootPart
+			parent?.root ??					// RECURSIVELY up the parent tree
+			self as? RootPart ??			// top should be RootPart
+			{	fatalError("Mall-formed tree: nil parent should be RootPart")	} ()
+		}
+		set(v) {
+			fatalError("root.set(v)")
 		}
 	}
 
@@ -142,6 +144,17 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				defaultPrtIndex	+= 1
 				return "prt" + String(defaultPrtIndex)
 			}
+
+//			if let prefix		= prefixForClass[fwClassName],
+//			  let rootPart		= root
+//			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
+//				let index		= rootPart.indexFor[prefix] ?? 0
+//				rootPart.indexFor[prefix] = index + 1		// for next
+//				return prefix + String(index)
+//			} else {	// -- Use fallback
+//				defaultPrtIndex	+= 1
+//				return "prt" + String(defaultPrtIndex)
+//			}
 		}()
 
 		 // Print out invocation
@@ -515,17 +528,17 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// - Parameters:
 	///   - parent_: ---- if known
 	///   - root_: ---- set in Part
-	func groomModel(parent parent_:Part?, root root_:RootPart?)  {
-		parent					= parent_
-//		root					=  root_				// from arg
-//								?? root					// my root
-//								?? self as? RootPart 	// me, if I'm a RootPart
-//								?? child0 as? RootPart	// if PolyWrapped
-		markTree(dirty:.vew)						// set dirty vew
+	func groomModel(parent p:Part?, root r:RootPart?)  {
+		parent					= p
+		root					=  r					// from arg (if there)
+								?? root					// my root	(if there)
+								?? self as? RootPart 	// me, if I'm a RootPart
+								?? child0 as? RootPart	// if PolyWrapped
+		markTree(dirty:.vew)							// set dirty vew
 
 		 // Do whole tree
-		for child in children {						// do children
-			child.groomModel(parent:self, root:root)	// ### RECURSIVE
+		for child in children {							// do children
+			child.groomModel(parent:self, root:root)		// ### RECURSIVE
 		}
 	}
 

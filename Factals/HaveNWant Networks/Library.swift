@@ -206,9 +206,8 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 						 file			:String?,
 						 lineNumber		:Int)
 	{									// ALIASES for rootPart:
-		state.scanTestNum += 1
+		state.scanTestNum += 1				// count every test
 		if args!.argOnlyIndex {					// Wants Index
-
 			 // //// Display only those entries starting with a "+" ////////////
 			if testName?.hasPrefix("+") ?? false {	// 'trueF {//' trueF/falseF//
 	//why?		assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
@@ -216,43 +215,43 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 				let elt			= ScanElement(tag:state.scanTestNum, title:title, subMenu:state.scanSubMenu)
 				state.scanCatalog.append(elt)
 			}
+			return
 		}
-		else {		// ///////////// Wants Test ///////////////////////////////
-			let title			= testName != nil ? "\(testName!)" : "unnamed_\(state.scanTestNum)"
-			let matchReason0 : String? =
-				args!.argName != nil &&				// Name exists
-				args!.argName == testName ?			//   and matches?
-					"Building testName  ''\(testName!)''" :	// yes, name matchs
-					args!.argNumber == state.scanTestNum ?// no, numbers match?
-						"Building  ''scene #\(state.scanTestNum)''" :// yes, match
-						nil
-			let matchReason		= matchReason0 ??
-				(!markedXr ?							// is this marked xr?
-					nil :									// no, just r(), ignore
-					args!.argName == "xr()" &&			// yes, is name xr() and
-					 args!.argNumber < 0 ?				//   no wanted number?
-						"Building Network marked with xr()" :	// yes
-						nil)									// no, ignore
-			if matchReason != nil {						// BUILD
-				atBld(7, logd("=== Closure \(matchReason!) ==="))
-				assert(answer.ansTrunkClosure==nil, "Two Closures found marked xr():\n" +
-					"\t Previous = \(answer.ansTestNum):\(answer.ansFile ?? "lf823").\(answer.ansLineNumber!) '\(answer.ansTitle ?? "none")' <-- IGNORING\n" +
-					"\t Current  = \(state.scanTestNum):\(name).\(       lineNumber ) '\(         title)'")
+		 // ///////////// Wants Test ///////////////////////////////
+		let title				= testName != nil ? "\(testName!)" : "unnamed_\(state.scanTestNum)"
+		let matchReason0 : String? =
+			args!.argName != nil &&				// Name exists
+			args!.argName == testName ?			//   and matches?
+				"Building testName  ''\(testName!)''" :	// yes, name matchs
+				args!.argNumber == state.scanTestNum ?// no, numbers match?
+					"Building  ''scene #\(state.scanTestNum)''" :// yes, match
+					nil
+		let matchReason			= matchReason0 ??
+			(!markedXr ?							// is this marked xr?
+				nil :									// no, just r(), ignore
+				args!.argName == "xr()" &&			// yes, is name xr() and
+				 args!.argNumber < 0 ?				//   no wanted number?
+					"Building Network marked with xr()" :	// yes
+					nil)									// no, ignore
+		if matchReason != nil {						// BUILD
+			atBld(7, logd("=== Closure \(matchReason!) ==="))
+			assert(answer.ansTrunkClosure==nil, "Two Closures found marked xr():\n" +
+				"\t Previous = \(answer.ansTestNum):\(answer.ansFile ?? "lf823").\(answer.ansLineNumber!) '\(answer.ansTitle ?? "none")' <-- IGNORING\n" +
+				"\t Current  = \(state.scanTestNum):\(name).\(       lineNumber ) '\(         title)'")
 
-				 // CAPTURE: Copy current to exp
-				 // from Chosen Test
+			 // CAPTURE: Copy current to exp
+			 // from Chosen Test
 								
-				answer.ansTitle		= title
-				answer.ansConfig 	= config
-				answer.ansTrunkClosure = rootClosure
-				 // From Scan
-				answer.ansTestNum	= state.scanTestNum
-				answer.ansSubMenu	= state.scanSubMenu
-				 // Anonymous from Scan
-				answer.ansFile		= name
-//				answer.ansFile		= file
-				answer.ansLineNumber = lineNumber
-			}
+			answer.ansTitle		= title
+			answer.ansConfig 	= config
+			answer.ansTrunkClosure = rootClosure
+			 // From Scan
+			answer.ansTestNum	= state.scanTestNum
+			answer.ansSubMenu	= state.scanSubMenu
+			 // Anonymous from Scan
+			answer.ansFile		= name
+//			answer.ansFile		= file
+			answer.ansLineNumber = lineNumber
 		}
 	}
 	var fwClassName		 : String	{	"Library"								}
