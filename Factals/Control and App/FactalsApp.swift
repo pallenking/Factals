@@ -46,7 +46,7 @@ var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now:
  // Shugar on DOC
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed			//  9
 var DOCfwGuts		: FwGuts	{	DOCfwGutsQ ?? {
-	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil"); return FwGuts() } ()	}
+	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil"); return FwGuts() 		}()}
 var DOCloggerQ  	: Logger? 	{	DOCfwGutsQ?.logger							}				//  2
 var DOClogger  		: Logger 	{	DOCloggerQ ?? .help							}	//.first	// 50
 let DOCctlr						= NSDocumentController.shared

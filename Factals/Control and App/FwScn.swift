@@ -49,7 +49,7 @@ class FwScn : Uid {
 	var scnScene : SCNScene!
 
 	var scn		 : SCNNode		{	scnScene.rootNode							}
-	var rootScn  : SCNNode		{	scnScene.rootNode							}	//scnRoot
+	var rootScn  : SCNNode		{	scnScene.rootNode							}
 	var trunkScn : SCNNode? 	{
 		if let ts				= rootScn.child0  {
 			return ts

@@ -52,36 +52,36 @@ struct ContentView: View {
 	//		ButtonBarFoo(document:$document, dragon:$dragonModel) // 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DrAagonModel>'
 		}
 		 .toolbar {
-			ToolbarItem(placement: .primaryAction) {	//.primaryAction//.principal//.status//
-				NavigationStack {	// was NavigationView
-					List {	// Menu("Act") { // Menu
-						Button("a") 		{	print("a") 						}
-						Button(label:{	Label("b", systemImage: "plus")			})
-						{	print("b")											}
-						Menu("c...") {
-							Button("c1")	{	print("c1")						}
-							Button("c2")	{	print("c2")						}
-						}														//ForEach (menu123) { section in
-																				//	Section (header: Text (section.name)) {
-																				//		ForEach (section.items) { item in
-																				//			Text (item.name)
-																				//		}
-																				//	}
-					}															//}
-					.navigationTitle ("Menu")
-					.listStyle(DefaultListStyle())		// GroupedListStyle is unavailable in macOS
-				}
-			}
 			ToolbarItem(placement: .primaryAction) {
-				NavigationStack {
-					List {
-						Button("a") 		{	print("a") 						}
-					}															//}
-					.navigationTitle ("Menu")
-					.listStyle(DefaultListStyle())
-				}
+	//			NavigationStack {//view was automatically measured but had an ambiguous height or width
+//					List {
+//						Button("a") 		{	print("a") 						}
+//					}															//}
+//					.navigationTitle ("Menu")
+//					.listStyle(DefaultListStyle())
+	//			}
 			}
 		}
+//	//	ToolbarItem(placement: .primaryAction) {	//.primaryAction//.principal//.status//
+//	//		NavigationStack {	// was NavigationView
+//	//			List {	// Menu("Act") { // Menu
+//	//				Button("a") 		{	print("a") 						}
+//	//				Button(label:{	Label("b", systemImage: "plus")			})
+//	//				{	print("b")											}
+//	//				Menu("c...") {
+//	//					Button("c1")	{	print("c1")						}
+//	//					Button("c2")	{	print("c2")						}
+//	//				}														//ForEach (menu123) { section in
+//	//																		//	Section (header: Text (section.name)) {
+//	//																		//		ForEach (section.items) { item in
+//	//																		//			Text (item.name)
+//	//																		//		}
+//	//																		//	}
+//	//			}															//}
+//	//			.navigationTitle ("Menu")
+//	//			.listStyle(DefaultListStyle())		// GroupedListStyle is unavailable in macOS
+//	//		}
+//	//	}
 	}
 
 	var bodyJet: some View {

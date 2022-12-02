@@ -2,6 +2,8 @@
 import SceneKit
 import SwiftUI
 
+//static let error<C:FwAny>		= C()	// Any use of this should fail (NOT IMPLEMENTED)
+
   // ///////////////////////////////////////////////////////////////////////////
  /// For FactalWorkbench (SwiftFactal) Parts
 protocol  FwAny  {		// : Codable : Equatable

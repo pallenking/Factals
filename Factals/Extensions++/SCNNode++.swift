@@ -385,11 +385,11 @@ extension SCNNode /*: HasChildren */ {
 				rv				+= "name:??\n"
 			}
 			 // Surpurflus info:
-			if let light 		= light {
+			if let light {
 				rv				+= logger.pidNindent(for:light) + " \\light:"
 				rv 				=  logger.unIndent(rv) + "\n"
 			}
-			if let camera 		= camera {
+			if let camera {
 				rv				+= logger.pidNindent(for:camera) + " \\camera:"
 				rv 				=  logger.unIndent(rv) + "\n"
 			}
