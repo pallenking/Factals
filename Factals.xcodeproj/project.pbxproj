@@ -144,6 +144,7 @@
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
 		9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
+		9FA1E4B92939AFF10012E02F /* ButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* ButtonBar.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
 		9FBD6E4729258E2500F14075 /* ButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* ButtonBar.swift */; };
 		9FC1F1C0293418E60025E80D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BE293418E60025E80D /* Helper.swift */; };
@@ -690,6 +691,7 @@
 				9F417F3128EB94680047B359 /* VewConfig.swift in Sources */,
 				9F417F2828EB94410047B359 /* Share.swift in Sources */,
 				9F417F2528EB94350047B359 /* CommonAtoms.swift in Sources */,
+				9FA1E4B92939AFF10012E02F /* ButtonBar.swift in Sources */,
 				9F417F4928EB94FD0047B359 /* Self++.swift in Sources */,
 				9F417F1A28EB94100047B359 /* DiscreteTime.swift in Sources */,
 				9F417F2928EB94450047B359 /* MultiPort.swift in Sources */,
