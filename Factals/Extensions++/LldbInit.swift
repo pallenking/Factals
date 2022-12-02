@@ -66,7 +66,7 @@ func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}
-	var scnRv					= fwGuts.rootVews[index]!.fwScn.rootScn				//fwGuts.rootScn 	// Root
+	var scnRv					= fwGuts.rootVews[index]!.scn					//fwGuts.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {

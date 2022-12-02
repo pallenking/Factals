@@ -171,7 +171,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 			for key in rootVews.keys {
-				rootVews[key]!.fwScn.rootScn.play(sound:"Oooooooo")		//GameStarting
+				rootVews[key]!.scn.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
@@ -186,8 +186,8 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 			for key in rootVews.keys {
 				let rootVew		= rootVews[key]!
 				print("-------- ptn   rootVews(\(ppUid(rootVew))).fwScn(\(ppUid(rootVew.fwScn)))" +
-					  ".rootScn(\(ppUid(rootVew.fwScn.rootScn))):")
-				print(rootVew.fwScn.rootScn.pp(.tree), terminator:"")
+					  ".scn(\(ppUid(rootVew.scn))):")
+				print(rootVew.scn.pp(.tree), terminator:"")
 			}
 		case "#":
 			let documentDirURL	= try! FileManager.default.url(
@@ -300,7 +300,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rootVewOfEv.fwScn.rootScn,// The root of the node hierarchy to be searched.
+			.rootNode:rootVewOfEv.scn,	// The root of the node hierarchy to be searched.
 //			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 		 // CONVERT to window coordinates
@@ -319,7 +319,7 @@ let key = 0
 
 		 // SELECT HIT; prefer any child to its parents:
 		var rv : Vew			= rootVewOfEv			// default
-		var pickedScn			= rootScnOfEv.rootScn 	// default
+		var pickedScn			= rootScnOfEv.scn 		// default
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:
 			let sortedHits	= hits.sorted {	$0.node.position.z > $1.node.position.z }

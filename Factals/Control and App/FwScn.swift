@@ -49,9 +49,8 @@ class FwScn : Uid {
 	var scnScene : SCNScene!
 
 	var scn		 : SCNNode		{	scnScene.rootNode							}
-	var rootScn  : SCNNode		{	scnScene.rootNode							}
 	var trunkScn : SCNNode? 	{
-		if let ts				= rootScn.child0  {
+		if let ts				= scn.child0  {
 			return ts
 		}
 		fatalError("trunkVew is nil")
@@ -122,7 +121,7 @@ class FwScn : Uid {
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
 											 // Complain if Straggler: 		assert(rootScn.find(name:name) == nil, "helper: \"\(name)\" pre-exists")
-			if let rv				= rootScn.find(name:name) {
+			if let rv			= scn.find(name:name) {
 				return rv
 			} else {
 				let light		= SCNLight()
@@ -137,7 +136,7 @@ class FwScn : Uid {
 				if let position	= position {
 					rv.position = position
 				}
-				rootScn.addChildNode(rv)											// rootScn.addChild(node:newLight)
+				scn.addChildNode(rv)											// rootScn.addChild(node:newLight)
 				return rv
 			}
 		}
@@ -145,7 +144,7 @@ class FwScn : Uid {
 	 // MARK: - 4.2 Camera
 	func touchCameraScn() -> SCNNode {
 		let name				= "*-camera"
-		if let rv				= rootScn.find(name:name) {
+		if let rv				= scn.find(name:name) {
 			return rv			// already exists
 		}
 
@@ -153,7 +152,7 @@ class FwScn : Uid {
 		let cameraScn			= SCNNode()
 		cameraScn.name			= name
 		cameraScn.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-		rootScn.addChildNode(cameraScn)
+		scn.addChildNode(cameraScn)
 
 		 // Just make a whole new camera system from scratch
 		let camera				= SCNCamera()
@@ -178,13 +177,13 @@ class FwScn : Uid {
 	func touchAxesScn() -> SCNNode {			// was updatePole()
 		let name				= "*-pole"
 		 //
-		if let rv 				= rootScn.find(name:name) {
+		if let rv 				= scn.find(name:name) {
 			return rv
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		var axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		rootScn.addChild(node:axesScn)
+		scn.addChild(node:axesScn)
 		axesScn.name				= name
 
 		 // X/Z Poles (thinner)
@@ -253,7 +252,7 @@ class FwScn : Uid {
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 		guard let fwGuts		= rootVew.fwGuts else {		return				}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:rootScn)
+		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:scn)
 
 ///		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
@@ -355,7 +354,7 @@ class FwScn : Uid {
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 //		let rootVew				= fwGuts.rootVewOf(fwScn:self)
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
-		let vpV3 : SCNVector3	= rootScn.convertPosition(wpV3, from:nil)
+		let vpV3 : SCNVector3	= scn.convertPosition(wpV3, from:nil)
 		return NSPoint(x:vpV3.x, y:vpV3.y)
 	}
 
@@ -416,7 +415,7 @@ class FwScn : Uid {
 
 		 // 6. Set LookAtNode's position
 		let posn				= rootVew.lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= rootVew.lookAtVew?.scn.convertPosition(posn, to:rootScn) ?? .zero
+		let worldPosition		= rootVew.lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		rootVew.lastSelfiePole.at = worldPosition
 
@@ -435,7 +434,7 @@ class FwScn : Uid {
 		case .line:
 			return self.pp(.classUid) + " "
 		default:
-			var rv				= rootScn.pp(.classUid)
+			var rv				= scn.pp(.classUid)
 		//	var rv 				= self.pp(.classUid) + " "
 		//	rv 					+= "RootVew:\(ppUid(self))"
 			return rv//" CODE ME "

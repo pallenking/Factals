@@ -94,8 +94,8 @@
             filePath = "Factals/Control and App/FwScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
             landmarkName = "createVewNScn(sceneIndex:vewConfig:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +382,8 @@
             filePath = "Factals/Control and App/FwScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "createVewNScn(sceneIndex:vewConfig:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1528,8 +1528,8 @@
             filePath = "Factals/Control and App/FwScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
             landmarkName = "createVewNScn(sceneIndex:vewConfig:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2802,8 +2802,8 @@
             filePath = "Factals/Control and App/FwScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "init(scnScene:scnView:args:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3136,8 +3136,8 @@
             filePath = "Factals/Control and App/FwScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "FwScn"
             landmarkType = "3">
          </BreakpointContent>
@@ -3360,8 +3360,8 @@
             filePath = "Factals/Control and App/FwScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "touchCameraScn()"
             landmarkType = "7">
          </BreakpointContent>

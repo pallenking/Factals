@@ -255,15 +255,6 @@ extension SCNNode /*: HasChildren */ {
 	var root : SCNNode {
 		return self.parent?.root ?? self
 	}
-//	func fwScn(attachedTo fwGuts:FwGuts) -> FwScn {
-//		let rootScn				= root
-//		for fwScn in fwGuts.fwScns {
-//			if fwScn.scn == rootScn {
-//				return fwScn
-//			}
-//		}
-//		fatalError()
-//	}
 	 // MARK: - 4.6 Find Children
 	// WHY THESE TWO?
 	 /// flat search of one layer.

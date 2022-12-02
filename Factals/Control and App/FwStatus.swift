@@ -284,7 +284,7 @@ extension FwScn : FwStatus	{										    ///FwScn
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootVew.fwScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 //		myLine					+= "\(pp(.classUid)) (\(rootScn.nodeCount()) SCNNodes) "
-		myLine					+= "rootScn:\(ppUid(rootScn, showNil:true)) (\(rootScn.nodeCount()) SCNNodes) "
+		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 		myLine					+= "animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("FwScn        ", uid:self,
 			myLine:myLine,

@@ -416,7 +416,7 @@ class Port : Part, PortTalk {
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-		let trunkScn			= aVew.rootVew!.fwScn.scn
+		let trunkScn			= aVew.rootVew!.scn
 		while aVew != vew {
 			// my position in parent
 			let scn				= aVew.scn
