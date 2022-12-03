@@ -42,14 +42,16 @@ struct ContentView: View {
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30
 			)
-			SceneKitView(sceneKitArgs:sceneKitArgs)
-			 .frame(maxWidth:.infinity)
-			 .border(.black, width:2)
-			 .onAppear() {						//was didLoadNib
-				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-			 }
-			ButtonBar(document:$document)
-	//		ButtonBarFoo(document:$document, dragon:$dragonModel) // 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DrAagonModel>'
+			if dragonModel.value != 17 {
+				SceneKitView(sceneKitArgs:sceneKitArgs)
+				 .frame(maxWidth:.infinity)
+				 .border(.black, width:2)
+				 .onAppear() {						//was didLoadNib
+					document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+				}
+			}
+//			ButtonBar(document:$document)
+			ButtonBarFoo(document:$document, dragon:dragonModel) // 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DrAagonModel>'
 		}
 		 .toolbar {
 			ToolbarItem(placement: .primaryAction) {

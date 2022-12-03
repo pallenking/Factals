@@ -1896,8 +1896,8 @@
             filePath = "Factals/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "bodyAll"
             landmarkType = "24">
          </BreakpointContent>
@@ -1960,10 +1960,10 @@
             filePath = "Factals/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "ContentView"
-            landmarkType = "14">
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "bodyAll"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2706,10 +2706,10 @@
             filePath = "Factals/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "bodyAll"
-            landmarkType = "24">
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "ContentView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2722,8 +2722,8 @@
             filePath = "Factals/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "bodyAll"
             landmarkType = "24">
             <Locations>
@@ -2770,8 +2770,8 @@
             filePath = "Factals/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "bodyAll"
             landmarkType = "24">
          </BreakpointContent>
@@ -2786,8 +2786,8 @@
             filePath = "Factals/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
             landmarkName = "bodyAll"
             landmarkType = "24">
          </BreakpointContent>
@@ -3248,8 +3248,8 @@
             filePath = "Factals/Control and App/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "bodySimple"
             landmarkType = "24">
          </BreakpointContent>

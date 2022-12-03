@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ButtonBarFoo: View {
 	@Binding var document		: FactalsDocument	// the Document type
-	@Binding var dragon			: DragonModel
+	@ObservedObject var dragon	: DragonModel
 
 	var body: some View {
 		let fwGuts 				= document.fwGuts
@@ -23,7 +23,7 @@ struct ButtonBarFoo: View {
 				}
 				Text("pole:\(rootVew0?.lastSelfiePole.pp() ?? "(rootVew0=nil)") ")
 				Spacer()
-				Button(label: {	Text("Dragon:value++")							}) //\(dragonValue)++
+				Button(label: {	Text("Dragon:value\(dragon.value)")							}) //\(dragonValue)++
 				{	dragon.value += 1											}	// %64
 				Text(" ")
 			}
