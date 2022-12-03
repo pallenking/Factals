@@ -125,7 +125,7 @@ extension Dictionary		: FwAny {
 		case .line, .tree:
 			var (rv, sep)		= ("[", "")
 			// PW: help
-			var k3:Array<Key>	= Array(keys)//.sorted() //.sortIfComparable()	//.sorted() //
+			var k3:Array<Key>	= Array(keys).sortIfComparable() //.sorted() // PW: cleanup?
 			let m 				= mode == .tree ? PpMode.line : PpMode.short	// downgrade mode
 			for key in k3 {
 				rv				+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"

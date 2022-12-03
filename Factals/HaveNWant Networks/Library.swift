@@ -136,18 +136,6 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 		 // Return list of titles in a master catalog.
 		return rv
 	}
-//		let args				= ScanArgs(selectionString:"", wantOnlyIndex:true)
-//
-//		 // Scan through all Library swift source file:
-//		var state				= ScanState()
-//		for lib in Library.libraryList {
-//	/**/	lib.loadTest(args:args, state:&state)	// state persists across library probes
-//		}		// Hack: Stop after first found.  Ignore multi-source xr('s.
-//
-//		 // Return list of titles in a master catalog.
-//		let rv					= Library("catalog")
-//		rv.state				= state
-//		return rv
 
 	  // MARK: - 5.1 Linkages from Library
 	   // //////////// linkages for library entries ////////////////

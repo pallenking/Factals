@@ -19,7 +19,8 @@ extension Part : Equatable {
  // Generic struct 'ForEach' requires that 'Part' conform to 'Hashable' (from InspecPart.body.Picker)
 extension Part : Hashable {
 	func hash(into hasher: inout Hasher) {
-bug;	hasher.combine(uid)					// fwClassName, fullName, children?
+		DOClogger.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
+		hasher.combine(uid)					// fwClassName, fullName, children?
 	}
 }
 
@@ -134,11 +135,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}			// -- Name was given
 		name					= nam ?? {
-			if let prefix		= prefixForClass[fwClassName],
-			  let rootPart		= root
+			if let doc			= DOC,
+			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= rootPart.indexFor[prefix] ?? 0
-				rootPart.indexFor[prefix] = index + 1		// for next
+				let index		= doc.indexFor[prefix] ?? 0
+				DOC.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
 			} else {	// -- Use fallback
 				defaultPrtIndex	+= 1
@@ -203,13 +204,13 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 	}
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
-	func setTree(root:RootPart, parent:Part?) {
-		assertWarn(self.parent === parent, "\(fullName): Parent:\(self.parent?.fullName ?? "nil") should be \(parent?.fullName ?? "nil")")
-		assertWarn(self.root   === root,   "\(fullName): Root:\(self  .root?  .fullName ?? "nil") should be \(root   .fullName         )")
-		self.parent 			= parent
-//		self.root   			= root
+	func setTree(root r:RootPart, parent p:Part?) {
+		assertWarn(parent === p, "\(fullName): Parent:\(parent?.fullName ?? "nil") should be \(p?.fullName ?? "nil")")
+		assertWarn(root   === r, "\(fullName  ): Root:\(  root?.fullName ?? "nil") should be \(r .fullName ?? "nil")")
+		parent 					= p
+//		root   					= r
 		for child in children {
-			child.setTree(root:root, parent:self)
+			child.setTree(root:r, parent:self)
 		}
 	}
 	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig=[:]) -> String {

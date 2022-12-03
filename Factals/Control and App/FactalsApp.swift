@@ -70,7 +70,6 @@ struct FactalsApp: App, Uid, FwAny {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
 		}
-						// ORPHANS: PW_ need tutorial
 						//B	WindowGroup {
 						//B		TextEditor(text: $text).padding()
 						//B	}
@@ -335,13 +334,15 @@ bug;	let rv					= NSMenu(title:path)
 											: regressScene	// from last time
 		regressScene			= sceneNumber + 1			// next regressScene
 
+
+
 		 // Make new Document
 		let rootPart			= RootPart(fromLibrary:"entry\(regressScene)")
 
 		let fwGuts				= FwGuts(rootPart:rootPart)
 
 bug		 // --------------- A: Get BASIC Component Part (owned and used here)
-		let scnScene			= SCNScene()									//named:"art.scnassets/ship.scn") ?? SCNScene()
+		let scnScene			= SCNScene()							//named:"art.scnassets/ship.scn") ?? SCNScene()
 		scnScene.isPaused		= true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
@@ -351,6 +352,8 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		newRootVew.fwGuts		= fwGuts			// Set Owner
 		
 		var doc					= FactalsDocument(fwGuts:fwGuts)
+
+
 		DOC						= doc		// register (UGLY!!!)
 		doc.pushControllersConfig(to:doc.config + rootPart.ansConfig)
 

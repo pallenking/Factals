@@ -40,7 +40,8 @@ final class EventReceiverView: NSView {
 		window?.makeFirstResponder(self)
 	}
 	override var acceptsFirstResponder: Bool { true 							}
-//W	func processEvent(nsEvent:NSEvent) {}	// WANTED: Capture all first responder messages, PW
+
+//	func processEvent(nsEvent:NSEvent) {}	// WANTED: Capture all first responder messages, PW
 
 	 // MARK: - 13.1 Keys
 	override func keyDown(with 			event:NSEvent) 		{	handler(event)	}

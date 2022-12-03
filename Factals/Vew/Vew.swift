@@ -581,7 +581,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	}
 	 // MARK: - 9.5 Wire Box
 	func updateWireBox() {
-		let root				= part.root!
 
 		 // Determine color0, or ignore
 		let wBoxStr				= config("wBox")?.asString	// master
@@ -617,8 +616,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			let bBoxScn			= SCNComment("")	  //		Z
 			scn.addChild(node:bBoxScn, atIndex:0)
 			 // Name the result
-			let wBoxNameIndex	= root.indexFor["WBox"] ?? 1
-			root.indexFor["WBox"] = wBoxNameIndex + 1
+			var doc				= DOC!
+			let wBoxNameIndex	= doc.indexFor["WBox"] ?? 1
+			doc.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
 			bBoxScn.geometry 	= SCNGeometry.lines(lines:indices, withPoints:corners) //material.diffuse.contents = color0		// BUG doesn't work, all are white
 			bBoxScn.categoryBitMask = FwNodeCategory.adornment.rawValue			//material.lightingModel 	= .blinn

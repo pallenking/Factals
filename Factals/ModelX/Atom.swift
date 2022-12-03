@@ -420,6 +420,7 @@ class Atom : Part {	//Part//FwPart
 		 // /////////////////////////////////////////////////////////////////////
 		let srcPortAbilities	= self.hasPorts()	// key --> Port exists
 		var sRetiredKeys : [String] = []
+		var doc					= DOC!
 
 		 // Paw through Atom's local configuration
 		for (srcPortString, targets_) in localConfig {
@@ -436,9 +437,9 @@ class Atom : Part {	//Part//FwPart
 			 // source --> targets
 			for var trgAny : FwAny in targets_ as? [FwAny] ?? [targets_] {
 				 // STATE: self!, srcPortName!, trgAny!
-				let wireNumber	= (root.indexFor["wire"] ?? 0) + 1				// root.wireNumber += 1
-				root.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
-				let breakAtWireNo = root.indexFor["breakAtWire"]
+				let wireNumber	= (doc.indexFor["wire"] ?? 0) + 1				// root.wireNumber += 1
+				doc.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
+				let breakAtWireNo = doc.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(logger.eventNumber-1)")
 				atBld(4, logd("L\(wireNumber)'s source:\(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:\(trgAny.pp(.line))"))

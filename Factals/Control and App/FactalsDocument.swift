@@ -35,6 +35,10 @@ struct FactalsDocument: FileDocument {
 
 	var config : FwConfig		= [:]
 
+	// MARK: - 2.4.4 Building
+	 // index of named items (<Class>,"wire", "WBox", "origin", "breakAtWire"
+	var indexFor				= Dictionary<String,Int>()
+
 	mutating func pushControllersConfig(to c:FwConfig) {
 		config					= c
 		fwGuts?.pushControllersConfig(to:c)	// COMPONENT 1
@@ -225,6 +229,8 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	 mutating func showInspecFor(vew:Vew, allowNew:Bool) {
 		let inspec				= Inspec(vew:vew)
 		var window : NSWindow?	= nil
+
+		// PW restructure with WindowGroup: A scene that presents a group of identically structured windows
 
 		if let iw				= inspecWindow {		// New, less functional manner
 			iw.close()

@@ -46,9 +46,9 @@ class RootPart : Part {
 	var partTreeVerbose			= true
 	var partTrunk : Part?	{	return child0									}
 
-	// MARK: - 2.4.4 Building
-	 // index of named items (<Class>,"wire", "WBox", "origin", "breakAtWire"
-	var indexFor				= Dictionary<String,Int>()
+//	// MARK: - 2.4.4 Building
+//	 // index of named items (<Class>,"wire", "WBox", "origin", "breakAtWire"
+//	var indexFor				= Dictionary<String,Int>()
 
 	// MARK: - 3. Part Factory
 	init() {
@@ -67,7 +67,7 @@ class RootPart : Part {
 		case log
 		case title
 		case ansConfig
-		case indexFor
+//		case indexFor
 //	//	NO FwDocument,
 		case partTreeVerbose		// Bool
 	}
@@ -113,7 +113,7 @@ class RootPart : Part {
 		try container.encode(simulator,			forKey:.simulator				)
 		try container.encode(title,				forKey:.title					)
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
-		try container.encode(indexFor, 			forKey:.indexFor 				)
+//		try container.encode(indexFor, 			forKey:.indexFor 				)
 		try container.encode(partTreeVerbose,	forKey:.partTreeVerbose			)
 
 		atSer(3, logd("Encoded"))
@@ -129,7 +129,7 @@ class RootPart : Part {
 		simulator				= try container.decode(Simulator.self, forKey:.simulator	)
 		title					= try container.decode(   String.self, forKey:.title		)
 		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
-		indexFor				= try container.decode(Dictionary<String,Int>.self, forKey:.indexFor)
+//		indexFor				= try container.decode(Dictionary<String,Int>.self, forKey:.indexFor)
 		partTreeLock 			= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
 		partTreeVerbose			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 
