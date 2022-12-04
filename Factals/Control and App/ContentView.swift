@@ -24,7 +24,7 @@ struct ContentView: View {
 	@StateObject 	var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 //	@ObservedObject var dragonModel = DragonModel()		// test Model 2 (an ObservableObject)
 	var body: some View {
-		let select 				= 1//1/3
+		let select 				= 3//1/3
 		if select == 1 {	 	bodySimple									}
 		if select == 2 { 		bodyJet										}
 		if select == 3 { 		bodyAll										}
@@ -50,8 +50,7 @@ struct ContentView: View {
 					document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 				}
 			}
-//			ButtonBar(document:$document)
-			ButtonBarFoo(document:$document, dragon:dragonModel) // 'ObservedObject<DragonModel>.Wrapper' -xx-> 'Binding<DrAagonModel>'
+			ButtonBar(document:$document, dragon:dragonModel)
 		}
 		 .toolbar {
 			ToolbarItem(placement: .primaryAction) {
@@ -106,7 +105,7 @@ struct ContentView: View {
 					 .onAppear() {
 						document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 					 }
-					ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
+					ButtonBar(document:$document, dragon:dragonModel)//, dragonValue:dragonModel.$value)
 				}
 			}
 			else {
@@ -140,7 +139,7 @@ struct ContentView: View {
 						 }
 						Text(":0")
 					}
-					ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
+					ButtonBar(document:$document, dragon:dragonModel)//, dragonValue:dragonModel.$value)
 				}
 				VStack {
 					HStack {

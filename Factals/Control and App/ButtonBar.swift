@@ -7,32 +7,33 @@
 
 import SwiftUI
 
-struct ButtonBarFoo: View {
-	@Binding var document		: FactalsDocument	// the Document type
-	@ObservedObject var dragon	: DragonModel
-
-	var body: some View {
-		let fwGuts 				= document.fwGuts
-		let rootVews			= fwGuts?.rootVews ?? [:]
-		let rootVew0 : RootVew?	= rootVews.count == 0 ? nil : rootVews[0]
-		VStack {
-			HStack {
-				if let rootPart = fwGuts?.rootPart {
-					Button(label:{	Text(   "ptm")								})
-					{	lldbPrint(rootPart, mode:.tree)							}
-				}
-				Text("pole:\(rootVew0?.lastSelfiePole.pp() ?? "(rootVew0=nil)") ")
-				Spacer()
-				Button(label: {	Text("Dragon:value\(dragon.value)")							}) //\(dragonValue)++
-				{	dragon.value += 1											}	// %64
-				Text(" ")
-			}
-		}
-		 .padding(5)
-	}
-}
+//struct ButtonBarFoo: View {
+//	@Binding var document		: FactalsDocument	// the Document type
+//	@ObservedObject var dragon	: DragonModel
+//
+//	var body: some View {
+//		let fwGuts 				= document.fwGuts
+//		let rootVews			= fwGuts?.rootVews ?? [:]
+//		let rootVew0 : RootVew?	= rootVews.count == 0 ? nil : rootVews[0]
+//		VStack {
+//			HStack {
+//				if let rootPart = fwGuts?.rootPart {
+//					Button(label:{	Text(   "ptm")								})
+//					{	lldbPrint(rootPart, mode:.tree)							}
+//				}
+//				Text("pole:\(rootVew0?.lastSelfiePole.pp() ?? "(rootVew0=nil)") ")
+//				Spacer()
+//				Button(label: {	Text("Dragon:value\(dragon.value)")							}) //\(dragonValue)++
+//				{	dragon.value += 1											}	// %64
+//				Text(" ")
+//			}
+//		}
+//		 .padding(5)
+//	}
+//}
 struct ButtonBar: View {
 	@Binding var document		: FactalsDocument	// the Document type
+	@ObservedObject var dragon	: DragonModel
 //	@Binding var dragonValue	: Int
 
 	var body: some View {
@@ -81,8 +82,8 @@ struct ButtonBar: View {
 				{	printFwcConfig()											}
 				Text("pole:\(rootVew0?.lastSelfiePole.pp() ?? "-") ")
 				Spacer()
-				Button(label: {	Text("Dragon:XX")								}) //\(dragonValue)++
-				{}//dragonValue += 1							}	// %64
+				Button(label: {	Text("Dragon:value\(dragon.value)")				})
+				{	dragon.value += 1											}
 				Text(" ")
 			}
 		}
