@@ -10,10 +10,10 @@ import SceneKit
 extension SCNCameraController : ObservableObject {	}
 
 class JetModel: 		ObservableObject {
-	@Published var scene:SCNScene=SCNScene(named:"art.scnassets/ship.scn")!
+	@Published var scene:SCNScene = SCNScene(named:"art.scnassets/ship.scn")!
 }
 class DragonModel: 		ObservableObject {
-	@Published var scene:SCNScene=dragonCurve(segments:1024)
+	@Published var scene:SCNScene = dragonCurve(segments:1024)
 	@Published var value:Int = 0
 }
 // /////////////////////////////////////////////////////////////////////////////
@@ -22,12 +22,12 @@ struct ContentView: View {
 	@Binding		var document	: FactalsDocument	// the Document
 	@StateObject 	var    jetModel =    JetModel()		// test Model 1 (instantiates an observable object)
 	@StateObject 	var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
-//	@ObservedObject var dragonModel = DragonModel()		// test Model 2 (an ObservableObject)
 	var body: some View {
-		let select 				= 3//1/3
+		let select 				= 4//
 		if select == 1 {	 	bodySimple									}
 		if select == 2 { 		bodyJet										}
-		if select == 3 { 		bodyAll										}
+		if select == 3 { 		bodyDragon									}
+		if select == 4 { 		bodyAll										}
 	}
 	var bodySimple: some View {		// Single HNW View
 		VStack {
@@ -48,7 +48,7 @@ struct ContentView: View {
 				 .border(.black, width:2)
 				 .onAppear() {						//was didLoadNib
 					document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-				}
+				 }
 			}
 			ButtonBar(document:$document, dragon:dragonModel)
 		}
@@ -115,6 +115,50 @@ struct ContentView: View {
 		}
 	}
 
+	var pov : SCNNode? {
+		let rv					= dragonModel.scene.cameraScn
+		print("fetched camera pov")
+//		let i 					= dragonModel.value
+//		rv?.transform 			= [SCNMatrix4MakeRotation(0,     1,1,1),
+//								   SCNMatrix4MakeRotation(.pi/2, 1,0,0),
+//								   SCNMatrix4MakeRotation(.pi/2, 0,1,0),
+//								   SCNMatrix4MakeRotation(.pi/2, 0,0,1)] [i % 4]
+		return rv
+	}
+
+	var bodyDragon: some View {
+		HStack {
+			Button(label: {	Text("Dragon:value\(dragonModel.value)")			})
+			{	dragonModel.value += 1; dragonModel.value %= 12 				}
+			 .onAppear() {
+				print("y: Button APPEARED \(dragonModel.value)")
+			 }
+			if dragonModel.value % 2 == 0 {
+				SceneView(
+					scene		: dragonModel.scene,
+					pointOfView	: pov,//nil,//dragonModel.scene.rootNode,//cameraNode,//nil,//.childNode(withName: "ship", recursively: true),
+					options		: [.autoenablesDefaultLighting]//.allowsCameraControl,
+				)
+				.frame(width:150, height:150)
+				.border(.black, width:2)
+				.onAppear() {
+					print("x: Dragon APPEARED")
+					guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
+					let i 		  = dragonModel.value / 2
+					scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
+									 SCNMatrix4MakeRotation(.pi/2, 1,0,0),
+									 SCNMatrix4MakeRotation(.pi/2, 0,1,0),
+									 SCNMatrix4MakeRotation(.pi/2, 0,0,1)] [i % 4]
+					let rotationAxis = SCNVector3(i/4==1 ? 1 : 0, i/4==2 ? 1 : 0, i/4==3 ? 1 : 0)
+					scn.runAction(SCNAction.repeatForever(SCNAction.rotate(by:.pi/4, around:rotationAxis, duration:10) ))
+				}
+				.onDisappear() {
+					print("x: Dragon DISAPPEARED")
+				}
+			}
+		}
+	}
+
 	var bodyAll: some View {	// bodyAll
 		HStack {		// ***** 3 VStacks columns
 			if let fwGuts			= document.fwGuts {
@@ -131,12 +175,14 @@ struct ContentView: View {
 							options		: [.rendersContinuously],	//.allowsCameraControl,
 							preferredFramesPerSecond:30
 						)
-						SceneKitView(sceneKitArgs:sceneKitArgs)
-						 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
-						 .border(.black, width:2)
-						 .onAppear() {
-							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-						 }
+						if dragonModel.value != 17 {
+							SceneKitView(sceneKitArgs:sceneKitArgs)
+							 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
+							 .border(.black, width:2)
+							 .onAppear() {
+								document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+							 }
+						}
 						Text(":0")
 					}
 					ButtonBar(document:$document, dragon:dragonModel)//, dragonValue:dragonModel.$value)
@@ -172,8 +218,8 @@ struct ContentView: View {
 						)
 						 .frame(width:150, height:150)
 						 .border(.black, width:2)
-						 .onAppear() {	print("x: Dragon APPEARED") }
 						 .onAppear() {
+							print("x: Dragon APPEARED")
 							guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
 							let i = dragonModel.value
 							scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),

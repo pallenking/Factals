@@ -149,10 +149,10 @@ class FwScn : Uid {
 		}
 
 		 // Make new camera system:
-		let cameraScn			= SCNNode()
-		cameraScn.name			= name
-		cameraScn.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-		scn.addChildNode(cameraScn)
+		let rv					= SCNNode()
+		rv.name					= name
+		rv.position 			= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
+		scn.addChildNode(rv)
 
 		 // Just make a whole new camera system from scratch
 		let camera				= SCNCamera()
@@ -163,8 +163,8 @@ class FwScn : Uid {
 	//	camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 		camera.zNear			= 1
 		camera.zFar				= 100
-		cameraScn.camera		= camera
-		return cameraScn
+		rv.camera				= camera
+		return rv
 	}
 //	 // Get camera node from SCNNode
 //	var cameraScn : SCNNode? {

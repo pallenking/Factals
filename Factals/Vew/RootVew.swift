@@ -25,6 +25,9 @@ class RootVew : Vew {
 	 // MARK: x.3.2 Look At Spot
 	var lookAtVew	   : Vew?	= nil						// Vew we are looking at
 	var lastSelfiePole : SelfiePole!						// init to default
+	var cameraScn	   : SCNNode? 	{
+		fwScn.scnScene.cameraScn
+	}
 
 	 /// generate a new View, returning its index
 	init() {

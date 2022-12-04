@@ -25,10 +25,10 @@ var fileURL : URL 				= 	{
 	 // Must have suffix ".scn". Reason: ???
 	return directoryURL.appendingPathComponent("t1.scn")
 }()
-//
-//extension SCNScene {
-//	var cameraScn : SCNNode? {
-//		rootNode.find(name:"camera")
-//	}
-//}
+
+extension SCNScene {
+	var cameraScn : SCNNode? {
+		rootNode.find(name:"camera")
+	}
+}
 
