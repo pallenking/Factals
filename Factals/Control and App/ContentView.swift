@@ -23,11 +23,16 @@ struct ContentView: View {
 	@StateObject 	var    jetModel =    JetModel()		// test Model 1 (instantiates an observable object)
 	@StateObject 	var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 	var body: some View {
-		let select 				= 1
-		if select == 1 {	 	bodySimple									}
-		if select == 2 { 		bodyJet										}
-		if select == 3 { 		bodyDragon									}
-		if select == 4 { 		bodyAll										}
+		if dragonModel.value & 1 == 1 {
+			Button(label: {	Text("Redraw \(dragonModel.value)")					})
+			{	dragonModel.value += 1											}
+		} else {
+			let select 			= 2
+			if select == 1 {	bodySimple										}
+			if select == 2 { 	bodyJet											}
+			if select == 3 { 	bodyDragon										}
+			if select == 4 { 	bodyAll											}
+		}
 	}
 	var bodySimple: some View {		// Single HNW View
 		VStack {
@@ -50,7 +55,7 @@ struct ContentView: View {
 					document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 				 }
 			}
-			ButtonBar(document:$document, dragon:dragonModel)
+			ButtonBar(document:$document, dragonModel:dragonModel)
 		}
 		 .toolbar {
 			ToolbarItem(placement: .primaryAction) {
@@ -105,7 +110,7 @@ struct ContentView: View {
 					 .onAppear() {
 						document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 					 }
-					ButtonBar(document:$document, dragon:dragonModel)//, dragonValue:dragonModel.$value)
+					ButtonBar(document:$document, dragonModel:dragonModel)//, dragonValue:dragonModel.$value)
 				}
 			}
 			else {
@@ -185,7 +190,7 @@ struct ContentView: View {
 						}
 						Text(":0")
 					}
-					ButtonBar(document:$document, dragon:dragonModel)//, dragonValue:dragonModel.$value)
+					ButtonBar(document:$document, dragonModel:dragonModel)//, dragonValue:dragonModel.$value)
 				}
 				VStack {
 					HStack {

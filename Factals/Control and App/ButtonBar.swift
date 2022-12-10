@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ButtonBar: View {
-	@Binding var document		: FactalsDocument	// the Document type
-	@ObservedObject var dragon	: DragonModel
+	@Binding var document			: FactalsDocument	// the Document type
+	@ObservedObject var dragonModel	: DragonModel
 
 	var body: some View {
 		let fwGuts 				= document.fwGuts
@@ -58,8 +58,8 @@ struct ButtonBar: View {
 				Text("pole:\( rootVew0?.lastSelfiePole.pp() ?? "-") " +
 					 "cam-< \(rootVew0?.cameraScn?.transform.pp(.line) ?? "nil")")
 				Spacer()
-				Button(label: {	Text("Redraw \(dragon.value)")					})
-				{	dragon.value += 1											}
+				Button(label: {	Text("Redraw \(dragonModel.value)")				})
+				{	dragonModel.value += 1										}
 				Text(" ")
 			}
 		}
