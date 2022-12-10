@@ -6,10 +6,10 @@
 import SceneKit
 
 extension Logger : Uid {
-	var uid: UInt16 {
-		get 			{	uid_												}
-		set				{	uid_ = newValue										}
-	}
+//	var uid: UInt16 {
+//		get 			{	uid_												}
+//		set				{	uid_ = newValue										}
+//	}
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
 		print("\(fwClassName) \(ppUid(self))\(note): \(format)")
 	}
@@ -22,7 +22,7 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Logger
-	var uid_					= randomUid()
+	var uid						= randomUid()
 	var title 					= "untitled"
 	var logNo		   			= -1		// Index number of this log
 

@@ -60,12 +60,10 @@ struct ScanAnswer {		// : Codable
 	var ansLineNumber : Int?	= nil
 }
 
-//	var uid			: UInt16	= randomUid()
 extension Library : Uid {
 	//var uid						= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
 		print("Library \(ppUid(self))\(note): \(format)")
-//		print("\(fwClassName) \(ppUid(self))\(note): \(format)")
 	}
 }
 				// Remove NSObject

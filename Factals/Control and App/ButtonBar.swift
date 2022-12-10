@@ -50,18 +50,24 @@ struct ButtonBar: View {
 			//	Text(" ")
 			}
 			HStack {
-				Text("  Control:")
+				Text("  Ctl:")
 				Button(label:{	Text( "state").padding(.top, 300)				})
 				{	printFwcState()												}
 				Button(label:{	Text("config").padding(.top, 300)				})
 				{	printFwcConfig()											}
-				Text("pole:\(rootVew0?.lastSelfiePole.pp() ?? "-") @\(rootVew0?.cameraScn?.transform.pp(.line) ?? "nil23r2") ButtonBar:58")
+				Text("pole:\( rootVew0?.lastSelfiePole.pp() ?? "-") " +
+					 "cam-< \(rootVew0?.cameraScn?.transform.pp(.line) ?? "nil")")
 				Spacer()
-				Button(label: {	Text("Dragon:value\(dragon.value)")				})
+				Button(label: {	Text("Redraw \(dragon.value)")					})
 				{	dragon.value += 1											}
 				Text(" ")
 			}
 		}
+	//	 .background(Color.white)//white)//yellow NSColor("verylightgray")!
+	//	 .background(NSColor("verylightgray")!) //white)//yellow
+		 .padding(5)
+	//	 .RoundedRectangle
+		 .border(Color.black, width:0.5)
 		 .padding(5)
 	}
 }

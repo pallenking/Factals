@@ -124,42 +124,40 @@ extension Dictionary		: FwAny {
 			return count == 0 ? "[:]" : "[:\(count) elts]"
 		case .line, .tree:
 			var (rv, sep)		= ("[", "")
-			// PW: help
-			var k3:Array<Key>	= Array(keys).sortIfComparable() //.sorted() // PW: cleanup?
+			var k3:Array<Key>	= Array(keys)
 			let m 				= mode == .tree ? PpMode.line : PpMode.short	// downgrade mode
 			for key in k3 {
 				rv				+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
 				sep 			=  mode == .tree ? ",\n": ", "
 			}
-//			var (rv, sep)			= ("[", "")
-//			let k3					= Array(keys).sortIfComparable()
-//				//.sorted(by:{(a, b) -> Bool in return a.key < b.key}) {
-//				//.sorted(by:{((key: Key, value: Value), (key: Key, value: Value)) -> Bool in
-//				//.sorted(by:>)	//Referencing operator function '<' on 'Comparable' requires that '(key: Key, value: Value)' conform to 'Comparable'
-//				//.sorted(by:<)
-//				//.sorted(by:{$0.key < $1.key}) {
-//				//.sorted(by: ((key: Key, value: Value), (key: Key, value: Value)) -> Bool) -> [(key: Key, value: Value)]
-//				//let k2 : Dictionary<Key, Value>.Keys = keys
-//			for keyX in k3 {
-//				let valX	= self[keyX]
-//				if let keyY = keyX as? FwAny,
-//				  let valY 	= valX as? FwAny
-//				{
-//					let m 	= mode == .tree ? PpMode.line : PpMode.short
-//					rv		+= "\(sep)\(keyY):\(valY.pp(m))"
-//				}
-//				else {
-//					rv 		+= sep + "?\(String(describing:type(of:keyX)))" +
-//									 ":\(String(describing:type(of:valX)))"
-//				}
-//				sep 		=  mode == .tree ? ",\n": ", "
-//			}
 			return rv + "]"
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux) // NO: return super.pp(mode, aux)
 		}
 	}
 }
+extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value:Equatable, Value :FwAny
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=[:]) -> String	{
+		switch mode! {
+		case .phrase, .short:
+			return count == 0 ? "[:]" : "[:\(count) elts]"
+		case .line, .tree:
+			var (rv, sep)		= ("[", "")
+			for key in Array(keys).sorted() {
+				let val			= self[key]!
+				let m 			= mode == .tree ? PpMode.line : PpMode.short
+				rv				+= "\(sep)\(key):\(val.pp(m))"
+				sep 			= mode == .tree ? ",\n":  mode == .line ? ", " : "???"
+			}
+			return rv + "]"
+		default:
+			return ppDefault(self:self, mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+		}
+	}
+}
+
+
+
 extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension FwGuts		: FwAny 	{}	// Extension outside of file declaring class 'FwGuts' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
@@ -371,9 +369,11 @@ extension Dictionary {
 }
 
 func +=( dict1: inout FwConfig, dict2:FwConfig) 	{	dict1 = dict1 + dict2	}
+/**/
 func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable
 													{	dict1 = dict1 + dict2	}
-func +( lhs:FwConfig, rhs:FwConfig) -> FwConfig {
+/**/
+func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	var rv						= lhs						// initial values, older, overwritten
 	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
 	for (keyRhs, valueRhs) in rhsSorted {
@@ -384,29 +384,45 @@ func +( lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	}
 	return rv
 }
-
 func +<Value>( lhs:[String:Value], rhs:[String:Value]) -> [String:Value]
-						where Value:FwAny, Value:Equatable {
-//func +<Value>( lhs:FwConfig, rhs:FwConfig) -> FwConfig where Value:FwAny, Value:Comparable {
-bug
+											where Value:FwAny, Value:Equatable {
 	var rv						= lhs
-	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})
-	for (key, var valRhs) in rhsSorted {	// Go through lhs Dictionary
-		if let valLhs : Value	= lhs[key] {	// if key is in rhs Dictionary too
-			if valLhs != valRhs {					// same key, different values
-//				if (key == "f" || key == "flip") {		// fancy xoring!
-//					if let v0	= lhs as? Bool,
-//					  let v1	= rhs as? Bool {
-//						valRhs	= v0 ^^ v1
-//					}
-//				}
-				atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
-				rv[key] 			= valRhs
+	for (key, var valRhs) in rhs {			// Paw through lhs Dictionary
+		if let valLhs : Value	= lhs[key] {	// key in BOTH Dictionaries
+			if (key == "f" || key == "flip") {		// fancy xoring for boolean!
+				if let v0		= valLhs as? Bool,
+				   let v1		= valRhs as? Bool {
+					valRhs		= (v0 ^^ v1) as! Value
+				} else {
+					panic("Dictionary keys \"f\" or \"flip\" with non-Boolean Value")
+				}
 			}
+			else if valLhs != valRhs {			// same key, different values
+				atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
+			}
+			rv[key] 			= valRhs
 		}
 	}
 	return rv
 }
+
+//extension Dictionary<String, Value>  where Value : Equatable {
+//				let valX		= self[keyX]
+//				if let keyY 	= keyX as? FwAny,
+//				  let valY 		= valX as? FwAny
+//				{
+//					let m 	= mode == .tree ? PpMode.line : PpMode.short
+//					rv			+= "\(sep)\(keyY):\(valY.pp(m))"
+//				}
+//				else {
+//					rv 			+= sep + "?\(String(describing:type(of:keyX)))" +
+//										 ":\(String(describing:type(of:valX)))"
+//				}
+//				sep 			= mode == .tree ? ",\n":  mode == .line ? ", " : "???"
+
+
+
+
  /// When keys conflict, pick existing	 // 20221105PAK: Abandoned
 func resolveValues<Value>(_ lhs:Value, and rhs:Value, forKey key:String) -> Value?
 								where Value:FwAny, Value:Equatable {
@@ -425,18 +441,6 @@ func resolveValues<Value>(_ lhs:Value, and rhs:Value, forKey key:String) -> Valu
 		// Return second.
 	return rhs
 }
-																				// /// Determine value when a common key is detected with two values
-																				//func resolveValuesX<Value:FwAny>(_ lhs:Value, and rhs:Value, forKey key:String) -> FwAny? {//} where Value:FwAny {
-																				//	 // Case 1: Multiple values for key "flip" or "f"
-																				//	if (key == "f" || key == "flip"),
-																				//	  let v0					= lhs as? Bool,
-																				//	  let v1					= rhs as? Bool {
-																				//		let rv : Bool	 		= v0 ^^ v1
-																				//bug;	return rv			// PW: Why is "as? Value" required: Value:FwAny
-																				//	}
-																				//	 // Return second.
-																				//	return rhs
-																				//}
 																				//extension Dictionary<Key, Value> where Key : Comparable, Hashable {			//Cannot find type 'Key' in scope
 																				//extension Dictionary<Key, Value> where Key : Hashable, Value : Comparable {  	//Cannot find type 'Key' in scope
 extension Dictionary : Uid {

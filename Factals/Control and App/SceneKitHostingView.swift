@@ -49,6 +49,7 @@ struct SceneKitView: View {
 struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView inside
 
+
 	 // 1. On creation, save the args for later
 	init(_ args:SceneKitArgs)	{
 		self.args				= args

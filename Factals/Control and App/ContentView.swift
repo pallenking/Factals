@@ -23,7 +23,7 @@ struct ContentView: View {
 	@StateObject 	var    jetModel =    JetModel()		// test Model 1 (instantiates an observable object)
 	@StateObject 	var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 	var body: some View {
-		let select 				= 4//
+		let select 				= 1
 		if select == 1 {	 	bodySimple									}
 		if select == 2 { 		bodyJet										}
 		if select == 3 { 		bodyDragon									}

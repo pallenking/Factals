@@ -43,8 +43,7 @@ private let params4app : FwConfig = [
 let appLogN						= 8//0/5/8/
 let docLogN						= 8//0/5/8/
 private let params4appLog		= params4logs_ + params4pp
-	+ log(doc:appLogN, bld:appLogN, ser:appLogN)
-
+								+ log(doc:appLogN, bld:appLogN, ser:appLogN)
  // MARK: - C: Pretty Print
 private let params4pp : FwConfig = [
 				// What:
