@@ -4,10 +4,11 @@
 
 import SceneKit
 
-class FwGuts : NSObject {	//, SCNSceneRendererDelegate
+class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 
 	  // MARK: - 2. Object Variables:
-	var rootPart :  RootPart													//{	rootVew.part as! RootPart}
+	@Published var redo:UInt8	= 0
+	@Published var rootPart :  RootPart													//{	rootVew.part as! RootPart}
 	var rootVews : [Int:RootVew] = [:]
 //	var rootVews : [RootVew]	= [RootVew(), RootVew(), RootVew(), RootVew()]
 	var document 	 : FactalsDocument!
@@ -21,8 +22,8 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 
 	func pushControllersConfig(to c:FwConfig) { // *****
 		rootPart       .pushControllersConfig(to:c)
-		for i in rootVews.keys.sorted() { //}, fwScn) {
-//		for i in 0..<rootVews.count { //}, fwScn) {
+		for i in rootVews.keys.sorted() { //}, rootScn) {
+//		for i in 0..<rootVews.count { //}, rootScn) {
 			rootVews[i]!.pushControllersConfig(to:c)// ?? log("fwGuts: rootVew nil")
 		}
 	}
@@ -48,11 +49,11 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		guard let rootVew		= rootVews[sceneKitArgs.sceneIndex] else {
 			fatalError("no rootVews[\(sceneKitArgs.sceneIndex)")
 		}
-		let fwScn				= rootVew.fwScn
-		fwScn.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
+		let rootScn				= rootVew.rootScn
+		rootScn.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
-		guard let baseView		= fwScn.scnView else { fatalError("fwScn.scnView == nil") }
+		guard let baseView		= rootScn.scnView else { fatalError("rootScn.scnView == nil") }
 		baseView.isPlaying		= true			// does nothing
 		baseView.showsStatistics = true			// works fine
 		baseView.debugOptions 	= [				// enable display of:
@@ -186,7 +187,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 			logger.ppIndentCols = 3
 			for key in rootVews.keys {
 				let rootVew		= rootVews[key]!
-				print("-------- ptn   rootVews(\(ppUid(rootVew))).fwScn(\(ppUid(rootVew.fwScn)))" +
+				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
 			}
@@ -238,8 +239,8 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			var msg					= ""
 			for key in rootVews.keys {
 				let rootVew		= rootVews[key]!
-				rootVew.fwScn.animatePhysics = !rootVew.fwScn.animatePhysics
-				msg 				+= rootVew.fwScn.animatePhysics ? "Run   " : "Freeze"
+				rootVew.rootScn.animatePhysics = !rootVew.rootScn.animatePhysics
+				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
 			}
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
@@ -287,7 +288,7 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 
 	func findVew(nsEvent:NSEvent) -> Vew? {
 		guard let rootVewOfEv	= nsEvent.rootVew else {	return nil 			}
-		let rootScnOfEv 		= rootVewOfEv.fwScn
+		let rootScnOfEv 		= rootVewOfEv.rootScn
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -467,7 +468,7 @@ let key = 0
 			var rv				=  rootPart.pp(.classUid) + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			if let document {rv	+= document.pp(.classUid)					}
-bug;		rv					+= " SelfiePole:" + rootVews[0]!.lastSelfiePole.pp()
+			rv					+= " SelfiePole:" + (rootVews[0]?.selfiePole.pp() ?? "nil")
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)

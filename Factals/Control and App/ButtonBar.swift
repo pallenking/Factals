@@ -55,10 +55,9 @@ struct ButtonBar: View {
 				{	printFwcState()												}
 				Button(label:{	Text("config").padding(.top, 300)				})
 				{	printFwcConfig()											}
-				Text("pole:\( rootVew0?.lastSelfiePole.pp() ?? "-") " +
-					 "cam-< \(rootVew0?.cameraScn?.transform.pp(.line) ?? "nil")")
+				Text("pole:\( rootVew0?.selfiePole.pp() ?? "-") cam-< \(rootVew0?.cameraScn?.transform.pp(.line) ?? "nil") \(dragonModel.value)")
 				Spacer()
-				Button(label: {	Text("Redraw \(dragonModel.value)")				})
+				Button(label: {	Text("value++ = \(dragonModel.value)")			})
 				{	dragonModel.value += 1										}
 				Text(" ")
 			}

@@ -25,18 +25,18 @@
 //		if let c 				= config.fwConfig("camera") {
 //			var f				= DOCfwGuts
 //			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-//				f.lastSelfiePole.height	= CGFloat(h)
+//				f.selfiePole.height	= CGFloat(h)
 //			}
 //			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-//				f.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+//				f.selfiePole.horizonUp = -CGFloat(u)		/* in degrees */
 //			}
 //			if let s 			= c.float("s"), !s.isNan {	// Spin
-//				f.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+//				f.selfiePole.spin = CGFloat(s) 		/* in degrees */
 //			}
 //			if let z 			= c.float("z"), !z.isNan {	// Zoom
-//				f.lastSelfiePole.zoom = CGFloat(z)
+//				f.selfiePole.zoom = CGFloat(z)
 //			}
-//			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of lastSelfiePole
+//			atRve(2, logd("=== Set camera=\(c.pp(.line))"))		// add printout of selfiePole
 //		}
 //	}
 //

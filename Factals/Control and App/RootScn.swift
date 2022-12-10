@@ -1,5 +1,5 @@
 //
-//  FwScn.swift -- Manages SCNNode Shapes tree, SCNScene and SCNView
+//  RootScn.swift -- Manages SCNNode Shapes tree, SCNScene and SCNView
 //  Factals
 //
 //  Created by Allen King on 9/19/22.
@@ -38,7 +38,7 @@ import SceneKit
 //             ====== SCREEN ========================= SCREEN		[x, y]
 // https://learnopengl.com/Getting-started/Coordinate-Systems
 
-class FwScn : Uid {
+class RootScn : Uid {
 	var uid		 : UInt16		= randomUid()
 	var logger 	 : Logger 		{	rootVew.fwGuts.logger						}
 
@@ -278,9 +278,9 @@ class FwScn : Uid {
 //	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 //		let cameraScn			= scnScene.cameraScn!
 //								//
-////		let rootVew				= fwGuts.rootVewOf(fwScn:self)
-//		let rootVew				= rootVew.fwGuts.rootVewOf(fwScn:self)
-//		zoom4fullScreen(selfiePole:rootVew.lastSelfiePole, cameraScn:cameraScn)
+////		let rootVew				= fwGuts.rootVewOf(rootScn:self)
+//		let rootVew				= rootVew.fwGuts.rootVewOf(rootScn:self)
+//		zoom4fullScreen(selfiePole:rootVew.selfiePole, cameraScn:cameraScn)
 //
 //		if duration > 0.0,
 //		  fwGuts.document.config.bool("animatePan") ?? false {
@@ -294,7 +294,7 @@ class FwScn : Uid {
 //				atRve(8, self.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
 //				SCNTransaction.animationDuration = CFTimeInterval(duration)
 //
-//				cameraScn.transform = rootVew.lastSelfiePole.transform
+//				cameraScn.transform = rootVew.selfiePole.transform
 //
 //				atRve(8, self.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
 //				SCNTransaction.commit()
@@ -303,7 +303,7 @@ class FwScn : Uid {
 //			SCNTransaction.commit()
 //		}
 //		else {
-//			cameraScn.transform = rootVew.lastSelfiePole.transform
+//			cameraScn.transform = rootVew.selfiePole.transform
 //		}
 //	}
 		
@@ -312,8 +312,8 @@ class FwScn : Uid {
 	///   - selfiePole: look points looking at it's origin
 	///   - cameraScn: camera SCNNode
 	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn:SCNNode) {
-		guard let rootVew		= rootVew 		 else {	fatalError("FwScn.rootVew is nil")}	//fwGuts.rootVewOf(fwScn:self)
-		guard let fwGuts		= rootVew.fwGuts else {	fatalError("FwScn.fwGuts is nil")}
+		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
+		guard let fwGuts		= rootVew.fwGuts else {	fatalError("RootScn.fwGuts is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
@@ -352,7 +352,7 @@ class FwScn : Uid {
 	}
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
-//		let rootVew				= fwGuts.rootVewOf(fwScn:self)
+//		let rootVew				= fwGuts.rootVewOf(rootScn:self)
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
 		let vpV3 : SCNVector3	= scn.convertPosition(wpV3, from:nil)
 		return NSPoint(x:vpV3.x, y:vpV3.y)
@@ -361,8 +361,8 @@ class FwScn : Uid {
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(sceneIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-		guard let rootVew		= rootVew 		 else {	fatalError("FwScn.rootVew is nil")}	//fwGuts.rootVewOf(fwScn:self)
-		guard let fwGuts		= rootVew.fwGuts else {	fatalError("FwScn.rootVew.fwGuts is nil")}
+		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
+		guard let fwGuts		= rootVew.fwGuts else {	fatalError("RootScn.rootVew.fwGuts is nil")}
 
 		let rootPart			= fwGuts.rootPart
 		assert(rootVew.name == "_ROOT", 	"Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
@@ -391,16 +391,16 @@ class FwScn : Uid {
 //!		//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
 			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
-				rootVew.lastSelfiePole.at = at
+				rootVew.selfiePole.at = at
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				rootVew.lastSelfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+				rootVew.selfiePole.horizonUp = -CGFloat(u)		/* in degrees */
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
-				rootVew.lastSelfiePole.spin = CGFloat(s) 		/* in degrees */
+				rootVew.selfiePole.spin = CGFloat(s) 		/* in degrees */
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				rootVew.lastSelfiePole.zoom = CGFloat(z)
+				rootVew.selfiePole.zoom = CGFloat(z)
 			}
 			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
 		}
@@ -417,7 +417,7 @@ class FwScn : Uid {
 		let posn				= rootVew.lookAtVew?.bBox.center ?? .zero
 		let worldPosition		= rootVew.lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		rootVew.lastSelfiePole.at = worldPosition
+		rootVew.selfiePole.at	= worldPosition
 
 		 // Do one, just for good luck
 		rootVew.updatePole2Camera(reason:"to createVewNScn")
@@ -427,7 +427,7 @@ class FwScn : Uid {
 		rootPart.unlock(partTreeAs:lockName)	//xyzzy99
 	}
 	  // MARK: - 16. Global Constants
-	static let null 			= FwScn(scnScene:SCNScene())	/// Any use of this should fail
+	static let null 			= RootScn(scnScene:SCNScene())	/// Any use of this should fail
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		switch mode! {

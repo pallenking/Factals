@@ -46,7 +46,7 @@
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
-		9F1E3CE428D8C9CF004548C9 /* FwScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE328D8C9CF004548C9 /* FwScn.swift */; };
+		9F1E3CE428D8C9CF004548C9 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE328D8C9CF004548C9 /* RootScn.swift */; };
 		9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* RootVew.swift */; };
 		9F1E3CE828D94CF7004548C9 /* EventCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE728D94CF7004548C9 /* EventCentral.swift */; };
 		9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
@@ -104,7 +104,7 @@
 		9F417F3D28EB94BD0047B359 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */; };
 		9F417F3E28EB94C10047B359 /* FwGuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521628720A2300C8C22A /* FwGuts.swift */; };
 		9F417F3F28EB94C40047B359 /* EventCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE728D94CF7004548C9 /* EventCentral.swift */; };
-		9F417F4028EB94C80047B359 /* FwScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE328D8C9CF004548C9 /* FwScn.swift */; };
+		9F417F4028EB94C80047B359 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE328D8C9CF004548C9 /* RootScn.swift */; };
 		9F417F4128EB94CB0047B359 /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* Gestures.swift */; };
 		9F417F4228EB94CE0047B359 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
 		9F417F4328EB94D10047B359 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
@@ -244,7 +244,7 @@
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F1E3CC428D3AB4C004548C9 /* XXXAppDelegateXXX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXAppDelegateXXX.swift; sourceTree = "<group>"; };
 		9F1E3CE128D4991F004548C9 /* XXXAppDelegateFooXXX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXAppDelegateFooXXX.swift; sourceTree = "<group>"; };
-		9F1E3CE328D8C9CF004548C9 /* FwScn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwScn.swift; sourceTree = "<group>"; };
+		9F1E3CE328D8C9CF004548C9 /* RootScn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScn.swift; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* RootVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVew.swift; sourceTree = "<group>"; };
 		9F1E3CE728D94CF7004548C9 /* EventCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCentral.swift; sourceTree = "<group>"; };
 		9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXFwDocumentXXX.swift; sourceTree = "<group>"; };
@@ -410,9 +410,9 @@
 				9FC1F1BF293418E60025E80D /* Menu.swift */,
 				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
+				9F1E3CE328D8C9CF004548C9 /* RootScn.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F1E3CE728D94CF7004548C9 /* EventCentral.swift */,
-				9F1E3CE328D8C9CF004548C9 /* FwScn.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
@@ -654,7 +654,7 @@
 				9F417F4328EB94D10047B359 /* FwStatus.swift in Sources */,
 				9F417F3E28EB94C10047B359 /* FwGuts.swift in Sources */,
 				9F417F3F28EB94C40047B359 /* EventCentral.swift in Sources */,
-				9F417F4028EB94C80047B359 /* FwScn.swift in Sources */,
+				9F417F4028EB94C80047B359 /* RootScn.swift in Sources */,
 				9F417F4B28EB952E0047B359 /* HasChildren.swift in Sources */,
 				9F417F5028EB95420047B359 /* SwiftUI++.swift in Sources */,
 				9F417F5228EB954A0047B359 /* SCNGeometry++.swift in Sources */,
@@ -780,7 +780,7 @@
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
-				9F1E3CE428D8C9CF004548C9 /* FwScn.swift in Sources */,
+				9F1E3CE428D8C9CF004548C9 /* RootScn.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FactalsApp.swift in Sources */,
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,

@@ -19,43 +19,43 @@ class RootVew : Vew {
 	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
 		return children.count > 0 ? children[0] : nil
 	}
-	var fwScn : FwScn
+	var rootScn : RootScn
 	var eventCentral : EventCentral
 
 	 // MARK: x.3.2 Look At Spot
-	var lookAtVew	   : Vew?	= nil						// Vew we are looking at
-	var lastSelfiePole : SelfiePole!						// init to default
-	var cameraScn	   : SCNNode? 	{
-		fwScn.scnScene.cameraScn
+	var lookAtVew	: Vew?		= nil						// Vew we are looking at
+	var selfiePole	: SelfiePole!							// init to default
+	var cameraScn	: SCNNode? 	{
+		rootScn.scnScene.cameraScn
 	}
 
 	 /// generate a new View, returning its index
 	init() {
-		fwScn					= .null
+		rootScn					= .null
 		eventCentral			= .null
-		super.init(forPart:.null, scn:fwScn.scnScene.rootNode)
-		lastSelfiePole			= SelfiePole(rootVew:self)
+		super.init(forPart:.null, scn:rootScn.scnScene.rootNode)
+		selfiePole				= SelfiePole(rootVew:self)
 	}
 	init(forPart rootPart:RootPart, scnScene:SCNScene) {
-		fwScn					= FwScn(scnScene:scnScene)
+		rootScn					= RootScn(scnScene:scnScene)
 		eventCentral			= EventCentral()
-		fwScn.scnScene.physicsWorld.contactDelegate = eventCentral
+		rootScn.scnScene.physicsWorld.contactDelegate = eventCentral
 
 		super.init(forPart:rootPart, scn:scnScene.rootNode)
 
 		eventCentral.rootVew	= self						// owner
-		fwScn.rootVew			= self						// owner
+		rootScn.rootVew			= self						// owner
 
 		 // Set the base scn to comply as a Vew
-		assert(scn === fwScn.scnScene.rootNode, "set RootVew with new scn root")
-		scn 					= fwScn.scnScene.rootNode	// set RootVew with new scn root
-		lastSelfiePole			= SelfiePole(rootVew:self)
+		assert(scn === rootScn.scnScene.rootNode, "set RootVew with new scn root")
+		scn 					= rootScn.scnScene.rootNode	// set RootVew with new scn root
+		selfiePole				= SelfiePole(rootVew:self)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func pushControllersConfig(to c:FwConfig) {
 		eventCentral.pushControllersConfig(to:c)
-		fwScn		.pushControllersConfig(to:c)
+		rootScn		.pushControllersConfig(to:c)
 	}
 	 // MARK: - 4? locks
 	func lockBoth(_ msg:String) {
@@ -132,17 +132,14 @@ class RootVew : Vew {
 		}
 	}
 	// MARK: -xxxx Camera xform
-	/// Compute Camera Transform from pole config
+	/// Set camera transform from last selfiePole
 	/// - Parameters:
-	///   - from: defines direction of camera
-	///   - message: for logging only
-	///   - duration: for animation
+	///   - duration: of animation
+	///   - reason: for update
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-		let rootVew				= self			//rootVew.fwGuts.rootVewOf(fwScn:self)
-		let fwScn				= fwScn
-		let cameraScn			= fwScn.touchCameraScn()
-
-		fwScn.zoom4fullScreen(selfiePole:rootVew.lastSelfiePole, cameraScn:cameraScn)
+		let rootScn				= rootScn
+		let cameraScn			= rootScn.touchCameraScn()
+		rootScn.zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
 
 		if duration > 0.0,
 		  fwGuts.document.config.bool("animatePan") ?? false {
@@ -156,7 +153,7 @@ class RootVew : Vew {
 				atRve(8, self.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				cameraScn.transform = rootVew.lastSelfiePole.transform
+				cameraScn.transform = self.selfiePole.transform
 
 				atRve(8, self.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -165,7 +162,7 @@ class RootVew : Vew {
 			SCNTransaction.commit()
 		}
 		else {
-			cameraScn.transform = rootVew.lastSelfiePole.transform
+			cameraScn.transform = selfiePole.transform
 			print("cameraScn:\(cameraScn.pp(.uid)) \(reason ?? "no reason"), transform:\n\(cameraScn.transform.pp(.tree)))")
 		}
 	}

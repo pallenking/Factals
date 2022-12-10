@@ -56,19 +56,19 @@ import SceneKit
 ////		let delta				= v.location - v.startLocation
 ////	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 ////
-////		var selfiePole			= fwGuts.lastSelfiePole
+////		var selfiePole			= fwGuts.selfiePole
 ////		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 ////		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-////		fwGuts.fwScn.updatePole2Camera(reason:"dragGesture")
+////		fwGuts.rootScn.updatePole2Camera(reason:"dragGesture")
 ////	}
 ////	func dragGestureEnd(value v:DragGesture.Value) {
 ////		let fwGuts				= DOCfwGuts
 ////		let delta				= v.location - v.startLocation
 ////	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 ////
-////		fwGuts.lastSelfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-////		fwGuts.lastSelfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-////		fwGuts.fwScn.updatePole2Camera(reason:"dragGestureEnd")
+////		fwGuts.selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+////		fwGuts.selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+////		fwGuts.rootScn.updatePole2Camera(reason:"dragGestureEnd")
 ////	}
 //	func tapGesture(value v:TapGesture.Value, count:Int) {
 //		let fwGuts				= DOCfwGuts

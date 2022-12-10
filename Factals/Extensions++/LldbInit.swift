@@ -60,7 +60,7 @@ var  rootScn0 : SCNNode  		{
 	get 		{	return DOCfwGuts.rootVews[0]!.scn 							}
 	set (v)		{		   DOCfwGuts.rootVews[0]!.scn = v						}
 }
-//var  rootScnL : SCNNode  		{  DOCfwGutsQ?.rootVews[zeroIndex].fwScn.rootScn ?? .null				}
+//var  rootScnL : SCNNode  		{  DOCfwGutsQ?.rootVews[zeroIndex].rootScn.rootScn ?? .null				}
 func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")

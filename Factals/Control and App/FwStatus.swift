@@ -263,7 +263,7 @@ extension RootVew : FwStatus	{									  ///RootVew
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.fwScn		.ppFwState()
+				var rv			=  self.rootScn		.ppFwState()
 				rv				+= self.eventCentral.ppFwState()
 				return rv
 			},
@@ -280,17 +280,17 @@ extension EventCentral : FwStatus	{							 ///EventCentral
 	}
 }
 
-extension FwScn : FwStatus	{										    ///FwScn
+extension RootScn : FwStatus	{										    ///RootScn
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootVew.fwScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+		var myLine				= rootVew.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 //		myLine					+= "\(pp(.classUid)) (\(rootScn.nodeCount()) SCNNodes) "
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 		myLine					+= "animatePhysics:\(animatePhysics)"
-		return ppFwStateHelper("FwScn        ", uid:self,
+		return ppFwStateHelper("RootScn        ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.scnScene.ppFwState()
-				rv				+= self.scnView?.ppFwState() ?? "#### fwScn.scnView is nil ####\n"
+				rv				+= self.scnView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
 				return rv
 			},
 			deapth:deapth-1)

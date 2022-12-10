@@ -87,7 +87,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
 		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
-		let fwScn				= rootVew.fwScn
+		let rootScn				= rootVew.rootScn
 		let fwGuts				= rootVew.fwGuts		// why ! ??
 
 		switch nsEvent.type {
@@ -147,15 +147,15 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			rootVew.updatePole2Camera(duration:duration, reason:"Other mouseUp")
-			atEve(9, print("\( fwScn.touchCameraScn().transform.pp(PpMode.tree))"))
+			atEve(9, print("\( rootScn.touchCameraScn().transform.pp(PpMode.tree))"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta:CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootVew.lastSelfiePole!.zoom *= delta
-			let p				= rootVew.lastSelfiePole!
+			rootVew.selfiePole!.zoom *= delta
+			let p				= rootVew.selfiePole!
 			print("processEvent(type:  .scrollWheel  ) found pole\(p.pp()).zoom = \(p.zoom)")
 			rootVew.updatePole2Camera(reason:"Scroll Wheel")
 
@@ -178,19 +178,19 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:fwScn.scnView)
+			let t 				= nsEvent.touches(matching:.began, in:rootScn.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:fwScn.scnView)
+			let t 				= nsEvent.touches(matching:.moved, in:rootScn.scnView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:fwScn.scnView)
+			let t 				= nsEvent.touches(matching:.ended, in:rootScn.scnView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
@@ -217,8 +217,8 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 
 	func spinNUp(with nsEvent:NSEvent) {
 		let rootVew				= rootVew!
-		rootVew.lastSelfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		rootVew.lastSelfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+		rootVew.selfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+		rootVew.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 	 // MARK: - 14. Building
 	var logger : Logger 		{	rootVew.fwGuts.logger								}

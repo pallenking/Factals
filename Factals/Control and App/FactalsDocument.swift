@@ -29,7 +29,7 @@ extension FactalsDocument : Uid {
 
 struct FactalsDocument: FileDocument {
 	let uid:UInt16				= randomUid()
-	var redo:UInt8				= 0
+//	@Published var redo:UInt8	= 0
 
 	var fwGuts : FwGuts!				// content
 

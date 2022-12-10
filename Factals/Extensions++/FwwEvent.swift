@@ -8,7 +8,7 @@ extension NSEvent {
 			 // Search for
 			for key in fwGuts.rootVews.keys {
 				let rootVew		= fwGuts.rootVews[key]!
-				if let scnView	= rootVew.fwScn.scnView,
+				if let scnView	= rootVew.rootScn.scnView,
 				  scnView.isDescendant(of:nsViewOfEv) {
 					return rootVew
 				}
@@ -32,7 +32,7 @@ extension NSEvent {
 //		return (0, nil)
 //		let contentVew			= window?.contentView
 //		for document in DOCctlr.documents {
-//			for fwScn in fwScns {
+//			for rootScn in fwScns {
 //
 //			}
 //		}

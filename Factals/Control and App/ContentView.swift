@@ -23,15 +23,25 @@ struct ContentView: View {
 	@StateObject 	var    jetModel =    JetModel()		// test Model 1 (instantiates an observable object)
 	@StateObject 	var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 	var body: some View {
-		if dragonModel.value & 1 == 1 {
+		if falseF, dragonModel.value & 1 == 1 {
 			Button(label: {	Text("Redraw \(dragonModel.value)")					})
 			{	dragonModel.value += 1											}
 		} else {
-			let select 			= 4
+			let select 			= 1
+			if select == 0 {	bodyNada										}
 			if select == 1 {	bodySimple										}
 			if select == 2 { 	bodyJet											}
 			if select == 3 { 	bodyDragon										}
 			if select == 4 { 	bodyAll											}
+		}
+	}
+	var bodyNada: some View {		// Single HNW View
+		VStack {
+			Button(label: {	Text("value = \(dragonModel.value)")				})
+			{	dragonModel.value += 1											}
+			if dragonModel.value != 17 {
+				ButtonBar(document:$document, dragonModel:dragonModel)
+			}
 		}
 	}
 	var bodySimple: some View {		// Single HNW View
@@ -201,7 +211,7 @@ struct ContentView: View {
 							title		: "1: Second smaller view",
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
 							background	: nil,	// no specific background scene
-							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//rootVew.fwScn.cameraScn, //pov,//nil,//
+							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//rootVew.rootScn.cameraScn, //pov,//nil,//
 							fwGuts		: fwGuts,
 							options		: [.rendersContinuously],				//.allowsCameraControl,
 							preferredFramesPerSecond:30

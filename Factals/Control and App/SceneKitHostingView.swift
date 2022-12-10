@@ -81,7 +81,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		fwGuts.rootVews[i]		= rootVew
 
 		 // Get ScnView and configure:
-		let rv					= rootVew.fwScn.scnView!
+		let rv					= rootVew.rootScn.scnView!
 		rv.allowsCameraControl 	= args.options.contains(.allowsCameraControl)
 		rv.autoenablesDefaultLighting = args.options.contains(.autoenablesDefaultLighting)
 		//rv.jitteringEnabled	= args.options.contains(.jitteringEnabled)
