@@ -696,7 +696,7 @@ class Atom : Part {	//Part//FwPart
 		for childVew in vew.children where
 				!(childVew.keep)  &&				// bug?  childVew.keep == false
 				!(childVew is LinkVew) {			//200124 expedient, to prevent thrashing LinkViews
-			childVew.scn.removeFromParent()
+			childVew.scn.removeFromParent()			// needed?
 			childVew.removeFromParent()
 		}
 		 // Add gap around Atom, so lines don't overlap

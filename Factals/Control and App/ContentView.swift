@@ -27,7 +27,7 @@ struct ContentView: View {
 			Button(label: {	Text("Redraw \(dragonModel.value)")					})
 			{	dragonModel.value += 1											}
 		} else {
-			let select 			= 2
+			let select 			= 4
 			if select == 1 {	bodySimple										}
 			if select == 2 { 	bodyJet											}
 			if select == 3 { 	bodyDragon										}
@@ -97,7 +97,7 @@ struct ContentView: View {
 					let sceneKitArgs	= SceneKitArgs( 	//SceneView(
 						sceneIndex	: 0,
 						title		: "Jet",
-						vewConfig	: .null,
+						vewConfig	: .openAllChildren(toDeapth:99),//.null,//			// No HaveNWant Vews in Jet
 						background	: jetModel.scene,
 						pointOfView	: nil,//cameraNode,//nil,//jetModel.scene.cameraScn,
 						fwGuts		: fwGuts,

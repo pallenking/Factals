@@ -57,12 +57,10 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 
 	 // MARK: - 3. Factory
 	init(forPart p:Part?=nil, scn s:SCNNode?=nil, expose expose_:Expose? = nil) {
-
-		 // Link to Part:
 		let part				= p ?? .null
 		self.part 				= part
-		name					= "_" + part.name 	// View's name is Part's with '_'
-		expose					= expose_ ?? part.initialExpose
+		self.name				= "_" + part.name 	// View's name is Part's with '_'
+		self.expose				= expose_ ?? part.initialExpose
 
 		 // Make SCN from supplied skin:
 		scn						= s ?? SCNNode()
@@ -80,14 +78,15 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 		}
 	}
 	init(forPort port:Port) {
-		name					= "_" + port.name 	// View's name is Part's with '_'
-		expose					= .open
-		 // Link to Part:
 		self.part 				= port
-		 // Make SCN (from skin if supplied):
+		self.name				= "_" + port.name 	// Vew's name is Part's with '_'
+		self.expose				= .open
+
+		 // Make new SCN:
 		scn						= SCNNode()
+		scn.name 				= "*-" + port.name
+
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		scn.name 				= "*-" + part.name
 
 		 // Flip
 		let portProp	: String? = port.localConfig["portProp"] as? String //"xxx"//
@@ -518,7 +517,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard let fwGuts = part.root?.fwGuts else {
 							fatalError("### part.root?.fwGuts is nil ###")		}
-						 // Lock all root Vews:
+						 // Lock ALL root Vews:
 						for key in fwGuts.rootVews.keys {
 							guard fwGuts.rootVews[key]!.lock(vewTreeAs:viewLockName, logIf:log) else {
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")

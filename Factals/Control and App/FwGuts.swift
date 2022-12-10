@@ -40,6 +40,7 @@ class FwGuts : NSObject {	//, SCNSceneRendererDelegate
 		rootPart.fwGuts			= self 		 // owner (Back Link)
 		 // Make FwGuts without any RootVews!
 	}
+
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
 		atRnd(4, DOClogger.log("=== Slot \(sceneKitArgs.sceneIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
 

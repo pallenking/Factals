@@ -64,9 +64,9 @@ extension Part {
 		 // If a Vew for part is already in parentVew, use it:
 		var vew					= parentVew.children.first { $0.part === self}
 		if vew != nil,					// Check if correct
-		   vew!.name != "_" + name ||
+		   vew!.name != "_" + name ||		// name and part
 		   vew!.part !== self {
-			vew					= nil		// no, rebuild
+			vew					= nil		// Incorrect, force rebuild
 		}
 		if vew == nil {					// Must create a new View?
 			vew					= VewForSelf()

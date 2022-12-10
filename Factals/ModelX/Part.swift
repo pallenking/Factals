@@ -1009,8 +1009,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 
 		 //------ reSize all  _CHILD Atoms_
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
-		for childVew in orderedChildren where// For all Children, except
-		  !(childVew.part is Port) 				// ignore child Ports (Atom handles)
+		for childVew in orderedChildren 	// For all Children, except
+		  where !(childVew.part is Port) 		// Atom handles child Ports
 		{	let childPart		= childVew.part
 
 			 // 1. Repack insides (if dirty size):
@@ -1020,12 +1020,13 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			  // If our shape was just added recently, it has no parent.
 			 //   That it is "dangling" signals we should swap it in
 			if childVew.scn.parent == nil {
-				vew.scn.removeAllChildren()
+//bug;			vew.scn.removeAllChildren()
 				vew.scn.addChild(node:childVew.scn)
 			}
 
 			 // 2. Reposition:
 			childPart.rePosition(vew:childVew)
+
 			childVew.orBBoxIntoParent()			// child.bbox -> bbox
 			childVew.keep		= true
 		}
@@ -1080,7 +1081,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 
 		 // Remove most child skins:	REALLY???
 		for childScn in vew.scn.children {
-			if childScn.name != "s-atomic" {
+			if childScn.name != "s-atomic",
+			   childScn.name != "ship" {			// TOTAL HACK
 				childScn.removeFromParent()
 			}
 		}

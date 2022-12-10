@@ -93,6 +93,6 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		return rv
 	}
 	func updateNSView(_ nsView: SCNView, context: Context) {
-		//atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): =========== updateNSView      title:'\(args.title)'"))
+		atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): =========== updateNSView      title:'\(args.title)' (Does nothing)"))
 	}
 }
