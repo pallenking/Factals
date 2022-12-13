@@ -22,9 +22,11 @@ struct ContentView: View {
 	@Binding		var document	: FactalsDocument	// the Document
 	@StateObject 	var    jetModel =    JetModel()		// test Model 1 (instantiates an observable object)
 	@StateObject 	var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
+	@State private	var again		= 0
+
 	var body: some View {
-		if falseF, dragonModel.value & 1 == 1 {
-			Button(label: {	Text("Redraw \(dragonModel.value)")					})
+		if dragonModel.value & 1 == 1 {	//falseF, //
+			Button(label: {	Text("value = \(dragonModel.value)")				})
 			{	dragonModel.value += 1											}
 		} else {
 			let select 			= 1
