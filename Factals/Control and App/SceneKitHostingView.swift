@@ -46,6 +46,9 @@ struct SceneKitView: View {
     }
 }
 
+// Zev comment:
+// Current: SCNScene passed to SCNView (the AppKit way of doing it) wrapped in an NSViewRepresentable called SceneKitHostingView
+// Zev proposal: SCNScene passed to SceneView (the native SwiftUI way of doing it)
 struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	typealias NSViewType 		= SCNView	// represent SCNView inside
 

@@ -149,7 +149,13 @@ class RootScn : Uid {
 		}
 
 		 // Make new camera system:
-		let rv					= SCNNode()
+		class DebugCameraNode: SCNNode {
+			override var transform: SCNMatrix4 {
+				get {	super.transform							}
+				set {	super.transform = newValue				}
+			}
+		}
+		let rv					= DebugCameraNode()
 		rv.name					= name
 		rv.position 			= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
 		scn.addChildNode(rv)
@@ -347,7 +353,7 @@ class RootScn : Uid {
 			camCam.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
 		}
 		 // Set in Camera:
-		cameraScn.transform	= selfiePole.transform
+bug;	cameraScn.transform	= selfiePole.transform
 		atRsi(7, fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize))
 	}
 
