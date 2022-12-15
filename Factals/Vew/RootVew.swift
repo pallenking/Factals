@@ -162,6 +162,7 @@ class RootVew : Vew {
 			SCNTransaction.commit()
 		}
 		else {
+//			cameraScn.position.y += 1
 			cameraScn.transform = selfiePole.transform
 			print("cameraScn:\(cameraScn.pp(.uid)) \(reason ?? "no reason"), transform:\n\(cameraScn.transform.pp(.tree)))")
 		}
