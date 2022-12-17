@@ -156,7 +156,7 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		 //
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
-			let delta:CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
+			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootScn.selfiePole.zoom *= delta
 			let p				= rootScn.selfiePole
 			print("processEvent(type:  .scrollWheel  ) found pole\(p.pp()).zoom = \(p.zoom)")

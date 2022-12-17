@@ -14,7 +14,7 @@ class JetModel: 		ObservableObject {
 }
 class DragonModel: 		ObservableObject {
 	@Published var scene:SCNScene = dragonCurve(segments:1024)
-	@Published var value:Int = 0
+	@Published var redrawValue:Int = 0
 }
 // /////////////////////////////////////////////////////////////////////////////
 
@@ -22,12 +22,11 @@ struct ContentView: View {
 	@Binding	 var document	: FactalsDocument	// the Document
 	@StateObject var    jetModel =    JetModel()		// test Model 1 (instantiates an observable object)
 	@StateObject var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
-	@State private	var again	= 0
 								
 	var body: some View {
-		if dragonModel.value & 1 == 1 {	//falseF, //
-			Button(label: {	Text("A value = \(dragonModel.value)")				})
-			{	dragonModel.value += 1											}
+		if falseF, dragonModel.redrawValue & 1 == 1 {	//falseF, //
+			Button(label: {	Text("A value = \(dragonModel.redrawValue)")		})
+			{	dragonModel.redrawValue += 1									}
 		} else {
 			let select 			= 1
 			if select == 0 {	bodyNada										}
@@ -39,8 +38,8 @@ struct ContentView: View {
 	}
 	var bodyNada: some View {		// Single HNW View
 		VStack {
-			Button(label: {	Text("B value = \(dragonModel.value)")				})
-			{	dragonModel.value += 1											}
+			Button(label: {	Text("B value = \(dragonModel.redrawValue)")		})
+			{	dragonModel.redrawValue += 1									}
 		//	if dragonModel.value != 17 {
 		//		ButtonBar(document:$document, dragonModel:dragonModel)
 		//	}
@@ -59,7 +58,7 @@ struct ContentView: View {
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30
 			)
-			if dragonModel.value != 17 {
+			if dragonModel.redrawValue != 17 {
 				SceneKitView(sceneKitArgs:sceneKitArgs)
 				 .frame(maxWidth:.infinity)
 				 .border(.black, width:2)
@@ -145,12 +144,12 @@ struct ContentView: View {
 
 	var bodyDragon: some View {
 		HStack {
-			Button(label: {	Text("Dragon:value\(dragonModel.value)")			})
-			{	dragonModel.value += 1; dragonModel.value %= 12 				}
+			Button(label: {	Text("Dragon:value\(dragonModel.redrawValue)")			})
+			{	dragonModel.redrawValue += 1; dragonModel.redrawValue %= 12 				}
 			 .onAppear() {
-				print("y: Button APPEARED \(dragonModel.value)")
+				print("y: Button APPEARED \(dragonModel.redrawValue)")
 			 }
-			if dragonModel.value % 2 == 0 {
+			if dragonModel.redrawValue % 2 == 0 {
 				SceneView(
 					scene		: dragonModel.scene,
 					pointOfView	: pov,//nil,//dragonModel.scene.rootNode,//cameraNode,//nil,//.childNode(withName: "ship", recursively: true),
@@ -161,7 +160,7 @@ struct ContentView: View {
 				.onAppear() {
 					print("x: Dragon APPEARED")
 					guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
-					let i 		  = dragonModel.value / 2
+					let i 		  = dragonModel.redrawValue / 2
 					scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
 									 SCNMatrix4MakeRotation(.pi/2, 1,0,0),
 									 SCNMatrix4MakeRotation(.pi/2, 0,1,0),
@@ -192,7 +191,7 @@ struct ContentView: View {
 							options		: [.rendersContinuously],	//.allowsCameraControl,
 							preferredFramesPerSecond:30
 						)
-						if dragonModel.value != 17 {
+						if dragonModel.redrawValue != 17 {
 							SceneKitView(sceneKitArgs:sceneKitArgs)
 							 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 							 .border(.black, width:2)
@@ -238,7 +237,7 @@ struct ContentView: View {
 						 .onAppear() {
 							print("x: Dragon APPEARED")
 							guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
-							let i = dragonModel.value
+							let i = dragonModel.redrawValue
 							scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
 											 SCNMatrix4MakeRotation(.pi/2, 1,0,0),
 											 SCNMatrix4MakeRotation(.pi/2, 0,1,0),

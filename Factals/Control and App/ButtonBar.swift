@@ -55,18 +55,18 @@ struct ButtonBar: View {
 				{	printFwcState()												}
 				Button(label:{	Text("config").padding(.top, 300)				})
 				{	printFwcConfig()											}
-				Text("pole:\( rootVew0?.rootScn.selfiePole.pp() ?? "-") cam-< \(rootVew0?.rootScn.cameraScn.transform.pp(.line) ?? "nil") \(dragonModel.value)")
+				Text("pole:\( rootVew0?.rootScn.selfiePole.pp() ?? "-") cam-< \(rootVew0?.rootScn.cameraScn.transform.pp(.line) ?? "nil") \(dragonModel.redrawValue)")
 				Spacer()
-				Button(label: {	Text("value++ = \(dragonModel.value)")			})
-				{	dragonModel.value += 1										}
+				Button(label: {	Text("value++ = \(dragonModel.redrawValue)")			})
+				{	dragonModel.redrawValue += 1										}
 				Text(" ")
 			}
 		}
 	//	 .background(Color.white)//white)//yellow NSColor("verylightgray")!
 	//	 .background(NSColor("verylightgray")!) //white)//yellow
-		 .padding(5)
+		 .padding(8)
 	//	 .RoundedRectangle
 		 .border(Color.black, width:0.5)
-		 .padding(5)
+		 .padding(8)
 	}
 }
