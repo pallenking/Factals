@@ -42,8 +42,10 @@ class RootScn : Uid {
 	var uid		 : UInt16		= randomUid()
 	var logger 	 : Logger 		{	rootVew.fwGuts.logger						}
 
-	weak
+	weak // Owner:
 	 var rootVew : RootVew!		= nil
+	var fwGuts	 : FwGuts		{	rootVew.fwGuts								}
+	var rootPart : RootPart		{	rootVew.rootPart							}
 
 	var scnView	 : SCNView!		= nil
 	var scnScene : SCNScene!
@@ -55,6 +57,9 @@ class RootScn : Uid {
 		}
 		fatalError("trunkVew is nil")
 	}
+	var lookAtVew	: Vew?		= nil						// Vew we are looking at
+	var selfiePole				= SelfiePole()
+	var cameraScn	: SCNNode 	{ 	touchCameraScn()							}
 
 	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
 	var animatePhysics : Bool {
@@ -146,15 +151,13 @@ class RootScn : Uid {
 		let name				= "*-camera"
 		if let rv				= scn.find(name:name) {
 			return rv			// already exists
-		}
-
-		 // Make new camera system:
-		class DebugCameraNode: SCNNode {
-			override var transform: SCNMatrix4 {
-				get {	super.transform							}
-				set {	super.transform = newValue				}
-			}
-		}
+		} // Make new camera system:
+										class DebugCameraNode: SCNNode {
+											override var transform: SCNMatrix4 {
+												get {	super.transform							}
+												set {	super.transform = newValue				}
+											}
+										}
 		let rv					= DebugCameraNode()
 		rv.name					= name
 		rv.position 			= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
@@ -172,12 +175,6 @@ class RootScn : Uid {
 		rv.camera				= camera
 		return rv
 	}
-//	 // Get camera node from SCNNode
-//	var cameraScn : SCNNode? {
-//		let rootNode			= scnScene.rootNode
-//		let rv					= rootNode.find(name:"*-camera")
-//		return rv
-//	}
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func touchAxesScn() -> SCNNode {			// was updatePole()
@@ -187,7 +184,7 @@ class RootScn : Uid {
 			return rv
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
-		var axesScn				= SCNNode()				// New pole
+		let axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
 		scn.addChild(node:axesScn)
 		axesScn.name				= name
@@ -276,89 +273,43 @@ class RootScn : Uid {
 			SCNTransaction.commit()
 		}
 	}
-//	/// Compute Camera Transform from pole config
-//	/// - Parameters:
-//	///   - from: defines direction of camera
-//	///   - message: for logging only
-//	///   - duration: for animation
-//	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-//		let cameraScn			= scnScene.cameraScn!
-//								//
-////		let rootVew				= fwGuts.rootVewOf(rootScn:self)
-//		let rootVew				= rootVew.fwGuts.rootVewOf(rootScn:self)
-//		zoom4fullScreen(selfiePole:rootVew.selfiePole, cameraScn:cameraScn)
-//
-//		if duration > 0.0,
-//		  fwGuts.document.config.bool("animatePan") ?? false {
-//			SCNTransaction.begin()			// Delay for double click effect
-//			atRve(8, fwGuts.logd("  /#######  animatePan: BEGIN All"))
-//			SCNTransaction.animationDuration = CFTimeInterval(0.5)
-//			 // 181002 must do something, or there is no delay
-//			cameraScn.transform *= 0.999999	// virtually no effect
-//			SCNTransaction.completionBlock = {
-//				SCNTransaction.begin()			// Animate Camera Update
-//				atRve(8, self.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
-//				SCNTransaction.animationDuration = CFTimeInterval(duration)
-//
-//				cameraScn.transform = rootVew.selfiePole.transform
-//
-//				atRve(8, self.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
-//				SCNTransaction.commit()
-//			}
-//			atRve(8, fwGuts.logd("  \\#######  animatePan: COMMIT All"))
-//			SCNTransaction.commit()
-//		}
-//		else {
-//			cameraScn.transform = rootVew.selfiePole.transform
-//		}
-//	}
+	//
+	func cameraTransform(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
+		selfiePole.zoom			= zoom4fullScreen()
+		let transform			= selfiePole.transform
+		return transform
+	}
 		
-	/// Set Camera's transform so that all parts of the scene are seen.
-	/// - Parameters:
-	///   - selfiePole: look points looking at it's origin
-	///   - cameraScn: camera SCNNode
-	func zoom4fullScreen(selfiePole:SelfiePole, cameraScn:SCNNode) {
-		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
-		guard let fwGuts		= rootVew.fwGuts else {	fatalError("RootScn.fwGuts is nil")}
+	/// Determine zoom so that all parts of the scene are seen.
+	func zoom4fullScreen() -> Double {		//selfiePole:SelfiePole, cameraScn:SCNNode
+		guard let rootVew		= rootVew  else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
 
 		 //		(ortho-good, check perspective)
-		let rootVewBbInWorld	= rootVew.bBox//BBox(size:3, 3, 3)//			// in world coords
+		let rootVewBbInWorld	= rootVew.bBox //BBox(size:3, 3, 3)//			// in world coords
 		let world2eye			= SCNMatrix4Invert(cameraScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 		guard let nsRectSize	= scnView?.frame.size  else  {	fatalError()	}
 
-		var orientation			= "Height Dominated"
-		var zoomSize			= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
+		 // Orientation is "Height Dominated"
+		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
 		 // Is side going to be clipped off?
 		let ratioHigher			= nsRectSize.height / nsRectSize.width
 		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
-			zoomSize			*= ratioHigher
+			zoomRv				*= ratioHigher
 		}
 		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
-			orientation			= "Width Dominated"
-			zoomSize			= rootVewSizeInEye.y
+			 // Orientation is "Width Dominated"
+			zoomRv				= rootVewSizeInEye.y
 			 // Is top going to be clipped off?
 			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
-				zoomSize		/= ratioHigher
+				zoomRv				/= ratioHigher
 			}
 		}
-		 // Orthographic or Vanishing Point
-		let vanishingPoint 		= rootVew.fwGuts.document.config.double("vanishingPoint") //Thread 1: Simultaneous accesses to 0x600003da6798, but modification requires exclusive access
-		if vanishingPoint == nil || vanishingPoint!.isFinite {	// Ortho if no vp or vp=inf
-			  // https://blender.stackexchange.com/questions/52500/orthographic-scale-of-camera-in-blender
-			 // https://stackoverflow.com/questions/52428397/confused-about-orthographic-projection-of-camera-in-scenekit
-			guard let camCam:SCNCamera = cameraScn.camera else { fatalError("cameraScn.camera is nil") 	}
-			camCam.usesOrthographicProjection = true		// camera’s magnification factor
-			camCam.orthographicScale = Double(zoomSize * selfiePole.zoom * 0.75)
-		}
-		 // Set in Camera:
-bug;	cameraScn.transform	= selfiePole.transform
-		atRsi(7, fwGuts.logd("fillScreen \(rootVewBbInEye.pp(.line))  \(orientation)  zoom:%.2f)", zoomSize))
+		return zoomRv
 	}
 
 	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
-//		let rootVew				= fwGuts.rootVewOf(rootScn:self)
 		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
 		let vpV3 : SCNVector3	= scn.convertPosition(wpV3, from:nil)
 		return NSPoint(x:vpV3.x, y:vpV3.y)
@@ -393,40 +344,39 @@ bug;	cameraScn.transform	= selfiePole.transform
 		let _ 					= touchCameraScn()			// (had fwGuts.document.config)
 		let _ 					= touchAxesScn()
 
-		 // 4.  Configure SelfiePole:
-//!		//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
+		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
-			if let at 			= c.scnVector3("at"), !at.isNan {	// Pole Height
-				rootVew.selfiePole.at = at
+			if let at 			= c.scnVector3("at"), !at.isNan {
+				selfiePole.at 	= at						// Pole Height
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				rootVew.selfiePole.horizonUp = -CGFloat(u)		/* in degrees */
+				selfiePole.horizonUp = -CGFloat(u)				// (in degrees)
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
-				rootVew.selfiePole.spin = CGFloat(s) 		/* in degrees */
+				selfiePole.spin = CGFloat(s) 					// (in degrees)
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				rootVew.selfiePole.zoom = CGFloat(z)
+				selfiePole.zoom = CGFloat(z)
 			}
 			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
 		}
 
 		 // 5.  Configure Initial Camera Target:
-		rootVew.lookAtVew		= rootVew.trunkVew				// default
-//!Thread 1: Simultaneous accesses to 0x600003e5fd98, but modification requires exclusive access
+		lookAtVew				= rootVew.trunkVew			// default
 		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
 		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {		//xyzzy99
-			rootVew.lookAtVew	= rootVew.find(part:laPart)
+			lookAtVew			= rootVew.find(part:laPart)
 		}
 
 		 // 6. Set LookAtNode's position
-		let posn				= rootVew.lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= rootVew.lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
+		let posn				= lookAtVew?.bBox.center ?? .zero
+		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		rootVew.selfiePole.at	= worldPosition
+		selfiePole.at			= worldPosition
 
 		 // Do one, just for good luck
-		rootVew.updatePole2Camera(reason:"to createVewNScn")
+		cameraScn.transform		= cameraTransform(reason:"to createVewNScn")
+//		updatePole2Camera(reason:"to createVewNScn")
 
 		// 7. UNLOCK PartTree and VewTree:
 		rootVew.unlock(	 vewTreeAs:lockName)
@@ -441,13 +391,12 @@ bug;	cameraScn.transform	= selfiePole.transform
 			return self.pp(.classUid) + " "
 		default:
 			var rv				= scn.pp(.classUid)
-		//	var rv 				= self.pp(.classUid) + " "
-		//	rv 					+= "RootVew:\(ppUid(self))"
-			return rv//" CODE ME "
+			rv					+= scnScene.pp(.classUid)
+			rv					+= scnView.pp(.classUid)
+			return rv
 		}
 	}
 }
-
 
  // Kinds of Nodes
 enum FwNodeCategory : Int {

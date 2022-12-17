@@ -22,19 +22,11 @@ class RootVew : Vew {
 	var rootScn : RootScn
 	var eventCentral : EventCentral
 
-	 // MARK: x.3.2 Look At Spot
-	var lookAtVew	: Vew?		= nil						// Vew we are looking at
-	var selfiePole	: SelfiePole!							// init to default
-	var cameraScn	: SCNNode? 	{
-		rootScn.scnScene.cameraScn
-	}
-
 	 /// generate a new View, returning its index
 	init() {
 		rootScn					= .null
 		eventCentral			= .null
 		super.init(forPart:.null, scn:rootScn.scnScene.rootNode)
-		selfiePole				= SelfiePole(rootVew:self)
 	}
 	init(forPart rootPart:RootPart, scnScene:SCNScene) {
 		rootScn					= RootScn(scnScene:scnScene)
@@ -49,7 +41,7 @@ class RootVew : Vew {
 		 // Set the base scn to comply as a Vew
 		assert(scn === rootScn.scnScene.rootNode, "set RootVew with new scn root")
 		scn 					= rootScn.scnScene.rootNode	// set RootVew with new scn root
-		selfiePole				= SelfiePole(rootVew:self)
+//		selfiePole				= SelfiePole(rootVew:self)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
@@ -129,42 +121,6 @@ class RootVew : Vew {
 		if debugOutterLock && logIf {
 			let val0		= rootVewLock.value ?? -99
 			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
-		}
-	}
-	// MARK: -xxxx Camera xform
-	/// Set camera transform from last selfiePole
-	/// - Parameters:
-	///   - duration: of animation
-	///   - reason: for update
-	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-		let rootScn				= rootScn
-		let cameraScn			= rootScn.touchCameraScn()
-		rootScn.zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
-
-		if duration > 0.0,
-		  fwGuts.document.config.bool("animatePan") ?? false {
-			SCNTransaction.begin()			// Delay for double click effect
-			atRve(8, fwGuts.logd("  /#######  animatePan: BEGIN All"))
-			SCNTransaction.animationDuration = CFTimeInterval(0.5)
-			 // 181002 must do something, or there is no delay
-			cameraScn.transform *= 0.999999	// virtually no effect
-			SCNTransaction.completionBlock = {
-				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, self.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
-				SCNTransaction.animationDuration = CFTimeInterval(duration)
-
-				cameraScn.transform = self.selfiePole.transform
-
-				atRve(8, self.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
-				SCNTransaction.commit()
-			}
-			atRve(8, fwGuts.logd("  \\#######  animatePan: COMMIT All"))
-			SCNTransaction.commit()
-		}
-		else {
-		//	cameraScn.position.y += 100
-			cameraScn.transform = selfiePole.transform
-			print("cameraScn:\(cameraScn.pp(.uid)) \(reason ?? "no reason"), transform:\n\(cameraScn.transform.pp(.tree)))")
 		}
 	}
 	 // MARK: - 15. PrettyPrint

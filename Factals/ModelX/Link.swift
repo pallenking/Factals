@@ -492,8 +492,8 @@ bug	// Never USED?
 		guard let rootScn		= vew.rootVew?.rootScn else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
-		let camera				= rootScn.touchCameraScn().position				//guard let camera = rootScn.touchCameraScn().position else {	return 	}
-		guard let linkVew		= vew as? LinkVew 	 else { fatalError("This should not")}
+		let camera				= rootScn.touchCameraScn().position
+		guard let linkVew		= vew as? LinkVew 	 else { fatalError("Vew type mismach")}
 
 		 // Get ends of link, and set positions
 		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {

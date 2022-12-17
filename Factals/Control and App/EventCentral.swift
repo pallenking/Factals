@@ -8,8 +8,10 @@
 import SceneKit
 			// Remove NSObject?
 class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {	// NEVER NSCopying, Equatable
+
 	weak // owner
 	 var rootVew : RootVew!
+	var  rootScn : RootScn		{	return rootVew!.rootScn						}
 
 	override init() {
 		super.init()
@@ -87,8 +89,9 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
 		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
-		let rootScn				= rootVew.rootScn
 		let fwGuts				= rootVew.fwGuts		// why ! ??
+		let rootScn				= rootVew.rootScn
+		let cam					= rootScn.cameraScn
 
 		switch nsEvent.type {
 
@@ -114,50 +117,50 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 			motionFromLastEvent(with:nsEvent)
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts?.modelPic(with:nsEvent)
-			}
-			rootVew.updatePole2Camera(duration:duration, reason:"Left mouseDown")
+			}//
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true			// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				rootVew.updatePole2Camera(reason:"Left mouseDragged")
+				cam.transform 	= rootScn.cameraTransform(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts?.modelPic(with:nsEvent) {
-						rootVew.lookAtVew = vew			// found a Vew: Look at it!
+						rootScn.lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
-				rootVew.updatePole2Camera(duration:duration, reason:"Left mouseUp")
+				cam.transform 	= rootScn.cameraTransform(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			rootVew.updatePole2Camera(duration:duration, reason:"Other mouseDown")
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			rootVew.updatePole2Camera(reason:"Other mouseDragged")
+			cam.transform 		= rootScn.cameraTransform(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			rootVew.updatePole2Camera(duration:duration, reason:"Other mouseUp")
-			atEve(9, print("\( rootScn.touchCameraScn().transform.pp(PpMode.tree))"))
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseUp")
+			atEve(9, print("\( cam.transform.pp(PpMode.tree))"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta:CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootVew.selfiePole!.zoom *= delta
-			let p				= rootVew.selfiePole!
+			rootScn.selfiePole.zoom *= delta
+			let p				= rootScn.selfiePole
 			print("processEvent(type:  .scrollWheel  ) found pole\(p.pp()).zoom = \(p.zoom)")
-			rootVew.updatePole2Camera(reason:"Scroll Wheel")
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -216,9 +219,9 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		let rootVew				= rootVew!
-		rootVew.selfiePole.spin		 -= deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		rootVew.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+		//let rootVew  			= rootVew!
+		rootScn.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+		rootScn.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 	 // MARK: - 14. Building
 	var logger : Logger 		{	rootVew.fwGuts.logger								}

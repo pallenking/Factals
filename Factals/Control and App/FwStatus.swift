@@ -285,6 +285,9 @@ extension RootScn : FwStatus	{										    ///RootScn
 		var myLine				= rootVew.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 //		myLine					+= "\(pp(.classUid)) (\(rootScn.nodeCount()) SCNNodes) "
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
+//		myLine					+= scn.pp(.classUid)
+		myLine					+= scnScene.pp(.classUid)
+		myLine					+= scnView.pp(.classUid)
 		myLine					+= "animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("RootScn        ", uid:self,
 			myLine:myLine,

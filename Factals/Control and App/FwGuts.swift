@@ -384,7 +384,10 @@ let key = 0
 		rootVews[key]!.unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart	  .unlock(partTreeAs:"toggelOpen")
 
-		rootVew.updatePole2Camera(reason:"toggelOpen")
+//			cam.transform 		= rootScn.cameraTransform(reason:"Other mouseDown")
+		let rootScn				= rootVew.rootScn
+		rootScn.cameraScn.transform = rootVew.rootScn.cameraTransform(reason:"toggelOpen")
+//		rootVew.rootScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 
@@ -468,7 +471,7 @@ let key = 0
 			var rv				=  rootPart.pp(.classUid) + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			if let document {rv	+= document.pp(.classUid)					}
-			rv					+= " SelfiePole:" + (rootVews[0]?.selfiePole.pp() ?? "nil")
+			rv					+= " SelfiePole:" + (rootVews[0]?.rootScn.selfiePole.pp() ?? "nil")
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)

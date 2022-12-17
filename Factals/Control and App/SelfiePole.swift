@@ -15,16 +15,10 @@ import SceneKit
  // Uses Cylindrical Coordinates
 struct SelfiePole {
 	var uid			: UInt16  		= randomUid()
-	weak var rootVew: RootVew!							// owner
-
 	var at							= SCNVector3.origin	// world
 	var spin  		: CGFloat 		= 0					// in degrees
 	var horizonUp	: CGFloat 		= 0					// in degrees
 	var zoom		: CGFloat 		= 1.0
-
-	init(rootVew:RootVew) {
-		self.rootVew				= rootVew
-	}
 
 	 // Computes the transform from a camera A on a selfie stick back to the origin
 	var transform : SCNMatrix4 {
@@ -37,7 +31,7 @@ struct SelfiePole {
 		 //  ---- translated above Point of Interest by cameraPoleHeight
 		let lookAtVew			= Vew.null
 		let posn				= lookAtVew.bBox.center
-		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:rootVew.scn)
+		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:nil)
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 
 		poleSpinAboutY.position	= lookAtWorldPosn + at
@@ -59,6 +53,4 @@ struct SelfiePole {
 	func pp() -> String {
 		return fmt("[at:%@, s:%.0f, u:%.0f, z:%.4f]", at.pp(.short), spin, horizonUp, zoom)
 	}
-//		return fmt("h:%s, s:%.0f, u:%.0f, z:%.3f", c.at.pp(.short), c.spin, c.horizonUp, c.zoom)
-//		return fmt("[at:%s, s:%.0f, u:%.0f, z:%.4f]", at.pp(), spin, horizonUp, zoom)
 }

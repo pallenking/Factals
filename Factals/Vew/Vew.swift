@@ -646,7 +646,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let (nl, fmt)			= format.stripLeadingNewLines()
-		if let rootVew			= rootVew {
+		if let rootVew {
 			rootVew.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else if let root		= part.root {	// strangely redundant, but okay
 			root.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)

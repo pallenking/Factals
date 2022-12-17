@@ -54,7 +54,7 @@ struct ContentView: View {
 				title		: "0: Big main view",
 				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
 				background	: nil,	 // no specific background scene
-				pointOfView	: nil,	//cameraNode,//nil,//document.fwGuts.rootVews[0].lookAtVew?.scn,//
+				pointOfView	: document.fwGuts.rootVews[0]?.rootScn.cameraScn, //nil,//
 				fwGuts		: document.fwGuts,
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30
@@ -133,7 +133,7 @@ struct ContentView: View {
 	}
 
 	var pov : SCNNode? {
-		let rv					= dragonModel.scene.cameraScn
+		let rv					= dragonModel.scene.rootNode.find(name:"*-camera")
 		print("fetched camera pov")
 //		let i 					= dragonModel.value
 //		rv?.transform 			= [SCNMatrix4MakeRotation(0,     1,1,1),
