@@ -65,6 +65,8 @@ DECISION: need Comparable for Json testing
 +							static func < (Self, Self) -> Bool
 +							static func <= (Self, Self) -> Bool
 
+
+aaaaaaaaaaa
 20211027 DONE
 		2. Net/Box is overlapping
 		1. Spacing on Net skins; gapTerminalBlock1=0

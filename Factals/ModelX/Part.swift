@@ -11,18 +11,18 @@ let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
 extension Part : PolyWrappable {			}
 
-extension Part : Equatable {
-	static func == (lhs: Part, rhs: Part) -> Bool {
-		bug; return false
-	}
-}
+//extension Part : Equatable {
+//	static func == (lhs: Part, rhs: Part) -> Bool {
+//		bug; return false
+//	}
+//}
  // Generic struct 'ForEach' requires that 'Part' conform to 'Hashable' (from InspecPart.body.Picker)
-extension Part : Hashable {
-	func hash(into hasher: inout Hasher) {
-		DOClogger.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
-		hasher.combine(uid)					// fwClassName, fullName, children?
-	}
-}
+//extension Part : Hashable {
+//	func hash(into hasher: inout Hasher) {
+//		DOClogger.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
+//		hasher.combine(uid)					// fwClassName, fullName, children?
+//	}
+//}
 
  /// Base class for Factal Workbench Models
 // Used to be based on NSObject, not now.  What about NSCopying, NSResponder,
