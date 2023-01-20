@@ -1338,7 +1338,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "431"
                   endingLineNumber = "431"
-                  offsetFromSymbolStart = "680">
+                  offsetFromSymbolStart = "1788">
                </Location>
                <Location
                   uuid = "3F7C78F4-0EF8-4291-BC52-1F133EE3295C - c5311eeba9cafdcc"
@@ -1353,7 +1353,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "431"
                   endingLineNumber = "431"
-                  offsetFromSymbolStart = "820">
+                  offsetFromSymbolStart = "2028">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2836,8 +2836,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
             endingLineNumber = "132"
-            landmarkName = "RootVew"
-            landmarkType = "3">
+            landmarkName = "pp(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2852,8 +2852,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "134"
             endingLineNumber = "134"
-            landmarkName = "RootVew"
-            landmarkType = "3">
+            landmarkName = "pp(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2868,8 +2868,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "137"
             endingLineNumber = "137"
-            landmarkName = "RootVew"
-            landmarkType = "3">
+            landmarkName = "pp(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2884,8 +2884,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "128"
             endingLineNumber = "128"
-            landmarkName = "RootVew"
-            landmarkType = "3">
+            landmarkName = "pp(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2916,8 +2916,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
             endingLineNumber = "133"
-            landmarkName = "RootVew"
-            landmarkType = "3">
+            landmarkName = "pp(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3280,8 +3280,8 @@
             filePath = "Factals/Control and App/FwGuts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
+            startingLineNumber = "470"
+            endingLineNumber = "470"
             landmarkName = "pp(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3522,7 +3522,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "177"
                   endingLineNumber = "177"
-                  offsetFromSymbolStart = "60">
+                  offsetFromSymbolStart = "548">
                </Location>
                <Location
                   uuid = "B3B10100-D64D-4F2C-9533-E4F81223093D - 801b62aaba26fa12"
@@ -3537,7 +3537,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "177"
                   endingLineNumber = "177"
-                  offsetFromSymbolStart = "44">
+                  offsetFromSymbolStart = "496">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3600,10 +3600,10 @@
             filePath = "Factals/Control and App/RootScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "DebugCameraNode"
-            landmarkType = "3">
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "transform"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3690,7 +3690,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "A2B91AB9-1AD8-4574-8255-0EE48878DE0E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/FwGuts.swift"
@@ -3714,7 +3714,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "279"
                   endingLineNumber = "279"
-                  offsetFromSymbolStart = "48">
+                  offsetFromSymbolStart = "520">
                </Location>
                <Location
                   uuid = "A2B91AB9-1AD8-4574-8255-0EE48878DE0E - 8919056ddf8513ab"
@@ -3729,9 +3729,41 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "279"
                   endingLineNumber = "279"
-                  offsetFromSymbolStart = "100">
+                  offsetFromSymbolStart = "700">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F411B51E-7EC0-4943-BB74-83565927608C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FwGuts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
+            landmarkName = "findVew(nsEvent:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0090B378-ABE1-4EE7-B5F1-CB47F4841251"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FwGuts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
+            landmarkName = "findVew(nsEvent:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

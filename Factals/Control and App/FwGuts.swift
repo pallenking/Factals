@@ -306,15 +306,16 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 //			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 		 // CONVERT to window coordinates
-		let pt 	  	: NSPoint	= nsEvent.locationInWindow
-		let mouse 	: NSPoint	= rootScnOfEv.convertToRoot(windowPosition:pt)
+		let ptInWin	 : NSPoint	= nsEvent.locationInWindow
+		let ptInRoot : NSPoint	= rootScnOfEv.convertToRoot(windowPosition:ptInWin)
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
+		let scnView				= rootScnOfEv.scnView!
 								//		 + +   + +
-		let hits:[SCNHitTestResult]	= rootScnOfEv.scnView!.hitTest(mouse, options:configHitTest)
+		let hits				= rootScnOfEv.scnView!.hitTest(ptInRoot, options:configHitTest)
 								//		 + +   + +
 
-//		let hits 				= scnView.hitTest(mouse, options:configHitTest)
+//		let hits 				= scnView.hitTest(ptInRoot, options:configHitTest)
 //		if let tappednode 	= hits.first?.node
 
 let key = 0
@@ -331,7 +332,7 @@ let key = 0
 
 			 // If Node not picable,
 			while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-				  let parent 	= pickedScn.parent 	// try its parent:
+			  let parent 	= pickedScn.parent 		// try its parent:
 			{
 				msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
 				pickedScn 	= parent				// use parent

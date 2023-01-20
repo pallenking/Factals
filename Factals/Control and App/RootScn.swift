@@ -38,17 +38,23 @@ import SceneKit
 //             ====== SCREEN ========================= SCREEN		[x, y]
 // https://learnopengl.com/Getting-started/Coordinate-Systems
 
+ /// The root SCN of a SCNScene has associated Factals' values:
 class RootScn : Uid {
+		 /// For Uid conformance:
 	var uid		 : UInt16		= randomUid()
+		 /// For Logger conformance:
 	var logger 	 : Logger 		{	rootVew.fwGuts.logger						}
-
-	weak // Owner:
-	 var rootVew : RootVew!		= nil
-	var fwGuts	 : FwGuts		{	rootVew.fwGuts								}
-	var rootPart : RootPart		{	rootVew.rootPart							}
 
 	var scnView	 : SCNView!		= nil
 	var scnScene : SCNScene!
+
+ 	 /// Owner:
+ 	weak var rootVew : RootVew!		= nil
+
+	/// Convenience Parameters:
+	var fwGuts	 : FwGuts		{	rootVew.fwGuts								}
+	var rootPart : RootPart		{	rootVew.rootPart							}
+
 
 	var scn		 : SCNNode		{	scnScene.rootNode							}
 	var trunkScn : SCNNode? 	{
@@ -61,7 +67,7 @@ class RootScn : Uid {
 	var selfiePole				= SelfiePole()
 	var cameraScn	: SCNNode 	{ 	touchCameraScn()							}
 
-	 /// animatePhysics is defined because as isPaused is a negative concept, and doesn't denote animation
+	 /// animatePhysics is a posative quantity (isPaused is a negative)
 	var animatePhysics : Bool {
 		get {			return !scnScene.isPaused								}
 		set(v) {		scnScene?.isPaused = !v									}
