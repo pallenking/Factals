@@ -11,6 +11,7 @@ let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
 extension Part : PolyWrappable {			}
 
+// // NOTE: 20230117 Equatable was only added for Hashable for ForEach for 
 //extension Part : Equatable {
 //	static func == (lhs: Part, rhs: Part) -> Bool {
 //		bug; return false
@@ -232,10 +233,10 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	//@objc
 	func polyWrap() -> PolyWrap {
 		 // stitch in our PolyWrap in where we were
-		let pw					= PolyWrap([:])		// (B) backlink
-		pw.name					= "---"				// works nice with pp(.tree)
-		pw.addChild(self)							// We are poly's child
-		parent					= pw				// Backlink: our parent is poly
+		let polyWrap			= PolyWrap([:])		// (B) backlink
+		polyWrap.name			= "---"				// works nice with pp(.tree)
+		polyWrap.addChild(self)						// We are poly's child
+		parent					= polyWrap			// Backlink: our parent is poly
 
 		 // PolyWrap all Part's children
 		// NFG: children		= children.polyWrap()
@@ -244,7 +245,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			children[i]			= children[i].polyWrap()		// RECURSIVE			// (C)
 			children[i].parent	= self													// (D) backlink
 		}
-		return pw
+		return polyWrap
 	}
 	func polyUnwrap() -> Part {		fatalError("Part.polyUnwrap should be overridden by PolyWrap or RootPart")	}
 	  // MARK: - 3.5 Codable

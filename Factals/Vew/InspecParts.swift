@@ -327,11 +327,11 @@ struct InspecPart : View {												 // Part
 				let navList		= part.selfNParents.reversed() + part.children
 				let selfIndex	= part.selfNParents.count - 1
 				Text("Inspect: BUGGY")
-//				Picker("", selection:Binding<Int>(
+//				Picker("", selection:Binding<Int>( PW
 //					get:{ -1 },
 //					set:{		// Always out of range
-//						let nav		= navList[$0]					// Set notification
-//bug;				//	let newVew	= rootVewL.find(part:nav, inMe2:true) ?? vew
+//						let nav	= navList[$0]					// Set notification
+//bug;				//	let newVew = rootVewL.find(part:nav, inMe2:true) ?? vew
 //					//	doc?.showInspecFor(vew:newVew, allowNew:false)
 //					} ) )
 //				{

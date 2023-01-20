@@ -191,9 +191,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	func makeWindowControllers() 		{	 bug								}
 	 // MARK: - 5.1 Make Associated Inspectors:
 	  /// Manage Inspec's:
-	var inspecWin4vew :[Vew : NSWindow] = [:]									//[Vew : [weak NSWindow]]
-	var inspecLastVew : Vew? 	= nil
-	var inspecWindow  : NSWindow? = nil
+	var inspecWin4vew:[Vew:NSWindow] = [:]									//[Vew : [weak NSWindow]]
+	var inspecLastVew:Vew?		= nil
+	var inspecWindow :NSWindow? = nil
 
 	mutating func makeInspectors() {
 		atIns(7, print("code makeInspectors"))
@@ -224,30 +224,30 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	}
 		 /// Show an Inspec for a vew.
 		/// - Parameters:
-	   ///   - vew: vew to inspec
+	   ///  - vew: vew to inspec
 	  ///   - allowNew: window, else use existing
 	 mutating func showInspecFor(vew:Vew, allowNew:Bool) {
-		let inspec				= Inspec(vew:vew)
+		let vewsInspec			= Inspec(vew:vew)
 		var window : NSWindow?	= nil
-
-		// PW restructure with WindowGroup: A scene that presents a group of identically structured windows
 
 		if let iw				= inspecWindow {		// New, less functional manner
 			iw.close()
 			self.inspecWindow	= nil
 		} else {										// Old broken way
 			 // Find an existing NSWindow for the inspec
-			window 				= inspecWin4vew[vew]	// EXISTING?
-			if window == nil, !allowNew,					// no, may wecreate
+			window 				= inspecWin4vew[vew]	// Does one Exist?
+			if window == nil,								// no,
+			  !allowNew,									// Shouldn't create
 			  let lv			= inspecLastVew {
-				window			= inspecWin4vew[lv]		// try LAST
+				window			= inspecWin4vew[lv]				// try LAST
 			}
 		}
-		if window == nil {								// make NEW
-			let hostCtlr		= NSHostingController(rootView:inspec)
-			hostCtlr.view.frame	= NSRect()
+
+		// PW restructure with WindowGroup?
+		if window == nil {								// must make NEW
+			let hostCtlr		= NSHostingController(rootView:vewsInspec)		// hostCtlr.view.frame	= NSRect()
 			 // Create Inspector Window (Note: NOT SwiftUI !!)
-			window				= NSWindow(contentViewController:hostCtlr)	// create
+			window				= NSWindow(contentViewController:hostCtlr)	// create window
 			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
 			window!.contentViewController = hostCtlr		// if successful
 		}
@@ -255,7 +255,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 				// Title window
 		window.title			= vew.part.fullName
-		window.subtitle			= "subtitle for Inspec"
+		window.subtitle			= ""
 
 				// Position on screen: Quite AD HOC!!
 		window.orderFront(self)				// Doesn't work -- not front when done!

@@ -27,7 +27,7 @@ enum PpMode : Int {
 	 // How to PrettyPrint Name and Class:
 	case fwClassName	//    (Really should be "class"?)		(e.g: "Port"
 	case uid			// 10 Uid								(e.g: "4C4")
-	case uidClass		//5,8 Uid:Class						(e.g: "4C4:Port")
+	case uidClass		//5,8 Uid:Class							(e.g: "4C4:Port")
 	case classUid		//  9 Class<uid>						(e.g: "Port<4C4>")
   
 	case name			//6,14name in parent, a single token 	(e.g: "P")
@@ -162,7 +162,7 @@ extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class
 extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension FwGuts		: FwAny 	{}	// Extension outside of file declaring class 'FwGuts' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension EventCentral	: FwAny		{}
-extension RootScn			: FwAny		{}
+extension RootScn		: FwAny		{}
 extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNConstraint	: FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNGeometry	: FwAny 	{	// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'

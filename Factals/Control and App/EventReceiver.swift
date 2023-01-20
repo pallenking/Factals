@@ -41,7 +41,7 @@ final class EventReceiverView: NSView {
 	}
 	override var acceptsFirstResponder: Bool { true 							}
 
-//	func processEvent(nsEvent:NSEvent) {}	// WANTED: Capture all first responder messages, PW
+//	func processEvent(nsEvent:NSEvent) {}	// WANTED: override ALL first responder messages, PW
 								//.onAppear(perform: {
 								//	NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 								//		print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
