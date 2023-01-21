@@ -312,13 +312,11 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 
 		let scnView				= rootScnOfEv.scnView!
 								//		 + +   + +
-		let hits				= rootScnOfEv.scnView!.hitTest(ptInRoot, options:configHitTest)
+		let hits				= scnView.hitTest(ptInRoot, options:configHitTest)
 								//		 + +   + +
+		let tappednode 			= hits.first?.node		// unused
 
-//		let hits 				= scnView.hitTest(ptInRoot, options:configHitTest)
-//		if let tappednode 	= hits.first?.node
-
-let key = 0
+		let vewKey = 0
 
 		 // SELECT HIT; prefer any child to its parents:
 		var rv : Vew			= rootVewOfEv			// default
@@ -339,14 +337,14 @@ let key = 0
 				msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
 			}
 			 // Got SCN, get its Vew
-			if let cv		= rootVews[key]?.trunkVew,
+			if let cv		= rootVews[vewKey]?.trunkVew,
 			  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
 			{
 				rv			= vew
 				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			}else{
 				panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
-				if let cv	= rootVews[key]!.trunkVew,			// for debug only
+				if let cv	= rootVews[vewKey]!.trunkVew,			// for debug only
 				  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
 					let _	= vew
 				}

@@ -123,6 +123,7 @@ CVDisplayLink (23) Queue : com.apple.scenekit.renderingQueue.SwiftFactals.FwView
 
 20211015 --------------------- DONE --------------
 	4. transfor over equalsPart --> ==(lhs:rhs:) find out where Part:== and === ...
+		NOTE 2023-0121PAK: Part.Equatable abandoned
 
 20210908 --------------------- DONE --------------
 	0. SCNMatrix4Mult on Apple M1  (only on M1)

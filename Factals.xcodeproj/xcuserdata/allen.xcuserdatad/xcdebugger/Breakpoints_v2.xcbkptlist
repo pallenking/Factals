@@ -334,10 +334,10 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "447"
+            endingLineNumber = "447"
+            landmarkName = "Dictionary"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -718,22 +718,6 @@
                   offsetFromSymbolStart = "108">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FC334543-6A26-47AA-BE29-0135866C31F0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Extensions++/Fw++.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "501"
-            endingLineNumber = "501"
-            landmarkName = "unknown"
-            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1313,54 +1297,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3F7C78F4-0EF8-4291-BC52-1F133EE3295C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Extensions++/Fw++.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
-            landmarkName = "resolveValues(_:and:forKey:)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "3F7C78F4-0EF8-4291-BC52-1F133EE3295C - c5311eeba9cafdcc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.resolveValues&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Factals.FwAny, &#x3c4;_0_0: Swift.Equatable&gt;(_: &#x3c4;_0_0, and: &#x3c4;_0_0, forKey: Swift.String) -&gt; Swift.Optional&lt;&#x3c4;_0_0&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Fw++.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "431"
-                  endingLineNumber = "431"
-                  offsetFromSymbolStart = "1788">
-               </Location>
-               <Location
-                  uuid = "3F7C78F4-0EF8-4291-BC52-1F133EE3295C - c5311eeba9cafdcc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.resolveValues&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Factals.FwAny, &#x3c4;_0_0: Swift.Equatable&gt;(_: &#x3c4;_0_0, and: &#x3c4;_0_0, forKey: Swift.String) -&gt; Swift.Optional&lt;&#x3c4;_0_0&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Fw++.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "431"
-                  endingLineNumber = "431"
-                  offsetFromSymbolStart = "2028">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "8C2DFF76-D27A-468C-A6BD-0F8C3DE8DB54"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1496,8 +1432,8 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1257"
-            endingLineNumber = "1257"
+            startingLineNumber = "1194"
+            endingLineNumber = "1194"
             landmarkName = "possibleNameSpaces()"
             landmarkType = "9">
          </BreakpointContent>
@@ -3184,8 +3120,8 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1228"
-            endingLineNumber = "1228"
+            startingLineNumber = "1165"
+            endingLineNumber = "1165"
             landmarkName = "logd(_:_:terminator:note:)"
             landmarkType = "7">
             <Locations>
@@ -3280,8 +3216,8 @@
             filePath = "Factals/Control and App/FwGuts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
             landmarkName = "pp(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3440,8 +3376,8 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -3456,26 +3392,10 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "+(lhs:rhs:)"
             landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D36AB6E0-90EC-4EDF-8DFC-45178499753B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Extensions++/Fw++.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
-            landmarkName = "unknown"
-            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

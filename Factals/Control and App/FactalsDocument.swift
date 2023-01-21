@@ -243,7 +243,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			}
 		}
 
-		// PW restructure with WindowGroup?
+		// PW3 restructure with WindowGroup?
 		if window == nil {								// must make NEW
 			let hostCtlr		= NSHostingController(rootView:vewsInspec)		// hostCtlr.view.frame	= NSRect()
 			 // Create Inspector Window (Note: NOT SwiftUI !!)

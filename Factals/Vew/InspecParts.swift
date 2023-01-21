@@ -327,7 +327,7 @@ struct InspecPart : View {												 // Part
 				let navList		= part.selfNParents.reversed() + part.children
 				let selfIndex	= part.selfNParents.count - 1
 				Text("Inspect: BUGGY")
-//				Picker("", selection:Binding<Int>( PW
+//				Picker("", selection:Binding<Int>( 				// PW9
 //					get:{ -1 },
 //					set:{		// Always out of range
 //						let nav	= navList[$0]					// Set notification

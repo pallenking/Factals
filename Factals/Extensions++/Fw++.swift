@@ -368,11 +368,9 @@ extension Dictionary {
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
 }
 
-func +=( dict1: inout FwConfig, dict2:FwConfig) 	{	dict1 = dict1 + dict2	}
-/**/
-func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable
-													{	dict1 = dict1 + dict2	}
-/**/
+  func +=(        dict1: inout FwConfig,       dict2:FwConfig) 	{	dict1 = dict1 + dict2	}
+//func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable 	{	dict1 = dict1 + dict2	}
+
 func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	var rv						= lhs						// initial values, older, overwritten
 	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
@@ -380,27 +378,32 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
 			atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 		}
-		rv[keyRhs] 			= valueRhs
+		rv[keyRhs] 				= valueRhs
 	}
 	return rv
 }
-func +<Value>( lhs:[String:Value], rhs:[String:Value]) -> [String:Value]
-											where Value:FwAny, Value:Equatable {
-	var rv						= lhs
-	for (key, var valRhs) in rhs {			// Paw through lhs Dictionary
-		if let valLhs : Value	= lhs[key] {	// key in BOTH Dictionaries
-			if (key == "f" || key == "flip") {		// fancy xoring for boolean!
-				if let v0		= valLhs as? Bool,
-				   let v1		= valRhs as? Bool {
-					valRhs		= (v0 ^^ v1) as! Value
-				} else {
-					panic("Dictionary keys \"f\" or \"flip\" with non-Boolean Value")
-				}
-			}
-			else if valLhs != valRhs {			// same key, different values
+func +<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny, Value:Equatable {
+	var rv						= lhs						// initial values, older, overwritten
+	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+	for (key, var valRhs) in rhsSorted {		// Paw through lhs Dictionary
+		if let valLhs 			= lhs[key] {	// key in BOTH Dictionaries
+
+			 // fancy xoring for Boolean:
+//			if (key == "f" || key == "flip") {
+//				if let v0		= valLhs as? Bool,
+//				   let v1		= valRhs as? Bool {
+//					rv[key]		= v0 ^^ v1			// PW: Compile ERROR
+//				} else {
+//					panic("Dictionary keys \"f\" or \"flip\" with non-Boolean Value")
+//					rv[key] 	= valRhs
+//				}
+//			} else
+
+			 // Same key, different values
+			if valLhs != valRhs {
 				atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
+				rv[key] 		= valRhs
 			}
-			rv[key] 			= valRhs
 		}
 	}
 	return rv
@@ -420,27 +423,6 @@ func +<Value>( lhs:[String:Value], rhs:[String:Value]) -> [String:Value]
 //				}
 //				sep 			= mode == .tree ? ",\n":  mode == .line ? ", " : "???"
 
-
-
-
- /// When keys conflict, pick existing	 // 20221105PAK: Abandoned
-func resolveValues<Value>(_ lhs:Value, and rhs:Value, forKey key:String) -> Value?
-								where Value:FwAny, Value:Equatable {
-		// Case 1: Multiple values for key "flip" or "f" exor
-	if (key == "f" || key == "flip"),
-	  let v0					= lhs as? Bool,
-	  let v1					= rhs as? Bool {
-		let rv : Value? 		= (v0 ^^ v1) as? Value	// PW: Why is "as? Value" required: Value:FwAny
-		return rv
-	}
-		// Complain if destructive
-	if lhs != rhs {
-		atBld(9, DOClogger.log("Dictionary Conflict, Key: \(key.field(20)) " +
-				"was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
-	}
-		// Return second.
-	return rhs
-}
 																				//extension Dictionary<Key, Value> where Key : Comparable, Hashable {			//Cannot find type 'Key' in scope
 																				//extension Dictionary<Key, Value> where Key : Hashable, Value : Comparable {  	//Cannot find type 'Key' in scope
 extension Dictionary : Uid {
@@ -454,70 +436,25 @@ extension Dictionary : Uid {
 	}//Argument type 'Dictionary<Key, Value>' does not conform to expected type 'Uid'
 }
 
-//extension Dictionary where Value : Equatable, Value : FwAny {	// Comparable
-//	static func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
-//		let rv				= lhs.equals(rhs)
-//		atTst(7, lhs.logd("Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)"))
-//		return rv
-//	}
-//	func equals(_ dict:Dictionary) -> Bool {
-//		guard keys.count == dict.keys.count else {	return false }	// counts mismatch
-//
-//		for key in keys {
-//			let (a, b)		= (self[key], dict[key])				// each = Value?
-//			atTst(7, logd("Testing Dict:    .equals(\(b?.pp(.nameUidClass) ?? " "))"))
-//			guard a != nil && b != nil		else {	return false }	// nil args
-//
-//			 // Check Values ==
-//				// General Case (Swift FAILS, lldb good)
-//			var x			= a! == b!					// --> a!.equals(rhs:b!)
-//			//20221024  a▿ Optional<Port>▿ some : 'P/7b1:Port'
-//			//			b▿ Optional<Port>▿ some : 'P/8f1:Port'
-//			// RESULTS: LLDB of a! == b! --> true,
-//			//		but var x = a! == b! --> false
-//			// N.B: stepping into the "=="'s below just went over it
-//			 	// Special Case (GOOD)
-//			if let aAsPart 	= a as? Part,
-//			  let  bAsPart 	= b as? Part  {
-//				let y		= aAsPart.equals(rhs:bAsPart)
-//				assert(x == y, "general case '==' mismatches 'Part.equals'")
-//				x			= a! == b!		// For debug single stepping
-//				x			= y
-//			}
-//			guard x							else {	return false }	// non-optionals match
-//		}
-//		atTst(7, logd("Testing Dict:    .equals(\(dict.pp(.nameUidClass)))  ---> true"))
-//		return true
-//	}
-//}
-//protocol Equatable : Swift.Equatable {
-//	func equals(_:Self) -> Bool
-//}
+extension Dictionary where Value : FwAny, Value : Equatable {	// PW: Best to far?
+	static func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
+		let rv				= lhs.equals(rhs)
+		atTst(7, lhs.logd("Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)"))
+		return rv
+	}
+	func equals(_ dict:Dictionary) -> Bool {
+		guard keys.count == dict.keys.count 		else {	return false }	// counts mismatch
 
-//extension Array where Element : Equatable {
-//	static func ==(lhs: Array, rhs: Array) -> Bool 		 { lhs.equals(rhs)		}
-//	func equals(_ array:Array) -> Bool {
-//		guard count == array.count					else {		return false	}
-//		for i in 0..<array.count {
-//			let (s, a)    = (self[i], array[i])
-//			guard s.equals(a)						else {
-////			guard s == a							else {
-//				return false
-//			}
-////			guard s.equals(a)						else {		return false	}
-////			guard self[i] == array[i]				else {		return false	}
-//			nop
-//		}
-//		return true
-//	}
-//}
-
-/* PW4
-	func equalsPart<K, V>(_ dict:Dictionary<K, V>) -> Bool where V : EqualsPart, Key : Comparable {
-		guard let dict		= dict as? Dictionary	else {		return false	}
-		guard keys.count == dict.keys.count 		else {		return false	}
-		for key in keys.sorted() {
-*/
+		for key in keys {
+			if self[key] != dict[key] {			// Value for key MISMATCH
+				atTst(7, logd("(\(self[key]!.pp(.nameUidClass))) != (\(dict[key]!.pp(.nameUidClass))) ?"))
+				return false
+			}
+		}
+		atTst(7, logd("Testing Dict:    .equals(\(dict.pp(.nameUidClass)))  ---> true"))
+		return true
+	}
+}
 
 protocol Nib2Bool {
 	var bool	: Bool 		{ set get }

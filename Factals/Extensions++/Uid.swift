@@ -6,7 +6,8 @@ import SceneKit
 protocol Uid {
 	var uid 		: UInt16 	{ 	get 										}
 }
- ///  pp the Uid
+  ///  Support for Uid:
+ ///  Conformers to Uid can use this:
 func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig=[:]) -> String {
 	 // For fwConTroL elements:
 	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? DOCfwGutsQ?.logger/*DOClogger.*/.ppNUid4Ctl ?? 4
