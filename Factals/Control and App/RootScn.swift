@@ -49,7 +49,7 @@ class RootScn : Uid {
 	var scnScene : SCNScene!
 
  	 /// Owner:
- 	weak var rootVew : RootVew!		= nil
+ 	weak var rootVew : RootVew!	= nil
 
 	/// Convenience Parameters:
 	var fwGuts	 : FwGuts		{	rootVew.fwGuts								}
