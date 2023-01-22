@@ -297,7 +297,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			let vewScn			= vew.scn.physicsBody==nil ? vew.scn
 														   : vew.scn.presentation
 			let pInParent		= vewScn.transform * position
+					// RECURSIVE
 			let rv				= localPosition(of:pInParent, inSubVew:vewParent)
+
 			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
 			return rv
 		}

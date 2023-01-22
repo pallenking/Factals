@@ -202,11 +202,27 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		}
 	}
 	 // MARK: - 13.4 Mouse Variables
-	func motionFromLastEvent(with nsEvent:NSEvent) {
+	func motionFromLastEvent(with nsEvent:NSEvent)
+//	{
+//			// Converts a point from the coordinate system of a given view to that of the receiver.
+//			// If aView is nil, this method converts from window coordinates instead
+//		let delt2d				= convert(nsEvent.locationInWindow, from:nil)		//nil=screen
+////		let delt2d				= convertPosition(nsEvent.locationInWindow, from:nil)		//nil=screen
+//
+//		let eventPosn			= SCNVector3(delt2d.x, delt2d.y, 0)		// BAD: unprojectPoint(
+//		 // Movement since last
+//		let prevPosn : SCNVector3 = lastPosition ?? eventPosn
+//
+//		 // "Output"
+//		deltaPosition			= eventPosn - prevPosn
+//		lastPosition			= eventPosn
+//	}
+	{
 		if let view				= nsEvent.window?.contentView {
-
+			let nilView : NSView? = nil
 			 // Ask event's view for point in screen coords
-			let pScreen:CGPoint	= view.convert(nsEvent.locationInWindow, from: nil)//nil=screen
+			let pScreen:CGPoint	= view.convert(nsEvent.locationInWindow, from:nil)
+//			let pScreen:CGPoint	= view.convert(nsEvent.locationInWindow, from: view)//nil=screen
 			let eventPosn		= SCNVector3(pScreen.x, pScreen.y, 0)		// BAD: unprojectPoint(
 
 			 // Movement since last, 0 if first time and there is none

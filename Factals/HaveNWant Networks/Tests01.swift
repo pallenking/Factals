@@ -885,8 +885,9 @@ xr("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLin
 	] ])
 ]]) })
 	r("- Port Missing", e + selfiePole(h:0,s:-48,u:-10) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
-		MaxOr([f:1]),
-		Hamming([n:"a",  f:1]),
+//		MaxOr(  [n:"b", f:1]),
+		Hamming([n:"b", f:1]),
+		Hamming([n:"a", f:1]),
 	]]) })
 	r("- placement of autoBroadcast", eSim + selfiePole(h:0,s:-48,u:-10,z:0.815) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 		Hamming([n:"d", share:["x"],  f:1]),

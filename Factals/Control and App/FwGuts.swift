@@ -305,12 +305,27 @@ bug//		guard self.write(to:fileURL, options:[]) == false else {
 			.rootNode:rootVewOfEv.scn,	// The root of the node hierarchy to be searched.
 //			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
+//		let configHitTest : [SCNHitTestOption:Any]? = [
+//			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+//			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+//			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
+//					FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
+//					FwNodeCategory.byDefault.rawValue  ,
+//			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+//		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+//		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+//			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+//		  //.sortResults:1, 			// (implied)
+//			.rootNode:rootVewOfEv.scn,	// The root of the node hierarchy to be searched.
+////			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+//		]
 		 // CONVERT to window coordinates
 		let ptInWin	 : NSPoint	= nsEvent.locationInWindow
 		let ptInRoot : NSPoint	= rootScnOfEv.convertToRoot(windowPosition:ptInWin)
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
 
 		let scnView				= rootScnOfEv.scnView!
+		
 								//		 + +   + +
 		let hits				= scnView.hitTest(ptInRoot, options:configHitTest)
 								//		 + +   + +
