@@ -108,7 +108,7 @@ struct ContentView: View {
 					let sceneKitArgs	= SceneKitArgs( 	//SceneView(
 						sceneIndex	: 0,
 						title		: "Jet",
-						vewConfig	: .openAllChildren(toDeapth:99),//.null,//			// No HaveNWant Vews in Jet
+						vewConfig	: vewConfigAllToDeapth4,//.null,//.openAllChildren(toDeapth:99),//			// No HaveNWant Vews in Jet
 						background	: jetModel.scene,
 						pointOfView	: nil,//cameraNode,//nil,//jetModel.scene.cameraScn,
 						fwGuts		: fwGuts,

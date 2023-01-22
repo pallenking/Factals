@@ -83,17 +83,24 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		 // SAVE in array:					// print(fwGuts.rootVews[0].debugDescriaption)
 		fwGuts.rootVews[i]		= rootVew
 
-		 // Get ScnView and configure:
-		let rv					= rootVew.rootScn.scnView!
-		rv.allowsCameraControl 	= args.options.contains(.allowsCameraControl)
-		rv.autoenablesDefaultLighting = args.options.contains(.autoenablesDefaultLighting)
-		//rv.jitteringEnabled	= args.options.contains(.jitteringEnabled)
-		rv.rendersContinuously	= args.options.contains(.rendersContinuously)
-		//scrvnView.temporalAntialiasingEnabled = args.options.contains(.temporalAntialiasingEnabled)
-		rv.preferredFramesPerSecond = args.preferredFramesPerSecond
-		atRnd(4, DOClogger.log("\t\t\t   ==>>  Made \(rv.pp(.line)) vewConfig:" +
+		 // Get an ScnView from rootScn
+		let returnedScnView		= rootVew.rootScn.scnView!
+		 // Configure from args.options:
+		returnedScnView.allowsCameraControl
+								= args.options.contains(.allowsCameraControl)
+		returnedScnView.autoenablesDefaultLighting
+								= args.options.contains(.autoenablesDefaultLighting)
+		//returnedScnView.jitteringEnabled
+		//						= args.options.contains(.jitteringEnabled)
+		returnedScnView.rendersContinuously
+								= args.options.contains(.rendersContinuously)
+		//returnedScnView.temporalAntialiasingEnabled
+		//						= args.options.contains(.temporalAntialiasingEnabled)
+		returnedScnView.preferredFramesPerSecond
+								= args.preferredFramesPerSecond
+		atRnd(4, DOClogger.log("\t\t\t   ==>>  Made \(returnedScnView.pp(.line)) vewConfig:" +
 			"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
-		return rv
+		return returnedScnView
 	}
 	func updateNSView(_ nsView: SCNView, context: Context) {
 		atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): =========== updateNSView      title:'\(args.title)' (Does nothing)"))
