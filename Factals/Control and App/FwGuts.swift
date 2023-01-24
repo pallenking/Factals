@@ -200,9 +200,14 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-bug//		guard self.write(to:fileURL, options:[]) == false else {
-//	//		guard self.write(to:fileURL, delegate:nil) == false else {
-	 //			fatalError("writing dumpSCN.\(suffix) failed")					}
+			let rootVews0scene	= rootVews[0]!.rootScn.scnScene
+				guard rootVews0scene!.write(to:fileURL, options:[:], delegate:nil)
+						else { fatalError("writing dumpSCN.\(suffix) failed")	}
+//			guard write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
+//						else { fatalError("writing dumpSCN.\(suffix) failed")	}
+	//		guard self.write(to:fileURL, options:[])   == false else { fatalError("writing dumpSCN.\(suffix) failed")	}
+	//		guard self.write(to:fileURL, delegate:nil) == false else { fatalError("writing dumpSCN.\(suffix) failed")	}
+
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 			rootPart.forAllParts({	$0.markTree(dirty:.vew)			})

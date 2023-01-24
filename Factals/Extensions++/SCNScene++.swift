@@ -11,9 +11,7 @@ protocol FileDocumentHelper {
 	var data : Data?		{ set get }
 	init?(data:Data, encoding:String.Encoding)
 }
-extension FileDocumentHelper {
-
-}
+extension FileDocumentHelper { }
 
 func urlOfLocalFile(named name:String) -> URL {
 	let directoryURL			= URL(fileURLWithPath:NSTemporaryDirectory())

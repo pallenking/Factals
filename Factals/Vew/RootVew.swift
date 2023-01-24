@@ -24,7 +24,9 @@ class RootVew : Vew {
 
 	 /// generate a new View, returning its index
 	init() {
-		rootScn					= .null
+		rootScn					= .nullRootScn
+//		rootScn					= RootScn()
+//		rootScn					= .null
 		eventCentral			= .null
 		super.init(forPart:.null, scn:rootScn.scnScene.rootNode)
 	}
@@ -139,5 +141,5 @@ class RootVew : Vew {
 		return rv
 	}
 	  // MARK: - 16. Global Constants
-	static let null3 			= RootVew(forPart: RootPart(), scnScene: SCNScene())
+	static let nullR 			= RootVew(forPart: RootPart(), scnScene: SCNScene())
 }

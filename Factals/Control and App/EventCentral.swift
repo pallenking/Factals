@@ -202,35 +202,78 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		}
 	}
 	 // MARK: - 13.4 Mouse Variables
-	func motionFromLastEvent(with nsEvent:NSEvent)
-//	{
-//			// Converts a point from the coordinate system of a given view to that of the receiver.
-//			// If aView is nil, this method converts from window coordinates instead
-//		let delt2d				= convert(nsEvent.locationInWindow, from:nil)		//nil=screen
-////		let delt2d				= convertPosition(nsEvent.locationInWindow, from:nil)		//nil=screen
-//
-//		let eventPosn			= SCNVector3(delt2d.x, delt2d.y, 0)		// BAD: unprojectPoint(
-//		 // Movement since last
-//		let prevPosn : SCNVector3 = lastPosition ?? eventPosn
-//
-//		 // "Output"
-//		deltaPosition			= eventPosn - prevPosn
-//		lastPosition			= eventPosn
-//	}
-	{
-		if let view				= nsEvent.window?.contentView {
-			let nilView : NSView? = nil
-			 // Ask event's view for point in screen coords
-			let pScreen:CGPoint	= view.convert(nsEvent.locationInWindow, from:nil)
-//			let pScreen:CGPoint	= view.convert(nsEvent.locationInWindow, from: view)//nil=screen
-			let eventPosn		= SCNVector3(pScreen.x, pScreen.y, 0)		// BAD: unprojectPoint(
+	func motionFromLastEvent(with nsEvent:NSEvent)	{
+		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
+		let winCoords : NSView? = nil
 
-			 // Movement since last, 0 if first time and there is none
-			deltaPosition		= lastPosition == nil ? SCNVector3.zero
-								: eventPosn - lastPosition!
-			lastPosition		= eventPosn
-		}
+		let posn :NSPoint		= contentNsView.convert(nsEvent.locationInWindow, from:winCoords)
+//		let posn :NSPoint		=               convert(nsEvent.locationInWindow, from:winCoords)
+		let posnV3				= SCNVector3(posn.x, posn.y, 0)		// BAD: unprojectPoint(
+
+//		 // Ask event's view for point in screen coords
+//		let pScreen:CGPoint		= view.convert(nsEvent.locationInWindow, from:winCoords)
+//		let posnV3				= SCNVector3(pScreen.x, pScreen.y, 0)		// BAD: unprojectPoint(
+
+		 // Movement since last, 0 if first time and there is none
+		deltaPosition			= lastPosition == nil ? SCNVector3.zero : posnV3 - lastPosition!
+		lastPosition			= posnV3
+										//let prevPosn : SCNVector3 = lastPosition ?? posnV3
+										// // "Output"
+										//deltaPosition			= posnV3 - prevPosn
+										//lastPosition			= posnV3
 	}
+	func allConversions() {
+//		let point				= convert(NSPoint(), from:nil)
+//		let size				= convert(NSSize(),  from:nil)
+//		let rect				= convert(NSRect(),  from:nil)
+//		let cgRect				= convert(CGRect(),  from:nil)
+	}
+/*
+			View.convert(_:NSPoint, from:NSView?)
+- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
+
+
+
+Vew.swift:
+           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
+		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
+SceneKit:
+	       convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
+NSView:
+		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
+		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
+	       convert         (_:NSRect,        from:NSView?)       -> NSRect
+Quartzcore Calayer: UIView:
+		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
+		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
+		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
+SpriteKit:
+		   convertPoint    (fromView:CGPoint)			         -> CGPoint
+		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
+UIView:
+		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
+		   convert         (_:CGRect,      from:UIView?)         -> CGRect
+AppKit:
+		   convert         (_:NSFont                          )  -> NSFont
+
+			convertPointFromBacking:
+
+__kindOf
+	NSView.convert        (_:NSPoint,    from:nil) 		-> CGPoint
+
+		   convert        (              to: UnitType)							UnitType conforms to Dimension
+
+https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
+- convertPointToBase:
+- convertSizeToBase:
+- convertSizeFromBase:
+- convertRectToBase:
+- convertRectFromBase:
+
+ */
+
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 

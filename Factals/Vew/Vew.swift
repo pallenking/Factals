@@ -303,7 +303,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
 			return rv
 		}
-		fatalError("convert(position:from:) found root")
+		fatalError("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' FAILED")
 	}
 	func localPositionX(of position:SCNVector3, inSubVew vew:Vew) -> SCNVector3 {
 //		atRsi(6, log("localPosition(of:\(position.pp(.line)), inSubVew:'\(vew.parent!.pp(.fullName))')"))
@@ -327,7 +327,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
 			return rv
 		}
-		fatalError("localPosition(of:inSubVew:) failed")
+		fatalError("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' FAILED")
 //		 /// Go from vew toward self
 //		var rv					= position
 //		atRsi(9, log(" position=\(rv.pp(.line))  (in \(vew.pp(.fullName)))"))

@@ -28,7 +28,7 @@ struct ContentView: View {
 			Button(label: {	Text("A value = \(dragonModel.redrawValue)")		})
 			{	dragonModel.redrawValue += 1									}
 		} else {
-			let select 			= 4
+			let select 			= 4//4//1//
 			if select == 0 {	bodyNada										}
 			if select == 1 {	bodySimple										}
 			if select == 2 { 	bodyJet											}

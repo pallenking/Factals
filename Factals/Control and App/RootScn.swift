@@ -39,17 +39,22 @@ import SceneKit
 // https://learnopengl.com/Getting-started/Coordinate-Systems
 
  /// The root SCN of a SCNScene has associated Factals' values:
-class RootScn : Uid {
-		 /// For Uid conformance:
-	var uid		 : UInt16		= randomUid()
+class RootScn : SCNNode {		// , Uid
+
+ 		 /// Owner:
+ 	weak var rootVew: RootVew!	= nil
+//		 /// For Uid conformance:
+//	var uid		 	: UInt16	= randomUid()
+
+	var scnScene 	: SCNScene!
+	var scnView	 	: SCNView!	= nil
+
+	var lookAtVew	: Vew?		= nil						// Vew we are looking at
+	var selfiePole				= SelfiePole()
+	var cameraScn	: SCNNode 	{ 	touchCameraScn()							}
 		 /// For Logger conformance:
-	var logger 	 : Logger 		{	rootVew.fwGuts.logger						}
+	var logger 	 	: Logger 	{	rootVew.fwGuts.logger						}
 
-	var scnView	 : SCNView!		= nil
-	var scnScene : SCNScene!
-
- 	 /// Owner:
- 	weak var rootVew : RootVew!	= nil
 
 	/// Convenience Parameters:
 	var fwGuts	 : FwGuts		{	rootVew.fwGuts								}
@@ -63,9 +68,6 @@ class RootScn : Uid {
 		}
 		fatalError("trunkVew is nil")
 	}
-	var lookAtVew	: Vew?		= nil						// Vew we are looking at
-	var selfiePole				= SelfiePole()
-	var cameraScn	: SCNNode 	{ 	touchCameraScn()							}
 
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
 	var animatePhysics : Bool {
@@ -80,6 +82,9 @@ class RootScn : Uid {
 
 	 // MARK: - 3.1 init
 	init(scnScene ss:SCNScene, scnView sv:SCNView?=nil, args:SceneKitArgs?=nil) {
+
+		super.init()
+
 				// get Scene and View:
 		scnScene 				= ss				// remember in self.scnScene
 		scnScene.isPaused		= true				// Pause animations while bulding
@@ -92,6 +97,9 @@ class RootScn : Uid {
 		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
 	//	scnView.delegate		=
 	}
+	
+	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")	}
+
 	func pushControllersConfig(to c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics = c.bool("animatePhysics") ?? false
@@ -389,19 +397,19 @@ class RootScn : Uid {
 		rootPart.unlock(partTreeAs:lockName)	//xyzzy99
 	}
 	  // MARK: - 16. Global Constants
-	static let null 			= RootScn(scnScene:SCNScene())	/// Any use of this should fail
+	static let nullRootScn 		= RootScn(scnScene:SCNScene())	/// Any use of this should fail
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		switch mode! {
-		case .line:
-			return self.pp(.classUid) + " "
-		default:
-			var rv				= scn.pp(.classUid)
-			rv					+= scnScene.pp(.classUid)
-			rv					+= scnView.pp(.classUid)
-			return rv
-		}
-	}
+//	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+//		switch mode! {
+//		case .line:
+//			return self.pp(.classUid) + " "
+//		default:
+//			var rv				= scn.pp(.classUid)
+//			rv					+= scnScene.pp(.classUid)
+//			rv					+= scnView.pp(.classUid)
+//			return rv
+//		}
+//	}
 }
 
  // Kinds of Nodes
