@@ -204,15 +204,11 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 	 // MARK: - 13.4 Mouse Variables
 	func motionFromLastEvent(with nsEvent:NSEvent)	{
 		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
-		let winCoords : NSView? = nil
 
-		let posn :NSPoint		= contentNsView.convert(nsEvent.locationInWindow, from:winCoords)
-//		let posn :NSPoint		=               convert(nsEvent.locationInWindow, from:winCoords)
+		let posn 				= contentNsView.convert(nsEvent.locationInWindow,     from:nil)	// nil -> window
+			//	 : NSPoint			     NsView:								: NSPoint :window
+			//	 : CGPoint
 		let posnV3				= SCNVector3(posn.x, posn.y, 0)		// BAD: unprojectPoint(
-
-//		 // Ask event's view for point in screen coords
-//		let pScreen:CGPoint		= view.convert(nsEvent.locationInWindow, from:winCoords)
-//		let posnV3				= SCNVector3(pScreen.x, pScreen.y, 0)		// BAD: unprojectPoint(
 
 		 // Movement since last, 0 if first time and there is none
 		deltaPosition			= lastPosition == nil ? SCNVector3.zero : posnV3 - lastPosition!

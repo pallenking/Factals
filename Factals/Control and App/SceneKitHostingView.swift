@@ -64,9 +64,9 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	  //  This may be called many times for the same View
 	func makeNSView(context: Context) -> SCNView {		// typedef Context = NSViewRepresentableContext<Self>
 											//	makeCoordinator()	//wtf?
-												let coord : Void		= context.coordinator		// View.Coordinator
-												let transaction			= context.transaction		// a 'plist'
-												let environment			= context.environment		// Empty
+										//		let coord : Void		= context.coordinator		// View.Coordinator
+										//		let transaction			= context.transaction		// a 'plist'
+										//		let environment			= context.environment		// Empty
 											//	let prefBridge 			= context.preferenceBridge	// no member 'preferenceBridge'
 		guard let fwGuts		= args.fwGuts else { fatalError("got no fwGuts!")}
 		atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
