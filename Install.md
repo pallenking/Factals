@@ -9,14 +9,3 @@ DO NOT ENTER MANUALLY (Xcode BUG)
 2. If running on an m1, set schema for Rosetta if necessary
 
 
-
-
-//@main				// 5.5
-//struct Main {
-//	static func main() async throws {
-//	}
-//}
-/*
-
-	(0..<50).map(print())
-*/

@@ -211,8 +211,6 @@ a79  <##         a:Atom  oV
 1.036 1bd:Atom: Result Part:     'a:Atom 1 children' == 'a:Atom 1 children' ---> false
  ??====(!identical, !equatable)====??  ACTUAL
 
-/Users/allen/DocLocal/HaveNWant/Factals/FactalsTests/FactalsTests.swift:204: error: -[FactalsTests.FactalsTests testPartIdenticalEquatable] : XCTAssertEqual failed: ("false") is not equal to ("true") - testPartEquitable 0: 1bd:Atom  == a79:Atom isn't true
-
 1.037 1bd:Atom: Testing Atom:    'a:Atom 1 children'.equals('a:Atom 1 children')
 1.038 1bd:Atom: Testing Part:    'a:Atom 1 children'.equals('a:Atom 1 children')
 1.039 258:Port: Testing Port:    'P/258:Port'.equals('P/1db:Port')
@@ -221,7 +219,6 @@ a79  <##         a:Atom  oV
 1.042 a6a7:DictiTesting Dict:    Optional('P/258:Port').equals(Optional('P/1db:Port'))
 1.043 a322:DictiResult Dict:     ["P": 'P/258:Port'] == ["P": 'P/1db:Port'] ---> false
 1.044 1bd:Atom: Result Part:     'a:Atom 1 children' == 'a:Atom 1 children' ---> false
-/Users/allen/DocLocal/HaveNWant/Factals/FactalsTests/FactalsTests.swift:208: error: -[FactalsTests.FactalsTests testPartIdenticalEquatable] : XCTAssertEqual failed: ("true") is not equal to ("false") - !testPartEquitable 0: 1bd:Atom  == a79:Atom isn't true
 	--------------------------------
 	---   a   B U G   to fix!    ---
 	--------------------------------
