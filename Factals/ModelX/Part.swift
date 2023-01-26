@@ -104,8 +104,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-	var logger : Logger			{ 	root?.logger ?? Logger(title:"a new Part.Logger()", [:] )		}
-//	var logger : Logger			{ 	root?.logger ?? .help						}
+	var log : Log			{ 	root?.log ?? Log(title:"a new Part.Log()", [:] )		}
+//	var log : Log			{ 	root?.log ?? .help						}
 
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew
@@ -1446,7 +1446,7 @@ bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)
 			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 			rv					= ppUid(self, post:" ", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
-			rv 					+= logger.indentString()							// Bb..
+			rv 					+= log.indentString()							// Bb..
 			let ind				= parent?.children.firstIndex(where: {$0 === self})			//firstIndex(of:self)
 			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
 				// adds "name;class<unindent><Expose><ramId>":
@@ -1478,8 +1478,8 @@ bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)
 	func ppCenterPart(_ aux:FwConfig) -> String {
 		var rv 			 		=  name.field(10) + ":"					// " net0:"
 		rv 						+= fwClassName.field(-6, dots:false)	// "Net "
-		rv 						=  logger.unIndent(rv)
-//		rv 						=  root?.logger.unIndent(rv) ?? "___ "
+		rv 						=  log.unIndent(rv)
+//		rv 						=  root?.log.unIndent(rv) ?? "___ "
 //		rv 						+= root?.log.unIndent(rv) ?? "___ "
 		rv						+= initialExpose.pp(.short, aux)		// "o"
 		rv						+= dirty.pp()
@@ -1496,7 +1496,7 @@ bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)
 	 /// Print children
 	func ppChildren(_ aux:FwConfig, reverse:Bool, ppPorts:Bool) -> String {
 		var rv					= ""
-		logger.nIndent			+= 1		//root?.
+		log.nIndent			+= 1		//root?.
 		let orderedChildren		= reverse ? children.reversed() : children
 		for child in orderedChildren where ppPorts || !(child is Port) {
 			 // Exclude undesireable Links
@@ -1504,14 +1504,14 @@ bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)
 				rv				+= mark_line(aux, child.pp(.tree, aux))
 			}
 		}
-		logger.nIndent			-= 1
+		log.nIndent			-= 1
 		return rv
 	}
 	 /// Print Ports
 	func printPorts(_ aux:FwConfig, early:Bool) -> String {
 		var rv 					= ""
-		logger.nIndent			+= 1		// root?.
-		if logger.ppPorts {	// early ports // !(port.flipped && ppDagOrder)
+		log.nIndent			+= 1		// root?.
+		if log.ppPorts {	// early ports // !(port.flipped && ppDagOrder)
 			for part in children {
 				if let port 	= part as? Port,
 				  early == port.upInWorld {
@@ -1519,7 +1519,7 @@ bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)
 				}
 			}
 		}
-		logger.nIndent			-= 1
+		log.nIndent			-= 1
 		return rv
 	}
 	 /// Marking line with '_'s improves readability

@@ -65,7 +65,7 @@ extension Part			: FwAny 	{}
 extension BBox			: FwAny 	{}
 
 extension FwwEvent		: FwAny 	{}
-//extension Logger		: FwAny 	{}
+//extension Log		: FwAny 	{}
 extension Path			: FwAny 	{}
 
 extension SCNVector4	: FwAny 	{}
@@ -1153,7 +1153,7 @@ protocol Logd: Uid {
 }
 extension Logd {
 	// MARK: - 14. Logging
-	/// Logger critical actions with a line that starts with
+	/// Log critical actions with a line that starts with
 	/// - Parameters:
 	///   - banner: Descriptive message to display before message
 	///   - format: printf format

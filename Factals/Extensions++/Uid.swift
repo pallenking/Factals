@@ -10,7 +10,7 @@ protocol Uid {
  ///  Conformers to Uid can use this:
 func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig=[:]) -> String {
 	 // For fwConTroL elements:
-	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? DOCfwGutsQ?.logger/*DOClogger.*/.ppNUid4Ctl ?? 4
+	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? DOCfwGutsQ?.log/*DOClogger.*/.ppNUid4Ctl ?? 4
 	 // For Parts, Vews, and SCN Stuff:
 	if obj==nil ? false :			// obj==nil --> uses ppNUid4Ctl (AD HOC?)
 	   obj is Part 			||

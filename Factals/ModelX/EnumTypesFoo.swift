@@ -104,7 +104,7 @@
 //			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 //			rv					= ppUid(part, post:"", aux:aux)
 //			rv					+= (upInWorld ? "F" : " ") + (part.flipped ? "f" : " ")	// Aa
-//			rv 					+= logger.indentString() ?? "Bb..."				// Bb..
+//			rv 					+= log.indentString() ?? "Bb..."				// Bb..
 //			let ind				= parent?.children.firstIndex(where: {$0 === self})
 //			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
 //				// adds "name;class<unindent><Expose><ramId>":

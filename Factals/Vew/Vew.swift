@@ -52,7 +52,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
 
 
-	var logger : Logger			{ 	part.logger 								}
+	var log : Log			{ 	part.log 								}
 
 
 	 // MARK: - 3. Factory
@@ -653,7 +653,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 		}else if let root		= part.root {	// strangely redundant, but okay
 			root.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
-			Logger.help.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			Log.help.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
 	}
 	 // MARK: - 15. PrettyPrint
@@ -688,7 +688,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 					rv			+= part.flipped   ? "f" : " "			  // (B)
 				}
 															// Indent
-				rv 				+= logger.indentString() 				  // (C)
+				rv 				+= log.indentString() 				  // (C)
 				if ppViewOptions.contains("V") {					// Vew (self):
 					rv			+= name.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
 					rv			+= fwClassName.field(-tight(5,7),dots:false)// (E)
@@ -707,7 +707,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 				}
 															// /// SKINS:
 																	// UNIndent
-				rv 				=  logger.unIndent(rv)					  // (L)
+				rv 				=  log.unIndent(rv)					  // (L)
 
 				if ppViewOptions.contains("L") {					 // Leaf:
 					let s		= self as? NetVew
@@ -754,14 +754,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			case .tree:
 				var rv			= pp(.line, aux) + "\n"// print 1-line of self
 				 // Print children
-				logger.nIndent	+= 1					// at increased indent
+				log.nIndent	+= 1					// at increased indent
 				for child in children {
 					if child.parent != self {
 						rv 		+= "!!! parent bad !!!"
 					}
 					rv 			+= child.pp(.tree, aux)	// ### RECURSIVE
 				}
-				logger.nIndent	-= 1
+				log.nIndent	-= 1
 				return rv
 			default:
 				return ppDefault(self:self, mode:mode, aux:aux) // NO: return super.pp(mode, aux)
@@ -769,7 +769,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	}
 
 	func panic(_ message: @autoclosure () -> String=("")) { //ppUid(self)
-		print("\n\n\(fullName) \(logger.ppCurThread) \(pp(.fullNameUidClass))" +
+		print("\n\n\(fullName) \(log.ppCurThread) \(pp(.fullNameUidClass))" +
 			": --------------\n\(message())\n" + "----------------------------\n")
 		machineTrap()				// transfer control to debugger
 	}

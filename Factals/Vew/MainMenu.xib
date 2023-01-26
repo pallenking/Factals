@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
@@ -27,7 +26,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                            <menuItem title="Logger Configuration" keyEquivalent="C" id="yfH-sM-t0F" userLabel="State">
+                            <menuItem title="Log Configuration" keyEquivalent="C" id="yfH-sM-t0F" userLabel="State">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="appConfiguration:" target="Voe-Tx-rLC" id="ESG-a4-Xhu"/>
@@ -38,13 +37,13 @@
                                     <action selector="appPreferences:" target="Voe-Tx-rLC" id="eAA-PS-MMn"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Logger State" keyEquivalent="c" id="qKv-GZ-Jj4" userLabel="State">
+                            <menuItem title="Log State" keyEquivalent="c" id="qKv-GZ-Jj4" userLabel="State">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="appState:" target="Voe-Tx-rLC" id="bYO-1M-xBe"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Logger Help" keyEquivalent="/" id="HPg-FR-4Du" userLabel="State">
+                            <menuItem title="Log Help" keyEquivalent="/" id="HPg-FR-4Du" userLabel="State">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="appHelp:" target="Voe-Tx-rLC" id="8dB-sj-vmS"/>

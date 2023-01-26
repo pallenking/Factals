@@ -47,8 +47,8 @@ var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now:
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed			//  9
 var DOCfwGuts		: FwGuts	{	DOCfwGutsQ ?? {
 	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil"); return FwGuts() 		}()}
-var DOCloggerQ  	: Logger? 	{	DOCfwGutsQ?.logger							}				//  2
-var DOClogger  		: Logger 	{	DOCloggerQ ?? .help							}	//.first	// 50
+var DOCloggerQ  	: Log? 	{	DOCfwGutsQ?.log							}				//  2
+var DOClogger  		: Log 	{	DOCloggerQ ?? .help							}	//.first	// 50
 let DOCctlr						= NSDocumentController.shared
 
 @main										// calls AppDelegateFoo.swift
@@ -98,8 +98,8 @@ struct FactalsApp: App, Uid, FwAny {
 
 	}
 	 // MARK: - 2. Object Variables:
-	var log	: Logger			=	{
-		return Logger(title:"App's Logger", params4all)							}()
+	var log	: Log			=	{
+		return Log(title:"App's Log", params4all)							}()
 
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 	var regressScene : Int = 0	//private?	// number of the next "^r" regression test
@@ -128,7 +128,7 @@ struct FactalsApp: App, Uid, FwAny {
 
 	init () {
 		APP 					= self				// Register  (HOAKEY)
-		let _					= Logger.help		// create here, ahead of action
+		let _					= Log.help		// create here, ahead of action
 
 		 // Configure App with defaults:
 		let c					= config + params4all
@@ -277,7 +277,7 @@ bug;	let rv					= NSMenu(title:path)
 			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
 		}
 
-		 // Logger program usage instances
+		 // Log program usage instances
 		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
 		atCon(7, printFwcState())
 //.		atCon(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
@@ -379,7 +379,7 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 	var debugDescription : String	{	return   "'FactalsApp'"				}
 	var summary			 : String	{	return   "<FactalsApp>"				}
 
-	 // MARK: - 20. Logger
+	 // MARK: - 20. Log
 	  ///  Write 1-line summary of this usage
 	func logRunInfo(_ comment:String) {
 		//return

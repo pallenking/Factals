@@ -101,7 +101,7 @@
 //	}
 //
 //	deinit {
-//		// N.B: Logger.log("...") evokes simulteneity lock error
+//		// N.B: Log.log("...") evokes simulteneity lock error
 //		print("#### DEINIT   \(uidForDeinit):FwDocument")			// WORKS
 //	//	print("#### DEINIT   \(uid):FwDocument")					// FAILS
 //	//	print("#### DEINIT   \(ppUid(self):FwDocument)")			// FAILS
@@ -201,7 +201,7 @@
 ////	}
 ////	public required init(from decoder: Decoder) throws {
 ////		panic()
-////		log /*oops*/			= Logger(params4docLog, title:"FwDocument(from:)'s Logger(params4docLog)")
+////		log /*oops*/			= Log(params4docLog, title:"FwDocument(from:)'s Log(params4docLog)")
 ////	xxx	DOCLOG?.config4log/*active*/= params4docLog + params4pp //+["cause":"FwDocument(from:)"]
 ////		let container 			= try decoder.container(keyedBy:DocumentKeys.self)
 ////
@@ -389,7 +389,7 @@
 //		let cmd 				= nsEvent.modifierFlags.contains(.command)
 //		let alt 				= nsEvent.modifierFlags.contains(.option)
 //		var aux : FwConfig		= DOCLOG.params4aux //gets us params4pp
-////		var aux : FwConfig		= Logger.params4aux 	//gets us params4pp
+////		var aux : FwConfig		= Log.params4aux 	//gets us params4pp
 //		aux["ppParam"]			= alt		// Alternate means print parameters
 //
 //		switch character {

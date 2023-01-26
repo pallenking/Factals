@@ -405,7 +405,7 @@ class Port : Part, PortTalk {
 			return rv
 		}
 		// Now rv contain's self's portConSpot, in aVewq
-		let enaPpWp				= logger.params4aux.string("ppViewOptions")?.contains("W") ?? false
+		let enaPpWp				= log.params4aux.string("ppViewOptions")?.contains("W") ?? false
 		//		for rootVew in root!.fwGuts.rootVews {
 		
 		var wPosn				= ""
@@ -625,8 +625,8 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			// e.g: "Ff| |/            P:Port  . . . o| <0.00> -> /prt4/prt2/t1.s0
 			var rv				= ppUid(self, post:" ", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")
-			rv 					+= logger.indentString(minus:1)
-//			rv 					+= root?.fwGuts?.logger.indentString(minus:1) ?? ";;"
+			rv 					+= log.indentString(minus:1)
+//			rv 					+= root?.fwGuts?.log.indentString(minus:1) ?? ";;"
 			rv					+= self.upInWorld 	? 	"|/   " :
 								   						"|\\   "
 			rv					+= ppCenterPart(aux)	// adds "name;class<unindent><Expose><ramId>"

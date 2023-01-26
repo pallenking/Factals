@@ -307,7 +307,7 @@ extension SCNNode /*: HasChildren */ {
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=[:]) -> String {
-		guard let logger		= DOCloggerQ else {	return "DOClogger is nil"		}
+		guard let log		= DOCloggerQ else {	return "DOClogger is nil"		}
 		var rv					= ""
 		switch mode! {
 		case .name:
@@ -324,9 +324,9 @@ extension SCNNode /*: HasChildren */ {
 		case .line:
 			//AaaBbbbbbCcccccccDdddddEeeeeeeeeeeeeeeeeeeeeeeeeFffGggggggggggggggggggggggggggggggggggggggggg
 			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
-			rv					= logger.pidNindent(for:self)		//			(AB)
+			rv					= log.pidNindent(for:self)		//			(AB)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
-			rv 					= logger.unIndent(rv)				// unindent	 (D)
+			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 				//		  (E..G)
 
 		case .tree:
@@ -339,15 +339,15 @@ extension SCNNode /*: HasChildren */ {
 				let pbStuff		= physicsBody == nil ? " \\" :
 								  " \\PB\(physicsBody!.isAffectedByGravity ? ":gra" : "")"
 				let pbs2		= pbStuff.field(-8, dots:false, fill:"_")
-				rv				+= logger.pidNindent(for:presentation) + pbs2
-				rv 				=  logger.unIndent(rv)
+				rv				+= log.pidNindent(for:presentation) + pbs2
+				rv 				=  log.unIndent(rv)
 				rv				+= presentation.scn1Line(prefix:"", aux) + "\n"
 			}
 
 			 /// 3. SCNNode Constraints:
 			for constraint in constraints ?? [] {
-				rv				+= logger.pidNindent(for:constraint) + " \\"
-				logger.nIndent	+= 1
+				rv				+= log.pidNindent(for:constraint) + " \\"
+				log.nIndent	+= 1
 				let nicknames	= ["SCNLookAtConstraint":"LookAt",
 								   "SCNBillboardConstraint":"Billboard"]
 				var cName		= nicknames[constraint.fwClassName] ?? constraint.fwClassName
@@ -356,11 +356,11 @@ extension SCNNode /*: HasChildren */ {
 					cName		+= ": " + cTarget.fullName
 				}
 				rv				+= "\(cName)\n"
-				logger.nIndent	-= 1
+				log.nIndent	-= 1
 			}
 					/* Also someday: SCNPhysicsField, SCNParticleSystem */
 			 /// 4. Materials
-			logger.nIndent		+= 1
+			log.nIndent		+= 1
 			if aux.bool_("ppScnMaterial") {
 				for material in geometry?.materials ?? [] {
 					rv			+= " " + material.ppSCNMaterialColors(debugDescription) + "\n"
@@ -369,20 +369,20 @@ extension SCNNode /*: HasChildren */ {
 			}
 			 /// 5. SCNAudioPlayer Sound
 			for audioPlayer in audioPlayers {
-				rv				+= logger.pidNindent(for:audioPlayer) + " \\sound:"
-				rv 				=  logger.unIndent(rv) + "\n"
+				rv				+= log.pidNindent(for:audioPlayer) + " \\sound:"
+				rv 				=  log.unIndent(rv) + "\n"
 			//	assert(audioPlayer.audioNode == self, "wtf audioPlayer")
 				let audioSource	= audioPlayer.audioSource
 				rv				+= "name:??\n"
 			}
 			 // Surpurflus info:
 			if let light {
-				rv				+= logger.pidNindent(for:light) + " \\light:"
-				rv 				=  logger.unIndent(rv) + "\n"
+				rv				+= log.pidNindent(for:light) + " \\light:"
+				rv 				=  log.unIndent(rv) + "\n"
 			}
 			if let camera {
-				rv				+= logger.pidNindent(for:camera) + " \\camera:"
-				rv 				=  logger.unIndent(rv) + "\n"
+				rv				+= log.pidNindent(for:camera) + " \\camera:"
+				rv 				=  log.unIndent(rv) + "\n"
 			}
 
 			 /// 6. LAST print lower Parts, some are Ports
@@ -392,7 +392,7 @@ extension SCNNode /*: HasChildren */ {
 								?  child.pp(.line)+" (TRUNCATED)\n"
 								:  child.pp(.tree)
 			}
-			logger.nIndent		-= 1
+			log.nIndent		-= 1
 		default:
 			rv					=  ppDefault(self:self, mode:mode, aux:aux)	//bug?
 		}

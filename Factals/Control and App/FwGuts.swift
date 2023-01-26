@@ -15,9 +15,9 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 									//	{	get		{	return docPrivate!											}
 									//		set(v)	{	docPrivate = v												}
 									//	};var docPrivate : FactalsDocument? = nil
-	var logger 		 : Logger
+	var log 		 : Log
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		logger.log(banner:banner, format_, args, terminator:terminator)
+		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
 	func pushControllersConfig(to c:FwConfig) { // *****
@@ -33,7 +33,7 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 	}
 	init(rootPart r:RootPart) {
 		rootPart				= r
-		logger					= Logger(title:"FwGut's Logger", params4all)
+		log					= Log(title:"FwGut's Log", params4all)
 
 		super.init()
 
@@ -184,7 +184,7 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 			}
 		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
-			logger.ppIndentCols = 3
+			log.ppIndentCols = 3
 			for key in rootVews.keys {
 				let rootVew		= rootVews[key]!
 				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn)))" +

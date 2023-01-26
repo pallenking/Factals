@@ -440,7 +440,7 @@ let x = pp(.tree)
 		atBld(3, {					// === ///// BEFORE GETTING:
 			let val0			= partTreeLock.value ?? -99
 			let msg				= " //######\(u_name)      GET Part LOCK: v:\(val0)"
-			 // Logger:
+			 // Log:
 			!logIf || !debugOutterLock ? nop 		 		// less verbose
 			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(partTreeOwner ?? "-")', PROBABLE WAIT..."))
 			 : 		   partTreeVerbose ? atBld(4, logd(msg))// normal
@@ -528,10 +528,10 @@ let x = pp(.tree)
 	}
 
 	// MARK: - 14. Building
-	 // Part.logger comes here to stop  -- else infinite loop
-	override var logger : Logger 	{ 	fwGuts?.logger ?? .help					}
+	 // Part.log comes here to stop  -- else infinite loop
+	override var log : Log 	{ 	fwGuts?.log ?? .help					}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		logger.log(banner:banner, format_, args, terminator:terminator)
+		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{

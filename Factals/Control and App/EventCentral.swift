@@ -279,9 +279,9 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		rootScn.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 	 // MARK: - 14. Building
-	var logger : Logger 		{	rootVew.fwGuts.logger								}
+	var log : Log 		{	rootVew.fwGuts.log								}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		logger.log(banner:banner, format_, args, terminator:terminator)
+		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{

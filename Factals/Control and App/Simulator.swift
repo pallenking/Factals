@@ -163,10 +163,10 @@ class Simulator : NSObject, Codable {		// NEVER NSCopying, Equatable
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
 	// MARK: - 14. Building
-	var logger : Logger { rootPart.fwGuts?.logger ?? .help					}
+	var log : Log { rootPart.fwGuts?.log ?? .help					}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		logger.log(banner:banner, format_, args, terminator:terminator)
-	}			//Cannot convert return expression of type 'Optional<_>' to return type 'Logger'
+		log.log(banner:banner, format_, args, terminator:terminator)
+	}			//Cannot convert return expression of type 'Optional<_>' to return type 'Log'
 
 	// MARK: - 13. IBActions
 		/// Prosses keyboard key

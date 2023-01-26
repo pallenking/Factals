@@ -1,11 +1,11 @@
-// Logger.swift -- common support files C2018PAK
+// Log.swift -- common support files C2018PAK
 
-// Logger must deal with the case that it should handle it's own printing before Logger
+// Log must deal with the case that it should handle it's own printing before Log
 // lifeCycleLogger
 
 import SceneKit
 
-extension Logger : Uid {
+extension Log : Uid {
 //	var uid: UInt16 {
 //		get 			{	uid_												}
 //		set				{	uid_ = newValue										}
@@ -14,88 +14,88 @@ extension Logger : Uid {
 		print("\(fwClassName) \(ppUid(self))\(note): \(format)")
 	}
 }
-class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
+class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
-	static var maximumLogNo		= 0			// Next Logger index to assign. (Now exist 0..<nextLogIndex)
+	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 
 	 // MARK: - 2. Object Variables:
-	 // Identification of Logger
+	 // Identification of Log
 	var uid						= randomUid()
 	var title 					= "untitled"
 	var logNo		   			= -1		// Index number of this log
 
-	 // Each Logger has an event number
+	 // Each Log has an event number
 	var eventNumber		   		= 1			// Current entry number (runs 1...)
 
 	 // Breakpoint
 	var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
-	var breakAtLogger			= 0			// 0:UNDEF, 1... : The Hot Logger
+	var breakAtLogger			= 0			// 0:UNDEF, 1... : The Hot Log
 
 	var logEvents				= true
 
 	var verbosity   : [String:Int]? = [:] 	 // Current logging verbosity filter to select log messages
 
 	 /// REALLY UGLY: what if different threads using log?
-	var msgPriority : Int?			= nil		// hack: pass argument to message via global
-	var msgFilter   : String?		= nil
+	var msgPriority : Int?		= nil		// hack: pass argument to message via global
+	var msgFilter   : String?	= nil
 
-	 /// Configure Logger facilities
+	 /// Configure Log facilities
 	func pushControllersConfig(to c:FwConfig) {
 
 		 // Unpack frequently used config hash elements to object parameters
-		if let pic 			= c.int("ppIndentCols")	{
-			ppIndentCols 	= pic
+		if let pic 				= c.int("ppIndentCols")	{
+			ppIndentCols 		= pic
 		}
-		if let ppp			= c.bool("ppPorts") 		{
-			ppPorts			= ppp
+		if let ppp				= c.bool("ppPorts") 	{
+			ppPorts				= ppp
 		}
-		if let uidd4p		= c .int("ppNUid4Tree") 	{
-			ppNUid4Tree 	= uidd4p
+		if let uidd4p			= c .int("ppNUid4Tree") {
+			ppNUid4Tree 		= uidd4p
 		}
-		if let uidd4c		= c .int("ppNUid4Ctl")		{
-			ppNUid4Ctl 		= uidd4c
+		if let uidd4c			= c .int("ppNUid4Ctl")	{
+			ppNUid4Ctl 			= uidd4c
 		}
-		if let lo			= c.bool("debugOutterLock"){
-			debugOutterLock	= lo
+		if let lo				= c.bool("debugOutterLock"){
+			debugOutterLock		= lo
 		}
-		if let lev			= c.bool("logEvents")		{
-			logEvents		= lev
+		if let lev				= c.bool("logEvents")	{
+			logEvents			= lev
 		}
-		if let t 			= c.bool("logTime")		{
-			logTime			= t
+		if let t 				= c.bool("logTime")		{
+			logTime				= t
 		}
-		if let bae			= c .int("breakAtEvent") {
-			breakAtEvent	= bae
+		if let bae				= c.int("breakAtEvent")	{
+			breakAtEvent		= bae
 		}
-		if let bal			= c .int("breakAtLogger") {
-			breakAtLogger	= bal
+		if let bal				= c .int("breakAtLogger"){
+			breakAtLogger		= bal
 		}
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
-		verbosity 			= verbosityInfoFrom(c)
+		verbosity 				= verbosityInfoFrom(c)
 	}
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
 		   // Process logPri4*** keys. SEMANTICS:
 		  //   If NONE with prefix "logPri4" are found, verbosity is unchanged
 		 // 	 if some are found, they replace the old verbosity.
-		var rv : [String:Int] = [:]
+		var rv : [String:Int] 	= [:]
 		for (keyI, valI) in config {		// Scan config being loaded:
 			if keyI.hasPrefix("logPri4"),		// that start with "logPri4"
-			  let newVal 	= Int(fwAny:valI) {	// have an integer value
+			  let newVal 		= Int(fwAny:valI) {	// have an integer value
 				assert(newVal >= 0 && newVal <= 9, "\(keyI):\(valI) not in range 0...9")
-				let newKey	= String(keyI.dropFirst("logPri4".count))
-				rv[newKey]	= newVal				// save trailing part
+				let newKey		= String(keyI.dropFirst("logPri4".count))
+				rv[newKey]		= newVal				// save trailing part
 			}	// pt: Simultaneous accesses to 0x60000300ca68, but modification requires exclusive access.
 		}
 		return rv
 	}
 	func ppVerbosityOf(_ config:FwConfig) -> String {
-		let verbosityHash	= verbosityInfoFrom(config)
+		let verbosityHash		= verbosityInfoFrom(config)
 		if verbosityHash.count > 0 {
-			var msg			=  "\(logNo)(\(ppUid(self))).verbosity "
-			msg				+= "=\(verbosityHash.pp(.line)) Cause:"
-			msg				+= config.string_("cause")
+			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
+			msg					+= "=\(verbosityHash.pp(.line)) Cause:"
+			msg					+= config.string_("cause")
 			return msg
 		}
 		return ""
@@ -127,7 +127,7 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 	func unIndent(_ previous:String) -> String {
 		let nUnIndent			= ppIndentCols/2 - nIndent
 		if nUnIndent > 0 {
-			return previous +  String(repeating: ". ", count:abs(nUnIndent))
+			return previous + String(repeating: ". ", count:abs(nUnIndent))
 		}else{
 			 // Negative unindents prune previous String. This tightens printouts
 			return String(previous.dropLast(-2*nUnIndent))
@@ -144,8 +144,8 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 		//super.init()
 		pushControllersConfig(to:config)
 
-		Logger.maximumLogNo		+= 1
-		logNo					= Logger.maximumLogNo				// Logs have unique number
+		Log.maximumLogNo		+= 1
+		logNo					= Log.maximumLogNo				// Logs have unique number
 		self.title				= title
 	}
 
@@ -192,35 +192,36 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
 		//super.init()
-		let container 	= try decoder.container(keyedBy:LogKeys.self)
-		title			= try container.decode(		   String.self, forKey:.title		)
-		logNo			= try container.decode(			  Int.self, forKey:.logNo		)
-		eventNumber		= try container.decode(			  Int.self, forKey:.entryNo		)
-		breakAtEvent	= try container.decode(			  Int.self, forKey:.breakAtEvent)
-		breakAtLogger	= try container.decode(			  Int.self, forKey:.breakAtLogger)
-		logEvents		= try container.decode(			 Bool.self, forKey:.logEvents	)
-		verbosity		= try container.decode( [String:Int]?.self, forKey:.verbosity	)
-		msgPriority		= try container.decode(			  Int.self, forKey:.msgPriority	)
-		msgFilter		= try container.decode(  	  String?.self, forKey:.msgFilter	)
-		simTimeLastLog	= try container.decode(		   Float?.self, forKey:.simTimeLastLog)
-		logTime			= try container.decode(			 Bool.self, forKey:.logTime		)
-		ppIndentCols	= try container.decode(			  Int.self, forKey:.ppIndentCols)
-		ppPorts			= try container.decode(			 Bool.self, forKey:.ppPorts		)
-		ppNUid4Tree		= try container.decode(			  Int.self, forKey:.ppNUid4Tree	)
-		ppNUid4Ctl		= try container.decode(			  Int.self, forKey:.ppNUid4Ctl	)
-		nIndent			= try container.decode(			  Int.self, forKey:.nIndent		)
+
+		let container 			= try decoder.container(keyedBy:LogKeys.self)
+		title					= try container.decode(		   String.self, forKey:.title		)
+		logNo					= try container.decode(			  Int.self, forKey:.logNo		)
+		eventNumber				= try container.decode(			  Int.self, forKey:.entryNo		)
+		breakAtEvent			= try container.decode(			  Int.self, forKey:.breakAtEvent)
+		breakAtLogger			= try container.decode(			  Int.self, forKey:.breakAtLogger)
+		logEvents				= try container.decode(			 Bool.self, forKey:.logEvents	)
+		verbosity				= try container.decode( [String:Int]?.self, forKey:.verbosity	)
+		msgPriority				= try container.decode(			  Int.self, forKey:.msgPriority	)
+		msgFilter				= try container.decode(  	  String?.self, forKey:.msgFilter	)
+		simTimeLastLog			= try container.decode(		   Float?.self, forKey:.simTimeLastLog)
+		logTime					= try container.decode(			 Bool.self, forKey:.logTime		)
+		ppIndentCols			= try container.decode(			  Int.self, forKey:.ppIndentCols)
+		ppPorts					= try container.decode(			 Bool.self, forKey:.ppPorts		)
+		ppNUid4Tree				= try container.decode(			  Int.self, forKey:.ppNUid4Tree	)
+		ppNUid4Ctl				= try container.decode(			  Int.self, forKey:.ppNUid4Ctl	)
+		nIndent					= try container.decode(			  Int.self, forKey:.nIndent		)
 		atSer(3, logd("Decoded  as? RootPart \(ppUid(self))"))
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
-	// MARK: - 5. Logger
+	// MARK: - 5. Log
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 
-		 // Print new Logger, if it has changed:
- 		if logNo != Logger.currentLogNo {						// Same as last time
-			Logger.currentLogNo	= logNo							// switch to new
+		 // Print new Log, if it has changed:
+ 		if logNo != Log.currentLogNo {						// Same as last time
+			Log.currentLogNo	= logNo							// switch to new
 			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
 										//	//	var x				= "33".pp(.line) ?? "nil"// GOOD
-			let x				= "\(logNo). ######## Switching to Logger \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
+			let x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
 			print(x)
 		}
 		 // Print Simulator's time, if it has changed:
@@ -231,12 +232,12 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)
 			if logEvents,
 			 deltaTime > 0 || simTimeLastLog==nil {
-				let globalUp 	= sim.globalDagDirUp ? "UP  " : "DOWN"
+				let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
 				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
 				let dashes		= deltaTime <= sim.simTimeStep ? "" : "- - - - - - - - - - - - - - - - - \(delta)"
 				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(dashes)", sim.timeNow))
 			}
-			simTimeLastLog	= sim.timeNow
+			simTimeLastLog		= sim.timeNow
 		}
 		 // Strip leading \n's:
 		let (newLines, format)	= format_.stripLeadingNewLines()
@@ -254,7 +255,7 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 		 // Breakpoint Stop?
 		if breakAtLogger == logNo,
 		   breakAtEvent == eventNumber {
-			panic("Encountered Break at Event \(breakAtEvent) in Logger \(breakAtLogger).")
+			panic("Encountered Break at Event \(breakAtEvent) in Log \(breakAtLogger).")
 		}
 		eventNumber				+= 1		// go on to next log number
 	}
@@ -294,7 +295,7 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
 		if let curLockStr		= DOC?.fwGuts?.rootPart.partTreeOwner {
-			return Logger.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
+			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
 		}
 		return ".,."
 	}
@@ -314,21 +315,21 @@ class Logger : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 	]
 	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
 	var params4aux : FwConfig	{	DOC?.config ?? [:]		}
-	 /// In Pessamistic mode: a new Logger every usage (features missing)
+	 /// In Pessamistic mode: a new Log every usage (features missing)
 	 /// In Limp mode:		  one static defaultLogger
-	static var help : Logger {
+	static var help : Log {
 		let loggerParams:FwConfig = params4all//[:]//
 		return falseF			//trueF//falseF//
-			? Logger(title:"Using a new Log every message (conservative)", loggerParams)
+			? Log(title:"Using a new Log every message (conservative)", loggerParams)
 			: helpLogger ?? {
-				helpLogger = Logger(title:"Using this one Log", loggerParams)
+				helpLogger = Log(title:"Using this one Log", loggerParams)
 				return helpLogger!
 			} ()
-	};private static var helpLogger : Logger? = nil
+	};private static var helpLogger : Log? = nil
 
-	var description		 : String { return  "Logger\(logNo) \"\(title)\""	}
-	var debugDescription : String { return "'Logger\(logNo) \"\(title)\"'"}
-	var summary					  : String { return "<Logger\(logNo) \"\(title)\">"}
+	var description		 : String { return  "Log\(logNo) \"\(title)\""	}
+	var debugDescription : String { return "'Log\(logNo) \"\(title)\"'"}
+	var summary					  : String { return "<Log\(logNo) \"\(title)\">"}
 }
 var debugOutterLock	= false		// default value
 

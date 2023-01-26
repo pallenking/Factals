@@ -127,11 +127,10 @@ extension RootVew {
 	func ppLine() -> String {
 		guard let rootVew							else {	return "Vew.rootVew == nil "}
 		guard let fwGuts 		= rootVew.fwGuts 	else {	return "Vew.rootVew?.fwGuts == nil "}
-
 		guard let myI			= fwGuts.rootVews.firstIndex(where:{ $0.value === self })
 			else {		bug;		return "Oops 2242"							}
+
 		let (key, _)			= fwGuts.rootVews[myI]
-//		var rv					= "trunkVew:\(ppUid(trunkVew, showNil:true)) "
 		var rv					= "rootVew:\(ppUid(rootVew, showNil:true)) "
 		rv						+= "(\(nodeCount()) Nodes) "
 		rv						+= "LockVal:\(rootVewLock.value ?? -99) "

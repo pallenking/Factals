@@ -213,7 +213,7 @@ struct InspecRootPart : View {										 // RootPart
 			HStack {			// Simulator
 				ClassBox(labeled:"RootPart")
 				Spacer()
-				Text("Logger")
+				Text("Log")
 				Text("Time")
 				Text("Break")
 				Text("LogEvents")

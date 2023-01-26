@@ -114,10 +114,10 @@ extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
 			deapth:deapth-1)
 	}
 }
-extension Logger : FwStatus {											///Logger
+extension Log : FwStatus {											///Log
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= !logEvents ? "disabled" :
-			"Logger \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
+			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
 			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
 		let logKind				= (title[0...0] == "A" ? "APPLOG" : "DOClogger").field(-13)
 		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
@@ -190,7 +190,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 				for (key, rootVew) in self.rootVews {
 					rv			+= rootVew.ppFwState(deapth:deapth-1)
 				}
-				rv				+= self.logger.ppFwState()
+				rv				+= self.log.ppFwState()
 				return rv
 			},
 			deapth:deapth-1)

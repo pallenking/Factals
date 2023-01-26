@@ -407,18 +407,18 @@ bug
 	}
 
 	// MARK: - 14. Building
-	var logger : Logger { fwGuts.logger											}
+	var log : Log { fwGuts.log											}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		logger.log(banner:banner, format_, args, terminator:terminator)
+		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 	
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4aux) -> String	{
 		switch mode! {
 		case .line:
-			return logger.indentString() + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny
+			return log.indentString() + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny
 		case .tree:
-			return logger.indentString() + " FactalsDocument" + "\n"
+			return log.indentString() + " FactalsDocument" + "\n"
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)						// NO: return super.pp(mode, aux)
 		}

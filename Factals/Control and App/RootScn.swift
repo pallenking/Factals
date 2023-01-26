@@ -52,8 +52,8 @@ class RootScn : SCNNode {		// , Uid
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 	var selfiePole				= SelfiePole()
 	var cameraScn	: SCNNode 	{ 	touchCameraScn()							}
-		 /// For Logger conformance:
-	var logger 	 	: Logger 	{	rootVew.fwGuts.logger						}
+		 /// For Log conformance:
+	var log 	 	: Log 	{	rootVew.fwGuts.log						}
 
 
 	/// Convenience Parameters:
@@ -77,7 +77,7 @@ class RootScn : SCNNode {		// , Uid
 
 	// MARK: - 14. Building
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		logger.log(banner:banner, format_, args, terminator:terminator)
+		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
 	 // MARK: - 3.1 init
