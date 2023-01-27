@@ -1307,6 +1307,5 @@ extension DispatchSemaphore {
 
 /// No Operation
 /// * A legal statement that does nothing and returns nothing.
+@inline(never)
 var nop : () 		{		return 												}
-
-

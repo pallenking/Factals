@@ -18,13 +18,13 @@ enum VewConfig : FwAny {
 
 	func ppLine() -> String {
 		switch self {
-		case .openPath(to:let path): nop
+		case .openPath(to:let path):
 			return ".openPath(to:\(path.fullName()))"
-		case .openAllChildren(toDeapth:let deapth): nop
+		case .openAllChildren(toDeapth:let deapth):
 			return ".openAllChildren(toDeapth:\(deapth))"
-		case .subVewList(let vewConfigs): nop			// array of directives, to
+		case .subVewList(let vewConfigs):			// array of directives, to
 			return ".subVewList([\(vewConfigs.count)])"
-		case .subVew(let fwConfig): nop
+		case .subVew(let fwConfig):
 			return ".subVew(fwConfig:[\(fwConfig.count) elts])"
 		}
 	}
@@ -66,7 +66,7 @@ extension Part {
 		if vew != nil,					// Check if correct
 		   vew!.name != "_" + name ||		// name and part
 		   vew!.part !== self {
-			vew					= nil		// Incorrect, force rebuild
+			vew					= nil			// Incorrect, force rebuild
 		}
 		if vew == nil {					// Must create a new View?
 			vew					= VewForSelf()
@@ -75,7 +75,8 @@ extension Part {
 
 		 // Remove any old skins:
 	//	parentVew.scn.find(name:"s-atomic")?.removeFromParent()
-		 // Add new skins:
+
+		 // A new skin is made per Part:
 		let bbox				= parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
 		parentVew.part.markTree(dirty:.size)
 
@@ -94,7 +95,7 @@ extension Part {
 			for vewConfig in vewConfigs {
 				adorn(in:parentVew, openChildrenUsing:vewConfig)
 			}
-		case .subVew(let fwConfig): nop
+		case .subVew(let fwConfig):
 			self.localConfig	= fwConfig	//??
 			print("??? adorn(.subVew(let fwConfig): ???")
 			//panic(".subVew(\(fwConfig.pp(.phrase))")
@@ -102,25 +103,7 @@ extension Part {
 	}
 //	/// Insure the Vews for the parts in config are present in self
 //	/// - Parameter config: which parts should be opened
-//	func touchVews(ofConfig config:VewConfig) {
-//		switch config {
-//		case .openPath(var path):
-//		case .openAllChildren(let toDeapth):
-//bug;		let deapth			= toDeapth - 1
-//			if deapth > 0 {
-//				for child in children {
-//					child.touchVews(ofConfig:.openAllChildren(toDeapth:deapth))
-//				}
-//			}
-//			nop
-//		case .subVewList(let vewConfigs):
-//bug;		for config in vewConfigs {
-//				touchVews(ofConfig:config)
-//			}
-//		case .subVew(let fwConfig):
-//			nop
-//		}
-//	}
+//	func touchVews(ofConfig config:VewConfig) {}
 }
 
 extension RootVew {
