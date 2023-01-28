@@ -307,7 +307,7 @@ extension SCNNode /*: HasChildren */ {
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=[:]) -> String {
-		guard let log		= DOCloggerQ else {	return "DOClogger is nil"		}
+		guard let log		= DOClogQ else {	return "DOClog is nil"		}
 		var rv					= ""
 		switch mode! {
 		case .name:
@@ -411,7 +411,7 @@ extension SCNNode /*: HasChildren */ {
 
 		 // display position in trunk:
 		if let fwGuts			= DOCfwGutsQ,
-		  params4aux.string_("ppViewOptions").contains("W"),					//if DOClogger.params4aux.string_("ppViewOptions").contains("W") {
+		  params4aux.string_("ppViewOptions").contains("W"),					//if DOClog.params4aux.string_("ppViewOptions").contains("W") {
 		  let rootVew			= fwGuts.rootVew(ofScnNode:self) {
 			let p				= convertPosition(.zero, to:rootVew.scn)
 			rv2					+= p.pp(.short).field(-11, dots:false)

@@ -442,9 +442,9 @@ extension SCNMaterial {
 				let n				= name ?? ""
 				return "SCNMaterial[ " + (n) + "]"		//  + ":" + pp(.fwClassName, aux).field(-3, dots:false)
 			case .line:
-				var rv			= DOClogger.pidNindent(for:self)	//			(AB)
+				var rv			= DOClog.pidNindent(for:self)	//			(AB)
 				rv				+= "\((name ?? "material ").field(-8, dots:false))"//(C)
-				rv 				=  DOClogger.unIndent(rv)// unindent	 (D)
+				rv 				=  DOClog.unIndent(rv)// unindent	 (D)
 				rv				+= " " + ppSCNMaterialColors(debugDescription)
 				return rv
 			default:

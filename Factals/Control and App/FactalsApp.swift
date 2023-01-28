@@ -47,8 +47,8 @@ var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now:
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed			//  9
 var DOCfwGuts		: FwGuts	{	DOCfwGutsQ ?? {
 	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil"); return FwGuts() 		}()}
-var DOCloggerQ  	: Log? 	{	DOCfwGutsQ?.log							}				//  2
-var DOClogger  		: Log 	{	DOCloggerQ ?? .help							}	//.first	// 50
+var DOClogQ  	: Log? 	{	DOCfwGutsQ?.log							}				//  2
+var DOClog  		: Log 	{	DOClogQ ?? .help							}	//.first	// 50
 let DOCctlr						= NSDocumentController.shared
 
 @main										// calls AppDelegateFoo.swift

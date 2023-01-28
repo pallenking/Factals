@@ -3,7 +3,7 @@
 import Foundation
 
 //	at<A>(<V>, {...}) executes an action dependent on "arguments" <A> and <V>.
-//	If the current DOClogger.verbosity[<A>] is >= <V> the closure is executed.
+//	If the current DOClog.verbosity[<A>] is >= <V> the closure is executed.
 //
 //	The following verbosities <V> are defined:
 		// 0 : silent (prints nothing)		// 5 : Normal
@@ -28,7 +28,7 @@ import Foundation
 		// tst	-- TeSTing
 		// all	-- ALL OF ABOVE		-
 
-//	E.g: the following will print "construction message" if DOClogger.verbosity
+//	E.g: the following will print "construction message" if DOClog.verbosity
 //	calls for >=3 verbosity messages:
 //			atCon(3, Log(<construction message>))
 
@@ -72,7 +72,7 @@ func at(con:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 }
 
  /// Common Filter routine:
-/// * Executes the closure if the priority in DOClogger.filter[area] >= verbosity
+/// * Executes the closure if the priority in DOClog.filter[area] >= verbosity
 /// - parameters:
 ///   - area: 	= the kind of message, where the message is from.
 ///   - verbosity:	= the priority of the message, how important 0<msgPri<10

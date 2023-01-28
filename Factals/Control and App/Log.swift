@@ -280,16 +280,16 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 	func ppLogFromString() -> String {				// " Acon4 "
 		var rv					= " "
 		rv						+= ppCurThread 	// Thread identifier: e.g: "A"
-		rv 						+= msgFilter ?? "flt"	 			//e.g: "con"
+		rv 						+= msgFilter ?? "?_?"	 			//e.g: "con"
 		let mp : Int?			= msgPriority	// avoids concurrency problem!!!
-		rv						+= mp != nil ? "\(mp!)" : "-"		//e.g: "4"
+		rv						+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
 		rv						= rv.field(-9, dots:false, grow:true)
 		rv						+= " "
 		return rv
 	}
 	static var ppLogFromBlank : String {
 		let nLog				= 3		// a quick approximation
-		return  String(repeating: " ", count:DOClogger.ppLogFromString().count + nLog)
+		return  String(repeating: " ", count:DOClog.ppLogFromString().count + nLog)
 	}
 
 	 /// Character to represent Transaction ID:
@@ -340,12 +340,12 @@ func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let msg						= fmt(format, args)
 	warningLog.append(msg)
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	DOClogger.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
+	DOClog.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
 }
 func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
 	logNErrors					+= 1
-	DOClogger.log(banner:targName + "ERROR \(logNErrors) ", 		format, args)
+	DOClog.log(banner:targName + "ERROR \(logNErrors) ", 		format, args)
 }
 
 

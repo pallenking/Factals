@@ -301,7 +301,7 @@ final class FactalsTests: XCTestCase {
 //	}
 
 	func testPpUidFooX() {
-		let y  : String				= ppUid(pre:"pre:", DOClogger, post:":post")
+		let y  : String				= ppUid(pre:"pre:", DOClog, post:":post")
 		//Ambiguous use of 'ppUid(pre:_:post:showNil:aux:)'
 		XCTAssert(y.hasPrefix("pre:") && y.hasSuffix("post"))
 	}

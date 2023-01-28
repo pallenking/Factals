@@ -20,7 +20,7 @@ extension Part : PolyWrappable {			}
  // Generic struct 'ForEach' requires that 'Part' conform to 'Hashable' (from InspecPart.body.Picker)
 //extension Part : Hashable {
 //	func hash(into hasher: inout Hasher) {
-//		DOClogger.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
+//		DOClog.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
 //		hasher.combine(uid)					// fwClassName, fullName, children?
 //	}
 //}
@@ -1396,7 +1396,7 @@ bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)
 //		let msg					= String(format:format, arguments:args)
 //		let (nls, str2)			= msg.stripLeadingNewLines()
 //		let str					= nls + (pp(.uidClass) + ":").field(-nFullN) + str2
-//		DOClogger.log(str, terminator:terminator)
+//		DOClog.log(str, terminator:terminator)
 //	}
 	func warning(_ format:String, _ args:CVarArg...) {
 		let fmtWithArgs			= String(format:format, arguments:args)

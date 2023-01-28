@@ -56,7 +56,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	 // 1. On creation, save the args for later
 	init(_ args:SceneKitArgs)	{
 		self.args				= args
-		atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): ========= SceneKitHostingView title:'\(args.title)'"))
+		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========= SceneKitHostingView title:'\(args.title)'"))
 	}
 	var args					: SceneKitArgs
 
@@ -69,7 +69,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 										//		let environment			= context.environment		// Empty
 											//	let prefBridge 			= context.preferenceBridge	// no member 'preferenceBridge'
 		guard let fwGuts		= args.fwGuts else { fatalError("got no fwGuts!")}
-		atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
+		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
 		 // Make new RootVew:
 		let scnScene			= args.background ?? SCNScene()
@@ -98,11 +98,11 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		//						= args.options.contains(.temporalAntialiasingEnabled)
 		returnedScnView.preferredFramesPerSecond
 								= args.preferredFramesPerSecond
-		atRnd(4, DOClogger.log("\t\t\t   ==>>  Made \(returnedScnView.pp(.line)) vewConfig:" +
+		atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(returnedScnView.pp(.line)) vewConfig:" +
 			"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
 		return returnedScnView
 	}
 	func updateNSView(_ nsView: SCNView, context: Context) {
-		atRnd(4, DOClogger.log("=== Slot \(args.sceneIndex): =========== updateNSView      title:'\(args.title)' (Does nothing)"))
+		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): =========== updateNSView      title:'\(args.title)' (Does nothing)"))
 	}
 }

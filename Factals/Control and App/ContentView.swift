@@ -158,7 +158,7 @@ struct ContentView: View {
 				.frame(width:150, height:150)
 				.border(.black, width:2)
 				.onAppear() {
-					atRsi(9, DOClogger.log("x: Dragon APPEARED"))
+					DOClog.log("Dragon APPEARED")
 					guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
 					let i 		  = dragonModel.redrawValue / 2
 					scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
@@ -169,7 +169,8 @@ struct ContentView: View {
 					scn.runAction(SCNAction.repeatForever(SCNAction.rotate(by:.pi/4, around:rotationAxis, duration:10) ))
 				}
 				.onDisappear() {
-					print("x: Dragon DISAPPEARED")
+					DOClog.log("Dragon DISAPPEARED")
+					print()
 				}
 			}
 		}
@@ -235,7 +236,7 @@ struct ContentView: View {
 						 .frame(width:150, height:150)
 						 .border(.black, width:2)
 						 .onAppear() {
-							print("x: Dragon APPEARED")
+							DOClog.log("Dragon APPEARED")
 							guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
 							let i = dragonModel.redrawValue
 							scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
@@ -244,6 +245,7 @@ struct ContentView: View {
 											 SCNMatrix4MakeRotation(.pi/2, 0,0,1)] [i % 4]
 							let rotationAxis = SCNVector3(i/4==1 ? 1 : 0, i/4==2 ? 1 : 0, i/4==3 ? 1 : 0)
 							scn.runAction(SCNAction.repeatForever(SCNAction.rotate(by:.pi/4, around:rotationAxis, duration:10) ))
+							DOClog.log("Dragon DISAPPEARED")
 						 }
 						 // --- J E T ---
 						Text("2:")

@@ -43,7 +43,7 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 	}
 
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
-		atRnd(4, DOClogger.log("=== Slot \(sceneKitArgs.sceneIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
+		atRnd(4, DOClog.log("=== Slot \(sceneKitArgs.sceneIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
 
 		 // Access rootVews for sceneKitArgs.sceneIndex:
 		guard let rootVew		= rootVews[sceneKitArgs.sceneIndex] else {
