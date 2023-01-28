@@ -59,7 +59,7 @@ extension Part {
 	///   a Vew, try to use it. Otherwise create one
 	///   - openChildrenUsing config: config to open children using
 	func adorn(in parentVew:Vew, openChildrenUsing config:VewConfig) {
-		atRve(3, parentVew.part.logd("adorn(in:\(parentVew.pp(.fullName).field(-25)) openChildrenUsing:\(config.pp(.fullNameUidClass))"))
+		atRve(3, parentVew.part.logd("adorn(in:\(parentVew.pp(.fullName).field(-15)), openChildrenUsing:\(config.pp(.fullNameUidClass)))"))
 
 		 // If a Vew for part is already in parentVew, use it:
 		var vew					= parentVew.children.first { $0.part === self}
@@ -76,7 +76,7 @@ extension Part {
 		 // Remove any old skins:
 	//	parentVew.scn.find(name:"s-atomic")?.removeFromParent()
 
-		 // A new skin is made per Part:
+		 // A new skin is made by Part:
 		let bbox				= parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
 		parentVew.part.markTree(dirty:.size)
 
@@ -97,7 +97,7 @@ extension Part {
 			}
 		case .subVew(let fwConfig):
 			self.localConfig	= fwConfig	//??
-			print("??? adorn(.subVew(let fwConfig): ???")
+			//print("??? adorn(.subVew(let fwConfig): ???")
 			//panic(".subVew(\(fwConfig.pp(.phrase))")
 		}
 	}

@@ -158,7 +158,7 @@ struct ContentView: View {
 				.frame(width:150, height:150)
 				.border(.black, width:2)
 				.onAppear() {
-					print("x: Dragon APPEARED")
+					atRsi(9, DOClogger.log("x: Dragon APPEARED"))
 					guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
 					let i 		  = dragonModel.redrawValue / 2
 					scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
