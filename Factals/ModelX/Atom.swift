@@ -76,10 +76,7 @@ class Atom : Part {	//Part//FwPart
 	}
 	override func groomModel(parent parent_:Part?, root root_:RootPart?)  {
 		super.groomModel(parent:parent_, root:root_)
-		for (_, port) in ports					// review Ports too:
-		//		where !children.contains(port)  {	// which aren't in children
-{ bug
-			panic("Look, never happens!")
+		for (_, port) in ports {		// review Ports too:
 			port.groomModel(parent:self, root:root_)				// non-child Port
 		}								 // ### RECURSIVE validate
 	}

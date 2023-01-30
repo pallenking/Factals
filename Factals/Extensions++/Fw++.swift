@@ -368,24 +368,51 @@ extension Dictionary {
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
 }
 
+extension Dictionary {
+
+
+}
   func +=(        dict1: inout FwConfig,       dict2:FwConfig) 	{	dict1 = dict1 + dict2	}
 //func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable 	{	dict1 = dict1 + dict2	}
 
 func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	var rv						= lhs						// initial values, older, overwritten
 	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+
+	let u						= FwConfig.Value.self
+	let w						= u is any Equatable
+
 	for (keyRhs, valueRhs) in rhsSorted {
 		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-			atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+			let x				= valueLhs is (any Equatable)
+			let y				= valueRhs is (any Equatable)
+			atBld(9, print("Dictionary Conflict 2 L=\(x) R=\(y), Key: \(keyRhs.field(20)) was \((valueLhs as! FwAny).pp(.short).field(10)) \t<-- \((valueRhs as! FwAny).pp(.short))"))
 		}
 		rv[keyRhs] 				= valueRhs
 	}
 	return rv
 }
-func +<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny, Value:Equatable {
+func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny {
 	var rv						= lhs						// initial values, older, overwritten
 	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
-	for (key, var valRhs) in rhsSorted {		// Paw through lhs Dictionary
+	func isEq(_ v:Value)->String { 	v is any Equatable ? "(Equatable)" : "(-------)" }
+	for (keyRhs, valueRhs) in rhsSorted {
+		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
+//			let x				= "L=\(valueLhs is (any Equatable)),
+//			let y				= valueRhs is (any Equatable)
+			let val1			= valueLhs.pp(.short).field(10) + isEq(valueLhs)
+			let val2			= valueRhs.pp(.short)			+ isEq(valueRhs)
+			atBld(9, print("dictAdd conflict 1, Key: \(keyRhs.field(20)) was \(val1) \t<-- \(val2)"))
+		}
+		rv[keyRhs] 				= valueRhs
+	}
+	return rv
+}
+
+func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny, Value:Equatable {
+	var rv						= lhs						// initial values, older, overwritten
+	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+	for (key, valRhs) in rhsSorted {		// Paw through lhs Dictionary
 		if let valLhs 			= lhs[key] {	// key in BOTH Dictionaries
 
 			 // fancy xoring for Boolean:
@@ -401,7 +428,7 @@ func +<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Va
 
 			 // Same key, different values
 			if valLhs != valRhs {
-				atBld(9, DOClog.log("Dictionary Conflict, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
+				atBld(9, DOClog.log("Dictionary Conflict 3, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
 				rv[key] 		= valRhs
 			}
 		}

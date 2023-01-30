@@ -532,10 +532,17 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	///   - root_: ---- set in Part
 	func groomModel(parent p:Part?, root r:RootPart?)  {
 		parent					= p
-		root					=  r					// from arg (if there)
-								?? root					// my root	(if there)
+		if root == nil || root !== r {
+			print("This will probably ERR ..... ####### ")
+			root 				=  r
 								?? self as? RootPart 	// me, if I'm a RootPart
 								?? child0 as? RootPart	// if PolyWrapped
+		}
+
+//		root					=  r					// from arg (if there)
+//								?? root					// my root	(if there)
+//								?? self as? RootPart 	// me, if I'm a RootPart
+//								?? child0 as? RootPart	// if PolyWrapped
 		markTree(dirty:.vew)							// set dirty vew
 
 		 // Do whole tree
