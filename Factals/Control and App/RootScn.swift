@@ -322,12 +322,21 @@ class RootScn : SCNNode {		// , Uid
 		}
 		return zoomRv
 	}
-
-	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
-		let wpV3 : SCNVector3	= SCNVector3(windowPosition.x, windowPosition.y, 0)
-		let vpV3 : SCNVector3	= scn.convertPosition(wpV3, from:nil)
-		return NSPoint(x:vpV3.x, y:vpV3.y)
-	}
+//
+//	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
+//		let windowPositionV3 : SCNVector3 = SCNVector3(windowPosition.x, windowPosition.y, 0)
+//											// BUGGY:
+//		let   rootPositionV3 : SCNVector3 = scn.convertPosition(windowPositionV3, from:nil)
+//		return NSPoint(x:rootPositionV3.x, y:rootPositionV3.y)
+//
+//		let
+//
+//NSView:
+//		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
+//SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
+//
+//
+//	}
 
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)

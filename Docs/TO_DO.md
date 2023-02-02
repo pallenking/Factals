@@ -246,7 +246,6 @@ x	l. When stack in NSObject+MachineTrap.m, my swift symbols (e.g. rootpart() ) a
 +	a. get Codable working, swap objects
 		see ~/src/CodablePoly/README
 
-x	b. loading complex FwScene
 x	b. camera initially centered on bounding box
 x	b. setting one SCNNode.physicsBody.gravity??? seems to set them all REF?-- BOIL DOWN!!!
 

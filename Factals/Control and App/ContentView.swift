@@ -25,10 +25,10 @@ struct ContentView: View {
 								
 	var body: some View {
 		if falseF, dragonModel.redrawValue & 1 == 1 {	//falseF, //
-			Button(label: {	Text("A value = \(dragonModel.redrawValue)")		})
+			Button(label: {	Text("dragonModel.redrawValue = \(dragonModel.redrawValue)") })
 			{	dragonModel.redrawValue += 1									}
 		} else {
-			let select 			= 4//4//1//
+			let select 			= 1//4//1//
 			if select == 0 {	bodyNada										}
 			if select == 1 {	bodySimple										}
 			if select == 2 { 	bodyJet											}
@@ -38,11 +38,11 @@ struct ContentView: View {
 	}
 	var bodyNada: some View {		// Single HNW View
 		VStack {
-			Button(label: {	Text("B value = \(dragonModel.redrawValue)")		})
+			Button(label: {	Text("dragonModel.redrawValue = \(dragonModel.redrawValue)") })
 			{	dragonModel.redrawValue += 1									}
-		//	if dragonModel.value != 17 {
-		//		ButtonBar(document:$document, dragonModel:dragonModel)
-		//	}
+												//	if dragonModel.value != 17 {
+												//		ButtonBar(document:$document, dragonModel:dragonModel)
+												//	}
 		}
 	}
 	var bodySimple: some View {		// Single HNW View
@@ -68,17 +68,18 @@ struct ContentView: View {
 			}
 			ButtonBar(document:$document, dragonModel:dragonModel)
 		}
-		 .toolbar {
-			ToolbarItem(placement: .primaryAction) {
-	//			NavigationStack {//view was automatically measured but had an ambiguous height or width
-//					List {
-//						Button("a") 		{	print("a") 						}
-//					}															//}
-//					.navigationTitle ("Menu")
-//					.listStyle(DefaultListStyle())
-	//			}
-			}
-		}
+//		 .toolbar {
+//			ToolbarItem(placement: .primaryAction) {
+//		//		NavigationStack {//view was automatically measured but had an ambiguous height or width
+//	//				List {
+//	//					Button("a") 		{	print("a") 						}
+//	//				}															//}
+//	//				.navigationTitle ("Menu")
+//	//				.listStyle(DefaultListStyle())
+//		//		}
+//			}
+//		}
+
 //	//	ToolbarItem(placement: .primaryAction) {	//.primaryAction//.principal//.status//
 //	//		NavigationStack {	// was NavigationView
 //	//			List {	// Menu("Act") { // Menu

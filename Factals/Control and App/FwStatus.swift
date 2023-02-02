@@ -288,8 +288,8 @@ extension RootScn : FwStatus	{										    ///RootScn
 //		myLine					+= scn.pp(.classUid)
 		myLine					+= scnScene.pp(.classUid)
 		myLine					+= scnView.pp(.classUid)
-		myLine					+= "animatePhysics:\(animatePhysics)"
-		return ppFwStateHelper("RootScn        ", uid:self,
+		myLine					+= " animatePhysics:\(animatePhysics)"
+		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.scnScene.ppFwState()

@@ -234,11 +234,13 @@ Vew.swift:
            localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
 		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
 SceneKit:
-	       convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
 	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
 	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
 NSView:
 		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
+SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
 		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
 	       convert         (_:NSRect,        from:NSView?)       -> NSRect
 Quartzcore Calayer: UIView:
@@ -255,9 +257,6 @@ AppKit:
 		   convert         (_:NSFont                          )  -> NSFont
 
 			convertPointFromBacking:
-
-__kindOf
-	NSView.convert        (_:NSPoint,    from:nil) 		-> CGPoint
 
 		   convert        (              to: UnitType)							UnitType conforms to Dimension
 

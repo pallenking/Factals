@@ -292,8 +292,9 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 	}
 
 	func findVew(nsEvent:NSEvent) -> Vew? {
-		guard let rootVewOfEv	= nsEvent.rootVew else {	return nil 			}
-		let rootScnOfEv 		= rootVewOfEv.rootScn
+		 // CONVERT to window coordinates
+		guard let rootVew		= nsEvent.rootVew		else { return nil 	}
+		let rootScn				= rootVew.rootScn
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -307,72 +308,58 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rootVewOfEv.scn,	// The root of the node hierarchy to be searched.
-//			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+		  //.rootNode:rootVew.scn,	// The root of the node hierarchy to be searched.
+			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
-//		let configHitTest : [SCNHitTestOption:Any]? = [
-//			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-//			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-//			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-//					FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
-//					FwNodeCategory.byDefault.rawValue  ,
-//			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-//		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-//		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-//			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-//		  //.sortResults:1, 			// (implied)
-//			.rootNode:rootVewOfEv.scn,	// The root of the node hierarchy to be searched.
-////			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
-//		]
-		 // CONVERT to window coordinates
-		let ptInWin	 : NSPoint	= nsEvent.locationInWindow
-		let ptInRoot : NSPoint	= rootScnOfEv.convertToRoot(windowPosition:ptInWin)
-		var msg					= "******************************************\n findVew(nsEvent:)\t"
+					//										// min:(4, 114)
 
-		let scnView				= rootScnOfEv.scnView!
-		
-								//		 + +   + +
-		let hits				= scnView.hitTest(ptInRoot, options:configHitTest)
-								//		 + +   + +
-		let tappednode 			= hits.first?.node		// unused
+		// 20230202PAK: in: (4,24),  out: identical WHEN no Button Bar
+		//				in: (4,127), out: (4,25) when button bar (about 100 high)
+		guard let scnView : SCNView = rootScn.scnView		else { return nil 	}
+		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
-		let vewKey = 0
+								//		 + +   + +
+		let hits				= scnView.hitTest(locationInRoot, options:configHitTest)
+								//		 + +   + +
+		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
+		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
 
 		 // SELECT HIT; prefer any child to its parents:
-		var rv : Vew			= rootVewOfEv			// default
-		var pickedScn			= rootScnOfEv.scn 		// default
+		var rv : Vew			= rootVew			// default
+		var msg					= "******************************************\n findVew(nsEvent:)\t"
+		var pickedScn			= rootScn.scn 		// default
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:
-			let sortedHits	= hits.sorted {	$0.node.position.z > $1.node.position.z }
-			let hit			= sortedHits[0]
-			pickedScn		= hit.node // pic node with lowest deapth
-			msg 			+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
+			let hit				= sortedHits[0]
+			pickedScn			= hit.node // pic node with lowest deapth
+			msg 				+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
 
 			 // If Node not picable,
 			while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-			  let parent 	= pickedScn.parent 		// try its parent:
+			  let parent 		= pickedScn.parent 		// try its parent:
 			{
-				msg			+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
-				pickedScn 	= parent				// use parent
-				msg 		+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
+				msg				+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
+				pickedScn 		= parent				// use parent
+				msg 			+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
 			}
 			 // Got SCN, get its Vew
-			if let cv		= rootVews[vewKey]?.trunkVew,
-			  let vew 		= cv.find(scnNode:pickedScn, inMe2:true)
+			if let cv			= rootVew.trunkVew,
+			  let vew 			= cv.find(scnNode:pickedScn, inMe2:true)
 			{
-				rv			= vew
-				msg			+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+				rv				= vew
+				msg				+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			}else{
-				panic(msg + "\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
-				if let cv	= rootVews[vewKey]!.trunkVew,			// for debug only
-				  let vew 	= cv.find(scnNode:pickedScn, inMe2:true) {
-					let _	= vew
+				panic(msg + 	"\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
+				if let cv		= rootVew.trunkVew,			// for debug only
+				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true) {
+					let _		= vew
 				}
 			}
 		} else {		// Background hit
-			msg				+= "background -> trunkVew"
+			msg					+= "background -> trunkVew"
 		}
-		atEve(3, print("\n" + msg))
+		atEve(3, print("\n" 	+ msg))
 		return rv
 	}
 	 /// Toggel the specified vew, between open and atom
