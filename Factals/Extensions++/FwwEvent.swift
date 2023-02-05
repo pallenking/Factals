@@ -8,10 +8,15 @@ extension NSEvent {
 			 // Search for
 			for key in fwGuts.rootVews.keys {
 				let rootVew		= fwGuts.rootVews[key]!
-				if let scnView	= rootVew.rootScn.scnView,
-				  scnView.isDescendant(of:nsViewOfEv) {
+				if let fwView	= rootVew.rootScn.fwView,
+				  fwView.isDescendant(of:nsViewOfEv) {
 					return rootVew
 				}
+//				let rootVew		= fwGuts.rootVews[key]!
+//				if let scnView	= rootVew.rootScn.scnView,
+//				  scnView.isDescendant(of:nsViewOfEv) {
+//					return rootVew
+//				}
 			}
 		}
 		return nil

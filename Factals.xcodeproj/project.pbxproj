@@ -41,7 +41,6 @@
 		9F190120288090240078DB6C /* Jnspec.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F190116288090240078DB6C /* Jnspec.storyboard */; };
 		9F190121288090240078DB6C /* LinkVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190117288090240078DB6C /* LinkVew.swift */; };
 		9F190122288090240078DB6C /* InspecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190118288090240078DB6C /* InspecBase.swift */; };
-		9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011A288090240078DB6C /* GeneralSettingsView.swift */; };
 		9F190125288090240078DB6C /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
@@ -94,7 +93,6 @@
 		9F417F3328EB946E0047B359 /* LinkVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190117288090240078DB6C /* LinkVew.swift */; };
 		9F417F3428EB94710047B359 /* InspecParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190115288090240078DB6C /* InspecParts.swift */; };
 		9F417F3528EB94740047B359 /* InspecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190118288090240078DB6C /* InspecBase.swift */; };
-		9F417F3628EB94760047B359 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011A288090240078DB6C /* GeneralSettingsView.swift */; };
 		9F417F3728EB947A0047B359 /* InspecSCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190113288090240078DB6C /* InspecSCNVector3.swift */; };
 		9F417F3828EB94820047B359 /* Jnspec.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F190116288090240078DB6C /* Jnspec.storyboard */; };
 		9F417F3928EB94A80047B359 /* FactalsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FactalsApp.swift */; };
@@ -137,9 +135,12 @@
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
 		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
+		9F5AE2D0298C3C4B00EF6B20 /* FwScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* FwScene.swift */; };
+		9F5AE2D1298C3C4B00EF6B20 /* FwScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* FwScene.swift */; };
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F6822F728C9163D00ACB9F0 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
+		9F87DF3029900CEA00B9D3B6 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
@@ -198,7 +199,7 @@
 
 /* Begin PBXFileReference section */
 		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
-		9F0295D02880921800DD0004 /* XXXFwViewXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXFwViewXXX.swift; sourceTree = "<group>"; };
+		9F0295D02880921800DD0004 /* FwView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
 		9F0295D72880926D00DD0004 /* FwwEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwwEvent.swift; sourceTree = "<group>"; };
@@ -238,7 +239,6 @@
 		9F190116288090240078DB6C /* Jnspec.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Jnspec.storyboard; sourceTree = "<group>"; };
 		9F190117288090240078DB6C /* LinkVew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkVew.swift; sourceTree = "<group>"; };
 		9F190118288090240078DB6C /* InspecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecBase.swift; sourceTree = "<group>"; };
-		9F19011A288090240078DB6C /* GeneralSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		9F19011B288090240078DB6C /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
@@ -257,6 +257,7 @@
 		9F417F5E28EDB10A0047B359 /* TO_DO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = TO_DO.md; path = Docs/TO_DO.md; sourceTree = "<group>"; };
 		9F4A3AD9288B386300574925 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
+		9F5AE2CF298C3C4B00EF6B20 /* FwScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwScene.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
@@ -388,7 +389,6 @@
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F190115288090240078DB6C /* InspecParts.swift */,
 				9F190118288090240078DB6C /* InspecBase.swift */,
-				9F19011A288090240078DB6C /* GeneralSettingsView.swift */,
 				9F190113288090240078DB6C /* InspecSCNVector3.swift */,
 				9F190116288090240078DB6C /* Jnspec.storyboard */,
 				9F190112288090240078DB6C /* MainMenu.xib */,
@@ -411,6 +411,7 @@
 				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F1E3CE328D8C9CF004548C9 /* RootScn.swift */,
+				9F5AE2CF298C3C4B00EF6B20 /* FwScene.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F1E3CE728D94CF7004548C9 /* EventCentral.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
@@ -422,7 +423,7 @@
 				9F0295D22880923000DD0004 /* Sounds.swift */,
 				9F1E3CE128D4991F004548C9 /* XXXAppDelegateFooXXX.swift */,
 				9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */,
-				9F0295D02880921800DD0004 /* XXXFwViewXXX.swift */,
+				9F0295D02880921800DD0004 /* FwView.swift */,
 				9F3E49BC28B2DABB003D450D /* XXXCameraNodeXXX.swift */,
 				9F1E3CC428D3AB4C004548C9 /* XXXAppDelegateXXX.swift */,
 			);
@@ -662,7 +663,6 @@
 				9F417F4E28EB95390047B359 /* BBox.swift in Sources */,
 				9F417F4C28EB95310047B359 /* FwTypes.swift in Sources */,
 				9F417F2428EB94310047B359 /* SoundAtom.swift in Sources */,
-				9F417F3628EB94760047B359 /* GeneralSettingsView.swift in Sources */,
 				9F417F1C28EB94160047B359 /* WorldModel.swift in Sources */,
 				9F417F1F28EB94210047B359 /* Previous.swift in Sources */,
 				9F417F5328EB954F0047B359 /* SCNMatrix++.swift in Sources */,
@@ -708,6 +708,7 @@
 				9F417F4528EB94D80047B359 /* Log.swift in Sources */,
 				9F417F2E28EB94530047B359 /* PolyWrap.swift in Sources */,
 				9F417F3228EB946B0047B359 /* RootVew.swift in Sources */,
+				9F5AE2D1298C3C4B00EF6B20 /* FwScene.swift in Sources */,
 				9F417F5928EB95620047B359 /* Uid.swift in Sources */,
 				9F417F2A28EB94470047B359 /* Port.swift in Sources */,
 				9F417F3428EB94710047B359 /* InspecParts.swift in Sources */,
@@ -756,9 +757,9 @@
 				9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */,
-				9F190124288090240078DB6C /* GeneralSettingsView.swift in Sources */,
 				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
 				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
+				9F87DF3029900CEA00B9D3B6 /* FwView.swift in Sources */,
 				9FC1F1C2293418E60025E80D /* Menu.swift in Sources */,
 				9F19011F288090240078DB6C /* InspecParts.swift in Sources */,
 				9F1900F828808DC10078DB6C /* Link.swift in Sources */,
@@ -779,6 +780,7 @@
 				9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
+				9F5AE2D0298C3C4B00EF6B20 /* FwScene.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
 				9F1E3CE428D8C9CF004548C9 /* RootScn.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,

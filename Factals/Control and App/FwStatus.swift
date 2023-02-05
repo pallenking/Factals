@@ -286,23 +286,26 @@ extension RootScn : FwStatus	{										    ///RootScn
 //		myLine					+= "\(pp(.classUid)) (\(rootScn.nodeCount()) SCNNodes) "
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 //		myLine					+= scn.pp(.classUid)
-		myLine					+= scnScene.pp(.classUid)
-		myLine					+= scnView.pp(.classUid)
-		myLine					+= " animatePhysics:\(animatePhysics)"
+		myLine					+= fwScene.pp(.classUid)
+		myLine					+= fwScene.pp(.classUid)
+			//myLine					+= " animatePhysics:\(animatePhysics)"		// might go to SCNScene
 		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.scnScene.ppFwState()
-				rv				+= self.scnView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
+				var rv			=  self.fwScene.ppFwState()
+				rv				+= self.fwView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
-extension SCNScene : FwStatus	{									 ///SCNScene
+extension SCNScene : FwStatus	{							///FwScene ///SCNScene
 	func ppFwState(deapth:Int=999) -> String {
-		return ppFwStateHelper("SCNScene     ", uid:self,
-			myLine:"isPaused:\(isPaused)",
+		let (classMsg, myLine)	= self is FwScene ?
+			("FwScene      ", "animatePhysics:\((self as! FwScene).animatePhysics)") :
+			("SCNScene     ", "isPaused:\(isPaused)")
+		return ppFwStateHelper(classMsg, uid:self,
+			myLine:myLine,
 			otherLines:{ deapth in
 				return self.physicsWorld.ppFwState(deapth:deapth-1)
 			},

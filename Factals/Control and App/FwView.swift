@@ -1,10 +1,10 @@
-////  FwView.swift -- A 2D NSView which displays a 3D FwGuts
-///// Key, Mouse, and Touch Events; mouse rotator, mouse pic, ...
-//
-//import SceneKit
-//import SwiftUI
-//
-//class FwView : SCNView, SCNSceneRendererDelegate {
+//  FwView.swift -- A 2D NSView which displays a 3D FwGuts
+/// Key, Mouse, and Touch Events; mouse rotator, mouse pic, ...
+
+import SceneKit
+import SwiftUI
+
+class FwView : SCNView, SCNSceneRendererDelegate {
 //	 // MARK: - 2. Object Variables:
 //	 //\\\///\\\///\\\  Our super, SCNView, conforms to SCNSceneRenderer:
 //	 //\\\				Therefore we have
@@ -54,5 +54,4 @@
 ////	override func validateProposedFirstResponder(_ responder: NSResponder,
 ////					   for event: NSEvent?) -> Bool {	return true				}
 ////	override func resignFirstResponder()	-> Bool	{	return true				}
-//}
-//
+}

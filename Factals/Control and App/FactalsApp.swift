@@ -342,11 +342,11 @@ bug;	let rv					= NSMenu(title:path)
 		let fwGuts				= FwGuts(rootPart:rootPart)
 
 bug		 // --------------- A: Get BASIC Component Part (owned and used here)
-		let scnScene			= SCNScene()							//named:"art.scnassets/ship.scn") ?? SCNScene()
-		scnScene.isPaused		= true						// Pause animations while bulding
+		let fwScene				= FwScene()
+		fwScene.isPaused		= true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
-		let newRootVew			= RootVew(forPart:fwGuts.rootPart, scnScene:scnScene)
+		let newRootVew			= RootVew(forPart:fwGuts.rootPart, fwScene:fwScene)
 		let i					= fwGuts.rootVews.count - 1
 		fwGuts.rootVews[i]		= newRootVew									//		fwGuts.rootVews.append(newRootVew)
 		newRootVew.fwGuts		= fwGuts			// Set Owner

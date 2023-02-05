@@ -46,8 +46,11 @@ class RootScn : SCNNode {		// , Uid
 //		 /// For Uid conformance:
 //	var uid		 	: UInt16	= randomUid()
 
-	var scnScene 	: SCNScene!
-	var scnView	 	: SCNView!	= nil
+//	var scnScene 	: SCNScene!
+	var fwScene 	: FwScene!
+
+	var fwView	 	: FwView!	= nil
+//	var scnView	 	: SCNView!	= nil
 
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 	var selfiePole				= SelfiePole()
@@ -61,19 +64,19 @@ class RootScn : SCNNode {		// , Uid
 	var rootPart : RootPart		{	rootVew.rootPart							}
 
 
-	var scn		 : SCNNode		{	scnScene.rootNode							}
+	var scn		 : SCNNode		{	self } //scnScene.rootNode	}
 	var trunkScn : SCNNode? 	{
 		if let ts				= scn.child0  {
 			return ts
 		}
 		fatalError("trunkVew is nil")
 	}
-
-	 /// animatePhysics is a posative quantity (isPaused is a negative)
-	var animatePhysics : Bool {
-		get {			return !scnScene.isPaused								}
-		set(v) {		scnScene?.isPaused = !v									}
-	}
+//
+//	 /// animatePhysics is a posative quantity (isPaused is a negative)
+//	var animatePhysics : Bool {
+//		get {			return !scnScene.isPaused								}
+//		set(v) {		scnScene?.isPaused = !v									}
+//	}
 
 	// MARK: - 14. Building
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
@@ -81,40 +84,42 @@ class RootScn : SCNNode {		// , Uid
 	}
 
 	 // MARK: - 3.1 init
-	init(scnScene ss:SCNScene, scnView sv:SCNView?=nil, args:SceneKitArgs?=nil) {
+	init(fwScene fs:FwScene, fwView fv:FwView?=nil, args:SceneKitArgs?=nil) {
 
 		super.init()
 
-				// get Scene and View:
-		scnScene 				= ss				// remember in self.scnScene
-		scnScene.isPaused		= true				// Pause animations while bulding
-		scnView					= sv ?? SCNView()	// remember or make a new one
-		scnView.scene			= scnScene			// register 3D-scene with 2D-View:
-		scnView.backgroundColor	= NSColor("veryLightGray")!
-		scnView.antialiasingMode = .multisampling16X
+		fwScene 				= fs				// remember in self.scnScene
+		fwScene.isPaused		= true				// Pause animations while bulding
+		fwView					= fv ?? FwView()	// remember or make a new one
+		fwView.scene			= fwScene			// register 3D-scene with 2D-View:
+		fwView.backgroundColor	= NSColor("veryLightGray")!
+		fwView.antialiasingMode = .multisampling16X
 		guard let args			else {			return							}
-		scnView.pointOfView 	= args.pointOfView
-		scnView.preferredFramesPerSecond = args.preferredFramesPerSecond
-	//	scnView.delegate		=
+		fwView.pointOfView 	= args.pointOfView
+		fwView.preferredFramesPerSecond = args.preferredFramesPerSecond
+	//	fwView.delegate		=
+
+		fwScene.physicsWorld.contactDelegate = fwScene
+//		rootScn.fwScene.physicsWorld.contactDelegate = fwScene
 	}
 	
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")	}
 
 	func pushControllersConfig(to c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
-		animatePhysics = c.bool("animatePhysics") ?? false
-
-		if let gravityAny		= c["gravity"] {
-			if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
-				scnScene.physicsWorld.gravity = gravityVect
-			}
-			else if let gravityY: Double = gravityAny.asDouble {
-				scnScene.physicsWorld.gravity.y = gravityY
-			}
-		}
-		if let speed			= c.cgFloat("speed") {
-			scnScene.physicsWorld.speed = speed
-		}
+bug	//	animatePhysics = c.bool("animatePhysics") ?? false
+	//
+	//	if let gravityAny		= c["gravity"] {
+	//		if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
+	//			scnScene.physicsWorld.gravity = gravityVect
+	//		}
+	//		else if let gravityY: Double = gravityAny.asDouble {
+	//			scnScene.physicsWorld.gravity.y = gravityY
+	//		}
+	//	}
+	//	if let speed			= c.cgFloat("speed") {
+	//		scnScene.physicsWorld.speed = speed
+	//	}
 /////	assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "Paranoia: set in SceneKitHostingView")
 	}
 	 // MARK: - 4.1 Lights
@@ -269,7 +274,8 @@ class RootScn : SCNNode {		// , Uid
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 		guard let fwGuts		= rootVew.fwGuts else {		return				}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:scn)
+		let wPosn				= fwScene.rootNode.convertPosition(localPoint, to:scn)
+//		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:scn)
 
 ///		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
@@ -303,7 +309,7 @@ class RootScn : SCNNode {		// , Uid
 		let world2eye			= SCNMatrix4Invert(cameraScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-		guard let nsRectSize	= scnView?.frame.size  else  {	fatalError()	}
+		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
 
 		 // Orientation is "Height Dominated"
 		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
@@ -406,7 +412,7 @@ class RootScn : SCNNode {		// , Uid
 		rootPart.unlock(partTreeAs:lockName)	//xyzzy99
 	}
 	  // MARK: - 16. Global Constants
-	static let nullRootScn 		= RootScn(scnScene:SCNScene())	/// Any use of this should fail
+	static let nullRootScn 		= RootScn(fwScene:FwScene())	/// Any use of this should fail (but currently doesn't)
 	 // MARK: - 15. PrettyPrint
 //	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 //		switch mode! {

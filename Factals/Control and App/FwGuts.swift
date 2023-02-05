@@ -4,7 +4,7 @@
 
 import SceneKit
 
-class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
+class FwGuts : NSObject, ObservableObject {
 
 	  // MARK: - 2. Object Variables:
 	@Published var redo:UInt8	= 0
@@ -53,7 +53,7 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 		rootScn.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
-		guard let baseView		= rootScn.scnView else { fatalError("rootScn.scnView == nil") }
+		guard let baseView		= rootScn.fwView else { fatalError("rootScn.scnView == nil") }
 		baseView.isPlaying		= true			// does nothing
 		baseView.showsStatistics = true			// works fine
 		baseView.debugOptions 	= [				// enable display of:
@@ -200,7 +200,7 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= rootVews[0]!.rootScn.scnScene
+			let rootVews0scene	= rootVews[0]!.rootScn.fwScene
 				guard rootVews0scene!.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 //			guard write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
@@ -243,9 +243,10 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 		case "f": 					// // f // //
 			var msg					= ""
 			for key in rootVews.keys {
-				let rootVew		= rootVews[key]!
-				rootVew.rootScn.animatePhysics = !rootVew.rootScn.animatePhysics
-				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
+				let rootVew			= rootVews[key]!
+				msg 				+= rootVew.fwScene.animatePhysics ? "Run   " : "Freeze"
+//				rootVew.fwScene.animatePhysics = !rootVew.rootScn.animatePhysics
+//				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
 			}
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
@@ -315,7 +316,7 @@ class FwGuts : NSObject, ObservableObject {	//, SCNSceneRendererDelegate
 
 		// 20230202PAK: in: (4,24),  out: identical WHEN no Button Bar
 		//				in: (4,127), out: (4,25) when button bar (about 100 high)
-		guard let scnView : SCNView = rootScn.scnView		else { return nil 	}
+		guard let scnView : SCNView = rootScn.fwView		else { return nil 	}
 		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 								//		 + +   + +

@@ -7,7 +7,7 @@
 
 import SceneKit
 			// Remove NSObject?
-class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {	// NEVER NSCopying, Equatable
+class EventCentral : NSObject {	//SCNPhysicsContactDelegate, SCNSceneRendererDelegate // NEVER NSCopying, Equatable
 
 	weak // owner
 	 var rootVew : RootVew!
@@ -17,69 +17,6 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		super.init()
 	}
 	func pushControllersConfig(to c:FwConfig) {	/* nada */ }
-
-// /////////////////////////////////////////////////////////////////////////////
-// ///////////////////  SCNSceneRendererDelegate:  /////////////////////////////
-// ////////////////////////////////////// called by SCNSceneRenderer ///////////
-		// MARK: - SCNSceneRendererDelegate
-	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
-		DispatchQueue.main.async {
-//			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-			let rVew			= self.rootVew!
-			rVew.lockBoth("updateAtTime")
-			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
-			rVew.unlockBoth("updateAtTime")
-		}
-	}
-	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			let rVew			= self.rootVew!
-			rVew .lockBoth("didApplyAnimationsAtTime")
-			rVew .part.computeLinkForces(vew:rVew)
-			rVew .unlockBoth("didApplyAnimationsAtTime")
-		}
-	}
-	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			let rVew			= self.rootVew!
-			rVew.lockBoth("didSimulatePhysicsAtTime")
-			rVew.part.applyLinkForces(vew:rVew)
-			rVew.unlockBoth("didSimulatePhysicsAtTime")
-		}
-	}
-	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
-		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			let rVew			= self.rootVew!
-			rVew.lockBoth("willRenderScene")
-			rVew.part.rotateLinkSkins(vew:rVew)
-			rVew.unlockBoth("willRenderScene")
-		}
-	}
-	   // ODD Timing:
-	func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
-	}
-	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
-		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
-	}
-
-// /////////////////////////////////////////////////////////////////////////////
-// ///////////////////  SCNPhysicsContactDelegate:  ////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-
-		// MARK: - SCNPhysicsContactDelegate
-	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-		bug
-	}
-	func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
-		bug
-	}
-	func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
-		bug
-	}
 
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
@@ -181,19 +118,19 @@ class EventCentral : NSObject, SCNSceneRendererDelegate, SCNPhysicsContactDelega
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:rootScn.scnView)
+			let t 				= nsEvent.touches(matching:.began, in:rootScn.fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:rootScn.scnView)
+			let t 				= nsEvent.touches(matching:.moved, in:rootScn.fwView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:rootScn.scnView)
+			let t 				= nsEvent.touches(matching:.ended, in:rootScn.fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}

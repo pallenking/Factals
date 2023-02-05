@@ -14,7 +14,8 @@ struct SceneKitArgs {
 	var sceneIndex		: Int				// N.B var: Unique and Ascending
 	let title			: String
 	let vewConfig		: VewConfig?
-	let background 		: SCNScene?			// Legacy, low level access
+	let background 		: FwScene?
+//	let background 		: SCNScene?			// Legacy, low level access
 	let pointOfView 	: SCNNode?
 	let fwGuts			: FwGuts?			// Model
 	let options 		: SceneView.Options
@@ -72,9 +73,9 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
 		 // Make new RootVew:
-		let scnScene			= args.background ?? SCNScene()
-		scnScene.isPaused		= true
-		let rootVew				= RootVew(forPart:fwGuts.rootPart, scnScene:scnScene)
+		let fwScene				= args.background ?? FwScene()
+		fwScene.isPaused		= true
+		let rootVew				= RootVew(forPart:fwGuts.rootPart, fwScene:fwScene)
 		rootVew.fwGuts			= fwGuts
 		 // Get index :
 		let i					= args.sceneIndex
@@ -84,7 +85,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		fwGuts.rootVews[i]		= rootVew
 
 		 // Get an ScnView from rootScn
-		let returnedScnView		= rootVew.rootScn.scnView!
+		let returnedScnView		= rootVew.rootScn.fwView!
 		 // Configure from args.options:
 		returnedScnView.allowsCameraControl
 								= args.options.contains(.allowsCameraControl)

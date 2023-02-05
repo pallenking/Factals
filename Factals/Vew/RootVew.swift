@@ -8,8 +8,7 @@
 import SceneKit
 
 class RootVew : Vew {
-	weak
-	 var fwGuts : FwGuts!		// Owner
+	weak var fwGuts : FwGuts!		// Owner
 
 	var rootPart : RootPart		{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
 	let rootVewLock 			= DispatchSemaphore(value:1)
@@ -20,6 +19,7 @@ class RootVew : Vew {
 		return children.count > 0 ? children[0] : nil
 	}
 	var rootScn : RootScn
+	var fwScene : FwScene		{ 		rootScn.fwScene			}
 	var eventCentral : EventCentral
 
 	 /// generate a new View, returning its index
@@ -28,21 +28,22 @@ class RootVew : Vew {
 //		rootScn					= RootScn()
 //		rootScn					= .null
 		eventCentral			= .null
-		super.init(forPart:.null, scn:rootScn.scnScene.rootNode)
+		super.init(forPart:.null, scn:rootScn.fwScene.rootNode)
 	}
-	init(forPart rootPart:RootPart, scnScene:SCNScene) {
-		rootScn					= RootScn(scnScene:scnScene)
+	init(forPart rootPart:RootPart, fwScene:FwScene) {
+		rootScn					= RootScn(fwScene:fwScene)
+//		rootScn					= RootScn(scnScene:scnScene)
 		eventCentral			= EventCentral()
-		rootScn.scnScene.physicsWorld.contactDelegate = eventCentral
+//		rootScn.scnScene.physicsWorld.contactDelegate = eventCentral
 
-		super.init(forPart:rootPart, scn:scnScene.rootNode)
+		super.init(forPart:rootPart, scn:fwScene.rootNode)
 
 		eventCentral.rootVew	= self						// owner
 		rootScn.rootVew			= self						// owner
 
 		 // Set the base scn to comply as a Vew
-		assert(scn === rootScn.scnScene.rootNode, "set RootVew with new scn root")
-		scn 					= rootScn.scnScene.rootNode	// set RootVew with new scn root
+		assert(scn === rootScn.fwScene.rootNode, "set RootVew with new scn root")
+		scn 					= rootScn.fwScene.rootNode	// set RootVew with new scn root
 //		selfiePole				= SelfiePole(rootVew:self)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
@@ -141,5 +142,5 @@ class RootVew : Vew {
 		return rv
 	}
 	  // MARK: - 16. Global Constants
-	static let nullR 			= RootVew(forPart: RootPart(), scnScene: SCNScene())
+	static let nullR 			= RootVew(forPart: RootPart(), fwScene: FwScene())
 }
