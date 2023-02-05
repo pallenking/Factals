@@ -62,6 +62,7 @@ extension FwScene : SCNSceneRendererDelegate {
 	}
 
 }
+// currently unused
 extension FwScene : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug

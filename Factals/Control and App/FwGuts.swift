@@ -136,20 +136,7 @@ class FwGuts : NSObject, ObservableObject {
 	var wiggledPart	  : Part?	= nil
 	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 
-	 // MARK: - 9.7 Physics Contact Protocol
-	   // //////////////////////////////////////////////////////////////////////
-	  //
-	func physicsWorld(_ world:SCNPhysicsWorld, didBegin  contact:SCNPhysicsContact) {
-		panic("physicsWorld(_, didBegin:contact")
-	}
-    func physicsWorld(_ world:SCNPhysicsWorld, didUpdate contact:SCNPhysicsContact) {
-		panic("physicsWorld(_, didUpdate:contact")
-	}
-    func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {
-		panic("physicsWorld(_, didEnd:contact")
-	}
 	  // MARK: -
-
 	 /// Prosses keyboard key
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use
