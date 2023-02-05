@@ -4,8 +4,10 @@
 import SceneKit
 import SwiftUI
 
-class FwView : SCNView, SCNSceneRendererDelegate {
-//	 // MARK: - 2. Object Variables:
+class FwView : SCNView {
+	 // MARK: - 2. Object Variables:
+	var rootScn : RootScn? { bug; return nil }		// NEEDS MORE WORK
+
 //	 //\\\///\\\///\\\  Our super, SCNView, conforms to SCNSceneRenderer:
 //	 //\\\				Therefore we have
 //	 //\\\ 	  .sceneTime					-

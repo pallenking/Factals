@@ -7,7 +7,7 @@
 
 import SceneKit
 			// Remove NSObject?
-class EventCentral : NSObject {	//SCNPhysicsContactDelegate, SCNSceneRendererDelegate // NEVER NSCopying, Equatable
+class EventCentral : NSObject {	//SCNPhysicsContactDelegate // NEVER NSCopying, Equatable
 
 	weak // owner
 	 var rootVew : RootVew!

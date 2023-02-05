@@ -17,7 +17,6 @@ class FwScene : SCNScene {
 	}
 }
 extension FwScene : SCNSceneRendererDelegate {
-		// MARK: - SCNSceneRendererDelegate
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
