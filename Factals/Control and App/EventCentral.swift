@@ -36,9 +36,10 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 		 //
 		case .keyDown:
 			if nsEvent.isARepeat {	return }			// Ignore repeats
+			nextIsAutoRepeat 	= true
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
 			assert(char.count==1, "multiple keystrokes not supported")
-			nextIsAutoRepeat 	= true
+
 			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
 			  char != "?" {		// okay for "?" to get here
 				atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
@@ -96,7 +97,7 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootScn.selfiePole.zoom *= delta
 			let p				= rootScn.selfiePole
-			print("processEvent(type:  .scrollWheel  ) found pole\(p.pp()).zoom = \(p.zoom)")
+			print("processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
 			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -135,7 +136,7 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("33333333 processEvent(type:\(nsEvent.type)) EEEEEEE")
+			print("processEvent(type:\(nsEvent.type)) NOT PROCESSED by EventCentral")
 		}
 	}
 	 // MARK: - 13.4 Mouse Variables

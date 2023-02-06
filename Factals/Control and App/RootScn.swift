@@ -295,7 +295,7 @@ bug	//	animatePhysics = c.bool("animatePhysics") ?? false
 	}
 	//
 	func cameraTransform(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
-		selfiePole.zoom			= zoom4fullScreen()
+	//	selfiePole.zoom			= zoom4fullScreen()
 		let transform			= selfiePole.transform
 		return transform
 	}
