@@ -53,7 +53,7 @@ struct ContentView: View {
 				title		: "0: Big main view",
 				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
 				background	: nil,	 // no specific background scene
-				pointOfView	: document.fwGuts.rootVews[0]?.fwScene.cameraScn,//rootScn.cameraScn, //nil,//
+				pointOfView	: document.fwGuts.rootVews[0]?.fwScene.cameraScn,
 				fwGuts		: document.fwGuts,
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30
@@ -214,7 +214,7 @@ struct ContentView: View {
 							title		: "1: Second smaller view",
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
 							background	: nil,	// no specific background scene
-							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//rootVew.rootScn.cameraScn, //pov,//nil,//
+							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,
 							fwGuts		: fwGuts,
 							options		: [.rendersContinuously],				//.allowsCameraControl,
 							preferredFramesPerSecond:30

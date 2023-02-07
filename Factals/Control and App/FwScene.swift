@@ -15,8 +15,8 @@ class FwScene : NSObject {		// was  : SCNScene
 	 var fwView		: FwView?
 	var scnScene	: SCNScene
 
-	 // Convenience
-	var fwGuts		: FwGuts?	{	rootVew?.fwGuts								}
+//	 // Convenience
+//	var fwGuts		: FwGuts?	{	rootVew?.fwGuts								}
 
 	 // Lighting, etc
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
@@ -100,7 +100,7 @@ extension FwScene {		// lights and camera
 //		}
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
-											 // Complain if Straggler: 		assert(rootScn.find(name:name) == nil, "helper: \"\(name)\" pre-exists")
+						// Complain if Straggler: 		assert(scn.find(name:name) == nil, "helper: \"\(name)\" pre-exists")
 			if let rv			= scn.find(name:name) {
 				return rv
 			} else {
@@ -116,7 +116,7 @@ extension FwScene {		// lights and camera
 				if let position	= position {
 					rv.position = position
 				}
-				scn.addChildNode(rv)											// rootScn.addChild(node:newLight)
+				scn.addChildNode(rv)
 				return rv
 			}
 		}
@@ -240,7 +240,7 @@ extension FwScene {		// lights and camera
 		return axesScn
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if true || fwGuts?.document.config.bool("axisTics") ?? false {
+		if true || rootVew?.fwGuts?.document.config.bool("axisTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -258,7 +258,7 @@ extension FwScene {		// lights and camera
 
 	 // MARK: 4.4 - Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-		guard let fwGuts		= fwGuts else {		return						}
+		guard let fwGuts		= rootVew?.fwGuts else {		return						}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
 		let wPosn				= scn.convertPosition(localPoint, to:scn)
 //		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:scn)
@@ -285,10 +285,49 @@ extension FwScene {		// lights and camera
 		let transform			= selfiePole.transform
 		return transform
 	}
+	/// Compute Camera Transform from pole config
+	/// - Parameters:
+	///   - from: defines direction of camera
+	///   - message: for logging only
+	///   - duration: for animation
+	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
+//		let cameraScn			= scnScene.cameraScn!
+								//
+//		let rootVew				= fwGuts.rootVewOf(rootScn:self)
+//		let rootVew				= rootVew.fwGuts.rootVewOf(rootScn:self)
+
+		zoom4fullScreen()
+//		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
+
+		if duration > 0.0,
+//		  rootVew?.config.bool("animatePan") ?? false {
+		  rootVew?.fwGuts?.document.config.bool("animatePan") ?? false {
+			SCNTransaction.begin()			// Delay for double click effect
+			atRve(8, rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN All"))
+			SCNTransaction.animationDuration = CFTimeInterval(0.5)
+			 // 181002 must do something, or there is no delay
+			cameraScn.transform *= 0.999999	// virtually no effect
+			SCNTransaction.completionBlock = {
+				SCNTransaction.begin()			// Animate Camera Update
+				atRve(8, self.rootVew!.rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
+				SCNTransaction.animationDuration = CFTimeInterval(duration)
+
+				self.cameraScn.transform = self.selfiePole.transform
+
+				atRve(8, self.rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
+				SCNTransaction.commit()
+			}
+			atRve(8, rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT All"))
+			SCNTransaction.commit()
+		}
+		else {
+			cameraScn.transform = selfiePole.transform
+		}
+	}
 		
 	/// Determine zoom so that all parts of the scene are seen.
 	func zoom4fullScreen() -> Double {		//selfiePole:SelfiePole, cameraScn:SCNNode
-		guard let rootVew		= rootVew  else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
+		guard let rootVew  else {	fatalError("RootScn.rootVew is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox //BBox(size:3, 3, 3)//			// in world coords

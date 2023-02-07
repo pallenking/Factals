@@ -24,12 +24,8 @@ class RootVew : Vew {
 	 /// generate a new View, returning its index
 	init() {
 		fwScene					= FwScene()
-	//	rootScn					= .nullRootScn
-//		rootScn					= RootScn()
-//		rootScn					= .null
 		eventCentral			= .null
 		super.init(forPart:.null, scn:.null)
-//		super.init(forPart:.null, scn:rootScn.fwScene.rootNode)
 	}
 	init(forPart rootPart:RootPart, fwScene f:FwScene) {
 		fwScene					= f

@@ -409,8 +409,8 @@ class Port : Part, PortTalk {
 		//		for rootVew in root!.fwGuts.rootVews {
 		
 		var wPosn				= ""
-		if let rootScn			= vew.rootVew?.scn, enaPpWp {
-			wPosn				= "w" + aVew.scn.convertPosition(rv.center, to:rootScn).pp(.short) + " "
+		if let rScn				= vew.rootVew?.scn, enaPpWp {
+			wPosn				= "w" + aVew.scn.convertPosition(rv.center, to:rScn).pp(.short) + " "
 		}
 		atRsi(8, aVew.log("INPUT spot=[\(rv.pp())]\(wPosn). OUTPUT to '\(vew.pp(.fullName))'"))
 

@@ -22,9 +22,8 @@ class FwGuts : NSObject, ObservableObject {
 
 	func pushControllersConfig(to c:FwConfig) { // *****
 		rootPart       .pushControllersConfig(to:c)
-		for i in rootVews.keys.sorted() { //}, rootScn) {
-//		for i in 0..<rootVews.count { //}, rootScn) {
-			rootVews[i]!.pushControllersConfig(to:c)// ?? log("fwGuts: rootVew nil")
+		for i in rootVews.keys.sorted() {
+			rootVews[i]!.pushControllersConfig(to:c)
 		}
 	}
 	 // MARK: - 3. Factory
@@ -53,7 +52,7 @@ class FwGuts : NSObject, ObservableObject {
 		fwScene.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
-		guard let baseView		= fwScene.fwView else { fatalError("rootScn.scnView == nil") }
+		guard let baseView		= fwScene.fwView else { fatalError("fwScene.fwView == nil") }
 		baseView.isPlaying		= true			// does nothing
 		baseView.showsStatistics = true			// works fine
 		baseView.debugOptions 	= [				// enable display of:
@@ -232,8 +231,6 @@ class FwGuts : NSObject, ObservableObject {
 			for key in rootVews.keys {
 				let rootVew			= rootVews[key]!
 				msg 				+= rootVew.fwScene.animatePhysics ? "Run   " : "Freeze"
-//				rootVew.fwScene.animatePhysics = !rootVew.rootScn.animatePhysics
-//				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
 			}
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
@@ -282,7 +279,7 @@ class FwGuts : NSObject, ObservableObject {
 	func findVew(nsEvent:NSEvent) -> Vew? {
 		 // CONVERT to window coordinates
 		guard let rootVew		= nsEvent.rootVew		else { return nil 	}
-		let rootScn				= rootVew.scn //rootScn
+		let rScn				= rootVew.scn
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -296,10 +293,8 @@ class FwGuts : NSObject, ObservableObject {
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-		  //.rootNode:rootVew.scn,	// The root of the node hierarchy to be searched.
-			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+			.rootNode:rScn, 			// The root of the node hierarchy to be searched.
 		]
-					//										// min:(4, 114)
 
 		// 20230202PAK: in: (4,24),  out: identical WHEN no Button Bar
 		//				in: (4,127), out: (4,25) when button bar (about 100 high)
@@ -314,9 +309,9 @@ class FwGuts : NSObject, ObservableObject {
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
 
 		 // SELECT HIT; prefer any child to its parents:
-		var rv : Vew			= rootVew			// default
+		var rv : Vew			= rootVew			// default Vew
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
-		var pickedScn			= rootVew.scn 		// default is rootScn
+		var pickedScn			= rootVew.scn 		// default SCNNode
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:
 			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -367,7 +362,8 @@ class FwGuts : NSObject, ObservableObject {
 		 // ========= Get Locks for two resources, in order: =============
 		guard rootPart.lock(partTreeAs:"toggelOpen") else {
 			fatalError("toggelOpen couldn't get PART lock")	}		// or
-		guard  rootVews[key]!.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
+		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
+//		guard  rootVews[key]!.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
 
 		assert(!(part is Link), "cannot toggelOpen a Link")
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
@@ -380,9 +376,10 @@ class FwGuts : NSObject, ObservableObject {
 		rootPart	  .unlock(partTreeAs:"toggelOpen")
 
 //		cam.transform 			= rootScn.cameraTransform(reason:"Other mouseDown")
-		let rootScn				= rootVew.scn//rootScn
-bug//	fwScene.cameraScn.transform = rootScn.cameraTransform(reason:"toggelOpen")
-//		rootVew.rootScn.updatePole2Camera(reason:"toggelOpen")
+	//	let rScn				= rootVew.scn
+		let fwScene				= rootVew.fwScene
+bug;	fwScene.cameraScn.transform = fwScene.cameraTransform(reason:"toggelOpen")
+		fwScene.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 

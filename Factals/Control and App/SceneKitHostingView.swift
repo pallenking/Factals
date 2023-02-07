@@ -86,7 +86,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		 // SAVE in array:					// print(fwGuts.rootVews[0].debugDescriaption)
 		fwGuts.rootVews[i]		= rootVew
 
-		 // Get an ScnView from rootScn
+		 // Get an ScnView from fwScene
 		let fwView				= rootVew.fwScene.fwView!
 		 // Configure from args.options:
 		fwView.allowsCameraControl
