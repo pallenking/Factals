@@ -187,7 +187,7 @@ class FwGuts : NSObject, ObservableObject {
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= rootVews[0]!.fwScene
+			let rootVews0scene	= rootVews[0]!.fwScene.scnScene
 				guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 //			guard write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)

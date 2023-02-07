@@ -248,7 +248,6 @@
 		9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXFwDocumentXXX.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
-		9F3E49BC28B2DABB003D450D /* XXXCameraNodeXXX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXCameraNodeXXX.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
 		9F417F0228EB91FE0047B359 /* FactalsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FactalsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F417F0428EB91FE0047B359 /* FactalsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsTests.swift; sourceTree = "<group>"; };
@@ -422,7 +421,6 @@
 				9F1E3CE128D4991F004548C9 /* XXXAppDelegateFooXXX.swift */,
 				9F217D4D28C38BBA009849B3 /* XXXFwDocumentXXX.swift */,
 				9F0295D02880921800DD0004 /* FwView.swift */,
-				9F3E49BC28B2DABB003D450D /* XXXCameraNodeXXX.swift */,
 				9F1E3CC428D3AB4C004548C9 /* XXXAppDelegateXXX.swift */,
 			);
 			path = "Control and App";

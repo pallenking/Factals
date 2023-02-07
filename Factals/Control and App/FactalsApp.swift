@@ -343,7 +343,7 @@ bug;	let rv					= NSMenu(title:path)
 
 bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		let fwScene				= FwScene(scnScene:SCNScene())
-		fwScene.isPaused		= true						// Pause animations while bulding
+		fwScene.scnScene.isPaused = true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
 		let newRootVew			= RootVew(forPart:fwGuts.rootPart, fwScene:fwScene)

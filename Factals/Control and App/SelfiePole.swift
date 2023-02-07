@@ -20,6 +20,27 @@ struct SelfiePole {
 	var horizonUp	: CGFloat 		= 0					// in degrees
 	var zoom		: CGFloat 		= 1.0
 
+	mutating func pushControllersConfig(to config:FwConfig) {
+														// NOOO	addChildNode(camera!)
+		 // Configure Camera from Source Code:
+		if let c 				= config.fwConfig("camera") {
+			var f				= DOCfwGuts
+			if let h 			= c.float("h"), !h.isNan {	// Pole Height
+				bug//height		= CGFloat(h)
+			}
+			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
+				horizonUp 		= -CGFloat(u)		/* in degrees */
+			}
+			if let s 			= c.float("s"), !s.isNan {	// Spin
+				spin 			= CGFloat(s) 		/* in degrees */
+			}
+			if let z 			= c.float("z"), !z.isNan {	// Zoom
+				zoom 			= CGFloat(z)
+			}
+			atRve(2, print("=== Set camera=\(c.pp(.line))"))		// add printout of selfiePole
+		}
+	}
+
 	 // Computes the transform from a camera A on a selfie stick back to the origin
 	var transform : SCNMatrix4 {
 

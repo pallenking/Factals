@@ -33,21 +33,16 @@ class RootVew : Vew {
 	}
 	init(forPart rootPart:RootPart, fwScene f:FwScene) {
 		fwScene					= f
-//		rootScn					= RootScn(fwScene:fwScene)
-//		rootScn					= RootScn(scnScene:scnScene)
 		eventCentral			= EventCentral()
-//		rootScn.scnScene.physicsWorld.contactDelegate = eventCentral
 
-		super.init(forPart:rootPart, scn:fwScene.rootNode)
+		super.init(forPart:rootPart, scn:fwScene.scn)
 
 		eventCentral.rootVew	= self				// owner
 		fwScene.rootVew			= self				// owner
-//		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
-		assert(scn === fwScene.rootNode, "set RootVew with new scn root")
-		scn 					= fwScene.rootNode	// set RootVew with new scn root
-//		selfiePole				= SelfiePole(rootVew:self)
+		assert(scn === fwScene.scn, "set RootVew with new scn root")
+		scn 					= fwScene.scn		// set RootVew with new scn root
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 

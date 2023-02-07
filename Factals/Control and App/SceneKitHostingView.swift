@@ -14,8 +14,8 @@ struct SceneKitArgs {
 	var sceneIndex		: Int				// N.B var: Unique and Ascending
 	let title			: String
 	let vewConfig		: VewConfig?
-	let background 		: FwScene?
-//	let background 		: SCNScene?			// Legacy, low level access
+//	let background 		: FwScene?
+	let background 		: SCNScene?			// Legacy, low level access
 	let pointOfView 	: SCNNode?
 	let fwGuts			: FwGuts?			// Model
 	let options 		: SceneView.Options
@@ -72,8 +72,9 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		guard let fwGuts		= args.fwGuts else { fatalError("got no fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
-bug;	let fwScene	: FwScene	= args.background!// ?? FwScene(fwScene: <#T##FwScene#>)
-		fwScene.isPaused		= true
+		let scnScene 			= args.background ?? SCNScene()
+		let fwScene	: FwScene	= FwScene(scnScene:scnScene, args:args)
+
 		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart, fwScene:fwScene)
 		rootVew.fwGuts			= fwGuts
@@ -100,7 +101,6 @@ bug;	let fwScene	: FwScene	= args.background!// ?? FwScene(fwScene: <#T##FwScene
 		//						= args.options.contains(.temporalAntialiasingEnabled)
 		fwView.preferredFramesPerSecond
 								= args.preferredFramesPerSecond
-bug
 //		atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(fwView.pp(.line)) vewConfig:" +
 //			"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
 		return fwView
