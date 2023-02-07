@@ -53,7 +53,7 @@ struct ContentView: View {
 				title		: "0: Big main view",
 				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
 				background	: nil,	 // no specific background scene
-				pointOfView	: document.fwGuts.rootVews[0]?.rootScn.cameraScn, //nil,//
+				pointOfView	: document.fwGuts.rootVews[0]?.fwScene.cameraScn,//rootScn.cameraScn, //nil,//
 				fwGuts		: document.fwGuts,
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30

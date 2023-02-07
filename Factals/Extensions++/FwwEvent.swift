@@ -8,7 +8,7 @@ extension NSEvent {
 			 // Search for
 			for key in fwGuts.rootVews.keys {
 				let rootVew		= fwGuts.rootVews[key]!
-				if let fwView	= rootVew.rootScn.fwView,
+				if let fwView	= rootVew.fwScene.fwView,//rootScn.fwView,
 				  fwView.isDescendant(of:nsViewOfEv) {
 					return rootVew
 				}

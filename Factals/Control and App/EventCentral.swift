@@ -11,7 +11,7 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 
 	weak // owner
 	 var rootVew : RootVew!
-	var  rootScn : RootScn		{	return rootVew!.rootScn						}
+//	var  rootScn : RootScn		{	return rootVew!.rootScn						}
 
 	override init() {
 		super.init()
@@ -27,8 +27,10 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 		let duration			= Float(1)
 		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
 		let fwGuts				= rootVew.fwGuts		// why ! ??
-		let rootScn				= rootVew.rootScn
-		let cam					= rootScn.cameraScn
+		let fwScene				= rootVew.fwScene
+		let cam					= fwScene.cameraScn
+//		let rootScn				= rootVew.rootScn
+//		let cam					= rootScn.cameraScn
 
 		switch nsEvent.type {
 
@@ -56,38 +58,38 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts?.modelPic(with:nsEvent)
 			}//
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Left mouseDown")
+			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true			// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				cam.transform 	= rootScn.cameraTransform(reason:"Left mouseDragged")
+				cam.transform 	= fwScene.cameraTransform(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts?.modelPic(with:nsEvent) {
-						rootScn.lookAtVew = vew			// found a Vew: Look at it!
+						fwScene.lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
-				cam.transform 	= rootScn.cameraTransform(duration:duration, reason:"Left mouseUp")
+				cam.transform 	= fwScene.cameraTransform(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseDown")
+			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			cam.transform 		= rootScn.cameraTransform(reason:"Other mouseDragged")
+			cam.transform 		= fwScene.cameraTransform(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseUp")
+			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseUp")
 			atEve(9, print("\( cam.transform.pp(PpMode.tree))"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -95,10 +97,10 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootScn.selfiePole.zoom *= delta
-			let p				= rootScn.selfiePole
+			fwScene.selfiePole.zoom *= delta
+			let p				= fwScene.selfiePole
 			print("processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
+			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -119,19 +121,19 @@ class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:rootScn.fwView)
+			let t 				= nsEvent.touches(matching:.began, in:fwScene.fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:rootScn.fwView)
+			let t 				= nsEvent.touches(matching:.moved, in:fwScene.fwView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:rootScn.fwView)
+			let t 				= nsEvent.touches(matching:.ended, in:fwScene.fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
@@ -211,9 +213,9 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		//let rootVew  			= rootVew!
-		rootScn.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		rootScn.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+		let fwScene 			= rootVew!.fwScene
+		fwScene.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+		fwScene.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 	 // MARK: - 14. Building
 	var log : Log 		{	rootVew.fwGuts.log								}

@@ -6,7 +6,7 @@ import SwiftUI
 
 class FwView : SCNView {
 	 // MARK: - 2. Object Variables:
-	var rootScn : RootScn? { bug; return nil }		// NEEDS MORE WORK
+//	var rootScn : RootScn? { bug; return nil }		// NEEDS MORE WORK
 
 //	 //\\\///\\\///\\\  Our super, SCNView, conforms to SCNSceneRenderer:
 //	 //\\\				Therefore we have

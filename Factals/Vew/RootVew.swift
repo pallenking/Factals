@@ -18,39 +18,42 @@ class RootVew : Vew {
 	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
 		return children.count > 0 ? children[0] : nil
 	}
-	var rootScn : RootScn
-	var fwScene : FwScene		{ 		rootScn.fwScene			}
+	var fwScene : FwScene
 	var eventCentral : EventCentral
 
 	 /// generate a new View, returning its index
 	init() {
-		rootScn					= .nullRootScn
+		fwScene					= FwScene()
+	//	rootScn					= .nullRootScn
 //		rootScn					= RootScn()
 //		rootScn					= .null
 		eventCentral			= .null
-		super.init(forPart:.null, scn:rootScn.fwScene.rootNode)
+		super.init(forPart:.null, scn:.null)
+//		super.init(forPart:.null, scn:rootScn.fwScene.rootNode)
 	}
-	init(forPart rootPart:RootPart, fwScene:FwScene) {
-		rootScn					= RootScn(fwScene:fwScene)
+	init(forPart rootPart:RootPart, fwScene f:FwScene) {
+		fwScene					= f
+//		rootScn					= RootScn(fwScene:fwScene)
 //		rootScn					= RootScn(scnScene:scnScene)
 		eventCentral			= EventCentral()
 //		rootScn.scnScene.physicsWorld.contactDelegate = eventCentral
 
 		super.init(forPart:rootPart, scn:fwScene.rootNode)
 
-		eventCentral.rootVew	= self						// owner
-		rootScn.rootVew			= self						// owner
+		eventCentral.rootVew	= self				// owner
+		fwScene.rootVew			= self				// owner
+//		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
-		assert(scn === rootScn.fwScene.rootNode, "set RootVew with new scn root")
-		scn 					= rootScn.fwScene.rootNode	// set RootVew with new scn root
+		assert(scn === fwScene.rootNode, "set RootVew with new scn root")
+		scn 					= fwScene.rootNode	// set RootVew with new scn root
 //		selfiePole				= SelfiePole(rootVew:self)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func pushControllersConfig(to c:FwConfig) {
 		eventCentral.pushControllersConfig(to:c)
-		rootScn		.pushControllersConfig(to:c)
+		fwScene		.pushControllersConfig(to:c)
 	}
 	 // MARK: - 4? locks
 	func lockBoth(_ msg:String) {
@@ -141,6 +144,4 @@ class RootVew : Vew {
 	//	}
 		return rv
 	}
-	  // MARK: - 16. Global Constants
-	static let nullR 			= RootVew(forPart: RootPart(), fwScene: FwScene())
 }

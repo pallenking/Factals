@@ -49,11 +49,11 @@ class FwGuts : NSObject, ObservableObject {
 		guard let rootVew		= rootVews[sceneKitArgs.sceneIndex] else {
 			fatalError("no rootVews[\(sceneKitArgs.sceneIndex)")
 		}
-		let rootScn				= rootVew.rootScn
-		rootScn.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
+		let fwScene				= rootVew.fwScene
+		fwScene.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
-		guard let baseView		= rootScn.fwView else { fatalError("rootScn.scnView == nil") }
+		guard let baseView		= fwScene.fwView else { fatalError("rootScn.scnView == nil") }
 		baseView.isPlaying		= true			// does nothing
 		baseView.showsStatistics = true			// works fine
 		baseView.debugOptions 	= [				// enable display of:
@@ -174,7 +174,7 @@ class FwGuts : NSObject, ObservableObject {
 			log.ppIndentCols = 3
 			for key in rootVews.keys {
 				let rootVew		= rootVews[key]!
-				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn)))" +
+				print("-------- ptn   rootVews(\(ppUid(rootVew))).fwScene(\(ppUid(rootVew.fwScene)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
 			}
@@ -187,8 +187,8 @@ class FwGuts : NSObject, ObservableObject {
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= rootVews[0]!.rootScn.fwScene
-				guard rootVews0scene!.write(to:fileURL, options:[:], delegate:nil)
+			let rootVews0scene	= rootVews[0]!.fwScene
+				guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 //			guard write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
 //						else { fatalError("writing dumpSCN.\(suffix) failed")	}
@@ -282,7 +282,7 @@ class FwGuts : NSObject, ObservableObject {
 	func findVew(nsEvent:NSEvent) -> Vew? {
 		 // CONVERT to window coordinates
 		guard let rootVew		= nsEvent.rootVew		else { return nil 	}
-		let rootScn				= rootVew.rootScn
+		let rootScn				= rootVew.scn //rootScn
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -303,11 +303,12 @@ class FwGuts : NSObject, ObservableObject {
 
 		// 20230202PAK: in: (4,24),  out: identical WHEN no Button Bar
 		//				in: (4,127), out: (4,25) when button bar (about 100 high)
-		guard let scnView : SCNView = rootScn.fwView		else { return nil 	}
-		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+		let fwScene				= rootVew.fwScene
+		let fwView				= fwScene.fwView!
+		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 								//		 + +   + +
-		let hits				= scnView.hitTest(locationInRoot, options:configHitTest)
+		let hits				= fwView.hitTest(locationInRoot, options:configHitTest)
 								//		 + +   + +
 		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
@@ -315,7 +316,7 @@ class FwGuts : NSObject, ObservableObject {
 		 // SELECT HIT; prefer any child to its parents:
 		var rv : Vew			= rootVew			// default
 		var msg					= "******************************************\n findVew(nsEvent:)\t"
-		var pickedScn			= rootScn.scn 		// default
+		var pickedScn			= rootVew.scn 		// default is rootScn
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:
 			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -378,9 +379,9 @@ class FwGuts : NSObject, ObservableObject {
 		rootVews[key]!.unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart	  .unlock(partTreeAs:"toggelOpen")
 
-//			cam.transform 		= rootScn.cameraTransform(reason:"Other mouseDown")
-		let rootScn				= rootVew.rootScn
-		rootScn.cameraScn.transform = rootVew.rootScn.cameraTransform(reason:"toggelOpen")
+//		cam.transform 			= rootScn.cameraTransform(reason:"Other mouseDown")
+		let rootScn				= rootVew.scn//rootScn
+bug//	fwScene.cameraScn.transform = rootScn.cameraTransform(reason:"toggelOpen")
 //		rootVew.rootScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
@@ -465,7 +466,7 @@ class FwGuts : NSObject, ObservableObject {
 			var rv				=  rootPart.pp(.classUid) + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			if let document {rv	+= document.pp(.classUid)					}
-			rv					+= " SelfiePole:" + (rootVews[0]?.rootScn.selfiePole.pp() ?? "nil")
+			rv					+= " SelfiePole:" + (rootVews[0]?.fwScene.selfiePole.pp() ?? "nil")
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)

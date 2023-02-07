@@ -72,11 +72,12 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		guard let fwGuts		= args.fwGuts else { fatalError("got no fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
-		 // Make new RootVew:
-		let fwScene				= args.background ?? FwScene()
+bug;	let fwScene	: FwScene	= args.background!// ?? FwScene(fwScene: <#T##FwScene#>)
 		fwScene.isPaused		= true
+		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart, fwScene:fwScene)
 		rootVew.fwGuts			= fwGuts
+
 		 // Get index :
 		let i					= args.sceneIndex
 		assert(i >= 0 && i < 4, "Illegal args.sceneIndex:\(i)")
@@ -85,23 +86,24 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		fwGuts.rootVews[i]		= rootVew
 
 		 // Get an ScnView from rootScn
-		let returnedScnView		= rootVew.rootScn.fwView!
+		let fwView				= rootVew.fwScene.fwView!
 		 // Configure from args.options:
-		returnedScnView.allowsCameraControl
+		fwView.allowsCameraControl
 								= args.options.contains(.allowsCameraControl)
-		returnedScnView.autoenablesDefaultLighting
+		fwView.autoenablesDefaultLighting
 								= args.options.contains(.autoenablesDefaultLighting)
-		//returnedScnView.jitteringEnabled
+		//fwView.jitteringEnabled
 		//						= args.options.contains(.jitteringEnabled)
-		returnedScnView.rendersContinuously
+		fwView.rendersContinuously
 								= args.options.contains(.rendersContinuously)
 		//returnedScnView.temporalAntialiasingEnabled
 		//						= args.options.contains(.temporalAntialiasingEnabled)
-		returnedScnView.preferredFramesPerSecond
+		fwView.preferredFramesPerSecond
 								= args.preferredFramesPerSecond
-		atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(returnedScnView.pp(.line)) vewConfig:" +
-			"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
-		return returnedScnView
+bug
+//		atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(fwView.pp(.line)) vewConfig:" +
+//			"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
+		return fwView
 	}
 	func updateNSView(_ nsView: SCNView, context: Context) {
 		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): =========== updateNSView      title:'\(args.title)' (Does nothing)"))

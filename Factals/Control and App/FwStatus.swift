@@ -263,7 +263,7 @@ extension RootVew : FwStatus	{									  ///RootVew
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootScn		.ppFwState()
+				var rv			=  self.fwScene		.ppFwState()
 				rv				+= self.eventCentral.ppFwState()
 				return rv
 			},
@@ -280,25 +280,25 @@ extension EventCentral : FwStatus	{							 ///EventCentral
 	}
 }
 
-extension RootScn : FwStatus	{										    ///RootScn
-	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootVew.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-//		myLine					+= "\(pp(.classUid)) (\(rootScn.nodeCount()) SCNNodes) "
-		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
-//		myLine					+= scn.pp(.classUid)
-		myLine					+= fwScene.pp(.classUid)
-		myLine					+= fwScene.pp(.classUid)
-			//myLine					+= " animatePhysics:\(animatePhysics)"		// might go to SCNScene
-		return ppFwStateHelper("RootScn      ", uid:self,
-			myLine:myLine,
-			otherLines: { deapth in
-				var rv			=  self.fwScene.ppFwState()
-				rv				+= self.fwView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
-				return rv
-			},
-			deapth:deapth-1)
-	}
-}
+//extension RootScn : FwStatus	{										    ///RootScn
+//	func ppFwState(deapth:Int=999) -> String {
+//		var myLine				= rootVew.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+////		myLine					+= "\(pp(.classUid)) (\(rootScn.nodeCount()) SCNNodes) "
+//		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
+////		myLine					+= scn.pp(.classUid)
+//		myLine					+= fwScene.pp(.classUid)
+//		myLine					+= fwScene.pp(.classUid)
+//			//myLine					+= " animatePhysics:\(animatePhysics)"		// might go to SCNScene
+//		return ppFwStateHelper("RootScn      ", uid:self,
+//			myLine:myLine,
+//			otherLines: { deapth in
+//				var rv			=  self.fwScene.ppFwState()
+//				rv				+= self.fwView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
+//				return rv
+//			},
+//			deapth:deapth-1)
+//	}
+//}
 extension SCNScene : FwStatus	{							///FwScene ///SCNScene
 	func ppFwState(deapth:Int=999) -> String {
 		let (classMsg, myLine)	= self is FwScene ?
