@@ -37,7 +37,7 @@ struct SceneKitView: View {
 				let fwGuts	= sceneKitArgs.fwGuts!
 				if let rootVew = fwGuts.rootVews[sceneKitArgs.sceneIndex] {
 					 // send to Event Central:
-					rootVew.eventCentral.processEvent(nsEvent:nsEvent, inVew:nil)
+					rootVew.fwScene.processEvent(nsEvent:nsEvent, inVew:nil)
 				}
 			})
 			 // ////////////////
