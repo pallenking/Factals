@@ -264,21 +264,21 @@ extension RootVew : FwStatus	{									  ///RootVew
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.fwScene		.ppFwState()
-				rv				+= self.eventCentral.ppFwState()
+//				rv				+= self.eventCentral.ppFwState()
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
 
-extension EventCentral : FwStatus	{							 ///EventCentral
-	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootVew.eventCentral === self ? "" : "OWNER:'\(rootVew!)' BAD"
-		return ppFwStateHelper("EventCentral ", uid:self,
-			myLine:myLine,
-			deapth:deapth-1)
-	}
-}
+//extension EventCentral : FwStatus	{							 ///EventCentral
+//	func ppFwState(deapth:Int=999) -> String {
+//		var myLine				= rootVew.eventCentral === self ? "" : "OWNER:'\(rootVew!)' BAD"
+//		return ppFwStateHelper("EventCentral ", uid:self,
+//			myLine:myLine,
+//			deapth:deapth-1)
+//	}
+//}
 
 extension FwScene : FwStatus	{										    ///FwScene
 	func ppFwState(deapth:Int=999) -> String {

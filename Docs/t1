@@ -368,3 +368,21 @@ b15:Ff| | | |    _prt1:Vew     s:  *-prt1/761 p:  prt1/357:MaxOr . . . . . .    
  254  | | NSWindowCtlr . . . . . . . . nilNameNib;;doc:a0b win:4b2 nibOwner:254 
  4b2  | | | NSWindow     . . . . . . . title:'Untitled' contentVC:959 contentView:e64 delegate:--- 
  ---  | | | \ contentVew OMITTED
+
+
+
+
+
+
+
+
+
+
+
+
+(NSPoint) $R0 = (x = 449.9727783203125, y = 114.30767822265625)
+(NSPoint) $R0 = (x = 450.1793212890625, y = 24.28729248046875)
+
+
+
+

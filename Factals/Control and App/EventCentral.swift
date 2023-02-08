@@ -1,231 +1,231 @@
+//	//
+//	//  EventCentral.swift
+//	//  Factals
+//	//
+//	//  Created by Allen King on 9/19/22.
+//	//
 //
-//  EventCentral.swift
-//  Factals
+//	import SceneKit
+//				// Remove NSObject?
+//	class EventCentral : NSObject {	// NEVER NSCopying, Equatable
 //
-//  Created by Allen King on 9/19/22.
+//		weak // owner
+//		 var rootVew : RootVew!
+//	//	var  rootScn : RootScn		{	return rootVew!.rootScn						}
 //
-
-import SceneKit
-			// Remove NSObject?
-class EventCentral : NSObject {	// NEVER NSCopying, Equatable
-
-	weak // owner
-	 var rootVew : RootVew!
-//	var  rootScn : RootScn		{	return rootVew!.rootScn						}
-
-	override init() {
-		super.init()
-	}
-	func pushControllersConfig(to c:FwConfig) {	/* nada */ }
-
-//	 // MARK: - 13. IBActions
-//	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
-//	var mouseWasDragged			= false		// have dragging cancel pic
-//
-//	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) {
-//		let nsTrackPad			= trueF//falseF//
-//		let duration			= Float(1)
-//		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
-//		let fwGuts				= rootVew.fwGuts		// why ! ??
-//		let fwScene				= rootVew.fwScene
-//		let cam					= fwScene.cameraScn
-////		let rootScn				= rootVew.rootScn
-////		let cam					= rootScn.cameraScn
-//
-//		switch nsEvent.type {
-//
-//		  //  ====== KEYBOARD ======
-//		 //
-//		case .keyDown:
-//			if nsEvent.isARepeat {	return }			// Ignore repeats
-//			nextIsAutoRepeat 	= true
-//			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
-//			assert(char.count==1, "multiple keystrokes not supported")
-//
-//			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
-//			  char != "?" {		// okay for "?" to get here
-//				atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
-//			}
-//		case .keyUp:
-//			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-//			nextIsAutoRepeat 	= false
-//			let _				= fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil)
-//
-//		  //  ====== LEFT MOUSE ======
-//		 //
-//		case .leftMouseDown:
-//			motionFromLastEvent(with:nsEvent)
-//			if !nsTrackPad  {					// 3-button Mouse
-//				let vew			= fwGuts?.modelPic(with:nsEvent)
-//			}//
-//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Left mouseDown")
-//		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
-//			if nsTrackPad  {					// Trackpad
-//				motionFromLastEvent(with:nsEvent)
-//				mouseWasDragged = true			// drag cancels pic
-//				spinNUp(with:nsEvent)			// change Spin and Up of camera
-//				cam.transform 	= fwScene.cameraTransform(reason:"Left mouseDragged")
-//			}
-//		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
-//			if nsTrackPad  {					// Trackpad
-//				motionFromLastEvent(with:nsEvent)
-//				if !mouseWasDragged {			// UnDragged Up
-//					if let vew	= fwGuts?.modelPic(with:nsEvent) {
-//						fwScene.lookAtVew = vew			// found a Vew: Look at it!
-//					}
-//				}
-//				mouseWasDragged = false
-//				cam.transform 	= fwScene.cameraTransform(duration:duration, reason:"Left mouseUp")
-//			}
-//
-//		  //  ====== CENTER MOUSE (scroll wheel) ======
-//		 //
-//		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
-//			motionFromLastEvent(with:nsEvent)
-//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseDown")
-//		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
-//			motionFromLastEvent(with:nsEvent)
-//			spinNUp(with:nsEvent)
-//			cam.transform 		= fwScene.cameraTransform(reason:"Other mouseDragged")
-//		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
-//			motionFromLastEvent(with:nsEvent)
-//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseUp")
-//			atEve(9, print("\( cam.transform.pp(PpMode.tree))"))
-//
-//		  //  ====== CENTER SCROLL WHEEL ======
-//		 //
-//		case .scrollWheel:
-//			let d				= nsEvent.deltaY
-//			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-//			fwScene.selfiePole.zoom *= delta
-//			let p				= fwScene.selfiePole
-//			print("processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
-//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Scroll Wheel")
-//
-//		  //  ====== RIGHT MOUSE ======			Right Mouse not used
-//		 //
-//		case .rightMouseDown:	bug
-//		case .rightMouseDragged:bug
-//		case .rightMouseUp:		bug
-//
-//		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
-//		case .magnify:			bug
-//		case .smartMagnify:		bug
-//		case .swipe:			bug
-//		case .rotate:			bug
-//		case .gesture:			bug
-//		case .directTouch:		bug
-//		case .tabletPoint:		bug
-//		case .tabletProximity:	bug
-//		case .pressure:			bug
-//		case .changeMode:		bug
-//
-//		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-//			let t 				= nsEvent.touches(matching:.began, in:fwScene.fwView)
-//			for touch in t {
-//				let _:CGPoint	= touch.location(in:nil)
-//			}
-//		case .mouseMoved:		bug
-//			let t 				= nsEvent.touches(matching:.moved, in:fwScene.fwView)
-//			for touch in t {
-//				let prevLoc		= touch.previousLocation(in:nil)
-//				let loc			= touch.location(in:nil)
-//				atEve(3, (print("\(prevLoc) \(loc)")))
-//			}
-//		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-//			let t 				= nsEvent.touches(matching:.ended, in:fwScene.fwView)
-//			for touch in t {
-//				let _:CGPoint	= touch.location(in:nil)
-//			}
-//		default:
-//			print("processEvent(type:\(nsEvent.type)) NOT PROCESSED by EventCentral")
+//		override init() {
+//			super.init()
 //		}
+//		func pushControllersConfig(to c:FwConfig) {	/* nada */ }
+//
+//	//	 // MARK: - 13. IBActions
+//	//	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
+//	//	var mouseWasDragged			= false		// have dragging cancel pic
+//	//
+//	//	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) {
+//	//		let nsTrackPad			= trueF//falseF//
+//	//		let duration			= Float(1)
+//	//		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
+//	//		let fwGuts				= rootVew.fwGuts		// why ! ??
+//	//		let fwScene				= rootVew.fwScene
+//	//		let cam					= fwScene.cameraScn
+//	////		let rootScn				= rootVew.rootScn
+//	////		let cam					= rootScn.cameraScn
+//	//
+//	//		switch nsEvent.type {
+//	//
+//	//		  //  ====== KEYBOARD ======
+//	//		 //
+//	//		case .keyDown:
+//	//			if nsEvent.isARepeat {	return }			// Ignore repeats
+//	//			nextIsAutoRepeat 	= true
+//	//			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
+//	//			assert(char.count==1, "multiple keystrokes not supported")
+//	//
+//	//			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
+//	//			  char != "?" {		// okay for "?" to get here
+//	//				atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
+//	//			}
+//	//		case .keyUp:
+//	//			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
+//	//			nextIsAutoRepeat 	= false
+//	//			let _				= fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil)
+//	//
+//	//		  //  ====== LEFT MOUSE ======
+//	//		 //
+//	//		case .leftMouseDown:
+//	//			motionFromLastEvent(with:nsEvent)
+//	//			if !nsTrackPad  {					// 3-button Mouse
+//	//				let vew			= fwGuts?.modelPic(with:nsEvent)
+//	//			}//
+//	//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Left mouseDown")
+//	//		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
+//	//			if nsTrackPad  {					// Trackpad
+//	//				motionFromLastEvent(with:nsEvent)
+//	//				mouseWasDragged = true			// drag cancels pic
+//	//				spinNUp(with:nsEvent)			// change Spin and Up of camera
+//	//				cam.transform 	= fwScene.cameraTransform(reason:"Left mouseDragged")
+//	//			}
+//	//		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
+//	//			if nsTrackPad  {					// Trackpad
+//	//				motionFromLastEvent(with:nsEvent)
+//	//				if !mouseWasDragged {			// UnDragged Up
+//	//					if let vew	= fwGuts?.modelPic(with:nsEvent) {
+//	//						fwScene.lookAtVew = vew			// found a Vew: Look at it!
+//	//					}
+//	//				}
+//	//				mouseWasDragged = false
+//	//				cam.transform 	= fwScene.cameraTransform(duration:duration, reason:"Left mouseUp")
+//	//			}
+//	//
+//	//		  //  ====== CENTER MOUSE (scroll wheel) ======
+//	//		 //
+//	//		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
+//	//			motionFromLastEvent(with:nsEvent)
+//	//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseDown")
+//	//		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
+//	//			motionFromLastEvent(with:nsEvent)
+//	//			spinNUp(with:nsEvent)
+//	//			cam.transform 		= fwScene.cameraTransform(reason:"Other mouseDragged")
+//	//		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
+//	//			motionFromLastEvent(with:nsEvent)
+//	//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseUp")
+//	//			atEve(9, print("\( cam.transform.pp(PpMode.tree))"))
+//	//
+//	//		  //  ====== CENTER SCROLL WHEEL ======
+//	//		 //
+//	//		case .scrollWheel:
+//	//			let d				= nsEvent.deltaY
+//	//			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
+//	//			fwScene.selfiePole.zoom *= delta
+//	//			let p				= fwScene.selfiePole
+//	//			print("processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
+//	//			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Scroll Wheel")
+//	//
+//	//		  //  ====== RIGHT MOUSE ======			Right Mouse not used
+//	//		 //
+//	//		case .rightMouseDown:	bug
+//	//		case .rightMouseDragged:bug
+//	//		case .rightMouseUp:		bug
+//	//
+//	//		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
+//	//		case .magnify:			bug
+//	//		case .smartMagnify:		bug
+//	//		case .swipe:			bug
+//	//		case .rotate:			bug
+//	//		case .gesture:			bug
+//	//		case .directTouch:		bug
+//	//		case .tabletPoint:		bug
+//	//		case .tabletProximity:	bug
+//	//		case .pressure:			bug
+//	//		case .changeMode:		bug
+//	//
+//	//		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
+//	//			let t 				= nsEvent.touches(matching:.began, in:fwScene.fwView)
+//	//			for touch in t {
+//	//				let _:CGPoint	= touch.location(in:nil)
+//	//			}
+//	//		case .mouseMoved:		bug
+//	//			let t 				= nsEvent.touches(matching:.moved, in:fwScene.fwView)
+//	//			for touch in t {
+//	//				let prevLoc		= touch.previousLocation(in:nil)
+//	//				let loc			= touch.location(in:nil)
+//	//				atEve(3, (print("\(prevLoc) \(loc)")))
+//	//			}
+//	//		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
+//	//			let t 				= nsEvent.touches(matching:.ended, in:fwScene.fwView)
+//	//			for touch in t {
+//	//				let _:CGPoint	= touch.location(in:nil)
+//	//			}
+//	//		default:
+//	//			print("processEvent(type:\(nsEvent.type)) NOT PROCESSED by EventCentral")
+//	//		}
+//	//	}
+//	//	 // MARK: - 13.4 Mouse Variables
+//	//	func motionFromLastEvent(with nsEvent:NSEvent)	{
+//	//		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
+//	//
+//	//		let posn 				= contentNsView.convert(nsEvent.locationInWindow,     from:nil)	// nil -> window
+//	//			//	 : NSPoint			     NsView:								: NSPoint :window
+//	//			//	 : CGPoint
+//	//		let posnV3				= SCNVector3(posn.x, posn.y, 0)		// BAD: unprojectPoint(
+//	//
+//	//		 // Movement since last, 0 if first time and there is none
+//	//		deltaPosition			= lastPosition == nil ? SCNVector3.zero : posnV3 - lastPosition!
+//	//		lastPosition			= posnV3
+//	//										//let prevPosn : SCNVector3 = lastPosition ?? posnV3
+//	//										// // "Output"
+//	//										//deltaPosition			= posnV3 - prevPosn
+//	//										//lastPosition			= posnV3
+//	//	}
+//	//	func allConversions() {
+//	////		let point				= convert(NSPoint(), from:nil)
+//	////		let size				= convert(NSSize(),  from:nil)
+//	////		let rect				= convert(NSRect(),  from:nil)
+//	////		let cgRect				= convert(CGRect(),  from:nil)
+//	//	}
+//	///*
+//	//			View.convert(_:NSPoint, from:NSView?)
+//	//- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
+//	//
+//	//
+//	//
+//	//Vew.swift:
+//	//           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
+//	//		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
+//	//SceneKit:
+//	//		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+//	//FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
+//	//	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+//	//	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
+//	//NSView:
+//	//		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
+//	//SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
+//	//		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
+//	//	       convert         (_:NSRect,        from:NSView?)       -> NSRect
+//	//Quartzcore Calayer: UIView:
+//	//		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
+//	//		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
+//	//		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
+//	//SpriteKit:
+//	//		   convertPoint    (fromView:CGPoint)			         -> CGPoint
+//	//		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
+//	//UIView:
+//	//		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
+//	//		   convert         (_:CGRect,      from:UIView?)         -> CGRect
+//	//AppKit:
+//	//		   convert         (_:NSFont                          )  -> NSFont
+//	//
+//	//			convertPointFromBacking:
+//	//
+//	//		   convert        (              to: UnitType)							UnitType conforms to Dimension
+//	//
+//	//https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
+//	//- convertPointToBase:
+//	//- convertSizeToBase:
+//	//- convertSizeFromBase:
+//	//- convertRectToBase:
+//	//- convertRectFromBase:
+//	//
+//	// */
+//	//
+//	//	var lastPosition : SCNVector3? = nil				// spot cursor hit
+//	//	var deltaPosition			= SCNVector3.zero
+//	//
+//	//	func spinNUp(with nsEvent:NSEvent) {
+//	//		let fwScene 			= rootVew!.fwScene
+//	//		fwScene.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+//	//		fwScene.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+//	//	}
+//		 // MARK: - 14. Building
+//		var log : Log 		{	rootVew.fwGuts.log								}
+//		func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+//			log.log(banner:banner, format_, args, terminator:terminator)
+//		}
+//		 // MARK: - 15. PrettyPrint
+//		func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+//			return "EventCentral:\(ppUid(self))"
+//		}
+//		  // MARK: - 16. Global Constants
+//		static let null 			= EventCentral()		/// Any use of this _should_? fail
 //	}
-//	 // MARK: - 13.4 Mouse Variables
-//	func motionFromLastEvent(with nsEvent:NSEvent)	{
-//		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
-//
-//		let posn 				= contentNsView.convert(nsEvent.locationInWindow,     from:nil)	// nil -> window
-//			//	 : NSPoint			     NsView:								: NSPoint :window
-//			//	 : CGPoint
-//		let posnV3				= SCNVector3(posn.x, posn.y, 0)		// BAD: unprojectPoint(
-//
-//		 // Movement since last, 0 if first time and there is none
-//		deltaPosition			= lastPosition == nil ? SCNVector3.zero : posnV3 - lastPosition!
-//		lastPosition			= posnV3
-//										//let prevPosn : SCNVector3 = lastPosition ?? posnV3
-//										// // "Output"
-//										//deltaPosition			= posnV3 - prevPosn
-//										//lastPosition			= posnV3
-//	}
-//	func allConversions() {
-////		let point				= convert(NSPoint(), from:nil)
-////		let size				= convert(NSSize(),  from:nil)
-////		let rect				= convert(NSRect(),  from:nil)
-////		let cgRect				= convert(CGRect(),  from:nil)
-//	}
-///*
-//			View.convert(_:NSPoint, from:NSView?)
-//- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
-//
-//
-//
-//Vew.swift:
-//           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
-//		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
-//SceneKit:
-//		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-//FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
-//	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-//	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
-//NSView:
-//		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
-//SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
-//		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
-//	       convert         (_:NSRect,        from:NSView?)       -> NSRect
-//Quartzcore Calayer: UIView:
-//		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
-//		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
-//		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
-//SpriteKit:
-//		   convertPoint    (fromView:CGPoint)			         -> CGPoint
-//		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
-//UIView:
-//		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
-//		   convert         (_:CGRect,      from:UIView?)         -> CGRect
-//AppKit:
-//		   convert         (_:NSFont                          )  -> NSFont
-//
-//			convertPointFromBacking:
-//
-//		   convert        (              to: UnitType)							UnitType conforms to Dimension
-//
-//https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
-//- convertPointToBase:
-//- convertSizeToBase:
-//- convertSizeFromBase:
-//- convertRectToBase:
-//- convertRectFromBase:
-//
-// */
-//
-//	var lastPosition : SCNVector3? = nil				// spot cursor hit
-//	var deltaPosition			= SCNVector3.zero
-//
-//	func spinNUp(with nsEvent:NSEvent) {
-//		let fwScene 			= rootVew!.fwScene
-//		fwScene.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-//		fwScene.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
-//	}
-	 // MARK: - 14. Building
-	var log : Log 		{	rootVew.fwGuts.log								}
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		log.log(banner:banner, format_, args, terminator:terminator)
-	}
-	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		return "EventCentral:\(ppUid(self))"
-	}
-	  // MARK: - 16. Global Constants
-	static let null 			= EventCentral()		/// Any use of this _should_? fail
-}

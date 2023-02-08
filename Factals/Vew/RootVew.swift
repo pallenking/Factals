@@ -19,21 +19,21 @@ class RootVew : Vew {
 		return children.count > 0 ? children[0] : nil
 	}
 	var fwScene : FwScene
-	var eventCentral : EventCentral
+//	var eventCentral : EventCentral
 
 	 /// generate a new View, returning its index
 	init() {
 		fwScene					= FwScene()
-		eventCentral			= .null
+//		eventCentral			= .null
 		super.init(forPart:.null, scn:.null)
 	}
 	init(forPart rootPart:RootPart, fwScene f:FwScene) {
 		fwScene					= f
-		eventCentral			= EventCentral()
+//		eventCentral			= EventCentral()
 
 		super.init(forPart:rootPart, scn:fwScene.scn)
 
-		eventCentral.rootVew	= self				// owner
+//		eventCentral.rootVew	= self				// owner
 		fwScene.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
@@ -43,7 +43,7 @@ class RootVew : Vew {
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func pushControllersConfig(to c:FwConfig) {
-		eventCentral.pushControllersConfig(to:c)
+//		eventCentral.pushControllersConfig(to:c)
 		fwScene		.pushControllersConfig(to:c)
 	}
 	 // MARK: - 4? locks
