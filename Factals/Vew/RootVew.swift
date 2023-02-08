@@ -19,7 +19,6 @@ class RootVew : Vew {
 		return children.count > 0 ? children[0] : nil
 	}
 	var rootScn : RootScn
-//	var eventCentral : EventCentral
 
 	 /// generate a new View, returning its index
 	init() {
@@ -29,11 +28,9 @@ class RootVew : Vew {
 	}
 	init(forPart rootPart:RootPart, rootScn f:RootScn) {
 		rootScn					= f
-//		eventCentral			= EventCentral()
 
 		super.init(forPart:rootPart, scn:rootScn.scn)
 
-//		eventCentral.rootVew	= self				// owner
 		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
@@ -43,7 +40,6 @@ class RootVew : Vew {
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func pushControllersConfig(to c:FwConfig) {
-//		eventCentral.pushControllersConfig(to:c)
 		rootScn		.pushControllersConfig(to:c)
 	}
 	 // MARK: - 4? locks
@@ -77,7 +73,6 @@ class RootVew : Vew {
 			 // === Failed to get lock:
 			let val0		= rootVewLock.value ?? -99
 			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
-//			wait   			? atRve(4, logd("//#######\(msg)")) :
 			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :
 							  nop
 			panic(msg)	// for debug only
@@ -123,7 +118,7 @@ class RootVew : Vew {
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		let rv					= super.pp(mode, aux)
-	//	if let fwGuts			= fwGuts {
+	//	if let fwGuts {
 	//		let i				= fwGuts.rootVews.firstIndex { $0 === self		}
 	//		rv					+= !fwGuts.rootVews.contains(self)	? "" :
 	//										  ", NOT IN ROOTVEWS!"
@@ -133,6 +128,6 @@ class RootVew : Vew {
 	//	else {
 	//		rv					+= 			  ", FWGUTS=NIL!"
 	//	}
-		return rv
+		return rv + "WTF LWHVW"
 	}
 }

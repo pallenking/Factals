@@ -46,11 +46,11 @@ struct ContentView: View {
 			let sceneKitArgs	= SceneKitArgs(
 				sceneIndex	: 0,
 				title		: "0: Big main view",
-				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
+				rootPart	: document.fwGuts.rootPart,
+				vewConfig	: vewConfigAllToDeapth4, 							//vewConfig1,//.null,
 				scnScene	: nil,	 // no specific background scene
 				pointOfView	: document.fwGuts.rootVews[0]?.rootScn.cameraScn,
-				fwGuts		: document.fwGuts,
-				options		: [.rendersContinuously],	//.allowsCameraControl,
+				options		: [.rendersContinuously],							//.allowsCameraControl,
 				preferredFramesPerSecond:30
 			)
 			SceneKitView(sceneKitArgs:sceneKitArgs)
@@ -99,13 +99,13 @@ struct ContentView: View {
 		HStack {
 			if let fwGuts			= document.fwGuts {
 				VStack {	 // JET
-					let sceneKitArgs	= SceneKitArgs( 	//SceneView(
+					let sceneKitArgs	= SceneKitArgs(
 						sceneIndex	: 0,
 						title		: "Jet",
-						vewConfig	: vewConfigAllToDeapth4,//.null,//.openAllChildren(toDeapth:99),//			// No HaveNWant Vews in Jet
+						rootPart	: fwGuts.rootPart,
+						vewConfig	: vewConfigAllToDeapth4,					//.null,//.openAllChildren(toDeapth:99),//			// No HaveNWant Vews in Jet
 						scnScene	: jetModel.scene,
-						pointOfView	: nil,//cameraNode,//nil,//jetModel.scene.cameraScn,
-						fwGuts		: fwGuts,
+						pointOfView	: nil,
 						options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 						preferredFramesPerSecond : 30
 					)
@@ -179,10 +179,10 @@ struct ContentView: View {
 						let sceneKitArgs	= SceneKitArgs(
 							sceneIndex	: 0,
 							title		: "0: Big main view",
-							vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
+							rootPart	: fwGuts.rootPart,
+							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
 							scnScene	: nil,	 // no specific background scene
-							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//
-							fwGuts		: fwGuts,
+							pointOfView	: nil,
 							options		: [.rendersContinuously],	//.allowsCameraControl,
 							preferredFramesPerSecond:30
 						)
@@ -205,10 +205,10 @@ struct ContentView: View {
 						let sceneKitArgs	= SceneKitArgs(
 							sceneIndex	: 1,
 							title		: "1: Second smaller view",
+							rootPart	: fwGuts.rootPart,
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
 							scnScene	: nil,	// no specific background scene
-							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,
-							fwGuts		: fwGuts,
+							pointOfView	: nil,
 							options		: [.rendersContinuously],				//.allowsCameraControl,
 							preferredFramesPerSecond:30
 						)
@@ -246,10 +246,10 @@ struct ContentView: View {
 						let sceneKitArgs	= SceneKitArgs( 	//SceneView(
 							sceneIndex	: 2,
 							title		: "2: Jet View",
+							rootPart	: fwGuts.rootPart,
 							vewConfig	: .null,
 							scnScene	: jetModel.scene,
-							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//jetModel.scene.cameraScn,
-							fwGuts		: fwGuts,
+							pointOfView	: nil,
 							options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 							preferredFramesPerSecond : 30
 						)

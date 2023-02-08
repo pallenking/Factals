@@ -1,6 +1,22 @@
 //  FwwEvent.swift -- generate digital words C190822PAK
 import SceneKit
 
+protocol ProcessNsEvent {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool
+}
+
+// extension TimingChain	: ProcessNsEvent {}		// Redundant
+// extension WorldModel		: ProcessNsEvent {}		// Redundant
+extension Part				: ProcessNsEvent {}
+extension FactalsDocument	: ProcessNsEvent {}
+extension FwGuts			: ProcessNsEvent {}
+extension RootScn			: ProcessNsEvent {}
+//extension EventReceiver	: ProcessNsEvent {}		// ???
+extension Simulator			: ProcessNsEvent {}
+//extension FwwEvent		: ProcessNsEvent {}
+
+
+
 extension NSEvent {
 	var rootVew : RootVew? {
 		let fwGuts 				= DOCfwGuts

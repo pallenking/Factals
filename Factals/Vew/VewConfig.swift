@@ -122,7 +122,6 @@ extension RootVew {
 		rv						+= "pole:\(rootScn.selfiePole.pp())-"
 		rv						+= "w[\(scn.convertPosition(.zero, to:nil).pp(.short))] "
 		rv						+= "lookAtVew:\(rootScn.lookAtVew?.pp(.fullName) ?? "?")"
-//		assert(eventCentral.rootVew == self, "EventCentral link BAD")
 		return rv
 	}
 }

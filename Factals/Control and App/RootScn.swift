@@ -72,24 +72,22 @@ class RootScn : NSObject {		// was  : SCNScene
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
 
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
-		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
+		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return false}
 		let fwGuts				= rootVew.fwGuts		// why ! ??
 		let rootScn				= rootVew.rootScn
 		let cam					= rootScn.cameraScn
-//		let rootScn				= rootVew.rootScn
-//		let cam					= rootScn.cameraScn
 
 		switch nsEvent.type {
 
 		  //  ====== KEYBOARD ======
 		 //
 		case .keyDown:
-			if nsEvent.isARepeat {	return }			// Ignore repeats
+			if nsEvent.isARepeat {	return false }		// Ignore repeats
 			nextIsAutoRepeat 	= true
-			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return }
+			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "multiple keystrokes not supported")
 
 			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
@@ -189,7 +187,9 @@ class RootScn : NSObject {		// was  : SCNScene
 			}
 		default:
 			print("processEvent(type:\(nsEvent.type)) NOT PROCESSED by EventCentral")
+			return false
 		}
+		return true
 	}
 	 // MARK: - 13.4 Mouse Variables
 	func motionFromLastEvent(with nsEvent:NSEvent)	{

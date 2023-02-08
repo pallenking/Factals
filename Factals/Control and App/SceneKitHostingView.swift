@@ -13,10 +13,10 @@ import SwiftUI
 struct SceneKitArgs {
 	var sceneIndex		: Int				// N.B var: Unique and Ascending
 	let title			: String
+	let rootPart		: RootPart?			// Model
 	let vewConfig		: VewConfig?
 	let scnScene 		: SCNScene?			// Legacy, low level access
 	let pointOfView 	: SCNNode?
-	let fwGuts			: FwGuts?			// Model
 	let options 		: SceneView.Options
 		//.autoenablesDefaultLighting,
 		//.allowsCameraControl,
@@ -33,9 +33,8 @@ struct SceneKitView: View {
 		ZStack {
 			 // /////////
 			EventReceiver(handler: { nsEvent in
-				let fwGuts	= sceneKitArgs.fwGuts!
-				if let rootVew = fwGuts.rootVews[sceneKitArgs.sceneIndex] {
-					 // send to Event Central:
+				if let fwGuts	= sceneKitArgs.rootPart?.fwGuts,
+				  let rootVew	= fwGuts.rootVews[sceneKitArgs.sceneIndex] {
 					rootVew.rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
 				}
 			})
@@ -64,11 +63,11 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	  //  This may be called many times for the same View
 	func makeNSView(context: Context) -> SCNView {		// typedef Context = NSViewRepresentableContext<Self>
 											//	makeCoordinator()	//wtf?
-										//		let coord : Void		= context.coordinator		// View.Coordinator
-										//		let transaction			= context.transaction		// a 'plist'
-										//		let environment			= context.environment		// Empty
-											//	let prefBridge 			= context.preferenceBridge	// no member 'preferenceBridge'
-		guard let fwGuts		= args.fwGuts else { fatalError("got no fwGuts!")}
+												let coord : Void		= context.coordinator		// View.Coordinator
+												let transaction			= context.transaction		// a 'plist'
+												let environment			= context.environment		// Empty
+												//let prefBridge 		= context.preferenceBridge	// no member 'preferenceBridge'
+		guard let fwGuts		= args.rootPart?.fwGuts else { fatalError("got no fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
 		let scnScene 			= args.scnScene ?? SCNScene()
