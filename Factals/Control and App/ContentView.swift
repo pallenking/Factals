@@ -24,17 +24,12 @@ struct ContentView: View {
 	@StateObject var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 								
 	var body: some View {
-		if falseF, dragonModel.redrawValue & 1 == 1 {	//falseF, //
-			Button(label: {	Text("dragonModel.redrawValue = \(dragonModel.redrawValue)") })
-			{	dragonModel.redrawValue += 1									}
-		} else {
-			let select 			= 1//4//1//
-			if select == 0 {	bodyNada										}
-			if select == 1 {	bodySimple										}
-			if select == 2 { 	bodyJet											}
-			if select == 3 { 	bodyDragon										}
-			if select == 4 { 	bodyAll											}
-		}
+		let select 			= 1//4//1//
+		if select == 0 {	bodyNada										}
+		if select == 1 {	bodySimple										}
+		if select == 2 { 	bodyJet											}
+		if select == 3 { 	bodyDragon										}
+		if select == 4 { 	bodyAll											}
 	}
 	var bodyNada: some View {		// Single HNW View
 		VStack {
@@ -58,14 +53,12 @@ struct ContentView: View {
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30
 			)
-			if dragonModel.redrawValue != 17 {
-				SceneKitView(sceneKitArgs:sceneKitArgs)
-				 .frame(maxWidth:.infinity)
-				 .border(.black, width:2)
-				 .onAppear() {						//was didLoadNib
-					document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-				 }
-			}
+			SceneKitView(sceneKitArgs:sceneKitArgs)
+			 .frame(maxWidth:.infinity)
+			 .border(.black, width:2)
+			 .onAppear() {						//was didLoadNib
+				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+			 }
 			ButtonBar(document:$document, dragonModel:dragonModel)
 		}
 //		 .toolbar {
