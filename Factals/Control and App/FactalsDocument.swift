@@ -282,20 +282,20 @@ bug
 	//	assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
 	//	assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
 
-	//	 		// Create FwScene programatically:
-	//	let fwScene				= FwScene(fwConfig:params4scene)	// 3D visualization
+	//	 		// Create RootScn programatically:
+	//	let rootScn				= RootScn(fwConfig:params4scene)	// 3D visualization
 	//	 		// Link it in:
 	//	assert(fwView != nil, "nib loaded, but fwView not set by IB")
-	//	fwView!.delegate		= fwScene		//\\ delegate
-	//	fwView!.fwScene			= fwScene		  // same		210712PAK: why so many?
-	//	fwView!.scene			= fwScene		 //  same
+	//	fwView!.delegate		= rootScn		//\\ delegate
+	//	fwView!.rootScn			= rootScn		  // same		210712PAK: why so many?
+	//	fwView!.scene			= rootScn		 //  same
 	//	//fwView!.autoenablesDefaultLighting = true
 	//	//fwView!.allowsCameraControl = true
 	//	assert(rootPart.dirty.isOn(.vew), "sanity: newly loaded root should have dirty Vew")
-	//	updateDocConfigs(from:rootPart.ansConfig)	// This time including fwScene
+	//	updateDocConfigs(from:rootPart.ansConfig)	// This time including rootScn
 
 //	//			// Build Views:
-///*x*/	fwScene.updateVews(fromRootPart:rootPart, reason:"InstallRootPart")
+///*x*/	rootScn.updateVews(fromRootPart:rootPart, reason:"InstallRootPart")
 
 //	//	atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:rootPart.title) ))
 

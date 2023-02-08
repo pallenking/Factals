@@ -14,8 +14,7 @@ struct SceneKitArgs {
 	var sceneIndex		: Int				// N.B var: Unique and Ascending
 	let title			: String
 	let vewConfig		: VewConfig?
-//	let background 		: FwScene?
-	let background 		: SCNScene?			// Legacy, low level access
+	let scnScene 		: SCNScene?			// Legacy, low level access
 	let pointOfView 	: SCNNode?
 	let fwGuts			: FwGuts?			// Model
 	let options 		: SceneView.Options
@@ -37,7 +36,7 @@ struct SceneKitView: View {
 				let fwGuts	= sceneKitArgs.fwGuts!
 				if let rootVew = fwGuts.rootVews[sceneKitArgs.sceneIndex] {
 					 // send to Event Central:
-					rootVew.fwScene.processEvent(nsEvent:nsEvent, inVew:nil)
+					rootVew.rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
 				}
 			})
 			 // ////////////////
@@ -72,11 +71,11 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		guard let fwGuts		= args.fwGuts else { fatalError("got no fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
-		let scnScene 			= args.background ?? SCNScene()
-		let fwScene	: FwScene	= FwScene(scnScene:scnScene, args:args)
+		let scnScene 			= args.scnScene ?? SCNScene()
+		let rootScn	: RootScn	= RootScn(scnScene:scnScene, args:args)
 
 		 // Make a new RootVew:
-		let rootVew				= RootVew(forPart:fwGuts.rootPart, fwScene:fwScene)
+		let rootVew				= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
 		rootVew.fwGuts			= fwGuts
 
 		 // Get index :
@@ -86,23 +85,17 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		 // SAVE in array:					// print(fwGuts.rootVews[0].debugDescriaption)
 		fwGuts.rootVews[i]		= rootVew
 
-		 // Get an ScnView from fwScene
-		let fwView				= rootVew.fwScene.fwView!
+		 // Get an ScnView from rootScn
+		let fwView				= rootVew.rootScn.fwView!
 		 // Configure from args.options:
-		fwView.allowsCameraControl
-								= args.options.contains(.allowsCameraControl)
-		fwView.autoenablesDefaultLighting
-								= args.options.contains(.autoenablesDefaultLighting)
-		//fwView.jitteringEnabled
-		//						= args.options.contains(.jitteringEnabled)
-		fwView.rendersContinuously
-								= args.options.contains(.rendersContinuously)
-		//returnedScnView.temporalAntialiasingEnabled
-		//						= args.options.contains(.temporalAntialiasingEnabled)
-		fwView.preferredFramesPerSecond
-								= args.preferredFramesPerSecond
-//		atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(fwView.pp(.line)) vewConfig:" +
-//			"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
+		fwView.allowsCameraControl			= args.options.contains(.allowsCameraControl)
+		fwView.autoenablesDefaultLighting	= args.options.contains(.autoenablesDefaultLighting)
+		//fwView.jitteringEnabled			= args.options.contains(.jitteringEnabled)
+		fwView.rendersContinuously			= args.options.contains(.rendersContinuously)
+		//returnedScnView.temporalAntialiasingEnabled = args.options.contains(.temporalAntialiasingEnabled)
+		fwView.preferredFramesPerSecond		= args.preferredFramesPerSecond
+		//atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(fwView.pp(.line)) vewConfig:" +
+		//	"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
 		return fwView
 	}
 	func updateNSView(_ nsView: SCNView, context: Context) {

@@ -1,5 +1,5 @@
 //
-//  FwScene.swiftf
+//  RootScn.swiftf
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -8,20 +8,17 @@
 import Foundation
 import SceneKit
 
-class FwScene : NSObject {		// was  : SCNScene
+class RootScn : NSObject {		// was  : SCNScene
 	weak
 	 var rootVew	: RootVew?
 	weak
 	 var fwView		: FwView?
 	var scnScene	: SCNScene
 
-//	 // Convenience
-//	var fwGuts		: FwGuts?	{	rootVew?.fwGuts								}
-
 	 // Lighting, etc
-	var lookAtVew	: Vew?		= nil						// Vew we are looking at
-	var selfiePole				= SelfiePole()
 	var cameraScn	: SCNNode 	{ 	touchCameraScn()							}
+	var selfiePole				= SelfiePole()
+	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	func pushControllersConfig(to c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
@@ -51,7 +48,7 @@ class FwScene : NSObject {		// was  : SCNScene
 		scnScene.isPaused		= true				// Pause animations while bulding
 		fwView					= fv ?? FwView()	// remember or make a new one
 		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
-		fwView!.fwScene 		= self
+		fwView!.rootScn 		= self
 		fwView!.backgroundColor	= NSColor("veryLightGray")!
 		fwView!.antialiasingMode = .multisampling16X
 		fwView!.delegate		= self as any SCNSceneRendererDelegate
@@ -80,8 +77,8 @@ class FwScene : NSObject {		// was  : SCNScene
 		let duration			= Float(1)
 		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return }
 		let fwGuts				= rootVew.fwGuts		// why ! ??
-		let fwScene				= rootVew.fwScene
-		let cam					= fwScene.cameraScn
+		let rootScn				= rootVew.rootScn
+		let cam					= rootScn.cameraScn
 //		let rootScn				= rootVew.rootScn
 //		let cam					= rootScn.cameraScn
 
@@ -111,38 +108,38 @@ class FwScene : NSObject {		// was  : SCNScene
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts?.modelPic(with:nsEvent)
 			}//
-			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Left mouseDown")
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true			// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				cam.transform 	= fwScene.cameraTransform(reason:"Left mouseDragged")
+				cam.transform 	= rootScn.cameraTransform(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts?.modelPic(with:nsEvent) {
-						fwScene.lookAtVew = vew			// found a Vew: Look at it!
+						rootScn.lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
-				cam.transform 	= fwScene.cameraTransform(duration:duration, reason:"Left mouseUp")
+				cam.transform 	= rootScn.cameraTransform(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseDown")
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			cam.transform 		= fwScene.cameraTransform(reason:"Other mouseDragged")
+			cam.transform 		= rootScn.cameraTransform(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Other mouseUp")
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseUp")
 			atEve(9, print("\( cam.transform.pp(PpMode.tree))"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -150,10 +147,10 @@ class FwScene : NSObject {		// was  : SCNScene
 		case .scrollWheel:
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			fwScene.selfiePole.zoom *= delta
-			let p				= fwScene.selfiePole
+			rootScn.selfiePole.zoom *= delta
+			let p				= rootScn.selfiePole
 			print("processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
-			cam.transform 		= fwScene.cameraTransform(duration:duration, reason:"Scroll Wheel")
+			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -174,19 +171,19 @@ class FwScene : NSObject {		// was  : SCNScene
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:fwScene.fwView)
+			let t 				= nsEvent.touches(matching:.began, in:rootScn.fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:fwScene.fwView)
+			let t 				= nsEvent.touches(matching:.moved, in:rootScn.fwView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:fwScene.fwView)
+			let t 				= nsEvent.touches(matching:.ended, in:rootScn.fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
@@ -266,9 +263,9 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		let fwScene 			= rootVew!.fwScene
-		fwScene.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		fwScene.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+		let rootScn 			= rootVew!.rootScn
+		rootScn.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
+		rootScn.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
 
 
@@ -277,7 +274,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 }
 
-extension FwScene {		// lights and camera
+extension RootScn {		// lights and camera
 	var scn	: SCNNode			{		return scnScene.rootNode				}
 	var trunkScn : SCNNode? 	{
 		if let ts				= scn.child0  {
@@ -654,7 +651,7 @@ enum FwNodeCategory : Int {
 }
 
 
-extension FwScene : SCNSceneRendererDelegate {
+extension RootScn : SCNSceneRendererDelegate {
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
@@ -701,7 +698,7 @@ extension FwScene : SCNSceneRendererDelegate {
 
 }
 // currently unused
-extension FwScene : SCNPhysicsContactDelegate {
+extension RootScn : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug
 	}

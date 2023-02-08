@@ -263,7 +263,7 @@ extension RootVew : FwStatus	{									  ///RootVew
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.fwScene		.ppFwState()
+				var rv			=  self.rootScn		.ppFwState()
 //				rv				+= self.eventCentral.ppFwState()
 				return rv
 			},
@@ -280,13 +280,13 @@ extension RootVew : FwStatus	{									  ///RootVew
 //	}
 //}
 
-extension FwScene : FwStatus	{										    ///FwScene
+extension RootScn : FwStatus	{										    ///RootScn
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootVew?.fwScene === self ? "" : "OWNER:'\(rootVew!)' BAD"
+		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) tree with \(scn.nodeCount()) SCNNodes "
 		myLine					+= scnScene.pp(.classUid)
 		myLine					+= " animatePhysics:\(animatePhysics)"
-		return ppFwStateHelper("FwScene      ", uid:self,
+		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.scnScene.ppFwState()
@@ -296,7 +296,7 @@ extension FwScene : FwStatus	{										    ///FwScene
 			deapth:deapth-1)
 	}
 }
-extension SCNScene : FwStatus	{							///FwScene ///SCNScene
+extension SCNScene : FwStatus	{							///RootScn ///SCNScene
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNScene     ", uid:self,
 			myLine:"isPaused:\(isPaused)",

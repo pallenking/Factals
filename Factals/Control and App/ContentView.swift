@@ -47,8 +47,8 @@ struct ContentView: View {
 				sceneIndex	: 0,
 				title		: "0: Big main view",
 				vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
-				background	: nil,	 // no specific background scene
-				pointOfView	: document.fwGuts.rootVews[0]?.fwScene.cameraScn,
+				scnScene	: nil,	 // no specific background scene
+				pointOfView	: document.fwGuts.rootVews[0]?.rootScn.cameraScn,
 				fwGuts		: document.fwGuts,
 				options		: [.rendersContinuously],	//.allowsCameraControl,
 				preferredFramesPerSecond:30
@@ -103,7 +103,7 @@ struct ContentView: View {
 						sceneIndex	: 0,
 						title		: "Jet",
 						vewConfig	: vewConfigAllToDeapth4,//.null,//.openAllChildren(toDeapth:99),//			// No HaveNWant Vews in Jet
-						background	: jetModel.scene,
+						scnScene	: jetModel.scene,
 						pointOfView	: nil,//cameraNode,//nil,//jetModel.scene.cameraScn,
 						fwGuts		: fwGuts,
 						options		: [.allowsCameraControl, .autoenablesDefaultLighting],
@@ -180,7 +180,7 @@ struct ContentView: View {
 							sceneIndex	: 0,
 							title		: "0: Big main view",
 							vewConfig	: vewConfigAllToDeapth4, //vewConfig1,//.null,
-							background	: nil,	 // no specific background scene
+							scnScene	: nil,	 // no specific background scene
 							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//
 							fwGuts		: fwGuts,
 							options		: [.rendersContinuously],	//.allowsCameraControl,
@@ -206,7 +206,7 @@ struct ContentView: View {
 							sceneIndex	: 1,
 							title		: "1: Second smaller view",
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
-							background	: nil,	// no specific background scene
+							scnScene	: nil,	// no specific background scene
 							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,
 							fwGuts		: fwGuts,
 							options		: [.rendersContinuously],				//.allowsCameraControl,
@@ -247,7 +247,7 @@ struct ContentView: View {
 							sceneIndex	: 2,
 							title		: "2: Jet View",
 							vewConfig	: .null,
-							background	: jetModel.scene,
+							scnScene	: jetModel.scene,
 							pointOfView	: nil,//cameraNode,//document.fwGuts.rootVews[0].lookAtVew?.scn,//nil,//jetModel.scene.cameraScn,
 							fwGuts		: fwGuts,
 							options		: [.allowsCameraControl, .autoenablesDefaultLighting],

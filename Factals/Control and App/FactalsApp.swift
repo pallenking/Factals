@@ -342,11 +342,11 @@ bug;	let rv					= NSMenu(title:path)
 		let fwGuts				= FwGuts(rootPart:rootPart)
 
 bug		 // --------------- A: Get BASIC Component Part (owned and used here)
-		let fwScene				= FwScene(scnScene:SCNScene())
-		fwScene.scnScene.isPaused = true						// Pause animations while bulding
+		let rootScn				= RootScn(scnScene:SCNScene())
+		rootScn.scnScene.isPaused = true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
-		let newRootVew			= RootVew(forPart:fwGuts.rootPart, fwScene:fwScene)
+		let newRootVew			= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
 		let i					= fwGuts.rootVews.count - 1
 		fwGuts.rootVews[i]		= newRootVew									//		fwGuts.rootVews.append(newRootVew)
 		newRootVew.fwGuts		= fwGuts			// Set Owner

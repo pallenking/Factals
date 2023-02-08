@@ -18,33 +18,33 @@ class RootVew : Vew {
 	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
 		return children.count > 0 ? children[0] : nil
 	}
-	var fwScene : FwScene
+	var rootScn : RootScn
 //	var eventCentral : EventCentral
 
 	 /// generate a new View, returning its index
 	init() {
-		fwScene					= FwScene()
+		rootScn					= RootScn()
 //		eventCentral			= .null
 		super.init(forPart:.null, scn:.null)
 	}
-	init(forPart rootPart:RootPart, fwScene f:FwScene) {
-		fwScene					= f
+	init(forPart rootPart:RootPart, rootScn f:RootScn) {
+		rootScn					= f
 //		eventCentral			= EventCentral()
 
-		super.init(forPart:rootPart, scn:fwScene.scn)
+		super.init(forPart:rootPart, scn:rootScn.scn)
 
 //		eventCentral.rootVew	= self				// owner
-		fwScene.rootVew			= self				// owner
+		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
-		assert(scn === fwScene.scn, "set RootVew with new scn root")
-		scn 					= fwScene.scn		// set RootVew with new scn root
+		assert(scn === rootScn.scn, "set RootVew with new scn root")
+		scn 					= rootScn.scn		// set RootVew with new scn root
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func pushControllersConfig(to c:FwConfig) {
 //		eventCentral.pushControllersConfig(to:c)
-		fwScene		.pushControllersConfig(to:c)
+		rootScn		.pushControllersConfig(to:c)
 	}
 	 // MARK: - 4? locks
 	func lockBoth(_ msg:String) {

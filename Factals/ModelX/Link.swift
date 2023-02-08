@@ -489,10 +489,10 @@ bug	// Never USED?
 	 // MARK: - 9.5.4: will Render Scene -- Rotate Links toward camera
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
-		guard let fwScene		= vew.rootVew?.fwScene else {
+		guard let rootScn		= vew.rootVew?.rootScn else {
 			print("############ rotateLinkSkins with DOC? == nil #######")
 			return																}
-		let camera				= fwScene.touchCameraScn().position
+		let camera				= rootScn.touchCameraScn().position
 		guard let linkVew		= vew as? LinkVew 	 else { fatalError("Vew type mismach")}
 
 		 // Get ends of link, and set positions

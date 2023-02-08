@@ -48,11 +48,11 @@ class FwGuts : NSObject, ObservableObject {
 		guard let rootVew		= rootVews[sceneKitArgs.sceneIndex] else {
 			fatalError("no rootVews[\(sceneKitArgs.sceneIndex)")
 		}
-		let fwScene				= rootVew.fwScene
-		fwScene.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
+		let rootScn				= rootVew.rootScn
+		rootScn.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
-		guard let baseView		= fwScene.fwView else { fatalError("fwScene.fwView == nil") }
+		guard let baseView		= rootScn.fwView else { fatalError("rootScn.fwView == nil") }
 		baseView.isPlaying		= true			// does nothing
 		baseView.showsStatistics = true			// works fine
 		baseView.debugOptions 	= [				// enable display of:
@@ -173,7 +173,7 @@ class FwGuts : NSObject, ObservableObject {
 			log.ppIndentCols = 3
 			for key in rootVews.keys {
 				let rootVew		= rootVews[key]!
-				print("-------- ptn   rootVews(\(ppUid(rootVew))).fwScene(\(ppUid(rootVew.fwScene)))" +
+				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
 			}
@@ -186,7 +186,7 @@ class FwGuts : NSObject, ObservableObject {
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= rootVews[0]!.fwScene.scnScene
+			let rootVews0scene	= rootVews[0]!.rootScn.scnScene
 				guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 //			guard write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
@@ -230,7 +230,7 @@ class FwGuts : NSObject, ObservableObject {
 			var msg					= ""
 			for key in rootVews.keys {
 				let rootVew			= rootVews[key]!
-				msg 				+= rootVew.fwScene.animatePhysics ? "Run   " : "Freeze"
+				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
 			}
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
 			return true								// recognize both
@@ -298,8 +298,8 @@ class FwGuts : NSObject, ObservableObject {
 
 		// 20230202PAK: in: (4,24),  out: identical WHEN no Button Bar
 		//				in: (4,127), out: (4,25) when button bar (about 100 high)
-		let fwScene				= rootVew.fwScene
-		let fwView				= fwScene.fwView!
+		let rootScn				= rootVew.rootScn
+		let fwView				= rootScn.fwView!
 		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 								//		 + +   + +
@@ -377,9 +377,9 @@ class FwGuts : NSObject, ObservableObject {
 
 //		cam.transform 			= rootScn.cameraTransform(reason:"Other mouseDown")
 	//	let rScn				= rootVew.scn
-		let fwScene				= rootVew.fwScene
-bug;	fwScene.cameraScn.transform = fwScene.cameraTransform(reason:"toggelOpen")
-		fwScene.updatePole2Camera(reason:"toggelOpen")
+		let rootScn				= rootVew.rootScn
+bug;	rootScn.cameraScn.transform = rootScn.cameraTransform(reason:"toggelOpen")
+		rootScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
 
@@ -463,7 +463,7 @@ bug;	fwScene.cameraScn.transform = fwScene.cameraTransform(reason:"toggelOpen")
 			var rv				=  rootPart.pp(.classUid) + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			if let document {rv	+= document.pp(.classUid)					}
-			rv					+= " SelfiePole:" + (rootVews[0]?.fwScene.selfiePole.pp() ?? "nil")
+			rv					+= " SelfiePole:" + (rootVews[0]?.rootScn.selfiePole.pp() ?? "nil")
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
