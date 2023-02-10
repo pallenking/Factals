@@ -24,7 +24,7 @@ struct ContentView: View {
 	@StateObject var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 								
 	var body: some View {
-		let select 			= 4//4//1//
+		let select 			= 1//4//1//
 		if select == 0 {	bodyNada										}
 		if select == 1 {	bodySimple										}
 		if select == 2 { 	bodyJet											}
@@ -35,9 +35,6 @@ struct ContentView: View {
 		VStack {
 			Button(label: {	Text("dragonModel.redrawValue = \(dragonModel.redrawValue)") })
 			{	dragonModel.redrawValue += 1									}
-												//	if dragonModel.value != 17 {
-												//		ButtonBar(document:$document, dragonModel:dragonModel)
-												//	}
 		}
 	}
 	var bodySimple: some View {		// Single HNW View
@@ -53,6 +50,7 @@ struct ContentView: View {
 				options		: [.rendersContinuously],							//.allowsCameraControl,
 				preferredFramesPerSecond:30
 			)
+//			SceneView1()
 			SceneKitView(sceneKitArgs:sceneKitArgs)
 			 .frame(maxWidth:.infinity)
 			 .border(.black, width:2)

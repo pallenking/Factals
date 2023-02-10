@@ -1,11 +1,11 @@
-//	//
-//	//  ChatGPT.swift
-//	//  Factals
-//	//
-//	//  Created by Allen King on 2/9/23.
-//	//
-	import SwiftUI
-	import SceneKit
+//
+//  ChatGPT.swift
+//  Factals
+//
+//  Created by Allen King on 2/9/23.
+//
+import SwiftUI
+import SceneKit
 
 struct SceneView1: NSViewRepresentable {
 	func makeNSView(context: Context) -> SCNView {
@@ -28,8 +28,8 @@ struct SceneView1: NSViewRepresentable {
 		lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
 		scene.rootNode.addChildNode(lightNode)
 
-//		let rotator = MouseRotator(view: view)
-//		view.addGestureRecognizer(rotator)
+		let rotator = MouseRotator(view: view)
+		view.addGestureRecognizer(rotator)
 
 		return view
 	}
