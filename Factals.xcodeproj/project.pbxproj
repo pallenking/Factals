@@ -239,7 +239,6 @@
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* RootVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVew.swift; sourceTree = "<group>"; };
-		9F1E3CE728D94CF7004548C9 /* EventCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCentral.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
@@ -403,7 +402,6 @@
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
-				9F1E3CE728D94CF7004548C9 /* EventCentral.swift */,
 				9F3E4A0A28B7A7C4003D450D /* Gestures.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,

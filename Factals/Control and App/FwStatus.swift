@@ -263,22 +263,11 @@ extension RootVew : FwStatus	{									  ///RootVew
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootScn		.ppFwState()
-//				rv				+= self.eventCentral.ppFwState()
-				return rv
+				return self.rootScn		.ppFwState()
 			},
 			deapth:deapth-1)
 	}
 }
-
-//extension EventCentral : FwStatus	{							 ///EventCentral
-//	func ppFwState(deapth:Int=999) -> String {
-//		var myLine				= rootVew.eventCentral === self ? "" : "OWNER:'\(rootVew!)' BAD"
-//		return ppFwStateHelper("EventCentral ", uid:self,
-//			myLine:myLine,
-//			deapth:deapth-1)
-//	}
-//}
 
 extension RootScn : FwStatus	{										    ///RootScn
 	func ppFwState(deapth:Int=999) -> String {

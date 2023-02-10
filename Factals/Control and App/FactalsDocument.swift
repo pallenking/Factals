@@ -59,7 +59,7 @@ struct FactalsDocument: FileDocument {
 		let rootPart			= RootPart(fromLibrary:select)
 
 		 //		2. Build Guts of App around RootPart
-		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart and EventCentral
+		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart
 		fwGuts.document 		= self		// fwGuts   delegate
 		rootPart.fwGuts			= fwGuts	// rootPart delegate
 		DOC						= self		// INSTALL self:Factals as current DOC

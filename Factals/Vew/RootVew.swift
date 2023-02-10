@@ -23,7 +23,6 @@ class RootVew : Vew {
 	 /// generate a new View, returning its index
 	init() {
 		rootScn					= RootScn()
-//		eventCentral			= .null
 		super.init(forPart:.null, scn:.null)
 	}
 	init(forPart rootPart:RootPart, rootScn f:RootScn) {

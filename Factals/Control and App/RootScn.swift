@@ -41,7 +41,6 @@ class RootScn : NSObject {		// was  : SCNScene
 			scnScene.physicsWorld.speed	= speed
 		}
 		selfiePole.pushControllersConfig(to:c)
-/////	assert(scnScene.physicsWorld.contactDelegate === fwGuts.eventCentral, "Paranoia: set in SceneKitHostingView")
 	}
 
 	 // MARK: - 3.1 init
@@ -192,7 +191,7 @@ class RootScn : NSObject {		// was  : SCNScene
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("processEvent(type:\(nsEvent.type)) NOT PROCESSED by EventCentral")
+			print("processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false
 		}
 		return true
@@ -635,7 +634,7 @@ extension RootScn {		// lights and camera
 		selfiePole.at			= worldPosition
 
 		 // Do one, just for good luck
-		cameraScn?.transform		= cameraTransform(reason:"to createVewNScn")
+		cameraScn?.transform	= cameraTransform(reason:"to createVewNScn")
 //		updatePole2Camera(reason:"to createVewNScn")
 
 		// 7. UNLOCK PartTree and VewTree:
