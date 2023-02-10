@@ -46,6 +46,7 @@
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* RootVew.swift */; };
+		9F2E7B3C2995CF0000938099 /* ChatGPT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2E7B3B2995CF0000938099 /* ChatGPT.swift */; };
 		9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
 		9F3E4A0B28B7A7C4003D450D /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* Gestures.swift */; };
 		9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F417F0428EB91FE0047B359 /* FactalsTests.swift */; };
@@ -239,6 +240,7 @@
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* RootVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVew.swift; sourceTree = "<group>"; };
+		9F2E7B3B2995CF0000938099 /* ChatGPT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPT.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 		9FEE519D286B4F1C00C8C22A /* Control and App */ = {
 			isa = PBXGroup;
 			children = (
+				9F2E7B3B2995CF0000938099 /* ChatGPT.swift */,
 				9FEE6F152835778A00E9E2AE /* FactalsApp.swift */,
 				9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
@@ -783,6 +786,7 @@
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
+				9F2E7B3C2995CF0000938099 /* ChatGPT.swift in Sources */,
 				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,

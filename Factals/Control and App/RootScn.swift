@@ -595,6 +595,8 @@ extension RootScn {		// lights and camera
 			fatalError("createVews  couldn't get VIEW lock")
 		}
 
+		rootPart.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
+
 		 // 2. Update Vew and Scn Tree
 /**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// rootPart -> rootView, rootScn
 
