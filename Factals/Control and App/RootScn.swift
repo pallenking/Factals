@@ -80,7 +80,8 @@ class RootScn : NSObject {		// was  : SCNScene
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
-		guard let rootVew else { print("processEvent.rootVew[..] is nil"); return false}
+		guard let rootVew 		= rootVew else { print("processEvent.rootVew[..] is nil"); return false}
+		let i					= rootVew.keyIndex ?? -1
 		let fwGuts				= rootVew.fwGuts		// why ! ??
 		let rootScn				= rootVew.rootScn
 		let cam					= rootScn.cameraScn
@@ -93,11 +94,11 @@ class RootScn : NSObject {		// was  : SCNScene
 			if nsEvent.isARepeat {	return false }		// Ignore repeats
 			nextIsAutoRepeat 	= true
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
-			assert(char.count==1, "multiple keystrokes not supported")
+			assert(char.count==1, "Slot\(i): multiple keystrokes not supported")
 
 			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
 			  char != "?" {		// okay for "?" to get here
-				atEve(3, print("    ==== nsEvent not processed\n\(nsEvent)"))
+				atEve(3, print("Slot\(i):   ==== nsEvent not processed\n\(nsEvent)"))
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
@@ -135,14 +136,14 @@ class RootScn : NSObject {		// was  : SCNScene
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseDown")
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(i): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(reason:"Other mouseDragged")
+			cam?.transform 		= rootScn.cameraTransform(reason:"Slot\(i): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseUp")
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(i): Other mouseUp")
 			atEve(9, print("\( cam?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -152,7 +153,7 @@ class RootScn : NSObject {		// was  : SCNScene
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootScn.selfiePole.zoom *= delta
 			let p				= rootScn.selfiePole
-			print("processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
+			print("Slot\(i): processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
 			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -191,7 +192,7 @@ class RootScn : NSObject {		// was  : SCNScene
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
+			print("Slot\(i): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false
 		}
 		return true
@@ -263,7 +264,6 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 - convertRectFromBase:
 
  */
-
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
@@ -272,11 +272,6 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		rootScn.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 		rootScn.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
 	}
-
-
-
-
-
 }
 
 extension RootScn {		// lights and camera

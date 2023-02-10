@@ -75,6 +75,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 
 		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
+		rootVew.keyIndex		= args.sceneIndex
 		rootVew.fwGuts			= fwGuts
 
 		 // Get index :

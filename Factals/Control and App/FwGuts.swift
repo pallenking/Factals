@@ -10,7 +10,6 @@ class FwGuts : NSObject, ObservableObject {
 	@Published var redo:UInt8	= 0
 	@Published var rootPart :  RootPart													//{	rootVew.part as! RootPart}
 	var rootVews : [Int:RootVew] = [:]
-//	var rootVews : [RootVew]	= [RootVew(), RootVew(), RootVew(), RootVew()]
 	var document 	 : FactalsDocument!
 									//	{	get		{	return docPrivate!											}
 									//		set(v)	{	docPrivate = v												}

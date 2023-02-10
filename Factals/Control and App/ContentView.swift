@@ -24,7 +24,7 @@ struct ContentView: View {
 	@StateObject var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 								
 	var body: some View {
-		let select 			= 1//4//1//
+		let select 			= 4//4//1//
 		if select == 0 {	bodyNada										}
 		if select == 1 {	bodySimple										}
 		if select == 2 { 	bodyJet											}
@@ -50,13 +50,21 @@ struct ContentView: View {
 				options		: [.rendersContinuously],							//.allowsCameraControl,
 				preferredFramesPerSecond:30
 			)
-//			SceneView1()
-			SceneKitView(sceneKitArgs:sceneKitArgs)
-			 .frame(maxWidth:.infinity)
-			 .border(.black, width:2)
-			 .onAppear() {						//was didLoadNib
-				document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-			 }
+			if false {
+				SceneView1(sceneKitArgs)
+				 .frame(maxWidth:.infinity)
+				 .border(.black, width:2)
+				 .onAppear() {						//was didLoadNib
+					document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+				 }
+			} else {
+				SceneKitView(sceneKitArgs:sceneKitArgs)
+				 .frame(maxWidth:.infinity)
+				 .border(.black, width:2)
+				 .onAppear() {						//was didLoadNib
+					document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+				 }
+			}
 			ButtonBar(document:$document, dragonModel:dragonModel)
 		}
 //		 .toolbar {
@@ -136,9 +144,8 @@ struct ContentView: View {
 
 	var bodyDragon: some View {
 		HStack {
-			Button(label: {	Text("Dragon:value\(dragonModel.redrawValue)")			})
-			{	dragonModel.redrawValue += 1; dragonModel.redrawValue %= 12
-			}
+			Button(label: {	Text("Dragon:value\(dragonModel.redrawValue)")		})
+			{	dragonModel.redrawValue += 1; dragonModel.redrawValue %= 12		}
 			 .onAppear() {
 				print("y: Button APPEARED \(dragonModel.redrawValue)")
 			 }
@@ -183,14 +190,12 @@ struct ContentView: View {
 							options		: [.rendersContinuously],	//.allowsCameraControl,
 							preferredFramesPerSecond:30
 						)
-						if dragonModel.redrawValue != 17 {
-							SceneKitView(sceneKitArgs:sceneKitArgs)
-							 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
-							 .border(.black, width:2)
-							 .onAppear() {
-								document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-							 }
-						}
+						SceneKitView(sceneKitArgs:sceneKitArgs)
+						 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
+						 .border(.black, width:2)
+						 .onAppear() {
+							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+						 }
 						Text(":0")
 					}
 					ButtonBar(document:$document, dragonModel:dragonModel)//, dragonValue:dragonModel.$value)

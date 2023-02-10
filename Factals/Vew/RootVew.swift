@@ -9,6 +9,7 @@ import SceneKit
 
 class RootVew : Vew {
 	weak var fwGuts : FwGuts!		// Owner
+	var keyIndex	: Int?		= nil			// set by caller after instantiation
 
 	var rootPart : RootPart		{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
 	let rootVewLock 			= DispatchSemaphore(value:1)
@@ -23,6 +24,7 @@ class RootVew : Vew {
 	 /// generate a new View, returning its index
 	init() {
 		rootScn					= RootScn()
+		keyIndex				= -1
 		super.init(forPart:.null, scn:.null)
 	}
 	init(forPart rootPart:RootPart, rootScn f:RootScn) {

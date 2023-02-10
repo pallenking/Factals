@@ -347,8 +347,9 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 
 		 // --------------- B: RootVew ((rootPart, A))
 		let newRootVew			= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
-		let i					= fwGuts.rootVews.count - 1
-		fwGuts.rootVews[i]		= newRootVew									//		fwGuts.rootVews.append(newRootVew)
+		newRootVew.keyIndex		= fwGuts.rootVews.count - 1
+
+		fwGuts.rootVews[newRootVew.keyIndex!] = newRootVew									//		fwGuts.rootVews.append(newRootVew)
 		newRootVew.fwGuts		= fwGuts			// Set Owner
 		
 		var doc					= FactalsDocument(fwGuts:fwGuts)
