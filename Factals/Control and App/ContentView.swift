@@ -24,7 +24,7 @@ struct ContentView: View {
 	@StateObject var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 								
 	var body: some View {
-		let select 			= 1//4//1//
+		let select 			= 4//4//1//
 		if select == 0 {	bodyNada										}
 		if select == 1 {	bodySimple										}
 		if select == 2 { 	bodyJet											}
@@ -139,33 +139,32 @@ struct ContentView: View {
 	var bodyDragon: some View {
 		HStack {
 			Button(label: {	Text("Dragon:value\(dragonModel.redrawValue)")			})
-			{	dragonModel.redrawValue += 1; dragonModel.redrawValue %= 12 				}
+			{	dragonModel.redrawValue += 1; dragonModel.redrawValue %= 12
+			}
 			 .onAppear() {
 				print("y: Button APPEARED \(dragonModel.redrawValue)")
 			 }
-			if dragonModel.redrawValue % 2 == 0 {
-				SceneView(
-					scene		: dragonModel.scene,
-					pointOfView	: pov,//nil,//dragonModel.scene.rootNode,//cameraNode,//nil,//.childNode(withName: "ship", recursively: true),
-					options		: [.autoenablesDefaultLighting]//.allowsCameraControl,
-				)
-				.frame(width:150, height:150)
-				.border(.black, width:2)
-				.onAppear() {
-					DOClog.log("Dragon APPEARED")
-					guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
-					let i 		  = dragonModel.redrawValue / 2
-					scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
-									 SCNMatrix4MakeRotation(.pi/2, 1,0,0),
-									 SCNMatrix4MakeRotation(.pi/2, 0,1,0),
-									 SCNMatrix4MakeRotation(.pi/2, 0,0,1)] [i % 4]
-					let rotationAxis = SCNVector3(i/4==1 ? 1 : 0, i/4==2 ? 1 : 0, i/4==3 ? 1 : 0)
-					scn.runAction(SCNAction.repeatForever(SCNAction.rotate(by:.pi/4, around:rotationAxis, duration:10) ))
-				}
-				.onDisappear() {
-					DOClog.log("Dragon DISAPPEARED")
-					print()
-				}
+			SceneView(
+				scene		: dragonModel.scene,
+				pointOfView	: pov,//nil,//dragonModel.scene.rootNode,//cameraNode,//nil,//.childNode(withName: "ship", recursively: true),
+				options		: [.autoenablesDefaultLighting]//.allowsCameraControl,
+			)
+			.frame(width:150, height:150)
+			.border(.black, width:2)
+			.onAppear() {
+				DOClog.log("Dragon APPEARED")
+				guard let scn = dragonModel.scene.rootNode.childNode(withName: "ship", recursively: true) else {return}
+				let i 		  = dragonModel.redrawValue / 2
+				scn.transform = [SCNMatrix4MakeRotation(0,     1,1,1),
+								 SCNMatrix4MakeRotation(.pi/2, 1,0,0),
+								 SCNMatrix4MakeRotation(.pi/2, 0,1,0),
+								 SCNMatrix4MakeRotation(.pi/2, 0,0,1)] [i % 4]
+				let rotationAxis = SCNVector3(i/4==1 ? 1 : 0, i/4==2 ? 1 : 0, i/4==3 ? 1 : 0)
+				scn.runAction(SCNAction.repeatForever(SCNAction.rotate(by:.pi/4, around:rotationAxis, duration:10) ))
+			}
+			.onDisappear() {
+				DOClog.log("Dragon DISAPPEARED")
+				print()
 			}
 		}
 	}

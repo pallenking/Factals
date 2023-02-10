@@ -378,7 +378,7 @@ class FwGuts : NSObject, ObservableObject {
 //		cam.transform 			= rootScn.cameraTransform(reason:"Other mouseDown")
 	//	let rScn				= rootVew.scn
 		let rootScn				= rootVew.rootScn
-bug;	rootScn.cameraScn.transform = rootScn.cameraTransform(reason:"toggelOpen")
+bug;	rootScn.cameraScn?.transform = rootScn.cameraTransform(reason:"toggelOpen")
 		rootScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))

@@ -13,10 +13,15 @@ class RootScn : NSObject {		// was  : SCNScene
 	 var rootVew	: RootVew?
 	weak
 	 var fwView		: FwView?
-	var scnScene	: SCNScene
+
+	var scnScene	: SCNScene		// contains the rootNode
+	//var scn		: SCNNode		// in SCNScene, it's rootNode
 
 	 // Lighting, etc
-	var cameraScn	: SCNNode 	{ 	touchCameraScn()							}
+	var cameraScn	: SCNNode?	= nil	// 	{ 		touchCameraScn() }//{ 	touchCameraScn()							}
+	var lightsScn	: [SCNNode]	= []
+	var axesScn		: SCNNode?	= nil
+
 	var selfiePole				= SelfiePole()
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
@@ -42,6 +47,7 @@ class RootScn : NSObject {		// was  : SCNScene
 	 // MARK: - 3.1 init
 	init(scnScene ss:SCNScene?=nil, fwView fv:FwView?=nil, args:SceneKitArgs?=nil) {
 		scnScene				= ss ?? SCNScene()
+	//	cameraScn				= touchCameraScn()
 		super.init()	// NSObject
 
 		scnScene.physicsWorld.contactDelegate = self
@@ -106,13 +112,13 @@ class RootScn : NSObject {		// was  : SCNScene
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts?.modelPic(with:nsEvent)
 			}//
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Left mouseDown")
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				motionFromLastEvent(with:nsEvent)
 				mouseWasDragged = true			// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				cam.transform 	= rootScn.cameraTransform(reason:"Left mouseDragged")
+				cam?.transform 	= rootScn.cameraTransform(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
@@ -123,22 +129,22 @@ class RootScn : NSObject {		// was  : SCNScene
 					}
 				}
 				mouseWasDragged = false
-				cam.transform 	= rootScn.cameraTransform(duration:duration, reason:"Left mouseUp")
+				cam?.transform 	= rootScn.cameraTransform(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseDown")
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			cam.transform 		= rootScn.cameraTransform(reason:"Other mouseDragged")
+			cam?.transform 		= rootScn.cameraTransform(reason:"Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseUp")
-			atEve(9, print("\( cam.transform.pp(PpMode.tree))"))
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Other mouseUp")
+			atEve(9, print("\( cam?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
@@ -148,7 +154,7 @@ class RootScn : NSObject {		// was  : SCNScene
 			rootScn.selfiePole.zoom *= delta
 			let p				= rootScn.selfiePole
 			print("processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
-			cam.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -359,14 +365,9 @@ extension RootScn {		// lights and camera
 		let name				= "*-camera"
 		if let rv				= scn.find(name:name) {
 			return rv			// already exists
-		} // Make new camera system:
-										class DebugCameraNode: SCNNode {
-											override var transform: SCNMatrix4 {
-												get {	super.transform							}
-												set {	super.transform = newValue				}
-											}
-										}
-		let rv					= DebugCameraNode()
+		}
+		 // Make new camera system:
+		let rv					= SCNNode()
 		rv.name					= name
 		rv.position 			= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
 		scn.addChildNode(rv)
@@ -510,13 +511,13 @@ extension RootScn {		// lights and camera
 			atRve(8, rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
-			cameraScn.transform *= 0.999999	// virtually no effect
+			cameraScn?.transform *= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
 				atRve(8, self.rootVew!.rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				self.cameraScn.transform = self.selfiePole.transform
+				self.cameraScn?.transform = self.selfiePole.transform
 
 				atRve(8, self.rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -525,7 +526,7 @@ extension RootScn {		// lights and camera
 			SCNTransaction.commit()
 		}
 		else {
-			cameraScn.transform = selfiePole.transform
+			cameraScn?.transform = selfiePole.transform
 		}
 	}
 		
@@ -535,7 +536,7 @@ extension RootScn {		// lights and camera
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox //BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(cameraScn.transform)		//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
@@ -578,8 +579,9 @@ extension RootScn {		// lights and camera
 	func createVewNScn(sceneIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
 		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
 		guard let fwGuts		= rootVew.fwGuts else {	fatalError("RootScn.rootVew.fwGuts is nil")}
-
 		let rootPart			= fwGuts.rootPart
+
+		 // Paranoia
 		assert(rootVew.name == "_ROOT", 	"Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
 		assert(rootVew.part	=== rootPart,   "Paranoid check, rootVew.part != rootPart")
 		assert(rootVew.part.name == "ROOT", "Paranoid check: rootVew.part.name=\(rootVew.part.name) !=\"ROOT\"")
@@ -598,9 +600,9 @@ extension RootScn {		// lights and camera
 /**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// rootPart -> rootView, rootScn
 
 		 // 3. Add Lights, Camera and SelfiePole
-		let _ 					= touchLightScns()			// was updateLights
-		let _ 					= touchCameraScn()			// (had fwGuts.document.config)
-		let _ 					= touchAxesScn()
+		lightsScn				= touchLightScns()			// was updateLights
+		cameraScn				= touchCameraScn()			// (had fwGuts.document.config)
+		axesScn 				= touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
@@ -633,7 +635,7 @@ extension RootScn {		// lights and camera
 		selfiePole.at			= worldPosition
 
 		 // Do one, just for good luck
-		cameraScn.transform		= cameraTransform(reason:"to createVewNScn")
+		cameraScn?.transform		= cameraTransform(reason:"to createVewNScn")
 //		updatePole2Camera(reason:"to createVewNScn")
 
 		// 7. UNLOCK PartTree and VewTree:
