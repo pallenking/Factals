@@ -13,7 +13,7 @@
 import SwiftUI
 
 struct EventReceiver: NSViewRepresentable {
-	let handler: (NSEvent) -> Void
+	let handler: (NSEvent) -> Void					// OUTSKI: --> SceneKitHostingView
 
 	func makeNSView(context:Context) -> EventReceiverView {
 		return EventReceiverView(handler: handler)
@@ -22,10 +22,11 @@ struct EventReceiver: NSViewRepresentable {
 	}
 }
 
-final class EventReceiverView: NSView {
+final class EventReceiverView: NSView {				// OUTSKI: --> FwView
 	let handler: (NSEvent) -> Void
 
 	init(handler: @escaping (NSEvent) -> Void) {
+//		self.handler	= { nsEvent in print("EventReceiverView's BOGUS handler")}
 		self.handler = handler
 		super.init(frame: .zero)
 	}

@@ -1,5 +1,5 @@
 //
-//  RootScn.swiftf
+//  RootScn.swift
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -58,7 +58,9 @@ class RootScn : NSObject {		// was  : SCNScene
 		fwView!.antialiasingMode = .multisampling16X
 		fwView!.delegate		= self as any SCNSceneRendererDelegate
 		if let args	 {
-			fwView!.handler		= args.handler
+			//	   args.handler(NSEvent())		//
+			//	fwView!.handler(NSEvent())		// default handler
+//			fwView!.handler		= args.handler
 			fwView!.pointOfView = args.pointOfView
 			fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
 		}
@@ -574,7 +576,7 @@ extension RootScn {		// lights and camera
 	func createVewNScn(sceneIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
 		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
 		guard let fwGuts		= rootVew.fwGuts else {	fatalError("RootScn.rootVew.fwGuts is nil")}
-		let rootPart			= fwGuts.rootPart
+		let rootPart			= rootVew.rootPart		// fwGuts.rootPart
 
 		 // Paranoia
 		assert(rootVew.name == "_ROOT", 	"Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")

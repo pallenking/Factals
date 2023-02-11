@@ -24,7 +24,7 @@ struct ContentView: View {
 	@StateObject var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 								
 	var body: some View {
-		let select 			= 1//4//1//
+		let select 			= 4//4//1//
 		if select == 0 {	bodyNada										}
 		if select == 1 {	bodySimple										}
 		if select == 2 { 	bodyJet											}
@@ -42,13 +42,21 @@ struct ContentView: View {
 			 //  --- H a v e N W a n t  1  ---
 			let sceneKitArgs	= SceneKitArgs(
 				sceneIndex	: 0,
-				title		: "0: Big main view",
+				title		: "0: Simple main view",
 				rootPart	: document.fwGuts.rootPart,
 				vewConfig	: vewConfigAllToDeapth4, 							//vewConfig1,//.null,
 				scnScene	: nil,	 // no specific background scene
 				pointOfView	: document.fwGuts.rootVews[0]?.rootScn.cameraScn,
 				options		: [.rendersContinuously],							//.allowsCameraControl,
 				preferredFramesPerSecond:30
+		//		handler		: { nsEvent in print("0: Simple main view's handler") }
+			//	handler		: { nsEvent in
+			//		let i = sceneKitArgs		// PW causes 30,** above EXC_BAD_ACCESS
+			//		if let fwGuts	= sceneKitArgs.rootPart?.fwGuts {
+			//		  let rootVew	= fwGuts.rootVews[sceneKitArgs.sceneIndex] {
+			//			let _		= rootVew.rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
+			//		}
+			//	}
 			)
 			if false {
 				SceneView1(sceneKitArgs)
@@ -114,6 +122,7 @@ struct ContentView: View {
 						pointOfView	: nil,
 						options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 						preferredFramesPerSecond : 30
+//						handler		: { nsEvent in print("0: Jet's handler") }
 					)
 					SceneKitHostingView(sceneKitArgs)
 					 .frame(maxWidth: .infinity)
@@ -189,6 +198,7 @@ struct ContentView: View {
 							pointOfView	: nil,
 							options		: [.rendersContinuously],	//.allowsCameraControl,
 							preferredFramesPerSecond:30
+//							handler		: { nsEvent in print("0: Big main view's handler") }
 						)
 						SceneKitView(sceneKitArgs:sceneKitArgs)
 						 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
@@ -213,6 +223,7 @@ struct ContentView: View {
 							pointOfView	: nil,
 							options		: [.rendersContinuously],				//.allowsCameraControl,
 							preferredFramesPerSecond:30
+//							handler		: { nsEvent in print("1: Second smaller view's handler") }
 						)
 						SceneKitView(sceneKitArgs:sceneKitArgs)
 						 .frame(maxWidth: .infinity)
@@ -254,6 +265,7 @@ struct ContentView: View {
 							pointOfView	: nil,
 							options		: [.allowsCameraControl, .autoenablesDefaultLighting],
 							preferredFramesPerSecond : 30
+//							handler		: { nsEvent in print("2: Jet View's handler") }
 						)
 						SceneKitHostingView(sceneKitArgs)
 						 .frame(width:150, height:150)

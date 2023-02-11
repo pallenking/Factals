@@ -24,7 +24,8 @@ struct SceneKitArgs {
 		//.rendersContinuously,
 		//.temporalAntialiasingEnabled
 	let preferredFramesPerSecond: Int		//= 30
-	let handler			: (NSEvent) -> Void = { nsEvent in }
+
+//	let handler			: (NSEvent) -> Void	// = { nsEvent in fatalError("SceneKitArgs default handler is illegal")}	// EXPERIMENTAL
 }
 
 struct SceneKitView: View {
