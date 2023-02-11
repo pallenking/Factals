@@ -24,7 +24,7 @@ struct ContentView: View {
 	@StateObject var dragonModel = DragonModel()		// test Model 2 (instantiates an observable object)
 								
 	var body: some View {
-		let select 			= 4//4//1//
+		let select 			= 1//4//1//
 		if select == 0 {	bodyNada										}
 		if select == 1 {	bodySimple										}
 		if select == 2 { 	bodyJet											}

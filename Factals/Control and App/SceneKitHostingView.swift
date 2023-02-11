@@ -24,6 +24,7 @@ struct SceneKitArgs {
 		//.rendersContinuously,
 		//.temporalAntialiasingEnabled
 	let preferredFramesPerSecond: Int		//= 30
+	let handler			: (NSEvent) -> Void = { nsEvent in }
 }
 
 struct SceneKitView: View {

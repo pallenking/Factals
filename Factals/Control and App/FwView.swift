@@ -6,9 +6,21 @@ import SwiftUI
 
 class FwView : SCNView {
 	 // MARK: - 2. Object Variables:
-								//
 	var rootScn : RootScn?		= nil
-//	var rootScn : RootScn? { bug; return nil }		// NEEDS MORE WORK
+	var handler : (NSEvent)->Void = { nsEvent in }
+	 // MARK: - 13.4 First Responder
+			 func acceptsFirstResponder()	-> Bool	{	return true				}
+	override func  becomeFirstResponder()	-> Bool	{	return true				}
+	override func validateProposedFirstResponder(_ responder: NSResponder,
+					   for event: NSEvent?) -> Bool {	return true				}
+	override func resignFirstResponder()	-> Bool	{	return true				}
+	 // MARK: - 15. PrettyPrint
+	 // MARK: - 17. Debugging Aids
+}
+
+
+
+
 
 //	 //\\\///\\\///\\\  Our super, SCNView, conforms to SCNSceneRenderer:
 //	 //\\\				Therefore we have
@@ -46,16 +58,3 @@ class FwView : SCNView {
 ////		allowsCameraControl 	= false			// dare to turn it on?
 ////		autoenablesDefaultLighting = false		// dare to turn it on?
 //	}
-//	 // MARK: - 3.5 Codable
-//	required init?(coder decoder: NSCoder) {
-//		super.init(coder:decoder) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-//	}
-//	 // MARK: - 13.4 First Responder
-//			 func acceptsFirstResponder()	-> Bool	{	return true				}
-//	 // MARK: - 15. PrettyPrint
-////	 // MARK: - 17. Debugging Aids
-////	override func  becomeFirstResponder()	-> Bool	{	return true				}
-////	override func validateProposedFirstResponder(_ responder: NSResponder,
-////					   for event: NSEvent?) -> Bool {	return true				}
-////	override func resignFirstResponder()	-> Bool	{	return true				}
-}

@@ -58,7 +58,8 @@ class RootScn : NSObject {		// was  : SCNScene
 		fwView!.antialiasingMode = .multisampling16X
 		fwView!.delegate		= self as any SCNSceneRendererDelegate
 		if let args	 {
-			fwView!.pointOfView 	= args.pointOfView
+			fwView!.handler		= args.handler
+			fwView!.pointOfView = args.pointOfView
 			fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
 		}
 	}
