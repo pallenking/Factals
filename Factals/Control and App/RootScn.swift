@@ -79,12 +79,12 @@ class RootScn : NSObject {		// was  : SCNScene
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
+	let nsTrackPad				= trueF//falseF//
 
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
-		let nsTrackPad			= trueF//falseF//
 		let duration			= Float(1)
 		guard let rootVew 		= rootVew else { print("processEvent.rootVew[..] is nil"); return false}
-		let i					= rootVew.keyIndex ?? -1
+		let keyIndex			= rootVew.keyIndex ?? -1
 		let fwGuts				= rootVew.fwGuts		// why ! ??
 		let rootScn				= rootVew.rootScn
 		let cam					= rootScn.cameraScn
@@ -97,11 +97,11 @@ class RootScn : NSObject {		// was  : SCNScene
 			if nsEvent.isARepeat {	return false }		// Ignore repeats
 			nextIsAutoRepeat 	= true
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
-			assert(char.count==1, "Slot\(i): multiple keystrokes not supported")
+			assert(char.count==1, "Slot\(keyIndex): multiple keystrokes not supported")
 
 			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
 			  char != "?" {		// okay for "?" to get here
-				atEve(3, print("Slot\(i):   ==== nsEvent not processed\n\(nsEvent)"))
+				atEve(3, print("Slot\(keyIndex):   ==== nsEvent not processed\n\(nsEvent)"))
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
@@ -139,14 +139,14 @@ class RootScn : NSObject {		// was  : SCNScene
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			motionFromLastEvent(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(i): Other mouseDown")
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(keyIndex): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
 			spinNUp(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(reason:"Slot\(i): Other mouseDragged")
+			cam?.transform 		= rootScn.cameraTransform(reason:"Slot\(keyIndex): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			motionFromLastEvent(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(i): Other mouseUp")
+			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(keyIndex): Other mouseUp")
 			atEve(9, print("\( cam?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -156,7 +156,7 @@ class RootScn : NSObject {		// was  : SCNScene
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootScn.selfiePole.zoom *= delta
 			let p				= rootScn.selfiePole
-			print("Slot\(i): processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
+			print("Slot\(keyIndex): processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
 			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -195,7 +195,7 @@ class RootScn : NSObject {		// was  : SCNScene
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("Slot\(i): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
+			print("Slot\(keyIndex): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false
 		}
 		return true

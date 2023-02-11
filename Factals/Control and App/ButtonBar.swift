@@ -14,7 +14,7 @@ struct ButtonBar: View {
 	var body: some View {
 		let fwGuts 				= document.fwGuts
 		let rootVews			= fwGuts?.rootVews ?? [:]
-		let rootVew0 : RootVew?	= rootVews.count == 0 ? nil : rootVews[0]		// rootVews.first
+//		let rootVew0 : RootVew?	= rootVews.count == 0 ? nil : rootVews[0]		// rootVews.first
 		VStack {
 			 //  --- B U T T O N S  ---
 			HStack {	// FULL!
@@ -55,7 +55,7 @@ struct ButtonBar: View {
 				{	printFwcState()												}
 				Button(label:{	Text("config").padding(.top, 300)				})
 				{	printFwcConfig()											}
-				Text("pole:\( rootVew0?.rootScn.selfiePole.pp() ?? "-") cam-< \(rootVew0?.rootScn.cameraScn?.transform.pp(.line) ?? "nil") \(dragonModel.redrawValue)")
+				Text("pole:\( rootVew0.rootScn.selfiePole.pp() ?? "-") cam-< \(rootVew0.rootScn.cameraScn?.transform.pp(.line) ?? "nil") \(dragonModel.redrawValue)")
 				Spacer()
 				Button(label: {	Text("value++ = \(dragonModel.redrawValue)")			})
 				{	dragonModel.redrawValue += 1										}

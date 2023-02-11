@@ -36,8 +36,8 @@ struct SceneKitView: View {
 			 // /////////
 			EventReceiver(handler: { nsEvent in
 				if let fwGuts	= sceneKitArgs.rootPart?.fwGuts,
-				  let rootVew	= fwGuts.rootVews[sceneKitArgs.sceneIndex] {
-					rootVew.rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
+				  let rootScn	= fwGuts.rootVews[sceneKitArgs.sceneIndex]?.rootScn {
+					let _ 		= rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
 				}
 			})
 			 // ////////////////
@@ -77,15 +77,15 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 
 		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
-		rootVew.keyIndex		= args.sceneIndex
 		rootVew.fwGuts			= fwGuts
 
-		 // Get index :
-		let i					= args.sceneIndex
-		assert(i >= 0 && i < 4, "Illegal args.sceneIndex:\(i)")
+		 // Get index in rootVews[]:
+		let keyIndex			= args.sceneIndex
+		assert(keyIndex >= 0 && keyIndex < 4, "Illegal args.sceneIndex:\(keyIndex)")
+		rootVew.keyIndex		= keyIndex
 
 		 // SAVE in array:					// print(fwGuts.rootVews[0].debugDescriaption)
-		fwGuts.rootVews[i]		= rootVew
+		fwGuts.rootVews[keyIndex] = rootVew
 
 		 // Get an ScnView from rootScn
 		let fwView				= rootVew.rootScn.fwView!
@@ -94,7 +94,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		fwView.autoenablesDefaultLighting	= args.options.contains(.autoenablesDefaultLighting)
 		//fwView.jitteringEnabled			= args.options.contains(.jitteringEnabled)
 		fwView.rendersContinuously			= args.options.contains(.rendersContinuously)
-		//returnedScnView.temporalAntialiasingEnabled = args.options.contains(.temporalAntialiasingEnabled)
+		//fwView.temporalAntialiasingEnabled = args.options.contains(.temporalAntialiasingEnabled)
 		fwView.preferredFramesPerSecond		= args.preferredFramesPerSecond
 		//atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(fwView.pp(.line)) vewConfig:" +
 		//	"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))

@@ -276,8 +276,9 @@ class FwGuts : NSObject, ObservableObject {
 	}
 
 	func findVew(nsEvent:NSEvent) -> Vew? {
-		 // CONVERT to window coordinates
-		guard let rootVew		= nsEvent.rootVew		else { return nil 	}
+		 // Find rootVew of NSEvent
+		guard let rootVew		= nsEvent.rootVew
+			else { print("rootVew of NSEvent is nil"); return nil 				}
 		let rScn				= rootVew.scn
 
 		 // Find the 3D Vew for the Part under the mouse:
@@ -309,7 +310,8 @@ class FwGuts : NSObject, ObservableObject {
 
 		 // SELECT HIT; prefer any child to its parents:
 		var rv : Vew			= rootVew			// default Vew
-		var msg					= "******************************************\n findVew(nsEvent:)\t"
+		var msg					= "******************************************\n" +
+								  "Slot\(rootVew.keyIndex ?? -1): findVew(nsEvent:)\t"
 		var pickedScn			= rootVew.scn 		// default SCNNode
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:

@@ -53,8 +53,8 @@ struct ContentView: View {
 			//	handler		: { nsEvent in
 			//		let i = sceneKitArgs		// PW causes 30,** above EXC_BAD_ACCESS
 			//		if let fwGuts	= sceneKitArgs.rootPart?.fwGuts {
-			//		  let rootVew	= fwGuts.rootVews[sceneKitArgs.sceneIndex] {
-			//			let _		= rootVew.rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
+			//		  let rootScn	= fwGuts.rootVews[sceneKitArgs.sceneIndex]?.rootScn {
+			//			let _ 		= rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
 			//		}
 			//	}
 			)

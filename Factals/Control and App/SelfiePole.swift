@@ -70,8 +70,22 @@ struct SelfiePole {
 
 		return rv
 	}
+}
+extension SelfiePole : Uid {
+	//var uid						= randomUid()	// in class Library
 
-	func pp() -> String {
-		return fmt("[at:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, horizonUp, zoom)
+	 // MARK: - 15. PrettyPrint
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
+		switch mode {
+		case .line:
+			var rv				=  fmt("[at:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, horizonUp, zoom)
+			return rv
+		default:
+			return ppDefault(self:self, mode:mode, aux:aux)
+		}
 	}
+
+//	func pp() -> String {
+//		return fmt("[at:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, horizonUp, zoom)
+//	}
 }

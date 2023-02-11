@@ -306,7 +306,7 @@ struct InspecPart : View {												 // Part
 		//https://medium.com/better-programming/three-ways-to-react-to-state-changes-in-swiftui-a30545c72361
 
 	var body: some View {
-		var doc 				= part.root?.fwGuts?.document
+		//var doc 				= part.root?.fwGuts?.document
 		VStack {
 			HStack {						// ========================== LINE 1
 				ClassBox(labeled:"Part")
@@ -324,10 +324,10 @@ struct InspecPart : View {												 // Part
 				}.pickerStyle(MenuPickerStyle()).frame(width:130)				//MenuPickerStyle//SegmentedPickerStyle//
 
 						// --- Navigate:
-				let navList		= part.selfNParents.reversed() + part.children
-				let selfIndex	= part.selfNParents.count - 1
-				Text("Inspect: BUGGY")
-//				Picker("", selection:Binding<Int>( 				// a9
+//				let navList		= part.selfNParents.reversed() + part.children
+//				let selfIndex	= part.selfNParents.count - 1
+//				Text("Inspect: BUGGY")
+////				Picker("", selection:Binding<Int>( 				// a9
 //					get:{ -1 },
 //					set:{		// Always out of range
 //						let nav	= navList[$0]					// Set notification

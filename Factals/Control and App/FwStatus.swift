@@ -278,12 +278,22 @@ extension RootScn : FwStatus	{										    ///RootScn
 		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.scnScene.ppFwState()
+				var rv			=  self.selfiePole.ppFwState()
+				rv				+=  self.scnScene.ppFwState()
 				rv				+= self.fwView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
 				return rv
 			},
 			deapth:deapth-1)
 	}
+}
+extension SelfiePole : FwStatus	{									///SCNScene
+	func ppFwState(deapth:Int=999) -> String {
+		var myLine				= self.pp(.line)
+		return ppFwStateHelper("SelfiePole   ", uid:self,
+			myLine:myLine,
+			deapth:deapth-1)
+	}
+
 }
 extension SCNScene : FwStatus	{							///RootScn ///SCNScene
 	func ppFwState(deapth:Int=999) -> String {
