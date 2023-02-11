@@ -44,8 +44,8 @@ class RootScn : NSObject {		// was  : SCNScene
 	}
 
 	 // MARK: - 3.1 init
-	init(scnScene ss:SCNScene?=nil, fwView fv:FwView?=nil, args:SceneKitArgs?=nil) {
-		scnScene				= ss ?? SCNScene()
+	init(fwView fv:FwView?=nil, args:SceneKitArgs?=nil) {
+		scnScene				= SCNScene()
 	//	cameraScn				= touchCameraScn()
 		super.init()	// NSObject
 

@@ -57,7 +57,6 @@
 		9F417F0F28EB93E50047B359 /* Proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AE286BA57A00C8C22A /* Proto.swift */; };
 		9F417F1028EB93E90047B359 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AB286BA57900C8C22A /* Library.swift */; };
 		9F417F1128EB93EC0047B359 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Configuration.swift */; };
-		9F417F1228EB93EF0047B359 /* Dragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2B283C239000E9E2AE /* Dragon.swift */; };
 		9F417F1428EB93FC0047B359 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F417F1528EB93FF0047B359 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
 		9F417F1628EB94020047B359 /* EditNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F228808DC00078DB6C /* EditNet.swift */; };
@@ -179,7 +178,6 @@
 		9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9FEE6F1F2835779000E9E2AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1E2835779000E9E2AE /* Preview Assets.xcassets */; };
 		9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
-		9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2B283C239000E9E2AE /* Dragon.swift */; };
 		9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */; };
 		9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE70A8284318B500E9E2AE /* SCNNode++.swift */; };
 /* End PBXBuildFile section */
@@ -296,7 +294,6 @@
 		9FEE6F202835779000E9E2AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FEE6F212835779000E9E2AE /* Factals.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Factals.entitlements; sourceTree = "<group>"; };
 		9FEE6F272837C54E00E9E2AE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		9FEE6F2B283C239000E9E2AE /* Dragon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon.swift; sourceTree = "<group>"; };
 		9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene++.swift"; sourceTree = "<group>"; };
 		9FEE6FD72841A70E00E9E2AE /* Vew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vew.swift; sourceTree = "<group>"; };
 		9FEE70A8284318B500E9E2AE /* SCNNode++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode++.swift"; sourceTree = "<group>"; };
@@ -401,7 +398,6 @@
 				9FBD6E4629258E2500F14075 /* ButtonBar.swift */,
 				9FC1F1BE293418E60025E80D /* Helper.swift */,
 				9FC1F1BF293418E60025E80D /* Menu.swift */,
-				9FEE6F2B283C239000E9E2AE /* Dragon.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */,
 				9F0295D02880921800DD0004 /* FwView.swift */,
@@ -670,7 +666,6 @@
 				9F417F5728EB955C0047B359 /* NSColor++.swift in Sources */,
 				9F417F3928EB94A80047B359 /* FactalsApp.swift in Sources */,
 				9F417F2228EB942A0047B359 /* ConveyorPort.swift in Sources */,
-				9F417F1228EB93EF0047B359 /* Dragon.swift in Sources */,
 				9F417F2728EB943D0047B359 /* Atom.swift in Sources */,
 				9F417F4728EB94DF0047B359 /* Sounds.swift in Sources */,
 				9F417F3128EB94680047B359 /* VewConfig.swift in Sources */,
@@ -742,7 +737,6 @@
 				9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */,
-				9FEE6F2C283C239000E9E2AE /* Dragon.swift in Sources */,
 				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
 				9F87DF3029900CEA00B9D3B6 /* FwView.swift in Sources */,
 				9FC1F1C2293418E60025E80D /* Menu.swift in Sources */,

@@ -342,7 +342,7 @@ bug;	let rv					= NSMenu(title:path)
 		let fwGuts				= FwGuts(rootPart:rootPart)
 
 bug		 // --------------- A: Get BASIC Component Part (owned and used here)
-		let rootScn				= RootScn(scnScene:SCNScene())
+		let rootScn				= RootScn()
 		rootScn.scnScene.isPaused = true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))

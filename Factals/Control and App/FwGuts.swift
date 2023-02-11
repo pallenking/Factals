@@ -120,7 +120,7 @@ class FwGuts : NSObject, ObservableObject {
 //	 // MARK: - 3.7 Equatable
 	 // MARK: - 4.?
 	func rootVew(ofScnNode:SCNNode) -> RootVew? {
-		for key in rootVews.keys {
+		for key in rootVews.keys.sorted() {
 			let rootVew			= rootVews[key]!
 			if rootVew.scn.find(firstWith:{ $0 == ofScnNode }) != nil {
 				return rootVew
@@ -157,12 +157,12 @@ class FwGuts : NSObject, ObservableObject {
 			}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			for key in rootVews.keys {
+			for key in rootVews.keys.sorted() {						// xyzzy333
 				rootVews[key]!.scn.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
-			for key in rootVews.keys {
+			for key in rootVews.keys.sorted() {					// xyzzy333
 				let rootVew		= rootVews[key]!
 				print("-------- ptv   rootVews[\"\(key)\"]\(ppUid(rootVew)):")
 				print("\(rootVew.pp(.tree))", terminator:"")
@@ -170,7 +170,7 @@ class FwGuts : NSObject, ObservableObject {
 		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
-			for key in rootVews.keys {
+			for key in rootVews.keys.sorted() {
 				let rootVew		= rootVews[key]!
 				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
@@ -197,7 +197,7 @@ class FwGuts : NSObject, ObservableObject {
 			print("\n******************** 'V': Build the Model's Views:\n")
 			rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
 //			for rootVew in rootVews {
-			for key in rootVews.keys {
+			for key in rootVews.keys.sorted() {
 				let rootVew		= rootVews[key]!
 				rootVew.updateVewSizePaint()
 			}
@@ -205,7 +205,7 @@ class FwGuts : NSObject, ObservableObject {
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			rootPart.forAllParts({	$0.markTree(dirty:.size)		})
 //			for rootVew in rootVews {
-			for key in rootVews.keys {
+			for key in rootVews.keys.sorted() {
 				let rootVew		= rootVews[key]!
 				rootVew.updateVewSizePaint()
 			}
@@ -464,7 +464,7 @@ bug;	rootScn.cameraScn?.transform = rootScn.cameraTransform(reason:"toggelOpen")
 			var rv				=  rootPart.pp(.classUid) + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			if let document {rv	+= document.pp(.classUid)					}
-			rv					+= " SelfiePole:" + (rootVews[0]?.rootScn.selfiePole.pp() ?? "nil")
+bug;		rv					+= " SelfiePole:" + (rootVews[0]?.rootScn.selfiePole.pp() ?? "nil")			// xyzzy333
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)

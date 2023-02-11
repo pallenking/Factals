@@ -187,7 +187,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 				 // Controller:
 				var rv			= ""
 				rv				+= self.rootPart.ppFwState()
-				for (key, rootVew) in self.rootVews {
+				for (key, rootVew) in self.rootVews.sorted(using: KeyPathComparator(\.key)) {				// xyzzy333
 					rv			+= rootVew.ppFwState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFwState()

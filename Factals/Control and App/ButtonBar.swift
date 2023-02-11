@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ButtonBar: View {
 	@Binding var document			: FactalsDocument	// the Document type
-	@ObservedObject var dragonModel	: DragonModel
 
 	var body: some View {
 		let fwGuts 				= document.fwGuts
@@ -55,10 +54,8 @@ struct ButtonBar: View {
 				{	printFwcState()												}
 				Button(label:{	Text("config").padding(.top, 300)				})
 				{	printFwcConfig()											}
-				Text("pole:\( rootVew0.rootScn.selfiePole.pp() ?? "-") cam-< \(rootVew0.rootScn.cameraScn?.transform.pp(.line) ?? "nil") \(dragonModel.redrawValue)")
+				Text("pole:\( rootVew0.rootScn.selfiePole.pp() ?? "-") cam-< \(rootVew0.rootScn.cameraScn?.transform.pp(.line) ?? "nil") ")
 				Spacer()
-				Button(label: {	Text("value++ = \(dragonModel.redrawValue)")			})
-				{	dragonModel.redrawValue += 1										}
 				Text(" ")
 			}
 		}

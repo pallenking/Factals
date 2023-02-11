@@ -21,8 +21,7 @@ struct SceneView1: NSViewRepresentable {
 		guard let fwGuts		= args.rootPart?.fwGuts else { fatalError("got no fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
 
-		let scnScene 			= args.scnScene ?? SCNScene()
-		let rootScn	: RootScn	= RootScn(scnScene:scnScene, args:args)
+		let rootScn	: RootScn	= RootScn(args:args)
 
 		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
