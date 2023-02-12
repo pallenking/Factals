@@ -109,18 +109,17 @@ extension Part {
 extension RootVew {
 	func ppLine() -> String {
 		guard let rootVew							else {	return "Vew.rootVew == nil "}
-		guard let fwGuts 		= rootVew.fwGuts 	else {	return "Vew.rootVew?.fwGuts == nil "}
-		guard let myI			= fwGuts.rootVews.firstIndex(where:{ $0.value === self })
-			else {		bug;		return "Oops 2242"							}
+		guard let fwGuts 		= rootVew.fwGuts 	else {	return "Vew.rootVew?.fwGuts == nil " }
 
-		let (key, _)			= fwGuts.rootVews[myI]
 		var rv					= "rootVew:\(ppUid(rootVew, showNil:true)) "
 		rv						+= "(\(nodeCount()) Nodes) "
 		rv						+= "LockVal:\(rootVewLock.value ?? -99) "
-		rv						+= fwGuts.rootVews[key] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
+
+		guard let keyIndex		= rootVew.keyIndex,
+		  keyIndex >= 0 && keyIndex < fwGuts.rootVews.count else { fatalError("Bad keyIndex")}
+		rv						+= fwGuts.rootVews[keyIndex] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
+
 		rv						+=  rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
-//		rv						+= "pole:\(rootScn.selfiePole.pp())-"
-//		rv						+= "w[\(scn.convertPosition(.zero, to:nil).pp(.short))] "
 		rv						+= "lookAtVew:\(rootScn.lookAtVew?.pp(.fullName) ?? "?")"
 		return rv
 	}

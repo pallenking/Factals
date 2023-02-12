@@ -11,7 +11,6 @@ extension SCNCameraController : ObservableObject {	}
 
 struct ContentView: View {
 	@Binding	 var document	: FactalsDocument	// the Document
-								
 
 	var body: some View {	// bodyAll
 		HStack {		// ***** 3 VStacks columns
@@ -20,7 +19,7 @@ struct ContentView: View {
 					HStack {
 						 //  --- H a v e N W a n t  0  ---
 						let sceneKitArgs	= SceneKitArgs(
-							sceneIndex	: 0,
+							keyIndex	: 0,
 							title		: "0: Big main view",
 							rootPart	: fwGuts.rootPart,
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
@@ -34,7 +33,7 @@ struct ContentView: View {
 						 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 						 .border(.black, width:2)
 						 .onAppear() {
-							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+							 document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 						 }
 						Text(":0")
 					}
@@ -45,7 +44,7 @@ struct ContentView: View {
 						Text("1:")
 						 //  --- H a v e N W a n t  1  ---
 						let sceneKitArgs	= SceneKitArgs(
-							sceneIndex	: 1,
+							keyIndex	: 1,
 							title		: "1: Second smaller view",
 							rootPart	: fwGuts.rootPart,
 							vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
@@ -59,7 +58,7 @@ struct ContentView: View {
 						 .frame(maxWidth: .infinity)
 						 .border(.black, width:2)
 						 .onAppear() {
-							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+							 document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 						 }
 					}
 				}

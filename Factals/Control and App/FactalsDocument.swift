@@ -213,7 +213,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	mutating func showInspec(for name:String) {
 		if let part	= fwGuts.rootPart.find(name:name) {
 
-			for (_, rootVew) in fwGuts.rootVews.sorted(using: KeyPathComparator(\.key)) {			// xyzzy333
+			for rootVew in fwGuts.rootVews {
 		 		if let vew = rootVew.find(part:part) {
 					showInspecFor(vew:vew, allowNew:true)
 				}

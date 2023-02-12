@@ -13,24 +13,24 @@ struct SceneView1: NSViewRepresentable {
 	 // 1. On creation, save the args for later
 	init(_ args:SceneKitArgs)	{
 		self.args				= args
-		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========= SceneKitHostingView title:'\(args.title)'"))
+		atRnd(4, DOClog.log("=== Slot \(args.keyIndex): ========= SceneKitHostingView title:'\(args.title)'"))
 	}
 	var args					: SceneKitArgs
 
 	func makeNSView(context: Context) -> SCNView {
 		guard let fwGuts		= args.rootPart?.fwGuts else { fatalError("got no fwGuts!")}
-		atRnd(4, DOClog.log("=== Slot \(args.sceneIndex): ========== makeNSView         title:'\(args.title)'"))
+		atRnd(4, DOClog.log("=== Slot \(args.keyIndex): ========== makeNSView         title:'\(args.title)'"))
 
 		let rootScn	: RootScn	= RootScn(args:args)
 
 		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
-		rootVew.keyIndex		= args.sceneIndex
+		rootVew.keyIndex		= args.keyIndex
 		rootVew.fwGuts			= fwGuts
 
 		 // Get index :
-		let i					= args.sceneIndex
-		assert(i >= 0 && i < 4, "Illegal args.sceneIndex:\(i)")
+		let i					= args.keyIndex
+		assert(i >= 0 && i < 4, "Illegal args.keyIndex:\(i)")
 
 		 // SAVE in array:					// print(fwGuts.rootVews[0].debugDescriaption)
 		fwGuts.rootVews[i]		= rootVew

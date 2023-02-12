@@ -573,7 +573,7 @@ extension RootScn {		// lights and camera
 
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
-	func createVewNScn(sceneIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
+	func createVewNScn(keyIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
 		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
 		guard let fwGuts		= rootVew.fwGuts else {	fatalError("RootScn.rootVew.fwGuts is nil")}
 		let rootPart			= rootVew.rootPart		// fwGuts.rootPart
@@ -585,7 +585,7 @@ extension RootScn {		// lights and camera
 		assert(rootPart.children.count == 1,"Paranoid check: rootPart has \(rootPart.children.count) children, !=1")
 
 		 // 1. 	GET LOCKS					// PartTree
-		let lockName			= "createVew[\(sceneIndex)]"
+		let lockName			= "createVew[\(keyIndex)]"
 		guard rootPart.lock(partTreeAs:lockName) else {
 			fatalError("createVews couldn't get PART lock")		// or
 		}		          					// VewTree

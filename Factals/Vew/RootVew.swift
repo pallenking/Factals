@@ -133,4 +133,6 @@ class RootVew : Vew {
 	//		rv					+= 			  ", FWGUTS=NIL!"
 	//	}
 	}
+	  // MARK: - 16. Global Constants
+	static let nullRoot			= RootVew()			/// Any use of this should fail
 }

@@ -520,11 +520,16 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 						guard let fwGuts = part.root?.fwGuts else {
 							fatalError("### part.root?.fwGuts is nil ###")		}
 						 // Lock ALL root Vews:
-						for key in fwGuts.rootVews.keys {
-							guard fwGuts.rootVews[key]!.lock(vewTreeAs:viewLockName, logIf:log) else {
+						for rootVew in fwGuts.rootVews {
+							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 							}
 						}
+//						for key in fwGuts.rootVews.keys {
+//							guard fwGuts.rootVews[key]!.lock(vewTreeAs:viewLockName, logIf:log) else {
+//								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
+//							}
+//						}
 						viewLockName = nil		// mark gotten
 						return true
 					}
@@ -576,7 +581,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		for rootVew in fwGuts.rootVews.values {
+		for rootVew in fwGuts.rootVews {
 			rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
 		}
 	}

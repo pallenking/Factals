@@ -22,8 +22,7 @@ extension NSEvent {
 		let fwGuts 				= DOCfwGuts
 		if let nsViewOfEv 		= window?.contentView {
 			 // Find rootVew whose base fwView is a descendant of nsViewOfEv
-			for key in fwGuts.rootVews.keys.sorted() {
-				let rootVew		= fwGuts.rootVews[key]!
+			for rootVew in fwGuts.rootVews {
 				if let fwView	= rootVew.rootScn.fwView,//rootScn.fwView,
 				  fwView.isDescendant(of:nsViewOfEv) {
 					return rootVew

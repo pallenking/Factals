@@ -187,7 +187,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 				 // Controller:
 				var rv			= ""
 				rv				+= self.rootPart.ppFwState()
-				for (key, rootVew) in self.rootVews.sorted(using: KeyPathComparator(\.key)) {				// xyzzy333
+				for rootVew in self.rootVews {
 					rv			+= rootVew.ppFwState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFwState()
@@ -254,12 +254,12 @@ extension Simulator : FwStatus	{									///Simulator
 extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
 		guard let fwGuts		= fwGuts else {	return "no fwGuts!" 			}
-		guard let myI			= fwGuts.rootVews.firstIndex(where:{ $0.value === self })
+		guard let keyIndex		= self.keyIndex
 			else {		bug;			return "Oops 2087"						}
-		let (key, rootVew)		= fwGuts.rootVews[myI]
+//		let rootVew				= fwGuts.rootVews[keyIndex]
 
 		let myLine				= ppLine()
-		let myName				= "RootVew \(key)    "
+		let myName				= "RootVew \(keyIndex)    "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
@@ -272,7 +272,7 @@ extension RootVew : FwStatus	{									  ///RootVew
 extension RootScn : FwStatus	{										    ///RootScn
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-		myLine					+= "scn:\(ppUid(scn, showNil:true)) tree with \(scn.nodeCount()) SCNNodes "
+		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 		myLine					+= scnScene.pp(.classUid)
 		myLine					+= " animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("RootScn      ", uid:self,

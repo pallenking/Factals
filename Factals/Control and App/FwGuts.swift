@@ -9,7 +9,10 @@ class FwGuts : NSObject, ObservableObject {
 	  // MARK: - 2. Object Variables:
 	@Published var redo:UInt8	= 0
 	@Published var rootPart :  RootPart													//{	rootVew.part as! RootPart}
-	var rootVews : [Int:RootVew] = [:]
+								
+	var rootVews : [RootVew]	= []
+//	var rootVews : [Int:RootVew] = [:]
+
 	var document 	 : FactalsDocument!
 									//	{	get		{	return docPrivate!											}
 									//		set(v)	{	docPrivate = v												}
@@ -21,8 +24,8 @@ class FwGuts : NSObject, ObservableObject {
 
 	func pushControllersConfig(to c:FwConfig) { // *****
 		rootPart       .pushControllersConfig(to:c)
-		for i in rootVews.keys.sorted() {
-			rootVews[i]!.pushControllersConfig(to:c)
+		for rootVew in rootVews {
+			rootVew.pushControllersConfig(to:c)
 		}
 	}
 	 // MARK: - 3. Factory
@@ -41,14 +44,14 @@ class FwGuts : NSObject, ObservableObject {
 	}
 
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
-		atRnd(4, DOClog.log("=== Slot \(sceneKitArgs.sceneIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
+		let keyIndex			= sceneKitArgs.keyIndex
+		guard keyIndex >= 0 && keyIndex < rootVews.count else {	fatalError("")	}
+		atRnd(4, DOClog.log("=== Slot \(keyIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
 
-		 // Access rootVews for sceneKitArgs.sceneIndex:
-		guard let rootVew		= rootVews[sceneKitArgs.sceneIndex] else {
-			fatalError("no rootVews[\(sceneKitArgs.sceneIndex)")
-		}
+		 // Access rootVews for sceneKitArgs.keyIndex:
+		let rootVew				= rootVews[keyIndex]
 		let rootScn				= rootVew.rootScn
-		rootScn.createVewNScn(sceneIndex:sceneKitArgs.sceneIndex, vewConfig:sceneKitArgs.vewConfig)
+		rootScn.createVewNScn(keyIndex:keyIndex, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
 		guard let baseFwView	= rootScn.fwView else { fatalError("rootScn.fwView == nil") }
@@ -120,8 +123,7 @@ class FwGuts : NSObject, ObservableObject {
 //	 // MARK: - 3.7 Equatable
 	 // MARK: - 4.?
 	func rootVew(ofScnNode:SCNNode) -> RootVew? {
-		for key in rootVews.keys.sorted() {
-			let rootVew			= rootVews[key]!
+		for rootVew in rootVews {
 			if rootVew.scn.find(firstWith:{ $0 == ofScnNode }) != nil {
 				return rootVew
 			}
@@ -157,21 +159,19 @@ class FwGuts : NSObject, ObservableObject {
 			}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			for key in rootVews.keys.sorted() {						// xyzzy333
-				rootVews[key]!.scn.play(sound:"Oooooooo")		//GameStarting
+			for rootVew in rootVews {
+				rootVew.scn.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
-			for key in rootVews.keys.sorted() {					// xyzzy333
-				let rootVew		= rootVews[key]!
-				print("-------- ptv   rootVews[\"\(key)\"]\(ppUid(rootVew)):")
+			for rootVew in rootVews {
+				print("-------- ptv0   rootVews[++]:\(ppUid(rootVew)):")
 				print("\(rootVew.pp(.tree))", terminator:"")
 			}
 		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
-			for key in rootVews.keys.sorted() {
-				let rootVew		= rootVews[key]!
+			for rootVew in rootVews {
 				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
@@ -185,36 +185,26 @@ class FwGuts : NSObject, ObservableObject {
 			let suffix			= alt ? ".dae" : ".scn"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= rootVews[0]!.rootScn.scnScene
-				guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
+			let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("") } ()
+			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
-//			guard write(to:fileURL, options:nil, delegate:nil, progressHandler:nil)
-//						else { fatalError("writing dumpSCN.\(suffix) failed")	}
-	//		guard self.write(to:fileURL, options:[])   == false else { fatalError("writing dumpSCN.\(suffix) failed")	}
-	//		guard self.write(to:fileURL, delegate:nil) == false else { fatalError("writing dumpSCN.\(suffix) failed")	}
-
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 			rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
 //			for rootVew in rootVews {
-			for key in rootVews.keys.sorted() {
-				let rootVew		= rootVews[key]!
+			for rootVew in rootVews {
 				rootVew.updateVewSizePaint()
 			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			rootPart.forAllParts({	$0.markTree(dirty:.size)		})
-//			for rootVew in rootVews {
-			for key in rootVews.keys.sorted() {
-				let rootVew		= rootVews[key]!
+			for rootVew in rootVews {
 				rootVew.updateVewSizePaint()
 			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
-//			for rootVew in rootVews {
-			for key in rootVews.keys {
-				let rootVew		= rootVews[key]!
+			for rootVew in rootVews {
 				rootVew.updateVewSizePaint()
 			}
 		case "w":
@@ -227,8 +217,7 @@ class FwGuts : NSObject, ObservableObject {
 			return true								// recognize both
 		case "f": 					// // f // //
 			var msg					= ""
-			for key in rootVews.keys {
-				let rootVew			= rootVews[key]!
+			for rootVew in rootVews {
 				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
 			}
 			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
@@ -363,8 +352,7 @@ class FwGuts : NSObject, ObservableObject {
 		 // ========= Get Locks for two resources, in order: =============
 		guard rootPart.lock(partTreeAs:"toggelOpen") else {
 			fatalError("toggelOpen couldn't get PART lock")	}		// or
-		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
-//		guard  rootVews[key]!.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get lock") }
+		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get Vew lock") }
 
 		assert(!(part is Link), "cannot toggelOpen a Link")
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
@@ -373,8 +361,8 @@ class FwGuts : NSObject, ObservableObject {
 		vew.updateVewSizePaint(needsLock:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
-		rootVews[key]!.unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-		rootPart	  .unlock(partTreeAs:"toggelOpen")
+		rootVew  .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+		rootPart .unlock(partTreeAs:"toggelOpen")
 
 //		cam.transform 			= rootScn.cameraTransform(reason:"Other mouseDown")
 	//	let rScn				= rootVew.scn
@@ -394,7 +382,7 @@ bug;	rootScn.cameraScn?.transform = rootScn.cameraTransform(reason:"toggelOpen")
 			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
 
 			 //*******// Imprint animation parameters JUST BEFORE start:
-			rootVews[key]!.updateVewSizePaint()			// Update SCN's at START of animation
+			rootVew.updateVewSizePaint()				// Update SCN's at START of animation
 			 //*******//
 
 			 // Animate Vew morph, from self to newVew:
@@ -420,7 +408,7 @@ bug;	rootScn.cameraScn?.transform = rootScn.cameraTransform(reason:"toggelOpen")
 				oldScn.removeFromParent()
 				vew.removeFromParent()
 				//*******//
-				self.rootVews[key]!.updateVewSizePaint()	// Imprint AFTER animation
+				rootVew.updateVewSizePaint()	// Imprint AFTER animation
 				//*******//	// //// wants a third animatio	qn (someday):
 			}
 //			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
@@ -464,7 +452,6 @@ bug;	rootScn.cameraScn?.transform = rootScn.cameraTransform(reason:"toggelOpen")
 			var rv				=  rootPart.pp(.classUid) + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			if let document {rv	+= document.pp(.classUid)					}
-bug;		rv					+= " SelfiePole:" + (rootVews[0]?.rootScn.selfiePole.pp() ?? "nil")			// xyzzy333
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)

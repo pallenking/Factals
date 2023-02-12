@@ -28,15 +28,15 @@ func rootpartL(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  rootVew0  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[0] ?? { fatalError("rootVews[0]")}() }
+	get 		{	return DOCfwGuts.rootVews.count > 0 ? DOCfwGuts.rootVews[0] : .nullRoot	}
 	set (v)		{		   DOCfwGuts.rootVews[0] = v							}
 }
 var  rootVew1  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[1] ?? { fatalError("rootVews[1]")}() }
+	get 		{	return DOCfwGuts.rootVews[1]								}
 	set (v)		{		   DOCfwGuts.rootVews[1] = v							}
 }
 var  rootVew2  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[2] ?? { fatalError("rootVews[2]")}() }
+	get 		{	return DOCfwGuts.rootVews[2]								}
 	set (v)		{		   DOCfwGuts.rootVews[2] = v							}
 }
 
@@ -45,10 +45,8 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
 	}
-	guard var rootVew : Vew		= fwGuts.rootVews[index] else {
-		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
-		return .null
-	}
+	guard index >= 0 && index < fwGuts.rootVews.count else { fatalError("rootvew() returns .null !!!")	}
+	var rootVew : Vew			= fwGuts.rootVews[index]
 	if name != nil {			// Search for named Vew
 		rootVew					= rootVew.find(name:name!, inMe2:true) ?? rootVew
 	}
@@ -57,8 +55,8 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 
  /// Access to current ////// SCNNode Tree  ////// 
 var  rootScn0 : SCNNode  		{
-	get 		{	return DOCfwGuts.rootVews[0]!.scn 							}
-	set (v)		{		   DOCfwGuts.rootVews[0]!.scn = v						}
+	get 		{	return DOCfwGuts.rootVews[0].scn 							}
+	set (v)		{		   DOCfwGuts.rootVews[0].scn = v						}
 }
 //var  rootScnL : SCNNode  		{  DOCfwGutsQ?.rootVews[zeroIndex].rootScn.rootScn ?? .null				}
 func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
@@ -66,14 +64,14 @@ func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
 		return .null
 	}
-	var scnRv					= fwGuts.rootVews[index]!.scn					//fwGuts.rootScn 	// Root
+	guard index >= 0 && index < fwGuts.rootVews.count else { fatalError("rootscnL() returns .null !!!")	}
+	var scnRv					= fwGuts.rootVews[index].scn					//fwGuts.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {
 		scnRv					= scnRv.find(inMe2:true, all:true, firstWith: // Scn named
 		{(scn:SCNNode) -> Bool in
 			return scn.name == name
-//			return scn.fullName.contains(substring:name!)
 		}) 						  ?? scnRv				// if not found
 	}
 	return scnRv

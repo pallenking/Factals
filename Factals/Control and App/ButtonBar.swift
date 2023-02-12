@@ -12,7 +12,7 @@ struct ButtonBar: View {
 
 	var body: some View {
 		let fwGuts 				= document.fwGuts
-		let rootVews			= fwGuts?.rootVews ?? [:]
+		let rootVews			= fwGuts?.rootVews ?? []
 //		let rootVew0 : RootVew?	= rootVews.count == 0 ? nil : rootVews[0]		// rootVews.first
 		VStack {
 			 //  --- B U T T O N S  ---
@@ -26,8 +26,8 @@ struct ButtonBar: View {
 				}
 				Text(" ")
 				Button(label:{	Text(   "ptv")									})
-				{	for (key, rootVew) in rootVews {
-						print("===== Vew of Slot \(key): =====")
+				{	for (i, rootVew) in (rootVews ?? []).enumerated() {
+						print("===== Vew of Slot \(i): =====")
 						lldbPrint(rootVew, mode:.tree, terminator:"")
 					}
 				}
@@ -35,8 +35,8 @@ struct ButtonBar: View {
 			//	Button(label:{	Text("1")}) { lldbPrint(rootVews[1], mode:.tree)}
 			//	Button(label:{	Text("2")}) { lldbPrint(rootVews[2], mode:.tree)}
 				Button(label:{	Text(   "ptn")									})
-				{	for (key, rootVew) in fwGuts?.rootVews ?? [:] {
-						print("===== SCNNodes of Slot \(key): =====")
+				{	for (i, rootVew) in (fwGuts?.rootVews ?? []).enumerated() {
+						print("===== SCNNodes of Slot \(i): =====")
 						lldbPrint(rootVew.scn, mode:.tree, terminator:"")
 					}// Tuple type 'Dictionary<Int, RootVew>.Element'  (aka '(key: Int, value: RootVew)') has no member 'scn'
 				}
