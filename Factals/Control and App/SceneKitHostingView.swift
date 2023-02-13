@@ -37,7 +37,7 @@ struct SceneKitView: View {
 			EventReceiver(handler: { nsEvent in
 				if let fwGuts	= sceneKitArgs.rootPart?.fwGuts,
 				  sceneKitArgs.keyIndex >= 0 && sceneKitArgs.keyIndex < fwGuts.rootVews.count {
-					let rootScn	= fwGuts.rootVews[sceneKitArgs.keyIndex].rootScn 
+					let rootScn	= fwGuts.rootVews[sceneKitArgs.keyIndex].rootScn
 					let _ 		= rootScn.processEvent(nsEvent:nsEvent, inVew:nil)
 				}
 			})

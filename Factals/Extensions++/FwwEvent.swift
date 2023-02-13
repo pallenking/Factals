@@ -18,9 +18,10 @@ extension Simulator			: ProcessNsEvent {}
 
 
 extension NSEvent {
-	var rootVew : RootVew? {
+	func rootVew() -> RootVew? {				// PW: doesn't work
 		let fwGuts 				= DOCfwGuts
 		if let nsViewOfEv 		= window?.contentView {
+
 			 // Find rootVew whose base fwView is a descendant of nsViewOfEv
 			for rootVew in fwGuts.rootVews {
 				if let fwView	= rootVew.rootScn.fwView,//rootScn.fwView,

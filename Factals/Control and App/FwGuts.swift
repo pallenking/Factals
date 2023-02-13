@@ -266,7 +266,7 @@ class FwGuts : NSObject, ObservableObject {
 
 	func findVew(nsEvent:NSEvent) -> Vew? {
 		 // Find rootVew of NSEvent
-		guard let rootVew		= nsEvent.rootVew
+		guard let rootVew		= nsEvent.rootVew()
 			else { print("rootVew of NSEvent is nil"); return nil 				}
 		let rScn				= rootVew.scn
 
@@ -275,8 +275,8 @@ class FwGuts : NSObject, ObservableObject {
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
 			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-					FwNodeCategory.picable  .rawValue  |// 3:works ??, f:all drop together
-					FwNodeCategory.byDefault.rawValue  ,
+					FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
+					FwNodeCategory.byDefault.rawValue ,
 			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
 		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
@@ -300,31 +300,31 @@ class FwGuts : NSObject, ObservableObject {
 		 // SELECT HIT; prefer any child to its parents:
 		var rv : Vew			= rootVew			// default Vew
 		var msg					= "******************************************\n" +
-								  "Slot\(rootVew.keyIndex ?? -1): findVew(nsEvent:)\t"
+								  "Slot\(rootVew.keyIndex ?? -1): find "
 		var pickedScn			= rootVew.scn 		// default SCNNode
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:
 			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
 			let hit				= sortedHits[0]
 			pickedScn			= hit.node // pic node with lowest deapth
-			msg 				+= "SCNNode: \((pickedScn.name ?? "8r23").field(-10)): "
+			msg 				+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
 
-			 // If Node not picable,
+			 // If Node not picable, try parent
 			while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
 			  let parent 		= pickedScn.parent 		// try its parent:
 			{
-				msg				+= fmt("--> Ignore mask %02x", pickedScn.categoryBitMask)
+				msg				+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
 				pickedScn 		= parent				// use parent
-				msg 			+= "\n\t" + "parent:\t" + "SCNNode: \(pickedScn.fullName): "
+				msg 			+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
 			}
+
 			 // Got SCN, get its Vew
-			if let cv			= rootVew.trunkVew,
-			  let vew 			= cv.find(scnNode:pickedScn, inMe2:true)
-			{
+			if let vew 			= rootVew.find(scnNode:pickedScn, inMe2:true) {
 				rv				= vew
 				msg				+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
-			}else{
-				panic(msg + 	"\n" + "couldn't find vew for scn:\(pickedScn.fullName)")
+			} else {
+				let x = rootVew.pp(.classUid)
+				panic(msg+"\n"+"couldn't find it in vew's \(rootVew.scn.pp(.classUid))")
 				if let cv		= rootVew.trunkVew,			// for debug only
 				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true) {
 					let _		= vew
@@ -333,7 +333,7 @@ class FwGuts : NSObject, ObservableObject {
 		} else {		// Background hit
 			msg					+= "background -> trunkVew"
 		}
-		atEve(3, print("\n" 	+ msg))
+		atEve(3, print("\n" + msg))
 		return rv
 	}
 	 /// Toggel the specified vew, between open and atom

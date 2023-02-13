@@ -1100,6 +1100,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			scn4atom 			= SCNNode(geometry:SCNSphere(radius:Part.atomicRadius/2)) //SCNNode(geometry:SCNHemisphere(radius:0.5, slice:0.5, cap:false))
 			scn4atom.name		= "s-atomic"		// Make atomic skin
 			scn4atom.color0		= .black			//systemColor
+			scn4atom.categoryBitMask = FwNodeCategory.picable.rawValue
 			vew.scn.addChild(node:scn4atom, atIndex:0)
 		}
 		scn4atom				= vew.scn.children[0]
@@ -1361,37 +1362,38 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			var doc				= root?.fwGuts?.document	// take struct out
-			print("    NSEvent (clicks:\(nsEvent.clickCount)) ==> \(pp(.fullName)) :"
-											+ "\(pp(.fwClassName))\n\(pp(.tree))")
-			 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
-			if nsEvent.clickCount == 1 {
-				 		// // // 2. Debug switch to select Instantiation:
-				let alt 		= nsEvent.modifierFlags.contains(.option)
-				if let vew {
-					doc?.showInspecFor(vew:vew, allowNew:alt)
-					rv			= true
-				}
-			}
-						// Double Click: show/hide insides
-			if nsEvent.clickCount > 1 {
-				if let vew {
-					doc?.fwGuts?.toggelOpen(vew:vew)
-					rv			= true
-				}
-			}
-			else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
-				
-bug				 // Let fwPart handle it:
-				print("-------- mouseDragged (click \(nsEvent.clickCount))\n")
+			if var doc			= root?.fwGuts?.document, 	// take struct out
+			  let vew {
 
-				 // Process the FwwEvent to the picked Part's Vew:
-				let m : Part 	= vew!.part
-bug;			let _			= m.processEvent(nsEvent: nsEvent, inVew:vew)	
-			//	[m sendPickEvent:&fwEvent toModelOf:pickedVew]
-			//	[self.simNsVc buildRootFwVforBrain:self.brain]	// model may have changed, so remake vew
+				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
+												+ "\(pp(.fwClassName))\n\(pp(.tree))")
+				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
+				if nsEvent.clickCount == 1 {
+							// // // 2. Debug switch to select Instantiation:
+					let alt 	= nsEvent.modifierFlags.contains(.option)
+					doc.showInspecFor(vew:vew, allowNew:alt)
+					rv			= true
+				}
+							// Double Click: show/hide insides
+				if nsEvent.clickCount > 1 {
+					doc.fwGuts?.toggelOpen(vew:vew)
+					rv			= true
+				}
+				else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
+					
+	bug				 // Let fwPart handle it:
+					print("-------- mouseDragged (click \(nsEvent.clickCount))\n")
+
+					 // Process the FwwEvent to the picked Part's Vew:
+					let m : Part = vew.part
+	bug;			let _		= m.processEvent(nsEvent: nsEvent, inVew:vew)
+				//	[m sendPickEvent:&fwEvent toModelOf:pickedVew]
+				//	[self.simNsVc buildRootFwVforBrain:self.brain]	// model may have changed, so remake vew
+				}
+				root!.fwGuts!.document = doc				// Put struct back
+			} else {
+				panic("processEvent(:inVew:) BAD ARGS")
 			}
-			root?.fwGuts?.document = doc				// Put struct back
 		}
 		return rv
 	}

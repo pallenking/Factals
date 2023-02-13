@@ -118,9 +118,7 @@ class RootVew : Vew {
 	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		let keyIndex			= keyIndex
-		var rv					= "Slot\(keyIndex ?? -1): "
-		rv						+= super.pp(mode, aux)
+		let rv					= super.pp(mode, aux)
 		return rv
 	//	if let fwGuts {
 	//		let i				= fwGuts.rootVews.firstIndex { $0 === self		}

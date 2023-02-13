@@ -29,6 +29,7 @@ enum PpMode : Int {
 	case uid			// 10 Uid								(e.g: "4C4")
 	case uidClass		//5,8 Uid:Class							(e.g: "4C4:Port")
 	case classUid		//  9 Class<uid>						(e.g: "Port<4C4>")
+//	case classUidFullName //? 									(e.g: "Port<4C4>'a/b.P'" OOPS -- fullName not in FwAny
   
 	case name			//6,14name in parent, a single token 	(e.g: "P")
 	case nameUidClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")
@@ -37,7 +38,7 @@ enum PpMode : Int {
 	case fullNameUidClass//11 Identifier: fullName/Uid:Class	(e.g: "ROOT/max.P/4C4:Port")
   
 	 // How to PrettyPrint Contents:
-	case phrase			//  4 shortened form, sub short		(e.g: [z:1]
+	case phrase			//  4 shortened form, sub short			(e.g: [z:1]
 	case short			//  3 shortest, canonic form			(e.g: [0.0, 0.0, 0.0]
 	case line			//  2 single line, often used in .tree	(e.g: 1 line)
 	case tree			//  1 tree of all elements				(e.g: multi-line)
@@ -124,7 +125,13 @@ extension Dictionary		: FwAny {
 			return count == 0 ? "[:]" : "[:\(count) elts]"
 		case .line, .tree:
 			var (rv, sep)		= ("[", "")
-			var k3:Array<Key>	= Array(keys)
+
+//			for (_, rootVew) in fwGuts.rootVews.sorted(using: Valu KeyPathComparator(\.key)) {
+//			let key1			= keys.sorted(using: )
+			var k3 : [Key]		= Array(keys)
+	//		if let k : [any Comparable] = k3 as? [any Comparable] {
+	//			k3				= k.sorted(by: String.compar
+	//		}
 			let m 				= mode == .tree ? PpMode.line : PpMode.short	// downgrade mode
 			for key in k3 {
 				rv				+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
@@ -392,49 +399,49 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	}
 	return rv
 }
-func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny {
-	var rv						= lhs						// initial values, older, overwritten
-	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
-	func isEq(_ v:Value)->String { 	v is any Equatable ? "(Equatable)" : "(-------)" }
-	for (keyRhs, valueRhs) in rhsSorted {
-		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-//			let x				= "L=\(valueLhs is (any Equatable)),
-//			let y				= valueRhs is (any Equatable)
-			let val1			= valueLhs.pp(.short).field(10) + isEq(valueLhs)
-			let val2			= valueRhs.pp(.short)			+ isEq(valueRhs)
-			atBld(9, print("dictAdd conflict 1, Key: \(keyRhs.field(20)) was \(val1) \t<-- \(val2)"))
-		}
-		rv[keyRhs] 				= valueRhs
-	}
-	return rv
-}
-
-func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny, Value:Equatable {
-	var rv						= lhs						// initial values, older, overwritten
-	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
-	for (key, valRhs) in rhsSorted {		// Paw through lhs Dictionary
-		if let valLhs 			= lhs[key] {	// key in BOTH Dictionaries
-
-			 // fancy xoring for Boolean:
-//			if (key == "f" || key == "flip") {
-//				if let v0		= valLhs as? Bool,
-//				   let v1		= valRhs as? Bool {
-//					rv[key]		= v0 ^^ v1			// PW: Compile ERROR
-//				} else {
-//					panic("Dictionary keys \"f\" or \"flip\" with non-Boolean Value")
-//					rv[key] 	= valRhs
-//				}
-//			} else
-
-			 // Same key, different values
-			if valLhs != valRhs {
-				atBld(9, DOClog.log("Dictionary Conflict 3, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
-				rv[key] 		= valRhs
-			}
-		}
-	}
-	return rv
-}
+//	func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny {
+//		var rv						= lhs						// initial values, older, overwritten
+//		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+//		func isEq(_ v:Value)->String { 	v is any Equatable ? "(Equatable)" : "(-------)" }
+//		for (keyRhs, valueRhs) in rhsSorted {
+//			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
+//	//			let x				= "L=\(valueLhs is (any Equatable)),
+//	//			let y				= valueRhs is (any Equatable)
+//				let val1			= valueLhs.pp(.short).field(10) + isEq(valueLhs)
+//				let val2			= valueRhs.pp(.short)			+ isEq(valueRhs)
+//				atBld(9, print("dictAdd conflict 1, Key: \(keyRhs.field(20)) was \(val1) \t<-- \(val2)"))
+//			}
+//			rv[keyRhs] 				= valueRhs
+//		}
+//		return rv
+//	}
+//
+//	func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny, Value:Equatable {
+//		var rv						= lhs						// initial values, older, overwritten
+//		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+//		for (key, valRhs) in rhsSorted {		// Paw through lhs Dictionary
+//			if let valLhs 			= lhs[key] {	// key in BOTH Dictionaries
+//
+//				 // fancy xoring for Boolean:
+//	//			if (key == "f" || key == "flip") {
+//	//				if let v0		= valLhs as? Bool,
+//	//				   let v1		= valRhs as? Bool {
+//	//					rv[key]		= v0 ^^ v1			// PW: Compile ERROR
+//	//				} else {
+//	//					panic("Dictionary keys \"f\" or \"flip\" with non-Boolean Value")
+//	//					rv[key] 	= valRhs
+//	//				}
+//	//			} else
+//
+//				 // Same key, different values
+//				if valLhs != valRhs {
+//					atBld(9, DOClog.log("Dictionary Conflict 3, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
+//					rv[key] 		= valRhs
+//				}
+//			}
+//		}
+//		return rv
+//	}
 
 //extension Dictionary<String, Value>  where Value : Equatable {
 //				let valX		= self[keyX]
@@ -521,7 +528,9 @@ func ppDefault(self:FwAny, mode:PpMode?, aux:FwConfig) -> String {
 	case .uidClass:
 		return "\(ppUid(self as? Uid)):\(self.pp(.fwClassName))"	// e.g: "xxx:Port"
 	case .classUid:
-		return "\(self.pp(.fwClassName))(\(ppUid(self as? Uid)))"	// e.g: "Port<xxx>"
+		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
+//	case .classUidFullName:
+//		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>'\(self.fullName)'"	// e.g: "Port<xxx>"
 	case .uid:							// -> uid
 		return ppUid(self as? Uid)
 	case .phrase:						// -> .fullNameUidClass
