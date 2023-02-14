@@ -86,8 +86,8 @@ class RootScn : NSObject {		// was  : SCNScene
 		guard let rootVew 		= rootVew else { print("processEvent.rootVew[..] is nil"); return false}
 		let keyIndex			= rootVew.keyIndex ?? -1
 		let fwGuts				= rootVew.fwGuts		// why ! ??
-		let rootScn				= rootVew.rootScn
-		let cam					= rootScn.cameraScn
+//		let rootScn				= rootVew.rootScn
+//		let cam					= rootScn.cameraScn
 
 		switch nsEvent.type {
 
@@ -111,53 +111,53 @@ class RootScn : NSObject {		// was  : SCNScene
 		  //  ====== LEFT MOUSE ======
 		 //
 		case .leftMouseDown:
-			motionFromLastEvent(with:nsEvent)
+			beginCameraMotion(with:nsEvent)
 			if !nsTrackPad  {					// 3-button Mouse
 				let vew			= fwGuts?.modelPic(with:nsEvent)
 			}//
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Left mouseDown")
+			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
-				motionFromLastEvent(with:nsEvent)
+				beginCameraMotion(with:nsEvent)
 				mouseWasDragged = true			// drag cancels pic
 				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				cam?.transform 	= rootScn.cameraTransform(reason:"Left mouseDragged")
+				commitCameraMotion(reason:"Left mouseDragged")
 			}
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
-				motionFromLastEvent(with:nsEvent)
+				beginCameraMotion(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts?.modelPic(with:nsEvent) {
-						rootScn.lookAtVew = vew			// found a Vew: Look at it!
+						lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
-				cam?.transform 	= rootScn.cameraTransform(duration:duration, reason:"Left mouseUp")
+				commitCameraMotion(duration:duration, reason:"Left mouseUp")
 			}
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
-			motionFromLastEvent(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(keyIndex): Other mouseDown")
+			beginCameraMotion(with:nsEvent)
+			commitCameraMotion(duration:duration, reason:"Slot\(keyIndex): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
-			motionFromLastEvent(with:nsEvent)
+			beginCameraMotion(with:nsEvent)
 			spinNUp(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(reason:"Slot\(keyIndex): Other mouseDragged")
+			commitCameraMotion(reason:"Slot\(keyIndex): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
-			motionFromLastEvent(with:nsEvent)
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Slot\(keyIndex): Other mouseUp")
-			atEve(9, print("\( cam?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			beginCameraMotion(with:nsEvent)
+			atEve(9, print("\( cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			commitCameraMotion(duration:duration, reason:"Slot\(keyIndex): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
 		case .scrollWheel:
+			beginCameraMotion(with:nsEvent)
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootScn.selfiePole.zoom *= delta
-			let p				= rootScn.selfiePole
-			print("Slot\(keyIndex): processEvent(type:  .scrollWheel  ) found pole \(p.pp())")
-			cam?.transform 		= rootScn.cameraTransform(duration:duration, reason:"Scroll Wheel")
+			selfiePole.zoom 	*= delta
+			print("Slot\(keyIndex): processEvent(type:  .scrollWheel  ) found pole \(selfiePole.pp())")
+			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
@@ -178,19 +178,19 @@ class RootScn : NSObject {		// was  : SCNScene
 		case .changeMode:		bug
 
 		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:rootScn.fwView)
+			let t 				= nsEvent.touches(matching:.began, in:fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:rootScn.fwView)
+			let t 				= nsEvent.touches(matching:.moved, in:fwView)
 			for touch in t {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				atEve(3, (print("\(prevLoc) \(loc)")))
 			}
 		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:rootScn.fwView)
+			let t 				= nsEvent.touches(matching:.ended, in:fwView)
 			for touch in t {
 				let _:CGPoint	= touch.location(in:nil)
 			}
@@ -201,7 +201,7 @@ class RootScn : NSObject {		// was  : SCNScene
 		return true
 	}
 	 // MARK: - 13.4 Mouse Variables
-	func motionFromLastEvent(with nsEvent:NSEvent)	{
+	func beginCameraMotion(with nsEvent:NSEvent)	{
 		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
 
 		let posn 				= contentNsView.convert(nsEvent.locationInWindow,     from:nil)	// nil -> window
@@ -212,61 +212,7 @@ class RootScn : NSObject {		// was  : SCNScene
 		 // Movement since last, 0 if first time and there is none
 		deltaPosition			= lastPosition == nil ? SCNVector3.zero : posnV3 - lastPosition!
 		lastPosition			= posnV3
-										//let prevPosn : SCNVector3 = lastPosition ?? posnV3
-										// // "Output"
-										//deltaPosition			= posnV3 - prevPosn
-										//lastPosition			= posnV3
 	}
-	func allConversions() {
-//		let point				= convert(NSPoint(), from:nil)
-//		let size				= convert(NSSize(),  from:nil)
-//		let rect				= convert(NSRect(),  from:nil)
-//		let cgRect				= convert(CGRect(),  from:nil)
-	}
-/*
-			View.convert(_:NSPoint, from:NSView?)
-- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
-
-
-
-Vew.swift:
-           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
-		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
-SceneKit:
-		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
-	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
-NSView:
-		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
-SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
-		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
-	       convert         (_:NSRect,        from:NSView?)       -> NSRect
-Quartzcore Calayer: UIView:
-		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
-		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
-		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
-SpriteKit:
-		   convertPoint    (fromView:CGPoint)			         -> CGPoint
-		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
-UIView:
-		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
-		   convert         (_:CGRect,      from:UIView?)         -> CGRect
-AppKit:
-		   convert         (_:NSFont                          )  -> NSFont
-
-			convertPointFromBacking:
-
-		   convert        (              to: UnitType)							UnitType conforms to Dimension
-
-https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
-- convertPointToBase:
-- convertSizeToBase:
-- convertSizeFromBase:
-- convertRectToBase:
-- convertRectFromBase:
-
- */
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
@@ -274,6 +220,14 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		let rootScn 			= rootVew!.rootScn
 		rootScn.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
 		rootScn.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+	}
+	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
+	//	selfiePole.zoom			= zoom4fullScreen()
+		let transform			= selfiePole.transform
+		guard let cameraScn else {fatalError("RootScn.cameraScn in nil")}
+		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
+//bug;	print("\(self.pp(.classUid))")	// This is BAD
+		cameraScn.transform	= transform
 	}
 }
 
@@ -357,6 +311,50 @@ extension RootScn {		// lights and camera
 	window            v			 			   c = center of image
 	 coords:          |
 			 ====== SCREEN ========================= SCREEN		[x, y]
+ */
+/*
+			View.convert(_:NSPoint, from:NSView?)
+- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
+
+
+
+Vew.swift:
+           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
+		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
+SceneKit:
+		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
+	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
+NSView:
+		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
+SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
+		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
+	       convert         (_:NSRect,        from:NSView?)       -> NSRect
+Quartzcore Calayer: UIView:
+		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
+		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
+		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
+SpriteKit:
+		   convertPoint    (fromView:CGPoint)			         -> CGPoint
+		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
+UIView:
+		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
+		   convert         (_:CGRect,      from:UIView?)         -> CGRect
+AppKit:
+		   convert         (_:NSFont                          )  -> NSFont
+
+			convertPointFromBacking:
+
+		   convert        (              to: UnitType)							UnitType conforms to Dimension
+
+https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
+- convertPointToBase:
+- convertSizeToBase:
+- convertSizeFromBase:
+- convertRectToBase:
+- convertRectFromBase:
+
  */
 	func touchCameraScn() -> SCNNode {
 		let name				= "*-camera"
@@ -482,11 +480,11 @@ extension RootScn {		// lights and camera
 		}
 	}
 	//
-	func cameraTransform(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
-	//	selfiePole.zoom			= zoom4fullScreen()
-		let transform			= selfiePole.transform
-		return transform
-	}
+//	func commitCameraMotion(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
+//	//	selfiePole.zoom			= zoom4fullScreen()
+//		let transform			= selfiePole.transform
+//		return transform
+//	}
 	/// Compute Camera Transform from pole config
 	/// - Parameters:
 	///   - from: defines direction of camera
@@ -634,10 +632,10 @@ extension RootScn {		// lights and camera
 		selfiePole.at			= worldPosition
 
 		 // Do one, just for good luck
-		cameraScn?.transform	= cameraTransform(reason:"to createVewNScn")
+//bug;	commitCameraMotion(reason:"to createVewNScn")
 //		updatePole2Camera(reason:"to createVewNScn")
 
-		// 7. UNLOCK PartTree and VewTree:
+		// 7. RELEASE LOCKS for PartTree and VewTree:
 		rootVew.unlock(	 vewTreeAs:lockName)
 		rootPart.unlock(partTreeAs:lockName)	//xyzzy99
 	}

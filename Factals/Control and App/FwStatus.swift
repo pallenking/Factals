@@ -253,10 +253,10 @@ extension Simulator : FwStatus	{									///Simulator
 
 extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
-		guard let fwGuts		= fwGuts else {	return "no fwGuts!" 			}
+//		guard let fwGuts		= fwGuts else {	return "no fwGuts!" 			}
+//		let rootVew				= fwGuts.rootVews[keyIndex]
 		guard let keyIndex		= self.keyIndex
 			else {		bug;			return "Oops 2087"						}
-//		let rootVew				= fwGuts.rootVews[keyIndex]
 
 		let myLine				= ppLine()
 		let myName				= "RootVew \(keyIndex)    "
@@ -273,13 +273,15 @@ extension RootScn : FwStatus	{										    ///RootScn
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
-		myLine					+= scnScene.pp(.classUid)
+		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
+		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
+//		myLine					+= scnScene.pp(.classUid)
 		myLine					+= " animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.selfiePole.ppFwState()
-				rv				+=  self.scnScene.ppFwState()
+				var rv			=  self.scnScene.ppFwState()
+				rv				+= self.selfiePole.ppFwState()
 				rv				+= self.fwView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
 				return rv
 			},

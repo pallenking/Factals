@@ -364,10 +364,11 @@ class FwGuts : NSObject, ObservableObject {
 		rootVew  .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart .unlock(partTreeAs:"toggelOpen")
 
-//		cam.transform 			= rootScn.cameraTransform(reason:"Other mouseDown")
+//		cam.transform 			= rootScn.commitCameraMotion(reason:"Other mouseDown")
 	//	let rScn				= rootVew.scn
 		let rootScn				= rootVew.rootScn
-bug;	rootScn.cameraScn?.transform = rootScn.cameraTransform(reason:"toggelOpen")
+bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
+//bug;	rootScn.cameraScn?.transform = rootScn.commitCameraMotion(reason:"toggelOpen")
 		rootScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart.pp(.tree)))
