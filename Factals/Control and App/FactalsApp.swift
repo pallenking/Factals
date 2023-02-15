@@ -18,7 +18,6 @@
 
 // // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 //var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
-var zeroIndex = 0								// Used 37 times
 
 // 20220926PAK: Occasionally (e.g. pp) can't get here. use global
 let params4aux : FwConfig 	=	[:]//params4all_

@@ -39,7 +39,6 @@ var  rootVew2  : RootVew {
 	get 		{	return DOCfwGuts.rootVews[2]								}
 	set (v)		{		   DOCfwGuts.rootVews[2] = v							}
 }
-
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
@@ -58,7 +57,14 @@ var  rootScn0 : SCNNode  		{
 	get 		{	return DOCfwGuts.rootVews[0].scn 							}
 	set (v)		{		   DOCfwGuts.rootVews[0].scn = v						}
 }
-//var  rootScnL : SCNNode  		{  DOCfwGutsQ?.rootVews[zeroIndex].rootScn.rootScn ?? .null				}
+var  rootScn1 : SCNNode  		{
+	get 		{	return DOCfwGuts.rootVews[1].scn 							}
+	set (v)		{		   DOCfwGuts.rootVews[1].scn = v						}
+}
+var  rootScn2 : SCNNode  		{
+	get 		{	return DOCfwGuts.rootVews[2].scn 							}
+	set (v)		{		   DOCfwGuts.rootVews[2].scn = v						}
+}
 func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 	guard let fwGuts 			= DOCfwGutsQ else {
 		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
