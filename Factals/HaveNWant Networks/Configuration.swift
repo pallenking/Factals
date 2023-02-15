@@ -47,7 +47,6 @@ private let params4appLog		= params4logs_ + params4pp
  // MARK: - C: Pretty Print
 private let params4pp : FwConfig = [
 				// What:
-	"ppRootOfTree"		: true, 	// trees includes Root (and Trunk)
 	"ppLinks"			: false, 	// pp includes Links  //true//
 	"ppPorts"			: true, 	// pp includes Ports //false//
 	"ppScnMaterial"		: false, 	// pp of SCNNode prints materials (e.g. colors) on separate line

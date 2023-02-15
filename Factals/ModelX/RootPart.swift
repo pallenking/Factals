@@ -44,7 +44,6 @@ class RootPart : Part {
 	var partTreeOwner : String?	= nil  		// root lock Owner's name
 	var partTreeOwnerPrev:String? = nil
 	var partTreeVerbose			= true
-	var partTrunk : Part?	{	return child0									}
 
 //	// MARK: - 2.4.4 Building
 //	 // index of named items (<Class>,"wire", "WBox", "origin", "breakAtWire"

@@ -254,7 +254,7 @@ command alias ptLP1     ptLP  rootVew1
 command alias ptLP2     ptLP  rootVew2
 
 
-##---------------- 'n' is for all SCNNodes in Trunk ----------------------
+##---------------- 'n' is for all SCNNodes ----------------------
 command alias pcn      pc    rootScn0
 command alias pcn0      pc    rootScn0
 command alias pcn1      pc    rootScn1

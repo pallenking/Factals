@@ -202,7 +202,6 @@ extension RootPart : FwStatus	{									 ///RootPart
 		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
 		return ppFwStateHelper("RootPart     ", uid:self,
 			myLine:myLine + "rootPart:\(ppUid(self, showNil:true)) " +
-//			myLine:myLine + "partTrunk:\(ppUid(partTrunk, showNil:true)) " +
 					"(\(portCount()) Ports) " +
 					"\(rown) dirty:'\(dirty.pp())' " ,
 			otherLines:{ deapth in
@@ -253,12 +252,14 @@ extension Simulator : FwStatus	{									///Simulator
 
 extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
-//		guard let fwGuts		= fwGuts else {	return "no fwGuts!" 			}
-//		let rootVew				= fwGuts.rootVews[keyIndex]
-		guard let keyIndex		= self.keyIndex
-			else {		bug;			return "Oops 2087"						}
+		guard let rootVew									else {	return "Vew.rootVew == nil "}
+		guard let fwGuts 		= rootVew.fwGuts 			else {	return "Vew.rootVew?.fwGuts == nil " }
+		guard let keyIndex		= rootVew.keyIndex,
+		  keyIndex >= 0 && keyIndex < fwGuts.rootVews.count else { fatalError("Bad keyIndex")}
 
-		let myLine				= ppLine()
+		var myLine				= "LockVal:\(rootVewLock.value ?? -99) "
+		myLine					+= fwGuts.rootVews[keyIndex] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
+		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 		let myName				= "RootVew \(keyIndex)    "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,

@@ -37,7 +37,7 @@ struct ContentView: View {
 						 }
 						Text(":0")
 					}
-					ButtonBar(document:$document)//, dragonValue:dragonModel.$value)
+					ButtonBar(document:$document)	// PW BUG: Only displays 0, not 1
 				}
 				VStack {
 					HStack {
@@ -61,6 +61,7 @@ struct ContentView: View {
 							 document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 						 }
 					}
+					ButtonBar(document:$document)
 				}
 //				VStack {
 //					HStack {

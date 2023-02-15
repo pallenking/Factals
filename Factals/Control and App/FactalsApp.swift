@@ -370,8 +370,6 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
-//		return "FwGuts: scnTrunk:'\(scnRoot.name ?? "<unnamed>")',  trunkVew:'\(trunkVew?.name ?? "<unnamed>")'"
-//		return "FwGuts: scnRoot=\(scnRoot.name ?? "<unnamed>")"
 	}
 
 	 // MARK: - 17. Debugging Aids

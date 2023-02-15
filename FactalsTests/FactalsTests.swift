@@ -406,7 +406,7 @@ final class FactalsTests: XCTestCase {
 //		}
 //	}
 	let aux4PpFwTest : FwConfig = [
-		"ppRootOfTree" : true, "ppViewOptions": "UFVSPLETBIW", "ppNNameCols": 8,
+		"ppViewOptions": "UFVSPLETBIW", 					"ppNNameCols"	: 8,
 		"ppLinks"	   : true, "ppScnBBox"	  : false,		"ppNClassCols"	: 8,
 		"ppPorts"	   : true, "ppFwBBox"	  : true,		"ppNUid4Tree"	: 3,
 		"ppScnMaterial": false,"ppXYZWena"    : "XYZW",		"ppNUid4Ctl" 	: 3,

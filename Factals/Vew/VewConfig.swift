@@ -16,22 +16,19 @@ enum VewConfig : FwAny {
 	case subVewList([VewConfig])		// array of directives, to
 	case subVew(FwConfig)
 
-	func ppLine() -> String {
-		switch self {
-		case .openPath(to:let path):
-			return ".openPath(to:\(path.fullName()))"
-		case .openAllChildren(toDeapth:let deapth):
-			return ".openAllChildren(toDeapth:\(deapth))"
-		case .subVewList(let vewConfigs):			// array of directives, to
-			return ".subVewList([\(vewConfigs.count)])"
-		case .subVew(let fwConfig):
-			return ".subVew(fwConfig:[\(fwConfig.count) elts])"
-		}
-	}
 	func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 		switch mode! {//.fwClassName, .uid, .uidClass, .classUid, .name, .nameUidClass, .fullName, .fullNameUidClass,
 		case .line, .phrase, .short, .tree:
-			return ppLine()
+			switch self {
+			case .openPath(to:let path):
+				return ".openPath(to:\(path.fullName()))"
+			case .openAllChildren(toDeapth:let deapth):
+				return ".openAllChildren(toDeapth:\(deapth))"
+			case .subVewList(let vewConfigs):			// array of directives, to
+				return ".subVewList([\(vewConfigs.count)])"
+			case .subVew(let fwConfig):
+				return ".subVew(fwConfig:[\(fwConfig.count) elts])"
+			}
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
 		}
@@ -104,23 +101,4 @@ extension Part {
 //	/// Insure the Vews for the parts in config are present in self
 //	/// - Parameter config: which parts should be opened
 //	func touchVews(ofConfig config:VewConfig) {}
-}
-
-extension RootVew {
-	func ppLine() -> String {
-		guard let rootVew							else {	return "Vew.rootVew == nil "}
-		guard let fwGuts 		= rootVew.fwGuts 	else {	return "Vew.rootVew?.fwGuts == nil " }
-
-		var rv					= "rootVew:\(ppUid(rootVew, showNil:true)) "
-		rv						+= "(\(nodeCount()) Nodes) "
-		rv						+= "LockVal:\(rootVewLock.value ?? -99) "
-
-		guard let keyIndex		= rootVew.keyIndex,
-		  keyIndex >= 0 && keyIndex < fwGuts.rootVews.count else { fatalError("Bad keyIndex")}
-		rv						+= fwGuts.rootVews[keyIndex] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
-
-		rv						+=  rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
-		rv						+= "lookAtVew:\(rootScn.lookAtVew?.pp(.fullName) ?? "?")"
-		return rv
-	}
 }
