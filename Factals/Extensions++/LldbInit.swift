@@ -15,8 +15,8 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig=[:], terminator t:String=
 }
 
  // Access to current ////// Part Tree //////
-var rootPartL  : RootPart		{	return DOCfwGuts.rootPart			}
-func rootpartL(_ name:String?=nil) -> Part  {
+var LLDBrootPart : RootPart		{	return DOCfwGuts.rootPart			}
+func LLDBrootPart(_ name:String?=nil) -> Part  {
 	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
 		if name != nil {			// Search for sought Part	//maxLevel:1,
 			rv					= rv.find(name:name!, inMe2:true) ?? rv
@@ -27,15 +27,15 @@ func rootpartL(_ name:String?=nil) -> Part  {
 }
 
  /// Access to current ////// Vew Tree //////
-var  rootVew0  : RootVew {
+var  LLDBrootVew0  : RootVew {
 	get 		{	return DOCfwGuts.rootVews.count > 0 ? DOCfwGuts.rootVews[0] : .nullRoot	}
 	set (v)		{		   DOCfwGuts.rootVews[0] = v							}
 }
-var  rootVew1  : RootVew {
+var  LLDBrootVew1  : RootVew {
 	get 		{	return DOCfwGuts.rootVews[1]								}
 	set (v)		{		   DOCfwGuts.rootVews[1] = v							}
 }
-var  rootVew2  : RootVew {
+var  LLDBrootVew2  : RootVew {
 	get 		{	return DOCfwGuts.rootVews[2]								}
 	set (v)		{		   DOCfwGuts.rootVews[2] = v							}
 }

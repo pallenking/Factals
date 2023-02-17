@@ -53,9 +53,9 @@ struct FactalsDocument: FileDocument {
 		//		1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
-		//**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
+		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
-		/**/	let select		= "- Port Missing"
+		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
 
 		 //		2. Build Guts of App around RootPart
@@ -356,16 +356,13 @@ bug
 			NSSound.beep()
 			exit(0)								// exit program (hack: brute force)
 		case "b":
-			print("\n******************** 'b': ========('?' for debugger hints)")
-			panic("keyboard break to debugger")
-		case "d":
-			print("\n******************** 'd': ========('?' for debugger hints)")
-			let l1v 			= rootVewL("_l1")
-			print(l1v.scn.transform.pp(.tree))
-//			l1v.part.rotateLinkSkins(vew:l1v)
-		// //////////////////////////// //
-		// ////// Part / Vew   //////// //
-		// //////////////////////////// //
+			print("\n******************** 'b': ======== keyboard break to debugger")
+			panic("'?' for debugger hints")
+//		case "d":
+//			print("\n******************** 'd': ======== ")
+//			let l1v 			= rootVewL("_l1")
+//			print(l1v.scn.transform.pp(.tree))
+
 		 // print out parts, views
 		 // Command Syntax:
 		 // mM/lL 		normal  /  normal + links	L	 ==> Links

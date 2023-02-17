@@ -123,135 +123,135 @@ command alias ptLPs     ptLP self
 
 
 ##---------------- 'm' is for whole model
-command alias pcm       pc    rootPartL
-command alias pnm       pn    rootPartL
-command alias pnucm     pnuc  rootPartL
-command alias pfm       pf    rootPartL
-command alias pom       po   rootPartL
+command alias pcm       pc    LLDBrootPart
+command alias pnm       pn    LLDBrootPart
+command alias pnucm     pnuc  LLDBrootPart
+command alias pfm       pf    LLDBrootPart
+command alias pom       po   LLDBrootPart
 # ---- pi*m
-command alias pim       pi    rootPartL
-command alias piUm		piU   rootPartL
-command alias piCum		piCu  rootPartL
-command alias piUcm		piUc  rootPartL
-command alias piFucm	piFuc rootPartL
+command alias pim       pi    LLDBrootPart
+command alias piUm		piU   LLDBrootPart
+command alias piCum		piCu  LLDBrootPart
+command alias piUcm		piUc  LLDBrootPart
+command alias piFucm	piFuc LLDBrootPart
 # ---- p*m
-command alias ppm       pp    rootPartL
-command alias psm       ps    rootPartL
-command alias plm       pl    rootPartL
-command alias ptm       pt    rootPartL
+command alias ppm       pp    LLDBrootPart
+command alias psm       ps    LLDBrootPart
+command alias plm       pl    LLDBrootPart
+command alias ptm       pt    LLDBrootPart
 # ---- p*Lm
-command alias ppLm      ppL   rootPartL
-command alias plLm      plL   rootPartL
-command alias ptLm      ptL   rootPartL
+command alias ppLm      ppL   LLDBrootPart
+command alias plLm      plL   LLDBrootPart
+command alias ptLm      ptL   LLDBrootPart
 # ---- p*Pm
-command alias ppPm      ppP   rootPartL
-command alias plPm      plP   rootPartL
-command alias ptPm      ptP   rootPartL
+command alias ppPm      ppP   LLDBrootPart
+command alias plPm      plP   LLDBrootPart
+command alias ptPm      ptP   LLDBrootPart
 # ---- p*LPm
-command alias ppLPm     ppLP  rootPartL
-command alias plLPm     plLP  rootPartL
-command alias ptLPm     ptLP  rootPartL
+command alias ppLPm     ppLP  LLDBrootPart
+command alias plLPm     plLP  LLDBrootPart
+command alias ptLPm     ptLP  LLDBrootPart
 
 
 ##---------------- 'v' is for whole vew ----------------------
-command alias pcv      pc    rootVew0
-command alias pcv0      pc    rootVew0
-command alias pcv1      pc    rootVew1
-command alias pcv2      pc    rootVew2
-command alias pnv      pn    rootVew0
-command alias pnv0      pn    rootVew0
-command alias pnv1      pn    rootVew1
-command alias pnv2      pn    rootVew2
-command alias pnucv    pnuc  rootVew0
-command alias pnucv0    pnuc  rootVew0
-command alias pnucv1    pnuc  rootVew1
-command alias pnucv2    pnuc  rootVew2
-command alias pfv      pf    rootVew0
-command alias pfv0      pf    rootVew0
-command alias pfv1      pf    rootVew1
-command alias pfv2      pf    rootVew2
-command alias pov      po    rootVew0
-command alias pov0      po    rootVew0
-command alias pov1      po    rootVew1
-command alias pov2      po    rootVew2
+command alias pcv      pc    LLDBrootVew0
+command alias pcv0      pc    LLDBrootVew0
+command alias pcv1      pc    LLDBrootVew1
+command alias pcv2      pc    LLDBrootVew2
+command alias pnv      pn    LLDBrootVew0
+command alias pnv0      pn    LLDBrootVew0
+command alias pnv1      pn    LLDBrootVew1
+command alias pnv2      pn    LLDBrootVew2
+command alias pnucv    pnuc  LLDBrootVew0
+command alias pnucv0    pnuc  LLDBrootVew0
+command alias pnucv1    pnuc  LLDBrootVew1
+command alias pnucv2    pnuc  LLDBrootVew2
+command alias pfv      pf    LLDBrootVew0
+command alias pfv0      pf    LLDBrootVew0
+command alias pfv1      pf    LLDBrootVew1
+command alias pfv2      pf    LLDBrootVew2
+command alias pov      po    LLDBrootVew0
+command alias pov0      po    LLDBrootVew0
+command alias pov1      po    LLDBrootVew1
+command alias pov2      po    LLDBrootVew2
 # ---- pi*v
-command alias piv      pi    rootVew0
-command alias piv0      pi    rootVew0
-command alias piv1      pi    rootVew1
-command alias piv2      pi    rootVew2
-command alias piUv     piU   rootVew0
-command alias piUv0     piU   rootVew0
-command alias piUv1     piU   rootVew1
-command alias piUv2     piU   rootVew2
-command alias piCuv    piCu  rootVew0
-command alias piCuv0    piCu  rootVew0
-command alias piCuv1    piCu  rootVew1
-command alias piCuv2    piCu  rootVew2
-command alias piUcv    piUc  rootVew0
-command alias piUcv0    piUc  rootVew0
-command alias piUcv1    piUc  rootVew1
-command alias piUcv2    piUc  rootVew2
-command alias piFucv   piFuc rootVew0
-command alias piFucv0   piFuc rootVew0
-command alias piFucv1   piFuc rootVew1
-command alias piFucv2   piFuc rootVew2
+command alias piv      pi    LLDBrootVew0
+command alias piv0      pi    LLDBrootVew0
+command alias piv1      pi    LLDBrootVew1
+command alias piv2      pi    LLDBrootVew2
+command alias piUv     piU   LLDBrootVew0
+command alias piUv0     piU   LLDBrootVew0
+command alias piUv1     piU   LLDBrootVew1
+command alias piUv2     piU   LLDBrootVew2
+command alias piCuv    piCu  LLDBrootVew0
+command alias piCuv0    piCu  LLDBrootVew0
+command alias piCuv1    piCu  LLDBrootVew1
+command alias piCuv2    piCu  LLDBrootVew2
+command alias piUcv    piUc  LLDBrootVew0
+command alias piUcv0    piUc  LLDBrootVew0
+command alias piUcv1    piUc  LLDBrootVew1
+command alias piUcv2    piUc  LLDBrootVew2
+command alias piFucv   piFuc LLDBrootVew0
+command alias piFucv0   piFuc LLDBrootVew0
+command alias piFucv1   piFuc LLDBrootVew1
+command alias piFucv2   piFuc LLDBrootVew2
 
 # ---- p*v
-command alias ppv      pp    rootVew0
-command alias ppv0      pp    rootVew0
-command alias ppv1      pp    rootVew1
-command alias ppv2      pp    rootVew2
-command alias psv      ps    rootVew0
-command alias psv0      ps    rootVew0
-command alias psv1      ps    rootVew1
-command alias psv2      ps    rootVew2
-command alias plv      pl    rootVew0
-command alias plv0      pl    rootVew0
-command alias plv1      pl    rootVew1
-command alias plv2      pl    rootVew2
-command alias ptv      pt    rootVew0
-command alias ptv0      pt    rootVew0
-command alias ptv1      pt    rootVew1
-command alias ptv2      pt    rootVew2
+command alias ppv      pp    LLDBrootVew0
+command alias ppv0      pp    LLDBrootVew0
+command alias ppv1      pp    LLDBrootVew1
+command alias ppv2      pp    LLDBrootVew2
+command alias psv      ps    LLDBrootVew0
+command alias psv0      ps    LLDBrootVew0
+command alias psv1      ps    LLDBrootVew1
+command alias psv2      ps    LLDBrootVew2
+command alias plv      pl    LLDBrootVew0
+command alias plv0      pl    LLDBrootVew0
+command alias plv1      pl    LLDBrootVew1
+command alias plv2      pl    LLDBrootVew2
+command alias ptv      pt    LLDBrootVew0
+command alias ptv0      pt    LLDBrootVew0
+command alias ptv1      pt    LLDBrootVew1
+command alias ptv2      pt    LLDBrootVew2
 # ---- p*Lv
-command alias ppLv     ppL   rootVew0
-command alias ppLv0     ppL   rootVew0
-command alias ppLv1     ppL   rootVew1
-command alias ppLv2     ppL   rootVew2
-command alias plLv     plL   rootVew0
-command alias plLv0     plL   rootVew0
-command alias plLv1     plL   rootVew1
-command alias plLv2     plL   rootVew2
-command alias ptLv     ptL   rootVew0
-command alias ptLv0     ptL   rootVew0
-command alias ptLv1     ptL   rootVew1
-command alias ptLv2     ptL   rootVew2
+command alias ppLv     ppL   LLDBrootVew0
+command alias ppLv0     ppL   LLDBrootVew0
+command alias ppLv1     ppL   LLDBrootVew1
+command alias ppLv2     ppL   LLDBrootVew2
+command alias plLv     plL   LLDBrootVew0
+command alias plLv0     plL   LLDBrootVew0
+command alias plLv1     plL   LLDBrootVew1
+command alias plLv2     plL   LLDBrootVew2
+command alias ptLv     ptL   LLDBrootVew0
+command alias ptLv0     ptL   LLDBrootVew0
+command alias ptLv1     ptL   LLDBrootVew1
+command alias ptLv2     ptL   LLDBrootVew2
 # ---- p*Pv
-command alias ppPv     ppP   rootVew0
-command alias ppPv0     ppP   rootVew0
-command alias ppPv1     ppP   rootVew1
-command alias ppPv2     ppP   rootVew2
-command alias plPv     plP   rootVew0
-command alias plPv0     plP   rootVew0
-command alias plPv1     plP   rootVew1
-command alias plPv2     plP   rootVew2
-command alias ptPv     ptP   rootVew0
-command alias ptPv0     ptP   rootVew0
-command alias ptPv1     ptP   rootVew1
-command alias ptPv2     ptP   rootVew2
+command alias ppPv     ppP   LLDBrootVew0
+command alias ppPv0     ppP   LLDBrootVew0
+command alias ppPv1     ppP   LLDBrootVew1
+command alias ppPv2     ppP   LLDBrootVew2
+command alias plPv     plP   LLDBrootVew0
+command alias plPv0     plP   LLDBrootVew0
+command alias plPv1     plP   LLDBrootVew1
+command alias plPv2     plP   LLDBrootVew2
+command alias ptPv     ptP   LLDBrootVew0
+command alias ptPv0     ptP   LLDBrootVew0
+command alias ptPv1     ptP   LLDBrootVew1
+command alias ptPv2     ptP   LLDBrootVew2
 # ---- p*LPv
-command alias ppLPv    ppLP  rootVew0
-command alias ppLP0     ppLP  rootVew0
-command alias ppLP1     ppLP  rootVew1
-command alias ppLP2     ppLP  rootVew2
-command alias plLPv    plLP  rootVew0
-command alias plLP0     plLP  rootVew0
-command alias plLP1     plLP  rootVew1
-command alias plLP2     plLP  rootVew2
-command alias ptLPv    ptLP  rootVew0
-command alias ptLP0     ptLP  rootVew0
-command alias ptLP1     ptLP  rootVew1
-command alias ptLP2     ptLP  rootVew2
+command alias ppLPv    ppLP  LLDBrootVew0
+command alias ppLP0     ppLP  LLDBrootVew0
+command alias ppLP1     ppLP  LLDBrootVew1
+command alias ppLP2     ppLP  LLDBrootVew2
+command alias plLPv    plLP  LLDBrootVew0
+command alias plLP0     plLP  LLDBrootVew0
+command alias plLP1     plLP  LLDBrootVew1
+command alias plLP2     plLP  LLDBrootVew2
+command alias ptLPv    ptLP  LLDBrootVew0
+command alias ptLP0     ptLP  LLDBrootVew0
+command alias ptLP1     ptLP  LLDBrootVew1
+command alias ptLP2     ptLP  LLDBrootVew2
 
 
 ##---------------- 'n' is for all SCNNodes ----------------------
@@ -420,6 +420,6 @@ command alias lldbinitFactalWorkbench command source ~/DocLocal/HaveNWant/Factal
 # :H: Character 2:   -c -:classF;  -n -:name,           -f--:fullName, -i--:.id,aaaaaaa
 # :H: Character 2.5: --L-:ppLinks; --P-:ppParameters
 # :H: Character 3:   -- s:self;    ---m:root_Experiment ---v:root Vew  --n-:root SCNNode
-## use rootpart("<name>") and rootvew("<name>") to find a part in tree
+## use LLDBrootPart("<name>") and LLDBrootVew("<name>") to find a part in tree
 ## pFwcState, pFwcConfig fwHelp("C")
 

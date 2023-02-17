@@ -176,12 +176,12 @@ struct InspecAtom : View {												 // Atom
 			Spacer()
 			if atom.ports.count > 0 {
 				Text("Ports:")
-				Picker("", selection:Binding<String>(	get:{ "" }, set:{		// Always out of range
-					let port	= atom.ports[$0]!
-					let newVew	= rootVew0.find(part:port, inMe2:true) ?? vew
-					if var fwDocument = atom.root?.fwGuts.document {
-						fwDocument.showInspecFor(vew:newVew, allowNew:false)
-					} 
+				Picker("", selection:Binding<String>(	get:{ "" }, set:{_ in 		// Always out of range
+bug				//	let port	= atom.ports[$0]!
+				//	let newVew	= rootVew0.find(part:port, inMe2:true) ?? vew
+				//	if var fwDocument = atom.root?.fwGuts.document {
+				//		fwDocument.showInspecFor(vew:newVew, allowNew:false)
+				//	}
 				} )) {
 					ForEach(Array(atom.ports.keys.enumerated()), id:\.element) { _, key in
 						Text(key)

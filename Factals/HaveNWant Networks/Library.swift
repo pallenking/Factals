@@ -102,8 +102,8 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 	}
 
 	static func library(fromSelector s:String?) -> Library? {
-		guard let s 			= s else { 	return nil	/* no selector, no lib*/ }
-		var rv : Library?		= nil				// search value for desired string
+		guard let s 			= s else { return nil } // no selector, no lib
+		var rv : Library?		= nil					// search value for desired string
 		let args				= ScanArgs(selectionString:s, wantOnlyIndex:false)
 
 		 // 1. look in all libraries

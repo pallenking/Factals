@@ -141,9 +141,10 @@
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
 		9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
-		9FA1E4B92939AFF10012E02F /* ButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* ButtonBar.swift */; };
+		9F9AC6A4299C7C6000CDEB08 /* PartBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* PartBar.swift */; };
+		9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FAA4A0428524C40009332C9 /* HasChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA4A0328524C40009332C9 /* HasChildren.swift */; };
-		9FBD6E4729258E2500F14075 /* ButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* ButtonBar.swift */; };
+		9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FC1F1C0293418E60025E80D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BE293418E60025E80D /* Helper.swift */; };
 		9FC1F1C1293418E60025E80D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BE293418E60025E80D /* Helper.swift */; };
 		9FC1F1C2293418E60025E80D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BF293418E60025E80D /* Menu.swift */; };
@@ -252,8 +253,9 @@
 		9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
+		9F9AC6A3299C7C6000CDEB08 /* PartBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasChildren.swift; sourceTree = "<group>"; };
-		9FBD6E4629258E2500F14075 /* ButtonBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBar.swift; sourceTree = "<group>"; };
+		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
 		9FC1F1BE293418E60025E80D /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = idine/Helper.swift; sourceTree = SOURCE_ROOT; };
 		9FC1F1BF293418E60025E80D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = idine/Menu.swift; sourceTree = SOURCE_ROOT; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
@@ -395,7 +397,8 @@
 				9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */,
-				9FBD6E4629258E2500F14075 /* ButtonBar.swift */,
+				9FBD6E4629258E2500F14075 /* VewBar.swift */,
+				9F9AC6A3299C7C6000CDEB08 /* PartBar.swift */,
 				9FC1F1BE293418E60025E80D /* Helper.swift */,
 				9FC1F1BF293418E60025E80D /* Menu.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
@@ -671,7 +674,7 @@
 				9F417F3128EB94680047B359 /* VewConfig.swift in Sources */,
 				9F417F2828EB94410047B359 /* Share.swift in Sources */,
 				9F417F2528EB94350047B359 /* CommonAtoms.swift in Sources */,
-				9FA1E4B92939AFF10012E02F /* ButtonBar.swift in Sources */,
+				9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */,
 				9F417F4928EB94FD0047B359 /* Self++.swift in Sources */,
 				9F417F1A28EB94100047B359 /* DiscreteTime.swift in Sources */,
 				9F417F2928EB94450047B359 /* MultiPort.swift in Sources */,
@@ -758,6 +761,7 @@
 				9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */,
 				9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
+				9F9AC6A4299C7C6000CDEB08 /* PartBar.swift in Sources */,
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F5AE2D0298C3C4B00EF6B20 /* RootScn.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
@@ -772,7 +776,7 @@
 				9FEE521728720A2300C8C22A /* FwGuts.swift in Sources */,
 				9FC1F1C0293418E60025E80D /* Helper.swift in Sources */,
 				9F96952F288B3B2800106DBC /* Net.swift in Sources */,
-				9FBD6E4729258E2500F14075 /* ButtonBar.swift in Sources */,
+				9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,
 				9F0295D82880926D00DD0004 /* Self++.swift in Sources */,
 				9F19011128808F070078DB6C /* Port.swift in Sources */,
