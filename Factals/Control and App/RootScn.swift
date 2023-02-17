@@ -665,7 +665,7 @@ extension RootScn : SCNSceneRendererDelegate {
 //			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
 			let rVew			= self.rootVew!
 			rVew .lockBoth("didApplyAnimationsAtTime")
-			rVew .part.computeLinkForces(vew:rVew)
+//			rVew .part.computeLinkForces(vew:rVew)
 			rVew .unlockBoth("didApplyAnimationsAtTime")
 		}
 	}
@@ -674,7 +674,7 @@ extension RootScn : SCNSceneRendererDelegate {
 //			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
 			let rVew			= self.rootVew!
 			rVew.lockBoth("didSimulatePhysicsAtTime")
-			rVew.part.applyLinkForces(vew:rVew)
+//			rVew.part.applyLinkForces(vew:rVew)
 			rVew.unlockBoth("didSimulatePhysicsAtTime")
 		}
 	}

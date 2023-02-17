@@ -303,7 +303,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
 			return rv
 		}
-		fatalError("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' FAILED")
+		fatalError("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.pp(.fullName))' HAS NO PARENT")
 	}
 	func localPositionX(of position:SCNVector3, inSubVew vew:Vew) -> SCNVector3 {
 //		atRsi(6, log("localPosition(of:\(position.pp(.line)), inSubVew:'\(vew.parent!.pp(.fullName))')"))
@@ -549,8 +549,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 				  // Update Vew tree objects from Part tree
 				 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/			pRoot.reVew(vew:vRoot, parentVew:nil)
-				pRoot.reVewPost(vew:vRoot)
 			}
+			pRoot.reVewPost(vew:vRoot)
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
@@ -573,8 +573,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 /**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
-			pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
-			pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
+//			pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
+//			pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
 			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
 		}
 		let unlockName			= named == nil ? nil :	// no lock wanted
