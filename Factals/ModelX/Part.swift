@@ -40,10 +40,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		get {								//return parent?.root ?? self as? RootPart
 			parent?.root ??					// RECURSIVELY up the parent tree
 			self as? RootPart ??			// top should be RootPart
-			{	fatalError("Mall-formed tree: nil parent should be RootPart")	} ()
+			nil
+//			{	fatalError("Mall-formed tree: nil parent should be RootPart")	} ()
 		}
 		set(v) {
-			fatalError("root.set(v)")
+			fatalError("root.set(v) not supported")
 		}
 	}
 
