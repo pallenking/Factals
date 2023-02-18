@@ -47,7 +47,8 @@ struct FactalsDocument: FileDocument {
 
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document
-		fwGuts					= FwGuts()
+		fwGuts					= FwGuts()		//po type(of: fwGuts)
+
 		DOC						= self		// INSTALL self:Factals as current DOC
 																 // The problem with this is that this is before the controller is built!
 																//		config					= params4all

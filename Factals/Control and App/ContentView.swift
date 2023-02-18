@@ -13,6 +13,8 @@ struct ContentView: View {
 	@Binding	var document	: FactalsDocument	// the Document
 	@State		var fooSlot0	= 0
 	@State		var fooSlot1 	= 1
+	@State		var rootVewReady0 = false
+	@State		var rootVewReady1 = false
 
 	var body: some View {	// bodyAll
 		VStack {
@@ -35,11 +37,12 @@ struct ContentView: View {
 						 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 						 .border(.black, width:2)
 						 .onAppear() {
-							 document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+							rootVewReady0 = true
 						 }
-//						let rootVew			= fwGuts.rootVews[sceneKitArgs.keyIndex]
-//						VewBar(rootVew:$rootVew)	// PW1: I don't understand the correct thing to pass in
-						VewBar(document: $document, keyIndex:$fooSlot0)
+						if rootVewReady0, document.fwGuts.rootVews.count-1 >= sceneKitArgs.keyIndex {
+							VewBar(rootVew: $document.fwGuts.rootVews[sceneKitArgs.keyIndex])	// PW1: I don't understand the correct thing to pass in
+						}
 					}
 					VStack {
 						 //  --- H a v e N W a n t  1  ---
@@ -59,8 +62,11 @@ struct ContentView: View {
 						 .border(.black, width:2)
 						 .onAppear() {
 							 document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-						 }
-						VewBar(document: $document, keyIndex:$fooSlot1)
+							rootVewReady1 = true
+						}
+						if rootVewReady1, document.fwGuts.rootVews.count-1 >= sceneKitArgs.keyIndex {
+							VewBar(rootVew: $document.fwGuts.rootVews[sceneKitArgs.keyIndex])	// PW1: I don't understand the correct thing to pass in
+						}
 					}
 				}
 				else {
