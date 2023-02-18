@@ -383,7 +383,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func touchAxesScn() -> SCNNode {			// was updatePole()
-		let name				= "*-pole"
+		let name				= "*-axis"
 		 //
 		if let rv 				= scn.find(name:name) {
 			return rv

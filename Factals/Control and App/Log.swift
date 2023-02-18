@@ -140,7 +140,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
-	init(title:String, _ config:FwConfig)	{			//_ config:FwConfig=[:]
+	init(title:String, _ config:FwConfig=[:])	{			//_ config:FwConfig=[:]
 		//super.init()
 		pushControllersConfig(to:config)
 
@@ -280,7 +280,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 	func ppLogFromString() -> String {				// " Acon4 "
 		var rv					= " "
 		rv						+= ppCurThread 	// Thread identifier: e.g: "A"
-		rv 						+= msgFilter ?? "?_?"	 			//e.g: "con"
+		rv 						+= msgFilter ?? "?_?"	 			//e.g: "app"
 		let mp : Int?			= msgPriority	// avoids concurrency problem!!!
 		rv						+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
 		rv						= rv.field(-9, dots:false, grow:true)

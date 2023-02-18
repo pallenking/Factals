@@ -13,7 +13,7 @@ import Foundation
 		// 4 : lite							// 9 : Everything
 
 //	The following areas <A> are defined:
-		// con	-- CONtrollers		- construction of controllers
+		// app	-- APPlication		- construction of app
 //______// men	-- MENues 			- construction of menus
 		// doc	-- DOCument			- construction of document
 		// ser	-- SERilization		- serialization and desrialization of Part
@@ -30,10 +30,10 @@ import Foundation
 
 //	E.g: the following will print "construction message" if DOClog.verbosity
 //	calls for >=3 verbosity messages:
-//			atCon(3, Log(<construction message>))
+//			atApp(3, Log(<construction message>))
 
  // Functions called by logee, sugar to shorten commonly used cliche.
-func atCon(_ pri:Int, _ act:@autoclosure()->Void) { return at("con",pri,act())	}
+func atApp(_ pri:Int, _ act:@autoclosure()->Void) { return at("app",pri,act())	}
 func atDoc(_ pri:Int, _ act:@autoclosure()->Void) { return at("doc",pri,act())	}
 func atBld(_ pri:Int, _ act:@autoclosure()->Void) { return at("bld",pri,act())	}
 func atSer(_ pri:Int, _ act:@autoclosure()->Void) { return at("ser",pri,act())	}
@@ -51,12 +51,12 @@ func atAny(_ pri:Int, _ act:@autoclosure()->Void) { return at("all",pri,act())	}
   /// Functions called by loggee, long form
  /// if a message closure shows an importance over in any category
 /// Categories should roughly
-func at(con:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
+func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 		ani:Int?=nil, dat:Int?=nil, eve:Int?=nil, ins:Int?=nil,
 		men:Int?=nil, rve:Int?=nil, rnd:Int?=nil, tst:Int?=nil, all:Int?=nil,
 		_ action:@autoclosure() -> Void)
 	{
-	if 		con != nil {		at("con", con!, action()) 						}
+	if 		app != nil {		at("app", app!, action()) 						}
 	else if doc != nil {		at("doc", doc!, action()) 						}
 	else if bld != nil {		at("bld", bld!, action()) 						}
 	else if ser != nil {		at("ser", ser!, action()) 						}
@@ -79,7 +79,7 @@ func at(con:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 ///   - action: = an automatically generated closure which does a (log) operation
 func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Location supplied
 	assert(verbos >= 0 && verbos < 10, "Message priorities must be in range 0...9")
-	if let log					= DOCfwGutsQ?.log,
+	if let log					= DOCfwGutsQ?.log ?? APPQ?.log,
 	   let verbosity			= log.verbosity
 	{	if trueF 								|| // DEBUGGING ALL messages
 		  (verbosity[area]  ?? -1) >= verbos	|| // verbosity[area]  high enough	OR

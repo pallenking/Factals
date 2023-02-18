@@ -62,7 +62,7 @@ class FwView : SCNView {
 //	override init(frame:CGRect, options:[String : Any]? = nil) {
 //
 //		super.init(frame:frame, options:options) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-//		atCon(6, logd("initXXX:        FwView/\(ppUid(self)):()"))		// <\(pp(.uidClass))>
+//		atApp(6, logd("initXXX:        FwView/\(ppUid(self)):()"))		// <\(pp(.uidClass))>
 //
 ////		showsStatistics 		= true			// doesn't work here
 ////		isPlaying/*animations*/	= true			// works here?

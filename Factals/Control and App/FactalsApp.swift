@@ -37,6 +37,7 @@ var fooBar:Int = 42
 
 ////	Application Singletons:
 var APP				: FactalsApp!		// NEVER CHANGES (after inz)
+var APPQ			: FactalsApp?	 {	APP 	}
 
 // * * *
 var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
@@ -97,8 +98,9 @@ struct FactalsApp: App, Uid, FwAny {
 
 	}
 	 // MARK: - 2. Object Variables:
-	var log	: Log			=	{
-		return Log(title:"App's Log", params4all)							}()
+	var log	: Log			=	Log(title:"App's Log")
+
+//		return Log(title:"App's Log", params4all)							}()
 
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 	var regressScene : Int = 0	//private?	// number of the next "^r" regression test
@@ -128,13 +130,13 @@ struct FactalsApp: App, Uid, FwAny {
 	init () {
 		APP 					= self				// Register  (HOAKEY)
 		let _					= Log.help		// create here, ahead of action
-		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
+		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with defaults:
 		let c					= config + params4all
 		pushControllersConfig(to:c)
 		
-		atCon(3, {
+		atApp(3, {
 			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
 						  "verbosity:[\(log.ppVerbosityOf(c).pp(.short))])")
 
@@ -144,10 +146,10 @@ struct FactalsApp: App, Uid, FwAny {
 			print("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
 			print("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 		}() )
-		atCon(1,
+		atApp(1,
 			print("\(appStartTime):🚘🚘   Factals \(majorVersion).\(minorVersion) (\(nameVersion))  🚘🚘 ----------------ττττ")
 		)
-		atCon(3, {
+		atApp(3, {
 			print("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 			print("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n")
 			printFwcState()
@@ -159,7 +161,7 @@ struct FactalsApp: App, Uid, FwAny {
 	// MARK: 4.1 APP Launching
 	var appSounds				= Sounds()
 	mutating func applicationWillFinishLaunching(_ notification:Notification) {
-		atCon(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
+		atApp(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
 
 		 // Load Sounds
 		appSounds.load(name:"aTest",		path:"BadName.wav")		// BAD, but no error
@@ -170,7 +172,7 @@ struct FactalsApp: App, Uid, FwAny {
 		appSounds.load(name:"tock0",		path:"Tock_SB.wav")
 
 		 // Update Menues:
-		atCon(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
+		atApp(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
 		buildSceneMenus()
 
 		 // but self is struct!
@@ -277,8 +279,8 @@ bug;	let rv					= NSMenu(title:path)
 
 		 // Log program usage instances
 		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
-		atCon(7, printFwcState())
-//.		atCon(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
+		atApp(7, printFwcState())
+//.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
 		appSounds.play(sound:"GameStarting")
 	}
 

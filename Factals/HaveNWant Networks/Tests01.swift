@@ -873,7 +873,7 @@ r("+ Show Link skin types", eSim + selfiePole(h:0,s:-48,u:-10,z:0.815) + velX(-9
 	Broadcast([n:"a", share:["x,l:2,t:invisible"], jog+X:"0.5 0 0",f:1]), // no line
  	Mirror(   [n:"x", "gain":0, "offset":1, f:1]),
 ]]) })
-xr("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 	MaxOr(	[n:"m", share:["a,l:0", "b,l:0.4", "c,l:0"],  f:1]),
 	Hamming([n:"a", share:["y,l:0.4", "x,l:0"],  f:1]),
  	Hamming([n:"b", share:["y,l:0"], f:1]),		// no line
@@ -884,8 +884,9 @@ xr("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLin
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	r("- link broken", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+	xr("- link broken", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 		Hamming([n:"c", f:1]),	//, share:["z"]
+ 		Mirror( [X+P:"c", f:1]),	// X+
  		Mirror( [X+P:"c", f:1]),	// X+
 	]]) })
 

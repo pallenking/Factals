@@ -497,7 +497,7 @@ bug	// Never USED?
 
 		 // Get ends of link, and set positions
 		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {
-			atRsi(8, logd("<><> L 9.5.4: \\set xform from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line))"))
+//			atRsi(8, logd("<><> L 9.5.4: \\set xform from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line))"))
 
 			 // Compute :H: LENgth between ENDS
 			let lenEndsV		= sEndVip - pEndVip

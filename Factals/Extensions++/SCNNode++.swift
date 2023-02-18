@@ -388,7 +388,7 @@ extension SCNNode /*: HasChildren */ {
 			 /// 6. LAST print lower Parts, some are Ports
 			for child in children {
 				guard child.name != nil else {  fatalError("scn with nil name")  }
-				rv				+= child.name! == "*-pole"
+				rv				+= child.name! == "*-axis"
 								?  child.pp(.line)+" (TRUNCATED)\n"
 								:  child.pp(.tree)
 			}

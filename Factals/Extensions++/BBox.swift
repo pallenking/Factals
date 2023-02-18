@@ -5,7 +5,7 @@ import SceneKit
    // BBox is used during Placement,
   // shadows SCN.boundingBox, but with includes only placed views
 
-// PW11:  shouldn't this be public static? (but it can't)
+// PW2:  shouldn't this be public static? (but it can't)
 func ==(aBox:BBox, bBox:BBox) -> Bool {
 	return aBox.min == bBox.min && aBox.max == bBox.max
 }

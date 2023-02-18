@@ -499,8 +499,8 @@ let x = pp(.tree)
 			let val0		= partTreeLock.value ?? -99
 			let msg			= "\(u_name) RELEASED Part LOCK v:\(val0)"
 			!debugOutterLock || !logIf 			  ? nop		// less verbose
-			 : partTreeOwnerPrev != "renderScene" ? atCon(4, logd(" \\\\######\(msg)"))
-			 :				     partTreeVerbose  ? atCon(4, logd(" \\\\######\(msg)"))
+			 : partTreeOwnerPrev != "renderScene" ? atApp(4, logd(" \\\\######\(msg)"))
+			 :				     partTreeVerbose  ? atApp(4, logd(" \\\\######\(msg)"))
 			 :	 		    					    nop
 		}())
 	}

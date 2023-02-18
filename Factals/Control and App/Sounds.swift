@@ -43,7 +43,7 @@ class Sounds : Logd {		// Removed NSObject
 bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 		//	source.rate 		= 1
 			source.load()				// load audio data into soundSource
-			atCon(6, logd("SUCCEEDED loading name:\(name.field(-20)) path:\"\(path)\""))
+			atApp(6, logd("SUCCEEDED loading name:\(name.field(-20)) path:\"\(path)\""))
 		}
 		else {
 			panic("FAILED loading sound \(name.field(-20)) \"\(path)\"")

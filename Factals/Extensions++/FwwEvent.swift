@@ -17,24 +17,23 @@ extension Simulator			: ProcessNsEvent {}
 
 
 
-extension NSEvent {
-		// Determine the RootVew referenced by this event.
-		//  PW5: How to find RootVew of event
-	func rootVew() -> RootVew? {
-		let fwGuts 				= DOCfwGuts
-		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
-
-			 // Find rootVew whose base fwView is a descendant of nsViewOfEv
-			for rootVew in fwGuts.rootVews {
-				if let fwView	= rootVew.rootScn.fwView,//rootScn.fwView,
-				  fwView.isDescendant(of:nsViewOfEv) {
-					return rootVew
-				}
-			}
-		}
-		return nil
-	}
-}
+//extension NSEvent {
+//		// Determine the RootVew referenced by this event.
+//	func rootVew() -> RootVew? {
+//		let fwGuts 				= DOCfwGuts
+//		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
+//
+//			 // Find rootVew whose base fwView is a descendant of nsViewOfEv
+//			for rootVew in fwGuts.rootVews {
+//				if let fwView	= rootVew.rootScn.fwView,//rootScn.fwView,
+//				  fwView.isDescendant(of:nsViewOfEv) {
+//					return rootVew
+//				}
+//			}
+//		}
+//		return nil
+//	}
+//}
 		//	print("--- nsEvent.window?.contentView?.subviews[i]: \(view) ")
 		//	for subv in view.subviews {
 		//		print("-------- subv: \(subv) ")

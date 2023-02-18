@@ -263,8 +263,10 @@ class FwGuts : NSObject, ObservableObject {
 
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
-		guard let rootVew		= nsEvent.rootVew()
-			else { print("rootVew of NSEvent is nil"); return nil 				}
+		guard let rootVew		= inVew.rootVew else { return nil				}
+//		 // Find rootVew of NSEvent
+//		guard let rootVew		= nsEvent.rootVew()
+//			else { print("rootVew of NSEvent is nil"); return nil 				}
 		let rScn				= rootVew.scn
 
 		 // Find the 3D Vew for the Part under the mouse:
