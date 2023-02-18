@@ -24,7 +24,7 @@ struct SceneView1: NSViewRepresentable {
 		let rootScn	: RootScn	= RootScn(args:args)
 
 		 // Make a new RootVew:
-		let rootVew				= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
+		let rootVew				= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
 		rootVew.keyIndex		= args.keyIndex
 		rootVew.fwGuts			= fwGuts
 

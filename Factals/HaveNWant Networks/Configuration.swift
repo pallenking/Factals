@@ -40,8 +40,8 @@ private let params4app : FwConfig = [
    // MARK: - B: Parameters App logging
   // Controls logging of the Application
  // Terms in FilterLog.swift
-let appLogN						= 8//0/5/8/
-let docLogN						= 8//0/5/8/
+let appLogN						= 0//0/5/8/
+let docLogN						= 0//0/5/8/
 private let params4appLog		= params4logs_ + params4pp
 								+ log(doc:appLogN, bld:appLogN, ser:appLogN)
  // MARK: - C: Pretty Print
@@ -70,8 +70,8 @@ private let params4pp : FwConfig = [
 	"ppIndentCols"		: 14,//12/12/8// columns allowed for printout for indentation
 	"ppNNameCols"		: 8,		// columns printout for names
 	"ppNClassCols"		: 8,		// columns printout for names
-	"ppNUid4Tree"		: 3,  //0/3/4/ hex digits of UID identifier for parts 0...4
-	"ppNUid4Ctl" 		: 3,  //0//3//4// hex digits of UID identifier for controllers //0
+	"ppNUid4Tree"		: 4,  //0/3/4/ hex digits of UID identifier for parts 0...4
+	"ppNUid4Ctl" 		: 4,  //0//3//4// hex digits of UID identifier for controllers //0
 	"ppNCols4VewPosns"	: 20,		// columns printout for position  //20/18/15/14/./
 	"ppNCols4ScnPosn"	: 40,		// columns printout for SCN position  //25/20/18/14/./
 				// Floating Point Accuracy:
@@ -95,9 +95,9 @@ private let params4docLog		= params4logs_ + params4pp
 		"debugOutterLock"	: false,	//true//false// Helpful logging, quite noisy
 			 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-		"breakAtLogger"			: 3,
+		"breakAtLogger"			: 2,
 								// + +  + +
-		"breakAtEvent"			: -33,//240/3/0:off
+		"breakAtEvent"			: 1,//240/3/0:off
 
 	]
 

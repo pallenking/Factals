@@ -47,6 +47,8 @@ struct FactalsDocument: FileDocument {
 
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document
+		fwGuts					= FwGuts()
+		DOC						= self		// INSTALL self:Factals as current DOC
 																 // The problem with this is that this is before the controller is built!
 																//		config					= params4all
 																//		setController(configconfig)
@@ -57,12 +59,13 @@ struct FactalsDocument: FileDocument {
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
+		fwGuts.rootPart			= rootPart
 
 		 //		2. Build Guts of App around RootPart
-		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart
+//		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart
 		fwGuts.document 		= self		// fwGuts   delegate
 		rootPart.fwGuts			= fwGuts	// rootPart delegate
-		DOC						= self		// INSTALL self:Factals as current DOC
+//		DOC						= self		// INSTALL self:Factals as current DOC
 
 		 //		3. Update Configurations
 		config					+= rootPart.ansConfig
@@ -114,9 +117,9 @@ struct FactalsDocument: FileDocument {
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-			guard let dat		= fwGuts.rootPart.data else {
+			guard let dat		= fwGuts.rootPart?.data else {
 				panic("FactalsDocument.fwGuts.rootPart.data is nil")
-				let d			= fwGuts.rootPart.data		// debug
+				let d			= fwGuts.rootPart?.data		// debug
 				throw DocError.text("FactalsDocument.fwGuts.rootPart.data is nil")
 			}
 			return .init(regularFileWithContents:dat)
@@ -211,7 +214,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		}
 	}
 	mutating func showInspec(for name:String) {
-		if let part	= fwGuts.rootPart.find(name:name) {
+		if let part	= fwGuts.rootPart?.find(name:name) {
 
 			for rootVew in fwGuts.rootVews {
 		 		if let vew = rootVew.find(part:part) {

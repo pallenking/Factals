@@ -75,7 +75,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		let rootScn	: RootScn	= RootScn(args:args)
 
 		 // Make a new RootVew:
-		let rootVew				= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
+		let rootVew				= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
 		rootVew.fwGuts			= fwGuts	// owner link
 		rootVew.keyIndex		= fwGuts.rootVews.count		// [0...]
 		fwGuts.rootVews.append(rootVew)

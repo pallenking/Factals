@@ -8,7 +8,7 @@ class FwGuts : NSObject, ObservableObject {
 
 	  // MARK: - 2. Object Variables:
 	@Published var redo:UInt8	= 0
-	@Published var rootPart :  RootPart													//{	rootVew.part as! RootPart}
+	@Published var rootPart :  RootPart?													//{	rootVew.part as! RootPart}
 								
 	var rootVews : [RootVew]	= []
 //	var rootVews : [Int:RootVew] = [:]
@@ -23,23 +23,20 @@ class FwGuts : NSObject, ObservableObject {
 	}
 
 	func pushControllersConfig(to c:FwConfig) { // *****
-		rootPart       .pushControllersConfig(to:c)
+		rootPart?.pushControllersConfig(to:c)
 		for rootVew in rootVews {
 			rootVew.pushControllersConfig(to:c)
 		}
 	}
 	 // MARK: - 3. Factory
-	convenience override init() {
-		self.init(rootPart:RootPart())
-	}
-	init(rootPart r:RootPart) {
+	init(rootPart r:RootPart?=nil) {
 		rootPart				= r
-		log					= Log(title:"FwGut's Log", params4all)
-
+		log						= Log(title:"FwGut's Log", params4all)
+							
 		super.init()
 
-		log("Created \(self.pp(.classUid))")
-		rootPart.fwGuts			= self 		 // owner (Back Link)
+		atBld(5, log("Created \(self.pp(.classUid))"))
+		rootPart?.fwGuts		= self 		 // owner (Back Link)
 		 // Make FwGuts without any RootVews!
 	}
 
@@ -77,7 +74,7 @@ class FwGuts : NSObject, ObservableObject {
 
 //!		makeInspectors()
 				// Start Up Simulation:
-		rootPart.simulator.simBuilt = false//true		// maybe before config4log, so loading simEnable works
+		rootPart!.simulator.simBuilt = false//true		// maybe before config4log, so loading simEnable works
 	}
 	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
@@ -190,20 +187,20 @@ class FwGuts : NSObject, ObservableObject {
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			rootPart.forAllParts({	$0.markTree(dirty:.vew)			})
+			rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
 //			for rootVew in rootVews {
 			for rootVew in rootVews {
 				rootVew.updateVewSizePaint()
 			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			rootPart.forAllParts({	$0.markTree(dirty:.size)		})
+			rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
 			for rootVew in rootVews {
 				rootVew.updateVewSizePaint()
 			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			rootPart.forAllParts({	$0.markTree(dirty:.paint)		})
+			rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
 			for rootVew in rootVews {
 				rootVew.updateVewSizePaint()
 			}
@@ -211,7 +208,7 @@ class FwGuts : NSObject, ObservableObject {
 			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwGuts: --> rootPart")
-			if rootPart.processEvent(nsEvent:nsEvent, inVew:vew) {
+			if rootPart!.processEvent(nsEvent:nsEvent, inVew:vew) {
 				print("ERROR: fwGuts.Process('x') failed")
 			}
 			return true								// recognize both
@@ -253,8 +250,8 @@ class FwGuts : NSObject, ObservableObject {
 	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
-	func modelPic(with nsEvent:NSEvent, inVew:Vew) -> Vew? {
-		if let picdVew			= findVew(nsEvent:nsEvent) {
+	func modelPic(with nsEvent:NSEvent, inVew vew:Vew) -> Vew? {
+		if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {
 			 // DISPATCH to PART that was pic'ed
 			if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
 				return picdVew
@@ -264,7 +261,7 @@ class FwGuts : NSObject, ObservableObject {
 		return nil
 	}
 
-	func findVew(nsEvent:NSEvent) -> Vew? {
+	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
 		guard let rootVew		= nsEvent.rootVew()
 			else { print("rootVew of NSEvent is nil"); return nil 				}
@@ -350,7 +347,7 @@ class FwGuts : NSObject, ObservableObject {
 		let part				= vew.part
 
 		 // ========= Get Locks for two resources, in order: =============
-		guard rootPart.lock(partTreeAs:"toggelOpen") else {
+		guard rootPart!.lock(partTreeAs:"toggelOpen") else {
 			fatalError("toggelOpen couldn't get PART lock")	}		// or
 		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get Vew lock") }
 
@@ -362,7 +359,7 @@ class FwGuts : NSObject, ObservableObject {
 
 		// ===== Release Locks for two resources, in reverse order: =========
 		rootVew  .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-		rootPart .unlock(partTreeAs:"toggelOpen")
+		rootPart?.unlock(partTreeAs:"toggelOpen")
 
 //		cam.transform 			= rootScn.commitCameraMotion(reason:"Other mouseDown")
 	//	let rScn				= rootVew.scn
@@ -371,7 +368,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 //bug;	rootScn.cameraScn?.transform = rootScn.commitCameraMotion(reason:"toggelOpen")
 		rootScn.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
-		atAni(4, part.logd(rootPart.pp(.tree)))
+		atAni(4, part.logd(rootPart!.pp(.tree)))
 
 		if document.config.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 
@@ -450,7 +447,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
-			var rv				=  rootPart.pp(.classUid) + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
+			var rv				=  (rootPart?.pp(.classUid) ?? "rootPart=nil") + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
 			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
 			if let document {rv	+= document.pp(.classUid)					}
 			return rv

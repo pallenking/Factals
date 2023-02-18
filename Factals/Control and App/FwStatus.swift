@@ -186,7 +186,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 			otherLines:{deapth in
 				 // Controller:
 				var rv			= ""
-				rv				+= self.rootPart.ppFwState()
+				rv				+= self.rootPart?.ppFwState() ?? "rootPart=nil "
 				for rootVew in self.rootVews {
 					rv			+= rootVew.ppFwState(deapth:deapth-1)
 				}

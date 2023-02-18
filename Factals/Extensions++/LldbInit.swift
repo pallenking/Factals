@@ -15,7 +15,7 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig=[:], terminator t:String=
 }
 
  // Access to current ////// Part Tree //////
-var LLDBrootPart : RootPart		{	return DOCfwGuts.rootPart			}
+var LLDBrootPart : RootPart		{	return DOCfwGutsQ?.rootPart ?? fatalError("DOCfwGutsQ?.rootPart=nil ") as! RootPart }
 func LLDBrootPart(_ name:String?=nil) -> Part  {
 	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
 		if name != nil {			// Search for sought Part	//maxLevel:1,

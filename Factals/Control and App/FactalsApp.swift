@@ -17,7 +17,7 @@
 	//				FW's subclass strips NS. e.g: DocumentController
 
 // // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
-//var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
 // 20220926PAK: Occasionally (e.g. pp) can't get here. use global
 let params4aux : FwConfig 	=	[:]//params4all_
@@ -128,12 +128,11 @@ struct FactalsApp: App, Uid, FwAny {
 	init () {
 		APP 					= self				// Register  (HOAKEY)
 		let _					= Log.help		// create here, ahead of action
+		atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with defaults:
 		let c					= config + params4all
 		pushControllersConfig(to:c)
-		
-		//atCon(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 		
 		atCon(3, {
 			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
@@ -345,7 +344,7 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		rootScn.scnScene.isPaused = true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
-		let newRootVew			= RootVew(forPart:fwGuts.rootPart, rootScn:rootScn)
+		let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
 		newRootVew.keyIndex		= fwGuts.rootVews.count - 1
 
 		fwGuts.rootVews[newRootVew.keyIndex!] = newRootVew									//		fwGuts.rootVews.append(newRootVew)
