@@ -173,7 +173,7 @@ class Simulator : NSObject, Codable {		// NEVER NSCopying, Equatable
 	   /// - Parameter from: -- NSEvent to process
 	  ///  - Parameter vew:         -- The Vew to use
 	 ///   - Returns: Key was recognized
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
 			return false
 		}

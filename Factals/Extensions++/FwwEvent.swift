@@ -2,7 +2,7 @@
 import SceneKit
 
 protocol ProcessNsEvent {
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool
 }
 
 // extension TimingChain	: ProcessNsEvent {}		// Redundant

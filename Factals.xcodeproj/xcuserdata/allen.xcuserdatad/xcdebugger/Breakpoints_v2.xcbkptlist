@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "257"
             endingLineNumber = "257"
-            landmarkName = "modelPic(with:)"
+            landmarkName = "modelPic(with:inVew:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -548,11 +548,11 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "10A1F322-C718-4684-BE29-6A243B88A42F - 79a5bde75f2411eb"
+                  uuid = "10A1F322-C718-4684-BE29-6A243B88A42F - 5c93d4eaffae5460"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Factals.FwGuts.processEvent(nsEvent: __C.NSEvent, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Bool"
+                  symbolName = "Factals.FwGuts.processEvent(nsEvent: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Bool"
                   moduleName = "Factals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
@@ -563,11 +563,11 @@
                   offsetFromSymbolStart = "17088">
                </Location>
                <Location
-                  uuid = "10A1F322-C718-4684-BE29-6A243B88A42F - 79a5bde75f2411eb"
+                  uuid = "10A1F322-C718-4684-BE29-6A243B88A42F - 5c93d4eaffae5460"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Factals.FwGuts.processEvent(nsEvent: __C.NSEvent, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Bool"
+                  symbolName = "Factals.FwGuts.processEvent(nsEvent: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Bool"
                   moduleName = "Factals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
@@ -578,11 +578,11 @@
                   offsetFromSymbolStart = "17520">
                </Location>
                <Location
-                  uuid = "10A1F322-C718-4684-BE29-6A243B88A42F - 303c25eeb8cb4af0"
+                  uuid = "10A1F322-C718-4684-BE29-6A243B88A42F - 9ca9584459e500b2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; __C.SCNScene in implicit closure #2 () throws -&gt; __C.SCNScene in Factals.FwGuts.processEvent(nsEvent: __C.NSEvent, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Bool"
+                  symbolName = "closure #1 () -&gt; __C.SCNScene in implicit closure #2 () throws -&gt; __C.SCNScene in Factals.FwGuts.processEvent(nsEvent: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Bool"
                   moduleName = "Factals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"

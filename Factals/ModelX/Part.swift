@@ -1356,15 +1356,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
     /// - Parameter from: ---- NSEvent to process
     /// - Parameter vew: ---- The 3D scene Vew to use
 	/// - Returns: Key was recognized
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		var rv					= false
 		if nsEvent.type == .keyUp || nsEvent.type == .keyDown {
 			let kind			= nsEvent.type == .keyUp ? ".keyUp" : ".keyDown"
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			if var doc			= root?.fwGuts?.document, 	// take struct out
-			  let vew {
+			if var doc			= root?.fwGuts?.document { 	// take struct out
 
 				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
 												+ "\(pp(.fwClassName))\n\(pp(.tree))")

@@ -211,7 +211,7 @@ struct FactalsApp: App, Uid, FwAny {
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")
-		fwHelp("?")
+bug//		fwHelp("?")
 	}
 	 // MARK: - 4.4 FwGuts Menu
 	// BUILD SCENE MENUS ////////////////////////////////

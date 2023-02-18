@@ -81,7 +81,7 @@ class RootScn : NSObject {		// was  : SCNScene
 	var mouseWasDragged			= false		// have dragging cancel pic
 	let nsTrackPad				= trueF//falseF//
 
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
 		guard let rootVew 		= rootVew else { print("processEvent.rootVew[..] is nil"); return false}
 		let keyIndex			= rootVew.keyIndex ?? -1
@@ -99,14 +99,14 @@ class RootScn : NSObject {		// was  : SCNScene
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(keyIndex): multiple keystrokes not supported")
 
-			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil) == false,
+			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:vew) == false,
 			  char != "?" {		// okay for "?" to get here
 				atEve(3, print("Slot\(keyIndex):   ==== nsEvent not processed\n\(nsEvent)"))
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			nextIsAutoRepeat 	= false
-			let _				= fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:nil)
+			let _				= fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		  //  ====== LEFT MOUSE ======
 		 //

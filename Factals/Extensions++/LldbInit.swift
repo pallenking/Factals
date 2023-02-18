@@ -84,11 +84,11 @@ func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 }
 
  // Print SwiftFactal help from lldb
-func fwHelp(_ key:String="?") {
-	sendApp(key:key)
+func fwHelp(_ key:String="?", inVew vew:Vew) {
+	sendApp(key:key, inVew:vew)
 }
  // Send a key to controller:
-func sendApp(key:String="?") {
+func sendApp(key:String="?", inVew vew:Vew) {
 	if let doc				= DOC,
 	   let ginnedUpEvent	= NSEvent.keyEvent(
 			with			: .keyDown, //NSEvent.EventType(rawValue: 10)!,//keyDown,
@@ -102,7 +102,7 @@ func sendApp(key:String="?") {
 			isARepeat		: false,
 			keyCode			: 0)
 	{
-		let _			 	= doc.processEvent(nsEvent:ginnedUpEvent, inVew:nil)
+		let _			 	= doc.processEvent(nsEvent:ginnedUpEvent, inVew:vew)
 	}
 	else {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")

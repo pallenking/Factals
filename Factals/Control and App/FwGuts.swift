@@ -141,7 +141,7 @@ class FwGuts : NSObject, ObservableObject {
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use
 	/// - Returns: Key was recognized
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
  		let character			= nsEvent.charactersIgnoringModifiers!.first!
 		if nsEvent.type == .keyUp {			// ///// Key UP ////// //
 			return false
@@ -211,7 +211,7 @@ class FwGuts : NSObject, ObservableObject {
 			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
 		case "x":
 			print("\n******************** 'x':   === FwGuts: --> rootPart")
-			if rootPart.processEvent(nsEvent:nsEvent, inVew:vew!) {
+			if rootPart.processEvent(nsEvent:nsEvent, inVew:vew) {
 				print("ERROR: fwGuts.Process('x') failed")
 			}
 			return true								// recognize both
