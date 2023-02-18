@@ -18,9 +18,11 @@ extension Simulator			: ProcessNsEvent {}
 
 
 extension NSEvent {
-	func rootVew() -> RootVew? {				// PW: doesn't work
+		// Determine the RootVew referenced by this event.
+		//  PW5: How to find RootVew of event
+	func rootVew() -> RootVew? {
 		let fwGuts 				= DOCfwGuts
-		if let nsViewOfEv 		= window?.contentView {
+		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 
 			 // Find rootVew whose base fwView is a descendant of nsViewOfEv
 			for rootVew in fwGuts.rootVews {

@@ -42,7 +42,8 @@ final class EventReceiverView: NSView {				// OUTSKI: --> FwView
 	}
 	override var acceptsFirstResponder: Bool { true 							}
 
-//	func processEvent(nsEvent:NSEvent) {}	// WANTED: override ALL first responder messages, PW10 E better way?
+// WANTED: override ALL first responder messages, PW10 One sub to handle these 35 lines?
+//	func processEvent(nsEvent:NSEvent) {}
 								//.onAppear(perform: {
 								//	NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 								//		print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")

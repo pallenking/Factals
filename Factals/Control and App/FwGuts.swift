@@ -253,7 +253,7 @@ class FwGuts : NSObject, ObservableObject {
 	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
-	func modelPic(with nsEvent:NSEvent) -> Vew? {
+	func modelPic(with nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		if let picdVew			= findVew(nsEvent:nsEvent) {
 			 // DISPATCH to PART that was pic'ed
 			if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {

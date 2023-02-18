@@ -244,7 +244,9 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			}
 		}
 
-		// PW3 restructure with WindowGroup?
+		// PW4: How do I access MainMenu from inside SwiftUI
+		// PW3: What is the right way to display vewsInspec? as popup?, window?, WindowGroup?...
+		// restructure with
 		if window == nil {								// must make NEW
 			let hostCtlr		= NSHostingController(rootView:vewsInspec)		// hostCtlr.view.frame	= NSRect()
 			 // Create Inspector Window (Note: NOT SwiftUI !!)

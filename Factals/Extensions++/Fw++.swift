@@ -426,7 +426,7 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 //	//			if (key == "f" || key == "flip") {
 //	//				if let v0		= valLhs as? Bool,
 //	//				   let v1		= valRhs as? Bool {
-//	//					rv[key]		= v0 ^^ v1			// PW: Compile ERROR
+//	//					rv[key]		= v0 ^^ v1			// PWxxx: Compile ERROR
 //	//				} else {
 //	//					panic("Dictionary keys \"f\" or \"flip\" with non-Boolean Value")
 //	//					rv[key] 	= valRhs

@@ -113,7 +113,7 @@ class RootScn : NSObject {		// was  : SCNScene
 		case .leftMouseDown:
 			beginCameraMotion(with:nsEvent)
 			if !nsTrackPad  {					// 3-button Mouse
-				let vew			= fwGuts?.modelPic(with:nsEvent)
+				let vew			= fwGuts?.modelPic(with:nsEvent, inVew:vew)
 			}//
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
@@ -127,7 +127,7 @@ class RootScn : NSObject {		// was  : SCNScene
 			if nsTrackPad  {					// Trackpad
 				beginCameraMotion(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
-					if let vew	= fwGuts?.modelPic(with:nsEvent) {
+					if let vew	= fwGuts?.modelPic(with:nsEvent, inVew:vew) {
 						lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}

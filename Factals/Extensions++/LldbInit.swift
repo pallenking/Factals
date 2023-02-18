@@ -32,11 +32,11 @@ var  LLDBrootVew0  : RootVew {
 	set (v)		{		   DOCfwGuts.rootVews[0] = v							}
 }
 var  LLDBrootVew1  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[1]								}
+	get 		{	return DOCfwGuts.rootVews.count > 1 ? DOCfwGuts.rootVews[1] : .nullRoot									}
 	set (v)		{		   DOCfwGuts.rootVews[1] = v							}
 }
 var  LLDBrootVew2  : RootVew {
-	get 		{	return DOCfwGuts.rootVews[2]								}
+	get 		{	return DOCfwGuts.rootVews.count > 2 ? DOCfwGuts.rootVews[2] : .nullRoot									}
 	set (v)		{		   DOCfwGuts.rootVews[2] = v							}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
