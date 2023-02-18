@@ -11,10 +11,10 @@ extension SCNCameraController : ObservableObject {	}
 
 struct ContentView: View {
 	@Binding	var document	: FactalsDocument	// the Document
-	@State		var fooSlot0	= 0
-	@State		var fooSlot1 	= 1
-	@State		var rootVewReady0 = false
-	@State		var rootVewReady1 = false
+//	@State		var fooSlot0	= 0
+//	@State		var fooSlot1 	= 1
+//	@State		var rootVewReady0 = false
+//	@State		var rootVewReady1 = false
 
 	var body: some View {	// bodyAll
 		VStack {
@@ -38,9 +38,8 @@ struct ContentView: View {
 						 .border(.black, width:2)
 						 .onAppear() {
 							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-							rootVewReady0 = true
 						 }
-						if rootVewReady0, document.fwGuts.rootVews.count-1 >= sceneKitArgs.keyIndex {
+						if document.fwGuts.sceneIndexReady.contains(sceneKitArgs.keyIndex) {
 							VewBar(rootVew: $document.fwGuts.rootVews[sceneKitArgs.keyIndex])	// PW1: I don't understand the correct thing to pass in
 						}
 					}
@@ -61,10 +60,9 @@ struct ContentView: View {
 						 .frame(maxWidth: .infinity)
 						 .border(.black, width:2)
 						 .onAppear() {
-							 document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-							rootVewReady1 = true
-						}
-						if rootVewReady1, document.fwGuts.rootVews.count-1 >= sceneKitArgs.keyIndex {
+							document.fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+						 }
+						if document.fwGuts.sceneIndexReady.contains(sceneKitArgs.keyIndex) {
 							VewBar(rootVew: $document.fwGuts.rootVews[sceneKitArgs.keyIndex])	// PW1: I don't understand the correct thing to pass in
 						}
 					}

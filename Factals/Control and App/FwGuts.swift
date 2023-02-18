@@ -9,7 +9,8 @@ class FwGuts : NSObject, ObservableObject {
 	  // MARK: - 2. Object Variables:
 	@Published var redo:UInt8	= 0
 	@Published var rootPart :  RootPart?													//{	rootVew.part as! RootPart}
-								
+	@Published var sceneIndexReady : [Int] = []
+		
 	var rootVews : [RootVew]	= []
 //	var rootVews : [Int:RootVew] = [:]
 
@@ -42,6 +43,8 @@ class FwGuts : NSObject, ObservableObject {
 
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
 		let keyIndex			= sceneKitArgs.keyIndex
+		sceneIndexReady.append(keyIndex)
+
 		guard keyIndex >= 0 && keyIndex < rootVews.count else {	fatalError("")	}
 		atRnd(4, DOClog.log("=== Slot \(keyIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
 
