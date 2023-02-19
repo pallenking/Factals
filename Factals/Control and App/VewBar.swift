@@ -10,17 +10,16 @@ import SwiftUI
 struct VewBar: View {
 //	@Binding var document			: FactalsDocument	// the Document type
 //	@Binding var keyIndex			: Int
-	@Binding var rootVew : RootVew
+	@Binding var rootVews : [RootVew]
+	let keySlot  : Int
 
 	var body: some View {
-		HStack {	// view
-	//		Text("\(keyIndex):")
-//			let rootVews		= document.fwGuts.rootVews
-//			if rootVews.count <= keyIndex 	{			fatalError()			}
-//			let  rootVew			= rootVews[keyIndex]
-			let slot			= rootVew.keyIndex ?? -1
-			//	assert(slot == keyIndex, "paranoia")
-	//		if slot == keyIndex {	//paranoia
+		if keySlot < rootVews.count {
+			let rootVew				= rootVews[keySlot]
+			HStack {	// view
+				let keyIndex		= rootVew.keyIndex ?? -1
+				Text("\(keyIndex):")
+				let slot			= rootVew.keyIndex ?? -1
 				Button(label:{	Text(   "ptv")									})
 				{	print("===== Vew of Slot \(slot): =====")
 					lldbPrint(rootVew, mode:.tree, terminator:"")
@@ -29,18 +28,27 @@ struct VewBar: View {
 				{	print("===== SCNNodes of Slot \(slot): =====")
 					lldbPrint(rootVew.scn, mode:.tree, terminator:"")
 				}
-				Text("pole:\(     rootVew.rootScn.selfiePole.pp())")
-				Text("cameraScn:\(rootVew.rootScn.cameraScn?.pp(.uidClass) ?? "nil") ")
+				let rootScn 		= rootVew.rootScn
+				Text("pole:\(rootScn.pp(.uid))=\(rootScn.selfiePole.pp())")
+				Text("cameraScn:\(rootScn.cameraScn?.pp(.uid) ?? "nil") ")
 //				Text("camera:\(rootVew.rootScn.cameraScn?.transform.pp(.line) ?? "nil") ")
-	//		} else {
-	//			Text("slot!=keyIndex INCONSISTENCY / paranoia")
-	//		}
+			}
+	//		 .background(Color.white)//white)//yellow NSColor("verylightgray")!
+	//		 .background(NSColor("verylightgray")!) //white)//yellow
+			 .padding(8)
+	//		 .RoundedRectangle
+			 .border(Color.black, width:0.5)
+			 .padding(8)
+		} else {
+			HStack {	// view
+				Text("rootVew=nil")
+			}
+	//		 .background(Color.white)//white)//yellow NSColor("verylightgray")!
+	//		 .background(NSColor("verylightgray")!) //white)//yellow
+			 .padding(8)
+	//		 .RoundedRectangle
+			 .border(Color.black, width:0.5)
+			 .padding(8)
 		}
-	//	 .background(Color.white)//white)//yellow NSColor("verylightgray")!
-	//	 .background(NSColor("verylightgray")!) //white)//yellow
-		 .padding(8)
-	//	 .RoundedRectangle
-		 .border(Color.black, width:0.5)
-		 .padding(8)
 	}
 }

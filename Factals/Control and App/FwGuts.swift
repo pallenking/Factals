@@ -9,15 +9,12 @@ class FwGuts : NSObject, ObservableObject {
 	  // MARK: - 2. Object Variables:
 	@Published var redo:UInt8	= 0
 	@Published var rootPart :  RootPart?													//{	rootVew.part as! RootPart}
-	@Published var sceneIndexReady : [Int] = []
-		
+								
 	var rootVews : [RootVew]	= []
-//	var rootVews : [Int:RootVew] = [:]
+//	@Published var sceneIndexReady : [Int] = []
 
 	var document 	 : FactalsDocument!
-									//	{	get		{	return docPrivate!											}
-									//		set(v)	{	docPrivate = v												}
-									//	};var docPrivate : FactalsDocument? = nil
+
 	var log 		 : Log
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
@@ -43,7 +40,7 @@ class FwGuts : NSObject, ObservableObject {
 
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
 		let keyIndex			= sceneKitArgs.keyIndex
-		sceneIndexReady.append(keyIndex)
+//		sceneIndexReady.append(keyIndex)
 
 		guard keyIndex >= 0 && keyIndex < rootVews.count else {	fatalError("")	}
 		atRnd(4, DOClog.log("=== Slot \(keyIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
@@ -190,21 +187,20 @@ class FwGuts : NSObject, ObservableObject {
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
-//			for rootVew in rootVews {
 			for rootVew in rootVews {
+				rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
 				rootVew.updateVewSizePaint()
 			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
 			for rootVew in rootVews {
+				rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
 				rootVew.updateVewSizePaint()
 			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
 			for rootVew in rootVews {
+				rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
 				rootVew.updateVewSizePaint()
 			}
 		case "w":

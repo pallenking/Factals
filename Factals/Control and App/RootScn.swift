@@ -594,7 +594,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		rootPart.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
 
 		 // 2. Update Vew and Scn Tree
-/**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// rootPart -> rootView, rootScn
+/**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
 
 		 // 3. Add Lights, Camera and SelfiePole
 		lightsScn				= touchLightScns()			// was updateLights
@@ -661,22 +661,22 @@ extension RootScn : SCNSceneRendererDelegate {
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-			let rVew			= self.rootVew!
-			rVew .lockBoth("didApplyAnimationsAtTime")
-//			rVew .part.computeLinkForces(vew:rVew)
-			rVew .unlockBoth("didApplyAnimationsAtTime")
-		}
+	//	DispatchQueue.main.async {
+//	//		atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+	//		let rVew			= self.rootVew!
+	//		rVew .lockBoth("didApplyAnimationsAtTime")
+//	//		rVew .part.computeLinkForces(vew:rVew)
+	//		rVew .unlockBoth("didApplyAnimationsAtTime")
+	//	}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-			let rVew			= self.rootVew!
-			rVew.lockBoth("didSimulatePhysicsAtTime")
-//			rVew.part.applyLinkForces(vew:rVew)
-			rVew.unlockBoth("didSimulatePhysicsAtTime")
-		}
+	//	DispatchQueue.main.async {
+//	//		atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+	//		let rVew			= self.rootVew!
+	//		rVew.lockBoth("didSimulatePhysicsAtTime")
+//	//		rVew.part.applyLinkForces(vew:rVew)
+	//		rVew.unlockBoth("didSimulatePhysicsAtTime")
+	//	}
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
@@ -688,13 +688,16 @@ extension RootScn : SCNSceneRendererDelegate {
 		}
 	}
 	   // ODD Timing:
-	func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+//	func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
 //		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
-	}
-	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
+//	}
+//	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
 //		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
+//	}
+	 // MARK: - 15. PrettyPrint
+	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+		return scn.pp(mode, aux)
 	}
-
 }
 // currently unused
 extension RootScn : SCNPhysicsContactDelegate {
