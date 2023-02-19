@@ -320,7 +320,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "571"
             endingLineNumber = "571"
-            landmarkName = "createVewNScn(keyIndex:vewConfig:)"
+            landmarkName = "createVewNScn(slot:vewConfig:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1211,7 +1211,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "592"
             endingLineNumber = "592"
-            landmarkName = "createVewNScn(keyIndex:vewConfig:)"
+            landmarkName = "createVewNScn(slot:vewConfig:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

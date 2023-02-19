@@ -27,7 +27,7 @@ struct FwGutsView: View {
 				VStack {
 					 //  --- H a v e N W a n t  0  ---
 					let sceneKitArgs	= SceneKitArgs(
-						keyIndex	: 0,
+						slot	: 0,
 						title		: "0: Big main view",
 						rootPart	: fwGuts.rootPart,
 						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
@@ -37,7 +37,7 @@ struct FwGutsView: View {
 						preferredFramesPerSecond:30
 					//	handler		: { nsEvent in print("0: Big main view's handler") }
 					)
-					VewBar(rootVews: $fwGuts.rootVews,  keySlot: sceneKitArgs.keyIndex)	// PW1: I don't understand the correct thing to pass in
+					VewBar(rootVews: $fwGuts.rootVews,  keySlot: sceneKitArgs.slot)	// PW1: I don't understand the correct thing to pass in
 					SceneKitView(sceneKitArgs:sceneKitArgs)
 					 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 					 .border(.black, width:2)
@@ -49,7 +49,7 @@ struct FwGutsView: View {
 				VStack {
 					 //  --- H a v e N W a n t  1  ---
 					let sceneKitArgs	= SceneKitArgs(
-						keyIndex	: 1,
+						slot	: 1,
 						title		: "1: Second smaller view",
 						rootPart	: fwGuts.rootPart,
 						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig2,//.null,
@@ -59,7 +59,7 @@ struct FwGutsView: View {
 						preferredFramesPerSecond:30
 					//	handler		: { nsEvent in print("1: Second smaller view's handler") }
 					)
-					VewBar(rootVews: $fwGuts.rootVews,  keySlot: sceneKitArgs.keyIndex)	// PW1: I don't understand the correct thing to pass in
+					VewBar(rootVews: $fwGuts.rootVews,  keySlot: sceneKitArgs.slot)	// PW1: I don't understand the correct thing to pass in
 					SceneKitView(sceneKitArgs:sceneKitArgs)
 					 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 					 .border(.black, width:2)

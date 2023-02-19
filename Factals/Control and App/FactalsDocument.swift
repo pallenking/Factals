@@ -262,7 +262,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 				// Title window
 		window.title			= vew.part.fullName
-		window.subtitle			= "Slot\(vew.rootVew?.keyIndex ?? -1)"
+		window.subtitle			= "Slot\(vew.rootVew?.slot ?? -1)"
 
 				// Position on screen: Quite AD HOC!!
 		window.orderFront(self)				// Doesn't work -- not front when done!

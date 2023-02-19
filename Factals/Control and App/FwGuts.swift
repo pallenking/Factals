@@ -37,15 +37,15 @@ class FwGuts : NSObject, ObservableObject {
 	}
 
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
-		let keyIndex			= sceneKitArgs.keyIndex
+		let slot				= sceneKitArgs.slot
 
-		guard keyIndex >= 0 && keyIndex < rootVews.count else {	fatalError("")	}
-		atRnd(4, DOClog.log("=== Slot \(keyIndex): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
+		guard slot >= 0 && slot < rootVews.count else {	fatalError("")	}
+		atRnd(4, DOClog.log("=== Slot\(slot): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
 
-		 // Access rootVews for sceneKitArgs.keyIndex:
-		let rootVew				= rootVews[keyIndex]
+		 // Access rootVews for sceneKitArgs.slot:
+		let rootVew				= rootVews[slot]
 		let rootScn				= rootVew.rootScn
-		rootScn.createVewNScn(keyIndex:keyIndex, vewConfig:sceneKitArgs.vewConfig)
+		rootScn.createVewNScn(slot:slot, vewConfig:sceneKitArgs.vewConfig)
 
 		 // Configure baseView
 		guard let baseFwView	= rootScn.fwView else { fatalError("rootScn.fwView == nil") }
@@ -295,7 +295,7 @@ class FwGuts : NSObject, ObservableObject {
 		 // SELECT HIT; prefer any child to its parents:
 		var rv : Vew			= rootVew			// default Vew
 		var msg					= "******************************************\n" +
-								  "Slot\(rootVew.keyIndex ?? -1): find "
+								  "Slot\(rootVew.slot ?? -1): find "
 		var pickedScn			= rootVew.scn 		// default SCNNode
 		if hits.count > 0 {
 			 // There is a HIT on a 3D object:

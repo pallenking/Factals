@@ -17,37 +17,37 @@ struct VewBar: View {
 		if keySlot < rootVews.count {
 			let rootVew				= rootVews[keySlot]
 			VStack {
-				let keyIndex		= rootVew.keyIndex ?? -1
+				let slot		= rootVew.slot ?? -1
 				HStack {
-					Text("Slot\(keyIndex):")
+					Text("Slot\(slot):")
 					Button(label:{	Text("ptv")									})
-					{	print("===== Vew of Slot \(keyIndex): =====")
+					{	print("===== Vew of Slot \(slot): =====")
 						lldbPrint(rootVew, mode:.tree, terminator:"")
 					}
 					Button(label:{	Text("ptn")									})
-					{	print("===== SCNNodes of Slot \(keyIndex): =====")
+					{	print("===== SCNNodes of Slot \(slot): =====")
 						lldbPrint(rootVew.scn, mode:.tree, terminator:"")
 					}
 					Text("Review:")
 					Button(label:{	Text("Views")								})
-					{	print("===== Rebuild Views of Slot\(keyIndex): =====")
+					{	print("===== Rebuild Views of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.vew)	})
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
 					Button(label:{	Text("siZes")								})
-					{	print("===== Review siZes of Slot\(keyIndex): =====")
+					{	print("===== Review siZes of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
 					Button(label:{	Text("Paint")								})
-					{	print("===== Re-Paint Slot\(keyIndex): =====")
+					{	print("===== Re-Paint Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
 					Spacer()
 				}
 				HStack {					let rootScn 		= rootVew.rootScn
-					SelfiePoleBar(selfiePole:$rootVews[keyIndex].selfiePole)
+					SelfiePoleBar(selfiePole:$rootVews[slot].selfiePole)
 					Text("pole:\(rootScn.pp(.uid))=\(rootVew.selfiePole.pp())")
 					Text("cameraScn:\(rootVew.cameraScn?.pp(.uid) ?? "nil") ")
 //					Text("camera:\(rootVew.rootScn.cameraScn?.transform.pp(.line) ?? "nil") ")

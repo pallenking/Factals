@@ -83,7 +83,7 @@ class RootScn : NSObject {		// was  : SCNScene
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
 		guard let rootVew 		= rootVew else { print("processEvent.rootVew[..] is nil"); return false}
-		let keyIndex			= rootVew.keyIndex ?? -1
+		let slot			= rootVew.slot ?? -1
 		let fwGuts				= rootVew.fwGuts		// why ! ??
 //		let rootScn				= rootVew.rootScn
 //		let cam					= rootScn.cameraScn
@@ -96,11 +96,11 @@ class RootScn : NSObject {		// was  : SCNScene
 			if nsEvent.isARepeat {	return false }		// Ignore repeats
 			nextIsAutoRepeat 	= true
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
-			assert(char.count==1, "Slot\(keyIndex): multiple keystrokes not supported")
+			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 
 			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:vew) == false,
 			  char != "?" {		// okay for "?" to get here
-				atEve(3, print("Slot\(keyIndex):   ==== nsEvent not processed\n\(nsEvent)"))
+				atEve(3, print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)"))
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
@@ -138,15 +138,15 @@ class RootScn : NSObject {		// was  : SCNScene
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			beginCameraMotion(with:nsEvent)
-			commitCameraMotion(duration:duration, reason:"Slot\(keyIndex): Other mouseDown")
+			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			spinNUp(with:nsEvent)
-			commitCameraMotion(reason:"Slot\(keyIndex): Other mouseDragged")
+			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			atEve(9, print("\( rootVew.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
-			commitCameraMotion(duration:duration, reason:"Slot\(keyIndex): Other mouseUp")
+			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
@@ -155,7 +155,7 @@ class RootScn : NSObject {		// was  : SCNScene
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootVew.selfiePole.zoom *= delta
-			print("Slot\(keyIndex): processEvent(type:  .scrollWheel  ) found pole \(rootVew.selfiePole.pp())")
+			print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole \(rootVew.selfiePole.pp())")
 			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -194,7 +194,7 @@ class RootScn : NSObject {		// was  : SCNScene
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("Slot\(keyIndex): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
+			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false
 		}
 		return true
@@ -567,7 +567,7 @@ bug;	zoom4fullScreen()
 
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
-	func createVewNScn(keyIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
+	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
 		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
 		let rootPart			= rootVew.rootPart		// fwGuts.rootPart
 
@@ -578,7 +578,7 @@ bug;	zoom4fullScreen()
 		assert(rootPart.children.count == 1,"Paranoid check: rootPart has \(rootPart.children.count) children, !=1")
 
 		 // 1. 	GET LOCKS					// PartTree
-		let lockName			= "createVew[\(keyIndex)]"
+		let lockName			= "createVew[\(slot)]"
 		guard rootPart.lock(partTreeAs:lockName) else {
 			fatalError("createVews couldn't get PART lock")		// or
 		}		          					// VewTree

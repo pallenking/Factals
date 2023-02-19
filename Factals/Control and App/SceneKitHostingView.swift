@@ -11,7 +11,7 @@ import SceneKit
 import SwiftUI
 
 struct SceneKitArgs {
-	var keyIndex		: Int				// N.B var: Unique and Ascending
+	var slot			: Int				// N.B var: Unique and Ascending
 	let title			: String
 	let rootPart		: RootPart?			// Model
 	let vewConfig		: VewConfig?
@@ -35,8 +35,8 @@ struct SceneKitView: View {
 			 // /////////
 			EventReceiver(handler: { nsEvent in
 				if let fwGuts	= sceneKitArgs.rootPart?.fwGuts,
-				  sceneKitArgs.keyIndex >= 0 && sceneKitArgs.keyIndex < fwGuts.rootVews.count {
-					let rootVew	= fwGuts.rootVews[sceneKitArgs.keyIndex]
+				  sceneKitArgs.slot >= 0 && sceneKitArgs.slot < fwGuts.rootVews.count {
+					let rootVew	= fwGuts.rootVews[sceneKitArgs.slot]
 					let _ 		= rootVew.rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew)
 				}
 			})
@@ -57,7 +57,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	 // 1. On creation, save the args for later
 	init(_ args:SceneKitArgs)	{
 		self.args				= args
-		atRnd(4, DOClog.log("=== Slot \(args.keyIndex): ========= SceneKitHostingView title:'\(args.title)'"))
+		atRnd(4, DOClog.log("=== Slot\(args.slot): ========= SceneKitHostingView title:'\(args.title)'"))
 	}
 	var args					: SceneKitArgs
 
@@ -70,14 +70,14 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 												let environment			= context.environment		// Empty
 												//let prefBridge 		= context.preferenceBridge	// no member 'preferenceBridge'
 		guard let fwGuts		= args.rootPart?.fwGuts else { fatalError("got no fwGuts!")}
-		atRnd(4, DOClog.log("=== Slot \(args.keyIndex): ========== makeNSView         title:'\(args.title)'"))
+		atRnd(4, DOClog.log("=== Slot\(args.slot): ========== makeNSView         title:'\(args.title)'"))
 
 		let rootScn	: RootScn	= RootScn(args:args)
 
 		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
 		rootVew.fwGuts			= fwGuts	// owner link
-		rootVew.keyIndex		= fwGuts.rootVews.count		// [0...]
+		rootVew.slot			= fwGuts.rootVews.count		// [0...]
 		fwGuts.rootVews.append(rootVew)
 
 		 // Get an ScnView from rootScn
@@ -94,6 +94,6 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		return fwView
 	}
 	func updateNSView(_ nsView: SCNView, context: Context) {
-		atRnd(4, DOClog.log("=== Slot \(args.keyIndex): =========== updateNSView      title:'\(args.title)' (Does nothing)"))
+		atRnd(4, DOClog.log("=== Slot\(args.slot): =========== updateNSView      title:'\(args.title)' (Does nothing)"))
 	}
 }

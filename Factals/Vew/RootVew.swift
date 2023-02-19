@@ -9,7 +9,7 @@ import SceneKit
 
 class RootVew : Vew {
 	weak var fwGuts : FwGuts!		// Owner
-	var keyIndex	: Int?		= nil			// set by caller after instantiation
+	var slot	 : Int?			= nil			// set by caller after instantiation
 
 	var rootPart : RootPart		{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
 	let rootVewLock 			= DispatchSemaphore(value:1)
@@ -32,7 +32,7 @@ class RootVew : Vew {
 	 /// generate a new View, returning its index
 	init() {
 		rootScn					= RootScn()
-		keyIndex				= -1
+		slot					= nil
 		super.init(forPart:.null, scn:.null)
 	}
 	init(forPart rp:RootPart, rootScn rs:RootScn) {
@@ -167,10 +167,10 @@ class RootVew : Vew {
 		let rv					= super.pp(mode, aux)
 
 		 // Report improper linking
-		guard let fwGuts 						else {	return rv + "fwGuts BAD"}
-		guard let keyIndex 						else {	return rv + "keyIndex IS NIL"}
-		guard keyIndex < fwGuts.rootVews.count 	else {	return rv + "keyIndex TOO BIG"}
-		guard fwGuts.rootVews[keyIndex] == self else {	return rv + "self inclorectly in rootVews"}
+		guard let fwGuts 					else {	return rv + "fwGuts BAD"	}
+		guard let slot 						else {	return rv + "slot IS NIL"	}
+		guard slot < fwGuts.rootVews.count 	else {	return rv + "slot TOO BIG"	}
+		guard fwGuts.rootVews[slot] == self else {	return rv + "self inclorectly in rootVews"}
 		return rv
 	}
 	  // MARK: - 16. Global Constants

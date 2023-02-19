@@ -242,15 +242,15 @@ extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
 		guard let rootVew									else {	return "Vew.rootVew == nil "}
 		guard let fwGuts 		= rootVew.fwGuts 			else {	return "Vew.rootVew?.fwGuts == nil " }
-		guard let keyIndex		= rootVew.keyIndex,
-		  keyIndex >= 0 && keyIndex < fwGuts.rootVews.count else { fatalError("Bad keyIndex")}
+		guard let slot		= rootVew.slot,
+		  slot >= 0 && slot < fwGuts.rootVews.count else { fatalError("Bad slot")}
 
 		var myLine				= "LockVal:\(rootVewLock.value ?? -99) "
-		myLine					+= fwGuts.rootVews[keyIndex] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
+		myLine					+= fwGuts.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
 		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		let myName				= "RootVew \(keyIndex)    "
+		let myName				= "RootVew \(slot)    "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
