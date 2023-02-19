@@ -147,36 +147,24 @@ extension FactalsDocument : FwStatus	{				  	 ///FactalsDocument
 	}
 }
 // MARK: - DOCUMENT
-extension NSDocument/*FwDocument*/ : FwStatus	{				 ///FwDocument
+extension NSDocument : FwStatus	{								   ///NSDocument
 	func ppFwState(deapth:Int=999) -> String {
 	let wcc					= windowControllers.count
-		return ppFwStateHelper("NSDocument   ", uid:self,
-			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
-			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
-			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
-			//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
-			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
-			otherLines:{ deapth in
-				var rv			= ""//  self.rootPart.ppFwState(deapth:deapth-1) // Controller:
-				 // Window Controllers
-				for windowController in self.windowControllers {
-					rv		+= windowController.ppFwState(deapth:deapth-1)
-				}
-//				 // Inspectors:
-//				if self.inspecWin4vew.count > 0 {
-//					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
-//					DOClog.nIndent += 1
-////					self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-//					for inspec in self.inspecWin4vew.keys {
-//						let win	= self.inspecWin4vew[inspec]
-//						rv		+= win?.ppFwState(deapth:0) ?? "----"
-//					}
-//					DOClog.nIndent -= 1
-//				}
-				return rv
-			},
-			deapth:deapth
-		)
+	return ppFwStateHelper("NSDocument   ", uid:self,
+		myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
+		//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
+		//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
+		//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
+		//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
+		otherLines:{ deapth in
+			var rv			= ""//  self.rootPart.ppFwState(deapth:deapth-1) // Controller:
+			 // Window Controllers
+			for windowController in self.windowControllers {
+				rv		+= windowController.ppFwState(deapth:deapth-1)
+			}
+			return rv
+		},
+		deapth:deapth)
 	}
 }
 extension FwGuts : FwStatus	{									 		///FwGuts
@@ -276,7 +264,6 @@ extension RootScn : FwStatus	{										    ///RootScn
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-//		myLine					+= scnScene.pp(.classUid)
 		myLine					+= " animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,

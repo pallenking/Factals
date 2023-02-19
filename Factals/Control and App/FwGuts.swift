@@ -321,7 +321,7 @@ class FwGuts : NSObject, ObservableObject {
 				rv				= vew
 				msg				+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
 			} else {
-				let x = rootVew.pp(.classUid)
+				if trueF { return nil }
 				panic(msg+"\n"+"couldn't find it in vew's \(rootVew.scn.pp(.classUid))")
 				if let cv		= rootVew.trunkVew,			// for debug only
 				  let vew 		= cv.find(scnNode:pickedScn, inMe2:true) {

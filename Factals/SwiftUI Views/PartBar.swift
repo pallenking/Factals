@@ -33,6 +33,8 @@ struct PartBar: View {
 			{	breakToDebugger()											}
 			Text(" ")
 		}
-		.background()
+		 .padding(6)
+		 .border(Color.black, width:0.5)
+		 .padding(8)
 	}
 }

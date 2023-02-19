@@ -34,13 +34,13 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 				switch cl {
 				case "Net":		  InspecNet(			  net:vew.part as! Net)
 
-//				case "Bulb": 	  InspecBulb(			 bulb:vew.part as! Bulb)
-//				case "Sequence":  InspecSequence(	 sequence:vew.part as! Sequence)
-//				case "KNorm": 	  InspecKNorm(		kNorm:vew.part as! KNorm)
-//				case "Multiply":  InspecMultiply(	 multiply:vew.part as! Multiply)
-//				case "Hamming":   InspecHamming(	  hamming:vew.part as! Hamming)
+				case "Bulb": 	  InspecBulb(			 bulb:vew.part as! Bulb)
+				case "Sequence":  InspecSequence(	 sequence:vew.part as! Sequence)
+				case "KNorm": 	  InspecKNorm(		kNorm:vew.part as! KNorm)
+				case "Multiply":  InspecMultiply(	 multiply:vew.part as! Multiply)
+				case "Hamming":   InspecHamming(	  hamming:vew.part as! Hamming)
 				case "Bayes":	  InspecNothing(	className:cl)
-//				case "MinAnd": 	  InspecMinAnd(		   minAnd:vew.part as! MinAnd)
+				case "MinAnd": 	  InspecMinAnd(		   minAnd:vew.part as! MinAnd)
 				case "MaxOr": 	  InspecMaxOr( 			maxOr:vew.part as! MaxOr)
 				case "Broadcast": InspecBroadcast(	broadcast:vew.part as! Broadcast)
 

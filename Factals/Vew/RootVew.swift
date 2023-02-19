@@ -27,11 +27,9 @@ class RootVew : Vew {
 		keyIndex				= -1
 		super.init(forPart:.null, scn:.null)
 	}
-	init(forPart rootPart:RootPart, rootScn f:RootScn) {
-		rootScn					= f
-
-		super.init(forPart:rootPart, scn:rootScn.scn)
-
+	init(forPart rp:RootPart, rootScn rs:RootScn) {
+		rootScn					= rs
+		super.init(forPart:rp, scn:rs.scn)
 		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
@@ -118,18 +116,12 @@ class RootVew : Vew {
 	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		let rv					= super.pp(mode, aux)
+		var rv					= super.pp(mode, aux)
+		guard let fwGuts 						else {	return rv + "fwGuts BAD"}
+		guard let keyIndex 						else {	return rv + "keyIndex IS NIL"}
+		guard keyIndex < fwGuts.rootVews.count 	else {	return rv + "keyIndex TOO BIG"}
+		guard fwGuts.rootVews[keyIndex] == self else {	return rv + "self inclorectly in rootVews"}
 		return rv
-	//	if let fwGuts {
-	//		let i				= fwGuts.rootVews.firstIndex { $0 === self		}
-	//		rv					+= !fwGuts.rootVews.contains(self)	? "" :
-	//										  ", NOT IN ROOTVEWS!"
-	//		rv					+= part !== fwGuts.rootPart			? "" :
-	//										  ", BAD ROOTVEW.PART!"
-	//	}
-	//	else {
-	//		rv					+= 			  ", FWGUTS=NIL!"
-	//	}
 	}
 	  // MARK: - 16. Global Constants
 	static let nullRoot			= RootVew()			/// Any use of this should fail

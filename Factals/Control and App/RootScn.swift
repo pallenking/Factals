@@ -696,7 +696,18 @@ extension RootScn : SCNSceneRendererDelegate {
 //	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
-		return scn.pp(mode, aux)
+		var rv					= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+		rv						+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
+		rv						+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
+		rv						+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
+		rv						+= "animatePhysics:\(animatePhysics)"
+/*	otherLines: { deapth in
+		var rv					=  self.scnScene.ppFwState()
+		rv						+= self.selfiePole.ppFwState()
+		rv						+= self.fwView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
+ */
+		return rv
+//		return scn.pp(mode, aux)
 	}
 }
 // currently unused

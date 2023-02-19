@@ -666,11 +666,6 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 	override var description	  : String 	{	return  "\"\(pp(.short))\""	}
 	override var debugDescription : String	{	return   "'\(pp(.short))'"		}
 //	override var summary		  : String	{	return   "<\(pp(.short))>"		}
-
-//	 // MARK: - 19. Inspector SwiftUI.View
-//	class var body : some View {
-//		Text("Part.body lives here")
-//	}
 }
 
 class ParameterPort : Port {

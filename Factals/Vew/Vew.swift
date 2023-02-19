@@ -499,11 +499,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let fwGuts		= part.root?.fwGuts else {	print("OOOPS 29872"); return }
+		guard let fwGuts		= part.root?.fwGuts else {	print("Paranoia 29872"); return }
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
 		let pRoot				= part.root!
-		guard let pTrunk		= pRoot.children.first else {print("OOOPS 48080"); return }
+		guard let pTrunk		= pRoot.children.first else {print("Paranoia 48080"); return }
 
 /**/	SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
@@ -517,9 +517,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						guard let fwGuts = part.root?.fwGuts else {
-							fatalError("### part.root?.fwGuts is nil ###")		}
-						 // Lock ALL root Vews:
+						guard let fwGuts = part.root?.fwGuts else {	fatalError("### part.root?.fwGuts is nil ###")		}
+
+						 // Lock  _ALL_  root Vews:
 						for rootVew in fwGuts.rootVews {
 							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
