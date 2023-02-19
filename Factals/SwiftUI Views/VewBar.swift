@@ -31,24 +31,22 @@ struct VewBar: View {
 					Button(label:{	Text("Views")								})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.vew)	})
-						rootVew.updateVewSizePaint(needsLock:"FwGuts V-key")
-					//	lldbPrint(rootVew.scn, mode:.tree, terminator:"")
+						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
 					Button(label:{	Text("siZes")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
-						rootVew.updateVewSizePaint(needsLock:"FwGuts V-key")
-					//	lldbPrint(rootVew.scn, mode:.tree, terminator:"")
+						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
-						rootVew.updateVewSizePaint(needsLock:"FwGuts V-key")
-					//	lldbPrint(rootVew.scn, mode:.tree, terminator:"")
+						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
 					Spacer()
 				}
 				HStack {					let rootScn 		= rootVew.rootScn
+//					SelfiePoleBar(selfiePole:rootScn.selfiePole)
 					Text("pole:\(rootScn.pp(.uid))=\(rootScn.selfiePole.pp())")
 					Text("cameraScn:\(rootScn.cameraScn?.pp(.uid) ?? "nil") ")
 //					Text("camera:\(rootVew.rootScn.cameraScn?.transform.pp(.line) ?? "nil") ")

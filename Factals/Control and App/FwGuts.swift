@@ -189,19 +189,19 @@ class FwGuts : NSObject, ObservableObject {
 			print("\n******************** 'V': Build the Model's Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
-				rootVew.updateVewSizePaint()
+				rootVew.updateVewSizePaint(needsLock:"FwGuts 'V'iew key")
 			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
-				rootVew.updateVewSizePaint()
+				rootVew.updateVewSizePaint(needsLock:"FwGuts si'Z'e key")
 			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
-				rootVew.updateVewSizePaint()
+				rootVew.updateVewSizePaint(needsLock:"FwGuts 'P'aint key")
 			}
 		case "w":
 			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
