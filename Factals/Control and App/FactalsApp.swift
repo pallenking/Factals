@@ -353,8 +353,6 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		newRootVew.fwGuts		= fwGuts			// Set Owner
 		
 		var doc					= FactalsDocument(fwGuts:fwGuts)
-
-
 		DOC						= doc		// register (UGLY!!!)
 		doc.pushControllersConfig(to:doc.config + rootPart.ansConfig)
 

@@ -147,12 +147,16 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	func parents(inside:Vew?=nil) -> [Vew] {
 		return parent?.selfNParents(upto:inside) ?? []
 	}
+	/// Add child Vew to self, and childs's scn to self.scn
+	/// - Parameters:
+	///   - vew: to add
+	///   - ind: index to insert before
 	func addChild(_ vew:Vew?, atIndex ind:Int?=nil) {
-		guard let vew 			= vew else {
+		guard let vew else {
 			return							// no part, nuttin to do
 		}
-		if let i = ind {					// Index specified
-			children.insert(vew, at:i)
+		if let ind {					// Index specified
+			children.insert(vew, at:ind)
 		}
 		else {								// Index nil --> append
 			children.append(vew)
@@ -500,6 +504,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let fwGuts		= part.root?.fwGuts else {	print("Paranoia 29872"); return }
+		guard let fwGuts2		= rootVew?  .fwGuts else {	print("Paranoia 23872"); return }
+		assert(fwGuts === fwGuts2, "Paranoia i5205")
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
 		let pRoot				= part.root!
@@ -525,11 +531,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
 							}
 						}
-//						for key in fwGuts.rootVews.keys {
-//							guard fwGuts.rootVews[key]!.lock(vewTreeAs:viewLockName, logIf:log) else {
-//								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
-//							}
-//						}
 						viewLockName = nil		// mark gotten
 						return true
 					}
@@ -585,6 +586,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
 		}
 	}
+
 	 // MARK: - 9.5 Wire Box
 	func updateWireBox() {
 

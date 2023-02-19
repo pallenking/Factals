@@ -47,8 +47,8 @@ struct VewBar: View {
 				}
 				HStack {					let rootScn 		= rootVew.rootScn
 //					SelfiePoleBar(selfiePole:rootScn.selfiePole)
-					Text("pole:\(rootScn.pp(.uid))=\(rootScn.selfiePole.pp())")
-					Text("cameraScn:\(rootScn.cameraScn?.pp(.uid) ?? "nil") ")
+					Text("pole:\(rootScn.pp(.uid))=\(rootVew.selfiePole.pp())")
+					Text("cameraScn:\(rootVew.cameraScn?.pp(.uid) ?? "nil") ")
 //					Text("camera:\(rootVew.rootScn.cameraScn?.transform.pp(.line) ?? "nil") ")
 					Spacer()
 				}

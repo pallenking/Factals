@@ -32,9 +32,8 @@ struct SceneView1: NSViewRepresentable {
 		let i					= args.keyIndex
 		assert(i >= 0 && i < 4, "Illegal args.keyIndex:\(i)")
 
-		 // SAVE in array:					// print(fwGuts.rootVews[0].debugDescriaption)
+		 // SAVE in array:
 		fwGuts.rootVews[i]		= rootVew
-
 
 		let view = SCNView()
 		let scene = SCNScene()

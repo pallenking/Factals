@@ -21,6 +21,14 @@ class RootVew : Vew {
 	}
 	var rootScn : RootScn
 
+	 // Lighting, etc
+	var cameraScn	: SCNNode?	= nil	// 	{ 		touchCameraScn() }//{ 	touchCameraScn()							}
+	var lightsScn	: [SCNNode]	= []
+	var axesScn		: SCNNode?	= nil
+
+	var selfiePole				= SelfiePole()
+	var lookAtVew	: Vew?		= nil						// Vew we are looking at
+
 	 /// generate a new View, returning its index
 	init() {
 		rootScn					= RootScn()
@@ -39,8 +47,48 @@ class RootVew : Vew {
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func pushControllersConfig(to c:FwConfig) {
-		rootScn		.pushControllersConfig(to:c)
+		selfiePole.pushControllersConfig(to:c)
+		rootScn	  .pushControllersConfig(to:c)
 	}
+	// MARK: -
+	func setupLightsCamerasEtc() {
+
+		 // 3. Add Lights, Camera and SelfiePole
+		lightsScn				= rootScn.touchLightScns()			// was updateLights
+		cameraScn				= rootScn.touchCameraScn()			// (had fwGuts.document.config)
+		axesScn 				= rootScn.touchAxesScn()
+
+		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
+		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
+			if let at 			= c.scnVector3("at"), !at.isNan {
+				selfiePole.at 	= at						// Pole Height
+			}
+			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
+				selfiePole.horizonUp = -CGFloat(u)				// (in degrees)
+			}
+			if let s 			= c.float("s"), !s.isNan {	// Spin
+				selfiePole.spin = CGFloat(s) 					// (in degrees)
+			}
+			if let z 			= c.float("z"), !z.isNan {	// Zoom
+				selfiePole.zoom = CGFloat(z)
+			}
+			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
+		}
+
+		 // 5.  Configure Initial Camera Target:
+		lookAtVew				= trunkVew			// default
+		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
+		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {		//xyzzy99
+			lookAtVew			= find(part:laPart)
+		}
+
+		 // 6. Set LookAtNode's position
+		let posn				= lookAtVew?.bBox.center ?? .zero
+		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
+		assert(!worldPosition.isNan, "About to use a NAN World Position")
+		selfiePole.at			= worldPosition
+	}
+
 	 // MARK: - 4? locks
 	func lockBoth(_ msg:String) {
 		guard rootPart.lock(partTreeAs:msg, logIf:false) else {fatalError(msg+" couldn't get PART lock")}
@@ -116,7 +164,9 @@ class RootVew : Vew {
 	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		var rv					= super.pp(mode, aux)
+		let rv					= super.pp(mode, aux)
+
+		 // Report improper linking
 		guard let fwGuts 						else {	return rv + "fwGuts BAD"}
 		guard let keyIndex 						else {	return rv + "keyIndex IS NIL"}
 		guard keyIndex < fwGuts.rootVews.count 	else {	return rv + "keyIndex TOO BIG"}

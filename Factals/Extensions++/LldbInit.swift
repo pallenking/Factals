@@ -53,32 +53,33 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-var  rootScn0 : SCNNode  		{
+var LLDBrootScn0 : SCNNode  		{
 	get 		{	return DOCfwGuts.rootVews[0].scn 							}
 	set (v)		{		   DOCfwGuts.rootVews[0].scn = v						}
 }
-var  rootScn1 : SCNNode  		{
+var LLDBrootScn1 : SCNNode  		{
 	get 		{	return DOCfwGuts.rootVews[1].scn 							}
 	set (v)		{		   DOCfwGuts.rootVews[1].scn = v						}
 }
-var  rootScn2 : SCNNode  		{
+var LLDBrootScn2 : SCNNode  		{
 	get 		{	return DOCfwGuts.rootVews[2].scn 							}
 	set (v)		{		   DOCfwGuts.rootVews[2].scn = v						}
 }
-func rootscnL(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
+func LLDBrootScn(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 	guard let fwGuts 			= DOCfwGutsQ else {
-		print("DOCfwGuts is nil! rootscn(\(name ?? "") is .null")
+		print("DOCfwGuts is nil! returning SCNNode.null")
 		return .null
 	}
-	guard index >= 0 && index < fwGuts.rootVews.count else { fatalError("rootscnL() returns .null !!!")	}
+	guard index >= 0 && index < fwGuts.rootVews.count else {
+		print("index:\(index) exceeds rootVews=\(fwGuts.rootVews.count)! returning SCNNode.null")
+		return .null
+	}
 	var scnRv					= fwGuts.rootVews[index].scn					//fwGuts.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {
-		scnRv					= scnRv.find(inMe2:true, all:true, firstWith: // Scn named
-		{(scn:SCNNode) -> Bool in
-			return scn.name == name
-		}) 						  ?? scnRv				// if not found
+		scnRv					= scnRv.find(inMe2:true, all:true, firstWith:
+								  { $0.name == name })  ?? scnRv
 	}
 	return scnRv
 }

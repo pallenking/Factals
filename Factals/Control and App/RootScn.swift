@@ -17,13 +17,13 @@ class RootScn : NSObject {		// was  : SCNScene
 	var scnScene	: SCNScene		// contains the rootNode
 	//var scn		: SCNNode		// in SCNScene, it's rootNode
 
-	 // Lighting, etc
-	var cameraScn	: SCNNode?	= nil	// 	{ 		touchCameraScn() }//{ 	touchCameraScn()							}
-	var lightsScn	: [SCNNode]	= []
-	var axesScn		: SCNNode?	= nil
-
-	var selfiePole				= SelfiePole()
-	var lookAtVew	: Vew?		= nil						// Vew we are looking at
+//	 // Lighting, etc
+//	var cameraScn	: SCNNode?	= nil	// 	{ 		touchCameraScn() }//{ 	touchCameraScn()							}
+//	var lightsScn	: [SCNNode]	= []
+//	var axesScn		: SCNNode?	= nil
+//
+//	var selfiePole				= SelfiePole()
+//	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	func pushControllersConfig(to c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
@@ -40,7 +40,6 @@ class RootScn : NSObject {		// was  : SCNScene
 		if let speed			= c.cgFloat("speed") {
 			scnScene.physicsWorld.speed	= speed
 		}
-		selfiePole.pushControllersConfig(to:c)
 	}
 
 	 // MARK: - 3.1 init
@@ -128,7 +127,7 @@ class RootScn : NSObject {		// was  : SCNScene
 				beginCameraMotion(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
 					if let vew	= fwGuts?.modelPic(with:nsEvent, inVew:vew) {
-						lookAtVew = vew			// found a Vew: Look at it!
+						rootVew.lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}
 				mouseWasDragged = false
@@ -146,7 +145,7 @@ class RootScn : NSObject {		// was  : SCNScene
 			commitCameraMotion(reason:"Slot\(keyIndex): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
-			atEve(9, print("\( cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			atEve(9, print("\( rootVew.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 			commitCameraMotion(duration:duration, reason:"Slot\(keyIndex): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -155,8 +154,8 @@ class RootScn : NSObject {		// was  : SCNScene
 			beginCameraMotion(with:nsEvent)
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			selfiePole.zoom 	*= delta
-			print("Slot\(keyIndex): processEvent(type:  .scrollWheel  ) found pole \(selfiePole.pp())")
+			rootVew.selfiePole.zoom *= delta
+			print("Slot\(keyIndex): processEvent(type:  .scrollWheel  ) found pole \(rootVew.selfiePole.pp())")
 			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -217,17 +216,16 @@ class RootScn : NSObject {		// was  : SCNScene
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		let rootScn 			= rootVew!.rootScn
-		rootScn.selfiePole.spin -= 		deltaPosition.x  * 0.5	// / deg2rad * 4/*fudge*/
-		rootScn.selfiePole.horizonUp -= deltaPosition.y  * 0.2	// * self.cameraZoom/10.0
+		rootVew!.selfiePole.spin      -= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+		rootVew!.selfiePole.horizonUp -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
 	//	selfiePole.zoom			= zoom4fullScreen()
-		let transform			= selfiePole.transform
-		guard let cameraScn else {fatalError("RootScn.cameraScn in nil")}
+		let transform			= rootVew!.selfiePole.transform
+		guard let cameraScn		= rootVew!.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
 //bug;	print("\(self.pp(.classUid))")	// This is BAD
-		cameraScn.transform	= transform
+		cameraScn.transform 	= transform
 	}
 }
 
@@ -493,35 +491,33 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 //		let cameraScn			= scnScene.cameraScn!
 								//
-//		let rootVew				= fwGuts.rootVewOf(rootScn:self)
-//		let rootVew				= rootVew.fwGuts.rootVewOf(rootScn:self)
 
-		zoom4fullScreen()
+bug;	zoom4fullScreen()
 //		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
+		guard let rootVew		= self.rootVew else { fatalError("rootVew is nil")}
 
-		if duration > 0.0,
-//		  rootVew?.config.bool("animatePan") ?? false {
-		  rootVew?.fwGuts?.document.config.bool("animatePan") ?? false {
+		let animate				= rootVew.fwGuts?.document.config.bool("animatePan") ?? false
+		if animate && duration > 0.0 {
 			SCNTransaction.begin()			// Delay for double click effect
-			atRve(8, rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN All"))
+			atRve(8, rootVew.fwGuts.logd("  /#######  animatePan: BEGIN All"))
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
-			cameraScn?.transform *= 0.999999	// virtually no effect
+			rootVew.cameraScn?.transform *= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
 				atRve(8, self.rootVew!.rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				self.cameraScn?.transform = self.selfiePole.transform
+				self.rootVew?.cameraScn?.transform = self.rootVew!.selfiePole.transform
 
 				atRve(8, self.rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
 			}
-			atRve(8, rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT All"))
+			atRve(8, rootVew.fwGuts.logd("  \\#######  animatePan: COMMIT All"))
 			SCNTransaction.commit()
 		}
 		else {
-			cameraScn?.transform = selfiePole.transform
+			rootVew.cameraScn?.transform = rootVew.selfiePole.transform
 		}
 	}
 		
@@ -531,7 +527,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox //BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(rootVew.cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
@@ -573,7 +569,6 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(keyIndex:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
 		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
-		guard let fwGuts		= rootVew.fwGuts else {	fatalError("RootScn.rootVew.fwGuts is nil")}
 		let rootPart			= rootVew.rootPart		// fwGuts.rootPart
 
 		 // Paranoia
@@ -595,41 +590,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 		 // 2. Update Vew and Scn Tree
 /**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-
-		 // 3. Add Lights, Camera and SelfiePole
-		lightsScn				= touchLightScns()			// was updateLights
-		cameraScn				= touchCameraScn()			// (had fwGuts.document.config)
-		axesScn 				= touchAxesScn()
-
-		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
-		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
-			if let at 			= c.scnVector3("at"), !at.isNan {
-				selfiePole.at 	= at						// Pole Height
-			}
-			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				selfiePole.horizonUp = -CGFloat(u)				// (in degrees)
-			}
-			if let s 			= c.float("s"), !s.isNan {	// Spin
-				selfiePole.spin = CGFloat(s) 					// (in degrees)
-			}
-			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				selfiePole.zoom = CGFloat(z)
-			}
-			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
-		}
-
-		 // 5.  Configure Initial Camera Target:
-		lookAtVew				= rootVew.trunkVew			// default
-		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
-		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {		//xyzzy99
-			lookAtVew			= rootVew.find(part:laPart)
-		}
-
-		 // 6. Set LookAtNode's position
-		let posn				= lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
-		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		selfiePole.at			= worldPosition
+		rootVew.setupLightsCamerasEtc()
 
 		 // Do one, just for good luck
 //bug;	commitCameraMotion(reason:"to createVewNScn")
@@ -698,8 +659,8 @@ extension RootScn : SCNSceneRendererDelegate {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 		var rv					= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		rv						+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
-		rv						+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
-		rv						+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
+//		rv						+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
+//		rv						+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
 		rv						+= "animatePhysics:\(animatePhysics)"
 /*	otherLines: { deapth in
 		var rv					=  self.scnScene.ppFwState()
