@@ -220,12 +220,12 @@ class RootScn : NSObject {		// was  : SCNScene
 		rootVew!.selfiePole.horizonUp -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
-	//	selfiePole.zoom			= zoom4fullScreen()
-		let transform			= rootVew!.selfiePole.transform
+		var selfiePole			= rootVew!.selfiePole
+		selfiePole.zoom			= zoom4fullScreen()
+		let transform			= selfiePole.transform
 		guard let cameraScn		= rootVew!.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
-		print("Selfie Pole:\(rootVew?.selfiePole.pp(.line) ?? "nil")\n")
-//bug;	print("\(self.pp(.classUid))")	// This is BAD
+		print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform
 	}
 }

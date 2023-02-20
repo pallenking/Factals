@@ -24,7 +24,6 @@ struct SelfiePole {
 														// NOOO	addChildNode(camera!)
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
-			var f				= DOCfwGuts
 			if let h 			= c.float("h"), !h.isNan {	// Pole Height
 				bug//height		= CGFloat(h)
 			}
@@ -78,7 +77,7 @@ extension SelfiePole : Uid {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
-			var rv				=  fmt("[at:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, horizonUp, zoom)
+			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f]", at.pp(.line), spin, horizonUp, zoom)
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
