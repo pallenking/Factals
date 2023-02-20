@@ -60,8 +60,8 @@ class RootVew : Vew {
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
-			if let at 			= c.scnVector3("at"), !at.isNan {
-				selfiePole.at 	= at						// Pole Height
+			if let at 			= c.scnVector3("origin"), !at.isNan {
+				selfiePole.position 	= at						// Pole Height
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
 				selfiePole.horizonUp = -CGFloat(u)				// (in degrees)
@@ -86,7 +86,7 @@ class RootVew : Vew {
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		selfiePole.at			= worldPosition
+		selfiePole.position			= worldPosition
 	}
 
 	 // MARK: - 4? locks

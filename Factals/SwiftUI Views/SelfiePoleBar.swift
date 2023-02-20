@@ -37,8 +37,9 @@ struct SelfiePoleBar: View {
 	var body: some View {
 		HStack {
 			Text("SelfiePole:\(selfiePole.pp(.uid)):")
-			InspecSCNVector3(label:"at", vect3:$selfiePole.at,		 oneLine:false)
-			 .padding(.horizontal, 10)
+			 .padding(.horizontal, -8)
+			InspecSCNVector3(label:"position", vect3:$selfiePole.position,		 oneLine:false)
+			 .padding(.horizontal, 5)
 			LabeledCGFloat(label:"spin", cgFloat:$selfiePole.spin,	 oneLine:false)
 			LabeledCGFloat(label:"upw",  cgFloat:$selfiePole.horizonUp,oneLine:false)
 			LabeledCGFloat(label:"zoom",  cgFloat:$selfiePole.zoom,	 oneLine:false)

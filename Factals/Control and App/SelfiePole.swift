@@ -15,9 +15,9 @@ import SceneKit
  // Uses Cylindrical Coordinates
 struct SelfiePole {
 	var uid			: UInt16  		= randomUid()
-	var at							= SCNVector3.origin	// world
-	var spin  		: CGFloat 		= 0					// in degrees
-	var horizonUp	: CGFloat 		= 0					// in degrees
+	var position					= SCNVector3.origin	// world coordinates
+	var spin  		: CGFloat 		= 0.0				// in degrees
+	var horizonUp	: CGFloat 		= 0.0				// in degrees
 	var zoom		: CGFloat 		= 1.0
 
 	mutating func pushControllersConfig(to config:FwConfig) {
@@ -54,7 +54,7 @@ struct SelfiePole {
 		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:nil)
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 
-		poleSpinAboutY.position	= lookAtWorldPosn + at
+		poleSpinAboutY.position	= lookAtWorldPosn + position
 
 		 //  ---- With a boom (crane or derek) raised upward above the horizon:
 		let upTilt				= horizonUp * .pi / 180.0
@@ -77,7 +77,7 @@ extension SelfiePole : Uid {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
-			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f]", at.pp(.line), spin, horizonUp, zoom)
+			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f]", position.pp(.line), spin, horizonUp, zoom)
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
@@ -85,6 +85,6 @@ extension SelfiePole : Uid {
 	}
 
 //	func pp() -> String {
-//		return fmt("[at:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, horizonUp, zoom)
+//		return fmt("[origin:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, horizonUp, zoom)
 //	}
 }
