@@ -32,8 +32,8 @@ class FwGuts : NSObject, ObservableObject {
 		super.init()
 
 		atBld(5, log("Created \(self.pp(.classUid))"))
-		rootPart?.fwGuts		= self 		 // owner (Back Link)
-		 // Make FwGuts without any RootVews!
+		rootPart?.fwGuts		= self		// owner (Back Link)
+		rootVews				= []		// Remove all RootVews!
 	}
 
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()

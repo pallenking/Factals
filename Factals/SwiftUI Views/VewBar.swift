@@ -46,20 +46,18 @@ struct VewBar: View {
 					}
 					Spacer()
 				}
-				HStack {					let rootScn 		= rootVew.rootScn
+				HStack {
+					//let rootScn 		= rootVew.rootScn
 					SelfiePoleBar(selfiePole:$rootVews[slot].selfiePole)
-					Text("pole:\(rootScn.pp(.uid))=\(rootVew.selfiePole.pp())")
-					Text("cameraScn:\(rootVew.cameraScn?.pp(.uid) ?? "nil") ")
-//					Text("camera:\(rootVew.rootScn.cameraScn?.transform.pp(.line) ?? "nil") ")
 					Spacer()
 				}
 			}
 	//		 .background(Color.white)//white)//yellow NSColor("verylightgray")!
 	//		 .background(NSColor("verylightgray")!) //white)//yellow
-			 .padding(6)
+			 .padding(4)
 		//	 .RoundedRectangle(RoundedRectangle(cornerRadius:2))// ERROR Value of type 'some View' has no member 'RoundedRectangle'
 			 .border(Color.black, width:0.5)
-			 .padding(8)
+			 .padding(2)
 		} else {
 			HStack {	// view
 				Text("rootVew=nil")

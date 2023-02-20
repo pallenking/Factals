@@ -224,6 +224,7 @@ class RootScn : NSObject {		// was  : SCNScene
 		let transform			= rootVew!.selfiePole.transform
 		guard let cameraScn		= rootVew!.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
+		print("Selfie Pole:\(rootVew?.selfiePole.pp(.line) ?? "nil")\n")
 //bug;	print("\(self.pp(.classUid))")	// This is BAD
 		cameraScn.transform 	= transform
 	}

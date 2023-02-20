@@ -20,9 +20,10 @@ struct InspecNet : View {												  // Net
 				}) {
 					Text("minSize:")
 				}
-				InspecSCNVector3(vect3:.init(
+				InspecSCNVector3(label:"xxx", vect3:.init(
 					get: { 			net.minSize ?? .zero						},
-					set: { (v) in	net.minSize = v								}))
+					set: { (v) in	net.minSize = v								}
+				), oneLine:false)
 			}
 			else {
 				Button(action: {
@@ -246,8 +247,7 @@ struct InspecCommonPart : View {								   // CommonPart
 		HStack {
 			ClassBox(labeled:"CommonPart")
 			Spacer()
-			Text("size")
-			InspecSCNVector3(vect3:$commonPart.size)
+			InspecSCNVector3(label:"size", vect3:$commonPart.size)
 		}
 	}
 }

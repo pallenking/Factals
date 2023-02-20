@@ -1550,10 +1550,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	var debugDescription : String	{	return   "'\(pp(.short))'"		}
 //	var summary					  : String	{	return   "<\(pp(.short))>"		}
 
-//	 // MARK: - 19. Inspector SwiftUI.Vew
-//	static var body : some Vew {
-//		Text("Part.body lives here")
-//	}
 }
  /// Pretty print an up:Bool as String
 func ppUp(_ up:Bool?=nil) -> String {

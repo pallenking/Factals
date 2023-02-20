@@ -9,15 +9,10 @@
 import SceneKit
 import SwiftUI
 
-//let fwActivationFormatter = { () -> NumberFormatter in
-//	let rv 				= NumberFormatter()
-//	rv.minimumFractionDigits = 2
-//	return rv
-//} ()
-
-let d2formatter			= { () -> NumberFormatter in
+let d2formatter					= { () -> NumberFormatter in
 	let rv 				= NumberFormatter()
 	rv.minimumFractionDigits = 2
+	rv.maximumFractionDigits = 2
 	return rv
 } ()
 
