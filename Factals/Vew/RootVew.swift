@@ -64,7 +64,7 @@ class RootVew : Vew {
 				selfiePole.position 	= at						// Pole Height
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				selfiePole.horizonUp = -CGFloat(u)				// (in degrees)
+				selfiePole.gaze = -CGFloat(u)				// (in degrees)
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
 				selfiePole.spin = CGFloat(s) 					// (in degrees)

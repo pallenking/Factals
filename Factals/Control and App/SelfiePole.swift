@@ -17,7 +17,7 @@ struct SelfiePole {
 	var uid			: UInt16  		= randomUid()
 	var position					= SCNVector3.origin	// world coordinates
 	var spin  		: CGFloat 		= 0.0				// in degrees
-	var horizonUp	: CGFloat 		= 0.0				// in degrees
+	var gaze		: CGFloat 		= 0.0				// upward, in degrees
 	var zoom		: CGFloat 		= 1.0
 
 	mutating func pushControllersConfig(to config:FwConfig) {
@@ -28,7 +28,7 @@ struct SelfiePole {
 				bug//height		= CGFloat(h)
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				horizonUp 		= -CGFloat(u)		/* in degrees */
+				gaze 		= -CGFloat(u)		/* in degrees */
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
 				spin 			= CGFloat(s) 		/* in degrees */
@@ -57,7 +57,7 @@ struct SelfiePole {
 		poleSpinAboutY.position	= lookAtWorldPosn + position
 
 		 //  ---- With a boom (crane or derek) raised upward above the horizon:
-		let upTilt				= horizonUp * .pi / 180.0
+		let upTilt				= gaze * .pi / 180.0
 		let riseAboveHoriz		= SCNMatrix4MakeRotation(upTilt, 1, 0, 0)
 
 		 //  ---- move out boom from pole, looking backward:
@@ -77,7 +77,7 @@ extension SelfiePole : Uid {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
-			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f]", position.pp(.line), spin, horizonUp, zoom)
+			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f]", position.pp(.line), spin, gaze, zoom)
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
@@ -85,6 +85,6 @@ extension SelfiePole : Uid {
 	}
 
 //	func pp() -> String {
-//		return fmt("[origin:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, horizonUp, zoom)
+//		return fmt("[origin:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, gaze, zoom)
 //	}
 }

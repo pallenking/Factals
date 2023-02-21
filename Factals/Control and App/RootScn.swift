@@ -155,7 +155,8 @@ class RootScn : NSObject {		// was  : SCNScene
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootVew.selfiePole.zoom *= delta
-			print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole \(rootVew.selfiePole.pp())")
+			let s				= rootVew.selfiePole
+			print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
 			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -217,7 +218,7 @@ class RootScn : NSObject {		// was  : SCNScene
 
 	func spinNUp(with nsEvent:NSEvent) {
 		rootVew!.selfiePole.spin      -= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
-		rootVew!.selfiePole.horizonUp -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
+		rootVew!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
 		var selfiePole			= rootVew!.selfiePole

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LabeledCGFloat: View {
 			 var label		: String
-	@Binding var cgFloat	: CGFloat
+	@Binding var val		: CGFloat
 			 var formatter	: NumberFormatter = d2formatter
 			 var oneLine	= true
 
@@ -17,14 +17,14 @@ struct LabeledCGFloat: View {
 		if oneLine {
 			Text(label)
 			 .padding(.horizontal, -3)
-			TextField("", value:$cgFloat, formatter:formatter).frame(width:35)
+			TextField("", value:$val, formatter:formatter).frame(width:35)
 			 .padding(.horizontal, -3)
 		} else {
 			VStack {
 				Text(label)
 				 .padding(.horizontal, -3)
 				 .padding(.vertical, -10)
-				TextField("", value:$cgFloat, formatter:formatter).frame(width:35)
+				TextField("", value:$val, formatter:formatter).frame(width:35)
 				 .padding(.horizontal, -3)
 			}
 		}
@@ -38,11 +38,11 @@ struct SelfiePoleBar: View {
 		HStack {
 			Text("SelfiePole:\(selfiePole.pp(.uid)):")
 			 .padding(.horizontal, -8)
-			InspecSCNVector3(label:"position", vect3:$selfiePole.position,		 oneLine:false)
+			InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
 			 .padding(.horizontal, 5)
-			LabeledCGFloat(label:"spin", cgFloat:$selfiePole.spin,	 oneLine:false)
-			LabeledCGFloat(label:"upw",  cgFloat:$selfiePole.horizonUp,oneLine:false)
-			LabeledCGFloat(label:"zoom",  cgFloat:$selfiePole.zoom,	 oneLine:false)
+			LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
+			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
+			LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
 		}
 		 .padding(6)
 	}

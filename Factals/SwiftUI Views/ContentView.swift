@@ -13,6 +13,7 @@ struct ContentView: View {
 	@Binding	var document	: FactalsDocument	// the Document
 	var body: some View {
 		PartBar(document: $document)
+		 .padding(.vertical, -10)
 		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
 		Spacer()
 	}

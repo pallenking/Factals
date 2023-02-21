@@ -45,16 +45,16 @@ struct InspecSCNVector3: View {
     var body: some View {
 		let formatter = NumberFormatter()
 		if oneLine {
-			LabeledCGFloat(label:label+"x", cgFloat:$vect3.x, formatter:formatter)
-			LabeledCGFloat(label:"y", 		cgFloat:$vect3.y, formatter:formatter)
-			LabeledCGFloat(label:"z", 		cgFloat:$vect3.z, formatter:formatter)
+			LabeledCGFloat(label:label+"x", val:$vect3.x, formatter:formatter)
+			LabeledCGFloat(label:"y", 		val:$vect3.y, formatter:formatter)
+			LabeledCGFloat(label:"z", 		val:$vect3.z, formatter:formatter)
 		} else {
 			VStack {
 				Text(label).padding(.vertical, -10)
 				HStack {
-					LabeledCGFloat(label:"x", cgFloat:$vect3.x, formatter:formatter)
-					LabeledCGFloat(label:"y", cgFloat:$vect3.y, formatter:formatter)
-					LabeledCGFloat(label:"z", cgFloat:$vect3.z, formatter:formatter)
+					LabeledCGFloat(label:"x", val:$vect3.x, formatter:formatter)
+					LabeledCGFloat(label:"y", val:$vect3.y, formatter:formatter)
+					LabeledCGFloat(label:"z", val:$vect3.z, formatter:formatter)
 				}
 			}
 		}
