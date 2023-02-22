@@ -18,10 +18,10 @@ class FwGuts : NSObject, ObservableObject {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
-	func pushControllersConfig(to c:FwConfig) { // *****
-		rootPart?.pushControllersConfig(to:c)
+	func configureDocument(from c:FwConfig) { // *****
+		rootPart?.configureDocument(from:c)
 		for rootVew in rootVews {
-			rootVew.pushControllersConfig(to:c)
+			rootVew.configureDocument(from:c)
 		}
 	}
 	 // MARK: - 3. Factory

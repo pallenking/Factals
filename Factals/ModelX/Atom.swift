@@ -545,7 +545,7 @@ class Atom : Part {	//Part//FwPart
 					let trgInfo	= "     TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6)) in:" +
 								  "\(conNet.fullName), opens _\(ppUp(trgAboveSInT))_"		//!trg...
-					atBld(4, self.logd(trgInfo))
+					atBld(6, self.logd(trgInfo))
 						// 3d. //// Get the TaRGet Port		(name=="" -> share)
 					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)
 

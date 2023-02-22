@@ -62,7 +62,8 @@ bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 
 		 // Get audio source:
 		guard let source		= knownSources[sound] else {
-			return print("###### Sound source '\(sound)' unknow")
+			atAni(6, logd("###### Sound source '\(sound)' unknow"))
+			return
 		}
 		let audioPlayer			= SCNAudioPlayer(source:source)
 		node.addAudioPlayer(audioPlayer)										// let x1 = node.audioPlayers

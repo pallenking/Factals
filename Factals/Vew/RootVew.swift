@@ -46,9 +46,9 @@ class RootVew : Vew {
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
-	func pushControllersConfig(to c:FwConfig) {
-		selfiePole.pushControllersConfig(to:c)
-		rootScn	  .pushControllersConfig(to:c)
+	func configureDocument(from c:FwConfig) {
+		selfiePole.configureDocument(from:c)
+		rootScn	  .configureDocument(from:c)
 	}
 	// MARK: -
 	func setupLightsCamerasEtc() {

@@ -44,11 +44,11 @@ var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now:
 // * * *
 
  // Shugar on DOC
-var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed			//  9
+var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed
 var DOCfwGuts		: FwGuts	{	DOCfwGutsQ ?? {
 	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil"); return FwGuts() 		}()}
-var DOClogQ  	: Log? 	{	DOCfwGutsQ?.log							}				//  2
-var DOClog  		: Log 	{	DOClogQ ?? .help							}	//.first	// 50
+var DOClogQ  		: Log? 		{	DOCfwGutsQ?.log								}
+var DOClog  		: Log 		{	DOClogQ ?? .help							}	//.first
 let DOCctlr						= NSDocumentController.shared
 
 @main										// calls AppDelegateFoo.swift
@@ -114,7 +114,7 @@ struct FactalsApp: App, Uid, FwAny {
 															//	};private var regressScene_ = 0
 	 // Keep regressScene up to date						//var config4app : FwConfig {
 	var config : FwConfig		= [:]						//	get			{	return config4app_ }
-	mutating func pushControllersConfig(to c:FwConfig) {		//	set(val)	{
+	mutating func configureApp(from c:FwConfig) {			//	set(val)	{
 		config					= c							//		config4app_			= val
 		if let rsn 				= c.int("regressScene") {	//		if let rsn 			= config4app_.int("regressScene") {
 			regressScene		= rsn						//			regressScene	= rsn
@@ -129,12 +129,12 @@ struct FactalsApp: App, Uid, FwAny {
 
 	init () {
 		APP 					= self				// Register  (HOAKEY)
-		let _					= Log.help		// create here, ahead of action
+		let _					= Log.help			// create here, ahead of action
 		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with defaults:
 		let c					= config + params4all
-		pushControllersConfig(to:c)
+		configureApp(from:c)
 		
 		atApp(3, {
 			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
@@ -354,7 +354,7 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		
 		var doc					= FactalsDocument(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
-		doc.pushControllersConfig(to:doc.config + rootPart.ansConfig)
+		doc.configureDocument(from:doc.config + rootPart.ansConfig)
 
 		rootPart.fwGuts			= fwGuts
 		fwGuts.document 		= doc

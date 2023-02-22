@@ -10,20 +10,13 @@ import SceneKit
   // MARK: - External linkage
  /// Initial Parameters for configuration:
 var params4all		: FwConfig		= {	return
-	params4app		+	// . .
-	params4appLog	+	//  .  .
-	params4pp		+	//	  .
+	params4app		+
+	params4appLog	+
+	params4pp		+
 	params4docLog	+
 	params4sim		+
 	params4vew		+
 [:]} ()
-//var params4all		: FwConfig		{	return
-//	params4app		+	// . .
-//	params4appLog	+	//  .  .
-//	params4pp		+	//	  .
-//	params4docLog	+
-//	params4sim		+
-//[:]}
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
@@ -40,10 +33,11 @@ private let params4app : FwConfig = [
    // MARK: - B: Parameters App logging
   // Controls logging of the Application
  // Terms in FilterLog.swift
-let appLogN						= 0//0/5/8/
+let appLogN						= 8//0/5/8/
 let docLogN						= 0//0/5/8/
 private let params4appLog		= params4logs_ + params4pp
-								+ log(doc:appLogN, bld:appLogN, ser:appLogN)
+								+ log(all:appLogN)
+//								+ log(doc:docLogN, bld:appLogN, ser:appLogN)
  // MARK: - C: Pretty Print
 private let params4pp : FwConfig = [
 				// What:

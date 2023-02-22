@@ -39,10 +39,10 @@ struct FactalsDocument: FileDocument {
 	 // index of named items (<Class>,"wire", "WBox", "origin", "breakAtWire"
 	var indexFor				= Dictionary<String,Int>()
 
-	mutating func pushControllersConfig(to c:FwConfig) {
+	mutating func configureDocument(from c:FwConfig) {
 		config					= c
-		fwGuts?.pushControllersConfig(to:c)	// COMPONENT 1
-	//!	assert(fwGuts.document === self, "Factals.pushControllersConfig(to\(c.pp(.phrase))) ERROR")
+		fwGuts?.configureDocument(from:c)	// COMPONENT 1
+	//!	assert(fwGuts.document === self, "Factals.configureDocument(from\(c.pp(.phrase))) ERROR")
 	}
 
 	 // @main uses this to generate a blank document
@@ -70,7 +70,7 @@ struct FactalsDocument: FileDocument {
 
 		 //		3. Update Configurations
 		config					+= rootPart.ansConfig
-		pushControllersConfig(to:config)
+		configureDocument(from:config)
 
 		 //		4. Wire and Groom Part
 		rootPart.wireAndGroom()

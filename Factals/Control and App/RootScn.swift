@@ -25,7 +25,7 @@ class RootScn : NSObject {		// was  : SCNScene
 //	var selfiePole				= SelfiePole()
 //	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
-	func pushControllersConfig(to c:FwConfig) {
+	func configureDocument(from c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics = c.bool("animatePhysics") ?? false
 	

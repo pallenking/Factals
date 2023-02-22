@@ -97,7 +97,7 @@ class Simulator : NSObject, Codable {		// NEVER NSCopying, Equatable
 	}
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation
-	func pushControllersConfig(to c:FwConfig) {
+	func configureDocument(from c:FwConfig) {
 		if let se				= c["simEnabled"] {
 			if let simEn		= se as? Bool {
 				simEnabled 		= simEn

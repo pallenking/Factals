@@ -55,9 +55,9 @@ class RootPart : Part {
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.rootPart		= self
 	}
-	func pushControllersConfig(to c:FwConfig) {
+	func configureDocument(from c:FwConfig) {
 		assert(simulator.rootPart === self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
-		simulator.pushControllersConfig(to:c) 	// CUSTOMER 1
+		simulator.configureDocument(from:c) 	// CUSTOMER 1
 	}
 //// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
@@ -344,7 +344,7 @@ class RootPart : Part {
 			addChild(ansTrunk)
 			setTree(root:self, parent:nil)
 		}else{
-			fatalError("RootPart(fromLibrary) -- no RootPart generated")
+			fatalError("RootPart(fromLibrary:\(selectionString) -- no RootPart generated")
 		}
 		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)

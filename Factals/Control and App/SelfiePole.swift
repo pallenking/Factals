@@ -20,7 +20,7 @@ struct SelfiePole {
 	var gaze		: CGFloat 		= 0.0				// upward, in degrees
 	var zoom		: CGFloat 		= 1.0
 
-	mutating func pushControllersConfig(to config:FwConfig) {
+	mutating func configureDocument(from config:FwConfig) {
 														// NOOO	addChildNode(camera!)
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
