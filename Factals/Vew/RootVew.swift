@@ -26,7 +26,8 @@ class RootVew : Vew {			// inherits ObservableObject
 	var lightsScn	: [SCNNode]	= []
 	var axesScn		: SCNNode?	= nil
 
-	@Published var selfiePole	= SelfiePole()
+//	@Published var selfiePole	= SelfiePole()
+
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 /// generate a new View, returning its index

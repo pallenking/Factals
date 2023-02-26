@@ -8,6 +8,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 
 	// MARK: - 2. Object Variables:
 	@Published var name :  String			// Cannot be String! because of FwAny
+
+
+	@Published var selfiePole	= SelfiePole()
+
+
 	 // Hierarchy:
 	var fullName	: String	{
 		name=="_ROOT" ? name :	// Leftmost component

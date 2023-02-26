@@ -9,11 +9,14 @@ class FwGuts : NSObject, ObservableObject {
 	  // MARK: - 2. Object Variables:
 	@Published var redo:UInt8	= 0
 	@Published var rootPart :  RootPart?													//{	rootVew.part as! RootPart}
-								
+
 	var document 	 : FactalsDocument!
 	var rootVews : [RootVew]	= []
 
 	var log 		 : Log
+
+	var fooSelfiePole = SelfiePole()
+
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
