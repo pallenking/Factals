@@ -7,7 +7,7 @@
 
 import SceneKit
 
-class RootVew : Vew {
+class RootVew : Vew {			// inherits ObservableObject
 	weak var fwGuts : FwGuts!		// Owner
 	var slot	 : Int?			= nil			// set by caller after instantiation
 
@@ -26,7 +26,7 @@ class RootVew : Vew {
 	var lightsScn	: [SCNNode]	= []
 	var axesScn		: SCNNode?	= nil
 
-	var selfiePole				= SelfiePole()
+	@Published var selfiePole	= SelfiePole()
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 /// generate a new View, returning its index

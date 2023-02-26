@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct PartBar: View {
-	@Binding var document			: FactalsDocument	// the Document type
+	@Binding var fwGuts			: FwGuts
 
 	var body: some View {
-		let fwGuts 				= document.fwGuts
 		 //  --- B U T T O N S  ---
 		HStack {	// FULL!
 			Text("   Application:")
@@ -19,11 +18,11 @@ struct PartBar: View {
 			{	printFwcState()												}
 			Button(label:{	Text("config").padding(.top, 300)				})
 			{	printFwcConfig()											}
-			if let rootPart = fwGuts?.rootPart {
+			if let rootPart = fwGuts.rootPart {
 				Text("  Model:")
-				Button(label:{	Text(   "ptm")								})
+				Button(label:{	Text( "ptm")								})
 				{	lldbPrint(rootPart, mode:.tree)							}
-				Button(label:{	Text(  "ptLm")								})
+				Button(label:{	Text("ptLm")								})
 				{	lldbPrint(rootPart, mode:.tree, ["ppLinks":true])}
 			} else {
 				Text("<<no nodel>>:")

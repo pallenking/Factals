@@ -45,11 +45,21 @@ struct VewBar: View {
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
 					Spacer()
+					// just for debug
+					if trueF {
+						Button(label:{	Text( "state").padding(.top, 300)				})
+						{	printFwcState()												}
+						Button(label: {	Text("LLDB") 									})
+						{	breakToDebugger()											}
+					}
 				}
 				HStack {
 					//let rootScn 		= rootVew.rootScn
+					let rootVew 		= rootVews[slot]
 					SelfiePoleBar(selfiePole:$rootVews[slot].selfiePole)
 					Spacer()
+					Button(label:{	Text( "Z**").padding(.top, 300)				})
+					{	rootVew.selfiePole.zoom	*= 1.1							}
 				}
 			}
 	//		 .background(Color.white)//white)//yellow NSColor("verylightgray")!

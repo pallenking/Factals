@@ -349,7 +349,7 @@ bug
 		 // Sim EVENTS						// /// Key DOWN ///////
 		let cmd 				= nsEvent.modifierFlags.contains(.command)
 		let alt 				= nsEvent.modifierFlags.contains(.option)
-		var aux : FwConfig		= config	//gets us params4pp
+		var aux : FwConfig		= config	// gets us params4pp
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
 		switch character {

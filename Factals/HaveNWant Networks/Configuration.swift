@@ -35,7 +35,7 @@ private let params4app : FwConfig = [
  // Terms in FilterLog.swift
 let appLogN						= 8//0/5/8/
 let docLogN						= 0//0/5/8/
-private let params4appLog		= params4logs_ + params4pp
+private let params4appLog		= params4pp + params4logs_
 								+ log(all:appLogN)
 //								+ log(doc:docLogN, bld:appLogN, ser:appLogN)
  // MARK: - C: Pretty Print
@@ -80,9 +80,8 @@ private let params4pp : FwConfig = [
 ]
  // MARK: -
  // MARK: - D: Parameters Doc Log
-private let params4docLog		= params4logs_ + params4pp
-	+ log(all:docLogN)		//			//! (bld:1)/(bld:2)/(all:8)/(all:5)
-
+private let params4docLog		= params4pp + params4logs_
+								+ log(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 
 	private let params4logs_	: FwConfig = [
 		"debugPreLog"		: true,		// Debug setting of logs before there is a Log ()

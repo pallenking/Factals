@@ -83,8 +83,4 @@ extension SelfiePole : Uid {
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
-
-//	func pp() -> String {
-//		return fmt("[origin:%@, s:%.0f, u:%.0f, z:%.2f]", at.pp(.short), spin, gaze, zoom)
-//	}
 }

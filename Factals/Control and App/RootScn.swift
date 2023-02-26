@@ -17,14 +17,6 @@ class RootScn : NSObject {		// was  : SCNScene
 	var scnScene	: SCNScene		// contains the rootNode
 	//var scn		: SCNNode		// in SCNScene, it's rootNode
 
-//	 // Lighting, etc
-//	var cameraScn	: SCNNode?	= nil	// 	{ 		touchCameraScn() }//{ 	touchCameraScn()							}
-//	var lightsScn	: [SCNNode]	= []
-//	var axesScn		: SCNNode?	= nil
-//
-//	var selfiePole				= SelfiePole()
-//	var lookAtVew	: Vew?		= nil						// Vew we are looking at
-
 	func configureDocument(from c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics = c.bool("animatePhysics") ?? false
@@ -222,7 +214,8 @@ class RootScn : NSObject {		// was  : SCNScene
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
 		var selfiePole			= rootVew!.selfiePole
-		selfiePole.zoom			= zoom4fullScreen()
+//			selfiePole.zoom		= zoom4fullScreen()		// BUG HERE
+
 		let transform			= selfiePole.transform
 		guard let cameraScn		= rootVew!.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")

@@ -386,3 +386,37 @@ b15:Ff| | | |    _prt1:Vew     s:  *-prt1/761 p:  prt1/357:MaxOr . . . . . .    
 
 
 
+
+
+
+
+
+
+
+
+
+
+  configureApp(from:config + 		params4all)
+  FwGuts:  Log(title:"FwGut's Log",	params4all)
+
+var params4all		: FwConfig		= {	return
+	params4app	+   // ONLY USE
+	params4appLog	+   // ONLY USE
+	params4pp ##	+   // LOTS
+	params4docLog	+   // ONLY USE
+	params4sim	+   // ONLY USE
+	params4vew	+   // ONLY USE
+[:]} ()
+
+params4sim     = ["simEnabled":"simTaskPeriod":"simTimeStep"         4
+params4vew     = ["linkVelocityLog2":"placeMe":"placeMy"	    39
+params4app     = [ "soundVolume":"regressScene":"emptyEntry"         3
+
+	    		           4             20         1
+params4appLog  =1 [params4pp## +params4logs_+log(all:appLogN)        25
+params4docLog  =1 [params4pp## +params4logs_+log(all:docLogN)        25
+  params4pp    =3 ["pp...":... (LOTS)]			   	     20
+  params4logs_ =2 ["debugPreLog":"debugOutterLock":...]	   	     4
+
+
+
