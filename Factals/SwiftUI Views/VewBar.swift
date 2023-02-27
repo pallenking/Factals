@@ -47,7 +47,7 @@ struct VewBar: View {
 					// just for debug
 					if trueF {
 						Button(label:{	Text( "state").padding(.top, 300)		})
-						{	printFwcState()										}
+						{	printFwState()										}
 						Button(label: {	Text("LLDB") 							})
 						{	breakToDebugger()									}
 					}

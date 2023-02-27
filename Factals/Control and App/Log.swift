@@ -327,9 +327,9 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 			} ()
 	};private static var helpLogger : Log? = nil
 
-	var description		 : String { return  "Log\(logNo) \"\(title)\""	}
-	var debugDescription : String { return "'Log\(logNo) \"\(title)\"'"}
-	var summary					  : String { return "<Log\(logNo) \"\(title)\">"}
+	var description		 : String { return  "d'Log\(logNo) \(title)'"			}
+	var debugDescription : String { return "dd'Log\(logNo) \(title)'"			}
+	var summary			 : String { return 	"s'Log\(logNo) \(title)'"			}
 }
 var debugOutterLock	= false		// default value
 

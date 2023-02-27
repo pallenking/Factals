@@ -393,8 +393,8 @@ type summary add --summary-string  "Vew.name=${var.name} part:${var.part.name}" 
 ########## ########## ########## ########## ########## ########## ########## 
 #
 command     alias fwHelp 		expression fwHelp("?")
-command     alias pFwcConfig	expression printFwcConfig()
-command     alias pFwcState		expression printFwcState()
+command     alias pFwConfig		expression printFwConfig()
+command     alias pFwState		expression printFwState()
 
 ############################### FILE A BUG REPORT: Would like, but BROKEN. wanted badly:
 #command alias lldbinit		command source ~/.lldbinit					# DOESN'T WORK
@@ -421,5 +421,5 @@ command alias lldbinitFactalWorkbench command source ~/DocLocal/HaveNWant/Factal
 # :H: Character 2.5: --L-:ppLinks; --P-:ppParameters
 # :H: Character 3:   -- s:self;    ---m:root_Experiment ---v:root Vew  --n-:root SCNNode
 ## use LLDBrootPart("<name>") and LLDBrootVew("<name>") to find a part in tree
-## pFwcState, pFwcConfig fwHelp("C")
+## pFwState, pFwConfig fwHelp("C")
 

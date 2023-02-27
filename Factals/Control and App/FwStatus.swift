@@ -2,43 +2,50 @@
 
 import SceneKit
 
- // External Global interface (misc, lldb)
-func printFwcConfig() {		print( ppFwcConfig() )								}
-func printFwcState()  {
-	DOClog.ppIndentCols = 20		// sort of permanent!
-	print(ppFwcState())
+ /// Print status of Factal Workbench Controllers
+protocol FwStatus : FwAny {
+	func ppFwConfig() -> String
+	func ppFwState(deapth:Int) -> String
+}
+extension FwStatus {
+	func ppFwConfig() -> String {		"\(fwClassName)-DEFAULT\n"				}
 }
 
   /// Print System Components' Configuration:
  /// - Returns: Configuration of all Controllers, one per line
-func ppFwcConfig() -> String {
-	return """
-		CONFIGURATIONS:
-		 APP.config:  \(w(APP?.config.pp(.line) ?? "No Application registered"	))
-		 DOC.config:  \(w(DOC?.config.pp(.line) ?? "No Document registered"		))
-		 params4aux:  \(w( params4aux.pp(.line) ))
-		"""
+func ppFwConfig() -> String {
+	guard let APP 				else {	return "APP==nil"						}
+	var rv						= APP	  .ppFwConfig()
+	if DOC != nil {
+		rv						+= DOC	  .ppFwConfig()	// current DOCument
+		rv						+= DOClog .ppFwConfig()	// DOClog
+		rv						+= DOCctlr.ppFwConfig()	// nsDOCumentConTroLleR
+	}
+	return rv
 }
-private func w(_ str:String) -> String {	return str.wrap(min:17, cur:28, max:80)}
 
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
-func ppFwcState() -> String
+func ppFwState(config:Bool=false) -> String
 {	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
-	var rv : String				 = APP		.ppFwState()
-	rv							+= ppDOC()					// current DOCument
+	var rv						= APP	  .ppFwState()
+
+	 // display current DOCument
+	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
+	rv							+= ppUid(pre:" ", DOC, post:" DOC \(msg)", showNil:true) + "\n"
+
 	if DOC != nil {
-		rv						+= DOC		.ppFwState()	// current DOCument
-		rv						+= DOClog.ppFwState()	// DOClog
-		rv						+= DOCctlr	.ppFwState()	// nsDOCumentConTroLleR
+		rv						+= DOC	  .ppFwState()	// current DOCument
+		rv						+= DOClog .ppFwState()	// DOClog
+		rv						+= DOCctlr.ppFwState()	// nsDOCumentConTroLleR
 	}
 	return rv
 }
 func ppFwStateHelper(_ fwClassName_	: String,
 						uid			: Uid,
-						myLine		: String 		= "",
+						myLine		: String 			= "",
 						otherLines	: ((Int)->String)?	= nil,
-						deapth		: Int			//= 999
+						deapth		: Int				//= 999
 					) -> String
 {			// My Lines:
 	var rv						= ppFwPrefix(uid:uid, fwClassName_) + myLine + "\n"
@@ -48,12 +55,14 @@ func ppFwStateHelper(_ fwClassName_	: String,
 	DOClog.nIndent			-= 1
 	return rv
 }
+ /// Prefix: "1e98 | | <fwClass>   0    . . . . . . . . "
 func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 	 // align uid printouts for ctl and part to 4 characters
 	var rv						= ppUid(pre:" ", uid, showNil:true).field(-5) + " "
 	rv 							+= DOClog.indentString()
 	rv							+= fmt("%-12@", fwClassName_)
-	return DOClog.unIndent(rv)
+	rv							= DOClog.unIndent(rv)
+	return rv
 }
 
 // //// /  ///// /  ///// /  ///// /  ///// /  ///// /  ///// /  ///// /  /////
@@ -63,12 +72,8 @@ func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 //  //// ///  /// ///  /// ///  /// ///  /// ///  /// ///  /// ///  /// ///  ///
 // //// /////  / /////  / /////  / ///// / /////   / /////  / /////  / /////  /
 
- /// Print status of Factal Workbench Controllers
-protocol FwStatus {
-	func ppFwState(deapth:Int) -> String
-}
-
-extension FactalsApp : FwStatus	{						 		   ///FactalsApp
+extension FactalsApp : FwStatus	{									///FactalsApp
+	func ppFwConfig() -> String {		config.pp(.short)						}
 	func ppFwState(deapth:Int=999) -> String {
 		let emptyEntry			= APP?.config["emptyEntry"] ?? "xr()"
 		let regressScene		= APP?.config.int("regressScene") ?? -1
@@ -82,49 +87,15 @@ extension FactalsApp : FwStatus	{						 		   ///FactalsApp
 					rv			+= lib					.ppFwState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFwState()
-			return rv
-			},
-			deapth:deapth-1)
-	}
-}
-extension Library : FwStatus {								///Library or ///Tests01
-	func ppFwState(deapth:Int=999) -> String {
-		let myLine				= "(>X<)"
-		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
-	}
-}
-func ppDOC() -> String {									///
-	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
-	let uid : String			= ppUid(pre:" ", DOC, post:"  DOC \(msg)", showNil:true)
-	return uid + "\n"
-}
-
-extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
-	func ppFwState(deapth:Int=999) -> String {
-		let ct					= self.documents.count
-		return ppFwStateHelper("DOCctlr      ", uid:self,
-			myLine:"\(ct) FwDocument" + (ct != 1 ? "s:" : ":"),
-			otherLines:{ deapth in
-				var rv			= ""
-				for document in self.documents {	//NSDocument
-					rv			+= document.ppFwState(deapth:deapth-1)
-				}
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
-extension Log : FwStatus {											///Log
-	func ppFwState(deapth:Int=999) -> String {
-		let msg					= !logEvents ? "disabled" :
-			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
-			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
-		let logKind				= (title[0...0] == "A" ? "APPLOG" : "DOClog").field(-13)
-		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
-	}
-}
+
 // MARK: - DOCUMENT
 extension FactalsDocument : FwStatus	{				  	 ///FactalsDocument
+	func ppFwConfig() -> String {		config.pp(.short)						}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FactalsDocume", uid:self,
 		//	myLine:"\(fwGuts.pp(.classUid))",
@@ -165,6 +136,36 @@ extension NSDocument : FwStatus	{								   ///NSDocument
 			return rv
 		},
 		deapth:deapth)
+	}
+}
+extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
+	func ppFwState(deapth:Int=999) -> String {
+		let ct					= self.documents.count
+		return ppFwStateHelper("DOCctlr      ", uid:self,
+			myLine:"\(ct) FwDocument" + (ct != 1 ? "s:" : ":"),
+			otherLines:{ deapth in
+				var rv			= ""
+				for document in self.documents {	//NSDocument
+					rv			+= document.ppFwState(deapth:deapth-1)
+				}
+				return rv
+			},
+			deapth:deapth-1)
+	}
+}
+extension Library : FwStatus {								///Library or ///Tests01
+	func ppFwState(deapth:Int=999) -> String {
+		let myLine				= "(>X<)"
+		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
+	}
+}
+extension Log : FwStatus {											///Log
+	func ppFwState(deapth:Int=999) -> String {
+		let msg					= !logEvents ? "disabled" :
+			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
+			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
+		let logKind				= (title[0...0] == "A" ? "APPLOG" : "DOClog").field(-13)
+		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
 	}
 }
 extension FwGuts : FwStatus	{									 		///FwGuts

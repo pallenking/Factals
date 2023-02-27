@@ -388,9 +388,9 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 	static let uZ				= SCNVector3(0, 0, 1)
 
 	 // MARK: - 17. Debugging Aids
-	var description			:String	{		return "\"\(pp(.short))\""			}
-	var debugDescription	:String	{		return  "'\(pp(.short))'"			}
-//	var summary				:String	{		return  "<\(pp(.short))>"			}
+	var description		 : String	{	return  "d'\(pp(.short))'"				}
+	var debugDescription : String	{	return "dd'\(pp(.short))'"				}
+	var summary			 : String	{	return  "s'\(pp(.short))'"				}
 }
 
 // ////////////////////////// SCNVector4 //////////////////////////////////
@@ -546,9 +546,9 @@ extension SCNVector4 {
 	}
 
 	 // MARK: - 17. Debugging Aids
-	var description			:String	{	return "\"\(pp(.short))\""				}
-	var debugDescription	:String	{	return  "'\(pp(.short))'"				}
-//	var summary				:String	{	return  "<\(pp(.short))>"				}
+	var description			:String	{	return  "d'\(pp(.short))'"				}
+	var debugDescription	:String	{	return "dd'\(pp(.short))'"				}
+	var summary				:String	{	return  "s'\(pp(.short))'"				}
 
 	 // MARK: - 16. Global Constants
 	static let nan 			= SCNVector4(CGFloat.nan, CGFloat.nan, CGFloat.nan, CGFloat.nan)

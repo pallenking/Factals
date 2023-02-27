@@ -415,7 +415,8 @@ extension SCNMatrix4 {
 	static let rotateYtoZ		= SCNMatrix4MakeRotation(.pi/2, 1,0,0)
 
 	 // MARK: - 17. Debugging Aids
-	var description		:String	{	return "\"\(pp(.short))\""					}
-	var debugDescription:String	{	return  "'\(pp(.short))'"					}
-//	var summary			:String	{	return  "<\(pp(.short))>"					}
+	var description		:String	{	return  "d'\(pp(.short))'"					}
+	var debugDescription:String	{	return "dd'\(pp(.short))'"					}
+	var summary			:String	{	return  "s'\(pp(.tree))'"					}
+//	var summary			:String	{	return  "s'\(pp(.short))'"					}
 }

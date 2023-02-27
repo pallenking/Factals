@@ -15,9 +15,9 @@ struct PartBar: View {
 		HStack {	// FULL!
 			Text("   Application:")
 			Button(label:{	Text( "state").padding(.top, 300)				})
-			{	printFwcState()												}
+			{	printFwState()												}
 			Button(label:{	Text("config").padding(.top, 300)				})
-			{	printFwcConfig()											}
+			{	printFwConfig()											}
 			if let rootPart = fwGuts.rootPart {
 				Text("  Model:")
 				Button(label:{	Text( "ptm")								})

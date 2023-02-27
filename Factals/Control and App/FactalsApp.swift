@@ -152,7 +152,7 @@ struct FactalsApp: App, Uid, FwAny {
 		atApp(3, {
 			print("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 			print("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n")
-			printFwcState()
+			printFwState()
 		}() )
 	}
 
@@ -204,11 +204,11 @@ struct FactalsApp: App, Uid, FwAny {
 	}													// why not use SwiftUI?
 	func appState(_ sender: Any) {
 		print("'c': AppDelegate.appState():")
-		print(ppFwcState())
+		print(ppFwState())
 	}
 	func appConfiguration(_ sender: Any) {
 		print("'C': AppDelegate.appConfiguration():")
-		print(ppFwcConfig())
+		print(ppFwConfig())
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")
@@ -279,7 +279,7 @@ bug;	let rv					= NSMenu(title:path)
 
 		 // Log program usage instances
 		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
-		atApp(7, printFwcState())
+		atApp(7, printFwState())
 //.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
 		appSounds.play(sound:"GameStarting")
 	}
@@ -375,9 +375,9 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 	}
 
 	 // MARK: - 17. Debugging Aids
-	var description	  	 : String 	{	return  "\"FactalsApp\""				}
-	var debugDescription : String	{	return   "'FactalsApp'"				}
-	var summary			 : String	{	return   "<FactalsApp>"				}
+	var description	  	 : String 	{	return  "d'FactalsApp'"					}
+	var debugDescription : String	{	return "dd'FactalsApp'"					}
+	var summary			 : String	{	return  "s'FactalsApp'"					}
 
 	 // MARK: - 20. Log
 	  ///  Write 1-line summary of this usage

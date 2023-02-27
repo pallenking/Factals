@@ -369,9 +369,9 @@ class Port : Part, PortTalk {
 		func pp() -> String {
 			return fmt("c:\(center.pp(.short)), r:%.3f, " + "e:\(exclude?.pp(.short) ?? "nil")", radius)
 		}
-		var description	  	 	: String	{	return "\"\(pp())\""			}
-		var debugDescription 	: String	{	return  "'\(pp())'"				}
-//		var summary		 	 	: String	{	return  "<\(pp())>"				}
+		var description	  	 	: String	{	return  "d'\(pp())'"			}
+		var debugDescription 	: String	{	return "dd'\(pp())'"			}
+		var summary		 	 	: String	{	return  "s'\(pp())'"			}
 	
 		static let zero 		= ConSpot()
 		static let nan	 		= ConSpot(center:.nan)
@@ -662,9 +662,9 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 	static let reservedPortNames = [ "P", "S", "T", "U", "B", "KIND", "share"]
 
 	 // MARK: - 17. Debugging Aids
-	override var description	  : String 	{	return  "\"\(pp(.short))\""	}
-	override var debugDescription : String	{	return   "'\(pp(.short))'"		}
-//	override var summary		  : String	{	return   "<\(pp(.short))>"		}
+	override var description	  : String 	{	return  "d'\(pp(.short))'"		}
+	override var debugDescription : String	{	return "dd'\(pp(.short))'"		}
+	override var summary		  : String	{	return  "s'\(pp(.short))'"		}
 }
 
 class ParameterPort : Port {

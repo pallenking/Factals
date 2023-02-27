@@ -109,9 +109,9 @@ func sendApp(key:String="?", inVew vew:Vew) {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")
 		switch key {
 		case "C":
-			printFwcConfig()	// Controller Configuration
+			printFwConfig()		// Controller Configuration
 		case "c":
-			printFwcState()		// Current controller state
+			printFwState()		// Current controller state
 		case "?":
 			printDebuggerHints()
 		default:
@@ -119,6 +119,16 @@ func sendApp(key:String="?", inVew vew:Vew) {
 		}
 	}
 }
+
+ // External Global interface (misc, lldb)
+func printFwConfig() {
+	print( ppFwConfig() )
+}
+func printFwState()  {
+	DOClog.ppIndentCols 		= 20		// sort of permanent!
+	print(ppFwState())
+}
+
 func printDebuggerHints() {
 	print ("=== Controller   commands:",
 	//	"\t" + "<esc>           -- exit program",
@@ -150,8 +160,8 @@ func printDebuggerHints() {
 		"\t\t" + "Char 2.5: --L-:ppLinks; --P-:ppParameters",
 		"\t\t" + "Char 3:   -- s: self;   -- m:root Model -- v:root Vew  --n:root SCNNode",
 		"\t" + "use rootpart(\"<name>\") and rootvew(\"<name>\") to find a part in tree",
-		"\t" + "pFwcState:  -- ('C') print System Controllers State (1-line state of each)",
-		"\t" + "pFwcConfig: -- ('c') print System Configuration     (1-line of each hash)",
+		"\t" + "pFwState:  -- ('C') print System Controllers State (1-line state of each)",
+		"\t" + "pFwConfig: -- ('c') print System Configuration     (1-line of each hash)",
 		separator:"\n")
 	print("\n=== Configuration:",
 		"\t" + " reload with  lldbinit  = '  command source ~/src/SwiftFactals/.lldbinit  '",

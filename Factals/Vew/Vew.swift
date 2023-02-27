@@ -791,9 +791,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	static let null 			= Vew(forPart:.null)	/// Any use of this should fail
 
 	 // MARK: - 17. Debugging Aids
-	override var description	  : String {	return  "\"\(pp(.short))\""	}
-	override var debugDescription : String {	return   "'\(pp(.short))'" 	}
-//	var summary					  : String {	return   "<\(pp(.short))>" 		}
+	override var description	  : String {	return  "d'\(pp(.short))'"		}
+	override var debugDescription : String {	return "dd'\(pp(.short))'" 		}
+	var summary					  : String {	return  "s'\(pp(.short))'" 		}
 	 // MARK: - 20. Extension variables
 	var adornTargetVew 			  : Vew?	= nil
 }

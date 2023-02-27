@@ -243,9 +243,9 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 	var fwClassName		 : String	{	"Library"								}
 
          // MARK: - 17. Debugging Aids
-	var description		 : String 	{	return  "\"\(fwClassName) \(name)\""	}
-	var debugDescription : String	{	return   "'\(fwClassName) \(name)'"		}
-	var summary			 : String	{	return   "<\(fwClassName) \(name)>"		}
+	var description		 : String 	{	return  "d'\(fwClassName) \(name)'"		}
+	var debugDescription : String	{	return "dd'\(fwClassName) \(name)'"		}
+	var summary			 : String	{	return  "s'\(fwClassName) \(name)'"		}
 }
 
  // ================ User Sugar, for prettier networks: ========================

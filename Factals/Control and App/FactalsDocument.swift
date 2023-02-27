@@ -396,9 +396,9 @@ bug
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "C":
-			printFwcConfig()			// Controller Configuration
+			printFwConfig()				// Controller Configuration
 		case "c":
-			printFwcState()				// Current controller state
+			printFwState()				// Current controller state
 		case "?":
 			printDebuggerHints()
 			return false				// anonymous printout
