@@ -21,12 +21,10 @@ struct SelfiePole {
 	var zoom		: CGFloat 		= 1.0
 
 	mutating func configureDocument(from config:FwConfig) {
-														// NOOO	addChildNode(camera!)
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
-			if let h 			= c.float("h"), !h.isNan {	// Pole Height
-				bug//height		= CGFloat(h)
-				bug//height		= CGFloat(h)
+			if let p 			= c.scnVector3("p"), !p.isNan {	// Pole Height
+				position		= p
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
 				gaze 			= -CGFloat(u)					// (in degrees)
@@ -37,7 +35,7 @@ struct SelfiePole {
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
 				zoom 			= CGFloat(z)
 			}
-			atRve(2, print("=== Set camera=\(c.pp(.line))"))		// add printout of selfiePole
+			atRve(2, print("=== Configure selfiePole(from:\(c.pp(.line)) -> \(pp(.line))"))
 		}
 	}
 

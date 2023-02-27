@@ -8,7 +8,7 @@
 import SceneKit
 
 class RootVew : Vew {			// inherits ObservableObject
-	weak var fwGuts : FwGuts!		// Owner
+	weak var fwGuts : FwGuts!					// Owner
 	var slot	 : Int?			= nil			// set by caller after instantiation
 
 	var rootPart : RootPart		{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
@@ -22,11 +22,11 @@ class RootVew : Vew {			// inherits ObservableObject
 	var rootScn : RootScn
 
 	 // Lighting, etc
-	var cameraScn	: SCNNode?	= nil	// 	{ 		touchCameraScn() }//{ 	touchCameraScn()							}
+	var cameraScn	: SCNNode?	= nil
 	var lightsScn	: [SCNNode]	= []
 	var axesScn		: SCNNode?	= nil
 
-//	@Published var selfiePole	= SelfiePole()
+//	@Published var selfiePole	= SelfiePole()	// should be here!
 
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
@@ -60,21 +60,7 @@ class RootVew : Vew {			// inherits ObservableObject
 		axesScn 				= rootScn.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
-		if let c 				= fwGuts.document.config.fwConfig("selfiePole") {
-			if let at 			= c.scnVector3("origin"), !at.isNan {
-				selfiePole.position 	= at						// Pole Height
-			}
-			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				selfiePole.gaze = -CGFloat(u)				// (in degrees)
-			}
-			if let s 			= c.float("s"), !s.isNan {	// Spin
-				selfiePole.spin = CGFloat(s) 					// (in degrees)
-			}
-			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				selfiePole.zoom = CGFloat(z)
-			}
-			atRve(2, fwGuts.logd("=== Set camera=\(c.pp(.line))"))
-		}
+		selfiePole.configureDocument(from:fwGuts.document.config)
 
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= trunkVew			// default

@@ -241,6 +241,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 		}
 	}
 	var fwClassName		 : String	{	"Library"								}
+
          // MARK: - 17. Debugging Aids
 	var description		 : String 	{	return  "\"\(fwClassName) \(name)\""	}
 	var debugDescription : String	{	return   "'\(fwClassName) \(name)'"		}

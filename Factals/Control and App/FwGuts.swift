@@ -448,16 +448,17 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
-			var rv				=  (rootPart?.pp(.classUid) ?? "rootPart=nil") + " "	//for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraNode)] {
-			rv					+= rootVews.pp(.classUid) + " "	//	rv				+= "\(msg) =       \(obj.categoryBitMask)-"
-			if let document {rv	+= document.pp(.classUid)					}
+			var rv				= (rootPart?.pp(.classUid) ?? "rootPart=nil") + " "
+			rv					+= rootVews.pp(.classUid) + " "
+			if let document {
+				rv				+= document.pp(.classUid)
+			}
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
 
- // ORPHAN, WAS IN defunct FwView
 	 // MARK: - 17. Debugging Aids
 	override var description	  : String {	return  "\"\(pp(.short))\""	}
 	override var debugDescription : String {	return   "'\(pp(.short))'" 	}

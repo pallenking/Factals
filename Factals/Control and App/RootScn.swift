@@ -239,40 +239,31 @@ extension RootScn {		// lights and camera
 		let c 					= touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
 		let d 					= touchLight("*-omni2",	.omni, color:NSColor.green, intensity:500)				//blue//
 		return [a,b,c,d]
-//		let _ 					= helper("omni3",	.omni,	 color:NSColor.red,   intensity:500)				//blue//
-//		let spot 				= helper("spot",	.spot,	 position:SCNVector3(1.5, 1.5, 1.5))
-//		 spot.light!.spotInnerAngle = 30.0
-//		 spot.light!.spotOuterAngle = 80.0
-//		 spot.light!.castsShadow = true
-//		 let constraint 		= SCNLookAtConstraint(target:nil)
-//		 constraint.isGimbalLockEnabled = true
-//		 cameraScn.constraints 	= [constraint]
-//		 spot.constraints 		= [constraint]
-//		for (msg, obj) in [("light1", light1), ("light2", light2), ("camera", cameraScn)] {
-//			rv					+= "\(msg) =       \(obj.categoryBitMask)-"
-//			rv					+= "\(obj.description.shortenStringDescribing())\n"
-//		}
+
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
-					position:SCNVector3?=nil, intensity:CGFloat=100) -> SCNNode {
-						// Complain if Straggler: 		assert(scn.find(name:name) == nil, "helper: \"\(name)\" pre-exists")
-			if let rv			= scn.find(name:name) {
-				return rv
-			} else {
+					intensity:CGFloat=100, position:SCNVector3?=nil) -> SCNNode {
+			guard let rvOld		= scn.find(name:name) else {
+				let rvNew 		= SCNNode()
+				rvNew.name		= name			// arg 1
+
+				 // Light
 				let light		= SCNLight()
-				light.type 		= lightType
+				light.type 		= lightType		// arg 2
 				if let color	= color {
-					light.color = color
+					light.color = color			// arg 3
 				}
-				let rv 			= SCNNode()
-				rv.light		= light
-				rv.name			= name
-				light.intensity = intensity
+				light.intensity = intensity		// arg 4
+				rvNew.light		= light
+				scn.addChildNode(rvNew)
+
+				 // Position
 				if let position	= position {
-					rv.position = position
+					rvNew.position = position	// arg 5
 				}
-				scn.addChildNode(rv)
-				return rv
+
+				return rvNew
 			}
+			return rvOld
 		}
 	}
 	 // MARK: - 4.2 Camera

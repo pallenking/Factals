@@ -1545,11 +1545,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 	 // MARK: - 16. Global Constants
 	static let null 			= Part(["n":"null"])	// Any use of this should fail (NOT IMPLEMENTED)
+
 	 // MARK: - 17. Debugging Aids
 	var description	  : String 	{	return  "\"\(pp(.short))\""	}
 	var debugDescription : String	{	return   "'\(pp(.short))'"		}
-//	var summary					  : String	{	return   "<\(pp(.short))>"		}
-
+	var summary					  : String	{	return   "<\(pp(.short))>"		}
 }
  /// Pretty print an up:Bool as String
 func ppUp(_ up:Bool?=nil) -> String {

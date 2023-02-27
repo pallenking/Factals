@@ -36,7 +36,7 @@ struct FactalsDocument: FileDocument {
 	var config : FwConfig		= [:]
 
 	// MARK: - 2.4.4 Building
-	 // index of named items (<Class>,"wire", "WBox", "origin", "breakAtWire"
+	 // index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc
 	var indexFor				= Dictionary<String,Int>()
 
 	mutating func configureDocument(from c:FwConfig) {

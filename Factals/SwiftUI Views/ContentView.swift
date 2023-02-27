@@ -22,9 +22,21 @@ struct ContentView1: View {
 		{	fooModel.selfiePole.zoom *= 1.1										}
 	}
 }
+struct ContentView: View {
+	@Binding	var document	: FactalsDocument	// the Document
+	@StateObject var fooModel 	= FooModel()
+	var body: some View {
+		SelfiePoleBar(selfiePole:$fooModel.selfiePole)
+		Button(label:{	Text( "Z**").padding(.top, 300)							})
+		{	fooModel.selfiePole.zoom *= 1.1										}
+
+		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
+		Spacer()
+	}
+}
 ////////////////////////////// Testing
 
-struct ContentView: View {
+struct ContentView2: View {
 	@Binding	var document	: FactalsDocument	// the Document
 	var body: some View {
 		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r

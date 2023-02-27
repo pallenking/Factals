@@ -160,7 +160,7 @@ private let params4vew : FwConfig = [
 	"showAxis"					: true,			//false//true//
 	"axisTics"					: true,			//false//true//
 
-	"camera"					: "",			// so ansConfig overrites
+	"camera"					: "",			// HACK Define so ansConfig overrites
 	 // Breaks for debugging:
 	"breakAtViewOf"				: "",
 	"breakAtBoundOf"			: "",

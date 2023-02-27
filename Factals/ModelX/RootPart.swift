@@ -45,10 +45,6 @@ class RootPart : Part {
 	var partTreeOwnerPrev:String? = nil
 	var partTreeVerbose			= true
 
-//	// MARK: - 2.4.4 Building
-//	 // index of named items (<Class>,"wire", "WBox", "origin", "breakAtWire"
-//	var indexFor				= Dictionary<String,Int>()
-
 	// MARK: - 3. Part Factory
 	init() {
 		simulator				= Simulator()

@@ -144,10 +144,9 @@
 		9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
-		9FC1F1C0293418E60025E80D /* XXXHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BE293418E60025E80D /* XXXHelper.swift */; };
-		9FC1F1C1293418E60025E80D /* XXXHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BE293418E60025E80D /* XXXHelper.swift */; };
 		9FC1F1C2293418E60025E80D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BF293418E60025E80D /* Menu.swift */; };
 		9FC1F1C3293418E60025E80D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC1F1BF293418E60025E80D /* Menu.swift */; };
+		9FDF886829ACFA1700776ABB /* DebugAids.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDF886729ACFA1700776ABB /* DebugAids.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
 		9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */; };
 		9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A1286B8F5B00C8C22A /* Log.swift */; };
@@ -206,7 +205,7 @@
 		9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MachineTrap.h"; sourceTree = "<group>"; };
 		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F0295E42880936400DD0004 /* SwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftTryCatch.m; sourceTree = "<group>"; };
-		9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTypesFoo.swift; sourceTree = "<group>"; };
+		9F1900E528808DA80078DB6C /* XXXEnumTypesFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXEnumTypesFoo.swift; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		9F1900E928808DC00078DB6C /* MultiLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiLink.swift; sourceTree = "<group>"; };
@@ -256,10 +255,10 @@
 		9FAA4A0328524C40009332C9 /* X HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "X HasChildren.swift"; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
-		9FC1F1BE293418E60025E80D /* XXXHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXXHelper.swift; path = idine/XXXHelper.swift; sourceTree = SOURCE_ROOT; };
 		9FC1F1BF293418E60025E80D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = idine/Menu.swift; sourceTree = SOURCE_ROOT; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
 		9FDBBED628AC45DB00445219 /* PrintBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBuffer.swift; sourceTree = "<group>"; };
+		9FDF886729ACFA1700776ABB /* DebugAids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAids.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
 		9FEE519E286B507500C8C22A /* SubPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubPart.swift; sourceTree = "<group>"; };
 		9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredLog.swift; sourceTree = "<group>"; };
@@ -333,7 +332,6 @@
 		9F19CA33285EAF730072C50E /* ModelX */ = {
 			isa = PBXGroup;
 			children = (
-				9F1900E528808DA80078DB6C /* EnumTypesFoo.swift */,
 				9FEE52242875F84F00C8C22A /* Net.swift */,
 				9F1900E828808DC00078DB6C /* Actor.swift */,
 				9F1900F228808DC00078DB6C /* EditNet.swift */,
@@ -359,6 +357,8 @@
 				9F4A3AD9288B386300574925 /* Part.swift */,
 				9FEE51A4286B958700C8C22A /* PolyWrap.swift */,
 				9FEE519E286B507500C8C22A /* SubPart.swift */,
+				9F1900E528808DA80078DB6C /* XXXEnumTypesFoo.swift */,
+				9FDF886729ACFA1700776ABB /* DebugAids.swift */,
 			);
 			path = ModelX;
 			sourceTree = "<group>";
@@ -427,7 +427,6 @@
 				9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */,
 				9F0295D22880923000DD0004 /* Sounds.swift */,
 				9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */,
-				9FC1F1BE293418E60025E80D /* XXXHelper.swift */,
 			);
 			path = "Control and App";
 			sourceTree = "<group>";
@@ -700,7 +699,6 @@
 				9F417F3C28EB94BA0047B359 /* EventReceiver.swift in Sources */,
 				9F417F4D28EB95350047B359 /* Fw++.swift in Sources */,
 				9F417F1B28EB94130047B359 /* Generator.swift in Sources */,
-				9FC1F1C1293418E60025E80D /* XXXHelper.swift in Sources */,
 				9F417F5528EB95550047B359 /* Equatable.swift in Sources */,
 				9F417F3328EB946E0047B359 /* LinkVew.swift in Sources */,
 				9F417F2F28EB94580047B359 /* SubPart.swift in Sources */,
@@ -729,6 +727,7 @@
 				9F3E4A0B28B7A7C4003D450D /* XXGestures.swift in Sources */,
 				9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */,
 				9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */,
+				9FDF886829ACFA1700776ABB /* DebugAids.swift in Sources */,
 				9FEE51B3286BA57A00C8C22A /* Proto.swift in Sources */,
 				9FEE519F286B507600C8C22A /* SubPart.swift in Sources */,
 				9F19010028808DC10078DB6C /* WorldModel.swift in Sources */,
@@ -790,7 +789,6 @@
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9F4A3ADA288B386300574925 /* Part.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwGuts.swift in Sources */,
-				9FC1F1C0293418E60025E80D /* XXXHelper.swift in Sources */,
 				9F96952F288B3B2800106DBC /* Net.swift in Sources */,
 				9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */,
 				9FEE51BD286BAF2E00C8C22A /* SCNMatrix++.swift in Sources */,

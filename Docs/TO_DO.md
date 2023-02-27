@@ -237,8 +237,7 @@ x		https://nshipster.com/swift-documentation/
 x		https://github.com/realm/jazzy/blob/master/README.md
 x		https://www.markdownguide.org/basic-syntax/
 x		jazzy --min-acl private
-x	k. get helper definitions in HaveNWantEnvironment.swift for ONLY Tests01.swift
-x	l. When stack in NSObject+MachineTrap.m, my swift symbols (e.g. rootpart() ) aren't available!
+	l. When stack in NSObject+MachineTrap.m, my swift symbols (e.g. rootpart() ) aren't available!
 
 3. Taming NSDocument
 	http://sketchytech.blogspot.com/2016/09/taming-nsdocument-and-understanding.html
