@@ -58,9 +58,8 @@ struct FwGutsView: View {
 						preferredFramesPerSecond:30
 					//	handler		: { nsEvent in print("0: Big main view's handler") }
 					)
-				//	if !isLoaded {
-						VewBar(rootVews: $fwGuts.rootVews,  keySlot: sceneKitArgs.slot)	// PW1: I don't understand the correct thing to pass in
-				//	}
+					VewBar(rootVews:$fwGuts.rootVews,  slot:sceneKitArgs.slot)	// PW1: I don't understand the correct thing to pass in
+
 					SceneKitView(sceneKitArgs:sceneKitArgs)
 					 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 					 .border(.black, width:2)
@@ -82,7 +81,7 @@ struct FwGutsView: View {
 			//			preferredFramesPerSecond:30
 			//		//	handler		: { nsEvent in print("1: Second smaller view's handler") }
 			//		)
-			//		VewBar(rootVews: $fwGuts.rootVews,  keySlot: sceneKitArgs.slot)	// PW1: I don't understand the correct thing to pass in
+			//		VewBar(rootVews:$fwGuts.rootVews, slot:sceneKitArgs.slot)	// PW1: I don't understand the correct thing to pass in
 			//		SceneKitView(sceneKitArgs:sceneKitArgs)
 			//		 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 			//		 .border(.black, width:2)

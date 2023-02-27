@@ -172,6 +172,7 @@ class RootVew : Vew {			// inherits ObservableObject
 		guard let slot 						else {	return rv + "slot IS NIL"	}
 		guard slot < fwGuts.rootVews.count 	else {	return rv + "slot TOO BIG"	}
 		guard fwGuts.rootVews[slot] == self else {	return rv + "self inclorectly in rootVews"}
+
 		return rv
 	}
 	  // MARK: - 16. Global Constants

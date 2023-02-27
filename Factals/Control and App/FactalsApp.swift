@@ -347,11 +347,12 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 
 		 // --------------- B: RootVew ((rootPart, A))
 		let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
-		newRootVew.slot			= fwGuts.rootVews.count - 1
-
-		fwGuts.rootVews[newRootVew.slot!] = newRootVew									//		fwGuts.rootVews.append(newRootVew)
 		newRootVew.fwGuts		= fwGuts			// Set Owner
+		let slot				= fwGuts.rootVews.count - 1
+		newRootVew.slot			= slot
+		fwGuts.rootVews[slot]	= newRootVew
 		
+		 // --------------- C: FactalsDocument
 		var doc					= FactalsDocument(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
 		let c					= doc.config + rootPart.ansConfig

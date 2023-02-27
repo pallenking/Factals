@@ -10,12 +10,12 @@ class FwGuts : NSObject, ObservableObject {
 	@Published var redo:UInt8	= 0
 	@Published var rootPart :  RootPart?													//{	rootVew.part as! RootPart}
 
-	var document 	 : FactalsDocument!
+	var document : FactalsDocument!
 	var rootVews : [RootVew]	= []
 
-	var log 		 : Log
+	var log 	 : Log
 
-	var fooSelfiePole = SelfiePole()
+	var fooSelfiePole 			= SelfiePole()
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
@@ -42,7 +42,7 @@ class FwGuts : NSObject, ObservableObject {
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
 		let slot				= sceneKitArgs.slot
 
-		guard slot >= 0 && slot < rootVews.count else {	fatalError("")	}
+		guard slot >= 0 && slot < rootVews.count else {	fatalError("paranoia")	}
 		atRnd(4, DOClog.log("=== Slot\(slot): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
 
 		 // Access rootVews for sceneKitArgs.slot:

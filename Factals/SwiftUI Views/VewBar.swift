@@ -11,13 +11,12 @@ struct VewBar: View {
 
 	 // N.B: Sending the array and index allows internal checking
 	@Binding var rootVews : [RootVew]
-	let keySlot  : Int
+	let slot : Int
 
 	var body: some View {
-		if keySlot < rootVews.count {
-			let rootVew				= rootVews[keySlot]
+		if slot < rootVews.count {
+			let rootVew			= rootVews[slot]
 			VStack {
-				let slot		= rootVew.slot ?? -1
 				HStack {
 					Text("Slot\(slot):")
 					Button(label:{	Text("ptv")									})
@@ -54,26 +53,21 @@ struct VewBar: View {
 					}
 				}
 				HStack {
-					SelfiePoleBar(selfiePole:$rootVews[slot].selfiePole)
+					SelfiePoleBar(selfiePole:$rootVews[slot].selfiePole)	// Bad: $rootVew.selfiePole
 					Spacer()
 					Button(label:{	Text( "Z**").padding(.top, 300)				})
-					{	var s	= rootVews[slot].selfiePole
+					{	var s	= rootVew.selfiePole
 						s.zoom	*= 1.1
 						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-						rootVews[slot].selfiePole = s
+						rootVews[slot].selfiePole = s	// Put struct's val back
 					}
 				}
 			}
 			 .padding(4)
 			 .border(Color.black, width:0.5)
 			 .padding(2)
-//		} else {
-//			HStack {	// view
-//				Text("rootVew=nil")
-//			}
-//			 .padding(6)
-//			 .border(Color.black, width:0.5)
-//			 .padding(8)
+		} else {
+			Text("rootVew=nil")
 		}
 	}
 }

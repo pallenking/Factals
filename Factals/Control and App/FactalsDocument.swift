@@ -215,6 +215,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 	mutating func showInspec(for name:String) {
 		if let part	= fwGuts.rootPart?.find(name:name) {
 
+			 // Open inspectors for all RootVews:
 			for rootVew in fwGuts.rootVews {
 		 		if let vew = rootVew.find(part:part) {
 					showInspecFor(vew:vew, allowNew:true)

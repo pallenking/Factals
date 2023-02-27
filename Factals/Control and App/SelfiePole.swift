@@ -26,12 +26,13 @@ struct SelfiePole {
 		if let c 				= config.fwConfig("camera") {
 			if let h 			= c.float("h"), !h.isNan {	// Pole Height
 				bug//height		= CGFloat(h)
+				bug//height		= CGFloat(h)
 			}
 			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				gaze 		= -CGFloat(u)		/* in degrees */
+				gaze 			= -CGFloat(u)					// (in degrees)
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
-				spin 			= CGFloat(s) 		/* in degrees */
+				spin 			= CGFloat(s) 					// (in degrees)
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
 				zoom 			= CGFloat(z)

@@ -406,7 +406,6 @@ class Port : Part, PortTalk {
 		}
 		// Now rv contain's self's portConSpot, in aVewq
 		let enaPpWp				= log.params4aux.string("ppViewOptions")?.contains("W") ?? false
-		//		for rootVew in root!.fwGuts.rootVews {
 		
 		var wPosn				= ""
 		if let rScn				= vew.rootVew?.scn, enaPpWp {
