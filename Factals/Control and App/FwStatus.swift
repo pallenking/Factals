@@ -3,7 +3,7 @@
 import SceneKit
 
  // External Global interface (misc, lldb)
-func printFwcConfig() {		print(ppFwcConfig())								}
+func printFwcConfig() {		print( ppFwcConfig() )								}
 func printFwcState()  {
 	DOClog.ppIndentCols = 20		// sort of permanent!
 	print(ppFwcState())

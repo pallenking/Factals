@@ -47,34 +47,33 @@ struct VewBar: View {
 					Spacer()
 					// just for debug
 					if trueF {
-						Button(label:{	Text( "state").padding(.top, 300)				})
-						{	printFwcState()												}
-						Button(label: {	Text("LLDB") 									})
-						{	breakToDebugger()											}
+						Button(label:{	Text( "state").padding(.top, 300)		})
+						{	printFwcState()										}
+						Button(label: {	Text("LLDB") 							})
+						{	breakToDebugger()									}
 					}
 				}
 				HStack {
-					//let rootScn 		= rootVew.rootScn
-					let rootVew 		= rootVews[slot]
 					SelfiePoleBar(selfiePole:$rootVews[slot].selfiePole)
 					Spacer()
 					Button(label:{	Text( "Z**").padding(.top, 300)				})
-					{	rootVew.selfiePole.zoom	*= 1.1							}
+					{	var s	= rootVews[slot].selfiePole
+						s.zoom	*= 1.1
+						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+						rootVews[slot].selfiePole = s
+					}
 				}
 			}
-	//		 .background(Color.white)//white)//yellow NSColor("verylightgray")!
-	//		 .background(NSColor("verylightgray")!) //white)//yellow
 			 .padding(4)
-		//	 .RoundedRectangle(RoundedRectangle(cornerRadius:2))// ERROR Value of type 'some View' has no member 'RoundedRectangle'
 			 .border(Color.black, width:0.5)
 			 .padding(2)
-		} else {
-			HStack {	// view
-				Text("rootVew=nil")
-			}
-			 .padding(6)
-			 .border(Color.black, width:0.5)
-			 .padding(8)
+//		} else {
+//			HStack {	// view
+//				Text("rootVew=nil")
+//			}
+//			 .padding(6)
+//			 .border(Color.black, width:0.5)
+//			 .padding(8)
 		}
 	}
 }

@@ -546,7 +546,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
 			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
-			if let vewConfig {					// NEW WAY
+			if let vewConfig, false {					// NEW WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
 				pTrunk.adorn(in:vRoot, openChildrenUsing:vewConfig)
 			}
@@ -561,7 +561,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
 			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
-			atRsi(6, log ? logd("rootPart.reSize():....") : nop)
+			atRsi(6, log ? logd("rootPart.reSize():............................") : nop)
 
 /**/		pRoot.reSize(vew:vRoot)				// also causes rePosition as necessary
 			
@@ -571,6 +571,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			vRoot.orBBoxIntoParent()
 			pRoot.reSizePost(vew:vRoot)				// ===(set link Billboard constraints)
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
+			atRsi(6, log ? logd("..............................................") : nop)
 		}
 		 // -----   P A I N T   Skins ----- //
 		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,

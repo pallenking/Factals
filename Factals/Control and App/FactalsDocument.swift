@@ -42,7 +42,6 @@ struct FactalsDocument: FileDocument {
 	mutating func configureDocument(from c:FwConfig) {
 		config					= c
 		fwGuts?.configureDocument(from:c)	// COMPONENT 1
-	//!	assert(fwGuts.document === self, "Factals.configureDocument(from\(c.pp(.phrase))) ERROR")
 	}
 
 	 // @main uses this to generate a blank document
@@ -53,20 +52,19 @@ struct FactalsDocument: FileDocument {
 																 // The problem with this is that this is before the controller is built!
 																//		config					= params4all
 																//		setController(configconfig)
-		//		1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
+				// 1. Make RootPart:		//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
+
 		let rootPart			= RootPart(fromLibrary:select)
 		fwGuts.rootPart			= rootPart
 
 		 //		2. Build Guts of App around RootPart
-//		fwGuts					= FwGuts(rootPart:rootPart)	// and RootPart
 		fwGuts.document 		= self		// fwGuts   delegate
 		rootPart.fwGuts			= fwGuts	// rootPart delegate
-//		DOC						= self		// INSTALL self:Factals as current DOC
 
 		 //		3. Update Configurations
 		config					+= rootPart.ansConfig

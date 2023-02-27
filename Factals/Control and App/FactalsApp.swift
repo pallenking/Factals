@@ -354,7 +354,9 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		
 		var doc					= FactalsDocument(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
-		doc.configureDocument(from:doc.config + rootPart.ansConfig)
+		let c					= doc.config + rootPart.ansConfig
+		doc.configureDocument(from:c)
+//		newRootVew.configureDocument(from: ?FwConfig)
 
 		rootPart.fwGuts			= fwGuts
 		fwGuts.document 		= doc
