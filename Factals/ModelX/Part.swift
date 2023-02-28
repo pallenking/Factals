@@ -535,17 +535,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		parent					= p
 		if root == nil || root !== r {
 			print("This will probably ERR ..... ####### ")
-			root 				=  r
-								?? self as? RootPart 	// me, if I'm a RootPart
+			root 				=  r					// from arg (if there)
+								?? self as? RootPart 	// me, I'm a RootPart
 								?? child0 as? RootPart	// if PolyWrapped
 		}
 
-//		root					=  r					// from arg (if there)
-//								?? root					// my root	(if there)
-//								?? self as? RootPart 	// me, if I'm a RootPart
-//								?? child0 as? RootPart	// if PolyWrapped
 		markTree(dirty:.vew)							// set dirty vew
-
 		 // Do whole tree
 		for child in children {							// do children
 			child.groomModel(parent:self, root:root)		// ### RECURSIVE

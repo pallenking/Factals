@@ -62,8 +62,6 @@ class RootPart : Part {
 		case log
 		case title
 		case ansConfig
-//		case indexFor
-//	//	NO FwDocument,
 		case partTreeVerbose		// Bool
 	}
 
@@ -84,15 +82,14 @@ class RootPart : Part {
 
 	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
 	 			
-		polyUnwrapRp()	// ---- 3. REMOVE -  PolyWrap's
+		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 						
-		realize()		// ---- 4. Replace weak references
+		realize()									// ---- 2. Replace weak references
 
 		groomModel(parent:nil as Part?, root:self)
-		//indexFor	= [:]		// HACK! should store in fwDocument!
 		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
-		msg == nil ? nop : unlock(partTreeAs:msg) // ---- 1. Get LOCKS for PartTree
+		msg == nil ? nop : unlock(partTreeAs:msg)	// ---- 3. UNLOCK for PartTree
 	}
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 
@@ -108,7 +105,6 @@ class RootPart : Part {
 		try container.encode(simulator,			forKey:.simulator				)
 		try container.encode(title,				forKey:.title					)
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
-//		try container.encode(indexFor, 			forKey:.indexFor 				)
 		try container.encode(partTreeVerbose,	forKey:.partTreeVerbose			)
 
 		atSer(3, logd("Encoded"))
@@ -124,7 +120,6 @@ class RootPart : Part {
 		simulator				= try container.decode(Simulator.self, forKey:.simulator	)
 		title					= try container.decode(   String.self, forKey:.title		)
 		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
-//		indexFor				= try container.decode(Dictionary<String,Int>.self, forKey:.indexFor)
 		partTreeLock 			= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
 		partTreeVerbose			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 
@@ -190,8 +185,6 @@ class RootPart : Part {
 									//			 // ---- 1. Get LOCKS for PartTree
 									//			rootPart.unlock(partTreeAs:lockStr)
 									//
-									//			rootPart.indexFor	= [:]			// HACK! should store in fwDocument!
-									//
 									//			atSer(3, logd("Wrote   rootPart!"))
 									//			return archiver.encodedData
 									//		}
@@ -231,7 +224,6 @@ class RootPart : Part {
 //		theCopy.simulator		= self.simulator
 //		theCopy.title			= self.title
 //		theCopy.ansConfig		= self.ansConfig
-//		theCopy.indexFor		= self.indexFor
 //	//x	theCopy.partTreeLock 	= self.partTreeLock
 //	//x	theCopy.partTreeOwner	= self.partTreeOwner
 //	//x	theCopy.partTreeOwnerPrev = self.partTreeOwnerPrev
@@ -247,7 +239,6 @@ class RootPart : Part {
 //								&& simulator		 == rhs.simulator
 //								&& title			 == rhs.title
 ////								&& ansConfig		 == rhs.ansConfig				//Protocol 'FwAny' as a type cannot conform to 'Equatable'
-//								&& indexFor		 	 == rhs.indexFor
 //		//x						&& partTreeLock 	 == rhs.partTreeLock
 //		//x						&& partTreeOwner	 == rhs.partTreeOwner
 //		//x						&& partTreeOwnerPrev == rhs.partTreeOwnerPrev

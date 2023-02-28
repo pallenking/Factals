@@ -19,7 +19,12 @@ struct ContentView1: View {
 	var body: some View {
 		SelfiePoleBar(selfiePole:$fooModel.selfiePole)
 		Button(label:{	Text( "Z**").padding(.top, 300)							})
-		{	fooModel.selfiePole.zoom *= 1.1										}
+		{	var s	= fooModel.selfiePole
+			s.zoom	*= 1.1
+			print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+			fooModel.selfiePole = s	// Put struct's val back
+		}
+//		{	fooModel.selfiePole.zoom *= 1.1										}
 	}
 }
 struct ContentView: View {
@@ -28,7 +33,12 @@ struct ContentView: View {
 	var body: some View {
 		SelfiePoleBar(selfiePole:$fooModel.selfiePole)
 		Button(label:{	Text( "Z**").padding(.top, 300)							})
-		{	fooModel.selfiePole.zoom *= 1.1										}
+		{	var s	= fooModel.selfiePole
+			s.zoom	*= 1.1
+			print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+			fooModel.selfiePole = s	// Put struct's val back
+		}
+//		{	fooModel.selfiePole.zoom *= 1.1										}
 
 		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
 		Spacer()

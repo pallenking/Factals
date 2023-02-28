@@ -204,11 +204,11 @@ struct FactalsApp: App, Uid, FwAny {
 	}													// why not use SwiftUI?
 	func appState(_ sender: Any) {
 		print("'c': AppDelegate.appState():")
-		print(ppFwState())
+		print(ppFwState(config:false))
 	}
 	func appConfiguration(_ sender: Any) {
 		print("'C': AppDelegate.appConfiguration():")
-		print(ppFwConfig())
+bug//	print(ppFwConfig(config:true))
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")

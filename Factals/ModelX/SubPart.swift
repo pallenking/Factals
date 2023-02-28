@@ -96,12 +96,14 @@ extension Part {
 	///   - dirtyness: kind of dirtyness bits involved
 	func dirtySubTree(gotLock:Bool=false, _ dirtyness:DirtyBits = .vsp) {
 //		gotLock ? nop : SCNTransaction.lock()
+
 		let dirtyRaw			= dirtyness.rawValue | dirty.rawValue
 		dirty					= DirtyBits(rawValue:dirtyRaw)!
-//		dirty					= dirtyness		// all dirty: Vew, Size, Paint
+
 		for child in children {
 			child.dirtySubTree(gotLock:true, dirtyness)
 		}
+
 //		gotLock ? nop : SCNTransaction.unlock()
 	}
 

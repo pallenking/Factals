@@ -43,6 +43,14 @@ struct SelfiePoleBar: View {
 			LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
 			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 			LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
+								
+			Button(label:{	Text( "Z**").padding(.top, 300)							})
+			{	var s			= selfiePole
+				s.zoom			*= 1.1
+				print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+				selfiePole 		= s	// Put struct's val back
+			}
+
 		}
 		 .padding(6)
 	}

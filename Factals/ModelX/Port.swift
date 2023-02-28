@@ -467,8 +467,8 @@ class Port : Part, PortTalk {
 		super.groomModel(parent:parent_, root:root_)
 
 		 // make sure we are also correctly in our atom's ports[].
-		if let a				= self.atom {	// as a Port, our Atom
-			if let apn			= a.ports[name], 	// we are registered.
+		if let a				= self.atom {		// as a Port, our Atom
+			if let apn			= a.ports[name], 	// atom's Port named name
 			  apn !== self {
 				print("##-##-##-##-## our Atom \(a.fullName) has a Port \(apn.fullName) named \(name), but it's not that")
 				a.ports[name]	= self
