@@ -8,27 +8,29 @@
 import SceneKit
 
 class RootVew : Vew {			// inherits ObservableObject
-	weak var fwGuts : FwGuts!					// Owner
-	var slot	 : Int?			= nil			// set by caller after instantiation
+	weak var fwGuts : FwGuts!			// Owner
+	var slot	 	: Int?		= nil	// Owner's slot for me.
 
-	var rootPart : RootPart		{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
+	 // 3D APPEARANCE
+	var rootScn 	: RootScn			// Master tree
+	 // Lighting, etc						// (in rootScn)
+	var cameraScn	: SCNNode?	= nil
+	var lightsScn	: [SCNNode]	= []
+	var axesScn		: SCNNode?	= nil
+//	@Published var selfiePole	= SelfiePole()	// should be here!
+	var lookAtVew	: Vew?		= nil						// Vew we are looking at
+
+	 // Locks
 	let rootVewLock 			= DispatchSemaphore(value:1)
 	var rootVewOwner : String?	= nil
 	var rootVewOwnerPrev:String? = nil
 	var rootVewVerbose 			= false
-	var trunkVew : Vew? {		 // Get  trunkVew  from reVew:
+
+	 // Sugar
+	var rootPart 	: RootPart	{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
+	var trunkVew 	: Vew? 		{		 // Get  trunkVew  from reVew:
 		return children.count > 0 ? children[0] : nil
 	}
-	var rootScn : RootScn
-
-	 // Lighting, etc
-	var cameraScn	: SCNNode?	= nil
-	var lightsScn	: [SCNNode]	= []
-	var axesScn		: SCNNode?	= nil
-
-//	@Published var selfiePole	= SelfiePole()	// should be here!
-
-	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 /// generate a new View, returning its index
 	init() {
