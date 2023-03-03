@@ -19,7 +19,7 @@ struct VewBar: View {
 			let rootVew			= rootVews[slot]
 			VStack {
 				HStack {
-					Text("Slot\(slot):")
+					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
 						lldbPrint(rootVew, mode:.tree, terminator:"")
@@ -65,7 +65,8 @@ struct VewBar: View {
 				}
 			}
 			 .padding(4)
-			 .border(Color.black, width:0.5)
+			 .background(Color(red:1.0, green:1.0, blue:0.9))
+			 .border(Color.black, width:2.5)
 			 .padding(2)
 		} else {
 			Text("rootVew=nil")

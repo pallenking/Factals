@@ -53,5 +53,6 @@ struct SelfiePoleBar: View {
 
 		}
 		 .padding(6)
+		 .background(Color(red:1.0, green:0.9, blue:0.9))
 	}
 }

@@ -13,42 +13,21 @@ extension SCNCameraController : ObservableObject {	}
 final class FooModel : ObservableObject {
 	@Published var selfiePole 	= SelfiePole()
 }
-struct ContentView1: View {
-	@Binding var document		: FactalsDocument	// the Document
-	@StateObject var fooModel 	= FooModel()
-	var body: some View {
-		SelfiePoleBar(selfiePole:$fooModel.selfiePole)
-		Button(label:{	Text( "Z**").padding(.top, 300)							})
-		{	var s	= fooModel.selfiePole
-			s.zoom	*= 1.1
-			print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-			fooModel.selfiePole = s	// Put struct's val back
-		}
-//		{	fooModel.selfiePole.zoom *= 1.1										}
-	}
-}
 struct ContentView: View {
 	@Binding	var document	: FactalsDocument	// the Document
 	@StateObject var fooModel 	= FooModel()
 	var body: some View {
-		SelfiePoleBar(selfiePole:$fooModel.selfiePole)
-		Button(label:{	Text( "Z**").padding(.top, 300)							})
-		{	var s	= fooModel.selfiePole
-			s.zoom	*= 1.1
-			print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-			fooModel.selfiePole = s	// Put struct's val back
+		HStack {
+			Text("$fooModel.selfiePole").foregroundColor(.red).bold()
+			SelfiePoleBar(selfiePole:$fooModel.selfiePole)
+			Button(label:{	Text( "Z**").padding(.top, 300).foregroundColor(.red)})
+			{	var s	= fooModel.selfiePole
+				s.zoom	*= 1.1
+				print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+				fooModel.selfiePole = s	// Put struct's val back
+			}
+	//		{	fooModel.selfiePole.zoom *= 1.1										}
 		}
-//		{	fooModel.selfiePole.zoom *= 1.1										}
-
-		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
-		Spacer()
-	}
-}
-////////////////////////////// Testing
-
-struct ContentView2: View {
-	@Binding	var document	: FactalsDocument	// the Document
-	var body: some View {
 		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
 		Spacer()
 	}
