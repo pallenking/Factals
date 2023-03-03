@@ -36,7 +36,7 @@ struct SelfiePoleBar: View {
 
 	var body: some View {
 		HStack {
-			Text("SelfiePole:\(selfiePole.pp(.uid)):")
+			Text("SelfiePole:\n\(selfiePole.pp(.uid)):")
 			 .padding(.horizontal, -8)
 			InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
 			 .padding(.horizontal, 5)

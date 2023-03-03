@@ -60,7 +60,7 @@ struct FwGutsView: View {
 
 	var body: some View {
 		VStack {
-			PartBar(fwGuts:$fwGuts).padding(.vertical, -10)
+//			PartBar(fwGuts:$fwGuts).padding(.vertical, -10)
 
 	//		SelfiePoleBar(selfiePole:$fwGuts.fooSelfiePole)
 	//		Button(label:{	Text( "Z**").padding(.top, 300)						})
@@ -69,8 +69,11 @@ struct FwGutsView: View {
 			HStack {
 				VStack {
 					 //  --- H a v e N W a n t  0  ---
-					let sceneKitArgs	= SceneKitArgs(
-						slot	: 0,
+					let slot		= 0
+					VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
+
+					let sceneKitArgs = SceneKitArgs(
+						slot		: slot,
 						title		: "0: Big main view",
 						rootPart	: fwGuts.rootPart,
 						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
@@ -80,8 +83,6 @@ struct FwGutsView: View {
 						preferredFramesPerSecond:30
 					//	handler		: { nsEvent in print("0: Big main view's handler") }
 					)
-					VewBar(rootVews:$fwGuts.rootVews,  slot:sceneKitArgs.slot)	// PW1: I don't understand the correct thing to pass in
-
 					SceneKitView(sceneKitArgs:sceneKitArgs)
 					 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
 					 .border(.black, width:2)

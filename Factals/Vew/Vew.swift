@@ -556,6 +556,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 				 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/			pRoot.reVew(vew:vRoot, parentVew:nil)
 			}
+			// should have created all Vews and one *-<name> in ptn tree
 			pRoot.reVewPost(vew:vRoot)
 		}
 		 // ----   Adjust   S I Z E s   ---- //
@@ -580,8 +581,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 /**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
-//			pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
-//			pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
+	//		pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
+	//		pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
 			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
 		}
 		let unlockName			= named == nil ? nil :	// no lock wanted

@@ -8,8 +8,8 @@ class LinkVew : Vew {
 	 // MARK: - 2. Object Variables:
 	lazy var  pCon2Vew : Vew	= .null		// Vew to which my Ports are connected
 	 lazy var sCon2Vew : Vew	= .null		// dummy values for now
-//	var  pEndVip : SCNVector3?	= nil		// H: P END scnVector3 position In Parent coordinate system
-//	 var sEndVip : SCNVector3?	= nil		// H: S END scnVector3 position In Parent coordinate system
+	var  pEndVip : SCNVector3?	= nil		// H: P END scnVector3 position In Parent coordinate system
+	 var sEndVip : SCNVector3?	= nil		// H: S END scnVector3 position In Parent coordinate system
 
 	 // MARK: - 3. Factory
 	override init(forPart part:Part?=nil, scn scn_:SCNNode? = nil, expose expose_:Expose? = nil) {
@@ -22,13 +22,17 @@ class LinkVew : Vew {
 		var container 			= encoder.container(keyedBy:LinkVewKeys.self)
 		try container.encode(pCon2Vew, 	forKey:.pCon2Vew 	)
 		try container.encode(sCon2Vew,	forKey:.sCon2Vew 	)
+		try container.encode(pEndVip, 	forKey:.pEndVip 	)
+		try container.encode(sEndVip,	forKey:.sEndVip 	)
 		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))
 	}
 	required init(from decoder: Decoder) throws {
 		super.init()
 		let container 			= try decoder.container(keyedBy:LinkVewKeys.self)
-		pCon2Vew				= try container.decode(		   Vew.self, forKey:.pCon2Vew)
-		sCon2Vew 				= try container.decode(		   Vew.self, forKey:.sCon2Vew)
+		pCon2Vew				= try container.decode( Vew.self, forKey:.pCon2Vew )
+		sCon2Vew 				= try container.decode( Vew.self, forKey:.sCon2Vew )
+		pEndVip					= try container.decode( SCNVector3.self, forKey:.pEndVip )
+		sEndVip 				= try container.decode( SCNVector3.self, forKey:.sEndVip )
  		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
 	}
 //	 // MARK: - 3.6 NSCopying

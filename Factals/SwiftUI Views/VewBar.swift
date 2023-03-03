@@ -10,6 +10,7 @@ import SwiftUI
 struct VewBar: View {
 
 	 // N.B: Sending the array and index allows internal checking
+	// N.B: When VewBar loads rootVews, it is empty! It is not empty when accessed [slot]
 	@Binding var rootVews : [RootVew]
 	let slot : Int
 

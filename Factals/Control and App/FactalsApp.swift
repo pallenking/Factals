@@ -41,7 +41,7 @@ var APPQ			: FactalsApp?	 {	APP 	}
 
 // * * *
 var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
-// * * *
+// * * *t
 
  // Shugar on DOC
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed

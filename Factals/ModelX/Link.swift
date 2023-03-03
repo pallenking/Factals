@@ -350,7 +350,13 @@ class Link : Atom {
 	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(vew:Vew) {
-		// Do Nothing, a Link's position is determined by its two ends. Nothing is done here.
+		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
+
+		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {
+			linkVew.pEndVip		= pEndVip
+			linkVew.sEndVip		= sEndVip
+			atRsi(8, logd("<><> L 9.4: \\position from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line)) (inParent)"))
+		}
 	}
 		// Xyzzy19e
 	 // Position one Link Ports, from its [ps]EndV
@@ -494,40 +500,36 @@ bug	// Never USED?
 			return																}
 		let camera				= rootScn.touchCameraScn().position
 		guard let linkVew		= vew as? LinkVew 	 else { fatalError("Vew type mismach")}
-
 		 // Get ends of link, and set positions
-		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {
+		if let pEndVip			= linkVew.pEndVip,
+		  let  sEndVip 			= linkVew.sEndVip {
 //			atRsi(8, logd("<><> L 9.5.4: \\set xform from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line))"))
-
-			 // Compute :H: LENgth between ENDS
-			let lenEndsV		= sEndVip - pEndVip
-			let lenEndsF		= length(lenEndsV)
-			assertWarn(!lenEndsF.isNan, "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
 
 			 // Create a transform that maps (0,0,0)->pEndVip and (0,0,1)->sEndVip
 			//	  |m11* + m12* + m13*|   |in.x| transposed into a colum
 			//	  |m21* + m22* + m23*|<--|in.y|
 			//	  |m31* + m32* + m33*|   |in.z|
 			//	  out.x   out.y  out.z			output is a row
-			let a : SCNVector3	= pEndVip					  // when (0,0,0) is in
-			let delta			= sEndVip - a  				 // move when (0,0,1) is in
-			let f1				= camera.crossProduct(delta)// c x delta
+			let deltaV			= sEndVip - pEndVip
+			 // Compute :H: LENgth between ENDS
+			let len				= length(deltaV)
+			assertWarn(!len.isNan, "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
+			let f1				= camera.crossProduct(deltaV)// c x delta
 			let fLen			= length(f1)
 			var m				= SCNMatrix4.identity
 			if fLen > eps {
 				let f			= f1 / fLen
-				let g1			= -f    .crossProduct(delta)// f x delta
+				let g1			= -f    .crossProduct(deltaV)// f x delta
 				let g			= g1 / length(g1)
-				m				= SCNMatrix4(row1v3:f, row2v3:g, row3v3:-delta, row4v3:a)	// print("a:\(a.pp(.line))--d:\(delta.pp(.line))-> cam:\(camera.pp(.line)),\nf:\(f.pp(.line)), g:\(g.pp(.line)), m:\n\(m.pp(.tree))")
+				m				= SCNMatrix4(row1v3:f, row2v3:g, row3v3:-deltaV, row4v3:pEndVip)	// print("a:\(a.pp(.line))--d:\(delta.pp(.line))-> cam:\(camera.pp(.line)),\nf:\(f.pp(.line)), g:\(g.pp(.line)), m:\n\(m.pp(.tree))")
 			}; assert(!m.isNan, "Transformation of Link failed")
 
 			  // Link's position isn't in linkVew.scn, but it's child "s-Link".
 			 // (This allows S and P ornaments in linkVew.scn to be unstretched)
 			let s				= linkVew.scn.find(name:"s-Link")!
 			s.transform 		= m
-
 		}else{
-			logd("CURIOUS -- link position with nil ends")
+			logd("CURIOUS3 -- link ends nil, cannot rotate link toward camera")
 		}
 	}		// Xyzzy19e
 
