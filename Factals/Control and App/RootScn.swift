@@ -155,9 +155,13 @@ class RootScn : NSObject {		// was  : SCNScene
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
-		case .rightMouseDown:	bug
-		case .rightMouseDragged:bug
-		case .rightMouseUp:		bug
+		case .rightMouseDown:
+			beginCameraMotion(with:nsEvent)
+			commitCameraMotion(duration:duration, reason:"Left mouseDown")
+		case .rightMouseDragged:	nop
+		case .rightMouseUp:
+			beginCameraMotion(with:nsEvent)
+			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 
 		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
 		case .magnify:			bug

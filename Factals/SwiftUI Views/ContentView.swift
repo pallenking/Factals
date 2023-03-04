@@ -20,9 +20,9 @@ struct ContentView: View {
 		HStack {
 //			Text("$fooModel.\nselfiePole").foregroundColor(.red).bold()
 			SelfiePoleBar(selfiePole:$fooModel.selfiePole)
-			Button(label:{	Text( "Z**foo").padding(.top, 300).foregroundColor(.red)})
+			Button(label:{	Text("Z//foo").padding(.top, 300).foregroundColor(.red)})
 			{	var s	= fooModel.selfiePole
-				s.zoom	*= 1.1
+				s.zoom	/= 1.1
 				print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
 				fooModel.selfiePole = s	// Put struct's val back
 			}
@@ -35,15 +35,10 @@ struct ContentView: View {
 struct FwGutsView: View {
 	@Binding	var fwGuts		: FwGuts
 	@State		var isLoaded	= false
-//	@StateObject var fooModel 	= FooModel()
 
 	var body: some View {
 		VStack {
 			GutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
-
-	//		SelfiePoleBar(selfiePole:$fwGuts.fooSelfiePole)
-	//		Button(label:{	Text( "Z**").padding(.top, 300)						})
-	//		{	fooModel.selfiePole.zoom *= 1.1									}
  
 			HStack {
 				VStack {	 //  --- H a v e N W a n t  0  ---

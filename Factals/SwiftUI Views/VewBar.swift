@@ -56,9 +56,9 @@ struct VewBar: View {
 				HStack {
 					SelfiePoleBar(selfiePole:$rootVews[slot].selfiePole)	// Bad: $rootVew.selfiePole
 					Spacer()
-					Button(label:{	Text("Z**RV").padding(.top, 300)				})
+					Button(label:{	Text("Z//RV").padding(.top, 300)				})
 					{	var s	= rootVew.selfiePole
-						s.zoom	*= 1.1
+						s.zoom	/= 1.1
 						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
 						rootVews[slot].selfiePole = s	// Put struct's val back
 					}

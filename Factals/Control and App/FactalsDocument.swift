@@ -94,7 +94,7 @@ struct FactalsDocument: FileDocument {
 			throw CocoaError(.fileReadCorruptFile)								}
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .factals:
-	//		throw CocoaError(.fileWriteUnknown)
+			throw CocoaError(.fileWriteUnknown)
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
 			let fwGuts			= FwGuts(rootPart:rootPart)
 

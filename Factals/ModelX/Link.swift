@@ -217,9 +217,9 @@ class Link : Atom {
 
 		 // Connect LinkVew to its two end Port's Vew	  // :H: [S/P] CONnectd 2 Vew
 		guard let p	: Vew		= vewConnected(toPortNamed:"P", inViewHier:vew)
-		 else {			fatalError("\nLink end \(self.fullName).P unconnected")	}
+		 else {			panic("\nLink end \(self.fullName).P unconnected");return }
 		guard let s	: Vew		= vewConnected(toPortNamed:"S", inViewHier:vew)
-		 else {			fatalError("\nLink end \(self.fullName).S unconnected")	}
+		 else {			panic("\nLink end \(self.fullName).S unconnected");return }
 
 		 // Load LinkVew with Ports it connects to
 		linkVew.pCon2Vew	= p	  // get Views we are connect to:

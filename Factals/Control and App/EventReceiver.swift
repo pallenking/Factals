@@ -65,9 +65,9 @@ final class EventReceiverView: NSView {				// OUTSKI: --> FwView
 	 //  ====== CENTER SCROLL WHEEL ======
 	override func scrollWheel(with 		event:NSEvent) 		{	handler(event)	}
 	 //  ====== RIGHT MOUSE ======			Right Mouse not used
-/*override*/ func rightmouseDown(with 	event:NSEvent) 		{	handler(event)	}
-/*override*/ func rightmouseDragged(with event:NSEvent) 	{	handler(event)	}
-/*override*/ func rightmouseUp(with 	event:NSEvent) 		{	handler(event)	}
+	override func rightMouseDown(with 	event:NSEvent) 		{	handler(event)	}
+	override func rightMouseDragged(with event:NSEvent) 	{	handler(event)	}
+	override func rightMouseUp(with 	event:NSEvent) 		{	handler(event)	}
 	 // MARK: - 13.3 TOUCHPAD Enters
 	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
 	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}

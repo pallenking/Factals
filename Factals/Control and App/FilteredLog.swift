@@ -89,7 +89,7 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 				let c			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
 				let new			= Log.pp(filter:area, priority:verbos)
 				let now			= Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
-				print(c + " '\(new)' found log '\(log.title)' busy doing '\(now)'")
+				panic(c + " '\(new)' found log '\(log.title)' busy doing '\(now)'")
 			}
 			log.msgFilter		= area
 			log.msgPriority		= verbos

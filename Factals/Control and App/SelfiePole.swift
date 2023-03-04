@@ -14,11 +14,11 @@ import SceneKit
 
  // Uses Cylindrical Coordinates
 struct SelfiePole {
-	var uid			: UInt16  		= randomUid()
-	var position					= SCNVector3.origin	// world coordinates
-	var spin  		: CGFloat 		= 0.0				// in degrees
-	var gaze		: CGFloat 		= 0.0				// upward, in degrees
-	var zoom		: CGFloat 		= 1.0
+	var uid		: UInt16  		= randomUid()
+	var position				= SCNVector3.origin	// world coordinates
+	var spin  	: CGFloat 		= 0.0				// in degrees
+	var gaze	: CGFloat 		= 0.0				// upward, in degrees
+	var zoom	: CGFloat 		= 1.0
 
 	mutating func configureDocument(from config:FwConfig) {
 		 // Configure Camera from Source Code:
