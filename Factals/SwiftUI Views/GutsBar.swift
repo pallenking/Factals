@@ -13,6 +13,7 @@ struct GutsBar: View {
 	var body: some View {
 		 //  --- B U T T O N S  ---
 		HStack {	// FULL!
+			Text("GutsBar").foregroundColor(.red).bold()
 			Text("   Application:")
 			Button(label:{	Text( "state").padding(.top, 300)				})
 			{	printFwState()												}

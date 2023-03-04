@@ -215,17 +215,33 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 			child.forAllSubViews(viewOperation)
 		}
 	}
+	var openConfig : FwConfig	= [:]
+
 	 /// Lookup configuration from Part's localConfig, and scene
 	func config(_ name:String) -> FwAny? {
+
+		 // Try self and Parents up the Vew tree to rootVew
 		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
 			if let rv			= s.part.localConfig[name] {
 				return rv						// return an ancestor's config
 			}
 		}
-		let fwGuts				= rootVew?.fwGuts
+
+		 // Try rootVew's opening configuration
+		guard let rootVew 		else {	return nil									}
+		if let rv				= rootVew.openConfig[name] {
+			return rv
+		}
+		guard let fwGuts		= rootVew.fwGuts else {		return nil		}
 		assert(fwGuts == part.root?.fwGuts, "paranoia: fwGuts mismatch")		//(fwGuts==nil || fwGuts! == part.root?.fwGuts
-		return falseF ? nil : fwGuts?.document.config[name] //trueF//falseF//
-//Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
+
+		 // Try Document's configuration
+		var rv : FwAny?			= nil
+		if trueF {							//trueF//falseF//
+			rv					= fwGuts.document.config[name]
+			// Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
+		}
+		return rv
 	}
 
 	 // MARK: - 4.6 Find Children

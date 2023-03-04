@@ -7,7 +7,7 @@
 
 import SceneKit
 
-class RootVew : Vew {			// inherits ObservableObject
+class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	weak var fwGuts : FwGuts!			// Owner
 	var slot	 	: Int?		= nil	// Owner's slot for me.
 

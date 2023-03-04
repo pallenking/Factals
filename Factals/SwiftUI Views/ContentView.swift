@@ -17,6 +17,7 @@ struct ContentView: View {
 	@Binding	 var document	: FactalsDocument	// the Document
 	@StateObject var fooModel 	= FooModel()
 	var body: some View {
+		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
 		HStack {
 //			Text("$fooModel.\nselfiePole").foregroundColor(.red).bold()
 			SelfiePoleBar(selfiePole:$fooModel.selfiePole)
@@ -28,8 +29,6 @@ struct ContentView: View {
 			}
 			//{	fooModel.selfiePole.zoom *= 1.1										}
 		}
-		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
-		Spacer()
 	}
 }
 struct FwGutsView: View {
@@ -41,16 +40,50 @@ struct FwGutsView: View {
 			GutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
  
 			HStack {
+//	$publisher
+//	$view
+//
+//	Publisher $zoommodel.zoom
+//	viewmodel.$zoom
+//				}
+//				HStack {  	 //  --- H a v e N W a n t  0  ---
+//					ForEach(fwGuts.rootVews) {	rootVew in
+//						VStack {	 //  --- H a v e N W a n t  0  ---
+//							let slot		= 0
+//							VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
+//							//
+//							let sceneKitArgs = SceneKitArgs(
+//								slot		: slot,
+//								title		: "\(slot): Big main view",
+//								rootPart	: fwGuts.rootPart,
+//								vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
+//								scnScene	: nil,	 // no specific background scene
+//								pointOfView	: nil,
+//								options		: [.rendersContinuously],	//.allowsCameraControl,
+//								preferredFramesPerSecond:30
+//							//	handler		: { nsEvent in print("0: Big main view's handler") }
+//							)
+//							SceneKitView(sceneKitArgs:sceneKitArgs)
+//							 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
+//							 .border(.black, width:2)
+//							 .onAppear() {
+//								fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+//								isLoaded = true
+//							 }
+//						}
+//
+//					}
+//				}
 				VStack {	 //  --- H a v e N W a n t  0  ---
 					let slot		= 0
 					VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
-
+					//
 					let sceneKitArgs = SceneKitArgs(
 						slot		: slot,
 						title		: "\(slot): Big main view",
 						rootPart	: fwGuts.rootPart,
 						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-			 			scnScene	: nil,	 // no specific background scene
+						scnScene	: nil,	 // no specific background scene
 						pointOfView	: nil,
 						options		: [.rendersContinuously],	//.allowsCameraControl,
 						preferredFramesPerSecond:30
@@ -64,16 +97,16 @@ struct FwGutsView: View {
 						isLoaded = true
 					 }
 				}
-				VStack {	 //  --- H a v e N W a n t  1  ---
+				if false { VStack {	 //  --- H a v e N W a n t  1  ---
 					let slot		= 1
 					VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
-
+					//
 					let sceneKitArgs = SceneKitArgs(
 						slot		: slot,
 						title		: "\(slot): Big main view",
 						rootPart	: fwGuts.rootPart,
 						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-			 			scnScene	: nil,	 // no specific background scene
+						scnScene	: nil,	 // no specific background scene
 						pointOfView	: nil,
 						options		: [.rendersContinuously],	//.allowsCameraControl,
 						preferredFramesPerSecond:30
@@ -86,7 +119,30 @@ struct FwGutsView: View {
 						fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
 						isLoaded = true
 					 }
-				}
+				}}
+		//		VStack {	 //  --- H a v e N W a n t  2  ---
+		//			let slot		= 2
+		//			VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
+		//			//
+		//			let sceneKitArgs = SceneKitArgs(
+		//				slot		: slot,
+		//				title		: "\(slot): Big main view",
+		//				rootPart	: fwGuts.rootPart,
+		//				vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
+		//	  			scnScene	: nil,	 // no specific background scene
+		//				pointOfView	: nil,
+		//				options		: [.rendersContinuously],	//.allowsCameraControl,
+		//				preferredFramesPerSecond:30
+		//			//	handler		: { nsEvent in print("0: Big main view's handler") }
+		//			)
+		//			SceneKitView(sceneKitArgs:sceneKitArgs)
+		//			 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
+		//			 .border(.black, width:2)
+		//			 .onAppear() {
+		//				fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
+		//				isLoaded = true
+		//			 }
+		//		}
 			}
 			Spacer()
 		}
