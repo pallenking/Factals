@@ -1,5 +1,5 @@
 //
-//  PartBar.swift
+//  GutsBar.swift
 //  Factals
 //
 //  Created by Allen King on 2/14/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PartBar: View {
+struct GutsBar: View {
 	@Binding var fwGuts			: FwGuts
 
 	var body: some View {
@@ -33,6 +33,7 @@ struct PartBar: View {
 			Text(" ")
 		}
 		 .padding(6)
+		 .background(Color(red:0.9, green:0.9, blue:1.0))
 		 .border(Color.black, width:0.5)
 		 .padding(8)
 	}

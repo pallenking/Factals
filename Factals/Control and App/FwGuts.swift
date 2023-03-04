@@ -15,7 +15,7 @@ class FwGuts : NSObject, ObservableObject {
 
 	var log 	 : Log
 
-	var fooSelfiePole 			= SelfiePole()
+	var fooSelfiePole 			= SelfiePole()		// debug
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)

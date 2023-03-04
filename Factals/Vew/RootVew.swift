@@ -17,7 +17,16 @@ class RootVew : Vew {			// inherits ObservableObject
 	var cameraScn	: SCNNode?	= nil
 	var lightsScn	: [SCNNode]	= []
 	var axesScn		: SCNNode?	= nil
-//	@Published var selfiePole	= SelfiePole()	// should be here!
+
+	@Published var selfiePole	= SelfiePole()	// PW2 had to move to superclass
+/* Had to move to superclass for ?XXXBAD?
+RootVew:_______________
+|	@Published var selfiePole
+|
+|	Vew:___________________ ObservableObject
+|	|	(@Published var selfiePole)
+|	|
+ */
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks

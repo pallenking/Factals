@@ -140,7 +140,7 @@
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
 		9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
-		9F9AC6A4299C7C6000CDEB08 /* PartBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* PartBar.swift */; };
+		9F9AC6A4299C7C6000CDEB08 /* GutsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* GutsBar.swift */; };
 		9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
@@ -249,7 +249,7 @@
 		9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
-		9F9AC6A3299C7C6000CDEB08 /* PartBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartBar.swift; sourceTree = "<group>"; };
+		9F9AC6A3299C7C6000CDEB08 /* GutsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GutsBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* X HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "X HasChildren.swift"; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
@@ -372,7 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9F9AC6A3299C7C6000CDEB08 /* PartBar.swift */,
+				9F9AC6A3299C7C6000CDEB08 /* GutsBar.swift */,
 				9FBD6E4629258E2500F14075 /* VewBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
 				9FAD595D29A270C40065406B /* Inspector Parts */,
@@ -770,7 +770,7 @@
 				9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,
-				9F9AC6A4299C7C6000CDEB08 /* PartBar.swift in Sources */,
+				9F9AC6A4299C7C6000CDEB08 /* GutsBar.swift in Sources */,
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F5AE2D0298C3C4B00EF6B20 /* RootScn.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,

@@ -10,7 +10,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	@Published var name :  String			// Cannot be String! because of FwAny
 
 
-	@Published var selfiePole	= SelfiePole()
+//	@Published var selfiePole	= SelfiePole()
 
 
 	 // Hierarchy:
