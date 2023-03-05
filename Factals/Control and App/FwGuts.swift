@@ -38,7 +38,7 @@ class FwGuts : NSObject, ObservableObject {
 		rootPart?.fwGuts		= self		// owner (Back Link)
 		rootVews				= []		// Remove all RootVews!
 	}
-
+							//rootVew
 	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
 		let slot				= sceneKitArgs.slot
 

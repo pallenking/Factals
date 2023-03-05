@@ -13,7 +13,7 @@ import SwiftUI
 struct SceneKitArgs {
 	var slot			: Int				// N.B var: Unique and Ascending
 	let title			: String
-	let rootPart		: RootPart?			// Model
+	let fwGuts			: FwGuts?			// Model=
 	let vewConfig		: VewConfig?
 	let scnScene 		: SCNScene?			// Legacy, low level access
 	let pointOfView 	: SCNNode?
@@ -28,13 +28,24 @@ struct SceneKitArgs {
 }
 
 struct SceneKitView: View {
-	let sceneKitArgs : SceneKitArgs
+	@Binding var fwGuts : FwGuts
 
     var body: some View {
 		ZStack {
 			 // /////////
+			 let sceneKitArgs = SceneKitArgs(
+						slot		: 0,
+						title		: "\(0): Big main view",
+						fwGuts		: fwGuts,
+						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
+						scnScene	: nil,	 // no specific background scene
+						pointOfView	: nil,
+						options		: [.rendersContinuously],	//.allowsCameraControl,
+						preferredFramesPerSecond:30
+					//	handler		: { nsEvent in print("0: Big main view's handler") }
+						)
 			EventReceiver(handler: { nsEvent in
-				if let fwGuts	= sceneKitArgs.rootPart?.fwGuts,
+				if let fwGuts	= sceneKitArgs.fwGuts,
 				  sceneKitArgs.slot >= 0 && sceneKitArgs.slot < fwGuts.rootVews.count {
 					let rootVew	= fwGuts.rootVews[sceneKitArgs.slot]
 					let _ 		= rootVew.rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew)
@@ -44,6 +55,11 @@ struct SceneKitView: View {
 			SceneKitHostingView(sceneKitArgs)
 			 .allowsHitTesting(true)
 		}
+//		.onChange(of: fwGuts.rootVews) { rootViews in
+//			guard !rootViews.isEmpty else {		return		}
+//			let selfiePole = rootViews[0].selfiePole
+//			print("New Zoom: ", selfiePole.zoom)
+//		}
     }
 }
 
@@ -69,7 +85,7 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 												let transaction			= context.transaction		// a 'plist'
 												let environment			= context.environment		// Empty
 												//let prefBridge 		= context.preferenceBridge	// no member 'preferenceBridge'
-		guard let fwGuts		= args.rootPart?.fwGuts else { fatalError("got no fwGuts!")}
+		guard let fwGuts		= args.fwGuts else { fatalError("got nil fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot\(args.slot): ========== makeNSView         title:'\(args.title)'"))
 
 		let rootScn	: RootScn	= RootScn(args:args)

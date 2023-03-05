@@ -18,7 +18,7 @@ struct SceneView1: NSViewRepresentable {
 	var args					: SceneKitArgs
 
 	func makeNSView(context: Context) -> SCNView {
-		guard let fwGuts		= args.rootPart?.fwGuts else { fatalError("got no fwGuts!")}
+		guard let fwGuts		= args.fwGuts else { fatalError("got no fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot\(args.slot): ========== makeNSView         title:'\(args.title)'"))
 
 		let rootScn	: RootScn	= RootScn(args:args)
