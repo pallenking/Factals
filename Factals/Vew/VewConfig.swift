@@ -57,26 +57,9 @@ extension Vew {
 	///   - openChildrenUsing config: config to open children using
 	func openChildren(using config:VewConfig) {
 		atRve(3, part.logd("openChildren(using:\(config.pp(.fullNameUidClass)))"))
-
-			//		 // If a Vew for part is already in parentVew, use it:
-			//		var vew					= self//parentVew.children.first { $0.part === self}
-			//		if vew != nil,					// Check if correct
-			//		   vew!.name != "_" + name ||		// name and part
-			//		   vew!.part !== self {
-			//			vew					= nil			// Incorrect, force rebuild
-			//		}
-			//		if vew == nil {					// Must create a new View?
-			//			vew					= VewForSelf()
-			//			parentVew.addChild(vew)
-			//		}
-			//
-			//		 // Remove any old skins:
-			//	//	parentVew.scn.find(name:"s-atomic")?.removeFromParent()
-
-		 // A new skin is made by Part:
-	//?	let bbox				= parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
-	//?	parentVew.part.markTree(dirty:.size)
-
+																 // A new skin is made by Part:
+																//?	let bbox = parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
+																//?	parentVew.part.markTree(dirty:.size)
 		switch config {
 		case .openPath(let path):
 			guard let subPathName = path.dequeFirstName(),						//guard let name = p != nil && tok.count > 0 ? tok[0] : nil,

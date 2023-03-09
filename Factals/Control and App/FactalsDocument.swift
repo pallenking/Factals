@@ -47,12 +47,9 @@ struct FactalsDocument: FileDocument {
 
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document
-		fwGuts					= FwGuts()		//po type(of: fwGuts)
-
+		fwGuts					= FwGuts()	//po type(of: fwGuts)
 		DOC						= self		// INSTALL self:Factals as current DOC
-																 // The problem with this is that this is before the controller is built!
-																//		config					= params4all
-																//		setController(configconfig)
+
 				// 1. Make RootPart:		//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
@@ -74,13 +71,15 @@ struct FactalsDocument: FileDocument {
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
 					let rv		= RootVew(forPart: rootPart)
+					//
 					rv.openChildren(using:vewConfig)
 					fwGuts.rootVews.append(rv)
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					let rv		= RootVew(forPart: rootPart)
+					let rv		= RootVew(forPart:rootPart)		//, rootScn:rootScn
+//					rootScn.createVewNScn(slot:slot, vewConfig:sceneKitArgs.vewConfig)
 					rv.openChildren(using:vewConfig)
 					fwGuts.rootVews.append(rv)
 				}
@@ -300,43 +299,20 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 		print("modelDispatch(fwEvent: to:")
 	}
 
-
-
-
 	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
 bug
-	//	atDoc(3, logd("==== ==== FwDocument.windowControllerDidLoadNib()"))
-	//	assert(DOC === self, "sanity check failed")
-	//	assert(self == windowController.document as? FwDocument, "windowControllerDidLoadNib with wrong DOC")
-	//	assert(DOCCTLR.documents.contains(self), "self not in DOCCTLR.documents!")
-
-	//	 		// Create RootScn programatically:
-	//	let rootScn				= RootScn(fwConfig:params4scene)	// 3D visualization
-	//	 		// Link it in:
-	//	assert(fwView != nil, "nib loaded, but fwView not set by IB")
-	//	fwView!.delegate		= rootScn		//\\ delegate
-	//	fwView!.rootScn			= rootScn		  // same		210712PAK: why so many?
-	//	fwView!.scene			= rootScn		 //  same
-	//	//fwView!.autoenablesDefaultLighting = true
-	//	//fwView!.allowsCameraControl = true
-	//	assert(rootPart.dirty.isOn(.vew), "sanity: newly loaded root should have dirty Vew")
 	//	updateDocConfigs(from:rootPart.ansConfig)	// This time including rootScn
 
 //	//			// Build Views:
 ///*x*/	rootScn.updateVews(fromRootPart:rootPart, reason:"InstallRootPart")
-
-//	//	atBld(1, Swift.print("\n" + ppBuildErrorsNWarnings(title:rootPart.title) ))
-
-//	//	displayName				= rootPart.title
-	//	window0?.title			= displayName									//makeInspectors()
-	//	makeInspectors()
-
-//	//			// Start Up Simulation:
-	//	rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
+	
+//		displayName				= rootPart.title
+//		window0?.title			= displayName									//makeInspectors()
+//		makeInspectors()
+//
+//		//			// Start Up Simulation:
+//		rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
 	}
-
-
-
 
 
 	 // MARK: - 13. IBActions

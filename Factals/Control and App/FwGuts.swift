@@ -24,25 +24,9 @@ class FwGuts : NSObject, ObservableObject {
 		} else {
 			print("WARNING configureDocument: fwGuts.rootPart=nil")
 		}
-			 // Configure it from document
-		//	rootVew.configureDocument(from:fwGuts.document.config)
-
-			 // Get an ScnView from rootScn
-	//		guard let fwView		= rootVew.rootScn.fwView else { fatalError("rootVew.rootScn.fwView is nil")}
-	//		 // Configure from args.options:
-	//		fwView.allowsCameraControl			= args.options.contains(.allowsCameraControl)
-	//		fwView.autoenablesDefaultLighting	= args.options.contains(.autoenablesDefaultLighting)
-	//		//fwView.jitteringEnabled			= args.options.contains(.jitteringEnabled)
-	//		fwView.rendersContinuously			= args.options.contains(.rendersContinuously)
-	//		//fwView.temporalAntialiasingEnabled = args.options.contains(.temporalAntialiasingEnabled)
-	//		fwView.preferredFramesPerSecond		= args.preferredFramesPerSecond
-	//		//atRnd(4, DOClog.log("\t\t\t   ==>>  Made \(fwView.pp(.line)) vewConfig:" +
-	//		//	"'\(args.vewConfig?.pp() ?? "nil")' POV:'\(args.pointOfView?.pp(.classUid) ?? "nil")'"))
-	//		return fwView
-	//	}
 
 		guard rootVews.count != 0 else {
-			print("WARNING configureDocument: fwGuts.rootVews.count == 0")
+			print("STRANGE, configureDocument: fwGuts.rootVews.count == 0")
 			return
 		}
 		for rootVew in rootVews {
@@ -59,48 +43,11 @@ class FwGuts : NSObject, ObservableObject {
 		atBld(5, log("Created \(self.pp(.classUid))"))
 		rootPart?.fwGuts		= self		// Owner
 	}
-							//rootVew
-//	func viewAppearedFor(sceneKitArgs:SceneKitArgs) {	 /// was FactalsDocument.didLoadNib()
-//		let slot				= sceneKitArgs.slot
-//
-//		guard slot >= 0 && slot < rootVews.count else {	fatalError("paranoia")	}
-//		atRnd(4, DOClog.log("=== Slot\(slot): ============> viewAppearedFor title:'\(sceneKitArgs.title)'"))
-//
-//		 // Access rootVews for sceneKitArgs.slot:
-//		let rootVew				= rootVews[slot]
-//		let rootScn				= rootVew.rootScn
-//		rootScn.createVewNScn(slot:slot, vewConfig:sceneKitArgs.vewConfig)
-//
-//		 // Configure baseView
-//		guard let baseFwView	= rootScn.fwView else { fatalError("rootScn.fwView == nil") }
-//		baseFwView.isPlaying	= true			// does nothing
-//		baseFwView.showsStatistics = true			// works fine
-//		baseFwView.debugOptions	= [				// enable display of:
-//		 //	SCNDebugOptions.showBoundingBoxes,	// bounding boxes for nodes with content.
-//		//	SCNDebugOptions.showWireframe,		// geometries as wireframe.
-//		//	SCNDebugOptions.renderAsWireframe,	// only wireframe of geometry
-//		 //		SCNDebugOptions.showSkeletons,		//?EH? skeletal animation parameters
-//		 //	SCNDebugOptions.showCreases,		//?EH? nonsmoothed crease regions affected by subdivisions.
-//		 //	SCNDebugOptions.showConstraints,	//?EH? constraint objects acting on nodes.
-//				// Cameras and Lighting
-//		 //	SCNDebugOptions.showCameras,		//?EH? Display visualizations for nodes in the scene with attached cameras and their fields of view.
-//		 //	SCNDebugOptions.showLightInfluences,//?EH? locations of each SCNLight object
-//		 //	SCNDebugOptions.showLightExtents,	//?EH? regions affected by each SCNLight
-//				// Debugging Physics
-//		//	SCNDebugOptions.showPhysicsShapes,	// physics shapes for nodes with SCNPhysicsBody.
-//			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
-//		]
-//		 //	view.allowsCameraControl = false		// dare to turn it on?
-//		 //	view.autoenablesDefaultLighting = false	// dare to turn it on?
-//
-////!		makeInspectors()
-//				// Start Up Simulation:
-//		rootPart!.simulator.simBuilt = false//true		// maybe before config4log, so loading simEnable works
-//	}
+
 //	// FileDocument requires these interfaces:
 	 // Data in the SCNScene
-//	var data : Data? {
-//
+	var data : Data? {
+bug;return nil
 //		do {		// 1. Write SCNScene to file. (older, SCNScene supported serialization)
 //			try self.document.write(to: fileURL)
 //		} catch {
@@ -109,7 +56,7 @@ class FwGuts : NSObject, ObservableObject {
 //					// 2. Get file to data
 //		let data				= try? Data(contentsOf:fileURL)
 //		return data//Cannot convert value of type '() -> ()' to expected argument type 'Int'
-//	}
+	}
 	 // initialize new SCNScene from Data
 	convenience init?(data:Data, encoding:String.Encoding) {
 		fatalError("FwGuts.init?(data:Data")
@@ -167,7 +114,7 @@ class FwGuts : NSObject, ObservableObject {
 		let modifierKeys		= nsEvent.modifierFlags
 		let cmd 				= modifierKeys.contains(.command)
 		let alt 				= modifierKeys.contains(.option)
-		let doc					= document!
+	//	let doc					= document!
 
 		switch character {
 		case "r": // (+ cmd)
@@ -284,9 +231,6 @@ class FwGuts : NSObject, ObservableObject {
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
 		guard let rootVew		= inVew.rootVew else { return nil				}
-//		 // Find rootVew of NSEvent
-//		guard let rootVew		= nsEvent.rootVew()
-//			else { print("rootVew of NSEvent is nil"); return nil 				}
 		let rScn				= rootVew.scn
 
 		 // Find the 3D Vew for the Part under the mouse:
@@ -304,8 +248,6 @@ class FwGuts : NSObject, ObservableObject {
 			.rootNode:rScn, 			// The root of the node hierarchy to be searched.
 		]
 
-		// 20230202PAK: in: (4,24),  out: identical WHEN no Button Bar
-		//				in: (4,127), out: (4,25) when button bar (about 100 high)
 		let rootScn				= rootVew.rootScn
 		let fwView				= rootScn.fwView!
 		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view

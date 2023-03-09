@@ -96,7 +96,6 @@
 		9F417F3A28EB94B30047B359 /* FactalsDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */; };
 		9F417F3B28EB94B60047B359 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
 		9F417F3C28EB94BA0047B359 /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
-		9F417F3D28EB94BD0047B359 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */; };
 		9F417F3E28EB94C10047B359 /* FwGuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521628720A2300C8C22A /* FwGuts.swift */; };
 		9F417F4128EB94CB0047B359 /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
 		9F417F4228EB94CE0047B359 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
@@ -133,7 +132,6 @@
 		9F5AE2D1298C3C4B00EF6B20 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */; };
 		9F5DA12729B41C6200D8EC9B /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
-		9F6822F728C9163D00ACB9F0 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
 		9F87DF3029900CEA00B9D3B6 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
@@ -235,7 +233,6 @@
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* RootVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVew.swift; sourceTree = "<group>"; };
-		9F2E7B3B2995CF0000938099 /* ChatGPT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPT.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXGestures.swift; sourceTree = "<group>"; };
@@ -246,7 +243,6 @@
 		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
 		9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScn.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
-		9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9F9AC6A3299C7C6000CDEB08 /* GutsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GutsBar.swift; sourceTree = "<group>"; };
@@ -254,6 +250,7 @@
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
+		9FCCBC0429BA5BBD007D7EA9 /* Crapola.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crapola.swift; sourceTree = "<group>"; };
 		9FDBBED628AC45DB00445219 /* PrintBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBuffer.swift; sourceTree = "<group>"; };
 		9FDF886729ACFA1700776ABB /* DebugAids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAids.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
@@ -410,8 +407,6 @@
 			children = (
 				9FEE6F152835778A00E9E2AE /* FactalsApp.swift */,
 				9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */,
-				9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */,
-				9F2E7B3B2995CF0000938099 /* ChatGPT.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */,
 				9F0295D02880921800DD0004 /* FwView.swift */,
@@ -444,6 +439,7 @@
 		9FEE6F092835778A00E9E2AE = {
 			isa = PBXGroup;
 			children = (
+				9FCCBC0429BA5BBD007D7EA9 /* Crapola.swift */,
 				9F369DD6287C68F700196211 /* README.md */,
 				9F417F5E28EDB10A0047B359 /* TO_DO.md */,
 				9FC31EAB28E0B7820022E536 /* Install.md */,
@@ -631,7 +627,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F417F3D28EB94BD0047B359 /* SceneKitHostingView.swift in Sources */,
 				9F417F3528EB94740047B359 /* InspecBase.swift in Sources */,
 				9F417F5828EB955F0047B359 /* Random.swift in Sources */,
 				9F417F5A28EB95650047B359 /* CommonErrors.swift in Sources */,
@@ -728,7 +723,6 @@
 				9FEE519F286B507600C8C22A /* SubPart.swift in Sources */,
 				9F19010028808DC10078DB6C /* WorldModel.swift in Sources */,
 				9F19010228808DC10078DB6C /* EditNet.swift in Sources */,
-				9F6822F728C9163D00ACB9F0 /* SceneKitHostingView.swift in Sources */,
 				9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */,
 				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
 				9F190122288090240078DB6C /* InspecBase.swift in Sources */,

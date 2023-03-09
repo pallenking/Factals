@@ -520,7 +520,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateVewSizePaint(vewConfig vewConfigx:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
+	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let fwGuts		= part.root?.fwGuts else {	print("Paranoia 29872"); return }
 		guard let fwGuts2		= rootVew?  .fwGuts else {	print("Paranoia 23872"); return }
 		assert(fwGuts === fwGuts2, "Paranoia i5205")
@@ -559,16 +559,15 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
 			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
-	//		if let vewConfig, false {					// NEW WAY
-	//			atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-	//			pTrunk.adorn(in:vRoot, openChildrenUsing:vewConfig)
-	//		}
-	//		else {								// OLD WAY
-				atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
-				  // Update Vew tree objects from Part tree
-				 // (Also build a sparse SCN "entry point" tree for Vew tree)
-/**/			pRoot.reVew(vew:vRoot, parentVew:nil)
-	//		}
+			if let vewConfig, false {					// NEW WAY
+				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
+				vRoot.openChildren(using:vewConfig)
+			}
+			atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
+			  // Update Vew tree objects from Part tree
+			 // (Also build a sparse SCN "entry point" tree for Vew tree)
+/**/		pRoot.reVew(vew:vRoot, parentVew:nil)
+
 			// should have created all Vews and one *-<name> in ptn tree
 			pRoot.reVewPost(vew:vRoot)
 		}

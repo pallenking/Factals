@@ -13,32 +13,35 @@ struct VewBar: View {
 	var body: some View {
 		VStack {
 			HStack {
-				let slot		= rootVew.slot ?? -1
-				Text("VewBar").foregroundColor(.red).bold()
-				Text("Slot\(slot):").foregroundColor(.green).bold()
-				Button(label:{	Text("ptv")									})
-				{	print("===== Vew of Slot \(slot): =====")
-					lldbPrint(rootVew, mode:.tree, terminator:"")
-				}
-				Button(label:{	Text("ptn")									})
-				{	print("===== SCNNodes of Slot \(slot): =====")
-					lldbPrint(rootVew.scn, mode:.tree, terminator:"")
-				}
-				Text("Review:")
-				Button(label:{	Text("Views")								})
-				{	print("===== Rebuild Views of Slot\(slot): =====")
-					rootVew.rootPart.forAllParts({	$0.markTree(dirty:.vew)	})
-					rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
-				}
-				Button(label:{	Text("siZes")								})
-				{	print("===== Review siZes of Slot\(slot): =====")
-					rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
-					rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
-				}
-				Button(label:{	Text("Paint")								})
-				{	print("===== Re-Paint Slot\(slot): =====")
-					rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
-					rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
+				if let slot		= rootVew.slot {	// Installed?
+					Text("VewBar").foregroundColor(.red).bold()
+					Text("Slot\(slot):").foregroundColor(.green).bold()
+					Button(label:{	Text("ptv")									})
+					{	print("===== Vew of Slot \(slot): =====")
+						lldbPrint(rootVew, mode:.tree, terminator:"")
+					}
+					Button(label:{	Text("ptn")									})
+					{	print("===== SCNNodes of Slot \(slot): =====")
+						lldbPrint(rootVew.scn, mode:.tree, terminator:"")
+					}
+					Text("Review:")
+					Button(label:{	Text("Views")								})
+					{	print("===== Rebuild Views of Slot\(slot): =====")
+						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.vew)	})
+						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
+					}
+					Button(label:{	Text("siZes")								})
+					{	print("===== Review siZes of Slot\(slot): =====")
+						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
+						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
+					}
+					Button(label:{	Text("Paint")								})
+					{	print("===== Re-Paint Slot\(slot): =====")
+						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
+						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
+					}
+				} else {
+					Text("Not registered in rootVews").bold()
 				}
 				Spacer()
 				// just for debug

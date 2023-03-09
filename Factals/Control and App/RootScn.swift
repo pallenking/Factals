@@ -42,12 +42,13 @@ class RootScn : NSObject {
 
 		scnScene.physicsWorld.contactDelegate = self
 		scnScene.isPaused		= true				// Pause animations while bulding
-		fwView					= fv ?? FwView()	// remember or make a new one
+		fwView					= fv ?? FwView(frame:CGRect(), options:[:])	// remember or make a new one
 		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
 		fwView!.rootScn 		= self
 		fwView!.backgroundColor	= NSColor("veryLightGray")!
 		fwView!.antialiasingMode = .multisampling16X
 		fwView!.delegate		= self as any SCNSceneRendererDelegate
+
 	//	if let args	 {
 	//		//	   args.handler(NSEvent())		//
 	//		//	fwView!.handler(NSEvent())		// default handler
@@ -579,6 +580,8 @@ bug;	zoom4fullScreen()
 			fatalError("createVews  couldn't get VIEW lock")
 		}
 
+
+
 		rootPart.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
 
 		 // 2. Update Vew and Scn Tree
@@ -588,6 +591,9 @@ bug;	zoom4fullScreen()
 		 // Do one, just for good luck
 //bug;	commitCameraMotion(reason:"to createVewNScn")
 //		updatePole2Camera(reason:"to createVewNScn")
+
+
+
 
 		// 7. RELEASE LOCKS for PartTree and VewTree:
 		rootVew.unlock(	 vewTreeAs:lockName)

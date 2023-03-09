@@ -12,38 +12,6 @@ extension SCNCameraController : ObservableObject {	}
 ////////////////////////////// Testing
 //	$publisher
 //	$view
-//
-//	Publisher $zoommodel.zoom
-//	viewmodel.$zoom
-//				}
-//				HStack {  	 //  --- H a v e N W a n t  0  ---
-//					ForEach(fwGuts.rootVews) {	rootVew in
-//						VStack {	 //  --- H a v e N W a n t  0  ---
-//							let slot		= 0
-//							VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
-//							//
-//							let sceneKitArgs = SceneKitArgs(
-//								slot		: slot,
-//								title		: "\(slot): Big main view",
-//								rootPart	: fwGuts.rootPart,
-//								vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-//								scnScene	: nil,	 // no specific background scene
-//								pointOfView	: nil,
-//								options		: [.rendersContinuously],	//.allowsCameraControl,
-//								preferredFramesPerSecond:30
-//							//	handler		: { nsEvent in print("0: Big main view's handler") }
-//							)
-//							SceneKitView(sceneKitArgs:sceneKitArgs)
-//							 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
-//							 .border(.black, width:2)
-//							 .onAppear() {
-//								fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-//								isLoaded = true
-//							 }
-//						}
-//
-//					}
-//				}
 
 struct ContentView: View {
 	@Binding	 var document	: FactalsDocument	// the Document

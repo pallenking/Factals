@@ -55,16 +55,6 @@ RootVew:_______________
 		assert(scn === rootScn.scn, "paranoia: set RootVew with new scn root")
 		scn 					= rootScn.scn		// set RootVew with new scn root
 	}
-//	convenience init(_ vewConfig:VewConfig) {
-//		self.init(forPart:rootPart)
-////?		rootVew.fwGuts		= nil//self			// owner link
-//
-////		guard let pTrunk	= rootPart.children.first else {print("Paranoia 4802540"); return }
-//		rootVew!.openChildren(using:vewConfig)
-//bug
-//		 // Register with FwGuts
-////		rootVews.append(rootVew)
-//	}
 
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
