@@ -29,7 +29,6 @@ extension FactalsDocument : Uid {
 
 struct FactalsDocument: FileDocument {
 	let uid:UInt16				= randomUid()
-//	@Published var redo:UInt8	= 0
 
 	var fwGuts : FwGuts!				// content
 
@@ -40,9 +39,9 @@ struct FactalsDocument: FileDocument {
 	var indexFor				= Dictionary<String,Int>()
 
 	mutating func configureDocument(from c:FwConfig) {
-		config					= c
-
 		guard let fwGuts else {		print("WARNING configureDocument: fwGuts=nil"); return		}
+
+		config					= c
 		fwGuts.configureDocument(from:c)	// COMPONENT 1
 	}
 
@@ -69,7 +68,28 @@ struct FactalsDocument: FileDocument {
 		rootPart.fwGuts			= fwGuts	// rootPart delegate
 
 		 //		3. Update Configurations
-		configureDocument(from: params4all + rootPart.ansConfig)
+		let c					= params4all + rootPart.ansConfig
+		for (key, value) in c {
+			if key == "Vews",
+			  let vewConfigs 	= value as? [VewConfig] {
+				for vewConfig in vewConfigs	{	// Open one for each elt
+					let rv		= RootVew(forPart: rootPart)
+					rv.openChildren(using:vewConfig)
+					fwGuts.rootVews.append(rv)
+				}
+			}
+			else if key.hasPrefix("Vew") {
+				if let vewConfig = value as? VewConfig {
+					let rv		= RootVew(forPart: rootPart)
+					rv.openChildren(using:vewConfig)
+					fwGuts.rootVews.append(rv)
+				}
+				else {
+					panic("Confused wo38r")
+				}
+			}
+		}
+		configureDocument(from:c)
 
 		 //		4. Wire and Groom Part
 		rootPart.wireAndGroom()

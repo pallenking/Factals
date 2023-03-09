@@ -48,52 +48,52 @@ let vewConfig3					= VewConfig.subVewList([vewConfig1, vewConfig2])
 //let vewConfig4  				= VewConfig.subVew(["name":"vewConfig1"])
 let vewConfigAllToDeapth4		= VewConfig.openAllChildren(toDeapth:4)
 
-extension Part {
+extension Vew {
 	/// Adorn self (a Part) in parentVew, using config (a VewConfig)
 	///   Adorn scn tree too
 	/// - Parameters:
 	///   - in parentVew: where Vew of self goes. If parentVew already contains
 	///   a Vew, try to use it. Otherwise create one
 	///   - openChildrenUsing config: config to open children using
-	func adorn(in parentVew:Vew, openChildrenUsing config:VewConfig) {
-		atRve(3, parentVew.part.logd("adorn(in:\(parentVew.pp(.fullName).field(-15)), openChildrenUsing:\(config.pp(.fullNameUidClass)))"))
+	func openChildren(using config:VewConfig) {
+		atRve(3, part.logd("openChildren(using:\(config.pp(.fullNameUidClass)))"))
 
-		 // If a Vew for part is already in parentVew, use it:
-		var vew					= parentVew.children.first { $0.part === self}
-		if vew != nil,					// Check if correct
-		   vew!.name != "_" + name ||		// name and part
-		   vew!.part !== self {
-			vew					= nil			// Incorrect, force rebuild
-		}
-		if vew == nil {					// Must create a new View?
-			vew					= VewForSelf()
-			parentVew.addChild(vew)
-		}
-
-		 // Remove any old skins:
-	//	parentVew.scn.find(name:"s-atomic")?.removeFromParent()
+			//		 // If a Vew for part is already in parentVew, use it:
+			//		var vew					= self//parentVew.children.first { $0.part === self}
+			//		if vew != nil,					// Check if correct
+			//		   vew!.name != "_" + name ||		// name and part
+			//		   vew!.part !== self {
+			//			vew					= nil			// Incorrect, force rebuild
+			//		}
+			//		if vew == nil {					// Must create a new View?
+			//			vew					= VewForSelf()
+			//			parentVew.addChild(vew)
+			//		}
+			//
+			//		 // Remove any old skins:
+			//	//	parentVew.scn.find(name:"s-atomic")?.removeFromParent()
 
 		 // A new skin is made by Part:
-		let bbox				= parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
-		parentVew.part.markTree(dirty:.size)
+	//?	let bbox				= parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
+	//?	parentVew.part.markTree(dirty:.size)
 
 		switch config {
 		case .openPath(let path):
 			guard let subPathName = path.dequeFirstName(),						//guard let name = p != nil && tok.count > 0 ? tok[0] : nil,
 			  let subPart		= children.first(where: { $0.name == subPathName} ) else { return }
-			subPart.adorn(in:parentVew, openChildrenUsing:config)	// #### SEMI-RECURSIVE CALL
+			subPart.openChildren(using:config)		// #### SEMI-RECURSIVE CALL
 		case .openAllChildren(let deapth):
 			if deapth <= 1 {	break											}
 			 // open our child Vews
 			for childPart in children {
-				childPart.adorn(in:vew!, openChildrenUsing:.openAllChildren(toDeapth:deapth-1))
+				childPart.openChildren(using:.openAllChildren(toDeapth:deapth-1))
 			}
 		case .subVewList(let vewConfigs):
 			for vewConfig in vewConfigs {
-				adorn(in:parentVew, openChildrenUsing:vewConfig)
+				self.openChildren(using:vewConfig)
 			}
 		case .subVew(let fwConfig):
-			self.localConfig	= fwConfig	//??
+bug//		self.localConfig	= fwConfig	//??
 			//print("??? adorn(.subVew(let fwConfig): ???")
 			//panic(".subVew(\(fwConfig.pp(.phrase))")
 		}

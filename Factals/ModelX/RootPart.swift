@@ -95,7 +95,7 @@ bug;	atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", term
 
 	 // Serialize 					// po container.contains(.name)
 	override func encode(to encoder: Encoder) throws  {
-
+bug
 		 // Massage Part Tree, to make it
 		makeSelfCodable("writePartTree")		//readyForEncodable
 

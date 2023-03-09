@@ -7,30 +7,27 @@ import SceneKit
 class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 
 	// MARK: - 2. Object Variables:
-	@Published var name :  String			// Cannot be String! because of FwAny
-
-
-//	@Published var selfiePole	= SelfiePole()
-
-
-	 // Hierarchy:
-	var fullName	: String	{
-		name=="_ROOT" ? name :	// Leftmost component
-		parent==nil   ? ""   :
-		parent!.fullName + "/" + name		// add lefter component
-	}
-	@Published var color000	: NSColor? = nil
-	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
-	var keep		:  Bool		= false		// used in reVew
-	var parent		:  Vew?		= nil
-	var children 	: [Vew]		= []
-	var child0		:  Vew?		{	return children.count == 0 ? nil : children[0] }
-	var rootVew		: RootVew?	{	rootVewRaw as? RootVew						}
-	var rootVewRaw	:  Vew?		{	parent?.rootVewRaw ?? self	/* RECURSIVE */	}
 
 	 // Glue these Neighbors together: (both Always present)
 	@Published var part : Part 				// Part which this Vew represents	// was let
 	var scn			:  SCNNode				// Scn which draws this Vew
+	var parent		:  Vew?		= nil
+	var children 	: [Vew]		= []
+
+	@Published var name :  String			// Cannot be String! because of FwAny
+	@Published var color000	: NSColor? = nil
+	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
+	var keep		:  Bool		= false		// used in reVew
+
+	 // Sugar:
+	var child0		:  Vew?		{	return children.count == 0 ? nil : children[0] }
+	var fullName	: String	{	 // Hierarchy:
+		name=="_ROOT" ? name :			// Leftmost component
+		parent==nil   ? ""   :
+		parent!.fullName + "/" + name	// add lefter component
+	}
+	var rootVew		: RootVew?	{	rootVewRaw as? RootVew						}
+	var rootVewRaw	:  Vew?		{	parent?.rootVewRaw ?? self	/* RECURSIVE */	}
 
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
@@ -523,7 +520,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
+	func updateVewSizePaint(vewConfig vewConfigx:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let fwGuts		= part.root?.fwGuts else {	print("Paranoia 29872"); return }
 		guard let fwGuts2		= rootVew?  .fwGuts else {	print("Paranoia 23872"); return }
 		assert(fwGuts === fwGuts2, "Paranoia i5205")
@@ -562,16 +559,16 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable
 		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
 			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
-			if let vewConfig, false {					// NEW WAY
-				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-				pTrunk.adorn(in:vRoot, openChildrenUsing:vewConfig)
-			}
-			else {								// OLD WAY
+	//		if let vewConfig, false {					// NEW WAY
+	//			atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
+	//			pTrunk.adorn(in:vRoot, openChildrenUsing:vewConfig)
+	//		}
+	//		else {								// OLD WAY
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
 				  // Update Vew tree objects from Part tree
 				 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/			pRoot.reVew(vew:vRoot, parentVew:nil)
-			}
+	//		}
 			// should have created all Vews and one *-<name> in ptn tree
 			pRoot.reVewPost(vew:vRoot)
 		}

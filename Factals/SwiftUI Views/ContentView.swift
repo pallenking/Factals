@@ -60,86 +60,27 @@ struct FwGutsView: View {
 			GutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
  
 			HStack {
-				VStack {	 //  --- H a v e N W a n t  0  ---
-					let slot		= 0
-					VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
-					//
-//					let sceneKitArgs = SceneKitArgs(
-//						slot		: slot,
-//						title		: "\(slot): Big main view",
-//						fwGuts		: fwGuts,
-//						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-//						scnScene	: nil,	 // no specific background scene
-//						pointOfView	: nil,
-//						options		: [.rendersContinuously],	//.allowsCameraControl,
-//						preferredFramesPerSecond:30
-//					//	handler		: { nsEvent in print("0: Big main view's handler") }
-//					)
-					SceneKitView(fwGuts:$fwGuts)
-//					SceneKitView(sceneKitArgs:sceneKitArgs)
-					 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
-					 .border(.black, width:2)
-					 .onAppear() {
-						fwGuts.viewAppearedFor(sceneKitArgs:SceneKitArgs(
-						slot		: slot,
-						title		: "\(slot): Big main view",
-						fwGuts		: fwGuts,
-						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-//						scnScene	: nil,	 // no specific background scene
-						pointOfView	: nil,
-						options		: [.rendersContinuously],	//.allowsCameraControl,
-						preferredFramesPerSecond:30
-					//	handler		: { nsEvent in print("0: Big main view's handler") }
-						))
-						isLoaded = true
-					 }
+				if fwGuts.rootVews.count == 0 {
+					Text("No Vews found")
 				}
-//				if false { VStack {	 //  --- H a v e N W a n t  1  ---
-//					let slot		= 1
-//					VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
-//					//
-//					let sceneKitArgs = SceneKitArgs(
-//						slot		: slot,
-//						title		: "\(slot): Big main view",
-//						fwGuts		: fwGuts,
-//						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-//						scnScene	: nil,	 // no specific background scene
-//						pointOfView	: nil,
-//						options		: [.rendersContinuously],	//.allowsCameraControl,
-//						preferredFramesPerSecond:30
-//					//	handler		: { nsEvent in print("0: Big main view's handler") }
-//					)
-//					SceneKitView(sceneKitArgs:sceneKitArgs)
-//					 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
-//					 .border(.black, width:2)
-//					 .onAppear() {
-//						fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-//						isLoaded = true
-//					 }
-//				}}
-		//		VStack {	 //  --- H a v e N W a n t  2  ---
-		//			let slot		= 2
-		//			VewBar(rootVews:$fwGuts.rootVews,  slot:slot)	// PW1: I don't understand the correct thing to pass in
-		//			//
-		//			let sceneKitArgs = SceneKitArgs(
-		//				slot		: slot,
-		//				title		: "\(slot): Big main view",
-		//				rootPart	: fwGuts.rootPart,
-		//				vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-		//	  			scnScene	: nil,	 // no specific background scene
-		//				pointOfView	: nil,
-		//				options		: [.rendersContinuously],	//.allowsCameraControl,
-		//				preferredFramesPerSecond:30
-		//			//	handler		: { nsEvent in print("0: Big main view's handler") }
-		//			)
-		//			SceneKitView(sceneKitArgs:sceneKitArgs)
-		//			 .frame(maxWidth: .infinity)								// .frame(width:500, height:300)
-		//			 .border(.black, width:2)
-		//			 .onAppear() {
-		//				fwGuts.viewAppearedFor(sceneKitArgs:sceneKitArgs)
-		//				isLoaded = true
-		//			 }
-		//		}
+				ForEach($fwGuts.rootVews) {	rootVew in
+					VStack {	 //  --- H a v e N W a n t  <i>  ---
+						VewBar(rootVew:rootVew)
+						// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+						// now: SceneView 	native SwiftUI
+						SceneView(
+							scene: nil,
+							pointOfView: nil,
+							options: [.rendersContinuously],
+							preferredFramesPerSecond: 30,
+							antialiasingMode: .none,
+							delegate: nil, 		//SCNSceneRendererDelegate?
+							technique: nil		//SCNTechnique?
+						)
+						 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
+						 .border(.black, width:2)
+					}
+				}
 			}
 			Spacer()
 		}

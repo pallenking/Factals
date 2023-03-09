@@ -884,7 +884,14 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xr("- link broken", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+	 xr("- link broken", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
+	 	//	"Vews":[VewConfig.openAllChildren(toDeapth:4),
+		//	 		VewConfig.openAllChildren(toDeapth:4)],
+	 		"Vew0":VewConfig.openAllChildren(toDeapth:4),
+	 		"Vew1":VewConfig.openAllChildren(toDeapth:4),
+//	 		"Vew2":VewConfig.openAllChildren(toDeapth:4),
+	 		"gapLinkFluff":3,
+	 		], {Net([placeMy:"linky", parts:[	//stacky
 		Hamming([n:"c", f:1]),	//, share:["z"]
  		Mirror( [P:"c", f:1]),	// X+
 // 		Mirror( [X+P:"c", f:1]),	// X+

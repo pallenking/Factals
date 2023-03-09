@@ -9,7 +9,6 @@ import SceneKit
 
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	weak var fwGuts : FwGuts!			// Owner
-	var slot	 	: Int?		= nil	// Owner's slot for me.
 
 	 // 3D APPEARANCE
 	var rootScn 	:  RootScn			// Master tree
@@ -37,6 +36,7 @@ RootVew:_______________
 
 	 // Sugar
 	var rootPart 	: RootPart	{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
+	var slot	 	: Int?		{ fwGuts?.rootVews.firstIndex(of: self)			}
 	var trunkVew 	: Vew? 		{		 // Get  trunkVew  from reVew:
 		return children.count > 0 ? children[0] : nil
 	}
@@ -44,18 +44,28 @@ RootVew:_______________
 	 /// generate a new View, returning its index
 	init() {
 		rootScn					= RootScn()
-		slot					= nil
 		super.init(forPart:.null, scn:.null)
 	}
-	init(forPart rp:RootPart, rootScn rs:RootScn) {
+	init(forPart rp:RootPart, rootScn rs:RootScn=RootScn()) {
 		rootScn					= rs
 		super.init(forPart:rp, scn:rs.scn)
 		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
-		assert(scn === rootScn.scn, "set RootVew with new scn root")
+		assert(scn === rootScn.scn, "paranoia: set RootVew with new scn root")
 		scn 					= rootScn.scn		// set RootVew with new scn root
 	}
+//	convenience init(_ vewConfig:VewConfig) {
+//		self.init(forPart:rootPart)
+////?		rootVew.fwGuts		= nil//self			// owner link
+//
+////		guard let pTrunk	= rootPart.children.first else {print("Paranoia 4802540"); return }
+//		rootVew!.openChildren(using:vewConfig)
+//bug
+//		 // Register with FwGuts
+////		rootVews.append(rootVew)
+//	}
+
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func configureDocument(from c:FwConfig) {
