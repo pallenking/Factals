@@ -85,7 +85,7 @@ struct FwGutsView: View {
 						title		: "\(slot): Big main view",
 						fwGuts		: fwGuts,
 						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-						scnScene	: nil,	 // no specific background scene
+//						scnScene	: nil,	 // no specific background scene
 						pointOfView	: nil,
 						options		: [.rendersContinuously],	//.allowsCameraControl,
 						preferredFramesPerSecond:30

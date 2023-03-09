@@ -12,11 +12,11 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	var slot	 	: Int?		= nil	// Owner's slot for me.
 
 	 // 3D APPEARANCE
-	var rootScn 	: RootScn			// Master tree
+	var rootScn 	:  RootScn			// Master tree
 	 // Lighting, etc						// (in rootScn)
-	var cameraScn	: SCNNode?	= nil
+	var cameraScn	:  SCNNode?	= nil
 	var lightsScn	: [SCNNode]	= []
-	var axesScn		: SCNNode?	= nil
+	var axesScn		:  SCNNode?	= nil
 
 	@Published var selfiePole	= SelfiePole()	// PW2 had to move to superclass
 /* Had to move to superclass for ?XXXBAD?

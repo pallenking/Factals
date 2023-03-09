@@ -10,19 +10,27 @@ class FwGuts : NSObject, ObservableObject {
 	@Published var redo:UInt8	= 0
 	@Published var rootPart :  RootPart?													//{	rootVew.part as! RootPart}
 
-	var document : FactalsDocument!
+	var document : FactalsDocument!					// Owner
+
 	var rootVews : [RootVew]	= []
 
 	var log 	 : Log
-
-	var fooSelfiePole 			= SelfiePole()		// debug
-
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
 	func configureDocument(from c:FwConfig) { // *****
-		rootPart?.configureDocument(from:c)
+		log.configureDocument(from:c)
+		if let rootPart {
+			rootPart.configureDocument(from:c)
+		} else {
+			print("WARNING configureDocument: fwGuts.rootPart=nil")
+		}
+
+		guard rootVews.count != 0 else {
+			print("WARNING configureDocument: fwGuts.rootVews.count == 0")
+			return
+		}
 		for rootVew in rootVews {
 			rootVew.configureDocument(from:c)
 		}

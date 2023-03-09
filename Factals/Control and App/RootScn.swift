@@ -8,18 +8,18 @@
 import Foundation
 import SceneKit
 
-class RootScn : NSObject {		// was  : SCNScene
+class RootScn : NSObject {
 	weak
-	 var rootVew	: RootVew?
+	 var rootVew	: RootVew?		// RootVew  of this RootScn
 	weak
-	 var fwView		: FwView?
+	 var fwView		: FwView?		// SCNView  of this RootScn
 
-	var scnScene	: SCNScene		// contains the rootNode
-	//var scn		: SCNNode		// in SCNScene, it's rootNode
+	var scnScene	: SCNScene		// SCNScene of this RootScn
+	//var scn		: SCNNode		// SCNNode  of this RootScn
 
 	func configureDocument(from c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
-		animatePhysics = c.bool("animatePhysics") ?? false
+		animatePhysics 			= c.bool("animatePhysics") ?? false
 	
 		if let gravityAny		= c["gravity"] {
 			if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
@@ -150,12 +150,13 @@ class RootScn : NSObject {		// was  : SCNScene
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootVew.selfiePole.zoom *= delta
 			let s				= rootVew.selfiePole
-			print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
+		//	print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
 			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
 		case .rightMouseDown:
+			 // 2023-0305: nop, but it calls commitCameraMotion to update picture
 			beginCameraMotion(with:nsEvent)
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .rightMouseDragged:	nop
@@ -193,7 +194,7 @@ class RootScn : NSObject {		// was  : SCNScene
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
+		//	print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false
 		}
 		return true
@@ -220,12 +221,12 @@ class RootScn : NSObject {		// was  : SCNScene
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
 		var selfiePole			= rootVew!.selfiePole
-//			selfiePole.zoom		= zoom4fullScreen()		// BUG HERE
+//		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
 		let transform			= selfiePole.transform
 		guard let cameraScn		= rootVew!.cameraScn else {fatalError("RootScn.cameraScn in nil")}
-		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
-		print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
+		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
+		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform
 	}
 }

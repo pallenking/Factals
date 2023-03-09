@@ -25,6 +25,16 @@ final class FactalsTests: XCTestCase {
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
 
+	func testForEach() {
+		let array = ["aaa", "bbb", "ccc"]
+		var a = ""
+		array.forEach { str in
+			a.append(str)
+			print("Str = \(str)")
+		}
+		XCTAssertEqual(a, "aaabbbccc", "actual:\(a) != expected:\"aaabbbccc\"")
+	}
+
 	 // First test is verrry easy
 	func testPp() {
 		let t1 = "xyzzy", t2 = 32

@@ -53,7 +53,6 @@ let DOCctlr						= NSDocumentController.shared
 
 @main										// calls AppDelegateFoo.swift
 struct FactalsApp: App, Uid, FwAny {
-//	let p4a						= params4all
 
 	var uid: UInt16				= randomUid()
 	var fwClassName: String		= "FactalsApp"
@@ -100,8 +99,6 @@ struct FactalsApp: App, Uid, FwAny {
 	 // MARK: - 2. Object Variables:
 	var log	: Log			=	Log(title:"App's Log")
 
-//		return Log(title:"App's Log", params4all)							}()
-
 	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 	var regressScene : Int = 0	//private?	// number of the next "^r" regression test
 															 // Keeps FwGuts menue in sync with itself:
@@ -132,7 +129,7 @@ struct FactalsApp: App, Uid, FwAny {
 		let _					= Log.help			// create here, ahead of action
 		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
-		 // Configure App with defaults:
+		 // Configure App with its defaults (Ahead of any documents)
 		let c					= config + params4all
 		configureApp(from:c)
 		

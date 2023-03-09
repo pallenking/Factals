@@ -13,9 +13,9 @@ import SwiftUI
 struct SceneKitArgs {
 	var slot			: Int				// N.B var: Unique and Ascending
 	let title			: String
-	let fwGuts			: FwGuts?			// Model=
+	let fwGuts			: FwGuts?			// Model
 	let vewConfig		: VewConfig?
-	let scnScene 		: SCNScene?			// Legacy, low level access
+//	let scnScene 		: SCNScene?			// Legacy, low level access
 	let pointOfView 	: SCNNode?
 	let options 		: SceneView.Options
 		//.autoenablesDefaultLighting,
@@ -30,7 +30,7 @@ struct SceneKitArgs {
 struct SceneKitView: View {
 	@Binding var fwGuts : FwGuts
 
-    var body: some View {
+	var body: some View {
 		ZStack {
 			 // /////////
 			 let sceneKitArgs = SceneKitArgs(
@@ -38,7 +38,7 @@ struct SceneKitView: View {
 						title		: "\(0): Big main view",
 						fwGuts		: fwGuts,
 						vewConfig	: vewConfigAllToDeapth4, 				//vewConfig1,//.null,
-						scnScene	: nil,	 // no specific background scene
+//						scnScene	: nil,	 // no specific background scene
 						pointOfView	: nil,
 						options		: [.rendersContinuously],	//.allowsCameraControl,
 						preferredFramesPerSecond:30
@@ -55,20 +55,36 @@ struct SceneKitView: View {
 			SceneKitHostingView(sceneKitArgs)
 			 .allowsHitTesting(true)
 		}
+		.onChange(of: fwGuts.rootVews) { rootVews in
+			rootVews.forEach { rootVew in
+				let selfiePole = rootVew.selfiePole
+				print("New Zoom: ", selfiePole.zoom)
+			}
+		}
 //		.onChange(of: fwGuts.rootVews) { rootViews in
 //			guard !rootViews.isEmpty else {		return		}
 //			let selfiePole = rootViews[0].selfiePole
 //			print("New Zoom: ", selfiePole.zoom)
 //		}
-    }
+	}
 }
 
 // Zev comment:
 //      Current: SCNScene passed to SCNView   (the AppKit way of doing it) wrapped in an NSViewRepresentable called SceneKitHostingView
 // Zev proposal: SCNScene passed to SceneView (the native SwiftUI way of doing it)
-struct SceneKitHostingView : NSViewRepresentable {								// was final class
-	typealias NSViewType 		= SCNView	// represent SCNView inside
+class SceneCoordinator {
+	let parent: SceneKitHostingView
+	let foo 					= SCNScene()
+	let fooBar 					= SCNNode()
 
+	init(_ parent: SceneKitHostingView) {
+		self.parent 			= parent
+	}
+}
+
+struct SceneKitHostingView : NSViewRepresentable {								// was final class
+	typealias NSViewType 		= SCNView	// representing a SCNView inside NSViewRepresentable
+//	let sceneCoordinator 		= SceneCoordinator()
 
 	 // 1. On creation, save the args for later
 	init(_ args:SceneKitArgs)	{
@@ -77,14 +93,20 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 	}
 	var args					: SceneKitArgs
 
+	func makeCoordinator() -> SceneCoordinator {
+        SceneCoordinator(self)
+    }
+    
 	   // 2. It's later! Use args to make SCNView
 	  //  This may be called many times for the same View
 	func makeNSView(context: Context) -> SCNView {		// typedef Context = NSViewRepresentableContext<Self>
 											//	makeCoordinator()	//wtf?
-												let coord : Void		= context.coordinator		// View.Coordinator
+												let coord				= context.coordinator		// View.Coordinator
+												let x = coord.foo;
 												let transaction			= context.transaction		// a 'plist'
 												let environment			= context.environment		// Empty
 												//let prefBridge 		= context.preferenceBridge	// no member 'preferenceBridge'
+
 		guard let fwGuts		= args.fwGuts else { fatalError("got nil fwGuts!")}
 		atRnd(4, DOClog.log("=== Slot\(args.slot): ========== makeNSView         title:'\(args.title)'"))
 
@@ -93,11 +115,20 @@ struct SceneKitHostingView : NSViewRepresentable {								// was final class
 		 // Make a new RootVew:
 		let rootVew				= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
 		rootVew.fwGuts			= fwGuts	// owner link
+
+		 // Register with FwGuts
 		rootVew.slot			= fwGuts.rootVews.count		// [0...]
 		fwGuts.rootVews.append(rootVew)
 
+		 // Configure it from document
+		rootVew.configureDocument(from:fwGuts.document.config)
+
 		 // Get an ScnView from rootScn
-		let fwView				= rootVew.rootScn.fwView!
+		guard let fwView		= rootVew.rootScn.fwView else { fatalError("rootVew.rootScn.fwView is nil")}
+
+		//fwView.scene 			= sceneCoordinator.scene
+		//sceneCoordinator.scene.rootNode.addChildNode(sceneCoordinator.rootNode)
+
 		 // Configure from args.options:
 		fwView.allowsCameraControl			= args.options.contains(.allowsCameraControl)
 		fwView.autoenablesDefaultLighting	= args.options.contains(.autoenablesDefaultLighting)

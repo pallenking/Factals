@@ -41,7 +41,9 @@ struct FactalsDocument: FileDocument {
 
 	mutating func configureDocument(from c:FwConfig) {
 		config					= c
-		fwGuts?.configureDocument(from:c)	// COMPONENT 1
+
+		guard let fwGuts else {		print("WARNING configureDocument: fwGuts=nil"); return		}
+		fwGuts.configureDocument(from:c)	// COMPONENT 1
 	}
 
 	 // @main uses this to generate a blank document
@@ -67,8 +69,7 @@ struct FactalsDocument: FileDocument {
 		rootPart.fwGuts			= fwGuts	// rootPart delegate
 
 		 //		3. Update Configurations
-		config					+= rootPart.ansConfig
-		configureDocument(from:config)
+		configureDocument(from: params4all + rootPart.ansConfig)
 
 		 //		4. Wire and Groom Part
 		rootPart.wireAndGroom()

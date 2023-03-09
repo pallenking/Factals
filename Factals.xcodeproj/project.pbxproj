@@ -46,7 +46,6 @@
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* RootVew.swift */; };
-		9F2E7B3C2995CF0000938099 /* ChatGPT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2E7B3B2995CF0000938099 /* ChatGPT.swift */; };
 		9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
 		9F3E4A0B28B7A7C4003D450D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
 		9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F417F0428EB91FE0047B359 /* FactalsTests.swift */; };
@@ -132,6 +131,7 @@
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
 		9F5AE2D0298C3C4B00EF6B20 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */; };
 		9F5AE2D1298C3C4B00EF6B20 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */; };
+		9F5DA12729B41C6200D8EC9B /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F6822F728C9163D00ACB9F0 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6822F628C9163D00ACB9F0 /* SceneKitHostingView.swift */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
@@ -644,6 +644,7 @@
 				9F417F2028EB94240047B359 /* MultiLink.swift in Sources */,
 				9F417F2128EB94270047B359 /* Link.swift in Sources */,
 				9F417F0D28EB93DE0047B359 /* Tests01.swift in Sources */,
+				9F5DA12729B41C6200D8EC9B /* FwView.swift in Sources */,
 				9F417F4128EB94CB0047B359 /* XXGestures.swift in Sources */,
 				9F417F2B28EB944A0047B359 /* CommonParts.swift in Sources */,
 				9F417F1028EB93E90047B359 /* Library.swift in Sources */,
@@ -792,7 +793,6 @@
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
-				9F2E7B3C2995CF0000938099 /* ChatGPT.swift in Sources */,
 				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,

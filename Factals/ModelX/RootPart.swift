@@ -73,7 +73,7 @@ class RootPart : Part {
 		virtualize() 	// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								
 		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-		atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
+bug;	atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
 						
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
 
