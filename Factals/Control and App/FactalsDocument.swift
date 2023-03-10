@@ -22,8 +22,8 @@ extension UTType {
 }
 extension FactalsDocument : Uid {
 //	let uid:UInt16				= randomUid()			// defined in struct FactalsDocument
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
-		print("[[XXXXFactalsDocumentXXXX\(ppUid(self))\(note): \(format)")
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+		print("[[XXXXFactalsDocumentXXXX\(ppUid(self)): \(format)")
 	}
 }
 

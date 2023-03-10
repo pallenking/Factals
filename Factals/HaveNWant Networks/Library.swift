@@ -62,8 +62,8 @@ struct ScanAnswer {		// : Codable
 
 extension Library : Uid {
 	//var uid						= randomUid()	// in class Library
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
-		print("Library \(ppUid(self))\(note): \(format)")
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+		print("Library \(ppUid(self)): \(format)")
 	}
 }
 				// Remove NSObject

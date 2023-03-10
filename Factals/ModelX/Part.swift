@@ -162,7 +162,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 
 		 // Print out invocation
 		let n					= ("\'" + name + "\'").field(-8)
-		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)", note:fwClassName))
+		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
 
 		 // Options:
 		if let valStr			= localConfig["expose"] as? String,

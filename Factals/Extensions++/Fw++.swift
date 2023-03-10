@@ -463,7 +463,7 @@ extension Dictionary : Uid {
 	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}	//SwiftFactals
 }
 extension Dictionary : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
 		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
@@ -1198,7 +1198,7 @@ extension String {
 
 
 protocol Logd: FwAny, Uid {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?, note:String)
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?)
 }
 extension Logd {
 	// MARK: - 14. Logging
@@ -1209,12 +1209,12 @@ extension Logd {
 	///   - args: printf args
 	///   - terminator: for print
 	///   - note: HACK
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
+		let str					= nls + (ppUid(self) + ":" + self.fwClassName).field(-28) + msg2	//-nFullN uidClass
 //		let str					= nls + (note + self.pp(.uidClass)).field(-28) + msg2	//-nFullN uidClass
 //		let str					= nls + (note + ppUid(self) + ":Logd").field(-28) + msg2	//-nFullN uidClass
-		let str					= nls + (note + ppUid(self) + ":" + self.fwClassName).field(-28) + msg2	//-nFullN uidClass
 //		let str					= nls + (note + ":" + ppUid(self)).field(-28) + msg2	//-nFullN uidClass
 		DOClog.log(str, terminator:terminator)
 	}

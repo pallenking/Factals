@@ -7,8 +7,8 @@ import SceneKit
 
 extension Log : Uid { }
 extension Log : Logd { 
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
-		print("\(fwClassName) \(ppUid(self))\(note): \(format)")
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+		print("\(fwClassName) \(ppUid(self)): \(format)")
 	}
 }
 
