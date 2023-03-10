@@ -5,15 +5,13 @@
 
 import SceneKit
 
-extension Log : Uid {
-//	var uid: UInt16 {
-//		get 			{	uid_												}
-//		set				{	uid_ = newValue										}
-//	}
+extension Log : Uid { }
+extension Log : Logd { 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
 		print("\(fwClassName) \(ppUid(self))\(note): \(format)")
 	}
 }
+
 class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
 
 	 // MARK: - 1. Class Variables:

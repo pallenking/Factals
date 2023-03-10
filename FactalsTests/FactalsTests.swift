@@ -25,6 +25,19 @@ final class FactalsTests: XCTestCase {
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
 
+
+//	func testVewPp() {
+//		let m1 = MaxOr()
+//		let m2 = m1.pp(.uidClass)
+//		let n1 = Vew()
+//		let n2 = n1.pp(.uidClass)
+//		let o1 = RootVew()
+//		let o2 = o1.pp(.uidClass)
+//
+//		let x = self.pp(.uidClass)
+//		logd("abcdefg")
+//	}
+
 	func testForEach() {
 		let array = ["aaa", "bbb", "ccc"]
 		var a = ""

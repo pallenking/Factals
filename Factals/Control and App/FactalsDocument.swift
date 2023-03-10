@@ -78,10 +78,16 @@ struct FactalsDocument: FileDocument {
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					let rv		= RootVew(forPart:rootPart)		//, rootScn:rootScn
+					let rootVew		= RootVew(forPart:rootPart)		//, rootScn:rootScn
+					rootVew.fwGuts	= fwGuts
+					fwGuts.rootVews.append(rootVew)
+
 //					rootScn.createVewNScn(slot:slot, vewConfig:sceneKitArgs.vewConfig)
-					rv.openChildren(using:vewConfig)
-					fwGuts.rootVews.append(rv)
+						 // 2. Update Vew and Scn Tree
+					rootPart.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
+			/**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
+					rootVew.setupLightsCamerasEtc()
+					rootVew.openChildren(using:vewConfig)
 				}
 				else {
 					panic("Confused wo38r")

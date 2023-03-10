@@ -51,10 +51,7 @@ let vewConfigAllToDeapth4		= VewConfig.openAllChildren(toDeapth:4)
 extension Vew {
 	/// Adorn self (a Part) in parentVew, using config (a VewConfig)
 	///   Adorn scn tree too
-	/// - Parameters:
-	///   - in parentVew: where Vew of self goes. If parentVew already contains
-	///   a Vew, try to use it. Otherwise create one
-	///   - openChildrenUsing config: config to open children using
+	/// - Parameter config: how to open children
 	func openChildren(using config:VewConfig) {
 		atRve(3, part.logd("openChildren(using:\(config.pp(.fullNameUidClass)))"))
 																 // A new skin is made by Part:

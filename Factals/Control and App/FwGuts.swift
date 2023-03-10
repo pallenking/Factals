@@ -319,7 +319,8 @@ bug;return nil
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
 		vew.scn.removeFromParent()
 		vew.removeFromParent()
-		vew.updateVewSizePaint(needsLock:"toggelOpen4")
+
+		rootVew.updateVewSizePaint(needsLock:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
 		rootVew  .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")

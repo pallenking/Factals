@@ -22,6 +22,7 @@ struct ContentView: View {
 struct FwGutsView: View {
 	@Binding	var fwGuts		: FwGuts
 	@State		var isLoaded	= false
+    @State		var mouseDown	= false
 
 	var body: some View {
 		VStack {
@@ -37,20 +38,34 @@ struct FwGutsView: View {
 						// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 						// now: SceneView 	native SwiftUI
 						SceneView(
-							scene: nil,
-							pointOfView: nil,
-							options: [.rendersContinuously],
+							scene:rootVew.rootScn.scnScene.wrappedValue, //SCNScene(),
+						//	pointOfView: nil,
+						//	options: [.rendersContinuously],
 							preferredFramesPerSecond: 30,
-							antialiasingMode: .none,
-							delegate: nil, 		//SCNSceneRendererDelegate?
-							technique: nil		//SCNTechnique?
+							antialiasingMode: .none
+						//	delegate: nil, 		//SCNSceneRendererDelegate?
+						//	technique: nil		//SCNTechnique?
 						)
 						 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
 						 .border(.black, width:2)
+					//	 .onMouseDown(perform:handleMouseDown)
 					}
 				}
 			}
 			Spacer()
+		}
+	}
+	func handleMouseDown(event: NSEvent) {
+		mouseDown = true
+		handleMouseEvent(event)
+	}
+	func handleMouseEvent(_ event: NSEvent) {
+		if let view = NSApplication.shared.keyWindow?.contentView {
+			let location = view.convert(event.locationInWindow, from: nil)
+bug	//		if let hitResult = view.hitTest(location),
+	//		  let sceneView = hitResult.node.scene?.view as? SCNView {
+	//			sceneView.mouseDown(with: event)
+	//		}
 		}
 	}
 }

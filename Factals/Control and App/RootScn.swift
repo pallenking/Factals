@@ -658,16 +658,10 @@ extension RootScn : SCNSceneRendererDelegate {
 	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
 		var rv					= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		rv						+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
-//		rv						+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
-//		rv						+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		rv						+= "animatePhysics:\(animatePhysics)"
-/*	otherLines: { deapth in
-		var rv					=  self.scnScene.ppFwState()
-		rv						+= self.selfiePole.ppFwState()
-		rv						+= self.fwView?.ppFwState() ?? "#### rootScn.scnView is nil ####\n"
- */
+		rv						+= "animatePhysics:\(animatePhysics) "
+		rv						+= "\(self.scnScene.pp(.uidClass)) "
+		rv						+= "\(self.fwView?.pp(.uidClass) ?? "fwView=nil-BAD") "
 		return rv
-//		return scn.pp(mode, aux)
 	}
 }
 // currently unused

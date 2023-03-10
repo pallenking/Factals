@@ -160,17 +160,119 @@ RootVew:_______________
 			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
 		}
 	}
+
+	// MARK: - 9 Update Vew + :
+	   /// Update the Vew Tree from Part Tree
+	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
+	 /// - Parameter log: 		-- log the obtaining of locks.
+	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
+		guard let fwGuts		= part.root?.fwGuts else {	fatalError("Paranoia 29872") }
+		guard let fwGuts2		= rootVew?  .fwGuts else {	fatalError("Paranoia 23872") }
+		assert(fwGuts === fwGuts2, "Paranoia i5205")
+		var needsViewLock		= named		// nil if lock obtained
+		let vRoot				= self
+		let pRoot				= part.root!
+
+/**/	SCNTransaction.begin()
+		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
+
+				 /// Is Part Tree dirty? If so, obtain lock
+				 /// - Parameters:
+				 ///   - dirty: kind of dirty (.vew, .size, or .paint) to check
+				 ///    - viewLockName: Owner of lock; nil -> no lock needed
+				 ///     - log: log the message
+				 ///      - message: massage to log
+				 ///      - Returns: Work
+				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
+					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
+						guard let fwGuts = part.root?.fwGuts else {	fatalError("### part.root?.fwGuts is nil ###")		}
+
+						 // Lock  _ALL_  root Vews:
+						for rootVew in fwGuts.rootVews {
+							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
+								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
+							}
+						}
+						viewLockName = nil		// mark gotten
+						return true
+					}
+					return false
+				}
+
+		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
+		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
+			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
+
+			if let vewConfig {					// Vew Configuration specifies open stuffss
+
+				//let m1 = MaxOr()
+				//let m2 = m1.pp(.uidClass)
+				//let n1 = Vew()
+				//let n3 = n1.fwClassName
+				//let n2 = n1.pp(.uidClass)
+				//let o1 = RootVew()
+				//let o2 = o1.pp(.uidClass)
+				//
+				//let x = self.pp(.uidClass)
+				logd("abcdefg")
+
+				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
+				vRoot.openChildren(using:vewConfig)
+			}
+			atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
+			  // Update Vew tree objects from Part tree
+			 // (Also build a sparse SCN "entry point" tree for Vew tree)
+/**/		pRoot.reVew(vew:vRoot, parentVew:nil)
+
+			// should have created all Vews and one *-<name> in ptn tree
+			pRoot.reVewPost(vew:vRoot)
+		}
+		 // ----   Adjust   S I Z E s   ---- //
+		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
+			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
+			atRsi(6, log ? logd("rootPart.reSize():............................") : nop)
+
+/**/		pRoot.reSize(vew:vRoot)				// also causes rePosition as necessary
+			
+			vRoot.bBox			|= BBox.unity		// insure a 1x1x1 minimum
+								
+			pRoot.rePosition(vew:vRoot)				// === only outter vew centered
+			vRoot.orBBoxIntoParent()
+			pRoot.reSizePost(vew:vRoot)				// ===(set link Billboard constraints)
+	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
+			atRsi(6, log ? logd("..............................................") : nop)
+		}
+		 // -----   P A I N T   Skins ----- //
+		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
+			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
+
+/**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
+
+			 // THESE SEEM IN THE WRONG PLACE!!!
+	//		pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
+	//		pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
+			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
+		}
+		let unlockName			= named == nil ? nil :	// no lock wanted
+								  needsViewLock == nil ? named :// we locked it!
+								  nil							// we locked nothing
+/**/	SCNTransaction.commit()
+		for rootVew in fwGuts.rootVews {
+			rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
+		}
+	}
+
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		let rv					= super.pp(mode, aux)
+	override func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4aux) -> String {
+//	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 
 		 // Report improper linking
-		guard let fwGuts 					else {	return rv + "fwGuts BAD"	}
-		guard let slot 						else {	return rv + "slot IS NIL"	}
-		guard slot < fwGuts.rootVews.count 	else {	return rv + "slot TOO BIG"	}
-		guard fwGuts.rootVews[slot] == self else {	return rv + "self inclorectly in rootVews"}
+		guard let fwGuts 					else {	return "fwGuts BAD"			}
+		guard let slot 						else {	return "slot IS NIL"		}
+		guard slot < fwGuts.rootVews.count 	else {	return "slot TOO BIG"		}
+		guard fwGuts.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
 
-		return rv
+		return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
 	}
 	  // MARK: - 16. Global Constants
 	static let nullRoot			= RootVew()			/// Any use of this should fail

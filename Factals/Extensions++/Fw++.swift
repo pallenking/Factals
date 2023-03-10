@@ -61,13 +61,13 @@ extension Double		: FwAny 	{}
 extension CGFloat 		: FwAny		{}
 extension String		: FwAny 	{}
 
-extension Vew			: FwAny 	{}	//x Extension outside of file declaring class 'Vew' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
+//extension Vew			: FwAny 	{}	//x Extension outside of file declaring class 'Vew' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension Part			: FwAny 	{}
 extension BBox			: FwAny 	{}
 
 extension FwwEvent		: FwAny 	{}
 //extension Log		: FwAny 	{}
-extension Path			: FwAny 	{}
+//extension Path			: FwAny 	{}
 
 extension SCNVector4	: FwAny 	{}
 extension SCNVector3	: FwAny 	{}
@@ -167,8 +167,8 @@ extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value
 
 extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
-extension FwGuts		: FwAny 	{}	// Extension outside of file declaring class 'FwGuts' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
-extension RootScn		: FwAny		{}
+//extension FwGuts		: FwAny 	{}	// Extension outside of file declaring class 'FwGuts' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
+//extension RootScn		: FwAny		{}
 extension SelfiePole	: FwAny		{}
 extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNConstraint	: FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
@@ -177,12 +177,12 @@ extension SCNGeometry	: FwAny 	{	// Extension outside of file declaring class 'S
 		return ppDefault(self:self, mode:mode, aux:aux)
 	}
 }
-extension SCNAudioSource: FwAny 	{
+extension SCNAudioSource  	{
 	func pp(_ mode: PpMode?, _ aux: FwConfig) -> String {
 		return ppDefault(self:self, mode:mode, aux:aux)		//fatalError("\n\n" + "SCNAudioSource not supported\n\n")
 	}
 }
-extension SCNAudioPlayer: FwAny 	{
+extension SCNAudioPlayer 	{
 	func pp(_ mode: PpMode?, _ aux: FwConfig) -> String {
 		return ppDefault(self:self, mode:mode, aux:aux)		//fatalError("\n\n" + "SCNAudioPlayer not supported\n\n")
 	}}
@@ -461,7 +461,8 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 																				//extension Dictionary<Key, Value> where Key : Hashable, Value : Comparable {  	//Cannot find type 'Key' in scope
 extension Dictionary : Uid {
 	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}	//SwiftFactals
-	
+}
+extension Dictionary : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
@@ -515,6 +516,7 @@ func ppDefault(self:FwAny, mode:PpMode?, aux:FwConfig) -> String {
 	switch mode! {
 	case .fwClassName:
 		return self.fwClassName
+//		return self.fwClassName
 	case .name:							// -> ""
   //	return self.pp(.name,   	 aux)
 		return ""
@@ -526,7 +528,18 @@ func ppDefault(self:FwAny, mode:PpMode?, aux:FwConfig) -> String {
 	case .nameUidClass:
 		return "\(self.pp(    .name, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
 	case .uidClass:
-		return "\(ppUid(self as? Uid)):\(self.pp(.fwClassName))"	// e.g: "xxx:Port"
+
+//let k1 = Part()
+//let k2 = k1.pp(.fwClassName)
+//let m1 = Vew()
+//let m2 = m1.pp(.fwClassName)
+//
+//let n3 = self.fwClassName
+//let n4 = self.pp(.fwClassName)
+//let n5 = ppUid(self as? Uid)
+
+		return "\(ppUid(self as? Uid)):\(self.fwClassName)"	// e.g: "xxx:Port"
+//		return "\(ppUid(self as? Uid)):\(self.pp(.fwClassName))"	// e.g: "xxx:Port"
 	case .classUid:
 		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
 //	case .classUidFullName:
@@ -1184,7 +1197,7 @@ extension String {
 }
 
 
-protocol Logd: Uid {
+protocol Logd: FwAny, Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?, note:String)
 }
 extension Logd {
@@ -1199,7 +1212,9 @@ extension Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil, note:String="") {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
-		let str					= nls + (note + ppUid(self) + ":Logd").field(-28) + msg2	//-nFullN uidClass
+//		let str					= nls + (note + self.pp(.uidClass)).field(-28) + msg2	//-nFullN uidClass
+//		let str					= nls + (note + ppUid(self) + ":Logd").field(-28) + msg2	//-nFullN uidClass
+		let str					= nls + (note + ppUid(self) + ":" + self.fwClassName).field(-28) + msg2	//-nFullN uidClass
 //		let str					= nls + (note + ":" + ppUid(self)).field(-28) + msg2	//-nFullN uidClass
 		DOClog.log(str, terminator:terminator)
 	}
