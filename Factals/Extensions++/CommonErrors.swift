@@ -14,6 +14,7 @@ var bug : () 			{
 		  \t---   a   B U G   to fix!    ---
 		  \t--------------------------------
 		  """)
+	fatalError("fatalError()")
  	machineTrap()				// transfer control to debugger
 	return
 }

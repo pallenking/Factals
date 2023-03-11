@@ -36,8 +36,8 @@ RootVew:_______________
 
 	 // Sugar
 	var rootPart 	: RootPart	{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
-	var slot	 	: Int?		{ fwGuts?.rootVews.firstIndex(of: self)			}
-	var trunkVew 	: Vew? 		{		 // Get  trunkVew  from reVew:
+	var slot	 	: Int?		{	fwGuts?.rootVews.firstIndex(of: self)		}
+	var trunkVew 	: Vew? 		{
 		return children.count > 0 ? children[0] : nil
 	}
 
@@ -114,14 +114,16 @@ RootVew:_______________
 		}() )
 
 		 // === Get trunkVew DispatchSemaphore:
-		while rootVewLock.wait(timeout:.distantFuture) != .success {		//.distantFuture//.now() + waitSec		//let waitSec			= 2.0
+		while rootVewLock.wait(timeout:.now() + .seconds(10)) != .success {
+//		while rootVewLock.wait(timeout:.distantFuture) != .success {
 			 // === Failed to get lock:
 			let val0		= rootVewLock.value ?? -99
 			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
 			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :
 							  nop
-			panic(msg)	// for debug only
-			return false
+			fatalError(msg)	// for debug only
+//			panic(msg)	// for debug only
+//			return false
 		}
 
 		 // === Succeeded:
@@ -214,7 +216,7 @@ RootVew:_______________
 				//let o2 = o1.pp(.uidClass)
 				//
 				//let x = self.pp(.uidClass)
-				logd("abcdefg")
+				//logd("abcdefg")
 
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
 				vRoot.openChildren(using:vewConfig)
@@ -267,10 +269,13 @@ RootVew:_______________
 //	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
 
 		 // Report improper linking
+		guard let mode						else {	return "mode==nil"			}
 		guard let fwGuts 					else {	return "fwGuts BAD"			}
 		guard let slot 						else {	return "slot IS NIL"		}
 		guard slot < fwGuts.rootVews.count 	else {	return "slot TOO BIG"		}
 		guard fwGuts.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
+
+		return "<<<RootVew.pp(mode:\(mode), aux:[..\(aux.count)..])>>>"
 
 		return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
 	}

@@ -14,9 +14,9 @@ extension SCNCameraController : ObservableObject {	}
 //	$view
 
 struct ContentView: View {
-	@Binding	 var document	: FactalsDocument	// the Document
+	@Binding	 var document	: FactalsDocument
 	var body: some View {
-		FwGutsView(fwGuts:$document.fwGuts)	// document:$document,        r
+		FwGutsView(fwGuts:$document.fwGuts)
 	}
 }
 struct FwGutsView: View {
@@ -35,20 +35,33 @@ struct FwGutsView: View {
 				ForEach($fwGuts.rootVews) {	rootVew in
 					VStack {	 //  --- H a v e N W a n t  <i>  ---
 						VewBar(rootVew:rootVew)
+						let rootScn			= rootVew.rootScn.wrappedValue
 						// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 						// now: SceneView 	native SwiftUI
-						SceneView(
-							scene:rootVew.rootScn.scnScene.wrappedValue, //SCNScene(),
-						//	pointOfView: nil,
-						//	options: [.rendersContinuously],
-							preferredFramesPerSecond: 30,
-							antialiasingMode: .none
-						//	delegate: nil, 		//SCNSceneRendererDelegate?
-						//	technique: nil		//SCNTechnique?
-						)
-						 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
-						 .border(.black, width:2)
-					//	 .onMouseDown(perform:handleMouseDown)
+
+						ZStack {
+							 // This View goes underneath:
+							EventReceiver { 	nsEvent in
+								rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
+							}
+							SceneView(
+								scene:rootScn.scnScene,
+								pointOfView: nil,	// SCNNode
+								options: [.rendersContinuously],
+								preferredFramesPerSecond: 30,
+								antialiasingMode: .none,
+								delegate: nil//rootScn	//SCNSceneRendererDelegate?
+							//	technique: nil		//SCNTechnique?
+							)
+							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
+							 .border(.black, width:2)
+
+	//						 .gesture(Gesture)
+	// NSClickGestureRecognizer
+	
+							//.onChange(of: Equatable, perform: (Equatable) -> Void)
+							//.onMouseDown(perform:handleMouseDown)
+						}
 					}
 				}
 			}

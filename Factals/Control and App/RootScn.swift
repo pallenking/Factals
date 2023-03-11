@@ -76,7 +76,7 @@ class RootScn : NSObject {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
 		guard let rootVew 		= rootVew else { print("processEvent.rootVew[..] is nil"); return false}
-		let slot			= rootVew.slot ?? -1
+		let slot				= rootVew.slot ?? -1
 		let fwGuts				= rootVew.fwGuts		// why ! ??
 //		let rootScn				= rootVew.rootScn
 //		let cam					= rootScn.cameraScn

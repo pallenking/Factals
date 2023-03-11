@@ -434,7 +434,8 @@ let x = pp(.tree)
 		}())
 
 		 /// === Get partTree lock:
-/**/	while partTreeLock.wait(timeout:.distantFuture) != .success {//.distantFuture//.now() + waitSec		//let waitSec			= 2.0
+/**/	while partTreeLock.wait(timeout:.now() + .seconds(10)) != .success {
+//**/	while partTreeLock.wait(timeout:.distantFuture) != .success {
 			 // === ///// FAILED to get lock:
 			let val0		= partTreeLock.value ?? -99
 			let msg			= "\(u_name)      FAILED Part LOCK v:\(val0)"
