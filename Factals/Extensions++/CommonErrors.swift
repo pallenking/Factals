@@ -14,7 +14,10 @@ var bug : () 			{
 		  \t---   a   B U G   to fix!    ---
 		  \t--------------------------------
 		  """)
-    print("*** Stack trace:\n\(Thread.callStackSymbols)")
+	let symbols = Thread.callStackSymbols
+	for symbol in symbols {
+		print("'\(symbol)'")
+	}
 	fatalError("###")
  	machineTrap()				// transfer control to debugger
 	return

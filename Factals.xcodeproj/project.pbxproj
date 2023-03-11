@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F00FE5029BC2A1200B11BFE /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */; };
 		9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
 		9F0295D32880923000DD0004 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
 		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
@@ -188,6 +189,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
 		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
 		9F0295D02880921800DD0004 /* FwView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 				9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */,
 				9F0295D02880921800DD0004 /* FwView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
+				9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
 				9F19CA31285EA5090072C50E /* Simulator.swift */,
@@ -787,6 +790,7 @@
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
+				9F00FE5029BC2A1200B11BFE /* SceneKitHostingView.swift in Sources */,
 				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,

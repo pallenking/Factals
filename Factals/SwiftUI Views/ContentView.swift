@@ -36,14 +36,14 @@ struct FwGutsView: View {
 					VStack {	 //  --- H a v e N W a n t  <i>  ---
 						VewBar(rootVew:rootVew)
 						let rootScn			= rootVew.rootScn.wrappedValue
-						// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-						// now: SceneView 	native SwiftUI
 
 						ZStack {
 							 // This View goes underneath:
 							EventReceiver { 	nsEvent in
 								rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
+							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+							// now: SceneView 	native SwiftUI
 							SceneView(
 								scene:rootScn.scnScene,
 								pointOfView: nil,	// SCNNode
