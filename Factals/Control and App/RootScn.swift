@@ -150,8 +150,8 @@ class RootScn : NSObject {
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			rootVew.selfiePole.zoom *= delta
-			let s				= rootVew.selfiePole
-		//	print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
+			//let s				= rootVew.selfiePole
+			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
 			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -655,7 +655,7 @@ extension RootScn : SCNSceneRendererDelegate {
 //		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
 //	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
 		var rv					= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		rv						+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 		rv						+= "animatePhysics:\(animatePhysics) "

@@ -594,9 +594,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 	}
 	 // MARK: - 15. PrettyPrint
-//	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4aux) -> String {
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4aux) -> String	{
-		switch mode! {
+//	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{
+		switch mode {
 			case .name:
 				return self.name
 			case .fullName:

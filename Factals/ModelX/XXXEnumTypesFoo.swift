@@ -83,9 +83,9 @@
 //}
 //
 //
-//func pp(part:YPart, _ mode:PpMode?, _ aux:FwConfig) -> String	{		// Why is this not an override
+//func pp(part:YPart, _ mode:PpMode, _ aux:FwConfig) -> String	{		// Why is this not an override
 //		var rv					= ""
-//		switch mode! {
+//		switch mode {
 //		case .name:
 //			return part.name
 //		case .fullName:

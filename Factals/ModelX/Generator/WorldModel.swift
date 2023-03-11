@@ -217,9 +217,9 @@ class WorldModel : Atom {
 	}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 					= super.pp(mode, aux)
-		if mode! == .line {
+		if mode == .line {
 			rv					= super.pp(mode, aux)
 			if aux.bool_("ppParam") {	// a long line, display nothing else.
 				return rv

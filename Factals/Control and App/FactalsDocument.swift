@@ -420,8 +420,8 @@ bug
 	}
 	
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4aux) -> String	{
-		switch mode! {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{
+		switch mode {
 		case .line:
 			return log.indentString() + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny
 		case .tree:

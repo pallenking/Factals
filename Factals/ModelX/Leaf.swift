@@ -122,7 +122,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 				= super.pp(mode, aux)
 		if mode == .line {
 			if aux.bool_("ppParam") {			// Ad Hoc: if printing Param's,

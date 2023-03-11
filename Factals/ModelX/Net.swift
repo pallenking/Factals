@@ -157,10 +157,10 @@ class Net : Atom {		// Atom // Part
 	}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 					= super.pp(mode, aux)
 
-		switch mode! {
+		switch mode {
 		case .phrase:
 			rv +=  " \(children.count) children, \(ports.count) Ports"
 		case .short:

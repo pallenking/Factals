@@ -184,7 +184,7 @@ struct BBox {
 //	init(from: Decoder)		 throws { fatalError("init(from: Decoder)   UNIMPLEMENTED")}
 //	func encode(to: Encoder) throws { fatalError("encode(to: Encoder)   UNIMPLEMENTED")}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 
 		if min.isNan || max.isNan 	{
 			return "nan"
@@ -193,7 +193,7 @@ struct BBox {
 		let b 				= aux.int_("ppFloatB")
 		let m				= aux.string("ppXYZWena") ?? "XYZ"
 		var rv = ""
-		switch mode! {
+		switch mode {
 			case .fullName:
 				rv 			= "BBox has no name"
 			case .phrase:

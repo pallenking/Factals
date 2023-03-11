@@ -409,7 +409,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 	//		node.addAnimation(anim, forKey: nil)
 	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
 			var rv				= (rootPart?.pp(.classUid) ?? "rootPart=nil") + " "

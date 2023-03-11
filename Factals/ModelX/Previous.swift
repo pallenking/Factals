@@ -442,7 +442,7 @@ bug;						atDat(4, logd("Mode Port: " + //%% curMode=%-->%",
 	   //\\//\\//\\//\\//\\//\\//\\// PRINTOUT //\\//\\//\\//\\//\\//\\//\\//\\///
 	  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\///
 	 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\///
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String {
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String {
 		var rv 					= super.pp(mode, aux)
 		if mode == .line && !aux.bool_("ppParam")  {			//$
 			rv					+= " Prev mode:?" /*self.majorMode + prevMinorModeNames[self.minorMode] + self ppSrc4*/

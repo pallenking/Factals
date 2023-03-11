@@ -288,8 +288,8 @@ extension SCNMatrix4 {
 	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
-		switch mode! {		// PpMode .short and .phrase exists in many places
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
+		switch mode {		// PpMode .short and .phrase exists in many places
 			case .short:
 				var rv				= ""
 				for i in 0..<4 {
@@ -311,7 +311,7 @@ extension SCNMatrix4 {
 			case .fullName, .name, .uid:		//.fwClassName,
 				return ""
 			default:
-				return ppDefault(self:self, mode:mode!, aux:aux)
+				return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
 	   /// Attempt to encode inner 3x3 matrix into common named types

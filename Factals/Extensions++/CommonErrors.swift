@@ -14,7 +14,8 @@ var bug : () 			{
 		  \t---   a   B U G   to fix!    ---
 		  \t--------------------------------
 		  """)
-	fatalError("fatalError()")
+    print("*** Stack trace:\n\(Thread.callStackSymbols)")
+	fatalError("###")
  	machineTrap()				// transfer control to debugger
 	return
 }

@@ -113,9 +113,9 @@ class PolyWrap : Part {
 //	 // MARK: - 3.7 Equatable
 	 //	 MARK: - 15. PrettyPrint
 //	// Override: Method does not override any method from its superclass
-//	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+//	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 //		var rv					= ""
-//		switch mode! {
+//		switch mode {
 //		case .line:
 //			  //      AaBbbbbbCccDdddddddddddddddddddddddEeeeeeeeeeeee
 //			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?

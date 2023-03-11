@@ -918,9 +918,9 @@ class Atom : Part {	//Part//FwPart
 		return true			// Success
 	}
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv		= ""
-		switch mode! {
+		switch mode {
 		case .line:
 			rv 					= super.pp(mode, aux)
 			if aux.bool_("ppParam") {			// Ad Hoc: if printing Param's,

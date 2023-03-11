@@ -521,9 +521,9 @@ let x = pp(.tree)
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 				= super.pp(mode, aux)
-		if mode! == .line {
+		if mode == .line {
 			rv					+= " \"\(title)\""
 		}
 		return rv

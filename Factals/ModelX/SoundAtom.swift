@@ -140,7 +140,7 @@ class SoundAtom : Atom {
 	}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 					= super.pp(mode, aux)
 		if mode ==  .line {
 			if let s			= sound {

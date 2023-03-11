@@ -614,8 +614,8 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 	static var alternate = 0
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
-		switch mode! {
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
+		switch mode {
 		case .fullName:						// -> .name
 			return (parent?.pp(.fullName) ?? "") + "." + name
 		case .phrase, .short:

@@ -366,9 +366,9 @@ class Actor : Net {
 	//	panic("\n\n ***** I'm here\n\n\n")
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 				= super.pp(mode, aux)
-		switch mode! {
+		switch mode {
 		case .line:			// add to end of line
 			if aux.bool_("ppParam") {	// a long line, display nothing else.
 				return rv

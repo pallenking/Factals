@@ -265,11 +265,10 @@ RootVew:_______________
 	}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode? = .tree, _ aux:FwConfig=params4aux) -> String {
-//	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String {
+//	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 
 		 // Report improper linking
-		guard let mode						else {	return "mode==nil"			}
 		guard let fwGuts 					else {	return "fwGuts BAD"			}
 		guard let slot 						else {	return "slot IS NIL"		}
 		guard slot < fwGuts.rootVews.count 	else {	return "slot TOO BIG"		}

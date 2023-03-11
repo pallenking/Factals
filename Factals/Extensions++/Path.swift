@@ -158,8 +158,8 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		//	&& linkProps	  		== rhs.linkProps
 //	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode: PpMode? = .tree, _ aux: FwConfig=[:]) -> String {
-		switch mode! {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=[:]) -> String {
+		switch mode {
 		case .phrase, .short, .line, .tree:
 			return fullName() + ",[" + ppLinkProps() + "]"
 		case .name, .fullName:

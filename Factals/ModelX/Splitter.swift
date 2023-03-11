@@ -521,7 +521,7 @@ class Splitter : Atom {
 	  //\\//\\//\\//\\//\\// PRINTOUT //\\//\\//\\//\\//\\//
 	 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 	//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 				= super.pp(mode, aux)
 		if !aux.bool_("ppParam"),		// Ad Hoc: printing params is so voluminus, print nothing else!ppp
 		  mode == .line { 

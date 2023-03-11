@@ -319,14 +319,14 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
 		let m				= aux.string("ppXYZWena") ?? "XYZ"
 		var pre				= ""
 		var rv				= "["
 		if mode != .tree && mode != .short && x~==0 && y~==0 && z~==0 {
 			return "[0 0 0]"			// common special case
 		}
-		switch mode! {		// PpMode .short and .phrase exists in many places
+		switch mode {		// PpMode .short and .phrase exists in many places
 			case .short:			// Fixed length fields
 				if self.x ~== 0 && self.y ~== 0 && self.z ~== 0 {
 					return "0"
@@ -494,13 +494,13 @@ extension SCNVector4 {
 
  */
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode? = .tree, _ aux:FwConfig) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
 		let m 					= aux.string("ppXYZWena") ?? "XYZW"
 		let a 					= aux.int_("ppFloatA")
 		let b 					= aux.int_("ppFloatB")
 		var pre					= ""
 		var rv					= "["
-		switch mode! {		// PpMode .short and .phrase exists in many places
+		switch mode {		// PpMode .short and .phrase exists in many places
 			case .short:
 				if self.x ~== 0 && self.y ~== 0 && self.z ~== 0 && self.w ~== 0 {
 					return "0"

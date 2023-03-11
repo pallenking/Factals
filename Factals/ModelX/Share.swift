@@ -523,7 +523,7 @@ class Bulb : Splitter { //######################################################
 		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode?, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
 		var rv 					= super.pp(mode, aux)
 		if mode == .line { 
 			rv					+= "radius(\(currentRadius)) = pVal(\(pValue)) * gain(\(gain)) + offset(\(offset))"
