@@ -42,9 +42,24 @@ RootVew:_______________
 	}
 
 	 /// generate a new View, returning its index
+//	init() {
+//		rootScn					= RootScn()
+//		super.init(forPart:.null, scn:.null)
+//		rootScn.rootVew			= self				// owner
+//	}
+//	init(forPart rp:RootPart = .nullRoot, rootScn rs:RootScn = .nullRoot) {
+//		rootScn					= rs
+//		super.init(forPart:rp, scn:rs.scn)
+//		rootScn.rootVew			= self				// owner
+//
+//		 // Set the base scn to comply as a Vew
+//		assert(scn === rootScn.scn, "paranoia: set RootVew with new scn root")
+//		scn 					= rootScn.scn		// set RootVew with new scn root
+//	}
 	init() {
 		rootScn					= RootScn()
 		super.init(forPart:.null, scn:.null)
+		rootScn.rootVew			= self				// owner
 	}
 	init(forPart rp:RootPart, rootScn rs:RootScn=RootScn()) {
 		rootScn					= rs
@@ -279,5 +294,9 @@ RootVew:_______________
 		return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
 	}
 	  // MARK: - 16. Global Constants
-	static let nullRoot			= RootVew()			/// Any use of this should fail
+	static let nullRoot			= {
+		let rv					= RootVew()			/// Any use of this should fail
+		rv.name					= "nullRoot"
+		return rv
+	}()
 }

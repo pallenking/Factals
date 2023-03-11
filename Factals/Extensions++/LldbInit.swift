@@ -16,15 +16,20 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig=[:], terminator t:String=
 
  // Access to current ////// Part Tree //////
 var LLDBrootPart : RootPart		{	return DOCfwGutsQ?.rootPart ?? fatalError("DOCfwGutsQ?.rootPart=nil ") as! RootPart }
-func LLDBrootPart(_ name:String?=nil) -> Part  {
-	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
-		if name != nil {			// Search for sought Part	//maxLevel:1,
-			rv					= rv.find(name:name!, inMe2:true) ?? rv
-		}
-		return rv
-	}
-	return .null				// Strange hack
-}
+//	func LLDBrootPart(_ name:String?=nil) -> Part  {
+//		guard var rv : Part			= DOCfwGutsQ?.rootPart else { return .null		}
+//		if name != nil {			// Search for sought Part	//maxLevel:1,
+//			rv						= rv.find(name:name!, inMe2:true) ?? rv
+//		}
+//		return rv
+//	//	if var rv : Part			= DOCfwGutsQ?.rootPart {//rootPart {
+//	//		if name != nil {			// Search for sought Part	//maxLevel:1,
+//	//			rv					= rv.find(name:name!, inMe2:true) ?? rv
+//	//		}
+//	//		return rv
+//	//	}
+//	//	return .null				// Strange hack
+//	}
 
  /// Access to current ////// Vew Tree //////
 var  LLDBrootVew0  : RootVew {
@@ -122,7 +127,7 @@ func sendApp(key:String="?", inVew vew:Vew) {
 
  // External Global interface (misc, lldb)
 func printFwConfig() {
-	print( ppFwState(config:true) )
+	print( ppFwState(deapth:9999/*config:config*/) )
 }
 func printFwState()  {
 	DOClog.ppIndentCols 		= 20		// sort of permanent!

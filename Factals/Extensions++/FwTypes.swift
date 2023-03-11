@@ -16,12 +16,12 @@ enum FwKnown : Codable {
 	case uInt8		(UInt8		)
 	case float		(Float		)
 	case double		(Double		)
-	case cGFloat	(CGFloat	)
+	case cgFloat	(CGFloat	)		//cGFloat
 	case string		(String		)
 	case vew		(Vew		)
 	case part		(Part		)
 	case bBox		(BBox		)
-	case event		(FwwEvent		)
+	case event		(FwwEvent	)
 	case log		(Log		)
 	case path		(Path		)
 //	case sCNVector4	(SCNVector4	)
@@ -41,7 +41,7 @@ enum FwKnown : Codable {
 		case let uInt8		as UInt8		: 	self = .uInt8		(uInt8		)
 		case let float		as Float		: 	self = .float		(float		)
 		case let double		as Double		: 	self = .double		(double		)
-		case let cGFloat	as CGFloat		: 	self = .cGFloat		(cGFloat	)
+		case let cgFloat	as CGFloat		: 	self = .cgFloat		(cgFloat	)	//
 		case let string		as String		: 	self = .string		(string		)
 		case let vew		as Vew			: 	self = .vew			(vew		)
 		case let part		as Part			: 	self = .part		(part		)
@@ -68,7 +68,7 @@ enum FwKnown : Codable {
 		case let .uInt8		(uInt8		)	:		return uInt8
 		case let .float		(float		)	:		return float
 		case let .double	(double		)	:		return double
-		case let .cGFloat	(cGFloat	)	:		return cGFloat
+		case let .cgFloat	(cgFloat	)	:		return cgFloat		// cGFloat
 		case let .string	(string		)	:		return string
 		case let .vew		(vew		)	:		return vew
 		case let .part		(part		)	:		return part

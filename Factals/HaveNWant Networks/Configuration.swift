@@ -24,10 +24,10 @@ private let params4app : FwConfig = [
 	"soundVolume"	 			: 0.1,		// 0:quiet, 1:normal, 10:loud
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 
-//			// Omit emptyEntry	: nil,		// nil entry
-	"emptyEntry"				: "xr()",	// load test named with xr()
-//	"emptyEntry"				: "entry90",//24/12/18/ Scene<n> (or name?) from Library
-//	"emptyEntry"				: "<name>",	// Test matching "<name>"
+//**/		// Omit emptyEntry	: nil,		// nil entry
+/**/	"emptyEntry"			: "xr()",	// load test named with xr()
+//**/	"emptyEntry"			: "entry90",//24/12/18/ Scene<n> (or name?) from Library
+//**/	"emptyEntry"			: "<name>",	// Test matching "<name>"
 ]
 
    // MARK: - B: Parameters App logging

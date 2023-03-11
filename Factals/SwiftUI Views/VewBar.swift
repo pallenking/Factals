@@ -13,6 +13,16 @@ struct VewBar: View {
 	var body: some View {
 		VStack {
 			HStack {
+				SelfiePoleBar(selfiePole:$rootVew.selfiePole)	// Bad: $rootVew.selfiePole
+				Spacer()
+				Button(label:{	Text("Z//RV").padding(.top, 300)				})
+				{	var s	= rootVew.selfiePole
+					s.zoom	/= 1.1
+					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+					rootVew.selfiePole = s	// Put struct's val back
+				}
+			}
+			HStack {
 				if let slot		= rootVew.slot {	// Installed?
 					Text("VewBar").foregroundColor(.red).bold()
 					Text("Slot\(slot):").foregroundColor(.green).bold()
@@ -50,16 +60,6 @@ struct VewBar: View {
 					{	printFwState()										}
 					Button(label: {	Text("LLDB") 							})
 					{	breakToDebugger()									}
-				}
-			}
-			HStack {
-				SelfiePoleBar(selfiePole:$rootVew.selfiePole)	// Bad: $rootVew.selfiePole
-				Spacer()
-				Button(label:{	Text("Z//RV").padding(.top, 300)				})
-				{	var s	= rootVew.selfiePole
-					s.zoom	/= 1.1
-					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-					rootVew.selfiePole = s	// Put struct's val back
 				}
 			}
 		}

@@ -39,9 +39,9 @@ class FwGuts : NSObject, ObservableObject {
 		log						= Log(title:"FwGut's Log", params4all)
 							
 		super.init()
+		rootPart?.fwGuts		= self		// Owner
 
 		atBld(5, log("Created \(self.pp(.classUid))"))
-		rootPart?.fwGuts		= self		// Owner
 	}
 
 //	// FileDocument requires these interfaces:
@@ -73,6 +73,20 @@ bug;return nil
 //			print("error initing from url: \(error)")
 //			return nil
 //		}
+	}
+	func addRootVew(vewConfig:VewConfig) {
+		guard let rootPart else {	fatalError("addRootVew: rootPart=nil")		}
+		let rootVew				= RootVew(forPart:rootPart)		//, rootScn:rootScn
+		rootVew.fwGuts			= self
+		rootVews.append(rootVew)		// register now, so OK for following:
+
+		 // Build out Vew and Scn Trees:
+		rootVew.openChildren(using:vewConfig)
+
+		rootPart.dirtySubTree(gotLock: true, .vsp)			// DEBUG hack, till locks better
+		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
+		
+		rootVew.setupLightsCamerasEtc()
 	}
 
 	 // MARK: - 3.5 Codable

@@ -33,13 +33,10 @@ struct FwGutsView: View {
 					Text("No Vews found")
 				}
 				ForEach($fwGuts.rootVews) {	rootVew in
-					VStack {	 //  --- H a v e N W a n t  <i>  ---
-						VewBar(rootVew:rootVew)
-						let rootScn			= rootVew.rootScn.wrappedValue
-
+					VStack {
 						ZStack {
-							 // This View goes underneath:
-							EventReceiver { 	nsEvent in
+							let rootScn		= rootVew.rootScn.wrappedValue
+							EventReceiver { 	nsEvent in // Catch events (goes underneath)
 								rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
@@ -55,13 +52,29 @@ struct FwGutsView: View {
 							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
 							 .border(.black, width:2)
-
-	//						 .gesture(Gesture)
-	// NSClickGestureRecognizer
-	
+							//.gesture(Gesture)// NSClickGestureRecognizer
 							//.onChange(of: Equatable, perform: (Equatable) -> Void)
 							//.onMouseDown(perform:handleMouseDown)
+
+//							SceneKitHostingView(SceneKitArgs(
+//								slot: Int,
+//								title: String,
+//								fwGuts: fwGuts,
+//								vewConfig: VewConfig?,
+//								pointOfView: SCNNode?,
+//								options: SceneView.Options,
+//								preferredFramesPerSecond: Int
+//							SceneKitHostingView(SceneKitArgs(
+//								slot: Int,
+//								title: String,
+//								fwGuts: fwGuts,
+//								vewConfig: VewConfig?,
+//								pointOfView: SCNNode?,
+//								options: SceneView.Options,
+//								preferredFramesPerSecond: Int
+//							))
 						}
+						VewBar(rootVew:rootVew)
 					}
 				}
 			}

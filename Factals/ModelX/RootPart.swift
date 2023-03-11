@@ -36,9 +36,6 @@ class RootPart : Part {
 		}
 	}
 
-
-
-
 	 // MARK: - 2.3 Part Tree Lock
 	var partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var partTreeOwner : String?	= nil  		// root lock Owner's name
@@ -59,7 +56,7 @@ class RootPart : Part {
 	 // MARK: - 3.5 Codable
 	enum RootPartKeys: String, CodingKey {
 		case simulator
-		case log
+//		case log
 		case title
 		case ansConfig
 		case partTreeVerbose		// Bool
@@ -73,7 +70,7 @@ class RootPart : Part {
 		virtualize() 	// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								
 		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-bug;	atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
+		atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
 						
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
 
@@ -317,7 +314,6 @@ bug
 		 // Make tree's root (a RootPart):
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-//		self.root				= self				// Every Part, including rootPart, points to rootPart
 		title					= "'\(selectionString)' not found"
 
 		 // Find the Library that contains the trunk for self, the root.
@@ -359,7 +355,7 @@ bug
 		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark rootPart dirty after installing new trunk
 																				//markTree(dirty:.vew) 	// Mark rootPart dirty after installing new trunk
 																				//dirty.turnOn(.vew)
-let x = pp(.tree)
+		//let x = pp(.tree)
 
 		 //  4. Reset
 		atBld(4, logd("------- Reset..."))
@@ -389,8 +385,8 @@ let x = pp(.tree)
 			let blanks				= String(repeating:" ", count:title.count)
 			var rv 					= "BUILT PART!\n"
 			rv 						+= """
-				######
-				######
+				######        \(blanks   )        ######
+				######        \(blanks   )        ######
 				##################### \(errors), \(warnings) \(trailing1)
 				######        \(blanks   )        ######
 				######     \"\" \(title) \"\"     ######
@@ -402,8 +398,8 @@ let x = pp(.tree)
 			}
 			rv							+= ppUnusedKeys()
 			rv							+= """
-				######
-				######\n
+				######        \(blanks   )        ######
+				######        \(blanks   )        ######\n
 				"""
 			return "\n" + rv
 			} ( ) ) )
@@ -528,4 +524,10 @@ let x = pp(.tree)
 		}
 		return rv
 	}
+	 // MARK: - 16. Global Constants
+	static let nullRoot 		= {
+		let rp					= RootPart()	// Any use of this should fail (NOT IMPLEMENTED)
+		rp.name					= "nullRoot"
+		return rp
+	}()
 }

@@ -597,8 +597,8 @@ class Atom : Part {	//Part//FwPart
 						 // Active segments from creation
 						self.root!.simulator.unsettledOwned += link!.curActiveSegments
 					}
-/* ***************************** END OF CLOSURE **************************/
 				}
+/* ***************************** END OF CLOSURE **************************/
 				// /////////////////////////////////////////////////////////
 				linkUpList.append(aWire)  // must copy, cause this stack goes away //.copy()
 			}
@@ -850,6 +850,7 @@ class Atom : Part {	//Part//FwPart
 			let fixedSpot		= fixedPort.peakSpot(inVew:commonVew!, openingUp:true)		//print(fixedSpot.pp(.fullName))
 			var newInMePosn		= fixedSpot - inMeSpot		// (all SCNVector3's)
 			 // ///// GAPs for connection via Link or Direct
+	//		var gap 			= vew.config.cgFloat("gapLinkFluff") ?? 20	// minimal distance above
 			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 20	// minimal distance above
 
 										// DOMINATED CONNECTION? (e.g. with no Link):

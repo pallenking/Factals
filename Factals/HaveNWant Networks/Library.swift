@@ -7,15 +7,17 @@ import SceneKit
 
 struct ScanArgs : Codable {
 	 // MARK: - 2.4.1 Wanted by Scan ELIM?
-			// selectionString+------FUNCTION---------+-wantName:---wantNumber:
+
+			// selectionString+------FUNCTION---------+-argName:---argNumber:
 			//	nil			  |	Blank scene			  |	nil			-1
 			//	"entry<N>"	  |	entry N				  |	nil			N *
 			//	"xr()"		  |	entry labeled as xr() |	"xr()" *	-1
 			//	<name>		  |	named scene			  |	<name> *	-1
 			// Used by RootPart.setup() and Library.registerNetwork()
-	var argNumber	: Int					// if select scene by number
-	var argName 	: String?				// if select scene by name
-	var argOnlyIndex : Bool				// Used for menu preparation
+	var argNumber		: Int			// if select scene by number
+	var argName 		: String?		// if select scene by name
+	var argOnlyIndex	: Bool			// Used for menu preparation
+
 	init(selectionString:String?, wantOnlyIndex w:Bool) {
 		 // --- selectionString -> want****:
 		argName				= nil		// Default: no name
@@ -34,7 +36,7 @@ struct ScanArgs : Codable {
 	 // MARK: - 2.4.2 Scan State
 class ScanState : Codable {
 	var uid			: UInt16	= randomUid()
-	var scanTestNum	: Int		= 0
+	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
 	var scanSubMenu : String	= ""		// name of current FwGuts sub-menu
 	var scanCatalog	: [ScanElement]	= []	// Catalog of Library
 	var scanEOFencountered:Bool = false	// marks scan done
@@ -61,7 +63,7 @@ struct ScanAnswer {		// : Codable
 }
 
 extension Library : Uid {
-	//var uid						= randomUid()	// in class Library
+	//var uid					= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		print("Library \(ppUid(self)): \(format)")
 	}
@@ -86,13 +88,20 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 		self.name				= name
 		//super.init()
 	}
-	enum IntParsingError: Error {
-		case overflow
-		case invalidInput(Character)
-	}
+	//enum IntParsingError: Error {
+	//	case overflow
+	//	case invalidInput(Character)
+	//}
 	var args  : ScanArgs?		= nil
 	var state : ScanState		= ScanState()		// class
 	var answer: ScanAnswer		= ScanAnswer()		// struc
+
+	var count : Int				{
+		var state				= ScanState()
+		let args				= ScanArgs(selectionString:"", wantOnlyIndex:true)
+		loadTest(args:args, state:&state)
+		return state.scanTestNum
+	}
 
 	 // Each Library file loads an answer if it is selected
 	func loadTest(args:ScanArgs, state:inout ScanState) {
@@ -192,8 +201,8 @@ class Library {			// NEVER NSCopying, Equatable : NSObject
 						 file			:String?,
 						 lineNumber		:Int)
 	{									// ALIASES for rootPart:
-		state.scanTestNum += 1				// count every test
-		if args!.argOnlyIndex {					// Wants Index
+		state.scanTestNum 		+= 1		// count every test
+		if args!.argOnlyIndex {				// Wants Index
 			 // //// Display only those entries starting with a "+" ////////////
 			if testName?.hasPrefix("+") ?? false {	// 'trueF {//' trueF/falseF//
 	//why?		assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")

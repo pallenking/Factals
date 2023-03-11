@@ -47,8 +47,9 @@ struct FactalsDocument: FileDocument {
 
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document
-		fwGuts					= FwGuts()	//po type(of: fwGuts)
-		DOC						= self		// INSTALL self:Factals as current DOC
+		fwGuts					= FwGuts()	// MAKE first, so leaners can function //po type(of: fwGuts)
+		DOC						= self		// INSTALL as current DOC, quick!
+		fwGuts.document 		= self		// DELEGATE
 
 				// 1. Make RootPart:		//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
@@ -56,38 +57,28 @@ struct FactalsDocument: FileDocument {
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-
 		let rootPart			= RootPart(fromLibrary:select)
-		fwGuts.rootPart			= rootPart
-
-		 //		2. Build Guts of App around RootPart
-		fwGuts.document 		= self		// fwGuts   delegate
+		assert(fwGuts.rootPart == nil, "paranoia: 7u8fuwef")
+		fwGuts.rootPart			= rootPart	// INSTALL
 		rootPart.fwGuts			= fwGuts	// rootPart delegate
 
-		 //		3. Update Configurations
+		 //		3. Update Configurations from Library
 		let c					= params4all + rootPart.ansConfig
+
+		 //		4. Wire and Groom Part
+		rootPart.wireAndGroom()
+
+		 //		5. Build Vews per Configuration
 		for (key, value) in c {
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					let rv		= RootVew(forPart: rootPart)
-					//
-					rv.openChildren(using:vewConfig)
-					fwGuts.rootVews.append(rv)
+					fwGuts.addRootVew(vewConfig:vewConfig)
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					let rootVew		= RootVew(forPart:rootPart)		//, rootScn:rootScn
-					rootVew.fwGuts	= fwGuts
-					fwGuts.rootVews.append(rootVew)
-
-//					rootScn.createVewNScn(slot:slot, vewConfig:sceneKitArgs.vewConfig)
-						 // 2. Update Vew and Scn Tree
-					rootPart.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
-			/**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-					rootVew.setupLightsCamerasEtc()
-					rootVew.openChildren(using:vewConfig)
+					fwGuts.addRootVew(vewConfig:vewConfig)
 				}
 				else {
 					panic("Confused wo38r")
@@ -95,9 +86,6 @@ struct FactalsDocument: FileDocument {
 			}
 		}
 		configureDocument(from:c)
-
-		 //		4. Wire and Groom Part
-		rootPart.wireAndGroom()
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(fwGuts f:FwGuts) {

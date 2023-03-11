@@ -37,11 +37,10 @@ class RootScn : NSObject {
 	 // MARK: - 3.1 init
 	init(fwView fv:FwView?=nil) {
 		scnScene				= SCNScene()
-	//	cameraScn				= touchCameraScn()
-		super.init()	// NSObject
+		super.init()
 
-		scnScene.physicsWorld.contactDelegate = self
 		scnScene.isPaused		= true				// Pause animations while bulding
+		scnScene.physicsWorld.contactDelegate = self
 		fwView					= fv ?? FwView(frame:CGRect(), options:[:])	// remember or make a new one
 		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
 		fwView!.rootScn 		= self
@@ -49,13 +48,9 @@ class RootScn : NSObject {
 		fwView!.antialiasingMode = .multisampling16X
 		fwView!.delegate		= self as any SCNSceneRendererDelegate
 
-	//	if let args	 {
-	//		//	   args.handler(NSEvent())		//
-	//		//	fwView!.handler(NSEvent())		// default handler
-//	//		fwView!.handler		= args.handler
-	//		fwView!.pointOfView = args.pointOfView
-	//		fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
-	//	}
+		//fwView!.handler		= args.handler
+		//fwView!.pointOfView 	= args.pointOfView
+		//fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
 	}
 	
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
@@ -663,6 +658,12 @@ extension RootScn : SCNSceneRendererDelegate {
 		rv						+= "\(self.fwView?.pp(.uidClass) ?? "fwView=nil-BAD") "
 		return rv
 	}
+	static let nullRoot 		= {
+		let rp					= RootScn()	// Any use of this should fail (NOT IMPLEMENTED)
+		//rp.name				= "nullRoot"
+		return rp
+	}()
+
 }
 // currently unused
 extension RootScn : SCNPhysicsContactDelegate {

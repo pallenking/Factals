@@ -99,8 +99,8 @@ struct FactalsApp: App, Uid, FwAny {
 	 // MARK: - 2. Object Variables:
 	var log	: Log			=	Log(title:"App's Log")
 
-	var appStartTime  : String	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
-	var regressScene : Int = 0	//private?	// number of the next "^r" regression test
+	var appStartTime:String = dateTime(format:"yyyy-MM-dd HH:mm:ss")
+	var regressScene:Int	= 0	//private?	// number of the next "^r" regression test
 															 // Keeps FwGuts menue in sync with itself:
 															//	var regressScene : Int {				// number of next "^r" regression test
 															//		get			{	return regressScene_										}
@@ -130,9 +130,11 @@ struct FactalsApp: App, Uid, FwAny {
 		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with its defaults (Ahead of any documents)
-		let c					= config + params4all
-		configureApp(from:c)
-		
+		assert(config.count == 0, "paranoia owefihwq08fu")
+		let c					= config + params4all	// append
+		configureApp(from:c)						// modifies APP, must re-register
+		APP 					= self				// Register ( V E R Y  HOAKEY)
+
 		atApp(3, {
 			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
 						  "verbosity:[\(log.ppVerbosityOf(c).pp(.short))])")
@@ -201,7 +203,7 @@ struct FactalsApp: App, Uid, FwAny {
 	}													// why not use SwiftUI?
 	func appState(_ sender: Any) {
 		print("'c': AppDelegate.appState():")
-		print(ppFwState(config:false))
+		print(ppFwState())
 	}
 	func appConfiguration(_ sender: Any) {
 		print("'C': AppDelegate.appConfiguration():")
@@ -332,11 +334,12 @@ bug;	let rv					= NSMenu(title:path)
 		regressScene			= sceneNumber + 1			// next regressScene
 
 
-
 		 // Make new Document
 		let rootPart			= RootPart(fromLibrary:"entry\(regressScene)")
-
 		let fwGuts				= FwGuts(rootPart:rootPart)
+		rootPart.fwGuts			= fwGuts
+
+		fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5))
 
 bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		let rootScn				= RootScn()
@@ -354,7 +357,6 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		doc.configureDocument(from:c)
 //		newRootVew.configureDocument(from: ?FwConfig)
 
-		rootPart.fwGuts			= fwGuts
 		fwGuts.document 		= doc
 		doc.makeWindowControllers()
 		doc.registerWithDocController()	// a new DOc must be registered

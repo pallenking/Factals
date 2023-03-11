@@ -203,7 +203,6 @@
 		9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MachineTrap.h"; sourceTree = "<group>"; };
 		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F0295E42880936400DD0004 /* SwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftTryCatch.m; sourceTree = "<group>"; };
-		9F1900E528808DA80078DB6C /* XXXEnumTypesFoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XXXEnumTypesFoo.swift; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		9F1900E928808DC00078DB6C /* MultiLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiLink.swift; sourceTree = "<group>"; };
@@ -353,7 +352,6 @@
 				9F4A3AD9288B386300574925 /* Part.swift */,
 				9FEE51A4286B958700C8C22A /* PolyWrap.swift */,
 				9FEE519E286B507500C8C22A /* SubPart.swift */,
-				9F1900E528808DA80078DB6C /* XXXEnumTypesFoo.swift */,
 				9FDF886729ACFA1700776ABB /* DebugAids.swift */,
 			);
 			path = ModelX;
