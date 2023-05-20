@@ -64,6 +64,7 @@ struct FactalsDocument: FileDocument {
 
 		 //		3. Update Configurations from Library
 		let c					= params4all + rootPart.ansConfig
+		configureDocument(from:c)
 
 		 //		4. Wire and Groom Part
 		rootPart.wireAndGroom()
