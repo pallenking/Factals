@@ -26,7 +26,7 @@ struct FwGutsView: View {
 
 	var body: some View {
 		VStack {
-			GutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
+			FwGutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
  
 			HStack {
 				if fwGuts.rootVews.count == 0 {
@@ -41,13 +41,15 @@ struct FwGutsView: View {
 							}
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 							// now: SceneView 	native SwiftUI
-/*
-sceneview takes in a publisher
-swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
 
-scenkit -> write models back to viewmodel. s
-viewmodel single source of truth.
- */
+							/*
+							sceneview takes in a publisher
+							swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+							
+							scenkit -> write models back to viewmodel. s
+							viewmodel single source of truth.
+							 */
+
 							SceneView(
 								scene:rootScn.scnScene,
 								pointOfView: nil,	// SCNNode
@@ -63,23 +65,23 @@ viewmodel single source of truth.
 							//.onChange(of: Equatable, perform: (Equatable) -> Void)
 							//.onMouseDown(perform:handleMouseDown)
 
-//							SceneKitHostingView(SceneKitArgs(
-//								slot: Int,
-//								title: String,
-//								fwGuts: fwGuts,
-//								vewConfig: VewConfig?,
-//								pointOfView: SCNNode?,
-//								options: SceneView.Options,
-//								preferredFramesPerSecond: Int
-//							SceneKitHostingView(SceneKitArgs(
-//								slot: Int,
-//								title: String,
-//								fwGuts: fwGuts,
-//								vewConfig: VewConfig?,
-//								pointOfView: SCNNode?,
-//								options: SceneView.Options,
-//								preferredFramesPerSecond: Int
-//							))
+							//SceneKitHostingView(SceneKitArgs(
+							//	slot: Int,
+							//	title: String,
+							//	fwGuts: fwGuts,
+							//	vewConfig: VewConfig?,
+							//	pointOfView: SCNNode?,
+							//	options: SceneView.Options,
+							//	preferredFramesPerSecond: Int
+							//SceneKitHostingView(SceneKitArgs(
+							//	slot: Int,
+							//	title: String,
+							//	fwGuts: fwGuts,
+							//	vewConfig: VewConfig?,
+							//	pointOfView: SCNNode?,
+							//	options: SceneView.Options,
+							//	preferredFramesPerSecond: Int
+							//))
 						}
 						VewBar(rootVew:rootVew)
 					}

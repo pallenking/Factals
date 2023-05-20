@@ -7,20 +7,20 @@
 
 import SwiftUI
 
-struct GutsBar: View {
+struct FwGutsBar: View {
 	@Binding var fwGuts			: FwGuts
 
 	var body: some View {
 		 //  --- B U T T O N S  ---
 		HStack {	// FULL!
-			Text("GutsBar").foregroundColor(.red).bold()
-			Text("   Application:")
+			Text("FwGutsBar").foregroundColor(.red).bold()
+			Text("   Print Application:")
 			Button(label:{	Text( "state").padding(.top, 300)				})
 			{	printFwState()												}
 			Button(label:{	Text("config").padding(.top, 300)				})
 			{	printFwConfig()											}
 			if let rootPart = fwGuts.rootPart {
-				Text("  Model:")
+				Text("  Print Model:")
 				Button(label:{	Text( "ptm")								})
 				{	lldbPrint(rootPart, mode:.tree)							}
 				Button(label:{	Text("ptLm")								})

@@ -225,11 +225,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 
 		 // Try rootVew's opening configuration
-		guard let rootVew 		else {	return nil									}
+		guard let rootVew 		else {	return nil								}
 		if let rv				= rootVew.openConfig[name] {
 			return rv
 		}
-		guard let fwGuts		= rootVew.fwGuts else {		return nil		}
+		guard let fwGuts		= rootVew.fwGuts else {		return nil			}
 		assert(fwGuts == part.root?.fwGuts, "paranoia: fwGuts mismatch")		//(fwGuts==nil || fwGuts! == part.root?.fwGuts
 
 		 // Try Document's configuration

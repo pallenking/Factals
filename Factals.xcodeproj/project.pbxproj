@@ -140,7 +140,7 @@
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
 		9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
-		9F9AC6A4299C7C6000CDEB08 /* GutsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* GutsBar.swift */; };
+		9F9AC6A4299C7C6000CDEB08 /* FwGutsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */; };
 		9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
@@ -248,7 +248,7 @@
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
-		9F9AC6A3299C7C6000CDEB08 /* GutsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GutsBar.swift; sourceTree = "<group>"; };
+		9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwGutsBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* X HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "X HasChildren.swift"; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
@@ -371,7 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9F9AC6A3299C7C6000CDEB08 /* GutsBar.swift */,
+				9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */,
 				9FBD6E4629258E2500F14075 /* VewBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
 				9FAD595D29A270C40065406B /* Inspector Parts */,
@@ -468,9 +468,9 @@
 			children = (
 				9FEE51AA286BA53800C8C22A /* HaveNWant Networks */,
 				9F19CA33285EAF730072C50E /* ModelX */,
+				9FEE519D286B4F1C00C8C22A /* Control and App */,
 				9FEE519C286B4EDF00C8C22A /* Vew */,
 				9FAD595C29A270430065406B /* SwiftUI Views */,
-				9FEE519D286B4F1C00C8C22A /* Control and App */,
 				9FEE6FDB2843182A00E9E2AE /* Extensions++ */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
@@ -770,7 +770,7 @@
 				9F36AEFE2A1907BB0016919F /* HiddenState.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,
-				9F9AC6A4299C7C6000CDEB08 /* GutsBar.swift in Sources */,
+				9F9AC6A4299C7C6000CDEB08 /* FwGutsBar.swift in Sources */,
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F5AE2D0298C3C4B00EF6B20 /* RootScn.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,

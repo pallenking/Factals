@@ -1,7 +1,10 @@
 # TO_DO.md -- Factals
 
+20230520:
+	1. GutsBar
+	2. Pic on background infinite recursion (missing default)
 
-
+---------------------------------------------------------------------
 20221005: Imported froms SwiftFactals:TO_DO.md
 
 20220225 
