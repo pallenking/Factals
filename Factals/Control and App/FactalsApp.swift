@@ -368,6 +368,7 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 			return ""
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)
+//			return ppCommon(self:self, mode:mode, aux:aux)// CherryPick2023-0520:
 		}
 	}
 

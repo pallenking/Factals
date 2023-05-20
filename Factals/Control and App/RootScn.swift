@@ -488,7 +488,9 @@ bug;	zoom4fullScreen()
 		let animate				= rootVew.fwGuts?.document.config.bool("animatePan") ?? false
 		if animate && duration > 0.0 {
 			SCNTransaction.begin()			// Delay for double click effect
-			atRve(8, rootVew.fwGuts.logd("  /#######  animatePan: BEGIN All"))
+// TYP		atRve(8, rootVew.fwGuts.logd("  /#######  animatePan: BEGIN All"))
+/*CherryPick2023-0520:*/atRve(8, rootVew.rootPart.logd("  /#######  animatePan: BEGIN All"))
+
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
 			rootVew.cameraScn?.transform *= 0.999999	// virtually no effect
@@ -650,7 +652,7 @@ extension RootScn : SCNSceneRendererDelegate {
 //		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
 //	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String { // CherryPick2023-0520: =params4aux
 		var rv					= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		rv						+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 		rv						+= "animatePhysics:\(animatePhysics) "

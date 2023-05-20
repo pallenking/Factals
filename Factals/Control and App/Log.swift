@@ -12,7 +12,7 @@ extension Log : Logd {
 	}
 }
 
-class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject
+class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none

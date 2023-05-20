@@ -47,6 +47,7 @@
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* RootVew.swift */; };
+		9F36AEFE2A1907BB0016919F /* HiddenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F36AEFD2A1907BB0016919F /* HiddenState.swift */; };
 		9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
 		9F3E4A0B28B7A7C4003D450D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
 		9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F417F0428EB91FE0047B359 /* FactalsTests.swift */; };
@@ -235,6 +236,7 @@
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* RootVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVew.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9F36AEFD2A1907BB0016919F /* HiddenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenState.swift; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXGestures.swift; sourceTree = "<group>"; };
 		9F417F0228EB91FE0047B359 /* FactalsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FactalsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -428,6 +430,7 @@
 			children = (
 				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
 				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
+				9F36AEFD2A1907BB0016919F /* HiddenState.swift */,
 				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
@@ -764,6 +767,7 @@
 				9F19010D28808EE70078DB6C /* Share.swift in Sources */,
 				9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */,
 				9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */,
+				9F36AEFE2A1907BB0016919F /* HiddenState.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,
 				9F9AC6A4299C7C6000CDEB08 /* GutsBar.swift in Sources */,

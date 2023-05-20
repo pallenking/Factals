@@ -541,6 +541,12 @@ func ppDefault(self:FwAny, mode:PpMode, aux:FwConfig) -> String {
 		return "\(ppUid(self as? Uid)):\(self.fwClassName)"	// e.g: "xxx:Port"
 //		return "\(ppUid(self as? Uid)):\(self.pp(.fwClassName))"	// e.g: "xxx:Port"
 	case .classUid:
+
+//		let y = ppUid(self as? Uid)		// CherryPick2023-0520:
+//		let z = self.fwClassName
+//	//	let x = self.pp(.fwClassName)
+//		return "\(self.fwClassName)<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
+
 		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
 //	case .classUidFullName:
 //		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>'\(self.fullName)'"	// e.g: "Port<xxx>"

@@ -37,6 +37,8 @@ import SceneKit
 /// 	c) (<operation>)-- a grammar operation  (e.g. (+) is the string catenate operator)
 /// 	d) (<a>)*		-- do <a> 0 or more times,  (<a>)+ one or more times, ...
 /// 	e) ||			-- alternatives,				a || b
+
+// CherryPick2023-0520: remove NSObject
 class Path : NSObject, Codable {						// NOT NSObject
 
 	 // MARK: - 1. Class Variables:
@@ -130,7 +132,7 @@ class Path : NSObject, Codable {						// NOT NSObject
 		try container.encode(atomTokens, forKey:.atomTokens)
 bug;	try container.encode(portName,   forKey:.portName)
 //		try container.encode(linkProps,  forKey:.linkProps)
-		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))
+//		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))  // CherryPick2023-0520:
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:PathKeys.self)
