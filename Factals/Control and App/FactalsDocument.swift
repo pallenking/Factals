@@ -73,21 +73,16 @@ struct FactalsDocument: FileDocument {
 		 //		5. Build Vews per Configuration
 		for (key, value) in c {
 			if key == "Vews",
-			  let vewConfigs 	= value as? [VewConfig] {
-				for vewConfig in vewConfigs	{	// Open one for each elt
-					fwGuts.addRootVew(vewConfig:vewConfig)
+			  let values 		= value as? [VewConfig] {
+				for value in values	{		// Open one for each elt
+					fwGuts.addRootVew(vewConfig:value, fwConfig:c)
 				}
 			}
 			else if key.hasPrefix("Vew") {
-				if let vewConfig = value as? VewConfig {
-					fwGuts.addRootVew(vewConfig:vewConfig)
-				}
-				else {
-					panic("Confused wo38r")
-				}
+				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
+				fwGuts.addRootVew(vewConfig:value, fwConfig:c)
 			}
 		}
-//		configureDocument(from:c)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(fwGuts f:FwGuts) {

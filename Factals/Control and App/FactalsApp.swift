@@ -131,7 +131,7 @@ struct FactalsApp: App, Uid, FwAny {
 
 		 // Configure App with its defaults (Ahead of any documents)
 		assert(config.count == 0, "paranoia owefihwq08fu")
-		let c					= config + params4all	// append
+		let c					= config + params4all// append
 		configureApp(from:c)						// modifies APP, must re-register
 		APP 					= self				// Register ( V E R Y  HOAKEY)
 
@@ -339,7 +339,7 @@ bug;	let rv					= NSMenu(title:path)
 		let fwGuts				= FwGuts(rootPart:rootPart)
 		rootPart.fwGuts			= fwGuts
 
-		fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5))
+bug//	fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5))
 
 bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		let rootScn				= RootScn()

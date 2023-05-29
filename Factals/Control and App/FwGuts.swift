@@ -19,11 +19,14 @@ class FwGuts : NSObject, ObservableObject {
 
 	func configureDocument(from c:FwConfig) { // *****
 		log.configureDocument(from:c)
-		if let rootPart {
-			rootPart.configureDocument(from:c)
-		} else {
-			print("WARNING configureDocument: fwGuts.rootPart=nil")
-		}
+
+		guard let rootPart else { fatalError("WARNING configureDocument: fwGuts.rootPart=nil") }
+		rootPart.configureDocument(from:c)
+//		if let rootPart {
+//			rootPart.configureDocument(from:c)
+//		} else {
+//			print("WARNING configureDocument: fwGuts.rootPart=nil")
+//		}
 
 		guard rootVews.count != 0 else {
 			print("STRANGE, configureDocument: fwGuts.rootVews.count == 0")
@@ -74,11 +77,13 @@ bug;return nil
 //			return nil
 //		}
 	}
-	func addRootVew(vewConfig:VewConfig) {
+	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		guard let rootPart else {	fatalError("addRootVew: rootPart=nil")		}
 		let rootVew				= RootVew(forPart:rootPart)		//, rootScn:rootScn
 		rootVew.fwGuts			= self
 		rootVews.append(rootVew)		// register now, so OK for following:
+
+		rootVew.configureVew(from:fwConfig)
 
 		 // Build out Vew and Scn Trees:
 		rootVew.openChildren(using:vewConfig)

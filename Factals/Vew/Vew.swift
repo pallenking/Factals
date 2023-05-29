@@ -94,6 +94,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		let portProp	: String? = port.localConfig["portProp"] as? String //"xxx"//
 		scn.flipped				= portProp?.contains(substring:"f") ?? false
 	}
+	func configureVew(from c:FwConfig) {
+		openConfig				= c
+	}
+
+
 	 // MARK: - 3.5 Codable
 	enum VewKeys : CodingKey { 	case name, color000, keep, parent, children, part, scn, bBox, jog, force}
 	func encode(to encoder: Encoder) throws {

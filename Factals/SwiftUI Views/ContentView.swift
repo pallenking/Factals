@@ -32,6 +32,7 @@ struct FwGutsView: View {
 				if fwGuts.rootVews.count == 0 {
 					Text("No Vews found")
 				}
+				// NOTE: To add more views, change variable "Vews":[] or "Vew1" in network
 				ForEach($fwGuts.rootVews) {	rootVew in
 					VStack {
 						ZStack {
