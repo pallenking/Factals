@@ -336,7 +336,7 @@ bug
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 
 	// MARK: - 4. Build
-	func wireAndGroom() {
+	func wireAndGroom(_ c:FwConfig) {
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree)))
 
 		 //  1. GATHER LINKS as wirelist:

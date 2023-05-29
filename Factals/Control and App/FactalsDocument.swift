@@ -62,12 +62,13 @@ struct FactalsDocument: FileDocument {
 		fwGuts.rootPart			= rootPart	// INSTALL
 		rootPart.fwGuts			= fwGuts	// rootPart delegate
 
-		 //		3. Update Configurations from Library
+		 //		3. Update document configuration from Library entry
 		let c					= params4all + rootPart.ansConfig
 		configureDocument(from:c)
 
 		 //		4. Wire and Groom Part
-		rootPart.wireAndGroom()
+		rootPart.wireAndGroom(c)
+		configureDocument(from:c)
 
 		 //		5. Build Vews per Configuration
 		for (key, value) in c {
@@ -86,7 +87,7 @@ struct FactalsDocument: FileDocument {
 				}
 			}
 		}
-		configureDocument(from:c)
+//		configureDocument(from:c)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(fwGuts f:FwGuts) {

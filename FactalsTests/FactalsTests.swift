@@ -387,7 +387,7 @@ final class FactalsTests: XCTestCase {
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 			let rootPart		= RootPart(fromLibrary:"entry\(testNum)")	//, fwDocument:nil
 
-			rootPart.wireAndGroom()
+			rootPart.wireAndGroom([:])
 
 			if rootPart.ansConfig.bool("LastTest") ?? false {
 				break							// Done
