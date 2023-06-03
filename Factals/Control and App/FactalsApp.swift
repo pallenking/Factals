@@ -51,18 +51,6 @@ var DOClogQ  		: Log? 		{	DOCfwGutsQ?.log								}
 var DOClog  		: Log 		{	DOClogQ ?? .help							}	//.first
 let DOCctlr						= NSDocumentController.shared
 
- /// Scene Menus
-struct MenuItem : Identifiable {
-    let id: Int
-    let name: String
-    let imageName: String
-    let action: () -> Void
-}
-let menuItems = [
-	MenuItem(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
-	MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
-]
-
 @main										// calls AppDelegateFoo.swift
 struct FactalsApp: App, Uid, FwAny {
 
@@ -79,6 +67,19 @@ struct FactalsApp: App, Uid, FwAny {
 
 //	let menuItems = [...	// PW: Want here!
 
+	 /// Scene Menus
+	struct MenuItemA : Identifiable {
+		let id: Int
+		let name: String
+		let imageName: String
+		let action: () -> Void
+	}
+	var menuItem  = //= getMenuItems()
+	[
+		MenuItemA(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+		MenuItemA(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
+	]
+
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
@@ -86,7 +87,7 @@ struct FactalsApp: App, Uid, FwAny {
 		.commands {
 			CommandMenu("Scenes") {
 				// Iterate over each MenuItem in the array
-				ForEach(menuItems) { item in
+				ForEach(menuItem) { item in
 					Button(action: item.action) {
 						Text(item.name)
 						Image(systemName: item.imageName)
@@ -236,7 +237,7 @@ bug//		fwHelp("?")
 		 // Get all known tests:
 		menuOfPath				= [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
 										// Sort by key:
-		var bogusLimit			= 2//500000//10// adhoc debug limit on scenes
+		var bogusLimit			= 5//500000//10// adhoc debug limit on scenes
 
 		 // Get a catalog of available experiments
 /**/	let lib0				= Library.catalog()  // "entry-1" is non-existant, with no rootClosure

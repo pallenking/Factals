@@ -307,7 +307,7 @@ r("-Hangs as 2'nd ^r", e + selfiePole( s:9, u:3), { Net([placeMy:"stackX -1", pa
 //		Broadcast()
 	})
 
-xxr("+Family Portrait", e + selfiePole( s:-90, u:30) +
+xr("+Family Portrait", e + selfiePole( s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),
@@ -884,7 +884,7 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xr("- link broken", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
+	 xxr("- Multiple SCNViews", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
 
 	 	//	"Vews":[VewConfig.openAllChildren(toDeapth:4),
 		//			VewConfig.openAllChildren(toDeapth:4)],
