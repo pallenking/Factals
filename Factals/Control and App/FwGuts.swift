@@ -250,7 +250,8 @@ bug;return nil
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
 		guard let rootVew		= inVew.rootVew else { return nil				}
-		let rScn				= rootVew.scn
+		let rootScn				= rootVew.rootScn
+		guard let fwView		= rootScn.fwView else { fatalError("rootScn has fwView=nil")}
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -264,11 +265,8 @@ bug;return nil
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rScn, 			// The root of the node hierarchy to be searched.
+			.rootNode:rootScn.scn, 		// The root of the node hierarchy to be searched.
 		]
-
-		let rootScn				= rootVew.rootScn
-		let fwView				= rootScn.fwView!
 		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 								//		 + +   + +

@@ -41,15 +41,27 @@ var APPQ			: FactalsApp?	 {	APP 	}
 
 // * * *
 var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
-// * * *t
+// * * *
 
  // Shugar on DOC
 var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed
 var DOCfwGuts		: FwGuts	{	DOCfwGutsQ ?? {
-	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil"); return FwGuts() 		}()}
+	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil")					 		}()}
 var DOClogQ  		: Log? 		{	DOCfwGutsQ?.log								}
 var DOClog  		: Log 		{	DOClogQ ?? .help							}	//.first
 let DOCctlr						= NSDocumentController.shared
+
+ /// Scene Menus
+struct MenuItem : Identifiable {
+    let id: Int
+    let name: String
+    let imageName: String
+    let action: () -> Void
+}
+let menuItems = [
+	MenuItem(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+	MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
+]
 
 @main										// calls AppDelegateFoo.swift
 struct FactalsApp: App, Uid, FwAny {
@@ -65,36 +77,23 @@ struct FactalsApp: App, Uid, FwAny {
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 	//B	@AppStorage("text") var textFooBar = ""
 
+//	let menuItems = [...	// PW: Want here!
+
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
 		}
-						//B	WindowGroup {
-						//B		TextEditor(text: $text).padding()
-						//B	}
-							 //	WindowGroup {	//https://stackoverflow.com/questions/65379307/swiftui-macos-nswindow-instance
-							//		ContentView(document:file.$document)
-							//		ListView()	.environmentObject(dataModel)
-							//		Text("Hello, World!").padding()
-							//	}
-							 // Window modifiers from Zev.Helge:
-							//		 .windowStyle(TitleBarWindowStyle())
-							//		 .windowToolbarStyle(UnifiedWindowToolbarStyle())
-							//		 .commands {
-							//			TextFormattingCommands()
-							//			SidebarCommands()
-							//		//?	AboutCommands()
-							//		//?	SparkleCommands()
-							//		//?	ExampleSVGsMenu()
-							//		 .handlesExternalEvents(matching: [])
-							//		}
-							//	}
-							 // 20220913: This causes funnies
-							//		Settings {
-							//			//SettingsView(model: model) // Passed as an observed object.
-							//		}
-							//		// https://khorbushko.github.io/article/2021/04/25/window-group.html
-
+		.commands {
+			CommandMenu("Scenes") {
+				// Iterate over each MenuItem in the array
+				ForEach(menuItems) { item in
+					Button(action: item.action) {
+						Text(item.name)
+						Image(systemName: item.imageName)
+					}
+				}
+			}
+		}
 	}
 	 // MARK: - 2. Object Variables:
 	var log	: Log			=	Log(title:"App's Log")

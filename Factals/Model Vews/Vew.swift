@@ -13,7 +13,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	var scn			:  SCNNode				// Scn which draws this Vew
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
-
+    
 	@Published var name :  String			// Cannot be String! because of FwAny
 	@Published var color000	: NSColor? = nil
 	{	willSet(v) {	part.markTree(dirty:.paint)							}	}

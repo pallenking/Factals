@@ -1,9 +1,11 @@
 # TO_DO.md -- Factals
 
-20230520:
+20230602:
+	1. Pic on background infinite recursion (missing default)
+	2. Scene menu
+	3. Find Navigator -- custom Search -- workspaceLocation isEqual "Control and App"
+20230602-DONE
 	1. GutsBar
-	2. Pic on background infinite recursion (missing default)
-
 ---------------------------------------------------------------------
 20221005: Imported froms SwiftFactals:TO_DO.md
 
