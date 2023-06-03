@@ -100,7 +100,7 @@ struct FactalsApp: App, Uid, FwAny {
 
 	var appStartTime:String = dateTime(format:"yyyy-MM-dd HH:mm:ss")
 	var regressScene:Int	= 0	//private?	// number of the next "^r" regression test
-															 // Keeps FwGuts menue in sync with itself:
+															 // Keeps FwGuts menu in sync with itself:
 															//	var regressScene : Int {				// number of next "^r" regression test
 															//		get			{	return regressScene_										}
 															//		set(v)	 	{
@@ -169,7 +169,7 @@ struct FactalsApp: App, Uid, FwAny {
 		appSounds.load(name:"tick1",		path:"Tick_SB.wav")
 		appSounds.load(name:"tock0",		path:"Tock_SB.wav")
 
-		 // Update Menues:
+		 // Update Menus:
 		atApp(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
 		buildSceneMenus()
 
