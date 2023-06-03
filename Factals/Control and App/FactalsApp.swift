@@ -6,6 +6,17 @@
 //	20220822PAK: Imported and Funged from:  AppDelegate.swift -- for SwiftFactals  C2018PAK
 //
 
+import Cocoa
+import SwiftUI
+import SceneKit
+
+  //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
+  //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
+  //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")	// 210710 Post
+  //let (majorVersion, minorVersion, nameVersion) = (6, 0, "Factals re-App")// 220628
+  //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
+	let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
+
 	 // 	File Naming Notes:
 	// Some of the Application-base classes have nameing conflicts with SceneKit
 	//		base		twitteling		App's subclass		comment
@@ -16,26 +27,15 @@
 	// Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
 	//				FW's subclass strips NS. e.g: DocumentController
 
-// // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+  // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 
 // 20220926PAK: Occasionally (e.g. pp) can't get here. use global
 let params4aux : FwConfig 	=	[:]//params4all_
 
-import Cocoa
-import SwiftUI
-import SceneKit
-
 var fooBar:Int = 42
 
-  //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
-  //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
-  //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")	// 210710 Post
-  //let (majorVersion, minorVersion, nameVersion) = (6, 0, "Factals re-App")// 220628
-  //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
-	let (majorVersion, minorVersion, nameVersion) = (6, 2, "Factals")		// 221024
-
-////	Application Singletons:
+////	U G L Y  Application Singletons:
 var APP				: FactalsApp!		// NEVER CHANGES (after inz)
 var APPQ			: FactalsApp?	 {	APP 	}
 
@@ -213,6 +213,19 @@ bug//	print(ppFwConfig(config:true))
 bug//		fwHelp("?")
 	}
 	 // MARK: - 4.4 FwGuts Menu
+	 /*
+				  /// Scene Menus
+			struct MenuItem : Identifiable {
+				let id: Int
+				let name: String
+				let imageName: String
+				let action: () -> Void
+			}
+			let menuItems = [
+				MenuItem(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+				MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
+			]
+	  */
 	// BUILD SCENE MENUS ////////////////////////////////
 	var menuOfPath : [String:NSMenu] = [:]			// [path : Menu]
 	mutating func buildSceneMenus() {
@@ -223,7 +236,7 @@ bug//		fwHelp("?")
 		 // Get all known tests:
 		menuOfPath				= [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
 										// Sort by key:
-		var bogusLimit			= 500000//500000//10// adhoc debug limit on scenes
+		var bogusLimit			= 2//500000//10// adhoc debug limit on scenes
 
 		 // Get a catalog of available experiments
 /**/	let lib0				= Library.catalog()  // "entry-1" is non-existant, with no rootClosure
