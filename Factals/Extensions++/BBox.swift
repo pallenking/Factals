@@ -2,101 +2,7 @@
 
 import SceneKit
 
-   // BBox is used during Placement,
-  // shadows SCN.boundingBox, but with includes only placed views
-
-// PW2:  shouldn't this be public static? (but it can't)
-func ==(aBox:BBox, bBox:BBox) -> Bool {
-	return aBox.min == bBox.min && aBox.max == bBox.max
-}
-
- // extend a BBox by another BBox
-func + (aBox:BBox, bBox:BBox) -> BBox {
-	let min						= aBox.min + bBox.min
-	let max						= aBox.max + bBox.max
-	return BBox(pair:(max, min))
-}
-func += ( bBox: inout BBox, aBox:BBox) {
-	bBox						= bBox + aBox
-}
-
- // extend a BBox so it includes an point
-func | (bbox:BBox, point:SCNVector3) -> BBox {
-	let min 					= minPerAxis(bbox.min, point)
-	let max 					= maxPerAxis(bbox.max, point)
-	return BBox(pair:(max, min))
-}
-func |= ( bbox: inout BBox, point:SCNVector3) {
-	bbox 						= bbox | point
-}
-
- // "_+_" extends size by SCNVector3
-func + (bbox:BBox, sizeVect:SCNVector3) -> BBox {
-	var rv						= bbox
-	rv.size						+= sizeVect
-	return rv
-}
-func += ( bbox: inout BBox, sizeVect:SCNVector3) {
-	bbox.size					+= sizeVect
-}
-// /// "_+_" extends size by CGFloat
-//func +  ( bbox: 	  BBox, size:CGFloat) -> BBox {
-//	let rv						= bbox + SCNVector3(size, size, size)
-//	return rv
-//}
-//func += ( bbox: inout BBox, size:CGFloat) {
-//	bbox.size					+= SCNVector3(size, size, size)
-//}
-
-
- // "_*_" scales a FwBBox's size
-func * (bbox:BBox, scale:CGFloat) -> BBox {
-	var rv						= bbox
-	rv.size						*= scale
-	return rv
-}
-func *= (bBox: inout BBox, scale:CGFloat) {
-	bBox 						= bBox * scale
-}
-
- // Biggest BBox encompassing both simultaneously
-func & (a:BBox, b:BBox) -> BBox {
-	let max 					= minPerAxis(a.max, b.max)
-	let min 					= maxPerAxis(a.min, b.min)
-	let d						= max - min
-	if d.x < eps || d.y < eps || d.z < eps {
-		return .empty
-	}
-	return BBox(pair:(max, min))
-}
-func &= (a: inout BBox, b:BBox) {
-	a 							= a & b
-}
- // Smallest BBox encompassing one or the other
-func | (a:BBox, b:BBox) -> BBox {
-	let max 					= maxPerAxis(a.max, b.max)
-	let min 					= minPerAxis(a.min, b.min)
-	return BBox(pair:(max, min))
-}
-func |= (a: inout BBox, b:BBox) {
-	a 							= a | b
-}
-
- // Transform
-func * (bBox:BBox, transform:SCNMatrix4) -> BBox {
-	return bBox.transformed(by: transform)
-}
-func *= (bBox: inout BBox, transform:SCNMatrix4) {
-	bBox 						= bBox * transform
-}
-
- // Approximately Equal
-func ~==( left:BBox, right:BBox) -> Bool {
-	return left.min ~== right.min && left.max ~== right.max
-}
-
 struct BBox {
-
          // MARK: - 2. Object Variables:
 	public var min 	: SCNVector3
 	public var max 	: SCNVector3
@@ -138,7 +44,7 @@ struct BBox {
 	var centerFront	 :SCNVector3 { return SCNVector3(center.x, center.y, min.z)	}
 	var centerBack	 :SCNVector3 { return SCNVector3(center.x, center.y, max.z)	}
 	// One of many more to possibly add:
-//	var centerYFrontRight:SCNVector3{return SCNVector3(max.x,  center.x, max.z)	}
+	//var centerYFrontRight:SCNVector3{return SCNVector3(max.x,  center.x, max.z)}
 
 	func corner(_ i:Int) -> SCNVector3 {
 		assert(i<8 && i>=0, "Corner index = \(i) out of range 0..<8")
@@ -156,14 +62,11 @@ struct BBox {
 	}
 
 	 // MARK: - 3. Factory
-//	init(of a:SCNNode) {
-//		let bBox 			= a.boundingBox
-//		self.init(bBox.min, bBox.max)
+//	init(pair:(SCNVector3, SCNVector3)) {
+//		let (a, b) = pair
+//		self.init(a, b)
 //	}
-	init(pair:(SCNVector3, SCNVector3)) {
-		let (a, b) = pair
-		self.init(a, b)
-	}
+
 	init(size:SCNVector3) {
 		self.init(-size/2, size/2)
 	}
@@ -234,4 +137,96 @@ struct BBox {
 extension BBox : Codable {
 	init(from: Decoder)		 throws { fatalError("init(from: Decoder)   UNIMPLEMENTED")}
 	func encode(to: Encoder) throws { fatalError("encode(to: Encoder)   UNIMPLEMENTED")}
+}
+extension BBox : Equatable {
+	static func ==(aBox:BBox, bBox:BBox) -> Bool {
+		return aBox.min == bBox.min && aBox.max == bBox.max
+	}
+}
+
+extension BBox {
+	 // extend a BBox by another BBox (around it)
+	static func + (aBox:BBox, bBox:BBox) -> BBox {
+		let min						= aBox.min + bBox.min
+		let max						= aBox.max + bBox.max
+		return BBox(max, min)
+	}
+	static func += ( bBox: inout BBox, aBox:BBox) {
+		bBox						= bBox + aBox
+	}
+
+	 // extend a BBox so it includes an point
+	static func | (bbox:BBox, point:SCNVector3) -> BBox {
+		let min 					= minPerAxis(bbox.min, point)
+		let max 					= maxPerAxis(bbox.max, point)
+		return BBox(max, min)
+	}
+	static func |= ( bbox: inout BBox, point:SCNVector3) {
+		bbox 						= bbox | point
+	}
+
+	 /// "_+_" extends size by SCNVector3
+	static func + (bbox:BBox, sizeVect:SCNVector3) -> BBox {
+		var rv						= bbox
+		rv.size						+= sizeVect
+		return rv
+	}
+	static func += ( bbox: inout BBox, sizeVect:SCNVector3) {
+		bbox.size					+= sizeVect
+	}
+	 /// "_+_" extends size by CGFloat
+	static func +  ( bbox:BBox, size:CGFloat) -> BBox {
+		let rv						= bbox + SCNVector3(size, size, size)
+		return rv
+	}
+	static func += ( bbox: inout BBox, size:CGFloat) {
+		bbox.size					+= SCNVector3(size, size, size)
+	}
+
+
+	 // "_*_" scales a FwBBox's size
+	static func * (bbox:BBox, scale:CGFloat) -> BBox {
+		var rv						= bbox
+		rv.size						*= scale
+		return rv
+	}
+	static func *= (bBox: inout BBox, scale:CGFloat) {
+		bBox 						= bBox * scale
+	}
+
+	 // Biggest BBox encompassing both simultaneously
+	static func & (a:BBox, b:BBox) -> BBox {
+		let max 					= minPerAxis(a.max, b.max)
+		let min 					= maxPerAxis(a.min, b.min)
+		let d						= max - min
+		if d.x < eps || d.y < eps || d.z < eps {
+			return .empty
+		}
+		return BBox(max, min)
+	}
+	static func &= (a: inout BBox, b:BBox) {
+		a 							= a & b
+	}
+	 // Smallest BBox encompassing one or the other
+	static func | (a:BBox, b:BBox) -> BBox {
+		let max 					= maxPerAxis(a.max, b.max)
+		let min 					= minPerAxis(a.min, b.min)
+		return BBox(max, min)
+	}
+	static func |= (a: inout BBox, b:BBox) {
+		a 							= a | b
+	}
+
+	 // Transform
+	static func * (bBox:BBox, transform:SCNMatrix4) -> BBox {
+		return bBox.transformed(by: transform)
+	}
+	static func *= (bBox: inout BBox, transform:SCNMatrix4) {
+		bBox 						= bBox * transform
+	}
+
+	 // Approximately Equal
+	static func ~==( left:BBox, right:BBox) -> Bool {
+		return left.min ~== right.min && left.max ~== right.max
+	}
 }
