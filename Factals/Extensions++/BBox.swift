@@ -62,11 +62,6 @@ struct BBox {
 	}
 
 	 // MARK: - 3. Factory
-//	init(pair:(SCNVector3, SCNVector3)) {
-//		let (a, b) = pair
-//		self.init(a, b)
-//	}
-
 	init(size:SCNVector3) {
 		self.init(-size/2, size/2)
 	}

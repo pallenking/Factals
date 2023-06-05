@@ -13,7 +13,7 @@ struct VewBar: View {
 	var body: some View {
 		VStack {
 			HStack {
-				SelfiePoleBar(selfiePole:$rootVew.selfiePole)	// Bad: $rootVew.selfiePole
+				SelfiePoleBar(selfiePole:$rootVew.selfiePole)
 				Spacer()
 				Button(label:{	Text("Z//RV").padding(.top, 300)				})
 				{	var s	= rootVew.selfiePole

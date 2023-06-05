@@ -357,13 +357,26 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		 // Just make a whole new camera system from scratch
 		let camera				= SCNCamera()
 		camera.name				= "SCNCamera"
+		rv.camera				= camera
+
+		// Check the condition to determine the camera mode
+		if false {
+			// Perspective mode
+			camera.usesOrthographicProjection = false
+			camera.zNear 		= 0.1 	// 1    Set the near clipping distance
+			camera.zFar 		= 1000	// 100  Set the far clipping distance
+			camera.fieldOfView	= 60	// Set the field of view, in degrees
+		} else {
+			// Orthographic mode
+			camera.usesOrthographicProjection = true
+			let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
+			camera.orthographicScale = orthoScale
+		}
 	//	camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
 	//	camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
 	//	camera.exposureAdaptationDarkeningSpeedFactor = 1
 	//	camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-		camera.zNear			= 1
-		camera.zFar				= 100
-		rv.camera				= camera
+
 		return rv
 	}
 

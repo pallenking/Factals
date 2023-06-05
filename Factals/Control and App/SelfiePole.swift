@@ -19,6 +19,7 @@ struct SelfiePole: Equatable {
 	var spin  	: CGFloat 		= 0.0				// in degrees
 	var gaze	: CGFloat 		= 0.0				// upward, in degrees
 	var zoom	: CGFloat 		= 1.0
+	var ortho	: CGFloat		= 1.0		// BROKEN
 
 	mutating func configureDocument(from config:FwConfig) {
 		 // Configure Camera from Source Code:
@@ -35,6 +36,7 @@ struct SelfiePole: Equatable {
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
 				zoom 			= CGFloat(z)
 			}
+			ortho 				= c.cgFloat("o") ?? 0.0		// Ortho
 			atRve(2, print("=== Configure selfiePole(from:\(c.pp(.line)) -> \(pp(.line))"))
 		}
 	}
@@ -70,13 +72,13 @@ struct SelfiePole: Equatable {
 	}
 }
 extension SelfiePole : Uid {
-	//var uid						= randomUid()	// in class Library
+	//var uid					= randomUid()	// in class Library
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 		switch mode {
 		case .line:
-			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f]", position.pp(.line), spin, gaze, zoom)
+			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f, o:%.2f]", position.pp(.line), spin, gaze, zoom, ortho)
 			return rv
 		default:
 			return ppDefault(self:self, mode:mode, aux:aux)

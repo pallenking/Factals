@@ -238,8 +238,8 @@
             filePath = "Factals/Control and App/RootScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "562"
-            endingLineNumber = "562"
+            startingLineNumber = "575"
+            endingLineNumber = "575"
             landmarkName = "createVewNScn(slot:vewConfig:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1001,8 +1001,8 @@
             filePath = "Factals/Control and App/RootScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "585"
-            endingLineNumber = "585"
+            startingLineNumber = "598"
+            endingLineNumber = "598"
             landmarkName = "createVewNScn(slot:vewConfig:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1157,8 +1157,8 @@
             filePath = "Factals/SwiftUI Views/SelfiePoleBar.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -1634,8 +1634,8 @@
             filePath = "Factals/Control and App/SelfiePole.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "configureDocument(from:)"
             landmarkType = "7">
             <Locations>

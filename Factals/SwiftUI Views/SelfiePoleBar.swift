@@ -31,6 +31,52 @@ struct LabeledCGFloat: View {
 	}
 }
 
+
+//class ViewModel: ObservableObject {
+//	@Published var numberString: String = ""
+//	var number: CGFloat? {
+//		if let doubleValue = Double(numberString) {
+//			return CGFloat(doubleValue)
+//		}
+//		return nil
+//	}
+//
+//	init(number: CGFloat?) {
+//		if let number = number {
+//			numberString = "\(number)"
+//		} else {
+//			numberString = "nil"
+//		}
+//	}
+//}
+
+//@propertyWrapper
+//struct OptionalFloatingPoint<T: FloatingPoint> {
+//	private var value: T?
+//
+//	var wrappedValue: String {
+//		get {
+//			guard let value = value else { return "nil" }
+//			value == 1
+//			return String(describing: value)
+//		}
+//		set {
+//			if newValue.lowercased() == "nil" {
+//				value = nil
+//			} else if let number = Float(newValue) { 	// T(newValue) fails
+//				value = number as! T
+//			} else if let number = T(exactly:1) { 	// T(newValue) fails
+//				value = number
+//			} else {
+//				value = nil
+//			}
+//		}
+//	}
+//	init() {
+//		self.value = nil
+//	}
+//}
+
 struct SelfiePoleBar: View {
 	@Binding var selfiePole	: SelfiePole
 
@@ -43,6 +89,42 @@ struct SelfiePoleBar: View {
 			LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
 			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 			LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
+			LabeledCGFloat(label:"ortho",val:$selfiePole.ortho, oneLine:false)
+////FloatingPoint
+////BinaryFloatingPoint
+//
+//			if let o 			= selfiePole.ortho {
+//
+//				TextField("Number", value: $number, format: .number)
+//					.keyboardType(.decimalPad)
+//				Button("Submit") {
+//					// use the optional CGFloat here
+//				}
+//				.onSubmit(of: .continue) {
+//					// use the optional CGFloat here
+//				}
+//
+//
+//
+//				TextField("ortho", text:$selfiePole.ortho, onCommit: {
+//
+////				TextField.init(_:  text:onEditingChanged:). Use View.onSubmit(of:_:) for functionality previously provided by the onCommit parameter. Use FocusState<T> and View.focused(_:equals:) for functionality previously provided by the onEditingChanged parameter.")
+//
+//
+//					if let newValue = NumberFormatter().number(from: floatString)?.doubleValue {
+//						selfiePole.ortho = CGFloat(newValue)
+//					} else {
+//						selfiePole.ortho = nil
+//					}
+//				})
+//				.keyboardType(.decimalPad)
+//
+//				LabeledCGFloat(label:"ortho", val:$selfiePole.ortho, oneLine:false)
+//			} else {
+//				Button("nil") {
+//
+//				}
+//			}
 								
 			Button(label:{	Text("Z**").padding(.top, 300)							})
 			{	var s			= selfiePole
