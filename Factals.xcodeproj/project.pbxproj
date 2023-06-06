@@ -15,7 +15,6 @@
 		9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
 		9F0295DD288092F800DD0004 /* Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DC288092F800DD0004 /* Equatable.swift */; };
 		9F0295DF2880932200DD0004 /* CG++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DE2880932200DD0004 /* CG++.swift */; };
-		9F0295E52880936400DD0004 /* SwiftTryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295E42880936400DD0004 /* SwiftTryCatch.m */; };
 		9F1900F828808DC10078DB6C /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
 		9F1900F928808DC10078DB6C /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
 		9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E928808DC00078DB6C /* MultiLink.swift */; };
@@ -47,9 +46,7 @@
 		9F19CA35285EB0730072C50E /* RootPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* RootPart.swift */; };
 		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* RootVew.swift */; };
-		9F36AEFE2A1907BB0016919F /* HiddenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F36AEFD2A1907BB0016919F /* HiddenState.swift */; };
 		9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
-		9F3E4A0B28B7A7C4003D450D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
 		9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F417F0428EB91FE0047B359 /* FactalsTests.swift */; };
 		9F417F0B28EB93D80047B359 /* LangDeser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AC286BA57900C8C22A /* LangDeser.swift */; };
 		9F417F0C28EB93DB0047B359 /* TivoRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AD286BA57900C8C22A /* TivoRemote.swift */; };
@@ -99,7 +96,6 @@
 		9F417F3B28EB94B60047B359 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
 		9F417F3C28EB94BA0047B359 /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
 		9F417F3E28EB94C10047B359 /* FwGuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521628720A2300C8C22A /* FwGuts.swift */; };
-		9F417F4128EB94CB0047B359 /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
 		9F417F4228EB94CE0047B359 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
 		9F417F4328EB94D10047B359 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
 		9F417F4428EB94D40047B359 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
@@ -126,7 +122,6 @@
 		9F417F5A28EB95650047B359 /* CommonErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A6286B962300C8C22A /* CommonErrors.swift */; };
 		9F417F5B28EB956A0047B359 /* LldbInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521E2874A42000C8C22A /* LldbInit.swift */; };
 		9F417F5C28EB956E0047B359 /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
-		9F417F5D28EB95860047B359 /* SwiftTryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295E42880936400DD0004 /* SwiftTryCatch.m */; };
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
 		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
@@ -136,6 +131,12 @@
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9F675ADB2A2F6D6B006370E6 /* FwGutsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */; };
+		9F675ADC2A2F7297006370E6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
+		9F675ADD2A2F729D006370E6 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
+		9F675ADE2A2F72A0006370E6 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190114288090240078DB6C /* Document.xib */; };
+		9F675ADF2A2F72EA006370E6 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */; };
+		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
+		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
 		9F87DF3029900CEA00B9D3B6 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
@@ -202,10 +203,10 @@
 		9F0295DC288092F800DD0004 /* Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equatable.swift; sourceTree = "<group>"; };
 		9F0295DE2880932200DD0004 /* CG++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CG++.swift"; sourceTree = "<group>"; };
 		9F0295E02880936400DD0004 /* Factals-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Factals-Bridging-Header.h"; sourceTree = "<group>"; };
-		9F0295E12880936400DD0004 /* SwiftTryCatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftTryCatch.h; sourceTree = "<group>"; };
-		9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MachineTrap.h"; sourceTree = "<group>"; };
+		9F0295E12880936400DD0004 /* XXXSwiftTryCatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXXSwiftTryCatch.h; sourceTree = "<group>"; };
+		9F0295E22880936400DD0004 /* XXXNSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XXXNSObject+MachineTrap.h"; sourceTree = "<group>"; };
 		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		9F0295E42880936400DD0004 /* SwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftTryCatch.m; sourceTree = "<group>"; };
+		9F0295E42880936400DD0004 /* XXXSwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXXSwiftTryCatch.m; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		9F1900E928808DC00078DB6C /* MultiLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiLink.swift; sourceTree = "<group>"; };
@@ -238,7 +239,6 @@
 		9F19CA34285EB0730072C50E /* RootPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootPart.swift; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* RootVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVew.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		9F36AEFD2A1907BB0016919F /* HiddenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenState.swift; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXGestures.swift; sourceTree = "<group>"; };
 		9F417F0228EB91FE0047B359 /* FactalsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FactalsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,7 +251,7 @@
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwGutsBar.swift; sourceTree = "<group>"; };
-		9FAA4A0328524C40009332C9 /* X HasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "X HasChildren.swift"; sourceTree = "<group>"; };
+		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
@@ -375,7 +375,7 @@
 				9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */,
 				9FBD6E4629258E2500F14075 /* VewBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
-				9FAD595D29A270C40065406B /* Inspector Parts */,
+				9FAD595D29A270C40065406B /* ---- */,
 				9F190118288090240078DB6C /* InspecBase.swift */,
 				9F190115288090240078DB6C /* InspecParts.swift */,
 				9F190113288090240078DB6C /* InspecSCNVector3.swift */,
@@ -383,11 +383,11 @@
 			path = "SwiftUI Views";
 			sourceTree = "<group>";
 		};
-		9FAD595D29A270C40065406B /* Inspector Parts */ = {
+		9FAD595D29A270C40065406B /* ---- */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = "Inspector Parts";
+			path = "----";
 			sourceTree = "<group>";
 		};
 		9FEE519C286B4EDF00C8C22A /* Model Vews */ = {
@@ -431,7 +431,6 @@
 			children = (
 				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
 				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
-				9F36AEFD2A1907BB0016919F /* HiddenState.swift */,
 				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
@@ -510,14 +509,14 @@
 				9FEE51B5286BA61000C8C22A /* Random.swift */,
 				9FEE51B6286BA61000C8C22A /* Uid.swift */,
 				9FEE51A6286B962300C8C22A /* CommonErrors.swift */,
-				9FAA4A0328524C40009332C9 /* X HasChildren.swift */,
 				9FEE521E2874A42000C8C22A /* LldbInit.swift */,
 				9F65A4AC28E0999700BC615D /* LLDBInitFile */,
-				9F0295E22880936400DD0004 /* NSObject+MachineTrap.h */,
 				9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */,
-				9F0295E12880936400DD0004 /* SwiftTryCatch.h */,
-				9F0295E42880936400DD0004 /* SwiftTryCatch.m */,
 				9F0295E02880936400DD0004 /* Factals-Bridging-Header.h */,
+				9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */,
+				9F0295E22880936400DD0004 /* XXXNSObject+MachineTrap.h */,
+				9F0295E12880936400DD0004 /* XXXSwiftTryCatch.h */,
+				9F0295E42880936400DD0004 /* XXXSwiftTryCatch.m */,
 			);
 			path = "Extensions++";
 			sourceTree = "<group>";
@@ -605,7 +604,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F417F5C28EB956E0047B359 /* LLDBInitFile in Resources */,
+				9F675AE02A2F744A006370E6 /* art.scnassets in Resources */,
 				9F417F3828EB94820047B359 /* Jnspec.storyboard in Resources */,
+				9F675ADC2A2F7297006370E6 /* MainMenu.xib in Resources */,
+				9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */,
+				9F675ADE2A2F72A0006370E6 /* Document.xib in Resources */,
+				9F675ADD2A2F729D006370E6 /* Preferences.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,7 +639,6 @@
 				9F417F5828EB955F0047B359 /* Random.swift in Sources */,
 				9F417F5A28EB95650047B359 /* CommonErrors.swift in Sources */,
 				9F417F1D28EB941B0047B359 /* CommonLeafs.swift in Sources */,
-				9F417F5D28EB95860047B359 /* SwiftTryCatch.m in Sources */,
 				9F417F5428EB95520047B359 /* SCNVector++.swift in Sources */,
 				9F417F4228EB94CE0047B359 /* SelfiePole.swift in Sources */,
 				9F417F4428EB94D40047B359 /* Simulator.swift in Sources */,
@@ -644,7 +647,6 @@
 				9F417F2128EB94270047B359 /* Link.swift in Sources */,
 				9F417F0D28EB93DE0047B359 /* Tests01.swift in Sources */,
 				9F5DA12729B41C6200D8EC9B /* FwView.swift in Sources */,
-				9F417F4128EB94CB0047B359 /* XXGestures.swift in Sources */,
 				9F417F2B28EB944A0047B359 /* CommonParts.swift in Sources */,
 				9F417F1028EB93E90047B359 /* Library.swift in Sources */,
 				9F417F5B28EB956A0047B359 /* LldbInit.swift in Sources */,
@@ -706,6 +708,7 @@
 				9F417F5928EB95620047B359 /* Uid.swift in Sources */,
 				9F417F2A28EB94470047B359 /* Port.swift in Sources */,
 				9F417F3428EB94710047B359 /* InspecParts.swift in Sources */,
+				9F675ADF2A2F72EA006370E6 /* SceneKitHostingView.swift in Sources */,
 				9F417F0B28EB93D80047B359 /* LangDeser.swift in Sources */,
 				9F417F1728EB94050047B359 /* Tunnel.swift in Sources */,
 				9F417F5628EB95590047B359 /* CG++.swift in Sources */,
@@ -721,7 +724,6 @@
 				9F969530288B3DF500106DBC /* Vew.swift in Sources */,
 				9FEE51BC286BAF2E00C8C22A /* SCNGeometry++.swift in Sources */,
 				9F969531288B3F8E00106DBC /* Atom.swift in Sources */,
-				9F3E4A0B28B7A7C4003D450D /* XXGestures.swift in Sources */,
 				9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */,
 				9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */,
 				9FDF886829ACFA1700776ABB /* DebugAids.swift in Sources */,
@@ -760,7 +762,6 @@
 				9FEE52212874AB7300C8C22A /* Path.swift in Sources */,
 				9F1900FD28808DC10078DB6C /* TimingChain.swift in Sources */,
 				9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */,
-				9F0295E52880936400DD0004 /* SwiftTryCatch.m in Sources */,
 				9F19010B28808EC90078DB6C /* Splitter.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
 				9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */,
@@ -769,7 +770,6 @@
 				9F19010D28808EE70078DB6C /* Share.swift in Sources */,
 				9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */,
 				9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */,
-				9F36AEFE2A1907BB0016919F /* HiddenState.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,
 				9F9AC6A4299C7C6000CDEB08 /* FwGutsBar.swift in Sources */,
