@@ -132,7 +132,7 @@ struct FactalsDocument: FileDocument {
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-			guard let dat		= fwGuts.rootPart?.data else {
+			guard let dat		= fwGuts.rootPart?.data else {				// PW: ???
 				panic("FactalsDocument.fwGuts.rootPart.data is nil")
 				let d			= fwGuts.rootPart?.data		// debug
 				throw DocError.text("FactalsDocument.fwGuts.rootPart.data is nil")

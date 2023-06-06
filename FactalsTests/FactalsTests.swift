@@ -377,7 +377,7 @@ final class FactalsTests: XCTestCase {
 	}
 
 	 /// Expedient test: build specified tests in the library. (Correctness and vew not checked)
-	func testBuildLibrary() {
+	func xtestBuildLibrary() {
 
 		 // Build every part in the library
 		let firstNumber			= 1

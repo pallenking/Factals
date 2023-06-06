@@ -245,6 +245,7 @@ extension RootScn {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) -> SCNNode {
+			let scn				= scn
 			guard let rvOld		= scn.find(name:name) else {
 				let rvNew 		= SCNNode()
 				rvNew.name		= name			// arg 1
