@@ -15,12 +15,23 @@ extension FwAny  {
 	  // Default implementation, with default values:
 	 // N.B: If this loops forever, check self's class .pp protocol
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String {
+		// self is FwAny, possibly native Swift or NSObject based.
+		// PW:
+		let selfStr				= pseudoAddressString(self)
+		if selfStr != "",
+		  lastSelfStr == selfStr  {
+			lastSelfCt			+= 1
+			assert(lastSelfCt > 10 , "Default pp() is looping")
+		}
+		lastSelfStr 			= selfStr
 		return pp(mode, aux)
 	}
 	var fwClassName 	: String 		{
 		return String(describing:type(of:self))
 	}
 }
+var lastSelfStr					= ""
+var lastSelfCt					= 0
 
  /// Pretty Print Modes:
 enum PpMode : Int {

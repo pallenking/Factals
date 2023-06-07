@@ -12,7 +12,7 @@ enum VewConfig : FwAny {
 
 	  // Open a path from self to the Factal at <path> from self.
 	case openPath(to:Path)				// Only children on path are effected
-	case openAllChildren(toDeapth:Int)	// Open all of children, down to deapth
+	case openAllChildren(toDeapth:Int = -1)// Open all of children, down to deapth
 	case subVewList([VewConfig])		// array of directives, to
 	case subVew(FwConfig)
 

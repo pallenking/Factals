@@ -24,7 +24,26 @@ final class FactalsTests: XCTestCase {
 	}
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
+	func testXXXX() {
+		let objectNs 			= FwGuts()
+		let objectSwift			= Part()
+		let strNs				= pseudoAddressString(objectNs)
+		let strSwift			= pseudoAddressString(objectSwift)
+		print("ns:\(strNs), swift:\(strSwift)")
+	}
 
+
+	func testRootVewPp() {
+		let rootPart = RootPart()
+//		let fwGuts = FwGuts(rootPart: rootPart)
+		let fwGuts = FwGuts()
+//		fwGuts.rootPart = rootPart;		rootPart.fwGuts = fwGuts
+		fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		print("If this line is the last on the screen, testRootVewPp() has Failed!")
+		fflush(stdout)
+//		let str = fwGuts.rootVew0?.pp() ?? "nil"
+//		print("=======", str, "======")
+	}
 
 //	func testVewPp() {
 //		let m1 = MaxOr()

@@ -11,6 +11,7 @@ class FwGuts : NSObject, ObservableObject {
 	var document : FactalsDocument!					// Owner
 
 	var rootVews : [RootVew]	= []
+	var rootVew0 :  RootVew?	{ rootVews.count<=0 ? nil : rootVews[0]			}	
 	var log 	 : Log
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
@@ -42,9 +43,10 @@ class FwGuts : NSObject, ObservableObject {
 		log						= Log(title:"FwGut's Log", params4all)
 							
 		super.init()
-		rootPart?.fwGuts		= self		// Owner
+		rootPart?.fwGuts		= self		// Owner? is self
 
-		atBld(5, log("Created \(self.pp(.classUid))"))
+//		let xx					= self.pp(.classUid)
+//		atBld(5, log("Created \(self.pp(.classUid))"))
 	}
 
 //	// FileDocument requires these interfaces:
@@ -117,7 +119,7 @@ bug;return nil
 
 	  // MARK: - 9.0 3D Support
 	 // mouse may "paw through" parts, using wiggle
-	var wiggledPart	  : Part?	= nil
+	var wigdsfgledPart	  : Part?	= nil
 	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 
 	  // MARK: -

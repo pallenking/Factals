@@ -65,3 +65,27 @@ func randomUid() -> UInt16 {
 	return UInt16(randomUInt() & 0xffff)
 }
 
+// Maximally separated
+func pseudoAddressString<T>(_ t:T) -> String where T : NSObject
+{	fmt("%p", t)				/* Memory Address of NSObject */				}
+func pseudoAddressString<T>(_ t:T) -> String where T : Uid
+{	fmt("%p", t.uid)			/* Uid of Swift */								}
+func pseudoAddressString<T>(_ t:T) -> String
+{	""							/* PUNT */										}
+
+//protocol NativeSwiftObject: AnyObject { }	// Empty protocol used to identify native Swift objects
+//extension NSObject: NativeSwiftObject { }	// NSObject does NOTconform to it
+//func pseudoAddress<T:AnyObject>(_ ob:T) -> String where T: NativeSwiftObject {
+//	"\(ob.uid())"
+//}
+//
+//func pseudoAddress<T:AnyObject>(_ ob:T) -> String {
+//	String(format:"%p", arguments:[ob])
+//}
+//
+//func pseudoAddressX<T>(_ t:T) -> String where T : NSObject {
+//}
+//
+//
+//if let swiftClass = type(of: object) as? AnyClass,
+//   _isNative(swiftClass) {
