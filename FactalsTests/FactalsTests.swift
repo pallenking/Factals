@@ -29,14 +29,16 @@ final class FactalsTests: XCTestCase {
 		let objectSwift			= Part()
 		let strNs				= pseudoAddressString(objectNs)
 		let strSwift			= pseudoAddressString(objectSwift)
-		print("ns:\(strNs), swift:\(strSwift)")
+		print("pseudoAddress[ns:\(strNs), swift:\(strSwift)]")
 	}
 
 
 	func testRootVewPp() {
+		let fwGuts0				= FwGuts()
+		print("fwGuts0 = \(fwGuts0.pp())")
+
 		let rootPart = RootPart()
-//		let fwGuts = FwGuts(rootPart: rootPart)
-		let fwGuts = FwGuts()
+		let fwGuts = FwGuts(rootPart: rootPart)	//()
 //		fwGuts.rootPart = rootPart;		rootPart.fwGuts = fwGuts
 		fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		print("If this line is the last on the screen, testRootVewPp() has Failed!")

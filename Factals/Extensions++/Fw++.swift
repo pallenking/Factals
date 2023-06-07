@@ -17,14 +17,17 @@ extension FwAny  {
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String {
 		// self is FwAny, possibly native Swift or NSObject based.
 		// PW:
-		let selfStr				= pseudoAddressString(self)
-		if selfStr != "",
-		  lastSelfStr == selfStr  {
-			lastSelfCt			+= 1
-			assert(lastSelfCt > 10 , "Default pp() is looping")
-		}
-		lastSelfStr 			= selfStr
+	//	let selfStr				= pseudoAddressString(self)
+	//	if selfStr != "",
+	//	  lastSelfStr == selfStr  {
+	//		lastSelfCt			+= 1
+	//		assert(lastSelfCt > 10 , "Default pp() is looping")
+	//	}
+	//	lastSelfStr 			= selfStr
+		lastSelfCt				+= 1
+		assert(lastSelfCt < 100)			// This will stop with stack in tact
 		return pp(mode, aux)
+		lastSelfCt				-= 1
 	}
 	var fwClassName 	: String 		{
 		return String(describing:type(of:self))

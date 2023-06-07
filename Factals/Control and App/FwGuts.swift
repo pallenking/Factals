@@ -38,6 +38,7 @@ class FwGuts : NSObject, ObservableObject {
 		}
 	}
 	 // MARK: - 3. Factory
+	 //PAK: Could remove this.
 	init(rootPart r:RootPart?=nil) {
 		rootPart				= r
 		log						= Log(title:"FwGut's Log", params4all)

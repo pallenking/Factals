@@ -51,7 +51,7 @@ struct FactalsDocument: FileDocument {
 		DOC						= self		// INSTALL as current DOC, quick!
 		fwGuts.document 		= self		// DELEGATE
 
-				// 1. Make RootPart:		//--FUNCTION--------wantName:--wantNumber:
+		 // 1. Make RootPart:				//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
