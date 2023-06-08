@@ -15,25 +15,21 @@ extension FwAny  {
 	  // Default implementation, with default values:
 	 // N.B: If this loops forever, check self's class .pp protocol
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String {
-		// self is FwAny, possibly native Swift or NSObject based.
-		// PW:
-	//	let selfStr				= pseudoAddressString(self)
-	//	if selfStr != "",
-	//	  lastSelfStr == selfStr  {
-	//		lastSelfCt			+= 1
-	//		assert(lastSelfCt > 10 , "Default pp() is looping")
-	//	}
-	//	lastSelfStr 			= selfStr
+
+		   // 2023-0607PAK: we had and infinite recursion bug
+		  // It was complicated because xcode's stack (and hence symbols) went bad.
+		 // This will stop hopefully only infinite recursion bugs with stack in tact
 		lastSelfCt				+= 1
-		assert(lastSelfCt < 100)			// This will stop with stack in tact
-		return pp(mode, aux)
-		lastSelfCt				-= 1
+		assert(lastSelfCt < 100, "ppMode Default left recursion")
+
+		let rv 					= pp(mode, aux)
+		lastSelfCt				-= 1//lastSelfCt > 0 ? 1 : 0
+		return rv
 	}
 	var fwClassName 	: String 		{
 		return String(describing:type(of:self))
 	}
 }
-var lastSelfStr					= ""
 var lastSelfCt					= 0
 
  /// Pretty Print Modes:

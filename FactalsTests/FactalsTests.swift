@@ -34,15 +34,24 @@ final class FactalsTests: XCTestCase {
 
 
 	func testRootVewPp() {
+		print("&&&&&& Testing for no d")
 		let fwGuts0				= FwGuts()
-		print("fwGuts0 = \(fwGuts0.pp())")
+		let _					= fwGuts0.pp()
 
-		let rootPart = RootPart()
-		let fwGuts = FwGuts(rootPart: rootPart)	//()
-//		fwGuts.rootPart = rootPart;		rootPart.fwGuts = fwGuts
-		fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		print("If this line is the last on the screen, testRootVewPp() has Failed!")
+		let rootPart1			= RootPart()
+		let _					= rootPart1.pp()
+
+		let fwGuts2				= FwGuts(rootPart:rootPart1)
+		let _					= fwGuts2.pp()
+
+		fwGuts2.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		let _					= fwGuts2.rootVew0?.pp()
+
+		print("&&&&&& END test  testRootVewPp  &&&&&& No Error after all")
+
+
 		fflush(stdout)
+
 //		let str = fwGuts.rootVew0?.pp() ?? "nil"
 //		print("=======", str, "======")
 	}
