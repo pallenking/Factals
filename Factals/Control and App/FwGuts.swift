@@ -11,7 +11,7 @@ class FwGuts : NSObject, ObservableObject {
 	var document : FactalsDocument!					// Owner
 
 	var rootVews : [RootVew]	= []
-	var rootVew0 :  RootVew?	{ rootVews.count<=0 ? nil : rootVews[0]			}	
+	var rootVew0 :  RootVew?	{ rootVews.count<=0 ? nil : rootVews[0]			}
 	var log 	 : Log
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
@@ -429,8 +429,8 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 	//		node.addAnimation(anim, forKey: nil)
 	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
-//	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{// CherryPick2023-0520:
+//	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
 			var rv				= (rootPart?.pp(.classUid) ?? "rootPart=nil") + " "
@@ -443,6 +443,12 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
+
+
+	func pq(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+		pp(mode,aux)
+	}
+
 
 	 // MARK: - 17. Debugging Aids
 	override var description	  : String {	return  "d'\(pp(.short))'"		}

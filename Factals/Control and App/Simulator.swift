@@ -1,5 +1,6 @@
 //  Simulator.swift -- simulation control elements C190715PAK
 import SceneKit
+
 					// Remove NSObject
 //class Simulator : Logd, Codable {		// NEVER NSCopying, Equatable
 //	var uid: UInt16				= randomUid()

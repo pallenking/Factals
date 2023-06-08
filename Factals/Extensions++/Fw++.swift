@@ -20,7 +20,7 @@ extension FwAny  {
 		  // It was complicated because xcode's stack (and hence symbols) went bad.
 		 // This will stop hopefully only infinite recursion bugs with stack in tact
 		lastSelfCt				+= 1
-		assert(lastSelfCt < 100, "ppMode Default left recursion")
+		assert(lastSelfCt < 100, "ppMode Default Hang")
 
 		let rv 					= pp(mode, aux)
 		lastSelfCt				-= 1//lastSelfCt > 0 ? 1 : 0
