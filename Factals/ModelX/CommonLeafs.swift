@@ -60,8 +60,8 @@ extension Leaf {	/// Generate Common Leafs
 			assert(hash.count == 0, "Hash:\(hash.pp(.line)) should be empty")
 		}
 	}
-	convenience init(_ leafKind:LeafKind, _ etc1:FwConfig=[:], _ etc2:FwConfig=[:],
-				 _ etc3:FwConfig=[:], _ etc4:FwConfig=[:], _ etc5:FwConfig=[:]) {
+	convenience init(_ leafKind:LeafKind, _ etc1:FwConfig = [:], _ etc2:FwConfig = [:],
+				 _ etc3:FwConfig = [:], _ etc4:FwConfig = [:], _ etc5:FwConfig = [:]) {
 		switch leafKind {
 		case .nil_:
 			self.init(of:leafKind, bindings:[:], parts:[], fwConfig:["minSize":"0.5 0.5 0.5"] + etc1)

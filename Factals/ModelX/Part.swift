@@ -215,7 +215,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			child.setTree(root:r, parent:self)
 		}
 	}
-	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig=[:]) -> String {
+	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
 		atBld(3, print("#### DEINIT    \(ppUid(self)):\(fwClassName)")) // 20221105 Bad history deleted
 	}
 

@@ -33,22 +33,28 @@ final class FactalsTests: XCTestCase {
 	}
 
 	class Simulatee : NSObject {		// FwAny
-		func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{
+		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 			ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
 	func testPpModeDefaultHangs() {
 		print("&&&&&& EXPECT     ppMode Default Hang")
 
+		let sim1				= Simulatee()
+		let sim1str				= sim1.pp(.line)			// HANGS
+		print("Simulatee:   '\(sim1str)'    DOESN'T HANG")					//
+
+
+		let sim2				= Simulatee()
+		print("Simulatee:   '\(sim2.pp())'    DOESN'T HANG")					//			// HANGS
+
+
 		let rootPart1			= RootPart()
 		print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
-
-		let sim1				= Simulatee()
-		print("Simulatee:   '\(sim1.pp())'    DOESN'T HANG")					// 
 /*
 object calls method pp()
 		class Simulatee { func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
-		extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String {
+		extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
  */
 
 		let fwGuts1				= FwGuts()

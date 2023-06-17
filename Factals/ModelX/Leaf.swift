@@ -23,8 +23,8 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	var type : String 				 = "undefined"	// for printout/debug
 
 	 // MARK: - 3. Part Factory
-//	convenience init(_ leafKind:LeafKind, fwConfig:FwConfig=[:], bindings:FwConfig=[:], parts:[Part]) { // NEW WAY
-	convenience init(of leafKind:LeafKind, bindings:FwConfig=[:], parts:[Part], fwConfig:FwConfig=[:]) { // OLD WAY
+//	convenience init(_ leafKind:LeafKind, fwConfig:FwConfig = [:], bindings:FwConfig = [:], parts:[Part]) { // NEW WAY
+	convenience init(of leafKind:LeafKind, bindings:FwConfig = [:], parts:[Part], fwConfig:FwConfig = [:]) { // OLD WAY
 		let xtraConfig:FwConfig = ["parts":parts, "bindings":bindings]		// /*"type":type,*/ 
 		self.init(leafKind:leafKind, fwConfig + xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
@@ -32,7 +32,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	   /// - parameter leafKind: -- of terminal Leaf
 	  /// - parameter config_: -- to configure Leaf
 	 /// ## --- bindings: FwConfig -- binds external Ports to internal Ports by name
-	init(leafKind:LeafKind? = .genAtom, _ config_:FwConfig=[:]) {//override
+	init(leafKind:LeafKind? = .genAtom, _ config_:FwConfig = [:]) {//override
 		let config				= ["placeMy":"linky"] + config_
 		super.init(of:leafKind!, config)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 

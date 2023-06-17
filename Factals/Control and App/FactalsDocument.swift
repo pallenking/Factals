@@ -110,9 +110,11 @@ struct FactalsDocument: FileDocument {
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .factals:
 			throw CocoaError(.fileWriteUnknown)
-			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
-			let fwGuts			= FwGuts(rootPart:rootPart)
+			 // Decode data as a Root Part
+bug;		let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
 
+			 // Make the FileDocument
+			let fwGuts			= FwGuts(rootPart:rootPart)
 			self.init(fwGuts:fwGuts)
 
 			config				+= rootPart.ansConfig	// from library
@@ -132,7 +134,7 @@ struct FactalsDocument: FileDocument {
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-			guard let dat		= fwGuts.rootPart?.data else {				// PW: ???
+bug;		guard let dat		= fwGuts.rootPart?.data else {				// PW: ???
 				panic("FactalsDocument.fwGuts.rootPart.data is nil")
 				let d			= fwGuts.rootPart?.data		// debug
 				throw DocError.text("FactalsDocument.fwGuts.rootPart.data is nil")
@@ -409,7 +411,7 @@ bug
 	}
 	
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .line:
 			return log.indentString() + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny

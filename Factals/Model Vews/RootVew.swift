@@ -280,17 +280,15 @@ RootVew:_______________
 	}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String {
-//	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
-
-		 // Report improper linking
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+//	override func pp(_ mode:PpMode,         _ aux:FwConfig           ) -> String {
+		 // Report any improper linking
 		guard let fwGuts 					else {	return "fwGuts BAD"			}
 		guard let slot 						else {	return "slot IS NIL"		}
 		guard slot < fwGuts.rootVews.count 	else {	return "slot TOO BIG"		}
 		guard fwGuts.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
 
-		return "<<<RootVew.pp(mode:\(mode), aux:[..\(aux.count)..])>>>"
-
+//		return "<<<RootVew.pp(mode:\(mode), aux:[..\(aux.count)..])>>>"
 		return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
 	}
 	  // MARK: - 16. Global Constants

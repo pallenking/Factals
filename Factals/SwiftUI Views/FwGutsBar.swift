@@ -22,9 +22,13 @@ struct FwGutsBar: View {
 			if let rootPart = fwGuts.rootPart {
 				Text("  Print Model:")
 				Button(label:{	Text( "ptm")								})
-				{	lldbPrint(rootPart, mode:.tree)							}
+				{	print(rootPart.pp(.tree), terminator:"")
+					//lldbPrint(rootPart, mode:.tree)
+				}
 				Button(label:{	Text("ptLm")								})
-				{	lldbPrint(rootPart, mode:.tree, ["ppLinks":true])}
+				{	print(rootPart.pp(.tree, ["ppLinks":true]), terminator:"")
+					//lldbPrint(rootPart, mode:.tree, ["ppLinks":true])
+				}
 			} else {
 				Text("<<no nodel>>:")
 			}

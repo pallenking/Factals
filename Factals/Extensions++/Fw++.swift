@@ -129,7 +129,7 @@ extension NSView 		: FwAny		{		// also SCNView
 }
 extension FactalsDocument 	: FwAny { }
 extension Dictionary		: FwAny {
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=[:]) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]) -> String	{
 		switch mode {
 		case .phrase, .short:
 			return count == 0 ? "[:]" : "[:\(count) elts]"
@@ -154,7 +154,7 @@ extension Dictionary		: FwAny {
 	}
 }
 extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value:Equatable, Value :FwAny
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=[:]) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]) -> String	{
 		switch mode {
 		case .phrase, .short:
 			return count == 0 ? "[:]" : "[:\(count) elts]"
@@ -521,45 +521,28 @@ extension NSTextField : Nib2Bool {
 	}
 }
 
- // Only gets called after CLASS.pp() has given up. It doesn't support exceptions
+   // Only gets called after CLASS.pp() has given up.
+  // It does it's best to get a compramize string.
+ //  It doesn't support exceptions.
 func ppDefault(self:FwAny, mode:PpMode, aux:FwConfig) -> String {
 	switch mode {
 	case .fwClassName:
 		return self.fwClassName
-//		return self.fwClassName
+	  //return self.fwClassName
 	case .name:							// -> ""
-  //	return self.pp(.name,   	 aux)
+	  //return self.pp(.name,   	 aux)
 		return ""
 	case .fullName:						// -> .name
-  //	return self.pp(.fullName,	 aux)
+	  //return self.pp(.fullName,	 aux)
 		return self.pp(.name,   	 aux)
 	case .fullNameUidClass:				// -> uid + name + fwClassName
 		return "\(self.pp(.fullName, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
 	case .nameUidClass:
 		return "\(self.pp(    .name, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
 	case .uidClass:
-
-//let k1 = Part()
-//let k2 = k1.pp(.fwClassName)
-//let m1 = Vew()
-//let m2 = m1.pp(.fwClassName)
-//
-//let n3 = self.fwClassName
-//let n4 = self.pp(.fwClassName)
-//let n5 = ppUid(self as? Uid)
-
 		return "\(ppUid(self as? Uid)):\(self.fwClassName)"	// e.g: "xxx:Port"
-//		return "\(ppUid(self as? Uid)):\(self.pp(.fwClassName))"	// e.g: "xxx:Port"
 	case .classUid:
-
-//		let y = ppUid(self as? Uid)		// CherryPick2023-0520:
-//		let z = self.fwClassName
-//	//	let x = self.pp(.fwClassName)
-//		return "\(self.fwClassName)<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
-
 		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
-//	case .classUidFullName:
-//		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>'\(self.fullName)'"	// e.g: "Port<xxx>"
 	case .uid:							// -> uid
 		return ppUid(self as? Uid)
 	case .phrase:						// -> .fullNameUidClass
@@ -651,6 +634,9 @@ extension Int {
 			return ppDefault(self:self, mode:mode, aux:aux)
 		}
 	}
+
+
+	 // PW: There is a better way to detect overflow, rather than all this stuff
 	static func + ( d0:Int, d1:Int) -> Int {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")

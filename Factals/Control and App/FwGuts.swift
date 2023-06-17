@@ -430,7 +430,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 	}
 	 // MARK: - 15. PrettyPrint
 //	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{// CherryPick2023-0520:
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
 			var rv				= (rootPart?.pp(.classUid) ?? "rootPart=nil") + " "

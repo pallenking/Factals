@@ -1,9 +1,8 @@
 // BBox.swift -- Factal Workbench Bounding Box ©2018PAK
 
 import SceneKit
-
-struct BBox {
-         // MARK: - 2. Object Variables:
+	struct BBox {
+         // MARK: d 2. Object Variables:
 	public var min 	: SCNVector3
 	public var max 	: SCNVector3
 
@@ -53,8 +52,8 @@ struct BBox {
 	func transformed(by transform:SCNMatrix4) -> BBox {	// in transform coorinate system
 		let point 			= transform * corner(0)	// first corner
 		var bBox			= BBox(point,point)		// make bBox with just that
-		for i in 1..<8 {							// add the other 
-			let pointI		= transform * corner(i)	
+		for i in 1..<8 {							// add the other
+			let pointI		= transform * corner(i)
 			bBox.max		|>= pointI
 			bBox.min		|<= pointI
 		}
@@ -79,10 +78,7 @@ struct BBox {
 										 a.y >= b.y ? a.y : b.y,
 										 a.z >= b.z ? a.z : b.z)
 	}
-//	init(from: Decoder)		 throws { fatalError("init(from: Decoder)   UNIMPLEMENTED")}
-//	func encode(to: Encoder) throws { fatalError("encode(to: Encoder)   UNIMPLEMENTED")}
-	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 
 		if min.isNan || max.isNan 	{
 			return "nan"

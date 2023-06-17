@@ -16,7 +16,7 @@ L2("i", ...
 L2("a.P")				name ends in "a", the Port name is "P"
 */
 // Link to
-private func L2(_ name:String, _ config:FwConfig=[:]) -> FwConfig {
+private func L2(_ name:String, _ config:FwConfig = [:]) -> FwConfig {
 	return ["name":name, "direct":false] + config
 }
 // Direct

@@ -10,7 +10,7 @@ import SceneKit
  */
 
 func breakToDebugger() {			panic("Break To Debugger")					}
-func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig=[:], terminator t:String="\n") {	//["ppDagOrder":true]
+func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:String="\n") {	//["ppDagOrder":true]
 	print(ob.pp(mode, aux), terminator:t)
 }
 

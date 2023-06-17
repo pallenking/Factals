@@ -8,7 +8,7 @@ protocol Uid {
 }
   ///  Support for Uid:
  ///  Conformers to Uid can use this:
-func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig=[:]) -> String {
+func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
 	 // For fwConTroL elements:
 	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? DOCfwGutsQ?.log/*DOClog.*/.ppNUid4Ctl ?? 4
 	 // For Parts, Vews, and SCN Stuff:

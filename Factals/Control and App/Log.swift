@@ -138,7 +138,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
-	init(title:String, _ config:FwConfig=[:])	{			//_ config:FwConfig=[:]
+	init(title:String, _ config:FwConfig = [:])	{			//_ config:FwConfig = [:]
 		//super.init()
 		configureDocument(from:config)
 
