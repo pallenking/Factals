@@ -39,7 +39,7 @@ import SceneKit
 /// 	e) ||			-- alternatives,				a || b
 
 // CherryPick2023-0520: remove NSObject
-class Path : NSObject, Codable {						// NOT NSObject
+class Path : NSObject, Codable {
 
 	 // MARK: - 1. Class Variables:
 	static let shortNames		= [ "=":"direct", "%":"flipPort", "^":"noCheck",
@@ -167,7 +167,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 		case .name, .fullName:
 			return "<nameless>"
 		default:	// only root depricates
-			return ppDefault(self:self, mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+			return ppDefault(mode:mode, aux:aux) // NO: return super.pp(mode, aux)
 		}
 	}
 	func ppLinkProps() -> String {

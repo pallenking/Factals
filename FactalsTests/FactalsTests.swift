@@ -32,9 +32,12 @@ final class FactalsTests: XCTestCase {
 		print("pseudoAddress[ns:\(strNs), swift:\(strSwift)]")
 	}
 
-	class Simulatee : NSObject {		// FwAny
-		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-			ppDefault(self:self, mode:mode, aux:aux)
+//	class Simulatee : NSObject, FwAny {					// won't compile
+	class Simulatee : NSObject 		  {		// FwAny	// HANGS
+//	class Simulatee : 		 	FwAny {					// WORKS
+		func pp(_ mode:PpMode,		   _ aux:FwConfig			  ) -> String	{
+//		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+			ppDefault(mode:mode, aux:aux)
 		}
 	}
 	func testPpModeDefaultHangs() {

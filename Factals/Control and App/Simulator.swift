@@ -1,10 +1,7 @@
 //  Simulator.swift -- simulation control elements C190715PAK
 import SceneKit
-
 					// Remove NSObject
-//class Simulator : Logd, Codable {		// NEVER NSCopying, Equatable
-//	var uid: UInt16				= randomUid()
-class Simulator : NSObject, Codable {		// NEVER NSCopying, Equatable
+class Simulator : NSObject, Codable {		// Logd, // NEVER NSCopying, Equatable
 
 	 // MARK: - 2. Object Variables:
 	weak var rootPart	: RootPart! = nil	// Owner
@@ -143,7 +140,6 @@ class Simulator : NSObject, Codable {		// NEVER NSCopying, Equatable
 		try container.encode(timeNow, 		forKey:.timeNow)
 		try container.encode(simTimeStep, 	forKey:.simTimeStep)
 		try container.encode(globalDagDirUp,forKey:.globalDagDirUp)
-		//try super.encode(to:encoder) 				// Superclass=NSObject has no encode(to:)
 //		atSer(3, logd("Encoded"))
 	}
 	 // Deserialize

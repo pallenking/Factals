@@ -394,7 +394,7 @@ extension SCNNode /*: HasChildren */ {
 			}
 			log.nIndent		-= 1
 		default:
-			rv					=  ppDefault(self:self, mode:mode, aux:aux)	//bug?
+			rv					=  ppDefault(mode:mode, aux:aux)	//bug?
 		}
 		return rv
 	}

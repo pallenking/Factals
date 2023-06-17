@@ -289,7 +289,7 @@ RootVew:_______________
 		guard fwGuts.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
 
 //		return "<<<RootVew.pp(mode:\(mode), aux:[..\(aux.count)..])>>>"
-		return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
+		return ppDefault(mode:mode, aux:aux)// NO return super.pp(mode, aux)
 	}
 	  // MARK: - 16. Global Constants
 	static let nullRoot			= {

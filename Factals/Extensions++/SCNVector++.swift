@@ -371,7 +371,7 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 			case .fullName, .name, .uid:		//.fwClassName,
 				return ""
 			default:
-				return ppDefault(self:self, mode:mode, aux:aux)
+				return ppDefault(mode:mode, aux:aux)
 		}
 		return rv + "]"
 	}
@@ -540,7 +540,7 @@ extension SCNVector4 {
 			case .fullName, .name, .uid:		//.fwClassName,
 				return ""
 			default:
-				return ppDefault(self:self, mode:mode, aux:aux)
+				return ppDefault(mode:mode, aux:aux)
 		}
 		return rv + "]"
 	}

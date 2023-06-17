@@ -30,7 +30,7 @@ extension SCNNode : SoundFoo {
 //	//	APPDEL!.appSounds.play(sound:sound, onNode:self)
 //	}
 }
-class Sounds : Logd {		// Removed NSObject
+class Sounds : Logd {
 	var uid: UInt16				= randomUid()
 	// NEVER NSCopying, Equatable
 	 // MARK: - 5.4 Sound

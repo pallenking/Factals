@@ -68,7 +68,6 @@ extension Library : Uid {
 		print("Library \(ppUid(self)): \(format)")
 	}
 }
-				// Remove NSObject
 class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
 
 	 // MARK: - 1. Register all Libraries HERE!

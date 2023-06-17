@@ -125,8 +125,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	init(_ config:FwConfig = [:]) {
 		localConfig				= config		// Set as my local configuration hash
 
-	//	super.init() 	// NSObject \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-
 		var nam : String?		= nil
 		 // Do this early, to improve creation printout
 		for key in ["n", "name", "named"] {		// (Name has 3 keys)
@@ -272,7 +270,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 
 	func encode(to encoder: Encoder) throws  {
-		//try super.encode(to:encoder)	// NSObject isn't codable
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
 
 		try container.encode(name, 			forKey:.name)
@@ -293,7 +290,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 
 	required init(from decoder: Decoder) throws {
-		//try super.init(from:decoder)	// NSObject isn't codable
 		localConfig				= [:]//try container.decode(FwConfig.self,forKey:.localConfig)
 //		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		let container 			= try decoder.container(keyedBy:PartsKeys.self)
@@ -1475,7 +1471,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
 			}
 		default:
-			return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
+			return ppDefault(mode:mode, aux:aux)// NO return super.pp(mode, aux)
 		}
 		return rv
 	}

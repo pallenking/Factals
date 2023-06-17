@@ -236,7 +236,7 @@ bug;return nil
 				   // ///                   /// //
 	 // //////////// ///////////////////////// //
 	
-	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
+//XXX WRONG XXX	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
 	/// - Parameter nsEvent: mouse down
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVew vew:Vew) -> Vew? {
@@ -440,7 +440,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 			}
 			return rv
 		default:
-			return ppDefault(self:self, mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)
 		}
 	}
 
