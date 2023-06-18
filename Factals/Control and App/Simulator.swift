@@ -1,7 +1,7 @@
 //  Simulator.swift -- simulation control elements C190715PAK
 import SceneKit
 					// Remove NSObject
-class Simulator : NSObject, Codable {		// Logd, // NEVER NSCopying, Equatable
+class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Equatable
 
 	 // MARK: - 2. Object Variables:
 	weak var rootPart	: RootPart! = nil	// Owner

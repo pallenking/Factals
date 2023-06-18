@@ -4,7 +4,7 @@
 
 import SceneKit
 // CherryPick2023-0520: remove NSObject
-class FwGuts : NSObject, ObservableObject {
+class FwGuts : NSObject, ObservableObject {			// xyzzy4
 
 	  // MARK: - 2. Object Variables:
 	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}

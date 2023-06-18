@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class RootScn : NSObject {
+class RootScn : NSObject {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?		// RootVew  of this RootScn
 	weak
@@ -603,12 +603,9 @@ bug;	zoom4fullScreen()
 //bug;	commitCameraMotion(reason:"to createVewNScn")
 //		updatePole2Camera(reason:"to createVewNScn")
 
-
-
-
 		// 7. RELEASE LOCKS for PartTree and VewTree:
 		rootVew.unlock(	 vewTreeAs:lockName)
-		rootPart.unlock(partTreeAs:lockName)	//xyzzy99
+		rootPart.unlock(partTreeAs:lockName)
 	}
 }
 

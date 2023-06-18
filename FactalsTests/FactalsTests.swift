@@ -96,10 +96,10 @@ object calls method pp()
 
 	 // First test is verrry easy
 	func testPp() {
-		let t1 = "xyzzy", t2 = 32
+		let t1 = "xsweyzzy", t2 = 32
 		let tests:[(()->String, String)]	= [
 			({"Most basic test"}, "Most basic test"),
-			({"String \(t1) here"}, "String xyzzy here"),
+			({"String \(t1) here"}, "String xsweyzzy here"),
 			({"Number \(t2)"}, "Number 32"),
 		]
 

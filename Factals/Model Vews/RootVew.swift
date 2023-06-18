@@ -91,7 +91,7 @@ RootVew:_______________
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= trunkVew			// default
 		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
-		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {		//xyzzy99
+		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
 			lookAtVew			= find(part:laPart)
 		}
 
