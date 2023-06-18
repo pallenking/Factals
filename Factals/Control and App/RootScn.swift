@@ -663,7 +663,7 @@ extension RootScn : SCNSceneRendererDelegate {
 //		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
 //	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String { // CherryPick2023-0520: =params4aux
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String { // CherryPick2023-0520: =params4aux
 		var rv					= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		rv						+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 		rv						+= "animatePhysics:\(animatePhysics) "

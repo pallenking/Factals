@@ -258,7 +258,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		eventNumber				+= 1		// go on to next log number
 	}
      // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]/*params4aux*/) -> String {
 		return ppDefault(mode:mode, aux:aux)
 	}
 	 /// Character to represent current Thread ID:

@@ -75,7 +75,7 @@ extension SelfiePole : Uid {
 	//var uid					= randomUid()	// in class Library
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .line:
 			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f, o:%.2f]", position.pp(.line), spin, gaze, zoom, ortho)

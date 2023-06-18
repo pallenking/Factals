@@ -78,7 +78,7 @@ import SceneKit
 										 a.y >= b.y ? a.y : b.y,
 										 a.z >= b.z ? a.z : b.z)
 	}
-func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 
 		if min.isNan || max.isNan 	{
 			return "nan"

@@ -231,7 +231,7 @@ enum Expose 	: UInt8, Codable, CaseIterable 	{ 			//	CodingKey // enum Additiona
 	}
 
 //	func pp(_  ERROR, SHOULD BE
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .name:
 			return asString ?? "?49"					// e.g. "invis"

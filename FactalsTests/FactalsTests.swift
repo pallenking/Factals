@@ -35,8 +35,8 @@ final class FactalsTests: XCTestCase {
 //	class Simulatee : NSObject, FwAny {					// won't compile
 	class Simulatee : NSObject 		  {		// FwAny	// HANGS
 //	class Simulatee : 		 	FwAny {					// WORKS
-		func pp(_ mode:PpMode,		   _ aux:FwConfig			  ) -> String	{
-//		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+//		func pp(_ mode:PpMode,		   _ aux:FwConfig			  ) -> String	{
+		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 			ppDefault(mode:mode, aux:aux)
 		}
 	}

@@ -375,7 +375,7 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		doc.registerWithDocController()	// a new DOc must be registered
 	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .tree:
 			return ""

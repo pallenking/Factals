@@ -401,7 +401,7 @@ extension SCNGeometry {
 extension SCNConstraint {
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		return "uncoded"
 	}
 }
@@ -434,7 +434,7 @@ bug//	atRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
 	}
 }
 extension SCNMaterial {
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		switch mode {
 			case .name:				return name ?? "_"
 				/// THIS WOULD BE NICE

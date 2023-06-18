@@ -207,7 +207,7 @@ class ConveyorPort : Port {
 		}
 		return rv
 	}
-	override func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		var rv = super.pp(mode, aux)
 		if mode == .tree {
 			var sep				= ""

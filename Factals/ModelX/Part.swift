@@ -1426,7 +1426,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 	 //	 MARK: - 15. PrettyPrint
 	// Override: Method does not override any method from its superclass
-	func pp(_ mode:PpMode, _ aux:FwConfig) -> String	{		// Why is this not an override
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{		// Why is this not an override
 		var rv					= ""
 		switch mode {
 		case .name:
