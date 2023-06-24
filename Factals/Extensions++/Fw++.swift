@@ -22,7 +22,8 @@ extension FwAny  {
 		lastSelfCt				+= 1
 		assert(lastSelfCt < 100, "ppMode Default Hang")
 
-		let rv 					= self.pp(mode, aux)
+		let rv 					= self.ppDefault(mode:mode, aux:aux)
+//		let rv 					= self.pp(mode, aux)
 		lastSelfCt				-= 1//lastSelfCt > 0 ? 1 : 0
 		return rv
 	}
