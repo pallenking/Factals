@@ -230,17 +230,19 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 
 		 // Try rootVew's opening configuration
-		guard let rootVew 		else {	return nil								}
+		guard let rootVew 		else {						return nil			}
 		if let rv				= rootVew.openConfig[name] {
 			return rv
 		}
 		guard let fwGuts		= rootVew.fwGuts else {		return nil			}
+//		assert(
 		assert(fwGuts == part.root?.fwGuts, "paranoia: fwGuts mismatch")		//(fwGuts==nil || fwGuts! == part.root?.fwGuts
 
 		 // Try Document's configuration
 		var rv : FwAny?			= nil
 		if trueF {							//trueF//falseF//
-			rv					= fwGuts.document.config[name]
+			let rv1				= fwGuts.document
+			rv					= rv1?.config[name] ?? ""
 			// Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 		}
 		return rv

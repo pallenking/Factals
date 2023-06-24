@@ -50,8 +50,8 @@ final class FactalsTests: XCTestCase {
 
 		let sim2				= Simulatee()
 		print("Simulatee:   '\(sim2.pp())'    DOESN'T HANG")					//			// HANGS
-
-
+	}
+	func testRootAsPart1() {
 		let rootPart1			= RootPart()
 		print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
 /*

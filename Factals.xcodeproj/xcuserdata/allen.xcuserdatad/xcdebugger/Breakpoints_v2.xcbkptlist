@@ -2313,8 +2313,8 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1223"
-            endingLineNumber = "1223"
+            startingLineNumber = "1219"
+            endingLineNumber = "1219"
             landmarkName = "logd(_:_:terminator:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2329,8 +2329,8 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1221"
-            endingLineNumber = "1221"
+            startingLineNumber = "1217"
+            endingLineNumber = "1217"
             landmarkName = "logd(_:_:terminator:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2488,8 +2488,8 @@
             filePath = "Factals/Extensions++/Fw++.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1226"
-            endingLineNumber = "1226"
+            startingLineNumber = "1222"
+            endingLineNumber = "1222"
             landmarkName = "logd(_:_:terminator:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2594,7 +2594,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "AA72BDA9-25E5-405F-91CA-796645175193"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/FwGuts.swift"
@@ -2604,6 +2604,38 @@
             endingLineNumber = "95"
             landmarkName = "addRootVew(vewConfig:fwConfig:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AA72BDA9-25E5-405F-91CA-796645175193 - a4831e2114edccdb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwGuts.addRootVew(vewConfig: Factals.VewConfig, fwConfig: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "468">
+               </Location>
+               <Location
+                  uuid = "AA72BDA9-25E5-405F-91CA-796645175193 - 7ce347978709734d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FactalsTests.FwGuts.addRootVew(vewConfig: FactalsTests.VewConfig, fwConfig: Swift.Dictionary&lt;Swift.String, FactalsTests.FwAny&gt;) -&gt; ()"
+                  moduleName = "FactalsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "468">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2953,6 +2985,38 @@
             endingLineNumber = "87"
             landmarkName = "addRootVew(vewConfig:fwConfig:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BBA21FAE-2B9F-43BD-A6E9-14D30EAE7EEC - a4831e2114edcdd3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwGuts.addRootVew(vewConfig: Factals.VewConfig, fwConfig: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "276">
+               </Location>
+               <Location
+                  uuid = "BBA21FAE-2B9F-43BD-A6E9-14D30EAE7EEC - 7ce3479787097245"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FactalsTests.FwGuts.addRootVew(vewConfig: FactalsTests.VewConfig, fwConfig: Swift.Dictionary&lt;Swift.String, FactalsTests.FwAny&gt;) -&gt; ()"
+                  moduleName = "FactalsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "276">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3435,7 +3499,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1EF0F39E-FCAD-4057-AD7B-BE563AD32033"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/FwGuts.swift"
@@ -3645,41 +3709,11 @@
             filePath = "Factals/Model Vews/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "603"
-            endingLineNumber = "603"
+            startingLineNumber = "605"
+            endingLineNumber = "605"
             landmarkName = "pp(_:_:)"
             landmarkType = "7">
             <Locations>
-               <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - f49865e2c21122f0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 1 of Factals.Vew.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "12">
-               </Location>
-               <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - 74595cc82aedf4f7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 0 of Factals.Vew.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "4">
-               </Location>
                <Location
                   uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - d00e06b80350df20"
                   shouldBeEnabled = "Yes"
@@ -3693,37 +3727,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "605"
                   endingLineNumber = "605"
-                  offsetFromSymbolStart = "292">
-               </Location>
-               <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - e507d2146b24be5a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 1 of FactalsTests.Vew.pp(FactalsTests.PpMode, Swift.Dictionary&lt;Swift.String, FactalsTests.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "FactalsTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "12">
-               </Location>
-               <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - 8ea33d5844dfc45d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 0 of FactalsTests.Vew.pp(FactalsTests.PpMode, Swift.Dictionary&lt;Swift.String, FactalsTests.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "FactalsTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "4">
+                  offsetFromSymbolStart = "280">
                </Location>
                <Location
                   uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - fe56890f2d215c48"
@@ -3738,66 +3742,21 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "605"
                   endingLineNumber = "605"
-                  offsetFromSymbolStart = "292">
-               </Location>
-               <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - d00e06b80350df01"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Vew.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "604"
-                  endingLineNumber = "604"
-                  offsetFromSymbolStart = "292">
-               </Location>
-               <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - fe56890f2d215c69"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FactalsTests.Vew.pp(FactalsTests.PpMode, Swift.Dictionary&lt;Swift.String, FactalsTests.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "FactalsTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "604"
-                  endingLineNumber = "604"
-                  offsetFromSymbolStart = "292">
-               </Location>
-               <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - d00e06b80350df01"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Vew.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "604"
-                  endingLineNumber = "604"
                   offsetFromSymbolStart = "280">
                </Location>
                <Location
-                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - fe56890f2d215c69"
+                  uuid = "1B02F8CA-48F6-4A5F-90EB-7E77C056BB8E - d00e06b80350df47"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "FactalsTests.Vew.pp(FactalsTests.PpMode, Swift.Dictionary&lt;Swift.String, FactalsTests.FwAny&gt;) -&gt; Swift.String"
-                  moduleName = "FactalsTests"
+                  symbolName = "Factals.Vew.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
+                  moduleName = "Factals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "604"
-                  endingLineNumber = "604"
+                  startingLineNumber = "606"
+                  endingLineNumber = "606"
                   offsetFromSymbolStart = "280">
                </Location>
             </Locations>
@@ -3911,7 +3870,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "testPpModeDefaultHangs()"
+            landmarkName = "testRootAsPart1()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -3973,6 +3932,21 @@
                   startingLineNumber = "69"
                   endingLineNumber = "69"
                   offsetFromSymbolStart = "2620">
+               </Location>
+               <Location
+                  uuid = "B10E2227-322E-432A-91E5-B343D1CC09E2 - f576f62f00b48bbb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FactalsTests.FactalsTests.testRootAsPart1() -&gt; ()"
+                  moduleName = "FactalsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/FactalsTests/FactalsTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "1536">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -4074,7 +4048,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "80248353-22F0-464F-AD2E-2923A763301D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/FwGuts.swift"
@@ -4185,7 +4159,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EC99619A-3A02-42A0-92B1-08B43961AA4B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Model Vews/RootVew.swift"
@@ -4233,7 +4207,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "0B4152E8-4577-40CE-B3BF-00E936DEDB98"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FactalsTests/FactalsTests.swift"
@@ -4241,7 +4215,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
             endingLineNumber = "64"
-            landmarkName = "testPpModeDefaultHangs()"
+            landmarkName = "testRootAsPart1()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -4304,6 +4278,21 @@
                   endingLineNumber = "64"
                   offsetFromSymbolStart = "1760">
                </Location>
+               <Location
+                  uuid = "0B4152E8-4577-40CE-B3BF-00E936DEDB98 - f576f62f00b48414"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FactalsTests.FactalsTests.testRootAsPart1() -&gt; ()"
+                  moduleName = "FactalsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/FactalsTests/FactalsTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "676">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -4311,7 +4300,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1A7EB361-2250-42F9-A60C-16A4E5C6FC74"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/ModelX/Part.swift"
@@ -4383,22 +4372,6 @@
                   offsetFromSymbolStart = "476">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0835958F-47D1-4471-9E36-89F268AD040A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FactalsTests/FactalsTests.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "testPpModeDefaultHangs()"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4476,6 +4449,21 @@
                   endingLineNumber = "47"
                   offsetFromSymbolStart = "420">
                </Location>
+               <Location
+                  uuid = "8C1E29A7-960A-4696-B32D-4B8B4A1320F4 - 7c32f4cfb8ea6387"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FactalsTests.FactalsTests.testPpModeDefaultHangs() -&gt; ()"
+                  moduleName = "FactalsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/FactalsTests/FactalsTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "304">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -4483,7 +4471,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E9734E0A-F2FA-42D5-B39C-D79BFA0BB0BA"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Extensions++/BBox.swift"
@@ -4530,49 +4518,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "548CCF12-BA9D-4B3D-9605-CEA19AED3305"
+            uuid = "7CF30BD8-434C-4F32-9CBA-A51A2B754B49"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Factals/Extensions++/Fw++.swift"
+            filePath = "Factals/Model Vews/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "pp(_:_:)"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "config(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "548CCF12-BA9D-4B3D-9605-CEA19AED3305 - bb6fe732f4487d49"
+                  uuid = "7CF30BD8-434C-4F32-9CBA-A51A2B754B49 - ea8f72a3fbabea89"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Factals.FwAny.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
+                  symbolName = "Factals.Vew.config(Swift.String) -&gt; Swift.Optional&lt;Factals.FwAny&gt;"
                   moduleName = "Factals"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Fw++.swift"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "72">
+                  startingLineNumber = "237"
+                  endingLineNumber = "237"
+                  offsetFromSymbolStart = "880">
                </Location>
                <Location
-                  uuid = "548CCF12-BA9D-4B3D-9605-CEA19AED3305 - f272b2ce18515c5b"
+                  uuid = "7CF30BD8-434C-4F32-9CBA-A51A2B754B49 - b81948b47a0619cb"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "FactalsTests.FwAny.pp(FactalsTests.PpMode, Swift.Dictionary&lt;Swift.String, FactalsTests.FwAny&gt;) -&gt; Swift.String"
+                  symbolName = "FactalsTests.Vew.config(Swift.String) -&gt; Swift.Optional&lt;FactalsTests.FwAny&gt;"
                   moduleName = "FactalsTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Fw++.swift"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "72">
+                  startingLineNumber = "237"
+                  endingLineNumber = "237"
+                  offsetFromSymbolStart = "880">
+               </Location>
+               <Location
+                  uuid = "7CF30BD8-434C-4F32-9CBA-A51A2B754B49 - ea8f72a3fbabebf1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Vew.config(Swift.String) -&gt; Swift.Optional&lt;Factals.FwAny&gt;"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Model%20Vews/Vew.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "245"
+                  endingLineNumber = "245"
+                  offsetFromSymbolStart = "1492">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F368FDB7-8DFF-49C0-92F5-FF2631F09D65"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FwGuts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "findVew(nsEvent:inVew:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

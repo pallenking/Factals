@@ -15,16 +15,12 @@ extension FwAny  {
 	  // Default implementation, with default values:
 	 // N.B: If this loops forever, check self's class .pp protocol
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-
-		   // 2023-0607PAK: we had and infinite recursion bug
-		  // It was complicated because xcode's stack (and hence symbols) went bad.
-		 // This will stop hopefully only infinite recursion bugs with stack in tact
-		lastSelfCt				+= 1
-		assert(lastSelfCt < 100, "ppMode Default Hang")
+//		lastSelfCt				+= 1
+//		assert(lastSelfCt < 100, "ppMode Default Hang")
 
 		let rv 					= self.ppDefault(mode:mode, aux:aux)
 //		let rv 					= self.pp(mode, aux)
-		lastSelfCt				-= 1//lastSelfCt > 0 ? 1 : 0
+//		lastSelfCt				-= 1//lastSelfCt > 0 ? 1 : 0
 		return rv
 	}
 	
@@ -66,7 +62,7 @@ extension FwAny  {
 		return String(describing:type(of:self))
 	}
 }
-var lastSelfCt					= 0
+//var lastSelfCt					= 0
 
  /// Pretty Print Modes:
 enum PpMode : Int {

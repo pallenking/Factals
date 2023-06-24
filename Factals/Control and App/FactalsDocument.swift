@@ -134,7 +134,7 @@ bug;		let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(from
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-bug;		guard let dat		= fwGuts.rootPart?.data else {				// PW: ???
+bug;		guard let dat		= fwGuts.rootPart?.data else {				// PW+: ???
 				panic("FactalsDocument.fwGuts.rootPart.data is nil")
 				let d			= fwGuts.rootPart?.data		// debug
 				throw DocError.text("FactalsDocument.fwGuts.rootPart.data is nil")
@@ -265,7 +265,7 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 			}
 		}
 
-		// PW4: How do I access MainMenu from inside SwiftUI
+		// PW+4: How do I access MainMenu from inside SwiftUI
 		// PW3: What is the right way to display vewsInspec? as popup?, window?, WindowGroup?...
 		// restructure with
 		if window == nil {								// must make NEW
