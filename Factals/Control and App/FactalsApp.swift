@@ -67,18 +67,20 @@ struct FactalsApp: App, Uid, FwAny {
 
 //	let menuItems = [...	// PW: Want here!
 
+// ScanElement -> MenuItemA
 	 /// Scene Menus
 	struct MenuItemA : Identifiable {
 		let id: Int
 		let name: String
 		let imageName: String
-		let action: () -> Void
+//		let action: (String) -> Void
 	}
-	var menuItem  = //= getMenuItems()
-	[
-		MenuItemA(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
-		MenuItemA(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
-	]
+	var menuItem: [MenuItemA] = []		//getMenuItems()	//=//NSMenuItem
+//	[	MenuItemA(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+//		MenuItemA(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
+//	]
+
+	@State private var document: FactalsDocument? = nil
 
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
@@ -88,10 +90,17 @@ struct FactalsApp: App, Uid, FwAny {
 			CommandMenu("Scenes") {
 				// Iterate over each MenuItem in the array
 				ForEach(menuItem) { item in
-					Button(action: item.action) {
+					Button {
+						
+							let fwGuts = FwGuts(rootPart: RootPart(fromLibrary:"entry\(item.id)"))
+							document = FactalsDocument(fwGuts:fwGuts)
+							print("Test")
+						
+					} label: {
 						Text(item.name)
 						Image(systemName: item.imageName)
 					}
+
 				}
 			}
 		}
@@ -134,6 +143,7 @@ struct FactalsApp: App, Uid, FwAny {
 		let c					= config + params4all// append
 		configureApp(from:c)						// modifies APP, must re-register
 		APP 					= self				// Register ( V E R Y  HOAKEY)
+		menuItem = buildSceneMenus()
 
 		atApp(3, {
 			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
@@ -196,7 +206,7 @@ struct FactalsApp: App, Uid, FwAny {
 		//return false 				// conservative, must deal with no-FwDocument situation
 	}
 	 // MARK: - 4.3 APP Menu Bar Items
-	weak var sceneMenu:NSMenu!		//	@IBOutlet weak 	var sceneMenu		:NSMenu!
+	var sceneMenu:NSMenu!		//	@IBOutlet weak 	var sceneMenu		:NSMenu!
 
 	func appPreferences(_ sender: Any) {		// Show App preferences
 		print("'⌘,': AppDelegate.appPreferences(): PREF WINDOW UNDEF")
@@ -228,14 +238,13 @@ bug//		fwHelp("?")
 			]
 	  */
 	// BUILD SCENE MENUS ////////////////////////////////
-	var menuOfPath : [String:NSMenu] = [:]			// [path : Menu]
-	mutating func buildSceneMenus() {
-		if falseF { return } 						//trueF//falseF// for debugging
-		assert(sceneMenu != nil, "sceneMenu==nil, not filled in by IB (2)")
-
+	func buildSceneMenus() -> [MenuItemA] {
+//		var menuOfPath : [String:NSMenu] = [:]			// [path : Menu]
+		if falseF { return [] } 						//trueF//falseF// for debugging
+//		assert(sceneMenu != nil, "sceneMenu==nil, not filled in by IB (2)")
 
 		 // Get all known tests:
-		menuOfPath				= [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
+//		menuOfPath				= [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
 										// Sort by key:
 		var bogusLimit			= 5//500000//10// adhoc debug limit on scenes
 
@@ -243,29 +252,38 @@ bug//		fwHelp("?")
 /**/	let lib0				= Library.catalog()  // "entry-1" is non-existant, with no rootClosure
 		 // Create Menu from Library lists.
 		let scanCatalog:[ScanElement] = lib0.state.scanCatalog//(tag:-1, title:"", subMenu:nil)
-		for elt in scanCatalog {
-			if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
-			var menuTree:NSMenu = self.sceneMenu!
-
-			 // Insure NSMenuItem exist for all ancestors:
-			let tokens:[String.SubSequence] = elt.subMenu.split(separator:"/")
-			for i in 0..<tokens.count {		 // From full path to root:
-				assert(i == 0, "/ in sceneMenu, unsupported now")
-
-				 //  Check there are menus for Paths A, A/B, A/B/C, where A,B,C are nameTokens:
-				let path 		= String(tokens[0...i].joined(separator:"/"))
-				menuTree		= menuOfPath[path] ?? 	// exists
-								  addMenuEntry(forPath:path, tag:elt.tag, inMenu:menuTree)
-				menuOfPath[path] = menuTree // remember the nsMenuInTree:
-			}
-			 // Make new menu entry:
-			// let menuItem		= NSMenuItem(title:elt.title,
-			// 								 action:#selector(scheneAction(_:)),
-			// 								 keyEquivalent:"")	//action:#selector(scheneAction(sender:)),
-			// menuItem.tag 		= elt.tag// + 1
-			// menuTree.addItem(menuItem)	// insert into base (currently)
-			atMen(9, log("Built tag:\(elt.tag)"))		// Build
+		
+		return scanCatalog.map { element in
+			.init(id: element.tag,
+			name: element.title,
+			imageName: "")
 		}
+
+		 // now have [ScanElement]
+//		for elt in scanCatalog {
+//			if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
+//			var menuTree:NSMenu = self.sceneMenu!
+//
+//			 // Insure NSMenuItem exist for all ancestors:
+//			let tokens:[String.SubSequence] = elt.subMenu.split(separator:"/")
+//			for i in 0..<tokens.count {		 // From full path to root:
+//				assert(i == 0, "/ in sceneMenu, unsupported now")
+//
+//				 //  Check there are menus for Paths A, A/B, A/B/C, where A,B,C are nameTokens:
+//				let path 		= String(tokens[0...i].joined(separator:"/"))
+//				menuTree		= menuOfPath[path] ?? 	// exists
+//								  addMenuEntry(forPath:path, tag:elt.tag, inMenu:menuTree)
+//				menuOfPath[path] = menuTree // remember the nsMenuInTree:
+//			}
+//			 // Make new menu entry:
+//			// let menuItem		= NSMenuItem(title:elt.title,
+//			// 								 action:#selector(scheneAction(_:)),
+//			// 								 keyEquivalent:"")	//action:#selector(scheneAction(sender:)),
+//			// menuItem.tag 		= elt.tag// + 1
+//			// menuTree.addItem(menuItem)	// insert into base (currently)
+//			atMen(9, log("Built tag:\(elt.tag)"))		// Build
+//		}
+//		return []
 	}
 	func addMenuEntry(forPath path:String, tag:Int, inMenu:NSMenu) -> NSMenu {
 	 	 // Create a NEW MenuItem, with a Menu in it, for path:

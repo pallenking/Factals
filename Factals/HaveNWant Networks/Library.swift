@@ -44,7 +44,7 @@ class ScanState : Codable {
 struct ScanElement	: Codable {
 	var tag		  	: Int
 	var title	  	: String
-	var subMenu	  	: String
+	var subMenu	  	: String		// path scene/decoder/...
 }
 
 

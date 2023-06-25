@@ -72,18 +72,18 @@ struct FactalsDocument: FileDocument {
 
 		 //		5. Build Vews per Configuration
 		for (key, value) in c {
-			if key == "Vews",
+			if key == "Vews",				// "Vews":[VewConfig]
 			  let values 		= value as? [VewConfig] {
 				for value in values	{		// Open one for each elt
 					fwGuts.addRootVew(vewConfig:value, fwConfig:c)
 				}
 			}
-			else if key.hasPrefix("Vew") {
+			else if key.hasPrefix("Vew") {	// "Vew":VewConfig
 				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
 				fwGuts.addRootVew(vewConfig:value, fwConfig:c)
 			}
 		}
-		if fwGuts.rootVews.isEmpty {
+		if fwGuts.rootVews.isEmpty {		// Must have a Vew
 			warning("no Vew... key")
 			fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
@@ -153,37 +153,37 @@ bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil	
 
 
 
-// //// -- WORTHY GEMS: -- ///// //
-//
-//	typealias PolyWrap = Part
-//	class Part : Codable /* PartProtocol*/ {
-//		func polyWrap() -> PolyWrap {	polyWrap() }
-//		func polyUnwrap() -> Part 	{	Part()		}
-//	}
-//	//protocol PartProtocol {
-//	//	func polyWrap() -> PolyWrap
-//	//}
-//
-//func serializeDeserialize(_ inPart:Part) throws -> Part? {
-//
-//	 //  - INSERT -  PolyWrap's
-//	let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
-//
-//		 //  - ENCODE -  PolyWrap as JSON
-//		let jsonData 			= try JSONEncoder().encode(inPolyPart)
-//
-//			print(String(data:jsonData, encoding:.utf8) ?? "")
-//
-//		 //  - DECODE -  PolyWrap from JSON
-//		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
-//
-//	 //  - REMOVE -  PolyWrap's
-//	let outPart				= outPoly.polyUnwrap()
-//	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
-//	let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
-//
-//	return outPart
-//}
+ //// -- WORTHY GEMS: -- ///// //
+
+	typealias PolyWrap = Part
+	class Part : Codable /* PartProtocol*/ {
+		func polyWrap() -> PolyWrap {	polyWrap() }
+		func polyUnwrap() -> Part 	{	Part()		}
+	}
+	//protocol PartProtocol {
+	//	func polyWrap() -> PolyWrap
+	//}
+
+func serializeDeserialize(_ inPart:Part) throws -> Part? {
+
+	 //  - INSERT -  PolyWrap's
+	let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
+
+		 //  - ENCODE -  PolyWrap as JSON
+		let jsonData 			= try JSONEncoder().encode(inPolyPart)
+
+			print(String(data:jsonData, encoding:.utf8) ?? "")
+
+		 //  - DECODE -  PolyWrap from JSON
+		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
+
+	 //  - REMOVE -  PolyWrap's
+	let outPart				= outPoly.polyUnwrap()
+	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
+	let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
+
+	return outPart
+}
 
 
 

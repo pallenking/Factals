@@ -14,7 +14,7 @@ extension SCNCameraController : ObservableObject {	}
 //	$view
 
 struct ContentView: View {
-	@Binding	 var document	: FactalsDocument
+	@Binding	var document	: FactalsDocument
 	var body: some View {
 		FwGutsView(fwGuts:$document.fwGuts)
 	}
