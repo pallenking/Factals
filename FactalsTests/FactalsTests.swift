@@ -47,27 +47,24 @@ final class FactalsTests: XCTestCase {
 		let sim1str				= sim1.pp(.line)			// HANGS
 		print("Simulatee:   '\(sim1str)'    DOESN'T HANG")					//
 
-
 		let sim2				= Simulatee()
 		print("Simulatee:   '\(sim2.pp())'    DOESN'T HANG")					//			// HANGS
+		/*
+		object calls method pp()
+				class Simulatee { func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
+				extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+		 */
 	}
 	func testRootAsPart1() {
 		let rootPart1			= RootPart()
 		print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
-/*
-object calls method pp()
-		class Simulatee { func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
-		extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
- */
-
-		let fwGuts1				= FwGuts()
+		let fwGuts1				= FwGuts(rootPart:rootPart1)
 		print("FwGuts:      '\(fwGuts1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
 
-		let fwGuts2				= FwGuts(rootPart:rootPart1)
-		print("FwGuts(rP:)  '\(fwGuts2.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
+		let document			= FactalsDocument(fwGuts:fwGuts1)
 
-		fwGuts2.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		print("FwGuts(rP:)  '\(fwGuts2.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
+		fwGuts1.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		print("FwGuts(rP1:)  '\(fwGuts1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
 
 		print("&&&&&& No         ppMode Default Hang     errors")
 	}

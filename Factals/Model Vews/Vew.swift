@@ -230,19 +230,19 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 
 		 // Try rootVew's opening configuration
-		guard let rootVew 		else {						return nil			}
+		guard let rootVew 							else {	return nil			}
 		if let rv				= rootVew.openConfig[name] {
 			return rv
 		}
-		guard let fwGuts		= rootVew.fwGuts else {		return nil			}
+		guard let fwGuts		= rootVew.fwGuts 	else {	return nil			}
 //		assert(
 		assert(fwGuts == part.root?.fwGuts, "paranoia: fwGuts mismatch")		//(fwGuts==nil || fwGuts! == part.root?.fwGuts
 
 		 // Try Document's configuration
 		var rv : FwAny?			= nil
 		if trueF {							//trueF//falseF//
-			let rv1				= fwGuts.document
-			rv					= rv1?.config[name] ?? ""
+			guard let rv1		= fwGuts.document	else {	return nil			}
+			rv					= rv1.config[name]
 			// Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 		}
 		return rv
@@ -528,11 +528,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	func updateWireBox() {
 
 		 // Determine color0, or ignore
-		let wBoxStr				= config("wBox")?.asString	// master
-//		let wBoxStr				= part.config("wBox")?.asString	// master
+		let wBoxStr				= config("wBox")?.asString	// master // part.config("wBox")?.asString
 		let myColor : NSColor?	= 				// Config declares:
-			wBoxStr  == nil 	 ?	.red 		:	// red for debug
-//			wBoxStr  == nil 	 ?	nil 		:	// nothing about Part
+			wBoxStr  == nil 	 ?	.red 		:	// red for debug	// nil : // nothing about Part
 			wBoxStr! == "none"   ?	nil 		:	// disabled!
 			wBoxStr! == "gray"   ?	.lightGray 	:	// gray!
 			wBoxStr! == "white"  ?	.white 		:	// white!
@@ -544,6 +542,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		  expose == .open else {		 				// on open Views:
 			return											// NO, no wire box
 		}
+		guard var doc				= DOC				else 	{ 	return		}
 
 		 // Get wire box
 		let wBoxScn	: SCNNode		= scn.find(name:"w-", prefixMatch:true, maxLevel:1) ??	// 20210912PAK SStep BAD Here
@@ -561,7 +560,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			let bBoxScn			= SCNComment("")	  //		Z
 			scn.addChild(node:bBoxScn, atIndex:0)
 			 // Name the result
-			var doc				= DOC!
 			let wBoxNameIndex	= doc.indexFor["WBox"] ?? 1
 			doc.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)

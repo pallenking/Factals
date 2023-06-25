@@ -81,7 +81,8 @@ bug;return nil
 //		}
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		guard let rootPart else {	fatalError("addRootVew: rootPart=nil")		}
+		guard let _ 			= DOC else {		fatalError("addRootVew with DOC==nil")				}
+		guard let rootPart else {	fatalError("addRootVew with nil rootPart")		}
 		let rootVew				= RootVew(forPart:rootPart)		//, rootScn:rootScn
 		rootVew.fwGuts			= self
 		rootVews.append(rootVew)		// register now, so OK for following:
