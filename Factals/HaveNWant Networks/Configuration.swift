@@ -45,7 +45,7 @@ private let params4pp : FwConfig = [
 	"ppPorts"			: true, 	// pp includes Ports //false//
 	"ppScnMaterial"		: false, 	// pp of SCNNode prints materials (e.g. colors) on separate line
 				// Order:
-	"ppDagOrder"		: false, 	//true
+	"ppDagOrder"		: true, 	//true//false//
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
 	"ppViewOptions"		: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"

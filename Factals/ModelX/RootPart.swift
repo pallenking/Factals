@@ -518,7 +518,7 @@ bug
 	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-		var rv 				= super.pp(mode, aux)
+		var rv 				= super.pp(mode, aux)	// Use Part's pp()
 		if mode == .line {
 			rv					+= " \"\(title)\""
 		}

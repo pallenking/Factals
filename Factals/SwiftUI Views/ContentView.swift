@@ -26,8 +26,6 @@ struct FwGutsView: View {
 
 	var body: some View {
 		VStack {
-			FwGutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
- 
 			HStack {
 				if fwGuts.rootVews.count == 0 {
 					Text("No Vews found")
@@ -88,6 +86,7 @@ struct FwGutsView: View {
 					}
 				}
 			}
+			FwGutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
 			Spacer()
 		}
 	}

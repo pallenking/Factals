@@ -336,7 +336,7 @@ extension NSWindow : FwStatus {										 ///NSWindow
 			 "contentView:\(ppUid(contentView,  		 showNil:true)) "		+
 				"delegate:\(ppUid(delegate as? String, 	 showNil:true)) \n"		+
 			(!contract ? "" :
-				" " + uidStrDashes(nilLike:self) + "  " + DOClog.indentString() + "\\ contentVew OMITTED\n"),
+				" " + uidStrDashes(nilLike:self) + " " + DOClog.indentString() + "\\ contentVew OMITTED\n"),
 			otherLines:{ deapth in		//			uidStrDashes(nilLike
 				return contract ? "" :
 					 self.contentView?.ppFwState(deapth:deapth-1/*config:config*/) ?? ""
