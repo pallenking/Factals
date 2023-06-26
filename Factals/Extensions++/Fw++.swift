@@ -566,7 +566,7 @@ infix operator ??= :  AssignmentPrecedence
 /// - Parameters:
 ///   - lhs: --- update if nil
 ///   - rhs: --- new value to replace it with
-func ??=<T> (lhs:inout T?, rhs:T?) {											//func ??= (lhs: inout Any?, rhs:  Any?) {
+func ??=<T> (lhs:inout T?, rhs:T?) {											//func ??=(lhs: inout Any?, rhs:  Any?) {
 	if lhs == nil {
 		lhs					= rhs
 	}
@@ -639,22 +639,22 @@ extension Int {
 
 
 	 // PW: There is a better way to detect overflow, rather than all this stuff
-	static func + ( d0:Int, d1:Int) -> Int {
+	static func +( d0:Int, d1:Int) -> Int {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func += ( d0: inout Int, d1:Int) {
+	static func +=( d0: inout Int, d1:Int) {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
 	}
-	static func - ( d0:Int, d1:Int) -> Int {
+	static func -( d0:Int, d1:Int) -> Int {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func -= ( d0: inout Int, d1:Int) {
+	static func -=( d0: inout Int, d1:Int) {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
@@ -679,22 +679,22 @@ extension UInt {
 			return ppDefault(mode:mode, aux:aux)
 		}
 	}
-	static func + ( d0:UInt, d1:UInt) -> UInt {
+	static func +( d0:UInt, d1:UInt) -> UInt {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func += ( d0: inout UInt, d1:UInt) {
+	static func +=( d0: inout UInt, d1:UInt) {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
 	}
-	static func - ( d0:UInt, d1:UInt) -> UInt {
+	static func -( d0:UInt, d1:UInt) -> UInt {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func -= ( d0: inout UInt, d1:UInt) {
+	static func -=( d0: inout UInt, d1:UInt) {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
@@ -722,22 +722,22 @@ extension Int16 {
 			return ppDefault(mode:mode, aux:aux)
 		}
 	}
-	static func + ( d0:Int16, d1:Int16) -> Int16 {
+	static func +( d0:Int16, d1:Int16) -> Int16 {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func += ( d0: inout Int16, d1:Int16) {
+	static func +=( d0: inout Int16, d1:Int16) {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
 	}
-	static func - ( d0:Int16, d1:Int16) -> Int16 {
+	static func -( d0:Int16, d1:Int16) -> Int16 {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func -= ( d0: inout Int16, d1:Int16) {
+	static func -=( d0: inout Int16, d1:Int16) {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
@@ -762,22 +762,22 @@ extension UInt16 {
 			return ppDefault(mode:mode, aux:aux)
 		}
 	}
-	static func + ( d0:UInt16, d1:UInt16) -> UInt16 {
+	static func +( d0:UInt16, d1:UInt16) -> UInt16 {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func += ( d0: inout UInt16, d1:UInt16) {
+	static func +=( d0: inout UInt16, d1:UInt16) {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
 	}
-	static func - ( d0:UInt16, d1:UInt16) -> UInt16 {
+	static func -( d0:UInt16, d1:UInt16) -> UInt16 {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func -= ( d0: inout UInt16, d1:UInt16) {
+	static func -=( d0: inout UInt16, d1:UInt16) {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
@@ -805,22 +805,22 @@ extension Int8	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		return String(self)
 	}
-	static func + ( d0:Int8, d1:Int8) -> Int8 {
+	static func +( d0:Int8, d1:Int8) -> Int8 {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func += ( d0: inout Int8, d1:Int8) {
+	static func +=( d0: inout Int8, d1:Int8) {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
 	}
-	static func - ( d0:Int8, d1:Int8) -> Int8 {
+	static func -( d0:Int8, d1:Int8) -> Int8 {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		return d
 	}
-	static func -= ( d0: inout Int8, d1:Int8) {
+	static func -=( d0: inout Int8, d1:Int8) {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "overflow")
 		d0 = d
@@ -850,17 +850,17 @@ extension UInt8 {
 		assert(!overflow, "UInt8 '+' overflows")
 		return d
 	}
-	static func += ( d0: inout UInt8, d1:UInt8) {
+	static func +=( d0: inout UInt8, d1:UInt8) {
 		let (d, overflow) 		= d0.addingReportingOverflow(d1)
 		assert(!overflow, "UInt8 '+=' overflows")
 		d0 = d
 	}
-	static func - ( d0:UInt8, d1:UInt8) -> UInt8 {
+	static func -( d0:UInt8, d1:UInt8) -> UInt8 {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "UInt8 '-' overflows")
 		return d
 	}
-	static func -= ( d0: inout UInt8, d1:UInt8) {
+	static func -=( d0: inout UInt8, d1:UInt8) {
 		let (d, overflow) 		= d0.subtractingReportingOverflow(d1)
 		assert(!overflow, "UInt8 '-=' overflows")
 		d0 = d

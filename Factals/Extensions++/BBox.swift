@@ -137,22 +137,22 @@ extension BBox : Equatable {
 
 extension BBox {
 	 // extend a BBox by another BBox (around it)
-	static func + (aBox:BBox, bBox:BBox) -> BBox {
+	static func +(aBox:BBox, bBox:BBox) -> BBox {
 		let min						= aBox.min + bBox.min
 		let max						= aBox.max + bBox.max
 		return BBox(max, min)
 	}
-	static func += ( bBox: inout BBox, aBox:BBox) {
+	static func +=( bBox: inout BBox, aBox:BBox) {
 		bBox						= bBox + aBox
 	}
 
 	 // extend a BBox so it includes an point
-	static func | (bbox:BBox, point:SCNVector3) -> BBox {
+	static func |(bbox:BBox, point:SCNVector3) -> BBox {
 		let min 					= minPerAxis(bbox.min, point)
 		let max 					= maxPerAxis(bbox.max, point)
 		return BBox(max, min)
 	}
-	static func |= ( bbox: inout BBox, point:SCNVector3) {
+	static func |=( bbox: inout BBox, point:SCNVector3) {
 		bbox 						= bbox | point
 	}
 
@@ -162,31 +162,31 @@ extension BBox {
 		rv.size						+= sizeVect
 		return rv
 	}
-	static func += ( bbox: inout BBox, sizeVect:SCNVector3) {
+	static func +=( bbox: inout BBox, sizeVect:SCNVector3) {
 		bbox.size					+= sizeVect
 	}
 	 /// "_+_" extends size by CGFloat
-	static func +  ( bbox:BBox, size:CGFloat) -> BBox {
+	static func +(  bbox:BBox, size:CGFloat) -> BBox {
 		let rv						= bbox + SCNVector3(size, size, size)
 		return rv
 	}
-	static func += ( bbox: inout BBox, size:CGFloat) {
+	static func +=( bbox: inout BBox, size:CGFloat) {
 		bbox.size					+= SCNVector3(size, size, size)
 	}
 
 
 	 // "_*_" scales a FwBBox's size
-	static func * (bbox:BBox, scale:CGFloat) -> BBox {
+	static func *(  bbox:BBox, scale:CGFloat) -> BBox {
 		var rv						= bbox
 		rv.size						*= scale
 		return rv
 	}
-	static func *= (bBox: inout BBox, scale:CGFloat) {
+	static func *=( bBox: inout BBox, scale:CGFloat) {
 		bBox 						= bBox * scale
 	}
 
 	 // Biggest BBox encompassing both simultaneously
-	static func & (a:BBox, b:BBox) -> BBox {
+	static func &( a:BBox, b:BBox) -> BBox {
 		let max 					= minPerAxis(a.max, b.max)
 		let min 					= maxPerAxis(a.min, b.min)
 		let d						= max - min
@@ -195,24 +195,24 @@ extension BBox {
 		}
 		return BBox(max, min)
 	}
-	static func &= (a: inout BBox, b:BBox) {
+	static func &=(a: inout BBox, b:BBox) {
 		a 							= a & b
 	}
 	 // Smallest BBox encompassing one or the other
-	static func | (a:BBox, b:BBox) -> BBox {
+	static func |(a:BBox, b:BBox) -> BBox {
 		let max 					= maxPerAxis(a.max, b.max)
 		let min 					= minPerAxis(a.min, b.min)
 		return BBox(max, min)
 	}
-	static func |= (a: inout BBox, b:BBox) {
+	static func |=(a: inout BBox, b:BBox) {
 		a 							= a | b
 	}
 
 	 // Transform
-	static func * (bBox:BBox, transform:SCNMatrix4) -> BBox {
+	static func *(bBox:BBox, transform:SCNMatrix4) -> BBox {
 		return bBox.transformed(by: transform)
 	}
-	static func *= (bBox: inout BBox, transform:SCNMatrix4) {
+	static func *=(bBox: inout BBox, transform:SCNMatrix4) {
 		bBox 						= bBox * transform
 	}
 

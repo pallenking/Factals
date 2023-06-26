@@ -65,61 +65,55 @@ struct FactalsApp: App, Uid, FwAny {
 	//B	@AppStorage("text") var textFooBar = ""
 
 	 /// Scene Menus
-	struct MenuItemA : Identifiable {
+	struct SceneMenuElement : Identifiable {
 		let id: Int
 		let name: String
 		let imageName: String
 //		let action: (String) -> Void
 	}
-	var menuItem: [MenuItemA] = []		//getMenuItems()	//=//NSMenuItem
-//	var menuItem: [SceneMenuElement] = []		//getMenuItems()	//=//NSMenuItem
-//	[	MenuItemA(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
-//		MenuItemA(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
-//	]
+	var sceneMenus: [SceneMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	SceneMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
 
-//	struct SceneMenuLeaf : Identifiable {
-//		let id: Int
-//		let name: String
-//		let imageName: String? = nil
-//	}
-//	struct SceneMenuCrux : Identifiable {
-//		let id: Int
-//		let name: String
-//		let imageName: String? = nil		//"1.circle"
-//	}
+	struct SceneMenuLeaf : Identifiable {
+		let id: Int
+		let name: String
+		let imageName: String? = nil
+	}
+	struct SceneMenuCrux : Identifiable {
+		let id: Int
+		let name: String
+		let imageName: String? = nil		//"1.circle"
+	}
 //	typealias SceneMenuElement = SceneMenuLeaf
-//	enum SceneMenuElement : Identifiable {
-//		case SceneMenuLeaf(Int, String, String?)
-//		case SceneMenuCrux(Int, String, String?)
-//
-//		var idxx: Int {
-//			switch self {
-//			case .SceneMenuLeaf(i, _, _), .SceneMenuCrux(i, _, _)				// .SceneMenuLeaf or SceneMenuLeaf
-//				return i
-//			}
-//		}
-//		var id : Int { 0 }//{ //
-//	}
+	enum SceneMenuElementX : Identifiable {
+		case SceneMenuLeaf(Int, String, String?)
+		case SceneMenuCrux(Int, String, String?)
 
-//	struct MyStruct1: Identifiable {	// TRIAL CODE
-//		let id: Int64
-//		let name:String															}
-//	struct MyStruct2: Identifiable {
-//		let id: Int64
-//		let value:Double														}
-//	enum MyEnum: Identifiable {
-//		case case1(MyStruct1)
-//		case case2(MyStruct2)
-//		var id: Int64 {
-//			switch self {
-//			case .case1(let struct1):
-//				return struct1.id
-//			case .case2(let struct2):
-//				return struct2.id
-//			}
-//		}
-//	}
-
+		var id: Int {
+			switch self {
+			case .SceneMenuLeaf(let i, _, _), .SceneMenuCrux(let i, _, _):		// .SceneMenuLeaf or SceneMenuLeaf
+				return i
+			}
+		}
+		//var id : Int { 0 }//{ //
+	}
+								//struct MyStruct1: Identifiable {	// TRIAL CODE
+								//	let id: Int64
+								//	let name:String															}
+								//struct MyStruct2: Identifiable {
+								//	let id: Int64
+								//	let value:Double														}
+								//enum MyEnum: Identifiable {
+								//	case case1(MyStruct1)
+								//	case case2(MyStruct2)
+								//	var id: Int64 {
+								//		switch self {
+								//		case .case1(let struct1):
+								//			return struct1.id
+								//		case .case2(let struct2):
+								//			return struct2.id
+								//		}
+								//	}
+								//}
 	@State private var document: FactalsDocument? = nil
 
 	var body: some Scene {
@@ -128,13 +122,11 @@ struct FactalsApp: App, Uid, FwAny {
 		}
 		.commands {
 			CommandMenu("Scenes") {
-				ForEach(menuItem) { item in
+				ForEach(sceneMenus) { item in
 					Button {
-						
 							let fwGuts = FwGuts(rootPart: RootPart(fromLibrary:"entry\(item.id)"))
 							document = FactalsDocument(fwGuts:fwGuts)
 							print("Test")
-						
 					} label: {
 						Text(item.name)
 						Image(systemName: item.imageName)
@@ -201,7 +193,7 @@ struct FactalsApp: App, Uid, FwAny {
 		let c					= config + params4all// append
 		configureApp(from:c)						// modifies APP, must re-register
 		APP 					= self				// Register ( V E R Y  HOAKEY)
-		menuItem 				= buildSceneMenus()
+		sceneMenus 				= buildSceneMenus()
 
 		atApp(3, {
 			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
@@ -227,29 +219,29 @@ struct FactalsApp: App, Uid, FwAny {
 	 //
 	// MARK: 4.1 APP Launching
 	var appSounds				= Sounds()
-	mutating func applicationWillFinishLaunching(_ notification:Notification) {
-		atApp(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
-
-		 // Load Sounds
-		appSounds.load(name:"aTest",		path:"BadName.wav")		// BAD, but no error
-		appSounds.load(name:"GameStarting", path:"SpawnGood.wav")
-		appSounds.load(name:"Oooooooo", 	path:"Oooooooo.m4a")
-		appSounds.load(name:"click1",		path:"Sounds/basicSamples/sqr220.wav")
-		appSounds.load(name:"tick1",		path:"Tick_SB.wav")
-		appSounds.load(name:"tock0",		path:"Tock_SB.wav")
-
-		 // Update Menus:
-		atApp(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
-bug;	buildSceneMenus()
-
-		 // but self is struct!
-		//	  // Set Apple Event Manager so FactalWorkbench will recieve URL's
-		//	 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
-		//	let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
-		//	appleEventManager.setEventHandler(self,
-		//		andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
-		//		forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-	}//
+//	mutating func applicationWillFinishLaunching(_ notification:Notification) {
+//		atApp(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
+//
+//		 // Load Sounds
+//		appSounds.load(name:"aTest",		path:"BadName.wav")		// BAD, but no error
+//		appSounds.load(name:"GameStarting", path:"SpawnGood.wav")
+//		appSounds.load(name:"Oooooooo", 	path:"Oooooooo.m4a")
+//		appSounds.load(name:"click1",		path:"Sounds/basicSamples/sqr220.wav")
+//		appSounds.load(name:"tick1",		path:"Tick_SB.wav")
+//		appSounds.load(name:"tock0",		path:"Tock_SB.wav")
+//
+//		 // Update Menus:
+//		atApp(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
+//bug;	buildSceneMenus()
+//
+//		 // but self is struct!
+//		//	  // Set Apple Event Manager so FactalWorkbench will recieve URL's
+//		//	 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
+//		//	let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
+//		//	appleEventManager.setEventHandler(self,
+//		//		andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
+//		//		forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
+//	}//
 
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
@@ -295,10 +287,9 @@ bug//		fwHelp("?")
 				MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
 			]
 	  */
-//	func buildSceneMenus() -> [SceneMenuElement] {
-//		var bogusLimit			= 5//500000//10// adhoc debug limit on scenes
-	func buildSceneMenus() -> [MenuItemA] {
-//		var menuOfPath : [String:SceneMenuElement] = [:]		// [path : MenuItem]
+	func buildSceneMenus() -> [SceneMenuElement] {
+		var bogusLimit			= 10//5//500000//10// adhoc debug limit on scenes
+		var menuOfPath : [String:SceneMenuElement] = [:]		// [path : MenuItem]
 		if falseF { return [] } 						//trueF//falseF// for debugging
 
 		 // Get a catalog of available experiments
@@ -306,29 +297,29 @@ bug//		fwHelp("?")
 //		let scanElements:[ScanElement] = lib0.state.scanElements
 		let scanCatalog:[ScanElement] = lib0.state.scanCatalog//(tag:-1, title:"", subMenu:nil)
 		
-		return scanCatalog.map { element in
-			.init(id: element.tag,
-			name: element.title,
-			imageName: "")
+	//	return scanCatalog[0..<bogusLimit].map { element in
+	//		.init(id: element.tag,
+	//		name: element.title,
+	//		imageName:"star")							//"1.circle")
+	//	}
+		var rv : [SceneMenuElement]	= []
+		for scanElement in scanCatalog[0..<bogusLimit] {						// return scanElements[0..<bogusLimit].map { scanElement in
+//			var menuTree		= self.sceneMenu!
+
+			 // Insure a SceneMenuElement exist for all ancestors:
+			let tokens:[String.SubSequence] = scanElement.subMenu.split(separator:"/")
+			for i in 0..<tokens.count {			 //  Check there are menus for Paths A, A/B, A/B/C
+				let path 		= String(tokens[0...i].joined(separator:"/"))
+				if menuOfPath[path] == nil {
+					let newMenuEntry = SceneMenuElement(id:-rv.count, name:String(tokens[i]), imageName:"1.circle")
+					//let newMenuEntry = SceneMenuElement(id:-rv.count, name:String(tokens[i]))
+					menuOfPath[path] = newMenuEntry
+					rv.append(newMenuEntry)
+				}
+			}
+			rv.append(SceneMenuElement(id:scanElement.tag, name:scanElement.title, imageName:"star"))
 		}
-//		var rv : [SceneMenuElement]	= []
-//		for scanElement in scanElements[0..<bogusLimit] {						// return scanElements[0..<bogusLimit].map { scanElement in
-////			var menuTree		= self.sceneMenu!
-//
-//			 // Insure a SceneMenuElement exist for all ancestors:
-//			let tokens:[String.SubSequence] = scanElement.subMenu.split(separator:"/")
-//			for i in 0..<tokens.count {			 //  Check there are menus for Paths A, A/B, A/B/C
-//				let path 		= String(tokens[0...i].joined(separator:"/"))
-//				if menuOfPath[path] == nil {
-//					let newMenuEntry = x SceneMenuElement(id:-rv.count, name:String(tokens[i]))
-//					//let newMenuEntry = SceneMenuElement(id:-rv.count, name:String(tokens[i]))
-//					menuOfPath[path] = newMenuEntry
-//					rv.append(newMenuEntry)
-//				}
-//			}
-//			rv.append(SceneMenuElement(id:scanElement.tag, name:scanElement.title))
-//		}
-//		return rv
+		return rv
 		 // now have [ScanElement]
 //		for elt in scanElements {
 //			if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
@@ -349,7 +340,7 @@ bug//		fwHelp("?")
 //			// let menuItem		= NSMenuItem(title:elt.title,
 //			// 								 action:#selector(scheneAction(_:)),
 //			// 								 keyEquivalent:"")	//action:#selector(scheneAction(sender:)),
-//			// menuItem.tag 		= elt.tag// + 1
+//			// menuItem.tag 	= elt.tag// + 1
 //			// menuTree.addItem(menuItem)	// insert into base (currently)
 //			atMen(9, log("Built tag:\(elt.tag)"))		// Build
 //		}

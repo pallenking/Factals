@@ -13,7 +13,7 @@ extension Part : PolyWrappable {			}
 
 // // NOTE: 20230117 Equatable was only added for Hashable for ForEach for 
 //extension Part : Equatable {
-//	static func == (lhs: Part, rhs: Part) -> Bool {
+//	static func ==(lhs: Part, rhs: Part) -> Bool {
 //		bug; return false
 //	}
 //}

@@ -204,7 +204,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		state.scanTestNum 		+= 1		// count every test
 		if args!.argOnlyIndex {				// Wants Index
 			 // //// Display only those entries starting with a "+" ////////////
-			if testName?.hasPrefix("+") ?? false {	// 'trueF {//' trueF/falseF//
+			if trueF {//testName?.hasPrefix("+") ?? false {	// 'trueF {//' trueF/falseF//
 	//why?		assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
 				let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
 				let elt			= ScanElement(tag:state.scanTestNum, title:title, subMenu:state.scanSubMenu)
