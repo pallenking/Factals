@@ -39,6 +39,7 @@ class ScanState : Codable {
 	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
 	var scanSubMenu : String	= ""		// name of current FwGuts sub-menu
 	var scanCatalog	: [ScanElement]	= []	// Catalog of Library
+//	var scanElements: [ScanElement]	= []	// Catalog of Library
 	var scanEOFencountered:Bool = false	// marks scan done
 }
 struct ScanElement	: Codable {
@@ -208,6 +209,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 				let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
 				let elt			= ScanElement(tag:state.scanTestNum, title:title, subMenu:state.scanSubMenu)
 				state.scanCatalog.append(elt)
+//				state.scanElements.append(elt)
 			}
 			return
 		}

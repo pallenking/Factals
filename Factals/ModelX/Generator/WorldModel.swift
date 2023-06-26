@@ -138,15 +138,15 @@ class WorldModel : Atom {
 		guard case .anArray(let array)? = event else {	fatalError("Need an FwwEvent array here!")	}
 		guard eventIndex < array.count			else {	return nil				}
 
-		let rv 					= array[eventIndex]
-		eventIndex				+= 1		// get next FwwEvent
-											// FwwEvent signals 'again'
-		 // Loop
+		let rv 					= array[eventIndex]// get next FwwEvent
+		eventIndex				+= 1
+
+		 // Loop if rv (an enum) has the String value "again"
 		if case let FwwEvent.aString(s) = rv, s == "again" {
 			assert(eventIndex > 1, "'Again' cannot be first element of FwwEvent array")
 			eventIndex 			= 0			// loop back to start
-// removed 191125
-//			timingChain?.resetForAgain()	// clear out state in timingChain
+			// removed 191125
+			// timingChain?.resetForAgain()	// clear out state in timingChain
 			return dequeEvent()				// recursive call for next
 		}
 		 // Release FwwEvent to caller

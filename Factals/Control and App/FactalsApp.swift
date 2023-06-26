@@ -51,8 +51,9 @@ var DOClogQ  		: Log? 		{	DOCfwGutsQ?.log								}
 var DOClog  		: Log 		{	DOClogQ ?? .help							}	//.first
 let DOCctlr						= NSDocumentController.shared
 
-@main										// calls AppDelegateFoo.swift
+@main
 struct FactalsApp: App, Uid, FwAny {
+	//typealias Body = <#type#>
 
 	var uid: UInt16				= randomUid()
 	var fwClassName: String		= "FactalsApp"
@@ -60,14 +61,9 @@ struct FactalsApp: App, Uid, FwAny {
 						//	viewsModel at root view {
 						//		data.bidirect
 						//		properties
-	//A	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 	//B	@AppStorage("text") var textFooBar = ""
 
-//	let menuItems = [...	// PW: Want here!
-
-// ScanElement -> MenuItemA
 	 /// Scene Menus
 	struct MenuItemA : Identifiable {
 		let id: Int
@@ -76,9 +72,53 @@ struct FactalsApp: App, Uid, FwAny {
 //		let action: (String) -> Void
 	}
 	var menuItem: [MenuItemA] = []		//getMenuItems()	//=//NSMenuItem
+//	var menuItem: [SceneMenuElement] = []		//getMenuItems()	//=//NSMenuItem
 //	[	MenuItemA(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
 //		MenuItemA(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
 //	]
+
+//	struct SceneMenuLeaf : Identifiable {
+//		let id: Int
+//		let name: String
+//		let imageName: String? = nil
+//	}
+//	struct SceneMenuCrux : Identifiable {
+//		let id: Int
+//		let name: String
+//		let imageName: String? = nil		//"1.circle"
+//	}
+//	typealias SceneMenuElement = SceneMenuLeaf
+//	enum SceneMenuElement : Identifiable {
+//		case SceneMenuLeaf(Int, String, String?)
+//		case SceneMenuCrux(Int, String, String?)
+//
+//		var idxx: Int {
+//			switch self {
+//			case .SceneMenuLeaf(i, _, _), .SceneMenuCrux(i, _, _)				// .SceneMenuLeaf or SceneMenuLeaf
+//				return i
+//			}
+//		}
+//		var id : Int { 0 }//{ //
+//	}
+
+//	struct MyStruct1: Identifiable {	// TRIAL CODE
+//		let id: Int64
+//		let name:String															}
+//	struct MyStruct2: Identifiable {
+//		let id: Int64
+//		let value:Double														}
+//	enum MyEnum: Identifiable {
+//		case case1(MyStruct1)
+//		case case2(MyStruct2)
+//		var id: Int64 {
+//			switch self {
+//			case .case1(let struct1):
+//				return struct1.id
+//			case .case2(let struct2):
+//				return struct2.id
+//			}
+//		}
+//	}
 
 	@State private var document: FactalsDocument? = nil
 
@@ -88,7 +128,6 @@ struct FactalsApp: App, Uid, FwAny {
 		}
 		.commands {
 			CommandMenu("Scenes") {
-				// Iterate over each MenuItem in the array
 				ForEach(menuItem) { item in
 					Button {
 						
@@ -100,7 +139,26 @@ struct FactalsApp: App, Uid, FwAny {
 						Text(item.name)
 						Image(systemName: item.imageName)
 					}
-
+//					switch item {
+//					case SceneMenuLeaf(let id, let name, let imageName):
+//						Text(name)
+//						Image(systemName: imageName)
+//						Button {
+//							document = FactalsDocument(fromLibrary:"entry\(id)")
+//							print("Test")
+//						} label: {
+//							Text(name)
+//							Image(systemName: imageName)
+//						}
+//					case SceneMenuCrux(let id, let name, let imageName):
+//						Button {
+//							document = FactalsDocument(fromLibrary:"entry\(id)")
+//							print("Test")
+//						} label: {
+//							Text(name)
+//							//Image(systemName: imageName)
+//						}
+//					}
 				}
 			}
 		}
@@ -143,7 +201,7 @@ struct FactalsApp: App, Uid, FwAny {
 		let c					= config + params4all// append
 		configureApp(from:c)						// modifies APP, must re-register
 		APP 					= self				// Register ( V E R Y  HOAKEY)
-		menuItem = buildSceneMenus()
+		menuItem 				= buildSceneMenus()
 
 		atApp(3, {
 			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
@@ -182,7 +240,7 @@ struct FactalsApp: App, Uid, FwAny {
 
 		 // Update Menus:
 		atApp(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
-		buildSceneMenus()
+bug;	buildSceneMenus()
 
 		 // but self is struct!
 		//	  // Set Apple Event Manager so FactalWorkbench will recieve URL's
@@ -196,17 +254,17 @@ struct FactalsApp: App, Uid, FwAny {
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
 	//    someone double-clicked it again or used the dock to activate it.
-	func applicationShouldHandleReopen(_ sender:NSApplication, hasVisibleWindows:Bool) -> Bool {
-		return true
-		//return !hasVisibleWindows	// handle windows if none visible
-		//return false				// Don't open any windows
-	}
-	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-		return true 				// final, untested 210710PAK no workey
-		//return false 				// conservative, must deal with no-FwDocument situation
-	}
+//	func applicationShouldHandleReopen(_ sender:NSApplication, hasVisibleWindows:Bool) -> Bool {
+//		return true
+//		//return !hasVisibleWindows	// handle windows if none visible
+//		//return false				// Don't open any windows
+//	}
+//	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
+//		return true 				// final, untested 210710PAK no workey
+//		//return false 				// conservative, must deal with no-FwDocument situation
+//	}
 	 // MARK: - 4.3 APP Menu Bar Items
-	var sceneMenu:NSMenu!		//	@IBOutlet weak 	var sceneMenu		:NSMenu!
+	var sceneMenu:NSMenu!			//	@IBOutlet weak 	var sceneMenu		:NSMenu!
 
 	func appPreferences(_ sender: Any) {		// Show App preferences
 		print("'⌘,': AppDelegate.appPreferences(): PREF WINDOW UNDEF")
@@ -223,7 +281,7 @@ bug//	print(ppFwConfig(config:true))
 		print("'?': AppDelegate.appConfiguration():")
 bug//		fwHelp("?")
 	}
-	 // MARK: - 4.4 FwGuts Menu
+	 // MARK: - 4.4 BUILD SCENE MENUS
 	 /*
 				  /// Scene Menus
 			struct MenuItem : Identifiable {
@@ -237,20 +295,15 @@ bug//		fwHelp("?")
 				MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
 			]
 	  */
-	// BUILD SCENE MENUS ////////////////////////////////
+//	func buildSceneMenus() -> [SceneMenuElement] {
+//		var bogusLimit			= 5//500000//10// adhoc debug limit on scenes
 	func buildSceneMenus() -> [MenuItemA] {
-//		var menuOfPath : [String:NSMenu] = [:]			// [path : Menu]
+//		var menuOfPath : [String:SceneMenuElement] = [:]		// [path : MenuItem]
 		if falseF { return [] } 						//trueF//falseF// for debugging
-//		assert(sceneMenu != nil, "sceneMenu==nil, not filled in by IB (2)")
-
-		 // Get all known tests:
-//		menuOfPath				= [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
-										// Sort by key:
-		var bogusLimit			= 5//500000//10// adhoc debug limit on scenes
 
 		 // Get a catalog of available experiments
-/**/	let lib0				= Library.catalog()  // "entry-1" is non-existant, with no rootClosure
-		 // Create Menu from Library lists.
+/**/	let lib0				= Library.catalog()
+//		let scanElements:[ScanElement] = lib0.state.scanElements
 		let scanCatalog:[ScanElement] = lib0.state.scanCatalog//(tag:-1, title:"", subMenu:nil)
 		
 		return scanCatalog.map { element in
@@ -258,9 +311,26 @@ bug//		fwHelp("?")
 			name: element.title,
 			imageName: "")
 		}
-
+//		var rv : [SceneMenuElement]	= []
+//		for scanElement in scanElements[0..<bogusLimit] {						// return scanElements[0..<bogusLimit].map { scanElement in
+////			var menuTree		= self.sceneMenu!
+//
+//			 // Insure a SceneMenuElement exist for all ancestors:
+//			let tokens:[String.SubSequence] = scanElement.subMenu.split(separator:"/")
+//			for i in 0..<tokens.count {			 //  Check there are menus for Paths A, A/B, A/B/C
+//				let path 		= String(tokens[0...i].joined(separator:"/"))
+//				if menuOfPath[path] == nil {
+//					let newMenuEntry = x SceneMenuElement(id:-rv.count, name:String(tokens[i]))
+//					//let newMenuEntry = SceneMenuElement(id:-rv.count, name:String(tokens[i]))
+//					menuOfPath[path] = newMenuEntry
+//					rv.append(newMenuEntry)
+//				}
+//			}
+//			rv.append(SceneMenuElement(id:scanElement.tag, name:scanElement.title))
+//		}
+//		return rv
 		 // now have [ScanElement]
-//		for elt in scanCatalog {
+//		for elt in scanElements {
 //			if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
 //			var menuTree:NSMenu = self.sceneMenu!
 //
@@ -352,15 +422,16 @@ bug;	let rv					= NSMenu(title:path)
 		return true
 	}
 
-
 	 // MARK: - MENU / Next / Demo
-	//. @IBAction
+//	mutating func scheneAction(_ sender:SceneMenuElement) {
+//		print("\n\n" + ("--- - - - - - - FactalsApp.sceneAction(tag:\(sender.id) name:\(sender.name))  " +
 	mutating func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 
 		 // Find scene number for Library lookup:
 		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu
+//		let sceneNumber			= sender.id>=0 ? sender.id// from menu
 											: regressScene	// from last time
 		regressScene			= sceneNumber + 1			// next regressScene
 
@@ -388,6 +459,7 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		doc.configureDocument(from:c)
 //		newRootVew.configureDocument(from: ?FwConfig)
 
+//		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
 		fwGuts.document 		= doc
 		doc.makeWindowControllers()
 		doc.registerWithDocController()	// a new DOc must be registered

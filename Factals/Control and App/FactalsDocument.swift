@@ -96,6 +96,29 @@ struct FactalsDocument: FileDocument {
 		return
 	}
 
+	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
+		 // Make new Document
+		let rootPart			= RootPart(fromLibrary:fromLibrary)
+		let fwGuts				= FwGuts(rootPart:rootPart)
+		rootPart.fwGuts			= fwGuts
+
+		 // --------------- A: Get BASIC Component Part (owned and used here)
+		let rootScn				= RootScn()
+		rootScn.scnScene.isPaused = true			// Pause animations while bulding
+
+		 // --------------- B: RootVew ((rootPart, A))
+		let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
+		newRootVew.fwGuts		= fwGuts			// Set Owner
+		fwGuts.rootVews.append(newRootVew)
+
+		 // --------------- C: FactalsDocument
+		var doc					= FactalsDocument(fwGuts:fwGuts)
+		fwGuts.document 		= doc
+		DOC						= doc				// register (UGLY!!!)
+		let c					= doc.config + rootPart.ansConfig
+		doc.configureDocument(from:c)
+	}
+
 	 /// Requirement of <<FileDocument>> protocol
 	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .sceneKitScene, .text] }
 	static var writableContentTypes: [UTType] { [.factals] }

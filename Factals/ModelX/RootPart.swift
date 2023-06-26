@@ -309,17 +309,17 @@ bug
 			}
 		})
 	}
-	convenience init(fromLibrary selectionString:String) {
+	convenience init(fromLibrary selectionString:String?) {
 
 		 // Make tree's root (a RootPart):
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		title					= "'\(selectionString)' not found"
+		title					= "'\(selectionString ?? "nil")' not found"
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let lib				= Library.library(fromSelector:selectionString) {
 			let ans :ScanAnswer	= lib.answer		// found
-			title				= "'\(selectionString)' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
+			title				= "'\(selectionString ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
 			ansConfig			= ans.ansConfig
 
 /* */		let ansTrunk:Part?	= ans.ansTrunkClosure!()
@@ -327,7 +327,7 @@ bug
 			addChild(ansTrunk)
 			setTree(root:self, parent:nil)
 		}else{
-			fatalError("RootPart(fromLibrary:\(selectionString) -- no RootPart generated")
+			fatalError("RootPart(fromLibrary:\(selectionString ?? "nil") -- no RootPart generated")
 		}
 		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)
