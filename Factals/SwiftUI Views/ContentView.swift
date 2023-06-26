@@ -59,7 +59,7 @@ struct FwGutsView: View {
 							//	technique: nil		//SCNTechnique?
 							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
-							 .border(.black, width:2)
+							 .border(.black, width:1)
 							//.gesture(Gesture)// NSClickGestureRecognizer
 							//.onChange(of: Equatable, perform: (Equatable) -> Void)
 							//.onMouseDown(perform:handleMouseDown)
@@ -87,6 +87,7 @@ struct FwGutsView: View {
 				}
 			}
 			FwGutsBar(fwGuts:$fwGuts).padding(.vertical, -10)
+			 .padding(10)
 			Spacer()
 		}
 	}

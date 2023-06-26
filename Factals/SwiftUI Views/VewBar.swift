@@ -67,7 +67,7 @@ struct VewBar: View {
 		}
 		 .padding(4)
 		 .background(Color(red:1.0, green:1.0, blue:0.9))
-		 .border(Color.black, width:2.5)
-		 .padding(2)
+		 .border(Color.black, width:0.5)
+//		 .padding(2)
 	}
 }
