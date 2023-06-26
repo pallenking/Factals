@@ -18,11 +18,11 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
-	func configureDocument(from c:FwConfig) { // *****
-		log.configureDocument(from:c)
+	func configureDocument(from config:FwConfig) { // *****
+		log.configureDocument(from:config)
 
 		guard let rootPart else { fatalError("WARNING configureDocument: fwGuts.rootPart=nil") }
-		rootPart.configureDocument(from:c)
+		rootPart.configureDocument(from:config)
 //		if let rootPart {
 //			rootPart.configureDocument(from:c)
 //		} else {
@@ -34,7 +34,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4
 			return
 		}
 		for rootVew in rootVews {
-			rootVew.configureDocument(from:c)
+			rootVew.configureDocument(from:config)
 		}
 	}
 	 // MARK: - 3. Factory
@@ -81,21 +81,16 @@ bug;return nil
 //		}
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		guard let _ 			= DOC else {		fatalError("addRootVew with DOC==nil")				}
+		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!")	}
 		guard let rootPart else {	fatalError("addRootVew with nil rootPart")		}
-		let rootVew				= RootVew(forPart:rootPart)		//, rootScn:rootScn
-		rootVew.fwGuts			= self
-		rootVews.append(rootVew)		// register now, so OK for following:
-
-		rootVew.configureVew(from:fwConfig)
-
-		 // Build out Vew and Scn Trees:
-		rootVew.openChildren(using:vewConfig)
-
-		rootPart.dirtySubTree(gotLock: true, .vsp)			// DEBUG hack, till locks better
-		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-		
-		rootVew.setupLightsCamerasEtc()
+		let rootVew				= RootVew(forPart:rootPart) // 1. Make
+		rootVew.fwGuts			= self						// 2. Link
+		rootVews.append(rootVew)							// 3. Install
+		rootVew.configureVew(from:fwConfig)					// 4. Configure
+		rootVew.openChildren(using:vewConfig)				// 5. Open
+		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark
+		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe
+		rootVew.setupLightsCamerasEtc()						// ?move
 	}
 
 	 // MARK: - 3.5 Codable

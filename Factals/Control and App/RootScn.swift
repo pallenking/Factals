@@ -664,11 +664,15 @@ extension RootScn : SCNSceneRendererDelegate {
 //	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String { // CherryPick2023-0520: =params4aux
-		var rv					= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-		rv						+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
-		rv						+= "animatePhysics:\(animatePhysics) "
-		rv						+= "\(self.scnScene.pp(.uidClass)) "
-		rv						+= "\(self.fwView?.pp(.uidClass) ?? "fwView=nil-BAD") "
+		var rv					= super.pp(mode, aux)
+		if mode == .line {
+			rv					+= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+			rv					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
+			rv					+= "animatePhysics:\(animatePhysics) "
+			rv					+= "\(self.scnScene.pp(.uidClass)) "
+			rv					+= "\(self.fwView?.pp(.uidClass) ?? "BAD: fwView=nil") "
+		}
+
 		return rv
 	}
 	static let nullRoot 		= {

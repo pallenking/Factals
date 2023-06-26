@@ -15,8 +15,8 @@ var params4all		: FwConfig		= {	return
 	params4pp		+
 	params4docLog	+
 	params4sim		+
-	params4vew		+
-[:]} ()
+	params4vew
+} ()
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()

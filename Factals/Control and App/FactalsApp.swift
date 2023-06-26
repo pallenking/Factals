@@ -6,6 +6,16 @@
 //	20220822PAK: Imported and Funged from:  AppDelegate.swift -- for SwiftFactals  C2018PAK
 //
 
+ // 	File Naming Notes: (MOVE TO CENTRALIZED PLACE)
+// Some of the Application-base classes have nameing conflicts with SceneKit
+//		base		twitteling		App's subclass		comment
+//		Document	prepend Fw		FwDocument
+// There are 2 cases:
+// Case 1: base is the generic name.			  e.g: Document.
+//				FW's subclass is "Fw" + basename. e.g: FwDocument
+// Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
+//				FW's subclass strips NS. e.g: DocumentController
+
 import Cocoa
 import SwiftUI
 import SceneKit
@@ -17,44 +27,27 @@ import SceneKit
   //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
 	let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
 
-	 // 	File Naming Notes:
-	// Some of the Application-base classes have nameing conflicts with SceneKit
-	//		base		twitteling		App's subclass		comment
-	//		Document	prepend Fw		FwDocument
-	// There are 2 cases:
-	// Case 1: base is the generic name.			  e.g: Document.
-	//				FW's subclass is "Fw" + basename. e.g: FwDocument
-	// Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
-	//				FW's subclass strips NS. e.g: DocumentController
+let params4aux : FwConfig 	=	[:]//params4all_
+
+// ///////////////////////  U G L Y  Singletons: ///////////////////////////////
+var APP				: FactalsApp!		// NEVER CHANGES (after inz)
+var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
+// /////////////////////////////////////////////////////////////////////////////
+ // Singleton Shugar:;
+var DOCfwGutsQ	: FwGuts?		{	DOC?.fwGuts									}	// optionality is needed
+var DOCfwGuts	: FwGuts		{	DOCfwGutsQ ?? {
+	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil")					 		}()}
+var DOClogQ  	: Log? 			{	DOCfwGutsQ?.log								}
+var DOClog  	: Log 			{	DOClogQ ?? .help							}	//.first
+let DOCctlr						= NSDocumentController.shared
+var APPQ		: FactalsApp?	{	APP 										}
+var DOCAPPlog	: Log 			{	DOClogQ ?? APPQ?.log ?? .help				}
 
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 
-// 20220926PAK: Occasionally (e.g. pp) can't get here. use global
-let params4aux : FwConfig 	=	[:]//params4all_
-
-var fooBar:Int = 42
-
-////	U G L Y  Application Singletons:
-var APP				: FactalsApp!		// NEVER CHANGES (after inz)
-var APPQ			: FactalsApp?	 {	APP 	}
-
-// * * *
-var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
-// * * *
-
- // Shugar on DOC
-var DOCfwGutsQ		: FwGuts?	{	DOC?.fwGuts			}	// optionality is needed
-var DOCfwGuts		: FwGuts	{	DOCfwGutsQ ?? {
-	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil")					 		}()}
-var DOClogQ  		: Log? 		{	DOCfwGutsQ?.log								}
-var DOClog  		: Log 		{	DOClogQ ?? .help							}	//.first
-let DOCctlr						= NSDocumentController.shared
-
 @main
 struct FactalsApp: App, Uid, FwAny {
-	//typealias Body = <#type#>
-
 	var uid: UInt16				= randomUid()
 	var fwClassName: String		= "FactalsApp"
 						//collections of data - view
@@ -63,59 +56,9 @@ struct FactalsApp: App, Uid, FwAny {
 						//		properties
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 	//B	@AppStorage("text") var textFooBar = ""
-
-	 /// Scene Menus
-	struct SceneMenuElement : Identifiable {
-		let id: Int
-		let name: String
-		let imageName: String
-//		let action: (String) -> Void
-	}
-	var sceneMenus: [SceneMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	SceneMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
-
-	struct SceneMenuLeaf : Identifiable {
-		let id: Int
-		let name: String
-		let imageName: String? = nil
-	}
-	struct SceneMenuCrux : Identifiable {
-		let id: Int
-		let name: String
-		let imageName: String? = nil		//"1.circle"
-	}
-//	typealias SceneMenuElement = SceneMenuLeaf
-	enum SceneMenuElementX : Identifiable {
-		case SceneMenuLeaf(Int, String, String?)
-		case SceneMenuCrux(Int, String, String?)
-
-		var id: Int {
-			switch self {
-			case .SceneMenuLeaf(let i, _, _), .SceneMenuCrux(let i, _, _):		// .SceneMenuLeaf or SceneMenuLeaf
-				return i
-			}
-		}
-		//var id : Int { 0 }//{ //
-	}
-								//struct MyStruct1: Identifiable {	// TRIAL CODE
-								//	let id: Int64
-								//	let name:String															}
-								//struct MyStruct2: Identifiable {
-								//	let id: Int64
-								//	let value:Double														}
-								//enum MyEnum: Identifiable {
-								//	case case1(MyStruct1)
-								//	case case2(MyStruct2)
-								//	var id: Int64 {
-								//		switch self {
-								//		case .case1(let struct1):
-								//			return struct1.id
-								//		case .case2(let struct2):
-								//			return struct2.id
-								//		}
-								//	}
-								//}
 	@State private var document: FactalsDocument? = nil
 
+	//typealias Body = type
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
@@ -124,11 +67,11 @@ struct FactalsApp: App, Uid, FwAny {
 			CommandMenu("Scenes") {
 				ForEach(sceneMenus) { item in
 					Button {
-							let fwGuts = FwGuts(rootPart: RootPart(fromLibrary:"entry\(item.id)"))
-							document = FactalsDocument(fwGuts:fwGuts)
-							print("Test")
+						let libName = "entry\(item.id)"
+						print("======== SceneMenu \(libName):")
+						document = FactalsDocument(fromLibrary:libName)
 					} label: {
-						Text(item.name)
+						Text(item.name + ":")
 						Image(systemName: item.imageName)
 					}
 //					switch item {
@@ -156,7 +99,7 @@ struct FactalsApp: App, Uid, FwAny {
 		}
 	}
 	 // MARK: - 2. Object Variables:
-	var log	: Log			=	Log(title:"App's Log")
+	var log	: Log			=	Log(title:"App's Log", params4all)
 
 	var appStartTime:String = dateTime(format:"yyyy-MM-dd HH:mm:ss")
 	var regressScene:Int	= 0	//private?	// number of the next "^r" regression test
@@ -185,7 +128,9 @@ struct FactalsApp: App, Uid, FwAny {
 
 	init () {
 		APP 					= self				// Register  (HOAKEY)
-		let _					= Log.help			// create here, ahead of action
+		let daLog				= DOCAPPlog			// create here, ahead of action
+//		let _					= Log.help			// create here, ahead of action
+
 		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with its defaults (Ahead of any documents)
@@ -255,7 +200,6 @@ struct FactalsApp: App, Uid, FwAny {
 //		return true 				// final, untested 210710PAK no workey
 //		//return false 				// conservative, must deal with no-FwDocument situation
 //	}
-	 // MARK: - 4.3 APP Menu Bar Items
 	var sceneMenu:NSMenu!			//	@IBOutlet weak 	var sceneMenu		:NSMenu!
 
 	func appPreferences(_ sender: Any) {		// Show App preferences
@@ -271,24 +215,70 @@ bug//	print(ppFwConfig(config:true))
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")
-bug//		fwHelp("?")
+		fwHelp("?", inVew:nil)
 	}
-	 // MARK: - 4.4 BUILD SCENE MENUS
-	 /*
-				  /// Scene Menus
-			struct MenuItem : Identifiable {
-				let id: Int
-				let name: String
-				let imageName: String
-				let action: () -> Void
+	 // MARK: - 4.3 Scene Menu
+	struct SceneMenuElement : Identifiable {
+		let id: Int
+		let name: String
+		let imageName: String
+//		let action: (String) -> Void
+	}
+	var sceneMenus: [SceneMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	SceneMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+
+	struct SceneMenuLeaf : Identifiable {
+		let id: Int
+		let name: String
+		let imageName: String? = nil
+	}
+	struct SceneMenuCrux : Identifiable {
+		let id: Int
+		let name: String
+		let imageName: String? = nil		//"1.circle"
+	}
+//	typealias SceneMenuElement = SceneMenuLeaf
+	enum SceneMenuElementX : Identifiable {
+		case SceneMenuLeaf(Int, String, String?)
+		case SceneMenuCrux(Int, String, String?)
+
+		var id: Int {
+			switch self {
+			case .SceneMenuLeaf(let i, _, _), .SceneMenuCrux(let i, _, _):		// .SceneMenuLeaf or SceneMenuLeaf
+				return i
 			}
-			let menuItems = [
-				MenuItem(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
-				MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
-			]
-	  */
+		}
+		//var id : Int { 0 }//{ //
+	}
+								//struct MyStruct1: Identifiable {	// TRIAL CODE
+								//	let id: Int64
+								//	let name:String															}
+								//struct MyStruct2: Identifiable {
+								//	let id: Int64
+								//	let value:Double														}
+								//enum MyEnum: Identifiable {
+								//	case case1(MyStruct1)
+								//	case case2(MyStruct2)
+								//	var id: Int64 {
+								//		switch self {
+								//		case .case1(let struct1):
+								//			return struct1.id
+								//		case .case2(let struct2):
+								//			return struct2.id
+								//		}
+								//	}
+								//}
+								//	struct MenuItem : Identifiable {
+								//		let id: Int
+								//		let name: String
+								//		let imageName: String
+								//		let action: () -> Void
+								//	}
+								//	let menuItems = [
+								//		MenuItem(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+								//		MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
+								//	]
 	func buildSceneMenus() -> [SceneMenuElement] {
-		var bogusLimit			= 10//5//500000//10// adhoc debug limit on scenes
+		var bogusLimit			= 30000//10//5//10// adhoc debug limit on scenes
 		var menuOfPath : [String:SceneMenuElement] = [:]		// [path : MenuItem]
 		if falseF { return [] } 						//trueF//falseF// for debugging
 
@@ -303,7 +293,7 @@ bug//		fwHelp("?")
 	//		imageName:"star")							//"1.circle")
 	//	}
 		var rv : [SceneMenuElement]	= []
-		for scanElement in scanCatalog[0..<bogusLimit] {						// return scanElements[0..<bogusLimit].map { scanElement in
+		for scanElement in scanCatalog[0..<min(bogusLimit, scanCatalog.count)] {						// return scanElements[0..<bogusLimit].map { scanElement in
 //			var menuTree		= self.sceneMenu!
 
 			 // Insure a SceneMenuElement exist for all ancestors:
@@ -359,20 +349,20 @@ bug;	let rv					= NSMenu(title:path)
 
 	 // From DocumentBasedApp:
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-
-		 // Add entry on system's menu bar: (DOESN'T WORK)
-		let systemMenuBar 		= NSStatusBar.system
-		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
-		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
-			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
-			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
-		}
-
-		 // Log program usage instances
-		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
-		atApp(7, printFwState())
-//.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
-		appSounds.play(sound:"GameStarting")
+		bug
+//		 // Add entry on system's menu bar: (DOESN'T WORK)
+//		let systemMenuBar 		= NSStatusBar.system
+//		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
+//		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
+//			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
+//			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
+//		}
+//
+//		 // Log program usage instances
+//		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
+//		atApp(7, printFwState())
+////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
+//		appSounds.play(sound:"GameStarting")
 	}
 
 	  // MARK: - 4.5 APP URL Processing
@@ -400,9 +390,9 @@ bug;	let rv					= NSMenu(title:path)
 	}
 	 // MARK: - 4.6 APP Terminate
 	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
-		return .terminateNow													}
+bug;	return .terminateNow													}
 	func applicationWillTerminate(_ 	 aNotification: Notification) {
-		print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
+bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 		print("                   G O O D    B I E  ! !")
 	}
 

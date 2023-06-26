@@ -90,8 +90,8 @@ func LLDBrootScn(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 }
 
  // Print SwiftFactal help from lldb
-func fwHelp(_ key:String="?", inVew vew:Vew) {
-	sendApp(key:key, inVew:vew)
+func fwHelp(_ key:String="?", inVew vew:Vew?) {
+	sendApp(key:key, inVew:vew!)
 }
  // Send a key to controller:
 func sendApp(key:String="?", inVew vew:Vew) {
@@ -127,7 +127,7 @@ func sendApp(key:String="?", inVew vew:Vew) {
 
  // External Global interface (misc, lldb)
 func printFwConfig() {
-	print( ppFwState(deapth:9999/*config:config*/) )
+	print( ppFwState(deapth:9999) )
 }
 func printFwState()  {
 	DOClog.ppIndentCols 		= 20		// sort of permanent!

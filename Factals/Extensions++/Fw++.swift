@@ -5,10 +5,10 @@ import SwiftUI
 //static let error<C:FwAny>		= C()	// Any use of this should fail (NOT IMPLEMENTED)
 
   // ///////////////////////////////////////////////////////////////////////////
- /// For FactalWorkbench (SwiftFactal) Parts
+ /// For all of Factals components
 protocol  FwAny  {		// : Codable : Equatable
-	func pp(_ mode:PpMode, _ aux:FwConfig) -> String
 	var  fwClassName	: String 	{	get										}
+	func pp(_ mode:PpMode, _ aux:FwConfig) -> String
 }
  /// This extension provides uniform default values.
 extension FwAny  {
@@ -160,52 +160,6 @@ extension NSView 		: FwAny		{		// also SCNView
 	}
 }
 extension FactalsDocument 	: FwAny { }
-extension Dictionary		: FwAny {
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-		switch mode {
-		case .phrase, .short:
-			return count == 0 ? "[:]" : "[:\(count) elts]"
-		case .line, .tree:
-			var (rv, sep)		= ("[", "")
-
-//			for (_, rootVew) in fwGuts.rootVews.sorted(using: Valu KeyPathComparator(\.key)) {
-//			let key1			= keys.sorted(using: )
-			var k3 : [Key]		= Array(keys)
-	//		if let k : [any Comparable] = k3 as? [any Comparable] {
-	//			k3				= k.sorted(by: String.compar
-	//		}
-			let m 				= mode == .tree ? PpMode.line : PpMode.short	// downgrade mode
-			for key in k3 {
-				rv				+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
-				sep 			=  mode == .tree ? ",\n": ", "
-			}
-			return rv + "]"
-		default:
-			return ppDefault(mode:mode, aux:aux) // NO: return super.pp(mode, aux)
-		}
-	}
-}
-extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value:Equatable, Value :FwAny
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-		switch mode {
-		case .phrase, .short:
-			return count == 0 ? "[:]" : "[:\(count) elts]"
-		case .line, .tree:
-			var (rv, sep)		= ("[", "")
-			for key in Array(keys).sorted() {
-				let val			= self[key]!
-				let m 			= mode == .tree ? PpMode.line : PpMode.short
-				rv				+= "\(sep)\(key):\(val.pp(m))"
-				sep 			= mode == .tree ? ",\n":  mode == .line ? ", " : "???"
-			}
-			return rv + "]"
-		default:
-			return ppDefault(mode:mode, aux:aux) // NO: return super.pp(mode, aux)
-		}
-	}
-}
-
-
 
 extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
@@ -386,31 +340,106 @@ extension Dictionary {
 	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
 }
+extension Dictionary		: FwAny {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+		switch mode {
+		case .phrase, .short:
+			return count == 0 ? "[:]" : "[:\(count) elts]"
+		case .line, .tree:
+			var (rv, sep)		= ("[", "")
 
-extension Dictionary {
-
-
+//			for (_, rootVew) in fwGuts.rootVews.sorted(using: Valu KeyPathComparator(\.key)) {
+//			let key1			= keys.sorted(using: )
+			var k3 : [Key]		= Array(keys)
+	//		if let k : [any Comparable] = k3 as? [any Comparable] {
+	//			k3				= k.sorted(by: String.compar
+	//		}
+			let m 				= mode == .tree ? PpMode.line : PpMode.short	// downgrade mode
+			for key in k3 {
+				rv				+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
+				sep 			=  mode == .tree ? ",\n": ", "
+			}
+			return rv + "]"
+		default:
+			return ppDefault(mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+		}
+	}
 }
-  func +=(        dict1: inout FwConfig,       dict2:FwConfig) 	{	dict1 = dict1 + dict2	}
-//func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable 	{	dict1 = dict1 + dict2	}
+extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value:Equatable, Value :FwAny
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+		switch mode {
+		case .phrase, .short:
+			return count == 0 ? "[:]" : "[:\(count) elts]"
+		case .line, .tree:
+			var (rv, sep)		= ("[", "")
+			for key in Array(keys).sorted() {
+				let val			= self[key]!
+				let m 			= mode == .tree ? PpMode.line : PpMode.short
+				rv				+= "\(sep)\(key):\(val.pp(m))"
+				sep 			= mode == .tree ? ",\n":  mode == .line ? ", " : "???"
+			}
+			return rv + "]"
+		default:
+			return ppDefault(mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+		}
+	}
+}
 
+//// METHOD 1:
+func +=(dict1: inout FwConfig, dict2:FwConfig) 	{	dict1 = dict1 + dict2		}
 func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	var rv						= lhs						// initial values, older, overwritten
 	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
-
-	let u						= FwConfig.Value.self
-	let w						= u is any Equatable
-
 	for (keyRhs, valueRhs) in rhsSorted {
 		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-			let x				= valueLhs is (any Equatable)
-			let y				= valueRhs is (any Equatable)
-			atBld(9, print("Dictionary Conflict 2 L=\(x) R=\(y), Key: \(keyRhs.field(20)) was \((valueLhs as! FwAny).pp(.short).field(10)) \t<-- \((valueRhs as! FwAny).pp(.short))"))
+//			valueLhs == valueRhs ? nop :
+				atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 		}
 		rv[keyRhs] 				= valueRhs
 	}
 	return rv
 }
+//// METHOD 2: Seems better but: a) Interferes with 1, b) Never gets called
+//extension Dictionary {
+//	static func +=(dict1: inout FwConfig, dict2:FwConfig) 	{
+//bug;	let d1 = dict1
+//		dict1 = dict1 + dict2
+//
+//	}
+//	static func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
+//bug;	var rv						= lhs						// initial values, older, overwritten
+//		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+//		for (keyRhs, valueRhs) in rhsSorted {
+//			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
+//				atBld(9, print("Possible Dictionary Conflict, Key:\(keyRhs.field(20)) was \((valueLhs as! FwAny).pp(.short).field(10)) \t<-- \((valueRhs as! FwAny).pp(.short))"))
+//			}
+//			rv[keyRhs] 				= valueRhs
+//		}
+//		return rv
+//	}
+//}
+//extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// PW: Best to far?//Key:String?
+//	static func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
+//		var rv						= lhs						// initial values, older, overwritten
+//		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+//		for (keyRhs, valueRhs) in rhsSorted {
+//			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
+////				valueLhs == valueRhs ? nop :
+//					atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \((valueLhs as! FwAny).pp(.short).field(10)) \t<-- \((valueRhs as! FwAny).pp(.short))"))
+//  			}
+//			rv[keyRhs] 				= valueRhs
+//		}
+//		return rv
+//	}
+//}
+
+
+//func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable 	{	dict1 = dict1 + dict2	}
+ //Cannot assign value of type 'FwConfig' (aka 'Dictionary<String, any FwAny>') to type '[String : Value]'
+//func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig where FwConfig.Value:Equatable 	{	lhs + rhs	}
+ //'where' clause cannot be applied to a non-generic top-level declaration
+
+ /// PROBABLY USELESS GARBAGE:
 //	func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny {
 //		var rv						= lhs						// initial values, older, overwritten
 //		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
@@ -427,7 +456,6 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 //		}
 //		return rv
 //	}
-//
 //	func dictAdd<Value>(lhs:[String:Value], rhs:[String:Value]) -> [String:Value] where Value:FwAny, Value:Equatable {
 //		var rv						= lhs						// initial values, older, overwritten
 //		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs

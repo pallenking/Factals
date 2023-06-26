@@ -42,7 +42,7 @@ struct FwGutsView: View {
 							// now: SceneView 	native SwiftUI
 
 							/*
-							sceneview takes in a publisher
+							sceneview takes in a publisher		// PW:
 							swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
 							
 							scenkit -> write models back to viewmodel. s

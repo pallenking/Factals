@@ -38,15 +38,12 @@ struct FactalsDocument: FileDocument {
 	 // index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc
 	var indexFor				= Dictionary<String,Int>()
 
-	mutating func configureDocument(from c:FwConfig) {
-		guard let fwGuts else {		print("WARNING configureDocument: fwGuts=nil"); return		}
-
-		config					= c
-		fwGuts.configureDocument(from:c)	// COMPONENT 1
+	mutating func configureDocument(from config:FwConfig) {
+		fwGuts?.configureDocument(from:config)
 	}
 
 	 // @main uses this to generate a blank document
-	init() {	// Build a blank document
+	init() {	// Build a blank document, so there is a document of record with a Log
 		fwGuts					= FwGuts()	// MAKE first, so leaners can function //po type(of: fwGuts)
 		DOC						= self		// INSTALL as current DOC, quick!
 		fwGuts.document 		= self		// DELEGATE
