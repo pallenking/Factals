@@ -74,8 +74,8 @@ RootVew:_______________
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func configureDocument(from c:FwConfig) {
-		selfiePole.configureDocument(from:c)
-		rootScn	  .configureDocument(from:c)
+		selfiePole.configure(from:c)
+		rootScn	  .configure(from:c)
 	}
 	// MARK: -
 	func setupLightsCamerasEtc() {
@@ -86,7 +86,7 @@ RootVew:_______________
 		axesScn 				= rootScn.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
-		selfiePole.configureDocument(from:fwGuts.document.config)
+		selfiePole.configure(from:fwGuts.document.config)
 
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= trunkVew			// default

@@ -29,12 +29,7 @@ func ppFwState(deapth:Int=999/*, config:Bool=false*/) -> String {
 	 // display current DOCument
 	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
 	rv							+= ppUid(pre:" ", DOC, post:" DOC \(msg)", showNil:true) + "\n"
-
-	if DOC != nil {
-		rv						+= DOC	  .ppFwState(deapth:deapth-1)	// current DOCument
-		rv						+= DOClog .ppFwState(deapth:deapth-1)	// DOClog
-		rv						+= DOCctlr.ppFwState(deapth:deapth-1)	// nsDOCumentConTroLleR
-	}
+	rv							+= DOC?.ppFwState(deapth:deapth-1) ?? ""	// current DOCument
 	return rv
 }
 func ppFwStateHelper(_ fwClassName_	: String,
@@ -43,7 +38,7 @@ func ppFwStateHelper(_ fwClassName_	: String,
 						otherLines	: ((Int)->String)?	= nil,
 						deapth		: Int				//= 999
 					) -> String
-{			// My Lines:
+{			// My Lines:func ppFwConfig
 	var rv						= ppFwPrefix(uid:uid, fwClassName_) + myLine + "\n"
 			// Other Lines:
 	DOClog.nIndent				+= 1
@@ -92,10 +87,9 @@ extension FactalsApp : FwStatus	{									///FactalsApp
 
 // MARK: - DOCUMENT
 extension FactalsDocument : FwStatus	{				  	 ///FactalsDocument
-//	func ppFwConfig() -> String {		config.pp(.short)						}
+	func ppFwConfig() -> String {		config.pp(.short)						}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FactalsDocume", uid:self,
-		//	myLine:"\(fwGuts.pp(.classUid))",
 			otherLines:{ deapth in
 				var rv			= fwGuts.ppFwState(deapth:deapth-1)
 				 // Inspectors:
@@ -116,26 +110,28 @@ extension FactalsDocument : FwStatus	{				  	 ///FactalsDocument
 }
 // MARK: - DOCUMENT
 extension NSDocument : FwStatus	{								   ///NSDocument
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
-	let wcc					= windowControllers.count
-	return ppFwStateHelper("NSDocument   ", uid:self,
-		myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
-		//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
-		//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
-		//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
-		//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
-		otherLines:{ deapth in
-			var rv			= ""//  self.rootPart.ppFwState(deapth:deapth-1) // Controller:
-			 // Window Controllers
-			for windowController in self.windowControllers {
-				rv		+= windowController.ppFwState(deapth:deapth-1)
-			}
-			return rv
-		},
-		deapth:deapth)
+		let wcc					= windowControllers.count
+		return ppFwStateHelper("NSDocument   ", uid:self,
+			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
+			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
+			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
+			//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
+			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
+			otherLines:{ deapth in
+				var rv			= ""//  self.rootPart.ppFwState(deapth:deapth-1) // Controller:
+				 // Window Controllers
+				for windowController in self.windowControllers {
+					rv		+= windowController.ppFwState(deapth:deapth-1)
+				}
+				return rv
+			},
+			deapth:deapth)
 	}
 }
 extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let ct					= self.documents.count
 		return ppFwStateHelper("DOCctlr      ", uid:self,
@@ -151,21 +147,24 @@ extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
 	}
 }
 extension Library : FwStatus {								///Library or ///Tests01
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= "(has\(count.asString!.field(4)) tests)"
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
 	}
 }
 extension Log : FwStatus {											///Log
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= !logEvents ? "disabled" :
 			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
 			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
-		let logKind				= (title[0...0] == "A" ? "APPLOG" : "DOClog").field(-13)
+		let logKind				= (title[0...0] == "A" ? "APPlog" : "DOClog").field(-13)
 		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
 	}
 }
 extension FwGuts : FwStatus	{									 		///FwGuts
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FwGuts       ", uid:self,
 			myLine: document.fwGuts === self ? "" : "OWNER:'\(document!)' BAD",
@@ -173,7 +172,8 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 				 // Controller:
 				var rv			= ""
 				rv				+= self.rootPart?.ppFwState(deapth:deapth-1)
-									?? "\t\t#### \(self.pp(.uidClass)): rootPart is nil ####\n"
+									?? ppUid(pre:" ", self.rootPart,
+										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
 				for rootVew in self.rootVews {
 					rv			+= rootVew.ppFwState(deapth:deapth-1)
 				}
@@ -184,6 +184,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 	}
 }
 extension RootPart : FwStatus	{									 ///RootPart
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= fwGuts.rootPart === self ? "" : "OWNER:'\(fwGuts!)' BAD "
 		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
@@ -198,6 +199,7 @@ extension RootPart : FwStatus	{									 ///RootPart
 	}																			//bug; return "extension RootPart : FwStatus needs HELP"	}
 }
 extension Simulator : FwStatus	{									///Simulator
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootPart == nil 			  ? "(rootPart==nil)"
 								: rootPart.simulator === self ? ""
@@ -238,6 +240,7 @@ extension Simulator : FwStatus	{									///Simulator
 }
 
 extension RootVew : FwStatus	{									  ///RootVew
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		guard let rootVew									else {	return "Vew.rootVew == nil "}
 		guard let fwGuts 		= rootVew.fwGuts 			else {	return "Vew.rootVew?.fwGuts == nil " }
@@ -248,7 +251,7 @@ extension RootVew : FwStatus	{									  ///RootVew
 		myLine					+= fwGuts.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
 		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
-		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
+		myLine					+= "lookAtVew:\(lookAtVew?.pp(.uidClass) ?? "nil") "
 		let myName				= "RootVew \(slot)    "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
@@ -262,24 +265,27 @@ extension RootVew : FwStatus	{									  ///RootVew
 }
 
 extension RootScn : FwStatus	{										    ///RootScn
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 //		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		myLine					+= " animatePhysics:\(animatePhysics)"
+		myLine					+= "animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.scnScene.ppFwState(deapth:deapth-1)
 				rv				+= self.fwView?.ppFwState(deapth:deapth-1)
-									?? "\t\t#### \(self.pp(.uidClass)): scnView is nil ####\n"
+									?? ppUid(pre:" ", self.fwView,
+										post:" \(DOClog.indentString())FwView IS nil #####", showNil:true) + "\n"
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
 extension SelfiePole : FwStatus	{									///SCNScene
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= self.pp(.line)
 		return ppFwStateHelper("SelfiePole   ", uid:self,
@@ -289,6 +295,7 @@ extension SelfiePole : FwStatus	{									///SCNScene
 
 }
 extension SCNScene : FwStatus	{							///RootScn ///SCNScene
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNScene     ", uid:self,
 			myLine:"isPaused:\(isPaused)",
@@ -299,6 +306,7 @@ extension SCNScene : FwStatus	{							///RootScn ///SCNScene
 	}
 }
 extension SCNPhysicsWorld : FwStatus	{					  ///SCNPhysicsWorld
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNPhysicsWor", uid:self,
 			myLine:fmt("gravity:\(gravity.pp(.phrase)), speed:%.4f, timeStep:%.4f", speed, timeStep),
@@ -308,6 +316,7 @@ extension SCNPhysicsWorld : FwStatus	{					  ///SCNPhysicsWorld
 		// ///////////////////////////////////// //
 
 extension NSWindowController : FwStatus {				  ///NSWindowController
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("\("NSWindowCtlr ")", uid:self,
 			myLine:
@@ -328,6 +337,7 @@ extension NSWindowController : FwStatus {				  ///NSWindowController
 	}
 }
 extension NSWindow : FwStatus {										 ///NSWindow
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 								//
 		let contract 			= trueF
@@ -347,6 +357,7 @@ extension NSWindow : FwStatus {										 ///NSWindow
 	}
 }
 extension NSViewController : FwStatus {						 ///NSViewController
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 bug;	let rob					= representedObject as? NSView//FwStatus
 		return ppFwStateHelper("NSViewCtlr   ", uid:self,
@@ -365,6 +376,7 @@ bug;	let rob					= representedObject as? NSView//FwStatus
 	}
 }
 extension NSView : FwStatus	{								 		  ///NSView
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= fwClassName.field(-13)
 		return ppFwStateHelper(msg, uid:self,
@@ -386,6 +398,7 @@ extension NSView : FwStatus	{								 		  ///NSView
 	}
 }
 extension NSException : FwStatus	{							 ///NSException
+	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("NSException  ", uid:self,
 			myLine:"reason:'\(reason ?? "<nil>")'",

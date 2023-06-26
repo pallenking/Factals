@@ -40,7 +40,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	var msgFilter   : String?	= nil
 
 	 /// Configure Log facilities
-	func configureDocument(from c:FwConfig) {
+	func configure(from c:FwConfig) {
 
 		 // Unpack frequently used config hash elements to object parameters
 		if let pic 				= c.int("ppIndentCols")	{
@@ -140,7 +140,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	// /////////////////////////////////////////////////////////////////////////
 	init(title:String, _ config:FwConfig = [:])	{			//_ config:FwConfig = [:]
 		//super.init()
-		configureDocument(from:config)
+		configure(from:config)
 
 		Log.maximumLogNo		+= 1
 		logNo					= Log.maximumLogNo				// Logs have unique number

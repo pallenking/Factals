@@ -113,7 +113,7 @@ struct FactalsApp: App, Uid, FwAny {
 															//	};private var regressScene_ = 0
 	 // Keep regressScene up to date						//var config4app : FwConfig {
 	var config : FwConfig		= [:]						//	get			{	return config4app_ }
-	mutating func configureApp(from c:FwConfig) {			//	set(val)	{
+	mutating func configure(from c:FwConfig) {			//	set(val)	{
 		config					= c							//		config4app_			= val
 		if let rsn 				= c.int("regressScene") {	//		if let rsn 			= config4app_.int("regressScene") {
 			regressScene		= rsn						//			regressScene	= rsn
@@ -136,7 +136,7 @@ struct FactalsApp: App, Uid, FwAny {
 		 // Configure App with its defaults (Ahead of any documents)
 		assert(config.count == 0, "paranoia owefihwq08fu")
 		let c					= config + params4all// append
-		configureApp(from:c)						// modifies APP, must re-register
+		configure(from:c)						// modifies APP, must re-register
 		APP 					= self				// Register ( V E R Y  HOAKEY)
 		sceneMenus 				= buildSceneMenus()
 
@@ -437,8 +437,8 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 		var doc					= FactalsDocument(fwGuts:fwGuts)
 		DOC						= doc		// register (UGLY!!!)
 		let c					= doc.config + rootPart.ansConfig
-		doc.configureDocument(from:c)
-//		newRootVew.configureDocument(from: ?FwConfig)
+		doc.configure(from:c)
+//		newRootVew.configure(from: ?FwConfig)
 
 //		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
 		fwGuts.document 		= doc

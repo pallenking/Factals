@@ -18,21 +18,12 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
-	func configureDocument(from config:FwConfig) { // *****
-		log.configureDocument(from:config)
+	func configure(from config:FwConfig) { // *****
+		log.configure(from:config)
 
-		guard let rootPart else { fatalError("WARNING configureDocument: fwGuts.rootPart=nil") }
-		rootPart.configureDocument(from:config)
-//		if let rootPart {
-//			rootPart.configureDocument(from:c)
-//		} else {
-//			print("WARNING configureDocument: fwGuts.rootPart=nil")
-//		}
-
-		guard rootVews.count != 0 else {
-			print("STRANGE, configureDocument: fwGuts.rootVews.count == 0")
-			return
-		}
+		guard let rootPart else { fatalError("WARNING configure: fwGuts.rootPart=nil") }
+		rootPart.configure(from:config)
+		guard rootVews.count != 0 else {	return								}
 		for rootVew in rootVews {
 			rootVew.configureDocument(from:config)
 		}
@@ -84,11 +75,11 @@ bug;return nil
 		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!")	}
 		guard let rootPart else {	fatalError("addRootVew with nil rootPart")		}
 		let rootVew				= RootVew(forPart:rootPart) // 1. Make
-		rootVew.fwGuts			= self						// 2. Link
-		rootVews.append(rootVew)							// 3. Install
-		rootVew.configureVew(from:fwConfig)					// 4. Configure
+		rootVews.append(rootVew)							// 2. Install
+		rootVew.fwGuts			= self						// 3. Link
+		rootVew.configure(from:fwConfig)					// 4. Configure
 		rootVew.openChildren(using:vewConfig)				// 5. Open
-		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark
+		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
 		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe
 		rootVew.setupLightsCamerasEtc()						// ?move
 	}

@@ -38,8 +38,8 @@ struct FactalsDocument: FileDocument {
 	 // index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc
 	var indexFor				= Dictionary<String,Int>()
 
-	mutating func configureDocument(from config:FwConfig) {
-		fwGuts?.configureDocument(from:config)
+	func configure(from config:FwConfig) {
+		fwGuts?.configure(from:config)
 	}
 
 	 // @main uses this to generate a blank document
@@ -48,24 +48,26 @@ struct FactalsDocument: FileDocument {
 		DOC						= self		// INSTALL as current DOC, quick!
 		fwGuts.document 		= self		// DELEGATE
 
-		 // 1. Make RootPart:				//--FUNCTION--------wantName:--wantNumber:
+		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
-		assert(fwGuts.rootPart == nil, "paranoia: 7u8fuwef")
-		fwGuts.rootPart			= rootPart	// INSTALL
-		rootPart.fwGuts			= fwGuts	// rootPart delegate
+
+		 // 	2. Install
+		assert(fwGuts.rootPart == nil, "paranoia: Should be empty, just made it")
+		fwGuts.rootPart			= rootPart
+		rootPart.fwGuts			= fwGuts	// set delegate
 
 		 //		3. Update document configuration from Library entry
 		let c					= params4all + rootPart.ansConfig
-		configureDocument(from:c)
+		configure(from:c)
 
 		 //		4. Wire and Groom Part
 		rootPart.wireAndGroom(c)
-		configureDocument(from:c)
+		configure(from:c)
 
 		 //		5. Build Vews per Configuration
 		for (key, value) in c {
@@ -84,6 +86,7 @@ struct FactalsDocument: FileDocument {
 			warning("no Vew... key")
 			fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
+		configure(from:c)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(fwGuts f:FwGuts) {
@@ -113,7 +116,7 @@ struct FactalsDocument: FileDocument {
 		fwGuts.document 		= doc
 		DOC						= doc				// register (UGLY!!!)
 		let c					= doc.config + rootPart.ansConfig
-		doc.configureDocument(from:c)
+		doc.configure(from:c)
 	}
 
 	 /// Requirement of <<FileDocument>> protocol

@@ -17,7 +17,7 @@ class RootScn : NSObject {				// xyzzy4
 	var scnScene	: SCNScene		// SCNScene of this RootScn
 	//var scn		: SCNNode		// SCNNode  of this RootScn
 
-	func configureDocument(from c:FwConfig) {
+	func configure(from c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics 			= c.bool("animatePhysics") ?? false
 	

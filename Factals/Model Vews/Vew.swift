@@ -94,8 +94,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		let portProp	: String? = port.localConfig["portProp"] as? String //"xxx"//
 		scn.flipped				= portProp?.contains(substring:"f") ?? false
 	}
-	func configureVew(from c:FwConfig) {
-		openConfig				= c
+	func configure(from config:FwConfig) {
+		openConfig				= config
 	}
 
 

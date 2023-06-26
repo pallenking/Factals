@@ -21,7 +21,7 @@ struct SelfiePole: Equatable {
 	var zoom	: CGFloat 		= 1.0
 	var ortho	: CGFloat		= 1.0		// BROKEN
 
-	mutating func configureDocument(from config:FwConfig) {
+	mutating func configure(from config:FwConfig) {
 		 // Configure Camera from Source Code:
 		if let c 				= config.fwConfig("camera") {
 			if let p 			= c.scnVector3("p"), !p.isNan {	// Pole Height
