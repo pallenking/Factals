@@ -7,19 +7,6 @@ protocol FwStatus : FwAny {
 	func ppFwState(deapth:Int) -> String
 }
 
-  /// Print System Components' Configuration:
- /// - Returns: Configuration of all Controllers, one per line
-func ppFwConfig() -> String {
-	guard let APP 				else {	return "APP==nil"						}
-	var rv						= APP	  .ppFwConfig()
-	if DOC != nil {
-		rv						+= DOC	  .ppFwConfig()	// current DOCument
-		rv						+= DOClog .ppFwConfig()	// DOClog
-		rv						+= DOCctlr.ppFwConfig()	// nsDOCumentConTroLleR
-	}
-	return rv
-}
-
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
 func ppFwState(deapth:Int=999/*, config:Bool=false*/) -> String {
@@ -38,7 +25,7 @@ func ppFwStateHelper(_ fwClassName_	: String,
 						otherLines	: ((Int)->String)?	= nil,
 						deapth		: Int				//= 999
 					) -> String
-{			// My Lines:func ppFwConfig
+{
 	var rv						= ppFwPrefix(uid:uid, fwClassName_) + myLine + "\n"
 			// Other Lines:
 	DOClog.nIndent				+= 1
@@ -87,7 +74,6 @@ extension FactalsApp : FwStatus	{									///FactalsApp
 
 // MARK: - DOCUMENT
 extension FactalsDocument : FwStatus	{				  	 ///FactalsDocument
-	func ppFwConfig() -> String {		config.pp(.short)						}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FactalsDocume", uid:self,
 			otherLines:{ deapth in
@@ -110,7 +96,6 @@ extension FactalsDocument : FwStatus	{				  	 ///FactalsDocument
 }
 // MARK: - DOCUMENT
 extension NSDocument : FwStatus	{								   ///NSDocument
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let wcc					= windowControllers.count
 		return ppFwStateHelper("NSDocument   ", uid:self,
@@ -131,7 +116,6 @@ extension NSDocument : FwStatus	{								   ///NSDocument
 	}
 }
 extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let ct					= self.documents.count
 		return ppFwStateHelper("DOCctlr      ", uid:self,
@@ -147,7 +131,6 @@ extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
 	}
 }
 extension Library : FwStatus {								///Library or ///Tests01
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= "(\(count.asString!.field(4)) tests)"
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
@@ -164,7 +147,6 @@ extension Log : FwStatus {											///Log
 	}
 }
 extension FwGuts : FwStatus	{									 		///FwGuts
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FwGuts       ", uid:self,
 			myLine: document.fwGuts === self ? "" : "OWNER:'\(document!)' BAD",
@@ -199,8 +181,7 @@ extension RootPart : FwStatus	{									 ///RootPart
 	}																			//bug; return "extension RootPart : FwStatus needs HELP"	}
 }
 extension Simulator : FwStatus	{									///Simulator
-	func ppFwConfig() -> String {		""										}
-	func ppFwState(deapth:Int=999) -> String {
+ 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootPart == nil 			  ? "(rootPart==nil)"
 								: rootPart.simulator === self ? ""
 								: "OWNER:'\(rootPart!)' BAD"
@@ -240,7 +221,6 @@ extension Simulator : FwStatus	{									///Simulator
 }
 
 extension RootVew : FwStatus	{									  ///RootVew
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		guard let rootVew									else {	return "Vew.rootVew == nil "}
 		guard let fwGuts 		= rootVew.fwGuts 			else {	return "Vew.rootVew?.fwGuts == nil " }
@@ -265,7 +245,6 @@ extension RootVew : FwStatus	{									  ///RootVew
 }
 
 extension RootScn : FwStatus	{										    ///RootScn
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
@@ -285,7 +264,6 @@ extension RootScn : FwStatus	{										    ///RootScn
 	}
 }
 extension SelfiePole : FwStatus	{									///SCNScene
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= self.pp(.line)
 		return ppFwStateHelper("SelfiePole   ", uid:self,
@@ -295,7 +273,6 @@ extension SelfiePole : FwStatus	{									///SCNScene
 
 }
 extension SCNScene : FwStatus	{							///RootScn ///SCNScene
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNScene     ", uid:self,
 			myLine:"isPaused:\(isPaused)",
@@ -306,7 +283,6 @@ extension SCNScene : FwStatus	{							///RootScn ///SCNScene
 	}
 }
 extension SCNPhysicsWorld : FwStatus	{					  ///SCNPhysicsWorld
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNPhysicsWor", uid:self,
 			myLine:fmt("gravity:\(gravity.pp(.phrase)), speed:%.4f, timeStep:%.4f", speed, timeStep),
@@ -316,7 +292,6 @@ extension SCNPhysicsWorld : FwStatus	{					  ///SCNPhysicsWorld
 		// ///////////////////////////////////// //
 
 extension NSWindowController : FwStatus {				  ///NSWindowController
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("\("NSWindowCtlr ")", uid:self,
 			myLine:
@@ -337,7 +312,6 @@ extension NSWindowController : FwStatus {				  ///NSWindowController
 	}
 }
 extension NSWindow : FwStatus {										 ///NSWindow
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 								//
 		let contract 			= trueF
@@ -357,7 +331,6 @@ extension NSWindow : FwStatus {										 ///NSWindow
 	}
 }
 extension NSViewController : FwStatus {						 ///NSViewController
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 bug;	let rob					= representedObject as? NSView//FwStatus
 		return ppFwStateHelper("NSViewCtlr   ", uid:self,
@@ -376,7 +349,6 @@ bug;	let rob					= representedObject as? NSView//FwStatus
 	}
 }
 extension NSView : FwStatus	{								 		  ///NSView
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= fwClassName.field(-13)
 		return ppFwStateHelper(msg, uid:self,
@@ -398,7 +370,6 @@ extension NSView : FwStatus	{								 		  ///NSView
 	}
 }
 extension NSException : FwStatus	{							 ///NSException
-	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("NSException  ", uid:self,
 			myLine:"reason:'\(reason ?? "<nil>")'",

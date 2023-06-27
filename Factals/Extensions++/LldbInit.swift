@@ -14,8 +14,8 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 	print(ob.pp(mode, aux), terminator:t)
 }
 
- // Access to current ////// Part Tree //////
-var LLDBrootPart : RootPart		{	return DOCfwGutsQ?.rootPart ?? fatalError("DOCfwGutsQ?.rootPart=nil ") as! RootPart }
+ // Access to current ////// Part Tree //////return nil }//
+var LLDBrootPart : RootPart		{	DOCfwGutsQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfwGutsQ?.rootPart=nil ") as! RootPart }
 //	func LLDBrootPart(_ name:String?=nil) -> Part  {
 //		guard var rv : Part			= DOCfwGutsQ?.rootPart else { return .null		}
 //		if name != nil {			// Search for sought Part	//maxLevel:1,
@@ -113,8 +113,6 @@ func sendApp(key:String="?", inVew vew:Vew) {
 	else {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")
 		switch key {
-		case "C":
-			printFwConfig()		// Controller Configuration
 		case "c":
 			printFwState()		// Current controller state
 		case "?":
@@ -126,9 +124,6 @@ func sendApp(key:String="?", inVew vew:Vew) {
 }
 
  // External Global interface (misc, lldb)
-func printFwConfig() {
-	print( ppFwConfig() )
-}
 func printFwState()  {
 	DOClog.ppIndentCols 		= 20		// sort of permanent!
 	print(ppFwState())

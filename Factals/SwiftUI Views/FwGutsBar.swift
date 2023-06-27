@@ -17,17 +17,16 @@ struct FwGutsBar: View {
 			Text("   Print Application:")
 			Button(label:{	Text( "state").padding(.top, 300)				})
 			{	printFwState()												}
-			Button(label:{	Text("config").padding(.top, 300)				})
-			{	printFwConfig()											}
+
 			if let rootPart = fwGuts.rootPart {
 				Text("  Print Model:")
 				Button(label:{	Text( "ptm")								})
 				{	print(rootPart.pp(.tree), terminator:"")
-					//lldbPrint(rootPart, mode:.tree)
+					lldbPrint(rootPart, mode:.tree)
 				}
 				Button(label:{	Text("ptLm")								})
 				{	print(rootPart.pp(.tree, ["ppLinks":true]), terminator:"")
-					//lldbPrint(rootPart, mode:.tree, ["ppLinks":true])
+					lldbPrint(rootPart, mode:.tree, ["ppLinks":true])
 				}
 			} else {
 				Text("<<no nodel>>:")

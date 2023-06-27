@@ -28,7 +28,7 @@ struct VewBar: View {
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						//print(rootVew.pp(.tree), terminator:"")
+						print(rootVew.pp(.tree), terminator:"")
 						lldbPrint(rootVew, mode:.tree, terminator:"")
 					}
 					Button(label:{	Text("ptn")									})
@@ -37,12 +37,12 @@ struct VewBar: View {
 						//lldbPrint(rootVew.scn, mode:.tree, terminator:"")
 					}
 					Text("Review:")
-					Button(label:{	Text("Views")								})
+					Button(label:{	Text("View")								})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.vew)	})
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
-					Button(label:{	Text("siZes")								})
+					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
@@ -56,13 +56,8 @@ struct VewBar: View {
 					Text("Not registered in rootVews").bold()
 				}
 				Spacer()
-				// just for debug
-				if trueF {
-					Button(label:{	Text( "state").padding(.top, 300)		})
-					{	printFwState()										}
-					Button(label: {	Text("LLDB") 							})
-					{	breakToDebugger()									}
-				}
+				Button(label: {	Text("LLDB") 		/* (Just for debug) */		})
+				{	breakToDebugger()											}
 			}
 		}
 		 .padding(4)

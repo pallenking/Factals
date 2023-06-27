@@ -123,12 +123,13 @@ struct FactalsApp: App, Uid, FwAny {
 															//};private var config4app_ : FwConfig = [:]
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
+	var appSounds				= Sounds()
 
 	 // MARK: - 3. Factory
 
 	init () {
 		APP 					= self				// Register  (HOAKEY)
-		let daLog				= DOCAPPlog			// create here, ahead of action
+	//	let daLog				= DOCAPPlog			// create here, ahead of action
 //		let _					= Log.help			// create here, ahead of action
 
 		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
@@ -163,7 +164,6 @@ struct FactalsApp: App, Uid, FwAny {
 	  // App Will Finish Launching ///////////////////////////
 	 //
 	// MARK: 4.1 APP Launching
-	var appSounds				= Sounds()
 //	mutating func applicationWillFinishLaunching(_ notification:Notification) {
 //		atApp(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
 //
@@ -208,10 +208,6 @@ struct FactalsApp: App, Uid, FwAny {
 	func appState(_ sender: Any) {
 		print("'c': AppDelegate.appState():")
 		print(ppFwState())
-	}
-	func appConfiguration(_ sender: Any) {
-		print("'C': AppDelegate.appConfiguration():")
-		print(ppFwConfig())
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")

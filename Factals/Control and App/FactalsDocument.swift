@@ -413,8 +413,6 @@ bug
 			print(rootPart2.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
-		case "C":
-			printFwConfig()				// Controller Configuration
 		case "c":
 			printFwState()				// Current controller state
 		case "?":
