@@ -33,8 +33,8 @@ private let params4app : FwConfig = [
    // MARK: - B: Parameters App logging
   // Controls logging of the Application
  // Terms in FilterLog.swift
-let appLogN						= 8//0/5/8/
-let docLogN						= 8//0/5/8/
+let appLogN						= 0//0/5/8/
+let docLogN						= 0//0/5/8/
 private let params4appLog		= params4pp + params4logs_
 								+ log(all:appLogN)
 //								+ log(doc:docLogN, bld:appLogN, ser:appLogN)

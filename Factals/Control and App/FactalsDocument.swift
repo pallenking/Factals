@@ -83,7 +83,7 @@ struct FactalsDocument: FileDocument {
 			}
 		}
 		if fwGuts.rootVews.isEmpty {		// Must have a Vew
-			warning("no Vew... key")
+			atBld(3, warning("no Vew... key"))
 			fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
 		configure(from:c)
@@ -157,9 +157,9 @@ bug;		let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(from
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-bug;		guard let dat		= fwGuts.rootPart?.data else {				// PW+: ???
+			guard let dat		= fwGuts.rootPart?.data else {				// PW+: ???
 				panic("FactalsDocument.fwGuts.rootPart.data is nil")
-				let d			= fwGuts.rootPart?.data		// debug
+				let d			= fwGuts.rootPart?.data		// redo for debug
 				throw DocError.text("FactalsDocument.fwGuts.rootPart.data is nil")
 			}
 			return .init(regularFileWithContents:dat)
@@ -264,7 +264,7 @@ func serializeDeserialize(_ inPart:Part) throws -> Part? {
 			}
 		}
 		else {
-			warning("Inspector for '\(name)' could not be opened")
+			atIns(4, warning("Inspector for '\(name)' could not be opened"))
 		}
 	}
 		 /// Show an Inspec for a vew.

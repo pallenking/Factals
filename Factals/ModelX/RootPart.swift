@@ -92,7 +92,6 @@ class RootPart : Part {
 
 	 // Serialize 					// po container.contains(.name)
 	override func encode(to encoder: Encoder) throws  {
-bug
 		 // Massage Part Tree, to make it
 		makeSelfCodable("writePartTree")		//readyForEncodable
 
@@ -249,9 +248,9 @@ bug
 	 // Data in the SCNScene
 	var data : Data? {
 		do {
-			let je 				= JSONEncoder()
-			je.outputFormatting = .prettyPrinted
-			let dataRv 			= try je.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+			let enc 			= JSONEncoder()
+			enc.outputFormatting = .prettyPrinted
+			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
 			//print(String(data: data, encoding: .utf8)!)
 			return dataRv
 		} catch {

@@ -370,7 +370,7 @@ bug	// Never USED?
 //									("S", parentLinkVew.sEndVip) ] {
 //			if port == ports[portStr] {
 //				guard let p		= endVip else {
-//					warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil")
+//					atRsi(3, warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil"))
 //					continue
 //				}
 //				portVew.scn.position = p

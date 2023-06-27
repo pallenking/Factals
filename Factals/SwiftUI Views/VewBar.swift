@@ -15,12 +15,12 @@ struct VewBar: View {
 			HStack {
 				SelfiePoleBar(selfiePole:$rootVew.selfiePole)
 				Spacer()
-				Button(label:{	Text("Z//RV").padding(.top, 300)				})
-				{	var s	= rootVew.selfiePole
-					s.zoom	/= 1.1
-					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-					rootVew.selfiePole = s	// Put struct's val back
-				}
+//				Button(label:{	Text("Z//RV").padding(.top, 300)				})
+//				{	var s	= rootVew.selfiePole
+//					s.zoom	/= 1.1
+//					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+//					rootVew.selfiePole = s	// Put struct's val back
+//				}
 			}
 			HStack {
 				if let slot		= rootVew.slot {	// Installed?
@@ -52,12 +52,16 @@ struct VewBar: View {
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
+					Button(label:{	Text("Z//RV").padding(.top, 300)			})
+					{	var s	= rootVew.selfiePole
+						s.zoom	/= 1.1
+						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+						rootVew.selfiePole = s	// Put struct's val back
+					}
+					Spacer()
 				} else {
 					Text("Not registered in rootVews").bold()
 				}
-				Spacer()
-				Button(label: {	Text("LLDB") 		/* (Just for debug) */		})
-				{	breakToDebugger()											}
 			}
 		}
 		 .padding(4)

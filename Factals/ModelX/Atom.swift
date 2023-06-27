@@ -581,8 +581,8 @@ class Atom : Part {	//Part//FwPart
 						msg1	+= " " + srcPort!.upInWorldStr()
 						msg1    += "\n\t" + "Target: " + trgPort!.fullName
 						msg1	+= " " + trgPort!.upInWorldStr()
-						self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
-								" Consider using config[noCheck] '^'." + msg1)
+						atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
+								" Consider using config[noCheck] '^'." + msg1))
 					}
 					assert(srcPort?.connectedTo == nil, "SouRCe PORT occupied by '\(srcPort?.connectedTo!.pp(.fullName) ?? "?")'")
 					assert(trgPort?.connectedTo == nil, "TarGeT PORT occupied by '\(trgPort?.connectedTo!.pp(.fullName) ?? "?")'")
@@ -726,7 +726,7 @@ class Atom : Part {	//Part//FwPart
 			vew.scn.position.y	= -port.height
 		}
 		else {
-			warning("Did not find position for '\(port.pp(.fullNameUidClass))'")
+			atRsi(3, warning("Did not find position for '\(port.pp(.fullNameUidClass))'"))
 			vew.scn.transform	= .identity
 		}
 	}

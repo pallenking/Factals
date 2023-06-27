@@ -128,8 +128,34 @@ enum FwwEvent : Codable {	// Uid,
 			return nil
 		}
 	}
-	init(from decoder: Decoder) throws 		{		fatalError()	}
-	func encode(to encoder: Encoder) throws {		fatalError()	}
+//	 // MARK: - 3.5 Codable
+//	enum FwwEventKeys:String, CodingKey {
+//		case x, y, z
+//	}
+//	init(from decoder: Decoder) throws 		{		fatalError()	}
+//
+//	 // Serialize
+////	func encode(to encoder: Encoder) throws {		fatalError()	}
+//	func encode(to encoder: Encoder) throws {
+//		var container 		= encoder.container(keyedBy:ScnVector3Keys.self)
+//		try container.encode(self.x, forKey:.x)
+//		try container.encode(self.y, forKey:.y)
+//		try container.encode(self.z, forKey:.z)
+//		atSer(3, DOClog.log("Encoded  ScnVector3"))
+//	}
+/*	 // Deserialize
+	public init(from decoder: Decoder) throws {
+		self.init()
+		let container 		= try decoder.container(keyedBy:ScnVector3Keys.self)
+
+		x	 				= try container.decode(CGFloat.self, forKey:.x)
+		y	 				= try container.decode(CGFloat.self, forKey:.y)
+		z	 				= try container.decode(CGFloat.self, forKey:.z)
+		print("Decoded  as? ScnVector3 \(self.pp(.line)) ")
+	}
+*/
+
+
 	mutating func add(event:FwwEvent) {
 		if case .anArray(var a) = self {
 			a.append(event)

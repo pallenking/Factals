@@ -200,8 +200,8 @@ class TimingChain : Atom {
 			discreteTimes.append(dt2add)
 		}
 		else {
-			warning("TimingChain's 'P' Port must be connected to a DiscreteTime\n" +
-									"\t" + "Sometimes this is from an auto-inserted")
+			atDat(4, warning("TimingChain's 'P' Port must be connected to a DiscreteTime\n" +
+									"\t" + "Sometimes this is from an auto-inserted"))
 		}
 
 		if let sPort			= ports["S"],
@@ -210,7 +210,7 @@ class TimingChain : Atom {
 			worldModel			= mySAtom
 		}
 		else {
-			warning("TimingChain's 'S' Port must be connected to a WorldModel")
+			atDat(4, warning("TimingChain's 'S' Port must be connected to a WorldModel"))
 		}
 	}
 
@@ -223,8 +223,9 @@ class TimingChain : Atom {
 	override func reset() {								super.reset()
 		state 					= 0000
 		eventDownPause			= false
-		print("############ eventDownPause = false -- reset")
-	//[bundleTap reset]
+
+		atEve(4, logd("############ eventDownPause = false -- reset")) //print("
+		//[bundleTap reset]
 	}
 	 /// When "again" is encountered, some state must be reset for proper operation
 	func resetForAgain() {
@@ -249,7 +250,7 @@ class TimingChain : Atom {
 
 				retractPort			= nil			// default param
 				eventDownPause		= true			// assert lock, which blocks till up
-				print("############ eventDownPause = true  -- simulate(up:) && state==0")
+				atEve(4, logd("############ eventDownPause = true  -- simulate(up:) && state==0"))
 				state 				= 0001			// Start Timing Chain
 				//!	playSound("")
 			//?	releaseEvent()
@@ -400,7 +401,7 @@ class TimingChain : Atom {
 	func releaseEvent() {
 		atEve(4, logd("    TimingChain: Release FwwEvent"))
 		eventDownPause			= false			// assert lock, which blocks till up
-print("############ eventDownPause = false -- releaseEvent")
+		atEve(4, logd("############ eventDownPause = false -- releaseEvent"))
 		root!.simulator.kickstart = 4			// set simulator to run, to pick event up
 		retractPort?.take(value:0.0)
 		return
