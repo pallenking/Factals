@@ -211,7 +211,7 @@ struct FactalsApp: App, Uid, FwAny {
 	}
 	func appConfiguration(_ sender: Any) {
 		print("'C': AppDelegate.appConfiguration():")
-bug//	print(ppFwConfig(config:true))
+		print(ppFwConfig())
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")

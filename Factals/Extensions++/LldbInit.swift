@@ -127,7 +127,7 @@ func sendApp(key:String="?", inVew vew:Vew) {
 
  // External Global interface (misc, lldb)
 func printFwConfig() {
-	print( ppFwState(deapth:9999) )
+	print( ppFwConfig() )
 }
 func printFwState()  {
 	DOClog.ppIndentCols 		= 20		// sort of permanent!

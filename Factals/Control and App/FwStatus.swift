@@ -7,18 +7,18 @@ protocol FwStatus : FwAny {
 	func ppFwState(deapth:Int) -> String
 }
 
-//  /// Print System Components' Configuration:
-// /// - Returns: Configuration of all Controllers, one per line
-//func ppFwConfig() -> String {
-//	guard let APP 				else {	return "APP==nil"						}
-//	var rv						= APP	  .ppFwConfig()
-//	if DOC != nil {
-//		rv						+= DOC	  .ppFwConfig()	// current DOCument
-//		rv						+= DOClog .ppFwConfig()	// DOClog
-//		rv						+= DOCctlr.ppFwConfig()	// nsDOCumentConTroLleR
-//	}
-//	return rv
-//}
+  /// Print System Components' Configuration:
+ /// - Returns: Configuration of all Controllers, one per line
+func ppFwConfig() -> String {
+	guard let APP 				else {	return "APP==nil"						}
+	var rv						= APP	  .ppFwConfig()
+	if DOC != nil {
+		rv						+= DOC	  .ppFwConfig()	// current DOCument
+		rv						+= DOClog .ppFwConfig()	// DOClog
+		rv						+= DOCctlr.ppFwConfig()	// nsDOCumentConTroLleR
+	}
+	return rv
+}
 
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
@@ -149,7 +149,7 @@ extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
 extension Library : FwStatus {								///Library or ///Tests01
 	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
-		let myLine				= "(has\(count.asString!.field(4)) tests)"
+		let myLine				= "(\(count.asString!.field(4)) tests)"
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
 	}
 }
@@ -184,7 +184,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 	}
 }
 extension RootPart : FwStatus	{									 ///RootPart
-	func ppFwConfig() -> String {		""										}
+	func ppFwConfig() -> String {		localConfig.pp(.line)					}
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= fwGuts.rootPart === self ? "" : "OWNER:'\(fwGuts!)' BAD "
 		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
