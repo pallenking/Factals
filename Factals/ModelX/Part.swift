@@ -1392,12 +1392,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	//------------------------------ Printout -- pretty print ------------------------
 	 // MARK: - 14. Logging
 	let nFullN					= 18//12
-//	func logg(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//		let msg					= String(format:format, arguments:args)
-//		let (nls, str2)			= msg.stripLeadingNewLines()
-//		let str					= nls + (pp(.uidClass) + ":").field(-nFullN) + str2
-//		DOClog.log(str, terminator:terminator)
-//	}
 	func warning(_ format:String, _ args:CVarArg...) {
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "

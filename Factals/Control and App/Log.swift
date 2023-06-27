@@ -8,7 +8,8 @@ import SceneKit
 extension Log : Uid { }
 extension Log : Logd { 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		print("\(fwClassName) \(ppUid(self)): \(format)")
+		DOClog.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		//print("\(fwClassName) \(ppUid(self)): \(format)")
 	}
 }
 

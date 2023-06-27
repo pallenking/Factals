@@ -66,7 +66,7 @@ struct ScanAnswer {		// : Codable
 extension Library : Uid {
 	//var uid					= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		print("Library \(ppUid(self)): \(format)")
+		DOClog.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
 class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
@@ -230,7 +230,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 					"Building Network marked with xr()" :	// yes
 					nil)									// no, ignore
 		if matchReason != nil {						// BUILD
-			atBld(7, logd("=== Closure \(matchReason!) ==="))
+			atBld(7, logd("=== \(matchReason!) ==="))
 			assert(answer.ansTrunkClosure==nil, "Two Closures found marked xr():\n" +
 				"\t Previous = \(answer.ansTestNum):\(answer.ansFile ?? "lf823").\(answer.ansLineNumber!) '\(answer.ansTitle ?? "none")' <-- IGNORING\n" +
 				"\t Current  = \(state.scanTestNum):\(name).\(       lineNumber ) '\(         title)'")

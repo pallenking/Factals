@@ -1243,11 +1243,8 @@ extension Logd {
 	///   - note: HACK
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format, arguments:args)
-		let (nls, msg2)			= msg.stripLeadingNewLines()
-		let str					= nls + (ppUid(self) + ":" + self.fwClassName).field(-28) + msg2	//-nFullN uidClass
-//		let str					= nls + (note + self.pp(.uidClass)).field(-28) + msg2	//-nFullN uidClass
-//		let str					= nls + (note + ppUid(self) + ":Logd").field(-28) + msg2	//-nFullN uidClass
-//		let str					= nls + (note + ":" + ppUid(self)).field(-28) + msg2	//-nFullN uidClass
+		let (nls, msg2)			= msg.stripLeadingNewLines()	// trailing \n's become leading \n's
+		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
 		DOClog.log(str, terminator:terminator)
 	}
 }

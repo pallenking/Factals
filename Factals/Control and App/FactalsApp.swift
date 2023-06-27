@@ -132,7 +132,7 @@ struct FactalsApp: App, Uid, FwAny {
 	//	let daLog				= DOCAPPlog			// create here, ahead of action
 //		let _					= Log.reliable			// create here, ahead of action
 
-		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
+		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with its defaults (Ahead of any documents)
 		assert(config.count == 0, "paranoia owefihwq08fu")
@@ -142,21 +142,21 @@ struct FactalsApp: App, Uid, FwAny {
 		sceneMenus 				= buildSceneMenus()
 
 		atApp(3, {
-			print("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
+			log("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
 						  "verbosity:[\(log.ppVerbosityOf(c).pp(.short))])")
 
 			   // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김
 			  // ⌘:apple, ⏎:enter
 			 // Henry King and P. Allen King:
-			print("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
-			print("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
+			log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
+			log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 		}() )
 		atApp(1,
-			print("\(appStartTime):🚘🚘   Factals \(majorVersion).\(minorVersion) (\(nameVersion))  🚘🚘 ----------------ττττ")
+			log("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ")
 		)
 		atApp(3, {
-			print("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
-			print("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n")
+			log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
+			log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n")
 			printFwState()
 		}() )
 	}

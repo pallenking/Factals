@@ -94,19 +94,16 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 			log.msgFilter		= area
 			log.msgPriority		= verbos
 			action()							// Execute the action closure
-			log.msgFilter		= nil
-			log.msgPriority		= nil
 		}
 	}
 	else {										// always do if missing verbosity
-//		print("logNil; ", terminator:"")
 		print("!!: ", terminator:"")
 		log.msgFilter			= area
 		log.msgPriority			= verbos
 		action()
-		log.msgFilter			= nil
-		log.msgPriority			= nil
 	}
+	log.msgFilter				= nil
+	log.msgPriority				= nil
 }
 
 
