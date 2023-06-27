@@ -53,8 +53,8 @@ func atAny(_ pri:Int, _ act:@autoclosure()->Void) { return at("all",pri,act())	}
 /// Categories should roughly
 func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 		ani:Int?=nil, dat:Int?=nil, eve:Int?=nil, ins:Int?=nil,
-		men:Int?=nil, rve:Int?=nil, rnd:Int?=nil, tst:Int?=nil, all:Int?=nil,
-		_ action:@autoclosure() -> Void)
+		men:Int?=nil, rve:Int?=nil, rsi:Int?=nil, rnd:Int?=nil,
+		tst:Int?=nil, all:Int?=nil, _ action:@autoclosure() -> Void)
 	{
 	if 		app != nil {		at("app", app!, action()) 						}
 	else if doc != nil {		at("doc", doc!, action()) 						}
@@ -66,6 +66,7 @@ func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 	else if ins != nil {		at("ins", ins!, action()) 						}
 	else if men != nil {		at("men", men!, action()) 						}
 	else if rve != nil {		at("rve", rve!, action()) 						}
+	else if rsi != nil {		at("rsi", rsi!, action()) 						}
 	else if rnd != nil {		at("rnd", rnd!, action()) 						}
 	else if tst != nil {		at("tst", tst!, action()) 						}
 	else if all != nil {		at("all", all!, action()) 						}

@@ -287,26 +287,61 @@ extension Library {
   ///   - prefix: Set to "*" for XCTests
  /// - Returns: Hash for logPri4 verbosity
 //func log(prefix:String="",
-func log( con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, dat:Int=0,
-		  rve:Int=0, rsi:Int=0, rnd:Int=0, ani:Int=0, ins:Int=0, tst:Int=0, all:Int=0) -> FwConfig {
-	var rv : FwConfig		= ["logPri4all"  : 0]	// default OF		F
-	if con > 0 		{		rv["logPri4con"] = con								}
-	if men > 0 		{		rv["logPri4men"] = men								}
+/*app */
+/*doc */
+/*bld */
+/*ser */
+/*ani */
+/*dat */
+/*eve */
+/*ins */
+/*men */
+/*rve */
+/*rsi */
+/*rnd */
+/*tst */
+/*all*/
+
+func log(
+		app:Int=0,
+		doc:Int=0,
+		bld:Int=0,
+		ser:Int=0,
+		ani:Int=0,
+		dat:Int=0,
+		eve:Int=0,
+		ins:Int=0,
+		men:Int=0,
+		rve:Int=0,
+		rsi:Int=0,
+		rnd:Int=0,
+		tst:Int=0,
+ 		all:Int=0		// con gone
+		) -> FwConfig {
+	var rv : FwConfig		= ["logPri4all"  : 0]	// default OFF
+
+
+	if app > 0 		{		rv["logPri4app"] = app								}
 	if doc > 0 		{		rv["logPri4doc"] = doc								}
-	if dat > 0 		{		rv["logPri4dat"] = dat								}
 	if bld > 0 		{		rv["logPri4bld"] = bld								}
 	if ser > 0 		{		rv["logPri4ser"] = ser								}
+	if ani > 0 		{		rv["logPri4ani"] = ani								}
+	if dat > 0 		{		rv["logPri4dat"] = dat								}
 	if eve > 0 		{		rv["logPri4eve"] = eve								}
+	if ins > 0 		{		rv["logPri4ins"] = ins								}
+	if men > 0 		{		rv["logPri4men"] = men								}
 	if rve > 0 		{		rv["logPri4rve"] = rve								}
 	if rsi > 0 		{		rv["logPri4rsi"] = rsi								}
 	if rnd > 0 		{		rv["logPri4rnd"] = rnd								}
-	if ani > 0 		{		rv["logPri4ani"] = ani								}
-	if ins > 0 		{		rv["logPri4ins"] = ins								}
 	if tst > 0 		{		rv["logPri4tst"] = ins								}
 	if all > 0 		{		rv["logPri4all"] = all								}
 	return rv
 }
-
+/*
+func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
+		ani:Int?=nil, dat:Int?=nil, eve:Int?=nil, ins:Int?=nil,
+		men:Int?=nil, rve:Int?=nil, rnd:Int?=nil, tst:Int?=nil, all:Int?=nil,
+*/
  /// 3b. Neutered (with suffix X) returns an empty hash
 func logX(prefix:String="",
 		  con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, dat:Int=0,
