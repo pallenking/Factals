@@ -317,9 +317,9 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 /// In Limp mode:		  one static defaultLogger
 	static var help : Log {
 		let loggerParams:FwConfig = params4all//[:]//
-		return falseF			//trueF//falseF//
+		return falseF			//trueF//falseF// 	// New Log every time?
 			? Log(title:"Using a new Log every message (conservative)", loggerParams)
-			: helpLogger ?? {
+			: helpLogger ?? {						//
 				helpLogger = Log(title:"Using this one Log", loggerParams)
 				return helpLogger!
 			} ()
