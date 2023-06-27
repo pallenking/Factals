@@ -38,10 +38,10 @@ var DOCfwGutsQ	: FwGuts?		{	DOC?.fwGuts									}	// optionality is needed
 var DOCfwGuts	: FwGuts		{	DOCfwGutsQ ?? {
 	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil")					 		}()}
 var DOClogQ  	: Log? 			{	DOCfwGutsQ?.log								}
-var DOClog  	: Log 			{	DOClogQ ?? .help							}	//.first
+var DOClog  	: Log 			{	DOClogQ ?? .reliable							}	//.first
 let DOCctlr						= NSDocumentController.shared
 var APPQ		: FactalsApp?	{	APP 										}
-var DOCAPPlog	: Log 			{	DOClogQ ?? APPQ?.log ?? .help				}
+var DOCAPPlog	: Log 			{	DOClogQ ?? APPQ?.log ?? .reliable				}
 
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
@@ -130,7 +130,7 @@ struct FactalsApp: App, Uid, FwAny {
 	init () {
 		APP 					= self				// Register  (HOAKEY)
 	//	let daLog				= DOCAPPlog			// create here, ahead of action
-//		let _					= Log.help			// create here, ahead of action
+//		let _					= Log.reliable			// create here, ahead of action
 
 		atApp(1, print("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 

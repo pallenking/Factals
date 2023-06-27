@@ -595,7 +595,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}else if let root		= part.root {	// strangely redundant, but okay
 			root.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
-			Log.help.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
 	}
 	 // MARK: - 15. PrettyPrint

@@ -511,7 +511,7 @@ class RootPart : Part {
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
-	override var log : Log 	{ 	fwGuts?.log ?? .help					}
+	override var log : Log 	{ 	fwGuts?.log ?? .reliable					}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}

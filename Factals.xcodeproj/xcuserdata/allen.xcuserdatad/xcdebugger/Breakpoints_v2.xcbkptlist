@@ -118,10 +118,42 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "log(banner:_:_:terminator:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A370DE57-6653-4D12-9A40-A174C507C1ED - 7b3086273fb4ace2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Log.log(banner: Swift.Optional&lt;Swift.String&gt;, _: Swift.String, _: Swift.CVarArg..., terminator: Swift.Optional&lt;Swift.String&gt;) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "234"
+                  endingLineNumber = "234"
+                  offsetFromSymbolStart = "2624">
+               </Location>
+               <Location
+                  uuid = "A370DE57-6653-4D12-9A40-A174C507C1ED - 7b3086273fb4ace2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Log.log(banner: Swift.Optional&lt;Swift.String&gt;, _: Swift.String, _: Swift.CVarArg..., terminator: Swift.Optional&lt;Swift.String&gt;) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "234"
+                  endingLineNumber = "234"
+                  offsetFromSymbolStart = "3304">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -143,22 +175,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "862415F2-846C-4B37-8303-F13EB72C2286"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Control and App/FactalsApp.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "FactalsApp"
-            landmarkType = "14">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "8B43E578-8ED8-4060-9FCC-E7048DBD1E43"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -175,16 +191,157 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0EC39F07-C61B-4A14-961A-9760D3F607AF"
+            uuid = "4DBF5DCA-CED5-4FA1-9BE3-F27DA69DD421"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/Log.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
+            landmarkName = "reliable"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "4DBF5DCA-CED5-4FA1-9BE3-F27DA69DD421 - d5e5637d5b0d659e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Factals.Log.sure.getter : Factals.Log"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "320"
+                  endingLineNumber = "320"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "4DBF5DCA-CED5-4FA1-9BE3-F27DA69DD421 - d5e5637d5b0d65dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Factals.Log.sure.getter : Factals.Log"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "4DBF5DCA-CED5-4FA1-9BE3-F27DA69DD421 - 7ef823f855e9f559"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Factals.Log.reliable.getter : Factals.Log"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "4DBF5DCA-CED5-4FA1-9BE3-F27DA69DD421 - 7ef823f855e9f559"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Factals.Log.reliable.getter : Factals.Log"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD3DC532-25F5-4AEF-B6F3-DD7230050151"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "init(title:_:)"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
+            landmarkName = "reliable"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "DD3DC532-25F5-4AEF-B6F3-DD7230050151 - d5e5637d5b0d6a7b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Factals.Log.sure.getter : Factals.Log"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "323"
+                  endingLineNumber = "323"
+                  offsetFromSymbolStart = "176">
+               </Location>
+               <Location
+                  uuid = "DD3DC532-25F5-4AEF-B6F3-DD7230050151 - a5c0ec3b5935643b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Factals.Log in implicit closure #1 () throws -&gt; Factals.Log in static Factals.Log.sure.getter : Factals.Log"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "323"
+                  endingLineNumber = "323"
+                  offsetFromSymbolStart = "72">
+               </Location>
+               <Location
+                  uuid = "DD3DC532-25F5-4AEF-B6F3-DD7230050151 - 5d6896cf2fb2890d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Factals.Log in implicit closure #1 () throws -&gt; Factals.Log in static Factals.Log.reliable.getter : Factals.Log"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Log.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "323"
+                  endingLineNumber = "323"
+                  offsetFromSymbolStart = "72">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BF744621-EFFA-4C49-9E69-EAE3B7D11F5A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsDocument.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "fileWrapper(configuration:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

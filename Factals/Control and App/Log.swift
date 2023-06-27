@@ -139,9 +139,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
 	init(title:String, _ config:FwConfig = [:])	{			//_ config:FwConfig = [:]
-		//super.init()
 		configure(from:config)
-
 		Log.maximumLogNo		+= 1
 		logNo					= Log.maximumLogNo				// Logs have unique number
 		self.title				= title
@@ -313,17 +311,19 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	]
 	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
 	var params4aux : FwConfig	{	DOC?.config ?? [:]		}
+
 	 /// In Pessamistic mode: a new Log every usage (features missing)
 	 /// In Limp mode:		  one static defaultLogger
-	static var help : Log {
-		let loggerParams:FwConfig = params4all//[:]//
-		return falseF			//trueF//falseF// 	// New Log every time?
-			? Log(title:"Using a new Log every message (conservative)", loggerParams)
-			: helpLogger ?? {						//
-				helpLogger = Log(title:"Using this one Log", loggerParams)
-				return helpLogger!
+	static var reliable : Log {
+		let loggerParams:FwConfig = params4reliableLog		// Causes recursion
+		let pessamistic			= falseF //trueF//falseF// 	// New Log every time?
+		return pessamistic ?								//
+			Log(title:"Using a new Log every message (conservative)", loggerParams) :
+			reliableLog ?? {									//
+				reliableLog = Log(title:"Using this one Log", loggerParams)
+				return reliableLog!
 			} ()
-	};private static var helpLogger : Log? = nil
+	};private static var reliableLog : Log? = nil
 
 	var description		 : String { return  "d'Log\(logNo) \(title)'"			}
 	var debugDescription : String { return "dd'Log\(logNo) \(title)'"			}

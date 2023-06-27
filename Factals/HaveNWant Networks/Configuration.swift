@@ -17,6 +17,7 @@ var params4all		: FwConfig		= {	return
 	params4sim		+
 	params4vew
 } ()
+var params4reliableLog : FwConfig	= log(all:8)//0)//
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()

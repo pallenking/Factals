@@ -79,8 +79,8 @@ func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 ///   - action: = an automatically generated closure which does a (log) operation
 func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Location supplied
 	assert(verbos >= 0 && verbos < 10, "Message priorities must be in range 0...9")
-	if let log					= DOCAPPlog, 									//DOCfwGutsQ?.log ?? APPQ?.log,
-	   let verbosity			= log.verbosity
+	let log						= DOCAPPlog 									//DOCfwGutsQ?.log ?? APPQ?.log,
+	if let verbosity			= log.verbosity
 	{	if //trueF 								|| // DEBUGGING ALL messages
 		  (verbosity[area]  ?? -1) >= verbos	|| // verbosity[area]  high enough	OR
 		  (verbosity["all"] ?? -1) >= verbos	   // verbosity["all"] high enough
@@ -104,6 +104,8 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 		log.msgFilter			= area
 		log.msgPriority			= verbos
 		action()
+		log.msgFilter			= nil
+		log.msgPriority			= nil
 	}
 }
 

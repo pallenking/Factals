@@ -106,7 +106,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 						markTree(dirty:.size)
 																		}	}	}
 	var log : Log			{ 	root?.log ?? Log(title:"a new Part.Log()", [:] )		}
-//	var log : Log			{ 	root?.log ?? .help						}
+//	var log : Log			{ 	root?.log ?? .reliable						}
 
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew

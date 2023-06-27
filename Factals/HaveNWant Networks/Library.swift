@@ -286,24 +286,24 @@ extension Library {
    /// - Parameters:
   ///   - prefix: Set to "*" for XCTests
  /// - Returns: Hash for logPri4 verbosity
-func log(prefix:String="",
-		  con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, dat:Int=0,
+//func log(prefix:String="",
+func log( con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, dat:Int=0,
 		  rve:Int=0, rsi:Int=0, rnd:Int=0, ani:Int=0, ins:Int=0, tst:Int=0, all:Int=0) -> FwConfig {
-	var rv : FwConfig		= [prefix + "logPri4all"  : 0]	// default OFF
-	if con > 0 		{		rv[prefix + "logPri4con"] = con						}
-	if men > 0 		{		rv[prefix + "logPri4men"] = men						}
-	if doc > 0 		{		rv[prefix + "logPri4doc"] = doc						}
-	if dat > 0 		{		rv[prefix + "logPri4dat"] = dat						}
-	if bld > 0 		{		rv[prefix + "logPri4bld"] = bld						}
-	if ser > 0 		{		rv[prefix + "logPri4ser"] = ser						}
-	if eve > 0 		{		rv[prefix + "logPri4eve"] = eve						}
-	if rve > 0 		{		rv[prefix + "logPri4rve"] = rve						}
-	if rsi > 0 		{		rv[prefix + "logPri4rsi"] = rsi						}
-	if rnd > 0 		{		rv[prefix + "logPri4rnd"] = rnd						}
-	if ani > 0 		{		rv[prefix + "logPri4ani"] = ani						}
-	if ins > 0 		{		rv[prefix + "logPri4ins"] = ins						}
-	if tst > 0 		{		rv[prefix + "logPri4tst"] = ins						}
-	if all > 0 		{		rv[prefix + "logPri4all"] = all						}
+	var rv : FwConfig		= ["logPri4all"  : 0]	// default OF		F
+	if con > 0 		{		rv["logPri4con"] = con								}
+	if men > 0 		{		rv["logPri4men"] = men								}
+	if doc > 0 		{		rv["logPri4doc"] = doc								}
+	if dat > 0 		{		rv["logPri4dat"] = dat								}
+	if bld > 0 		{		rv["logPri4bld"] = bld								}
+	if ser > 0 		{		rv["logPri4ser"] = ser								}
+	if eve > 0 		{		rv["logPri4eve"] = eve								}
+	if rve > 0 		{		rv["logPri4rve"] = rve								}
+	if rsi > 0 		{		rv["logPri4rsi"] = rsi								}
+	if rnd > 0 		{		rv["logPri4rnd"] = rnd								}
+	if ani > 0 		{		rv["logPri4ani"] = ani								}
+	if ins > 0 		{		rv["logPri4ins"] = ins								}
+	if tst > 0 		{		rv["logPri4tst"] = ins								}
+	if all > 0 		{		rv["logPri4all"] = all								}
 	return rv
 }
 
