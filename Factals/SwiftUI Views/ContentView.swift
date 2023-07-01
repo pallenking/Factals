@@ -41,10 +41,10 @@ struct FwGutsView: View {
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 							// now: SceneView 	native SwiftUI
 
-							/*
+							/* A is
+
 							sceneview takes in a publisher		// PW:
 							swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
-							
 							scenkit -> write models back to viewmodel. s
 							viewmodel single source of truth.
 							 */

@@ -161,33 +161,6 @@ struct FactalsApp: App, Uid, FwAny {
 		}() )
 	}
 
-	  // App Will Finish Launching ///////////////////////////
-	 //
-	// MARK: 4.1 APP Launching
-//	mutating func applicationWillFinishLaunching(_ notification:Notification) {
-//		atApp(3, log("------------- AppDelegate.applicationWillFinishLaunching --------------"))
-//
-//		 // Load Sounds
-//		appSounds.load(name:"aTest",		path:"BadName.wav")		// BAD, but no error
-//		appSounds.load(name:"GameStarting", path:"SpawnGood.wav")
-//		appSounds.load(name:"Oooooooo", 	path:"Oooooooo.m4a")
-//		appSounds.load(name:"click1",		path:"Sounds/basicSamples/sqr220.wav")
-//		appSounds.load(name:"tick1",		path:"Tick_SB.wav")
-//		appSounds.load(name:"tock0",		path:"Tock_SB.wav")
-//
-//		 // Update Menus:
-//		atApp(5, log("Build ^R Menu regressScene=(\(regressScene)) and FwGuts Menus: "))
-//bug;	buildSceneMenus()
-//
-//		 // but self is struct!
-//		//	  // Set Apple Event Manager so FactalWorkbench will recieve URL's
-//		//	 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
-//		//	let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
-//		//	appleEventManager.setEventHandler(self,
-//		//		andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
-//		//		forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-//	}//
-
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
 	//    someone double-clicked it again or used the dock to activate it.
@@ -212,6 +185,40 @@ struct FactalsApp: App, Uid, FwAny {
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")
 		fwHelp("?", inVew:nil)
+	}
+
+	// MARK: 4.1 APP Launching
+		//	20230627PAK: applicationWillFinishLaunching NOT CALLED
+	func uncalledFunction() {
+		  // Set Apple Event Manager so FactalWorkbench will recieve URL's
+		 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
+		let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
+		//appleEventManager.setEventHandler(self,
+		//	andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
+		//	forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
+	}
+	  // MARK: - 4.5 APP URL Processing
+	 // URL Event from OS
+	func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
+		let name           		= event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue
+		openURL(named:name)
+	}
+	 // Common:
+	func openURL(named:String?) {
+		guard let name			= named,
+		  let url         		= NSURL(string:name) else {
+			fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil")
+		}
+		print("openURL('\(named!)' -> \(url))")
+		var urlStr         		= name//url.absoluteString! //.stringByRemovingPercentEncoding
+		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
+		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
+		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
+		urlStr      			= String(urlStr[index...])
+
+		 ////// BUILD Simulation Part per received URL.
+		//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
+		//Build a window; install brain //  self.simNsWc = [self createASimNsWcFor:brain :"Selected by factalWorkbench:// URL"];
 	}
 	 // MARK: - 4.3 Scene Menu
 	struct SceneMenuElement : Identifiable {
@@ -361,29 +368,6 @@ bug;	let rv					= NSMenu(title:path)
 //		appSounds.play(sound:"GameStarting")
 	}
 
-	  // MARK: - 4.5 APP URL Processing
-	 // URL Event from OS
-	func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
-		let name           		= event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue
-		openURL(named:name)
-	}
-	 // Common:
-	func openURL(named:String?) {
-		guard let name			= named,
-		  let url         		= NSURL(string:name) else {
-			fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil")
-		}
-		print("openURL('\(named!)' -> \(url))")
-		var urlStr         		= name//url.absoluteString! //.stringByRemovingPercentEncoding
-		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
-		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
-		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
-		urlStr      			= String(urlStr[index...])
-
-		 ////// BUILD Simulation Part per received URL.
-		//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
-		//Build a window; install brain //  self.simNsWc = [self createASimNsWcFor:brain :"Selected by factalWorkbench:// URL"];
-	}
 	 // MARK: - 4.6 APP Terminate
 	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
 bug;	return .terminateNow													}

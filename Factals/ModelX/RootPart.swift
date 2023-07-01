@@ -18,24 +18,6 @@ class RootPart : Part {
 	var ansConfig		: FwConfig		= [:]
 	var fwGuts			: FwGuts!
 
-	func polyWrapChildren() {
-		 // PolyWrap all Part's children
-		for i in 0..<children.count {
-			 // might only wrap polymorphic types?, but simpler to wrap all
-			children[i]			= children[i].polyWrap()	// RECURSIVE // (C)
-			children[i].parent	= self									// (D) backlink
-		}
-	}
-	func polyUnwrapRp() {
-		 // Unwrap all children, RECURSIVELY
-		for (i, child) in children.enumerated() {
-			guard let childPoly = child as? PolyWrap else { fatalError()	}
-			 // Replace Wrapped with Unwrapped:
-			children[i]			= childPoly.polyUnwrap()
-			children[i].parent	= self
-		}
-	}
-
 	 // MARK: - 2.3 Part Tree Lock
 	var partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var partTreeOwner : String?	= nil  		// root lock Owner's name
@@ -52,7 +34,8 @@ class RootPart : Part {
 		assert(simulator.rootPart === self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
 		simulator.configure(from:config) 	// CUSTOMER 1
 	}
-//// START CODABLE ///////////////////////////////////////////////////////////////
+
+	//// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
 	enum RootPartKeys: String, CodingKey {
 		case simulator
@@ -61,34 +44,6 @@ class RootPart : Part {
 		case ansConfig
 		case partTreeVerbose		// Bool
 	}
-
-	// // // // // // // // // // // // // // // // // // // // // // // // // //
-	func makeSelfCodable(_ msg:String?=nil) {		// was readyForEncodable
-		guard msg == nil || lock(partTreeAs:msg!) else { fatalError("'\(msg!)' couldn't get PART lock") }
-		 // modifies self
-
-		virtualize() 	// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
-								
-		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-		atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
-						
-		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
-
-		atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:""))
-	}
-
-	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
-	 			
-		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
-						
-		realize()									// ---- 2. Replace weak references
-
-		groomModel(parent:nil as Part?, root:self)
-		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
-		
-		msg == nil ? nop : unlock(partTreeAs:msg)	// ---- 3. UNLOCK for PartTree
-	}
-	// // // // // // // // // // // // // // // // // // // // // // // // // //
 
 	 // Serialize 					// po container.contains(.name)
 	override func encode(to encoder: Encoder) throws  {
@@ -125,69 +80,78 @@ class RootPart : Part {
 		makeSelfRunable()		// (no unlock)
 	}
 
+	 // MARK: Make Codable
+	// // // // // // // // // // // // // // // // // // // // // // // // // //
+	func makeSelfCodable(_ msg:String?=nil) {		// was readyForEncodable
+		guard msg == nil || lock(partTreeAs:msg!) else { fatalError("'\(msg!)' couldn't get PART lock") }
 
-//	 // MARK: - 3.4 NSKeyedArchiver Serialization
-//	// ////////////// NSDocument calls these: /////////////////////////////
-//
-//	   // http://meandmark.com/blog/2016/03/saving-game-data-with-nscoding-in-swift/
-//	  //  https://stackoverflow.com/questions/53097261/how-to-solve-deprecation-of-unarchiveobjectwithfile
-//	 // WRITE to data (e.g. file) from objects		USES NSKeyedArchiver
-//	/*override*/ func data(ofType typeName: String) throws -> Data {
-									//		do {
-									//			 // ---- 1. Get LOCKS for PartTree
-									//			let lockStr			= "writePartTree"
-									//			guard	rootPart.lock(partTreeAs:lockStr) else {
-									//				fatalError("\(lockStr) couldn't get PART lock")		// or
-									//			}
-									//
-									//							// PREPARE
-									//			atSer(3, logd("Writing data(ofType:\(typeName))"))
-									//			 // ---- 2. Retract weak crossReference .connectedTo in Ports, replace with absolute string
-									///* */		rootPart.virtualize()
-									//
-									//			let aux : FwConfig	= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-									//			atSer(5, logd(" ========== rootPart to Serialize:\n\(rootPart.pp(.tree, aux))", terminator:""))
-									//
-									//			 // ---- 3. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
-									///* */		let inPolyPart:PolyWrap	= rootPart.polyWrap()	// modifies rootPart
-									//			atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(inPolyPart.pp(.tree, aux))", terminator:""))
-									//
-									//							// MAKE ARCHIVE
-									//			 // Pretty Print the virtualized, PolyWrap'ed structure, using JSON
-									////			let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
-									//			if falseF {
-									//				let jsonData : Data	= try JSONEncoder().encode(inPolyPart)
-									//				guard let jsonString = jsonData.prettyPrintedJSONString else {
-									//					fatalError("\n" + " ========== JSON: FAILED")	}
-									//				atSer(5, logd(" ========== JSON: " + (jsonString as String)))
-									//			}
-									//			 // ---- 4. ARCHIVE the virtualized, PolyWrapped structure
-									//			let archiver = NSKeyedArchiver(requiringSecureCoding:true)
-									//																	// *******:
-									//			try archiver.encodeEncodable(inPolyPart, forKey:NSKeyedArchiveRootObjectKey)
-									//			archiver.finishEncoding()
-									//
-									//							// RESTORE
-									//			 // ---- 3. REMOVE -  PolyWrap's
-									///* */		let rp				= inPolyPart.polyUnwrap() as? RootPart
-									//			assert(rp != nil, "inPolyPart.polyUnwrap()")
-									//			rootPart			= rp!
-									//
-									//			 // ---- 2. Replace weak references
-									///* */		rootPart.realize()			// put references back	// *******
-									//			rootPart.groomModel(parent:nil, root:rootPart)
-									//			atSer(5, logd(" ========== rootPart unwrapped:\n\(rootPart.pp(.tree, ["ppDagOrder":false]))", terminator:""))
-									//
-									//			 // ---- 1. Get LOCKS for PartTree
-									//			rootPart.unlock(partTreeAs:lockStr)
-									//
-									//			atSer(3, logd("Wrote   rootPart!"))
-									//			return archiver.encodedData
-									//		}
-									//		catch let error {
-									//			fatalError("\n" + "encodeEncodable throws error: '\(error)'")
-									//		}
-//	}
+		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
+								 // (modifies self)
+		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
+		atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
+						
+		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
+		atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:""))
+	}
+
+	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
+		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
+		realizeLinks()								// ---- 2. Replace weak references
+		groomModel(parent:nil, root:self)		// nil as Part?
+		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
+		
+		msg == nil ? nop : unlock(partTreeAs:msg)	// ---- 3. UNLOCK for PartTree
+	}
+
+
+	func polyWrapChildren() {
+		 // PolyWrap all Part's children
+		for i in 0..<children.count {
+			 // might only wrap polymorphic types?, but simpler to wrap all
+			children[i]			= children[i].polyWrap()	// RECURSIVE // (C)
+			children[i].parent	= self									// (D) backlink
+		}
+	}
+	func polyUnwrapRp() {
+		 // Unwrap all children, RECURSIVELY
+		for (i, child) in children.enumerated() {
+			guard let childPoly = child as? PolyWrap else { fatalError()	}
+			 // Replace Wrapped with Unwrapped:
+			children[i]			= childPoly.polyUnwrap()
+			children[i].parent	= self
+		}
+	}
+
+	// // // // // // // // // // // // // // // // // // // // // // // // // //
+	 // MARK Virtualize Links
+	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
+	func virtualizeLinks() {
+		forAllParts( { part in
+			if let partAsPort		= part as? Port {
+				assert(partAsPort.connectedToString == nil, "partAsPort.connectedToString should be empty before Virtualize")
+				partAsPort.connectedToString = partAsPort.connectedTo == nil ? ""
+									 : partAsPort.connectedTo!.fullName
+				partAsPort.connectedTo = nil		// disconnect
+			}
+		})
+	}
+	/// Add weak references to Port.connectedTo from their absolute path as a string
+	func realizeLinks() {
+		forAllParts(
+		{ part in
+			if let partAsPort		= part as? Port {			// is Port
+				assert(partAsPort.connectedTo == nil, "partAsPort.connectedTo should be empty before Embed")
+				if let name			= partAsPort.connectedToString {		// Has absolute toName
+					if let toPort	= partAsPort.find(name:name, inMe2:true) as? Port {
+//					if let toPort	= rootPart.find(name:name, inMe2:true) as? Port {
+						partAsPort.connectedTo = toPort					// Port found
+					}
+				}
+				partAsPort.connectedToString = nil			// virtual name removed
+			}
+		})
+	}
+
 //	override func read(from savedData:Data, ofType typeName: String) throws {
 //		logd("\n" + "read(from:Data, ofType:      ''\(typeName.description)''       )")
 //		guard let unarchiver : NSKeyedUnarchiver = try? NSKeyedUnarchiver(forReadingFrom:savedData) else {
@@ -206,13 +170,13 @@ class RootPart : Part {
 //		 // 3. Groom .fwDocument in rootPart
 //		rootPart.fwDocument 	= self		// Use my FwDocument
 //		 // 4. Remove symbolic links on Ports
-//		rootPart.realize()
+//		rootPart.realizeLinks()
 //
 //		logd("read(from:ofType:)  -- SUCCEEDED")
 //	}
 //
-
 //// END CODABLE /////////////////////////////////////////////////////////////////
+
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy : RootPart	= super.copy(with:zone) as! RootPart
@@ -241,11 +205,11 @@ class RootPart : Part {
 //								&& partTreeVerbose   == rhs.partTreeVerbose
 //		return rv
 //	}
-																				//	1. Write SCNScene to file. (older, SCNScene supported serialization)
-																				//	func write(_ __fd: Int32, _ __buf: UnsafeRawPointer!, _ __nbyte: Int) -> Int
-																				//	write(to:fileURL, options:0, delegate:nil, progressHandler:nil)
+	// MARK 4.
 	  // FileDocument requires these interfaces:
-	 // Data in the SCNScene
+	 // Data representation of the RootPart (or the SCNScene???)
+
+	 // MARK: - 3.8 Data
 	var data : Data? {
 		do {
 			let enc 			= JSONEncoder()
@@ -280,34 +244,6 @@ class RootPart : Part {
 		return nil
 	}
 
-	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
-	func virtualize() {
-		forAllParts(
-		{ part in
-			if let partAsPort		= part as? Port {
-				assert(partAsPort.connectedToString == nil, "partAsPort.connectedToString should be empty before Virtualize")
-				partAsPort.connectedToString = partAsPort.connectedTo == nil ? ""
-									 : partAsPort.connectedTo!.fullName
-				partAsPort.connectedTo = nil		// disconnect
-			}
-		})
-	}
-	/// Add weak references to Port.connectedTo from their absolute path as a string
-	func realize() {
-		forAllParts(
-		{ part in
-			if let partAsPort		= part as? Port {			// is Port
-				assert(partAsPort.connectedTo == nil, "partAsPort.connectedTo should be empty before Embed")
-				if let name			= partAsPort.connectedToString {		// Has absolute toName
-					if let toPort	= partAsPort.find(name:name, inMe2:true) as? Port {
-//					if let toPort	= rootPart.find(name:name, inMe2:true) as? Port {
-						partAsPort.connectedTo = toPort					// Port found
-					}
-				}
-				partAsPort.connectedToString = nil			// virtual name removed
-			}
-		})
-	}
 	convenience init(fromLibrary selectionString:String?) {
 
 		 // Make tree's root (a RootPart):

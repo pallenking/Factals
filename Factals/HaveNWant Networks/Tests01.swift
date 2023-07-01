@@ -243,7 +243,7 @@ state.scanSubMenu				= "Basic Atoms"
 r("Broatcast",  		e,	{ Broadcast([n:"a", "lat":1])})				// 190311 +
 r("Portless",  			e,  { Portless( [n:"a"]) 		})				// 190311 +
 r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
-r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
+xr("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
 r("MaxOr flipped",		e,  { MaxOr([    n:"a", f:1])	}) 	 			// 190311 +
 r("Ago",				e,  { Ago([      n:"a"])		}) 				// 190311 +
 xxr("Previous",			eSim + selfiePole(s:45,u:10), { Previous([n:"a"])})	// 190311 +
@@ -307,7 +307,7 @@ r("-Hangs as 2'nd ^r", e + selfiePole( s:9, u:3), { Net([placeMy:"stackX -1", pa
 //		Broadcast()
 	})
 
-xr("+Family Portrait", e + selfiePole( s:-90, u:30) +
+xxr("+Family Portrait", e + selfiePole( s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),

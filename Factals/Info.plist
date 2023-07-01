@@ -17,6 +17,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict/>
+	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
