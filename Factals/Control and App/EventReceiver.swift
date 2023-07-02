@@ -22,7 +22,7 @@ struct EventReceiver: NSViewRepresentable {
 	}
 }
 
-final class EventReceiverView: NSView {				// OUTSKI: --> FwView
+final class EventReceiverView: NSView {
 	let handler: (NSEvent) -> Void
 
 	init(handler: @escaping (NSEvent) -> Void) {

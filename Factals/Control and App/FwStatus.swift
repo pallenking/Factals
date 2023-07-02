@@ -345,31 +345,18 @@ bug;	let rob					= representedObject as? NSView//FwStatus
 		return  nibName == nil ? 		"Nib nil"	 	: "Nib loaded"
 	}
 }
-extension NSView : FwStatus	{								 ///FwView ///NSView
+extension NSView : FwStatus	{								 		   ///NSView
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= fwClassName.field(-13)
 		return ppFwStateHelper(msg, uid:self,
 			myLine:
 				"\(subviews.count) children "									+
-			//	"superv:\(ppUid(superview, showNil:true)) "						+
-				   "win:\(ppUid(window,    showNil:true)) " 					+
-			//	(self.needsDisplay ? "needsDisp " : "noRedisp ") 				+
-				{	if let fwView = self as? FwView {
-						// Test backlink:
-bug;					var rv	= ""//fwView === fwView.rootScn?.fwView ? "" : "## rootScn BAD ## "
-						rv		+= "scene:\(fwView.scene?.pp(.classUid) ?? "nil") "
-						rv		+= "delegate:\(String(describing:fwView.delegate))"
-//						rv		+= "handlr:\(fwView.handlr)"
-						return rv
-					}
-					return ""
-				}(),
-//				(self is FwView == false ? "" :
-//					"scene:\(self.scene.pp(.phrase))")							,
+				"superv:\(ppUid(superview, showNil:true)) "						+
+				   "win:\(ppUid(window,    showNil:true)) " 					,
 			otherLines:{ deapth in
 				var rv			= ""
 				if deapth > 0 {
-	//				rv				+= self.subviews.map {$0.ppFwState(deapth:deapth-1)			}
+	//				rv				+= self.subviews.map { $0.ppFwState(deapth:deapth-1)			}
 					for view in self.subviews {
 						rv			+= view.ppFwState(deapth:deapth-1)
 					}

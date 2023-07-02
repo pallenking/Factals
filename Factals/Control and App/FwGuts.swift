@@ -1,10 +1,8 @@
-//  FwGuts.swift -- All the 3D things in a FwView 2D window  C2018PAK
-
-// Coordinates Operation of root, vew, and scn
+//  FwGuts.swift -- Manage RootPart, RootVews and their RootScns
 
 import SceneKit
-// CherryPick2023-0520: remove NSObject
-class FwGuts : NSObject, ObservableObject {			// xyzzy4
+
+class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
 	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}

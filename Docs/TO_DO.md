@@ -87,7 +87,6 @@ unity v.s scenekit
 		It's my experience that those kind of errors occur when you attempt to 
 	modify SceneKit's scene graph (add/remove nodes, etc) outside the 
 	SCNSceneRendererDelegate delegate methods.
-CVDisplayLink (23) Queue : com.apple.scenekit.renderingQueue.SwiftFactals.FwView0x7b5c00009300 (serial)
 
 	3. Sort printing of Dictionaries
 	2. Things to prune

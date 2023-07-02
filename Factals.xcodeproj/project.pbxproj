@@ -127,7 +127,6 @@
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
 		9F5AE2D0298C3C4B00EF6B20 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */; };
 		9F5AE2D1298C3C4B00EF6B20 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */; };
-		9F5DA12729B41C6200D8EC9B /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9F675ADB2A2F6D6B006370E6 /* FwGutsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */; };
@@ -138,7 +137,6 @@
 		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
-		9F87DF3029900CEA00B9D3B6 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D02880921800DD0004 /* FwView.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
@@ -195,7 +193,6 @@
 /* Begin PBXFileReference section */
 		9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
 		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
-		9F0295D02880921800DD0004 /* FwView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
 		9F0295D72880926D00DD0004 /* FwwEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwwEvent.swift; sourceTree = "<group>"; };
@@ -413,7 +410,6 @@
 				9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */,
-				9F0295D02880921800DD0004 /* FwView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
@@ -646,7 +642,6 @@
 				9F417F2028EB94240047B359 /* MultiLink.swift in Sources */,
 				9F417F2128EB94270047B359 /* Link.swift in Sources */,
 				9F417F0D28EB93DE0047B359 /* Tests01.swift in Sources */,
-				9F5DA12729B41C6200D8EC9B /* FwView.swift in Sources */,
 				9F417F2B28EB944A0047B359 /* CommonParts.swift in Sources */,
 				9F417F1028EB93E90047B359 /* Library.swift in Sources */,
 				9F417F5B28EB956A0047B359 /* LldbInit.swift in Sources */,
@@ -753,7 +748,6 @@
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */,
 				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
-				9F87DF3029900CEA00B9D3B6 /* FwView.swift in Sources */,
 				9F19011F288090240078DB6C /* InspecParts.swift in Sources */,
 				9F1900F828808DC10078DB6C /* Link.swift in Sources */,
 				9FEE522B287602B400C8C22A /* CommonParts.swift in Sources */,

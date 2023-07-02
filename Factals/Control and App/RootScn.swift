@@ -11,30 +11,11 @@ import SceneKit
 class RootScn : NSObject {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?		// RootVew  of this RootScn
-//	weak
-//	 var fwView		: FwView?		// SCNView  of this RootScn
-
+x
 //	var scnScene	: SCNScene		// SCNScene of this RootScn
 	var scn		: SCNNode		// SCNNode  of this RootScn
 
 	 // MARK: - 3.1 init
-//	init(fwView fv:FwView?=nil) {
-//		//scnScene				= SCNScene()
-//		super.init()
-//
-//		//scnScene.isPaused		= true				// Pause animations while bulding
-//		//scnScene.physicsWorld.contactDelegate = self
-////		fwView					= fv ?? FwView(frame:CGRect(), options:[:])	// remember or make a new one
-////		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
-////		fwView!.rootScn 		= self
-//
-////		fwView!.backgroundColor	= NSColor("veryLightGray")!
-////		fwView!.antialiasingMode = .multisampling16X
-////		fwView!.delegate		= self as any SCNSceneRendererDelegate
-//		//fwView!.handler		= args.handler
-//		//fwView!.pointOfView 	= args.pointOfView
-//		//fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
-//	}
 	init(scn s:SCNNode?=nil) {
 		scn						= s ?? SCNNode()
 		super.init()
@@ -44,32 +25,7 @@ class RootScn : NSObject {				// xyzzy4
 
 	func configure(from c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
-//		animatePhysics 			= c.bool("animatePhysics") ?? false
-	
-		//if let gravityAny		= c["gravity"] {
-		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
-		//		scnScene.physicsWorld.gravity = gravityVect
-		//	}
-		//	else if let gravityY: Double = gravityAny.asDouble {
-		//		scnScene.physicsWorld.gravity.y = gravityY
-		//	}
-		//}
-		//if let speed			= c.cgFloat("speed") {
-		//	scnScene.physicsWorld.speed	= speed
-		//}
-//		fwView!.backgroundColor	= NSColor("veryLightGray")!
-//		fwView!.antialiasingMode = .multisampling16X
-//		fwView!.delegate		= self as any SCNSceneRendererDelegate
 	}
-								
-//	 /// animatePhysics is a posative quantity (isPaused is a negative)
-//	var animatePhysics : Bool {
-//		get {			return !scnScene.isPaused										}
-//		set(v) {		scnScene.isPaused = !v											}
-//	}
-
-
-
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
@@ -168,17 +124,17 @@ class RootScn : NSObject {				// xyzzy4
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 
 		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
-//		case .magnify:			bug
-//		case .smartMagnify:		bug
-//		case .swipe:			bug
-//		case .rotate:			bug
-//		case .gesture:			bug
-//		case .directTouch:		bug
-//		case .tabletPoint:		bug
-//		case .tabletProximity:	bug
-//		case .pressure:			bug
-//		case .changeMode:		bug
-//
+		case .magnify:			bug
+		case .smartMagnify:		bug
+		case .swipe:			bug
+		case .rotate:			bug
+		case .gesture:			bug
+		case .directTouch:		bug
+		case .tabletPoint:		bug
+		case .tabletProximity:	bug
+		case .pressure:			bug
+		case .changeMode:		bug
+
 //		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
 //			let t 				= nsEvent.touches(matching:.began, in:fwView)
 //			for touch in t {
