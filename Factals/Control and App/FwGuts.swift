@@ -253,7 +253,7 @@ bug
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rootScn.scn, 		// The root of the node hierarchy to be searched.
+			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
 		]
 //		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 

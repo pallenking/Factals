@@ -309,8 +309,13 @@ extension SCNNode /*: HasChildren */ {
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		guard let log		= DOClogQ else {	return "DOClog is nil"		}
+		guard let log			= DOClogQ else {	return "DOClog is nil"		}
 		var rv					= ""
+		 // UGLY: Can't override an extension
+		if let imARootNode		= self as? RootScn {
+			rv					+= imARootNode.pp(mode, aux)
+		}
+
 		switch mode {
 		case .name:
 			rv					= name ?? "_"

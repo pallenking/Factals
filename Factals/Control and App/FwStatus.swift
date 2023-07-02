@@ -232,7 +232,7 @@ extension RootVew : FwStatus	{									  ///RootVew
 		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.uidClass) ?? "nil") "
-		let myName				= "RootVew \(slot)    "
+		let myName				= "RootVews[\(slot)]  "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
@@ -247,7 +247,8 @@ extension RootVew : FwStatus	{									  ///RootVew
 extension RootScn : FwStatus	{										    ///RootScn
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
+		myLine					+= "(\(nodeCount()) SCNNodes) "
+	//	myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 //		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
 	//	myLine					+= "animatePhysics:\(animatePhysics)"

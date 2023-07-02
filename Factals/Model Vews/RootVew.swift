@@ -8,11 +8,13 @@
 import SceneKit
 
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
-	weak var fwGuts : FwGuts!			// Owner
+	weak var fwGuts : FwGuts!				// Owner
 
 	 // 3D APPEARANCE
-	var rootScn 	:  RootScn			// Master tree
+	var rootScn 	:  RootScn				// Master tree
 	 // Lighting, etc						// (in rootScn)
+
+//DELETE THESE:
 	var cameraScn	:  SCNNode?	= nil
 	var lightsScn	: [SCNNode]	= []
 	var axesScn		:  SCNNode?	= nil
@@ -47,15 +49,14 @@ RootVew:_______________
 		super.init(forPart:.null, scn:.null)
 		rootScn.rootVew			= self				// owner
 	}
-//	init(forPart rp:RootPart = .nullRoot, rootScn rs:RootScn = .nullRoot) {
 	init(forPart rp:RootPart, rootScn rs:RootScn=RootScn()) {
 		rootScn					= rs
-		super.init(forPart:rp, scn:rs.scn)
+		super.init(forPart:rp, scn:rs)
 		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
-		assert(scn === rootScn.scn, "paranoia: set RootVew with new scn root")
-		scn 					= rootScn.scn		// set RootVew with new scn root
+		assert(scn === rootScn, "paranoia: set RootVew with new scn root")
+		scn 					= rootScn		// set RootVew with new scn root
 	}
 
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}

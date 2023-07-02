@@ -8,21 +8,16 @@
 import Foundation
 import SceneKit
 
-class RootScn : NSObject {				// xyzzy4
+class RootScn : SCNNode {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?		// RootVew  of this RootScn
-	var scn		: SCNNode		// SCNNode  of this RootScn
 
 	 // MARK: - 3.1 init
 	init(scn s:SCNNode?=nil) {
-		scn						= s ?? SCNNode()
 		super.init()
 	}
-	
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
-
-	func configure(from c:FwConfig) {
-	}
+	func configure(from c:FwConfig) {											}
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
@@ -30,11 +25,11 @@ class RootScn : NSObject {				// xyzzy4
 
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
-		guard let rootVew 		= rootVew else { print("processEvent.rootVew[..] is nil"); return false}
+		guard let rootVew 		= rootVew else { print("processEvent.rootVews[?] is nil"); return false}
 		let slot				= rootVew.slot ?? -1
 		let fwGuts				= rootVew.fwGuts		// why ! ??
-//		let rootScn				= rootVew.rootScn
-//		let cam					= rootScn.cameraScn
+		let rootScn				= rootVew.rootScn
+		let cam					= rootVew.cameraScn
 
 		switch nsEvent.type {
 
@@ -132,25 +127,25 @@ class RootScn : NSObject {				// xyzzy4
 		case .pressure:			bug
 		case .changeMode:		bug
 
-//		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-//			let t 				= nsEvent.touches(matching:.began, in:fwView)
-//			for touch in t {
+		case .beginGesture:	bug	// override func touchesBegan(with event:NSEvent) {
+//			let touchs			= nsEvent.touches(matching:.began, in:fwView)
+//			for touch in touchs {
 //				let _:CGPoint	= touch.location(in:nil)
 //			}
-//		case .mouseMoved:		bug
-//			let t 				= nsEvent.touches(matching:.moved, in:fwView)
-//			for touch in t {
+		case .mouseMoved: bug
+//			let touchs			= nsEvent.touches(matching:.moved, in:fwView)
+//			for touch in touchs {
 //				let prevLoc		= touch.previousLocation(in:nil)
 //				let loc			= touch.location(in:nil)
 //				atEve(3, (print("\(prevLoc) \(loc)")))
 //			}
-//		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-//			let t 				= nsEvent.touches(matching:.ended, in:fwView)
-//			for touch in t {
+		case .endGesture: bug	//override func touchesEnded(with event:NSEvent) {
+//			let touchs			= nsEvent.touches(matching:.ended, in:fwView)
+//			for touch in touchs {
 //				let _:CGPoint	= touch.location(in:nil)
 //			}
 		default:
-		//	print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
+			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false
 		}
 		return true
@@ -189,7 +184,7 @@ class RootScn : NSObject {				// xyzzy4
 
 extension RootScn {		// lights and camera
 	var trunkScn : SCNNode? 	{
-		if let ts				= scn.child0  {
+		if let ts				= child0  {
 			return ts
 		}
 		fatalError("trunkVew is nil")
@@ -204,8 +199,7 @@ extension RootScn {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) -> SCNNode {
-			let scn				= scn
-			guard let rvOld		= scn.find(name:name) else {
+			guard let rvOld		= find(name:name) else {
 				let rvNew 		= SCNNode()
 				rvNew.name		= name			// arg 1
 
@@ -217,7 +211,7 @@ extension RootScn {		// lights and camera
 				}
 				light.intensity = intensity		// arg 4
 				rvNew.light		= light
-				scn.addChildNode(rvNew)
+				addChildNode(rvNew)
 
 				 // Position
 				if let position	= position {
@@ -305,14 +299,14 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 	func touchCameraScn() -> SCNNode {
 		let name				= "*-camera"
-		if let rv				= scn.find(name:name) {
+		if let rv				= find(name:name) {
 			return rv			// already exists
 		}
 		 // Make new camera system:
 		let rv					= SCNNode()
 		rv.name					= name
 		rv.position 			= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-		scn.addChildNode(rv)
+		addChildNode(rv)
 
 		 // Just make a whole new camera system from scratch
 		let camera				= SCNCamera()
@@ -345,13 +339,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func touchAxesScn() -> SCNNode {			// was updatePole()
 		let name				= "*-axis"
 		 //
-		if let rv 				= scn.find(name:name) {
+		if let rv 				= find(name:name) {
 			return rv
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		let axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		scn.addChild(node:axesScn)
+		addChild(node:axesScn)
 		axesScn.name				= name
 
 		 // X/Z Poles (thinner)
@@ -420,7 +414,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 		guard let fwGuts		= rootVew?.fwGuts else {		return						}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= scn.convertPosition(localPoint, to:scn)
+		let wPosn				= convertPosition(localPoint, to:self)
 //		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:scn)
 
 ///		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
@@ -624,16 +618,15 @@ extension RootScn : SCNSceneRendererDelegate {
 //		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
 //	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String { // CherryPick2023-0520: =params4aux
+	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
 			rv					+= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-			rv					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
+			rv					+= "scn:\(ppUid(self, showNil:true)) (\(nodeCount()) SCNNodes) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass)) "
 //			rv					+= "\(self.fwView?.pp(.uidClass) ?? "BAD: fwView=nil") "
 		}
-
 		return rv
 	}
 	static let nullRoot 		= {
