@@ -102,12 +102,12 @@ struct FwGutsView: View {
 				ForEach($fwGuts.rootVews) {	rootVew in
 					VStack {
 						ZStack {
-							let rootScn		= rootVew.rootScn.wrappedValue
+							let rootScn		= RootScn(scn:rootVew.scn.wrappedValue)
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
 								rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
 							/*
-							sceneview takes in a publisher		// PW -- the chatGPT :
+							sceneview takes in a publisher		// PW:
 							swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
 							scenkit -> write models back to viewmodel. s
 							viewmodel single source of truth.
@@ -115,7 +115,7 @@ struct FwGutsView: View {
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 							// now: SceneView 	native SwiftUI
 							SceneView(
-								scene:rootScn.scnScene,
+								scene:nil,//rootScn.scnScene,
 								pointOfView: nil,	// SCNNode
 								options: [.rendersContinuously],
 								preferredFramesPerSecond: 30,

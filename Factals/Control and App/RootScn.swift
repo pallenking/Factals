@@ -11,58 +11,62 @@ import SceneKit
 class RootScn : NSObject {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?		// RootVew  of this RootScn
-	weak
-	 var fwView		: FwView?		// SCNView  of this RootScn
+//	weak
+//	 var fwView		: FwView?		// SCNView  of this RootScn
 
-	var scnScene	: SCNScene		// SCNScene of this RootScn
-	//var scn		: SCNNode		// SCNNode  of this RootScn
+//	var scnScene	: SCNScene		// SCNScene of this RootScn
+	var scn		: SCNNode		// SCNNode  of this RootScn
 
 	 // MARK: - 3.1 init
-	init(fwView fv:FwView?=nil) {
-		scnScene				= SCNScene()
+//	init(fwView fv:FwView?=nil) {
+//		//scnScene				= SCNScene()
+//		super.init()
+//
+//		//scnScene.isPaused		= true				// Pause animations while bulding
+//		//scnScene.physicsWorld.contactDelegate = self
+////		fwView					= fv ?? FwView(frame:CGRect(), options:[:])	// remember or make a new one
+////		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
+////		fwView!.rootScn 		= self
+//
+////		fwView!.backgroundColor	= NSColor("veryLightGray")!
+////		fwView!.antialiasingMode = .multisampling16X
+////		fwView!.delegate		= self as any SCNSceneRendererDelegate
+//		//fwView!.handler		= args.handler
+//		//fwView!.pointOfView 	= args.pointOfView
+//		//fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
+//	}
+	init(scn s:SCNNode?=nil) {
+		scn						= s ?? SCNNode()
 		super.init()
-
-		scnScene.isPaused		= true				// Pause animations while bulding
-		scnScene.physicsWorld.contactDelegate = self
-		fwView					= fv ?? FwView(frame:CGRect(), options:[:])	// remember or make a new one
-		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
-		fwView!.rootScn 		= self
-
-//		fwView!.backgroundColor	= NSColor("veryLightGray")!
-//		fwView!.antialiasingMode = .multisampling16X
-//		fwView!.delegate		= self as any SCNSceneRendererDelegate
-		//fwView!.handler		= args.handler
-		//fwView!.pointOfView 	= args.pointOfView
-		//fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
 	}
 	
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 
 	func configure(from c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
-		animatePhysics 			= c.bool("animatePhysics") ?? false
+//		animatePhysics 			= c.bool("animatePhysics") ?? false
 	
-		if let gravityAny		= c["gravity"] {
-			if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
-				scnScene.physicsWorld.gravity = gravityVect
-			}
-			else if let gravityY: Double = gravityAny.asDouble {
-				scnScene.physicsWorld.gravity.y = gravityY
-			}
-		}
-		if let speed			= c.cgFloat("speed") {
-			scnScene.physicsWorld.speed	= speed
-		}
-		fwView!.backgroundColor	= NSColor("veryLightGray")!
-		fwView!.antialiasingMode = .multisampling16X
-		fwView!.delegate		= self as any SCNSceneRendererDelegate
+		//if let gravityAny		= c["gravity"] {
+		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
+		//		scnScene.physicsWorld.gravity = gravityVect
+		//	}
+		//	else if let gravityY: Double = gravityAny.asDouble {
+		//		scnScene.physicsWorld.gravity.y = gravityY
+		//	}
+		//}
+		//if let speed			= c.cgFloat("speed") {
+		//	scnScene.physicsWorld.speed	= speed
+		//}
+//		fwView!.backgroundColor	= NSColor("veryLightGray")!
+//		fwView!.antialiasingMode = .multisampling16X
+//		fwView!.delegate		= self as any SCNSceneRendererDelegate
 	}
 								
-	 /// animatePhysics is a posative quantity (isPaused is a negative)
-	var animatePhysics : Bool {
-		get {			return !scnScene.isPaused										}
-		set(v) {		scnScene.isPaused = !v											}
-	}
+//	 /// animatePhysics is a posative quantity (isPaused is a negative)
+//	var animatePhysics : Bool {
+//		get {			return !scnScene.isPaused										}
+//		set(v) {		scnScene.isPaused = !v											}
+//	}
 
 
 
@@ -164,34 +168,34 @@ class RootScn : NSObject {				// xyzzy4
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 
 		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
-		case .magnify:			bug
-		case .smartMagnify:		bug
-		case .swipe:			bug
-		case .rotate:			bug
-		case .gesture:			bug
-		case .directTouch:		bug
-		case .tabletPoint:		bug
-		case .tabletProximity:	bug
-		case .pressure:			bug
-		case .changeMode:		bug
-
-		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.began, in:fwView)
-			for touch in t {
-				let _:CGPoint	= touch.location(in:nil)
-			}
-		case .mouseMoved:		bug
-			let t 				= nsEvent.touches(matching:.moved, in:fwView)
-			for touch in t {
-				let prevLoc		= touch.previousLocation(in:nil)
-				let loc			= touch.location(in:nil)
-				atEve(3, (print("\(prevLoc) \(loc)")))
-			}
-		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
-			let t 				= nsEvent.touches(matching:.ended, in:fwView)
-			for touch in t {
-				let _:CGPoint	= touch.location(in:nil)
-			}
+//		case .magnify:			bug
+//		case .smartMagnify:		bug
+//		case .swipe:			bug
+//		case .rotate:			bug
+//		case .gesture:			bug
+//		case .directTouch:		bug
+//		case .tabletPoint:		bug
+//		case .tabletProximity:	bug
+//		case .pressure:			bug
+//		case .changeMode:		bug
+//
+//		case .beginGesture:		// override func touchesBegan(with event:NSEvent) {
+//			let t 				= nsEvent.touches(matching:.began, in:fwView)
+//			for touch in t {
+//				let _:CGPoint	= touch.location(in:nil)
+//			}
+//		case .mouseMoved:		bug
+//			let t 				= nsEvent.touches(matching:.moved, in:fwView)
+//			for touch in t {
+//				let prevLoc		= touch.previousLocation(in:nil)
+//				let loc			= touch.location(in:nil)
+//				atEve(3, (print("\(prevLoc) \(loc)")))
+//			}
+//		case .endGesture:	//override func touchesEnded(with event:NSEvent) {
+//			let t 				= nsEvent.touches(matching:.ended, in:fwView)
+//			for touch in t {
+//				let _:CGPoint	= touch.location(in:nil)
+//			}
 		default:
 		//	print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false
@@ -231,7 +235,6 @@ class RootScn : NSObject {				// xyzzy4
 }
 
 extension RootScn {		// lights and camera
-	var scn	: SCNNode			{		return scnScene.rootNode				}
 	var trunkScn : SCNNode? 	{
 		if let ts				= scn.child0  {
 			return ts
@@ -538,24 +541,26 @@ bug;	zoom4fullScreen()
 		let world2eye			= SCNMatrix4Invert(rootVew.cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
-
-		 // Orientation is "Height Dominated"
-		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
-		 // Is side going to be clipped off?
-		let ratioHigher			= nsRectSize.height / nsRectSize.width
-		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
-			zoomRv				*= ratioHigher
-		}
-		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
-			 // Orientation is "Width Dominated"
-			zoomRv				= rootVewSizeInEye.y
-			 // Is top going to be clipped off?
-			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
-				zoomRv				/= ratioHigher
-			}
-		}
-		return zoomRv
+bug
+return 0
+//		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
+//
+//		 // Orientation is "Height Dominated"
+//		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
+//		 // Is side going to be clipped off?
+//		let ratioHigher			= nsRectSize.height / nsRectSize.width
+//		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
+//			zoomRv				*= ratioHigher
+//		}
+//		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
+//			 // Orientation is "Width Dominated"
+//			zoomRv				= rootVewSizeInEye.y
+//			 // Is top going to be clipped off?
+//			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
+//				zoomRv				/= ratioHigher
+//			}
+//		}
+//		return zoomRv
 	}
 //
 //	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
@@ -671,9 +676,9 @@ extension RootScn : SCNSceneRendererDelegate {
 		if mode == .line {
 			rv					+= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
 			rv					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
-			rv					+= "animatePhysics:\(animatePhysics) "
-			rv					+= "\(self.scnScene.pp(.uidClass)) "
-			rv					+= "\(self.fwView?.pp(.uidClass) ?? "BAD: fwView=nil") "
+		//	rv					+= "animatePhysics:\(animatePhysics) "
+		//	rv					+= "\(self.scnScene.pp(.uidClass)) "
+//			rv					+= "\(self.fwView?.pp(.uidClass) ?? "BAD: fwView=nil") "
 		}
 
 		return rv

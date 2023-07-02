@@ -105,7 +105,7 @@ struct FactalsDocument: FileDocument {
 
 		 // --------------- A: Get BASIC Component Part (owned and used here)
 		let rootScn				= RootScn()
-		rootScn.scnScene.isPaused = true			// Pause animations while bulding
+///??	rootScn.scnScene.isPaused = true			// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
 		let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)

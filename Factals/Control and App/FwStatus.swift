@@ -250,16 +250,13 @@ extension RootScn : FwStatus	{										    ///RootScn
 		myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 //		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		myLine					+= "animatePhysics:\(animatePhysics)"
+	//	myLine					+= "animatePhysics:\(animatePhysics)"
 		return ppFwStateHelper("RootScn      ", uid:self,
 			myLine:myLine,
-			otherLines: { deapth in
-				var rv			=  self.scnScene.ppFwState(deapth:deapth-1)
-				rv				+= self.fwView?.ppFwState(deapth:deapth-1)
-									?? ppUid(pre:" ", self.fwView,
-										post:" \(DOClog.indentString())FwView IS nil #####", showNil:true) + "\n"
-				return rv
-			},
+//			otherLines: { deapth in
+//			var rv			=  ""//self.scnScene.ppFwState(deapth:deapth-1)
+//				return rv
+//			},
 			deapth:deapth-1)
 	}
 }
@@ -359,7 +356,7 @@ extension NSView : FwStatus	{								 ///FwView ///NSView
 			//	(self.needsDisplay ? "needsDisp " : "noRedisp ") 				+
 				{	if let fwView = self as? FwView {
 						// Test backlink:
-						var rv	= fwView === fwView.rootScn?.fwView ? "" : "## rootScn BAD ## "
+bug;					var rv	= ""//fwView === fwView.rootScn?.fwView ? "" : "## rootScn BAD ## "
 						rv		+= "scene:\(fwView.scene?.pp(.classUid) ?? "nil") "
 						rv		+= "delegate:\(String(describing:fwView.delegate))"
 //						rv		+= "handlr:\(fwView.handlr)"

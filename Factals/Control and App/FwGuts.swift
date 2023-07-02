@@ -150,18 +150,18 @@ bug;return nil
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
 			}
-		case "#":
-			let documentDirURL	= try! FileManager.default.url(
-											for:.documentDirectory,
-											in:.userDomainMask,
-											appropriateFor:nil,
-											create:true)
-			let suffix			= alt ? ".dae" : ".scn"
-			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
-			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("") } ()
-			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
-						else { fatalError("writing dumpSCN.\(suffix) failed")	}
+//		case "#":
+//			let documentDirURL	= try! FileManager.default.url(
+//											for:.documentDirectory,
+//											in:.userDomainMask,
+//											appropriateFor:nil,
+//											create:true)
+//			let suffix			= alt ? ".dae" : ".scn"
+//			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
+//			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
+//			let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("") } ()
+//			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
+//						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 			for rootVew in rootVews {
@@ -188,13 +188,13 @@ bug;return nil
 				print("ERROR: fwGuts.Process('x') failed")
 			}
 			return true								// recognize both
-		case "f": 					// // f // //
-			var msg					= ""
-			for rootVew in rootVews {
-				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
-			}
-			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
-			return true								// recognize both
+//		case "f": 					// // f // //
+//			var msg					= ""
+//			for rootVew in rootVews {
+//				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
+//			}
+//			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
+//			return true								// recognize both
 		case "?":
 			print ("\n=== FwGuts   commands:",
 				"\t'r'             -- r sound test",
@@ -208,7 +208,7 @@ bug;return nil
 				"\t'P'             -- Paint the skins of Views",
 				"\t'w'             -- print FwGuts camera",
 				"\t'x'             -- send to model",
-				"\t'f'             -- Freeze SceneKit Animations",
+//				"\t'f'             -- Freeze SceneKit Animations",
 				separator:"\n")
 			return false
 		default:					// // NOT RECOGNIZED // //
@@ -241,7 +241,8 @@ bug;return nil
 		 // Find rootVew of NSEvent
 		guard let rootVew		= inVew.rootVew else { return nil				}
 		let rootScn				= rootVew.rootScn
-		guard let fwView		= rootScn.fwView else { fatalError("rootScn has fwView=nil")}
+bug
+//		guard let fwView		= rootScn.fwView else { fatalError("rootScn has fwView=nil")}
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -257,10 +258,10 @@ bug;return nil
 		  //.sortResults:1, 			// (implied)
 			.rootNode:rootScn.scn, 		// The root of the node hierarchy to be searched.
 		]
-		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+//		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 								//		 + +   + +
-		let hits				= fwView.hitTest(locationInRoot, options:configHitTest)
+		let hits				= [SCNHitTestResult]() //fwView.hitTest(locationInRoot, options:configHitTest)
 								//		 + +   + +
 		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]

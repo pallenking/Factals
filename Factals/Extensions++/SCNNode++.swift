@@ -224,6 +224,8 @@ extension SCNNode /*: HasChildren */ {
 //		 geometry?.materials 	= [material]
 //	 }
 
+	 // MARK: - * PRocess envent
+
 	 // MARK: - 4.2 Manage Tree
 	var fullName	: String	{
 		let parentsFullName 	= parent?.fullName ?? ""
