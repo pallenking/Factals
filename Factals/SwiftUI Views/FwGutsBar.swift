@@ -14,7 +14,7 @@ struct FwGutsBar: View {
 		 //  --- B U T T O N S  ---
 		HStack {	// FULL!
 			Text("FwGutsBar").foregroundColor(.red).bold()
-			Text("   Print Application:")
+			Text("   PP App:")
 			Button(label:{	Text( "state").padding(.top, 300)				})
 			{	printFwState()												}
 

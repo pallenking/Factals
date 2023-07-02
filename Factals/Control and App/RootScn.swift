@@ -17,6 +17,27 @@ class RootScn : NSObject {				// xyzzy4
 	var scnScene	: SCNScene		// SCNScene of this RootScn
 	//var scn		: SCNNode		// SCNNode  of this RootScn
 
+	 // MARK: - 3.1 init
+	init(fwView fv:FwView?=nil) {
+		scnScene				= SCNScene()
+		super.init()
+
+		scnScene.isPaused		= true				// Pause animations while bulding
+		scnScene.physicsWorld.contactDelegate = self
+		fwView					= fv ?? FwView(frame:CGRect(), options:[:])	// remember or make a new one
+		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
+		fwView!.rootScn 		= self
+
+//		fwView!.backgroundColor	= NSColor("veryLightGray")!
+//		fwView!.antialiasingMode = .multisampling16X
+//		fwView!.delegate		= self as any SCNSceneRendererDelegate
+		//fwView!.handler		= args.handler
+		//fwView!.pointOfView 	= args.pointOfView
+		//fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
+	}
+	
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
+
 	func configure(from c:FwConfig) {
 		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 		animatePhysics 			= c.bool("animatePhysics") ?? false
@@ -32,29 +53,11 @@ class RootScn : NSObject {				// xyzzy4
 		if let speed			= c.cgFloat("speed") {
 			scnScene.physicsWorld.speed	= speed
 		}
-	}
-
-	 // MARK: - 3.1 init
-	init(fwView fv:FwView?=nil) {
-		scnScene				= SCNScene()
-		super.init()
-
-		scnScene.isPaused		= true				// Pause animations while bulding
-		scnScene.physicsWorld.contactDelegate = self
-		fwView					= fv ?? FwView(frame:CGRect(), options:[:])	// remember or make a new one
-		fwView!.scene			= scnScene			// register 3D-scene with 2D-View:
-		fwView!.rootScn 		= self
 		fwView!.backgroundColor	= NSColor("veryLightGray")!
 		fwView!.antialiasingMode = .multisampling16X
 		fwView!.delegate		= self as any SCNSceneRendererDelegate
-
-		//fwView!.handler		= args.handler
-		//fwView!.pointOfView 	= args.pointOfView
-		//fwView!.preferredFramesPerSecond = args.preferredFramesPerSecond
 	}
-	
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
-	
+								
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
 	var animatePhysics : Bool {
 		get {			return !scnScene.isPaused										}
@@ -66,7 +69,7 @@ class RootScn : NSObject {				// xyzzy4
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
-	let nsTrackPad				= trueF//falseF//
+	let nsTrackPad				= falseF//trueF//
 
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
@@ -212,7 +215,7 @@ class RootScn : NSObject {				// xyzzy4
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		rootVew!.selfiePole.spin      -= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+		rootVew!.selfiePole.spin =  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
 		rootVew!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {

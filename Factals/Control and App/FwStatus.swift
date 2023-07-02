@@ -186,7 +186,7 @@ extension Simulator : FwStatus	{									///Simulator
 								: rootPart.simulator === self ? ""
 								: "OWNER:'\(rootPart!)' BAD"
 		if simBuilt {
-			var myLine2 			= "built, disabled"
+			var myLine2 		= "built, disabled"
 			if simEnabled {
 				myLine2			= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
 				myLine2			+= "t:\(timeNow) "///
@@ -222,9 +222,9 @@ extension Simulator : FwStatus	{									///Simulator
 
 extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
-		guard let rootVew									else {	return "Vew.rootVew == nil "}
-		guard let fwGuts 		= rootVew.fwGuts 			else {	return "Vew.rootVew?.fwGuts == nil " }
-		guard let slot		= rootVew.slot,
+		guard let rootVew									else {	return "Vew.rootVew == nil\n"}
+		guard let fwGuts 		= rootVew.fwGuts 			else {	return "Vew.rootVew?.fwGuts == nil\n" }
+		guard let slot			= rootVew.slot,
 		  slot >= 0 && slot < fwGuts.rootVews.count else { fatalError("Bad slot")}
 
 		var myLine				= "LockVal:\(rootVewLock.value ?? -99) "
@@ -263,7 +263,7 @@ extension RootScn : FwStatus	{										    ///RootScn
 			deapth:deapth-1)
 	}
 }
-extension SelfiePole : FwStatus	{									///SCNScene
+extension SelfiePole : FwStatus	{								   ///SelfiePole
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= self.pp(.line)
 		return ppFwStateHelper("SelfiePole   ", uid:self,
@@ -272,7 +272,7 @@ extension SelfiePole : FwStatus	{									///SCNScene
 	}
 
 }
-extension SCNScene : FwStatus	{							///RootScn ///SCNScene
+extension SCNScene : FwStatus	{									 ///SCNScene
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNScene     ", uid:self,
 			myLine:"isPaused:\(isPaused)",
@@ -348,18 +348,31 @@ bug;	let rob					= representedObject as? NSView//FwStatus
 		return  nibName == nil ? 		"Nib nil"	 	: "Nib loaded"
 	}
 }
-extension NSView : FwStatus	{								 		  ///NSView
+extension NSView : FwStatus	{								 ///FwView ///NSView
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= fwClassName.field(-13)
 		return ppFwStateHelper(msg, uid:self,
 			myLine:
 				"\(subviews.count) children "									+
-				"superview:\(ppUid(superview, showNil:true)) "					+
-				   "window:\(ppUid(window,    showNil:true)) " 					+
-				(self.needsDisplay ? "needsDisplay " : "noRedisplay ") 			,//+
+			//	"superv:\(ppUid(superview, showNil:true)) "						+
+				   "win:\(ppUid(window,    showNil:true)) " 					+
+			//	(self.needsDisplay ? "needsDisp " : "noRedisp ") 				+
+				{	if let fwView = self as? FwView {
+						// Test backlink:
+						var rv	= fwView === fwView.rootScn?.fwView ? "" : "## rootScn BAD ## "
+						rv		+= "scene:\(fwView.scene?.pp(.classUid) ?? "nil") "
+						rv		+= "delegate:\(String(describing:fwView.delegate))"
+//						rv		+= "handlr:\(fwView.handlr)"
+						return rv
+					}
+					return ""
+				}(),
+//				(self is FwView == false ? "" :
+//					"scene:\(self.scene.pp(.phrase))")							,
 			otherLines:{ deapth in
 				var rv			= ""
 				if deapth > 0 {
+	//				rv				+= self.subviews.map {$0.ppFwState(deapth:deapth-1)			}
 					for view in self.subviews {
 						rv			+= view.ppFwState(deapth:deapth-1)
 					}
@@ -369,6 +382,7 @@ extension NSView : FwStatus	{								 		  ///NSView
 			deapth:deapth-1)
 	}
 }
+
 extension NSException : FwStatus	{							 ///NSException
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("NSException  ", uid:self,

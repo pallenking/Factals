@@ -158,7 +158,7 @@ bug;		let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(from
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-			guard let dat		= fwGuts.rootPart?.data else {				// PW+: ???
+			guard let dat		= fwGuts.rootPart?.data else {				// PW-DONE worried about how RootPart.data worked
 				panic("FactalsDocument.fwGuts.rootPart.data is nil")
 				let d			= fwGuts.rootPart?.data		// redo for debug
 				throw DocError.text("FactalsDocument.fwGuts.rootPart.data is nil")

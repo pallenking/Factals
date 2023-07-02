@@ -42,7 +42,7 @@ final class EventReceiverView: NSView {				// OUTSKI: --> FwView
 	}
 	override var acceptsFirstResponder: Bool { true 							}
 
-// WANTED: override ALL first responder messages, PW10 One sub to handle these 35 lines?
+// PW10: rewrite ALL first responder messages with one sub to handle these 35 lines?
 //	func processEvent(nsEvent:NSEvent, inVew vew:Vew) {}
 								//.onAppear(perform: {
 								//	NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {

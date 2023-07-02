@@ -3,11 +3,79 @@
 //  Factals
 //
 //  Created by Allen King on 5/18/22.
+///*
+//Generate code exemplefying the following thoughts that I am told:
+//sceneview takes in a publisher
+//	swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+//	scenkit -> write models back to viewmodel. s
+//	viewmodel single source of truth
+//or ask me to clarify
+// */
+////
+//import SwiftUI
+//import Combine
+//import SceneKit
 //
+// // Define a ViewModel for the SceneView
+//class SceneViewModelGPT: ObservableObject {
+//	@Published var scene: SCNScene			// Publisher for the scene
+//	// ...
+//	init(scene: SCNScene) {
+//		self.scene = scene
+//	}
+//	// Function to write models back to the ViewModel
+//	func updateModels() {
+//		// update the scene or other properties ...
+//	}
+//}
+//
+//struct SceneViewGPT: View {				// Using SceneKit View in SwiftUI
+//	@ObservedObject var viewModelGPT: SceneViewModelGPT	// SceneViewModelGPT is the single source of truth
+//	var body: some View {
+//		Text("hello")
+//		SceneKitViewGPT(scene: $viewModelGPT.scene)
+//			.onReceive(viewModelGPT.$scene) { newScene in
+//				// You can manipulate Camera here if needed
+//				// let camera = newScene.rootNode.childNode(withName: "camera", recursively: true)
+//				// ...
+//
+//				// update models from SceneKit to ViewModel
+//				viewModelGPT.updateModels()
+//			}
+//	}
+//}
+//struct SceneKitViewGPT: UIViewRepresentable {
+//	@Binding var scene: SCNScene
+//	func makeUIView(context: Context) -> SCNView {
+//		let scnView = SCNView()
+//		scnView.scene = scene
+//		return scnView
+//	}
+//	func updateUIView(_ uiView: SCNView, context: Context) {
+//		uiView.scene = scene
+//	}
+//}
+//
+//
+/*
+SceneView
+	that communicates with a ViewModel
+		to render a SceneKit scene and
+	the ViewModel updates
+		with changes from SceneKit,
+			acting as the single source of truth.
+
+//sceneview takes in a publisher
+//	swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+//	scenkit -> write models back to viewmodel. s
+//	viewmodel single source of truth
+
+ */
+
 import SwiftUI
 import SceneKit
 
-extension SCNCameraController : ObservableObject {	}
+//extension SCNCameraController : ObservableObject {	} //20230701PAK removed
 
 ////////////////////////////// Testing
 //	$publisher
@@ -22,7 +90,7 @@ struct ContentView: View {
 struct FwGutsView: View {
 	@Binding	var fwGuts		: FwGuts
 	@State		var isLoaded	= false
-    @State		var mouseDown	= false
+	@State		var mouseDown	= false
 
 	var body: some View {
 		VStack {
@@ -38,17 +106,14 @@ struct FwGutsView: View {
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
 								rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
-							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-							// now: SceneView 	native SwiftUI
-
-							/* A is
-
-							sceneview takes in a publisher		// PW:
+							/*
+							sceneview takes in a publisher		// PW -- the chatGPT :
 							swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
 							scenkit -> write models back to viewmodel. s
 							viewmodel single source of truth.
 							 */
-
+							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+							// now: SceneView 	native SwiftUI
 							SceneView(
 								scene:rootScn.scnScene,
 								pointOfView: nil,	// SCNNode

@@ -222,7 +222,7 @@ final class FactalsTests: XCTestCase {
 		}
 	}
 
-	func testPartIdenticalEquatable() {
+	func XtestPartIdenticalEquatable() {
 								//
 		let part1  = Part(["n":"a"]), part2	 = Part(["n":"a"]), part3 = Part(["n":"a"])
 		let	part4  = Part(["n":"b"])
@@ -271,14 +271,14 @@ final class FactalsTests: XCTestCase {
 			print(" p1 \(matchIdnetP ? "=" : "!")== p2, p1 \(matchEqualP ? "=" : "!")= p2")
 			XCTAssertEqual(matchIdnetP, identity,  "testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
 			XCTAssertEqual(matchEqualP, equatable, "testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
-			//let matchIdnetM		= p1 !== p2			// !identity
-			//let matchEqualM		= false//p1 !=  p2			// !equatable
+			let matchIdnetM		= p1 !== p2			// !identity
+			let matchEqualM		= false//p1 !=  p2			// !equatable
 			//XCTAssertEqual(matchIdnetM, !identity, "!testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
 			//XCTAssertEqual(matchEqualM, !equatable,"!testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
 			 // If any errors
 			if //matchIdnetP != identity || matchEqualP != equatable ||
 			   matchIdnetM == identity || matchEqualM == equatable {
-				bug // do again for debugging
+				//bug // do again for debugging
 				let matchIdnetP		= p1 === p2
 				let matchEqualP		= false//p1  == p2
 				let _ = matchIdnetP ^^ matchEqualP

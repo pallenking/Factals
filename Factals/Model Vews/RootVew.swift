@@ -17,7 +17,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	var lightsScn	: [SCNNode]	= []
 	var axesScn		:  SCNNode?	= nil
 
-	@Published var selfiePole	= SelfiePole()	// PW2 had to move to superclass
+	@Published var selfiePole	= SelfiePole()	// PW2 have had to move to superclass (perhaps OK)
 /* Had to move to superclass for ?XXXBAD?
 RootVew:_______________
 |	@Published var selfiePole
@@ -42,25 +42,12 @@ RootVew:_______________
 	}
 
 	 /// generate a new View, returning its index
-//	init() {
-//		rootScn					= RootScn()
-//		super.init(forPart:.null, scn:.null)
-//		rootScn.rootVew			= self				// owner
-//	}
-//	init(forPart rp:RootPart = .nullRoot, rootScn rs:RootScn = .nullRoot) {
-//		rootScn					= rs
-//		super.init(forPart:rp, scn:rs.scn)
-//		rootScn.rootVew			= self				// owner
-//
-//		 // Set the base scn to comply as a Vew
-//		assert(scn === rootScn.scn, "paranoia: set RootVew with new scn root")
-//		scn 					= rootScn.scn		// set RootVew with new scn root
-//	}
 	init() {
 		rootScn					= RootScn()
 		super.init(forPart:.null, scn:.null)
 		rootScn.rootVew			= self				// owner
 	}
+//	init(forPart rp:RootPart = .nullRoot, rootScn rs:RootScn = .nullRoot) {
 	init(forPart rp:RootPart, rootScn rs:RootScn=RootScn()) {
 		rootScn					= rs
 		super.init(forPart:rp, scn:rs.scn)

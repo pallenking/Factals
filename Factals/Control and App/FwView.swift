@@ -5,7 +5,6 @@ import SceneKit
 import SwiftUI
 
 class FwView : SCNView {
-
 			//\\\///\\\///\\\  Our super, SCNView, conforms to SCNSceneRenderer:
 			//\\\				Therefore we have
 			//\\\ 	  .sceneTime					-
@@ -18,9 +17,10 @@ class FwView : SCNView {
 			//\\\ SCNView.scene		same as fwGuts:
 
 	 // MARK: - 2. Object Variables:
-//	weak							// backpointer?
-	 var rootScn : RootScn?		= nil
-//		var handler : (NSEvent)->Void = { nsEvent in fatalError("FwView's default handler is null")}
+	 //	In assumed reality, an FwView _owns_ the RootScn
+	var rootScn : RootScn?		= nil
+
+//	var handler : (NSEvent)->Void = { nsEvent in fatalError("FwView's default handler is null")}
 
 	init(frame:CGRect, options:[String:Any]=[:]) {
 		super.init(frame:CGRect(), options: [String : Any]())
@@ -39,7 +39,7 @@ class FwView : SCNView {
 		 //	SCNDebugOptions.showLightExtents,	//?EH? regions affected by each SCNLight
 				// Debugging Physics
 		//	SCNDebugOptions.showPhysicsShapes,	// physics shapes for nodes with SCNPhysicsBody.
-			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
+		 //	SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
 		]
 
 		allowsCameraControl 	= false		// we control camera	//true//args.options.contains(.allowsCameraControl)
