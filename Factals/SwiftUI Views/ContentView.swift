@@ -16,6 +16,7 @@
 //import Combine
 //import SceneKit
 //
+// SCNScene ChatGPT ================
 // // Define a ViewModel for the SceneView
 //class SceneViewModelGPT: ObservableObject {
 //	@Published var scene: SCNScene			// Publisher for the scene

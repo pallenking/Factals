@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9F00FE5029BC2A1200B11BFE /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */; };
 		9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
 		9F0295D32880923000DD0004 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
 		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
@@ -108,7 +107,6 @@
 		9F417F4C28EB95310047B359 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
 		9F417F4D28EB95350047B359 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9F417F4E28EB95390047B359 /* BBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51BF286BCF0A00C8C22A /* BBox.swift */; };
-		9F417F4F28EB953E0047B359 /* SCNScene++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */; };
 		9F417F5028EB95420047B359 /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
 		9F417F5128EB95450047B359 /* SCNNode++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE70A8284318B500E9E2AE /* SCNNode++.swift */; };
 		9F417F5228EB954A0047B359 /* SCNGeometry++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */; };
@@ -133,7 +131,6 @@
 		9F675ADC2A2F7297006370E6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F675ADD2A2F729D006370E6 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
 		9F675ADE2A2F72A0006370E6 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190114288090240078DB6C /* Document.xib */; };
-		9F675ADF2A2F72EA006370E6 /* SceneKitHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */; };
 		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
@@ -176,7 +173,6 @@
 		9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9FEE6F1F2835779000E9E2AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1E2835779000E9E2AE /* Preview Assets.xcassets */; };
 		9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
-		9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */; };
 		9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE70A8284318B500E9E2AE /* SCNNode++.swift */; };
 /* End PBXBuildFile section */
 
@@ -191,7 +187,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHostingView.swift; sourceTree = "<group>"; };
 		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
@@ -290,7 +285,6 @@
 		9FEE6F202835779000E9E2AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FEE6F212835779000E9E2AE /* Factals.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Factals.entitlements; sourceTree = "<group>"; };
 		9FEE6F272837C54E00E9E2AE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene++.swift"; sourceTree = "<group>"; };
 		9FEE6FD72841A70E00E9E2AE /* Vew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vew.swift; sourceTree = "<group>"; };
 		9FEE70A8284318B500E9E2AE /* SCNNode++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode++.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -369,7 +363,6 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9F00FE4F29BC2A1200B11BFE /* SceneKitHostingView.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */,
 				9FBD6E4629258E2500F14075 /* VewBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
@@ -493,7 +486,6 @@
 				9F0295DA2880928600DD0004 /* FwTypes.swift */,
 				9FE1AF0B2852971400A56193 /* Fw++.swift */,
 				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
-				9FEE6F2D283E724100E9E2AE /* SCNScene++.swift */,
 				9F969540288B4E8800106DBC /* SwiftUI++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
 				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
@@ -662,7 +654,6 @@
 				9F417F2628EB94380047B359 /* Splitter.swift in Sources */,
 				9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */,
 				9F417F4828EB94EE0047B359 /* FwwEvent.swift in Sources */,
-				9F417F4F28EB953E0047B359 /* SCNScene++.swift in Sources */,
 				9F417F5128EB95450047B359 /* SCNNode++.swift in Sources */,
 				9F417F1628EB94020047B359 /* EditNet.swift in Sources */,
 				9F417F1828EB94080047B359 /* FwBundle.swift in Sources */,
@@ -703,7 +694,6 @@
 				9F417F5928EB95620047B359 /* Uid.swift in Sources */,
 				9F417F2A28EB94470047B359 /* Port.swift in Sources */,
 				9F417F3428EB94710047B359 /* InspecParts.swift in Sources */,
-				9F675ADF2A2F72EA006370E6 /* SceneKitHostingView.swift in Sources */,
 				9F417F0B28EB93D80047B359 /* LangDeser.swift in Sources */,
 				9F417F1728EB94050047B359 /* Tunnel.swift in Sources */,
 				9F417F5628EB95590047B359 /* CG++.swift in Sources */,
@@ -775,7 +765,6 @@
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,
 				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,
 				9F19010328808DC10078DB6C /* Leaf.swift in Sources */,
-				9FEE6F2E283E724100E9E2AE /* SCNScene++.swift in Sources */,
 				9FEE6F1A2835778A00E9E2AE /* ContentView.swift in Sources */,
 				9F4A3ADA288B386300574925 /* Part.swift in Sources */,
 				9FEE521728720A2300C8C22A /* FwGuts.swift in Sources */,
@@ -788,7 +777,6 @@
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
-				9F00FE5029BC2A1200B11BFE /* SceneKitHostingView.swift in Sources */,
 				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,

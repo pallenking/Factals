@@ -113,39 +113,30 @@ struct FactalsDocument: FileDocument {
 		fwGuts.rootVews.append(newRootVew)
 
 		 // --------------- C: FactalsDocument
-		var doc					= FactalsDocument(fwGuts:fwGuts)
+		let doc					= FactalsDocument(fwGuts:fwGuts)
 		fwGuts.document 		= doc
 		DOC						= doc				// register (UGLY!!!)
 		let c					= doc.config + rootPart.ansConfig
 		doc.configure(from:c)
 	}
 
-	 /// Requirement of <<FileDocument>> protocol
-	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .sceneKitScene, .text] }
+	 /// Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
+	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .text] }
 	static var writableContentTypes: [UTType] { [.factals] }
-			//	struct FileDocumentWriteConfiguration (FileDocument: typealias WriteConfiguration = ~)
-			//		let contentType : UTType		// The expected uniform type of the file contents.
-			//		let existingFile: FileWrapper?	// The file wrapper containing the current document content. nil if the document is unsaved.
-
 	init(configuration: ReadConfiguration) throws {
 		guard let data : Data 	= configuration.file.regularFileContents else {
 			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
 			throw CocoaError(.fileReadCorruptFile)								}
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .factals:
-			throw CocoaError(.fileWriteUnknown)
 			 // Decode data as a Root Part
-bug;		let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
+			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
 			let fwGuts			= FwGuts(rootPart:rootPart)
 			self.init(fwGuts:fwGuts)
 
 			config				+= rootPart.ansConfig	// from library
-		case .sceneKitScene:
-			guard let fwGuts	= FwGuts(data: data, encoding: .utf8) else {
-				fatalError("FwGuts(data:) failed")								}
-			self.init(fwGuts:fwGuts)
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}

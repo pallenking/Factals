@@ -11,8 +11,6 @@ import SceneKit
 class RootScn : NSObject {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?		// RootVew  of this RootScn
-x
-//	var scnScene	: SCNScene		// SCNScene of this RootScn
 	var scn		: SCNNode		// SCNNode  of this RootScn
 
 	 // MARK: - 3.1 init
@@ -24,7 +22,6 @@ x
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 
 	func configure(from c:FwConfig) {
-		assert(c.bool("isPaused") == nil, "SCNScene.isPaused is depricated, use .animatePhysics")
 	}
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys

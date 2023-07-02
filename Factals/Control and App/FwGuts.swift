@@ -38,37 +38,36 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 //		let xx					= self.pp(.classUid)
 //		atBld(5, log("Created \(self.pp(.classUid))"))
 	}
-
-//	// FileDocument requires these interfaces:
-	 // Data in the SCNScene
-	var data : Data? {
-bug;return nil
-//		do {		// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-//			try self.document.write(to: fileURL)
-//		} catch {
-//			print("error writing file: \(error)")
-//		}
-//					// 2. Get file to data
-//		let data				= try? Data(contentsOf:fileURL)
-//		return data//Cannot convert value of type '() -> ()' to expected argument type 'Int'
-	}
-	 // initialize new SCNScene from Data
-	convenience init?(data:Data, encoding:String.Encoding) {
-		fatalError("FwGuts.init?(data:Data")
-	//	do {		// 1. Write data to file.
-	//		try data.write(to: fileURL)
-	//	} catch {
-	//		print("error writing file: \(error)")
-	//	}
-	//	self.init()
-//		do {		// 2. Init self from file
-//			try self.init(fwConfig:[:])
-//	//		try super.init(url: fileURL)
-//		} catch {
-//			print("error initing from url: \(error)")
-//			return nil
-//		}
-	}
+					//	//	// FileDocument requires these interfaces:
+					//		 // Data in the SCNScene
+					//		var data : Data? {
+					//	bug;return nil
+					//	//		do {		// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+					//	//			try self.document.write(to: fileURL)
+					//	//		} catch {
+					//	//			print("error writing file: \(error)")
+					//	//		}
+					//	//					// 2. Get file to data
+					//	//		let data				= try? Data(contentsOf:fileURL)
+					//	//		return data//Cannot convert value of type '() -> ()' to expected argument type 'Int'
+					//		}
+					//		 // initialize new SCNScene from Data
+					//		convenience init?(data:Data, encoding:String.Encoding) {
+					//			fatalError("FwGuts.init?(data:Data")
+					//		//	do {		// 1. Write data to file.
+					//		//		try data.write(to: fileURL)
+					//		//	} catch {
+					//		//		print("error writing file: \(error)")
+					//		//	}
+					//		//	self.init()
+					//	//		do {		// 2. Init self from file
+					//	//			try self.init(fwConfig:[:])
+					//	//	//		try super.init(url: fileURL)
+					//	//		} catch {
+					//	//			print("error initing from url: \(error)")
+					//	//			return nil
+					//	//		}
+					//		}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!")	}
 		guard let rootPart else {	fatalError("addRootVew with nil rootPart")		}

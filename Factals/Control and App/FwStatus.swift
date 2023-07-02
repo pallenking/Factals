@@ -269,16 +269,16 @@ extension SelfiePole : FwStatus	{								   ///SelfiePole
 	}
 
 }
-extension SCNScene : FwStatus	{									 ///SCNScene
-	func ppFwState(deapth:Int=999) -> String {
-		return ppFwStateHelper("SCNScene     ", uid:self,
-			myLine:"isPaused:\(isPaused)",
-			otherLines:{ deapth in
-				return self.physicsWorld.ppFwState(deapth:deapth-1)
-			},
-			deapth:deapth-1)
-	}
-}
+//extension SCNScene : FwStatus	{									 ///SCNScene
+//	func ppFwState(deapth:Int=999) -> String {
+//		return ppFwStateHelper("SCNScene     ", uid:self,
+//			myLine:"isPaused:\(isPaused)",
+//			otherLines:{ deapth in
+//				return self.physicsWorld.ppFwState(deapth:deapth-1)
+//			},
+//			deapth:deapth-1)
+//	}
+//}
 extension SCNPhysicsWorld : FwStatus	{					  ///SCNPhysicsWorld
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNPhysicsWor", uid:self,

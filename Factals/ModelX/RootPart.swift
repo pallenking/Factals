@@ -207,7 +207,7 @@ class RootPart : Part {
 //	}
 	// MARK 4.
 	  // FileDocument requires these interfaces:
-	 // Data representation of the RootPart (or the SCNScene???)
+	 // Data representation of the RootPart
 
 	 // MARK: - 3.8 Data
 	var data : Data? {
@@ -232,13 +232,15 @@ class RootPart : Part {
 	}
 	convenience init?(data:Data, encoding:String.Encoding) {
 
-		bug
+		bug							// PW: need RootPart(data, encoding)
 	//	let rootPart 			= try! JSONDecoder().decode(RootPart.self, from:data)
 	//	self.init(data:data, encoding:encoding)		// INFINITE
 		do {		// 1. Write data to file. (Make this a loopback)
+			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
 			try data.write(to:fileURL)
-			//self.init(url: fileURL)
-			bug;self.init()		//try self.init(url: fileURL)
+bug			//self.init(url: fileURL)
+			self.init()		//try self.init(url: fileURL)
 		} catch {
 			print("error using file: \(error)")									}
 		return nil

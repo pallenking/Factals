@@ -141,9 +141,9 @@ extension Array 		: FwAny		{
 	}
 }
 
-extension SCNScene 		: FwAny		{
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{	return "SCNScene:\(ppUid(self)) " }
-}
+//extension SCNScene 		: FwAny		{
+//	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{	return "SCNScene:\(ppUid(self)) " }
+//}
 extension NSView 		: FwAny		{		// also SCNView
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		let className			= self is SCNView ? "SCNView" : "NSView"
