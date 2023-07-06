@@ -425,7 +425,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 			}
 			return rv
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 

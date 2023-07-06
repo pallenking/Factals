@@ -289,7 +289,7 @@ enum FwwEvent : Codable {	// Uid,
 				return pp(.short, aux)
 			}
 		default:
-			return ppDefault(mode:mode, aux:aux)// NO return super.pp(mode, aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }

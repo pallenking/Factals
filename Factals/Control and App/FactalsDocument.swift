@@ -431,7 +431,7 @@ bug
 		case .tree:
 			return log.indentString() + " FactalsDocument" + "\n"
 		default:
-			return ppDefault(mode:mode, aux:aux)						// NO: return super.pp(mode, aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }

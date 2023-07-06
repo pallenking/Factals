@@ -1465,7 +1465,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
 			}
 		default:
-			return ppDefault(mode:mode, aux:aux)// NO return super.pp(mode, aux)
+			return ppDefault(mode:mode, aux:aux)	// NO, try default method
 		}
 		return rv
 	}

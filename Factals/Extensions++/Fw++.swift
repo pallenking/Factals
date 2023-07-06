@@ -4,23 +4,23 @@ import SwiftUI
 
 //static let error<C:FwAny>		= C()	// Any use of this should fail (NOT IMPLEMENTED)
 
+
+// AdditiveArithmetic
+
+
   // ///////////////////////////////////////////////////////////////////////////
- /// For all of Factals components
+ /// FwALL :H: Factal Workbench: ALL components
 protocol  FwAny  {		// : Codable : Equatable
 	var  fwClassName	: String 	{	get										}
 	func pp(_ mode:PpMode, _ aux:FwConfig) -> String
 }
  /// This extension provides uniform default values.
 extension FwAny  {
-	  // Default implementation, with default values:
-	 // N.B: If this loops forever, check self's class .pp protocol
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-//		lastSelfCt				+= 1
-//		assert(lastSelfCt < 100, "ppMode Default Hang")
 
+	  // Default implementation, with default values:
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+		 // N.B: If this loops forever, check self's class .pp protocol
 		let rv 					= self.ppDefault(mode:mode, aux:aux)
-//		let rv 					= self.pp(mode, aux)
-//		lastSelfCt				-= 1//lastSelfCt > 0 ? 1 : 0
 		return rv
 	}
 	
@@ -53,9 +53,6 @@ extension FwAny  {
 			return self.pp(.short, aux)
 		case .tree:							// -> .line
 			return self.pp(.line,   aux)
-		//	default:							// -> ERROR
-		//		let x = self.pp(.fullNameUidClass)
-		//		return "ppDefault ERROR: \(x) unsuported"
 		}
 	}
 	var fwClassName 	: String 		{
@@ -136,7 +133,7 @@ extension Array 		: FwAny		{
 				}
 				return rv + "]"
 			default:
-				return ppDefault(mode:mode, aux:aux)
+				return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
@@ -170,17 +167,17 @@ extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class '
 extension SCNConstraint	: FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNGeometry	: FwAny 	{	// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		return ppDefault(mode:mode, aux:aux)
+		return ppDefault(mode:mode, aux:aux)			// NO, try default method
 	}
 }
 extension SCNAudioSource  	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		return ppDefault(mode:mode, aux:aux)		//fatalError("\n\n" + "SCNAudioSource not supported\n\n")
+		return ppDefault(mode:mode, aux:aux)			// NO, try default method
 	}
 }
 extension SCNAudioPlayer 	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		return ppDefault(mode:mode, aux:aux)		//fatalError("\n\n" + "SCNAudioPlayer not supported\n\n")
+		return ppDefault(mode:mode, aux:aux)			// NO, try default method
 	}}
 
 /* Future
@@ -361,7 +358,7 @@ extension Dictionary		: FwAny {
 			}
 			return rv + "]"
 		default:
-			return ppDefault(mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
@@ -380,7 +377,7 @@ extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value
 			}
 			return rv + "]"
 		default:
-			return ppDefault(mode:mode, aux:aux) // NO: return super.pp(mode, aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
@@ -629,7 +626,7 @@ extension Bool {
 		if mode == .short {
 			return self ? "true" : "false"										}
 		 // NO: return super.pp(mode, aux)
-		return ppDefault(mode:mode, aux:aux)
+		return ppDefault(mode:mode, aux:aux)			// NO, try default method
 	}
 }
 var  trueF			= true		// true  which supresses optimizer warning
@@ -661,7 +658,7 @@ extension Int {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 
@@ -704,7 +701,7 @@ extension UInt {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 	static func +( d0:UInt, d1:UInt) -> UInt {
@@ -747,7 +744,7 @@ extension Int16 {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 	static func +( d0:Int16, d1:Int16) -> Int16 {
@@ -787,7 +784,7 @@ extension UInt16 {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 	static func +( d0:UInt16, d1:UInt16) -> UInt16 {
@@ -911,7 +908,7 @@ extension Float	{
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
@@ -932,7 +929,7 @@ bug;		return "\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
@@ -967,7 +964,7 @@ extension CGFloat {
 		case .phrase, .short, .line, .tree:
 			return self.description
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
@@ -1168,7 +1165,7 @@ extension String {
 		case .fullName, .uid:		//.name, .fwClassName,
 				return ""
 		default:
-			return ppDefault(mode:mode, aux:aux)
+			return ppDefault(mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 	func stripLeadingNewLines() -> (String, String) {

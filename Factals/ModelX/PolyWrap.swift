@@ -109,38 +109,10 @@ class PolyWrap : Part {
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	
-//	 // MARK: - 3.6 NSCopying
-//	 // MARK: - 3.7 Equatable
+	 // MARK: - 3.6 NSCopying
+	 // MARK: - 3.7 Equatable
 	 //	 MARK: - 15. PrettyPrint
-//	// Override: Method does not override any method from its superclass
-//	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-//		var rv					= ""
-//		switch mode {
-//		case .line:
-//			  //      AaBbbbbbCccDdddddddddddddddddddddddEeeeeeeeeeeee
-//			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
-//			rv					= ppUid(self, post:"", aux:aux)
-//		default:
-//			return ppDefault(self:self, mode:mode, aux:aux)// NO return super.pp(mode, aux)
-//		}
-//		return rv
-//	}
 }
-//extension Atom {
-//			// Atoms have a var ports : Dictionary<String:Port>
-//			// 20210907PAK To do this right would require another PolyWrap class, or perhaps a generic.
-//			//  TODO
-//			//  .:. DON'T WRAP PORTS. Leave un-wrapped.
-//			//		Deal with it's subclasses later after things settle down
-//			// N.B: At this point, two polyWraps for a Port exists, on in children, one in ports
-//	/*@objc*/ override func polyWrap() -> PolyWrap {
-//		let poly				= super.polyWrap()
-//		 // Paw through Atom's Ports:
-//		for (i, (name, port)) in ports.enumerated() {
-//		}
-//		return poly
-//	}
-//}
 
 /*	https://forums.swift.org/t/how-to-encode-objects-of-unknown-type/12253/2
 extension Encodable {

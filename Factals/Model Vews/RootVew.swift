@@ -8,13 +8,13 @@
 import SceneKit
 
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
-	weak var fwGuts : FwGuts!				// Owner
-
-	 // 3D APPEARANCE
-	var rootScn 	:  RootScn				// Master tree
-	 // Lighting, etc						// (in rootScn)
+	weak
+	 var fwGuts 	: FwGuts!				// Owner
+	var rootScn 	:  RootScn				// Master 3D Tree
+	var nsView		:  NSView? = nil		// View displaying
 
 //DELETE THESE:
+	 // Lighting, etc						// (in rootScn)
 	var cameraScn	:  SCNNode?	= nil
 	var lightsScn	: [SCNNode]	= []
 	var axesScn		:  SCNNode?	= nil
@@ -44,14 +44,14 @@ RootVew:_______________
 	}
 
 	 /// generate a new View, returning its index
-	init() {
-		rootScn					= RootScn()
-		super.init(forPart:.null, scn:.null)
-		rootScn.rootVew			= self				// owner
-	}
+//	init() {
+//		rootScn					= RootScn()
+//		super.init(forPart:.null, scn:.null)
+//		rootScn.rootVew			= self				// owner
+//	}
 	init(forPart rp:RootPart, rootScn rs:RootScn=RootScn()) {
 		rootScn					= rs
-		super.init(forPart:rp, scn:rs)
+		super.init(forPart:rp)
 		rootScn.rootVew			= self				// owner
 
 		 // Set the base scn to comply as a Vew
@@ -276,12 +276,11 @@ RootVew:_______________
 		guard slot < fwGuts.rootVews.count 	else {	return "slot TOO BIG"		}
 		guard fwGuts.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
 
-//		return "<<<RootVew.pp(mode:\(mode), aux:[..\(aux.count)..])>>>"
-		return ppDefault(mode:mode, aux:aux)// NO return super.pp(mode, aux)
+		return ppDefault(mode:mode, aux:aux)	// NO, try default method
 	}
 	  // MARK: - 16. Global Constants
 	static let nullRoot			= {
-		let rv					= RootVew()			/// Any use of this should fail
+		let rv					= RootVew(forPart:.nullRoot)
 		rv.name					= "nullRoot"
 		return rv
 	}()

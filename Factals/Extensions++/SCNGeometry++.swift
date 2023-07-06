@@ -448,8 +448,8 @@ extension SCNMaterial {
 				rv				+= " " + ppSCNMaterialColors(debugDescription)
 				return rv
 			default:
-	bug;return "bug"
-//				return ppDefault(self:self, mode:mode, aux:aux)
+		bug;return "bug"
+//		return ppDefault(self:self, mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
