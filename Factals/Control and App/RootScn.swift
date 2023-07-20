@@ -11,6 +11,7 @@ import SceneKit
 class RootScn : SCNNode {					// xyzzy4
 	weak
 	 var rootVew	: RootVew?				// RootVew  of this RootScn
+ 	var cameraScn	: SCNNode?	{ find(name:"*-camera") }
 
 	 // MARK: - 3.1 init
 	init(scn s:SCNNode?=nil) {
@@ -28,8 +29,6 @@ class RootScn : SCNNode {					// xyzzy4
 		guard let rootVew 		= rootVew else { print("processEvent.rootVews[?] is nil"); return false}
 		let slot				= rootVew.slot ?? -1
 		let fwGuts				= rootVew.fwGuts		// why ! ??
-		let rootScn				= rootVew.rootScn
-		let cam					= rootVew.cameraScn
 
 		switch nsEvent.type {
 
@@ -90,7 +89,7 @@ class RootScn : SCNNode {					// xyzzy4
 			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
-			atEve(9, print("\( rootVew.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			atEve(9, print("\( cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -172,10 +171,10 @@ class RootScn : SCNNode {					// xyzzy4
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
 		var selfiePole			= rootVew!.selfiePole
-//		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
+		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
 		let transform			= selfiePole.transform
-		guard let cameraScn		= rootVew!.cameraScn else {fatalError("RootScn.cameraScn in nil")}
+		guard let cameraScn		= cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform
@@ -190,37 +189,31 @@ extension RootScn {		// lights and camera
 		fatalError("trunkVew is nil")
 	}
 	 // MARK: - 4.1 Lights
-	func touchLightScns() -> [SCNNode] {
-		let a 					= touchLight("*-omni1",	.omni, position:SCNVector3(0, 0, 15))
-		let b 					= touchLight("*-amb1",.ambient,color:NSColor.darkGray)
-		let c 					= touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
-		let d 					= touchLight("*-omni2",	.omni, color:NSColor.green, intensity:500)				//blue//
-		return [a,b,c,d]
+	func checkLights() {
+		touchLight("*-omni1",  .omni, position:SCNVector3(0, 0, 15))
+		touchLight("*-amb1",.ambient,color:NSColor.darkGray)
+		touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
+		touchLight("*-omni2",  .omni,color:NSColor.green, intensity:500)				//blue//
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
-					intensity:CGFloat=100, position:SCNVector3?=nil) -> SCNNode {
-			guard let rvOld		= find(name:name) else {
-				let rvNew 		= SCNNode()
-				rvNew.name		= name			// arg 1
-
-				 // Light
+					intensity:CGFloat=100, position:SCNVector3?=nil) {
+			if find(name:name) == nil {
+										 // Light's SCNNode:
+				let scn4light 	= SCNNode()
+				scn4light.name	= name				// arg 1
+				if let position {
+					scn4light.position = position	// arg 5
+				}
+				addChildNode(scn4light)
+										 // Light:
 				let light		= SCNLight()
-				light.type 		= lightType		// arg 2
+				light.type 		= lightType			// arg 2
 				if let color	= color {
-					light.color = color			// arg 3
+					light.color = color				// arg 3
 				}
-				light.intensity = intensity		// arg 4
-				rvNew.light		= light
-				addChildNode(rvNew)
-
-				 // Position
-				if let position	= position {
-					rvNew.position = position	// arg 5
-				}
-
-				return rvNew
+				light.intensity = intensity			// arg 4
+				scn4light.light	= light
 			}
-			return rvOld
 		}
 	}
 	 // MARK: - 4.2 Camera
@@ -297,41 +290,38 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 - convertRectFromBase:
 
  */
-	func touchCameraScn() -> SCNNode {
+	func checkCamera() {
 		let name				= "*-camera"
-		if let rv				= find(name:name) {
-			return rv			// already exists
+		if find(name:name) == nil {
+			 // Make new camera system:
+			let rv				= SCNNode()
+			rv.name				= name
+			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
+			addChildNode(rv)
+
+			 // Just make a whole new camera system from scratch
+			let camera			= SCNCamera()
+			camera.name			= "SCNCamera"
+			rv.camera			= camera
+
+			// Check the condition to determine the camera mode
+			if false {
+				// Perspective mode
+				camera.usesOrthographicProjection = false
+				camera.zNear 	= 0.1 	// 1    Set the near clipping distance
+				camera.zFar 	= 1000	// 100  Set the far clipping distance
+				camera.fieldOfView = 60	// Set the field of view, in degrees
+			} else {
+				// Orthographic mode
+				camera.usesOrthographicProjection = true
+				let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
+				camera.orthographicScale = orthoScale
+			}
 		}
-		 // Make new camera system:
-		let rv					= SCNNode()
-		rv.name					= name
-		rv.position 			= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-		addChildNode(rv)
-
-		 // Just make a whole new camera system from scratch
-		let camera				= SCNCamera()
-		camera.name				= "SCNCamera"
-		rv.camera				= camera
-
-		// Check the condition to determine the camera mode
-		if false {
-			// Perspective mode
-			camera.usesOrthographicProjection = false
-			camera.zNear 		= 0.1 	// 1    Set the near clipping distance
-			camera.zFar 		= 1000	// 100  Set the far clipping distance
-			camera.fieldOfView	= 60	// Set the field of view, in degrees
-		} else {
-			// Orthographic mode
-			camera.usesOrthographicProjection = true
-			let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
-			camera.orthographicScale = orthoScale
-		}
-	//	camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
-	//	camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
-	//	camera.exposureAdaptationDarkeningSpeedFactor = 1
-	//	camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-
-		return rv
+		//	camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
+		//	camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+		//	camera.exposureAdaptationDarkeningSpeedFactor = 1
+		//	camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 	}
 
 	  // MARK: - 4.3 Axes
@@ -445,8 +435,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	///   - message: for logging only
 	///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-//		let cameraScn			= scnScene.cameraScn!
-								//
+		guard let cameraScn		= cameraScn else {return }
 
 bug;	zoom4fullScreen()
 //		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
@@ -460,13 +449,13 @@ bug;	zoom4fullScreen()
 
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
-			rootVew.cameraScn?.transform *= 0.999999	// virtually no effect
+			cameraScn.transform	*= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
 				atRve(8, self.rootVew!.rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				self.rootVew?.cameraScn?.transform = self.rootVew!.selfiePole.transform
+				cameraScn.transform = self.rootVew!.selfiePole.transform
 
 				atRve(8, self.rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -475,39 +464,39 @@ bug;	zoom4fullScreen()
 			SCNTransaction.commit()
 		}
 		else {
-			rootVew.cameraScn?.transform = rootVew.selfiePole.transform
+			cameraScn.transform = rootVew.selfiePole.transform
 		}
 	}
 		
-	/// Determine zoom so that all parts of the scene are seen.
-	func zoom4fullScreen() -> Double {		//selfiePole:SelfiePole, cameraScn:SCNNode
+	 /// Determine zoom so that all parts of the scene are seen.
+	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
 		guard let rootVew  else {	fatalError("RootScn.rootVew is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox //BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(rootVew.cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-bug
-return 0
-//		guard let nsRectSize	= fwView?.frame.size  else  {	fatalError()	}
-//
-//		 // Orientation is "Height Dominated"
-//		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
-//		 // Is side going to be clipped off?
-//		let ratioHigher			= nsRectSize.height / nsRectSize.width
-//		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
-//			zoomRv				*= ratioHigher
-//		}
-//		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
-//			 // Orientation is "Width Dominated"
-//			zoomRv				= rootVewSizeInEye.y
-//			 // Is top going to be clipped off?
-//			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
-//				zoomRv				/= ratioHigher
-//			}
-//		}
-//		return zoomRv
+//bug
+//return 0
+		let nsRectSize			= NSRect(x:9,y:9,width:200, height:200)//  fwView?.frame.size  else  {	fatalError()	}
+
+		 // Orientation is "Height Dominated"
+		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
+		 // Is side going to be clipped off?
+		let ratioHigher			= nsRectSize.height / nsRectSize.width
+		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
+			zoomRv				*= ratioHigher
+		}
+		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
+			 // Orientation is "Width Dominated"
+			zoomRv				= rootVewSizeInEye.y
+			 // Is top going to be clipped off?
+			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
+				zoomRv				/= ratioHigher
+			}
+		}
+		return zoomRv
 	}
 //
 //	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
@@ -634,7 +623,6 @@ extension RootScn : SCNSceneRendererDelegate {
 		rp.name					= "nullRoot"
 		return rp
 	}()
-
 }
 // currently unused
 extension RootScn : SCNPhysicsContactDelegate {

@@ -231,7 +231,8 @@ extension RootVew : FwStatus	{									  ///RootVew
 		var myLine				= "LockVal:\(rootVewLock.value ?? -99) "
 		myLine					+= fwGuts.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
 		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
-		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
+//		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
+		myLine					+= "(\(nodeCount()) total) "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.uidClass) ?? "nil") "
 		myLine					+= self.rootScn === self.scn ? "scn===rootScn " :
 								   "  ERROR \(self.scn.pp(.classUid))!==rootScn"
@@ -263,6 +264,8 @@ extension SCNNode : FwStatus	{							 ///SCNNode, RootScn
 		var myLine				= "(\(children.count) children) "
 		if let s				= self as? RootScn {
 			myLine				+= "(\(nodeCount()) total) "
+			myLine				+= "cameraScn:\(s.cameraScn?.pp(.uid) ?? "nil") "
+
 			myLine				+= s.rootVew?.rootScn === s ? "" : "OWNER:'\(s.rootVew!)' BAD"
 		}
 		return ppFwStateHelper(myName, uid:self,

@@ -404,47 +404,47 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	}
 
 	 // MARK: - MENU / Next / Demo
-//	mutating func scheneAction(_ sender:SceneMenuElement) {
-//		print("\n\n" + ("--- - - - - - - FactalsApp.sceneAction(tag:\(sender.id) name:\(sender.name))  " +
 	mutating func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 
 		 // Find scene number for Library lookup:
-		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu
-//		let sceneNumber			= sender.id>=0 ? sender.id// from menu
+		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
 											: regressScene	// from last time
 		regressScene			= sceneNumber + 1			// next regressScene
 
-
-		 // Make new Document
-		let rootPart			= RootPart(fromLibrary:"entry\(regressScene)")
-		let fwGuts				= FwGuts(rootPart:rootPart)
-		rootPart.fwGuts			= fwGuts
-
-bug//	fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5))
-
-bug		 // --------------- A: Get BASIC Component Part (owned and used here)
-		let rootScn				= RootScn()
-//??	rootScn.scnScene.isPaused = true						// Pause animations while bulding
-
-		 // --------------- B: RootVew ((rootPart, A))
-bug//	addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-	 //	let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
-	 //	newRootVew.fwGuts		= fwGuts			// Set Owner
-	 //	fwGuts.rootVews.append(newRootVew)
+		if (trueF) {
+			 // Install new rootPart in current fwGuts
+			let rootPart			= RootPart(fromLibrary:"entry\(regressScene)")
+			guard let fwGuts		= DOC.fwGuts else {	return	}
+			fwGuts.setRootPart(rootPart:rootPart)
+		} else {
 		
-		 // --------------- C: FactalsDocument
-		var doc					= FactalsDocument(fwGuts:fwGuts)
-		DOC						= doc		// register (UGLY!!!)
-		let c					= doc.config + rootPart.ansConfig
-		doc.configure(from:c)
-//		newRootVew.configure(from: ?FwConfig)
+		}
 
-//		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
-		fwGuts.document 		= doc
-		doc.makeWindowControllers()
-		doc.registerWithDocController()	// a new DOc must be registered
+	 // Make New Document
+	//	fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5))
+//		 // --------------- A: Get BASIC Component Part (owned and used here)
+//		let rootScn				= RootScn()
+////??	rootScn.scnScene.isPaused = true						// Pause animations while bulding
+//
+//		 // --------------- B: RootVew ((rootPart, A))
+//bug//	addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+//	 //	let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
+//	 //	newRootVew.fwGuts		= fwGuts			// Set Owner
+//	 //	fwGuts.rootVews.append(newRootVew)
+//
+//		 // --------------- C: FactalsDocument
+//		var doc					= FactalsDocument(fwGuts:fwGuts)
+//		DOC						= doc		// register (UGLY!!!)
+//		let c					= doc.config + rootPart.ansConfig
+//		doc.configure(from:c)
+////		newRootVew.configure(from: ?FwConfig)
+//
+////		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
+//		fwGuts.document 		= doc
+//		doc.makeWindowControllers()
+//		doc.registerWithDocController()	// a new DOc must be registered
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
@@ -452,7 +452,7 @@ bug//	addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		case .tree:
 			return ""
 		default:
-			return ppDefault(mode:mode, aux:aux)	// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 //			return ppCommon(self:self, mode:mode, aux:aux)// CherryPick2023-0520:
 		}
 	}

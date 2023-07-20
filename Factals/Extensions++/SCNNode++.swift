@@ -404,7 +404,7 @@ extension SCNNode /*: HasChildren */ {
 			}
 			log.nIndent		-= 1
 		default:
-			rv					=  ppDefault(mode:mode, aux:aux)	//bug?
+			rv					=  ppCommon(mode, aux)	//bug?
 		}
 		return rv
 	}

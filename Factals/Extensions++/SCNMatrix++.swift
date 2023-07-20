@@ -311,7 +311,7 @@ extension SCNMatrix4 {
 			case .fullName, .name, .uid:		//.fwClassName,
 				return ""
 			default:
-				return ppDefault(mode:mode, aux:aux)			// NO, try default method
+				return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 	   /// Attempt to encode inner 3x3 matrix into common named types

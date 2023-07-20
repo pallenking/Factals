@@ -70,7 +70,7 @@ struct FactalsDocument: FileDocument {
 		rootPart.wireAndGroom(c)
 		configure(from:c)
 
-		 //		5. Build Vews per Configuration
+		 //		5. Build Vews per Configuration, ensure one
 		for (key, value) in c {
 			if key == "Vews",				// "Vews":[VewConfig]
 			  let values 		= value as? [VewConfig] {
@@ -98,22 +98,10 @@ struct FactalsDocument: FileDocument {
 	}
 
 	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
-		 // Make new Document
+		 // Make new RootPart, FwGuts, and Document
 		let rootPart			= RootPart(fromLibrary:fromLibrary)
 		let fwGuts				= FwGuts(rootPart:rootPart)
 		rootPart.fwGuts			= fwGuts
-
-		 // --------------- A: Get BASIC Component Part (owned and used here)
-		let rootScn				= RootScn()
-///??	rootScn.scnScene.isPaused = true			// Pause animations while bulding
-
-		 // --------------- B: RootVew ((rootPart, A))
-bug//	addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-	//	let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
-	//	newRootVew.fwGuts		= fwGuts			// Set Owner
-	//	fwGuts.rootVews.append(newRootVew)
-
-		 // --------------- C: FactalsDocument
 		let doc					= FactalsDocument(fwGuts:fwGuts)
 		fwGuts.document 		= doc
 		DOC						= doc				// register (UGLY!!!)
@@ -432,7 +420,7 @@ bug
 		case .tree:
 			return log.indentString() + " FactalsDocument" + "\n"
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 }

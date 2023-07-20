@@ -15,7 +15,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 
 //DELETE THESE:
 	 // Lighting, etc						// (in rootScn)
-	var cameraScn	:  SCNNode?	= nil
+ //	var cameraScn	:  SCNNode?	= nil
 //	var lightsScn	: [SCNNode]	= []
 //	var axesScn		:  SCNNode?	= nil
 
@@ -63,8 +63,8 @@ RootVew:_______________
 	func setupLightsCamerasEtc() {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		let _ /*lightsScn*/		= rootScn.touchLightScns()			// was updateLights
-		cameraScn				= rootScn.touchCameraScn()			// (had fwGuts.document.config)
+		rootScn.checkLights()
+		rootScn.checkCamera()			// (had fwGuts.document.config)
 		let _ /*axesScn*/		= rootScn.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
@@ -203,22 +203,11 @@ RootVew:_______________
 			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
 
 			if let vewConfig {					// Vew Configuration specifies open stuffss
-
-				//let m1 = MaxOr()
-				//let m2 = m1.pp(.uidClass)
-				//let n1 = Vew()
-				//let n3 = n1.fwClassName
-				//let n2 = n1.pp(.uidClass)
-				//let o1 = RootVew()
-				//let o2 = o1.pp(.uidClass)
-				//
-				//let x = self.pp(.uidClass)
-				//logd("abcdefg")
-
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
 				vRoot.openChildren(using:vewConfig)
 			}
 			atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
+
 			  // Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		pRoot.reVew(vew:vRoot, parentVew:nil)
@@ -263,14 +252,13 @@ RootVew:_______________
 
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-//	override func pp(_ mode:PpMode,         _ aux:FwConfig           ) -> String {
-		 // Report any improper linking
+							 				// Report any improper linking:
 		guard let fwGuts 					else {	return "fwGuts BAD"			}
 		guard let slot 						else {	return "slot IS NIL"		}
 		guard slot < fwGuts.rootVews.count 	else {	return "slot TOO BIG"		}
 		guard fwGuts.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
-
-		return ppDefault(mode:mode, aux:aux)	// NO, try default method
+		
+		return super.pp(mode, aux)			// superclass does all the work.
 	}
 	  // MARK: - 16. Global Constants
 	static let nullRoot			= {

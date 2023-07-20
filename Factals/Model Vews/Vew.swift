@@ -706,7 +706,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				log.nIndent	-= 1
 				return rv
 			default:
-				return ppDefault(mode:mode, aux:aux) 	// NO, try default method
+				return ppCommon(mode, aux) 		// NO, try default method
 		}
 	}
 

@@ -6,6 +6,16 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
 	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}
+	func setRootPart(rootPart r:RootPart) {
+		if rootPart?.lock(partTreeAs:"setRootPart", logIf:false) == nil {  fatalError(" couldn't get PART lock")}
+		for rootVew in rootVews {
+			if rootVew.lock(vewTreeAs:"setRootPart", logIf:false) == nil { fatalError(" couldn't get VIEW lock")}
+		}
+		rootVews				= []
+		rootPart				= r
+		rootPart?.fwGuts		= self
+	}
+
 	var document : FactalsDocument!					// Owner
 
 	var rootVews : [RootVew]	= []
@@ -34,9 +44,6 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 							
 		super.init()
 		rootPart?.fwGuts		= self		// Owner? is self
-
-//		let xx					= self.pp(.classUid)
-//		atBld(5, log("Created \(self.pp(.classUid))"))
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -74,8 +81,8 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		let rootVew				= RootVew(forPart:rootPart) // 1. Make
 		rootVew.fwGuts			= self						// 2. Backpoineter
 		rootVews.append(rootVew)							// 3. Install
-		rootVew.configure(from:fwConfig)					// 4. Configure
-		rootVew.openChildren(using:vewConfig)				// 5. Open
+		rootVew.configure(from:fwConfig)					// 4. Configure Part
+		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
 		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
 		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe
 		rootVew.setupLightsCamerasEtc()						// ?move
@@ -423,7 +430,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 			}
 			return rv
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 

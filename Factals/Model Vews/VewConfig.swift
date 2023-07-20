@@ -11,9 +11,9 @@ enum VewConfig : FwAny {
 	typealias RawValue			= String
 
 	  // Open a path from self to the Factal at <path> from self.
-	case openPath(to:Path)				// Only children on path are effected
-	case openAllChildren(toDeapth:Int = -1)// Open all of children, down to deapth
-	case subVewList([VewConfig])		// array of directives, to
+	case openPath(to:Path)					// Only children on path are effected
+	case openAllChildren(toDeapth:Int = -1)	// Open all of children, down to deapth
+	case subVewList([VewConfig])			// array of directives, to
 	case subVew(FwConfig)
 
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
@@ -30,7 +30,7 @@ enum VewConfig : FwAny {
 				return ".subVew(fwConfig:[\(fwConfig.count) elts])"
 			}
 		default:
-			return ppDefault(mode:mode, aux:aux)		// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 	 // MARK: - 16. Global Constants
@@ -53,7 +53,7 @@ extension Vew {
 	///   Adorn scn tree too
 	/// - Parameter config: how to open children
 	func openChildren(using config:VewConfig) {
-		atRve(3, part.logd("openChildren(using:\(config.pp(.fullNameUidClass)))"))
+		atRve(3, part.logd("openChildren(using:\(config.pp(.phrase)))"))
 																 // A new skin is made by Part:
 																//?	let bbox = parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
 																//?	parentVew.part.markTree(dirty:.size)
@@ -64,9 +64,14 @@ extension Vew {
 			subPart.openChildren(using:config)		// #### SEMI-RECURSIVE CALL
 		case .openAllChildren(let deapth):
 			if deapth <= 1 {	break											}
-			 // open our child Vews
-			for childPart in children {
-				childPart.openChildren(using:.openAllChildren(toDeapth:deapth-1))
+			 // For each childPart ensure a childVew
+			for childPart in part.children {
+				let childVew	= self.find(part:childPart, maxLevel:1) ?? {
+					let vew		= Vew(forPart:childPart)
+					self.addChild(vew)
+					return vew
+				}()
+				childVew.openChildren(using:.openAllChildren(toDeapth:deapth-1))
 			}
 		case .subVewList(let vewConfigs):
 			for vewConfig in vewConfigs {

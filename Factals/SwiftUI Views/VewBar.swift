@@ -28,13 +28,11 @@ struct VewBar: View {
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						print(rootVew.pp(.tree))//, terminator:"")
-						//lldbPrint(rootVew, mode:.tree, terminator:"")
+						print(rootVew.pp(.tree))
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")
-						print(rootVew.scn.pp(.tree))//, terminator:"")
-						//lldbPrint(rootVew.scn, mode:.tree, terminator:"")
+						print(rootVew.scn.pp(.tree))
 					}
 					Text("Review:")
 					Button(label:{	Text("View")								})

@@ -20,20 +20,18 @@ extension FwAny  {
 	  // Default implementation, with default values:
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		 // N.B: If this loops forever, check self's class .pp protocol
-		let rv 					= self.ppDefault(mode:mode, aux:aux)
+		let rv 					= self.ppCommon(mode, aux)
 		return rv
 	}
 	
-	func ppDefault(mode:PpMode, aux:FwConfig) -> String {
+	 // Prints the normal default modes. Allows individual pp() to be shorter.
+	func ppCommon(_ mode:PpMode, _ aux:FwConfig) -> String {
 		switch mode {
 		case .fwClassName:
 			return self.fwClassName
-		  //return self.fwClassName
-		case .name:							// -> ""
-		  //return self.pp(.name,   	 aux)
+		case .name:
 			return ""
-		case .fullName:						// -> .name
-		  //return self.pp(.fullName,	 aux)
+		case .fullName:
 			return self.pp(.name,   	 aux)
 		case .fullNameUidClass:				// -> uid + name + fwClassName
 			return "\(self.pp(.fullName, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
@@ -55,6 +53,7 @@ extension FwAny  {
 			return self.pp(.line,   aux)
 		}
 	}
+
 	var fwClassName 	: String 		{
 		return String(describing:type(of:self))
 	}
@@ -121,19 +120,19 @@ extension Array 		: FwAny		{
 			case .line:
 				var (rv, sep)	= ("[", "")
 				for elt in self {
-					rv			+= sep + ppDefault(mode:.short, aux:aux)
+					rv			+= sep + ppCommon(.short, aux)
 					sep 		= ", "
 				}
 				return rv + "]"
 			case .tree:
 				var (sep, rv)	= ("", "[")
 				for elt in self {
-					rv			+= sep + ppDefault(mode:.line, aux:aux)
+					rv			+= sep + ppCommon(.line, aux)
 					sep 		= ",\n "
 				}
 				return rv + "]"
 			default:
-				return ppDefault(mode:mode, aux:aux)			// NO, try default method
+				return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 }
@@ -165,17 +164,17 @@ extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class '
 extension SCNConstraint	: FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNGeometry	: FwAny 	{	// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		return ppDefault(mode:mode, aux:aux)			// NO, try default method
+		return ppCommon(mode, aux)		// NO, try default method
 	}
 }
 extension SCNAudioSource  	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		return ppDefault(mode:mode, aux:aux)			// NO, try default method
+		return ppCommon(mode, aux)		// NO, try default method
 	}
 }
 extension SCNAudioPlayer 	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		return ppDefault(mode:mode, aux:aux)			// NO, try default method
+		return ppCommon(mode, aux)		// NO, try default method
 	}}
 
 /* Future
@@ -356,7 +355,7 @@ extension Dictionary		: FwAny {
 			}
 			return rv + "]"
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 }
@@ -375,7 +374,7 @@ extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value
 			}
 			return rv + "]"
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 }
@@ -546,44 +545,6 @@ extension NSTextField : Nib2Bool {
 	}
 }
 
-   // Only gets called after CLASS.pp() has given up.
-  // It does it's best to get a compramize string.
- //  It doesn't support exceptions.
-//func ppDefault(self: any FwAny, mode:PpMode, aux:FwConfig) -> String {
-//	switch mode {
-//	case .fwClassName:
-//		return self.fwClassName
-//	  //return self.fwClassName
-//	case .name:							// -> ""
-//	  //return self.pp(.name,   	 aux)
-//		return ""
-//	case .fullName:						// -> .name
-//	  //return self.pp(.fullName,	 aux)
-//		return self.pp(.name,   	 aux)
-//	case .fullNameUidClass:				// -> uid + name + fwClassName
-//		return "\(self.pp(.fullName, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
-//	case .nameUidClass:
-//		return "\(self.pp(    .name, aux))\(ppUid(pre:".", self as? Uid)):\(self.fwClassName)"
-//	case .uidClass:
-//		return "\(ppUid(self as? Uid)):\(self.fwClassName)"	// e.g: "xxx:Port"
-//	case .classUid:
-//		return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
-//	case .uid:							// -> uid
-//		return ppUid(self as? Uid)
-//	case .phrase:						// -> .fullNameUidClass
-//		return self.pp(.fullNameUidClass,		aux)
-//	case .short:						// -> .phrase
-//		return self.pp(.phrase,		aux)
-//	case .line:							// -> .short
-//		return self.pp(.short, aux)
-//	case .tree:							// -> .line
-//		return self.pp(.line,   aux)
-////	default:							// -> ERROR
-////		let x = self.pp(.fullNameUidClass)
-////		return "ppDefault ERROR: \(x) unsuported"
-//	}
-//}
-
 infix operator ??= :  AssignmentPrecedence
 /// If lhs is nil, assign rhs to it
 /// - Parameters:
@@ -624,7 +585,7 @@ extension Bool {
 		if mode == .short {
 			return self ? "true" : "false"										}
 		 // NO: return super.pp(mode, aux)
-		return ppDefault(mode:mode, aux:aux)			// NO, try default method
+		return ppCommon(mode, aux)		// NO, try default method
 	}
 }
 var  trueF			= true		// true  which supresses optimizer warning
@@ -656,7 +617,7 @@ extension Int {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 
@@ -699,7 +660,7 @@ extension UInt {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 	static func +( d0:UInt, d1:UInt) -> UInt {
@@ -742,7 +703,7 @@ extension Int16 {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 	static func +( d0:Int16, d1:Int16) -> Int16 {
@@ -782,7 +743,7 @@ extension UInt16 {
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 	static func +( d0:UInt16, d1:UInt16) -> UInt16 {
@@ -906,7 +867,7 @@ extension Float	{
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 }
@@ -927,7 +888,7 @@ bug;		return "\(self.pp(.fullName, aux)) :\(self.fwClassName)"
 		case .phrase, .short, .line, .tree:
 			return String(self)
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 }
@@ -962,7 +923,7 @@ extension CGFloat {
 		case .phrase, .short, .line, .tree:
 			return self.description
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 }
@@ -1163,7 +1124,7 @@ extension String {
 		case .fullName, .uid:		//.name, .fwClassName,
 				return ""
 		default:
-			return ppDefault(mode:mode, aux:aux)			// NO, try default method
+			return ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 	func stripLeadingNewLines() -> (String, String) {

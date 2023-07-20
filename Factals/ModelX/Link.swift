@@ -495,10 +495,18 @@ bug	// Never USED?
 	 // MARK: - 9.5.4: will Render Scene -- Rotate Links toward camera
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
-		guard let rootScn		= vew.rootVew?.rootScn else {
-			print("############ rotateLinkSkins with DOC? == nil #######")
-			return																}
-		let camera				= rootScn.touchCameraScn().position
+		guard let rootScn		= vew.rootVew?.rootScn,
+		 	  let cameraScn		= rootScn.cameraScn else {
+			print("############ rotateLinkSkins can't find camera #######")
+			return
+		}
+//		guard let rootScn		= vew.rootVew?.rootScn else {
+//			print("############ rotateLinkSkins with DOC? == nil #######")
+//			return																}
+//		let cameraScn			= rootScn.cameraScn else {
+//
+//		}
+		let cameraPosn			= cameraScn.position
 		guard let linkVew		= vew as? LinkVew 	 else { fatalError("Vew type mismach")}
 		 // Get ends of link, and set positions
 		if let pEndVip			= linkVew.pEndVip,
@@ -514,7 +522,7 @@ bug	// Never USED?
 			 // Compute :H: LENgth between ENDS
 			let len				= length(deltaV)
 			assertWarn(!len.isNan, "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
-			let f1				= camera.crossProduct(deltaV)// c x delta
+			let f1				= cameraPosn.crossProduct(deltaV)// c x delta
 			let fLen			= length(f1)
 			var m				= SCNMatrix4.identity
 			if fLen > eps {

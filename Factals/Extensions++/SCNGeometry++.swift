@@ -449,7 +449,7 @@ extension SCNMaterial {
 				return rv
 			default:
 		bug;return "bug"
-//		return ppDefault(self:self, mode:mode, aux:aux)			// NO, try default method
+//		return ppCommon(self:self, mode:mode, aux:aux)			// NO, try default method
 		}
 	}
 }
