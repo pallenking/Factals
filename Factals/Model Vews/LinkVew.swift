@@ -12,8 +12,8 @@ class LinkVew : Vew {
 	 var sEndVip : SCNVector3?	= nil		// H: S END scnVector3 position In Parent coordinate system
 
 	 // MARK: - 3. Factory
-	override init(forPart part:Part?=nil, scn scn_:SCNNode? = nil, expose expose_:Expose? = nil) {
-		super.init(forPart:part, scn:scn_, expose:expose_)
+	override init(forPart part:Part?=nil, expose expose_:Expose? = nil) {
+		super.init(forPart:part, expose:expose_)
 	}
 	 // MARK: - 3.5 Codable
 	enum LinkVewKeys : CodingKey { 	case pCon2Vew, sCon2Vew, pEndVip, sEndVip	}

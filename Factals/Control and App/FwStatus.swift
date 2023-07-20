@@ -233,13 +233,14 @@ extension RootVew : FwStatus	{									  ///RootVew
 		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.uidClass) ?? "nil") "
+		myLine					+= self.rootScn === self.scn ? "scn===rootScn " :
+								   "  ERROR \(self.scn.pp(.classUid))!==rootScn"
 		let myName				= "RootVews[\(slot)]  "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.rootScn	  .ppFwState(deapth:deapth-1)
-				rv				+= self.rootScn !== self.scn ? "" :
-								   "---- ERROR-MISMATCH in RootVew: rootScn !== scn\n"
+//				rv				+= self.scn		  .ppFwState(deapth:deapth-1)
 				rv 				+= self.selfiePole.ppFwState(deapth:deapth-1)
 				return rv
 			},
@@ -247,20 +248,25 @@ extension RootVew : FwStatus	{									  ///RootVew
 	}
 }
 
-extension RootScn : FwStatus	{										    ///RootScn
+//extension RootScn : FwStatus	{									  ///RootScn
+//	func ppFwState(deapth:Int=999) -> String {
+//		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+//		myLine					+= "(\(nodeCount()) SCNNodes) "
+//		return ppFwStateHelper("RootScn      ", uid:self,
+//			myLine:myLine,
+//			deapth:deapth-1)
+//	}
+//}
+extension SCNNode : FwStatus	{							 ///SCNNode, RootScn
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-		myLine					+= "(\(nodeCount()) SCNNodes) "
-	//	myLine					+= "scn:\(ppUid(scn, showNil:true)) (\(scn.nodeCount()) SCNNodes) "
-//		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
-//		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-	//	myLine					+= "animatePhysics:\(animatePhysics)"
-		return ppFwStateHelper("RootScn      ", uid:self,
+		let myName				= fwClassName.field(-13)// self.name?.field(-13) ?? "----       "
+		var myLine				= "(\(children.count) children) "
+		if let s				= self as? RootScn {
+			myLine				+= "(\(nodeCount()) total) "
+			myLine				+= s.rootVew?.rootScn === s ? "" : "OWNER:'\(s.rootVew!)' BAD"
+		}
+		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
-//			otherLines: { deapth in
-//			var rv			=  ""//self.scnScene.ppFwState(deapth:deapth-1)
-//				return rv
-//			},
 			deapth:deapth-1)
 	}
 }

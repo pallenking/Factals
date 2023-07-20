@@ -622,7 +622,7 @@ extension RootScn : SCNSceneRendererDelegate {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
 			rv					+= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-			rv					+= "scn:\(ppUid(self, showNil:true)) (\(nodeCount()) SCNNodes) "
+			rv					+= "scn:\(ppUid(self, showNil:true)) (\(nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass)) "
 //			rv					+= "\(self.fwView?.pp(.uidClass) ?? "BAD: fwView=nil") "
@@ -631,7 +631,7 @@ extension RootScn : SCNSceneRendererDelegate {
 	}
 	static let nullRoot 		= {
 		let rp					= RootScn()	// Any use of this should fail (NOT IMPLEMENTED)
-		//rp.name				= "nullRoot"
+		rp.name					= "nullRoot"
 		return rp
 	}()
 

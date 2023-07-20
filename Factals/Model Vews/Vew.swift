@@ -58,14 +58,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 
 	 // MARK: - 3. Factory
-	init(forPart p:Part?=nil, scn s:SCNNode?=nil, expose expose_:Expose? = nil) {
+	init(forPart p:Part?=nil, expose expose_:Expose? = nil) {
 		let part				= p ?? .null
 		self.part 				= part
 		self.name				= "_" + part.name 	// View's name is Part's with '_'
 		self.expose				= expose_ ?? part.initialExpose
 
 		 // Make SCN from supplied skin:
-		scn						= s ?? SCNNode()
+		scn						= SCNNode()				// Hoaker !!
 		scn.name 				= self.scn.name ?? ("*-" + part.name)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

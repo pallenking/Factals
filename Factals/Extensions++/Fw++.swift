@@ -1255,10 +1255,11 @@ extension NSObject : Logd {// xyzzy4
 extension NSObject {
 	@objc dynamic var fwClassName : String {
 		get {
-			let classNamePath		= className
-			let classNameElements	= classNamePath.split(separator:".")
-			let rv					= classNameElements.last
-			return String(rv!)
+//			let classNamePath		= className
+//			let classNameElements	= classNamePath.split(separator:".")
+//			let rv					= classNameElements.last
+//			let rv					= className.split(separator:".").last
+			return String(className.split(separator:".").last!)
 		}
 	}
 }

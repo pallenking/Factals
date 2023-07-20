@@ -10,7 +10,7 @@ import SceneKit
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	weak
 	 var fwGuts 	:  FwGuts!				// Owner
-	var rootScn 	:  RootScn				// Master 3D Tree
+	var rootScn 	:  RootScn = .nullRoot	// HOAKEY!!			// Master 3D Tree
 	var nsView		:  NSView? = nil		// View displaying
 
 //DELETE THESE:
@@ -45,12 +45,12 @@ RootVew:_______________
 
 	 /// generate a new View, returning its index
 	init(forPart rp:RootPart) {
-		rootScn					= .nullRoot		// HOAKEY!!
 		super.init(forPart:rp)
-		
-		rootScn					= RootScn(scn:scn)
-		scn 					= rootScn		// set RootVew with new scn root
+		rootScn					= RootScn()
 		rootScn.rootVew			= self			// owner
+
+		scn						= rootScn
+		scn.name 				= self.scn.name ?? ("*-" + part.name)
 	}
 
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}

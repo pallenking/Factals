@@ -311,10 +311,10 @@ extension SCNNode /*: HasChildren */ {
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		guard let log			= DOClogQ else {	return "DOClog is nil"		}
 		var rv					= ""
-		 // UGLY: Can't override an extension
-		if let imARootNode		= self as? RootScn {
-			rv					+= imARootNode.pp(mode, aux)
-		}
+//		 // UGLY: Can't override an extension
+//		if let imARootNode		= self as? RootScn {
+//			rv					+= imARootNode.pp(mode, aux)
+//		}
 
 		switch mode {
 		case .name:
@@ -334,8 +334,11 @@ extension SCNNode /*: HasChildren */ {
 			rv					= log.pidNindent(for:self)		//			(AB)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
-			rv					+= self.scn1Line(aux) 				//		  (E..G)
-
+			rv					+= self.scn1Line(aux) 			//		  (E..G)
+			if let s			= self as? RootScn {
+				rv				+= s.rootVew?.rootScn === self ? "" :
+								   "--- BAD --- RootVew: rootVew?.rootScn !== self"
+			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
 			rv					= pp(.line) + "\n"
