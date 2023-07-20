@@ -238,9 +238,9 @@ extension RootVew : FwStatus	{									  ///RootVew
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.rootScn	  .ppFwState(deapth:deapth-1)
-				rv 				+= self.selfiePole.ppFwState(deapth:deapth-1)
 				rv				+= self.rootScn !== self.scn ? "" :
-								   ppFwPrefix(uid:0 as Uid, self.scn.fwClassName) +  "ERROR-MISMATCH\n"
+								   "---- ERROR-MISMATCH in RootVew: rootScn !== scn\n"
+				rv 				+= self.selfiePole.ppFwState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
