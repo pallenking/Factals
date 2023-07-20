@@ -16,8 +16,8 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 //DELETE THESE:
 	 // Lighting, etc						// (in rootScn)
 	var cameraScn	:  SCNNode?	= nil
-	var lightsScn	: [SCNNode]	= []
-	var axesScn		:  SCNNode?	= nil
+//	var lightsScn	: [SCNNode]	= []
+//	var axesScn		:  SCNNode?	= nil
 
 	@Published var selfiePole	= SelfiePole()	// PW2 have had to move to superclass (perhaps OK)
 /* Had to move to superclass for ?XXXBAD?
@@ -63,9 +63,9 @@ RootVew:_______________
 	func setupLightsCamerasEtc() {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		lightsScn				= rootScn.touchLightScns()			// was updateLights
+		let _ /*lightsScn*/		= rootScn.touchLightScns()			// was updateLights
 		cameraScn				= rootScn.touchCameraScn()			// (had fwGuts.document.config)
-		axesScn 				= rootScn.touchAxesScn()
+		let _ /*axesScn*/		= rootScn.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:fwGuts.document.config)
