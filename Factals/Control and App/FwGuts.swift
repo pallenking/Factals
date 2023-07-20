@@ -69,11 +69,11 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 					//	//		}
 					//		}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!")	}
-		guard let rootPart else {	fatalError("addRootVew with nil rootPart")		}
+		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!") }
+		guard let rootPart else {	fatalError("addRootVew with nil rootPart")	}
 		let rootVew				= RootVew(forPart:rootPart) // 1. Make
-		rootVews.append(rootVew)							// 2. Install
-		rootVew.fwGuts			= self						// 3. Link
+		rootVew.fwGuts			= self						// 2. Backpoineter
+		rootVews.append(rootVew)							// 3. Install
 		rootVew.configure(from:fwConfig)					// 4. Configure
 		rootVew.openChildren(using:vewConfig)				// 5. Open
 		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
@@ -90,8 +90,6 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	required init(coder aDecoder: NSCoder) {
 		fatalError("FwGuts.init(coder..) unexpectantly called")
 	}
-//	 // MARK: - 3.6 NSCopying
-//	 // MARK: - 3.7 Equatable
 	 // MARK: - 4.?
 	func rootVew(ofScnNode:SCNNode) -> RootVew? {
 		for rootVew in rootVews {

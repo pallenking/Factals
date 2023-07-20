@@ -19,6 +19,7 @@ func ppFwState(deapth:Int=999/*, config:Bool=false*/) -> String {
 	rv							+= DOC?.ppFwState(deapth:deapth-1) ?? ""	// current DOCument
 	return rv
 }
+
 func ppFwStateHelper(_ fwClassName_	: String,
 						uid			: Uid,
 						myLine		: String 			= "",
@@ -236,8 +237,10 @@ extension RootVew : FwStatus	{									  ///RootVew
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.selfiePole.ppFwState(deapth:deapth-1)
-				rv 				+= self.rootScn	  .ppFwState(deapth:deapth-1)
+				var rv			=  self.rootScn	  .ppFwState(deapth:deapth-1)
+				rv 				+= self.selfiePole.ppFwState(deapth:deapth-1)
+				rv				+= self.rootScn !== self.scn ? "" :
+								   ppFwPrefix(uid:0 as Uid, self.scn.fwClassName) +  "ERROR-MISMATCH\n"
 				return rv
 			},
 			deapth:deapth-1)

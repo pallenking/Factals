@@ -108,9 +108,10 @@ struct FactalsDocument: FileDocument {
 ///??	rootScn.scnScene.isPaused = true			// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
-		let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
-		newRootVew.fwGuts		= fwGuts			// Set Owner
-		fwGuts.rootVews.append(newRootVew)
+bug//	addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+	//	let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
+	//	newRootVew.fwGuts		= fwGuts			// Set Owner
+	//	fwGuts.rootVews.append(newRootVew)
 
 		 // --------------- C: FactalsDocument
 		let doc					= FactalsDocument(fwGuts:fwGuts)

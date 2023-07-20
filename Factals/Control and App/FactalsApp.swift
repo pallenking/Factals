@@ -46,6 +46,18 @@ var DOCAPPlog	: Log 			{	DOClogQ ?? APPQ?.log ?? .reliable				}
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 
+
+		// wqp908ry 
+//class EventCapturingWindow: NSWindow {
+//	override func sendEvent(_ event: NSEvent) {
+//		// Perform any custom event handling here
+//
+//		// Call super to allow the event to be processed normally
+//		super.sendEvent(event)
+//	}
+//}
+
+
 @main
 struct FactalsApp: App, Uid, FwAny {
 	var uid: UInt16				= randomUid()
@@ -62,8 +74,16 @@ struct FactalsApp: App, Uid, FwAny {
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
+		//	 .window { window in
+		//		// Create an instance of EventCapturingWindow and assign it to the window
+		//		EventCapturingWindow(
+		//			contentRect: window.contentRect(forFrameRect: window.frame),
+		//			styleMask: window.styleMask,
+		//			backing: window.backingStoreType,
+		//			defer: window.deferred)
+		//	 }
 		}
-		.commands {
+		 .commands {
 			CommandMenu("Scenes") {
 				ForEach(sceneMenus) { item in
 					Button {
@@ -409,9 +429,10 @@ bug		 // --------------- A: Get BASIC Component Part (owned and used here)
 //??	rootScn.scnScene.isPaused = true						// Pause animations while bulding
 
 		 // --------------- B: RootVew ((rootPart, A))
-		let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
-		newRootVew.fwGuts		= fwGuts			// Set Owner
-		fwGuts.rootVews.append(newRootVew)
+bug//	addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+	 //	let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
+	 //	newRootVew.fwGuts		= fwGuts			// Set Owner
+	 //	fwGuts.rootVews.append(newRootVew)
 		
 		 // --------------- C: FactalsDocument
 		var doc					= FactalsDocument(fwGuts:fwGuts)

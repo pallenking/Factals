@@ -76,16 +76,56 @@ SceneView
 import SwiftUI
 import SceneKit
 
-//extension SCNCameraController : ObservableObject {	} //20230701PAK removed
-
 ////////////////////////////// Testing
 //	$publisher
 //	$view
+
+//class EventMonitor {
+//	private var monitor: Any?
+//	private let mask: NSEvent.EventTypeMask
+//	private let handler: (NSEvent) -> Void
+//
+//	init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent) -> Void) {
+//		self.mask = mask
+//		self.handler = handler
+//	}
+//
+//	deinit {
+//		stopMonitoring()
+//	}
+//
+//	func startMonitoring(for window: NSWindow) {
+//		monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
+//			self?.handleEvent(event)
+//			return event
+//		}
+//		window.makeFirstResponder(window.contentView)
+//	}
+//
+//	func stopMonitoring() {
+//		if let monitor = monitor {
+//			NSEvent.removeMonitor(monitor)
+//			self.monitor = nil
+//		}
+//	}
+//
+//	private func handleEvent(_ event: NSEvent) {
+//		handler(event)
+//	}
+//}
 
 struct ContentView: View {
 	@Binding	var document	: FactalsDocument
 	var body: some View {
 		FwGutsView(fwGuts:$document.fwGuts)
+	//	 .onAppear {
+	//		guard let window = NSApplication.shared.windows.first else { return }
+	//		let eventMonitor = EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
+	//			// Handle the event here
+	//			print("Event: \(event)")
+	//		}
+	//		eventMonitor.startMonitoring(for: window)
+	//	 }
 	}
 }
 struct FwGutsView: View {

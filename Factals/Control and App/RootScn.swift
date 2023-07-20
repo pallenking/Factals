@@ -8,9 +8,9 @@
 import Foundation
 import SceneKit
 
-class RootScn : SCNNode {				// xyzzy4
+class RootScn : SCNNode {					// xyzzy4
 	weak
-	 var rootVew	: RootVew?		// RootVew  of this RootScn
+	 var rootVew	: RootVew?				// RootVew  of this RootScn
 
 	 // MARK: - 3.1 init
 	init(scn s:SCNNode?=nil) {
