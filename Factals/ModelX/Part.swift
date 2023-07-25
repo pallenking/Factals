@@ -335,60 +335,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 //		atSer(3, logd("copy(with as? Part       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	// https://forums.swift.org/t/implement-equatable-protocol-in-a-class-hierarchy/13844
-//	// https://stackoverflow.com/questions/39909805/how-to-properly-implement-the-equatable-protocol-in-a-class-hierarchy
-//	// https://jayeshkawli.ghost.io/using-equatable/
-//	  // Allow Arrays of Equatables to be Equatable
-//	 // https://jayeshkawli.ghost.io/using-equatable/
-////	static func ==(lhs:Part, rhs:Part) -> Bool {
-////		atTst(7, lhs.logd("Testing Part: \(lhs.pp(.nameUidClass)) == \(rhs.pp(.nameUidClass))"))
-////
-////		 // Option 1:	note offenders-checking
-////bug
-////
-////		 // Option 2: Value Equivalence
-////		guard type(of:lhs) == type(of:rhs)	else {	return false				}
-////		let rv					= lhs.equals(rhs)	// now == means equivalent values
-////
-////		 // Option 3: Identity (A MAJOR regression)
-////  //	let rv					= lhs === rhs		//
-////
-////		atTst(7, lhs.logd("Result  Part: \(lhs.pp(.nameUidClass)) == \(rhs.pp(.nameUidClass))  ---> \(rv)"))	//debugDescription
-////		return rv
-////	}
-//	func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 					  else {	return true				}
-//
-//		 // It appears short circuit is broken
-//		let (cldrn, rhsCldrn)	= (children, rhs.children)
-//		let rv 					= true
-//			&& type(of:self) 	== type(of:rhs)			// A
-//			&& fwClassName 		== rhs.fwClassName		// B==A
-//			&& name				== rhs.name
-//		//	&& parent			== rhs.parent			// weak
-//	//		&& cldrn.equals(rhsCldrn)					//
-// //!!		&& cldrn			== rhsCldrn				// experimental
-//	//?		&& cldrn			== rhsCldrn				// DOESN'T SEEM TO WORK
-////			&& children			== rhs.children			// DOESN'T SEEM TO WORK
-//			&& nLinesLeft		== rhs.nLinesLeft
-//			&& dirty			== rhs.dirty			// allowed to differ
-//		//	&& localConfig		== rhs.localConfig		// not Equatable
-//		//	&& config			== rhs.config			// not Equatable
-//			&& initialExpose 	== rhs.initialExpose
-//			&& flipped			== rhs.flipped
-//			&& lat				== rhs.lat
-//			&& spin				== rhs.spin
-//			&& shrink			== rhs.shrink
-//			&& placeSelf		== rhs.placeSelf
-//		guard rv									else {	return false}
-//		 // Paw through children by hand:
-//		guard  children.count == rhs.children.count else {	return false}
-//		for i in 0 ..< children.count {
-//			guard children[i] == rhs.children[i]	else {	return false }
-//		}
-//		return true
-//	}
 	 // MARK: - 4.1 Part Properties
 	 /// Short forms for Spin
 	static let str2spin : [String : Int] = [
@@ -1536,6 +1482,56 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	var debugDescription : String	{	return "dd'\(pp(.short))'"				}
 	var summary			 : String	{	return  "s'\(pp(.short))'"				}
 }
+
+
+	 // MARK: - X.7 Equatable
+	// 2023-0725PAK: EquatableFW uses ".equals()", not "==". This prevents abuse
+protocol EquatableFW {
+	func equals(_:Part) -> Bool
+}
+extension Part : EquatableFW {
+	// https://forums.swift.org/t/implement-equatable-protocol-in-a-class-hierarchy/13844
+	// https://stackoverflow.com/questions/39909805/how-to-properly-implement-the-equatable-protocol-in-a-class-hierarchy
+	// https://jayeshkawli.ghost.io/using-equatable/
+	  // Allow Arrays of Equatables to be Equatable
+	 // https://jayeshkawli.ghost.io/using-equatable/
+
+//	static func ==(lhs:Part, rhs:Part) -> Bool {
+//		//bug  			// Option for abuse-checking: Illegal to use
+//		guard type(of:lhs) == type(of:rhs)	else {	return false				}
+//		let rv					= lhs.equals(rhs)	// "==" means equivalent values
+//  	//let rv  				= lhs === rhs		// "==" means same object
+//		return rv
+//	}
+
+	func equals(_ rhs:Part) -> Bool {
+		guard self !== rhs 					  else {	return true				}
+		let rv 					= true				// Swift types use "=="
+			&& type(of:self) 	== type(of:rhs)			// A
+			&& fwClassName 		== rhs.fwClassName		// B==A
+			&& name				== rhs.name
+			&& nLinesLeft		== rhs.nLinesLeft
+			&& dirty			== rhs.dirty			// allowed to differ
+		//	&& localConfig		== rhs.localConfig		// not Equatable
+		//	&& config			== rhs.config			// not Equatable
+			&& initialExpose 	== rhs.initialExpose
+			&& flipped			== rhs.flipped
+			&& lat				== rhs.lat
+			&& spin				== rhs.spin
+			&& shrink			== rhs.shrink
+			&& placeSelf		== rhs.placeSelf
+		guard rv									else {	return false}
+		 // Paw through children by hand:
+		guard  children.count == rhs.children.count else {	return false}
+		for i in 0 ..< children.count {				// Parts use ".equals()"
+			guard children[i].equals(rhs.children[i])else {	return false }
+		}
+		return true
+	}
+	
+
+}
+
  /// Pretty print an up:Bool as String
 func ppUp(_ up:Bool?=nil) -> String {
 	return up==nil ? "<nil>" : up! ? "up" : "down"
