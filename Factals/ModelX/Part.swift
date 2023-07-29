@@ -13,7 +13,7 @@ extension Part : PolyWrappable {												}
 
 
 protocol EquatableFW {
-	func equals(_:Part) -> Bool
+	func equalsFW(_:Part) -> Bool
 }
 extension Part : EquatableFW {													}
 
@@ -357,7 +357,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 //		return rv
 //	}
 
-	func equals(_ rhs:Part) -> Bool {
+	func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 					  else {	return true				}
 		let rv 					= true				// Swift types use "=="
 			&& type(of:self) 	== type(of:rhs)			// A
@@ -377,7 +377,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		 // Paw through children by hand:
 		guard  children.count == rhs.children.count else {	return false}
 		for i in 0 ..< children.count {				// Parts use ".equals()"
-			guard children[i].equals(rhs.children[i])else {	return false }
+			guard children[i].equalsFW(rhs.children[i])else {	return false }
 		}
 		return true
 	}

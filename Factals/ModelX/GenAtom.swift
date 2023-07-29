@@ -93,15 +93,14 @@ class GenAtom : Atom {
 	 // MARK: - 3.5 Codable
 //	 // MARK: - 3.6 NSCopying
 //	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 						  else {	return true			}
-//		guard let rhs			= rhs as? GenAtom else {	return false		}
-//		let rv					=  super.equals(rhs)
-//								&& value == rhs.value
-//								&& loop  == rhs.loop
-//		return rv
-//	}
-
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 						  else {	return true			}
+		guard let rhs			= rhs as? GenAtom else {	return false		}
+		let rv					=  super.equalsFW(rhs)
+								&& value == rhs.value
+								&& loop  == rhs.loop
+		return rv
+	}
 	 // MARK: - 8. Reenactment Simulator
 	override func reset() {								super.reset()
 

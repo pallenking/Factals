@@ -219,20 +219,20 @@ class Previous : Atom {
 //		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 						   else {	return true			}
-//		guard let rhs			= rhs as? Previous else {	return false 		}
-//		let rv					= super.equals(rhs)
-//								&& bias		  == rhs.bias
-//								&& majorMode  == rhs.majorMode
-//								&& minorMode  == rhs.minorMode
-//								&& src4sCur	  == rhs.src4sCur
-//								&& src4tPrev  == rhs.src4tPrev
-//								&& src4lLatch == rhs.src4lLatch
-//								&& src4pPri	  == rhs.src4pPri
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 						   else {	return true			}
+		guard let rhs			= rhs as? Previous else {	return false 		}
+		let rv					= super.equalsFW(rhs)
+								&& bias		  == rhs.bias
+								&& majorMode  == rhs.majorMode
+								&& minorMode  == rhs.minorMode
+								&& src4sCur	  == rhs.src4sCur
+								&& src4tPrev  == rhs.src4tPrev
+								&& src4lLatch == rhs.src4lLatch
+								&& src4pPri	  == rhs.src4pPri
+		return rv
+	}
 	 // MARK: -  7. Simulator Messages
 	override func receiveMessage(fwEvent:HnwEvent) {
 		if fwEvent.fwType == .clockPrevious {//sim_clockPreviousX {

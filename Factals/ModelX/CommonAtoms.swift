@@ -172,15 +172,15 @@ class Mirror : Atom {
 //		atSer(3, logd("copy(with as? ConveyorPort   '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 						 else {		return true			}
-//		guard let rhs			= rhs as? Mirror else {		return false 		}
-//		let rv					= super.equals(rhs)
-//								&& gain   == rhs.gain
-//								&& offset == rhs.offset
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 						 else {		return true			}
+		guard let rhs			= rhs as? Mirror else {		return false 		}
+		let rv					= super.equalsFW(rhs)
+								&& gain   == rhs.gain
+								&& offset == rhs.offset
+		return rv
+	}
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up upLocal:Bool)  {
 		super.simulate(up:upLocal)
@@ -235,16 +235,16 @@ class Modulator : Atom {
 //		atSer(3, logd("copy(with as? ConveyorPort   '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 							else {	return true			}
-//		guard let rhs			= rhs as? Modulator else {	return false 		}
-//		let rv					= super.equals(rhs)
-//								&& sHeight 	== rhs.sHeight
-//								&& sRadius 	== rhs.sRadius
-//								&& armLen 	== rhs.armLen
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 							else {	return true			}
+		guard let rhs			= rhs as? Modulator else {	return false 		}
+		let rv					= super.equalsFW(rhs)
+								&& sHeight 	== rhs.sHeight
+								&& sRadius 	== rhs.sRadius
+								&& armLen 	== rhs.armLen
+		return rv
+	}
 	 // MARK: - 9.3 reSkin
 	var sHeight : CGFloat		= 0		//1.5
 	var sRadius : CGFloat		= 2.5	//1.5

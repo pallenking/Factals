@@ -464,17 +464,17 @@ class Bulb : Splitter { //######################################################
 //		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 					   else {	return true				}
-//		guard let rhs			= rhs as? Bulb else {	return false 			}
-//		let rv					= super.equals(rhs)
-//								&& pValue 		 == rhs.pValue
-//								&& gain 		 == rhs.gain
-//								&& offset 		 == rhs.offset
-//								&& currentRadius == rhs.currentRadius
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 					   else {	return true				}
+		guard let rhs			= rhs as? Bulb else {	return false 			}
+		let rv					= super.equalsFW(rhs)
+								&& pValue 		 == rhs.pValue
+								&& gain 		 == rhs.gain
+								&& offset 		 == rhs.offset
+								&& currentRadius == rhs.currentRadius
+		return rv
+	}
 	 // MARK: - 8. Reenactment Simulator
 	override func bidTotal() -> Float 		{	return 1						} // Bulb
 	override func simulate(up upLocal:Bool) {

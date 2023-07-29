@@ -66,10 +66,10 @@ class Net : Atom {		// Atom // Part
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equals(_ rhs:Part) -> Bool {
+	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 					  else {	return true				}
 		guard let rhs			= rhs as? Net else {	return false			}
-		guard super.equals(rhs)				  else {	return false			}
+		guard super.equalsFW(rhs)				  else {	return false			}
 		guard self.minSize		== rhs.minSize else{	return false			}
 		return true
 	}

@@ -87,12 +87,12 @@ class HnwEvent {							// NOT NSObject
 
  // An event used by the Simulator
 //extension FwwEvent : Equatable {
-//	func equals(_ rhs: FwwEvent) -> Bool {
+//	func equalsFW(_ rhs: FwwEvent) -> Bool {
 //bug;	return self == rhs
 //	}
 //}
 enum FwwEvent : Codable, EquatableFW {
-	func equals(_: Part) -> Bool {
+	func equalsFW(_: Part) -> Bool {
 		bug
 		return false
 	}

@@ -170,26 +170,25 @@ class TimingChain : Atom {
 	func equalsFW(_ a:Part?, _ b:Part?) -> Bool {
 		if a == nil && b == nil {	return true		}	// nil == nil
 		if a != nil || b != nil {	return false	}	// nil != !nil
-		return a!.equals(b!)							// both !nil
+		return a!.equalsFW(b!)							// both !nil
 	}
 	func equalsFW(_ a:[Part], _ b:[Part]) -> Bool {
 		guard a.count == b.count 					  else {	return false	}
 		for i in 0...a.count {
-			guard a[i].equals(b[i])					  else {	return true		}
+			guard a[i].equalsFW(b[i])					  else {	return true		}
 		}
 		return true
 	}
 	func equalsFW(_ a:FwwEvent?, _ b:FwwEvent?) -> Bool {
-		if a == nil && b == nil {	return true		}	// nil == nil
-		if a != nil || b != nil {	return false	}	// nil != !nil
-		bug
-		return false
-//		return a!.equals(b!)							// both !nil
+		if a == nil && b == nil {	return true		}	// nils match
+		if a != nil || b != nil {	return false	}	// only 1 nil mismatches
+		bug; return false								// not debugged past here
+//		bug;return a!.equals(b! ??? )					// both exist
 	}
-	override func equals(_ rhs:Part) -> Bool {
+	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 							  else {	return true		}
 		guard let rhs			= rhs as? TimingChain else {	return false	}
-		let rv					= super.equals(rhs)
+		let rv					= super.equalsFW(rhs)
 								&& equalsFW(worldModel,    rhs.worldModel)
 								&& equalsFW(discreteTimes, rhs.discreteTimes)
 								&& equalsFW(event,		   rhs.event)

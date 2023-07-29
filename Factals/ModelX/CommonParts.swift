@@ -51,10 +51,10 @@ class CommonPart : Part {
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
+//	override func equalsFW(_ rhs:Part) -> Bool {
 //		guard self !== rhs 							 else {	return true			}
 //		guard let rhs			= rhs as? CommonPart else {	return false		}
-//		let rv					= super.equals(rhs)
+//		let rv					= super.equalsFW(rhs)
 //			&& size				== rhs.size
 //		return rv
 //	}

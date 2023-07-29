@@ -106,8 +106,8 @@ class Generator : Net {
 //		atSer(3, logd("copy(with as? Generator       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		return super.equals(rhs)
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+bug;	return super.equalsFW(rhs)
+	}
 }

@@ -222,7 +222,7 @@ final class FactalsTests: XCTestCase {
 		}
 	}
 
-	func XtestPartIdenticalEquatable() {
+	func testPartIdenticalEquatable() {
 								//
 		let part1  = Part(["n":"a"]), part2	 = Part(["n":"a"]), part3 = Part(["n":"a"])
 		let	part4  = Part(["n":"b"])
@@ -267,14 +267,15 @@ final class FactalsTests: XCTestCase {
 			print("\n############  \(i+1). (\(p1.pp(.uidClass))).equalsPart(\(p2.pp(.uidClass)))  ###########")
 			print("\(p1.pp(.tree)) ??====(\(identity ? " " : "!")identical, \(equatable ? " " : "!")equatable)====??  CALCULATED\n\(p2.pp(.tree))", terminator:"")
 			let matchIdnetP		= p1 === p2			//  identity
-			let matchEqualP		= false//p1 ==  p2			//  equatable
-			print(" p1 \(matchIdnetP ? "=" : "!")== p2, p1 \(matchEqualP ? "=" : "!")= p2")
+			let matchEqualP		= p1.equals(p2)		//  equatableFW
+			 // Questionable Value:
+			print(" p1 \(matchIdnetP ? "=" : "!")== p2, p1.equals(p2) => \(matchEqualP)")
 			XCTAssertEqual(matchIdnetP, identity,  "testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
 			XCTAssertEqual(matchEqualP, equatable, "testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
 			let matchIdnetM		= p1 !== p2			// !identity
-			let matchEqualM		= false//p1 !=  p2			// !equatable
-			//XCTAssertEqual(matchIdnetM, !identity, "!testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
-			//XCTAssertEqual(matchEqualM, !equatable,"!testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
+			let matchEqualM		= p1.equals(p2)	== false 	// !equatableFW
+			XCTAssertEqual(matchIdnetM, !identity, "!testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
+			XCTAssertEqual(matchEqualM, !equatable,"!testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
 			 // If any errors
 			if //matchIdnetP != identity || matchEqualP != equatable ||
 			   matchIdnetM == identity || matchEqualM == equatable {

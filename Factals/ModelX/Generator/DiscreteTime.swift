@@ -92,18 +92,18 @@ class DiscreteTime : Atom {
 //		atSer(3, logd("copy(with as? DiscreteTime       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 							   else {	return true		}
-//		guard let rhs			= rhs as? DiscreteTime else {	return false 	}
-//		let rv					= super.equals(rhs)
-//								&& resetTo 			 == rhs.resetTo
-//								&& inspecNibName 	 == rhs.inspecNibName
-//								&& inspecIsOpen 	 == rhs.inspecIsOpen
-//								&& incrementalEvents == rhs.incrementalEvents
-//								&& anonValue 		 == rhs.anonValue
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 							   else {	return true		}
+		guard let rhs			= rhs as? DiscreteTime else {	return false 	}
+		let rv					= super.equalsFW(rhs)
+							////	&& resetTo 			 == rhs.resetTo
+								&& inspecNibName 	 == rhs.inspecNibName
+								&& inspecIsOpen 	 == rhs.inspecIsOpen
+								&& incrementalEvents == rhs.incrementalEvents
+								&& anonValue 		 == rhs.anonValue
+		return rv
+	}
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(root:RootPart) {
 											super.groomModelPostWires(root:root)

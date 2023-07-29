@@ -244,19 +244,19 @@ class Port : Part, PortTalk {
 //		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 								else { return true		}
-//		guard let rhs			= rhs as? Port 			else { return false		}
-//		guard super.equals(rhs)							else { return false		}
-//		guard value     		== rhs.value			else { return false		}
-//		guard valuePrev 		== rhs.valuePrev		else { return false		}
-//		guard connectedTo 		== rhs.connectedTo		else { return false		}
-//		guard connectedToString == rhs.connectedToString else{ return false		}
-//		guard noCheck			== rhs.noCheck			else { return false		}
-//		guard dominant			== rhs.dominant			else { return false		}
-//		return true
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 								else { return true		}
+		guard let rhs			= rhs as? Port 			else { return false		}
+		guard super.equalsFW(rhs)							else { return false		}
+		guard value     		== rhs.value			else { return false		}
+		guard valuePrev 		== rhs.valuePrev		else { return false		}
+bug	//??	guard connectedTo 		== rhs.connectedTo		else { return false		}
+		guard connectedToString == rhs.connectedToString else{ return false		}
+		guard noCheck			== rhs.noCheck			else { return false		}
+		guard dominant			== rhs.dominant			else { return false		}
+		return true
+	}
 	 // MARK: - 4.4 Navigation
 	var atom 		: Atom? {	return parent as? Atom 							}
 	var otherPort 	: Port? {	 // Assumes Atom has 2 Ports, named P and Q

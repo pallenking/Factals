@@ -23,8 +23,8 @@ class MultiLink : Link {
 	// Simplicity -- no variables here!
 	 // MARK: - 3.5 Codable
 //	 // MARK: - 3.6 NSCopying
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		return super.equals(rhs)
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		return super.equalsFW(rhs)
+	}
 }

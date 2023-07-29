@@ -125,25 +125,26 @@ class Atom : Part {	//Part//FwPart
 //		atSer(3, logd("copy(with as? Atom       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 						else {		return true			}
-//		guard let rhs			= rhs as? Atom	else {		return false		}
-//		guard super.equals(rhs)					else {		return false		}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 						else {		return true			}
+		guard let rhs			= rhs as? Atom	else {		return false		}
+		guard super.equalsFW(rhs)					else {		return false		}
 //		guard postBuilt	 == rhs.postBuilt		else {		return false		}
 //		guard bandColor	 == rhs.bandColor		else {		return false		}
 //		guard proxyColor == rhs.proxyColor		else {		return false		}
-//		guard ports 	 == rhs.ports			else {		return false		}		//. Ports are also in Children!!!
+//		guard ports.equals(rhs.ports)			else {		return false		}		//. Ports are also in Children!!!
 //		guard bindings	 == rhs.bindings		else {		return false		}
 //		return true
- //		let rv					= super.equals(rhs)
- //			&& postBuilt		== rhs.postBuilt
- //			&& bandColor		== rhs.bandColor
- //			&& proxyColor		== rhs.proxyColor
- //			&& ports 			== rhs.ports			//. Ports are also in Children!!!
- //			&& bindings			== rhs.bindings
- //		return rv
-//	}
+ 		let rv					= super.equalsFW(rhs)
+ 			&& postBuilt		== rhs.postBuilt
+ 			&& bandColor		== rhs.bandColor
+ 			&& proxyColor		== rhs.proxyColor
+ 		//??	&& ports.equalsFW(rhs.ports)			//. Ports are also in Children!!!
+				//Referencing instance method 'equalsFW' on 'Dictionary' requires that 'Port' conform to 'Equatable'
+ 			&& bindings			== rhs.bindings
+ 		return rv
+	}
 	// MARK: - 4.4 Navigating Network
 	func biggestBit(openingUp  upInSelf:Bool) -> Port? {
 		var rv : Port? 			= nil

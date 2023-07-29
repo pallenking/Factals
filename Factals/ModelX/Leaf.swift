@@ -66,14 +66,14 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 //		atSer(3, logd("copy(with as? Leaf       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 					   else {	return true				}
-//		guard let rhs			= rhs as? Leaf else {	return false 			}
-//		let rv					= super.equals(rhs)
-//			&& type				== rhs.type
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 					   else {	return true				}
+		guard let rhs			= rhs as? Leaf else {	return false 			}
+		let rv					= super.equalsFW(rhs)
+			&& type				== rhs.type
+		return rv
+	}
 	// MARK: - 4.1 Part Properties
 	override func apply(prop:String, withVal val:FwAny?) -> Bool {
 		 // Leafs get sound names from the .nib file:

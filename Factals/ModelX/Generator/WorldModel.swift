@@ -99,20 +99,20 @@ class WorldModel : Atom {
 //		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 							 else {		return true		}
-//		guard let rhs			= rhs as? WorldModel else {		return false 	}
-//		let rv 					= super.equals(rhs)
-//								&& timingChain 	 == rhs.timingChain
-//								&& delayedEvents == rhs.delayedEvents
-//								&& eventNow 	 == rhs.eventNow
-//								&& eventLimit	 == rhs.eventLimit
-//								&& event 		 == rhs.event
-//								&& eventIndex 	 == rhs.eventIndex
-//								&& prob 		 == rhs.prob
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 							 else {		return true		}
+		guard let rhs			= rhs as? WorldModel else {		return false 	}
+		let rv 					= super.equalsFW(rhs)
+						//??		&& timingChain 	 == rhs.timingChain
+						//??		&& delayedEvents == rhs.delayedEvents
+								&& eventNow 	 == rhs.eventNow
+								&& eventLimit	 == rhs.eventLimit
+						//??		&& event 		 == rhs.event
+								&& eventIndex 	 == rhs.eventIndex
+								&& prob 		 == rhs.prob
+bug;	return rv
+	}
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(root:RootPart) {
 											super.groomModelPostWires(root:root)

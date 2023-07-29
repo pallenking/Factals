@@ -7,13 +7,13 @@ struct LinkSegment  : Codable {
 	var heightPct	: Float		= 0		// how high the seg is: 0.0:near_self.Port, 1.0:near_outPort
 	var val			: Float		= 0		// being propigated (BUT WHICH EDGE?)
 }
-//	 // MARK: - 3.7 Equatable
-//extension LinkSegment : Equatable {
-//	func equals(_ rhs: LinkSegment) -> Bool {
-//bug//	guard self !== rhs 					  else {	return true				}
-//		return heightPct == rhs.heightPct  &&  val == rhs.val
-//	}
-//}
+	 // MARK: - 3.7 Equatable
+extension LinkSegment : Equatable {
+	func equals(_ rhs: LinkSegment) -> Bool {
+bug//	guard self !== rhs 					  else {	return true				}
+		return heightPct == rhs.heightPct  &&  val == rhs.val
+	}
+}
 
 class ConveyorPort : Port {
 	// self.Port 						// 1. Connects to this end of link
@@ -95,18 +95,18 @@ class ConveyorPort : Port {
 //		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 							   else {	return true		}
-//		guard let rhs			= rhs as? ConveyorPort else {	return false 	}
-//		let rv					= super.equals(rhs)
-//								&& outPort	  == rhs.outPort
-//								&& imageX0	  == rhs.imageX0
-//								&& imageY0	  == rhs.imageY0
-//		//						&& colorOfVal == rhs.colorOfVal
-//								&& array	  == rhs.array
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 							   else {	return true		}
+		guard let rhs			= rhs as? ConveyorPort else {	return false 	}
+		let rv					= super.equalsFW(rhs)
+							//??	&& equalsFW(outPort, rhs.outPort)
+								&& imageX0	  == rhs.imageX0
+								&& imageY0	  == rhs.imageY0
+		//						&& colorOfVal == rhs.colorOfVal
+								&& array	  == rhs.array
+bug;	return rv
+	}
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
  		guard let simulator		= root?.simulator else  {	return				}

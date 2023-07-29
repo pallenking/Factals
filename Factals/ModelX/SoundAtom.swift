@@ -69,15 +69,15 @@ class SoundAtom : Atom {
 //		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 							else {	return true			}
-//		guard let rhs			= rhs as? SoundAtom else {	return false 		}
-//		let rv					= super.equals(rhs)
-//								&& sound 	== rhs.sound
-//								&& playing 	== rhs.playing
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 							else {	return true			}
+		guard let rhs			= rhs as? SoundAtom else {	return false 		}
+		let rv					= super.equalsFW(rhs)
+								&& sound 	== rhs.sound
+								&& playing 	== rhs.playing
+		return rv
+	}
 	// MARK: - 4.1 Part Properties
 	func apply(prop:String, withVal val:String) -> Bool {
 

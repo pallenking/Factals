@@ -153,7 +153,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable
-//	func equals(_ rhs:Path) -> Bool {
+//	func equalsFW(_ rhs:Path) -> Bool {
 //		return true
 //			&& atomTokens 			== rhs.atomTokens
 //			&& portName   			== rhs.portName

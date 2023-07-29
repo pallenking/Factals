@@ -126,12 +126,12 @@ class Actor : Net {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equals(_ rhs:Part) -> Bool {
+	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 					  	else {	return true				}
 		guard let rhs			= rhs as? Actor else {	return false			}
-		let rv					= super.equals(rhs)
-			&& con != nil && rhs.con != nil && con!.equals(rhs.con!)
-			&& evi != nil && rhs.evi != nil && evi!.equals(rhs.evi!)
+		let rv					= super.equalsFW(rhs)
+			&& con != nil && rhs.con != nil && con!.equalsFW(rhs.con!)
+			&& evi != nil && rhs.evi != nil && evi!.equalsFW(rhs.evi!)
 && {bug;return false}()// Value of type '[Part]' has no member 'equals'
 //			&& previousClocks != nil && rhs.previousClocks != nil
 //											&& previousClocks.equals(rhs.previousClocks)

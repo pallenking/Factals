@@ -121,17 +121,17 @@ class Splitter : Atom {
 //		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 						   else {	return true			}
-//		guard let rhs			= rhs as? Splitter else {	return false 		}
-//		let rv					= super.equals(rhs)
-//								&& onlyPosativeWinners 	== rhs.onlyPosativeWinners
-//								&& combineWinner 		== rhs.combineWinner
-//								&& upIsDirty 			== rhs.upIsDirty
-//								&& a1 					== rhs.a1
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equalsFW(_ rhs:Part) -> Bool {
+		guard self !== rhs 						   else {	return true			}
+		guard let rhs			= rhs as? Splitter else {	return false 		}
+		let rv					= super.equalsFW(rhs)
+								&& onlyPosativeWinners 	== rhs.onlyPosativeWinners
+								&& combineWinner 		== rhs.combineWinner
+								&& upIsDirty 			== rhs.upIsDirty
+								&& a1 					== rhs.a1
+		return rv
+	}
 	// MARK: - 4.4 Tree Navigation
 	override func autoBroadcast(toPort:Port) -> Port {
 		if //isBroadcast, 						// now for any type Splitter

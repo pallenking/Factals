@@ -13,7 +13,7 @@ let bPrevPM			= ["":"prev.S", "+":"prev.S", "-":"prev.T"					]
 //}
 
 //extension LeafKind : Equatable {
-//	func equals(_ rhs: LeafKind) -> Bool {
+//	func equalsFW(_ rhs: LeafKind) -> Bool {
 //	//	guard self !== rhs 					  else {	return true				}
 //bug;	return self == rhs
 //	}

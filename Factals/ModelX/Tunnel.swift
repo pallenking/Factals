@@ -45,10 +45,10 @@ class Tunnel : FwBundle {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equals(_ rhs:Part) -> Bool {
+	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 					  else {	return true				}
 		guard let rhs			= rhs as? Net else {	return false 			}
-		let rv					= super.equals(rhs)
+		let rv					= super.equalsFW(rhs)
 								&& minSize == rhs.minSize
 		return rv
 	}
