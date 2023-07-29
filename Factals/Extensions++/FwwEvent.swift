@@ -91,7 +91,12 @@ class HnwEvent {							// NOT NSObject
 //bug;	return self == rhs
 //	}
 //}
-enum FwwEvent : Codable {	// Uid,
+enum FwwEvent : Codable, EquatableFW {
+	func equals(_: Part) -> Bool {
+		bug
+		return false
+	}
+	// Uid,
 	//var uid 		: UInt16 		{ 	return SwiftFactals.uid(nsOb:self)	}
 	case aString(String)
 	case anArray([FwwEvent])

@@ -125,19 +125,21 @@ class Actor : Net {
 //		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 					  	else {	return true				}
-//		guard let rhs			= rhs as? Actor else {	return false			}
-//		let rv					= super.equals(rhs)
-//			&& con     			== rhs.con
-//			&& evi				== rhs.evi
-//			&& previousClocks 	== rhs.previousClocks
-//			&& positionViaCon 	== rhs.positionViaCon
-//			&& viewAsAtom_ 	  	== rhs.viewAsAtom_
-//			&& linkDisplayInvisible == rhs.linkDisplayInvisible
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equals(_ rhs:Part) -> Bool {
+		guard self !== rhs 					  	else {	return true				}
+		guard let rhs			= rhs as? Actor else {	return false			}
+		let rv					= super.equals(rhs)
+			&& con != nil && rhs.con != nil && con!.equals(rhs.con!)
+			&& evi != nil && rhs.evi != nil && evi!.equals(rhs.evi!)
+&& {bug;return false}()// Value of type '[Part]' has no member 'equals'
+//			&& previousClocks != nil && rhs.previousClocks != nil
+//											&& previousClocks.equals(rhs.previousClocks)
+			&& positionViaCon 	== rhs.positionViaCon
+			&& viewAsAtom_ 	  	== rhs.viewAsAtom_
+			&& linkDisplayInvisible == rhs.linkDisplayInvisible
+		return rv
+	}
 	 // MARK: - 4.2 Manage Tree
 	///	ALGORITHM:	scan through Net,
 	///				move improper forward references infront of us

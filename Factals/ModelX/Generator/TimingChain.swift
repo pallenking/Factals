@@ -166,21 +166,40 @@ class TimingChain : Atom {
 //		atSer(3, logd("copy(with as? TimingChain       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 							  else {	return true		}
-//		guard let rhs			= rhs as? TimingChain else {	return false	}
-//		let rv					= super.equals(rhs)
-//								&& worldModel 	  == rhs.worldModel
-//								&& discreteTimes  == rhs.discreteTimes
-//								&& event 		  == rhs.event
-//								&& state 		  == rhs.state
-//								&& animateChain   == rhs.animateChain
-//								&& eventDownPause == rhs.eventDownPause
-//								&& asyncData 	  == rhs.asyncData
-//								&& retractPort 	  == rhs.retractPort
-//		return rv
-//	}
+	 // MARK: - 3.7 EquatableFW
+	func equalsFW(_ a:Part?, _ b:Part?) -> Bool {
+		if a == nil && b == nil {	return true		}	// nil == nil
+		if a != nil || b != nil {	return false	}	// nil != !nil
+		return a!.equals(b!)							// both !nil
+	}
+	func equalsFW(_ a:[Part], _ b:[Part]) -> Bool {
+		guard a.count == b.count 					  else {	return false	}
+		for i in 0...a.count {
+			guard a[i].equals(b[i])					  else {	return true		}
+		}
+		return true
+	}
+	func equalsFW(_ a:FwwEvent?, _ b:FwwEvent?) -> Bool {
+		if a == nil && b == nil {	return true		}	// nil == nil
+		if a != nil || b != nil {	return false	}	// nil != !nil
+		bug
+		return false
+//		return a!.equals(b!)							// both !nil
+	}
+	override func equals(_ rhs:Part) -> Bool {
+		guard self !== rhs 							  else {	return true		}
+		guard let rhs			= rhs as? TimingChain else {	return false	}
+		let rv					= super.equals(rhs)
+								&& equalsFW(worldModel,    rhs.worldModel)
+								&& equalsFW(discreteTimes, rhs.discreteTimes)
+								&& equalsFW(event,		   rhs.event)
+								&& state 		  		== rhs.state
+								&& animateChain   		== rhs.animateChain
+								&& eventDownPause 		== rhs.eventDownPause
+								&& asyncData 	  		== rhs.asyncData
+								&& equalsFW(retractPort,   rhs.retractPort)
+		return rv
+	}
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(root:RootPart) {
 											super.groomModelPostWires(root:root)

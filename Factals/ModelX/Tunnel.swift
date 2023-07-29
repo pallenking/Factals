@@ -44,14 +44,14 @@ class Tunnel : FwBundle {
 //		atSer(3, logd("copy(with as? Tunnel       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 					  else {	return true				}
-//		guard let rhs			= rhs as? Net else {	return false 			}
-//		let rv					= super.equals(rhs)
-//								&& minSize == rhs.minSize
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equals(_ rhs:Part) -> Bool {
+		guard self !== rhs 					  else {	return true				}
+		guard let rhs			= rhs as? Net else {	return false 			}
+		let rv					= super.equals(rhs)
+								&& minSize == rhs.minSize
+		return rv
+	}
 	 // MARK: - 8. Reenactment Simulator
 	/*							====== Experiment 2 =====		====== Experiment 1 =====
 										Push +CHOSEN+				Pull -NOT USED-	

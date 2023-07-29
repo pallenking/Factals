@@ -77,16 +77,16 @@ class FwBundle : Net {
 //		atSer(3, logd("copy(with as? FwBundle       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 						   else {	return true			}
-//		guard let rhs			= rhs as? FwBundle else {	return false 		}
-//		let rv					= super.equals(rhs)
-////								&& leafStruc == rhs.leafStruc	//Type 'any FwAny' cannot conform to 'Equatable'
-//								&& leafKind  == rhs.leafKind
-//								&& label 	 == rhs.label
-//		return rv
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equals(_ rhs:Part) -> Bool {
+		guard self !== rhs 						   else {	return true			}
+		guard let rhs			= rhs as? FwBundle else {	return false 		}
+		let rv					= super.equals(rhs)
+//								&& leafStruc == rhs.leafStruc	//Type 'any FwAny' cannot conform to 'Equatable'
+								&& leafKind  == rhs.leafKind
+								&& label 	 == rhs.label
+		return rv
+	}
 	   // /////////////////////////////////////////////////////////////////// //
 	  // ///////////////// FwBundle Sub-Tree NAVIGATION ////////////////////// //
 	 // /////////////////////////////////////////////////////////////////// //

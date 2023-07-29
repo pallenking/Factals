@@ -65,14 +65,14 @@ class Net : Atom {		// Atom // Part
 //		atSer(3, logd("copy(with as? Net       '\(fullName)'"))
 //		return theCopy
 //	}
-//	 // MARK: - 3.7 Equatable
-//	override func equals(_ rhs:Part) -> Bool {
-//		guard self !== rhs 					  else {	return true				}
-//		guard let rhs			= rhs as? Net else {	return false			}
-//		guard super.equals(rhs)				  else {	return false			}
-//		guard self.minSize		== rhs.minSize else{	return false			}
-//		return true
-//	}
+	 // MARK: - 3.7 Equatable
+	override func equals(_ rhs:Part) -> Bool {
+		guard self !== rhs 					  else {	return true				}
+		guard let rhs			= rhs as? Net else {	return false			}
+		guard super.equals(rhs)				  else {	return false			}
+		guard self.minSize		== rhs.minSize else{	return false			}
+		return true
+	}
 
 	@Published var minSize :SCNVector3? 	= nil
 	{	didSet { 	markTree(dirty:.size)  									}	}
