@@ -385,14 +385,11 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 		}
 	}
 	 //-- distribute: (local UP)--//
-//	func bidOfShare() -> Float {
-//		return self.connectedTo!.value			// Default: distribute proportionately according to want
-//	}
 	func bidTotal() -> Float {					// Splitter
 		var rv : Float		= 0.0
 		for child in children {
 			if let sh 		= child as? Share {
-				rv	   		+= sh.bidOfShare()
+				rv	   		+= sh.bid()
 			}
 		}
 		return rv								// Default: denominator
@@ -431,7 +428,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 	
 			for child in children {
 				if let sh 		= child as? Share {
-					let bidOfShare:Float = sh.bidOfShare()
+					let bidOfShare:Float = sh.bid()
 	
 //					assert(!(bidOfShare != 0.0 && bidTotal == 0), "bidOfShare isn't zero, but bidSum is Zero")
 					let distribution = bidOfShare == 0.0 ? 0.0 : // (irrespective of bidTotal)

@@ -88,8 +88,8 @@ class GenAtom : Atom {
 		return rv
 	}
 	 // All Atoms have a P Port, made at init(): (for some reason)
-//	lazy var loopPort: Port	= Port.nullPort		// nullPort gone by end of init()
-//	var loopPortIn	: Port { return loopPort.connectedTo! }
+	lazy var loopPort: Port	= .error		// nullPort gone by end of init()
+	var loopPortIn	: Port { return loopPort.connectedX!.port! }
 	 // MARK: - 3.5 Codable
 //	 // MARK: - 3.6 NSCopying
 //	 // MARK: - 3.7 Equatable

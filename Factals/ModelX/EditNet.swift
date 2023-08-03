@@ -84,7 +84,7 @@
 //			if localUp==nil || port.flipped==localUp!,	/// flipped properly
 //			      name==nil || name == "" || 			/// name is nil, null,
 //			  				   name==port.name,				/// or matches port
-//			  !wantOpen || port.connectedTo==nil 		/// need not be open, or is open
+//			  !wantOpen || port.connectedX.port==nil 		/// need not be open, or is open
 //			{
 //				assert(allowDuplicates || rv==nil, "Two candidates found for port named '\(name ?? "")'")
 //				rv				= port			/// found unique acceptable Port
@@ -95,7 +95,7 @@
 //		   rv==nil							/// didn't find open port above
 //		{/// Get the Port that almost meets desires, but is occupied
 //			if let occupiedPort	= port(named:name, localUp:localUp, wantOpen:false, allowDuplicates:true) { 
-//				assert(occupiedPort.connectedTo!=nil, "should be occupied")
+//				assert(occupiedPort.connectedX!=nil, "should be occupied")
 //				rv				= autoBroadcast(toPort:occupiedPort)
 //			}
 //			else if localUp!,
@@ -118,7 +118,7 @@
 //			return splitter.anotherShare(named:"*")
 //		}
 //		 /// If toPort has a Broadcast already attached to it, use it
-//		if let conSplitter	 	= toPort.connectedTo?.atom as? Splitter,
+//		if let conSplitter	 	= toPort.connectedX?.port?.atom as? Splitter,
 //		  conSplitter.isBroadcast {
 //			return conSplitter.anotherShare(named:"*")
 //		}
@@ -154,10 +154,10 @@
 //		let share1 : Share		= newBcast.anotherShare(named:"*") // newShare to replicate old connection
 //		let share2 : Share		= newBcast.anotherShare(named:"*")
 //		let pPort  : Port		= newBcast.ports["P"]!
-//		share1.connectedTo		= toPort.connectedTo/// 1. move old connection to share1
-//		toPort.connectedTo?.connectedTo = share1
-//		pPort.connectedTo		= toPort	  		/// 2. link newBcast to toPort.
-//		toPort.connectedTo		= pPort
+//		share1.connectedX		= .port(toPort.connectedTo)/// 1. move old connection to share1
+//		toPort.connectedX?.port?.connectedTo = share1	??
+//		pPort.connectedX		= toPort	  		/// 2. link newBcast to toPort.
+//		toPort.connectedX		= pPort
 //		return share2								/// 3. share2 is autoBroadcast
 //	}
 //	func biggestBit(openingUp  upInSelf:Bool) -> Port? {

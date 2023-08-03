@@ -32,7 +32,7 @@ class Share : Port { // ///////////// The common parts//////////////////////////
 //	 // MARK: - 3.6 NSCopying
 	 // MARK: - 8. Reenactment Simulator
 	 //-- distribute: (local UP)--//
-	func bidOfShare() -> Float {
+	func bid() -> Float {
 		return self.connectedX?.port?.value ?? 0 	// Default: distribute proportionately according to want
 	}
 	//#########################################################################
@@ -93,7 +93,7 @@ class Broadcast : Splitter { //#################################################
 	}
 }  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 class BroadcastSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-	override func bidOfShare() 			  -> Float	{	return 1				}
+	override func bid() -> Float	{	return 1								}
 	override func basicConSpot() -> ConSpot {
 		let r					= super.radius
 		return ConSpot(center:SCNVector3(0, 0*r, 0), radius:1*r)
@@ -235,7 +235,7 @@ class Hamming : Splitter { //###################################################
 	}
 }  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 class HammingSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-	override func bidOfShare() 			  -> Float	{		return 1			}
+	override func bid() -> Float	{		return 1							}
 	override func basicConSpot() -> ConSpot {	 // look at particular type of share:
 		let r					= radius
 		return ConSpot(center:SCNVector3(0, 0.5*r, 0), radius:1*r)		//1
@@ -532,7 +532,7 @@ class Bulb : Splitter { //######################################################
 	}
 }  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 class BulbSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-	override func bidOfShare() 			  -> Float	{	return 1				}
+	override func bid() -> Float	{	return 1								}
 	 /// Intercept Port.value, to perhaps set viewSizeIsDirty
 	override var value : Float 		{		// a place for debug breakpoints:
 		get		{	return super.value											}
