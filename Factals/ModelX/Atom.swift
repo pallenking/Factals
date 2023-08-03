@@ -212,9 +212,7 @@ class Atom : Part {	//Part//FwPart
 
 		 // Want open, but its occupied. Make a :H:Clone
 		if wantOpen,								// want an open port
-//		  rvPort != nil,							  // found a port, but
 		  let connec2			= rvPort?.connectedX?.port
-//		  rvPort?.connectedTo != nil					//   it's not open!
 		{
 			 // :H:Clone rv
 			let cPort 			= rvPort!					// Clone non-open rv
@@ -265,7 +263,7 @@ class Atom : Part {	//Part//FwPart
 			if wantName    == ""		||		// (name unimportant     OR
 			  wantName     == pName,			//  name matches port's)  AND
 			  portUp       == nil 		||		// (flip unimportant     OR
-			  port.flipped == portUp!			//  flipped properly)     AND	// port.connectedTo==nil || !wantOpen// open if need be
+			  port.flipped == portUp!			//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
 			{
 				rv.append(port)					// found unique acceptable Port
 			}
@@ -312,7 +310,7 @@ class Atom : Part {	//Part//FwPart
 //		let similarPorts		= s!.existingPorts(named:givenPort.name, localUp:givenPort.flipped)
 //		if  similarPorts.count > 0 {
 //			let similarPort = similarPorts[0]	// Just pick one
-//			assert(similarPort.connectedTo != nil, "should be occupied")
+//			assert(similarPort.connectedX != nil, "should be occupied")
 //
 //			 // Get another Port similar to similarPort from Splitter?
 //			if let splitter = self as? Splitter,
@@ -322,7 +320,7 @@ class Atom : Part {	//Part//FwPart
 //			}
 //
 //			 // Get another Port from an attached Splitter:
-//			if let conSplitter = similarPort.connectedTo?.atom as? Splitter,
+//			if let conSplitter = similarPort.connectedX?.atom as? Splitter,
 //			  conSplitter.isBroadcast {
 //				return conSplitter.anotherShare(named:"*")
 //			}
@@ -373,7 +371,7 @@ class Atom : Part {	//Part//FwPart
 
 		 // 3,  Wire up new Broadcast into Network:
 		/* 				inPort							:Port
-			inPort			.connectedTo
+			inPort			.connectedX
 			inCon			 \--|--V----/Connection
 								A  V
 		/			before #AV#  #AV# after
@@ -803,130 +801,129 @@ class Atom : Part {	//Part//FwPart
 
 		let ss 					= findX(firstWith:					//all:false,
 		{	(inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
-bug
-//			return nil		// nil -> not found -> look at all in self
-//
-//	   // /////////////////////////////////////////////////////////////// //
-//			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
-//			  // /////// Search for a Link to fixed ground
-//			 //							// // a. Ignore if not Port
-//			guard let inMePort	= inMe as? Port else {
-//				return atPri_fail(		"inMe not Port")
-//			}
-//			atRsi(4, print("Port ", terminator:""))
-//			if inMe.parent is Link {
-//				return atPri_fail(		"inMe's atom is Link inside of self!")
-//			}
-//										// // b. Ignore Ports named M (ad-hoc)
-//			if inMePort.name == "M" {
-//				return atPri_fail(		"inMe name==M !")
-//			}
-//			  // /////// Go through a LINK to a (hopefully) fixed point
-//			 //							// // c. invisible link
-//			if let lnk			= inMePort.connectedTo?.atom as? Link,
-//			  lnk.config("initialDisplayMode")?.asString == "invisible" {
-//				return atPri_fail(		"inMe goes through invisible Link")	// invisible if invisible link connects
-//			}
-//										// // d. not connected
-//			guard let fixedPort	= inMePort.portPastLinks else {
-//				return atPri_fail(		"inMe is not connected")
-//			}
-//										// // e. connected to ParameterPort
-//			if fixedPort is ParameterPort {
-//				return atPri_fail(		"fixedP goes to ParameterPort")
-//			}
-//			atRsi(4, print("-->\(fixedPort.fullName16) ", terminator:""))
-//										// // f. INSIDE of self, IGNORE
-//			if find(part:fixedPort) != nil {
-//				return atPri_fail(		"fixedP is inside self")
-//			}
-//										// // g. If other end is not in parent, IGNORE
-//			if parent?.find(part:fixedPort)==nil {
-//				return atPri_fail(		"fixedP is not inside parent")
-//			}
-//										// // h. If other end is a Write Head (AD HOC)
-//			if fixedPort.parent is WriteHead {
-//				return atPri_fail(		"fixedP goes to WriteHead")// do not position via WriteHead
-//			}
-//				// /////// FOUND:
-//			   // inMeP is Port somewhere in me (self)
-//			  // fixedP is Port outside of me (on "terra firma")
-//			 // commonNet encloses them
-//			/*		       _____________  *//** COMPUTATION *//*
-//					ATOM  |			    |		(assumes vew.position == .zero)
-//					self < to position  | 	o position	 (starts as .zero,
-//					inMe  |	  (self)    |	|			   see newInMePosn)
-//					 PORT  \Port/ \Port/	|  <--- inMeP
-//							 |      |		v^ <=== inMeSpotIC
-//							 P      P	     |
-//							Link   Link		 |  gap
-//							 P      P		 |
-//							 | 	    |		^o <=== fixedSpotIC
-//					  PORT /Port\_/Port\    |  <---	fixedP
-//						  |	 (fixed)    |	|
-//					ATOM <  reference   |	o^
-//					fixed |_____________|	 |
-//				commonNet					 o  .zero commonNet
-//			 */
-//			guard let commonNet	= smallestNetEnclosing(fixedPort, self) else {
-//				return atPri_fail(		"smallestNetEnclosing failed")
-//			}
-//			let commonVew 		= refVew.find(part:commonNet, inMe2:true, all:true)
-//			let inMePOpensUpIC	= inMePort.upInPart(until:commonNet)		// ???wtf???
-//
-//			atRsi(4, print(inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:""))
-//			if  inMePOpensUpIC {		// // g. pointing up, but not into a Context
-//				return atPri_fail(		"not in context")
-//			}
-//
-//			  // ///// Compute pessimistic spot estimates in commonVew
-//			let  inMeSpot		= inMePort .peakSpot(inVew:commonVew!, openingUp:false)
-//			let fixedSpot		= fixedPort.peakSpot(inVew:commonVew!, openingUp:true)		//print(fixedSpot.pp(.fullName))
-//			var newInMePosn		= fixedSpot - inMeSpot		// (all SCNVector3's)
-//			 // ///// GAPs for connection via Link or Direct
-//			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 20	// minimal distance above
-//
-//										// DOMINATED CONNECTION? (e.g. with no Link):
-//			if inMePort.connectedTo === fixedPort ||
-//			   inMePort.dominant ||  inMePort.connectedTo!.dominant ||
-//			  fixedPort.dominant || fixedPort.connectedTo!.dominant
-//			{
-//				assert(weightSum==0, "Two positioning paths are both dominant")// not already dominated
-//				weightSum		= -1.0			// enter dominant mode
-//				gap				= vew.config("gapLinkDirect")?.asCGFloat ?? 0.1
-//				 // would like gap=-2, but overlap forces moveSoNoOverlapping
-//			}
-//			else if weightSum >= 0	{	// LINK CONNECTION:
-//				weightSum 		+= 1.0			// number of fixedP inMeP's
-//				// BUG: Move this to link!!!
-//				 // Gap: Fluff + extraGap
-//				let theLink		= inMePort.connectedTo?.parent as? Link
-//				for key in ["length", "len", "l"] {
-//					if let linksGap = theLink?.localConfig[key]?.asCGFloat {
-//						gap 	= linksGap
-//					}
-//				}
-//				 // Line type
-//				for key in ["type", "t"] {
-//					if let any  = theLink?.localConfig[key] {
-//						let str	= any as? String ?? "xxx"
-//						let dla = LinkSkinType(rawValue:str)
-//						assertWarn(dla != nil, "\(pp(.fullNameUidClass).field(-35)) linkSkinType:'\(any.pp())'")
-//						theLink!.linkSkinType = dla ?? .tube
-//					}
-//				}
-//			}
-//			else {
-//				panic("Second dominant Link connection (\(fixedPort.pp(.fullName)) were found")
-//			}
-//			newInMePosn.y		+= gap
-//			atRsi(4, print("\t\t\t\t\t\t\t\t" + "FOUND:\(newInMePosn.pp(.short))"))
-//
-//			 // ////// Accumulate position: average for x,z; max for y
-//			avgPosition 		+= newInMePosn//* weightVect // bit by bit *
-//			if (!inMePOpensUpIC) {	 		// keep track of highest downward
-//				maxPositionY 	= max(maxPositionY, newInMePosn.y)// (except height is max)
-//			}
+//bug
+//return nil		// nil -> not found -> look at all in self
+	   // /////////////////////////////////////////////////////////////// //
+			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
+			  // /////// Search for a Link to fixed ground
+			 //							// // a. Ignore if not Port
+			guard let inMePort	= inMe as? Port else {
+				return atPri_fail(		"inMe not Port")
+			}
+			atRsi(4, print("Port ", terminator:""))
+			if inMe.parent is Link {
+				return atPri_fail(		"inMe's atom is Link inside of self!")
+			}
+										// // b. Ignore Ports named M (ad-hoc)
+			if inMePort.name == "M" {
+				return atPri_fail(		"inMe name==M !")
+			}
+			  // /////// Go through a LINK to a (hopefully) fixed point
+			 //							// // c. invisible link
+			if let lnk			= inMePort.connectedX?.port?.atom as? Link,
+			  lnk.config("initialDisplayMode")?.asString == "invisible" {
+				return atPri_fail(		"inMe goes through invisible Link")	// invisible if invisible link connects
+			}
+										// // d. not connected
+			guard let fixedPort	= inMePort.portPastLinks else {
+				return atPri_fail(		"inMe is not connected")
+			}
+										// // e. connected to ParameterPort
+			if fixedPort is ParameterPort {
+				return atPri_fail(		"fixedP goes to ParameterPort")
+			}
+			atRsi(4, print("-->\(fixedPort.fullName16) ", terminator:""))
+										// // f. INSIDE of self, IGNORE
+			if find(part:fixedPort) != nil {
+				return atPri_fail(		"fixedP is inside self")
+			}
+										// // g. If other end is not in parent, IGNORE
+			if parent?.find(part:fixedPort)==nil {
+				return atPri_fail(		"fixedP is not inside parent")
+			}
+										// // h. If other end is a Write Head (AD HOC)
+			if fixedPort.parent is WriteHead {
+				return atPri_fail(		"fixedP goes to WriteHead")// do not position via WriteHead
+			}
+				// /////// FOUND:
+			   // inMeP is Port somewhere in me (self)
+			  // fixedP is Port outside of me (on "terra firma")
+			 // commonNet encloses them
+			/*		       _____________  *//** COMPUTATION *//*
+					ATOM  |			    |		(assumes vew.position == .zero)
+					self < to position  | 	o position	 (starts as .zero,
+					inMe  |	  (self)    |	|			   see newInMePosn)
+					 PORT  \Port/ \Port/	|  <--- inMeP
+							 |      |		v^ <=== inMeSpotIC
+							 P      P	     |
+							Link   Link		 |  gap
+							 P      P		 |
+							 | 	    |		^o <=== fixedSpotIC
+					  PORT /Port\_/Port\    |  <---	fixedP
+						  |	 (fixed)    |	|
+					ATOM <  reference   |	o^
+					fixed |_____________|	 |
+				commonNet					 o  .zero commonNet
+			 */
+			guard let commonNet	= smallestNetEnclosing(fixedPort, self) else {
+				return atPri_fail(		"smallestNetEnclosing failed")
+			}
+			let commonVew 		= refVew.find(part:commonNet, inMe2:true, all:true)
+			let inMePOpensUpIC	= inMePort.upInPart(until:commonNet)		// ???wtf???
+
+			atRsi(4, print(inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:""))
+			if  inMePOpensUpIC {		// // g. pointing up, but not into a Context
+				return atPri_fail(		"not in context")
+			}
+
+			  // ///// Compute pessimistic spot estimates in commonVew
+			let  inMeSpot		= inMePort .peakSpot(inVew:commonVew!, openingUp:false)
+			let fixedSpot		= fixedPort.peakSpot(inVew:commonVew!, openingUp:true)		//print(fixedSpot.pp(.fullName))
+			var newInMePosn		= fixedSpot - inMeSpot		// (all SCNVector3's)
+			 // ///// GAPs for connection via Link or Direct
+			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 20	// minimal distance above
+
+										// DOMINATED CONNECTION? (e.g. with no Link):
+			if true || // inMePort.connectedX === fixedPort ||
+			   inMePort.dominant ||  inMePort.connectedX!.port!.dominant ||
+			  fixedPort.dominant || fixedPort.connectedX!.port!.dominant
+			{
+				assert(weightSum==0, "Two positioning paths are both dominant")// not already dominated
+				weightSum		= -1.0			// enter dominant mode
+				gap				= vew.config("gapLinkDirect")?.asCGFloat ?? 0.1
+				 // would like gap=-2, but overlap forces moveSoNoOverlapping
+			}
+			else if weightSum >= 0	{	// LINK CONNECTION:
+				weightSum 		+= 1.0			// number of fixedP inMeP's
+				// BUG: Move this to link!!!
+				 // Gap: Fluff + extraGap
+				let theLink		= inMePort.connectedX?.port?.parent as? Link
+				for key in ["length", "len", "l"] {
+					if let linksGap = theLink?.localConfig[key]?.asCGFloat {
+						gap 	= linksGap
+					}
+				}
+				 // Line type
+				for key in ["type", "t"] {
+					if let any  = theLink?.localConfig[key] {
+						let str	= any as? String ?? "xxx"
+						let dla = LinkSkinType(rawValue:str)
+						assertWarn(dla != nil, "\(pp(.fullNameUidClass).field(-35)) linkSkinType:'\(any.pp())'")
+						theLink!.linkSkinType = dla ?? .tube
+					}
+				}
+			}
+			else {
+				panic("Second dominant Link connection (\(fixedPort.pp(.fullName)) were found")
+			}
+			newInMePosn.y		+= gap
+			atRsi(4, print("\t\t\t\t\t\t\t\t" + "FOUND:\(newInMePosn.pp(.short))"))
+
+			 // ////// Accumulate position: average for x,z; max for y
+			avgPosition 		+= newInMePosn//* weightVect // bit by bit *
+			if (!inMePOpensUpIC) {	 		// keep track of highest downward
+				maxPositionY 	= max(maxPositionY, newInMePosn.y)// (except height is max)
+			}
 			return nil						// keep going thru ports in self
 		} )													//## BLOCK
 		 // ///////////////////////////////////////////////////////////////////

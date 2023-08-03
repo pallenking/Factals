@@ -157,17 +157,6 @@ class Port : Part, PortTalk {
 
 	 // MARK: - 2.2 Connections:
 	enum Connection : Codable {		//, Equatable
-//		static func == (lhs: Port.Connection, rhs: Port.Connection) -> Bool {
-//			switch lhs {
-//			case .direct(let lhsPort):
-//				guard case .direct(let rhsPort) =  rhs else { return false }
-//				return lhsPort == rhsPort
-//			case .retracted(let string) : nop
-//			}
-//		}
-		
-	//	case direct(_:Port)
-	//	case retracted(_:String)
 		case port(_:Port)
 		case string(_:String)
 		var port : Port? {

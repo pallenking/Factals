@@ -154,8 +154,8 @@
 //		let share1 : Share		= newBcast.anotherShare(named:"*") // newShare to replicate old connection
 //		let share2 : Share		= newBcast.anotherShare(named:"*")
 //		let pPort  : Port		= newBcast.ports["P"]!
-//		share1.connectedX		= .port(toPort.connectedTo)/// 1. move old connection to share1
-//		toPort.connectedX?.port?.connectedTo = share1	??
+//		share1.connectedX		= .port(toPort.connectedX.port ???)/// 1. move old connection to share1
+//		toPort.connectedX?.port?.connectedX = share1	??
 //		pPort.connectedX		= toPort	  		/// 2. link newBcast to toPort.
 //		toPort.connectedX		= pPort
 //		return share2								/// 3. share2 is autoBroadcast
