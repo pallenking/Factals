@@ -102,7 +102,7 @@ class Previous : Atom {
 		 // and thus it flows out to P,S, or T
 		if let latchPort		= ports["L"] {
 			latchPort.noCheck	= true				// of up/down
-			latchPort.connectedTo = latchPort
+			latchPort.connectedX = .port(latchPort)
 		}
 		   // //////// check for consistency here... /////
 	//	config["addPreviousXClock"] = 1
@@ -247,28 +247,18 @@ class Previous : Atom {
 
 		  // Update 'L' LATCH
 		 //
-		let fromPort 			=
+		var newVal  : Float? 	= 0.0 				// do nothing initially
+		var msg 				= "from zero "
+		if let fromPort	=
 			src4lLatch == .fromPPri   ?	ports["P"] : //pPriPort:	// pPri   //
 			src4lLatch == .fromSCur   ?	ports["S"] : //sCurPort:	// sCur   //
 			src4lLatch == .fromTPrev  ?	ports["T"] : //tPrevPort:	// tPrev  //
 			src4lLatch == .fromLLatch ?	ports["L"] : //lLatchPort:	// lLatch //
-									nil
-		 // Get new value for L
-		var newVal  : Float? 	= nil 				// do nothing initially
-		var msg 				= "clockPrevious L"
-		if fromPort != nil {							// If Port to get data from
-			if let fromBitIn	= fromPort!.connectedTo {	// and it's connected
-				msg				+= "(from Port '\(src4lLatch.rawValue)') "
-				newVal			= fromBitIn.getValue()		// +
-			}
-			else {
-				msg				+= "disconnected unchanged"
-			}
-		}
-		else if src4lLatch == .fromZero {				// If data is zero
-			newVal 				= 0.0
-			msg					+= "from zero "
-		}else{
+			nil,
+		  let from2Port			= fromPort.connectedX?.port {	// and it's connected
+			newVal				= from2Port.getValue()		// +
+			msg					+= "(from Port '\(src4lLatch.rawValue)') "
+		} else if src4lLatch != .fromZero {
 			panic("Illegal src4lLatch value")
 		}
 		 // Put new value in L
@@ -296,10 +286,10 @@ class Previous : Atom {
 		let sCurPort			= ports["S"]!	//  Cur Port
 		let tPrevPort			= ports["T"]!	// Prev Port
 		let lLatchPort			= ports["L"]!	//Latch Port
-		let (lLatchInVal, lLatchInPrev) = lLatchPort.connectedTo?.getValues() ?? (99,99)// must read every time to settle
+		let (lLatchInVal, lLatchInPrev) = lLatchPort.connectedX?.port?.getValues() ?? (99,99)// must read every time to settle
 
 		if upLocal {				//============: going UP ==================
-			let (pPriInVal, pPriInPrev)	=   pPriPort.connectedTo?.getValues() ?? (99,99)// must read every time to settle
+			let (pPriInVal, pPriInPrev)	=   pPriPort.connectedX?.port?.getValues() ?? (99,99)// must read every time to settle
 			if pPriInVal == pPriInPrev &&  lLatchInVal == lLatchInPrev {
 				return
 			}
@@ -326,8 +316,8 @@ class Previous : Atom {
 										//============: going DOWN ================
 
 		else {	// DOWN to 'P' (SELF) selector:			///--> pPri <--///
-			let (sCurInVal,  sCurInPrev) =  sCurPort.connectedTo?.getValues() ?? (99,99)
-			let (tPrevInVal,tPrevInPrev) = tPrevPort.connectedTo?.getValues() ?? (99,99)
+			let (sCurInVal,  sCurInPrev) =  sCurPort.connectedX?.port?.getValues() ?? (99,99)
+			let (tPrevInVal,tPrevInPrev) = tPrevPort.connectedX?.port?.getValues() ?? (99,99)
 			if sCurInVal == sCurInPrev  &&  tPrevInVal == tPrevInPrev &&  lLatchInVal == lLatchInPrev {
 				return
 			}
@@ -341,15 +331,15 @@ class Previous : Atom {
 			pPriPort.take(value:nextVal)
 			  // /// M and N Ports control the various PrevMuxSources
 			 //
-			if let mModeInPort	= ports["M"]?.connectedTo,
-			  let nModeInPort 	= ports["N"]?.connectedTo {
+			if let mMode2Port	= ports["M"]?.connectedX?.port,
+			  let nMode2Port 	= ports["N"]?.connectedX?.port {
 				 // EITHER value changed
-				let mvc : Bool?	= mModeInPort.valueChanged()
-				let nvc : Bool?	= nModeInPort.valueChanged()
+				let mvc : Bool?	= mMode2Port.valueChanged()
+				let nvc : Bool?	= nMode2Port.valueChanged()
 				if mvc! || nvc! {
 					 // Read BOTH M and N mode Ports
-					let mModeValue = mModeInPort.getValue()
-					let nModeValue = nModeInPort.getValue()
+					let mModeValue = mMode2Port.getValue()
+					let nModeValue = nMode2Port.getValue()
 					assert(mModeValue<=0.5 || nModeValue<=0.5, "Illegal: M and N Ports are both ON")
 
 					var nextminorMode = minorMode	//case hold, monitor, simForward, simBackward, netForward, netBackward	*/

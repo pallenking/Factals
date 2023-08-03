@@ -110,14 +110,13 @@ bug;	return rv
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
  		guard let simulator		= root?.simulator else  {	return				}
-		guard outPort != nil else						{	fatalError()		}
+		guard let outPort else							{	fatalError()		}
 		  // Up and Down are processed alike!
 		 // Take data from inPort, and put output into outPort
-		let inPortCon2			= self.connectedTo
-
-		 // ENQUEUE the event (at beginning of array)
-		if inPortCon2?.valueChanged() ?? false {
-			let (valueIn, valuePrev) = inPortCon2!.getValues()
+		guard let inPort2Port	= self.connectedX?.port else {	return			}
+		if inPort2Port.valueChanged()
+		 {		// ENQUEUE the event (at beginning of array)
+			let (valueIn, valuePrev) = inPort2Port.getValues()
 			assert(!valueIn.isNaN,      "enqueing nan value to link")
 			assert(!valueIn.isInfinite, "enqueing inf value to link")
 			atDat(3, logd("<=_/  %.2f (was %.2f)", valueIn, valuePrev))
@@ -153,12 +152,12 @@ bug;	return rv
 				array.remove(at:i) 				// deque used up element
 				let	v			= array.count >= 1 ?
 								  array[i-1].val   :// TAKE the value quietly (not takeValue w printout)
-								 inPortCon2!.value 	// Link input port if no previous value
-				atDat(5, outPort!.logd("DEQUE %.2f from link (was %.2f)", v, outPort!.value))
-				if outPort!.value != v {
-					outPort!.value = v												//outPort.take(value:v)
-					outPort!			 .markTree(dirty:.paint)
-					outPort!.connectedTo?.markTree(dirty:.paint)		// repaint my other too
+								 inPort2Port.value 	// Link input port if no previous value
+				atDat(5, outPort.logd("DEQUE %.2f from link (was %.2f)", v, outPort.value))
+				if outPort.value != v {
+					outPort.value = v												//outPort.take(value:v)
+					outPort					  .markTree(dirty:.paint)
+					outPort.connectedX?.port?.markTree(dirty:.paint)		// repaint my other too
 				}
 				 // Decrement unsettled count
 				assert(simulator.unsettledOwned != 0, "wraparound")
@@ -174,7 +173,7 @@ bug;	return rv
 		   // A NSBezierPath can have only one color.
 		  // .:. Each color value must be in a separate path
 		 // color of segment:
-		let v					= connectedTo?.value ?? 0.0
+		let v					= connectedX?.port?.value ?? 0.0
 		var color : NSColor		= NSColor(mix:ConveyorPort.colorOfVal0, with:v, of:colorOfVal1)
 		var fromPt				= NSPoint(x:imageX0, y:imageY0)
 		for linkSegment in array {		// scan is from inPort to outPort

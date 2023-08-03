@@ -754,9 +754,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			  inMe2 searchSelfToo: Bool	= false,
 			  maxLevel			 : Int?	= nil,
 			  except exception	 :Part?	= nil) -> Part? { // Search by name:
-		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
-					{	$0.fullName.contains(desiredName) ? $0 : nil			} )
-//					{	$0.fullName == desiredName ? $0 : nil					} )
+		return findX(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+		{	$0.fullName.contains(desiredName) ? $0 : nil						}		//$0.fullName == desiredName ? $0 : nil
 	}
 	func find(path				 : Path,
 
@@ -764,11 +763,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			  inMe2 searchSelfToo: Bool	= false,
 			  maxLevel			 : Int?	= nil,
 			  except exception	 :Part?	= nil) -> Part? { // Search by Path:
-		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
-					{	$0.partMatching(path:path) 								} )
-//		{(part:Part) -> Part? in
-//			return part.partMatching(path:path)		// part.fullName == "/net0/bun0/c/prev.S"
-//		} )
+		return findX(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+		{	$0.partMatching(path:path) 											}
 	}
 	func find(part				 : Part,
 
@@ -776,21 +772,20 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			  inMe2 searchSelfToo: Bool = false,
 			  maxLevel 		:Int?		= nil,
 			  except exception:Part?	= nil) -> Part? { // Search for Part:
-		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel, except:exception, firstWith:
-					{	$0 === part ? $0 : nil	 								} )
-//					{	$0 == part  ? $0 : nil	 								} )
-//		{(aPart:Part) -> Part? in
-//			return aPart == part ? aPart : nil
-//		} )
+		return findX(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+		{	$0 === part ? $0 : nil	 											}
 	}
+
 	 /// First where closure is true:
-	/// - inMe2		-- search this node as well
 	/// - all		-- search parent outward
+	/// - inMe2		-- search this node as well
 	/// - maxLevel	-- search children down to this level
 	/// - except	-- don't search, already search
-	func find(inMe2	 :Bool		= false, 	all searchParent:Bool=false,
-			  maxLevel :Int?	= nil,   	except exception:Part?=nil,
-			  firstWith partClosure:Part2PartClosure) -> Part? { /// Search by closure:
+	func findX(all  	:Bool		= false,
+			   inMe2	:Bool		= false, 	all searchParent:Bool=false,
+			   maxLevel :Int?		= nil,   	except exception:Part?=nil,
+			   firstWith partClosure:Part2PartClosure) -> Part? { /// Search by closure:
+		assert(!all, "Who calls me with all==true?")
 		 // Check self:
 		if inMe2,
 		  let cr 				= partClosure(self) {		// Self match?
@@ -801,7 +796,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
 			 // Check children:
 			for child in orderedChildren where exception === nil || child !== exception! { // don't redo exception
-				if let rv 		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:partClosure) {
+				if let rv 		= child.findX(all:false, inMe2:true, maxLevel:mLev1, firstWith:partClosure) {
 					return rv
 				}
 			}
@@ -809,7 +804,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		if searchParent,						// Check parent
 		  let p					= parent,		// Have parent
 		  p.name != "ROOT" {					// parent not ROOT
-			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:partClosure)
+			return parent?.findX(all:true, inMe2:true, maxLevel:maxLevel, except:self, firstWith:partClosure)
 		}
 		return nil
 	}

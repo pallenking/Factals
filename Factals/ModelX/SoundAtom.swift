@@ -97,9 +97,9 @@ class SoundAtom : Atom {
 
 		if up {						// /////// going UP /////////
 
-			if let pPortCon 	= pPort.connectedTo,
-			  pPortCon.valueChanged() {			// Input = other guy's output
-				let (val, valPrev) = pPortCon.getValues()	// Get value from S
+			if let pPort2Port 	= pPort.connectedX?.port,
+			  pPort2Port.valueChanged() {			// Input = other guy's output
+				let (val, valPrev) = pPort2Port.getValues()	// Get value from S
 //				let v1 = val, v2 = valPrev 
 
 				sPort.take(value:val)			// Pass it on to P
@@ -119,9 +119,9 @@ class SoundAtom : Atom {
 			}
 		}
 		if !up {					// /////// going DOWN ////////////
-			if let sPortIn		= sPort.connectedTo,
-			  sPortIn.valueChanged() {
-				pPort.take(value:sPortIn.getValue())
+			if let sPort2Port	= sPort.connectedX?.port,
+			  sPort2Port.valueChanged() {
+				pPort.take(value:sPort2Port.getValue())
 			}
 		}
 		return;

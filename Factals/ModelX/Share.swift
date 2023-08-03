@@ -33,7 +33,7 @@ class Share : Port { // ///////////// The common parts//////////////////////////
 	 // MARK: - 8. Reenactment Simulator
 	 //-- distribute: (local UP)--//
 	func bidOfShare() -> Float {
-		return self.connectedTo!.value			// Default: distribute proportionately according to want
+		return self.connectedX?.port?.value ?? 0 	// Default: distribute proportionately according to want
 	}
 	//#########################################################################
 	//##########################################################################
@@ -414,8 +414,8 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 			if (selfNo == 1) {		// First Share output (up) is set by primaryPort:
 				 // Our parent's primary port:
 				let pPort		= parent.ports["P"] ?? .error
-				let pPortCon2	= pPort.connectedTo
-				let (value, valuePrev) = pPortCon2!.getValues()	// self's up now and prev
+				let pPort2Port	= pPort.connectedX?.port
+				let (value, valuePrev) = pPort2Port!.getValues()	// self's up now and prev
 
 				if valuePrev<0.5 && value>=0.5 {	// RISING EDGE (Event A)
 					take(value:1.0)						// START: / Share 1 output
@@ -432,8 +432,8 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 			let outNo 		= selfNo+1<parent.children.count ? selfNo+1 : 0
 			let outPort		= parent.children[outNo] as! Port
 
-			let inPort		= self.connectedTo		// self's down before
-			let (value, valuePrev) = inPort!.getValues()		// self's down now
+			guard let inPort = self.connectedX?.port else {return}		// self's down before
+			let (value, valuePrev) = inPort.getValues()		// self's down now
 
 			if valuePrev<0.5 && value>=0.5 {		// RISING EDGE (Events C,E)
 				self.take(value:0.0)					// clears our output value
@@ -482,7 +482,7 @@ class Bulb : Splitter { //######################################################
 
 		 // Bulbs size may change:
 		if upLocal,
-		  let pInput			= ports["P"]?.connectedTo?.getValue(),
+		  let pInput			= ports["P"]?.connectedX?.port?.getValue(),
 		  pValue != pInput 			// Value changed?	//prev != total
 		{
 			atDat(3, logd("   BULB: %.2f (was %.2f)", pInput, pValue))

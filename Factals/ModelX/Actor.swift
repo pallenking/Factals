@@ -65,13 +65,13 @@ class Actor : Net {
 			linkDisplayInvisible = disp
 		}
 		 // Color EVIdence FwBundle GREEN (
-		let _					= evi?.find(firstWith:
+		let _					= evi?.findX(firstWith:
 		{(m:Part) -> Part? in
 			(m as? Atom)?.proxyColor = .green
 			return nil
 		})
 		 // Color CONtext FwBundle RED (
-		let _					= con?.find(firstWith:
+		let _					= con?.findX(firstWith:
 		{(m:Part) -> Part? in
 			(m as? Atom)?.proxyColor = .red
 			return nil
@@ -169,12 +169,11 @@ class Actor : Net {
 						if !scanPort.flipped ^^ scanAtom.flipped { // going down is OKAY
 							continue
 						}
-						if let otherPort = scanPort.connectedTo,
-						  let otherAtom  = otherPort.atom {		// Identify otherAtom
 
+						if let otherAtom  = scanPort.connectedX?.port?.atom {		// Identify otherAtom
 							 // If ancestor of otherAtom is part of self
 //							let othersActorPart = otherAtom.ancestorThats(childOf:self)
-							if let otherI = children.firstIndex{$0 === otherAtom}, //(of:otherAtom),
+							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
 							  otherI > scanI		 {
 								 // pull that worker to just below us
 								atBld(4, logd("Actor reordering '%@' to index %d", otherAtom.name, scanI))
@@ -186,7 +185,7 @@ class Actor : Net {
 							}
 						}
 						else {
-							assert(scanPort.connectedTo==nil, "peculiar")
+							assert(scanPort.connectedX==nil, "peculiar")
 						}
 					}
 					if orderIsGood == false {
@@ -259,17 +258,16 @@ class Actor : Net {
 
 	 // Propigate cockPrevious to all contents registered in previousClocks
 	func clockPrevious()  {
-		if let enaInPort		= enable3?.connectedTo {
-			let v0				= enaInPort.getValue()
-			if v0 > 0.5 {			// no enable Port --> enabled
-				atEve(4, logd("|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):"))
-//				for user in self.previousClocks {
-//					user as? Actor?.clockPrevious() // Actor got -clockPrevious; send to customer
-//				}
-			}
-			else {
-				atEve(4, logd("|| $$ clockPrevious to Actor: IGNORED"))
-			}
+
+		let v0				= self.enable3?.connectedX?.port?.getValue() ?? 0
+		if v0 > 0.5 {			// no enable Port --> enabled
+			atEve(4, logd("|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):"))
+bug//		for user in self.previousClocks {
+//				user as? Actor?.clockPrevious() // Actor got -clockPrevious; send to customer
+//			}
+		}
+		else {
+			atEve(4, logd("|| $$ clockPrevious to Actor: IGNORED"))
 		}
 	}
 
@@ -277,10 +275,15 @@ class Actor : Net {
 	override func simulate(up:Bool) {
 
 		if (up) {				// /////// going UP /////////	enable
-			if let enaInPort	= enable3?.connectedTo {
+			if let enaInPort	= enable3?.connectedX?.port {
 				let _ 			= enaInPort.getValue()
 				panic()
 			}
+//
+////						if case .direct(let otherPort) = scanPort.connectedX,
+//
+//			guard case .direct(let enaInPort) = self.enable3?.connectedX else {fatalError()}
+//			let _ 			= enaInPort.getValue()
 		}
 		super.simulate(up:up)
 	}

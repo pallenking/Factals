@@ -112,23 +112,24 @@ class GenAtom : Atom {
 	override func simulate(up upLocal:Bool) {
 		super.simulate(up:upLocal)
 
-		if upLocal {				// /////// going UP /////////
-			let pPort			= ports["P"]
-			let _				= pPort?.connectedTo?.getValue()	// drain any existing
-			if let loopPort 	= ports["LOOP"],
-			  let loopVal		= loopPort.connectedTo?.getValue(),	// always read LOOP to clear changed
-			  let pPortCon2	= pPort!.connectedTo,
-			  pPortCon2.valueChanged()
-			{
-				let pInVal 		= pPortCon2.getValue()	// always read P to clear changed
-				if loopVal > 0.5 || (loop ?? false) {	// Two causes, port or config
-					atDat(4, logd("Loop to value \(pInVal) to sPort"))
-					pPort!.take(value:pInVal)					// looped value from pPortIn
-				}
+		if upLocal,				// /////// going UP /////////
+		  let pPort				= ports["P"],
+		  let _					= pPort.connectedX?.port?.getValue(),	// drain any existing
+		  let loopPort 			= ports["LOOP"],
+		  let loopPort2Port		= loopPort.connectedX?.port,
+		  let pPort2Port		= pPort.connectedX?.port
+		{
+			let loopVal		= loopPort2Port.getValue()	// always read LOOP to clear changed
+			let pPortVal	= pPort2Port.valueChanged()
+
+			let pInVal 		= pPort2Port.getValue()	// always read P to clear changed
+			if loopVal > 0.5 || (loop ?? false) {	// Two causes, port or config
+				atDat(4, logd("Loop to value \(pInVal) to sPort"))
+				pPort.take(value:pInVal)					// looped value from pPortIn
 			}
 			 // GenAtom has the power to generate a constant value
 			if !(value?.isNan ?? true) {			// constant value from self.value
-				pPort!.take(value:value!)					// set it
+				pPort.take(value:value!)					// set it
 			}
 		}
 	}

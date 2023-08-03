@@ -55,17 +55,18 @@ class Ago : Atom {
 		let pPort				= ports["P"]
 		let sPort				= ports["S"]
 		if upLocal, 									/////// going UP
-			let pPortCon2		= pPort?.connectedTo,
-			pPortCon2.valueChanged() 	// ( and do nothing if no pPortIn )
+			let pPort2Port		= pPort?.connectedX?.port,		// ( and do nothing if no pPortIn )
+			pPort2Port.valueChanged() 	// ( and do nothing if no pPortIn )
 		{
-			let val		 		= pPortCon2.getValue()	///////	GET to my INPUT
+			let val		 		= pPort2Port.getValue()	///////	GET to my INPUT
 			sPort!.take(value:val)			 		///////	PUT to my OUTPUT
 		}
+
 		if !upLocal, 									/////// going UP
-			let sPortCon2		= sPort?.connectedTo,
-			sPortCon2.valueChanged() 	// ( and do nothing if no pPortIn )
+			let sPort2Port 		= sPort?.connectedX?.port,	//
+			sPort2Port.valueChanged() 	// ( and do nothing if no pPortIn )
 		{
-			let val		 		= sPortCon2.getValue()	///////	GET to my INPUT
+			let val		 		= sPort2Port.getValue()	///////	GET to my INPUT
 			pPort!.take(value:val)			 		///////	PUT to my OUTPUT
 		}
 	}
@@ -187,9 +188,8 @@ class Mirror : Atom {
 		if upLocal {									/////// going UP
 			assert(ports.count == 1, "Mirror: \(ports.count) Ports illegal")
 			if let pPort		= ports["P"],
-			  let pPortCon2		= pPort.connectedTo
-			{
-				let val		 	= pPortCon2.getValue()	///////	GET to my INPUT
+			  let pPort2Port	= pPort.connectedX?.port {
+				let val		 	= pPort2Port.getValue()	///////	GET to my INPUT
 				let val2 :Float = val * gain + offset
 				let val3		= min(1.0, max(0.0, val2))
 				if val3 != pPort.value {

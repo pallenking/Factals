@@ -126,30 +126,21 @@ class RootPart : Part {
 	 // MARK Virtualize Links
 	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
 	func virtualizeLinks() {
-		forAllParts( { part in
-			if let partAsPort		= part as? Port {
-				assert(partAsPort.connectedToString == nil, "partAsPort.connectedToString should be empty before Virtualize")
-				partAsPort.connectedToString = partAsPort.connectedTo == nil ? ""
-									 : partAsPort.connectedTo!.fullName
-				partAsPort.connectedTo = nil		// disconnect
+		forAllParts( {
+			if let pPort		= $0 as? Port {
+				pPort.connectedX = .string(pPort.connectedX?.port?.fullName ?? "8383474f")
 			}
-		})
+		} )
 	}
 	/// Add weak references to Port.connectedTo from their absolute path as a string
 	func realizeLinks() {
-		forAllParts(
-		{ part in
-			if let partAsPort		= part as? Port {			// is Port
-				assert(partAsPort.connectedTo == nil, "partAsPort.connectedTo should be empty before Embed")
-				if let name			= partAsPort.connectedToString {		// Has absolute toName
-					if let toPort	= partAsPort.find(name:name, inMe2:true) as? Port {
-//					if let toPort	= rootPart.find(name:name, inMe2:true) as? Port {
-						partAsPort.connectedTo = toPort					// Port found
-					}
-				}
-				partAsPort.connectedToString = nil			// virtual name removed
+		forAllParts( {
+			if let pPort			= $0 as? Port,
+			  let pPort2String		= pPort.connectedX?.string,
+			  let pPort2Port		= pPort.find(name:pPort2String, inMe2:true) as? Port {
+				pPort.connectedX	= .port(pPort2Port)
 			}
-		})
+		} )
 	}
 
 //	override func read(from savedData:Data, ofType typeName: String) throws {
@@ -431,7 +422,7 @@ bug			//self.init(url: fileURL)
 	 /// - Returns: Number of Ports
 	func portCount() -> Int {
 		var rv  				= 0
-		let _ 					= find(firstWith:
+		let _ 					= findX(firstWith:
 		{(part:Part) -> Part? in		// Count Ports:
 			if part is Port {
 				rv				+= 1	// Count Ports in tree

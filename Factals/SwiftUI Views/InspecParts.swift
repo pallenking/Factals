@@ -283,11 +283,11 @@ struct InspecPort : View {												 // Port
 			TextField("v", value:$port.value, formatter:d2formatter).frame(width:50)
 
 			Spacer()
-			if let x 		= port.connectedTo {
+			if let x 		= port.connectedX?.port {
 				Text("->")
 				Text(x.fullName)
 				 // THIS IS OUTSIDE PANEL!!!
-				TextField("w", value:$port.con2ib.value, formatter:d2formatter).frame(width:50)
+	//?			TextField("w", value:$port.con2ib.value, formatter:d2formatter).frame(width:50)
 				Text(":in")
 
 			//	TextField("in", value:$port.con2ib.value, formatter:formatter).frame(width:50)
