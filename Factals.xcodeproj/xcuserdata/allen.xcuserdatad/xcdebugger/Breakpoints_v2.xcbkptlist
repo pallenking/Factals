@@ -940,6 +940,21 @@
                   endingLineNumber = "206"
                   offsetFromSymbolStart = "152">
                </Location>
+               <Location
+                  uuid = "2695F10C-32AE-4B8C-8BEA-88B144C595EC - 6403f0c34a426ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FactalsTests.RootPart.data.getter : Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "FactalsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "206"
+                  endingLineNumber = "206"
+                  offsetFromSymbolStart = "152">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

@@ -156,16 +156,25 @@ class Port : Part, PortTalk {
 	}
 
 	 // MARK: - 2.2 Connections:
-	enum Connection : Codable {		//, Equatable
+	enum Connection : Codable, Equatable {
 		case port(_:Port)
 		case string(_:String)
+
+		static func == (lhs: Port.Connection, rhs: Port.Connection) -> Bool {
+			switch lhs {
+				case .port(let lhsPort):
+					return false		// two non-nil Ports MUST be different:
+				case .string(let lhsString):
+					return lhsString == rhs.string
+			}
+		}
 		var port : Port? {
-			guard case .port(let port_) = self else { return nil				}
-			return port_
+			if case .port(let port_) = self { return port_						}
+			return nil
 		}
 		var string : String? {
-			guard case .string(let string_) = self else { return nil				}
-			return string_
+			if case .string(let string_) = self { return string_				}
+			return nil
 		}
 	}
 
@@ -261,9 +270,7 @@ class Port : Part, PortTalk {
 		guard let rhs			= rhs as? Port 			else { return false		}
 		guard super.equalsFW(rhs)						else { return false		}
 		guard value     		== rhs.value			else { return false		}
-		guard valuePrev 		== rhs.valuePrev		else { return false		}
-bug	//??guard connectedTo 		== rhs.connectedTo		else { return false		}
-	//	guard connectedX 		== rhs.connectedX 		else { return false		}
+		guard connectedX 		== rhs.connectedX 		else { return false		}
 		guard noCheck			== rhs.noCheck			else { return false		}
 		guard dominant			== rhs.dominant			else { return false		}
 		return true

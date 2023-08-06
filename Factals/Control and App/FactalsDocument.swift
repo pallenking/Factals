@@ -118,7 +118,7 @@ struct FactalsDocument: FileDocument {
 			throw CocoaError(.fileReadCorruptFile)								}
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .factals:
-			 // Decode data as a Root Part
+			 // Decode data as a Roo t Part
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
