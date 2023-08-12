@@ -8,14 +8,18 @@
 import Foundation
 import SceneKit
 
-class RootScn : SCNNode {					// xyzzy4
+class RootScn : NSObject {					// xyzzy4
+//class RootScn : SCNNode {					// xyzzy4
 	weak
 	 var rootVew	: RootVew?				// RootVew  of this RootScn
- 	var cameraScn	: SCNNode?	{ find(name:"*-camera") }
+ 	var cameraScn	: SCNNode?	{ scn.find(name:"*-camera") }
+	var scnScene	: SCNScene
+	var scn			: SCNNode {		scnScene.rootNode							}
 
 	 // MARK: - 3.1 init
-	init(scn s:SCNNode?=nil) {
-		super.init()
+	override init() {
+		//super.init()
+		scnScene				= SCNScene()
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 	func configure(from c:FwConfig) {											}
@@ -183,7 +187,7 @@ class RootScn : SCNNode {					// xyzzy4
 
 extension RootScn {		// lights and camera
 	var trunkScn : SCNNode? 	{
-		if let ts				= child0  {
+		if let ts				= scn.child0  {
 			return ts
 		}
 		fatalError("trunkVew is nil")
@@ -197,14 +201,14 @@ extension RootScn {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
-			if find(name:name) == nil {
+			if scn.find(name:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
 				scn4light.name	= name				// arg 1
 				if let position {
 					scn4light.position = position	// arg 5
 				}
-				addChildNode(scn4light)
+				scn.addChildNode(scn4light)
 										 // Light:
 				let light		= SCNLight()
 				light.type 		= lightType			// arg 2
@@ -292,12 +296,12 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 	func checkCamera() {
 		let name				= "*-camera"
-		if find(name:name) == nil {
+		if scn.find(name:name) == nil {
 			 // Make new camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-			addChildNode(rv)
+			scn.addChildNode(rv)
 
 			 // Just make a whole new camera system from scratch
 			let camera			= SCNCamera()
@@ -329,13 +333,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func touchAxesScn() -> SCNNode {			// was updatePole()
 		let name				= "*-axis"
 		 //
-		if let rv 				= find(name:name) {
+		if let rv 				= scn.find(name:name) {
 			return rv
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		let axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		addChild(node:axesScn)
+		scn.addChild(node:axesScn)
 		axesScn.name				= name
 
 		 // X/Z Poles (thinner)
@@ -404,7 +408,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 		guard let fwGuts		= rootVew?.fwGuts else {		return						}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= convertPosition(localPoint, to:self)
+		let wPosn				= scn.convertPosition(localPoint, to:scn)
 //		let wPosn				= scnScene.rootNode.convertPosition(localPoint, to:scn)
 
 ///		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
@@ -611,7 +615,7 @@ extension RootScn : SCNSceneRendererDelegate {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
 			rv					+= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
-			rv					+= "scn:\(ppUid(self, showNil:true)) (\(nodeCount()) SCNNodes total) "
+			rv					+= "scn:\(ppUid(self, showNil:true)) (\(scn.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass)) "
 //			rv					+= "\(self.fwView?.pp(.uidClass) ?? "BAD: fwView=nil") "
@@ -620,7 +624,7 @@ extension RootScn : SCNSceneRendererDelegate {
 	}
 	static let nullRoot 		= {
 		let rp					= RootScn()	// Any use of this should fail (NOT IMPLEMENTED)
-		rp.name					= "nullRoot"
+		rp.scn.name				= "nullRoot"
 		return rp
 	}()
 }

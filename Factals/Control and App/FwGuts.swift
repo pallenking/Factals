@@ -148,7 +148,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
 			for rootVew in rootVews {
-				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn)))" +
+				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn.scn)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
 			}

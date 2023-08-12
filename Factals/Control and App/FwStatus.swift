@@ -240,9 +240,8 @@ extension RootVew : FwStatus	{									  ///RootVew
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootScn	  .ppFwState(deapth:deapth-1)
-//				rv				+= self.scn		  .ppFwState(deapth:deapth-1)
-				rv 				+= self.selfiePole.ppFwState(deapth:deapth-1)
+				var rv			=  self.rootScn.scn.ppFwState(deapth:deapth-1)
+				rv 				+= self.selfiePole .ppFwState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)

@@ -49,7 +49,7 @@ RootVew:_______________
 		rootScn					= RootScn()
 		rootScn.rootVew			= self			// owner
 
-		scn						= rootScn
+		scn						= rootScn.scn
 		scn.name 				= self.scn.name ?? ("*-" + part.name)
 	}
 

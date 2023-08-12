@@ -1163,7 +1163,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "ED3E917E-3B03-46D9-B853-7B1E58F4B00D"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/SwiftUI Views/ContentView.swift"
@@ -1219,6 +1219,21 @@
                   endingLineNumber = "106"
                   offsetFromSymbolStart = "2564">
                </Location>
+               <Location
+                  uuid = "ED3E917E-3B03-46D9-B853-7B1E58F4B00D - ff6c1b94c2c3028a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt; in closure #1 (SwiftUI.Binding&lt;Factals.RootVew&gt;) -&gt; SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt; in Factals.FwGutsView.body.getter : some"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "356">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1232,8 +1247,8 @@
             filePath = "Factals/Control and App/RootScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
             <Locations>
@@ -1267,6 +1282,21 @@
                   endingLineNumber = "98"
                   offsetFromSymbolStart = "4796">
                </Location>
+               <Location
+                  uuid = "28297FB2-9521-439D-9A83-D089937A77BD - 294d721f57004348"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootScn.processEvent(nsEvent: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Bool"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/RootScn.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "4796">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1280,8 +1310,8 @@
             filePath = "Factals/Control and App/RootScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "622"
-            endingLineNumber = "622"
+            startingLineNumber = "626"
+            endingLineNumber = "626"
             landmarkName = "nullRoot"
             landmarkType = "24">
          </BreakpointContent>
@@ -1464,22 +1494,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3749F0AB-EB8C-4BB9-8FB3-0CB2C53E7825"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Control and App/RootScn.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "init(scn:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D9B334EF-EE18-4439-8FDB-245A0C912748"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1487,8 +1501,8 @@
             filePath = "Factals/Control and App/RootScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
             <Locations>
@@ -1592,7 +1606,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7B07B1B5-4A1B-418D-96F3-8A41D98F1CB8"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Model Vews/RootVew.swift"
@@ -1885,8 +1899,8 @@
             filePath = "Factals/Control and App/RootScn.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "520"
-            endingLineNumber = "520"
+            startingLineNumber = "524"
+            endingLineNumber = "524"
             landmarkName = "createVewNScn(slot:vewConfig:)"
             landmarkType = "7">
             <Locations>
@@ -1918,6 +1932,21 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "520"
                   endingLineNumber = "520"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "7E702B26-CE55-486B-8EA7-464A918B61B0 - 41f0b74fa1f0d129"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootScn.createVewNScn(slot: Swift.Int, vewConfig: Swift.Optional&lt;Factals.VewConfig&gt;) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/RootScn.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "524"
+                  endingLineNumber = "524"
                   offsetFromSymbolStart = "124">
                </Location>
             </Locations>
@@ -2206,69 +2235,6 @@
                   startingLineNumber = "428"
                   endingLineNumber = "428"
                   offsetFromSymbolStart = "124">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D8C8881D-AE22-414A-B020-3F433F09D1C0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/SwiftUI Views/ContentView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "D8C8881D-AE22-414A-B020-3F433F09D1C0 - d234cf8c03f17999"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.NSEvent) -&gt; () in closure #1 () -&gt; Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt; in closure #1 (SwiftUI.Binding&lt;Factals.RootVew&gt;) -&gt; SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt; in Factals.FwGutsView.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "148"
-                  endingLineNumber = "148"
-                  offsetFromSymbolStart = "72">
-               </Location>
-               <Location
-                  uuid = "D8C8881D-AE22-414A-B020-3F433F09D1C0 - ff6c1b94c2c3032d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt; in closure #1 (SwiftUI.Binding&lt;Factals.RootVew&gt;) -&gt; SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt; in Factals.FwGutsView.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "149"
-                  endingLineNumber = "149"
-                  offsetFromSymbolStart = "1740">
-               </Location>
-               <Location
-                  uuid = "D8C8881D-AE22-414A-B020-3F433F09D1C0 - d234cf8c03f179db"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.NSEvent) -&gt; () in closure #1 () -&gt; Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt; in closure #1 (SwiftUI.Binding&lt;Factals.RootVew&gt;) -&gt; SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.Text&gt;, SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.RootVew&gt;&gt;, Swift.ObjectIdentifier, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;Swift.Optional&lt;SwiftUI.TupleView&lt;(Factals.EventReceiver, &lt;&lt;opaque return type of SwiftUI.View.border&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, width: CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, Factals.VewBar)&gt;&gt;&gt;)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt; in Factals.FwGutsView.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "72">
                </Location>
             </Locations>
          </BreakpointContent>
