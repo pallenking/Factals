@@ -312,7 +312,7 @@ extension SCNNode /*: HasChildren */ {
 		guard let log			= DOClogQ else {	return "DOClog is nil"		}
 		var rv					= ""
 //		 // UGLY: Can't override an extension
-//		if let imARootNode		= self as? RootScn {
+//		if let imARootNode		= self as? RootScene {
 //			rv					+= imARootNode.pp(mode, aux)
 //		}
 
@@ -335,9 +335,9 @@ extension SCNNode /*: HasChildren */ {
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
-			if let s			= self as? RootScn {
-				rv				+= s.rootVew?.rootScn === self ? "" :
-								   "--- BAD --- RootVew: rootVew?.rootScn !== self"
+			if let s			= self as? RootScene {
+				rv				+= s.rootVew?.rootScene === self ? "" :
+								   "--- BAD --- RootVew: rootVew?.rootScene !== self"
 			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line

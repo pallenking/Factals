@@ -143,34 +143,32 @@ struct FwGutsView: View {
 				ForEach($fwGuts.rootVews) {	rootVew in
 					VStack {
 						ZStack {
-							if let rootScn		= rootVew.scn.wrappedValue as? RootScn {
-								//s.rootNode		= rootScn
-								EventReceiver { 	nsEvent in // Catch events (goes underneath)
-									let _ = rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
-								}
-								/*
-								sceneview takes in a publisher		// PW:
-								swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
-								scenkit -> write models back to viewmodel. s
-								viewmodel single source of truth.
-								 */
-								// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-								// now: SceneView 	native SwiftUI
-								SceneView(
-									scene:rootScn.scnScene,	//rootScn.scnScene,
-									pointOfView: nil,	// SCNNode
-									options: [.rendersContinuously],
-									preferredFramesPerSecond: 30,
-									antialiasingMode: .none,
-									delegate: nil//rootScn	//SCNSceneRendererDelegate?
-								//	technique: nil		//SCNTechnique?
-								)
-								 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
-								 .border(.black, width:1)
-								//.gesture(Gesture)// NSClickGestureRecognizer
-								//.onChange(of: Equatable, perform: (Equatable) -> Void)
-								//.onMouseDown(perform:handleMouseDown)
+							let rootScene	= rootVew.rootScene.wrappedValue
+							EventReceiver { 	nsEvent in // Catch events (goes underneath)
+								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
+							/*
+							sceneview takes in a publisher		// PW:
+							swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+							scenkit -> write models back to viewmodel. s
+							viewmodel single source of truth.
+							 */
+							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+							// now: SceneView 	native SwiftUI
+							SceneView(
+								scene:rootScene.scnScene,	//rootScn.scnScene,
+								pointOfView: nil,	// SCNNode
+								options: [.rendersContinuously],
+								preferredFramesPerSecond: 30,
+								antialiasingMode: .none,
+								delegate: nil//rootScene	//SCNSceneRendererDelegate?
+							//	technique: nil		//SCNTechnique?
+							)
+							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
+							 .border(.black, width:1)
+							//.gesture(Gesture)// NSClickGestureRecognizer
+							//.onChange(of: Equatable, perform: (Equatable) -> Void)
+							//.onMouseDown(perform:handleMouseDown)
 						}
 						VewBar(rootVew:rootVew)
 					}
@@ -232,7 +230,7 @@ bug	//		if let hitResult = view.hitTest(location),
 //			//\\\ SCNView.scene		same as fwGuts:
 //
 //	 // MARK: - 2. Object Variables:
-//	 //	In assumed reality, an FwView _owns_ the RootScn
+//	 //	In assumed reality, an FwView _owns_ the RootScene
 //	var rootScn : RootScn?		= nil
 //
 ////	var handler : (NSEvent)->Void = { nsEvent in fatalError("FwView's default handler is null")}

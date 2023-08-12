@@ -123,8 +123,8 @@
 		9F4A3ADA288B386300574925 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A3AD9288B386300574925 /* Part.swift */; };
 		9F4A3ADB288B396800574925 /* Fw++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1AF0B2852971400A56193 /* Fw++.swift */; };
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
-		9F5AE2D0298C3C4B00EF6B20 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */; };
-		9F5AE2D1298C3C4B00EF6B20 /* RootScn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */; };
+		9F5AE2D0298C3C4B00EF6B20 /* RootScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScene.swift */; };
+		9F5AE2D1298C3C4B00EF6B20 /* RootScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* RootScene.swift */; };
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9F675ADB2A2F6D6B006370E6 /* FwGutsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */; };
@@ -238,7 +238,7 @@
 		9F417F5E28EDB10A0047B359 /* TO_DO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = TO_DO.md; path = Docs/TO_DO.md; sourceTree = "<group>"; };
 		9F4A3AD9288B386300574925 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
-		9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScn.swift; sourceTree = "<group>"; };
+		9F5AE2CF298C3C4B00EF6B20 /* RootScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScene.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
@@ -402,7 +402,7 @@
 				9FEE6F152835778A00E9E2AE /* FactalsApp.swift */,
 				9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
-				9F5AE2CF298C3C4B00EF6B20 /* RootScn.swift */,
+				9F5AE2CF298C3C4B00EF6B20 /* RootScene.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
@@ -690,7 +690,7 @@
 				9F417F4528EB94D80047B359 /* Log.swift in Sources */,
 				9F417F2E28EB94530047B359 /* PolyWrap.swift in Sources */,
 				9F417F3228EB946B0047B359 /* RootVew.swift in Sources */,
-				9F5AE2D1298C3C4B00EF6B20 /* RootScn.swift in Sources */,
+				9F5AE2D1298C3C4B00EF6B20 /* RootScene.swift in Sources */,
 				9F417F5928EB95620047B359 /* Uid.swift in Sources */,
 				9F417F2A28EB94470047B359 /* Port.swift in Sources */,
 				9F417F3428EB94710047B359 /* InspecParts.swift in Sources */,
@@ -758,7 +758,7 @@
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,
 				9F9AC6A4299C7C6000CDEB08 /* FwGutsBar.swift in Sources */,
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
-				9F5AE2D0298C3C4B00EF6B20 /* RootScn.swift in Sources */,
+				9F5AE2D0298C3C4B00EF6B20 /* RootScene.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FactalsApp.swift in Sources */,

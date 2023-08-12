@@ -234,13 +234,13 @@ extension RootVew : FwStatus	{									  ///RootVew
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 		myLine					+= "(\(nodeCount()) total) "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.uidClass) ?? "nil") "
-		myLine					+= self.rootScn === self.scn ? "scn===rootScn " :
+		myLine					+= self.rootScene === self.scn ? "scn===rootScn " :
 								   "  ERROR \(self.scn.pp(.classUid))!==rootScn"
 		let myName				= "RootVews[\(slot)]  "
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootScn.scn.ppFwState(deapth:deapth-1)
+				var rv			=  self.rootScene.scn.ppFwState(deapth:deapth-1)
 				rv 				+= self.selfiePole .ppFwState(deapth:deapth-1)
 				return rv
 			},
@@ -248,11 +248,11 @@ extension RootVew : FwStatus	{									  ///RootVew
 	}
 }
 
-//extension RootScn : FwStatus	{									  ///RootScn
+//extension RootScene : FwStatus	{									  ///RootScn
 //	func ppFwState(deapth:Int=999) -> String {
-//		var myLine				= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+//		var myLine				= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' BAD"
 //		myLine					+= "(\(nodeCount()) SCNNodes) "
-//		return ppFwStateHelper("RootScn      ", uid:self,
+//		return ppFwStateHelper("RootScene      ", uid:self,
 //			myLine:myLine,
 //			deapth:deapth-1)
 //	}
@@ -261,11 +261,11 @@ extension SCNNode : FwStatus	{							 ///SCNNode, RootScn
 	func ppFwState(deapth:Int=999) -> String {
 		let myName				= fwClassName.field(-13)// self.name?.field(-13) ?? "----       "
 		var myLine				= "(\(children.count) children) "
-		if let s				= self as? RootScn {
+		if let s				= self as? RootScene {
 			myLine				+= "(\(nodeCount()) total) "
 			myLine				+= "cameraScn:\(s.cameraScn?.pp(.uid) ?? "nil") "
 
-			myLine				+= s.rootVew?.rootScn === s ? "" : "OWNER:'\(s.rootVew!)' BAD"
+			myLine				+= s.rootVew?.rootScene === s ? "" : "OWNER:'\(s.rootVew!)' BAD"
 		}
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,

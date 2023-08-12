@@ -148,7 +148,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
 			for rootVew in rootVews {
-				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScn.scn)))" +
+				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScene.scn)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
 			}
@@ -242,7 +242,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
 		guard let rootVew		= inVew.rootVew else { return nil				}
-		let rootScn				= rootVew.rootScn
+		let rootScn				= rootVew.rootScene
 bug
 //		guard let fwView		= rootScn.fwView else { fatalError("rootScn has fwView=nil")}
 
@@ -338,7 +338,7 @@ bug
 
 //		cam.transform 			= rootScn.commitCameraMotion(reason:"Other mouseDown")
 	//	let rScn				= rootVew.scn
-		let rootScn				= rootVew.rootScn
+		let rootScn				= rootVew.rootScene
 bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 //bug;	rootScn.cameraScn?.transform = rootScn.commitCameraMotion(reason:"toggelOpen")
 		rootScn.updatePole2Camera(reason:"toggelOpen")

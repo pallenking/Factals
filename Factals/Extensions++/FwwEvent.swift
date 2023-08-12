@@ -10,7 +10,7 @@ protocol ProcessNsEvent {
 extension Part				: ProcessNsEvent {}
 extension FactalsDocument	: ProcessNsEvent {}
 extension FwGuts			: ProcessNsEvent {}
-extension RootScn			: ProcessNsEvent {}
+extension RootScene			: ProcessNsEvent {}
 //extension EventReceiver	: ProcessNsEvent {}		// ???
 extension Simulator			: ProcessNsEvent {}
 //extension FwwEvent		: ProcessNsEvent {}

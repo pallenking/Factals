@@ -1,5 +1,5 @@
 //
-//  RootScn.swift
+//  RootScene.swift
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class RootScn : NSObject {					// xyzzy4
+class RootScene : NSObject {					// xyzzy4
 //class RootScn : SCNNode {					// xyzzy4
 	weak
 	 var rootVew	: RootVew?				// RootVew  of this RootScn
@@ -185,7 +185,7 @@ class RootScn : NSObject {					// xyzzy4
 	}
 }
 
-extension RootScn {		// lights and camera
+extension RootScene {		// lights and camera
 	var trunkScn : SCNNode? 	{
 		if let ts				= scn.child0  {
 			return ts
@@ -566,7 +566,7 @@ enum FwNodeCategory : Int {
 }
 
 
-extension RootScn : SCNSceneRendererDelegate {
+extension RootScene : SCNSceneRendererDelegate {
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 //			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
@@ -614,7 +614,7 @@ extension RootScn : SCNSceneRendererDelegate {
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
-			rv					+= rootVew?.rootScn === self ? "" : "OWNER:'\(rootVew!)' BAD"
+			rv					+= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' BAD"
 			rv					+= "scn:\(ppUid(self, showNil:true)) (\(scn.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass)) "
@@ -623,13 +623,13 @@ extension RootScn : SCNSceneRendererDelegate {
 		return rv
 	}
 	static let nullRoot 		= {
-		let rp					= RootScn()	// Any use of this should fail (NOT IMPLEMENTED)
+		let rp					= RootScene()	// Any use of this should fail (NOT IMPLEMENTED)
 		rp.scn.name				= "nullRoot"
 		return rp
 	}()
 }
 // currently unused
-extension RootScn : SCNPhysicsContactDelegate {
+extension RootScene : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug
 	}

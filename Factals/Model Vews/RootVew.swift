@@ -10,7 +10,7 @@ import SceneKit
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	weak
 	 var fwGuts 	:  FwGuts!				// Owner
-	var rootScn 	:  RootScn = .nullRoot	// HOAKEY!!			// Master 3D Tree
+	var rootScene 	:  RootScene = .nullRoot	// HOAKEY!!			// Master 3D Tree
 	var nsView		:  NSView? = nil		// View displaying
 
 //DELETE THESE:
@@ -46,10 +46,10 @@ RootVew:_______________
 	 /// generate a new View, returning its index
 	init(forPart rp:RootPart) {
 		super.init(forPart:rp)
-		rootScn					= RootScn()
-		rootScn.rootVew			= self			// owner
+		rootScene					= RootScene()
+		rootScene.rootVew			= self			// owner
 
-		scn						= rootScn.scn
+		scn						= rootScene.scn
 		scn.name 				= self.scn.name ?? ("*-" + part.name)
 	}
 
@@ -57,15 +57,15 @@ RootVew:_______________
 
 	func configureDocument(from c:FwConfig) {
 		selfiePole.configure(from:c)
-		rootScn	  .configure(from:c)
+		rootScene	  .configure(from:c)
 	}
 	// MARK: -
 	func setupLightsCamerasEtc() {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		rootScn.checkLights()
-		rootScn.checkCamera()			// (had fwGuts.document.config)
-		let _ /*axesScn*/		= rootScn.touchAxesScn()
+		rootScene.checkLights()
+		rootScene.checkCamera()			// (had fwGuts.document.config)
+		let _ /*axesScn*/		= rootScene.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:fwGuts.document.config)

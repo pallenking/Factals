@@ -425,7 +425,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	 // Make New Document
 	//	fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5))
 //		 // --------------- A: Get BASIC Component Part (owned and used here)
-//		let rootScn				= RootScn()
+//		let rootScene				= RootScene()
 ////??	rootScn.scnScene.isPaused = true						// Pause animations while bulding
 //
 //		 // --------------- B: RootVew ((rootPart, A))
