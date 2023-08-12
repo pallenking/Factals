@@ -144,8 +144,10 @@ struct FwGutsView: View {
 					VStack {
 						ZStack {
 							if let rootScn		= rootVew.scn.wrappedValue as? RootScn {
+								let s			= SCNScene()
+								//s.rootNode		= rootScn
 								EventReceiver { 	nsEvent in // Catch events (goes underneath)
-									rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
+									let _ = rootScn.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 								}
 								/*
 								sceneview takes in a publisher		// PW:
@@ -156,7 +158,7 @@ struct FwGutsView: View {
 								// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 								// now: SceneView 	native SwiftUI
 								SceneView(
-									scene:nil,//rootScn.scnScene,
+									scene:s,			//rootScn.scnScene,
 									pointOfView: nil,	// SCNNode
 									options: [.rendersContinuously],
 									preferredFramesPerSecond: 30,
