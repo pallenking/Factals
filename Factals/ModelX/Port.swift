@@ -24,7 +24,7 @@ import SceneKit
 	 Port		|	|		     |____|_______VALUE|L	  getValues()
 		 		|	|			 '   /|\ \   /  |  '		 ^-->-v
 		 		|	|			      |   \ /   |			 |	  |
-				| connectedTo		  |	   *	|	  connectedTo |
+				| con2				  |	   *	|			con2  |
 				|   |				  |   / \   |			 |	  |
 				^___v			 .____|__/   \_\|/_.		 |	  |
 	 Port	 getValue() 		L|VALUE,		|  |		 |	  |
@@ -93,7 +93,7 @@ class Port : Part, PortTalk {
 			value 				= newValue
 			 //*******//
 			markTree(dirty:.paint)					// repaint myself
-			connectedX?.port?.markTree(dirty:.paint)// repaint my other too
+			con2port?.markTree(dirty:.paint)// repaint my other too
 			root!.simulator.kickstart = 4			// start simulator after Port value changes
 		}
 	}
@@ -128,7 +128,7 @@ class Port : Part, PortTalk {
 	}
 	 // Design Note: uses [()->String]: efficient, allows count or
 	override func unsettledPorts() -> [()->String] {
-		let portChanged			= self.connectedX != nil &&	// Connected Port
+		let portChanged			= self.con2 != nil &&	// Connected Port
 								  self.value != self.valuePrev	// Value changed
 		return !portChanged ? [] :
 				[{ fmt("\(self.fullName)%.2f->%.2f, ", self.value, self.valuePrev) }]
@@ -156,14 +156,14 @@ class Port : Part, PortTalk {
 	}
 
 	 // MARK: - 2.2 Connections:
-	enum Connection : Codable, Equatable {
+	enum Con2 : Codable, Equatable {
 		case port(_:Port)
 		case string(_:String)
 
-		static func == (lhs: Port.Connection, rhs: Port.Connection) -> Bool {
+		static func == (lhs: Port.Con2, rhs: Port.Con2) -> Bool {
 			switch lhs {
-				case .port(let lhsPort):
-					return false		// two non-nil Ports MUST be different:
+				case .port(_):
+					return false	// Ports not equatable, two non-nil Ports MUST be different:
 				case .string(let lhsString):
 					return lhsString == rhs.string
 			}
@@ -178,25 +178,20 @@ class Port : Part, PortTalk {
 		}
 	}
 
-	var connectedX : Connection? = nil
-
-//	weak
-//	 var connectedTo : Port? = nil			// visible inside SF
-////	{	didSet { con2ib = connectedTo ?? con2ib				}					}
-//	var connectedToString : String? = nil	// absolute path
-
-//	var con2ib : Port {//= self//Port()
-//		get 	{ return  connectedTo ?? self									}
-//		set(v)	{ connectedTo 	= v												}
-//	}
-	func connect(to:Port) {
-		var assertString 	= connectedX?.port?.pp(.fullName) ?? ""
-		assert(self.connectedX==nil, "Port '\(pp(.fullName))' "	+ "already connected to \(assertString)")
-		assert(  to.connectedX==nil, "'\(assertString)' "		+ "FAILS; the latter is already connected to '\(assertString)'")
-		self.connectedX = .port(to)
+	var con2 : Con2? = nil
+	var con2port : Port? {
+		if case .port(let port_) = con2 	{ return port_						}
+		return nil
 	}
 
-	 // MARK: - 2.3 Connection Properties:
+	func connect(to:Port) {
+		let assertString 		= con2port?.pp(.fullName) ?? ""
+		assert(self.con2==nil, "Port '\(pp(.fullName))' "	+ "already connected to \(assertString)")
+		assert(  to.con2==nil, "'\(assertString)' "		+ "FAILS; the latter is already connected to '\(assertString)'")
+		self.con2 = .port(to)
+	}
+
+	 // MARK: - 2.3 Con2 Properties:
 	var noCheck					= false			// don't check up/down
 	var dominant				= false 		// dominant in positioning
 
@@ -228,8 +223,8 @@ class Port : Part, PortTalk {
 
 		try container.encode(value,		 forKey:.value)
 		try container.encode(valuePrev,	 forKey:.valuePrev)
-		assert(connectedX == nil, "Port.connectedTo is not nil")//try container.encode(connectedTo,forKey:.connectedTo)
-		try container.encode(connectedX, forKey:.connectedX)
+		assert(con2 == nil, "Port.connectedTo is not nil")//try container.encode(connectedTo,forKey:.connectedTo)
+		try container.encode(con2, forKey:.connectedX)
 		try container.encode(noCheck,	 forKey:.noCheck)
 		try container.encode(dominant,	 forKey:.dominant)
 
@@ -242,13 +237,13 @@ class Port : Part, PortTalk {
 
 		value 					= try container.decode(  Float.self, forKey:.value)
 		valuePrev				= try container.decode(  Float.self, forKey:.valuePrev)
-		connectedX				= try container.decode(Connection?.self, forKey:.connectedX)
+		con2				= try container.decode(Con2?.self, forKey:.connectedX)
 		noCheck 				= try container.decode(   Bool.self, forKey:.noCheck)
 		dominant				= try container.decode(   Bool.self, forKey:.dominant)
 
 		let msg					= "value:\(value.pp(.line))," 				+
 							 	  "valuePrev:\(valuePrev.pp(.line)), " 		+
-								  "conTo:\(connectedX?.port?.fullName ?? "xxq8ahx")"
+								  "conTo:\(con2port?.fullName ?? "xxq8ahx")"
 		atSer(3, logd("Decoded  as? Port       \(msg)"))
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
@@ -270,7 +265,7 @@ class Port : Part, PortTalk {
 		guard let rhs			= rhs as? Port 			else { return false		}
 		guard super.equalsFW(rhs)						else { return false		}
 		guard value     		== rhs.value			else { return false		}
-		guard connectedX 		== rhs.connectedX 		else { return false		}
+		guard con2 		== rhs.con2 		else { return false		}
 		guard noCheck			== rhs.noCheck			else { return false		}
 		guard dominant			== rhs.dominant			else { return false		}
 		return true
@@ -288,11 +283,11 @@ class Port : Part, PortTalk {
 	 /// Return the first Port connected to non-link, starting at this one.
 	var portPastLinks : Port? {		
 		var scan : Port?		= self;				  // ATOM]o - o[P1 link P2]o - o[
-		while let p1Port		= scan?.connectedX?.port, // self-^		     self-^ rv-^
+		while let p1Port		= scan?.con2port, // self-^		     self-^ rv-^
 		  p1Port.parent is Link {
 			scan 				= p1Port.otherPort
 		}
-		return scan?.connectedX?.port
+		return scan?.con2port
 	}
 
 	   /// Return the first Port connected to non-link, starting at this one.
@@ -301,7 +296,7 @@ class Port : Part, PortTalk {
 	func portPastLinksPp(ppStr rv:inout String) -> Port {
 		 // Trace out Links, till some non-Link (including nil) is found
 		var scan :Port			= self		      //scan]o -- o[P1 link P2]o -- o[
-		while let scan2Port		= scan.connectedX?.port,	  // -------'     /     /|\
+		while let scan2Port		= scan.con2port,	  // -------'     /     /|\
 		  let link				= scan2Port.parent as? Link {   // --------'       |
 			scan				= scan2Port.otherPort ?? {       // scan----------'
 				fatalError("Malformed Link: could not find otherPort")			}()
@@ -358,7 +353,7 @@ class Port : Part, PortTalk {
 	//											  \		  (PRESUMES flipped	= false,
 	//						   O P E N I N G    Link\ 				opensUp	= false)
 	//
-	 /// Connection Spot
+	 /// Con2 Spot
 	 /// - All in my Atom's (parent's) coordinate systems:
 	struct ConSpot {			// 	
 		var center  : SCNVector3	// link aims toward center
@@ -396,7 +391,7 @@ class Port : Part, PortTalk {
 		static let atomic 		= ConSpot(radius:Part.atomicRadius)
 	}
 
-	  /// The connection spot of a Port, in it's coordinates (not it's parent Atom's nay more 20200810)
+	  /// The con2 spot of a Port, in it's coordinates (not it's parent Atom's nay more 20200810)
 	 /// (Highly overriden)
 	func basicConSpot() -> ConSpot {
 		return ConSpot(center:SCNVector3(0, -radius, 0), radius:0)
@@ -548,7 +543,7 @@ class Port : Part, PortTalk {
 		let h2					= height * 0.5
 		let ep :CGFloat 		= 0.002
 
-		 // Origin is at bottom, where connection point is // All below origin
+		 // Origin is at bottom, where con2 point is // All below origin
 	/*								   spin axis
 	Disc        _________________________________________________________
 	Tube	 B |_|						 \ | /						   |_|
@@ -574,7 +569,7 @@ class Port : Part, PortTalk {
 		scnDisc.position.y 		= scnDiskY
 		scnDisc.color0 			= NSColor("lightpink")!//.green"darkred"
 
-		 // A: Cone's tip marks connection point:
+		 // A: Cone's tip marks con2 point:
 		let geomCone			= SCNCone(topRadius:r/2, bottomRadius:r/5, height:h-2*ep)
 		let scnCone 			= SCNNode(geometry:geomCone)
 		scnDisc.addChild(node:scnCone, atIndex:0)
@@ -621,7 +616,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		}
 				// Cone with connectedTo's value:
 		let cone				= vew.scn.find(name:"s-Cone", maxLevel:2)
-		if let valPort			= connectedX?.port {	//	GET to my INPUT
+		if let valPort			= con2port {	//	GET to my INPUT
 			let val				= valPort.value
 			let coneColor0		= upInWorld ? NSColor.red : .green
 			cone?.color0		= NSColor(mix:NSColor.whiteX, with:val, of:coneColor0)
@@ -655,18 +650,18 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 
 			  // Print out the non-Link:
 			 // If we are connected to anything, what is it sending to us
-			if let con2Port		= connectedX?.port {
+			if let con2Port		= con2port {
 				rv 				+= "<" + con2Port.ppPortOutValues()
 				let scPort		= portPastLinksPp(ppStr:&rv)
 				 // now, the last good port:
-				let sc2Port		= scPort.connectedX?.port
+				let sc2Port		= scPort.con2port
 //				guard case .direct(let sc2Port) = scPort.connectedX else { fatalError()}
 				rv 				+= " ->\(sc2Port?.fullName ?? "afoiqfqlh")"
-				if connectedX != nil  {			// check for error
+				if con2 != nil  {			// check for error
 					rv			+= "### ERROR: connectedX!=nil"
 				}
-			} else if connectedX != nil {
-				rv 				+= "-> \"\"\(connectedX!)\"\""
+			} else if con2 != nil {
+				rv 				+= "-> \"\"\(con2!)\"\""
 			}
 			return rv
 		default:

@@ -24,7 +24,7 @@ final class FactalsTests: XCTestCase {
 	}
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
-	func testXXXX() {
+	func testUid() {	// incomplete
 		let objectNs 			= FwGuts()
 		let objectSwift			= Part()
 		let strNs				= pseudoAddressString(objectNs)
@@ -69,17 +69,25 @@ final class FactalsTests: XCTestCase {
 		print("&&&&&& No         ppMode Default Hang     errors")
 	}
 
-//	func testVewPp() {
-//		let m1 = MaxOr()
-//		let m2 = m1.pp(.uidClass)
-//		let n1 = Vew()
-//		let n2 = n1.pp(.uidClass)
-//		let o1 = RootVew()
-//		let o2 = o1.pp(.uidClass)
-//
-//		let x = self.pp(.uidClass)
-//		logd("abcdefg")
-//	}
+	func testVewPp() {
+		let m1 = MaxOr()
+		let m2 = m1.pp(.uidClass)
+		XCTAssertTrue(m2.hasSuffix(":MaxOr"))
+
+		let n1 = Vew()
+		let n2 = n1.pp(.uidClass)
+		XCTAssertTrue(n2.hasSuffix(":Vew"))
+
+		let o0 = RootPart()
+		let o1 = RootVew(forPart:o0)
+		let o2 = o1.pp(.uidClass)
+		XCTAssertTrue(o2.hasSuffix("fwGuts BAD"))		// may be wrong
+
+		let p2 = self.pp(.uidClass)
+		XCTAssertTrue(p2.hasSuffix(":FactalsTests"))		// may be wrong
+
+		//logd("abcdefg")
+	}
 
 	func testForEach() {
 		let array = ["aaa", "bbb", "ccc"]
@@ -106,10 +114,6 @@ final class FactalsTests: XCTestCase {
 			XCTAssertEqual(act, expected, "\(i): actual:\(act) != expected:\(expected)")
 		}
 	}
-
-//	func testSystemSound() {	V--- must recover
-//		XCTAssertEqual(fwSystemSoundTest(), 		 true, "System Sound Tests")
-//	}
 
 	func testClassFromString () {
 		let tests:[(Part, String)]	= [	// ALL CLASSES AS OF 20210911
@@ -169,6 +173,7 @@ final class FactalsTests: XCTestCase {
 			(	RootPart(), 				"RootPart"		),
 		]
 		for (i, (part, expectedClassName)) in tests.enumerated() {
+
 			 // Forward: :Part -> String/* *** */
 			let partsClassName =    part.fwClassName
 										/* *** */
@@ -179,13 +184,13 @@ final class FactalsTests: XCTestCase {
 				print("############ \(i+1). (\(part.pp(.uidClass))).fwClassName is \(partsClassName), should be \(expectedClassName) ###########")
 				let _			= part.fwClassName	// try again for debugger
 			}
+
 			 // Backward: String -> Part.Type	/* *** */
 			let expectedClass : Part.Type =    classFrom(string:expectedClassName)
 												/* *** */
 			let partsClass		= type(of:part)
 			if expectedClass != partsClass {
-				XCTAssertFalse(true, "")
-				XCTAssertFalse(false, "")
+				XCTAssertFalse(true, "")		//		XCTAssertFalse(false, "")
 				print("############ \(i+1). (\(part.pp(.uidClass))).Type is \(partsClass), should be \(expectedClass) ###########")
 				let _ : Part.Type = classFrom(string:expectedClassName)
 			}
@@ -209,7 +214,7 @@ final class FactalsTests: XCTestCase {
 			Test(lhs:nil,   rhs:partA, ans:partA, note:"nil ?? A   -> A"),
 
 			Test(lhs:partA, rhs:nil,   ans:partA, note:"A   ?? nil -> A"),
-			Test(lhs:partA, rhs:partB, ans:partA, note:"A   ?? B   -> B"),	// booby tray .null someday
+			Test(lhs:partA, rhs:partB, ans:partA, note:"A   ?? B   -> A"),	// booby tray .null someday
 		//	Test(lhs:nil,   rhs:nil,   ans:partA, note:"purposefully wrong -- should fail"),
 		]
 		for (i, test) in tests.enumerated() {
@@ -266,18 +271,20 @@ final class FactalsTests: XCTestCase {
 		for (i, (p1, p2, identity, equatable)) in tests.enumerated() {
 			print("\n############  \(i+1). (\(p1.pp(.uidClass))).equalsPart(\(p2.pp(.uidClass)))  ###########")
 			print("\(p1.pp(.tree)) ??====(\(identity ? " " : "!")identical, \(equatable ? " " : "!")equatable)====??  CALCULATED\n\(p2.pp(.tree))", terminator:"")
-			let matchIdnetP		= p1 === p2			//  identity
-			let matchEqualP		= p1.equalsFW(p2)		//  equatableFW
+			let matchIdnetP		= p1 === p2						//  identity
+			let matchEqualP		= p1.equalsFW(p2)				//  equatableFW
+
 			 // Questionable Value:
 			print(" p1 \(matchIdnetP ? "=" : "!")== p2, p1.equals(p2) => \(matchEqualP)")
 			XCTAssertEqual(matchIdnetP, identity,  "testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
 			XCTAssertEqual(matchEqualP, equatable, "testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
-			let matchIdnetM		= p1 !== p2			// !identity
+			let matchIdnetM		= p1 !== p2						// !identity
 			let matchEqualM		= p1.equalsFW(p2)	== false 	// !equatableFW
 			XCTAssertEqual(matchIdnetM, !identity, "!testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
 			XCTAssertEqual(matchEqualM, !equatable,"!testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
-			 // If any errors
-			if //matchIdnetP != identity || matchEqualP != equatable ||
+
+			 // Redo for debug if any errors
+			if matchIdnetP != identity || matchEqualP != equatable ||
 			   matchIdnetM == identity || matchEqualM == equatable {
 				//bug // do again for debugging
 				let matchIdnetP		= p1 === p2
@@ -359,7 +366,7 @@ final class FactalsTests: XCTestCase {
 		return outPart
 	}
 
-	func testPpUidFooX() {
+	func testPpUidSimple() {
 		let y  : String				= ppUid(pre:"pre:", DOClog, post:":post")
 		//Ambiguous use of 'ppUid(pre:_:post:showNil:aux:)'
 		XCTAssert(y.hasPrefix("pre:") && y.hasSuffix("post"))

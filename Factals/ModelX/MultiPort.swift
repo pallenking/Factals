@@ -83,7 +83,7 @@ class MultiPort : Port {
 			scn.color0 			= NSColor(mix:NSColor("lightpink")!, with:0.4, of:NSColor("darkgreen")!)
 //			scn.color0 			= NSColor("lightpink")! //"red"//.green//"darkred"//.lightpink//
 
-			 // Disc marks its connection point
+			 // Disc marks its con2 point
 			let disc 			= SCNNode(geometry:SCNCylinder(radius:r/2, height:ep))
 			scn.addChild(node:disc, atIndex:0)
 			disc.name			= "disc"

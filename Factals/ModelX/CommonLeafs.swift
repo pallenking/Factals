@@ -225,7 +225,7 @@ extension Leaf {	/// Generate Common Leafs
 //			], fwConfig:								  etc1)
 			unusedConfigsMustBeNil([etc5])
 
-						// BASIS port to invoke Previous's connection to below:
+						// BASIS port to invoke Previous's con2 to below:
 //		case .prevBcast:
 //			self.init(of:type:"prevBcast",
 //				bindings:bMainPM + ["G":"ERROR-not generatable", "R":"prev.L"], parts:[

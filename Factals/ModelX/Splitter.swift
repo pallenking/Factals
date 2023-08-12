@@ -267,7 +267,7 @@ class Splitter : Atom {
 				 // Go through all Shares:
 				if let sh 		= sc as? Share {	// ignore Primary and Unknown Ports
 					 // Gather properties of input value
-					if let shInPort = sh.connectedX?.port {	// ignore unconnected Ports
+					if let shInPort = sh.con2port {	// ignore unconnected Ports
 						let shareInputChanged = shInPort.valueChanged()
 						upIsDirty	||= shareInputChanged	// changed --> dirty
 
@@ -316,7 +316,7 @@ class Splitter : Atom {
 					atDat(4, b.take(value:pPort.value))
 				}
 				if let u 		= uPort {
-					var unknownValue = pPort.connectedX!.port!.value - a1	// unexplained residue
+					var unknownValue = pPort.con2!.port!.value - a1	// unexplained residue
 					unknownValue = unknownValue < 0 ? 0 : unknownValue	// (never negative)
 	
 					atDat(4, u.logd("   unknown =%.2f-%.2f", pPort.value, a1))
@@ -324,10 +324,10 @@ class Splitter : Atom {
 				}
 			}
 			 // Clear out runt changes (just read)
-			let _			 	= bPort?.connectedX?.port?.getValue()
-			let _			 	= uPort?.connectedX?.port?.getValue()
+			let _			 	= bPort?.con2port?.getValue()
+			let _			 	= uPort?.con2port?.getValue()
 
-			if let kindPort2Port = ports["KIND"]?.connectedX?.port,
+			if let kindPort2Port = ports["KIND"]?.con2port,
 			  kindPort2Port.valueChanged() {			// KIND port changes mode
 bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value remove )
 	//			atDat(4, log(" Branch: kind=%.2f (was %.2f)", valNext, valPrev))
@@ -340,7 +340,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 		 //*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//
 														   // ////////////// //
 		if (upLocal) {									  // / DISTRIBUTE / //
-			if let pPortIn 		= pPort.connectedX?.port,// ////////////// //
+			if let pPortIn 		= pPort.con2port,// ////////////// //
 			   pPortIn.valueChanged() || upIsDirty 	// P Port or internal upIsDirty
 			{	 // Push a portion of the value down to each Share
 				let total		= pPortIn.getValue()

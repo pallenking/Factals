@@ -170,7 +170,7 @@ class Actor : Net {
 							continue
 						}
 
-						if let otherAtom  = scanPort.connectedX?.port?.atom {		// Identify otherAtom
+						if let otherAtom  = scanPort.con2port?.atom {		// Identify otherAtom
 							 // If ancestor of otherAtom is part of self
 //							let othersActorPart = otherAtom.ancestorThats(childOf:self)
 							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
@@ -185,7 +185,7 @@ class Actor : Net {
 							}
 						}
 						else {
-							assert(scanPort.connectedX==nil, "peculiar")
+							assert(scanPort.con2==nil, "peculiar")
 						}
 					}
 					if orderIsGood == false {
@@ -259,7 +259,7 @@ class Actor : Net {
 	 // Propigate cockPrevious to all contents registered in previousClocks
 	func clockPrevious()  {
 
-		let v0				= self.enable3?.connectedX?.port?.getValue() ?? 0
+		let v0				= self.enable3?.con2port?.getValue() ?? 0
 		if v0 > 0.5 {			// no enable Port --> enabled
 			atEve(4, logd("|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):"))
 bug//		for user in self.previousClocks {
@@ -275,7 +275,7 @@ bug//		for user in self.previousClocks {
 	override func simulate(up:Bool) {
 
 		if (up) {				// /////// going UP /////////	enable
-			if let enaInPort	= enable3?.connectedX?.port {
+			if let enaInPort	= enable3?.con2port {
 				let _ 			= enaInPort.getValue()
 				panic()
 			}

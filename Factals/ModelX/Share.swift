@@ -33,13 +33,13 @@ class Share : Port { // ///////////// The common parts//////////////////////////
 	 // MARK: - 8. Reenactment Simulator
 	 //-- distribute: (local UP)--//
 	func bid() -> Float {
-		return self.connectedX?.port?.value ?? 0 	// Default: distribute proportionately according to want
+		return self.con2port?.value ?? 0 	// Default: distribute proportionately according to want
 	}
 	//#########################################################################
 	//##########################################################################
 
 	 // MARK: - 9.0 3D Support
-	//	A Share's connection point is at its origin
+	//	A Share's con2 point is at its origin
 	//	An upright Share opens up (connects to a Link/Port above)
 	//	a Share may have no skins (Links have shares)
 	//	A Share must connect to a Link
@@ -414,7 +414,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 			if (selfNo == 1) {		// First Share output (up) is set by primaryPort:
 				 // Our parent's primary port:
 				let pPort		= parent.ports["P"] ?? .error
-				let pPort2Port	= pPort.connectedX?.port
+				let pPort2Port	= pPort.con2port
 				let (value, valuePrev) = pPort2Port!.getValues()	// self's up now and prev
 
 				if valuePrev<0.5 && value>=0.5 {	// RISING EDGE (Event A)
@@ -432,7 +432,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 			let outNo 		= selfNo+1<parent.children.count ? selfNo+1 : 0
 			let outPort		= parent.children[outNo] as! Port
 
-			guard let inPort = self.connectedX?.port else {return}		// self's down before
+			guard let inPort = self.con2port else {return}		// self's down before
 			let (value, valuePrev) = inPort.getValues()		// self's down now
 
 			if valuePrev<0.5 && value>=0.5 {		// RISING EDGE (Events C,E)
@@ -482,7 +482,7 @@ class Bulb : Splitter { //######################################################
 
 		 // Bulbs size may change:
 		if upLocal,
-		  let pInput			= ports["P"]?.connectedX?.port?.getValue(),
+		  let pInput			= ports["P"]?.con2port?.getValue(),
 		  pValue != pInput 			// Value changed?	//prev != total
 		{
 			atDat(3, logd("   BULB: %.2f (was %.2f)", pInput, pValue))

@@ -23,7 +23,7 @@ class Atom : Part {	//Part//FwPart
 			//	""	Major output
 			//	+	Major output, cur
 			//	-	Major output, previous
-			//	G	DiscreteTime connection point (a GenAtom.P)
+			//	G	DiscreteTime con2 point (a GenAtom.P)
 			//	R	Set the state (esp of a Previouss)
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig = [:]) {
@@ -212,7 +212,7 @@ class Atom : Part {	//Part//FwPart
 
 		 // Want open, but its occupied. Make a :H:Clone
 		if wantOpen,								// want an open port
-		  let connec2			= rvPort?.connectedX?.port
+		  let connec2			= rvPort?.con2port
 		{
 			 // :H:Clone rv
 			let cPort 			= rvPort!					// Clone non-open rv
@@ -227,7 +227,7 @@ class Atom : Part {	//Part//FwPart
 			}
 
 			 // Get another Port from an attached Splitter:
-			else if let cPort	= cPort.connectedX?.port,
+			else if let cPort	= cPort.con2port,
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
 				rvPort				= conSplitter.anotherShare(named:"*")
@@ -372,11 +372,11 @@ class Atom : Part {	//Part//FwPart
 		 // 3,  Wire up new Broadcast into Network:
 		/* 				inPort							:Port
 			inPort			.connectedX
-			inCon			 \--|--V----/Connection
+			inCon			 \--|--V----/Con2
 								A  V
 		/			before #AV#  #AV# after
 		|					|	   V  A
-		X	s2Con			|	 /-|--A--\	 			:Connection
+		X	s2Con			|	 /-|--A--\	 			:Con2
 		X	s2Port			|	s2Port					:Port
 		|					| 	|
 		|					|	|  .------rv			:Port
@@ -389,21 +389,21 @@ class Atom : Part {	//Part//FwPart
 		|					|		A V
 		\			before #AV#   #AV# after			(A)
 								 V A
-			breakCon		 /---|----A------\
-			breakPort		P breakPort "def" \
+			breakCon		 /---|----A------\			:Con2
+			breakPort		P breakPort "def" \			:Port
 							|
 							Atom
 		 */
-		guard let breakPort		= inPort.connectedX?.port else { fatalError("Link error slhf")}
+		guard let breakPort		= inPort.con2port else { fatalError("Link error slhf")}
 		let pPort  : Port		= newBcast.ports["P"]!
-		breakPort.connectedX 	= .port(pPort)		// breakPort -> pPort
-		pPort.connectedX		= .port(breakPort)	// pPort -> breakPort
+		breakPort.con2 	= .port(pPort)		// breakPort -> pPort
+		pPort.con2		= .port(breakPort)	// pPort -> breakPort
 
 		let s2Port : Port		= newBcast.anotherShare(named:"*")
-		inPort.connectedX		= .port(s2Port)
-		s2Port.connectedX		= .port(inPort)
+		inPort.con2		= .port(s2Port)
+		s2Port.con2		= .port(inPort)
 
-		return newBcast.anotherShare(named:"*") // newShare to replicate old connection
+		return newBcast.anotherShare(named:"*") // newShare to replicate old con2
 	}
 	   // MARK: - 4.8 Matches Path
 	override func partMatching(path:Path) -> Part? {
@@ -441,7 +441,7 @@ class Atom : Part {	//Part//FwPart
 
 		 // Paw through Atom's local configuration
 		for (srcPortString, targets_) in localConfig {
-			  // Find a configuration key which is a Port connection:
+			  // Find a configuration key which is a Port con2:
 			 // :H: SouRCe is always a Port name
 			let srcPortPath		= Path(withName:srcPortString)
 
@@ -579,7 +579,7 @@ class Atom : Part {	//Part//FwPart
 					//			--. 		      					.--
 					//	  Atom	  ]o========= Link? ===============o[    Atom
 					//			--'									'--
-					 // Is this a direct connection? or is there a Link involved?
+					 // Is this a direct con2? or is there a Link involved?
 					var msg1 	= "L\(wireNumber) ADDED: << \(srcPort?.fullName ?? "") "
 					 // Link properties depend on those of Ports involved and Link
 					let neighbors:[FwAny] = [linkProps, trgPort!, srcPort!]
@@ -604,13 +604,13 @@ class Atom : Part {	//Part//FwPart
 						atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
 								" Consider using config[noCheck] '^'." + msg1))
 					}
-					assert(srcPort?.connectedX == nil, "SouRCe PORT occupied")
-					assert(trgPort?.connectedX == nil, "TarGeT PORT occupied")
+					assert(srcPort?.con2 == nil, "SouRCe PORT occupied")
+					assert(trgPort?.con2 == nil, "TarGeT PORT occupied")
 							// DIRECT Connect: ?? ""
 					if link==nil {						// no Link made
-						srcPort!.connect(to:trgPort!)		// Direct Connection
+						srcPort!.connect(to:trgPort!)		// Direct Con2
 					}
-					else { 								// LINK'ed Connection:
+					else { 								// LINK'ed Con2:
 						link!.ports[trgAboveSInCon ? "P" : "S"]!.connect(to:srcPort!)
 						link!.ports[trgAboveSInCon ? "S" : "P"]!.connect(to:trgPort!)
 						conNet.addChild(link, atIndex:lnkInsInd)
@@ -627,7 +627,7 @@ class Atom : Part {	//Part//FwPart
 			localConfig[key] 	= nil
 		}
 	}
-	 /// Check connection atributes in FwAny
+	 /// Check con2 atributes in FwAny
 	 /// - Paramete attribute: -- sought in constraints
 	 /// - Paramete in: -- Array where attribute might exist
 	func check(_ attribute:String, in constraints:[FwAny]) -> Bool? {
@@ -820,7 +820,7 @@ class Atom : Part {	//Part//FwPart
 			}
 			  // /////// Go through a LINK to a (hopefully) fixed point
 			 //							// // c. invisible link
-			if let lnk			= inMePort.connectedX?.port?.atom as? Link,
+			if let lnk			= inMePort.con2port?.atom as? Link,
 			  lnk.config("initialDisplayMode")?.asString == "invisible" {
 				return atPri_fail(		"inMe goes through invisible Link")	// invisible if invisible link connects
 			}
@@ -880,13 +880,13 @@ class Atom : Part {	//Part//FwPart
 			let  inMeSpot		= inMePort .peakSpot(inVew:commonVew!, openingUp:false)
 			let fixedSpot		= fixedPort.peakSpot(inVew:commonVew!, openingUp:true)		//print(fixedSpot.pp(.fullName))
 			var newInMePosn		= fixedSpot - inMeSpot		// (all SCNVector3's)
-			 // ///// GAPs for connection via Link or Direct
+			 // ///// GAPs for con2 via Link or Direct
 			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 20	// minimal distance above
 
 										// DOMINATED CONNECTION? (e.g. with no Link):
 			if true || // inMePort.connectedX === fixedPort ||
-			   inMePort.dominant ||  inMePort.connectedX!.port!.dominant ||
-			  fixedPort.dominant || fixedPort.connectedX!.port!.dominant
+			   inMePort.dominant ||  inMePort.con2!.port!.dominant ||
+			  fixedPort.dominant || fixedPort.con2!.port!.dominant
 			{
 				assert(weightSum==0, "Two positioning paths are both dominant")// not already dominated
 				weightSum		= -1.0			// enter dominant mode
@@ -897,7 +897,7 @@ class Atom : Part {	//Part//FwPart
 				weightSum 		+= 1.0			// number of fixedP inMeP's
 				// BUG: Move this to link!!!
 				 // Gap: Fluff + extraGap
-				let theLink		= inMePort.connectedX?.port?.parent as? Link
+				let theLink		= inMePort.con2port?.parent as? Link
 				for key in ["length", "len", "l"] {
 					if let linksGap = theLink?.localConfig[key]?.asCGFloat {
 						gap 	= linksGap
@@ -914,7 +914,7 @@ class Atom : Part {	//Part//FwPart
 				}
 			}
 			else {
-				panic("Second dominant Link connection (\(fixedPort.pp(.fullName)) were found")
+				panic("Second dominant Link con2 (\(fixedPort.pp(.fullName)) were found")
 			}
 			newInMePosn.y		+= gap
 			atRsi(4, print("\t\t\t\t\t\t\t\t" + "FOUND:\(newInMePosn.pp(.short))"))

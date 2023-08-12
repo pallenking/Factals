@@ -89,7 +89,7 @@ class GenAtom : Atom {
 	}
 	 // All Atoms have a P Port, made at init(): (for some reason)
 	lazy var loopPort: Port	= .error		// nullPort gone by end of init()
-	var loopPortIn	: Port { return loopPort.connectedX!.port! }
+	var loopPortIn	: Port { return loopPort.con2!.port! }
 	 // MARK: - 3.5 Codable
 //	 // MARK: - 3.6 NSCopying
 //	 // MARK: - 3.7 Equatable
@@ -114,10 +114,10 @@ class GenAtom : Atom {
 
 		if upLocal,				// /////// going UP /////////
 		  let pPort				= ports["P"],
-		  let _					= pPort.connectedX?.port?.getValue(),	// drain any existing
+		  let _					= pPort.con2port?.getValue(),	// drain any existing
 		  let loopPort 			= ports["LOOP"],
-		  let loopPort2Port		= loopPort.connectedX?.port,
-		  let pPort2Port		= pPort.connectedX?.port
+		  let loopPort2Port		= loopPort.con2port,
+		  let pPort2Port		= pPort.con2port
 		{
 			let loopVal		= loopPort2Port.getValue()	// always read LOOP to clear changed
 			let pPortVal	= pPort2Port.valueChanged()

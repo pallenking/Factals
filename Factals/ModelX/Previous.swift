@@ -102,7 +102,7 @@ class Previous : Atom {
 		 // and thus it flows out to P,S, or T
 		if let latchPort		= ports["L"] {
 			latchPort.noCheck	= true				// of up/down
-			latchPort.connectedX = .port(latchPort)
+			latchPort.con2 = .port(latchPort)
 		}
 		   // //////// check for consistency here... /////
 	//	config["addPreviousXClock"] = 1
@@ -255,7 +255,7 @@ class Previous : Atom {
 			src4lLatch == .fromTPrev  ?	ports["T"] : //tPrevPort:	// tPrev  //
 			src4lLatch == .fromLLatch ?	ports["L"] : //lLatchPort:	// lLatch //
 			nil,
-		  let from2Port			= fromPort.connectedX?.port {	// and it's connected
+		  let from2Port			= fromPort.con2port {	// and it's connected
 			newVal				= from2Port.getValue()		// +
 			msg					+= "(from Port '\(src4lLatch.rawValue)') "
 		} else if src4lLatch != .fromZero {
@@ -286,10 +286,10 @@ class Previous : Atom {
 		let sCurPort			= ports["S"]!	//  Cur Port
 		let tPrevPort			= ports["T"]!	// Prev Port
 		let lLatchPort			= ports["L"]!	//Latch Port
-		let (lLatchInVal, lLatchInPrev) = lLatchPort.connectedX?.port?.getValues() ?? (99,99)// must read every time to settle
+		let (lLatchInVal, lLatchInPrev) = lLatchPort.con2port?.getValues() ?? (99,99)// must read every time to settle
 
 		if upLocal {				//============: going UP ==================
-			let (pPriInVal, pPriInPrev)	=   pPriPort.connectedX?.port?.getValues() ?? (99,99)// must read every time to settle
+			let (pPriInVal, pPriInPrev)	=   pPriPort.con2port?.getValues() ?? (99,99)// must read every time to settle
 			if pPriInVal == pPriInPrev &&  lLatchInVal == lLatchInPrev {
 				return
 			}
@@ -316,8 +316,8 @@ class Previous : Atom {
 										//============: going DOWN ================
 
 		else {	// DOWN to 'P' (SELF) selector:			///--> pPri <--///
-			let (sCurInVal,  sCurInPrev) =  sCurPort.connectedX?.port?.getValues() ?? (99,99)
-			let (tPrevInVal,tPrevInPrev) = tPrevPort.connectedX?.port?.getValues() ?? (99,99)
+			let (sCurInVal,  sCurInPrev) =  sCurPort.con2port?.getValues() ?? (99,99)
+			let (tPrevInVal,tPrevInPrev) = tPrevPort.con2port?.getValues() ?? (99,99)
 			if sCurInVal == sCurInPrev  &&  tPrevInVal == tPrevInPrev &&  lLatchInVal == lLatchInPrev {
 				return
 			}
@@ -331,8 +331,8 @@ class Previous : Atom {
 			pPriPort.take(value:nextVal)
 			  // /// M and N Ports control the various PrevMuxSources
 			 //
-			if let mMode2Port	= ports["M"]?.connectedX?.port,
-			  let nMode2Port 	= ports["N"]?.connectedX?.port {
+			if let mMode2Port	= ports["M"]?.con2port,
+			  let nMode2Port 	= ports["N"]?.con2port {
 				 // EITHER value changed
 				let mvc : Bool?	= mMode2Port.valueChanged()
 				let nvc : Bool?	= nMode2Port.valueChanged()

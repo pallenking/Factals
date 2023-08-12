@@ -80,7 +80,7 @@ class Tunnel : FwBundle {
 
 		if !upLocal, 					 // If going up
 		  								  // our "P" Port is connected to a MultiPort
-		  let pAsMPort			= ports["P"]?.connectedX?.port as? MultiPort
+		  let pAsMPort			= ports["P"]?.con2port as? MultiPort
 		{ 
 			// For ALL Leaf values through Tunnel:
 			forAllLeafs(
@@ -88,7 +88,7 @@ class Tunnel : FwBundle {
 				 // if Leaf's G has Port:
 				if let gPort 	= leaf.port(named:"G") {
 					assert(gPort !== pAsMPort, "output port matches input port")
-					if let gPortCon2 = gPort.connectedX?.port,
+					if let gPortCon2 = gPort.con2port,
 						   gPortCon2.valueChanged()
 					{	 // move changed leaf value
 						let val = gPortCon2.getValue()

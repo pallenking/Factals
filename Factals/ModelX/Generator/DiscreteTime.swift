@@ -184,7 +184,7 @@ class DiscreteTime : Atom {
 		case .anEpoch(let eInt):			 // FwwEvent is a single number
 			atEve(4, logd("|| FwwEvent '\(eInt)': Epoch Mark")) /// Integer --> 0 Epoch Mark
 		default: 				// e.g: FwwEvent is an NSInteger, etc. -- no effect on
-			atEve(4, atEve(4, logd("|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.connectedX?.port?.fullName ?? "-")' UNCHANGED")))
+			atEve(4, atEve(4, logd("|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2port?.fullName ?? "-")' UNCHANGED")))
 		}
 	}
 	  /// Load an event into the target bundle.
