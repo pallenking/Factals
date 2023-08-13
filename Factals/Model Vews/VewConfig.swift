@@ -64,13 +64,14 @@ extension Vew {
 			subPart.openChildren(using:config)		// #### SEMI-RECURSIVE CALL
 		case .openAllChildren(let deapth):
 			if deapth <= 1 {	break											}
-			 // For each childPart ensure a childVew
+			 // ensure each childPart has a childVew
 			for childPart in part.children {
 				let childVew	= self.find(part:childPart, maxLevel:1) ?? {
-					let vew		= Vew(forPart:childPart)
+					let vew		= childPart.VewForSelf()						//let vew		= Vew(forPart:childPart)	// Build a new one
 					self.addChild(vew)
 					return vew
 				}()
+				guard let childVew else { continue								}
 				childVew.openChildren(using:.openAllChildren(toDeapth:deapth-1))
 			}
 		case .subVewList(let vewConfigs):

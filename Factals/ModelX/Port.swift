@@ -157,12 +157,12 @@ class Port : Part, PortTalk {
 
 	 // MARK: - 2.2 Connections:
 	enum Con2 : Codable, Equatable {
-		case port(_:Port)
-		case string(_:String)
+		case port(Port)
+		case string(String)
 
 		static func == (lhs: Port.Con2, rhs: Port.Con2) -> Bool {
 			switch lhs {
-				case .port(_):
+				case .port:
 					return false	// Ports not equatable, two non-nil Ports MUST be different:
 				case .string(let lhsString):
 					return lhsString == rhs.string

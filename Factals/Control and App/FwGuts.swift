@@ -242,9 +242,6 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
 		guard let rootVew		= inVew.rootVew else { return nil				}
-		let rootScn				= rootVew.rootScene
-bug
-//		guard let fwView		= rootScn.fwView else { fatalError("rootScn has fwView=nil")}
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -258,7 +255,7 @@ bug
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rootScn, 			// The root of the node hierarchy to be searched.
+			.rootNode:rootVew.rootScene,// The root of the node hierarchy to be searched.
 		]
 //		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 

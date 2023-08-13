@@ -15,25 +15,21 @@ struct FwGutsBar: View {
 		HStack {	// FULL!
 			Text("FwGutsBar").foregroundColor(.red).bold()
 			Text("   PP App:")
-			Button(label:{	Text( "state").padding(.top, 300)				})
-			{	printFwState()												}
+			Button(label:{	Text( "state").padding(.top, 300)					})
+			{	printFwState()													}
 
 			if let rootPart = fwGuts.rootPart {
 				Text("  Print Model:")
-				Button(label:{	Text( "ptm")								})
-				{	print(rootPart.pp(.tree), terminator:"")
-					lldbPrint(rootPart, mode:.tree)
-				}
-				Button(label:{	Text("ptLm")								})
-				{	print(rootPart.pp(.tree, ["ppLinks":true]), terminator:"")
-					lldbPrint(rootPart, mode:.tree, ["ppLinks":true])
-				}
+				Button(label:{	Text( "ptm")									})
+				{	print(rootPart.pp(.tree), terminator:"")					}
+				Button(label:{	Text("ptLm")									})
+				{	print(rootPart.pp(.tree, ["ppLinks":true]), terminator:"")	}
 			} else {
 				Text("<<no nodel>>:")
 			}
 			Spacer()
-			Button(label: {	Text("LLDB") 									})
-			{	breakToDebugger()											}
+			Button(label: {	Text("LLDB") 										})
+			{	breakToDebugger()												}
 			Text(" ")
 		}
 		 .padding(4)

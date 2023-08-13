@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class RootScene : NSObject {					// xyzzy4
+class RootScene : NSObject {				// xyzzy4
 //class RootScn : SCNNode {					// xyzzy4
 	weak
 	 var rootVew	: RootVew?				// RootVew  of this RootScn
