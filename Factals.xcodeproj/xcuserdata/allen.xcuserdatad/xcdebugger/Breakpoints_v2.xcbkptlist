@@ -1223,7 +1223,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "ED3E917E-3B03-46D9-B853-7B1E58F4B00D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/SwiftUI Views/ContentView.swift"
@@ -1965,22 +1965,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EDBC5826-146B-47CC-93F5-B3DE07DF31E8"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Control and App/FwStatus.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
-            landmarkName = "ppFwState(deapth:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7E702B26-CE55-486B-8EA7-464A918B61B0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -2491,84 +2475,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B2BCA2BD-350F-461C-A357-461449D503BA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Control and App/FwGuts.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
-            landmarkName = "modelPic(with:inVew:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B2BCA2BD-350F-461C-A357-461449D503BA - ae171774ccbab57f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.FwGuts.modelPic(with: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "232"
-                  endingLineNumber = "232"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "B2BCA2BD-350F-461C-A357-461449D503BA - ae171774ccbab57f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.FwGuts.modelPic(with: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "232"
-                  endingLineNumber = "232"
-                  offsetFromSymbolStart = "120">
-               </Location>
-               <Location
-                  uuid = "B2BCA2BD-350F-461C-A357-461449D503BA - ae171774ccbab431"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.FwGuts.modelPic(with: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "B2BCA2BD-350F-461C-A357-461449D503BA - ae171774ccbab431"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.FwGuts.modelPic(with: __C.NSEvent, inVew: Factals.Vew) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "120">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A0230715-7204-4BD7-A544-F44F23F76ED6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -2611,6 +2517,21 @@
                   endingLineNumber = "141"
                   offsetFromSymbolStart = "372">
                </Location>
+               <Location
+                  uuid = "A0230715-7204-4BD7-A544-F44F23F76ED6 - 83cbf819a4b90b55"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwGutsView.handleTap() -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "12">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -2618,7 +2539,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "BE9312A1-30ED-463F-822E-CEBB87D3DE6F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/RootScene.swift"
@@ -2628,6 +2549,69 @@
             endingLineNumber = "566"
             landmarkName = "renderer(_:updateAtTime:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "685DF505-6D88-4B8D-9957-54F104C4F6FB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FwGuts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "modelPic(with:inVew:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "685DF505-6D88-4B8D-9957-54F104C4F6FB - cbd8af62eab68575"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwGuts.modelPic(with: Swift.Optional&lt;__C.NSEvent&gt;, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "241"
+                  endingLineNumber = "241"
+                  offsetFromSymbolStart = "1900">
+               </Location>
+               <Location
+                  uuid = "685DF505-6D88-4B8D-9957-54F104C4F6FB - cbd8af62eab68575"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwGuts.modelPic(with: Swift.Optional&lt;__C.NSEvent&gt;, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "241"
+                  endingLineNumber = "241"
+                  offsetFromSymbolStart = "520">
+               </Location>
+               <Location
+                  uuid = "685DF505-6D88-4B8D-9957-54F104C4F6FB - cbd8af62eab68575"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwGuts.modelPic(with: Swift.Optional&lt;__C.NSEvent&gt;, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FwGuts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "241"
+                  endingLineNumber = "241"
+                  offsetFromSymbolStart = "852">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

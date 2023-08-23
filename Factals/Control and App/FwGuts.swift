@@ -234,11 +234,20 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 //XXX WRONG XXX	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
 	/// - Parameter nsEvent: Mouse down event
 	/// - Returns: The Vew of the part pressed
-	func modelPic(with nsEvent:NSEvent, inVew vew:Vew) -> Vew? {
-		if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {
-			 // DISPATCH to PART that was pic'ed
-			if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
-				return picdVew
+	func modelPic(with n:NSEvent?=nil, inVew v:Vew?=nil) -> Vew? {
+		 // if no nsEvent supplied, use current
+		guard let nsEvent			= n ?? NSApp.currentEvent else { return nil	}
+	//	guard let scnView 			= NSApp.keyWindow?.contentView as? SCNView else {
+		guard let nsView 			= NSApp.keyWindow?.contentView,
+		  let scnView 				= nsView as? SCNView else {
+			fatalError("contentView not SCNView!") ; return nil					}
+		let vews2check : [Vew]		= v == nil ? rootVews : [v!]
+		for vew in vews2check {
+			if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {
+				// DISPATCH to PART that was pic'ed
+				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
+					return picdVew
+				}
 			}
 		}
 		atEve(3, print("\t\t" + "** No Part FOUND\n"))
@@ -250,6 +259,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		guard let rootVew		= inVew.rootVew 	else { return nil				}
 		let rootScene			= rootVew.rootScene
 
+		
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -264,13 +274,14 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		  //.sortResults:1, 			// (implied)
 			.rootNode:rootVew.rootScene,// The root of the node hierarchy to be searched.
 		]
-		let fwView				= SCNView()//rootScene.scnView
-// 		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+
+		guard let scnView 		= NSApp.keyWindow?.contentView as? SCNView else { return nil }
+		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 								//		 + +   + +
-//		let hits				= fwView.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
-		let hits				= [SCNHitTestResult]()
-								//		 + +   + +
+		let hits				= scnView.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
+								//		 + +   + +		// hitTest in protocol SCNSceneRenderer
+
 		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
 

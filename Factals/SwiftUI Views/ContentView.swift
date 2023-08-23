@@ -138,15 +138,14 @@ struct FwGutsView: View {
 		}
 	}
 	private func handleTap() {
-		guard let nsEvent 		= NSApp.currentEvent,
-		 let sceneView 			= NSApp.keyWindow?.contentView as? SCNView else { return }
-		let locationInView 		= sceneView.convert(nsEvent.locationInWindow, from:nil)
-		
-		let hitTestOptions: [SCNHitTestOption: Any] = [.boundingBoxOnly: false]
-		let hitTestResults = sceneView.hitTest(locationInView, options: hitTestOptions)
+	//	guard let nsEvent 		= NSApp.currentEvent,
+	//	 let scnView 			= NSApp.keyWindow?.contentView as? SCNView else { return }
+	//	let locationInView 		= scnView.convert(nsEvent.locationInWindow, from:nil)
+	//
+	//	let hitTestOptions: [SCNHitTestOption: Any] = [.boundingBoxOnly: false]
+	//	let hitTestResults = scnView.hitTest(locationInView, options: hitTestOptions)
 
-bug;	let v:Vew?				= nil
-		let x:Vew? 				= DOCfwGuts.modelPic(with:nsEvent, inVew:v!)
+	//	let x:Vew? 				= DOCfwGuts.modelPic(with: <#NSEvent?#>, inVew: <#Vew?#>)							//with:nsEvent, inVew:v!
 		
 		//selectedNode = hitTestResults.first?.node
 	}

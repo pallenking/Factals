@@ -223,10 +223,11 @@ extension Simulator : FwStatus	{									///Simulator
 
 extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
-		guard let rootVew									else {	return "Vew.rootVew == nil\n"}
-		guard let fwGuts 		= rootVew.fwGuts 			else {	return "Vew.rootVew?.fwGuts == nil\n" }
+		guard let rootVew						 else {	return "Vew.rootVew == nil\n"}
+		guard let fwGuts 		= rootVew.fwGuts else {	return "Vew.rootVew?.fwGuts == nil\n" }
 		guard let slot			= rootVew.slot,
 		  slot >= 0 && slot < fwGuts.rootVews.count else { fatalError("Bad slot")}
+		let myName				= "RootVews[\(slot)]  "
 
 		var myLine				= "LockVal:\(rootVewLock.value ?? -99) "
 		myLine					+= fwGuts.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
@@ -234,29 +235,33 @@ extension RootVew : FwStatus	{									  ///RootVew
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 		myLine					+= "(\(nodeCount()) total) "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.uidClass) ?? "nil") "
-		myLine					+= self.rootScene === self.scn ? "scn===rootScn " :
-								   "  ERROR \(self.scn.pp(.classUid))!==rootScn"
-		let myName				= "RootVews[\(slot)]  "
+		myLine					+= self.rootScene.rootNode === self.scn ? "" :
+								   "  ERROR .scn !== \(self.rootScene.rootNode.pp(.classUid))"
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootScene.rootNode.ppFwState(deapth:deapth-1)
-				rv 				+= self.selfiePole        .ppFwState(deapth:deapth-1)
+				var rv			=  self.rootScene .ppFwState(deapth:deapth-1)
+				rv 				+= self.selfiePole.ppFwState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
 
-//extension RootScene : FwStatus	{									  ///RootScn
-//	func ppFwState(deapth:Int=999) -> String {
-//		var myLine				= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' BAD"
+extension RootScene : FwStatus	{									  ///RootScn
+	func ppFwState(deapth:Int=999) -> String {
+		var myLine				= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' is BAD"
+//		myLine					+= "rootNode"
 //		myLine					+= "(\(nodeCount()) SCNNodes) "
-//		return ppFwStateHelper("RootScene      ", uid:self,
-//			myLine:myLine,
-//			deapth:deapth-1)
-//	}
-//}
+		return ppFwStateHelper("RootScene      ", uid:self,
+			myLine:myLine,
+			otherLines: { deapth in
+				var rv			=  self.rootNode.ppFwState(deapth:deapth-1)
+				return rv
+			},
+			deapth:deapth-1)
+	}
+}
 extension SCNNode : FwStatus	{							 ///SCNNode, RootScn
 	func ppFwState(deapth:Int=999) -> String {
 		let myName				= fwClassName.field(-13)// self.name?.field(-13) ?? "----       "
@@ -309,7 +314,7 @@ extension NSWindowController : FwStatus {				  ///NSWindowController
 				ppUid(pre:"win:", 	 window,  			 post:" ",showNil:true) +
 				ppUid(pre:"nibOwner:", owner as? Uid,	 post:" ",showNil:true) ,
 			otherLines:{ deapth in
-			return self.window?.ppFwState(deapth:deapth-1) ?? ""
+				return self.window?.ppFwState(deapth:deapth-1) ?? ""
 			},
 			deapth:deapth-1)
 	}
