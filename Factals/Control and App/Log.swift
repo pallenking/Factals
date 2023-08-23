@@ -4,7 +4,7 @@
 // lifeCycleLogger
 
 import SceneKit
-
+//xxx Logger()
 extension Log : Uid { }
 extension Log : Logd { 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {

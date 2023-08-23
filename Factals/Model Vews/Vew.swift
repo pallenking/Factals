@@ -305,7 +305,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				}
 			}
 		}
-		 // Check parent
+		 // Check around self
 		if searchParent {
 			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
 		}

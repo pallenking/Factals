@@ -7,9 +7,10 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	  // MARK: - 2. Object Variables:
 	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}
 	func setRootPart(rootPart r:RootPart) {
-		if rootPart?.lock(partTreeAs:"setRootPart", logIf:false) == nil {  fatalError(" couldn't get PART lock")}
+		guard rootPart == nil || rootPart!.lock(partTreeAs:"setRootPart", logIf:false)
+			else {  fatalError(" couldn't get PART lock")						}
 		for rootVew in rootVews {
-			if rootVew.lock(vewTreeAs:"setRootPart", logIf:false) == nil { fatalError(" couldn't get VIEW lock")}
+			if rootVew.lock(vewTreeAs:"setRootPart", logIf:false) == false { fatalError(" couldn't get VIEW lock")}
 		}
 		rootVews				= []
 		rootPart				= r
@@ -87,7 +88,12 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe
 		rootVew.setupLightsCamerasEtc()						// ?move
 	}
-
+	func ensureAVew(fwConfig c:FwConfig) {
+		if rootVews.isEmpty {		// Must have a Vew
+			atBld(3, warning("no Vew... key"))
+			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
+		}
+	}
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
@@ -148,7 +154,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
 			for rootVew in rootVews {
-				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.rootScene.scn)))" +
+				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.scn)))" +
 					  ".scn(\(ppUid(rootVew.scn))):")
 				print(rootVew.scn.pp(.tree), terminator:"")
 			}
@@ -226,7 +232,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	 // //////////// ///////////////////////// //
 	
 //XXX WRONG XXX	/// Mouse Down NSEvent becomes a FwEvent to open the selected vew
-	/// - Parameter nsEvent: mouse down
+	/// - Parameter nsEvent: Mouse down event
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVew vew:Vew) -> Vew? {
 		if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {
@@ -241,7 +247,8 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
-		guard let rootVew		= inVew.rootVew else { return nil				}
+		guard let rootVew		= inVew.rootVew 	else { return nil				}
+		let rootScene			= rootVew.rootScene
 
 		 // Find the 3D Vew for the Part under the mouse:
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -257,10 +264,12 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		  //.sortResults:1, 			// (implied)
 			.rootNode:rootVew.rootScene,// The root of the node hierarchy to be searched.
 		]
-//		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+		let fwView				= SCNView()//rootScene.scnView
+// 		let locationInRoot		= fwView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 								//		 + +   + +
-		let hits				= [SCNHitTestResult]() //fwView.hitTest(locationInRoot, options:configHitTest)
+//		let hits				= fwView.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
+		let hits				= [SCNHitTestResult]()
 								//		 + +   + +
 		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]

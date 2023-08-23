@@ -71,8 +71,7 @@ extension Vew {
 					self.addChild(vew)
 					return vew
 				}()
-				guard let childVew else { continue								}
-				childVew.openChildren(using:.openAllChildren(toDeapth:deapth-1))
+				childVew?.openChildren(using:.openAllChildren(toDeapth:deapth-1))
 			}
 		case .subVewList(let vewConfigs):
 			for vewConfig in vewConfigs {

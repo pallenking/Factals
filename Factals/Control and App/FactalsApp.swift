@@ -412,39 +412,35 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
 											: regressScene	// from last time
 		regressScene			= sceneNumber + 1			// next regressScene
+		let scanKey				= "entry\(regressScene)"
 
-		if (trueF) {
-			 // Install new rootPart in current fwGuts
-			let rootPart			= RootPart(fromLibrary:"entry\(regressScene)")
-			guard let fwGuts		= DOC.fwGuts else {	return	}
+		bug
+		if (trueF) {		 	// Make new window:
+			let x = FactalsDocument(fromLibrary:scanKey) // who holds onto this
+		}
+		else {			 		// Install new rootPart in current window
+			guard let doc = DOC else { fatalError("no DOC")}
+			guard let fwGuts	= doc.fwGuts else {	return	}
+
+			let rootPart		= RootPart(fromLibrary:scanKey)
 			fwGuts.setRootPart(rootPart:rootPart)
-		} else {
-		
+
+			 // Make a default window
+			fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
+	
+			 // --------------- C: FactalsDocument
+			let c					= doc.config + rootPart.ansConfig
+			doc.configure(from:c)
+	//		newRootVew.configure(from: ?FwConfig)
+	
+	//		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
+			fwGuts.document 		= doc
+			doc.makeWindowControllers()
+			doc.registerWithDocController()	// a new DOc must be registered
+
+
 		}
 
-	 // Make New Document
-	//	fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5))
-//		 // --------------- A: Get BASIC Component Part (owned and used here)
-//		let rootScene				= RootScene()
-////??	rootScn.scnScene.isPaused = true						// Pause animations while bulding
-//
-//		 // --------------- B: RootVew ((rootPart, A))
-//bug//	addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-//	 //	let newRootVew			= RootVew(forPart:fwGuts.rootPart!, rootScn:rootScn)
-//	 //	newRootVew.fwGuts		= fwGuts			// Set Owner
-//	 //	fwGuts.rootVews.append(newRootVew)
-//
-//		 // --------------- C: FactalsDocument
-//		var doc					= FactalsDocument(fwGuts:fwGuts)
-//		DOC						= doc		// register (UGLY!!!)
-//		let c					= doc.config + rootPart.ansConfig
-//		doc.configure(from:c)
-////		newRootVew.configure(from: ?FwConfig)
-//
-////		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
-//		fwGuts.document 		= doc
-//		doc.makeWindowControllers()
-//		doc.registerWithDocController()	// a new DOc must be registered
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

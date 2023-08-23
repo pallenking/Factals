@@ -46,10 +46,10 @@ RootVew:_______________
 	 /// generate a new View, returning its index
 	init(forPart rp:RootPart) {
 		super.init(forPart:rp)
-		rootScene					= RootScene()
-		rootScene.rootVew			= self			// owner
+		rootScene				= RootScene()
+		rootScene.rootVew		= self			// weak backpointer, owner
 
-		scn						= rootScene.scn
+		scn						= rootScene.rootNode
 		scn.name 				= self.scn.name ?? ("*-" + part.name)
 	}
 
@@ -116,7 +116,7 @@ RootVew:_______________
 			 // === Failed to get lock:
 			let val0		= rootVewLock.value ?? -99
 			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
-			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :
+			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :	// immediate but noisy printout
 							  nop
 			fatalError(msg)	// for debug only
 //			panic(msg)	// for debug only
@@ -189,7 +189,7 @@ RootVew:_______________
 						 // Lock  _ALL_  root Vews:
 						for rootVew in fwGuts.rootVews {
 							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
-								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "nil")') FAILED to get \(viewLockName ?? "<nil> name")")
+								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "<nil>")') FAILED to get it")
 							}
 						}
 						viewLockName = nil		// mark gotten

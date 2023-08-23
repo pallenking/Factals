@@ -26,11 +26,9 @@ final class EventReceiverView: NSView {
 	let handler: (NSEvent) -> Void
 
 	init(handler: @escaping (NSEvent) -> Void) {
-//		self.handler	= { nsEvent in print("EventReceiverView's BOGUS handler")}
-		self.handler = handler
-		super.init(frame: .zero)
+		self.handler 			= handler
+		super.init(frame:.zero)
 	}
-
 	@available(*, unavailable) required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}

@@ -83,10 +83,7 @@ struct FactalsDocument: FileDocument {
 				fwGuts.addRootVew(vewConfig:value, fwConfig:c)
 			}
 		}
-		if fwGuts.rootVews.isEmpty {		// Must have a Vew
-			atBld(3, warning("no Vew... key"))
-			fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
-		}
+		fwGuts.ensureAVew(fwConfig:c)
 		configure(from:c)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied

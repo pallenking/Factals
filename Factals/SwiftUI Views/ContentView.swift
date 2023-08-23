@@ -3,6 +3,8 @@
 //  Factals
 //
 //  Created by Allen King on 5/18/22.
+
+
 ///*
 //Generate code exemplefying the following thoughts that I am told:
 //sceneview takes in a publisher
@@ -11,53 +13,6 @@
 //	viewmodel single source of truth
 //or ask me to clarify
 // */
-////
-//import SwiftUI
-//import Combine
-//import SceneKit
-//
-// SCNScene ChatGPT ================
-// // Define a ViewModel for the SceneView
-//class SceneViewModelGPT: ObservableObject {
-//	@Published var scene: SCNScene			// Publisher for the scene
-//	// ...
-//	init(scene: SCNScene) {
-//		self.scene = scene
-//	}
-//	// Function to write models back to the ViewModel
-//	func updateModels() {
-//		// update the scene or other properties ...
-//	}
-//}
-//
-//struct SceneViewGPT: View {				// Using SceneKit View in SwiftUI
-//	@ObservedObject var viewModelGPT: SceneViewModelGPT	// SceneViewModelGPT is the single source of truth
-//	var body: some View {
-//		Text("hello")
-//		SceneKitViewGPT(scene: $viewModelGPT.scene)
-//			.onReceive(viewModelGPT.$scene) { newScene in
-//				// You can manipulate Camera here if needed
-//				// let camera = newScene.rootNode.childNode(withName: "camera", recursively: true)
-//				// ...
-//
-//				// update models from SceneKit to ViewModel
-//				viewModelGPT.updateModels()
-//			}
-//	}
-//}
-//struct SceneKitViewGPT: UIViewRepresentable {
-//	@Binding var scene: SCNScene
-//	func makeUIView(context: Context) -> SCNView {
-//		let scnView = SCNView()
-//		scnView.scene = scene
-//		return scnView
-//	}
-//	func updateUIView(_ uiView: SCNView, context: Context) {
-//		uiView.scene = scene
-//	}
-//}
-//
-//
 /*
 SceneView
 	that communicates with a ViewModel
@@ -75,6 +30,7 @@ SceneView
 
 import SwiftUI
 import SceneKit
+//import Combine
 
 ////////////////////////////// Testing
 //	$publisher
@@ -143,7 +99,7 @@ struct FwGutsView: View {
 				ForEach($fwGuts.rootVews) {	rootVew in
 					VStack {
 						ZStack {
-							let rootScene	= rootVew.rootScene.wrappedValue
+							let rootScene = rootVew.rootScene.wrappedValue
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
 								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
@@ -156,19 +112,21 @@ struct FwGutsView: View {
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 							// now: SceneView 	native SwiftUI
 							SceneView(
-								scene:rootScene.scnScene,	//rootScn.scnScene,
-								pointOfView: nil,	// SCNNode
-								options: [.rendersContinuously],
-								preferredFramesPerSecond: 30,
-								antialiasingMode: .none,
-								delegate: nil//rootScene	//SCNSceneRendererDelegate?
-							//	technique: nil		//SCNTechnique?
+								scene:rootScene,
+								pointOfView:nil,	// SCNNode
+								options:[.rendersContinuously],
+								preferredFramesPerSecond:30,
+								antialiasingMode:.none,
+								delegate:rootScene,	//nil//SCNSceneRendererDelegate?
+								technique: nil		//SCNTechnique?
 							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
 							 .border(.black, width:1)
 							//.gesture(Gesture)// NSClickGestureRecognizer
 							//.onChange(of: Equatable, perform: (Equatable) -> Void)
 							//.onMouseDown(perform:handleMouseDown)
+						//	 .onAppear(perform: setupHitTesting)
+							 .onTapGesture(perform: handleTap)
 						}
 						VewBar(rootVew:rootVew)
 					}
@@ -179,6 +137,56 @@ struct FwGutsView: View {
 			Spacer()
 		}
 	}
+	private func handleTap() {
+		guard let nsEvent 		= NSApp.currentEvent,
+		 let sceneView 			= NSApp.keyWindow?.contentView as? SCNView else { return }
+		let locationInView 		= sceneView.convert(nsEvent.locationInWindow, from:nil)
+		
+		let hitTestOptions: [SCNHitTestOption: Any] = [.boundingBoxOnly: false]
+		let hitTestResults = sceneView.hitTest(locationInView, options: hitTestOptions)
+
+bug;	let v:Vew?				= nil
+		let x:Vew? 				= DOCfwGuts.modelPic(with:nsEvent, inVew:v!)
+		
+		//selectedNode = hitTestResults.first?.node
+	}
+//	func tapGesture(value v:TapGesture.Value, count:Int) {
+//		let fwGuts				= DOCfwGuts
+//		print("tapGesture value:'\(v)' count:\(count)")
+//
+//		 // Make NSEvent for Double Click
+//		let a					= fwGuts.fwScns[0].scnScene.cameraScn!.position
+//		let location			= NSPoint(x: a.x, y: a.y)
+//		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
+//											location:location,
+//											modifierFlags:.numericPad,//?? :NSEvent.ModifierFlags,
+//			/* WTF: */			  timestamp:0,windowNumber:0,context:nil,eventNumber:0,
+//											clickCount:count,
+//											pressure:1.0)!
+//		 // dispatch Pic event
+//		let x:Vew? 				= DOCfwGuts.modelPic(with:nsEvent)
+////		print(windowController0)
+//		print(x ?? "<<nil>>")
+//	}
+
+//	private func handleTapXX() {
+//		let nsEvent				= NSApp.currentEvent
+//		let locationInWindow 	= nsEvent?.locationInWindow//(in: SCNNode())
+//		// .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
+//		// .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
+//		// ?? []
+//		selectedNode = hitTestResults.first
+//	}
+
+//	func setupHitTesting() {
+//		guard let nsWindow		= NSApplication.shared.windows.first, //?.rootViewController
+//		  let nsView			= nsWindow.contentView,
+//		  let fwView			= nsView as? SCNView else { fatalError("couldn't find fwView")	}
+//		// Perform hit testing on tap gesture
+//		let tapGestur			= UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+//		sceneView.addGestureRecognizer(tapGestur)
+//	}
+
 	func handleMouseDown(event: NSEvent) {
 		mouseDown = true
 		handleMouseEvent(event)
@@ -262,5 +270,52 @@ bug	//		if let hitResult = view.hitTest(location),
 //	//	jitteringEnabled		= false		//args.options.contains(.jitteringEnabled)
 //	//	temporalAntialiasingEnabled	= false	//args.options.contains(.temporalAntialiasingEnabled)
 //	}
+
+
+//import SwiftUI
+//import Combine
+//import SceneKit
+//
+// SCNScene ChatGPT ================
+// // Define a ViewModel for the SceneView
+//class SceneViewModelGPT: ObservableObject {
+//	@Published var scene: SCNScene			// Publisher for the scene
+//	// ...
+//	init(scene: SCNScene) {
+//		self.scene = scene
+//	}
+//	// Function to write models back to the ViewModel
+//	func updateModels() {
+//		// update the scene or other properties ...
+//	}
+//}
+//
+//struct SceneViewGPT: View {				// Using SceneKit View in SwiftUI
+//	@ObservedObject var viewModelGPT: SceneViewModelGPT	// SceneViewModelGPT is the single source of truth
+//	var body: some View {
+//		Text("hello")
+//		SceneKitViewGPT(scene: $viewModelGPT.scene)
+//			.onReceive(viewModelGPT.$scene) { newScene in
+//				// You can manipulate Camera here if needed
+//				// let camera = newScene.rootNode.childNode(withName: "camera", recursively: true)
+//				// ...
+//
+//				// update models from SceneKit to ViewModel
+//				viewModelGPT.updateModels()
+//			}
+//	}
+//}
+//struct SceneKitViewGPT: UIViewRepresentable {
+//	@Binding var scene: SCNScene
+//	func makeUIView(context: Context) -> SCNView {
+//		let scnView = SCNView()
+//		scnView.scene = scene
+//		return scnView
+//	}
+//	func updateUIView(_ uiView: SCNView, context: Context) {
+//		uiView.scene = scene
+//	}
+//}
+
 
  */
