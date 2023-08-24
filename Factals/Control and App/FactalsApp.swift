@@ -69,11 +69,27 @@ struct FactalsApp: App, Uid, FwAny {
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 	//B	@AppStorage("text") var textFooBar = ""
 	@State private var document: FactalsDocument? = nil
+	@State private var openDocuments: [FactalsDocument] = []
+
+//	var bodyx: some Scene {
+//		DocumentGroup(newDocument: FactalsDocument()) { file in
+//			ContentView(document: file.$document)		//, openDocuments: $openDocuments
+//			 .onOpenURL { url in
+//				// Load a document from the given URL
+//				if let document = try? FactalsDocument(fileURL: url) {
+//					openDocuments.append(document)
+//				}
+//			 }
+//		}
+//	}
 
 	//typealias Body = type
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
+			 .onOpenURL { url in
+				print("DocumentGroup.ContentView.onOpenURL(\(url))")
+			}
 		//	 .window { window in
 		//		// Create an instance of EventCapturingWindow and assign it to the window
 		//		EventCapturingWindow(

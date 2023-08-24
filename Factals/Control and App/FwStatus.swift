@@ -131,13 +131,13 @@ extension NSDocumentController : FwStatus {		 		 ///NSDocumentController
 			deapth:deapth-1)
 	}
 }
-extension Library : FwStatus {								///Library or ///Tests01
+extension Library : FwStatus {								///Library or ///Tests01, ...
 	func ppFwState(deapth:Int=999) -> String {
 		let myLine				= "(\(count.asString!.field(4)) tests)"
 		return ppFwStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
 	}
 }
-extension Log : FwStatus {											///Log
+extension Log : FwStatus {												  ///Log
 	func ppFwConfig() -> String {		""										}
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= !logEvents ? "disabled" :
@@ -149,13 +149,14 @@ extension Log : FwStatus {											///Log
 }
 extension FwGuts : FwStatus	{									 		///FwGuts
 	func ppFwState(deapth:Int=999) -> String {
+		var myLine				= document.fwGuts === self ? "" : "OWNER:'\(document!)' BAD"
+		//myLine				+= "\(rootVews.count) RootVews "
 		return ppFwStateHelper("FwGuts       ", uid:self,
-			myLine: document.fwGuts === self ? "" : "OWNER:'\(document!)' BAD",
+			myLine:myLine,
 			otherLines:{deapth in
 				 // Controller:
-				var rv			= ""
-				rv				+= self.rootPart?.ppFwState(deapth:deapth-1)
-									?? ppUid(pre:" ", self.rootPart,
+				var rv			= self.rootPart?.ppFwState(deapth:deapth-1)
+									?? ppUid(pre:" ", self.rootPart,			// self.rootPart is nil
 										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
 				for rootVew in self.rootVews {
 					rv			+= rootVew.ppFwState(deapth:deapth-1)
@@ -227,52 +228,49 @@ extension RootVew : FwStatus	{									  ///RootVew
 		guard let fwGuts 		= rootVew.fwGuts else {	return "Vew.rootVew?.fwGuts == nil\n" }
 		guard let slot			= rootVew.slot,
 		  slot >= 0 && slot < fwGuts.rootVews.count else { fatalError("Bad slot")}
-		let myName				= "RootVews[\(slot)]  "
+		let myName				= "RootVew      "
 
-		var myLine				= "LockVal:\(rootVewLock.value ?? -99) "
+		var myLine				= "\(slot)/\(fwGuts.rootVews.count)] "
+		myLine					+= "LockVal:\(rootVewLock.value ?? -99) "
 		myLine					+= fwGuts.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
 		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
-		myLine					+= "(\(nodeCount()) total) "
-		myLine					+= "lookAtVew:\(lookAtVew?.pp(.uidClass) ?? "nil") "
+	//	myLine					+= "(\(nodeCount()) total) "
+		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
 		myLine					+= self.rootScene.rootNode === self.scn ? "" :
 								   "  ERROR .scn !== \(self.rootScene.rootNode.pp(.classUid))"
 		return ppFwStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootScene .ppFwState(deapth:deapth-1)
-				rv 				+= self.selfiePole.ppFwState(deapth:deapth-1)
+				var rv			=  self.selfiePole.ppFwState(deapth:deapth-1)
+				rv 				+= self.cameraScn?.ppFwState(deapth:deapth-1) ?? ""
+				rv 				+= self.rootScene .ppFwState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
 
-extension RootScene : FwStatus	{									  ///RootScn
+extension RootScene : FwStatus	{						   ///RootScene,SCNScene
 	func ppFwState(deapth:Int=999) -> String {
 		var myLine				= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' is BAD"
-//		myLine					+= "rootNode"
-//		myLine					+= "(\(nodeCount()) SCNNodes) "
-		return ppFwStateHelper("RootScene      ", uid:self,
+		myLine					+= "isPaused:\(isPaused) "
+		return ppFwStateHelper(fwClassName.field(-13), uid:self,				//"RootScene      "
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootNode.ppFwState(deapth:deapth-1)
+				var rv			=  self.rootNode    .ppFwState(deapth:deapth-1)
+				rv				+= self.physicsWorld.ppFwState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
-extension SCNNode : FwStatus	{							 ///SCNNode, RootScn
+extension SCNNode : FwStatus	{									  ///SCNNode
 	func ppFwState(deapth:Int=999) -> String {
-		let myName				= fwClassName.field(-13)// self.name?.field(-13) ?? "----       "
-		var myLine				= "(\(children.count) children) "
-		if let s				= self as? RootScene {
-			myLine				+= "(\(nodeCount()) total) "
-			myLine				+= "cameraScn:\(s.cameraScn?.pp(.uid) ?? "nil") "
-
-			myLine				+= s.rootVew?.rootScene === s ? "" : "OWNER:'\(s.rootVew!)' BAD"
-		}
-		return ppFwStateHelper(myName, uid:self,
+		var myLine				= "'\(fullName)': \(children.count) children, (\(nodeCount()) SCNNodes) "
+		myLine					+= camera == nil ? "" : "camera:\(camera!.pp(.classUid)) "
+		myLine					+= light  == nil ? "" :  "light:\( light!.pp(.classUid)) "
+		return ppFwStateHelper("SCNNode      ", uid:self,				//"SCNPhysicsWor"
 			myLine:myLine,
 			deapth:deapth-1)
 	}
@@ -286,16 +284,6 @@ extension SelfiePole : FwStatus	{								   ///SelfiePole
 	}
 
 }
-//extension SCNScene : FwStatus	{									 ///SCNScene
-//	func ppFwState(deapth:Int=999) -> String {
-//		return ppFwStateHelper("SCNScene     ", uid:self,
-//			myLine:"isPaused:\(isPaused)",
-//			otherLines:{ deapth in
-//				return self.physicsWorld.ppFwState(deapth:deapth-1)
-//			},
-//			deapth:deapth-1)
-//	}
-//}
 extension SCNPhysicsWorld : FwStatus	{					  ///SCNPhysicsWorld
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("SCNPhysicsWor", uid:self,
@@ -346,7 +334,7 @@ extension NSWindow : FwStatus {										 ///NSWindow
 }
 extension NSViewController : FwStatus {						 ///NSViewController
 	func ppFwState(deapth:Int=999) -> String {
-bug;	let rob					= representedObject as? NSView//FwStatus
+bug;	let rob					= representedObject as? NSView		//FwStatus
 		return ppFwStateHelper("NSViewCtlr   ", uid:self,
 			myLine: ppState +
 				  " view:\(ppUid(view, 		showNil:true))" 					+

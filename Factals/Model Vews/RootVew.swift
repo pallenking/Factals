@@ -19,9 +19,10 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 //	var lightsScn	: [SCNNode]	= []
 //	var axesScn		:  SCNNode?	= nil
 
+ 	var cameraScn	: SCNNode?	{ scn.find(name:"*-camera") }
 	@Published var selfiePole	= SelfiePole()	// PW2 have had to move to superclass (perhaps OK)
 /* Had to move to superclass for ?XXXBAD?
-RootVew:_______________
+RootVew:_______________				//PW
 |	@Published var selfiePole
 |
 |	Vew:___________________ ObservableObject

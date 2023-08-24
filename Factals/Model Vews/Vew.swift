@@ -201,14 +201,13 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 //		scn.removeAllChildren()				// wipe out my skin
 	}
 
-	func nodeCount() -> Int {
-		var rv					= 0
-		forAllSubViews {
-		vew in
-			rv					+= 1
-		}
-		return rv
-	}
+//	func nodeCount() -> Int {
+//		var rv					= 0
+//		forAllSubViews {vew in
+//			rv					+= 1
+//		}
+//		return rv
+//	}
 
 	typealias VewOperation 		= (Vew) -> ()
 	func forAllSubViews(_ viewOperation : VewOperation)  {

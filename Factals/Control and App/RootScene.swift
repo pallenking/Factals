@@ -11,7 +11,7 @@ import SceneKit
 class RootScene : SCNScene {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?				// RootVew  of this RootScn
- 	var cameraScn	: SCNNode?	{ rootNode.find(name:"*-camera") }
+// 	var cameraScn	: SCNNode?	{ rootNode.find(name:"*-camera") }
 
 	 // MARK: - 3.1 init
 	override init() {
@@ -89,7 +89,7 @@ class RootScene : SCNScene {				// xyzzy4
 			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
-			atEve(9, print("\( cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			atEve(9, print("\( rootVew.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -174,7 +174,7 @@ class RootScene : SCNScene {				// xyzzy4
 		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
 		let transform			= selfiePole.transform
-		guard let cameraScn		= cameraScn else {fatalError("RootScn.cameraScn in nil")}
+		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform
@@ -434,7 +434,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	///   - message: for logging only
 	///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-		guard let cameraScn		= cameraScn else {return }
+		guard let cameraScn		= rootVew?.cameraScn else {return }
 
 bug;	zoom4fullScreen()
 //		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
@@ -473,7 +473,7 @@ bug;	zoom4fullScreen()
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= rootVew.bBox //BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let world2eye			= SCNMatrix4Invert(rootVew.cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 //bug
