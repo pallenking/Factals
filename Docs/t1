@@ -423,8 +423,29 @@ params4docLog  =1 [params4pp## +params4logs_+log(all:docLogN)        25
 
 
 
+##	FgView:body.SceneView().onAppear(perform: ##setupHitTesting)
+	  FgView:##setupHitTesting;UITapGestureRecognizer(#sel(##handleTap(_:)))
+##	FgView:body.SceneView().onTapGesture(perform: ##handleTap)
+		private func ##handleTap() {
+			##handleTap;DOCfwGuts.##modelPic()
+
+//	func tapGesture(value v:TapGesture.Value, count:Int) {
+//		let x:Vew? 				= DOCfwGuts.##modelPic(with:nsEvent)
+	func processEvent
+		case .leftMouseUp:
+					if let vew	= fwGuts?.##modelPic(with:nsEvent, inVew:vew) {
+		case .leftMouseDown:
+					if let v	= fwGuts?.##modelPic(with:nsEvent, inVew:vew) {
+	private func handleTapzz() {
 
 
+##	func modelPic(with nsEvent:NSEvent, inVew vew:Vew) -> Vew? {
+		if let picdVew = ##findVew(nsEvent:nsEvent, inVew:vew) {
+
+##	func ##findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
+ 		locInRoot = fwView.##convert(nsEvent.locationInWindow, from:nil)
+		let hits  = fwView.##hitTest(locInRoot, options:configHitTest)
+		if picdVew.part.##processEvent(nsEvent:nsEvent, inVew:picdVew) {
 
 
 
