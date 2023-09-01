@@ -257,86 +257,67 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
-		guard let rootVew			= inVew.rootVew 			   else { return nil }
-		let slot					= rootVew.slot ?? -1
-		//let rootScene				= rootVew.rootScene
+		guard let rootVew		= inVew.rootVew 			   else { return nil }
+		let slot				= rootVew.slot ?? -1
+		//let rootScene			= rootVew.rootScene
 
-		guard let nsView 			= NSApp.keyWindow?.contentView else { return nil }
-		var pickedScn : SCNNode?	= nil 		// default is no SCNNode
-		var msg : String?			= nil
-		let locationInRoot			= nsView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil }
+		var msg					= "******************************************\n Slot\(slot): find "
+		let locationInRoot		= nsView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
 
-					// OLD WAY, knowing nsView is a SCNView
-		if let scnView 				= nsView as? SCNView { //  else { fatalError("nsView is not SCNView") }
-		
-			 // Find the 3D Vew for the Part under the mouse:
-			let configHitTest : [SCNHitTestOption:Any]? = [
-				.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-				.boundingBoxOnly	:false,	// search for objects by bounding box only.
-				.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-						FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
-						FwNodeCategory.byDefault.rawValue ,
-				.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-			  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-			  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-				.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-			  //.sortResults:1, 			// (implied)
-				.rootNode:rootVew.rootScene,// The root of the node hierarchy to be searched.
-			]
-			//		 + +   + +
-			let hits				= scnView.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
-			//		 + +   + +		// hitTest in protocol SCNSceneRenderer
-			
-			 // SELECT HIT; prefer any child to its parents:
-			msg						= "******************************************\n Slot\(slot): find "
-			pickedScn				= rootVew.scn 		// default SCNNode
-			guard var pickedScn 				else { fatalError("nothing hit") }
-			guard hits.count > 0 				else { fatalError("nothing hit") }
+		 // the SCNView we are looking at
+ 		var sceneView			= nsView as? SCNView ?? {	// OLD WAY
+			if let scnView_		= nsView.hitTest(locationInRoot) as? SCNView {
+				return scnView_									// NEW WAY:
+			}
+			fatalError("Couldn't find scnView")
+		} ()
 
+		 // Find the 3D Vew for the Part under the mouse:
+		guard let scnNode		= sceneView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
+		let configHitTest : [SCNHitTestOption:Any]? = [
+			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
+					FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
+					FwNodeCategory.byDefault.rawValue ,
+			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+		  //.sortResults:1, 			// (implied)
+			.rootNode:scnNode// The root of the node hierarchy to be searched.
+		]
+		//		 + +   + +
+		let hits				= sceneView.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
+		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
+
+		 // SELECT HIT; prefer any child to its parents:
+		var pickedScn :SCNNode	= rootVew.scn			// default is root
+		if hits.count > 0 {
 			// There is a HIT on a 3D object:
-			let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
-			let hit					= sortedHits[0]
-			pickedScn				= hit.node // pic node with lowest deapth
-			msg! 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
+			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
+			let hit				= sortedHits[0]
+			pickedScn			= hit.node // pic node with lowest deapth
 		}
-		else {				/// NEW WAY
-//		if let nsView 				= nsView as? NSHostingView<SCNView> {				// NEW WAY, everything's in HostingView!
-//					NSHostingView<SwiftUI.ModifiedContent<SwiftUI.AnyView, SwiftUI.ObservableDocumentBoxModifier>, SwiftUI.RootModifier> {
-//			let locationInRoot		= NSPoint(x:0, y:0)//scnView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
-
-			//		 + +   + +
-			let hit					= nsView.hitTest(locationInRoot)//, options:configHitTest)//[SCNHitTestResult]() //
-			//		 + +   + +		// hitTest in protocol SCNSceneRenderer
-
-			 // SELECT HIT; prefer any child to its parents:
-			msg						= "******************************************\n Slot\(slot): find "
-			pickedScn				= rootVew.scn 		// default SCNNode
-			guard var pickedScn 				else { fatalError("nothing hit") }
-
-			// There is a HIT on a 3D object:
-			//pickedScn				= hit.node // pic node with lowest deapth
-			msg! 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
-		}
+		msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
 			
 		// If Node not picable, try parent
-		while pickedScn!.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-			  let parent 		= pickedScn!.parent		// try its parent:
+		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+			  let parent 		= pickedScn.parent		// try its parent:
 		{
-			msg!				+= fmt(" --> category %02x (Ignore)", pickedScn!.categoryBitMask)
+			msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
 			pickedScn 			= parent				// use parent
-			msg! 				+= "\n\t " + "parent " + "\(pickedScn!.pp(.classUid))'\(pickedScn!.fullName)': "
+			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
 		}
 
-		guard let pickedScn,
-			  var msg  										  else { return nil }
-		// Got SCN, get its Vew
+		// Get Vew from SCNNode
 		guard let vew 				= rootVew.find(scnNode:pickedScn, inMe2:true) else {
-			if trueF { return nil }
-			print(msg + "\n"+"couldn't find it in vew's \(rootVew.scn.pp(.classUid))")
-			panic("couldn't find Vew")
+			if trueF 				{ return nil 		}		// Ignore missing vew
+			panic(msg + "\n"+"couldn't find it in vew's \(rootVew.scn.pp(.classUid))")
 			if let cv				= rootVew.trunkVew,			// for debug only
 			   let vew 				= cv.find(scnNode:pickedScn, inMe2:true) {
 				let _				= vew
