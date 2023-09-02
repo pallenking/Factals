@@ -171,7 +171,7 @@ class RootScene : SCNScene {				// xyzzy4
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
 		var selfiePole			= rootVew!.selfiePole
-		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
+	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
 		let transform			= selfiePole.transform
 		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}

@@ -10,25 +10,11 @@ import SceneKit
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	weak
 	 var fwGuts 	:  FwGuts!				// Owner
-	var rootScene 	:  RootScene = .nullRoot	// HOAKEY!!			// Master 3D Tree
+	var rootScene 	:  RootScene = .nullRoot// HOAKEY!!			// Master 3D Tree
 	var nsView		:  NSView? = nil		// View displaying
 
-//DELETE THESE:
-	 // Lighting, etc						// (in rootScn)
- //	var cameraScn	:  SCNNode?	= nil
-//	var lightsScn	: [SCNNode]	= []
-//	var axesScn		:  SCNNode?	= nil
-
+	@Published var selfiePole	= SelfiePole()
  	var cameraScn	: SCNNode?	{ scn.find(name:"*-camera") }
-	@Published var selfiePole	= SelfiePole()	// PW2 have had to move to superclass (perhaps OK)
-/* Had to move to superclass for ?XXXBAD?
-RootVew:_______________				//PW
-|	@Published var selfiePole
-|
-|	Vew:___________________ ObservableObject
-|	|	(@Published var selfiePole)
-|	|
- */
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks

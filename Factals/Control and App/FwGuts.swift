@@ -245,7 +245,7 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		let vews2check : [Vew]		= v == nil ? rootVews : [v!]
 		for vew in vews2check {
 			if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {
-				// DISPATCH to PART that was pic'ed
+				 // DISPATCH to PART that was pic'ed
 				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
 					return picdVew
 				}
@@ -259,7 +259,7 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		 // Find rootVew of NSEvent
 		guard let rootVew		= inVew.rootVew 			   else { return nil }
 		let slot				= rootVew.slot ?? -1
-		//let rootScene			= rootVew.rootScene
+		let rootScene			= rootVew.rootScene
 
 		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil }
 		var msg					= "******************************************\n Slot\(slot): find "
@@ -269,7 +269,7 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
 
 		 // the SCNView we are looking at
- 		var sceneView			= nsView as? SCNView ?? {	// OLD WAY
+ 		let sceneView			= nsView as? SCNView ?? {	// OLD WAY
 			if let scnView_		= nsView.hitTest(locationInRoot) as? SCNView {
 				return scnView_									// NEW WAY:
 			}
