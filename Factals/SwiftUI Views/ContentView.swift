@@ -117,15 +117,21 @@ struct FwGutsView: View {
 					//			 print(press.characters)
 					//			 return .handled
 					//		 }
-			//			//?	 .onMouseDown(perform:handleMouseDown)
-			//				 .onAppear {			//setupHitTesting
+				//			 .onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
+							 .onAppear {			//setupHitTesting
 			//					guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
 			//						  let nsView	= nsWindow.contentView,
 			//						  let fwView	= nsView as? SCNView else { fatalError("couldn't find fwView")	}
 			//					 // Perform hit testing on tap gesture
 			//		bug			//let tapGestur		= UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
 			//					//sceneView.addGestureRecognizer(tapGestur)
-			//				 }
+							 }
+						//	.onAppear(perform: {
+						//		NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
+						//			print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
+						//			return $0
+						//		}
+						//	})
 			//			//	 .gesture(tapGesture)// NSClickGestureRecognizer
 			//				 .onTapGesture {
 			//				 	let vew:Vew? 		= DOCfwGuts.modelPic()							//with:nsEvent, inVew:v!
@@ -141,9 +147,9 @@ struct FwGutsView: View {
 			Spacer()
 		}
 	}
-//		// .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
-//		// .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
-//		// ?? []
+//	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
+//	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
+//	 ?? []
 
 	func handleMouseDown(event: NSEvent) {
 		mouseDown = true
@@ -152,20 +158,18 @@ struct FwGutsView: View {
 	func handleMouseEvent(_ event: NSEvent) {
 		if let view = NSApplication.shared.keyWindow?.contentView {
 			let location = view.convert(event.locationInWindow, from: nil)
-bug	//		if let hitResult = view.hitTest(location),
-	//		  let sceneView = hitResult.node.scene?.view as? SCNView {
-	//			sceneView.mouseDown(with: event)
-	//		}
+bug;		if let hitNsView = view.hitTest(location) {//,
+				bug
+			//let sceneView = hitNsView.node.scene?.view {//as? SCNView {
+			//	sceneView.mouseDown(with: event)
+			}
 		}
 	}
 }
 
 
 /*	Scraps:
-
-
 //		animatePhysics 			= c.bool("animatePhysics") ?? false
-	
 		//if let gravityAny		= c["gravity"] {
 		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
 		//		scnScene.physicsWorld.gravity = gravityVect
@@ -185,52 +189,4 @@ bug	//		if let hitResult = view.hitTest(location),
 //		get {			return !scnScene.isPaused										}
 //		set(v) {		scnScene.isPaused = !v											}
 //	}
-
-// FwView scraps: ===================
-//class FwView : SCNView {
-//			//\\\///\\\///\\\  Our super, SCNView, conforms to SCNSceneRenderer:
-//			//\\\				Therefore we have
-//			//\\\ 	  .sceneTime					-
-//			//\\\ 	  .autoenablesDefaultLighting	-
-//			//\\\ 	  .hitTest:options:				***
-//			//\\\ 	  .audioListener				***
-//			//\\\ 	  .pointOfView					?
-//			//\\\ 	  .projectPoint:unprojectPoint: ?
-//			//\\\ 	  .delegate						***
-//			//\\\ SCNView.scene		same as fwGuts:
-//
-//	 // MARK: - 2. Object Variables:
-//	 //	In assumed reality, an FwView _owns_ the RootScene
-//	var rootScn : RootScn?		= nil
-//
-////	var handler : (NSEvent)->Void = { nsEvent in fatalError("FwView's default handler is null")}
-//
-//	init(frame:CGRect, options:[String:Any]=[:]) {
-//		super.init(frame:CGRect(), options: [String : Any]())
-//
-//		isPlaying/*animations*/ = true	// does nothing showsStatistics 		= true			// works fine
-//		debugOptions	= [						// enable display of:
-//		 //	SCNDebugOptions.showBoundingBoxes,	// bounding boxes for nodes with content.
-//		//	SCNDebugOptions.showWireframe,		// geometries as wireframe.
-//		//	SCNDebugOptions.renderAsWireframe,	// only wireframe of geometry
-//		 //	SCNDebugOptions.showSkeletons,		//?EH? skeletal animation parameters
-//		 //	SCNDebugOptions.showCreases,		//?EH? nonsmoothed crease regions affected by subdivisions.
-//		 //	SCNDebugOptions.showConstraints,	//?EH? constraint objects acting on nodes.
-//				// Cameras and Lighting
-//		 //	SCNDebugOptions.showCameras,		//?EH? Display visualizations for nodes in the scene with attached cameras and their fields of view.
-//		 //	SCNDebugOptions.showLightInfluences,//?EH? locations of each SCNLight object
-//		 //	SCNDebugOptions.showLightExtents,	//?EH? regions affected by each SCNLight
-//				// Debugging Physics
-//		//	SCNDebugOptions.showPhysicsShapes,	// physics shapes for nodes with SCNPhysicsBody.
-//		 //	SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
-//		]
-//
-//		allowsCameraControl 	= false		// we control camera	//true//args.options.contains(.allowsCameraControl)
-//		autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
-//		rendersContinuously		= true		//args.options.contains(.rendersContinuously)
-//		preferredFramesPerSecond = 30		//args.preferredFramesPerSecond
-//	//	jitteringEnabled		= false		//args.options.contains(.jitteringEnabled)
-//	//	temporalAntialiasingEnabled	= false	//args.options.contains(.temporalAntialiasingEnabled)
-//	}
-
  */

@@ -363,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
+				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FwGutsBar.swift */,
 				9FBD6E4629258E2500F14075 /* VewBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
@@ -403,7 +404,6 @@
 				9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */,
 				9FEE521628720A2300C8C22A /* FwGuts.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* RootScene.swift */,
-				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
 				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
 				9F19CA31285EA5090072C50E /* Simulator.swift */,

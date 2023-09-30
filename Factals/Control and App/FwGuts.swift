@@ -257,9 +257,11 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
 		 // Find rootVew of NSEvent
-		guard let rootVew		= inVew.rootVew 			   else { return nil }
-		let slot				= rootVew.slot ?? -1
-		let rootScene			= rootVew.rootScene
+		guard let rootVew		= inVew.rootVew 			else { return nil }
+		guard let slot 			= rootVew.slot				else { return nil }
+		let rootScene:RootScene = rootVew.rootScene			// SCNScene
+		let rv:RootVew?			= rootScene.rootVew
+		let rn:SCNNode			= rootScene.rootNode
 
 		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil }
 		var msg					= "******************************************\n Slot\(slot): find "
@@ -268,13 +270,10 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
 
-		 // the SCNView we are looking at
- 		let sceneView			= nsView as? SCNView ?? {	// OLD WAY
-			if let scnView_		= nsView.hitTest(locationInRoot) as? SCNView {
-				return scnView_									// NEW WAY:
-			}
-			fatalError("Couldn't find scnView")
-		} ()
+		 // the SCNView we are looking at			// SCNView holds a SCNScene
+ 		let sceneView : SCNView? = nsView as? SCNView ?? 	// OLD WAY
+								   nsView.hitTest(locationInRoot) as? SCNView	// WIERD!!!
+		guard let sceneView else { fatalError("Couldn't find sceneView") }
 
 		 // Find the 3D Vew for the Part under the mouse:
 		guard let scnNode		= sceneView.scene?.rootNode else { fatalError("sceneView.scene is nil") }

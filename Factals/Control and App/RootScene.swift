@@ -10,7 +10,7 @@ import SceneKit
 
 class RootScene : SCNScene {				// xyzzy4
 	weak
-	 var rootVew	: RootVew?				// RootVew  of this RootScn
+	 var rootVew	: RootVew?				// RootVew, owner of this RootScn
 // 	var cameraScn	: SCNNode?	{ rootNode.find(name:"*-camera") }
 
 	 // MARK: - 3.1 init
@@ -182,12 +182,10 @@ class RootScene : SCNScene {				// xyzzy4
 }
 
 extension RootScene {		// lights and camera
-	var trunkScn : SCNNode? 	{
-		if let ts				= rootNode.child0  {
-			return ts
-		}
-		fatalError("trunkVew is nil")
-	}
+//	var trunkScn : SCNNode? 	{
+//		guard let ts			= rootNode.child0  else { fatalError("trunkVew is nil") }
+//		return ts
+//	}
 	 // MARK: - 4.1 Lights
 	func checkLights() {
 		touchLight("*-omni1",  .omni, position:SCNVector3(0, 0, 15))

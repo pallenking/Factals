@@ -40,14 +40,8 @@ final class EventReceiverView: NSView {
 	}
 	override var acceptsFirstResponder: Bool { true 							}
 
-// PW10: rewrite ALL first responder messages with one sub to handle these 35 lines?
-//	func processEvent(nsEvent:NSEvent, inVew vew:Vew) {}
-								//.onAppear(perform: {
-								//	NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
-								//		print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
-								//		return $0
-								//	}
-								//})
+
+	  // Intercept these messages to this NSView
 	 // MARK: - 13.1 Keys
 	override func keyDown(with 			event:NSEvent) 		{	handler(event)	}
 	override func keyUp(with 			event:NSEvent) 		{	handler(event)	}

@@ -15,7 +15,7 @@ struct FwGutsBar: View {
 		HStack {	// FULL!
 			Text("FwGutsBar").foregroundColor(.red).bold()
 			Text("   PP App:")
-			Button(label:{	Text( "state").padding(.top, 300)					})
+			Button(label:{	Text( "state")										})//.padding(.top, 300)
 			{	printFwState()													}
 
 			if let rootPart = fwGuts.rootPart {

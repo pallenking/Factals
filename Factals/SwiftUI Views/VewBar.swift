@@ -50,7 +50,7 @@ struct VewBar: View {
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
 						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
 					}
-					Button(label:{	Text("Z//RV").padding(.top, 300)			})
+					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
 					{	var s	= rootVew.selfiePole
 						s.zoom	/= 1.1
 						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")

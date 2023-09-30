@@ -332,24 +332,24 @@ extension NSWindow : FwStatus {										 ///NSWindow
 			deapth:deapth-1)
 	}
 }
-extension NSViewController : FwStatus {						 ///NSViewController
-	func ppFwState(deapth:Int=999) -> String {
-bug;	let rob					= representedObject as? NSView		//FwStatus
-		return ppFwStateHelper("NSViewCtlr   ", uid:self,
-			myLine: ppState +
-				  " view:\(ppUid(view, 		showNil:true))" 					+
-				" repObj:\(ppUid(rob, 		showNil:true))" 					+	// ??
-			   " nibName:\(ppUid(nibName,	showNil:true))" 					+	// ??
-				 " title:\(ppUid(title,		showNil:true))"						,
-			otherLines:{ deapth in
-				return self.view.ppFwState(deapth:deapth-1)
-			},
-			deapth:deapth-1)
-	}
-	var ppState : String {
-		return  nibName == nil ? 		"Nib nil"	 	: "Nib loaded"
-	}
-}
+//extension NSViewController : FwStatus {						 ///NSViewController
+//	func ppFwState(deapth:Int=999) -> String {
+//bug;	let rob					= representedObject as? NSView		//FwStatus
+//		return ppFwStateHelper("NSViewCtlr   ", uid:self,
+//			myLine: ppState +
+//				  " view:\(ppUid(view, 		showNil:true))" 					+
+//				" repObj:\(ppUid(rob, 		showNil:true))" 					+	// ??
+//			   " nibName:\(ppUid(nibName,	showNil:true))" 					+	// ??
+//				 " title:\(ppUid(title,		showNil:true))"						,
+//			otherLines:{ deapth in
+//				return self.view.ppFwState(deapth:deapth-1)
+//			},
+//			deapth:deapth-1)
+//	}
+//	var ppState : String {
+//		return  nibName == nil ? 		"Nib nil"	 	: "Nib loaded"
+//	}
+//}
 extension NSView : FwStatus	{								 		   ///NSView
 	func ppFwState(deapth:Int=999) -> String {
 		let msg					= fwClassName.field(-13)
