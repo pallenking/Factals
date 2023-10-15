@@ -42,7 +42,7 @@ struct SelfiePole: Equatable {
 	}
 
 	 // Computes the transform from a camera A on a selfie stick back to the origin
-	var transform : SCNMatrix4 {
+	func transform() -> SCNMatrix4 {
 
 		  // From the Origin to the Camera, in steps:
 		 //  ---- spin about Y axis

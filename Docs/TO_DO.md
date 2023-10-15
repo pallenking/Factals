@@ -1,5 +1,24 @@
 # TO_DO.md -- Factals
 
+---------------------------------------------------------------------
+20230930: FactalWorkbench: 
+	Business Logic:
+		1. Manage and generate HNW Machines from HNW-Swift
+		2. Simulate time operation of HNWM (HNW Machine) and its environment
+			.visualize current state
+			.persist to file system
+			.manage defaults, timeline
+		3. Machine Structure browse and editing
+	Screen Logic:
+		1. Links display as Red/Green Billboards, Bundles?? (TBD). Dyn update
+		2. HNW Object Skins
+		3. Opening and Closing a HNW object's children.
+		4. SelfiePole mouse rotator, including a pan so selected at origin.
+		5. Orienting animations
+		6. view configuration logic, save cust...
+		7. BBox
+ComposableArchicture?
+---------------------------------------------------------------------
 20230602:
 	1. Pic on background infinite recursion (missing default)
 	2. Scene menu

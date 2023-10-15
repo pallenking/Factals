@@ -153,14 +153,14 @@ class RootScene : SCNScene {				// xyzzy4
 	func beginCameraMotion(with nsEvent:NSEvent)	{
 		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
 
-		let posn 				= contentNsView.convert(nsEvent.locationInWindow,     from:nil)	// nil -> window
+		let hitPosn 			= contentNsView.convert(nsEvent.locationInWindow,     from:nil)	// nil -> window
 			//	 : NSPoint			     NsView:								: NSPoint :window
 			//	 : CGPoint
-		let posnV3				= SCNVector3(posn.x, posn.y, 0)		// BAD: unprojectPoint(
+		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
 
 		 // Movement since last, 0 if first time and there is none
-		deltaPosition			= lastPosition == nil ? SCNVector3.zero : posnV3 - lastPosition!
-		lastPosition			= posnV3
+		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
+		lastPosition			= hitPosnV3
 	}
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
@@ -173,7 +173,7 @@ class RootScene : SCNScene {				// xyzzy4
 		var selfiePole			= rootVew!.selfiePole
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
-		let transform			= selfiePole.transform
+		let transform			= selfiePole.transform()
 		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
@@ -452,7 +452,7 @@ bug;	zoom4fullScreen()
 				atRve(8, self.rootVew!.rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				cameraScn.transform = self.rootVew!.selfiePole.transform
+				cameraScn.transform = self.rootVew!.selfiePole.transform()
 
 				atRve(8, self.rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
@@ -461,7 +461,7 @@ bug;	zoom4fullScreen()
 			SCNTransaction.commit()
 		}
 		else {
-			cameraScn.transform = rootVew.selfiePole.transform
+			cameraScn.transform = rootVew.selfiePole.transform()
 		}
 	}
 		

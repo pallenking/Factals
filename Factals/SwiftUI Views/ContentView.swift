@@ -100,14 +100,24 @@ struct FwGutsView: View {
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 							// now: SceneView 	native SwiftUI
 							SceneView(
-								scene:rootScene,
-								pointOfView:nil,	// SCNNode
-								options:[.rendersContinuously],
-								preferredFramesPerSecond:30,
-								antialiasingMode:.none,
-								delegate:rootScene,	//nil//SCNSceneRendererDelegate?
-								technique: nil		//SCNTechnique?
+								scene:rootScene, 	//rootScn.scnScene,
+								pointOfView: nil,	// SCNNode
+								options: [.rendersContinuously],
+								preferredFramesPerSecond: 30,
+								antialiasingMode: .none,
+								delegate: nil//rootScn	//SCNSceneRendererDelegate?
+							//	technique: nil		//SCNTechnique?
 							)
+
+//							SceneView(
+//								scene:rootScene,
+//								pointOfView:nil,	// SCNNode
+//								options:[.rendersContinuously],
+//								preferredFramesPerSecond:30,
+//								antialiasingMode:.none,
+//								delegate:rootScene,	//nil//SCNSceneRendererDelegate?
+//								technique: nil		//SCNTechnique?
+//							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
 							 .border(.black, width:1)
 							 .onChange(of:isLoaded) { x in				// compiles, seems OK
