@@ -52,30 +52,30 @@
 //
 ////	//  ====== LEFT MOUSE ======
 ////	func dragGesture(value v:DragGesture.Value) {
-////		let fwModel				= DOCfwModel
+////		let factalsModel				= DOCfactalsModel
 ////		let delta				= v.location - v.startLocation
 ////	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 ////
-////		var selfiePole			= fwModel.selfiePole
+////		var selfiePole			= factalsModel.selfiePole
 ////		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 ////		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-////		fwModel.rootScn.updatePole2Camera(reason:"dragGesture")
+////		factalsModel.rootScn.updatePole2Camera(reason:"dragGesture")
 ////	}
 ////	func dragGestureEnd(value v:DragGesture.Value) {
-////		let fwModel				= DOCfwModel
+////		let factalsModel				= DOCfactalsModel
 ////		let delta				= v.location - v.startLocation
 ////	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 ////
-////		fwModel.selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-////		fwModel.selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-////		fwModel.rootScn.updatePole2Camera(reason:"dragGestureEnd")
+////		factalsModel.selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+////		factalsModel.selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+////		factalsModel.rootScn.updatePole2Camera(reason:"dragGestureEnd")
 ////	}
 //	func tapGesture(value v:TapGesture.Value, count:Int) {
-//		let fwModel				= DOCfwModel
+//		let factalsModel				= DOCfactalsModel
 //		print("tapGesture value:'\(v)' count:\(count)")
 //
 //		 // Make NSEvent for Double Click
-//		let a					= fwModel.fwScns[0].scnScene.cameraScn!.position
+//		let a					= factalsModel.fwScns[0].scnScene.cameraScn!.position
 //		let location			= NSPoint(x: a.x, y: a.y)
 //		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
 //											location:location,
@@ -84,7 +84,7 @@
 //											clickCount:count,
 //											pressure:1.0)!
 //		 // dispatch Pic event
-//		let x:Vew? 				= DOCfwModel.modelPic(with:nsEvent)
+//		let x:Vew? 				= DOCfactalsModel.modelPic(with:nsEvent)
 ////		print(windowController0)
 //		print(x ?? "<<nil>>")
 //	}

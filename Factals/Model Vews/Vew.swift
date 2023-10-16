@@ -233,14 +233,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		if let rv				= rootVew.openConfig[name] {
 			return rv
 		}
-		guard let fwModel		= rootVew.fwModel 	else {	return nil			}
+		guard let factalsModel		= rootVew.factalsModel 	else {	return nil			}
 //		assert(
-		assert(fwModel == part.root?.fwModel, "paranoia: fwModel mismatch")		//(fwModel==nil || fwModel! == part.root?.fwModel
+		assert(factalsModel == part.root?.factalsModel, "paranoia: factalsModel mismatch")		//(factalsModel==nil || factalsModel! == part.root?.factalsModel
 
 		 // Try Document's configuration
 		var rv : FwAny?			= nil
 		if trueF {							//trueF//falseF//
-			guard let rv1		= fwModel.document	else {	return nil			}
+			guard let rv1		= factalsModel.document	else {	return nil			}
 			rv					= rv1.config[name]
 			// Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 		}
@@ -590,9 +590,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let (nl, fmt)			= format.stripLeadingNewLines()
 		if let rootVew {
-			rootVew.fwModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			rootVew.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else if let root		= part.root {	// strangely redundant, but okay
-			root.fwModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			root.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
 			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}

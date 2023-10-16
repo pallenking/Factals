@@ -31,7 +31,7 @@ extension FactalsDocument : Uid {
 struct FactalsDocument: FileDocument {
 	let uid:UInt16				= randomUid()
 
-	var fwModel : FwModel!				// content
+	var factalsModel : FactalsModel!				// content
 
 	var config : FwConfig		= [:]
 
@@ -40,14 +40,14 @@ struct FactalsDocument: FileDocument {
 	var indexFor				= Dictionary<String,Int>()
 
 	func configure(from config:FwConfig) {
-		fwModel?.configure(from:config)
+		factalsModel?.configure(from:config)
 	}
 
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
-		fwModel					= FwModel()	// MAKE first, so leaners can function //po type(of: fwModel)
+		factalsModel					= FactalsModel()	// MAKE first, so leaners can function //po type(of: factalsModel)
 		DOC						= self		// INSTALL as current DOC, quick!
-		fwModel.document 		= self		// DELEGATE
+		factalsModel.document 		= self		// DELEGATE
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
@@ -58,9 +58,9 @@ struct FactalsDocument: FileDocument {
 		let rootPart			= RootPart(fromLibrary:select)
 
 		 // 	2. Install
-		assert(fwModel.rootPart == nil, "paranoia: Should be empty, just made it")
-		fwModel.rootPart			= rootPart
-		rootPart.fwModel			= fwModel	// set delegate
+		assert(factalsModel.rootPart == nil, "paranoia: Should be empty, just made it")
+		factalsModel.rootPart			= rootPart
+		rootPart.factalsModel			= factalsModel	// set delegate
 
 		 //		3. Update document configuration from Library entry
 		let c					= params4all + rootPart.ansConfig
@@ -75,32 +75,32 @@ struct FactalsDocument: FileDocument {
 			if key == "Vews",				// "Vews":[VewConfig]
 			  let values 		= value as? [VewConfig] {
 				for value in values	{		// Open one for each elt
-					fwModel.addRootVew(vewConfig:value, fwConfig:c)
+					factalsModel.addRootVew(vewConfig:value, fwConfig:c)
 				}
 			}
 			else if key.hasPrefix("Vew") {	// "Vew":VewConfig
 				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
-				fwModel.addRootVew(vewConfig:value, fwConfig:c)
+				factalsModel.addRootVew(vewConfig:value, fwConfig:c)
 			}
 		}
-		fwModel.ensureAVew(fwConfig:c)
+		factalsModel.ensureAVew(fwConfig:c)
 		configure(from:c)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
-	init(fwModel f:FwModel) {
-		fwModel					= f			// given
-		fwModel.document			= self		// owner back-link
+	init(factalsModel f:FactalsModel) {
+		factalsModel					= f			// given
+		factalsModel.document			= self		// owner back-link
 		DOC						= self		// INSTALL Factals
 		return
 	}
 
 	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
-		 // Make new RootPart, FwModel, and Document
+		 // Make new RootPart, FactalsModel, and Document
 		let rootPart			= RootPart(fromLibrary:fromLibrary)
-		let fwModel				= FwModel(rootPart:rootPart)
-		rootPart.fwModel			= fwModel
-		let doc					= FactalsDocument(fwModel:fwModel)
-		fwModel.document 		= doc
+		let factalsModel				= FactalsModel(rootPart:rootPart)
+		rootPart.factalsModel			= factalsModel
+		let doc					= FactalsDocument(factalsModel:factalsModel)
+		factalsModel.document 		= doc
 		DOC						= doc				// register (UGLY!!!)
 		let c					= doc.config + rootPart.ansConfig
 		doc.configure(from:c)
@@ -119,8 +119,8 @@ struct FactalsDocument: FileDocument {
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
-			let fwModel			= FwModel(rootPart:rootPart)
-			self.init(fwModel:fwModel)
+			let factalsModel			= FactalsModel(rootPart:rootPart)
+			self.init(factalsModel:factalsModel)
 
 			config				+= rootPart.ansConfig	// from library
 		default:
@@ -135,10 +135,10 @@ struct FactalsDocument: FileDocument {
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-			guard let dat		= fwModel.rootPart?.data else {				// PW-DONE worried about how RootPart.data worked
-				panic("FactalsDocument.fwModel.rootPart.data is nil")
-				let d			= fwModel.rootPart?.data		// redo for debug
-				throw DocError.text("FactalsDocument.fwModel.rootPart.data is nil")
+			guard let dat		= factalsModel.rootPart?.data else {				// PW-DONE worried about how RootPart.data worked
+				panic("FactalsDocument.factalsModel.rootPart.data is nil")
+				let d			= factalsModel.rootPart?.data		// redo for debug
+				throw DocError.text("FactalsDocument.factalsModel.rootPart.data is nil")
 			}
 			return .init(regularFileWithContents:dat)
 		default:
@@ -232,10 +232,10 @@ func serializeDeserialize(_ inPart:Part) throws -> Part? {
 		}
 	}
 	mutating func showInspec(for name:String) {
-		if let part	= fwModel.rootPart?.find(name:name) {
+		if let part	= factalsModel.rootPart?.find(name:name) {
 
 			 // Open inspectors for all RootVews:
-			for rootVew in fwModel.rootVews {
+			for rootVew in factalsModel.rootVews {
 		 		if let vew = rootVew.find(part:part) {
 					showInspecFor(vew:vew, allowNew:true)
 				}
@@ -328,9 +328,9 @@ bug
 			guard timingChain.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
 				return true 				/* handled by timingChain */		}
 		}
-		 // Check fwModel:
-		guard fwModel.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
-			return true 					/* handled by fwModel */
+		 // Check factalsModel:
+		guard factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
+			return true 					/* handled by factalsModel */
 		}
 		 // Check Simulator:
 		guard rootPart2?.simulator.processEvent(nsEvent:nsEvent, inVew:vew) == false else  {
@@ -404,7 +404,7 @@ bug
 	}
 
 	// MARK: - 14. Building
-	var log : Log { fwModel.log											}
+	var log : Log { factalsModel.log											}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}

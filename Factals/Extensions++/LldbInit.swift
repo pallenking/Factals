@@ -15,14 +15,14 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }//
-var LLDBrootPart : RootPart		{	DOCfwModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfwModelQ?.rootPart=nil ") as! RootPart }
+var LLDBrootPart : RootPart		{	DOCfactalsModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
 //	func LLDBrootPart(_ name:String?=nil) -> Part  {
-//		guard var rv : Part			= DOCfwModelQ?.rootPart else { return .null		}
+//		guard var rv : Part			= DOCfactalsModelQ?.rootPart else { return .null		}
 //		if name != nil {			// Search for sought Part	//maxLevel:1,
 //			rv						= rv.find(name:name!, inMe2:true) ?? rv
 //		}
 //		return rv
-//	//	if var rv : Part			= DOCfwModelQ?.rootPart {//rootPart {
+//	//	if var rv : Part			= DOCfactalsModelQ?.rootPart {//rootPart {
 //	//		if name != nil {			// Search for sought Part	//maxLevel:1,
 //	//			rv					= rv.find(name:name!, inMe2:true) ?? rv
 //	//		}
@@ -33,24 +33,24 @@ var LLDBrootPart : RootPart		{	DOCfwModelQ?.rootPart ?? .nullRoot } ;//fatalErro
 
  /// Access to current ////// Vew Tree //////
 var  LLDBrootVew0  : RootVew {
-	get 		{	return DOCfwModel.rootVews.count > 0 ? DOCfwModel.rootVews[0] : .nullRoot	}
-	set (v)		{		   DOCfwModel.rootVews[0] = v							}
+	get 		{	return DOCfactalsModel.rootVews.count > 0 ? DOCfactalsModel.rootVews[0] : .nullRoot	}
+	set (v)		{		   DOCfactalsModel.rootVews[0] = v							}
 }
 var  LLDBrootVew1  : RootVew {
-	get 		{	return DOCfwModel.rootVews.count > 1 ? DOCfwModel.rootVews[1] : .nullRoot									}
-	set (v)		{		   DOCfwModel.rootVews[1] = v							}
+	get 		{	return DOCfactalsModel.rootVews.count > 1 ? DOCfactalsModel.rootVews[1] : .nullRoot									}
+	set (v)		{		   DOCfactalsModel.rootVews[1] = v							}
 }
 var  LLDBrootVew2  : RootVew {
-	get 		{	return DOCfwModel.rootVews.count > 2 ? DOCfwModel.rootVews[2] : .nullRoot									}
-	set (v)		{		   DOCfwModel.rootVews[2] = v							}
+	get 		{	return DOCfactalsModel.rootVews.count > 2 ? DOCfactalsModel.rootVews[2] : .nullRoot									}
+	set (v)		{		   DOCfactalsModel.rootVews[2] = v							}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
-	guard let fwModel 			= DOCfwModelQ else {
+	guard let factalsModel 			= DOCfactalsModelQ else {
 		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
 	}
-	guard index >= 0 && index < fwModel.rootVews.count else { fatalError("rootvew() returns .null !!!")	}
-	var rootVew : Vew			= fwModel.rootVews[index]
+	guard index >= 0 && index < factalsModel.rootVews.count else { fatalError("rootvew() returns .null !!!")	}
+	var rootVew : Vew			= factalsModel.rootVews[index]
 	if name != nil {			// Search for named Vew
 		rootVew					= rootVew.find(name:name!, inMe2:true) ?? rootVew
 	}
@@ -59,27 +59,27 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 
  /// Access to current ////// SCNNode Tree  ////// 
 var LLDBrootScn0 : SCNNode  		{
-	get 		{	return DOCfwModel.rootVews[0].scn 							}
-	set (v)		{		   DOCfwModel.rootVews[0].scn = v						}
+	get 		{	return DOCfactalsModel.rootVews[0].scn 							}
+	set (v)		{		   DOCfactalsModel.rootVews[0].scn = v						}
 }
 var LLDBrootScn1 : SCNNode  		{
-	get 		{	return DOCfwModel.rootVews[1].scn 							}
-	set (v)		{		   DOCfwModel.rootVews[1].scn = v						}
+	get 		{	return DOCfactalsModel.rootVews[1].scn 							}
+	set (v)		{		   DOCfactalsModel.rootVews[1].scn = v						}
 }
 var LLDBrootScn2 : SCNNode  		{
-	get 		{	return DOCfwModel.rootVews[2].scn 							}
-	set (v)		{		   DOCfwModel.rootVews[2].scn = v						}
+	get 		{	return DOCfactalsModel.rootVews[2].scn 							}
+	set (v)		{		   DOCfactalsModel.rootVews[2].scn = v						}
 }
 func LLDBrootScn(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
-	guard let fwModel 			= DOCfwModelQ else {
-		print("DOCfwModel is nil! returning SCNNode.null")
+	guard let factalsModel 			= DOCfactalsModelQ else {
+		print("DOCfactalsModel is nil! returning SCNNode.null")
 		return .null
 	}
-	guard index >= 0 && index < fwModel.rootVews.count else {
-		print("index:\(index) exceeds rootVews=\(fwModel.rootVews.count)! returning SCNNode.null")
+	guard index >= 0 && index < factalsModel.rootVews.count else {
+		print("index:\(index) exceeds rootVews=\(factalsModel.rootVews.count)! returning SCNNode.null")
 		return .null
 	}
-	var scnRv					= fwModel.rootVews[index].scn					//fwModel.rootScn 	// Root
+	var scnRv					= factalsModel.rootVews[index].scn					//factalsModel.rootScn 	// Root
 
 	 // Search for named SCN:
 	if name != nil {

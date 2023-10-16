@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct FwModelBar: View {
-	@Binding var fwModel			: FwModel
+struct FactalsModelBar: View {
+	@Binding var factalsModel			: FactalsModel
 
 	var body: some View {
 		 //  --- B U T T O N S  ---
 		HStack {	// FULL!
-			Text("FwModel").foregroundColor(.red).bold()
+			Text("FactalsModel").foregroundColor(.red).bold()
 			Text("   PP App:")
 			Button(label:{	Text( "state")										})//.padding(.top, 300)
 			{	printFwState()													}
 
-			if let rootPart = fwModel.rootPart {
+			if let rootPart = factalsModel.rootPart {
 				Text("  Print Model:")
 				Button(label:{	Text( "ptm")									})
 				{	print(rootPart.pp(.tree), terminator:"")					}

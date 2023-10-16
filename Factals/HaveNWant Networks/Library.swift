@@ -37,7 +37,7 @@ struct ScanArgs : Codable {
 class ScanState : Codable {
 	var uid			: UInt16	= randomUid()
 	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
-	var scanSubMenu : String	= ""		// name of current FwModel sub-menu
+	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
 	var scanCatalog	: [ScanElement]	= []	// Catalog of Library
 //	var scanElements: [ScanElement]	= []	// Catalog of Library
 	var scanEOFencountered:Bool = false	// marks scan done

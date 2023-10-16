@@ -53,7 +53,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 				simTaskRunning	= true
 				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
 			}
-			let taskPeriod		= rootPart?.fwModel.document.config.double("simTaskPeriod") ?? 0.01
+			let taskPeriod		= rootPart?.factalsModel.document.config.double("simTaskPeriod") ?? 0.01
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
 			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
 		}else{
@@ -160,7 +160,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
 	// MARK: - 14. Building
-	var log : Log { rootPart.fwModel?.log ?? .reliable					}
+	var log : Log { rootPart.factalsModel?.log ?? .reliable					}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}			//Cannot convert return expression of type 'Optional<_>' to return type 'Log'

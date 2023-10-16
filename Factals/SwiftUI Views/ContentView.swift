@@ -63,7 +63,7 @@ class EventMonitor {
 struct ContentView: View {
 	@Binding	var document	: FactalsDocument
 	var body: some View {
-		FwModelView(fwModel:$document.fwModel)
+		FactalsModelView(factalsModel:$document.factalsModel)
 		 .onAppear {
 			guard let window = NSApplication.shared.windows.first else { return }
 			let eventMonitor = EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
@@ -74,19 +74,22 @@ struct ContentView: View {
 		 }
 	}
 }
-struct FwModelView: View {
-	@Binding	var fwModel		: FwModel
+struct FactalsModelView: View {
+	//var foo1 : FactalsModel						// not OK here
+	@Binding	var factalsModel : FactalsModel		// not OK here
 	@State		var isLoaded	= false
 	@State		var mouseDown	= false
 
 	var body: some View {
+		var foo2 : FactalsModel						// OK here
+
 		VStack {
 			HStack {
-				if fwModel.rootVews.count == 0 {
+				if factalsModel.rootVews.count == 0 {
 					Text("No Vews found")
 				}
 				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-				ForEach($fwModel.rootVews) {	rootVew in
+				ForEach($factalsModel.rootVews) {	rootVew in
 					VStack {
 						ZStack {
 							let rootScene = rootVew.rootScene.wrappedValue
@@ -144,7 +147,7 @@ struct FwModelView: View {
 						//	})
 			//			//	 .gesture(tapGesture)// NSClickGestureRecognizer
 			//				 .onTapGesture {
-			//				 	let vew:Vew? 		= DOCfwModel.modelPic()							//with:nsEvent, inVew:v!
+			//				 	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
 			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
 			//				 }
 						}
@@ -152,7 +155,7 @@ struct FwModelView: View {
 					}
 				}
 			}
-			FwModelBar(fwModel:$fwModel).padding(.vertical, -10)
+			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
 			 .padding(10)
 			Spacer()
 		}

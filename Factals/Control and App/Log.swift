@@ -222,7 +222,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			print(x)
 		}
 		 // Print Simulator's time, if it has changed:
-		if let sim				= DOCfwModelQ?.rootPart?.simulator,
+		if let sim				= DOCfactalsModelQ?.rootPart?.simulator,
 //		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
 		  simTimeLastLog != nil
 		{
@@ -291,7 +291,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
-		if let curLockStr		= DOC?.fwModel?.rootPart?.partTreeOwner {
+		if let curLockStr		= DOC?.factalsModel?.rootPart?.partTreeOwner {
 			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
 		}
 		return ".,."

@@ -25,7 +25,7 @@ final class FactalsTests: XCTestCase {
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
 	func testUid() {	// incomplete
-		let objectNs 			= FwModel()
+		let objectNs 			= FactalsModel()
 		let objectSwift			= Part()
 		let strNs				= pseudoAddressString(objectNs)
 		let strSwift			= pseudoAddressString(objectSwift)
@@ -58,13 +58,13 @@ final class FactalsTests: XCTestCase {
 	func testRootAsPart1() {
 		let rootPart1			= RootPart()
 		print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
-		let fwModel1			= FwModel(rootPart:rootPart1)
-		print("FwModel:      '\(fwModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
+		let factalsModel1			= FactalsModel(rootPart:rootPart1)
+		print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
 
-		let document			= FactalsDocument(fwModel:fwModel1)
+		let document			= FactalsDocument(factalsModel:factalsModel1)
 
-		fwModel1.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		print("FwModel(rP1:)  '\(fwModel1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
+		factalsModel1.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		print("FactalsModel(rP1:)  '\(factalsModel1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
 
 		print("&&&&&& No         ppMode Default Hang     errors")
 	}
@@ -81,7 +81,7 @@ final class FactalsTests: XCTestCase {
 		let o0 = RootPart()
 		let o1 = RootVew(forPart:o0)
 		let o2 = o1.pp(.uidClass)
-		XCTAssertTrue(o2.hasSuffix("fwModel BAD"))		// may be wrong
+		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
 		let p2 = self.pp(.uidClass)
 		XCTAssertTrue(p2.hasSuffix(":FactalsTests"))		// may be wrong

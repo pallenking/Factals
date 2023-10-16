@@ -557,7 +557,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}										 // Look in application:
 		return nil
-//		return root?.fwModel?.document.config[name] ?? // Look in doument
+//		return root?.factalsModel?.document.config[name] ?? // Look in doument
 //			   APP?					 .config[name]	 // Application?a
 	}
 	 // MARK: - 4.3 Iterate over parts
@@ -1341,7 +1341,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			if var doc			= root?.fwModel?.document { 	// take struct out
+			if var doc			= root?.factalsModel?.document { 	// take struct out
 
 				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
 												+ "\(pp(.fwClassName))\n\(pp(.tree))")
@@ -1354,7 +1354,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				}
 							// Double Click: show/hide insides
 				if nsEvent.clickCount > 1 {
-					doc.fwModel?.toggelOpen(vew:vew)
+					doc.factalsModel?.toggelOpen(vew:vew)
 					rv			= true
 				}
 				else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
@@ -1368,7 +1368,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				//	[m sendPickEvent:&fwEvent toModelOf:pickedVew]
 				//	[self.simNsVc buildRootFwVforBrain:self.brain]	// model may have changed, so remake vew
 				}
-				root!.fwModel!.document = doc				// Put struct back
+				root!.factalsModel!.document = doc				// Put struct back
 			} else {
 				panic("processEvent(:inVew:) BAD ARGS")
 			}
