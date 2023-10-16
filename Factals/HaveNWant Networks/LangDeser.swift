@@ -38,7 +38,7 @@ let _ = [wordType, determinat, cp, verbs, auxiliary, nouns, proposition, words, 
 //		let vinputWordsalPtr			= noun_lookup(nouns)
 
  // Verbs:
-xr("Language Deserializer", e, {
+xxr("Language Deserializer", e, {
   Net(["parts":[
 	Actor(["n":"wordType", "placeMy":"linky",
 //		"con":Tunnel(["struc":wordType, "f":1]),
@@ -52,13 +52,19 @@ xr("Language Deserializer", e, {
   ]])
 })
 
-r("- bug: Ref:\"a\" is confused by definitions", e, {
+xxr("- bug: Ref:\"a\" is confused by definitions", e, {
   Net(["placeMy":"linky", "parts":[
 	MinAnd(["n":"a"]),		// 					   "a" opening down
 	MaxOr( ["share":["a"]]),//	   => reference to "a" opening down
 //	Broadcast(["n":"ax"]),	// CONFOUNDER: another "a" opening down
   ]])
 })
+	xr("- bug: Ref:\"a\" is confused by definitions", e, {
+	  Net(["placeMy":"linky", "parts":[
+		MinAnd(["n":"a"]),		// 					   "a" opening down
+		MaxOr( ["share":["a"]]),//	   => reference to "a" opening down
+	  ]])
+	})
 	r("- nan Link FIXED", e, {
 	  Net(["parts":[
 		Actor(["n":"wordType", "placeMy":"linky", "parts": [

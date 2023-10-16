@@ -476,8 +476,8 @@ class Port : Part, PortTalk {
 	}
 
 	 // MARK: - 5 Groom
-	override func groomModel(parent parent_:Part?, root root_:RootPart?)  {
-		super.groomModel(parent:parent_, root:root_)
+	override func groomModel(parent parent_:Part?)  {
+		super.groomModel(parent:parent_)
 
 		 // make sure we are also correctly in our atom's ports[].
 		if let a				= self.atom {		// as a Port, our Atom

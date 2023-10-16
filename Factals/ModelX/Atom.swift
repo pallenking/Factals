@@ -74,10 +74,10 @@ class Atom : Part {	//Part//FwPart
 	func hasPorts() -> [String:String]	{
 		return ["P":"c"]
 	}
-	override func groomModel(parent parent_:Part?, root root_:RootPart?)  {
-		super.groomModel(parent:parent_, root:root_)
+	override func groomModel(parent parent_:Part?)  {
+		super.groomModel(parent:parent_)
 		for (_, port) in ports {		// review Ports too:
-			port.groomModel(parent:self, root:root_)				// non-child Port
+			port.groomModel(parent:self)	// non-child Port
 		}								 // ### RECURSIVE validate
 	}
 
@@ -488,9 +488,9 @@ class Atom : Part {	//Part//FwPart
 					}
 					 // //// 1c. Path? ------> Atom, *----------> port name,
 					if let trgPath	= trgAny as? Path {			// link props
-						guard let trgAtom = self.find(path:trgPath, all:true, inMe2:true) else {
-							panic("failed to follow Path '\(trgPath.pp(.line))'" +
-								  "Starting from '\(self.pp(.fullName))'")
+						guard let trgAtom = self.find(path:trgPath, all:true, inMe2:true) else {	//, all:true
+							panic("Starting at '\(self.pp(.fullName))', " +
+								  "Failed to follow Path <\(trgPath.pp(.line))>.")
 							return
 						}
 						linkProps += trgPath.linkProps
@@ -793,13 +793,13 @@ class Atom : Part {	//Part//FwPart
 
 //		{(m:Part) -> Part? in
 
-		let xPart				= findX(firstWith:
+		let xPart				= findCommon(firstWith:
 		{(inMe:Part) -> Part? in		// Count Ports:
 			return nil		// nil -> not found -> look at all in self
 		})
 
 
-		let ss 					= findX(firstWith:					//all:false,
+		let ss 					= findCommon(firstWith:					//all:false,
 		{	(inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
 //bug
 //return nil		// nil -> not found -> look at all in self

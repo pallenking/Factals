@@ -92,63 +92,63 @@ command regex ptLP   's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppLinks":true, "pp
 
 
 ##---------------- 's' is for sel/f
-command alias pcs       pc  self
-command alias pns       pn  self
-command alias pnucs     pnuc self
-command alias pfs       pf  self
-command alias pos       po  self
+command alias pcs     pc      self
+command alias pns      pn      self
+command alias pnucs    pnuc    self
+command alias pfs      pf      self
+command alias pos      po      self
 # ---- pi*s
-command alias pis       pi  self
-command alias piUs      piU self
-command alias piCus     piCu self
-command alias piUcs     piUc self
-command alias piFucs    piFuc self
+command alias pis     pi      self
+command alias piUs     piU     self
+command alias piCus    piCu    self
+command alias piUcs    piUc    self
+command alias piFucs   piFuc   self
 # ---- p*s
-command alias pps       pp self
-command alias pss       ps self
-command alias pls       pl self
-command alias pts       pt self
+command alias pps     pp      self
+command alias pss      ps      self
+command alias pls      pl      self
+command alias pts      pt      self
 # ---- p*Ls
-command alias ppLs      ppL self
-command alias plLs      plL self
-command alias ptLs      ptL self
+command alias ppLs    ppL     self
+command alias plLs     plL     self
+command alias ptLs     ptL     self
 # ---- p*Ps
-command alias ppPs      ppP self
-command alias plPs      plP self
-command alias ptPs      ptP self
+command alias ppPs    ppP     self
+command alias plPs     plP     self
+command alias ptPs     ptP     self
 # ---- p*LPs
-command alias ppLPs     ppLP self
-command alias plLPs     plLP self
-command alias ptLPs     ptLP self
+command alias ppLPs   ppLP    self
+command alias plLPs    plLP    self
+command alias ptLPs    ptLP    self
 
 
 ##---------------- 'm' is for whole model
-command alias pcm       pc    LLDBrootPart
+command alias pcm      pc    LLDBrootPart
 command alias pnm       pn    LLDBrootPart
 command alias pnucm     pnuc  LLDBrootPart
 command alias pfm       pf    LLDBrootPart
-command alias pom       po   LLDBrootPart
+command alias pom       po    LLDBrootPart
 # ---- pi*m
-command alias pim       pi    LLDBrootPart
+command alias pim      pi    LLDBrootPart
 command alias piUm		piU   LLDBrootPart
 command alias piCum		piCu  LLDBrootPart
 command alias piUcm		piUc  LLDBrootPart
 command alias piFucm	piFuc LLDBrootPart
 # ---- p*m
-command alias ppm       pp    LLDBrootPart
+command alias ppm      pp    LLDBrootPart
 command alias psm       ps    LLDBrootPart
 command alias plm       pl    LLDBrootPart
 command alias ptm       pt    LLDBrootPart
 # ---- p*Lm
-command alias ppLm      ppL   LLDBrootPart
+command alias ppLm     ppL   LLDBrootPart
 command alias plLm      plL   LLDBrootPart
 command alias ptLm      ptL   LLDBrootPart
 # ---- p*Pm
-command alias ppPm      ppP   LLDBrootPart
+command alias ppPm     ppP   LLDBrootPart
 command alias plPm      plP   LLDBrootPart
 command alias ptPm      ptP   LLDBrootPart
 # ---- p*LPm
-command alias ppLPm     ppLP  LLDBrootPart
+command alias ppLPm    ppLP  LLDBrootPart
 command alias plLPm     plLP  LLDBrootPart
 command alias ptLPm     ptLP  LLDBrootPart
 

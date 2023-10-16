@@ -65,13 +65,13 @@ class Actor : Net {
 			linkDisplayInvisible = disp
 		}
 		 // Color EVIdence FwBundle GREEN (
-		let _					= evi?.findX(firstWith:
+		let _					= evi?.findCommon(firstWith:
 		{(m:Part) -> Part? in
 			(m as? Atom)?.proxyColor = .green
 			return nil
 		})
 		 // Color CONtext FwBundle RED (
-		let _					= con?.findX(firstWith:
+		let _					= con?.findCommon(firstWith:
 		{(m:Part) -> Part? in
 			(m as? Atom)?.proxyColor = .red
 			return nil

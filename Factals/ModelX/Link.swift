@@ -167,8 +167,8 @@ class Link : Atom {
 bug;	return rv
 	}
 	 // MARK: - 5 Groom
-	override func groomModel(parent parent_:Part?, root root_:RootPart?)  {
-		super.groomModel(parent:parent_, root:root_)
+	override func groomModel(parent parent_:Part?)  {
+		super.groomModel(parent:parent_)
 		 // Groom Link's Conveyors
 		for CPort in [pUpCPort, sDownCPort] {
 			CPort.parent		= self

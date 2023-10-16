@@ -97,7 +97,7 @@ class RootPart : Part {
 	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
-		groomModel(parent:nil, root:self)		// nil as Part?
+		groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
 		msg == nil ? nop : unlock(partTreeAs:msg)	// ---- 3. UNLOCK for PartTree
@@ -157,7 +157,7 @@ class RootPart : Part {
 //		 // 1. Unwrap PolyParts
 //		rootPart				= inPolyPart.polyUnwrap() as? RootPart
 //		 // 2. Groom .root and .parent in all parts:
-//		rootPart.groomModel(parent:nil, root:rootPart)
+//		rootPart.groomModel(parent:nil, //root:rootPart)
 //		 // 3. Groom .fwDocument in rootPart
 //		rootPart.fwDocument 	= self		// Use my FwDocument
 //		 // 4. Remove symbolic links on Ports
@@ -422,7 +422,7 @@ bug			//self.init(url: fileURL)
 	 /// - Returns: Number of Ports
 	func portCount() -> Int {
 		var rv  				= 0
-		let _ 					= findX(firstWith:
+		let _ 					= findCommon(firstWith:
 		{(part:Part) -> Part? in		// Count Ports:
 			if part is Port {
 				rv				+= 1	// Count Ports in tree

@@ -519,19 +519,19 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// - Parameters:
 	///   - parent_: ---- if known
 	///   - root_: ---- set in Part
-	func groomModel(parent p:Part?, root r:RootPart?)  {
+	func groomModel(parent p:Part?)  {
 		parent					= p
-		if root == nil || root !== r {
-			print("This will probably ERR ..... ####### ")
-			root 				=  r					// from arg (if there)
-								?? self as? RootPart 	// me, I'm a RootPart
-								?? child0 as? RootPart	// if PolyWrapped
-		}
+//		if root == nil || root !== r {
+//			print("This will probably ERR ..... ####### ")
+//			root 				=  r					// from arg (if there)
+//								?? self as? RootPart 	// me, I'm a RootPart
+//								?? child0 as? RootPart	// if PolyWrapped
+//		}
 
 		markTree(dirty:.vew)							// set dirty vew
 		 // Do whole tree
 		for child in children {							// do children
-			child.groomModel(parent:self, root:root)		// ### RECURSIVE
+			child.groomModel(parent:self)					// ### RECURSIVE
 		}
 	}
 
@@ -744,8 +744,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 
 		 // MARK: - 4.6 Find Children
-	   /// A boolean predicate of a Part
-	typealias Part2PartClosure 	= (Part) -> Part?
 	 /// Find Part with desired name
 	/// - name		-- sought name
 	func find(name desiredName:String,
@@ -754,16 +752,18 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			  inMe2 searchSelfToo: Bool	= false,
 			  maxLevel			 : Int?	= nil,
 			  except exception	 :Part?	= nil) -> Part? { // Search by name:
-		return findX(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+		return findCommon(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
 		{	$0.fullName.contains(desiredName) ? $0 : nil						}		//$0.fullName == desiredName ? $0 : nil
 	}
+	   /// A boolean predicate of a Part
+	typealias Part2PartClosure 	= (Part) -> Part?
 	func find(path				 : Path,
 
 			  all searchParent	 : Bool	= false,
 			  inMe2 searchSelfToo: Bool	= false,
 			  maxLevel			 : Int?	= nil,
 			  except exception	 :Part?	= nil) -> Part? { // Search by Path:
-		return findX(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+		return findCommon(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
 		{	$0.partMatching(path:path) 											}
 	}
 	func find(part				 : Part,
@@ -772,7 +772,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			  inMe2 searchSelfToo: Bool = false,
 			  maxLevel 		:Int?		= nil,
 			  except exception:Part?	= nil) -> Part? { // Search for Part:
-		return findX(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+		return findCommon(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
 		{	$0 === part ? $0 : nil	 											}
 	}
 
@@ -781,9 +781,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// - inMe2		-- search this node as well
 	/// - maxLevel	-- search children down to this level
 	/// - except	-- don't search, already search
-	func findX(all  	:Bool		= false,
-			   inMe2	:Bool		= false, 	all searchParent:Bool=false,
-			   maxLevel :Int?		= nil,   	except exception:Part?=nil,
+	func findCommon(all :Bool	= false,
+			   inMe2	:Bool	= false, 	all searchParent	:Bool	= false,
+			   maxLevel :Int?	= nil,   	except exception	:Part?	= nil,
 			   firstWith partClosure:Part2PartClosure) -> Part? { /// Search by closure:
 		assert(!all, "Who calls me with all==true?")
 		 // Check self:
@@ -796,7 +796,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
 			 // Check children:
 			for child in orderedChildren where exception === nil || child !== exception! { // don't redo exception
-				if let rv 		= child.findX(all:false, inMe2:true, maxLevel:mLev1, firstWith:partClosure) {
+				if let rv 		= child.findCommon(all:false, inMe2:true, maxLevel:mLev1, firstWith:partClosure) {
 					return rv
 				}
 			}
@@ -804,7 +804,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		if searchParent,						// Check parent
 		  let p					= parent,		// Have parent
 		  p.name != "ROOT" {					// parent not ROOT
-			return parent?.findX(all:true, inMe2:true, maxLevel:maxLevel, except:self, firstWith:partClosure)
+			return parent?.findCommon(all:true, inMe2:true, maxLevel:maxLevel, except:self, firstWith:partClosure)
 		}
 		return nil
 	}
