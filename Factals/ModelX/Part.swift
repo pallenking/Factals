@@ -44,8 +44,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	 // nil root defers to parent's root.
 	var root		: RootPart?  {
 		get {								//return parent?.root ?? self as? RootPart
-			parent?.root ??					// RECURSIVELY up the parent tree
-			self as? RootPart ??			// top should be RootPart
+			parent?.root 		??			// RECURSIVELY up the parent tree
+			self as? RootPart	??			// top should be RootPart
 			nil
 //			{	fatalError("Mall-formed tree: nil parent should be RootPart")	} ()
 		}

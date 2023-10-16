@@ -45,9 +45,9 @@ struct FactalsDocument: FileDocument {
 
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
-		factalsModel					= FactalsModel()	// MAKE first, so leaners can function //po type(of: factalsModel)
+		factalsModel			= FactalsModel()	// MAKE first, so leaners can function //po type(of: factalsModel)
 		DOC						= self		// INSTALL as current DOC, quick!
-		factalsModel.document 		= self		// DELEGATE
+		factalsModel.document 	= self		// DELEGATE
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1

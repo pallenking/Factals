@@ -20,6 +20,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	var document : FactalsDocument!					// Owner
 
+	///// MOVE Vews from FactalsModel to RootVew?
 	var rootVews : [RootVew]	= []
 	var rootVew0 :  RootVew?	{ rootVews.count<=0 ? nil : rootVews[0]			}
 	var log 	 : Log
@@ -45,7 +46,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		log						= Log(title:"FwGut's Log", params4all)
 							
 		super.init()
-		rootPart?.factalsModel		= self		// Owner? is self
+		rootPart?.factalsModel	= self		// Owner? is self
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -116,7 +117,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 9.0 3D Support
 	 // mouse may "paw through" parts, using wiggle
-	var wigdsfgledPart	  : Part?	= nil
+	var wiggledPart	  : Part?	= nil
 	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 
 	  // MARK: -

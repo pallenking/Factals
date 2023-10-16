@@ -343,7 +343,7 @@ xxr("+Family Portrait", e + selfiePole( s:-90, u:30) +
 		Sphere(		[size:SCNVector3(2,  2,  2),	color:"[purple]"]),
 	]]),
 ]]) })
-	xr("-Should never get here", e + selfiePole( s:-90, u:30) +
+	xxr("-Should never get here", e + selfiePole( s:-90, u:30) +
 				["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 		Bulb(),
 		MaxOr(),

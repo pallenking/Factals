@@ -421,12 +421,12 @@
 		9FEE51AA286BA53800C8C22A /* HaveNWant Networks */ = {
 			isa = PBXGroup;
 			children = (
-				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
-				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
-				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
-				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
-				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
 				9FEE51AB286BA57900C8C22A /* Library.swift */,
+				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
+				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
+				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
+				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
+				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
 				9FEE51A8286BA2D700C8C22A /* Configuration.swift */,
 			);
 			path = "HaveNWant Networks";

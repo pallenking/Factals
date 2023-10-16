@@ -72,12 +72,16 @@ extension Library : Uid {
 class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
 
 	 // MARK: - 1. Register all Libraries HERE!
-	static let libraryList = [
-//		Proto(		"Proto"		),				// Prototype Tests
-		TestsFoo(	"TestsFoo"	),				// New Regression Tests for FooTry3
-		Tests01(	"Tests01"	),				// Standard Regression Tests
+	static let libraryList = [		// In order of evaluation
+		  // Search for a definition in these files, in order, stopping at first
+		 //  (Within a file, test specification must be weak.)
+		// Proto(	"Proto"		),				// Prototype Tests - used to create new
+		 // Special regiemes:
+		TestsFoo(	"TestsFoo"	),				// New Regression Tests for Factals
 		TivoRemote(	"TivoRemote"),				// Operation of Tivo Remote
 		LangDeser(	"LangDeser"	),				// Language Deserializer
+		 // Default testing:
+		Tests01(	"Tests01"	),				// Standard Regression Tests
 	]
 	 // MARK: - 2. Register all Libraries HERE!
 	var uid						= randomUid()
@@ -121,11 +125,12 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	/**/	lib.loadTest(args:args, state:&state)		// state persists across library probes
 			 // Return selected test if valid:
 			if lib.answer.ansTrunkClosure != nil {
-				assert(rv == nil, """
-					Two entries for selector: '\(s)'
-							\(rv!.name.field(12)):\(rv!.answer.ansTestNum)\t line:\(rv!.answer.ansLineNumber!)
-							\(lib.name.field(12)):\(lib.answer.ansTestNum)\t line:\(lib.answer.ansLineNumber!)
-					""")
+				 // REMOVED to allow greedy xr()
+				//assert(rv == nil, """
+				//	Two entries for selector: '\(s)'
+				//			\(rv!.name.field(12)):\(rv!.answer.ansTestNum)\t line:\(rv!.answer.ansLineNumber!)
+				//			\(lib.name.field(12)):\(lib.answer.ansTestNum)\t line:\(lib.answer.ansLineNumber!)
+				//	""")
 				rv				= lib
 			}
 		}								// no, loop for another

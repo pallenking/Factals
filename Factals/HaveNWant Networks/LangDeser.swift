@@ -38,10 +38,10 @@ let _ = [wordType, determinat, cp, verbs, auxiliary, nouns, proposition, words, 
 //		let vinputWordsalPtr			= noun_lookup(nouns)
 
  // Verbs:
-xxr("Language Deserializer", e, {
+xr("Language Deserializer", e, {
   Net(["parts":[
 	Actor(["n":"wordType", "placeMy":"linky",
-		"con":Tunnel(["struc":wordType, "f":1]),
+//		"con":Tunnel(["struc":wordType, "f":1]),
 		"parts":[
 			MaxOr( ["n":"ma", "share":["nouns", "auxiliary"], "f":0, "P":"mj"]),//"nouns",  "auxiliary"
 			MinAnd(["n":"mj", "share":["determinat", "nouns"], "f":1]),
