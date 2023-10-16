@@ -20,6 +20,7 @@ class LangDeser : Library {
  // , "", "", "", "", "", ""
 state.scanSubMenu	= "Language Deserializer"
 let wordType		= ["proposition", "determinat", "nouns", "auxiliary", "verbs", "cp"]
+let wordType0		= ["foo"]
 let determinat		= ["the"]
 let cp				= ["that"]
 let verbs			= ["told", "fix"]
@@ -27,6 +28,7 @@ let auxiliary		= ["will"]
 let nouns			= ["Mary", "Bill", "Mayor", "Boston", "leak"]
 let proposition		= ["of"]
 let words			= ["proposition", "determinat", "nouns", "auxiliary", "verbs", "cp"]
+let words0			= ["bar"]
 //let words			= [proposition, determinat, nouns, auxiliary, verbs, cp]
 let inputWords		= [
 				"Mary", "told", "Bill", "that",
@@ -41,7 +43,7 @@ let _ = [wordType, determinat, cp, verbs, auxiliary, nouns, proposition, words, 
 xxr("Language Deserializer", e, {
   Net(["parts":[
 	Actor(["n":"wordType", "placeMy":"linky",
-//		"con":Tunnel(["struc":wordType, "f":1]),
+		"con":Tunnel(["struc":wordType, "f":1]),
 		"parts":[
 			MaxOr( ["n":"ma", "share":["nouns", "auxiliary"], "f":0, "P":"mj"]),//"nouns",  "auxiliary"
 			MinAnd(["n":"mj", "share":["determinat", "nouns"], "f":1]),
@@ -51,19 +53,28 @@ xxr("Language Deserializer", e, {
 //	Generator(["n":"lo", "P":"wordType/evi", "events":inputWords]),
   ]])
 })
+	xxr("Language Deserializer", e, {
+	  Net(["parts":[
+		Actor(["n":"wordType", "placeMy":"linky",
+			"con":Tunnel(["struc":wordType0, "f":1]),
+			"parts":[
+				MaxOr( ["n":"ma", "share":["foo"], "f":0, "P":"mj"]),//"nouns",  "auxiliary"
+				MinAnd(["n":"mj", "share":["bar"], "f":1]),
+			],
+			"evi":Tunnel(["struc":words0, "n":"words", "placeMy":"stackz"]),
+		]),
+	  ]])
+	})
 
-xxr("- bug: Ref:\"a\" is confused by definitions", e, {
+r("- bug: Ref:\"a\" is confused by definitions", e, {
   Net(["placeMy":"linky", "parts":[
 	MinAnd(["n":"a"]),		// 					   "a" opening down
 	MaxOr( ["share":["a"]]),//	   => reference to "a" opening down
 //	Broadcast(["n":"ax"]),	// CONFOUNDER: another "a" opening down
   ]])
 })
-	xr("- bug: Ref:\"a\" is confused by definitions", e, {
-	  Net(["placeMy":"linky", "parts":[
-		MinAnd(["n":"a"]),		// 					   "a" opening down
-		MaxOr( ["share":["a"]]),//	   => reference to "a" opening down
-	  ]])
+	xxr("- bug: Ref:\"a\" is confused by definitions", e, {
+	  Tunnel(["struc":wordType, "f":1])
 	})
 	r("- nan Link FIXED", e, {
 	  Net(["parts":[

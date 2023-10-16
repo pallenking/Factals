@@ -839,7 +839,7 @@ r("+ All various flips A",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx",
 		Broadcast([n:"t2", flip:0, phys:[gravity:1], jog:"4 0 0"]),
 	] ]),
 ] ]) } )
-r("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
+xr("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
 	Net([placeMy:"stackx", parts:[
 		Net([placeMy:"linky", parts:[	// AC
 			Broadcast([n:"ma", P:["x,l:5,t:dual"],jog:"0 0 2"]),	// A

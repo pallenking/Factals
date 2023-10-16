@@ -748,63 +748,62 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// - name		-- sought name
 	func find(name desiredName:String,
 								
-			  all searchParent 	 : Bool	= false,
-			  inMe2 searchSelfToo: Bool	= false,
-			  maxLevel			 : Int?	= nil,
-			  except exception	 :Part?	= nil) -> Part? { // Search by name:
-		return findCommon(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+			  up2 			 	: Bool	= false,
+			  me2				: Bool	= false,
+			  maxLevel			: Int?	= nil) -> Part? { // Search by name:
+		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel)
 		{	$0.fullName.contains(desiredName) ? $0 : nil						}		//$0.fullName == desiredName ? $0 : nil
 	}
 	   /// A boolean predicate of a Part
 	typealias Part2PartClosure 	= (Part) -> Part?
-	func find(path				 : Path,
+	func find(path				: Path,
 
-			  all searchParent	 : Bool	= false,
-			  inMe2 searchSelfToo: Bool	= false,
-			  maxLevel			 : Int?	= nil,
-			  except exception	 :Part?	= nil) -> Part? { // Search by Path:
-		return findCommon(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+			  up2				: Bool	= false,
+			  me2 				: Bool	= false,
+			  maxLevel			: Int?	= nil) -> Part? { // Search by Path:
+		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel)
 		{	$0.partMatching(path:path) 											}
 	}
-	func find(part				 : Part,
+	func find(part				: Part,
 
-			  all searchParent 	 : Bool	= false,
-			  inMe2 searchSelfToo: Bool = false,
-			  maxLevel 		:Int?		= nil,
-			  except exception:Part?	= nil) -> Part? { // Search for Part:
-		return findCommon(all:searchParent, inMe2:searchSelfToo, maxLevel:maxLevel, except:exception)
+			  up			 	: Bool	= false,
+			  me2 				: Bool	= false,
+			  maxLevel 			: Int?	= nil) -> Part? { // Search for Part:
+		return findCommon(up2:up, me2:me2, maxLevel:maxLevel)
 		{	$0 === part ? $0 : nil	 											}
 	}
 
 	 /// First where closure is true:
-	/// - all		-- search parent outward
-	/// - inMe2		-- search this node as well
+	/// - up		-- search parent outward
+	/// - mineBut	-- search children of node, except this child
+	/// - except	--  (node to exclude in search)
 	/// - maxLevel	-- search children down to this level
 	/// - except	-- don't search, already search
-	func findCommon(all :Bool	= false,
-			   inMe2	:Bool	= false, 	all searchParent	:Bool	= false,
-			   maxLevel :Int?	= nil,   	except exception	:Part?	= nil,
-			   firstWith partClosure:Part2PartClosure) -> Part? { /// Search by closure:
-		assert(!all, "Who calls me with all==true?")
+	func findCommon(
+					up2		 :Bool	= false,			// search relatives of my parent
+					me2		 :Bool	= true,				// search me
+					mineBut  :Part?	= nil,				// search my children, except
+					maxLevel :Int?	= nil,
+					firstWith:Part2PartClosure) -> Part? { /// Search by closure:
 		 // Check self:
-		if inMe2,
-		  let cr 				= partClosure(self) {		// Self match?
+		if me2,
+		  let cr 				= firstWith(self) {		// Self match?
 			return cr
 		}
 		if (maxLevel ?? 1) > 0 {		// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
 			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
 			 // Check children:
-			for child in orderedChildren where exception === nil || child !== exception! { // don't redo exception
-				if let rv 		= child.findCommon(all:false, inMe2:true, maxLevel:mLev1, firstWith:partClosure) {
+			for child in orderedChildren where mineBut === nil || child !== mineBut! { // don't redo exception
+				if let rv 		= child.findCommon(up2:false, mineBut:self, maxLevel:mLev1, firstWith:firstWith) {
 					return rv
 				}
 			}
 		}
-		if searchParent,						// Check parent
+		if up2,								// Check parent
 		  let p					= parent,		// Have parent
 		  p.name != "ROOT" {					// parent not ROOT
-			return parent?.findCommon(all:true, inMe2:true, maxLevel:maxLevel, except:self, firstWith:partClosure)
+			return parent?.findCommon(up2:true, mineBut:self, maxLevel:maxLevel, firstWith:firstWith)
 		}
 		return nil
 	}

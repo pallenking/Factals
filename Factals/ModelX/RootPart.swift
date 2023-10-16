@@ -137,7 +137,7 @@ class RootPart : Part {
 		forAllParts( {
 			if let pPort			= $0 as? Port,
 			  let pPort2String		= pPort.con2?.string,
-			  let pPort2Port		= pPort.find(name:pPort2String, inMe2:true) as? Port {
+			  let pPort2Port		= pPort.find(name:pPort2String, me2:true) as? Port {
 				pPort.con2	= .port(pPort2Port)
 			}
 		} )

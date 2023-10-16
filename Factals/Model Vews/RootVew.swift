@@ -60,7 +60,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= trunkVew			// default
 		if let laStr			= factalsModel.document.config.string("lookAt"), laStr != "",
-		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
+		  let  laPart 			= rootPart.find(path:Path(withName:laStr), me2:true) {
 			lookAtVew			= find(part:laPart)
 		}
 

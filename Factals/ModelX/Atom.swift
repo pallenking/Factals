@@ -488,7 +488,7 @@ class Atom : Part {	//Part//FwPart
 					}
 					 // //// 1c. Path? ------> Atom, *----------> port name,
 					if let trgPath	= trgAny as? Path {			// link props
-						guard let trgAtom = self.find(path:trgPath, all:true, inMe2:true) else {	//, all:true
+						guard let trgAtom = self.find(path:trgPath, up2:true, me2:true) else {	//, all:true
 							panic("Starting at '\(self.pp(.fullName))', " +
 								  "Failed to follow Path <\(trgPath.pp(.line))>.")
 							return
