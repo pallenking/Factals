@@ -34,11 +34,11 @@ var APP				: FactalsApp!		// NEVER CHANGES (after inz)
 var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
 // /////////////////////////////////////////////////////////////////////////////
  // Singleton Shugar:;
-var DOCfwGutsQ	: FwGuts?		{	DOC?.fwGuts									}	// optionality is needed
-var DOCfwGuts	: FwGuts		{	DOCfwGutsQ ?? {
-	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwGuts=nil")					 		}()}
-var DOClogQ  	: Log? 			{	DOCfwGutsQ?.log								}
-var DOClog  	: Log 			{	DOClogQ ?? .reliable							}	//.first
+var DOCfwModelQ	: FwModel?		{	DOC?.fwModel								}	// optionality is needed
+var DOCfwModel	: FwModel		{	DOCfwModelQ ?? {
+	fatalError(DOC==nil ? "DOC=nil" : "DOC.fwModel=nil")					 		}()}
+var DOClogQ  	: Log? 			{	DOCfwModelQ?.log							}
+var DOClog  	: Log 			{	DOClogQ ?? .reliable						}	//.first
 let DOCctlr						= NSDocumentController.shared
 var APPQ		: FactalsApp?	{	APP 										}
 var DOCAPPlog	: Log 			{	DOClogQ ?? APPQ?.log ?? .reliable				}
@@ -139,7 +139,7 @@ struct FactalsApp: App, Uid, FwAny {
 
 	var appStartTime:String = dateTime(format:"yyyy-MM-dd HH:mm:ss")
 	var regressScene:Int	= 0	//private?	// number of the next "^r" regression test
-															 // Keeps FwGuts menu in sync with itself:
+															 // Keeps FwModel menu in sync with itself:
 															//	var regressScene : Int {				// number of next "^r" regression test
 															//		get			{	return regressScene_										}
 															//		set(v)	 	{
@@ -436,13 +436,13 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 		}
 		else {			 		// Install new rootPart in current window
 			guard let doc = DOC else { fatalError("no DOC")}
-			guard let fwGuts	= doc.fwGuts else {	return	}
+			guard let fwModel	= doc.fwModel else {	return	}
 
 			let rootPart		= RootPart(fromLibrary:scanKey)
-			fwGuts.setRootPart(rootPart:rootPart)
+			fwModel.setRootPart(rootPart:rootPart)
 
 			 // Make a default window
-			fwGuts.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
+			fwModel.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
 	
 			 // --------------- C: FactalsDocument
 			let c					= doc.config + rootPart.ansConfig
@@ -450,7 +450,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	//		newRootVew.configure(from: ?FwConfig)
 	
 	//		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
-			fwGuts.document 		= doc
+			fwModel.document 		= doc
 			doc.makeWindowControllers()
 			doc.registerWithDocController()	// a new DOc must be registered
 

@@ -180,7 +180,7 @@ struct InspecAtom : View {												 // Atom
 				Picker("", selection:Binding<String>(	get:{ "" }, set:{_ in 		// Always out of range
 bug				//	let port	= atom.ports[$0]!
 				//	let newVew	= rootVew0.find(part:port, inMe2:true) ?? vew
-				//	if var fwDocument = atom.root?.fwGuts.document {
+				//	if var fwDocument = atom.root?.fwModel.document {
 				//		fwDocument.showInspecFor(vew:newVew, allowNew:false)
 				//	}
 				} )) {
@@ -306,7 +306,7 @@ struct InspecPart : View {												 // Part
 		//https://medium.com/better-programming/three-ways-to-react-to-state-changes-in-swiftui-a30545c72361
 
 	var body: some View {
-		//var doc 				= part.root?.fwGuts?.document
+		//var doc 				= part.root?.fwModel?.document
 		VStack {
 			HStack {						// ========================== LINE 1
 				ClassBox(labeled:"Part")

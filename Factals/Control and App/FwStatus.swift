@@ -78,7 +78,7 @@ extension FactalsDocument : FwStatus	{				  	 ///FactalsDocument
 	func ppFwState(deapth:Int=999) -> String {
 		return ppFwStateHelper("FactalsDocume", uid:self,
 			otherLines:{ deapth in
-				var rv			= fwGuts.ppFwState(deapth:deapth-1)
+				var rv			= fwModel.ppFwState(deapth:deapth-1)
 				 // Inspectors:
 				if self.inspecWin4vew.count > 0 {
 					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
@@ -147,11 +147,11 @@ extension Log : FwStatus {												  ///Log
 		return ppFwStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
 	}
 }
-extension FwGuts : FwStatus	{									 		///FwGuts
+extension FwModel : FwStatus	{									 		///FwModel
 	func ppFwState(deapth:Int=999) -> String {
-		var myLine				= document.fwGuts === self ? "" : "OWNER:'\(document!)' BAD"
+		var myLine				= document.fwModel === self ? "" : "OWNER:'\(document!)' BAD"
 		//myLine				+= "\(rootVews.count) RootVews "
-		return ppFwStateHelper("FwGuts       ", uid:self,
+		return ppFwStateHelper("FwModel       ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in
 				 // Controller:
@@ -170,7 +170,7 @@ extension FwGuts : FwStatus	{									 		///FwGuts
 extension RootPart : FwStatus	{									 ///RootPart
 	func ppFwConfig() -> String {		localConfig.pp(.line)					}
 	func ppFwState(deapth:Int=999) -> String {
-		let myLine				= fwGuts.rootPart === self ? "" : "OWNER:'\(fwGuts!)' BAD "
+		let myLine				= fwModel.rootPart === self ? "" : "OWNER:'\(fwModel!)' BAD "
 		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
 		return ppFwStateHelper("RootPart     ", uid:self,
 			myLine:myLine + "rootPart:\(ppUid(self, showNil:true)) " +
@@ -192,7 +192,7 @@ extension Simulator : FwStatus	{									///Simulator
 			if simEnabled {
 				myLine2			= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
 				myLine2			+= "t:\(timeNow) "///
-				let x			= rootPart?.fwGuts.document.config.double("simTaskPeriod")
+				let x			= rootPart?.fwModel.document.config.double("simTaskPeriod")
 				myLine2			+= "dt=\(x != nil ? String(x!) : "nil") "
 				myLine2			+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
 				if isSettled() {
@@ -225,14 +225,14 @@ extension Simulator : FwStatus	{									///Simulator
 extension RootVew : FwStatus	{									  ///RootVew
 	func ppFwState(deapth:Int=999) -> String {
 		guard let rootVew						 else {	return "Vew.rootVew == nil\n"}
-		guard let fwGuts 		= rootVew.fwGuts else {	return "Vew.rootVew?.fwGuts == nil\n" }
+		guard let fwModel 		= rootVew.fwModel else {	return "Vew.rootVew?.fwModel == nil\n" }
 		guard let slot			= rootVew.slot,
-		  slot >= 0 && slot < fwGuts.rootVews.count else { fatalError("Bad slot")}
+		  slot >= 0 && slot < fwModel.rootVews.count else { fatalError("Bad slot")}
 		let myName				= "RootVew      "
 
-		var myLine				= "\(slot)/\(fwGuts.rootVews.count)] "
+		var myLine				= "\(slot)/\(fwModel.rootVews.count)] "
 		myLine					+= "LockVal:\(rootVewLock.value ?? -99) "
-		myLine					+= fwGuts.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: fwGuts))' BAD "
+		myLine					+= fwModel.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: fwModel))' BAD "
 		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 	//	myLine					+= "(\(nodeCount()) total) "

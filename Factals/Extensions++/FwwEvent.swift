@@ -9,7 +9,7 @@ protocol ProcessNsEvent {
 // extension WorldModel		: ProcessNsEvent {}		// Redundant
 extension Part				: ProcessNsEvent {}
 extension FactalsDocument	: ProcessNsEvent {}
-extension FwGuts			: ProcessNsEvent {}
+extension FwModel			: ProcessNsEvent {}
 extension RootScene			: ProcessNsEvent {}
 //extension EventReceiver	: ProcessNsEvent {}		// ???
 extension Simulator			: ProcessNsEvent {}
@@ -20,11 +20,11 @@ extension Simulator			: ProcessNsEvent {}
 //extension NSEvent {
 //		// Determine the RootVew referenced by this event.
 //	func rootVew() -> RootVew? {
-//		let fwGuts 				= DOCfwGuts
+//		let fwModel 				= DOCfwModel
 //		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 //
 //			 // Find rootVew whose base fwView is a descendant of nsViewOfEv
-//			for rootVew in fwGuts.rootVews {
+//			for rootVew in fwModel.rootVews {
 //				if let fwView	= rootVew.rootScn.fwView,//rootScn.fwView,
 //				  fwView.isDescendant(of:nsViewOfEv) {
 //					return rootVew

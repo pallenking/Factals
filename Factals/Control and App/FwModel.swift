@@ -1,9 +1,9 @@
-//  FwGuts.swift -- Manage RootPart, RootVews and their RootScns
+//  FwModel.swift -- Manage RootPart, RootVews and their RootScns
 
 import SceneKit
 import SwiftUI
 
-class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
+class FwModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
 	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}
@@ -15,7 +15,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		}
 		rootVews				= []
 		rootPart				= r
-		rootPart?.fwGuts		= self
+		rootPart?.fwModel		= self
 	}
 
 	var document : FactalsDocument!					// Owner
@@ -31,7 +31,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	func configure(from config:FwConfig) { // *****
 		log.configure(from:config)
 
-		guard let rootPart else { fatalError("WARNING configure: fwGuts.rootPart=nil") }
+		guard let rootPart else { fatalError("WARNING configure: fwModel.rootPart=nil") }
 		rootPart.configure(from:config)
 		guard rootVews.count != 0 else {	return								}
 		for rootVew in rootVews {
@@ -45,7 +45,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		log						= Log(title:"FwGut's Log", params4all)
 							
 		super.init()
-		rootPart?.fwGuts		= self		// Owner? is self
+		rootPart?.fwModel		= self		// Owner? is self
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -62,7 +62,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 					//		}
 					//		 // initialize new SCNScene from Data
 					//		convenience init?(data:Data, encoding:String.Encoding) {
-					//			fatalError("FwGuts.init?(data:Data")
+					//			fatalError("FwModel.init?(data:Data")
 					//		//	do {		// 1. Write data to file.
 					//		//		try data.write(to: fileURL)
 					//		//	} catch {
@@ -81,7 +81,7 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!") }
 		guard let rootPart else {	fatalError("addRootVew with nil rootPart")	}
 		let rootVew				= RootVew(forPart:rootPart) // 1. Make
-		rootVew.fwGuts			= self						// 2. Backpoineter
+		rootVew.fwModel			= self						// 2. Backpoineter
 		rootVews.append(rootVew)							// 3. Install
 		rootVew.configure(from:fwConfig)					// 4. Configure Part
 		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
@@ -98,11 +98,11 @@ class FwGuts : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
-		fatalError("FwGuts.encode(coder..) unexpectantly called")
+		fatalError("FwModel.encode(coder..) unexpectantly called")
 	}
 	 // ///////// Deserialize
 	required init(coder aDecoder: NSCoder) {
-		fatalError("FwGuts.init(coder..) unexpectantly called")
+		fatalError("FwModel.init(coder..) unexpectantly called")
 	}
 	 // MARK: - 4.?
 	func rootVew(ofScnNode:SCNNode) -> RootVew? {
@@ -175,26 +175,26 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 			print("\n******************** 'V': Build the Model's Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
-				rootVew.updateVewSizePaint(needsLock:"FwGuts 'V'iew key")
+				rootVew.updateVewSizePaint(needsLock:"FwModel 'V'iew key")
 			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
-				rootVew.updateVewSizePaint(needsLock:"FwGuts si'Z'e key")
+				rootVew.updateVewSizePaint(needsLock:"FwModel si'Z'e key")
 			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
-				rootVew.updateVewSizePaint(needsLock:"FwGuts 'P'aint key")
+				rootVew.updateVewSizePaint(needsLock:"FwModel 'P'aint key")
 			}
 		case "w":
-			print("\n******************** 'w': ==== FwGuts = [\(pp())]\n")
+			print("\n******************** 'w': ==== FwModel = [\(pp())]\n")
 		case "x":
-			print("\n******************** 'x':   === FwGuts: --> rootPart")
+			print("\n******************** 'x':   === FwModel: --> rootPart")
 			if rootPart!.processEvent(nsEvent:nsEvent, inVew:vew) {
-				print("ERROR: fwGuts.Process('x') failed")
+				print("ERROR: fwModel.Process('x') failed")
 			}
 			return true								// recognize both
 //		case "f": 					// // f // //
@@ -202,10 +202,10 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 //			for rootVew in rootVews {
 //				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
 //			}
-//			print("\n******************** 'f':   === FwGuts: animatePhysics <-- \(msg)")
+//			print("\n******************** 'f':   === FwModel: animatePhysics <-- \(msg)")
 //			return true								// recognize both
 		case "?":
-			print ("\n=== FwGuts   commands:",
+			print ("\n=== FwModel   commands:",
 				"\t'r'             -- r sound test",
 				"\t'r'+cmd         -- go to lldb for rerun",
 				"\t'v'             -- print Vew tree",
@@ -215,7 +215,7 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 				"\t'V'             -- build the Model's Views",
 				"\t'T'             -- Size and pack the Model's Views",
 				"\t'P'             -- Paint the skins of Views",
-				"\t'w'             -- print FwGuts camera",
+				"\t'w'             -- print FwModel camera",
 				"\t'x'             -- send to model",
 //				"\t'f'             -- Freeze SceneKit Animations",
 				separator:"\n")
@@ -430,7 +430,7 @@ bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
 	//			let morpher 		= SCNMorpher()
 	//			morpher.targets 	= [scn.geometry!]  	/// our old geometry will morph to 0
 	//		let node = SCNNode(geometry: SCNBox(width: 0, height: 0, length: 5, chamferRadius: 0))
-	//		Controller.current?.fwGuts.rootNode.addChildNode(node)
+	//		Controller.current?.fwModel.rootNode.addChildNode(node)
 	//		node.morpher = morpher
 	//		let anim = CABasicAnimation(keyPath: "morpher.weights[0]")
 	//		anim.fromValue = 0.0

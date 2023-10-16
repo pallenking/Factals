@@ -28,7 +28,7 @@ class RootScene : SCNScene {				// xyzzy4
 		let duration			= Float(1)
 		guard let rootVew 		= rootVew else { print("processEvent.rootVews[?] is nil"); return false}
 		let slot				= rootVew.slot ?? -1
-		let fwGuts				= rootVew.fwGuts		// why ! ??
+		let fwModel				= rootVew.fwModel		// why ! ??
 
 		switch nsEvent.type {
 
@@ -40,21 +40,21 @@ class RootScene : SCNScene {				// xyzzy4
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 
-			if fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:vew) == false,
+			if fwModel != nil && fwModel!.processEvent(nsEvent:nsEvent, inVew:vew) == false,
 			  char != "?" {		// okay for "?" to get here
 				atEve(3, print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)"))
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			nextIsAutoRepeat 	= false
-			let _				= fwGuts != nil && fwGuts!.processEvent(nsEvent:nsEvent, inVew:vew)
+			let _				= fwModel != nil && fwModel!.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		  //  ====== LEFT MOUSE ======
 		 //
 		case .leftMouseDown:
 			beginCameraMotion(with:nsEvent)
 			if !nsTrackPad  {					// 3-button Mouse
-				if let v		= fwGuts?.modelPic(with:nsEvent, inVew:vew) {
+				if let v		= fwModel?.modelPic(with:nsEvent, inVew:vew) {
 					print("leftMouseDown pic's Vew:\(v.pp(.short))")
 				}
 			}
@@ -70,7 +70,7 @@ class RootScene : SCNScene {				// xyzzy4
 			if nsTrackPad  {					// Trackpad
 				beginCameraMotion(with:nsEvent)
 				if !mouseWasDragged {			// UnDragged Up
-					if let vew	= fwGuts?.modelPic(with:nsEvent, inVew:vew) {
+					if let vew	= fwModel?.modelPic(with:nsEvent, inVew:vew) {
 						rootVew.lookAtVew = vew			// found a Vew: Look at it!
 					}
 				}
@@ -382,7 +382,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		return axesScn
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if true || rootVew?.fwGuts?.document.config.bool("axisTics") ?? false {
+		if true || rootVew?.fwModel?.document.config.bool("axisTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -400,13 +400,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 	 // MARK: 4.4 - Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
-		guard let fwGuts		= rootVew?.fwGuts else {		return						}
+		guard let fwModel		= rootVew?.fwModel else {		return						}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
 		let wPosn				= rootNode.convertPosition(localPoint, to:rootNode)
 
 ///		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
-		let animateIt			= fwGuts.document.config.bool_("animatePole")
+		let animateIt			= fwModel.document.config.bool_("animatePole")
 		if animateIt {	 // Animate 3D Cursor Pole motion"∫
 			SCNTransaction.begin()
 //			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
@@ -416,7 +416,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 		if animateIt {
 			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
-			atRve(8, fwGuts.logd("  \\#######  SCNTransaction: COMMIT"))
+			atRve(8, fwModel.logd("  \\#######  SCNTransaction: COMMIT"))
 			SCNTransaction.commit()
 		}
 	}
@@ -438,10 +438,10 @@ bug;	zoom4fullScreen()
 //		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
 		guard let rootVew		= self.rootVew else { fatalError("rootVew is nil")}
 
-		let animate				= rootVew.fwGuts?.document.config.bool("animatePan") ?? false
+		let animate				= rootVew.fwModel?.document.config.bool("animatePan") ?? false
 		if animate && duration > 0.0 {
 			SCNTransaction.begin()			// Delay for double click effect
-// TYP		atRve(8, rootVew.fwGuts.logd("  /#######  animatePan: BEGIN All"))
+// TYP		atRve(8, rootVew.fwModel.logd("  /#######  animatePan: BEGIN All"))
 /*CherryPick2023-0520:*/atRve(8, rootVew.rootPart.logd("  /#######  animatePan: BEGIN All"))
 
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
@@ -449,15 +449,15 @@ bug;	zoom4fullScreen()
 			cameraScn.transform	*= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, self.rootVew!.rootVew!.fwGuts.logd("  /#######  animatePan: BEGIN Completion Block"))
+				atRve(8, self.rootVew!.rootVew!.fwModel.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
 				cameraScn.transform = self.rootVew!.selfiePole.transform()
 
-				atRve(8, self.rootVew!.fwGuts.logd("  \\#######  animatePan: COMMIT Completion Block"))
+				atRve(8, self.rootVew!.fwModel.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
 			}
-			atRve(8, rootVew.fwGuts.logd("  \\#######  animatePan: COMMIT All"))
+			atRve(8, rootVew.fwModel.logd("  \\#######  animatePan: COMMIT All"))
 			SCNTransaction.commit()
 		}
 		else {
@@ -514,8 +514,8 @@ bug;	zoom4fullScreen()
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwGuts.rootVewOf(rootScn:self)
-		let rootPart			= rootVew.rootPart		// fwGuts.rootPart
+		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//fwModel.rootVewOf(rootScn:self)
+		let rootPart			= rootVew.rootPart		// fwModel.rootPart
 
 		 // Paranoia
 		assert(rootVew.name == "_ROOT", 	"Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")

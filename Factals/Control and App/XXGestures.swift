@@ -52,30 +52,30 @@
 //
 ////	//  ====== LEFT MOUSE ======
 ////	func dragGesture(value v:DragGesture.Value) {
-////		let fwGuts				= DOCfwGuts
+////		let fwModel				= DOCfwModel
 ////		let delta				= v.location - v.startLocation
 ////	//	print(String(format:"dragGesture %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 ////
-////		var selfiePole			= fwGuts.selfiePole
+////		var selfiePole			= fwModel.selfiePole
 ////		selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
 ////		selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-////		fwGuts.rootScn.updatePole2Camera(reason:"dragGesture")
+////		fwModel.rootScn.updatePole2Camera(reason:"dragGesture")
 ////	}
 ////	func dragGestureEnd(value v:DragGesture.Value) {
-////		let fwGuts				= DOCfwGuts
+////		let fwModel				= DOCfwModel
 ////		let delta				= v.location - v.startLocation
 ////	//	print(String(format:"dragGestureEnd %10.2f%10.2f%16.2f%10.2f", v.location.x, v.location.y, delta.x, delta.y))
 ////
-////		fwGuts.selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
-////		fwGuts.selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
-////		fwGuts.rootScn.updatePole2Camera(reason:"dragGestureEnd")
+////		fwModel.selfiePole.spin  -= delta.x  * 0.5		// / deg2rad * 4/*fudge*/
+////		fwModel.selfiePole.horizonUp -= delta.y  * 0.2		// * self.cameraZoom/10.0
+////		fwModel.rootScn.updatePole2Camera(reason:"dragGestureEnd")
 ////	}
 //	func tapGesture(value v:TapGesture.Value, count:Int) {
-//		let fwGuts				= DOCfwGuts
+//		let fwModel				= DOCfwModel
 //		print("tapGesture value:'\(v)' count:\(count)")
 //
 //		 // Make NSEvent for Double Click
-//		let a					= fwGuts.fwScns[0].scnScene.cameraScn!.position
+//		let a					= fwModel.fwScns[0].scnScene.cameraScn!.position
 //		let location			= NSPoint(x: a.x, y: a.y)
 //		let nsEvent:NSEvent	 	= NSEvent.mouseEvent(	with:.leftMouseDown,
 //											location:location,
@@ -84,7 +84,7 @@
 //											clickCount:count,
 //											pressure:1.0)!
 //		 // dispatch Pic event
-//		let x:Vew? 				= DOCfwGuts.modelPic(with:nsEvent)
+//		let x:Vew? 				= DOCfwModel.modelPic(with:nsEvent)
 ////		print(windowController0)
 //		print(x ?? "<<nil>>")
 //	}

@@ -639,7 +639,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			var rv				= ppUid(self, post:" ", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")
 			rv 					+= log.indentString(minus:1)
-//			rv 					+= root?.fwGuts?.log.indentString(minus:1) ?? ";;"
+//			rv 					+= root?.fwModel?.log.indentString(minus:1) ?? ";;"
 			rv					+= self.upInWorld 	? 	"|/   " :
 								   						"|\\   "
 			rv					+= ppCenterPart(aux)	// adds "name;class<unindent><Expose><ramId>"

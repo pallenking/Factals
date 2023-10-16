@@ -233,14 +233,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		if let rv				= rootVew.openConfig[name] {
 			return rv
 		}
-		guard let fwGuts		= rootVew.fwGuts 	else {	return nil			}
+		guard let fwModel		= rootVew.fwModel 	else {	return nil			}
 //		assert(
-		assert(fwGuts == part.root?.fwGuts, "paranoia: fwGuts mismatch")		//(fwGuts==nil || fwGuts! == part.root?.fwGuts
+		assert(fwModel == part.root?.fwModel, "paranoia: fwModel mismatch")		//(fwModel==nil || fwModel! == part.root?.fwModel
 
 		 // Try Document's configuration
 		var rv : FwAny?			= nil
 		if trueF {							//trueF//falseF//
-			guard let rv1		= fwGuts.document	else {	return nil			}
+			guard let rv1		= fwModel.document	else {	return nil			}
 			rv					= rv1.config[name]
 			// Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 		}
@@ -590,9 +590,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let (nl, fmt)			= format.stripLeadingNewLines()
 		if let rootVew {
-			rootVew.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			rootVew.fwModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else if let root		= part.root {	// strangely redundant, but okay
-			root.fwGuts.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			root.fwModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
 			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}

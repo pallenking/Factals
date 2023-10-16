@@ -420,9 +420,9 @@ extension SCNNode /*: HasChildren */ {
 		}
 
 		 // display position in trunk:
-		if let fwGuts			= DOCfwGutsQ,
+		if let fwModel			= DOCfwModelQ,
 		  params4aux.string_("ppViewOptions").contains("W"),					//if DOClog.params4aux.string_("ppViewOptions").contains("W") {
-		  let rootVew			= fwGuts.rootVew(ofScnNode:self) {
+		  let rootVew			= fwModel.rootVew(ofScnNode:self) {
 			let p				= convertPosition(.zero, to:rootVew.scn)
 			rv2					+= p.pp(.short).field(-11, dots:false)
 		}

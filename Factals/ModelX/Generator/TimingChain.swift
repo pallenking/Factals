@@ -62,7 +62,7 @@ class TimingChain : Atom {
 	override init(_ config:FwConfig = [:]) {
 		super.init(config)//, leafKind:leafKind_)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ //
 		asyncData				= localConfig["asyncData"]    as? Bool ?? false
-		if let ac				= trueF_ {//fwGuts!.config4fwGuts.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
+		if let ac				= trueF_ {//fwModel!.config4fwModel.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
 
@@ -203,7 +203,7 @@ class TimingChain : Atom {
 	override func groomModelPostWires(root:RootPart) {
 											super.groomModelPostWires(root:root)
 		asyncData				= localConfig["asyncData"] as? Bool ?? false
-		if let ac				= root.fwGuts?.document.config.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
+		if let ac				= root.fwModel?.document.config.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
 

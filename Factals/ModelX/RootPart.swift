@@ -16,7 +16,7 @@ class RootPart : Part {
 	var	simulator		: Simulator
 	var title							= ""
 	var ansConfig		: FwConfig		= [:]
-	var fwGuts			: FwGuts!
+	var fwModel			: FwModel!
 
 	 // MARK: - 2.3 Part Tree Lock
 	var partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
@@ -440,7 +440,7 @@ bug			//self.init(url: fileURL)
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
-	override var log : Log 	{ 	fwGuts?.log ?? .reliable					}
+	override var log : Log 	{ 	fwModel?.log ?? .reliable					}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}

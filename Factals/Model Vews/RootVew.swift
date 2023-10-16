@@ -9,7 +9,7 @@ import SceneKit
 
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	weak
-	 var fwGuts 	:  FwGuts!				// Owner
+	 var fwModel 	:  FwModel!				// Owner
 	var rootScene 	:  RootScene = .nullRoot// HOAKEY!!			// Master 3D Tree
 	var nsView		:  NSView? = nil		// View displaying
 
@@ -25,7 +25,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 
 	 // Sugar
 	var rootPart 	: RootPart	{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
-	var slot	 	: Int?		{	fwGuts?.rootVews.firstIndex(of: self)		}
+	var slot	 	: Int?		{	fwModel?.rootVews.firstIndex(of: self)		}
 	var trunkVew 	: Vew? 		{
 		return children.count > 0 ? children[0] : nil
 	}
@@ -51,15 +51,15 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 
 		 // 3. Add Lights, Camera and SelfiePole
 		rootScene.checkLights()
-		rootScene.checkCamera()			// (had fwGuts.document.config)
+		rootScene.checkCamera()			// (had fwModel.document.config)
 		let _ /*axesScn*/		= rootScene.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
-		selfiePole.configure(from:fwGuts.document.config)
+		selfiePole.configure(from:fwModel.document.config)
 
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= trunkVew			// default
-		if let laStr			= fwGuts.document.config.string("lookAt"), laStr != "",
+		if let laStr			= fwModel.document.config.string("lookAt"), laStr != "",
 		  let  laPart 			= rootPart.find(path:Path(withName:laStr), inMe2:true) {
 			lookAtVew			= find(part:laPart)
 		}
@@ -152,9 +152,9 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let fwGuts		= part.root?.fwGuts else {	fatalError("Paranoia 29872") }
-		guard let fwGuts2		= rootVew?  .fwGuts else {	fatalError("Paranoia 23872") }
-		assert(fwGuts === fwGuts2, "Paranoia i5205")
+		guard let fwModel		= part.root?.fwModel else {	fatalError("Paranoia 29872") }
+		guard let fwModel2		= rootVew?  .fwModel else {	fatalError("Paranoia 23872") }
+		assert(fwModel === fwModel2, "Paranoia i5205")
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
 		let pRoot				= part.root!
@@ -171,10 +171,10 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						guard let fwGuts = part.root?.fwGuts else {	fatalError("### part.root?.fwGuts is nil ###")		}
+						guard let fwModel = part.root?.fwModel else {	fatalError("### part.root?.fwModel is nil ###")		}
 
 						 // Lock  _ALL_  root Vews:
-						for rootVew in fwGuts.rootVews {
+						for rootVew in fwModel.rootVews {
 							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
 								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "<nil>")') FAILED to get it")
 							}
@@ -232,7 +232,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		for rootVew in fwGuts.rootVews {
+		for rootVew in fwModel.rootVews {
 			rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
 		}
 	}
@@ -240,10 +240,10 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 							 				// Report any improper linking:
-		guard let fwGuts 					else {	return "fwGuts BAD"			}
+		guard let fwModel 					else {	return "fwModel BAD"			}
 		guard let slot 						else {	return "slot IS NIL"		}
-		guard slot < fwGuts.rootVews.count 	else {	return "slot TOO BIG"		}
-		guard fwGuts.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
+		guard slot < fwModel.rootVews.count 	else {	return "slot TOO BIG"		}
+		guard fwModel.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
 		
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
