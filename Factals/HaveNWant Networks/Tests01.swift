@@ -240,7 +240,7 @@ r("Port", 		e + selfiePole(s:-134,u:5), { Port()						})
 
  // MARK: - * Basic Atoms
 state.scanSubMenu				= "Basic Atoms"
-r("Broatcast",  		e,	{ Broadcast([n:"a", "lat":1])})				// 190311 +
+xr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":1])})				// 190311 +
 r("Portless",  			e,  { Portless( [n:"a"]) 		})				// 190311 +
 r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
 r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
@@ -839,7 +839,7 @@ r("+ All various flips A",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx",
 		Broadcast([n:"t2", flip:0, phys:[gravity:1], jog:"4 0 0"]),
 	] ]),
 ] ]) } )
-xr("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
+xxr("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
 	Net([placeMy:"stackx", parts:[
 		Net([placeMy:"linky", parts:[	// AC
 			Broadcast([n:"ma", P:["x,l:5,t:dual"],jog:"0 0 2"]),	// A

@@ -1343,7 +1343,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			if var doc			= root?.factalsModel?.document { 	// take struct out
 
 				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
-												+ "\(pp(.fwClassName))\n\(pp(.tree))")
+												+ "\(pp(.fwClassName))\n\t\(pp(.tree))")
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:

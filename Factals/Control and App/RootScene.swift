@@ -28,7 +28,7 @@ class RootScene : SCNScene {				// xyzzy4
 		let duration			= Float(1)
 		guard let rootVew 		= rootVew else { print("processEvent.rootVews[?] is nil"); return false}
 		let slot				= rootVew.slot ?? -1
-		let factalsModel				= rootVew.factalsModel		// why ! ??
+		let factalsModel		= rootVew.factalsModel		// why ! ??
 
 		switch nsEvent.type {
 
@@ -175,9 +175,9 @@ class RootScene : SCNScene {				// xyzzy4
 
 		let transform			= selfiePole.transform()
 		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
-		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.tree)) -> cameraScn:\(cameraScn.pp(.uid))")
-		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
-		cameraScn.transform 	= transform
+		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
+		print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
+		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
 	}
 }
 
@@ -562,30 +562,30 @@ enum FwNodeCategory : Int {
 extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
-//		//	atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
-		//	let rVew			= self.rootVew!
-		//	rVew.lockBoth("updateAtTime")
-		//	rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
-		//	rVew.unlockBoth("updateAtTime")
+//			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+			let rVew			= self.rootVew!
+			rVew.lockBoth("updateAtTime")
+			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
+			rVew.unlockBoth("updateAtTime")
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-	//	DispatchQueue.main.async {
-//	//		atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-	//		let rVew			= self.rootVew!
-	//		rVew .lockBoth("didApplyAnimationsAtTime")
-//	//		rVew .part.computeLinkForces(vew:rVew)
-	//		rVew .unlockBoth("didApplyAnimationsAtTime")
-	//	}
+		DispatchQueue.main.async {
+//			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+			let rVew			= self.rootVew!
+			rVew .lockBoth("didApplyAnimationsAtTime")
+//			rVew .part.computeLinkForces(vew:rVew)
+			rVew .unlockBoth("didApplyAnimationsAtTime")
+		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-	//	DispatchQueue.main.async {
-//	//		atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-	//		let rVew			= self.rootVew!
-	//		rVew.lockBoth("didSimulatePhysicsAtTime")
-//	//		rVew.part.applyLinkForces(vew:rVew)
-	//		rVew.unlockBoth("didSimulatePhysicsAtTime")
-	//	}
+		DispatchQueue.main.async {
+//			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+			let rVew			= self.rootVew!
+			rVew.lockBoth("didSimulatePhysicsAtTime")
+//			rVew.part.applyLinkForces(vew:rVew)
+			rVew.unlockBoth("didSimulatePhysicsAtTime")
+		}
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {

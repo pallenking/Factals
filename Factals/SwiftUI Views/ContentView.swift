@@ -75,13 +75,11 @@ struct ContentView: View {
 	}
 }
 struct FactalsModelView: View {
-	//var foo1 : FactalsModel						// not OK here
 	@Binding	var factalsModel : FactalsModel		// not OK here
 	@State		var isLoaded	= false
 	@State		var mouseDown	= false
 
-	var body: some View {
-		var foo2 : FactalsModel						// OK here
+	var body2: some View {
 
 		VStack {
 			HStack {
@@ -164,6 +162,87 @@ struct FactalsModelView: View {
 //	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
 //	 ?? []
 
+	var body: some View {
+
+		VStack {
+			HStack {
+				if factalsModel.rootVews.count == 0 {
+					Text("No Vews found")
+				}
+
+				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
+				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
+				ForEach($factalsModel.rootVews) {	rootVew in
+					VStack {
+						ZStack {
+							let rootScene = rootVew.rootScene.wrappedValue
+							EventReceiver { 	nsEvent in // Catch events (goes underneath)
+								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
+							}
+							// sceneview takes in a publisher		// PW:
+							// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+							// scenkit -> write models back to viewmodel. s
+							// viewmodel single source of truth.
+							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+							// now: SceneView 	native SwiftUI
+							SceneView(
+								scene:rootScene, 	//rootScn.scnScene,
+								pointOfView: nil,	// SCNNode
+								options: [.rendersContinuously],
+								preferredFramesPerSecond: 30,
+								antialiasingMode: .none,
+								delegate: nil//rootScn	//SCNSceneRendererDelegate?
+							//	technique: nil		//SCNTechnique?
+							)
+
+//							SceneView(
+//								scene:rootScene,
+//								pointOfView:nil,	// SCNNode
+//								options:[.rendersContinuously],
+//								preferredFramesPerSecond:30,
+//								antialiasingMode:.none,
+//								delegate:rootScene,	//nil//SCNSceneRendererDelegate?
+//								technique: nil		//SCNTechnique?
+//							)
+							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
+							 .border(.black, width:1)
+							 .onChange(of:isLoaded) { x in				// compiles, seems OK
+								print("isLoaded = ", x)
+							 }
+					//		 .onKeyPress(phases: .up)  { press in
+					//			 print(press.characters)
+					//			 return .handled
+					//		 }
+				//			 .onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
+							 .onAppear {			//setupHitTesting
+			//					guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
+			//						  let nsView	= nsWindow.contentView,
+			//						  let fwView	= nsView as? SCNView else { fatalError("couldn't find fwView")	}
+			//					 // Perform hit testing on tap gesture
+			//		bug			//let tapGestur		= UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+			//					//sceneView.addGestureRecognizer(tapGestur)
+							 }
+						//	.onAppear(perform: {
+						//		NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
+						//			print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
+						//			return $0
+						//		}
+						//	})
+			//			//	 .gesture(tapGesture)// NSClickGestureRecognizer
+			//				 .onTapGesture {
+			//				 	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
+			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
+			//				 }
+						}
+						VewBar(rootVew:rootVew)
+					}
+				}
+			}
+			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
+			 .padding(10)
+			Spacer()
+		}
+	}
 	func handleMouseDown(event: NSEvent) {
 		mouseDown = true
 		handleMouseEvent(event)

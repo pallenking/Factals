@@ -82,7 +82,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!") }
 		guard let rootPart else {	fatalError("addRootVew with nil rootPart")	}
 		let rootVew				= RootVew(forPart:rootPart) // 1. Make
-		rootVew.factalsModel			= self						// 2. Backpoineter
+		rootVew.factalsModel	= self						// 2. Backpointer
 		rootVews.append(rootVew)							// 3. Install
 		rootVew.configure(from:fwConfig)					// 4. Configure Part
 		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
@@ -246,7 +246,7 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		let vews2check : [Vew]		= v == nil ? rootVews : [v!]
 		for vew in vews2check {
 			if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {
-				 // DISPATCH to PART that was pic'ed
+				 // PART pic'ed, DISPATCH to it!
 				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
 					return picdVew
 				}
@@ -272,7 +272,7 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
 
 		 // the SCNView we are looking at			// SCNView holds a SCNScene
- 		let sceneView : SCNView? = nsView as? SCNView ?? 	// OLD WAY
+ 		var sceneView : SCNView? = nsView as? SCNView ?? 	// OLD WAY
 								   nsView.hitTest(locationInRoot) as? SCNView	// WIERD!!!
 		guard let sceneView else { fatalError("Couldn't find sceneView") }
 
@@ -358,12 +358,9 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		rootVew  .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
 		rootPart?.unlock(partTreeAs:"toggelOpen")
 
-//		cam.transform 			= rootScn.commitCameraMotion(reason:"Other mouseDown")
-	//	let rScn				= rootVew.scn
-		let rootScn				= rootVew.rootScene
-bug;	rootScn.commitCameraMotion(reason:"toggelOpen")
-//bug;	rootScn.cameraScn?.transform = rootScn.commitCameraMotion(reason:"toggelOpen")
-		rootScn.updatePole2Camera(reason:"toggelOpen")
+		let rootScene			= rootVew.rootScene
+bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
+		rootScene.updatePole2Camera(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart!.pp(.tree)))
 
