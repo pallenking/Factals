@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
+		9F0295CF288091EF00DD0004 /* FactalsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FactalsStatus.swift */; };
 		9F0295D32880923000DD0004 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
 		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
 		9F0295D92880926D00DD0004 /* FwwEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D72880926D00DD0004 /* FwwEvent.swift */; };
@@ -96,7 +96,7 @@
 		9F417F3C28EB94BA0047B359 /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
 		9F417F3E28EB94C10047B359 /* FactalsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE521628720A2300C8C22A /* FactalsModel.swift */; };
 		9F417F4228EB94CE0047B359 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
-		9F417F4328EB94D10047B359 /* FwStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FwStatus.swift */; };
+		9F417F4328EB94D10047B359 /* FactalsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FactalsStatus.swift */; };
 		9F417F4428EB94D40047B359 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F417F4528EB94D80047B359 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A1286B8F5B00C8C22A /* Log.swift */; };
 		9F417F4628EB94DB0047B359 /* FilteredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */; };
@@ -188,7 +188,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9F0295CD288091EF00DD0004 /* FwStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwStatus.swift; sourceTree = "<group>"; };
+		9F0295CD288091EF00DD0004 /* FactalsStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FactalsStatus.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
 		9F0295D72880926D00DD0004 /* FwwEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwwEvent.swift; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 				9FEE521628720A2300C8C22A /* FactalsModel.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* RootScene.swift */,
 				9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */,
-				9F0295CD288091EF00DD0004 /* FwStatus.swift */,
+				9F0295CD288091EF00DD0004 /* FactalsStatus.swift */,
 				9F19CA31285EA5090072C50E /* Simulator.swift */,
 				9FEE51A1286B8F5B00C8C22A /* Log.swift */,
 				9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */,
@@ -642,7 +642,7 @@
 				9F417F5B28EB956A0047B359 /* LldbInit.swift in Sources */,
 				9F417F1528EB93FF0047B359 /* Actor.swift in Sources */,
 				9F417F3B28EB94B60047B359 /* ContentView.swift in Sources */,
-				9F417F4328EB94D10047B359 /* FwStatus.swift in Sources */,
+				9F417F4328EB94D10047B359 /* FactalsStatus.swift in Sources */,
 				9F417F3E28EB94C10047B359 /* FactalsModel.swift in Sources */,
 				9F417F5028EB95420047B359 /* SwiftUI++.swift in Sources */,
 				9F417F5228EB954A0047B359 /* SCNGeometry++.swift in Sources */,
@@ -755,7 +755,7 @@
 				9F19010928808E890078DB6C /* SoundAtom.swift in Sources */,
 				9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */,
 				9F19010D28808EE70078DB6C /* Share.swift in Sources */,
-				9F0295CF288091EF00DD0004 /* FwStatus.swift in Sources */,
+				9F0295CF288091EF00DD0004 /* FactalsStatus.swift in Sources */,
 				9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,

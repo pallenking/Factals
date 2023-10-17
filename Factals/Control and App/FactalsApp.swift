@@ -6,16 +6,6 @@
 //	20220822PAK: Imported and Funged from:  AppDelegate.swift -- for SwiftFactals  C2018PAK
 //
 
- // 	File Naming Notes: (MOVE TO CENTRALIZED PLACE)
-// Some of the Application-base classes have nameing conflicts with SceneKit
-//		base		twitteling		App's subclass		comment
-//		Document	prepend Fw		FwDocument
-// There are 2 cases:
-// Case 1: base is the generic name.			  e.g: Document.
-//				FW's subclass is "Fw" + basename. e.g: FwDocument
-// Case 2: base name starts with NS 	 e.g: NSDocumentController, or isn't generic:
-//				FW's subclass strips NS. e.g: DocumentController
-
 import Cocoa
 import SwiftUI
 import SceneKit
@@ -216,7 +206,7 @@ struct FactalsApp: App, Uid, FwAny {
 	}													// why not use SwiftUI?
 	func appState(_ sender: Any) {
 		print("'c': AppDelegate.appState():")
-		print(ppFwState())
+		print(ppFactalsState())
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")

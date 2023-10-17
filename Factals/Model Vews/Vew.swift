@@ -1,4 +1,4 @@
-//  Vew.swift -- a tree of (Fw)Views per part C2013PAK
+//  Vew.swift -- a tree of (Factals)Views per part C2013PAK
 // :H: ViEW (Vew) is a contraction of View, and contains views of 3D objects
 // :H: bbox=BBox, fw=FactalWorkbench
 

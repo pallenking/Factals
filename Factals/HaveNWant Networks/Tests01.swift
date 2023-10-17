@@ -240,7 +240,7 @@ r("Port", 		e + selfiePole(s:-134,u:5), { Port()						})
 
  // MARK: - * Basic Atoms
 state.scanSubMenu				= "Basic Atoms"
-xr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":1])})				// 190311 +
+xr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":0])})				// 190311 +
 r("Portless",  			e,  { Portless( [n:"a"]) 		})				// 190311 +
 r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
 r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +

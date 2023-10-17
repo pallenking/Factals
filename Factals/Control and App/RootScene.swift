@@ -11,7 +11,6 @@ import SceneKit
 class RootScene : SCNScene {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?				// RootVew, owner of this RootScn
-// 	var cameraScn	: SCNNode?	{ rootNode.find(name:"*-camera") }
 
 	 // MARK: - 3.1 init
 	override init() {
@@ -302,19 +301,34 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 			camera.name			= "SCNCamera"
 			rv.camera			= camera
 
+			let perspective		= true
+			camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
+			camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+			camera.exposureAdaptationDarkeningSpeedFactor = 1
+			camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 			// Check the condition to determine the camera mode
-			if false {
-				// Perspective mode
-				camera.usesOrthographicProjection = false
-				camera.zNear 	= 0.1 	// 1    Set the near clipping distance
-				camera.zFar 	= 1000	// 100  Set the far clipping distance
-				camera.fieldOfView = 60	// Set the field of view, in degrees
-			} else {
-				// Orthographic mode
+			camera.zNear 		= 0.1 	// 1    Set the near clipping distance
+			camera.zFar 		= 1000	// 100  Set the far clipping distance
+			camera.fieldOfView 	= 60	// Set the field of view, in degrees
+			if !perspective {
+				 // Orthographic (non-perspective) mode
 				camera.usesOrthographicProjection = true
 				let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
 				camera.orthographicScale = orthoScale
 			}
+	//		// Check the condition to determine the camera mode
+	//		if false {
+	//			// Perspective mode
+	//			camera.usesOrthographicProjection = false
+	//			camera.zNear 	= 0.1 	// 1    Set the near clipping distance
+	//			camera.zFar 	= 1000	// 100  Set the far clipping distance
+	//			camera.fieldOfView = 60	// Set the field of view, in degrees
+	//		} else {
+	//			// Orthographic mode
+//	//			camera.usesOrthographicProjection = true
+	//			let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
+	//			camera.orthographicScale = orthoScale
+	//		}
 		}
 		//	camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
 		//	camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
