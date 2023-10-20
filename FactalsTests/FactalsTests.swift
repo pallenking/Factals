@@ -21,6 +21,7 @@ final class FactalsTests: XCTestCase {
 
 	override func tearDownWithError() throws {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
+		print("-------------- XCTest tearDownWithError code: --------------------")
 	}
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
@@ -58,7 +59,7 @@ final class FactalsTests: XCTestCase {
 	func testRootAsPart1() {
 		let rootPart1			= RootPart()
 		print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
-		let factalsModel1			= FactalsModel(rootPart:rootPart1)
+		let factalsModel1		= FactalsModel(rootPart:rootPart1)
 		print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
 
 		let document			= FactalsDocument(factalsModel:factalsModel1)
@@ -103,9 +104,9 @@ final class FactalsTests: XCTestCase {
 	func testPp() {
 		let t1 = "xsweyzzy", t2 = 32
 		let tests:[(()->String, String)]	= [
-			({"Most basic test"}, "Most basic test"),
+			({"Most basic test"}, 	"Most basic test"),
 			({"String \(t1) here"}, "String xsweyzzy here"),
-			({"Number \(t2)"}, "Number 32"),
+			({"Number \(t2)"}, 		"Number 32"),
 		]
 
 		for (i, (actual, expected)) in tests.enumerated() {
@@ -194,6 +195,26 @@ final class FactalsTests: XCTestCase {
 				print("############ \(i+1). (\(part.pp(.uidClass))).Type is \(partsClass), should be \(expectedClass) ###########")
 				let _ : Part.Type = classFrom(string:expectedClassName)
 			}
+		}
+	}
+	func XXtestPartFind() {
+		let rootPart = Net(["n":"c", "parts":[
+				Broadcast(["n":"a"]),
+				MaxOr(	  ["n":"b"]),
+			] ])
+		struct Test {
+			let start	: String
+			let path	: Path
+			let end		: String
+		}
+		let tests:[Test] 		= [
+			Test(start:"/a", path:Path(withName:"b"), end:"/c/b"),
+		]
+		for (i, test) in tests.enumerated() {
+			let start			= rootPart.find(name:test.start)
+			XCTAssert(start != nil, "\(i): Could not find part named '\(test.start)'")
+			let end				= start!.find(path:test.path)
+			XCTAssertEqual(end?.fullName, test.end, "\(i): From '\(start!.fullName)', Path '\(test.path.pp(.line))' FAILED")
 		}
 	}
 
@@ -367,12 +388,16 @@ final class FactalsTests: XCTestCase {
 	}
 
 	func testPpUidSimple() {
-		let y  : String				= ppUid(pre:"pre:", DOClog, post:":post")
+		let y  : String			= ppUid(pre:"pre:", DOClog, post:":post")
 		//Ambiguous use of 'ppUid(pre:_:post:showNil:aux:)'
 		XCTAssert(y.hasPrefix("pre:") && y.hasSuffix("post"))
 	}
 
-	func testFwTypes() {
+	func testMatrix4PpMode() {
+		var aMtx				= SCNMatrix4(SCNVector3(4,5,6))
+		let aMtxPpLine			= aMtx.pp(.line)
+	}
+	func testFwXppMode() {
 		print("""
 			\n\n\n
 			 ============================================================================

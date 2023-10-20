@@ -237,13 +237,7 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 	/// - Parameter n: an NSEvent (else current NSEvent)
 	/// - Parameter v: specific base Vew (else check all rootVews)
 	/// - Returns: The Vew of the part pressed
-	func modelPic(with n:NSEvent?=nil, inVew v:Vew?=nil) -> Vew? {
-		 // if no nsEvent supplied, use current
-		guard let nsEvent			= n ?? NSApp.currentEvent else { return nil	}
-	//	guard let scnView 			= NSApp.keyWindow?.contentView as? SCNView else {
-	//	guard let nsView 			= NSApp.keyWindow?.contentView,
-	//	  let scnView 				= nsView as? SCNView else {
-	//		fatalError("contentView not SCNView!") ; return nil					}
+	func modelPic(with nsEvent:NSEvent, inVew v:Vew?=nil) -> Vew? {
 		let vews2check : [Vew]		= v == nil ? rootVews : [v!]
 		for vew in vews2check {
 			if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {

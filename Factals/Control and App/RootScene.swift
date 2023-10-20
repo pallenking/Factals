@@ -21,7 +21,7 @@ class RootScene : SCNScene {				// xyzzy4
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
-	let nsTrackPad				= falseF//trueF//
+	let nsTrackPad				= trueF//falseF//
 
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
@@ -68,7 +68,7 @@ class RootScene : SCNScene {				// xyzzy4
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			if nsTrackPad  {					// Trackpad
 				beginCameraMotion(with:nsEvent)
-				if !mouseWasDragged {			// UnDragged Up
+				if !mouseWasDragged {			// UnDragged Up -> pic
 					if let vew	= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
 						rootVew.lookAtVew = vew			// found a Vew: Look at it!
 					}
@@ -149,23 +149,25 @@ class RootScene : SCNScene {				// xyzzy4
 		return true
 	}
 	 // MARK: - 13.4 Mouse Variables
+	 /// Common update: deltaPosition and lastPosition
 	func beginCameraMotion(with nsEvent:NSEvent)	{
 		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
 
-		let hitPosn 			= contentNsView.convert(nsEvent.locationInWindow,     from:nil)	// nil -> window
+		let hitPosn 			= contentNsView.convert(nsEvent.locationInWindow, from:nil)	// nil -> window
 			//	 : NSPoint			     NsView:								: NSPoint :window
 			//	 : CGPoint
 		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
 
 		 // Movement since last, 0 if first time and there is none
 		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
+		print("beginCameraMotion:deltaPosition=\(deltaPosition)")
 		lastPosition			= hitPosnV3
 	}
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
 	func spinNUp(with nsEvent:NSEvent) {
-		rootVew!.selfiePole.spin =  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+		rootVew!.selfiePole.spin -=  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
 		rootVew!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {

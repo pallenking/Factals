@@ -106,7 +106,7 @@ struct FactalsModelView: View {
 								options: [.rendersContinuously],
 								preferredFramesPerSecond: 30,
 								antialiasingMode: .none,
-								delegate: nil//rootScn	//SCNSceneRendererDelegate?
+								delegate:rootScene	//SCNSceneRendererDelegate?
 							//	technique: nil		//SCNTechnique?
 							)
 
@@ -177,6 +177,7 @@ struct FactalsModelView: View {
 						ZStack {
 							let rootScene = rootVew.rootScene.wrappedValue
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
+								print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
 							// sceneview takes in a publisher		// PW:

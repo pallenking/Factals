@@ -1348,7 +1348,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
-					doc.showInspecFor(vew:vew, allowNew:alt)
+print(" burp")
+//					doc.showInspecFor(vew:vew, allowNew:alt)
 					rv			= true
 				}
 							// Double Click: show/hide insides
