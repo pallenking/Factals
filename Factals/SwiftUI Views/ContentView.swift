@@ -177,7 +177,7 @@ struct FactalsModelView: View {
 						ZStack {
 							let rootScene = rootVew.rootScene.wrappedValue
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
-								print("EventReceiver:point = \(nsEvent.locationInWindow)")
+								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
 							// sceneview takes in a publisher		// PW:
@@ -188,11 +188,11 @@ struct FactalsModelView: View {
 							// now: SceneView 	native SwiftUI
 							SceneView(
 								scene:rootScene, 	//rootScn.scnScene,
-								pointOfView: nil,	// SCNNode
-								options: [.rendersContinuously],
-								preferredFramesPerSecond: 30,
-								antialiasingMode: .none,
-								delegate: nil//rootScn	//SCNSceneRendererDelegate?
+								pointOfView:nil,	// SCNNode
+								options:[.rendersContinuously],
+								preferredFramesPerSecond:30,
+								antialiasingMode:.none,
+								delegate:rootScene//nil//	//SCNSceneRendererDelegate?
 							//	technique: nil		//SCNTechnique?
 							)
 

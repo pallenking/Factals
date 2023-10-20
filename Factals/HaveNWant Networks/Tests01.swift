@@ -240,7 +240,7 @@ r("Port", 		e + selfiePole(s:-134,u:5), { Port()						})
 
  // MARK: - * Basic Atoms
 state.scanSubMenu				= "Basic Atoms"
-xr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":0])})				// 190311 +
+xxr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":0])})				// 190311 +
 r("Portless",  			e,  { Portless( [n:"a"]) 		})				// 190311 +
 r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
 r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
@@ -885,7 +885,7 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xxr("- Multiple SCNViews", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
+	 xr("- Multiple SCNViews", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
 
 	 	//	"Vews":[VewConfig.openAllChildren(toDeapth:4),
 		//			VewConfig.openAllChildren(toDeapth:4)],

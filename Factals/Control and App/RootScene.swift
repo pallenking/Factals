@@ -160,7 +160,7 @@ class RootScene : SCNScene {				// xyzzy4
 
 		 // Movement since last, 0 if first time and there is none
 		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
-		print("beginCameraMotion:deltaPosition=\(deltaPosition)")
+		//print("beginCameraMotion:deltaPosition=\(deltaPosition)")
 		lastPosition			= hitPosnV3
 	}
 	var lastPosition : SCNVector3? = nil				// spot cursor hit
@@ -176,8 +176,8 @@ class RootScene : SCNScene {				// xyzzy4
 
 		let transform			= selfiePole.transform()
 		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
-		print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
-		print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
+		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
+		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
 	}
 }

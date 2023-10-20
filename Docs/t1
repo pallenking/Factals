@@ -457,3 +457,95 @@ params4docLog  =1 [params4pp## +params4logs_+log(all:docLogN)        25
 
 
 
+3.036 Abld4    76a8:RootPart               Raw Network:
+76a8   <##      ROOT:RootPa. . . . . . . oVS  "'xr()' -> 14:LangDeser.41"
+250e   | < 0      net0:Net   . . . . . . oVS 
+7b9c   | | < 0  wordType:Actor . . . . . oVS evi:'evi' 
+1ef0   | | | < 0        ma:MaxOr . . . . oV MaxOr a1=0.00 cWin=0 MaxOr WTA true reComp 
+d606   | | | |\            P:Port  . . . oV 0.00>
+a2ff F | | | |/            P:Port  . . . oV 0.00>
+4526 Ff| | | < 1        mj:MinAnd. . . . oVS MinAnd a1=0.00 cWin=0 MinAnd WTA true reComp 
+8e98   | | | < 2       evi:Tunnel. . . . oVS 
+29d6   | | | | < 1..position:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+4840 F | | | | | |/            P:Port  . oV 0.00>
+368a Ff| | | | | < 0       gen:GenAto. . oVS 
+a468   | | | | < 2determinat:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+7866 F | | | | | |/            P:Port  . oV 0.00>
+a6fe Ff| | | | | < 0       gen:GenAto. . oVS 
+05f5   | | | | < 3     nouns:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+639a F | | | | | |/            P:Port  . oV 0.00>
+c9ff Ff| | | | | < 0       gen:GenAto. . oVS 
+02ad   | | | | < 4 auxiliary:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+49bd F | | | | | |/            P:Port  . oV 0.00>
+0200 Ff| | | | | < 0       gen:GenAto. . oVS 
+de12   | | | | < 5     verbs:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+9d1e F | | | | | |/            P:Port  . oV 0.00>
+b080 Ff| | | | | < 0       gen:GenAto. . oVS 
+a33f   | | | | < 6        cp:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+ca02 F | | | | | |/            P:Port  . oV 0.00>
+95ab Ff| | | | | < 0       gen:GenAto. . oVS 
+7c77   | | | |\            P:MultiP. . . oV 0.00>
+
+3.037 Abld4    76a8:RootPart               ------- GATHERING potential Links:
+3.038 Abld4    1ef0:MaxOr                  L1's source:..t0/wordType/ma.'P'      -->  target:mj
+3.039 Abld4    1ef0:MaxOr                  L2's source:..t0/wordType/ma.'share'  -->  target:nouns
+3.040 Abld4    1ef0:MaxOr                  L3's source:..t0/wordType/ma.'share'  -->  target:auxiliary
+3.041 Abld4    4526:MinAnd                 L1's source:..t0/wordType/mj.'share'  -->  target:determinat
+3.042 Abld4    4526:MinAnd                 L2's source:..t0/wordType/mj.'share'  -->  target:nouns
+3.043 Abld4    76a8:RootPart               ------- WIRING 5 Links to Part:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4526  f| | | | | < 0       gen:GenAto. . oVS 
+a2ff___|_|_|_|_|_|\___________ P:Port  . oV 0.00>
+8e98_F_|_|_|_|_<_1_______foo:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+d606 F | | | |/            P:MultiP. . . oV 0.00>
+1ef0_Ff|_|_|_<_0_______con:Tunnel. . . . oVS 
+7c77   | | | < 1        ma:MaxOr . . . . oV MaxOr a1=0.00 cWin=0 MaxOr WTA true reComp 
+368a___|_|_|_|\____________P:Port  . . . oV 0.00>
+29d6 F | | | |/            P:Port  . . . oV 0.00>
+4840_Ff|_|_|_<_2________mj:MinAnd. . . . oVS MinAnd a1=0.00 cWin=0 MinAnd WTA true reComp 
+c9ff F | | | | | |/            P:Port  . oV 0.00>
+a468_Ff|_|_|_|_|_<_0_______gen:GenAto. . oVS 
+639a___|_|_|_|_<_1_______bar:Leaf  . . . oVS bindings:[:gen, G:gen.P, R:gen.P] type:.genAtom 
+a6fe   | | | < 3       evi:Tunnel. . . . oVS 
+7866___|_|_|_|\____________P:MultiP. . . oV 0.00>
+05f5___|_|_<_0__wordType:Actor . . . . . oVS evi:'evi' con:'con' 
+0200___|_<_0______net0:Net___. . . . . . oVS 
+76a8   <##      ROOT:RootPa. . . . . . . oVS  "'xr()' -> 14:LangDeser.43"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Zip2Sequence<
+	StrideThrough<Double>,
+	UnfoldSequence<ContentView.OrbitState, (ContentView.OrbitState?, Bool)>>.Element
+
+ UnfoldSequence<ContentView.OrbitState, (ContentView.OrbitState?, Bool)>.Element
+
+An Element
+   of an UnfoldSequence<ContentView.OrbitState, (ContentView.OrbitState?, Bool)>.Element
