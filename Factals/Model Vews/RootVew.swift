@@ -105,7 +105,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
 			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :	// immediate but noisy printout
 							  nop
-			fatalError(msg)	// for debug only
+                               			fatalError(msg)	// for debug only
 //			panic(msg)	// for debug only
 //			return false
 		}

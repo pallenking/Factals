@@ -564,14 +564,6 @@ An Element
 
 
 
-76a8   <##      ROOT:RootPa. . . . . . . o   "'xr()' -> 134:Tests01.888 (5 Ports)"
-8e98   | < 0      net0:Net   . . . . . . o  
-d606 F | | |/            P:Port  . . . . o  1.00/0.00>									2
-1ef0 Ff| | < 0         c:Hammin. . . . . o  Hamming a1=0.00 Hamming WTA false reComp	1
-7c77  f| | |\           s1:Hammin. . . . o  1.00/0.00>									<--
-a2ff F | | |/            P:Port  . . . . o  1.00/0.00>
-4526 Ff| | < 2      mir0:Mirror. . . . . o
-
 d606 F | | |/            P:Port  . . . . oP 1.00/0.00>
 1ef0 Ff| | < 0         c:Hammin. . . . . oP Hamming a1=0.00 Hamming WTA false reComp 
 7c77__f|_|_|\___________s1:Hammin. . . . oP 1.00/0.00>
@@ -927,4 +919,3 @@ a2ff F | | |/            P:Port  . . . . oP 1.00/0.00>
   partTreeOwner = nil
   partTreeOwnerPrev = nil
   partTreeVerbose = true
-}
