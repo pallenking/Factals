@@ -502,9 +502,9 @@ class Bulb : Splitter { //######################################################
 				markTree(dirty:.size)
 																		}	}	}
 	@Published var currentRadius : CGFloat = 0.0
-	{	didSet { if currentRadius != oldValue {
-				markTree(dirty:.size)
-																		}	}	}
+//	{	didSet { if currentRadius != oldValue {
+//				markTree(dirty:.size)
+//																		}	}	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.find(name:"s-Bulb") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1))

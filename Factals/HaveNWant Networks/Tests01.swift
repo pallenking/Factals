@@ -343,22 +343,12 @@ xxr("+Family Portrait", e + selfiePole( s:-90, u:30) +
 		Sphere(		[size:SCNVector3(2,  2,  2),	color:"[purple]"]),
 	]]),
 ]]) })
-	xxr("-Should never get here", e + selfiePole( s:-90, u:30) +
+	r("-Should never get here", e + selfiePole( s:-90, u:30) +
 				["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
-//		Bulb(),
+		Bulb(),
 		MaxOr(),
-//		TimingChain(),
-	//	Box(),
-	]]) })
-		xr("-Bulb() bug", e, { Net([placeMy:"stackX -1", parts:[
-			Bulb(),
-		]]) })
-
-		xxr("-OK", e, { Net([placeMy:"stackX -1", parts:[
-			Box(),
-		]]) })
-	r("- illegal !", e + selfiePole( s:-90, u:30) + ["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 		TimingChain(),
+		Box(),
 	]]) })
 
 r("-Atom overlap", e + selfiePole(s:43, u:30), { Net([placeMy:"linky", parts:[
@@ -396,36 +386,41 @@ r("+ Splitters family portrait", eXYtight + ["ppXYZMaskX":7] + selfiePole(s:45,u
 	KNorm(			[n:"g"]),		Sequence(		[n:"h"]),
 	Bulb(			[n:"i"]),
 ]]) })
-xxr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
-//  Net([placeMy:"stackz -1 -1", parts:[
-//	Leaf(.nil_, 	[n:"a"]),
-////	Leaf(.port, 	[n:"c"]),		Leaf(.mPort),
-//	Leaf(.genAtom,	[n:"d"]),
-////	Leaf(.splitter, [n:"e"]),		Leaf(.genSplitter, [n:"f"]),
-//	Leaf(.bcast, 	[n:"g"]),		Leaf(.genBcast, [n:"h"]),
-//  ] ]),
-//  Net([placeMy:"stackz -1 -1", parts:[
-//	Leaf(.genMax, 	[n:"h"]),		Leaf(.genMaxSq, [n:"i"]),
-//  ] ]),
-//  Net([placeMy:"stackz -1 -1", parts:[
-//	Leaf(.bayes, 	[n:"j"]),		Leaf(.genBayes, [n:"k"]),
-//	Leaf(.mod, 		[n:"l"]),		Leaf(.rot, 		[n:"m"]),
-//  ] ]),
-//  Net([placeMy:"stackz -1 -1", parts:[
-//	Leaf(.branch, 	[n:"o"]),
-//	Leaf(.bulb, 	[n:"p"]),		Leaf(.genBulb, 	[n:"q"]),
-//	Leaf(.rot, 		[n:"n"]),
-//	Leaf(.cylinder, [n:"b"]),
-//  ] ]),
-  Net([placeMy:"stackz -1 -1", parts:[
-	Leaf(.prev, 	[n:"t"]),
-	Leaf(.genPrev, 	[n:"r"]),
-	Leaf(.flipPrev, [n:"s"]),
-  ] ]),
-  Net([placeMy:"stackz -1 -1", parts:[
-	Leaf(.ago, 		[n:"u"]),		Leaf(.genAgo,	[n:"v"]),	Leaf(.agoMax,	[n:"w"]),
-  ] ]),
+xr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
+	Net([placeMy:"stacky -1 -1", parts:[
+		Net([placeMy:"stackz -1 -1", parts:[
+			Leaf(.nil_, 	[n:"a"]),
+			//	Leaf(.port, 	[n:"c"]),		Leaf(.mPort),
+			Leaf(.genAtom,	[n:"d"]),
+			//	Leaf(.splitter, [n:"e"]),		Leaf(.genSplitter, [n:"f"]),
+			Leaf(.bcast, 	[n:"g"]),		Leaf(.genBcast, [n:"h"]),
+		] ]),
+		Net([placeMy:"stackz -1 -1", parts:[
+			Leaf(.genMax, 	[n:"h"]),		Leaf(.genMaxSq, [n:"i"]),
+		] ]),
+		Net([placeMy:"stackz -1 -1", parts:[
+			Leaf(.bayes, 	[n:"j"]),		Leaf(.genBayes, [n:"k"]),
+			Leaf(.mod, 		[n:"l"]),		Leaf(.rot, 		[n:"m"]),
+		] ]),
+	] ]),
+	Net([placeMy:"stackz -1 -1", parts:[
+		Net([placeMy:"stackz -1 -1", parts:[
+			Leaf(.branch, 	[n:"o"]),
+			Leaf(.bulb, 	[n:"p"]),		Leaf(.genBulb, 	[n:"q"]),
+			Leaf(.rot, 		[n:"n"]),
+			Leaf(.cylinder, [n:"b"]),
+		] ]),
+		Net([placeMy:"stackz -1 -1", parts:[
+			Leaf(.prev, 	[n:"t"]),
+			Leaf(.genPrev, 	[n:"r"]),
+			Leaf(.flipPrev, [n:"s"]),
+		] ]),
+		Net([placeMy:"stackz -1 -1", parts:[
+			Leaf(.ago, 		[n:"u"]),		Leaf(.genAgo,	[n:"v"]),	Leaf(.agoMax,	[n:"w"]),
+		] ]),
+	] ])
 ] ] ) } )
+
 	r("- repaint bug", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
 //		Leaf(.port, [n:"c"]),
 //		Leaf(.bulb, [n:"p"]),
@@ -665,8 +660,8 @@ r("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + log(all:0) + vel(-
 	r("SKIN: LC", e + selfiePole(s:1,u:1), 	{	Leaf(.bcast, [n:"a"])				})
 
 // NB: Some bugs only showed up with a repaint (hit P): state in existing vew.
-xxr(e + selfiePole(u:20), { Net([parts:[ Box(), Box(),]]) })
-xxr(e + selfiePole(u:20), { Net([parts:[Box(),]]) })
+r(e + selfiePole(u:20), { Net([parts:[ Box(), Box(),]]) })
+r(e + selfiePole(u:20), { Net([parts:[Box(),]]) })
 
 // // MARK: - * Tunnels:
 // 200102: BUG: Timmel placement bad

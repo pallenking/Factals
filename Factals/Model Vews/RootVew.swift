@@ -68,7 +68,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		let posn				= lookAtVew?.bBox.center ?? .zero
 		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		selfiePole.position			= worldPosition
+		selfiePole.position		= worldPosition
 	}
 
 	 // MARK: - 4? locks

@@ -172,6 +172,8 @@ class RootScene : SCNScene {				// xyzzy4
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
+			// add ortho magnification.
+		cameraScn.camera?.orthographicScale = selfiePole.zoom * 20
 	}
 }
 
@@ -296,7 +298,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 			camera.name			= "SCNCamera"
 			rv.camera			= camera
 
-			let perspective		= true
+			let perspective		= false
 			camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
 			camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
 			camera.exposureAdaptationDarkeningSpeedFactor = 1
@@ -407,28 +409,28 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		}
 	}
 
-	 // MARK: 4.4 - Look At Updates
-	func movePole(toWorldPosition wPosn:SCNVector3) {
-		guard let factalsModel		= rootVew?.factalsModel else {		return						}
-		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= rootNode.convertPosition(localPoint, to:rootNode)
-
-///		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
-
-		let animateIt			= factalsModel.document.config.bool_("animatePole")
-		if animateIt {	 // Animate 3D Cursor Pole motion"∫
-			SCNTransaction.begin()
-//			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
-		}
-
-///		pole.worldPosition		= wPosn
-
-		if animateIt {
-			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
-			atRve(8, factalsModel.logd("  \\#######  SCNTransaction: COMMIT"))
-			SCNTransaction.commit()
-		}
-	}
+//	 // MARK: 4.4 - Look At Updates
+//	func movePole(toWorldPosition wPosn:SCNVector3) {
+//		guard let factalsModel		= rootVew?.factalsModel else {		return						}
+//		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
+//		let wPosn				= rootNode.convertPosition(localPoint, to:rootNode)
+//
+/////		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
+//
+//		let animateIt			= factalsModel.document.config.bool_("animatePole")
+//		if animateIt {	 // Animate 3D Cursor Pole motion"∫
+//			SCNTransaction.begin()
+////			atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
+//		}
+//
+/////		pole.worldPosition		= wPosn
+//
+//		if animateIt {
+//			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
+//			atRve(8, factalsModel.logd("  \\#######  SCNTransaction: COMMIT"))
+//			SCNTransaction.commit()
+//		}
+//	}
 	//
 //	func commitCameraMotion(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
 //	//	selfiePole.zoom			= zoom4fullScreen()
@@ -441,9 +443,10 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	///   - message: for logging only
 	///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
+bug;
 		guard let cameraScn		= rootVew?.cameraScn else {return }
 
-bug;	zoom4fullScreen()
+		zoom4fullScreen()
 //		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
 		guard let rootVew		= self.rootVew else { fatalError("rootVew is nil")}
 
