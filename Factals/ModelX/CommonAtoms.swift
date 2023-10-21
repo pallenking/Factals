@@ -170,7 +170,7 @@ class Mirror : Atom {
 //		let theCopy				= super.copy(with:zone) as! Mirror
 //		theCopy.gain 			= self.gain
 //		theCopy.offset 			= self.offset
-//		atSer(3, logd("copy(with as? ConveyorPort   '\(fullName)'"))
+//		atSer(3, logd("copy(with as? LinkPort   '\(fullName)'"))
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -232,7 +232,7 @@ class Modulator : Atom {
 //		theCopy.sHeight 		= self.sHeight
 //		theCopy.sRadius 		= self.sRadius
 //		theCopy.armLen 			= self.armLen
-//		atSer(3, logd("copy(with as? ConveyorPort   '\(fullName)'"))
+//		atSer(3, logd("copy(with as? LinkPort   '\(fullName)'"))
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable

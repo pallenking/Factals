@@ -156,7 +156,7 @@ final class FactalsTests: XCTestCase {
 			(		ShapeTest(),			"ShapeTest"		),
 			(		Sphere(),				"Sphere"		),
 			(		TunnelHood(),			"TunnelHood"	),
-			(	ConveyorPort(), 			"ConveyorPort"	),
+			(	LinkPort(), 			"LinkPort"	),
 			(	PolyWrap(), 				"PolyWrap"		),
 			(	Port(), 					"Port"			),
 			(		MultiPort(), 			"MultiPort"		),

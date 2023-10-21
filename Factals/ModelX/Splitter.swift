@@ -118,7 +118,7 @@ class Splitter : Atom {
 //		theCopy.combineWinner 	= self.combineWinner
 //		theCopy.upIsDirty 		= self.upIsDirty
 //		theCopy.a1 				= self.a1
-//		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
+//		atSer(3, logd("copy(with as? LinkPort       '\(fullName)'"))
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable

@@ -66,7 +66,7 @@ class SoundAtom : Atom {
 //		let theCopy				= super.copy(with:zone) as! SoundAtom
 //		theCopy.sound 			= self.sound
 //		theCopy.playing 		= self.playing
-//		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
+//		atSer(3, logd("copy(with as? LinkPort       '\(fullName)'"))
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable

@@ -461,7 +461,7 @@ class Bulb : Splitter { //######################################################
 //		theCopy.gain 			= self.gain
 //		theCopy.offset 			= self.offset
 //		theCopy.currentRadius 	= self.currentRadius
-//		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
+//		atSer(3, logd("copy(with as? LinkPort       '\(fullName)'"))
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable

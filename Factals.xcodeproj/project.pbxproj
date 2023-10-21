@@ -27,7 +27,7 @@
 		9F19010228808DC10078DB6C /* EditNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F228808DC00078DB6C /* EditNet.swift */; };
 		9F19010328808DC10078DB6C /* Leaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F328808DC00078DB6C /* Leaf.swift */; };
 		9F19010528808DC10078DB6C /* GenAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F528808DC00078DB6C /* GenAtom.swift */; };
-		9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* ConveyorPort.swift */; };
+		9F19010628808DC10078DB6C /* LinkPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* LinkPort.swift */; };
 		9F19010728808DC10078DB6C /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F728808DC10078DB6C /* Tunnel.swift */; };
 		9F19010928808E890078DB6C /* SoundAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010828808E890078DB6C /* SoundAtom.swift */; };
 		9F19010B28808EC90078DB6C /* Splitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010A28808EC90078DB6C /* Splitter.swift */; };
@@ -68,7 +68,7 @@
 		9F417F1F28EB94210047B359 /* Previous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900EA28808DC00078DB6C /* Previous.swift */; };
 		9F417F2028EB94240047B359 /* MultiLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E928808DC00078DB6C /* MultiLink.swift */; };
 		9F417F2128EB94270047B359 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
-		9F417F2228EB942A0047B359 /* ConveyorPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* ConveyorPort.swift */; };
+		9F417F2228EB942A0047B359 /* LinkPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* LinkPort.swift */; };
 		9F417F2328EB942E0047B359 /* GenAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F528808DC00078DB6C /* GenAtom.swift */; };
 		9F417F2428EB94310047B359 /* SoundAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010828808E890078DB6C /* SoundAtom.swift */; };
 		9F417F2528EB94350047B359 /* CommonAtoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52282876023A00C8C22A /* CommonAtoms.swift */; };
@@ -213,7 +213,7 @@
 		9F1900F228808DC00078DB6C /* EditNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNet.swift; sourceTree = "<group>"; };
 		9F1900F328808DC00078DB6C /* Leaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaf.swift; sourceTree = "<group>"; };
 		9F1900F528808DC00078DB6C /* GenAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenAtom.swift; sourceTree = "<group>"; };
-		9F1900F628808DC00078DB6C /* ConveyorPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConveyorPort.swift; sourceTree = "<group>"; };
+		9F1900F628808DC00078DB6C /* LinkPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPort.swift; sourceTree = "<group>"; };
 		9F1900F728808DC10078DB6C /* Tunnel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tunnel.swift; sourceTree = "<group>"; };
 		9F19010828808E890078DB6C /* SoundAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundAtom.swift; sourceTree = "<group>"; };
 		9F19010A28808EC90078DB6C /* Splitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Splitter.swift; sourceTree = "<group>"; };
@@ -334,7 +334,7 @@
 				9F1900EA28808DC00078DB6C /* Previous.swift */,
 				9F1900E928808DC00078DB6C /* MultiLink.swift */,
 				9F1900E728808DC00078DB6C /* Link.swift */,
-				9F1900F628808DC00078DB6C /* ConveyorPort.swift */,
+				9F1900F628808DC00078DB6C /* LinkPort.swift */,
 				9F1900F528808DC00078DB6C /* GenAtom.swift */,
 				9F19010828808E890078DB6C /* SoundAtom.swift */,
 				9FEE52282876023A00C8C22A /* CommonAtoms.swift */,
@@ -670,7 +670,7 @@
 				9F417F0E28EB93E20047B359 /* TestsFoo.swift in Sources */,
 				9F417F5728EB955C0047B359 /* NSColor++.swift in Sources */,
 				9F417F3928EB94A80047B359 /* FactalsApp.swift in Sources */,
-				9F417F2228EB942A0047B359 /* ConveyorPort.swift in Sources */,
+				9F417F2228EB942A0047B359 /* LinkPort.swift in Sources */,
 				9F417F2728EB943D0047B359 /* Atom.swift in Sources */,
 				9F417F4728EB94DF0047B359 /* Sounds.swift in Sources */,
 				9F417F3128EB94680047B359 /* VewConfig.swift in Sources */,
@@ -756,7 +756,7 @@
 				9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */,
 				9F19010D28808EE70078DB6C /* Share.swift in Sources */,
 				9F0295CF288091EF00DD0004 /* FactalsStatus.swift in Sources */,
-				9F19010628808DC10078DB6C /* ConveyorPort.swift in Sources */,
+				9F19010628808DC10078DB6C /* LinkPort.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,
 				9F9AC6A4299C7C6000CDEB08 /* FactalsModelBar.swift in Sources */,

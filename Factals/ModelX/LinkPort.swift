@@ -1,6 +1,4 @@
-//  ConveyorPort.swift -- A Port for a Link, which includes delay/visual abilities ©21PAK
-//  :H: CONVeyorPort
-//
+//  LinkPort.swift -- A Port for a Link, which includes delay/visual abilities ©21PAK
 
 import SceneKit
 struct LinkSegment  : Codable {
@@ -15,7 +13,7 @@ bug//	guard self !== rhs 					  else {	return true				}
 	}
 }
 
-class ConveyorPort : Port {
+class LinkPort : Port {
 	// self.Port 						// 1. Connects to this end of link
 	var array   : [LinkSegment] = []	// 2. Conveyor delay with visual
 	var outPort : Port?			= nil	// 3. Output from Link
@@ -69,11 +67,11 @@ class ConveyorPort : Port {
 		try container.encode(imageY0,	forKey:.imageY0)
 //		try container.encode(colorOfVal1,	forKey:.colorOfVal1)
 		try container.encode(array,		forKey:.array)
-		atSer(3, logd("Encoded  ConveyorPort    '\(self.fullName)'"))
+		atSer(3, logd("Encoded  LinkPort    '\(self.fullName)'"))
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
-		try super.init(from:decoder)	// 20210908		no super.decode(from:) call, because ConveyorPort  ????
+		try super.init(from:decoder)	// 20210908		no super.decode(from:) call, because LinkPort  ????
 		let container 			= try decoder.container(keyedBy:LinksKeys.self)
 
 		outPort	 				= try container.decode(			Port.self, forKey:.outPort)
@@ -81,24 +79,24 @@ class ConveyorPort : Port {
 		imageY0	 				= try container.decode(			 Int.self, forKey:.imageY0)
 //		colorOfVal1	 			= try container.decode(		 NSColor.self, forKey:.colorOfVal1)
 		array	 				= try container.decode([LinkSegment].self, forKey:.array)
-		atSer(3, logd("Decoded  as? ConveyorPort"))
+		atSer(3, logd("Decoded  as? LinkPort"))
 	}
 //	 // MARK: - 3.6 NSCopying
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 //	override func copy(with zone: NSZone?=nil) -> Any {
-//		let theCopy				= super.copy(with:zone) as! ConveyorPort
+//		let theCopy				= super.copy(with:zone) as! LinkPort
 //		theCopy.outPort	 		= self.outPort
 //		theCopy.imageX0	 		= self.imageX0
 //		theCopy.imageY0	 		= self.imageY0
 //	//	theCopy.colorOfVal	 	= self.colorOfVal1
 //		theCopy.array	 		= self.array
-//		atSer(3, logd("copy(with as? ConveyorPort       '\(fullName)'"))
+//		atSer(3, logd("copy(with as? LinkPort       '\(fullName)'"))
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
 	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 							   else {	return true		}
-		guard let rhs			= rhs as? ConveyorPort else {	return false 	}
+		guard let rhs			= rhs as? LinkPort else {	return false 	}
 		let rv					= super.equalsFW(rhs)
 							//??	&& equalsFW(outPort, rhs.outPort)
 								&& imageX0	  == rhs.imageX0
@@ -128,19 +126,19 @@ bug;	return rv
 			assert(simulator.unsettledOwned != 0, "unsettledOwned count wraparound")
 		}
 
-		 // Determine ConveyorPort velocity
+		 // Determine LinkPort velocity
 		var logVel 				= config("linkVelocityLog2")?.asFloat ?? -5		// ~ in Configuration dominates
 		if let linksVel			= localConfig["v"]?.asFloat {
  			logVel				+= linksVel	// Link may override local
 		}
 		let conveyorVelocity 	= exp2f(logVel)
 
-		if conveyorVelocity != 0,			// If ConveyorPort moving
+		if conveyorVelocity != 0,			// If LinkPort moving
 		   array.count != 0 {				  // and something in it
 			parent?.markTree(dirty:.paint)		// Redisplay it
 		}
 
-		  // Run the link "ConveyorPort BELT".
+		  // Run the link "LinkPort BELT".
 		 // DEQUEUE the event (at beginning of array)
 		for i in stride(from:array.count-1, to:-1, by:-1) { // do backwards, so remove works
 
@@ -165,7 +163,7 @@ bug;	return rv
 			}
 		}
 	}
-	func paintSegments(on image:NSImage) {	// Draw contents of ConveyorPort on an NSImage
+	func paintSegments(on image:NSImage) {	// Draw contents of LinkPort on an NSImage
 		guard let parentLink	= parent as? Link else {	fatalError("")		}
 		image.lockFocus()
 		let imageHeight			= Float(parentLink.imageHeight)
@@ -174,7 +172,7 @@ bug;	return rv
 		  // .:. Each color value must be in a separate path
 		 // color of segment:
 		let v					= con2port?.value ?? 0.0
-		var color : NSColor		= NSColor(mix:ConveyorPort.colorOfVal0, with:v, of:colorOfVal1)
+		var color : NSColor		= NSColor(mix:LinkPort.colorOfVal0, with:v, of:colorOfVal1)
 		var fromPt				= NSPoint(x:imageX0, y:imageY0)
 		for linkSegment in array {		// scan is from inPort to outPort
 
@@ -186,7 +184,7 @@ bug;	return rv
 			NSBezierPath.strokeLine(from:fromPt, to:toPt)
 
 			 // Advance to Next Segment:
-			color				= NSColor(mix:ConveyorPort.colorOfVal0, with:linkSegment.val, of:colorOfVal1)
+			color				= NSColor(mix:LinkPort.colorOfVal0, with:linkSegment.val, of:colorOfVal1)
 			fromPt				= toPt
 		}
 		let htPct : Float		= imageY0 == 0 ? 1.0	// going up		0.0 ..< 1.0
@@ -217,7 +215,7 @@ bug;	return rv
 		}
 		return rv
 	}
-	static let nullConveyorPort	= ConveyorPort()
+	static let nullLinkPort	= LinkPort()
 }
 
 

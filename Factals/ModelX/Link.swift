@@ -45,8 +45,8 @@ class Link : Atom {
 	var linkSkinType : LinkSkinType
 	let usePlane	  			= false											//false//true//
 	/// See notes at end
-	lazy var   pUpCPort : ConveyorPort = ConveyorPort.nullConveyorPort
-	lazy var sDownCPort : ConveyorPort = ConveyorPort.nullConveyorPort
+	lazy var   pUpCPort : LinkPort = LinkPort.nullLinkPort
+	lazy var sDownCPort : LinkPort = LinkPort.nullLinkPort
 
 	var minColorVal	: Float		= 0
 	var maxColorVal	: Float		= 1
@@ -76,14 +76,14 @@ class Link : Atom {
 
 		let cUp					= config + ["name":"P"		 ]	// (2,300) : (1, 0)
 		let p0	/* (x, y) */	= greenOnLeft ? (1, 0) : (imageWidth-1, imageHeight)
-		pUpCPort 			= ConveyorPort(cUp, parent:self, i0:p0, color0:.green)
+		pUpCPort 			= LinkPort(cUp, parent:self, i0:p0, color0:.green)
 		addChild(  pUpCPort)
 		pUpCPort   .outPort	= sDownCPort
 		ports["P"]				= pUpCPort
 
 		let cDn					= config + ["name":"S", "f":1]
 		let p1					= greenOnLeft ? (imageWidth-1,imageHeight) : (1, 0)
-		sDownCPort			= ConveyorPort(cDn, parent:self, i0:p1, color0:.red)
+		sDownCPort			= LinkPort(cDn, parent:self, i0:p1, color0:.red)
 		addChild(sDownCPort)
 		sDownCPort .outPort	= pUpCPort
 		ports["S"]				= sDownCPort
@@ -92,7 +92,7 @@ class Link : Atom {
 		assert(pUpCPort  .dirty == .clean, "paranoia")						//pPort.dirty.turnOff(.vew) // (link vew proper at init)
 //??	assert(sDownCPort.dirty == .clean, "paranoia")						//sPort.dirty.turnOff(.vew) // (link vew proper at init)
 
-		 // Initial values of ConveyorPort, for testing (of P/UpConveyor, not Q)
+		 // Initial values of LinkPort, for testing (of P/UpConveyor, not Q)
 		if let valStr			= localConfig["initialSegments"] as? String {
 			let valStrs			= valStr.split(separator: " ")
 			for i in stride(from:0, to:valStrs.count, by:2) {
@@ -136,8 +136,8 @@ class Link : Atom {
 		let container 			= try decoder.container(keyedBy:LinksKeys.self)
 
 		linkSkinType			= try container.decode(LinkSkinType	.self, forKey:.linkSkinType)
-		pUpCPort	 			= try container.decode(ConveyorPort	.self, forKey:.upCPort)
-		sDownCPort				= try container.decode(ConveyorPort	.self, forKey:.downCPort)
+		pUpCPort	 			= try container.decode(LinkPort	.self, forKey:.upCPort)
+		sDownCPort				= try container.decode(LinkPort	.self, forKey:.downCPort)
 		minColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
 		maxColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
 		atSer(3, logd("Decoded  as? Link       named  '\(name)'"))

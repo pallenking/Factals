@@ -1892,7 +1892,7 @@ r("Bug w wire", e + selfiePole(s:30,u:0), {Net([parts:[
 r(e + selfiePole(s:90,u:0), {Net([parts:[
 	Tunnel(of:.genBcast, [n:"tun", struc:["a"], placeMy:"stackz 0 -1"]),
 ]]) })
-r("Link ConveyorPort Bug", e + selfiePole(s:90,u:0), {Net([placeMy:"linky", parts:[
+r("Link LinkPort Bug", e + selfiePole(s:90,u:0), {Net([placeMy:"linky", parts:[
 	MinAnd([n:"mi", share:["a"], f:1]),
 	MaxOr([ n:"a"])
 ]]) })

@@ -46,7 +46,7 @@ class Atom : Part {	//Part//FwPart
 					portProp.contains("C") ?
 
 //	init(_ config_:FwConfig, parent:Link, i0:(Int, Int)?=nil, color0:NSColor?=nil, _ initialSegments:[LinkSegment] = []) {
-					ConveyorPort(["named":portName, "portProp":portProp], parent:self) :
+					LinkPort(["named":portName, "portProp":portProp], parent:self) :
 						    Port(["named":portName, "portProp":portProp])
 				ports[portName]	= newPort
 				addChild(newPort)
@@ -68,7 +68,7 @@ class Atom : Part {	//Part//FwPart
 	/// -  f: ---- Flipped,
 	/// -  p: ---- ?????,
 	/// -  M: ---- MultiPort
-	/// -  C: ---- ConveyorPort
+	/// -  C: ---- LinkPort				// C-->L ??
 	/// -  B:path1 ---- Bind to internal path1
 	/// ## Overidden by superclasses
 	func hasPorts() -> [String:String]	{
@@ -884,7 +884,8 @@ class Atom : Part {	//Part//FwPart
 			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 20	// minimal distance above
 
 										// DOMINATED CONNECTION? (e.g. with no Link):
-			if true || // inMePort.connectedX === fixedPort ||
+//			if true || // inMePort.connectedX === fixedPort ||
+			if inMePort.con2?.port === fixedPort ||
 			   inMePort.dominant ||  inMePort.con2!.port!.dominant ||
 			  fixedPort.dominant || fixedPort.con2!.port!.dominant
 			{
