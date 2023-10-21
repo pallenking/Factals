@@ -157,17 +157,23 @@ class Port : Part, PortTalk {
 
 	 // MARK: - 2.2 Connections:
 	enum Con2 : Codable, Equatable {
-		case port(Port)
-		case string(String)
+		case port(Port)				// direct Port-Port
+		case string(String)			// symbolic
 
 		static func == (lhs: Port.Con2, rhs: Port.Con2) -> Bool {
 			switch lhs {
-				case .port:
-					return false	// Ports not equatable, two non-nil Ports MUST be different:
-				case .string(let lhsString):
-					return lhsString == rhs.string
+			case .port(let lhsPort):
+				switch rhs {
+				case .port(let rhsPort):
+					return lhsPort === rhsPort
+				case .string(let rhsString):
+					return lhsPort.fullName == rhsString
+				}
+			case .string(let lhsString):
+				return lhsString == rhs.string
 			}
 		}
+		 // Accessors, to simplify accessor readability
 		var port : Port? {
 			if case .port(let port_) = self { return port_						}
 			return nil
@@ -188,7 +194,10 @@ class Port : Part, PortTalk {
 		let assertString 		= con2port?.pp(.fullName) ?? ""
 		assert(self.con2==nil, "Port '\(pp(.fullName))' "	+ "already connected to \(assertString)")
 		assert(  to.con2==nil, "'\(assertString)' "		+ "FAILS; the latter is already connected to '\(assertString)'")
-		self.con2 = .port(to)
+		self.con2 				= .port(to)
+//		self.connectedTo		= to
+		to.con2					= .port(self)
+//		to.connectedTo			= self
 	}
 
 	 // MARK: - 2.3 Con2 Properties:
@@ -221,12 +230,12 @@ class Port : Part, PortTalk {
 		try super.encode(to: encoder)
 		var container 			= encoder.container(keyedBy:PortsKeys.self)
 
-		try container.encode(value,		 forKey:.value)
-		try container.encode(valuePrev,	 forKey:.valuePrev)
+		try container.encode(value,		forKey:.value)
+		try container.encode(valuePrev,	forKey:.valuePrev)
 		assert(con2 == nil, "Port.connectedTo is not nil")//try container.encode(connectedTo,forKey:.connectedTo)
-		try container.encode(con2, forKey:.connectedX)
-		try container.encode(noCheck,	 forKey:.noCheck)
-		try container.encode(dominant,	 forKey:.dominant)
+		try container.encode(con2, 		forKey:.connectedX)
+		try container.encode(noCheck,	forKey:.noCheck)
+		try container.encode(dominant,	forKey:.dominant)
 
 		atSer(3, logd("Encoded  as? Port        '\(fullName)'"))
 	}
@@ -237,7 +246,7 @@ class Port : Part, PortTalk {
 
 		value 					= try container.decode(  Float.self, forKey:.value)
 		valuePrev				= try container.decode(  Float.self, forKey:.valuePrev)
-		con2				= try container.decode(Con2?.self, forKey:.connectedX)
+		con2					= try container.decode(Con2?.self, forKey:.connectedX)
 		noCheck 				= try container.decode(   Bool.self, forKey:.noCheck)
 		dominant				= try container.decode(   Bool.self, forKey:.dominant)
 
@@ -282,8 +291,8 @@ class Port : Part, PortTalk {
 	}
 	 /// Return the first Port connected to non-link, starting at this one.
 	var portPastLinks : Port? {		
-		var scan : Port?		= self;				  // ATOM]o - o[P1 link P2]o - o[
-		while let p1Port		= scan?.con2port, // self-^		     self-^ rv-^
+		var scan : Port?		= self				  // ATOM]o - o[P1 link P2]o - o[
+		while let p1Port		= scan?.con2port, 	 // self-^		     self-^ rv-^
 		  p1Port.parent is Link {
 			scan 				= p1Port.otherPort
 		}
@@ -370,7 +379,7 @@ class Port : Part, PortTalk {
 			center				= t * center
 			radius				= abs((t * .uY * radius).y)
 			exclude				= exclude==nil ? vew.bBox * t :
-								  exclude! * t   | vew.bBox * t
+								  exclude! * t | vew.bBox * t
 	//		 // HIghest part self is a part of..
 	//		let hiPart  		= ancestorThats(childOf:commonVew.part)!
 	//		let hiVew 			= commonVew.find(part:hiPart)!					//, maxLevel:1??
@@ -639,7 +648,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			var rv				= ppUid(self, post:" ", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")
 			rv 					+= log.indentString(minus:1)
-//			rv 					+= root?.factalsModel?.log.indentString(minus:1) ?? ";;"
+			//rv  				+= root?.factalsModel?.log.indentString(minus:1) ?? ";;"
 			rv					+= self.upInWorld 	? 	"|/   " :
 								   						"|\\   "
 			rv					+= ppCenterPart(aux)	// adds "name;class<unindent><Expose><ramId>"
@@ -655,11 +664,12 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 				let scPort		= portPastLinksPp(ppStr:&rv)
 				 // now, the last good port:
 				let sc2Port		= scPort.con2port
-//				guard case .direct(let sc2Port) = scPort.connectedX else { fatalError()}
+//				guard case .direct(let sc2Port)   = scPort.connectedX else { fatalError()}
 				rv 				+= " ->\(sc2Port?.fullName ?? "afoiqfqlh")"
 				if con2 != nil  {			// check for error
-					rv			+= "### ERROR: connectedX!=nil"
+					rv			+= "### ERROR: con2 != nil"
 				}
+				nop
 			} else if con2 != nil {
 				rv 				+= "-> \"\"\(con2!)\"\""
 			}

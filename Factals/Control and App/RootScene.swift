@@ -21,7 +21,6 @@ class RootScene : SCNScene {				// xyzzy4
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
-	let nsTrackPad				= trueF//falseF//
 
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
@@ -52,30 +51,24 @@ class RootScene : SCNScene {				// xyzzy4
 		 //
 		case .leftMouseDown:
 			beginCameraMotion(with:nsEvent)
-			if !nsTrackPad  {					// 3-button Mouse
-				if let v		= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
-					print("leftMouseDown pic's Vew:\(v.pp(.short))")
-				}
+			if false,let v		= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
+				print("leftMouseDown pic's Vew:\(v.pp(.short))")
 			}
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
-			if nsTrackPad  {					// Trackpad
-				beginCameraMotion(with:nsEvent)
-				mouseWasDragged = true			// drag cancels pic
-				spinNUp(with:nsEvent)			// change Spin and Up of camera
-				commitCameraMotion(reason:"Left mouseDragged")
-			}
+			beginCameraMotion(with:nsEvent)
+			mouseWasDragged = true			// drag cancels pic
+			spinNUp(with:nsEvent)			// change Spin and Up of camera
+			commitCameraMotion(reason:"Left mouseDragged")
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
-			if nsTrackPad  {					// Trackpad
-				beginCameraMotion(with:nsEvent)
-				if !mouseWasDragged {			// UnDragged Up -> pic
-					if let vew	= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
-						rootVew.lookAtVew = vew			// found a Vew: Look at it!
-					}
+			beginCameraMotion(with:nsEvent)
+			if !mouseWasDragged {			// UnDragged Up -> pic
+				if let vew	= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
+					rootVew.lookAtVew = vew			// found a Vew: Look at it!
 				}
-				mouseWasDragged = false
-				commitCameraMotion(duration:duration, reason:"Left mouseUp")
 			}
+			mouseWasDragged = false
+			commitCameraMotion(duration:duration, reason:"Left mouseUp")
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //

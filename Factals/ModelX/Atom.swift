@@ -802,8 +802,8 @@ class Atom : Part {	//Part//FwPart
 		let ss 					= findCommon(firstWith:					//all:false,
 		{	(inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
 //bug
-//return nil		// nil -> not found -> look at all in self
-	   // /////////////////////////////////////////////////////////////// //
+//return nil	// nil -> not found -> look at all in self
+			   // /////////////////////////////////////////////////////////////// //
 			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
 			  // /////// Search for a Link to fixed ground
 			 //							// // a. Ignore if not Port
@@ -830,7 +830,7 @@ class Atom : Part {	//Part//FwPart
 			}
 										// // e. connected to ParameterPort
 			if fixedPort is ParameterPort {
-				return atPri_fail(		"fixedP goes to ParameterPort")
+				return atPri_fail(		"Fixed Port is a ParameterPort")
 			}
 			atRsi(4, print("-->\(fixedPort.fullName16) ", terminator:""))
 										// // f. INSIDE of self, IGNORE
@@ -846,8 +846,8 @@ class Atom : Part {	//Part//FwPart
 				return atPri_fail(		"fixedP goes to WriteHead")// do not position via WriteHead
 			}
 				// /////// FOUND:
-			   // inMeP is Port somewhere in me (self)
-			  // fixedP is Port outside of me (on "terra firma")
+			   // inMeP is a Port somewhere in me (self)
+			  // fixedP is a Port somewhere on "terra firma", outside of me
 			 // commonNet encloses them
 			/*		       _____________  *//** COMPUTATION *//*
 					ATOM  |			    |		(assumes vew.position == .zero)

@@ -102,7 +102,7 @@ class Previous : Atom {
 		 // and thus it flows out to P,S, or T
 		if let latchPort		= ports["L"] {
 			latchPort.noCheck	= true				// of up/down
-			latchPort.con2 = .port(latchPort)
+			latchPort.con2 		= .port(latchPort)
 		}
 		   // //////// check for consistency here... /////
 	//	config["addPreviousXClock"] = 1
