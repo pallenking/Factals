@@ -9,22 +9,18 @@ import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
 
-//	Uniform Type Identifiers Overview:
-//		https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
-//	Defining file and data types for your app:
-//		https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
-//	System-declared uniform type identifiers:
-//		https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
-
- // Define new UTType
+ // Define new UTType:
+//	Uniform Type Identifiers Overview:			https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
+//	Defining file and data types for your app:	https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
+//	System-declared uniform type identifiers:	https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
 extension UTType {
 	static var factals: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  	}	// com.example.fooTry3
 }
+
+
 extension FactalsDocument : Uid {
-//	let uid:UInt16				= randomUid()			// defined in struct FactalsDocument
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		DOClog.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
-		//print("[[XXXXFactalsDocumentXXXX\(ppUid(self)): \(format)")
 	}
 }
 
@@ -56,11 +52,13 @@ struct FactalsDocument: FileDocument {
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
+		//window0?.title		= rootPart.title
+		// rootPart.title --> window title
 
 		 // 	2. Install
 		assert(factalsModel.rootPart == nil, "paranoia: Should be empty, just made it")
-		factalsModel.rootPart			= rootPart
-		rootPart.factalsModel			= factalsModel	// set delegate
+		factalsModel.rootPart	= rootPart
+		rootPart.factalsModel	= factalsModel	// set delegate
 
 		 //		3. Update document configuration from Library entry
 		let c					= params4all + rootPart.ansConfig
@@ -88,19 +86,19 @@ struct FactalsDocument: FileDocument {
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
-		factalsModel					= f			// given
-		factalsModel.document			= self		// owner back-link
+		factalsModel			= f			// given
+		factalsModel.document	= self		// owner back-link
 		DOC						= self		// INSTALL Factals
 		return
 	}
-
+								
 	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
 		 // Make new RootPart, FactalsModel, and Document
 		let rootPart			= RootPart(fromLibrary:fromLibrary)
-		let factalsModel				= FactalsModel(rootPart:rootPart)
-		rootPart.factalsModel			= factalsModel
+		let factalsModel		= FactalsModel(rootPart:rootPart)
+		rootPart.factalsModel	= factalsModel
 		let doc					= FactalsDocument(factalsModel:factalsModel)
-		factalsModel.document 		= doc
+		factalsModel.document 	= doc
 		DOC						= doc				// register (UGLY!!!)
 		let c					= doc.config + rootPart.ansConfig
 		doc.configure(from:c)
@@ -119,7 +117,7 @@ struct FactalsDocument: FileDocument {
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
-			let factalsModel			= FactalsModel(rootPart:rootPart)
+			let factalsModel	= FactalsModel(rootPart:rootPart)
 			self.init(factalsModel:factalsModel)
 
 			config				+= rootPart.ansConfig	// from library
@@ -147,11 +145,9 @@ struct FactalsDocument: FileDocument {
 	}
 	 // MARK: - 2.2 Sugar
 	var windowController0 : NSWindowController? {		// First NSWindowController
-bug;	return nil}//windowControllers.count > 0 ? self.windowControllers[0] : nil			}
+bug;	return nil}//windowControllers.first			}
 	var window0 : NSWindow? 	{						// First NSWindow
 		return windowController0?.window										}
-
-
 
 
  //// -- WORTHY GEMS: -- ///// //
@@ -177,11 +173,11 @@ func serializeDeserialize(_ inPart:Part) throws -> Part? {
 
 		 //  - DECODE -  PolyWrap from JSON
 		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
-
+								
 	 //  - REMOVE -  PolyWrap's
-	let outPart				= outPoly.polyUnwrap()
+	let outPart					= outPoly.polyUnwrap()
 	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
-	let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
+	let _						= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
 
 	return outPart
 }

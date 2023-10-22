@@ -193,11 +193,9 @@ class Splitter : Atom {
 	override func port(named wantName:String, localUp wantUp:Bool?, wantOpen:Bool, allowDuplicates:Bool) -> Port? {
 
 		 // Another Share of a Splitter, but no Share is open					//		if wantOpen, wantUp!{
-		if (wantName == "share" ||
-		    wantName == ""),			  // Want a new share
-//		if wantName == "share",				 // Want a new share
-		   wantOpen,						  // It should be an open share
-		  (wantUp == nil || wantUp!) 		   // opens correctly
+		if (wantName=="share" || wantName==""),	// Want a new share
+			wantOpen,							// It should be an open share
+		   (wantUp == nil || wantUp!) 			// opens correctly
 		{
 			return anotherShare(named:"*")
 		}

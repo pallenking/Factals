@@ -34,7 +34,6 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 		guard let rootPart else { fatalError("WARNING configure: factalsModel.rootPart=nil") }
 		rootPart.configure(from:config)
-		guard rootVews.count != 0 else {	return								}
 		for rootVew in rootVews {
 			rootVew.configureDocument(from:config)
 		}
@@ -43,7 +42,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	 //PAK: Could remove this.
 	init(rootPart r:RootPart?=nil) {
 		rootPart				= r
-		log						= Log(title:"FwGut's Log", params4all)
+		log						= Log(title:"FactalsModel's Log", params4all)
 							
 		super.init()
 		rootPart?.factalsModel	= self		// Owner? is self

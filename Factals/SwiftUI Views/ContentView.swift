@@ -64,103 +64,22 @@ struct ContentView: View {
 	@Binding	var document	: FactalsDocument
 	var body: some View {
 		FactalsModelView(factalsModel:$document.factalsModel)
-		 .onAppear {
-			guard let window = NSApplication.shared.windows.first else { return }
-			let eventMonitor = EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
-	bug			// Handle the event here
-				print("Event: \(event)")
-			}
-			eventMonitor.startMonitoring(for: window)
-		 }
+			.onAppear {
+				let windows 	= NSApplication.shared.windows
+				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
+
+				windows.first!.title = document.factalsModel.rootPart?.title ?? "<UNTITLED>"
+
+				EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
+		bug;		print("Event: \(event)")			// Handle the event here
+				}.startMonitoring(for: windows.first!)
+			 }
 	}
 }
 struct FactalsModelView: View {
 	@Binding	var factalsModel : FactalsModel		// not OK here
 	@State		var isLoaded	= false
 	@State		var mouseDown	= false
-
-	var body2: some View {
-
-		VStack {
-			HStack {
-				if factalsModel.rootVews.count == 0 {
-					Text("No Vews found")
-				}
-				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-				ForEach($factalsModel.rootVews) {	rootVew in
-					VStack {
-						ZStack {
-							let rootScene = rootVew.rootScene.wrappedValue
-							EventReceiver { 	nsEvent in // Catch events (goes underneath)
-								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
-							}
-							// sceneview takes in a publisher		// PW:
-							// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
-							// scenkit -> write models back to viewmodel. s
-							// viewmodel single source of truth.
-							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-							// now: SceneView 	native SwiftUI
-							SceneView(
-								scene:rootScene, 	//rootScn.scnScene,
-								pointOfView: nil,	// SCNNode
-								options: [.rendersContinuously],
-								preferredFramesPerSecond: 30,
-								antialiasingMode: .none,
-								delegate:rootScene	//SCNSceneRendererDelegate?
-							//	technique: nil		//SCNTechnique?
-							)
-
-//							SceneView(
-//								scene:rootScene,
-//								pointOfView:nil,	// SCNNode
-//								options:[.rendersContinuously],
-//								preferredFramesPerSecond:30,
-//								antialiasingMode:.none,
-//								delegate:rootScene,	//nil//SCNSceneRendererDelegate?
-//								technique: nil		//SCNTechnique?
-//							)
-							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
-							 .border(.black, width:1)
-							 .onChange(of:isLoaded) { x in				// compiles, seems OK
-								print("isLoaded = ", x)
-							 }
-					//		 .onKeyPress(phases: .up)  { press in
-					//			 print(press.characters)
-					//			 return .handled
-					//		 }
-				//			 .onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
-							 .onAppear {			//setupHitTesting
-			//					guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
-			//						  let nsView	= nsWindow.contentView,
-			//						  let fwView	= nsView as? SCNView else { fatalError("couldn't find fwView")	}
-			//					 // Perform hit testing on tap gesture
-			//		bug			//let tapGestur		= UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-			//					//sceneView.addGestureRecognizer(tapGestur)
-							 }
-						//	.onAppear(perform: {
-						//		NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
-						//			print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
-						//			return $0
-						//		}
-						//	})
-			//			//	 .gesture(tapGesture)// NSClickGestureRecognizer
-			//				 .onTapGesture {
-			//				 	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
-			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
-			//				 }
-						}
-						VewBar(rootVew:rootVew)
-					}
-				}
-			}
-			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
-			 .padding(10)
-			Spacer()
-		}
-	}
-//	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
-//	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
-//	 ?? []
 
 	var body: some View {
 
@@ -187,24 +106,14 @@ struct FactalsModelView: View {
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 							// now: SceneView 	native SwiftUI
 							SceneView(
-								scene:rootScene, 	//rootScn.scnScene,
+								scene:rootScene,
 								pointOfView:nil,	// SCNNode
 								options:[.rendersContinuously],
 								preferredFramesPerSecond:30,
 								antialiasingMode:.none,
-								delegate:rootScene//nil//	//SCNSceneRendererDelegate?
-							//	technique: nil		//SCNTechnique?
+								delegate:rootScene,//nil//	//SCNSceneRendererDelegate?
+								technique: nil		//SCNTechnique?
 							)
-
-//							SceneView(
-//								scene:rootScene,
-//								pointOfView:nil,	// SCNNode
-//								options:[.rendersContinuously],
-//								preferredFramesPerSecond:30,
-//								antialiasingMode:.none,
-//								delegate:rootScene,	//nil//SCNSceneRendererDelegate?
-//								technique: nil		//SCNTechnique?
-//							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
 							 .border(.black, width:1)
 							 .onChange(of:isLoaded) { x in				// compiles, seems OK
@@ -215,14 +124,14 @@ struct FactalsModelView: View {
 					//			 return .handled
 					//		 }
 				//			 .onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
-							 .onAppear {			//setupHitTesting
+			//				 .onAppear {			//setupHitTesting
 			//					guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
 			//						  let nsView	= nsWindow.contentView,
 			//						  let fwView	= nsView as? SCNView else { fatalError("couldn't find fwView")	}
 			//					 // Perform hit testing on tap gesture
 			//		bug			//let tapGestur		= UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
 			//					//sceneView.addGestureRecognizer(tapGestur)
-							 }
+			//				 }
 						//	.onAppear(perform: {
 						//		NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 						//			print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
@@ -243,7 +152,15 @@ struct FactalsModelView: View {
 			 .padding(10)
 			Spacer()
 		}
+//			.onAppear() {
+//				let windows 	= NSApplication.shared.windows
+//				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
+//				windows.first!.title = factalsModel.rootPart?.title ?? "<UNTITLED>"
+//			}
 	}
+//	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
+//	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
+//	 ?? []
 	func handleMouseDown(event: NSEvent) {
 		mouseDown = true
 		handleMouseEvent(event)

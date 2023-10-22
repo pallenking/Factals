@@ -24,8 +24,8 @@ var APP				: FactalsApp!		// NEVER CHANGES (after inz)
 var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
 // /////////////////////////////////////////////////////////////////////////////
  // Singleton Shugar:;
-var DOCfactalsModelQ	: FactalsModel?		{	DOC?.factalsModel								}	// optionality is needed
-var DOCfactalsModel	: FactalsModel		{	DOCfactalsModelQ ?? {
+var DOCfactalsModelQ : FactalsModel?	{	DOC?.factalsModel					}	// optionality is needed
+var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
 	fatalError(DOC==nil ? "DOC=nil" : "DOC.factalsModel=nil")					 		}()}
 var DOClogQ  	: Log? 			{	DOCfactalsModelQ?.log							}
 var DOClog  	: Log 			{	DOClogQ ?? .reliable						}	//.first
@@ -80,6 +80,8 @@ struct FactalsApp: App, Uid, FwAny {
 			 .onOpenURL { url in
 				print("DocumentGroup.ContentView.onOpenURL(\(url))")
 			}
+			//	.windowTitle("Your Window Title")
+
 		//	 .window { window in
 		//		// Create an instance of EventCapturingWindow and assign it to the window
 		//		EventCapturingWindow(

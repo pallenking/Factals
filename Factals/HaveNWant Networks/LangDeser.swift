@@ -53,7 +53,7 @@ xxr("Language Deserializer", e, {
 //	Generator(["n":"lo", "P":"wordType/evi", "events":inputWords]),
   ]])
 })
-	xxr("Language Deserializer", e, {
+	r("Language Deserializer", e, {
 	  Net(["parts":[
 		Actor(["n":"wordType", "placeMy":"linky",
 			"con":Tunnel(["struc":wordType0, "f":1]),

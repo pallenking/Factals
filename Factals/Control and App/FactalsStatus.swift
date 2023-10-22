@@ -98,6 +98,7 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 // MARK: - DOCUMENT
 extension NSDocument : FactalsStatus	{								   ///NSDocument
 	func ppFactalsState(deapth:Int=999) -> String {
+bug; //never used?
 		let wcc					= windowControllers.count
 		return ppFactalsStateHelper("NSDocument   ", uid:self,
 			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
