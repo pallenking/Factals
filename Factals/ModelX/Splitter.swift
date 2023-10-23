@@ -265,7 +265,7 @@ class Splitter : Atom {
 				 // Go through all Shares:
 				if let sh 		= sc as? Share {	// ignore Primary and Unknown Ports
 					 // Gather properties of input value
-					if let shInPort = sh.con2port {	// ignore unconnected Ports
+					if let shInPort = sh.con2?.port {	// ignore unconnected Ports
 						let shareInputChanged = shInPort.valueChanged()
 						upIsDirty	||= shareInputChanged	// changed --> dirty
 
@@ -322,10 +322,10 @@ class Splitter : Atom {
 				}
 			}
 			 // Clear out runt changes (just read)
-			let _			 	= bPort?.con2port?.getValue()
-			let _			 	= uPort?.con2port?.getValue()
+			let _			 	= bPort?.con2?.port?.getValue()
+			let _			 	= uPort?.con2?.port?.getValue()
 
-			if let kindPort2Port = ports["KIND"]?.con2port,
+			if let kindPort2Port = ports["KIND"]?.con2?.port,
 			  kindPort2Port.valueChanged() {			// KIND port changes mode
 bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value remove )
 	//			atDat(4, log(" Branch: kind=%.2f (was %.2f)", valNext, valPrev))
@@ -338,7 +338,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 		 //*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//
 														   // ////////////// //
 		if (upLocal) {									  // / DISTRIBUTE / //
-			if let pPortIn 		= pPort.con2port,// ////////////// //
+			if let pPortIn 		= pPort.con2?.port,// ////////////// //
 			   pPortIn.valueChanged() || upIsDirty 	// P Port or internal upIsDirty
 			{	 // Push a portion of the value down to each Share
 				let total		= pPortIn.getValue()

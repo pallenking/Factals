@@ -114,10 +114,10 @@ class GenAtom : Atom {
 
 		if upLocal,				// /////// going UP /////////
 		  let pPort				= ports["P"],
-		  let _					= pPort.con2port?.getValue(),	// drain any existing
+		  let _					= pPort.con2?.port?.getValue(),	// drain any existing
 		  let loopPort 			= ports["LOOP"],
-		  let loopPort2Port		= loopPort.con2port,
-		  let pPort2Port		= pPort.con2port
+		  let loopPort2Port		= loopPort.con2?.port,
+		  let pPort2Port		= pPort.con2?.port
 		{
 			let loopVal		= loopPort2Port.getValue()	// always read LOOP to clear changed
 			let pPortVal	= pPort2Port.valueChanged()

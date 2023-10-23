@@ -8,23 +8,22 @@ import SwiftUI
 import SceneKit
 //import Combine
 
-/* Generate code exemplefying the following thoughts that I am told:
-*	sceneview takes in a publisher
-		swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
-		scenkit -> write models back to viewmodel. s
-		viewmodel single source of truth
-	or ask me to clarify
-*	SceneView
-		that communicates with a ViewModel
-			to render a SceneKit scene and
-		the ViewModel updates
-			with changes from SceneKit,
-				acting as the single source of truth.
- */
+struct ContentView: View {
+	@Binding	var document	: FactalsDocument
+	var body: some View {
+		FactalsModelView(factalsModel:$document.factalsModel)
+			.onAppear {
+				let windows 	= NSApplication.shared.windows
+				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
 
-////////////////////////////// Testing
-//	$publisher
-//	$view
+				windows.first!.title = document.factalsModel.rootPart?.title ?? "<UNTITLED>"
+
+				EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
+		bug;		print("Event: \(event)")			// Handle the event here
+				}.startMonitoring(for: windows.first!)
+			 }
+	}
+}
 
 class EventMonitor {
 	private var monitor: Any?
@@ -60,22 +59,6 @@ class EventMonitor {
 	}
 }
 
-struct ContentView: View {
-	@Binding	var document	: FactalsDocument
-	var body: some View {
-		FactalsModelView(factalsModel:$document.factalsModel)
-			.onAppear {
-				let windows 	= NSApplication.shared.windows
-				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-
-				windows.first!.title = document.factalsModel.rootPart?.title ?? "<UNTITLED>"
-
-				EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
-		bug;		print("Event: \(event)")			// Handle the event here
-				}.startMonitoring(for: windows.first!)
-			 }
-	}
-}
 struct FactalsModelView: View {
 	@Binding	var factalsModel : FactalsModel		// not OK here
 	@State		var isLoaded	= false
@@ -99,12 +82,24 @@ struct FactalsModelView: View {
 								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
+							// Generate code exemplefying the following thoughts that I am told:
 							// sceneview takes in a publisher		// PW:
 							// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
 							// scenkit -> write models back to viewmodel. s
 							// viewmodel single source of truth.
+
 							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 							// now: SceneView 	native SwiftUI
+
+							//	SceneView
+							//		that communicates with a ViewModel
+							//			to render a SceneKit scene and
+							//		the ViewModel updates
+							//			with changes from SceneKit,
+							//				acting as the single source of truth.
+
+							////////////////////////////// Testing	$publisher/	$view
+
 							SceneView(
 								scene:rootScene,
 								pointOfView:nil,	// SCNNode

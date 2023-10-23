@@ -93,7 +93,7 @@ class Port : Part, PortTalk {
 			value 				= newValue
 			 //*******//
 			markTree(dirty:.paint)					// repaint myself
-			con2port?.markTree(dirty:.paint)// repaint my other too
+			con2?.port?.markTree(dirty:.paint)// repaint my other too
 			root!.simulator.kickstart = 4			// start simulator after Port value changes
 		}
 	}
@@ -185,13 +185,13 @@ class Port : Part, PortTalk {
 	}
 
 	var con2 : Con2? = nil
-	var con2port : Port? {
-		if case .port(let port_) = con2 	{ return port_						}
-		return nil
-	}
+//	var con2port : Port? {
+//		if case .port(let port_) = con2 	{ return port_						}
+//		return nil
+//	}
 
 	func connect(to:Port) {
-		let assertString 		= con2port?.pp(.fullName) ?? ""
+		let assertString 		= con2?.port?.pp(.fullName) ?? ""
 		assert(self.con2==nil, "Port '\(pp(.fullName))' "	+ "already connected to \(assertString)")
 		assert(  to.con2==nil, "'\(assertString)' "		+ "FAILS; the latter is already connected to '\(assertString)'")
 		self.con2 				= .port(to)
@@ -252,7 +252,7 @@ class Port : Part, PortTalk {
 
 		let msg					= "value:\(value.pp(.line))," 				+
 							 	  "valuePrev:\(valuePrev.pp(.line)), " 		+
-								  "conTo:\(con2port?.fullName ?? "xxq8ahx")"
+								  "conTo:\(con2?.port?.fullName ?? "xxq8ahx")"
 		atSer(3, logd("Decoded  as? Port       \(msg)"))
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
@@ -292,11 +292,11 @@ class Port : Part, PortTalk {
 	 /// Return the first Port connected to non-link, starting at this one.
 	var portPastLinks : Port? {		
 		var scan : Port?		= self				  // ATOM]o - o[P1 link P2]o - o[
-		while let p1Port		= scan?.con2port, 	 // self-^		     self-^ rv-^
+		while let p1Port		= scan?.con2?.port, 	 // self-^		     self-^ rv-^
 		  p1Port.parent is Link {
 			scan 				= p1Port.otherPort
 		}
-		return scan?.con2port
+		return scan?.con2?.port
 	}
 
 	   /// Return the first Port connected to non-link, starting at this one.
@@ -305,7 +305,7 @@ class Port : Part, PortTalk {
 	func portPastLinksPp(ppStr rv:inout String) -> Port {
 		 // Trace out Links, till some non-Link (including nil) is found
 		var scan :Port			= self		      //scan]o -- o[P1 link P2]o -- o[
-		while let scan2Port		= scan.con2port,	  // -------'     /     /|\
+		while let scan2Port		= scan.con2?.port,	  // -------'     /     /|\
 		  let link				= scan2Port.parent as? Link {   // --------'       |
 			scan				= scan2Port.otherPort ?? {       // scan----------'
 				fatalError("Malformed Link: could not find otherPort")			}()
@@ -625,7 +625,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		}
 				// Cone with connectedTo's value:
 		let cone				= vew.scn.find(name:"s-Cone", maxLevel:2)
-		if let valPort			= con2port {	//	GET to my INPUT
+		if let valPort			= con2?.port {	//	GET to my INPUT
 			let val				= valPort.value
 			let coneColor0		= upInWorld ? NSColor.red : .green
 			cone?.color0		= NSColor(mix:NSColor.whiteX, with:val, of:coneColor0)
@@ -658,20 +658,21 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			rv 					+=  ppPortOutValues() + ">"
 
 			  // Print out the non-Link:
-			 // If we are connected to anything, what is it sending to us
-			if let con2Port		= con2port {
-				rv 				+= "<" + con2Port.ppPortOutValues()
+			 // If we are connected to anything, what is it sending to us?
+			assert(con2 != nil)
+			switch con2! {
+			case .port(let con2Port):
+				rv 				+= "<" + con2Port.ppPortOutValues()		// e.g. <1.00/0.00
 				let scPort		= portPastLinksPp(ppStr:&rv)
-				 // now, the last good port:
-				let sc2Port		= scPort.con2port
-//				guard case .direct(let sc2Port)   = scPort.connectedX else { fatalError()}
-				rv 				+= " ->\(sc2Port?.fullName ?? "afoiqfqlh")"
-				if con2 != nil  {			// check for error
-					rv			+= "### ERROR: con2 != nil"
-				}
-				nop
-			} else if con2 != nil {
-				rv 				+= "-> \"\"\(con2!)\"\""
+//				 // now, the last good port:
+//				let sc2Port		= scPort.con2port
+////				guard case .direct(let sc2Port)   = scPort.connectedX else { fatalError()}
+//				rv 				+= " ->\(sc2Port?.fullName ?? "afoiqfqlh")"
+//				if con2 != nil  {			// check for error
+//					rv			+= "### ERROR: con2 != nil"
+//				}
+			case .string(let con2string):
+				rv 				+= "-> \"\"\(con2string)\"\""
 			}
 			return rv
 		default:

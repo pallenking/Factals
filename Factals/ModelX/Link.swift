@@ -241,7 +241,7 @@ bug;	return rv
 	}
 	func vewConnected(toPortNamed portName:String, inViewHier vew:Vew) -> Vew? {
 		let parent_				= vew.parent!
-		if let port 	 		= ports[portName]!.con2port {	// Where Port ends
+		if let port 	 		= ports[portName]!.con2?.port {	// Where Port ends
 			for s in port.selfNParents {
 				if let s2		= parent_.find(part:s, inMe2:true) {			//, maxLevel:1??
 					return s2

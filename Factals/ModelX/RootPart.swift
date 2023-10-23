@@ -128,7 +128,7 @@ class RootPart : Part {
 	func virtualizeLinks() {
 		forAllParts( {
 			if let pPort		= $0 as? Port {
-				pPort.con2 = .string(pPort.con2port?.fullName ?? "8383474f")
+				pPort.con2 = .string(pPort.con2?.port?.fullName ?? "8383474f")
 			}
 		} )
 	}

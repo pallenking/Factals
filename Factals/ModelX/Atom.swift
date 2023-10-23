@@ -212,7 +212,7 @@ class Atom : Part {	//Part//FwPart
 
 		 // Want open, but its occupied. Make a :H:Clone
 		if wantOpen,								// want an open port
-		  let connec2			= rvPort?.con2port
+		  let connec2			= rvPort?.con2?.port
 		{
 			 // :H:Clone rv
 			let cPort 			= rvPort!					// Clone non-open rv
@@ -227,7 +227,7 @@ class Atom : Part {	//Part//FwPart
 			}
 
 			 // Get another Port from an attached Splitter:
-			else if let cPort	= cPort.con2port,
+			else if let cPort	= cPort.con2?.port,
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
 				rvPort				= conSplitter.anotherShare(named:"*")
@@ -394,7 +394,7 @@ class Atom : Part {	//Part//FwPart
 							|
 							Atom
 		 */
-		guard let breakPort		= inPort.con2port else { fatalError("Link error slhf")}
+		guard let breakPort		= inPort.con2?.port else { fatalError("Link error slhf")}
 		let pPort  : Port		= newBcast.ports["P"]!
 		breakPort.con2 	= .port(pPort)		// breakPort -> pPort
 		pPort.con2		= .port(breakPort)	// pPort -> breakPort
@@ -790,19 +790,14 @@ class Atom : Part {	//Part//FwPart
 			//  :H: Searching for two Ports: inMePort and fixedPort			   //
 		   // 																  //
 		  // ////////////////   Scan through subparts:   /////////////////// //
-
-//		{(m:Part) -> Part? in
-
-		let xPart				= findCommon(firstWith:
-		{(inMe:Part) -> Part? in		// Count Ports:
+		let _					= findCommon(firstWith:
+		{ (inMe:Part) -> Part? in		// Count Ports:
 			return nil		// nil -> not found -> look at all in self
 		})
 
+		let _					= findCommon(up2:false, me2:true, firstWith:					//all:false,
+		{ (inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
 
-		let ss 					= findCommon(firstWith:					//all:false,
-		{	(inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
-//bug
-//return nil	// nil -> not found -> look at all in self
 			   // /////////////////////////////////////////////////////////////// //
 			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
 			  // /////// Search for a Link to fixed ground
@@ -820,7 +815,7 @@ class Atom : Part {	//Part//FwPart
 			}
 			  // /////// Go through a LINK to a (hopefully) fixed point
 			 //							// // c. invisible link
-			if let lnk			= inMePort.con2port?.atom as? Link,
+			if let lnk			= inMePort.con2?.port?.atom as? Link,
 			  lnk.config("initialDisplayMode")?.asString == "invisible" {
 				return atPri_fail(		"inMe goes through invisible Link")	// invisible if invisible link connects
 			}
@@ -898,7 +893,7 @@ class Atom : Part {	//Part//FwPart
 				weightSum 		+= 1.0			// number of fixedP inMeP's
 				// BUG: Move this to link!!!
 				 // Gap: Fluff + extraGap
-				let theLink		= inMePort.con2port?.parent as? Link
+				let theLink		= inMePort.con2?.port?.parent as? Link
 				for key in ["length", "len", "l"] {
 					if let linksGap = theLink?.localConfig[key]?.asCGFloat {
 						gap 	= linksGap
@@ -925,7 +920,7 @@ class Atom : Part {	//Part//FwPart
 			if (!inMePOpensUpIC) {	 		// keep track of highest downward
 				maxPositionY 	= max(maxPositionY, newInMePosn.y)// (except height is max)
 			}
-			return nil						// keep going thru ports in self
+			return nil						// ALWAYS FAIL, keep going thru ports in self
 		} )													//## BLOCK
 		 // ///////////////////////////////////////////////////////////////////
 		  // /////         END OF SCANNING ALL PARTS INSIDE            ///////

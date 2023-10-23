@@ -386,7 +386,7 @@ r("+ Splitters family portrait", eXYtight + ["ppXYZMaskX":7] + selfiePole(s:45,u
 	KNorm(			[n:"g"]),		Sequence(		[n:"h"]),
 	Bulb(			[n:"i"]),
 ]]) })
-xr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
+xxr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
 	Net([placeMy:"stacky -1 -1", parts:[
 		Net([placeMy:"stackz -1 -1", parts:[
 			Leaf(.nil_, 	[n:"a"]),
@@ -1345,8 +1345,8 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 	Actor([n:"wheelA", placeMy:"linky",
 		"con":Tunnel([struc:["z", "y"], f:1]),
 		parts:[
-			Bulb(	[n:"mk", P:"mj"]),
-			Hamming([n:"mj", share:["a", "b"], f:1]),
+//			Bulb(	[n:"mk", P:"mj"]),
+//			Hamming([n:"mj", share:["a", "b"], f:1]),
 			MaxOr(	[n:"ma", share:["z", "y"], f:0]),
 			MinAnd(	[n:"mi", share:["a", "b", "c", "d"], P:"ma", f:1]),
 		],
@@ -1355,16 +1355,13 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
-	xxr("- debug ports replication", e + selfiePole(s:45,u:0,z:0.7) + vel(-3) + log(dat:5, eve:5) + ["wBoxX":"none"], {
-	  Net([parts:[
-		Actor([n:"wheelA", placeMy:"linky",
-			"con":Tunnel([struc:["z"], f:1]),
-			parts:[
-				Link(["P":"a", "S":"z"]),	// (["P":"evi/a/gen.P", "S":"con/z/gen.P"]) // ([:])
-			],
-			"evi":Tunnel([struc:["a"], placeMy:"stackz 0 -1"]),
-		]),
-//		Generator([n:"loGen", events:[[], "a", "again"], P:"wheelA/evi"]),
+	xr("- bad Links", e + log(dat:5, eve:5) + ["wBoxX":"none"], {
+	  Net([placeMy:"linky", parts:[
+		MinAnd([n:"z", f:1]),
+		Net([placeMy:"stackz 0 -1", parts:[
+			MaxOr(["share":"z"]),	// no Link
+			MaxOr(["P":"z", f:1]),	// Link goes Down
+		]]),
 	]]) })
 
 	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + log(dat:5, eve:5) + ["wBoxX":"none"], {

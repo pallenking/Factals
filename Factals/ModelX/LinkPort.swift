@@ -111,7 +111,7 @@ bug;	return rv
 		guard let outPort else							{	fatalError()		}
 		  // Up and Down are processed alike!
 		 // Take data from inPort, and put output into outPort
-		guard let inPort2Port	= self.con2port else {	return			}
+		guard let inPort2Port	= self.con2?.port else {	return			}
 		if inPort2Port.valueChanged()
 		 {		// ENQUEUE the event (at beginning of array)
 			let (valueIn, valuePrev) = inPort2Port.getValues()
@@ -155,7 +155,7 @@ bug;	return rv
 				if outPort.value != v {
 					outPort.value = v												//outPort.take(value:v)
 					outPort					  .markTree(dirty:.paint)
-					outPort.con2port?.markTree(dirty:.paint)		// repaint my other too
+					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
 				}
 				 // Decrement unsettled count
 				assert(simulator.unsettledOwned != 0, "wraparound")
@@ -171,7 +171,7 @@ bug;	return rv
 		   // A NSBezierPath can have only one color.
 		  // .:. Each color value must be in a separate path
 		 // color of segment:
-		let v					= con2port?.value ?? 0.0
+		let v					= con2?.port?.value ?? 0.0
 		var color : NSColor		= NSColor(mix:LinkPort.colorOfVal0, with:v, of:colorOfVal1)
 		var fromPt				= NSPoint(x:imageX0, y:imageY0)
 		for linkSegment in array {		// scan is from inPort to outPort

@@ -52,8 +52,6 @@ struct FactalsDocument: FileDocument {
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
-		//window0?.title		= rootPart.title
-		// rootPart.title --> window title
 
 		 // 	2. Install
 		assert(factalsModel.rootPart == nil, "paranoia: Should be empty, just made it")
