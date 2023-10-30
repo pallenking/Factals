@@ -659,20 +659,15 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 
 			  // Print out the non-Link:
 			 // If we are connected to anything, what is it sending to us?
-			assert(con2 != nil)
-			switch con2! {
+			guard let con2 		else { return rv + "unconnected"				}
+			switch con2 {
 			case .port(let con2Port):
 				rv 				+= "<" + con2Port.ppPortOutValues()		// e.g. <1.00/0.00
 				let scPort		= portPastLinksPp(ppStr:&rv)
-//				 // now, the last good port:
-//				let sc2Port		= scPort.con2port
-////				guard case .direct(let sc2Port)   = scPort.connectedX else { fatalError()}
-//				rv 				+= " ->\(sc2Port?.fullName ?? "afoiqfqlh")"
-//				if con2 != nil  {			// check for error
-//					rv			+= "### ERROR: con2 != nil"
-//				}
+				guard let sc2Port = scPort.con2?.port else { return rv + " No connect Port"	}
+				rv 				+= " -> \(sc2Port.fullName)"
 			case .string(let con2string):
-				rv 				+= "-> \"\"\(con2string)\"\""
+				rv 				+= " -> \"\"\(con2string)\"\""
 			}
 			return rv
 		default:

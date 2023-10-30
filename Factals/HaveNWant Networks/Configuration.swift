@@ -20,7 +20,7 @@ var params4all		: FwConfig		= {	return
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
-private let params4app : FwConfig = [
+/*private*/ let params4app : FwConfig = [
 	"soundVolume"	 			: 0.1,		// 0:quiet, 1:normal, 10:loud
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 
@@ -42,7 +42,7 @@ private let params4appLog		= params4pp + params4logs_
 								+ log(app:appLogN, men:appLogN)
 //								+ log(doc:docLogN, bld:docLogN, ser:docLogN)
  // MARK: - C: Pretty Print
-private let params4pp : FwConfig = [
+/*private*/ let params4pp : FwConfig = [
 				// What:
 	"ppLinks"			: false, 	// pp includes Links  //true//
 	"ppPorts"			: true, 	// pp includes Ports //false//
@@ -57,6 +57,17 @@ private let params4pp : FwConfig = [
 		// "V" for Vew(self)	"T" for Transform
 		// "S" for Scn			"B" for physics Body
 		// "P" for Part			"I" for pIvot
+				//			"U": 		Show Uid
+				//			"F": 		Show Flipped
+				//			"V": 		Show Vew (self)
+				//			"S": 		Show my Scn
+				//			"P": 		Show my Part
+				//			"L": 		Show my Leaf height
+				//			"E": 		Show my initial expose
+				//			"T": 		Show my position transform
+				//			"B": 		Show my physics Body
+				//			"I": 		Show my pIvot point
+				//			"W": 		Show my position in World coordinates
 	"ppScnBBox"			: false, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:

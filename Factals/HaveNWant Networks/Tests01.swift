@@ -1355,13 +1355,11 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
-	xr("- bad Links", e + log(dat:5, eve:5) + ["wBoxX":"none"], {
+	xr("- bad Links", eTight + selfiePole(s:45,u:10) + log(dat:5, eve:5) + ["wBoxX":"none"], {
 	  Net([placeMy:"linky", parts:[
-		MinAnd([n:"z", f:1]),
-		Net([placeMy:"stackz 0 -1", parts:[
-			MaxOr(["share":"z"]),	// no Link
-			MaxOr(["P":"z", f:1]),	// Link goes Down
-		]]),
+		MinAnd([n:"z", f:0, jog+X:"2 0 0"]),
+		MaxOr( [P:"z,l:5", f:1]),	// no Link
+	//	MaxOr(["share":"z"]),	// no Link
 	]]) })
 
 	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + log(dat:5, eve:5) + ["wBoxX":"none"], {

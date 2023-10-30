@@ -323,8 +323,7 @@ func log(
 		tst:Int=0,
  		all:Int=0		// con gone
 		) -> FwConfig {
-	var rv : FwConfig		= ["logPri4all"  : 0]	// default OFF
-
+	var rv : FwConfig		= [:]//"logPri4all"  : 0]	// default OFF
 
 	if app > 0 		{		rv["logPri4app"] = app								}
 	if doc > 0 		{		rv["logPri4doc"] = doc								}

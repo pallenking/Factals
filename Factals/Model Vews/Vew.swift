@@ -216,7 +216,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			child.forAllSubViews(viewOperation)
 		}
 	}
-	var openConfig : FwConfig	= [:]
+	var openConfig : FwConfig	= [:]		// rename config?
 
 	 /// Lookup configuration from Part's localConfig, and scene
 	func config(_ name:String) -> FwAny? {
@@ -229,19 +229,22 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 
 		 // Try rootVew's opening configuration
-		guard let rootVew 							else {	return nil			}
+		guard let rootVew 								else {	return nil		}
 		if let rv				= rootVew.openConfig[name] {
 			return rv
 		}
-		guard let factalsModel		= rootVew.factalsModel 	else {	return nil			}
-//		assert(
-		assert(factalsModel == part.root?.factalsModel, "paranoia: factalsModel mismatch")		//(factalsModel==nil || factalsModel! == part.root?.factalsModel
 
 		 // Try Document's configuration
+		guard let factalsModel	= rootVew.factalsModel 	else {	return nil		}
+		assert(factalsModel == part.root?.factalsModel, "paranoia: factalsModel mismatch")		//(factalsModel==nil || factalsModel! == part.root?.factalsModel
+	//	if let rv				= factalsModel.config.openConfig[name] {
+	//		return rv
+	//	}
+
 		var rv : FwAny?			= nil
 		if trueF {							//trueF//falseF//
-			guard let rv1		= factalsModel.document	else {	return nil			}
-			rv					= rv1.config[name]
+			guard let doc		= factalsModel.document	else {	return nil		}
+			rv					= doc.config[name]
 			// Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 		}
 		return rv
@@ -628,7 +631,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 					rv			+= part.upInWorld ? "F" : " "			  // (B)
 					rv			+= part.flipped   ? "f" : " "			  // (B)
 				}
-															// Indent
+																	// Indent:
 				rv 				+= log.indentString() 				  // (C)
 				if ppViewOptions.contains("V") {					// Vew (self):
 					rv			+= name.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
@@ -679,7 +682,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
 				let rScn		= rootVew?.scn ?? .null
-				rv				+= !ppViewOptions.contains("W") ? ""
+				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rScn).pp(.short) + " "
 				if !(self is LinkVew) {
 					 // SceneKit's BBox:

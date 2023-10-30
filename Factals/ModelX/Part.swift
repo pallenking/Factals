@@ -1189,14 +1189,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			let newBip		= vew.bBox * vew.scn.transform //new bBox in parent
 			vew.scn.position = -newBip.center
 		}
-		 // Place by stacking
-		else if placeMode.hasPrefix("stack") {	// Position Stacked
-			assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
-		}
-		 // Place by links, errs -> stacking
+		 // Place by links
 		else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
 			assert(placeByLinks(inVew:vew, mode:placeMode)	// try link first
 				|| placeStacked(inVew:vew, mode:"stacky"), "placeByLinks and placeStacked failed")
+		}			// "-> errs -> stacking
+		 // Place by stacking
+		else if placeMode.hasPrefix("stack") {	// Position Stacked
+			assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
 		}
 		else {
 			panic("positioning method '\(placeMode)' unknown")

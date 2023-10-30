@@ -9,6 +9,7 @@ import SwiftUI
 
 struct VewBar: View {
 	@Binding var rootVew : RootVew
+	@EnvironmentObject var globals: Globals
 
 	var body: some View {
 		VStack {
@@ -28,7 +29,8 @@ struct VewBar: View {
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						print(rootVew.pp(.tree))
+						print(globals.params4pp.pp(.tree))
+						print(rootVew.pp(.tree, globals.params4pp))	// MAJOR HACK!!! put in SwiftUI @environment
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")

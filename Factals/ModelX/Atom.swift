@@ -936,7 +936,7 @@ class Atom : Part {	//Part//FwPart
 			avgPosition 		/=  weightSum		// take average
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
-		atRsi(4, vew.log("<<===== found position in parent \(avgPosition.pp(.short)) by Links (weightSum=\(weightSum))"))
+		atRsi(4, vew.log("<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))"))
 		vew.scn.position		= avgPosition + (vew.jog ?? .zero)
 
 		vew.moveSoNoOverlapping()					// MOVE UPWARD

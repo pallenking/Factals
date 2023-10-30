@@ -397,7 +397,7 @@ bug	// Never USED?
 		assertWarn(!(pCon2SpotIp.center.isNan || sCon2SpotIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
 
 		 // Center point of each end, in world coordinates
-		// :H: _CENT_er				// of spot
+		// :H: _CENT_er					// of spot
 		// :H: SETBACK
 		// :H: END 						// actual line endpoint
 		// :H: _P_osition, _L_ength

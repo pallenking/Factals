@@ -47,10 +47,18 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 //	}
 //}
 
+class Globals : ObservableObject {
+    @Published var params4pp : FwConfig
+	init(params4pp p:FwConfig) {
+		params4pp = p
+	}
+}
+var fff = params4app
 
 @main
 struct FactalsApp: App, Uid, FwAny {
 	var uid: UInt16				= randomUid()
+    @StateObject var globals	= Globals(params4pp:params4pp)
 	var fwClassName: String		= "FactalsApp"
 						//collections of data - view
 						//	viewsModel at root view {
@@ -77,9 +85,10 @@ struct FactalsApp: App, Uid, FwAny {
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
+			 .environmentObject(globals)
 			 .onOpenURL { url in
 				print("DocumentGroup.ContentView.onOpenURL(\(url))")
-			}
+			 }
 			//	.windowTitle("Your Window Title")
 
 		//	 .window { window in
@@ -428,7 +437,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 		}
 		else {			 		// Install new rootPart in current window
 			guard let doc = DOC else { fatalError("no DOC")}
-			guard let factalsModel	= doc.factalsModel else {	return	}
+			guard let factalsModel = doc.factalsModel else {	return	}
 
 			let rootPart		= RootPart(fromLibrary:scanKey)
 			factalsModel.setRootPart(rootPart:rootPart)
@@ -437,18 +446,14 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 			factalsModel.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
 	
 			 // --------------- C: FactalsDocument
-			let c					= doc.config + rootPart.ansConfig
-			doc.configure(from:c)
-	//		newRootVew.configure(from: ?FwConfig)
-	
-	//		let newDoc				= FactalsDocument(fromLibrary:"entry\(regressScene)")
-			factalsModel.document 		= doc
+bug;			let c				= /*doc.config +*/ rootPart.ansConfig
+			factalsModel.configure(from:c)
+			//newRootVew.configure(from: ?FwConfig)
+			//let newDoc		= FactalsDocument(fromLibrary:"entry\(regressScene)")
+			factalsModel.document = doc
 			doc.makeWindowControllers()
 			doc.registerWithDocController()	// a new DOc must be registered
-
-
 		}
-
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

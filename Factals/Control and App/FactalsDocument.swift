@@ -35,15 +35,15 @@ struct FactalsDocument: FileDocument {
 	 // index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc
 	var indexFor				= Dictionary<String,Int>()
 
-	func configure(from config:FwConfig) {
-		factalsModel?.configure(from:config)
-	}
+//	func configure(from config:FwConfig) {
+//		factalsModel?.configure(from:config)
+//	}
 
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
-		factalsModel			= FactalsModel()	// MAKE first, so leaners can function //po type(of: factalsModel)
-		DOC						= self		// INSTALL as current DOC, quick!
-		factalsModel.document 	= self		// DELEGATE
+		factalsModel			= FactalsModel()// MAKE first, so leaners can function //po type(of: factalsModel)
+		DOC						= self			// INSTALL as current DOC, quick!
+		factalsModel.document 	= self			// DELEGATE
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
@@ -56,15 +56,15 @@ struct FactalsDocument: FileDocument {
 		 // 	2. Install
 		assert(factalsModel.rootPart == nil, "paranoia: Should be empty, just made it")
 		factalsModel.rootPart	= rootPart
-		rootPart.factalsModel	= factalsModel	// set delegate
+		rootPart.factalsModel	= factalsModel// set delegate
 
 		 //		3. Update document configuration from Library entry
 		let c					= params4all + rootPart.ansConfig
-		configure(from:c)
+		factalsModel.configure(from:c)		// needs a configure
 
 		 //		4. Wire and Groom Part
 		rootPart.wireAndGroom(c)
-		configure(from:c)
+		factalsModel.configure(from:c)		// Th
 
 		 //		5. Build Vews per Configuration, ensure one
 		for (key, value) in c {
@@ -80,7 +80,7 @@ struct FactalsDocument: FileDocument {
 			}
 		}
 		factalsModel.ensureAVew(fwConfig:c)
-		configure(from:c)
+		factalsModel.configure(from:c)					// Hits Vews just made
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
@@ -99,7 +99,7 @@ struct FactalsDocument: FileDocument {
 		factalsModel.document 	= doc
 		DOC						= doc				// register (UGLY!!!)
 		let c					= doc.config + rootPart.ansConfig
-		doc.configure(from:c)
+		factalsModel.configure(from:c)
 	}
 
 	 /// Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
