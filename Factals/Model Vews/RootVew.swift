@@ -55,11 +55,11 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		let _ /*axesScn*/		= rootScene.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
-		selfiePole.configure(from:factalsModel.document.config)
+		selfiePole.configure(from:factalsModel.document.docConfig)
 
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= trunkVew			// default
-		if let laStr			= factalsModel.document.config.string("lookAt"), laStr != "",
+		if let laStr			= factalsModel.document.docConfig.string("lookAt"), laStr != "",
 		  let  laPart 			= rootPart.find(path:Path(withName:laStr), me2:true) {
 			lookAtVew			= find(part:laPart)
 		}

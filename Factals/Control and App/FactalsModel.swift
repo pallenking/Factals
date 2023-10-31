@@ -357,7 +357,7 @@ bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
 		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 		atAni(4, part.logd(rootPart!.pp(.tree)))
 
-		if document.config.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
+		if document.docConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 
 			 // Mark old SCNNode as Morphing
 			let oldScn			= vew.scn

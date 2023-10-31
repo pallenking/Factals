@@ -203,7 +203,7 @@ class TimingChain : Atom {
 	override func groomModelPostWires(root:RootPart) {
 											super.groomModelPostWires(root:root)
 		asyncData				= localConfig["asyncData"] as? Bool ?? false
-		if let ac				= root.factalsModel?.document.config.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
+		if let ac				= root.factalsModel?.document.docConfig.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
 

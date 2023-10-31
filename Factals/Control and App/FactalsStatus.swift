@@ -193,7 +193,7 @@ extension Simulator : FactalsStatus	{									///Simulator
 			if simEnabled {
 				myLine2			= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
 				myLine2			+= "t:\(timeNow) "///
-				let x			= rootPart?.factalsModel.document.config.double("simTaskPeriod")
+				let x			= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod")
 				myLine2			+= "dt=\(x != nil ? String(x!) : "nil") "
 				myLine2			+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
 				if isSettled() {

@@ -47,18 +47,17 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 //	}
 //}
 
-class Globals : ObservableObject {
-    @Published var params4pp : FwConfig
-	init(params4pp p:FwConfig) {
-		params4pp = p
+class AppGlobals : ObservableObject {
+    @Published var appConfig : FwConfig
+	init(appConfig g:FwConfig) {
+		appConfig = g
 	}
 }
-var fff = params4app
 
 @main
 struct FactalsApp: App, Uid, FwAny {
 	var uid: UInt16				= randomUid()
-    @StateObject var globals	= Globals(params4pp:params4pp)
+    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)
 	var fwClassName: String		= "FactalsApp"
 						//collections of data - view
 						//	viewsModel at root view {
@@ -85,7 +84,7 @@ struct FactalsApp: App, Uid, FwAny {
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(globals)
+			 .environmentObject(appGlobals)
 			 .onOpenURL { url in
 				print("DocumentGroup.ContentView.onOpenURL(\(url))")
 			 }

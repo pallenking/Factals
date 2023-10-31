@@ -53,7 +53,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 				simTaskRunning	= true
 				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
 			}
-			let taskPeriod		= rootPart?.factalsModel.document.config.double("simTaskPeriod") ?? 0.01
+			let taskPeriod		= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod") ?? 0.01
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
 			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
 		}else{

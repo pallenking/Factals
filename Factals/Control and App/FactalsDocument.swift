@@ -24,15 +24,24 @@ extension FactalsDocument : Uid {
 	}
 }
 
+class DocGlobals : ObservableObject {
+    @Published var docConfig : FwConfig
+	init(docConfig d:FwConfig) {
+		docConfig = d
+	}
+}
+
 struct FactalsDocument: FileDocument {
 	let uid:UInt16				= randomUid()
+    @StateObject var docGlobals	= DocGlobals(docConfig:params4pp)
 
 	var factalsModel : FactalsModel!				// content
 
-	var config : FwConfig		= [:]
+	var docConfig : FwConfig	= [:]
 
 	// MARK: - 2.4.4 Building
-	 // index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc
+
+	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
 
 //	func configure(from config:FwConfig) {
@@ -98,7 +107,7 @@ struct FactalsDocument: FileDocument {
 		let doc					= FactalsDocument(factalsModel:factalsModel)
 		factalsModel.document 	= doc
 		DOC						= doc				// register (UGLY!!!)
-		let c					= doc.config + rootPart.ansConfig
+		let c					= doc.docConfig + rootPart.ansConfig
 		factalsModel.configure(from:c)
 	}
 
@@ -118,7 +127,7 @@ struct FactalsDocument: FileDocument {
 			let factalsModel	= FactalsModel(rootPart:rootPart)
 			self.init(factalsModel:factalsModel)
 
-			config				+= rootPart.ansConfig	// from library
+			docConfig				+= rootPart.ansConfig	// from library
 		default:
 			throw CocoaError(.fileWriteUnknown)
 		}
@@ -213,7 +222,7 @@ func serializeDeserialize(_ inPart:Part) throws -> Part? {
 	mutating func makeInspectors() {
 		atIns(7, print("code makeInspectors"))
 			// TODO: should move ansConfig stuff into wireAndGroom
-		if let vew2inspec		= config["inspec"] {
+		if let vew2inspec		= docConfig["inspec"] {
 			if let name			= vew2inspec as? String {	// Single String
 				showInspec(for:name)
 			}
@@ -338,7 +347,7 @@ bug
 		 // Sim EVENTS						// /// Key DOWN ///////
 		let cmd 				= nsEvent.modifierFlags.contains(.command)
 		let alt 				= nsEvent.modifierFlags.contains(.option)
-		var aux : FwConfig		= config	// gets us params4pp
+		var aux : FwConfig		= docConfig	// gets us params4pp
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
 		switch character {
