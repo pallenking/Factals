@@ -413,13 +413,13 @@ class Port : Part, PortTalk {
 		// H: SeLF, ViEW, World Position
 		// AVew will not exist when it (and its parents) are atomized.
 		// Search upward thru its parents for a visible Vew
-		var aVew : Vew?			= vew.find(part:openParent, inMe2:true)
+		var aVew : Vew?			= vew.find(part:openParent, me2:true)
 		while aVew == nil, 						// we have no Vew yet
 			  let aParent		= openParent.parent {	// but we do have a parent
 			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp())]) See if parent '\(aParent.fullName)' has Vew"))
 			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
 			openParent			= aParent
-			aVew				= vew.find(part:openParent, inMe2:true)
+			aVew				= vew.find(part:openParent, me2:true)
 			rv					= .zero
 		}
 		guard var aVew : Vew else {

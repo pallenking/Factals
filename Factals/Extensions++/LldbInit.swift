@@ -45,7 +45,7 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 	guard index >= 0 && index < factalsModel.rootVews.count else { fatalError("rootvew() returns .null !!!")	}
 	var rootVew : Vew			= factalsModel.rootVews[index]
 	if name != nil {			// Search for named Vew
-		rootVew					= rootVew.find(name:name!, inMe2:true) ?? rootVew
+		rootVew					= rootVew.find(name:name!, me2:true) ?? rootVew
 	}
 	return rootVew
 }

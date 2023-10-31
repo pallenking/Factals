@@ -863,7 +863,7 @@ class Atom : Part {	//Part//FwPart
 			guard let commonNet	= smallestNetEnclosing(fixedPort, self) else {
 				return atPri_fail(		"smallestNetEnclosing failed")
 			}
-			let commonVew 		= refVew.find(part:commonNet, inMe2:true, all:true)
+			let commonVew 		= refVew.find(part:commonNet, up2:true, me2:true)
 			let inMePOpensUpIC	= inMePort.upInPart(until:commonNet)		// ???wtf???
 
 			atRsi(4, print(inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:""))

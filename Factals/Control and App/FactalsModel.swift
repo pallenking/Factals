@@ -308,11 +308,11 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		}
 
 		// Get Vew from SCNNode
-		guard let vew 				= rootVew.find(scnNode:pickedScn, inMe2:true) else {
+		guard let vew 				= rootVew.find(scnNode:pickedScn, me2:true) else {
 			if trueF 				{ return nil 		}		// Ignore missing vew
 			panic(msg + "\n"+"couldn't find it in vew's \(rootVew.scn.pp(.classUid))")
 			if let cv				= rootVew.trunkVew,			// for debug only
-			   let vew 				= cv.find(scnNode:pickedScn, inMe2:true) {
+			   let vew 				= cv.find(scnNode:pickedScn, me2:true) {
 				let _				= vew
 			}
 			return nil

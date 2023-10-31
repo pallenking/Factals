@@ -252,52 +252,66 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 	 // MARK: - 4.6 Find Children
 	 /// FIND child Vew by its NAME:
-	func find(name:String,					inMe2 searchSelfToo:Bool=false,
-				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	//	all ->		up2		 :Bool	= false,			// search relatives of my parent
+	//	inMe2 ->	me2		 :Bool	= true,				// search me
+	func find(name:String,
+
+			  up2:Bool=false,
+			  me2:Bool=false,
+			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		return find(up2:up2, me2:me2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.name == name		// view's name matches
 		}
 	}
 	 /// FIND child Vew by its PART:
-	func find(part:Part, 				 	 inMe2 searchSelfToo:Bool=false,
-				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	func find(part:Part,
+
+			  up2:Bool=false,
+			  me2:Bool=false,
+			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		return find(up2:up2, me2:me2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.part === part	// view's part matches
 //			return vew.part == part		// view's part matches
 		}
 	}
 	 /// FIND child Vew by its Part's NAME:
-	func find(forPartNamed name:String,		 inMe2 searchSelfToo:Bool=false,
-				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	func find(forPartNamed name:String,
+
+			  up2:Bool=false,
+			  me2:Bool=false,
+			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		return find(up2:up2, me2:me2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.part.name == name	// view's part.name matches
 		}
 	}
 	 /// FIND child Vew by its SCNNode:	// 20210214PAK not used
-	func find(scnNode node:SCNNode,		 	inMe2 searchSelfToo:Bool=false,
-				all searchParent:Bool=false, maxLevel:Int?=nil) -> Vew?
+	func find(scnNode node:SCNNode,
+
+			  up2:Bool=false,
+			  me2:Bool=false,
+			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(inMe2:searchSelfToo, all:searchParent, maxLevel:maxLevel)
+		return find(up2:up2, me2:me2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.scn == node			// view's SCNNode
 		}
 	}
 		/// find if closure is true:
-	/*
-		all ->		up2		 :Bool	= false,			// search relatives of my parent
-		inMe2 ->	me2		 :Bool	= true,				// search me
-	 */
-	func find(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:Vew?=nil,
+	func find(up2:Bool=false,
+			  me2:Bool=false,
+			  maxLevel:Int?=nil,
+			  except exception:Vew?=nil,
+
 			  firstWith closureResult:(Vew) -> Bool) -> Vew?
 	{
 		 // Check self:
-		if searchSelfToo,
+		if me2,
 		  closureResult(self) {				// Self match
 			return self
 		}
@@ -306,14 +320,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			 // Check children:
 			//?let orderedChildren = upInWorld ? children.reversed() : children
 			for child in children where child != exception {	// Child match
-				if let sv		= child.find(inMe2:true, all:false, maxLevel:mLev1, firstWith:closureResult) {
+				if let sv		= child.find(up2:up2, me2:true, maxLevel:mLev1, firstWith:closureResult) {
 					return sv
 				}
 			}
 		}
 		 // Check around self
-		if searchParent {
-			return parent?.find(inMe2:true, all:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
+		if up2 {
+			return parent?.find(up2:false, me2:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
 		}
 		return nil
 	}
