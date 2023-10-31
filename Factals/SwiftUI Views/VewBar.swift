@@ -10,7 +10,7 @@ import SwiftUI
 struct VewBar: View {
 	@Binding var rootVew : RootVew
 	@EnvironmentObject var appGlobals: AppGlobals
-	@EnvironmentObject var docGlobals: DocGlobals
+//	@EnvironmentObject var docGlobals: DocGlobals
 
 	var body: some View {
 		VStack {
@@ -30,7 +30,7 @@ struct VewBar: View {
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						let d = appGlobals.appConfig + docGlobals.docConfig
+						let d = appGlobals.appConfig //+ docGlobals.docConfig
 						print(rootVew.pp(.tree, d))
 					}
 					Button(label:{	Text("ptn")									})

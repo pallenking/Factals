@@ -289,6 +289,10 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 	}
 		/// find if closure is true:
+	/*
+		all ->		up2		 :Bool	= false,			// search relatives of my parent
+		inMe2 ->	me2		 :Bool	= true,				// search me
+	 */
 	func find(inMe2 searchSelfToo:Bool=false, all searchParent:Bool=false, maxLevel:Int?=nil, except exception:Vew?=nil,
 			  firstWith closureResult:(Vew) -> Bool) -> Vew?
 	{
@@ -683,7 +687,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 				let rScn		= rootVew?.scn ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
-								:  "w" + scn.convertPosition(.zero, to:rScn).pp(.short) + " "
+								:  "w" + scn.convertPosition(.zero, to:rScn).pp(.line) + " "
 				if !(self is LinkVew) {
 					 // SceneKit's BBox:
 					if aux.bool_("ppScnBBox") {

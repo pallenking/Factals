@@ -390,34 +390,34 @@ bug	// Never USED?
 		guard let pCon2Port 	= linkVew.pCon2Vew.part as? Port,
 		  let sCon2Port : Port	= linkVew.sCon2Vew.part as? Port else {	return nil }
 
-		  //  :H: Spot -> ConSpot			// Evaluate Position of Ports Link
-		 // in connected to
-		let pCon2SpotIp 		= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
-		 let sCon2SpotIp		= sCon2Port.portConSpot(inVew:parentVew)
-		assertWarn(!(pCon2SpotIp.center.isNan || sCon2SpotIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
+		  // :H: conSpot; scn_V_ector3; scn_F_loat
+		 //  :H: CONnnected to(2)
+		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
+		 let sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
+		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
 
 		 // Center point of each end, in world coordinates
 		// :H: _CENT_er					// of spot
 		// :H: SETBACK
 		// :H: END 						// actual line endpoint
 		// :H: _P_osition, _L_ength
-		// :H: scn_V_ector3, scn_F_loat
+		// :H: In Parent,
 		//												<==============* lCentRayUnit
 		//		*<------------------ lCentV, lCentL ------------------>*
 		//	  pCentVip												sCentVip
 
- 		let  pCentVip 			= pCon2SpotIp.center	// e.g: p9/t1.P // SCNVector3(0,2,0)
-		 let sCentVip			= sCon2SpotIp.center	// e.g: p9/t3.P // SCNVector3(0,0,-2)
-		assertWarn(!(pCentVip.isNan || sCentVip.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
-/**/	linkVew.bBox			= BBox(pCentVip, sCentVip)
+ 		let  pCon2Vip 			= pCon2SIp.center	// e.g: p9/t1.P // SCNVector3(0,2,0)
+		 let sCon2Vip			= sCon2SIp.center	// e.g: p9/t3.P // SCNVector3(0,0,-2)
+		assertWarn(!(pCon2Vip.isNan || sCon2Vip.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
+/**/	linkVew.bBox			= BBox(pCon2Vip, sCon2Vip)
 
 		   // - - - Now all furthur computations are in    _IN  PARENT  VIEW_    - - -
 		  // Both size and position LinkVew here
 		 // Length between center endpoints:
-		let lCentV : SCNVector3 = sCentVip - pCentVip
+		let lCentV : SCNVector3 = sCon2Vip - pCon2Vip
 		let lCentL				= lCentV.length
 		var unitRay				= lCentV / lCentL
- 		let (pR, sR)		 	= (pCon2SpotIp.radius, sCon2SpotIp.radius)
+ 		let (pR, sR)		 	= (pCon2SIp.radius, sCon2SIp.radius)
 		let desiredRadii		= pR + sR
 
 		 // Many degenerate cases land here
@@ -429,27 +429,16 @@ bug	// Never USED?
 			unitRay				*=   desiredRadii / lCentL
 		}
 		 // Position "P" Port
-		let p					= pCentVip + pR * unitRay	// position
+		let p					= pCon2Vip + pR * unitRay	// position
 		let pVew				= linkVew.find(name:"_P", maxLevel:1)!
 /**/	pVew.scn.position		= p							// -> Port
 
 		 // Position "S" Port
-		let s					= sCentVip - sR * unitRay
+		let s					= sCon2Vip - sR * unitRay
 		let sVew				= linkVew.find(name:"_S", maxLevel:1)!
 /**/	sVew.scn.position		= s
 		return (p, s)
 	}
-																				//if desiredRadii > lCentL  {
-																				//	let p				= pCentVip * (sR/desiredRadii) // Compramize:
-																				//						+ sCentVip * (pR/desiredRadii) // 	Proportional
-																				//	return (p, p)
-																				//}
-																				//let pSetback  : CGFloat	= pCon2SpotIp.radius
-																				// let sSetback : CGFloat	= sCon2SpotIp.radius
-																				//let lCentRayUnit			= lCentL < eps ?  .unity :  lCentV / lCentL
-																				//let pSetback  : CGFloat	= min(pCon2SpotIp.radius, lCentL/3)
-																				// let sSetback : CGFloat	= min(sCon2SpotIp.radius, lCentL/3)
-
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
 	override func computeLinkForces(vew:Vew) {

@@ -33,7 +33,7 @@ var params4all		: FwConfig		= {	return
    // MARK: - B: Parameters App logging
   // Controls logging of the Application
  // Terms in FilterLog.swift
-let appLogN						= 0//0//5//8//
+let appLogN						= 8//0//5//8//
 let docLogN						= 8//0//5//8//
 var params4reliableLog:FwConfig	= log(all:appLogN)//8)//0)//
  // This must contain NO log statements!
@@ -51,7 +51,8 @@ private let params4appLog		= params4pp + params4logs_
 	"ppDagOrder"		: true, 	//true//false//
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
-	"ppViewOptions"		: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
+	//"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
+	"ppViewOptions"		: "UFVTWB",	// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
 		// "U" for Uid			"L" for Leaf			"W" for World
 		// "F" for Flipped		"E" for Expose
 		// "V" for Vew(self)	"T" for Transform

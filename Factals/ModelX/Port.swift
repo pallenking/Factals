@@ -407,19 +407,19 @@ class Port : Part, PortTalk {
 	}
 	 /// Convert self.portConSpot to inVew
 	func portConSpot(inVew vew:Vew) -> ConSpot {									//- (Hotspot) hotspotOfPortInView:(View *)refView; {
+		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
 		var rv	: ConSpot		= basicConSpot()		// in parent's coords
-		guard var aPart			= parent else {	fatalError("portConSpot: Port with nil parent")	}
-		var aVew : Vew?			= vew.find(part:aPart, inMe2:true)
 		
 		// H: SeLF, ViEW, World Position
 		// AVew will not exist when it (and its parents) are atomized.
 		// Search upward thru its parents for a visible Vew
+		var aVew : Vew?			= vew.find(part:openParent, inMe2:true)
 		while aVew == nil, 						// we have no Vew yet
-			  let aParent			= aPart.parent {	// but we do have a parent
-			atRsi(8, aPart.logd(" not in Vew! (rv = [\(rv.pp())]) See if parent '\(aParent.fullName)' has Vew"))
+			  let aParent		= openParent.parent {	// but we do have a parent
+			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp())]) See if parent '\(aParent.fullName)' has Vew"))
 			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
-			aPart				= aParent
-			aVew				= vew.find(part:aPart, inMe2:true)
+			openParent			= aParent
+			aVew				= vew.find(part:openParent, inMe2:true)
 			rv					= .zero
 		}
 		guard var aVew : Vew else {
@@ -439,7 +439,7 @@ class Port : Part, PortTalk {
 		 //
 		let trunkScn			= aVew.rootVew!.scn
 		while aVew != vew {
-			// my position in parent
+			 // my position in parent
 			let scn				= aVew.scn
 			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
 			let t				= activeScn.transform
