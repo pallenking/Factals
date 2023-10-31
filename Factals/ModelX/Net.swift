@@ -167,7 +167,7 @@ class Net : Atom {		// Atom // Part
 		case .short:
 			rv +=  " Net with \(children.count) children and \(ports.count) Ports"
 		case .line:
-			rv					+= minSize?.pp(.line) ?? ""
+			rv					+= minSize?.pp(.line, aux) ?? ""
 		default:
 			return super.pp(mode, aux)
 		}

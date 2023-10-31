@@ -129,7 +129,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 				return rv							// don't print extra
 			}
 			rv				+= "type:.\(type) "	// print type and bindings:
-		//	rv				+= "bindings:\(bindings.pp(.line)) "
+		//	rv				+= "bindings:\(bindings.pp(.line, aux)) "
 		}
 		return rv
 	}

@@ -341,7 +341,7 @@ extension SCNNode /*: HasChildren */ {
 			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
-			rv					= pp(.line) + "\n"
+			rv					= pp(.line, aux) + "\n"
 
 			 /// 2. Create SCNNode Physics Body line:
 			if physicsBody?.type == .dynamic,
@@ -399,8 +399,8 @@ extension SCNNode /*: HasChildren */ {
 			for child in children {
 				guard child.name != nil else {  fatalError("scn with nil name")  }
 				rv				+= child.name! == "*-axis"
-								?  child.pp(.line)+" (TRUNCATED)\n"
-								:  child.pp(.tree)
+								?  child.pp(.line, aux)+" (TRUNCATED)\n"
+								:  child.pp(.tree, aux)
 			}
 			log.nIndent		-= 1
 		default:
@@ -409,22 +409,21 @@ extension SCNNode /*: HasChildren */ {
 		return rv
 	}
 	func scn1Line(prefix:String="", _ aux:FwConfig) -> String {
-		var p					= transform.pp(.phrase)				// position	 (E)
+		var p					= transform.pp(.phrase, aux)		// position	 (E)
 		p						= p == "I0" ? "" : ("p" + p + " ")
-		var t					= pivot.pp(.phrase)
+		var t					= pivot.pp(.phrase, aux)
 		t						= t == "I0" ? "" : ("i" + t + " ")
 		let ppNCols4ScnPosn 	= aux.int_("ppNCols4ScnPosn")
 		var rv2					= (prefix + p + t).field(-ppNCols4ScnPosn, dots:false) + " "// (E)
 		if aux.bool_("ppScnBBox") {
-			rv2					+= "s" + bBox().pp(.line)
+			rv2					+= "s" + bBox().pp(.line, aux)
 		}
 
 		 // display position in trunk:
-		if let factalsModel			= DOCfactalsModelQ,
-		  params4aux.string_("ppViewOptions").contains("W"),					//if DOClog.params4aux.string_("ppViewOptions").contains("W") {
-		  let rootVew			= factalsModel.rootVew(ofScnNode:self) {
+		if params4pp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
+		  let rootVew			= DOCfactalsModelQ?.rootVew(ofScnNode:self) {
 			let p				= convertPosition(.zero, to:rootVew.scn)
-			rv2					+= p.pp(.short).field(-11, dots:false)
+			rv2					+= p.pp(.short, aux).field(-11, dots:false)
 		}
 
 //		rv						+= physicsBody != nil ? "pb" : "--"	// debugging
@@ -440,8 +439,7 @@ extension SCNNode /*: HasChildren */ {
 			}
 			let geos			= String(describing:g).shortenStringDescribing()
 			if geos.contains("3DPictureframe") {					//	 (G)
-				rv2				+= "3DPictureframe:" + bBox().pp(.line) //+ "y=\(position.y)"
-//				rv2				+= "3DPictureframe:" + BBox(pair:boundingBox).pp(.line) //+ "y=\(position.y)"
+				rv2				+= "3DPictureframe:" + bBox().pp(.line, aux) //+ "y=\(position.y)"
 			} else {
 				rv2				+= geos								//	 (G)
 			}

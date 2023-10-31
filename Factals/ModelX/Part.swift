@@ -1436,7 +1436,7 @@ print(" burp")
 				rv				+= "physics,"
 			}
 			if aux.bool_("ppParam") {
-				rv 				+= localConfig.pp(.line)
+				rv 				+= localConfig.pp(.line, aux)
 			}
 																					// Ee..
 		case .tree:

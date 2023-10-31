@@ -263,7 +263,7 @@ enum FwwEvent : Codable, EquatableFW {
 		case .phrase, .short:
 			switch self {
 			case .aString(let s):		return s
-			case .anArray(let a):		return a.pp(.phrase)
+			case .anArray(let a):		return a.pp(.phrase, aux)
 			case .anEpoch(let e):		return String(e)
 			case .aProb(  let f):		return String(f)
 			case .aNil_:				return "<nil>"

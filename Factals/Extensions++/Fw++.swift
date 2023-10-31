@@ -40,17 +40,17 @@ extension FwAny  {
 		case .uidClass:
 			return "\(ppUid(self as? Uid)):\(self.fwClassName)"	// e.g: "xxx:Port"
 		case .classUid:
-			return "\(self.pp(.fwClassName))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
+			return "\(self.pp(.fwClassName, aux))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
 		case .uid:							// -> uid
 			return ppUid(self as? Uid)
 		case .phrase:						// -> .fullNameUidClass
-			return self.pp(.fullNameUidClass,		aux)
+			return self.pp(.fullNameUidClass, aux)
 		case .short:						// -> .phrase
-			return self.pp(.phrase,		aux)
+			return self.pp(.phrase,		 aux)
 		case .line:							// -> .short
-			return self.pp(.short, aux)
+			return self.pp(.short, 		 aux)
 		case .tree:							// -> .line
-			return self.pp(.line,   aux)
+			return self.pp(.line,		 aux)
 		}
 	}
 
@@ -149,7 +149,7 @@ extension NSView 		: FwAny		{		// also SCNView
 		case .uid:
 			return ppUid(self)
 		case .line:
-			return self.pp(.classUid)
+			return self.pp(.classUid, aux)
 		default:
 			return "\(className):\(ppUid(self))"
 		}

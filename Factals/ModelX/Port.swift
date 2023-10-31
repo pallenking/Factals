@@ -446,7 +446,7 @@ class Port : Part, PortTalk {
 			rv.center			= t * rv.center						// (SCNVector3)
 			rv.radius			= length(t.m3x3 * .uY) * rv.radius	// might be scaling
 			rv.exclude			= rv.exclude==nil ? aVew.bBox * t :
-			(rv.exclude! * t | aVew.bBox * t)
+								 (rv.exclude! * t | aVew.bBox * t)
 			let wpStr 			= !enaPpWp ? "" :
 			"w" + aVew.scn.convertPosition(rv.center, to:trunkScn).pp(.short) + " "
 			guard aVew.parent != nil else {
@@ -640,7 +640,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .fullName:						// -> .name
-			return (parent?.pp(.fullName) ?? "") + "." + name
+			return (parent?.pp(.fullName, aux) ?? "") + "." + name
 		case .phrase, .short:
 			return self.pp(.fullNameUidClass, aux)
 		case .line:

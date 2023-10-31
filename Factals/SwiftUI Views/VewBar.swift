@@ -30,12 +30,11 @@ struct VewBar: View {
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						let d = appGlobals.appConfig //+ docGlobals.docConfig
-						print(rootVew.pp(.tree, d))
+						print(rootVew.pp(.tree, appGlobals.appConfig)) //+ docGlobals.docConfig))
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")
-						print(rootVew.scn.pp(.tree))
+						print(rootVew.scn.pp(.tree, appGlobals.appConfig))
 					}
 					Text("Review:")
 					Button(label:{	Text("View")								})
@@ -56,7 +55,7 @@ struct VewBar: View {
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
 					{	var s	= rootVew.selfiePole
 						s.zoom	/= 1.1
-						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line, appGlobals.appConfig))")
 						rootVew.selfiePole = s	// Put struct's val back
 					}
 					Spacer()

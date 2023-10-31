@@ -55,7 +55,7 @@ class LinkVew : Vew {
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 		var rv			= super.pp(mode, aux)
 		if mode == .line {
-			rv				+= " ->\(pCon2Vew.pp(.uid)),\(sCon2Vew.pp(.uid))"
+			rv				+= " ->\(pCon2Vew.pp(.uid, aux)),\(sCon2Vew.pp(.uid, aux))"
 		}
 		return rv
 	}

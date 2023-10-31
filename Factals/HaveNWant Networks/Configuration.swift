@@ -52,7 +52,7 @@ private let params4appLog		= params4pp + params4logs_
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
 	//"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
-	"ppViewOptions"		: "UFVTWB",	// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
+	"ppViewOptions"		: "UFVTWB",		// Compact printout
 		// "U" for Uid			"L" for Leaf			"W" for World
 		// "F" for Flipped		"E" for Expose
 		// "V" for Vew(self)	"T" for Transform
@@ -72,7 +72,7 @@ private let params4appLog		= params4pp + params4logs_
 	"ppScnBBox"			: false, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
-	"ppXYZWena"  		: "XYZW",	// disable some dimensions //"Y"//
+	"ppXYZWena"  		: "XY",		// disable some dimensions //"XYZW"//
 				// Column Usage:
 	"ppViewTight"		: false, 	// better for ascii text //false//true
 	"ppBBoxCols"		: 28,		// columns printout for bounding boxs//32//24

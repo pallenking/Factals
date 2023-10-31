@@ -294,7 +294,7 @@ extension SCNMatrix4 {
 				var rv				= ""
 				for i in 0..<4 {
 					let sm:SCNMatrix4 = self
-					rv 				+= sm.at(i).pp(.short)
+					rv 				+= sm.at(i).pp(.short, aux)
 				}
 				return rv
 			case .phrase:
@@ -304,7 +304,7 @@ extension SCNMatrix4 {
 			case .tree:
 				var (rv, sep) 	= ("", "[")
 				for i in 0..<4 {		// pile o crap:
-					rv 			+= sep + at(i).pp(.line)
+					rv 			+= sep + at(i).pp(.line, aux)
 					sep			= "\n "
 				}
 				return rv + "]"
@@ -334,7 +334,7 @@ extension SCNMatrix4 {
 			}
 		}
 		if allZero {
-			bug;return "0\(position.pp(.short))"
+			bug;return "0\(position.pp(.short, aux))"
 		}
 		if anyNan {
 			return "<hasNan>"
@@ -398,13 +398,13 @@ extension SCNMatrix4 {
 									/// scale of rows have different values
 			else {
 				let scale 		= SCNVector3(domVals[0], domVals[1], domVals[2])
-				rv				= "<" + String(scale.pp(.short).dropLast().dropFirst()) + ">I"
+				rv				= "<" + String(scale.pp(.short, aux).dropLast().dropFirst()) + ">I"
 			}
-			rv					+= position.pp(.short)
+			rv					+= position.pp(.short, aux)
 		}
 		else {			/// Print 4x4 matrix:
 			for i in 0..<4 {
-				rv 				+= at(i).pp(.short)
+				rv 				+= at(i).pp(.short, aux)
 			}
 		}
 		return rv.removeUnneededSpaces()		// remove extra spaces

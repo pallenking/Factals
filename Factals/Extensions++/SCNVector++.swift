@@ -328,9 +328,7 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 		}
 		switch mode {		// PpMode .short and .phrase exists in many places
 			case .short:			// Fixed length fields
-				if self.x ~== 0 && self.y ~== 0 && self.z ~== 0 {
-					return "0"
-				}
+				if x ~== 0 && y ~== 0 && z ~== 0 {		return "0"				}
 				// TODO: .short is a bad name, should be .fixed
 				let a 		= aux.int_("ppFloatA")
 				let b 		= aux.int_("ppFloatB")

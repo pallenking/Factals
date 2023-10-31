@@ -435,10 +435,10 @@ bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
-			var rv				= (rootPart?.pp(.classUid) ?? "rootPart=nil") + " "
-			rv					+= rootVews.pp(.classUid) + " "
+			var rv				= (rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
+			rv					+= rootVews.pp(.classUid, aux) + " "
 			if let document {
-				rv				+= document.pp(.classUid)
+				rv				+= document.pp(.classUid, aux)
 			}
 			return rv
 		default:

@@ -622,8 +622,8 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 			rv					+= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' BAD"
 			rv					+= "scn:\(ppUid(self, showNil:true)) (\(rootNode.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
-		//	rv					+= "\(self.scnScene.pp(.uidClass)) "
-//			rv					+= "\(self.fwView?.pp(.uidClass) ?? "BAD: fwView=nil") "
+		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
+//			rv					+= "\(self.fwView?.pp(.uidClass, aux) ?? "BAD: fwView=nil") "
 		}
 		return rv
 	}

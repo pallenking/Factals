@@ -240,10 +240,10 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 							 				// Report any improper linking:
-		guard let factalsModel 					else {	return "factalsModel BAD"			}
-		guard let slot 						else {	return "slot IS NIL"		}
-		guard slot < factalsModel.rootVews.count 	else {	return "slot TOO BIG"		}
-		guard factalsModel.rootVews[slot] == self else {	return "self inclorectly in rootVews"}
+		guard let factalsModel 					  else{return "factalsModel BAD"}
+		guard let slot 							  else{return "slot IS NIL"		}
+		guard slot < factalsModel.rootVews.count  else{return "slot TOO BIG"	}
+		guard factalsModel.rootVews[slot] == self else{return "self inclorectly in rootVews"}
 		
 		return super.pp(mode, aux)			// superclass does all the work.
 	}

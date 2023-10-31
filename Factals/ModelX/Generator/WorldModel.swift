@@ -228,7 +228,7 @@ bug;	return rv
 			rv					+= "eventNow:\(eventNow) eventLimit=\(eventLimit) "
 
 			if event != nil {
-				rv				+= "eventIndex:\(eventIndex), events:\"\(event!.pp(.line))\" "
+				rv				+= "eventIndex:\(eventIndex), events:\"\(event!.pp(.line, aux))\" "
 		//		assert(eventIndex < events!.count, "eventIndex EXCEEDS LIMIT")
 			}
 			if prob != nil {

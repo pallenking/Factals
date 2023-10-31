@@ -312,7 +312,7 @@ class DiscreteTime : Atom {
 			if aux.bool_("ppParam") {	// a long line, display nothing else.
 				return rv
 			}
-			rv					+= " resetTo='\(resetTo?.pp(.line) ?? "nil")'"
+			rv					+= " resetTo='\(resetTo?.pp(.line, aux) ?? "nil")'"
 			rv					+= " inspecNibName='\(inspecNibName ?? "nil")'"
 		}
 		return rv

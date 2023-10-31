@@ -627,8 +627,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				return self.fullName
 			case .phrase, .short:
 				var rv 			= name + ppUid(pre:"/", self) + ":" + fwClassName + " "
-				rv 				+= "->"  + part.pp(.fullNameUidClass)
-				rv				+= ", ->" + scn.pp(.fullNameUidClass)
+				rv 				+= " ->" + part.pp(.fullNameUidClass, aux)
+				rv				+= ", ->" + scn.pp(.fullNameUidClass, aux)
 				return rv
 			case .line:
 				let ppViewOptions = aux.string("ppViewOptions") ?? "UFVSPLETBIW" // Default to ALL
@@ -650,7 +650,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 					rv			+= part.flipped   ? "f" : " "			  // (B)
 				}
 																	// Indent:
-				rv 				+= log.indentString() 				  // (C)
+				rv 				+= log.indentString() 				  	  // (C)
 				if ppViewOptions.contains("V") {					// Vew (self):
 					rv			+= name.field(tight(6,8),dots:false) + ":"// (D) VIEW and MODEL names:
 					rv			+= fwClassName.field(-tight(5,7),dots:false)// (E)
@@ -665,13 +665,13 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 					rv			+= tight("", " p:")						  // (H)
 					rv			+= part.name.field(6)					  // (I)
 					rv			+= ppUid(pre:"/", part) + ":"			  // (J)
-					rv			+= part.pp(.fwClassName).field(-tight(4,6), dots:false) // (K)
+					rv			+= part.pp(.fwClassName, aux).field(-tight(4,6), dots:false) // (K)
 				}
 															// /// SKINS:
 																	// UNIndent
-				rv 				=  log.unIndent(rv)					  // (L)
+				rv 				=  log.unIndent(rv)					  	  // (L)
 
-				if ppViewOptions.contains("L") {					 // Leaf:
+				if ppViewOptions.contains("L") {					// Leaf:
 					let s		= self as? NetVew
 					rv			+= s==nil ? "   " :
 								   "\(s!.heightLeaf)/\(s!.heightTree)"
@@ -701,7 +701,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 				let rScn		= rootVew?.scn ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
-								:  "w" + scn.convertPosition(.zero, to:rScn).pp(.line) + " "
+								:  "w" + scn.convertPosition(.zero, to:rScn).pp(.line, aux) + " "
 				if !(self is LinkVew) {
 					 // SceneKit's BBox:
 					if aux.bool_("ppScnBBox") {
