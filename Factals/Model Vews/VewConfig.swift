@@ -30,7 +30,7 @@ enum VewConfig : FwAny {
 				return ".subVew(fwConfig:[\(fwConfig.count) elts])"
 			}
 		default:
-			return ppCommon(mode, aux)		// NO, try default method
+			return ppStopGap(mode, aux)		// NO, try default method
 		}
 	}
 	 // MARK: - 16. Global Constants

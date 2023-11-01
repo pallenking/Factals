@@ -420,7 +420,7 @@ bug
 		case .tree:
 			return log.indentString() + " FactalsDocument" + "\n"
 		default:
-			return ppCommon(mode, aux)		// NO, try default method
+			return ppStopGap(mode, aux)		// NO, try default method
 		}
 	}
 }

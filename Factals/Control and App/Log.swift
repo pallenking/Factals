@@ -258,7 +258,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	}
      // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]/*params4aux*/) -> String {
-		return ppCommon(mode, aux)		// NO, try default method
+		return ppStopGap(mode, aux)		// NO, try default method
 	}
 	 /// Character to represent current Thread ID:
 	var ppCurThread : String {
@@ -326,9 +326,9 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			} ()
 	};private static var reliableLog : Log? = nil
 
-	var description		 : String { return  "d'Log\(logNo) \(title)'"			}
-	var debugDescription : String { return "dd'Log\(logNo) \(title)'"			}
-	var summary			 : String { return 	"s'Log\(logNo) \(title)'"			}
+	var description		 : String {		 "d'Log\(logNo) \(title)'"				}
+	var debugDescription : String {		"dd'Log\(logNo) \(title)'"				}
+	var summary			 : String {		 "s'Log\(logNo) \(title)'"				}
 }
 var debugOutterLock	= false		// default value
 

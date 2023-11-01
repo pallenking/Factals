@@ -29,7 +29,8 @@ struct FactalsModelBar: View {
 			}
 			Spacer()
 			Button(label: {	Text("LLDB") 										})
-			{	breakToDebugger()												}
+			{	lldbPrint(factalsModel.rootPart!, /*Vews.first!,*/ mode:.tree, [:])
+				breakToDebugger()												}
 			Text(" ")
 		}
 		 .padding(4)

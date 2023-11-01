@@ -73,9 +73,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		  // Visible Shape:
 		// Jog
 		if let jogStr	 		= part.localConfig["jog"]?.asString,
-		   let jogVect 			= SCNVector3(from:jogStr) ??
-		  						  SCNVector3(from:jogStr + " 0") ??
-		  						  SCNVector3(from:jogStr + " 0 0") {
+		   let jogVect 			= SCNVector3(from:jogStr) ??			// x y z
+		  						  SCNVector3(from:jogStr + " 0") ??		// x y 0
+		  						  SCNVector3(from:jogStr + " 0 0") {	// x 0 0
 			jog 				= jogVect
 		}
 	}
@@ -275,7 +275,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		return find(up2:up2, me2:me2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.part === part	// view's part matches
-//			return vew.part == part		// view's part matches
 		}
 	}
 	 /// FIND child Vew by its Part's NAME:
@@ -726,7 +725,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				log.nIndent	-= 1
 				return rv
 			default:
-				return ppCommon(mode, aux) 		// NO, try default method
+				return ppStopGap(mode, aux) 		// NO, try default method
 		}
 	}
 

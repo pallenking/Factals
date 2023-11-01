@@ -385,15 +385,19 @@ class Port : Part, PortTalk {
 	//		let hiVew 			= commonVew.find(part:hiPart)!					//, maxLevel:1??
 	//		let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform
 			vew					= vew.parent!
-			atRsi(8, vew.log("--A-- rv:\(pp()) after t:\(t.pp(.short))"))
+			atRsi(8, vew.log("--A-- rv:\(pp(inVew:vew)) after t:\(t.pp(.short))"))
 		}
 	 	// MARK: - 15. PrettyPrint
-		func pp() -> String {
-			return fmt("c:\(center.pp(.short)), r:%.3f, " + "e:\(exclude?.pp(.short) ?? "nil")", radius)
+		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
+			let wpStr			= !aux.string_("ppViewOptions").contains("W") ? "" : {		// World position
+				guard let rootVew = inVew?.rootVew else { return "root of inVew bad" }
+				return "w" + inVew!.scn.convertPosition(center, to:rootVew.scn).pp(.short, aux) + " "
+			} ()
+			return fmt("c:\(center.pp(.short, aux)), r:%.3f, e:\(exclude?.pp(.short, aux) ?? "nil")", radius)
 		}
-		var description	  	 	: String	{	return  "d'\(pp())'"			}
-		var debugDescription 	: String	{	return "dd'\(pp())'"			}
-		var summary		 	 	: String	{	return  "s'\(pp())'"			}
+		var description	  	 	: String	{	return "d'\(pp())'"				}
+		var debugDescription 	: String	{	return "e'\(pp())'"				}
+		var summary		 	 	: String	{	return "s'\(pp())'"				}
 	
 		static let zero 		= ConSpot()
 		static let nan	 		= ConSpot(center:.nan)
@@ -409,56 +413,58 @@ class Port : Part, PortTalk {
 	func portConSpot(inVew vew:Vew) -> ConSpot {									//- (Hotspot) hotspotOfPortInView:(View *)refView; {
 		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
 		var rv	: ConSpot		= basicConSpot()		// in parent's coords
-		
+		let aux					= params4pp				//log.params4aux
+
 		// H: SeLF, ViEW, World Position
 		// AVew will not exist when it (and its parents) are atomized.
 		// Search upward thru its parents for a visible Vew
-		var aVew : Vew?			= vew.find(part:openParent, me2:true)
-		while aVew == nil, 						// we have no Vew yet
-			  let aParent		= openParent.parent {	// but we do have a parent
-			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp())]) See if parent '\(aParent.fullName)' has Vew"))
+		var openVew : Vew?		= vew.find(part:openParent, me2:true)
+		while openVew == nil, 						// we have no Vew yet
+			  let p		= openParent.parent {	// but we do have a parent
+			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew"))
 			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
-			openParent			= aParent
-			aVew				= vew.find(part:openParent, me2:true)
+			openParent			= p
+			openVew				= vew.find(part:openParent, me2:true)
 			rv					= .zero
 		}
-		guard var aVew : Vew else {
+		guard var openVew : Vew else {
 			panic("No Vew could be found for Part \(self.fullName)) in its parents")
 			return rv
 		}
-		// Now rv contain's self's portConSpot, in aVewq
-		let enaPpWp				= log.params4aux.string("ppViewOptions")?.contains("W") ?? false
+		// Now rv contain's self's portConSpot, in aVew
+		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
 		
-		var wPosn				= ""
-		if let rScn				= vew.rootVew?.scn, enaPpWp {
-			wPosn				= "w" + aVew.scn.convertPosition(rv.center, to:rScn).pp(.short) + " "
+		var worldPosn			= ""
+		if let rootScn			= vew.rootVew?.scn, enaPpWorld {
+			worldPosn			= "w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
 		}
-		atRsi(8, aVew.log("INPUT spot=[\(rv.pp())]\(wPosn). OUTPUT to '\(vew.pp(.fullName))'"))
+//		var worldPosn			= !enaPpWorld ? "" :
+//			"w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
+		atRsi(8, openVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 
 		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 		 //
-		let trunkScn			= aVew.rootVew!.scn
-		while aVew != vew {
+		let rootScn				= openVew.rootVew!.scn
+		while openVew != vew {
 			 // my position in parent
-			let scn				= aVew.scn
+			let scn				= openVew.scn
 			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
 			let t				= activeScn.transform
 			rv.center			= t * rv.center						// (SCNVector3)
 			rv.radius			= length(t.m3x3 * .uY) * rv.radius	// might be scaling
-			rv.exclude			= rv.exclude==nil ? aVew.bBox * t :
-								 (rv.exclude! * t | aVew.bBox * t)
-			let wpStr 			= !enaPpWp ? "" :
-			"w" + aVew.scn.convertPosition(rv.center, to:trunkScn).pp(.short) + " "
-			guard aVew.parent != nil else {
-				break
-			}
+			rv.exclude			= rv.exclude==nil ? openVew.bBox * t :
+								 (rv.exclude! * t | openVew.bBox * t)
+			let wpStr 			= !enaPpWorld ? "" :
+								  "w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
+			guard openVew.parent != nil else {				break				}
+
 			// // HIghest part self is a part of..	From Long Ago...
 			//let hiPart  			= ancestorThats(childOf:commonVew.part)!
 			//let hiVew 			= commonVew.find(part:hiPart)!
 			//let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform
-			aVew					= aVew.parent!
-			atRsi(8, aVew.log("  now spot=[\(rv.pp())]\(wpStr) (after \(t.pp(.phrase)))"))
-		} //while aVew != inVew			// we have not found desired Vew
+			openVew					= openVew.parent!
+			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(t.pp(.phrase)))"))
+		} //while openVew != inVew			// we have not found desired Vew
 		return rv
 	}
 

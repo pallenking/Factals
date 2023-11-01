@@ -442,7 +442,7 @@ bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
 			}
 			return rv
 		default:
-			return ppCommon(mode, aux)		// NO, try default method
+			return ppStopGap(mode, aux)		// NO, try default method
 		}
 	}
 

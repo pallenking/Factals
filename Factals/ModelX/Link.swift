@@ -406,15 +406,15 @@ bug	// Never USED?
 		//		*<------------------ lCentV, lCentL ------------------>*
 		//	  pCentVip												sCentVip
 
- 		let  pCon2Vip 			= pCon2SIp.center	// e.g: p9/t1.P // SCNVector3(0,2,0)
-		 let sCon2Vip			= sCon2SIp.center	// e.g: p9/t3.P // SCNVector3(0,0,-2)
-		assertWarn(!(pCon2Vip.isNan || sCon2Vip.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
-/**/	linkVew.bBox			= BBox(pCon2Vip, sCon2Vip)
+ 		let  pCon2VIp 			= pCon2SIp.center	// e.g: p9/t1.P // SCNVector3(0,2,0)
+		 let sCon2VIp			= sCon2SIp.center	// e.g: p9/t3.P // SCNVector3(0,0,-2)
+		assertWarn(!(pCon2VIp.isNan || sCon2VIp.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
+/**/	linkVew.bBox			= BBox(pCon2VIp, sCon2VIp)
 
 		   // - - - Now all furthur computations are in    _IN  PARENT  VIEW_    - - -
 		  // Both size and position LinkVew here
 		 // Length between center endpoints:
-		let lCentV : SCNVector3 = sCon2Vip - pCon2Vip
+		let lCentV : SCNVector3 = sCon2VIp - pCon2VIp
 		let lCentL				= lCentV.length
 		var unitRay				= lCentV / lCentL
  		let (pR, sR)		 	= (pCon2SIp.radius, sCon2SIp.radius)
@@ -429,12 +429,12 @@ bug	// Never USED?
 			unitRay				*=   desiredRadii / lCentL
 		}
 		 // Position "P" Port
-		let p					= pCon2Vip + pR * unitRay	// position
+		let p					= pCon2VIp + pR * unitRay	// position
 		let pVew				= linkVew.find(name:"_P", maxLevel:1)!
 /**/	pVew.scn.position		= p							// -> Port
 
 		 // Position "S" Port
-		let s					= sCon2Vip - sR * unitRay
+		let s					= sCon2VIp - sR * unitRay
 		let sVew				= linkVew.find(name:"_S", maxLevel:1)!
 /**/	sVew.scn.position		= s
 		return (p, s)

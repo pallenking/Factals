@@ -1452,7 +1452,7 @@ print(" burp")
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
 			}
 		default:
-			return ppCommon(mode, aux)		// NO, try default method
+			return ppStopGap(mode, aux)		// NO, try default method
 		}
 		return rv
 	}
@@ -1477,7 +1477,7 @@ print(" burp")
 	 /// Print children
 	func ppChildren(_ aux:FwConfig, reverse:Bool, ppPorts:Bool) -> String {
 		var rv					= ""
-		log.nIndent			+= 1		//root?.
+		log.nIndent				+= 1		//root?.
 		let orderedChildren		= reverse ? children.reversed() : children
 		for child in orderedChildren where ppPorts || !(child is Port) {
 			 // Exclude undesireable Links
@@ -1485,13 +1485,13 @@ print(" burp")
 				rv				+= mark_line(aux, child.pp(.tree, aux))
 			}
 		}
-		log.nIndent			-= 1
+		log.nIndent				-= 1
 		return rv
 	}
 	 /// Print Ports
 	func printPorts(_ aux:FwConfig, early:Bool) -> String {
 		var rv 					= ""
-		log.nIndent			+= 1		// root?.
+		log.nIndent				+= 1		// root?.
 		if log.ppPorts {	// early ports // !(port.flipped && ppDagOrder)
 			for part in children {
 				if let port 	= part as? Port,
@@ -1500,7 +1500,7 @@ print(" burp")
 				}
 			}
 		}
-		log.nIndent			-= 1
+		log.nIndent				-= 1
 		return rv
 	}
 	 /// Marking line with '_'s improves readability
@@ -1512,7 +1512,7 @@ print(" burp")
 			let range			= Range(uncheckedBounds:(lower:sta, upper:end))
 			rv					= line.replacingOccurrences(of:" ", with:"_", range:range)
 		}
-		nLinesLeft				-= nLinesLeft != 0 ? 1 : 0	// decrement if non-zero
+		nLinesLeft				-= nLinesLeft != 0 ?  1 : 0	// decrement if non-zero
 		return rv
 	}
 	 // MARK: - 16. Global Constants

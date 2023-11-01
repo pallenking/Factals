@@ -53,22 +53,13 @@ private let params4appLog		= params4pp + params4logs_
 	"ppParam"			: false,	// pp config info with parts
 	//"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
 	"ppViewOptions"		: "UFVTWB",		// Compact printout
-		// "U" for Uid			"L" for Leaf			"W" for World
-		// "F" for Flipped		"E" for Expose
-		// "V" for Vew(self)	"T" for Transform
-		// "S" for Scn			"B" for physics Body
-		// "P" for Part			"I" for pIvot
-				//			"U": 		Show Uid
-				//			"F": 		Show Flipped
-				//			"V": 		Show Vew (self)
-				//			"S": 		Show my Scn
-				//			"P": 		Show my Part
-				//			"L": 		Show my Leaf height
-				//			"E": 		Show my initial expose
-				//			"T": 		Show my position transform
-				//			"B": 		Show my physics Body
-				//			"I": 		Show my pIvot point
-				//			"W": 		Show my position in World coordinates
+		// "U":		Show Uid			  "E":		Show my initial expose
+		// "F":		Show Flipped		  "T":		Show my position transform
+		// "V":		Show Vew (self)		  "B":		Show my physics Body
+		// "S":		Show my Scn			  "I":		Show my pIvot point
+		// "P":		Show my Part		  "W":		Show my position in World coordinates
+		// "L":		Show my Leaf height
+
 	"ppScnBBox"			: false, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
@@ -129,7 +120,7 @@ private let params4vew : FwConfig = [
 /**/"placeMy"					:"linky",		// place my parts	//"stackY"
 ///**/"placeMe"					:"stacky",		// place me (self)	//"stackY"
 ///**/"placeMy"					:"stacky",		// place my parts	//"stackY"
- //	"skinAlpha"					: 0.3,			// nil -> 1
+ //	"skinAlpha"					: 0.3,			// nil -> 1		// BROKEN
 	"bitHeight"					: Float(1.0),	// radius of Port
 /**/"bitRadius"					: Float(1.0),	// radius of Port
 	"atomRadius"				: Float(1.0),	// radius of Atom

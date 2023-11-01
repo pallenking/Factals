@@ -294,7 +294,7 @@ enum FwwEvent : Codable, EquatableFW {
 				return pp(.short, aux)
 			}
 		default:
-			return ppCommon(mode, aux)		// NO, try default method
+			return ppStopGap(mode, aux)		// NO, try default method
 		}
 	}
 }

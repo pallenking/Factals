@@ -9,12 +9,24 @@ import SceneKit
 	3. pt pCon2Spot
  */
 
-func breakToDebugger() {			panic("Break To Debugger")					}
+func breakToDebugger() {
+	panic("Break To Debugger")
+}
 func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:String="\n") {	//["ppDagOrder":true]
-	print(ob.pp(mode, aux), terminator:t)
+	print("lldbPrint(\(ob.pp(.classUid)), mode:\(mode.rawValue), \(aux.pp(.short))")
+	if let part					= ob as? Part {
+		print(part.pp(mode, aux), terminator:t)
+	}
+	else if let vew				= ob as? Vew {
+		print(vew.pp(mode, aux), terminator:t)
+	}
+	else {
+		print(ob.pp(mode, aux), terminator:t)
+	}
 }
 
  // Access to current ////// Part Tree //////return nil }//
+var LLDBrootPartFOO : RootPart	{	DOCfactalsModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
 var LLDBrootPart : RootPart		{	DOCfactalsModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
 func LLDBrootPart(_ name:String?=nil) -> Part  {
 	guard var rv : Part			= DOCfactalsModelQ?.rootPart else { return .null		}

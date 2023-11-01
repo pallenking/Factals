@@ -460,8 +460,7 @@ bug;			let c				= /*doc.config +*/ rootPart.ansConfig
 		case .tree:
 			return ""
 		default:
-			return ppCommon(mode, aux)		// NO, try default method
-//			return ppCommon(self:self, mode:mode, aux:aux)// CherryPick2023-0520:
+			return ppStopGap(mode, aux)		// NO, try default method
 		}
 	}
 

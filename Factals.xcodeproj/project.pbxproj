@@ -134,6 +134,8 @@
 		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
+		9F84C9EE2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */; };
+		9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
@@ -242,6 +244,7 @@
 		9F5AE2CF298C3C4B00EF6B20 /* RootScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScene.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
+		9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShaftBundleTap.swift; path = ../../ShaftBundleTap.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsModelBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
@@ -421,6 +424,7 @@
 		9FEE51AA286BA53800C8C22A /* HaveNWant Networks */ = {
 			isa = PBXGroup;
 			children = (
+				9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */,
 				9FEE51AB286BA57900C8C22A /* Library.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
@@ -661,6 +665,7 @@
 				9F417F1628EB94020047B359 /* EditNet.swift in Sources */,
 				9F417F1828EB94080047B359 /* FwBundle.swift in Sources */,
 				9F417F2D28EB94500047B359 /* Part.swift in Sources */,
+				9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
 				9F417F3728EB947A0047B359 /* InspecSCNVector3.swift in Sources */,
 				9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */,
 				9F417F1928EB940D0047B359 /* TimingChain.swift in Sources */,
@@ -737,6 +742,7 @@
 				9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */,
 				9F19010128808DC10078DB6C /* FwBundle.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
+				9F84C9EE2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
 				9F1E3CE628D926C5004548C9 /* RootVew.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */,
