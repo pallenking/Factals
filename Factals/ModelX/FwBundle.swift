@@ -320,15 +320,31 @@ class FwBundle : Net {
 			panic("Unknown FwBundle spec type")
 		}
 	}
+
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	 typealias LeafOperation = (Leaf) -> ()
 	 func forAllLeafs(_ leafOperation : LeafOperation)  {
 		 for elt in self.children {
-			 if let subBlk = elt as? FwBundle {		// ignore Ports and numbers
+			 if let subBlk = elt as? Leaf {		// ignore Ports and numbers
 				 subBlk.forAllLeafs(leafOperation)
 			 }
 		 }
 	 }
+
+	// MARK: - 6. Navigation
+  // Find Port in targetBundle whose name is leafPathStr.
+ // Returns nil if Leaf not found, or if it has no "G" bindings
+
+	func genPortOfLeafNamed(_ leafStr:String) -> Port? {
+		var soughtLeaf:Leaf?	= nil
+		forAllLeafs { leaf in
+			if leaf.name == leafStr {
+				soughtLeaf = leaf
+			}
+		}
+		return soughtLeaf?.port4leafBinding(name:"G") as? Port
+
+	}
 	 // MARK: - 9. 3D Support
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {

@@ -4,7 +4,6 @@
 ////
 ////  Created by Allen King on 11/1/23.
 ////
-//import Foundation
 //import SceneKit
 //
 //class ShaftBundleTap: Generator {
@@ -198,11 +197,10 @@
 //		super.reVew(vew:vew, parentVew:parentVew)
 //		 // inspecNibName --> automatically add an InspecVc panel
 //		// (might move into -postBuild
-//		if inspecNibName != nil && !inspecIsOpen! {
-//			panic()
-//			//[self.brain.simNsWc.inspecVcs2open addObject:mustBe(Vew, view)]
-//		}
-//		self.inspecIsOpen = true		// only open once
+////		if inspecNibName != nil && !inspecIsOpen! {
+////			panic()	//[self.brain.simNsWc.inspecVcs2open addObject:mustBe(Vew, view)]
+////		}
+////		self.inspecIsOpen = true		// only open once
 //	}
 //
 //

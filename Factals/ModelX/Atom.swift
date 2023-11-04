@@ -145,6 +145,57 @@ class Atom : Part {	//Part//FwPart
  			&& bindings			== rhs.bindings
  		return rv
 	}
+
+	// MARK: - 4. Factory
+
+// xyzzyx4
+//	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?) -> Part? {
+//
+//		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
+//			var rv : Part?			= nil;
+//			if path.namePort.count {					// if named Port is specified
+//
+//				  // Search all existing component Ports:
+//				 //
+//				for port in parts where port is Port {
+//					if port.name == path.portName {
+//						assert(rv == nil, "multiple Ports named '\(path.portName)' found")
+//						if let portAbility = atomsDefinedPorts[path.portName] {
+//							let aPort 	= addPart(Port())
+//							aPort.flipped = portAbility.contains("d")
+//							aPort.name = path.portName;
+//							rv = aPort;						// return newly created Port
+//						}
+//					}
+//				}
+//				if rv == nil,
+//				  let portAbility = atomsDefinedPorts[path.portName] {
+//					let aPort = Port()
+//					addPart(aPort)
+//					aPort.flipped = portAbility.contains("d")
+//					aPort.name = path.portName;
+//					rv = aPort;						// return newly created Port
+//
+//				 // If not found, perhaps it could be built
+//				if (rv == 0)
+//					if (NSString *portAbility = [self xxx) {
+//						Port *aPort = [self addPart:[Port another]];
+//					}
+//			}
+//			else {
+//				rv = self							// matches the Atom
+//			}
+//			 // report and return results:
+//			if rv != nil {
+//				atBld(5, "   MATCHES Inward check: \(rv.fullName)")
+//				return rv
+//			}
+//		}
+//		atBld(5, "   FAILS   Inward check")
+//
+//		return super.resolveInwardReference(path, openingDown:downInSelf, except:exception)
+//	}
+
 	// MARK: - 4.4 Navigating Network
 	func biggestBit(openingUp  upInSelf:Bool) -> Port? {
 		var rv : Port? 			= nil

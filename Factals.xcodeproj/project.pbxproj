@@ -136,6 +136,8 @@
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
 		9F84C9EE2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */; };
 		9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */; };
+		9F84C9F12AF2FDC6002BD0C1 /* BundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */; };
+		9F84C9F22AF2FDC6002BD0C1 /* BundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */; };
 		9F96952F288B3B2800106DBC /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F969530288B3DF500106DBC /* Vew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6FD72841A70E00E9E2AE /* Vew.swift */; };
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
@@ -245,6 +247,7 @@
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShaftBundleTap.swift; path = ../../ShaftBundleTap.swift; sourceTree = "<group>"; };
+		9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleTap.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsModelBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
@@ -425,6 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */,
+				9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */,
 				9FEE51AB286BA57900C8C22A /* Library.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
@@ -701,6 +705,7 @@
 				9F5AE2D1298C3C4B00EF6B20 /* RootScene.swift in Sources */,
 				9F417F5928EB95620047B359 /* Uid.swift in Sources */,
 				9F417F2A28EB94470047B359 /* Port.swift in Sources */,
+				9F84C9F22AF2FDC6002BD0C1 /* BundleTap.swift in Sources */,
 				9F417F3428EB94710047B359 /* InspecParts.swift in Sources */,
 				9F417F0B28EB93D80047B359 /* LangDeser.swift in Sources */,
 				9F417F1728EB94050047B359 /* Tunnel.swift in Sources */,
@@ -734,6 +739,7 @@
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
 				9F4A3ADB288B396800574925 /* Fw++.swift in Sources */,
 				9F190121288090240078DB6C /* LinkVew.swift in Sources */,
+				9F84C9F12AF2FDC6002BD0C1 /* BundleTap.swift in Sources */,
 				9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */,
 				9F1900FB28808DC10078DB6C /* Previous.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
