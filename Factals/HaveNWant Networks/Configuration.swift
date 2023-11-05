@@ -51,8 +51,8 @@ private let params4appLog		= params4pp + params4logs_
 	"ppDagOrder"		: true, 	//true//false//
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
-	//"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
-	"ppViewOptions"		: "UFVTWB",		// Compact printout
+	"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
+	//"ppViewOptions"		: "UFVTWB",		// Compact printout
 		// "U":		Show Uid			  "E":		Show my initial expose
 		// "F":		Show Flipped		  "T":		Show my position transform
 		// "V":		Show Vew (self)		  "B":		Show my physics Body

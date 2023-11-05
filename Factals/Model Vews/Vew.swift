@@ -698,9 +698,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rScn		= rootVew?.scn ?? .null
+				let rootScn		= rootVew?.scn ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
-								:  "w" + scn.convertPosition(.zero, to:rScn).pp(.line, aux) + " "
+								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				if !(self is LinkVew) {
 					 // SceneKit's BBox:
 					if aux.bool_("ppScnBBox") {

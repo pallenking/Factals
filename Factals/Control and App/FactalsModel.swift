@@ -88,6 +88,8 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
 		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe
 		rootVew.setupLightsCamerasEtc()						// ?move
+		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
+		atBld(5, logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
 	}
 	func ensureAVew(fwConfig c:FwConfig) {
 		if rootVews.isEmpty {		// Must have a Vew
