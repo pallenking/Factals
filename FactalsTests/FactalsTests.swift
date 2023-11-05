@@ -25,6 +25,10 @@ final class FactalsTests: XCTestCase {
 	}
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
+//	func testLldb() {
+//		let x 					= LLDBrootPart
+//		lldbPrint(x, mode:.tree, [:])
+//	}
 	func testUid() {	// incomplete
 		let objectNs 			= FactalsModel()
 		let objectSwift			= Part()
@@ -38,7 +42,7 @@ final class FactalsTests: XCTestCase {
 //	class Simulatee : 		 	FwAny {					// WORKS
 //		func pp(_ mode:PpMode,		   _ aux:FwConfig			  ) -> String	{
 		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-			ppCommon(mode, aux)		// NO, try default method
+bug;return "FSIVjsd"//		ppCommon(mode, aux)		// NO, try default method
 		}
 	}
 	func testPpModeDefaultHangs() {

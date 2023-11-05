@@ -309,6 +309,7 @@ extension SCNNode /*: HasChildren */ {
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+
 		guard let log			= DOClogQ else {	return "DOClog is nil"		}
 		var rv					= ""
 //		 // UGLY: Can't override an extension
