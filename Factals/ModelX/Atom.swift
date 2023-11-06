@@ -422,28 +422,27 @@ class Atom : Part {	//Part//FwPart
 
 		 // 3,  Wire up new Broadcast into Network:
 		/* 				inPort							:Port
-			inPort			.connectedX
-			inCon			 \--|--V----/Con2
-								A  V
-		/			before #AV#  #AV# after
-		|					|	   V  A
-		X	s2Con			|	 /-|--A--\	 			:Con2
-		X	s2Port			|	s2Port					:Port
-		|					| 	|
-		|					|	|  .------rv			:Port
-		|					|	| /
-	new:X					O newBcast
-		|					|	|
-		|					|	|
-		X	pPort			|	P pPort  "abc"
-		X	pCon			|	 \--|-V--*-/
-		|					|		A V
-		\			before #AV#   #AV# after			(A)
-								 V A
-			breakCon		 /---|----A------\			:Con2
-			breakPort		P breakPort "def" \			:Port
-							|
-							Atom
+			inPort		.connectedX
+			inCon		 \--|--V----/Con2
+							A  V
+		/			before #AV# 		 #AV# after					\
+		|					|			   V  A						|
+		X	s2Con			|			 /-|--A--\	 	:Con2		|
+		X	s2Port			|				s2Port		:Port		|
+		|					| 				|						|
+		|					|				|  .----rv	:Port		 \
+		|					|				| /						  > ADDED
+	new:X					|			 newBcast					 /
+		|					|				|						|
+		X	pPort			|			P pPort  "abc"				|
+		X	pCon			|			 \--|-V--*-/				|
+		|					|				A V						|
+		\			before #AV# 		  #AV# after	(A)			/
+							V    A
+			breakCon	 /--|----A-=-----\			:Con2
+			breakPort	P breakPort "def" \			:Port
+						|
+						Atom
 		 */
 		guard let breakPort		= inPort.con2?.port else { fatalError("Link error slhf")}
 		let pPort  : Port		= newBcast.ports["P"]!
@@ -831,8 +830,9 @@ class Atom : Part {	//Part//FwPart
 		 // calculation performed in refVew, aka pop
 		let refVew   	: Vew	= popVew!
 		var maxPositionY: CGFloat = -CGFloat(MAXFLOAT)		// ugly
-		var weightSum 	: CGFloat = 0			// <N>:N 0:none, -1:dominated
+		var weightSum 	: CGFloat = 0			// <N>:N, 0:none, -1:dominated
 		var avgPosition	:SCNVector3	= .zero		// default return position is Nan
+		var lastDomIf2	: Part?	= nil
 
 		atRsi(4, vew.log(">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")"))
 			   // /////////////////////////////////////////////////////////////// //
@@ -930,15 +930,17 @@ class Atom : Part {	//Part//FwPart
 			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 20	// minimal distance above
 
 										// DOMINATED CONNECTION? (e.g. with no Link):
-//			if true || // inMePort.connectedX === fixedPort ||
 			if inMePort.con2?.port === fixedPort ||
 			   inMePort.dominant ||  inMePort.con2!.port!.dominant ||
 			  fixedPort.dominant || fixedPort.con2!.port!.dominant
 			{
-				assert(weightSum==0, "Two positioning paths are both dominant")// not already dominated
+				assert(weightSum==0, "Two positioning paths are both dominant\n" +
+									 " 1. \(inMe.pp(.fullName))\n" +
+									 " 2. \(lastDomIf2?.pp(.fullName) ?? "sdjsjvsjvjsd")")// not already dominated
 				weightSum		= -1.0			// enter dominant mode
 				gap				= vew.config("gapLinkDirect")?.asCGFloat ?? 0.1
 				 // would like gap=-2, but overlap forces moveSoNoOverlapping
+				lastDomIf2		= inMe
 			}
 			else if weightSum >= 0	{	// LINK CONNECTION:
 				weightSum 		+= 1.0			// number of fixedP inMeP's

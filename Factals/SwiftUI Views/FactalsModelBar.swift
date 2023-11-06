@@ -21,9 +21,9 @@ struct FactalsModelBar: View {
 			if let rootPart = factalsModel.rootPart {
 				Text("  Print Model:")
 				Button(label:{	Text( "ptm")									})
-				{	print(rootPart.pp(.tree), terminator:"")					}
+				{	print(rootPart.pp(.tree, ["ppDagOrder":true]), 				   terminator:"") }
 				Button(label:{	Text("ptLm")									})
-				{	print(rootPart.pp(.tree, ["ppLinks":true]), terminator:"")	}
+				{	print(rootPart.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
 			} else {
 				Text("<<no nodel>>:")
 			}

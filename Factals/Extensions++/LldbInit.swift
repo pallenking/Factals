@@ -13,7 +13,7 @@ func breakToDebugger() {
 	panic("Break To Debugger")
 }
 func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:String="\n") {	//["ppDagOrder":true]
-	print("lldbPrint(\(ob.pp(.classUid)), mode:\(mode.rawValue), \(aux.pp(.short))")
+	//print("lldbPrint(\(ob.pp(.classUid)), mode:\(mode.rawValue), \(aux.pp(.short))")
 	if let part					= ob as? Part {
 		print(part.pp(mode, aux), terminator:t)
 	}

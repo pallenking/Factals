@@ -401,13 +401,8 @@ bug	// Never USED?
 
 		  // :H: conSpot; scn_V_ector3; scn_F_loat
 		 //  :H: CONnnected to(2)
-//		let x 					= LLDBrootScn0
-//		lldbPrint(x, mode:.tree, [:])
 		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
 		 var sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
-	// DELETE THIS!
-//		sCon2SIp.center			= pCon2SIp.center
-//		sCon2SIp.center			+= SCNVector3(0, 4, 0)
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
 
 		 // Center point of each end, in world coordinates

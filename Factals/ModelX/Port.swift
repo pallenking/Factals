@@ -665,7 +665,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 
 			  // Print out the non-Link:
 			 // If we are connected to anything, what is it sending to us?
-			guard let con2 		else { return rv + "unconnected"				}
+			guard let con2 		else { return rv + " unconnected"				}
 			switch con2 {
 			case .port(let con2Port):
 				rv 				+= "<" + con2Port.ppPortOutValues()		// e.g. <1.00/0.00

@@ -1355,7 +1355,7 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
-	xr("- bad Links", eTight + selfiePole(s:45,u:10) + log(dat:5, eve:5) + ["wBoxX":"none"], {
+	xxr("- bad Links", eTight + selfiePole(s:45,u:10) + log(dat:5, eve:5) + ["wBoxX":"none"], {
 	  Net([placeMy:"linky", parts:[
 		MinAnd([n:"z", f:0, jog+X:"2 0 0"]),
 		MaxOr( [P:"z,l:5", f:1]),	// no Link
@@ -1761,6 +1761,15 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, 
 		MaxOr([  n:"e1", share:["d1", "d2"], f:1]),
 		Tunnel(of:.genAtom, [n:"evi", struc:["d1", "d2", "d3"], placeMy:"stackz 0 -1"]),
 	]]) })
+		xr("- auto-bcast Bug ", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, eve:5) +
+							[lookAt:"/net0/evi/d1/genP"], {Net([placeMy:"linky", parts:[
+			MaxOr([  n:"e2", P:["d2"], f:0]),
+			MaxOr([  n:"e1", P:["d2"], f:0]),
+			MinAnd([ n:"d2", f:1])
+//			MaxOr([  n:"e2", share:["d2"], f:1]),
+//			MaxOr([  n:"e1", share:["d2"], f:1]),
+//			MinAnd([ n:"d2", f:1])
+		]]) })
 	xxr("- Layout Bug", eSim + selfiePole(s:90,u:0) + vel(-1) + log(dat:5, eve:5,  all:5) +
 						[lookAt:"/net0/evi/b/genP"], {Net([placeMy:"linky", parts:[
 		MaxOr([  n:"e2", share:["d3", "d2"], f:1]),
