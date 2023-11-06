@@ -78,8 +78,8 @@
             filePath = "Factals/ModelX/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "991"
-            endingLineNumber = "991"
+            startingLineNumber = "988"
+            endingLineNumber = "988"
             landmarkName = "placeByLinks(inVew:mode:)"
             landmarkType = "7">
             <Locations>
@@ -847,8 +847,8 @@
             filePath = "Factals/ModelX/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1017"
-            endingLineNumber = "1017"
+            startingLineNumber = "1014"
+            endingLineNumber = "1014"
             landmarkName = "pp(_:_:)"
             landmarkType = "7">
             <Locations>
@@ -1147,13 +1147,13 @@
             filePath = "Factals/ModelX/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "937"
-            endingLineNumber = "937"
+            startingLineNumber = "934"
+            endingLineNumber = "934"
             landmarkName = "placeByLinks(inVew:mode:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "BEDCFC16-A9ED-4902-8736-3C83A07C493D - cb2284ec7a4419c8"
+                  uuid = "BEDCFC16-A9ED-4902-8736-3C83A07C493D - cb2284ec7a441a4c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1163,12 +1163,12 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Atom.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "938"
-                  endingLineNumber = "938"
-                  offsetFromSymbolStart = "6752">
+                  startingLineNumber = "934"
+                  endingLineNumber = "934"
+                  offsetFromSymbolStart = "6296">
                </Location>
                <Location
-                  uuid = "BEDCFC16-A9ED-4902-8736-3C83A07C493D - cb2284ec7a441a2b"
+                  uuid = "BEDCFC16-A9ED-4902-8736-3C83A07C493D - cb2284ec7a441a4c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1178,8 +1178,8 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Atom.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "937"
-                  endingLineNumber = "937"
+                  startingLineNumber = "934"
+                  endingLineNumber = "934"
                   offsetFromSymbolStart = "6752">
                </Location>
             </Locations>
@@ -1189,32 +1189,111 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "29670E6D-5F98-47A6-B51E-3AE15890BDEC"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/ModelX/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "394"
-            endingLineNumber = "394"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
             landmarkName = "autoBroadcast(toPort:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "29670E6D-5F98-47A6-B51E-3AE15890BDEC - b34fb9371db922d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.autoBroadcast(toPort: Factals.Port) -&gt; Factals.Port"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "394"
+                  endingLineNumber = "394"
+                  offsetFromSymbolStart = "172">
+               </Location>
+               <Location
+                  uuid = "29670E6D-5F98-47A6-B51E-3AE15890BDEC - b34fb9371db91d4a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.autoBroadcast(toPort: Factals.Port) -&gt; Factals.Port"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "397"
+                  endingLineNumber = "397"
+                  offsetFromSymbolStart = "232">
+               </Location>
+               <Location
+                  uuid = "29670E6D-5F98-47A6-B51E-3AE15890BDEC - b34fb9371db91d34"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.autoBroadcast(toPort: Factals.Port) -&gt; Factals.Port"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "395"
+                  endingLineNumber = "395"
+                  offsetFromSymbolStart = "232">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F83DC1DC-CB17-499E-9B86-8C518AD0BCF5"
-            shouldBeEnabled = "No"
+            uuid = "B0479953-6981-48DE-98BF-0D01D782277A"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/ModelX/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
+            startingLineNumber = "444"
+            endingLineNumber = "444"
             landmarkName = "autoBroadcast(toPort:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B0479953-6981-48DE-98BF-0D01D782277A - b34fb9371db91b99"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.autoBroadcast(toPort: Factals.Port) -&gt; Factals.Port"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "446"
+                  endingLineNumber = "446"
+                  offsetFromSymbolStart = "1828">
+               </Location>
+               <Location
+                  uuid = "B0479953-6981-48DE-98BF-0D01D782277A - b34fb9371db91b5b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.autoBroadcast(toPort: Factals.Port) -&gt; Factals.Port"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "444"
+                  endingLineNumber = "444"
+                  offsetFromSymbolStart = "1828">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

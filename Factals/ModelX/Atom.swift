@@ -263,7 +263,7 @@ class Atom : Part {	//Part//FwPart
 
 		 // Want open, but its occupied. Make a :H:Clone
 		if wantOpen,								// want an open port
-		  let connec2			= rvPort?.con2?.port
+		  let connec2			= rvPort?.con2?.port	// Found
 		{
 			 // :H:Clone rv
 			let cPort 			= rvPort!					// Clone non-open rv
@@ -291,9 +291,7 @@ class Atom : Part {	//Part//FwPart
 				atBld(9, logd(" .RETURN Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'"))
 				return x
 			}
-			else {
-				panic()
-			}
+			panic("Unable to construct autoBroadcast")
 		}
 		return rvPort
 	}
@@ -420,38 +418,37 @@ class Atom : Part {	//Part//FwPart
 		papaNet.addChild(newBcast, atIndex:ind)
 
 
-		 // 3,  Wire up new Broadcast into Network:
-		/* 				inPort							:Port
-			inPort		.connectedX
-			inCon		 \--|--V----/Con2
-							A  V
-		/			before #AV# 		 #AV# after					\
-		|					|			   V  A						|
-		X	s2Con			|			 /-|--A--\	 	:Con2		|
-		X	s2Port			|				s2Port		:Port		|
-		|					| 				|						|
-		|					|				|  .----rv	:Port		 \
-		|					|				| /						  > ADDED
-	new:X					|			 newBcast					 /
-		|					|				|						|
-		X	pPort			|			P pPort  "abc"				|
-		X	pCon			|			 \--|-V--*-/				|
-		|					|				A V						|
-		\			before #AV# 		  #AV# after	(A)			/
-							V    A
-			breakCon	 /--|----A-=-----\			:Con2
-			breakPort	P breakPort "def" \			:Port
-						|
-						Atom
-		 */
-		guard let breakPort		= inPort.con2?.port else { fatalError("Link error slhf")}
-		let pPort  : Port		= newBcast.ports["P"]!
-		breakPort.con2 	= .port(pPort)		// breakPort -> pPort
-		pPort.con2		= .port(breakPort)	// pPort -> breakPort
+		 //	 3,  Wire up new Broadcast into Network:
+		//		|___			  ________|
+		//			\.connectedX /				 inPort:Port									// d2.P
+		//			 \--|--V----/				 inCon :Con2									// l0.p
+		//				A  V
+		//		before #A  V# 		   #A V# after
+		//				 |			    V A
+		//				 |		.____/-=|-A--\___s2Con :Con2.
+		//				 |		|		|		 s2Port:Port|
+		//				 | 		|		|					|
+		//				 |		|		|  .----rv:Port		 \
+		//				 |		|		| /					  > ADDED BCAST
+		//				 |		|	 newBcast				 /
+		//				 |		|		|					|
+		//				 |		|___P pPort "abc"_pPort:Port.		<-- pPort
+		//				 |			 \--|-V--*-/  pCon :Con2
+		//				 |				A V
+		//		before #A  V# 		   #A V# after	(A)
+		//				V    A
+		//			 /--|----A-=-----\		   breakCon :Con2
+	   	//		 ___P breakPort "def" \_____   breakPort:Port		<-- breakPort
+		//		|		|					|
+		//		|		Atom				|
+		guard let breakPort		= inPort.con2?.port else { fatalError("Link error slhf")}		// l0.P
+		let pPort : Port		= newBcast.ports["P"]!
+		breakPort.con2 			= .port(pPort)		// breakPort -> pPort
+		pPort.con2				= .port(breakPort)	// pPort -> breakPort
 
 		let s2Port : Port		= newBcast.anotherShare(named:"*")
-		inPort.con2		= .port(s2Port)
-		s2Port.con2		= .port(inPort)
+		inPort.con2				= .port(s2Port)
+		s2Port.con2				= .port(inPort)
 
 		return newBcast.anotherShare(named:"*") // newShare to replicate old con2
 	}
