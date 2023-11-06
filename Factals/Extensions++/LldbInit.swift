@@ -103,7 +103,7 @@ func fwHelp(_ key:String="?", inVew vew:Vew?) {
 }
  // Send a key to controller:
 func sendApp(key:String="?", inVew vew:Vew) {
-	if let doc				= DOC,
+	if DOC != nil,
 	   let ginnedUpEvent	= NSEvent.keyEvent(
 			with			: .keyDown, //NSEvent.EventType(rawValue: 10)!,//keyDown,
 			location		: NSZeroPoint,
@@ -116,7 +116,7 @@ func sendApp(key:String="?", inVew vew:Vew) {
 			isARepeat		: false,
 			keyCode			: 0)
 	{
-		let _			 	= doc.processEvent(nsEvent:ginnedUpEvent, inVew:vew)
+		let _			 	= DOC.processEvent(nsEvent:ginnedUpEvent, inVew:vew)
 	}
 	else {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")

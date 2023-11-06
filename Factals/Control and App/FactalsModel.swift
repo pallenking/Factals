@@ -78,7 +78,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 					//	//		}
 					//		}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		guard let _ 			= DOC else { fatalError("Doc should be set up by now!!") }
+		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
 		guard let rootPart else {	fatalError("addRootVew with nil rootPart")	}
 		let rootVew				= RootVew(forPart:rootPart) // 1. Make
 		rootVew.factalsModel	= self						// 2. Backpointer

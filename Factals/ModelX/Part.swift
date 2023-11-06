@@ -141,27 +141,16 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}			// -- Name was given
 		name					= nam ?? {
-			if let doc			= DOC,
+			if //let doc		= DOC,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= doc.indexFor[prefix] ?? 0
+				let index		= DOC.indexFor[prefix] ?? 0
 				DOC.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
 			} else {	// -- Use fallback
 				defaultPrtIndex	+= 1
 				return "prt" + String(defaultPrtIndex)
 			}
-
-//			if let prefix		= prefixForClass[fwClassName],
-//			  let rootPart		= root
-//			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-//				let index		= rootPart.indexFor[prefix] ?? 0
-//				rootPart.indexFor[prefix] = index + 1		// for next
-//				return prefix + String(index)
-//			} else {	// -- Use fallback
-//				defaultPrtIndex	+= 1
-//				return "prt" + String(defaultPrtIndex)
-//			}
 		}()
 
 		 // Print out invocation
@@ -1341,7 +1330,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 		else {			 // Mouse event
 			if var doc			= root?.factalsModel?.document { 	// take struct out
-
+				//assert(doc === DOC, "paranoia")
 				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
 												+ "\(pp(.fwClassName))\n\(pp(.tree))")
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
