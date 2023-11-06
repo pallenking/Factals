@@ -223,7 +223,7 @@ class Atom : Part {	//Part//FwPart
 	/// - Returns: selected Port
 	func port(named wantName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
 		atBld(9, logd(" .CALLS.port(named:\"\(wantName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))"))
-		var rvPort : Port?		= nil				// Initially nothing found
+		var rvPort : Port?		= nil				// Initially no return value
 
 		 // ***** Is wantName in _BINDINGS_? (e.g. for Previous)
 		if let b				= bindings, 		// Atom has a :H:Binding
@@ -263,14 +263,12 @@ class Atom : Part {	//Part//FwPart
 
 		 // Want open, but its occupied. Make a :H:Clone
 		if wantOpen,								// want an open port
-//		  let connec2			= rvPort?.con2?.port	// Found
-/**/	  rvPort != nil,							  //
-		  rvPort?.con2?.port != nil					// found a port, but it's not open!
+		  let origConPort		= rvPort?.con2?.port// found a port, but it's not open!
 		{
 			 // :H:Clone rv
 			let cPort 			= rvPort!					// Clone non-open rv
 
-			 // Get another Port similar to similarPort from Splitter?
+			 // Get another Port similar to similarPort from Splitter?:
 			if let splitter 	= self as? Splitter,
 			  cPort.flipped,
 			  splitter.isBroadcast {
@@ -279,7 +277,7 @@ class Atom : Part {	//Part//FwPart
 				return rvPort
 			}
 
-			 // Get another Port from an attached Splitter:
+			 // Get another Port from an attached Splitter?:
 			else if let cPort	= cPort.con2?.port,
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
@@ -288,7 +286,7 @@ class Atom : Part {	//Part//FwPart
 				return rvPort
 			}
 
-			 // Auto Broadcast
+			 // Add Auto Broadcast?:
 			else if let x		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
 				atBld(9, logd(" .RETURN Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'"))
 				return x
@@ -387,43 +385,33 @@ class Atom : Part {	//Part//FwPart
 	/// - Otherwise, insert a new Broadcast Element into the network
 	/// - Parameter toPort: one end of the link that gets the Broacast added
 	/// - Returns: a free port in the added Broadcast
-	func autoBroadcast(toPort inPort:Port) -> Port {
+	func autoBroadcast(toPort:Port) -> Port {
 
 		  //   "AUTO-BCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
 		atBld(4, logd("<<++ Auto Broadcast ++>>"))
 
 		 // 1.  Make a Broadcast Splitter Atom:
-		let newName				= "\(name)\(inPort.name)"
+		let newName				= "\(name)\(toPort.name)"
 		let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])
-		newBcast.flipped		= true		// add flipped  //false add unflipped
-//		let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
-//							parent?.config("placeMy")?.asString ?? // My Parent has placy MY
-//										   "linky"				   // default is position by links
+		newBcast.flipped		= true
 
 		 // 2.  Find a spot to insert it (above or below):
 		 // Choose so inserted element is in scan order, to reduces settle time.
-		let papaNet				= inPort.atom!.enclosingNet! /// Find Net
+		let papaNet				= toPort.atom!.enclosingNet! /// Find Net
 									// worry about toPort inside Tunnel
-		let child	 			= inPort.ancestorThats(childOf:papaNet)!
+		let child	 			= toPort.ancestorThats(childOf:papaNet)!
 		guard var ind 			= papaNet.children.firstIndex(where: {$0 === child}) else {
-			fatalError("Broadcast index bad of false'\(inPort.fullName)'")
+			fatalError("Broadcast index bad of false'\(toPort.fullName)'")
 		}
-		if inPort.upInPart(until:papaNet) {
-			ind					+= 0		// add new bcast after child
-			newBcast.flipped	= false		// not flipped
-		}
-		else {
-			ind					+= 1		// add new bcast after child
-			newBcast.flipped	= true
-		}
+		newBcast.flipped		= toPort.upInPart(until:papaNet) == false
+		ind						+= newBcast.flipped ? 1 : 0
 		papaNet.addChild(newBcast, atIndex:ind)
-
 
 		 //	 3,  Wire up new Broadcast into Network:
 		//		|___			  ________|
-		//			\.connectedX /				 inPort:Port									// d2.P
-		//			 \--|--V----/				 inCon :Con2									// l0.p
+		//			\.connectedX /				 inPort:Port
+		//			 \--|--V----/				 inCon :Con2
 		//				A  V
 		//		before #A  V# 		   #A V# after
 		//				 |			    V A
@@ -434,25 +422,31 @@ class Atom : Part {	//Part//FwPart
 		//				 |		|		| /					  > ADDED BCAST
 		//				 |		|	 newBcast				 /
 		//				 |		|		|					|
-		//				 |		|___P pPort "abc"_pPort:Port.		<-- pPort
+		//				 |		|___P pPort "abc"_pPort:Port
 		//				 |			 \--|-V--*-/  pCon :Con2
 		//				 |				A V
 		//		before #A  V# 		   #A V# after	(A)
 		//				V    A
-		//			 /--|----A-=-----\		   breakCon :Con2
-	   	//		 ___P breakPort "def" \_____   breakPort:Port		<-- breakPort
+		//			 /--|----A-=-----\		   toPort:Con2
+	   	//		 ___P toPort "def"    \_____   toPort:Port
 		//		|		|					|
 		//		|		Atom				|
-		guard let breakPort		= inPort.con2?.port else { fatalError("Link error slhf")}		// l0.P
-		let pPort : Port		= newBcast.ports["P"]!
-		breakPort.con2 			= .port(pPort)		// breakPort -> pPort
-		pPort.con2				= .port(breakPort)	// pPort -> breakPort
+		let newS1Port: Port		= newBcast.anotherShare(named:"*")
+		let newPPort : Port		= newBcast.ports["P"]!					//to go to self.P
 
-		let s2Port : Port		= newBcast.anotherShare(named:"*")
-		inPort.con2				= .port(s2Port)
-		s2Port.con2				= .port(inPort)
+		let con2Port			= toPort.con2!.port
+		
+		toPort.con2				= .port(newPPort)
+		newPPort.con2			= .port(toPort)		// 1. move old connection to share1
 
-		return newBcast.anotherShare(named:"*") // newShare to replicate old con2
+		con2Port!.con2			= .port(newS1Port)	  	// 2. link newBcast to toPort
+		newS1Port.con2			= .port(con2Port!)
+
+//		guard let toPort		= inPort.con2?.port else { fatalError("Link error slhf")}		// l0.P
+//		toPort.con2 			= .port(pPort)		// toPort -> pPort
+//		pPort.con2				= .port(toPort)	// pPort -> toPort
+
+		return newBcast.anotherShare(named:"*") 	// 3. share2 is autoBroadcast
 	}
 	   // MARK: - 4.8 Matches Path
 	override func partMatching(path:Path) -> Part? {
@@ -603,10 +597,8 @@ class Atom : Part {	//Part//FwPart
 								  ".'\((srcPortName! + "'").field(-6)) in:" +
 								   "\(conNet.fullName), opens _\(ppUp(trgAboveSInS))_"
 					atBld(4, self.logd(srcInfo))
+
 						// 3b. //// Get the SouRCe Port
-//					self.test36(false)
-//					self.test36(nil)
-//	 				self.test34(a:false)
 					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
 								
 					 //    3c. //// TaRGet:

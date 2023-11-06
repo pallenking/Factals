@@ -200,17 +200,6 @@ class Splitter : Atom {
 			return anotherShare(named:"*")
 		}
 		return super.port(named:wantName, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-//		var rv					= super.port(named:wantName, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-//
-//		 // Another Share of a Splitter, but no Share is open					//		if wantOpen, wantUp!{
-//		if rv == nil, 						// Normal way didn't work
-//		   wantName == "share",				 // Want a new share
-//		   wantOpen,						  // It should be an open share
-//		  (wantUp == nil || wantUp!) 		   // opens correctly
-//		{
-//			rv					= anotherShare(named:"*")
-//		}
-//		return rv
 	}
 
 	 // MARK: - 8. Reenactment Simulator

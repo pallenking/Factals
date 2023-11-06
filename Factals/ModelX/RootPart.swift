@@ -293,7 +293,7 @@ bug			//self.init(url: fileURL)
 		title					+= " (\(portCount()) Ports)"
 
 		 //  6. Print
-		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree))))
+		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 
 		//dirtySubTree(.vew)		// NOT NEEDED
 
