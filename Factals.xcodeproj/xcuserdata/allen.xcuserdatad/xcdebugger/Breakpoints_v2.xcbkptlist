@@ -14,8 +14,8 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
+            startingLineNumber = "347"
+            endingLineNumber = "347"
             landmarkName = "rePosition(vew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
             landmarkName = "rePosition(portVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
             landmarkName = "reSkin(fullOnto:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -66,54 +66,6 @@
             endingLineNumber = "255"
             landmarkName = "reSize(vew:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "22262671-3865-47B0-8023-1BD593272ACC"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/ModelX/Link.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
-            landmarkName = "reSizePost(vew:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "22262671-3865-47B0-8023-1BD593272ACC - f3af94bf5d2c9b2b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Link.reSizePost(vew: Factals.Vew) -&gt; ()"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Link.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "279"
-                  endingLineNumber = "279"
-                  offsetFromSymbolStart = "72">
-               </Location>
-               <Location
-                  uuid = "22262671-3865-47B0-8023-1BD593272ACC - 350ac7e0de4ffe83"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FactalsTests.Link.reSizePost(vew: FactalsTests.Vew) -&gt; ()"
-                  moduleName = "FactalsTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Link.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "279"
-                  endingLineNumber = "279"
-                  offsetFromSymbolStart = "72">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -238,8 +190,8 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "496"
-            endingLineNumber = "496"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
             landmarkName = "rotateLinkSkins(vew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -347,8 +299,8 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
             landmarkName = "rePosition(vew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -363,8 +315,8 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
             landmarkName = "linkEndPositions(in:)"
             landmarkType = "7">
             <Locations>
@@ -597,13 +549,13 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "linkEndPositions(in:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "D64A4B4D-E47A-4404-B614-256F45CBDB97 - bb336f0b893f67ca"
+                  uuid = "D64A4B4D-E47A-4404-B614-256F45CBDB97 - bb336f0b893f6404"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -613,12 +565,12 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Link.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "400"
-                  endingLineNumber = "400"
-                  offsetFromSymbolStart = "892">
+                  startingLineNumber = "414"
+                  endingLineNumber = "414"
+                  offsetFromSymbolStart = "1072">
                </Location>
                <Location
-                  uuid = "D64A4B4D-E47A-4404-B614-256F45CBDB97 - bb336f0b893f67ca"
+                  uuid = "D64A4B4D-E47A-4404-B614-256F45CBDB97 - bb336f0b893f6723"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -628,24 +580,9 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Link.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "400"
-                  endingLineNumber = "400"
-                  offsetFromSymbolStart = "988">
-               </Location>
-               <Location
-                  uuid = "D64A4B4D-E47A-4404-B614-256F45CBDB97 - bb336f0b893f67ca"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Link.linkEndPositions(in: Factals.LinkVew) -&gt; Swift.Optional&lt;(__C.SCNVector3, __C.SCNVector3)&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Link.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "400"
-                  endingLineNumber = "400"
-                  offsetFromSymbolStart = "980">
+                  startingLineNumber = "407"
+                  endingLineNumber = "407"
+                  offsetFromSymbolStart = "788">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -654,7 +591,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7A8FEE9C-0541-4633-97F9-A820C29FC0FD"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/ModelX/Port.swift"
@@ -841,32 +778,17 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "AB4386B4-2625-45E0-BEC8-16AA4463650C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
+            startingLineNumber = "406"
+            endingLineNumber = "406"
             landmarkName = "linkEndPositions(in:)"
             landmarkType = "7">
             <Locations>
-               <Location
-                  uuid = "AB4386B4-2625-45E0-BEC8-16AA4463650C - bb336f0b893f6674"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Link.linkEndPositions(in: Factals.LinkVew) -&gt; Swift.Optional&lt;(__C.SCNVector3, __C.SCNVector3)&gt;"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Link.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "398"
-                  endingLineNumber = "398"
-                  offsetFromSymbolStart = "832">
-               </Location>
                <Location
                   uuid = "AB4386B4-2625-45E0-BEC8-16AA4463650C - bb336f0b893f6655"
                   shouldBeEnabled = "Yes"
@@ -895,7 +817,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "397"
                   endingLineNumber = "397"
-                  offsetFromSymbolStart = "788">
+                  offsetFromSymbolStart = "764">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1246,6 +1168,70 @@
             endingLineNumber = "29"
             landmarkName = "FactalsTests"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AD287F52-DB16-42F1-825F-D0ABF76699A6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Extensions++/LldbInit.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "lldbPrint(_:mode:_:terminator:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "AD287F52-DB16-42F1-825F-D0ABF76699A6 - 2802b05929034c8a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.lldbPrint(_: Factals.FwAny, mode: Factals.PpMode, _: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;, terminator: Swift.String) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/LldbInit.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "1544">
+               </Location>
+               <Location
+                  uuid = "AD287F52-DB16-42F1-825F-D0ABF76699A6 - 2802b05929034c8a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.lldbPrint(_: Factals.FwAny, mode: Factals.PpMode, _: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;, terminator: Swift.String) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/LldbInit.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "1648">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5B9F1495-5256-4EBC-87E4-B020D3331306"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Extensions++/LldbInit.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "lldbPrint(_:mode:_:terminator:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

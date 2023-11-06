@@ -20,6 +20,9 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 	else if let vew				= ob as? Vew {
 		print(vew.pp(mode, aux), terminator:t)
 	}
+	else if let scn				= ob as? SCNNode{
+		print(scn.pp(mode, aux), terminator:t)
+	}
 	else {
 		print(ob.pp(mode, aux), terminator:t)
 	}

@@ -274,12 +274,6 @@ bug;	return rv
 		vew.bBox				= reSkin(vew:vew)	// Put skin on Part
 		markTree(dirty:.paint)
 	}
-	 // MARK: -- Set Link's end position
-	override func reSizePost(vew:Vew) {				//  find endpoints
-		guard let (p, s)		= linkEndPositions(in:vew as! LinkVew) else { return }
-		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line))"))
-	}
-
 	 // MARK: - 9.3 reSkin (Link Billboard)
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		atRsi(8, logd("<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'"))
@@ -350,14 +344,29 @@ bug;	return rv
 	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(vew:Vew) {
+//		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
+//
+//		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {
+//			linkVew.pEndVip		= pEndVip
+//			linkVew.sEndVip		= sEndVip
+//			atRsi(8, logd("<><> L 9.4: \\position from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line)) (inParent)"))
+//		}
+	}
+
+	 // MARK: -- Set Link's end position
+	override func reSizePost(vew:Vew) {				//  find endpoints
 		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
 
-		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {
-			linkVew.pEndVip		= pEndVip
-			linkVew.sEndVip		= sEndVip
-			atRsi(8, logd("<><> L 9.4: \\position from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line)) (inParent)"))
+		if let(pEnd,sEnd)		= linkEndPositions(in:linkVew) {
+			linkVew.pEndVip		= pEnd
+			linkVew.sEndVip		= sEnd
+			atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(pEnd.pp(.line)) s=\(sEnd.pp(.line)) (inParent)"))
 		}
+//		guard let (p, s)		= linkEndPositions(in:vew as! LinkVew) else { return }
+//		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line))"))
 	}
+
+
 		// Xyzzy19e
 	 // Position one Link Ports, from its [ps]EndV
 	override func rePosition(portVew:Vew)	{
@@ -392,15 +401,13 @@ bug	// Never USED?
 
 		  // :H: conSpot; scn_V_ector3; scn_F_loat
 		 //  :H: CONnnected to(2)
-		 
-		let x 					= LLDBrootScn0
-		lldbPrint(x, mode:.tree, [:])
-
+//		let x 					= LLDBrootScn0
+//		lldbPrint(x, mode:.tree, [:])
 		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
 		 var sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
 	// DELETE THIS!
-		sCon2SIp.center			= pCon2SIp.center
-		sCon2SIp.center			+= SCNVector3(0, 5, 0)
+//		sCon2SIp.center			= pCon2SIp.center
+//		sCon2SIp.center			+= SCNVector3(0, 4, 0)
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
 
 		 // Center point of each end, in world coordinates
