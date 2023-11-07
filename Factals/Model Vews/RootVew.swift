@@ -98,16 +98,13 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		}() )
 
 		 // === Get trunkVew DispatchSemaphore:
-		while rootVewLock.wait(timeout:.now() + .seconds(10)) != .success {
-//		while rootVewLock.wait(timeout:.distantFuture) != .success {
+		while rootVewLock.wait(timeout:.now() + .seconds(10)) != .success {		//.distantFuture
 			 // === Failed to get lock:
 			let val0		= rootVewLock.value ?? -99
 			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
 			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :	// immediate but noisy printout
 							  nop
                                			fatalError(msg)	// for debug only
-//			panic(msg)	// for debug only
-//			return false
 		}
 
 		 // === Succeeded:

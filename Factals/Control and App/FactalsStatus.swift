@@ -185,41 +185,41 @@ extension RootPart : FactalsStatus	{									 ///RootPart
 }
 extension Simulator : FactalsStatus	{									///Simulator
  	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= rootPart == nil 			  ? "(rootPart==nil)"
+		var rv1					= rootPart == nil 			  ? "(rootPart==nil)"
 								: rootPart.simulator === self ? ""
-								: "OWNER:'\(rootPart!)' BAD"
+								:								"OWNER:'\(rootPart!)' BAD"
+		var rv2 				= "not built"
 		if simBuilt {
-			var myLine2 		= "built, disabled"
+			rv2 				= "built, not enabled"
 			if simEnabled {
-				myLine2			= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
-				myLine2			+= "t:\(timeNow) "///
+				rv2				= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
+				rv2				+= "t:\(timeNow) "///
 				let x			= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod")
-				myLine2			+= "dt=\(x != nil ? String(x!) : "nil") "
-				myLine2			+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
+				rv2				+= "dt=\(x != nil ? String(x!) : "nil") "
+				rv2				+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
 				if isSettled() {
-					myLine2		+= "SETTLED "
+					rv2			+= "SETTLED "
 				}else{
-					myLine2		+= "RUNNING("
+					rv2			+= "RUNNING("
 					if let unPorts = rootPart?.unsettledPorts(),
 					  unPorts.count > 0 {
-						myLine2	+= "unsettled Ports:["
-						myLine2	+= unPorts.map({hash in hash() }).joined(separator:",")				//.joined(separator:"/")
-						myLine2	+= "]"
+						rv2		+= "unsettled Ports:["
+						rv2		+= unPorts.map({hash in hash() }).joined(separator:",")				//.joined(separator:"/")
+						rv2		+= "]"
 					}
 //					let nPortsUn = DOC.rootPart.unsettledPorts().count
 //					myLine 		+= nPortsUn 	  <= 0 ? "" : "Ports:\(nPortsUn) "
-					myLine2		+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
-					myLine2		+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
-					if myLine2.hasSuffix(" ") {
-						myLine2	= String(myLine2.dropLast())
+					rv2			+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
+					rv2			+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
+					if rv2.hasSuffix(" ") {
+						rv2		= String(rv2.dropLast())
 					}
-					myLine2		+= ") "
+					rv2			+= ") "
 				}
-				myLine2			+= kickstart <= 0 ? "" : "kickstart:\(kickstart) "
+				rv2				+= kickstart <= 0 ? "" : "kickstart:\(kickstart) "
 			}
-			myLine				+= myLine2
 		}
-		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:myLine, deapth:deapth-1)
+		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv1 + rv2, deapth:deapth-1)
 	}
 }
 

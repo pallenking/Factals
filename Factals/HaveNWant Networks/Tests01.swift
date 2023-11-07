@@ -1656,7 +1656,7 @@ r("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + log(dat:5, eve:5) +
 		[],
 		"again"]]),
 ]]) })
-xxr("-bug struct['a']", eSim + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
+xr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
 	Mirror([n:"a", P:"b,l:5"]),
 	Mirror([n:"b", "gain":-1, "offset":1, f:1]),
 ]]) })
@@ -1711,7 +1711,7 @@ r("pack tighter", e + selfiePole(s:90,u:0), {Net([placeMy:"stacky", parts:[
 		Tunnel(of:.nil_, [n:"evi", struc:["a", "b", "c"], placeMy:"stackx -1 0"])
 	})
 
-		xxr("+3Gen 7Ham Max Mir", eSim + selfiePole(s:070,u:23, z:0.535) + vel(-1) + log(dat:3, eve:5) +
+xxr("+3Gen 7Ham Max Mir", eSim + selfiePole(s:070,u:23, z:0.535) + vel(-1) + log(dat:3, eve:5) +
 			[lookAt:"/net0/evi/b/genP", "wBox":"none"], {Net([placeMy:"linky", parts:[
 	Mirror([   n:"f3", P:"e1"]),
 	Mirror([   n:"f2", P:"e2"]),
@@ -1761,7 +1761,7 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, 
 		MaxOr([  n:"e1", share:["d1", "d2"], f:1]),
 		Tunnel(of:.genAtom, [n:"evi", struc:["d1", "d2", "d3"], placeMy:"stackz 0 -1"]),
 	]]) })
-		xr("- auto-bcast Bug ", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, eve:5) +
+		xxr("- auto-bcast Bug ", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, eve:5) +
 							[lookAt:"/net0/evi/d1/genP"], {Net([placeMy:"linky", parts:[
 			MaxOr([  n:"e2", P:["d2"], f:0]),
 			MaxOr([  n:"e1", P:["d2"], f:0]),

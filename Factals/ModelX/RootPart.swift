@@ -283,55 +283,60 @@ bug			//self.init(url: fileURL)
 		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark rootPart dirty after installing new trunk
 																				//markTree(dirty:.vew) 	// Mark rootPart dirty after installing new trunk
 																				//dirty.turnOn(.vew)
-		//let x = pp(.tree)
-
 		 //  4. Reset
 		atBld(4, logd("------- Reset..."))
 		reset()
 
+		 //  5. Print Errors
+ 		atBld(3, logd(ppRootPartErrors()))
+
+		 //  6. Print Part
+		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+
+		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+
 		 //  5. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
 		title					+= " (\(portCount()) Ports)"
 
-		 //  6. Print
-		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
-
 		//dirtySubTree(.vew)		// NOT NEEDED
 
-		 //  8. Done, release partTree Lock
-		atBld(3, logd({
-			let errors 				= logNErrors	   == 0 ? "no errors"
-									: logNErrors	   == 1 ? "1 error"
-											  : "\(logNErrors) errors"
-			let warnings 			= warningLog.count == 0 ? "no warnings"
-									: warningLog.count == 1 ? "1 warning"
-									: "\(warningLog.count) warnings"
-			let titleWidth			= title.count
-			let width				= titleWidth + "######                ######".count
-			let errWarnWidth		= errors.count + warnings.count + 2
-			let trailing1			= String(repeating:"#", count:width - "#################### ".count - errWarnWidth - 2)
-			let trailing2			= String(repeating:"#", count:width)
-			let blanks				= String(repeating:" ", count:title.count)
-			var rv 					= "BUILT PART!\n"
-			rv 						+= """
-				######        \(blanks   )        ######
-				######        \(blanks   )        ######
-				##################### \(errors), \(warnings) \(trailing1)
-				######        \(blanks   )        ######
-				######     \"\" \(title) \"\"     ######
-				######        \(blanks   )        ######
-				\(trailing2)\n
-				"""
-			for (i, msg) in warningLog.enumerated() {
-				rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
-			}
-			rv							+= ppUnusedKeys()
-			rv							+= """
-				######        \(blanks   )        ######
-				######        \(blanks   )        ######\n
-				"""
-			return "\n" + rv
-			} ( ) ) )
+
 	}
+	func ppRootPartErrors() -> String {
+		let errors 				= logNErrors	   == 0 ? "no errors"
+								: logNErrors	   == 1 ? "1 error"
+										  : "\(logNErrors) errors"
+		let warnings 			= warningLog.count == 0 ? "no warnings"
+								: warningLog.count == 1 ? "1 warning"
+								: "\(warningLog.count) warnings"
+		let titleWidth			= title.count
+		let width				= titleWidth + "######                ######".count
+		let errWarnWidth		= errors.count + warnings.count + 2
+		let trailing1			= String(repeating:"#", count:width - "#################### ".count - errWarnWidth - 2)
+		let trailing2			= String(repeating:"#", count:width)
+		let blanks				= String(repeating:" ", count:title.count)
+		var rv 					= "BUILT PART!\n"
+		rv 						+= """
+			######        \(blanks   )        ######
+			######        \(blanks   )        ######
+			##################### \(errors), \(warnings) \(trailing1)
+			######        \(blanks   )        ######
+			######     \"\" \(title) \"\"     ######
+			######        \(blanks   )        ######
+			\(trailing2)\n
+			"""
+		for (i, msg) in warningLog.enumerated() {
+			rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
+		}
+		rv							+= ppUnusedKeys()
+		rv							+= """
+			######        \(blanks   )        ######
+			######        \(blanks   )        ######\n
+			"""
+		return "\n" + rv
+	}
+
+
 
 	  // MARK: - 5. Lock
 	 // ///////////////// LOCK Parts Tree /////////////
