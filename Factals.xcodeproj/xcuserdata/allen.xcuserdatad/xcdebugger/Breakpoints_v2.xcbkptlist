@@ -831,8 +831,8 @@
             filePath = "Factals/ModelX/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1498"
-            endingLineNumber = "1498"
+            startingLineNumber = "1497"
+            endingLineNumber = "1497"
             landmarkName = "mark_line(_:_:)"
             landmarkType = "7">
          </BreakpointContent>

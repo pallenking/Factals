@@ -1395,7 +1395,6 @@ print(" burp")
 		return rv
 	}
 	 //	 MARK: - 15. PrettyPrint
-	// Override: Method does not override any method from its superclass
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{		// Why is this not an override
 		var rv					= ""
 		switch mode {

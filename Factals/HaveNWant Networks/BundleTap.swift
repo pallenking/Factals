@@ -375,11 +375,8 @@ bug
 //		}
 	}
 
-	// MARK: -15. PrettyPrint
-	///////////////////////// Strings for Printing  /////////////////////////
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-//	- (NSString *) pp1line:aux; {		id rv=[super pp1line:aux];
-								//
+	 //	 MARK: - 15. PrettyPrint
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{		// Why is this not an override
 		var rv					= super.pp(mode, aux)
 		if let resetTo {
 			rv					+= "resetTo=\(resetTo.pp(.tree))"				//rv=[rv addF:@"resetTo=%@ ", [self.resetTo pp]];
