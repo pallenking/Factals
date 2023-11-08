@@ -1333,8 +1333,50 @@ r(e, { Net([parts:[				//"bundle",
 	Cylinder([color:"yellow"]),
 ]]) })
 
+ // MARK: - * Shaft
+state.scanSubMenu				= "Shaft"
+xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	Net([parts:[
+//		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
+	//	Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+//			"con":Tunnel(["structure":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+	//		"parts":[
+//				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
+//				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
+//				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
+//				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
+//				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
+//				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
+	//		],
+	//		"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward"], ["structure": ["a"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+	//	]),
+		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+	] ])
+})
+
+
+//M(D2. Unicycle3,(@{CameraHsuz(0, 30, 20, 1), VEL(-2), @"boundsDrapes":@0, @"displayAxis":@0, @"parts":@[
+//	aShaftBundleTap(@{@"nPoles":@3, @"P":@"wheelA/evi", flip}),
+//	anActor(@{n(wheelA),	@"positionViaCon":@1, @"minHeight":@0.0,
+//		@"con":aTunnel(@{@"structure":fwdBkw_bundle, @"proto":aGenMaxLeaf(), spin$1, @"positionPriorityXz":@1, flip, }),
+//		@"parts":@[
+//			aHamming(@[@"fwd"], @[@"a.+", @"b.-"], @{flip}),
+//			aHamming(@[@"fwd"], @[@"b.+", @"c.-"], @{flip}),
+//			aHamming(@[@"fwd"], @[@"c.+", @"a.-"], @{flip}),
+//			aHamming(@[@"bkw"], @[@"a.+", @"c.-"], @{flip}),
+//			aHamming(@[@"bkw"], @[@"b.+", @"a.-"], @{flip}),
+//			aHamming(@[@"bkw"], @[@"c.+", @"b.-"], @{flip}),
+//		  ],
+//		@"evi":aTunnel(@{@"structure":abc_bundle, @"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+//	}),
+//	aGenerator(@{n(hi), @"nib":@"HiGen_fwdBkw", @"resetTo":@[@"fwd"], @"P":@"wheelA/con"}),
+//																		]}	));
  // MARK: - * Generator
 state.scanSubMenu				= "Generator"
+
+
+
+
 
 //	xxr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
 //			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { //Net([placeMy:"linky", parts:[
@@ -1656,9 +1698,11 @@ r("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + log(dat:5, eve:5) +
 		[],
 		"again"]]),
 ]]) })
-xr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
-	Mirror([n:"a", P:"b,l:5"]),
-	Mirror([n:"b", "gain":-1, "offset":1, f:1]),
+xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
+	Tunnel([n:"evi", struc:["a"], placeMy:"stackz 0 -1"]), //genBulb//of:.genPrev,
+	Generator([n:"lo", P:"evi=", placeMy:"stacky"]),
+	//Mirror([n:"a", P:"b,l:5"]),
+	//Mirror([n:"b", "gain":-1, "offset":1, f:1]),
 ]]) })
 
 	r("- tunnel spacing", eSim + selfiePole(s:90,u:0) + vel(-4) + log(rve:8) +

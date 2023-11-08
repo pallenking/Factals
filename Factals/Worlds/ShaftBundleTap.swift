@@ -6,7 +6,7 @@
 //
 import SceneKit
 
-class ShaftBundleTap: Generator {
+class ShaftBundleTap : Generator {
 	let nPoles : Int
 	var tread : Float			= 0.0				// angle of rotation?
 	var armNode : SCNNode?		= nil
@@ -255,10 +255,14 @@ bug
 	// MARK: PrettyPrint
 
 	 //	 MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{		// Why is this not an override
-//	override func pp1line(_ aux: Any) -> String {
-		var result 				= super.pp(mode, aux)
-		result 					+= "nPoles=\(self.nPoles), tread=\(String(format: "%.3f", self.tread))"
-		return result
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+		var rv					= super.pp(mode, aux)
+		if mode == .line {
+			if aux.bool_("ppParam") {	// a long line, display nothing else.
+				return rv
+			}
+			rv 					+= "nPoles=\(self.nPoles), tread=\(String(format: "%.3f", self.tread))"
+		}
+		return rv
 	}
 }

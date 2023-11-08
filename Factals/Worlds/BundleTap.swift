@@ -5,6 +5,17 @@
 
 import SceneKit
 
+/*!
+	Loads discret time discrete value data into analog HaveNWant Bundle
+	Resets Bundle at start of run
+	Data may come from GUI
+	Data may come from worldModel.
+		a) Incremental change model, including "again"
+		b) anonValue ("a" -> "a=<ananVlue>")
+		c) random data for initial testing
+		d) per-run random data
+		e) Epoch Marks
+*/
 
 	/// BundleTap communicates between
 	/// 	WorldModel's symbolic data
