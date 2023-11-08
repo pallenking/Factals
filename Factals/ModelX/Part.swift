@@ -141,7 +141,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}			// -- Name was given
 		name					= nam ?? {
-			if //let doc		= DOC,
+			if DOC != nil,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
 				let index		= DOC.indexFor[prefix] ?? 0

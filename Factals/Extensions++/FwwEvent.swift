@@ -1,4 +1,24 @@
-//  FwwEvent.swift -- generate digital words C190822PAK
+//  FwwEvent.swift -- A set of simultaneously occuring Bundle actions   C190822PAK
+
+/*
+BTEvent : [BTAction]
+BTAction
+	case anEpoch(Int)
+
+
+	case aString(String)
+		case .aString(let eventStr):	//  EVENT STRING: A lone string acts as an array of 1 element
+		case .anEpoch(let eventNum):	//  EVENT NUMBER: @0 means no signals: @n is illegal
+		case .anArray(let eventArray):	//  EVENT ARRAY: process multiple signals inside
+		loadOneBitFromString
+
+
+	case anArray([FwwEvent])		// incrementalEvents
+	case aProb(Float)
+	case aNil_
+
+ */
+
 import SceneKit
 
 protocol ProcessNsEvent {
@@ -85,21 +105,15 @@ class HnwEvent {							// NOT NSObject
 	}
 }
 
- // An event used by the Simulator
-//extension FwwEvent : Equatable {
-//	func equalsFW(_ rhs: FwwEvent) -> Bool {
-//bug;	return self == rhs
-//	}
-//}
-enum FwwEvent : Codable, EquatableFW {
+extension FwwEvent : EquatableFW {
 	func equalsFW(_: Part) -> Bool {
 		bug
 		return false
 	}
-	// Uid,
-	//var uid 		: UInt16 		{ 	return SwiftFactals.uid(nsOb:self)	}
+}
+enum FwwEvent : Codable {
 	case aString(String)
-	case anArray([FwwEvent])
+	case anArray([FwwEvent])		// incrementalEvents
 	case anEpoch(Int)
 	case aProb(Float)
 	case aNil_
@@ -133,33 +147,12 @@ enum FwwEvent : Codable, EquatableFW {
 			return nil
 		}
 	}
-//	 // MARK: - 3.5 Codable
-//	enum FwwEventKeys:String, CodingKey {
-//		case x, y, z
-//	}
-//	init(from decoder: Decoder) throws 		{		fatalError()	}
-//
-//	 // Serialize
-////	func encode(to encoder: Encoder) throws {		fatalError()	}
-//	func encode(to encoder: Encoder) throws {
-//		var container 		= encoder.container(keyedBy:ScnVector3Keys.self)
-//		try container.encode(self.x, forKey:.x)
-//		try container.encode(self.y, forKey:.y)
-//		try container.encode(self.z, forKey:.z)
-//		atSer(3, DOClog.log("Encoded  ScnVector3"))
-//	}
-/*	 // Deserialize
-	public init(from decoder: Decoder) throws {
-		self.init()
-		let container 		= try decoder.container(keyedBy:ScnVector3Keys.self)
-
-		x	 				= try container.decode(CGFloat.self, forKey:.x)
-		y	 				= try container.decode(CGFloat.self, forKey:.y)
-		z	 				= try container.decode(CGFloat.self, forKey:.z)
-		print("Decoded  as? ScnVector3 \(self.pp(.line)) ")
+	 // MARK: - 3.5 Codable
+	enum FwwEventKeys:String, CodingKey {
+		case x, y, z
 	}
-*/
-
+	init(from decoder: Decoder) throws 		{		fatalError()	}
+	func encode(to encoder: Encoder) throws {		fatalError()	}
 
 	mutating func add(event:FwwEvent) {
 		if case .anArray(var a) = self {
@@ -169,7 +162,6 @@ enum FwwEvent : Codable, EquatableFW {
 			panic("Adding event to non-array")
 		}
 	}
-
 
 	/* Functionality by Example:
 	

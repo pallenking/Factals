@@ -38,11 +38,12 @@ final class FactalsTests: XCTestCase {
 	}
 
 //	class Simulatee : NSObject, FwAny {					// won't compile
-	class Simulatee : NSObject 		  {		// FwAny	// HANGS
-//	class Simulatee : 		 	FwAny {					// WORKS
-//		func pp(_ mode:PpMode,		   _ aux:FwConfig			  ) -> String	{
+//	class Simulatee : NSObject 		  {		// FwAny	// HANGS
+	class Simulatee : 		 	FwAny {					// WORKS
+
 		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-bug;return "FSIVjsd"//		ppCommon(mode, aux)		// NO, try default method
+			//ppCommon(mode, aux)		// NO, try default method
+			return "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ FSIVjsd"
 		}
 	}
 	func testPpModeDefaultHangs() {
