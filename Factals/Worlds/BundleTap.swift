@@ -262,12 +262,6 @@ bug
 		return labeled;
 	}
 
-	// MARK: -9. 3D Support
-//	- (Bounds3f) gapAround:(View *)v;	{
-//		float r = self.brain.bitRadius, f = 3.0;
-//		return Bounds3f(-f*r, 0, -f*r,	 f*r, 3*r, f*r); // 160824
-//	}
-
 	 // MARK: - 9.1 reVew
 	override func reVew(vew:Vew?, parentVew:Vew?) {
 		super.reVew(vew:vew, parentVew:parentVew)

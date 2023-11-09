@@ -117,20 +117,12 @@ bug;			var poleITread = self.tread - Float(i)
 		assert(i < 7, "Assertion failed")
 		let bitName 			= String(Character(UnicodeScalar(Int(UnicodeScalar("a").value) + i - 1)!))
 
-		if let targetBundle, // else { fatalError("targetBundle of '\(self.fullName)' is nil") }
+		if let targetBundle,
 		  let port 				= targetBundle.genPortOfLeafNamed(bitName) as? Port {
 			return port
 		}
 		return nil
-	//		fatalError("\(self.fullName): didn't find Port '\(bitName)', or it has no 'G' port")
-	//	return port		//Port()//
 	}
-
-	// MARK: 3D Support
-//	func gapAround(_ v: View) -> Bounds3f {
-//		let r = self.brain.bitRadius
-//		return Bounds3f(-5 * r, -5 * r, -5 * r, 5 * r, 5 * r, 5 * r)
-//	}
 
 
 	 // MARK: - 9.3 reSkin
@@ -161,19 +153,38 @@ bug;			var poleITread = self.tread - Float(i)
 			scn.color0			= NSColor("darkgreen")!//.orange
 
 			 // Poles
-			let r				= localConfig["bitRadius"]?.asCGFloat ?? 1.0
-			let radius = 2*r;
+			let r				= localConfig["bitRadius"]?.asFloat ?? 1.0
+			let radius 			= 2*r
 			for i in 0..<self.nPoles {
-				let poleNode	= SCNNode()
-
 				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
-				let cylinderNode = SCNNode(geometry: SCNCylinder(radius: CGFloat(r), height: CGFloat(r/2)))
-				cylinderNode.position = SCNVector3(0, 0, radius + r)
-				cylinderNode.rotation = SCNVector4(1, 0, 0, GLKMathDegreesToRadians(poleInDegrees))
-				// Set the material properties for the cylinder here.
-				let portI = self.getPort(i)
-			//	cylinderNode.geometry?.firstMaterial?.diffuse.contents = colorOf2Ports(0.0, portI.connectedTo.value, 0)
+				let poleAngleRad = Float(0)//2.0 * .pi * Float(i) / Float(self.nPoles)
+				let portI 		= getPort(i)
+
+		//		let outterScn	= SCNNode(geometry: SCNBox(width:0.1, height:0.2, length: 10, chamferRadius: 0))
+		//		outterScn.rotation = SCNVector4(0, 1, 0, GLKMathDegreesToRadians(poleInDegrees))
+		//		scn.addChild(node:outterScn)
+
+//				let cylinderNode = SCNNode(geometry: SCNCylinder(radius: CGFloat(r*1.5), height:CGFloat(r/2)))
+//				cylinderNode.position = SCNVector3(radius * sin(poleAngleRad), 0, radius * cos(poleAngleRad))
+//				cylinderNode.constraints = [SCNLookAtConstraint(target: scn)]
+
+				let cylinderNode = SCNNode(geometry: SCNBox(width: CGFloat(r/2), height: CGFloat(r*15), length: CGFloat(r/2), chamferRadius: 0.1)) 				//
 				scn.addChild(node:cylinderNode)
+				cylinderNode.rotation = SCNVector4(0, 0, 1, GLKMathDegreesToRadians(poleInDegrees))
+//				cylinderNode.position = SCNVector3(radius + r, 0, 0)
+				cylinderNode.position = SCNVector3(0, radius + r, 0)
+//				cylinderNode.position = SCNVector3(0, 0, radius + r)
+
+				// Set the material properties for the cylinder here.
+				let x = NSColor.orange//colorOf2Ports(localValUp:0.0, localValDown:portI!.con2?.port?.value ?? -1, downInWorld:false)
+				//func  colorOf2Ports(localValUp:Float, localValDown:Float, downInWorld:Bool) -> NSColor {
+				cylinderNode.geometry?.firstMaterial?.diffuse.contents = x
+
+
+				let plate		= SCNNode(geometry:SCNCylinder(radius: CGFloat(r*1.5), height: CGFloat(r/2)))
+				cylinderNode.addChild(node:plate)
+				plate.position = SCNVector3(0, 5 * r, 0)
+
 
 
 //			glPushMatrix()
