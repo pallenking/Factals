@@ -6,15 +6,15 @@
 //
 import SceneKit
 
-class ShaftBundleTap : Generator {
+class ShaftBundleTap : BundleTap { //Generator {
 	let nPoles : Int
 	var tread : Float			= 0.0				// angle of rotation?
 	var armNode : SCNNode?		= nil
 
 	// MARK: Factory
 	override init(_ config:FwConfig = [:]){
-		let localConfig:FwConfig = ["placeMy":"stacky"]
-		let sConfig				= localConfig + config
+		let extraConfig:FwConfig = ["placeMy":"stacky"]
+		let sConfig				= extraConfig + config
 
 		  //  WorldModel.swift   Args (if needed)
 		 //  -- Basic discrete time/value data sources
@@ -26,6 +26,13 @@ class ShaftBundleTap : Generator {
 	required init?(coder: NSCoder) {	fatalError("init(coder:) has not been implemented")	}
 	required init(from decoder: Decoder) throws {	fatalError("init(from:) has not been implemented")	}
 
+	  // MARK: - 3.1 Port Factory
+ 	override func hasPorts() -> [String:String]	{
+ 		var rv 					= super.hasPorts()		// probably returns P
+		rv["S"]					= "cf"	// Create at birth
+ 		return rv
+ 	}
+
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(root:RootPart) {
 											super.groomModelPostWires(root:root)
@@ -35,8 +42,10 @@ class ShaftBundleTap : Generator {
 			return error("DiscreteTime has no 'P' Port")
 		}
 		guard let targPort 		= pPort.portPastLinks,
-		  let targetBundle 		= targPort.parent as? FwBundle else { fatalError("targetBundle is nil")}
-
+		  let targetBundle 		= targPort.parent as? FwBundle else {
+			print("targetBundle is nil")
+			return
+		}
 		  // Test new target bundle has both R (for reset) and G (for generate)
 		 //   (Commonly, these are Bindings)
 		targetBundle.forAllLeafs(
@@ -52,7 +61,7 @@ class ShaftBundleTap : Generator {
 */
 	 // MARK: - 8. Reenactment Simulator
 	func eventReady() -> String? {	return nil									}
-	func loadTargetBundle(event:FwwEvent) {fatalError("Not implemented")		}
+	override func loadTargetBundle(event:FwwEvent) {fatalError("Not implemented") }
 
 	/*override*/ func simulateDown(up upLocal:Bool) {
 

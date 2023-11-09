@@ -1353,11 +1353,20 @@ r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + [
 		ShaftBundleTap(["nPoles":3, P+X:"wheelA/evi", f:1]),
 	] ])
 })
-xr("+ ShaftBT 3", e + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	Net([parts:[
+		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward"], ["structure": ["a"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		]),
+		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+	] ])
+})
+xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 //	Net([parts:[
-		ShaftBundleTap(["nPoles":3, f:1])
+		ShaftBundleTap(["nPoles":3, P+X:"wheelA/evi", f:1])
 //	] ])
 })
+
 
 //M(D2. Unicycle3,(@{CameraHsuz(0, 30, 20, 1), VEL(-2), @"boundsDrapes":@0, @"displayAxis":@0, @"parts":@[
 //	aShaftBundleTap(@{@"nPoles":@3, @"P":@"wheelA/evi", flip}),

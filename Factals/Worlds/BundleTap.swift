@@ -77,7 +77,10 @@ class BundleTap : Atom {
 		guard let pPort			= ports["P"],
 		  let targPort 			= pPort.portPastLinks,
 		  let targetBundle		= targPort.parent as? FwBundle
-		else 						{	fatalError("targetBundle is nil") 		}
+		else {
+			print("$$$$$$$$ Burp: targetBundle is nil")
+			return
+		}
 								//
 		 // Test new target bundle; must have both R (for reset) and G (for generate)
 		targetBundle.forAllLeafs { leaf in
@@ -268,7 +271,6 @@ bug
 	 // MARK: - 9.1 reVew
 	override func reVew(vew:Vew?, parentVew:Vew?) {
 		super.reVew(vew:vew, parentVew:parentVew)
-bug
 	//	if inspectorNibName != nil && !self.inspectorAlreadyOpen {				// if (self.inspectorNibName and !self.inspectorAlreadyOpen)
 //			[self.brain.simNsWc.autoOpenInspectors addObject:mustBe(View, v)];
 	//	}
