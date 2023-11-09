@@ -166,7 +166,7 @@ class GenAtom : Atom {
 		} ()
 		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
 	}
-	func colorOf(ratio:Float) -> NSColor {	return .orange						}
+	override func typColor(ratio:Float) -> NSColor {	return .orange			}
 
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

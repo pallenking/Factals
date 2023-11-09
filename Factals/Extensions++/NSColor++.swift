@@ -91,6 +91,15 @@ extension NSColor {
 		self.init(red:r, green:g, blue:b, alpha:a)
 	}
 
+	 /// mix==0 ==> use B
+	func lerp(a:NSColor, b:NSColor, mixA:CGFloat) -> NSColor {
+		let mixB 			= 1.0 - mixA
+		return NSColor(calibratedRed: a  .redComponent * mixA + b  .redComponent * mixB,
+							   green: a.greenComponent * mixA + b.greenComponent * mixB,
+							    blue: a .blueComponent * mixA + b .blueComponent * mixB,
+							   alpha: a.alphaComponent * mixA + b.alphaComponent * mixB)
+	}
+
 	 // MARK: - 15. PrettyPrint
 	 /// Find a good color name for rgba, matching values within epsilon
 	static func ppColor(scnString:String) -> String? {

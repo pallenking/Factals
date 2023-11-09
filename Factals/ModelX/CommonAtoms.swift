@@ -199,6 +199,12 @@ class Mirror : Atom {
 			}
 		}
 	}
+	 // MARK: - 11. 3D Display
+	override func typColor(ratio:Float) ->  NSColor {
+		let inside				=  NSColor(0.7, 0.7, 0.7,  1)
+		let outside				=  NSColor(0.7, 0.7, 0.7,  1)
+		return NSColor(mix:inside, with:ratio, of:outside)
+	}
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat		{ 		return 0.6										}
 	var size   : CGFloat		{ 		return 3.0										}

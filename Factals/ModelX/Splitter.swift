@@ -488,11 +488,10 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 		}
 	}
 	 // MARK: - 11. 3D Display
-	func colorOf(ratio:Float) -> NSColor {
-		panic()
-//		if proxyColor {
-//			return proxyFColor(self.proxyColor)
-//		}
+	override func typColor(ratio:Float) -> NSColor {
+		if let proxyColor {
+			return proxyColor//(self.proxyColor)
+		}
 		return .orange
 	}
 

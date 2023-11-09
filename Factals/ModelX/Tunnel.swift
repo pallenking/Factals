@@ -146,4 +146,10 @@ class Tunnel : FwBundle {
 			super.rePosition(portVew:vew)
 		}
 	}
+	 // MARK: - 11. 3D Display
+	override func typColor(ratio:Float) ->  NSColor {
+		let inside				=  NSColor(0.7, 0.7, 0.7,  1)
+		let outside				=  NSColor(0.7, 0.7, 0.7,  1)
+		return NSColor(mix:inside, with:ratio, of:outside)
+	}
 }

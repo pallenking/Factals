@@ -124,7 +124,7 @@ class Net : Atom {		// Atom // Part
 		 // Color fades:
 		let den					= Float(vew.heightTree)
 		let ratio : Float		= den != 0 ? Float(vew.heightLeaf)/den : 0.5
-		let color0				= colorOf(ratio:ratio)
+		let color0				= NSColor.brown//NSColor.color(ofValue:ratio)					//color(ofValue:ratio)
 
 		let bb					= vew.bBox		// existing value
 		let size				= bb.size
@@ -150,7 +150,7 @@ class Net : Atom {		// Atom // Part
 
 		return vew.bBox				// vew.scn.bBox() // Xyzzy44 ** vb
 	}
-	func colorOf(ratio ratio_:Float) -> NSColor {
+	override func typColor(ratio ratio_:Float) -> NSColor {			// colorOf
 		let ratio				= min(max(ratio_, 0), 1)
 		let inside  = NSColor(red:0.7, green:0.0, blue:0.7,  alpha:1)
 		let outside = NSColor(red:0.5, green:0.0, blue:0.5,  alpha:1)

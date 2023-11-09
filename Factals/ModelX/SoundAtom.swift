@@ -127,7 +127,7 @@ class SoundAtom : Atom {
 		return;
 	}
 	 // MARK: - 9.0 3D Support
-	func colorOf(ratio:Float) -> NSColor {	return .orange						}
+	override func typColor(ratio:Float) -> NSColor {	return .orange			}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(portVew vew:Vew) {
 		let port				= vew.part as! Port

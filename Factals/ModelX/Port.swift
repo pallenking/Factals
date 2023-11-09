@@ -640,7 +640,60 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			cone?.color0		= .black
 		}
 	}
-	static var alternate = 0
+	// MARK: -
+	//static var alternate = 0
+	static var colorOfBidirActivations : [NSColor] {[
+			NSColor.white,		//	colorWhite,			// <all zero>
+			NSColor.green,		//	colorGreen,			// have
+			NSColor.red,		//	colorRed,			// want
+			NSColor.black		//	colorBlack			// haveNwant
+	]}
+	func colorOfValue() -> NSColor {
+		let rv					= self.color(ofValue:self.value)
+		return rv;
+	}
+	func color(ofValue val:Float) -> NSColor {
+		var downInWorld 		= self.downInWorld
+		var index  				= downInWorld ?
+					2: // 1 --> opening down --> Red   colorOfBidirActivations[2]
+					1  // 0 --> opening up   --> Green colorOfBidirActivations[1]
+		let on  				= Port.colorOfBidirActivations[index];
+		let off					= Port.colorOfBidirActivations[0];
+
+		return NSColor(mix:on, with:val, of:off)					//lerp(on, off, val);
+	}
+
+	func colorOf2Ports(localValUp:Float, localValDown:Float, downInWorld:Bool) -> NSColor {
+		var localValUp			= localValUp  .isNan ?  0.0: localValUp;		// nan --> 0
+		var localValDown		= localValDown.isNan ?  0.0: localValDown;
+
+		 // AGC/ signal compression:  POOR PERFORMANCE
+		let pMax				= max(localValUp, localValDown)
+		if pMax > 1.0   {
+			localValUp			/= pMax
+			localValDown		/= pMax
+		}
+		
+		let valUp				= downInWorld ? localValDown : localValUp
+		let valDown				= downInWorld ? localValUp   : localValDown
+
+		let color				= NSColor(0, 0, 0, 1)
+		for i in 0..<4 {	// scan: -, s, d, sd
+			let a				= i&1 != 0 ? valUp:   1.0 - valUp
+			let b				= i&2 != 0 ? valDown: 1.0 - valDown
+			let ab				= a * b
+bug
+//			color				+=
+//
+//			for j in 0..<3 {		// for values r, g, b
+//				color.d[j]		+= (colorOfBidirActivations[i]).d[j] * ab;
+//			}
+		}
+		return color;
+	}
+
+
+
 
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

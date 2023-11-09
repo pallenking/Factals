@@ -97,6 +97,16 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	{	didSet {	if flipped != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
+ //================= to the world:
+	var downInWorld : Bool {
+		var rv 					= false
+		for p in selfNParents() {			//		for (Part *p=self; p.parent; p=p.parent)
+			rv = rv != p.flipped;//^=		// rv now applies from self
+		}
+		assert(rv == selfNParents().reduce(into:false) { rv, p in rv != p.flipped  }, "OOps should ==")
+		return rv;
+	}
+
 	 // MARK: - 2.2b INTERNAL to Part
 	@Published var lat : Latitude = Latitude.northPole 			// Xyzzy87 markTree
 	{	didSet {	if lat != oldValue {
@@ -1316,6 +1326,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 		assertWarn(!vew.scn.transform.isNan, "vew.scn.transform == nan!")
 	}
+
+	 // MARK: - 11. 3D Display
+	func typColor(ratio:Float) ->  NSColor {					// was colorOf(
+		let inside				=  NSColor(0.7, 0.7, 0.7,  1)
+		let outside				=  NSColor(0.7, 0.7, 0.7,  1)
+		return NSColor(mix:inside, with:ratio, of:outside)
+	}
+
 
 	 // MARK: - 13. IBActions
 	 /// Prosses keyboard key
