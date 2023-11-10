@@ -1,21 +1,21 @@
-//  BundleTap.mm -- an Atom which generates data for a Bundle C2014PAK
+//  BundleTap.mm -- an Atom which loads data into a Bundle C2014PAK
 
 // 171004 -- removed TimingChain and SimpleWorlds.
 // 231101 -- transliterated from objc
 
 import SceneKit
 
-/*!
-	Loads discret time discrete value data into analog HaveNWant Bundle
-	Resets Bundle at start of run
-	Data may come from GUI
-	Data may come from worldModel.
-		a) Incremental change model, including "again"
-		b) anonValue ("a" -> "a=<ananVlue>")
-		c) random data for initial testing
-		d) per-run random data
-		e) Epoch Marks
-*/
+	//	Loads Symbolic Discret Time named scalar values
+	//			into an analog Port's value output in a HaveNWant Bundle
+	//		Samples too??
+	//	Resets Bundle at start of run
+	//	Symbolic Discrete Time Data may come from worldModel.
+	//		a) Incremental change model, including "again"
+	//		b) anonValue ("a" -> "a=<ananVlue>")
+	//		c) random data for initial testing
+	//		d) per-run random data
+	//		e) Epoch Marks
+	//	Data may come from GUI			// not yet debugged
 
 	/// BundleTap communicates between
 	/// 	WorldModel's symbolic data

@@ -1363,7 +1363,7 @@ r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + [
 })
 xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 //	Net([parts:[
-		ShaftBundleTap(["nPoles":3, P+X:"wheelA/evi", f:1])
+		ShaftBundleTap(["nPoles":5, P+X:"wheelA/evi", f:1])
 //	] ])
 })
 

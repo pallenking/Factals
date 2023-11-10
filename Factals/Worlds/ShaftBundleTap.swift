@@ -28,9 +28,7 @@ class ShaftBundleTap : BundleTap { //Generator {
 
 	  // MARK: - 3.1 Port Factory
  	override func hasPorts() -> [String:String]	{
- 		var rv 					= super.hasPorts()		// probably returns P
-		rv["S"]					= "cf"	// Create at birth
- 		return rv
+		return ["P":"c"]			// ignore super.hasPorts(), BundleTao has "S"
  	}
 
 	 // MARK: - 5 Groom
@@ -128,6 +126,8 @@ bug;			var poleITread = self.tread - Float(i)
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat	{ return 1.0		}	// 5
 	var width  : CGFloat	{ return 6.0		}
+	var ffRadius		= CGFloat(4.0)
+
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.find(name:"s-ShBT") ?? {
 														//	let scn				= SCNNode()
@@ -140,77 +140,53 @@ bug;			var poleITread = self.tread - Float(i)
 														//	let color			= vew.scn.color0
 														//	//let color			= NSColor.blue//.gray//.white//NSColor("lightpink")!//NSColor("lightslategray")!
 														//	scn.color0			= color.change(saturationBy:0.3, fadeTo:0.5)
+
 			let scn				= SCNNode()
 			vew.scn.addChild(node:scn, atIndex:0)
 			scn.name			= "s-SBT1"
 
-			 // Arm
-			let armNode 		= SCNNode(geometry: SCNCylinder(radius:0.2, height: 7))
-			scn.addChild(node:armNode)
-//			scn.geometry		= SCNBox(width:7, height:height, length:7, chamferRadius:1)
-///			scn.geometry		= SCNCylinder(radius:3, height:height)
-			scn.position.y		= height/2
-			scn.color0			= NSColor("darkgreen")!//.orange
+			 // Shaft of rotation
+			let shaftNode 		= SCNNode(geometry:SCNBox(width:0.5, height:1, length:7, chamferRadius:0.01))
+			scn.addChild(node:shaftNode)
+			shaftNode.color0	= NSColor("darkgreen")!//.orange
+ 			shaftNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/8)//0)//
+			 // Arm to a Pole
+			let armNode 		= SCNNode(geometry: SCNCylinder(radius:0.1, height:ffRadius))
+			shaftNode.addChild(node:armNode)
+			armNode.position.x	= ffRadius / 2
+			armNode.color0		= NSColor.orange	//("darkgreen")!//
+ 			armNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/2)
+			 // Arm to a Pole
+			let arrowLen		= 2.0
+			let pointNode 		= SCNNode(geometry: SCNCone(topRadius:1, bottomRadius:0, height:arrowLen))
+			shaftNode.addChild(node:pointNode)
+			pointNode.position.x	= ffRadius - arrowLen/2
+			pointNode.color0		= NSColor.red
+ 			pointNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/2)
 
 			 // Poles
-			let r				= localConfig["bitRadius"]?.asFloat ?? 1.0
-			let radius 			= 2*r
+			let r				= localConfig["bitRadius"]?.asCGFloat ?? 1.0
 			for i in 0..<self.nPoles {
 				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
-				let poleAngleRad = Float(0)//2.0 * .pi * Float(i) / Float(self.nPoles)
 				let portI 		= getPort(i)
+				let color1		= NSColor.orange//colorOf2Ports(0.0, portI.con2?.port?.value, 0)
+												//colorOf2Ports(localValUp:0.0, localValDown:portI!.con2?.port?.value ?? -1, downInWorld:false)		//
+				let color2		= NSColor.brown//colorOf2Ports(portI.value, 0.0, 0)
 
-		//		let outterScn	= SCNNode(geometry: SCNBox(width:0.1, height:0.2, length: 10, chamferRadius: 0))
-		//		outterScn.rotation = SCNVector4(0, 1, 0, GLKMathDegreesToRadians(poleInDegrees))
-		//		scn.addChild(node:outterScn)
+				let armNode 	= SCNNode()//geometry: SCNBox(width: r/2, height: r*15, length: r/2, chamferRadius: 0.1)) 				//)//
+				scn.addChild(node:armNode)
+				armNode.rotation = SCNVector4(0, 0, 1, GLKMathDegreesToRadians(poleInDegrees))
 
-//				let cylinderNode = SCNNode(geometry: SCNCylinder(radius: CGFloat(r*1.5), height:CGFloat(r/2)))
-//				cylinderNode.position = SCNVector3(radius * sin(poleAngleRad), 0, radius * cos(poleAngleRad))
-//				cylinderNode.constraints = [SCNLookAtConstraint(target: scn)]
+				let plate1		= SCNNode(geometry:SCNCylinder(radius:r, height:r))
+				armNode.addChild(node:plate1)
+				plate1.position = SCNVector3(0, ffRadius + r, 0)
+				plate1.geometry?.firstMaterial?.diffuse.contents = color1
 
-				let cylinderNode = SCNNode(geometry: SCNBox(width: CGFloat(r/2), height: CGFloat(r*15), length: CGFloat(r/2), chamferRadius: 0.1)) 				//
-				scn.addChild(node:cylinderNode)
-				cylinderNode.rotation = SCNVector4(0, 0, 1, GLKMathDegreesToRadians(poleInDegrees))
-//				cylinderNode.position = SCNVector3(radius + r, 0, 0)
-				cylinderNode.position = SCNVector3(0, radius + r, 0)
-//				cylinderNode.position = SCNVector3(0, 0, radius + r)
-
-				// Set the material properties for the cylinder here.
-				let x = NSColor.orange//colorOf2Ports(localValUp:0.0, localValDown:portI!.con2?.port?.value ?? -1, downInWorld:false)
-				//func  colorOf2Ports(localValUp:Float, localValDown:Float, downInWorld:Bool) -> NSColor {
-				cylinderNode.geometry?.firstMaterial?.diffuse.contents = x
-
-
-				let plate		= SCNNode(geometry:SCNCylinder(radius: CGFloat(r*1.5), height: CGFloat(r/2)))
-				cylinderNode.addChild(node:plate)
-				plate.position = SCNVector3(0, 5 * r, 0)
-
-
-
-//			glPushMatrix()
-//				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
-//				glRotatef(poleInDegrees, 1, 0, 0)
-//				glTranslatef(0, 0, radius + r)
-//
-//				let portI = self.getPort(i)
-//
-//				rc.color = colorOf2Ports(0.0, portI.connectedTo.value, 0)
-//				myGlSolidCylinder(r, r / 2, 16, 1)
-//
-//				glTranslatef(0, 0, r / 2)
-//				rc.color = colorOf2Ports(portI.value, 0.0, 0)
-//				myGlSolidCylinder(r, r / 2, 16, 1)
-//
-//				glPushMatrix()
-//					let inCameraShift = Vector3f(0.0, 0.0, 3)
-//					let spot2labelCorner = Vector2f(0.5, 0.5)
-//					rc.color = colorBlue
-//					let poleChar = Character(UnicodeScalar(97 + i)!)
-//					let poleStr = String(poleChar)
-//					myGlDrawString(rc, poleStr, -1, inCameraShift, spot2labelCorner, 3)
-//				glPopMatrix()
-//			glPopMatrix()
-
+				let plate2		= SCNNode(geometry:SCNCylinder(radius:r*0.75, height:r))
+				armNode.addChild(node:plate2)
+				plate2.position = SCNVector3(0, ffRadius + 2 * r, 0)
+				plate2.geometry?.firstMaterial?.diffuse.contents = color2
+//				myGlDrawString(rc, poleStr, -1, inCameraShift, spot2labelCorner, 3)
 			}
 			return scn
 		} ()
@@ -266,10 +242,10 @@ bug;			var poleITread = self.tread - Float(i)
 		let port				= vew.part as! Port
 		if port === ports["P"] {
 			assert(!port.flipped, "P Port in DiscreteTime must be unflipped")
-			vew.scn.transform	= SCNMatrix4(0, -port.height - 5, 0)
+			vew.scn.transform	= SCNMatrix4(0, -ffRadius*2, 0)		//, -port.height - 10
 		}
 		else if port === ports["S"] {
-			vew.scn.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
+			bug;vew.scn.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
 		}
 		else {
 			super.rePosition(portVew:vew)
