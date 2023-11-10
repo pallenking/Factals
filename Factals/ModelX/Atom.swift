@@ -628,7 +628,9 @@ class Atom : Part {	//Part//FwPart
 					let direct 	= self.check("direct", in:neighbors) == true
 					if !direct {		// Make (Multi)Link:
 						let s	=    srcPort! is MultiPort
-						assert( s == trgPort! is MultiPort, "trgPort=\(trgPort!.pp(.fullName)) isn't MultiPort, but srcPort=\(srcPort!.pp(.fullName)) is.")
+						let t	=    trgPort! is MultiPort
+						assert( !(s  && !t), "srcPort=\(srcPort!.pp(.fullName)) is a MultiPort, but trgPort=\(trgPort!.pp(.fullName)) isn't.")
+						assert( !(!s &&  t), "srcPort=\(srcPort!.pp(.fullName)) isn't a MultiPort, but trgPort=\(trgPort!.pp(.fullName)) is.")
 						link 	=  !s ? Link(linkProps) : MultiLink(linkProps)
 						msg1 	+= " <->\(link!.name)"
 					}

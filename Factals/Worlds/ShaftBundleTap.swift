@@ -28,7 +28,7 @@ class ShaftBundleTap : BundleTap { //Generator {
 
 	  // MARK: - 3.1 Port Factory
  	override func hasPorts() -> [String:String]	{
-		return ["P":"c"]			// ignore super.hasPorts(), BundleTao has "S"
+		return ["P":"cM"]			// ignore super.hasPorts(), BundleTao has "S"
  	}
 
 	 // MARK: - 5 Groom
@@ -123,7 +123,7 @@ bug;			var poleITread = self.tread - Float(i)
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat	{ return 1.0		}	// 5
 	var width  : CGFloat	{ return 6.0		}
-	var ffRadius		= CGFloat(4.0)
+	var ffRadius		= CGFloat(2.5)
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.find(name:"s-ShBT") ?? {
@@ -143,11 +143,11 @@ bug;			var poleITread = self.tread - Float(i)
 			armNode.color0		= NSColor.orange	//("darkgreen")!//
  			armNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/2)
 			 // Arm to a Pole
-			let arrowLen		= 2.0
-			let pointNode 		= SCNNode(geometry: SCNCone(topRadius:1, bottomRadius:0, height:arrowLen))
+			let arrowLen		= ffRadius/2.0
+			let pointNode 		= SCNNode(geometry: SCNCone(topRadius:arrowLen/2.5, bottomRadius:0, height:arrowLen))
 			shaftNode.addChild(node:pointNode)
-			pointNode.position.x	= ffRadius - arrowLen/2
-			pointNode.color0		= NSColor.red
+			pointNode.position.x = ffRadius - arrowLen/2
+			pointNode.color0	= NSColor.red
  			pointNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/2)
 
 			 // Poles

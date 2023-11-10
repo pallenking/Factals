@@ -1176,8 +1176,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		guard vew.parent != nil else {		return			}
 		 // Get Placement Modep
 		let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
-							parent?.config("placeMy")?.asString ?? // My Parent has placy MY
-										   "linky"				   // default is position by links
+							parent?.config("placeMy")?.asString ?? // My Parent has place MY
+										   				"linky"	   // default is position by links
 		  // Set NEW's orientation (flip, lat, spin) at origin
 		vew.scn.transform	= SCNMatrix4(.origin,
 								 flip	 : flipped,

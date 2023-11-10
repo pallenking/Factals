@@ -136,6 +136,7 @@ let prefixForClass = [						// prefix for naming Part
 		"Rotator"	:"rot",
 	/**/"Net"		:"net",
 		"FwBundle"	:"bun",				"Leaf"		:"leaf",
+		"BundleTap"	:"bt",				"ShaftBundleTap":"sbt",
 		"Tunnel"	:"tun",
 		"Actor"		:"atr",
 	/**/"Splitter"	:"s",				"Splitr"	:"s",

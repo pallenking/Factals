@@ -58,12 +58,10 @@ class Actor : Net {
 		let evi1				= localConfig["evi"]
 		assertWarn(evi1==nil, "'evi:\(evi1!.pp(.fullNameUidClass))' must be a FwBundle")
 
-		if let vaa		 		= localConfig["viewAsAtom"]?.asBool {
-			viewAsAtom 			= vaa
-		}
-		if let disp 			= localConfig["linkDisplayInvisible"]?.asBool {
-			linkDisplayInvisible = disp
-		}
+		viewAsAtom		 		= localConfig["viewAsAtom"			]?.asBool ?? false
+		linkDisplayInvisible	= localConfig["linkDisplayInvisible"]?.asBool ?? false
+		positionViaCon			= localConfig["positionViaCon"		]?.asBool ?? false
+
 		 // Color EVIdence FwBundle GREEN (
 		let _					= evi?.findCommon(firstWith:
 		{(m:Part) -> Part? in

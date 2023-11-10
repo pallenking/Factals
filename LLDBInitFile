@@ -62,33 +62,33 @@ command alias lldbIsLoaded p "ya, ya, ya,  LLDBInitFile is loaded"
 
 ##---------------- third arg from
 command regex pc     's/^(.+)$/e lldbPrint(%1, mode:.fwClassName,DOClog.params4aux + ["ppDagOrder":true])/'
-command regex pn     's/^(.+)$/e lldbPrint(%1, mode:.name		)/'
-command regex pnuc   's/^(.+)$/e lldbPrint(%1, mode:.nameUidClass)/'
-command regex pf     's/^(.+)$/e lldbPrint(%1, mode:.fullName	)/'
+command regex pn     's/^(.+)$/e lldbPrint(%1, mode:.name		)/'				-h "print HNW '<name>'            e.g: ROOT"
+command regex pnuc   's/^(.+)$/e lldbPrint(%1, mode:.nameUidClass)/'			-h "print HNW '<name>.<id>:<class>' e.g: ROOT.76a8:RootPart"
+command regex pf     's/^(.+)$/e lldbPrint(%1, mode:.fullName	)/' 			-h "print HNW '<fullName>' the hierarchy path e.g: xxxxx FIXME"
 #command regex po     's/^(.+)$/po %1/'  # don't overload
 # ---- pi*
-command regex pi     's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/'
-command regex piU    's/^(.+)$/e lldbPrint(%1, mode:.uid		)/'
-command regex piCu   's/^(.+)$/e lldbPrint(%1, mode:.classUid	)/'
-command regex piUc   's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/'
-command regex piFuc  's/^(.+)$/e lldbPrint(%1, mode:.fullNameUidClass)/'
+command regex pi     's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id>:<Class>'      e.g: 76a8:RootPart"
+command regex piU    's/^(.+)$/e lldbPrint(%1, mode:.uid		)/' 			-h "print HNW '<id>'              e.g: 76a8"
+command regex piCu   's/^(.+)$/e lldbPrint(%1, mode:.classUid	)/' 			-h "print HNW '<Class><id>'       e.g: RootPart<76a8>"
+command regex piUc   's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id><Class>'       e.g: 76a8:RootPart"
+command regex piFuc  's/^(.+)$/e lldbPrint(%1, mode:.fullNameUidClass)/' 		-h "print HNW '<fullName><id><Class>' e.g: ROOT/76a8:RootPart"
 # ---- p*
-command regex pp     's/^(.+)$/e lldbPrint(%1, mode:.phrase		)/'
-command regex ps     's/^(.+)$/e lldbPrint(%1, mode:.short		)/'
-command regex pl     's/^(.+)$/e lldbPrint(%1, mode:.line		)/'
-command regex pt     's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppDagOrder":true])/'
+command regex pp     's/^(.+)$/e lldbPrint(%1, mode:.phrase		)/' 			-h "pretty print HNW"
+command regex ps     's/^(.+)$/e lldbPrint(%1, mode:.short		)/' 			-h "print short HNW"
+command regex pl     's/^(.+)$/e lldbPrint(%1, mode:.line		)/' 			-h "print line"
+command regex pt     's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppDagOrder":true])/' -h "print tree"
 # ---- p*L
 command regex ppL    's/^(.+)$/e lldbPrint(%1, mode:.phrase,	["ppLinks":true])/'
 command regex plL    's/^(.+)$/e lldbPrint(%1, mode:.line,		["ppLinks":true])/'
 command regex ptL    's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppLinks":true, "ppDagOrder":true])/'
 # ---- p*P
-command regex ppP    's/^(.+)$/e lldbPrint(%1, mode:.phrase,	["ppParameters":true])/'
-command regex plP    's/^(.+)$/e lldbPrint(%1, mode:.line,		["ppParameters":true])/'
-command regex ptP    's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppParameters":true], "ppDagOrder":true)/'
+command regex ppP    's/^(.+)$/e lldbPrint(%1, mode:.phrase,	["ppParam":true])/'
+command regex plP    's/^(.+)$/e lldbPrint(%1, mode:.line,		["ppParam":true])/'
+command regex ptP    's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppParam":true], "ppDagOrder":true)/'
 # ---- p*LP
-command regex ppLP   's/^(.+)$/e lldbPrint(%1, mode:.phrase,	["ppLinks":true, "ppParameters":true])/'
-command regex plLP   's/^(.+)$/e lldbPrint(%1, mode:.line,		["ppLinks":true, "ppParameters":true])/'
-command regex ptLP   's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppLinks":true, "ppParameters":true], "ppDagOrder":true])/'
+command regex ppLP   's/^(.+)$/e lldbPrint(%1, mode:.phrase,	["ppLinks":true, "ppParam":true])/'
+command regex plLP   's/^(.+)$/e lldbPrint(%1, mode:.line,		["ppLinks":true, "ppParam":true])/'
+command regex ptLP   's/^(.+)$/e lldbPrint(%1, mode:.tree,		["ppLinks":true, "ppParam":true], "ppDagOrder":true])/'
 
 
 ##---------------- 's' is for sel/f
