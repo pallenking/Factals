@@ -7,8 +7,7 @@ class Tunnel : FwBundle {
 	 // MARK: - 2. Object Variables:
 	//var label : String?			= nil
 	 // MARK: - 3. Part Factory
-	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig? = nil, _ tunnelConfig_:FwConfig = [:]) {	//.port
-		let tunnelConfig				= ["placeMy":"linky"] + tunnelConfig_	//  default: // was stackx
+	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig?=[:], _ tunnelConfig:FwConfig = [:]) { 	//.port
 		super.init(of:kind, leafConfig:leafConfig, tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
 	 // MARK: - 3.1 Port Factory

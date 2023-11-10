@@ -1,44 +1,39 @@
 //  FwBundle.mm -- A hierarchical structure of Leafs, one per port C2013PAK
 
-/* to do:
- */
 import SceneKit
-//import SwiftUI		// Has Color
 
  /// A FwBundle is a hierarchical structure of Leafs, one per port
 class FwBundle : Net {
 
      // MARK: - 2. Object Variables:
-//	var leafStruc: FwConfigC?
-	var leafStruc: FwAny?
-//	var leafProto: Part?
-	var leafKind : LeafKind
-	var label 	 : String?							// Of pattern IN FwBundle
+	var leafStruc: FwAny?			// structure of name-structure				// boneyard:var leafStruc: FwConfigC?;var leafProto: Part?
+	var leafKind : LeafKind			// an enum
+	var label 	 : String?			// Of pattern IN FwBundle
 
 	 // MARK: - 3. Part Factory
+
 	     /// Grouping of Leaf
-	    /// - parameter kind: -- of terminal Leaf
+	    /// - parameter kind: 		-- of terminal Leaf
 	   /// - parameter leafConfig: -- to configure Leaf
-	  /// - parameter config: -- to configure FwBundle
-	 /// ## --- struc: names	-- names of the Bundle's leafs
-	init(of kind:LeafKind = .genAtom, leafConfig leafConfig_:FwConfig? = nil, _ config:FwConfig = [:]) {
-		let leafConfig			= ["placeMy":"stackx"] + (leafConfig_ ?? [:])	// default: stackx
-
-		leafStruc				= config["struc"]// as! FwConfigC//FwConfigC
+	  /// - parameter config:	  -- to configure FwBundle
+	 /// ## --- struc: names	 -- names of the Bundle's leafs
+	init(of kind:LeafKind = .genAtom, leafConfig lc:FwConfig?=[:], _ tunnelConfig:FwConfig=[:])
+	{
+		let leafConfig			= ["placeMy":"linky" ] + lc!	//  default: // was stackx
+		let tunnelConfig2		= ["placeMy":"stackx"] + tunnelConfig
 		self.leafKind			= kind
-		assert(config["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")
+		super.init(tunnelConfig2) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		super.init(config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		localConfig["struc"]	= nil
+		leafStruc				= localConfig["struc"];	localConfig["struc"] = nil
+		assert(localConfig["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")
 
 		 // Construct FwBundle elements
 		if leafStruc != nil {
-			apply(constructor:leafStruc!, leafConfig:leafConfig ?? [:])
+			apply(constructor:leafStruc!, leafConfig:leafConfig)
 		}
 	}
 	 // MARK: - 3.1 Port Factory
-//	override func hasPorts() -> [String:String] {	return ["P":"pcM"]	}	// like Tunnel
-	override func hasPorts() -> [String:String] {	super.hasPorts()	}	//return [:]  }//
+	override func hasPorts() -> [String:String] {	super.hasPorts()	}	//return[:]//["P":"pcM"]//
 
 	 // MARK: - 3.5 Codable
 	enum BundleKeys:String, CodingKey {
