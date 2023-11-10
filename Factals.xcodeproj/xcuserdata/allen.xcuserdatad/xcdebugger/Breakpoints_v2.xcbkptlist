@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "20B4EAED-DBD9-4EC4-BC48-AF7AC7F6CC54"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/ModelX/Tunnel.swift"
@@ -16,8 +16,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "11"
             endingLineNumber = "11"
-            landmarkName = "Tunnel"
-            landmarkType = "3">
+            landmarkName = "init(of:leafConfig:_:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "20B4EAED-DBD9-4EC4-BC48-AF7AC7F6CC54 - cab76b00519c8835"
@@ -49,7 +49,38 @@
                   endingLineNumber = "12"
                   offsetFromSymbolStart = "124">
                </Location>
+               <Location
+                  uuid = "20B4EAED-DBD9-4EC4-BC48-AF7AC7F6CC54 - cab76b00519c8835"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Tunnel.init(of: Factals.LeafKind, leafConfig: Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;&gt;, _: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Factals.Tunnel"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/Tunnel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "68">
+               </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4877933F-1AB8-45C7-952F-31344DBC2076"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/ModelX/Part.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1214"
+            endingLineNumber = "1214"
+            landmarkName = "placeStacked(inVew:mode:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

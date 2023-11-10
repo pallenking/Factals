@@ -1339,7 +1339,7 @@ r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + [
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel(["structure":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
 				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
@@ -1348,25 +1348,37 @@ r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + [
 				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
 				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
 			],
-			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward"], ["structure": ["a", "b", "c"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
-		]),
-		ShaftBundleTap(["nPoles":3, P+X:"wheelA/evi", f:1]),
-	] ])
-})
-xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
-	Net([parts:[
-		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a","b","c"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a", "b", "c"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 		]),
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
+})
+xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+//	Net(["placeMy":"stacky", parts:[
+		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0, "placeMy":"linky",
+			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"parts":[
+				Hamming([P:"fwd", f:1]),
+				Hamming([P:"bkw", f:1]),
+//	//			Hamming([share:["a.+"], f:1]),
+//				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
+//				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
+//				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
+//				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
+//				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
+//				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
+			],
+//			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a","b","c"]]), //,"b","c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		])
+//		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+//	] ])
 })
 r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
 		"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a"]]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	])
 //	Net([parts:[
-//		ShaftBundleTap(["nPoles":5, P+X:"wheelA/evi", f:1])
+//		ShaftBundleTap(["nPoles":5, P+sX:"wheelA/evi", f:1])
 //	] ])
 })
 
