@@ -79,35 +79,32 @@ bug;			var poleITread = self.tread - Float(i)
 				var forceGeom: Float = 0.0
 
 				if abs(poleITread) < 0.5 {
-					have = 1.0
-					forceGeom = poleITread * 2
+					have 		= 1.0
+					forceGeom 	= poleITread * 2
 				} else {
-					forceGeom = poleITread < 0.0 ? -1.0 : poleITread > 0.0 ? 1.0 : 0.0
+					forceGeom 	= poleITread < 0.0 ? -1.0 : poleITread > 0.0 ? 1.0 : 0.0
 				}
+								//
+				if let portI 	= self.getPort(i) {
+					portI.value = have											//portI.valueTake = have
 
-				let portI = self.getPort(i)
-//				portI.valueTake = have
-//
-//				if portI.valueChanged {
-//					"\(portI.fullName16)| ShaftBundleTap: new have (\(have))".ppLog()
-//				}
-//
-//				let wPort = portI.con2?.port
-//
-//				if wPort?.valueChanged ?? false {
-//					"\(portI.fullName16)| ShaftBundleTap: new want (\(wPort.value))".ppLog()
-//				}
-//
-//				let want = wPort.valueGet
-//				let dForce = want * forceGeom
-//				force += dForce
+					if portI.valueChanged() {
+						print("\(portI.fullName16)| ShaftBundleTap: new have (\(have))")
+					}
+					if let wPort = portI.con2?.port {
+						if wPort.valueChanged() {
+							print("\(portI.fullName16)| ShaftBundleTap: new want (\(wPort.value))")
+						}
+						let want = wPort.getValue()
+						let dForce = want * forceGeom
+						force += dForce
+					}
+				}
 			}
-
 			self.tread -= force * 0.05
-
-//			if force != 0 {
+			if force != 0 {
 //				self.brain.kickstartSimulator()
-//			}
+			}
 		}
 	}
 
@@ -130,17 +127,6 @@ bug;			var poleITread = self.tread - Float(i)
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.find(name:"s-ShBT") ?? {
-														//	let scn				= SCNNode()
-														//	vew.scn.addChild(node:scn, atIndex:0)
-														//	scn.name			= "s-ShBT"
-														//	//scn.geometry		= SCNBox(width:0.2, height:0.2, length:0.2, chamferRadius:0.01)	//191113
-														//	scn.geometry		= SCNBox(width:width, height:height, length:3, chamferRadius:0.4)
-														//	//scn.position		= SCNVector3(1.0, height/2, 0)
-														//	scn.position		= SCNVector3(1.5, height/2, 0)
-														//	let color			= vew.scn.color0
-														//	//let color			= NSColor.blue//.gray//.white//NSColor("lightpink")!//NSColor("lightslategray")!
-														//	scn.color0			= color.change(saturationBy:0.3, fadeTo:0.5)
-
 			let scn				= SCNNode()
 			vew.scn.addChild(node:scn, atIndex:0)
 			scn.name			= "s-SBT1"
@@ -192,63 +178,14 @@ bug;			var poleITread = self.tread - Float(i)
 		} ()
 		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
 	}
-
-	 // MARK: - 9.3 reSkin
-//	//var height : CGFloat	{		return 2									}
-//	func reSkinXX(fullOnto vew:Vew) -> BBox  {
-//		let scn					= vew.scn.find(name:"s-ShBT") ?? {
-//			let scn				= SCNNode()
-//			vew.scn.addChild(node:scn, atIndex:0)
-//			scn.name			= "s-ShBT"
-//
-//			 // Arm
-//			let armNode 		= SCNNode(geometry: SCNCylinder(radius:0.2, height: 7))
-//			scn.addChild(node:armNode)
-////			scn.geometry		= SCNBox(width:7, height:height, length:7, chamferRadius:1)
-/////			scn.geometry		= SCNCylinder(radius:3, height:height)
-////			scn.position.y		= height/2
-////			scn.color0			= NSColor("darkgreen")!//.orange
-//
-//			 // Poles
-//			let r					= localConfig["bitRadius"]?.asCGFloat ?? 1.0
-//			let radius = 2*r;
-//			for i in 0..<self.nPoles {
-//				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
-//				let cylinderNode = SCNNode(geometry: SCNCylinder(radius: CGFloat(r), height: CGFloat(r/2)))
-//				cylinderNode.position = SCNVector3(0, 0, radius + r)
-//				cylinderNode.rotation = SCNVector4(1, 0, 0, GLKMathDegreesToRadians(poleInDegrees))
-//				// Set the material properties for the cylinder here.
-//	//			cylinderNode.geometry?.firstMaterial?.diffuse.contents = colorOf2Ports(0.0, portI.connectedTo.value, 0)
-//				scn.addChild(node:cylinderNode)
-//			}
-//			return scn
-//		} ()
-//		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
-
-//		float treadInDegrees = 360 * self.tread / self.nPoles;
-//		glRotatef(treadInDegrees, 1,0,0);
-//
-//		rc.color = colorRed;
-//		glTranslatef(0, 0, radius/2);
-//		myGlSolidCylinder(radius/10, radius, 16, 1);	// (radius, length, ...)
-//		glTranslatef(0, 0, -radius/2);
-//
-//		rc.color = colorBlack;
-//		glRotatef(90, 0,1,0);
-//		glutSolidTorus(radius/6, radius, 3, self.nPoles*4);// innerRadius, outerRadius, nsides, nRings
-//	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(portVew vew:Vew) {
 		let port				= vew.part as! Port
 		if port === ports["P"] {
 			assert(!port.flipped, "P Port in DiscreteTime must be unflipped")
 			vew.scn.transform	= SCNMatrix4(0, -ffRadius*2, 0)		//, -port.height - 10
-		}
-		else if port === ports["S"] {
-			bug;vew.scn.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
-		}
-		else {
-			super.rePosition(portVew:vew)
+		} else {
+			panic("")
 		}
 	}
 	override func reVew(vew:Vew?, parentVew:Vew?) {
@@ -261,60 +198,6 @@ bug;			var poleITread = self.tread - Float(i)
 //		}
 //		self.inspecIsOpen = true		// only open once
 	}
-
-
-	// MARK: 3D Display
-//	override func drawFullView(_ v: View, context rc: RenderingContext) {
-//		let r = self.brain.bitRadius
-//		let siz = v.bounds.size()
-//		let radius = 2 * r
-//
-//		glPushMatrix()
-//		glRotatef(90, 0, 1, 0)
-//		glRotatef(90, 1, 0, 0)
-//
-//		for i in 0..<self.nPoles {
-//			glPushMatrix()
-//				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
-//				glRotatef(poleInDegrees, 1, 0, 0)
-//				glTranslatef(0, 0, radius + r)
-//
-//				let portI = self.getPort(i)
-//
-//				rc.color = colorOf2Ports(0.0, portI.connectedTo.value, 0)
-//				myGlSolidCylinder(r, r / 2, 16, 1)
-//
-//				glTranslatef(0, 0, r / 2)
-//				rc.color = colorOf2Ports(portI.value, 0.0, 0)
-//				myGlSolidCylinder(r, r / 2, 16, 1)
-//
-//				glPushMatrix()
-//					let inCameraShift = Vector3f(0.0, 0.0, 3)
-//					let spot2labelCorner = Vector2f(0.5, 0.5)
-//					rc.color = colorBlue
-//					let poleChar = Character(UnicodeScalar(97 + i)!)
-//					let poleStr = String(poleChar)
-//					myGlDrawString(rc, poleStr, -1, inCameraShift, spot2labelCorner, 3)
-//				glPopMatrix()
-//			glPopMatrix()
-//		}
-//
-//		let treadInDegrees = 360 * self.tread / Float(self.nPoles)
-//		glRotatef(treadInDegrees, 1, 0, 0)
-//
-//		rc.color = colorRed
-//		glTranslatef(0, 0, radius / 2)
-//		myGlSolidCylinder(radius / 10, radius, 16, 1)
-//		glTranslatef(0, 0, -radius / 2)
-//
-//		rc.color = colorBlack
-//		glRotatef(90, 0, 1, 0)
-//		glutSolidTorus(radius / 6, radius, 3, self.nPoles * 4)
-//
-//		glPopMatrix()
-//	}
-
-	// MARK: PrettyPrint
 
 	 //	 MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

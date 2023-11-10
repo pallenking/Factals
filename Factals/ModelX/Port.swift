@@ -42,6 +42,7 @@ import SceneKit
 
  /// Defines port protocol for both 1-bit Ports and named MultiPort's
 protocol PortTalk {
+
 	  /// - Receives values set by the far Port
 	 /// - Parameter value: ---- to set in
 	/// - Parameter key: ---- nil if regular Port, sub-name if Multi-Port

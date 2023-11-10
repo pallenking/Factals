@@ -322,13 +322,15 @@ bug
 	 //	 MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{		// Why is this not an override
 		var rv					= super.pp(mode, aux)
-		if let resetTo {
-			rv					+= "resetTo=\(resetTo.pp(.tree))"				//rv=[rv addF:@"resetTo=%@ ", [self.resetTo pp]];
+		if mode == .line {
+			if let resetTo {
+				rv					+= "resetTo=\(resetTo.pp(.tree))"				//rv=[rv addF:@"resetTo=%@ ", [self.resetTo pp]];
+			}
+			if let inspectorNibName {
+				rv					+= "nibName33=\(inspectorNibName.pp()) "
+			}
+			rv						+= "tBundle=\(self.targetBundle?.fullName ?? "<nil>") "
 		}
-		if let inspectorNibName {
-			rv					+= "nibName33=\(inspectorNibName.pp()) "
-		}
-		rv						+= "tBundle=\(self.targetBundle?.fullName ?? " Burp sv3wrs?") "
 		return rv
 	}
 }
