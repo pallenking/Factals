@@ -21,8 +21,8 @@ class FwBundle : Net {
 	   /// - parameter leafConfig: -- to configure Leaf
 	  /// - parameter config: -- to configure FwBundle
 	 /// ## --- struc: names	-- names of the Bundle's leafs
-	init(of kind:LeafKind = .genAtom, leafConfig:FwConfig? = nil, _ config:FwConfig = [:]) {
-		let leafConfig			= ["placeMy":"stackx"] + (leafConfig ?? [:])	// default: stackx
+	init(of kind:LeafKind = .genAtom, leafConfig leafConfig_:FwConfig? = nil, _ config:FwConfig = [:]) {
+		let leafConfig			= ["placeMy":"stackx"] + (leafConfig_ ?? [:])	// default: stackx
 
 		leafStruc				= config["struc"]// as! FwConfigC//FwConfigC
 		self.leafKind			= kind
