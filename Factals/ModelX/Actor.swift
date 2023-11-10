@@ -6,15 +6,15 @@ import SceneKit
 class Actor : Net {
 
 	 // MARK: - 2. Object Variables:
-	var	con : FwBundle? 			= nil		// upper context  information
-	var	evi : FwBundle? 			= nil		// lower evidence information
-
+	var	con : FwBundle? 		= nil		// upper context  information
+	var	evi : FwBundle? 		= nil		// lower evidence information
+								
 	 // Any previousClocks to be routed inside an actor get enabled here
 	var previousClocks : [Part] = []
 //	var previousClocksEnable : Port
  //	var timingChain :
 
-	var positionViaCon : Bool 	= false	// con (above) involved in positions
+	var positionViaCon : Bool 	= false		// con (above) involved in positions
 
 	// MARK: - 3. Part Factory
 	/// Create Actor module

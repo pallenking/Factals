@@ -1171,6 +1171,79 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		vew.updateWireBox()				// Add/Refresh my wire box scn
 		vew.scn.isHidden		= false	// Include elements hiden for sizing:
 	}
+/*
+	a = xyz
+	dirn = + -
+	b = a + 1
+	c = a + 2
+ */
+func foo () {
+
+}
+
+		//typedef enum : unsigned char {
+	/// Parts a, b, and c  can be placed so min, max, or CenTeR align:
+
+		//	aNeg  = 0x40,	aPos=0x00,											char 0 +-
+		//	aUndef=0x00,	aX  =0x10,	aY  =0x20,	aZ	=0x30,	aMask=0x30,		char 1 xyz
+		///// 					'<'			'>'			'c'
+		//	cUndef=0x00,	cMin=0x01,	cMax=0x02,	cCtr=3,		cMask=0x03,		char 3 c<>?
+		//	bUndef=0x00,	bMin=0x04,	bMax=0x08,	bCtr=0xC,	bMask=0x0C,		char 2 c><?
+		//	isLink= 0x80,
+		//}		PlaceType;
+
+
+		//	NSString *s = placeString.lowercaseString;
+		//	if ([placeString isEqualToString:@"link"])
+		//		return isLink;
+		//
+		//	assert(placeString.length==4, (@"Length of PlaceType string '%@' BAD", placeString));
+		//	PlaceType rv0=nilPlaceType, rv1=rv0, rv2=rv0, rv3=rv0;
+		//
+		// We have this enum : unsigned char {
+		///// Parts a, b, and c  can be placed so min, max, or CenTeR align:
+		//	cUndef=0x00,	cMin=0x01,	cMax=0x02,	cCtr=3,		cMask=0x03,		char 3 c<>?
+		//	bUndef=0x00,	bMin=0x04,	bMax=0x08,	bCtr=0xC,	bMask=0x0C,		char 2 c><?
+		//	aUndef=0x00,	aX  =0x10,	aY  =0x20,	aZ	=0x30,	aMask=0x30,		char 1 xyz
+		//	aNeg  = 0x40,	aPos=0x00,											char 0 +-
+		//	isLink= 0x80,
+		//}		PlaceType;
+
+		//	 // All Place Types are 4 e.g: +Ycc
+		//	character 0
+		//		case '+':		rv0 = aPos;			break;
+		//		case '-':		rv0 = aNeg;			break;
+		//	character 1
+		//		case 'x':		rv1 = aX;			break;
+		//		case 'y':		rv1 = aY;			break;
+		//		case 'z':		rv1 = aZ;			break;
+		//	character 2
+		//		case 'c':		rv2 = cCtr;			break;
+		//		case '>':		rv2 = cMax;			break;
+		//		case '<':		rv2 = cMin;			break;
+		//		case '?':		rv2 = cUndef;		break;
+		//	character 3
+		//		case 'c':		rv3 = cCtr;			break;
+		//		case '>':		rv3 = cMax;			break;
+		//		case '<':		rv3 = cMin;			break;
+		//		case '?':		rv3 = cUndef;		break;
+
+
+
+	enum AxisDirn {
+		case x, y, z, X, Y, Z
+	}
+
+	enum PlaceType {
+		case link(AxisDirn)
+		case stack(AxisDirn)
+	}
+
+
+
+
+
+
 	 // MARK: - 9.4 rePosition
 	func rePosition(vew:Vew) { //}, first:Bool=false) {
 		guard vew.parent != nil else {		return			}
