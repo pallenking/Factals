@@ -1,4 +1,4 @@
-// PreviousX.swift -- Remembers what happened previously, used for prediction C2014PAK
+// Previous.swift -- Remembers what happened previously, used for prediction C2014PAK
 
 /*
  */
@@ -7,8 +7,6 @@ import SceneKit
 
   /// A Previous is an Atom with a time delay. It has 3 Ports
 class Previous : Atom {
-
- //	override var aPriori : CGFloat	{ return 0.2		}
 
 	 // MARK: - 2. Object Variables:
 	var bias : Float			= 0.0		// used for halucination
@@ -21,12 +19,12 @@ class Previous : Atom {
 
 	// =============== Minor Modes  ==============
 	enum MinorMode : String, Codable {		//prevMinorMode
-		case hold				
-		case monitor		
-		case simForward		
-		case simBackward	
-		case netForward		
-		case netBackward	
+		case hold				= "hold"
+		case monitor			= "monitor"
+		case simForward			= "simForward"
+		case simBackward		= "simBackward"
+		case netForward			= "netForward"
+		case netBackward		= "netBackward"		// FW used prevMinorModeNames
 	}
 	var minorMode  : MinorMode 	= .monitor		// changes per M&N .prevMinorModeMonitor
 
@@ -58,42 +56,45 @@ class Previous : Atom {
 	/// 	- simBackward
 	/// 	- netForward
 	/// 	- netBackward
-	override init(_ config:FwConfig = [:]) {
+	override init(_ configArg:FwConfig = [:]) {
 
-		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		super.init(configArg)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		let config 				= localConfig
 
 		 // Set mode:	
 		majorMode 				= .monitor				// Default is monitor  :MajorMode
 		minorMode 				= .monitor				// ""
 		if let modeStr 			= config.string("mode") {		// From factory
-			majorMode 			= MajorMode(rawValue: modeStr)!	// never changes
-//			let index 			= prevMinorModeNames.index(of:modeStr)
-//	//		NSInteger index 	= [prevMinorModeNames indexOfObject:mode]
+	print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Previous")
+//		majorMode 			= MajorMode(rawValue: modeStr)	// never changes
+//
+//			let index : String	= modeStr
+////bug;		let index 			= prevMinorModeNames.index(of:modeStr)			//NSInteger index = [prevMinorModeNames indexOfObject:mode]
 //			 // default:
 //			if let n			= modeStr as? Int {						// major mode = 0 --> Default
 //				assert(n == 0, "only number 0 (=null mode) defined")
 //				majorMode 		= .monitor
-//				minorMode 		= .prevMinorModeMonitor
+////				minorMode 		= .prevMinorModeMonitor
 //			}
 //			 // minor is static and equal to major
-//			else if index != NSNotFound {				// major mode is also a minor mode:
-//				minorMode		= (PrevMinorMode)index		// (presumes order maintained with prevMinorModeNames)
+//			else if index != nil {						// major mode is also a minor mode:
+////				minorMode		= (PrevMinorMode)index		// (presumes order maintained with prevMinorModeNames)
 //			}
 //			 // minor depends on major and M (?and N):
 //			else if modeStr == "simModeDir" {
-//				minorMode		= .prevMinorModeSimBackward	// Default: M==0 ==> Backward
+////				minorMode		= .prevMinorModeSimBackward	// Default: M==0 ==> Backward
 //			}
 //			else if modeStr == "simMode2" {
-//				minorMode		= .prevMinorModeHold			// Default: M==N==0 ==> Hold
+////				minorMode		= .prevMinorModeHold			// Default: M==N==0 ==> Hold
 //			}
 //			else {
-//				panic("PreviousX: unknown mode:'%'", modeStr)
+////				panic("PreviousX: unknown mode:'%'", modeStr)
 //			}
-			 // Set bias:
-			bias				= 0.555
-			if let b			= config.float("bias") {
-				bias 			= b
-			}	
+//			 // Set bias:
+//			bias				= 0.555
+//			if let b			= configArg.float("bias") {
+//				bias 			= b
+//			}	
 		}
 		src4					= .monitor			//.hold??
 
@@ -105,7 +106,7 @@ class Previous : Atom {
 			latchPort.con2 		= .port(latchPort)
 		}
 		   // //////// check for consistency here... /////
-	//	config["addPreviousXClock"] = 1
+		//configArg["addPreviousXClock"] = 1
 	}
 
 	 // Set the Previous's "plumbing", who connects to whom.
@@ -392,24 +393,20 @@ bug;						atDat(4, logd("Mode Port: " + //%% curMode=%-->%",
 		let port				= vew.part as! Port
 		let h 					= height + port.height
 		if port === ports["S"] {					// S: Secondary
-	//		assert(port.flipped == true, "S Port in Previous must be flipped")
 			vew.scn.transform	= SCNMatrix4(0, 	   h, 0, flip:true)
 		}
-		else if port === ports["T"] {			// T: Terciary
-	//		assert(port.flipped == true, "T Port in Previous must be flipped")
+		else if port === ports["T"] {				// T: Terciary
 			vew.scn.transform	= SCNMatrix4(width/2, h, 0, flip:true)
 		}
-		else if port === ports["L"] { 		// Latch (internal)
-	//		assert(!port.flipped, "S Port in Previous must be unflipped")
-			vew.scn.transform 	= SCNMatrix4(previousLatchX-1, -port.height*0.6, 0)
+		else if port === ports["L"] { 				// Latch (internal)
+			vew.scn.transform 	= SCNMatrix4(previousLatchX-1, -port.height*0.6, 0, flip:false)
 		}
-		else if port === ports["M"] {			// Mode
+		else if port === ports["M"] {				// Mode
 			port.spin 			= 3
 //			port.latitude		= previousLatchX
-	//		assert(!port.flipped, "M Port in Previous must be unflipped")
-			vew.scn.transform 	= SCNMatrix4(previousWidth-4, 1.5, -2)
+			vew.scn.transform 	= SCNMatrix4(previousWidth-4, 1.5, -2, flip:false)
 		}
-		else if port === ports["N"] {			// Mode 2
+		else if port === ports["N"] {				// Mode 2
 			port.spin 			= 3
 //			port.latitude 		= previousLatchX
 	//		assert(!port.flipped, "N Port in Previous must be unflipped")
@@ -437,6 +434,7 @@ bug;						atDat(4, logd("Mode Port: " + //%% curMode=%-->%",
 		if mode == .line && !aux.bool_("ppParam")  {			//$
 			rv					+= " Prev mode:?" /*self.majorMode + prevMinorModeNames[self.minorMode] + self ppSrc4*/
 		}
+		var xx					= self.minorMode
 		return rv
 	}
 	var ppSrc4 : String {

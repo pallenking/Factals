@@ -629,13 +629,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				rv				+= ", ->" + scn.pp(.fullNameUidClass, aux)
 				return rv
 			case .line:
-				let ppViewOptions = aux.string("ppViewOptions") ?? "UFVSPLETBIW" // Default to ALL
+				let ppViewOptions = aux.string("ppViewOptions") ?? "UF PVS LETBIW" // Default to ALL
 				let ppViewTight = aux.bool_("ppViewTight")
 				func tight<T>(_ a:T, _ b:T) -> T 	{ 	return ppViewTight ? a : b	}
 
 				  // 	(Tight==false:)
 				 //  a68:Ff|    _net0:NetVew  s:  *-net0/2a0 p:  net0/aff:Net   . . . .  o+pI[-0.6-1.5-0.0]     w[-0.6-1.5-100.0] f-2.0< 3.2, -1.1< 4.1, -2.0< 2.0
 				 //  AaaaBbCcDddddddddEeeeeeeFffffffffffGgggHhhIiiiiiJjjjjKkkkkkLlllllllMmmNnnnnnnnnnnnnnnnOoooooooooooooooooooooPpppppppppppppppppppppppppppppppp
+				 //
 				 //  c77:Ff|     _v:Vew      *-v/6a4       v/6a4:Mirror. . . . .  o+IY[y:-0.4]  f=-1.5< 1.5, -1.0< 0.1, -1.5< 1.5
 				 //  AaaaBbCcDddddddEeeeFffffffffGgggHIiiiiiIiiiJKkkkkkLlllllllllMmmNnnnnnnnnnnnPpppppppppppppppppppppppppppppppp
 

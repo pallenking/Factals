@@ -213,7 +213,8 @@ bug;	return rv
 
 	 // MARK: -- Connect LinkVew's [sp]Con2Vew endpoints and constraints:
 	override func reVewPost(vew:Vew) 	{	// Add constraints
-		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
+		guard let linkVew		= vew as? LinkVew
+		 else { 		panic("Link's Vew isn't a LinkVew");return				}
 
 		 // Connect LinkVew to its two end Port's Vew	  // :H: [S/P] CONnectd 2 Vew
 		guard let p	: Vew		= vewConnected(toPortNamed:"P", inViewHier:vew)
@@ -230,8 +231,9 @@ bug;	return rv
 
 				 // 1. Point towards camera:	(UNUSED)
 				let con0 = SCNBillboardConstraint()
-				con0.freeAxes = .Z 			// line 0...uZ					//con0.freeAxes = .Y	// Old way, points end of link away from camera
-				 // 2. Spin only about Y:		(UNUSED)					//con0.freeAxes = .X	// line rotates 2x spin	// Shows nothing
+				con0.freeAxes = .Z 			// line 0...uZ	// Old way, points end of link away from camera	//.Y
+
+				 // 2. Spin only about Y:		(UNUSED)	// line rotates 2x spin	// Shows nothing		//.X
 				let con1 = SCNLookAtConstraint(target:s.scn) // :H: Number (of CONSTRAINTS)
 
 				let nConstraints = 0		// debugging variant. use constraints, else do by hand
@@ -253,12 +255,11 @@ bug;	return rv
 	  // MARK: - 9.2 reSize (position its ends)
 	override func reSize(vew:Vew) {
 		atRsi(8, logd("<><> L 9.2:   \\reSize Link '\(vew.part.fullName)'"))
-		 // This should go in Link.reSkin!
+		 // HELP: dThis should go in Link.reSkin!
 		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link skins picable
 
 		 // Reskin Link's Ports:
-		for (na, port) in ports {
-	//		assert(children.contains(where:port), "Sanity check: Port \(na) not in children[]")
+		for (_, port) in ports {
 			if port.testNReset(dirty:.size) {		// clear Port's dirty size
 				guard let portsVew = vew.find(part:port, maxLevel:1) else {fatalError("Link's Part has no Vew") }
 
@@ -283,8 +284,8 @@ bug;	return rv
 			sLink.name			= name
 			vew.scn.addChild(node:sLink, atIndex:0)
 
-			 // Make the skin. Must be of length:1 in .uZ
-			var sPaint : SCNNode? = nil
+			 // Make a UNIT skin, one of length:1 in .uZ
+			var sPaint:SCNNode? = nil
 			var nPaint			= 0			// Number of materials to create
 			switch linkSkinType {
 			case .invalid:
@@ -298,7 +299,7 @@ bug;	return rv
 				sRay.color0		= .black
 				sLink.addChild(node:sRay)
 			case .dual:
-				 // Add a 1-pixel wide line
+				 // Add a 1-pixel wide line -- for UNIT skin
 				let sRay		= SCNNode(geometry:SCNGeometry.lines(lines:[0,1], withPoints:[.zero, -.uZ]))
 				sRay.name		= "s-Ray"
 				sRay.color0		= .black
@@ -342,62 +343,21 @@ bug;	return rv
 		markTree(dirty:.paint)
 		return .empty						// Xyzzy19e	// Xyzzy44	vsb
 	}
-	 // MARK: - 9.4 rePosition
-	override func rePosition(vew:Vew) {
-//		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
-//
-//		if let(pEndVip,sEndVip) = linkEndPositions(in:linkVew) {
-//			linkVew.pEndVip		= pEndVip
-//			linkVew.sEndVip		= sEndVip
-//			atRsi(8, logd("<><> L 9.4: \\position from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line)) (inParent)"))
-//		}
-	}
+//	 // MARK: - 9.4 rePosition
+//	override func rePosition(vew:Vew) {	}
 
 	 // MARK: -- Set Link's end position
+		 /// A Link's origin is at it's parent's origin. It's P and S mark it's ends from that.
+		 /// Skin "s-Link" displays the two bidirectional opposing values
+		 /// All calculations done in parentVew(.scn)'s coordinate system
 	override func reSizePost(vew:Vew) {				//  find endpoints
 		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
-
-		if let(pEnd,sEnd)		= linkEndPositions(in:linkVew) {
-			linkVew.pEndVip		= pEnd
-			linkVew.sEndVip		= sEnd
-			atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(pEnd.pp(.line)) s=\(sEnd.pp(.line)) (inParent)"))
-		}
-//		guard let (p, s)		= linkEndPositions(in:vew as! LinkVew) else { return }
-//		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line))"))
-	}
-
-
-		// Xyzzy19e
-	 // Position one Link Ports, from its [ps]EndV
-	override func rePosition(portVew:Vew)	{
-bug	// Never USED?
-//		guard let port			= portVew.part as? Port,	// All Link's children should be Ports
-//		  let parentLinkVew		= portVew.parent as? LinkVew else {
-//			panic("rePosition(portVew is confused");	return					}
-//
-//		for (portStr, endVip) in [	("P", parentLinkVew.pEndVip),		// Both Ends
-//									("S", parentLinkVew.sEndVip) ] {
-//			if port == ports[portStr] {
-//				guard let p		= endVip else {
-//					atRsi(3, warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil"))
-//					continue
-//				}
-//				portVew.scn.position = p
-//				atRsi(8, logd("<><> L 9.4\(portStr):  = \(p)"))
-//			}
-//		}
-	}
-	func linkEndPositions(in linkVew:LinkVew) -> (SCNVector3, SCNVector3)? {
-
-		 // All calculations done in parentVew(.scn)'s coordinate system
-		guard let parentVew		= linkVew.parent  else { return	nil				}
-		 // A Link's origin is at it's parent's origin. It's P and S mark it's ends from that.
-		 // Skin "s-Link" displays the two bidirectional opposing values
+		guard let parentVew		= linkVew.parent  else { return	/* no parent, do nothing*/}
 
 		  // :H: CONnected to_2_,			// Vew or Port that Link's S/P Port is connected to
 		 //  :H: _S_ port, _P_ port, 		// ends of link
 		guard let pCon2Port 	= linkVew.pCon2Vew.part as? Port,
-		  let sCon2Port : Port	= linkVew.sCon2Vew.part as? Port else {	return nil }
+		  let sCon2Port : Port	= linkVew.sCon2Vew.part as? Port else {	return	}
 
 		  // :H: conSpot; scn_V_ector3; scn_F_loat
 		 //  :H: CONnnected to(2)
@@ -418,6 +378,7 @@ bug	// Never USED?
  		let  pCon2VIp 			= pCon2SIp.center	// e.g: p9/t1.P // SCNVector3(0,2,0)
 		 let sCon2VIp			= sCon2SIp.center	// e.g: p9/t3.P // SCNVector3(0,0,-2)
 		assertWarn(!(pCon2VIp.isNan || sCon2VIp.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
+
 /**/	linkVew.bBox			= BBox(pCon2VIp, sCon2VIp)
 
 		   // - - - Now all furthur computations are in    _IN  PARENT  VIEW_    - - -
@@ -430,10 +391,10 @@ bug	// Never USED?
 		let desiredRadii		= pR + sR
 
 		 // Many degenerate cases land here
-//		if desiredRadii < eps {
-//			assert(pR<eps && sR<eps, "paranoia")
-//			unitRay				= .zero				// observe no radius
-//		}
+		if desiredRadii < eps {
+			assert(pR<eps && sR<eps, "paranoia")
+			unitRay				= .zero				// observe no radius
+		}
 		if desiredRadii > lCentL {			// Centers are too close for both balls
 			unitRay				*=   desiredRadii / lCentL
 		}
@@ -441,12 +402,36 @@ bug	// Never USED?
 		let p					= pCon2VIp + pR * unitRay	// position
 		let pVew				= linkVew.find(name:"_P", maxLevel:1)!
 /**/	pVew.scn.position		= p							// -> Port
+		linkVew.pEndVip			= p
 
 		 // Position "S" Port
 		let s					= sCon2VIp - sR * unitRay
 		let sVew				= linkVew.find(name:"_S", maxLevel:1)!
 /**/	sVew.scn.position		= s
-		return (p, s)
+		linkVew.sEndVip			= s
+
+		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)"))
+	}
+
+		// Xyzzy19e
+	 // Position one Link Ports, from its [ps]EndV
+	override func rePosition(portVew:Vew)	{
+bug	// Never USED?
+//		guard let port			= portVew.part as? Port,	// All Link's children should be Ports
+//		  let parentLinkVew		= portVew.parent as? LinkVew else {
+//			panic("rePosition(portVew is confused");	return					}
+//
+//		for (portStr, endVip) in [	("P", parentLinkVew.pEndVip),		// Both Ends
+//									("S", parentLinkVew.sEndVip) ] {
+//			if port == ports[portStr] {
+//				guard let p		= endVip else {
+//					atRsi(3, warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil"))
+//					continue
+//				}
+//				portVew.scn.position = p
+//				atRsi(8, logd("<><> L 9.4\(portStr):  = \(p)"))
+//			}
+//		}
 	}
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces

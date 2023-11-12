@@ -86,7 +86,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		rootVew.configure(from:fwConfig)					// 4. Configure Part
 		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
 		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
-		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe
+		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
 		rootVew.setupLightsCamerasEtc()						// ?move
 		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
 		atBld(5, logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))

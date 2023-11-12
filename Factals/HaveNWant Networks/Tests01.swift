@@ -1353,25 +1353,26 @@ r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + [
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
 })
-xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
-//	Net(["placeMy":"stacky", parts:[
+xr("- no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	Net([parts:[
+		Hamming([P:["a.T"], jog:"-1"]), // +-ST
+		Previous([n:"a"]),
+	] ])
+})
+//		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+//			"parts":[
+//				Hamming([P:["a.-="], jog:"0 0 0"]), // +-ST
+//			],
+//			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward"], ["struc": ["a"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+//		]),
+r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0, "placeMy":"linky",
 			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", f:1]),
 				Hamming([P:"bkw", f:1]),
-//	//			Hamming([share:["a.+"], f:1]),
-//				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
-//				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
-//				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
-//				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
-//				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
-//				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
 			],
-//			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a","b","c"]]), //,"b","c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 		])
-//		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
-//	] ])
 })
 r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,

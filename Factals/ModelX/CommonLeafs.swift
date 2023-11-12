@@ -208,6 +208,7 @@ extension Leaf {	/// Generate Common Leafs
  // -------- Previous -------------------------------------------------------
 		case .genPrev:
 			self.init(of:leafKind, 
+				//let bPrevPM =    ["":"prev.S", "+":"prev.S", "-":"prev.T"					]
 				bindings:bPrevPM + ["G":"gen.P", "R":"prev.L"], parts:[
 					Previous(["n":"prev", "P":"gen=", "placeMe":"linky"] + etc3),
 		 			GenAtom([ "n":"gen",  "f":1]		+ etc2),
