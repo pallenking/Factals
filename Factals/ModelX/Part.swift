@@ -582,7 +582,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	func ancestorThats(childOf child:Part) -> Part? {
 		for part in selfNParents {
 			if part.parent === child {
-//			if part.parent == child {
 				return part
 			}
 		}

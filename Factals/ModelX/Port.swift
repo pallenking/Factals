@@ -468,6 +468,65 @@ class Port : Part, PortTalk {
 		} //while openVew != inVew			// we have not found desired Vew
 		return rv
 	}
+	func portConSpotX(inVew vew:Vew) -> ConSpot {									//- (Hotspot) hotspotOfPortInView:(View *)refView; {
+		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
+		var rv	: ConSpot		= basicConSpot()		// in parent's coords
+		let aux					= params4pp				//log.params4aux
+
+		  // H: SeLF, ViEW, World Position
+		 // If atomized, up for a visible Vew:
+		var conSpotsVew : Vew?	= vew.find(part:openParent, me2:true)
+		while conSpotsVew == nil, 						// we have no Vew yet
+			  let p				= openParent.parent {// but we do have a parent
+			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew"))
+			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
+			openParent			= p
+			conSpotsVew			= vew.find(part:openParent, me2:true)
+			rv					= .zero
+		}
+		guard var conSpotsVew else {
+			panic("No Vew could be found for Part \(self.fullName)) in its parents")
+			return rv
+		}
+		// ---- Now rv contain's self's portConSpot, in conSpotsVew ----
+		
+		var worldPosn			= ""
+		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
+		if let rootScn			= vew.rootVew?.scn, enaPpWorld {
+			worldPosn			= "w" + conSpotsVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
+		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "	
+		atRsi(8, conSpotsVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
+
+		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
+		 //
+		let rootScn				= conSpotsVew.rootVew!.scn
+		for openVew in conSpotsVew.selfNParents {								// while openVew != vew {
+			 // my transform (in parent)
+			let scn				= openVew.scn
+			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
+
+			 // Update rv (from self to parent):
+			let localT			= activeScn.transform
+			rv.center			= localT * rv.center					// (SCNVector3)
+			rv.radius			= length(localT.m3x3 * .uY) * rv.radius	// might be scaling
+			rv.exclude			= rv.exclude==nil ? openVew.bBox * localT :
+								 (rv.exclude! * localT | openVew.bBox * localT)
+
+			let wpStr 			= !enaPpWorld ? "" :
+								  "w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
+
+//			 // HIghest part self is a part of..	From Long Ago...
+//			let hiPart  		= ancestorThats(childOf:openVew.part)!			// commonVew
+//			let hiVew 			= openVew.find(part:hiPart)!					// commonVew
+//			let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform
+
+			 // move to parent:
+			//guard openVew.parent != nil else {				break				}
+			//openVew			= openVew.parent!
+			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(localT.pp(.phrase)))"))
+		} //while openVew != inVew			// we have not found desired Vew
+		return rv
+	}
 
 	   /// Find the Peak Spot of me (my Vew) in vew
 	  /// - Parameter inVew: -- coordinate system of returned point
