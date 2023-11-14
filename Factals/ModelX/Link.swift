@@ -343,16 +343,16 @@ bug;	return rv
 		markTree(dirty:.paint)
 		return .empty						// Xyzzy19e	// Xyzzy44	vsb
 	}
-//	 // MARK: - 9.4 rePosition
-//	override func rePosition(vew:Vew) {	}
-
-	 // MARK: -- Set Link's end position
+	 // MARK: - 9.4 rePosition
+	 // Set Link's end position
 		 /// A Link's origin is at it's parent's origin. It's P and S mark it's ends from that.
 		 /// Skin "s-Link" displays the two bidirectional opposing values
 		 /// All calculations done in parentVew(.scn)'s coordinate system
 	override func reSizePost(vew:Vew) {				//  find endpoints
+		let aux					= params4pp				//log.params4aux
 		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
 		guard let parentVew		= linkVew.parent  else { return	/* no parent, do nothing*/}
+		linkVew.scn.position	= .zero
 
 		  // :H: CONnected to_2_,			// Vew or Port that Link's S/P Port is connected to
 		 //  :H: _S_ port, _P_ port, 		// ends of link
@@ -363,10 +363,8 @@ bug;	return rv
 		 //  :H: CONnnected to(2)
 		var pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
 		 var sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
-//		pCon2SIp.center.y		= 2
-//		sCon2SIp.center.y		= 5
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
-		atRsi(4, vew.log("<<===== reSizePost, found pCon2SIp=\(pCon2SIp.center.pp(.line)), s=\(sCon2SIp.center.pp(.line))"))
+		atRsi(4, vew.log("<<===== reSizePost, found pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))"))
 
 		 // Center point of each end, in world coordinates
 		// :H: _CENT_er					// of spot
@@ -513,7 +511,7 @@ bug	// Never USED?
 			var m				= SCNMatrix4.identity
 			if fLen > eps {
 				let f			= f1 / fLen
-				let g1			= -f    .crossProduct(deltaV)// f x delta
+				let g1			= -f.crossProduct(deltaV)// f x delta
 				let g			= g1 / length(g1)
 				m				= SCNMatrix4(row1v3:f, row2v3:g, row3v3:-deltaV, row4v3:pEndVip)	// print("a:\(a.pp(.line))--d:\(delta.pp(.line))-> cam:\(camera.pp(.line)),\nf:\(f.pp(.line)), g:\(g.pp(.line)), m:\n\(m.pp(.tree))")
 			}; assert(!m.isNan, "Transformation of Link failed")

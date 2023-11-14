@@ -137,7 +137,7 @@ class MaxOr : Splitter {	//##################################################
 class MaxOrSh : Share {	//#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	override func basicConSpot() -> ConSpot {
 		let r					= super.radius
-		return ConSpot(center:SCNVector3(0, r/2, 0), radius:1*r)
+		return ConSpot(center:SCNVector3(0, 0, 0), radius:1.5*r)	//
 	}
 }
 
@@ -172,7 +172,9 @@ class MinAnd : Splitter { //####################################################
 }  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 class MinAndSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	override func basicConSpot() -> ConSpot {	 // look at particular type of share:
-		return ConSpot(radius:0.5 * super.radius)	//, inset:0.5*r	// return plitterSkinSize(3*r,2*r,3*r,  0.5*r, 0.5*r)	//4*r,2*r,4*r
+		let r					= super.radius
+		return ConSpot(center:SCNVector3(0, -r/2, 0), radius:r)
+//		return ConSpot(radius:0.5 * super.radius)	//, inset:0.5*r	// return plitterSkinSize(3*r,2*r,3*r,  0.5*r, 0.5*r)	//4*r,2*r,4*r
 	}
 }
 
@@ -238,8 +240,7 @@ class HammingSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	override func bid() -> Float	{		return 1							}
 	override func basicConSpot() -> ConSpot {	 // look at particular type of share:
 		let r					= radius
-		return ConSpot(center:SCNVector3(0, 0.5*r, 0), radius:1*r)		//1
-//		return ConSpot(center:SCNVector3(0, 1*r, 0), radius:1*r)		//1
+		return ConSpot(center:SCNVector3(0, -0.5*r, 0), radius:r)
 	}
 }
 

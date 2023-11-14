@@ -408,7 +408,8 @@ class Port : Part, PortTalk {
 	  /// The con2 spot of a Port, in it's coordinates (not it's parent Atom's nay more 20200810)
 	 /// (Highly overriden)
 	func basicConSpot() -> ConSpot {
-		return ConSpot(center:SCNVector3(0, -radius, 0), radius:0)
+		return ConSpot(center:.zero, radius:0)
+//		return ConSpot(center:SCNVector3(0, -radius, 0), radius:0)
 	}
 	 /// Convert self.portConSpot to inVew
 	 // OLD WAY:

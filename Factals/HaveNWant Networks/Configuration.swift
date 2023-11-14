@@ -63,7 +63,7 @@ private let params4appLog		= params4pp + params4logs_
 	"ppScnBBox"			: false, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
-	"ppXYZWena"  		: "Y",//"XYZ"// disable some dimensions //"XYZW"//
+	"ppXYZWena"  		: "Y",//"XYZ"	// disable some dimensions //"XYZW"//
 				// Column Usage:
 	"ppViewTight"		: false, 	// better for ascii text //false//true
 	"ppBBoxCols"		: 28,		// columns printout for bounding boxs//32//24
