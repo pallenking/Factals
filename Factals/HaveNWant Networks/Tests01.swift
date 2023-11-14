@@ -1355,7 +1355,7 @@ r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + [
 })
 xr("- no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
-		Hamming([P:["a.T"], jog:"-1 0 1"]), // +-ST
+		Hamming([P:["a.T"], jog+X:"-1 0 1"]), // +-ST
 		Previous([n:"a"]),
 	] ])
 })

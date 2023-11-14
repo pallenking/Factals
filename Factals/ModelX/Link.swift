@@ -361,9 +361,12 @@ bug;	return rv
 
 		  // :H: conSpot; scn_V_ector3; scn_F_loat
 		 //  :H: CONnnected to(2)
-		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
+		var pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
 		 var sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
+//		pCon2SIp.center.y		= 2
+//		sCon2SIp.center.y		= 5
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
+		atRsi(4, vew.log("<<===== reSizePost, found pCon2SIp=\(pCon2SIp.center.pp(.line)), s=\(sCon2SIp.center.pp(.line))"))
 
 		 // Center point of each end, in world coordinates
 		// :H: _CENT_er					// of spot

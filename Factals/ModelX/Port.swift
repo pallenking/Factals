@@ -411,11 +411,15 @@ class Port : Part, PortTalk {
 		return ConSpot(center:SCNVector3(0, -radius, 0), radius:0)
 	}
 	 /// Convert self.portConSpot to inVew
-	func portConSpot(inVew vew:Vew) -> ConSpot {									//- (Hotspot) hotspotOfPortInView:(View *)refView; {
+	 // OLD WAY:
+	func portConSpot(inVew vew:Vew) -> ConSpot {
+		return portConSpotNEW(inVew:vew)
+	}
+	func portConSpotOLD(inVew vew:Vew) -> ConSpot {
 		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
 		var rv	: ConSpot		= basicConSpot()		// in parent's coords
 		let aux					= params4pp				//log.params4aux
-
+print("---------- portConSpotOLD")
 		// H: SeLF, ViEW, World Position
 		// AVew will not exist when it (and its parents) are atomized.
 		// Search upward thru its parents for a visible Vew
@@ -468,63 +472,61 @@ class Port : Part, PortTalk {
 		} //while openVew != inVew			// we have not found desired Vew
 		return rv
 	}
-	func portConSpotX(inVew vew:Vew) -> ConSpot {									//- (Hotspot) hotspotOfPortInView:(View *)refView; {
-		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
-		var rv	: ConSpot		= basicConSpot()		// in parent's coords
+	 // NEW WAY
+	func portConSpotNEW(inVew vew:Vew) -> ConSpot {								//- (Hotspot) hotspotOfPortInView:(View *)refView; {
 		let aux					= params4pp				//log.params4aux
+		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
+print("---------- \(vew.pp(.fullName)).portConSpotNEW")
 
-		  // H: SeLF, ViEW, World Position
+		  // H: SeLF, ViEW, World Position, ConSpot
 		 // If atomized, up for a visible Vew:
-		var conSpotsVew : Vew?	= vew.find(part:openParent, me2:true)
-		while conSpotsVew == nil, 						// we have no Vew yet
+		var rv	: ConSpot		= basicConSpot()	// in parent's coords
+		// :H: find VEW where ConSpot VISible		// Is it inside of openParent
+		var csVisVew : Vew?		= vew.find(part:self, me2:true)					//openParent
+		while csVisVew == nil, 						// we have no Vew yet
 			  let p				= openParent.parent {// but we do have a parent
 			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew"))
 			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
 			openParent			= p
-			conSpotsVew			= vew.find(part:openParent, me2:true)
+			csVisVew			= vew.find(part:openParent, me2:true)
 			rv					= .zero
 		}
-		guard var conSpotsVew else {
+		guard let csVisVew else {
 			panic("No Vew could be found for Part \(self.fullName)) in its parents")
 			return rv
 		}
-		// ---- Now rv contain's self's portConSpot, in conSpotsVew ----
+		// ---- Now rv contain's self's portConSpot in conSpotsVew ----
 		
 		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
 		if let rootScn			= vew.rootVew?.scn, enaPpWorld {
-			worldPosn			= "w" + conSpotsVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
+			worldPosn			= "w" + csVisVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "	
-		atRsi(8, conSpotsVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
+		atRsi(8, csVisVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 
 		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
 		 //
-		let rootScn				= conSpotsVew.rootVew!.scn
-		for openVew in conSpotsVew.selfNParents {								// while openVew != vew {
-			 // my transform (in parent)
+		let rootScn				= csVisVew.rootVew!.scn
+		for openVew in csVisVew.selfNParents {								// while openVew != vew {
+			guard openVew != vew else 	{				break					}
 			let scn				= openVew.scn
 			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
 
-			 // Update rv (from self to parent):
-			let localT			= activeScn.transform
-			rv.center			= localT * rv.center					// (SCNVector3)
-			rv.radius			= length(localT.m3x3 * .uY) * rv.radius	// might be scaling
-			rv.exclude			= rv.exclude==nil ? openVew.bBox * localT :
-								 (rv.exclude! * localT | openVew.bBox * localT)
-
-			let wpStr 			= !enaPpWorld ? "" :
-								  "w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
-
+			 // Update rv by :H: Local TRANSformation, from self to parent:
+			let lTrans			= activeScn.transform
+			rv.center			= lTrans * rv.center					// (SCNVector3)
+			rv.radius			= length(lTrans.m3x3 * .uY) * rv.radius	// might be scaling
+			rv.exclude			= rv.exclude==nil ? openVew.bBox * lTrans :
+								 (rv.exclude! * lTrans | openVew.bBox * lTrans)
 //			 // HIghest part self is a part of..	From Long Ago...
 //			let hiPart  		= ancestorThats(childOf:openVew.part)!			// commonVew
 //			let hiVew 			= openVew.find(part:hiPart)!					// commonVew
 //			let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform
 
-			 // move to parent:
-			//guard openVew.parent != nil else {				break				}
-			//openVew			= openVew.parent!
-			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(localT.pp(.phrase)))"))
-		} //while openVew != inVew			// we have not found desired Vew
+			let openWPosn		= openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux)
+			let wpStr 			= !enaPpWorld ? "" :  "w\(openWPosn) "
+			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))"))
+		}
 		return rv
 	}
 
@@ -532,11 +534,10 @@ class Port : Part, PortTalk {
 	  /// - Parameter inVew: -- coordinate system of returned point
 	 /// - Returns: Point to connect to
 	/// :H: InCommon
-	func peakSpot(inVew:Vew, openingUp:Bool) -> SCNVector3 {
+	func peakSpot(inVew vew:Vew, openingUp:Bool) -> SCNVector3 {
 																				//bool dn = (openingUp =) [self downInPart:commonView.part];
-		assert(inVew.part !== self, "Vew must contain self's Vew, not be it")
-//		assert(inVew.part != self, "Vew must contain self's Vew, not be it")
-		let spotIC				= portConSpot(inVew:inVew)					//Hotspot hs = [self hotspotOfPortInView:commonView];
+		assert(vew.part !== self, "Vew must contain self's Vew, not be it")
+		let spotIC				= portConSpot(inVew:vew)					//Hotspot hs = [self hotspotOfPortInView:commonView];
 		var rv					= spotIC.center
 		let exclude				= spotIC.exclude
 		if openingUp {		// want largest upper value:
@@ -546,7 +547,7 @@ class Port : Part, PortTalk {
 			rv.y				-= spotIC.radius	// assume straight down
 			rv.y				= min(rv.y, exclude?.min.y ?? rv.y) // Exclude zone too?
 		}
-		atRsi(8, inVew.log("rv:\(rv.pp(.short)) returns peakSpot"))
+		atRsi(8, vew.log("rv:\(rv.pp(.short)) returns peakSpot"))
 		return rv
 	}
 
