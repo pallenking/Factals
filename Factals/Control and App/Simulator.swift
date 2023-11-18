@@ -19,7 +19,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	 /// Enable simulation task to run:																					//
 	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
 		didSet {
-			if simBuilt {
+			if simBuilt && !simTaskRunning {
 				simTaskRunning	= false		// (so startSimulationTask notices)
 				startSimulationTask()		// try irrespect~ of simTaskRunning
 			}
@@ -56,7 +56,8 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 			let taskPeriod		= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod") ?? 0.01
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
 			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
-		}else{
+		}
+		else {
 			stopSimulationTask()				// ?? Perhaps wrong
 		}
 	}
@@ -96,12 +97,8 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation
 	func configure(from c:FwConfig) {
-		if let se				= c["simEnabled"] {
-			if let simEn		= se as? Bool {
-				simEnabled 		= simEn
-			}else{
-				panic("simEnabled:\(se.pp(.line)) is not Bool")
-			}
+		if let se				= c.bool("simEnabled") {
+/**/		simEnabled 			= se			// set or reset
 		}
 		if let tStep			= c.float("simTimeStep") {
 			simTimeStep 		= tStep

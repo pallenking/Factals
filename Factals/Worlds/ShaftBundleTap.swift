@@ -61,7 +61,8 @@ class ShaftBundleTap : BundleTap { //Generator {
 	func eventReady() -> String? {	return nil									}
 	override func loadTargetBundle(event:FwwEvent) {fatalError("Not implemented") }
 
-	/*override*/ func simulateDown(up upLocal:Bool) {
+	override func simulate(up upLocal:Bool) {
+//	/*override*/ func simulateDown(up upLocal:Bool) {
 
 		super.simulate(up:upLocal)	// step super FIRST
 

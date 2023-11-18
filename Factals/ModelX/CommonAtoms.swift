@@ -199,27 +199,33 @@ class Mirror : Atom {
 			}
 		}
 	}
-	 // MARK: - 11. 3D Display
-	override func typColor(ratio:Float) ->  NSColor {
-		let inside				=  NSColor(0.7, 0.7, 0.7,  1)
-		let outside				=  NSColor(0.7, 0.7, 0.7,  1)
-		return NSColor(mix:inside, with:ratio, of:outside)
-	}
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat		{ 		return 0.6										}
 	var size   : CGFloat		{ 		return 3.0										}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn.find(name:"s-Mir") ?? {
+		let name 				= "s-Mir"
+		let scn					= vew.scn.find(name:name) ?? {
 			let scn				= SCNNode()
 			vew.scn.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Mir"
-
+			scn.name			= name
 			scn.geometry		= SCNBox(width:size, height:height, length:size, chamferRadius:0.2)
 			scn.position 		= SCNVector3(0, height/2, 0)
 			scn.color0			= .orange
 			return scn
 		} ()
 		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
+	}
+	 // MARK: - 11. 3D Display
+	override func typColor(ratio:Float) ->  NSColor {
+		let inside				=  NSColor(0.7, 0.7, 0.7,  1)
+		let outside				=  NSColor(0.7, 0.7, 0.7,  1)
+		return NSColor(mix:inside, with:ratio, of:outside)
+	}
+	 // MARK: -  15. PrettyPrint
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+		var rv 					= super.pp(mode, aux)
+		guard  mode == .line && !aux.bool_("ppParam") 	else { 	return rv		}
+		return rv + "gain:\(gain), offset:\(offset)"
 	}
 }
 

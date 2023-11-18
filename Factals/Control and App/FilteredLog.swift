@@ -96,6 +96,9 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 			log.msgPriority		= verbos
 			action()							// Execute the action closure
 		}
+		else {
+			print("------------ IGNORED -------------")
+		}
 	}
 	else {										// always do if missing verbosity
 		print("!!: ", terminator:"")

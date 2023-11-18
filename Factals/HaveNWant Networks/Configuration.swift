@@ -33,8 +33,8 @@ var params4all		: FwConfig		= {	return
    // MARK: - B: Parameters App logging
   // Controls logging of the Application
  // Terms in FilterLog.swift
-let appLogN						= 8//0//5//8//
-let docLogN						= 8//0//5//8//
+let appLogN						= 9//0//5//8//
+let docLogN						= 9//0//5//8//
 var params4reliableLog:FwConfig	= log(all:appLogN)//8)//0)//
  // This must contain NO log statements!
 

@@ -9,12 +9,12 @@ import SceneKit
 
 class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	weak
-	 var factalsModel 	:  FactalsModel!				// Owner
-	var rootScene 	:  RootScene = .nullRoot// HOAKEY!!			// Master 3D Tree
-	var nsView		:  NSView? = nil		// View displaying
+	 var factalsModel :  FactalsModel!		// Owner
+	var rootScene 	: RootScene = .nullRoot	// HOAKEY!!			// Master 3D Tree
+	var nsView		: NSView?	= nil		// View displaying
 
 	@Published var selfiePole	= SelfiePole()
- 	var cameraScn	: SCNNode?	{ scn.find(name:"*-camera") }
+ 	var cameraScn	: SCNNode?	{ scn.find(name:"*-camera", maxLevel:1) }
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks
@@ -225,7 +225,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	//		pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
 			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
 		}
-		let unlockName			= named == nil ? nil :	// no lock wanted
+		let unlockName			= named == nil ? nil :			// no lock wanted
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()

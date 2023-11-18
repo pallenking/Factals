@@ -194,9 +194,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			localConfig["spin"] = nil
 		}
 
-//		if type(of:self) == Part.self && localConfig["parts"] != nil {
-//			panic("key 'parts' can only be used in Atoms, not Parts")
-//		}
 		if let a 				= localConfig["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
 			localConfig["parts"] = nil

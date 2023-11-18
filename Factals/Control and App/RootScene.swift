@@ -286,8 +286,8 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 	func checkCamera() {
 		let name				= "*-camera"
-		if rootNode.find(name:name) == nil {
-			 // Make new camera system:
+		let camNode				= rootNode.find(name:name, maxLevel:1) ?? { // use old
+			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
@@ -313,20 +313,21 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 				let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
 				camera.orthographicScale = orthoScale
 			}
-	//		// Check the condition to determine the camera mode
-	//		if false {
-	//			// Perspective mode
-	//			camera.usesOrthographicProjection = false
-	//			camera.zNear 	= 0.1 	// 1    Set the near clipping distance
-	//			camera.zFar 	= 1000	// 100  Set the far clipping distance
-	//			camera.fieldOfView = 60	// Set the field of view, in degrees
-	//		} else {
-	//			// Orthographic mode
-//	//			camera.usesOrthographicProjection = true
-	//			let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
-	//			camera.orthographicScale = orthoScale
-	//		}
-		}
+			// // Check the condition to determine the camera mode
+			//if false {
+			//	// Perspective mode
+			//	camera.usesOrthographicProjection = false
+			//	camera.zNear 	= 0.1 	// 1    Set the near clipping distance
+			//	camera.zFar 	= 1000	// 100  Set the far clipping distance
+			//	camera.fieldOfView = 60	// Set the field of view, in degrees
+			//} else {
+			//	// Orthographic mode
+//			//	camera.usesOrthographicProjection = true
+			//	let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
+			//	camera.orthographicScale = orthoScale
+			//}
+			return rv
+		}()
 		//	camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
 		//	camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
 		//	camera.exposureAdaptationDarkeningSpeedFactor = 1

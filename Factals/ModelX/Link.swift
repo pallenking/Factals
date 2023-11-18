@@ -63,10 +63,10 @@ class Link : Atom {
 					config["t"]				??		// shorter name
 					"dual"							// default
 		guard let skinTypeString = skinTypeAny as? String,
-		  let type				= LinkSkinType(rawValue:skinTypeString) else {
+		  let stStr				= LinkSkinType(rawValue:skinTypeString) else {
 			fatalError("Configuration for 'linkSkinType', 'type' or 't' has illegal value '\(skinTypeAny.pp())'")
 		}
-		linkSkinType 			= type
+		linkSkinType 			= stStr
 
 		super.init(config) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
@@ -482,6 +482,8 @@ bug	// Never USED?
 		guard let rootVew		= vew.rootVew,
 		 	  let cameraScn		= rootVew.cameraScn else {
 			print("############ rotateLinkSkins can't find camera #######")
+			let rootVew			= vew.rootVew
+			let cameraScn		= rootVew?.cameraScn
 			return
 		}
 //		guard let rootScn		= vew.rootVew?.rootScn else {
