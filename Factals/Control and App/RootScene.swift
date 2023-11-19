@@ -575,16 +575,17 @@ enum FwNodeCategory : Int {
 extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
-//			atRsi(8, self.logd("\n<><><> 9.5.1: Update At Time       -> updateVewSizePaint"))
+			atRsi(8, self.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
 			let rVew			= self.rootVew!
 			rVew.lockBoth("updateAtTime")
 			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:false)		//false//true
 			rVew.unlockBoth("updateAtTime")
+			atRsi(8, self.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
 			let rVew			= self.rootVew!
 			rVew .lockBoth("didApplyAnimationsAtTime")
 //			rVew .part.computeLinkForces(vew:rVew)
@@ -593,7 +594,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
 			let rVew			= self.rootVew!
 			rVew.lockBoth("didSimulatePhysicsAtTime")
 //			rVew.part.applyLinkForces(vew:rVew)
@@ -602,7 +603,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
 			let rVew			= self.rootVew!
 			rVew.lockBoth("willRenderScene")
 			rVew.part.rotateLinkSkins(vew:rVew)

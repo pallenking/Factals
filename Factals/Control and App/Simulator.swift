@@ -71,8 +71,8 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	}
 	 /// Simulation Task auto-repeats once called
 	@objc func simulationTask() {
-		guard simBuilt				else {	return panic("calling for simulationTask() before simBuilt") }
-		guard simEnabled			else {	return 								}
+		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
+		guard simEnabled	else {	return 										}
 		if let rp : RootPart	= rootPart  {
 
 			// semaphore:
@@ -103,6 +103,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		if let tStep			= c.float("simTimeStep") {
 			simTimeStep 		= tStep
 		}
+//		logSimLocks				= c.bool("logSimLocks") ?? false
 		if let pst				= c.bool("logSimLocks") {
 			logSimLocks	 		= pst
 		}

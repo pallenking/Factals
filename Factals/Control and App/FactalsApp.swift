@@ -178,8 +178,8 @@ struct FactalsApp: App, Uid, FwAny {
 		sceneMenus 				= buildSceneMenus()
 
 		atApp(3, {
-			log("AppDelegate(\(c.pp(PpMode.line).wrap(min: 13, cur:13, max: 100))), " +
-						  "verbosity:[\(log.ppVerbosityOf(c).pp(.short))])")
+			log("FactalsApp(\(c.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
+			log("verbosity:[\(log.ppVerbosityOf(c).pp(.short))])")
 
 			   // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김
 			  // ⌘:apple, ⏎:enter
@@ -193,7 +193,7 @@ struct FactalsApp: App, Uid, FwAny {
 		atApp(3, {
 			log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 			log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n")
-			printFwState()
+			// printFwState()	causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 		}() )
 	}
 

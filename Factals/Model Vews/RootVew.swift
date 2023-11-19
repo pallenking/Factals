@@ -74,10 +74,10 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	 // MARK: - 4? locks
 	func lockBoth(_ msg:String) {
 		guard rootPart.lock(partTreeAs:msg, logIf:false) else {fatalError(msg+" couldn't get PART lock")}
-		guard lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
+		guard          lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
 	}
 	func unlockBoth(_ msg:String) {
-		unlock(vewTreeAs: msg, logIf:false)
+		unlock(vewTreeAs:          msg, logIf:false)
 		rootPart.unlock(partTreeAs:msg, logIf:false)
 	}
 	 // MARK: - 4.? Vew Locks
@@ -149,8 +149,8 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let factalsModel		= part.root?.factalsModel else {	fatalError("Paranoia 29872") }
-		guard let factalsModel2		= rootVew?  .factalsModel else {	fatalError("Paranoia 23872") }
+		guard let factalsModel	= part.root?.factalsModel else { fatalError("Paranoia 29872") }
+		guard let factalsModel2	= rootVew?  .factalsModel else { fatalError("Paranoia 23872") }
 		assert(factalsModel === factalsModel2, "Paranoia i5205")
 		var needsViewLock		= named		// nil if lock obtained
 		let vRoot				= self
@@ -221,8 +221,8 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 /**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
-	//		pRoot.computeLinkForces(vew:vRoot) 		// Compute Forces (.force == 0 initially)
-	//		pRoot  .applyLinkForces(vew:vRoot)		// Apply   Forces (zero out .force)
+			//pRoot.computeLinkForces(vew:vRoot)	// Compute Forces (.force == 0 initially)
+			//pRoot  .applyLinkForces(vew:vRoot)	// Apply   Forces (zero out .force)
 			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
 		}
 		let unlockName			= named == nil ? nil :			// no lock wanted
@@ -230,7 +230,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
 		for rootVew in factalsModel.rootVews {
-			rootVew.unlock(vewTreeAs:unlockName, logIf:log)	// Release VIEW LOCK
+			rootVew.unlock(vewTreeAs:unlockName, logIf:log)		// Release VIEW LOCK
 		}
 	}
 

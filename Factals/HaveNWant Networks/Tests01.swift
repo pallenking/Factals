@@ -900,11 +900,11 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
 ]]) })
 	 xxr("- Multiple SCNViews", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
 
-	 		"Vews":[VewConfig.openAllChildren(toDeapth:4),
-					VewConfig.openAllChildren(toDeapth:4)],
-	 	//	"Vew0":VewConfig.openAllChildren(toDeapth:4),
+	 		"Vew0":VewConfig.openAllChildren(toDeapth:4),
 	 	//	"Vew1":VewConfig.openAllChildren(toDeapth:4),
 //	 		"Vew2":VewConfig.openAllChildren(toDeapth:4),
+	 		"Vews":[VewConfig.openAllChildren(toDeapth:4),
+					VewConfig.openAllChildren(toDeapth:4)],
 
 	 		"gapLinkFluff":3,
 	 		], {Net([placeMy:"linky", parts:[	//stacky
@@ -989,7 +989,7 @@ r("-debug link as t:tube", eXYtight+log(ser:0,dat:5,eve:5)+selfiePole(h:0,s:-48,
 ]]) })
 
 
-xxr("-Link length bad", eSim + eXYtight + selfiePole(s:0,u:0) + vel(-9) + ["ppViewOptions":"UFVTBW", "gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+xr("-Link length bad", eSimX + eXYtight + selfiePole(s:0,u:0) + vel(-9) + ["ppViewOptions":"UFVTBW", "gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 	Hamming([n:"g", share:["a"], f:1, jog:"4 0 0"]),	// share:L2("t6",["l":2])
 	Mirror( [n:"a", "gain":0,"offset":1, "con":1, 	 f:1]),
 ]]) })
@@ -1390,7 +1390,7 @@ r("- con bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["w
 	] ])
 ] ]) })
 
-xr("- no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {
+xxr("- FIXED: no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {
 	Net([parts:[
 		Hamming([P:["a.T,l:2"], jog:"1 0 0"]), // +-ST
 		Previous([n:"a"]),
