@@ -387,7 +387,7 @@ r("+ Splitters family portrait", eXYtight + ["ppXYZMaskX":7] + selfiePole(s:45,u
 	KNorm(			[n:"g"]),		Sequence(		[n:"h"]),
 	Bulb(			[n:"i"]),
 ]]) })
-xxr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
+xr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
 	Net([placeMy:"stacky -1 -1", parts:[
 		Net([placeMy:"stackz -1 -1", parts:[
 			Leaf(.nil_, 	[n:"a"]),
@@ -989,7 +989,7 @@ r("-debug link as t:tube", eXYtight+log(ser:0,dat:5,eve:5)+selfiePole(h:0,s:-48,
 ]]) })
 
 
-xr("-Link length bad", eSimX + eXYtight + selfiePole(s:0,u:0) + vel(-9) + ["ppViewOptions":"UFVTBW", "gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
+r("-Link length bad", eSimX + eXYtight + selfiePole(s:0,u:0) + vel(-9) + ["ppViewOptions":"UFVTBW", "gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 	Hamming([n:"g", share:["a"], f:1, jog:"4 0 0"]),	// share:L2("t6",["l":2])
 	Mirror( [n:"a", "gain":0,"offset":1, "con":1, 	 f:1]),
 ]]) })
