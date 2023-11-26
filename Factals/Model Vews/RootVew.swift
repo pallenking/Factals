@@ -104,7 +104,8 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
 			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :	// immediate but noisy printout
 							  nop
-                               			fatalError(msg)	// for debug only
+			print("rootVewOwner=\(rootVewOwner), rootVewOwnerPrev=\(rootVewOwnerPrev)")
+			fatalError(msg)	// for debug only
 		}
 
 		 // === Succeeded:
@@ -170,12 +171,15 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard let factalsModel = part.root?.factalsModel else {	fatalError("### part.root?.factalsModel is nil ###")		}
 
-						 // Lock  _ALL_  root Vews:
-						for rootVew in factalsModel.rootVews {
-							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
-								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "<nil>")') FAILED to get it")
-							}
+						guard lock(vewTreeAs:viewLockName, logIf:log) else {
+							fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "<nil>")') FAILED to get it")
 						}
+						 // Lock  _ALL_  root Vews:
+//						for rootVew in factalsModel.rootVews {
+//							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
+//								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "<nil>")') FAILED to get it")
+//							}
+//						}
 						viewLockName = nil		// mark gotten
 						return true
 					}
@@ -229,9 +233,11 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 								  needsViewLock == nil ? named :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
-		for rootVew in factalsModel.rootVews {
-			rootVew.unlock(vewTreeAs:unlockName, logIf:log)		// Release VIEW LOCK
-		}
+
+		unlock(vewTreeAs:unlockName, logIf:log)			// Release this VEW LOCK
+//		for rootVew in factalsModel.rootVews {
+//			rootVew.unlock(vewTreeAs:unlockName, logIf:log)		// Release VEW LOCK
+//		}
 	}
 
 	 // MARK: - 15. PrettyPrint

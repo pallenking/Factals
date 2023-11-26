@@ -330,7 +330,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	var debugDescription : String {		"dd'Log\(logNo) \(title)'"				}
 	var summary			 : String {		 "s'Log\(logNo) \(title)'"				}
 }
-var debugOutterLock	= false		// default value
+var debugOutterLock	= true//false/		// default value
 
 var warningLog : [String] 		= []
 var logNErrors					= 0

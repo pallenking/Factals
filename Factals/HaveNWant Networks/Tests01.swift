@@ -387,7 +387,7 @@ r("+ Splitters family portrait", eXYtight + ["ppXYZMaskX":7] + selfiePole(s:45,u
 	KNorm(			[n:"g"]),		Sequence(		[n:"h"]),
 	Bulb(			[n:"i"]),
 ]]) })
-xr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
+xxr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
 	Net([placeMy:"stacky -1 -1", parts:[
 		Net([placeMy:"stackz -1 -1", parts:[
 			Leaf(.nil_, 	[n:"a"]),
@@ -661,8 +661,8 @@ r("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + log(all:0) + vel(-
 	r("SKIN: LC", e + selfiePole(s:1,u:1), 	{	Leaf(.bcast, [n:"a"])				})
 
 // NB: Some bugs only showed up with a repaint (hit P): state in existing vew.
-r(e + selfiePole(u:20), { Net([parts:[ Box(), Box(),]]) })
-r(e + selfiePole(u:20), { Net([parts:[Box(),]]) })
+r(e + selfiePole(u:20), { Net([parts:[Box(), Box()]]) })
+r(e + selfiePole(u:20), { Net([parts:[Box()]]) })
 
 // // MARK: - * Tunnels:
 // 200102: BUG: Timmel placement bad
@@ -1040,7 +1040,7 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.05//.1
-r("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
+xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
 	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
 	Mirror([n:"t1", f:1, P:"t2,l:4" ]),
