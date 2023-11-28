@@ -18,17 +18,15 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks
-	let rootVewLock 			= DispatchSemaphore(value:1)
-	var rootVewOwner : String?	= nil
-	var rootVewOwnerPrev:String? = nil
-	var rootVewVerbose 			= false
+	let semiphore 			= DispatchSemaphore(value:1)
+	var curOwner 	: String?	= nil
+	var prevOwner	: String? 	= nil
+	var verbose 				= false		// (unused)
 
 	 // Sugar
 	var rootPart 	: RootPart	{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
-	var slot	 	: Int?		{	factalsModel?.rootVews.firstIndex(of: self)		}
-	var trunkVew 	: Vew? 		{
-		return children.count > 0 ? children[0] : nil
-	}
+	var slot	 	: Int?		{	factalsModel?.rootVews.firstIndex(of:self)	}
+	var trunkVew 	: Vew? 		{	children.first								}
 
 	 /// generate a new View, returning its index
 	init(forPart rp:RootPart) {
@@ -72,48 +70,46 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	}
 
 	 // MARK: - 4? locks
-	func lockBoth(_ msg:String) {
-		guard rootPart.lock(partTreeAs:msg, logIf:false) else {fatalError(msg+" couldn't get PART lock")}
-		guard          lock(vewTreeAs: msg, logIf:false) else {fatalError(msg+" couldn't get VIEW lock")}
+	func lockBoth(for owner:String) {
+		guard rootPart.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
+		guard          lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get VEW lock")}
 	}
-	func unlockBoth(_ msg:String) {
-		unlock(vewTreeAs:          msg, logIf:false)
-		rootPart.unlock(partTreeAs:msg, logIf:false)
+	func unlockBoth(for owner:String) {
+		unlock(for:          owner, logIf:false)
+		rootPart.unlock(for:owner, logIf:false)
 	}
 	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
 	/// - Parameters:
-	///   - lockName: get lock under this name. nil --> don't lock
+	///   - for owner: get lock for this name. nil --> don't lock
 	///   - logIf: log the description
 	/// - Returns: Operation Succeeded
-	func lock(vewTreeAs lockName:String?=nil, logIf:Bool=true) -> Bool {
-		guard let lockName else {	return true		/* no lock needed */		}
+	func lock(for owner:String?=nil, logIf:Bool=true) -> Bool {
+		guard let owner else {	return true		/* no lock needed */		}
 
-		let u_name			= ppUid(self) + " '\(lockName)'".field(-20)
+		let ownerNId		= ppUid(self) + " '\(owner)'".field(-20)
 		atRve(3, {
-			let val0		= rootVewLock.value ?? -99	/// (wait if <=0)
+			let val0		= semiphore.value ?? -99	/// (wait if <=0)
 			if logIf && debugOutterLock {
-				logd("//#######\(u_name)      GET Vew  LOCK: v:\(val0)" )
+				logd("//#######\(ownerNId):     GET Vew  LOCK: v:\(val0)" )
 			}
 		}() )
 
 		 // === Get trunkVew DispatchSemaphore:
-		while rootVewLock.wait(timeout:.now() + .seconds(10)) != .success {		//.distantFuture
+		while semiphore.wait(timeout:.now() + .seconds(10)) != .success {		//.distantFuture
 			 // === Failed to get lock:
-			let val0		= rootVewLock.value ?? -99
-			let msg			= "\(u_name)      FAILED Part LOCK: v:\(val0)"
-			rootVewVerbose	? atRve(4, logd("//#######\(msg)")) :	// immediate but noisy printout
-							  nop
-			print("rootVewOwner=\(rootVewOwner), rootVewOwnerPrev=\(rootVewOwnerPrev)")
+			let val0		= semiphore.value ?? -99
+			var msg			= "\(ownerNId):     FAILED Part LOCK: v:\(val0)"
+			msg				+= "curOwner=\(curOwner ?? "<nil>"), prevOwner=\(prevOwner ?? "<nil>")"
 			fatalError(msg)	// for debug only
 		}
 
 		 // === Succeeded:
-		assert(rootVewOwner==nil, "'\(lockName)' attempting to lock, but '\(rootVewOwner!)' still holds lock ")
-		rootVewOwner 		= lockName
+		assert(curOwner==nil, "'\(owner)' attempting to lock, but '\(curOwner!)' still holds lock ")
+		curOwner 		= owner
 		atRve(3, {						/// AFTER GETTING:
-			let val0		= rootVewLock.value ?? -99
-			!logIf ? nop : logd("//#######" + u_name + "      GOT Vew  LOCK: v:\(val0)")
+			let val0		= semiphore.value ?? -99
+			!logIf ? nop : logd("//#######" + ownerNId + "      GOT Vew  LOCK: v:\(val0)")
 		}())
 		return true
 	}
@@ -121,26 +117,26 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	/// - Parameters:
 	///   - lockName: get lock under this name. nil --> don't lock
 	///   - logIf: log the description
-	func unlock(vewTreeAs lockName:String?=nil, logIf:Bool=true) {
-		guard lockName != nil else {	return 			/* no lock to return */	}
-		assert(rootVewOwner != nil, "releasing VewTreeLock but 'rootVewOwner' is nil")
-		assert(rootVewOwner == lockName!, "Releasing (as '\(lockName!)') Vew lock owned by '\(rootVewOwner!)'")
-		let u_name			= ppUid(self) + " '\(rootVewOwner!)'".field(-20)
+	func unlock(for owner:String?=nil, logIf:Bool=true) {
+		guard let owner else {	return 			/* no lock to return */			}
+		assert(curOwner != nil, "releasing VewTreeLock but 'rootVewOwner' is nil")
+		assert(curOwner == owner, "Releasing (as '\(owner)') Vew lock owned by '\(curOwner!)'")
+		let u_name			= ppUid(self) + " '\(curOwner!)'".field(-20)
 		atRve(3, {
-			let val0		= rootVewLock.value ?? -99
+			let val0		= semiphore.value ?? -99
 			let msg			= "\(u_name)  RELEASE Vew  LOCK: v:\(val0)"
 			!logIf ? nop	: logd("\\\\#######\(msg)")
 		}())
 
 		 // update name/state BEFORE signals
-		rootVewOwnerPrev 	= rootVewOwner
-		rootVewOwner 		= nil
+		prevOwner 	= curOwner
+		curOwner 		= nil
 
 		 // Unlock View's DispatchSemaphore:
-		rootVewLock.signal()
+		semiphore.signal()
 
 		if debugOutterLock && logIf {
-			let val0		= rootVewLock.value ?? -99
+			let val0		= semiphore.value ?? -99
 			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
 		}
 	}
@@ -149,11 +145,11 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateVewSizePaint(vewConfig:VewConfig?=nil, needsLock named:String?=nil, logIf log:Bool=true) { // VIEWS
+	func updateVewSizePaint(vewConfig:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let factalsModel	= part.root?.factalsModel else { fatalError("Paranoia 29872") }
 		guard let factalsModel2	= rootVew?  .factalsModel else { fatalError("Paranoia 23872") }
 		assert(factalsModel === factalsModel2, "Paranoia i5205")
-		var needsViewLock		= named		// nil if lock obtained
+		var newOwner2			= newOwner		// nil if lock obtained
 		let vRoot				= self
 		let pRoot				= part.root!
 
@@ -167,28 +163,22 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 				 ///     - log: log the message
 				 ///      - message: massage to log
 				 ///      - Returns: Work
-				func hasDirty(_ dirty:DirtyBits, needsViewLock viewLockName:inout String?, log:Bool, _ message:String) -> Bool {
+				func hasDirty(_ dirty:DirtyBits, for owner:inout String?, log:Bool, _ message:String) -> Bool {
 					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
 						guard let factalsModel = part.root?.factalsModel else {	fatalError("### part.root?.factalsModel is nil ###")		}
 
-						guard lock(vewTreeAs:viewLockName, logIf:log) else {
-							fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "<nil>")') FAILED to get it")
+						guard lock(for:owner, logIf:log) else {
+							fatalError("updateVewSizePaint(needsViewLock:'\(owner ?? "<nil>")') FAILED to get it")
 						}
-						 // Lock  _ALL_  root Vews:
-//						for rootVew in factalsModel.rootVews {
-//							guard rootVew.lock(vewTreeAs:viewLockName, logIf:log) else {
-//								fatalError("updateVewSizePaint(needsViewLock:'\(viewLockName ?? "<nil>")') FAILED to get it")
-//							}
-//						}
-						viewLockName = nil		// mark gotten
+						owner = nil		// mark gotten
 						return true
 					}
 					return false
 				}
 
 		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
-		if hasDirty(.vew, needsViewLock:&needsViewLock, log:log,
-			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
+		if hasDirty(.vew, for:&newOwner2, log:log,
+			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
 			if let vewConfig {					// Vew Configuration specifies open stuffss
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
@@ -204,8 +194,8 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 			pRoot.reVewPost(vew:vRoot)
 		}
 		 // ----   Adjust   S I Z E s   ---- //
-		if hasDirty(.size, needsViewLock:&needsViewLock, log:log,
-			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
+		if hasDirty(.size, for:&newOwner2, log:log,
+			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 			atRsi(6, log ? logd("rootPart.reSize():............................") : nop)
 
 /**/		pRoot.reSize(vew:vRoot)				// also causes rePosition as necessary
@@ -219,8 +209,8 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 			atRsi(6, log ? logd("..............................................") : nop)
 		}
 		 // -----   P A I N T   Skins ----- //
-		if hasDirty(.paint, needsViewLock:&needsViewLock, log:log,
-			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(needsViewLock ?? "nil")')") {
+		if hasDirty(.paint, for:&newOwner2, log:log,
+			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
 /**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
 
@@ -229,12 +219,12 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 			//pRoot  .applyLinkForces(vew:vRoot)	// Apply   Forces (zero out .force)
 			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
 		}
-		let unlockName			= named == nil ? nil :			// no lock wanted
-								  needsViewLock == nil ? named :// we locked it!
+		let unlockName			= newOwner == nil ? nil :			// no lock wanted
+								  newOwner2 == nil ? newOwner :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
 
-		unlock(vewTreeAs:unlockName, logIf:log)			// Release this VEW LOCK
+		unlock(for:unlockName, logIf:log)			// Release this VEW LOCK
 //		for rootVew in factalsModel.rootVews {
 //			rootVew.unlock(vewTreeAs:unlockName, logIf:log)		// Release VEW LOCK
 //		}

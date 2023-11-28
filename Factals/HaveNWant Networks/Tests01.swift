@@ -1039,8 +1039,8 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	//	Broadcast()
 	})
  // First test of link values
-let decay = 0.05//.1
-xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
+let decay = 0.0//5//.1
+xr("+Mirror Oscillator", eSimX + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
 	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
 	Mirror([n:"t1", f:1, P:"t2,l:4" ]),

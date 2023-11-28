@@ -172,7 +172,7 @@ extension RootPart : FactalsStatus	{									 ///RootPart
 	func ppFwConfig() -> String {		localConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= factalsModel.rootPart === self ? "" : "OWNER:'\(factalsModel!)' BAD "
-		let rown				= partTreeOwner==nil ? "UNOWNED" : "OWNER:'\(partTreeOwner!)'"
+		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
 		return ppFactalsStateHelper("RootPart     ", uid:self,
 			myLine:myLine + "rootPart:\(ppUid(self, showNil:true)) " +
 					"(\(portCount()) Ports) " +
@@ -232,9 +232,9 @@ extension RootVew : FactalsStatus	{									  ///RootVew
 		let myName				= "RootVew      "
 
 		var myLine				= "\(slot)/\(factalsModel.rootVews.count)] "
-		myLine					+= "LockVal:\(rootVewLock.value ?? -99) "
+		myLine					+= "LockVal:\(semiphore.value ?? -99) "
 		myLine					+= factalsModel.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: factalsModel))' BAD "
-		myLine					+= rootVewOwner != nil ? "OWNER:\(rootVewOwner!) " : "UNOWNED "
+		myLine					+= curOwner != nil ? "OWNER:\(curOwner!) " : "UNOWNED "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 	//	myLine					+= "(\(nodeCount()) total) "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "

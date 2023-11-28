@@ -538,10 +538,10 @@ bug;
 
 		 // 1. 	GET LOCKS					// PartTree
 		let lockName			= "createVew[\(slot)]"
-		guard rootPart.lock(partTreeAs:lockName) else {
+		guard rootPart.lock(for:lockName) else {
 			fatalError("createVews couldn't get PART lock")		// or
 		}		          					// VewTree
-		guard rootVew.lock(vewTreeAs:lockName) else {
+		guard rootVew.lock(for:lockName) else {
 			fatalError("createVews  couldn't get VIEW lock")
 		}
 
@@ -558,8 +558,8 @@ bug;
 //		updatePole2Camera(reason:"to createVewNScn")
 
 		// 7. RELEASE LOCKS for PartTree and VewTree:
-		rootVew.unlock(	 vewTreeAs:lockName)
-		rootPart.unlock(partTreeAs:lockName)
+		rootVew.unlock(	 for:lockName)
+		rootPart.unlock(for:lockName)
 	}
 }
 
@@ -577,10 +577,10 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
 			let rVew			= self.rootVew!
-			rVew.lockBoth("updateAtTime")
+			rVew.lockBoth(for: "updateAtTime")
 			rVew.updateVewSizePaint(logIf:true)		//false//true
 //			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:true)		//false//true
-			rVew.unlockBoth("updateAtTime")
+			rVew.unlockBoth(for: "updateAtTime")
 			atRsi(8, self.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
 		}
 	}
@@ -606,9 +606,9 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
 			let rVew			= self.rootVew!
-			rVew.lockBoth("willRenderScene")
+			rVew.lockBoth(for: "willRenderScene")
 			rVew.part.rotateLinkSkins(vew:rVew)
-			rVew.unlockBoth("willRenderScene")
+			rVew.unlockBoth(for: "willRenderScene")
 		}
 	}
 	   // ODD Timing:

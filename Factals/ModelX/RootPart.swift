@@ -14,15 +14,15 @@ class RootPart : Part {
 
 	 // MARK: - 2.1 Object Variables
 	var	simulator		: Simulator
-	var title							= ""
-	var ansConfig		: FwConfig		= [:]
-	var factalsModel			: FactalsModel!
+	var title					= ""
+	var ansConfig	 : FwConfig	= [:]
+	var factalsModel : FactalsModel!
 
 	 // MARK: - 2.3 Part Tree Lock
-	var partTreeLock 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
-	var partTreeOwner : String?	= nil  		// root lock Owner's name
-	var partTreeOwnerPrev:String? = nil
-	var partTreeVerbose			= true
+	var semiphore 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
+	var curOwner  : String?		= nil
+	var prevOnwer : String?		= nil
+	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
 	init() {
@@ -56,7 +56,7 @@ class RootPart : Part {
 		try container.encode(simulator,			forKey:.simulator				)
 		try container.encode(title,				forKey:.title					)
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
-		try container.encode(partTreeVerbose,	forKey:.partTreeVerbose			)
+		try container.encode(verboseLocks,	forKey:.partTreeVerbose			)
 
 		atSer(3, logd("Encoded"))
 
@@ -71,8 +71,8 @@ class RootPart : Part {
 		simulator				= try container.decode(Simulator.self, forKey:.simulator	)
 		title					= try container.decode(   String.self, forKey:.title		)
 		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
-		partTreeLock 			= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
-		partTreeVerbose			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
+		semiphore 			= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
+		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 
 		try super.init(from:decoder)
 		atSer(3, logd("Decoded  as? RootPart \(ppUid(self))"))
@@ -83,7 +83,7 @@ class RootPart : Part {
 	 // MARK: Make Codable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	func makeSelfCodable(_ msg:String?=nil) {		// was readyForEncodable
-		guard msg == nil || lock(partTreeAs:msg!) else { fatalError("'\(msg!)' couldn't get PART lock") }
+		guard msg == nil || lock(for:msg!) else { fatalError("'\(msg!)' couldn't get PART lock") }
 
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
@@ -100,7 +100,7 @@ class RootPart : Part {
 		groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
-		msg == nil ? nop : unlock(partTreeAs:msg)	// ---- 3. UNLOCK for PartTree
+		msg == nil ? nop : unlock(for:msg)	// ---- 3. UNLOCK for PartTree
 	}
 
 
@@ -177,7 +177,7 @@ class RootPart : Part {
 //		theCopy.ansConfig		= self.ansConfig
 //	//x	theCopy.partTreeLock 	= self.partTreeLock
 //	//x	theCopy.partTreeOwner	= self.partTreeOwner
-//	//x	theCopy.partTreeOwnerPrev = self.partTreeOwnerPrev
+//	//x	theCopy.prevOnwer = self.prevOnwer
 //		theCopy.partTreeVerbose	= self.partTreeVerbose
 //		atSer(3, logd("copy(with as? RootPart       '\(fullName)'"))
 //		return theCopy
@@ -192,7 +192,7 @@ class RootPart : Part {
 ////								&& ansConfig		 == rhs.ansConfig				//Protocol 'FwAny' as a type cannot conform to 'Equatable'
 //		//x						&& partTreeLock 	 == rhs.partTreeLock
 //		//x						&& partTreeOwner	 == rhs.partTreeOwner
-//		//x						&& partTreeOwnerPrev == rhs.partTreeOwnerPrev
+//		//x						&& prevOnwer == rhs.prevOnwer
 //								&& partTreeVerbose   == rhs.partTreeVerbose
 //		return rv
 //	}
@@ -348,41 +348,41 @@ bug			//self.init(url: fileURL)
 	///   - wait: logs if wait
 	///   - logIf: allows logging
 	/// - Returns: lock obtained
- 	func lock(partTreeAs newOwner:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
-		guard let newOwner else {	return true 								}
-		let u_name				= ppUid(self) + " '\(newOwner)'".field(-20)
+ 	func lock(for owner:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
+		guard let owner else {	return true 								}
+		let ownerNId			= ppUid(self) + " '\(owner)'".field(-20)
 								
 		atBld(3, {					// === ///// BEFORE GETTING:
-			let val0			= partTreeLock.value ?? -99
-			let msg				= " //######\(u_name)      GET Part LOCK: v:\(val0)"
+			let val0			= semiphore.value ?? -99
+			let msg				= " //######\(ownerNId)      GET Part LOCK: v:\(val0)"
 			 // Log:
 			!logIf || !debugOutterLock ? nop 		 		// less verbose
-			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(partTreeOwner ?? "-")', PROBABLE WAIT..."))
-			 : 		   partTreeVerbose ? atBld(4, logd(msg))// normal
+			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(curOwner ?? "-")', PROBABLE WAIT..."))
+			 : 		   verboseLocks ? atBld(4, logd(msg))// normal
 			 : 		   					 nop			 	// silent
 		}())
 
 		 /// === Get partTree lock:
-/**/	while partTreeLock.wait(timeout:.now() + .seconds(10)) != .success {
+/**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
 //**/	while partTreeLock.wait(timeout:.distantFuture) != .success {
 			 // === ///// FAILED to get lock:
-			let val0		= partTreeLock.value ?? -99
-			let msg			= "\(u_name)      FAILED Part LOCK v:\(val0)"
+			let val0		= semiphore.value ?? -99
+			let msg			= "\(ownerNId)      FAILED Part LOCK v:\(val0)"
 			wait  			? atBld(4, logd(" //######\(msg)")) :
-			partTreeVerbose ? atBld(4, logd(" //######\(msg)")) :
+			verboseLocks ? atBld(4, logd(" //######\(msg)")) :
 							  nop
 			panic(msg)	// for debug only
 			return false
 		}
 
 		 // === SUCCEEDED in getting lock:
-		assert(partTreeOwner==nil, "'\(newOwner)' attempting to lock, but '\(partTreeOwner!)' still holds lock ")
-		partTreeOwner		= newOwner
+		assert(curOwner==nil, "'\(owner)' attempting to lock, but '\(curOwner!)' still holds lock ")
+		curOwner		= owner
 		atBld(3, {						// === /////  AFTER GETTING:
-			let msg			= "\(u_name)      GOT Part LOCK: v:\(partTreeLock.value ?? -99)"
+			let msg			= "\(ownerNId)      GOT Part LOCK: v:\(semiphore.value ?? -99)"
 			!logIf ? nop
-				: partTreeOwner != "renderScene" ? logd(" //######\(msg)")
-				:				 partTreeVerbose ? logd(" //######\(msg)")
+				: curOwner != "renderScene" ? logd(" //######\(msg)")
+				:				 verboseLocks ? logd(" //######\(msg)")
 				:							 	   nop 		// print nothing
 		}())
  		return true
@@ -392,32 +392,32 @@ bug			//self.init(url: fileURL)
 	/// - Parameters:
 	///   - lockName:  of the lock. nil->don't get lock
 	///   - logIf: allows logging
- 	func unlock(partTreeAs newOwner:String?, logIf:Bool=true) {
-		guard let newOwner else {	return 	 									}
-		assert(partTreeOwner != nil, "Attempting to unlock ownerless lock")
-		assert(partTreeOwner == newOwner, "Releasing (as '\(newOwner)') Part lock owned by '\(partTreeOwner!)'")
-		let u_name			= ppUid(self) + " '\(partTreeOwner!)'".field(-20)
+ 	func unlock(for owner:String?, logIf:Bool=true) {
+		guard let owner else {	return 	 									}
+		assert(curOwner != nil, "Attempting to unlock ownerless lock")
+		assert(curOwner == owner, "Releasing (as '\(owner)') Part lock owned by '\(curOwner!)'")
+		let ownerNId		= ppUid(self) + " '\(curOwner!)'".field(-20)
 		atBld(3, {
-			let val0		= partTreeLock.value ?? -99
-			let msg			= "\(u_name)  RELEASE Part LOCK: v:\(val0)"
-			!logIf ? nop
-				: partTreeOwner != "renderScene" ? logd(" \\\\######\(msg)")
-				:				 partTreeVerbose ? logd(" \\\\######\(msg)")
-				:								   nop
+			let val0		= semiphore.value ?? -99
+			let msg			= "\(ownerNId)  RELEASE Part LOCK: v:\(val0)"
+			!logIf 							? nop 								:
+			curOwner != "renderScene" 	? logd(" \\\\######\(msg)")			:
+			verboseLocks 				? logd(" \\\\######\(msg)")			:
+												   nop
 		}())
 
 		 // update name/state BEFORE signals
-		partTreeOwnerPrev	= partTreeOwner
-		partTreeOwner 		= nil
+		prevOnwer	= curOwner
+		curOwner 		= nil
 		 // Unlock Part's DispatchSemaphore:
-		partTreeLock.signal()
+		semiphore.signal()
 
 		atBld(3, {
-			let val0		= partTreeLock.value ?? -99
-			let msg			= "\(u_name) RELEASED Part LOCK v:\(val0)"
+			let val0		= semiphore.value ?? -99
+			let msg			= "\(ownerNId) RELEASED Part LOCK v:\(val0)"
 			!debugOutterLock || !logIf 			  ? nop		// less verbose
-			 : partTreeOwnerPrev != "renderScene" ? atApp(4, logd(" \\\\######\(msg)"))
-			 :				     partTreeVerbose  ? atApp(4, logd(" \\\\######\(msg)"))
+			 : prevOnwer != "renderScene" ? atApp(4, logd(" \\\\######\(msg)"))
+			 :				     verboseLocks  ? atApp(4, logd(" \\\\######\(msg)"))
 			 :	 		    					    nop
 		}())
 	}

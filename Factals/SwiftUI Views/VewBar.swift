@@ -40,17 +40,17 @@ struct VewBar: View {
 					Button(label:{	Text("View")								})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.vew)	})
-						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
+						rootVew.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
-						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
+						rootVew.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
 						rootVew.rootPart.forAllParts({	$0.markTree(dirty:.size)})
-						rootVew.updateVewSizePaint(needsLock:"VewBar V-key")
+						rootVew.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
 					{	var s	= rootVew.selfiePole

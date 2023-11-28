@@ -114,7 +114,7 @@ private let params4sim : FwConfig = [
 private let params4vew : FwConfig = [
 //	"initialDisplayMode"		: "invisible"	// mostly expunged
 //	"physics"					: ??
-/**/"linkVelocityLog2"			: Float(-5.0),	// link velocity = 2^n units/sec //slow:-6.0
+/**/"linkVelocityLog2"			: Float(-8.0),	// link velocity = 2^n units/sec //slow:-6.0
 
 /**/"placeMe"					:"linky",		// place me (self)	//"stackY"
 /**/"placeMy"					:"linky",		// place my parts	//"stackY"

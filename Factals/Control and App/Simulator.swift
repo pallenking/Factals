@@ -71,12 +71,16 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	}
 	 /// Simulation Task auto-repeats once called
 	@objc func simulationTask() {
+		simulateOneStep()
+		startSimulationTask()		// reStartSimulationTask
+	}
+	func simulateOneStep() {
 		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled	else {	return 										}
 		if let rp : RootPart	= rootPart  {
 
 			// semaphore:
-			guard rp.lock(partTreeAs:"simulationTask", logIf:logSimLocks) else {
+			guard rp.lock(for:"simulationTask", logIf:logSimLocks) else {
 				fatalError("simulationTask couldn't get PART lock")
 			}
 				// Clear out start cycles before simulate():
@@ -87,18 +91,17 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= simTimeStep
 
-			rp.unlock(partTreeAs:"simulationTask", logIf:logSimLocks)
+			rp.unlock(for:"simulationTask", logIf:logSimLocks)
 		}
 		else {
 			print("Simulating with sim\(ppUid(self)) rootPart==nil")
 		}																				//}
-		startSimulationTask()		// reStartSimulationTask
 	}
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation
 	func configure(from c:FwConfig) {
 		if let se				= c.bool("simEnabled") {
-/**/		simEnabled 			= se			// set or reset
+/**/		simEnabled 			= se						// set or reset
 		}
 		if let tStep			= c.float("simTimeStep") {
 			simTimeStep 		= tStep

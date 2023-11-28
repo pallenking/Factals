@@ -291,7 +291,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
-		if let curLockStr		= DOC?.factalsModel?.rootPart?.partTreeOwner {
+		if let curLockStr		= DOC?.factalsModel?.rootPart?.curOwner {
 			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
 		}
 		return ".,."

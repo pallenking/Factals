@@ -8,10 +8,10 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	  // MARK: - 2. Object Variables:
 	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}
 	func setRootPart(rootPart r:RootPart) {
-		guard rootPart == nil || rootPart!.lock(partTreeAs:"setRootPart", logIf:false)
+		guard rootPart == nil || rootPart!.lock(for:"setRootPart", logIf:false)
 			else {  fatalError(" couldn't get PART lock")						}
 		for rootVew in rootVews {
-			if rootVew.lock(vewTreeAs:"setRootPart", logIf:false) == false { fatalError(" couldn't get VIEW lock")}
+			if rootVew.lock(for:"setRootPart", logIf:false) == false { fatalError(" couldn't get VIEW lock")}
 		}
 		rootVews				= []
 		rootPart				= r
@@ -22,8 +22,10 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	///// MOVE Vews from FactalsModel to RootVew?
 	var rootVews : [RootVew]	= []
-	var rootVew0 :  RootVew?	{ rootVews.count<=0 ? nil : rootVews[0]			}
+	var rootVew0 :  RootVew?	{ rootVews.first								}
+//	var rootVew0 :  RootVew?	{ rootVews.count<=0 ? nil : rootVews[0]			}
 	var log 	 : Log
+	var fooo	 : CGFloat		= 03.44
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
@@ -177,19 +179,19 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 			print("\n******************** 'V': Build the Model's Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
-				rootVew.updateVewSizePaint(needsLock:"FactalsModel 'V'iew key")
+				rootVew.updateVewSizePaint(for:"FactalsModel 'V'iew key")
 			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
-				rootVew.updateVewSizePaint(needsLock:"FactalsModel si'Z'e key")
+				rootVew.updateVewSizePaint(for:"FactalsModel si'Z'e key")
 			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			for rootVew in rootVews {
 				rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
-				rootVew.updateVewSizePaint(needsLock:"FactalsModel 'P'aint key")
+				rootVew.updateVewSizePaint(for:"FactalsModel 'P'aint key")
 			}
 		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
@@ -338,20 +340,20 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		let part				= vew.part
 
 		 // ========= Get Locks for two resources, in order: =============
-		guard rootPart!.lock(partTreeAs:"toggelOpen") else {
+		guard rootPart!.lock(for:"toggelOpen") else {
 			fatalError("toggelOpen couldn't get PART lock")	}		// or
-		guard  rootVew.lock(vewTreeAs:"toggelOpen") else {fatalError("couldn't get Vew lock") }
+		guard  rootVew.lock(for:"toggelOpen") else {fatalError("couldn't get Vew lock") }
 
 		assert(!(part is Link), "cannot toggelOpen a Link")
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
 		vew.scn.removeFromParent()
 		vew.removeFromParent()
 
-		rootVew.updateVewSizePaint(needsLock:"toggelOpen4")
+		rootVew.updateVewSizePaint(for:"toggelOpen4")
 
 		// ===== Release Locks for two resources, in reverse order: =========
-		rootVew  .unlock( vewTreeAs:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-		rootPart?.unlock(partTreeAs:"toggelOpen")
+		rootVew  .unlock( for:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+		rootPart?.unlock(for:"toggelOpen")
 
 		let rootScene			= rootVew.rootScene
 bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
