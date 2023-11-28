@@ -15,32 +15,26 @@ struct FactalsModelBar: View {
 			if let simulator = factalsModel.rootPart?.simulator {
 				HStack {
 					//	Text("Settled:\(isSettled() ? "true" : "false")")
-					Text("Simulator").foregroundColor(.red).bold()
-					let state =	simulator.simTaskRunning ?	"running "  :
-								simulator.simEnabled 	 ?	"enabled "  :
-								simulator.simBuilt		 ?	"built "	: "unbuilt"
-					Text(state)
-/*
-	var simBuilt : Bool = false	{			// sim constructed?
-	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
-	var simTaskRunning			= false		// sim task pending?
-	var unsettledOwned	:Int	= 0			// by things like links
-	var kickstart	  	:UInt8	= 0			// set to get simulator going
- */
-
+					Text("Simulator:").foregroundColor(.red).bold()
+					let state =	simulator.simTaskRunning 	 ? (
+									simulator.globalDagDirUp ? "up"  : "down") :
+								simulator.simEnabled 		 ?	"enabled"  :
+								simulator.simBuilt			 ?	"built"	: "unbuilt"
+					Text("\(state) unsettled:\(simulator.unsettledOwned) kick:\(simulator.kickstart)")
 
 					Spacer()
-					Button(label:{	Text("run")									})
+					Button(label:{	Text(simulator.simEnabled ? "run" : "stop")	})
 					{	simulator.simEnabled = true
 						simulator.kickstart	 = 4								}
 					Button(label:{	Text("step")								})
 					{	simulator.simEnabled = true
 						simulator.simulateOneStep()
 						simulator.simEnabled = false							}
+
 					Spacer()
-					
-					//let simulator		= $factalsModel.rootPart.simulator
-					LabeledCGFloat(label:"t=", val:$factalsModel.fooo, oneLine:true)
+								
+					let bRpQ		= $factalsModel.rootPart//!.simulator		// Binding<RootPart?>
+					LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
 					/*
 					 var timingChains:[TimingChain] = []
 					 var logSimLocks				= false		// Overwritten by Configuration

@@ -19,7 +19,7 @@ class RootPart : Part {
 	var factalsModel : FactalsModel!
 
 	 // MARK: - 2.3 Part Tree Lock
-	var semiphore 			= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
+	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var curOwner  : String?		= nil
 	var prevOnwer : String?		= nil
 	var verboseLocks			= true
