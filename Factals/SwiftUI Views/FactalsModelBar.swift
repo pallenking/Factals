@@ -16,25 +16,40 @@ struct FactalsModelBar: View {
 				HStack {
 					//	Text("Settled:\(isSettled() ? "true" : "false")")
 					Text("Simulator:").foregroundColor(.red).bold()
-					let state =	simulator.simTaskRunning 	 ? (
-									simulator.globalDagDirUp ? "up"  : "down") :
-								simulator.simEnabled 		 ?	"enabled"  :
-								simulator.simBuilt			 ?	"built"	: "unbuilt"
-					Text("\(state) unsettled:\(simulator.unsettledOwned) kick:\(simulator.kickstart)")
 
-					Spacer()
-					Button(label:{	Text(simulator.simEnabled ? "run" : "stop")	})
-					{	simulator.simEnabled = true
-						simulator.kickstart	 = 4								}
-					Button(label:{	Text("step")								})
-					{	simulator.simEnabled = true
-						simulator.simulateOneStep()
-						simulator.simEnabled = false							}
+					if !simulator.simBuilt {
+						Text("unbuilt")
+					} else {
+//					let state =	simulator.simTaskRunning 	 ?  "running" :
+//								simulator.simEnabled 		 ?	"enabled"  :
+//								simulator.simBuilt			 ?	"built"	: "unbuilt"
+						Text(!simulator.simEnabled 		? "disabled  "  :
+							 !simulator.simTaskRunning	? "halted  " : "running ")
+						//Text("  " + (simulator.simEnabled ? "enabled" : "disabled") + ": ")
+						Button(label:{	Text(simulator.simEnabled ? "run" : "stop")	})
+						{	simulator.simEnabled = true
+							simulator.kickstart	 = 4							}
+						Button(label:{	Text("step")							})
+						{	simulator.simEnabled = true
+							simulator.simulateOneStep()
+							simulator.simEnabled = false						}
 
-					Spacer()
-								
-					let bRpQ		= $factalsModel.rootPart//!.simulator		// Binding<RootPart?>
-					LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
+						HStack {
+							//let bRpQ		= $factalsModel.rootPart//!.simulator		// Binding<RootPart?>
+							//	@Bindable var viewModel = viewModel
+							//LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
+							//@Bindable var s			= $factalsModel.rootPart				// Binding<RootPart?>
+							LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
+							Text("\(simulator.globalDagDirUp ? ".up"  : ".down") ")
+							Text("unsettled:\(simulator.unsettledOwned) kick:\(simulator.kickstart) ")
+						}
+						//.padding(6)
+						.background(Color(red:1.0, green:0.9, blue:0.9))
+						Spacer()
+					}
+
+
+
 					/*
 					 var timingChains:[TimingChain] = []
 					 var logSimLocks				= false		// Overwritten by Configuration

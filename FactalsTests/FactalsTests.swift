@@ -25,6 +25,28 @@ final class FactalsTests: XCTestCase {
 	}
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
+	func testRootPartActor01 () async {
+		// Create an instance of RootPartActor with an initial rootPart
+		let initialRootPartValue = RootPart(fromLibrary:"+ Splitters family portrait")
+		let actor 				= RootPartActor(initialRootPart: initialRootPartValue)
+		do {
+			try await actor.performAction {
+				// I presume we are now in the actor's thread
+				await actor.setRootPart(new:RootPart())
+																				//await actor.rootPart	= .nullRoot
+																				//let actr = actor
+																				//var rootPart	= await actor.rootPart
+																				// Access and modify the rootPart resource
+																				// e.g., rootPart.update()
+																				//actor.rootPart 	= RootPart(fromLibrary:nil)
+			}
+		// Handle successful execution
+		} catch {
+			// Handle the error thrown during the action
+			print("Error: \(error)")
+		}
+	}
+
 //	func testLldb() {
 //		let x 					= LLDBrootPart
 //		lldbPrint(x, mode:.tree, [:])

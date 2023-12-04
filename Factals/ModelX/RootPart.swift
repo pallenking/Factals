@@ -10,10 +10,68 @@ https://developer.apple.com/documentation/scenekit/scntransaction/1523078-lock
    If your app modifies the scene graph from multiple threads, use a transaction
 lock to ensure that your modifications take effect as intended.
  */
-class RootPart : Part {
+enum RootPartActorCommand { //}: RawRepresentable, Identifiable, CustomStringConvertible, CaseIterable, Hashable {				//   enum Method: String, RawRepresentable, Identifiable, CustomStringConvertible, CaseIterable, Hashable {
+	case setRootPart(to:RootPart)
+	case configureX1(from:FwConfig)
+	case encodeX1(to:Encoder)
+	case wireAndGroomX1(FwConfig)
+}
+
+actor RootPartActor {
+	/*private*/ var rootPart : RootPart? = nil
+
+	init(initialRootPart: RootPart?) {
+		self.rootPart = initialRootPart
+	}
+
+	// Method to perform actions on the rootPart resource
+	func performAction(action: @escaping () async throws -> Void) async rethrows {
+//		try await withCheckedThrowingContinuation { continuation in
+		/**/await withCheckedContinuation 		  { continuation in
+			// Execute the action within the actor's context
+			Task {
+				do {
+					try await action()
+					continuation.resume()
+				} catch {
+					bug
+					//continuation.resume(throwing: .Never)
+				}
+			}
+		}
+	}
+	func setRootPart(new rp:RootPart) {
+		rootPart = rp
+	}
+}
+
+//	// build in RootPartActor's isolated thread
+//	init(rootPart:RootPart) {
+//		let rootPartActorCommand = RootPartActorCommand.setRootPart(to:rootPart)
+//		execute(command:rootPartActorCommand)
+//		//self.rootPart			= rootPart
+//		self.init(rootPart:rootPart)
+//	}
+//	func execute(command c:RootPartActorCommand) async {
+//		guard let rp 			= rootPart else {	fatalError("no root part") 	}
+//		switch c {
+//		case .configureX1(let from):
+//			rp.configure(from:from)
+//		case .encodeX1(let to):
+//			try? rp.encode(to:to)
+//		case .wireAndGroomX1(let config):
+//			rp.wireAndGroom(config)
+//		case .setRootPart(to: let to):
+//			self.rootPart = to
+//		}
+//	}
+
+
+
+class RootPart : Part {		//class//actor//
 
 	 // MARK: - 2.1 Object Variables
-	var	simulator		: Simulator
+	var	simulator	 : Simulator
 	var title					= ""
 	var ansConfig	 : FwConfig	= [:]
 	var factalsModel : FactalsModel!
@@ -253,7 +311,8 @@ bug			//self.init(url: fileURL)
 /* */		let ansTrunk:Part?	= ans.ansTrunkClosure!()
 
 			addChild(ansTrunk)
-			setTree(root:self, parent:nil)
+			let nilPart : Part? = nil
+			setTree(root:self, parent:nilPart)
 		}else{
 			fatalError("RootPart(fromLibrary:\(selectionString ?? "nil") -- no RootPart generated")
 		}
