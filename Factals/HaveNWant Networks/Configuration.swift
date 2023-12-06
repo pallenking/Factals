@@ -105,7 +105,7 @@ private let params4docLog		= params4pp + params4logs_
 private let params4sim : FwConfig = [
 	"simEnabled"				: false,
 	"simTaskPeriod" 			: 0.01,//5 1 .05// Simulation task retry delay nil->no Task
-	"simTimeStep"				: 0.01,			// Time between UP and DOWN scan (or vice versa)
+	"timeStep"				: 0.01,			// Time between UP and DOWN scan (or vice versa)
 	"logSimLocks"				: false,//true//false// Log simulation lock activity
 ]
 

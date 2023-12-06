@@ -6,6 +6,7 @@ import SwiftUI
 class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
+	var document : FactalsDocument!					// Owner
 	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}
 	func setRootPart(rootPart r:RootPart) {
 		guard rootPart == nil || rootPart!.lock(for:"setRootPart", logIf:false)
@@ -17,13 +18,8 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		rootPart				= r
 		rootPart?.factalsModel		= self
 	}
-
-	var document : FactalsDocument!					// Owner
-
-	///// MOVE Vews from FactalsModel to RootVew?
 	var rootVews : [RootVew]	= []
 	var rootVew0 :  RootVew?	{ rootVews.first								}
-//	var rootVew0 :  RootVew?	{ rootVews.count<=0 ? nil : rootVews[0]			}
 	var log 	 : Log
 	var fooo	 : CGFloat		= 03.44
 

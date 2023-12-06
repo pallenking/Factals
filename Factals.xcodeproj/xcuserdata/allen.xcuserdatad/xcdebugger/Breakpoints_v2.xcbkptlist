@@ -540,8 +540,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
             <Locations>
@@ -1050,9 +1050,9 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "415"
-            endingLineNumber = "415"
-            landmarkName = "lock(for:wait:logIf:)"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
+            landmarkName = "ppRootPartErrors()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1194,9 +1194,9 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
-            landmarkName = "lock(for:wait:logIf:)"
+            startingLineNumber = "420"
+            endingLineNumber = "420"
+            landmarkName = "ppRootPartErrors()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -1290,8 +1290,8 @@
             filePath = "Factals/SwiftUI Views/FactalsModelBar.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>

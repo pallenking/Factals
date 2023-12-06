@@ -16,16 +16,19 @@ struct FactalsModelBar: View {
 				HStack {
 					//	Text("Settled:\(isSettled() ? "true" : "false")")
 					Text("Simulator:").foregroundColor(.red).bold()
-
-					if !simulator.simBuilt {
-						Text("unbuilt")
-					} else {
+					if let nogo   = !simulator.simBuilt	? "unbuilt" :
+								  !simulator.simEnabled ? "disabled" : nil {
+						Text(nogo)
+					}
+					else {
 //					let state =	simulator.simTaskRunning 	 ?  "running" :
 //								simulator.simEnabled 		 ?	"enabled"  :
 //								simulator.simBuilt			 ?	"built"	: "unbuilt"
-						Text(!simulator.simEnabled 		? "disabled  "  :
-							 !simulator.simTaskRunning	? "halted  " : "running ")
-						//Text("  " + (simulator.simEnabled ? "enabled" : "disabled") + ": ")
+//						Text(!simulator.simEnabled 		? "disabled  " :
+//							 !simulator.simTaskRunning	? "halted  "   : "running ")
+
+//						!simulator.simTaskRunning
+
 						Button(label:{	Text(simulator.simEnabled ? "run" : "stop")	})
 						{	simulator.simEnabled = true
 							simulator.kickstart	 = 4							}
@@ -47,24 +50,15 @@ struct FactalsModelBar: View {
 						.background(Color(red:1.0, green:0.9, blue:0.9))
 						Spacer()
 					}
-
-
-
 					/*
-					 var timingChains:[TimingChain] = []
-					 var logSimLocks				= false		// Overwritten by Configuration
-								//
-					 var timeNow			: Float	= 0.0
-					 var simTimeStep		: Float = 0.01
-					 var globalDagDirUp	: Bool	= true
-					 
-					 // MARK: - 2.1 Simulator State
-					 var simTaskRunning			= false		// sim task pending?
-					 var kickstart	  	:UInt8	= 0			// set to get simulator going
-					 var unsettledOwned	:Int	= 0			// by things like links
-					 var simEnabled : Bool 	 	= false 	// sim enabled to run?{
-					 var simBuilt : Bool = false	{			// sim constructed?
-					 func isSettled() -> Bool {
+//					 var timingChains:[TimingChain] = []
+//					 func isSettled() -> Bool
+//					 var unsettledOwned	: Int	= 0			// by things like links
+//					 var kickstart	  	: UInt8	= 0			// set to get simulator going
+//		ro			 var timeStep		: Float = 0.01
+
+//					 var timeNow			: Float	= 0.0
+//		ro			 var globalDagDirUp	: Bool	= true
 					 */
 				}
 			}

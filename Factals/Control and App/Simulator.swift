@@ -7,7 +7,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	weak var rootPart	: RootPart! = nil	// Owner
 	var timingChains:[TimingChain] = []
 	var timeNow			: Float	= 0.0
-	var simTimeStep		: Float = 0.01
+	var timeStep		: Float = 0.01
 	var globalDagDirUp	: Bool	= true
 	var logSimLocks				= false		// Overwritten by Configuration
 
@@ -89,7 +89,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 				// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
 	/**/	rp.simulate(up:globalDagDirUp)
 			globalDagDirUp		= !globalDagDirUp
-			timeNow				+= simTimeStep
+			timeNow				+= timeStep
 
 			rp.unlock(for:"simulationTask", logIf:logSimLocks)
 		}
@@ -103,8 +103,8 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		if let se				= c.bool("simEnabled") {
 /**/		simEnabled 			= se						// set or reset
 		}
-		if let tStep			= c.float("simTimeStep") {
-			simTimeStep 		= tStep
+		if let tStep			= c.float("timeStep") {
+			timeStep 		= tStep
 		}
 //		logSimLocks				= c.bool("logSimLocks") ?? false
 		if let pst				= c.bool("logSimLocks") {
@@ -126,7 +126,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		case kickstart
 		case unsettledOwned
 		case timeNow
-		case simTimeStep
+		case timeStep
 		case globalDagDirUp
 	}
 	 // Serialize
@@ -139,7 +139,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		try container.encode(kickstart, 	forKey:.kickstart)
 		try container.encode(unsettledOwned,forKey:.unsettledOwned)
 		try container.encode(timeNow, 		forKey:.timeNow)
-		try container.encode(simTimeStep, 	forKey:.simTimeStep)
+		try container.encode(timeStep, 	forKey:.timeStep)
 		try container.encode(globalDagDirUp,forKey:.globalDagDirUp)
 //		atSer(3, logd("Encoded"))
 	}
@@ -153,7 +153,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		kickstart					= try container.decode(		   UInt8.self, forKey:.kickstart	)
 		unsettledOwned				= try container.decode(		     Int.self, forKey:.unsettledOwned)
 		timeNow						= try container.decode(		   Float.self, forKey:.timeNow 		)
-		simTimeStep					= try container.decode(		   Float.self, forKey:.simTimeStep	)
+		timeStep					= try container.decode(		   Float.self, forKey:.timeStep	)
 		globalDagDirUp				= try container.decode(			Bool.self, forKey:.globalDagDirUp)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

@@ -15,22 +15,21 @@ enum RootPartActorCommand { //}: RawRepresentable, Identifiable, CustomStringCon
 	case configureX1(from:FwConfig)
 	case encodeX1(to:Encoder)
 	case wireAndGroomX1(FwConfig)
+//	case atomicTestAndSet(newValue: Int, expectedValue: Int)
+//	case atomicReadWithPostAdd(valueToAdd: Int)
 }
 
 actor RootPartActor {
-	/*private*/ var rootPart : RootPart? = nil
-
+	private var rootPart : RootPart? = nil
 	init(initialRootPart: RootPart?) {
 		self.rootPart = initialRootPart
 	}
 
 	// Method to perform actions on the rootPart resource
 	func performAction(action: @escaping () async throws -> Void) async rethrows {
-//		try await withCheckedThrowingContinuation { continuation in
-		/**/await withCheckedContinuation 		  { continuation in
-			// Execute the action within the actor's context
+		await withCheckedContinuation { continuation in
 			Task {
-				do {
+				do {	// Execute the action within the actor's context
 					try await action()
 					continuation.resume()
 				} catch {
@@ -40,35 +39,43 @@ actor RootPartActor {
 			}
 		}
 	}
+//	func execute(command: RootPartActorCommand) async -> Int {
+//		switch command {
+//		case let .atomicTestAndSet(newValue, expectedValue):
+//			let oldValue = await atomicTestAndSet(newValue: newValue, expectedValue: expectedValue)
+//			return oldValue
+ //		case let .atomicReadWithPostAdd(valueToAdd):
+//			return await readWithPostAdd(valueToAdd: valueToAdd)
+//		default:fatalError()
+//		}
+//	}
+	private func atomicTestAndSet(newValue: Int, expectedValue: Int) async -> Int {
+		return await withCheckedContinuation { continuation in
+			if rootPart?.foo22 == expectedValue {
+				rootPart?.foo22 = newValue
+				continuation.resume(returning: expectedValue)
+			} else {
+				continuation.resume(returning: -1) // Indicating test-and-set failed
+			}
+		}
+	}
+	private func readWithPostAdd(valueToAdd: Int) async -> Int {
+		var oldValue 			= rootPart?.foo22
+		await withTaskGroup(of: Void.self) { group in
+			group.addTask { [self] in
+				//oldValue 		= await rootPart?.foo22
+				await rootPart?.foo22 += valueToAdd
+			}
+		}
+		return oldValue ?? -99
+	}
 	func setRootPart(new rp:RootPart) {
 		rootPart = rp
 	}
 }
 
-//	// build in RootPartActor's isolated thread
-//	init(rootPart:RootPart) {
-//		let rootPartActorCommand = RootPartActorCommand.setRootPart(to:rootPart)
-//		execute(command:rootPartActorCommand)
-//		//self.rootPart			= rootPart
-//		self.init(rootPart:rootPart)
-//	}
-//	func execute(command c:RootPartActorCommand) async {
-//		guard let rp 			= rootPart else {	fatalError("no root part") 	}
-//		switch c {
-//		case .configureX1(let from):
-//			rp.configure(from:from)
-//		case .encodeX1(let to):
-//			try? rp.encode(to:to)
-//		case .wireAndGroomX1(let config):
-//			rp.wireAndGroom(config)
-//		case .setRootPart(to: let to):
-//			self.rootPart = to
-//		}
-//	}
-
-
-
 class RootPart : Part {		//class//actor//
+    /*private*/ var foo22: Int = 0
 
 	 // MARK: - 2.1 Object Variables
 	var	simulator	 : Simulator
