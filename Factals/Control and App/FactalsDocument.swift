@@ -117,7 +117,7 @@ struct FactalsDocument: FileDocument {
 	init(configuration: ReadConfiguration) throws {
 		guard let data : Data 	= configuration.file.regularFileContents else {
 			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
-			throw CocoaError(.fileReadCorruptFile)								}
+			throw FwError(kind:".fileReadCorruptFile")						}
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .factals:
 			 // Decode data as a Roo t Part
@@ -129,11 +129,8 @@ struct FactalsDocument: FileDocument {
 
 			docConfig				+= rootPart.ansConfig	// from library
 		default:
-			throw CocoaError(.fileWriteUnknown)
+				throw FwError(kind:".fileReadCorruptFile")
 		}
-	}
-	enum DocError : Error {
-		case text(String)
 	}
 
 	 /// Requirement of <<FileDocument>> protocol
@@ -143,11 +140,11 @@ struct FactalsDocument: FileDocument {
 			guard let dat		= factalsModel.rootPart?.data else {				// PW-DONE worried about how RootPart.data worked
 				panic("FactalsDocument.factalsModel.rootPart.data is nil")
 				let d			= factalsModel.rootPart?.data		// redo for debug
-				throw DocError.text("FactalsDocument.factalsModel.rootPart.data is nil")
+				throw FwError(kind:"FactalsDocument.factalsModel.rootPart.data is nil")
 			}
 			return .init(regularFileWithContents:dat)
 		default:
-			throw CocoaError(.fileWriteUnknown)
+			throw FwError(kind:".fileWriteUnknown")
 		}
 	}
 	 // MARK: - 2.2 Sugar

@@ -16,27 +16,28 @@ struct FactalsModelBar: View {
 				HStack {
 					//	Text("Settled:\(isSettled() ? "true" : "false")")
 					Text("Simulator:").foregroundColor(.red).bold()
-					if let nogo   = !simulator.simBuilt	? "unbuilt" :
-								  !simulator.simEnabled ? "disabled" : nil {
-						Text(nogo)
+//					if let nogo = !simulator.simBuilt	? "unbuilt" : !simulator.simEnabled ? "disabled" : nil {
+//						Text(nogo)
+					if false {
 					}
 					else {
-//					let state =	simulator.simTaskRunning 	 ?  "running" :
-//								simulator.simEnabled 		 ?	"enabled"  :
-//								simulator.simBuilt			 ?	"built"	: "unbuilt"
-//						Text(!simulator.simEnabled 		? "disabled  " :
-//							 !simulator.simTaskRunning	? "halted  "   : "running ")
-
-//						!simulator.simTaskRunning
-
-						Button(label:{	Text(simulator.simEnabled ? "run" : "stop")	})
+						Spacer()
+						Button(label:{	Text("start")	})
 						{	simulator.simEnabled = true
 							simulator.kickstart	 = 4							}
 						Button(label:{	Text("step")							})
 						{	simulator.simEnabled = true
 							simulator.simulateOneStep()
 							simulator.simEnabled = false						}
-
+						// Other things to worry about later
+	//					!simulator.simTaskRunning
+	//					var unsettledOwned	: Int	= 0			// by things like links
+	//					var kickstart	  	: UInt8	= 0			// set to get simulator going
+	//		ro			var timeStep		: Float = 0.01
+	//					func isSettled() -> Bool				chevron
+	//					var timingChains:[TimingChain] = []	chevron
+	//					var timeNow			: Float	= 0.0
+	//		ro			var globalDagDirUp	: Bool	= true
 						HStack {
 							//let bRpQ		= $factalsModel.rootPart//!.simulator		// Binding<RootPart?>
 							//	@Bindable var viewModel = viewModel
@@ -48,18 +49,8 @@ struct FactalsModelBar: View {
 						}
 						//.padding(6)
 						.background(Color(red:1.0, green:0.9, blue:0.9))
-						Spacer()
+						//Spacer()
 					}
-					/*
-//					 var timingChains:[TimingChain] = []
-//					 func isSettled() -> Bool
-//					 var unsettledOwned	: Int	= 0			// by things like links
-//					 var kickstart	  	: UInt8	= 0			// set to get simulator going
-//		ro			 var timeStep		: Float = 0.01
-
-//					 var timeNow			: Float	= 0.0
-//		ro			 var globalDagDirUp	: Bool	= true
-					 */
 				}
 			}
 

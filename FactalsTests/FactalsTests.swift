@@ -33,7 +33,7 @@ final class FactalsTests: XCTestCase {
 			try await actor.performAction {
 				// I presume we are now in the actor's thread
 				await actor.setRootPart(new:RootPart())
-																				//await actor.rootPart	= .nullRoot
+				if false {throw FwError(kind:"testRootPartActor01") }																				//await actor.rootPart	= .nullRoot
 																				//let actr = actor
 																				//var rootPart	= await actor.rootPart
 																				// Access and modify the rootPart resource

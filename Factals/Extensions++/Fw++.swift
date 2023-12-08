@@ -177,8 +177,8 @@ extension SCNAudioSource  	{
 extension SCNAudioPlayer 	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		return ppStopGap(mode, aux)		// NO, try default method
-	}}
-
+	}
+}
 /* Future
 CGFloat.NativeType)
 */
@@ -194,6 +194,9 @@ enum FwType : String {
 
 enum FwError: Error {
 	case string(_ kind:String)		// To Swift.throw a meaningess string
+	init(kind: String) {
+		self = .string(kind)
+	}
 }
 
  // DEFAULT IMPLEMENTATIONS, set to work for most uninteresting types

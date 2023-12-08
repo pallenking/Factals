@@ -44,7 +44,11 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 							
 		super.init()
 		rootPart?.factalsModel	= self		// Owner? is self
+
+		 // Temporary scaffolding:
+		rootPartActor			= RootPartActor(initialRootPart:nil)
 	}
+	var rootPartActor : RootPartActor? = nil
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
 					//		var data : Data? {

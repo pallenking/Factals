@@ -38,17 +38,7 @@ actor RootPartActor {
 				}
 			}
 		}
-	}
-//	func execute(command: RootPartActorCommand) async -> Int {
-//		switch command {
-//		case let .atomicTestAndSet(newValue, expectedValue):
-//			let oldValue = await atomicTestAndSet(newValue: newValue, expectedValue: expectedValue)
-//			return oldValue
- //		case let .atomicReadWithPostAdd(valueToAdd):
-//			return await readWithPostAdd(valueToAdd: valueToAdd)
-//		default:fatalError()
-//		}
-//	}
+	}												//	another way: func execute(command: RootPartActorCommand) async -> Int {
 	private func atomicTestAndSet(newValue: Int, expectedValue: Int) async -> Int {
 		return await withCheckedContinuation { continuation in
 			if rootPart?.foo22 == expectedValue {
@@ -60,14 +50,10 @@ actor RootPartActor {
 		}
 	}
 	private func readWithPostAdd(valueToAdd: Int) async -> Int {
-		var oldValue 			= rootPart?.foo22
-		await withTaskGroup(of: Void.self) { group in
-			group.addTask { [self] in
-				//oldValue 		= await rootPart?.foo22
-				await rootPart?.foo22 += valueToAdd
-			}
-		}
-		return oldValue ?? -99
+		guard let rootPart else { return -99 }
+		var rv					= rootPart.foo22
+		rootPart.foo22 			+= valueToAdd
+		return rv
 	}
 	func setRootPart(new rp:RootPart) {
 		rootPart = rp
