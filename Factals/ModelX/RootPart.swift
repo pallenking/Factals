@@ -11,7 +11,7 @@ https://developer.apple.com/documentation/scenekit/scntransaction/1523078-lock
 lock to ensure that your modifications take effect as intended.
  */
 enum RootPartActorCommand { //}: RawRepresentable, Identifiable, CustomStringConvertible, CaseIterable, Hashable {				//   enum Method: String, RawRepresentable, Identifiable, CustomStringConvertible, CaseIterable, Hashable {
-	case setRootPart(to:RootPart)
+	//case setRootPart(to:RootPart)
 	case configureX1(from:FwConfig)
 	case encodeX1(to:Encoder)
 	case wireAndGroomX1(FwConfig)
@@ -21,7 +21,7 @@ enum RootPartActorCommand { //}: RawRepresentable, Identifiable, CustomStringCon
 
 actor RootPartActor {
 	private var rootPart : RootPart? = nil
-	init(initialRootPart: RootPart?) {
+	/*private*/ init(initialRootPart: RootPart?) {
 		self.rootPart = initialRootPart
 	}
 
@@ -51,16 +51,16 @@ actor RootPartActor {
 	}
 	private func readWithPostAdd(valueToAdd: Int) async -> Int {
 		guard let rootPart else { return -99 }
-		var rv					= rootPart.foo22
+		let rv					= rootPart.foo22
 		rootPart.foo22 			+= valueToAdd
 		return rv
 	}
-	func setRootPart(new rp:RootPart) {
+	private func setRootPart(new rp:RootPart) {
 		rootPart = rp
 	}
 }
 
-class RootPart : Part {		//class//actor//
+ class RootPart : Part {		//class//actor//
     /*private*/ var foo22: Int = 0
 
 	 // MARK: - 2.1 Object Variables

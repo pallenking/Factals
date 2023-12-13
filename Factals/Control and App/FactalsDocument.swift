@@ -102,7 +102,7 @@ struct FactalsDocument: FileDocument {
 	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
 		 // Make new RootPart, FactalsModel, and Document
 		let rootPart			= RootPart(fromLibrary:fromLibrary)
-		let factalsModel		= FactalsModel(rootPart:rootPart)
+		let factalsModel		= FactalsModel()//rootPart:rootPart)
 		rootPart.factalsModel	= factalsModel
 		let doc					= FactalsDocument(factalsModel:factalsModel)
 		factalsModel.document 	= doc
@@ -118,26 +118,26 @@ struct FactalsDocument: FileDocument {
 		guard let data : Data 	= configuration.file.regularFileContents else {
 			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
 			throw FwError(kind:".fileReadCorruptFile")						}
-		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
-		case .factals:
-			 // Decode data as a Roo t Part
-			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
-
-			 // Make the FileDocument
-			let factalsModel	= FactalsModel(rootPart:rootPart)
-			self.init(factalsModel:factalsModel)
-
-			docConfig				+= rootPart.ansConfig	// from library
-		default:
-				throw FwError(kind:".fileReadCorruptFile")
-		}
+//		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
+//		case .factals:
+//			 // Decode data as a Roo t Part
+//			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
+//
+//			 // Make the FileDocument
+//			let factalsModel	= FactalsModel(rootPart:rootPart)
+//			self.init(factalsModel:factalsModel)
+//
+//			docConfig				+= rootPart.ansConfig	// from library
+//		default:
+//				throw FwError(kind:".fileReadCorruptFile")
+//		}
 	}
 
 	 /// Requirement of <<FileDocument>> protocol
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
 		switch configuration.contentType {
 		case .factals:
-			guard let dat		= factalsModel.rootPart?.data else {				// PW-DONE worried about how RootPart.data worked
+			guard let dat		= factalsModel.rootPart?.data else {	// how is RootPart.data worked?
 				panic("FactalsDocument.factalsModel.rootPart.data is nil")
 				let d			= factalsModel.rootPart?.data		// redo for debug
 				throw FwError(kind:"FactalsDocument.factalsModel.rootPart.data is nil")

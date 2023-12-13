@@ -7,7 +7,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
 	var document : FactalsDocument!					// Owner
-	@Published var rootPart 	:  RootPart?													//{	rootVew.part as! RootPart}
+	@Published var rootPart : RootPart? = nil													//{	rootVew.part as! RootPart}
 	func setRootPart(rootPart r:RootPart) {
 		guard rootPart == nil || rootPart!.lock(for:"setRootPart", logIf:false)
 			else {  fatalError(" couldn't get PART lock")						}
@@ -38,8 +38,8 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	}
 	 // MARK: - 3. Factory
 	 //PAK: Could remove this.
-	init(rootPart r:RootPart?=nil) {
-		rootPart				= r
+	override init() {						// rootPart r:RootPart?=nil
+		rootPart				= nil
 		log						= Log(title:"FactalsModel's Log", params4all)
 							
 		super.init()

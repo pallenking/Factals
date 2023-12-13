@@ -83,7 +83,7 @@ struct FactalsModelView: View {
 								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
 							}
 							// Generate code exemplefying the following thoughts that I am told:
-							// sceneview takes in a publisher		// PW:
+							// sceneview takes in a publisher		// PW essential/big
 							// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
 							// scenkit -> write models back to viewmodel. s
 							// viewmodel single source of truth.

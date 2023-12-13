@@ -25,27 +25,27 @@ final class FactalsTests: XCTestCase {
 	}
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
-	func testRootPartActor01 () async {
-		// Create an instance of RootPartActor with an initial rootPart
-		let initialRootPartValue = RootPart(fromLibrary:"+ Splitters family portrait")
-		let actor 				= RootPartActor(initialRootPart: initialRootPartValue)
-		do {
-			try await actor.performAction {
-				// I presume we are now in the actor's thread
-				await actor.setRootPart(new:RootPart())
-				if false {throw FwError(kind:"testRootPartActor01") }																				//await actor.rootPart	= .nullRoot
-																				//let actr = actor
-																				//var rootPart	= await actor.rootPart
-																				// Access and modify the rootPart resource
-																				// e.g., rootPart.update()
-																				//actor.rootPart 	= RootPart(fromLibrary:nil)
-			}
-		// Handle successful execution
-		} catch {
-			// Handle the error thrown during the action
-			print("Error: \(error)")
-		}
-	}
+//func testRootPartActor01 () async {
+//	// Create an instance of RootPartActor with an initial rootPart
+//	let initialRootPartValue = RootPart(fromLibrary:"+ Splitters family portrait")
+//	let actor 				= RootPartActor(initialRootPart: initialRootPartValue)
+//	do {
+//		try await actor.performAction {
+//			// I presume we are now in the actor's thread
+//			await actor.setRootPart(new:RootPart())
+//			if false { throw FwError(kind:"testRootPartActor01") 			}																				//await actor.rootPart	= .nullRoot
+//																			//let actr = actor
+//																			//var rootPart	= await actor.rootPart
+//																			// Access and modify the rootPart resource
+//																			// e.g., rootPart.update()
+//																			//actor.rootPart 	= RootPart(fromLibrary:nil)
+//		}
+//	// Handle successful execution
+//	} catch {
+//		// Handle the error thrown during the action
+//		print("Error: \(error)")
+//	}
+//}
 
 //	func testLldb() {
 //		let x 					= LLDBrootPart
@@ -83,19 +83,19 @@ final class FactalsTests: XCTestCase {
 				extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		 */
 	}
-	func testRootAsPart1() {
-		let rootPart1			= RootPart()
-		print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
-		let factalsModel1		= FactalsModel(rootPart:rootPart1)
-		print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
-
-		let document			= FactalsDocument(factalsModel:factalsModel1)
-
-		factalsModel1.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		print("FactalsModel(rP1:)  '\(factalsModel1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
-
-		print("&&&&&& No         ppMode Default Hang     errors")
-	}
+//func testRootAsPart1() {
+//	let rootPart1			= RootPart()
+//	print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
+//	let factalsModel1		= FactalsModel(rootPart:rootPart1)
+//	print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
+//
+//	let document			= FactalsDocument(factalsModel:factalsModel1)
+//
+//	factalsModel1.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+//	print("FactalsModel(rP1:)  '\(factalsModel1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
+//
+//	print("&&&&&& No         ppMode Default Hang     errors")
+//}
 
 	func testVewPp() {
 		let m1 = MaxOr()
