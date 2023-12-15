@@ -216,7 +216,6 @@ class Splitter : Atom {
 	}
 	 // Use the attached Shares to process data:
 	override func simulate(up upLocal:Bool) {
-
 		 // Sequence is special: just cycle its part Ports	 	// ///////////// //
 		let pPort				= self.ports["P"]	 ?? .error // // DOWN  //// //
 		//let kindPort			= self.ports["KIND"] ?? .error// ///////////// //
@@ -237,16 +236,8 @@ class Splitter : Atom {
 			//!	 Multiply:		Prod(inI)
 			//!	 KNorm			(Sum(inI^^k))^^(1/k)	k is a global constant
 			//!	 Sequence:		  - n.a. -
-
-			 // ==== Initialize
-			combinePre()							// INZ
-			//!<< combinePre >>: OPERATION
-			//! DEFAULT:	a1	=	0.0
-			//!	 MaxOr:		a1	=	-inf
-			//!	 MinAnd:	a1	=	+inf
-			//!	 Bayes:		a1	=	0.1
-			//!	 Multiply:	a1	=	1.0
-			//!	 Sequence:   ?
+			 
+			combinePre()				// ==== Initialize
 
 			 // ==== Scan Shares
 			self.combineWinner 	= -1	// no winner yet
@@ -264,14 +255,6 @@ class Splitter : Atom {
 						if combineNext(val:val) {
 							self.combineWinner = i		// current is winner -- record it
 						}
-						//!<< combineNext >>: OPERATION		  RETURNS:
-						//!	DEFAULT:	a1   += con			false
-						//!	 MaxOr:		a1 max= con			==highest if con>0.01
-						//!	 MinAnd:	a1 min= con			==lowest
-						//!	 Hamming:	a1   += con-cut		false
-						//!	 Multiply:	a1   *= con			==lowest
-						//!	 KNorm		a1   += con**cp		false
-						//!	 Sequence:	  ---				false
 
 						if shareInputChanged {
 							atDat(4, sh.logd("   COMB:val=%.2f:a1=%.2f cWin=%d", val,	a1, combineWinner))

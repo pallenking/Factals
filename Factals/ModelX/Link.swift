@@ -74,23 +74,23 @@ class Link : Atom {
 		 // A Link uses special Ports with a built in conveyor:
 		let greenOnLeft			= trueF//falseF/trueF/			//  (1, 0) : (2,300)
 
-		let cUp					= config + ["name":"P"		 ]	// (2,300) : (1, 0)
+		let cUp					= config + ["name":"P"]//(2,300):(1, 0)
 		let p0	/* (x, y) */	= greenOnLeft ? (1, 0) : (imageWidth-1, imageHeight)
-		pUpCPort 			= LinkPort(cUp, parent:self, i0:p0, color0:.green)
-		addChild(  pUpCPort)
-		pUpCPort   .outPort	= sDownCPort
+		pUpCPort 				= LinkPort(cUp, parent:self, i0:p0, color0:.green)
+		addChild(pUpCPort)
+		pUpCPort.outPort		= sDownCPort
 		ports["P"]				= pUpCPort
 
 		let cDn					= config + ["name":"S", "f":1]
 		let p1					= greenOnLeft ? (imageWidth-1,imageHeight) : (1, 0)
-		sDownCPort			= LinkPort(cDn, parent:self, i0:p1, color0:.red)
+		sDownCPort				= LinkPort(cDn, parent:self, i0:p1, color0:.red)
 		addChild(sDownCPort)
-		sDownCPort .outPort	= pUpCPort
+		sDownCPort.outPort		= pUpCPort
 		ports["S"]				= sDownCPort
 
 		 // Register CPorts
-		assert(pUpCPort  .dirty == .clean, "paranoia")						//pPort.dirty.turnOff(.vew) // (link vew proper at init)
-//??	assert(sDownCPort.dirty == .clean, "paranoia")						//sPort.dirty.turnOff(.vew) // (link vew proper at init)
+		assert(pUpCPort  .dirty == .clean, "paranoia")	//pPort.dirty.turnOff(.vew) // (link vew proper at init)
+//??	assert(sDownCPort.dirty == .clean, "paranoia")	//sPort.dirty.turnOff(.vew) // (link vew proper at init)
 
 		 // Initial values of LinkPort, for testing (of P/UpConveyor, not Q)
 		if let valStr			= localConfig["initialSegments"] as? String {
@@ -174,7 +174,10 @@ bug;	return rv
 			CPort.parent		= self
 		}
 	}
-
+	override func reset() {							super.reset()
+//		upConveyor.removeAllObjects
+//		downConveyor.removeAllObjects
+	}
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up:Bool) {
 		//super.simulate(up:up)			//??
@@ -304,6 +307,7 @@ bug;	return rv
 				sRay.name		= "s-Ray"
 				sRay.color0		= .black
 				sLink.addChild(node:sRay)
+
 				 // Add Billboard of bidirectional values
 				sPaint			= SCNNode()
 				sPaint!.name	= "s-Paint"
@@ -332,7 +336,7 @@ bug;	return rv
 				geom.materials 	= []
 				for _ in 0..<nPaint {
 					 // Create MATERIALS for faces to display colors
-					let m 	= SCNMaterial()
+					let m 		= SCNMaterial()
 					m.diffuse.contents = NSColor(hexString:"#00000000")		// not normal .white
 					geom.materials.append(m)
 				}
@@ -361,8 +365,8 @@ bug;	return rv
 
 		  // :H: conSpot; scn_V_ector3; scn_F_loat
 		 //  :H: CONnnected to(2)
-		var pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
-		 var sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
+		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
+		 let sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
 		atRsi(4, vew.log("<<===== reSizePost, found pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))"))
 
@@ -483,7 +487,7 @@ bug	// Never USED?
 		 	  let cameraScn		= rootVew.cameraScn else {
 			print("############ rotateLinkSkins can't find camera #######")
 			let rootVew			= vew.rootVew
-			let cameraScn		= rootVew?.cameraScn
+			//let cameraScn		= rootVew?.cameraScn
 			return
 		}
 //		guard let rootScn		= vew.rootVew?.rootScn else {

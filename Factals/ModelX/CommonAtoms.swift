@@ -223,8 +223,9 @@ class Mirror : Atom {
 	}
 	 // MARK: -  15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		var rv 					= super.pp(mode, aux)
-		guard  mode == .line && !aux.bool_("ppParam") 	else { 	return rv		}
+		let rv 					= super.pp(mode, aux)
+		guard  mode == .line && !aux.bool_("ppParam") else { 	return rv	}
+//		guard  /*mode == .line &&*/ !aux.bool_("ppParam") else { 	return rv	}
 		return rv + "gain:\(gain), offset:\(offset)"
 	}
 }

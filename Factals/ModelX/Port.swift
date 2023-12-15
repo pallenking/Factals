@@ -578,8 +578,7 @@ print("---------- \(vew.pp(.fullName)).portConSpotNEW")
 
 	 // MARK: - 8. Reenactment Simulator
 	override func reset() {											super.reset()
-
-		value					= 1.0
+		value					= 0.0
 	}
 	 // no specific action required for Ports:
 	override func simulate(up upLocal:Bool) {									}

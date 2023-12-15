@@ -836,7 +836,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// Scan self and children for wires to add to model
 	/// - Wires are gathered after model is built, and applied at later phase
 	/// - Parameter wirelist: 		where wires added
-	func gatherLinkUps(into linkUpList:inout [() -> ()]) {    //super gatherWiresInto:wirelist];
+	func gatherLinkUps(into linkUpList:inout [() -> ()]) {    //was gatherWiresInto:wirelist]
 		 // Gather wires from  _children_   into wirelist first:
 		for child in children {
 			if let atom       	= child as? Atom {

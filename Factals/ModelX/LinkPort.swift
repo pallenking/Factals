@@ -20,7 +20,8 @@ class LinkPort : Port {
 
 	var imageX0 : Int			= 0		// initial x of colored line image
 	var imageY0 : Int			= 0		// initial y of colored line image
-	static var colorOfVal0		= NSColor(hexString:"#FFFFFFFF")! // a particular white
+	var colorOfVal0				= NSColor(hexString:"#FFFFFFFF")! // a particular white
+//	static var colorOfVal0		= NSColor(hexString:"#FFFFFFFF")! // a particular white
 	var 	   colorOfVal1 		= NSColor.purple	// should be overridden
 	func addSegment(_ seg:LinkSegment) {
 		array.append(seg)
@@ -172,7 +173,7 @@ bug;	return rv
 		  // .:. Each color value must be in a separate path
 		 // color of segment:
 		let v					= con2?.port?.value ?? 0.0
-		var color : NSColor		= NSColor(mix:LinkPort.colorOfVal0, with:v, of:colorOfVal1)
+		var color : NSColor		= NSColor(mix:colorOfVal0, with:v, of:colorOfVal1)
 		var fromPt				= NSPoint(x:imageX0, y:imageY0)
 		for linkSegment in array {		// scan is from inPort to outPort
 
@@ -184,7 +185,7 @@ bug;	return rv
 			NSBezierPath.strokeLine(from:fromPt, to:toPt)
 
 			 // Advance to Next Segment:
-			color				= NSColor(mix:LinkPort.colorOfVal0, with:linkSegment.val, of:colorOfVal1)
+			color				= NSColor(mix:colorOfVal0, with:linkSegment.val, of:colorOfVal1)
 			fromPt				= toPt
 		}
 		let htPct : Float		= imageY0 == 0 ? 1.0	// going up		0.0 ..< 1.0

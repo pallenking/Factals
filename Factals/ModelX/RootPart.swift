@@ -339,6 +339,12 @@ bug			//self.init(url: fileURL)
 		atBld(4, logd("------- Reset..."))
 		reset()
 
+		forAllParts { part in
+			if let p = part as? Splitter {
+				p.setDistributions(total:0.0)
+			}
+		}
+
 		 //  5. Print Errors
  		atBld(3, logd(ppRootPartErrors()))
 
@@ -347,7 +353,7 @@ bug			//self.init(url: fileURL)
 
 		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 
-		 //  5. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
+		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
 		title					+= " (\(portCount()) Ports)"
 
 		//dirtySubTree(.vew)		// NOT NEEDED
