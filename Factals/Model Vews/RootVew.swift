@@ -225,9 +225,6 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 /**/	SCNTransaction.commit()
 
 		unlock(for:unlockName, logIf:log)			// Release this VEW LOCK
-//		for rootVew in factalsModel.rootVews {
-//			rootVew.unlock(vewTreeAs:unlockName, logIf:log)		// Release VEW LOCK
-//		}
 	}
 
 	 // MARK: - 15. PrettyPrint

@@ -15,7 +15,7 @@ bug//	guard self !== rhs 					  else {	return true				}
 
 class LinkPort : Port {
 	// self.Port 						// 1. Connects to this end of link
-	var array   : [LinkSegment] = []	// 2. Conveyor delay with visual
+	var inTransit:[LinkSegment] = []	// 2. Conveyor delay with visual
 	var outPort : Port?			= nil	// 3. Output from Link
 
 	var imageX0 : Int			= 0		// initial x of colored line image
@@ -24,7 +24,7 @@ class LinkPort : Port {
 //	static var colorOfVal0		= NSColor(hexString:"#FFFFFFFF")! // a particular white
 	var 	   colorOfVal1 		= NSColor.purple	// should be overridden
 	func addSegment(_ seg:LinkSegment) {
-		array.append(seg)
+		inTransit.append(seg)
 		root?.simulator.unsettledOwned	+= 1
 		assert(root?.simulator.unsettledOwned ?? 1 != 0, "wraparound")
 	}
@@ -41,7 +41,7 @@ class LinkPort : Port {
 		if let color0 = color0 {
 			self.colorOfVal1	= color0
 		}
-		array					= initialSegments	// 21200825 UNUSED
+		inTransit				= initialSegments	// 21200825 UNUSED
 		super.init(config_)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		self.parent				= parent
 	}
@@ -67,7 +67,7 @@ class LinkPort : Port {
 		try container.encode(imageX0,	forKey:.imageX0)
 		try container.encode(imageY0,	forKey:.imageY0)
 //		try container.encode(colorOfVal1,	forKey:.colorOfVal1)
-		try container.encode(array,		forKey:.array)
+		try container.encode(inTransit,		forKey:.array)
 		atSer(3, logd("Encoded  LinkPort    '\(self.fullName)'"))
 	}
 	 // Deserialize
@@ -79,7 +79,7 @@ class LinkPort : Port {
 		imageX0	 				= try container.decode(			 Int.self, forKey:.imageX0)
 		imageY0	 				= try container.decode(			 Int.self, forKey:.imageY0)
 //		colorOfVal1	 			= try container.decode(		 NSColor.self, forKey:.colorOfVal1)
-		array	 				= try container.decode([LinkSegment].self, forKey:.array)
+		inTransit	 				= try container.decode([LinkSegment].self, forKey:.array)
 		atSer(3, logd("Decoded  as? LinkPort"))
 	}
 //	 // MARK: - 3.6 NSCopying
@@ -103,18 +103,20 @@ class LinkPort : Port {
 								&& imageX0	  == rhs.imageX0
 								&& imageY0	  == rhs.imageY0
 		//						&& colorOfVal == rhs.colorOfVal
-								&& array	  == rhs.array
+								&& inTransit	  == rhs.inTransit
 bug;	return rv
 	}
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
  		guard let simulator		= root?.simulator else  {	return				}
 		guard let outPort else							{	fatalError()		}
-		  // Up and Down are processed alike!
-		 // Take data from inPort, and put output into outPort
-		guard let inPort2Port	= self.con2?.port else {	return			}
-		if inPort2Port.valueChanged()
-		 {		// ENQUEUE the event (at beginning of array)
+		guard let inPort2Port	= self.con2?.port else  {	return				}
+
+		  // Take data from inPort, and put output into outPort
+		 // Up and Down are processed alike!
+		if inPort2Port.valueChanged() {
+
+		 		// ENQUEUE the event (at beginning of inTransit)
 			let (valueIn, valuePrev) = inPort2Port.getValues()
 			assert(!valueIn.isNaN,      "enqueing nan value to link")
 			assert(!valueIn.isInfinite, "enqueing inf value to link")
@@ -122,7 +124,7 @@ bug;	return rv
 			atDat(5, logd("ENQUE %.2f   to link (was %.2f)", valueIn, valuePrev))
 
 			 // Set the previous value into the conveyer, to go up
-			array .insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
+			inTransit .insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
 			simulator.unsettledOwned += 1			/// not settled
 			assert(simulator.unsettledOwned != 0, "unsettledOwned count wraparound")
 		}
@@ -135,27 +137,27 @@ bug;	return rv
 		let conveyorVelocity 	= exp2f(logVel)
 
 		if conveyorVelocity != 0,			// If LinkPort moving
-		   array.count != 0 {				  // and something in it
+		   inTransit.count != 0 {				  // and something in it
 			parent?.markTree(dirty:.paint)		// Redisplay it
 		}
 
-		  // Run the link "LinkPort BELT".
-		 // DEQUEUE the event (at beginning of array)
-		for i in stride(from:array.count-1, to:-1, by:-1) { // do backwards, so remove works
+		  // Run the link "inTransit BELT".
+		 // DEQUEUE the event (at beginning of inTransit)
+		for i in stride(from:inTransit.count-1, to:-1, by:-1) { // do backwards, so remove works
 
 			 // Move every segment up, according to seg...vel.
-			array[i].heightPct 	+= conveyorVelocity	// move along, from 0.0...1.0
+			inTransit[i].heightPct 	+= conveyorVelocity	// move along, from 0.0...1.0
 
 			 // DEQUEUE an event?:
-			if array[i].heightPct >= 1 {	// has a seg gone off the end?
-				array.remove(at:i) 				// deque used up element
-				let	v			= array.count >= 1 ?
-								  array[i-1].val   :// TAKE the value quietly (not takeValue w printout)
+			if inTransit[i].heightPct >= 1 {	// has a seg gone off the end?
+				inTransit.remove(at:i) 				// deque used up element
+				let	v			= inTransit.count >= 1 ?
+								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
 								 inPort2Port.value 	// Link input port if no previous value
 				atDat(5, outPort.logd("DEQUE %.2f from link (was %.2f)", v, outPort.value))
 				if outPort.value != v {
 					outPort.value = v												//outPort.take(value:v)
-					outPort					  .markTree(dirty:.paint)
+					outPort.markTree(dirty:.paint)
 					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
 				}
 				 // Decrement unsettled count
@@ -172,34 +174,43 @@ bug;	return rv
 		   // A NSBezierPath can have only one color.
 		  // .:. Each color value must be in a separate path
 		 // color of segment:
-		let v					= con2?.port?.value ?? 0.0
+
+
+//		if inPort2Port.valueChanged() {
+//			let (valueIn, valuePrev) = inPort2Port.getValues()
+//		guard let inPort2Port	= self.con2?.port else  {	return				}
+
+
+
+		guard let con2Port		= con2?.port else 	{ fatalError()				}
+		let v					= con2Port.valuePrev
 		var color : NSColor		= NSColor(mix:colorOfVal0, with:v, of:colorOfVal1)
 		var fromPt				= NSPoint(x:imageX0, y:imageY0)
-		for linkSegment in array {		// scan is from inPort to outPort
+		for linkSegment in inTransit {		// inTransit ordered least to most
 
 			 // Draw a line of specified color:
-			let htPct			= imageY0 == 0 ? linkSegment.heightPct	// going up		0.0 ..< 1.0
-										 : 1.0 - linkSegment.heightPct	// going down	1.0 >.. 0.0
+			let htPct			= imageY0 == 0 ? linkSegment.heightPct	// going up	  0.0..<1.0
+										 : 1.0 - linkSegment.heightPct	// going down 1.0>..0.0
 			let toPt			= NSPoint(x:imageX0, y:Int(htPct * imageHeight))
 			color.setStroke()
-			NSBezierPath.strokeLine(from:fromPt, to:toPt)
+/**/		NSBezierPath.strokeLine(from:fromPt, to:toPt)
 
 			 // Advance to Next Segment:
 			color				= NSColor(mix:colorOfVal0, with:linkSegment.val, of:colorOfVal1)
 			fromPt				= toPt
 		}
-		let htPct : Float		= imageY0 == 0 ? 1.0	// going up		0.0 ..< 1.0
-										 	   : 0.0 	// going down	1.0 >.. 0.0
+		let htPct : Float		= imageY0 == 0 ? 1.0	// going up		0.0..<1.0
+										 	   : 0.0 	// going down	1.0>..0.0
 		let toPt				= NSPoint(x:imageX0, y:Int(htPct * imageHeight))
 		color.setStroke()
-		NSBezierPath.strokeLine(from:fromPt, to:toPt)
+/**/	NSBezierPath.strokeLine(from:fromPt, to:toPt)
 		image.unlockFocus()
 	}
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ name:String) -> String	{
 		var (rv, sep)			= ("", name)
-		for linkSegment in array {
+		for linkSegment in inTransit {
 			rv 					+= "\t\t\t\t\t\t\(sep) [\(linkSegment.heightPct): val=\(linkSegment.val)]\n"
 			sep					= "  "
 		}
@@ -209,7 +220,7 @@ bug;	return rv
 		var rv = super.pp(mode, aux)
 		if mode == .tree {
 			var sep				= ""
-			for seg in array {
+			for seg in inTransit {
 				rv 				+= "\t\t\t\t\t\t\(sep) [\(seg.heightPct): val=\(seg.val)]\n"
 				sep				= "  "
 			}

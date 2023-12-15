@@ -38,7 +38,7 @@ class Link : Atom {
 	 // MARK: - 1. Class Variables:
 
 	 // would like useBlane==true, but plane cannot have a Z component
-	static var linkNo 			= 1
+	static var linkNo 			= 1			//elim->hash
 
 	 // MARK: - 2. Object Variables:
 	 // MARK: - specify type of line:
@@ -107,7 +107,7 @@ class Link : Atom {
 	override func hasPorts() -> [String:String]	 {  	[:]						}	//Ports defined elsewhere
 //	override func hasPorts() -> [String:String]	 {  	["P":"cC", "S":"cCf"]	}	// Ports of Link created by this
 //	override func hasPorts() -> [String:String]	 {  	["P":"c", "S":"cf"]		}
-	var curActiveSegments : Int	{ pUpCPort.array.count + sDownCPort.array.count	}
+	var curActiveSegments : Int	{ pUpCPort.inTransit.count + sDownCPort.inTransit.count	}
 
 	 // MARK: - 3.5 Codable
 	enum LinksKeys: String, CodingKey {
@@ -181,8 +181,9 @@ bug;	return rv
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up:Bool) {
 		//super.simulate(up:up)			//??
-		let CPort = up ? pUpCPort : sDownCPort
-		CPort.simulate()
+		up ?
+		     pUpCPort.simulate() :
+		   sDownCPort.simulate()
 	}
 	  // MARK: - 9.0 make a Vew for a Part
 	override func VewForSelf() -> Vew? {	return LinkVew(forPart:self)		}
@@ -541,7 +542,7 @@ bug	// Never USED?
 		 // S and P port of a link have no views, but their .paint bits must be cleared:
 		let _ 				= ports.map 	{	$1.dirty.turnOff(.paint) 		}
 
-		super.rePaint(vew:vew)				// hits my endPorts
+		super.rePaint(vew:vew)				// hits my end LinkPorts
 
 		if linkSkinType == .dual {
 			guard let linkVew = vew as? LinkVew else {	fatalError("paranoia")	}
@@ -579,7 +580,7 @@ bug	// Never USED?
 				rv				+= sDownCPort.pp("dn")
 			}
 		case .line:
-			let n				= pUpCPort.array.count + sDownCPort.array.count
+			let n				= pUpCPort.inTransit.count + sDownCPort.inTransit.count
 			rv					+= "ev=" + String(n)
 			if linkSkinType != .invisible {
 				rv				+= ", linkSkinType:\(linkSkinType.rawValue)"

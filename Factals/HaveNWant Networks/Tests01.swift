@@ -1042,9 +1042,11 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 let decay = 0.0//5//.1
 xr("+Mirror Oscillator", eSimX + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
-//	Mirror([n:"t2"]),
 	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
 	Mirror([n:"t1", f:1, P:"t2,l:4" ]),
+//	Mirror([n:"t2"]),
+//	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
+
 ] ]) })
 	 // Use Inspec to change offset
 	r("testing Mirror Gui", eSim + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([placeMy:"linky", parts:[

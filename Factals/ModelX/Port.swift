@@ -20,15 +20,15 @@ import SceneKit
 			 	INPUT		  ((	INPUT    OUTPUT  ))		OUTPUT
 	Atom	 	^	v		  ((	\^^^/    \vvv/   ))		   |
 				|	|		    \	 \^/      \v/   /		   v
-				|	|		     |	  ^	      PREV,|	  take(value:)
-	 Port		|	|		     |____|_______VALUE|L	  getValues()
-		 		|	|			 '   /|\ \   /  |  '		 ^-->-v
-		 		|	|			      |   \ /   |			 |	  |
-				| con2				  |	   *	|			con2  |
-				|   |				  |   / \   |			 |	  |
-				^___v			 .____|__/   \_\|/_.		 |	  |
-	 Port	 getValue() 		L|VALUE,		|  |		 |	  |
-			 take(value:)   	 |PREV			A  |		 |	  |
+				|	|		     |	  ^	     |PREV,|	  take(value:)
+	 Port		|	|		     |____|______|VALUE| 	  getValues()
+		 		|	|			      |   \ /   |   		 ^-->-v
+		 		|	|			     /|\   V    |			 |	  |
+				| con2				  |	   | 	|			con2  |
+				|   |				  |    A   \|/			 |	  |
+				^___v			  ____|___/ \___|__ 		 |	  |
+	 Port	 getValue() 		 |VALUE|		|  |		 |	  |
+			 take(value:)   	 |,PREV|		A  |		 |	  |
 	 			  ^				/	 /^\	   /v\  \  		 ^	  v
 	Atom		OUTPUT		  ((	/^^^\	  /vvv\	 ))		 INPUT
 
@@ -176,11 +176,11 @@ class Port : Part, PortTalk {
 		}
 		 // Accessors, to simplify accessor readability
 		var port : Port? {
-			if case .port(let port_) = self { return port_						}
+			if case .port(let port_) = self 		{ return port_				}
 			return nil
 		}
 		var string : String? {
-			if case .string(let string_) = self { return string_				}
+			if case .string(let string_) = self 	{ return string_			}
 			return nil
 		}
 	}
