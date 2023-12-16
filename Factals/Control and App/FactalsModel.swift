@@ -129,7 +129,6 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
     /// - Parameter vew: -- The Vew to use
 	/// - Returns: Key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
- 		let character			= nsEvent.charactersIgnoringModifiers!.first!
 		if nsEvent.type == .keyUp {			// ///// Key UP ////// //
 			return false
 		}
@@ -138,6 +137,8 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 		let alt 				= modifierKeys.contains(.option)
 	//	let doc					= document!
 
+		var found				= true
+ 		let character			= nsEvent.charactersIgnoringModifiers!.first!
 		switch character {
 		case "r": // (+ cmd)
 			if cmd {
@@ -170,7 +171,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 											appropriateFor:nil,
 											create:true)
 			let suffix			= alt ? ".dae" : ".scn"
-			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
+//			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
 bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("") } ()
 //			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
@@ -223,11 +224,23 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 				"\t'x'             -- send to model",
 //				"\t'f'             -- Freeze SceneKit Animations",
 				separator:"\n")
-			return false
+			found			= false
 		default:					// // NOT RECOGNIZED // //
-			if document.processEvent(nsEvent:nsEvent, inVew:vew) {
-				return true
+			found			= false
+		}
+		if found == false {
+
+			 // Check Simulator:
+	/**/	if rootPart != nil,
+			  rootPart!.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+				return true 		// handled by simulator
 			}
+
+			 // Check Document:
+			if document.processEvent(nsEvent:nsEvent, inVew:vew) {
+				return true			// handled by doc
+			}
+
 			return false
 		}
 		return true					// comes here if recognized

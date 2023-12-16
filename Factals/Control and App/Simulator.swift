@@ -172,13 +172,11 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	  ///  - Parameter vew:         -- The Vew to use
 	 ///   - Returns: Key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
-		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
-			return false
-		}
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
 			return false						// Simulator has no key-ups
 		}
 	//	let shift 				= nsEvent.modifierFlags.contains(.shift)
+		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
 		switch character {
 		case " ":							// perhaps "+ shift"
 			 // One more cycle, stop if running:
@@ -202,6 +200,14 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		default:
 			nop
 		}
+
+		 // Check registered TimingChains
+		for timingChain in timingChains {
+/**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
+				return true 				/* handled by timingChain */
+			}
+		}
+
 		return false
 	}
 }

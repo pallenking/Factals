@@ -153,7 +153,7 @@ func printDebuggerHints() {
 		"\t'C'             -- print System Configuration (1-line of each hash)",
 		"\t'c'             -- print System Controllers State (1-line state of each)",
 		separator:"\n")
-	print("\n===== Debugger Hints: =================",
+	print("===== Debugger Hints: =================",
 		"\t" + "pc <expr>       -- print fwClassName of <expr>",
 		"\t" + "pn <expr>       -- print name of <expr>",
 		"\t" + "pf <expr>       -- print full name of <expr>",
@@ -171,7 +171,7 @@ func printDebuggerHints() {
 		"\t" + "pFwState:  -- ('C') print System Controllers State (1-line state of each)",
 		"\t" + "pFwConfig: -- ('c') print System Configuration     (1-line of each hash)",
 		separator:"\n")
-	print("\n=== Configuration:",
+	print("=== Configuration:",
 		"\t" + " reload with  lldbinit  = '  command source ~/src/SwiftFactals/.lldbinit  '",
 /**/	"\t" + "    N.B: must have symbolic link ~/.lldbinit ->  ~/src/SwiftFactals/.lldbinit  ",
 		separator:"\n")

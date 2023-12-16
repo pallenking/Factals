@@ -319,23 +319,20 @@ bug
     /// - Parameter vew: -- The Vew to use
 	/// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
-		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
-			return false
-		}
-		let rootPart2 : RootPart! = vew.part.root// ?? .null
-		 // Check registered TimingChains
-		for timingChain in rootPart2.simulator.timingChains {
-			guard timingChain.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
-				return true 				/* handled by timingChain */		}
-		}
-//		 // Check factalsModel:
-//		guard factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
-//			return true 					/* handled by factalsModel */
+		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
+		guard let rootPart : RootPart = vew.part.root else {return false }	// vew.root.part
+
+//		 // Check registered TimingChains
+//		for timingChain in rootPart.simulator.timingChains {
+///**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
+//				return true 				/* handled by timingChain */
+//			}
 //		}
-		 // Check Simulator:
-		guard rootPart2?.simulator.processEvent(nsEvent:nsEvent, inVew:vew) == false else  {
-			return true 					// handled by simulator
-		}
+//
+//		 // Check Simulator:
+///**/	if rootPart.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+//			return true 					// handled by simulator
+//		}
 
 		 // Check Controller:
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
@@ -372,23 +369,23 @@ bug
 		case "m":
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'm': === Parts:")
-			print(rootPart2.pp(.tree, aux), terminator:"")
+			print(rootPart.pp(.tree, aux), terminator:"")
 		case "M":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'M': === Parts and Ports:")
-			print(rootPart2.pp(.tree, aux), terminator:"")
+			print(rootPart.pp(.tree, aux), terminator:"")
 		case "l":
 			aux["ppLinks"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'l': === Parts, Links:")
-			print(rootPart2.pp(.tree, aux), terminator:"")
+			print(rootPart.pp(.tree, aux), terminator:"")
 		case "L":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			aux["ppLinks"]		= true
 			print("\n******************** 'L': === Parts, Ports, Links:")
-			print(rootPart2.pp(.tree, aux), terminator:"")
+			print(rootPart.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "c":

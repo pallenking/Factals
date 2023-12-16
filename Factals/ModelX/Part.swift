@@ -1412,19 +1412,9 @@ func foo () {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		var rv					= false
 		if nsEvent.type == .keyDown || nsEvent.type == .keyUp {
-			if let root {
-				if root.simulator.processEvent(nsEvent:nsEvent, inVew:vew) {
-					return true
-				}
-				if root.factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) {
-					return true
-				}
-			}
+			let kind			= nsEvent.type == .keyUp ? ".keyUp" : ".keyDown"
+			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
-//		if nsEvent.type == .keyUp || nsEvent.type == .keyDown {
-//			let kind			= nsEvent.type == .keyUp ? ".keyUp" : ".keyDown"
-//			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
-//		}
 		else {			 // Mouse event
 			if var doc			= root?.factalsModel?.document { 	// take struct out
 				//assert(doc === DOC, "paranoia")
@@ -1434,8 +1424,7 @@ func foo () {
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
-print(" burp")
-//					doc.showInspecFor(vew:vew, allowNew:alt)
+/**/				doc.showInspecFor(vew:vew, allowNew:alt)
 					rv			= true
 				}
 							// Double Click: show/hide insides

@@ -38,12 +38,8 @@ class RootScene : SCNScene {				// xyzzy4
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 
-			if  rootVew.processEvent(nsEvent:nsEvent, inVew:vew) == false,
-				char != "?"
-//			if  factalsModel != nil &&
-//				factalsModel!.processEvent(nsEvent:nsEvent, inVew:vew) == false,
-//				char != "?"
-			{		// okay for "?" to get here
+/**/		if rootVew.processEvent(nsEvent:nsEvent, inVew:vew) == false,
+			  char != "?"  {		// okay for "?" to get here
 				atEve(3, print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)"))
 			}
 		case .keyUp:
