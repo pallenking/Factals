@@ -180,9 +180,7 @@ bug;	return rv
 
 	// MARK: - 13. IBActions
 	override func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
-		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {
-			return false				// no character there
-		}
+		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false }
 
 		 /* Single Step */				// //// key DOWN ///////
 		if nsEvent.type == .keyDown {

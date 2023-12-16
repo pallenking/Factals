@@ -225,6 +225,9 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 				separator:"\n")
 			return false
 		default:					// // NOT RECOGNIZED // //
+			if document.processEvent(nsEvent:nsEvent, inVew:vew) {
+				return true
+			}
 			return false
 		}
 		return true					// comes here if recognized

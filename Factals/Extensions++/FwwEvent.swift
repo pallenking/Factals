@@ -25,12 +25,18 @@ protocol ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool
 }
 
+extension RootScene			: ProcessNsEvent {}
+extension RootVew			: ProcessNsEvent {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+	}
+}
+//extension RootPart		/*	: ProcessNsEvent */{
 // extension TimingChain	: ProcessNsEvent {}		// Redundant
 // extension WorldModel		: ProcessNsEvent {}		// Redundant
 extension Part				: ProcessNsEvent {}
 extension FactalsDocument	: ProcessNsEvent {}
-extension FactalsModel			: ProcessNsEvent {}
-extension RootScene			: ProcessNsEvent {}
+extension FactalsModel		: ProcessNsEvent {}
 //extension EventReceiver	: ProcessNsEvent {}		// ???
 extension Simulator			: ProcessNsEvent {}
 //extension FwwEvent		: ProcessNsEvent {}

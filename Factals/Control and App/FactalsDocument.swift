@@ -328,10 +328,10 @@ bug
 			guard timingChain.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
 				return true 				/* handled by timingChain */		}
 		}
-		 // Check factalsModel:
-		guard factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
-			return true 					/* handled by factalsModel */
-		}
+//		 // Check factalsModel:
+//		guard factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) == false else {
+//			return true 					/* handled by factalsModel */
+//		}
 		 // Check Simulator:
 		guard rootPart2?.simulator.processEvent(nsEvent:nsEvent, inVew:vew) == false else  {
 			return true 					// handled by simulator
