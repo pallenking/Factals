@@ -185,39 +185,33 @@ extension RootPart : FactalsStatus	{									 ///RootPart
 }
 extension Simulator : FactalsStatus	{									///Simulator
  	func ppFactalsState(deapth:Int=999) -> String {
-		let brief				= false
+		let full				= false//true//
 		var rv					= rootPart == nil 			  ? "(rootPart==nil)"
 								: rootPart.simulator === self ? ""
 								:								"OWNER:'\(rootPart!)' BAD"
-
 		rv 						+= simBuilt   ? "simBuilt "   : "NOT BUILT "
-		if brief && !simBuilt {
-			return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
-		}
+		if full || simBuilt {
+			rv					+= simEnabled ? "simEnabled " : "NOT ENABLED "
+			if full || simEnabled {
+				rv				+= "going:\(globalDagDirUp ? "up " : "down ")"
+				rv				+= "t:\(timeNow) "
+				let simTaskPeriod = rootPart?.factalsModel.document.docConfig.double("simTaskPeriod")
+				rv				+= "simTaskPeriod=\(simTaskPeriod != nil ? String(simTaskPeriod!) : "nil") "
+				rv				+= "\(simTaskRunning ? "" : "NO ")" + "taskRunning "
 
-		rv						+= simEnabled ? "simEnabled " : "NOT ENABLED "
-		if brief && !simEnabled {
-			return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
+				let settled		= isSettled()
+				rv				+= settled ? "SETTLED " : "RUNNING "
+				if full || !settled {
+					if let unPorts = rootPart?.unsettledPorts(),
+					   unPorts.count > 0 {
+						rv		+= "\(unPorts.count) unsettled Ports"
+						rv		+= ":[" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
+					}
+					rv			+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
+					rv			+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
+				}
+			}
 		}
-		rv						+= "going:\(globalDagDirUp ? "up " : "down ")"
-		rv						+= "t:\(timeNow) "
-		let simTaskPeriod		= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod")
-		rv						+= "simTaskPeriod=\(simTaskPeriod != nil ? String(simTaskPeriod!) : "nil") "
-		rv						+= "\(simTaskRunning ? "" : "NO ")" + "taskRunning "
-
-		let settled				= isSettled()
-		rv						+= settled ? "SETTLED " : "RUNNING "
-		if brief && settled {
-			return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
-		}
-		
-		if let unPorts = rootPart?.unsettledPorts(),
-		   unPorts.count > 0 {
-			rv					+= "\(unPorts.count) unsettled Ports"
-			rv					+= ":[" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
-		}
-		rv						+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
-		rv						+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
 		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
 	}
 }

@@ -18,51 +18,41 @@ struct FactalsModelBar: View {
 					Text("Simulator:").foregroundColor(.red).bold()
 //					if let nogo = !simulator.simBuilt	? "unbuilt" : !simulator.simEnabled ? "disabled" : nil {
 //						Text(nogo)
-					if false {
+
+					Spacer()
+					Button(label:{	Text("start")	})
+					{	simulator.simEnabled = true
+						simulator.kickstart	 = 4								}
+					Button(label:{	Text("step")								})
+					{	simulator.simEnabled = true
+						simulator.simulateOneStep()
+						simulator.simEnabled = false							}
+					// Other things to worry about later
+//					!simulator.simTaskRunning
+//		ro			var timeStep		: Float = 0.01
+//					func isSettled() -> Bool				chevron
+//					var timingChains:[TimingChain] = []	chevron
+//		ro			var globalDagDirUp	: Bool	= true
+					HStack {
+						//let bRpQ		= $factalsModel.rootPart//!.simulator		// Binding<RootPart?>
+						//	@Bindable var viewModel = viewModel
+						//LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
+						//@Bindable var s			= $factalsModel.rootPart				// Binding<RootPart?>
+
+						//var timeNow : Float	= 0.0
+						LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
+						Text("\(simulator.globalDagDirUp ? ".up"  : ".down") ")
+						Text("unsettled:\(simulator.unsettledOwned) kick:\(simulator.kickstart) ")
 					}
-					else {
-						Spacer()
-						Button(label:{	Text("start")	})
-						{	simulator.simEnabled = true
-							simulator.kickstart	 = 4							}
-						Button(label:{	Text("step")							})
-						{	simulator.simEnabled = true
-							simulator.simulateOneStep()
-							simulator.simEnabled = false						}
-						// Other things to worry about later
-	//					!simulator.simTaskRunning
-	//					var unsettledOwned	: Int	= 0			// by things like links
-	//					var kickstart	  	: UInt8	= 0			// set to get simulator going
-	//		ro			var timeStep		: Float = 0.01
-	//					func isSettled() -> Bool				chevron
-	//					var timingChains:[TimingChain] = []	chevron
-	//					var timeNow			: Float	= 0.0
-	//		ro			var globalDagDirUp	: Bool	= true
-						HStack {
-							//let bRpQ		= $factalsModel.rootPart//!.simulator		// Binding<RootPart?>
-							//	@Bindable var viewModel = viewModel
-							//LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
-							//@Bindable var s			= $factalsModel.rootPart				// Binding<RootPart?>
-							LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
-							Text("\(simulator.globalDagDirUp ? ".up"  : ".down") ")
-							Text("unsettled:\(simulator.unsettledOwned) kick:\(simulator.kickstart) ")
-						}
-						//.padding(6)
-						.background(Color(red:1.0, green:0.9, blue:0.9))
-						//Spacer()
-					}
+					//.padding(6)
+					.background(Color(red:1.0, green:0.9, blue:0.9))
+					//Spacer()
 				}
 			}
-
 									//  --- FACTALS MODEL BAR  ---
 			HStack {	// FULL!
-				Text("FactalsModel").foregroundColor(.red).bold()
-				Text("   PP App:")
-				Button(label:{	Text( "state")										})//.padding(.top, 300)
-				{	printFwState()													}
-				
+				Text("Model: ").foregroundColor(.red).bold()
 				if let rootPart = factalsModel.rootPart {
-					Text("  Print Model:")
 					Button(label:{	Text( "ptm")									})
 					{	print(rootPart.pp(.tree, ["ppDagOrder":true]), 				   terminator:"") }
 					Button(label:{	Text("ptLm")									})
@@ -71,6 +61,9 @@ struct FactalsModelBar: View {
 					Text("<<no nodel>>:")
 				}
 				Spacer()
+				Text("App:").foregroundColor(.red).bold()
+				Button(label:{	Text( "state")										})//.padding(.top, 300)
+				{	printFwState()													}
 				Button(label: {	Text("LLDB") 										})
 				{	lldbPrint(factalsModel.rootPart!, /*Vews.first!,*/ mode:.tree, [:])
 					breakToDebugger()												}
