@@ -38,7 +38,9 @@ struct FactalsModelBar: View {
 						//	@Bindable var viewModel = viewModel
 						//LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
 						//@Bindable var s			= $factalsModel.rootPart				// Binding<RootPart?>
-
+///
+/// SEE FactalStatus.Simulator.ppFactalsState()
+///
 						//var timeNow : Float	= 0.0
 						LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
 						Text("\(simulator.globalDagDirUp ? ".up"  : ".down") ")
