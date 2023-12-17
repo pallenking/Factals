@@ -153,7 +153,7 @@ bug;	return rv
 				inTransit.remove(at:i) 				// deque used up element
 				let	v			= inTransit.count >= 1 ?
 								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
-								 inPort2Port.value 	// Link input port if no previous value
+								  inPort2Port.value 	// Link input port if no previous value
 				atDat(5, outPort.logd("DEQUE %.2f from link (was %.2f)", v, outPort.value))
 				if outPort.value != v {
 					outPort.value = v												//outPort.take(value:v)

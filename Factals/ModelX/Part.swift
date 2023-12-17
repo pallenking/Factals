@@ -78,17 +78,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 		return rv
 	}
-/*
-- (int) unsettledPorts;	{
-	assert(coerceTo(Net, self) or coerceTo(Atom, self), (@"%@ * illegal", self.className));
-	int rv = 0;
-	for (id elt in self.parts)
-		if (coerceTo(Part, elt))
-			rv += [elt unsettledPorts];
-	return rv;
-}
-
- */
 
 	 // MARK: - 2.4 Display Suggestions
 	var initialExpose : Expose	= .open		// Hint to use on dumb creation of views. (never changed)

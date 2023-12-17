@@ -185,41 +185,40 @@ extension RootPart : FactalsStatus	{									 ///RootPart
 }
 extension Simulator : FactalsStatus	{									///Simulator
  	func ppFactalsState(deapth:Int=999) -> String {
-		var rv1					= rootPart == nil 			  ? "(rootPart==nil)"
+		let brief				= false
+		var rv					= rootPart == nil 			  ? "(rootPart==nil)"
 								: rootPart.simulator === self ? ""
 								:								"OWNER:'\(rootPart!)' BAD"
-		var rv2 				= "not built"
-		if simBuilt {
-			rv2 				= "built, not enabled"
-			if simEnabled {
-				rv2				= "enabled, going:\(globalDagDirUp ? "up " : "down ")"
-				rv2				+= "t:\(timeNow) "///
-				let x			= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod")
-				rv2				+= "dt=\(x != nil ? String(x!) : "nil") "
-				rv2				+= "\(simTaskRunning ? "" : "no_")" + "taskRunning "
-				if isSettled() {
-					rv2			+= "SETTLED "
-				}else{
-					rv2			+= "RUNNING("
-					if let unPorts = rootPart?.unsettledPorts(),
-					  unPorts.count > 0 {
-						rv2		+= "unsettled Ports:["
-						rv2		+= unPorts.map({hash in hash() }).joined(separator:",")				//.joined(separator:"/")
-						rv2		+= "]"
-					}
-//					let nPortsUn = DOC.rootPart.unsettledPorts().count
-//					myLine 		+= nPortsUn 	  <= 0 ? "" : "Ports:\(nPortsUn) "
-					rv2			+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
-					rv2			+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
-					if rv2.hasSuffix(" ") {
-						rv2		= String(rv2.dropLast())
-					}
-					rv2			+= ") "
-				}
-				rv2				+= kickstart <= 0 ? "" : "kickstart:\(kickstart) "
-			}
+
+		rv 						+= simBuilt   ? "simBuilt "   : "NOT BUILT "
+		if brief && !simBuilt {
+			return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
 		}
-		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv1 + rv2, deapth:deapth-1)
+
+		rv						+= simEnabled ? "simEnabled " : "NOT ENABLED "
+		if brief && !simEnabled {
+			return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
+		}
+		rv						+= "going:\(globalDagDirUp ? "up " : "down ")"
+		rv						+= "t:\(timeNow) "
+		let simTaskPeriod		= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod")
+		rv						+= "simTaskPeriod=\(simTaskPeriod != nil ? String(simTaskPeriod!) : "nil") "
+		rv						+= "\(simTaskRunning ? "" : "NO ")" + "taskRunning "
+
+		let settled				= isSettled()
+		rv						+= settled ? "SETTLED " : "RUNNING "
+		if brief && settled {
+			return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
+		}
+		
+		if let unPorts = rootPart?.unsettledPorts(),
+		   unPorts.count > 0 {
+			rv					+= "\(unPorts.count) unsettled Ports"
+			rv					+= ":[" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
+		}
+		rv						+= unsettledOwned <= 0 ? "" : "Links:\(unsettledOwned) "
+		rv						+= kickstart	  <= 0 ? "" : "kickstart:\(kickstart) "
+		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
 	}
 }
 
