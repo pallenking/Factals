@@ -25,8 +25,8 @@ class LinkPort : Port {
 	var 	   colorOfVal1 		= NSColor.purple	// should be overridden
 	func addSegment(_ seg:LinkSegment) {
 		inTransit.append(seg)
-		root?.simulator.unsettledOwned	+= 1
-		assert(root?.simulator.unsettledOwned ?? 1 != 0, "wraparound")
+		root?.simulator.linkChits	+= 1
+		assert(root?.simulator.linkChits ?? 1 != 0, "wraparound")
 	}
 
 	init() { // only for nullConveyor
@@ -125,8 +125,8 @@ bug;	return rv
 
 			 // Set the previous value into the conveyer, to go up
 			inTransit .insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
-			simulator.unsettledOwned += 1			/// not settled
-			assert(simulator.unsettledOwned != 0, "unsettledOwned count wraparound")
+			simulator.linkChits += 1			/// not settled
+			assert(simulator.linkChits != 0, "linkChits count wraparound")
 		}
 
 		 // Determine LinkPort velocity
@@ -156,13 +156,13 @@ bug;	return rv
 								  inPort2Port.value 	// Link input port if no previous value
 				atDat(5, outPort.logd("DEQUE %.2f from link (was %.2f)", v, outPort.value))
 				if outPort.value != v {
-					outPort.value = v												//outPort.take(value:v)
+					outPort.value = v								// not outPort.take(value:v)
 					outPort.markTree(dirty:.paint)
 					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
 				}
 				 // Decrement unsettled count
-				assert(simulator.unsettledOwned != 0, "wraparound")
-				simulator.unsettledOwned -= 1
+				assert(simulator.linkChits != 0, "wraparound")
+				simulator.linkChits -= 1
 			}
 		}
 	}

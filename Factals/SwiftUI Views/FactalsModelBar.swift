@@ -44,7 +44,7 @@ struct FactalsModelBar: View {
 						//var timeNow : Float	= 0.0
 						LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
 						Text("\(simulator.globalDagDirUp ? ".up"  : ".down") ")
-						Text("unsettled:\(simulator.unsettledOwned) kick:\(simulator.kickstart) ")
+						Text("unsettled:\(simulator.linkChits) kick:\(simulator.kickstart) ")
 					}
 					//.padding(6)
 					.background(Color(red:1.0, green:0.9, blue:0.9))

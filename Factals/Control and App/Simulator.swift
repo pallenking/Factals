@@ -14,7 +14,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
 	var kickstart	  	:UInt8	= 0			// set to get simulator going
-	var unsettledOwned	:Int	= 0			// by things like links
+	var linkChits	:Int	= 0			// by things like links
 
 	 /// Enable simulation task to run:																					//
 	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
@@ -39,7 +39,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		let nPortsBuisy 		= rootPart!.unsettledPorts().count
 
 		 // Chits taken out by users, not yet returned.
-		let nLinksBuisy 		= unsettledOwned
+		let nLinksBuisy 		= linkChits
 
 		return nPortsBuisy == 0  &&  nLinksBuisy == 0	//  &&  kickstart <= 0
 	}
@@ -137,7 +137,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		try container.encode(simEnabled, 	forKey:.simEnabled)
 		try container.encode(simTaskRunning,forKey:.simTaskRunning)
 		try container.encode(kickstart, 	forKey:.kickstart)
-		try container.encode(unsettledOwned,forKey:.unsettledOwned)
+		try container.encode(linkChits,forKey:.unsettledOwned)
 		try container.encode(timeNow, 		forKey:.timeNow)
 		try container.encode(timeStep, 	forKey:.timeStep)
 		try container.encode(globalDagDirUp,forKey:.globalDagDirUp)
@@ -151,7 +151,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		simEnabled					= try container.decode(			Bool.self, forKey:.simEnabled	)
 		simTaskRunning				= try container.decode(			Bool.self, forKey:.simTaskRunning)
 		kickstart					= try container.decode(		   UInt8.self, forKey:.kickstart	)
-		unsettledOwned				= try container.decode(		     Int.self, forKey:.unsettledOwned)
+		linkChits				= try container.decode(		     Int.self, forKey:.unsettledOwned)
 		timeNow						= try container.decode(		   Float.self, forKey:.timeNow 		)
 		timeStep					= try container.decode(		   Float.self, forKey:.timeStep	)
 		globalDagDirUp				= try container.decode(			Bool.self, forKey:.globalDagDirUp)

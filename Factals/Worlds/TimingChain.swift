@@ -273,8 +273,8 @@ class TimingChain : Atom {
 				//!	playSound("")
 			//?	releaseEvent()
 				simulator.kickstart = 200			// start simulator after key goes up
-//				simulator.unsettledOwned += 1		// not settled
-//				assert(simulator.unsettledOwned != 0, "unsettledOwned count wraparound")
+//				simulator.linkChits += 1		// not settled
+//				assert(simulator.linkChits != 0, "linkChits count wraparound")
 			}
 		}
 		super.simulate(up:upLocal)
@@ -348,8 +348,8 @@ class TimingChain : Atom {
 			atEve(4, logd("\\\\\\\\ %02o=>State; Sim Settled;  EVENT DONE", state))
 
 			 // Stop wanting simulator
-//			assert(simulator.unsettledOwned != 0, "wraparound")
-//			simulator.unsettledOwned -= 1
+//			assert(simulator.linkChits != 0, "wraparound")
+//			simulator.linkChits -= 1
 			nextState			= 0					// ** 11. go idle
 		default:				// ----> PROBLEMS!
 			panic(fmt("state=%04o UNDEFINED", state))

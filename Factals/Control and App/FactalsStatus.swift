@@ -190,7 +190,7 @@ extension Simulator : FactalsStatus	{									///Simulator
 		var rv					= rootPart == nil 			  ? "(rootPart==nil)"
 								: rootPart.simulator === self ? ""
 								:								"OWNER:'\(rootPart!)' BAD"
-		for _ in 0..<1 {
+		for _ in 0...0 {
 			if !simBuilt {
 				rv 				+= "NOT BUILT, "
 				if !showPost { break }
@@ -212,22 +212,20 @@ extension Simulator : FactalsStatus	{									///Simulator
 			if let s		 	= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod") {
 				rv				+= "simTaskPeriod=\(String(s)) "
 			}
-			rv					+= simTaskRunning ? "taskRun; " : "taskHalted;"
-//			rv					+= "\(simTaskRunning ? "" : "NO ")" + "taskRun; "
-
+			rv					+= simTaskRunning ? "taskRun; " : "taskHalted; "
 ///
 /// See FactalsModelBar.body
 ///
-			rv					+= isSettled() ? "Sim SETTLED= " : "Run Sim= "
+			rv					+= isSettled() ? "Sim SETTLED=" : "Run Sim="
 			if let unPorts = rootPart?.unsettledPorts() {
 				rv				+= "\(unPorts.count)/Ports"
 				if unPorts.count > 0 {
 					rv			+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
 				}
-				rv				+= ", "
+				rv				+= ","
 			}
-			rv					+= "\(unsettledOwned)/Links, "
-			rv					+= "\(kickstart)/kick "
+			rv					+= "\(linkChits)/Links,"
+			rv					+= "\(kickstart)/kick"
 		}
 		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
 	}

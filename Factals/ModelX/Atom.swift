@@ -658,7 +658,7 @@ class Atom : Part {	//Part//FwPart
 						link!.ports[trgAboveSInCon ? "S" : "P"]!.connect(to:trgPort!)
 						conNet.addChild(link, atIndex:lnkInsInd)
 						 // Active segments from creation
-						self.root!.simulator.unsettledOwned += link!.curActiveSegments
+						self.root!.simulator.linkChits += link!.curActiveSegments
 					}
 				}
 /* ***************************** END OF CLOSURE **************************/
