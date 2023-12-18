@@ -71,10 +71,10 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 	var fullName16 	: String	{		return fullName.field(16)				}
 	 // - Array of unsettled ports. Elements are closures that returns the Port's name
-	func unsettledPorts()	-> [()->String]	{
+	func portChitArray()	-> [()->String]	{
 		var rv					= [()->String]()
 		for child in children {
-			rv					+= child.unsettledPorts()
+			rv					+= child.portChitArray()
 		}
 		return rv
 	}

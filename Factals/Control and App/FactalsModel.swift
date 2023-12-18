@@ -21,7 +21,7 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	var rootVews : [RootVew]	= []
 	var rootVew0 :  RootVew?	{ rootVews.first								}
 	var log 	 : Log
-	var fooo	 : CGFloat		= 03.44
+	var fooo	 : CGFloat		= -1
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)

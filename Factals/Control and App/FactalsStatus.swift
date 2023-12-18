@@ -217,17 +217,10 @@ extension Simulator : FactalsStatus	{									///Simulator
 /// See FactalsModelBar.body
 ///
 			rv					+= isSettled() ? "Sim SETTLED=" : "Run Sim="
-			guard let unPorts 	= rootPart?.unsettledPorts() else { fatalError("lahfqoh")	}
-			rv					+= "\(unPorts.count)/Ports,"
-//			if let unPorts 		= rootPart?.unsettledPorts() {
-//				rv				+= "\(unPorts.count)/Ports"
-//				if unPorts.count > 0 {
-//					rv			+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
-//				}
-//				rv				+= ","
-//			}
+			rv					+= "\(portChits)/Ports,"
+//				rv				+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
 			rv					+= "\(linkChits)/Links,"
-			rv					+= "\(kickstart)/kick"
+			rv					+= "\(startChits)/start"
 		}
 		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
 	}

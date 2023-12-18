@@ -13,8 +13,9 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var kickstart	  	:UInt8	= 0			// set to get simulator going
-	var linkChits	:Int	= 0			// by things like links
+	var portChits		: Int	{	rootPart.portCount()						}
+	var linkChits		: Int	= 0			// by things like links
+	var startChits	  	:UInt8	= 0			// set to get simulator going
 
 	 /// Enable simulation task to run:																					//
 	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
@@ -35,13 +36,9 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		}
 	}
 	func isSettled() -> Bool {
-		 // Scan all Ports, count ones which haven't settled
-		let nPortsBuisy 		= rootPart!.unsettledPorts().count
-
-		 // Chits taken out by users, not yet returned.
-		let nLinksBuisy 		= linkChits
-
-		return nPortsBuisy == 0  &&  nLinksBuisy == 0	//  &&  kickstart <= 0
+		let nPortsBuisy 		= rootPart!.portChitArray().count	// Busy Ports
+		let nLinksBuisy 		= linkChits							// Busy Links
+		return nPortsBuisy + nLinksBuisy == 0 &&  startChits <= 0
 	}
 	   // MARK: - 2.2 Simulator Task
 	  /// Start Simulation Task
@@ -81,17 +78,13 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		guard rootPart.lock(for:"simulationTask", logIf:logSimLocks)
 							else {	fatalError("simulationTask couldn't get PART lock")	}
 
-				// Clear out start cycles before simulate():
-			kickstart			-= kickstart > 0 ? 1 : 0	// ATOMICITY PROBLEM HERE:
-
-				// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
-	/**/	rootPart.simulate(up:globalDagDirUp)
+	/**/	rootPart.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
 
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= timeStep
-			//if kickstart > 0 {			// Clear out start cycles
-			//	kickstart		-= 1
-			//}
+			if startChits > 0 {			// Clear out start cycles
+				startChits		-= 1
+			}
 		rootPart.unlock(for:"simulationTask", logIf:logSimLocks)
 	}
 	 // MARK: - 2.3 Push Configuration to Controllers
@@ -133,7 +126,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		try container.encode(simBuilt, 		forKey:.simBuilt)
 		try container.encode(simEnabled, 	forKey:.simEnabled)
 		try container.encode(simTaskRunning,forKey:.simTaskRunning)
-		try container.encode(kickstart, 	forKey:.kickstart)
+		try container.encode(startChits, 	forKey:.kickstart)
 		try container.encode(linkChits,forKey:.unsettledOwned)
 		try container.encode(timeNow, 		forKey:.timeNow)
 		try container.encode(timeStep, 	forKey:.timeStep)
@@ -147,7 +140,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		simBuilt					= try container.decode(			Bool.self, forKey:.simBuilt		)
 		simEnabled					= try container.decode(			Bool.self, forKey:.simEnabled	)
 		simTaskRunning				= try container.decode(			Bool.self, forKey:.simTaskRunning)
-		kickstart					= try container.decode(		   UInt8.self, forKey:.kickstart	)
+		startChits					= try container.decode(		   UInt8.self, forKey:.kickstart	)
 		linkChits				= try container.decode(		     Int.self, forKey:.unsettledOwned)
 		timeNow						= try container.decode(		   Float.self, forKey:.timeNow 		)
 		timeStep					= try container.decode(		   Float.self, forKey:.timeStep	)
@@ -179,14 +172,14 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 			 // One more cycle, stop if running:
 			simEnabled 			= !simEnabled
 			if simEnabled {
-				kickstart		= 4
+				startChits		= 4
 			}	// (Not using ppLog -- log numbers to be independent of
-			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(kickstart)")
+			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
 		case "k":							// kickstart simulator
 			simEnabled 			= true
-			kickstart			= 4
-			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(kickstart)")
+			startChits			= 4
+			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
 		case "?":
 			print ("=== Simulator   commands:",

@@ -22,7 +22,7 @@ struct FactalsModelBar: View {
 					Spacer()
 					Button(label:{	Text("start")	})
 					{	simulator.simEnabled = true
-						simulator.kickstart	 = 4								}
+						simulator.startChits = 4								}
 					Button(label:{	Text("step")								})
 					{	simulator.simEnabled = true
 						simulator.simulateOneStep()
@@ -44,7 +44,7 @@ struct FactalsModelBar: View {
 						//var timeNow : Float	= 0.0
 						LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
 						Text("\(simulator.globalDagDirUp ? ".up"  : ".down") ")
-						Text("unsettled:\(simulator.linkChits) kick:\(simulator.kickstart) ")
+						Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
 					}
 					//.padding(6)
 					.background(Color(red:1.0, green:0.9, blue:0.9))

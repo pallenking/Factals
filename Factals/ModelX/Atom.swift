@@ -693,10 +693,10 @@ class Atom : Part {	//Part//FwPart
 	 // MARK: - 8. Reenactment Simulator
 	 // Use the attached Shares to process data:
 	 // Don't simulate Ports (before or after)
-	override func unsettledPorts() -> [()->String] {
+	override func portChitArray() -> [()->String] {
 		var rv : [()->String]	= []
 		for child in children {
-			rv 					+= child.unsettledPorts()
+			rv 					+= child.portChitArray()
 		}
 		return rv;
 	}

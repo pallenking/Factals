@@ -95,7 +95,7 @@ class Port : Part, PortTalk {
 			 //*******//
 			markTree(dirty:.paint)					// repaint myself
 			con2?.port?.markTree(dirty:.paint)// repaint my other too
-			root!.simulator.kickstart = 4			// start simulator after Port value changes
+			root!.simulator.startChits = 4			// start simulator after Port value changes
 		}
 	}
 	func valueChanged(key:String?=nil) -> Bool {
@@ -128,7 +128,7 @@ class Port : Part, PortTalk {
 		return (value, prevValuePrev)
 	}
 	 // Design Note: uses [()->String]: efficient, allows count or
-	override func unsettledPorts() -> [()->String] {
+	override func portChitArray() -> [()->String] {
 		let portChanged			= self.con2 != nil &&			// Connected Port
 								  self.value != self.valuePrev	// and Value changed
 		return !portChanged ? [] :

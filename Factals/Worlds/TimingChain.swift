@@ -272,8 +272,8 @@ class TimingChain : Atom {
 				state 				= 0001			// Start Timing Chain
 				//!	playSound("")
 			//?	releaseEvent()
-				simulator.kickstart = 200			// start simulator after key goes up
-//				simulator.linkChits += 1		// not settled
+	bug;		simulator.startChits = 200			// start simulator after key goes up
+//				simulator.linkChits += 1			// not settled
 //				assert(simulator.linkChits != 0, "linkChits count wraparound")
 			}
 		}
@@ -304,7 +304,7 @@ class TimingChain : Atom {
 				for discreteTime in discreteTimes {
 					discreteTime.loadTargetBundle(event:event!)//## 3. load target bundle
 				}
-				simulator.kickstart = 4 		// start simulator before State 2
+				simulator.startChits = 4 		// start simulator before State 2
 			}
 			atEve(7, logd("|| LOAD FwwEvent '\(event?.pp() ?? "nil")' complete"))
 			event				= nil		// done with event, even if async
@@ -405,7 +405,7 @@ class TimingChain : Atom {
 		if nsEvent.type == .keyDown {		// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {
-				root!.simulator.kickstart = 4	// set simulator to run, to pick event up
+				root!.simulator.startChits = 4	// set simulator to run, to pick event up
 				return true				// other process processes it
 			}
 		}		  // ///////// key UP  ///////
@@ -420,7 +420,7 @@ class TimingChain : Atom {
 		atEve(4, logd("    TimingChain: Release FwwEvent"))
 		eventDownPause			= false			// assert lock, which blocks till up
 		atEve(4, logd("############ eventDownPause = false -- releaseEvent"))
-		root!.simulator.kickstart = 4			// set simulator to run, to pick event up
+		root!.simulator.startChits = 4			// set simulator to run, to pick event up
 		retractPort?.take(value:0.0)
 		return
 	}
