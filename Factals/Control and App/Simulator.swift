@@ -77,25 +77,22 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	func simulateOneStep() {
 		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled	else {	return 										}
-		if let rp : RootPart	= rootPart  {
+		guard let rootPart	else {	return panic("Simulating with sim\(ppUid(self)) rootPart==nil") }
+		guard rootPart.lock(for:"simulationTask", logIf:logSimLocks)
+							else {	fatalError("simulationTask couldn't get PART lock")	}
 
-			// semaphore:
-			guard rp.lock(for:"simulationTask", logIf:logSimLocks) else {
-				fatalError("simulationTask couldn't get PART lock")
-			}
 				// Clear out start cycles before simulate():
 			kickstart			-= kickstart > 0 ? 1 : 0	// ATOMICITY PROBLEM HERE:
 
 				// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
-	/**/	rp.simulate(up:globalDagDirUp)
+	/**/	rootPart.simulate(up:globalDagDirUp)
+
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= timeStep
-
-			rp.unlock(for:"simulationTask", logIf:logSimLocks)
-		}
-		else {
-			print("Simulating with sim\(ppUid(self)) rootPart==nil")
-		}																				//}
+			//if kickstart > 0 {			// Clear out start cycles
+			//	kickstart		-= 1
+			//}
+		rootPart.unlock(for:"simulationTask", logIf:logSimLocks)
 	}
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation

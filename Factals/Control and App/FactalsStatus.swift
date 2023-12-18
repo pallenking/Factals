@@ -217,13 +217,15 @@ extension Simulator : FactalsStatus	{									///Simulator
 /// See FactalsModelBar.body
 ///
 			rv					+= isSettled() ? "Sim SETTLED=" : "Run Sim="
-			if let unPorts = rootPart?.unsettledPorts() {
-				rv				+= "\(unPorts.count)/Ports"
-				if unPorts.count > 0 {
-					rv			+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
-				}
-				rv				+= ","
-			}
+			guard let unPorts 	= rootPart?.unsettledPorts() else { fatalError("lahfqoh")	}
+			rv					+= "\(unPorts.count)/Ports,"
+//			if let unPorts 		= rootPart?.unsettledPorts() {
+//				rv				+= "\(unPorts.count)/Ports"
+//				if unPorts.count > 0 {
+//					rv			+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
+//				}
+//				rv				+= ","
+//			}
 			rv					+= "\(linkChits)/Links,"
 			rv					+= "\(kickstart)/kick"
 		}

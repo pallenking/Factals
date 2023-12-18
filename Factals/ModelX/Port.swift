@@ -129,10 +129,11 @@ class Port : Part, PortTalk {
 	}
 	 // Design Note: uses [()->String]: efficient, allows count or
 	override func unsettledPorts() -> [()->String] {
-		let portChanged			= self.con2 != nil &&	// Connected Port
-								  self.value != self.valuePrev	// Value changed
+		let portChanged			= self.con2 != nil &&			// Connected Port
+								  self.value != self.valuePrev	// and Value changed
 		return !portChanged ? [] :
-				[{ fmt("\(self.fullName)%.2f->%.2f, ", self.value, self.valuePrev) }]
+				[{ "\(self.fullName)," }]
+//				[{ fmt("\(self.fullName)%.2f->%.2f, ", self.value, self.valuePrev) }]
 	}
 
 	 // maintain consistent with Atom's ports[]
@@ -142,14 +143,14 @@ class Port : Part, PortTalk {
 			return name
 		}
 		set(newName) {
-			if var p			= atom?.ports {		// Set Atom's ports
+			if var p			= atom?.ports {			// Set Atom's ports
 				let oldName		= super.name
 				let (oldName2, _) = p.first(where: { $1 === self }) ?? ("", self)
 				assert(oldName == oldName2, "inconsistency")
-				p.removeValue(forKey:oldName)		// remove from old hash
+				p.removeValue(forKey:oldName)			// remove from old hash
 				p[newName]		= self					// add    to   new hash
 			}
-			super.name			= newName			 // Set name
+			super.name			= newName				 // Set name
 		}
 	}
 	override var fullName	: String {
