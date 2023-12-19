@@ -1040,18 +1040,21 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
+r("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
 	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
 	Mirror([n:"t1", f:1, P:"t2,l:4" ]),
 //	Mirror([n:"t2"]),
 //	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
-
 ] ]) })
 	 // Use Inspec to change offset
-	r("testing Mirror Gui", eSim + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([placeMy:"linky", parts:[
-		Mirror([n:"t2", "gain":0, "offset":0.2]),
-		Mirror([n:"t1", "gain":0, "offset":0.2, f:1, P:"t2,l:4" ]),
+	xr("t2 ignores up", eSimX + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([f:0, placeMy:"linky", parts:[
+		Mirror(   [n:"t2", "gain":0, "offset":1]),
+		Mirror(   [n:"t1", "gain":0, "offset":1, P:"t2,l:4", f:1, ]),
+//		Mirror(   [n:"t4", "gain":-1, "offset":1]),
+//		Broadcast([n:"t3", share:"t4"]),
+//		Broadcast([n:"t2", share:"t3"]),
+//		Mirror(   [n:"t1", P:"t2,l:1", f:1]),
 	] ]) })
 
 r("", e + selfiePole(s:-45,u:30) + log(all:0) + ["bBox4Atoms":true], { Net([placeMy:"stackY", parts:[

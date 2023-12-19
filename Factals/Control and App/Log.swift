@@ -228,13 +228,13 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		{
 			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)
 			if logEvents,
-			 deltaTime > 0 || simTimeLastLog==nil {
+			 deltaTime > 0 || simTimeLastLog == nil {
 				let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
 				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
-				//
+				let dashes		= deltaTime <= sim.timeStep ? "                                  " 
+															: "- - - - - - - - - - - - - - - - - "
 				let chits		= "p\(sim.rootPart!.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
-				let dashes		= deltaTime <= sim.timeStep ? "" : "- - - - - -\(chits) - - - - - - - - - - - \(delta)"
-				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(dashes)", sim.timeNow))
+				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
 			}
 			simTimeLastLog		= sim.timeNow
 		}

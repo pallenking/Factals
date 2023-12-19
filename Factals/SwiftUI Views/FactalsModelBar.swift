@@ -18,6 +18,8 @@ struct FactalsModelBar: View {
 					Text("Simulator:").foregroundColor(.red).bold()
 //					if let nogo = !simulator.simBuilt	? "unbuilt" : !simulator.simEnabled ? "disabled" : nil {
 //						Text(nogo)
+					Button(label:{	Text( "re")									})//.padding(.top, 300)
+					{	factalsModel.fooo += 1.1111		/* change something */	}
 
 					Spacer()
 					Button(label:{	Text("start")	})
@@ -55,20 +57,20 @@ struct FactalsModelBar: View {
 			HStack {	// FULL!
 				Text("Model: ").foregroundColor(.red).bold()
 				if let rootPart = factalsModel.rootPart {
-					Button(label:{	Text( "ptm")									})
-					{	print(rootPart.pp(.tree, ["ppDagOrder":true]), 				   terminator:"") }
-					Button(label:{	Text("ptLm")									})
+					Button(label:{	Text( "ptm")								})
+					{	print(rootPart.pp(.tree, ["ppDagOrder":true]), terminator:"") }
+					Button(label:{	Text("ptLm")								})
 					{	print(rootPart.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
 				} else {
 					Text("<<no nodel>>:")
 				}
 				Spacer()
 				Text("App:").foregroundColor(.red).bold()
-				Button(label:{	Text( "state")										})//.padding(.top, 300)
-				{	printFwState()													}
-				Button(label: {	Text("LLDB") 										})
+				Button(label:{	Text( "state")									})//.padding(.top, 300)
+				{	printFwState()												}
+				Button(label: {	Text("LLDB") 									})
 				{	lldbPrint(factalsModel.rootPart!, /*Vews.first!,*/ mode:.tree, [:])
-					breakToDebugger()												}
+					breakToDebugger()											}
 				Text(" ")
 			}
 		}

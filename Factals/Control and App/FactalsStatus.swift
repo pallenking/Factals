@@ -51,7 +51,7 @@ func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 //  //// ///  /// ///  /// ///  /// ///  /// ///  /// ///  /// ///  /// ///  ///
 // //// /////  / /////  / /////  / ///// / /////   / /////  / /////  / /////  /
 
-extension FactalsApp : FactalsStatus	{									///FactalsApp
+extension FactalsApp : FactalsStatus	{							///FactalsApp
 	func ppFwConfig() -> String {		config.pp(.short)						}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let emptyEntry			= APP?.config.string("emptyEntry") ?? "xr()"
@@ -96,7 +96,7 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 	}
 }
 // MARK: - DOCUMENT
-extension NSDocument : FactalsStatus	{								   ///NSDocument
+extension NSDocument : FactalsStatus	{							///NSDocument
 	func ppFactalsState(deapth:Int=999) -> String {
 bug; //never used?
 		let wcc					= windowControllers.count
@@ -117,7 +117,7 @@ bug; //never used?
 			deapth:deapth)
 	}
 }
-extension NSDocumentController : FactalsStatus {		 		 ///NSDocumentController
+extension NSDocumentController : FactalsStatus {		 	 ///NSDocumentController
 	func ppFactalsState(deapth:Int=999) -> String {
 		let ct					= self.documents.count
 		return ppFactalsStateHelper("DOCctlr      ", uid:self,
@@ -132,13 +132,13 @@ extension NSDocumentController : FactalsStatus {		 		 ///NSDocumentController
 			deapth:deapth-1)
 	}
 }
-extension Library : FactalsStatus {								///Library or ///Tests01, ...
+extension Library : FactalsStatus {							///Library or ///Tests01, ...
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= "(\(count.asString!.field(4)) tests)"
 		return ppFactalsStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
 	}
 }
-extension Log : FactalsStatus {												  ///Log
+extension Log : FactalsStatus {											  ///Log
 	func ppFwConfig() -> String {		""										}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let msg					= !logEvents ? "disabled" :
@@ -148,7 +148,7 @@ extension Log : FactalsStatus {												  ///Log
 		return ppFactalsStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
 	}
 }
-extension FactalsModel : FactalsStatus	{									 		///FactalsModel
+extension FactalsModel : FactalsStatus	{						 ///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
 		//myLine				+= "\(rootVews.count) RootVews "
@@ -168,7 +168,7 @@ extension FactalsModel : FactalsStatus	{									 		///FactalsModel
 			deapth:deapth-1)
 	}
 }
-extension RootPart : FactalsStatus	{									 ///RootPart
+extension RootPart : FactalsStatus	{								 ///RootPart
 	func ppFwConfig() -> String {		localConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= factalsModel.rootPart === self ? "" : "OWNER:'\(factalsModel!)' BAD "
@@ -183,7 +183,7 @@ extension RootPart : FactalsStatus	{									 ///RootPart
 			deapth:deapth-1)
 	}																			//bug; return "extension RootPart : FwStatus needs HELP"	}
 }
-extension Simulator : FactalsStatus	{									///Simulator
+extension Simulator : FactalsStatus	{								///Simulator
  	func ppFactalsState(deapth:Int=999) -> String {
 		let showPre				= true//false//true//
 		let showPost			= true//false//true//
@@ -226,7 +226,7 @@ extension Simulator : FactalsStatus	{									///Simulator
 	}
 }
 
-extension RootVew : FactalsStatus	{									  ///RootVew
+extension RootVew : FactalsStatus	{								  ///RootVew
 	func ppFactalsState(deapth:Int=999) -> String {
 		guard let rootVew						 else {	return "Vew.rootVew == nil\n"}
 		guard let factalsModel 		= rootVew.factalsModel else {	return "Vew.rootVew?.factalsModel == nil\n" }
@@ -255,7 +255,7 @@ extension RootVew : FactalsStatus	{									  ///RootVew
 	}
 }
 
-extension RootScene : FactalsStatus	{						   ///RootScene,SCNScene
+extension RootScene : FactalsStatus	{						///RootScene,SCNScene
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' is BAD"
 		myLine					+= "isPaused:\(isPaused) "
@@ -269,7 +269,7 @@ extension RootScene : FactalsStatus	{						   ///RootScene,SCNScene
 			deapth:deapth-1)
 	}
 }
-extension SCNNode : FactalsStatus	{									  ///SCNNode
+extension SCNNode : FactalsStatus	{									///SCNNode
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= "'\(fullName)': \(children.count) children, (\(nodeCount()) SCNNodes) "
 		myLine					+= camera == nil ? "" : "camera:\(camera!.pp(.classUid)) "
@@ -279,7 +279,7 @@ extension SCNNode : FactalsStatus	{									  ///SCNNode
 			deapth:deapth-1)
 	}
 }
-extension SelfiePole : FactalsStatus	{								   ///SelfiePole
+extension SelfiePole : FactalsStatus	{							///SelfiePole
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= self.pp(.line)
 		return ppFactalsStateHelper("SelfiePole   ", uid:self,
@@ -288,7 +288,7 @@ extension SelfiePole : FactalsStatus	{								   ///SelfiePole
 	}
 
 }
-extension SCNPhysicsWorld : FactalsStatus	{					  ///SCNPhysicsWorld
+extension SCNPhysicsWorld : FactalsStatus	{					///SCNPhysicsWorld
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("SCNPhysicsWor", uid:self,
 			myLine:fmt("gravity:\(gravity.pp(.phrase)), speed:%.4f, timeStep:%.4f", speed, timeStep),
@@ -297,7 +297,7 @@ extension SCNPhysicsWorld : FactalsStatus	{					  ///SCNPhysicsWorld
 }
 		// ///////////////////////////////////// //
 
-extension NSWindowController : FactalsStatus {				  ///NSWindowController
+extension NSWindowController : FactalsStatus {				///NSWindowController
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("\("NSWindowCtlr ")", uid:self,
 			myLine:
@@ -317,7 +317,7 @@ extension NSWindowController : FactalsStatus {				  ///NSWindowController
 									  "loadedNib"
 	}
 }
-extension NSWindow : FactalsStatus {										 ///NSWindow
+extension NSWindow : FactalsStatus {								 ///NSWindow
 	func ppFactalsState(deapth:Int=999) -> String {
 								//
 		let contract 			= trueF
@@ -354,7 +354,7 @@ extension NSWindow : FactalsStatus {										 ///NSWindow
 //		return  nibName == nil ? 		"Nib nil"	 	: "Nib loaded"
 //	}
 //}
-extension NSView : FactalsStatus	{								 		   ///NSView
+extension NSView : FactalsStatus	{								   ///NSView
 	func ppFactalsState(deapth:Int=999) -> String {
 		let msg					= fwClassName.field(-13)
 		return ppFactalsStateHelper(msg, uid:self,
@@ -376,7 +376,7 @@ extension NSView : FactalsStatus	{								 		   ///NSView
 	}
 }
 
-extension NSException : FactalsStatus	{							 ///NSException
+extension NSException : FactalsStatus	{						  ///NSException
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("NSException  ", uid:self,
 			myLine:"reason:'\(reason ?? "<nil>")'",

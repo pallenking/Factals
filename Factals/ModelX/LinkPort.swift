@@ -108,9 +108,9 @@ bug;	return rv
 	}
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
- 		guard let simulator		= root?.simulator else  {	return				}
-		guard let outPort else							{	fatalError()		}
-		guard let inPort2Port	= self.con2?.port else  {	return				}
+ 		guard let simulator		= root?.simulator else  {	fatalError()		}
+		guard let outPort 						  else  {	fatalError()		}
+		guard let inPort2Port	= self.con2?.port else  {	fatalError()		}
 
 		  // Take data from inPort, and put output into outPort
 		 // Up and Down are processed alike!
@@ -124,7 +124,7 @@ bug;	return rv
 			atDat(5, logd("ENQUE %.2f   to link (was %.2f)", valueIn, valuePrev))
 
 			 // Set the previous value into the conveyer, to go up
-			inTransit .insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
+			inTransit.insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
 			simulator.linkChits += 1			/// not settled
 			assert(simulator.linkChits != 0, "linkChits count wraparound")
 		}
