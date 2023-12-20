@@ -1048,7 +1048,7 @@ r("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 //	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
 ] ]) })
 	 // Use Inspec to change offset
-	xr("t2 ignores up", eSimX + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([f:0, placeMy:"linky", parts:[
+	xr("LinkPort.out BUG231219", eSim + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([f:0, placeMy:"linky", parts:[
 		Mirror(   [n:"t2", "gain":0, "offset":1]),
 		Mirror(   [n:"t1", "gain":0, "offset":1, P:"t2,l:4", f:1, ]),
 //		Mirror(   [n:"t4", "gain":-1, "offset":1]),

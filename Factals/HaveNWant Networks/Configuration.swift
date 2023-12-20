@@ -96,7 +96,7 @@ private let params4docLog		= params4pp + params4logs_
 								// + +  + +
 		"breakAtLogger"			: 3,
 								// + +  + +
-		"breakAtEvent"			:  57,//240/3/0:off
+		"breakAtEvent"			:  54,//240/3/0:off
 
 	]
 

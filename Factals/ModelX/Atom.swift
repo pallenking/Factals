@@ -44,10 +44,8 @@ class Atom : Part {	//Part//FwPart
 					portProp.contains("M") ?
 					  MultiPort(["named":portName, "portProp":portProp]) :
 					portProp.contains("C") ?
-
-//	init(_ config_:FwConfig, parent:Link, i0:(Int, Int)?=nil, color0:NSColor?=nil, _ initialSegments:[LinkSegment] = []) {
-					LinkPort(["named":portName, "portProp":portProp], parent:self) :
-						    Port(["named":portName, "portProp":portProp])
+						LinkPort(["named":portName, "portProp":portProp], parent:self) :
+							Port(["named":portName, "portProp":portProp])
 				ports[portName]	= newPort
 				addChild(newPort)
 			}

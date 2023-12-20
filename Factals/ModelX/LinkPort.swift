@@ -1,5 +1,9 @@
 //  LinkPort.swift -- A Port for a Link, which includes delay/visual abilities ©21PAK
 
+// NOTE: Philosophy of modeling delays:
+//			Delays happen in links.
+//			Computational Elements have zero to minimal delays.
+
 import SceneKit
 struct LinkSegment  : Codable {
 	var heightPct	: Float		= 0		// how high the seg is: 0.0:near_self.Port, 1.0:near_outPort
@@ -21,8 +25,7 @@ class LinkPort : Port {
 	var imageX0 : Int			= 0		// initial x of colored line image
 	var imageY0 : Int			= 0		// initial y of colored line image
 	var colorOfVal0				= NSColor(hexString:"#FFFFFFFF")! // a particular white
-//	static var colorOfVal0		= NSColor(hexString:"#FFFFFFFF")! // a particular white
-	var 	   colorOfVal1 		= NSColor.purple	// should be overridden
+	var colorOfVal1 			= NSColor.purple	// should be overridden
 	func addSegment(_ seg:LinkSegment) {
 		inTransit.append(seg)
 		root?.simulator.linkChits	+= 1
@@ -108,20 +111,19 @@ bug;	return rv
 	}
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
+		 // Up and Down are processed alike!
  		guard let simulator		= root?.simulator else  {	fatalError()		}
 		guard let outPort 						  else  {	fatalError()		}
 		guard let inPort2Port	= self.con2?.port else  {	fatalError()		}
 
-		  // Take data from inPort, and put output into outPort
-		 // Up and Down are processed alike!
+		 // Take data from inPort, and put output into outPort
 		if inPort2Port.valueChanged() {
 
-		 		// ENQUEUE the event (at beginning of inTransit)
+		 	 // ENQUEUE the event (at beginning of inTransit)
 			let (valueIn, valuePrev) = inPort2Port.getValues()
 			assert(!valueIn.isNaN,      "enqueing nan value to link")
 			assert(!valueIn.isInfinite, "enqueing inf value to link")
-			atDat(3, logd("<=_/  %.2f (was %.2f)", valueIn, valuePrev))
-			atDat(5, logd("ENQUE %.2f   to link (was %.2f)", valueIn, valuePrev))
+			atDat(3, logd("Link<--' %.2f (was %.2f)", valueIn, valuePrev))
 
 			 // Set the previous value into the conveyer, to go up
 			inTransit.insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
@@ -137,32 +139,39 @@ bug;	return rv
 		let conveyorVelocity 	= exp2f(logVel)
 
 		if conveyorVelocity != 0,			// If LinkPort moving
-		   inTransit.count != 0 {				  // and something in it
-			parent?.markTree(dirty:.paint)		// Redisplay it
+		   inTransit.count != 0 {			  // and something in it
+			parent?.markTree(dirty:.paint)		// order redisplay
 		}
 
-		  // Run the link "inTransit BELT".
-		 // DEQUEUE the event (at beginning of inTransit)
+		 // Run the link "inTransit BELT", which delays changes for visualization.
 		for i in stride(from:inTransit.count-1, to:-1, by:-1) { // do backwards, so remove works
 
 			 // Move every segment up, according to seg...vel.
 			inTransit[i].heightPct 	+= conveyorVelocity	// move along, from 0.0...1.0
 
+			 // DEQUEUE the next event (at beginning of inTransit)
 			 // DEQUEUE an event?:
 			if inTransit[i].heightPct >= 1 {	// has a seg gone off the end?
 				inTransit.remove(at:i) 				// deque used up element
-				let	v			= inTransit.count >= 1 ?
-								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
-								  inPort2Port.value 	// Link input port if no previous value
-				atDat(5, outPort.logd("DEQUE %.2f from link (was %.2f)", v, outPort.value))
-				if outPort.value != v {
-					outPort.value = v								// not outPort.take(value:v)
-					outPort.markTree(dirty:.paint)
-					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
-				}
 				 // Decrement unsettled count
 				assert(simulator.linkChits != 0, "wraparound")
 				simulator.linkChits -= 1
+
+				let	nextVal		= inTransit.count >= 1 ?
+								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
+								  inPort2Port.value 	// Link input port if no previous value
+				atDat(5, outPort.logd("Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value))
+				if outPort.value != nextVal {
+					let rootPart = outPort.root
+					let c1		= rootPart?.portChitArray().map { $0() }.joined(separator:", ")
+					print("Before: \(c1 ?? "")")
+					outPort.value = nextVal								// not outPort.take(value:v)
+					outPort.markTree(dirty:.paint)
+					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
+					let c2		= rootPart?.portChitArray().map { $0() }.joined(separator:", ")
+					print("After:  \(c2 ?? "")")
+					nop
+				}
 			}
 		}
 	}

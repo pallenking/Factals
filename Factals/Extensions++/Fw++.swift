@@ -1205,7 +1205,14 @@ extension Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()	// trailing \n's become leading \n's
-		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
+
+		var aaa					= pp(.fullName)
+		if let selfIsPart		= self as? Part {
+			aaa					= selfIsPart.pp(.fullName)
+		}
+		let bbb					= aaa.field(-25)
+		let str					= nls + bbb + msg2	//-nFullN uidClass
+//		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
 		DOClog.log(str, terminator:terminator)
 	}
 }
