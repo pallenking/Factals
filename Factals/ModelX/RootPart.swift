@@ -20,24 +20,47 @@ enum RootPartActorCommand { //}: RawRepresentable, Identifiable, CustomStringCon
 }
 
 actor RootPartActor {
-	private var rootPart : RootPart? = nil
+	var rootPart : RootPart? = nil
 	/*private*/ init(initialRootPart: RootPart?) {
 		self.rootPart = initialRootPart
 	}
+	// called from any synchronous
+	func performAsyncAction(action: @escaping () async throws -> Void, completion: @escaping ()->Void) rethrows {
+		Task {
+			try await action()		// side effect
+			completion()
+		}
+	}
 
+	func performActionSynch(action: @escaping () async throws -> Void) async rethrows {
+		
+		try await action()
+	}
+
+	func wireAndGroom(c :FwConfig) {
+		rootPart?.wireAndGroom(c)
+	}
+
+
+//	func exececuteInRootPart(e:(r:inout RootPart)->Void) {
+//		e(r)
+//	}
+
+	// called from asynchronous
 	// Method to perform actions on the rootPart resource
 	func performAction(action: @escaping () async throws -> Void) async rethrows {
-		await withCheckedContinuation { continuation in
-			Task {
-				do {	// Execute the action within the actor's context
-					try await action()
-					continuation.resume()
-				} catch {
-					bug
-					//continuation.resume(throwing: .Never)
-				}
-			}
-		}
+		try await action()
+//		await withCheckedContinuation { continuation in
+//			Task {
+//				do {	// Execute the action within the actor's context
+//					try await action()
+//					continuation.resume()
+//				} catch {
+//					bug
+//					//continuation.resume(throwing: .Never)
+//				}
+//			}
+//		}
 	}												//	another way: func execute(command: RootPartActorCommand) async -> Int {
 	private func atomicTestAndSet(newValue: Int, expectedValue: Int) async -> Int {
 		return await withCheckedContinuation { continuation in
@@ -60,7 +83,8 @@ actor RootPartActor {
 	}
 }
 
- class RootPart : Part {		//class//actor//
+//private
+class RootPart : Part {		//class//actor//
     /*private*/ var foo22: Int = 0
 
 	 // MARK: - 2.1 Object Variables

@@ -196,6 +196,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
 	func setTree(root r:RootPart, parent p:Part?) {
+//	func setTree(root r:RootPartActor, parent p:Part?) {
 		//assertWarn(parent === p, "\(fullName): Parent:\(parent?.fullName ?? "nil") should be \(p?.fullName ?? "nil")")
 		assertWarn(root   === r, "\(fullName  ): Root:\(  root?.fullName ?? "nil") should be \(r .fullName ?? "nil")")
 		parent 					= p

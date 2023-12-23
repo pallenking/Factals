@@ -61,6 +61,7 @@ struct FactalsDocument: FileDocument {
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
+//		let rootPartActor 		= RootPartActor(initialRootPart:rootPart)
 
 		 // 	2. Install
 		assert(factalsModel.rootPart == nil, "paranoia: Should be empty, just made it")
@@ -73,6 +74,14 @@ struct FactalsDocument: FileDocument {
 
 		 //		4. Wire and Groom Part
 		rootPart.wireAndGroom(c)
+//		rootPartActor.rootPart.wireAndGroom(c:c)
+//		await rootPartActor.rootPart = RootPart()
+//
+//		rootPartActor.exececuteInRootPart {
+//			rootPart.wireAndGroom(c:c)
+//		}
+
+
 		factalsModel.configure(from:c)		// Th
 
 		 //		5. Build Vews per Configuration, ensure one
