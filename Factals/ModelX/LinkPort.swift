@@ -32,10 +32,10 @@ class LinkPort : Port {
 		assert(root?.simulator.linkChits ?? 1 != 0, "wraparound")
 	}
 
-	init() { // only for nullConveyor
-		outPort					= Port.error
-		super.init()
-	}
+//	init() { // only for nullConveyor
+//		outPort					= Port.error
+//		super.init()
+//	}
 
 //	init( ["named":portName, "portProp":portProp]) :
 	init(_ config_:FwConfig, parent:Atom, i0:(Int, Int)=(0,0), color0:NSColor?=nil, _ initialSegments:[LinkSegment] = []) {
@@ -112,9 +112,9 @@ bug;	return rv
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
 		 // Up and Down are processed alike!
- 		guard let simulator		= root?.simulator else  {	fatalError()		}
-		guard let outPort 						  else  {	fatalError()		}
-		guard let inPort2Port	= self.con2?.port else  {	fatalError()		}
+ 		guard let simulator		= root?.simulator else  {	fatalError(fullName)}
+		guard let outPort 						  else  {	fatalError(fullName)}
+		guard let inPort2Port	= self.con2?.port else  {	fatalError(fullName)}
 
 		 // Take data from inPort, and put output into outPort
 		if inPort2Port.valueChanged() {
@@ -236,7 +236,7 @@ bug;	return rv
 		}
 		return rv
 	}
-	static let nullLinkPort	= LinkPort()
+//	static let nullLinkPort	= LinkPort()
 }
 
 

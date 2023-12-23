@@ -45,8 +45,8 @@ class Link : Atom {
 	var linkSkinType : LinkSkinType
 	let usePlane	  			= false											//false//true//
 	/// See notes at end
-	lazy var   pUpCPort : LinkPort = LinkPort.nullLinkPort
-	lazy var sDownCPort : LinkPort = LinkPort.nullLinkPort
+	var   pUpCPort : LinkPort!	= nil
+	var sDownCPort : LinkPort!	= nil
 
 	var minColorVal	: Float		= 0
 	var maxColorVal	: Float		= 1
@@ -78,15 +78,16 @@ class Link : Atom {
 		let p0	/* (x, y) */	= greenOnLeft ? (1, 0) : (imageWidth-1, imageHeight)
 		pUpCPort 				= LinkPort(cUp, parent:self, i0:p0, color0:.green)
 		addChild(pUpCPort)
-		pUpCPort.outPort		= sDownCPort
 		ports["P"]				= pUpCPort
 
 		let cDn					= config + ["name":"S", "f":1]
 		let p1					= greenOnLeft ? (imageWidth-1,imageHeight) : (1, 0)
 		sDownCPort				= LinkPort(cDn, parent:self, i0:p1, color0:.red)
 		addChild(sDownCPort)
-		sDownCPort.outPort		= pUpCPort
 		ports["S"]				= sDownCPort
+
+		pUpCPort.outPort		= sDownCPort
+		sDownCPort.outPort		= pUpCPort
 
 		 // Register CPorts
 		assert(pUpCPort  .dirty == .clean, "paranoia")	//pPort.dirty.turnOff(.vew) // (link vew proper at init)
@@ -171,7 +172,7 @@ bug;	return rv
 		super.groomModel(parent:parent_)
 		 // Groom Link's Conveyors
 		for CPort in [pUpCPort, sDownCPort] {
-			CPort.parent		= self
+			CPort?.parent		= self
 		}
 	}
 	override func reset() {							super.reset()
