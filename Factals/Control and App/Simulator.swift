@@ -40,53 +40,6 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
 	}
-	   // MARK: - 2.2 Simulator Task
-	  /// Start Simulation Task
-	 /// N.B: start occurs on a thread which has Part tree already locked
-	func startSimulationTask() {
-		//return // never simulate
-		if simBuilt && simEnabled {				// want to run
-			if simTaskRunning == false {		// if not now running
-				simTaskRunning	= true
-				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
-			}
-			let taskPeriod		= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod") ?? 0.01
-			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
-			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
-		}
-		else {
-			stopSimulationTask()				// ?? Perhaps wrong
-		}
-	}
-	func stopSimulationTask() {
-		if simTaskRunning == true {				// now running
-			simTaskRunning		= false
-			atBld(3, logd("# # # # STOPPED  Simulation Task \n"))
-			 // Remove "perform-requests" from the current run loop, not ALL run loops.
-			NSObject.cancelPreviousPerformRequests(withTarget:self)
-		}
-	}
-	 /// Simulation Task auto-repeats once called
-	@objc func simulationTask() {
-		simulateOneStep()
-		startSimulationTask()		// reStartSimulationTask
-	}
-	func simulateOneStep() {
-		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
-		guard simEnabled	else {	return 										}
-		guard let rootPart	else {	return panic("Simulating with sim\(ppUid(self)) rootPart==nil") }
-		guard rootPart.lock(for:"simulationTask", logIf:logSimLocks)
-							else {	fatalError("simulationTask couldn't get PART lock")	}
-
-	/**/	rootPart.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
-
-			globalDagDirUp		= !globalDagDirUp
-			timeNow				+= timeStep
-			if startChits > 0 {			// Clear out start cycles
-				startChits		-= 1
-			}
-		rootPart.unlock(for:"simulationTask", logIf:logSimLocks)
-	}
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation
 	func configure(from c:FwConfig) {
@@ -150,6 +103,53 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 //		atSer(3, logd("Decoded  as? Controller"))
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
+	   // MARK: - x.1 Simulator Task
+	  /// Start Simulation Task
+	 /// N.B: start occurs on a thread which has Part tree already locked
+	func startSimulationTask() {
+		//return // never simulate
+		if simBuilt && simEnabled {				// want to run
+			if simTaskRunning == false {		// if not now running
+				simTaskRunning	= true
+				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
+			}
+			let taskPeriod		= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod") ?? 0.01
+			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
+			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
+		}
+		else {
+			stopSimulationTask()				// ?? Perhaps wrong
+		}
+	}
+	func stopSimulationTask() {
+		if simTaskRunning == true {				// now running
+			simTaskRunning		= false
+			atBld(3, logd("# # # # STOPPED  Simulation Task \n"))
+			 // Remove "perform-requests" from the current run loop, not ALL run loops.
+			NSObject.cancelPreviousPerformRequests(withTarget:self)
+		}
+	}
+	 /// Simulation Task auto-repeats once called
+	@objc func simulationTask() {
+		simulateOneStep()
+		startSimulationTask()		// reStartSimulationTask
+	}
+	func simulateOneStep() {
+		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
+		guard simEnabled	else {	return 										}
+		guard let rootPart	else {	return panic("Simulating with sim\(ppUid(self)) rootPart==nil") }
+		guard rootPart.lock(for:"simulationTask", logIf:logSimLocks)
+							else {	fatalError("simulationTask couldn't get PART lock")	}
+
+	/**/	rootPart.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
+
+			globalDagDirUp		= !globalDagDirUp
+			timeNow				+= timeStep
+			if startChits > 0 {			// Clear out start cycles
+				startChits		-= 1
+			}
+		rootPart.unlock(for:"simulationTask", logIf:logSimLocks)
+	}
 	// MARK: - 14. Building
 	var log : Log { rootPart.factalsModel?.log ?? .reliable					}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {

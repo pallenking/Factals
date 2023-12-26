@@ -19,27 +19,107 @@ enum RootPartActorCommand { //}: RawRepresentable, Identifiable, CustomStringCon
 //	case atomicReadWithPostAdd(valueToAdd: Int)
 }
 
-actor RootPartActor {
-	var rootPart : RootPart? = nil
-	/*private*/ init(initialRootPart: RootPart?) {
-		self.rootPart = initialRootPart
+actor RootPartActor : ObservableObject  {
+	private var myValue: Int = 0
+	private var yourValue: Int = 0
+
+	func updateValuesAtomically(n: Int) {
+		// Atomically move n from myValue to yourValue
+		if myValue >= n {
+			myValue -= n
+			yourValue += n
+			print("Moved \(n) from myValue to yourValue")
+		} else {
+			print("Not enough value in myValue to move \(n)")
+		}
 	}
-	// called from any synchronous
-	func performAsyncAction(action: @escaping () async throws -> Void, completion: @escaping ()->Void) rethrows {
+	func setFactalsModel(factalsModel f:FactalsModel) {		// Owner? is self
+		factalsModel = f
+	}
+	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
+		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
+		guard let rootPart		= rootPart	else {	fatalError("nil rootPart")	}
+		guard let factalsModel				else {	fatalError("nil factalsModel") }
+		let rootVew				= RootVew(forPart:rootPart) // 1. Make
+		rootVew.factalsModel	= factalsModel				// 2. Backpointer
+		factalsModel.rootVews.append(rootVew)				// 3. Install
+		rootVew.configure(from:fwConfig)					// 4. Configure Part
+		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
+		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
+		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		rootVew.setupLightsCamerasEtc()						// ?move
+		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
+bug//	atBld(5, factalsModel.logd("rootVews[\(factalsModel.rootVews.count-1)] is complete:\n\(rootVewPp)"))
+	}
+	func groom () async {
+		// 	2. Install
+		//		assert(factalsModel.rootPartActor == nil, "paranoia: Should be empty, just made it")
+		factalsModel!.rootPartActor = self
+bug
+//		factalsModel			= self				// set delegate
+		
+		//		3. Update document configuration from Library entry
+		let c				= params4all + rootPart!.ansConfig
+		factalsModel!.configure(from:c)		// needs a configure
+		
+		//		4. Wire and Groom Part
+		rootPart!.wireAndGroom(c)
+		//		rootPartActor.rootPart.wireAndGroom(c:c)
+		//		await rootPartActor.rootPart = RootPart()
+		//
+		//		rootPartActor.exececuteInRootPart {
+		//			rootPart.wireAndGroom(c:c)
+		//		}
+		factalsModel!.configure(from:c)		// Th
+		
+		//		5. Build Vews per Configuration, ensure one
+		for (key, value) in c {
+			if key == "Vews",				// "Vews":[VewConfig]
+			   let values 		= value as? [VewConfig] {
+				for value in values	{		// Open one for each elt
+					addRootVew(vewConfig:value, fwConfig:c)
+				}
+			}
+			else if key.hasPrefix("Vew") {	// "Vew":VewConfig
+				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
+				addRootVew(vewConfig:value, fwConfig:c)
+			}
+		}
+		await factalsModel!.ensureAVew(fwConfig:c)
+		factalsModel!.configure(from:c)					// Hits Vews just made
+	}
+	func doAtomically(action: @escaping () async throws -> Void) rethrows {
 		Task {
 			try await action()		// side effect
-			completion()
 		}
 	}
 
-	func performActionSynch(action: @escaping () async throws -> Void) async rethrows {
-		
-		try await action()
+	var rootPart : RootPart? = nil
+	var factalsModel : FactalsModel? = nil
+	init(initialRootPart: RootPart?) {					/*private ?? */
+		self.rootPart = initialRootPart
 	}
+//	// called from any synchronous
+//    func executeAtomically<T>(_ closure: () -> T) -> T {
+//        return await self.actorTask {
+//            let result = closure()
+//            return result
+//        }
+//    }
 
-	func wireAndGroom(c :FwConfig) {
-		rootPart?.wireAndGroom(c)
-	}
+	//func performActionSynch(action: () -> Void) async {			PW
+	//	action()
+//	func performActionSynch(action: @escaping () async throws -> Void) async rethrows {
+//		try await action()
+//	}
+//	func performActionSynch(action: @escaping () -> Void) async {	//async
+//		await Task {
+//			action()
+//		}
+//	}
+//	func wireAndGroom(c :FwConfig) {
+//		rootPart?.wireAndGroom(c)
+//	}
 
 
 //	func exececuteInRootPart(e:(r:inout RootPart)->Void) {
@@ -48,8 +128,8 @@ actor RootPartActor {
 
 	// called from asynchronous
 	// Method to perform actions on the rootPart resource
-	func performAction(action: @escaping () async throws -> Void) async rethrows {
-		try await action()
+//	func performAction(action: @escaping () async throws -> Void) async rethrows {
+//		try await action()
 //		await withCheckedContinuation { continuation in
 //			Task {
 //				do {	// Execute the action within the actor's context
@@ -61,26 +141,26 @@ actor RootPartActor {
 //				}
 //			}
 //		}
-	}												//	another way: func execute(command: RootPartActorCommand) async -> Int {
-	private func atomicTestAndSet(newValue: Int, expectedValue: Int) async -> Int {
-		return await withCheckedContinuation { continuation in
-			if rootPart?.foo22 == expectedValue {
-				rootPart?.foo22 = newValue
-				continuation.resume(returning: expectedValue)
-			} else {
-				continuation.resume(returning: -1) // Indicating test-and-set failed
-			}
-		}
-	}
-	private func readWithPostAdd(valueToAdd: Int) async -> Int {
-		guard let rootPart else { return -99 }
-		let rv					= rootPart.foo22
-		rootPart.foo22 			+= valueToAdd
-		return rv
-	}
-	private func setRootPart(new rp:RootPart) {
-		rootPart = rp
-	}
+//	}												//	another way: func execute(command: RootPartActorCommand) async -> Int {
+//	private func atomicTestAndSet(newValue: Int, expectedValue: Int) async -> Int {
+//		return await withCheckedContinuation { continuation in
+//			if rootPart?.foo22 == expectedValue {
+//				rootPart?.foo22 = newValue
+//				continuation.resume(returning: expectedValue)
+//			} else {
+//				continuation.resume(returning: -1) // Indicating test-and-set failed
+//			}
+//		}
+//	}
+//	private func readWithPostAdd(valueToAdd: Int) async -> Int {
+//		guard let rootPart else { return -99 }
+//		let rv					= rootPart.foo22
+//		rootPart.foo22 			+= valueToAdd
+//		return rv
+//	}
+//	private func setRootPart(new rp:RootPart) {
+//		rootPart = rp
+//	}
 }
 
 //private

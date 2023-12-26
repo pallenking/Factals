@@ -52,11 +52,12 @@ final class FactalsTests: XCTestCase {
 //		lldbPrint(x, mode:.tree, [:])
 //	}
 	func testUid() {	// incomplete
-		let objectNs 			= FactalsModel()
-		let objectSwift			= Part()
-		let strNs				= pseudoAddressString(objectNs)
-		let strSwift			= pseudoAddressString(objectSwift)
-		print("pseudoAddress[ns:\(strNs), swift:\(strSwift)]")
+bug
+//		let objectNs 			= FactalsModel()
+//		let objectSwift			= Part()
+//		let strNs				= pseudoAddressString(objectNs)
+//		let strSwift			= pseudoAddressString(objectSwift)
+//		print("pseudoAddress[ns:\(strNs), swift:\(strSwift)]")
 	}
 
 //	class Simulatee : NSObject, FwAny {					// won't compile
@@ -183,7 +184,7 @@ final class FactalsTests: XCTestCase {
 			(		ShapeTest(),			"ShapeTest"		),
 			(		Sphere(),				"Sphere"		),
 			(		TunnelHood(),			"TunnelHood"	),
-			(	LinkPort(), 			"LinkPort"	),
+//			(		LinkPort(from: []), 			"LinkPort"		),  // LinkPort(cUp, parent:self, i0:p0, color0:.green)
 			(	PolyWrap(), 				"PolyWrap"		),
 			(	Port(), 					"Port"			),
 			(		MultiPort(), 			"MultiPort"		),

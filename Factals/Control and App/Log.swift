@@ -221,23 +221,23 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			let x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
 			print(x)
 		}
-		 // Print Simulator's time, if it has changed:
-		if let sim				= DOCfactalsModelQ?.rootPart?.simulator,
-//		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
-		  simTimeLastLog != nil
-		{
-			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)
-			if logEvents,
-			 deltaTime > 0 || simTimeLastLog == nil {
-				let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
-				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
-				let dashes		= deltaTime <= sim.timeStep ? "                                  " 
-															: "- - - - - - - - - - - - - - - - - "
-				let chits		= "p\(sim.rootPart!.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
-				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
-			}
-			simTimeLastLog		= sim.timeNow
-		}
+		// DO SOME OTHER WAY: sim state shouldn't be actor isolated
+//		if let sim				= DOCfactalsModelQ?.rootPartActor.rootPart?.simulator,
+////		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
+//		  simTimeLastLog != nil
+//		{
+//			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)
+//			if logEvents,
+//			 deltaTime > 0 || simTimeLastLog == nil {
+//				let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
+//				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
+//				let dashes		= deltaTime <= sim.timeStep ? "                                  "
+//															: "- - - - - - - - - - - - - - - - - "
+//				let chits		= "p\(sim.rootPart!.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
+//				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
+//			}
+//			simTimeLastLog		= sim.timeNow
+//		}
 		 // Strip leading \n's:
 		let (newLines, format)	= format_.stripLeadingNewLines()
 
@@ -293,9 +293,10 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
-		if let curLockStr		= DOC?.factalsModel?.rootPart?.curOwner {
-			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
-		}
+bug
+//		if let curLockStr		= DOC?.factalsModel?.rootPartActor.rootPart?.curOwner {
+//			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
+//		}
 		return ".,."
 	}
 	static let shortNames		= [

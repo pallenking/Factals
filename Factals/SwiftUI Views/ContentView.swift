@@ -15,8 +15,8 @@ struct ContentView: View {
 			.onAppear {
 				let windows 	= NSApplication.shared.windows
 				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-
-				windows.first!.title = document.factalsModel.rootPart?.title ?? "<UNTITLED>"
+bug
+//				windows.first!.title = document.factalsModel.rootPartActor.rootPart?.title ?? "<UNTITLED>"
 
 				EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
 		bug;		print("Event: \(event)")			// Handle the event here

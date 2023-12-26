@@ -928,3 +928,15 @@ autocomplete
 vscode2
 
 swiftUI companion $50
+										lower left link------.
+										upper 
+t:0.6299997 going:up taskRun; Run Sim=1/Ports,0/Links,0/kick	- -
+t:0.6399997 going:dn taskRun; Run Sim=1/Ports,0/Links,0/kick	- -
+t:0.6499997 going:up taskRun; Run Sim=1/Ports,0/Links,4/kick	r -	-
+t:0.6599997 going:dn taskRun; Run Sim=0/Ports,1/Links,3/kick	r -	-
+t:0.6699996 going:up taskRun; Run Sim=0/Ports,1/Links,2/kick	r g -
+t:0.6799996 going:dn taskRun; Run Sim=0/Ports,1/Links,1/kick	r g g
+t:0.6899996 going:up taskRun; Run Sim=0/Ports,1/Links,0/kick	r g g
+Event 57:
+t:1.2799991 going:up taskRun; Run Sim=0/Ports,1/Links,0/kick	r g g -
+t:1.2899991 going:up taskRun; SETTLED=0/Ports,0/Links,0/kick	r g g g

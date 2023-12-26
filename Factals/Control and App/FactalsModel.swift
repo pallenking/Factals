@@ -3,21 +3,29 @@
 import SceneKit
 import SwiftUI
 
-class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
+class FactalsModel : ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
 	var document : FactalsDocument!					// Owner
-	@Published var rootPart : RootPart? = nil													//{	rootVew.part as! RootPart}
-	func setRootPart(rootPart r:RootPart) {
-		guard rootPart == nil || rootPart!.lock(for:"setRootPart", logIf:false)
-			else {  fatalError(" couldn't get PART lock")						}
-		for rootVew in rootVews {
-			if rootVew.lock(for:"setRootPart", logIf:false) == false { fatalError(" couldn't get VIEW lock")}
-		}
-		rootVews				= []
-		rootPart				= r
-		rootPart?.factalsModel		= self
-	}
+//	@Published var rootPart : RootPart? = nil													//{	rootVew.part as! RootPart}
+	/*@Published*/ var rootPartActor : RootPartActor  //? = nil													//{	rootVew.part as! RootPart}
+
+//	func setRootPart(rootPart r:RootPart) async {
+//		guard let actr				= rootPartActor else {	fatalError()		}
+//		await actr.doAtomically {
+//			guard actr.rootPart !== r else {	return	} // same
+////			guard rootPart == nil || rootPart!.lock(for:"setRootPart", logIf:false)
+////								else {  fatalError(" couldn't get PART lock")	}
+//
+//			 // remove all rootVews:
+//			for rootVew in rootVews {
+//				if rootVew.lock(for:"setRootPart", logIf:false) == false { fatalError(" couldn't get VIEW lock")}
+//			}
+//			rootVews				= []
+//			actr.rootPart			= r
+//			actr.rootPart?.factalsModel = self
+//		}
+//	}
 	var rootVews : [RootVew]	= []
 	var rootVew0 :  RootVew?	{ rootVews.first								}
 	var log 	 : Log
@@ -28,27 +36,25 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 	}
 
 	func configure(from config:FwConfig) { // *****
-		log.configure(from:config)
-
-		guard let rootPart else { fatalError("WARNING configure: factalsModel.rootPart=nil") }
-		rootPart.configure(from:config)
-		for rootVew in rootVews {
-			rootVew.configureDocument(from:config)
-		}
+bug
+//		log.configure(from:config)
+//
+//		guard let rootPart else { fatalError("WARNING configure: factalsModel.rootPart=nil") }
+//		rootPart.configure(from:config)
+//		for rootVew in rootVews {
+//			rootVew.configureDocument(from:config)
+//		}
 	}
 	 // MARK: - 3. Factory
 	 //PAK: Could remove this.
-	override init() {						// rootPart r:RootPart?=nil
-		rootPart				= nil
+	init() async {						// rootPart r:RootPart?=nil
+		rootPartActor			= RootPartActor(initialRootPart:nil)
 		log						= Log(title:"FactalsModel's Log", params4all)
 							
-		super.init()
-		rootPart?.factalsModel	= self		// Owner? is self
-
-		 // Temporary scaffolding:
-		rootPartActor			= RootPartActor(initialRootPart:nil)
+		//super.init()
+		await rootPartActor.setFactalsModel(factalsModel:self)		// Owner? is self
 	}
-	var rootPartActor : RootPartActor? = nil
+	//var rootPartActor : RootPartActor? = nil
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
 					//		var data : Data? {
@@ -79,24 +85,26 @@ class FactalsModel : NSObject, ObservableObject {			// xyzzy4 // remove NSObject
 					//	//			return nil
 					//	//		}
 					//		}
-	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
-		guard let rootPart else {	fatalError("addRootVew with nil rootPart")	}
-		let rootVew				= RootVew(forPart:rootPart) // 1. Make
-		rootVew.factalsModel	= self						// 2. Backpointer
-		rootVews.append(rootVew)							// 3. Install
-		rootVew.configure(from:fwConfig)					// 4. Configure Part
-		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
-		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
-		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		rootVew.setupLightsCamerasEtc()						// ?move
-		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
-		atBld(5, logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
-	}
-	func ensureAVew(fwConfig c:FwConfig) {
+//	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
+//		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
+//		rootPartActor.doAtomically { [self] in
+//			guard let rootPart		= await rootPartActor.rootPart else {	fatalError("addRootVew with nil rootPart")	}
+//			let rootVew				= RootVew(forPart:rootPart) // 1. Make
+//			rootVew.factalsModel	= self						// 2. Backpointer
+//			rootVews.append(rootVew)							// 3. Install
+//			rootVew.configure(from:fwConfig)					// 4. Configure Part
+//			rootVew.openChildren(using:vewConfig)				// 5. Open Vew
+//			rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
+//			rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+//			rootVew.setupLightsCamerasEtc()						// ?move
+//			let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
+//			atBld(5, logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
+//		}
+//	}
+	func ensureAVew(fwConfig c:FwConfig) async {
 		if rootVews.isEmpty {		// Must have a Vew
 			atBld(3, warning("no Vew... key"))
-			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
+			await rootPartActor.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
 	}
 	 // MARK: - 3.5 Codable
@@ -178,29 +186,33 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 //						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			for rootVew in rootVews {
-				rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
-				rootVew.updateVewSizePaint(for:"FactalsModel 'V'iew key")
-			}
+bug
+//			for rootVew in rootVews {
+//				rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
+//				rootVew.updateVewSizePaint(for:"FactalsModel 'V'iew key")
+//			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			for rootVew in rootVews {
-				rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
-				rootVew.updateVewSizePaint(for:"FactalsModel si'Z'e key")
-			}
+bug
+//			for rootVew in rootVews {
+//				rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
+//				rootVew.updateVewSizePaint(for:"FactalsModel si'Z'e key")
+//			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			for rootVew in rootVews {
-				rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
-				rootVew.updateVewSizePaint(for:"FactalsModel 'P'aint key")
-			}
+bug
+//			for rootVew in rootVews {
+//				rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
+//				rootVew.updateVewSizePaint(for:"FactalsModel 'P'aint key")
+//			}
 		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
 		case "x":
 			print("\n******************** 'x':   === FactalsModel: --> rootPart")
-			if rootPart!.processEvent(nsEvent:nsEvent, inVew:vew) {
-				print("ERROR: factalsModel.Process('x') failed")
-			}
+bug
+//			if rootPart!.processEvent(nsEvent:nsEvent, inVew:vew) {
+//				print("ERROR: factalsModel.Process('x') failed")
+//			}
 			return true								// recognize both
 //		case "f": 					// // f // //
 //			var msg					= ""
@@ -231,10 +243,11 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		if found == false {
 
 			 // Check Simulator:
-	/**/	if rootPart != nil,
-			  rootPart!.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
-				return true 		// handled by simulator
-			}
+bug
+//	/**/	if rootPart != nil,
+//			  rootPart!.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+//				return true 		// handled by simulator
+//			}
 
 			 // Check Document:
 			if document.processEvent(nsEvent:nsEvent, inVew:vew) {
@@ -344,118 +357,120 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 	}
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
-		let key 				= 0			// only element 0 for now
-		guard let rootVew		= vew.rootVew else {	fatalError("toggelOpen without RootVew")}
-
-		 // Toggel vew.expose: .open <--> .atomic
-		vew.expose 				= vew.expose == .open   ? .atomic :
-								  vew.expose == .atomic ? .open :
-								  						  .null
-	//	SCNTransaction.begin()
-		assert(vew.expose != .null, "")
-		let part				= vew.part
-
-		 // ========= Get Locks for two resources, in order: =============
-		guard rootPart!.lock(for:"toggelOpen") else {
-			fatalError("toggelOpen couldn't get PART lock")	}		// or
-		guard  rootVew.lock(for:"toggelOpen") else {fatalError("couldn't get Vew lock") }
-
-		assert(!(part is Link), "cannot toggelOpen a Link")
-		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
-		vew.scn.removeFromParent()
-		vew.removeFromParent()
-
-		rootVew.updateVewSizePaint(for:"toggelOpen4")
-
-		// ===== Release Locks for two resources, in reverse order: =========
-		rootVew  .unlock( for:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-		rootPart?.unlock(for:"toggelOpen")
-
-		let rootScene			= rootVew.rootScene
-bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
-		rootScene.updatePole2Camera(reason:"toggelOpen")
-		atAni(4, part.logd("expose = << \(vew.expose) >>"))
-		atAni(4, part.logd(rootPart!.pp(.tree)))
-
-		if document.docConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
-
-			 // Mark old SCNNode as Morphing
-			let oldScn			= vew.scn
-			vew  .name			= "M" + vew   .name		// move old vew out of the way
-			oldScn.name!		= "M" + oldScn.name!	// move old scn out of the way
-			oldScn.scale		= .unity * 0.5			// debug
-			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
-
-			 //*******// Imprint animation parameters JUST BEFORE start:
-			rootVew.updateVewSizePaint()				// Update SCN's at START of animation
-			 //*******//
-
-			 // Animate Vew morph, from self to newVew:
-			guard let newScn	= vew.parent?.find(name:"_" + part.name)?.scn else {
-				fatalError("updateVew didn't creat a new '_<name>' vew!!")
-			}
-			newScn.scale		= .unity * 0.3 //0.1, 0.0 	// New before Fade-in	-- zero size
-			oldScn.scale		= .unity * 0.7 //0.9, 1.0	// Old before Fade-out	-- full size
-
-			SCNTransaction.begin()
-//			atRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
-			SCNTransaction.animationDuration = CFTimeInterval(3)//3//0.3//10//
-			 // Imprint parameters AFTER "togelOpen" ends:
-			newScn.scale		= SCNVector3(0.7, 0.7, 0.7)	//.unity						// After Fade-in
-			oldScn.scale 		= SCNVector3(0.3, 0.3, 0.3) //.zero							// After Fade-out
-
-			SCNTransaction.completionBlock 	= {
-				 // Imprint JUST AFTER end, with OLD removed (Note: OLD == self):
-				assert(vew.scn == oldScn, "oops")
-//				part.logg("Removed old Vew '\(vew.fullName)' and its SCNNode")
-				newScn.scale	= .unity
-				oldScn.scale 	= .unity	// ?? reset for next time (Elim's BUG?)
-				oldScn.removeFromParent()
-				vew.removeFromParent()
-				//*******//
-				rootVew.updateVewSizePaint()	// Imprint AFTER animation
-				//*******//	// //// wants a third animatio	qn (someday):
-			}
-//			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
-			SCNTransaction.commit()
-		}
-	//	else {			/// just TEST CODE:
-	//		let x				= CGFloat(0.2)
-	//		let xPct			= SCNVector3(x, x, x)
-	//		 /// Imprint Initial Vew, before newScn has non-zero size
-	//		viewNew.scn.scale 	= xPct//.zero
-	//		self   .scn.scale 	= .unity
-	//		fws.updateVewSizePaint(needsLock:"toggelOpen5")	//\\//\\//\\//\\ To beginning of animation
-	//		 /// Imprint Final Vew
-	//		viewNew.scn.scale 	= .unity
-	//		self   .scn.scale 	= .zero//xPct//
-	//		fws.updateVewSizePaint(needsLock:"toggelOpen6")	//\\//\\//\\//\\ To end of animation
-	//
-	//		 /// Remove old vew and its SCNNode
-	//		atAni(4, log("Removed old Vew '\(fullName)' and its SCNNode"))
-	//		scn.scale			= .unity
-	//		scn.removeFromParent()
-	//		removeFromParent()
-	//	}
-	//https://forums.developer.apple.com/thread/111572
-	//			let morpher 		= SCNMorpher()
-	//			morpher.targets 	= [scn.geometry!]  	/// our old geometry will morph to 0
-	//		let node = SCNNode(geometry: SCNBox(width: 0, height: 0, length: 5, chamferRadius: 0))
-	//		Controller.current?.factalsModel.rootNode.addChildNode(node)
-	//		node.morpher = morpher
-	//		let anim = CABasicAnimation(keyPath: "morpher.weights[0]")
-	//		anim.fromValue = 0.0
-	//		anim.toValue = 1.0
-	//		anim.autoreverses = true
-	//		anim.duration = 1
-	//		node.addAnimation(anim, forKey: nil)
+bug
+//		let key 				= 0			// only element 0 for now
+//		guard let rootVew		= vew.rootVew else {	fatalError("toggelOpen without RootVew")}
+//
+//		 // Toggel vew.expose: .open <--> .atomic
+//		vew.expose 				= vew.expose == .open   ? .atomic :
+//								  vew.expose == .atomic ? .open :
+//								  						  .null
+//	//	SCNTransaction.begin()
+//		assert(vew.expose != .null, "")
+//		let part				= vew.part
+//
+//		 // ========= Get Locks for two resources, in order: =============
+//		guard rootPart!.lock(for:"toggelOpen") else {
+//			fatalError("toggelOpen couldn't get PART lock")	}		// or
+//		guard  rootVew.lock(for:"toggelOpen") else {fatalError("couldn't get Vew lock") }
+//
+//		assert(!(part is Link), "cannot toggelOpen a Link")
+//		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
+//		vew.scn.removeFromParent()
+//		vew.removeFromParent()
+//
+//		rootVew.updateVewSizePaint(for:"toggelOpen4")
+//
+//		// ===== Release Locks for two resources, in reverse order: =========
+//		rootVew  .unlock( for:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+//		rootPart?.unlock(for:"toggelOpen")
+//
+//		let rootScene			= rootVew.rootScene
+//bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
+//		rootScene.updatePole2Camera(reason:"toggelOpen")
+//		atAni(4, part.logd("expose = << \(vew.expose) >>"))
+//		atAni(4, part.logd(rootPart!.pp(.tree)))
+//
+//		if document.docConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
+//
+//			 // Mark old SCNNode as Morphing
+//			let oldScn			= vew.scn
+//			vew  .name			= "M" + vew   .name		// move old vew out of the way
+//			oldScn.name!		= "M" + oldScn.name!	// move old scn out of the way
+//			oldScn.scale		= .unity * 0.5			// debug
+//			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
+//
+//			 //*******// Imprint animation parameters JUST BEFORE start:
+//			rootVew.updateVewSizePaint()				// Update SCN's at START of animation
+//			 //*******//
+//
+//			 // Animate Vew morph, from self to newVew:
+//			guard let newScn	= vew.parent?.find(name:"_" + part.name)?.scn else {
+//				fatalError("updateVew didn't creat a new '_<name>' vew!!")
+//			}
+//			newScn.scale		= .unity * 0.3 //0.1, 0.0 	// New before Fade-in	-- zero size
+//			oldScn.scale		= .unity * 0.7 //0.9, 1.0	// Old before Fade-out	-- full size
+//
+//			SCNTransaction.begin()
+////			atRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
+//			SCNTransaction.animationDuration = CFTimeInterval(3)//3//0.3//10//
+//			 // Imprint parameters AFTER "togelOpen" ends:
+//			newScn.scale		= SCNVector3(0.7, 0.7, 0.7)	//.unity						// After Fade-in
+//			oldScn.scale 		= SCNVector3(0.3, 0.3, 0.3) //.zero							// After Fade-out
+//
+//			SCNTransaction.completionBlock 	= {
+//				 // Imprint JUST AFTER end, with OLD removed (Note: OLD == self):
+//				assert(vew.scn == oldScn, "oops")
+////				part.logg("Removed old Vew '\(vew.fullName)' and its SCNNode")
+//				newScn.scale	= .unity
+//				oldScn.scale 	= .unity	// ?? reset for next time (Elim's BUG?)
+//				oldScn.removeFromParent()
+//				vew.removeFromParent()
+//				//*******//
+//				rootVew.updateVewSizePaint()	// Imprint AFTER animation
+//				//*******//	// //// wants a third animatio	qn (someday):
+//			}
+////			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
+//			SCNTransaction.commit()
+//		}
+//	//	else {			/// just TEST CODE:
+//	//		let x				= CGFloat(0.2)
+//	//		let xPct			= SCNVector3(x, x, x)
+//	//		 /// Imprint Initial Vew, before newScn has non-zero size
+//	//		viewNew.scn.scale 	= xPct//.zero
+//	//		self   .scn.scale 	= .unity
+//	//		fws.updateVewSizePaint(needsLock:"toggelOpen5")	//\\//\\//\\//\\ To beginning of animation
+//	//		 /// Imprint Final Vew
+//	//		viewNew.scn.scale 	= .unity
+//	//		self   .scn.scale 	= .zero//xPct//
+//	//		fws.updateVewSizePaint(needsLock:"toggelOpen6")	//\\//\\//\\//\\ To end of animation
+//	//
+//	//		 /// Remove old vew and its SCNNode
+//	//		atAni(4, log("Removed old Vew '\(fullName)' and its SCNNode"))
+//	//		scn.scale			= .unity
+//	//		scn.removeFromParent()
+//	//		removeFromParent()
+//	//	}
+//	//https://forums.developer.apple.com/thread/111572
+//	//			let morpher 		= SCNMorpher()
+//	//			morpher.targets 	= [scn.geometry!]  	/// our old geometry will morph to 0
+//	//		let node = SCNNode(geometry: SCNBox(width: 0, height: 0, length: 5, chamferRadius: 0))
+//	//		Controller.current?.factalsModel.rootNode.addChildNode(node)
+//	//		node.morpher = morpher
+//	//		let anim = CABasicAnimation(keyPath: "morpher.weights[0]")
+//	//		anim.fromValue = 0.0
+//	//		anim.toValue = 1.0
+//	//		anim.autoreverses = true
+//	//		anim.duration = 1
+//	//		node.addAnimation(anim, forKey: nil)
 	}
 	 // MARK: - 15. PrettyPrint
 //	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
-			var rv				= (rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
+bug;		var rv				= ""//(rootPartActor.rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
+//			var rv				= (rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
 			rv					+= rootVews.pp(.classUid, aux) + " "
 			if let document {
 				rv				+= document.pp(.classUid, aux)
@@ -473,7 +488,7 @@ bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
 
 
 	 // MARK: - 17. Debugging Aids
-	override var description	  : String {	return  "d'\(pp(.short))'"		}
-	override var debugDescription : String {	return "dd'\(pp(.short))'"		}
+	var description	  			  : String {	return  "d'\(pp(.short))'"		}
+	var debugDescription 		  : String {	return "dd'\(pp(.short))'"		}
 	var summary					  : String {	return  "s'\(pp(.short))'"		}
 }

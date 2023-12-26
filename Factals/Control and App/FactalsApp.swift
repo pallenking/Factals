@@ -105,7 +105,7 @@ struct FactalsApp: App, Uid, FwAny {
 					Button {
 						let libName = "entry\(item.id)"
 						print("======== SceneMenu \(libName):")
-						document = FactalsDocument(fromLibrary:libName)
+bug//					document = FactalsDocument(fromLibrary:libName)
 					} label: {
 						Text(item.name + ":")
 						Image(systemName: item.imageName)
@@ -421,38 +421,39 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 
 	 // MARK: - MENU / Next / Demo
 	mutating func scheneAction(_ sender:NSMenuItem) {
-		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
-			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
-
-		 // Find scene number for Library lookup:
-		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
-											: regressScene	// from last time
-		regressScene			= sceneNumber + 1			// next regressScene
-		let scanKey				= "entry\(regressScene)"
-
-		bug
-		if (trueF) {		 	// Make new window:
-			let x = FactalsDocument(fromLibrary:scanKey) // who holds onto this
-		}
-		else {			 		// Install new rootPart in current window
-			guard let doc = DOC else { fatalError("no DOC")}
-			guard let factalsModel = doc.factalsModel else {	return	}
-
-			let rootPart		= RootPart(fromLibrary:scanKey)
-			factalsModel.setRootPart(rootPart:rootPart)
-
-			 // Make a default window
-			factalsModel.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
-	
-			 // --------------- C: FactalsDocument
-bug;			let c				= /*doc.config +*/ rootPart.ansConfig
-			factalsModel.configure(from:c)
-			//newRootVew.configure(from: ?FwConfig)
-			//let newDoc		= FactalsDocument(fromLibrary:"entry\(regressScene)")
-			factalsModel.document = doc
-			doc.makeWindowControllers()
-			doc.registerWithDocController()	// a new DOc must be registered
-		}
+bug
+//		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
+//			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
+//
+//		 // Find scene number for Library lookup:
+//		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
+//											: regressScene	// from last time
+//		regressScene			= sceneNumber + 1			// next regressScene
+//		let scanKey				= "entry\(regressScene)"
+//
+//		bug
+//		if (trueF) {		 	// Make new window:
+//			let x = FactalsDocument(fromLibrary:scanKey) // who holds onto this
+//		}
+//		else {			 		// Install new rootPart in current window
+//			guard let doc = DOC else { fatalError("no DOC")}
+//			guard let factalsModel = doc.factalsModel else {	return	}
+//
+//			let rootPart		= RootPart(fromLibrary:scanKey)
+//			factalsModel.setRootPart(rootPart:rootPart)
+//
+//			 // Make a default window
+//			factalsModel.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
+//	
+//			 // --------------- C: FactalsDocument
+//bug;			let c				= /*doc.config +*/ rootPart.ansConfig
+//			factalsModel.configure(from:c)
+//			//newRootVew.configure(from: ?FwConfig)
+//			//let newDoc		= FactalsDocument(fromLibrary:"entry\(regressScene)")
+//			factalsModel.document = doc
+//			doc.makeWindowControllers()
+//			doc.registerWithDocController()	// a new DOc must be registered
+//		}
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

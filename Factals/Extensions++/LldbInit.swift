@@ -29,14 +29,16 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }//
-var LLDBrootPartFOO : RootPart	{	DOCfactalsModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
-var LLDBrootPart : RootPart		{	DOCfactalsModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
+//var LLDBrootPartFOO : RootPart	{	DOCfactalsModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
+var LLDBrootPart : RootPart! = nil//{	DOCfactalsModelQ?.rootPartActor.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
 func LLDBrootPart(_ name:String?=nil) -> Part  {
-	guard var rv : Part			= DOCfactalsModelQ?.rootPart else { return .null		}
-	if name != nil {			// Search for sought Part	//maxLevel:1,
-		rv						= rv.find(name:name!, up2:false, me2:true) ?? rv
-	}
-	return rv
+	bug
+	return .null
+//	guard var rv : Part			= DOCfactalsModelQ?.rootPartActor.rootPart else { return .null		}
+//	if name != nil {			// Search for sought Part	//maxLevel:1,
+//		rv						= rv.find(name:name!, up2:false, me2:true) ?? rv
+//	}
+//	return rv
 }
 
  /// Access to current ////// Vew Tree //////

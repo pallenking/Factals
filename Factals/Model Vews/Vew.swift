@@ -236,7 +236,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		 // Try Document's configuration
 		guard let factalsModel	= rootVew.factalsModel 	else {	return nil		}
-		assert(factalsModel == part.root?.factalsModel, "paranoia: factalsModel mismatch")		//(factalsModel==nil || factalsModel! == part.root?.factalsModel
+bug//	assert(factalsModel == part.root?.factalsModel, "paranoia: factalsModel mismatch")		//(factalsModel==nil || factalsModel! == part.root?.factalsModel
 	//	if let rv				= factalsModel.config.openConfig[name] {
 	//		return rv
 	//	}

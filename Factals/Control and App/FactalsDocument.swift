@@ -32,10 +32,11 @@ class DocGlobals : ObservableObject {
 }
 
 struct FactalsDocument: FileDocument {
+	
 	let uid:UInt16				= randomUid()
     @StateObject var docGlobals	= DocGlobals(docConfig:params4pp)
 
-	var factalsModel : FactalsModel!				// content
+	var factalsModel : FactalsModel! = nil				// content
 
 	var docConfig : FwConfig	= [:]
 
@@ -49,8 +50,8 @@ struct FactalsDocument: FileDocument {
 //	}
 
 	 // @main uses this to generate a blank document
-	init() {	// Build a blank document, so there is a document of record with a Log
-		factalsModel			= FactalsModel()// MAKE first, so leaners can function //po type(of: factalsModel)
+	init() {	//async // Build a blank document, so there is a document of record with a Log
+//		factalsModel			= FactalsModel()		//await // MAKE first, so leaners can function //po type(of: factalsModel)
 		DOC						= self			// INSTALL as current DOC, quick!
 		factalsModel.document 	= self			// DELEGATE
 
@@ -60,45 +61,48 @@ struct FactalsDocument: FileDocument {
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-		let rootPart			= RootPart(fromLibrary:select)
+
+		let rootPartActor 		= RootPartActor(initialRootPart:RootPart(fromLibrary:select))
+//		let rootPart			= RootPart(fromLibrary:select)
 //		let rootPartActor 		= RootPartActor(initialRootPart:rootPart)
 
-		 // 	2. Install
-		assert(factalsModel.rootPart == nil, "paranoia: Should be empty, just made it")
-		factalsModel.rootPart	= rootPart
-		rootPart.factalsModel	= factalsModel// set delegate
-
-		 //		3. Update document configuration from Library entry
-		let c					= params4all + rootPart.ansConfig
-		factalsModel.configure(from:c)		// needs a configure
-
-		 //		4. Wire and Groom Part
-		rootPart.wireAndGroom(c)
-//		rootPartActor.rootPart.wireAndGroom(c:c)
-//		await rootPartActor.rootPart = RootPart()
-//
-//		rootPartActor.exececuteInRootPart {
-//			rootPart.wireAndGroom(c:c)
+//		rootPartActor.doAtomically {
+//			
+//			// 	2. Install
+//			//		assert(factalsModel.rootPartActor == nil, "paranoia: Should be empty, just made it")
+//			factalsModel.rootPartActor = rootPartActor
+//			rootPartActor.factalsModel	= factalsModel// set delegate
+//			
+//			//		3. Update document configuration from Library entry
+//			let c				= await params4all + rootPartActor.rootPart!.ansConfig
+//			factalsModel.configure(from:c)		// needs a configure
+//			
+//			//		4. Wire and Groom Part
+//			await rootPartActor.rootPart!.wireAndGroom(c)
+//			//		rootPartActor.rootPart.wireAndGroom(c:c)
+//			//		await rootPartActor.rootPart = RootPart()
+//			//
+//			//		rootPartActor.exececuteInRootPart {
+//			//			rootPart.wireAndGroom(c:c)
+//			//		}
+//			factalsModel.configure(from:c)		// Th
+//			
+//			//		5. Build Vews per Configuration, ensure one
+//			for (key, value) in c {
+//				if key == "Vews",				// "Vews":[VewConfig]
+//				   let values 		= value as? [VewConfig] {
+//					for value in values	{		// Open one for each elt
+//						factalsModel.addRootVew(vewConfig:value, fwConfig:c)
+//					}
+//				}
+//				else if key.hasPrefix("Vew") {	// "Vew":VewConfig
+//					guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
+//					factalsModel.addRootVew(vewConfig:value, fwConfig:c)
+//				}
+//			}
+//			factalsModel.ensureAVew(fwConfig:c)
+//			factalsModel.configure(from:c)					// Hits Vews just made
 //		}
-
-
-		factalsModel.configure(from:c)		// Th
-
-		 //		5. Build Vews per Configuration, ensure one
-		for (key, value) in c {
-			if key == "Vews",				// "Vews":[VewConfig]
-			  let values 		= value as? [VewConfig] {
-				for value in values	{		// Open one for each elt
-					factalsModel.addRootVew(vewConfig:value, fwConfig:c)
-				}
-			}
-			else if key.hasPrefix("Vew") {	// "Vew":VewConfig
-				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
-				factalsModel.addRootVew(vewConfig:value, fwConfig:c)
-			}
-		}
-		factalsModel.ensureAVew(fwConfig:c)
-		factalsModel.configure(from:c)					// Hits Vews just made
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
@@ -108,25 +112,28 @@ struct FactalsDocument: FileDocument {
 		return
 	}
 								
-	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
-		 // Make new RootPart, FactalsModel, and Document
-		let rootPart			= RootPart(fromLibrary:fromLibrary)
-		let factalsModel		= FactalsModel()//rootPart:rootPart)
-		rootPart.factalsModel	= factalsModel
-		let doc					= FactalsDocument(factalsModel:factalsModel)
-		factalsModel.document 	= doc
-		DOC						= doc				// register (UGLY!!!)
-		let c					= doc.docConfig + rootPart.ansConfig
-		factalsModel.configure(from:c)
-	}
+//	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
+//		 // Make new RootPart, FactalsModel, and Document
+//		let rootPart			= RootPart(fromLibrary:fromLibrary)
+//		let rootPartActor 		= factalsModel.rootPartActor
+//
+//		let factalsModel		= FactalsModel()//rootPart:rootPart)
+//		rootPart.factalsModel	= factalsModel
+//		let doc					= FactalsDocument(factalsModel:factalsModel)
+//		factalsModel.document 	= doc
+//		DOC						= doc				// register (UGLY!!!)
+//		let c					= doc.docConfig + rootPart.ansConfig
+//		factalsModel.configure(from:c)
+//	}
 
 	 /// Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
 	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .text] }
 	static var writableContentTypes: [UTType] { [.factals] }
-	init(configuration: ReadConfiguration) throws {
-		guard let data : Data 	= configuration.file.regularFileContents else {
-			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
-			throw FwError(kind:".fileReadCorruptFile")						}
+	init(configuration: ReadConfiguration) throws {		// async
+		fatalError()
+	//	guard let data : Data 	= configuration.file.regularFileContents else {
+	//		print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
+	//	throw FwError(kind:".fileReadCorruptFile")						}
 //		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 //		case .factals:
 //			 // Decode data as a Roo t Part
@@ -140,21 +147,23 @@ struct FactalsDocument: FileDocument {
 //		default:
 //				throw FwError(kind:".fileReadCorruptFile")
 //		}
+	//	self.init()		// temporary
 	}
 
 	 /// Requirement of <<FileDocument>> protocol
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-		switch configuration.contentType {
-		case .factals:
-			guard let dat		= factalsModel.rootPart?.data else {	// how is RootPart.data worked?
-				panic("FactalsDocument.factalsModel.rootPart.data is nil")
-				let d			= factalsModel.rootPart?.data		// redo for debug
-				throw FwError(kind:"FactalsDocument.factalsModel.rootPart.data is nil")
-			}
-			return .init(regularFileWithContents:dat)
-		default:
-			throw FwError(kind:".fileWriteUnknown")
-		}
+bug;	throw FwError(kind:".fileWriteUnknown")
+//		switch configuration.contentType {
+//		case .factals:
+//			guard let dat		= factalsModel.rootPart?.data else {	// how is RootPart.data worked?
+//				panic("FactalsDocument.factalsModel.rootPart.data is nil")
+//				let d			= factalsModel.rootPart?.data		// redo for debug
+//				throw FwError(kind:"FactalsDocument.factalsModel.rootPart.data is nil")
+//			}
+//			return .init(regularFileWithContents:dat)
+//		default:
+//			throw FwError(kind:".fileWriteUnknown")
+//		}
 	}
 	 // MARK: - 2.2 Sugar
 	var windowController0 : NSWindowController? {		// First NSWindowController
@@ -241,18 +250,19 @@ func serializeDeserialize(_ inPart:Part) throws -> Part? {
 		}
 	}
 	mutating func showInspec(for name:String) {
-		if let part	= factalsModel.rootPart?.find(name:name) {
-
-			 // Open inspectors for all RootVews:
-			for rootVew in factalsModel.rootVews {
-		 		if let vew = rootVew.find(part:part) {
-					showInspecFor(vew:vew, allowNew:true)
-				}
-			}
-		}
-		else {
-			atIns(4, warning("Inspector for '\(name)' could not be opened"))
-		}
+		bug
+//		if let part	= factalsModel.rootPart?.find(name:name) {
+//
+//			 // Open inspectors for all RootVews:
+//			for rootVew in factalsModel.rootVews {
+//		 		if let vew = rootVew.find(part:part) {
+//					showInspecFor(vew:vew, allowNew:true)
+//				}
+//			}
+//		}
+//		else {
+//			atIns(4, warning("Inspector for '\(name)' could not be opened"))
+//		}
 	}
 		 /// Show an Inspec for a vew.
 		/// - Parameters:

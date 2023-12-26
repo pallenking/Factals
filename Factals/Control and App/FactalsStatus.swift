@@ -152,26 +152,28 @@ extension FactalsModel : FactalsStatus	{						 ///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
 		//myLine				+= "\(rootVews.count) RootVews "
-		return ppFactalsStateHelper("FactalsModel       ", uid:self,
-			myLine:myLine,
-			otherLines:{deapth in
-				 // Controller:
-				var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1)
-									?? ppUid(pre:" ", self.rootPart,			// self.rootPart is nil
-										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
-				for rootVew in self.rootVews {
-					rv			+= rootVew.ppFactalsState(deapth:deapth-1)
-				}
-				rv				+= self.log.ppFactalsState(deapth:deapth-1)
-				return rv
-			},
-			deapth:deapth-1)
+		return "FactalsModel Neutered"
+//		return ppFactalsStateHelper("FactalsModel       ", uid:self,
+//			myLine:myLine,
+//			otherLines:{deapth in
+//				 // Controller:
+//				var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1)
+//									?? ppUid(pre:" ", self.rootPart,			// self.rootPart is nil
+//										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
+//				for rootVew in self.rootVews {
+//					rv			+= rootVew.ppFactalsState(deapth:deapth-1)
+//				}
+//				rv				+= self.log.ppFactalsState(deapth:deapth-1)
+//				return rv
+//			},
+//			deapth:deapth-1)
 	}
 }
 extension RootPart : FactalsStatus	{								 ///RootPart
 	func ppFwConfig() -> String {		localConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
-		let myLine				= factalsModel.rootPart === self ? "" : "OWNER:'\(factalsModel!)' BAD "
+bug
+		let myLine				= ""//factalsModel.rootPartActor.rootPart === self ? "" : "OWNER:'\(factalsModel!)' BAD "
 		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
 		return ppFactalsStateHelper("RootPart     ", uid:self,
 			myLine:myLine + "rootPart:\(ppUid(self, showNil:true)) " +
