@@ -10,88 +10,74 @@ https://developer.apple.com/documentation/scenekit/scntransaction/1523078-lock
    If your app modifies the scene graph from multiple threads, use a transaction
 lock to ensure that your modifications take effect as intended.
  */
-enum RootPartActorCommand { //}: RawRepresentable, Identifiable, CustomStringConvertible, CaseIterable, Hashable {				//   enum Method: String, RawRepresentable, Identifiable, CustomStringConvertible, CaseIterable, Hashable {
-	//case setRootPart(to:RootPart)
-	case configureX1(from:FwConfig)
-	case encodeX1(to:Encoder)
-	case wireAndGroomX1(FwConfig)
-//	case atomicTestAndSet(newValue: Int, expectedValue: Int)
-//	case atomicReadWithPostAdd(valueToAdd: Int)
-}
 
 actor RootPartActor : ObservableObject  {
 	private var myValue: Int = 0
 	private var yourValue: Int = 0
 
-	func updateValuesAtomically(n: Int) {
-		// Atomically move n from myValue to yourValue
-		if myValue >= n {
-			myValue -= n
-			yourValue += n
-			print("Moved \(n) from myValue to yourValue")
-		} else {
-			print("Not enough value in myValue to move \(n)")
-		}
+	init(fromLibrary selector:String) {
+		rootPart				= RootPart(fromLibrary:selector)
+//		rootPart?.groomModel(parent: nil)
+//		rootPart?.groomModelPostWires(root:rootPart)
+//		rootPart?.wireAndGroom([:])
 	}
-	func setFactalsModel(factalsModel f:FactalsModel) {		// Owner? is self
-		factalsModel = f
-	}
+//	func setFactalsModel(factalsModel f:FactalsModel) {		// Owner? is self
+//		factalsModel = f
+//	}
+//	func groomXX() {
+//		// 	2. Install
+//		//		assert(factalsModel.rootPartActor == nil, "paranoia: Should be empty, just made it")
+//		factalsModel!.rootPartActor = self
+//bug
+////		factalsModel			= self				// set delegate
+//		
+//		//		3. Update document configuration from Library entry
+//		let c				= params4all + rootPart!.ansConfig
+//		factalsModel!.configure(from:c)		// needs a configure
+//		
+//		//		4. Wire and Groom Part
+//		rootPart!.wireAndGroom(c)
+//		//		rootPartActor.rootPart.wireAndGroom(c:c)
+//		//		await rootPartActor.rootPart = RootPart()
+//		//
+//		//		rootPartActor.exececuteInRootPart {
+//		//			rootPart.wireAndGroom(c:c)
+//		//		}
+//		factalsModel!.configure(from:c)		// Th
+//		
+//		//		5. Build Vews per Configuration, ensure one
+//		for (key, value) in c {
+//			if key == "Vews",				// "Vews":[VewConfig]
+//			   let values 		= value as? [VewConfig] {
+//				for value in values	{		// Open one for each elt
+//					addRootVew(vewConfig:value, fwConfig:c)
+//				}
+//			}
+//			else if key.hasPrefix("Vew") {	// "Vew":VewConfig
+//				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
+//				addRootVew(vewConfig:value, fwConfig:c)
+//			}
+//		}
+//		if factalsModel!.rootVews.isEmpty {
+//			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
+//		}
+//		factalsModel!.configure(from:c)					// Hits Vews just made
+//	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
 		guard let rootPart		= rootPart	else {	fatalError("nil rootPart")	}
 		guard let factalsModel				else {	fatalError("nil factalsModel") }
-		let rootVew				= RootVew(forPart:rootPart) // 1. Make
+		let rootVew				= RootVew(forPart:rootPart) // 1. Make empty view
 		rootVew.factalsModel	= factalsModel				// 2. Backpointer
 		factalsModel.rootVews.append(rootVew)				// 3. Install
-		rootVew.configure(from:fwConfig)					// 4. Configure Part
+
+		rootVew.configure(from:fwConfig)					// 4. Configure Vew
 		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
 		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
 		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
 		rootVew.setupLightsCamerasEtc()						// ?move
-		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
+	//	let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
 bug//	atBld(5, factalsModel.logd("rootVews[\(factalsModel.rootVews.count-1)] is complete:\n\(rootVewPp)"))
-	}
-	func groom () async {
-		// 	2. Install
-		//		assert(factalsModel.rootPartActor == nil, "paranoia: Should be empty, just made it")
-		factalsModel!.rootPartActor = self
-bug
-//		factalsModel			= self				// set delegate
-		
-		//		3. Update document configuration from Library entry
-		let c				= params4all + rootPart!.ansConfig
-		factalsModel!.configure(from:c)		// needs a configure
-		
-		//		4. Wire and Groom Part
-		rootPart!.wireAndGroom(c)
-		//		rootPartActor.rootPart.wireAndGroom(c:c)
-		//		await rootPartActor.rootPart = RootPart()
-		//
-		//		rootPartActor.exececuteInRootPart {
-		//			rootPart.wireAndGroom(c:c)
-		//		}
-		factalsModel!.configure(from:c)		// Th
-		
-		//		5. Build Vews per Configuration, ensure one
-		for (key, value) in c {
-			if key == "Vews",				// "Vews":[VewConfig]
-			   let values 		= value as? [VewConfig] {
-				for value in values	{		// Open one for each elt
-					addRootVew(vewConfig:value, fwConfig:c)
-				}
-			}
-			else if key.hasPrefix("Vew") {	// "Vew":VewConfig
-				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
-				addRootVew(vewConfig:value, fwConfig:c)
-			}
-		}
-		await factalsModel!.ensureAVew(fwConfig:c)
-		factalsModel!.configure(from:c)					// Hits Vews just made
-	}
-	func doAtomically(action: @escaping () async throws -> Void) rethrows {
-		Task {
-			try await action()		// side effect
-		}
 	}
 
 	var rootPart : RootPart? = nil
@@ -99,69 +85,14 @@ bug
 	init(initialRootPart: RootPart?) {					/*private ?? */
 		self.rootPart = initialRootPart
 	}
-//	// called from any synchronous
-//    func executeAtomically<T>(_ closure: () -> T) -> T {
-//        return await self.actorTask {
-//            let result = closure()
-//            return result
-//        }
-//    }
-
-	//func performActionSynch(action: () -> Void) async {			PW
-	//	action()
-//	func performActionSynch(action: @escaping () async throws -> Void) async rethrows {
-//		try await action()
-//	}
-//	func performActionSynch(action: @escaping () -> Void) async {	//async
-//		await Task {
-//			action()
-//		}
-//	}
 //	func wireAndGroom(c :FwConfig) {
 //		rootPart?.wireAndGroom(c)
 //	}
-
-
-//	func exececuteInRootPart(e:(r:inout RootPart)->Void) {
-//		e(r)
-//	}
-
-	// called from asynchronous
-	// Method to perform actions on the rootPart resource
-//	func performAction(action: @escaping () async throws -> Void) async rethrows {
-//		try await action()
-//		await withCheckedContinuation { continuation in
-//			Task {
-//				do {	// Execute the action within the actor's context
-//					try await action()
-//					continuation.resume()
-//				} catch {
-//					bug
-//					//continuation.resume(throwing: .Never)
-//				}
-//			}
-//		}
-//	}												//	another way: func execute(command: RootPartActorCommand) async -> Int {
-//	private func atomicTestAndSet(newValue: Int, expectedValue: Int) async -> Int {
-//		return await withCheckedContinuation { continuation in
-//			if rootPart?.foo22 == expectedValue {
-//				rootPart?.foo22 = newValue
-//				continuation.resume(returning: expectedValue)
-//			} else {
-//				continuation.resume(returning: -1) // Indicating test-and-set failed
-//			}
-//		}
-//	}
-//	private func readWithPostAdd(valueToAdd: Int) async -> Int {
-//		guard let rootPart else { return -99 }
-//		let rv					= rootPart.foo22
-//		rootPart.foo22 			+= valueToAdd
-//		return rv
-//	}
-//	private func setRootPart(new rp:RootPart) {
-//		rootPart = rp
-//	}
 }
+
+
+
+
 
 //private
 class RootPart : Part {		//class//actor//
@@ -252,7 +183,7 @@ class RootPart : Part {		//class//actor//
 	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
-		groomModel(parent:nil)		// nil as Part?
+bug//	groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
 		msg == nil ? nop : unlock(for:msg)	// ---- 3. UNLOCK for PartTree
@@ -392,27 +323,29 @@ bug			//self.init(url: fileURL)
 		return nil
 	}
 
-	convenience init(fromLibrary selectionString:String?) {
+	convenience init(fromLibrary selector:String?) {
 
 		 // Make tree's root (a RootPart):
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		title					= "'\(selectionString ?? "nil")' not found"
+		title					= "'\(selector ?? "nil")' not found"
 
 		 // Find the Library that contains the trunk for self, the root.
-		if let lib				= Library.library(fromSelector:selectionString) {
+		if let lib				= Library.library(fromSelector:selector) {
 			let ans :ScanAnswer	= lib.answer		// found
-			title				= "'\(selectionString ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
+			title				= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
 			ansConfig			= ans.ansConfig
 
 /* */		let ansTrunk:Part?	= ans.ansTrunkClosure!()
 
 			addChild(ansTrunk)
-			let nilPart : Part? = nil
-			setTree(root:self, parent:nilPart)
-		}else{
-			fatalError("RootPart(fromLibrary:\(selectionString ?? "nil") -- no RootPart generated")
 		}
+		else {
+			fatalError("RootPart(fromLibrary:\(selector ?? "nil") -- no RootPart generated")
+		}
+//		rootPartActor.groom()
+//		wireAndGroom([:])		// moved to RootPartActor
+
 		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)
 //		markTree(dirty:.vew)
@@ -431,7 +364,8 @@ bug			//self.init(url: fileURL)
 		 //  2. ADD LINKS:
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
 		linkUps.forEach { 	addLink in 		addLink() 							}
-		setTree(root:self, parent:nil)
+
+		setTree(root:self)
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))
@@ -443,6 +377,7 @@ bug			//self.init(url: fileURL)
 		atBld(4, logd("------- Reset..."))
 		reset()
 
+		 // must be done after reset
 		forAllParts { part in
 			if let p = part as? Splitter {
 				p.setDistributions(total:0.0)
@@ -461,8 +396,6 @@ bug			//self.init(url: fileURL)
 		title					+= " (\(portCount()) Ports)"
 
 		//dirtySubTree(.vew)		// NOT NEEDED
-
-
 	}
 	func ppRootPartErrors() -> String {
 		let errors 				= logNErrors	   == 0 ? "no errors"

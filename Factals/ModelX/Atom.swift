@@ -72,12 +72,12 @@ class Atom : Part {	//Part//FwPart
 	func hasPorts() -> [String:String]	{
 		return ["P":"c"]
 	}
-	override func groomModel(parent parent_:Part?)  {
-		super.groomModel(parent:parent_)
-		for (_, port) in ports {		// review Ports too:
-			port.groomModel(parent:self)	// non-child Port
-		}								 // ### RECURSIVE validate
-	}
+//	override func groomModel(parent parent_:Part?)  {
+//bug;	super.groomModel(parent:parent_)
+//		for (_, port) in ports {		// review Ports too:
+//			port.groomModel(parent:self)	// non-child Port
+//		}								 // ### RECURSIVE validate
+//	}
 
 	 // MARK: - 3.5 Codable
 	enum AtomsKeys: String, CodingKey {

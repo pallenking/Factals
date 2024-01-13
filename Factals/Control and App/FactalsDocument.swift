@@ -51,9 +51,7 @@ struct FactalsDocument: FileDocument {
 
 	 // @main uses this to generate a blank document
 	init() {	//async // Build a blank document, so there is a document of record with a Log
-//		factalsModel			= FactalsModel()		//await // MAKE first, so leaners can function //po type(of: factalsModel)
 		DOC						= self			// INSTALL as current DOC, quick!
-		factalsModel.document 	= self			// DELEGATE
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
@@ -61,11 +59,14 @@ struct FactalsDocument: FileDocument {
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-
-		let rootPartActor 		= RootPartActor(initialRootPart:RootPart(fromLibrary:select))
+//
 //		let rootPart			= RootPart(fromLibrary:select)
 //		let rootPartActor 		= RootPartActor(initialRootPart:rootPart)
 
+		factalsModel			= FactalsModel(fromLibrary:select)//await // MAKE first, so leaners can function //po type(of: factalsModel)
+		factalsModel.document 	= self			// DELEGATE
+
+ /// ALL MOVED TO RootPartActor
 //		rootPartActor.doAtomically {
 //			
 //			// 	2. Install
@@ -100,7 +101,7 @@ struct FactalsDocument: FileDocument {
 //					factalsModel.addRootVew(vewConfig:value, fwConfig:c)
 //				}
 //			}
-//			factalsModel.ensureAVew(fwConfig:c)
+//			factalsModel.ensureAVew(fwConfig:c) GONE 20240106
 //			factalsModel.configure(from:c)					// Hits Vews just made
 //		}
 	}										// next comes viewAppearedFor (was didLoadNib(to)

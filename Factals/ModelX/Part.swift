@@ -42,17 +42,18 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	weak var parent :  Part?	= nil 		// add the parent property
 
 	 // nil root defers to parent's root.
-	var root		: RootPart?  {
-		get {								//return parent?.root ?? self as? RootPart
-			parent?.root 		??			// RECURSIVELY up the parent tree
-			self as? RootPart	??			// top should be RootPart
-			nil
-//			{	fatalError("Mall-formed tree: nil parent should be RootPart")	} ()
-		}
-		set(v) {
-			fatalError("root.set(v) not supported")
-		}
-	}
+	var root		: RootPart? = nil
+//	{
+//		get {								//return parent?.root ?? self as? RootPart
+//			parent?.root 		??			// RECURSIVELY up the parent tree
+//			self as? RootPart	??			// top should be RootPart
+//			nil
+////			{	fatalError("Mall-formed tree: nil parent should be RootPart")	} ()
+//		}
+//		set(v) {
+//			fatalError("root.set(v) not supported")
+//		}
+//	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
  // BIG PROBLEMS: (Loops!)
@@ -195,12 +196,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 	}
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
-	func setTree(root r:RootPart, parent p:Part?) {
-//	func setTree(root r:RootPartActor, parent p:Part?) {
-		//assertWarn(parent === p, "\(fullName): Parent:\(parent?.fullName ?? "nil") should be \(p?.fullName ?? "nil")")
-		assertWarn(root   === r, "\(fullName  ): Root:\(  root?.fullName ?? "nil") should be \(r .fullName ?? "nil")")
-		parent 					= p
-//		root   					= r
+	func setTree(root r:RootPart, parent p:Part?=nil) {
+		self.parent 			= p
+		self.root   			= r
 		for child in children {
 			child.setTree(root:r, parent:self)
 		}
@@ -466,7 +464,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
 	/// dirtyness of child is inhereted by self
 	func addChild(_ child:Part?, atIndex index:Int?=nil) {
-		guard let child 		= child else {		return						}
+		guard let child 		else {		return								}
 		assert(self !== child, "can't add self to self")
 
 		 // Find right spot in children
@@ -505,21 +503,22 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// - Parameters:
 	///   - parent_: ---- if known
 	///   - root_: ---- set in Part
-	func groomModel(parent p:Part?)  {
-		parent					= p
-//		if root == nil || root !== r {
-//			print("This will probably ERR ..... ####### ")
-//			root 				=  r					// from arg (if there)
-//								?? self as? RootPart 	// me, I'm a RootPart
-//								?? child0 as? RootPart	// if PolyWrapped
+//	func groomModel(parent p:Part?)  {
+//		parent					= p
+//bug
+////		if root == nil || root !== r {
+////			print("This will probably ERR ..... ####### ")
+////			root 				=  r					// from arg (if there)
+////								?? self as? RootPart 	// me, I'm a RootPart
+////								?? child0 as? RootPart	// if PolyWrapped
+////		}
+//
+//		markTree(dirty:.vew)							// set dirty vew
+//		 // Do whole tree
+//		for child in children {							// do children
+//			child.groomModel(parent:self)					// ### RECURSIVE
 //		}
-
-		markTree(dirty:.vew)							// set dirty vew
-		 // Do whole tree
-		for child in children {							// do children
-			child.groomModel(parent:self)					// ### RECURSIVE
-		}
-	}
+//	}
 
 	func groomModelPostWires(root:RootPart)  {
 		 // Check for duplicate names:

@@ -168,20 +168,20 @@ class Link : Atom {
 bug;	return rv
 	}
 	 // MARK: - 5 Groom
-	override func groomModel(parent parent_:Part?)  {
-		super.groomModel(parent:parent_)
-		 // Groom Link's Conveyors
-		for CPort in [pUpCPort, sDownCPort] {
-			CPort?.parent		= self
-		}
-	}
+//	override func groomModel(parent parent_:Part?)  {
+//bug
+//		super.groomModel(parent:parent_)
+//		 // Groom Link's Conveyors
+//		for CPort in [pUpCPort, sDownCPort] {
+//			CPort?.parent		= self
+//		}
+//	}
 	override func reset() {							super.reset()
-//		upConveyor.removeAllObjects
-//		downConveyor.removeAllObjects
+		sDownCPort.inTransit.removeAll()
+		  pUpCPort.inTransit.removeAll()
 	}
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up:Bool) {
-		//super.simulate(up:up)			//??
 		up ?
 		     pUpCPort.simulate() :
 		   sDownCPort.simulate()

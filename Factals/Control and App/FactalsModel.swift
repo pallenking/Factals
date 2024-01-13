@@ -7,25 +7,7 @@ class FactalsModel : ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
 	var document : FactalsDocument!					// Owner
-//	@Published var rootPart : RootPart? = nil													//{	rootVew.part as! RootPart}
-	/*@Published*/ var rootPartActor : RootPartActor  //? = nil													//{	rootVew.part as! RootPart}
-
-//	func setRootPart(rootPart r:RootPart) async {
-//		guard let actr				= rootPartActor else {	fatalError()		}
-//		await actr.doAtomically {
-//			guard actr.rootPart !== r else {	return	} // same
-////			guard rootPart == nil || rootPart!.lock(for:"setRootPart", logIf:false)
-////								else {  fatalError(" couldn't get PART lock")	}
-//
-//			 // remove all rootVews:
-//			for rootVew in rootVews {
-//				if rootVew.lock(for:"setRootPart", logIf:false) == false { fatalError(" couldn't get VIEW lock")}
-//			}
-//			rootVews				= []
-//			actr.rootPart			= r
-//			actr.rootPart?.factalsModel = self
-//		}
-//	}
+	var rootPartActor : RootPartActor
 	var rootVews : [RootVew]	= []
 	var rootVew0 :  RootVew?	{ rootVews.first								}
 	var log 	 : Log
@@ -36,23 +18,18 @@ class FactalsModel : ObservableObject {			// xyzzy4 // remove NSObject
 	}
 
 	func configure(from config:FwConfig) { // *****
+		log.configure(from:config)
 bug
-//		log.configure(from:config)
-//
-//		guard let rootPart else { fatalError("WARNING configure: factalsModel.rootPart=nil") }
-//		rootPart.configure(from:config)
-//		for rootVew in rootVews {
-//			rootVew.configureDocument(from:config)
-//		}
+//		guard let rootPartActor else { fatalError("WARNING configure: factalsModel.rootPart=nil") }
+//		rootPartActor.rootPart?.configure(from:config)
+		for rootVew in rootVews {
+			rootVew.configureDocument(from:config)
+		}
 	}
 	 // MARK: - 3. Factory
-	 //PAK: Could remove this.
-	init() async {						// rootPart r:RootPart?=nil
-		rootPartActor			= RootPartActor(initialRootPart:nil)
+	init(fromLibrary selector:String) {	//						// rootPart r:RootPart?=nil
+		rootPartActor 			= RootPartActor(fromLibrary:selector)
 		log						= Log(title:"FactalsModel's Log", params4all)
-							
-		//super.init()
-		await rootPartActor.setFactalsModel(factalsModel:self)		// Owner? is self
 	}
 	//var rootPartActor : RootPartActor? = nil
 					//	//	// FileDocument requires these interfaces:
@@ -85,6 +62,7 @@ bug
 					//	//			return nil
 					//	//		}
 					//		}
+ // MOVED TO RootPart:
 //	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 //		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
 //		rootPartActor.doAtomically { [self] in
@@ -101,12 +79,6 @@ bug
 //			atBld(5, logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
 //		}
 //	}
-	func ensureAVew(fwConfig c:FwConfig) async {
-		if rootVews.isEmpty {		// Must have a Vew
-			atBld(3, warning("no Vew... key"))
-			await rootPartActor.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
-		}
-	}
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {

@@ -15,9 +15,9 @@ struct ContentView: View {
 			.onAppear {
 				let windows 	= NSApplication.shared.windows
 				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-bug
-//				windows.first!.title = document.factalsModel.rootPartActor.rootPart?.title ?? "<UNTITLED>"
-
+				let rpa			= document.factalsModel.rootPartActor
+//bug//			let title		= rpa.rootPart?.title
+				windows.first!.title = /*rpa.rootPart?.title ??*/ "<UNTITLED>"
 				EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
 		bug;		print("Event: \(event)")			// Handle the event here
 				}.startMonitoring(for: windows.first!)
@@ -71,7 +71,6 @@ struct FactalsModelView: View {
 				if factalsModel.rootVews.count == 0 {
 					Text("No Vews found")
 				}
-
 				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.rootVews) {	rootVew in

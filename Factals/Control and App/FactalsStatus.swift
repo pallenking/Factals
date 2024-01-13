@@ -77,7 +77,9 @@ extension FactalsApp : FactalsStatus	{							///FactalsApp
 extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("FactalsDocume", uid:self,
+			myLine: factalsModel == nil ? "factalsModel is nil" : "",
 			otherLines:{ deapth in
+				guard let factalsModel else {	return ""						}
 				var rv			= factalsModel.ppFactalsState(deapth:deapth-1)
 				 // Inspectors:
 				if self.inspecWin4vew.count > 0 {

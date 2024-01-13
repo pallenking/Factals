@@ -77,8 +77,8 @@
             filePath = "Factals/ModelX/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1273"
-            endingLineNumber = "1273"
+            startingLineNumber = "1272"
+            endingLineNumber = "1272"
             landmarkName = "placeStacked(inVew:mode:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -733,8 +733,8 @@
             filePath = "Factals/Control and App/FactalsApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -813,8 +813,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
             landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -893,8 +893,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "516"
-            endingLineNumber = "516"
+            startingLineNumber = "449"
+            endingLineNumber = "449"
             landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
             <Locations>
@@ -934,84 +934,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "93CAC7A2-C819-4274-8B3C-9EB92AA82F9C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/SwiftUI Views/FactalsModelBar.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "93CAC7A2-C819-4274-8B3C-9EB92AA82F9C - e9f6b8cdc267e34"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #4 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.Text, SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.Text, SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt;&gt;)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in Factals.FactalsModelBar.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "93CAC7A2-C819-4274-8B3C-9EB92AA82F9C - 9d3fa3218c177bb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #4 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.Text, SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.Text, SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt;&gt;)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in FactalsTests.FactalsModelBar.body.getter : some"
-                  moduleName = "FactalsTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "93CAC7A2-C819-4274-8B3C-9EB92AA82F9C - 938eaddcf4e0866d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #4 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.EmptyView, SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.EmptyView, SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in Factals.FactalsModelBar.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "93CAC7A2-C819-4274-8B3C-9EB92AA82F9C - d33765352c3be3f7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #4 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.EmptyView, SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.EmptyView, SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in FactalsTests.FactalsModelBar.body.getter : some"
-                  moduleName = "FactalsTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "84">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "35A4D0C3-3357-4E25-AE0A-1CF23434BB04"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -1035,8 +957,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "378"
+            endingLineNumber = "378"
             landmarkName = "wireAndGroom(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1067,8 +989,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "453"
-            endingLineNumber = "453"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
             landmarkName = "wireAndGroom(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1099,8 +1021,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "FactalsModel"
             landmarkType = "3">
          </BreakpointContent>
@@ -1305,8 +1227,8 @@
             filePath = "Factals/ModelX/Link.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "simulate(up:)"
             landmarkType = "7">
             <Locations>
@@ -1401,87 +1323,10 @@
             filePath = "Factals/Control and App/FactalsStatus.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "ppFactalsState(deapth:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "CDB9A474-0E6F-4866-99A1-C9844F4625C7 - 36d7f50204976174"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Simulator.ppFactalsState(deapth: Swift.Int) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsStatus.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "220"
-                  endingLineNumber = "220"
-                  offsetFromSymbolStart = "3624">
-               </Location>
-               <Location
-                  uuid = "CDB9A474-0E6F-4866-99A1-C9844F4625C7 - 36d7f50204976174"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Simulator.ppFactalsState(deapth: Swift.Int) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsStatus.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "220"
-                  endingLineNumber = "220"
-                  offsetFromSymbolStart = "3620">
-               </Location>
-               <Location
-                  uuid = "CDB9A474-0E6F-4866-99A1-C9844F4625C7 - 36d7f50204976174"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Simulator.ppFactalsState(deapth: Swift.Int) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsStatus.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "220"
-                  endingLineNumber = "220"
-                  offsetFromSymbolStart = "3596">
-               </Location>
-               <Location
-                  uuid = "CDB9A474-0E6F-4866-99A1-C9844F4625C7 - 36d7f50204976174"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Simulator.ppFactalsState(deapth: Swift.Int) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsStatus.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "220"
-                  endingLineNumber = "220"
-                  offsetFromSymbolStart = "3612">
-               </Location>
-               <Location
-                  uuid = "CDB9A474-0E6F-4866-99A1-C9844F4625C7 - 36d7f50204976136"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Simulator.ppFactalsState(deapth: Swift.Int) -&gt; Swift.String"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsStatus.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "222"
-                  endingLineNumber = "222"
-                  offsetFromSymbolStart = "3600">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1603,84 +1448,6 @@
                   startingLineNumber = "16"
                   endingLineNumber = "16"
                   offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "371574CF-0442-4E7F-A6AF-DA1A1E9B81BA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/SwiftUI Views/FactalsModelBar.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "371574CF-0442-4E7F-A6AF-DA1A1E9B81BA - e266788d0b545c96"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in Factals.FactalsModelBar.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "996">
-               </Location>
-               <Location
-                  uuid = "371574CF-0442-4E7F-A6AF-DA1A1E9B81BA - 87d077c6451ea88e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in Factals.FactalsModelBar.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "18"
-                  endingLineNumber = "18"
-                  offsetFromSymbolStart = "480">
-               </Location>
-               <Location
-                  uuid = "371574CF-0442-4E7F-A6AF-DA1A1E9B81BA - a9fb87c4f6dbb94d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in Factals.FactalsModelBar.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "1000">
-               </Location>
-               <Location
-                  uuid = "371574CF-0442-4E7F-A6AF-DA1A1E9B81BA - 2b7f79d710216b2d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.ShapeStyle&gt;(_: &#x3c4;_1_0, ignoresSafeAreaEdges: SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0)&gt;&gt;&gt;, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI._ConditionalContent&lt;SwiftUI.TupleView&lt;(SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;)&gt;, SwiftUI.Text&gt;, SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.Text)&gt;&gt;)&gt; in Factals.FactalsModelBar.body.getter : some"
-                  moduleName = "Factals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/SwiftUI%20Views/FactalsModelBar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "18"
-                  endingLineNumber = "18"
-                  offsetFromSymbolStart = "576">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1911,7 +1678,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E209B6CB-F139-44A1-97B4-9364A19B2BDF"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/ModelX/LinkPort.swift"
@@ -1949,8 +1716,8 @@
             filePath = "Factals/Control and App/FactalsDocument.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1965,8 +1732,8 @@
             filePath = "Factals/Control and App/FactalsApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1981,8 +1748,8 @@
             filePath = "Factals/Control and App/FactalsApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
+            startingLineNumber = "514"
+            endingLineNumber = "514"
             landmarkName = "log(banner:_:_:terminator:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2007,7 +1774,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "77099AE9-6952-4BBB-BDF3-CA6139191E16"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/FactalsDocument.swift"
@@ -2016,6 +1783,165 @@
             startingLineNumber = "54"
             endingLineNumber = "54"
             landmarkName = "init()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "77099AE9-6952-4BBB-BDF3-CA6139191E16 - 905fcde03798f9d7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FactalsDocument.init() -&gt; Factals.FactalsDocument"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsDocument.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "568">
+               </Location>
+               <Location
+                  uuid = "77099AE9-6952-4BBB-BDF3-CA6139191E16 - 905fcde03798f9f6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FactalsDocument.init() -&gt; Factals.FactalsDocument"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsDocument.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "580">
+               </Location>
+               <Location
+                  uuid = "77099AE9-6952-4BBB-BDF3-CA6139191E16 - 905fcde03798f9f6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FactalsDocument.init() -&gt; Factals.FactalsDocument"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsDocument.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "564">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "617D3617-0394-43E8-98C7-A9B6FA7146B3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "init(fromLibrary:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1B5571F9-C20E-476C-AF98-30C12F0B00D1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/ModelX/RootPart.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
+            landmarkName = "init(fromLibrary:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1B5571F9-C20E-476C-AF98-30C12F0B00D1 - b003ac585d5b7fc0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootPart.__allocating_init(fromLibrary: Swift.Optional&lt;Swift.String&gt;) -&gt; Factals.RootPart"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "324"
+                  endingLineNumber = "324"
+                  offsetFromSymbolStart = "632">
+               </Location>
+               <Location
+                  uuid = "1B5571F9-C20E-476C-AF98-30C12F0B00D1 - b003ac585d5b7e02"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootPart.__allocating_init(fromLibrary: Swift.Optional&lt;Swift.String&gt;) -&gt; Factals.RootPart"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "322"
+                  endingLineNumber = "322"
+                  offsetFromSymbolStart = "120">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "31D80483-83EC-4CB5-B25C-5FC259BF6BBB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsDocument.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1DA157AC-6BEC-4489-9F7C-DDA960646B47"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/ModelX/RootPart.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "init(fromLibrary:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FE700D2B-5F30-425E-9280-397CAFB2819D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsDocument.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "init(factalsModel:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

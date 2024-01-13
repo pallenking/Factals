@@ -492,9 +492,9 @@ bug
 		logd("\n==================== XCTest completed all \(lastNumber-12) tests ====================")
 	}	/// When it leaves here, deinit's things, then accesses an illegal address
 	 // Test form XCTest:
-//	func testOpen(urlNamed name:String) {
+	func testOpen(urlNamed name:String) {
 //		openURL(named:name)
-//	}
+	}
 
 	func testUint8() {
 		let spin3any : FwConfig = ["spin":3]								//		Sequence([spin:3]),

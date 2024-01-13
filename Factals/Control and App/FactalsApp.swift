@@ -20,8 +20,15 @@ import SceneKit
 let params4aux : FwConfig 	=	[:]//params4all_
 
 // ///////////////////////  U G L Y  Singletons: ///////////////////////////////
-var APP				: FactalsApp!		// NEVER CHANGES (after inz)
-var DOC				: FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
+var APP	 : FactalsApp!		// NEVER CHANGES (after inz)
+var APPQ : FactalsApp?		{	APP 										}
+ // genesis of a more commone singleton:
+//extension FactalsApp
+//	static var FactalsApp
+
+var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
+var DOCQ : FactalsDocument? { DOC == nil ? nil : DOC }
+
 // /////////////////////////////////////////////////////////////////////////////
  // Singleton Shugar:;
 var DOCfactalsModelQ : FactalsModel?	{	DOC?.factalsModel					}	// optionality is needed
@@ -30,7 +37,6 @@ var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
 var DOClogQ  	: Log? 			{	DOCfactalsModelQ?.log							}
 var DOClog  	: Log 			{	DOClogQ ?? .reliable						}	//.first
 let DOCctlr						= NSDocumentController.shared
-var APPQ		: FactalsApp?	{	APP 										}
 var DOCAPPlog	: Log 			{	DOClogQ ?? APPQ?.log ?? .reliable				}
 
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
@@ -166,14 +172,14 @@ bug//					document = FactalsDocument(fromLibrary:libName)
 	init () {
 		APP 					= self				// Register  (HOAKEY)
 	//	let daLog				= DOCAPPlog			// create here, ahead of action
-//		let _					= Log.reliable			// create here, ahead of action
+//		let _					= Log.reliable		// create here, ahead of action
 
 		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with its defaults (Ahead of any documents)
 		assert(config.count == 0, "paranoia owefihwq08fu")
 		let c					= config + params4all// append
-		configure(from:c)						// modifies APP, must re-register
+		configure(from:c)							// modifies APP, must re-register
 		APP 					= self				// Register ( V E R Y  HOAKEY)
 		sceneMenus 				= buildSceneMenus()
 
@@ -422,19 +428,19 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	 // MARK: - MENU / Next / Demo
 	mutating func scheneAction(_ sender:NSMenuItem) {
 bug
-//		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
-//			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
-//
-//		 // Find scene number for Library lookup:
-//		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
-//											: regressScene	// from last time
-//		regressScene			= sceneNumber + 1			// next regressScene
-//		let scanKey				= "entry\(regressScene)"
-//
-//		bug
-//		if (trueF) {		 	// Make new window:
-//			let x = FactalsDocument(fromLibrary:scanKey) // who holds onto this
-//		}
+		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
+			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
+
+		 // Find scene number for Library lookup:
+		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
+											: regressScene	// from last time
+		regressScene			= sceneNumber + 1			// next regressScene
+		let scanKey				= "entry\(regressScene)"
+
+		bug
+		if (trueF) {		 	// Make new window:
+			let x = FactalsDocument()//docConfig:scanKey) // who holds onto this
+		}
 //		else {			 		// Install new rootPart in current window
 //			guard let doc = DOC else { fatalError("no DOC")}
 //			guard let factalsModel = doc.factalsModel else {	return	}
