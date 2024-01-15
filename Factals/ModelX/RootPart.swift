@@ -17,52 +17,7 @@ actor RootPartActor : ObservableObject  {
 
 	init(fromLibrary selector:String) {
 		rootPart				= RootPart(fromLibrary:selector)
-//		rootPart?.groomModel(parent: nil)
-//		rootPart?.groomModelPostWires(root:rootPart)
-//		rootPart?.wireAndGroom([:])
 	}
-//	func setFactalsModel(factalsModel f:FactalsModel) {		// Owner? is self
-//		factalsModel = f
-//	}
-//	func groomXX() {
-//		// 	2. Install
-//		//		assert(factalsModel.rootPartActor == nil, "paranoia: Should be empty, just made it")
-//		factalsModel!.rootPartActor = self
-//bug
-////		factalsModel			= self				// set delegate
-//		
-//		//		3. Update document configuration from Library entry
-//		let c				= params4all + rootPart!.ansConfig
-//		factalsModel!.configure(from:c)		// needs a configure
-//		
-//		//		4. Wire and Groom Part
-//		rootPart!.wireAndGroom(c)
-//		//		rootPartActor.rootPart.wireAndGroom(c:c)
-//		//		await rootPartActor.rootPart = RootPart()
-//		//
-//		//		rootPartActor.exececuteInRootPart {
-//		//			rootPart.wireAndGroom(c:c)
-//		//		}
-//		factalsModel!.configure(from:c)		// Th
-//		
-//		//		5. Build Vews per Configuration, ensure one
-//		for (key, value) in c {
-//			if key == "Vews",				// "Vews":[VewConfig]
-//			   let values 		= value as? [VewConfig] {
-//				for value in values	{		// Open one for each elt
-//					addRootVew(vewConfig:value, fwConfig:c)
-//				}
-//			}
-//			else if key.hasPrefix("Vew") {	// "Vew":VewConfig
-//				guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
-//				addRootVew(vewConfig:value, fwConfig:c)
-//			}
-//		}
-//		if factalsModel!.rootVews.isEmpty {
-//			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
-//		}
-//		factalsModel!.configure(from:c)					// Hits Vews just made
-//	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
 		guard let rootPart		= rootPart	else {	fatalError("nil rootPart")	}
@@ -183,7 +138,7 @@ class RootPart : Part {		//class//actor//
 	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
-bug//	groomModel(parent:nil)		// nil as Part?
+bug		//groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
 		msg == nil ? nop : unlock(for:msg)	// ---- 3. UNLOCK for PartTree
@@ -243,7 +198,7 @@ bug//	groomModel(parent:nil)		// nil as Part?
 //		 // 1. Unwrap PolyParts
 //		rootPart				= inPolyPart.polyUnwrap() as? RootPart
 //		 // 2. Groom .root and .parent in all parts:
-//		rootPart.groomModel(parent:nil, //root:rootPart)
+//		rootPart.groomModel??(parent:nil, //root:rootPart)
 //		 // 3. Groom .fwDocument in rootPart
 //		rootPart.fwDocument 	= self		// Use my FwDocument
 //		 // 4. Remove symbolic links on Ports

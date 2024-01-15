@@ -553,30 +553,6 @@ print("---------- \(vew.pp(.fullName)).portConSpotNEW")
 		return rv
 	}
 
-	 // MARK: - 5 Groom
-//	override func groomModel(parent parent_:Part?)  {
-//bug;	super.groomModel(parent:parent_)
-//
-//		 // make sure we are also correctly in our atom's ports[].
-//		if let a				= self.atom {		// as a Port, our Atom
-//			if let apn			= a.ports[name], 	// atom's Port named name
-//			  apn !== self {
-//				print("##-##-##-##-## our Atom \(a.fullName) has a Port \(apn.fullName) named \(name), but it's not that")
-//				a.ports[name]	= self
-//			}
-//				// 20210111 Leaf(.port) (an odd case) calls this
-//			self.parent 	= a						// register
-////			if let apn			= a.ports[name]  {	// we are registered.
-////				assert(apn === self, "we are registerd as a Port, but under a different name")
-////			}
-////			else {									// unregistered
-////				// 20210111 Leaf(.port) (an odd case) calls this
-////				a.ports[name]	= self
-////				self.parent 	= a						// register
-////			}
-//		}
-//	}
-
 	 // MARK: - 8. Reenactment Simulator
 	override func reset() {											super.reset()
 		value					= 0.0

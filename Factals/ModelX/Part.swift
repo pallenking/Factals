@@ -499,26 +499,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		children.removeAll()
 		markTree(dirty:.vew)
 	}
-	/// Groom Part tree after construction.
-	/// - Parameters:
-	///   - parent_: ---- if known
-	///   - root_: ---- set in Part
-//	func groomModel(parent p:Part?)  {
-//		parent					= p
-//bug
-////		if root == nil || root !== r {
-////			print("This will probably ERR ..... ####### ")
-////			root 				=  r					// from arg (if there)
-////								?? self as? RootPart 	// me, I'm a RootPart
-////								?? child0 as? RootPart	// if PolyWrapped
-////		}
-//
-//		markTree(dirty:.vew)							// set dirty vew
-//		 // Do whole tree
-//		for child in children {							// do children
-//			child.groomModel(parent:self)					// ### RECURSIVE
-//		}
-//	}
 
 	func groomModelPostWires(root:RootPart)  {
 		 // Check for duplicate names:

@@ -284,7 +284,7 @@ extension Leaf {	/// Generate Common Leafs
 //		default:
 //			fatalError("LeafKind \(leafKind.self) should never happen")
 		}
-bug//	groomModel(parent:nil)	// groom: add ports[] from children[]
+bug		//groomModel(parent:nil)	// groom: add ports[] from children[]
 		//fixPorts()
 		nop
 	}
