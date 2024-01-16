@@ -37,7 +37,6 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		scn						= rootScene.rootNode
 		scn.name 				= self.scn.name ?? ("*-" + part.name)
 	}
-
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func configureDocument(from c:FwConfig) {

@@ -70,10 +70,55 @@ class RootPart : Part {		//class//actor//
 		simulator				= Simulator()
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.rootPart		= self
+		wireAndGroom([:])
 	}
 	func configure(from config:FwConfig) {
 		assert(simulator.rootPart === self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
 		simulator.configure(from:config) 	// CUSTOMER 1
+	}
+	func wireAndGroom(_ c:FwConfig) {
+		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
+
+		 //  1. GATHER LINKS as wirelist:
+		atBld(4, logd("------- GATHERING potential Links:"))
+		var linkUps : [()->()]	= []
+		gatherLinkUps(into:&linkUps)
+
+		 //  2. ADD LINKS:
+		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
+		linkUps.forEach { 	addLink in 		addLink() 							}
+
+		setTree(root:self)
+
+		 //  3. Grooom post wires:
+		atBld(4, logd("------- Grooming Parts..."))
+		groomModelPostWires(root:self)				// + +  + +
+		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark rootPart dirty after installing new trunk
+																				//markTree(dirty:.vew) 	// Mark rootPart dirty after installing new trunk
+																				//dirty.turnOn(.vew)
+		 //  4. Reset
+		atBld(4, logd("------- Reset..."))
+		reset()
+
+		 // must be done after reset
+		forAllParts { part in
+			if let p = part as? Splitter {
+				p.setDistributions(total:0.0)
+			}
+		}
+
+		 //  5. Print Errors
+ 		atBld(3, logd(ppRootPartErrors()))
+
+		 //  6. Print Part
+		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+
+		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+
+		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
+		title					+= " (\(portCount()) Ports)"
+
+		//dirtySubTree(.vew)		// NOT NEEDED
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////
@@ -120,8 +165,73 @@ class RootPart : Part {		//class//actor//
 
 		makeSelfRunable()		// (no unlock)
 	}
+	 // MARK: - 3.5.1 Data
+	var data : Data? {
+		do {
+			let enc 			= JSONEncoder()
+			enc.outputFormatting = .prettyPrinted
+			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+			//print(String(data: data, encoding: .utf8)!)
+			return dataRv
+		} catch {
+			print("\(error)")
+			return nil
+		}
+	}
+	static func from(data:Data, encoding:String.Encoding) -> RootPart {
+		do {
+			let rv	: RootPart	= try JSONDecoder().decode(RootPart.self, from:data)
+			return rv
+		} catch {
+			fatalError("RootPart.from(data:encoding:) ERROR:'\(error)'")
+		}
+	}
+	convenience init?(data:Data, encoding:String.Encoding) {
 
-	 // MARK: Make Codable
+		bug							// PW: need RootPart(data, encoding)
+	//	let rootPart 			= try! JSONDecoder().decode(RootPart.self, from:data)
+	//	self.init(data:data, encoding:encoding)		// INFINITE
+		do {		// 1. Write data to file. (Make this a loopback)
+			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
+			try data.write(to:fileURL)
+bug			//self.init(url: fileURL)
+			self.init()		//try self.init(url: fileURL)
+		} catch {
+			print("error using file: \(error)")									}
+		return nil
+	}
+
+	convenience init(fromLibrary selector:String?) {
+
+		 // Make tree's root (a RootPart):
+		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+		title					= "'\(selector ?? "nil")' not found"
+
+		 // Find the Library that contains the trunk for self, the root.
+		if let lib				= Library.library(fromSelector:selector) {
+			let ans :ScanAnswer	= lib.answer		// found
+			title				= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
+			ansConfig			= ans.ansConfig
+
+/* */		let ansTrunk:Part?	= ans.ansTrunkClosure!()
+
+			addChild(ansTrunk)
+		}
+		else {
+			fatalError("RootPart(fromLibrary:\(selector ?? "nil") -- no RootPart generated")
+		}
+//		rootPartActor.groom()
+//		wireAndGroom([:])		// moved to RootPartActor
+
+		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
+//		self.dirty.turnOn(.vew)
+//		markTree(dirty:.vew)
+	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+
+	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	func makeSelfCodable(_ msg:String?=nil) {		// was readyForEncodable
 		guard msg == nil || lock(for:msg!) else { fatalError("'\(msg!)' couldn't get PART lock") }
@@ -134,7 +244,6 @@ class RootPart : Part {		//class//actor//
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
 		atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:""))
 	}
-
 	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
@@ -143,8 +252,6 @@ bug		//groomModel(parent:nil)		// nil as Part?
 		
 		msg == nil ? nop : unlock(for:msg)	// ---- 3. UNLOCK for PartTree
 	}
-
-
 	func polyWrapChildren() {
 		 // PolyWrap all Part's children
 		for i in 0..<children.count {
@@ -237,157 +344,6 @@ bug		//groomModel(parent:nil)		// nil as Part?
 //								&& partTreeVerbose   == rhs.partTreeVerbose
 //		return rv
 //	}
-	// MARK 4.
-	  // FileDocument requires these interfaces:
-	 // Data representation of the RootPart
-
-	 // MARK: - 3.8 Data
-	var data : Data? {
-		do {
-			let enc 			= JSONEncoder()
-			enc.outputFormatting = .prettyPrinted
-			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
-			//print(String(data: data, encoding: .utf8)!)
-			return dataRv
-		} catch {
-			print("\(error)")
-			return nil
-		}
-	}
-	static func from(data:Data, encoding:String.Encoding) -> RootPart {
-		do {
-			let rv	: RootPart	= try JSONDecoder().decode(RootPart.self, from:data)
-			return rv
-		} catch {
-			fatalError("RootPart.from(data:encoding:) ERROR:'\(error)'")
-		}
-	}
-	convenience init?(data:Data, encoding:String.Encoding) {
-
-		bug							// PW: need RootPart(data, encoding)
-	//	let rootPart 			= try! JSONDecoder().decode(RootPart.self, from:data)
-	//	self.init(data:data, encoding:encoding)		// INFINITE
-		do {		// 1. Write data to file. (Make this a loopback)
-			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
-			try data.write(to:fileURL)
-bug			//self.init(url: fileURL)
-			self.init()		//try self.init(url: fileURL)
-		} catch {
-			print("error using file: \(error)")									}
-		return nil
-	}
-
-	convenience init(fromLibrary selector:String?) {
-
-		 // Make tree's root (a RootPart):
-		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-
-		title					= "'\(selector ?? "nil")' not found"
-
-		 // Find the Library that contains the trunk for self, the root.
-		if let lib				= Library.library(fromSelector:selector) {
-			let ans :ScanAnswer	= lib.answer		// found
-			title				= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
-			ansConfig			= ans.ansConfig
-
-/* */		let ansTrunk:Part?	= ans.ansTrunkClosure!()
-
-			addChild(ansTrunk)
-		}
-		else {
-			fatalError("RootPart(fromLibrary:\(selector ?? "nil") -- no RootPart generated")
-		}
-//		rootPartActor.groom()
-//		wireAndGroom([:])		// moved to RootPartActor
-
-		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
-//		self.dirty.turnOn(.vew)
-//		markTree(dirty:.vew)
-	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
-
-	// MARK: - 4. Build
-	func wireAndGroom(_ c:FwConfig) {
-		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
-
-		 //  1. GATHER LINKS as wirelist:
-		atBld(4, logd("------- GATHERING potential Links:"))
-		var linkUps : [()->()]	= []
-		gatherLinkUps(into:&linkUps)
-
-		 //  2. ADD LINKS:
-		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
-		linkUps.forEach { 	addLink in 		addLink() 							}
-
-		setTree(root:self)
-
-		 //  3. Grooom post wires:
-		atBld(4, logd("------- Grooming Parts..."))
-		groomModelPostWires(root:self)				// + +  + +
-		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark rootPart dirty after installing new trunk
-																				//markTree(dirty:.vew) 	// Mark rootPart dirty after installing new trunk
-																				//dirty.turnOn(.vew)
-		 //  4. Reset
-		atBld(4, logd("------- Reset..."))
-		reset()
-
-		 // must be done after reset
-		forAllParts { part in
-			if let p = part as? Splitter {
-				p.setDistributions(total:0.0)
-			}
-		}
-
-		 //  5. Print Errors
- 		atBld(3, logd(ppRootPartErrors()))
-
-		 //  6. Print Part
-		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
-
-		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
-
-		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
-		title					+= " (\(portCount()) Ports)"
-
-		//dirtySubTree(.vew)		// NOT NEEDED
-	}
-	func ppRootPartErrors() -> String {
-		let errors 				= logNErrors	   == 0 ? "no errors"
-								: logNErrors	   == 1 ? "1 error"
-										  : "\(logNErrors) errors"
-		let warnings 			= warningLog.count == 0 ? "no warnings"
-								: warningLog.count == 1 ? "1 warning"
-								: "\(warningLog.count) warnings"
-		let titleWidth			= title.count
-		let width				= titleWidth + "######                ######".count
-		let errWarnWidth		= errors.count + warnings.count + 2
-		let trailing1			= String(repeating:"#", count:width - "#################### ".count - errWarnWidth - 2)
-		let trailing2			= String(repeating:"#", count:width)
-		let blanks				= String(repeating:" ", count:title.count)
-		var rv 					= "BUILT PART!\n"
-		rv 						+= """
-			######        \(blanks   )        ######
-			######        \(blanks   )        ######
-			##################### \(errors), \(warnings) \(trailing1)
-			######        \(blanks   )        ######
-			######     \"\" \(title) \"\"     ######
-			######        \(blanks   )        ######
-			\(trailing2)\n
-			"""
-		for (i, msg) in warningLog.enumerated() {
-			rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
-		}
-		rv							+= ppUnusedKeys()
-		rv							+= """
-			######        \(blanks   )        ######
-			######        \(blanks   )        ######\n
-			"""
-		return "\n" + rv
-	}
-
-
-
 	  // MARK: - 5. Lock
 	 // ///////////////// LOCK Parts Tree /////////////
 	// https://stackoverflow.com/questions/31700071/scenekit-threads-what-to-do-on-which-thread
@@ -506,6 +462,39 @@ bug			//self.init(url: fileURL)
 			rv					+= " \"\(title)\""
 		}
 		return rv
+	}
+	func ppRootPartErrors() -> String {
+		let errors 				= logNErrors	   == 0 ? "no errors"
+								: logNErrors	   == 1 ? "1 error"
+										  : "\(logNErrors) errors"
+		let warnings 			= warningLog.count == 0 ? "no warnings"
+								: warningLog.count == 1 ? "1 warning"
+								: "\(warningLog.count) warnings"
+		let titleWidth			= title.count
+		let width				= titleWidth + "######                ######".count
+		let errWarnWidth		= errors.count + warnings.count + 2
+		let trailing1			= String(repeating:"#", count:width - "#################### ".count - errWarnWidth - 2)
+		let trailing2			= String(repeating:"#", count:width)
+		let blanks				= String(repeating:" ", count:title.count)
+		var rv 					= "BUILT PART!\n"
+		rv 						+= """
+			######        \(blanks   )        ######
+			######        \(blanks   )        ######
+			##################### \(errors), \(warnings) \(trailing1)
+			######        \(blanks   )        ######
+			######     \"\" \(title) \"\"     ######
+			######        \(blanks   )        ######
+			\(trailing2)\n
+			"""
+		for (i, msg) in warningLog.enumerated() {
+			rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
+		}
+		rv							+= ppUnusedKeys()
+		rv							+= """
+			######        \(blanks   )        ######
+			######        \(blanks   )        ######\n
+			"""
+		return "\n" + rv
 	}
 	 // MARK: - 16. Global Constants
 	static let nullRoot 		= {
