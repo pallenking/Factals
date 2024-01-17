@@ -6,12 +6,13 @@ import SwiftUI
 class FactalsModel : ObservableObject {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
-	var document : FactalsDocument!					// Owner
-	var rootPartActor : RootPartActor
-	var rootVews : [RootVew]	= []
-	var rootVew0 :  RootVew?	{ rootVews.first								}
+	var document : FactalsDocument!				// Owner
+	var rootPartActor : RootPartActor			// Manager of RootPart
+	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
+	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
+
 	var log 	 : Log
-	var fooo	 : CGFloat		= -1
+//	var sound	 : Sound
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
@@ -27,11 +28,10 @@ bug
 		}
 	}
 	 // MARK: - 3. Factory
-	init(fromLibrary selector:String) {	//						// rootPart r:RootPart?=nil
+	init(fromLibrary selector:String?) {
 		rootPartActor 			= RootPartActor(fromLibrary:selector)
 		log						= Log(title:"FactalsModel's Log", params4all)
 	}
-	//var rootPartActor : RootPartActor? = nil
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
 					//		var data : Data? {

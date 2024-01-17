@@ -54,56 +54,16 @@ struct FactalsDocument: FileDocument {
 		DOC						= self			// INSTALL as current DOC, quick!
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
-		//**/	let select		= nil		//	Blank scene		 |	nil		  -1
+		/**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
-		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
+		//**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-//
-//		let rootPart			= RootPart(fromLibrary:select)
-//		let rootPartActor 		= RootPartActor(initialRootPart:rootPart)
 
-		factalsModel			= FactalsModel(fromLibrary:select)//await // MAKE first, so leaners can function //po type(of: factalsModel)
-		factalsModel.document 	= self			// DELEGATE
+		let c : String?			= nil		// Add App config from environment
 
- /// ALL MOVED TO RootPartActor
-//		rootPartActor.doAtomically {
-//			
-//			// 	2. Install
-//			//		assert(factalsModel.rootPartActor == nil, "paranoia: Should be empty, just made it")
-//			factalsModel.rootPartActor = rootPartActor
-//			rootPartActor.factalsModel	= factalsModel// set delegate
-//			
-//			//		3. Update document configuration from Library entry
-//			let c				= await params4all + rootPartActor.rootPart!.ansConfig
-//			factalsModel.configure(from:c)		// needs a configure
-//			
-//			//		4. Wire and Groom Part
-//			await rootPartActor.rootPart!.wireAndGroom(c)
-//			//		rootPartActor.rootPart.wireAndGroom(c:c)
-//			//		await rootPartActor.rootPart = RootPart()
-//			//
-//			//		rootPartActor.exececuteInRootPart {
-//			//			rootPart.wireAndGroom(c:c)
-//			//		}
-//			factalsModel.configure(from:c)		// Th
-//			
-//			//		5. Build Vews per Configuration, ensure one
-//			for (key, value) in c {
-//				if key == "Vews",				// "Vews":[VewConfig]
-//				   let values 		= value as? [VewConfig] {
-//					for value in values	{		// Open one for each elt
-//						factalsModel.addRootVew(vewConfig:value, fwConfig:c)
-//					}
-//				}
-//				else if key.hasPrefix("Vew") {	// "Vew":VewConfig
-//					guard let value = value as? VewConfig else { fatalError("Confused wo38r") }
-//					factalsModel.addRootVew(vewConfig:value, fwConfig:c)
-//				}
-//			}
-//			factalsModel.ensureAVew(fwConfig:c) GONE 20240106
-//			factalsModel.configure(from:c)					// Hits Vews just made
-//		}
+		factalsModel			= FactalsModel(fromLibrary:select)
+		factalsModel.document 	= self		// DELEGATE
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {

@@ -3,19 +3,20 @@
 import SceneKit
 
 /*	https://www.toptal.com/developers/gitignore/api/xcode
-   SceneKit’s data model is thread-safe in that it ensures that internal data
-structures will not be corrupted by concurrent attempts to modify their
-contents from multiple threads
-https://developer.apple.com/documentation/scenekit/scntransaction/1523078-lock
-   If your app modifies the scene graph from multiple threads, use a transaction
-lock to ensure that your modifications take effect as intended.
+ *    SceneKit’s data model is thread-safe in that it ensures that internal data
+ * structures will not be corrupted by concurrent attempts to modify their
+ * contents from multiple threads
+ */
+/*	https://developer.apple.com/documentation/scenekit/scntransaction/1523078-lock
+ *    If your app modifies the scene graph from multiple threads, use a transaction
+ * lock to ensure that your modifications take effect as intended.
  */
 
 actor RootPartActor : ObservableObject  {
-	private var myValue: Int = 0
-	private var yourValue: Int = 0
+	var rootPart : RootPart? = nil
+	var factalsModel : FactalsModel? = nil
 
-	init(fromLibrary selector:String) {
+	init(fromLibrary selector:String?) {
 		rootPart				= RootPart(fromLibrary:selector)
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
@@ -34,21 +35,12 @@ actor RootPartActor : ObservableObject  {
 	//	let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
 bug//	atBld(5, factalsModel.logd("rootVews[\(factalsModel.rootVews.count-1)] is complete:\n\(rootVewPp)"))
 	}
-
-	var rootPart : RootPart? = nil
-	var factalsModel : FactalsModel? = nil
-	init(initialRootPart: RootPart?) {					/*private ?? */
-		self.rootPart = initialRootPart
-	}
-//	func wireAndGroom(c :FwConfig) {
-//		rootPart?.wireAndGroom(c)
-//	}
 }
 
 
 
 
-
+// MARK: - Root Part -
 //private
 class RootPart : Part {		//class//actor//
     /*private*/ var foo22: Int = 0
@@ -107,13 +99,13 @@ class RootPart : Part {		//class//actor//
 			}
 		}
 
-		 //  5. Print Errors
- 		atBld(3, logd(ppRootPartErrors()))
-
-		 //  6. Print Part
-		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
-
-		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+//		 //  5. Print Errors
+// 		atBld(3, logd(ppRootPartErrors()))
+//
+//		 //  6. Print Part
+//		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+//
+//		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
 		title					+= " (\(portCount()) Ports)"
@@ -207,21 +199,20 @@ bug			//self.init(url: fileURL)
 		 // Make tree's root (a RootPart):
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		title					= "'\(selector ?? "nil")' not found"
+		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
+		self.ansConfig			= [:]
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let lib				= Library.library(fromSelector:selector) {
 			let ans :ScanAnswer	= lib.answer		// found
-			title				= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
-			ansConfig			= ans.ansConfig
+			self.title			= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
+			self.ansConfig		= ans.ansConfig
 
-/* */		let ansTrunk:Part?	= ans.ansTrunkClosure!()
+/* */		let ansTrunk :Part?	= ans.ansTrunkClosure!()
 
 			addChild(ansTrunk)
 		}
-		else {
-			fatalError("RootPart(fromLibrary:\(selector ?? "nil") -- no RootPart generated")
-		}
+
 //		rootPartActor.groom()
 //		wireAndGroom([:])		// moved to RootPartActor
 
