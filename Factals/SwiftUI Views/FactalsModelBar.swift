@@ -27,7 +27,6 @@ struct RootPartActorBar : View {
 			if let factalsModel = rootPartActor.factalsModel,
 			  let rootPart {
 				let simulator = factalsModel.simulator
-//				let
 										//  --- FACTALS MODEL BAR  ---
 				HStack {	// FULL!
 					Text("Model: ").foregroundColor(.red).bold()
