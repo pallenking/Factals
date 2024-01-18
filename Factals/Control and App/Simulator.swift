@@ -4,7 +4,10 @@ import SceneKit
 class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Equatable
 
 	 // MARK: - 2. Object Variables:
-	weak var rootPart	: RootPart! = nil	// Owner
+	weak var factalsModel:FactalsModel? = nil// Owner
+//	weak var rootPart	: RootPart! = nil	// Owner
+	var rootPartF		: RootPart? { nil } //factalsModel?.rootPartActor.rootPart}	// Owner
+
 	var timingChains:[TimingChain] = []
 	var timeNow			: Float	= 0.0
 	var timeStep		: Float = 0.01
@@ -13,7 +16,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var portChits		: Int	{	rootPart.portChitArray().count				}
+	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0}
 	var linkChits		: Int	= 0			// by things like links
 	var startChits	  	:UInt8	= 0			// set to get simulator going
 //
@@ -36,7 +39,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		}
 	}
 	func isSettled() -> Bool {
-		let nPortsBuisy 		= rootPart!.portChitArray().count	// Busy Ports
+		let nPortsBuisy 		= rootPartF!.portChitArray().count	// Busy Ports
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
 	}
@@ -113,7 +116,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 				simTaskRunning	= true
 				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
 			}
-			let taskPeriod		= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod") ?? 0.01
+			let taskPeriod		= factalsModel?.document.docConfig.double("simTaskPeriod") ?? 0.01
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
 			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
 		}
@@ -137,21 +140,21 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	func simulateOneStep() {
 		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled	else {	return 										}
-		guard let rootPart	else {	return panic("Simulating with sim\(ppUid(self)) rootPart==nil") }
-		guard rootPart.lock(for:"simulationTask", logIf:logSimLocks)
+		guard let rootPartF	else {	return panic("Simulating with sim\(ppUid(self)) rootPart==nil") }
+		guard rootPartF.lock(for:"simulationTask", logIf:logSimLocks)
 							else {	fatalError("simulationTask couldn't get PART lock")	}
 
-	/**/	rootPart.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
+	/**/	rootPartF.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
 
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= timeStep
 			if startChits > 0 {			// Clear out start cycles
 				startChits		-= 1
 			}
-		rootPart.unlock(for:"simulationTask", logIf:logSimLocks)
+		rootPartF.unlock(for:"simulationTask", logIf:logSimLocks)
 	}
 	// MARK: - 14. Building
-	var log : Log { rootPart.factalsModel?.log ?? .reliable					}
+	var log : Log { factalsModel?.log ?? .reliable					}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}			//Cannot convert return expression of type 'Optional<_>' to return type 'Log'

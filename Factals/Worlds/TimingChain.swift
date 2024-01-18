@@ -67,7 +67,8 @@ class TimingChain : Atom {
 		}
 
 		 // Register ourselves with simulator:
-		root?.simulator.timingChains.append(self)	/*WTF!*/
+		RootPartActor_factalsModel?.simulator.timingChains.append(self)	/*WTF!*/
+		//root?.simulator.timingChains.append(self)	/*WTF!*/
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{
@@ -208,7 +209,8 @@ class TimingChain : Atom {
 		}
 
 		 // Register ourselves with simulator:
-		root.simulator.timingChains.append(self)
+		RootPartActor_factalsModel?.simulator.timingChains.append(self)
+//		root.simulator.timingChains.append(self)
 
 		  // Add P's target to discreteTimes array
 		 // User specifies as P and S Ports, but needed in worldModel
@@ -253,7 +255,8 @@ class TimingChain : Atom {
 	}
 
 	override func simulate(up upLocal:Bool) {	 /// Step all my parts:
-		guard let simulator		= root?.simulator else { return /* no sim */	}
+		guard let simulator		= RootPartActor_factalsModel?.simulator else {return} // no sim
+//		guard let simulator		= root?.simulator else { return /* no sim */	}
 		guard simulator.simEnabled				  else { return /* not emabled */}
 		 // Check for FwwEvent
 		if (state == 0) {	// when State Machine becomes idle
@@ -405,7 +408,8 @@ class TimingChain : Atom {
 		if nsEvent.type == .keyDown {		// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {
-				root!.simulator.startChits = 4	// set simulator to run, to pick event up
+				RootPartActor_factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
+				//root!.simulator.startChits = 4					// set simulator to run, to pick event up
 				return true				// other process processes it
 			}
 		}		  // ///////// key UP  ///////
@@ -420,7 +424,8 @@ class TimingChain : Atom {
 		atEve(4, logd("    TimingChain: Release FwwEvent"))
 		eventDownPause			= false			// assert lock, which blocks till up
 		atEve(4, logd("############ eventDownPause = false -- releaseEvent"))
-		root!.simulator.startChits = 4			// set simulator to run, to pick event up
+		RootPartActor_factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
+		//root!.simulator.startChits = 4					// set simulator to run, to pick event up
 		retractPort?.take(value:0.0)
 		return
 	}

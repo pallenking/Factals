@@ -189,8 +189,8 @@
             filePath = "Factals/ModelX/Port.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "portConSpotNEW(inVew:)"
             landmarkType = "7">
             <Locations>
@@ -285,8 +285,8 @@
             filePath = "Factals/ModelX/Port.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "479"
-            endingLineNumber = "479"
+            startingLineNumber = "480"
+            endingLineNumber = "480"
             landmarkName = "portConSpotNEW(inVew:)"
             landmarkType = "7">
             <Locations>
@@ -333,8 +333,8 @@
             filePath = "Factals/ModelX/Port.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "507"
-            endingLineNumber = "507"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "portConSpotNEW(inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -413,8 +413,8 @@
             filePath = "Factals/Control and App/Simulator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "simEnabled"
             landmarkType = "24">
          </BreakpointContent>
@@ -429,8 +429,8 @@
             filePath = "Factals/Control and App/Simulator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "configure(from:)"
             landmarkType = "7">
             <Locations>
@@ -813,8 +813,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -893,8 +893,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
             <Locations>
@@ -989,8 +989,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "FactalsModel"
             landmarkType = "3">
          </BreakpointContent>
@@ -1069,8 +1069,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "paintSegments(on:)"
             landmarkType = "7">
             <Locations>
@@ -1163,8 +1163,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1179,8 +1179,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1243,8 +1243,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1291,8 +1291,8 @@
             filePath = "Factals/Control and App/FactalsStatus.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "ppFactalsState(deapth:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1307,8 +1307,8 @@
             filePath = "Factals/Control and App/Simulator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
             landmarkName = "Simulator"
             landmarkType = "3">
             <Locations>
@@ -1430,8 +1430,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1446,8 +1446,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "simulate()"
             landmarkType = "7">
             <Locations>
@@ -1494,8 +1494,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "simulate()"
             landmarkType = "7">
             <Locations>
@@ -1620,8 +1620,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1652,8 +1652,8 @@
             filePath = "Factals/ModelX/LinkPort.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "init(_:parent:i0:color0:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1795,8 +1795,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "init(fromLibrary:)"
             landmarkType = "7">
             <Locations>
@@ -1859,8 +1859,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "init(fromLibrary:)"
             landmarkType = "7">
             <Locations>

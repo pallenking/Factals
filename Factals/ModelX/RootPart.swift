@@ -12,9 +12,15 @@ import SceneKit
  * lock to ensure that your modifications take effect as intended.
  */
 
-actor RootPartActor : ObservableObject  {
-	var rootPart : RootPart? = nil
-	var factalsModel : FactalsModel? = nil
+ // RootPartActor's owner. MUST ONLY BE ONE
+var RootPartActor_factalsModel : FactalsModel? = nil
+
+actor RootPartActor : ObservableObject, Uid {
+	var rootPart : RootPart? 	= nil
+
+	let uid: UInt16				= randomUid()
+	 // KROCK OF SH***:
+	nonisolated var factalsModel : FactalsModel? { RootPartActor_factalsModel }
 
 	init(fromLibrary selector:String?) {
 		rootPart				= RootPart(fromLibrary:selector)
@@ -46,7 +52,6 @@ class RootPart : Part {		//class//actor//
     /*private*/ var foo22: Int = 0
 
 	 // MARK: - 2.1 Object Variables
-	var	simulator	 : Simulator
 	var title					= ""
 	var ansConfig	 : FwConfig	= [:]
 	var factalsModel : FactalsModel!
@@ -59,14 +64,14 @@ class RootPart : Part {		//class//actor//
 
 	// MARK: - 3. Part Factory
 	init() {
-		simulator				= Simulator()
+//		simulator				= Simulator()
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		simulator.rootPart		= self
+//		simulator.rootPart		= self
 		wireAndGroom([:])
 	}
 	func configure(from config:FwConfig) {
-		assert(simulator.rootPart === self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
-		simulator.configure(from:config) 	// CUSTOMER 1
+//		assert(simulator.rootPart === self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
+//		simulator.configure(from:config) 	// CUSTOMER 1
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
@@ -131,7 +136,6 @@ class RootPart : Part {		//class//actor//
 		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:RootPartKeys.self)
 
-		try container.encode(simulator,			forKey:.simulator				)
 		try container.encode(title,				forKey:.title					)
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
 		try container.encode(verboseLocks,	forKey:.partTreeVerbose			)
@@ -146,10 +150,9 @@ class RootPart : Part {		//class//actor//
 		 // Needn't lock or makeSelfCodable, it's virginal
 		let container 			= try decoder.container(keyedBy:RootPartKeys.self)
 
-		simulator				= try container.decode(Simulator.self, forKey:.simulator	)
 		title					= try container.decode(   String.self, forKey:.title		)
 		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
-		semiphore 			= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
+		semiphore 				= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
 		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 
 		try super.init(from:decoder)

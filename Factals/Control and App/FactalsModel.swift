@@ -3,7 +3,7 @@
 import SceneKit
 import SwiftUI
 
-class FactalsModel : ObservableObject {			// xyzzy4 // remove NSObject
+class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
 	var document : FactalsDocument!				// Owner
@@ -13,6 +13,8 @@ class FactalsModel : ObservableObject {			// xyzzy4 // remove NSObject
 
 	var log 	 : Log
 //	var sound	 : Sound
+	var	simulator: Simulator
+	var uid: UInt16				= randomUid()
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
@@ -29,8 +31,11 @@ bug
 	}
 	 // MARK: - 3. Factory
 	init(fromLibrary selector:String?) {
+		simulator				= Simulator()
+
 		rootPartActor 			= RootPartActor(fromLibrary:selector)
 		log						= Log(title:"FactalsModel's Log", params4all)
+		simulator.factalsModel	= self
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -82,6 +87,7 @@ bug
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
+//		try container.encode(simulator,			forKey:.simulator				)
 		fatalError("FactalsModel.encode(coder..) unexpectantly called")
 	}
 	 // ///////// Deserialize

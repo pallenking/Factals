@@ -82,15 +82,16 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 				guard let factalsModel else {	return ""						}
 				var rv			= factalsModel.ppFactalsState(deapth:deapth-1)
 				 // Inspectors:
-				if self.inspecWin4vew.count > 0 {
-					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
-					DOClog.nIndent += 1
-					for inspec in self.inspecWin4vew.keys {					//self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-						let win	= self.inspecWin4vew[inspec]
-						rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
-					}
-					DOClog.nIndent -= 1
-				}
+				rv				+= "---- inspecWin4vew omitted -----"
+//				if self.inspecWin4vew.count > 0 {
+//					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
+//					DOClog.nIndent += 1
+//					for inspec in self.inspecWin4vew.keys {					//self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
+//						let win	= self.inspecWin4vew[inspec]
+//						rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
+//					}
+//					DOClog.nIndent -= 1
+//				}
 				return rv
 			},
 			deapth:deapth
@@ -109,11 +110,11 @@ bug; //never used?
 			//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
 			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
 			otherLines:{ deapth in
-				var rv			= ""//  self.rootPart.ppFactalsState(deapth:deapth-1) // Controller:
+				var rv			= "truncated"//  self.rootPart.ppFactalsState(deapth:deapth-1) // Controller:
 				 // Window Controllers
-				for windowController in self.windowControllers {
-					rv		+= windowController.ppFactalsState(deapth:deapth-1)
-				}
+			//	for windowController in self.windowControllers {
+			//		rv		+= windowController.ppFactalsState(deapth:deapth-1)
+			//	}
 				return rv
 			},
 			deapth:deapth)
@@ -150,25 +151,41 @@ extension Log : FactalsStatus {											  ///Log
 		return ppFactalsStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
 	}
 }
-extension FactalsModel : FactalsStatus	{						 ///FactalsModel
+extension FactalsModel : FactalsStatus	{
+	///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
 		//myLine				+= "\(rootVews.count) RootVews "
-		return "FactalsModel Neutered"
-//		return ppFactalsStateHelper("FactalsModel       ", uid:self,
-//			myLine:myLine,
+		//return "FactalsModel Neutered"
+		return ppFactalsStateHelper("FactalsModel       ", uid:self,
+			myLine:myLine,
+			otherLines:{deapth in
+				 // Controller:
+				var rv			= self.rootPartActor.ppFactalsState(deapth:deapth-1)
+				rv				+= self.simulator.ppFactalsState(deapth:deapth-1)
+				for rootVew in self.rootVews {
+					rv			+= rootVew.ppFactalsState(deapth:deapth-1)
+				}
+				rv				+= self.log.ppFactalsState(deapth:deapth-1)
+				return rv
+			},
+			deapth:deapth-1)
+	}
+}
+extension RootPartActor : FactalsStatus {
+	nonisolated func ppFactalsState(deapth: Int) -> String {
+		var myLine = "aaa"
+		return ppFactalsStateHelper("RootPartActor      ", uid:self,
+			myLine:myLine,
 //			otherLines:{deapth in
 //				 // Controller:
-//				var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1)
-//									?? ppUid(pre:" ", self.rootPart,			// self.rootPart is nil
-//										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
-//				for rootVew in self.rootVews {
-//					rv			+= rootVew.ppFactalsState(deapth:deapth-1)
-//				}
-//				rv				+= self.log.ppFactalsState(deapth:deapth-1)
+//				var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1) ?? "  nil rootPart!  "
+////									?? ppUid(pre:" ", self.rootPart,
+////										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
 //				return rv
 //			},
-//			deapth:deapth-1)
+			deapth:deapth-1
+		)
 	}
 }
 extension RootPart : FactalsStatus	{								 ///RootPart
@@ -181,9 +198,6 @@ bug
 			myLine:myLine + "rootPart:\(ppUid(self, showNil:true)) " +
 					"(\(portCount()) Ports) " +
 					"\(rown) dirty:'\(dirty.pp())' " ,
-			otherLines:{ deapth in
-				return self.simulator.ppFactalsState(deapth:deapth-1)
-			},
 			deapth:deapth-1)
 	}																			//bug; return "extension RootPart : FwStatus needs HELP"	}
 }
@@ -191,9 +205,9 @@ extension Simulator : FactalsStatus	{								///Simulator
  	func ppFactalsState(deapth:Int=999) -> String {
 		let showPre				= true//false//true//
 		let showPost			= true//false//true//
-		var rv					= rootPart == nil 			  ? "(rootPart==nil)"
-								: rootPart.simulator === self ? ""
-								:								"OWNER:'\(rootPart!)' BAD"
+		var rv					= factalsModel == nil 	? "(factalsModel==nil)"
+								: factalsModel!.simulator === self ? ""
+								:						  "OWNER:'\(factalsModel!)' BAD"
 		for _ in 0...0 {
 			if !simBuilt {
 				rv 				+= "NOT BUILT, "
@@ -213,7 +227,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 
 			rv					+= "t:\(timeNow) "
 			rv					+= "going:\(globalDagDirUp ? "up " : "down ")"
-			if let s		 	= rootPart?.factalsModel.document.docConfig.double("simTaskPeriod") {
+			if let s		 	= factalsModel?.document.docConfig.double("simTaskPeriod") {
 				rv				+= "simTaskPeriod=\(String(s)) "
 			}
 			rv					+= simTaskRunning ? "taskRun; " : "taskHalted; "
@@ -222,7 +236,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 ///
 			rv					+= isSettled() ? "Sim SETTLED=" : "Run Sim="
 			rv					+= "\(portChits)/Ports,"
-//				rv				+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
+			//rv				+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
 			rv					+= "\(linkChits)/Links,"
 			rv					+= "\(startChits)/start"
 		}

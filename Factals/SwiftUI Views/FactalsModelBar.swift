@@ -12,6 +12,7 @@ struct FactalsModelBar: View {
 	
 	var body: some View {
 		RootPartActorBar(rootPartActor:factalsModel.rootPartActor)
+		//Simulator?
 	}
 }
 
@@ -23,9 +24,10 @@ struct RootPartActorBar : View {
 		// Use an onAppear modifier to trigger the asynchronous fetch
 		// of the actor property when the view appears
 		VStack {
-			if let rootPart {
-				let simulator = rootPart.simulator
-//				let factalsModel = rootPartActor.factalsModel
+			if let factalsModel = rootPartActor.factalsModel,
+			  let rootPart {
+				let simulator = factalsModel.simulator
+//				let
 										//  --- FACTALS MODEL BAR  ---
 				HStack {	// FULL!
 					Text("Model: ").foregroundColor(.red).bold()

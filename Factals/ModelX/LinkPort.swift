@@ -28,8 +28,9 @@ class LinkPort : Port {
 	var colorOfVal1 			= NSColor.purple	// should be overridden
 	func addSegment(_ seg:LinkSegment) {
 		inTransit.append(seg)
-		root?.simulator.linkChits	+= 1
-		assert(root?.simulator.linkChits ?? 1 != 0, "wraparound")
+		RootPartActor_factalsModel?.simulator.linkChits	+= 1
+		//root?.simulator.linkChits	+= 1
+		//assert(root?.simulator.linkChits ?? 1 != 0, "wraparound")
 	}
 
 //	init() { // only for nullConveyor
@@ -112,7 +113,7 @@ bug;	return rv
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
 		 // Up and Down are processed alike!
- 		guard let simulator		= root?.simulator else  {	fatalError(fullName)}
+ 		guard let simulator		= RootPartActor_factalsModel?.simulator else  {	fatalError(fullName)}
 		guard let outPort 						  else  {	fatalError(fullName)}
 		guard let inPort2Port	= self.con2?.port else  {	fatalError(fullName)}
 
