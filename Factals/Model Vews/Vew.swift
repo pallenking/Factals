@@ -13,6 +13,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	var scn			:  SCNNode				// Scn which draws this Vew
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
+	var vewConfig   : FwConfig	= [:]		// rename config?
     
 	@Published var name :  String			// Cannot be String! because of FwAny
 	@Published var color000	: NSColor? = nil
@@ -48,14 +49,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 																				//			if let a = p.parent.enclosedByClass("Actor"),
 																				//			  a.viewAsAtom {						// wants us to be atom
 																				//					return true													}
-	//	// Several ways to flip, each has problems:
-	// 1. ugly, inverts Z along with Y: 	scn.rotation = SCNVector4Make(1, 0, 0, CGFloat.pi)
-	// 2. IY ++, Some skins show as black, because inside out: 		scale = SCNVector3(1, -1, 1)
-	// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
-
-
 	var log : Log			{ 	part.log 								}
-
 
 	 // MARK: - 3. Factory
 	init(forPart p:Part?=nil, expose e:Expose? = nil) {
@@ -79,6 +73,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			jog 				= jogVect
 		}
 	}
+	func configureVew(from config:FwConfig) {
+		vewConfig				= config
+	}
 	init(forPort port:Port) {
 		self.part 				= port
 		self.name				= "_" + port.name 	// Vew's name is Part's with '_'
@@ -90,14 +87,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		 // Flip
-		let portProp	: String? = port.partConfig["portProp"] as? String //"xxx"//
+		let portProp  : String? = port.partConfig["portProp"] as? String //"xxx"//
 		scn.flipped				= portProp?.contains(substring:"f") ?? false
+		 // Flip
+		// Several ways to flip, each has problems:
+		// 1. ugly, inverts Z along with Y: 	scn.rotation = SCNVector4Make(1, 0, 0, CGFloat.pi)
+		// 2. IY ++, Some skins show as black, because inside out: 		scale = SCNVector3(1, -1, 1)
+		// 3. causes Inside Out meshes, which are mostly tollerated:	scn.transform.m22 *= -1
 	}
-	func configure(from config:FwConfig) {
-		openConfig				= config
-	}
-
 
 	 // MARK: - 3.5 Codable
 	enum VewKeys : CodingKey { 	case name, color000, keep, parent, children, part, scn, bBox, jog, force}
@@ -216,7 +213,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			child.forAllSubViews(viewOperation)
 		}
 	}
-	var openConfig : FwConfig	= [:]		// rename config?
 
 	 /// From any SubVew, Lookup configuration from Part's partConfig, and scene
 	func config(_ name:String)		-> FwAny? 		{
@@ -230,14 +226,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		 // Look in rootVew's configuration...
 		guard let rootVew 								else {	return nil		}
-		if let rv				= rootVew.openConfig[name] {
+		if let rv				= rootVew.vewConfig[name] {
 			return rv
 		}
 
 		 // Try Document's configuration
 		guard let factalsModel	= rootVew.factalsModel 	else {	return nil		}
 bug
-	//	if let rv				= factalsModel.config.openConfig[name] {
+	//	if let rv				= factalsModel.config.vewConfig[name] {
 	//		return rv
 	//	}
 

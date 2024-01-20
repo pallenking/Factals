@@ -52,14 +52,14 @@ func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 // //// /////  / /////  / /////  / ///// / /////   / /////  / /////  / /////  /
 
 extension FactalsApp : FactalsStatus	{							///FactalsApp
-	func ppFwConfig() -> String {		config.pp(.short)						}
+//	func ppFwConfig() -> String {		config.pp(.short)						}
 	func ppFactalsState(deapth:Int=999) -> String {
-		let emptyEntry			= APP?.config.string("emptyEntry") ?? "xr()"
-		let regressScene		= APP?.config.int("regressScene") ?? -1
+		let emptyEntry			= "? "//APP?.appConfig.string("emptyEntry") ?? "xr()"
+		let regressScene		= "? "//APP?.config.int("regressScene") ?? -1
 		return ppFactalsStateHelper("FactalsApp   ", uid:self,
 			myLine:"regressScene:\(regressScene), " +
-				"emptyEntry:'\(emptyEntry)' " +
-				"\(config.pp(.uidClass))=\(self.config.count)_elts",
+				"emptyEntry:'\(emptyEntry)' ",
+//				"\(config.pp(.uidClass))=\(self.config.count)_elts",
 			otherLines:{ deapth in
 						// Menu Creation:
 				var rv			= self.library.ppFactalsState(deapth:deapth-1)

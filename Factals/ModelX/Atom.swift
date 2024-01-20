@@ -462,7 +462,7 @@ class Atom : Part {	//Part//FwPart
 	}
 
 	 // MARK: - 5. Wiring
-	var defaultLinkProps : FwConfig	{ return [:]		}
+//	var defaultLinkProps : FwConfig	{ return [:]		}
 	override func gatherLinkUps(into linkUpList:inout [() -> ()]) {
 		guard let root			= root else {	fatalError("no root")			}
 
@@ -508,7 +508,7 @@ class Atom : Part {	//Part//FwPart
 
 					  // ///////////////////////////////////
 					 // 1. Find Target Atom from trgAny
-					var linkProps  : FwConfig = self.defaultLinkProps
+					var linkProps  : FwConfig = [:]//self.defaultLinkProps
 					var trgPortName: String?  = nil
 					 // //// 1a. FwConfig? --> name in L2(),D2() *--> link props
 					if var trgConfig = trgAny as? FwConfig,

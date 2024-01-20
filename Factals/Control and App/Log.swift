@@ -259,7 +259,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		eventNumber				+= 1		// go on to next log number
 	}
      // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]/*params4aux*/) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux/*[:]*/) -> String {
 		return ppStopGap(mode, aux)		// NO, try default method
 	}
 	 /// Character to represent current Thread ID:
@@ -314,7 +314,7 @@ bug
 		"toggelOpen6"					: "op6",
 	]
 	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
-	var params4aux : FwConfig	{	DOC?.docConfig ?? [:]		}
+//	var params4aux : FwConfig	{	DOC?.docConfig ?? [:]		}
 
 	 /// In Pessamistic mode: a new Log every usage (features missing)
 	 /// In Limp mode:		  one static defaultLogger

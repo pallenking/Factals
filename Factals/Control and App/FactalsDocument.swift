@@ -60,7 +60,8 @@ struct FactalsDocument: FileDocument {
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 
-		let c : String?			= nil		// Add App config from environment
+		let c					= params4all
+	//	factalsModel.configure(from:c)		// needs a configure
 
 		factalsModel			= FactalsModel(fromLibrary:select)
 		factalsModel.document 	= self		// DELEGATE
@@ -70,22 +71,7 @@ struct FactalsDocument: FileDocument {
 		factalsModel			= f			// given
 		factalsModel.document	= self		// owner back-link
 		DOC						= self		// INSTALL Factals
-		return
 	}
-								
-//	init(fromLibrary:String?) {													//	func xxx(_ selectit:String) -> FactalsDocument {
-//		 // Make new RootPart, FactalsModel, and Document
-//		let rootPart			= RootPart(fromLibrary:fromLibrary)
-//		let rootPartActor 		= factalsModel.rootPartActor
-//
-//		let factalsModel		= FactalsModel()//rootPart:rootPart)
-//		rootPart.factalsModel	= factalsModel
-//		let doc					= FactalsDocument(factalsModel:factalsModel)
-//		factalsModel.document 	= doc
-//		DOC						= doc				// register (UGLY!!!)
-//		let c					= doc.docConfig + rootPart.ansConfig
-//		factalsModel.configure(from:c)
-//	}
 
 	 /// Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
 	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .text] }

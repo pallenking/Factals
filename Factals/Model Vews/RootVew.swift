@@ -39,9 +39,9 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
-	func configureDocument(from c:FwConfig) {
+	func configureRootVew(from c:FwConfig) {
+		self.configureVew(from:c)							// vewConfig = c
 		selfiePole.configure(from:c)
-		rootScene	  .configure(from:c)
 	}
 	// MARK: -
 	func setupLightsCamerasEtc() {

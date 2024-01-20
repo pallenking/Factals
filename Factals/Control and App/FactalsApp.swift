@@ -17,41 +17,25 @@ import SceneKit
   //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
 	let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
 
-let params4aux : FwConfig 	=	[:]//params4all_
-
 // ///////////////////////  U G L Y  Singletons: ///////////////////////////////
 var APP	 : FactalsApp!		// NEVER CHANGES (after inz)
-var APPQ : FactalsApp?		{	APP 										}
- // genesis of a more commone singleton:
-//extension FactalsApp
-//	static var FactalsApp
-
 var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
-var DOCQ : FactalsDocument? { DOC == nil ? nil : DOC }
-
 // /////////////////////////////////////////////////////////////////////////////
- // Singleton Shugar:;
+
+// ////////////////////////  Singleton Shugar  /////////////////////////////////
+var APPQ : FactalsApp?					{	APP 								}
+var DOCQ : FactalsDocument? 			{ DOC == nil ? nil : DOC 				}
 var DOCfactalsModelQ : FactalsModel?	{	DOC?.factalsModel					}	// optionality is needed
 var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
-	fatalError(DOC==nil ? "DOC=nil" : "DOC.factalsModel=nil")					 		}()}
-var DOClogQ  	: Log? 			{	DOCfactalsModelQ?.log							}
-var DOClog  	: Log 			{	DOClogQ ?? .reliable						}	//.first
+	fatalError(DOC==nil ? "DOC=nil" : "DOC.factalsModel=nil")					}()}
+var DOClogQ  	: Log? 					{	DOCfactalsModelQ?.log				}
+var DOClog  	: Log 					{	DOClogQ ?? .reliable				}	//.first
 let DOCctlr						= NSDocumentController.shared
-var DOCAPPlog	: Log 			{	DOClogQ ?? APPQ?.log ?? .reliable				}
+var DOCAPPlog	: Log 					{	DOClogQ ?? APPQ?.log ?? .reliable	}
+// /////////////////////////////////////////////////////////////////////////////
 
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
-
-
-		// wqp908ry 
-//class EventCapturingWindow: NSWindow {
-//	override func sendEvent(_ event: NSEvent) {
-//		// Perform any custom event handling here
-//
-//		// Call super to allow the event to be processed normally
-//		super.sendEvent(event)
-//	}
-//}
 
 class AppGlobals : ObservableObject {
     @Published var appConfig : FwConfig
@@ -60,32 +44,9 @@ class AppGlobals : ObservableObject {
 	}
 }
 
-@main
-struct FactalsApp: App, Uid, FwAny {
-	var uid: UInt16				= randomUid()
-    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)
-	var fwClassName: String		= "FactalsApp"
-						//collections of data - view
-						//	viewsModel at root view {
-						//		data.bidirect
-						//		properties
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
-	//B	@AppStorage("text") var textFooBar = ""
-	@State private var document: FactalsDocument? = nil
-	@State private var openDocuments: [FactalsDocument] = []
-
-//	var bodyx: some Scene {
-//		DocumentGroup(newDocument: FactalsDocument()) { file in
-//			ContentView(document: file.$document)		//, openDocuments: $openDocuments
-//			 .onOpenURL { url in
-//				// Load a document from the given URL
-//				if let document = try? FactalsDocument(fileURL: url) {
-//					openDocuments.append(document)
-//				}
-//			 }
-//		}
-//	}
-
+@main
+extension FactalsApp : App {
 	//typealias Body = type
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
@@ -94,16 +55,6 @@ struct FactalsApp: App, Uid, FwAny {
 			 .onOpenURL { url in
 				print("DocumentGroup.ContentView.onOpenURL(\(url))")
 			 }
-			//	.windowTitle("Your Window Title")
-
-		//	 .window { window in
-		//		// Create an instance of EventCapturingWindow and assign it to the window
-		//		EventCapturingWindow(
-		//			contentRect: window.contentRect(forFrameRect: window.frame),
-		//			styleMask: window.styleMask,
-		//			backing: window.backingStoreType,
-		//			defer: window.deferred)
-		//	 }
 		}
 		 .commands {
 			CommandMenu("Scenes") {
@@ -140,6 +91,19 @@ bug//					document = FactalsDocument(fromLibrary:libName)
 			}
 		}
 	}
+}
+struct FactalsApp: Uid, FwAny {
+	var fwClassName: String		= "FactalsApp"
+	var uid: UInt16				= randomUid()
+
+	@State private var document: FactalsDocument? = nil
+	@State private var openDocuments: [FactalsDocument] = []
+
+	var appConfig : FwConfig
+
+    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)
+	//B	@AppStorage("text") var textFooBar = ""
+
 	 // MARK: - 2. Object Variables:
 	var log	: Log			=	Log(title:"App's Log", params4all)
 
@@ -153,16 +117,6 @@ bug//					document = FactalsDocument(fromLibrary:libName)
 															//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
 															//		}
 															//	};private var regressScene_ = 0
-	 // Keep regressScene up to date						//var config4app : FwConfig {
-	var config : FwConfig		= [:]						//	get			{	return config4app_ }
-	mutating func configure(from c:FwConfig) {			//	set(val)	{
-		config					= c							//		config4app_			= val
-		if let rsn 				= c.int("regressScene") {	//		if let rsn 			= config4app_.int("regressScene") {
-			regressScene		= rsn						//			regressScene	= rsn
-			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
-		}													//		}
-	}														//	}
-															//};private var config4app_ : FwConfig = [:]
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
 	var appSounds				= Sounds()
@@ -170,22 +124,18 @@ bug//					document = FactalsDocument(fromLibrary:libName)
 	 // MARK: - 3. Factory
 
 	init () {
+		appConfig				= params4all
 		APP 					= self				// Register  (HOAKEY)
-	//	let daLog				= DOCAPPlog			// create here, ahead of action
-//		let _					= Log.reliable		// create here, ahead of action
 
 		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with its defaults (Ahead of any documents)
-		assert(config.count == 0, "paranoia owefihwq08fu")
-		let c					= config + params4all// append
-		configure(from:c)							// modifies APP, must re-register
 		APP 					= self				// Register ( V E R Y  HOAKEY)
 		sceneMenus 				= buildSceneMenus()
 
 		atApp(3, {
-			log("FactalsApp(\(c.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
-			log("verbosity:[\(log.ppVerbosityOf(c).pp(.short))])")
+			log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
+			log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])")
 
 			   // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김
 			  // ⌘:apple, ⏎:enter
@@ -462,7 +412,7 @@ bug
 //		}
 	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]) -> String	{
 		switch mode {
 		case .tree:
 			return ""

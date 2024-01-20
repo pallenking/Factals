@@ -5,7 +5,6 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 
 	 // MARK: - 2. Object Variables:
 	weak var factalsModel:FactalsModel? = nil// Owner
-//	weak var rootPart	: RootPart! = nil	// Owner
 	var rootPartF		: RootPart? { nil } //factalsModel?.rootPartActor.rootPart}	// Owner
 
 	var timingChains:[TimingChain] = []
@@ -16,7 +15,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0}
+	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0		}
 	var linkChits		: Int	= 0			// by things like links
 	var startChits	  	:UInt8	= 0			// set to get simulator going
 //

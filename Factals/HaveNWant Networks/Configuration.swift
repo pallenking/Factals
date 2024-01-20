@@ -35,13 +35,16 @@ var params4all		: FwConfig		= {	return
  // Terms in FilterLog.swift
 let appLogN						= 5//0//5//8//
 let docLogN						= 5//0//5//8//
-var params4reliableLog:FwConfig	= log(all:appLogN)//8)//0)//
+let params4reliableLog:FwConfig	= log(all:appLogN)//8)//0)//
  // This must contain NO log statements!
 
 private let params4appLog		= params4pp + params4logs_
 								+ log(app:appLogN, men:appLogN)
 //								+ log(doc:docLogN, bld:docLogN, ser:docLogN)
  // MARK: - C: Pretty Print
+
+let params4aux : FwConfig 		= [:]
+
 /*private*/ let params4pp : FwConfig = [
 				// What:
 	"ppLinks"			: false, 	// pp includes Links  //true//

@@ -17,7 +17,6 @@ class RootScene : SCNScene {				// xyzzy4
  		super.init()
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
-	func configure(from c:FwConfig) {											}
 	 // MARK: - 13. IBActions
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic

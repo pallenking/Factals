@@ -36,7 +36,7 @@ actor RootPartActor : ObservableObject, Uid {
 		rootVew.factalsModel	= factalsModel				// 2. Backpointer
 		factalsModel.rootVews.append(rootVew)				// 3. Install
 
-		rootVew.configure(from:fwConfig)					// 4. Configure Vew
+		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
 		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
 		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
 		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
@@ -70,7 +70,7 @@ class RootPart : Part {		//class//actor//
 	init(simulator:Simulator?=nil) {
 		mySim					= simulator ?? mySim
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		wireAndGroom([:])
+		///wireAndGroom([:])
 	}
 	convenience init(fromLibrary selector:String?, simulator:Simulator?) {
 
@@ -91,16 +91,11 @@ class RootPart : Part {		//class//actor//
 			addChild(ansTrunk)
 		}
 
-//		rootPartActor.groom()
-//		wireAndGroom([:])		// moved to RootPartActor
+		wireAndGroom([:])
 
 		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)
 //		markTree(dirty:.vew)
-	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
-	func configure(from config:FwConfig) {
-		bug
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
@@ -145,6 +140,12 @@ class RootPart : Part {		//class//actor//
 		title					+= " (\(portCount()) Ports)"
 
 		//dirtySubTree(.vew)		// NOT NEEDED
+	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	func configure(from config:FwConfig) {
+		partConfig				= config
+		//self.configurePart(from:config)
+		bug
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////

@@ -33,7 +33,7 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 		simulator.configure(from:config)
 //bug	//rootPartActor.configure(from:config)
 		for rootVew in rootVews {
-			rootVew.configureDocument(from:config)
+			rootVew.configureRootVew(from:config)
 		}
 		log.configure(from:config)
 		//sound.configure(from:config)
