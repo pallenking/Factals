@@ -6,7 +6,8 @@ import SwiftUI
 class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
-	var document : FactalsDocument!				// Owner
+	//weak	bug
+	 var document : FactalsDocument!			// Owner
 	var rootPartActor : RootPartActor			// Manager of RootPart
 	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
 	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
@@ -20,22 +21,22 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
-	func configure(from config:FwConfig) { // *****
-		log.configure(from:config)
-bug
-//		guard let rootPartActor else { fatalError("WARNING configure: factalsModel.rootPart=nil") }
-//		rootPartActor.rootPart?.configure(from:config)
-		for rootVew in rootVews {
-			rootVew.configureDocument(from:config)
-		}
-	}
 	 // MARK: - 3. Factory
 	init(fromLibrary selector:String?) {
 		simulator				= Simulator()
 
-		rootPartActor 			= RootPartActor(fromLibrary:selector)
+		rootPartActor 			= RootPartActor(fromLibrary:selector, simulator:simulator)
 		log						= Log(title:"FactalsModel's Log", params4all)
 		simulator.factalsModel	= self
+	}
+	func configure(from config:FwConfig) { 				// FactalsModel has no configuration [:]
+		simulator.configure(from:config)
+//bug	//rootPartActor.configure(from:config)
+		for rootVew in rootVews {
+			rootVew.configureDocument(from:config)
+		}
+		log.configure(from:config)
+		//sound.configure(from:config)
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene

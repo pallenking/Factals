@@ -18,6 +18,7 @@ struct ContentView: View {
 				let rpa			= document.factalsModel.rootPartActor
 //bug//			let title		= rpa.rootPart?.title
 				windows.first!.title = /*rpa.rootPart?.title ??*/ "<UNTITLED>"
+
 				EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
 		bug;		print("Event: \(event)")			// Handle the event here
 				}.startMonitoring(for: windows.first!)

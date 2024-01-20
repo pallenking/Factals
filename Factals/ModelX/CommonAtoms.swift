@@ -133,13 +133,13 @@ class Mirror : Atom {
 	/// * offset:Float
 	override init(_ config:FwConfig = [:]) {
 		super.init(config) // -/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		if let g				= localConfig["gain"]?.asFloat {
+		if let g				= partConfig["gain"]?.asFloat {
 			gain 				= g
-			localConfig["gain"]	= nil
+			partConfig["gain"]	= nil
 		}
-		if let ofs				= localConfig["offset"]?.asFloat {
+		if let ofs				= partConfig["offset"]?.asFloat {
 			offset 				= ofs
-			localConfig["offset"] = nil
+			partConfig["offset"] = nil
 		}
 	}
 

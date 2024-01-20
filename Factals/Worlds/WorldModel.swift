@@ -32,16 +32,16 @@ class WorldModel : Atom {
 		//!		x			--		x==1 (all default to 0)
 		//!		x=.4		--		x==0.4
 
-		if let ev				= FwwEvent(any:localConfig["events"]) {
-			localConfig["events"] = nil
+		if let ev				= FwwEvent(any:partConfig["events"]) {
+			partConfig["events"] = nil
 			event				= ev
 		}
-		if let eli				= localConfig["eventLimit"]?.asInt {
+		if let eli				= partConfig["eventLimit"]?.asInt {
 			eventLimit = eli
 		}
 		prob					= nil
-		if let f				= localConfig["prob"]?.asFloat {
-//		if let str				= localConfig["prob"],
+		if let f				= partConfig["prob"]?.asFloat {
+//		if let str				= partConfig["prob"],
 //		  let f					= str.asFloat {
 			prob				= f
 		}

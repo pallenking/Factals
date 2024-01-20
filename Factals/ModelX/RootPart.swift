@@ -16,14 +16,17 @@ import SceneKit
 var RootPartActor_factalsModel : FactalsModel? = nil
 
 actor RootPartActor : ObservableObject, Uid {
+	let uid: UInt16				= randomUid()
 	var rootPart : RootPart? 	= nil
 
-	let uid: UInt16				= randomUid()
 	 // KROCK OF SH***:
 	nonisolated var factalsModel : FactalsModel? { RootPartActor_factalsModel }
 
-	init(fromLibrary selector:String?) {
-		rootPart				= RootPart(fromLibrary:selector)
+	init(fromLibrary selector:String?, simulator:Simulator) {
+		rootPart				= RootPart(fromLibrary:selector, simulator:simulator)
+	}
+	func configure(from config:FwConfig) {
+		rootPart?.configure(from:config)
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
@@ -56,6 +59,7 @@ class RootPart : Part {		//class//actor//
 	var ansConfig	 : FwConfig	= [:]
 	var factalsModel : FactalsModel!
 
+	var mySim 		 : Simulator? = nil
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var curOwner  : String?		= nil
@@ -63,15 +67,40 @@ class RootPart : Part {		//class//actor//
 	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
-	init() {
-//		simulator				= Simulator()
+	init(simulator:Simulator?=nil) {
+		mySim					= simulator ?? mySim
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-//		simulator.rootPart		= self
 		wireAndGroom([:])
 	}
+	convenience init(fromLibrary selector:String?, simulator:Simulator?) {
+
+		 // Make tree's root (a RootPart):
+		self.init(simulator:simulator) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
+		self.ansConfig			= [:]
+
+		 // Find the Library that contains the trunk for self, the root.
+		if let lib				= Library.library(fromSelector:selector) {
+			let ans :ScanAnswer	= lib.answer		// found
+			self.title			= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
+			self.ansConfig		= ans.ansConfig
+
+/* */		let ansTrunk :Part?	= ans.ansTrunkClosure!()
+
+			addChild(ansTrunk)
+		}
+
+//		rootPartActor.groom()
+//		wireAndGroom([:])		// moved to RootPartActor
+
+		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
+//		self.dirty.turnOn(.vew)
+//		markTree(dirty:.vew)
+	}
+	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	func configure(from config:FwConfig) {
-//		assert(simulator.rootPart === self, "RootPart.reconfigureWith ERROR with simulator owner rootPart")
-//		simulator.configure(from:config) 	// CUSTOMER 1
+		bug
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
@@ -191,39 +220,11 @@ class RootPart : Part {		//class//actor//
 			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
 			try data.write(to:fileURL)
 bug			//self.init(url: fileURL)
-			self.init()		//try self.init(url: fileURL)
+			self.init(simulator:nil)		//try self.init(url: fileURL)
 		} catch {
 			print("error using file: \(error)")									}
 		return nil
 	}
-
-	convenience init(fromLibrary selector:String?) {
-
-		 // Make tree's root (a RootPart):
-		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-
-		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
-		self.ansConfig			= [:]
-
-		 // Find the Library that contains the trunk for self, the root.
-		if let lib				= Library.library(fromSelector:selector) {
-			let ans :ScanAnswer	= lib.answer		// found
-			self.title			= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
-			self.ansConfig		= ans.ansConfig
-
-/* */		let ansTrunk :Part?	= ans.ansTrunkClosure!()
-
-			addChild(ansTrunk)
-		}
-
-//		rootPartActor.groom()
-//		wireAndGroom([:])		// moved to RootPartActor
-
-		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
-//		self.dirty.turnOn(.vew)
-//		markTree(dirty:.vew)
-	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //

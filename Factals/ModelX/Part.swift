@@ -44,11 +44,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	 // nil root defers to parent's root.
 	var root		: RootPart? = nil
 //	{
-//		get {								//return parent?.root ?? self as? RootPart
+//		get {
 //			parent?.root 		??			// RECURSIVELY up the parent tree
 //			self as? RootPart	??			// top should be RootPart
 //			nil
-////			{	fatalError("Mall-formed tree: nil parent should be RootPart")	} ()
+////			{	fatalError("Mall-formed tree: nil parent should be RootPart") } ()
 //		}
 //		set(v) {
 //			fatalError("root.set(v) not supported")
@@ -58,7 +58,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
  // BIG PROBLEMS: (Loops!)
 //	{	willSet(v) {	markTree(dirty:v)  									}	}
-	var localConfig	: FwConfig				// Configuration of Part
+	var partConfig	: FwConfig				// Configuration of Part
 	 // Ugly:
 	var nLinesLeft	: UInt8		= 0			// left to print in current atom
 
@@ -129,15 +129,15 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// - Value "n", "name", "named": name of element
 	/// - Parameter config: FwConfig configuration hash 
 	init(_ config:FwConfig = [:]) {
-		localConfig				= config		// Set as my local configuration hash
+		partConfig				= config		// Set as my local configuration hash
 
 		var nam : String?		= nil
 		 // Do this early, to improve creation printout
 		for key in ["n", "name", "named"] {		// (Name has 3 keys)
-			if let na:String 	= localConfig[key] as? String {
+			if let na:String 	= partConfig[key] as? String {
 				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
 				nam				= na
-				localConfig[key] = nil			// remove from config
+				partConfig[key] = nil			// remove from config
 			}
 		}			// -- Name was given
 		name					= nam ?? {
@@ -155,44 +155,44 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 
 		 // Print out invocation
 		let n					= ("\'" + name + "\'").field(-8)
-		atBld(6, logd("init(\(localConfig.pp(.line))) name:\(n)"))
+		atBld(6, logd("init(\(partConfig.pp(.line))) name:\(n)"))
 
 		 // Options:
-		if let valStr			= localConfig["expose"] as? String,
+		if let valStr			= partConfig["expose"] as? String,
 		  let e : Expose		= Expose(string:valStr) {
 			initialExpose		= e
-			localConfig["expose"] = nil
+			partConfig["expose"] = nil
 		}
 		for key in ["f", "flip", "flipped"] {
-			if let ff			= localConfig[key],		// in config
+			if let ff			= partConfig[key],		// in config
 			  let f				= Bool(fwAny:ff) {			// can be Bool
 				flipped 		= f
-				localConfig[key] = nil
+				partConfig[key] = nil
 			}
 		}
 		for key in ["lat", "latitude"] {
-			if let ff			= localConfig[key] {
+			if let ff			= partConfig[key] {
 				if let f		= Int(fwAny:ff),
 				  let g			= Latitude(rawValue:f) {
 					lat				= g
-					localConfig[key] = nil
+					partConfig[key] = nil
 				}
 			}
 		}
-		if let s				= UInt8(fwAny:localConfig["spin"]) {
+		if let s				= UInt8(fwAny:partConfig["spin"]) {
 			spin 				= s
-			localConfig["spin"] = nil
+			partConfig["spin"] = nil
 		}
 
-		if let a 				= localConfig["parts"] as? [Part] {
+		if let a 				= partConfig["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
-			localConfig["parts"] = nil
+			partConfig["parts"] = nil
 		}
-		if let parts 			= localConfig["parts"] {
+		if let parts 			= partConfig["parts"] {
 			let arrayOfParts	= parts as? [Part]
 			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
 			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
-			localConfig["parts"] = nil
+			partConfig["parts"] = nil
 		}
 	}
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
@@ -247,8 +247,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		//case root_		// IGNORE, weak regenerate
 		case nLinesLeft		// new
 		case dirty
-		case localConfig	// ERRORS: want FwConfig to be Codable?
-		case config		// IGNORE: temp/debug FwConfig	= ["placeSelfy":"foo31"]
+		case partConfig		// ERRORS: want FwConfig to be Codable?
+//		case config			// IGNORE: temp/debug FwConfig	= ["placeSelfy":"foo31"]
 		case initialExpose 	// --- (an Expose)	=.open	// Hint to use on dumb creation of views. (never changed)
 		//case expose		// IGNORE, it's in Vew, not part
 		case flipped
@@ -267,7 +267,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 
 		try container.encode(nLinesLeft,	forKey:.nLinesLeft)		// ignore parts. (it's sugar for children)
 
-	//	try container.encode(localConfig,	foarKey:.localConfig)	// FwConfig not Codable!//Protocol 'FwAny' as a type cannot conform to 'Encodable'
+	//	try container.encode(partConfig,	foarKey:.partConfig)	// FwConfig not Codable!//Protocol 'FwAny' as a type cannot conform to 'Encodable'
 	//	try container.encode(config,		forKey:.config) 		// Type '(String) -> FwAny?' cannot conform to 'Encodable'
 		try container.encode(dirty,			forKey:.dirty)			// ??rawValue?? //	var dirty : DirtyBits
 		try container.encode(initialExpose,	forKey:.initialExpose)
@@ -280,7 +280,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 
 	required init(from decoder: Decoder) throws {
-		localConfig				= [:]//try container.decode(FwConfig.self,forKey:.localConfig)
+		partConfig				= [:]//try container.decode(FwConfig.self,forKey:.partConfig)
 //		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		let container 			= try decoder.container(keyedBy:PartsKeys.self)
 			//  po container.allKeys: 0 elements
@@ -290,7 +290,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		children.forEach({ $0.parent = self})	// set parent
 		// root?
 		nLinesLeft				= try container.decode(		UInt8.self, forKey:.nLinesLeft)
-		localConfig 			= [:]	// PUNT
+		partConfig 			= [:]	// PUNT
 		//config				= [:]	// PUNT
 		dirty					= try container.decode( DirtyBits.self, forKey:.dirty)
 		initialExpose			= try container.decode(	   Expose.self, forKey:.initialExpose)
@@ -313,7 +313,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 //		theCopy.name			= self.name
 //		theCopy.children		= self.children
 //		theCopy.nLinesLeft		= self.nLinesLeft
-//		theCopy.localConfig		= self.localConfig
+//		theCopy.partConfig		= self.partConfig
 //	//	theCopy.config			= self.config
 //		theCopy.dirty			= self.dirty
 //		theCopy.initialExpose	= self.initialExpose
@@ -349,7 +349,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			&& name				== rhs.name
 			&& nLinesLeft		== rhs.nLinesLeft
 			&& dirty			== rhs.dirty			// allowed to differ
-		//	&& localConfig		== rhs.localConfig		// not Equatable
+		//	&& partConfig		== rhs.partConfig		// not Equatable
 		//	&& config			== rhs.config			// not Equatable
 			&& initialExpose 	== rhs.initialExpose
 			&& flipped			== rhs.flipped
@@ -513,11 +513,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 	}
 
-	 // Get Part's configuration from localConfig of Part and parents, and model
+	 // Get Part's configuration from partConfig of Part and parents, and model
 	func config(_ name:String) -> FwAny? {
 		 // Look in self and parents:
 		for s in selfNParents {					 // look in: self, parent?,...,root
-			if let rv			= s.localConfig[name] {
+			if let rv			= s.partConfig[name] {
 				return rv							 // found in self and ancestor's config
 			}
 		}										 // Look in application:
@@ -985,15 +985,15 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
 
 		 // ------ color0
-		if let colorStr 		= config("color")?.asString,					//localConfig["color"]?.asString,
+		if let colorStr 		= config("color")?.asString,					//partConfig["color"]?.asString,
 		  let c	 				= NSColor(colorStr),
-		  vew.expose == .open {			// Hack: atomic not colored				//localConfig["color"] = nil
+		  vew.expose == .open {			// Hack: atomic not colored				//partConfig["color"] = nil
 			vew.scn.color0 		= c			// in SCNNode, material 0's reflective color
 		}
 		markTree(dirty:.paint)
 
 		 //------ Activate Physics:
-		if let physConf			= localConfig["physics"] {
+		if let physConf			= partConfig["physics"] {
 			physics(vew:vew, setConfiguration:physConf)
 		}
 	}
@@ -1213,7 +1213,7 @@ func foo () {
 	func rePosition(vew:Vew) { //}, first:Bool=false) {
 		guard vew.parent != nil else {		return			}
 		 // Get Placement Modep
-		let placeMode		=  localConfig["placeMe"]?.asString ?? // I have place ME
+		let placeMode		=  partConfig["placeMe"]?.asString ?? // I have place ME
 							parent?.config("placeMy")?.asString ?? // My Parent has place MY
 										   				"linky"	   // default is position by links
 		  // Set NEW's orientation (flip, lat, spin) at origin
@@ -1441,7 +1441,7 @@ func foo () {
 	func ppUnusedKeys() -> String {
 		let uid					= ppUid(self)
 		let approvedConfigKeys	= ["placeMe", "placeMy", "portProp", "l", "len", "length"]
-		let dubiousConfig		= localConfig.filter { key, value in !approvedConfigKeys.contains(key) }
+		let dubiousConfig		= partConfig.filter { key, value in !approvedConfigKeys.contains(key) }
 		var rv 					= dubiousConfig.count == 0 ? "" :	// ignore empty configs
   								  "######\(pp(.fullNameUidClass).field(35)) UNUSED KEY: \(dubiousConfig.pp(.line))\n"
 		for child in children {
@@ -1479,7 +1479,7 @@ func foo () {
 				rv				+= "physics,"
 			}
 			if aux.bool_("ppParam") {
-				rv 				+= localConfig.pp(.line, aux)
+				rv 				+= partConfig.pp(.line, aux)
 			}
 																					// Ee..
 		case .tree:

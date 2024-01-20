@@ -59,7 +59,7 @@ class Previous : Atom {
 	override init(_ configArg:FwConfig = [:]) {
 
 		super.init(configArg)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-		let config 				= localConfig
+		let config 				= partConfig
 
 		 // Set mode:	
 		majorMode 				= .monitor				// Default is monitor  :MajorMode

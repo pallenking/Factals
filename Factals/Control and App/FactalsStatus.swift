@@ -189,7 +189,7 @@ extension RootPartActor : FactalsStatus {
 	}
 }
 extension RootPart : FactalsStatus	{								 ///RootPart
-	func ppFwConfig() -> String {		localConfig.pp(.line)					}
+	func ppFwConfig() -> String {		partConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
 bug
 		let myLine				= ""//factalsModel.rootPartActor.rootPart === self ? "" : "OWNER:'\(factalsModel!)' BAD "

@@ -941,5 +941,6 @@ Event 57:
 t:1.2799991 going:up taskRun; Run Sim=0/Ports,1/Links,0/kick	r g g -
 t:1.2899991 going:up taskRun; SETTLED=0/Ports,0/Links,0/kick	r g g g
 
-groomModelPostWires(root:RootPart)
+wireAndGroom([:])
+	groomModelPostWires(root:RootPart)
 groomModel(parent:self)

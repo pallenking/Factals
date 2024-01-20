@@ -71,7 +71,7 @@ DECISION: need Comparable for Json testing
 					?	partTreeOwnerPrev, partTreeVerbose,		-code-
 		E: Part:	**	weak var parent:Part?					-code-
 					**	weak var root							-code-
-					!!	localConfig:FwConfig = [:]				FWConfig
+					!!	partConfig:FwConfig = [:]				FWConfig
 
 20221105:
 	  NONEXISTANT

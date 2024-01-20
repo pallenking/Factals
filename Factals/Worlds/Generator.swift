@@ -31,17 +31,17 @@ class Generator : Net {
 		  //  WorldModel.swift   Args (if needed)
 		 //  -- Basic discrete time/value data source
 		var wmArgs  : FwConfig	= [:]
-		if let events 			= localConfig["events"] {
+		if let events 			= partConfig["events"] {
 			wmArgs["events"] 	= events
-			localConfig["events"] = nil
+			partConfig["events"] = nil
 		}
-		if let prob 			= localConfig["prob"]?.asFloat {
+		if let prob 			= partConfig["prob"]?.asFloat {
 			wmArgs["prob"] 		= prob
-			localConfig["prob"] = nil
+			partConfig["prob"] = nil
 		}
-		if let eventLimit		= localConfig["eventLimit"]?.asInt {
+		if let eventLimit		= partConfig["eventLimit"]?.asInt {
 			wmArgs["eventLimit"] = eventLimit
-			localConfig["eventLimit"] = nil
+			partConfig["eventLimit"] = nil
 		}
 		let wmNeeded			= wmArgs.count != 0
 		wmArgs					+= ["n":"wm", "f":1]
@@ -49,7 +49,7 @@ class Generator : Net {
 		  // /////  TimingChain.swift: Insert Discrete Time samples into HaveNWant Network
 		 //
 		var tcArgs : FwConfig	= ["n":"tc", "f":1]//, f:flipMe]
-		let dtNeeded 			= localConfig["dtNeeded"]?.asBool ?? true
+		let dtNeeded 			= partConfig["dtNeeded"]?.asBool ?? true
 		if dtNeeded {
 			tcArgs["P="] 		= "dt"		// Discrete Time --> timingChain
 		}
@@ -60,21 +60,21 @@ class Generator : Net {
 		  // //////  DiscreteTime.swift   Args: Connects to HnW Network
 		 //  An Atom which generates data C2014PAK
 		var dtArgs : FwConfig	= ["n":"dt", "f":1]
-		if let nib 				= localConfig["nib"] {
+		if let nib 				= partConfig["nib"] {
 			dtArgs["nib"] 		= nib
-			localConfig["nib"]	= nil
+			partConfig["nib"]	= nil
 		}
-		if let p				= localConfig["P"] {	// generator connects to network here
+		if let p				= partConfig["P"] {	// generator connects to network here
 			dtArgs["P"] 		= p
-			localConfig["P"]	= nil
+			partConfig["P"]	= nil
 		}
-		if let resetTo			= localConfig["resetTo"] {
+		if let resetTo			= partConfig["resetTo"] {
 			dtArgs["resetTo"]	= resetTo
-			localConfig["resetTo"] = nil
+			partConfig["resetTo"] = nil
 		}
-		if let ie 				= localConfig["incrementalEvents"] {
+		if let ie 				= partConfig["incrementalEvents"] {
 			dtArgs["incrementalEvents"] = ie
-			localConfig["incrementalEvents"] = nil
+			partConfig["incrementalEvents"] = nil
 		}
 
 		 // /////////// MAKE Elements
@@ -90,7 +90,7 @@ class Generator : Net {
 		}
 
 		 // ////////// Flip order if needed
-		if localConfig.bool_("f") {						// reverse order
+		if partConfig.bool_("f") {						// reverse order
 			children			= children.reversed()
 		}
 	}

@@ -79,7 +79,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1252"
             endingLineNumber = "1252"
-            landmarkName = "rePosition(vew:)"
+            landmarkName = "placeStacked(inVew:mode:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -813,8 +813,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
             landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -893,8 +893,8 @@
             filePath = "Factals/ModelX/RootPart.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
             <Locations>
@@ -989,8 +989,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "FactalsModel"
             landmarkType = "3">
          </BreakpointContent>
@@ -1481,6 +1481,21 @@
                   endingLineNumber = "168"
                   offsetFromSymbolStart = "4248">
                </Location>
+               <Location
+                  uuid = "0833F45C-E557-4879-AC6F-4A536D64648A - 40ef1968ab0aa33b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.LinkPort.simulate() -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/LinkPort.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "169"
+                  endingLineNumber = "169"
+                  offsetFromSymbolStart = "4244">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1528,6 +1543,21 @@
                   startingLineNumber = "173"
                   endingLineNumber = "173"
                   offsetFromSymbolStart = "5324">
+               </Location>
+               <Location
+                  uuid = "FF8DDBFA-3B2F-4F1B-884C-57B153F99A0A - 40ef1968ab0aa3d0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.LinkPort.simulate() -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/LinkPort.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "174"
+                  endingLineNumber = "174"
+                  offsetFromSymbolStart = "5320">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1795,8 +1825,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "init(fromLibrary:)"
             landmarkType = "7">
             <Locations>
@@ -1830,6 +1860,21 @@
                   endingLineNumber = "31"
                   offsetFromSymbolStart = "176">
                </Location>
+               <Location
+                  uuid = "617D3617-0394-43E8-98C7-A9B6FA7146B3 - eb1ed039799f9b78"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FactalsModel.init(fromLibrary: Swift.Optional&lt;Swift.String&gt;) -&gt; Factals.FactalsModel"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "252">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1861,7 +1906,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
             endingLineNumber = "26"
-            landmarkName = "init(fromLibrary:)"
+            landmarkName = "init(fromLibrary:simulator:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -1893,6 +1938,21 @@
                   startingLineNumber = "19"
                   endingLineNumber = "19"
                   offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "1DA157AC-6BEC-4489-9F7C-DDA960646B47 - 862f7a8f44e263a4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootPartActor.init(fromLibrary: Swift.Optional&lt;Swift.String&gt;, simulator: Factals.Simulator) -&gt; Factals.RootPartActor"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "92">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1927,6 +1987,22 @@
             endingLineNumber = "33"
             landmarkName = "init(forPart:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BD647CA1-49DB-46F1-A35D-7B9B1C24A0F6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/ModelX/RootPart.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "RootPartActor"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

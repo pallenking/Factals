@@ -61,8 +61,8 @@ class TimingChain : Atom {
 	/// ## --- asyncData    :Bool   --  computNClock v.s. clockNCompute
 	override init(_ config:FwConfig = [:]) {
 		super.init(config)//, leafKind:leafKind_)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ //
-		asyncData				= localConfig["asyncData"]    as? Bool ?? false
-		if let ac				= trueF_ {//factalsModel!.config4factalsModel.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
+		asyncData				= partConfig["asyncData"]    as? Bool ?? false
+		if let ac				= trueF_ {//factalsModel!.config4factalsModel.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
 
@@ -203,8 +203,8 @@ class TimingChain : Atom {
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(root:RootPart) {
 											super.groomModelPostWires(root:root)
-		asyncData				= localConfig["asyncData"] as? Bool ?? false
-		if let ac				= root.factalsModel?.document.docConfig.bool("animateChain") {		//localConfig["animateChain"] //config.bool("animateChain")
+		asyncData				= partConfig["asyncData"] as? Bool ?? false
+		if let ac				= root.factalsModel?.document.docConfig.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
 

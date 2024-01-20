@@ -152,7 +152,7 @@ bug;			var poleITread = self.tread - Float(i)
  			pointNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/2)
 
 			 // Poles
-			let r				= localConfig["bitRadius"]?.asCGFloat ?? 1.0
+			let r				= partConfig["bitRadius"]?.asCGFloat ?? 1.0
 			for i in 0..<self.nPoles {
 				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
 				let portI 		= getPort(i)

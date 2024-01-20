@@ -28,16 +28,16 @@ class DiscreteTime : Atom {
 
 		super.init(config) //\/\/\/\/\/\/\/\/\/
 
-		if let nibString		= localConfig["nib"] as? String {
+		if let nibString		= partConfig["nib"] as? String {
 			inspecNibName		= nibString
-			localConfig["nib"]	= nil
+			partConfig["nib"]	= nil
 		}
-		if let str 				= localConfig["resetTo"] as? FwwEvent {	//String
+		if let str 				= partConfig["resetTo"] as? FwwEvent {	//String
 			resetTo				= str
 		}
-		if let incEv 			= localConfig["incrementalEvents"] as? Bool {
+		if let incEv 			= partConfig["incrementalEvents"] as? Bool {
 			incrementalEvents	= incEv
-			localConfig["incrementalEvents"] = nil
+			partConfig["incrementalEvents"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory

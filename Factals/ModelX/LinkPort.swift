@@ -134,7 +134,7 @@ bug;	return rv
 
 		 // Determine LinkPort velocity
 		var logVel 				= config("linkVelocityLog2")?.asFloat ?? -5		// ~ in Configuration dominates
-		if let linksVel			= localConfig["v"]?.asFloat {
+		if let linksVel			= partConfig["v"]?.asFloat {
  			logVel				+= linksVel	// Link may override local
 		}
 		let conveyorVelocity 	= exp2f(logVel)

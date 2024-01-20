@@ -78,7 +78,7 @@ extension Vew {
 				self.openChildren(using:vewConfig)
 			}
 		case .subVew(let fwConfig):
-bug//		self.localConfig	= fwConfig	//??
+bug//		self.partConfig	= fwConfig	//??
 			//print("??? adorn(.subVew(let fwConfig): ???")
 			//panic(".subVew(\(fwConfig.pp(.phrase))")
 		}

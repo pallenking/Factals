@@ -25,9 +25,9 @@ class SoundAtom : Atom {
 
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		if let snd				= localConfig["sound"] as? String {
+		if let snd				= partConfig["sound"] as? String {
 			sound				= snd
-			localConfig["sound"] = nil
+			partConfig["sound"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory

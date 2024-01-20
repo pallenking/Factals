@@ -29,13 +29,13 @@ class Atom : Part {	//Part//FwPart
 	override init(_ config:FwConfig = [:]) {
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		if let skin2			= localConfig["skin"] as? SCNNode {
+		if let skin2			= partConfig["skin"] as? SCNNode {
 			panic("skin2:\(skin2)")
 			//skin				= skin2
-			localConfig["skin"]	= nil
+			partConfig["skin"]	= nil
 		}
-		bindings				= localConfig["bindings"] as? [String:String] //config.fwConfig("bindings")
-		localConfig["bindings"]	= nil
+		bindings				= partConfig["bindings"] as? [String:String] //config.fwConfig("bindings")
+		partConfig["bindings"]	= nil
 
 		 // Create PORTS in Atoms
 		for (portName, portProp) in hasPorts( ) {	// process "c", "M" and "b"
@@ -475,7 +475,7 @@ class Atom : Part {	//Part//FwPart
 //		var doc					= DOC!
 
 		 // Paw through Atom's local configuration
-		for (srcPortString, targets_) in localConfig {
+		for (srcPortString, targets_) in partConfig {
 			  // Find a configuration key which is a Port con2:
 			 // :H: SouRCe is always a Port name
 			let srcPortPath		= Path(withName:srcPortString)
@@ -659,8 +659,8 @@ class Atom : Part {	//Part//FwPart
 				linkUpList.append(aWire)  // must copy, cause this stack goes away //.copy()
 			}
 		}
-		for key in sRetiredKeys {	// Retire used keys in localConfig
-			localConfig[key] 	= nil
+		for key in sRetiredKeys {	// Retire used keys in partConfig
+			partConfig[key] 	= nil
 		}
 	}
 	 /// Check con2 atributes in FwAny
@@ -934,13 +934,13 @@ class Atom : Part {	//Part//FwPart
 				 // Gap: Fluff + extraGap
 				let theLink		= inMePort.con2?.port?.parent as? Link
 				for key in ["length", "len", "l"] {
-					if let linksGap = theLink?.localConfig[key]?.asCGFloat {
+					if let linksGap = theLink?.partConfig[key]?.asCGFloat {
 						gap 	= linksGap
 					}
 				}
 				 // Line type
 				for key in ["type", "t"] {
-					if let any  = theLink?.localConfig[key] {
+					if let any  = theLink?.partConfig[key] {
 						let str	= any as? String ?? "xxx"
 						let dla = LinkSkinType(rawValue:str)
 						assertWarn(dla != nil, "\(pp(.fullNameUidClass).field(-35)) linkSkinType:'\(any.pp())'")

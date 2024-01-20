@@ -9,30 +9,30 @@ class Net : Atom {		// Atom // Part
 	override init(_ config:FwConfig = [:]) {
 		super.init(["placeMy":"linky"] + config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		if let a 				= localConfig["parts"] as? [Part] {
+		if let a 				= partConfig["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
-			localConfig["parts"] = nil
+			partConfig["parts"] = nil
 		}
-		if let parts 			= localConfig["parts"] {
+		if let parts 			= partConfig["parts"] {
 			let arrayOfParts	= parts as? [Part]
 			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
 			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
-			localConfig["parts"] = nil
+			partConfig["parts"] = nil
 		}
-		if let minSizeStr 		= localConfig["minSize"] as? String {
+		if let minSizeStr 		= partConfig["minSize"] as? String {
 			if let vect 		= SCNVector3(from:minSizeStr) {
 				minSize 		= vect
 			}
-			localConfig["minSize"] = nil
+			partConfig["minSize"] = nil
 		}
-		if let str 				= localConfig["minHeight"] as? String {
+		if let str 				= partConfig["minHeight"] as? String {
 			if let f 			= CGFloat(str) {
 				if minSize==nil {
 					minSize 	= SCNVector3.zero
 				}
 				minSize!.y 		= f
 			}
-			localConfig["minHeight"] = nil
+			partConfig["minHeight"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory

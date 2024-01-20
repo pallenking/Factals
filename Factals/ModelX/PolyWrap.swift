@@ -54,7 +54,7 @@ class PolyWrap : Part {
 	 // MARK: - 3. Factory
 	override init(_ config:FwConfig = [:]) {
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-		if let parts 			= localConfig["parts"] {
+		if let parts 			= partConfig["parts"] {
 			let arrayOfParts	= parts as? [Part]
 			assert(arrayOfParts != nil, "PolyWrap([parts:<val>]), but <val> is not [Part]")
 			assert(arrayOfParts!.count == 1, "paranoia")
@@ -62,7 +62,7 @@ class PolyWrap : Part {
 //			self.root			= child.root			// WTF
 			self.addChild(child)
 //			arrayOfParts!.forEach { addChild($0) }		// add children in "parts"
-			localConfig["parts"] = nil
+			partConfig["parts"] = nil
 		}
 	}
 	 // MARK: - 3.5 Codable Serialization
@@ -103,7 +103,7 @@ class PolyWrap : Part {
 		let newbiePart			= try newbiePartType.init(from:polyWrapsContainer)
 
 		//name = ""
-		localConfig				= [:]
+		partConfig				= [:]
 		atSer(3, logd("Decoded  as? PolyWrap   named '\(name)', partType\(newbiePartType)"))
 		self.addChild(newbiePart)
 	}

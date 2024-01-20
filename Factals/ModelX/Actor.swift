@@ -38,29 +38,29 @@ class Actor : Net {
 		   //
 		  // CONTEXT, gather parameters and build
 		 //
-		if let con1				= localConfig["con"] as? FwBundle {
+		if let con1				= partConfig["con"] as? FwBundle {
 			con					= con1
-			localConfig["con"] 	= nil
+			partConfig["con"] 	= nil
 			con1.name 			= "con"
 			addChild(con1)
 		}
-		let con1				= localConfig["con"]
+		let con1				= partConfig["con"]
 		assertWarn(con1==nil, "'con:\(con1!.pp(.fullNameUidClass))' must be a FwBundle")
 
 		  // EVIDENCE, gather parameters and build
 		 //
-		if let evi1				= localConfig["evi"] as? FwBundle {
+		if let evi1				= partConfig["evi"] as? FwBundle {
 			evi					= evi1
-			localConfig["evi"]	= nil
+			partConfig["evi"]	= nil
 			evi1.name			= "evi"
 			addChild(evi1)
 		}
-		let evi1				= localConfig["evi"]
+		let evi1				= partConfig["evi"]
 		assertWarn(evi1==nil, "'evi:\(evi1!.pp(.fullNameUidClass))' must be a FwBundle")
 
-		viewAsAtom		 		= localConfig["viewAsAtom"			]?.asBool ?? false
-		linkDisplayInvisible	= localConfig["linkDisplayInvisible"]?.asBool ?? false
-		positionViaCon			= localConfig["positionViaCon"		]?.asBool ?? false
+		viewAsAtom		 		= partConfig["viewAsAtom"			]?.asBool ?? false
+		linkDisplayInvisible	= partConfig["linkDisplayInvisible"]?.asBool ?? false
+		positionViaCon			= partConfig["positionViaCon"		]?.asBool ?? false
 
 		 // Color EVIdence FwBundle GREEN (
 		let _					= evi?.findCommon(firstWith:
@@ -76,7 +76,7 @@ class Actor : Net {
 		})
 
 		enforceOrder()						// evi on bottom, con on top
-		localConfig["addPreviousClock"] = 1	// Add Previous Clock for me
+		partConfig["addPreviousClock"] = 1	// Add Previous Clock for me
 	}
 
 	 // MARK: - 3.5 Codable
@@ -226,7 +226,7 @@ class Actor : Net {
 		super.gatherLinkUps(into:&linkUpList)
 
 		 // An enable for previousClock.
-		if let _		 		= localConfig["clockEnable"] {
+		if let _		 		= partConfig["clockEnable"] {
 			panic("this has never been activated")
 			let enaPort			= Port()
 			addChild(enaPort)

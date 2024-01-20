@@ -94,7 +94,7 @@ class Link : Atom {
 //??	assert(sDownCPort.dirty == .clean, "paranoia")	//sPort.dirty.turnOff(.vew) // (link vew proper at init)
 
 		 // Initial values of LinkPort, for testing (of P/UpConveyor, not Q)
-		if let valStr			= localConfig["initialSegments"] as? String {
+		if let valStr			= partConfig["initialSegments"] as? String {
 			let valStrs			= valStr.split(separator: " ")
 			for i in stride(from:0, to:valStrs.count, by:2) {
 				let h			= Float(String(valStrs[i]))!

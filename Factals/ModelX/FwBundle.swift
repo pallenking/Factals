@@ -24,8 +24,8 @@ class FwBundle : Net {
 		self.leafKind			= kind
 		super.init(tunnelConfig2) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		leafStruc				= localConfig["struc"];	localConfig["struc"] = nil
-		assert(localConfig["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")
+		leafStruc				= partConfig["struc"];	partConfig["struc"] = nil
+		assert(partConfig["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")
 
 		 // Construct FwBundle elements
 		if leafStruc != nil {
@@ -178,7 +178,7 @@ class FwBundle : Net {
 
 		if copyKeys.contains(prop) {
 			 // copy into bundle: DANGEROUS
-			localConfig[prop]		= val
+			partConfig[prop]		= val
 		}
 		else {
 			return super.apply(prop:prop, withVal:val)

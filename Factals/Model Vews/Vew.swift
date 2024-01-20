@@ -72,7 +72,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		  // Visible Shape:
 		// Jog
-		if let jogStr	 		= part.localConfig["jog"]?.asString,
+		if let jogStr	 		= part.partConfig["jog"]?.asString,
 		   let jogVect 			= SCNVector3(from:jogStr) ??			// x y z
 		  						  SCNVector3(from:jogStr + " 0") ??		// x y 0
 		  						  SCNVector3(from:jogStr + " 0 0") {	// x 0 0
@@ -91,7 +91,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		 // Flip
-		let portProp	: String? = port.localConfig["portProp"] as? String //"xxx"//
+		let portProp	: String? = port.partConfig["portProp"] as? String //"xxx"//
 		scn.flipped				= portProp?.contains(substring:"f") ?? false
 	}
 	func configure(from config:FwConfig) {
@@ -218,17 +218,17 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	}
 	var openConfig : FwConfig	= [:]		// rename config?
 
-	 /// Lookup configuration from Part's localConfig, and scene
-	func config(_ name:String) -> FwAny? {
+	 /// From any SubVew, Lookup configuration from Part's partConfig, and scene
+	func config(_ name:String)		-> FwAny? 		{
 
-		 // Try self and Parents up the Vew tree to rootVew
+		 // Go up Vew tree to rootVew its root, looking...
 		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
-			if let rv			= s.part.localConfig[name] {
+			if let rv			= s.part.partConfig[name] {
 				return rv						// return an ancestor's config
 			}
 		}
 
-		 // Try rootVew's opening configuration
+		 // Look in rootVew's configuration...
 		guard let rootVew 								else {	return nil		}
 		if let rv				= rootVew.openConfig[name] {
 			return rv
@@ -236,7 +236,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		 // Try Document's configuration
 		guard let factalsModel	= rootVew.factalsModel 	else {	return nil		}
-bug//	assert(factalsModel == part.root?.factalsModel, "paranoia: factalsModel mismatch")		//(factalsModel==nil || factalsModel! == part.root?.factalsModel
+bug
 	//	if let rv				= factalsModel.config.openConfig[name] {
 	//		return rv
 	//	}

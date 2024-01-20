@@ -42,18 +42,18 @@ class GenAtom : Atom {
 		super.init(config) //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 
 		self.value				= Float.nan			// initial value
-		if let v				= localConfig["value"] {  // Single String:
+		if let v				= partConfig["value"] {  // Single String:
 			value				= v.asFloat ?? Float.nan
-			localConfig["value"] = nil
+			partConfig["value"] = nil
 		}
 //		self.value				= Float.nan			// initial value
-//		if let v				= localConfig["value"] as? String {  // Single String:
+//		if let v				= partConfig["value"] as? String {  // Single String:
 //			self.value			= Float(v)
-//			localConfig["value"] = nil
+//			partConfig["value"] = nil
 //		}
-		if let loop				= localConfig["loop"] as? String {
+		if let loop				= partConfig["loop"] as? String {
 			self.loop			= Bool(loop)
-			localConfig["loop"] = nil
+			partConfig["loop"] = nil
 		}
 	}
 
