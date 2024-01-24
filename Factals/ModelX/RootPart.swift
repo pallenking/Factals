@@ -22,25 +22,33 @@ actor RootPartActor : ObservableObject, Uid {
 	 // KROCK OF SH***:
 	nonisolated var factalsModel : FactalsModel? { RootPartActor_factalsModel }
 
-	init(fromLibrary selector:String?, simulator:Simulator) {
-		rootPart				= RootPart(fromLibrary:selector, simulator:simulator)
+	init(fromRootPart r:RootPart) {
+		rootPart				= r
 	}
+	init(fromLibrary s:String?, simulator:Simulator) {
+		rootPart				= RootPart(fromLibrary:s, simulator:simulator)
+	}
+//	init(fromLibrary s:String?, factalsModel:FactalsModel) {
+//		rootPart				= RootPart(fromLibrary:s, factalsModel:FactalsModel)
+//	}
 	func configure(from config:FwConfig) {
 		rootPart?.configure(from:config)
 	}
+	var data : Data? {		rootPart?.data
+	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
-		guard let rootPart		= rootPart	else {	fatalError("nil rootPart")	}
-		guard let factalsModel				else {	fatalError("nil factalsModel") }
-		let rootVew				= RootVew(forPart:rootPart) // 1. Make empty view
-		rootVew.factalsModel	= factalsModel				// 2. Backpointer
-		factalsModel.rootVews.append(rootVew)				// 3. Install
-
-		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
-		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
-		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
-		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		rootVew.setupLightsCamerasEtc()						// ?move
+		//guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
+		//guard let rootPart	= rootPart	else {	fatalError("nil rootPart")	}
+		//guard let factalsModel			else {	fatalError("nil factalsModel") }
+		//let rootVew			= RootVew(forPart:rootPart) // 1. Make empty view
+		//rootVew.factalsModel	= factalsModel				// 2. Backpointer
+		//factalsModel.rootVews.append(rootVew)				// 3. Install
+//
+		//rootVew.configureVew(from:fwConfig)				// 4. Configure Vew
+		//rootVew.openChildren(using:vewConfig)				// 5. Open Vew
+		//rootPart.dirtySubTree(gotLock: true, .vsp)		// 6. Mark dirty
+		//rootVew.updateVewSizePaint(vewConfig:vewConfig)	// 7. Graphics Pipe		// relax to outter loop stuff
+		//rootVew.setupLightsCamerasEtc()					// ?move
 	//	let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
 bug//	atBld(5, factalsModel.logd("rootVews[\(factalsModel.rootVews.count-1)] is complete:\n\(rootVewPp)"))
 	}

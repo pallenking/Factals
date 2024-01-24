@@ -64,7 +64,7 @@ class SoundAtom : Atom {
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! SoundAtom
-//		theCopy.sound 			= self.sound
+//		theCopy.docSound 			= self.docSound
 //		theCopy.playing 		= self.playing
 //		atSer(3, logd("copy(with as? LinkPort       '\(fullName)'"))
 //		return theCopy
@@ -108,7 +108,7 @@ class SoundAtom : Atom {
 				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
 					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
 					
-//					AppDel.appSounds.play(sound, onNode:)
+//					AppDel.appSounds.play(docSound, onNode:)
 //					if sObj.isPlaying {
 //						print("\n\n NOTE: Going TOO FAST\n\n")
 //					}

@@ -16,16 +16,16 @@ class WorldModel : Atom {
 										//  (-1 implies no limit)
 	  // ////////   E V E N T    G E N E R A T I O N     /////////
 	 // Events in Hash
-    var event : FwwEvent?			= nil	// to get event data
+    var event : FwwEvent?		= nil	// to get event data
 	var eventIndex				= 0		// current index in events
 	var prob : Float?			= nil	// Simple Probability
 
 	 // MARK: - 3. Part Factory
 	     /// Prototype discrete time world model 
 	  /// - parameter config: -- to configure FwBundle
-	 /// ## --- eventLimit: Int	-- Limit on generated events
-	 /// ## --- events: FwwEvent	-- Array of events
-	 /// ## --- prob: Float		-- random data with probability
+	 /// ## --- eventLimit: Int	 -- Limit on generated events
+	 /// ## --- events: FwwEvent -- Array of events
+	 /// ## --- prob: Float		 -- random data with probability
 	override init(_ config:FwConfig = [:]) {
 
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/

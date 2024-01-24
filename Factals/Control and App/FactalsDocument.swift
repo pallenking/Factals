@@ -8,21 +8,9 @@
 import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
-
- // Define new UTType:
-//	Uniform Type Identifiers Overview:			https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
-//	Defining file and data types for your app:	https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
-//	System-declared uniform type identifiers:	https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
-extension UTType {
-	static var factals: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  	}	// com.example.fooTry3
-}
-
-
-extension FactalsDocument : Uid {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		DOClog.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
-	}
-}
+ //	Uniform Type Identifiers Overview:			https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
+ //	Defining file and data types for your app:	https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
+ //	System-declared uniform type identifiers:	https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
 
 class DocGlobals : ObservableObject {
     @Published var docConfig : FwConfig
@@ -31,23 +19,32 @@ class DocGlobals : ObservableObject {
 	}
 }
 
-struct FactalsDocument: FileDocument {
-	
-	let uid:UInt16				= randomUid()
+ // Define a new UTType for factals:
+extension UTType {
+	static var factals: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  	}	// com.example.fooTry3
+}
+ // Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
+extension FactalsDocument {
+	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .text] }
+	static var writableContentTypes: [UTType] { [.factals] }
+}
+
+extension FactalsDocument : Uid {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+		DOClog.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+	}
+}
+struct FactalsDocument : FileDocument {
     @StateObject var docGlobals	= DocGlobals(docConfig:params4pp)
-
-	var factalsModel : FactalsModel! = nil				// content
-
-	var docConfig : FwConfig	= [:]
-
-	// MARK: - 2.4.4 Building
-
+	let uid:UInt16				= randomUid()
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
 
-//	func configure(from config:FwConfig) {
-//		factalsModel?.configure(from:config)
-//	}
+	var factalsModel : FactalsModel! = nil				// content
+	var docConfig : FwConfig	= [:]
+
+
+	// MARK: - 2.4.4 Building
 
 	 // @main uses this to generate a blank document
 	init() {	//async // Build a blank document, so there is a document of record with a Log
@@ -60,11 +57,27 @@ struct FactalsDocument: FileDocument {
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 
-		let c					= params4all
-	//	factalsModel.configure(from:c)		// needs a configure
-
 		factalsModel			= FactalsModel(fromLibrary:select)
 		factalsModel.document 	= self		// DELEGATE
+
+		 // Build Vews per Configuration
+		for (key, value) in params4all {
+			if key == "Vews",
+			  let vewConfigs 	= value as? [VewConfig] {
+				for vewConfig in vewConfigs	{	// Open one for each elt
+					factalsModel.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+				}
+			}
+			else if key.hasPrefix("Vew") {
+				if let vewConfig = value as? VewConfig {
+					factalsModel.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+				}
+				else {
+					panic("Confused wo38r")
+				}
+			}
+		}
+		factalsModel.configure(from:params4all)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
@@ -72,52 +85,48 @@ struct FactalsDocument: FileDocument {
 		factalsModel.document	= self		// owner back-link
 		DOC						= self		// INSTALL Factals
 	}
-
-	 /// Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
-	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .text] }
-	static var writableContentTypes: [UTType] { [.factals] }
 	init(configuration: ReadConfiguration) throws {		// async
-		fatalError()
-	//	guard let data : Data 	= configuration.file.regularFileContents else {
-	//		print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
-	//	throw FwError(kind:".fileReadCorruptFile")						}
-//		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
-//		case .factals:
-//			 // Decode data as a Roo t Part
-//			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
-//
-//			 // Make the FileDocument
-//			let factalsModel	= FactalsModel(rootPart:rootPart)
-//			self.init(factalsModel:factalsModel)
-//
-//			docConfig				+= rootPart.ansConfig	// from library
-//		default:
-//				throw FwError(kind:".fileReadCorruptFile")
-//		}
+		//fatalError()
+		guard let data : Data 	= configuration.file.regularFileContents else {
+			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
+			throw FwError(kind:".fileReadCorruptFile")						}
+		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
+		case .factals:
+			 // Decode data as a Root Part
+			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
+			let rootPartActor 	= RootPartActor(fromRootPart:rootPart)
+
+			 // Make the FileDocument
+			let factalsModel	= FactalsModel(fromRootPart:rootPart)
+bug;		self.init(factalsModel:factalsModel)
+
+			docConfig				+= rootPart.ansConfig	// from library
+		default:
+				throw FwError(kind:".fileReadCorruptFile")
+		}
 	//	self.init()		// temporary
 	}
 
 	 /// Requirement of <<FileDocument>> protocol
-	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-bug;	throw FwError(kind:".fileWriteUnknown")
-//		switch configuration.contentType {
-//		case .factals:
-//			guard let dat		= factalsModel.rootPart?.data else {	// how is RootPart.data worked?
-//				panic("FactalsDocument.factalsModel.rootPart.data is nil")
-//				let d			= factalsModel.rootPart?.data		// redo for debug
-//				throw FwError(kind:"FactalsDocument.factalsModel.rootPart.data is nil")
-//			}
-//			return .init(regularFileWithContents:dat)
-//		default:
-//			throw FwError(kind:".fileWriteUnknown")
-//		}
+	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {		// cannot ba async throws
+bug;//	throw FwError(kind:".fileWriteUnknown")
+		switch configuration.contentType {
+	//	case .factals:
+	//		guard let dat		= factalsModel.rootPartActor.data else {	// how is RootPart.data worked?
+	//			panic("FactalsDocument.factalsModel.rootPart.data is nil")
+	//			let d			= factalsModel.rootPartActor.data		// redo for debug
+	//			throw FwError(kind:"FactalsDocument.factalsModel.rootPart.data is nil")
+	//		}
+	//		return .init(regularFileWithContents:dat)
+		default:
+			throw FwError(kind:".fileWriteUnknown")
+		}
 	}
 	 // MARK: - 2.2 Sugar
-	var windowController0 : NSWindowController? {		// First NSWindowController
-bug;	return nil}//windowControllers.first			}
-	var window0 : NSWindow? 	{						// First NSWindow
-		return windowController0?.window										}
-
+//	var windowController0 : NSWindowController? {		// First NSWindowController
+//bug;	return nil}//windowControllers.first			}
+//	var window0 : NSWindow? 	{						// First NSWindow
+//		return windowController0?.window										}
 
  //// -- WORTHY GEMS: -- ///// //
 
@@ -288,17 +297,17 @@ bug
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
 		guard let rootPart : RootPart = vew.part.root else {return false }	// vew.root.part
 
-//		 // Check registered TimingChains
-//		for timingChain in rootPart.simulator.timingChains {
-///**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
-//				return true 				/* handled by timingChain */
-//			}
-//		}
-//
-//		 // Check Simulator:
-///**/	if rootPart.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
-//			return true 					// handled by simulator
-//		}
+		 // Check registered TimingChains
+		for timingChain in factalsModel.simulator.timingChains {
+/**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
+				return true 				/* handled by timingChain */
+			}
+		}
+
+		 // Check Simulator:
+/**/	if factalsModel.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+			return true 					// handled by simulator
+		}
 
 		 // Check Controller:
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
@@ -367,18 +376,17 @@ bug
 	}
 
 	// MARK: - 14. Building
-	var log : Log { factalsModel.log											}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		log.log(banner:banner, format_, args, terminator:terminator)
+		factalsModel.log.log(banner:banner, format_, args, terminator:terminator)
 	}
 	
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .line:
-			return log.indentString() + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny
+			return factalsModel.log.indentString() + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny
 		case .tree:
-			return log.indentString() + " FactalsDocument" + "\n"
+			return factalsModel.log.indentString() + " FactalsDocument" + "\n"
 		default:
 			return ppStopGap(mode, aux)		// NO, try default method
 		}

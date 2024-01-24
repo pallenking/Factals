@@ -10,13 +10,15 @@ import Cocoa
 import SwiftUI
 import SceneKit
 
-  //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
-  //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
-  //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")	// 210710 Post
-  //let (majorVersion, minorVersion, nameVersion) = (6, 0, "Factals re-App")// 220628
-  //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
-	let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
 
+	let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
+  //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
+  //let (majorVersion, minorVersion, nameVersion) = (6, 0, "Factals re-App")// 220628
+  //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")	// 210710 Post
+  //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
+  //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
+
+// MARK: - Singletons
 // ///////////////////////  U G L Y  Singletons: ///////////////////////////////
 var APP	 : FactalsApp!		// NEVER CHANGES (after inz)
 var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
@@ -32,17 +34,11 @@ var DOClogQ  	: Log? 					{	DOCfactalsModelQ?.log				}
 var DOClog  	: Log 					{	DOClogQ ?? .reliable				}	//.first
 let DOCctlr						= NSDocumentController.shared
 var DOCAPPlog	: Log 					{	DOClogQ ?? APPQ?.log ?? .reliable	}
-// /////////////////////////////////////////////////////////////////////////////
+// MARK: /////////////////////////////////////////////////////////////////////////////// -
 
-var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
+var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
-class AppGlobals : ObservableObject {
-    @Published var appConfig : FwConfig
-	init(appConfig g:FwConfig) {
-		appConfig = g
-	}
-}
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 @main
@@ -51,7 +47,7 @@ extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument: FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(appGlobals)
+			 .environmentObject(appGlobals)				// inject in environment
 			 .onOpenURL { url in
 				print("DocumentGroup.ContentView.onOpenURL(\(url))")
 			 }
@@ -92,6 +88,13 @@ bug//					document = FactalsDocument(fromLibrary:libName)
 		}
 	}
 }
+
+class AppGlobals : ObservableObject {
+    @Published var appConfig : FwConfig
+	init(appConfig g:FwConfig) {
+		appConfig = g
+	}
+}
 struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
@@ -101,22 +104,23 @@ struct FactalsApp: Uid, FwAny {
 
 	var appConfig : FwConfig
 
-    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)
+    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)		// Instantiate appGlobals
 	//B	@AppStorage("text") var textFooBar = ""
 
 	 // MARK: - 2. Object Variables:
 	var log	: Log			=	Log(title:"App's Log", params4all)
-
 	var appStartTime:String = dateTime(format:"yyyy-MM-dd HH:mm:ss")
-	var regressScene:Int	= 0	//private?	// number of the next "^r" regression test
-															 // Keeps FactalsModel menu in sync with itself:
-															//	var regressScene : Int {				// number of next "^r" regression test
-															//		get			{	return regressScene_										}
-															//		set(v)	 	{
-															//			regressScene_ 		= v
-															//			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
-															//		}
-															//	};private var regressScene_ = 0
+
+	 // Keeps FactalsModel menu in sync with itself:
+	var regressScene : Int {				// number of next "^r" regression test
+		get			{	return regressScene_										}
+		set(v)	 	{
+			regressScene_ 		= v
+			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
+		}
+	};private var regressScene_ = 0
+	var regressSceneXX:Int	= 0	//private?	// number of the next "^r" regression test
+
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
 	var appSounds				= Sounds()
@@ -153,6 +157,17 @@ struct FactalsApp: Uid, FwAny {
 		}() )
 	}
 
+
+	// MARK: - 4.1 APP Launching
+		//	20230627PAK: applicationWillFinishLaunching NOT CALLED
+	//func uncalledFunction() {
+	//	  // Set Apple Event Manager so FactalWorkbench will recieve URL's
+	//	 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
+	//	let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
+	//	//appleEventManager.setEventHandler(self,
+	//	//	andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
+	//	//	forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
+	//}
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
 	//    someone double-clicked it again or used the dock to activate it.
@@ -178,17 +193,6 @@ struct FactalsApp: Uid, FwAny {
 		print("'?': AppDelegate.appConfiguration():")
 		fwHelp("?", inVew:nil)
 	}
-
-	// MARK: 4.1 APP Launching
-		//	20230627PAK: applicationWillFinishLaunching NOT CALLED
-	func uncalledFunction() {
-		  // Set Apple Event Manager so FactalWorkbench will recieve URL's
-		 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
-		let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
-		//appleEventManager.setEventHandler(self,
-		//	andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
-		//	forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-	}
 	  // MARK: - 4.5 APP URL Processing
 	 // URL Event from OS
 	func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
@@ -209,10 +213,45 @@ struct FactalsApp: Uid, FwAny {
 		urlStr      			= String(urlStr[index...])
 
 		 ////// BUILD Simulation Part per received URL.
-		//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
+bug		//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
 		//Build a window; install brain //  self.simNsWc = [self createASimNsWcFor:brain :"Selected by factalWorkbench:// URL"];
 	}
-	 // MARK: - 4.3 Scene Menu
+
+
+	 // MARK: - 4.6 APP Terminate
+	 // From DocumentBasedApp:
+	func applicationDidFinishLaunching(_ aNotification: Notification) {
+		bug
+//		 // Add entry on system's menu bar: (DOESN'T WORK)
+//		let systemMenuBar 		= NSStatusBar.system
+//		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
+//		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
+//			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
+//			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
+//		}
+//
+//		 // Log program usage instances
+//		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
+//		atApp(7, printFwState())
+////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
+//		appSounds.play(sound:"GameStarting")
+	}
+
+	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
+bug;	return .terminateNow													}
+	func applicationWillTerminate(_ 	 aNotification: Notification) {
+bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
+		print("                   G O O D    B I E  ! !")
+	}
+
+	  // App Did Finish Launching //////////////////////
+	 //							 // 210710PAK Never CALLED
+	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
+		panic()
+		return true
+	}
+
+	 // MARK: - 4.7 Make Scene Menu
 	struct SceneMenuElement : Identifiable {
 		let id: Int
 		let name: String
@@ -342,40 +381,7 @@ bug;	let rv					= NSMenu(title:path)
 		return rv						// menu has been created
 	}
 
-	 // From DocumentBasedApp:
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		bug
-//		 // Add entry on system's menu bar: (DOESN'T WORK)
-//		let systemMenuBar 		= NSStatusBar.system
-//		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
-//		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
-//			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
-//			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
-//		}
-//
-//		 // Log program usage instances
-//		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
-//		atApp(7, printFwState())
-////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
-//		appSounds.play(sound:"GameStarting")
-	}
-
-	 // MARK: - 4.6 APP Terminate
-	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
-bug;	return .terminateNow													}
-	func applicationWillTerminate(_ 	 aNotification: Notification) {
-bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
-		print("                   G O O D    B I E  ! !")
-	}
-
-	  // App Did Finish Launching //////////////////////
-	 //							 // 210710PAK Never CALLED
-	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
-		panic()
-		return true
-	}
-
-	 // MARK: - MENU / Next / Demo
+	 // MARK: Access Scene MENU
 	mutating func scheneAction(_ sender:NSMenuItem) {
 bug
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +

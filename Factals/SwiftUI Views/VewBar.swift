@@ -9,7 +9,7 @@ import SwiftUI
 
 struct VewBar: View {
 	@Binding var rootVew : RootVew
-	@EnvironmentObject var appGlobals: AppGlobals
+	@EnvironmentObject var appGlobals: AppGlobals		// Access
 //	@EnvironmentObject var docGlobals: DocGlobals
 
 	var body: some View {

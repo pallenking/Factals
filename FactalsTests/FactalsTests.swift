@@ -481,7 +481,8 @@ bug
 		for testNum in firstNumber...lastNumber {
 
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
-			let rootPart		= RootPart(fromLibrary:"entry\(testNum)")	//, fwDocument:nil
+			let s				= Simulator()
+			let rootPart		= RootPart(fromLibrary:"entry\(testNum)", simulator:s)	//, fwDocument:nil
 
 			rootPart.wireAndGroom([:])
 

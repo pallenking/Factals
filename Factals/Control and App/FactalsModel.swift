@@ -6,14 +6,14 @@ import SwiftUI
 class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
-	//weak	bug
+	//weak	//bug
 	 var document : FactalsDocument!			// Owner
 	var rootPartActor : RootPartActor			// Manager of RootPart
 	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
 	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
 
 	var log 	 : Log
-//	var sound	 : Sound
+	var docSound	 			= Sounds()
 	var	simulator: Simulator
 	var uid: UInt16				= randomUid()
 
@@ -22,21 +22,29 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 	}
 
 	 // MARK: - 3. Factory
-	init(fromLibrary selector:String?) {
+	init(fromRootPart rp:RootPart) {
 		simulator				= Simulator()
-
-		rootPartActor 			= RootPartActor(fromLibrary:selector, simulator:simulator)
+		rootPartActor			= RootPartActor(fromRootPart:rp)
 		log						= Log(title:"FactalsModel's Log", params4all)
 		simulator.factalsModel	= self
 	}
-	func configure(from config:FwConfig) { 				// FactalsModel has no configuration [:]
+	init(fromLibrary s:String?) {
+		simulator				= Simulator()
+		let rp					= RootPart(fromLibrary:s, simulator:simulator)
+		rootPartActor 			= RootPartActor(fromRootPart:rp)
+		log						= Log(title:"FactalsModel's Log", params4all)
+		simulator.factalsModel	= self
+	}
+
+	 // FactalsModel has no hash
+	func configure(from config:FwConfig) {
 		simulator.configure(from:config)
-//bug	//rootPartActor.configure(from:config)
+bug		//rootPartActor.configure(from:config)
 		for rootVew in rootVews {
 			rootVew.configureRootVew(from:config)
 		}
 		log.configure(from:config)
-		//sound.configure(from:config)
+//		docSound.configure(from:config)
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -68,23 +76,6 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 					//	//			return nil
 					//	//		}
 					//		}
- // MOVED TO RootPart:
-//	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-//		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
-//		rootPartActor.doAtomically { [self] in
-//			guard let rootPart		= await rootPartActor.rootPart else {	fatalError("addRootVew with nil rootPart")	}
-//			let rootVew				= RootVew(forPart:rootPart) // 1. Make
-//			rootVew.factalsModel	= self						// 2. Backpointer
-//			rootVews.append(rootVew)							// 3. Install
-//			rootVew.configure(from:fwConfig)					// 4. Configure Part
-//			rootVew.openChildren(using:vewConfig)				// 5. Open Vew
-//			rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
-//			rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-//			rootVew.setupLightsCamerasEtc()						// ?move
-//			let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
-//			atBld(5, logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
-//		}
-//	}
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
@@ -95,6 +86,28 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 	required init(coder aDecoder: NSCoder) {
 		fatalError("FactalsModel.init(coder..) unexpectantly called")
 	}
+
+	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
+		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
+		let rootPart			= RootPart()
+bug//	guard let rootPart		= rootPartActor.rootPart else {	fatalError("nil rootPart")	}
+
+		let rootVew				= RootVew(forPart:rootPart) // 1. Make empty view
+		rootVew.factalsModel	= self						// 2. Backpointer
+		self.rootVews.append(rootVew)						// 3. Install
+
+		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
+		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
+		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
+		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		rootVew.setupLightsCamerasEtc()						// ?move
+
+		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
+		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
+	}
+
+
+
 	 // MARK: - 4.?
 	func rootVew(ofScnNode:SCNNode) -> RootVew? {
 		for rootVew in rootVews {
@@ -110,7 +123,7 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 	var wiggledPart	  : Part?	= nil
 	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 
-	  // MARK: -
+	  // MARK: - 13. IBActions
 	 /// Prosses keyboard key
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use

@@ -12,168 +12,16 @@ class RootScene : SCNScene {				// xyzzy4
 	weak
 	 var rootVew	: RootVew?				// RootVew, owner of this RootScn
 
+	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
+	var mouseWasDragged			= false		// have dragging cancel pic
+	var lastPosition : SCNVector3? = nil				// spot cursor hit
+	var deltaPosition			= SCNVector3.zero
+
 	 // MARK: - 3.1 init
 	override init() {
  		super.init()
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
-	 // MARK: - 13. IBActions
-	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
-	var mouseWasDragged			= false		// have dragging cancel pic
-
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
-		let duration			= Float(1)
-		guard let rootVew 		= rootVew else { print("processEvent.rootVews[?] is nil"); return false}
-		let slot				= rootVew.slot ?? -1
-		let factalsModel		= rootVew.factalsModel		// why ! ??
-
-		switch nsEvent.type {
-
-		  //  ====== KEYBOARD ======
-		 //
-		case .keyDown:
-			if nsEvent.isARepeat {	return false }		// Ignore repeats
-			nextIsAutoRepeat 	= true
-			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
-			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
-
-/**/		if rootVew.processEvent(nsEvent:nsEvent, inVew:vew) == false,
-			  char != "?"  {		// okay for "?" to get here
-				atEve(3, print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)"))
-			}
-		case .keyUp:
-			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-			nextIsAutoRepeat 	= false
-			let _				= factalsModel != nil && factalsModel!.processEvent(nsEvent:nsEvent, inVew:vew)
-
-		  //  ====== LEFT MOUSE ======
-		 //
-		case .leftMouseDown:
-			beginCameraMotion(with:nsEvent)
-			if false,let v		= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
-				print("leftMouseDown pic's Vew:\(v.pp(.short))")
-			}
-			commitCameraMotion(duration:duration, reason:"Left mouseDown")
-		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
-			mouseWasDragged = true			// drag cancels pic
-			spinNUp(with:nsEvent)			// change Spin and Up of camera
-			commitCameraMotion(reason:"Left mouseDragged")
-		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
-			if !mouseWasDragged {			// UnDragged Up -> pic
-				if let vew	= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
-					rootVew.lookAtVew = vew			// found a Vew: Look at it!
-				}
-			}
-			mouseWasDragged = false
-			commitCameraMotion(duration:duration, reason:"Left mouseUp")
-
-		  //  ====== CENTER MOUSE (scroll wheel) ======
-		 //
-		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
-			beginCameraMotion(with:nsEvent)
-			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseDown")
-		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
-			spinNUp(with:nsEvent)
-			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
-		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
-			atEve(9, print("\( rootVew.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
-			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
-
-		  //  ====== CENTER SCROLL WHEEL ======
-		 //
-		case .scrollWheel:
-			beginCameraMotion(with:nsEvent)
-			let d				= nsEvent.deltaY
-			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootVew.selfiePole.zoom *= delta
-			//let s				= rootVew.selfiePole
-			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
-			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
-
-		  //  ====== RIGHT MOUSE ======			Right Mouse not used
-		 //
-		case .rightMouseDown:
-			 // 2023-0305: nop, but it calls commitCameraMotion to update picture
-			beginCameraMotion(with:nsEvent)
-			commitCameraMotion(duration:duration, reason:"Left mouseDown")
-		case .rightMouseDragged:	nop
-		case .rightMouseUp:
-			beginCameraMotion(with:nsEvent)
-			commitCameraMotion(duration:duration, reason:"Left mouseDown")
-
-		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
-		case .magnify:			bug
-		case .smartMagnify:		bug
-		case .swipe:			bug
-		case .rotate:			bug
-		case .gesture:			bug
-		case .directTouch:		bug
-		case .tabletPoint:		bug
-		case .tabletProximity:	bug
-		case .pressure:			bug
-		case .changeMode:		bug
-
-		case .beginGesture:	bug	// override func touchesBegan(with event:NSEvent) {
-//			let touchs			= nsEvent.touches(matching:.began, in:fwView)
-//			for touch in touchs {
-//				let _:CGPoint	= touch.location(in:nil)
-//			}
-		case .mouseMoved: bug
-//			let touchs			= nsEvent.touches(matching:.moved, in:fwView)
-//			for touch in touchs {
-//				let prevLoc		= touch.previousLocation(in:nil)
-//				let loc			= touch.location(in:nil)
-//				atEve(3, (print("\(prevLoc) \(loc)")))
-//			}
-		case .endGesture: bug	//override func touchesEnded(with event:NSEvent) {
-//			let touchs			= nsEvent.touches(matching:.ended, in:fwView)
-//			for touch in touchs {
-//				let _:CGPoint	= touch.location(in:nil)
-//			}
-		default:
-			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
-			return false
-		}
-		return true
-	}
-	 // MARK: - 13.4 Mouse Variables
-	 /// Common update: deltaPosition and lastPosition
-	func beginCameraMotion(with nsEvent:NSEvent)	{
-		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
-
-		let hitPosn 			= contentNsView.convert(nsEvent.locationInWindow, from:nil)	// nil -> window
-			//	 : NSPoint			     NsView:								: NSPoint :window
-			//	 : CGPoint
-		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
-
-		 // Movement since last, 0 if first time and there is none
-		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
-		//print("beginCameraMotion:deltaPosition=\(deltaPosition)")
-		lastPosition			= hitPosnV3
-	}
-	var lastPosition : SCNVector3? = nil				// spot cursor hit
-	var deltaPosition			= SCNVector3.zero
-
-	func spinNUp(with nsEvent:NSEvent) {
-		rootVew!.selfiePole.spin -=  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
-		rootVew!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
-	}
-	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
-		var selfiePole			= rootVew!.selfiePole
-	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
-
-		let transform			= selfiePole.transform()
-		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
-		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
-		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
-		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
-			// add ortho magnification.
-		cameraScn.camera?.orthographicScale = selfiePole.zoom * 20
-	}
 }
 
 extension RootScene {		// lights and camera
@@ -617,6 +465,158 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 //	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
 //		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
 //	}
+	 // MARK: - 13. IBActions
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+		let duration			= Float(1)
+		guard let rootVew 		= rootVew else { print("processEvent.rootVews[?] is nil"); return false}
+		let slot				= rootVew.slot ?? -1
+		let factalsModel		= rootVew.factalsModel		// why ! ??
+
+		switch nsEvent.type {
+
+		  //  ====== KEYBOARD ======
+		 //
+		case .keyDown:
+			if nsEvent.isARepeat {	return false }		// Ignore repeats
+			nextIsAutoRepeat 	= true
+			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
+			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
+
+/**/		if rootVew.processEvent(nsEvent:nsEvent, inVew:vew) == false,
+			  char != "?"  {		// okay for "?" to get here
+				atEve(3, print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)"))
+			}
+		case .keyUp:
+			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
+			nextIsAutoRepeat 	= false
+			let _				= factalsModel != nil && factalsModel!.processEvent(nsEvent:nsEvent, inVew:vew)
+
+		  //  ====== LEFT MOUSE ======
+		 //
+		case .leftMouseDown:
+			beginCameraMotion(with:nsEvent)
+			if false,let v		= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
+				print("leftMouseDown pic's Vew:\(v.pp(.short))")
+			}
+			commitCameraMotion(duration:duration, reason:"Left mouseDown")
+		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
+			beginCameraMotion(with:nsEvent)
+			mouseWasDragged = true			// drag cancels pic
+			spinNUp(with:nsEvent)			// change Spin and Up of camera
+			commitCameraMotion(reason:"Left mouseDragged")
+		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
+			beginCameraMotion(with:nsEvent)
+			if !mouseWasDragged {			// UnDragged Up -> pic
+				if let vew	= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
+					rootVew.lookAtVew = vew			// found a Vew: Look at it!
+				}
+			}
+			mouseWasDragged = false
+			commitCameraMotion(duration:duration, reason:"Left mouseUp")
+
+		  //  ====== CENTER MOUSE (scroll wheel) ======
+		 //
+		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
+			beginCameraMotion(with:nsEvent)
+			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseDown")
+		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
+			beginCameraMotion(with:nsEvent)
+			spinNUp(with:nsEvent)
+			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
+		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
+			beginCameraMotion(with:nsEvent)
+			atEve(9, print("\( rootVew.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
+
+		  //  ====== CENTER SCROLL WHEEL ======
+		 //
+		case .scrollWheel:
+			beginCameraMotion(with:nsEvent)
+			let d				= nsEvent.deltaY
+			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
+			rootVew.selfiePole.zoom *= delta
+			//let s				= rootVew.selfiePole
+			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
+			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
+
+		  //  ====== RIGHT MOUSE ======			Right Mouse not used
+		 //
+		case .rightMouseDown:
+			 // 2023-0305: nop, but it calls commitCameraMotion to update picture
+			beginCameraMotion(with:nsEvent)
+			commitCameraMotion(duration:duration, reason:"Left mouseDown")
+		case .rightMouseDragged:	nop
+		case .rightMouseUp:
+			beginCameraMotion(with:nsEvent)
+			commitCameraMotion(duration:duration, reason:"Left mouseDown")
+
+		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
+		case .magnify:			bug
+		case .smartMagnify:		bug
+		case .swipe:			bug
+		case .rotate:			bug
+		case .gesture:			bug
+		case .directTouch:		bug
+		case .tabletPoint:		bug
+		case .tabletProximity:	bug
+		case .pressure:			bug
+		case .changeMode:		bug
+
+		case .beginGesture:	bug	// override func touchesBegan(with event:NSEvent) {
+//			let touchs			= nsEvent.touches(matching:.began, in:fwView)
+//			for touch in touchs {
+//				let _:CGPoint	= touch.location(in:nil)
+//			}
+		case .mouseMoved: bug
+//			let touchs			= nsEvent.touches(matching:.moved, in:fwView)
+//			for touch in touchs {
+//				let prevLoc		= touch.previousLocation(in:nil)
+//				let loc			= touch.location(in:nil)
+//				atEve(3, (print("\(prevLoc) \(loc)")))
+//			}
+		case .endGesture: bug	//override func touchesEnded(with event:NSEvent) {
+//			let touchs			= nsEvent.touches(matching:.ended, in:fwView)
+//			for touch in touchs {
+//				let _:CGPoint	= touch.location(in:nil)
+//			}
+		default:
+			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
+			return false
+		}
+		return true
+	}
+	 // MARK: - 13.4 Mouse Variables
+	 /// Common update: deltaPosition and lastPosition
+	func beginCameraMotion(with nsEvent:NSEvent)	{
+		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
+
+		let hitPosn 			= contentNsView.convert(nsEvent.locationInWindow, from:nil)	// nil -> window
+			//	 : NSPoint			     NsView:								: NSPoint :window
+			//	 : CGPoint
+		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
+
+		 // Movement since last, 0 if first time and there is none
+		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
+		//print("beginCameraMotion:deltaPosition=\(deltaPosition)")
+		lastPosition			= hitPosnV3
+	}
+
+	func spinNUp(with nsEvent:NSEvent) {
+		rootVew!.selfiePole.spin -=  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+		rootVew!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
+	}
+	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
+		var selfiePole			= rootVew!.selfiePole
+	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
+
+		let transform			= selfiePole.transform()
+		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
+		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
+		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
+		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
+			// add ortho magnification.
+		cameraScn.camera?.orthographicScale = selfiePole.zoom * 20
+	}
 	 // MARK: - 15. PrettyPrint
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
