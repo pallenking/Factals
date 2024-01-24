@@ -30,16 +30,18 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 	}
 	init(fromLibrary s:String?) {
 		simulator				= Simulator()
-		let rp					= RootPart(fromLibrary:s, simulator:simulator)
+		let rp					= RootPart(fromLibrary:s, factalsModel:nil)
 		rootPartActor 			= RootPartActor(fromRootPart:rp)
 		log						= Log(title:"FactalsModel's Log", params4all)
+		rp.factalsModel			= self
 		simulator.factalsModel	= self
 	}
 
 	 // FactalsModel has no hash
 	func configure(from config:FwConfig) {
 		simulator.configure(from:config)
-bug		//rootPartActor.configure(from:config)
+		print("----wooops---- rootPartActor.configure")
+		//rootPartActor.configure(from:config)
 		for rootVew in rootVews {
 			rootVew.configureRootVew(from:config)
 		}

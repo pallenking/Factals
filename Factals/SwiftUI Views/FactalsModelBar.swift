@@ -36,11 +36,11 @@ struct RootPartActorBar : View {
 					{	print(rootPart.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
 					Spacer()
 					Text("App:").foregroundColor(.red).bold()
-					Button(label:{	Text( "state")									})//.padding(.top, 300)
-					{	printFwState()												}
-					Button(label: {	Text("LLDB") 									})
+					Button(label:{	Text( "state")								})//.padding(.top, 300)
+					{	printFwState()											}
+					Button(label: {	Text("LLDB") 								})
 					{	lldbPrint(rootPart, /*Vews.first!,*/ mode:.tree, [:])
-						breakToDebugger()											}
+						breakToDebugger()										}
 					Text(" ")
 				}
 				HStack {
@@ -85,7 +85,8 @@ struct RootPartActorBar : View {
 				}
 			}
 			else {
-				Text("Loading...")
+				Text("Loading \(rootPartActor.factalsModel == nil ? "" : "factalsModel ") " +
+									  "\(rootPart == nil ? "" : "rootPart ") ...")
 			}
 		}
 		.padding(4)

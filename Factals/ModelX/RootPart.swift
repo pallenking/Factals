@@ -25,12 +25,12 @@ actor RootPartActor : ObservableObject, Uid {
 	init(fromRootPart r:RootPart) {
 		rootPart				= r
 	}
-	init(fromLibrary s:String?, simulator:Simulator) {
-		rootPart				= RootPart(fromLibrary:s, simulator:simulator)
-	}
-//	init(fromLibrary s:String?, factalsModel:FactalsModel) {
-//		rootPart				= RootPart(fromLibrary:s, factalsModel:FactalsModel)
+//	init(fromLibrary s:String?, simulator:Simulator) {
+//		rootPart				= RootPart(fromLibrary:s, simulator:simulator)
 //	}
+	init(fromLibrary s:String?, factalsModel:FactalsModel) {
+		rootPart				= RootPart(fromLibrary:s, factalsModel:factalsModel)
+	}
 	func configure(from config:FwConfig) {
 		rootPart?.configure(from:config)
 	}
@@ -67,7 +67,7 @@ class RootPart : Part {		//class//actor//
 	var ansConfig	 : FwConfig	= [:]
 	var factalsModel : FactalsModel!
 
-	var mySim 		 : Simulator? = nil
+	var myFactalsModel:FactalsModel? = nil
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var curOwner  : String?		= nil
@@ -75,15 +75,15 @@ class RootPart : Part {		//class//actor//
 	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
-	init(simulator:Simulator?=nil) {
-		mySim					= simulator ?? mySim
+	init(factalsModel:FactalsModel?=nil) {
+		myFactalsModel			= factalsModel ?? myFactalsModel
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		///wireAndGroom([:])
 	}
-	convenience init(fromLibrary selector:String?, simulator:Simulator?) {
+	convenience init(fromLibrary selector:String?, factalsModel:FactalsModel?=nil) {
 
 		 // Make tree's root (a RootPart):
-		self.init(simulator:simulator) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		self.init(factalsModel:factalsModel) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
 		self.ansConfig			= [:]
@@ -229,7 +229,7 @@ class RootPart : Part {		//class//actor//
 			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
 			try data.write(to:fileURL)
 bug			//self.init(url: fileURL)
-			self.init(simulator:nil)		//try self.init(url: fileURL)
+			self.init(factalsModel:nil)		//try self.init(url: fileURL)
 		} catch {
 			print("error using file: \(error)")									}
 		return nil
