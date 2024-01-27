@@ -47,6 +47,15 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 		}
 		log.configure(from:config)
 //		docSound.configure(from:config)
+
+		 //  5. Print Errors
+//		atBld(3, log.logd(rootPartActor.rootPart?.ppRootPartErrors() ?? ""))
+
+		 //  6. Print Part
+//		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+
+		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+		simulator.simEnabled	= true
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene

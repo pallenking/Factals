@@ -139,7 +139,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 	func simulateOneStep() {
 		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled	else {	return 										}
-		guard let rootPartF	else {	return panic("Simulating with sim\(ppUid(self)) rootPart==nil") }
+		guard let rootPartF	else {	return										}
 		guard rootPartF.lock(for:"simulationTask", logIf:logSimLocks)
 							else {	fatalError("simulationTask couldn't get PART lock")	}
 
