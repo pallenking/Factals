@@ -38,7 +38,7 @@ class Simulator : NSObject, Codable {		// Logd, // xyzzy4 // NEVER NSCopying, Eq
 		}
 	}
 	func isSettled() -> Bool {
-		let nPortsBuisy 		= rootPartF!.portChitArray().count	// Busy Ports
+		let nPortsBuisy 		= rootPartF?.portChitArray().count ?? 0	// Busy Ports
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
 	}

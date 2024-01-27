@@ -12,7 +12,7 @@ struct FactalsModelBar: View {
 	
 	var body: some View {
 		VStack {
-			RootPartActorBar(rootPartActor:factalsModel.rootPartActor, factalsModel: $factalsModel)
+			RootPartActorBar(rootPartActor:$factalsModel.rootPartActor, factalsModel: $factalsModel)
 			SimulatorBar(simulator:$factalsModel.simulator)
 		}
 		.padding(4)
@@ -23,9 +23,10 @@ struct FactalsModelBar: View {
 }
 
 struct RootPartActorBar : View {
-    @StateObject var rootPartActor : RootPartActor
-    @Binding var factalsModel : FactalsModel
-    @State private var rootPart: RootPart?
+	@Binding var rootPartActor : RootPartActor
+//	@StateObject var rootPartActor : RootPartActor
+	@Binding var factalsModel : FactalsModel
+	@State private var rootPart: RootPart?
 
 	var body: some View {
 		HStack {	// FULL!

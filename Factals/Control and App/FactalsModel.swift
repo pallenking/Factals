@@ -6,8 +6,7 @@ import SwiftUI
 class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 
 	  // MARK: - 2. Object Variables:
-	//weak	//bug
-	 var document : FactalsDocument!			// Owner
+	var document : FactalsDocument!				// Owner
 	var rootPartActor : RootPartActor			// Manager of RootPart
 	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
 	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
@@ -26,15 +25,18 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 		simulator				= Simulator()
 		rootPartActor			= RootPartActor(fromRootPart:rp)
 		log						= Log(title:"FactalsModel's Log", params4all)
+
 		simulator.factalsModel	= self
+		rp.factalsModel			= self
 	}
 	init(fromLibrary s:String?) {
 		simulator				= Simulator()
 		let rp					= RootPart(fromLibrary:s, factalsModel:nil)
 		rootPartActor 			= RootPartActor(fromRootPart:rp)
 		log						= Log(title:"FactalsModel's Log", params4all)
-		rp.factalsModel			= self
+
 		simulator.factalsModel	= self
+		rp.factalsModel			= self
 	}
 
 	 // FactalsModel has no hash

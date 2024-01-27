@@ -48,7 +48,7 @@ struct FactalsDocument : FileDocument {
 
 	 // @main uses this to generate a blank document
 	init() {	//async // Build a blank document, so there is a document of record with a Log
-		DOC						= self			// INSTALL as current DOC, quick!
+//		DOC						= self		// INSTALL as current DOC, quick!
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		/**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
@@ -59,6 +59,7 @@ struct FactalsDocument : FileDocument {
 
 		factalsModel			= FactalsModel(fromLibrary:select)
 		factalsModel.document 	= self		// DELEGATE
+		DOC						= self		// INSTALL as current DOC, quick!
 
 		 // Build Vews per Configuration
 		for (key, value) in params4all {

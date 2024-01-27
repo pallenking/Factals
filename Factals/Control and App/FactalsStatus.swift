@@ -141,23 +141,12 @@ extension Library : FactalsStatus {							///Library or ///Tests01, ...
 		return ppFactalsStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
 	}
 }
-extension Log : FactalsStatus {											  ///Log
-	func ppFwConfig() -> String {		""										}
-	func ppFactalsState(deapth:Int=999) -> String {
-		let msg					= !logEvents ? "disabled" :
-			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
-			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
-		let logKind				= (title[0...0] == "A" ? "APPlog" : "DOClog").field(-13)
-		return ppFactalsStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
-	}
-}
 extension FactalsModel : FactalsStatus	{
 	///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
-		//myLine				+= "\(rootVews.count) RootVews "
-		//return "FactalsModel Neutered"
-		return ppFactalsStateHelper("FactalsModel       ", uid:self,
+		myLine					+= "\(rootVews.count) RootVews "
+		return ppFactalsStateHelper("FactalsModel ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in
 				 // Controller:
@@ -167,6 +156,7 @@ extension FactalsModel : FactalsStatus	{
 					rv			+= rootVew.ppFactalsState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFactalsState(deapth:deapth-1)
+				rv				+= self.docSound.ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
@@ -174,16 +164,17 @@ extension FactalsModel : FactalsStatus	{
 }
 extension RootPartActor : FactalsStatus {
 	nonisolated func ppFactalsState(deapth: Int) -> String {
-		var myLine = "aaa"
-		return ppFactalsStateHelper("RootPartActor      ", uid:self,
+		var myLine = ""
+		return ppFactalsStateHelper("RootPartActor", uid:self,
 			myLine:myLine,
-//			otherLines:{deapth in
-//				 // Controller:
-//				var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1) ?? "  nil rootPart!  "
-////									?? ppUid(pre:" ", self.rootPart,
-////										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
-//				return rv
-//			},
+			otherLines:{ deapth in
+				 // Controller:
+				var rv			= "...rootPart....\n"
+	//			var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1) ?? "  nil rootPart!  "
+//									?? ppUid(pre:" ", self.rootPart,
+//										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
+				return rv
+			},
 			deapth:deapth-1
 		)
 	}
@@ -304,13 +295,31 @@ extension SelfiePole : FactalsStatus	{							///SelfiePole
 			myLine:myLine,
 			deapth:deapth-1)
 	}
-
 }
 extension SCNPhysicsWorld : FactalsStatus	{					///SCNPhysicsWorld
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("SCNPhysicsWor", uid:self,
 			myLine:fmt("gravity:\(gravity.pp(.phrase)), speed:%.4f, timeStep:%.4f", speed, timeStep),
 			deapth:deapth-1)
+	}
+}
+extension Log : FactalsStatus {											  ///Log
+	func ppFwConfig() -> String {		""										}
+	func ppFactalsState(deapth:Int=999) -> String {
+		let msg					= !logEvents ? "disabled" :
+			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
+			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
+		let logKind				= "log".field(-13)
+//		let logKind				= (title[0...0] == "A" ? "APPlog" : "DOClog").field(-13)
+		return ppFactalsStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
+	}
+}
+extension Sounds : FactalsStatus {										///Sounds
+	func ppFwConfig() -> String {		""										}
+	func ppFactalsState(deapth:Int=999) -> String {
+		let msg					= ""
+		let logKind				= "sounds".field(-13)
+		return ppFactalsStateHelper(logKind, uid:self, myLine:msg, deapth:deapth-1)
 	}
 }
 		// ///////////////////////////////////// //
