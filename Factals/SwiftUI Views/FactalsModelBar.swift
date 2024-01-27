@@ -11,22 +11,30 @@ struct FactalsModelBar: View {
 	@Binding var factalsModel : FactalsModel
 	
 	var body: some View {
-		RootPartActorBar(rootPartActor:factalsModel.rootPartActor)
+		RootPartActorBar(rootPartActor:factalsModel.rootPartActor, factalsModel: $factalsModel)
 		//Simulator?
 	}
 }
 
 struct RootPartActorBar : View {
     @StateObject var rootPartActor : RootPartActor
+    @Binding var factalsModel : FactalsModel
     @State private var rootPart: RootPart?
 
 	var body: some View {
+
 		// Use an onAppear modifier to trigger the asynchronous fetch
 		// of the actor property when the view appears
 		VStack {
-			if let factalsModel = rootPartActor.factalsModel,
-			  let rootPart {
+
+//			if let rootPart {
+//				//let factalsModel = rootPartActor.factalsModel
+//				let simulator = rootPart.simulator
+			if let rootPart {
 				let simulator = factalsModel.simulator
+	//		if let factalsModel = rootPartActor.factalsModel,
+	//		  let rootPart {
+	//			let simulator = factalsModel.simulator
 										//  --- FACTALS MODEL BAR  ---
 				HStack {	// FULL!
 					Text("Model: ").foregroundColor(.red).bold()
