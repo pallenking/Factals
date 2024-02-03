@@ -607,7 +607,7 @@ bug
 		if let rootVew {
 			rootVew.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else if let root		= part.root {	// strangely redundant, but okay
-			root.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			root.factalsModel?.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
 			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}

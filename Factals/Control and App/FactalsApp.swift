@@ -394,9 +394,9 @@ bug
 		let scanKey				= "entry\(regressScene)"
 
 		bug
-		if (trueF) {		 	// Make new window:
-			let x = FactalsDocument()//docConfig:scanKey) // who holds onto this
-		}
+//		if (trueF) {		 	// Make new window:
+//			let x = FactalsDocument()//docConfig:scanKey) // who holds onto this
+//		}
 //		else {			 		// Install new rootPart in current window
 //			guard let doc = DOC else { fatalError("no DOC")}
 //			guard let factalsModel = doc.factalsModel else {	return	}

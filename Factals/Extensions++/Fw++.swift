@@ -499,7 +499,7 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 																				//extension Dictionary<Key, Value> where Key : Comparable, Hashable {			//Cannot find type 'Key' in scope
 																				//extension Dictionary<Key, Value> where Key : Hashable, Value : Comparable {  	//Cannot find type 'Key' in scope
 extension Dictionary : Uid {
-	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}	// xyzzy4 //SwiftFactals
+	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
 extension Dictionary : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
@@ -970,7 +970,7 @@ func !~==( left:CGFloat, right:CGFloat) -> Bool {
 //					//let newStr = str.substring(from: index) // Swift 3
 //					let newStr = String(valStr[index...]) // Swift 4
 extension String : Uid {
-	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}	//SwiftFactals // xyzzy4
+	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
 extension String {
 	init(bool:Bool) {			// Bool -> String
@@ -1217,12 +1217,11 @@ extension Logd {
 	}
 }
 
- // 180623 Why doesn't this work?		// public?
-extension NSObject : Uid {// xyzzy4
+extension NSObject : Uid {
 	var uid: UInt16 			{ 	return uid4Ns(nsOb:self)					}
 }
 
-extension NSObject : Logd {// xyzzy4
+extension NSObject : Logd {
 }
 
 extension NSObject {

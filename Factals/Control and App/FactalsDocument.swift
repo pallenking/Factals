@@ -45,7 +45,9 @@ struct FactalsDocument : FileDocument {
 
 
 	// MARK: - 2.4.4 Building
-
+//	init() {
+//		bug
+//	}
 	 // @main uses this to generate a blank document
 	init() {	//async // Build a blank document, so there is a document of record with a Log
 //		DOC						= self		// INSTALL as current DOC, quick!
@@ -60,24 +62,27 @@ struct FactalsDocument : FileDocument {
 		factalsModel			= FactalsModel(fromLibrary:select)
 		factalsModel.document 	= self		// DELEGATE
 		DOC						= self		// INSTALL as current DOC, quick!
-
+	}
+	func configure2() async {
 		 // Build Vews per Configuration
+		let rpa					= factalsModel.rootPartActor
 		for (key, value) in params4all {
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					factalsModel.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+					await rpa.addRootVew(vewConfig:vewConfig, fwConfig:[:])
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					factalsModel.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+					await rpa.addRootVew(vewConfig:vewConfig, fwConfig:[:])
 				}
 				else {
 					panic("Confused wo38r")
 				}
 			}
 		}
+		await rpa.ensureAVew(fwConfig:params4all)
 		factalsModel.configure(from:params4all)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
@@ -95,7 +100,6 @@ struct FactalsDocument : FileDocument {
 		case .factals:
 			 // Decode data as a Root Part
 			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
-			let rootPartActor 	= RootPartActor(fromRootPart:rootPart)
 
 			 // Make the FileDocument
 			let factalsModel	= FactalsModel(fromRootPart:rootPart)

@@ -25,9 +25,6 @@ actor RootPartActor : ObservableObject, Uid {
 	init(fromRootPart r:RootPart) {
 		rootPart				= r
 	}
-//	init(fromLibrary s:String?, simulator:Simulator) {
-//		rootPart				= RootPart(fromLibrary:s, simulator:simulator)
-//	}
 	init(fromLibrary s:String?, factalsModel:FactalsModel) {
 		rootPart				= RootPart(fromLibrary:s, factalsModel:factalsModel)
 	}
@@ -36,27 +33,43 @@ actor RootPartActor : ObservableObject, Uid {
 	}
 	var data : Data? {		rootPart?.data
 	}
-	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		//guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
-		//guard let rootPart	= rootPart	else {	fatalError("nil rootPart")	}
-		//guard let factalsModel			else {	fatalError("nil factalsModel") }
-		//let rootVew			= RootVew(forPart:rootPart) // 1. Make empty view
-		//rootVew.factalsModel	= factalsModel				// 2. Backpointer
-		//factalsModel.rootVews.append(rootVew)				// 3. Install
-//
-		//rootVew.configureVew(from:fwConfig)				// 4. Configure Vew
-		//rootVew.openChildren(using:vewConfig)				// 5. Open Vew
-		//rootPart.dirtySubTree(gotLock: true, .vsp)		// 6. Mark dirty
-		//rootVew.updateVewSizePaint(vewConfig:vewConfig)	// 7. Graphics Pipe		// relax to outter loop stuff
-		//rootVew.setupLightsCamerasEtc()					// ?move
-	//	let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
-bug//	atBld(5, factalsModel.logd("rootVews[\(factalsModel.rootVews.count-1)] is complete:\n\(rootVewPp)"))
+	func anotherRootVew() -> Vew? {
+		guard let rootPart		else {	return nil								}
+		let rootVew				= RootVew(forPart:rootPart) // 1. Make empty view
+		return rootVew
 	}
+
+
+	func ensureAVew(fwConfig c:FwConfig) {
+		assert(factalsModel != nil, "factalsModel is suddenly now nil")
+		if factalsModel?.rootVews.isEmpty ?? false {		// Must have a Vew
+			atBld(3, warning("no Vew... key"))
+			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
+		}
+	}
+	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
+		let rootVew				= RootVew(forPart:rootPart!)// 1. Make empty view
+		rootVew.factalsModel	= factalsModel				// 2. Backpointer
+
+		factalsModel!.rootVews.append(rootVew)				// 3. Install
+		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
+		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
+
+		rootPart!.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
+		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		rootVew.setupLightsCamerasEtc()						// ?move
+
+//		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
+//		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
+	}
+	  // MARK: - 16. Global Constants
+	static let null 			= RootPartActor(fromRootPart:.nullRoot)	/// Any use of this should fail
 }
 
-
-
-
+// MARK: - Root Part -
+// MARK
+// MARK: - Root Part -
+// MARK
 // MARK: - Root Part -
 //private
 class RootPart : Part {		//class//actor//
@@ -65,9 +78,11 @@ class RootPart : Part {		//class//actor//
 	 // MARK: - 2.1 Object Variables
 	var title					= ""
 	var ansConfig	 : FwConfig	= [:]
-	var factalsModel : FactalsModel!
-
+	var factalsModel : FactalsModel? = nil
+	
+	 //HACK
 	var myFactalsModel:FactalsModel? = nil
+
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var curOwner  : String?		= nil
@@ -75,12 +90,14 @@ class RootPart : Part {		//class//actor//
 	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
-	init(factalsModel:FactalsModel?=nil) {
+	init(factalsModel:FactalsModel?=nil) {										// RootPart(factalsModel:FactalsModel?=nil)
 		myFactalsModel			= factalsModel ?? myFactalsModel
+
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		factalsModel?.rootPart	= self
 		///wireAndGroom([:])
 	}
-	convenience init(fromLibrary selector:String?, factalsModel:FactalsModel?=nil) {
+	convenience init(fromLibrary selector:String?, factalsModel:FactalsModel?=nil) {// RootPart(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
 
 		 // Make tree's root (a RootPart):
 		self.init(factalsModel:factalsModel) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/

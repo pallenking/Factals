@@ -3,38 +3,46 @@
 import SceneKit
 import SwiftUI
 
-class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
+class FactalsModel : ObservableObject, Uid {
+	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
 	var document : FactalsDocument!				// Owner
 	var rootPartActor : RootPartActor			// Manager of RootPart
+	var rootPartMaint : RootPart
 	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
 	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
 
+	var	simulator: Simulator
 	var log 	 : Log
 	var docSound	 			= Sounds()
-	var	simulator: Simulator
-	var uid: UInt16				= randomUid()
+
+	 // HELLISH:
+	var rootPart :  RootPart?
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
 	 // MARK: - 3. Factory
-	init(fromRootPart rp:RootPart) {
+	init(fromRootPart rp:RootPart) {											// FactalsModel(fromRootPart rp:RootPart)
 		simulator				= Simulator()
-		rootPartActor			= RootPartActor(fromRootPart:rp)
 		log						= Log(title:"FactalsModel's Log", params4all)
+		rootPartActor			= RootPartActor(fromRootPart:rp)
+		rootPartMaint			= rp
 
 		simulator.factalsModel	= self
 		rp.factalsModel			= self
 	}
-	init(fromLibrary s:String?) {
+	init(fromLibrary s:String?) {												// FactalsModel(fromLibrary s:String?)
 		simulator				= Simulator()
-		let rp					= RootPart(fromLibrary:s, factalsModel:nil)
-		rootPartActor 			= RootPartActor(fromRootPart:rp)
 		log						= Log(title:"FactalsModel's Log", params4all)
+		rootPartActor			= RootPartActor.null				// dummy value
+		rootPartMaint			= .nullRoot							// dummy value
 
+		let rp					= RootPart(fromLibrary:s, factalsModel:self)
+		rootPartActor 			= RootPartActor(fromRootPart:rp)	// correct value
+		rootPartMaint			= rp
 		simulator.factalsModel	= self
 		rp.factalsModel			= self
 	}
@@ -99,27 +107,6 @@ class FactalsModel : ObservableObject, Uid {			// xyzzy4 // remove NSObject
 	required init(coder aDecoder: NSCoder) {
 		fatalError("FactalsModel.init(coder..) unexpectantly called")
 	}
-
-	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		guard DOC != nil   else { 	fatalError("Doc should be set up by now!!") }
-		let rootPart			= RootPart()
-bug//	guard let rootPart		= rootPartActor.rootPart else {	fatalError("nil rootPart")	}
-
-		let rootVew				= RootVew(forPart:rootPart) // 1. Make empty view
-		rootVew.factalsModel	= self						// 2. Backpointer
-		self.rootVews.append(rootVew)						// 3. Install
-
-		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
-		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
-		rootPart.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
-		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		rootVew.setupLightsCamerasEtc()						// ?move
-
-		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
-		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
-	}
-
-
 
 	 // MARK: - 4.?
 	func rootVew(ofScnNode:SCNNode) -> RootVew? {

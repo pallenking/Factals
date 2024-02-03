@@ -99,12 +99,6 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		  let p					= resolveInwardReference(path, openingDown:false, except:nil)  {
 			return p
 		}
-//		if let i				= binding as? Int {
-//			assert([refNumber intValue]==0, (@"@0 is ignore, others not permitted"));
-//		}
-//		if let b				= binding as? Port {
-//		panic(@"oops");
-//		}
 		return nil;			// not found
 	}
 	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?) -> Part? {

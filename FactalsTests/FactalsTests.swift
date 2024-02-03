@@ -482,7 +482,7 @@ bug
 
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 			let s				= Simulator()
-			let rootPart		= RootPart(fromLibrary:"entry\(testNum)", simulator:s)	//, fwDocument:nil
+			let rootPart		= RootPart(fromLibrary:"entry\(testNum)", factalsModel:nil)//, simulator:s)	//, fwDocument:nil
 
 			rootPart.wireAndGroom([:])
 

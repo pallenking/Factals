@@ -23,9 +23,8 @@ struct FactalsModelBar: View {
 }
 
 struct RootPartActorBar : View {
-	@Binding var rootPartActor : RootPartActor
-//	@StateObject var rootPartActor : RootPartActor
-	@Binding var factalsModel : FactalsModel
+	@Binding var rootPartActor : RootPartActor				//@StateObject?
+	@Binding var factalsModel  : FactalsModel
 	@State private var rootPart: RootPart?
 
 	var body: some View {
@@ -55,6 +54,7 @@ struct RootPartActorBar : View {
 		.onAppear {
 			Task {	// Access the actor property asynchronously
 				rootPart = await rootPartActor.rootPart
+				await factalsModel.document.configure2()
 			}
 		}
 	}

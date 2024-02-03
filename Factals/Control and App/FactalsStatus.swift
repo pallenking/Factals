@@ -169,7 +169,7 @@ extension RootPartActor : FactalsStatus {
 			myLine:myLine,
 			otherLines:{ deapth in
 				 // Controller:
-				var rv			= "...rootPart....\n"
+				var rv			= "---- rootPart omitted -----\n"
 	//			var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1) ?? "  nil rootPart!  "
 //									?? ppUid(pre:" ", self.rootPart,
 //										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"

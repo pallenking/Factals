@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class RootScene : SCNScene {				// xyzzy4
+class RootScene : SCNScene {
 	weak
 	 var rootVew	: RootVew?				// RootVew, owner of this RootScn
 
