@@ -12,7 +12,7 @@ struct FactalsModelBar: View {
 	
 	var body: some View {
 		VStack {
-			RootPartActorBar(rootPartActor:$factalsModel.rootPartActor, factalsModel: $factalsModel)
+			RootPartActorBar(rootPartActor:$factalsModel.rootPartActor, rootPartMaint: $factalsModel.rootPartMaint, factalsModel: $factalsModel)
 			SimulatorBar(simulator:$factalsModel.simulator)
 		}
 		.padding(4)
@@ -24,38 +24,39 @@ struct FactalsModelBar: View {
 
 struct RootPartActorBar : View {
 	@Binding var rootPartActor : RootPartActor				//@StateObject?
+	@Binding var rootPartMaint : RootPart
 	@Binding var factalsModel  : FactalsModel
 	@State private var rootPart: RootPart?
 
 	var body: some View {
 		HStack {	// FULL!
-			if let rootPart {
+//			if let rootPart {
 				Text("rootPart: ").foregroundColor(.red).bold()
 				Button(label:{	Text( "ptm")								})
-				{	print(rootPart.pp(.tree, ["ppDagOrder":true]), terminator:"") }
+				{	print(rootPartMaint.pp(.tree, ["ppDagOrder":true]), terminator:"") }
 				Button(label:{	Text("ptLm")								})
-				{	print(rootPart.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
+				{	print(rootPartMaint.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
 				Spacer()
 				Text("app:").foregroundColor(.red).bold()
 				Button(label:{	Text( "state")								})//.padding(.top, 300)
 				{	printFwState()											}
 				Button(label: {	Text("LLDB") 								})
-				{	lldbPrint(rootPart, /*Vews.first!,*/ mode:.tree, [:])
+				{	lldbPrint(rootPartMaint, /*Vews.first!,*/ mode:.tree, [:])
 					breakToDebugger()										}
 				Text(" ")
-			}
-			else {
-				  // Use an onAppear modifier to trigger the asynchronous fetch
-				 // of the actor property when the view appears
-				Text("Loading \(rootPartActor.factalsModel == nil ? "" : "factalsModel ") " +
-									  "\(rootPart == nil ? "" : "rootPart ") ...")
-			}
-		}
-		.onAppear {
-			Task {	// Access the actor property asynchronously
-				rootPart = await rootPartActor.rootPart
-				await factalsModel.document.configure2()
-			}
+//			}
+//			else {
+//				  // Use an onAppear modifier to trigger the asynchronous fetch
+//				 // of the actor property when the view appears
+//				Text("Loading \(rootPartActor.factalsModel == nil ? "" : "factalsModel ") " +
+//									  "\(rootPart == nil ? "" : "rootPart ") ...")
+//			}
+//		}
+//		.onAppear {
+//			Task {	// Access the actor property asynchronously
+//				rootPart = await rootPartActor.rootPart
+//				await factalsModel.document.configure2()
+//			}
 		}
 	}
 }

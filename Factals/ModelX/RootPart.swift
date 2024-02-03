@@ -41,8 +41,8 @@ actor RootPartActor : ObservableObject, Uid {
 
 
 	func ensureAVew(fwConfig c:FwConfig) {
-		assert(factalsModel != nil, "factalsModel is suddenly now nil")
-		if factalsModel?.rootVews.isEmpty ?? false {		// Must have a Vew
+		//assert(factalsModel != nil, "factalsModel is suddenly now nil")
+		if factalsModel!.rootVews.isEmpty {		// Must have a Vew
 			atBld(3, warning("no Vew... key"))
 			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
