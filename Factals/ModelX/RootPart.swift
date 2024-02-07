@@ -26,7 +26,7 @@ actor RootPartActor : ObservableObject, Uid {
 		rootPart				= r
 	}
 	init(fromLibrary s:String?, factalsModel:FactalsModel) {
-		rootPart				= RootPart(fromLibrary:s, factalsModel:factalsModel)
+		rootPart				= RootPart(fromLibrary:s)
 	}
 	func configure(from config:FwConfig) {
 		rootPart?.configure(from:config)
@@ -88,17 +88,17 @@ class RootPart : Part {		//class//actor//
 	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
-	init(factalsModel:FactalsModel?=nil) {										// RootPart(factalsModel:FactalsModel?=nil)
+	init() {										// RootPart(factalsModel:FactalsModel?=nil)
 		myFactalsModel			= factalsModel ?? myFactalsModel
 
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		factalsModel?.rootPart	= self
 		///wireAndGroom([:])
 	}
-	convenience init(fromLibrary selector:String?, factalsModel:FactalsModel?=nil) {// RootPart(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
+	convenience init(fromLibrary selector:String?) {// RootPart(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
 
 		 // Make tree's root (a RootPart):
-		self.init(factalsModel:factalsModel) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
 		self.ansConfig			= [:]
@@ -272,7 +272,7 @@ class RootPart : Part {		//class//actor//
 			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
 			try data.write(to:fileURL)
 bug			//self.init(url: fileURL)
-			self.init(factalsModel:nil)		//try self.init(url: fileURL)
+			self.init()				//try self.init(url: fileURL)
 		} catch {
 			print("error using file: \(error)")									}
 		return nil

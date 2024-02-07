@@ -240,8 +240,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "92"
             endingLineNumber = "92"
-            landmarkName = "init(factalsModel:)"
+            landmarkName = "init()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B93541E9-4F0D-4BD7-A497-6148C747FDC1 - fb9633be773a8c33"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootPart.init(factalsModel: Swift.Optional&lt;Factals.FactalsModel&gt;) -&gt; Factals.RootPart"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "536">
+               </Location>
+               <Location
+                  uuid = "B93541E9-4F0D-4BD7-A497-6148C747FDC1 - 712b96815bda4b2c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootPart.init() -&gt; Factals.RootPart"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "596">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -256,8 +288,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
             endingLineNumber = "101"
-            landmarkName = "init(fromLibrary:factalsModel:)"
+            landmarkName = "init(fromLibrary:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B75FC888-E9BB-43E4-B980-D43FA47D394A - 1b7e9429ed4cf60c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootPart.__allocating_init(fromLibrary: Swift.Optional&lt;Swift.String&gt;, factalsModel: Swift.Optional&lt;Factals.FactalsModel&gt;) -&gt; Factals.RootPart"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  uuid = "B75FC888-E9BB-43E4-B980-D43FA47D394A - b003ac585d5b1a81"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.RootPart.__allocating_init(fromLibrary: Swift.Optional&lt;Swift.String&gt;) -&gt; Factals.RootPart"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/ModelX/RootPart.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "96">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

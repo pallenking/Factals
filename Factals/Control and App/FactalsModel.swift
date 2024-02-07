@@ -35,11 +35,11 @@ class FactalsModel : ObservableObject, Uid {
 	init(fromLibrary s:String?) {												// FactalsModel(fromLibrary s:String?)
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
-		rootPart				= .nullRoot							// dummy value
-		rootPartActor			= RootPartActor.null				// dummy value
+//		rootPart				= .nullRoot							// dummy value
+//		rootPartActor			= RootPartActor.null				// dummy value
 
 		 // Generate RootPart with knowledge of it's owner (PW change to delegate)
-		rootPart				= RootPart(fromLibrary:s, factalsModel:self)
+		rootPart				= RootPart(fromLibrary:s)
 		rootPartActor 			= RootPartActor(fromRootPart:rootPart)	// correct value
 		simulator.factalsModel	= self
 		rootPart.factalsModel	= self
