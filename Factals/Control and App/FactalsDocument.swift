@@ -49,7 +49,7 @@ struct FactalsDocument : FileDocument {
 //		bug
 //	}
 	 // @main uses this to generate a blank document
-	init() {	//async // Build a blank document, so there is a document of record with a Log
+	init() {	// Build a blank document, so there is a document of record with a Log
 //		DOC						= self		// INSTALL as current DOC, quick!
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
@@ -63,31 +63,31 @@ struct FactalsDocument : FileDocument {
 		factalsModel.document 	= self		// DELEGATE
 		DOC						= self		// INSTALL as current DOC, quick!
 	}
-	func configure2() async {
+	func configure() {
 		 // Build Vews per Configuration
-		let rpa					= factalsModel.rootPartActor
+		let rp					= factalsModel.rootPart//Actor
 		for (key, value) in params4all {
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					await rpa.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+					rp.addRootVew(vewConfig:vewConfig, fwConfig:[:])
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					await rpa.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+					rp.addRootVew(vewConfig:vewConfig, fwConfig:[:])
 				}
 				else {
 					panic("Confused wo38r")
 				}
 			}
 		}
-		await rpa.ensureAVew(fwConfig:params4all)
+		rp.ensureAVew(fwConfig:params4all)
 		factalsModel.configure(from:params4all)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
-		factalsModel			= f			// given
+		factalsModel			= f			// girootPart!.ven
 		factalsModel.document	= self		// owner back-link
 		DOC						= self		// INSTALL Factals
 	}
@@ -127,13 +127,6 @@ bug;//	throw FwError(kind:".fileWriteUnknown")
 			throw FwError(kind:".fileWriteUnknown")
 		}
 	}
-	 // MARK: - 2.2 Sugar
-//	var windowController0 : NSWindowController? {		// First NSWindowController
-//bug;	return nil}//windowControllers.first			}
-//	var window0 : NSWindow? 	{						// First NSWindow
-//		return windowController0?.window										}
-
- //// -- WORTHY GEMS: -- ///// //
 
 	typealias PolyWrap = Part
 	class Part : Codable /* PartProtocol*/ {

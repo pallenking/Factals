@@ -8,17 +8,15 @@ class FactalsModel : ObservableObject, Uid {
 
 	  // MARK: - 2. Object Variables:
 	var document : FactalsDocument!				// Owner
-	var rootPartActor : RootPartActor			// Manager of RootPart
-	var rootPartMaint : RootPart
+
+	var rootPart :  RootPart
+	var rootPartActor : RootPartActor			// Attempted manager of RootPart
 	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
 	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
 
 	var	simulator: Simulator
 	var log 	 : Log
 	var docSound	 			= Sounds()
-
-	 // HELLISH:
-	var rootPart :  RootPart?
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
@@ -28,8 +26,8 @@ class FactalsModel : ObservableObject, Uid {
 	init(fromRootPart rp:RootPart) {											// FactalsModel(fromRootPart rp:RootPart)
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
+		rootPart				= rp
 		rootPartActor			= RootPartActor(fromRootPart:rp)
-		rootPartMaint			= rp
 
 		simulator.factalsModel	= self
 		rp.factalsModel			= self
@@ -37,14 +35,14 @@ class FactalsModel : ObservableObject, Uid {
 	init(fromLibrary s:String?) {												// FactalsModel(fromLibrary s:String?)
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
+		rootPart				= .nullRoot							// dummy value
 		rootPartActor			= RootPartActor.null				// dummy value
-		rootPartMaint			= .nullRoot							// dummy value
 
-		let rp					= RootPart(fromLibrary:s, factalsModel:self)
-		rootPartActor 			= RootPartActor(fromRootPart:rp)	// correct value
-		rootPartMaint			= rp
+		 // Generate RootPart with knowledge of it's owner (PW change to delegate)
+		rootPart				= RootPart(fromLibrary:s, factalsModel:self)
+		rootPartActor 			= RootPartActor(fromRootPart:rootPart)	// correct value
 		simulator.factalsModel	= self
-		rp.factalsModel			= self
+		rootPart.factalsModel	= self
 	}
 
 	 // FactalsModel has no hash
