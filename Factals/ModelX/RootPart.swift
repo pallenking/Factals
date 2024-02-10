@@ -12,74 +12,18 @@ import SceneKit
  * lock to ensure that your modifications take effect as intended.
  */
 
- // RootPartActor's owner. MUST ONLY BE ONE
-var RootPartActor_factalsModel : FactalsModel? = nil
-
-actor RootPartActor : ObservableObject, Uid {
-	let uid: UInt16				= randomUid()
-	var rootPart : RootPart? 	= nil
-
-	 // KROCK OF SH***:
-	nonisolated var factalsModel : FactalsModel? { RootPartActor_factalsModel }
-
-	init(fromRootPart r:RootPart) {
-		rootPart				= r
-	}
-	init(fromLibrary s:String?, factalsModel:FactalsModel) {
-		rootPart				= RootPart(fromLibrary:s)
-	}
-	func configure(from config:FwConfig) {
-		rootPart?.configure(from:config)
-	}
-	var data : Data? {		rootPart?.data
-	}
-//	func anotherRootVew() -> Vew? {
-//		guard let rootPart		else {	return nil								}
-//		let rootVew				= RootVew(forPart:rootPart) // 1. Make empty view
-//		return rootVew
-//	}
-//	func ensureAVew(fwConfig c:FwConfig) {
-//		//assert(factalsModel != nil, "factalsModel is suddenly now nil")
-//		if factalsModel!.rootVews.isEmpty {		// Must have a Vew
-//			atBld(3, warning("no Vew... key"))
-//			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
-//		}
-//	}
-//	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-//		let rootVew				= RootVew(forPart:rootPart!)// 1. Make empty view
-//		rootVew.factalsModel	= factalsModel				// 2. Backpointer
-//
-//		factalsModel!.rootVews.append(rootVew)				// 3. Install
-//		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
-//		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
-//
-//		rootPart!.dirtySubTree(gotLock: true, .vsp)			// 6. Mark dirty
-//		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-//		rootVew.setupLightsCamerasEtc()						// ?move
-//
-////		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
-////		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
-//	}
-	  // MARK: - 16. Global Constants
-	static let null 			= RootPartActor(fromRootPart:.nullRoot)	/// Any use of this should fail
-}
-
-// MARK: - Root Part -
-// MARK
-// MARK: - Root Part -
-// MARK
-// MARK: - Root Part -
 //private
 class RootPart : Part {		//class//actor//
     /*private*/ var foo22: Int = 0
 
 	 // MARK: - 2.1 Object Variables
 	var title					= ""
-	var ansConfig	 : FwConfig	= [:]
-	var factalsModel : FactalsModel? = nil
+	var ansConfig	  : FwConfig = [:]
+	weak
+	 var factalsModel : FactalsModel? = nil
 	
-	 //HACK
-	var myFactalsModel:FactalsModel? = nil
+//	 //HACK
+//	var myFactalsModel:FactalsModel? = nil
 
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
@@ -89,10 +33,10 @@ class RootPart : Part {		//class//actor//
 
 	// MARK: - 3. Part Factory
 	init() {										// RootPart(factalsModel:FactalsModel?=nil)
-		myFactalsModel			= factalsModel ?? myFactalsModel
+//		myFactalsModel			= factalsModel ?? myFactalsModel
 
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		factalsModel?.rootPart	= self
+//		factalsModel?.rootPart	= self
 		///wireAndGroom([:])
 	}
 	convenience init(fromLibrary selector:String?) {// RootPart(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
@@ -116,7 +60,7 @@ class RootPart : Part {		//class//actor//
 
 		wireAndGroom([:])
 
-		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
+//		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)
 //		markTree(dirty:.vew)
 	}
@@ -167,7 +111,6 @@ class RootPart : Part {		//class//actor//
 
 
 	func ensureAVew(fwConfig c:FwConfig) {
-		//assert(factalsModel != nil, "factalsModel is suddenly now nil")
 		if factalsModel!.rootVews.isEmpty {		// Must have a Vew
 			atBld(3, warning("no Vew... key"))
 			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
@@ -176,8 +119,8 @@ class RootPart : Part {		//class//actor//
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		let rootVew				= RootVew(forPart:self)		// 1. Make empty view
 		rootVew.factalsModel	= factalsModel				// 2. Backpointer
-
 		factalsModel!.rootVews.append(rootVew)				// 3. Install
+
 		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
 		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
 
@@ -189,14 +132,9 @@ class RootPart : Part {		//class//actor//
 //		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
 	}
 
-
-
-
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	func configure(from config:FwConfig) {
 		partConfig				= config
-		//self.configurePart(from:config)
-		bug
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////

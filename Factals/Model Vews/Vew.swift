@@ -214,7 +214,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 	}
 
-	 /// From any SubVew, Lookup configuration from Part's partConfig, and scene
+	 /// Lookup configuration from Part's partConfig, up to root
 	func config(_ name:String)		-> FwAny? 		{
 
 		 // Go up Vew tree to rootVew its root, looking...
@@ -231,18 +231,15 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 
 		 // Try Document's configuration
-		guard let factalsModel	= rootVew.factalsModel 	else {	return nil		}
-bug
+	//	guard let factalsModel	= rootVew.factalsModel 	else {	return nil		}
 	//	if let rv				= factalsModel.config.vewConfig[name] {
 	//		return rv
 	//	}
 
-		var rv : FwAny?			= nil
-		if trueF {							//trueF//falseF//
-			guard let doc		= factalsModel.document	else {	return nil		}
-			rv					= doc.docConfig[name]
-			// Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
-		}
+		guard let doc		= rootVew.factalsModel.document	else {	return nil		}
+		var rv : FwAny?		= doc.docConfig[name]
+		 // Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
+
 		return rv
 	}
 

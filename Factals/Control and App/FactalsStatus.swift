@@ -162,23 +162,6 @@ extension FactalsModel : FactalsStatus	{
 			deapth:deapth-1)
 	}
 }
-//extension RootPartActor : FactalsStatus {
-//	nonisolated func ppFactalsState(deapth: Int) -> String {
-//		var myLine = ""
-//		return ppFactalsStateHelper("RootPartActor", uid:self,
-//			myLine:myLine,
-//			otherLines:{ deapth in
-//				 // Controller:
-//				var rv			= "---- rootPart omitted -----\n"
-//	//			var rv			= self.rootPart?.ppFactalsState(deapth:deapth-1) ?? "  nil rootPart!  "
-////									?? ppUid(pre:" ", self.rootPart,
-////										post:" \(DOClog.indentString())RootPart ##### IS nil ####", showNil:true) + "\n"
-//				return rv
-//			},
-//			deapth:deapth-1
-//		)
-//	}
-//}
 extension RootPart : FactalsStatus	{								 ///RootPart
 	func ppFwConfig() -> String {		partConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {

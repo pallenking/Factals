@@ -10,7 +10,6 @@ class FactalsModel : ObservableObject, Uid {
 	var document : FactalsDocument!				// Owner
 
 	var rootPart :  RootPart
-	var rootPartActor : RootPartActor			// Attempted manager of RootPart
 	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
 	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
 
@@ -24,37 +23,25 @@ class FactalsModel : ObservableObject, Uid {
 
 	 // MARK: - 3. Factory
 	init(fromRootPart rp:RootPart) {											// FactalsModel(fromRootPart rp:RootPart)
-		simulator				= Simulator()
-		log						= Log(title:"FactalsModel's Log", params4all)
 		rootPart				= rp
-		rootPartActor			= RootPartActor(fromRootPart:rp)
-
-		simulator.factalsModel	= self
-		rp.factalsModel			= self
-	}
-	init(fromLibrary s:String?) {												// FactalsModel(fromLibrary s:String?)
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
-//		rootPart				= .nullRoot							// dummy value
-//		rootPartActor			= RootPartActor.null				// dummy value
-
-		 // Generate RootPart with knowledge of it's owner (PW change to delegate)
-		rootPart				= RootPart(fromLibrary:s)
-		rootPartActor 			= RootPartActor(fromRootPart:rootPart)	// correct value
+		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		simulator.factalsModel	= self
 		rootPart.factalsModel	= self
+
+		//configure(from:document.docConfig)
 	}
 
 	 // FactalsModel has no hash
 	func configure(from config:FwConfig) {
 		simulator.configure(from:config)
-		print("----wooops---- rootPartActor.configure")
-		//rootPartActor.configure(from:config)
+		rootPart.configure(from:config)
 		for rootVew in rootVews {
 			rootVew.configureRootVew(from:config)
 		}
 		log.configure(from:config)
-//		docSound.configure(from:config)
+		docSound.configure(from:config)
 
 		 //  5. Print Errors
 //		atBld(3, log.logd(rootPartActor.rootPart?.ppRootPartErrors() ?? ""))
@@ -63,7 +50,7 @@ class FactalsModel : ObservableObject, Uid {
 //		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 
 		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
-		simulator.simEnabled	= true
+//		simulator.simEnabled	= true
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene

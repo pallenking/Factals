@@ -23,29 +23,6 @@ final class FactalsTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 		print("-------------- XCTest tearDownWithError code: --------------------")
 	}
-// ------------------------------------------------------------------------
-// ------------------------------------------------------------------------
-//func testRootPartActor01 () async {
-//	// Create an instance of RootPartActor with an initial rootPart
-//	let initialRootPartValue = RootPart(fromLibrary:"+ Splitters family portrait")
-//	let actor 				= RootPartActor(initialRootPart: initialRootPartValue)
-//	do {
-//		try await actor.performAction {
-//			// I presume we are now in the actor's thread
-//			await actor.setRootPart(new:RootPart())
-//			if false { throw FwError(kind:"testRootPartActor01") 			}																				//await actor.rootPart	= .nullRoot
-//																			//let actr = actor
-//																			//var rootPart	= await actor.rootPart
-//																			// Access and modify the rootPart resource
-//																			// e.g., rootPart.update()
-//																			//actor.rootPart 	= RootPart(fromLibrary:nil)
-//		}
-//	// Handle successful execution
-//	} catch {
-//		// Handle the error thrown during the action
-//		print("Error: \(error)")
-//	}
-//}
 
 //	func testLldb() {
 //		let x 					= LLDBrootPart
@@ -482,7 +459,7 @@ bug
 
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 			let s				= Simulator()
-			let rootPart		= RootPart(fromLibrary:"entry\(testNum)", factalsModel:nil)//, simulator:s)	//, fwDocument:nil
+			let rootPart		= RootPart(fromLibrary:"entry\(testNum)")//, simulator:s)	//, fwDocument:nil
 
 			rootPart.wireAndGroom([:])
 

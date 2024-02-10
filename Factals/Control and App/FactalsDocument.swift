@@ -45,12 +45,8 @@ struct FactalsDocument : FileDocument {
 
 
 	// MARK: - 2.4.4 Building
-//	init() {
-//		bug
-//	}
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
-//		DOC						= self		// INSTALL as current DOC, quick!
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		/**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
@@ -58,32 +54,37 @@ struct FactalsDocument : FileDocument {
 		//**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
+		let rootPart			= RootPart(fromLibrary:select)
+		factalsModel			= FactalsModel(fromRootPart:rootPart)
 
-		factalsModel			= FactalsModel(fromLibrary:select)
-		factalsModel.document 	= self		// DELEGATE
-		DOC						= self		// INSTALL as current DOC, quick!
+		 // BUT THESE ARE STRUCTS
+		factalsModel.document 	= self			// DELEGATE
+		DOC						= self			// INSTALL as current DOC, quick!
+
+		configure(config:docConfig + rootPart.ansConfig)
 	}
-	func configure() {
+	func configure(config:FwConfig) {
 		 // Build Vews per Configuration
 		let rp					= factalsModel.rootPart//Actor
-		for (key, value) in params4all {
+		for (key, value) in config {
+//		for (key, value) in params4all {
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					rp.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					rp.addRootVew(vewConfig:vewConfig, fwConfig:[:])
+					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
 				}
 				else {
 					panic("Confused wo38r")
 				}
 			}
 		}
-		rp.ensureAVew(fwConfig:params4all)
-		factalsModel.configure(from:params4all)
+		rp.ensureAVew(fwConfig:config)
+		factalsModel.configure(from:config)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {

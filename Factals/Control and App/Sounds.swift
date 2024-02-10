@@ -35,6 +35,9 @@ class Sounds : Logd {
 	// NEVER NSCopying, Equatable
 	 // MARK: - 5.4 Sound
 	var knownSources : [String:SCNAudioSource] = [:]
+	func configure(from:FwConfig) {
+		print("Sounds.configure UNIPLMEMENTED")
+	}
 	func load(name:String, path:String) {
 		if let source:SCNAudioSource = SCNAudioSource(fileNamed: path) {
 			assert(knownSources[name] == nil, "Redefinition of sounds not suported!")
