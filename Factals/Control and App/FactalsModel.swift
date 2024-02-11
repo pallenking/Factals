@@ -220,11 +220,9 @@ bug
 		if found == false {
 
 			 // Check Simulator:
-bug
-//	/**/	if rootPart != nil,
-//			  rootPart!.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
-//				return true 		// handled by simulator
-//			}
+	/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+				return true 		// handled by simulator
+			}
 
 			 // Check Document:
 			if document.processEvent(nsEvent:nsEvent, inVew:vew) {

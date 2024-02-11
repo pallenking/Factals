@@ -171,7 +171,6 @@ bug;	return rv
 					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
 					let c2		= rootPart?.portChitArray().map { $0() }.joined(separator:", ")
 					print("After:  \(c2 ?? "")")
-					nop
 				}
 			}
 		}

@@ -11,7 +11,8 @@ import SwiftUI
 import SceneKit
 
 
-	let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
+	let (majorVersion, minorVersion, nameVersion) = (6, 4, "Factals")		// 240210
+  //let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
   //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
   //let (majorVersion, minorVersion, nameVersion) = (6, 0, "Factals re-App")// 220628
   //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")	// 210710 Post
@@ -26,7 +27,7 @@ var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: P
 
 // ////////////////////////  Singleton Shugar  /////////////////////////////////
 var APPQ : FactalsApp?					{	APP 								}
-var DOCQ : FactalsDocument? 			{ DOC == nil ? nil : DOC 				}
+var DOCQ : FactalsDocument? 			{ 	DOC == nil ? nil : DOC 				}
 var DOCfactalsModelQ : FactalsModel?	{	DOC?.factalsModel					}	// optionality is needed
 var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
 	fatalError(DOC==nil ? "DOC=nil" : "DOC.factalsModel=nil")					}()}
@@ -43,13 +44,14 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 @main
 extension FactalsApp : App {
-	//typealias Body = type
 	var body: some Scene {
-		DocumentGroup(newDocument: FactalsDocument()) { file in
+		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
 			 .environmentObject(appGlobals)				// inject in environment
 			 .onOpenURL { url in
-				print("DocumentGroup.ContentView.onOpenURL(\(url))")
+				// Load a document from the given URL
+				let document = FactalsDocument(fileURL:url)
+				openDocuments.append(document)
 			 }
 		}
 		 .commands {
@@ -99,6 +101,8 @@ struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
 
+	static var shared = FactalsApp() // Singleton instance
+
 	@State private var document: FactalsDocument? = nil
 	@State private var openDocuments: [FactalsDocument] = []
 
@@ -108,7 +112,7 @@ struct FactalsApp: Uid, FwAny {
 	//B	@AppStorage("text") var textFooBar = ""
 
 	 // MARK: - 2. Object Variables:
-	var log	: Log			=	Log(title:"App's Log", params4all)
+	var log	: Log				=	Log(title:"App's Log", params4all)
 	var appStartTime:String = dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:
@@ -126,15 +130,17 @@ struct FactalsApp: Uid, FwAny {
 	var appSounds				= Sounds()
 
 	 // MARK: - 3. Factory
-
 	init () {
+		self.init(foo:true)
+		APP 					= self				// Register ( V E R Y  HOAKEY)
+	}
+	private init (foo:Bool) {
 		appConfig				= params4all
-		APP 					= self				// Register  (HOAKEY)
-
+//		APP 					= self				// Register  (HOAKEY)
 		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with its defaults (Ahead of any documents)
-		APP 					= self				// Register ( V E R Y  HOAKEY)
+//		APP 					= self				// Register ( V E R Y  HOAKEY)
 		sceneMenus 				= buildSceneMenus()
 
 		atApp(3, {

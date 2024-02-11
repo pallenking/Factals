@@ -5,7 +5,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 
 	 // MARK: - 2. Object Variables:
 	weak var factalsModel:FactalsModel? = nil// Owner
-	var rootPartF		: RootPart? { nil } //factalsModel?.rootPartActor.rootPart}	// Owner
+//	var rootPartF		: RootPart? { nil } //factalsModel?.rootPartActor.rootPart}	// Owner
 
 	var timingChains:[TimingChain] = []
 	var timeNow			: Float	= 0.0
@@ -15,7 +15,8 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0		}
+	var portChits		: Int	{	factalsModel?.rootPart.portChitArray().count ?? 0	}
+//	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0		}
 	var linkChits		: Int	= 0			// by things like links
 	var startChits	  	:UInt8	= 0			// set to get simulator going
 //
@@ -38,7 +39,8 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		}
 	}
 	func isSettled() -> Bool {
-		let nPortsBuisy 		= rootPartF?.portChitArray().count ?? 0	// Busy Ports
+		let nPortsBuisy 		= factalsModel?.rootPart.portChitArray().count ?? 0	// Busy Ports
+//		let nPortsBuisy 		= rootPartF?.portChitArray().count ?? 0	// Busy Ports
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
 	}
@@ -49,7 +51,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 /**/		simEnabled 			= se						// set or reset
 		}
 		if let tStep			= c.float("timeStep") {
-			timeStep 		= tStep
+			timeStep 			= tStep
 		}
 //		logSimLocks				= c.bool("logSimLocks") ?? false
 		if let pst				= c.bool("logSimLocks") {
@@ -139,18 +141,18 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	func simulateOneStep() {
 		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled	else {	return 										}
-		guard let rootPartF	else {	return										}
-		guard rootPartF.lock(for:"simulationTask", logIf:logSimLocks)
+		guard let rootPart = factalsModel?.rootPart	else {	return					}
+		guard rootPart.lock(for:"simulationTask", logIf:logSimLocks)
 							else {	fatalError("simulationTask couldn't get PART lock")	}
 
-	/**/	rootPartF.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
+	/**/	rootPart.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
 
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= timeStep
 			if startChits > 0 {			// Clear out start cycles
 				startChits		-= 1
 			}
-		rootPartF.unlock(for:"simulationTask", logIf:logSimLocks)
+		rootPart.unlock(for:"simulationTask", logIf:logSimLocks)
 	}
 	// MARK: - 14. Building
 	var log : Log { factalsModel?.log ?? .reliable					}

@@ -7,10 +7,11 @@
 
 import SwiftUI
 import SceneKit
-import UniformTypeIdentifiers
- //	Uniform Type Identifiers Overview:			https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
- //	Defining file and data types for your app:	https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
+
+   //	Uniform Type Identifiers Overview:		https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
+  // Defining file and data types for your app:	https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
  //	System-declared uniform type identifiers:	https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
+import UniformTypeIdentifiers
 
 class DocGlobals : ObservableObject {
     @Published var docConfig : FwConfig
@@ -35,23 +36,27 @@ extension FactalsDocument : Uid {
 	}
 }
 struct FactalsDocument : FileDocument {
-    @StateObject var docGlobals	= DocGlobals(docConfig:params4pp)
 	let uid:UInt16				= randomUid()
+    @StateObject var docGlobals	= DocGlobals(docConfig:params4pp)
+
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
 
 	var factalsModel : FactalsModel! = nil				// content
 	var docConfig : FwConfig	= [:]
 
-
+	init (fileURL: URL) {
+		bug
+	}
 	// MARK: - 2.4.4 Building
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
+		DOC						= self			// INSTALL as current DOC, quick!
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
-		/**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
+		//**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
-		//**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
+		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
