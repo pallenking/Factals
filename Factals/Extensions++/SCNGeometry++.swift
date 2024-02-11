@@ -372,9 +372,9 @@ func originMark(size:Float, root:RootPart) -> SCNNode {		// was myGlJack3
 
 	let rv						= SCNComment("OriginMark(size:\(size))")
 
-	var doc						= root.factalsModel!.document!
-	let originNameIndex 		= doc.indexFor["origin"] ?? 1
-	doc.indexFor["origin"]		= originNameIndex + 1
+	var fm						= root.factalsModel!
+	let originNameIndex 		= fm.indexFor["origin"] ?? 1
+	fm.indexFor["origin"]		= originNameIndex + 1
 	rv.name						= fmt("o-%d", originNameIndex)
 	rv.geometry 				= SCNGeometry.lines(lines:indices, withPoints:vertices)
 	return rv
@@ -442,9 +442,10 @@ extension SCNMaterial {
 				let n				= name ?? ""
 				return "SCNMaterial[ " + (n) + "]"		//  + ":" + pp(.fwClassName, aux).field(-3, dots:false)
 			case .line:
-				var rv			= DOClog.pidNindent(for:self)	//			(AB)
+				let log			= FACTALSMODEL!.log
+				var rv			= log.pidNindent(for:self)	//			(AB)
 				rv				+= "\((name ?? "material ").field(-8, dots:false))"//(C)
-				rv 				=  DOClog.unIndent(rv)// unindent	 (D)
+				rv 				= log.unIndent(rv)// unindent	 (D)
 				rv				+= " " + ppSCNMaterialColors(debugDescription)
 				return rv
 			default:

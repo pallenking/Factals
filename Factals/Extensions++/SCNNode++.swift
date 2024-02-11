@@ -309,8 +309,8 @@ extension SCNNode /*: HasChildren */ {
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-
-		guard let log			= DOClogQ else {	return "DOClog is nil"		}
+		
+		guard let log			= FACTALSMODEL?.log else { return "DOClog is nil"}
 		var rv					= ""
 //		 // UGLY: Can't override an extension
 //		if let imARootNode		= self as? RootScene {
@@ -422,7 +422,7 @@ extension SCNNode /*: HasChildren */ {
 
 		 // display position in trunk:
 		if params4pp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
-		  let rootVew			= DOCfactalsModelQ?.rootVew(ofScnNode:self) {
+		  let rootVew			= FACTALSMODEL?.rootVew(ofScnNode:self) {
 			let p				= convertPosition(.zero, to:rootVew.scn)
 			rv2					+= p.pp(.short, aux).field(-11, dots:false)
 		}

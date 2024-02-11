@@ -22,7 +22,8 @@ protocol SoundFoo  {
 //}
 extension SCNNode : SoundFoo {
 	func play(sound:String) {
-		APP.appSounds.play(sound:sound, onNode:self)
+bug
+//		APP.appSounds.play(sound:sound, onNode:self)
 	}
 //	func play(sound: String) {
 //		print("::::::::::::::::: PLAYING SOUND \(sound) :::::::::::")
@@ -57,7 +58,7 @@ bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 				
 		let node : SCNNode		= onNode_ ??	// 1. SCNNode supplied else
 		{										// 2. Search through rootVews for SCNNode
-			for rootVew in DOCfactalsModelQ?.rootVews ?? [] {
+			for rootVew in FACTALSMODEL?.rootVews ?? [] {
 				return rootVew.scn				// found
 			}
 			fatalError("###### Couldn't find SCNNode to play sound")

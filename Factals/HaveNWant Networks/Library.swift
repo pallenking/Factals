@@ -66,7 +66,8 @@ struct ScanAnswer {		// : Codable
 extension Library : Uid {
 	//var uid					= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		DOClog.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		let log					= FACTALSMODEL!.log
+		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
 class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny

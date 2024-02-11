@@ -7,7 +7,11 @@ class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
-	var document : FactalsDocument!				// Owner
+//	var document : FactalsDocument!				// Owner
+	var docConfig : FwConfig	= [:]
+
+	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
+	var indexFor				= Dictionary<String,Int>()
 
 	var rootPart :  RootPart
 	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
@@ -30,11 +34,12 @@ class FactalsModel : ObservableObject, Uid {
 		simulator.factalsModel	= self
 		rootPart.factalsModel	= self
 
+		FACTALSMODEL			= self
 		//configure(from:document.docConfig)
 	}
 
-	 // FactalsModel has no hash
 	func configure(from config:FwConfig) {
+		docConfig				+= rootPart.ansConfig	// from library
 		simulator.configure(from:config)
 		rootPart.configure(from:config)
 		for rootVew in rootVews {
@@ -108,6 +113,95 @@ class FactalsModel : ObservableObject, Uid {
 	var wiggledPart	  : Part?	= nil
 	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 
+//	 // MARK: - 13. IBActions
+//	 /// Prosses keyboard key
+//    /// - Parameter from: -- NSEvent to process
+//    /// - Parameter vew: -- The Vew to use
+//	/// - Returns: The key was recognized
+//	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+//		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
+//		guard let rootPart : RootPart = vew.part.root else {return false }	// vew.root.part
+//
+//		 // Check registered TimingChains
+//		for timingChain in factalsModel.simulator.timingChains {
+///**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
+//				return true 				/* handled by timingChain */
+//			}
+//		}
+//
+//		 // Check Simulator:
+///**/	if factalsModel.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+//			return true 					// handled by simulator
+//		}
+//
+//		 // Check Controller:
+//		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
+//			return false						/* FwDocument has no key-ups */
+//		}
+//		 // Sim EVENTS						// /// Key DOWN ///////
+//		let cmd 				= nsEvent.modifierFlags.contains(.command)
+//		let alt 				= nsEvent.modifierFlags.contains(.option)
+//		var aux : FwConfig		= docConfig	// gets us params4pp
+//		aux["ppParam"]			= alt		// Alternate means print parameters
+
+//		switch character {
+//		case "u": // + cmd
+//			if cmd {
+//				panic("Press 'cmd u'   A G A I N    to retest")	// break to debugger
+//			}
+//		case Character("\u{1b}"):				// Escape
+//			print("\n******************** 'esc':  === EXIT PROGRAM\n")
+//			NSSound.beep()
+//			exit(0)								// exit program (hack: brute force)
+//		case "b":
+//			print("\n******************** 'b': ======== keyboard break to debugger")
+//			panic("'?' for debugger hints")
+////		case "d":
+////			print("\n******************** 'd': ======== ")
+////			let l1v 			= rootVewL("_l1")
+////			print(l1v.scn.transform.pp(.tree))
+//
+//		 // print out parts, views
+//		 // Command Syntax:
+//		 // mM/lL 		normal  /  normal + links	L	 ==> Links
+//		 // ml/ML		normal  /  normal + ports	ROOT ==> Ports
+//		 //
+//		case "m":
+//			aux["ppDagOrder"]	= true
+//			print("\n******************** 'm': === Parts:")
+//			print(rootPart.pp(.tree, aux), terminator:"")
+//		case "M":
+//			aux["ppPorts"]		= true
+//			aux["ppDagOrder"]	= true
+//			print("\n******************** 'M': === Parts and Ports:")
+//			print(rootPart.pp(.tree, aux), terminator:"")
+//		case "l":
+//			aux["ppLinks"]		= true
+//			aux["ppDagOrder"]	= true
+//			print("\n******************** 'l': === Parts, Links:")
+//			print(rootPart.pp(.tree, aux), terminator:"")
+//		case "L":
+//			aux["ppPorts"]		= true
+//			aux["ppDagOrder"]	= true
+//			aux["ppLinks"]		= true
+//			print("\n******************** 'L': === Parts, Ports, Links:")
+//			print(rootPart.pp(.tree, aux), terminator:"")
+//
+//		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
+//		case "c":
+//			printFwState()				// Current controller state
+//		case "?":
+//			printDebuggerHints()
+//			return false				// anonymous printout
+//
+//		default:
+//			return false				// nobody decoded
+//		}
+//		return true						// someone decoded
+//	}
+
+
+
 	  // MARK: - 13. IBActions
 	 /// Prosses keyboard key
     /// - Parameter from: -- NSEvent to process
@@ -124,7 +218,81 @@ class FactalsModel : ObservableObject, Uid {
 
 		var found				= true
  		let character			= nsEvent.charactersIgnoringModifiers!.first!
+
+		guard let rootPart : RootPart = vew.part.root else {return false }	// vew.root.part
+
+		 // Check registered TimingChains
+		for timingChain in simulator.timingChains {
+/**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
+				return true 				/* handled by timingChain */
+			}
+		}
+
+		 // Check Simulator:
+/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+			return true 					// handled by simulator
+		}
+
+		 // Check Controller:
+		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
+			return false						/* FwDocument has no key-ups */
+		}
+		 // Sim EVENTS						// /// Key DOWN ///////
+		var aux : FwConfig		= docConfig	// gets us params4pp
+		aux["ppParam"]			= alt		// Alternate means print parameters
+
+
 		switch character {
+
+		case "u": // + cmd
+			if cmd {
+				panic("Press 'cmd u'   A G A I N    to retest")	// break to debugger
+			}
+		case Character("\u{1b}"):				// Escape
+			print("\n******************** 'esc':  === EXIT PROGRAM\n")
+			NSSound.beep()
+			exit(0)								// exit program (hack: brute force)
+		case "b":
+			print("\n******************** 'b': ======== keyboard break to debugger")
+			panic("'?' for debugger hints")
+//		case "d":
+//			print("\n******************** 'd': ======== ")
+//			let l1v 			= rootVewL("_l1")
+//			print(l1v.scn.transform.pp(.tree))
+
+		 // print out parts, views
+		 // Command Syntax:
+		 // mM/lL 		normal  /  normal + links	L	 ==> Links
+		 // ml/ML		normal  /  normal + ports	ROOT ==> Ports
+		 //
+		case "m":
+			aux["ppDagOrder"]	= true
+			print("\n******************** 'm': === Parts:")
+			print(rootPart.pp(.tree, aux), terminator:"")
+		case "M":
+			aux["ppPorts"]		= true
+			aux["ppDagOrder"]	= true
+			print("\n******************** 'M': === Parts and Ports:")
+			print(rootPart.pp(.tree, aux), terminator:"")
+		case "l":
+			aux["ppLinks"]		= true
+			aux["ppDagOrder"]	= true
+			print("\n******************** 'l': === Parts, Links:")
+			print(rootPart.pp(.tree, aux), terminator:"")
+		case "L":
+			aux["ppPorts"]		= true
+			aux["ppDagOrder"]	= true
+			aux["ppLinks"]		= true
+			print("\n******************** 'L': === Parts, Ports, Links:")
+			print(rootPart.pp(.tree, aux), terminator:"")
+
+		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
+		case "c":
+			printFwState()				// Current controller state
+		case "?":
+			printDebuggerHints()
+			return false				// anonymous printout
+
 		case "r": // (+ cmd)
 			if cmd {
 				panic("Press 'cmd r'   A G A I N    to rerun")	// break to debugger
@@ -224,10 +392,10 @@ bug
 				return true 		// handled by simulator
 			}
 
-			 // Check Document:
-			if document.processEvent(nsEvent:nsEvent, inVew:vew) {
-				return true			// handled by doc
-			}
+//			 // Check Document:
+//			if document.processEvent(nsEvent:nsEvent, inVew:vew) {
+//				return true			// handled by doc
+//			}
 
 			return false
 		}
@@ -447,9 +615,9 @@ bug
 bug;		var rv				= ""//(rootPartActor.rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
 //			var rv				= (rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
 			rv					+= rootVews.pp(.classUid, aux) + " "
-			if let document {
-				rv				+= document.pp(.classUid, aux)
-			}
+//			if let document {
+//				rv				+= document.pp(.classUid, aux)
+//			}
 			return rv
 		default:
 			return ppStopGap(mode, aux)		// NO, try default method

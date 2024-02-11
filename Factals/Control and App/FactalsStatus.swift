@@ -10,8 +10,8 @@ protocol FactalsStatus : FwAny {
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
 func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
-	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
-	var rv						= APP	  .ppFactalsState(deapth:deapth-1)
+//	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
+	var rv = ""//						= APP	  .ppFactalsState(deapth:deapth-1)
 bug
 //	 // display current DOCument
 //	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
@@ -27,20 +27,22 @@ func ppFactalsStateHelper(_ fwClassName_	: String,
 						deapth		: Int				//= 999
 					) -> String
 {
+	let log						= FACTALSMODEL!.log
 	var rv						= ppFwPrefix(uid:uid, fwClassName_) + myLine + "\n"
 			// Other Lines:
-	DOClog.nIndent				+= 1
+	log.nIndent					+= 1
 	rv 							+= otherLines?(deapth) ?? ""
-	DOClog.nIndent				-= 1
+	log.nIndent					-= 1
 	return rv
 }
  /// Prefix: "1e98 | | <fwClass>   0    . . . . . . . . "
 func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 	 // align uid printouts for ctl and part to 4 characters
+	let log						= FACTALSMODEL!.log
 	var rv						= ppUid(pre:" ", uid, showNil:true).field(-5) + " "
-	rv 							+= DOClog.indentString()
+	rv 							+= log.indentString()
 	rv							+= fmt("%-12@", fwClassName_)
-	rv							= DOClog.unIndent(rv)
+	rv							=  log.unIndent(rv)
 	return rv
 }
 
@@ -144,8 +146,8 @@ extension Library : FactalsStatus {							///Library or ///Tests01, ...
 extension FactalsModel : FactalsStatus	{
 	///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
-		myLine					+= "\(rootVews.count) RootVews "
+//		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
+		var myLine				= "\(rootVews.count) RootVews "
 		return ppFactalsStateHelper("FactalsModel ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in
@@ -200,7 +202,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 
 			rv					+= "t:\(timeNow) "
 			rv					+= "going:\(globalDagDirUp ? "up " : "down ")"
-			if let s		 	= factalsModel?.document.docConfig.double("simTaskPeriod") {
+			if let s		 	= factalsModel?.docConfig.double("simTaskPeriod") {
 				rv				+= "simTaskPeriod=\(String(s)) "
 			}
 			rv					+= simTaskRunning ? "taskRun; " : "taskHalted; "
@@ -330,6 +332,7 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 	func ppFactalsState(deapth:Int=999) -> String {
 								//
 		let contract 			= trueF
+		let log					= FACTALSMODEL!.log
 		return ppFactalsStateHelper("NSWindow     ", uid:self,
 			myLine:
    			       "title:'\(title)' "											+
@@ -337,7 +340,7 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 			 "contentView:\(ppUid(contentView,  		 showNil:true)) "		+
 				"delegate:\(ppUid(delegate as? String, 	 showNil:true)) \n"		+
 			(!contract ? "" :
-				" " + uidStrDashes(nilLike:self) + " " + DOClog.indentString() + "\\ contentVew OMITTED\n"),
+				" " + uidStrDashes(nilLike:self) + " " + log.indentString() + "\\ contentVew OMITTED\n"),
 			otherLines:{ deapth in		//			uidStrDashes(nilLike
 				return contract ? "" :
 					 self.contentView?.ppFactalsState(deapth:deapth-1) ?? ""

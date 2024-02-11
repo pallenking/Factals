@@ -21,20 +21,22 @@ import SceneKit
 
 // MARK: - Singletons
 // ///////////////////////  U G L Y  Singletons: ///////////////////////////////
-var APP	 : FactalsApp!		// NEVER CHANGES (after inz)
+//var APP	 : FactalsApp!		// NEVER CHANGES (after inz)
 //var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
 // /////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////  Singleton Shugar  /////////////////////////////////
-var APPQ : FactalsApp?					{	APP 								}
+//var APPQ : FactalsApp?					{	APP 								}
+
+var FACTALSMODEL : FactalsModel?=nil
 //var DOCQ : FactalsDocument? 			{ 	DOC == nil ? nil : DOC 				}
-var DOCfactalsModelQ : FactalsModel?	 	// optionality is needed
-var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
-	fatalError("DOC=nil or DOC.factalsModel=nil")								}()}
-var DOClogQ  	: Log? 					{	DOCfactalsModelQ?.log				}
-var DOClog  	: Log 					{	DOClogQ ?? .reliable				}	//.first
-let DOCctlr						= NSDocumentController.shared
-var DOCAPPlog	: Log 					{	DOClogQ ?? APPQ?.log ?? .reliable	}
+//var DOCfactalsModelQ : FactalsModel?	 	// optionality is needed
+//var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
+//	fatalError("DOC=nil or DOC.factalsModel=nil")								}()}
+//var DOClogQ  	: Log? 					{	DOCfactalsModelQ?.log				}
+//var DOClog  	: Log 					{	DOClogQ ?? .reliable				}	//.first
+//let DOCctlr						= NSDocumentController.shared
+//var DOCAPPlog	: Log 					{	DOClogQ ?? APPQ?.log ?? .reliable	}
 // MARK: /////////////////////////////////////////////////////////////////////////////// -
 
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
@@ -132,7 +134,7 @@ struct FactalsApp: Uid, FwAny {
 	 // MARK: - 3. Factory
 	init () {
 		self.init(foo:true)
-		APP 					= self				// Register ( V E R Y  HOAKEY)
+//		APP 					= self				// Register ( V E R Y  HOAKEY)
 	}
 	private init (foo:Bool) {
 		appConfig				= params4all

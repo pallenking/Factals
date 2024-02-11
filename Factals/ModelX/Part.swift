@@ -141,11 +141,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}			// -- Name was given
 		name					= nam ?? {
-			if var doc			= self.root?.factalsModel?.document,
+			if var fm			= self.root?.factalsModel,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= doc.indexFor[prefix] ?? 0
-				doc.indexFor[prefix] = index + 1		// for next
+				let index		= fm.indexFor[prefix] ?? 0
+				fm.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
 			} else {	// -- Use fallback
 				defaultPrtIndex	+= 1
@@ -521,8 +521,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				return rv							 // found in self and ancestor's config
 			}
 		}										 // Look in application:
-		return root?.factalsModel?.document.docConfig[name] ?? // Look in doument
-			   APP?					 .appConfig[name]	 // Application?a
+		return nil
+//		return root?.factalsModel?.document.docConfig[name] ?? // Look in doument
+//			   APP?					 .appConfig[name]	 // Application?a
 	}
 	 // MARK: - 4.3 Iterate over parts
 	typealias PartOperation 	= (Part) -> ()
@@ -1384,7 +1385,7 @@ func foo () {
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			if var doc			= root?.factalsModel?.document { 	// take struct out
+			if var fm			= root?.factalsModel { 	// take struct out
 				//assert(doc === DOC, "paranoia")
 				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
 												+ "\(pp(.fwClassName))\n\(pp(.tree))")
@@ -1392,12 +1393,12 @@ func foo () {
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
-/**/				doc.showInspecFor(vew:vew, allowNew:alt)
+/**/bug//			fm.showInspecFor(vew:vew, allowNew:alt)
 					rv			= true
 				}
 							// Double Click: show/hide insides
 				if nsEvent.clickCount > 1 {
-					doc.factalsModel?.toggelOpen(vew:vew)
+					fm.toggelOpen(vew:vew)
 					rv			= true
 				}
 				else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
@@ -1411,7 +1412,7 @@ func foo () {
 				//	[m sendPickEvent:&fwEvent toModelOf:pickedVew]
 				//	[self.simNsVc buildRootFwVforBrain:self.brain]	// model may have changed, so remake vew
 				}
-				root!.factalsModel!.document = doc				// Put struct back
+				//root!.factalsModel!.document = fm				// Put struct back
 			} else {
 				panic("processEvent(:inVew:) BAD ARGS")
 			}

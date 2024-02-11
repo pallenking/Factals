@@ -14,7 +14,8 @@ extension Uid {
  ///  Conformers to Uid can use this:
 func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
 	 // For fwConTroL elements:
-	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? DOCfactalsModelQ?.log/*DOClog.*/.ppNUid4Ctl ?? 4
+	let log					= FACTALSMODEL?.log
+	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? log?.ppNUid4Ctl ?? 4
 	 // For Parts, Vews, and SCN Stuff:
 	if obj==nil ? false :			// obj==nil --> uses ppNUid4Ctl (AD HOC?)
 	   obj is Part 			||
@@ -22,7 +23,7 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 	   obj is SCNNode 		||
 	   obj is SCNConstraint	||
 	   obj is SCNPhysicsBody {
-		uidDigits			= aux.int("ppNUid4Tree") ?? DOClog.ppNUid4Tree
+		uidDigits			= aux.int("ppNUid4Tree") ?? log!.ppNUid4Tree
 	}
 	assert(uidDigits >= 0 && uidDigits <= 4, "ppUid( haa illegal uidDigits=\(uidDigits)")
 
@@ -44,9 +45,10 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 func uidStrDashes(nilLike obj:Uid?) -> String {			// no object
 	let forTree					= obj is Part || obj is Vew || obj is SCNNode
 							   || obj is SCNConstraint || obj is SCNPhysicsBody
-	let uidDigits 				= DOClog == nil ? 	4	// a desparate situation -- no DOClog
-								: forTree ? 	DOClog.ppNUid4Tree
-								:				DOClog.ppNUid4Ctl
+	let log						= FACTALSMODEL!.log
+	let uidDigits 				= log == nil ? 	4	// a desparate situation -- no DOClog
+								: forTree ? 	log.ppNUid4Tree
+								:				log.ppNUid4Ctl
 	return  String(repeating: "-", count:uidDigits)
 }
  /// Generate Uid of NSObject from hash of address

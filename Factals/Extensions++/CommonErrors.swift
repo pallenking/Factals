@@ -42,8 +42,8 @@ func panic(_ message: @autoclosure () -> String="(No message supplied)") {
 ///	//https://medium.com/@johnsundell/using-autoclosure-when-designing-swift-apis-67fe20a8b2e
 func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure") {
 	if truthValue == false {
-		let s					= DOClogQ == nil ? ""
-								: fmt("%03d", DOClog.eventNumber) + DOClog.ppCurThread + DOClog.ppCurLock
+		let s					= ""//DOClogQ == nil ? ""
+								   //: fmt("%03d", DOClog.eventNumber) + DOClog.ppCurThread + DOClog.ppCurLock
 		print("\n\n" + """
 			\t\(s) ERROR ------------
 			\t\(message())

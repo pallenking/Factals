@@ -35,7 +35,7 @@ extension RootVew			: ProcessNsEvent {
 // extension TimingChain	: ProcessNsEvent {}		// Redundant
 // extension WorldModel		: ProcessNsEvent {}		// Redundant
 extension Part				: ProcessNsEvent {}
-extension FactalsDocument	: ProcessNsEvent {}
+//extension FactalsDocument	: ProcessNsEvent {}
 extension FactalsModel		: ProcessNsEvent {}
 //extension EventReceiver	: ProcessNsEvent {}		// ???
 extension Simulator			: ProcessNsEvent {}

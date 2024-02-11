@@ -236,8 +236,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	//		return rv
 	//	}
 
-		guard let doc		= rootVew.factalsModel.document	else {	return nil		}
-		var rv : FwAny?		= doc.docConfig[name]
+		guard let fm		= rootVew.factalsModel	else {	return nil			}
+		var rv : FwAny?		= fm.docConfig[name]
 		 // Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 
 		return rv
@@ -571,9 +571,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			let bBoxScn			= SCNComment("")	  //		Z
 			scn.addChild(node:bBoxScn, atIndex:0)
 			 // Name the result
-			var doc				= self.rootVew!.factalsModel.document!
-			let wBoxNameIndex	= doc.indexFor["WBox"] ?? 1
-			doc.indexFor["WBox"] = wBoxNameIndex + 1
+			var fm				= self.rootVew!.factalsModel!
+			let wBoxNameIndex	= fm.indexFor["WBox"] ?? 1
+			fm.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
 			bBoxScn.geometry 	= SCNGeometry.lines(lines:indices, withPoints:corners) //material.diffuse.contents = color0		// BUG doesn't work, all are white
 			bBoxScn.categoryBitMask = FwNodeCategory.adornment.rawValue			//material.lightingModel 	= .blinn

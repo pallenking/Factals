@@ -43,20 +43,20 @@ func LLDBrootPart(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  LLDBrootVew0  : RootVew {
-	get 		{	return DOCfactalsModel.rootVews.count > 0 ? DOCfactalsModel.rootVews[0] : .nullRoot	}
-	set (v)		{		   DOCfactalsModel.rootVews[0] = v							}
+	get 		{	return FACTALSMODEL?.rootVews.first ?? .nullRoot	}
+	set (v)		{		   FACTALSMODEL?.rootVews[0] = v							}
 }
 var  LLDBrootVew1  : RootVew {
-	get 		{	return DOCfactalsModel.rootVews.count > 1 ? DOCfactalsModel.rootVews[1] : .nullRoot									}
-	set (v)		{		   DOCfactalsModel.rootVews[1] = v							}
+	get 		{	return FACTALSMODEL!.rootVews.count > 1 ? FACTALSMODEL!.rootVews[1] : .nullRoot									}
+	set (v)		{		   FACTALSMODEL?.rootVews[1] = v							}
 }
 var  LLDBrootVew2  : RootVew {
-	get 		{	return DOCfactalsModel.rootVews.count > 2 ? DOCfactalsModel.rootVews[2] : .nullRoot									}
-	set (v)		{		   DOCfactalsModel.rootVews[2] = v							}
+	get 		{	return FACTALSMODEL!.rootVews.count > 2 ? FACTALSMODEL!.rootVews[2] : .nullRoot									}
+	set (v)		{		   FACTALSMODEL?.rootVews[2] = v							}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
-	guard let factalsModel 			= DOCfactalsModelQ else {
-		print("rootvew() returns .null:\(ppUid(Vew.null)) !!!")
+	guard let factalsModel 			= FACTALSMODEL else {
+		print("FACTALSMODEL returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
 	}
 	guard index >= 0 && index < factalsModel.rootVews.count else { fatalError("rootvew() returns .null !!!")	}
@@ -69,20 +69,20 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 
  /// Access to current ////// SCNNode Tree  ////// 
 var LLDBrootScn0 : SCNNode  		{
-	get 		{	return DOCfactalsModel.rootVews[0].scn 							}
-	set (v)		{		   DOCfactalsModel.rootVews[0].scn = v						}
+	get 		{	return FACTALSMODEL!.rootVews[0].scn 						}
+	set (v)		{		   FACTALSMODEL!.rootVews[0].scn = v					}
 }
 var LLDBrootScn1 : SCNNode  		{
-	get 		{	return DOCfactalsModel.rootVews[1].scn 							}
-	set (v)		{		   DOCfactalsModel.rootVews[1].scn = v						}
+	get 		{	return FACTALSMODEL!.rootVews[1].scn 						}
+	set (v)		{		   FACTALSMODEL!.rootVews[1].scn = v					}
 }
 var LLDBrootScn2 : SCNNode  		{
-	get 		{	return DOCfactalsModel.rootVews[2].scn 							}
-	set (v)		{		   DOCfactalsModel.rootVews[2].scn = v						}
+	get 		{	return FACTALSMODEL!.rootVews[2].scn 						}
+	set (v)		{		   FACTALSMODEL!.rootVews[2].scn = v					}
 }
 func LLDBrootScn(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
-	guard let factalsModel 			= DOCfactalsModelQ else {
-		print("DOCfactalsModel is nil! returning SCNNode.null")
+	guard let factalsModel 			= FACTALSMODEL else {
+		print("FACTALSMODEL is nil! returning SCNNode.null")
 		return .null
 	}
 	guard index >= 0 && index < factalsModel.rootVews.count else {
@@ -105,8 +105,7 @@ func fwHelp(_ key:String="?", inVew vew:Vew?) {
 }
  // Send a key to controller:
 func sendApp(key:String="?", inVew vew:Vew) {
-	if let doc				= vew.rootVew?.factalsModel.document,
-//	if DOC != nil,
+	if let fm				= vew.rootVew?.factalsModel,
 	   let ginnedUpEvent	= NSEvent.keyEvent(
 			with			: .keyDown, //NSEvent.EventType(rawValue: 10)!,//keyDown,
 			location		: NSZeroPoint,
@@ -119,7 +118,7 @@ func sendApp(key:String="?", inVew vew:Vew) {
 			isARepeat		: false,
 			keyCode			: 0)
 	{
-		let _			 	= doc.processEvent(nsEvent:ginnedUpEvent, inVew:vew)
+		let _			 	= fm.processEvent(nsEvent:ginnedUpEvent, inVew:vew)
 	}
 	else {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")
@@ -136,7 +135,7 @@ func sendApp(key:String="?", inVew vew:Vew) {
 
  // External Global interface (misc, lldb)
 func printFwState()  {
-	DOClog.ppIndentCols 		= 20		// sort of permanent!
+	FACTALSMODEL?.log.ppIndentCols 	= 20		// sort of permanent!
 	print(ppFactalsState())
 }
 

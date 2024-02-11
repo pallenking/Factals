@@ -506,7 +506,7 @@ extension Dictionary : Logd {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
 		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
-		DOClog.log(str, terminator:terminator)
+		FACTALSMODEL!.log(str, terminator:terminator)
 	}//Argument type 'Dictionary<Key, Value>' does not conform to expected type 'Uid'
 }
 
@@ -1213,7 +1213,7 @@ extension Logd {
 		let bbb					= aaa.field(-25)
 		let str					= nls + bbb + msg2	//-nFullN uidClass
 //		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
-		DOClog.log(str, terminator:terminator)
+		FACTALSMODEL!.log(str, terminator:terminator)
 	}
 }
 
