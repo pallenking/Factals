@@ -640,11 +640,11 @@ print("---------- \(vew.pp(.fullName)).portConSpotNEW")
 		scnTube.color0			= NSColor.blue
 
 		 // C: 3D Origin Mark (for debug)
-//		let scnOrigin			= originMark(size:0.5)
-//		scnOrigin.color0 		= NSColor.black
-//		scnOrigin.position.y 	= -scnDiskY
-//		scnOrigin.isHidden		= true
-//		scnDisc.addChild(node:scnOrigin)
+		let scnOrigin			= originMark(size:0.5, root:root!)
+		scnOrigin.color0 		= NSColor.black
+		scnOrigin.position.y 	= -scnDiskY
+		scnOrigin.isHidden		= true
+		scnDisc.addChild(node:scnOrigin)
 
 		return scnDisc
 	}

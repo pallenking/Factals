@@ -571,8 +571,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			let bBoxScn			= SCNComment("")	  //		Z
 			scn.addChild(node:bBoxScn, atIndex:0)
 			 // Name the result
-			let wBoxNameIndex	= DOC.indexFor["WBox"] ?? 1
-			DOC.indexFor["WBox"] = wBoxNameIndex + 1
+			var doc				= self.rootVew!.factalsModel.document!
+			let wBoxNameIndex	= doc.indexFor["WBox"] ?? 1
+			doc.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
 			bBoxScn.geometry 	= SCNGeometry.lines(lines:indices, withPoints:corners) //material.diffuse.contents = color0		// BUG doesn't work, all are white
 			bBoxScn.categoryBitMask = FwNodeCategory.adornment.rawValue			//material.lightingModel 	= .blinn

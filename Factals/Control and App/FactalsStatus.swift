@@ -12,11 +12,11 @@ protocol FactalsStatus : FwAny {
 func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
 	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
 	var rv						= APP	  .ppFactalsState(deapth:deapth-1)
-
-	 // display current DOCument
-	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
-	rv							+= ppUid(pre:" ", DOC, post:" DOC \(msg)", showNil:true) + "\n"
-	rv							+= DOC?.ppFactalsState(deapth:deapth-1) ?? ""	// current DOCument
+bug
+//	 // display current DOCument
+//	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
+//	rv							+= ppUid(pre:" ", DOC, post:" DOC \(msg)", showNil:true) + "\n"
+//	rv							+= DOC?.ppFactalsState(deapth:deapth-1) ?? ""	// current DOCument
 	return rv
 }
 

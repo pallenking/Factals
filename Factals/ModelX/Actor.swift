@@ -1,4 +1,5 @@
 //  Actor.mm -- a Net with known upper context and lower evidence Bundles C2015PAK
+// N.B: NAME CONVLICT: this is not a swift Actor!
 
 import SceneKit
 
@@ -222,8 +223,8 @@ class Actor : Net {
 		}
 	}
 	// / also add actor.previousClocks
-	override func gatherLinkUps(into linkUpList:inout [() -> ()]) {
-		super.gatherLinkUps(into:&linkUpList)
+	override func gatherLinkUps(into linkUpList:inout [() -> ()], rootPart:RootPart) {
+		super.gatherLinkUps(into:&linkUpList, rootPart:rootPart)
 
 		 // An enable for previousClock.
 		if let _		 		= partConfig["clockEnable"] {

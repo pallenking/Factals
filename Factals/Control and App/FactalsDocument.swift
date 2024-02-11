@@ -51,7 +51,7 @@ struct FactalsDocument : FileDocument {
 	// MARK: - 2.4.4 Building
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
-		DOC						= self			// INSTALL as current DOC, quick!
+//		DOC						= self			// INSTALL as current DOC, quick!
 
 		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
@@ -61,10 +61,13 @@ struct FactalsDocument : FileDocument {
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
 		factalsModel			= FactalsModel(fromRootPart:rootPart)
+		factalsModel.document	= self
+
+		rootPart.wireAndGroom([:])
 
 		 // BUT THESE ARE STRUCTS
 		factalsModel.document 	= self			// DELEGATE
-		DOC						= self			// INSTALL as current DOC, quick!
+//		DOC						= self			// INSTALL as current DOC, quick!
 
 		configure(config:docConfig + rootPart.ansConfig)
 	}
@@ -95,7 +98,7 @@ struct FactalsDocument : FileDocument {
 	init(factalsModel f:FactalsModel) {
 		factalsModel			= f			// girootPart!.ven
 		factalsModel.document	= self		// owner back-link
-		DOC						= self		// INSTALL Factals
+//		DOC						= self		// INSTALL Factals
 	}
 	init(configuration: ReadConfiguration) throws {		// async
 		//fatalError()

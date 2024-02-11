@@ -141,11 +141,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}			// -- Name was given
 		name					= nam ?? {
-			if DOC != nil,
+			if var doc			= self.root?.factalsModel?.document,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= DOC.indexFor[prefix] ?? 0
-				DOC.indexFor[prefix] = index + 1		// for next
+				let index		= doc.indexFor[prefix] ?? 0
+				doc.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
 			} else {	// -- Use fallback
 				defaultPrtIndex	+= 1
@@ -521,9 +521,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				return rv							 // found in self and ancestor's config
 			}
 		}										 // Look in application:
-		return nil
-//		return root?.factalsModel?.document.config[name] ?? // Look in doument
-//			   APP?					 .config[name]	 // Application?a
+		return root?.factalsModel?.document.docConfig[name] ?? // Look in doument
+			   APP?					 .appConfig[name]	 // Application?a
 	}
 	 // MARK: - 4.3 Iterate over parts
 	typealias PartOperation 	= (Part) -> ()
@@ -805,11 +804,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// Scan self and children for wires to add to model
 	/// - Wires are gathered after model is built, and applied at later phase
 	/// - Parameter wirelist: 		where wires added
-	func gatherLinkUps(into linkUpList:inout [() -> ()]) {    //was gatherWiresInto:wirelist]
+	func gatherLinkUps(into linkUpList:inout [() -> ()], rootPart:RootPart) {    //was gatherWiresInto:wirelist]
 		 // Gather wires from  _children_   into wirelist first:
 		for child in children {
 			if let atom       	= child as? Atom {
-				atom.gatherLinkUps(into:&linkUpList)  // ### RECURSIVE
+				atom.gatherLinkUps(into:&linkUpList, rootPart:rootPart)  // ### RECURSIVE
 			}
 		}
 	}

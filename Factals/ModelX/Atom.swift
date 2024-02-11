@@ -463,16 +463,15 @@ class Atom : Part {	//Part//FwPart
 
 	 // MARK: - 5. Wiring
 //	var defaultLinkProps : FwConfig	{ return [:]		}
-	override func gatherLinkUps(into linkUpList:inout [() -> ()]) {
-		guard let root			 else {		fatalError("no root")				}
+	override func gatherLinkUps(into linkUpList:inout [() -> ()], rootPart:RootPart) {
 
-/**/	super.gatherLinkUps(into:&linkUpList)
+/**/	super.gatherLinkUps(into:&linkUpList, rootPart:rootPart)
 		   // /////////////////////////////////////////////////////////////////////
 		  // //    :H: src=SouRCe, lnk=LiNK, trg=TaRGet con=CONtaining net      //
 		 // /////////////////////////////////////////////////////////////////////
 		let srcPortAbilities	= self.hasPorts()	// key --> Port exists
 		var sRetiredKeys : [String] = []
-//		var doc					= DOC!
+		var doc					= rootPart.factalsModel!.document
 
 		 // Paw through Atom's local configuration
 		for (srcPortString, targets_) in partConfig {
@@ -489,9 +488,9 @@ class Atom : Part {	//Part//FwPart
 			 // source --> targets
 			for var trgAny : FwAny in targets_ as? [FwAny] ?? [targets_] {
 				 // STATE: self!, srcPortName!, trgAny!
-				let wireNumber	= (DOC.indexFor["wire"] ?? 0) + 1				// root.wireNumber += 1
-				DOC.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
-				let breakAtWireNo = DOC.indexFor["breakAtWire"]
+				let wireNumber	= (doc!.indexFor["wire"] ?? 0) + 1				// root.wireNumber += 1
+				doc!.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
+				let breakAtWireNo = doc!.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(log.eventNumber-1)")
 				atBld(4, logd("L\(wireNumber)'s source:\(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:\(trgAny.pp(.line))"))
@@ -650,7 +649,7 @@ class Atom : Part {	//Part//FwPart
 						link!.ports[trgAboveSInCon ? "S" : "P"]!.connect(to:trgPort!)
 						conNet.addChild(link, atIndex:lnkInsInd)
 						 // Active segments from creation
-						root.factalsModel?.simulator.linkChits += link!.curActiveSegments
+						rootPart.factalsModel?.simulator.linkChits += link!.curActiveSegments
 						//self.root!.simulator.linkChits += link!.curActiveSegments
 					}
 				}

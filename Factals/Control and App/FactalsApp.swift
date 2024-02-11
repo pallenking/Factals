@@ -16,21 +16,21 @@ import SceneKit
   //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
   //let (majorVersion, minorVersion, nameVersion) = (6, 0, "Factals re-App")// 220628
   //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")	// 210710 Post
-  //let (majorVersion, minorVersion, nameVersion) = (5, 0, "Swift Recode")
+  //let (majorVersion, minorVersion, dnameVersion) = (5, 0, "Swift Recode")
   //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
 
 // MARK: - Singletons
 // ///////////////////////  U G L Y  Singletons: ///////////////////////////////
 var APP	 : FactalsApp!		// NEVER CHANGES (after inz)
-var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
+//var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
 // /////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////  Singleton Shugar  /////////////////////////////////
 var APPQ : FactalsApp?					{	APP 								}
-var DOCQ : FactalsDocument? 			{ 	DOC == nil ? nil : DOC 				}
-var DOCfactalsModelQ : FactalsModel?	{	DOC?.factalsModel					}	// optionality is needed
+//var DOCQ : FactalsDocument? 			{ 	DOC == nil ? nil : DOC 				}
+var DOCfactalsModelQ : FactalsModel?	 	// optionality is needed
 var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
-	fatalError(DOC==nil ? "DOC=nil" : "DOC.factalsModel=nil")					}()}
+	fatalError("DOC=nil or DOC.factalsModel=nil")								}()}
 var DOClogQ  	: Log? 					{	DOCfactalsModelQ?.log				}
 var DOClog  	: Log 					{	DOClogQ ?? .reliable				}	//.first
 let DOCctlr						= NSDocumentController.shared
@@ -39,6 +39,13 @@ var DOCAPPlog	: Log 					{	DOClogQ ?? APPQ?.log ?? .reliable	}
 
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+
+class AppGlobals : ObservableObject {
+    @Published var appConfig : FwConfig
+	init(appConfig g:FwConfig) {
+		appConfig = g
+	}
+}
 
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
@@ -88,13 +95,6 @@ bug//					document = FactalsDocument(fromLibrary:libName)
 				}
 			}
 		}
-	}
-}
-
-class AppGlobals : ObservableObject {
-    @Published var appConfig : FwConfig
-	init(appConfig g:FwConfig) {
-		appConfig = g
 	}
 }
 struct FactalsApp: Uid, FwAny {

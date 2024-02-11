@@ -57,8 +57,8 @@ class RootPart : Part {		//class//actor//
 
 			addChild(ansTrunk)
 		}
-
-		wireAndGroom([:])
+//
+//		wireAndGroom([:])
 
 //		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 //		self.dirty.turnOn(.vew)
@@ -72,7 +72,7 @@ class RootPart : Part {		//class//actor//
 		 //  1. GATHER LINKS as wirelist:
 		atBld(4, logd("------- GATHERING potential Links:"))
 		var linkUps : [()->()]	= []
-		gatherLinkUps(into:&linkUps)
+		gatherLinkUps(into:&linkUps, rootPart:self)
 
 		 //  2. ADD LINKS:
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))

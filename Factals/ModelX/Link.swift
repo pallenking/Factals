@@ -480,16 +480,8 @@ bug	// Never USED?
 		guard let rootVew		= vew.rootVew,
 		 	  let cameraScn		= rootVew.cameraScn else {
 			print("############ rotateLinkSkins can't find camera #######")
-			let rootVew			= vew.rootVew
-			//let cameraScn		= rootVew?.cameraScn
 			return
 		}
-//		guard let rootScn		= vew.rootVew?.rootScn else {
-//			print("############ rotateLinkSkins with DOC? == nil #######")
-//			return																}
-//		let cameraScn			= rootScn.cameraScn else {
-//
-//		}
 		let cameraPosn			= cameraScn.position
 		guard let linkVew		= vew as? LinkVew 	 else { fatalError("Vew type mismach")}
 		 // Get ends of link, and set positions
