@@ -202,7 +202,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 
 			rv					+= "t:\(timeNow) "
 			rv					+= "going:\(globalDagDirUp ? "up " : "down ")"
-			if let s		 	= factalsModel?.docConfig.double("simTaskPeriod") {
+			if let s		 	= factalsModel?.fmConfig.double("simTaskPeriod") {
 				rv				+= "simTaskPeriod=\(String(s)) "
 			}
 			rv					+= simTaskRunning ? "taskRun; " : "taskHalted; "

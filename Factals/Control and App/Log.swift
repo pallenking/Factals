@@ -316,7 +316,7 @@ bug
 		"toggelOpen6"					: "op6",
 	]
 	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
-//	var params4aux : FwConfig	{	DOC?.docConfig ?? [:]		}
+//	var params4aux : FwConfig	{	DOC?.fmConfig ?? [:]		}
 
 	 /// In Pessamistic mode: a new Log every usage (features missing)
 	 /// In Limp mode:		  one static defaultLogger

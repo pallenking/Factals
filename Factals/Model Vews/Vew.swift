@@ -237,7 +237,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	//	}
 
 		guard let fm		= rootVew.factalsModel	else {	return nil			}
-		var rv : FwAny?		= fm.docConfig[name]
+		var rv : FwAny?		= fm.fmConfig[name]
 		 // Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 
 		return rv

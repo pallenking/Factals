@@ -7,8 +7,7 @@ class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
-//	var document : FactalsDocument!				// Owner
-	var docConfig : FwConfig	= [:]
+	var fmConfig : FwConfig	= [:]
 
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
@@ -31,15 +30,16 @@ class FactalsModel : ObservableObject, Uid {
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		FACTALSMODEL			= self
 		simulator.factalsModel	= self
 		rootPart.factalsModel	= self
 
-		FACTALSMODEL			= self
-		//configure(from:document.docConfig)
+//		FACTALSMODEL			= self
+		//configure(from:document.fmConfig)
 	}
 
 	func configure(from config:FwConfig) {
-		docConfig				+= rootPart.ansConfig	// from library
+		fmConfig				+= rootPart.ansConfig	// from library
 		simulator.configure(from:config)
 		rootPart.configure(from:config)
 		for rootVew in rootVews {
@@ -141,7 +141,7 @@ class FactalsModel : ObservableObject, Uid {
 //		 // Sim EVENTS						// /// Key DOWN ///////
 //		let cmd 				= nsEvent.modifierFlags.contains(.command)
 //		let alt 				= nsEvent.modifierFlags.contains(.option)
-//		var aux : FwConfig		= docConfig	// gets us params4pp
+//		var aux : FwConfig		= fmConfig	// gets us params4pp
 //		aux["ppParam"]			= alt		// Alternate means print parameters
 
 //		switch character {
@@ -238,7 +238,7 @@ class FactalsModel : ObservableObject, Uid {
 			return false						/* FwDocument has no key-ups */
 		}
 		 // Sim EVENTS						// /// Key DOWN ///////
-		var aux : FwConfig		= docConfig	// gets us params4pp
+		var aux : FwConfig		= fmConfig	// gets us params4pp
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
 
@@ -534,7 +534,7 @@ bug
 //		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 //		atAni(4, part.logd(rootPart!.pp(.tree)))
 //
-//		if document.docConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
+//		if document.fmConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 //
 //			 // Mark old SCNNode as Morphing
 //			let oldScn			= vew.scn

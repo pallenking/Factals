@@ -403,7 +403,7 @@ bug
 
 		bug
 //		if (trueF) {		 	// Make new window:
-//			let x = FactalsDocument()//docConfig:scanKey) // who holds onto this
+//			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
 //		}
 //		else {			 		// Install new rootPart in current window
 //			guard let doc = DOC else { fatalError("no DOC")}

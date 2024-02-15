@@ -66,7 +66,11 @@ struct ScanAnswer {		// : Codable
 extension Library : Uid {
 	//var uid					= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		let log					= FACTALSMODEL!.log
+		guard let FACTALSMODEL else {
+			print(format, args, terminator:terminator ?? "lasfowehif")
+			return
+		}
+		let log					= FACTALSMODEL.log
 		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }

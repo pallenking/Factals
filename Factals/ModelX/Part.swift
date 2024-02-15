@@ -522,7 +522,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}										 // Look in application:
 		return nil
-//		return root?.factalsModel?.document.docConfig[name] ?? // Look in doument
+//		return root?.factalsModel?.document.fmConfig[name] ?? // Look in doument
 //			   APP?					 .appConfig[name]	 // Application?a
 	}
 	 // MARK: - 4.3 Iterate over parts

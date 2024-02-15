@@ -241,7 +241,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		return axesScn
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if true || rootVew?.factalsModel?.docConfig.bool("axisTics") ?? false {
+		if true || rootVew?.factalsModel?.fmConfig.bool("axisTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -298,7 +298,7 @@ bug;
 //		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
 		guard let rootVew		= self.rootVew else { fatalError("rootVew is nil")}
 
-		let animate				= rootVew.factalsModel?.docConfig.bool("animatePan") ?? false
+		let animate				= rootVew.factalsModel?.fmConfig.bool("animatePan") ?? false
 		if animate && duration > 0.0 {
 			SCNTransaction.begin()			// Delay for double click effect
 // TYP		atRve(8, rootVew.factalsModel.logd("  /#######  animatePan: BEGIN All"))

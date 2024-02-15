@@ -944,3 +944,9 @@ t:1.2899991 going:up taskRun; SETTLED=0/Ports,0/Links,0/kick	r g g g
 wireAndGroom([:])
 	groomModelPostWires(root:RootPart)
 groomModel(parent:self)
+
+
+af9311942fccdeb81c18676b03d124384a63bd7b last change: /loc 1/20 fails Loading...
+7dfcc69f5de197318e7adb64d0692dc0c21a4c61 morning           1/18 fails Loading...
+eb6049a80456e702740f1e9c5f594b3d516ccdba compiles          1/17 fails Loading...
+fec85ded9f410cb592079afa48d0e73fcca74376 about to move sim 1/17 works NO WAIT

@@ -138,13 +138,13 @@ struct FactalsModelView: View {
 			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
 			//				 }
 						}
-						VewBar(rootVew:rootVew)
+//						VewBar(rootVew:rootVew)
 					}
 				}
 			}
-			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
-			 .padding(10)
-			Spacer()
+//			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
+//			 .padding(10)
+//			Spacer()
 		}
 //			.onAppear() {
 //				let windows 	= NSApplication.shared.windows

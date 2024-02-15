@@ -159,12 +159,12 @@ extension NSView 		: FwAny		{		// also SCNView
 }
 extension FactalsDocument 	: FwAny { }
 
-extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
-extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
+//extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
+//extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension SelfiePole	: FwAny		{}
-extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-extension SCNConstraint	: FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-extension SCNGeometry	: FwAny 	{	// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
+//extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
+//extension SCNConstraint : FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
+extension SCNGeometry	{				// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		return ppStopGap(mode, aux)		// NO, try default method
 	}
@@ -363,6 +363,20 @@ extension Dictionary		: FwAny {
 			return ppStopGap(mode, aux)		// NO, try default method
 		}
 	}
+	
+//	static func +=(dict1: inout FwConfig, dict2:FwConfig) {	dict1 = dict1 + dict2 }
+//	static func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
+//		var rv						= lhs						// initial values, older, overwritten
+//		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+//		for (keyRhs, valueRhs) in rhsSorted {
+//			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
+//				//			valueLhs == valueRhs ? nop :
+//				atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+//			}
+//			rv[keyRhs] 				= valueRhs
+//		}
+//		return rv
+//	}
 }
 extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value:Equatable, Value :FwAny
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
@@ -417,20 +431,20 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 //		return rv
 //	}
 //}
-//extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// PW: Best to far?//Key:String?
-//	static func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
-//		var rv						= lhs						// initial values, older, overwritten
-//		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
-//		for (keyRhs, valueRhs) in rhsSorted {
-//			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-////				valueLhs == valueRhs ? nop :
-//					atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \((valueLhs as! FwAny).pp(.short).field(10)) \t<-- \((valueRhs as! FwAny).pp(.short))"))
-//  			}
-//			rv[keyRhs] 				= valueRhs
-//		}
-//		return rv
-//	}
-//}
+extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// PW: Best to far?//Key:String?
+	static func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
+		var rv						= lhs						// initial values, older, overwritten
+		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
+		for (keyRhs, valueRhs) in rhsSorted {
+			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
+//				valueLhs == valueRhs ? nop :
+					atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+  			}
+			rv[keyRhs] 				= valueRhs
+		}
+		return rv
+	}
+}
 
 
 //func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable 	{	dict1 = dict1 + dict2	}
@@ -1213,7 +1227,11 @@ extension Logd {
 		let bbb					= aaa.field(-25)
 		let str					= nls + bbb + msg2	//-nFullN uidClass
 //		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
-		FACTALSMODEL!.log(str, terminator:terminator)
+		guard let FACTALSMODEL else {
+			print(str)//, terminator:terminator ?? "\n")
+			return
+		}
+		FACTALSMODEL.log(str, terminator:terminator)
 	}
 }
 

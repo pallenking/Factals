@@ -14,9 +14,9 @@ import SceneKit
 import UniformTypeIdentifiers
 
 class DocGlobals : ObservableObject {
-    @Published var docConfig : FwConfig
-	init(docConfig d:FwConfig) {
-		docConfig = d
+    @Published var fmConfig : FwConfig
+	init(fmConfig d:FwConfig) {
+		fmConfig = d
 	}
 }
 
@@ -38,13 +38,9 @@ extension FactalsDocument : Uid {
 }
 struct FactalsDocument : FileDocument {
 	let uid:UInt16				= randomUid()
-    @StateObject var docGlobals	= DocGlobals(docConfig:params4pp)
-//
-//	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
-//	var indexFor				= Dictionary<String,Int>()
+    @StateObject var docGlobals	= DocGlobals(fmConfig:params4pp)
 
 	var factalsModel : FactalsModel! = nil				// content
-//	var docConfig : FwConfig	= [:]
 
 	init (fileURL: URL) {
 		bug
@@ -62,15 +58,10 @@ struct FactalsDocument : FileDocument {
 		//**/	let select		= "- Port Missing"
 		let rootPart			= RootPart(fromLibrary:select)
 		factalsModel			= FactalsModel(fromRootPart:rootPart)
-//		factalsModel.document	= self
 
 		rootPart.wireAndGroom([:])
 
-		 // BUT THESE ARE STRUCTS
-//		factalsModel.document 	= self			// DELEGATE
-//		DOC						= self			// INSTALL as current DOC, quick!
-
-		configure(config:factalsModel.docConfig + rootPart.ansConfig)
+		configure(config:factalsModel.fmConfig + rootPart.ansConfig)
 	}
 	func configure(config:FwConfig) {
 		 // Build Vews per Configuration
@@ -115,7 +106,7 @@ struct FactalsDocument : FileDocument {
 			let factalsModel	= FactalsModel(fromRootPart:rootPart)
 bug;		self.init(factalsModel:factalsModel)
 
-//			docConfig				+= rootPart.ansConfig	// from library
+//			fmConfig				+= rootPart.ansConfig	// from library
 		default:
 				throw FwError(kind:".fileReadCorruptFile")
 		}
@@ -202,7 +193,7 @@ func serializeDeserialize(_ inPart:Part) throws -> Part? {
 		atIns(7, print("code makeInspectors"))
 			// TODO: should move ansConfig stuff into wireAndGroom
 bug
-//		if let vew2inspec		= docConfig["inspec"] {
+//		if let vew2inspec		= fmConfig["inspec"] {
 //			if let name			= vew2inspec as? String {	// Single String
 //				showInspec(for:name)
 //			}
@@ -325,7 +316,7 @@ bug
 //		 // Sim EVENTS						// /// Key DOWN ///////
 //		let cmd 				= nsEvent.modifierFlags.contains(.command)
 //		let alt 				= nsEvent.modifierFlags.contains(.option)
-//		var aux : FwConfig		= docConfig	// gets us params4pp
+//		var aux : FwConfig		= fmConfig	// gets us params4pp
 //		aux["ppParam"]			= alt		// Alternate means print parameters
 //
 //		switch character {

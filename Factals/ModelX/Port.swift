@@ -666,7 +666,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		let     tubeColor0	 	= upInWorld ? NSColor.green : .red
 		tube?.color0			= NSColor(mix:NSColor.whiteX, with:value, of:tubeColor0)
 		if tube?.color0 != curTubeColor0 {
-			vew.scn.play(sound:value>0.5 ? "tick1" : "tock0")
+//			vew.scn.play(sound:value>0.5 ? "tick1" : "tock0")
 		}
 				// Cone with connectedTo's value:
 		let cone				= vew.scn.find(name:"s-Cone", maxLevel:2)
