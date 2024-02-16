@@ -430,7 +430,7 @@ bug
 		 // Find vews of NSEvent
 		guard let vews		= inVew.vews 			else { return nil	}
 		guard let slot 			= vews.slot				else { return nil	}
-//		let scenes:Scenes = vews.scenes			// SCNScene
+//		let scenes:ScnNodes = vews.scenes			// SCNScene
 //		let rv:Vews?			= scenes.vews
 //		let rn:SCNNode			= scenes.rootNode
 

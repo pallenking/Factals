@@ -248,11 +248,11 @@ extension Vews : FactalsStatus	{								  ///Vews
 	}
 }
 
-extension Scenes : FactalsStatus	{						///Scenes,SCNScene
+extension ScnNodes : FactalsStatus	{						///ScnNodes,SCNScene
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= vews?.scenes === self ? "" : "OWNER:'\(vews!)' is BAD"
 		myLine					+= "isPaused:\(isPaused) "
-		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"Scenes      "
+		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnNodes      "
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.rootNode    .ppFactalsState(deapth:deapth-1)

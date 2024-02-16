@@ -141,7 +141,7 @@ class Parts : Part {		//class//actor//
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
-	enum RootPartKeys: String, CodingKey {
+	enum PartsKeys: String, CodingKey {
 		case simulator
 //		case log
 		case title
@@ -155,7 +155,7 @@ class Parts : Part {		//class//actor//
 		makeSelfCodable("writePartTree")		//readyForEncodable
 
 		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
-		var container 			= encoder.container(keyedBy:RootPartKeys.self)
+		var container 			= encoder.container(keyedBy:PartsKeys.self)
 
 		try container.encode(title,				forKey:.title					)
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
@@ -169,7 +169,7 @@ class Parts : Part {		//class//actor//
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
 		 // Needn't lock or makeSelfCodable, it's virginal
-		let container 			= try decoder.container(keyedBy:RootPartKeys.self)
+		let container 			= try decoder.container(keyedBy:PartsKeys.self)
 
 		title					= try container.decode(   String.self, forKey:.title		)
 		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)

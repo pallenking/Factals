@@ -25,8 +25,8 @@ protocol ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool
 }
 
-extension Scenes			: ProcessNsEvent {}
-extension Vews			: ProcessNsEvent {
+extension ScnNodes			: ProcessNsEvent {}
+extension Vews				: ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 	}

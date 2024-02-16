@@ -65,7 +65,7 @@ DECISION: need Comparable for Json testing
 		C: Atom:	c	bandColor:NSColor, proxyColor			NSColor
 					do	Ports -- redundant info					-code-
 		D: Parts:!!	ansConfig:FwConfig						FwConfig MUCH
-					**	root:Parts							-code-
+					**	root:Parts								-code-
 					**	weak var fwDocument:FwDocument?			-code-
 					?	partTreeLock, partTreeOwner, 			-code-
 					?	partTreeOwnerPrev, partTreeVerbose,		-code-

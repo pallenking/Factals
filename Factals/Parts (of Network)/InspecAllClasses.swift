@@ -1,4 +1,4 @@
-// InspecParts.swift -- Inspector Views for HNW Part subviews ©2020PAK
+// InspecAllClasses.swift -- Inspector Views for HNW Part subviews ©2020PAK
 // Hungarian Notation (:H:):INSPECtorview
 
 import SceneKit

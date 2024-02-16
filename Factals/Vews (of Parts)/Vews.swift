@@ -10,7 +10,7 @@ import SceneKit
 class Vews : Vew, Identifiable {			// inherits ObservableObject
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
-	var scenes 	: Scenes = .nullRoot	// HOAKEY!!			// Master 3D Tree
+	var scenes 		: ScnNodes	= .nullRoot	// HOAKEY!!			// Master 3D Tree
 	var nsView		: NSView?	= nil		// View displaying
 
 	@Published var selfiePole	= SelfiePole()
@@ -31,7 +31,7 @@ class Vews : Vew, Identifiable {			// inherits ObservableObject
 	 /// generate a new View, returning its index
 	init(forPart rp:Parts) {
 		super.init(forPart:rp)
-		scenes				= Scenes()
+		scenes				= ScnNodes()
 		scenes.vews		= self			// weak backpointer, owner
 
 		scn						= scenes.rootNode

@@ -1,5 +1,5 @@
 //
-//  Scenes.swift
+//  ScnNodes.swift
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class Scenes : SCNScene {
+class ScnNodes : SCNScene {
 	weak
 	 var vews	: Vews?				// Vews, owner of this RootScn
 
@@ -24,7 +24,7 @@ class Scenes : SCNScene {
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
 
-extension Scenes {		// lights and camera
+extension ScnNodes {		// lights and camera
 //	var trunkScn : SCNNode? 	{
 //		guard let ts			= rootNode.child0  else { fatalError("trunkVew is nil") }
 //		return ts
@@ -419,7 +419,7 @@ enum FwNodeCategory : Int {
 }
 
 //
-extension Scenes : SCNSceneRendererDelegate {			// Set in contentView SceneView
+extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
@@ -460,7 +460,7 @@ extension Scenes : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	}
 	   // ODD Timing:
 //	func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-//		atRsi(8, self.logd("<><><> 9.5.@: Scenes Rendered -- NOP"))
+//		atRsi(8, self.logd("<><><> 9.5.@: ScnNodes Rendered -- NOP"))
 //	}
 //	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
 //		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
@@ -630,13 +630,13 @@ extension Scenes : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		return rv
 	}
 	static let nullRoot 		= {
-		let rp					= Scenes()	// Any use of this should fail (NOT IMPLEMENTED)
+		let rp					= ScnNodes()	// Any use of this should fail (NOT IMPLEMENTED)
 		rp.rootNode.name		= "nullRoot"
 		return rp
 	}()
 }
 // currently unused
-extension Scenes : SCNPhysicsContactDelegate {
+extension ScnNodes : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug
 	}
