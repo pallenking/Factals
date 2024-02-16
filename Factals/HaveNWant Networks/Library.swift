@@ -13,7 +13,7 @@ struct ScanArgs : Codable {
 			//	"entry<N>"	  |	entry N				  |	nil			N *
 			//	"xr()"		  |	entry labeled as xr() |	"xr()" *	-1
 			//	<name>		  |	named scene			  |	<name> *	-1
-			// Used by RootPart.setup() and Library.registerNetwork()
+			// Used by Parts.setup() and Library.registerNetwork()
 	var argNumber		: Int			// if select scene by number
 	var argName 		: String?		// if select scene by name
 	var argOnlyIndex	: Bool			// Used for menu preparation
@@ -210,7 +210,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 						 rootClosure 	:@escaping PartClosure,
 						 file			:String?,
 						 lineNumber		:Int)
-	{									// ALIASES for rootPart:
+	{									// ALIASES for parts:
 		state.scanTestNum 		+= 1		// count every test
 		if args!.argOnlyIndex {				// Wants Index
 			 // //// Display only those entries starting with a "+" ////////////

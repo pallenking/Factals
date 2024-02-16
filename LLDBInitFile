@@ -63,15 +63,15 @@ command alias lldbIsLoaded p "ya, ya, ya,  LLDBInitFile is loaded"
 ##---------------- third arg from
 command regex pc     's/^(.+)$/e lldbPrint(%1, mode:.fwClassName,DOClog.params4aux + ["ppDagOrder":true])/'
 command regex pn     's/^(.+)$/e lldbPrint(%1, mode:.name		)/'				-h "print HNW '<name>'            e.g: ROOT"
-command regex pnuc   's/^(.+)$/e lldbPrint(%1, mode:.nameUidClass)/'			-h "print HNW '<name>.<id>:<class>' e.g: ROOT.76a8:RootPart"
+command regex pnuc   's/^(.+)$/e lldbPrint(%1, mode:.nameUidClass)/'			-h "print HNW '<name>.<id>:<class>' e.g: ROOT.76a8:Parts"
 command regex pf     's/^(.+)$/e lldbPrint(%1, mode:.fullName	)/' 			-h "print HNW '<fullName>' the hierarchy path e.g: xxxxx FIXME"
 #command regex po     's/^(.+)$/po %1/'  # don't overload
 # ---- pi*
-command regex pi     's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id>:<Class>'      e.g: 76a8:RootPart"
+command regex pi     's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id>:<Class>'      e.g: 76a8:Parts"
 command regex piU    's/^(.+)$/e lldbPrint(%1, mode:.uid		)/' 			-h "print HNW '<id>'              e.g: 76a8"
-command regex piCu   's/^(.+)$/e lldbPrint(%1, mode:.classUid	)/' 			-h "print HNW '<Class><id>'       e.g: RootPart<76a8>"
-command regex piUc   's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id><Class>'       e.g: 76a8:RootPart"
-command regex piFuc  's/^(.+)$/e lldbPrint(%1, mode:.fullNameUidClass)/' 		-h "print HNW '<fullName><id><Class>' e.g: ROOT/76a8:RootPart"
+command regex piCu   's/^(.+)$/e lldbPrint(%1, mode:.classUid	)/' 			-h "print HNW '<Class><id>'       e.g: Parts<76a8>"
+command regex piUc   's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id><Class>'       e.g: 76a8:Parts"
+command regex piFuc  's/^(.+)$/e lldbPrint(%1, mode:.fullNameUidClass)/' 		-h "print HNW '<fullName><id><Class>' e.g: ROOT/76a8:Parts"
 # ---- p*
 command regex pp     's/^(.+)$/e lldbPrint(%1, mode:.phrase		)/' 			-h "pretty print HNW"
 command regex ps     's/^(.+)$/e lldbPrint(%1, mode:.short		)/' 			-h "print short HNW"

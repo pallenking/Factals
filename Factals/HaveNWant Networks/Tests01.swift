@@ -261,7 +261,7 @@ r("NetPrevious", eSim + selfiePole(s:45,u:10), {
 		Net([parts:[
 			Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
 			Mirror(),
-			Cylinder(	["size":"1 1 1", "color":"red"]),		//		rootPart.addChild(b)
+			Cylinder(	["size":"1 1 1", "color":"red"]),		//		parts.addChild(b)
 		] ])
 	})
 	r("Mirror Display BROKEN", e + log(all:8), {

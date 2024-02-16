@@ -42,13 +42,13 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	weak var parent :  Part?	= nil 		// add the parent property
 
 	 // nil root defers to parent's root.
-	var root		: RootPart? = nil
+	var root		: Parts? = nil
 //	{
 //		get {
 //			parent?.root 		??			// RECURSIVELY up the parent tree
-//			self as? RootPart	??			// top should be RootPart
+//			self as? Parts	??			// top should be Parts
 //			nil
-////			{	fatalError("Mall-formed tree: nil parent should be RootPart") } ()
+////			{	fatalError("Mall-formed tree: nil parent should be Parts") } ()
 //		}
 //		set(v) {
 //			fatalError("root.set(v) not supported")
@@ -196,7 +196,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 	}
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
-	func setTree(root r:RootPart, parent p:Part?=nil) {
+	func setTree(root r:Parts, parent p:Part?=nil) {
 		self.parent 			= p
 		self.root   			= r
 		for child in children {
@@ -236,7 +236,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 		return polyWrap
 	}
-	func polyUnwrap() -> Part {		fatalError("Part.polyUnwrap should be overridden by PolyWrap or RootPart")	}
+	func polyUnwrap() -> Part {		fatalError("Part.polyUnwrap should be overridden by PolyWrap or Parts")	}
 	  // MARK: - 3.5 Codable
 	 //https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
 	enum PartsKeys: String, CodingKey {
@@ -500,7 +500,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		markTree(dirty:.vew)
 	}
 
-	func groomModelPostWires(root:RootPart)  {
+	func groomModelPostWires(root:Parts)  {
 		 // Check for duplicate names:
 		var allNames : [String] = []
 		for child in children {
@@ -805,11 +805,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// Scan self and children for wires to add to model
 	/// - Wires are gathered after model is built, and applied at later phase
 	/// - Parameter wirelist: 		where wires added
-	func gatherLinkUps(into linkUpList:inout [() -> ()], rootPart:RootPart) {    //was gatherWiresInto:wirelist]
+	func gatherLinkUps(into linkUpList:inout [() -> ()], parts:Parts) {    //was gatherWiresInto:wirelist]
 		 // Gather wires from  _children_   into wirelist first:
 		for child in children {
 			if let atom       	= child as? Atom {
-				atom.gatherLinkUps(into:&linkUpList, rootPart:rootPart)  // ### RECURSIVE
+				atom.gatherLinkUps(into:&linkUpList, parts:parts)  // ### RECURSIVE
 			}
 		}
 	}

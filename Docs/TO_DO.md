@@ -41,7 +41,7 @@ ComposableArchicture?
 +		4. Increase Net gaps >0
   ---------------------------------------------------------------
 	All Model variables have to list all their properties, for
-	 // MARK: - 3.4 NSKeyedArchiver			// 2## PolyWrap(rootPart)
+	 // MARK: - 3.4 NSKeyedArchiver			// 2## PolyWrap(parts)
 		1.	NSKeyedArchiver	data(ofType:)	// 1## Generic PolyWrap, for Part, Port
 							read(from:ofType:) 	//		((These only FwDocument)))
 +	 // MARK: - 3.5 Codable 				// ## Double Check 3 dozen variables
@@ -64,8 +64,8 @@ DECISION: need Comparable for Json testing
 		B: CPort:c	NSColor									NSColor
 		C: Atom:	c	bandColor:NSColor, proxyColor			NSColor
 					do	Ports -- redundant info					-code-
-		D: RootPart:!!	ansConfig:FwConfig						FwConfig MUCH
-					**	root:RootPart							-code-
+		D: Parts:!!	ansConfig:FwConfig						FwConfig MUCH
+					**	root:Parts							-code-
 					**	weak var fwDocument:FwDocument?			-code-
 					?	partTreeLock, partTreeOwner, 			-code-
 					?	partTreeOwnerPrev, partTreeVerbose,		-code-

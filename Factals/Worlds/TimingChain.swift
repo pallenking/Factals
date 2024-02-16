@@ -201,7 +201,7 @@ class TimingChain : Atom {
 		return rv
 	}
 	 // MARK: - 5 Groom
-	override func groomModelPostWires(root:RootPart) {
+	override func groomModelPostWires(root:Parts) {
 											super.groomModelPostWires(root:root)
 		asyncData				= partConfig["asyncData"] as? Bool ?? false
 		if let ac				= root.factalsModel?.fmConfig.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")

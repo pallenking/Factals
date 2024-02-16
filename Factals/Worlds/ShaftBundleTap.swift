@@ -32,7 +32,7 @@ class ShaftBundleTap : BundleTap { //Generator {
  	}
 
 	 // MARK: - 5 Groom
-	override func groomModelPostWires(root:RootPart) {
+	override func groomModelPostWires(root:Parts) {
 											super.groomModelPostWires(root:root)
 		  // Connect up our targetBundle:
 		 //

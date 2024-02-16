@@ -114,7 +114,7 @@ class WorldModel : Atom {
 bug;	return rv
 	}
 	 // MARK: - 5 Groom
-	override func groomModelPostWires(root:RootPart) {
+	override func groomModelPostWires(root:Parts) {
 											super.groomModelPostWires(root:root)
 		let timingChainPort		= ports["P"]!.portPastLinks
 		timingChain 			= timingChainPort?.parent as? TimingChain	//****

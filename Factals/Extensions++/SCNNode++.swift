@@ -313,7 +313,7 @@ extension SCNNode /*: HasChildren */ {
 		guard let log			= FACTALSMODEL?.log else { return "DOClog is nil"}
 		var rv					= ""
 //		 // UGLY: Can't override an extension
-//		if let imARootNode		= self as? RootScene {
+//		if let imARootNode		= self as? Scenes {
 //			rv					+= imARootNode.pp(mode, aux)
 //		}
 
@@ -336,9 +336,9 @@ extension SCNNode /*: HasChildren */ {
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
-			if let s			= self as? RootScene {
-				rv				+= s.rootVew?.rootScene === self ? "" :
-								   "--- BAD --- RootVew: rootVew?.rootScene !== self"
+			if let s			= self as? Scenes {
+				rv				+= s.vews?.scenes === self ? "" :
+								   "--- BAD --- Vews: vews?.scenes !== self"
 			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
@@ -422,8 +422,8 @@ extension SCNNode /*: HasChildren */ {
 
 		 // display position in trunk:
 		if params4pp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
-		  let rootVew			= FACTALSMODEL?.rootVew(ofScnNode:self) {
-			let p				= convertPosition(.zero, to:rootVew.scn)
+		  let vews			= FACTALSMODEL?.vews(ofScnNode:self) {
+			let p				= convertPosition(.zero, to:vews.scn)
 			rv2					+= p.pp(.short, aux).field(-11, dots:false)
 		}
 

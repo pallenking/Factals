@@ -1,5 +1,5 @@
 //
-//  RootVew.swift
+//  Vews.swift
 //  Factals
 //
 //  Created by Allen King on 9/19/22.
@@ -7,10 +7,10 @@
 
 import SceneKit
 
-class RootVew : Vew, Identifiable {			// inherits ObservableObject
+class Vews : Vew, Identifiable {			// inherits ObservableObject
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
-	var rootScene 	: RootScene = .nullRoot	// HOAKEY!!			// Master 3D Tree
+	var scenes 	: Scenes = .nullRoot	// HOAKEY!!			// Master 3D Tree
 	var nsView		: NSView?	= nil		// View displaying
 
 	@Published var selfiePole	= SelfiePole()
@@ -24,17 +24,17 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	var verbose 				= false		// (unused)
 
 	 // Sugar
-	var rootPart 	: RootPart	{	return part as! RootPart 					} //?? fatalError("RootVew.part is nil")}
+	var parts 	: Parts	{	return part as! Parts 					} //?? fatalError("Vews.part is nil")}
 	var slot	 	: Int?		{	factalsModel?.rootVews.firstIndex(of:self)	}
 	var trunkVew 	: Vew? 		{	children.first								}
 
 	 /// generate a new View, returning its index
-	init(forPart rp:RootPart) {
+	init(forPart rp:Parts) {
 		super.init(forPart:rp)
-		rootScene				= RootScene()
-		rootScene.rootVew		= self			// weak backpointer, owner
+		scenes				= Scenes()
+		scenes.vews		= self			// weak backpointer, owner
 
-		scn						= rootScene.rootNode
+		scn						= scenes.rootNode
 		scn.name 				= self.scn.name ?? ("*-" + part.name)
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
@@ -47,9 +47,9 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	func setupLightsCamerasEtc() {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		rootScene.checkLights()
-		rootScene.checkCamera()			// (had factalsModel.document.config)
-		let _ /*axesScn*/		= rootScene.touchAxesScn()
+		scenes.checkLights()
+		scenes.checkCamera()			// (had factalsModel.document.config)
+		let _ /*axesScn*/		= scenes.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
@@ -57,7 +57,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= trunkVew			// default
 		if let laStr			= factalsModel.fmConfig.string("lookAt"), laStr != "",
-		  let  laPart 			= rootPart.find(path:Path(withName:laStr), me2:true) {
+		  let  laPart 			= parts.find(path:Path(withName:laStr), me2:true) {
 			lookAtVew			= find(part:laPart)
 		}
 
@@ -70,12 +70,12 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 
 	 // MARK: - 4? locks
 	func lockBoth(for owner:String) {
-		guard rootPart.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
+		guard parts.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
 		guard          lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get VEW lock")}
 	}
 	func unlockBoth(for owner:String) {
 		unlock(for:          owner, logIf:false)
-		rootPart.unlock(for:owner, logIf:false)
+		parts.unlock(for:owner, logIf:false)
 	}
 	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
@@ -146,7 +146,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let factalsModel	= part.root?.factalsModel else { fatalError("Paranoia 29872") }
-		guard let factalsModel2	= rootVew?  .factalsModel else { fatalError("Paranoia 23872") }
+		guard let factalsModel2	= vews?  .factalsModel else { fatalError("Paranoia 23872") }
 		assert(factalsModel === factalsModel2, "Paranoia i5205")
 		var newOwner2			= newOwner		// nil if lock obtained
 		let vRoot				= self
@@ -195,7 +195,7 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, for:&newOwner2, log:log,
 			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
-			atRsi(6, log ? logd("rootPart.reSize():............................") : nop)
+			atRsi(6, log ? logd("parts.reSize():............................") : nop)
 
 /**/		pRoot.reSize(vew:vRoot)				// also causes rePosition as necessary
 			
@@ -237,8 +237,8 @@ class RootVew : Vew, Identifiable {			// inherits ObservableObject
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
 	  // MARK: - 16. Global Constants
-	static let nullRoot : RootVew = {
-		let rv					= RootVew(forPart:.nullRoot)
+	static let nullRoot : Vews = {
+		let rv					= Vews(forPart:.nullRoot)
 		rv.name					= "nullRoot"
 		return rv
 	}()

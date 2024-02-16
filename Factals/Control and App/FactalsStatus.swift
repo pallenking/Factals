@@ -112,7 +112,7 @@ bug; //never used?
 			//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
 			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
 			otherLines:{ deapth in
-				var rv			= "truncated"//  self.rootPart.ppFactalsState(deapth:deapth-1) // Controller:
+				var rv			= "truncated"//  self.parts.ppFactalsState(deapth:deapth-1) // Controller:
 				 // Window Controllers
 			//	for windowController in self.windowControllers {
 			//		rv		+= windowController.ppFactalsState(deapth:deapth-1)
@@ -152,10 +152,10 @@ extension FactalsModel : FactalsStatus	{
 			myLine:myLine,
 			otherLines:{deapth in
 				 // Controller:
-				var rv			= self.rootPart.ppFactalsState(deapth:deapth-1)		//Actor
+				var rv			= self.parts.ppFactalsState(deapth:deapth-1)		//Actor
 				rv				+= self.simulator.ppFactalsState(deapth:deapth-1)
-				for rootVew in self.rootVews {
-					rv			+= rootVew.ppFactalsState(deapth:deapth-1)
+				for vews in self.rootVews {
+					rv			+= vews.ppFactalsState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFactalsState(deapth:deapth-1)
 				rv				+= self.docSound.ppFactalsState(deapth:deapth-1)
@@ -164,17 +164,17 @@ extension FactalsModel : FactalsStatus	{
 			deapth:deapth-1)
 	}
 }
-extension RootPart : FactalsStatus	{								 ///RootPart
+extension Parts : FactalsStatus	{								 ///Parts
 	func ppFwConfig() -> String {		partConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
-		let myLine				= ""//factalsModel.rootPartActor.rootPart === self ? "" : "OWNER:'\(factalsModel!)' BAD "
+		let myLine				= ""//factalsModel.rootPartActor.parts === self ? "" : "OWNER:'\(factalsModel!)' BAD "
 		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
-		return ppFactalsStateHelper("RootPart     ", uid:self,
-			myLine:myLine + "rootPart:\(ppUid(self, showNil:true)) " +
+		return ppFactalsStateHelper("Parts     ", uid:self,
+			myLine:myLine + "parts:\(ppUid(self, showNil:true)) " +
 					"(\(portCount()) Ports) " +
 					"\(rown) dirty:'\(dirty.pp())' " ,
 			deapth:deapth-1)
-	}																			//bug; return "extension RootPart : FwStatus needs HELP"	}
+	}																			//bug; return "extension Parts : FwStatus needs HELP"	}
 }
 extension Simulator : FactalsStatus	{								///Simulator
  	func ppFactalsState(deapth:Int=999) -> String {
@@ -219,13 +219,13 @@ extension Simulator : FactalsStatus	{								///Simulator
 	}
 }
 
-extension RootVew : FactalsStatus	{								  ///RootVew
+extension Vews : FactalsStatus	{								  ///Vews
 	func ppFactalsState(deapth:Int=999) -> String {
-		guard let rootVew						 else {	return "Vew.rootVew == nil\n"}
-		guard let factalsModel 		= rootVew.factalsModel else {	return "Vew.rootVew?.factalsModel == nil\n" }
-		guard let slot			= rootVew.slot,
+		guard let vews						 else {	return "Vew.vews == nil\n"}
+		guard let factalsModel 		= vews.factalsModel else {	return "Vew.vews?.factalsModel == nil\n" }
+		guard let slot			= vews.slot,
 		  slot >= 0 && slot < factalsModel.rootVews.count else { fatalError("Bad slot")}
-		let myName				= "RootVew      "
+		let myName				= "Vews      "
 
 		var myLine				= "\(slot)/\(factalsModel.rootVews.count)] "
 		myLine					+= "LockVal:\(semiphore.value ?? -99) "
@@ -234,25 +234,25 @@ extension RootVew : FactalsStatus	{								  ///RootVew
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 	//	myLine					+= "(\(nodeCount()) total) "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		myLine					+= self.rootScene.rootNode === self.scn ? "" :
-								   "  ERROR .scn !== \(self.rootScene.rootNode.pp(.classUid))"
+		myLine					+= self.scenes.rootNode === self.scn ? "" :
+								   "  ERROR .scn !== \(self.scenes.rootNode.pp(.classUid))"
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.selfiePole.ppFactalsState(deapth:deapth-1)
 				rv 				+= self.cameraScn?.ppFactalsState(deapth:deapth-1) ?? ""
-				rv 				+= self.rootScene .ppFactalsState(deapth:deapth-1)
+				rv 				+= self.scenes .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
 
-extension RootScene : FactalsStatus	{						///RootScene,SCNScene
+extension Scenes : FactalsStatus	{						///Scenes,SCNScene
 	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' is BAD"
+		var myLine				= vews?.scenes === self ? "" : "OWNER:'\(vews!)' is BAD"
 		myLine					+= "isPaused:\(isPaused) "
-		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"RootScene      "
+		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"Scenes      "
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.rootNode    .ppFactalsState(deapth:deapth-1)

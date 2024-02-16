@@ -43,7 +43,7 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 				case "Mirror":	  InspecMirror(		   mirror:vew.part as! Mirror)
 				case "Atom":	  InspecAtom(	  	     atom:vew.part as! Atom, vew:vew)
 
-				case "RootPart":  InspecRootPart(  	 rootPart:vew.part as! RootPart, vew:vew)
+				case "Parts":  InspecRootPart(  	 parts:vew.part as! Parts, vew:vew)
 
 				case "Box":		  InspecNothing(	className:cl)
 				case "CommonPart":InspecCommonPart(commonPart:vew.part as! CommonPart)
@@ -64,7 +64,7 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 }
 
  // // // 3. Debug switch to select Previews:
-let inspectedPreview			= Vew(forPort:Port())	// 1. HNW RootPart
+let inspectedPreview			= Vew(forPort:Port())	// 1. HNW Parts
 
 struct InspecTest : View {
 	@State private var placeSelfy 			= "placeSelfy"

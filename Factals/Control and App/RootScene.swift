@@ -1,5 +1,5 @@
 //
-//  RootScene.swift
+//  Scenes.swift
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -8,9 +8,9 @@
 import Foundation
 import SceneKit
 
-class RootScene : SCNScene {
+class Scenes : SCNScene {
 	weak
-	 var rootVew	: RootVew?				// RootVew, owner of this RootScn
+	 var vews	: Vews?				// Vews, owner of this RootScn
 
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
@@ -24,7 +24,7 @@ class RootScene : SCNScene {
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
 
-extension RootScene {		// lights and camera
+extension Scenes {		// lights and camera
 //	var trunkScn : SCNNode? 	{
 //		guard let ts			= rootNode.child0  else { fatalError("trunkVew is nil") }
 //		return ts
@@ -241,7 +241,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		return axesScn
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if true || rootVew?.factalsModel?.fmConfig.bool("axisTics") ?? false {
+		if true || vews?.factalsModel?.fmConfig.bool("axisTics") ?? false {
 			let pos				= toNode.position
 			for j in Int(from)...Int(to) where j != 0 {
 				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
@@ -259,7 +259,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 //	 // MARK: 4.4 - Look At Updates
 //	func movePole(toWorldPosition wPosn:SCNVector3) {
-//		guard let factalsModel		= rootVew?.factalsModel else {		return						}
+//		guard let factalsModel		= vews?.factalsModel else {		return						}
 //		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
 //		let wPosn				= rootNode.convertPosition(localPoint, to:rootNode)
 //
@@ -292,46 +292,46 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 bug;
-		guard let cameraScn		= rootVew?.cameraScn else {return }
+		guard let cameraScn		= vews?.cameraScn else {return }
 
 		zoom4fullScreen()
 //		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
-		guard let rootVew		= self.rootVew else { fatalError("rootVew is nil")}
+		guard let vews		= self.vews else { fatalError("vews is nil")}
 
-		let animate				= rootVew.factalsModel?.fmConfig.bool("animatePan") ?? false
+		let animate				= vews.factalsModel?.fmConfig.bool("animatePan") ?? false
 		if animate && duration > 0.0 {
 			SCNTransaction.begin()			// Delay for double click effect
-// TYP		atRve(8, rootVew.factalsModel.logd("  /#######  animatePan: BEGIN All"))
-/*CherryPick2023-0520:*/atRve(8, rootVew.rootPart.logd("  /#######  animatePan: BEGIN All"))
+// TYP		atRve(8, vews.factalsModel.logd("  /#######  animatePan: BEGIN All"))
+/*CherryPick2023-0520:*/atRve(8, vews.parts.logd("  /#######  animatePan: BEGIN All"))
 
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
 			cameraScn.transform	*= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
-bug//			atRve(8, self.rootVew!.rootVew!.factalsModel.logd("  /#######  animatePan: BEGIN Completion Block"))
+bug//			atRve(8, self.vews!.vews!.factalsModel.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				cameraScn.transform = self.rootVew!.selfiePole.transform()
+				cameraScn.transform = self.vews!.selfiePole.transform()
 
-bug//			atRve(8, self.rootVew!.factalsModel.logd("  \\#######  animatePan: COMMIT Completion Block"))
+bug//			atRve(8, self.vews!.factalsModel.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
 			}
-bug//		atRve(8, rootVew.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
+bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 			SCNTransaction.commit()
 		}
 		else {
-			cameraScn.transform = rootVew.selfiePole.transform()
+			cameraScn.transform = vews.selfiePole.transform()
 		}
 	}
 		
 	 /// Determine zoom so that all parts of the scene are seen.
 	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
-		guard let rootVew  else {	fatalError("RootScn.rootVew is nil")}
+		guard let vews  else {	fatalError("RootScn.vews is nil")}
 
 		 //		(ortho-good, check perspective)
-		let rootVewBbInWorld	= rootVew.bBox //BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(rootVew.cameraScn?.transform ?? .identity)	//rootVew.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+		let rootVewBbInWorld	= vews.bBox //BBox(size:3, 3, 3)//			// in world coords
+		let world2eye			= SCNMatrix4Invert(vews.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
 //bug
@@ -374,39 +374,39 @@ bug//		atRve(8, rootVew.factalsModel.logd("  \\#######  animatePan: COMMIT All")
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-		guard let rootVew		= rootVew 		 else {	fatalError("RootScn.rootVew is nil")}	//factalsModel.rootVewOf(rootScn:self)
-		let rootPart			= rootVew.rootPart		// factalsModel.rootPart
+		guard let vews		= vews 		 else {	fatalError("RootScn.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
+		let parts			= vews.parts		// factalsModel.parts
 
 		 // Paranoia
-		assert(rootVew.name == "_ROOT", 	"Paranoid check: rootVew.name=\(rootVew.name) !=\"_ROOT\"")
-		assert(rootVew.part	=== rootPart,   "Paranoid check, rootVew.part != rootPart")
-		assert(rootVew.part.name == "ROOT", "Paranoid check: rootVew.part.name=\(rootVew.part.name) !=\"ROOT\"")
-		assert(rootPart.children.count == 1,"Paranoid check: rootPart has \(rootPart.children.count) children, !=1")
+		assert(vews.name == "_ROOT", 	"Paranoid check: vews.name=\(vews.name) !=\"_ROOT\"")
+		assert(vews.part	=== parts,   "Paranoid check, vews.part != parts")
+		assert(vews.part.name == "ROOT", "Paranoid check: vews.part.name=\(vews.part.name) !=\"ROOT\"")
+		assert(parts.children.count == 1,"Paranoid check: parts has \(parts.children.count) children, !=1")
 
 		 // 1. 	GET LOCKS					// PartTree
 		let lockName			= "createVew[\(slot)]"
-		guard rootPart.lock(for:lockName) else {
+		guard parts.lock(for:lockName) else {
 			fatalError("createVews couldn't get PART lock")		// or
 		}		          					// VewTree
-		guard rootVew.lock(for:lockName) else {
+		guard vews.lock(for:lockName) else {
 			fatalError("createVews  couldn't get VIEW lock")
 		}
 
 
 
-		rootPart.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
+		parts.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
 
 		 // 2. Update Vew and Scn Tree
-/**/	rootVew.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-		rootVew.setupLightsCamerasEtc()
+/**/	vews.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
+		vews.setupLightsCamerasEtc()
 
 		 // Do one, just for good luck
 //bug;	commitCameraMotion(reason:"to createVewNScn")
 //		updatePole2Camera(reason:"to createVewNScn")
 
 		// 7. RELEASE LOCKS for PartTree and VewTree:
-		rootVew.unlock(	 for:lockName)
-		rootPart.unlock(for:lockName)
+		vews.unlock(	 for:lockName)
+		parts.unlock(for:lockName)
 	}
 }
 
@@ -419,11 +419,11 @@ enum FwNodeCategory : Int {
 }
 
 //
-extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneView
+extension Scenes : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
-			let rVew			= self.rootVew!
+			let rVew			= self.vews!
 			rVew.lockBoth(for: "updateAtTime")
 			rVew.updateVewSizePaint(logIf:true)		//false//true
 //			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:true)		//false//true
@@ -434,7 +434,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 //		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-//			let rVew			= self.rootVew!
+//			let rVew			= self.vews!
 //			rVew .lockBoth("didApplyAnimationsAtTime")
 ////			rVew .part.computeLinkForces(vew:rVew)
 //			rVew .unlockBoth("didApplyAnimationsAtTime")
@@ -443,7 +443,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 //		DispatchQueue.main.async {
 //			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-//			let rVew			= self.rootVew!
+//			let rVew			= self.vews!
 //			rVew.lockBoth("didSimulatePhysicsAtTime")
 ////			rVew.part.applyLinkForces(vew:rVew)
 //			rVew.unlockBoth("didSimulatePhysicsAtTime")
@@ -452,7 +452,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			let rVew			= self.rootVew!
+			let rVew			= self.vews!
 			rVew.lockBoth(for: "willRenderScene")
 			rVew.part.rotateLinkSkins(vew:rVew)
 			rVew.unlockBoth(for: "willRenderScene")
@@ -468,9 +468,9 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		let duration			= Float(1)
-		guard let rootVew 		= rootVew else { print("processEvent.rootVews[?] is nil"); return false}
-		let slot				= rootVew.slot ?? -1
-		let factalsModel		= rootVew.factalsModel		// why ! ??
+		guard let vews 		= vews else { print("processEvent.rootVews[?] is nil"); return false}
+		let slot				= vews.slot ?? -1
+		let factalsModel		= vews.factalsModel		// why ! ??
 
 		switch nsEvent.type {
 
@@ -482,7 +482,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 
-/**/		if rootVew.processEvent(nsEvent:nsEvent, inVew:vew) == false,
+/**/		if vews.processEvent(nsEvent:nsEvent, inVew:vew) == false,
 			  char != "?"  {		// okay for "?" to get here
 				atEve(3, print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)"))
 			}
@@ -508,7 +508,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 			beginCameraMotion(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
 				if let vew	= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
-					rootVew.lookAtVew = vew			// found a Vew: Look at it!
+					vews.lookAtVew = vew			// found a Vew: Look at it!
 				}
 			}
 			mouseWasDragged = false
@@ -525,7 +525,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
-			atEve(9, print("\( rootVew.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			atEve(9, print("\( vews.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -534,8 +534,8 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 			beginCameraMotion(with:nsEvent)
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
-			rootVew.selfiePole.zoom *= delta
-			//let s				= rootVew.selfiePole
+			vews.selfiePole.zoom *= delta
+			//let s				= vews.selfiePole
 			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
 			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
 
@@ -602,15 +602,15 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	}
 
 	func spinNUp(with nsEvent:NSEvent) {
-		rootVew!.selfiePole.spin -=  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
-		rootVew!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
+		vews!.selfiePole.spin -=  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+		vews!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
-		var selfiePole			= rootVew!.selfiePole
+		var selfiePole			= vews!.selfiePole
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
 		let transform			= selfiePole.transform()
-		guard let cameraScn		= rootVew?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
+		guard let cameraScn		= vews?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
@@ -621,7 +621,7 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
-			rv					+= rootVew?.rootScene === self ? "" : "OWNER:'\(rootVew!)' BAD"
+			rv					+= vews?.scenes === self ? "" : "OWNER:'\(vews!)' BAD"
 			rv					+= "scn:\(ppUid(self, showNil:true)) (\(rootNode.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
@@ -630,13 +630,13 @@ extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneVi
 		return rv
 	}
 	static let nullRoot 		= {
-		let rp					= RootScene()	// Any use of this should fail (NOT IMPLEMENTED)
+		let rp					= Scenes()	// Any use of this should fail (NOT IMPLEMENTED)
 		rp.rootNode.name		= "nullRoot"
 		return rp
 	}()
 }
 // currently unused
-extension RootScene : SCNPhysicsContactDelegate {
+extension Scenes : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug
 	}

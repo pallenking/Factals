@@ -25,13 +25,13 @@ protocol ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool
 }
 
-extension RootScene			: ProcessNsEvent {}
-extension RootVew			: ProcessNsEvent {
+extension Scenes			: ProcessNsEvent {}
+extension Vews			: ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 	}
 }
-//extension RootPart		/*	: ProcessNsEvent */{
+//extension Parts		/*	: ProcessNsEvent */{
 // extension TimingChain	: ProcessNsEvent {}		// Redundant
 // extension WorldModel		: ProcessNsEvent {}		// Redundant
 extension Part				: ProcessNsEvent {}
@@ -44,16 +44,16 @@ extension Simulator			: ProcessNsEvent {}
 
 
 //extension NSEvent {
-//		// Determine the RootVew referenced by this event.
-//	func rootVew() -> RootVew? {
+//		// Determine the Vews referenced by this event.
+//	func vews() -> Vews? {
 //		let factalsModel 				= DOCfactalsModel
 //		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 //
-//			 // Find rootVew whose base fwView is a descendant of nsViewOfEv
-//			for rootVew in factalsModel.rootVews {
-//				if let fwView	= rootVew.rootScn.fwView,//rootScn.fwView,
+//			 // Find vews whose base fwView is a descendant of nsViewOfEv
+//			for vews in factalsModel.rootVews {
+//				if let fwView	= vews.rootScn.fwView,//rootScn.fwView,
 //				  fwView.isDescendant(of:nsViewOfEv) {
-//					return rootVew
+//					return vews
 //				}
 //			}
 //		}
@@ -70,7 +70,7 @@ extension Simulator			: ProcessNsEvent {}
 		//			print("-------- subv: \(scnView) ")
 		//		}
 		//	}
-//	var rootVew : (Int, RootVew?) {
+//	var vews : (Int, Vews?) {
 //		bug
 //		return (0, nil)
 //		let contentVew			= window?.contentView

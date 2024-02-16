@@ -27,7 +27,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		parent==nil   ? ""   :
 		parent!.fullName + "/" + name	// add lefter component
 	}
-	var rootVew		: RootVew?	{	rootVewRaw as? RootVew						}
+	var vews		: Vews?	{	rootVewRaw as? Vews						}
 	var rootVewRaw	:  Vew?		{	parent?.rootVewRaw ?? self	/* RECURSIVE */	}
 
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
@@ -131,12 +131,12 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
  		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
 	}
 	 // MARK: - 4.2 Manage Tree
-	 /// Array of ancestor. The first element is self, last is rootVew:
+	 /// Array of ancestor. The first element is self, last is vews:
 	var selfNParents : [Vew] {
 		return selfNParents()
 	}
 	func selfNParents(upto:Vew?=nil) -> [Vew] {
-		var rv	   : [Vew]		= [] 				// [self,...,rootVew]
+		var rv	   : [Vew]		= [] 				// [self,...,vews]
 		var aVew   :  Vew?		= self
 		repeat {
 			rv.append(aVew!)
@@ -217,7 +217,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 /// Lookup configuration from Part's partConfig, up to root
 	func config(_ name:String)		-> FwAny? 		{
 
-		 // Go up Vew tree to rootVew its root, looking...
+		 // Go up Vew tree to vews its root, looking...
 		for s in selfNParents {				// s = self, parent?, ..., root, cap, 0
 			if let rv			= s.part.partConfig[name] {
 				return rv						// return an ancestor's config
@@ -225,18 +225,18 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 
 		 // Look in rootVew's configuration...
-		guard let rootVew 								else {	return nil		}
-		if let rv				= rootVew.vewConfig[name] {
+		guard let vews 								else {	return nil		}
+		if let rv				= vews.vewConfig[name] {
 			return rv
 		}
 
 		 // Try Document's configuration
-	//	guard let factalsModel	= rootVew.factalsModel 	else {	return nil		}
+	//	guard let factalsModel	= vews.factalsModel 	else {	return nil		}
 	//	if let rv				= factalsModel.config.vewConfig[name] {
 	//		return rv
 	//	}
 
-		guard let fm		= rootVew.factalsModel	else {	return nil			}
+		guard let fm		= vews.factalsModel	else {	return nil			}
 		var rv : FwAny?		= fm.fmConfig[name]
 		 // Sometimes get Thread 1: Simultaneous accesses to 0x600001249118, but modification requires exclusive access
 
@@ -571,7 +571,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			let bBoxScn			= SCNComment("")	  //		Z
 			scn.addChild(node:bBoxScn, atIndex:0)
 			 // Name the result
-			var fm				= self.rootVew!.factalsModel!
+			var fm				= self.vews!.factalsModel!
 			let wBoxNameIndex	= fm.indexFor["WBox"] ?? 1
 			fm.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
@@ -602,8 +602,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let (nl, fmt)			= format.stripLeadingNewLines()
-		if let rootVew {
-			rootVew.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+		if let vews {
+			vews.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else if let root		= part.root {	// strangely redundant, but okay
 			root.factalsModel?.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
@@ -692,7 +692,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= rootVew?.scn ?? .null
+				let rootScn		= vews?.scn ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				if !(self is LinkVew) {

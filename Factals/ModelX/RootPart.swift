@@ -1,4 +1,4 @@
-//  RootPart.swift -- Base element of Part tree ©202012PAK
+//  Parts.swift -- Base element of Part tree ©202012PAK
 
 import SceneKit
 
@@ -13,7 +13,7 @@ import SceneKit
  */
 
 //private
-class RootPart : Part {		//class//actor//
+class Parts : Part {		//class//actor//
     /*private*/ var foo22: Int = 0
 
 	 // MARK: - 2.1 Object Variables
@@ -32,16 +32,16 @@ class RootPart : Part {		//class//actor//
 	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
-	init() {										// RootPart(factalsModel:FactalsModel?=nil)
+	init() {										// Parts(factalsModel:FactalsModel?=nil)
 //		myFactalsModel			= factalsModel ?? myFactalsModel
 
 		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-//		factalsModel?.rootPart	= self
+//		factalsModel?.parts	= self
 		///wireAndGroom([:])
 	}
-	convenience init(fromLibrary selector:String?) {// RootPart(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
+	convenience init(fromLibrary selector:String?) {// Parts(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
 
-		 // Make tree's root (a RootPart):
+		 // Make tree's root (a Parts):
 		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
@@ -72,7 +72,7 @@ class RootPart : Part {		//class//actor//
 		 //  1. GATHER LINKS as wirelist:
 		atBld(4, logd("------- GATHERING potential Links:"))
 		var linkUps : [()->()]	= []
-		gatherLinkUps(into:&linkUps, rootPart:self)
+		gatherLinkUps(into:&linkUps, parts:self)
 
 		 //  2. ADD LINKS:
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
@@ -83,8 +83,8 @@ class RootPart : Part {		//class//actor//
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))
 		groomModelPostWires(root:self)				// + +  + +
-		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark rootPart dirty after installing new trunk
-																				//markTree(dirty:.vew) 	// Mark rootPart dirty after installing new trunk
+		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
+																				//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
 																				//dirty.turnOn(.vew)
 		 //  4. Reset
 		atBld(4, logd("------- Reset..."))
@@ -119,18 +119,18 @@ class RootPart : Part {		//class//actor//
 		}
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let rootVew				= RootVew(forPart:self)		// 1. Make empty view
-		rootVew.factalsModel	= factalsModel				// 2. Backpointer
-		factalsModel!.rootVews.append(rootVew)				// 3. Install
+		let vews				= Vews(forPart:self)		// 1. Make empty view
+		vews.factalsModel	= factalsModel				// 2. Backpointer
+		factalsModel!.rootVews.append(vews)				// 3. Install
 
-		rootVew.configureVew(from:fwConfig)					// 4. Configure Vew
-		rootVew.openChildren(using:vewConfig)				// 5. Open Vew
+		vews.configureVew(from:fwConfig)					// 4. Configure Vew
+		vews.openChildren(using:vewConfig)				// 5. Open Vew
 
 		dirtySubTree(gotLock: true, .vsp)					// 6. Mark dirty
-		rootVew.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		rootVew.setupLightsCamerasEtc()						// ?move
+		vews.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		vews.setupLightsCamerasEtc()						// ?move
 
-//		let rootVewPp			= rootVew.pp(.tree, ["ppViewOptions":"UFVTWB"])
+//		let rootVewPp			= vews.pp(.tree, ["ppViewOptions":"UFVTWB"])
 //		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
 	}
 
@@ -177,7 +177,7 @@ class RootPart : Part {		//class//actor//
 		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 
 		try super.init(from:decoder)
-		atSer(3, logd("Decoded  as? RootPart \(ppUid(self))"))
+		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
 
 		makeSelfRunable()		// (no unlock)
 	}
@@ -194,18 +194,18 @@ class RootPart : Part {		//class//actor//
 			return nil
 		}
 	}
-	static func from(data:Data, encoding:String.Encoding) -> RootPart {
+	static func from(data:Data, encoding:String.Encoding) -> Parts {
 		do {
-			let rv	: RootPart	= try JSONDecoder().decode(RootPart.self, from:data)
+			let rv	: Parts	= try JSONDecoder().decode(Parts.self, from:data)
 			return rv
 		} catch {
-			fatalError("RootPart.from(data:encoding:) ERROR:'\(error)'")
+			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
 		}
 	}
 	convenience init?(data:Data, encoding:String.Encoding) {
 
-		bug							// PW: need RootPart(data, encoding)
-	//	let rootPart 			= try! JSONDecoder().decode(RootPart.self, from:data)
+		bug							// PW: need Parts(data, encoding)
+	//	let parts 			= try! JSONDecoder().decode(Parts.self, from:data)
 	//	self.init(data:data, encoding:encoding)		// INFINITE
 		do {		// 1. Write data to file. (Make this a loopback)
 			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -226,7 +226,7 @@ bug			//self.init(url: fileURL)
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
 		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-		atSer(5, logd(" ========== rootPart to Serialize:\n\(pp(.tree, aux))", terminator:""))
+		atSer(5, logd(" ========== parts to Serialize:\n\(pp(.tree, aux))", terminator:""))
 						
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
 		atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:""))
@@ -235,7 +235,7 @@ bug			//self.init(url: fileURL)
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
 bug		//groomModel(parent:nil)		// nil as Part?
-		atSer(5, logd(" ========== rootPart unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
+		atSer(5, logd(" ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
 		msg == nil ? nop : unlock(for:msg)	// ---- 3. UNLOCK for PartTree
 	}
@@ -288,15 +288,15 @@ bug		//groomModel(parent:nil)		// nil as Part?
 //		unarchiver.finishDecoding()
 //		guard let inPolyPart 	= inPolyPart else {	throw MyError.funcky 	}
 //
-//		  // Groom rootPart and whole tree
+//		  // Groom parts and whole tree
 //		 // 1. Unwrap PolyParts
-//		rootPart				= inPolyPart.polyUnwrap() as? RootPart
+//		parts				= inPolyPart.polyUnwrap() as? Parts
 //		 // 2. Groom .root and .parent in all parts:
-//		rootPart.groomModel??(parent:nil, //root:rootPart)
-//		 // 3. Groom .fwDocument in rootPart
-//		rootPart.fwDocument 	= self		// Use my FwDocument
+//		parts.groomModel??(parent:nil, //root:parts)
+//		 // 3. Groom .fwDocument in parts
+//		parts.fwDocument 	= self		// Use my FwDocument
 //		 // 4. Remove symbolic links on Ports
-//		rootPart.realizeLinks()
+//		parts.realizeLinks()
 //
 //		logd("read(from:ofType:)  -- SUCCEEDED")
 //	}
@@ -305,7 +305,7 @@ bug		//groomModel(parent:nil)		// nil as Part?
 
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
-//		let theCopy : RootPart	= super.copy(with:zone) as! RootPart
+//		let theCopy : Parts	= super.copy(with:zone) as! Parts
 //								
 //		theCopy.simulator		= self.simulator
 //		theCopy.title			= self.title
@@ -314,13 +314,13 @@ bug		//groomModel(parent:nil)		// nil as Part?
 //	//x	theCopy.partTreeOwner	= self.partTreeOwner
 //	//x	theCopy.prevOnwer = self.prevOnwer
 //		theCopy.partTreeVerbose	= self.partTreeVerbose
-//		atSer(3, logd("copy(with as? RootPart       '\(fullName)'"))
+//		atSer(3, logd("copy(with as? Parts       '\(fullName)'"))
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable
 //	override func equalsFW(_ rhs:Part) -> Bool {
 //		guard self !== rhs 						   else {	return true			}
-//		guard let rhs			= rhs as? RootPart else {	return false 		}
+//		guard let rhs			= rhs as? Parts else {	return false 		}
 //		let rv					= super.equalsFW(rhs)
 //								&& simulator		 == rhs.simulator
 //								&& title			 == rhs.title
@@ -485,7 +485,7 @@ bug		//groomModel(parent:nil)		// nil as Part?
 	}
 	 // MARK: - 16. Global Constants
 	static let nullRoot 		= {
-		let rp					= RootPart()	// Any use of this should fail (NOT IMPLEMENTED)
+		let rp					= Parts()	// Any use of this should fail (NOT IMPLEMENTED)
 		rp.name					= "nullRoot"
 		return rp
 	}()

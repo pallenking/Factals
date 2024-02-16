@@ -29,12 +29,12 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }//
-//var LLDBrootPartFOO : RootPart	{	DOCfactalsModelQ?.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
-var LLDBrootPart : RootPart! = nil//{	DOCfactalsModelQ?.rootPartActor.rootPart ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.rootPart=nil ") as! RootPart }
+//var LLDBrootPartFOO : Parts	{	DOCfactalsModelQ?.parts ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.parts=nil ") as! Parts }
+var LLDBrootPart : Parts! = nil//{	DOCfactalsModelQ?.rootPartActor.parts ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.parts=nil ") as! Parts }
 func LLDBrootPart(_ name:String?=nil) -> Part  {
 	bug
 	return .null
-//	guard var rv : Part			= DOCfactalsModelQ?.rootPartActor.rootPart else { return .null		}
+//	guard var rv : Part			= DOCfactalsModelQ?.rootPartActor.parts else { return .null		}
 //	if name != nil {			// Search for sought Part	//maxLevel:1,
 //		rv						= rv.find(name:name!, up2:false, me2:true) ?? rv
 //	}
@@ -42,15 +42,15 @@ func LLDBrootPart(_ name:String?=nil) -> Part  {
 }
 
  /// Access to current ////// Vew Tree //////
-var  LLDBrootVew0  : RootVew {
+var  LLDBrootVew0  : Vews {
 	get 		{	return FACTALSMODEL?.rootVews.first ?? .nullRoot	}
 	set (v)		{		   FACTALSMODEL?.rootVews[0] = v							}
 }
-var  LLDBrootVew1  : RootVew {
+var  LLDBrootVew1  : Vews {
 	get 		{	return FACTALSMODEL!.rootVews.count > 1 ? FACTALSMODEL!.rootVews[1] : .nullRoot									}
 	set (v)		{		   FACTALSMODEL?.rootVews[1] = v							}
 }
-var  LLDBrootVew2  : RootVew {
+var  LLDBrootVew2  : Vews {
 	get 		{	return FACTALSMODEL!.rootVews.count > 2 ? FACTALSMODEL!.rootVews[2] : .nullRoot									}
 	set (v)		{		   FACTALSMODEL?.rootVews[2] = v							}
 }
@@ -60,11 +60,11 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 		return .null
 	}
 	guard index >= 0 && index < factalsModel.rootVews.count else { fatalError("rootvew() returns .null !!!")	}
-	var rootVew : Vew			= factalsModel.rootVews[index]
+	var vews : Vew			= factalsModel.rootVews[index]
 	if name != nil {			// Search for named Vew
-		rootVew					= rootVew.find(name:name!, me2:true) ?? rootVew
+		vews					= vews.find(name:name!, me2:true) ?? vews
 	}
-	return rootVew
+	return vews
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
@@ -105,7 +105,7 @@ func fwHelp(_ key:String="?", inVew vew:Vew?) {
 }
  // Send a key to controller:
 func sendApp(key:String="?", inVew vew:Vew) {
-	if let fm				= vew.rootVew?.factalsModel,
+	if let fm				= vew.vews?.factalsModel,
 	   let ginnedUpEvent	= NSEvent.keyEvent(
 			with			: .keyDown, //NSEvent.EventType(rawValue: 10)!,//keyDown,
 			location		: NSZeroPoint,

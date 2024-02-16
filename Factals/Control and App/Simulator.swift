@@ -5,7 +5,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 
 	 // MARK: - 2. Object Variables:
 	weak var factalsModel:FactalsModel? = nil// Owner
-//	var rootPartF		: RootPart? { nil } //factalsModel?.rootPartActor.rootPart}	// Owner
+//	var rootPartF		: Parts? { nil } //factalsModel?.rootPartActor.parts}	// Owner
 
 	var timingChains:[TimingChain] = []
 	var timeNow			: Float	= 0.0
@@ -15,7 +15,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var portChits		: Int	{	factalsModel?.rootPart.portChitArray().count ?? 0	}
+	var portChits		: Int	{	factalsModel?.parts.portChitArray().count ?? 0	}
 //	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0		}
 	var linkChits		: Int	= 0			// by things like links
 	var startChits	  	:UInt8	= 0			// set to get simulator going
@@ -39,7 +39,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		}
 	}
 	func isSettled() -> Bool {
-		let nPortsBuisy 		= factalsModel?.rootPart.portChitArray().count ?? 0	// Busy Ports
+		let nPortsBuisy 		= factalsModel?.parts.portChitArray().count ?? 0	// Busy Ports
 //		let nPortsBuisy 		= rootPartF?.portChitArray().count ?? 0	// Busy Ports
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
@@ -141,18 +141,18 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	func simulateOneStep() {
 		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled	else {	return 										}
-		guard let rootPart = factalsModel?.rootPart	else {	return					}
-		guard rootPart.lock(for:"simulationTask", logIf:logSimLocks)
+		guard let parts = factalsModel?.parts	else {	return					}
+		guard parts.lock(for:"simulationTask", logIf:logSimLocks)
 							else {	fatalError("simulationTask couldn't get PART lock")	}
 
-	/**/	rootPart.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
+	/**/	parts.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
 
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= timeStep
 			if startChits > 0 {			// Clear out start cycles
 				startChits		-= 1
 			}
-		rootPart.unlock(for:"simulationTask", logIf:logSimLocks)
+		parts.unlock(for:"simulationTask", logIf:logSimLocks)
 	}
 	// MARK: - 14. Building
 	var log : Log { factalsModel?.log ?? .reliable					}

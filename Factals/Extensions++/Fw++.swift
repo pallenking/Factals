@@ -347,7 +347,7 @@ extension Dictionary		: FwAny {
 		case .line, .tree:
 			var (rv, sep)		= ("[", "")
 
-//			for (_, rootVew) in factalsModel.rootVews.sorted(using: Valu KeyPathComparator(\.key)) {
+//			for (_, vews) in factalsModel.rootVews.sorted(using: Valu KeyPathComparator(\.key)) {
 //			let key1			= keys.sorted(using: )
 			var k3 : [Key]		= Array(keys)
 	//		if let k : [any Comparable] = k3 as? [any Comparable] {

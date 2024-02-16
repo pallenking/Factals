@@ -208,7 +208,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		ppNUid4Tree				= try container.decode(			  Int.self, forKey:.ppNUid4Tree	)
 		ppNUid4Ctl				= try container.decode(			  Int.self, forKey:.ppNUid4Ctl	)
 		nIndent					= try container.decode(			  Int.self, forKey:.nIndent		)
-		atSer(3, logd("Decoded  as? RootPart \(ppUid(self))"))
+		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
 	// MARK: - 5. Log
@@ -223,7 +223,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			print(x)
 		}
 		// DO SOME OTHER WAY: sim state shouldn't be actor isolated
-//		if let sim				= DOCfactalsModelQ?.rootPartActor.rootPart?.simulator,
+//		if let sim				= DOCfactalsModelQ?.rootPartActor.parts?.simulator,
 ////		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
 //		  simTimeLastLog != nil
 //		{
@@ -234,7 +234,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 //				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
 //				let dashes		= deltaTime <= sim.timeStep ? "                                  "
 //															: "- - - - - - - - - - - - - - - - - "
-//				let chits		= "p\(sim.rootPart!.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
+//				let chits		= "p\(sim.parts!.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
 //				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
 //			}
 //			simTimeLastLog		= sim.timeNow
@@ -296,7 +296,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
 bug
-//		if let curLockStr		= DOC?.factalsModel?.rootPartActor.rootPart?.curOwner {
+//		if let curLockStr		= DOC?.factalsModel?.rootPartActor.parts?.curOwner {
 //			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
 //		}
 		return ".,."

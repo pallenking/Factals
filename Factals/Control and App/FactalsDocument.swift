@@ -50,22 +50,22 @@ struct FactalsDocument : FileDocument {
 	init() {	// Build a blank document, so there is a document of record with a Log
 //		DOC						= self			// INSTALL as current DOC, quick!
 
-		 // 	1. Make RootPart:			//--FUNCTION--------wantName:--wantNumber:
+		 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-		let rootPart			= RootPart(fromLibrary:select)
-		factalsModel			= FactalsModel(fromRootPart:rootPart)
+		let parts			= Parts(fromLibrary:select)
+		factalsModel			= FactalsModel(fromRootPart:parts)
 
-		rootPart.wireAndGroom([:])
+		parts.wireAndGroom([:])
 
-		configure(config:factalsModel.fmConfig + rootPart.ansConfig)
+		configure(config:factalsModel.fmConfig + parts.ansConfig)
 	}
 	func configure(config:FwConfig) {
 		 // Build Vews per Configuration
-		let rp					= factalsModel.rootPart//Actor
+		let rp					= factalsModel.parts//Actor
 		for (key, value) in config {
 //		for (key, value) in params4all {
 			if key == "Vews",
@@ -100,13 +100,13 @@ struct FactalsDocument : FileDocument {
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .factals:
 			 // Decode data as a Root Part
-			let rootPart		= RootPart.from(data: data, encoding: .utf8)	//RootPart(fromLibrary:"xr()")		// DEBUG 20221011
+			let parts		= Parts.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
-			let factalsModel	= FactalsModel(fromRootPart:rootPart)
+			let factalsModel	= FactalsModel(fromRootPart:parts)
 bug;		self.init(factalsModel:factalsModel)
 
-//			fmConfig				+= rootPart.ansConfig	// from library
+//			fmConfig				+= parts.ansConfig	// from library
 		default:
 				throw FwError(kind:".fileReadCorruptFile")
 		}
@@ -118,10 +118,10 @@ bug;		self.init(factalsModel:factalsModel)
 bug;//	throw FwError(kind:".fileWriteUnknown")
 		switch configuration.contentType {
 	//	case .factals:
-	//		guard let dat		= factalsModel.rootPartActor.data else {	// how is RootPart.data worked?
-	//			panic("FactalsDocument.factalsModel.rootPart.data is nil")
+	//		guard let dat		= factalsModel.rootPartActor.data else {	// how is Parts.data worked?
+	//			panic("FactalsDocument.factalsModel.parts.data is nil")
 	//			let d			= factalsModel.rootPartActor.data		// redo for debug
-	//			throw FwError(kind:"FactalsDocument.factalsModel.rootPart.data is nil")
+	//			throw FwError(kind:"FactalsDocument.factalsModel.parts.data is nil")
 	//		}
 	//		return .init(regularFileWithContents:dat)
 		default:
@@ -207,11 +207,11 @@ bug
 	}
 	mutating func showInspec(for name:String) {
 		bug
-//		if let part	= factalsModel.rootPart?.find(name:name) {
+//		if let part	= factalsModel.parts?.find(name:name) {
 //
 //			 // Open inspectors for all RootVews:
-//			for rootVew in factalsModel.rootVews {
-//		 		if let vew = rootVew.find(part:part) {
+//			for vews in factalsModel.rootVews {
+//		 		if let vew = vews.find(part:part) {
 //					showInspecFor(vew:vew, allowNew:true)
 //				}
 //			}
@@ -255,7 +255,7 @@ bug
 
 				// Title window
 		window.title			= vew.part.fullName
-		window.subtitle			= "Slot\(vew.rootVew?.slot ?? -1)"
+		window.subtitle			= "Slot\(vew.vews?.slot ?? -1)"
 
 				// Position on screen: Quite AD HOC!!
 		window.orderFront(self)				// Doesn't work -- not front when done!
@@ -274,17 +274,17 @@ bug
 
 	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
 bug
-	//	updateDocConfigs(from:rootPart.ansConfig)	// This time including rootScn
+	//	updateDocConfigs(from:parts.ansConfig)	// This time including rootScn
 
 //	//			// Build Views:
-///*x*/	rootScn.updateVews(fromRootPart:rootPart, reason:"InstallRootPart")
+///*x*/	rootScn.updateVews(fromRootPart:parts, reason:"InstallRootPart")
 	
-//		displayName				= rootPart.title
+//		displayName				= parts.title
 //		window0?.title			= displayName									//makeInspectors()
 //		makeInspectors()
 //
 //		//			// Start Up Simulation:
-//		rootPart.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
+//		parts.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
 	}
 
 
@@ -295,7 +295,7 @@ bug
 //	/// - Returns: The key was recognized
 //	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 //		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-//		guard let rootPart : RootPart = vew.part.root else {return false }	// vew.root.part
+//		guard let parts : Parts = vew.part.root else {return false }	// vew.root.part
 //
 //		 // Check registered TimingChains
 //		for timingChain in factalsModel.simulator.timingChains {
@@ -344,23 +344,23 @@ bug
 //		case "m":
 //			aux["ppDagOrder"]	= true
 //			print("\n******************** 'm': === Parts:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //		case "M":
 //			aux["ppPorts"]		= true
 //			aux["ppDagOrder"]	= true
 //			print("\n******************** 'M': === Parts and Ports:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //		case "l":
 //			aux["ppLinks"]		= true
 //			aux["ppDagOrder"]	= true
 //			print("\n******************** 'l': === Parts, Links:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //		case "L":
 //			aux["ppPorts"]		= true
 //			aux["ppDagOrder"]	= true
 //			aux["ppLinks"]		= true
 //			print("\n******************** 'L': === Parts, Ports, Links:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //
 //		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 //		case "c":

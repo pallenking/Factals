@@ -14,7 +14,7 @@ struct ContentView: View {
 //		.onAppear {
 //			let windows 	= NSApplication.shared.windows
 //			assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-//			let rp			= document.factalsModel.rootPart
+//			let rp			= document.factalsModel.parts
 //			windows.first!.title = rp.title
 //
 //			EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
@@ -72,13 +72,13 @@ struct FactalsModelView: View {
 				}
 				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
-				ForEach($factalsModel.rootVews) {	rootVew in
+				ForEach($factalsModel.rootVews) {	vews in
 					VStack {
 						ZStack {
-							let rootScene = rootVew.rootScene.wrappedValue
+							let scenes = vews.scenes.wrappedValue
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
 								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
-								let _ = rootScene.processEvent(nsEvent:nsEvent, inVew:rootVew.wrappedValue)
+								let _ = scenes.processEvent(nsEvent:nsEvent, inVew:vews.wrappedValue)
 							}
 							// Generate code exemplefying the following thoughts that I am told:
 							// sceneview takes in a publisher		// PW essential/big
@@ -99,12 +99,12 @@ struct FactalsModelView: View {
 							////////////////////////////// Testing	$publisher/	$view
 
 							SceneView(
-								scene:rootScene,
+								scene:scenes,
 								pointOfView:nil,	// SCNNode
 								options:[.rendersContinuously],
 								preferredFramesPerSecond:30,
 								antialiasingMode:.none,
-								delegate:rootScene,//nil//	//SCNSceneRendererDelegate?
+								delegate:scenes,//nil//	//SCNSceneRendererDelegate?
 								technique: nil		//SCNTechnique?
 							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
@@ -137,7 +137,7 @@ struct FactalsModelView: View {
 			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
 			//				 }
 						}
-						VewBar(rootVew:rootVew)
+						VewBar(vews:vews)
 					}
 				}
 			}
@@ -148,7 +148,7 @@ struct FactalsModelView: View {
 //			.onAppear() {
 //				let windows 	= NSApplication.shared.windows
 //				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-//				windows.first!.title = factalsModel.rootPart?.title ?? "<UNTITLED>"
+//				windows.first!.title = factalsModel.parts?.title ?? "<UNTITLED>"
 //			}
 	}
 //	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}

@@ -163,13 +163,13 @@ bug;	return rv
 								  inPort2Port.value 	// Link input port if no previous value
 				atDat(5, outPort.logd("Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value))
 				if outPort.value != nextVal {
-					let rootPart = outPort.root
-					let c1		= rootPart?.portChitArray().map { $0() }.joined(separator:", ")
+					let parts = outPort.root
+					let c1		= parts?.portChitArray().map { $0() }.joined(separator:", ")
 					print("Before: \(c1 ?? "")")
 					outPort.value = nextVal								// not outPort.take(value:v)
 					outPort.markTree(dirty:.paint)
 					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
-					let c2		= rootPart?.portChitArray().map { $0() }.joined(separator:", ")
+					let c2		= parts?.portChitArray().map { $0() }.joined(separator:", ")
 					print("After:  \(c2 ?? "")")
 				}
 			}

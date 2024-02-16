@@ -62,9 +62,9 @@ bug
 		 */
 	}
 //func testRootAsPart1() {
-//	let rootPart1			= RootPart()
-//	print("RootPart:    '\(rootPart1.pp())'    DOESN'T HANG")				//
-//	let factalsModel1		= FactalsModel(rootPart:rootPart1)
+//	let rootPart1			= Parts()
+//	print("Parts:    '\(rootPart1.pp())'    DOESN'T HANG")				//
+//	let factalsModel1		= FactalsModel(parts:rootPart1)
 //	print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
 //
 //	let document			= FactalsDocument(factalsModel:factalsModel1)
@@ -84,8 +84,8 @@ bug
 		let n2 = n1.pp(.uidClass)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
-		let o0 = RootPart()
-		let o1 = RootVew(forPart:o0)
+		let o0 = Parts()
+		let o1 = Vews(forPart:o0)
 		let o2 = o1.pp(.uidClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
@@ -176,7 +176,7 @@ bug
 			(			MinAndSh(), 		"MinAndSh"		),
 			(			MultiplySh(),		"MultiplySh"	),
 			(			SequenceSh(), 		"SequenceSh"	),
-			(	RootPart(), 				"RootPart"		),
+			(	Parts(), 				"Parts"		),
 		]
 		for (i, (part, expectedClassName)) in tests.enumerated() {
 
@@ -203,7 +203,7 @@ bug
 		}
 	}
 	func XXtestPartFind() {
-		let rootPart = Net(["n":"c", "parts":[
+		let parts = Net(["n":"c", "parts":[
 				Broadcast(["n":"a"]),
 				MaxOr(	  ["n":"b"]),
 			] ])
@@ -216,7 +216,7 @@ bug
 			Test(start:"/a", path:Path(withName:"b"), end:"/c/b"),
 		]
 		for (i, test) in tests.enumerated() {
-			let start			= rootPart.find(name:test.start)
+			let start			= parts.find(name:test.start)
 			XCTAssert(start != nil, "\(i): Could not find part named '\(test.start)'")
 			let end				= start!.find(path:test.path)
 			XCTAssertEqual(end?.fullName, test.end, "\(i): From '\(start!.fullName)', Path '\(test.path.pp(.line))' FAILED")
@@ -459,11 +459,11 @@ bug
 
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 			let s				= Simulator()
-			let rootPart		= RootPart(fromLibrary:"entry\(testNum)")//, simulator:s)	//, fwDocument:nil
+			let parts		= Parts(fromLibrary:"entry\(testNum)")//, simulator:s)	//, fwDocument:nil
 
-			rootPart.wireAndGroom([:])
+			parts.wireAndGroom([:])
 
-			if rootPart.ansConfig.bool("LastTest") ?? false {
+			if parts.ansConfig.bool("LastTest") ?? false {
 				break							// Done
 			}
 		}

@@ -58,8 +58,8 @@ bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 				
 		let node : SCNNode		= onNode_ ??	// 1. SCNNode supplied else
 		{										// 2. Search through rootVews for SCNNode
-			for rootVew in FACTALSMODEL?.rootVews ?? [] {
-				return rootVew.scn				// found
+			for vews in FACTALSMODEL?.rootVews ?? [] {
+				return vews.scn				// found
 			}
 			fatalError("###### Couldn't find SCNNode to play sound")
 		} ()

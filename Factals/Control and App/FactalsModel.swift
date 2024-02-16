@@ -1,4 +1,4 @@
-//  FactalsModel.swift -- Manage RootPart, RootVews and their RootScns
+//  FactalsModel.swift -- Manage Parts, RootVews and their RootScns
 
 import SceneKit
 import SwiftUI
@@ -12,9 +12,9 @@ class FactalsModel : ObservableObject, Uid {
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
 
-	var rootPart :  RootPart
-	var rootVews : [RootVew]	= []			// Vews of rootPartActor.rootPart
-	var rootVew0 :  RootVew?	{rootVews.first}// Sugar
+	var parts :  Parts
+	var rootVews : [Vews]	= []			// Vews of rootPartActor.parts
+	var rootVew0 :  Vews?	{rootVews.first}// Sugar
 
 	var	simulator: Simulator
 	var log 	 : Log
@@ -25,31 +25,31 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 3. Factory
-	init(fromRootPart rp:RootPart) {											// FactalsModel(fromRootPart rp:RootPart)
-		rootPart				= rp
+	init(fromRootPart rp:Parts) {											// FactalsModel(fromRootPart rp:Parts)
+		parts				= rp
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self
 		simulator.factalsModel	= self
-		rootPart.factalsModel	= self
+		parts.factalsModel	= self
 
 //		FACTALSMODEL			= self
 		//configure(from:document.fmConfig)
 	}
 
 	func configure(from config:FwConfig) {
-		fmConfig				+= rootPart.ansConfig	// from library
+		fmConfig				+= parts.ansConfig	// from library
 		simulator.configure(from:config)
-		rootPart.configure(from:config)
-		for rootVew in rootVews {
-			rootVew.configureRootVew(from:config)
+		parts.configure(from:config)
+		for vews in rootVews {
+			vews.configureRootVew(from:config)
 		}
 		log.configure(from:config)
 		docSound.configure(from:config)
 
 		 //  5. Print Errors
-//		atBld(3, log.logd(rootPartActor.rootPart?.ppRootPartErrors() ?? ""))
+//		atBld(3, log.logd(rootPartActor.parts?.ppRootPartErrors() ?? ""))
 
 		 //  6. Print Part
 //		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
@@ -99,10 +99,10 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 4.?
-	func rootVew(ofScnNode:SCNNode) -> RootVew? {
-		for rootVew in rootVews {
-			if rootVew.scn.find(firstWith:{ $0 == ofScnNode }) != nil {
-				return rootVew
+	func vews(ofScnNode:SCNNode) -> Vews? {
+		for vews in rootVews {
+			if vews.scn.find(firstWith:{ $0 == ofScnNode }) != nil {
+				return vews
 			}
 		}
 		return nil
@@ -120,7 +120,7 @@ class FactalsModel : ObservableObject, Uid {
 //	/// - Returns: The key was recognized
 //	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 //		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-//		guard let rootPart : RootPart = vew.part.root else {return false }	// vew.root.part
+//		guard let parts : Parts = vew.part.root else {return false }	// vew.root.part
 //
 //		 // Check registered TimingChains
 //		for timingChain in factalsModel.simulator.timingChains {
@@ -169,23 +169,23 @@ class FactalsModel : ObservableObject, Uid {
 //		case "m":
 //			aux["ppDagOrder"]	= true
 //			print("\n******************** 'm': === Parts:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //		case "M":
 //			aux["ppPorts"]		= true
 //			aux["ppDagOrder"]	= true
 //			print("\n******************** 'M': === Parts and Ports:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //		case "l":
 //			aux["ppLinks"]		= true
 //			aux["ppDagOrder"]	= true
 //			print("\n******************** 'l': === Parts, Links:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //		case "L":
 //			aux["ppPorts"]		= true
 //			aux["ppDagOrder"]	= true
 //			aux["ppLinks"]		= true
 //			print("\n******************** 'L': === Parts, Ports, Links:")
-//			print(rootPart.pp(.tree, aux), terminator:"")
+//			print(parts.pp(.tree, aux), terminator:"")
 //
 //		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 //		case "c":
@@ -219,7 +219,7 @@ class FactalsModel : ObservableObject, Uid {
 		var found				= true
  		let character			= nsEvent.charactersIgnoringModifiers!.first!
 
-		guard let rootPart : RootPart = vew.part.root else {return false }	// vew.root.part
+		guard let parts : Parts = vew.part.root else {return false }	// vew.root.part
 
 		 // Check registered TimingChains
 		for timingChain in simulator.timingChains {
@@ -268,23 +268,23 @@ class FactalsModel : ObservableObject, Uid {
 		case "m":
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'm': === Parts:")
-			print(rootPart.pp(.tree, aux), terminator:"")
+			print(parts.pp(.tree, aux), terminator:"")
 		case "M":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'M': === Parts and Ports:")
-			print(rootPart.pp(.tree, aux), terminator:"")
+			print(parts.pp(.tree, aux), terminator:"")
 		case "l":
 			aux["ppLinks"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'l': === Parts, Links:")
-			print(rootPart.pp(.tree, aux), terminator:"")
+			print(parts.pp(.tree, aux), terminator:"")
 		case "L":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			aux["ppLinks"]		= true
 			print("\n******************** 'L': === Parts, Ports, Links:")
-			print(rootPart.pp(.tree, aux), terminator:"")
+			print(parts.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "c":
@@ -300,22 +300,22 @@ class FactalsModel : ObservableObject, Uid {
 			}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			for rootVew in rootVews {
-				rootVew.scn.play(sound:"Oooooooo")		//GameStarting
+			for vews in rootVews {
+				vews.scn.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
-			for rootVew in rootVews {
-				print("-------- ptv0   rootVews[++]:\(ppUid(rootVew)):")
-				print("\(rootVew.pp(.tree))", terminator:"")
+			for vews in rootVews {
+				print("-------- ptv0   rootVews[++]:\(ppUid(vews)):")
+				print("\(vews.pp(.tree))", terminator:"")
 			}
 		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
-			for rootVew in rootVews {
-				print("-------- ptn   rootVews(\(ppUid(rootVew))).rootScn(\(ppUid(rootVew.scn)))" +
-					  ".scn(\(ppUid(rootVew.scn))):")
-				print(rootVew.scn.pp(.tree), terminator:"")
+			for vews in rootVews {
+				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scn)))" +
+					  ".scn(\(ppUid(vews.scn))):")
+				print(vews.scn.pp(.tree), terminator:"")
 			}
 		case "#":
 			let documentDirURL	= try! FileManager.default.url(
@@ -332,37 +332,37 @@ bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("")
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 bug
-//			for rootVew in rootVews {
-//				rootPart!.forAllParts({	$0.markTree(dirty:.vew)			})
-//				rootVew.updateVewSizePaint(for:"FactalsModel 'V'iew key")
+//			for vews in rootVews {
+//				parts!.forAllParts({	$0.markTree(dirty:.vew)			})
+//				vews.updateVewSizePaint(for:"FactalsModel 'V'iew key")
 //			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 bug
-//			for rootVew in rootVews {
-//				rootPart!.forAllParts({	$0.markTree(dirty:.size)		})
-//				rootVew.updateVewSizePaint(for:"FactalsModel si'Z'e key")
+//			for vews in rootVews {
+//				parts!.forAllParts({	$0.markTree(dirty:.size)		})
+//				vews.updateVewSizePaint(for:"FactalsModel si'Z'e key")
 //			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 bug
-//			for rootVew in rootVews {
-//				rootPart!.forAllParts({	$0.markTree(dirty:.paint)		})
-//				rootVew.updateVewSizePaint(for:"FactalsModel 'P'aint key")
+//			for vews in rootVews {
+//				parts!.forAllParts({	$0.markTree(dirty:.paint)		})
+//				vews.updateVewSizePaint(for:"FactalsModel 'P'aint key")
 //			}
 		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
 		case "x":
-			print("\n******************** 'x':   === FactalsModel: --> rootPart")
+			print("\n******************** 'x':   === FactalsModel: --> parts")
 bug
-//			if rootPart!.processEvent(nsEvent:nsEvent, inVew:vew) {
+//			if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
 //				print("ERROR: factalsModel.Process('x') failed")
 //			}
 			return true								// recognize both
 //		case "f": 					// // f // //
 //			var msg					= ""
-//			for rootVew in rootVews {
-//				msg 				+= rootVew.rootScn.animatePhysics ? "Run   " : "Freeze"
+//			for vews in rootVews {
+//				msg 				+= vews.rootScn.animatePhysics ? "Run   " : "Freeze"
 //			}
 //			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
 //			return true								// recognize both
@@ -427,12 +427,12 @@ bug
 	}
 
 	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
-		 // Find rootVew of NSEvent
-		guard let rootVew		= inVew.rootVew 			else { return nil	}
-		guard let slot 			= rootVew.slot				else { return nil	}
-//		let rootScene:RootScene = rootVew.rootScene			// SCNScene
-//		let rv:RootVew?			= rootScene.rootVew
-//		let rn:SCNNode			= rootScene.rootNode
+		 // Find vews of NSEvent
+		guard let vews		= inVew.vews 			else { return nil	}
+		guard let slot 			= vews.slot				else { return nil	}
+//		let scenes:Scenes = vews.scenes			// SCNScene
+//		let rv:Vews?			= scenes.vews
+//		let rn:SCNNode			= scenes.rootNode
 
 		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil}
 		var msg					= "******************************************\n Slot\(slot): find "
@@ -448,7 +448,7 @@ bug
 //		 // Find the 3D Vew for the Part under the mouse:
 //		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
 
-		let rootNode			= rootVew.rootScene.rootNode
+		let rootNode			= vews.scenes.rootNode
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -463,11 +463,11 @@ bug
 		  //.sortResults:1, 			// (implied)
 			.rootNode:rootNode			// The root of the node hierarchy to be searched.
 		]
-bug;	let hits:[SCNHitTestResult] = []//rootVew.rootScene.rootNode.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
+bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:
-		var pickedScn :SCNNode	= rootVew.scn			// default is root
+		var pickedScn :SCNNode	= vews.scn			// default is root
 		if hits.count > 0 {
 			// There is a HIT on a 3D object:
 			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -486,16 +486,16 @@ bug;	let hits:[SCNHitTestResult] = []//rootVew.rootScene.rootNode.hitTest(locati
 		}
 
 		// Get Vew from SCNNode
-		guard let vew 				= rootVew.find(scnNode:pickedScn, me2:true) else {
+		guard let vew 				= vews.find(scnNode:pickedScn, me2:true) else {
 			if trueF 				{ return nil 		}		// Ignore missing vew
-			panic(msg + "\n"+"couldn't find it in vew's \(rootVew.scn.pp(.classUid))")
-			if let cv				= rootVew.trunkVew,			// for debug only
+			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scn.pp(.classUid))")
+			if let cv				= vews.trunkVew,			// for debug only
 			   let vew 				= cv.find(scnNode:pickedScn, me2:true) {
 				let _				= vew
 			}
 			return nil
 		}
-		msg							+= "      ===>    ####  \(vew.part.pp(.fullNameUidClass))  ####"
+		msg							+= "      ===>    ####  ..."//\(vew.part.pp(.fullNameUidClass))  ####"
 	//	msg							+= "background -> trunkVew"
 		atEve(3, print("\n" + msg))
 		return vew
@@ -504,7 +504,7 @@ bug;	let hits:[SCNHitTestResult] = []//rootVew.rootScene.rootNode.hitTest(locati
 	func toggelOpen(vew:Vew) {
 bug
 //		let key 				= 0			// only element 0 for now
-//		guard let rootVew		= vew.rootVew else {	fatalError("toggelOpen without RootVew")}
+//		guard let vews		= vew.vews else {	fatalError("toggelOpen without Vews")}
 //
 //		 // Toggel vew.expose: .open <--> .atomic
 //		vew.expose 				= vew.expose == .open   ? .atomic :
@@ -515,26 +515,26 @@ bug
 //		let part				= vew.part
 //
 //		 // ========= Get Locks for two resources, in order: =============
-//		guard rootPart!.lock(for:"toggelOpen") else {
+//		guard parts!.lock(for:"toggelOpen") else {
 //			fatalError("toggelOpen couldn't get PART lock")	}		// or
-//		guard  rootVew.lock(for:"toggelOpen") else {fatalError("couldn't get Vew lock") }
+//		guard  vews.lock(for:"toggelOpen") else {fatalError("couldn't get Vew lock") }
 //
 //		assert(!(part is Link), "cannot toggelOpen a Link")
 //		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
 //		vew.scn.removeFromParent()
 //		vew.removeFromParent()
 //
-//		rootVew.updateVewSizePaint(for:"toggelOpen4")
+//		vews.updateVewSizePaint(for:"toggelOpen4")
 //
 //		// ===== Release Locks for two resources, in reverse order: =========
-//		rootVew  .unlock( for:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-//		rootPart?.unlock(for:"toggelOpen")
+//		vews  .unlock( for:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+//		parts?.unlock(for:"toggelOpen")
 //
-//		let rootScene			= rootVew.rootScene
-//bug;	rootScene.commitCameraMotion(reason:"toggelOpen")
-//		rootScene.updatePole2Camera(reason:"toggelOpen")
+//		let scenes			= vews.scenes
+//bug;	scenes.commitCameraMotion(reason:"toggelOpen")
+//		scenes.updatePole2Camera(reason:"toggelOpen")
 //		atAni(4, part.logd("expose = << \(vew.expose) >>"))
-//		atAni(4, part.logd(rootPart!.pp(.tree)))
+//		atAni(4, part.logd(parts!.pp(.tree)))
 //
 //		if document.fmConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 //
@@ -546,7 +546,7 @@ bug
 //			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
 //
 //			 //*******// Imprint animation parameters JUST BEFORE start:
-//			rootVew.updateVewSizePaint()				// Update SCN's at START of animation
+//			vews.updateVewSizePaint()				// Update SCN's at START of animation
 //			 //*******//
 //
 //			 // Animate Vew morph, from self to newVew:
@@ -572,7 +572,7 @@ bug
 //				oldScn.removeFromParent()
 //				vew.removeFromParent()
 //				//*******//
-//				rootVew.updateVewSizePaint()	// Imprint AFTER animation
+//				vews.updateVewSizePaint()	// Imprint AFTER animation
 //				//*******//	// //// wants a third animatio	qn (someday):
 //			}
 ////			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
@@ -614,8 +614,8 @@ bug
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
-bug;		var rv				= ""//(rootPartActor.rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
-//			var rv				= (rootPart?.pp(.classUid, aux) ?? "rootPart=nil") + " "
+bug;		var rv				= ""//(rootPartActor.parts?.pp(.classUid, aux) ?? "parts=nil") + " "
+//			var rv				= (parts?.pp(.classUid, aux) ?? "parts=nil") + " "
 			rv					+= rootVews.pp(.classUid, aux) + " "
 //			if let document {
 //				rv				+= document.pp(.classUid, aux)

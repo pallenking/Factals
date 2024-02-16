@@ -205,14 +205,14 @@ bug				//	let port	= atom.ports[$0]!
 	}
 }
 
-struct InspecRootPart : View {										 // RootPart
-	@ObservedObject var rootPart:RootPart
+struct InspecRootPart : View {										 // Parts
+	@ObservedObject var parts:Parts
 	@ObservedObject var vew:Vew				// For Inspec navigation
 
 	var body: some View {	// empty, nothing inspectable
 		VStack {
 			HStack {			// Simulator
-				ClassBox(labeled:"RootPart")
+				ClassBox(labeled:"Parts")
 				Spacer()
 				Text("Log")
 				Text("Time")
@@ -231,7 +231,7 @@ struct InspecRootPart : View {										 // RootPart
 //			HStack {			// Simulator
 //				Text("Volume")
 //				Slider(
-//					value: $rootPart.foo,
+//					value: $parts.foo,
 //					in: 0...100,
 //					onEditingChanged: { editing in }
 //				//	label:Text("sss")
