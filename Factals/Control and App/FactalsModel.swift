@@ -437,16 +437,19 @@ bug
 		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil}
 		var msg					= "******************************************\n Slot\(slot): find "
 		let locationInRoot		= nsView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+//
+//		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
+//		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
+//
+//		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
+// 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
+//		guard let scnView else { fatalError("Couldn't find sceneView")			}
+//
+//		 // Find the 3D Vew for the Part under the mouse:
+//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
 
-		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
-		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
+		let rootNode			= rootVew.rootScene.rootNode
 
-		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
- 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
-		guard let scnView else { fatalError("Couldn't find sceneView")			}
-
-		 // Find the 3D Vew for the Part under the mouse:
-		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
@@ -458,10 +461,9 @@ bug
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rootNode// The root of the node hierarchy to be searched.
+			.rootNode:rootNode			// The root of the node hierarchy to be searched.
 		]
-		//		 + +   + +
-		let hits				= scnView.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
+bug;	let hits:[SCNHitTestResult] = []//rootVew.rootScene.rootNode.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:

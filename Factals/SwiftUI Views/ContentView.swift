@@ -6,58 +6,57 @@
 
 import SwiftUI
 import SceneKit
-//import Combine
 
 struct ContentView: View {
 	@Binding	var document	: FactalsDocument
 	var body: some View {
 		FactalsModelView(factalsModel:$document.factalsModel)
-		.onAppear {
-			let windows 	= NSApplication.shared.windows
-			assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-			let rp			= document.factalsModel.rootPart
-			windows.first!.title = rp.title
-
-			EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
-	bug;		print("Event: \(event)")			// Handle the event here
-			}.startMonitoring(for: windows.first!)
-		}
+//		.onAppear {
+//			let windows 	= NSApplication.shared.windows
+//			assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
+//			let rp			= document.factalsModel.rootPart
+//			windows.first!.title = rp.title
+//
+//			EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
+//	bug;		print("Event: \(event)")			// Handle the event here
+//			}.startMonitoring(for: windows.first!)
+//		}
 	}
 }
 
-class EventMonitor {
-	private var monitor: Any?
-	private let mask: NSEvent.EventTypeMask
-	private let handler: (NSEvent) -> Void
-
-	init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent) -> Void) {
-		self.mask = mask
-		self.handler = handler
-	}
-
-	deinit {
-		stopMonitoring()
-	}
-
-	func startMonitoring(for window: NSWindow) {
-		monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
-			self?.handleEvent(event)
-			return event
-		}
-		window.makeFirstResponder(window.contentView)
-	}
-
-	func stopMonitoring() {
-		if let monitor = monitor {
-			NSEvent.removeMonitor(monitor)
-			self.monitor = nil
-		}
-	}
-
-	private func handleEvent(_ event: NSEvent) {
-		handler(event)
-	}
-}
+//class EventMonitor {
+//	private var monitor: Any?
+//	private let mask: NSEvent.EventTypeMask
+//	private let handler: (NSEvent) -> Void
+//
+//	init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent) -> Void) {
+//		self.mask = mask
+//		self.handler = handler
+//	}
+//
+//	deinit {
+//		stopMonitoring()
+//	}
+//
+//	func startMonitoring(for window: NSWindow) {
+//		monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
+//			self?.handleEvent(event)
+//			return event
+//		}
+//		window.makeFirstResponder(window.contentView)
+//	}
+//
+//	func stopMonitoring() {
+//		if let monitor = monitor {
+//			NSEvent.removeMonitor(monitor)
+//			self.monitor = nil
+//		}
+//	}
+//
+//	private func handleEvent(_ event: NSEvent) {
+//		handler(event)
+//	}
+//}
 
 struct FactalsModelView: View {
 	@Binding	var factalsModel : FactalsModel		// not OK here
@@ -138,13 +137,13 @@ struct FactalsModelView: View {
 			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
 			//				 }
 						}
-//						VewBar(rootVew:rootVew)
+						VewBar(rootVew:rootVew)
 					}
 				}
 			}
-//			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
-//			 .padding(10)
-//			Spacer()
+			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
+			 .padding(10)
+			Spacer()
 		}
 //			.onAppear() {
 //				let windows 	= NSApplication.shared.windows

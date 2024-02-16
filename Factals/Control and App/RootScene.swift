@@ -418,7 +418,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 
-
+//
 extension RootScene : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
