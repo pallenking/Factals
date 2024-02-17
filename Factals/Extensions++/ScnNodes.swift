@@ -22,9 +22,9 @@ class ScnNodes : NSObject {
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
-	init(tree t:SCNNode) {
-bug;	tree					= t
-		scnScene				= SCNScene()
+	init(scnScene:SCNScene=SCNScene()) {				// ScnNodes(tree
+		self.scnScene 			= scnScene
+		self.tree				= scnScene.rootNode
  		super.init()
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
@@ -632,7 +632,7 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 		return rv
 	}
 	static let nullScnNodes 	= {
-		let nullScnNodes		= ScnNodes(tree:SCNNode())	// Any use of this should fail (NOT IMPLEMENTED)
+		let nullScnNodes		= ScnNodes()	// Any use of this should fail (NOT IMPLEMENTED)
 		nullScnNodes.tree.name	= "nullScnNodes"
 		return nullScnNodes
 	}()

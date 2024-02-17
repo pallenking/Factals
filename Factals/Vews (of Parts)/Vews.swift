@@ -32,11 +32,9 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 	 /// generate a new View, returning its index
 	init(forParts p:Parts) {
-
 		parts					= p
-		scnNodes				= ScnNodes(tree:SCNNode())
-
-bug;	tree					= Vew.null
+		scnNodes				= ScnNodes()
+		tree					= .null
 
 		super.init()
 
