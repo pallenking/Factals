@@ -22,8 +22,8 @@ class ScnNodes : NSObject {
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
-	init(scnScene:SCNScene=SCNScene()) {				// ScnNodes(tree
-		self.scnScene 			= scnScene
+	init(scnScene s:SCNScene?=nil) {				// ScnNodes(tree
+		self.scnScene 			= s ?? SCNScene()
 		self.tree				= scnScene.rootNode
  		super.init()
 	}

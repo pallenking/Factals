@@ -23,7 +23,7 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 	   obj is SCNNode 		||
 	   obj is SCNConstraint	||
 	   obj is SCNPhysicsBody {
-		uidDigits			= aux.int("ppNUid4Tree") ?? log!.ppNUid4Tree
+		uidDigits			= aux.int("ppNUid4Tree") ?? log?.ppNUid4Tree ?? -1
 	}
 	assert(uidDigits >= 0 && uidDigits <= 4, "ppUid( haa illegal uidDigits=\(uidDigits)")
 

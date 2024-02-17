@@ -10,7 +10,7 @@ import SceneKit
 class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var parts 		: Parts
 	var scnNodes 	: ScnNodes	= .null			// Master 3D Tree
-	var tree		: Vew!
+	var tree		: Vew		= Vew()
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
 
@@ -34,7 +34,6 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	init(forParts p:Parts) {
 		parts					= p
 		scnNodes				= ScnNodes()
-//		tree					= .null
 
 		super.init()
 

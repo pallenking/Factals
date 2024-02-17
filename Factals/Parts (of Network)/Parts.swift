@@ -12,9 +12,7 @@ import SceneKit
  * lock to ensure that your modifications take effect as intended.
  */
 
-//private
-class Parts : Codable, ObservableObject, Uid, Logd {
-//class Parts : Part {
+ class Parts : Codable, ObservableObject, Uid, Logd {
 	var uid  : UInt16 			= randomUid()
 	var tree : Part
 
