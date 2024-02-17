@@ -631,10 +631,10 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 		}
 		return rv
 	}
-	static let nullScnNodes 	= {
-		let nullScnNodes		= ScnNodes()	// Any use of this should fail (NOT IMPLEMENTED)
-		nullScnNodes.tree.name	= "nullScnNodes"
-		return nullScnNodes
+	static let null 			= {
+		let null				= ScnNodes()	// Any use of this should fail (NOT IMPLEMENTED)
+		null.tree.name			= "nullScnNodes"
+		return null
 	}()
 }
 // currently unused

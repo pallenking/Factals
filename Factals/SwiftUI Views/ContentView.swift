@@ -78,7 +78,7 @@ struct FactalsModelView: View {
 							let scnNodes = vews.scnNodes.wrappedValue
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
 								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
-								let _ = scnNodes.processEvent(nsEvent:nsEvent, inVew:vews.tree.wrappedValue)
+								let _ = scnNodes.processEvent(nsEvent:nsEvent, inVew:vews.tree.wrappedValue!)
 							}
 							// Generate code exemplefying the following thoughts that I am told:
 							// sceneview takes in a publisher		// PW essential/big

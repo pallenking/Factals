@@ -29,29 +29,26 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }//
-//var LLDBrootPartFOO : Parts	{	DOCfactalsModelQ?.parts ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.parts=nil ") as! Parts }
-var LLDBrootPart : Parts! = nil//{	DOCfactalsModelQ?.rootPartActor.parts ?? .nullRoot } ;//fatalError("DOCfactalsModelQ?.parts=nil ") as! Parts }
-func LLDBrootPart(_ name:String?=nil) -> Part  {
-	bug
-	return .null
-//	guard var rv : Part			= DOCfactalsModelQ?.rootPartActor.parts else { return .null		}
-//	if name != nil {			// Search for sought Part	//maxLevel:1,
-//		rv						= rv.find(name:name!, up2:false, me2:true) ?? rv
-//	}
-//	return rv
+var LLDBParts : Parts		{	FACTALSMODEL?.parts ?? .null }
+func LLDBParts(_ name:String?=nil) -> Part  {
+	guard var rv : Part			= FACTALSMODEL?.parts.tree else { return .null	}
+	if name != nil {			// Search for sought Part	//maxLevel:1,
+		rv						= rv.find(name:name!, up2:false, me2:true) ?? rv
+	}
+	return rv
 }
 
  /// Access to current ////// Vew Tree //////
 var  LLDBvews0  : Vews {
-	get 		{	return FACTALSMODEL?.vewss.first ?? .nullRoot				}
+	get 		{	return FACTALSMODEL?.vewss.first ?? .null				}
 	set (v)		{		   FACTALSMODEL?.vewss[0] = v							}
 }
 var  LLDBvews1  : Vews {
-	get 		{	return FACTALSMODEL!.vewss.count > 1 ? FACTALSMODEL!.vewss[1] : .nullRoot									}
+	get 		{	return FACTALSMODEL!.vewss.count > 1 ? FACTALSMODEL!.vewss[1] : .null									}
 	set (v)		{		   FACTALSMODEL?.vewss[1] = v							}
 }
 var  LLDBvews2  : Vews {
-	get 		{	return FACTALSMODEL!.vewss.count > 2 ? FACTALSMODEL!.vewss[2] : .nullRoot									}
+	get 		{	return FACTALSMODEL!.vewss.count > 2 ? FACTALSMODEL!.vewss[2] : .null									}
 	set (v)		{		   FACTALSMODEL?.vewss[2] = v							}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {

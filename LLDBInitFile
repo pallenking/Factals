@@ -123,34 +123,34 @@ command alias ptLPs    ptLP    self
 
 
 ##---------------- 'm' is for whole model
-command alias pcm      pc    LLDBrootPart
-command alias pnm       pn    LLDBrootPart
-command alias pnucm     pnuc  LLDBrootPart
-command alias pfm       pf    LLDBrootPart
-command alias pom       po    LLDBrootPart
+command alias pcm      pc    LLDBParts
+command alias pnm       pn    LLDBParts
+command alias pnucm     pnuc  LLDBParts
+command alias pfm       pf    LLDBParts
+command alias pom       po    LLDBParts
 # ---- pi*m
-command alias pim      pi    LLDBrootPart
-command alias piUm		piU   LLDBrootPart
-command alias piCum		piCu  LLDBrootPart
-command alias piUcm		piUc  LLDBrootPart
-command alias piFucm	piFuc LLDBrootPart
+command alias pim      pi    LLDBParts
+command alias piUm		piU   LLDBParts
+command alias piCum		piCu  LLDBParts
+command alias piUcm		piUc  LLDBParts
+command alias piFucm	piFuc LLDBParts
 # ---- p*m
-command alias ppm      pp    LLDBrootPart
-command alias psm       ps    LLDBrootPart
-command alias plm       pl    LLDBrootPart
-command alias ptm       pt    LLDBrootPart
+command alias ppm      pp    LLDBParts
+command alias psm       ps    LLDBParts
+command alias plm       pl    LLDBParts
+command alias ptm       pt    LLDBParts
 # ---- p*Lm
-command alias ppLm     ppL   LLDBrootPart
-command alias plLm      plL   LLDBrootPart
-command alias ptLm      ptL   LLDBrootPart
+command alias ppLm     ppL   LLDBParts
+command alias plLm      plL   LLDBParts
+command alias ptLm      ptL   LLDBParts
 # ---- p*Pm
-command alias ppPm     ppP   LLDBrootPart
-command alias plPm      plP   LLDBrootPart
-command alias ptPm      ptP   LLDBrootPart
+command alias ppPm     ppP   LLDBParts
+command alias plPm      plP   LLDBParts
+command alias ptPm      ptP   LLDBParts
 # ---- p*LPm
-command alias ppLPm    ppLP  LLDBrootPart
-command alias plLPm     plLP  LLDBrootPart
-command alias ptLPm     ptLP  LLDBrootPart
+command alias ppLPm    ppLP  LLDBParts
+command alias plLPm     plLP  LLDBParts
+command alias ptLPm     ptLP  LLDBParts
 
 
 ##---------------- 'v' is for whole vew ----------------------
@@ -420,6 +420,6 @@ command alias lldbinitFactalWorkbench command source ~/DocLocal/HaveNWant/Factal
 # :H: Character 2:   -c -:classF;  -n -:name,           -f--:fullName, -i--:.id,aaaaaaa
 # :H: Character 2.5: --L-:ppLinks; --P-:ppParameters
 # :H: Character 3:   -- s:self;    ---m:root_Experiment ---v:root Vew  --n-:root SCNNode
-## use LLDBrootPart("<name>") and LLDBrootVew("<name>") to find a part in tree
+## use LLDBParts("<name>") and LLDBrootVew("<name>") to find a part in tree
 ## pFwState, pFwConfig fwHelp("C")
 

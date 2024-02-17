@@ -9,8 +9,8 @@ import SceneKit
 
 class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var parts 		: Parts
-	var scnNodes 	: ScnNodes	= .nullScnNodes			// Master 3D Tree
-	var tree		: Vew
+	var scnNodes 	: ScnNodes	= .null			// Master 3D Tree
+	var tree		: Vew!
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
 
@@ -21,7 +21,7 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks
-	let semiphore 			= DispatchSemaphore(value:1)
+	let semiphore 				= DispatchSemaphore(value:1)
 	var curOwner 	: String?	= nil
 	var prevOwner	: String? 	= nil
 	var verbose 				= false		// (unused)
@@ -34,7 +34,7 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	init(forParts p:Parts) {
 		parts					= p
 		scnNodes				= ScnNodes()
-		tree					= .null
+//		tree					= .null
 
 		super.init()
 
@@ -152,7 +152,7 @@ bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ??
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let factalsModel	= factalsModel else { fatalError("Paranoia 29872") }
 		var newOwner2			= newOwner		// nil if lock obtained
-		let vewsTree			= self .tree
+		let  vewsTree : Vew		= self .tree
 		let partsTree			= parts.tree
 
 /**/	SCNTransaction.begin()
@@ -202,19 +202,19 @@ bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ??
 
 /**/		partsTree.reSize(vew:vewsTree)				// also causes rePosition as necessary
 			
-			vewsTree.bBox			|= BBox.unity		// insure a 1x1x1 minimum
+			vewsTree.bBox		|= BBox.unity			// insure a 1x1x1 minimum
 								
 			partsTree.rePosition(vew:vewsTree)				// === only outter vew centered
 			vewsTree.orBBoxIntoParent()
 			partsTree.reSizePost(vew:vewsTree)				// ===(set link Billboard constraints)
-	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
+	//		vRoot.bBox			= .empty				     b// Set view's bBox EMPTY
 			atRsi(6, log ? logd("..............................................") : nop)
 		}
 		 // -----   P A I N T   Skins ----- //
 		if hasDirty(.paint, for:&newOwner2, log:log,
 			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
-/**/		partsTree.rePaint(vew:vewsTree)				// Ports color, Links position
+	/**/	partsTree.rePaint(vew:vewsTree)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
 			//pRoot.computeLinkForces(vew:vRoot)	// Compute Forces (.force == 0 initially)
@@ -240,9 +240,9 @@ bug // override							 				// Report any improper linking:
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
 	  // MARK: - 16. Global Constants
-	static let nullRoot : Vews = {
-		let rv					= Vews(forParts:.nullRoot)
-		//rv.name					= "nullRoot"
+	static let null : Vews = {
+		let rv					= Vews(forParts:.null)
+		//rv.name					= "null"
 		return rv
 	}()
 }

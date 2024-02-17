@@ -695,7 +695,7 @@ class Atom : Part {	//Part//FwPart
 
 	 // MARK: - 9.1 reVew
  // UNNEEDED since Ports are in children
-//	override func reVew(vew vew:Vew?, parentVew:Vew?) {
+//	override func reVewfunc reVew(vew vew:Vew?, parentVew:Vew?) {
 //		super.reVew(vew:vew, parentVew:parentVew)
 //
 //			// ///// reView PORTS

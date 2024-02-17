@@ -484,9 +484,9 @@ bug
 		return "\n" + rv
 	}
 	 // MARK: - 16. Global Constants
-	static let nullRoot 		= {
+	static let null 		= {
 		let rp					= Parts(fromLibrary:"")	// Any use of this should fail (NOT IMPLEMENTED)
-//		rp.name					= "nullRoot"
+//		rp.name					= "null"
 		return rp
 	}()
 }

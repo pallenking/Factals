@@ -25,7 +25,7 @@ final class FactalsTests: XCTestCase {
 	}
 
 //	func testLldb() {
-//		let x 					= LLDBrootPart
+//		let x 					= LLDBParts
 //		lldbPrint(x, mode:.tree, [:])
 //	}
 	func testUid() {	// incomplete
