@@ -13,17 +13,16 @@ import SceneKit
  */
 
 //private
-class Parts : Part {		//class//actor//
-    /*private*/ var foo22: Int = 0
+class Parts : Codable, ObservableObject, Uid, Logd {
+//class Parts : Part {
+	var uid  : UInt16 			= randomUid()
+	var tree : Part
 
 	 // MARK: - 2.1 Object Variables
 	var title					= ""
-	var ansConfig	  : FwConfig = [:]
+	var ansConfig	 : FwConfig = [:]
 	weak
 	 var factalsModel : FactalsModel? = nil
-	
-//	 //HACK
-//	var myFactalsModel:FactalsModel? = nil
 
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
@@ -32,17 +31,13 @@ class Parts : Part {		//class//actor//
 	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
-	init() {										// Parts(factalsModel:FactalsModel?=nil)
-//		myFactalsModel			= factalsModel ?? myFactalsModel
-
-		super.init(["name":"ROOT"]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-//		factalsModel?.parts	= self
-		///wireAndGroom([:])
+	init(tree t:Part) {										// Parts(factalsModel:FactalsModel?=nil)
+		tree					= t
 	}
-	convenience init(fromLibrary selector:String?) {// Parts(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
+	/*convenience*/ init(fromLibrary selector:String?) {// Parts(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
 
 		 // Make tree's root (a Parts):
-		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+//		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
 		self.ansConfig			= [:]
@@ -53,9 +48,10 @@ class Parts : Part {		//class//actor//
 			self.title			= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
 			self.ansConfig		= ans.ansConfig
 
-/* */		let ansTrunk :Part?	= ans.ansTrunkClosure!()
-
-			addChild(ansTrunk)
+/* */		tree				= ans.ansTrunkClosure!() ?? Part()
+		}
+		else {
+			tree				= Part()
 		}
 //
 //		wireAndGroom([:])
@@ -66,32 +62,31 @@ class Parts : Part {		//class//actor//
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
-
-		setTree(root:self)
+//		setTree(root:tree)
 
 		 //  1. GATHER LINKS as wirelist:
 		atBld(4, logd("------- GATHERING potential Links:"))
 		var linkUps : [()->()]	= []
-		gatherLinkUps(into:&linkUps, parts:self)
+		tree.gatherLinkUps(into:&linkUps, parts:self)
 
 		 //  2. ADD LINKS:
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
 		linkUps.forEach { 	addLink in 		addLink() 							}
 
-		setTree(root:self)
+//		setTree(root:tree)
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))
-		groomModelPostWires(root:self)				// + +  + +
-		dirtySubTree()															//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
+		tree.groomModelPostWires(parts:self)				// + +  + +
+		tree.dirtySubTree()															//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
 																				//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
 																				//dirty.turnOn(.vew)
 		 //  4. Reset
 		atBld(4, logd("------- Reset..."))
-		reset()
+		tree.reset()
 
 		 // must be done after reset
-		forAllParts { part in
+		tree.forAllParts { part in
 			if let p = part as? Splitter {
 				p.setDistributions(total:0.0)
 			}
@@ -113,20 +108,20 @@ class Parts : Part {		//class//actor//
 
 
 	func ensureAVew(fwConfig c:FwConfig) {
-		if factalsModel!.rootVews.isEmpty {		// Must have a Vew
+		if factalsModel!.vewss.isEmpty {		// Must have a Vew
 			atBld(3, warning("no Vew... key"))
 			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let vews				= Vews(forPart:self)		// 1. Make empty view
-		vews.factalsModel	= factalsModel				// 2. Backpointer
-		factalsModel!.rootVews.append(vews)				// 3. Install
+		let vews				= Vews(forParts:self)		// 1. Make empty view
+		vews.factalsModel		= factalsModel				// 2. Backpointer
+		factalsModel!.vewss.append(vews)					// 3. Install
 
-		vews.configureVew(from:fwConfig)					// 4. Configure Vew
-		vews.openChildren(using:vewConfig)				// 5. Open Vew
+		vews.tree.configureVew(from:fwConfig)				// 4. Configure Vew
+		vews.tree.openChildren(using:vewConfig)				// 5. Open Vew
 
-		dirtySubTree(gotLock: true, .vsp)					// 6. Mark dirty
+		tree.dirtySubTree(gotLock: true, .vsp)				// 6. Mark dirty
 		vews.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
 		vews.setupLightsCamerasEtc()						// ?move
 
@@ -136,12 +131,13 @@ class Parts : Part {		//class//actor//
 
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	func configure(from config:FwConfig) {
-		partConfig				= config
+		tree.partConfig			= config
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
 	enum PartsKeys: String, CodingKey {
+		case tree
 		case simulator
 //		case log
 		case title
@@ -150,11 +146,11 @@ class Parts : Part {		//class//actor//
 	}
 
 	 // Serialize 					// po container.contains(.name)
-	override func encode(to encoder: Encoder) throws  {
+	/*override*/ func encode(to encoder: Encoder) throws  {
 		 // Massage Part Tree, to make it
 		makeSelfCodable("writePartTree")		//readyForEncodable
 
-		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
+bug		//try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
 
 		try container.encode(title,				forKey:.title					)
@@ -175,8 +171,9 @@ class Parts : Part {		//class//actor//
 		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
 		semiphore 				= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
 		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
+		tree					= try container.decode(	    Part.self, forKey:.partTreeVerbose)
 
-		try super.init(from:decoder)
+//		try super.init(from:decoder)
 		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
 
 		makeSelfRunable()		// (no unlock)
@@ -212,7 +209,7 @@ class Parts : Part {		//class//actor//
 			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
 			try data.write(to:fileURL)
 bug			//self.init(url: fileURL)
-			self.init()				//try self.init(url: fileURL)
+			//self.init()				//try self.init(url: fileURL)
 		} catch {
 			print("error using file: \(error)")									}
 		return nil
@@ -240,28 +237,30 @@ bug		//groomModel(parent:nil)		// nil as Part?
 		msg == nil ? nop : unlock(for:msg)	// ---- 3. UNLOCK for PartTree
 	}
 	func polyWrapChildren() {
-		 // PolyWrap all Part's children
-		for i in 0..<children.count {
-			 // might only wrap polymorphic types?, but simpler to wrap all
-			children[i]			= children[i].polyWrap()	// RECURSIVE // (C)
-			children[i].parent	= self									// (D) backlink
-		}
+bug
+//		tree.polyWrapChildren()
+//		 // PolyWrap all Part's children
+//		for i in 0..<children.count {
+//			 // might only wrap polymorphic types?, but simpler to wrap all
+//			children[i]			= children[i].polyWrap()	// RECURSIVE // (C)
+//			children[i].parent	= self									// (D) backlink
+//		}
 	}
 	func polyUnwrapRp() {
-		 // Unwrap all children, RECURSIVELY
-		for (i, child) in children.enumerated() {
-			guard let childPoly = child as? PolyWrap else { fatalError()	}
-			 // Replace Wrapped with Unwrapped:
-			children[i]			= childPoly.polyUnwrap()
-			children[i].parent	= self
-		}
+//		 // Unwrap all children, RECURSIVELY
+//		for (i, child) in children.enumerated() {
+//			guard let childPoly = child as? PolyWrap else { fatalError()	}
+//			 // Replace Wrapped with Unwrapped:
+//			children[i]			= childPoly.polyUnwrap()
+//			children[i].parent	= self
+//		}
 	}
 
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	 // MARK Virtualize Links
 	 /// Remove all weak references of Port.connectedTo. Store their absolute path as a string
 	func virtualizeLinks() {
-		forAllParts( {
+		tree.forAllParts( {
 			if let pPort		= $0 as? Port {
 				pPort.con2 = .string(pPort.con2?.port?.fullName ?? "8383474f")
 			}
@@ -269,7 +268,7 @@ bug		//groomModel(parent:nil)		// nil as Part?
 	}
 	/// Add weak references to Port.connectedTo from their absolute path as a string
 	func realizeLinks() {
-		forAllParts( {
+		tree.forAllParts( {
 			if let pPort			= $0 as? Port,
 			  let pPort2String		= pPort.con2?.string,
 			  let pPort2Port		= pPort.find(name:pPort2String, me2:true) as? Port {
@@ -420,7 +419,7 @@ bug		//groomModel(parent:nil)		// nil as Part?
 	 /// - Returns: Number of Ports
 	func portCount() -> Int {
 		var rv  				= 0
-		let _ 					= findCommon(firstWith:
+		let _ 					= tree.findCommon(firstWith:
 		{(part:Part) -> Part? in		// Count Ports:
 			if part is Port {
 				rv				+= 1	// Count Ports in tree
@@ -430,21 +429,22 @@ bug		//groomModel(parent:nil)		// nil as Part?
 		return rv
 	}
 
-	 // MARK: - 9.3 reSkin
-	override func reSkin(_ expose:Expose?=nil, vew:Vew) -> BBox 	{
-		// invisible?
-		return .empty						// Root Part is invisible
-	}
+//	 // MARK: - 9.3 reSkin
+//	 func reSkin(_ expose:Expose?=nil, vew:Vew) -> BBox 	{
+//		// invisible?
+//		return .empty						// Root Part is invisible
+//	}
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
-	override var log : Log 	{ 	factalsModel?.log ?? .reliable					}
+	var log : Log 				{ 	factalsModel?.log ?? .reliable				}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-		var rv 				= super.pp(mode, aux)	// Use Part's pp()
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+		//var rv 				= super.pp(mode, aux)	// Use Part's pp()
+		var rv					= tree.pp(mode, aux)
 		if mode == .line {
 			rv					+= " \"\(title)\""
 		}
@@ -476,7 +476,7 @@ bug		//groomModel(parent:nil)		// nil as Part?
 		for (i, msg) in warningLog.enumerated() {
 			rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
 		}
-		rv							+= ppUnusedKeys()
+		rv							+= tree.ppUnusedKeys()
 		rv							+= """
 			######        \(blanks   )        ######
 			######        \(blanks   )        ######\n
@@ -485,8 +485,8 @@ bug		//groomModel(parent:nil)		// nil as Part?
 	}
 	 // MARK: - 16. Global Constants
 	static let nullRoot 		= {
-		let rp					= Parts()	// Any use of this should fail (NOT IMPLEMENTED)
-		rp.name					= "nullRoot"
+		let rp					= Parts(fromLibrary:"")	// Any use of this should fail (NOT IMPLEMENTED)
+//		rp.name					= "nullRoot"
 		return rp
 	}()
 }

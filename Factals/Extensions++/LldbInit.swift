@@ -42,61 +42,61 @@ func LLDBrootPart(_ name:String?=nil) -> Part  {
 }
 
  /// Access to current ////// Vew Tree //////
-var  LLDBrootVew0  : Vews {
-	get 		{	return FACTALSMODEL?.rootVews.first ?? .nullRoot	}
-	set (v)		{		   FACTALSMODEL?.rootVews[0] = v							}
+var  LLDBvews0  : Vews {
+	get 		{	return FACTALSMODEL?.vewss.first ?? .nullRoot				}
+	set (v)		{		   FACTALSMODEL?.vewss[0] = v							}
 }
-var  LLDBrootVew1  : Vews {
-	get 		{	return FACTALSMODEL!.rootVews.count > 1 ? FACTALSMODEL!.rootVews[1] : .nullRoot									}
-	set (v)		{		   FACTALSMODEL?.rootVews[1] = v							}
+var  LLDBvews1  : Vews {
+	get 		{	return FACTALSMODEL!.vewss.count > 1 ? FACTALSMODEL!.vewss[1] : .nullRoot									}
+	set (v)		{		   FACTALSMODEL?.vewss[1] = v							}
 }
-var  LLDBrootVew2  : Vews {
-	get 		{	return FACTALSMODEL!.rootVews.count > 2 ? FACTALSMODEL!.rootVews[2] : .nullRoot									}
-	set (v)		{		   FACTALSMODEL?.rootVews[2] = v							}
+var  LLDBvews2  : Vews {
+	get 		{	return FACTALSMODEL!.vewss.count > 2 ? FACTALSMODEL!.vewss[2] : .nullRoot									}
+	set (v)		{		   FACTALSMODEL?.vewss[2] = v							}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 	guard let factalsModel 			= FACTALSMODEL else {
 		print("FACTALSMODEL returns .null:\(ppUid(Vew.null)) !!!")
 		return .null
 	}
-	guard index >= 0 && index < factalsModel.rootVews.count else { fatalError("rootvew() returns .null !!!")	}
-	var vews : Vew			= factalsModel.rootVews[index]
+	guard index >= 0 && index < factalsModel.vewss.count else { fatalError("rootvew() returns .null !!!")	}
+	var vew : Vew				= factalsModel.vewss[index].tree
 	if name != nil {			// Search for named Vew
-		vews					= vews.find(name:name!, me2:true) ?? vews
+		vew						= vew.find(name:name!, me2:true) ?? vew
 	}
-	return vews
+	return vew
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-var LLDBrootScn0 : SCNNode  		{
-	get 		{	return FACTALSMODEL!.rootVews[0].scn 						}
-	set (v)		{		   FACTALSMODEL!.rootVews[0].scn = v					}
+var LLDBscnNodes0tree : SCNNode  		{	// LLDBscnNodes0tree
+	get 		{	return FACTALSMODEL!.vewss[0].scnNodes.tree					}
+	set (v)		{		   FACTALSMODEL!.vewss[0].scnNodes.tree = v				}
 }
-var LLDBrootScn1 : SCNNode  		{
-	get 		{	return FACTALSMODEL!.rootVews[1].scn 						}
-	set (v)		{		   FACTALSMODEL!.rootVews[1].scn = v					}
+var LLDBscnNodes1tree : SCNNode  		{
+	get 		{	return FACTALSMODEL!.vewss[1].scnNodes.tree 				}
+	set (v)		{		   FACTALSMODEL!.vewss[1].scnNodes.tree = v				}
 }
-var LLDBrootScn2 : SCNNode  		{
-	get 		{	return FACTALSMODEL!.rootVews[2].scn 						}
-	set (v)		{		   FACTALSMODEL!.rootVews[2].scn = v					}
+var LLDBscnNodes2tree : SCNNode  		{
+	get 		{	return FACTALSMODEL!.vewss[2].scnNodes.tree					}
+	set (v)		{		   FACTALSMODEL!.vewss[2].scnNodes.tree = v				}
 }
-func LLDBrootScn(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
+func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 	guard let factalsModel 			= FACTALSMODEL else {
 		print("FACTALSMODEL is nil! returning SCNNode.null")
 		return .null
 	}
-	guard index >= 0 && index < factalsModel.rootVews.count else {
-		print("index:\(index) exceeds rootVews=\(factalsModel.rootVews.count)! returning SCNNode.null")
+	guard index >= 0 && index < factalsModel.vewss.count else {
+		print("index:\(index) exceeds rootVews=\(factalsModel.vewss.count)! returning SCNNode.null")
 		return .null
 	}
-	var scnRv					= factalsModel.rootVews[index].scn					//factalsModel.rootScn 	// Root
+	var scnNode					= factalsModel.vewss[index].scnNodes.tree
 
 	 // Search for named SCN:
 	if name != nil {
-		scnRv					= scnRv.find(inMe2:true, all:true, firstWith:
-								  { $0.name == name })  ?? scnRv
+		scnNode					= scnNode.find(inMe2:true, all:true, firstWith:
+								  { $0.name == name })  ?? scnNode
 	}
-	return scnRv
+	return scnNode
 }
 
  // Print SwiftFactal help from lldb

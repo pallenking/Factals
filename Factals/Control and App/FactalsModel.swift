@@ -13,8 +13,8 @@ class FactalsModel : ObservableObject, Uid {
 	var indexFor				= Dictionary<String,Int>()
 
 	var parts :  Parts
-	var rootVews : [Vews]	= []			// Vews of rootPartActor.parts
-	var rootVew0 :  Vews?	{rootVews.first}// Sugar
+	var vewss : [Vews]	= []			// Vews of rootPartActor.parts
+	var vews0 :  Vews?			{	vewss.first									}// Sugar
 
 	var	simulator: Simulator
 	var log 	 : Log
@@ -42,7 +42,7 @@ class FactalsModel : ObservableObject, Uid {
 		fmConfig				+= parts.ansConfig	// from library
 		simulator.configure(from:config)
 		parts.configure(from:config)
-		for vews in rootVews {
+		for vews in vewss {
 			vews.configureRootVew(from:config)
 		}
 		log.configure(from:config)
@@ -99,134 +99,30 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 4.?
-	func vews(ofScnNode:SCNNode) -> Vews? {
-		for vews in rootVews {
-			if vews.scn.find(firstWith:{ $0 == ofScnNode }) != nil {
-				return vews
-			}
-		}
-		return nil
-	}
+	func vew(ofScnNode:SCNNode) -> Vew? {	bug;return nil }
+	func vews(ofScnNode:SCNNode) -> Vews? {	bug;return nil }
+//		for vews in rootVews {
+//			if vews.scn.find(firstWith:{ $0 == ofScnNode }) != nil {
+//				return vews
+//			}
+//		}
+//		return nil
+//	}
 
 	  // MARK: - 9.0 3D Support
 	 // mouse may "paw through" parts, using wiggle
 	var wiggledPart	  : Part?	= nil
 	var wiggleOffset  : SCNVector3? = nil		// when mouse drags an atom
 
-//	 // MARK: - 13. IBActions
-//	 /// Prosses keyboard key
-//    /// - Parameter from: -- NSEvent to process
-//    /// - Parameter vew: -- The Vew to use
-//	/// - Returns: The key was recognized
-//	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
-//		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-//		guard let parts : Parts = vew.part.root else {return false }	// vew.root.part
-//
-//		 // Check registered TimingChains
-//		for timingChain in factalsModel.simulator.timingChains {
-///**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
-//				return true 				/* handled by timingChain */
-//			}
-//		}
-//
-//		 // Check Simulator:
-///**/	if factalsModel.simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
-//			return true 					// handled by simulator
-//		}
-//
-//		 // Check Controller:
-//		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
-//			return false						/* FwDocument has no key-ups */
-//		}
-//		 // Sim EVENTS						// /// Key DOWN ///////
-//		let cmd 				= nsEvent.modifierFlags.contains(.command)
-//		let alt 				= nsEvent.modifierFlags.contains(.option)
-//		var aux : FwConfig		= fmConfig	// gets us params4pp
-//		aux["ppParam"]			= alt		// Alternate means print parameters
-
-//		switch character {
-//		case "u": // + cmd
-//			if cmd {
-//				panic("Press 'cmd u'   A G A I N    to retest")	// break to debugger
-//			}
-//		case Character("\u{1b}"):				// Escape
-//			print("\n******************** 'esc':  === EXIT PROGRAM\n")
-//			NSSound.beep()
-//			exit(0)								// exit program (hack: brute force)
-//		case "b":
-//			print("\n******************** 'b': ======== keyboard break to debugger")
-//			panic("'?' for debugger hints")
-////		case "d":
-////			print("\n******************** 'd': ======== ")
-////			let l1v 			= rootVewL("_l1")
-////			print(l1v.scn.transform.pp(.tree))
-//
-//		 // print out parts, views
-//		 // Command Syntax:
-//		 // mM/lL 		normal  /  normal + links	L	 ==> Links
-//		 // ml/ML		normal  /  normal + ports	ROOT ==> Ports
-//		 //
-//		case "m":
-//			aux["ppDagOrder"]	= true
-//			print("\n******************** 'm': === Parts:")
-//			print(parts.pp(.tree, aux), terminator:"")
-//		case "M":
-//			aux["ppPorts"]		= true
-//			aux["ppDagOrder"]	= true
-//			print("\n******************** 'M': === Parts and Ports:")
-//			print(parts.pp(.tree, aux), terminator:"")
-//		case "l":
-//			aux["ppLinks"]		= true
-//			aux["ppDagOrder"]	= true
-//			print("\n******************** 'l': === Parts, Links:")
-//			print(parts.pp(.tree, aux), terminator:"")
-//		case "L":
-//			aux["ppPorts"]		= true
-//			aux["ppDagOrder"]	= true
-//			aux["ppLinks"]		= true
-//			print("\n******************** 'L': === Parts, Ports, Links:")
-//			print(parts.pp(.tree, aux), terminator:"")
-//
-//		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
-//		case "c":
-//			printFwState()				// Current controller state
-//		case "?":
-//			printDebuggerHints()
-//			return false				// anonymous printout
-//
-//		default:
-//			return false				// nobody decoded
-//		}
-//		return true						// someone decoded
-//	}
-
-
-
-	  // MARK: - 13. IBActions
+	 // MARK: - 13. IBActions
 	 /// Prosses keyboard key
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use
-	/// - Returns: Key was recognized
+	/// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
-		if nsEvent.type == .keyUp {			// ///// Key UP ////// //
-			return false
-		}
-		let modifierKeys		= nsEvent.modifierFlags
-		let cmd 				= modifierKeys.contains(.command)
-		let alt 				= modifierKeys.contains(.option)
-	//	let doc					= document!
-
-		var found				= true
- 		let character			= nsEvent.charactersIgnoringModifiers!.first!
-
+		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
 		guard let parts : Parts = vew.part.root else {return false }	// vew.root.part
-
-		 // Check registered TimingChains
-		for timingChain in simulator.timingChains {
-/**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
-				return true 				/* handled by timingChain */
-			}
-		}
+		var found				= true
 
 		 // Check Simulator:
 /**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
@@ -238,12 +134,12 @@ class FactalsModel : ObservableObject, Uid {
 			return false						/* FwDocument has no key-ups */
 		}
 		 // Sim EVENTS						// /// Key DOWN ///////
+		let cmd 				= nsEvent.modifierFlags.contains(.command)
+		let alt 				= nsEvent.modifierFlags.contains(.option)
 		var aux : FwConfig		= fmConfig	// gets us params4pp
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
-
 		switch character {
-
 		case "u": // + cmd
 			if cmd {
 				panic("Press 'cmd u'   A G A I N    to retest")	// break to debugger
@@ -289,9 +185,11 @@ class FactalsModel : ObservableObject, Uid {
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "c":
 			printFwState()				// Current controller state
-		case "?":
-			printDebuggerHints()
-			return false				// anonymous printout
+//		case "?":
+//			printDebuggerHints()
+//			return false				// anonymous printout
+
+
 
 		case "r": // (+ cmd)
 			if cmd {
@@ -300,22 +198,22 @@ class FactalsModel : ObservableObject, Uid {
 			}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			for vews in rootVews {
-				vews.scn.play(sound:"Oooooooo")		//GameStarting
+			for vews in vewss {
+				vews.scnNodes.tree.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
-			for vews in rootVews {
+			for vews in vewss {
 				print("-------- ptv0   rootVews[++]:\(ppUid(vews)):")
 				print("\(vews.pp(.tree))", terminator:"")
 			}
 		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
-			for vews in rootVews {
-				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scn)))" +
-					  ".scn(\(ppUid(vews.scn))):")
-				print(vews.scn.pp(.tree), terminator:"")
+			for vews in vewss {
+				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnNodes)))" +
+					  ".scn(\(ppUid(vews.scnNodes))):")
+				print(vews.scnNodes.pp(.tree), terminator:"")
 			}
 		case "#":
 			let documentDirURL	= try! FileManager.default.url(
@@ -326,7 +224,7 @@ class FactalsModel : ObservableObject, Uid {
 			let suffix			= alt ? ".dae" : ".scn"
 //			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-bug//		let rootVews0scene	= rootVews.first?.rootScn.scnScene ?? {	fatalError("") } ()
+bug;		let rootVews0scene	= vewss.first?.scnNodes.scnScene ?? {	fatalError("") } ()
 //			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 //						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
@@ -367,6 +265,7 @@ bug
 //			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
 //			return true								// recognize both
 		case "?":
+			printDebuggerHints()
 			print ("\n=== FactalsModel   commands:",
 				"\t'r'             -- r sound test",
 				"\t'r'+cmd         -- go to lldb for rerun",
@@ -412,10 +311,10 @@ bug
 	/// - Parameter n: an NSEvent (else current NSEvent)
 	/// - Parameter v: specific base Vew (else check all rootVews)
 	/// - Returns: The Vew of the part pressed
-	func modelPic(with nsEvent:NSEvent, inVew v:Vew?=nil) -> Vew? {
-		let vews2check : [Vew]		= v == nil ? rootVews : [v!]
-		for vew in vews2check {
-			if let picdVew			= findVew(nsEvent:nsEvent, inVew:vew) {
+	func modelPic(with nsEvent:NSEvent, inVews v:Vews?=nil) -> Vew? {
+		let vewss2check : [Vews]		= v==nil ? vewss : [v!]
+		for vews in vewss2check {
+			if let picdVew			= findVew(nsEvent:nsEvent, inVews:vews) {
 				 // PART pic'ed, DISPATCH to it!
 				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
 					return picdVew
@@ -426,10 +325,10 @@ bug
 		return nil
 	}
 
-	func findVew(nsEvent:NSEvent, inVew:Vew) -> Vew? {
+	func findVew(nsEvent:NSEvent, inVews vews:Vews) -> Vew? {
 		 // Find vews of NSEvent
-		guard let vews		= inVew.vews 			else { return nil	}
-		guard let slot 			= vews.slot				else { return nil	}
+//		guard let vews			= inVews				else { return nil		}
+		guard let slot 			= vews.slot				else { return nil		}
 //		let scenes:ScnNodes = vews.scenes			// SCNScene
 //		let rv:Vews?			= scenes.vews
 //		let rn:SCNNode			= scenes.rootNode
@@ -448,7 +347,7 @@ bug
 //		 // Find the 3D Vew for the Part under the mouse:
 //		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
 
-		let rootNode			= vews.scenes.rootNode
+		let vew					= vews.tree
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -461,13 +360,13 @@ bug
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:rootNode			// The root of the node hierarchy to be searched.
+			.rootNode:vew				// The root of the node hierarchy to be searched.
 		]
 bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:
-		var pickedScn :SCNNode	= vews.scn			// default is root
+		var pickedScn :SCNNode	= vews.scnNodes.tree		// default is root
 		if hits.count > 0 {
 			// There is a HIT on a 3D object:
 			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -486,13 +385,10 @@ bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRo
 		}
 
 		// Get Vew from SCNNode
-		guard let vew 				= vews.find(scnNode:pickedScn, me2:true) else {
+		guard let vew 				= vews.tree.find(scnNode:pickedScn, me2:true) else {
 			if trueF 				{ return nil 		}		// Ignore missing vew
 			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scn.pp(.classUid))")
-			if let cv				= vews.trunkVew,			// for debug only
-			   let vew 				= cv.find(scnNode:pickedScn, me2:true) {
-				let _				= vew
-			}
+			let vew 				= vews.tree.find(scnNode:pickedScn, me2:true) // for debug only
 			return nil
 		}
 		msg							+= "      ===>    ####  ..."//\(vew.part.pp(.fullNameUidClass))  ####"
@@ -500,6 +396,7 @@ bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRo
 		atEve(3, print("\n" + msg))
 		return vew
 	}
+
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
 bug
@@ -616,7 +513,7 @@ bug
 		case .line:
 bug;		var rv				= ""//(rootPartActor.parts?.pp(.classUid, aux) ?? "parts=nil") + " "
 //			var rv				= (parts?.pp(.classUid, aux) ?? "parts=nil") + " "
-			rv					+= rootVews.pp(.classUid, aux) + " "
+			rv					+= vewss.pp(.classUid, aux) + " "
 //			if let document {
 //				rv				+= document.pp(.classUid, aux)
 //			}

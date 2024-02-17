@@ -136,6 +136,8 @@
 		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
+		9F6C85332B81060C00D40934 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C85322B81060B00D40934 /* FwView.swift */; };
+		9F6C85342B81060C00D40934 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C85322B81060B00D40934 /* FwView.swift */; };
 		9F84C9EE2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */; };
 		9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */; };
 		9F84C9F12AF2FDC6002BD0C1 /* BundleTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */; };
@@ -247,6 +249,7 @@
 		9F5AE2CF298C3C4B00EF6B20 /* ScnNodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnNodes.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
+		9F6C85322B81060B00D40934 /* FwView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaftBundleTap.swift; sourceTree = "<group>"; };
 		9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleTap.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
@@ -497,6 +500,7 @@
 				9F969540288B4E8800106DBC /* SwiftUI++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* ScnNodes.swift */,
+				9F6C85322B81060B00D40934 /* FwView.swift */,
 				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
 				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
 				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
@@ -712,6 +716,7 @@
 				9F417F5628EB95590047B359 /* CG++.swift in Sources */,
 				9F417F3A28EB94B30047B359 /* FactalsDocument.swift in Sources */,
 				9F417F3028EB94650047B359 /* Vew.swift in Sources */,
+				9F6C85342B81060C00D40934 /* FwView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,6 +803,7 @@
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,
 				9F0295D92880926D00DD0004 /* FwwEvent.swift in Sources */,
 				9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */,
+				9F6C85332B81060C00D40934 /* FwView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

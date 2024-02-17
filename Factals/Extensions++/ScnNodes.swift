@@ -8,9 +8,13 @@
 import Foundation
 import SceneKit
 
-class ScnNodes : SCNScene {
+class ScnNodes : NSObject {
+	var tree	 : SCNNode
+	var scnScene : SCNScene
+	var fwView	: FwView?					// SCNView  of this ScnNodes
+
 	weak
-	 var vews	: Vews?				// Vews, owner of this RootScn
+	 var vews	: Vews?						// Delegate (of these ScnNodes)
 
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
@@ -18,17 +22,15 @@ class ScnNodes : SCNScene {
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
-	override init() {
+	init(tree t:SCNNode) {
+bug;	tree					= t
+		scnScene				= SCNScene()
  		super.init()
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
 
 extension ScnNodes {		// lights and camera
-//	var trunkScn : SCNNode? 	{
-//		guard let ts			= rootNode.child0  else { fatalError("trunkVew is nil") }
-//		return ts
-//	}
 	 // MARK: - 4.1 Lights
 	func checkLights() {
 		touchLight("*-omni1",  .omni, position:SCNVector3(0, 0, 15))
@@ -38,14 +40,14 @@ extension ScnNodes {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
-			if rootNode.find(name:name) == nil {
+			if tree.find(name:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
 				scn4light.name	= name				// arg 1
 				if let position {
 					scn4light.position = position	// arg 5
 				}
-				rootNode.addChildNode(scn4light)
+				tree.addChildNode(scn4light)
 										 // Light:
 				let light		= SCNLight()
 				light.type 		= lightType			// arg 2
@@ -133,12 +135,12 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 	func checkCamera() {
 		let name				= "*-camera"
-		let camNode				= rootNode.find(name:name, maxLevel:1) ?? { // use old
+		let camNode				= tree.find(name:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-			rootNode.addChildNode(rv)
+			tree.addChildNode(rv)
 
 			 // Just make a whole new camera system from scratch
 			let camera			= SCNCamera()
@@ -186,13 +188,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func touchAxesScn() -> SCNNode {			// was updatePole()
 		let name				= "*-axis"
 		 //
-		if let rv 				= rootNode.find(name:name) {
+		if let rv 				= tree.find(name:name) {
 			return rv
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		let axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		rootNode.addChild(node:axesScn)
+		tree.addChild(node:axesScn)
 		axesScn.name				= name
 
 		 // X/Z Poles (thinner)
@@ -330,7 +332,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 		guard let vews  else {	fatalError("RootScn.vews is nil")}
 
 		 //		(ortho-good, check perspective)
-		let rootVewBbInWorld	= vews.bBox //BBox(size:3, 3, 3)//			// in world coords
+		let rootVewBbInWorld	= vews.tree.bBox //BBox(size:3, 3, 3)//			// in world coords
 		let world2eye			= SCNMatrix4Invert(vews.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
@@ -374,14 +376,14 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-		guard let vews		= vews 		 else {	fatalError("RootScn.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
-		let parts			= vews.parts		// factalsModel.parts
+		guard let vews		= vews 		 else {	fatalError("scnNodes.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
+		let parts			= vews.parts
 
 		 // Paranoia
-		assert(vews.name == "_ROOT", 	"Paranoid check: vews.name=\(vews.name) !=\"_ROOT\"")
-		assert(vews.part	=== parts,   "Paranoid check, vews.part != parts")
-		assert(vews.part.name == "ROOT", "Paranoid check: vews.part.name=\(vews.part.name) !=\"ROOT\"")
-		assert(parts.children.count == 1,"Paranoid check: parts has \(parts.children.count) children, !=1")
+		assert(vews.tree.name == "_ROOT","Paranoid check: vews.name=\(vews.tree.name) !=\"_ROOT\"")
+		assert(vews.parts	=== parts,   "Paranoid check, vews.part != parts")
+		assert(vews.parts.tree.name == "ROOT","Paranoid check: vews.part.name=\(vews.parts.tree.name) !=\"ROOT\"")
+//		assert(tree.children.count == 1, "Paranoid check: parts has \(tree .children.count) children, !=1")
 
 		 // 1. 	GET LOCKS					// PartTree
 		let lockName			= "createVew[\(slot)]"
@@ -394,7 +396,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 
 
 
-		parts.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
+		parts.tree.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
 
 		 // 2. Update Vew and Scn Tree
 /**/	vews.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
@@ -422,18 +424,18 @@ enum FwNodeCategory : Int {
 extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
-			atRsi(8, self.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
+			atRsi(8, self.tree.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
 			let rVew			= self.vews!
 			rVew.lockBoth(for: "updateAtTime")
 			rVew.updateVewSizePaint(logIf:true)		//false//true
 //			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:true)		//false//true
 			rVew.unlockBoth(for: "updateAtTime")
-			atRsi(8, self.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
+			atRsi(8, self.tree.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 //		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
+//			atRsi(8, self.tree.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
 //			let rVew			= self.vews!
 //			rVew .lockBoth("didApplyAnimationsAtTime")
 ////			rVew .part.computeLinkForces(vew:rVew)
@@ -442,7 +444,7 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 //		DispatchQueue.main.async {
-//			atRsi(8, self.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
+//			atRsi(8, self.tree.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
 //			let rVew			= self.vews!
 //			rVew.lockBoth("didSimulatePhysicsAtTime")
 ////			rVew.part.applyLinkForces(vew:rVew)
@@ -451,19 +453,19 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
-			atRsi(8, self.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			let rVew			= self.vews!
-			rVew.lockBoth(for: "willRenderScene")
-			rVew.part.rotateLinkSkins(vew:rVew)
-			rVew.unlockBoth(for: "willRenderScene")
+			atRsi(8, self.tree.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+			let rVews			= self.vews!
+			rVews.lockBoth(for: "willRenderScene")
+			rVews.parts.tree.rotateLinkSkins(vew:rVews.tree)
+			rVews.unlockBoth(for: "willRenderScene")
 		}
 	}
 	   // ODD Timing:
 //	func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-//		atRsi(8, self.logd("<><><> 9.5.@: ScnNodes Rendered -- NOP"))
+//		atRsi(8, self.tree.logd("<><><> 9.5.@: ScnNodes Rendered -- NOP"))
 //	}
 //	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
-//		atRsi(8, self.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
+//		atRsi(8, self.tree.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
 //	}
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
@@ -495,7 +497,7 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 		 //
 		case .leftMouseDown:
 			beginCameraMotion(with:nsEvent)
-			if false,let v		= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
+			if false,let v		= factalsModel?.modelPic(with:nsEvent) {
 				print("leftMouseDown pic's Vew:\(v.pp(.short))")
 			}
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
@@ -507,7 +509,7 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
-				if let vew	= factalsModel?.modelPic(with:nsEvent, inVew:vew) {
+				if let vew	= factalsModel?.modelPic(with:nsEvent) {
 					vews.lookAtVew = vew			// found a Vew: Look at it!
 				}
 			}
@@ -621,18 +623,18 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
-			rv					+= vews?.scenes === self ? "" : "OWNER:'\(vews!)' BAD"
-			rv					+= "scn:\(ppUid(self, showNil:true)) (\(rootNode.nodeCount()) SCNNodes total) "
+			rv					+= vews?.scnNodes === self ? "" : "OWNER:'\(vews!)' BAD"
+			rv					+= "scn:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
 //			rv					+= "\(self.fwView?.pp(.uidClass, aux) ?? "BAD: fwView=nil") "
 		}
 		return rv
 	}
-	static let nullRoot 		= {
-		let rp					= ScnNodes()	// Any use of this should fail (NOT IMPLEMENTED)
-		rp.rootNode.name		= "nullRoot"
-		return rp
+	static let nullScnNodes 	= {
+		let nullScnNodes		= ScnNodes(tree:SCNNode())	// Any use of this should fail (NOT IMPLEMENTED)
+		nullScnNodes.tree.name	= "nullScnNodes"
+		return nullScnNodes
 	}()
 }
 // currently unused

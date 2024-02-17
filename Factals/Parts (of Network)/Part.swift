@@ -500,7 +500,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		markTree(dirty:.vew)
 	}
 
-	func groomModelPostWires(root:Parts)  {
+	func groomModelPostWires(parts:Parts)  {
 		 // Check for duplicate names:
 		var allNames : [String] = []
 		for child in children {
@@ -509,7 +509,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 		 // Do whole tree
 		for child in children {
-			child.groomModelPostWires(root:root) 	// ### RECURSIVE
+			child.groomModelPostWires(parts:parts) 	// ### RECURSIVE
 		}
 	}
 

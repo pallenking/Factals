@@ -7,14 +7,17 @@
 
 import SceneKit
 
-class Vews : Vew, Identifiable {			// inherits ObservableObject
+class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
+	var parts 		: Parts
+	var scnNodes 	: ScnNodes	= .nullScnNodes			// Master 3D Tree
+	var tree		: Vew
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
-	var scenes 		: ScnNodes	= .nullRoot	// HOAKEY!!			// Master 3D Tree
-	var nsView		: NSView?	= nil		// View displaying
+
+//	var nsView		: NSView?	= nil		// View displaying
 
 	@Published var selfiePole	= SelfiePole()
- 	var cameraScn	: SCNNode?	{ scn.find(name:"*-camera", maxLevel:1) }
+ 	var cameraScn	: SCNNode?	{ scnNodes.tree.find(name:"*-camera", maxLevel:1) }
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks
@@ -24,51 +27,55 @@ class Vews : Vew, Identifiable {			// inherits ObservableObject
 	var verbose 				= false		// (unused)
 
 	 // Sugar
-	var parts 	: Parts	{	return part as! Parts 					} //?? fatalError("Vews.part is nil")}
-	var slot	 	: Int?		{	factalsModel?.rootVews.firstIndex(of:self)	}
-	var trunkVew 	: Vew? 		{	children.first								}
+	var slot	 	: Int?		{	factalsModel?.vewss.firstIndex(of:self)		}
+//	var trunkVew 	: Vew? 		{	children.first								}
 
 	 /// generate a new View, returning its index
-	init(forPart rp:Parts) {
-		super.init(forPart:rp)
-		scenes				= ScnNodes()
-		scenes.vews		= self			// weak backpointer, owner
+	init(forParts p:Parts) {
 
-		scn						= scenes.rootNode
-		scn.name 				= self.scn.name ?? ("*-" + part.name)
+		parts					= p
+		scnNodes				= ScnNodes(tree:SCNNode())
+
+bug;	tree					= Vew.null
+
+		super.init()
+
+		scnNodes.vews			= self			// weak backpointer, owner
+		scnNodes.tree.name		= self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func configureRootVew(from c:FwConfig) {
-		self.configureVew(from:c)							// vewConfig = c
+		self.tree.configureVew(from:c)							// vewConfig = c
 		selfiePole.configure(from:c)
 	}
 	// MARK: -
 	func setupLightsCamerasEtc() {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		scenes.checkLights()
-		scenes.checkCamera()			// (had factalsModel.document.config)
-		let _ /*axesScn*/		= scenes.touchAxesScn()
+		scnNodes.checkLights()
+		scnNodes.checkCamera()			// (had factalsModel.document.config)
+		let _ /*axesScn*/		= scnNodes.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
 
 		 // 5.  Configure Initial Camera Target:
-		lookAtVew				= trunkVew			// default
+		lookAtVew				= tree//trunkVew			// default
 		if let laStr			= factalsModel.fmConfig.string("lookAt"), laStr != "",
-		  let  laPart 			= parts.find(path:Path(withName:laStr), me2:true) {
-			lookAtVew			= find(part:laPart)
+		  let  laPart 			= parts.tree.find(path:Path(withName:laStr), me2:true) {
+			lookAtVew			= tree.find(part:laPart)
 		}
 
 		 // 6. Set LookAtNode's position
 		let posn				= lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:scn) ?? .zero
+bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}
 
-	 // MARK: - 4? locks
+	// MARK: - 4. Factory
+	// MARK: - 4? locks
 	func lockBoth(for owner:String) {
 		guard parts.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
 		guard          lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get VEW lock")}
@@ -145,12 +152,10 @@ class Vews : Vew, Identifiable {			// inherits ObservableObject
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let factalsModel	= part.root?.factalsModel else { fatalError("Paranoia 29872") }
-		guard let factalsModel2	= vews?  .factalsModel else { fatalError("Paranoia 23872") }
-		assert(factalsModel === factalsModel2, "Paranoia i5205")
+		guard let factalsModel	= factalsModel else { fatalError("Paranoia 29872") }
 		var newOwner2			= newOwner		// nil if lock obtained
-		let vRoot				= self
-		let pRoot				= part.root!
+		let vewsTree			= self .tree
+		let partsTree			= parts.tree
 
 /**/	SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
@@ -163,8 +168,8 @@ class Vews : Vew, Identifiable {			// inherits ObservableObject
 				 ///      - message: massage to log
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, for owner:inout String?, log:Bool, _ message:String) -> Bool {
-					if pRoot.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						guard let factalsModel = part.root?.factalsModel else {	fatalError("### part.root?.factalsModel is nil ###")		}
+					if partsTree.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
+						//guard let factalsModel = part.root?.factalsModel else {	fatalError("### part.root?.factalsModel is nil ###")		}
 
 						guard lock(for:owner, logIf:log) else {
 							fatalError("updateVewSizePaint(needsViewLock:'\(owner ?? "<nil>")') FAILED to get it")
@@ -181,29 +186,29 @@ class Vews : Vew, Identifiable {			// inherits ObservableObject
 
 			if let vewConfig {					// Vew Configuration specifies open stuffss
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-				vRoot.openChildren(using:vewConfig)
+				vewsTree.openChildren(using:vewConfig)
 			}
 			atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
 
 			  // Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
-/**/		pRoot.reVew(vew:vRoot, parentVew:nil)
+/**/		partsTree.reVew(vew:vewsTree, parentVew:nil)
 
 			// should have created all Vews and one *-<name> in ptn tree
-			pRoot.reVewPost(vew:vRoot)
+			partsTree.reVewPost(vew:vewsTree)
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, for:&newOwner2, log:log,
 			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 			atRsi(6, log ? logd("parts.reSize():............................") : nop)
 
-/**/		pRoot.reSize(vew:vRoot)				// also causes rePosition as necessary
+/**/		partsTree.reSize(vew:vewsTree)				// also causes rePosition as necessary
 			
-			vRoot.bBox			|= BBox.unity		// insure a 1x1x1 minimum
+			vewsTree.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 								
-			pRoot.rePosition(vew:vRoot)				// === only outter vew centered
-			vRoot.orBBoxIntoParent()
-			pRoot.reSizePost(vew:vRoot)				// ===(set link Billboard constraints)
+			partsTree.rePosition(vew:vewsTree)				// === only outter vew centered
+			vewsTree.orBBoxIntoParent()
+			partsTree.reSizePost(vew:vewsTree)				// ===(set link Billboard constraints)
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 			atRsi(6, log ? logd("..............................................") : nop)
 		}
@@ -211,12 +216,12 @@ class Vews : Vew, Identifiable {			// inherits ObservableObject
 		if hasDirty(.paint, for:&newOwner2, log:log,
 			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
-/**/		pRoot.rePaint(vew:vRoot)				// Ports color, Links position
+/**/		partsTree.rePaint(vew:vewsTree)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
 			//pRoot.computeLinkForces(vew:vRoot)	// Compute Forces (.force == 0 initially)
 			//pRoot  .applyLinkForces(vew:vRoot)	// Apply   Forces (zero out .force)
-			pRoot .rotateLinkSkins (vew:vRoot)		// Rotate Link Skins
+			partsTree .rotateLinkSkins (vew:vewsTree)		// Rotate Link Skins
 		}
 		let unlockName			= newOwner == nil ? nil :			// no lock wanted
 								  newOwner2 == nil ? newOwner :// we locked it!
@@ -227,19 +232,19 @@ class Vews : Vew, Identifiable {			// inherits ObservableObject
 	}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-							 				// Report any improper linking:
-		guard let factalsModel 					  else{return "factalsModel BAD"}
-		guard let slot 							  else{return "slot IS NIL"		}
-		guard slot < factalsModel.rootVews.count  else{return "slot TOO BIG"	}
-		guard factalsModel.rootVews[slot] == self else{return "self inclorectly in rootVews"}
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+bug // override							 				// Report any improper linking:
+		guard let factalsModel 					else{return "factalsModel BAD"	}
+		guard let slot 							else{return "slot IS NIL"		}
+		guard slot < factalsModel.vewss.count	else{return "slot TOO BIG"		}
+		guard factalsModel.vewss[slot] == self  else{return "self inclorectly in rootVews"}
 		
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
 	  // MARK: - 16. Global Constants
 	static let nullRoot : Vews = {
-		let rv					= Vews(forPart:.nullRoot)
-		rv.name					= "nullRoot"
+		let rv					= Vews(forParts:.nullRoot)
+		//rv.name					= "nullRoot"
 		return rv
 	}()
 }

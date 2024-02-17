@@ -68,7 +68,6 @@ class TimingChain : Atom {
 
 		 // Register ourselves with simulator:
 		root?.factalsModel?.simulator.timingChains.append(self)	/*WTF!*/
-		//root?.simulator.timingChains.append(self)	/*WTF!*/
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{
@@ -201,15 +200,15 @@ class TimingChain : Atom {
 		return rv
 	}
 	 // MARK: - 5 Groom
-	override func groomModelPostWires(root:Parts) {
-											super.groomModelPostWires(root:root)
+	override func groomModelPostWires(parts:Parts) {
+											super.groomModelPostWires(parts:parts)
 		asyncData				= partConfig["asyncData"] as? Bool ?? false
-		if let ac				= root.factalsModel?.fmConfig.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")
+		if let ac				= parts.factalsModel?.fmConfig.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
 
 		 // Register ourselves with simulator:
-		root.factalsModel?.simulator.timingChains.append(self)
+		parts.factalsModel?.simulator.timingChains.append(self)
 
 		  // Add P's target to discreteTimes array
 		 // User specifies as P and S Ports, but needed in worldModel
@@ -301,7 +300,7 @@ class TimingChain : Atom {
 			else {
 				atEve(4, logd("//// %02o=>State; Sim Settled; Synchronous Data Mode: cPrev;lData", state))
 														// ## 2. do EARLY Clk Previous:
-				root!.sendMessage(fwType:.clockPrevious)
+				root!.tree.sendMessage(fwType:.clockPrevious)
 
 				for discreteTime in discreteTimes {
 					discreteTime.loadTargetBundle(event:event!)//## 3. load target bundle
@@ -315,8 +314,8 @@ class TimingChain : Atom {
 		case 2:					// ----> When Settled do 'ad2:Conceive'
 			atEve(4, logd("|||| %02o=>State; Sim Settled; Now do 'ad2:Conceive'", state))
 														// ## 4. Await Sim Settled
-			root!.sendMessage(fwType:.writeHeadConcieve)	// ## 5. do: CONCEIVE:
-			root!.sendMessage(fwType:.writeHeadLabor)		// ## 6. do: LABOR, BIRTH:
+			root!.tree.sendMessage(fwType:.writeHeadConcieve)	// ## 5. do: CONCEIVE:
+			root!.tree.sendMessage(fwType:.writeHeadLabor)		// ## 6. do: LABOR, BIRTH:
 
 			  // Disable simulator to freeze activations levels and newborn in canal.
 			 //   Conceive leaves SIM unsettled//newb->birth canal (Unfortunately)
@@ -337,7 +336,7 @@ class TimingChain : Atom {
 
 			 //	 !asyncData used in Morse Code (F1, F2, F3)
 			if asyncData {		 						// ## 9. LATE Previous Clk
-				root!.sendMessage(fwType:.clockPrevious)
+				root!.tree.sendMessage(fwType:.clockPrevious)
 			}
 			retractPort?.take(value:0.0)
 			retractPort			= nil

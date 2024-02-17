@@ -84,8 +84,8 @@ bug
 		let n2 = n1.pp(.uidClass)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
-		let o0 = Parts()
-		let o1 = Vews(forPart:o0)
+bug;	let o0 = Parts(tree:Part())
+		let o1 = Vews(forParts:o0)
 		let o2 = o1.pp(.uidClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
@@ -176,7 +176,7 @@ bug
 			(			MinAndSh(), 		"MinAndSh"		),
 			(			MultiplySh(),		"MultiplySh"	),
 			(			SequenceSh(), 		"SequenceSh"	),
-			(	Parts(), 				"Parts"		),
+		//	(	Parts(), 					"Parts"			),
 		]
 		for (i, (part, expectedClassName)) in tests.enumerated() {
 
@@ -392,11 +392,11 @@ bug
 		return outPart
 	}
 
-	func testPpUidSimple() {
-		let y  : String			= ppUid(pre:"pre:", DOClog, post:":post")
-		//Ambiguous use of 'ppUid(pre:_:post:showNil:aux:)'
-		XCTAssert(y.hasPrefix("pre:") && y.hasSuffix("post"))
-	}
+//	func testPpUidSimple() {
+//		let y  : String			= ppUid(pre:"pre:", DOClog, post:":post")
+//		//Ambiguous use of 'ppUid(pre:_:post:showNil:aux:)'
+//		XCTAssert(y.hasPrefix("pre:") && y.hasSuffix("post"))
+//	}
 
 	func testMatrix4PpMode() {
 		var aMtx				= SCNMatrix4(SCNVector3(4,5,6))

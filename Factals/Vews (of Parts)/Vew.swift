@@ -27,8 +27,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		parent==nil   ? ""   :
 		parent!.fullName + "/" + name	// add lefter component
 	}
-	var vews		: Vews?	{	rootVewRaw as? Vews						}
-	var rootVewRaw	:  Vew?		{	parent?.rootVewRaw ?? self	/* RECURSIVE */	}
+	var vews		: Vews?		{	part.root?.factalsModel?.vews(ofScnNode:scn)}
+//	var rootVewRaw	: Vew?		{	parent?.rootVewRaw ?? self	/* RECURSIVE */	}
 
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
@@ -226,7 +226,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		 // Look in rootVew's configuration...
 		guard let vews 								else {	return nil		}
-		if let rv				= vews.vewConfig[name] {
+		if let rv				= vews.tree.vewConfig[name] {
 			return rv
 		}
 
@@ -692,7 +692,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= vews?.scn ?? .null
+				let rootScn		= vews?.scnNodes.tree ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				if !(self is LinkVew) {

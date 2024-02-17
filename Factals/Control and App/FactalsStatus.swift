@@ -147,14 +147,14 @@ extension FactalsModel : FactalsStatus	{
 	///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
 //		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
-		var myLine				= "\(rootVews.count) RootVews "
+		var myLine				= "\(vewss.count) vewss "
 		return ppFactalsStateHelper("FactalsModel ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in
 				 // Controller:
 				var rv			= self.parts.ppFactalsState(deapth:deapth-1)		//Actor
 				rv				+= self.simulator.ppFactalsState(deapth:deapth-1)
-				for vews in self.rootVews {
+				for vews in self.vewss {
 					rv			+= vews.ppFactalsState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFactalsState(deapth:deapth-1)
@@ -165,14 +165,14 @@ extension FactalsModel : FactalsStatus	{
 	}
 }
 extension Parts : FactalsStatus	{								 ///Parts
-	func ppFwConfig() -> String {		partConfig.pp(.line)					}
+//	func ppFwConfig() -> String {		partConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= ""//factalsModel.rootPartActor.parts === self ? "" : "OWNER:'\(factalsModel!)' BAD "
 		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
 		return ppFactalsStateHelper("Parts     ", uid:self,
 			myLine:myLine + "parts:\(ppUid(self, showNil:true)) " +
 					"(\(portCount()) Ports) " +
-					"\(rown) dirty:'\(dirty.pp())' " ,
+					"\(rown) dirty:'\(tree.dirty.pp())' " ,
 			deapth:deapth-1)
 	}																			//bug; return "extension Parts : FwStatus needs HELP"	}
 }
@@ -221,27 +221,27 @@ extension Simulator : FactalsStatus	{								///Simulator
 
 extension Vews : FactalsStatus	{								  ///Vews
 	func ppFactalsState(deapth:Int=999) -> String {
-		guard let vews						 else {	return "Vew.vews == nil\n"}
-		guard let factalsModel 		= vews.factalsModel else {	return "Vew.vews?.factalsModel == nil\n" }
-		guard let slot			= vews.slot,
-		  slot >= 0 && slot < factalsModel.rootVews.count else { fatalError("Bad slot")}
+//		guard let vews						 else {	return "Vew.vews == nil\n"	}
+		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }
+		guard let slot			= slot,
+		  slot >= 0 && slot < factalsModel.vewss.count else { fatalError("Bad slot")}
 		let myName				= "Vews      "
 
-		var myLine				= "\(slot)/\(factalsModel.rootVews.count)] "
+		var myLine				= "\(slot)/\(factalsModel.vewss.count)] "
 		myLine					+= "LockVal:\(semiphore.value ?? -99) "
-		myLine					+= factalsModel.rootVews[slot] === self ? "" : "OWNER:'\(String(describing: factalsModel))' BAD "
+		myLine					+= factalsModel.vewss[slot] === self ? "" : "OWNER:'\(String(describing: factalsModel))' BAD "
 		myLine					+= curOwner != nil ? "OWNER:\(curOwner!) " : "UNOWNED "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 	//	myLine					+= "(\(nodeCount()) total) "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		myLine					+= self.scenes.rootNode === self.scn ? "" :
-								   "  ERROR .scn !== \(self.scenes.rootNode.pp(.classUid))"
+		myLine					+= self.tree.scn === self.scnNodes.tree ? "" :
+								   "  ERROR .scn !== \(self.tree.scn.pp(.classUid))"
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.selfiePole.ppFactalsState(deapth:deapth-1)
 				rv 				+= self.cameraScn?.ppFactalsState(deapth:deapth-1) ?? ""
-				rv 				+= self.scenes .ppFactalsState(deapth:deapth-1)
+bug//			rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
@@ -250,13 +250,13 @@ extension Vews : FactalsStatus	{								  ///Vews
 
 extension ScnNodes : FactalsStatus	{						///ScnNodes,SCNScene
 	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= vews?.scenes === self ? "" : "OWNER:'\(vews!)' is BAD"
-		myLine					+= "isPaused:\(isPaused) "
+		var myLine				= vews?.scnNodes === self ? "" : "OWNER:'\(vews!)' is BAD"
+		myLine					+= "isPaused:\(scnScene.isPaused) "
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnNodes      "
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.rootNode    .ppFactalsState(deapth:deapth-1)
-				rv				+= self.physicsWorld.ppFactalsState(deapth:deapth-1)
+				var rv			=  self.tree			 .ppFactalsState(deapth:deapth-1)
+				rv				+= self.scnScene.physicsWorld.ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)

@@ -34,22 +34,22 @@ struct VewBar: View {
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")
-						print(vews.scn.pp(.tree, appGlobals.appConfig))
+						print(vews.scnNodes.tree.pp(.tree, appGlobals.appConfig))
 					}
 					Text("Review:")
 					Button(label:{	Text("View")								})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
-						vews.parts.forAllParts({	$0.markTree(dirty:.vew)	})
+						vews.parts.tree.forAllParts({	$0.markTree(dirty:.vew)	})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
-						vews.parts.forAllParts({	$0.markTree(dirty:.size)})
+						vews.parts.tree.forAllParts({	$0.markTree(dirty:.size)})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
-						vews.parts.forAllParts({	$0.markTree(dirty:.size)})
+						vews.parts.tree.forAllParts({	$0.markTree(dirty:.size)})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)

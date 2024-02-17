@@ -43,23 +43,23 @@ extension Simulator			: ProcessNsEvent {}
 
 
 
-//extension NSEvent {
-//		// Determine the Vews referenced by this event.
-//	func vews() -> Vews? {
-//		let factalsModel 				= DOCfactalsModel
-//		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
-//
-//			 // Find vews whose base fwView is a descendant of nsViewOfEv
-//			for vews in factalsModel.rootVews {
-//				if let fwView	= vews.rootScn.fwView,//rootScn.fwView,
-//				  fwView.isDescendant(of:nsViewOfEv) {
-//					return vews
-//				}
-//			}
-//		}
-//		return nil
-//	}
-//}
+extension NSEvent {
+		// Determine the Vews referenced by this event.
+	func vews() -> Vews? {
+		guard let factalsModel 	= FACTALSMODEL else { fatalError() 				}
+		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
+
+			 // Find vews whose base fwView is a descendant of nsViewOfEv
+			for vews in factalsModel.vewss {
+				if let fwView	= vews.scnNodes.fwView,//rootScn.fwView,
+				  fwView.isDescendant(of:nsViewOfEv) {
+					return vews
+				}
+			}
+		}
+		return nil
+	}
+}
 		//	print("--- nsEvent.window?.contentView?.subviews[i]: \(view) ")
 		//	for subv in view.subviews {
 		//		print("-------- subv: \(subv) ")
