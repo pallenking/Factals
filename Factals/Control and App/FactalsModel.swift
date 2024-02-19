@@ -12,9 +12,9 @@ class FactalsModel : ObservableObject, Uid {
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
 
-	var parts :  PartBase
-	var vewss : [VewBase]	= []			// VewBase of rootPartActor.parts
-	var vews0 :  VewBase?			{	vewss.first									}// Sugar
+	var parts 	  :  PartBase
+	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
+	var vewBases0 :  VewBase?	{	vewBases.first								}// Sugar
 
 	var	simulator: Simulator
 	var log 	 : Log
@@ -41,7 +41,7 @@ class FactalsModel : ObservableObject, Uid {
 		fmConfig				+= parts.ansConfig	// from library
 		simulator.configure(from:config)
 		parts.configure(from:config)
-		for vews in vewss {
+		for vews in vewBases {
 			vews.configureRootVew(from:config)
 		}
 		log.configure(from:config)
@@ -100,7 +100,7 @@ class FactalsModel : ObservableObject, Uid {
 	 // MARK: - 4.?
 	func vew(ofScnNode  s:SCNNode) -> Vew? {	vewBase(ofScnNode:s)?.tree 		}
 	func vewBase(ofScnNode s:SCNNode) -> VewBase? {
-		for vews in vewss {
+		for vews in vewBases {
 			if vews.tree.scn.find(firstWith:{ $0 == s }) != nil {
 				return vews
 			}
@@ -197,22 +197,22 @@ class FactalsModel : ObservableObject, Uid {
 			}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			for vews in vewss {
-				vews.scnNodes.tree.play(sound:"Oooooooo")		//GameStarting
+			for vews in vewBases {
+				vews.scnBase.tree.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
-			for vews in vewss {
+			for vews in vewBases {
 				print("-------- ptv0   rootVews[++]:\(ppUid(vews)):")
 				print("\(vews.pp(.tree))", terminator:"")
 			}
 		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
-			for vews in vewss {
-				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnNodes)))" +
-					  ".scn(\(ppUid(vews.scnNodes))):")
-				print(vews.scnNodes.pp(.tree), terminator:"")
+			for vews in vewBases {
+				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnBase)))" +
+					  ".scn(\(ppUid(vews.scnBase))):")
+				print(vews.scnBase.pp(.tree), terminator:"")
 			}
 		case "#":
 			let documentDirURL	= try! FileManager.default.url(
@@ -223,7 +223,7 @@ class FactalsModel : ObservableObject, Uid {
 			let suffix			= alt ? ".dae" : ".scn"
 //			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-bug;		let rootVews0scene	= vewss.first?.scnNodes.scnScene ?? {	fatalError("") } ()
+bug;		let rootVews0scene	= vewBases.first?.scnBase.scnScene ?? {	fatalError("") } ()
 //			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 //						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
@@ -311,7 +311,7 @@ bug
 	/// - Parameter v: specific base Vew (else check all rootVews)
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVews v:VewBase?=nil) -> Vew? {
-		let vewss2check : [VewBase]		= v==nil ? vewss : [v!]
+		let vewss2check : [VewBase]		= v==nil ? vewBases : [v!]
 		for vews in vewss2check {
 			if let picdVew			= findVew(nsEvent:nsEvent, inVews:vews) {
 				 // PART pic'ed, DISPATCH to it!
@@ -328,7 +328,7 @@ bug
 		 // Find vews of NSEvent
 //		guard let vews			= inVews				else { return nil		}
 		guard let slot 			= vews.slot				else { return nil		}
-//		let scenes:ScnNodes = vews.scenes			// SCNScene
+//		let scenes:ScnBase = vews.scenes			// SCNScene
 //		let rv:VewBase?			= scenes.vews
 //		let rn:SCNNode			= scenes.rootNode
 
@@ -365,7 +365,7 @@ bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRo
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:
-		var pickedScn :SCNNode	= vews.scnNodes.tree		// default is root
+		var pickedScn :SCNNode	= vews.scnBase.tree		// default is root
 		if hits.count > 0 {
 			// There is a HIT on a 3D object:
 			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -512,7 +512,7 @@ bug
 		case .line:
 bug;		var rv				= ""//(rootPartActor.parts?.pp(.classUid, aux) ?? "parts=nil") + " "
 //			var rv				= (parts?.pp(.classUid, aux) ?? "parts=nil") + " "
-			rv					+= vewss.pp(.classUid, aux) + " "
+			rv					+= vewBases.pp(.classUid, aux) + " "
 //			if let document {
 //				rv				+= document.pp(.classUid, aux)
 //			}

@@ -147,14 +147,14 @@ extension FactalsModel : FactalsStatus	{
 	///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
 //		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
-		var myLine				= "\(vewss.count) vewss "
+		var myLine				= "\(vewBases.count) vewss "
 		return ppFactalsStateHelper("FactalsModel ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in
 				 // Controller:
 				var rv			= self.parts.ppFactalsState(deapth:deapth-1)		//Actor
 				rv				+= self.simulator.ppFactalsState(deapth:deapth-1)
-				for vews in self.vewss {
+				for vews in self.vewBases {
 					rv			+= vews.ppFactalsState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFactalsState(deapth:deapth-1)
@@ -224,17 +224,17 @@ extension VewBase : FactalsStatus	{								  ///Vews
 //		guard let vews						 else {	return "Vew.vews == nil\n"	}
 		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }
 		guard let slot			= slot,
-		  slot >= 0 && slot < factalsModel.vewss.count else { fatalError("Bad slot")}
+		  slot >= 0 && slot < factalsModel.vewBases.count else { fatalError("Bad slot")}
 		let myName				= "Vews      "
 
-		var myLine				= "\(slot)/\(factalsModel.vewss.count)] "
+		var myLine				= "\(slot)/\(factalsModel.vewBases.count)] "
 		myLine					+= "LockVal:\(semiphore.value ?? -99) "
-		myLine					+= factalsModel.vewss[slot] === self ? "" : "OWNER:'\(String(describing: factalsModel))' BAD "
+		myLine					+= factalsModel.vewBases[slot] === self ? "" : "OWNER:'\(String(describing: factalsModel))' BAD "
 		myLine					+= curOwner != nil ? "OWNER:\(curOwner!) " : "UNOWNED "
 //		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
 	//	myLine					+= "(\(nodeCount()) total) "
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		myLine					+= self.tree.scn === self.scnNodes.tree ? "" :
+		myLine					+= self.tree.scn === self.scnBase.tree ? "" :
 								   "  ERROR .scn !== \(self.tree.scn.pp(.classUid))"
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
@@ -248,11 +248,11 @@ bug//			rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
 	}
 }
 
-extension ScnNodes : FactalsStatus	{						///ScnNodes,SCNScene
+extension ScnBase : FactalsStatus	{						///ScnBase,SCNScene
 	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= vews?.scnNodes === self ? "" : "OWNER:'\(vews!)' is BAD"
+		var myLine				= vews?.scnBase === self ? "" : "OWNER:'\(vews!)' is BAD"
 		myLine					+= "isPaused:\(scnScene.isPaused) "
-		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnNodes      "
+		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnBase      "
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.tree			 .ppFactalsState(deapth:deapth-1)

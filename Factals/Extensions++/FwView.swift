@@ -19,7 +19,7 @@ class FwView : SCNView {
 
 	 // MARK: - 2. Object Variables:
 //	weak							// backpointer?
-	 var scnNodes : ScnNodes?		= nil
+	 var scnBase : ScnBase?		= nil
 //		var handler : (NSEvent)->Void = { nsEvent in fatalError("FwView's default handler is null")}
 
 	init(frame:CGRect, options:[String:Any]=[:]) {

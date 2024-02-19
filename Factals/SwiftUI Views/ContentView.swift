@@ -67,18 +67,18 @@ struct FactalsModelView: View {
 
 		VStack {
 			HStack {
-				if factalsModel.vewss.count == 0 {
+				if factalsModel.vewBases.count == 0 {
 					Text("No Vews found")
 				}
 				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
-				ForEach($factalsModel.vewss) {	vews in
+				ForEach($factalsModel.vewBases) {	vews in
 					VStack {
 						ZStack {
-							let scnNodes = vews.scnNodes.wrappedValue
+							let scnBase = vews.scnBase.wrappedValue
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
 								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
-								let _ = scnNodes.processEvent(nsEvent:nsEvent, inVew:vews.tree.wrappedValue)
+								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vews.tree.wrappedValue)
 							}
 							// Generate code exemplefying the following thoughts that I am told:
 							// sceneview takes in a publisher		// PW essential/big
@@ -99,12 +99,12 @@ struct FactalsModelView: View {
 							////////////////////////////// Testing	$publisher/	$view
 
 							SceneView(
-								scene:scnNodes.scnScene,
+								scene:scnBase.scnScene,
 								pointOfView:nil,	// SCNNode
 								options:[.rendersContinuously],
 								preferredFramesPerSecond:30,
 								antialiasingMode:.none,
-								delegate:scnNodes,//nil//	//SCNSceneRendererDelegate?
+								delegate:scnBase,//nil//	//SCNSceneRendererDelegate?
 								technique: nil		//SCNTechnique?
 							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)

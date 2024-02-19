@@ -9,7 +9,7 @@ import SceneKit
 
 class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var partBase	: PartBase
-	var scnNodes 	: ScnNodes	= .null			// Master 3D Tree
+	var scnBase 	: ScnBase	= .null			// Master 3D Tree
 	var tree		: Vew		= Vew()
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
@@ -17,7 +17,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 //	var nsView		: NSView?	= nil		// View displaying
 
 	@Published var selfiePole	= SelfiePole()
- 	var cameraScn	: SCNNode?	{ scnNodes.tree.find(name:"*-camera", maxLevel:1) }
+ 	var cameraScn	: SCNNode?	{ scnBase.tree.find(name:"*-camera", maxLevel:1) }
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks
@@ -27,18 +27,18 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var verbose 				= false		// (unused)
 
 	 // Sugar
-	var slot	 	: Int?		{	factalsModel?.vewss.firstIndex(of:self)		}
+	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
 //	var trunkVew 	: Vew? 		{	children.first								}
 
 	 /// generate a new View, returning its index
 	init(forPartBase p:PartBase) {
 		partBase				= p
-		scnNodes				= ScnNodes()
+		scnBase				= ScnBase()
 
 		super.init()
 
-		scnNodes.vews			= self			// weak backpointer, owner
-		scnNodes.tree.name		= self.tree.name
+		scnBase.vews			= self			// weak backpointer, owner
+		scnBase.tree.name		= self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
@@ -50,9 +50,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	func setupLightsCamerasEtc() {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		scnNodes.checkLights()
-		scnNodes.checkCamera()			// (had factalsModel.document.config)
-		let _ /*axesScn*/		= scnNodes.touchAxesScn()
+		scnBase.checkLights()
+		scnBase.checkCamera()			// (had factalsModel.document.config)
+		let _ /*axesScn*/		= scnBase.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
@@ -185,7 +185,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 				// if Empty, make new base
 				if tree.name == "_null" {
 					tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
-					scnNodes.tree = tree.scn		
+					scnBase.tree = tree.scn		
 				}
 
 				tree.openChildren(using:vewConfig)
@@ -239,8 +239,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
  							 				// Report any improper linking:
 		guard let factalsModel 					else{return "factalsModel BAD"	}
 		guard let slot 							else{return "slot IS NIL"		}
-		guard slot < factalsModel.vewss.count	else{return "slot TOO BIG"		}
-		guard factalsModel.vewss[slot] == self  else{return "self inclorectly in rootVews"}
+		guard slot < factalsModel.vewBases.count	else{return "slot TOO BIG"		}
+		guard factalsModel.vewBases[slot] == self  else{return "self inclorectly in rootVews"}
 		
 		return super.pp(mode, aux)			// superclass does all the work.
 	}

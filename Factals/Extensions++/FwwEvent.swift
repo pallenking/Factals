@@ -25,7 +25,7 @@ protocol ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool
 }
 
-extension ScnNodes			: ProcessNsEvent {}
+extension ScnBase			: ProcessNsEvent {}
 extension VewBase				: ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
@@ -45,13 +45,13 @@ extension Simulator			: ProcessNsEvent {}
 
 extension NSEvent {
 		// Determine the Vews referenced by this event.
-	func vews() -> VewBase? {
+	func vewBase() -> VewBase? {
 		guard let factalsModel 	= FACTALSMODEL else { fatalError() 				}
 		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 
 			 // Find vews whose base fwView is a descendant of nsViewOfEv
-			for vews in factalsModel.vewss {
-				if let fwView	= vews.scnNodes.fwView,//rootScn.fwView,
+			for vews in factalsModel.vewBases {
+				if let fwView	= vews.scnBase.fwView,//rootScn.fwView,
 				  fwView.isDescendant(of:nsViewOfEv) {
 					return vews
 				}

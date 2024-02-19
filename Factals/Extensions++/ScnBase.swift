@@ -1,5 +1,5 @@
 //
-//  ScnNodes.swift
+//  ScnBase.swift
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -8,13 +8,13 @@
 import Foundation
 import SceneKit
 
-class ScnNodes : NSObject {
+class ScnBase : NSObject {
 	var tree	 : SCNNode
 	var scnScene : SCNScene
-	var fwView	 : FwView?					// SCNView  of this ScnNodes
+	var fwView	 : FwView?					// SCNView  of this ScnBase
 
 	weak
-	 var vews	 : VewBase?					// Delegate (of these ScnNodes)
+	 var vews	 : VewBase?					// Delegate (of these ScnBase)
 
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
@@ -22,7 +22,7 @@ class ScnNodes : NSObject {
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
-	init(scnScene s:SCNScene?=nil) {				// ScnNodes(tree
+	init(scnScene s:SCNScene?=nil) {				// ScnBase(tree
 		self.scnScene 			= s ?? SCNScene()
 		self.tree				= scnScene.rootNode
  		super.init()
@@ -30,7 +30,7 @@ class ScnNodes : NSObject {
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
 
-extension ScnNodes {		// lights and camera
+extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
 	func checkLights() {
 		touchLight("*-omni1",  .omni, position:SCNVector3(0, 0, 15))
@@ -376,7 +376,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-		guard let vews		= vews 		 else {	fatalError("scnNodes.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
+		guard let vews		= vews 		 else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
 		let partBase		= vews.partBase
 
 		 // Paranoia
@@ -420,7 +420,7 @@ enum FwNodeCategory : Int {
 }
 
 //
-extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneView
+extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 			atRsi(8, self.tree.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
@@ -461,7 +461,7 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 	}
 	   // ODD Timing:
 //	func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-//		atRsi(8, self.tree.logd("<><><> 9.5.@: ScnNodes Rendered -- NOP"))
+//		atRsi(8, self.tree.logd("<><><> 9.5.@: ScnBase Rendered -- NOP"))
 //	}
 //	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
 //		atRsi(8, self.tree.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
@@ -622,7 +622,7 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
-			rv					+= vews?.scnNodes === self ? "" : "OWNER:'\(vews!)' BAD"
+			rv					+= vews?.scnBase === self ? "" : "OWNER:'\(vews!)' BAD"
 			rv					+= "scn:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
@@ -631,13 +631,13 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 		return rv
 	}
 	static let null 			= {
-		let null				= ScnNodes()	// Any use of this should fail (NOT IMPLEMENTED)
+		let null				= ScnBase()	// Any use of this should fail (NOT IMPLEMENTED)
 		null.tree.name			= "nullScnNodes"
 		return null
 	}()
 }
 // currently unused
-extension ScnNodes : SCNPhysicsContactDelegate {
+extension ScnBase : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug
 	}

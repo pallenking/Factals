@@ -47,7 +47,7 @@ extension FactalsApp : App {
 			 }
 		}
 		 .commands {
-			CommandMenu("ScnNodes") {
+			CommandMenu("ScnBase") {
 				ForEach(sceneMenus) { item in
 					Button {
 						let libName = "entry\(item.id)"
