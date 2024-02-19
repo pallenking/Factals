@@ -99,15 +99,15 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 4.?
-	func vew(ofScnNode:SCNNode) -> Vew? {	bug;return nil }
-	func vews(ofScnNode:SCNNode) -> Vews? {	bug;return nil }
-//		for vews in rootVews {
-//			if vews.scn.find(firstWith:{ $0 == ofScnNode }) != nil {
-//				return vews
-//			}
-//		}
-//		return nil
-//	}
+	func vew(ofScnNode  s:SCNNode) -> Vew? {	vews(ofScnNode:s)?.tree 		}
+	func vews(ofScnNode s:SCNNode) -> Vews? {
+		for vews in vewss {
+			if vews.tree.scn.find(firstWith:{ $0 == s }) != nil {
+				return vews
+			}
+		}
+		return nil
+	}
 
 	  // MARK: - 9.0 3D Support
 	 // mouse may "paw through" parts, using wiggle

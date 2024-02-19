@@ -56,7 +56,7 @@ struct FactalsDocument : FileDocument {
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-		let parts			= Parts(fromLibrary:select)
+		let parts				= Parts(fromLibrary:select)
 		factalsModel			= FactalsModel(fromRootPart:parts)
 
 		parts.wireAndGroom([:])

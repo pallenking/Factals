@@ -39,20 +39,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	@objc dynamic var name		= "<unnamed>"
 	var children	: [Part]	= []
 	var child0		:  Part?	{	return children.count == 0 ? nil : children[0] }
-	weak var parent :  Part?	= nil 		// add the parent property
+	weak var parent :  Part?	= nil 	// add the parent property
 
 	 // nil root defers to parent's root.
-	var root		: Parts? = nil
-//	{
-//		get {
-//			parent?.root 		??			// RECURSIVELY up the parent tree
-//			self as? Parts	??			// top should be Parts
-//			nil
-////			{	fatalError("Mall-formed tree: nil parent should be Parts") } ()
-//		}
-//		set(v) {
-//			fatalError("root.set(v) not supported")
-//		}
+	var root		: Parts?	= nil		// = nil
+//	{	get {	parent?.root ??	self											}
+//		set(v) {	fatalError("root.set(v) not supported")						}
 //	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
@@ -65,9 +57,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	 // MARK: - 2.1 Sugar
 	var parts 		: [Part]	{ 		children 								}
 	@objc dynamic var fullName	: String	{
-		let rv					= name=="ROOT" ? 		   name :	// Leftmost component
+		let rv					= //name=="ROOT" ? 		   name :	// Leftmost component
 								  parent==nil  ? "" :
 								  parent!.fullName + "/" + name		// add lefter component
+//		let rv					= name=="ROOT" ? 		   name :	// Leftmost component
+//								  parent==nil  ? "" :
+//								  parent!.fullName + "/" + name		// add lefter component
 		return rv
 	}
 	var fullName16 	: String	{		return fullName.field(16)				}

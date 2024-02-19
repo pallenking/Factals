@@ -66,7 +66,7 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 		 // 6. Set LookAtNode's position
 		let posn				= lookAtVew?.bBox.center ?? .zero
-bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ?? .zero
+		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}
@@ -151,7 +151,7 @@ bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ??
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
 		guard let factalsModel	= factalsModel else { fatalError("Paranoia 29872") }
 		var newOwner2			= newOwner		// nil if lock obtained
-		let  vewsTree : Vew		= self .tree
+//		let  vewsTree : Vew		= self .tree
 		let partsTree			= parts.tree
 
 /**/	SCNTransaction.begin()
@@ -166,8 +166,6 @@ bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ??
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, for owner:inout String?, log:Bool, _ message:String) -> Bool {
 					if partsTree.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						//guard let factalsModel = part.root?.factalsModel else {	fatalError("### part.root?.factalsModel is nil ###")		}
-
 						guard lock(for:owner, logIf:log) else {
 							fatalError("updateVewSizePaint(needsViewLock:'\(owner ?? "<nil>")') FAILED to get it")
 						}
@@ -183,29 +181,33 @@ bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ??
 
 			if let vewConfig {					// Vew Configuration specifies open stuffss
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-				vewsTree.openChildren(using:vewConfig)
+				if tree.name == "_null" {		// Empty, placeholder
+					tree		= parts.tree.VewForSelf() ?? { fatalError() }()
+					scnNodes.tree = tree.scn		
+				}
+				tree.openChildren(using:vewConfig)
 			}
 			atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
 
 			  // Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
-/**/		partsTree.reVew(vew:vewsTree, parentVew:nil)
+/**/		partsTree.reVew(vew:tree, parentVew:nil)
 
 			// should have created all Vews and one *-<name> in ptn tree
-			partsTree.reVewPost(vew:vewsTree)
+			partsTree.reVewPost(vew:tree)
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, for:&newOwner2, log:log,
 			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 			atRsi(6, log ? logd("parts.reSize():............................") : nop)
 
-/**/		partsTree.reSize(vew:vewsTree)				// also causes rePosition as necessary
+/**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
 			
-			vewsTree.bBox		|= BBox.unity			// insure a 1x1x1 minimum
+			tree.bBox		|= BBox.unity			// insure a 1x1x1 minimum
 								
-			partsTree.rePosition(vew:vewsTree)				// === only outter vew centered
-			vewsTree.orBBoxIntoParent()
-			partsTree.reSizePost(vew:vewsTree)				// ===(set link Billboard constraints)
+			partsTree.rePosition(vew:tree)				// === only outter vew centered
+			tree.orBBoxIntoParent()
+			partsTree.reSizePost(vew:tree)				// ===(set link Billboard constraints)
 	//		vRoot.bBox			= .empty				     b// Set view's bBox EMPTY
 			atRsi(6, log ? logd("..............................................") : nop)
 		}
@@ -213,12 +215,12 @@ bug;	let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ??
 		if hasDirty(.paint, for:&newOwner2, log:log,
 			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
-	/**/	partsTree.rePaint(vew:vewsTree)				// Ports color, Links position
+	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
 			//pRoot.computeLinkForces(vew:vRoot)	// Compute Forces (.force == 0 initially)
 			//pRoot  .applyLinkForces(vew:vRoot)	// Apply   Forces (zero out .force)
-			partsTree .rotateLinkSkins (vew:vewsTree)		// Rotate Link Skins
+			partsTree .rotateLinkSkins (vew:tree)		// Rotate Link Skins
 		}
 		let unlockName			= newOwner == nil ? nil :			// no lock wanted
 								  newOwner2 == nil ? newOwner :// we locked it!

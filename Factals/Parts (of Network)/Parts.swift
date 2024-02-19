@@ -60,7 +60,7 @@ import SceneKit
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
-//		setTree(root:tree)
+		tree.setTree(root:self)
 
 		 //  1. GATHER LINKS as wirelist:
 		atBld(4, logd("------- GATHERING potential Links:"))
@@ -71,7 +71,7 @@ import SceneKit
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
 		linkUps.forEach { 	addLink in 		addLink() 							}
 
-//		setTree(root:tree)
+		tree.setTree(root:self)
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))

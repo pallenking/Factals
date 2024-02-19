@@ -570,8 +570,9 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			 // Make the SCNNode					  //		  4-----5
 			let bBoxScn			= SCNComment("")	  //		Z
 			scn.addChild(node:bBoxScn, atIndex:0)
+
 			 // Name the result
-			var fm				= self.vews!.factalsModel!
+			guard let fm		= part.root?.factalsModel else { fatalError()	}			//var fm			= self.vews!.factalsModel!
 			let wBoxNameIndex	= fm.indexFor["WBox"] ?? 1
 			fm.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
