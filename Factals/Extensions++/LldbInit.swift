@@ -39,15 +39,15 @@ func LLDBParts(_ name:String?=nil) -> Part  {
 }
 
  /// Access to current ////// Vew Tree //////
-var  LLDBvews0  : Vews {
+var  LLDBvews0  : VewBase {
 	get 		{	return FACTALSMODEL?.vewss.first ?? .null				}
 	set (v)		{		   FACTALSMODEL?.vewss[0] = v							}
 }
-var  LLDBvews1  : Vews {
+var  LLDBvews1  : VewBase {
 	get 		{	return FACTALSMODEL!.vewss.count > 1 ? FACTALSMODEL!.vewss[1] : .null									}
 	set (v)		{		   FACTALSMODEL?.vewss[1] = v							}
 }
-var  LLDBvews2  : Vews {
+var  LLDBvews2  : VewBase {
 	get 		{	return FACTALSMODEL!.vewss.count > 2 ? FACTALSMODEL!.vewss[2] : .null									}
 	set (v)		{		   FACTALSMODEL?.vewss[2] = v							}
 }
@@ -102,7 +102,7 @@ func fwHelp(_ key:String="?", inVew vew:Vew?) {
 }
  // Send a key to controller:
 func sendApp(key:String="?", inVew vew:Vew) {
-	if let fm				= vew.vews?.factalsModel,
+	if let fm				= vew.vewBase()?.factalsModel,
 	   let ginnedUpEvent	= NSEvent.keyEvent(
 			with			: .keyDown, //NSEvent.EventType(rawValue: 10)!,//keyDown,
 			location		: NSZeroPoint,

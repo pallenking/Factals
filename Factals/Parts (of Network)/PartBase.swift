@@ -65,7 +65,7 @@ import SceneKit
 		 //  1. GATHER LINKS as wirelist:
 		atBld(4, logd("------- GATHERING potential Links:"))
 		var linkUps : [()->()]	= []
-		tree.gatherLinkUps(into:&linkUps, parts:self)
+		tree.gatherLinkUps(into:&linkUps, partBase:self)
 
 		 //  2. ADD LINKS:
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
@@ -75,7 +75,7 @@ import SceneKit
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))
-		tree.groomModelPostWires(parts:self)				// + +  + +
+		tree.groomModelPostWires(partBase:self)				// + +  + +
 		tree.dirtySubTree()															//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
 																				//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
 																				//dirty.turnOn(.vew)
@@ -112,18 +112,18 @@ import SceneKit
 		}
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let vews				= Vews(forParts:self)		// 1. Make empty view
-		vews.factalsModel		= factalsModel				// 2. Backpointer
-		factalsModel!.vewss.append(vews)					// 3. Install
+		let base				= VewBase(forPartBase:self)		// 1. Make empty view
+		base.factalsModel		= factalsModel				// 2. Backpointer
+		factalsModel!.vewss.append(base)					// 3. Install
 
-		vews.tree.configureVew(from:fwConfig)				// 4. Configure Vew
-		vews.tree.openChildren(using:vewConfig)				// 5. Open Vew
+		base.tree.configureVew(from:fwConfig)				// 4. Configure Vew
+		base.tree.openChildren(using:vewConfig)				// 5. Open Vew
 
 		tree.dirtySubTree(gotLock: true, .vsp)				// 6. Mark dirty
-		vews.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		vews.setupLightsCamerasEtc()						// ?move
+		base.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		base.setupLightsCamerasEtc()						// ?move
 
-//		let rootVewPp			= vews.pp(.tree, ["ppViewOptions":"UFVTWB"])
+//		let rootVewPp			= base.pp(.tree, ["ppViewOptions":"UFVTWB"])
 //		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
 	}
 

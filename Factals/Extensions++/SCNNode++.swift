@@ -338,7 +338,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
 			if let s			= self as? ScnNodes {
 bug;			rv				+= s.vews?.scnNodes === self ? "" :
-								   "--- BAD --- Vews: vews?.scenes !== self"
+								   "--- BAD --- VewBase: vews?.scenes !== self"
 			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
@@ -422,7 +422,7 @@ bug;			rv				+= s.vews?.scnNodes === self ? "" :
 
 		 // display position in trunk:
 		if params4pp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
-		  let vews : Vews		= FACTALSMODEL?.vews(ofScnNode:self) {
+		  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnNode:self) {
 			let p				= convertPosition(.zero, to:vews.tree.scn)
 			rv2					+= p.pp(.short, aux).field(-11, dots:false)
 		}

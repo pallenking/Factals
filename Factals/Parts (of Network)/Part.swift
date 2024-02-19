@@ -495,7 +495,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		markTree(dirty:.vew)
 	}
 
-	func groomModelPostWires(parts:PartBase)  {
+	func groomModelPostWires(partBase:PartBase)  {
 		 // Check for duplicate names:
 		var allNames : [String] = []
 		for child in children {
@@ -504,7 +504,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 		 // Do whole tree
 		for child in children {
-			child.groomModelPostWires(parts:parts) 	// ### RECURSIVE
+			child.groomModelPostWires(partBase:partBase) 	// ### RECURSIVE
 		}
 	}
 
@@ -800,11 +800,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// Scan self and children for wires to add to model
 	/// - Wires are gathered after model is built, and applied at later phase
 	/// - Parameter wirelist: 		where wires added
-	func gatherLinkUps(into linkUpList:inout [() -> ()], parts:PartBase) {    //was gatherWiresInto:wirelist]
+	func gatherLinkUps(into linkUpList:inout [() -> ()], partBase:PartBase) {    //was gatherWiresInto:wirelist]
 		 // Gather wires from  _children_   into wirelist first:
 		for child in children {
 			if let atom       	= child as? Atom {
-				atom.gatherLinkUps(into:&linkUpList, parts:parts)  // ### RECURSIVE
+				atom.gatherLinkUps(into:&linkUpList, partBase:partBase)  // ### RECURSIVE
 			}
 		}
 	}

@@ -105,8 +105,8 @@ class DiscreteTime : Atom {
 		return rv
 	}
 	 // MARK: - 5 Groom
-	override func groomModelPostWires(parts:PartBase) {
-											super.groomModelPostWires(parts:parts)
+	override func groomModelPostWires(partBase:PartBase) {
+											super.groomModelPostWires(partBase:partBase)
 		  // Connect up our targetBundle:
 		 //
 		guard let pPort			= ports["P"] else {

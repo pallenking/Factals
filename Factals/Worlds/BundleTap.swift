@@ -70,7 +70,7 @@ class BundleTap : Atom {
 	// MARK: - 7. Simulation Actions
 	override func reset() {											super.reset()
 
-			 //   MOVE TO groomModelPostWires(parts:Parts) {
+			 //   MOVE TO groomModelPostWires(partBase:PartBase) {
 			/// Connect up our targetBundle:
 		   ///
 		 // my P-Port connects where?

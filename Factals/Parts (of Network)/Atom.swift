@@ -463,15 +463,15 @@ class Atom : Part {	//Part//FwPart
 
 	 // MARK: - 5. Wiring
 //	var defaultLinkProps : FwConfig	{ return [:]		}
-	override func gatherLinkUps(into linkUpList:inout [() -> ()], parts:PartBase) {
+	override func gatherLinkUps(into linkUpList:inout [() -> ()], partBase:PartBase) {
 
-/**/	super.gatherLinkUps(into:&linkUpList, parts:parts)
+/**/	super.gatherLinkUps(into:&linkUpList, partBase:partBase)
 		   // /////////////////////////////////////////////////////////////////////
 		  // //    :H: src=SouRCe, lnk=LiNK, trg=TaRGet con=CONtaining net      //
 		 // /////////////////////////////////////////////////////////////////////
 		let srcPortAbilities	= self.hasPorts()	// key --> Port exists
 		var sRetiredKeys : [String] = []
-		var fm					= parts.factalsModel!
+		var fm					= partBase.factalsModel!
 
 		 // Paw through Atom's local configuration
 		for (srcPortString, targets_) in partConfig {
@@ -649,7 +649,7 @@ class Atom : Part {	//Part//FwPart
 						link!.ports[trgAboveSInCon ? "S" : "P"]!.connect(to:trgPort!)
 						conNet.addChild(link, atIndex:lnkInsInd)
 						 // Active segments from creation
-						parts.factalsModel?.simulator.linkChits += link!.curActiveSegments
+						partBase.factalsModel?.simulator.linkChits += link!.curActiveSegments
 						//self.root!.simulator.linkChits += link!.curActiveSegments
 					}
 				}

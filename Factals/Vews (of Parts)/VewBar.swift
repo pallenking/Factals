@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VewBar: View {
-	@Binding var vews : Vews
+	@Binding var vews : VewBase
 	@EnvironmentObject var appGlobals: AppGlobals		// Access
 //	@EnvironmentObject var docGlobals: DocGlobals
 
@@ -39,17 +39,17 @@ struct VewBar: View {
 					Text("Review:")
 					Button(label:{	Text("View")								})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
-						vews.parts.tree.forAllParts({	$0.markTree(dirty:.vew)	})
+						vews.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
-						vews.parts.tree.forAllParts({	$0.markTree(dirty:.size)})
+						vews.partBase.tree.forAllParts({	$0.markTree(dirty:.size)})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
-						vews.parts.tree.forAllParts({	$0.markTree(dirty:.size)})
+						vews.partBase.tree.forAllParts({	$0.markTree(dirty:.size)})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)

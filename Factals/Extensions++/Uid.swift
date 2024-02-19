@@ -16,7 +16,7 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 	 // For fwConTroL elements:
 	let log					= FACTALSMODEL?.log
 	var uidDigits : Int		= aux.int("ppNUid4Ctl")  ?? log?.ppNUid4Ctl ?? 4
-	 // For Parts, Vews, and SCN Stuff:
+	 // For Parts, VewBase, and SCN Stuff:
 	if obj==nil ? false :			// obj==nil --> uses ppNUid4Ctl (AD HOC?)
 	   obj is Part 			||
 	   obj is Vew 			||

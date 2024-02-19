@@ -11,10 +11,10 @@ import SceneKit
 class ScnNodes : NSObject {
 	var tree	 : SCNNode
 	var scnScene : SCNScene
-	var fwView	: FwView?					// SCNView  of this ScnNodes
+	var fwView	 : FwView?					// SCNView  of this ScnNodes
 
 	weak
-	 var vews	: Vews?						// Delegate (of these ScnNodes)
+	 var vews	 : VewBase?					// Delegate (of these ScnNodes)
 
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
@@ -304,7 +304,7 @@ bug;
 		if animate && duration > 0.0 {
 			SCNTransaction.begin()			// Delay for double click effect
 // TYP		atRve(8, vews.factalsModel.logd("  /#######  animatePan: BEGIN All"))
-/*CherryPick2023-0520:*/atRve(8, vews.parts.logd("  /#######  animatePan: BEGIN All"))
+/*CherryPick2023-0520:*/atRve(8, vews.partBase.logd("  /#######  animatePan: BEGIN All"))
 
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 			 // 181002 must do something, or there is no delay
@@ -377,17 +377,16 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
 		guard let vews		= vews 		 else {	fatalError("scnNodes.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
-		let parts			= vews.parts
+		let partBase		= vews.partBase
 
 		 // Paranoia
 		assert(vews.tree.name == "_ROOT","Paranoid check: vews.name=\(vews.tree.name) !=\"_ROOT\"")
-		assert(vews.parts	=== parts,   "Paranoid check, vews.part != parts")
-		assert(vews.parts.tree.name == "ROOT","Paranoid check: vews.part.name=\(vews.parts.tree.name) !=\"ROOT\"")
+		assert(partBase.tree.name == "ROOT","Paranoid check: vews.part.name=\(partBase.tree.name) !=\"ROOT\"")
 //		assert(tree.children.count == 1, "Paranoid check: parts has \(tree .children.count) children, !=1")
 
 		 // 1. 	GET LOCKS					// PartTree
 		let lockName			= "createVew[\(slot)]"
-		guard parts.lock(for:lockName) else {
+		guard partBase.lock(for:lockName) else {
 			fatalError("createVews couldn't get PART lock")		// or
 		}		          					// VewTree
 		guard vews.lock(for:lockName) else {
@@ -396,7 +395,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 
 
 
-		parts.tree.dirtySubTree(gotLock: true, .vsp)		// DEBUG ONLY
+bug;//	partBase.tree.dirtySubTree(gotLock:true, .vsp)		// DEBUG ONLY
 
 		 // 2. Update Vew and Scn Tree
 /**/	vews.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
@@ -407,8 +406,8 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 //		updatePole2Camera(reason:"to createVewNScn")
 
 		// 7. RELEASE LOCKS for PartTree and VewTree:
-		vews.unlock(	 for:lockName)
-		parts.unlock(for:lockName)
+		vews.unlock(	for:lockName)
+		partBase.unlock(for:lockName)
 	}
 }
 
@@ -456,7 +455,7 @@ extension ScnNodes : SCNSceneRendererDelegate {			// Set in contentView SceneVie
 			atRsi(8, self.tree.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
 			let rVews			= self.vews!
 			rVews.lockBoth(for: "willRenderScene")
-			rVews.parts.tree.rotateLinkSkins(vew:rVews.tree)
+			rVews.partBase.tree.rotateLinkSkins(vew:rVews.tree)
 			rVews.unlockBoth(for: "willRenderScene")
 		}
 	}

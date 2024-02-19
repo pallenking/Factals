@@ -7,8 +7,8 @@
 
 import SceneKit
 
-class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
-	var parts 		: PartBase
+class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
+	var partBase	: PartBase
 	var scnNodes 	: ScnNodes	= .null			// Master 3D Tree
 	var tree		: Vew		= Vew()
 	weak
@@ -31,8 +31,8 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 //	var trunkVew 	: Vew? 		{	children.first								}
 
 	 /// generate a new View, returning its index
-	init(forParts p:PartBase) {
-		parts					= p
+	init(forPartBase p:PartBase) {
+		partBase				= p
 		scnNodes				= ScnNodes()
 
 		super.init()
@@ -60,7 +60,7 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= tree//trunkVew			// default
 		if let laStr			= factalsModel.fmConfig.string("lookAt"), laStr != "",
-		  let  laPart 			= parts.tree.find(path:Path(withName:laStr), me2:true) {
+		  let  laPart 			= partBase.tree.find(path:Path(withName:laStr), me2:true) {
 			lookAtVew			= tree.find(part:laPart)
 		}
 
@@ -74,12 +74,12 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	// MARK: - 4. Factory
 	// MARK: - 4? locks
 	func lockBoth(for owner:String) {
-		guard parts.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
+		guard partBase.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
 		guard          lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get VEW lock")}
 	}
 	func unlockBoth(for owner:String) {
 		unlock(for:          owner, logIf:false)
-		parts.unlock(for:owner, logIf:false)
+		partBase.unlock(for:owner, logIf:false)
 	}
 	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
@@ -152,7 +152,7 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		guard let factalsModel	= factalsModel else { fatalError("Paranoia 29872") }
 		var newOwner2			= newOwner		// nil if lock obtained
 //		let  vewsTree : Vew		= self .tree
-		let partsTree			= parts.tree
+		let partsTree			= partBase.tree
 
 /**/	SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
@@ -177,14 +177,14 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 		 // ----   Create   V I E W s   ---- // and SCNs entry points ("*-...")
 		if hasDirty(.vew, for:&newOwner2, log:log,
-			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
+			" _ reVew _   VewBase (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
 			if let vewConfig {					// Vew Configuration specifies open stuffss
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
 
 				// if Empty, make new base
 				if tree.name == "_null" {
-					tree		= parts.tree.VewForSelf() ?? { fatalError() }()
+					tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
 					scnNodes.tree = tree.scn		
 				}
 
@@ -201,8 +201,9 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		}
 		 // ----   Adjust   S I Z E s   ---- //
 		if hasDirty(.size, for:&newOwner2, log:log,
-			" _ reSize _  Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
-			atRsi(6, log ? logd("parts.reSize():............................") : nop)
+			" _ reSize _  VewBase (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
+
+//?			atRsi(6, log ? logd("parts.reSize():............................") : nop)
 
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
 			
@@ -216,7 +217,7 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		}
 		 // -----   P A I N T   Skins ----- //
 		if hasDirty(.paint, for:&newOwner2, log:log,
-			" _ rePaint _ Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
+			" _ rePaint _ VewBase (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
 	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
@@ -244,9 +245,9 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
 	  // MARK: - 16. Global Constants
-	static let null : Vews = Vews(forParts:.null)
-//	static let null : Vews = {
-//		let rv					= Vews(forParts:.null)
+	static let null : VewBase = VewBase(forPartBase:.null)
+//	static let null : VewBase = {
+//		let rv					= Vews(forPartBase:.null)
 //		//rv.name					= "null"
 //		return rv
 //	}()

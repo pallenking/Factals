@@ -26,7 +26,7 @@ protocol ProcessNsEvent {
 }
 
 extension ScnNodes			: ProcessNsEvent {}
-extension Vews				: ProcessNsEvent {
+extension VewBase				: ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 	}
@@ -45,7 +45,7 @@ extension Simulator			: ProcessNsEvent {}
 
 extension NSEvent {
 		// Determine the Vews referenced by this event.
-	func vews() -> Vews? {
+	func vews() -> VewBase? {
 		guard let factalsModel 	= FACTALSMODEL else { fatalError() 				}
 		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 
@@ -70,7 +70,7 @@ extension NSEvent {
 		//			print("-------- subv: \(scnView) ")
 		//		}
 		//	}
-//	var vews : (Int, Vews?) {
+//	var vews : (Int, VewBase?) {
 //		bug
 //		return (0, nil)
 //		let contentVew			= window?.contentView

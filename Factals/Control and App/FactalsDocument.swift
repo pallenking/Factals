@@ -255,7 +255,7 @@ bug
 
 				// Title window
 		window.title			= vew.part.fullName
-		window.subtitle			= "Slot\(vew.vews?.slot ?? -1)"
+		window.subtitle			= "Slot\(vew.vewBase()?.slot ?? -1)"
 
 				// Position on screen: Quite AD HOC!!
 		window.orderFront(self)				// Doesn't work -- not front when done!

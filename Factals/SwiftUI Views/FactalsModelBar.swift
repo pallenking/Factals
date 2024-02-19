@@ -37,7 +37,7 @@ struct RootPartBar : View {
 			Button(label:{	Text( "state")								})//.padding(.top, 300)
 			{	printFwState()											}
 			Button(label: {	Text("LLDB") 								})
-			{	lldbPrint(parts, /*Vews.first!,*/ mode:.tree, [:])
+			{	lldbPrint(parts, /*VewBase.first!,*/ mode:.tree, [:])
 				breakToDebugger()										}
 			Text(" ")
 		}

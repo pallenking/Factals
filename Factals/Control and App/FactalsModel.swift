@@ -13,8 +13,8 @@ class FactalsModel : ObservableObject, Uid {
 	var indexFor				= Dictionary<String,Int>()
 
 	var parts :  PartBase
-	var vewss : [Vews]	= []			// Vews of rootPartActor.parts
-	var vews0 :  Vews?			{	vewss.first									}// Sugar
+	var vewss : [VewBase]	= []			// VewBase of rootPartActor.parts
+	var vews0 :  VewBase?			{	vewss.first									}// Sugar
 
 	var	simulator: Simulator
 	var log 	 : Log
@@ -25,7 +25,7 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 3. Factory
-	init(fromRootPart rp:PartBase) {											// FactalsModel(fromRootPart rp:Parts)
+	init(fromRootPart rp:PartBase) {											// FactalsModel(fromRootPart rp:PartBase)
 		parts				= rp
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
@@ -98,8 +98,8 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 4.?
-	func vew(ofScnNode  s:SCNNode) -> Vew? {	vews(ofScnNode:s)?.tree 		}
-	func vews(ofScnNode s:SCNNode) -> Vews? {
+	func vew(ofScnNode  s:SCNNode) -> Vew? {	vewBase(ofScnNode:s)?.tree 		}
+	func vewBase(ofScnNode s:SCNNode) -> VewBase? {
 		for vews in vewss {
 			if vews.tree.scn.find(firstWith:{ $0 == s }) != nil {
 				return vews
@@ -310,8 +310,8 @@ bug
 	/// - Parameter n: an NSEvent (else current NSEvent)
 	/// - Parameter v: specific base Vew (else check all rootVews)
 	/// - Returns: The Vew of the part pressed
-	func modelPic(with nsEvent:NSEvent, inVews v:Vews?=nil) -> Vew? {
-		let vewss2check : [Vews]		= v==nil ? vewss : [v!]
+	func modelPic(with nsEvent:NSEvent, inVews v:VewBase?=nil) -> Vew? {
+		let vewss2check : [VewBase]		= v==nil ? vewss : [v!]
 		for vews in vewss2check {
 			if let picdVew			= findVew(nsEvent:nsEvent, inVews:vews) {
 				 // PART pic'ed, DISPATCH to it!
@@ -324,12 +324,12 @@ bug
 		return nil
 	}
 
-	func findVew(nsEvent:NSEvent, inVews vews:Vews) -> Vew? {
+	func findVew(nsEvent:NSEvent, inVews vews:VewBase) -> Vew? {
 		 // Find vews of NSEvent
 //		guard let vews			= inVews				else { return nil		}
 		guard let slot 			= vews.slot				else { return nil		}
 //		let scenes:ScnNodes = vews.scenes			// SCNScene
-//		let rv:Vews?			= scenes.vews
+//		let rv:VewBase?			= scenes.vews
 //		let rn:SCNNode			= scenes.rootNode
 
 		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil}
@@ -400,7 +400,7 @@ bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRo
 	func toggelOpen(vew:Vew) {
 bug
 //		let key 				= 0			// only element 0 for now
-//		guard let vews		= vew.vews else {	fatalError("toggelOpen without Vews")}
+//		guard let vews		= vew.vews else {	fatalError("toggelOpen without VewBase")}
 //
 //		 // Toggel vew.expose: .open <--> .atomic
 //		vew.expose 				= vew.expose == .open   ? .atomic :

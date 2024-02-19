@@ -200,15 +200,15 @@ class TimingChain : Atom {
 		return rv
 	}
 	 // MARK: - 5 Groom
-	override func groomModelPostWires(parts:PartBase) {
-											super.groomModelPostWires(parts:parts)
+	override func groomModelPostWires(partBase:PartBase) {
+									super.groomModelPostWires(partBase:partBase)
 		asyncData				= partConfig["asyncData"] as? Bool ?? false
-		if let ac				= parts.factalsModel?.fmConfig.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")
+		if let ac				= partBase.factalsModel?.fmConfig.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
 
 		 // Register ourselves with simulator:
-		parts.factalsModel?.simulator.timingChains.append(self)
+		partBase.factalsModel?.simulator.timingChains.append(self)
 
 		  // Add P's target to discreteTimes array
 		 // User specifies as P and S Ports, but needed in worldModel

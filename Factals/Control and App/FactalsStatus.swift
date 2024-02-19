@@ -219,7 +219,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 	}
 }
 
-extension Vews : FactalsStatus	{								  ///Vews
+extension VewBase : FactalsStatus	{								  ///Vews
 	func ppFactalsState(deapth:Int=999) -> String {
 //		guard let vews						 else {	return "Vew.vews == nil\n"	}
 		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }

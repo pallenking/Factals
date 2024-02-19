@@ -223,8 +223,8 @@ class Actor : Net {
 		}
 	}
 	// / also add actor.previousClocks
-	override func gatherLinkUps(into linkUpList:inout [() -> ()], parts:PartBase) {
-		super.gatherLinkUps(into:&linkUpList, parts:parts)
+	override func gatherLinkUps(into linkUpList:inout [() -> ()], partBase:PartBase) {
+		super.gatherLinkUps(into:&linkUpList, partBase:partBase)
 
 		 // An enable for previousClock.
 		if let _		 		= partConfig["clockEnable"] {

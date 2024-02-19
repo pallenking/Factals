@@ -85,7 +85,7 @@ bug
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
 bug;	let o0 = Parts(tree:Part())
-		let o1 = Vews(forParts:o0)
+		let o1 = Vews(forPartBase:o0)
 		let o2 = o1.pp(.uidClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
