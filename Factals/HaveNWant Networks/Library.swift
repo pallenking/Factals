@@ -67,7 +67,7 @@ extension Library : Uid {
 	//var uid					= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		guard let FACTALSMODEL else {
-			print(format, args, terminator:terminator ?? "lasfowehif")
+			print(format, args, terminator:terminator ?? "\n")
 			return
 		}
 		let log					= FACTALSMODEL.log

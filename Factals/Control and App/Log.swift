@@ -8,9 +8,7 @@ import SceneKit
 extension Log : Uid { }
 extension Log : Logd { 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		let log					= FACTALSMODEL!.log
-		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
-		//print("\(fwClassName) \(ppUid(self)): \(format)")
+		FACTALSMODEL!.log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
 
@@ -289,8 +287,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	}
 	static var ppLogFromBlank : String {
 		let nLog				= 3		// a quick approximation
-		let log					= FACTALSMODEL!.log
-		return  String(repeating: " ", count:log.ppLogFromString().count + nLog)
+		return  String(repeating: " ", count:FACTALSMODEL!.log.ppLogFromString().count + nLog)
 	}
 
 	 /// Character to represent Transaction ID:
@@ -341,17 +338,15 @@ var warningLog : [String] 		= []
 var logNErrors					= 0
 
 func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
-	let log 					= FACTALSMODEL!.log
 	let msg						= fmt(format, args)
 	warningLog.append(msg)
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	log.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
+	FACTALSMODEL!.log.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
 }
 func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
-	let log 					= FACTALSMODEL!.log
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
 	logNErrors					+= 1
-	log.log(banner:targName + "ERROR \(logNErrors) ", 		format, args)
+	FACTALSMODEL!.log.log(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
 
 

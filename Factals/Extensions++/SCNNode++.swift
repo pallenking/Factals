@@ -336,11 +336,10 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
-bug
-//			if let s			= self as? ScnNodes {
-//				rv				+= s.vews?.scenes === self ? "" :
-//								   "--- BAD --- Vews: vews?.scenes !== self"
-//			}
+			if let s			= self as? ScnNodes {
+bug;			rv				+= s.vews?.scnNodes === self ? "" :
+								   "--- BAD --- Vews: vews?.scenes !== self"
+			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
 			rv					= pp(.line, aux) + "\n"

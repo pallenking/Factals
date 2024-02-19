@@ -30,7 +30,7 @@ struct VewBar: View {
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						print(vews.pp(.tree, appGlobals.appConfig)) //+ docGlobals.fmConfig))
+						print(vews.tree.pp(.tree, appGlobals.appConfig)) //+ docGlobals.fmConfig))
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")

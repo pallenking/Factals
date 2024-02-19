@@ -45,7 +45,7 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 func uidStrDashes(nilLike obj:Uid?) -> String {			// no object
 	let forTree					= obj is Part || obj is Vew || obj is SCNNode
 							   || obj is SCNConstraint || obj is SCNPhysicsBody
-	let log						= FACTALSMODEL!.log
+	guard let log				= FACTALSMODEL?.log else {	return "jwofejhqvco" }
 	let uidDigits 				= log == nil ? 	4	// a desparate situation -- no DOClog
 								: forTree ? 	log.ppNUid4Tree
 								:				log.ppNUid4Ctl

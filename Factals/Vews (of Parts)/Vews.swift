@@ -175,16 +175,19 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 					return false
 				}
 
-		 // ----   Create   V I E W s   ---- // and SCN that don't ever change
+		 // ----   Create   V I E W s   ---- // and SCNs entry points ("*-...")
 		if hasDirty(.vew, for:&newOwner2, log:log,
 			" _ reVew _   Vews (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
 
 			if let vewConfig {					// Vew Configuration specifies open stuffss
 				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
-				if tree.name == "_null" {		// Empty, placeholder
+
+				// if Empty, make new base
+				if tree.name == "_null" {
 					tree		= parts.tree.VewForSelf() ?? { fatalError() }()
 					scnNodes.tree = tree.scn		
 				}
+
 				tree.openChildren(using:vewConfig)
 			}
 			atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
@@ -231,8 +234,8 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-bug // override							 				// Report any improper linking:
+	/*override*/func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+ 							 				// Report any improper linking:
 		guard let factalsModel 					else{return "factalsModel BAD"	}
 		guard let slot 							else{return "slot IS NIL"		}
 		guard slot < factalsModel.vewss.count	else{return "slot TOO BIG"		}
@@ -241,9 +244,10 @@ bug // override							 				// Report any improper linking:
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
 	  // MARK: - 16. Global Constants
-	static let null : Vews = {
-		let rv					= Vews(forParts:.null)
-		//rv.name					= "null"
-		return rv
-	}()
+	static let null : Vews = Vews(forParts:.null)
+//	static let null : Vews = {
+//		let rv					= Vews(forParts:.null)
+//		//rv.name					= "null"
+//		return rv
+//	}()
 }

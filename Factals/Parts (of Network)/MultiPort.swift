@@ -97,5 +97,5 @@ class MultiPort : Port {
 //	 override func rePaint(vew:Vew) {	// MultiPorts have no colorings
 //		super.rePaint(vew:vew)
 //	 }
-	static let null1 			= MultiPort()
+//	static let null1 			= MultiPort()
 }

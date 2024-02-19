@@ -27,7 +27,7 @@ struct RootPartBar : View {
 
 	var body: some View {
 		HStack {	// FULL!
-			Text("parts: ").foregroundColor(.red).bold()
+			Text("Model (parts): ").foregroundColor(.red).bold()
 			Button(label:{	Text( "ptm")								})
 			{	print(parts.pp(.tree, ["ppDagOrder":true]), terminator:"") }
 			Button(label:{	Text("ptLm")								})

@@ -1228,7 +1228,7 @@ extension Logd {
 		let str					= nls + bbb + msg2	//-nFullN uidClass
 //		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
 		guard let FACTALSMODEL else {
-			print(str)//, terminator:terminator ?? "\n")
+			print(str, terminator:terminator ?? "\n")
 			return
 		}
 		FACTALSMODEL.log(str, terminator:terminator)

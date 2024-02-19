@@ -110,8 +110,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "configure(from:)"
             landmarkType = "7">
             <Locations>
@@ -693,7 +693,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "40AFE483-8451-480C-AB0A-DA6300F5AC6C"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Extensions++/ScnNodes.swift"
@@ -778,13 +778,13 @@
             filePath = "Factals/Vews (of Parts)/Vews.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "updateVewSizePaint(vewConfig:for:logIf:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "0B9330C6-FDAE-4125-A91B-89105C00B6B3 - 2f6265cb5c91e22f"
+                  uuid = "0B9330C6-FDAE-4125-A91B-89105C00B6B3 - 2f6265cb5c91e116"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -794,12 +794,12 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vews.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "185"
-                  endingLineNumber = "185"
-                  offsetFromSymbolStart = "1244">
+                  startingLineNumber = "194"
+                  endingLineNumber = "194"
+                  offsetFromSymbolStart = "1752">
                </Location>
                <Location
-                  uuid = "0B9330C6-FDAE-4125-A91B-89105C00B6B3 - 2f6265cb5c91e22f"
+                  uuid = "0B9330C6-FDAE-4125-A91B-89105C00B6B3 - 2f6265cb5c91e1e9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -809,24 +809,24 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vews.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "185"
-                  endingLineNumber = "185"
-                  offsetFromSymbolStart = "1256">
+                  startingLineNumber = "191"
+                  endingLineNumber = "191"
+                  offsetFromSymbolStart = "1580">
                </Location>
                <Location
-                  uuid = "0B9330C6-FDAE-4125-A91B-89105C00B6B3 - 4af2814a4fca92ba"
+                  uuid = "0B9330C6-FDAE-4125-A91B-89105C00B6B3 - 2f6265cb5c91e137"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; Factals.Vew in implicit closure #4 () throws -&gt; Factals.Vew in Factals.Vews.updateVewSizePaint(vewConfig: Swift.Optional&lt;Factals.VewConfig&gt;, for: Swift.Optional&lt;Swift.String&gt;, logIf: Swift.Bool) -&gt; ()"
+                  symbolName = "Factals.Vews.updateVewSizePaint(vewConfig: Swift.Optional&lt;Factals.VewConfig&gt;, for: Swift.Optional&lt;Swift.String&gt;, logIf: Swift.Bool) -&gt; ()"
                   moduleName = "Factals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vews.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "185"
-                  endingLineNumber = "185"
-                  offsetFromSymbolStart = "48">
+                  startingLineNumber = "193"
+                  endingLineNumber = "193"
+                  offsetFromSymbolStart = "1648">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1088,7 +1088,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "524F1D7D-BD1A-447A-98DA-B2933BB3D348"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/Port.swift"
@@ -1104,7 +1104,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "581F293E-5866-45EE-975F-00199BD9665B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/Port.swift"
@@ -1168,7 +1168,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "A2900756-5A0D-4301-8873-1D41EDEDE4B6"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Vews (of Parts)/Vews.swift"
@@ -1208,6 +1208,134 @@
                   startingLineNumber = "69"
                   endingLineNumber = "69"
                   offsetFromSymbolStart = "1804">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "39EBA55C-6208-4CF4-A3B7-2DF54370FBA7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Vews (of Parts)/Vews.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "pp(_:_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "39EBA55C-6208-4CF4-A3B7-2DF54370FBA7 - 5740550eadd303a4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Vews.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vews.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "404">
+               </Location>
+               <Location
+                  uuid = "39EBA55C-6208-4CF4-A3B7-2DF54370FBA7 - 5740550eadd303a4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Vews.pp(Factals.PpMode, Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Swift.String"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vews.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "400">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "438F03C8-F77E-4FFA-B51D-5D5E1A11C1AF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/SwiftUI Views/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "163D5D90-3138-49A3-9F3A-2B36649B4374"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Vews (of Parts)/Vews.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
+            landmarkName = "updateVewSizePaint(vewConfig:for:logIf:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E2578ABE-8B9D-41C2-8C2B-2F7148726CEA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/Parts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "Parts"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "E2578ABE-8B9D-41C2-8C2B-2F7148726CEA - 3fb9b3ec9ba5e7d1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "one-time initialization function for null"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Parts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "486"
+                  endingLineNumber = "486"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  uuid = "E2578ABE-8B9D-41C2-8C2B-2F7148726CEA - 34e7275a86d9376f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Parts.null.unsafeMutableAddressor : Factals.Parts"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Parts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "486"
+                  endingLineNumber = "486"
+                  offsetFromSymbolStart = "16">
                </Location>
             </Locations>
          </BreakpointContent>

@@ -482,9 +482,10 @@ bug
 		return "\n" + rv
 	}
 	 // MARK: - 16. Global Constants
-	static let null 		= {
-		let rp					= Parts(fromLibrary:"")	// Any use of this should fail (NOT IMPLEMENTED)
-//		rp.name					= "null"
-		return rp
-	}()
+	// Any use of this should fail (NOT IMPLEMENTED)
+	static let null 		=  Parts(fromLibrary:"")
+//	static let null 		= {
+//		let rp					= Parts(fromLibrary:"")	// Any use of this should fail (NOT IMPLEMENTED)
+//		return rp
+//	}()
 }

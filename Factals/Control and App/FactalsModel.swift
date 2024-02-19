@@ -32,9 +32,8 @@ class FactalsModel : ObservableObject, Uid {
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self
 		simulator.factalsModel	= self
-		parts.factalsModel	= self
+		parts.factalsModel		= self
 
-//		FACTALSMODEL			= self
 		//configure(from:document.fmConfig)
 	}
 

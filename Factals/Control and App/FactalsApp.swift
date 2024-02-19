@@ -19,25 +19,8 @@ import SceneKit
   //let (majorVersion, minorVersion, dnameVersion) = (5, 0, "Swift Recode")
   //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
 
-// MARK: - Singletons
-// ///////////////////////  U G L Y  Singletons: ///////////////////////////////
-//var APP	 : FactalsApp!		// NEVER CHANGES (after inz)
-//var DOC	 : FactalsDocument!	// CHANGES:	App must insure continuity) Right now: Punt!
-// /////////////////////////////////////////////////////////////////////////////
-
-// ////////////////////////  Singleton Shugar  /////////////////////////////////
-//var APPQ : FactalsApp?					{	APP 								}
-
+// MARK: - Singleton
 var FACTALSMODEL : FactalsModel?=nil
-//var DOCQ : FactalsDocument? 			{ 	DOC == nil ? nil : DOC 				}
-//var DOCfactalsModelQ : FactalsModel?	 	// optionality is needed
-//var DOCfactalsModel	 : FactalsModel		{	DOCfactalsModelQ ?? {
-//	fatalError("DOC=nil or DOC.factalsModel=nil")								}()}
-//var DOClogQ  	: Log? 					{	DOCfactalsModelQ?.log				}
-//var DOClog  	: Log 					{	DOClogQ ?? .reliable				}	//.first
-//let DOCctlr						= NSDocumentController.shared
-//var DOCAPPlog	: Log 					{	DOClogQ ?? APPQ?.log ?? .reliable	}
-// MARK: /////////////////////////////////////////////////////////////////////////////// -
 
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
