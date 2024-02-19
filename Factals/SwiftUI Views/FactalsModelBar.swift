@@ -23,7 +23,7 @@ struct FactalsModelBar: View {
 }
 
 struct RootPartBar : View {
-	@Binding var parts : Parts
+	@Binding var parts : PartBase
 
 	var body: some View {
 		HStack {	// FULL!

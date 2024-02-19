@@ -29,7 +29,7 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }//
-var LLDBParts : Parts		{	FACTALSMODEL?.parts ?? .null }
+var LLDBParts : PartBase		{	FACTALSMODEL?.parts ?? .null }
 func LLDBParts(_ name:String?=nil) -> Part  {
 	guard var rv : Part			= FACTALSMODEL?.parts.tree else { return .null	}
 	if name != nil {			// Search for sought Part	//maxLevel:1,

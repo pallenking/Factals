@@ -12,7 +12,7 @@ class FactalsModel : ObservableObject, Uid {
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
 
-	var parts :  Parts
+	var parts :  PartBase
 	var vewss : [Vews]	= []			// Vews of rootPartActor.parts
 	var vews0 :  Vews?			{	vewss.first									}// Sugar
 
@@ -25,7 +25,7 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 3. Factory
-	init(fromRootPart rp:Parts) {											// FactalsModel(fromRootPart rp:Parts)
+	init(fromRootPart rp:PartBase) {											// FactalsModel(fromRootPart rp:Parts)
 		parts				= rp
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
@@ -120,7 +120,7 @@ class FactalsModel : ObservableObject, Uid {
 	/// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-		guard let parts : Parts = vew.part.root else {return false }	// vew.root.part
+		guard let parts : PartBase = vew.part.root else {return false }	// vew.root.part
 		var found				= true
 
 		 // Check Simulator:

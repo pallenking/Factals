@@ -43,7 +43,7 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 				case "Mirror":	  InspecMirror(		   mirror:vew.part as! Mirror)
 				case "Atom":	  InspecAtom(	  	     atom:vew.part as! Atom, vew:vew)
 
-				case "Parts":  InspecRootPart(  	 parts:vew.part as! Parts, vew:vew)
+				case "PartBase":  InspecRootPartBase(   parts:vew.part as! PartBase, vew:vew)
 
 				case "Box":		  InspecNothing(	className:cl)
 				case "CommonPart":InspecCommonPart(commonPart:vew.part as! CommonPart)

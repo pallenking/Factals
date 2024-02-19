@@ -205,8 +205,8 @@ bug				//	let port	= atom.ports[$0]!
 	}
 }
 
-struct InspecRootPart : View {										 // Parts
-	@ObservedObject var parts:Parts
+struct InspecRootPartBase : View {									 // InspecRoot
+	@ObservedObject var parts:PartBase
 	@ObservedObject var vew:Vew				// For Inspec navigation
 
 	var body: some View {	// empty, nothing inspectable

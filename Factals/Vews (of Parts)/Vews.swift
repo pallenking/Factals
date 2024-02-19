@@ -8,7 +8,7 @@
 import SceneKit
 
 class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
-	var parts 		: Parts
+	var parts 		: PartBase
 	var scnNodes 	: ScnNodes	= .null			// Master 3D Tree
 	var tree		: Vew		= Vew()
 	weak
@@ -31,7 +31,7 @@ class Vews : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 //	var trunkVew 	: Vew? 		{	children.first								}
 
 	 /// generate a new View, returning its index
-	init(forParts p:Parts) {
+	init(forParts p:PartBase) {
 		parts					= p
 		scnNodes				= ScnNodes()
 

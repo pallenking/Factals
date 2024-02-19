@@ -12,7 +12,7 @@ import SceneKit
  * lock to ensure that your modifications take effect as intended.
  */
 
- class Parts : Codable, ObservableObject, Uid, Logd {
+ class PartBase : Codable, ObservableObject, Uid, Logd {
 	var uid  : UInt16 			= randomUid()
 	var tree : Part
 
@@ -189,9 +189,9 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 			return nil
 		}
 	}
-	static func from(data:Data, encoding:String.Encoding) -> Parts {
+	static func from(data:Data, encoding:String.Encoding) -> PartBase {
 		do {
-			let rv	: Parts	= try JSONDecoder().decode(Parts.self, from:data)
+			let rv	: PartBase	= try JSONDecoder().decode(PartBase.self, from:data)
 			return rv
 		} catch {
 			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
@@ -483,7 +483,7 @@ bug
 	}
 	 // MARK: - 16. Global Constants
 	// Any use of this should fail (NOT IMPLEMENTED)
-	static let null 		=  Parts(fromLibrary:"")
+	static let null 		=  PartBase(fromLibrary:"")
 //	static let null 		= {
 //		let rp					= Parts(fromLibrary:"")	// Any use of this should fail (NOT IMPLEMENTED)
 //		return rp

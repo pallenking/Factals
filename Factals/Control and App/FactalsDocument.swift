@@ -56,7 +56,7 @@ struct FactalsDocument : FileDocument {
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-		let parts				= Parts(fromLibrary:select)
+		let parts				= PartBase(fromLibrary:select)
 		factalsModel			= FactalsModel(fromRootPart:parts)
 
 		parts.wireAndGroom([:])
@@ -100,7 +100,7 @@ struct FactalsDocument : FileDocument {
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .factals:
 			 // Decode data as a Root Part
-			let parts		= Parts.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
+			let parts		= PartBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
 			let factalsModel	= FactalsModel(fromRootPart:parts)

@@ -463,7 +463,7 @@ class Atom : Part {	//Part//FwPart
 
 	 // MARK: - 5. Wiring
 //	var defaultLinkProps : FwConfig	{ return [:]		}
-	override func gatherLinkUps(into linkUpList:inout [() -> ()], parts:Parts) {
+	override func gatherLinkUps(into linkUpList:inout [() -> ()], parts:PartBase) {
 
 /**/	super.gatherLinkUps(into:&linkUpList, parts:parts)
 		   // /////////////////////////////////////////////////////////////////////

@@ -164,12 +164,12 @@ extension FactalsModel : FactalsStatus	{
 			deapth:deapth-1)
 	}
 }
-extension Parts : FactalsStatus	{								 ///Parts
+extension PartBase : FactalsStatus	{								 ///PartBase
 //	func ppFwConfig() -> String {		partConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= ""//factalsModel.rootPartActor.parts === self ? "" : "OWNER:'\(factalsModel!)' BAD "
 		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
-		return ppFactalsStateHelper("Parts     ", uid:self,
+		return ppFactalsStateHelper("PartBase  ", uid:self,
 			myLine:myLine + "parts:\(ppUid(self, showNil:true)) " +
 					"(\(portCount()) Ports) " +
 					"\(rown) dirty:'\(tree.dirty.pp())' " ,
