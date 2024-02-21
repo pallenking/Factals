@@ -44,12 +44,12 @@ struct VewBar: View {
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
-						vews.partBase.tree.forAllParts({	$0.markTree(dirty:.size)})
+						vews.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
-						vews.partBase.tree.forAllParts({	$0.markTree(dirty:.size)})
+						vews.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
 						vews.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)

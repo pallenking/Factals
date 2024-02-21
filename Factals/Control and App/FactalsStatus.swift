@@ -54,7 +54,6 @@ func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 // //// /////  / /////  / /////  / ///// / /////   / /////  / /////  / /////  /
 
 extension FactalsApp : FactalsStatus	{							///FactalsApp
-//	func ppFwConfig() -> String {		config.pp(.short)						}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let emptyEntry			= "? "//APP?.appConfig.string("emptyEntry") ?? "xr()"
 		let regressScene		= "? "//APP?.config.int("regressScene") ?? -1
@@ -146,8 +145,7 @@ extension Library : FactalsStatus {							///Library or ///Tests01, ...
 extension FactalsModel : FactalsStatus	{
 	///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
-//		var myLine				= document.factalsModel === self ? "" : "OWNER:'\(document!)' BAD"
-		var myLine				= "\(vewBases.count) vewss "
+		let myLine				= "\(vewBases.count) bases "
 		return ppFactalsStateHelper("FactalsModel ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in
@@ -165,7 +163,6 @@ extension FactalsModel : FactalsStatus	{
 	}
 }
 extension PartBase : FactalsStatus	{								 ///PartBase
-//	func ppFwConfig() -> String {		partConfig.pp(.line)					}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= ""//factalsModel.rootPartActor.parts === self ? "" : "OWNER:'\(factalsModel!)' BAD "
 		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
@@ -288,7 +285,6 @@ extension SCNPhysicsWorld : FactalsStatus	{					///SCNPhysicsWorld
 	}
 }
 extension Log : FactalsStatus {											  ///Log
-	func ppFwConfig() -> String {		""										}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let msg					= !logEvents ? "disabled" :
 			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
@@ -299,7 +295,6 @@ extension Log : FactalsStatus {											  ///Log
 	}
 }
 extension Sounds : FactalsStatus {										///Sounds
-	func ppFwConfig() -> String {		""										}
 	func ppFactalsState(deapth:Int=999) -> String {
 		let msg					= ""
 		let logKind				= "sounds".field(-13)

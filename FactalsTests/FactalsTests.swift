@@ -84,8 +84,8 @@ bug
 		let n2 = n1.pp(.uidClass)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
-bug;	let o0 = Parts(tree:Part())
-		let o1 = Vews(forPartBase:o0)
+bug;	let o0 = PartBase(tree:Part())
+		let o1 = VewBase(forPartBase:o0)
 		let o2 = o1.pp(.uidClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
@@ -459,11 +459,11 @@ bug;	let o0 = Parts(tree:Part())
 
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 			let s				= Simulator()
-			let parts		= Parts(fromLibrary:"entry\(testNum)")//, simulator:s)	//, fwDocument:nil
+			let partBase		= PartBase(fromLibrary:"entry\(testNum)")//, simulator:s)	//, fwDocument:nil
 
-			parts.wireAndGroom([:])
+			partBase.wireAndGroom([:])
 
-			if parts.ansConfig.bool("LastTest") ?? false {
+			if partBase.ansConfig.bool("LastTest") ?? false {
 				break							// Done
 			}
 		}

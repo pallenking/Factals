@@ -99,7 +99,7 @@ struct FactalsModelView: View {
 							////////////////////////////// Testing	$publisher/	$view
 
 							SceneView(
-								scene:scnBase.scnScene,
+								scene:scnBase.scnScene,		//15a4./_null:SCNNode
 								pointOfView:nil,	// SCNNode
 								options:[.rendersContinuously],
 								preferredFramesPerSecond:30,

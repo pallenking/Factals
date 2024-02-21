@@ -120,7 +120,7 @@ class FactalsModel : ObservableObject, Uid {
 	/// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-		guard let parts : PartBase = vew.part.root else {return false }	// vew.root.part
+		guard let partBase : PartBase = vew.part.root else {return false }	// vew.root.part
 		var found				= true
 
 		 // Check Simulator:
@@ -188,8 +188,6 @@ class FactalsModel : ObservableObject, Uid {
 //			printDebuggerHints()
 //			return false				// anonymous printout
 
-
-
 		case "r": // (+ cmd)
 			if cmd {
 				panic("Press 'cmd r'   A G A I N    to rerun")	// break to debugger
@@ -221,32 +219,29 @@ class FactalsModel : ObservableObject, Uid {
 											appropriateFor:nil,
 											create:true)
 			let suffix			= alt ? ".dae" : ".scn"
-//			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
+			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-bug;		let rootVews0scene	= vewBases.first?.scnBase.scnScene ?? {	fatalError("") } ()
-//			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
-//						else { fatalError("writing dumpSCN.\(suffix) failed")	}
+			let rootVews0scene	= vewBases.first?.scnBase.scnScene ?? {	fatalError("") } ()
+			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
+						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-bug
-//			for vews in rootVews {
-//				parts!.forAllParts({	$0.markTree(dirty:.vew)			})
-//				vews.updateVewSizePaint(for:"FactalsModel 'V'iew key")
-//			}
+			for vews in vewBases {
+				partBase.tree.forAllParts({	$0.markTree(dirty:.vew)			})
+				vews.updateVewSizePaint(for:"FactalsModel 'V'iew key")
+			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-bug
-//			for vews in rootVews {
-//				parts!.forAllParts({	$0.markTree(dirty:.size)		})
-//				vews.updateVewSizePaint(for:"FactalsModel si'Z'e key")
-//			}
+			for vews in vewBases {
+				partBase.tree.forAllParts({	$0.markTree(dirty:.size)		})
+				vews.updateVewSizePaint(for:"FactalsModel si'Z'e key")
+			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-bug
-//			for vews in rootVews {
-//				parts!.forAllParts({	$0.markTree(dirty:.paint)		})
-//				vews.updateVewSizePaint(for:"FactalsModel 'P'aint key")
-//			}
+			for vews in vewBases {
+				partBase.tree.forAllParts({	$0.markTree(dirty:.paint)		})
+				vews.updateVewSizePaint(for:"FactalsModel 'P'aint key")
+			}
 		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
 		case "x":

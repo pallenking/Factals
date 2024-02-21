@@ -9,8 +9,14 @@ import Foundation
 import SceneKit
 
 class ScnBase : NSObject {
-	var tree	 : SCNNode
 	var scnScene : SCNScene
+	var tree	 : SCNNode
+	{	didSet {
+			let srn 			= self.scnScene.rootNode
+			srn.removeAllChildren()
+			srn.addChildNode(tree)
+		}
+	}
 	var fwView	 : FwView?					// SCNView  of this ScnBase
 
 	weak
@@ -23,8 +29,16 @@ class ScnBase : NSObject {
 
 	 // MARK: - 3.1 init
 	init(scnScene s:SCNScene?=nil) {				// ScnBase(tree
-		self.scnScene 			= s ?? SCNScene()
-		self.tree				= scnScene.rootNode
+		self.tree				= SCNNode()			// make tree that might be replaced
+
+		self.scnScene			= s ?? SCNScene()	// get scene
+		let rootNode			= scnScene.rootNode	// find it's root
+
+		rootNode.addChildNode(tree)					// point it to our tree
+
+
+		self.tree.name = "hummeldy hum"
+		print("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))")
  		super.init()
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
@@ -632,7 +646,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	}
 	static let null 			= {
 		let null				= ScnBase()	// Any use of this should fail (NOT IMPLEMENTED)
-		null.tree.name			= "nullScnNodes"
+		null.tree.name			= "nullScnBase"
 		return null
 	}()
 }

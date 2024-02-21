@@ -107,12 +107,12 @@ import SceneKit
 
 	func ensureAVew(fwConfig c:FwConfig) {
 		if factalsModel!.vewBases.isEmpty {		// Must have a Vew
-			atBld(3, warning("no Vew... key"))
+			atBld(3, warning("no Vew... key, artificially adding Vew"))
 			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let base				= VewBase(forPartBase:self)		// 1. Make empty view
+		let base				= VewBase(forPartBase:self)	// 1. Make with .null tree
 		base.factalsModel		= factalsModel				// 2. Backpointer
 		factalsModel!.vewBases.append(base)					// 3. Install
 

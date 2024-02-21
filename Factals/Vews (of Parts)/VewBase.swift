@@ -9,8 +9,8 @@ import SceneKit
 
 class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var partBase	: PartBase
-	var scnBase 	: ScnBase	= .null			// Master 3D Tree
-	var tree		: Vew		= Vew()
+	var tree		: Vew
+	var scnBase 	: ScnBase				// Master 3D Tree
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
 
@@ -33,7 +33,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	 /// generate a new View, returning its index
 	init(forPartBase p:PartBase) {
 		partBase				= p
-		scnBase				= ScnBase()
+		scnBase					= ScnBase()
+		tree					= Vew()
 
 		super.init()
 
@@ -132,8 +133,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		}())
 
 		 // update name/state BEFORE signals
-		prevOwner 	= curOwner
-		curOwner 		= nil
+		prevOwner 			= curOwner
+		curOwner 			= nil
 
 		 // Unlock View's DispatchSemaphore:
 		semiphore.signal()
