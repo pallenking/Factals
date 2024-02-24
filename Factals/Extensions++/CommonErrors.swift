@@ -16,6 +16,7 @@ var bug : () 			{
 		  """)
 	Thread.callStackSymbols.map {		print($0)								}
 	print("\t--------------------------------")
+	while true {	nop }
 	machineTrap()				// transfer control to debugger	// fatalError("###")
 	return
 }

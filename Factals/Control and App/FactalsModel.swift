@@ -196,7 +196,7 @@ class FactalsModel : ObservableObject, Uid {
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 			for vews in vewBases {
-				vews.scnBase.tree.play(sound:"Oooooooo")		//GameStarting
+				vews.scnBase.tree?.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
@@ -306,9 +306,9 @@ bug
 	/// - Parameter v: specific base Vew (else check all rootVews)
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVews v:VewBase?=nil) -> Vew? {
-		let vewss2check : [VewBase]		= v==nil ? vewBases : [v!]
-		for vews in vewss2check {
-			if let picdVew			= findVew(nsEvent:nsEvent, inVews:vews) {
+		let vewBases2check : [VewBase] = v==nil ? vewBases : [v!]
+		for vews in vewBases2check {
+			if let picdVew			= findVew(nsEvent:nsEvent, inVewBase:vews) {
 				 // PART pic'ed, DISPATCH to it!
 				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
 					return picdVew
@@ -319,29 +319,25 @@ bug
 		return nil
 	}
 
-	func findVew(nsEvent:NSEvent, inVews vews:VewBase) -> Vew? {
+	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 		 // Find vews of NSEvent
-//		guard let vews			= inVews				else { return nil		}
-		guard let slot 			= vews.slot				else { return nil		}
-//		let scenes:ScnBase = vews.scenes			// SCNScene
-//		let rv:VewBase?			= scenes.vews
-//		let rn:SCNNode			= scenes.rootNode
+								//		guard let vews			= inVews				else { return nil		}
+		guard let slot 			= vewBase.slot			else { return nil		}
+								//		let scenes:ScnBase 		= vews.scenes			// SCNScene
+								//		let rv:VewBase?			= scenes.vews
+								//		let rn:SCNNode			= scenes.rootNode
 
 		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil}
 		var msg					= "******************************************\n Slot\(slot): find "
 		let locationInRoot		= nsView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
-//
-//		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
-//		// SCNSceneRenderer: hitTest(_ point: CGPoint, options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
-//
-//		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
-// 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
-//		guard let scnView else { fatalError("Couldn't find sceneView")			}
-//
-//		 // Find the 3D Vew for the Part under the mouse:
-//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
-
-		let vew					= vews.tree
+								//		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
+								//		// SCNSceneRenderer: hitTest(_ point: CGPoint, options:[SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
+								//		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
+								// 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
+								//		guard let scnView else { fatalError("Couldn't find sceneView")			}
+								//		 // Find the 3D Vew for the Part under the mouse:
+								//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
+		let vew					= vewBase.tree
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -356,11 +352,12 @@ bug
 		  //.sortResults:1, 			// (implied)
 			.rootNode:vew				// The root of the node hierarchy to be searched.
 		]
-bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
+		let hits:[SCNHitTestResult] = []//vewBase.scnBase.scnScene.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:
-		var pickedScn :SCNNode	= vews.scnBase.tree		// default is root
+		guard let tree			= vewBase.scnBase.tree else { return nil		}
+		var pickedScn :SCNNode	= tree		// default is root
 		if hits.count > 0 {
 			// There is a HIT on a 3D object:
 			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -379,10 +376,10 @@ bug;	let hits:[SCNHitTestResult] = []//vews.scenes.rootNode.hitTest(locationInRo
 		}
 
 		// Get Vew from SCNNode
-		guard let vew 				= vews.tree.find(scnNode:pickedScn, me2:true) else {
+		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
 			if trueF 				{ return nil 		}		// Ignore missing vew
 			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scn.pp(.classUid))")
-			let vew 				= vews.tree.find(scnNode:pickedScn, me2:true) // for debug only
+			let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) // for debug only
 			return nil
 		}
 		msg							+= "      ===>    ####  ..."//\(vew.part.pp(.fullNameUidClass))  ####"

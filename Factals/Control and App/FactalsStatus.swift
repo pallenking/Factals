@@ -252,7 +252,7 @@ extension ScnBase : FactalsStatus	{						///ScnBase,SCNScene
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnBase      "
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.tree			 .ppFactalsState(deapth:deapth-1)
+				var rv			=  self.tree?			 .ppFactalsState(deapth:deapth-1) ?? ""
 				rv				+= self.scnScene.physicsWorld.ppFactalsState(deapth:deapth-1)
 				return rv
 			},

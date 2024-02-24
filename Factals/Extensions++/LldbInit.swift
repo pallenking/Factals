@@ -66,16 +66,16 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 
  /// Access to current ////// SCNNode Tree  ////// 
 var LLDBscnNodes0tree : SCNNode  		{	// LLDBscnNodes0tree
-	get 		{	return FACTALSMODEL!.vewBases[0].scnBase.tree					}
-	set (v)		{		   FACTALSMODEL!.vewBases[0].scnBase.tree = v				}
+	get 		{	return FACTALSMODEL!.vewBases[0].scnBase.tree ?? .null		}
+	set (v)		{		   FACTALSMODEL!.vewBases[0].scnBase.tree = v			}
 }
 var LLDBscnNodes1tree : SCNNode  		{
-	get 		{	return FACTALSMODEL!.vewBases[1].scnBase.tree 				}
-	set (v)		{		   FACTALSMODEL!.vewBases[1].scnBase.tree = v				}
+	get 		{	return FACTALSMODEL!.vewBases[1].scnBase.tree ?? .null		}
+	set (v)		{		   FACTALSMODEL!.vewBases[1].scnBase.tree = v			}
 }
 var LLDBscnNodes2tree : SCNNode  		{
-	get 		{	return FACTALSMODEL!.vewBases[2].scnBase.tree					}
-	set (v)		{		   FACTALSMODEL!.vewBases[2].scnBase.tree = v				}
+	get 		{	return FACTALSMODEL!.vewBases[2].scnBase.tree ?? .null		}
+	set (v)		{		   FACTALSMODEL!.vewBases[2].scnBase.tree = v			}
 }
 func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 	guard let factalsModel 			= FACTALSMODEL else {
@@ -90,8 +90,12 @@ func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 
 	 // Search for named SCN:
 	if name != nil {
-		scnNode					= scnNode.find(inMe2:true, all:true, firstWith:
+		scnNode					= scnNode?.find(inMe2:true, all:true, firstWith:
 								  { $0.name == name })  ?? scnNode
+	}
+	guard let scnNode			else {
+		print("scnNode is set to .nil")
+		return .null
 	}
 	return scnNode
 }

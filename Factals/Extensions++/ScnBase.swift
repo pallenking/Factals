@@ -10,14 +10,15 @@ import SceneKit
 
 class ScnBase : NSObject {
 	var scnScene : SCNScene
-	var tree	 : SCNNode
-	{	didSet {
-			let srn 			= self.scnScene.rootNode
-			srn.removeAllChildren()
-			srn.addChildNode(tree)
-		}
+	var tree	 : SCNNode?
+	{	didSet {				setRootNodeChild1 (fromTree:tree)				}}
+	func setRootNodeChild1 (fromTree:SCNNode?) {
+		let scnRootNode 		= self.scnScene.rootNode	// from SCNScene's binding
+		scnRootNode.removeAllChildren()
+		guard let tree 			else { return									}
+		scnRootNode.addChildNode(tree)
 	}
-	var fwView	 : FwView?					// SCNView  of this ScnBase
+	var nsView	 : NSView?					// SCNView  of this ScnBase
 
 	weak
 	 var vews	 : VewBase?					// Delegate (of these ScnBase)
@@ -29,17 +30,17 @@ class ScnBase : NSObject {
 
 	 // MARK: - 3.1 init
 	init(scnScene s:SCNScene?=nil) {				// ScnBase(tree
-		self.tree				= SCNNode()			// make tree that might be replaced
-
 		self.scnScene			= s ?? SCNScene()	// get scene
-		let rootNode			= scnScene.rootNode	// find it's root
 
-		rootNode.addChildNode(tree)					// point it to our tree
-
-
-		self.tree.name = "hummeldy hum"
+//		let rootNode			= scnScene.rootNode	// find it's root
+//		if let tree {
+//			rootNode.addChildNode(tree)				// point it to our tree
+//			tree.name = "hummeldy hum"
+//		}
 		print("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))")
  		super.init()
+//		assert(tree != nil, "SCNScene.tree == nil")
+		setRootNodeChild1 (fromTree:tree)
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
@@ -54,6 +55,7 @@ extension ScnBase {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
+			guard let tree 		else { return									}
 			if tree.find(name:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
@@ -149,6 +151,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 	func checkCamera() {
 		let name				= "*-camera"
+		guard let tree 			else { return									}
 		let camNode				= tree.find(name:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
@@ -199,11 +202,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
-	func touchAxesScn() -> SCNNode {			// was updatePole()
+	func touchAxesScn() {			// was updatePole()
+		guard let tree			else { return									}
 		let name				= "*-axis"
-		 //
+
+		 // Already exist?
 		if let rv 				= tree.find(name:name) {
-			return rv
+			return
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		let axesScn				= SCNNode()				// New pole
@@ -254,7 +259,6 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		origin.color0			= .black
 		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
 		axesScn.addChild(node:origin)
-		return axesScn
 	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
 	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
 		if true || vews?.factalsModel?.fmConfig.bool("axisTics") ?? false {
@@ -437,17 +441,19 @@ enum FwNodeCategory : Int {
 extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
-			atRsi(8, self.tree.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
+			guard let tree		= self.tree	else { return						}
+			atRsi(8, tree.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
 			let rVew			= self.vews!
 			rVew.lockBoth(for: "updateAtTime")
 			rVew.updateVewSizePaint(logIf:true)		//false//true
 //			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:true)		//false//true
 			rVew.unlockBoth(for: "updateAtTime")
-			atRsi(8, self.tree.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
+			atRsi(8, tree.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 //		DispatchQueue.main.async {
+//			guard let tree		= self.tree	else { return						}
 //			atRsi(8, self.tree.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
 //			let rVew			= self.vews!
 //			rVew .lockBoth("didApplyAnimationsAtTime")
@@ -457,6 +463,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 //		DispatchQueue.main.async {
+//			guard let tree		= self.tree	else { return						}
 //			atRsi(8, self.tree.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
 //			let rVew			= self.vews!
 //			rVew.lockBoth("didSimulatePhysicsAtTime")
@@ -466,7 +473,8 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
-			atRsi(8, self.tree.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
+			guard let tree		= self.tree	else { return						}
+			atRsi(8, tree.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
 			let rVews			= self.vews!
 			rVews.lockBoth(for: "willRenderScene")
 			rVews.partBase.tree.rotateLinkSkins(vew:rVews.tree)
@@ -637,6 +645,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
 			rv					+= vews?.scnBase === self ? "" : "OWNER:'\(vews!)' BAD"
+			guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scn:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
@@ -646,7 +655,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 	}
 	static let null 			= {
 		let null				= ScnBase()	// Any use of this should fail (NOT IMPLEMENTED)
-		null.tree.name			= "nullScnBase"
+		null.tree?.name			= "nullScnBase"
 		return null
 	}()
 }

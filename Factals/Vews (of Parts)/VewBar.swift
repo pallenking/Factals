@@ -34,7 +34,7 @@ struct VewBar: View {
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")
-						print(vews.scnBase.tree.pp(.tree, appGlobals.appConfig))
+						print(vews.scnBase.tree?.pp(.tree, appGlobals.appConfig) ?? "ews.scnBase.tree == nil")
 					}
 					Text("Review:")
 					Button(label:{	Text("View")								})

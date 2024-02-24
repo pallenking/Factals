@@ -135,6 +135,7 @@
 		9F675ADE2A2F72A0006370E6 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190114288090240078DB6C /* Document.xib */; };
 		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
+		9F6B946A2B86A73E007A14E5 /* NSView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B94692B86A73E007A14E5 /* NSView++.swift */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
 		9F6C85332B81060C00D40934 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C85322B81060B00D40934 /* FwView.swift */; };
 		9F6C85342B81060C00D40934 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C85322B81060B00D40934 /* FwView.swift */; };
@@ -248,6 +249,7 @@
 		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
 		9F5AE2CF298C3C4B00EF6B20 /* ScnBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnBase.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
+		9F6B94692B86A73E007A14E5 /* NSView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView++.swift"; sourceTree = "<group>"; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F6C85322B81060B00D40934 /* FwView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaftBundleTap.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
 				9F5AE2CF298C3C4B00EF6B20 /* ScnBase.swift */,
 				9F6C85322B81060B00D40934 /* FwView.swift */,
+				9F6B94692B86A73E007A14E5 /* NSView++.swift */,
 				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
 				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
 				9FEE51BB286BAF2E00C8C22A /* SCNVector++.swift */,
@@ -725,6 +728,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F969530288B3DF500106DBC /* Vew.swift in Sources */,
+				9F6B946A2B86A73E007A14E5 /* NSView++.swift in Sources */,
 				9FEE51BC286BAF2E00C8C22A /* SCNGeometry++.swift in Sources */,
 				9F969531288B3F8E00106DBC /* Atom.swift in Sources */,
 				9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */,

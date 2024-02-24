@@ -165,12 +165,12 @@ bug;	return rv
 				if outPort.value != nextVal {
 					let parts = outPort.root!.tree
 					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")
-					print("Before: \(c1)")
+					//print("Before: \(c1)")
 					outPort.value = nextVal								// not outPort.take(value:v)
 					outPort.markTree(dirty:.paint)
 					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
 					let c2		= parts.portChitArray().map { $0() }.joined(separator:", ")
-					print("After:  \(c2)")
+					//print("After:  \(c2)")
 				}
 			}
 		}

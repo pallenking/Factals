@@ -112,26 +112,25 @@ struct FactalsModelView: View {
 							 .onChange(of:isLoaded) { x in				// compiles, seems OK
 								print("isLoaded = ", x)
 							 }
-					//		 .onKeyPress(phases: .up)  { press in
-					//			 print(press.characters)
-					//			 return .handled
-					//		 }
-				//			 .onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
-			//				 .onAppear {			//setupHitTesting
-			//					guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
-			//						  let nsView	= nsWindow.contentView,
-			//						  let fwView	= nsView as? SCNView else { fatalError("couldn't find fwView")	}
-			//					 // Perform hit testing on tap gesture
-			//		bug			//let tapGestur		= UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-			//					//sceneView.addGestureRecognizer(tapGestur)
-			//				 }
+							 .onAppear {			//setupHitTesting
+								guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
+									  let nsView	= nsWindow.contentView else {
+									fatalError("couldn't find fwView")
+								}
+								scnBase.nsView		= nsView
+							 }
 						//	.onAppear(perform: {
 						//		NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 						//			print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
 						//			return $0
 						//		}
 						//	})
-			//			//	 .gesture(tapGesture)// NSClickGestureRecognizer
+				//			 .onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
+					//		 .onKeyPress(phases: .up)  { press in
+					//			 print(press.characters)
+					//			 return .handled
+					//		 }
+			//				 .gesture(tapGesture)// NSClickGestureRecognizer
 			//				 .onTapGesture {
 			//				 	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
 			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")

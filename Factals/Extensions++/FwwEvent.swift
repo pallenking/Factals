@@ -46,14 +46,14 @@ extension Simulator			: ProcessNsEvent {}
 extension NSEvent {
 		// Determine the Vews referenced by this event.
 	func vewBase() -> VewBase? {
-		guard let factalsModel 	= FACTALSMODEL else { fatalError() 				}
+		guard let factalsModel 	= FACTALSMODEL 	 else { fatalError() 			}
 		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 
-			 // Find vews whose base fwView is a descendant of nsViewOfEv
-			for vews in factalsModel.vewBases {
-				if let fwView	= vews.scnBase.fwView,//rootScn.fwView,
-				  fwView.isDescendant(of:nsViewOfEv) {
-					return vews
+			 // Find vewBase whose fwView is a descendant of nsViewOfEv
+			for vewBase in factalsModel.vewBases {
+bug;			if let nsView	= vewBase.scnBase.nsView,		//rootScn.fwView,
+				  nsView.isDescendant(of:nsViewOfEv) {
+					return vewBase
 				}
 			}
 		}

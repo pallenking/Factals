@@ -14,10 +14,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	weak
 	 var factalsModel :  FactalsModel!		// Owner
 
-//	var nsView		: NSView?	= nil		// View displaying
-
 	@Published var selfiePole	= SelfiePole()
- 	var cameraScn	: SCNNode?	{ scnBase.tree.find(name:"*-camera", maxLevel:1) }
+ 	var cameraScn	: SCNNode?	{ scnBase.tree?.find(name:"*-camera", maxLevel:1) }
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks
@@ -28,7 +26,6 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 	 // Sugar
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
-//	var trunkVew 	: Vew? 		{	children.first								}
 
 	 /// generate a new View, returning its index
 	init(forPartBase p:PartBase) {
@@ -39,7 +36,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		super.init()
 
 		scnBase.vews			= self			// weak backpointer, owner
-		scnBase.tree.name		= self.tree.name
+		scnBase.tree?.name		= self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 

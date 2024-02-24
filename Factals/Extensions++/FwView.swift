@@ -6,7 +6,7 @@ import SwiftUI
 
 class FwView : SCNView {
 
-			//\\\///\\\///\\\  Our super, SCNView, conforms to SCNSceneRenderer:
+			//\\\///\\\///\\\  Our superclass, SCNView, conforms to SCNSceneRenderer:
 			//\\\				Therefore we have
 			//\\\ 	  .sceneTime					-
 			//\\\ 	  .autoenablesDefaultLighting	-
