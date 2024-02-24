@@ -74,6 +74,8 @@ struct FactalsModelView: View {
 				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vews in
 					VStack {
+//						SceneKitView()
+//								.frame(width: 400, height: 400)
 						ZStack {
 							let scnBase = vews.scnBase.wrappedValue
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
@@ -104,20 +106,20 @@ struct FactalsModelView: View {
 								options:[.rendersContinuously],
 								preferredFramesPerSecond:30,
 								antialiasingMode:.none,
-								delegate:scnBase,//nil//	//SCNSceneRendererDelegate?
+								delegate:scnBase,	//SCNSceneRendererDelegate?
 								technique: nil		//SCNTechnique?
 							)
 							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
 							 .border(.black, width:1)
-							 .onChange(of:isLoaded) { x in				// compiles, seems OK
-								print("isLoaded = ", x)
+							 .onChange(of:isLoaded) { oldVal, newVal in				// compiles, seems OK
+								print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
 							 }
 							 .onAppear {			//setupHitTesting
 								guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
 									  let nsView	= nsWindow.contentView else {
 									fatalError("couldn't find fwView")
 								}
-								scnBase.nsView		= nsView
+								 scnBase.fwView		= (nsView as! FwView)
 							 }
 						//	.onAppear(perform: {
 						//		NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {

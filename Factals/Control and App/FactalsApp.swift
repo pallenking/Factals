@@ -32,7 +32,6 @@ class AppGlobals : ObservableObject {
 	}
 }
 
-
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 @main
 extension FactalsApp : App {

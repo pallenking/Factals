@@ -11,14 +11,14 @@ import SceneKit
 class ScnBase : NSObject {
 	var scnScene : SCNScene
 	var tree	 : SCNNode?
-	{	didSet {				setRootNodeChild1 (fromTree:tree)				}}
-	func setRootNodeChild1 (fromTree:SCNNode?) {
+	{	didSet {				setRootNodeChild1(from:tree)					}}
+	func setRootNodeChild1 (from:SCNNode?) {
 		let scnRootNode 		= self.scnScene.rootNode	// from SCNScene's binding
 		scnRootNode.removeAllChildren()
 		guard let tree 			else { return									}
 		scnRootNode.addChildNode(tree)
 	}
-	var nsView	 : NSView?					// SCNView  of this ScnBase
+	var fwView	 : FwView?					// SCNView  of this ScnBase
 
 	weak
 	 var vews	 : VewBase?					// Delegate (of these ScnBase)
@@ -31,16 +31,10 @@ class ScnBase : NSObject {
 	 // MARK: - 3.1 init
 	init(scnScene s:SCNScene?=nil) {				// ScnBase(tree
 		self.scnScene			= s ?? SCNScene()	// get scene
-
-//		let rootNode			= scnScene.rootNode	// find it's root
-//		if let tree {
-//			rootNode.addChildNode(tree)				// point it to our tree
-//			tree.name = "hummeldy hum"
-//		}
 		print("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))")
+
  		super.init()
-//		assert(tree != nil, "SCNScene.tree == nil")
-		setRootNodeChild1 (fromTree:tree)
+		setRootNodeChild1 (from:tree)
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }

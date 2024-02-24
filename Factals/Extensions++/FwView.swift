@@ -4,7 +4,7 @@
 import SceneKit
 import SwiftUI
 
-class FwView : SCNView {
+class FwView : SCNView { 
 
 			//\\\///\\\///\\\  Our superclass, SCNView, conforms to SCNSceneRenderer:
 			//\\\				Therefore we have
