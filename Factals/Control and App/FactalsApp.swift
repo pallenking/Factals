@@ -391,14 +391,14 @@ bug
 //			guard let doc = DOC else { fatalError("no DOC")}
 //			guard let factalsModel = doc.factalsModel else {	return	}
 //
-//			let parts		= Parts(fromLibrary:scanKey)
-//			factalsModel.setRootPart(parts:parts)
+//			let partBase		= Parts(fromLibrary:scanKey)
+//			factalsModel.setRootPart(partBase:partBase)
 //
 //			 // Make a default window
 //			factalsModel.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
 //	
 //			 // --------------- C: FactalsDocument
-//bug;			let c				= /*doc.config +*/ parts.ansConfig
+//bug;			let c				= /*doc.config +*/ partBase.ansConfig
 //			factalsModel.configure(from:c)
 //			//newRootVew.configure(from: ?FwConfig)
 //			//let newDoc		= FactalsDocument(fromLibrary:"entry\(regressScene)")

@@ -12,7 +12,7 @@ struct FactalsModelBar: View {
 	
 	var body: some View {
 		VStack {
-			RootPartBar(parts: $factalsModel.parts)
+			RootPartBar(partBase: $factalsModel.parts)
 			SimulatorBar(simulator:$factalsModel.simulator)
 		}
 		.padding(4)
@@ -23,21 +23,21 @@ struct FactalsModelBar: View {
 }
 
 struct RootPartBar : View {
-	@Binding var parts : PartBase
+	@Binding var partBase : PartBase
 
 	var body: some View {
 		HStack {	// FULL!
-			Text("Model (parts): ").foregroundColor(.red).bold()
+			Text("Model (partBase): ").foregroundColor(.red).bold()
 			Button(label:{	Text( "ptm")								})
-			{	print(parts.pp(.tree, ["ppDagOrder":true]), terminator:"") }
+			{	print(partBase.pp(.tree, ["ppDagOrder":true]), terminator:"") }
 			Button(label:{	Text("ptLm")								})
-			{	print(parts.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
+			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
 			Spacer()
 			Text("app:").foregroundColor(.red).bold()
 			Button(label:{	Text( "state")								})//.padding(.top, 300)
 			{	printFwState()											}
 			Button(label: {	Text("LLDB") 								})
-			{	lldbPrint(parts, /*VewBase.first!,*/ mode:.tree, [:])
+			{	lldbPrint(partBase, /*VewBase.first!,*/ mode:.tree, [:])
 				breakToDebugger()										}
 			Text(" ")
 		}
@@ -69,10 +69,10 @@ struct SimulatorBar : View {
 					//		var timingChains:[TimingChain] = []	chevron
 					//	ro	var globalDagDirUp	: Bool	= true
 				HStack {
-					//let bRpQ		= $factalsModel.parts//!.simulator		// Binding<Parts?>
+					//let bRpQ		= $factalsModel.partBase//!.simulator		// Binding<Parts?>
 					//	@Bindable var viewModel = viewModel
 					//LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
-					//@Bindable var s			= $factalsModel.parts				// Binding<Parts?>
+					//@Bindable var s			= $factalsModel.partBase				// Binding<Parts?>
 ///
 /// SEE FactalStatus.Simulator.ppFactalsState()
 ///

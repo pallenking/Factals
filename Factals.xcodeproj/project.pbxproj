@@ -136,6 +136,7 @@
 		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9F6B946A2B86A73E007A14E5 /* NSView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B94692B86A73E007A14E5 /* NSView++.swift */; };
+		9F6B946C2B8A5073007A14E5 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */; };
 		9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B9AB628E6711600E23DEC /* VewConfig.swift */; };
 		9F6C85332B81060C00D40934 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C85322B81060B00D40934 /* FwView.swift */; };
 		9F6C85342B81060C00D40934 /* FwView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C85322B81060B00D40934 /* FwView.swift */; };
@@ -250,6 +251,7 @@
 		9F5AE2CF298C3C4B00EF6B20 /* ScnBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnBase.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6B94692B86A73E007A14E5 /* NSView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView++.swift"; sourceTree = "<group>"; };
+		9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
 		9F6C85322B81060B00D40934 /* FwView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FwView.swift; sourceTree = "<group>"; };
 		9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaftBundleTap.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
+				9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
@@ -761,6 +764,7 @@
 				9F84C9EE2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
 				9F1E3CE628D926C5004548C9 /* VewBase.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
+				9F6B946C2B8A5073007A14E5 /* SceneKitView.swift in Sources */,
 				9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */,
 				9F1900FE28808DC10078DB6C /* DiscreteTime.swift in Sources */,
 				9F19011F288090240078DB6C /* InspecAllClasses.swift in Sources */,

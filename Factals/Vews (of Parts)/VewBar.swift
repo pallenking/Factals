@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct VewBar: View {
-	@Binding var vews : VewBase
+	@Binding var vewBase : VewBase
 	@EnvironmentObject var appGlobals: AppGlobals		// Access
 //	@EnvironmentObject var docGlobals: DocGlobals
 
 	var body: some View {
 		VStack {
 			HStack {
-				SelfiePoleBar(selfiePole:$vews.selfiePole)
+				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
 				Spacer()
 //				Button(label:{	Text("Z//RV").padding(.top, 300)				})
 //				{	var s	= vews.selfiePole
@@ -25,38 +25,38 @@ struct VewBar: View {
 //				}
 			}
 			HStack {
-				if let slot		= vews.slot {	// Installed?
+				if let slot		= vewBase.slot {	// Installed?
 					Text("Vew").foregroundColor(.red).bold()
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						print(vews.tree.pp(.tree, appGlobals.appConfig)) //+ docGlobals.fmConfig))
+						print(vewBase.tree.pp(.tree, appGlobals.appConfig)) //+ docGlobals.fmConfig))
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")
-						print(vews.scnBase.tree?.pp(.tree, appGlobals.appConfig) ?? "ews.scnBase.tree == nil")
+						print(vewBase.scnBase.tree?.pp(.tree, appGlobals.appConfig) ?? "ews.scnBase.tree == nil")
 					}
 					Text("Review:")
 					Button(label:{	Text("View")								})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
-						vews.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})
-						vews.updateVewSizePaint(for:"VewBar V-key")
+						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})
+						vewBase.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
-						vews.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
-						vews.updateVewSizePaint(for:"VewBar V-key")
+						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
+						vewBase.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
-						vews.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
-						vews.updateVewSizePaint(for:"VewBar V-key")
+						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
+						vewBase.updateVewSizePaint(for:"VewBar V-key")
 					}
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
-					{	var s	= vews.selfiePole
+					{	var s	= vewBase.selfiePole
 						s.zoom	/= 1.1
 						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line, appGlobals.appConfig))")
-						vews.selfiePole = s	// Put struct's val back
+						vewBase.selfiePole = s	// Put struct's val back
 					}
 					Spacer()
 				} else {

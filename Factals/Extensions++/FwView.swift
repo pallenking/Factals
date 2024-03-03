@@ -18,15 +18,17 @@ class FwView : SCNView {
 			//\\\ SCNView.scene		same as fwGuts:
 
 	 // MARK: - 2. Object Variables:
-//	weak							// backpointer?
+	weak							// backpointer?
 	 var scnBase : ScnBase?		= nil
-//		var handler : (NSEvent)->Void = { nsEvent in fatalError("FwView's default handler is null")}
 
-	init(frame:CGRect, options:[String:Any]=[:]) {
+	init(frame:CGRect=CGRect(), options:[String:Any]=[:]) {
 		super.init(frame:CGRect(), options: [String : Any]())
+//	}
+//	init(scnBase:ScnBase?=nil) {
+//		super.init(delegate:nil)
 
 		isPlaying/*animations*/ = true	// does nothing showsStatistics 		= true			// works fine
-		debugOptions	= [						// enable display of:
+		debugOptions			= [			// enable display of:
 		 //	SCNDebugOptions.showBoundingBoxes,	// bounding boxes for nodes with content.
 		//	SCNDebugOptions.showWireframe,		// geometries as wireframe.
 		//	SCNDebugOptions.renderAsWireframe,	// only wireframe of geometry
@@ -49,7 +51,7 @@ class FwView : SCNView {
 	//	jitteringEnabled		= false		//args.options.contains(.jitteringEnabled)
 	//	temporalAntialiasingEnabled	= false	//args.options.contains(.temporalAntialiasingEnabled)
 	}
-	
+
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 	
 	 // MARK: - 15. PrettyPrint

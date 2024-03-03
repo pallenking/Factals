@@ -247,7 +247,7 @@ bug//			rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
 
 extension ScnBase : FactalsStatus	{						///ScnBase,SCNScene
 	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= vews?.scnBase === self ? "" : "OWNER:'\(vews!)' is BAD"
+		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 		myLine					+= "isPaused:\(scnScene.isPaused) "
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnBase      "
 			myLine:myLine,

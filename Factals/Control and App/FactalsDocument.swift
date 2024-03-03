@@ -65,9 +65,8 @@ struct FactalsDocument : FileDocument {
 	}
 	func configure(config:FwConfig) {
 		 // Build Vews per Configuration
-		let rp					= factalsModel.parts//Actor
-		for (key, value) in config {
-//		for (key, value) in params4all {
+		let rp					= factalsModel.parts
+		for (key, value) in config {				//params4all
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
@@ -106,7 +105,7 @@ struct FactalsDocument : FileDocument {
 			let factalsModel	= FactalsModel(fromRootPart:parts)
 bug;		self.init(factalsModel:factalsModel)
 
-//			fmConfig				+= parts.ansConfig	// from library
+//			fmConfig				+= partBase.ansConfig	// from library
 		default:
 				throw FwError(kind:".fileReadCorruptFile")
 		}
@@ -119,9 +118,9 @@ bug;//	throw FwError(kind:".fileWriteUnknown")
 		switch configuration.contentType {
 	//	case .factals:
 	//		guard let dat		= factalsModel.rootPartActor.data else {	// how is Parts.data worked?
-	//			panic("FactalsDocument.factalsModel.parts.data is nil")
+	//			panic("FactalsDocument.factalsModel.partBase.data is nil")
 	//			let d			= factalsModel.rootPartActor.data		// redo for debug
-	//			throw FwError(kind:"FactalsDocument.factalsModel.parts.data is nil")
+	//			throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
 	//		}
 	//		return .init(regularFileWithContents:dat)
 		default:
@@ -207,7 +206,7 @@ bug
 	}
 	mutating func showInspec(for name:String) {
 		bug
-//		if let part	= factalsModel.parts?.find(name:name) {
+//		if let part	= factalsModel.partBase?.find(name:name) {
 //
 //			 // Open inspectors for all RootVews:
 //			for vews in factalsModel.rootVews {
@@ -274,12 +273,12 @@ bug
 
 	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
 bug
-	//	updateDocConfigs(from:parts.ansConfig)	// This time including rootScn
+	//	updateDocConfigs(from:partBase.ansConfig)	// This time including rootScn
 
 //	//			// Build Views:
 ///*x*/	rootScn.updateVews(fromRootPart:parts, reason:"InstallRootPart")
 	
-//		displayName				= parts.title
+//		displayName				= partBase.title
 //		window0?.title			= displayName									//makeInspectors()
 //		makeInspectors()
 //

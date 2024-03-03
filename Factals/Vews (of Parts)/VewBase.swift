@@ -31,11 +31,11 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	init(forPartBase p:PartBase) {
 		partBase				= p
 		scnBase					= ScnBase()
-		tree					= Vew()
+		tree					= Vew()			// Start with just trunk Vew
 
 		super.init()
 
-		scnBase.vews			= self			// weak backpointer, owner
+		scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
 		scnBase.tree?.name		= self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}

@@ -337,7 +337,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
 			if let s			= self as? ScnBase {
-bug;			rv				+= s.vews?.scnBase === self ? "" :
+bug;			rv				+= s.vewBase?.scnBase === self ? "" :
 								   "--- BAD --- VewBase: vews?.scenes !== self"
 			}
 		case .tree:
