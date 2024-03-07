@@ -66,11 +66,9 @@ struct ScanAnswer {		// : Codable
 extension Library : Uid {
 	//var uid					= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		guard let FACTALSMODEL else {
-			print(format, args, terminator:terminator ?? "\n")
-			return
-		}
-		let log					= FACTALSMODEL.log
+//		guard let FACTALSMODEL else { print(format, args, terminator:terminator ?? "\n");return }
+//		let log					= FACTALSMODEL.log
+		let log					= Log.shared
 		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
@@ -313,6 +311,23 @@ extension Library {
 /*all*/
 
 func log(
+		app:Int=0,
+		doc:Int=0,
+		bld:Int=0,
+		ser:Int=0,
+		ani:Int=0,
+		dat:Int=0,
+		eve:Int=0,
+		ins:Int=0,
+		men:Int=0,
+		rve:Int=0,
+		rsi:Int=0,
+		rnd:Int=0,
+		tst:Int=0,
+ 		all:Int=0		// con gone
+		) -> FwConfig {	[:] }
+
+func log33(
 		app:Int=0,
 		doc:Int=0,
 		bld:Int=0,

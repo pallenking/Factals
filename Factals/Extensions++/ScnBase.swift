@@ -24,7 +24,7 @@ class ScnBase : NSObject {
 
 	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false		// have dragging cancel pic
-	var lastPosition : SCNVector3? = nil				// spot cursor hit
+	var lastPosition : SCNVector3? = nil	// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
@@ -347,18 +347,16 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 		let world2eye			= SCNMatrix4Invert(vewBase.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-//bug
-//return 0
-		let nsRectSize			= NSRect(x:9,y:9,width:200, height:200)//  fwView?.frame.size  else  {	fatalError()	}
+		let nsRect				= fwView?.frame ?? NSRect(x:9,y:9,width:200, height:200)
 
 		 // Orientation is "Height Dominated"
 		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
 		 // Is side going to be clipped off?
-		let ratioHigher			= nsRectSize.height / nsRectSize.width
+		let ratioHigher			= nsRect.height / nsRect.width
 		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
 			zoomRv				*= ratioHigher
 		}
-		if rootVewSizeInEye.x * nsRectSize.height < nsRectSize.width * rootVewSizeInEye.y {
+		if rootVewSizeInEye.x * nsRect.height < nsRect.width * rootVewSizeInEye.y {
 			 // Orientation is "Width Dominated"
 			zoomRv				= rootVewSizeInEye.y
 			 // Is top going to be clipped off?

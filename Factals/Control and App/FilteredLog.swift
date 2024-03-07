@@ -80,20 +80,20 @@ func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 ///   - action: = an automatically generated closure which does a (log) operation
 func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Location supplied
 	assert(verbos >= 0 && verbos < 10, "Message priorities must be in range 0...9")
-	let log						= FACTALSMODEL?.log 									//DOCfactalsModelQ?.log ?? APPQ?.log,
-	if let verbosity			= log?.verbosity
+	let log						= Log.shared					//DOCfactalsModelQ?.log ?? APPQ?.log,
+	if let verbosity			= log.verbosity
 	{	if //trueF 								|| // DEBUGGING ALL messages
 		  (verbosity[area]  ?? -1) >= verbos	|| // verbosity[area]  high enough	OR
 		  (verbosity["all"] ?? -1) >= verbos	   // verbosity["all"] high enough
 		{
-			if log!.msgFilter != nil || log!.msgPriority != nil {
+			if log.msgFilter != nil || log.msgPriority != nil {
 				let c			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
 				let new			= Log.pp(filter:area, priority:verbos)
-				let now			= Log.pp(filter:log!.msgFilter, priority:log!.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
-				panic(c + " '\(new)' found log '\(log!.title)' busy doing '\(now)'")
+				let now			= Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
+				panic(c + " '\(new)' found log '\(log.title)' busy doing '\(now)'")
 			}
-			log!.msgFilter		= area
-			log!.msgPriority	= verbos
+			log.msgFilter		= area
+			log.msgPriority		= verbos
 			action()							// Execute the action closure
 		}
 //		else {
@@ -102,12 +102,12 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 	}
 	else {										// always do if missing verbosity
 		print("!!: ", terminator:"")
-		log?.msgFilter			= area
-		log?.msgPriority		= verbos
+		log.msgFilter			= area
+		log.msgPriority			= verbos
 		action()
 	}
-	log?.msgFilter				= nil
-	log?.msgPriority			= nil
+	log.msgFilter				= nil
+	log.msgPriority				= nil
 }
 
 

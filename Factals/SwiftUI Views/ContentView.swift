@@ -74,81 +74,85 @@ struct FactalsModelView: View {
 				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 					VStack {									//Binding<VewBase>
-
-						SceneKitView()
-						 .frame(width:400, height:100)
-						 .onAppear { 			//setupHitTesting
-							let x				= vewBase.scnBase.wrappedValue.fwView
-							vewBase.scnBase.wrappedValue.fwView = nil // NEED fwView here
-							//$factalsModel.coordinator.onAppear {				}
-							//guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
-							//	  let nsView	= nsWindow.contentView else {
-							//	fatalError("couldn't find fwView")}
-							//scnBase.fwView	= (nsView as! FwView)
-						 }
-
-//						ZStack {
-//							let scnBase			= vewBase.scnBase.wrappedValue
-//							EventReceiver { 	nsEvent in // Catch events (goes underneath)
-//								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
-//								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-//							}
-//							// Generate code exemplefying the following thoughts that I am told:
-//							// sceneview takes in a publisher		// PW essential/big
-//							// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
-//							// scenkit -> write models back to viewmodel. s
-//							// viewmodel single source of truth.
-//
-//							// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-//							// now: SceneView 	native SwiftUI
-//
-//							//	SceneView
-//							//		that communicates with a ViewModel
-//							//			to render a SceneKit scene and
-//							//		the ViewModel updates
-//							//			with changes from SceneKit,
-//							//				acting as the single source of truth.
-//
-//							////////////////////////////// Testing	$publisher/	$view
-//
-//							SceneView(
-//								scene:scnBase.scnScene,		//15a4./_null:SCNNode
-//								pointOfView:nil,	// SCNNode
-//								options:[.rendersContinuously],
-//								preferredFramesPerSecond:30,
-//								antialiasingMode:.none,
-//								delegate:scnBase,	//SCNSceneRendererDelegate?
-//								technique: nil		//SCNTechnique?
-//							)
-//							 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
-//							 .border(.black, width:1)
-//							 .onChange(of:isLoaded) { oldVal, newVal in				// compiles, seems OK
-//								print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
-//							 }
-////							 .onAppear {			//setupHitTesting
-////								guard let nsWindow	= NSApplication.shared.windows.first, //?.rootViewController
-////									  let nsView	= nsWindow.contentView else {
-////									fatalError("couldn't find fwView")
-////								}
-////								scnBase.fwView		= (nsView as! FwView)
-////							 }
-//						//	.onAppear(perform: {
-//						//		NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
-//						//			print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
-//						//			return $0
-//						//		}
-//						//	})
-//				//			 .onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
-//					//		 .onKeyPress(phases: .up)  { press in
-//					//			 print(press.characters)
-//					//			 return .handled
-//					//		 }
-//			//				 .gesture(tapGesture)// NSClickGestureRecognizer
-//			//				 .onTapGesture {
-//			//				 	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
-//			//					print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
-//			//				 }
-//						}
+						let scnBase			= vewBase.scnBase.wrappedValue
+						ZStack {
+							EventReceiver { 	nsEvent in // Catch events (goes underneath)
+								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
+								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+							}
+								
+								// Generate code exemplefying the following thoughts that I am told:
+								// sceneview takes in a publisher		// PW essential/big
+								// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+								// scenkit -> write models back to viewmodel. s
+								// viewmodel single source of truth.
+								
+								// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+								// now: SceneView 	native SwiftUI
+								
+								//	SceneView
+								//		that communicates with a ViewModel
+								//			to render a SceneKit scene and
+								//		the ViewModel updates
+								//			with changes from SceneKit,
+								//				acting as the single source of truth.
+								
+								////////////////////////////// Testing	$publisher/	$view
+								
+								
+							if trueF {//falseF {//trueF {//
+								 // New Way
+								SceneKitView(scnBase:scnBase)
+								 .onAppear { 			//setupHitTesting
+									//coordinator.onAppear()
+								 	//$factalsModel.coordinator.onAppear {				}
+								 	let scnBase			= vewBase.scnBase
+								 	let bind_fwView		= scnBase.fwView		//Binding<FwView?>
+									let y				= bind_fwView.wrappedValue?.scnBase?.pp() ?? "nil"
+								 	print("\(scnBase).fwView.scnBase = \(y)")
+								 }
+							} else {
+								 // Old Way
+								SceneView(
+									scene:scnBase.scnScene,		//15a4./_null:SCNNode
+									pointOfView:nil,	// SCNNode
+									options:[.rendersContinuously],
+									preferredFramesPerSecond:30,
+									antialiasingMode:.none,
+									delegate:scnBase,	//SCNSceneRendererDelegate?
+									technique: nil		//SCNTechnique?
+								)
+								.frame(maxWidth: .infinity)// .frame(width:500, height:300)
+								.border(.black, width:1)
+								.onChange(of:isLoaded) { oldVal, newVal in				// compiles, seems OK
+									print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
+								}
+								 .onAppear { 			//setupHitTesting
+								 	let scnBase			= vewBase.scnBase
+								 	let bind_fwView		= scnBase.fwView		//Binding<FwView?>
+								 	var y				= "nil"
+								 	if let fwView		= bind_fwView.wrappedValue,
+								 	   let s			= fwView.scnBase {
+								 		y				= s.pp()
+								 	}
+								 	print("\(scnBase).fwView.scnBase = \(y)")
+									//NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
+									//	print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
+									//	return $0
+									//}
+								 }
+								//.onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
+								//.onKeyPress(phases: .up)  { press in
+								//	print(press.characters)
+								//	return .handled
+								//}
+								//.gesture(tapGesture)// NSClickGestureRecognizer
+								//.onTapGesture {
+								//	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
+								//  print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
+								//}
+							}
+						}
 						VewBar(vewBase:vewBase)
 					}
 				}
@@ -166,20 +170,20 @@ struct FactalsModelView: View {
 //	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
 //	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
 //	 ?? []
-	func handleMouseDown(event: NSEvent) {
-		mouseDown = true
-		handleMouseEvent(event)
-	}
-	func handleMouseEvent(_ event: NSEvent) {
-		if let view = NSApplication.shared.keyWindow?.contentView {
-			let location = view.convert(event.locationInWindow, from: nil)
-bug;		if let hitNsView = view.hitTest(location) {//,
-				bug
-			//let sceneView = hitNsView.node.scene?.view {//as? SCNView {
-			//	sceneView.mouseDown(with: event)
-			}
-		}
-	}
+//	func handleMouseDown(event: NSEvent) {
+//		mouseDown = true
+//		handleMouseEvent(event)
+//	}
+//	func handleMouseEvent(_ event: NSEvent) {
+//		if let view = NSApplication.shared.keyWindow?.contentView {
+//			let location = view.convert(event.locationInWindow, from: nil)
+//bug;		if let hitNsView = view.hitTest(location) {//,
+//				bug
+//			//let sceneView = hitNsView.node.scene?.view {//as? SCNView {
+//			//	sceneView.mouseDown(with: event)
+//			}
+//		}
+//	}
 }
 
 

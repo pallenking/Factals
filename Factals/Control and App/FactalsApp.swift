@@ -85,8 +85,6 @@ struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
 
-	static var shared = FactalsApp() // Singleton instance
-
 	@State private var document: FactalsDocument? = nil
 	@State private var openDocuments: [FactalsDocument] = []
 
@@ -97,7 +95,7 @@ struct FactalsApp: Uid, FwAny {
 
 	 // MARK: - 2. Object Variables:
 	var log	: Log				=	Log(title:"App's Log", params4all)
-	var appStartTime:String = dateTime(format:"yyyy-MM-dd HH:mm:ss")
+	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:
 	var regressScene : Int {				// number of next "^r" regression test

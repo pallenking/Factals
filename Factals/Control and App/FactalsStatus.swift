@@ -11,6 +11,7 @@ protocol FactalsStatus : FwAny {
  /// - Returns: State of all Controllers, one per line
 func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
 //	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
+//	var rv = FactalsApp.ppFactalsState(deapth:deapth-1)
 	var rv = ""//						= APP	  .ppFactalsState(deapth:deapth-1)
 bug
 //	 // display current DOCument
@@ -27,7 +28,7 @@ func ppFactalsStateHelper(_ fwClassName_	: String,
 						deapth		: Int				//= 999
 					) -> String
 {
-	let log						= FACTALSMODEL!.log
+	let log						= Log.shared
 	var rv						= ppFwPrefix(uid:uid, fwClassName_) + myLine + "\n"
 			// Other Lines:
 	log.nIndent					+= 1
@@ -38,7 +39,7 @@ func ppFactalsStateHelper(_ fwClassName_	: String,
  /// Prefix: "1e98 | | <fwClass>   0    . . . . . . . . "
 func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 	 // align uid printouts for ctl and part to 4 characters
-	let log						= FACTALSMODEL!.log
+	let log						= Log.shared
 	var rv						= ppUid(pre:" ", uid, showNil:true).field(-5) + " "
 	rv 							+= log.indentString()
 	rv							+= fmt("%-12@", fwClassName_)
@@ -327,7 +328,7 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 	func ppFactalsState(deapth:Int=999) -> String {
 								//
 		let contract 			= trueF
-		let log					= FACTALSMODEL!.log
+		let log					= Log.shared
 		return ppFactalsStateHelper("NSWindow     ", uid:self,
 			myLine:
    			       "title:'\(title)' "											+

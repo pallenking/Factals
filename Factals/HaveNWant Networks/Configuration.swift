@@ -9,11 +9,11 @@ import SceneKit
 
   // MARK: - External linkage
  /// Initial Parameters for configuration:
-var params4all		: FwConfig		= {	return
+var params4all		: FwConfig		= {	return 
 	params4app		+
 	params4appLog	+
-	params4pp		+
-	params4docLog	+
+	params4pp		+	//
+	params4docLog	+	//
 	params4sim		+
 	params4vew
 } ()

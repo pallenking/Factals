@@ -55,14 +55,14 @@ bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 	}
 	func play(sound:String, onNode onNode_:SCNNode?=nil) {
 		if falseF /* Disable? trueF*//*falseF*/ {		return					}
-				
-		let node : SCNNode		= onNode_ ??	// 1. SCNNode supplied else
-		{										// 2. Search through rootVews for SCNNode
-			for vews in FACTALSMODEL?.vewBases ?? [] {
-				return vews.tree.scn			// found
-			}
-			fatalError("###### Couldn't find SCNNode to play sound")
-		} ()
+bug
+//		let node : SCNNode		= onNode_ ??	// 1. SCNNode supplied else
+//		{										// 2. Search through rootVews for SCNNode
+//			for vews in FACTALSMODEL?.vewBases ?? [] {
+//				return vews.tree.scn			// found
+//			}
+//			fatalError("###### Couldn't find SCNNode to play sound")
+//		} ()
 
 		 // Get audio source:
 		guard let source		= knownSources[sound] else {
@@ -70,11 +70,11 @@ bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 			return
 		}
 		let audioPlayer			= SCNAudioPlayer(source:source)
-		node.addAudioPlayer(audioPlayer)										// let x1 = node.audioPlayers
+//		node.addAudioPlayer(audioPlayer)										// let x1 = node.audioPlayers
 
 		 // Command it to play:
 		let playAction			= SCNAction.playAudio(source, waitForCompletion:false)
-		node.runAction(playAction)
+//		node.runAction(playAction)
 		
 //		logg("\(node.fullName) play \"\(sound)\"")
 //		node.removeAudioPlayer(audioPlayer)
