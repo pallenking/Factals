@@ -1380,7 +1380,7 @@ func foo () {
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			if var fm			= root?.factalsModel { 	// take struct out
+			if var factalsModel	= root?.factalsModel { 	// take struct out
 				//assert(doc === DOC, "paranoia")
 				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
 												+ "\(pp(.fwClassName))\n\(pp(.tree))")
@@ -1388,12 +1388,12 @@ func foo () {
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
-/**/bug//			fm.showInspecFor(vew:vew, allowNew:alt)
+bug	//				factalsModel.showInspecFor(vew:vew, allowNew:alt)
 					rv			= true
 				}
 							// Double Click: show/hide insides
 				if nsEvent.clickCount > 1 {
-					fm.toggelOpen(vew:vew)
+					factalsModel.toggelOpen(vew:vew)
 					rv			= true
 				}
 				else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////

@@ -509,19 +509,19 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		 //
 		case .leftMouseDown:
 			beginCameraMotion(with:nsEvent)
-			if false,let v		= factalsModel?.modelPic(with:nsEvent) {
+			if let v		= modelPic(with:nsEvent) {
 				print("leftMouseDown pic's Vew:\(v.pp(.short))")
 			}
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
-			mouseWasDragged = true			// drag cancels pic
+			mouseWasDragged 	= true			// drag cancels pic
 			spinNUp(with:nsEvent)			// change Spin and Up of camera
 			commitCameraMotion(reason:"Left mouseDragged")
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
-				if let vew	= factalsModel?.modelPic(with:nsEvent) {
+				if let vew		= modelPic(with:nsEvent) {
 					vewBase.lookAtVew = vew			// found a Vew: Look at it!
 				}
 			}
@@ -599,6 +599,98 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		}
 		return true
 	}
+	// MARK: - PIC
+	
+					  // ///////////////////////// //////////// //
+					 // ///                   /// //
+					// ///		 PIC         /// //
+				   // ///                   /// //
+	 // //////////// ///////////////////////// //
+	
+	/// Choose the Vew of v containing mouse point
+	/// - Parameter n: an NSEvent (else current NSEvent)
+	/// - Parameter v: specific base Vew (else check all rootVews)
+	/// - Returns: The Vew of the part pressed
+	func modelPic(with nsEvent:NSEvent, inVewBase vb:VewBase? = nil) -> Vew? {
+		let vewBases2check : [VewBase] = vb != nil ? [vb!] :			// use ARG
+										 vewBase!.factalsModel.vewBases	// check all
+		for vewBase in vewBases2check {
+			if let picdVew		= findVew(nsEvent:nsEvent, inVewBase:vewBase) {
+				 // PART pic'ed, DISPATCH to it!
+				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
+					return picdVew		// Successfully Completed
+				}
+			}
+		}
+		atEve(3, print("\t\t" + "** No Part FOUND\n"))
+		return nil
+	}
+
+	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
+		 // Find vews of NSEvent
+		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil}
+		let locationInRoot		= nsView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+
+		guard let tree			= vewBase.scnBase.tree else { return nil		}
+		guard let fwView		= vewBase.scnBase.fwView else { fatalError("vewBase.scnBase.fwView is nil")	}
+
+		let configHitTest : [SCNHitTestOption:Any]? = [
+			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
+				FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
+				FwNodeCategory.byDefault.rawValue ,
+			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+		  //.sortResults:1, 			// (implied)
+			.rootNode:tree				// The root of the node hierarchy to be searched.
+		]
+										//		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
+										// 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
+										//		guard let scnView else { fatalError("Couldn't find sceneView")			}
+										//		 // Find the 3D Vew for the Part under the mouse:
+										//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
+		 // fwView is SCNSceneRenderer:
+		let hits 				= fwView.hitTest(locationInRoot, options:configHitTest)
+		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
+
+		 // SELECT HIT; prefer any child to its parents:
+		var pickedScn :SCNNode	= tree		// default is root
+		if hits.count > 0 {
+			 // There is a HIT on a 3D object:
+			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
+			let hit				= sortedHits[0]
+			pickedScn			= hit.node // pic node with lowest deapth
+		}
+
+		guard let slot 			= vewBase.slot			else { return nil		}
+		var msg					= "******************************************\n Slot\(slot): find "
+		msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
+			
+		 // If Node not picable and has parent
+		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+			  let parent 		= pickedScn.parent
+		{
+			msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
+			pickedScn 			= parent				// use parent
+			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
+		}
+
+		 // Get Vew from SCNNode
+		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
+			if trueF 				{ return nil 		}		// Ignore missing vew
+			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scn.pp(.classUid))")
+			let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) // for debug only
+			return nil
+		}
+		msg							+= "      ===>    ####  ..."//\(vew.part.pp(.fullNameUidClass))  ####"
+	//	msg							+= "background -> trunkVew"
+		atEve(3, print("\n" + msg))
+		return vew
+	}
+
 	 // MARK: - 13.4 Mouse Variables
 	 /// Common update: deltaPosition and lastPosition
 	func beginCameraMotion(with nsEvent:NSEvent)	{

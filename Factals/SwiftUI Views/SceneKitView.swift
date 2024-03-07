@@ -10,20 +10,18 @@ import SceneKit
 
 struct SceneKitView: NSViewRepresentable {
 	var scnBase : ScnBase		// ARG1
-	typealias NSViewType 		= FwView//:SCNView:NSView	// Type represented
+	typealias NSViewType 		= FwView	//:SCNView:NSView	// Type represented
 
 	func makeNSView(context: Context) -> FwView {
-		let rvFwView			= FwView()//frame:CGRect()
-		rvFwView.delegate		= scnBase 		//SCNSceneRendererDelegate?
-		rvFwView.scnBase		= scnBase
-		rvFwView.scene			= scnBase.scnScene
-		scnBase.fwView			= rvFwView
-		return rvFwView
-//		let sceneView = SCNView()
-//		sceneView.scene = SCNScene(named: "yourScene.scn") // Replace "yourScene.scn" with your 3D scene file name
-//		sceneView.autoenablesDefaultLighting = true
-//		sceneView.allowsCameraControl = true
-//		return sceneView
+		let fwView				= FwView()//frame:CGRect()
+		fwView.delegate			= scnBase 		//SCNSceneRendererDelegate?
+		fwView.scnBase			= scnBase
+		fwView.scene			= scnBase.scnScene
+//		fwView.autoenablesDefaultLighting = true
+//		fwView.allowsCameraControl = true
+
+		scnBase.fwView			= fwView
+		return fwView
 	}
 
 	func updateNSView(_ nsView: FwView, context:Context) {}
