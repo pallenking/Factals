@@ -101,6 +101,7 @@ struct FactalsModelView: View {
 								
 								
 							if trueF {//falseF {//trueF {//
+
 								 // New Way
 								SceneKitView(scnBase:scnBase)
 								 .onAppear { 			//setupHitTesting

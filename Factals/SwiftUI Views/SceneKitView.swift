@@ -9,7 +9,7 @@ import SwiftUI
 import SceneKit
 
 struct SceneKitView: NSViewRepresentable {
-	var scnBase : ScnBase		// ARG1
+	var scnBase : ScnBase		// ARG1: exposes visual world
 	typealias NSViewType 		= FwView	//:SCNView:NSView	// Type represented
 
 	func makeNSView(context: Context) -> FwView {
@@ -38,7 +38,7 @@ struct SceneKitView: NSViewRepresentable {
 		}
 
 		func mouseDownX(with event: NSEvent) {
-			//let c				= Context()
+bug			 //let c			= Context()
 			let fwView 			= sceneKitView.scnBase.fwView //fwView
 			let point			= fwView!.convert(event.locationInWindow, from: nil)
 			let hitResults 		= fwView!.hitTest(point, options: [:])

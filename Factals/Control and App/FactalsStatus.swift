@@ -83,18 +83,6 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 			otherLines:{ deapth in
 				guard let factalsModel else {	return ""						}
 				var rv			= factalsModel.ppFactalsState(deapth:deapth-1)
-// moved to FactalsModel
-//				 // Inspectors:
-//				rv				+= "---- inspecWindow4vew omitted -----"
-//				if self.inspecWindow4vew.count > 0 {
-//					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
-//					DOClog.nIndent += 1
-//					for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-//						let win	= self.inspecWindow4vew[inspec]
-//						rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
-//					}
-//					DOClog.nIndent -= 1
-//				}
 				return rv
 			},
 			deapth:deapth

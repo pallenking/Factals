@@ -10,9 +10,9 @@ import SceneKit
 import SwiftUI
 
 let d2formatter					= { () -> NumberFormatter in
-	let rv 				= NumberFormatter()
-	rv.minimumFractionDigits = 2
-	rv.maximumFractionDigits = 2
+	let rv 						= NumberFormatter()
+	rv.minimumFractionDigits 	= 2
+	rv.maximumFractionDigits 	= 2
 	return rv
 } ()
 
@@ -22,13 +22,12 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 	var body: some View {
 		VStack(alignment:.leading)  {					// Add Class Inspectors
 			let inheritedClasses:[String] = vew.part.inheritedClasses
-//			ForEach inheritedClasses { cl in		// need , id: \.id
-			ForEach (0..<inheritedClasses.count) { claz in		// need , id: \.id
-				let cl			= inheritedClasses[claz]
+			ForEach (0..<inheritedClasses.count) { i in		// need , id: \.id
+				let cl			= inheritedClasses[i]
 
 				 // Dispatch via switch
 				//InspecNet(			  net:vew.part as! Net)
-				Text("bug wgwsav")
+				Text("\(cl): ...")	//display blocked
 //				switch cl {
 //				// Static method 'buildExpression' requires that
 //				//		'InspecNet' conform to 'TableRowContent'
