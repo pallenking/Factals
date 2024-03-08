@@ -4,9 +4,11 @@
 import SceneKit
 import SwiftUI
 
-struct InspecNet : View {												  // Net
+struct InspecNet : View {		//, TableRowContent
+	typealias TableRowBody = View
+
+	// Net
 	@ObservedObject var net: Net
-//	@FooTrimmed<SCNVector3> var x = SCNVector3(3,4,5)
 
 	var body: some View {
 		HStack {

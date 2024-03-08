@@ -12,7 +12,7 @@ class FactalsModel : ObservableObject, Uid {
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
 
-	var parts 	  :  PartBase
+	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 	var vewBases0 :  VewBase?	{	vewBases.first								}// Sugar
 
@@ -26,21 +26,21 @@ class FactalsModel : ObservableObject, Uid {
 
 	 // MARK: - 3. Factory
 	init(fromRootPart rp:PartBase) {											// FactalsModel(fromRootPart rp:PartBase)
-		parts				= rp
+		partBase				= rp
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self
 		simulator.factalsModel	= self
-		parts.factalsModel		= self
+		partBase.factalsModel		= self
 
 		//configure(from:document.fmConfig)
 	}
 
 	func configure(from config:FwConfig) {
-		fmConfig				+= parts.ansConfig	// from library
+		fmConfig				+= partBase.ansConfig	// from library
 		simulator.configure(from:config)
-		parts.configure(from:config)
+		partBase.configure(from:config)
 		for vews in vewBases {
 			vews.configureRootVew(from:config)
 		}
@@ -120,7 +120,7 @@ class FactalsModel : ObservableObject, Uid {
 	/// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-		guard let partBase : PartBase = vew.part.root else {return false }	// vew.root.part
+		guard let partBase : PartBase = vew.part.root else { return false }	// vew.root.part
 		var found				= true
 
 		 // Check Simulator:
@@ -163,23 +163,23 @@ class FactalsModel : ObservableObject, Uid {
 		case "m":
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'm': === Parts:")
-			print(parts.pp(.tree, aux), terminator:"")
+			print(partBase.pp(.tree, aux), terminator:"")
 		case "M":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'M': === Parts and Ports:")
-			print(parts.pp(.tree, aux), terminator:"")
+			print(partBase.pp(.tree, aux), terminator:"")
 		case "l":
 			aux["ppLinks"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'l': === Parts, Links:")
-			print(parts.pp(.tree, aux), terminator:"")
+			print(partBase.pp(.tree, aux), terminator:"")
 		case "L":
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			aux["ppLinks"]		= true
 			print("\n******************** 'L': === Parts, Ports, Links:")
-			print(parts.pp(.tree, aux), terminator:"")
+			print(partBase.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "c":
@@ -279,129 +279,106 @@ bug
 			found			= false
 		}
 		if found == false {
-
 			 // Check Simulator:
 	/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
 				return true 		// handled by simulator
 			}
-
-//			 // Check Document:
-//			if document.processEvent(nsEvent:nsEvent, inVew:vew) {
-//				return true			// handled by doc
-//			}
-
 			return false
 		}
 		return true					// comes here if recognized
 	}
+	 // MARK: - 5.1 Make Associated Inspectors:
+	  /// Manage Inspec's:
+	var lastInspecVew:Vew?		= nil		// Last Vew may be needed again
+	var lastInspecWindow :NSWindow? = nil		//
+	var inspecWindow4vew:[Vew:NSWindow] = [:]									//[Vew : [weak NSWindow]]
 
-//move to scnBase
-//
-//					  // ///////////////////////// //////////// //
-//					 // ///                   /// //
-//					// ///		 PIC         /// //
-//				   // ///                   /// //
-//	 // //////////// ///////////////////////// //
-//	
-//	/// Choose the Vew of v containing mouse point
-//	/// - Parameter n: an NSEvent (else current NSEvent)
-//	/// - Parameter v: specific base Vew (else check all rootVews)
-//	/// - Returns: The Vew of the part pressed
-//	func modelPic(with nsEvent:NSEvent, inVews v:VewBase?=nil) -> Vew? {
-//		let vewBases2check : [VewBase] = v==nil ? vewBases : [v!]
-//		for vews in vewBases2check {
-//			if let picdVew			= findVew(nsEvent:nsEvent, inVewBase:vews) {
-//				 // PART pic'ed, DISPATCH to it!
-//				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
-//					return picdVew
-//				}
-//			}
-//		}
-//		atEve(3, print("\t\t" + "** No Part FOUND\n"))
-//		return nil
-//	}
-//
-//	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-//		 // Find vews of NSEvent
-//								//		guard let vews			= inVews				else { return nil		}
-//		guard let slot 			= vewBase.slot			else { return nil		}
-//								//		let scenes:ScnBase 		= vews.scenes			// SCNScene
-//								//		let rv:VewBase?			= scenes.vews
-//								//		let rn:SCNNode			= scenes.rootNode
-//
-//		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil}
-//		var msg					= "******************************************\n Slot\(slot): find "
-//		let locationInRoot		= nsView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
-//
-//		//		// There is in NSView: func hitTest(_ point: NSPoint) -> NSView?
-//		//		// SCNSceneRenderer: hitTest(_ point: CGPoint, options:[SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
-//
-//		let vew					= vewBase.tree
-//
-//		let configHitTest : [SCNHitTestOption:Any]? = [
-//			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-//			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-//			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-//					FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
-//					FwNodeCategory.byDefault.rawValue ,
-//			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-//		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-//		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-//			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-//		  //.sortResults:1, 			// (implied)
-//			.rootNode:vew				// The root of the node hierarchy to be searched.
-//		]
-//
-//		//		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
-//		// 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
-//		//		guard let scnView else { fatalError("Couldn't find sceneView")			}
-//		//		 // Find the 3D Vew for the Part under the mouse:
-//		//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
-//
-//bug
-////		let fwView 			= sceneKitView.scnBase.fwView
-////		let point			= fwView!.convert(event.locationInWindow, from: nil)
-////		let hitResults 		= fwView!.hitTest(point, options: [:])
-////		if let hitResult = hitResults.first {
-//
-//
-//
-//		assert(vewBase.scnBase.fwView != nil, "vewBase.scnBase.fwView is nil")
-//		let hits:[SCNHitTestResult] = vewBase.scnBase.fwView!.hitTest(locationInRoot, options:configHitTest)//[SCNHitTestResult]() //
-//		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
-//
-//		 // SELECT HIT; prefer any child to its parents:
-//		guard let tree			= vewBase.scnBase.tree else { return nil		}
-//		var pickedScn :SCNNode	= tree		// default is root
-//		if hits.count > 0 {
-//			// There is a HIT on a 3D object:
-//			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
-//			let hit				= sortedHits[0]
-//			pickedScn			= hit.node // pic node with lowest deapth
-//		}
-//		msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
-//			
-//		// If Node not picable, try parent
-//		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-//			  let parent 		= pickedScn.parent		// try its parent:
-//		{
-//			msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
-//			pickedScn 			= parent				// use parent
-//			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
-//		}
-//
-//		// Get Vew from SCNNode
-//		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
-//			if trueF 				{ return nil 		}		// Ignore missing vew
-//			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scn.pp(.classUid))")
-//			let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) // for debug only
-//			return nil
-//		}
-//		msg							+= "      ===>    ####  ..."//\(vew.part.pp(.fullNameUidClass))  ####"
-//	//	msg							+= "background -> trunkVew"
-//		atEve(3, print("\n" + msg))
-//		return vew
-//	}
+	func makeInspectors() {
+		atIns(7, print("code makeInspectors"))
+			// TODO: should move ansConfig stuff into wireAndGroom
+bug
+		if let vew2inspec		= fmConfig["inspec"] {
+			if let name			= vew2inspec as? String {	// Single String
+				showInspec(for:name)
+			}
+			else if let names 	= vew2inspec as? [String] {	// Array of Strings
+				for name in names {								// make one for each
+					showInspec(for:name)
+				}
+			} else {
+				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
+		}
+	}
+	func showInspec(for name:String) {
+		bug
+		if let part	= partBase.tree.find(name:name) {
+	
+			 // Open inspectors for all RootVews:
+			for vewBase in vewBases {
+		 		if let vew = vewBase.tree.find(part:part) {
+					showInspecFor(vew:vew, allowNew:true)
+				}
+			}
+		}
+		else {
+			atIns(4, warning("Inspector for '\(name)' could not be opened"))
+		}
+	}
+		 /// Show an Inspec for a vew.
+		/// - Parameters:
+	   ///  - vew: vew to inspec
+	  ///   - allowNew: window, else use existing
+	 func showInspecFor(vew:Vew, allowNew:Bool) {
+		let vewsInspec			= Inspec(vew:vew)
+		var window : NSWindow?	= nil
+
+		if let iw				= lastInspecWindow {		// New, less functional manner
+			iw.close()
+			self.lastInspecWindow	= nil
+		} else {										// Old broken way
+			 // Find an existing NSWindow for the inspec
+			window 				= inspecWindow4vew[vew]	// Does one Exist?
+			if window == nil,								// no,
+			  !allowNew,									// Shouldn't create
+			  let lv			= lastInspecVew {
+				window			= inspecWindow4vew[lv]				// try LAST
+			}
+		}
+
+		// PW+4: How do I access MainMenu from inside SwiftUI
+		// PW3: What is the right way to display vewsInspec? as popup?, window?, WindowGroup?...
+		if window == nil {								// must make NEW
+			let hostCtlr		= NSHostingController(rootView:vewsInspec)		// hostCtlr.view.frame = NSRect()
+			 // Create Inspector Window (Note: NOT SwiftUI !!)
+			window				= NSWindow(contentViewController:hostCtlr)	// create window
+			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
+			window!.contentViewController = hostCtlr		// if successful
+		}
+		guard let window 		else { fatalError("Unable to fine NSWindow")	}
+
+				// Title window
+		window.title			= vew.part.fullName
+		window.subtitle			= "Slot\(vew.vewBase()?.slot ?? -1)"
+
+				// Position on screen: Quite AD HOC!!
+		window.orderFront(self)				// Doesn't work -- not front when done!
+		window.makeKeyAndOrderFront(self)
+		window.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
+
+			// Remember window for next creation
+		lastInspecVew			= vew			// activate Old way
+		lastInspecWindow		= window		// activate New way
+		inspecWindow4vew[vew]	= window		// activate Old way
+	}
+
+	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
+		print("modelDispatch(fwEvent: to:")
+	}
+
+
+
+
+
 
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {

@@ -15,7 +15,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var portChits		: Int	{	factalsModel?.parts.tree.portChitArray().count ?? 0	}
+	var portChits		: Int	{	factalsModel?.partBase.tree.portChitArray().count ?? 0	}
 //	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0		}
 	var linkChits		: Int	= 0			// by things like links
 	var startChits	  	:UInt8	= 0			// set to get simulator going
@@ -39,7 +39,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		}
 	}
 	func isSettled() -> Bool {
-		let nPortsBuisy 		= factalsModel?.parts.tree.portChitArray().count ?? 0	// Busy Ports
+		let nPortsBuisy 		= factalsModel?.partBase.tree.portChitArray().count ?? 0	// Busy Ports
 //		let nPortsBuisy 		= rootPartF?.portChitArray().count ?? 0	// Busy Ports
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
@@ -141,7 +141,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	func simulateOneStep() {
 		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled	else {	return 										}
-		guard let parts = factalsModel?.parts	else {	return					}
+		guard let parts = factalsModel?.partBase	else {	return					}
 		guard parts.lock(for:"simulationTask", logIf:logSimLocks)
 							else {	fatalError("simulationTask couldn't get PART lock")	}
 

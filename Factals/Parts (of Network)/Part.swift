@@ -1380,15 +1380,14 @@ func foo () {
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			if var factalsModel	= root?.factalsModel { 	// take struct out
-				//assert(doc === DOC, "paranoia")
+			if let factalsModel	= root?.factalsModel { 	// take struct out
 				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
 												+ "\(pp(.fwClassName))\n\(pp(.tree))")
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
-bug	//				factalsModel.showInspecFor(vew:vew, allowNew:alt)
+					factalsModel.showInspecFor(vew:vew, allowNew:alt)
 					rv			= true
 				}
 							// Double Click: show/hide insides

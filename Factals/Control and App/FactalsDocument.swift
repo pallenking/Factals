@@ -65,7 +65,7 @@ struct FactalsDocument : FileDocument {
 	}
 	func configure(config:FwConfig) {
 		 // Build Vews per Configuration
-		let rp					= factalsModel.parts
+		let rp					= factalsModel.partBase
 		for (key, value) in config {				//params4all
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
@@ -182,124 +182,35 @@ func serializeDeserialize(_ inPart:Part) throws -> Part? {
 //		}
 	}
 	func makeWindowControllers() 		{	 bug								}
-	 // MARK: - 5.1 Make Associated Inspectors:
-	  /// Manage Inspec's:
-	var inspecWin4vew:[Vew:NSWindow] = [:]									//[Vew : [weak NSWindow]]
-	var inspecLastVew:Vew?		= nil
-	var inspecWindow :NSWindow? = nil
 
-	mutating func makeInspectors() {
-		atIns(7, print("code makeInspectors"))
-			// TODO: should move ansConfig stuff into wireAndGroom
-bug
-//		if let vew2inspec		= fmConfig["inspec"] {
-//			if let name			= vew2inspec as? String {	// Single String
-//				showInspec(for:name)
-//			}
-//			else if let names 	= vew2inspec as? [String] {	// Array of Strings
-//				for name in names {								// make one for each
-//					showInspec(for:name)
-//				}
-//			} else {
-//				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
-//		}
-	}
-	mutating func showInspec(for name:String) {
-		bug
-//		if let part	= factalsModel.partBase?.find(name:name) {
-//
-//			 // Open inspectors for all RootVews:
-//			for vews in factalsModel.rootVews {
-//		 		if let vew = vews.find(part:part) {
-//					showInspecFor(vew:vew, allowNew:true)
-//				}
-//			}
-//		}
-//		else {
-//			atIns(4, warning("Inspector for '\(name)' could not be opened"))
-//		}
-	}
-		 /// Show an Inspec for a vew.
-		/// - Parameters:
-	   ///  - vew: vew to inspec
-	  ///   - allowNew: window, else use existing
-	 mutating func showInspecFor(vew:Vew, allowNew:Bool) {
-		let vewsInspec			= Inspec(vew:vew)
-		var window : NSWindow?	= nil
+//	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
+//		print("modelDispatch(fwEvent: to:")
+//	}
 
-		if let iw				= inspecWindow {		// New, less functional manner
-			iw.close()
-			self.inspecWindow	= nil
-		} else {										// Old broken way
-			 // Find an existing NSWindow for the inspec
-			window 				= inspecWin4vew[vew]	// Does one Exist?
-			if window == nil,								// no,
-			  !allowNew,									// Shouldn't create
-			  let lv			= inspecLastVew {
-				window			= inspecWin4vew[lv]				// try LAST
-			}
-		}
-
-		// PW+4: How do I access MainMenu from inside SwiftUI
-		// PW3: What is the right way to display vewsInspec? as popup?, window?, WindowGroup?...
-		// restructure with
-		if window == nil {								// must make NEW
-			let hostCtlr		= NSHostingController(rootView:vewsInspec)		// hostCtlr.view.frame	= NSRect()
-			 // Create Inspector Window (Note: NOT SwiftUI !!)
-			window				= NSWindow(contentViewController:hostCtlr)	// create window
-			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
-			window!.contentViewController = hostCtlr		// if successful
-		}
-		guard let window = window else { fatalError("Unable to fine NSWindow")	}
-
-				// Title window
-		window.title			= vew.part.fullName
-		window.subtitle			= "Slot\(vew.vewBase()?.slot ?? -1)"
-
-				// Position on screen: Quite AD HOC!!
-		window.orderFront(self)				// Doesn't work -- not front when done!
-		window.makeKeyAndOrderFront(self)
-		window.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
-
-			// Remember window for next creation
-		inspecWindow			= window		// activate New way
-		inspecWin4vew[vew]		= window		// activate Old way
-		inspecLastVew			= vew			// activate Old way
-	}
-
-	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
-		print("modelDispatch(fwEvent: to:")
-	}
-
-	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
-bug
-	//	updateDocConfigs(from:partBase.ansConfig)	// This time including rootScn
-
+//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
+//	//	updateDocConfigs(from:partBase.ansConfig)	// This time including rootScn
 //	//			// Build Views:
-///*x*/	rootScn.updateVews(fromRootPart:parts, reason:"InstallRootPart")
-	
+//		rootScn.updateVews(fromRootPart:parts, reason:"InstallRootPart")
 //		displayName				= partBase.title
 //		window0?.title			= displayName									//makeInspectors()
 //		makeInspectors()
-//
-//		//			// Start Up Simulation:
 //		parts.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
-	}
+//	}
 
 	// MARK: - 14. Building
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-		factalsModel.log.log(banner:banner, format_, args, terminator:terminator)
+bug//	factalsModel.log.log(banner:banner, format_, args, terminator:terminator)
 	}
 	
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .line:
-			return factalsModel.log.indentString() + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny
+			return "factalsModel.log.indentString()" + " FactalsDocument"				// Can't use fwClassName; FwDocument is not an FwAny
 		case .tree:
-			return factalsModel.log.indentString() + " FactalsDocument" + "\n"
+			return "factalsModel.log.indentString()" + " FactalsDocument" + "\n"
 		default:
-			return ppStopGap(mode, aux)		// NO, try default method
+			return "ppStopGap(mode, aux)"		// NO, try default method
 		}
 	}
 }

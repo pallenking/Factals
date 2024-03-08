@@ -22,17 +22,21 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 	var body: some View {
 		VStack(alignment:.leading)  {					// Add Class Inspectors
 			let inheritedClasses:[String] = vew.part.inheritedClasses
+//			ForEach inheritedClasses { cl in		// need , id: \.id
 			ForEach (0..<inheritedClasses.count) { claz in		// need , id: \.id
+				let cl			= inheritedClasses[claz]
 
 				 // Dispatch via switch
-				let cl			= inheritedClasses[claz]
-				Text("bug")
+				//InspecNet(			  net:vew.part as! Net)
+				Text("bug wgwsav")
 //				switch cl {
+//				// Static method 'buildExpression' requires that
+//				//		'InspecNet' conform to 'TableRowContent'
 //				case "Net":		  InspecNet(			  net:vew.part as! Net)
 //
 //				case "Bulb": 	  InspecBulb(			 bulb:vew.part as! Bulb)
 //				case "Sequence":  InspecSequence(	 sequence:vew.part as! Sequence)
-//				case "KNorm": 	  InspecKNorm(		kNorm:vew.part as! KNorm)
+//				case "KNorm": 	  InspecKNorm(			kNorm:vew.part as! KNorm)
 //				case "Multiply":  InspecMultiply(	 multiply:vew.part as! Multiply)
 //				case "Hamming":   InspecHamming(	  hamming:vew.part as! Hamming)
 //				case "Bayes":	  InspecNothing(	className:cl)
@@ -52,6 +56,33 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 //				case "Part":	  InspecPart(		     part:vew.part, vew:vew)
 //				default:		  InspecUndefined(  className:cl)
 //				}
+
+
+		//		if cl=="Net" 		{ InspecNet(			  net:vew.part as! Net)		}
+		//		if cl=="Bulb"		{ InspecBulb(			 bulb:vew.part as! Bulb)	}
+		//		if cl=="Sequence"	{ InspecSequence(	 sequence:vew.part as! Sequence)}
+		//		if cl=="KNorm"		{ InspecKNorm(			kNorm:vew.part as! KNorm)	}
+		//		if cl=="Multiply"	{ InspecMultiply(	 multiply:vew.part as! Multiply)}
+		//		if cl=="Hamming"	{ InspecHamming(	  hamming:vew.part as! Hamming)	}
+//		//		if cl=="Bayes"		{ InspecNothing(	className:cl)}
+		//		if cl=="MinAnd"		{ InspecMinAnd(		   minAnd:vew.part as! MinAnd)	}
+		//		if cl=="MaxOr"		{ InspecMaxOr( 			maxOr:vew.part as! MaxOr)	}
+		//		if cl=="Broadcast"	{ InspecBroadcast(	broadcast:vew.part as! Broadcast)}
+		//														//
+		//		if cl=="Splitter"	{ InspecSplitter(    splitter:vew.part as! Splitter)}
+		//		if cl=="Mirror"		{ InspecMirror(		   mirror:vew.part as! Mirror)	}
+		//		if cl=="Atom"		{ InspecAtom(	  	     atom:vew.part as! Atom, vew:vew)}
+		//														//
+		//		if cl=="PartBase"	{ InspecRootPartBase(   parts:vew.part as! PartBase, vew:vew)}
+		//														//
+		//		if cl=="Box"		{ InspecNothing(	className:cl)					}
+		//		if cl=="CommonPart" { InspecCommonPart(commonPart:vew.part as! CommonPart)}
+		//		if cl=="Port"		{ InspecPort(		     port:vew.part as! Port)	}
+		//		if cl=="Part"		{ InspecPart(		     part:vew.part, vew:vew)	}
+
+
+
+
 				if cl != "Part" {
 					Divider().background(Color.gray)
 				}

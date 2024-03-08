@@ -83,13 +83,14 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 			otherLines:{ deapth in
 				guard let factalsModel else {	return ""						}
 				var rv			= factalsModel.ppFactalsState(deapth:deapth-1)
-				 // Inspectors:
-				rv				+= "---- inspecWin4vew omitted -----"
-//				if self.inspecWin4vew.count > 0 {
+// moved to FactalsModel
+//				 // Inspectors:
+//				rv				+= "---- inspecWindow4vew omitted -----"
+//				if self.inspecWindow4vew.count > 0 {
 //					rv			+= DOClog.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
 //					DOClog.nIndent += 1
-//					for inspec in self.inspecWin4vew.keys {					//self.inspecWin4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-//						let win	= self.inspecWin4vew[inspec]
+//					for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
+//						let win	= self.inspecWindow4vew[inspec]
 //						rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
 //					}
 //					DOClog.nIndent -= 1
@@ -112,7 +113,7 @@ bug; //never used?
 			//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
 			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
 			otherLines:{ deapth in
-				var rv			= "truncated"//  self.parts.ppFactalsState(deapth:deapth-1) // Controller:
+				var rv			= "truncated"//  self.partBase.ppFactalsState(deapth:deapth-1) // Controller:
 				 // Window Controllers
 			//	for windowController in self.windowControllers {
 			//		rv		+= windowController.ppFactalsState(deapth:deapth-1)
@@ -143,21 +144,33 @@ extension Library : FactalsStatus {							///Library or ///Tests01, ...
 		return ppFactalsStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
 	}
 }
-extension FactalsModel : FactalsStatus	{
-	///FactalsModel
+extension FactalsModel : FactalsStatus	{						///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= "\(vewBases.count) bases "
 		return ppFactalsStateHelper("FactalsModel ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in
+
 				 // Controller:
-				var rv			= self.parts.ppFactalsState(deapth:deapth-1)		//Actor
+				var rv			= self.partBase.ppFactalsState(deapth:deapth-1)		//Actor
 				rv				+= self.simulator.ppFactalsState(deapth:deapth-1)
 				for vews in self.vewBases {
 					rv			+= vews.ppFactalsState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFactalsState(deapth:deapth-1)
 				rv				+= self.docSound.ppFactalsState(deapth:deapth-1)
+
+				 // Inspectors:
+				//rv			+= "---- inspecWindow4vew omitted -----"
+				if self.inspecWindow4vew.count > 0 {
+					rv			+= self.log.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
+					self.log.nIndent += 1
+					for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
+						let win	= self.inspecWindow4vew[inspec]
+						rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
+					}
+					self.log.nIndent -= 1
+				}
 				return rv
 			},
 			deapth:deapth-1)

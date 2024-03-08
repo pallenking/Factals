@@ -12,7 +12,7 @@ struct FactalsModelBar: View {
 	
 	var body: some View {
 		VStack {
-			RootPartBar(partBase: $factalsModel.parts)
+			RootPartBar(partBase: $factalsModel.partBase)
 			SimulatorBar(simulator:$factalsModel.simulator)
 		}
 		.padding(4)
