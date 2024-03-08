@@ -627,7 +627,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	}
 
 	/// Class Inheritance Ancestor Array, from self up to but excluding 'inside'
-	var inheritedClasses : [String] {
+	func inheritedClasses() -> [String] {
+//	var inheritedClasses : [String] {
 		var rv 	: [String]		= []
 		var curClass:Part.Type? = type(of:self)	
 		repeat { 

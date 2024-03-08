@@ -21,13 +21,17 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 	@ObservedObject var vew:Vew	// arg: object to be inspected.
 	var body: some View {
 		VStack(alignment:.leading)  {					// Add Class Inspectors
-			let inheritedClasses:[String] = vew.part.inheritedClasses
+			let inheritedClasses:[String] = vew.part.inheritedClasses()
+
+		//	ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+	//		ForEach (inheritedClasses) { cl in
 			ForEach (0..<inheritedClasses.count) { i in		// need , id: \.id
 				let cl			= inheritedClasses[i]
 
 				 // Dispatch via switch
+				Text("\(cl): ...")	// BROKEN, display blocked
+
 				//InspecNet(			  net:vew.part as! Net)
-				Text("\(cl): ...")	//display blocked
 //				switch cl {
 //				// Static method 'buildExpression' requires that
 //				//		'InspecNet' conform to 'TableRowContent'
