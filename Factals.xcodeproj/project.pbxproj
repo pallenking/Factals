@@ -152,6 +152,7 @@
 		9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
+		9FC4AAEA2B9CCFCB0094B06A /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */; };
 		9FDF886829ACFA1700776ABB /* DebugAids.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDF886729ACFA1700776ABB /* DebugAids.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
 		9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */; };
@@ -717,6 +718,7 @@
 				9F417F2A28EB94470047B359 /* Port.swift in Sources */,
 				9F84C9F22AF2FDC6002BD0C1 /* BundleTap.swift in Sources */,
 				9F417F3428EB94710047B359 /* InspecAllClasses.swift in Sources */,
+				9FC4AAEA2B9CCFCB0094B06A /* SceneKitView.swift in Sources */,
 				9F417F0B28EB93D80047B359 /* LangDeser.swift in Sources */,
 				9F417F1728EB94050047B359 /* Tunnel.swift in Sources */,
 				9F417F5628EB95590047B359 /* CG++.swift in Sources */,

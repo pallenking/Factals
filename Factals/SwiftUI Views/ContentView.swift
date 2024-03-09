@@ -14,10 +14,8 @@ struct ContentView: View {
 	}
 }
 
-
 struct FactalsModelView: View {
 	@Binding	var factalsModel : FactalsModel		// not OK here
-	@State		var isLoaded	= false
 	@State		var mouseDown	= false
 
 	var body: some View {
@@ -55,11 +53,10 @@ struct FactalsModelView: View {
 								//				acting as the single source of truth.
 								
 								////////////////////////////// Testing	$publisher/	$view
-								
-								
 							if trueF {//falseF {//trueF {//
-						
 								SceneKitView(scnBase:scnBase)		 // New Way
+								 .frame(maxWidth: .infinity)
+								 .border(.black, width:1)
 							} else {
 								SceneView(							 // Old Way
 									scene:scnBase.scnScene,
@@ -72,19 +69,6 @@ struct FactalsModelView: View {
 								)
 								 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
 								 .border(.black, width:1)
-								 .onChange(of:isLoaded) { oldVal, newVal in				// compiles, seems OK
-								 	print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
-								 }
-								 .onAppear { 			//setupHitTesting
-								 	let scnBase			= vewBase.scnBase
-								 	let bind_fwView		= scnBase.fwView		//Binding<FwView?>
-								 	var y				= "nil"
-								 	if let fwView		= bind_fwView.wrappedValue,
-								 	   let s			= fwView.scnBase {
-								 		y				= s.pp()
-								 	}
-								 	print("\(scnBase).fwView.scnBase = \(y)")
-								 }
 							}
 						}
 						VewBar(vewBase:vewBase)

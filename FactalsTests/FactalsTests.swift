@@ -24,23 +24,21 @@ final class FactalsTests: XCTestCase {
 		print("-------------- XCTest tearDownWithError code: --------------------")
 	}
 
-//	func testLldb() {
-//		let x 					= LLDBParts
-//		lldbPrint(x, mode:.tree, [:])
-//	}
+	func testLldb() {
+		let x 					= LLDBParts
+		lldbPrint(x, mode:.tree, [:])
+	}
 	func testUid() {	// incomplete
-bug
-//		let objectNs 			= FactalsModel()
-//		let objectSwift			= Part()
-//		let strNs				= pseudoAddressString(objectNs)
-//		let strSwift			= pseudoAddressString(objectSwift)
-//		print("pseudoAddress[ns:\(strNs), swift:\(strSwift)]")
+		let objectNs 			= FactalsModel(fromRootPart: PartBase(tree:Part()))
+		let objectSwift			= Part()
+		let strNs				= pseudoAddressString(objectNs)
+		let strSwift			= pseudoAddressString(objectSwift)
+		print("pseudoAddress[ns:\(strNs), swift:\(strSwift)]")
 	}
 
 //	class Simulatee : NSObject, FwAny {					// won't compile
 //	class Simulatee : NSObject 		  {		// FwAny	// HANGS
 	class Simulatee : 		 	FwAny {					// WORKS
-
 		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 			//ppCommon(mode, aux)		// NO, try default method
 			return "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ FSIVjsd"
@@ -84,7 +82,7 @@ bug
 		let n2 = n1.pp(.uidClass)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
-bug;	let o0 = PartBase(tree:Part())
+		let o0 = PartBase(tree:Part())
 		let o1 = VewBase(forPartBase:o0)
 		let o2 = o1.pp(.uidClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong

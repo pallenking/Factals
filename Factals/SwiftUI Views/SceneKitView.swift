@@ -29,6 +29,21 @@ struct SceneKitView: NSViewRepresentable {
 
 /////////////////////////  SCRAPS   //////////////////////////////////
 
+//	@State		var isLoaded	= false
+//								 .onChange(of:isLoaded) { oldVal, newVal in				// compiles, seems OK
+//								 	print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
+//								 }
+		//						 .onAppear { 			//setupHitTesting
+		//						 	let scnBase			= vewBase.scnBase
+		//						 	let bind_fwView		= scnBase.fwView		//Binding<FwView?>
+		//						 	var y				= "nil"
+		//						 	if let fwView		= bind_fwView.wrappedValue,
+		//						 	   let s			= fwView.scnBase {
+		//						 		y				= s.pp()
+		//						 	}
+		//						 	print("\(scnBase).fwView.scnBase = \(y)")
+
+
 //	func makeCoordinator() -> Coordinator {
 //		Coordinator(self)
 //	}

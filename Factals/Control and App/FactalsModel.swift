@@ -25,8 +25,8 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 3. Factory
-	init(fromRootPart rp:PartBase) {											// FactalsModel(fromRootPart rp:PartBase)
-		partBase				= rp
+	init(fromRootPart rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
+		partBase				= rp ?? PartBase(tree:Part())
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

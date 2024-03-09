@@ -4,8 +4,13 @@
 import SceneKit
 import SwiftUI
 
-struct InspecNet : View {		//, TableRowContent
-	typealias TableRowBody = View
+//struct InspecBase : View, TableRowContent {
+//	typealias TableRowBody = InspecBase
+//
+//}
+
+struct InspecNet : View {
+	typealias TableRowBody = InspecNet
 
 	// Net
 	@ObservedObject var net: Net
@@ -127,8 +132,8 @@ struct InspecBroadcast : View {										// Broadcast
 		}//.padding(15).background(Color.yellow)	//blue
 	}
 }
-
-struct InspecSplitter : View {										 // Splitter
+struct
+	   InspecSplitter : View {										 // Splitter
 	@ObservedObject var splitter:Splitter
 	var body: some View {
 		HStack {
@@ -206,8 +211,8 @@ bug;				let port	= atom.ports[x]!
 */
 	}
 }
-
-struct InspecRootPartBase : View {									 // InspecRoot
+struct
+	   InspecRootPartBase : View {									 // InspecRoot
 	@ObservedObject var partBase:PartBase
 	@ObservedObject var vew:Vew				// For Inspec navigation
 
@@ -242,8 +247,8 @@ struct InspecRootPartBase : View {									 // InspecRoot
 		}
 	}
 }
-
-struct InspecCommonPart : View {								   // CommonPart
+struct
+	   InspecCommonPart : View {								   // CommonPart
 	@ObservedObject var commonPart: CommonPart
 	var body: some View {	// empty, nothing inspectable
 		HStack {
