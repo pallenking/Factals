@@ -628,8 +628,8 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 		 // Find vews of NSEvent
-		guard let nsView 		= NSApp.keyWindow?.contentView else { return nil}
-		let locationInRoot		= nsView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+		guard let contentView 	= NSApp.keyWindow?.contentView else { return nil}
+		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 		guard let tree			= vewBase.scnBase.tree else { return nil		}
 		guard let fwView		= vewBase.scnBase.fwView else { fatalError("vewBase.scnBase.fwView is nil")	}

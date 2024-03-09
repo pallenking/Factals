@@ -1388,7 +1388,8 @@ func foo () {
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
-					factalsModel.showInspecFor(vew:vew, allowNew:alt)
+					trueF ? print("Want to show Inspec for Vew '\(vew.pp(.fullName))'") :
+						factalsModel.showInspecFor(vew:vew, allowNew:alt)
 					rv			= true
 				}
 							// Double Click: show/hide insides
