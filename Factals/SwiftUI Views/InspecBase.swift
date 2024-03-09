@@ -19,74 +19,52 @@ let d2formatter					= { () -> NumberFormatter in
  // MAIN ENTRY POINT:
 struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 	@ObservedObject var vew:Vew	// arg: object to be inspected.
+
+	@ViewBuilder
+	func inspectionViewBuilder(cl:String) -> some View {
+				 // Dispatch via switch
+		switch cl {
+			case "Net":		  InspecNet(			  net:vew.part as! Net)
+				
+			case "Bulb": 	  InspecBulb(			 bulb:vew.part as! Bulb)
+			case "Sequence":  InspecSequence(	 sequence:vew.part as! Sequence)
+			case "KNorm": 	  InspecKNorm(			kNorm:vew.part as! KNorm)
+			case "Multiply":  InspecMultiply(	 multiply:vew.part as! Multiply)
+			case "Hamming":   InspecHamming(	  hamming:vew.part as! Hamming)
+			case "Bayes":	  InspecNothing(	className:cl)
+			case "MinAnd": 	  InspecMinAnd(		   minAnd:vew.part as! MinAnd)
+			case "MaxOr": 	  InspecMaxOr( 			maxOr:vew.part as! MaxOr)
+			case "Broadcast": InspecBroadcast(	broadcast:vew.part as! Broadcast)
+				
+			case "Splitter":  InspecSplitter(    splitter:vew.part as! Splitter)
+			case "Mirror":	  InspecMirror(		   mirror:vew.part as! Mirror)
+			case "Atom":	  InspecAtom(	  	     atom:vew.part as! Atom, vew:vew)
+				
+		//	case "PartBase":  InspecRootPartBase(   parts:vew.part as! PartBase, vew:vew)
+				
+			case "Box":		  InspecNothing(	className:cl)
+			case "CommonPart":InspecCommonPart(commonPart:vew.part as! CommonPart)
+			case "Port":	  InspecPort(		     port:vew.part as! Port)
+			case "Part":	  InspecPart(		     part:vew.part, vew:vew)
+			default:		  InspecUndefined(  className:cl)
+		}
+	}
+
+
 	var body: some View {
 		VStack(alignment:.leading)  {					// Add Class Inspectors
-			let inheritedClasses:[String] = vew.part.inheritedClasses()
-	//		ForEach (inheritedClasses) { cl in
-
-			ForEach (0..<inheritedClasses.count) { i in		// need , id: \.id
-				let cl			= inheritedClasses[i]
-
-				Text("\(cl): ...")	// BROKEN, display blocked
-//				if cl=="Net" 		{ InspecNet(			  net:vew.part as! Net)		}
-//				if cl=="Bulb"		{ InspecBulb(			 bulb:vew.part as! Bulb)	}
-//				if cl=="Sequence"	{ InspecSequence(	 sequence:vew.part as! Sequence)}
-//				if cl=="KNorm"		{ InspecKNorm(			kNorm:vew.part as! KNorm)	}
-//				if cl=="Multiply"	{ InspecMultiply(	 multiply:vew.part as! Multiply)}
-//				if cl=="Hamming"	{ InspecHamming(	  hamming:vew.part as! Hamming)	}
-////				if cl=="Bayes"		{ InspecNothing(	className:cl)}
-//				if cl=="MinAnd"		{ InspecMinAnd(		   minAnd:vew.part as! MinAnd)	}
-//				if cl=="MaxOr"		{ InspecMaxOr( 			maxOr:vew.part as! MaxOr)	}
-//				if cl=="Broadcast"	{ InspecBroadcast(	broadcast:vew.part as! Broadcast)}
-//																//
-//				if cl=="Splitter"	{ InspecSplitter(    splitter:vew.part as! Splitter)}
-//				if cl=="Mirror"		{ InspecMirror(		   mirror:vew.part as! Mirror)	}
-//				if cl=="Atom"		{ InspecAtom(	  	     atom:vew.part as! Atom, vew:vew)}
-//																//
-//				if cl=="PartBase"	{ InspecRootPartBase(   parts:vew.part as! PartBase, vew:vew)}
-//																//
-//				if cl=="Box"		{ InspecNothing(	className:cl)					}
-//				if cl=="CommonPart" { InspecCommonPart(commonPart:vew.part as! CommonPart)}
-//				if cl=="Port"		{ InspecPort(		     port:vew.part as! Port)	}
-//				if cl=="Part"		{ InspecPart(		     part:vew.part, vew:vew)	}
-
-
-				 // Dispatch via switch
-//				switch cl {
-//				// Static method 'buildExpression' requires that
-//				//		'InspecNet' conform to 'TableRowContent'
-//				case "Net":		  InspecNet(			  net:vew.part as! Net)
-//
-//				case "Bulb": 	  InspecBulb(			 bulb:vew.part as! Bulb)
-//				case "Sequence":  InspecSequence(	 sequence:vew.part as! Sequence)
-//				case "KNorm": 	  InspecKNorm(			kNorm:vew.part as! KNorm)
-//				case "Multiply":  InspecMultiply(	 multiply:vew.part as! Multiply)
-//				case "Hamming":   InspecHamming(	  hamming:vew.part as! Hamming)
-//				case "Bayes":	  InspecNothing(	className:cl)
-//				case "MinAnd": 	  InspecMinAnd(		   minAnd:vew.part as! MinAnd)
-//				case "MaxOr": 	  InspecMaxOr( 			maxOr:vew.part as! MaxOr)
-//				case "Broadcast": InspecBroadcast(	broadcast:vew.part as! Broadcast)
-//
-//				case "Splitter":  InspecSplitter(    splitter:vew.part as! Splitter)
-//				case "Mirror":	  InspecMirror(		   mirror:vew.part as! Mirror)
-//				case "Atom":	  InspecAtom(	  	     atom:vew.part as! Atom, vew:vew)
-//
-//				case "PartBase":  InspecRootPartBase(   parts:vew.part as! PartBase, vew:vew)
-//
-//				case "Box":		  InspecNothing(	className:cl)
-//				case "CommonPart":InspecCommonPart(commonPart:vew.part as! CommonPart)
-//				case "Port":	  InspecPort(		     port:vew.part as! Port)
-//				case "Part":	  InspecPart(		     part:vew.part, vew:vew)
-//				default:		  InspecUndefined(  className:cl)
-//				}
-
-				if cl != "Part" {
-					Divider().background(Color.gray)
-				}
+			let inheritedClasses:[String] = vew.part.inheritedClasses()//["Net"]//
+			ForEach (inheritedClasses, id:\.self) { cl in
+				inspectionViewBuilder(cl:cl)
 			}
-		//	Divider().background(Color.gray)
-		//	ColorsPalette()
-		//	PickerStyles()
+
+			//	if cl != "Part" {
+			//		Divider().background(Color.gray)
+			//	}
+			//}
+			Divider().background(Color.gray)
+			ColorsPalette()
+			PickerStyles()
 		//	InspecTest(inspec:inspec)
 		}.padding(10)
 	}

@@ -42,8 +42,8 @@ struct FactalsModelView: View {
 								// scenkit -> write models back to viewmodel. s
 								// viewmodel single source of truth.
 								
-								// was: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-								// now: SceneView 	native SwiftUI
+								// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+								// now       : SceneView 	native SwiftUI (not full-featured)
 								
 								//	SceneView
 								//		that communicates with a ViewModel
@@ -81,3 +81,21 @@ struct FactalsModelView: View {
 		}
 	}
 }
+/*
+struct SizeEnvironmentKey: EnvironmentKey {
+    static var defaultValue: CGSize = .zero
+}
+extension EnvironmentValues {
+    var windowSize: CGSize {
+        get { self[SizeEnvironmentKey.self] }
+        set { self[SizeEnvironmentKey.self] = newValue }
+    }
+}
+extension View {
+    func insertSizeIntoEnvironment(_ size: CGSize) -> some View {
+        environment(\.windowSize, size)
+    }
+}
+
+@Environment(\.windowSize) private var size
+ */
