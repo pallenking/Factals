@@ -58,7 +58,7 @@ struct SimulatorBar : View {
 				Button(label:{	Text("start")	})
 				{	simulator.simEnabled = true
 					simulator.startChits = 4								}
-				Button(label:{	Text("step")								})
+				Button(label:{	Text("stop")								})
 				{	simulator.simEnabled = true
 					simulator.simulateOneStep()
 					simulator.simEnabled = false							}

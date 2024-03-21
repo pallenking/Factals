@@ -620,8 +620,8 @@
             filePath = "Factals/Control and App/FactalsApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "FactalsApp"
             landmarkType = "14">
          </BreakpointContent>
@@ -636,8 +636,8 @@
             filePath = "Factals/Control and App/FactalsApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "FactalsApp"
             landmarkType = "14">
          </BreakpointContent>
@@ -831,6 +831,68 @@
             startingLineNumber = "28"
             endingLineNumber = "28"
             landmarkName = "inspectionViewBuilder(cl:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B73950B1-ED25-4C6B-9EC2-9A76FEF1AF6E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "B73950B1-ED25-4C6B-9EC2-9A76FEF1AF6E - 8d3cff02070473c2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.FactalsApp.LibraryMenuElement&gt;&gt;, Swift.Int, SwiftUI.Button&lt;SwiftUI.Text&gt;&gt; in closure #2 () -&gt; SwiftUI.CommandMenu&lt;SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.FactalsApp.LibraryMenuElement&gt;&gt;, Swift.Int, SwiftUI.Button&lt;SwiftUI.Text&gt;&gt;&gt; in Factals.FactalsApp.body.getter : some"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48">
+               </Location>
+               <Location
+                  uuid = "B73950B1-ED25-4C6B-9EC2-9A76FEF1AF6E - 3202ae3b65065cfe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (SwiftUI.Binding&lt;Factals.FactalsApp.LibraryMenuElement&gt;) -&gt; SwiftUI.Button&lt;SwiftUI.Text&gt; in closure #1 () -&gt; SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.FactalsApp.LibraryMenuElement&gt;&gt;, Swift.Int, SwiftUI.Button&lt;SwiftUI.Text&gt;&gt; in closure #2 () -&gt; SwiftUI.CommandMenu&lt;SwiftUI.ForEach&lt;SwiftUI.Binding&lt;Swift.Array&lt;Factals.FactalsApp.LibraryMenuElement&gt;&gt;, Swift.Int, SwiftUI.Button&lt;SwiftUI.Text&gt;&gt;&gt; in Factals.FactalsApp.body.getter : some"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E5562A78-05D5-4225-8DAF-DC9BA25D5C31"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "buildSceneMenus(nsMenu:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

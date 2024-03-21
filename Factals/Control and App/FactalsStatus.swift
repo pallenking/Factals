@@ -82,7 +82,7 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 			myLine: factalsModel == nil ? "factalsModel is nil" : "",
 			otherLines:{ deapth in
 				guard let factalsModel else {	return ""						}
-				var rv			= factalsModel.ppFactalsState(deapth:deapth-1)
+				let rv			= factalsModel.ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth
