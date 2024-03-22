@@ -490,10 +490,30 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		markTree(dirty:.vew)				// ? tree has dirty.vew
 		markTree(dirty:child.dirty)			// ? tree also inherits child's other dirtynesses
 	}										// (child is not dirtied any more)
-	func removeChildren() {
-		children.removeAll()
-		markTree(dirty:.vew)
+//	func removeChildren() {
+//		children.removeAll()
+//		markTree(dirty:.vew)
+//	}
+	/// Groom Part tree after construction.
+	/// - Parameters:
+	///   - parent_: ---- if known
+	///   - root_: ---- set in Part
+	func groomModel(parent p:Part?, root r:RootPart?)  {
+		parent					= p
+		if root == nil || root !== r {
+			print("This will probably ERR ..... ####### ")
+			root 				=  r					// from arg (if there)
+								?? self as? RootPart 	// me, I'm a RootPart
+								?? child0 as? RootPart	// if PolyWrapped
+		}
+
+		markTree(dirty:.vew)							// set dirty vew
+		 // Do whole tree
+		for child in children {							// do children
+			child.groomModel(parent:self, root:root)		// ### RECURSIVE
+		}
 	}
+
 
 	func groomModelPostWires(partBase:PartBase)  {
 		 // Check for duplicate names:

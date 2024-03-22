@@ -281,11 +281,11 @@ extension Leaf {	/// Generate Common Leafs
 //		case .array(let leafArray):
 //			let _ = leafArray	// silences warning
 //			fatalError("should never happen")
-//		default:
-//			fatalError("LeafKind \(leafKind.self) should never happen")
+		default:
+			fatalError("LeafKind \(leafKind.self) should never happen")
 		}
-bug		//	groomModel(parent:nil)	// groom: add ports[] from children[]
-		//fixPorts()
+		groomModel(parent:nil)	// groom: add ports[] from children[]
+bug	//	fixPorts()
 		nop
 	}
 }

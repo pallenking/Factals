@@ -246,7 +246,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	func buildSceneMenu() -> [LibraryMenuElement] { []	}
 	mutating func buildSceneMenus(nsMenu:NSMenu?) {	//() {//LibraryMenuElement
 		if falseF { return }			//trueF//falseF// for debugging
-		guard nsMenu != nil else { print("sceneMenu==nil, not filled in by IB (2)"); return }
+		guard nsMenu != nil else { atMen(9, log("sceneMenu==nil, not filled in by IB (2)")); return }
 
 		 // Get all known tests:
 		var nsMenu4Path : [String:NSMenu] = [:] 	// Hash of all experiments from HaveNWant:	.removeAll()

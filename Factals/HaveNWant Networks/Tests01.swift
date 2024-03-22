@@ -837,9 +837,9 @@ r("+ All various flips A",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx",
 		Broadcast([n:"a",share:"b"   , jog:j]), //*Link+S->S
 	] ]),
 	Net([n:"n7", placeMy:"linky", parts:[
-		Broadcast([n:"t1",f:1	]),
-//		Link([S:"t1", P:"t2"]),
-		Broadcast([n:"t2", flip:0, phys:[gravity:1], jog:"4 0 0"]),
+		Broadcast([n:"t1", f:1	]),
+//bug	Link([S:"t1", P:"t2"]),
+		Broadcast([n:"t2", phys:[gravity:1], jog:"4 0 0"]),
 	] ]),
 ] ]) } )
 
@@ -852,7 +852,7 @@ xxr("- explicit Link broken",  e + selfiePole(s:30, u:30), { Net([placeMy:"stack
 ] ]) } )
 
 
-xxr("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
+r("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
 	Net([placeMy:"stackx", parts:[
 		Net([placeMy:"linky", parts:[	// AC
 			Broadcast([n:"ma", P:["x,l:5,t:dual"],jog:"0 0 2"]),	// A
@@ -1040,13 +1040,20 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
+xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
 	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
 	Mirror([n:"t1", f:1, P:"t2,l:4" ]),
 //	Mirror([n:"t2"]),
 //	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
 ] ]) })
+	xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0), { Net([placeMy:"linky", parts:[
+		Mirror([n:"t0", P:"t1.P", "gain":-1+2*decay, "offset":1-decay]),
+		Sequence([n:"t1", 			f:1]),
+		Mirror([n:"t2", P:"t1,l:4", f:1, jog:"3 -2 " ]),
+		Mirror([n:"t3", P:"t1,l:4", f:1 ]),
+	] ]) })
+
 	 // Use Inspec to change offset
 	r("LinkPort.out BUG231219", eSimX + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([f:0, placeMy:"linky", parts:[
 		Mirror(   [n:"t2", "gain":0, "offset":1]),
@@ -1285,6 +1292,7 @@ r(e + selfiePole(s:0,u:0), { Net([placeMy:"linky", parts:[
  // MARK: - * Links Positioning
 state.scanSubMenu				= "Links Positioning"
 // 20210111:link positions bad
+// BROKEN:
 r("+'f': link positioning", e + selfiePole(s:90,u:5) + ["animatePhysics":false], { Net([placeMy:"linky", parts:[
 	Net([n:"n1", placeMy:"stackZ", jog:"0 0 0", parts:[
 		MaxOr([n:"t1a", f:1]),
@@ -1354,7 +1362,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,

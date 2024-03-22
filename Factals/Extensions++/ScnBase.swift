@@ -13,10 +13,10 @@ class ScnBase : NSObject {
 	var tree	 : SCNNode?
 	{	didSet {				setRootNodeChild1(from:tree)					}}
 	func setRootNodeChild1 (from:SCNNode?) {
-		let scnRootNode 		= self.scnScene.rootNode	// from SCNScene's binding
-		scnRootNode.removeAllChildren()
+		let scnSceneRootNode 	= self.scnScene.rootNode	// from SCNScene's binding
+		scnSceneRootNode.removeAllChildren()
 		guard let tree 			else { return	}			// no tree, no children
-		scnRootNode.addChildNode(tree)
+		scnSceneRootNode.addChildNode(tree)
 	}
 	var fwView	 : FwView?					// SCNView  of this ScnBase
 	weak
@@ -30,7 +30,7 @@ class ScnBase : NSObject {
 	 // MARK: - 3.1 init
 	init(scnScene s:SCNScene?=nil) {				// ScnBase(tree
 		self.scnScene			= s ?? SCNScene()	// get scene
-		print("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))")
+//		atRve(8 vews.factalsModel.logd("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))"))
 
  		super.init()
 		setRootNodeChild1 (from:tree)
