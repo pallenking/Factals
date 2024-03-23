@@ -57,7 +57,8 @@ extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(appGlobals2)		// inject in environment
+			 .environmentObject(appGlobals2)	// inject in environment
+			 .environmentObject(appGlobalsX)	// inject in environment
 			 .onOpenURL { url in				// Load a document from the given URL
 				openDocuments.append(FactalsDocument(fileURL:url))
 			 }
@@ -105,8 +106,8 @@ struct FactalsApp: Uid, FwAny {
 	@State private var openDocuments: [FactalsDocument] = []
 	@State var appGlobalsX = AppGlobalsX()
 
-	@Observable
-	class AppGlobalsX {
+//	@Observable
+	class AppGlobalsX : ObservableObject {
 		// MARK: -A Configuration
 		// MARK: -B Library Menu:
 		var libraryMenu : [LibraryMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	LibraryMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct VewBar: View {
 	@Binding var vewBase : VewBase
-	@EnvironmentObject var appGlobals2: AppGlobals2		// Access
-//	@EnvironmentObject var docGlobals: DocGlobals
+	@EnvironmentObject var appGlobals2: AppGlobals2				// Access
+	@EnvironmentObject var appGlobalsX: FactalsApp.AppGlobalsX	// Access
 
 	var body: some View {
 		VStack {
