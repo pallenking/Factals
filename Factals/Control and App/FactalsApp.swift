@@ -43,15 +43,18 @@ extension FactalsApp : App {
 				openDocuments.append(FactalsDocument(fileURL:url))
 			 }
 		}
+//		 .onChange(of: scenePhase) { phase in
+//			print(phase)
+//		 }
 		 .commands {
 			CommandMenu("Library") {
-				ForEach($libraryMenu) { item in				// [LibraryMenuElement]
+				ForEach(viewModelX.libraryMenu) { item in
 					Button {
 						let libName = "entry\(item.id)"
 						print("======== SceneMenu \(libName):")
 //						document = FactalsDocument(fromLibrary:libName)
 					} label: {
-						Text("foo")//item.name)			// + ":"
+						Text(item.name)
 					//	Image(systemName: item.imageName)
 					}
 //					switch item {	//default: nop
@@ -85,6 +88,72 @@ struct FactalsApp: Uid, FwAny {
 
 	@State private var document: FactalsDocument? = nil
 	@State private var openDocuments: [FactalsDocument] = []
+	@State var viewModelX = ViewModelX()
+	@Environment(\.scenePhase) var scenePhase
+
+	@Observable
+	class ViewModelX {
+		
+		// MARK: -X.7 Make Scene Menu
+		var libraryMenu : [LibraryMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	LibraryMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+		struct LibraryMenuElement : Identifiable {
+			let crux : Bool
+			let id: Int
+			let name: String
+			let imageName: String? = nil
+		}
+		init() {
+			libraryMenu = buildSceneMenus()
+		}
+		func buildSceneMenus() -> [LibraryMenuElement] {	//() {//LibraryMenuElement nsMenu:NSMenu?=nil
+			if falseF { return [] }			//trueF//falseF// for debugging
+			
+			// Get all known tests:
+//			var nsMenu4Path : [String:NSMenu] = [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
+			var bogusLimit			= 5//500000//500000//10// adhoc debug limit on scenes
+			
+			// Get a catalog of all available Library experiments
+	/**/	let catalogs:[ScanElement] = Library.catalog().state.scanCatalog
+
+			var rv					= [LibraryMenuElement]()
+			for catalog in catalogs {
+				if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
+													//				var outNsMenu:NSMenu = self.sceneMenu	//:NSMenu
+				// Insure NSMenuItem exist for all ancestors:
+				let path 		= catalog.subMenu
+				guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
+				
+//				if nsMenu4Path[path] == nil {	// make NSMenu for path if none exists
+//					// Create a NEW MenuItem, with a Menu in it, for path:
+//					let newNsMenuItem = NSMenuItem(title:path,
+//												   action:#selector(DummyApp.scheneAction(_:)),
+//												   keyEquivalent:""
+//					)
+//					newNsMenuItem.tag = catalog.tag + 1		// nsMenuInTree has tag of instigator (??? WHY
+//					newNsMenuItem.submenu = NSMenu(title:path)
+//					/**/			outNsMenu.addItem(newNsMenuItem)// insert into base (currently)
+//					
+//					nsMenu4Path[path] = outNsMenu // remember the nsMenuInTree:
+//				}
+
+				// Make new menu entry:
+//				let menuItem		= NSMenuItem(title:catalog.title,
+//												 action:#selector(DummyApp.scheneAction(_:)),
+//												 keyEquivalent:""
+//				)	//action:#selector(scheneAction(sender:)),
+//				menuItem.tag 		= catalog.tag// + 1
+//				/**/		outNsMenu.addItem(menuItem)	// insert into base (currently)
+//				
+//				atMen(9, log("Built tag:\(catalog.tag)"))		// Build
+
+				let a = LibraryMenuElement(crux:false, id:rv.count, name:catalog.title)
+				rv.append(a)
+			}
+			return rv
+		}
+	}
+
+
 
 	var appConfig : FwConfig
 
@@ -118,7 +187,7 @@ struct FactalsApp: Uid, FwAny {
 		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 
 		 // Configure App with its defaults (Ahead of any documents)
-		buildSceneMenus(nsMenu:sceneMenu)
+// 		buildSceneMenus()
 
 		atApp(3, {
 			log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
@@ -234,57 +303,6 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 		return true
 	}
 
-	 // MARK: - 4.7 Make Scene Menu
-	@State
-	 var libraryMenu : [LibraryMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	LibraryMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
-	struct LibraryMenuElement : Identifiable {
-		let crux : Bool
-		let id: Int
-		let name: String
-		let imageName: String? = nil
-	}
-	func buildSceneMenu() -> [LibraryMenuElement] { []	}
-	mutating func buildSceneMenus(nsMenu:NSMenu?) {	//() {//LibraryMenuElement
-		if falseF { return }			//trueF//falseF// for debugging
-		guard nsMenu != nil else { atMen(9, log("sceneMenu==nil, not filled in by IB (2)")); return }
-
-		 // Get all known tests:
-		var nsMenu4Path : [String:NSMenu] = [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
-		var bogusLimit			= 5//500000//500000//10// adhoc debug limit on scenes
-
-		 // Get a catalog of all available Library experiments
-/**/	let catalogs:[ScanElement] = Library.catalog().state.scanCatalog
-		for catalog in catalogs {
-			if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
-			var outNsMenu:NSMenu = self.sceneMenu	//:NSMenu
-
-			 // Insure NSMenuItem exist for all ancestors:
-			let path 		= catalog.subMenu
-			guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
-
-			if nsMenu4Path[path] == nil {	// make NSMenu for path if none exists
-				 // Create a NEW MenuItem, with a Menu in it, for path:
-				let newNsMenuItem = NSMenuItem(title:path,
-											action:#selector(DummyApp.scheneAction(_:)),
-											keyEquivalent:""
-											)
-				newNsMenuItem.tag = catalog.tag + 1		// nsMenuInTree has tag of instigator (??? WHY
-				newNsMenuItem.submenu = NSMenu(title:path)
-/**/			outNsMenu.addItem(newNsMenuItem)// insert into base (currently)
-
-				nsMenu4Path[path] = outNsMenu // remember the nsMenuInTree:
-			}
-			 // Make new menu entry:
-			let menuItem		= NSMenuItem(title:catalog.title,
-								 			 action:#selector(DummyApp.scheneAction(_:)),
-								 			 keyEquivalent:""
-								 			 )	//action:#selector(scheneAction(sender:)),
-			menuItem.tag 		= catalog.tag// + 1
-/**/		outNsMenu.addItem(menuItem)	// insert into base (currently)
-
-			atMen(9, log("Built tag:\(catalog.tag)"))		// Build
-		}
-	}
 	 // MARK: Access Scene MENU
 	mutating func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
@@ -374,8 +392,3 @@ bug
 	}
 }
 
-class DummyApp : NSObject {
-	@objc func scheneAction(_ sender:NSMenuItem) {
-		print("\n\n --- - - - - - - DummyApp.sceneAction(\(sender.className)) tag:\(sender.tag) ---")
-	}
-}
