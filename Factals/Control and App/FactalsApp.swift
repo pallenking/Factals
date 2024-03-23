@@ -27,7 +27,7 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 
 /*
 
-					   AppGlobals2					appGlobalsX
+					   AppGlobals					appGlobals
 Define				   file FactalsApp				FactalsApp
 Instantiate			   FactalsApp					FactalsApp
 					   								FactalsApp .libraryMenu
@@ -35,13 +35,13 @@ Inject				   FactalsApp DocGrp.envir..
 Access				   VewBar
 Use					   VewBar
 
-appGlobals2
-	class AppGlobals2 : ObservableObject								// Define
-	@StateObject var appGlobals2 = AppGlobals2(appConfig:params4pp)		// Instantiate
+appGlobals
+	class AppGlobals : ObservableObject								// Define
+	@StateObject var appGlobals = AppGlobals(appConfig:params4pp)		// Instantiate
 	extension FactalsApp|  var body|   DocumentGroup| .environmentOjbect// Inject
 	struct VewBar: View {
-		@EnvironmentObject var appGlobals2: AppGlobals2					// Access
-		tree.pp(.tree, appGlobals2.appConfig							// Use
+		@EnvironmentObject var appGlobals: AppGlobals					// Access
+		tree.pp(.tree, appGlobals.appConfig							// Use
 
 */
 
@@ -51,15 +51,15 @@ extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(appGlobals2)	// inject in environment
-			 .environmentObject(appGlobalsX)	// inject in environment
+			 .environmentObject(appGlobals)	// inject in environment
+			 .environmentObject(appGlobals)	// inject in environment
 			 .onOpenURL { url in				// Load a document from the given URL
 				openDocuments.append(FactalsDocument(fileURL:url))
 			 }
 		}
 		 .commands {
 			CommandMenu("Library") {
-				ForEach(appGlobalsX.libraryMenu) { item in
+				ForEach(appGlobals.libraryMenu) { item in
 					Button {
 						let libName = "entry\(item.id)"
 						print("======== SceneMenu \(libName):")
@@ -98,18 +98,18 @@ struct FactalsApp: Uid, FwAny {
 	var uid: UInt16				= randomUid()
 
 	@State private var openDocuments: [FactalsDocument] = []
-	@State var appGlobalsX = AppGlobalsX()
 
-	class AppGlobals2 : ObservableObject {
-		@Published var appConfig : FwConfig
-		init(appConfig g:FwConfig) {
-			appConfig = g
-		}
-	}
+	var appConfig : FwConfig
+    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)		// Instantiate appGlobals
+
+//	@State var appGlobals = AppGlobals()
+//B	@AppStorage("text") var textFooBar = ""
 
 //	@Observable
-	class AppGlobalsX : ObservableObject {
+	class AppGlobals : ObservableObject {
 		// MARK: -A Configuration
+		@Published var appConfig : FwConfig
+
 		// MARK: -B Library Menu:
 		var libraryMenu : [LibraryMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	LibraryMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
 		struct LibraryMenuElement : Identifiable {
@@ -118,7 +118,8 @@ struct FactalsApp: Uid, FwAny {
 			let imageName: String? = nil
 			let children = [LibraryMenuElement]()
 		}
-		init() {
+		init(appConfig a:FwConfig) {
+			appConfig = a
 			libraryMenu = buildSceneMenus()
 		}
 		func buildSceneMenus() -> [LibraryMenuElement] {	//() {//LibraryMenuElement nsMenu:NSMenu?=nil
@@ -172,12 +173,6 @@ struct FactalsApp: Uid, FwAny {
 			return rv
 		}
 	}
-
-
-	var appConfig : FwConfig
-
-    @StateObject var appGlobals2	= AppGlobals2(appConfig:params4pp)		// Instantiate appGlobals2
-	//B	@AppStorage("text") var textFooBar = ""
 
 	 // MARK: - 2. Object Variables:
 	var log	: Log				=	Log(title:"App's Log", params4all)
