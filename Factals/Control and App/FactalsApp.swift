@@ -25,7 +25,26 @@ var FACTALSMODEL : FactalsModel?=nil
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
-class AppGlobals : ObservableObject {
+/*
+
+					   AppGlobals2					appGlobalsX
+Define				   file FactalsApp				FactalsApp
+Instantiate			   FactalsApp					FactalsApp
+					   								FactalsApp .libraryMenu
+Inject				   FactalsApp DocGrp.envir..
+Access				   VewBar
+Use					   VewBar
+
+appGlobals2
+	class AppGlobals2 : ObservableObject								// Define
+	@StateObject var appGlobals2 = AppGlobals2(appConfig:params4pp)		// Instantiate
+	extension FactalsApp|  var body|   DocumentGroup| .environmentOjbect// Inject
+	struct VewBar: View {
+		@EnvironmentObject var appGlobals2: AppGlobals2					// Access
+		tree.pp(.tree, appGlobals2.appConfig							// Use
+
+*/
+class AppGlobals2 : ObservableObject {
     @Published var appConfig : FwConfig
 	init(appConfig g:FwConfig) {
 		appConfig = g
@@ -38,17 +57,14 @@ extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(appGlobals)		// inject in environment
+			 .environmentObject(appGlobals2)		// inject in environment
 			 .onOpenURL { url in				// Load a document from the given URL
 				openDocuments.append(FactalsDocument(fileURL:url))
 			 }
 		}
-//		 .onChange(of: scenePhase) { phase in
-//			print(phase)
-//		 }
 		 .commands {
 			CommandMenu("Library") {
-				ForEach(viewModelX.libraryMenu) { item in
+				ForEach(appGlobalsX.libraryMenu) { item in
 					Button {
 						let libName = "entry\(item.id)"
 						print("======== SceneMenu \(libName):")
@@ -86,31 +102,29 @@ struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
 
-	@State private var document: FactalsDocument? = nil
 	@State private var openDocuments: [FactalsDocument] = []
-	@State var viewModelX = ViewModelX()
-	@Environment(\.scenePhase) var scenePhase
+	@State var appGlobalsX = AppGlobalsX()
 
 	@Observable
-	class ViewModelX {
-		
-		// MARK: -X.7 Make Scene Menu
+	class AppGlobalsX {
+		// MARK: -A Configuration
+		// MARK: -B Library Menu:
 		var libraryMenu : [LibraryMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	LibraryMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
 		struct LibraryMenuElement : Identifiable {
-			let crux : Bool
 			let id: Int
 			let name: String
 			let imageName: String? = nil
+			let children = [LibraryMenuElement]()
 		}
 		init() {
 			libraryMenu = buildSceneMenus()
 		}
 		func buildSceneMenus() -> [LibraryMenuElement] {	//() {//LibraryMenuElement nsMenu:NSMenu?=nil
 			if falseF { return [] }			//trueF//falseF// for debugging
+			var bogusLimit			= 200//500000//500000//10// adhoc debug limit on scenes
 			
 			// Get all known tests:
 //			var nsMenu4Path : [String:NSMenu] = [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
-			var bogusLimit			= 5//500000//500000//10// adhoc debug limit on scenes
 			
 			// Get a catalog of all available Library experiments
 	/**/	let catalogs:[ScanElement] = Library.catalog().state.scanCatalog
@@ -122,6 +136,10 @@ struct FactalsApp: Uid, FwAny {
 				// Insure NSMenuItem exist for all ancestors:
 				let path 		= catalog.subMenu
 				guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
+
+
+				print("-------- tag:\(catalog.tag) title:\(catalog.title.field(-54)) subMenu:\(catalog.subMenu)")
+
 				
 //				if nsMenu4Path[path] == nil {	// make NSMenu for path if none exists
 //					// Create a NEW MenuItem, with a Menu in it, for path:
@@ -146,7 +164,7 @@ struct FactalsApp: Uid, FwAny {
 //				
 //				atMen(9, log("Built tag:\(catalog.tag)"))		// Build
 
-				let a = LibraryMenuElement(crux:false, id:rv.count, name:catalog.title)
+				let a = LibraryMenuElement(id:rv.count, name:catalog.title)
 				rv.append(a)
 			}
 			return rv
@@ -154,10 +172,9 @@ struct FactalsApp: Uid, FwAny {
 	}
 
 
-
 	var appConfig : FwConfig
 
-    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)		// Instantiate appGlobals
+    @StateObject var appGlobals2	= AppGlobals2(appConfig:params4pp)		// Instantiate appGlobals2
 	//B	@AppStorage("text") var textFooBar = ""
 
 	 // MARK: - 2. Object Variables:
