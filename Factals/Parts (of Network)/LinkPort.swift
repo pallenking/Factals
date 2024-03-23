@@ -28,7 +28,7 @@ class LinkPort : Port {
 	var colorOfVal1 			= NSColor.purple	// should be overridden
 	func addSegment(_ seg:LinkSegment) {
 		inTransit.append(seg)
-		root?.factalsModel?.simulator.linkChits	+= 1
+		partBase?.factalsModel?.simulator.linkChits	+= 1
 		//root?.simulator.linkChits	+= 1
 		//assert(root?.simulator.linkChits ?? 1 != 0, "wraparound")
 	}
@@ -113,7 +113,7 @@ bug;	return rv
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {
 		 // Up and Down are processed alike!
- 		guard let simulator		= root?.factalsModel?.simulator else  {	fatalError(fullName)}
+ 		guard let simulator		= partBase?.factalsModel?.simulator else  {	fatalError(fullName)}
 		guard let outPort 						  else  {	fatalError(fullName)}
 		guard let inPort2Port	= self.con2?.port else  {	fatalError(fullName)}
 
@@ -163,7 +163,7 @@ bug;	return rv
 								  inPort2Port.value 	// Link input port if no previous value
 				atDat(5, outPort.logd("Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value))
 				if outPort.value != nextVal {
-					let parts = outPort.root!.tree
+					let parts = outPort.partBase!.tree
 					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")
 					//print("Before: \(c1)")
 					outPort.value = nextVal								// not outPort.take(value:v)

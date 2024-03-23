@@ -29,7 +29,7 @@ final class FactalsTests: XCTestCase {
 		lldbPrint(x, mode:.tree, [:])
 	}
 	func testUid() {	// incomplete
-		let objectNs 			= FactalsModel(fromRootPart: PartBase(tree:Part()))
+		let objectNs 			= FactalsModel(partBase:PartBase(tree:Part()))
 		let objectSwift			= Part()
 		let strNs				= pseudoAddressString(objectNs)
 		let strSwift			= pseudoAddressString(objectSwift)

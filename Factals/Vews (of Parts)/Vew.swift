@@ -27,7 +27,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		parent==nil   ? ""   :
 		parent!.fullName + "/" + name	// add lefter component
 	}
-	func vewBase() -> VewBase?	{	part.root?.factalsModel?.vewBase(ofScnNode:scn)}
+	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofScnNode:scn)}
 
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
@@ -566,7 +566,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			scn.addChild(node:bBoxScn, atIndex:0)
 
 			 // Name the result
-			guard let fm		= part.root?.factalsModel else { fatalError()	}			//var fm			= self.vews!.factalsModel!
+			guard let fm		= part.partBase?.factalsModel else { fatalError()	}			//var fm			= self.vews!.factalsModel!
 			let wBoxNameIndex	= fm.indexFor["WBox"] ?? 1
 			fm.indexFor["WBox"] = wBoxNameIndex + 1
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
@@ -599,7 +599,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		let (nl, fmt)			= format.stripLeadingNewLines()
 		if let vewBase			= vewBase() {
 			vewBase.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-		}else if let root		= part.root {	// strangely redundant, but okay
+		}else if let root		= part.partBase {	// strangely redundant, but okay
 			root.factalsModel?.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
 			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)

@@ -40,9 +40,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
-	func configureRootVew(from c:FwConfig) {
-		self.tree.configureVew(from:c)							// vewConfig = c
-		selfiePole.configure(from:c)
+	func configure(from:FwConfig) {
+		self.tree.configureVew(from:from)							// vewConfig = c
+		selfiePole.configure(from:from)
 	}
 	// MARK: -
 	func setupLightsCamerasEtc() {

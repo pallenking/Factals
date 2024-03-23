@@ -67,7 +67,7 @@ class TimingChain : Atom {
 		}
 
 		 // Register ourselves with simulator:
-		root?.factalsModel?.simulator.timingChains.append(self)	/*WTF!*/
+		partBase?.factalsModel?.simulator.timingChains.append(self)	/*WTF!*/
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{
@@ -253,8 +253,8 @@ class TimingChain : Atom {
 	}
 
 	override func simulate(up upLocal:Bool) {	 /// Step all my parts:
-		guard let simulator		= root?.factalsModel?.simulator else {return} // no sim
-//		guard let simulator		= root?.simulator else { return /* no sim */	}
+		guard let simulator		= partBase?.factalsModel?.simulator else {return} // no sim
+//		guard let simulator		= partBase?.simulator else { return /* no sim */	}
 		guard simulator.simEnabled				  else { return /* not emabled */}
 		 // Check for FwwEvent
 		if (state == 0) {	// when State Machine becomes idle
@@ -300,7 +300,7 @@ class TimingChain : Atom {
 			else {
 				atEve(4, logd("//// %02o=>State; Sim Settled; Synchronous Data Mode: cPrev;lData", state))
 														// ## 2. do EARLY Clk Previous:
-				root!.tree.sendMessage(fwType:.clockPrevious)
+				partBase!.tree.sendMessage(fwType:.clockPrevious)
 
 				for discreteTime in discreteTimes {
 					discreteTime.loadTargetBundle(event:event!)//## 3. load target bundle
@@ -313,9 +313,9 @@ class TimingChain : Atom {
 			nextState			= 2
 		case 2:					// ----> When Settled do 'ad2:Conceive'
 			atEve(4, logd("|||| %02o=>State; Sim Settled; Now do 'ad2:Conceive'", state))
-														// ## 4. Await Sim Settled
-			root!.tree.sendMessage(fwType:.writeHeadConcieve)	// ## 5. do: CONCEIVE:
-			root!.tree.sendMessage(fwType:.writeHeadLabor)		// ## 6. do: LABOR, BIRTH:
+																 // ## 4. Await Sim Settled
+			partBase!.tree.sendMessage(fwType:.writeHeadConcieve)// ## 5. do: CONCEIVE:
+			partBase!.tree.sendMessage(fwType:.writeHeadLabor)	 // ## 6. do: LABOR, BIRTH:
 
 			  // Disable simulator to freeze activations levels and newborn in canal.
 			 //   Conceive leaves SIM unsettled//newb->birth canal (Unfortunately)
@@ -336,7 +336,7 @@ class TimingChain : Atom {
 
 			 //	 !asyncData used in Morse Code (F1, F2, F3)
 			if asyncData {		 						// ## 9. LATE Previous Clk
-				root!.tree.sendMessage(fwType:.clockPrevious)
+				partBase!.tree.sendMessage(fwType:.clockPrevious)
 			}
 			retractPort?.take(value:0.0)
 			retractPort			= nil
@@ -406,7 +406,7 @@ class TimingChain : Atom {
 		if nsEvent.type == .keyDown {		// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {
-				root?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
+				partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
 				//root!.simulator.startChits = 4					// set simulator to run, to pick event up
 				return true				// other process processes it
 			}
@@ -422,8 +422,8 @@ class TimingChain : Atom {
 		atEve(4, logd("    TimingChain: Release FwwEvent"))
 		eventDownPause			= false			// assert lock, which blocks till up
 		atEve(4, logd("############ eventDownPause = false -- releaseEvent"))
-		root?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
-		//root!.simulator.startChits = 4					// set simulator to run, to pick event up
+		partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
+		//partBase!.simulator.startChits = 4					// set simulator to run, to pick event up
 		retractPort?.take(value:0.0)
 		return
 	}

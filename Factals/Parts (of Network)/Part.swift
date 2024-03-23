@@ -17,23 +17,23 @@ protocol EquatableFW {
 }
 extension Part : EquatableFW {													}
 
-// // NOTE: 20230117 Equatable was only added for Hashable for ForEach for 
-//extension Part : Equatable {
-//	static func ==(lhs: Part, rhs: Part) -> Bool {
-//		bug; return false
-//	}
-//}
+ // NOTE: 20230117 Equatable was only added for Hashable for ForEach for 
+extension Part : Equatable {
+	static func ==(lhs: Part, rhs: Part) -> Bool {
+		return lhs.equalsFW(rhs)
+	}
+}
  // Generic struct 'ForEach' requires that 'Part' conform to 'Hashable' (from InspecPart.body.Picker)
-//extension Part : Hashable {
-//	func hash(into hasher: inout Hasher) {
-//		DOClog.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
-//		hasher.combine(uid)					// fwClassName, fullName, children?
-//	}
-//}
+extension Part : Hashable {
+	func hash(into hasher: inout Hasher) {
+		//DOClog.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
+		hasher.combine(uid)					// fwClassName, fullName, children?
+	}
+}
 
  /// Base class for Factal Workbench Models
 // Used to be based on NSObject, not now.  What about NSCopying, NSResponder,
-class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
+class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	var uid:UInt16				= randomUid()
 	 // MARK: - 2. Object Variables:
 	@objc dynamic var name		= "<unnamed>"
@@ -41,11 +41,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	var child0		:  Part?	{	return children.count == 0 ? nil : children[0] }
 	weak var parent :  Part?	= nil 	// add the parent property
 
-	 // nil root defers to parent's root.
-	var root		: PartBase?	= nil		// = nil
-//	{	get {	parent?.root ??	self											}
-//		set(v) {	fatalError("root.set(v) not supported")						}
-//	}
+	var partBase	: PartBase?	= nil	//
+	func setTree(parent:Part?, partBase:PartBase?) {
+		self.parent 			= parent
+		self.partBase   		= partBase
+		for child in children {
+			child.setTree(parent:self, partBase:partBase)
+		}
+	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
  // BIG PROBLEMS: (Loops!)
@@ -57,13 +60,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	 // MARK: - 2.1 Sugar
 	var parts 		: [Part]	{ 		children 								}
 	@objc dynamic var fullName	: String	{
-		let rv					= //name=="ROOT" ? 		   name :	// Leftmost component
-								  parent==nil  ? "" :
-								  parent!.fullName + "/" + name		// add lefter component
-//		let rv					= name=="ROOT" ? 		   name :	// Leftmost component
-//								  parent==nil  ? "" :
+		return parent==nil  ? "" :
+			   parent!.fullName + "/" + name
+//		let rv					= parent==nil  ? "" :
 //								  parent!.fullName + "/" + name		// add lefter component
-		return rv
+//		return rv
 	}
 	var fullName16 	: String	{		return fullName.field(16)				}
 	 // - Array of unsettled ports. Elements are closures that returns the Port's name
@@ -106,8 +107,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-	var log : Log			{ 	root?.log ?? Log(title:"a new Part.Log()", [:] )		}
-//	var log : Log			{ 	root?.log ?? .reliable						}
+	var log : Log			{ 	partBase?.log ?? Log(title:"a new Part.Log()", [:] ) }
+//	var log : Log			{ 	partBase?.log ?? .reliable						}
 
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew
@@ -136,11 +137,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 			}
 		}			// -- Name was given
 		name					= nam ?? {
-			if var fm			= self.root?.factalsModel,
+			if var factalsModel	= partBase?.factalsModel,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= fm.indexFor[prefix] ?? 0
-				fm.indexFor[prefix] = index + 1		// for next
+				let index		= factalsModel.indexFor[prefix] ?? 0
+				factalsModel.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
 			} else {	// -- Use fallback
 				defaultPrtIndex	+= 1
@@ -191,13 +192,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		}
 	}
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
-	func setTree(root r:PartBase, parent p:Part?=nil) {
-		self.parent 			= p
-		self.root   			= r
-		for child in children {
-			child.setTree(root:r, parent:self)
-		}
-	}
 	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
 		atBld(3, print("#### DEINIT    \(ppUid(self)):\(fwClassName)")) // 20221105 Bad history deleted
 	}
@@ -463,28 +457,34 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 		assert(self !== child, "can't add self to self")
 
 		 // Find right spot in children
-		var doppelganger : Int?	= children.firstIndex(where: {$0 === child})//(of:child)	// child already in children
-		if var i 				= index {
-			if i < 0 {
-				i = children.count - i		// Negative indices are distance from end
+		var removeChildAt:Int?	= children.firstIndex(where: {$0 === child}) // child already in children
+		if var index {
+			if index < 0 {						// Negative are distance from end
+				index = children.count - index
 			}
-			assert(i>=0 && i<=children.count, "index \(i) out of range")
-			children.insert(child, at:i)	// add at index i
-			if let d			= doppelganger {
-				doppelganger	= d + (i < d ? 1 : 0)
+			assert(index>=0 && index<=children.count, "index \(index) out of range")
+			children.insert(child, at:index)	// add at index
+			if let remove		= removeChildAt {	// bump remove
+				removeChildAt	= remove + (remove > index ? 1 : 0)
 			}
 		}
 		else {
-			children.append(child)			// add at end
+			children.append(child)				// add at end
 		}
 
-		if let d				= doppelganger {
-			children.remove(at:d)
+		if let removeChildAt {
+			children.remove(at:removeChildAt)
 		}
 
-		 // link
+		 // link in as self
 		child.parent			= self
-//		child.root				= self.root
+//		child.partBaseOfTree	= self.partBase
+		child.setTree(parent:self, partBase:partBase)
+
+
+//		if let partBase {
+//			child.partBase			= self.partBase
+//		}
 
 		 // Process tree dirtyness:
 		markTree(dirty:.vew)				// ? tree has dirty.vew
@@ -498,19 +498,19 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 	/// - Parameters:
 	///   - parent_: ---- if known
 	///   - root_: ---- set in Part
-	func groomModel(parent p:Part?, root r:RootPart?)  {
+	func groomModel(parent p:Part?, partBase r:PartBase?)  {
 		parent					= p
-		if root == nil || root !== r {
+		if partBase == nil || partBase !== r {
 			print("This will probably ERR ..... ####### ")
-			root 				=  r					// from arg (if there)
-								?? self as? RootPart 	// me, I'm a RootPart
-								?? child0 as? RootPart	// if PolyWrapped
+			partBase			=  r					// from arg (if there)
+			assert(r != nil, "protocol error")
+	//							?? self as? PartBase 	// me, I'm a RootPart
+	//							?? child0 as? PartBase	// if PolyWrapped
 		}
-
 		markTree(dirty:.vew)							// set dirty vew
-		 // Do whole tree
-		for child in children {							// do children
-			child.groomModel(parent:self, root:root)		// ### RECURSIVE
+
+		for child in children {							// do all children
+			child.groomModel(parent:self, partBase:partBase)	// ### RECURSIVE
 		}
 	}
 
@@ -536,8 +536,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable
 				return rv							 // found in self and ancestor's config
 			}
 		}										 // Look in application:
-		return nil
-//		return root?.factalsModel?.document.fmConfig[name] ?? // Look in doument
+		return partBase?.factalsModel?.fmConfig[name]  // ?? Look in doument
 //			   APP?					 .appConfig[name]	 // Application?a
 	}
 	 // MARK: - 4.3 Iterate over parts
@@ -1394,41 +1393,39 @@ func foo () {
     /// - Parameter from: ---- NSEvent to process
     /// - Parameter vew: ---- The 3D scene Vew to use
 	/// - Returns: Key was recognized
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew pickedVew:Vew) -> Bool {
 		var rv					= false
 		if nsEvent.type == .keyDown || nsEvent.type == .keyUp {
 			let kind			= nsEvent.type == .keyUp ? ".keyUp" : ".keyDown"
 			print("\(pp(.fwClassName)):\(fullName): NSEvent (key(s):'\(nsEvent.characters ?? "-")' \(kind)")
 		}
 		else {			 // Mouse event
-			if let factalsModel	= root?.factalsModel { 	// take struct out
-				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(vew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
+			if let factalsModel	= partBase?.factalsModel { 	// take struct out
+				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(pickedVew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
 												+ "\(pp(.fwClassName))\n\(pp(.tree))")
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
-					print("Show Inspec for Vew '\(vew.pp(.fullName))'")
-					factalsModel.showInspecFor(vew:vew, allowNew:alt)
+					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
+					factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}
 							// Double Click: show/hide insides
 				if nsEvent.clickCount > 1 {
-					factalsModel.toggelOpen(vew:vew)
+					factalsModel.toggelOpen(vew:pickedVew)
 					rv			= true
 				}
 				else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
 					
-	bug				 // Let fwPart handle it:
+					 // Let fwPart handle it:
 					print("-------- mouseDragged (click \(nsEvent.clickCount))\n")
 
 					 // Process the FwwEvent to the picked Part's Vew:
-					let m : Part = vew.part
-	bug;			let _		= m.processEvent(nsEvent: nsEvent, inVew:vew)
-				//	[m sendPickEvent:&fwEvent toModelOf:pickedVew]
-				//	[self.simNsVc buildRootFwVforBrain:self.brain]	// model may have changed, so remake vew
+					let m:Part 	= pickedVew.part
+					let _		= m.processEvent(nsEvent: nsEvent, inVew:pickedVew)
 				}
-				//root!.factalsModel!.document = fm				// Put struct back
+				//root!.factalsModel!.document = factalsModel				// Put struct back
 			} else {
 				panic("processEvent(:inVew:) BAD ARGS")
 			}
@@ -1443,14 +1440,14 @@ func foo () {
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
 		warningLog.append(targName + fmtWithArgs)
-		root != nil ? root!.log(banner:"WARNING", targName + fmtWithArgs + "\n")
+		partBase != nil ? partBase!.log(banner:"WARNING", targName + fmtWithArgs + "\n")
 					: print("WARNING" + targName + fmtWithArgs  + "\n")
 	}
 	func error(_ format:String, _ args:CVarArg...) {
 		logNErrors 				+= 1
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
-		root != nil ? root!.log(banner:"ERROR", targName + fmtWithArgs + "\n")
+		partBase != nil ? partBase!.log(banner:"ERROR", targName + fmtWithArgs + "\n")
 					: print("ERROR", targName + fmtWithArgs + "\n")
 	}
 

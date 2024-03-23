@@ -25,27 +25,27 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 3. Factory
-	init(fromRootPart rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
+	init(partBase rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
 		partBase				= rp ?? PartBase(tree:Part())
 		simulator				= Simulator()
 		log						= Log(title:"FactalsModel's Log", params4all)
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self
 		simulator.factalsModel	= self
-		partBase.factalsModel		= self
+		partBase.factalsModel	= self
 
 		//configure(from:document.fmConfig)
 	}
 
-	func configure(from config:FwConfig) {
+	func configure(from:FwConfig) {
 		fmConfig				+= partBase.ansConfig	// from library
-		simulator.configure(from:config)
-		partBase.configure(from:config)
-		for vews in vewBases {
-			vews.configureRootVew(from:config)
+		simulator.configure(from:from)
+		partBase.configure(from:from)
+		for vewBase in vewBases {
+			vewBase.configure(from:from)
 		}
-		log.configure(from:config)
-		docSound.configure(from:config)
+		log.configure(from:from)
+		docSound.configure(from:from)
 
 		 //  5. Print Errors
 //		atBld(3, log.logd(rootPartActor.parts?.ppRootPartErrors() ?? ""))
@@ -120,7 +120,7 @@ class FactalsModel : ObservableObject, Uid {
 	/// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-		guard let partBase : PartBase = vew.part.root else { return false }	// vew.root.part
+		guard let partBase : PartBase = vew.part.partBase else { return false }	// vew.partBase.part
 		var found				= true
 
 		 // Check Simulator:

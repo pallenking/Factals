@@ -185,11 +185,14 @@ struct InspecAtom : View {												 // Atom
 			if atom.ports.count > 0 {
 				Text("Ports:")
 				Picker("", selection:Binding<String>(	get:{ "" }, set:{x in 		// Always out of range
-bug;				let port	= atom.ports[x]!
-				//	let newVew	= rootVew0.find(part:port, inMe2:true) ?? vew
-				//	if var fwDocument = atom.root?.factalsModel.document {
-				//		fwDocument.showInspecFor(vew:newVew, allowNew:false)
-				//	}
+//					let factalsModel = self.partBase?.factalsModel
+					let port	= atom.ports[x]!
+//					for vewBase in factalsModel.vewBases {
+//						let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
+//						if var fwDocument = atom.partBase?.factalsModel.document {
+//							fwDocument.showInspecFor(vew:newVew, allowNew:false)
+//						}
+//					}
 				} )) {
 					ForEach(Array(atom.ports.keys.enumerated()), id:\.element) { _, key in
 						Text(key)
@@ -313,7 +316,7 @@ struct InspecPart : View {												 // Part
 		//https://medium.com/better-programming/three-ways-to-react-to-state-changes-in-swiftui-a30545c72361
 
 	var body: some View {
-		//var doc 				= part.root?.factalsModel?.document
+		//var doc 				= part.partBase?.factalsModel?.document
 		VStack {
 			HStack {						// ========================== LINE 1
 				ClassBox(labeled:"Part")
@@ -331,25 +334,25 @@ struct InspecPart : View {												 // Part
 				}.pickerStyle(MenuPickerStyle()).frame(width:130)				//MenuPickerStyle//SegmentedPickerStyle//
 
 						// --- Navigate:
-//				let navList		= part.selfNParents.reversed() + part.children
-//				let selfIndex	= part.selfNParents.count - 1
-//				Text("Inspect: BUGGY")
-////				Picker("", selection:Binding<Int>( 				// a9
-//					get:{ -1 },
-//					set:{		// Always out of range
-//						let nav	= navList[$0]					// Set notification
-//bug;				//	let newVew = rootVewL.find(part:nav, inMe2:true) ?? vew
-//					//	doc?.showInspecFor(vew:newVew, allowNew:false)
-//					} ) )
-//				{
-// 					ForEach(navList, id:\.self) { aPart in					
-//						let ind = navList.firstIndex(where: {$0 === aPart})!
-//						let label = ind <  selfIndex ? "/ \(aPart.name)" :
-//									ind == selfIndex ? "- \(aPart.name)" :
-//													  "\\ \(aPart.name)"
-//						Text(label).tag(ind)
-//					}
-//				}												.frame(width:30)
+				let navList		= part.selfNParents.reversed() + part.children
+				let selfIndex	= part.selfNParents.count - 1
+				Text("Inspect: BUGGY")
+				Picker("", selection:Binding<Int>( 				// a9
+					get:{ -1 },
+					set:{		// Always out of range
+						let nav	= navList[$0]					// Set notification
+		//				let newVew = rootVewL().find(part:nav, inMe2:true) ?? vew
+	bug	//				doc?.showInspecFor(vew:newVew, allowNew:false)
+					} ) )
+				{
+ 					ForEach(navList, id:\.self) { aPart in					
+						let ind = navList.firstIndex(where: {$0 === aPart})!
+						let label = ind <  selfIndex ? "/ \(aPart.name)" :
+									ind == selfIndex ? "- \(aPart.name)" :
+													  "\\ \(aPart.name)"
+						Text(label).tag(ind)
+					}
+				}												.frame(width:30)
 			}
 			HStack {						// ========================== LINE 2
 

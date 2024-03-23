@@ -33,8 +33,8 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 																				//		set(v) 		{	fatalError()											}//self.parent = v}
 																				//	}
 																				//	var root		:  SCNNode?	{
-																				//		get 		{	fatalError("Vew has no .root")}
-																				//		set(v)		{	fatalError("Vew has no .root")}
+																				//		get 		{	fatalError("Vew has no .partBase")}
+																				//		set(v)		{	fatalError("Vew has no .partBase")}
 																				//	}
 																				//
 																				//	func addChild(_ child: SCNNode?, atIndex index: Int?) {
@@ -235,10 +235,6 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	  /// Add child node
 	 /// Semantic Sugar, to make SCNNode, Vew, and Part all use term children
 	/// - entries are unique
-	func addChild(node:SCNNode) {
-		guard !childNodes.contains(node) else { fatalError("no duplicates allowed")}
-		addChildNode(node)					// adds at end
-	}
 	func addChild(node:SCNNode, atIndex index:Int?=nil) {
 		guard !childNodes.contains(node) else { fatalError("no duplicates allowed")}
 		let ind					= index ?? children.count

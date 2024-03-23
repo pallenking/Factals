@@ -11,7 +11,7 @@ protocol FactalsStatus : FwAny {
  /// - Returns: State of all Controllers, one per line
 func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
 //	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
-//	var rv = FactalsApp.ppFactalsState(deapth:deapth-1)
+//	var rv = FactalsApp.shared.ppFactalsState(deapth:deapth-1)
 	var rv = ""//						= APP	  .ppFactalsState(deapth:deapth-1)
 bug
 //	 // display current DOCument

@@ -52,9 +52,8 @@ var  LLDBvews2  : VewBase {
 	set (v)		{		   FACTALSMODEL?.vewBases[2] = v							}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
-	guard let factalsModel 			= FACTALSMODEL else {
-		print("FACTALSMODEL returns .null:\(ppUid(Vew.null)) !!!")
-		return .null
+	guard let factalsModel 		= FACTALSMODEL else {
+		fatalError("FACTALSMODEL returns .null:\(ppUid(Vew.null)) !!!")
 	}
 	guard index >= 0 && index < factalsModel.vewBases.count else { fatalError("rootvew() returns .null !!!")	}
 	var vew : Vew				= factalsModel.vewBases[index].tree

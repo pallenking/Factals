@@ -60,7 +60,7 @@ import SceneKit
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
-		tree.setTree(root:self)
+		tree.setTree(parent:nil, partBase:self)
 
 		 //  1. GATHER LINKS as wirelist:
 		atBld(4, logd("------- GATHERING potential Links:"))
@@ -71,7 +71,7 @@ import SceneKit
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
 		linkUps.forEach { 	addLink in 		addLink() 							}
 
-		tree.setTree(root:self)
+		tree.setTree(parent:nil, partBase:self)
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))
@@ -112,24 +112,24 @@ import SceneKit
 		}
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let base				= VewBase(forPartBase:self)	// 1. Make with .null tree
-		base.factalsModel		= factalsModel				// 2. Backpointer
-		factalsModel!.vewBases.append(base)					// 3. Install
+		let vewBase				= VewBase(forPartBase:self)	// 1. Make with .null tree
+		vewBase.factalsModel	= factalsModel				// 2. Backpointer
+		factalsModel!.vewBases.append(vewBase)				// 3. Install
 
-		base.tree.configureVew(from:fwConfig)				// 4. Configure Vew
-		base.tree.openChildren(using:vewConfig)				// 5. Open Vew
+		vewBase.tree.configureVew(from:fwConfig)			// 4. Configure Vew
+		vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
 
-		tree.dirtySubTree(gotLock: true, .vsp)				// 6. Mark dirty
-		base.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		base.setupLightsCamerasEtc()						// ?move
+		tree.dirtySubTree(gotLock:true, .vsp)				// 6. Mark dirty
+		vewBase.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		vewBase.setupLightsCamerasEtc()						// ?move
 
-//		let rootVewPp			= base.pp(.tree, ["ppViewOptions":"UFVTWB"])
-//		atBld(5, log.logd("rootVews[\(rootVews.count-1)] is complete:\n\(rootVewPp)"))
+		let rootVewPp			= vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"])
+		atBld(5, log.logd("rootVews[] is complete:\n\(rootVewPp)"))
 	}
 
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
-	func configure(from config:FwConfig) {
-		tree.partConfig			= config
+	func configure(from:FwConfig) {
+		tree.partConfig			= from
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////
@@ -288,7 +288,7 @@ bug
 //		  // Groom parts and whole tree
 //		 // 1. Unwrap PolyParts
 //		parts				= inPolyPart.polyUnwrap() as? Parts
-//		 // 2. Groom .root and .parent in all parts:
+//		 // 2. Groom .partBase and .parent in all parts:
 //		parts.groomModel??(parent:nil, //root:parts)
 //		 // 3. Groom .fwDocument in parts
 //		parts.fwDocument 	= self		// Use my FwDocument

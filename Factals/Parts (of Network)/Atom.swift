@@ -589,16 +589,16 @@ class Atom : Part {	//Part//FwPart
 								   "\(conNet.fullName), opens _\(ppUp(trgAboveSInS))_"
 					atBld(4, self.logd(srcInfo))
 
-						// 3b. //// Get the SouRCe Port
+					 // 	3b. //// Get the SouRCe Port
 					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
 								
-					 //    3c. //// TaRGet:
+					 //		3c. //// TaRGet:
 					let trgAboveSInT = trgAboveSInCon==trgAtom.upInPart(until:conNet)
 					let trgInfo	= "     TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6)) in:" +
 								  "\(conNet.fullName), opens _\(ppUp(trgAboveSInT))_"		//!trg...
 					atBld(6, self.logd(trgInfo))
-						// 3d. //// Get the TaRGet Port		(name=="" -> share)
+					 //		3d. //// Get the TaRGet Port		(name=="" -> share)
 					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)
 
 					let msg0 	= (srcPort == nil ? " srcPort==nil" : "") + (trgPort == nil ? " trgPort==nil" : "")
@@ -650,7 +650,7 @@ class Atom : Part {	//Part//FwPart
 						conNet.addChild(link, atIndex:lnkInsInd)
 						 // Active segments from creation
 						partBase.factalsModel?.simulator.linkChits += link!.curActiveSegments
-						//self.root!.simulator.linkChits += link!.curActiveSegments
+						//self.partBase!.simulator.linkChits += link!.curActiveSegments
 					}
 				}
 /* ***************************** END OF CLOSURE **************************/

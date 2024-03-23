@@ -64,12 +64,9 @@ struct ScanAnswer {		// : Codable
 }
 
 extension Library : Uid {
-	//var uid					= randomUid()	// in class Library
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//		guard let FACTALSMODEL else { print(format, args, terminator:terminator ?? "\n");return }
-//		let log					= FACTALSMODEL.log
-		let log					= Log.shared
-		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		Log.shared.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		//let log				= FACTALSMODEL!.log
 	}
 }
 class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny

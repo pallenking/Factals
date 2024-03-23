@@ -28,17 +28,19 @@ struct RootPartBar : View {
 	var body: some View {
 		HStack {	// FULL!
 			Text("Model (partBase): ").foregroundColor(.red).bold()
-			Button(label:{	Text( "ptm")								})
-			{	print(partBase.pp(.tree, ["ppDagOrder":true]), terminator:"") }
-			Button(label:{	Text("ptLm")								})
+			Button(label:{	Text( "ptm")										})
+			{	print(partBase.pp(.tree, ["ppDagOrder":true]), terminator:"") 	}
+			Button(label:{	Text("ptLm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
 			Spacer()
 			Text("app:").foregroundColor(.red).bold()
-			Button(label:{	Text( "state")								})//.padding(.top, 300)
-			{	printFwState()											}
-			Button(label: {	Text("LLDB") 								})
+			Button(label:{	Text( "state")										})//.padding(.top, 300)
+			{	printFwState()													}
+			Button(label:{	Text( "config")										})
+			{	printFwState()													}
+			Button(label: {	Text("LLDB") 										})
 			{	lldbPrint(partBase, /*VewBase.first!,*/ mode:.tree, [:])
-				breakToDebugger()										}
+				breakToDebugger()												}
 			Text(" ")
 		}
 	}

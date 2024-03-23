@@ -166,7 +166,7 @@ class DiscreteTime : Atom {
 				tunnel.label	= label
 				//targetBundle?.label = label // GUI: Labels in events are moved onto the bundle
 			}
-			root?.factalsModel?.simulator.startChits = 4// start simulator when event loads
+			partBase?.factalsModel?.simulator.startChits = 4// start simulator when event loads
 			//root!.simulator.startChits = 4 					// start simulator when event loads
 		case .aString(let eventStr):	 	// FwwEvent is an String
 			if eventStr == "incrementalEvents" {// "incrementalEvents" -- reserved word

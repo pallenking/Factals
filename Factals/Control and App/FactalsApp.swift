@@ -285,93 +285,20 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 			atMen(9, log("Built tag:\(catalog.tag)"))		// Build
 		}
 	}
-//		for elt in scanElements {
-//			if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
-//			var menuTree:NSMenu = self.sceneMenu!
-//
-//			 // Insure NSMenuItem exist for all ancestors:
-//			let tokens:[String.SubSequence] = elt.subMenu.split(separator:"/")
-//			for i in 0..<tokens.count {		 // From full path to root:
-//				assert(i == 0, "/ in sceneMenu, unsupported now")
-//
-//				 //  Check there are menus for Paths A, A/B, A/B/C, where A,B,C are nameTokens:
-//				let path 		= String(tokens[0...i].joined(separator:"/"))
-//				menuTree		= menuOfPath[path] ?? 	// exists
-//								  addMenuEntry(forPath:path, tag:elt.tag, inMenu:menuTree)
-//				menuOfPath[path] = menuTree // remember the nsMenuInTree:
-//			}
-//			 // Make new menu entry:
-//			let menuItem		= NSMenuItem(title:elt.title,
-//											 action:#selector(scheneAction(_:)),
-//											 keyEquivalent:"")	//action:#selector(scheneAction(sender:)),
-//			menuItem.tag 	= elt.tag// + 1
-//			menuTree.addItem(menuItem)	// insert into base (currently)
-//			atMen(9, log("Built tag:\(elt.tag)"))		// Build
-//		}
-//		return []
-//		mutating func addMenuEntry(forPath path:String, tag:Int, inMenu:NSMenu) -> LibraryMenuElement {
-//			 // Create a NEW MenuItem, with a Menu in it, for path:
-//			let nsMenuItem 			= NSMenuItem(title:path, action:#selector(scheneAction(_:)), keyEquivalent:"")
-//			inMenu.addItem(nsMenuItem)// insert into base (currently)
-//			nsMenuItem.tag = tag + 1		// nsMenuInTree has tag of instigator (??? WHY
-//	bug;	let rv					= NSMenu(title:path)
-//	//		nsMenuItem.submenu		= rv
-//			return rv						// menu has been created
-//		}
-
-//	mutating func buildSceneMenus2() -> [LibraryMenuElement] {
-//		var bogusLimit			= 5//30000//10//5//10// adhoc debug limit on scenes
-//		var menuElement4Path : [String:LibraryMenuElement] = [:]		// [path : MenuItem]
-//		if falseF { return [] } 						//trueF//falseF// for debugging
-//
-//		 // Get a catalog of available experiments
-///**/	let lib0				= Library.catalog()
-//		let scanCatalog:[ScanElement] = lib0.state.scanCatalog//(tag:-1, title:"", subMenu:nil)
-//
-//		var rv : [LibraryMenuElement]	= []
-//		let n					= min(bogusLimit, scanCatalog.count)
-//		for scanElement in scanCatalog[0..<n] {	// Scan whole catalog
-//
-//			 // Insure a LibraryMenuElement exist for all its ancestors:
-//			let tokens:[String.SubSequence] = scanElement.subMenu.split(separator:"/")
-//			for i in 0..<tokens.count {			//  Check there are menus for Paths A, A/B, A/B/C
-//				let path 		= String(tokens[0...i].joined(separator:"/"))
-//				guard let m		= menuElement4Path[path] else {
-//					rv.append(LibraryMenuElement(crux:true, id:scanElement.tag, name:scanElement.title))
-//					//let nsMenuItem = NSMenuItem(title:path, action:#selector(scheneAction(_:)), keyEquivalent:"")
-//					continue
-//				}
-//			}
-//			rv.append(LibraryMenuElement(crux:false, id:scanElement.tag, name:scanElement.title))//, imageName:"star"))
-//		}
-//		//let rv				= NSMenu(title:path)
-//		return rv
-//	}
-
-
-	//			menuElement4Path[path] = menuTree // remember the nsMenuInTree:
-		//		menuTree		= menuElement4Path[path] ?? 	// exists
-		//						  addMenuEntry(forPath:path, tag:elt.tag, inMenu:menuTree)
-		//		menuElement4Path[path] = menuTree // remember the nsMenuInTree:
-//				if menuOfPath[path] == nil {
-//					let newMenuEntry = LibraryMenuElement(crux:true, id: -rv.count, name:String(tokens[i]))
-//					menuOfPath[path] = newMenuEntry
-//					rv.append(newMenuEntry)
-//					//addMenuEntry(forPath:path, tag:elt.tag, inMenu:menuTree)
 	 // MARK: Access Scene MENU
-	func scheneActionX(_ sender:NSMenuItem) {
+	mutating func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 bug
 		 // Find scene number for Library lookup:
-//		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
-//											: regressScene	// from last time
-//		regressScene			= sceneNumber + 1			// next regressScene
-//		let scanKey				= "entry\(regressScene)"
-//
-//		if (trueF) {		 	// Make new window:
-//			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
-//		}
+		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
+											: regressScene	// from last time
+		regressScene			= sceneNumber + 1			// next regressScene
+		let scanKey				= "entry\(regressScene)"
+
+		if (trueF) {		 	// Make new window:
+			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
+		}
 //		else {			 		// Install new parts in current window
 //			guard let doc = DOC else { fatalError("no DOC")}
 //			guard let factalsModel = doc.factalsModel else {	return	}
@@ -447,86 +374,8 @@ bug
 	}
 }
 
-
 class DummyApp : NSObject {
 	@objc func scheneAction(_ sender:NSMenuItem) {
 		print("\n\n --- - - - - - - DummyApp.sceneAction(\(sender.className)) tag:\(sender.tag) ---")
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-		switch self {
-		case .SceneMenuLeaf(let i, _, _), .SceneMenuCrux(let i, _, _):		// .SceneMenuLeaf or SceneMenuLeaf
-		case .SceneMenuLeaf(id:Int, name:String, imageName:String?) :
-		case SceneMenuCrux(Int, String, String?)
-		let id: Int
-		let name: String
-		let imageName: String? = nil
-		var id: Int {
-			switch self {
-			case .SceneMenuLeaf(let i, _, _), .SceneMenuCrux(let i, _, _):		// .SceneMenuLeaf or SceneMenuLeaf
-				return i
-			}
-		}
-		//var id : Int { 0 }//{ //
- */
-								//struct MyStruct1: Identifiable {	// TRIAL CODE
-								//	let id: Int64
-								//	let name:String															}
-								//struct MyStruct2: Identifiable {
-								//	let id: Int64
-								//	let value:Double														}
-								//enum MyEnum: Identifiable {
-								//	case case1(MyStruct1)
-								//	case case2(MyStruct2)
-								//	var id: Int64 {
-								//		switch self {
-								//		case .case1(let struct1):
-								//			return struct1.id
-								//		case .case2(let struct2):
-								//			return struct2.id
-								//		}
-								//	}
-								//}
-								//	struct MenuItem : Identifiable {
-								//		let id: Int
-								//		let name: String
-								//		let imageName: String
-								//		let action: () -> Void
-								//	}
-								//	let menuItems = [
-								//		MenuItem(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
-								//		MenuItem(id: 2, name: "Option 2", imageName: "2.circle", action: { print("Option 2 selected") }),
-								//	]
-								
-								/*
-extension CommandMenu {
-
-	static func build(from menuItems: [MenuItem]) -> CommandMenu {
-		var menu = CommandMenu(title: "App Menu")
-		for item in menuItems {
-			if let children = item.children {
-				menu.submenu(item.title) {
-					build(from: children)
-				}
-			} else if let action = item.action {
-				menu.command(item.title, action: Selector(action))
-			}
-		}
-		return menu
-	}
-}
-								
-							 */

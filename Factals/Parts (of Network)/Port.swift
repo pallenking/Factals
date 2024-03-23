@@ -95,8 +95,8 @@ class Port : Part, PortTalk {
 			 //*******//
 			markTree(dirty:.paint)					// repaint myself
 			con2?.port?.markTree(dirty:.paint)// repaint my other too
-			root?.factalsModel?.simulator.startChits = 4			// start simulator after Port value changes
-//			root!.simulator.startChits = 4			// start simulator after Port value changes
+			partBase?.factalsModel?.simulator.startChits = 4			// start simulator after Port value changes
+//			partBase!.simulator.startChits = 4			// start simulator after Port value changes
 		}
 	}
 	func valueChanged(key:String?=nil) -> Bool {
@@ -635,7 +635,7 @@ class Port : Part, PortTalk {
 		scnTube.color0			= NSColor.blue
 
 		 // C: 3D Origin Mark (for debug)
-		let scnOrigin			= originMark(size:0.5, root:root!)
+		let scnOrigin			= originMark(size:0.5, root:partBase!)
 		scnOrigin.color0 		= NSColor.black
 		scnOrigin.position.y 	= -scnDiskY
 		scnOrigin.isHidden		= true

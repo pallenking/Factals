@@ -1362,7 +1362,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
@@ -1380,21 +1380,23 @@ xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + 
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
 })
-xxr("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel(["struc":["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+//			"con":Tunnel(["struc":["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
-				//Link()
+				Broadcast([n:"fwd", P:"a"]),
 			],
-			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a"], P:"fwdx"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"],
+									  ["struc": ["a"], S+X:"fwd"]),
 		]),
 	] ])
 })
-r("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+let bundleNames = ["a"]//,"b","c","d","e","f","g","h","i"]
+xr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
-		Hamming([n:"x", share:["a","b","c","d","e","f","g","h","i"], f:1]),//, "a.-"//
-		Tunnel(of:.genBcast, leafConfig:[share:"x"], ["struc": ["a","b","c","d","e","f","g","h","i"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		Hamming([n:"x", share:bundleNames, f:1]),//, "a.-"//
+		Tunnel(of:.genBcast, leafConfig:[share:"x"], ["struc":bundleNames]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	] ])
 })
 

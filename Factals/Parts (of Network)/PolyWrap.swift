@@ -59,7 +59,7 @@ class PolyWrap : Part {
 			assert(arrayOfParts != nil, "PolyWrap([parts:<val>]), but <val> is not [Part]")
 			assert(arrayOfParts!.count == 1, "paranoia")
 			let child			= arrayOfParts![0]
-//			self.root			= child.root			// WTF
+//			self.partBase			= child.partBase			// WTF
 			self.addChild(child)
 //			arrayOfParts!.forEach { addChild($0) }		// add children in "parts"
 			partConfig["parts"] = nil

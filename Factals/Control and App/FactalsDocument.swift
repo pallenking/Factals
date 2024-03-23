@@ -50,18 +50,18 @@ struct FactalsDocument : FileDocument {
 	init() {	// Build a blank document, so there is a document of record with a Log
 //		DOC						= self			// INSTALL as current DOC, quick!
 
-		 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
+		 // 	1. Make Parts:				//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
 		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
 		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
 		//**/	let select		= "name"	//	entry named name |	"name" *  -1
 		//**/	let select		= "- Port Missing"
-		let parts				= PartBase(fromLibrary:select)
-		factalsModel			= FactalsModel(fromRootPart:parts)
+		let partBase			= PartBase(fromLibrary:select)
+		factalsModel			= FactalsModel(partBase:partBase)
 
-		parts.wireAndGroom([:])
+		partBase.wireAndGroom([:])
 
-		configure(config:factalsModel.fmConfig + parts.ansConfig)
+		configure(config:factalsModel.fmConfig + partBase.ansConfig)
 	}
 	func configure(config:FwConfig) {
 		 // Build Vews per Configuration
@@ -102,7 +102,7 @@ struct FactalsDocument : FileDocument {
 			let parts		= PartBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
-			let factalsModel	= FactalsModel(fromRootPart:parts)
+			let factalsModel	= FactalsModel(partBase:parts)
 bug;		self.init(factalsModel:factalsModel)
 
 //			fmConfig				+= partBase.ansConfig	// from library
