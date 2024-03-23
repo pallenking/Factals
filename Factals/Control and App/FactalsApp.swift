@@ -44,12 +44,6 @@ appGlobals2
 		tree.pp(.tree, appGlobals2.appConfig							// Use
 
 */
-class AppGlobals2 : ObservableObject {
-    @Published var appConfig : FwConfig
-	init(appConfig g:FwConfig) {
-		appConfig = g
-	}
-}
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 @main
@@ -105,6 +99,13 @@ struct FactalsApp: Uid, FwAny {
 
 	@State private var openDocuments: [FactalsDocument] = []
 	@State var appGlobalsX = AppGlobalsX()
+
+	class AppGlobals2 : ObservableObject {
+		@Published var appConfig : FwConfig
+		init(appConfig g:FwConfig) {
+			appConfig = g
+		}
+	}
 
 //	@Observable
 	class AppGlobalsX : ObservableObject {
