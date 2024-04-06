@@ -31,61 +31,25 @@ extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(factalsGlobals)	// inject in environment
-			 .onOpenURL { url in				// Load a document from the given URL
-				openDocuments.append(FactalsDocument(fileURL:url))
-			 }
+				.environmentObject(factalsGlobals)	// inject in environment
+				.onOpenURL { url in				// Load a document from the given URL
+					openDocuments.append(FactalsDocument(fileURL:url))
+				}
 		}
-		 .commands {
+		.commands {
 			CommandMenu("Library") {
 				ForEach(factalsGlobals.libraryMenu) { item in
 //				ForEach(Library.catalog().state.scanCatalog) { item in
-
-				if item.children.count != 0 {
-					Menu(item.name) {
-						ForEach(item.children) { item in
-							Button(item.name) {
-								print(item.name)
+					if item.children.count != 0 {
+						Menu(item.name) {
+							ForEach(item.children) { item in
+								Button(item.name) {
+									print(item.name)
+								}
 							}
 						}
 					}
-		//			Button {
-		//				let libName = "entry\(item.id)"
-		//				print("======== SceneMenu \(libName):")
-//		//				document = FactalsDocument(fromLibrary:libName)
-		//			} label: {
-		//				Text(item.name)
-		//			//	Image(systemName: item.imageName)
-		//			}
 				}
-//					Text(item.title)
-				}
-
-
-//				ForEach(Library.catalog()) 					 { item in	// Generic struct 'ForEach' requires that 'Library' conform to 'RandomAccessCollection'
-	//			ForEach(Library.catalog().state.scanCatalog) { item in	// Cannot convert value of type '[ScanElement]' to expected argument type 'Binding<C>'
-//				ForEach(factalsGlobals.libraryMenu) 		 { item in
-//	//				switch item {	//default: nop
-//	//				case SceneMenuLeaf(let id, let name, let imageName):
-//	//					Text(name)
-//	//					Image(systemName: imageName)
-//	//					Button {
-//	//						document = FactalsDocument(fromLibrary:"entry\(id)")
-//	//						print("Test")
-//	//					} label: {
-//	//						Text(name)
-//	//						Image(systemName: imageName)
-//	//					}
-//	//				case SceneMenuCrux(let id, let name, let imageName):
-//	//					Button {
-//	//						document = FactalsDocument(fromLibrary:"entry\(id)")
-//	//						print("Test")
-//	//					} label: {
-//	//						Text(name)
-//	//						//Image(systemName: imageName)
-//	//					}
-//	//				}
-	//			}
 			}
 		}
 	}
@@ -107,7 +71,7 @@ struct FactalsApp: Uid, FwAny {
 				LibraryMenuElement(id: 1, name: "foo", imageName: "1.circle")
 			])
 		]
-		struct LibraryMenuElement : Identifiable {
+		struct LibraryMenuElement : Identifiable {		// of a Tree
 			let id: Int
 			let name: String
 			var imageName: String? = nil

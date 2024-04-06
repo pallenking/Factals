@@ -42,7 +42,7 @@ class ScanState : Codable {
 //	var scanElements: [ScanElement]	= []	// Catalog of Library
 	var scanEOFencountered:Bool = false	// marks scan done
 }
-struct ScanElement	: Codable, Identifiable {
+struct ScanElement	: Codable, Identifiable {		// of input array (upstream)
 	var id : Int { tag	}
 	var tag		  	: Int
 	var title	  	: String
