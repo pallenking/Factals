@@ -38,38 +38,54 @@ extension FactalsApp : App {
 		}
 		 .commands {
 			CommandMenu("Library") {
-//				ForEach(Library.catalog()) 					 { item in	// Generic struct 'ForEach' requires that 'Library' conform to 'RandomAccessCollection'
-//				ForEach(Library.catalog().state.scanCatalog) { item in	// Cannot convert value of type '[ScanElement]' to expected argument type 'Binding<C>'
-				ForEach(factalsGlobals.libraryMenu) 		 { item in
-					Button {
-						let libName = "entry\(item.id)"
-						print("======== SceneMenu \(libName):")
-//						document = FactalsDocument(fromLibrary:libName)
-					} label: {
-						Text(item.name)
-					//	Image(systemName: item.imageName)
+				ForEach(factalsGlobals.libraryMenu) { item in
+//				ForEach(Library.catalog().state.scanCatalog) { item in
+
+				if item.children.count != 0 {
+					Menu(item.name) {
+						ForEach(item.children) { item in
+							Button(item.name) {
+								print(item.name)
+							}
+						}
 					}
-//					switch item {	//default: nop
-//					case SceneMenuLeaf(let id, let name, let imageName):
-//						Text(name)
-//						Image(systemName: imageName)
-//						Button {
-//							document = FactalsDocument(fromLibrary:"entry\(id)")
-//							print("Test")
-//						} label: {
-//							Text(name)
-//							Image(systemName: imageName)
-//						}
-//					case SceneMenuCrux(let id, let name, let imageName):
-//						Button {
-//							document = FactalsDocument(fromLibrary:"entry\(id)")
-//							print("Test")
-//						} label: {
-//							Text(name)
-//							//Image(systemName: imageName)
-//						}
-//					}
+		//			Button {
+		//				let libName = "entry\(item.id)"
+		//				print("======== SceneMenu \(libName):")
+//		//				document = FactalsDocument(fromLibrary:libName)
+		//			} label: {
+		//				Text(item.name)
+		//			//	Image(systemName: item.imageName)
+		//			}
 				}
+//					Text(item.title)
+				}
+
+
+//				ForEach(Library.catalog()) 					 { item in	// Generic struct 'ForEach' requires that 'Library' conform to 'RandomAccessCollection'
+	//			ForEach(Library.catalog().state.scanCatalog) { item in	// Cannot convert value of type '[ScanElement]' to expected argument type 'Binding<C>'
+//				ForEach(factalsGlobals.libraryMenu) 		 { item in
+//	//				switch item {	//default: nop
+//	//				case SceneMenuLeaf(let id, let name, let imageName):
+//	//					Text(name)
+//	//					Image(systemName: imageName)
+//	//					Button {
+//	//						document = FactalsDocument(fromLibrary:"entry\(id)")
+//	//						print("Test")
+//	//					} label: {
+//	//						Text(name)
+//	//						Image(systemName: imageName)
+//	//					}
+//	//				case SceneMenuCrux(let id, let name, let imageName):
+//	//					Button {
+//	//						document = FactalsDocument(fromLibrary:"entry\(id)")
+//	//						print("Test")
+//	//					} label: {
+//	//						Text(name)
+//	//						//Image(systemName: imageName)
+//	//					}
+//	//				}
+	//			}
 			}
 		}
 	}
@@ -87,15 +103,17 @@ struct FactalsApp: Uid, FwAny {
 
 		// MARK: -B Library Menu:
 		var libraryMenu : [LibraryMenuElement] = [
-			LibraryMenuElement(id: 1, name: "Option 1")//, imageName: "1.circle", action: { print("Option 1 selected") }),
+			LibraryMenuElement(id: 1, name: "superMenu", imageName: "1.circle", children: [
+				LibraryMenuElement(id: 1, name: "foo", imageName: "1.circle")
+			])
 		]
-	
 		struct LibraryMenuElement : Identifiable {
 			let id: Int
 			let name: String
-			let imageName: String? = nil
-			let children = [LibraryMenuElement]()
+			var imageName: String? = nil
+			var children = [LibraryMenuElement]()
 		}
+
 		init(factalsConfig a:FwConfig) {
 			factalsConfig = a
 			var catalogs:[ScanElement] = [] // Library.catalog().state.scanCatalog.count == 0
