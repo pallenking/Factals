@@ -56,7 +56,7 @@ func ppFwPrefix(uid:Uid?, _ fwClassName_:String) -> String {
 
 extension FactalsApp : FactalsStatus	{							///FactalsApp
 	func ppFactalsState(deapth:Int=999) -> String {
-		let emptyEntry			= "? "//APP?.appConfig.string("emptyEntry") ?? "xr()"
+		let emptyEntry			= "? "//APP?.factalsConfig.string("emptyEntry") ?? "xr()"
 		let regressScene		= "? "//APP?.config.int("regressScene") ?? -1
 		return ppFactalsStateHelper("FactalsApp   ", uid:self,
 			myLine:"regressScene:\(regressScene), " +

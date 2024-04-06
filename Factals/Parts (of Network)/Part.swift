@@ -537,7 +537,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			}
 		}										 // Look in application:
 		return partBase?.factalsModel?.fmConfig[name]  // ?? Look in doument
-//			   APP?					 .appConfig[name]	 // Application?a
+//			   APP?					 .factalsConfig[name]	 // Application?a
 	}
 	 // MARK: - 4.3 Iterate over parts
 	typealias PartOperation 	= (Part) -> ()

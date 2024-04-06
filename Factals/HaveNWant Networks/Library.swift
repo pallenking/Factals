@@ -27,7 +27,7 @@ struct ScanArgs : Codable {
 			if sel.hasPrefix("entry") {			// E.g: "scene12"
 				let index 		= sel.index(sel.startIndex, offsetBy:"entry".count)
 				argNumber 		= Int(String(sel[index...]))!
-			}else{								// E.g: "xr()" or <name>
+			} else {							// E.g: "xr()" or <name>
 				argName		= sel
 			}
 		}
@@ -140,7 +140,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		let args				= ScanArgs(selectionString:"", wantOnlyIndex:true)
 		let rv					= Library("catalog")
 
-		 // Scan through all Library swift source file:
+		 // Scan through all Library swift source file, stop at first
 		for lib in Library.libraryList {
 	/**/	lib.loadTest(args:args, state:&rv.state)	// state persists across library probes
 		}		// Hack: Stop after first found.  Ignore multi-source xr('s.
@@ -162,7 +162,6 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	func r( _ testName:String?=nil,
 			_ config:FwConfig, _ rootClosure:@escaping PartClosure,
 			_ file:String?=#file, _ lineNumber:Int=#line)
-//			_ file:String?=#file, _ lineNumber:Int=#line)
 	{	registerNetwork(markedXr:false, testName:testName,
 						config:config, rootClosure:rootClosure,
 						file:file, lineNumber:lineNumber)

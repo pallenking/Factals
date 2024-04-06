@@ -25,41 +25,22 @@ var FACTALSMODEL : FactalsModel?=nil
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
-/*
-
-					   AppGlobals					appGlobals
-Define				   file FactalsApp				FactalsApp
-Instantiate			   FactalsApp					FactalsApp
-					   								FactalsApp .libraryMenu
-Inject				   FactalsApp DocGrp.envir..
-Access				   VewBar
-Use					   VewBar
-
-appGlobals
-	class AppGlobals : ObservableObject								// Define
-	@StateObject var appGlobals = AppGlobals(appConfig:params4pp)		// Instantiate
-	extension FactalsApp|  var body|   DocumentGroup| .environmentOjbect// Inject
-	struct VewBar: View {
-		@EnvironmentObject var appGlobals: AppGlobals					// Access
-		tree.pp(.tree, appGlobals.appConfig							// Use
-
-*/
-
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 @main
 extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(appGlobals)	// inject in environment
-			 .environmentObject(appGlobals)	// inject in environment
+			 .environmentObject(factalsGlobals)	// inject in environment
 			 .onOpenURL { url in				// Load a document from the given URL
 				openDocuments.append(FactalsDocument(fileURL:url))
 			 }
 		}
 		 .commands {
 			CommandMenu("Library") {
-				ForEach(appGlobals.libraryMenu) { item in
+//				ForEach(Library.catalog()) 					 { item in	// Generic struct 'ForEach' requires that 'Library' conform to 'RandomAccessCollection'
+//				ForEach(Library.catalog().state.scanCatalog) { item in	// Cannot convert value of type '[ScanElement]' to expected argument type 'Binding<C>'
+				ForEach(factalsGlobals.libraryMenu) 		 { item in
 					Button {
 						let libName = "entry\(item.id)"
 						print("======== SceneMenu \(libName):")
@@ -97,82 +78,31 @@ struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
 
-	@State private var openDocuments: [FactalsDocument] = []
-
 	var appConfig : FwConfig
-    @StateObject var appGlobals	= AppGlobals(appConfig:params4pp)		// Instantiate appGlobals
 
-//	@State var appGlobals = AppGlobals()
-//B	@AppStorage("text") var textFooBar = ""
-
-//	@Observable
-	class AppGlobals : ObservableObject {
+	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)	// not @State
+	class FactalsGlobals : ObservableObject {				// not @Observable
 		// MARK: -A Configuration
-		@Published var appConfig : FwConfig
+		@Published var factalsConfig : FwConfig
 
 		// MARK: -B Library Menu:
-		var libraryMenu : [LibraryMenuElement] = []		//getMenuItems()	//=//NSMenuItem //	[	LibraryMenuElement(id: 1, name: "Option 1", imageName: "1.circle", action: { print("Option 1 selected") }),
+		var libraryMenu : [LibraryMenuElement] = [
+			LibraryMenuElement(id: 1, name: "Option 1")//, imageName: "1.circle", action: { print("Option 1 selected") }),
+		]
+	
 		struct LibraryMenuElement : Identifiable {
 			let id: Int
 			let name: String
 			let imageName: String? = nil
 			let children = [LibraryMenuElement]()
 		}
-		init(appConfig a:FwConfig) {
-			appConfig = a
-			libraryMenu = buildSceneMenus()
-		}
-		func buildSceneMenus() -> [LibraryMenuElement] {	//() {//LibraryMenuElement nsMenu:NSMenu?=nil
-			if falseF { return [] }			//trueF//falseF// for debugging
-			var bogusLimit			= 200//500000//500000//10// adhoc debug limit on scenes
-			
-			// Get all known tests:
-//			var nsMenu4Path : [String:NSMenu] = [:] 	// Hash of all experiments from HaveNWant:	.removeAll()
-			
-			// Get a catalog of all available Library experiments
-	/**/	let catalogs:[ScanElement] = Library.catalog().state.scanCatalog
-
-			var rv					= [LibraryMenuElement]()
-			for catalog in catalogs {
-				if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
-													//				var outNsMenu:NSMenu = self.sceneMenu	//:NSMenu
-				// Insure NSMenuItem exist for all ancestors:
-				let path 		= catalog.subMenu
-				guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
-
-
-				print("-------- tag:\(catalog.tag) title:\(catalog.title.field(-54)) subMenu:\(catalog.subMenu)")
-
-				
-//				if nsMenu4Path[path] == nil {	// make NSMenu for path if none exists
-//					// Create a NEW MenuItem, with a Menu in it, for path:
-//					let newNsMenuItem = NSMenuItem(title:path,
-//												   action:#selector(DummyApp.scheneAction(_:)),
-//												   keyEquivalent:""
-//					)
-//					newNsMenuItem.tag = catalog.tag + 1		// nsMenuInTree has tag of instigator (??? WHY
-//					newNsMenuItem.submenu = NSMenu(title:path)
-//					/**/			outNsMenu.addItem(newNsMenuItem)// insert into base (currently)
-//					
-//					nsMenu4Path[path] = outNsMenu // remember the nsMenuInTree:
-//				}
-
-				// Make new menu entry:
-//				let menuItem		= NSMenuItem(title:catalog.title,
-//												 action:#selector(DummyApp.scheneAction(_:)),
-//												 keyEquivalent:""
-//				)	//action:#selector(scheneAction(sender:)),
-//				menuItem.tag 		= catalog.tag// + 1
-//				/**/		outNsMenu.addItem(menuItem)	// insert into base (currently)
-//				
-//				atMen(9, log("Built tag:\(catalog.tag)"))		// Build
-
-				let a = LibraryMenuElement(id:rv.count, name:catalog.title)
-				rv.append(a)
-			}
-			return rv
-		}
+		init(factalsConfig a:FwConfig) {
+			factalsConfig = a
+			var catalogs:[ScanElement] = [] // Library.catalog().state.scanCatalog.count == 0
+ 		}
 	}
+
+	@State private var openDocuments: [FactalsDocument] = []
 
 	 // MARK: - 2. Object Variables:
 	var log	: Log				=	Log(title:"App's Log", params4all)
@@ -199,10 +129,6 @@ struct FactalsApp: Uid, FwAny {
 	private init (foo:Bool) {
 		appConfig				= params4all
 		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
-
-		 // Configure App with its defaults (Ahead of any documents)
-// 		buildSceneMenus()
-
 		atApp(3, {
 			log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
 			log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])")
@@ -406,3 +332,53 @@ bug
 	}
 }
 
+
+
+
+
+//					switch item {	//default: nop
+//					case SceneMenuLeaf(let id, let name, let imageName):
+//						Text(name)
+//						Image(systemName: imageName)
+//						Button {
+//							document = FactalsDocument(fromLibrary:"entry\(id)")
+//							print("Test")
+//						} label: {
+//							Text(name)
+//							Image(systemName: imageName)
+//						}
+//					case SceneMenuCrux(let id, let name, let imageName):
+//						Button {
+//							document = FactalsDocument(fromLibrary:"entry\(id)")
+//							print("Test")
+//						} label: {
+//							Text(name)
+//							//Image(systemName: imageName)
+//						}
+//					}
+
+
+
+
+			//	if menu4Path[path] == nil {	// make NSMenu for path if none exists
+			//		// Create a NEW MenuItem, with a Menu in it, for path:
+			//		let newNsMenuItem = NSMenuItem(title:path,
+			//									   action:nil,
+			//									   keyEquivalent:""
+			//		)
+			//		newNsMenuItem.tag = catalog.tag + 1		// nsMenuInTree has tag of instigator (??? WHY
+			//		newNsMenuItem.submenu = NSMenu(title:path)
+	//**/	//		outNsMenu.addItem(newNsMenuItem)// insert into base (currently)
+			//
+			//		menu4Path[path] = outNsMenu // remember the nsMenuInTree:
+			//	}
+
+				// Make new menu entry:
+//				let menuItem		= NSMenuItem(title:catalog.title,
+//												 action:#selector(DummyApp.scheneAction(_:)),
+//												 keyEquivalent:""
+//				)	//action:#selector(scheneAction(sender:)),
+//				menuItem.tag 		= catalog.tag// + 1
+//				/**/		outNsMenu.addItem(menuItem)	// insert into base (currently)
+//				
+//				atMen(9, log("Built tag:\(catalog.tag)"))		// Build

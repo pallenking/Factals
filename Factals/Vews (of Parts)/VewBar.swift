@@ -9,8 +9,7 @@ import SwiftUI
 
 struct VewBar: View {
 	@Binding var vewBase : VewBase
-	@EnvironmentObject var appGlobals: FactalsApp.AppGlobals	// Access
-//	@EnvironmentObject var appGlobals: FactalsApp.AppGlobals	// Access
+	@EnvironmentObject var factalsGlobals: FactalsApp.FactalsGlobals
 
 	var body: some View {
 		VStack {
@@ -30,11 +29,11 @@ struct VewBar: View {
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot \(slot): =====")
-						print(vewBase.tree.pp(.tree, appGlobals.appConfig)) //+ docGlobals.fmConfig))
+						print(vewBase.tree.pp(.tree, factalsGlobals.factalsConfig)) //+ docGlobals.fmConfig))
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot \(slot): =====")
-						print(vewBase.scnBase.tree?.pp(.tree, appGlobals.appConfig) ?? "ews.scnBase.tree == nil")
+						print(vewBase.scnBase.tree?.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 					}
 					Text("Review:")
 					Button(label:{	Text("View")								})
@@ -55,7 +54,7 @@ struct VewBar: View {
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
 					{	var s	= vewBase.selfiePole
 						s.zoom	/= 1.1
-						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line, appGlobals.appConfig))")
+						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line, factalsGlobals.factalsConfig))")
 						vewBase.selfiePole = s	// Put struct's val back
 					}
 					Spacer()

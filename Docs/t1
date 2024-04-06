@@ -950,3 +950,20 @@ af9311942fccdeb81c18676b03d124384a63bd7b last change: /loc 1/20 fails Loading...
 7dfcc69f5de197318e7adb64d0692dc0c21a4c61 morning           1/18 fails Loading...
 eb6049a80456e702740f1e9c5f594b3d516ccdba compiles          1/17 fails Loading...
 fec85ded9f410cb592079afa48d0e73fcca74376 about to move sim 1/17 works NO WAIT
+
+appGlobals2
+	class AppGlobals2 : ObservableObject								// Define
+	@StateObject var appGlobals2 = AppGlobals2(appConfig:params4pp)		// Instantiate
+	extension FactalsApp|  var body|   DocumentGroup| .environmentOjbect// Inject
+	struct VewBar: View {
+		@EnvironmentObject var appGlobals2: AppGlobals2					// Access
+		tree.pp(.tree, appGlobals2.appConfig							// Use
+
+					___AppGlobals2____			____appGlobalsX___
+Define				   *file* FactalsApp			FactalsApp
+Instantiate			   FactalsApp					FactalsApp
+					   								FactalsApp .libraryMenu
+Inject				   FactalsApp DocGrp.envir..
+Access				   VewBar
+Use					   VewBar
+

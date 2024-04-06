@@ -302,7 +302,7 @@ bug
 	}
 	static let shortNames		= [
 		 // Name in code			/// Name returned / printed
-		"buildSceneMenus"				: "men",
+		"buildSceneMenus"				: "mnu",	// was "men"
 		"updateVewNScn"					: "ins",
 		"scheneAction"					: "sa ",
 		"buildVew"						: "bv ",	 // Short Thread Name
