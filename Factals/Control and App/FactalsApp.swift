@@ -38,7 +38,7 @@ extension FactalsApp : App {
 		}
 		.commands {
 			CommandMenu("Library") {
-				ForEach(factalsGlobals.libraryMenu) { item in
+				ForEach(factalsGlobals.libraryMenuTree) { item in
 //				ForEach(Library.catalog().state.scanCatalog) { item in
 					if item.children.count != 0 {
 						Menu(item.name) {
@@ -60,27 +60,34 @@ struct FactalsApp: Uid, FwAny {
 
 	var appConfig : FwConfig
 
-	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)	// not @State
-	class FactalsGlobals : ObservableObject {				// not @Observable
+	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
+
+	class FactalsGlobals : ObservableObject {				// (not @Observable)
 		// MARK: -A Configuration
 		@Published var factalsConfig : FwConfig
 
 		// MARK: -B Library Menu:
-		var libraryMenu : [LibraryMenuElement] = [
-			LibraryMenuElement(id: 1, name: "superMenu", imageName: "1.circle", children: [
-				LibraryMenuElement(id: 1, name: "foo", imageName: "1.circle")
+		var libraryMenuTree : [LibraryMenuTree] = [
+			LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
+				LibraryMenuTree(name: "foo", imageName: "1.circle")
 			])
 		]
-		struct LibraryMenuElement : Identifiable {		// of a Tree
-			let id: Int
+		struct LibraryMenuTree : Identifiable {		// of a Tree
+			let id				= UUID()
 			let name: String
 			var imageName: String? = nil
-			var children = [LibraryMenuElement]()
+			var children = [LibraryMenuTree]()
 		}
 
-		init(factalsConfig a:FwConfig) {
+		init(factalsConfig a:FwConfig,
+			 libraryMenuArray lma:[LibraryMenuArray]?=nil
+	//		 libraryMenuTree  lmt:[LibraryMenuTree]?=nil
+		) {
 			factalsConfig = a
-			var catalogs:[ScanElement] = [] // Library.catalog().state.scanCatalog.count == 0
+			var libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
+			let dict = libraryMenuArray2tree(catalogs:libraryMenuArray)	 //LibraryMenuArray
+			libraryMenuArray = Array(dict.values) as? [LibraryMenuArray]
+			//var catalogs:[LibraryMenuArray] = catalogs//[] // Library.catalog().state.scanCatalog.count == 0
  		}
 	}
 

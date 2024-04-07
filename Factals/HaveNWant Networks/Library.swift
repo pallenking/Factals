@@ -38,17 +38,46 @@ class ScanState : Codable {
 	var uid			: UInt16	= randomUid()
 	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
 	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
-	var scanCatalog	: [ScanElement]	= []	// Catalog of Library
-//	var scanElements: [ScanElement]	= []	// Catalog of Library
-	var scanEOFencountered:Bool = false	// marks scan done
+	var scanCatalog	: [LibraryMenuArray] = []	// Catalog of Library
+	var scanEOFencountered:Bool = false		// marks scan done
 }
-struct ScanElement	: Codable, Identifiable {		// of input array (upstream)
-	var id : Int { tag	}
+struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
+	var id 			= UUID()
+//	var id 			: Int { tag	}
 	var tag		  	: Int
 	var title	  	: String
-	var subMenu	  	: String		// path scene/decoder/...
+	var parentMenu	: String				// path scene/decoder/...
 }
 
+typealias LibraryMenuTree = FactalsApp.FactalsGlobals.LibraryMenuTree
+
+func libraryMenuArray2tree(catalogs:[LibraryMenuArray]) -> [String:LibraryMenuTree] {
+	var bogusLimit		= 20
+	var rv				= [String:LibraryMenuTree]()
+
+	for catalog in catalogs {
+		if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
+
+		 // Make new menu entry:
+		let menuItem		= LibraryMenuTree(name:catalog.title)
+		 // find or make the parentMenu it belongs within
+		let path 			= catalog.parentMenu
+		guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
+		if rv[path] == nil {	// make parent for path if none exists
+			print("-------- tag:\(catalog.tag) title:\(catalog.title.field(-54)) parentMenu:\(catalog.parentMenu)")
+			var parent 		= LibraryMenuTree(name:path) // make new parent
+			parent.children.append(menuItem)
+			rv[path]		= parent 					// remember new element there
+		} else {
+			rv[path]!.children.append(menuItem)
+	//		var parent		= rv[path]
+	//		parent!.children.append(menuItem)
+	//		rv[path]		= parent
+//			rv[catalog.title] = menuItem
+		}
+	}
+	return rv
+}
 
 	  // MARK: - 2.4.3 Result of Scan
 struct ScanAnswer {		// : Codable
@@ -212,7 +241,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 			if trueF {//testName?.hasPrefix("+") ?? false {	// 'trueF {//' trueF/falseF//
 	//why?		assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
 				let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
-				let elt			= ScanElement(tag:state.scanTestNum, title:title, subMenu:state.scanSubMenu)
+				let elt			= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
 				state.scanCatalog.append(elt)
 //				state.scanElements.append(elt)
 			}
