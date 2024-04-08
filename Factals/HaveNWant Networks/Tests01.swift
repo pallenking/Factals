@@ -184,7 +184,7 @@ class Tests01 : Library {
 	 //
     //
    //
-  // Change just one of the following r () to x#r () to select it for building
+  // Change just one of the following r() to xr() to select it for building
  //
 // ///////////////////////////////////////////////////////////////////////
  // MARK: - * Micro Forms

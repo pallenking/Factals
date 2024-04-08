@@ -21,9 +21,9 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 	@ObservedObject var vew:Vew	// arg: object to be inspected.
 
 	@ViewBuilder
-	func inspectionViewBuilder(cl:String) -> some View {
+	func inspectionViewBuilder(subClass:String) -> some View {
 				 // Dispatch via switch
-		switch cl {
+		switch subClass {
 			case "Net":		  InspecNet(			  net:vew.part as! Net)
 				
 			case "Bulb": 	  InspecBulb(			 bulb:vew.part as! Bulb)
@@ -31,7 +31,7 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 			case "KNorm": 	  InspecKNorm(			kNorm:vew.part as! KNorm)
 			case "Multiply":  InspecMultiply(	 multiply:vew.part as! Multiply)
 			case "Hamming":   InspecHamming(	  hamming:vew.part as! Hamming)
-			case "Bayes":	  InspecNothing(	className:cl)
+			case "Bayes":	  InspecNothing(className:subClass)
 			case "MinAnd": 	  InspecMinAnd(		   minAnd:vew.part as! MinAnd)
 			case "MaxOr": 	  InspecMaxOr( 			maxOr:vew.part as! MaxOr)
 			case "Broadcast": InspecBroadcast(	broadcast:vew.part as! Broadcast)
@@ -42,11 +42,11 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 				
 		//	case "PartBase":  InspecRootPartBase(   parts:vew.part as! PartBase, vew:vew)
 				
-			case "Box":		  InspecNothing(	className:cl)
+			case "Box":		  InspecNothing(className:subClass)
 			case "CommonPart":InspecCommonPart(commonPart:vew.part as! CommonPart)
 			case "Port":	  InspecPort(		     port:vew.part as! Port)
 			case "Part":	  InspecPart(		     part:vew.part, vew:vew)
-			default:		  InspecUndefined(  className:cl)
+			default:		  InspecUndefined(className:subClass)
 		}
 	}
 
@@ -54,8 +54,8 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 	var body: some View {
 		VStack(alignment:.leading)  {					// Add Class Inspectors
 			let inheritedClasses:[String] = vew.part.inheritedClasses()//["Net"]//
-			ForEach (inheritedClasses, id:\.self) { cl in
-				inspectionViewBuilder(cl:cl)
+			ForEach (inheritedClasses, id:\.self) { subClass in
+				inspectionViewBuilder(subClass:subClass)
 			}
 
 			//	if cl != "Part" {

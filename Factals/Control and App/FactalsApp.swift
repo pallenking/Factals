@@ -53,6 +53,8 @@ extension FactalsApp : App {
 		}
 	}
 }
+
+
 struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
@@ -70,17 +72,19 @@ struct FactalsApp: Uid, FwAny {
 //			LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
 //				LibraryMenuTree(name: "foo", imageName: "1.circle")
 //			])
-		struct LibraryMenuTree : Identifiable {		// of a Tree
+		class LibraryMenuTree : Identifiable {		// of a Tree
 			let id				= UUID()
 			let name: String
 			var imageName: String? = nil
 			var children = [LibraryMenuTree]()
+			init(name: String, imageName: String? = nil) {
+				self.name 		= name
+				self.imageName 	= imageName
+				self.children 	= []
+			}
 		}
 
-		init(factalsConfig a:FwConfig,
-			 libraryMenuArray lma:[LibraryMenuArray]?=nil
-	//		 libraryMenuTree  lmt:[LibraryMenuTree]?=nil
-		) {
+		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {
 			factalsConfig = a
 			var libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
 			let tree = Factals.libraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray

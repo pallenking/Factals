@@ -56,21 +56,36 @@ func libraryMenuTree(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
 	let root					= LibraryMenuTree(name:"ROOT")
 							
 	for test in tests {
-		if debugLimit <= 0 {	break 	}; debugLimit -= 1
+//		if debugLimit <= 0 {	break 	}; debugLimit -= 1
 		let path 				= test.parentMenu
+		guard path != "-" else  { 	continue 	}	// Do not create library menu
 
-		 // Make (or find) the cruxes of path
-		var crux:LibraryMenuTree = root
-		var cruxChildren		= root.children
+		 // Make (or find) the crux of path
+		var crux:LibraryMenuTree = root		// Slide crux from root to spot to insert
 		for name in path.split(separator:"/") {
-			if let newCrux		= crux.children.first(where: {$0.name == name}) {
-				crux			= newCrux
-			} else {
+			crux				= crux.children.first(where: {$0.name == name}) ?? {
 				let newCrux		= LibraryMenuTree(name:String(name))
 				crux.children.append(newCrux)
-				crux			= newCrux
 				print("------------ added crux:\"\(name)\"")
-			}
+				return newCrux
+			}()
+		}
+
+		 // Make new menu entry:
+		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\"     to menu:\"\(test.parentMenu)\"")
+		crux.children.append(LibraryMenuTree(name:test.title))
+	}
+	return root
+}
+//		crux.children		= cruxChildren
+//			if let newCrux		= crux.children.first(where: {$0.name == name}) {
+//				crux			= newCrux
+//			} else {
+//				let newCrux		= LibraryMenuTree(name:String(name))
+//				crux.children.append(newCrux)
+//				crux			= newCrux
+//				print("------------ added crux:\"\(name)\"")
+//			}
 //			cruxChildren		= cruxChildren.first(where: {$0.name == name})?.children ?? {
 //				let newCrux		= LibraryMenuTree(name:String(name))
 //				cruxChildren.append(newCrux)
@@ -78,14 +93,6 @@ func libraryMenuTree(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
 //				return cruxChildren
 //			}()
 //			crux.children		= cruxChildren
-		}
-
-		 // Make new menu entry:
-		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\" to menu:\"\(test.parentMenu)\"")
-		cruxChildren.append(LibraryMenuTree(name:test.title))
-	}
-	return root
-}
 
 
 	//	var myPath				= ""
