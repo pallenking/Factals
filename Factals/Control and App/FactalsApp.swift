@@ -26,34 +26,92 @@ var FACTALSMODEL : FactalsModel?=nil
 var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
+
 @main
 extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
 				.environmentObject(factalsGlobals)	// inject in environment
-				.onOpenURL { url in				// Load a document from the given URL
+				.onOpenURL { url in					// Load a document from the given URL
 					openDocuments.append(FactalsDocument(fileURL:url))
 				}
 		}
 		.commands {
 			CommandMenu("Library") {
-				ForEach(factalsGlobals.libraryMenuTree.children) { item in
-					if item.children.count != 0 {
-						Menu(item.name) {
-							ForEach(item.children) { item in
-								Button(item.name) {
-									print(item.name)
-								}
-							}
-						}
-					}
+				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
+					viewFor(crux:crux)
 				}
 			}
 		}
 	}
 }
+func viewFor(crux:LibraryMenuTree) -> AnyView {
+	if crux.children.count == 0 {
+		return AnyView(Button(crux.name) {
+			let _ = FactalsDocument()
+			print(crux.name)
+		})
+	}
+	return AnyView(Menu(crux.name) {
+		ForEach(crux.children) { crux in
+			viewFor(crux:crux)
+		}
+	})
+}
 
+extension FactalsApp {		// FactalsGlobals
+	class FactalsGlobals : ObservableObject {				// (not @Observable)
+		// MARK: -A Configuration
+		@Published var factalsConfig : FwConfig
+
+		// MARK: -B Library Menu:
+		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")	//LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
+																				//	LibraryMenuTree(name: "foo", imageName: "1.circle")
+		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {
+			factalsConfig = a
+			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
+			let tree = libraryMenuTree_(array:libraryMenuArray)	 //LibraryMenuArray
+			libraryMenuTree = tree
+			//var catalogs:[LibraryMenuArray] = catalogs//[] // Library.catalog().state.scanCatalog.count == 0
+ 		}
+	}
+}
+class LibraryMenuTree : Identifiable {		// of a Tree
+	let id						= UUID()
+	let name: String
+	var imageName: String? = nil
+	var children = [LibraryMenuTree]()
+	init(name n:String, imageName i:String?=nil) {
+		name 					= n
+		imageName 				= i
+		children 				= []
+	}
+}
+func libraryMenuTree_(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
+	let root					= LibraryMenuTree(name:"ROOT")
+
+	for test in tests { //tests[0...100]//
+		let path 				= test.parentMenu
+		guard path.prefix(1) != "-" else  { 	continue 	}	// Do not create library menu
+		
+		 // Make (or find) the crux of path
+		var crux:LibraryMenuTree = root		// Slide crux from root to spot to insert
+		for name in path.split(separator:"/") {
+			crux				= crux.children.first(where: {$0.name == name}) ?? {
+				let newCrux		= LibraryMenuTree(name:String(name), imageName: "1.circle")
+				crux.children.append(newCrux)
+//				print("---- added crux:\"\(name)\"")
+				return newCrux
+			}()
+		}
+		
+		 // Make new menu entry:
+//		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\"     to menu:\"\(test.parentMenu)\"")
+		crux.children.append(LibraryMenuTree(name:test.title))
+	}
+	return root
+}
 
 struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
@@ -62,36 +120,6 @@ struct FactalsApp: Uid, FwAny {
 	var appConfig : FwConfig
 
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
-
-	class FactalsGlobals : ObservableObject {				// (not @Observable)
-		// MARK: -A Configuration
-		@Published var factalsConfig : FwConfig
-
-		// MARK: -B Library Menu:
-		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")
-//			LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
-//				LibraryMenuTree(name: "foo", imageName: "1.circle")
-//			])
-		class LibraryMenuTree : Identifiable {		// of a Tree
-			let id				= UUID()
-			let name: String
-			var imageName: String? = nil
-			var children = [LibraryMenuTree]()
-			init(name: String, imageName: String? = nil) {
-				self.name 		= name
-				self.imageName 	= imageName
-				self.children 	= []
-			}
-		}
-
-		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {
-			factalsConfig = a
-			var libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
-			let tree = Factals.libraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray
-			libraryMenuTree = tree
-			//var catalogs:[LibraryMenuArray] = catalogs//[] // Library.catalog().state.scanCatalog.count == 0
- 		}
-	}
 
 	@State private var openDocuments: [FactalsDocument] = []
 

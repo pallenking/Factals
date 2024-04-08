@@ -49,34 +49,6 @@ struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
 	var parentMenu	: String				// path scene/decoder/...
 }
 
-typealias LibraryMenuTree = FactalsApp.FactalsGlobals.LibraryMenuTree
-
-func libraryMenuTree(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
-	var debugLimit				= 20
-	let root					= LibraryMenuTree(name:"ROOT")
-							
-	for test in tests {
-//		if debugLimit <= 0 {	break 	}; debugLimit -= 1
-		let path 				= test.parentMenu
-		guard path != "-" else  { 	continue 	}	// Do not create library menu
-
-		 // Make (or find) the crux of path
-		var crux:LibraryMenuTree = root		// Slide crux from root to spot to insert
-		for name in path.split(separator:"/") {
-			crux				= crux.children.first(where: {$0.name == name}) ?? {
-				let newCrux		= LibraryMenuTree(name:String(name))
-				crux.children.append(newCrux)
-				print("------------ added crux:\"\(name)\"")
-				return newCrux
-			}()
-		}
-
-		 // Make new menu entry:
-		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\"     to menu:\"\(test.parentMenu)\"")
-		crux.children.append(LibraryMenuTree(name:test.title))
-	}
-	return root
-}
 //		crux.children		= cruxChildren
 //			if let newCrux		= crux.children.first(where: {$0.name == name}) {
 //				crux			= newCrux
