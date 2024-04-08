@@ -38,8 +38,7 @@ extension FactalsApp : App {
 		}
 		.commands {
 			CommandMenu("Library") {
-				ForEach(factalsGlobals.libraryMenuTree) { item in
-//				ForEach(Library.catalog().state.scanCatalog) { item in
+				ForEach(factalsGlobals.libraryMenuTree.children) { item in
 					if item.children.count != 0 {
 						Menu(item.name) {
 							ForEach(item.children) { item in
@@ -67,11 +66,10 @@ struct FactalsApp: Uid, FwAny {
 		@Published var factalsConfig : FwConfig
 
 		// MARK: -B Library Menu:
-		var libraryMenuTree : [LibraryMenuTree] = [
-			LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
-				LibraryMenuTree(name: "foo", imageName: "1.circle")
-			])
-		]
+		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")
+//			LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
+//				LibraryMenuTree(name: "foo", imageName: "1.circle")
+//			])
 		struct LibraryMenuTree : Identifiable {		// of a Tree
 			let id				= UUID()
 			let name: String
@@ -85,8 +83,8 @@ struct FactalsApp: Uid, FwAny {
 		) {
 			factalsConfig = a
 			var libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
-			let dict = libraryMenuArray2tree(catalogs:libraryMenuArray)	 //LibraryMenuArray
-			libraryMenuArray = Array(dict.values) as? [LibraryMenuArray]
+			let tree = Factals.libraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray
+			libraryMenuTree = tree
 			//var catalogs:[LibraryMenuArray] = catalogs//[] // Library.catalog().state.scanCatalog.count == 0
  		}
 	}

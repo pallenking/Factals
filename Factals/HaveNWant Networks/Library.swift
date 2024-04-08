@@ -51,33 +51,76 @@ struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
 
 typealias LibraryMenuTree = FactalsApp.FactalsGlobals.LibraryMenuTree
 
-func libraryMenuArray2tree(catalogs:[LibraryMenuArray]) -> [String:LibraryMenuTree] {
-	var bogusLimit		= 20
-	var rv				= [String:LibraryMenuTree]()
+func libraryMenuTree(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
+	var debugLimit				= 20
+	let root					= LibraryMenuTree(name:"ROOT")
+							
+	for test in tests {
+		if debugLimit <= 0 {	break 	}; debugLimit -= 1
+		let path 				= test.parentMenu
 
-	for catalog in catalogs {
-		if bogusLimit <= 0 {	break 	}; bogusLimit -= 1
+		 // Make (or find) the cruxes of path
+		var crux:LibraryMenuTree = root
+		var cruxChildren		= root.children
+		for name in path.split(separator:"/") {
+			if let newCrux		= crux.children.first(where: {$0.name == name}) {
+				crux			= newCrux
+			} else {
+				let newCrux		= LibraryMenuTree(name:String(name))
+				crux.children.append(newCrux)
+				crux			= newCrux
+				print("------------ added crux:\"\(name)\"")
+			}
+//			cruxChildren		= cruxChildren.first(where: {$0.name == name})?.children ?? {
+//				let newCrux		= LibraryMenuTree(name:String(name))
+//				cruxChildren.append(newCrux)
+//				print("------------ added crux:\"\(name)\"")
+//				return cruxChildren
+//			}()
+//			crux.children		= cruxChildren
+		}
 
 		 // Make new menu entry:
-		let menuItem		= LibraryMenuTree(name:catalog.title)
-		 // find or make the parentMenu it belongs within
-		let path 			= catalog.parentMenu
-		guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
-		if rv[path] == nil {	// make parent for path if none exists
-			print("-------- tag:\(catalog.tag) title:\(catalog.title.field(-54)) parentMenu:\(catalog.parentMenu)")
-			var parent 		= LibraryMenuTree(name:path) // make new parent
-			parent.children.append(menuItem)
-			rv[path]		= parent 					// remember new element there
-		} else {
-			rv[path]!.children.append(menuItem)
-	//		var parent		= rv[path]
-	//		parent!.children.append(menuItem)
-	//		rv[path]		= parent
-//			rv[catalog.title] = menuItem
-		}
+		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\" to menu:\"\(test.parentMenu)\"")
+		cruxChildren.append(LibraryMenuTree(name:test.title))
 	}
-	return rv
+	return root
 }
+
+
+	//	var myPath				= ""
+	//	var parent:LibraryMenuTree? = nil
+	//	for i in 0..<tokens.count {				// insure parent is in knownCruxs
+	//		if knownCruxs[myPath] == nil {
+	//			knownCruxs[myPath] = LibraryMenuTree(name:String(tokens[i])) // make new parent
+	//			let c 			= knownCruxs[myPath]!
+	//			print("------------ added parent name:\"\(tokens[i])\"     title:\"\(c.name.field(-54))\" to knownCruxes:\"\(myPath)\"")
+	//		}
+	//		myPath				+= (myPath == "" ? "" : myPath + "/") + tokens[i]
+	//	}
+	//	let parentPath			= String(tokens[0..<tokens.count-1].joined(separator:"/"))
+	//
+	//	 // Make new menu entry:
+	//	print("-------- adding tag:\(testEntry.tag) title:\"\(testEntry.title.field(-54))\" to menu:\"\(testEntry.parentMenu)\"")
+	//	let menuItem			= LibraryMenuTree(name:testEntry.title)
+	//	knownCruxs[parentPath]!.children.append(menuItem)
+//
+//			if knownCruxs[fullPath] == nil {	// make parent node for path, if none exists
+//			} else {
+//				knownCruxs[path]!.children.append(menuItem)
+//			}
+//			let longName = path[0..<i].joined(seperator:"/")
+//		}
+//		guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
+//
+//		if knownCruxs[path] == nil {	// make parent node for path, if none exists
+//			print("-------- tag:\(testEntry.tag) title:\(testEntry.title.field(-54)) parentMenu:\(testEntry.parentMenu)")
+//			var parent 			= LibraryMenuTree(name:path) // make new parent
+//			parent.children.append(menuItem)
+//			knownCruxs[path] 	= parent 					// remember new element there
+//		} else {
+//			knownCruxs[path]!.children.append(menuItem)
+//		}
 
 	  // MARK: - 2.4.3 Result of Scan
 struct ScanAnswer {		// : Codable
