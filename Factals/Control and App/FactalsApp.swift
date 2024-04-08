@@ -11,6 +11,7 @@ import SwiftUI
 import SceneKit
 
 
+	 // MARK: - Version
 	let (majorVersion, minorVersion, nameVersion) = (6, 4, "Factals")		// 240210
   //let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
   //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
@@ -19,7 +20,7 @@ import SceneKit
   //let (majorVersion, minorVersion, dnameVersion) = (5, 0, "Swift Recode")
   //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
 
-// MARK: - Singleton
+ // MARK: - Singleton
 var FACTALSMODEL : FactalsModel?=nil
 
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
@@ -27,6 +28,7 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 
+ // MARK: - SwiftUI
 @main
 extension FactalsApp : App {
 	var body: some Scene {
@@ -60,6 +62,7 @@ func viewFor(crux:LibraryMenuTree) -> AnyView {
 	})
 }
 
+ // MARK: - Globals
 extension FactalsApp {		// FactalsGlobals
 	class FactalsGlobals : ObservableObject {				// (not @Observable)
 		// MARK: -A Configuration
@@ -112,7 +115,7 @@ func libraryMenuTree_(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
 	}
 	return root
 }
-
+ // MARK: - FactalsApp base
 struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()

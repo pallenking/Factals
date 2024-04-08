@@ -8,7 +8,7 @@ class TestsFoo : Library {
 		let e 	 : FwConfig		= [:]		// Logs OFF "logPri4all":8
 
 		 // MARK: - * Tivo World
-		let ign	= ""	//"-"//""//
+		let ign	= "-"	//"-":ignore; "":test//
 		state.scanSubMenu		= ign
 		r("Prototype HaveNWant", e, { Part(["colorX":"yellow", "parts":[
 			Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
