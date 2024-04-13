@@ -51,14 +51,11 @@ extension FactalsApp : App {
 		}
 		 .commands {
 			CommandMenu("Library") {
-				 // Simple Test
-				Button {
+				Button(label:{ Text("Simple Test")}) {
 					let prev	= openDocuments.count
 					let libName = "entry6"
 					openDocuments.append(FactalsDocument(fromLibrary:libName))
 					print("======== SceneMenu \(libName): -- openDocuments.count:\(prev) -> \(openDocuments.count)")
-				} label: {
-					Text("Fake Button")
 				}
 
 				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
@@ -81,7 +78,6 @@ extension FactalsApp : App {
 			}
 		})
 	}
-
 }								//
  // MARK: - Globals
 extension FactalsApp {		// FactalsGlobals

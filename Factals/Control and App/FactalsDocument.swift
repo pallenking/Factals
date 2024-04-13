@@ -35,6 +35,11 @@ struct FactalsDocument : FileDocument {
 
 	var factalsModel : FactalsModel! = nil				// content
 
+	func retainIn(_ docs:Binding<[FactalsDocument]>) -> FactalsDocument {
+		docs.wrappedValue.append(self)
+		return self
+	}
+
 	init(openDocuments:Binding<[FactalsDocument]>) {
 		self.init(fromLibrary:"xr()")
 		openDocuments.wrappedValue.append(self)
