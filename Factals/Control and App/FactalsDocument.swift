@@ -58,9 +58,7 @@ struct FactalsDocument : FileDocument {
 		//**/	let select		= "- Port Missing"
 		let partBase			= PartBase(fromLibrary:select)
 		factalsModel			= FactalsModel(partBase:partBase)
-
 		partBase.wireAndGroom([:])
-
 		configure(config:factalsModel.fmConfig + partBase.ansConfig)
 	}
 	func configure(config:FwConfig) {

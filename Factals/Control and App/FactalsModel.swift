@@ -33,8 +33,8 @@ class FactalsModel : ObservableObject, Uid {
 		FACTALSMODEL			= self
 		simulator.factalsModel	= self
 		partBase.factalsModel	= self
-
-		//configure(from:document.fmConfig)
+		fmConfig				= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
+		configure(from:params4pp)
 	}
 
 	func configure(from:FwConfig) {

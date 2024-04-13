@@ -47,17 +47,21 @@ extension FactalsApp : App {
 			}
 		}
 	}
-}
+}								//
+ // MARK: - Generate Library Menu
 func viewFor(crux:LibraryMenuTree) -> AnyView {
-	if crux.children.count == 0 {
+	if crux.children.count == 0 {				// Crux has nominal Button
 		return AnyView(Button(crux.name) {
 			let _ = FactalsDocument()
-			print(crux.name)
+			print("Want to make document '\(crux.name)'.")
+bug	//		let rootPart1		= Parts()
+	//		let factalsModel1	= FactalsModel(parts:rootPart1)
+	//		let document		= FactalsDocument(factalsModel:factalsModel1)
 		})
 	}
 	return AnyView(Menu(crux.name) {
 		ForEach(crux.children) { crux in
-			viewFor(crux:crux)
+			viewFor(crux:crux)					// ### RECURSIVE ***/
 		}
 	})
 }
@@ -72,10 +76,10 @@ extension FactalsApp {		// FactalsGlobals
 		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")	//LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
 																				//	LibraryMenuTree(name: "foo", imageName: "1.circle")
 		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {
-			factalsConfig = a
+			factalsConfig 		= a
 			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
-			let tree = libraryMenuTree_(array:libraryMenuArray)	 //LibraryMenuArray
-			libraryMenuTree = tree
+			let tree 			= libraryMenuTree_(array:libraryMenuArray)	 //LibraryMenuArray
+			libraryMenuTree 	= tree
 			//var catalogs:[LibraryMenuArray] = catalogs//[] // Library.catalog().state.scanCatalog.count == 0
  		}
 	}
@@ -120,8 +124,7 @@ struct FactalsApp: Uid, FwAny {
 	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
 
-	var appConfig : FwConfig
-
+	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
 	@State private var openDocuments: [FactalsDocument] = []
@@ -149,11 +152,10 @@ struct FactalsApp: Uid, FwAny {
 		self.init(foo:true)
 	}
 	private init (foo:Bool) {
-		appConfig				= params4all
 		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 		atApp(3, {
-			log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
-			log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])")
+//			log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
+//			log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])")
 
 			   // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김
 			  // ⌘:apple, ⏎:enter

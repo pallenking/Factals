@@ -42,64 +42,11 @@ class ScanState : Codable {
 	var scanEOFencountered:Bool = false		// marks scan done
 }
 struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
-	var id 			= UUID()
-//	var id 			: Int { tag	}
+	var id 			= UUID()													// var id : Int { tag	}
 	var tag		  	: Int
 	var title	  	: String
 	var parentMenu	: String				// path scene/decoder/...
 }
-
-//		crux.children		= cruxChildren
-//			if let newCrux		= crux.children.first(where: {$0.name == name}) {
-//				crux			= newCrux
-//			} else {
-//				let newCrux		= LibraryMenuTree(name:String(name))
-//				crux.children.append(newCrux)
-//				crux			= newCrux
-//				print("------------ added crux:\"\(name)\"")
-//			}
-//			cruxChildren		= cruxChildren.first(where: {$0.name == name})?.children ?? {
-//				let newCrux		= LibraryMenuTree(name:String(name))
-//				cruxChildren.append(newCrux)
-//				print("------------ added crux:\"\(name)\"")
-//				return cruxChildren
-//			}()
-//			crux.children		= cruxChildren
-
-
-	//	var myPath				= ""
-	//	var parent:LibraryMenuTree? = nil
-	//	for i in 0..<tokens.count {				// insure parent is in knownCruxs
-	//		if knownCruxs[myPath] == nil {
-	//			knownCruxs[myPath] = LibraryMenuTree(name:String(tokens[i])) // make new parent
-	//			let c 			= knownCruxs[myPath]!
-	//			print("------------ added parent name:\"\(tokens[i])\"     title:\"\(c.name.field(-54))\" to knownCruxes:\"\(myPath)\"")
-	//		}
-	//		myPath				+= (myPath == "" ? "" : myPath + "/") + tokens[i]
-	//	}
-	//	let parentPath			= String(tokens[0..<tokens.count-1].joined(separator:"/"))
-	//
-	//	 // Make new menu entry:
-	//	print("-------- adding tag:\(testEntry.tag) title:\"\(testEntry.title.field(-54))\" to menu:\"\(testEntry.parentMenu)\"")
-	//	let menuItem			= LibraryMenuTree(name:testEntry.title)
-	//	knownCruxs[parentPath]!.children.append(menuItem)
-//
-//			if knownCruxs[fullPath] == nil {	// make parent node for path, if none exists
-//			} else {
-//				knownCruxs[path]!.children.append(menuItem)
-//			}
-//			let longName = path[0..<i].joined(seperator:"/")
-//		}
-//		guard !path.contains(substring: "/") else {fatalError("'/' in not supported scanSubMenu")}
-//
-//		if knownCruxs[path] == nil {	// make parent node for path, if none exists
-//			print("-------- tag:\(testEntry.tag) title:\(testEntry.title.field(-54)) parentMenu:\(testEntry.parentMenu)")
-//			var parent 			= LibraryMenuTree(name:path) // make new parent
-//			parent.children.append(menuItem)
-//			knownCruxs[path] 	= parent 					// remember new element there
-//		} else {
-//			knownCruxs[path]!.children.append(menuItem)
-//		}
 
 	  // MARK: - 2.4.3 Result of Scan
 struct ScanAnswer {		// : Codable
@@ -142,12 +89,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	 // MARK: - 3. Factory
 	init(_ name:String) {
 		self.name				= name
-		//super.init()
 	}
-	//enum IntParsingError: Error {
-	//	case overflow
-	//	case invalidInput(Character)
-	//}
 	var args  : ScanArgs?		= nil
 	var state : ScanState		= ScanState()		// class
 	var answer: ScanAnswer		= ScanAnswer()		// struc
@@ -342,22 +284,6 @@ extension Library {
    /// - Parameters:
   ///   - prefix: Set to "*" for XCTests
  /// - Returns: Hash for logPri4 verbosity
-//func log(prefix:String="",
-/*app */
-/*doc */
-/*bld */
-/*ser */
-/*ani */
-/*dat */
-/*eve */
-/*ins */
-/*men */
-/*rve */
-/*rsi */
-/*rnd */
-/*tst */
-/*all*/
-
 func log(
 		app:Int=0,
 		doc:Int=0,
@@ -375,40 +301,40 @@ func log(
  		all:Int=0		// con gone
 		) -> FwConfig {	[:] }
 
-func log33(
-		app:Int=0,
-		doc:Int=0,
-		bld:Int=0,
-		ser:Int=0,
-		ani:Int=0,
-		dat:Int=0,
-		eve:Int=0,
-		ins:Int=0,
-		men:Int=0,
-		rve:Int=0,
-		rsi:Int=0,
-		rnd:Int=0,
-		tst:Int=0,
- 		all:Int=0		// con gone
-		) -> FwConfig {
-	var rv : FwConfig		= [:]//"logPri4all"  : 0]	// default OFF
-
-	if app > 0 		{		rv["logPri4app"] = app								}
-	if doc > 0 		{		rv["logPri4doc"] = doc								}
-	if bld > 0 		{		rv["logPri4bld"] = bld								}
-	if ser > 0 		{		rv["logPri4ser"] = ser								}
-	if ani > 0 		{		rv["logPri4ani"] = ani								}
-	if dat > 0 		{		rv["logPri4dat"] = dat								}
-	if eve > 0 		{		rv["logPri4eve"] = eve								}
-	if ins > 0 		{		rv["logPri4ins"] = ins								}
-	if men > 0 		{		rv["logPri4men"] = men								}
-	if rve > 0 		{		rv["logPri4rve"] = rve								}
-	if rsi > 0 		{		rv["logPri4rsi"] = rsi								}
-	if rnd > 0 		{		rv["logPri4rnd"] = rnd								}
-	if tst > 0 		{		rv["logPri4tst"] = ins								}
-	if all > 0 		{		rv["logPri4all"] = all								}
-	return rv
-}
+//func log33(
+//		app:Int=0,
+//		doc:Int=0,
+//		bld:Int=0,
+//		ser:Int=0,
+//		ani:Int=0,
+//		dat:Int=0,
+//		eve:Int=0,
+//		ins:Int=0,
+//		men:Int=0,
+//		rve:Int=0,
+//		rsi:Int=0,
+//		rnd:Int=0,
+//		tst:Int=0,
+// 		all:Int=0		// con gone
+//		) -> FwConfig {
+//	var rv : FwConfig		= [:]//"logPri4all"  : 0]	// default OFF
+//
+//	if app > 0 		{		rv["logPri4app"] = app								}
+//	if doc > 0 		{		rv["logPri4doc"] = doc								}
+//	if bld > 0 		{		rv["logPri4bld"] = bld								}
+//	if ser > 0 		{		rv["logPri4ser"] = ser								}
+//	if ani > 0 		{		rv["logPri4ani"] = ani								}
+//	if dat > 0 		{		rv["logPri4dat"] = dat								}
+//	if eve > 0 		{		rv["logPri4eve"] = eve								}
+//	if ins > 0 		{		rv["logPri4ins"] = ins								}
+//	if men > 0 		{		rv["logPri4men"] = men								}
+//	if rve > 0 		{		rv["logPri4rve"] = rve								}
+//	if rsi > 0 		{		rv["logPri4rsi"] = rsi								}
+//	if rnd > 0 		{		rv["logPri4rnd"] = rnd								}
+//	if tst > 0 		{		rv["logPri4tst"] = ins								}
+//	if all > 0 		{		rv["logPri4all"] = all								}
+//	return rv
+//}
 /*
 func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 		ani:Int?=nil, dat:Int?=nil, eve:Int?=nil, ins:Int?=nil,

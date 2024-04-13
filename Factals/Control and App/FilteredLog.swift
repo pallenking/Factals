@@ -5,14 +5,14 @@ import Foundation
 //	at<A>(<V>, {...}) executes an action dependent on "arguments" <A> and <V>.
 //	If the current DOClog.verbosity[<A>] is >= <V> the closure is executed.
 //
-//	The following verbosities <V> are defined:
+//	The following   verbosities <V>   are defined:
 		// 0 : silent (prints nothing)		// 5 : Normal
 		// 1 : initialization and errors	// 6 : Verbose
 		// 2 : 1 line per model				// 7 : a lot
 		// 3 : important					// 8 : Most Everything
 		// 4 : lite							// 9 : Everything
 
-//	The following areas <A> are defined:
+//	The following   areas <A>   are defined:
 		// app	-- APPlication		- construction of app
 //______// men	-- MENus 			- construction of menus
 		// doc	-- DOCument			- construction of document

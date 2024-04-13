@@ -967,3 +967,111 @@ Inject				   FactalsApp DocGrp.envir..
 Access				   VewBar
 Use					   VewBar
 
+
+================================================================
+================ PATH 1
+App.main()
+...
+FactalsApp.swift:117: 
+		init(appConfig a:FwConfig) {
+		func buildSceneMenus() -> [LibraryMenuElement]
+================ PATH 2
+
+
+
+
+
+
+scanCatalog:
+
+struct ScanElement	: Codable {
+	var tag		  	: Int
+	var title	  	: String
+	var subMenu	  	: String		// path scene/decoder/...
+}
+
+		struct LibraryMenuElement : Identifiable {
+			let id: Int
+			let name: String
+			let imageName: String? = nil
+			let children = [LibraryMenuElement]()
+		}
+
+
+
+		var libraryMenu : [LibraryMenuElement] = []		
+/		/getMenuItems()	//=//NSMenuItem
+//		[	LibraryMenuElement(id: 1, name: "Option 1", imageName: "1.circle",	
+//								   	  action: { print("Option 1 selected") }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cannot convert value of type
+'[String : MenuTree]' (aka 'Dictionary<String, FactalsApp.FactalsGlobals.MenuTree>')
+to specified type
+'MenuTree' (aka 'FactalsApp.FactalsGlobals.MenuTree')
+
+https://twitter.com/i/status/1776669097490776563
+
+Cannot assign value of type
+'[String : LibraryMenuTree]' (aka 'Dictionary<String, FactalsApp.FactalsGlobals.LibraryMenuTree>') to type
+'[FactalsApp.FactalsGlobals.LibraryMenuTree]'']
+
+Cannot assign value of type
+'Dictionary<String, LibraryMenuTree>.Values' (aka 'Dictionary<String, FactalsApp.FactalsGlobals.LibraryMenuTree>.Values') to type
+'[LibraryMenuArray]'
+
+'Array<Dictionary<String, LibraryMenuTree>.Values.Element>'
+	(aka 'Array<FactalsApp.FactalsGlobals.LibraryMenuTree>')
+'[LibraryMenuArray]'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'FactalsApp.FactalsGlobals.LibraryMenuTree' to type
+'[FactalsApp.FactalsGlobals.LibraryMenuTree]'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'FactalsApp.FactalsGlobals.Type' to type
+'FwConfig' (aka 'Dictionary<String, any FwAny>')
