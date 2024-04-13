@@ -212,7 +212,7 @@ class FactalsModel : ObservableObject, Uid {
 					  ".scn(\(ppUid(vews.scnBase))):")
 				print(vews.scnBase.pp(.tree), terminator:"")
 			}
-		case "#":
+		case "#":				// OUTPUT MODEL
 			let documentDirURL	= try! FileManager.default.url(
 											for:.documentDirectory,
 											in:.userDomainMask,

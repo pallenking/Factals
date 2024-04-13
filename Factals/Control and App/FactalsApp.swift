@@ -29,43 +29,60 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 
  // MARK: - SwiftUI
+
 @main
 extension FactalsApp : App {
+	func newFactalsDocument() -> FactalsDocument {
+		let rv =			FactalsDocument()
+		openDocuments.append(rv)
+		return rv
+	}																			//	DocumentGroup(newDocument:{
+																				//		let rv = FactalsDocument()
+																			//	//		$openDocuments.append(rv)
+																				//		return rv
+																			//		DocumentGroup(newDocument:FactalsDocument(openDocuments:$openDocuments))
 	var body: some Scene {
-		DocumentGroup(newDocument:FactalsDocument()) { file in
+		DocumentGroup(newDocument:newFactalsDocument()) { file in
 			ContentView(document: file.$document)
-				.environmentObject(factalsGlobals)	// inject in environment
-				.onOpenURL { url in					// Load a document from the given URL
-					openDocuments.append(FactalsDocument(fileURL:url))
-				}
+			 .environmentObject(factalsGlobals)	// inject in environment
+			 .onOpenURL { url in					// Load a document from the given URL
+				openDocuments.append(FactalsDocument(fileURL:url))
+			}
 		}
-		.commands {
+		 .commands {
 			CommandMenu("Library") {
+				 // Simple Test
+				Button {
+					let prev	= openDocuments.count
+					let libName = "entry6"
+					openDocuments.append(FactalsDocument(fromLibrary:libName))
+					print("======== SceneMenu \(libName): -- openDocuments.count:\(prev) -> \(openDocuments.count)")
+				} label: {
+					Text("Fake Button")
+				}
+
 				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
-					viewFor(crux:crux)
+					menuView(for:crux)
 				}
 			}
 		}
 	}
-}								//
- // MARK: - Generate Library Menu
-func viewFor(crux:LibraryMenuTree) -> AnyView {
-	if crux.children.count == 0 {				// Crux has nominal Button
-		return AnyView(Button(crux.name) {
-			let _ = FactalsDocument()
-			print("Want to make document '\(crux.name)'.")
-bug	//		let rootPart1		= Parts()
-	//		let factalsModel1	= FactalsModel(parts:rootPart1)
-	//		let document		= FactalsDocument(factalsModel:factalsModel1)
+	 // MARK: - Generate Library Menu View
+	func menuView(for crux:LibraryMenuTree) -> AnyView {
+		if crux.children.count == 0 {				// Crux has nominal Button
+			return AnyView(Button(crux.name) {
+				print("Want to make document '\(crux.name)'.")
+				openDocuments.append(FactalsDocument(fromLibrary:"entry6"))
+			})
+		}
+		return AnyView(Menu(crux.name) {
+			ForEach(crux.children) { crux in
+				menuView(for:crux)					// ### RECURSIVE ***/
+			}
 		})
 	}
-	return AnyView(Menu(crux.name) {
-		ForEach(crux.children) { crux in
-			viewFor(crux:crux)					// ### RECURSIVE ***/
-		}
-	})
-}
 
+}								//
  // MARK: - Globals
 extension FactalsApp {		// FactalsGlobals
 	class FactalsGlobals : ObservableObject {				// (not @Observable)
@@ -73,8 +90,7 @@ extension FactalsApp {		// FactalsGlobals
 		@Published var factalsConfig : FwConfig
 
 		// MARK: -B Library Menu:
-		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")	//LibraryMenuTree(name: "superMenu", imageName: "1.circle", children: [
-																				//	LibraryMenuTree(name: "foo", imageName: "1.circle")
+		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")
 		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {
 			factalsConfig 		= a
 			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
@@ -95,11 +111,11 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 		children 				= []
 	}
 }
-func libraryMenuTree_(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
+func libraryMenuTree_(array entries:[LibraryMenuArray]) -> LibraryMenuTree {
 	let root					= LibraryMenuTree(name:"ROOT")
 
-	for test in tests { //tests[0...100]//
-		let path 				= test.parentMenu
+	for entry in entries { //tests[0...100]//
+		let path 				= entry.parentMenu
 		guard path.prefix(1) != "-" else  { 	continue 	}	// Do not create library menu
 		
 		 // Make (or find) the crux of path
@@ -115,7 +131,7 @@ func libraryMenuTree_(array tests:[LibraryMenuArray]) -> LibraryMenuTree {
 		
 		 // Make new menu entry:
 //		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\"     to menu:\"\(test.parentMenu)\"")
-		crux.children.append(LibraryMenuTree(name:test.title))
+		crux.children.append(LibraryMenuTree(name:entry.title))
 	}
 	return root
 }

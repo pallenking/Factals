@@ -12,21 +12,15 @@ import SceneKit
   // Defining file and data types for your app:	https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
  //	System-declared uniform type identifiers:	https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
 import UniformTypeIdentifiers
-
-class DocGlobals : ObservableObject {
-    @Published var fmConfig : FwConfig
-	init(fmConfig d:FwConfig) {
-		fmConfig = d
-	}
-}
-
  // Define a new UTType for factals:
 extension UTType {
 	static var factals: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  	}	// com.example.fooTry3
 }
+
+ // MARK: - FactalsDocument
  // Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
 extension FactalsDocument {
-	static var readableContentTypes: [UTType] { [.factals] }//{ [.exampleText, .text] }
+	static var readableContentTypes: [UTType] { [.factals] }					//{ [.exampleText, .text] }
 	static var writableContentTypes: [UTType] { [.factals] }
 }
 
@@ -38,17 +32,28 @@ extension FactalsDocument : Uid {
 }
 struct FactalsDocument : FileDocument {
 	let uid:UInt16				= randomUid()
-    @StateObject var docGlobals	= DocGlobals(fmConfig:params4pp)
 
 	var factalsModel : FactalsModel! = nil				// content
 
-	init (fileURL: URL) {
+	init(openDocuments:Binding<[FactalsDocument]>) {
+		self.init(fromLibrary:"xr()")
+		openDocuments.wrappedValue.append(self)
+	}
+	init(fileURL: URL) {
 		bug
 	}
 	// MARK: - 2.4.4 Building
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
-//		DOC						= self			// INSTALL as current DOC, quick!
+		self.init(fromLibrary:"xr()")
+	}
+	enum LibrarySelector {				// NEW
+		case MarkedXr 					//					//	entry with xr()	 |	"xr()"	  -1
+		case Numbered(Int)				//		= "entry120"//	entry 120		 |	nil		  N *
+		case Titled(String)				//		= "name"	//	entry named name |	"name" *  -1
+	}		 							//		nil->			Blank scene		 |	nil		  -1
+
+	init(fromLibrary:String) {
 
 		 // 	1. Make Parts:				//--FUNCTION--------wantName:--wantNumber:
 		//**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
@@ -60,29 +65,9 @@ struct FactalsDocument : FileDocument {
 		factalsModel			= FactalsModel(partBase:partBase)
 		partBase.wireAndGroom([:])
 		configure(config:factalsModel.fmConfig + partBase.ansConfig)
+//	@State private var openDocuments: [FactalsDocument] = []
 	}
-	func configure(config:FwConfig) {
-		 // Build Vews per Configuration
-		let rp					= factalsModel.partBase
-		for (key, value) in config {				//params4all
-			if key == "Vews",
-			  let vewConfigs 	= value as? [VewConfig] {
-				for vewConfig in vewConfigs	{	// Open one for each elt
-					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-				}
-			}
-			else if key.hasPrefix("Vew") {
-				if let vewConfig = value as? VewConfig {
-					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-				}
-				else {
-					panic("Confused wo38r")
-				}
-			}
-		}
-		rp.ensureAVew(fwConfig:config)
-		factalsModel.configure(from:config)
-	}										// next comes viewAppearedFor (was didLoadNib(to)
+
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
 		factalsModel			= f			// girootPart!.ven
@@ -110,6 +95,29 @@ bug;		self.init(factalsModel:factalsModel)
 	//	self.init()		// temporary
 	}
 
+	func configure(config:FwConfig) {
+		 // Build Vews per Configuration
+		let rp					= factalsModel.partBase
+		for (key, value) in config {				//params4all
+			if key == "Vews",
+			  let vewConfigs 	= value as? [VewConfig] {
+				for vewConfig in vewConfigs	{	// Open one for each elt
+					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
+				}
+			}
+			else if key.hasPrefix("Vew") {
+				if let vewConfig = value as? VewConfig {
+					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
+				}
+				else {
+					panic("Confused wo38r")
+				}
+			}
+		}
+		rp.ensureAVew(fwConfig:config)
+		factalsModel.configure(from:config)
+	}										// next comes viewAppearedFor (was didLoadNib(to)
+	// MARK: PolyWrap
 	 /// Requirement of <<FileDocument>> protocol
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {		// cannot ba async throws
 bug;//	throw FwError(kind:".fileWriteUnknown")
@@ -135,26 +143,26 @@ bug;//	throw FwError(kind:".fileWriteUnknown")
 	//	func polyWrap() -> PolyWrap
 	//}
 
-func serializeDeserialize(_ inPart:Part) throws -> Part? {
+	func serializeDeserialize(_ inPart:Part) throws -> Part? {
 
-	 //  - INSERT -  PolyWrap's
-	let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
+		 //  - INSERT -  PolyWrap's
+		let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
 
-		 //  - ENCODE -  PolyWrap as JSON
-		let jsonData 			= try JSONEncoder().encode(inPolyPart)
+			 //  - ENCODE -  PolyWrap as JSON
+			let jsonData 		= try JSONEncoder().encode(inPolyPart)
 
-			print(String(data:jsonData, encoding:.utf8) ?? "")
+				print(String(data:jsonData, encoding:.utf8) ?? "")
 
-		 //  - DECODE -  PolyWrap from JSON
-		let outPoly:PolyWrap	= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
-								
-	 //  - REMOVE -  PolyWrap's
-	let outPart					= outPoly.polyUnwrap()
-	 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
-	let _						= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
+			 //  - DECODE -  PolyWrap from JSON
+			let outPoly:PolyWrap = try JSONDecoder().decode(PolyWrap.self, from:jsonData)
+									
+		 //  - REMOVE -  PolyWrap's
+		let outPart				= outPoly.polyUnwrap()
+		 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
+		let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
 
-	return outPart
-}
+		return outPart
+	}
 
 
 
