@@ -34,16 +34,20 @@ struct FactalsDocument : FileDocument {
 	let uid:UInt16				= randomUid()
 
 	var factalsModel : FactalsModel! = nil				// content
-
+							
 	func retainIn(_ docs:Binding<[FactalsDocument]>) -> FactalsDocument {
 		docs.wrappedValue.append(self)
+		print("======== retainIn nibName:'\(windowNibName ?? "nil")' Now \(docs.wrappedValue.count) documents")
 		return self
 	}
+//	func retainIn() -> FactalsDocument {
+//		return self
+//	}
 
-	init(openDocuments:Binding<[FactalsDocument]>) {
-		self.init(fromLibrary:"xr()")
-		openDocuments.wrappedValue.append(self)
-	}
+//	init(openDocuments:Binding<[FactalsDocument]>) {
+//		self.init(fromLibrary:"xr()")
+//		openDocuments.wrappedValue.append(self)
+//	}
 	init(fileURL: URL) {
 		bug
 	}
@@ -70,7 +74,6 @@ struct FactalsDocument : FileDocument {
 		factalsModel			= FactalsModel(partBase:partBase)
 		partBase.wireAndGroom([:])
 		configure(config:factalsModel.fmConfig + partBase.ansConfig)
-//	@State private var openDocuments: [FactalsDocument] = []
 	}
 
 	 // Document supplied

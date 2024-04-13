@@ -32,32 +32,34 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 
 @main
 extension FactalsApp : App {
-	func newFactalsDocument() -> FactalsDocument {
-		let rv =			FactalsDocument()
-		openDocuments.append(rv)
-		return rv
-	}																			//	DocumentGroup(newDocument:{
+																			//	func newFactalsDocument() -> FactalsDocument {
+																			//		let rv =			FactalsDocument()
+																			//		openDocuments.append(rv)
+																			//		return rv
+																				//	DocumentGroup(newDocument:{
 																				//		let rv = FactalsDocument()
 																			//	//		$openDocuments.append(rv)
 																				//		return rv
 																			//		DocumentGroup(newDocument:FactalsDocument(openDocuments:$openDocuments))
 	var body: some Scene {
-		DocumentGroup(newDocument:newFactalsDocument()) { file in
+		DocumentGroup(newDocument:FactalsDocument().retainIn($openDocuments)) { file in		// DocumentGroup(newDocument:newFactalsDocument()) { file in
 			ContentView(document: file.$document)
 			 .environmentObject(factalsGlobals)	// inject in environment
 			 .onOpenURL { url in					// Load a document from the given URL
-				openDocuments.append(FactalsDocument(fileURL:url))
+				let _			= FactalsDocument(fileURL:url)
+								   .retainIn($openDocuments)
+//				openDocuments.append(FactalsDocument(fileURL:url))
 			}
 		}
 		 .commands {
 			CommandMenu("Library") {
 				Button(label:{ Text("Simple Test")}) {
-					let prev	= openDocuments.count
 					let libName = "entry6"
-					openDocuments.append(FactalsDocument(fromLibrary:libName))
-					print("======== SceneMenu \(libName): -- openDocuments.count:\(prev) -> \(openDocuments.count)")
+					let _		= FactalsDocument(fromLibrary:libName)
+								   .retainIn($openDocuments)
+//					openDocuments.append(FactalsDocument(fromLibrary:libName))
 				}
-
+								
 				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
 					menuView(for:crux)
 				}
@@ -69,7 +71,9 @@ extension FactalsApp : App {
 		if crux.children.count == 0 {				// Crux has nominal Button
 			return AnyView(Button(crux.name) {
 				print("Want to make document '\(crux.name)'.")
-				openDocuments.append(FactalsDocument(fromLibrary:"entry6"))
+				let x = FactalsDocument(fromLibrary:"entry6")
+				 .retainIn($openDocuments)		//)//
+//				openDocuments.append(FactalsDocument(fromLibrary:"entry6"))
 			})
 		}
 		return AnyView(Menu(crux.name) {
