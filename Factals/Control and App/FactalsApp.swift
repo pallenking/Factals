@@ -51,10 +51,15 @@ extension FactalsApp : App {
 	 // MARK: - Generate Library Menu View
 	func menuView(for crux:LibraryMenuTree) -> AnyView {
 		if crux.children.count == 0 {				// Crux has nominal Button
-			return AnyView(Button(crux.name) {
-				print("Want to make document '\(crux.name)'.")
-				let _ = FactalsDocument(fromLibrary:"entry6").retainIn($openDocuments)
-			})
+			return AnyView (
+				Button(crux.name) {
+					assert(crux.tag >= 0)
+					let n 			= "entry\(crux.tag)"
+					print("Make document selector:\(n) for name:'\(crux.name)'.")
+					let _			= FactalsDocument(fromLibrary:n)
+									   .retainIn($openDocuments)
+				}
+			)
 		}
 		return AnyView(Menu(crux.name) {
 			ForEach(crux.children) { crux in
@@ -74,7 +79,7 @@ extension FactalsApp {		// FactalsGlobals
 		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {
 			factalsConfig 		= a
 			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
-			let tree 			= libraryMenuTree_(array:libraryMenuArray)	 //LibraryMenuArray
+			let tree 			= LibraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray
 			libraryMenuTree 	= tree
 			//var catalogs:[LibraryMenuArray] = catalogs//[] // Library.catalog().state.scanCatalog.count == 0
  		}
@@ -84,36 +89,38 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 	let id						= UUID()
 	let name: String
 	var imageName: String? = nil
+	var tag						= -1
 	var children = [LibraryMenuTree]()
 	init(name n:String, imageName i:String?=nil) {
 		name 					= n
 		imageName 				= i
 		children 				= []
 	}
-}
-func libraryMenuTree_(array entries:[LibraryMenuArray]) -> LibraryMenuTree {
-	let root					= LibraryMenuTree(name:"ROOT")
-
-	for entry in entries { //tests[0...100]//
-		let path 				= entry.parentMenu
-		guard path.prefix(1) != "-" else  { 	continue 	}	// Do not create library menu
+	init(array entries:[LibraryMenuArray]) {
+		name					= "ROOT"
 		
-		 // Make (or find) the crux of path
-		var crux:LibraryMenuTree = root		// Slide crux from root to spot to insert
-		for name in path.split(separator:"/") {
-			crux				= crux.children.first(where: {$0.name == name}) ?? {
-				let newCrux		= LibraryMenuTree(name:String(name), imageName: "1.circle")
-				crux.children.append(newCrux)
-//				print("---- added crux:\"\(name)\"")
-				return newCrux
-			}()
+		for entry in entries { //entries[0...100]//
+			let path 			= entry.parentMenu
+			guard path.prefix(1) != "-" else  { 	continue 	}	// Do not create library menu
+			
+			// Make (or find) in the tree  the crux of path
+			var crux:LibraryMenuTree = self		// Slide crux from self(root) to spot to insert
+			for name in path.split(separator:"/") {
+				crux			= crux.children.first(where: {$0.name == name}) ?? {
+					let newCrux	= LibraryMenuTree(name:String(name), imageName: "1.circle")
+					crux.children.append(newCrux)
+					// print("---- added crux:\"\(name)\"")
+					return newCrux
+				}()
+			}
+			
+			// Make new menu entry:
+			//		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\"     to menu:\"\(test.parentMenu)\"")
+			let newCrux			= LibraryMenuTree(name:entry.title)
+			newCrux.tag			= entry.tag
+			crux.children.append(newCrux)
 		}
-		
-		 // Make new menu entry:
-//		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\"     to menu:\"\(test.parentMenu)\"")
-		crux.children.append(LibraryMenuTree(name:entry.title))
 	}
-	return root
 }
  // MARK: - FactalsApp base
 struct FactalsApp: Uid, FwAny {
