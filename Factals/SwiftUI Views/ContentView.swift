@@ -19,7 +19,7 @@ struct FactalsModelView: View {
 	@State		var mouseDown	= false
 
 	var body: some View {
-
+		//NewDocumentFromSelection
 		VStack {
 			HStack {
 				if factalsModel.vewBases.count == 0 {

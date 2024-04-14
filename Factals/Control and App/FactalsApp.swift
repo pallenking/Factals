@@ -29,9 +29,20 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 
  // MARK: - SwiftUI
+struct NewDocumentFromSelection: View {
+//	@FocusedBinding(\.selectedText) private var selectedText: String?
+	@Environment(\.newDocument) private var newDocument
+	var body: some View {
+		Button("New Document With Selection") {
+			newDocument(FactalsDocument(fromLibrary:"entry6"))
+		}
+//		.disabled(selectedText?.isEmpty != false)
+	}
+}
 
 @main
 extension FactalsApp : App {
+//  @Environment(\.newDocument) private var newDocument
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument().retainIn($openDocuments)) { file in		// DocumentGroup(newDocument:newFactalsDocument()) { file in
 			ContentView(document: file.$document)
@@ -56,8 +67,10 @@ extension FactalsApp : App {
 					assert(crux.tag >= 0)
 					let n 			= "entry\(crux.tag)"
 					print("Make document selector:\(n) for name:'\(crux.name)'.")
-					let _			= FactalsDocument(fromLibrary:n)
-									   .retainIn($openDocuments)
+//					let _			= FactalsDocument(fromLibrary:n)
+//									   .retainIn($openDocuments)
+					newDocument(FactalsDocument(fromLibrary:n))
+
 				}
 			)
 		}
