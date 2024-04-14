@@ -32,34 +32,16 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 
 @main
 extension FactalsApp : App {
-																			//	func newFactalsDocument() -> FactalsDocument {
-																			//		let rv =			FactalsDocument()
-																			//		openDocuments.append(rv)
-																			//		return rv
-																				//	DocumentGroup(newDocument:{
-																				//		let rv = FactalsDocument()
-																			//	//		$openDocuments.append(rv)
-																				//		return rv
-																			//		DocumentGroup(newDocument:FactalsDocument(openDocuments:$openDocuments))
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument().retainIn($openDocuments)) { file in		// DocumentGroup(newDocument:newFactalsDocument()) { file in
 			ContentView(document: file.$document)
 			 .environmentObject(factalsGlobals)	// inject in environment
 			 .onOpenURL { url in					// Load a document from the given URL
-				let _			= FactalsDocument(fileURL:url)
-								   .retainIn($openDocuments)
-//				openDocuments.append(FactalsDocument(fileURL:url))
+				let _ = FactalsDocument(fileURL:url).retainIn($openDocuments)
 			}
 		}
 		 .commands {
 			CommandMenu("Library") {
-				Button(label:{ Text("Simple Test")}) {
-					let libName = "entry6"
-					let _		= FactalsDocument(fromLibrary:libName)
-								   .retainIn($openDocuments)
-//					openDocuments.append(FactalsDocument(fromLibrary:libName))
-				}
-								
 				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
 					menuView(for:crux)
 				}
@@ -71,9 +53,7 @@ extension FactalsApp : App {
 		if crux.children.count == 0 {				// Crux has nominal Button
 			return AnyView(Button(crux.name) {
 				print("Want to make document '\(crux.name)'.")
-				let x = FactalsDocument(fromLibrary:"entry6")
-				 .retainIn($openDocuments)		//)//
-//				openDocuments.append(FactalsDocument(fromLibrary:"entry6"))
+				let _ = FactalsDocument(fromLibrary:"entry6").retainIn($openDocuments)
 			})
 		}
 		return AnyView(Menu(crux.name) {

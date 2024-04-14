@@ -40,14 +40,6 @@ struct FactalsDocument : FileDocument {
 		print("======== retainIn nibName:'\(windowNibName ?? "nil")' Now \(docs.wrappedValue.count) documents")
 		return self
 	}
-//	func retainIn() -> FactalsDocument {
-//		return self
-//	}
-
-//	init(openDocuments:Binding<[FactalsDocument]>) {
-//		self.init(fromLibrary:"xr()")
-//		openDocuments.wrappedValue.append(self)
-//	}
 	init(fileURL: URL) {
 		bug
 	}
@@ -57,6 +49,7 @@ struct FactalsDocument : FileDocument {
 		self.init(fromLibrary:"xr()")
 	}
 	enum LibrarySelector {				// NEW
+		case empty
 		case MarkedXr 					//					//	entry with xr()	 |	"xr()"	  -1
 		case Numbered(Int)				//		= "entry120"//	entry 120		 |	nil		  N *
 		case Titled(String)				//		= "name"	//	entry named name |	"name" *  -1
@@ -189,13 +182,13 @@ bug;//	throw FwError(kind:".fileWriteUnknown")
 
 	 // MARK: - 5 Groom
 	//https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit
-	func registerWithDocController() { bug
+//	func registerWithDocController() { bug
 //		if !DOCctlr.documents.contains(self) {
 //			DOCctlr.addDocument(self)	// we install ourselves!!!				//makeWindowControllers() /// VERY SUSPECT -- 210507PAK:makes 2'nd window
 //			showWindows()				// The nib should be loaded by here
 //		}
-	}
-	func makeWindowControllers() 		{	 bug								}
+//	}
+//	func makeWindowControllers() 		{	 bug								}
 
 //	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
 //		print("modelDispatch(fwEvent: to:")
