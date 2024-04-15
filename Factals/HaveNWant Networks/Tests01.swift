@@ -1393,13 +1393,14 @@ r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, e
 	] ])
 })
 let bundleNames = ["a"]//,"b","c","d","e","f","g","h","i"]
-xxr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
-		Hamming([n:"x", share:bundleNames, f:1]),//, "a.-"//
-		Tunnel(of:.genBcast, leafConfig:[share:"x"], ["struc":bundleNames]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+//		Broadcast([n:"x", f:1])//, "a.-"//
+		Hamming([n:"A", share:bundleNames, f:1]),//, "a.-"//
+		Tunnel(of:.genBcast, leafConfig:[share:"A"], ["struc":bundleNames]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	] ])
 })
-	xr("- minimum link", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	r("- minimum link", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Broadcast([n:"x", f:1])//, "a.-"//
 	})
 

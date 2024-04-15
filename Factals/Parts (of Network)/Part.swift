@@ -1401,14 +1401,14 @@ func foo () {
 		}
 		else {			 // Mouse event
 			if let factalsModel	= partBase?.factalsModel { 	// take struct out
-				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(pickedVew.scn.pp(.classUid))) ==> \(pp(.fullName)) :"
-												+ "\(pp(.fwClassName))\n\(pp(.tree))")
+				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(pickedVew.scn.pp(.classUid))) "
+								+ "==> '\(pp(.fullName))' :\(pp(.classUid))")		//\n\(pp(.tree))
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
-					factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
+//xyzzy100			factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}
 							// Double Click: show/hide insides

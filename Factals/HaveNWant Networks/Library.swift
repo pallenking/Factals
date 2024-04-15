@@ -84,11 +84,11 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	]
 	 // MARK: - 2. Register all Libraries HERE!
 	var uid						= randomUid()
-	var name : String
+	var fileName : String
 
 	 // MARK: - 3. Factory
-	init(_ name:String) {
-		self.name				= name
+	init(_ fileName:String) {
+		self.fileName			= fileName
 	}
 	var args  : ScanArgs?		= nil
 	var state : ScanState		= ScanState()		// class
@@ -202,7 +202,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		state.scanTestNum 		+= 1		// count every test
 		if args!.argOnlyIndex {				// Wants Index
 			 // //// Display only those entries starting with a "+" ////////////	//why?	assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
-			let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
+			let title		= "\(state.scanTestNum)  \(fileName):\(lineNumber):  " + (testName ?? "-")
 			let elt			= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
 			state.scanCatalog.append(elt)
 			return
@@ -227,7 +227,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 			atBld(7, logd("=== \(matchReason!) ==="))
 			assert(answer.ansTrunkClosure==nil, "Two Closures found marked xr():\n" +
 				"\t Previous = \(answer.ansTestNum):\(answer.ansFile ?? "lf823").\(answer.ansLineNumber!) '\(answer.ansTitle ?? "none")' <-- IGNORING\n" +
-				"\t Current  = \(state.scanTestNum):\(name).\(       lineNumber ) '\(         title)'")
+				"\t Current  = \(state.scanTestNum):\(fileName).\(       lineNumber ) '\(         title)'")
 
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
@@ -239,7 +239,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 			answer.ansTestNum	= state.scanTestNum
 			answer.ansSubMenu	= state.scanSubMenu
 			 // Anonymous from Scan
-			answer.ansFile		= name
+			answer.ansFile		= fileName
 //			answer.ansFile		= file
 			answer.ansLineNumber = lineNumber
 		}
@@ -247,9 +247,9 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	var fwClassName		 : String	{	"Library"								}
 
          // MARK: - 17. Debugging Aids
-	var description		 : String 	{	return  "d'\(fwClassName) \(name)'"		}
-	var debugDescription : String	{	return "dd'\(fwClassName) \(name)'"		}
-	var summary			 : String	{	return  "s'\(fwClassName) \(name)'"		}
+	var description		 : String 	{	return  "d'\(fwClassName) \(fileName)'"	}
+	var debugDescription : String	{	return "dd'\(fwClassName) \(fileName)'"	}
+	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
 }
 
  // ================ User Sugar, for prettier networks: ========================

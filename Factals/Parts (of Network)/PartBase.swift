@@ -42,11 +42,11 @@ import SceneKit
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let lib				= Library.library(fromSelector:selector) {
-			let ans :ScanAnswer	= lib.answer		// found
-			self.title			= "'\(selector ?? "nil")' -> \(ans.ansTestNum):\(lib.name).\(ans.ansLineNumber!)"
-			self.ansConfig		= ans.ansConfig
+			let answer 			= lib.answer		// found			:ScanAnswer
+			self.title			= "'\(selector ?? "nil")' -> \(answer.ansTestNum):\(lib.fileName).\(answer.ansLineNumber!)"
+			self.ansConfig		= answer.ansConfig
 
-/* */		tree				= ans.ansTrunkClosure!() ?? Part()
+/* */		tree				= answer.ansTrunkClosure!() ?? Part()
 		}
 		else {
 			tree				= Part()

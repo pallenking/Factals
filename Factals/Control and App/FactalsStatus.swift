@@ -129,7 +129,7 @@ extension NSDocumentController : FactalsStatus {		 	 ///NSDocumentController
 extension Library : FactalsStatus {							///Library or ///Tests01, ...
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= "(\(count.asString!.field(4)) tests)"
-		return ppFactalsStateHelper("\(self.name.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
+		return ppFactalsStateHelper("\(self.fileName.field(-13))", uid:self, myLine:myLine, deapth:deapth-1)
 	}
 }
 extension FactalsModel : FactalsStatus	{						///FactalsModel

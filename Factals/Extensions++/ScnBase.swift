@@ -626,12 +626,14 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		return nil
 	}
 
+	func f2(_ p:NSPoint) -> String { String(format:"(%.1f, %.1f)", p.x, p.y) }
+
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 		 // Find vews of NSEvent
 		guard let contentView 	= NSApp.keyWindow?.contentView else { return nil}
 		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
-		guard let tree			= vewBase.scnBase.tree else { return nil		}
+		guard let tree			= vewBase.scnBase.tree   else { return nil		}
 		guard let fwView		= vewBase.scnBase.fwView else { fatalError("vewBase.scnBase.fwView is nil")	}
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -654,6 +656,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 										//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
 		 // fwView is SCNSceneRenderer:
 		let hits 				= fwView.hitTest(locationInRoot, options:configHitTest)
+		print("\n nsEvent loc \(f2(nsEvent.locationInWindow)) -> \(f2(locationInRoot)) in View.frame \(contentView.frame.size), \(hits.count) hits.")
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:

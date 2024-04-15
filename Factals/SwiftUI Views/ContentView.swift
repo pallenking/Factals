@@ -53,7 +53,7 @@ struct FactalsModelView: View {
 								
 								////////////////////////////// Testing	$publisher/	$view
 							if trueF {//falseF {//trueF {//
-								SceneKitView(scnBase:scnBase)		 // New Way
+								SceneKitView(scnBase:scnBase)		 // New Way (NSViewRepresentable)
 								 .frame(maxWidth: .infinity)
 								 .border(.black, width:1)
 							} else {
@@ -70,13 +70,13 @@ struct FactalsModelView: View {
 								 .border(.black, width:1)
 							}
 						}
-						VewBar(vewBase:vewBase)
+//xyzzy100				VewBar(vewBase:vewBase)
 					}
 				}
 			}
-			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
-			 .padding(10)
-			Spacer()
+//xyzzy100	FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
+//			 .padding(10)
+//			Spacer()
 		}
 	}
 }
