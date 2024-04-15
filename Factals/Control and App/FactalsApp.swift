@@ -29,26 +29,15 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 
  // MARK: - SwiftUI
-struct NewDocumentFromSelection: View {
-//	@FocusedBinding(\.selectedText) private var selectedText: String?
-	@Environment(\.newDocument) private var newDocument
-	var body: some View {
-		Button("New Document With Selection") {
-			newDocument(FactalsDocument(fromLibrary:"entry6"))
-		}
-//		.disabled(selectedText?.isEmpty != false)
-	}
-}
-
 @main
 extension FactalsApp : App {
 //  @Environment(\.newDocument) private var newDocument
 	var body: some Scene {
-		DocumentGroup(newDocument:FactalsDocument().retainIn($openDocuments)) { file in		// DocumentGroup(newDocument:newFactalsDocument()) { file in
+		DocumentGroup(newDocument:FactalsDocument()/*.retainIn($openDocuments)*/) { file in		// DocumentGroup(newDocument:newFactalsDocument()) { file in
 			ContentView(document: file.$document)
 			 .environmentObject(factalsGlobals)	// inject in environment
 			 .onOpenURL { url in					// Load a document from the given URL
-				let _ = FactalsDocument(fileURL:url).retainIn($openDocuments)
+				let _ = FactalsDocument(fileURL:url)/*.retainIn($openDocuments)*/
 			}
 		}
 		 .commands {
@@ -59,26 +48,25 @@ extension FactalsApp : App {
 			}
 		}
 	}
-	 // MARK: - Generate Library Menu View
+	 // MARK: - Generate Library Menu View (RECIRSIVE)
 	func menuView(for crux:LibraryMenuTree) -> AnyView {
 		if crux.children.count == 0 {				// Crux has nominal Button
-			return AnyView (
+			return AnyView(
 				Button(crux.name) {
-					assert(crux.tag >= 0)
-					let n 			= "entry\(crux.tag)"
-					print("Make document selector:\(n) for name:'\(crux.name)'.")
-//					let _			= FactalsDocument(fromLibrary:n)
-//									   .retainIn($openDocuments)
-					newDocument(FactalsDocument(fromLibrary:n))
-
+					@Environment(\.newDocument) var newDocument
+					newDocument(FactalsDocument(fromLibrary:"entry\(crux.tag)"))
 				}
 			)
 		}
-		return AnyView(Menu(crux.name) {
-			ForEach(crux.children) { crux in
-				menuView(for:crux)					// ### RECURSIVE ***/
+		return AnyView(
+			Menu(crux.name) {
+				ForEach(crux.children) { crux in
+					menuView(for:crux)					// ### RECURSIVE ###
+				}
+			} primaryAction: {
+				print("lskjvowijhiv")
 			}
-		})
+		)
 	}
 }								//
  // MARK: - Globals
@@ -143,7 +131,7 @@ struct FactalsApp: Uid, FwAny {
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
-	@State private var openDocuments: [FactalsDocument] = []
+//	@State private var openDocuments: [FactalsDocument] = []
 
 	 // MARK: - 2. Object Variables:
 	var log	: Log				=	Log(title:"App's Log", params4all)

@@ -1,5 +1,5 @@
 //
-//  GutsBar.swift
+//  FactalsModelBar.swift
 //  Factals
 //
 //  Created by Allen King on 2/14/23.
@@ -24,7 +24,6 @@ struct FactalsModelBar: View {
 
 struct RootPartBar : View {
 	@Binding var partBase : PartBase
-//    @Environment(\.newDocument) private var newDocument
 
 	var body: some View {
 		HStack {	// FULL!
@@ -42,10 +41,6 @@ struct RootPartBar : View {
 			Button(label: {	Text("LLDB") 										})
 			{	lldbPrint(partBase, /*VewBase.first!,*/ mode:.tree, [:])
 				breakToDebugger()												}
-//			Button("New Document \"entry6\"") {
-//				newDocument(FactalsDocument(fromLibrary:"entry6"))
-//			}
-	//		.disabled(selectedText?.isEmpty != false)
 			Text(" ")
 		}
 	}

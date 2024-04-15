@@ -35,11 +35,11 @@ struct FactalsDocument : FileDocument {
 
 	var factalsModel : FactalsModel! = nil				// content
 							
-	func retainIn(_ docs:Binding<[FactalsDocument]>) -> FactalsDocument {
-		docs.wrappedValue.append(self)
-		print("======== retainIn nibName:'\(windowNibName ?? "nil")' Now \(docs.wrappedValue.count) documents")
-		return self
-	}
+//	func retainIn(_ docs:Binding<[FactalsDocument]>) -> FactalsDocument {
+//		docs.wrappedValue.append(self)
+//		print("======== retainIn nibName:'\(windowNibName ?? "nil")' Now \(docs.wrappedValue.count) documents")
+//		return self
+//	}
 	init(fileURL: URL) {
 		bug
 	}

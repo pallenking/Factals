@@ -56,15 +56,10 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 			let inheritedClasses:[String] = vew.part.inheritedClasses()//["Net"]//
 			ForEach (inheritedClasses, id:\.self) { subClass in
 				inspectionViewBuilder(subClass:subClass)
+				Divider().background(Color.gray)
 			}
-
-			//	if cl != "Part" {
-			//		Divider().background(Color.gray)
-			//	}
-			//}
-			Divider().background(Color.gray)
-			ColorsPalette()
-			PickerStyles()
+		//	ColorsPalette()
+		//	PickerStyles()
 		//	InspecTest(inspec:inspec)
 		}.padding(10)
 	}

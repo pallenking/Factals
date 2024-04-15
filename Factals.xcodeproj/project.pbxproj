@@ -151,6 +151,8 @@
 		9F9AC6A4299C7C6000CDEB08 /* FactalsModelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */; };
 		9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
+		9FB117022BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */; };
+		9FB117032BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FC4AAEA2B9CCFCB0094B06A /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */; };
 		9FDF886829ACFA1700776ABB /* DebugAids.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDF886729ACFA1700776ABB /* DebugAids.swift */; };
@@ -261,6 +263,7 @@
 		9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsModelBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
+		9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsAppSwiftUI.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
 		9FDBBED628AC45DB00445219 /* PrintBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBuffer.swift; sourceTree = "<group>"; };
@@ -392,12 +395,13 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
+				9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */,
 				9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
-				9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */,
 				9F190118288090240078DB6C /* InspecBase.swift */,
+				9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */,
 			);
 			path = "SwiftUI Views";
 			sourceTree = "<group>";
@@ -688,6 +692,7 @@
 				9F417F2C28EB944D0047B359 /* PartBase.swift in Sources */,
 				9F417F4628EB94DB0047B359 /* FilteredLog.swift in Sources */,
 				9F417F0E28EB93E20047B359 /* TestsFoo.swift in Sources */,
+				9FB117032BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */,
 				9F417F5728EB955C0047B359 /* NSColor++.swift in Sources */,
 				9F417F3928EB94A80047B359 /* FactalsApp.swift in Sources */,
 				9F417F2228EB942A0047B359 /* LinkPort.swift in Sources */,
@@ -791,6 +796,7 @@
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F5AE2D0298C3C4B00EF6B20 /* ScnBase.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
+				9FB117022BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FactalsApp.swift in Sources */,
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,

@@ -201,14 +201,10 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	{									// ALIASES for parts:
 		state.scanTestNum 		+= 1		// count every test
 		if args!.argOnlyIndex {				// Wants Index
-			 // //// Display only those entries starting with a "+" ////////////
-			if trueF {//testName?.hasPrefix("+") ?? false {	// 'trueF {//' trueF/falseF//
-	//why?		assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
-				let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
-				let elt			= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
-				state.scanCatalog.append(elt)
-//				state.scanElements.append(elt)
-			}
+			 // //// Display only those entries starting with a "+" ////////////	//why?	assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
+			let title		= "\(state.scanTestNum)  \(name):\(lineNumber):  " + (testName ?? "-")
+			let elt			= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
+			state.scanCatalog.append(elt)
 			return
 		}
 		 // ///////////// Wants Test ///////////////////////////////
