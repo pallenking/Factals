@@ -372,7 +372,7 @@ func originMark(size:Float, root:PartBase) -> SCNNode {		// was myGlJack3
 
 	let rv						= SCNComment("OriginMark(size:\(size))")
 
-	var fm						= root.factalsModel!
+	let fm						= root.factalsModel!
 	let originNameIndex 		= fm.indexFor["origin"] ?? 1
 	fm.indexFor["origin"]		= originNameIndex + 1
 	rv.name						= fmt("o-%d", originNameIndex)

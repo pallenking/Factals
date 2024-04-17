@@ -296,12 +296,8 @@ func log(
 		tst:Int=0,
  		all:Int=0		// con gone
 		) -> FwConfig {	[:] }
+// synchronize with 'func at(app ...'
 
-/*
-func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
-		ani:Int?=nil, dat:Int?=nil, eve:Int?=nil, ins:Int?=nil,
-		men:Int?=nil, rve:Int?=nil, rnd:Int?=nil, tst:Int?=nil, all:Int?=nil,
-*/
  /// 3b. Neutered (with suffix X) returns an empty hash
 func logX(prefix:String="",
 		  con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, dat:Int=0,

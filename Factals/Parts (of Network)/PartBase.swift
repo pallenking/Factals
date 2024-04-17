@@ -124,6 +124,7 @@ import SceneKit
 	}
 
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	 // Configuration for Part Tree's
 	func configure(from:FwConfig) {
 		tree.partConfig			= from
 	}
@@ -162,7 +163,7 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 		let container 			= try decoder.container(keyedBy:PartsKeys.self)
 
 		title					= try container.decode(   String.self, forKey:.title		)
-		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
+//		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
 		semiphore 				= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
 		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 		tree					= try container.decode(	    Part.self, forKey:.partTreeVerbose)
