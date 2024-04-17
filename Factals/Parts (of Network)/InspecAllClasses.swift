@@ -316,7 +316,6 @@ struct InspecPart : View {												 // Part
 		//https://medium.com/better-programming/three-ways-to-react-to-state-changes-in-swiftui-a30545c72361
 
 	var body: some View {
-		//var doc 				= part.partBase?.factalsModel?.document
 		VStack {
 			HStack {						// ========================== LINE 1
 				ClassBox(labeled:"Part")

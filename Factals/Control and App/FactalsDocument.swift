@@ -66,7 +66,8 @@ struct FactalsDocument : FileDocument {
 		let partBase			= PartBase(fromLibrary:select)
 		factalsModel			= FactalsModel(partBase:partBase)
 		partBase.wireAndGroom([:])
-		configure(config:factalsModel.fmConfig + partBase.ansConfig)
+		let c					= factalsModel.fmConfig + partBase.ansConfig
+		configure(config:c)
 	}
 
 	 // Document supplied
@@ -96,27 +97,29 @@ bug;		self.init(factalsModel:factalsModel)
 	//	self.init()		// temporary
 	}
 
-	func configure(config:FwConfig) {
+	func configure(config:FwConfig) {		// Everything associated with a FactlsDocument
 		 // Build Vews per Configuration
-		let rp					= factalsModel.partBase
-		for (key, value) in config {				//params4all
-			if key == "Vews",
-			  let vewConfigs 	= value as? [VewConfig] {
-				for vewConfig in vewConfigs	{	// Open one for each elt
-					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-				}
-			}
-			else if key.hasPrefix("Vew") {
-				if let vewConfig = value as? VewConfig {
-					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-				}
-				else {
-					panic("Confused wo38r")
-				}
-			}
-		}
-		rp.ensureAVew(fwConfig:config)
 		factalsModel.configure(from:config)
+//		 // Build Vews per Configuration
+//		let rp					= factalsModel.partBase		// (a reference)
+//		for (key, value) in config {				// params4all
+//			if key == "Vews",
+//			  let vewConfigs 	= value as? [VewConfig] {
+//				for vewConfig in vewConfigs	{	// Open one for each elt
+//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
+//				}
+//			}
+//			else if key.hasPrefix("Vew") {
+//				if let vewConfig = value as? VewConfig {
+//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
+//				}
+//				else {
+//					panic("Confused wo38r")
+//				}
+//			}
+//		}
+//		rp.ensureAVew(fwConfig:config)
+//		factalsModel.configure(from:config)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	// MARK: PolyWrap
 	 /// Requirement of <<FileDocument>> protocol

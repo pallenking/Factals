@@ -51,15 +51,16 @@ struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
 	  // MARK: - 2.4.3 Result of Scan
 struct ScanAnswer {		// : Codable
 	 // From Chosen Test
-	var ansTitle	: String?  	= nil		// Network name from library
-	var ansConfig	: FwConfig	= [:]		// [NOT CODABLE]
+	var title		: String?  	= nil		// Network name from library
+	var config		: FwConfig	= [:]		// [NOT CODABLE]
+
 	 // From Scan:
-	var ansTestNum  : Int		= 0
-	var ansSubMenu 	: String	= ""		// the scanSubMenu of the test found
+	var testNum  	: Int		= 0
+	var subMenu 	: String	= ""		// the scanSubMenu of the test found
 	 // Anonymous from Scan
-	var ansTrunkClosure:PartClosure? = nil	// [NOT CODABLE] Closure from Library, generates Part
-	var ansFile		: String?	= nil
-	var ansLineNumber : Int?	= nil
+	var trunkClosure:PartClosure? = nil		// [NOT CODABLE] Closure from Library, generates Part
+	var fileName	: String?	= nil
+	var lineNumber	:Int?		= nil
 }
 
 extension Library : Uid {
@@ -118,7 +119,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		for lib in Library.libraryList {
 	/**/	lib.loadTest(args:args, state:&state)		// state persists across library probes
 			 // Return selected test if valid:
-			if lib.answer.ansTrunkClosure != nil {
+			if lib.answer.trunkClosure != nil {
 				 // REMOVED to allow greedy xr()
 				//assert(rv == nil, """
 				//	Two entries for selector: '\(s)'
@@ -225,23 +226,22 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 					nil)									// no, ignore
 		if matchReason != nil {						// BUILD
 			atBld(7, logd("=== \(matchReason!) ==="))
-			assert(answer.ansTrunkClosure==nil, "Two Closures found marked xr():\n" +
-				"\t Previous = \(answer.ansTestNum):\(answer.ansFile ?? "lf823").\(answer.ansLineNumber!) '\(answer.ansTitle ?? "none")' <-- IGNORING\n" +
+			assert(answer.trunkClosure==nil, "Two Closures found marked xr():\n" +
+				"\t Previous = \(answer.testNum):\(answer.fileName ?? "lf823").\(answer.lineNumber!) '\(answer.title ?? "none")' <-- IGNORING\n" +
 				"\t Current  = \(state.scanTestNum):\(fileName).\(       lineNumber ) '\(         title)'")
 
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
 								
-			answer.ansTitle		= title
-			answer.ansConfig 	= config
-			answer.ansTrunkClosure = rootClosure
+			answer.title		= title
+			answer.config 		= config
+			answer.trunkClosure = rootClosure
 			 // From Scan
-			answer.ansTestNum	= state.scanTestNum
-			answer.ansSubMenu	= state.scanSubMenu
+			answer.testNum		= state.scanTestNum
+			answer.subMenu		= state.scanSubMenu
 			 // Anonymous from Scan
-			answer.ansFile		= fileName
-//			answer.ansFile		= file
-			answer.ansLineNumber = lineNumber
+			answer.fileName		= fileName
+			answer.lineNumber 	= lineNumber
 		}
 	}
 	var fwClassName		 : String	{	"Library"								}
@@ -297,40 +297,6 @@ func log(
  		all:Int=0		// con gone
 		) -> FwConfig {	[:] }
 
-//func log33(
-//		app:Int=0,
-//		doc:Int=0,
-//		bld:Int=0,
-//		ser:Int=0,
-//		ani:Int=0,
-//		dat:Int=0,
-//		eve:Int=0,
-//		ins:Int=0,
-//		men:Int=0,
-//		rve:Int=0,
-//		rsi:Int=0,
-//		rnd:Int=0,
-//		tst:Int=0,
-// 		all:Int=0		// con gone
-//		) -> FwConfig {
-//	var rv : FwConfig		= [:]//"logPri4all"  : 0]	// default OFF
-//
-//	if app > 0 		{		rv["logPri4app"] = app								}
-//	if doc > 0 		{		rv["logPri4doc"] = doc								}
-//	if bld > 0 		{		rv["logPri4bld"] = bld								}
-//	if ser > 0 		{		rv["logPri4ser"] = ser								}
-//	if ani > 0 		{		rv["logPri4ani"] = ani								}
-//	if dat > 0 		{		rv["logPri4dat"] = dat								}
-//	if eve > 0 		{		rv["logPri4eve"] = eve								}
-//	if ins > 0 		{		rv["logPri4ins"] = ins								}
-//	if men > 0 		{		rv["logPri4men"] = men								}
-//	if rve > 0 		{		rv["logPri4rve"] = rve								}
-//	if rsi > 0 		{		rv["logPri4rsi"] = rsi								}
-//	if rnd > 0 		{		rv["logPri4rnd"] = rnd								}
-//	if tst > 0 		{		rv["logPri4tst"] = ins								}
-//	if all > 0 		{		rv["logPri4all"] = all								}
-//	return rv
-//}
 /*
 func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 		ani:Int?=nil, dat:Int?=nil, eve:Int?=nil, ins:Int?=nil,

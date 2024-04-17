@@ -33,20 +33,16 @@ import SceneKit
 		tree					= t
 	}
 	/*convenience*/ init(fromLibrary selector:String?) {// Parts(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
-
-		 // Make tree's root (a Parts):
-//		self.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-
 		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
 		self.ansConfig			= [:]
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let lib				= Library.library(fromSelector:selector) {
 			let answer 			= lib.answer		// found			:ScanAnswer
-			self.title			= "'\(selector ?? "nil")' -> \(answer.ansTestNum):\(lib.fileName).\(answer.ansLineNumber!)"
-			self.ansConfig		= answer.ansConfig
+			self.title			= "'\(selector ?? "nil")' -> \(answer.testNum):\(lib.fileName).\(answer.lineNumber!)"
+			self.ansConfig		= answer.config
 
-/* */		tree				= answer.ansTrunkClosure!() ?? Part()
+/* */		tree				= answer.trunkClosure!() ?? Part()
 		}
 		else {
 			tree				= Part()

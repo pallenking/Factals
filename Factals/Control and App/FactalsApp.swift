@@ -31,13 +31,15 @@ var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigu
  // MARK: - SwiftUI
 @main
 extension FactalsApp : App {
-//  @Environment(\.newDocument) private var newDocument
+//	@Environment(\.newDocument) private var newDocument		// Flock Extensions must not contain stored properties
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()/*.retainIn($openDocuments)*/) { file in		// DocumentGroup(newDocument:newFactalsDocument()) { file in
 			ContentView(document: file.$document)
 			 .environmentObject(factalsGlobals)	// inject in environment
 			 .onOpenURL { url in					// Load a document from the given URL
-				let _ = FactalsDocument(fileURL:url)/*.retainIn($openDocuments)*/
+				@Environment(\.newDocument) var newDocument
+				newDocument(FactalsDocument(fileURL:url))
+//				let _ = FactalsDocument(fileURL:url)/*.retainIn($openDocuments)*/
 			}
 		}
 		 .commands {
@@ -273,7 +275,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 
 	 // MARK: Access Scene MENU
 	mutating func scheneAction(_ sender:NSMenuItem) {
-		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
+bug;	print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 bug
 		 // Find scene number for Library lookup:
@@ -283,7 +285,9 @@ bug
 		let scanKey				= "entry\(regressScene)"
 
 		if (trueF) {		 	// Make new window:
-			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
+			@Environment(\.newDocument) var newDocument
+			newDocument(FactalsDocument(fromLibrary:scanKey))
+//			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
 		}
 //		else {			 		// Install new parts in current window
 //			guard let doc = DOC else { fatalError("no DOC")}

@@ -7,7 +7,7 @@ class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
-	var fmConfig : FwConfig	= [:]
+	var fmConfig : FwConfig		= [:]
 
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
 	var indexFor				= Dictionary<String,Int>()
@@ -37,24 +37,43 @@ class FactalsModel : ObservableObject, Uid {
 		configure(from:params4pp)
 	}
 
-	func configure(from:FwConfig) {
-		fmConfig				+= partBase.ansConfig	// from library
-		simulator.configure(from:from)
-		partBase.configure(from:from)
-		for vewBase in vewBases {
-			vewBase.configure(from:from)
-		}
-		log.configure(from:from)
-		docSound.configure(from:from)
+	func configure(from config:FwConfig) {
+		self.fmConfig			+= partBase.ansConfig	// from library
+		partBase.configure(from:config)
+		simulator.configure(from:config)
 
-		 //  5. Print Errors
+		for (key, value) in config {				// params4all
+			if key == "Vews",
+			  let vewConfigs 	= value as? [VewConfig] {
+				for vewConfig in vewConfigs	{	// Open one for each elt
+					partBase.addRootVew(vewConfig:vewConfig, fwConfig:config)
+				}
+			}
+			else if key.hasPrefix("Vew") {
+				if let vewConfig = value as? VewConfig {
+					partBase.addRootVew(vewConfig:vewConfig, fwConfig:config)
+				}
+				else {
+					panic("Confused wo38r")
+				}
+			}
+		}
+		partBase.ensureAVew(fwConfig:config)
+		for vewBase in vewBases {
+			vewBase.configure(from:config)
+		}
+
+		log.configure(from:config)
+		docSound.configure(from:config)
+
+// MOVE TO CREATION
 //		atBld(3, log.logd(rootPartActor.parts?.ppRootPartErrors() ?? ""))
 
 		 //  6. Print Part
 //		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
-
 		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 //		simulator.simEnabled	= true
+
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
