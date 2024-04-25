@@ -100,28 +100,7 @@ import SceneKit
 		//dirtySubTree(.vew)		// NOT NEEDED
 	}
 
-
-	func ensureAVew(fwConfig c:FwConfig) {
-		if factalsModel!.vewBases.isEmpty {		// Must have a Vew
-			atBld(3, warning("no Vew... key, artificially adding Vew"))
-			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
-		}
-	}
-	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let vewBase				= VewBase(forPartBase:self)	// 1. Make with .null tree
-		vewBase.factalsModel	= factalsModel				// 2. Backpointer
-		factalsModel!.vewBases.append(vewBase)				// 3. Install
-
-		vewBase.tree.configureVew(from:fwConfig)			// 4. Configure Vew
-		vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
-
-		tree.dirtySubTree(gotLock:true, .vsp)				// 6. Mark dirty
-		vewBase.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		vewBase.setupLightsCamerasEtc()						// ?move
-
-		let rootVewPp			= vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"])
-		atBld(5, log.logd("rootVews[] is complete:\n\(rootVewPp)"))
-	}
+// moved to FactalsModel
 
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
 	 // Configuration for Part Tree's

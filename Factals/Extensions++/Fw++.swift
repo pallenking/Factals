@@ -341,7 +341,7 @@ extension Dictionary {
 	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
 }
-extension Dictionary		: FwAny {
+extension Dictionary		: FwAny {				// pp(..
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .phrase, .short:
@@ -414,8 +414,8 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	}
 	return rv
 }
-//// METHOD 2: Seems better but: a) Interferes with 1, b) Never gets called
-//extension Dictionary {
+// METHOD 2: Seems better but: a) Interferes with 1, b) Never gets called
+//extension Dictionary {														// xyzzy22
 //	static func +=(dict1: inout FwConfig, dict2:FwConfig) 	{
 //bug;	let d1 = dict1
 //		dict1 = dict1 + dict2
@@ -426,14 +426,14 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 //		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
 //		for (keyRhs, valueRhs) in rhsSorted {
 //			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-//				atBld(9, print("Possible Dictionary Conflict, Key:\(keyRhs.field(20)) was \((valueLhs as! FwAny).pp(.short).field(10)) \t<-- \((valueRhs as! FwAny).pp(.short))"))
+//				atBld(9, print("Possible Dictionary Conflict, Key:\(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 //			}
 //			rv[keyRhs] 				= valueRhs
 //		}
 //		return rv
 //	}
 //}
-extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// PW: Best to far?//Key:String?
+extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// xyzzy22 PW: Best to far?//Key:String?
 	static func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 		var rv						= lhs						// initial values, older, overwritten
 		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
@@ -448,6 +448,26 @@ extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// PW:
 	}
 }
 
+
+extension Dictionary where Value : FwAny, Value : Equatable {
+	static func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
+		let rv				= lhs.equals(rhs)
+		atTst(7, lhs.logd("Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)"))
+		return rv
+	}
+	func equals(_ dict:Dictionary) -> Bool {
+		guard keys.count == dict.keys.count 		else {	return false }	// counts mismatch
+
+		for key in keys {
+			if self[key] != dict[key] {			// Value for key MISMATCH
+				atTst(7, logd("(\(self[key]!.pp(.nameUidClass))) != (\(dict[key]!.pp(.nameUidClass))) ?"))
+				return false
+			}
+		}
+		atTst(7, logd("Testing Dict:    .equals(\(dict.pp(.nameUidClass)))  ---> true"))
+		return true
+	}
+}
 
 //func +=<Value>( dict1: inout [String:Value], dict2:[String:Value]) where Value:FwAny, Value:Equatable 	{	dict1 = dict1 + dict2	}
  //Cannot assign value of type 'FwConfig' (aka 'Dictionary<String, any FwAny>') to type '[String : Value]'
@@ -524,26 +544,6 @@ extension Dictionary : Logd {
 		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
 		Log.shared.log(str, terminator:terminator)
 	}//Argument type 'Dictionary<Key, Value>' does not conform to expected type 'Uid'
-}
-
-extension Dictionary where Value : FwAny, Value : Equatable {	// PW: Best to far?
-	static func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
-		let rv				= lhs.equals(rhs)
-		atTst(7, lhs.logd("Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)"))
-		return rv
-	}
-	func equals(_ dict:Dictionary) -> Bool {
-		guard keys.count == dict.keys.count 		else {	return false }	// counts mismatch
-
-		for key in keys {
-			if self[key] != dict[key] {			// Value for key MISMATCH
-				atTst(7, logd("(\(self[key]!.pp(.nameUidClass))) != (\(dict[key]!.pp(.nameUidClass))) ?"))
-				return false
-			}
-		}
-		atTst(7, logd("Testing Dict:    .equals(\(dict.pp(.nameUidClass)))  ---> true"))
-		return true
-	}
 }
 
 protocol Nib2Bool {

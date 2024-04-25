@@ -65,6 +65,8 @@ struct FactalsDocument : FileDocument {
 		//**/	let select		= "- Port Missing"
 		let partBase			= PartBase(fromLibrary:select)
 		factalsModel			= FactalsModel(partBase:partBase)
+		factalsModel.fmConfig	= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
+		factalsModel.configure(from:params4pp)
 		partBase.wireAndGroom([:])
 		let c					= factalsModel.fmConfig + partBase.ansConfig
 		configure(config:c)
@@ -100,26 +102,6 @@ bug;		self.init(factalsModel:factalsModel)
 	func configure(config:FwConfig) {		// Everything associated with a FactlsDocument
 		 // Build Vews per Configuration
 		factalsModel.configure(from:config)
-//		 // Build Vews per Configuration
-//		let rp					= factalsModel.partBase		// (a reference)
-//		for (key, value) in config {				// params4all
-//			if key == "Vews",
-//			  let vewConfigs 	= value as? [VewConfig] {
-//				for vewConfig in vewConfigs	{	// Open one for each elt
-//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-//				}
-//			}
-//			else if key.hasPrefix("Vew") {
-//				if let vewConfig = value as? VewConfig {
-//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-//				}
-//				else {
-//					panic("Confused wo38r")
-//				}
-//			}
-//		}
-//		rp.ensureAVew(fwConfig:config)
-//		factalsModel.configure(from:config)
 	}										// next comes viewAppearedFor (was didLoadNib(to)
 	// MARK: PolyWrap
 	 /// Requirement of <<FileDocument>> protocol

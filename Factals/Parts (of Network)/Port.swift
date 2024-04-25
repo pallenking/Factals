@@ -634,12 +634,12 @@ class Port : Part, PortTalk {
 		scnTube.position.y 		= h - scnDiskY - h2/2 - ep
 		scnTube.color0			= NSColor.blue
 
-		 // C: 3D Origin Mark (for debug)
-		let scnOrigin			= originMark(size:0.5, root:partBase!)
-		scnOrigin.color0 		= NSColor.black
-		scnOrigin.position.y 	= -scnDiskY
-		scnOrigin.isHidden		= true
-		scnDisc.addChild(node:scnOrigin)
+//		 // C: 3D Origin Mark (for debug)
+//		let scnOrigin			= originMark(size:0.5, root:partBase!)
+//		scnOrigin.color0 		= NSColor.black
+//		scnOrigin.position.y 	= -scnDiskY
+//		scnOrigin.isHidden		= true
+//		scnDisc.addChild(node:scnOrigin)
 
 		return scnDisc
 	}

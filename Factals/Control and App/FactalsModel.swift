@@ -33,8 +33,8 @@ class FactalsModel : ObservableObject, Uid {
 		FACTALSMODEL			= self
 		simulator.factalsModel	= self
 		partBase.factalsModel	= self
-		fmConfig				= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
-		configure(from:params4pp)
+//		fmConfig				= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
+//		configure(from:params4pp)
 	}
 
 	func configure(from config:FwConfig) {
@@ -46,19 +46,19 @@ class FactalsModel : ObservableObject, Uid {
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					partBase.addRootVew(vewConfig:vewConfig, fwConfig:config)
+					addRootVew(vewConfig:vewConfig, fwConfig:config)
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					partBase.addRootVew(vewConfig:vewConfig, fwConfig:config)
+					addRootVew(vewConfig:vewConfig, fwConfig:config)
 				}
 				else {
 					panic("Confused wo38r")
 				}
 			}
 		}
-		partBase.ensureAVew(fwConfig:config)
+		ensureAVew(fwConfig:config)
 		for vewBase in vewBases {
 			vewBase.configure(from:config)
 		}
@@ -73,8 +73,53 @@ class FactalsModel : ObservableObject, Uid {
 //		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 //		simulator.simEnabled	= true
-
 	}
+	func ensureAVew(fwConfig c:FwConfig) {
+		if vewBases.isEmpty {		// Must have a Vew
+			atBld(3, warning("no Vew... key, artificially adding Vew"))
+			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
+		}
+	}
+	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
+		let vewBase				= VewBase(forPartBase:partBase)	// 1. Make with .null tree
+		vewBase.factalsModel	= self						// 2. Backpointer
+		vewBases.append(vewBase)							// 3. Install
+
+		vewBase.tree.configureVew(from:fwConfig)			// 4. Configure Vew
+		vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
+
+//		tree.dirtySubTree(gotLock:true, .vsp)				// 6. Mark dirty
+		vewBase.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		vewBase.setupLightsCamerasEtc()						// ?move
+
+		let rootVewPp			= vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"])
+		atBld(5, log.logd("rootVews[] is complete:\n\(rootVewPp)"))
+	}
+
+//		 // Build Vews per Configuration
+//		let rp					= factalsModel.partBase		// (a reference)
+//		for (key, value) in config {				// params4all
+//			if key == "Vews",
+//			  let vewConfigs 	= value as? [VewConfig] {
+//				for vewConfig in vewConfigs	{	// Open one for each elt
+//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
+//				}
+//			}
+//			else if key.hasPrefix("Vew") {
+//				if let vewConfig = value as? VewConfig {
+//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
+//				}
+//				else {
+//					panic("Confused wo38r")
+//				}
+//			}
+//		}
+//		rp.ensureAVew(fwConfig:config)
+//		factalsModel.configure(from:config)
+
+
+
+
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
 					//		var data : Data? {

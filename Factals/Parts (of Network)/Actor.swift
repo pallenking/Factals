@@ -1,6 +1,13 @@
 //  Actor.mm -- a Net with known upper context and lower evidence Bundles C2015PAK
 // N.B: NAME CONVLICT: this is not a swift Actor!
 
+// Follows "How Brains Think", by William H Calvin
+//		1. What to Do Next
+//		2. Evolving a Good Guess
+//		3. The Janitor's Daemon
+//		4. Evolving Intelligent Animals
+//		5. ...
+
 import SceneKit
 
 /// An Actor has EVIdence and CONtext Bundles
