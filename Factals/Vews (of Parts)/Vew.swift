@@ -48,7 +48,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 																				//			if let a = p.parent.enclosedByClass("Actor"),
 																				//			  a.viewAsAtom {						// wants us to be atom
 																				//					return true													}
-	var log : Log			{ 	part.log 								}
+	var log : Log				{ 	part.log 									}
 
 	 // MARK: - 3. Factory
 	init(forPart p:Part?=nil, expose e:Expose? = nil) {
@@ -603,7 +603,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}else if let root		= part.partBase {	// strangely redundant, but okay
 			root.factalsModel?.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
-			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			Log.shared.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+//			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
 	}
 	 // MARK: - 15. PrettyPrint

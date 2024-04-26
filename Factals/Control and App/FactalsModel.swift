@@ -16,8 +16,8 @@ class FactalsModel : ObservableObject, Uid {
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 	var vewBases0 :  VewBase?	{	vewBases.first								}// Sugar
 
-	var	simulator: Simulator
-	var log 	 : Log
+	var log 					= Log(title:"FactalsModel's Log", params4all)
+	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
@@ -27,12 +27,10 @@ class FactalsModel : ObservableObject, Uid {
 	 // MARK: - 3. Factory
 	init(partBase rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
 		partBase				= rp ?? PartBase(tree:Part())
-		simulator				= Simulator()
-		log						= Log(title:"FactalsModel's Log", params4all)
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self
-		simulator.factalsModel	= self
-		partBase.factalsModel	= self
+		simulator.factalsModel	= self			// backpointer
+		partBase.factalsModel	= self			// backpointer
 //		fmConfig				= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
 //		configure(from:params4pp)
 	}

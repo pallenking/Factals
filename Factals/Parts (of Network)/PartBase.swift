@@ -411,7 +411,7 @@ bug
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
-	var log : Log 				{ 	factalsModel?.log ?? .reliable				}
+	var log : Log {	factalsModel?.log ?? { fatalError("factalsModel nil in PartBase")}()}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}

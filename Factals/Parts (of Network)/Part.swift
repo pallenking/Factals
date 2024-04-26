@@ -107,12 +107,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-	var log : Log {
-	 	guard let log_ = partBase?.log else { fatalError("oowqifuqvu") }
-	 	return log_
-	}
-//	var log : Log			{ 	partBase?.log ?? Log(title:"a new Part.Log()", [:] ) }
-//	var log : Log			{ 	partBase?.log ?? .reliable						}
+	var log : Log { partBase?.log ?? { fatalError("partBase not setup in Part") }()}
 
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew

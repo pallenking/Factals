@@ -55,14 +55,16 @@ struct FactalsDocument : FileDocument {
 		case Titled(String)				//		= "name"	//	entry named name |	"name" *  -1
 	}		 							//		nil->			Blank scene		 |	nil		  -1
 
-	init(fromLibrary:String) {
-
-		 // 	1. Make Parts:				//--FUNCTION--------wantName:--wantNumber:
-		//**/	let select :String?	= nil	//	Blank scene		 |	nil		  -1
-		//**/	let select		= "entry120"//	entry 120		 |	nil		  N *
-		/**/	let select		= "xr()"	//	entry with xr()	 |	"xr()"	  -1
-		//**/	let select		= "name"	//	entry named name |	"name" *  -1
-		//**/	let select		= "- Port Missing"
+	init(fromLibrary select:String?=nil) {
+		let select = select ?? {
+			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
+			/**/	let select:String?=nil	//	Blank scene		 |	nil		  -1
+			//**/	let select	= "entry120"//	entry 120		 |	nil		  N *
+			//**/	let select	= "xr()"	//	entry with xr()	 |	"xr()"	  -1
+			//**/	let select	= "name"	//	entry named name |	"name" *  -1
+			//**/	let select	= "- Port Missing"
+			return select
+		} ()
 		let partBase			= PartBase(fromLibrary:select)
 		factalsModel			= FactalsModel(partBase:partBase)
 		factalsModel.fmConfig	= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
