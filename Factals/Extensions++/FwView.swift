@@ -33,8 +33,8 @@ import SwiftUI
 class FwView : SCNView {
 
 	 // MARK: - 2. Object Variables:
-	weak							// backpointer?
-	 var scnBase : ScnBase?		= nil
+//	weak							// backpointer?
+//	 var scnBase : ScnBase?		= nil
 
 	init(frame:CGRect=CGRect(), options:[String:Any]=[:]) {
 		super.init(frame:CGRect(), options: [String : Any]())

@@ -15,7 +15,7 @@ struct SceneKitView: NSViewRepresentable {
 	func makeNSView(context: Context) -> FwView {
 		let fwView				= FwView()//frame:CGRect()
 		fwView.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
-		fwView.scnBase			= scnBase
+//		fwView.scnBase			= scnBase
 		fwView.scene			= scnBase.scnScene
 //		fwView.autoenablesDefaultLighting = true
 //		fwView.allowsCameraControl = true
