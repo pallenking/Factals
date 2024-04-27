@@ -281,21 +281,41 @@ extension Library {
   ///   - prefix: Set to "*" for XCTests
  /// - Returns: Hash for logPri4 verbosity
 func log(
-		app:Int=0,
-		doc:Int=0,
-		bld:Int=0,
-		ser:Int=0,
-		ani:Int=0,
-		dat:Int=0,
-		eve:Int=0,
-		ins:Int=0,
-		men:Int=0,
-		rve:Int=0,
-		rsi:Int=0,
-		rnd:Int=0,
-		tst:Int=0,
- 		all:Int=0		// con gone
-		) -> FwConfig {	[:] }
+		app:Int=-1,
+		doc:Int=-1,
+		bld:Int=-1,
+		ser:Int=-1,
+		ani:Int=-1,
+		dat:Int=-1,
+		eve:Int=-1,
+		ins:Int=-1,
+		men:Int=-1,
+		rve:Int=-1,
+		rsi:Int=-1,
+		rnd:Int=-1,
+		tst:Int=-1,
+ 		all:Int=-1		// con gone
+//		) -> FwConfig {	[:] }
+		) -> FwConfig {
+	var rv : FwConfig		= [:]//"logPri4all"  : 0]	// default= OF
+
+	if app >= 0 	{		rv["logPri4app"] = app								}
+	if doc >= 0 	{		rv["logPri4doc"] = doc								}
+	if bld >= 0 	{		rv["logPri4bld"] = bld								}
+	if ser >= 0 	{		rv["logPri4ser"] = ser								}
+	if ani >= 0 	{		rv["logPri4ani"] = ani								}
+	if dat >= 0 	{		rv["logPri4dat"] = dat								}
+	if eve >= 0 	{		rv["logPri4eve"] = eve								}
+	if ins >= 0 	{		rv["logPri4ins"] = ins								}
+	if men >= 0 	{		rv["logPri4men"] = men								}
+	if rve >= 0 	{		rv["logPri4rve"] = rve								}
+	if rsi >= 0 	{		rv["logPri4rsi"] = rsi								}
+	if rnd >= 0 	{		rv["logPri4rnd"] = rnd								}
+	if tst >= 0 	{		rv["logPri4tst"] = ins								}
+	if all >= 0 	{		rv["logPri4all"] = all								}
+	return rv
+}
+
 // synchronize with 'func at(app ...'
 
  /// 3b. Neutered (with suffix X) returns an empty hash

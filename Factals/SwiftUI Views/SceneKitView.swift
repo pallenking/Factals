@@ -10,21 +10,32 @@ import SceneKit
 
 struct SceneKitView: NSViewRepresentable {
 	var scnBase : ScnBase		// ARG1: exposes visual world
-	typealias NSViewType 		= FwView	//:SCNView:NSView	// Type represented
+	typealias NSViewType 		= SCNView	//FwView:SCNView:NSView	// Type represented
 
-	func makeNSView(context: Context) -> FwView {
-		let fwView				= FwView()//frame:CGRect()
-		fwView.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
+	func makeNSView(context: Context) -> SCNView { //FwView {
+//		let fwView				= FwView()//frame:CGRect()
+		let scnView				= SCNView()
+		scnView.isPlaying/*animations*/ = true	// does nothing showsStatistics 		= true			// works fine
+		scnView.debugOptions	= [				// enable display of:
+			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
+		]
+		scnView.allowsCameraControl = false		// we control camera	//true//args.options.contains(.allowsCameraControl)
+		scnView.autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
+		scnView.rendersContinuously = true		//args.options.contains(.rendersContinuously)
+		scnView.preferredFramesPerSecond = 30	//args.preferredFramesPerSecond
+
+
+		scnView.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
 //		fwView.scnBase			= scnBase
-		fwView.scene			= scnBase.scnScene
+		scnView.scene			= scnBase.scnScene
 //		fwView.autoenablesDefaultLighting = true
 //		fwView.allowsCameraControl = true
 
-		scnBase.fwView			= fwView		// for pic
-		return fwView
+		scnBase.fwView			= scnView		// for pic
+		return scnView
 	}
 
-	func updateNSView(_ nsView: FwView, context:Context) {}
+	func updateNSView(_ nsView: SCNView, context:Context) {}		//FwView
 }
 
 /////////////////////////  SCRAPS   //////////////////////////////////

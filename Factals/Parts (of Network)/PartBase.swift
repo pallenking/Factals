@@ -55,8 +55,8 @@ import SceneKit
 //		markTree(dirty:.vew)
 	}
 	func wireAndGroom(_ c:FwConfig) {
-		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
 		tree.setTree(parent:nil, partBase:self)
+		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
 
 		 //  1. GATHER LINKS as wirelist:
 		atBld(4, logd("------- GATHERING potential Links:"))

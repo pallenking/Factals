@@ -35,7 +35,7 @@ var params4all		: FwConfig		= {	return
  // Terms in FilterLog.swift
 let appLogN						= 7//0//5//8//
 let docLogN						= 7//0//5//8//
-let params4reliableLog:FwConfig	= log(all:appLogN)//8)//0)//
+let sharedLogN					= 1//0//7//
  // This must contain NO log statements!
 
 private let params4appLog		= params4pp + params4logs_

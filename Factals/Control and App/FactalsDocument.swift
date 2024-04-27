@@ -49,11 +49,11 @@ struct FactalsDocument : FileDocument {
 		self.init(fromLibrary:"xr()")
 	}
 	enum LibrarySelector {				// NEW
-		case empty
+		case empty						//		nil->			Blank scene		 |	nil		  -1
 		case MarkedXr 					//					//	entry with xr()	 |	"xr()"	  -1
 		case Numbered(Int)				//		= "entry120"//	entry 120		 |	nil		  N *
 		case Titled(String)				//		= "name"	//	entry named name |	"name" *  -1
-	}		 							//		nil->			Blank scene		 |	nil		  -1
+	}
 
 	init(fromLibrary select:String?=nil) {
 		let select = select ?? {

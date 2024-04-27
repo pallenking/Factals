@@ -17,21 +17,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
-	static var shared			= Log(title:"shared Log")
-//	static var shared 			= FactalsApp() // Singleton instance
-
-	 /// In Pessamistic mode: a new Log every usage (features missing)
-	 /// In Limp mode:		  one static defaultLogger
-//	static var reliable : Log {
-//		let loggerParams:FwConfig = params4reliableLog		// Causes recursion
-//		let pessamistic			= falseF //trueF//falseF// 	// New Log every time?
-//		return pessamistic ?								//
-//			Log(title:"Using a new Log every message (conservative)", loggerParams) :
-//			reliableLog ?? {									//
-//				reliableLog = Log(title:"Using this one Log", loggerParams)
-//				return reliableLog!
-//			} ()
-//	};private static var reliableLog : Log? = nil
+	static var shared			= Log(title:"shared Log", Factals.log(all:sharedLogN))
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log

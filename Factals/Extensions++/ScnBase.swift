@@ -18,7 +18,8 @@ class ScnBase : NSObject {
 		guard let tree 			else { return	}			// no tree, no children
 		scnSceneRootNode.addChildNode(tree)
 	}
-	var fwView	 : FwView?					// SCNView  of this ScnBase
+	var fwView	 : SCNView?					// SCNView  of this ScnBase
+//	var fwView	 : FwView?					// SCNView  of this ScnBase
 	weak
 	 var vewBase : VewBase?					// Delegate (of these ScnBase)
 
