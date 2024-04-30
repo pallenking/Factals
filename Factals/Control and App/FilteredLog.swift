@@ -15,7 +15,7 @@ import Foundation
 //	The following   areas <A>   are defined:
 		// app	-- APPlication		- construction of app
 //______// men	-- MENus 			- construction of menus
-		// doc	-- DOCument			- construction of document
+		// doc	-- DOCument			- construction of document, including mouse
 		// ser	-- SERilization		- serialization and desrialization of Part
 //______// bld	-- BuiLD			- building of part
 		// dat	-- sim DATa			- simulation data

@@ -281,20 +281,20 @@ extension Library {
   ///   - prefix: Set to "*" for XCTests
  /// - Returns: Hash for logPri4 verbosity
 func log(
-		app:Int=-1,
-		doc:Int=-1,
-		bld:Int=-1,
-		ser:Int=-1,
-		ani:Int=-1,
-		dat:Int=-1,
-		eve:Int=-1,
-		ins:Int=-1,
-		men:Int=-1,
-		rve:Int=-1,
-		rsi:Int=-1,
-		rnd:Int=-1,
-		tst:Int=-1,
- 		all:Int=-1		// con gone
+		app:Int = -1,
+		doc:Int = -1,
+		bld:Int = -1,
+		ser:Int = -1,
+		ani:Int = -1,
+		dat:Int = -1,
+		eve:Int = -1,
+		ins:Int = -1,
+		men:Int = -1,
+		rve:Int = -1,
+		rsi:Int = -1,
+		rnd:Int = -1,
+		tst:Int = -1,
+ 		all:Int = -1
 //		) -> FwConfig {	[:] }
 		) -> FwConfig {
 	var rv : FwConfig		= [:]//"logPri4all"  : 0]	// default= OF

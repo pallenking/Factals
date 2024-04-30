@@ -657,7 +657,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 										//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
 		 // fwView is SCNSceneRenderer:
 		let hits 				= fwView.hitTest(locationInRoot, options:configHitTest)
-		print("\n nsEvent loc \(f2(nsEvent.locationInWindow)) -> \(f2(locationInRoot)) in View.frame \(contentView.frame.size), \(hits.count) hits.")
+		atDoc(5, print("\n---nsEvent loc \(f2(nsEvent.locationInWindow)) -> \(f2(locationInRoot)) in View.frame \(contentView.frame.size), \(hits.count) hits."))
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:

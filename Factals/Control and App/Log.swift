@@ -17,7 +17,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
-	static var shared			= Log(title:"shared Log", Factals.log(all:sharedLogN))
+	static var shared			= Log(title:"Shared Log", Factals.log(all:sharedLogN))
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
@@ -144,7 +144,11 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		Log.maximumLogNo		+= 1
 		logNo					= Log.maximumLogNo				// Logs have unique number
 		self.title				= title
-		print("ALLOCATED Log\(logNo): '\(title)'")
+		print("--- ALLOCATED Log\(logNo): '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
+			// Learnings:	1) Cannot use Log here -- we're initting a Log!
+			//				2) \(ppUid(self)) uses a Log! (but
+
+//		print("ALLOCATED Log\(logNo)(\(ppUid(self)))  '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
 	}
 
 // START CODABLE ///////////////////////////////////////////////////////////////
@@ -218,27 +222,24 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
  		if logNo != Log.currentLogNo {						// Same as last time
 			Log.currentLogNo	= logNo							// switch to new
 			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
-										//	//	var x				= "33".pp(.line) ?? "nil"// GOOD
-			let x				= "\(logNo). ######## Switching to Log \(logNo)(\(ppUid(self)))   '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
+										//	//	var x	LOG			= "33".pp(.line) ?? "nil"// GOOD
+			let x				= "\(logNo)------- FROM Log\(logNo): '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
 			print(x)
 		}
 		// DO SOME OTHER WAY: sim state shouldn't be actor isolated
-//		if let sim				= DOCfactalsModelQ?.rootPartActor.parts?.simulator,
-////		  msgPriority == nil || msgPriority! > 2,	// hack: argument passed to message via global
-//		  simTimeLastLog != nil
-//		{
-//			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)
-//			if logEvents,
-//			 deltaTime > 0 || simTimeLastLog == nil {
-//				let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
-//				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
-//				let dashes		= deltaTime <= sim.timeStep ? "                                  "
-//															: "- - - - - - - - - - - - - - - - - "
-//				let chits		= "p\(sim.parts!.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
-//				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
-//			}
-//			simTimeLastLog		= sim.timeNow
-//		}
+		if let fm				= FACTALSMODEL {
+			let sim				= fm.simulator
+			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)
+			if logEvents, deltaTime > 0 || simTimeLastLog == nil {
+				let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
+				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
+				let dashes		= deltaTime <= sim.timeStep ? "                                  "
+															: "- - - - - - - - - - - - - - - - - "
+				let chits		= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
+				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
+			}
+			simTimeLastLog		= sim.timeNow
+		}
 		 // Strip leading \n's:
 		let (newLines, format)	= format_.stripLeadingNewLines()
 
@@ -278,9 +279,10 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	var threadNameCache : [String] = []
 	 /// get a token identifying Filter and current Lock owner
 	func ppLogFromString() -> String {				// " Acon4 "
+//2.001 A<?>?    ❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️
 		var rv					= " "
 		rv						+= ppCurThread 	// Thread identifier: e.g: "A"
-		rv 						+= msgFilter ?? "?_?"	 			//e.g: "app"
+		rv 						+= msgFilter ?? "<?>"	 			//e.g: "app"
 		let mp : Int?			= msgPriority	// avoids concurrency problem!!!
 		rv						+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
 		rv						= rv.field(-9, dots:false, grow:true)

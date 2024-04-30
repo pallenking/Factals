@@ -24,7 +24,7 @@ import SceneKit
 var FACTALSMODEL : FactalsModel?=nil
 
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
-var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+//var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 
@@ -133,10 +133,8 @@ struct FactalsApp: Uid, FwAny {
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
-//	@State private var openDocuments: [FactalsDocument] = []
-
 	 // MARK: - 2. Object Variables:
-	var log	: Log				=	Log(title:"App's Log", params4all)
+	var log	: Log				=	Log(title:"App's  Log", params4all)
 	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:
@@ -158,7 +156,7 @@ struct FactalsApp: Uid, FwAny {
 		self.init(foo:true)
 	}
 	private init (foo:Bool) {
-		atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
+		//atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 		atApp(3, {
 //			log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), ")
 //			log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])")
