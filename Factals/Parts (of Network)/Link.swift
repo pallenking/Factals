@@ -165,7 +165,7 @@ class Link : Atom {
 							//??	&& sDownCPort 	== rhs.sDownCPort
 								&& minColorVal 	== rhs.minColorVal
 								&& maxColorVal 	== rhs.maxColorVal
-bug;	return rv
+		return rv
 	}
 	 // MARK: - 5 Groom
 	override func reset() {							super.reset()

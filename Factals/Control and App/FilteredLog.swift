@@ -33,28 +33,32 @@ import Foundation
 //			atApp(3, Log(<construction message>))
 
  // Functions called by logee, sugar to shorten commonly used cliche.
-func atApp(_ pri:Int, _ act:@autoclosure()->Void) { return at("app",pri,act())	}
-func atDoc(_ pri:Int, _ act:@autoclosure()->Void) { return at("doc",pri,act())	}
-func atBld(_ pri:Int, _ act:@autoclosure()->Void) { return at("bld",pri,act())	}
-func atSer(_ pri:Int, _ act:@autoclosure()->Void) { return at("ser",pri,act())	}
-func atAni(_ pri:Int, _ act:@autoclosure()->Void) { return at("ani",pri,act())	}
-func atDat(_ pri:Int, _ act:@autoclosure()->Void) { return at("dat",pri,act())	}
-func atEve(_ pri:Int, _ act:@autoclosure()->Void) { return at("eve",pri,act())	}
-func atIns(_ pri:Int, _ act:@autoclosure()->Void) { return at("ins",pri,act())	}
-func atMen(_ pri:Int, _ act:@autoclosure()->Void) { return at("men",pri,act())	}
-func atRve(_ pri:Int, _ act:@autoclosure()->Void) { return at("rve",pri,act())	}
-func atRsi(_ pri:Int, _ act:@autoclosure()->Void) { return at("rsi",pri,act())	}
-func atRnd(_ pri:Int, _ act:@autoclosure()->Void) { return at("rsi",pri,act())	}
-func atTst(_ pri:Int, _ act:@autoclosure()->Void) { return at("tst",pri,act())	}
-func atAny(_ pri:Int, _ act:@autoclosure()->Void) { return at("all",pri,act())	}	// may be buggy
+func atApp(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("app",pri, act())		}
+func atDoc(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("doc",pri, act())		}
+func atBld(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("bld",pri, act())		}
+func atSer(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("ser",pri, act())		}
+func atAni(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("ani",pri, act())		}
+func atDat(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("dat",pri, act())		}
+func atEve(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("eve",pri, act())		}
+func atIns(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("ins",pri, act())		}
+func atMen(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("men",pri, act())		}
+func atRve(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("rve",pri, act())		}
+func atRsi(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("rsi",pri, act())		}
+func atRnd(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("rsi",pri, act())		}
+func atTst(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("tst",pri, act())		}
+func atAny(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("all",pri, act())		}	// may be buggy
 
+//extension Log {
+//	func atBUG(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("tst",pri, act())		}
+//	func at(_ name:String, _ pri:Int, )
+//}
   /// Functions called by loggee, long form
  /// if a message closure shows an importance over in any category
 /// Categories should roughly
 func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 		ani:Int?=nil, dat:Int?=nil, eve:Int?=nil, ins:Int?=nil,
 		men:Int?=nil, rve:Int?=nil, rsi:Int?=nil, rnd:Int?=nil,
-		tst:Int?=nil, all:Int?=nil, _ action:@autoclosure() -> Void)
+		tst:Int?=nil, all:Int?=nil, _ action:() -> Void)
 	{
 	if 		app != nil {		at("app", app!, action()) 						}
 	else if doc != nil {		at("doc", doc!, action()) 						}
@@ -72,8 +76,9 @@ func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 	else if all != nil {		at("all", all!, action()) 						}
 }
 
- /// Common Filter routine:
-/// * Executes the closure if the priority in DOClog.filter[area] >= verbosity
+  /// Declare a FilterLog "event" has occured.
+ /// (Every FilterLog "event" being logged comes here.)
+///  Log event if
 /// - parameters:
 ///   - area: 	= the kind of message, where the message is from.
 ///   - verbosity:	= the priority of the message, how important 0<msgPri<10
@@ -88,9 +93,11 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 		{
 			if log.msgFilter != nil || log.msgPriority != nil {
 				let c			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
-				let new			= Log.pp(filter:area, priority:verbos)
-				let now			= Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
-				panic(c + " '\(new)' found log '\(log.title)' busy doing '\(now)'")
+				let new			= area + String(verbos)
+				let now			= log.msgFilter ?? "?" + String(log.msgPriority!)//Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
+//				let new			= Log.pp(filter:area, priority:verbos)
+//				let now			= Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
+				panic(c + " '\(new)' found log '\(log.name)' busy doing '\(now)'")
 			}
 			log.msgFilter		= area
 			log.msgPriority		= verbos

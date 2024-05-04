@@ -1047,11 +1047,12 @@ xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 //	Mirror([n:"t2"]),
 //	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
 ] ]) })
-	xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0), { Net([placeMy:"linky", parts:[
+	xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0), { Net([placeMy:"linky", parts:[
+//		Bulb(  	  [n:"y", P+X:"t1 ,l:1.4,v:0.04"]),
 		Mirror([n:"t0", P:"t1.P", "gain":-1+2*decay, "offset":1-decay]),
 		Sequence([n:"t1", 			f:1]),
-		Mirror([n:"t2", P:"t1,l:4", f:1, jog:"3 -2 " ]),
-		Mirror([n:"t3", P:"t1,l:4", f:1 ]),
+		Mirror(  [n:"t2", P:"t1,l:4", f:1, jog:"3 -2 " ]),
+//		Mirror(  [n:"t3", P:"t1,l:4", f:1 ]),
 	] ]) })
 
 	 // Use Inspec to change offset
@@ -1393,7 +1394,7 @@ r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, e
 	] ])
 })
 let bundleNames = ["a"]//,"b","c","d","e","f","g","h","i"]
-xr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xxr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Broadcast([n:"x", f:1])//, "a.-"//
 		Hamming([n:"A", share:bundleNames, f:1]),//, "a.-"//
@@ -1658,12 +1659,12 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 		r("-bug Bulb sizing", eSim + selfiePole(s:0,u:0) + vel(-7) + log(all:8) + //eve:5, dat:5
 					[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 				Bulb(  	  [n:"y", P:"v,l:1.4,v:0.04"]),
-				Bulb(  	  [n:"x", P:"v,l:1.2,v:0.02"]),
-				Bulb(  	  [n:"w", P:"v,l:1.0,v:0.00"]),
+	//			Bulb(  	  [n:"x", P:"v,l:1.2,v:0.02"]),
+	//			Bulb(  	  [n:"w", P:"v,l:1.0,v:0.00"]),
 				Mirror(   [n:"v", "gain":-1, "offset":1, f:1]),
 			] ])
 		})
-			xxr("+ BlinksALot", eSim + eXYtight + //log(all:7) +
+			r("+ BlinksALot", eSim + eXYtight + //log(all:7) +
 						[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 					Mirror(	  [n:"y", P:"v,l:5,v:0.00"]),
 					Mirror(	  [n:"x", P:"v,l:5,v:-2.00"]),

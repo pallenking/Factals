@@ -70,13 +70,13 @@ struct FactalsModelView: View {
 								 .border(.black, width:1)
 							}
 						}
-//xyzzy100				VewBar(vewBase:vewBase)
+/*xyzzy100*/			VewBar(vewBase:vewBase)
 					}
 				}
 			}
-//xyzzy100	FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
-//			 .padding(10)
-//			Spacer()
+/*xyzzy100*/FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
+			 .padding(10)
+/**/		Spacer()
 		}
 	}
 }

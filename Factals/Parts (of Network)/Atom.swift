@@ -912,7 +912,7 @@ class Atom : Part {	//Part//FwPart
 			let fixedSpot		= fixedPort.peakSpot(inVew:commonVew!, openingUp:true)		//print(fixedSpot.pp(.fullName))
 			var newInMePosn		= fixedSpot - inMeSpot		// (all SCNVector3's)
 			 // ///// GAPs for con2 via Link or Direct
-			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 20	// minimal distance above
+			var gap 			= vew.config("gapLinkFluff")?.asCGFloat ?? 4	// minimal distance above
 
 										// DOMINATED CONNECTION? (e.g. with no Link):
 			if inMePort.con2?.port === fixedPort ||

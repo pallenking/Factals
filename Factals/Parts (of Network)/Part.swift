@@ -60,8 +60,10 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	 // MARK: - 2.1 Sugar
 	var parts 		: [Part]	{ 		children 								}
 	@objc dynamic var fullName	: String	{
-		return parent==nil  ? "" :
+		return parent==nil  ? "ROOT" :
 			   parent!.fullName + "/" + name
+
+
 //		let rv					= parent==nil  ? "" :
 //								  parent!.fullName + "/" + name		// add lefter component
 //		return rv
@@ -1407,7 +1409,7 @@ func foo () {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
-//xyzzy100			factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
+/*xyzzy100*/		factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}
 							// Double Click: show/hide insides

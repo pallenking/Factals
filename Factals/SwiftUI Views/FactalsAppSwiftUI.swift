@@ -4,7 +4,8 @@
 ////
 ////  Created by Allen King on 4/15/24.
 ////
-//
+//		Attempt to carve out the SuiftUI portions
+
 //import Foundation
 //import SwiftUI
 //@main

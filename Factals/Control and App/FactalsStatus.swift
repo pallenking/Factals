@@ -289,7 +289,7 @@ extension SCNPhysicsWorld : FactalsStatus	{					///SCNPhysicsWorld
 extension Log : FactalsStatus {											  ///Log
 	func ppFactalsState(deapth:Int=999) -> String {
 		let msg					= !logEvents ? "disabled" :
-			"Log \(logNo): \"\(title)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
+			"Log \(logNo): \"\(name)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
 			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
 		let logKind				= "log".field(-13)
 //		let logKind				= (title[0...0] == "A" ? "APPlog" : "DOClog").field(-13)

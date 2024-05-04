@@ -17,12 +17,12 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
-	static var shared			= Log(title:"Shared Log", Factals.log(all:sharedLogN))
+	static var shared			= Log(name:"Shared Log", Factals.log(all:sharedLogN))
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
 	var uid						= randomUid()
-	var title 					= "untitled"
+	var name 					= "untitled"
 	var logNo		   			= -1		// Index number of this log
 
 	 // Each Log has an event number
@@ -99,9 +99,9 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		}
 		return ""
 	}
-	static func pp(filter:String?, priority:Int?) -> String {
-		return (filter ?? "f=0") + (priority == nil ? "-" : String(priority!))
-	}
+//	static func pp(filter:String?, priority:Int?) -> String {
+//		return (filter ?? "f=0") + (priority == nil ? "-" : String(priority!))
+//	}
 
 	var simTimeLastLog	:Float? = -1//nil
 	var logTime			: Bool	= true
@@ -139,12 +139,12 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
-	init(title:String, _ config:FwConfig = [:])	{			//_ config:FwConfig = [:]
+	init(name:String, _ config:FwConfig = [:])	{			//_ config:FwConfig = [:]
 		configure(from:config)
 		Log.maximumLogNo		+= 1
 		logNo					= Log.maximumLogNo				// Logs have unique number
-		self.title				= title
-		print("--- ALLOCATED Log\(logNo): '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
+		self.name				= name
+		print("--- ALLOCATED Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
 			// Learnings:	1) Cannot use Log here -- we're initting a Log!
 			//				2) \(ppUid(self)) uses a Log! (but
 
@@ -154,7 +154,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 // START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
 	enum LogKeys: String, CodingKey {
-		case title
+		case name
 		case logNo
 		case entryNo
 		case breakAtEvent, breakAtLogger
@@ -173,7 +173,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 // Serialize 					// po container.contains(.name)
 	func encode(to encoder: Encoder) throws  {
 		var container 			= encoder.container(keyedBy:LogKeys.self)
-		try container.encode(title,				forKey:.title					)
+		try container.encode(name,				forKey:.name					)
 		try container.encode(logNo,				forKey:.logNo					)
 		try container.encode(eventNumber,		forKey:.entryNo					)
 		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
@@ -196,7 +196,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		//super.init()
 
 		let container 			= try decoder.container(keyedBy:LogKeys.self)
-		title					= try container.decode(		   String.self, forKey:.title		)
+		name					= try container.decode(		   String.self, forKey:.name		)
 		logNo					= try container.decode(			  Int.self, forKey:.logNo		)
 		eventNumber				= try container.decode(			  Int.self, forKey:.entryNo		)
 		breakAtEvent			= try container.decode(			  Int.self, forKey:.breakAtEvent)
@@ -223,7 +223,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			Log.currentLogNo	= logNo							// switch to new
 			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
 										//	//	var x	LOG			= "33".pp(.line) ?? "nil"// GOOD
-			let x				= "\(logNo)------- FROM Log\(logNo): '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
+			let x				= "\(logNo)------- FROM Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
 			print(x)
 		}
 		// DO SOME OTHER WAY: sim state shouldn't be actor isolated
@@ -274,7 +274,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		assert(n < 26, "more than 26 threads not supported")
 		let nInt 				= Int(("A" as UnicodeScalar).value) + n
 		let nChar				= Character(UnicodeScalar(nInt)!)
-		return String(nChar)
+		return String(nChar)	// n as Character
 	}
 	var threadNameCache : [String] = []
 	 /// get a token identifying Filter and current Lock owner
@@ -319,9 +319,9 @@ bug
 	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
 //	var params4aux : FwConfig	{	DOC?.fmConfig ?? [:]		}
 
-	var description		 : String {		 "d'Log\(logNo) \(title)'"				}
-	var debugDescription : String {		"dd'Log\(logNo) \(title)'"				}
-	var summary			 : String {		 "s'Log\(logNo) \(title)'"				}
+	var description		 : String {		 "d'Log\(logNo) \(name)'"				}
+	var debugDescription : String {		"dd'Log\(logNo) \(name)'"				}
+	var summary			 : String {		 "s'Log\(logNo) \(name)'"				}
 }
 var debugOutterLock	= true//false/		// default value
 

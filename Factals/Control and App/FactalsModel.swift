@@ -16,7 +16,7 @@ class FactalsModel : ObservableObject, Uid {
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 	var vewBases0 :  VewBase?	{	vewBases.first								}// Sugar
 
-	var log 					= Log(title:"FactalsModel's Log", params4all)
+	var log 					= Log(name:"FactalsModel's Log", params4all)
 	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 

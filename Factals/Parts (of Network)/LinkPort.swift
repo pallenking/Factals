@@ -108,7 +108,7 @@ class LinkPort : Port {
 								&& imageY0	  == rhs.imageY0
 		//						&& colorOfVal == rhs.colorOfVal
 								&& inTransit	  == rhs.inTransit
-bug;	return rv
+		return rv
 	}
 	 // MARK: - 8. Reenactment Simulator
 	func simulate() {

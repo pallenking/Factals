@@ -222,16 +222,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				return rv						// return an ancestor's config
 			}
 		}
-
-		 // Look in rootVew's configuration...
-		guard let vewBase		= vewBase()				else {	return nil		}
-		if let rv				= vewBase.tree.vewConfig[name] {
+		 // Try Document's configuration (in FactalsModel)
+		guard let factalsModel	= part.partBase?.factalsModel else { return nil }
+		if let rv				= factalsModel.fmConfig[name] {
 			return rv
 		}
-
-		 // Try Document's configuration
-		guard let factalsModel	= vewBase.factalsModel 	else {	return nil		}
-		if let rv				= factalsModel.fmConfig[name] {
+		 // Look in vewBase's configuration...
+		guard let vewBase		= factalsModel.vewBase(ofScnNode:scn) else { return nil }
+		if let rv				= vewBase.tree.vewConfig[name] {
 			return rv
 		}
 		return nil

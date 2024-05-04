@@ -134,7 +134,7 @@ struct FactalsApp: Uid, FwAny {
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
 	 // MARK: - 2. Object Variables:
-	var log	: Log				=	Log(title:"App's  Log", params4all)
+	var log	: Log				=	Log(name:"App's  Log", params4all)
 	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:
@@ -163,7 +163,7 @@ struct FactalsApp: Uid, FwAny {
 
 			   // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김
 			  // ⌘:apple, ⏎:enter
-			 // Henry King and P. Allen King:
+			 // Henry A. King and P. Allen King:
 			log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
 			log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 		}() )
