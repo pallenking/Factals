@@ -34,41 +34,34 @@ struct FactalsModelView: View {
 								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
-								
-								// Generate code exemplefying the following thoughts that I am told:
-								// sceneview takes in a publisher		// PW essential/big
-								// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
-								// scenkit -> write models back to viewmodel. s
-								// viewmodel single source of truth.
-								
-								// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-								// now       : SceneView 	native SwiftUI (not full-featured)
-								
-								//	SceneView
-								//		that communicates with a ViewModel
-								//			to render a SceneKit scene and
-								//		the ViewModel updates
-								//			with changes from SceneKit,
-								//				acting as the single source of truth.
-								
-								////////////////////////////// Testing	$publisher/	$view
-							if trueF {//falseF {//trueF {//
-								SceneKitView(scnBase:scnBase)		 // New Way (NSViewRepresentable)
-								 .frame(maxWidth: .infinity)
-								 .border(.black, width:1)
-							} else {
-								SceneView(							 // Old Way
-									scene:scnBase.scnScene,
-									pointOfView:nil,	// SCNNode
-									options:[.rendersContinuously],
-									preferredFramesPerSecond:30,
-									antialiasingMode:.none,
-									delegate:scnBase,	//SCNSceneRendererDelegate?
-									technique: nil		//SCNTechnique?
-								)
-								 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
-								 .border(.black, width:1)
-							}
+							SceneKitView(scnBase:scnBase)		 // New Way (NSViewRepresentable)
+							 .frame(maxWidth: .infinity)
+							 .border(.black, width:1)
+																				//	//	SceneView
+																				//	//		that communicates with a ViewModel
+																				//	//			to render a SceneKit scene and
+																				//	//		the ViewModel updates
+																				//	//			with changes from SceneKit,
+																				//	//				acting as the single source of truth.
+																				//	////////////////////////////// Testing	$publisher/	$view
+																				//	// Generate code exemplefying the following thoughts that I am told:
+																				//	// sceneview takes in a publisher		// PW essential/big
+																				//	// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+																				//	// scenkit -> write models back to viewmodel. s
+																				//	// viewmodel single source of truth.
+																				//	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+																				//	// now       : SceneView 	native SwiftUI (not full-featured)
+																				//	SceneView(							 // Old Way
+																				//		scene:scnBase.scnScene,
+																				//		pointOfView:nil,	// SCNNode
+																				//		options:[.rendersContinuously],
+																				//		preferredFramesPerSecond:30,
+																				//		antialiasingMode:.none,
+																				//		delegate:scnBase,	//SCNSceneRendererDelegate?
+																				//		technique: nil		//SCNTechnique?
+																				//	)
+																				//	 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
+																				//	 .border(.black, width:1)
 						}
 /*xyzzy100*/			VewBar(vewBase:vewBase)
 					}

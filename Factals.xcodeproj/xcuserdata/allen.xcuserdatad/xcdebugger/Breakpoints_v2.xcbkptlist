@@ -444,8 +444,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "init(scnScene:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -492,8 +492,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
             landmarkName = "renderer(_:updateAtTime:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -508,8 +508,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "init(scnScene:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -572,8 +572,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "616"
-            endingLineNumber = "616"
+            startingLineNumber = "617"
+            endingLineNumber = "617"
             landmarkName = "modelPic(with:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -588,8 +588,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "659"
-            endingLineNumber = "659"
+            startingLineNumber = "661"
+            endingLineNumber = "661"
             landmarkName = "findVew(nsEvent:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -636,8 +636,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "619"
-            endingLineNumber = "619"
+            startingLineNumber = "620"
+            endingLineNumber = "620"
             landmarkName = "modelPic(with:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -652,8 +652,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "637"
-            endingLineNumber = "637"
+            startingLineNumber = "638"
+            endingLineNumber = "638"
             landmarkName = "findVew(nsEvent:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1119,14 +1119,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "74B37654-5D3E-41A3-9000-2359DC912C63"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "664"
-            endingLineNumber = "664"
+            startingLineNumber = "666"
+            endingLineNumber = "666"
             landmarkName = "findVew(nsEvent:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1141,8 +1141,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "513"
-            endingLineNumber = "513"
+            startingLineNumber = "514"
+            endingLineNumber = "514"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1449,6 +1449,22 @@
             endingLineNumber = "422"
             landmarkName = "showInspecFor(vew:allowNew:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8CC4085E-DAA6-45D8-9F45-8B605720F928"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/SwiftUI Views/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

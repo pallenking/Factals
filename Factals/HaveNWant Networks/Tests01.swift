@@ -209,7 +209,7 @@ r("Atom()",		e, { Atom() })
 state.scanSubMenu				= "Testing"
 r("e Nil",			e, { return nil }) 					// no body
 r("e Part()",		e, { Part() }) 						// no body
-r("Net(Part())",	e, { 	Net([parts:[
+xr("Net(Part())",	e, { 	Net([parts:[
 		Part()// () -> Net[Part]//
 	]])
 })
@@ -1047,7 +1047,7 @@ xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 //	Mirror([n:"t2"]),
 //	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
 ] ]) })
-	xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0), { Net([placeMy:"linky", parts:[
+	xxr("+Mirror Oscillator", eSimX + selfiePole(s:0,u:0) + vel(-5) + log(all:0), { Net([placeMy:"linky", parts:[
 //		Bulb(  	  [n:"y", P+X:"t1 ,l:1.4,v:0.04"]),
 		Mirror([n:"t0", P:"t1.P", "gain":-1+2*decay, "offset":1-decay]),
 		Sequence([n:"t1", 			f:1]),

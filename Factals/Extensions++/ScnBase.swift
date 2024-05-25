@@ -14,6 +14,7 @@ class ScnBase : NSObject {
 	{	didSet {				setRootNodeChild1(from:tree)					}}
 	func setRootNodeChild1 (from:SCNNode?) {
 		let scnSceneRootNode 	= self.scnScene.rootNode	// from SCNScene's binding
+		scnSceneRootNode.name	= "ROOT"
 		scnSceneRootNode.removeAllChildren()
 		guard let tree 			else { return	}			// no tree, no children
 		scnSceneRootNode.addChildNode(tree)
@@ -636,6 +637,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 
 		guard let tree			= vewBase.scnBase.tree   else { return nil		}
 		guard let fwView		= vewBase.scnBase.fwView else { fatalError("vewBase.scnBase.fwView is nil")	}
+		guard let slot 			= vewBase.slot			 else { return nil		}
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -661,15 +663,9 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:
-		var pickedScn :SCNNode	= tree		// default is root
-		if hits.count > 0 {
-			 // There is a HIT on a 3D object:
-			let sortedHits		= hits.sorted {	$0.node.position.z > $1.node.position.z }
-			let hit				= sortedHits[0]
-			pickedScn			= hit.node // pic node with lowest deapth
-		}
+		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
+		var pickedScn			= sortedHits.count==0 ? tree : sortedHits[0].node
 
-		guard let slot 			= vewBase.slot			else { return nil		}
 		var msg					= "******************************************\n Slot\(slot): find "
 		msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
 			
