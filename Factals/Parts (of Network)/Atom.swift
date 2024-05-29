@@ -213,13 +213,13 @@ class Atom : Part {	//Part//FwPart
 	/// - Parameter wantOpen:		 --- required that Port be open
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
-	func port(named wantName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		atBld(9, logd(" .CALLS.port(named:\"\(wantName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))"))
+	func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
+		atBld(7, logd(" .CALLS.port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))"))
 		var rvPort : Port?		= nil				// Initially no return value
 
 		 // ***** Is wantName in _BINDINGS_? (e.g. for Previous)
 		if let b				= bindings, 		// Atom has a :H:Binding
-		  let bString 			= b[wantName]		  // binding String
+		  let bString 			= b[wantedName]		  // binding String
 		{
 			 // Matches bindings. Resolve to Port or Atom:
 			let bPath			= Path(withName:bString)// binding's Path
@@ -229,28 +229,28 @@ class Atom : Part {	//Part//FwPart
 				 // Binding leads to an atom:
 				let sWantUp		= wantUp == nil ? nil :
 								  wantUp! ^^ bAtom.upInPart(until:self)
-				atBld(9, logd(" .BINDING \"\(wantName)\":\"\(bString)\" now at \(fwClassName): \"\(bAtom.pp(.fullName))\""))
+				atBld(9, logd(" .BINDING \"\(wantedName)\":\"\(bString)\" now at \(fwClassName): \"\(bAtom.pp(.fullName))\""))
 
 				 // ******* RECURSIVE CALL:		(But not infinitely so, always to subtrees)
-				rvPort			= bAtom.port(named:wantName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+				rvPort			= bAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}
-			assert(rvPort != nil, "path '\(wantName)' did not find Port")
-			atBld(9, logd(" .RETURNs (BINDING \"\(wantName)\":\"\(bString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
+			assert(rvPort != nil, "path '\(wantedName)' did not find Port")
+			atBld(4, logd(" .RETURNs (BINDING \"\(wantedName)\":\"\(bString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
 		}
 
 		 // ****** Existing Port
-		let possiblePorts		= existingPorts(named:wantName, localUp:wantUp)
+		let possiblePorts		= existingPorts(named:wantedName, localUp:wantUp)
 		if rvPort == nil,
 		  possiblePorts.count == 1 {
 			rvPort				= possiblePorts[0]		// Exactly 1 Port found
-			atBld(9, logd(" .RETURN EXISTING Port: '\(rvPort!.pp(.fullNameUidClass))'"))
+			atBld(4, logd(" .RETURN EXISTING Port: '\(rvPort!.pp(.fullNameUidClass))'"))
 		}
 
 		 // ****** Delayed Populate Port
 		if rvPort == nil,
-		  let p					= delayedPopulate(named:wantName, localUp:wantUp) {
+		  let p					= delayedPopulate(named:wantedName, localUp:wantUp) {
 			rvPort				= p
-			atBld(9, logd(" .RETURN DELAYED Populate Port: '\(rvPort!.pp(.fullNameUidClass))'"))
+			atBld(4, logd(" .RETURN DELAYED Populate Port: '\(rvPort!.pp(.fullNameUidClass))'"))
 		}
 
 		 // Want open, but its occupied. Make a :H:Clone
@@ -265,7 +265,7 @@ class Atom : Part {	//Part//FwPart
 			  cPort.flipped,
 			  splitter.isBroadcast {
 				rvPort				= splitter.anotherShare(named:"*")
-				atBld(9, logd(" .RETURN Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'"))
+				atBld(4, logd(" .RETURN Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'"))
 				return rvPort
 			}
 
@@ -274,13 +274,13 @@ class Atom : Part {	//Part//FwPart
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
 				rvPort				= conSplitter.anotherShare(named:"*")
-				atBld(9, logd(" .RETURN Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'"))
+				atBld(4, logd(" .RETURN Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'"))
 				return rvPort
 			}
 
 			 // Add Auto Broadcast?:
 			else if let x		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
-				atBld(9, logd(" .RETURN Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'"))
+				atBld(4, logd(" .RETURN Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'"))
 				return x
 			}
 			panic("Unable to construct autoBroadcast")
@@ -397,7 +397,8 @@ class Atom : Part {	//Part//FwPart
 			fatalError("Broadcast index bad of false'\(toPort.fullName)'")
 		}
 		newBcast.flipped		= toPort.upInPart(until:papaNet) == false
-		ind						+= newBcast.flipped ? 1 : 0
+		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD
+//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 		papaNet.addChild(newBcast, atIndex:ind)
 
 		 //	 3,  Wire up new Broadcast into Network:

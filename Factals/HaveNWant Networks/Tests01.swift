@@ -209,7 +209,7 @@ r("Atom()",		e, { Atom() })
 state.scanSubMenu				= "Testing"
 r("e Nil",			e, { return nil }) 					// no body
 r("e Part()",		e, { Part() }) 						// no body
-xr("Net(Part())",	e, { 	Net([parts:[
+r("Net(Part())",	e, { 	Net([parts:[
 		Part()// () -> Net[Part]//
 	]])
 })
@@ -1363,22 +1363,30 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+//xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+//	Net([parts:[
+////		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
+//		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+//			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+//			"parts":[
+//				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
+//				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
+//				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
+//				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
+//				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
+//				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
+//			],
+//			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a", "b", "c"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+//		]),
+//		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+//	] ])
+//})
+xr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + log(dat:5, eve:5), {
 	Net([parts:[
-//		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
-		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
-			"parts":[
-				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
-				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
-				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
-				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
-				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
-				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
-			],
-			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a", "b", "c"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
-		]),
-		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+		Hamming([n:"h1", P:["a"]]),
+		Hamming([n:"h2", P:["a"]]),
+		Previous([n:"a"]),
+//		Broadcast([n:"a"]),
 	] ])
 })
 r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS

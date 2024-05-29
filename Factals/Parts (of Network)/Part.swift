@@ -151,8 +151,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}()
 
 		 // Print out invocation
-		let n					= ("\'" + name + "\'").field(-8)
-		atBld(6, logd("init(\(partConfig.pp(.line))) name:\(n)"))
+		let n					= ("\'" + name + "\'").field(8)
+		atBld(6, logd("init \(pp(.uid)) \(n):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
 
 		 // Options:
 		if let valStr			= partConfig["expose"] as? String,

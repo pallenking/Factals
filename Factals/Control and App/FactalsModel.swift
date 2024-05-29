@@ -74,7 +74,7 @@ class FactalsModel : ObservableObject, Uid {
 	}
 	func ensureAVew(fwConfig c:FwConfig) {
 		if vewBases.isEmpty {		// Must have a Vew
-			atBld(3, warning("no Vew... key, artificially adding Vew"))
+			//atBld(3, warning("no Vew... key, artificially adding Vew"))
 			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
 		}
 	}
