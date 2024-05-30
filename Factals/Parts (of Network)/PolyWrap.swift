@@ -11,6 +11,9 @@ import SceneKit
 	func polyUnwrap() -> Part
 }
 
+
+extension Part : PolyWrappable {												}
+
  // Why aren't these used?
 extension Array : PolyWrappable where Element : PolyWrappable {
 	/*@objc*/ func polyWrap() -> PolyWrap {

@@ -364,7 +364,7 @@ class SCN3DPictureframe : SCNGeometry {
 //	}
 }
  // 3 lines, along each axis
-func originMark(size:Float, root:PartBase) -> SCNNode {		// was myGlJack3
+func originMark(size:Float, partBase:PartBase) -> SCNNode {		// was myGlJack3
 	let vertices : [SCNVector3] = [SCNVector3(size, 0, 0), SCNVector3(-size, 0, 0),
 								   SCNVector3(0, size, 0), SCNVector3(0, -size, 0), 
 								   SCNVector3(0, 0, size), SCNVector3(0, 0, -size)]
@@ -372,9 +372,8 @@ func originMark(size:Float, root:PartBase) -> SCNNode {		// was myGlJack3
 
 	let rv						= SCNComment("OriginMark(size:\(size))")
 
-	let fm						= root.factalsModel!
-	let originNameIndex 		= fm.indexFor["origin"] ?? 1
-	fm.indexFor["origin"]		= originNameIndex + 1
+	let originNameIndex 		= partBase.indexFor["origin"] ?? 1
+	partBase.indexFor["origin"]	= originNameIndex + 1
 	rv.name						= fmt("o-%d", originNameIndex)
 	rv.geometry 				= SCNGeometry.lines(lines:indices, withPoints:vertices)
 	return rv

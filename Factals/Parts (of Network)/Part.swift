@@ -3,14 +3,12 @@
 import Foundation
 import SceneKit
 import SwiftUI
-// Josh:
-class A {}
-class B: A {}
-let superclassOfB	: AnyClass? = Swift._getSuperclass (B.self)
-let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
-extension Part : PolyWrappable {												}
-
+//// Josh:
+//class A {}
+//class B: A {}
+//let superclassOfB	: AnyClass? = Swift._getSuperclass (B.self)
+//let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
 protocol EquatableFW {
 	func equalsFW(_:Part) -> Bool
@@ -38,13 +36,15 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	 // MARK: - 2. Object Variables:
 	@objc dynamic var name		= "<unnamed>"
 	var children	: [Part]	= []
-	var child0		:  Part?	{	return children.count == 0 ? nil : children[0] }
-	weak var parent :  Part?	= nil 	// add the parent property
+	var child0		:  Part?	{	return children.count==0 ? nil : children[0]}
+	weak
+	 var parent 	:  Part?	= nil 	// add the parent property
+	weak
+	 var partBase	: PartBase?	= nil	//
 
-	var partBase	: PartBase?	= nil	//
-	func setTree(parent:Part?, partBase:PartBase?) {
-		self.parent 			= parent
-		self.partBase   		= partBase
+	func setTree(parent p:Part?, partBase pb:PartBase?) {
+		parent 					= p
+		partBase 		  		= pb
 		for child in children {
 			child.setTree(parent:self, partBase:partBase)
 		}
@@ -137,12 +137,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 				partConfig[key] = nil			// remove from config
 			}
 		}			// -- Name was given
-		name					= nam ?? {
-			if var factalsModel	= partBase?.factalsModel,
+		name					= nam ?? { [self] in
+			if var partBase		= partBase,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= factalsModel.indexFor[prefix] ?? 0
-				factalsModel.indexFor[prefix] = index + 1		// for next
+				let index		= partBase.indexFor[prefix] ?? 0
+				partBase.indexFor[prefix] = index + 1		// for next
 				return prefix + String(index)
 			} else {	// -- Use fallback
 				defaultPrtIndex	+= 1
@@ -455,31 +455,31 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// dirtyness of child is inhereted by self
 	func addChild(_ child:Part?, atIndex index:Int?=nil) {
 		guard let child 		else {		return								}
-		assert(self !== child, "can't add self to self")
+		assert(self !== child, "can't add self to self") 	// other bigger loops are not banned
 
-		 // Find right spot in children
-		var removeChildAt:Int?	= children.firstIndex(where: {$0 === child}) // child already in children
-		if var index {
+		 // child already in children
+		var wasAtIndex:Int?		= children.firstIndex(where: {$0 === child})
+		if var index {							// Find right spot in children
 			if index < 0 {						// Negative are distance from end
 				index = children.count - index
 			}
 			assert(index>=0 && index<=children.count, "index \(index) out of range")
 			children.insert(child, at:index)	// add at index
-			if let remove		= removeChildAt {	// bump remove
-				removeChildAt	= remove + (remove > index ? 1 : 0)
+			if let i		= wasAtIndex {		// bump remove
+				wasAtIndex		= i + (i>index ? 1 : 0)
 			}
 		}
 		else {
 			children.append(child)				// add at end
 		}
 
-		if let removeChildAt {
-			children.remove(at:removeChildAt)
+		if let wasAtIndex {
+			children.remove(at:wasAtIndex)
 		}
 
 		 // link in as self
 		child.parent			= self
-//		child.partBaseOfTree	= self.partBase
+		child.partBase			= self.partBase
 		child.setTree(parent:self, partBase:partBase)
 
 

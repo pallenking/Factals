@@ -8,9 +8,9 @@ class FactalsModel : ObservableObject, Uid {
 
 	  // MARK: - 2. Object Variables:
 	var fmConfig : FwConfig		= [:]
-
-	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
-	var indexFor				= Dictionary<String,Int>()
+//
+//	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
+//	var indexFor				= Dictionary<String,Int>()
 
 	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts

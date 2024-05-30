@@ -16,6 +16,9 @@ import SceneKit
 	var uid  : UInt16 			= randomUid()
 	var tree : Part
 
+	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
+	var indexFor				= Dictionary<String,Int>()
+
 	 // MARK: - 2.1 Object Variables
 	var title					= ""
 	var ansConfig	 : FwConfig = [:]
@@ -29,12 +32,10 @@ import SceneKit
 	var verboseLocks			= true
 
 	// MARK: - 3. Part Factory
-	init(tree t:Part) {										// Parts(factalsModel:FactalsModel?=nil)
+	init(tree t:Part) {
 		tree					= t
 	}
-	/*convenience*/ init(fromLibrary selector:String?) {// Parts(fromLibrary selector:String?, factalsModel:FactalsModel?=nil)
-		self.title 				= "nil"											//= "'\(selector ?? "nil")' not found"
-		self.ansConfig			= [:]
+	init(fromLibrary selector:String?) {			// Parts(fromLibrary...
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let lib				= Library.library(fromSelector:selector) {
@@ -45,6 +46,7 @@ import SceneKit
 /* */		tree				= answer.trunkClosure!() ?? Part()
 		}
 		else {
+			self.title 			 = "nil"
 			tree				= Part()
 		}
 //

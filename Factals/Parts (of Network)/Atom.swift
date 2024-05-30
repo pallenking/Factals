@@ -385,8 +385,8 @@ class Atom : Part {	//Part//FwPart
 
 		 // 1.  Make a Broadcast Splitter Atom:
 		let newName				= "\(name)\(toPort.name)"
-		let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])
-		newBcast.flipped		= true
+		let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])	//"flipped"
+		newBcast.flipped		= true												// elim
 
 		 // 2.  Find a spot to insert it (above or below):
 		 // Choose so inserted element is in scan order, to reduces settle time.
@@ -397,10 +397,9 @@ class Atom : Part {	//Part//FwPart
 			fatalError("Broadcast index bad of false'\(toPort.fullName)'")
 		}
 		newBcast.flipped		= toPort.upInPart(until:papaNet) == false
-		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD
-//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
+		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD	//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 		papaNet.addChild(newBcast, atIndex:ind)
-
+nop
 		 //	 3,  Wire up new Broadcast into Network:
 		//		|___			  ________|
 		//			\.connectedX /				 inPort:Port
@@ -472,7 +471,7 @@ class Atom : Part {	//Part//FwPart
 		 // /////////////////////////////////////////////////////////////////////
 		let srcPortAbilities	= self.hasPorts()	// key --> Port exists
 		var sRetiredKeys : [String] = []
-		var fm					= partBase.factalsModel!
+		var partsBase			= partBase
 
 		 // Paw through Atom's local configuration
 		for (srcPortString, targets_) in partConfig {
@@ -489,9 +488,9 @@ class Atom : Part {	//Part//FwPart
 			 // source --> targets
 			for var trgAny : FwAny in targets_ as? [FwAny] ?? [targets_] {
 				 // STATE: self!, srcPortName!, trgAny!
-				let wireNumber	= (fm.indexFor["wire"] ?? 0) + 1				// root.wireNumber += 1
-				fm.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
-				let breakAtWireNo = fm.indexFor["breakAtWire"]
+				let wireNumber	= (partsBase.indexFor["wire"] ?? 0) + 1				// root.wireNumber += 1
+				partsBase.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
+				let breakAtWireNo = partsBase.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(log.eventNumber-1)")
 				atBld(4, logd("L\(wireNumber)'s source:\(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:\(trgAny.pp(.line))"))

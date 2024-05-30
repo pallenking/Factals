@@ -564,10 +564,10 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			scn.addChild(node:bBoxScn, atIndex:0)
 
 			 // Name the wire frame
-			let fm				= part.partBase?.factalsModel// else { fatalError()	}			//var fm			= self.vews!.factalsModel!
-			let wBoxNameIndex	= fm?.indexFor["WBox"] ?? 1
-			fm?.indexFor["WBox"] = wBoxNameIndex + 1
-			print(fm != nil ? "" : "%%%%%%%% Who'se ahead of whom")
+			let partBase		= part.partBase
+			let wBoxNameIndex	= partBase?.indexFor["WBox"] ?? 1
+			partBase?.indexFor["WBox"] = wBoxNameIndex + 1
+			print(partBase != nil ? "" : "%%%%%%%% partBase==nil")
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
 			bBoxScn.geometry 	= SCNGeometry.lines(lines:indices, withPoints:corners) //material.diffuse.contents = color0		// BUG doesn't work, all are white
 			bBoxScn.categoryBitMask = FwNodeCategory.adornment.rawValue			//material.lightingModel 	= .blinn
