@@ -481,6 +481,6 @@ class SCNComment : SCNNode {
 //GDPerformanceMonitor.sharedInstance.startMonitoring()
 		// TO DO:
 		 // in Docs/www //  https://github.com/dani-gavrilov/GDPerformanceView-Swift/blob/master/GDPerformanceView-Swift/GDPerformanceMonitoring/GDPerformanceMonitor.swift
-		//fwView?.background	= NSColor("veryLightGray")!
+		//scnView?.background	= NSColor("veryLightGray")!
 		// https://developer.apple.com/documentation/scenekit/scnview/1523088-backgroundcolor
 

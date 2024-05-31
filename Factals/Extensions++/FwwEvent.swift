@@ -49,10 +49,10 @@ extension NSEvent {
 		guard let factalsModel 	= FACTALSMODEL else { fatalError() 			}
 		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 
-			 // Find vewBase whose fwView is a descendant of nsViewOfEv
+			 // Find vewBase whose scnView is a descendant of nsViewOfEv
 			for vewBase in factalsModel.vewBases {
-bug;			if let fwView	= vewBase.scnBase.fwView,		//rootScn.fwView,
-				  fwView.isDescendant(of:nsViewOfEv) {
+bug;			if let scnView	= vewBase.scnBase.scnView,		//rootScn.scnView,
+				  scnView.isDescendant(of:nsViewOfEv) {
 					return vewBase
 				}
 			}

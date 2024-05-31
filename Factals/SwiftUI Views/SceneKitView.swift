@@ -13,7 +13,6 @@ struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView	//FwView:SCNView:NSView	// Type represented
 
 	func makeNSView(context: Context) -> SCNView { //FwView {
-//		let fwView				= FwView()//frame:CGRect()
 		let scnView				= SCNView()
 		scnView.isPlaying/*animations*/ = true	// does nothing showsStatistics 		= true			// works fine
 		scnView.debugOptions	= [				// enable display of:
@@ -25,13 +24,12 @@ struct SceneKitView: NSViewRepresentable {
 		scnView.preferredFramesPerSecond = 30	//args.preferredFramesPerSecond
 
 
-		scnView.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
-//		fwView.scnBase			= scnBase
+		scnView.delegate		= scnBase 		//scnBase is SCNSceneRendererDelegate
 		scnView.scene			= scnBase.scnScene
-//		fwView.autoenablesDefaultLighting = true
-//		fwView.allowsCameraControl = true
+		scnView.autoenablesDefaultLighting = true
+		scnView.allowsCameraControl = true
 
-		scnBase.fwView			= scnView		// for pic
+		scnBase.scnView			= scnView		// for pic
 		return scnView
 	}
 
@@ -46,13 +44,13 @@ struct SceneKitView: NSViewRepresentable {
 //								 }
 		//						 .onAppear { 			//setupHitTesting
 		//						 	let scnBase			= vewBase.scnBase
-		//						 	let bind_fwView		= scnBase.fwView		//Binding<FwView?>
+		//						 	let bind_fwView		= scnBase.scnView		//Binding<FwView?>
 		//						 	var y				= "nil"
-		//						 	if let fwView		= bind_fwView.wrappedValue,
-		//						 	   let s			= fwView.scnBase {
+		//						 	if let scnView		= bind_fwView.wrappedValue,
+		//						 	   let s			= scnView.scnBase {
 		//						 		y				= s.pp()
 		//						 	}
-		//						 	print("\(scnBase).fwView.scnBase = \(y)")
+		//						 	print("\(scnBase).scnView.scnBase = \(y)")
 
 
 //	func makeCoordinator() -> Coordinator {
@@ -64,10 +62,10 @@ struct SceneKitView: NSViewRepresentable {
 //			self.sceneKitView = sceneKitView
 //		}
 //		func mouseDownX(with event: NSEvent) {
-//bug			 //let c			= Context()
-//			let fwView 			= sceneKitView.scnBase.fwView //fwView
-//			let point			= fwView!.convert(event.locationInWindow, from: nil)
-//			let hitResults 		= fwView!.hitTest(point, options: [:])
+//bug		 //let c			= Context()
+//			let scnView 		= sceneKitView.scnBase.scnView
+//			let point			= scnView!.convert(event.locationInWindow, from: nil)
+//			let hitResults 		= scnView!.hitTest(point, options: [:])
 //			if let hitResult 	= hitResults.first {
 //				// This is the first object hit by the click
 //				let node 		= hitResult.node
@@ -96,9 +94,9 @@ struct SceneKitView: NSViewRepresentable {
 		//							//coordinator.onAppear()
 		//						 	//$factalsModel.coordinator.onAppear {				}
 		//						 	let scnBase			= vewBase.scnBase
-		//						 	let bind_fwView		= scnBase.fwView		//Binding<FwView?>
-		//							let y				= bind_fwView.wrappedValue?.scnBase?.pp() ?? "nil"
-		//						 	print("\(scnBase).fwView.scnBase = \(y)")
+		//						 	let bind_scnView	= scnBase.scnView		//Binding<FwView?>
+		//							let y				= bind_scnView.wrappedValue?.scnBase?.pp() ?? "nil"
+		//						 	print("\(scnBase).scnView.scnBase = \(y)")
 		//						 }
 									//NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 									//	print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
@@ -150,9 +148,9 @@ struct SceneKitView: NSViewRepresentable {
 		//if let speed			= c.cgFloat("speed") {
 		//	scnScene.physicsWorld.speed	= speed
 		//}
-//		fwView!.backgroundColor	= NSColor("veryLightGray")!
-//		fwView!.antialiasingMode = .multisampling16X
-//		fwView!.delegate		= self as any SCNSceneRendererDelegate
+//		scnView!.backgroundColor = NSColor("veryLightGray")!
+//		scnView!.antialiasingMode = .multisampling16X
+//		scnView!.delegate		= self as any SCNSceneRendererDelegate
 //	 /// animatePhysics is a posative quantity (isPaused is a negative)
 //	var animatePhysics : Bool {
 //		get {			return !scnScene.isPaused										}

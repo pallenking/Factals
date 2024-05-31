@@ -67,7 +67,7 @@ struct FactalsDocument : FileDocument {
 		} ()
 		let partBase			= PartBase(fromLibrary:select)
 		factalsModel			= FactalsModel(partBase:partBase)
-		factalsModel.fmConfig	= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
+//		factalsModel.fmConfig	= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
 		factalsModel.configure(from:params4pp)
 		partBase.wireAndGroom([:])
 		let c					= factalsModel.fmConfig + partBase.ansConfig

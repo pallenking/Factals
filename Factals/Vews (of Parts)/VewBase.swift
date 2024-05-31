@@ -79,7 +79,6 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		unlock(for:          owner, logIf:false)
 		partBase.unlock(for:owner, logIf:false)
 	}
-	 // MARK: - 4.? Vew Locks
 	/// Optain DispatchSemaphor for Vew Tree
 	/// - Parameters:
 	///   - for owner: get lock for this name. nil --> don't lock
@@ -142,7 +141,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		}
 	}
 
-	// MARK: - 9 Update Vew + :
+	// MARK: - 9 Update Vew: -
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.

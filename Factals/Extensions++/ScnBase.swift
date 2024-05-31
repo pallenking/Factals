@@ -19,8 +19,7 @@ class ScnBase : NSObject {
 		guard let tree 			else { return	}			// no tree, no children
 		scnSceneRootNode.addChildNode(tree)
 	}
-	var fwView	 : SCNView?					// SCNView  of this ScnBase
-//	var fwView	 : FwView?					// SCNView  of this ScnBase
+	var scnView	 : SCNView?					// SCNView  of this ScnBase
 	weak
 	 var vewBase : VewBase?					// Delegate (of these ScnBase)
 
@@ -349,7 +348,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 		let world2eye			= SCNMatrix4Invert(vewBase.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-		let nsRect				= fwView?.frame ?? NSRect(x:9,y:9,width:200, height:200)
+		let nsRect				= scnView?.frame ?? NSRect(x:9,y:9,width:200, height:200)
 
 		 // Orientation is "Height Dominated"
 		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
@@ -579,19 +578,19 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		case .changeMode:		bug
 
 		case .beginGesture:	bug	// override func touchesBegan(with event:NSEvent) {
-//			let touchs			= nsEvent.touches(matching:.began, in:fwView)
+//			let touchs			= nsEvent.touches(matching:.began, in:scnView)
 //			for touch in touchs {
 //				let _:CGPoint	= touch.location(in:nil)
 //			}
 		case .mouseMoved: bug
-//			let touchs			= nsEvent.touches(matching:.moved, in:fwView)
+//			let touchs			= nsEvent.touches(matching:.moved, in:scnView)
 //			for touch in touchs {
 //				let prevLoc		= touch.previousLocation(in:nil)
 //				let loc			= touch.location(in:nil)
 //				atEve(3, (print("\(prevLoc) \(loc)")))
 //			}
 		case .endGesture: bug	//override func touchesEnded(with event:NSEvent) {
-//			let touchs			= nsEvent.touches(matching:.ended, in:fwView)
+//			let touchs			= nsEvent.touches(matching:.ended, in:scnView)
 //			for touch in touchs {
 //				let _:CGPoint	= touch.location(in:nil)
 //			}
@@ -636,7 +635,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 		guard let tree			= vewBase.scnBase.tree   else { return nil		}
-		guard let fwView		= vewBase.scnBase.fwView else { fatalError("vewBase.scnBase.fwView is nil")	}
+		guard let scnView		= vewBase.scnBase.scnView else { fatalError("vewBase.scnBase.scnView is nil")	}
 		guard let slot 			= vewBase.slot			 else { return nil		}
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -657,8 +656,8 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 										//		guard let scnView else { fatalError("Couldn't find sceneView")			}
 										//		 // Find the 3D Vew for the Part under the mouse:
 										//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
-		 // fwView is SCNSceneRenderer:
-		let hits 				= fwView.hitTest(locationInRoot, options:configHitTest)
+		 // scnView is SCNSceneRenderer:
+		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
 		atDoc(5, print("\n---nsEvent loc \(f2(nsEvent.locationInWindow)) -> \(f2(locationInRoot)) in View.frame \(contentView.frame.size), \(hits.count) hits."))
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
@@ -732,7 +731,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 			rv					+= "scn:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
-//			rv					+= "\(self.fwView?.pp(.uidClass, aux) ?? "BAD: fwView=nil") "
+//			rv					+= "\(self.scnView?.pp(.uidClass, aux) ?? "BAD: scnView=nil") "
 		}
 		return rv
 	}

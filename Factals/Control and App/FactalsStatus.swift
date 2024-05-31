@@ -98,7 +98,7 @@ bug; //never used?
 			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
 			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
 			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
-			//	+ "fwView:\(ppUid(fwView,		     showNil:true)) "
+			//	+ "scnView:\(ppUid(scnView,		     showNil:true)) "
 			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
 			otherLines:{ deapth in
 				var rv			= "truncated"//  self.partBase.ppFactalsState(deapth:deapth-1) // Controller:

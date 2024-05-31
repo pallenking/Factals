@@ -97,9 +97,9 @@ private let params4docLog		= params4pp + params4logs_
 		"debugOutterLock"	: false,	//true//false// Helpful logging, quite noisy
 			 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-		"breakAtLogger"			: 3,
+		"breakAtLogger"			: 1,
 								// + +  + +
-		"breakAtEvent"			:  -54,//240/3/0:off
+		"breakAtEvent"			:  13//-54,//240/3/0:off
 
 	]
 
