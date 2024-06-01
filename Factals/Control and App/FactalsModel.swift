@@ -7,16 +7,12 @@ class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
-	var fmConfig : FwConfig		= [:]
-//
-//	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
-//	var indexFor				= Dictionary<String,Int>()
-
+	var fmConfig  : FwConfig	= [:]
 	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
-	var vewBases0 :  VewBase?	{	vewBases.first								}// Sugar
+//	var vewBases0 :  VewBase?	{	vewBases.first								}// Sugar
 
-	var log 					= Log(name:"FactalsModel's Log", params4all)
+	var log 					= Log(name:"Model's Log", params4all)
 	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 
@@ -28,7 +24,7 @@ class FactalsModel : ObservableObject, Uid {
 	init(partBase rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
 		partBase				= rp ?? PartBase(tree:Part())
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		FACTALSMODEL			= self
+		FACTALSMODEL			= self			// set UGLY GLOBAL
 		simulator.factalsModel	= self			// backpointer
 		partBase.factalsModel	= self			// backpointer
 //		fmConfig				= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
@@ -56,7 +52,7 @@ class FactalsModel : ObservableObject, Uid {
 				}
 			}
 		}
-		ensureAVew(fwConfig:config)
+//		ensureAVew(fwConfig:config)		// causes bug to do here: new Vew before Part built
 		for vewBase in vewBases {
 			vewBase.configure(from:config)
 		}

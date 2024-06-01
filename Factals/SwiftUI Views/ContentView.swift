@@ -21,9 +21,14 @@ struct FactalsModelView: View {
 	var body: some View {
 		VStack {
 			HStack {
-				if factalsModel.vewBases.count == 0 {
-					Text("No VewBases found")
-				}
+ 		//		factalsModel.ensureAVew(fwConfig: [:])
+//				if factalsModel.vewBases.count == 0 {
+//					Button(action: {
+//						factalsModel.ensureAVew(fwConfig: [:])
+//					}) {
+//						Text("No VewBases found")
+//					}
+//				}
 				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element

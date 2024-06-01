@@ -144,7 +144,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		Log.maximumLogNo		+= 1
 		logNo					= Log.maximumLogNo				// Logs have unique number
 		self.name				= name
-		print("--- ALLOCATED Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
+		print("----- ALLOCATED Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
 			// Learnings:	1) Cannot use Log here -- we're initting a Log!
 			//				2) \(ppUid(self)) uses a Log! (but
 
@@ -223,7 +223,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			Log.currentLogNo	= logNo							// switch to new
 			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
 										//	//	var x	LOG			= "33".pp(.line) ?? "nil"// GOOD
-			let x				= "\(logNo)------- FROM Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
+			let x				= "-- SWITCHING TO Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
 			print(x)
 		}
 		// DO SOME OTHER WAY: sim state shouldn't be actor isolated
