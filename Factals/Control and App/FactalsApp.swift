@@ -33,14 +33,16 @@ var FACTALSMODEL : FactalsModel?=nil
 extension FactalsApp : App {
 //	@Environment(\.newDocument) private var newDocument		// Flock Extensions must not contain stored properties
 	var body: some Scene {
-		DocumentGroup(newDocument:FactalsDocument()/*.retainIn($openDocuments)*/) { file in		// DocumentGroup(newDocument:newFactalsDocument()) { file in
+		/*.retainIn($openDocuments)*/
+		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
 			 .environmentObject(factalsGlobals)	// inject in environment
 			 .onOpenURL { url in					// Load a document from the given URL
 				@Environment(\.newDocument) var newDocument
 				newDocument(FactalsDocument(fileURL:url))
 //				let _ = FactalsDocument(fileURL:url)/*.retainIn($openDocuments)*/
-			}
+			 }
+			 .onAppear { NSApplication.shared.windows.first?.title = file.document.factalsModel?.partBase.title ?? "<nil>" }
 		}
 		 .commands {
 			CommandMenu("Library") {
@@ -134,7 +136,7 @@ struct FactalsApp: Uid, FwAny {
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
 	 // MARK: - 2. Object Variables:
-	var log	: Log				=	Log(name:"App's  Log", params4all)
+	var log	: Log				= Log.shared//(name:"App's  Log", params4all)
 	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:

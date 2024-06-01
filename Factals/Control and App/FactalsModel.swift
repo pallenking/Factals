@@ -12,7 +12,7 @@ class FactalsModel : ObservableObject, Uid {
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 //	var vewBase1  :	VewBase		{	vewBases.first ?? }
 
-	var log 					= Log.shared//(name:"Model's Log", params4all)
+	var log 					= Log(name:"Model's Log", params4all)
 	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 
