@@ -308,7 +308,7 @@ r("-Hangs as 2'nd ^r", e + selfiePole( s:9, u:3), { Net([placeMy:"stackX -1", pa
 //		Broadcast()
 	})
 
-xxr("+Family Portrait", e + selfiePole( s:-90, u:30) +
+xr("+Family Portrait", e + selfiePole( s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),
@@ -1381,7 +1381,7 @@ state.scanSubMenu				= "Shaft"
 //		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 //	] ])
 //})
-xr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + log(dat:5, eve:5), {
+xxr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + log(dat:5, eve:5), {
 	Net([parts:[
 		Hamming([n:"h1", P:["a"]]),
 		Hamming([n:"h2", P:["a"]]),

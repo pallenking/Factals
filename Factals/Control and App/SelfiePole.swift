@@ -81,7 +81,7 @@ extension SelfiePole : Uid {
 			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f, o:%.2f]", position.pp(.line, aux), spin, gaze, zoom, ortho)
 			return rv
 		default:
-			return ppStopGap(mode, aux)		// NO, try default method
+			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 	}
 }

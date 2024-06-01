@@ -292,7 +292,7 @@ enum FwwEvent : Codable {
 				return pp(.short, aux)
 			}
 		default:
-			return ppStopGap(mode, aux)		// NO, try default method
+			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 	}
 }

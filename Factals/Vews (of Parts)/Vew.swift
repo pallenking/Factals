@@ -714,7 +714,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				log.nIndent	-= 1
 				return rv
 			default:
-				return ppStopGap(mode, aux) 		// NO, try default method
+				return ppFixedDefault(mode, aux) 		// NO, try default method
 		}
 	}
 

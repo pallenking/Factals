@@ -246,7 +246,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 		case .name, .fullName:
 			return "<nameless>"
 		default:	// only root depricates
-			return ppStopGap(mode, aux)		// NO, try default method
+			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 	}
 	func ppLinkProps() -> String {

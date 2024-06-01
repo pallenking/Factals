@@ -717,7 +717,7 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 		let transform			= selfiePole.transform()
 		guard let cameraScn		= vewBase?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
-		//print("SelfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
+		//print("selfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
 			// add ortho magnification.
 		cameraScn.camera?.orthographicScale = selfiePole.zoom * 20

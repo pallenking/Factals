@@ -407,7 +407,7 @@ bug;			rv				+= s.vewBase?.scnBase === self ? "" :
 			}
 			log.nIndent		-= 1
 		default:
-			rv					=  ppStopGap(mode, aux)	//bug?
+			rv					=  ppFixedDefault(mode, aux)	//bug?
 		}
 		return rv
 	}

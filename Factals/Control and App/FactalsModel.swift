@@ -74,12 +74,6 @@ class FactalsModel : ObservableObject, Uid {
 		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 //		simulator.simEnabled	= true
 	}
-//	func ensureAVew(fwConfig c:FwConfig) {
-//		if vewBases.isEmpty {		// Must have a Vew
-//			//atBld(3, warning("no Vew... key, artificially adding Vew"))
-//			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
-//		}
-//	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		let vewBase				= VewBase(forPartBase:partBase)	// 1. Make with .null tree
 		vewBase.factalsModel	= self						// 2. Backpointer
@@ -566,7 +560,7 @@ bug;		var rv				= ""//(rootPartActor.parts?.pp(.classUid, aux) ?? "parts=nil") +
 //			}
 			return rv
 		default:
-			return ppStopGap(mode, aux)		// NO, try default method
+			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 	}
 

@@ -315,7 +315,7 @@ bug
 		case .tree:
 			return ""
 		default:
-			return ppStopGap(mode, aux)		// NO, try default method
+			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 	}
 

@@ -1510,7 +1510,7 @@ func foo () {
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
 			}
 		default:
-			return ppStopGap(mode, aux)		// NO, try default method
+			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 		return rv
 	}

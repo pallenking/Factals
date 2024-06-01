@@ -204,7 +204,7 @@ bug//	factalsModel.log.log(banner:banner, format_, args, terminator:terminator)
 		case .tree:
 			return "factalsModel.log.indentString()" + " FactalsDocument" + "\n"
 		default:
-			return "ppStopGap(mode, aux)"		// NO, try default method
+			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 	}
 }
