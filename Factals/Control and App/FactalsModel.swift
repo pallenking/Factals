@@ -10,9 +10,9 @@ class FactalsModel : ObservableObject, Uid {
 	var fmConfig  : FwConfig	= [:]
 	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
-//	var vewBases0 :  VewBase?	{	vewBases.first								}// Sugar
+//	var vewBase1  :	VewBase		{	vewBases.first ?? }
 
-	var log 					= Log(name:"Model's Log", params4all)
+	var log 					= Log.shared//(name:"Model's Log", params4all)
 	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 
@@ -31,11 +31,16 @@ class FactalsModel : ObservableObject, Uid {
 //		configure(from:params4pp)
 	}
 
-	func configure(from config:FwConfig) {
+	func configurePart(from config:FwConfig) {
 		self.fmConfig			+= partBase.ansConfig	// from library
+
+		log.configure(from:config)
+		docSound.configure(from:config)
+
 		partBase.configure(from:config)
 		simulator.configure(from:config)
-
+	}
+	func configureVews(from config:FwConfig) {
 		for (key, value) in config {				// params4all
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
@@ -52,13 +57,14 @@ class FactalsModel : ObservableObject, Uid {
 				}
 			}
 		}
-//		ensureAVew(fwConfig:config)		// causes bug to do here: new Vew before Part built
+
+		if vewBases.isEmpty {		// Must have a Vew
+			//atBld(3, warning("no Vew... key, artificially adding Vew"))
+			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
+		}
 		for vewBase in vewBases {
 			vewBase.configure(from:config)
 		}
-
-		log.configure(from:config)
-		docSound.configure(from:config)
 
 // MOVE TO CREATION
 //		atBld(3, log.logd(rootPartActor.parts?.ppRootPartErrors() ?? ""))
@@ -68,12 +74,12 @@ class FactalsModel : ObservableObject, Uid {
 		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 //		simulator.simEnabled	= true
 	}
-	func ensureAVew(fwConfig c:FwConfig) {
-		if vewBases.isEmpty {		// Must have a Vew
-			//atBld(3, warning("no Vew... key, artificially adding Vew"))
-			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
-		}
-	}
+//	func ensureAVew(fwConfig c:FwConfig) {
+//		if vewBases.isEmpty {		// Must have a Vew
+//			//atBld(3, warning("no Vew... key, artificially adding Vew"))
+//			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:c)
+//		}
+//	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		let vewBase				= VewBase(forPartBase:partBase)	// 1. Make with .null tree
 		vewBase.factalsModel	= self						// 2. Backpointer

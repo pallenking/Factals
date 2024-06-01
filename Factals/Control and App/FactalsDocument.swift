@@ -67,11 +67,11 @@ struct FactalsDocument : FileDocument {
 		} ()
 		let partBase			= PartBase(fromLibrary:select)
 		factalsModel			= FactalsModel(partBase:partBase)
-//		factalsModel.fmConfig	= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
-		factalsModel.configure(from:params4pp)
+		factalsModel.configurePart(from:params4pp)
 		partBase.wireAndGroom([:])
 		let c					= factalsModel.fmConfig + partBase.ansConfig
-		configure(config:c)
+
+		factalsModel.configureVews(from:c)
 	}
 
 	 // Document supplied
@@ -101,10 +101,10 @@ bug;		self.init(factalsModel:factalsModel)
 	//	self.init()		// temporary
 	}
 
-	func configure(config:FwConfig) {		// Everything associated with a FactlsDocument
-		 // Build Vews per Configuration
-		factalsModel.configure(from:config)
-	}										// next comes viewAppearedFor (was didLoadNib(to)
+//	func configure(config:FwConfig) {		// Everything associated with a FactlsDocument
+//		 // Build Vews per Configuration
+//		factalsModel.configure(from:config)
+//	}										// next comes viewAppearedFor (was didLoadNib(to)
 	// MARK: PolyWrap
 	 /// Requirement of <<FileDocument>> protocol
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {		// cannot ba async throws
