@@ -3,7 +3,11 @@
 //  Factals
 //
 //  Created by Allen King on 5/18/22.
+/*
+IMPORT OSLog
+navigationsplitview
 
+*/
 import SwiftUI
 import SceneKit
 
@@ -21,14 +25,6 @@ struct FactalsModelView: View {
 	var body: some View {
 		VStack {
 			HStack {
- 		//		factalsModel.ensureAVew(fwConfig: [:])
-//				if factalsModel.vewBases.count == 0 {
-//					Button(action: {
-//						factalsModel.ensureAVew(fwConfig: [:])
-//					}) {
-//						Text("No VewBases found")
-//					}
-//				}
 				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
