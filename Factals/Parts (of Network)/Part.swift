@@ -139,7 +139,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			}
 		}			// -- Name was given
 		name					= nam ?? { [self] in
-			if var partBase		= partBase,
+			if let partBase		= partBase,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
 				let index		= partBase.indexFor[prefix] ?? 0

@@ -65,12 +65,14 @@ struct FactalsDocument : FileDocument {
 			//**/	let select	= "- Port Missing"
 			return select
 		} ()
+		 // 1. Parts
 		let partBase			= PartBase(fromLibrary:select)
+		 // 2. FactalModel
 		factalsModel			= FactalsModel(partBase:partBase)
+		let c					= factalsModel.fmConfig + partBase.ansConfig
 		factalsModel.configurePart(from:params4pp)
 		partBase.wireAndGroom([:])
-		let c					= factalsModel.fmConfig + partBase.ansConfig
-
+		 // 3. Vews
 		factalsModel.configureVews(from:c)
 	}
 

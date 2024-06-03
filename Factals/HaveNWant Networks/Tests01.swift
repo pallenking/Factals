@@ -308,7 +308,7 @@ r("-Hangs as 2'nd ^r", e + selfiePole( s:9, u:3), { Net([placeMy:"stackX -1", pa
 //		Broadcast()
 	})
 
-xr("+Family Portrait", e + selfiePole( s:-90, u:30) +
+xxr("+Family Portrait", e + selfiePole( s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),
@@ -844,10 +844,10 @@ r("+ All various flips A",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx",
 ] ]) } )
 
 // :
-xxr("- explicit Link broken",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx", parts:[
-	Broadcast([n:"t1",f:1	]),
+xr("- explicit Link broken",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx", parts:[
+	Broadcast([n:"t1", share+X:"t2,l:1", f:1	]),
 	 // Enable this for a bug:
-	//Link([S:"t1", P:"t2"]),
+	Link([S:"t1", P:"t2"]),
 	Broadcast([n:"t2", flip:0, jog:"4 0 0"]),
 ] ]) } )
 

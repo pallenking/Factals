@@ -129,10 +129,11 @@ class Path : NSObject, Codable {			// xyzzy4
 		 // options[1..] are name=value pairs defining link E.G: [ "l=5", ... ]
 		for option in options[1...] {	// all but first --> linkOptions
 			let nameVal 		= option.components(separatedBy:":")	//"="
-			assert(nameVal.count==2, "Syntax: '\(option)' not of form <prop>:<val>")
+			assert(nameVal.count==2, "Syntax: '\(option)' not of form <prop>:<val>" +
+												" E.G: \"l:5\", \"@\" and \"=\"")
 			linkProps[nameVal[0]] = nameVal[1]
 		}
-		 // Strip trailing characters			//#  E.G: "l:5", "@" and "="
+		 // Strip trailing characters
 		while let cSub 			= lastName.last {
 			let c				= String(cSub)
 			var found			= false
