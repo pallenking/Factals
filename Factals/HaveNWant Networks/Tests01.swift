@@ -847,7 +847,7 @@ r("+ All various flips A",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx",
 xr("- explicit Link broken",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx", parts:[
 	Broadcast([n:"t1", share+X:"t2,l:1", f:1	]),
 	 // Enable this for a bug:
-	Link([S:"t1", P:"t2"]),
+ 	Link([S:"t1", P:"t2"]),
 	Broadcast([n:"t2", flip:0, jog:"4 0 0"]),
 ] ]) } )
 

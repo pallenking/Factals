@@ -43,7 +43,7 @@ import SceneKit
 			self.title			= "'\(selector ?? "nil")' -> \(answer.testNum):\(lib.fileName).\(answer.lineNumber!)"
 			self.ansConfig		= answer.config
 
-/* */		tree				= answer.trunkClosure!() ?? Part()
+/* */		tree				= answer.trunkClosure?() ?? Part()
 		}
 		else {
 			self.title 			 = "nil"

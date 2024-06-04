@@ -311,7 +311,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		
-		let log					= Log.shared
+		let log					= Log.app
 //		guard let log			= FACTALSMODEL?.log else { return "DOClog is nil"}
 		var rv					= ""
 //		 // UGLY: Can't override an extension

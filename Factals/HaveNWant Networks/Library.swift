@@ -65,7 +65,7 @@ struct ScanAnswer {		// : Codable
 
 extension Library : Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		Log.shared.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 		//let log				= FACTALSMODEL!.log
 	}
 }

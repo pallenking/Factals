@@ -215,7 +215,7 @@ func printDebuggerHints() {
 3. ======== HELPERS ============================================================
 	3A. ================ *** FwConfig Access: Named, Typed access to _ANY_  hash:
 		1. supports special "super" key
-		2. defaults to shared doc.config
+		2. defaults to app doc.config
 		3.
 			 <FwConfig>.int(name)   .int_(name)	("ppXYZWena")
 				 .float(name) .float_(name)	("ppFloatA" )

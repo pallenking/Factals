@@ -16,32 +16,32 @@ let sharesShortClassName = [
 ]
 let pinSkin						= falseF		// shrink xz so insides can be seen
 
-protocol ShareX : Port {
-	//init(_:FwConfig)
-	//func reset()
-				 // ==== Initialize
-	func combinePre()							// INZ
-			//!<< combinePre >>: OPERATION
-			//! DEFAULT:	a1	=	0.0
-			//!	 MaxOr:		a1	=	-inf
-			//!	 MinAnd:	a1	=	+inf
-			//!	 Bayes:		a1	=	0.1
-			//!	 Multiply:	a1	=	1.0
-			//!	 Sequence:   ?
-	func combineNext(val:Float) -> Bool
-			//!<< combineNext >>: OPERATION		  RETURNS:
-			//!	DEFAULT:	a1   += con			false
-			//!	 MaxOr:		a1 max= con			==highest if con>0.01
-			//!	 MinAnd:	a1 min= con			==lowest
-			//!	 Hamming:	a1   += con-cut		false
-			//!	 Multiply:	a1   *= con			==lowest
-			//!	 KNorm		a1   += con**cp		false
-			//!	 Sequence:	  ---				false
-	func combinePost() 		/* Default: do nothing afterward */	//class
-
-	func bid() -> Float
-	func basicConSpot() -> ConSpot
-}
+//protocol ShareX : Port {
+//	//init(_:FwConfig)
+//	//func reset()
+//				 // ==== Initialize
+//	func combinePre()							// INZ
+//			//!<< combinePre >>: OPERATION
+//			//! DEFAULT:	a1	=	0.0
+//			//!	 MaxOr:		a1	=	-inf
+//			//!	 MinAnd:	a1	=	+inf
+//			//!	 Bayes:		a1	=	0.1
+//			//!	 Multiply:	a1	=	1.0
+//			//!	 Sequence:   ?
+//	func combineNext(val:Float) -> Bool
+//			//!<< combineNext >>: OPERATION		  RETURNS:
+//			//!	DEFAULT:	a1   += con			false
+//			//!	 MaxOr:		a1 max= con			==highest if con>0.01
+//			//!	 MinAnd:	a1 min= con			==lowest
+//			//!	 Hamming:	a1   += con-cut		false
+//			//!	 Multiply:	a1   *= con			==lowest
+//			//!	 KNorm		a1   += con**cp		false
+//			//!	 Sequence:	  ---				false
+//	func combinePost() 		/* Default: do nothing afterward */	//class
+//
+//	func bid() -> Float
+//	func basicConSpot() -> ConSpot
+//}
 
 //##############################################################################
 //##############################################################################

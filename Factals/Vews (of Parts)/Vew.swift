@@ -601,7 +601,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}else if let root		= part.partBase {	// strangely redundant, but okay
 			root.factalsModel?.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}else{
-			Log.shared.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			Log.app.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 //			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
 	}

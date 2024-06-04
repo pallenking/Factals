@@ -441,7 +441,7 @@ extension SCNMaterial {
 				let n				= name ?? ""
 				return "SCNMaterial[ " + (n) + "]"		//  + ":" + pp(.fwClassName, aux).field(-3, dots:false)
 			case .line:
-				let log			= Log.shared
+				let log			= Log.app
 				var rv			= log.pidNindent(for:self)	//			(AB)
 				rv				+= "\((name ?? "material ").field(-8, dots:false))"//(C)
 				rv 				= log.unIndent(rv)// unindent	 (D)

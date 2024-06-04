@@ -408,7 +408,7 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	for (keyRhs, valueRhs) in rhsSorted {
 		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
 //			valueLhs == valueRhs ? nop :
-//				atBld(9, Log.shared.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+//				atBld(9, Log.app.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 				atBld(9, print(         "Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 		}
 		rv[keyRhs] 				= valueRhs
@@ -543,7 +543,7 @@ extension Dictionary : Logd {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
 		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
-		Log.shared.log(str, terminator:terminator)
+		Log.app.log(str, terminator:terminator)
 	}//Argument type 'Dictionary<Key, Value>' does not conform to expected type 'Uid'
 }
 
@@ -1230,7 +1230,7 @@ extension Logd {
 		let bbb					= aaa.field(-25)
 		let str					= nls + bbb + msg2	//-nFullN uidClass
 //		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
-		Log.shared.log(str, terminator:terminator)
+		Log.app.log(str, terminator:terminator)
 	}
 }
 

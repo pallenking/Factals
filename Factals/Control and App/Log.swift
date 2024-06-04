@@ -8,7 +8,7 @@ import SceneKit
 extension Log : Uid { }
 extension Log : Logd { 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		Log.shared.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
 
@@ -17,7 +17,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
-	static var shared			= Log(name:"Shared Log", Factals.log(all:sharedLogN))
+	static var app			= Log(name:"Shared Log", Factals.log(all:sharedLogN))
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
@@ -291,7 +291,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	}
 	static var ppLogFromBlank : String {
 		let nLog				= 3		// a quick approximation
-		return  String(repeating: " ", count:Log.shared.ppLogFromString().count + nLog)
+		return  String(repeating: " ", count:Log.app.ppLogFromString().count + nLog)
 	}
 
 	 /// Character to represent Transaction ID:
@@ -332,12 +332,12 @@ func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let msg						= fmt(format, args)
 	warningLog.append(msg)
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	Log.shared.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
+	Log.app.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
 }
 func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
 	logNErrors					+= 1
-	Log.shared.log(banner:targName + "ERROR \(logNErrors) ", format, args)
+	Log.app.log(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
 
 
