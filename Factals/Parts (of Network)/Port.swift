@@ -144,12 +144,17 @@ class Port : Part, PortTalk {
 			return name
 		}
 		set(newName) {
-			if var p			= atom?.ports {			// Set Atom's ports
+			if var ports		= atom?.ports {			// Set Atom's ports:[String:Port]
 				let oldName		= super.name
-				let (oldName2, _) = p.first(where: { $1 === self }) ?? ("", self)
+				let oldName2	= ports.first { $1===self }?.key
 				assert(oldName == oldName2, "inconsistency")
-				p.removeValue(forKey:oldName)			// remove from old hash
-				p[newName]		= self					// add    to   new hash
+				ports.removeValue(forKey:oldName)		// remove from old hash
+				ports[newName]	= self					// add    to   new hash
+//													let x =  ports.first { (name, port) in port===self }?.value ?? self
+//													let x2 = x.value
+//													let oldName2 = ports.first { $1===self }?.key
+//											//		let (oldName2, _) = ports.first { (name, port) in port===self } ?? ("", self)
+//									//				let (oldName2, _) = p.first(where: { $1 === self }) ?? ("", self)
 			}
 			super.name			= newName				 // Set name
 		}

@@ -46,9 +46,12 @@ import SceneKit
 /* */		tree				= answer.trunkClosure?() ?? Part()
 		}
 		else {
-			self.title 			 = "nil"
+			self.title 			= "nil"
 			tree				= Part()
 		}
+		tree.setTree(parent:nil, partBase:self)
+		tree.configNames(config:[:])
+
 //
 //		wireAndGroom([:])
 
@@ -69,7 +72,7 @@ import SceneKit
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
 		linkUps.forEach { 	addLink in 		addLink() 							}
 
-		tree.setTree(parent:nil, partBase:self)
+bug//		tree.setTree(parent:nil, partBase:self)
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))

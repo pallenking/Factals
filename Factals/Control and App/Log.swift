@@ -17,7 +17,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
-	static var app			= Log(name:"Shared Log", Factals.log(all:sharedLogN))
+	static var app				= Log(name:"App Log", Factals.log(all:sharedLogN))
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log

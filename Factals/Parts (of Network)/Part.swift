@@ -51,8 +51,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
- // BIG PROBLEMS: (Loops!)
-//	{	willSet(v) {	markTree(dirty:v)  									}	}
+//	{	willSet(v) {  markTree(dirty:v) }  }// BIG PROBLEMS: (Loops!)
 	var partConfig	: FwConfig				// Configuration of Part
 	 // Ugly:
 	var nLinesLeft	: UInt8		= 0			// left to print in current atom
@@ -129,27 +128,27 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	init(_ config:FwConfig = [:]) {
 		partConfig				= config		// Set as my local configuration hash
 
-		var nam : String?		= nil
-		 // Do this early, to improve creation printout
-		for key in ["n", "name", "named"] {		// (Name has 3 keys)
-			if let na:String 	= partConfig[key] as? String {
-				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
-				nam				= na
-				partConfig[key] = nil			// remove from config
-			}
-		}			// -- Name was given
-		name					= nam ?? { [self] in
-			if let partBase		= partBase,
-			  let prefix		= prefixForClass[fwClassName]
-			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= partBase.indexFor[prefix] ?? 0
-				partBase.indexFor[prefix] = index + 1		// for next
-				return prefix + String(index)
-			} else {	// -- Use fallback
-				defaultPrtIndex	+= 1
-				return "prt" + String(defaultPrtIndex)
-			}
-		}()
+//		var nam : String?		= nil
+//		 // Do this early, to improve creation printout
+//		for key in ["n", "name", "named"] {		// (Name has 3 keys)
+//			if let na:String 	= partConfig[key] as? String {
+//				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
+//				nam				= na
+//				partConfig[key] = nil			// remove from config
+//			}
+//		}			// -- Name was given
+//		name					= nam ?? { [self] in
+//			if let partBase		= partBase,
+//			  let prefix		= prefixForClass[fwClassName]
+//			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
+//				let index		= partBase.indexFor[prefix] ?? 0
+//				partBase.indexFor[prefix] = index + 1		// for next
+//				return prefix + String(index)
+//			} else {	// -- Use fallback
+//				defaultPrtIndex	+= 1
+//				return "prt" + String(defaultPrtIndex)
+//			}
+//		}()
 
 		 // Print out invocation
 		let n					= ("\'" + name + "\'").field(8)
@@ -198,6 +197,30 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		atBld(3, print("#### DEINIT    \(ppUid(self)):\(fwClassName)")) // 20221105 Bad history deleted
 	}
 
+	func configNames(config:FwConfig = [:]) {
+		var nam : String?		= nil
+		 // Do this early, to improve creation printout
+		for key in ["n", "name", "named"] {		// (Name has 3 keys)
+			if let na:String 	= config[key] as? String {
+				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
+				nam				= na
+				//config[key]	= nil			// remove from config
+			}
+		}			// -- Name was given
+		name					= nam ?? { [self] in
+			if let partBase		= partBase,
+			  let prefix		= prefixForClass[fwClassName]
+			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
+				let index		= partBase.indexFor[prefix] ?? 0
+				partBase.indexFor[prefix] = index + 1		// for next
+				return prefix + String(index)
+			} else {	// -- Use fallback
+				defaultPrtIndex	+= 1
+				return "prt" + String(defaultPrtIndex)
+			}
+		} ()
+		children.forEach {	$0.configNames(config:config)	}
+	}
 	 // START CODABLE ///////////////////////////////////////////////////////////////
 	   // MARK: - 3.4 PolyPart
 			//			input		returned (E) ^backlink
@@ -1516,7 +1539,7 @@ func foo () {
 	}
 	func ppCenterPart(_ aux:FwConfig) -> String {
 		var rv 			 		=  name.field(10) + ":"					// " net0:"
-		rv 						+= fwClassName.field(-6, dots:false)	// "Net "
+		rv 						+= fwClassName.field(-8, dots:false)	// "Net "
 		rv 						=  log.unIndent(rv)
 //		rv 						=  root?.log.unIndent(rv) ?? "___ "
 //		rv 						+= root?.log.unIndent(rv) ?? "___ "

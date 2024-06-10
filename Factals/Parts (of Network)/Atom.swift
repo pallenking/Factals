@@ -34,11 +34,13 @@ class Atom : Part {	//Part//FwPart
 			//skin				= skin2
 			partConfig["skin"]	= nil
 		}
-		bindings				= partConfig["bindings"] as? [String:String] //config.fwConfig("bindings")
-		partConfig["bindings"]	= nil
+		if let b				= partConfig["bindings"] as? [String:String] {  //config.fwConfig("bindings")
+			bindings			= b
+			partConfig["bindings"] = nil
+		}
 
 		 // Create PORTS in Atoms
-		for (portName, portProp) in hasPorts( ) {	// process "c", "M" and "b"
+		for (portName, portProp) in hasPorts() {	// process "c", "M" and "b"
 			if portProp.contains("c") {		// c --> create at birth
 				let newPort		=
 					portProp.contains("M") ?
