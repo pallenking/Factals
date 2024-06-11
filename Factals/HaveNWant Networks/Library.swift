@@ -295,9 +295,8 @@ func logAt(
 		rnd:Int = -1,
 		tst:Int = -1,
  		all:Int = -1
-//		) -> FwConfig {	[:] }
 		) -> FwConfig {
-	var rv : FwConfig		= [:]//"logPri4all"  : 0]	// default= OF
+	var rv : FwConfig		= [:]		// default = log (logAt) nothing
 
 	if app >= 0 	{		rv["logPri4app"] = app								}
 	if doc >= 0 	{		rv["logPri4doc"] = doc								}
