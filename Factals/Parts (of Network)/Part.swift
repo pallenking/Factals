@@ -42,13 +42,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	weak
 	 var partBase	: PartBase?	= nil	//
 
-	func setTree(parent p:Part?, partBase pb:PartBase?) -> Bool {
+	func alreadyHas(parent p:Part?, partBase pb:PartBase?) -> Bool {
 		var rv					= parent==p && partBase==pb
 		parent 					= p
 		partBase 		  		= pb
 		for child in children {
-			rv					&&= child.setTree(parent:self, partBase:partBase)
+			rv					&&= child.alreadyHas(parent:self, partBase:partBase)
 		}
+		return rv
 	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
@@ -480,46 +481,30 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// dirtyness of child is inhereted by self
 	func addChild(_ child:Part?, atIndex index:Int?=nil) {
 		guard let child 		else {		return								}
-		assert(self !== child, "can't add self to self") 	// other bigger loops are not banned
+		assert(self !== child, "can't add self to self (non-exhaustive check)")
+		assert(!children.contains(child), "Adding child that's already there")
 
-		 // child already in children
-		var wasAtIndex:Int?		= children.firstIndex(where: {$0 === child})
+		 // add at index
 		if var index {							// Find right spot in children
 			if index < 0 {						// Negative are distance from end
 				index = children.count - index
 			}
 			assert(index>=0 && index<=children.count, "index \(index) out of range")
 			children.insert(child, at:index)	// add at index
-			if let i		= wasAtIndex {		// bump remove
-				wasAtIndex		= i + (i>index ? 1 : 0)
-			}
 		}
-		else {
-			children.append(child)				// add at end
-		}
-
-		if let wasAtIndex {
-			children.remove(at:wasAtIndex)
+		else {	// add at end
+			children.append(child)
 		}
 
 		 // link in as self
 		child.parent			= self
 		child.partBase			= self.partBase
-		child.setTree(parent:self, partBase:partBase)
-
-
-//		if let partBase {
-//			child.partBase			= self.partBase
-//		}
+		let _ 					= child.alreadyHas(parent:self, partBase:partBase)
 
 		 // Process tree dirtyness:
 		markTree(dirty:.vew)				// ? tree has dirty.vew
 		markTree(dirty:child.dirty)			// ? tree also inherits child's other dirtynesses
 	}										// (child is not dirtied any more)
-//	func removeChildren() {
-//		children.removeAll()
-//		markTree(dirty:.vew)
-//	}
 	/// Groom Part tree after construction.
 	/// - Parameters:
 	///   - parent_: ---- if known

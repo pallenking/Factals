@@ -27,7 +27,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 
 	 // MARK: - 2.1 Object Variables
 	var title					= ""
-	var ansConfig	 : FwConfig = [:]
+	var ansConfig : FwConfig 	= [:]
 	weak
 	 var factalsModel : FactalsModel? = nil
 
@@ -55,15 +55,15 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 			self.title 			= "nil"
 			tree				= Part()
 		}
-		tree.setTree(parent:nil, partBase:self)
-										//		tree.configNames(config:[:])
+		let a					= tree.alreadyHas(parent:nil, partBase:self)
+		nop								//		tree.configNames(config:[:])
 											//	wireAndGroom([:])
 										//		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 										//		self.dirty.turnOn(.vew)
 										//		markTree(dirty:.vew)
 	}
 	func wireAndGroom(_ c:FwConfig) {
-		tree.setTree(parent:nil, partBase:self)
+		let a					= tree.alreadyHas(parent:nil, partBase:self)
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
 
 		 //  1. GATHER LINKS as wirelist:
@@ -75,7 +75,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
 		linkUps.forEach { 	addLink in 		addLink() 							}
 
-bug//		tree.setTree(parent:nil, partBase:self)
+		assert(tree.alreadyHas(parent:nil, partBase:self) == false, "Sombody broke tree")
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))
@@ -155,32 +155,30 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 		tree					= try container.decode(	    Part.self, forKey:.partTreeVerbose)
 
-//		try super.init(from:decoder)
 		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
 
 		makeSelfRunable()		// (no unlock)
 	}
 	 // MARK: - 3.5.1 Data
-//	var data : Data? {
-//		do {
-//			let enc 			= JSONEncoder()
-//			enc.outputFormatting = .prettyPrinted
-//			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
-//			//print(String(data: data, encoding: .utf8)!)
-//			return dataRv
-//		} catch {
-//			print("\(error)")
-//			return nil
-//		}
-//	}
-//	static func from(data:Data, encoding:String.Encoding) -> PartBase {
-//		do {
-//			let rv	: PartBase	= try JSONDecoder().decode(PartBase.self, from:data)
-//			return rv
-//		} catch {
-//			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
-//		}
-//	}
+	var data : Data? {
+		do {
+			let enc 			= JSONEncoder()
+			enc.outputFormatting = .prettyPrinted
+			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+			//print(String(data: data, encoding: .utf8)!)
+			return dataRv
+		} catch {
+			print("\(error)")
+			return nil
+		}
+	}
+	static func from(data:Data, encoding:String.Encoding) -> PartBase {
+		do {
+			return try JSONDecoder().decode(PartBase.self, from:data)
+		} catch {
+			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
+		}
+	}
 //	convenience init?(data:Data, encoding:String.Encoding) {
 //		bug							// PW: need Parts(data, encoding)
 //	//	let parts 				= try! JSONDecoder().decode(Parts.self, from:data)
