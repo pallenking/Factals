@@ -257,14 +257,14 @@ r("NetPrevious", eSim + selfiePole(s:45,u:10), {
 	]])
 })
 
-	r("Mirror Display WORKS", e + log(all:8), {
+	r("Mirror Display WORKS", e + logAt(all:8), {
 		Net([parts:[
 			Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
 			Mirror(),
 			Cylinder(	["size":"1 1 1", "color":"red"]),		//		parts.addChild(b)
 		] ])
 	})
-	r("Mirror Display BROKEN", e + log(all:8), {
+	r("Mirror Display BROKEN", e + logAt(all:8), {
 		Mirror()
 	})
 
@@ -375,7 +375,7 @@ r("net flipped", e, { Net([placeMy:"stackx", f:1, parts:[
 // ///////////////////////////////////////////////////////////////////////
  // MARK: - * Stacking:
 state.scanSubMenu				= "Stacking"
-r("Box stackx 3", e + selfiePole(s:5,u:5) + log(all:8), { Net([placeMy:"stackx -1 -1", parts:[
+r("Box stackx 3", e + selfiePole(s:5,u:5) + logAt(all:8), { Net([placeMy:"stackx -1 -1", parts:[
 	Box(			[n:"a", color:"red",    size:"2 2 2"]),
 //	Box(			[n:"b", color:"orange", size:"1 1 1"]),
 //	Box(			[n:"c", color:"yellow", size:"1 4 1"]),
@@ -429,10 +429,10 @@ xxr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy
 	] ] ) } )
 
 
-r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + log(all:0), { Net([placeMy:"stackx -1 0", parts:[
+r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + logAt(all:0), { Net([placeMy:"stackx -1 0", parts:[
 	Leaf(.rot),		// nil_ genMaxSq, [n:"i"]),
 ] ] ) } )
-	r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + log(all:0), { Leaf(.nil_) } )
+	r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + logAt(all:0), { Leaf(.nil_) } )
 
 r("Leaf problem child", e + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 //	Broadcast(["n":"main", "Px":"rot.T=", "latitude":1, "jogx":"0 -1.5 0"]),
@@ -544,12 +544,12 @@ r("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 		FwBundle(of:.genAtom, [struc:["a"], placeMy:"stackx -1 1"]),
 	] ] ) } )
 
-	r("-already connected", e + selfiePole(s:45,u:10) + log(all:8), { Net([placeMy:"linky", parts:[
+	r("-already connected", e + selfiePole(s:45,u:10) + logAt(all:8), { Net([placeMy:"linky", parts:[
 		MinAnd([P:"c", jog:"1 0 0"]),  MinAnd([P:"c"]),  MinAnd([P:"c"]),
 	//	Previous([n:"c"]),
 		FwBundle(of:.genAtom, leafConfig:["value":"1.0"], [struc:["c"]]),
 	] ] ) } )
-	r("-already connected", e + cameraX(s:45,u:10) + log(all:8), { Net([placeMy:"linky", parts:[
+	r("-already connected", e + cameraX(s:45,u:10) + logAt(all:8), { Net([placeMy:"linky", parts:[
 		MinAnd( [P:"c", jog:"1 0 0"]),  MinAnd([P:"c"]),  //MinAnd([P:"c"]),
 		GenAtom([n:"c", "value":"1.0", f:1])
 	] ] ) } )
@@ -634,7 +634,7 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 
 var a1 : String 		{ return "a,v:-" + String(randomDist(0.0, 1.0))
 								+ ",l:"  + String(randomDist(4.0, 6.0))			}
-r("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + log(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
+r("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
@@ -645,7 +645,7 @@ r("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + log(all:0) + vel(-
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Mirror(   [n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )
-	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + log(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
+	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
 		Bulb(  [n:"u", share:"a", f:1]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
 	] ] ) } )
@@ -852,7 +852,7 @@ xr("- explicit Link broken",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx
 ] ]) } )
 
 
-r("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
+r("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + logAt(dat:5, eve:5), {
 	Net([placeMy:"stackx", parts:[
 		Net([placeMy:"linky", parts:[	// AC
 			Broadcast([n:"ma", P:["x,l:5,t:dual"],jog:"0 0 2"]),	// A
@@ -872,7 +872,7 @@ r("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
 		]]),
 	]])
 })
-	r("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + log(dat:5, eve:5), {
+	r("+ All various flips B", eXYtight + selfiePole(s:0,u:0) + logAt(dat:5, eve:5), {
 		Net([parts:[
 			Broadcast([n:"ma", P:["x"]]),
 			MaxOr(	  [n:"x"]),
@@ -980,8 +980,8 @@ r("+ Link AllInOne", e + selfiePole(s:80,u:10), { Net([placeMy:"stackx -1 -1", p
 ] ]) })
 
 
- // MARK:  Linking special cases eXYtight+eSim+log(all:1) eSim+eXYtight+log(dat:5, eve:5)
-r("-debug link as t:tube", eXYtight+log(ser:0,dat:5,eve:5)+selfiePole(h:0,s:-48,u:-10,z:0.815) +
+ // MARK:  Linking special cases eXYtight+eSim+logAt(all:1) eSim+eXYtight+logAt(dat:5, eve:5)
+r("-debug link as t:tube", eXYtight+logAt(ser:0,dat:5,eve:5)+selfiePole(h:0,s:-48,u:-10,z:0.815) +
 		 vel(-5) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
  	Mirror([n:"a", P:["b,l:5,t:dual"]]),// :dual:tube:ray:
 // 	Mirror([n:"b", f:1]),
@@ -1040,14 +1040,14 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
+xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0)
 	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
 	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
 	Mirror([n:"t1", f:1, P:"t2,l:4" ]),
 //	Mirror([n:"t2"]),
 //	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
 ] ]) })
-	xxr("+Mirror Oscillator", eSimX + selfiePole(s:0,u:0) + vel(-5) + log(all:0), { Net([placeMy:"linky", parts:[
+	xxr("+Mirror Oscillator", eSimX + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
 //		Bulb(  	  [n:"y", P+X:"t1 ,l:1.4,v:0.04"]),
 		Mirror([n:"t0", P:"t1.P", "gain":-1+2*decay, "offset":1-decay]),
 		Sequence([n:"t1", 			f:1]),
@@ -1056,18 +1056,18 @@ xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + log(all:0)
 	] ]) })
 
 	 // Use Inspec to change offset
-	r("LinkPort.out BUG231219", eSimX + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([f:0, placeMy:"linky", parts:[
+	r("LinkPort.out BUG231219", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(all:0), { Net([f:0, placeMy:"linky", parts:[
 		Mirror(   [n:"t2", "gain":0, "offset":1]),
 		Mirror(   [n:"t1", "gain":0, "offset":1, P:"t2,l:4", f:1, ]),
 	] ]) })
 	 // Use Inspec to change offset
-	r("testing Mirror Gui", eSimX + selfiePole(s:0,u:0) + vel(-7) + log(all:0), { Net([placeMy:"linky", parts:[
+	r("testing Mirror Gui", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(all:0), { Net([placeMy:"linky", parts:[
 		Mirror(   [n:"t3", "gain":-1, "offset":1]),
 		//Broadcast([n:"t2", share:"t3", jog:"5"]),
 		Mirror(   [n:"t1", P:"t3,l:5", f:1]),
 	] ]) })
 
-r("", e + selfiePole(s:-45,u:30) + log(all:0) + ["bBox4Atoms":true], { Net([placeMy:"stackY", parts:[
+r("", e + selfiePole(s:-45,u:30) + logAt(all:0) + ["bBox4Atoms":true], { Net([placeMy:"stackY", parts:[
 	Net([placeMy:"stackZ", parts:[//, jog:"0 1 0"
 		Box([color:"red"]),
 		Box([color:"orange"]),
@@ -1077,7 +1077,7 @@ r("", e + selfiePole(s:-45,u:30) + log(all:0) + ["bBox4Atoms":true], { Net([plac
 //
 //  // MARK: - * Sound
 //state.scanSubMenu				= "Sound"
-//r("-sound; press 'r'", e + selfiePole(s:90) + log(eve:5), { Box([n:"a"]) })
+//r("-sound; press 'r'", e + selfiePole(s:90) + logAt(eve:5), { Box([n:"a"]) })
 
   // MARK: - * Springs
 state.scanSubMenu				= "Springs"
@@ -1363,7 +1363,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-//xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+//xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 //	Net([parts:[
 ////		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 //		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
@@ -1381,7 +1381,7 @@ state.scanSubMenu				= "Shaft"
 //		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 //	] ])
 //})
-xxr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + log(dat:5, eve:5), {
+xxr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + logAt(dat:5, eve:5), {
 	Net([parts:[
 		Hamming([n:"h1", P:["a"]]),
 		Hamming([n:"h2", P:["a"]]),
@@ -1389,7 +1389,7 @@ xxr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + log(dat:5, 
 //		Broadcast([n:"a"]),
 	] ])
 })
-r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
 //			"con":Tunnel(["struc":["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
@@ -1402,18 +1402,18 @@ r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, e
 	] ])
 })
 let bundleNames = ["a"]//,"b","c","d","e","f","g","h","i"]
-xxr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xxr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Broadcast([n:"x", f:1])//, "a.-"//
 		Hamming([n:"A", share:bundleNames, f:1]),//, "a.-"//
 		Tunnel(of:.genBcast, leafConfig:[share:"A"], ["struc":bundleNames]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	] ])
 })
-	r("- minimum link", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	r("- minimum link", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Broadcast([n:"x", f:1])//, "a.-"//
 	})
 
-r("- con bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {Net([parts:[
+r("- con bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {Net([parts:[
 	Broadcast([n:"fwd", f:0]),
 	Net([placeMy:stackx, parts:[
 		 Hamming([P:"fwd", f:1]),
@@ -1421,7 +1421,7 @@ r("- con bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["w
 	] ])
 ] ]) })
 
-xxr("- FIXED: no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {
+xxr("- FIXED: no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {
 	Net([parts:[
 		Hamming([P:["a.T,l:2"], jog:"1 0 0"]), // +-ST
 		Previous([n:"a"]),
@@ -1434,7 +1434,7 @@ xxr("- FIXED: no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + log(dat:
 //			],
 //			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward"], ["struc": ["a"]]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 //		]),
-r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0, "placeMy":"linky",
 			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
@@ -1443,7 +1443,7 @@ r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:
 			],
 		])
 })
-r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
 		"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a"]]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	])
@@ -1455,8 +1455,8 @@ r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + [
 state.scanSubMenu				= "Generator"
 //	xxr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
 //			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { //Net([placeMy:"linky", parts:[
-//xr("+ Shaft Spin 3", e + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBoxX":"none"], {
-xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5) + ["wBoxX":"none"], {	// FAILS
+//xr("+ Shaft Spin 3", e + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
+xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {	// FAILS
   Net([parts:[
 	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",
@@ -1473,14 +1473,14 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
 	 // eTight
-	xxr("- bad Links", eSim + selfiePole(s:45,u:10) + log(dat:5, eve:5) + ["wBoxX":"none"], {
+	xxr("- bad Links", eSim + selfiePole(s:45,u:10) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
 	  Net([placeMy:"linky", parts:[
 		MinAnd([n:"z", f:0, jog+X:"2 0 0"]),
 		MaxOr( [P:"z,l:5", f:1]),	// no Link
 	//	MaxOr(["share":"z,l:5"]),	// no Link
 	]]) })
 
-	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + log(dat:5, eve:5) + ["wBoxX":"none"], {
+	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
 	  Net([parts:[
 		Generator([n:"hi", events:[["y", "z"], [], "again"], P:"wheelA/con", "resetTo":["y", "z"], f:1]),
 //		DiscreteTime([n:"hiDt", P:"wheelA/con", "generator":"lo", "resetTo":["x", "y"]]),
@@ -1501,7 +1501,7 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 	//	TimingChain( [n:"tc", f:1, "S=":"dt", "P=":"wm"]),						// S]--> wm
 	//	WorldModel(  [n:"wm", f:1, events:["a", ["a", "b"], "b", [], "again"]]),
 	]]) })
-	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + log(dat:5, eve:5) + ["wBoxX":"none"], {
+	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
 	  Net([parts:[
 		Generator([n:"hi", events:["y", [], "again"], P:"wheelA/con", "resetTo":["y"], f:1]),
 		Actor([n:"wheelA", placeMy:"linky",
@@ -1516,13 +1516,13 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 	]]) })
 // tc."S=":"wm" -> wm
 
-	xxr("- grows vert", eSimX + eYtight + selfiePole(s:0,u:0,z:0.7) + log(dat:5, eve:5,  all:1), {Net([placeMy:"linky", parts:[
+	xxr("- grows vert", eSimX + eYtight + selfiePole(s:0,u:0,z:0.7) + logAt(dat:5, eve:5,  all:1), {Net([placeMy:"linky", parts:[
 		Mirror(		[n:"mk", P:"a,l:4"]),//, "gain":-1, "offset":1
 //		MaxOr(		[n:"mk", P:"a,l:4"]),
 		Tunnel(		[n:"evi", struc:["a"]]),
 		Generator(	[n:"lo", events:["a", [], "again"], P:"evi"]),
 	]]) })
-	xxr("- bug:", e + selfiePole(s:0,u:0,z:0.7) + log(dat:5, eve:5,  all:1), {Net([placeMy:"linky", parts:[
+	xxr("- bug:", e + selfiePole(s:0,u:0,z:0.7) + logAt(dat:5, eve:5,  all:1), {Net([placeMy:"linky", parts:[
  //		Mirror(		[n:"a", P:"b"]),//, "gain":-1, "offset":1s
  //		MaxOr(		[n:"b", f:1]),
 	//	Mirror(		[n:"mk", P:"a"]),//, "gain":-1, "offset":1s
@@ -1534,7 +1534,7 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 	//	TimingChain( [n:"tc", f:1, "S=":"dt", "P=":"wm"]),						// S]--> wm
 	//	WorldModel(  [n:"wm", f:1, events:["a", ["a", "b"], "b", [], "again"]]),
 	]]) })
-	r("- link l", e + selfiePole(s:0,u:0) + log(dat:5, eve:5), {//Net([parts:[
+	r("- link l", e + selfiePole(s:0,u:0) + logAt(dat:5, eve:5), {//Net([parts:[
 		Actor([n:"wheelA", placeMy:"linky",
 			"con":Tunnel([struc:["z"], f:1]),
 //			"con":GenAtom([n:"z", f:0]),
@@ -1548,7 +1548,7 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 		])
 //	]])
 	})
-		r("- position bug", e + selfiePole(s:0,u:0) + log(dat:5, eve:5), {//Net([parts:[
+		r("- position bug", e + selfiePole(s:0,u:0) + logAt(dat:5, eve:5), {//Net([parts:[
 			Actor([n:"wheelA", placeMy:"linky",
 				parts:[
 //					MaxOr( [n:"ma", share:["x"], f:1]),		//,"y", "z"			//
@@ -1557,21 +1557,21 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 				"evi":Tunnel([struc:["x"]]),	//,"y", "z"
 			])
 		})
-			r("- w[] bug", e + selfiePole(s:0,u:0) + log(dat:5, eve:5)
+			r("- w[] bug", e + selfiePole(s:0,u:0) + logAt(dat:5, eve:5)
 					+ ["ppViewOptions":"UFVTBW"], {
 				Net([placeMy:"linky", parts:[
 					Broadcast([n:"ma", jog:"2 0 0"])
 				]])
 			})
 
-		r("- con:GenAtom", e + selfiePole(s:0,u:0) + log(dat:5, eve:5), {Net([placeMy:"linky", parts:[
+		r("- con:GenAtom", e + selfiePole(s:0,u:0) + logAt(dat:5, eve:5), {Net([placeMy:"linky", parts:[
 //			Broadcast([n:"e", P:"d"]),
 //			Broadcast([n:"d", P:"c"]),
 	//		Broadcast([n:"c", P:"b"]),
 			Hamming(  [n:"b", P:"a"]),//,l:5
 			Broadcast([n:"a"]),
 		]]) })
-		r("- con:GenAtom", e + selfiePole(s:0,u:0) + log(dat:5, eve:5), {Net([parts:[
+		r("- con:GenAtom", e + selfiePole(s:0,u:0) + logAt(dat:5, eve:5), {Net([parts:[
 			Actor([n:"w", "con":GenAtom()]),
 		]]) })
 	r("-evi missing", eSim + selfiePole(s:90,u:10), {Net([parts:[
@@ -1582,7 +1582,7 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 		Generator([n:"lo", events:["a", ["a", "b"], "b", [], "again"],
 									expose+X:"atomic", P:"wheelA/evi"]),
 	]]) })
-	xxr("-evi missing", eSimX + selfiePole(s:90,u:10) + log(dat:5, eve:5) + vel(-3), {Net([placeMy:"linky", parts:[//log(all:5)
+	xxr("-evi missing", eSimX + selfiePole(s:90,u:10) + logAt(dat:5, eve:5) + vel(-3), {Net([placeMy:"linky", parts:[//log(all:5)
 		Actor([n:"wheelA", placeMy:"linky",
 			parts:[
 //	/*a*/		Mirror(		[n:"u", P:"v"]),
@@ -1595,7 +1595,7 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + log(dat:5, eve:5
 		Generator([n:"lo", events:["a", [], "again"],
 									expose+X:"atomic", P:"wheelA/evi"]),
 	]]) })
-		r("-^P spaz", eSim + selfiePole(s:45,u:0) + log(all:8), {
+		r("-^P spaz", eSim + selfiePole(s:45,u:0) + logAt(all:8), {
 			Net([parts:[
 	//			TimingChain([n:"tc", f:1, "xP=":"wm"]),	//20220225
 	//			WorldModel( [n:"wm", f:1]),
@@ -1653,18 +1653,18 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 		r("-Leaf is nil_", e + selfiePole(s:0,u:0), {
 			Leaf(.nil_, [n:"a"])
 		} )
-		r("+ Bulb sizing", e + selfiePole(s:45,u:0,z:1.6) + velX(-5) + log(all:8) + //log(dat:5, eve:5) +
+		r("+ Bulb sizing", e + selfiePole(s:45,u:0,z:1.6) + velX(-5) + logAt(all:8) + //logAt(dat:5, eve:5) +
 				["gapLinkFluff":1, "wBox":"colors", lookAt+X:"/net0/v.P"], { Net([placeMy:"linky", parts:[
 			Mirror([n:"t", P:"u"]),
 			Bulb(  [n:"u"]),					// Broadcast
 			Mirror([n:"v", P:"u", "gain":-1, "offset":1, f:1]),
 		] ]) })
-		r("-Port Skins", e + selfiePole(s:45,u:0,z:1.3) + vel(-8) + log(rve:8) + ["wBox":"gray"], { Net([parts:[	//placeMy:"linky",
+		r("-Port Skins", e + selfiePole(s:45,u:0,z:1.3) + vel(-8) + logAt(rve:8) + ["wBox":"gray"], { Net([parts:[	//placeMy:"linky",
 			Mirror([n:"t", P:"u", jog:"2 0 0"]),
 			Bulb(  [n:"u"]),					// Broadcast
 		] ]) })
-		r("-Port Skins", e + selfiePole(s:45,u:0,z:1.3) + log(rve:8), { Bulb([n:"u"])	})
-		r("-bug Bulb sizing", eSim + selfiePole(s:0,u:0) + vel(-7) + log(all:8) + //eve:5, dat:5
+		r("-Port Skins", e + selfiePole(s:45,u:0,z:1.3) + logAt(rve:8), { Bulb([n:"u"])	})
+		r("-bug Bulb sizing", eSim + selfiePole(s:0,u:0) + vel(-7) + logAt(all:8) + //eve:5, dat:5
 					[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 				Bulb(  	  [n:"y", P:"v,l:1.4,v:0.04"]),
 	//			Bulb(  	  [n:"x", P:"v,l:1.2,v:0.02"]),
@@ -1672,7 +1672,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 				Mirror(   [n:"v", "gain":-1, "offset":1, f:1]),
 			] ])
 		})
-			r("+ BlinksALot", eSim + eXYtight + //log(all:7) +
+			r("+ BlinksALot", eSim + eXYtight + //logAt(all:7) +
 						[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 					Mirror(	  [n:"y", P:"v,l:5,v:0.00"]),
 					Mirror(	  [n:"x", P:"v,l:5,v:-2.00"]),
@@ -1680,7 +1680,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 					Mirror(   [n:"v", "gain":-1, "offset":1, f:1]),
 				] ])
 			})
-			r("+ BlinksALot", eSim + eXYtight + //log(all:7) +
+			r("+ BlinksALot", eSim + eXYtight + //logAt(all:7) +
 						[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 					Mirror(	  [n:"y", P:"v,l:1.4,v:0.04"]),
 					Mirror(	  [n:"x", P:"v,l:1.2,v:0.02"]),
@@ -1737,14 +1737,14 @@ r("-bug", e + selfiePole(s:1,u:1),  		{	Net([placeMy:"linky", parts:[
 	Port([f:0])				 		]]) })
 r("-bug", e + selfiePole(s:1,u:1),			{	Tunnel(of:.genAtom, [struc:["a"]])} )
 
-r("-bug runs forever", eSim + selfiePole(s:45,u:10) + vel(-7) + log(dat:5, eve:5) + [lookAt:"a"], {Net([placeMy:"linky", parts:[
+r("-bug runs forever", eSim + selfiePole(s:45,u:10) + vel(-7) + logAt(dat:5, eve:5) + [lookAt:"a"], {Net([placeMy:"linky", parts:[
 //	Mirror([P:"a,l:5"]),
 	Tunnel(of:.genAtom, [n:"evi", struc:["a", "b"]]),//.genSplitter
 	Generator([n:"lo", events:["a", [], "again"], eventLimit+X:1, P:"evi="]),
 ]]) })
 	xxr("- M1 SCN bbox/matrix", [:], {	Part([:]) })
 
-xxr("+Gen Ham Bulb", e + selfiePole(s:45,u:0) + vel(-2) + log(dat:5, eve:5) +
+xxr("+Gen Ham Bulb", e + selfiePole(s:45,u:0) + vel(-2) + logAt(dat:5, eve:5) +
 		[lookAt+X:"/net0/e"], {Net([placeMy:"linky", parts:[
 //	Mirror([   n:"f",  P:"e"]),
 	Bulb([	   n:"f",  P:"e", f:0]),
@@ -1762,7 +1762,7 @@ xxr("+Gen Ham Bulb", e + selfiePole(s:45,u:0) + vel(-2) + log(dat:5, eve:5) +
 		["a", 	   ["a",	"b"], 	  "b", 		[], "again"],
 	]),
 ]]) })
-r("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + log(dat:5, eve:5) +
+r("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:5, eve:5) +
 							[lookAt+X:"/net0/e"], {Net([placeMy:"linky", parts:[
 	Tunnel(of:.genBulb, [n:"evi", struc:["a", "b", "c"], placeMy:"stackz 0 -1"]),
 	Generator([n:"lo", P:"evi=", placeMy:"stacky", eventLimit:0, events:[	//-1
@@ -1781,21 +1781,21 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 	//Mirror([n:"b", "gain":-1, "offset":1, f:1]),
 ]]) })
 
-	r("- tunnel spacing", eSim + selfiePole(s:90,u:0) + vel(-4) + log(rve:8) +
+	r("- tunnel spacing", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(rve:8) +
 							[lookAt+X:"/net0/e"], {Net([placeMy:"linky", parts:[
 		Tunnel(of:.genBulb, [n:"evi", placeMy:"stackz 0 -1"]),
 		DiscreteTime([f:1, P:"evi="]),
 	//	Generator([n:"lo", P:"evi=", placeMy:"stacky"]),
 	]]) })
 
-	r("-bug overlap placement", e + selfiePole(s:0,u:0) + log(rve:8), { Net([placeMy:"linky", parts:[
+	r("-bug overlap placement", e + selfiePole(s:0,u:0) + logAt(rve:8), { Net([placeMy:"linky", parts:[
 		Hamming([  n:"b", share:["a"], f:1]),
 		Broadcast([n:"a",            f:1]),
 	]]) })
 
 	// This 2-test sequence leaves the second unable to run. Press ^r s
-		r("- press ^r s", eSim + log(all:5), { Net() } )
-		r("+Gen 1 Bulb", e + log(all:5) + vel(-8), { Net( [placeMy:"linky", parts:[
+		r("- press ^r s", eSim + logAt(all:5), { Net() } )
+		r("+Gen 1 Bulb", e + logAt(all:5) + vel(-8), { Net( [placeMy:"linky", parts:[
 //			Hamming([n:"a",     P:["b"]]),
 			Hamming([n:"a", share:["b"], f:1, jog:"2"]),
 			Mirror(	[n:"b", "gain":-1, "offset":1, f:1]),
@@ -1805,20 +1805,20 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 
 
 
-	r("+Gen 2 Bulbs", e + selfiePole(s:90,u:0) + log(dat:9, eve:9) + vel(-4) +		//eSim
+	r("+Gen 2 Bulbs", e + selfiePole(s:90,u:0) + logAt(dat:9, eve:9) + vel(-4) +		//eSim
 						[lookAt+X:"/net0/evi"], {Net([placeMy:"linky", parts:[
 		Tunnel(of:.genBulb, [n:"evi", struc:["a", "b"], placeMy:"stackz 0 -1"]),
 		Generator([n:"lo", P:"evi=", eventLimit:0, events:[	//-1
 			"a", ["a", "b"], "b", [],	"again"]]),
 	]]) })
-	r("+Gen 1 Bulb", eSim + selfiePole(s:90,u:0) + vel(-7) + log(eve:5), {Net([placeMy:"linky", parts:[
+	r("+Gen 1 Bulb", eSim + selfiePole(s:90,u:0) + vel(-7) + logAt(eve:5), {Net([placeMy:"linky", parts:[
 		Mirror([   n:"f", P:"a"]),
 		Tunnel(of:.genBcast, [n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),
 		Generator([n:"lo", events: ["a", [], "again"], P:"evi="]),
 	]]) })
 
 
-	r("-Net name", e + log(eve:5), {Net() })
+	r("-Net name", e + logAt(eve:5), {Net() })
 
 	r("+Gen 1 Port", eSim + selfiePole(s:90,u:0) + logX(eve:5, dat:5, ani:5), {Net([placeMy:"linky", parts:[
 		Tunnel([n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),
@@ -1831,7 +1831,7 @@ r("pack tighter", e + selfiePole(s:90,u:0), {Net([placeMy:"stacky", parts:[
 		Tunnel(of:.nil_, [n:"evi", struc:["a", "b", "c"], placeMy:"stackx -1 0"])
 	})
 
-xxr("+3Gen 7Ham Max Mir", eSim + selfiePole(s:070,u:23, z:0.535) + vel(-1) + log(dat:3, eve:5) +
+xxr("+3Gen 7Ham Max Mir", eSim + selfiePole(s:070,u:23, z:0.535) + vel(-1) + logAt(dat:3, eve:5) +
 			[lookAt:"/net0/evi/b/genP", "wBox":"none"], {Net([placeMy:"linky", parts:[
 	Mirror([   n:"f3", P:"e1"]),
 	Mirror([   n:"f2", P:"e2"]),
@@ -1863,7 +1863,7 @@ xxr("+3Gen 7Ham Max Mir", eSim + selfiePole(s:070,u:23, z:0.535) + vel(-1) + log
 			[             ],
 			"again"] as [Any],   P:"evi="]),
 ]]) })
-xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, eve:5) +
+xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + logAt(dat:3, eve:5) +
 					[lookAt:"/net0/evi/b/genP"], {Net([placeMy:"linky", parts:[
 	MaxOr([  n:"e2", share:["d3"], f:1]),
 	MaxOr([  n:"e1", share:["d1", "d2"], f:1]),
@@ -1875,13 +1875,13 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, 
   	Tunnel(of:.genAtom, [n:"evi", struc:["a", "b"], placeMy:"stackz 0 -1"]),
  	Generator([n:"lo", P:"evi=", events:[["a"], ["a", "b"], ["b"], [], "again"]]),
 ]]) })
-	xxr("- Layout Bug -- OK", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, eve:5) +
+	xxr("- Layout Bug -- OK", eSim + selfiePole(s:070,u:23) + vel(-1) + logAt(dat:3, eve:5) +
 						[lookAt:"/net0/evi/d1/genP"], {Net([placeMy:"linky", parts:[
 		MaxOr([  n:"e2", share:["d3", "d2"], f:1]),
 		MaxOr([  n:"e1", share:["d1", "d2"], f:1]),
 		Tunnel(of:.genAtom, [n:"evi", struc:["d1", "d2", "d3"], placeMy:"stackz 0 -1"]),
 	]]) })
-		xxr("- auto-bcast Bug ", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, eve:5) +
+		xxr("- auto-bcast Bug ", eSim + selfiePole(s:070,u:23) + vel(-1) + logAt(dat:3, eve:5) +
 							[lookAt:"/net0/evi/d1/genP"], {Net([placeMy:"linky", parts:[
 			MaxOr([  n:"e2", P:["d2"], f:0]),
 			MaxOr([  n:"e1", P:["d2"], f:0]),
@@ -1890,7 +1890,7 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, 
 //			MaxOr([  n:"e1", share:["d2"], f:1]),
 //			MinAnd([ n:"d2", f:1])
 		]]) })
-	xxr("- Layout Bug", eSim + selfiePole(s:90,u:0) + vel(-1) + log(dat:5, eve:5,  all:5) +
+	xxr("- Layout Bug", eSim + selfiePole(s:90,u:0) + vel(-1) + logAt(dat:5, eve:5,  all:5) +
 						[lookAt:"/net0/evi/b/genP"], {Net([placeMy:"linky", parts:[
 		MaxOr([  n:"e2", share:["d3", "d2"], f:1]),
 		MaxOr([  n:"e1", share:["d1", "d2"], f:1]),
@@ -1901,7 +1901,7 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, 
 		Generator([n:"lo", P:"evi=", events:[["a"], ["a", "b"], ["b"], [], "again"], eventLimit:1, expose+X:"atomic"]),
 	]]) })
 	xxr("test Previous", eSim + selfiePole(s:25,u:10) + vel(-6) +
-					log(dat:5, eve:5), { Net([placeMy:"linky", parts:[ //all:8
+					logAt(dat:5, eve:5), { Net([placeMy:"linky", parts:[ //all:8
 		Bulb(	  [n:"p", P:"a", f:0]),
 //		Broadcast([n:"p", P:"a"]),
 //		Previous( [n:"p", P:"a"]),
@@ -1919,7 +1919,7 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + log(dat:3, 
 	13+
 	12 s 13+
 */
-r("+2Gen 3Ham Max Mir", eSim + selfiePole(s:40,u:3) + log(dat:3, eve:5) +
+r("+2Gen 3Ham Max Mir", eSim + selfiePole(s:40,u:3) + logAt(dat:3, eve:5) +
 							[lookAt:"/net0/d1"], {Net([placeMy:"linky", parts:[
 	Mirror([ n:"f",  P:"e"]),
 	MaxOr([  n:"e",  share:["d0", "d1", "d2"], f:1]),
@@ -1932,11 +1932,11 @@ r("+2Gen 3Ham Max Mir", eSim + selfiePole(s:40,u:3) + log(dat:3, eve:5) +
 //  	Tunnel(of:.genAtom, [n:"evi", struc:["a", "b"], placeMy:"stackz 0 -1"]),//, "d", "e", "f", "g", "h", "i", "j"
 // 	Generator([n:"lo", events:["a", ["a", "b"], "b", "again"],   P:"evi="]),
 ]]) })
-xxr("- test eSim", eSimX + selfiePole(s:40,u:3) + log(dat:3, eve:5), {Net([placeMy:"linky", parts:[
+xxr("- test eSim", eSimX + selfiePole(s:40,u:3) + logAt(dat:3, eve:5), {Net([placeMy:"linky", parts:[
 	Mirror([n:"d2", P:["a,l:5"]]),
 	Mirror( [n:"a", "gain":-1, "offset":1, f:1]),	// 1 -> 0 -> 1
 ]]) })
-r("-Hamming output bad", e + selfiePole(s:40,u:3) + log(dat:5, eve:0), {Net([placeMy:"linky", parts:[
+r("-Hamming output bad", e + selfiePole(s:40,u:3) + logAt(dat:5, eve:0), {Net([placeMy:"linky", parts:[
 		Mirror([   n:"f", P:"e"]),
 		Hamming([  n:"e", share:["a"], f:1]),
 //		Mirror(   [n:"a", "gain":-1, "offset":1, f:1]),
@@ -1944,19 +1944,19 @@ r("-Hamming output bad", e + selfiePole(s:40,u:3) + log(dat:5, eve:0), {Net([pla
 //		Tunnel(of:.genAtom, [n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),//, "b", "d", "e", "f", "g", "h", "i", "j"
 //		Generator([n:"lo", events:["a", [], "again"], eventLimit:1,  P:"evi="]),
 	]]) })
-	r("-Port coloring", eSim + selfiePole(s:40,u:3) + log(dat:5, eve:0), {Net([placeMy:"linky", parts:[
+	r("-Port coloring", eSim + selfiePole(s:40,u:3) + logAt(dat:5, eve:0), {Net([placeMy:"linky", parts:[
 		Mirror([   n:"f", P:"a"]),
 //		Broadcast([ n:"e", P:["a="], f:1]),
 		Tunnel(of:.genAtom, [n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),//, "b", "d", "e", "f", "g", "h", "i", "j"
 		Generator([n:"lo", events:["a", [], "again"], eventLimit:1,  P:"evi="]),
 	]]) })
-	r("-runs forever", eSim + selfiePole(s:40,u:3) + log(dat:9, eve:5), {Net([placeMy:"linky", parts:[
+	r("-runs forever", eSim + selfiePole(s:40,u:3) + logAt(dat:9, eve:5), {Net([placeMy:"linky", parts:[
 		Mirror([   n:"mir", P:"d0"]),
 		Hamming([  n:"d0", share:["a", "a"], 	f:1]),
 		Tunnel(of:.genAtom, leafConfig:["value":1.0], [n:"evi", struc:["a"]]),
 	]]) })
 
-r("+2Gen 2Ham Max Mir", eSim + selfiePole(s:90,u:0) + vel(-4) + log(dat:9, eve:9), {Net([placeMy:"linky", parts:[
+r("+2Gen 2Ham Max Mir", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:9, eve:9), {Net([placeMy:"linky", parts:[
 	Mirror([   n:"f", P:"e"]),
 	MaxOr([    n:"e", share:["d1", "d2"], f:1]),	//, "c"
 	Hamming([  n:"d1", share:["b"], f:1]),

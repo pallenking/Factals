@@ -12,7 +12,13 @@ import SceneKit
  * lock to ensure that your modifications take effect as intended.
  */
 
- class PartBase : Codable, ObservableObject, Uid, Logd {
+class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
+	static func == (lhs: PartBase, rhs: PartBase) -> Bool {
+		lhs.uid==rhs.uid &&
+		lhs.tree==rhs.tree &&
+		lhs.factalsModel===rhs.factalsModel
+	}
+	
 	var uid  : UInt16 			= randomUid()
 	var tree : Part
 
@@ -50,14 +56,11 @@ import SceneKit
 			tree				= Part()
 		}
 		tree.setTree(parent:nil, partBase:self)
-		tree.configNames(config:[:])
-
-//
-//		wireAndGroom([:])
-
-//		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
-//		self.dirty.turnOn(.vew)
-//		markTree(dirty:.vew)
+										//		tree.configNames(config:[:])
+											//	wireAndGroom([:])
+										//		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
+										//		self.dirty.turnOn(.vew)
+										//		markTree(dirty:.vew)
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		tree.setTree(parent:nil, partBase:self)
@@ -158,41 +161,40 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 		makeSelfRunable()		// (no unlock)
 	}
 	 // MARK: - 3.5.1 Data
-	var data : Data? {
-		do {
-			let enc 			= JSONEncoder()
-			enc.outputFormatting = .prettyPrinted
-			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
-			//print(String(data: data, encoding: .utf8)!)
-			return dataRv
-		} catch {
-			print("\(error)")
-			return nil
-		}
-	}
-	static func from(data:Data, encoding:String.Encoding) -> PartBase {
-		do {
-			let rv	: PartBase	= try JSONDecoder().decode(PartBase.self, from:data)
-			return rv
-		} catch {
-			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
-		}
-	}
-	convenience init?(data:Data, encoding:String.Encoding) {
-
-		bug							// PW: need Parts(data, encoding)
-	//	let parts 			= try! JSONDecoder().decode(Parts.self, from:data)
-	//	self.init(data:data, encoding:encoding)		// INFINITE
-		do {		// 1. Write data to file. (Make this a loopback)
-			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
-			try data.write(to:fileURL)
-bug			//self.init(url: fileURL)
-			//self.init()				//try self.init(url: fileURL)
-		} catch {
-			print("error using file: \(error)")									}
-		return nil
-	}
+//	var data : Data? {
+//		do {
+//			let enc 			= JSONEncoder()
+//			enc.outputFormatting = .prettyPrinted
+//			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+//			//print(String(data: data, encoding: .utf8)!)
+//			return dataRv
+//		} catch {
+//			print("\(error)")
+//			return nil
+//		}
+//	}
+//	static func from(data:Data, encoding:String.Encoding) -> PartBase {
+//		do {
+//			let rv	: PartBase	= try JSONDecoder().decode(PartBase.self, from:data)
+//			return rv
+//		} catch {
+//			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
+//		}
+//	}
+//	convenience init?(data:Data, encoding:String.Encoding) {
+//		bug							// PW: need Parts(data, encoding)
+//	//	let parts 				= try! JSONDecoder().decode(Parts.self, from:data)
+//	//	self.init(data:data, encoding:encoding)		// INFINITE
+//		do {		// 1. Write data to file. (Make this a loopback)
+//			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
+//			try data.write(to:fileURL)
+//bug			//self.init(url: fileURL)
+//			//self.init()				//try self.init(url: fileURL)
+//		} catch {
+//			print("error using file: \(error)")									}
+//		return nil
+//	}
 
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //

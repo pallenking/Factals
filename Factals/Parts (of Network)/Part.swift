@@ -42,11 +42,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	weak
 	 var partBase	: PartBase?	= nil	//
 
-	func setTree(parent p:Part?, partBase pb:PartBase?) {
+	func setTree(parent p:Part?, partBase pb:PartBase?) -> Bool {
+		var rv					= parent==p && partBase==pb
 		parent 					= p
 		partBase 		  		= pb
 		for child in children {
-			child.setTree(parent:self, partBase:partBase)
+			rv					&&= child.setTree(parent:self, partBase:partBase)
 		}
 	}
 
@@ -128,31 +129,31 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	init(_ config:FwConfig = [:]) {
 		partConfig				= config		// Set as my local configuration hash
 
-//		var nam : String?		= nil
-//		 // Do this early, to improve creation printout
-//		for key in ["n", "name", "named"] {		// (Name has 3 keys)
-//			if let na:String 	= partConfig[key] as? String {
-//				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
-//				nam				= na
-//				partConfig[key] = nil			// remove from config
-//			}
-//		}			// -- Name was given
-//		name					= nam ?? { [self] in
-//			if let partBase		= partBase,
-//			  let prefix		= prefixForClass[fwClassName]
-//			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-//				let index		= partBase.indexFor[prefix] ?? 0
-//				partBase.indexFor[prefix] = index + 1		// for next
-//				return prefix + String(index)
-//			} else {	// -- Use fallback
-//				defaultPrtIndex	+= 1
-//				return "prt" + String(defaultPrtIndex)
-//			}
-//		}()
+		var nam : String?		= nil
+		 // Do this early, to improve creation printout
+		for key in ["n", "name", "named"] {		// (Name has 3 keys)
+			if let na:String 	= partConfig[key] as? String {
+				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
+				nam				= na
+				partConfig[key] = nil			// remove from config
+			}
+		}			// -- Name was given
+		name					= nam ?? { [self] in
+			if let partBase		= partBase,
+			  let prefix		= prefixForClass[fwClassName]
+			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
+				let index		= partBase.indexFor[prefix] ?? 0
+				partBase.indexFor[prefix] = index + 1		// for next
+				return prefix + String(index)
+			} else {	// -- Use fallback
+				defaultPrtIndex	+= 1
+				return "prt" + String(defaultPrtIndex)
+			}
+		}()
 
 		 // Print out invocation
 		let n					= ("\'" + name + "\'").field(8)
-		atBld(6, logd("init \(pp(.uid)) \(n):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
+		atBld(6, logd("  \(n)\(pp(.uid)):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
 
 		 // Options:
 		if let valStr			= partConfig["expose"] as? String,
@@ -197,30 +198,30 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		atBld(3, print("#### DEINIT    \(ppUid(self)):\(fwClassName)")) // 20221105 Bad history deleted
 	}
 
-	func configNames(config:FwConfig = [:]) {
-		var nam : String?		= nil
-		 // Do this early, to improve creation printout
-		for key in ["n", "name", "named"] {		// (Name has 3 keys)
-			if let na:String 	= config[key] as? String {
-				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
-				nam				= na
-				//config[key]	= nil			// remove from config
-			}
-		}			// -- Name was given
-		name					= nam ?? { [self] in
-			if let partBase		= partBase,
-			  let prefix		= prefixForClass[fwClassName]
-			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-				let index		= partBase.indexFor[prefix] ?? 0
-				partBase.indexFor[prefix] = index + 1		// for next
-				return prefix + String(index)
-			} else {	// -- Use fallback
-				defaultPrtIndex	+= 1
-				return "prt" + String(defaultPrtIndex)
-			}
-		} ()
-		children.forEach {	$0.configNames(config:config)	}
-	}
+//	func configNames(config:FwConfig = [:]) {
+//		var nam : String?		= nil
+//		 // Do this early, to improve creation printout
+//		for key in ["n", "name", "named"] {		// (Name has 3 keys)
+//			if let na:String 	= config[key] as? String {
+//				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
+//				nam				= na
+//				//config[key]	= nil			// remove from config
+//			}
+//		}			// -- Name was given
+//		name					= nam ?? { [self] in
+//			if let partBase		= partBase,
+//			  let prefix		= prefixForClass[fwClassName]
+//			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
+//				let index		= partBase.indexFor[prefix] ?? 0
+//				partBase.indexFor[prefix] = index + 1		// for next
+//				return prefix + String(index)
+//			} else {	// -- Use fallback
+//				defaultPrtIndex	+= 1
+//				return "prt" + String(defaultPrtIndex)
+//			}
+//		} ()
+//		children.forEach {	$0.configNames(config:config)	}
+//	}
 	 // START CODABLE ///////////////////////////////////////////////////////////////
 	   // MARK: - 3.4 PolyPart
 			//			input		returned (E) ^backlink
@@ -1477,7 +1478,7 @@ func foo () {
 	}
 
 	func ppUnusedKeys() -> String {
-		let uid					= ppUid(self)
+	//	let uid					= ppUid(self)
 		let approvedConfigKeys	= ["placeMe", "placeMy", "portProp", "l", "len", "length"]
 		let dubiousConfig		= partConfig.filter { key, value in !approvedConfigKeys.contains(key) }
 		var rv 					= dubiousConfig.count == 0 ? "" :	// ignore empty configs

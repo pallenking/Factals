@@ -80,10 +80,6 @@ pt params4pp					[ppNCols4VewPosns:20,
 								 ppNNameCols:8,
 								 ppLinks:false]
  */
-
-
-
-
 		 // 3. Vews
 		factalsModel.configureVews(from:c)
 	}

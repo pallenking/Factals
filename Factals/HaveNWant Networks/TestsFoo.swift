@@ -18,7 +18,7 @@ class TestsFoo : Library {
 		]]) })
 
 		state.scanSubMenu		= ign+"Aaaa"
-		r("Mirror Display WORKS", e + log(all:8), {
+		r("Mirror Display WORKS", e + logAt(all:8), {
 			Net(["parts":[
 				Cylinder(	["size":"1 1 1", "color":"red"]),
 				Broadcast(),
@@ -27,7 +27,7 @@ class TestsFoo : Library {
 		})
 
 		state.scanSubMenu		= ign+"Aaaa/Bbbb"
-		r("Mirror Display WORKS", e + log(all:8), {
+		r("Mirror Display WORKS", e + logAt(all:8), {
 			Net(["parts":[
 				Broadcast(),
 				Broadcast(),

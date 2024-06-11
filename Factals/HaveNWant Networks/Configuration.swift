@@ -39,8 +39,8 @@ let sharedLogN					= 7//0//1//
  // This must contain NO log statements!
 
 private let params4appLog		= params4pp + params4logs_
-								+ log(app:appLogN, men:appLogN)
-//								+ log(doc:docLogN, bld:docLogN, ser:docLogN)
+								+ logAt(app:appLogN, men:appLogN)
+//								+ logAt(doc:docLogN, bld:docLogN, ser:docLogN)
  // MARK: - C: Pretty Print
 
 let params4aux : FwConfig 		= [:]
@@ -90,7 +90,7 @@ let params4aux : FwConfig 		= [:]
  // MARK: -
  // MARK: - D: Parameters Doc Log
 private let params4docLog		= params4pp + params4logs_
-								+ log(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
+								+ logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 
 	private let params4logs_	: FwConfig = [
 		"debugPreLog"		: true,		// Debug setting of logs before there is a Log ()

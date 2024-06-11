@@ -1223,12 +1223,12 @@ extension Logd {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()	// trailing \n's become leading \n's
 
-		var aaa					= pp(.fullName)
-		if let selfIsPart		= self as? Part {
-			aaa					= selfIsPart.pp(.fullName)
-		}
-		let bbb					= aaa.field(-25)
-		let str					= nls + bbb + msg2	//-nFullN uidClass
+//		var aaa					= pp(.fullName)
+//		if let selfIsPart		= self as? Part {
+//			aaa					= selfIsPart.pp(.fullName)
+//		}
+//		let bbb					= aaa.field(-25)
+		let str					= nls + "Build Part: " + msg2	//-nFullN uidClass
 //		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
 		Log.app.log(str, terminator:terminator)
 	}

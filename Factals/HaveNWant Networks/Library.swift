@@ -280,7 +280,7 @@ extension Library {
    /// - Parameters:
   ///   - prefix: Set to "*" for XCTests
  /// - Returns: Hash for logPri4 verbosity
-func log(
+func logAt(
 		app:Int = -1,
 		doc:Int = -1,
 		bld:Int = -1,

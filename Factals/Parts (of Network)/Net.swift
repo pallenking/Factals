@@ -7,7 +7,7 @@ class Net : Atom {		// Atom // Part
 
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig = [:]) {
-		print("Net.wleifujw")
+		//print("Net.wleifujw")
 		super.init(["placeMy":"linky"] + config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		if let a 				= partConfig["parts"] as? [Part] {
