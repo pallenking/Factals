@@ -42,14 +42,18 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	weak
 	 var partBase	: PartBase?	= nil	//
 
-	func alreadyHas(parent p:Part?, partBase pb:PartBase?) -> Bool {
-		var rv					= parent==p && partBase==pb
+	func checkTreeThat(parent p:Part?, partBase pb:PartBase?) -> Bool {
+		var wasOk				= parent==p && partBase==pb
 		parent 					= p
 		partBase 		  		= pb
 		for child in children {
-			rv					&&= child.alreadyHas(parent:self, partBase:partBase)
+			wasOk				&&= child.checkTreeThat(parent:self, partBase:partBase)
 		}
-		return rv
+//		wasOk					= children.reduce(wasOk) { (wasOk, child) in
+//			wasOk && child.checkTreeThat(parent:self, partBase:partBase)
+//		}
+	//	print("######### \(pp(.fullName)): \(pp(.classUid)) returns \(wasOk)")
+		return wasOk
 	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
@@ -499,7 +503,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		 // link in as self
 		child.parent			= self
 		child.partBase			= self.partBase
-		let _ 					= child.alreadyHas(parent:self, partBase:partBase)
+		let a 					= child.checkTreeThat(parent:self, partBase:partBase)
 
 		 // Process tree dirtyness:
 		markTree(dirty:.vew)				// ? tree has dirty.vew

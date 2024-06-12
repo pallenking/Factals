@@ -55,15 +55,19 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 			self.title 			= "nil"
 			tree				= Part()
 		}
-		let a					= tree.alreadyHas(parent:nil, partBase:self)
-		nop								//		tree.configNames(config:[:])
+		checkTree()
+										//		tree.configNames(config:[:])
 											//	wireAndGroom([:])
 										//		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 										//		self.dirty.turnOn(.vew)
 										//		markTree(dirty:.vew)
 	}
+	func checkTree() {
+		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
+		print("***** checkTree returned \(changed)")
+	}
 	func wireAndGroom(_ c:FwConfig) {
-		let a					= tree.alreadyHas(parent:nil, partBase:self)
+		checkTree()
 		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
 
 		 //  1. GATHER LINKS as wirelist:
@@ -75,7 +79,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Part:"))
 		linkUps.forEach { 	addLink in 		addLink() 							}
 
-		assert(tree.alreadyHas(parent:nil, partBase:self) == false, "Sombody broke tree")
+		checkTree()
 
 		 //  3. Grooom post wires:
 		atBld(4, logd("------- Grooming Parts..."))

@@ -844,10 +844,10 @@ r("+ All various flips A",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx",
 ] ]) } )
 
 // :
-xr("- explicit Link broken",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx", parts:[
-	Broadcast([n:"t1", share+X:"t2,l:1", f:1	]),
+xxr("- explicit Link broken",  e + selfiePole(s:30, u:30), { Net([placeMy:"stackx", parts:[
+	Broadcast([n:"t1", share:"t2", f:1	]),
 	 // Enable this for a bug:
- 	Link([S:"t1", P:"t2"]),
+ 	//Link([S:"t1", P:"t2"]),
 	Broadcast([n:"t2", flip:0, jog:"4 0 0"]),
 ] ]) } )
 
@@ -898,13 +898,13 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xxr("- Multiple SCNViews", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
+	 xr("- Multiple SCNViews", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
 
-	 		"Vew0":VewConfig.openAllChildren(toDeapth:4),
-	 	//	"Vew1":VewConfig.openAllChildren(toDeapth:4),
-//	 		"Vew2":VewConfig.openAllChildren(toDeapth:4),
-	 		"VewBase":[VewConfig.openAllChildren(toDeapth:4),
-					VewConfig.openAllChildren(toDeapth:4)],
+			"Vew0":VewConfig.openAllChildren(toDeapth:4),
+			"Vew1":VewConfig.openAllChildren(toDeapth:4),
+	//		"Vew2":VewConfig.openAllChildren(toDeapth:4),
+//			"Vews":[VewConfig.openAllChildren(toDeapth:4),
+//					VewConfig.openAllChildren(toDeapth:4)],
 
 	 		"gapLinkFluff":3,
 	 		], {Net([placeMy:"linky", parts:[	//stacky

@@ -62,7 +62,6 @@ class Splitter : Atom {
 		// MARK: - 3. Part Factory
 	 /// Splitters funnel many links to a common one
 	override init(_ config:FwConfig = [:]) {
-
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		 // a pragmatic default
