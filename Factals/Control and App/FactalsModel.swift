@@ -1,16 +1,15 @@
-//  FactalsModel.swift -- Manage Parts, RootVews and their RootScns
+//  FactalsModel.swift -- Manage Parts, their simulation and viewing
 
 import SceneKit
 import SwiftUI
 
-class FactalsModel : ObservableObject, Uid {
+class FactalsModel : ObservableObject, Codable, Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
-	var fmConfig  : FwConfig	= [:]
-	var partBase  : PartBase
-	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
-//	var vewBase1  :	VewBase		{	vewBases.first ?? }
+	var fmConfig : FwConfig		= [:]
+	var partBase : PartBase
+	var vewBases : [VewBase]	= []
 
 	var log 					= Log(name:"Model's Log", params4all)
 	var	simulator				= Simulator()
@@ -66,9 +65,6 @@ class FactalsModel : ObservableObject, Uid {
 			vewBase.configure(from:config)
 		}
 
-// MOVE TO CREATION
-//		atBld(3, log.logd(rootPartActor.parts?.ppRootPartErrors() ?? ""))
-
 		 //  6. Print Part
 //		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
@@ -90,60 +86,52 @@ class FactalsModel : ObservableObject, Uid {
 		atBld(5, log.logd("rootVews[] is complete:\n\(rootVewPp)"))
 	}
 
-//		 // Build Vews per Configuration
-//		let rp					= factalsModel.partBase		// (a reference)
-//		for (key, value) in config {				// params4all
-//			if key == "Vews",
-//			  let vewConfigs 	= value as? [VewConfig] {
-//				for vewConfig in vewConfigs	{	// Open one for each elt
-//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-//				}
-//			}
-//			else if key.hasPrefix("Vew") {
-//				if let vewConfig = value as? VewConfig {
-//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-//				}
-//				else {
-//					panic("Confused wo38r")
-//				}
-//			}
+////////////////////
+	var data2 : Data? {
+		do {
+			return try JSONEncoder().encode(self)
+		} catch {
+			print("\(error)")
+			return nil
+		}
+	}
+
+	///
+
+
+
+//	// FileDocument requires these interfaces:
+	 // Data in the SCNScene
+	var data : Data? {
+		do {		// 1. Write SCNScene to file. (older, SCNScene supported serialization)
+			return try JSONEncoder().encode(self)
+										//	try self.write(to: fileURL)
+										//	try self.document.write(to: fileURL)
+		} catch {
+			print("error writing file: \(error)")
+			return nil
+		}
+										//	let data				= try? Data(contentsOf:fileURL)
+										//	return data//Cannot convert value of type '() -> ()' to expected argument type 'Int'
+	}
+	 // initialize new SCNScene from Data
+	convenience init?(data:Data, encoding:String.Encoding) {
+		fatalError("FactalsModel.init?(data:Data")
+	//	do {		// 1. Write data to file.
+	//		try data.write(to: fileURL)
+	//	} catch {
+	//		print("error writing file: \(error)")
+	//	}
+	//	self.init()
+//		do {		// 2. Init self from file
+//			try self.init(fwConfig:[:])
+//	//		try super.init(url: fileURL)
+//		} catch {
+//			print("error initing from url: \(error)")
+//			return nil
 //		}
-//		rp.ensureAVew(fwConfig:config)
-//		factalsModel.configure(from:config)
-
-
-
-
-					//	//	// FileDocument requires these interfaces:
-					//		 // Data in the SCNScene
-					//		var data : Data? {
-					//	bug;return nil
-					//	//		do {		// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-					//	//			try self.document.write(to: fileURL)
-					//	//		} catch {
-					//	//			print("error writing file: \(error)")
-					//	//		}
-					//	//					// 2. Get file to data
-					//	//		let data				= try? Data(contentsOf:fileURL)
-					//	//		return data//Cannot convert value of type '() -> ()' to expected argument type 'Int'
-					//		}
-					//		 // initialize new SCNScene from Data
-					//		convenience init?(data:Data, encoding:String.Encoding) {
-					//			fatalError("FactalsModel.init?(data:Data")
-					//		//	do {		// 1. Write data to file.
-					//		//		try data.write(to: fileURL)
-					//		//	} catch {
-					//		//		print("error writing file: \(error)")
-					//		//	}
-					//		//	self.init()
-					//	//		do {		// 2. Init self from file
-					//	//			try self.init(fwConfig:[:])
-					//	//	//		try super.init(url: fileURL)
-					//	//		} catch {
-					//	//			print("error initing from url: \(error)")
-					//	//			return nil
-					//	//		}
-					//		}
+	}
+	
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
@@ -151,6 +139,9 @@ class FactalsModel : ObservableObject, Uid {
 		fatalError("FactalsModel.encode(coder..) unexpectantly called")
 	}
 	 // ///////// Deserialize
+	required init(from decoder: any Decoder) throws {
+		fatalError("FactalsModel.init(from decoder..) unexpectantly called")
+	}
 	required init(coder aDecoder: NSCoder) {
 		fatalError("FactalsModel.init(coder..) unexpectantly called")
 	}
@@ -548,16 +539,11 @@ bug
 //	//		node.addAnimation(anim, forKey: nil)
 	}
 	 // MARK: - 15. PrettyPrint
-//	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
-bug;		var rv				= ""//(rootPartActor.parts?.pp(.classUid, aux) ?? "parts=nil") + " "
-//			var rv				= (parts?.pp(.classUid, aux) ?? "parts=nil") + " "
+			var rv				=  partBase.pp(.classUid, aux) + " "		//""//(rootPartActor.parts?.pp(.classUid, aux) ?? "parts=nil") + " "
 			rv					+= vewBases.pp(.classUid, aux) + " "
-//			if let document {
-//				rv				+= document.pp(.classUid, aux)
-//			}
 			return rv
 		default:
 			return ppFixedDefault(mode, aux)		// NO, try default method

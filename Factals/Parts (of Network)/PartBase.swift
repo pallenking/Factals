@@ -166,11 +166,12 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 	 // MARK: - 3.5.1 Data
 	var data : Data? {
 		do {
-			let enc 			= JSONEncoder()
-			enc.outputFormatting = .prettyPrinted
-			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
-			//print(String(data: data, encoding: .utf8)!)
-			return dataRv
+			return try JSONEncoder().encode(self)
+													//	let enc 			= JSONEncoder()
+													//	enc.outputFormatting = .prettyPrinted
+													//	let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+													//	print(String(data: data, encoding: .utf8)!)
+													//	return dataRv
 		} catch {
 			print("\(error)")
 			return nil
@@ -183,20 +184,20 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
 		}
 	}
-//	convenience init?(data:Data, encoding:String.Encoding) {
-//		bug							// PW: need Parts(data, encoding)
-//	//	let parts 				= try! JSONDecoder().decode(Parts.self, from:data)
-//	//	self.init(data:data, encoding:encoding)		// INFINITE
-//		do {		// 1. Write data to file. (Make this a loopback)
-//			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
-//			try data.write(to:fileURL)
-//bug			//self.init(url: fileURL)
-//			//self.init()				//try self.init(url: fileURL)
-//		} catch {
-//			print("error using file: \(error)")									}
-//		return nil
-//	}
+	convenience init?(data:Data, encoding:String.Encoding) {
+		bug							// PW: need Parts(data, encoding)
+	//	let parts 				= try! JSONDecoder().decode(Parts.self, from:data)
+	//	self.init(data:data, encoding:encoding)		// INFINITE
+		do {		// 1. Write data to file. (Make this a loopback)
+			let fileUrlDir		= FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+			let fileURL			= fileUrlDir.appendingPathComponent("logOfRuns")
+			try data.write(to:fileURL)
+bug			//self.init(url: fileURL)
+			//self.init()				//try self.init(url: fileURL)
+		} catch {
+			print("error using file: \(error)")									}
+		return nil
+	}
 
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //

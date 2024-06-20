@@ -40,65 +40,14 @@ import SceneKit
 
 // CherryPick2023-0520: remove NSObject
 class Path : NSObject, Codable {			// xyzzy4
-
 	 // MARK: - 1. Class Variables:
 	static let shortNames		= [ "=":"direct", "%":"flipPort", "^":"noCheck",
 									"!":"dominant", "@":"invisible"]
+
 	 // MARK: - 2. Object Variables:
-	var atomTokens : [String]			// array of tokens in reversed order
+	var atomTokens : [String]	= []	// array of tokens in reversed order
 										// abs has trailing "" string
 										// (no Port or Link Options)
-// xyzzyx4
-//	var nameFull	: String
-//
-//	func sd(nameFull:String) {
-//		self.nameFull = nameFull
-//
-//		  // NOTE: setNameStr can ignore leading '/'s to the atom
-//		  // process link parameters; those after the first comma
-//		 /// AAA in Path.h
-//		let components		= nameFull.components(separatedBy:",")
-//		var n 				= components.count - 1
-//		nameAtom			= components[0]			// first is atom
-//
-//		self.linkOptions 	= []
-//		while n > 0 {								// all but first --> linkOptions
-//			let option 		= components[n];	n  -= 1
-//			let nameVal		= option.components(separatedBy:"=")
-//			assert(nameVal.count==2, "Syntax: '\(option)' not of form <prop>=<val> (HINT: older form was just length, no key)")
-//			linkOptions[nameVal[0]] = nameVal[1]	// [self.linkOptions setValue:nameVal[1] forKey:nameVal[0]];
-//		}
-//		(direct, flipPort, dominant, invisible, noCheck) = (false, false, false, false, false)
-//		nameAtom 			= takeOptionsFrom(nameAtom)
-//
-//		 ///! CCC in Path.h
-//		namePort			= ""				/// Initially no Port
-//		if let range 		= nameAtom.range(of:".", options:.backwards) {
-//			namePort 		= String(nameAtom.suffix(from:nameAtom.index(after:range.lowerBound)))
-//			nameAtom		= String(nameAtom.prefix(upTo:range.lowerBound))
-//		}
-//
-//		suffixLoc 			= nameAtom.range(of:".", options:[BackwardsSearch].location;
-//		if (suffixLoc != NSNotFound) {
-//			self.namePort = [nameAtom substringFromIndex:suffixLoc+1];	// after  "."
-//			nameAtom = [nameAtom substringToIndex:suffixLoc];				// before "."
-//		}
-//		self.nameAtom = nameAtom;							/// Name without options
-//	}
-//
-//
-//	var nameAtom	: String
-//	var namePort	: String			// after last '.'
-//	var linkOptions	:[String]	= []	// NSMutableArray;// just length now
-//	var direct		: Bool				// trailing '='
-//	var flipPort	: Bool				// trailing '%'
-//	var noCheck		: Bool				// trailing '^'
-//	var dominant	: Bool				// trailing '!'
-//	var invisible	: Bool				// trailing '@'
-////	var openingDown : Bool				// EXPERIMENTAL
-//
-
-
 	var portName   :  String? 	= nil	// after last '.'
 
 	 /// Link's required propeties.
@@ -109,14 +58,12 @@ class Path : NSObject, Codable {			// xyzzy4
 				(portName==nil ? "" : "." + portName!)
 	}
 	func dequeFirstName() -> String? {
-		guard atomTokens.count > 0 		else {		return nil }
-		let rv					= atomTokens[0]
-		atomTokens				= Array(atomTokens[1...])
-		return rv
+		return atomTokens.count==0 ? nil : atomTokens.removeFirst()
 	}
 
 	 // MARK: - 3. Factory
-	init(withName name:String) {
+	init(withName:String?) {
+		guard let name 			= withName else {	return						}
 
 		  // Parse name into partNames, port, 1-char link modifiers, and val=prop link modifiers
 		 // Split name separated by "/" into atom tokens
@@ -210,33 +157,6 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //			&& atomTokens 			== rhs.atomTokens
 //			&& portName   			== rhs.portName
 //		//	&& linkProps	  		== rhs.linkProps
-//	}
-
-// xyzzyx4
-//	func atomNameMatches(part:Part) -> Bool {
-//
-//		  // Compare Atom names:
-//		 /// DDD in Path.h
-//		 //											Hungarian COMPonentS
-//		let partComps 				= part.fullName.components(separatedBy:"/")
-//		let pathComps				= atomTokens
-//
-//		 // loop through PATH, in REVERSE order, while scanning PART (in rev too)
-//		var nPart 					= partComps.count-1		// e.g: 3 [ "", brain1, main]
-//		var nPath					= pathComps.count-1;		// e.g: 2         [ "", main]
-//
-//		 // Check all components specified in Path match
-//		while nPath >= 0 && pathComps.count >= 0 {
-//			guard nPath>=0 else {break}
-//			assert(nPart>=0, "Path has more components than Part.nameFull")
-//			var partComp 			= partComps[nPart]
-//			var pathComp 			= pathComps[nPath];
-//			guard partComp == pathComp else { return false }
-//
-//			nPath -= 1; nPart -= 1
-//		}
-//		assert(nPath == 0 && pathComps.count == 0, "if first component is ")
-//		return true;							// all tests pass
 //	}
 
 	 // MARK: - 15. PrettyPrint

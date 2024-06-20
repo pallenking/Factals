@@ -126,7 +126,7 @@ bug
 			targetBundle.forAllLeafs { leaf in
 				if let leafsGport = leaf.port4leafBinding(name:"G") {
 					let value	= randomProb(p:prob)
-bug					//leafsGport.valueTake = value
+bug;				//leafsGport.valueTake = value
 				}
 			}
 		case .anEpoch(let epoch):			/// Integer --> @0 Epoch Mark

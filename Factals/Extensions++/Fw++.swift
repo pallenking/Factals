@@ -337,8 +337,8 @@ extension Dictionary {
 	func fwConfig  (_ k:Key) -> FwConfig?{ return    (self[k] as? FwAny)?.asFwConfig}
 	func scnNode_  (_ k:Key) -> SCNNode {  return  scnNode(k) ?? SCNNode()		}
 	func scnNode   (_ k:Key) -> SCNNode?{  return     self[k] as? SCNNode 		}
-//	func scnNode   (_ k:Key) -> SCNNode?{  return    (self[k] as? FwAny)?.asSCNNode}
-	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
+
+	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? NSNull()		}
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
 }
 extension Dictionary		: FwAny {				// pp(..
@@ -1355,9 +1355,6 @@ extension NSNull {
 //		panic(); return "yeuch"
 	}
 }
-
-let fwNull : FwAny = (NSNull() as NSObject) as! FwAny
-//		      return (NSNull() as NSObject) as! FwAny			/// NSNull
 
 extension DispatchSemaphore {
 	var value : Int? {

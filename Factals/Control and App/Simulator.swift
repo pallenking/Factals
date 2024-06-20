@@ -1,11 +1,10 @@
-//  Simulator.swift -- simulation control elements C190715PAK
+//  Simulator.swift -- simulation control elements C20190715PAK
 import SceneKit
 
 class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//Logd
 
 	 // MARK: - 2. Object Variables:
 	weak var factalsModel:FactalsModel? = nil// Owner
-//	var rootPartF		: Parts? { nil } //factalsModel?.rootPartActor.parts}	// Owner
 
 	var timingChains:[TimingChain] = []
 	var timeNow			: Float	= 0.0
@@ -16,10 +15,9 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
 	var portChits		: Int	{	factalsModel?.partBase.tree.portChitArray().count ?? 0	}
-//	var portChits		: Int	{	rootPartF?.portChitArray().count ?? 0		}
 	var linkChits		: Int	= 0			// by things like links
 	var startChits	  	:UInt8	= 0			// set to get simulator going
-//
+
 	 /// Enable simulation task to run:																					//
 	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
 		didSet {
@@ -40,7 +38,6 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	}
 	func isSettled() -> Bool {
 		let nPortsBuisy 		= factalsModel?.partBase.tree.portChitArray().count ?? 0	// Busy Ports
-//		let nPortsBuisy 		= rootPartF?.portChitArray().count ?? 0	// Busy Ports
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
 	}
