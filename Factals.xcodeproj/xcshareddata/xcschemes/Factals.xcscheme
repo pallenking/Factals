@@ -71,7 +71,7 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "IDELogRedirectionPolicy"
+            key = "XXXIDELogRedirectionPolicy"
             value = "oslogToStdio"
             isEnabled = "YES">
          </EnvironmentVariable>
