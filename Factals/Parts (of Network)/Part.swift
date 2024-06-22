@@ -42,18 +42,18 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	weak
 	 var partBase	: PartBase?	= nil	//
 
-	func checkTreeThat(parent p:Part?, partBase pb:PartBase?) -> Bool {
-		var wasOk				= parent==p && partBase==pb
+	func wellformSubtree(parent p:Part?, partBase pb:PartBase?) -> Bool {
+		var rv					= parent==p && partBase==pb
 		parent 					= p
 		partBase 		  		= pb
 		for child in children {
-			wasOk				&&= child.checkTreeThat(parent:self, partBase:partBase)
+			rv					&&= child.wellformSubtree(parent:self, partBase:partBase)
 		}
 //		wasOk					= children.reduce(wasOk) { (wasOk, child) in
 //			wasOk && child.checkTreeThat(parent:self, partBase:partBase)
 //		}
 	//	print("######### \(pp(.fullName)): \(pp(.classUid)) returns \(wasOk)")
-		return wasOk
+		return rv
 	}
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
@@ -503,7 +503,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		 // link in as self
 		child.parent			= self
 		child.partBase			= self.partBase
-		let a 					= child.checkTreeThat(parent:self, partBase:partBase)
+		let a 					= child.wellformSubtree(parent:self, partBase:partBase)
 
 		 // Process tree dirtyness:
 		markTree(dirty:.vew)				// ? tree has dirty.vew

@@ -63,7 +63,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 										//		markTree(dirty:.vew)
 	}
 	func checkTree() {
-		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
+		let changed 			= tree.wellformSubtree(parent:nil, partBase:self)
 		print("***** checkTree returned \(changed)")
 	}
 	func wireAndGroom(_ c:FwConfig) {

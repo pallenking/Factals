@@ -936,7 +936,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1C780D01-23FC-42FF-8641-6B8D764657B0"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/FactalsApp.swift"
@@ -1783,7 +1783,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
             endingLineNumber = "52"
-            landmarkName = "checkTreeThat(parent:partBase:)"
+            landmarkName = "wellformSubtree(parent:partBase:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1799,7 +1799,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
             endingLineNumber = "46"
-            landmarkName = "checkTreeThat(parent:partBase:)"
+            landmarkName = "wellformSubtree(parent:partBase:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1815,7 +1815,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
             endingLineNumber = "53"
-            landmarkName = "checkTreeThat(parent:partBase:)"
+            landmarkName = "wellformSubtree(parent:partBase:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1929,6 +1929,22 @@
             endingLineNumber = "132"
             landmarkName = "FactalsApp"
             landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A649658C-0E24-4009-B8F9-4EBB7A39D932"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "init()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
