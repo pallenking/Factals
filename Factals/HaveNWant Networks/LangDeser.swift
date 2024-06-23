@@ -2,7 +2,7 @@
 //
 import SceneKit
 
-class LangDeser : Library {
+class LangDeser : Book {
 
 	override func loadTest(args:ScanArgs, state:inout ScanState) {
 		super.loadTest(args:args, state:&state)

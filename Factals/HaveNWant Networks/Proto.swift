@@ -2,7 +2,7 @@
 //
 import SceneKit
 
-class Proto : Library {
+class Proto : Book {
 	override func loadTest(args:ScanArgs, state:inout ScanState) {
 		super.loadTest(args:args, state:&state)
 		let e 	 : FwConfig		= [:]		// Logs OFF "logPri4all":8

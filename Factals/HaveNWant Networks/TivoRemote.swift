@@ -2,7 +2,7 @@
 //
 import SceneKit
 
-class TivoRemote : Library {
+class TivoRemote : Book {
 
 	override func loadTest(args:ScanArgs, state:inout ScanState) {
 		super.loadTest(args:args, state:&state)
