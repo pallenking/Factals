@@ -44,12 +44,11 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	init(fromLibrary selector:String?) {			// Parts(fromLibrary...
 
 		 // Find the Library that contains the trunk for self, the root.
-		if let lib				= Library.library(fromSelector:selector) {
-			let answer 			= lib.answer		// found			:ScanAnswer
-			self.title			= "'\(selector ?? "nil")' -> \(answer.testNum):\(lib.fileName).\(answer.lineNumber!)"
-			self.ansConfig		= answer.config
+		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
+//			self.title			= "'\(selector ?? "nil")' -> \(answer.testNum):\(lib.fileName).\(answer.lineNumber!)"
+			self.ansConfig		= hnwMachine.config
 
-/* */		tree				= answer.trunkClosure?() ?? Part()
+/* */		tree				= hnwMachine.trunkClosure?() ?? Part()
 		}
 		else {
 			self.title 			= "nil"

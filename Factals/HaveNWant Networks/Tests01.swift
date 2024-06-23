@@ -130,10 +130,6 @@ static enum
 Constants.spin_L
  */
 
-class Book : Library {
-
-}
-
 class Tests01 : Book {
 
 	override func loadTest(args:ScanArgs, state:inout ScanState) {
