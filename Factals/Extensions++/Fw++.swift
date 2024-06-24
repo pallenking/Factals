@@ -1356,7 +1356,7 @@ extension NSNull {
 	}
 }
 
-let fwNull : FwAny = (NSNull() as NSObject) as! FwAny
+let fwNull : FwAny = (NSNull() as NSObject) as FwAny
 //		      return (NSNull() as NSObject) as! FwAny			/// NSNull
 
 extension DispatchSemaphore {

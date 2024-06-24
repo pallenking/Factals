@@ -132,7 +132,7 @@ Constants.spin_L
 
 class Tests01 : Book {
 
-	override func loadTest(args:ScanArgs, state:inout ScanState) {
+	override func loadTest(args:ScanForKey, state:inout ScanState) {
 
 		super.loadTest(args:args, state:&state)
 			 // Some commonly used Environmental variables

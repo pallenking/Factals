@@ -1,27 +1,16 @@
- //  HaveNWant.swift -- Define simple HaveNWant Network in code C2018PAK
+ //  Library.swift -- Define simple HaveNWant Network in code C2018PAK
+// The Library has many Books. Each book has a number of HnwMachines in it.
 
 import SceneKit
 
- /// Worker function, applied to each x#r() entry to record.
-//typealias FilterFunc = (_:Bool, _:String?, _:FwConfig, _:@escaping PartClosure, _:String?, _:Int) -> ()
-
-struct ScanArgs : Codable {
-	 // MARK: - 2.4.1 Wanted by Scan ELIM?
-
-			// selectionString+------FUNCTION---------+-argName:---argNumber:
-			//	nil			  |	Blank scene			  |	nil			-1
-			//	"entry<N>"	  |	entry N				  |	nil			N *
-			//	"xr()"		  |	entry labeled as xr() |	"xr()" *	-1
-			//	<name>		  |	named scene			  |	<name> *	-1
-			// Used by Parts.setup() and Library.registerNetwork()
-	var argNumber		: Int			// if select scene by number
-	var argName 		: String?		// if select scene by name
-	var argOnlyIndex	: Bool			// Used for menu preparation
-
+struct ScanForKey : Codable {
+  	 //selectionString+------FUNCTION---------+-argName:---argNumber:
+	 //	nil			  |	Blank scene			  |	nil			-1
+	 //	"entry<N>"	  |	entry N				  |	nil			N *
+	 //	"xr()"		  |	entry labeled as xr() |	"xr()" *	-1
+	 //	<name>		  |	named scene			  |	<name> *	-1
 	init(selectionString:String?, wantOnlyIndex w:Bool) {
 		 // --- selectionString -> want****:
-		argName				= nil		// Default: no name
-		argNumber				= -1		//			no number
 		argOnlyIndex			= w
 		if let sel 				= selectionString {
 			if sel.hasPrefix("entry") {			// E.g: "scene12"
@@ -32,22 +21,10 @@ struct ScanArgs : Codable {
 			}
 		}
 	}
+	var argNumber		: Int = -1		// if select scene by number
+	var argName 		: String?=nil	// if select scene by name
+	var argOnlyIndex	: Bool			// Used for menu preparation
 }
-	 // MARK: - 2.4.2 Scan State
-class ScanState : Codable {
-	var uid			: UInt16	= randomUid()
-	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
-	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
-	var scanCatalog	: [LibraryMenuArray] = []	// Catalog of Library
-	var scanEOFencountered:Bool = false		// marks scan done
-}
-struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
-	var id 			= UUID()													// var id : Int { tag	}
-	var tag		  	: Int
-	var title	  	: String
-	var parentMenu	: String				// path scene/decoder/...
-}
-
 	  // MARK: - 2.4.3 Machine resulting from Scan
 struct HnwMachine {		// : Codable
 	 // From Chosen Test
@@ -63,7 +40,22 @@ struct HnwMachine {		// : Codable
 	var lineNumber	:Int?		= nil
 }
 
-extension Library : Uid {
+	 // MARK: - 2.4.2 Scan State
+class ScanState : Codable {
+	var uid			: UInt16	= randomUid()
+	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
+	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
+	var scanCatalog	: [LibraryMenuArray] = []	// Catalog of Library
+	var scanEOFencountered:Bool = false		// marks scan done
+}
+struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
+	var id 			= UUID()													// var id : Int { tag	}
+	var tag		  	: Int
+	var title	  	: String
+	var parentMenu	: String				// path scene/decoder/...
+}
+
+extension Book : Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 		//let log				= FACTALSMODEL!.log
@@ -79,19 +71,19 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 	init(_ fileName:String) {
 		self.fileName			= fileName
 	}
-	var args  : ScanArgs?		= nil
+	var args  : ScanForKey?		= nil
 	var state : ScanState		= ScanState()		// class
 	var answer: HnwMachine		= HnwMachine()		// struc
 
-	var count : Int				{		// # tests in a Book
-		var state				= ScanState()
-		let args				= ScanArgs(selectionString:"", wantOnlyIndex:true)
-		loadTest(args:args, state:&state)
-		return state.scanTestNum
-	}
+//	var count : Int				{		// # tests in a Book
+//		var state				= ScanState()
+//		let args				= ScanForKey(selectionString:"", wantOnlyIndex:true)
+//		loadTest(args:args, state:&state)
+//		return state.scanTestNum
+//	}
 
 	 // Each Library file loads an answer if it is selected
-	func loadTest(args:ScanArgs, state:inout ScanState) {
+	func loadTest(args:ScanForKey, state:inout ScanState) {
 		self.args				= args
 		self.state				= state
 		self.answer				= HnwMachine()
@@ -197,7 +189,7 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			answer.lineNumber 	= lineNumber
 		}
 	}
-	var fwClassName		 : String	{	"Library"								}
+	var fwClassName		 : String	{	"Book"									}
 
          // MARK: - 17. Debugging Aids
 	var description		 : String 	{	return  "d'\(fwClassName) \(fileName)'"	}
@@ -251,19 +243,19 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	init(_ fileName:String) {
 		self.fileName			= fileName
 	}
-	var args  : ScanArgs?		= nil
+	var args  : ScanForKey?		= nil
 	var state : ScanState		= ScanState()		// class
 	var answer: HnwMachine		= HnwMachine()		// struc
 
 	var count : Int				{
 		var state				= ScanState()
-		let args				= ScanArgs(selectionString:"", wantOnlyIndex:true)
+		let args				= ScanForKey(selectionString:"", wantOnlyIndex:true)
 		loadTest(args:args, state:&state)
 		return state.scanTestNum
 	}
 
 	 // Each Library file loads an answer if it is selected
-	func loadTest(args:ScanArgs, state:inout ScanState) {
+	func loadTest(args:ScanForKey, state:inout ScanState) {
 		self.args				= args
 		self.state				= state
 		self.answer				= HnwMachine()
@@ -272,7 +264,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	static func hnwMachine(fromSelector s:String?) -> HnwMachine? {	//LibraryLibrary
 		guard let s 			= s else { return nil } // no selector, no lib
 		var rv : HnwMachine?	= nil					// search value for desired string
-		let args				= ScanArgs(selectionString:s, wantOnlyIndex:false)
+		let args				= ScanForKey(selectionString:s, wantOnlyIndex:false)
 
 		 // 1. look in all libraries
 		var state				= ScanState()
@@ -292,7 +284,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		return rv
 	}
 	static func catalog() -> Library {
-		let args				= ScanArgs(selectionString:"", wantOnlyIndex:true)
+		let args				= ScanForKey(selectionString:"", wantOnlyIndex:true)
 		let rv					= Library("catalog")
 
 		 // Scan through all Library swift source file, stop at first
@@ -302,113 +294,18 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		 // Return list of titles in a master catalog.
 		return rv
 	}
-
-	  // MARK: - 5.1 Linkages from Library
-	   // //////////// linkages for library entries ////////////////
-	  // Tests are wrapped in closures, so they are not evaluated if not needed
-	 /// An Unmarked experiment (e.g. r()) might still be selected by name or sought number.
-	func r(	_ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			_ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:false, testName:nil,
-						config:config, rootClosure:rootClosure,
-						file:file, lineNumber:lineNumber)
-	}
-	func r( _ testName:String?=nil,
-			_ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			_ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:false, testName:testName,
-						config:config, rootClosure:rootClosure,
-						file:file, lineNumber:lineNumber)
-	}
-
-	 /// The one test is marked xr() will be run.
-	func xr(_ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			_ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:true, testName:nil,
-						config:config, rootClosure:rootClosure,
-						file:file, lineNumber:lineNumber)
-	}
-	func xr(_ testName:String?=nil,
-			_ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			_ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:true, testName:testName,
-						config:config, rootClosure:rootClosure,
-						file:file, lineNumber:lineNumber)
-	}
-
-	 /// Texts marked xxr() are ignored as are the r(), but easily searchable by "xr"
-	func xxr(_ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			 _ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:false, testName:nil,
-						config:config, rootClosure:rootClosure,
-						file:file, lineNumber:lineNumber)
-	}
-	func xxr(_ testName:String?=nil,
-			 _ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			 _ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:false, testName:testName,
-						config:config, rootClosure:rootClosure,
-						file:file, lineNumber:lineNumber)
-	}
-	
-	 /// Definition of a particular test, to exp
-	func registerNetwork(markedXr	 	:Bool,
-						 testName	 	:String?,
-						 config 	 	:FwConfig,
-						 rootClosure 	:@escaping PartClosure,
-						 file			:String?,
-						 lineNumber		:Int)
-	{									// ALIASES for parts:
-		state.scanTestNum 		+= 1		// count every test
-		if args!.argOnlyIndex {				// Wants Index
-			 // //// Display only those entries starting with a "+" ////////////	//why?	assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
-			let title		= "\(state.scanTestNum)  \(fileName):\(lineNumber):  " + (testName ?? "-")
-			let elt			= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
-			state.scanCatalog.append(elt)
-			return
-		}
-		 // ///////////// Wants Test ///////////////////////////////
-		let title				= testName != nil ? "\(testName!)" : "unnamed_\(state.scanTestNum)"
-		let matchReason0 : String? =
-			args!.argName != nil &&				// Name exists
-			args!.argName == testName ?			//   and matches?
-				"Building testName  ''\(testName!)''" :	// yes, name matchs
-				args!.argNumber == state.scanTestNum ?// no, numbers match?
-					"Building  ''scene #\(state.scanTestNum)''" :// yes, match
-					nil
-		let matchReason			= matchReason0 ??
-			(!markedXr ?							// is this marked xr?
-				nil :									// no, just r(), ignore
-				args!.argName == "xr()" &&			// yes, is name xr() and
-				 args!.argNumber < 0 ?				//   no wanted number?
-					"Building Network marked with xr()" :	// yes
-					nil)									// no, ignore
-		if matchReason != nil {						// BUILD
-			atBld(7, logd("=== \(matchReason!) ==="))
-			assert(answer.trunkClosure==nil, "Two Closures found marked xr():\n" +
-				"\t Previous = \(answer.testNum):\(answer.fileName ?? "lf823").\(answer.lineNumber!) '\(answer.title ?? "none")' <-- IGNORING\n" +
-				"\t Current  = \(state.scanTestNum):\(fileName).\(       lineNumber ) '\(         title)'")
-
-			 // CAPTURE: Copy current to exp
-			 // from Chosen Test
-								
-			answer.title		= title
-			answer.config 		= config
-			answer.trunkClosure = rootClosure
-			 // From Scan
-			answer.testNum		= state.scanTestNum
-			answer.subMenu		= state.scanSubMenu
-			 // Anonymous from Scan
-			answer.fileName		= fileName
-			answer.lineNumber 	= lineNumber
-		}
-	}
 	var fwClassName		 : String	{	"Library"								}
 
          // MARK: - 17. Debugging Aids
 	var description		 : String 	{	return  "d'\(fwClassName) \(fileName)'"	}
 	var debugDescription : String	{	return "dd'\(fwClassName) \(fileName)'"	}
 	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
+}
+extension Library : Uid {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		//let log				= FACTALSMODEL!.log
+	}
 }
 
 	/// Create FwConfig for Logging

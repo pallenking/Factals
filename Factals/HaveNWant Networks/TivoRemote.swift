@@ -4,7 +4,7 @@ import SceneKit
 
 class TivoRemote : Book {
 
-	override func loadTest(args:ScanArgs, state:inout ScanState) {
+	override func loadTest(args:ScanForKey, state:inout ScanState) {
 		super.loadTest(args:args, state:&state)
 		let e 	 : FwConfig		= [:]
 		let eXYtight : FwConfig = e + [	// For debugging Link positions:
