@@ -65,7 +65,7 @@ extension FactalsApp : FactalsStatus	{							///FactalsApp
 			otherLines:{ deapth in
 						// Menu Creation:
 				var rv			= self.library.ppFactalsState(deapth:deapth-1)
-				for book in Library.bookList {
+				for book in Library.books {
 					rv			+= book    .ppFactalsState(deapth:deapth-1)
 				}
 				rv				+= self.log.ppFactalsState(deapth:deapth-1)
@@ -129,10 +129,10 @@ extension NSDocumentController : FactalsStatus {		 	 ///NSDocumentController
 extension Library : FactalsStatus {							///Library
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("\(self.fileName.field(-13))", uid:self,
-			myLine:"(\(Library.bookList.count.asString!.field(4)) Books)",
+			myLine:"(\(Library.books.count.asString!.field(4)) Books)",
 			otherLines: { deapth in
 				var rv			= ""
-				for book in Library.bookList {
+				for book in Library.books {
 					rv			+= book.ppFactalsState(deapth:deapth-1)
 				}
 				return rv

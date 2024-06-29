@@ -88,6 +88,7 @@ private let placeMy = "placeMy"	;private let placeMe = "placeMe"
 private let stackx	= "stackx"
 private let parts	= "parts"
 private let struc	= "struc"
+//private let fooBar = "fooBar"
 
 private let expose 				= "expose"
 private let eventLimit			= "eventLimit"
@@ -155,28 +156,33 @@ class Tests01 : Book {
 		let eXYtight			= eTight + [
 			"ppXYZWena"		:"XY",			// Z(=0x4) is ignored
 		]
-
-//		let eXYtight : FwConfig = e + [	// For debugging Link positions:
-//			"ppViewTight"	:true,		 	// eliminate titles in print
-//			"ppIndentCols"	:7,				// limit of tree height indentations
-//			"ppViewOptions"	:"UFVTWB",		// just Posn, World, and FwBBox
-//			"ppXYZWena"		:"XY",			// 3 axis(xyz), world coords,
-//			"ppNNameCols"	:6,				// shortened name
-//			"ppNClassCols"	:6,				// shortened class
-//			"ppNCols4VewPosns":15,
-//		//	"ppFloatA":5, "ppFloatB":2,		// 2 desimal digits: F5.2 (default is F4.1)
-//		]
-//		let eYtight				= eXYtight + [
-//			"ppViewOptions"	:"UFVTWB",		// W? just Posn, World, and FwBBox
-//			"ppXYZWena"		:"Y",			// Z(=0x4) is ignored
-//		]
-//		let eTight				= eXYtight + [
-//			"ppViewOptions"	:"UFVTWB",		// W? just Posn, World, and FwBBox
-//			"ppXYZWena"		:"Y",			// Z(=0x4) is ignored
-//		]
+								//let eXYtight : FwConfig = e + [	// For debugging Link positions:
+								//	"ppViewTight"	:true,		 	// eliminate titles in print
+								//	"ppIndentCols"	:7,				// limit of tree height indentations
+								//	"ppViewOptions"	:"UFVTWB",		// just Posn, World, and FwBBox
+								//	"ppXYZWena"		:"XY",			// 3 axis(xyz), world coords,
+								//	"ppNNameCols"	:6,				// shortened name
+								//	"ppNClassCols"	:6,				// shortened class
+								//	"ppNCols4VewPosns":15,
+								////	"ppFloatA":5, "ppFloatB":2,		// 2 desimal digits: F5.2 (default is F4.1)
+								//]
+								//let eYtight				= eXYtight + [
+								//	"ppViewOptions"	:"UFVTWB",		// W? just Posn, World, and FwBBox
+								//	"ppXYZWena"		:"Y",			// Z(=0x4) is ignored
+								//]
+								//let eTight				= eXYtight + [
+								//	"ppViewOptions"	:"UFVTWB",		// W? just Posn, World, and FwBBox
+								//	"ppXYZWena"		:"Y",			// Z(=0x4) is ignored
+								//]
 		let eYtightX : FwConfig	= [:]
 		let eNoUids  : FwConfig	= ["ppNUid4Tree":0, "ppNUid4Ctl":0]
 		let eAnim    : FwConfig	= e + ["animatePhysics":true]
+		let eW2		 : FwConfig = ["Vews":[VewConfig.openAllChildren(toDeapth:4),
+										   VewConfig.openAllChildren(toDeapth:6)],]
+		let eW3		 : FwConfig = ["Vew0":VewConfig.openAllChildren(toDeapth:4),
+								   "Vew1":VewConfig.openAllChildren(toDeapth:2),
+								   "Vew2":VewConfig.openAllChildren(toDeapth:0)]
+
 		 let _					= eSimX + eNoUids + eYtightX // no warning, even if unused
 	    //
 	   //
@@ -364,7 +370,7 @@ r("Net<Bcast", e + selfiePole(s:45,u:30), { Net([n:"a", placeMy:"stackx", parts:
 	Broadcast([n:"b"]),				Broadcast([n:"c"]),
 ]]) })
 r("Net<Sphere", e, { Net([parts:[Sphere([size:"2 2 2"])]]) })													//Works; knob wrong-size bbox
-r("Net<Box", e, { Net([placeMy:"stackx", parts:[
+r("Net<Box",    e, { Net([placeMy:"stackx", parts:[
 //	Box([n:"a", size:SCNVector3(1, 1, 1), color:"orange"]),
 	Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]),
 ]]) })
@@ -898,16 +904,8 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xr("- Multiple SCNViews", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + [
-
-			"Vew0":VewConfig.openAllChildren(toDeapth:4),
-			"Vew1":VewConfig.openAllChildren(toDeapth:4),
-	//		"Vew2":VewConfig.openAllChildren(toDeapth:4),
-//			"Vews":[VewConfig.openAllChildren(toDeapth:4),
-//					VewConfig.openAllChildren(toDeapth:4)],
-
-	 		"gapLinkFluff":3,
-	 		], {Net([placeMy:"linky", parts:[	//stacky
+	 xr("- Multiple SCNViews", e + eW2 + selfiePole(h:0,s:10,u:10,z:1) +
+	 		velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 		Hamming([n:"c", f:1]),	//, share:["z"]
  		Mirror( [P:"c", f:1]),	// X+
 	]]) })

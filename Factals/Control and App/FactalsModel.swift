@@ -75,9 +75,11 @@ class FactalsModel : ObservableObject, Uid {
 //		simulator.simEnabled	= true
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
+		atBld(5, log.logd("---======= addRootVew(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count))"))
 		let vewBase				= VewBase(forPartBase:partBase)	// 1. Make with .null tree
 		vewBase.factalsModel	= self						// 2. Backpointer
 		vewBases.append(vewBase)							// 3. Install
+//		atBld(5, log.logd("---====--- addRootVew(vewConfig:\(vewConfig.pp(.classUid)), fwConfig.count\(fwConfig.count))"))
 
 		vewBase.tree.configureVew(from:fwConfig)			// 4. Configure Vew
 		vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
@@ -87,33 +89,9 @@ class FactalsModel : ObservableObject, Uid {
 		vewBase.setupLightsCamerasEtc()						// ?move
 
 		let rootVewPp			= vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"])
-		atBld(5, log.logd("rootVews[] is complete:\n\(rootVewPp)"))
+		atBld(5, log.logd("---====--- addRootVew() generated \(vewBase.pp(.uidClass)) "))
+//		atBld(5, log.logd("rootVews[] is complete:\n\(rootVewPp)"))
 	}
-
-//		 // Build Vews per Configuration
-//		let rp					= factalsModel.partBase		// (a reference)
-//		for (key, value) in config {				// params4all
-//			if key == "Vews",
-//			  let vewConfigs 	= value as? [VewConfig] {
-//				for vewConfig in vewConfigs	{	// Open one for each elt
-//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-//				}
-//			}
-//			else if key.hasPrefix("Vew") {
-//				if let vewConfig = value as? VewConfig {
-//					rp.addRootVew(vewConfig:vewConfig, fwConfig:config)
-//				}
-//				else {
-//					panic("Confused wo38r")
-//				}
-//			}
-//		}
-//		rp.ensureAVew(fwConfig:config)
-//		factalsModel.configure(from:config)
-
-
-
-
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
 					//		var data : Data? {

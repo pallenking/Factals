@@ -72,15 +72,16 @@ struct FactalsDocument : FileDocument {
 		let c					= factalsModel.fmConfig + partBase.ansConfig
 		factalsModel.configurePart(from:params4pp)
 		partBase.wireAndGroom([:])
-/*
-partBase.ansConfig 				[selfiePole:[:2 elts]]
-pt factalsModel.fmConfig		[]
-pt params4pp					[ppNCols4VewPosns:20,
-								 ...
-								 ppNNameCols:8,
-								 ppLinks:false]
- */
+
 		 // 3. Vews
+			/*		How to configure?
+			1.	partBase.ansConfig 				[selfiePole:[:2 elts]]
+			2.	pt factalsModel.fmConfig		[]
+			3.	pt params4pp					[ppNCols4VewPosns:20,
+												 ...
+												 ppNNameCols:8,
+												 ppLinks:false]
+			 */
 		factalsModel.configureVews(from:c)
 	}
 

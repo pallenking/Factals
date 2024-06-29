@@ -10,6 +10,7 @@ import SceneKit
   // MARK: - External linkage
  /// Initial Parameters for configuration:
 var params4all		: FwConfig		= {	return 
+	Factals.logAt(all:sharedLogN) + 
 	params4app		+
 	params4appLog	+
 	params4pp		+	//
@@ -99,7 +100,7 @@ private let params4docLog		= params4pp + params4logs_
 								// + +  + +
 		"breakAtLogger"			: 1,
 								// + +  + +
-		"breakAtEvent"			:  8//-54,//240/3/0:off
+		"breakAtEvent"			:  -44//-54,//240/3/0:off
 
 	]
 

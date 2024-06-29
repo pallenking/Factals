@@ -409,7 +409,7 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
 //			valueLhs == valueRhs ? nop :
 //				atBld(9, Log.app.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
-				atBld(9, print(         "Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+	//			atBld(9, print(         "Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 		}
 		rv[keyRhs] 				= valueRhs
 	}

@@ -149,10 +149,10 @@
 		9F9AC6A4299C7C6000CDEB08 /* FactalsModelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */; };
 		9FA1E4B92939AFF10012E02F /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
-		9FB117022BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */; };
-		9FB117032BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBar.swift */; };
 		9FC4AAEA2B9CCFCB0094B06A /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */; };
+		9FDE5DA52C29C23A001D4A73 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDE5DA42C29C23A001D4A73 /* Book.swift */; };
+		9FDE5DA62C29C23A001D4A73 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDE5DA42C29C23A001D4A73 /* Book.swift */; };
 		9FDF886829ACFA1700776ABB /* DebugAids.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDF886729ACFA1700776ABB /* DebugAids.swift */; };
 		9FEE519F286B507600C8C22A /* SubPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE519E286B507500C8C22A /* SubPart.swift */; };
 		9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */; };
@@ -260,10 +260,11 @@
 		9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsModelBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
-		9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsAppSwiftUI.swift; sourceTree = "<group>"; };
+		9FB117012BCD8EB300D83942 /* XXXFactalsAppSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXFactalsAppSwiftUI.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBar.swift; sourceTree = "<group>"; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
 		9FDBBED628AC45DB00445219 /* PrintBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBuffer.swift; sourceTree = "<group>"; };
+		9FDE5DA42C29C23A001D4A73 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		9FDF886729ACFA1700776ABB /* DebugAids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAids.swift; sourceTree = "<group>"; };
 		9FE1AF0B2852971400A56193 /* Fw++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fw++.swift"; sourceTree = "<group>"; };
 		9FEE519E286B507500C8C22A /* SubPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubPart.swift; sourceTree = "<group>"; };
@@ -392,7 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
-				9FB117012BCD8EB300D83942 /* FactalsAppSwiftUI.swift */,
+				9FB117012BCD8EB300D83942 /* XXXFactalsAppSwiftUI.swift */,
 				9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
@@ -435,6 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				9FEE51AB286BA57900C8C22A /* Library.swift */,
+				9FDE5DA42C29C23A001D4A73 /* Book.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
 				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
@@ -687,8 +689,8 @@
 				9F417F0F28EB93E50047B359 /* Proto.swift in Sources */,
 				9F417F2C28EB944D0047B359 /* PartBase.swift in Sources */,
 				9F417F4628EB94DB0047B359 /* FilteredLog.swift in Sources */,
+				9FDE5DA62C29C23A001D4A73 /* Book.swift in Sources */,
 				9F417F0E28EB93E20047B359 /* TestsFoo.swift in Sources */,
-				9FB117032BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */,
 				9F417F5728EB955C0047B359 /* NSColor++.swift in Sources */,
 				9F417F3928EB94A80047B359 /* FactalsApp.swift in Sources */,
 				9F417F2228EB942A0047B359 /* LinkPort.swift in Sources */,
@@ -783,6 +785,7 @@
 				9F19010928808E890078DB6C /* SoundAtom.swift in Sources */,
 				9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */,
 				9F19010D28808EE70078DB6C /* Share.swift in Sources */,
+				9FDE5DA52C29C23A001D4A73 /* Book.swift in Sources */,
 				9F0295CF288091EF00DD0004 /* FactalsStatus.swift in Sources */,
 				9F19010628808DC10078DB6C /* LinkPort.swift in Sources */,
 				9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */,
@@ -791,7 +794,6 @@
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F5AE2D0298C3C4B00EF6B20 /* ScnBase.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
-				9FB117022BCD8EB300D83942 /* FactalsAppSwiftUI.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FactalsApp.swift in Sources */,
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,

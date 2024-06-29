@@ -33,7 +33,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		scnBase					= ScnBase()
 		tree					= Vew()			// Start with just trunk Vew
 
-		super.init()
+		super.init()			// NSObject
 
 		scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
 		scnBase.tree?.name		= self.tree.name
