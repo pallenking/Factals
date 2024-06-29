@@ -76,7 +76,7 @@ class FactalsModel : ObservableObject, Uid {
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
 		atBld(5, log.logd("---======= addRootVew(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count))"))
-		let vewBase				= VewBase(forPartBase:partBase)	// 1. Make with .null tree
+		let vewBase				= VewBase(for:partBase)		// 1. Make with .null tree
 		vewBase.factalsModel	= self						// 2. Backpointer
 		vewBases.append(vewBase)							// 3. Install
 //		atBld(5, log.logd("---====--- addRootVew(vewConfig:\(vewConfig.pp(.classUid)), fwConfig.count\(fwConfig.count))"))

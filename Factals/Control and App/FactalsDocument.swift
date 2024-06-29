@@ -30,6 +30,7 @@ extension FactalsDocument : Uid {
 		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
+//class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument {
 	let uid:UInt16				= randomUid()
 

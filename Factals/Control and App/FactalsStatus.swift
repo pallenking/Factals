@@ -2,23 +2,24 @@
 
 import SceneKit
 
- /// Print status of Factal Workbench Controllers
-protocol FactalsStatus : FwAny {
-	func ppFactalsState(deapth:Int) -> String
-}
-
   /// Print State of ALL System Controllers:
  /// - Returns: State of all Controllers, one per line
 func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
 //	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
-//	var rv = FactalsApp.app.ppFactalsState(deapth:deapth-1)
-	var rv = ""//						= APP	  .ppFactalsState(deapth:deapth-1)
+//	var rv 						= FactalsApp.ppFactalsState(deapth:deapth-1)
+//	var rv 						= APP	  .ppFactalsState(deapth:deapth-1)
 bug
-//	 // display current DOCument
+	 // display current DOCument
 //	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
 //	rv							+= ppUid(pre:" ", DOC, post:" DOC \(msg)", showNil:true) + "\n"
 //	rv							+= DOC?.ppFactalsState(deapth:deapth-1) ?? ""	// current DOCument
-	return rv
+	return ""
+}
+
+
+ /// Print status of Factal Workbench Controllers
+protocol FactalsStatus : FwAny {
+	func ppFactalsState(deapth:Int) -> String
 }
 
 func ppFactalsStateHelper(_ fwClassName_	: String,
@@ -66,9 +67,9 @@ extension FactalsApp : FactalsStatus	{							///FactalsApp
 						// Menu Creation:
 				var rv			= self.library.ppFactalsState(deapth:deapth-1)
 				for book in Library.books {
-					rv			+= book    .ppFactalsState(deapth:deapth-1)
+					rv			+= book		  .ppFactalsState(deapth:deapth-1)
 				}
-				rv				+= self.log.ppFactalsState(deapth:deapth-1)
+				rv				+= self	  .log.ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)

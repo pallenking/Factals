@@ -86,7 +86,6 @@ extension FactalsApp {		// FactalsGlobals
 			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
 			let tree 			= LibraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray
 			libraryMenuTree 	= tree
-			//var catalogs:[LibraryMenuArray] = catalogs//[] // Library.catalog().state.scanCatalog.count == 0
  		}
 	}
 }
@@ -114,13 +113,11 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 				crux			= crux.children.first(where: {$0.name == name}) ?? {
 					let newCrux	= LibraryMenuTree(name:String(name), imageName: "1.circle")
 					crux.children.append(newCrux)
-					// print("---- added crux:\"\(name)\"")
 					return newCrux
 				}()
 			}
 			
-			// Make new menu entry:
-			//		print("-------- adding tag:\(test.tag) title:\"\(test.title.field(-54))\"     to menu:\"\(test.parentMenu)\"")
+			 // Make new menu entry:
 			let newCrux			= LibraryMenuTree(name:entry.title)
 			newCrux.tag			= entry.tag
 			crux.children.append(newCrux)
@@ -147,7 +144,6 @@ struct FactalsApp: Uid, FwAny {
 			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
 		}
 	};private var regressScene_ = 0
-	var regressSceneXX:Int	= 0	//private?	// number of the next "^r" regression test
 
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")

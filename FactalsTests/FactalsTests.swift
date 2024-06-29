@@ -83,7 +83,7 @@ final class FactalsTests: XCTestCase {
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
 		let o0 = PartBase(tree:Part())
-		let o1 = VewBase(forPartBase:o0)
+		let o1 = VewBase(for:o0)
 		let o2 = o1.pp(.uidClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 

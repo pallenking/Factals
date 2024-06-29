@@ -28,7 +28,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
 
 	 /// generate a new View, returning its index
-	init(forPartBase p:PartBase) {
+	init(for p:PartBase) {
 		partBase				= p
 		scnBase					= ScnBase()
 		tree					= Vew()			// Start with just trunk Vew
@@ -242,9 +242,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
 	  // MARK: - 16. Global Constants
-	static let null : VewBase = VewBase(forPartBase:.null)
+	static let null : VewBase = VewBase(for:.null)
 //	static let null : VewBase = {
-//		let rv					= Vews(forPartBase:.null)
+//		let rv					= Vews(for:.null)
 //		//rv.name					= "null"
 //		return rv
 //	}()
