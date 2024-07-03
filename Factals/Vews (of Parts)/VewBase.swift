@@ -146,7 +146,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVewSizePaint(vewConfig:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
-		guard let factalsModel	= factalsModel else { fatalError("Paranoia 29872") }
+//		guard let factalsModel	= factalsModel else { fatalError("Paranoia 29872") }
 		var newOwner2			= newOwner		// nil if lock obtained
 //		let  vewsTree : Vew		= self .tree
 		let partsTree			= partBase.tree
@@ -163,12 +163,14 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 				 ///      - Returns: Work
 				func hasDirty(_ dirty:DirtyBits, for owner:inout String?, log:Bool, _ message:String) -> Bool {
 					if partsTree.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
+						print("updateVewSizePaint: setting  dirty.\(dirty.pp()) = true  at \(pp(.name))")
 						guard lock(for:owner, logIf:log) else {
 							fatalError("updateVewSizePaint(needsViewLock:'\(owner ?? "<nil>")') FAILED to get it")
 						}
 						owner = nil		// mark gotten
 						return true
 					}
+					print("updateVewSizePaint: setting  dirty.\(dirty.pp()) = false at \(pp(.fullName))")
 					return false
 				}
 

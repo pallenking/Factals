@@ -2,18 +2,19 @@
 
 import SceneKit
 
-  /// Print State of ALL System Controllers:
+  /// Print State of ALL System Controllers in the App:
  /// - Returns: State of all Controllers, one per line
 func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
 //	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
 //	var rv 						= FactalsApp.ppFactalsState(deapth:deapth-1)
 //	var rv 						= APP	  .ppFactalsState(deapth:deapth-1)
-bug
+	let rv						= FACTALSMODEL?.ppFactalsState(deapth:deapth-1) ?? ""	// current DOCument
+//bug
 	 // display current DOCument
 //	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
 //	rv							+= ppUid(pre:" ", DOC, post:" DOC \(msg)", showNil:true) + "\n"
 //	rv							+= DOC?.ppFactalsState(deapth:deapth-1) ?? ""	// current DOCument
-	return ""
+	return rv
 }
 
 
@@ -185,7 +186,7 @@ extension PartBase : FactalsStatus	{								 ///PartBase
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= ""//factalsModel.rootPartActor.parts === self ? "" : "OWNER:'\(factalsModel!)' BAD "
 		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
-		return ppFactalsStateHelper("PartBase  ", uid:self,
+		return ppFactalsStateHelper("PartBase     ", uid:self,
 			myLine:myLine + "parts:\(ppUid(self, showNil:true)) " +
 					"(\(portCount()) Ports) " +
 					"\(rown) dirty:'\(tree.dirty.pp())' " ,
@@ -235,13 +236,13 @@ extension Simulator : FactalsStatus	{								///Simulator
 	}
 }
 
-extension VewBase : FactalsStatus	{								  ///Vews
+extension VewBase : FactalsStatus	{								  ///VewBase
 	func ppFactalsState(deapth:Int=999) -> String {
 //		guard let vews						 else {	return "Vew.vews == nil\n"	}
 		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }
 		guard let slot			= slot,
 		  slot >= 0 && slot < factalsModel.vewBases.count else { fatalError("Bad slot")}
-		let myName				= "Vews      "
+		let myName				= "VewBase      "
 
 		var myLine				= "\(slot)/\(factalsModel.vewBases.count)] "
 		myLine					+= "LockVal:\(semiphore.value ?? -99) "
@@ -257,7 +258,21 @@ extension VewBase : FactalsStatus	{								  ///Vews
 			otherLines: { deapth in
 				var rv			=  self.selfiePole.ppFactalsState(deapth:deapth-1)
 				rv 				+= self.cameraScn?.ppFactalsState(deapth:deapth-1) ?? ""
-bug//			rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
+				rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
+				return rv
+			},
+			deapth:deapth-1)
+	}
+}
+extension Vew : FactalsStatus	{										  ///Vew
+	func ppFactalsState(deapth:Int=999) -> String {
+		var rv					= ""
+		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnBase      "
+			myLine:"'\(fullName)'",
+			otherLines: { deapth in
+				for child in self.children {
+					rv			+= child.ppFactalsState(deapth: deapth-1)
+				}
 				return rv
 			},
 			deapth:deapth-1)

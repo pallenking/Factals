@@ -386,8 +386,8 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 	 ///   (This assures updateVewNScn work)
 	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-		guard let vewBase			 		 else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
-		let partBase		= 				vewBase.partBase
+		guard let vewBase			 	else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
+		let partBase			= vewBase.partBase
 
 		 // Paranoia
 		assert(vewBase.tree.name == "_ROOT","Paranoid check: vewBase.name=\(vewBase.tree.name) !=\"_ROOT\"")
