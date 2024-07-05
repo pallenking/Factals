@@ -63,7 +63,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
-		print("***** checkTree returned \(changed)")
+		atBld(4, logd("***** checkTree returned \(changed)"))
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		checkTree()

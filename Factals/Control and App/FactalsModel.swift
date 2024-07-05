@@ -75,7 +75,7 @@ class FactalsModel : ObservableObject, Uid {
 //		simulator.simEnabled	= true
 	}
 	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		atBld(5, log.logd("\n---======= addRootVew(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count))"))
+		atBld(5, log.logd("### ---======= addRootVew\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count))"))
 		let vewBase				= VewBase(for:partBase)		// 1. Make with .null tree
 		vewBase.factalsModel	= self						// 2. Backpointer
 		vewBases.append(vewBase)							// 3. Install
@@ -85,7 +85,7 @@ class FactalsModel : ObservableObject, Uid {
 		vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
 
 //		tree.dirtySubTree(gotLock:true, .vsp)				// 6. Mark dirty
-		vewBase.updateVewSizePaint(vewConfig:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
+		vewBase.updateVewSizePaint(initial:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
 		vewBase.setupLightsCamerasEtc()						// ?move
 
 		let rootVewPp			= vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"])

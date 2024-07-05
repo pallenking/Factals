@@ -257,7 +257,8 @@ class Link : Atom {
 
 		 // Reskin Link's Ports:
 		for (_, port) in ports {
-			if port.testNReset(dirty:.size) {		// clear Port's dirty size
+//bug //NReset
+			if port.test(dirty:.size) {		// clear Port's dirty size
 				guard let portsVew = vew.find(part:port, maxLevel:1) else {fatalError("Link's Part has no Vew") }
 
 				let _			= port.reSkin(linkPortsVew:portsVew)

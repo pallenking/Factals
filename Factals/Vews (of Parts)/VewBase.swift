@@ -71,21 +71,21 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 	// MARK: - 4. Factory
 	// MARK: - 4? locks
-	func lockBoth(for owner:String) {
-		guard partBase.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
-		guard          lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get VEW lock")}
-	}
-	func unlockBoth(for owner:String) {
-		unlock(for:          owner, logIf:false)
-		partBase.unlock(for:owner, logIf:false)
-	}
+//	func lockBoth(for owner:String) {
+//		guard partBase.lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get PART lock")}
+//		guard          lock(for:owner, logIf:false) else {fatalError(owner+" couldn't get VEW lock")}
+//	}
+//	func unlockBoth(for owner:String) {
+//		unlock(for:          owner, logIf:false)
+//		partBase.unlock(for:owner, logIf:false)
+//	}
 	/// Optain DispatchSemaphor for Vew Tree
 	/// - Parameters:
 	///   - for owner: get lock for this name. nil --> don't lock
 	///   - logIf: log the description
 	/// - Returns: Operation Succeeded
 	func lock(for owner:String?=nil, logIf:Bool=true) -> Bool {
-		guard let owner else {	return true		/* no lock needed */		}
+		guard let owner else	{	return true		/* no lock needed */		}
 
 		let ownerNId		= ppUid(self) + " '\(owner)'".field(-20)
 		atRve(3, {
@@ -145,11 +145,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateVewSizePaint(vewConfig:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
-//		guard let factalsModel	= factalsModel else { fatalError("Paranoia 29872") }
-		var newOwner2			= newOwner		// nil if lock obtained
-//		let  vewsTree : Vew		= self .tree
-		let partsTree			= partBase.tree
+	func updateVewSizePaint(initial:VewConfig?=nil, for newOwner:String?=nil, logIf log:Bool=true) { // VIEWS
+		guard let factalsModel	 else { 	fatalError("Paranoia 29872") 		}
+		let partsTree			= partBase.tree		// Model
 
 /**/	SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
@@ -161,35 +159,36 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 				 ///     - log: log the message
 				 ///      - message: massage to log
 				 ///      - Returns: Work
-				func hasDirty(_ dirty:DirtyBits, for owner:inout String?, log:Bool, _ message:String) -> Bool {
-					if partsTree.testNReset(dirty:dirty) {		// DIRTY? Get VIEW LOCK:
-						print("updateVewSizePaint: setting  dirty.\(dirty.pp()) = true  at \(pp(.name))")
-						guard lock(for:owner, logIf:log) else {
-							fatalError("updateVewSizePaint(needsViewLock:'\(owner ?? "<nil>")') FAILED to get it")
+				func hasDirty(_ dirty:DirtyBits, log:Bool, _ message:String) -> Bool {
+					if partsTree.test(dirty:dirty) {			// DIRTY? Get VIEW LOCK:
+						guard lock(for:nil/*owner*/, logIf:log) else {
+							fatalError("updateVewSizePaint(needsViewLock:'(owner )') FAILED to get it")
 						}
-						owner = nil		// mark gotten
+			//			logd("updateVewSizePaint: setting  dirty.\(dirty.pp()) = true  at \(pp(.name))")
 						return true
 					}
-					print("updateVewSizePaint: setting  dirty.\(dirty.pp()) = false at \(pp(.fullName))")
+			//		logd("updateVewSizePaint: setting  dirty.\(dirty.pp()) = false at \(pp(.fullName))")
 					return false
 				}
 
-		 // ----   Create   V I E W s   ---- // and SCNs entry points ("*-...")
-		if hasDirty(.vew, for:&newOwner2, log:log,
-			" _ reVew _   VewBase (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
+		 // ---- 1.  Create   V i E W s   ---- // and SCNs entry points ("*-...")
+		if hasDirty(.vew, log:log, " _ reVew _   VewBase (per updateVewSizePaint(needsLock:'\\(newOwner2)')") {
+			for vewBase in factalsModel.vewBases { // Part.dirty.vew is for all Vews
 
-			if let vewConfig {					// Vew Configuration specifies open stuffss
-				atRve(6, log ? logd("updateVewSizePaint(vewConfig:\(vewConfig):....)") : nop)
+			
 
-				// if Empty, make new base
-				if tree.name == "_null" {
-					tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
-					scnBase.tree = tree.scn		
+				atRve(6, log ? logd("updateVewSizePaint(vewConfig:(initial)") : nop)
+				if let initial {					// Vew Configuration specifies open stuffss
+
+					// if Empty, make new base
+					if tree.name == "_null" {
+						tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
+						scnBase.tree = tree.scn
+					}
+
+					tree.openChildren(using:initial)
 				}
-
-				tree.openChildren(using:vewConfig)
 			}
-			atRve(6, log ? logd("updateVewSizePaint(vewConfig:nil:....)") : nop)
 
 			  // Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
@@ -198,11 +197,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 			// should have created all Vews and one *-<name> in ptn tree
 			partsTree.reVewPost(vew:tree)
 		}
-		 // ----   Adjust   S I Z E s   ---- //
-		if hasDirty(.size, for:&newOwner2, log:log,
-			" _ reSize _  VewBase (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
-
-//?			atRsi(6, log ? logd("parts.reSize():............................") : nop)
+		 // ---- 2.  Adjust   S I Z E s   ---- //
+		if hasDirty(.size, log:log,
+			" _ reSize _  VewBase (per updateVewSizePaint(needsLock:'(newOwner2 ?? \"nil\")')") {
 
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
 			
@@ -211,12 +208,11 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 			partsTree.rePosition(vew:tree)				// === only outter vew centered
 			tree.orBBoxIntoParent()
 			partsTree.reSizePost(vew:tree)				// ===(set link Billboard constraints)
-	//		vRoot.bBox			= .empty				     b// Set view's bBox EMPTY
-			atRsi(6, log ? logd("..............................................") : nop)
+	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 		}
 		 // -----   P A I N T   Skins ----- //
-		if hasDirty(.paint, for:&newOwner2, log:log,
-			" _ rePaint _ VewBase (per updateVewSizePaint(needsLock:'\(newOwner2 ?? "nil")')") {
+		if hasDirty(.paint, log:log,
+			" _ rePaint _ VewBase (per updateVewSizePaint(needsLock:'(newOwner2 ?? \"nil\")')") {
 
 	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
@@ -225,8 +221,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 			//pRoot  .applyLinkForces(vew:vRoot)	// Apply   Forces (zero out .force)
 			partsTree .rotateLinkSkins (vew:tree)		// Rotate Link Skins
 		}
-		let unlockName			= newOwner == nil ? nil :			// no lock wanted
-								  newOwner2 == nil ? newOwner :// we locked it!
+		let unlockName:String?	= newOwner == nil ? nil :			// no lock wanted
+//								  newOwner2 == nil ? newOwner :// we locked it!
 								  nil							// we locked nothing
 /**/	SCNTransaction.commit()
 

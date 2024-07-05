@@ -918,15 +918,13 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// * Depending on self.expose:Expose
 	/// * --- .open -> full; .atomic -> sphere; .invisible -> nothing
 	func reVew(vew vew_:Vew?=nil, parentVew pVew:Vew?=nil) {
-		var vew 				= vew_ ??	// 1 supplied as ARG, or from parent:
-								  pVew?.find(part:self, maxLevel:1)
-								  			// 2. FIND in parentVew by part
-								// 202006PAK: after animation, vew is old "M_xxxx" vew
+		var vew 	= vew_ ??							// 1 supplied as ARG, or from parent:
+					  pVew?.find(part:self, maxLevel:1)	// 2. FIND in self in parentVew
 		 // Discard if it doesn't match self, or names mismatch.
-		if let v				= vew,		// Vew supplied and
-		 (v.part !== self ||				//  it seems wrong:	//!=
+		if let v		= vew,							// Vew supplied and
+		 (v.part !== self ||							//  it seems wrong:	//!=
 		  v.name != "_" + v.part.name) {
-			vew				= nil				// don't use it
+			vew				= nil							// don't use it
 		}
 
 		switch vew?.expose ?? initialExpose{// (if no vew, use default in part)
@@ -940,7 +938,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 			 // For the moment, we open all Vews
 			for childPart in children {
-				if	childPart.testNReset(dirty:.vew) ||		// 210719PAK do first, so it gets cleared
+//bug//NReset
+				if	childPart.test(dirty:.vew) ||		// 210719PAK do first, so it gets cleared
 				 	childPart.initialExpose == .open    {
 					childPart.reVew(parentVew:vew!)
 				}
@@ -993,7 +992,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		{	let childPart		= childVew.part
 
 			 // 1. Repack insides (if dirty size):
-			if childPart.testNReset(dirty:.size) {
+//bug//NReset
+			if childPart.test(dirty:.size) {
 				childPart.reSize(vew:childVew)	// #### HEAD RECURSIVEptv
 			}
 			  // If our shape was just added recently, it has no parent.
@@ -1388,7 +1388,9 @@ func foo () {
 	  // MARK: - 9.6: Paint Image:
 	func rePaint(vew:Vew) 	{		/* prototype */
 		for childVew in vew.children 				// by Vew
-		  where childVew.part.testNReset(dirty:.paint) {
+		  where childVew.part.test(dirty:.paint) {
+//bug//NReset
+//		  where childVew.part.testNReset(dirty:.paint) {
 			childVew.part.rePaint(vew:childVew)		// #### HEAD RECURSIVE
 		}
 		assertWarn(!vew.scn.transform.isNan, "vew.scn.transform == nan!")

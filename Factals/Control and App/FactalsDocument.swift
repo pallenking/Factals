@@ -49,12 +49,12 @@ struct FactalsDocument : FileDocument {
 	init() {	// Build a blank document, so there is a document of record with a Log
 		self.init(fromLibrary:"xr()")
 	}
-	enum LibrarySelector {				// NEW
-		case empty						//		nil->			Blank scene		 |	nil		  -1
-		case MarkedXr 					//					//	entry with xr()	 |	"xr()"	  -1
-		case Numbered(Int)				//		= "entry120"//	entry 120		 |	nil		  N *
-		case Titled(String)				//		= "name"	//	entry named name |	"name" *  -1
-	}
+//	enum LibrarySelector {				// NEW
+//		case empty						//		nil->			Blank scene		 |	nil		  -1
+//		case MarkedXr 					//					//	entry with xr()	 |	"xr()"	  -1
+//		case Numbered(Int)				//		= "entry120"//	entry 120		 |	nil		  N *
+//		case Titled(String)				//		= "name"	//	entry named name |	"name" *  -1
+//	}
 
 	init(fromLibrary select:String?=nil) {
 		let select = select ?? {

@@ -408,7 +408,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 bug;//	partBase.tree.dirtySubTree(gotLock:true, .vsp)		// DEBUG ONLY
 
 		 // 2. Update Vew and Scn Tree
-/**/	vewBase.updateVewSizePaint(vewConfig:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
+/**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
 		vewBase.setupLightsCamerasEtc()
 
 		 // Do one, just for good luck
@@ -429,17 +429,24 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 
-//
-extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
+extension ScnBase : SCNSceneRendererDelegate {
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 			guard let tree		= self.tree	else { return						}
+			guard let factalsModel = self.vewBase?.factalsModel	else { 	return	}
+			guard factalsModel.partBase .lock (for:"updateAtTime", logIf:false) else {fatalError(" couldn't get PART lock")}
 			atRsi(8, tree.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
-			let vewBase			= self.vewBase!
-			vewBase.lockBoth(for: "updateAtTime")
-			vewBase.updateVewSizePaint(logIf:true)		//false//true
-//			rVew.updateVewSizePaint(needsLock:"renderLoop", logIf:true)		//false//true
-			vewBase.unlockBoth(for: "updateAtTime")
+
+			for vewBase in factalsModel.vewBases {
+				let label		= "updateAtTime\(vewBase.slot)"
+				let _			= vewBase.lock(for:label)
+				vewBase.updateVewSizePaint(logIf:true)								//false//true//needsLock:"renderLoop",
+				vewBase.unlock(for:label)
+				atRsi(8, tree.logd("<><><> 9.5.1: ENDING ###### \(self.pp(.classUid)) Update At Time -> updateVewSizePaint"))
+			}
+
+			factalsModel.partBase.tree.forAllParts { part in part.dirty	= .clean }
+			factalsModel.partBase.unlock(for:"updateAtTime")
 			atRsi(8, tree.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
 		}
 	}
@@ -468,9 +475,12 @@ extension ScnBase : SCNSceneRendererDelegate {			// Set in contentView SceneView
 			guard let tree		= self.tree	else { return						}
 			atRsi(8, tree.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
 			let vewBase			= self.vewBase!
-			vewBase.lockBoth(for: "willRenderScene")
+			vewBase.lock(for: "willRenderScene")
 			vewBase.partBase.tree.rotateLinkSkins(vew:vewBase.tree)
-			vewBase.unlockBoth(for: "willRenderScene")
+			vewBase.unlock(for: "willRenderScene")
+//
+//bug//("why not?")
+//
 		}
 	}
 	   // ODD Timing:

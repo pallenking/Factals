@@ -734,7 +734,8 @@ nop
 			for (portName, port) in ports {		// if a Vew exists:
 				if let portVew	= vew.find(name:"_" + portName, maxLevel:1) {
 					portVew.keep = true
-					if port.testNReset(dirty:.size) {
+//bug//NReset
+					if port.test(dirty:.size) {
 						port.reSize(vew:portVew)	// 2A. Pack Port (why is this needed)
 					}
 					rePosition(portVew:portVew)		// 2B. Reposition Port via Atom:

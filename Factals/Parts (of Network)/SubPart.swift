@@ -23,24 +23,18 @@ enum DirtyBits : UInt8, CaseIterable, Codable {//, Identifiable
 		self				= DirtyBits(rawValue:rawInt8) ?? .reset
 	}
 	mutating func turnOn(_  kind:DirtyBits) {
-//		SCNTransaction.lock()
 		self				= DirtyBits(rawValue:rawValue | kind.rawValue)!
-//		SCNTransaction.unlock()
 	}
 	mutating func turnOff(_ kind:DirtyBits) {
-//		SCNTransaction.lock()
 		self				= DirtyBits(rawValue:rawValue & ~kind.rawValue)!
-//		SCNTransaction.unlock()
 	}
 	func isOn(_  kind:DirtyBits) -> Bool {
 		return rawValue & kind.rawValue != 0
 	}
 	func pp() -> String {
-//		SCNTransaction.lock()
 		var rv				= self == .reset				 ? 		"RST"
 							: rawValue >= raw2string44.count ?		"ILL"
 							: raw2string44[Int(rawValue)]
-//		SCNTransaction.unlock()
 		return rv
 	}
 }
@@ -51,7 +45,6 @@ extension Part {
 	/// - Marks the bit from the selected node, through parents to the root.
 	/// - Stops if it encounters node marked with this bit
 	func markTree(dirty:DirtyBits) {
-//		SCNTransaction.lock()
 		let bits				= dirty.rawValue
 
 		 // Go up the containment tree
@@ -61,7 +54,6 @@ extension Part {
 			}
 			s.dirty.turnOn(dirty)
 		}
-//		SCNTransaction.unlock()
 	}
 	
 	/// Ensure the dirtyBits of all leaf nodes are included here
@@ -108,15 +100,18 @@ extension Part {
 	}
 
 	/// Test a bit in property 'dirty'
-	/// - Parameter bit: of dirty testNClear'ed
-	/// - Returns: previous value of bit
-	func testNReset(dirty bit:DirtyBits) -> Bool {
-//		SCNTransaction.lock()
+	/// - Parameter bit: what kind of dirty
+	/// - Returns: value of bit before it was reset
+//	func testNReset(dirty bit:DirtyBits) -> Bool {
+//		assert(bit != .reset, "Illegal semantics - should never testNReset .reset because ...")
+//		let rv					= dirty.rawValue & bit.rawValue
+//		let newVal				= DirtyBits(rawValue:dirty.rawValue & ~bit.rawValue)!
+//		dirty					= newVal
+//		return rv != 0
+//	}
+	func test(dirty bit:DirtyBits) -> Bool {
 		assert(bit != .reset, "Illegal semantics - should never testNReset .reset because ...")
 		let rv					= dirty.rawValue & bit.rawValue
-		let newVal				= DirtyBits(rawValue:dirty.rawValue & ~bit.rawValue)!
-		dirty					= newVal
-//		SCNTransaction.unlock()
 		return rv != 0
 	}
 }
