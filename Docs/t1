@@ -1102,4 +1102,77 @@ i
  ∑
 100
 ​	
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DocLocal/HaveNWant/Factals/Factals/Control\ and\ App/SelfiePole.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Random.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/HaveNWant\ Networks/Library.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/NSColor++.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/SwiftUI++.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/CommonErrors.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/FwTypes.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/HaveNWant\ Networks/LangDeser.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Path.swift
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/SCNVector++.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/SCNNode++.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Control\ and\ App/FactalsStatus.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/HaveNWant\ Networks/TivoRemote.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/HaveNWant\ Networks/Configuration.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Control\ and\ App/FactalsApp.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/SCNMatrix++.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Self++.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Uid.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/LldbInit.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Control\ and\ App/Sounds.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/CG++.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/FwwEvent.swift 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/InspecSCNVector3.swift 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/DerivedSources/GeneratedAssetSymbols.swift -emit-dependencies-path 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.d -emit-const-values-path 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.swiftconstvalues -emit-reference-dependencies-path 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.swiftdeps -serialize-diagnostics-path 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.dia -emit-localized-strings -emit-localized-strings-path 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64 -target arm64-apple-macos14.1 -Xllvm -aarch64-use-tbi -enable-objc-interop -stack-check -sdk
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -I 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug 
+-F 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug -no-color-diagnostics -enable-testing -g -module-cache-path 
+/Users/allen/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -swift-version 5 -enforce-exclusivity\=checked -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64/Factals_const_extract_protocols.json -enable-bare-slash-regex -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file 
+/Users/allen/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc 
+/Users/allen/DocLocal/HaveNWant/Factals -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift -enable-anonymous-context-mangled-names -Xcc -ivfsstatcache -Xcc 
+/Users/allen/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx14.5-23F73-7e3fd6dc4171e65dbd154ba8db3956d2.sdkstatcache -Xcc
+-I/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/swift-overrides.hmap
+-Xcc -iquote -Xcc 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Factals-generated-files.hmap
+-Xcc -I/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Factals-own-target-headers.hmap -Xcc -I/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Factals-all-target-headers.hmap
+-Xcc -iquote -Xcc 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Factals-project-headers.hmap 
+-Xcc
+-I/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug/include
+-Xcc
+-I/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/DerivedSources-normal/arm64
+-Xcc
+-I/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/DerivedSources/arm64
+-Xcc
+-I/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/DerivedSources
+-Xcc -DDEBUG\=1 -import-objc-header 
+/Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/Factals-Bridging-Header.h
+-pch-output-dir 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/PrecompiledHeaders
+-pch-disable-validation -module-name Factals -frontend-parseable-output -disable-clang-spi -target-sdk-version 14.5 -target-sdk-name macosx14.5 -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/lib/swift/host/plugins -o 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.o -index-unit-output-path /Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.o -index-store-path 
+/Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Index.noindex/DataStore -index-system-modules

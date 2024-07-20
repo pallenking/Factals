@@ -1409,7 +1409,8 @@ func foo () {
     /// - Parameter from: ---- NSEvent to process
     /// - Parameter vew: ---- The 3D scene Vew to use
 	/// - Returns: Key was recognized
-	func processEvent(nsEvent:NSEvent, inVew pickedVew:Vew) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew pickedVew:Vew?) -> Bool {
+		guard let pickedVew		else {	return false							}
 		var rv					= false
 		if nsEvent.type == .keyDown || nsEvent.type == .keyUp {
 			let kind			= nsEvent.type == .keyUp ? ".keyUp" : ".keyDown"

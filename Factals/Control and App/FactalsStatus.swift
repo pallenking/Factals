@@ -184,12 +184,12 @@ extension FactalsModel : FactalsStatus	{						///FactalsModel
 }
 extension PartBase : FactalsStatus	{								 ///PartBase
 	func ppFactalsState(deapth:Int=999) -> String {
-		let myLine				= ""//factalsModel.rootPartActor.parts === self ? "" : "OWNER:'\(factalsModel!)' BAD "
-		let rown				= curOwner==nil ? "UNOWNED" : "OWNER:'\(curOwner!)'"
 		return ppFactalsStateHelper("PartBase     ", uid:self,
-			myLine:myLine + "parts:\(ppUid(self, showNil:true)) " +
-					"(\(portCount()) Ports) " +
-					"\(rown) dirty:'\(tree.dirty.pp())' " ,
+			myLine: "parts:\(ppUid(self, showNil:true)) " 			+
+					"(\(portCount()) Ports) " 						+
+					"lock=\(semiphore.value ?? -98) " 				+
+					(curOwner==nil ? "UNOWNED," : "OWNER:'\(curOwner!)',") +
+					" dirty:'\(tree.dirty.pp())' "			,
 			deapth:deapth-1)
 	}																			//bug; return "extension Parts : FwStatus needs HELP"	}
 }
@@ -238,27 +238,23 @@ extension Simulator : FactalsStatus	{								///Simulator
 
 extension VewBase : FactalsStatus	{								  ///VewBase
 	func ppFactalsState(deapth:Int=999) -> String {
-//		guard let vews						 else {	return "Vew.vews == nil\n"	}
 		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }
 		guard let slot			= slot,
 		  slot >= 0 && slot < factalsModel.vewBases.count else { fatalError("Bad slot")}
-		let myName				= "VewBase      "
+		assert(factalsModel.vewBases[slot] === self, "vewBases.'\(String(describing: factalsModel))'")
+		assert(self.tree.scn === self.scnBase.tree,  "ERROR .scn !== \(self.tree.scn.pp(.classUid))")
 
-		var myLine				= "\(slot)/\(factalsModel.vewBases.count)] "
-		myLine					+= "LockVal:\(semiphore.value ?? -99) "
-		myLine					+= factalsModel.vewBases[slot] === self ? "" : "OWNER:'\(String(describing: factalsModel))' BAD "
-		myLine					+= curOwner != nil ? "OWNER:\(curOwner!) " : "UNOWNED "
-//		myLine					+= "cameraScn:\(cameraScn?.pp(.uid) ?? "nil") "
-	//	myLine					+= "(\(nodeCount()) total) "
+		let myName				= "VewBase      "
+		var myLine				= "slot\(slot) of \(factalsModel.vewBases.count) "
+		myLine					+= "Lock=\(semiphore.value ?? -99) "
+		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
-		myLine					+= self.tree.scn === self.scnBase.tree ? "" :
-								   "  ERROR .scn !== \(self.tree.scn.pp(.classUid))"
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.selfiePole.ppFactalsState(deapth:deapth-1)
 				rv 				+= self.cameraScn?.ppFactalsState(deapth:deapth-1) ?? ""
-				rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
+			//	rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)

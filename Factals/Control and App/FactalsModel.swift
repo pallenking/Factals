@@ -2,7 +2,7 @@
 
 import SceneKit
 import SwiftUI
-
+extension FactalsModel  : Logd {}
 class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
 
@@ -10,9 +10,8 @@ class FactalsModel : ObservableObject, Uid {
 	var fmConfig  : FwConfig	= [:]
 	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
-//	var vewBase1  :	VewBase		{	vewBases.first ?? }
 
-	var log 					= Log(name:"Model's Log", params4all)
+	var log 					= Log(name:"Model's Log", params4all + 	Factals.logAt(all:docLogN))
 	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 
@@ -41,57 +40,53 @@ class FactalsModel : ObservableObject, Uid {
 		simulator.configure(from:config)
 	}
 	func configureVews(from config:FwConfig) {
+		 // Open Views from config
 		for (key, value) in config {				// params4all
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					addRootVew(vewConfig:vewConfig, fwConfig:config)
+					anotherVewBase(vewConfig:vewConfig, fwConfig:config)
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					addRootVew(vewConfig:vewConfig, fwConfig:config)
+					anotherVewBase(vewConfig:vewConfig, fwConfig:config)
 				}
-				else {
-					panic("Confused wo38r")
-				}
+				else {	panic("Confused wo38r")									}
 			}
 		}
-
-		if vewBases.isEmpty {		// Must have a Vew
-			//atBld(3, warning("no Vew... key, artificially adding Vew"))
-			addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
+		 // Ensure 1 View
+		if vewBases.isEmpty {
+			atBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
+			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
+
+		 // Apply config to all Views
 		for vewBase in vewBases {
 			vewBase.configure(from:config)
 		}
-
-// MOVE TO CREATION
-//		atBld(3, log.logd(rootPartActor.parts?.ppRootPartErrors() ?? ""))
-
-		 //  6. Print Part
-//		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
-		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
-//		simulator.simEnabled	= true
+		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 	}
-	func addRootVew(vewConfig:VewConfig, fwConfig:FwConfig) {
-		atBld(5, log.logd("### ---======= addRootVew\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count))"))
-		let vewBase				= VewBase(for:partBase)		// 1. Make with .null tree
-		vewBase.factalsModel	= self						// 2. Backpointer
-		vewBases.append(vewBase)							// 3. Install
-//		atBld(5, log.logd("---====--- addRootVew(vewConfig:\(vewConfig.pp(.classUid)), fwConfig.count\(fwConfig.count))"))
+	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
+		atBld(5, log.logd("### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):"))
+		let vewBase				= VewBase(for:partBase)
+		vewBase.factalsModel	= self						// Backpointer
+		vewBases.append(vewBase)							// Install
 
-		vewBase.tree.configureVew(from:fwConfig)			// 4. Configure Vew
-		vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
-
-//		tree.dirtySubTree(gotLock:true, .vsp)				// 6. Mark dirty
-		vewBase.updateVewSizePaint(initial:vewConfig)		// 7. Graphics Pipe		// relax to outter loop stuff
-		vewBase.setupLightsCamerasEtc()						// ?move
-
+		vewBase.setupLightsCamerasEtc()
+		vewBase.updateVSP()
+//XXX	updateViews(initial:vewConfig)
+		atBld(5, log.logd("---====--- anotherVewBase() generated \(vewBase.pp(.uidClass)) "))
 		let rootVewPp			= vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"])
-		atBld(5, log.logd("---====--- addRootVew() generated \(vewBase.pp(.uidClass)) "))
-//		atBld(5, log.logd("rootVews[] is complete:\n\(rootVewPp)"))
+		atBld(5, log.logd("\n\(rootVewPp)"))
 	}
+
+
+
+	//	vewBase.tree.configureVew(from:fwConfig)			// 4. Configure Vew
+	//	vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
+	//	vewBase.updateVewSizePaint(initial:vewConfig, logIf:true)
+	//	tree.dirtySubTree(gotLock:true, .vsp)				// 6. Mark dirty
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
 					//		var data : Data? {
@@ -154,13 +149,13 @@ class FactalsModel : ObservableObject, Uid {
     /// - Parameter from: -- NSEvent to process
     /// - Parameter vew: -- The Vew to use
 	/// - Returns: The key was recognized
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-		guard let partBase : PartBase = vew.part.partBase else { return false }	// vew.partBase.part
+		guard let partBase : PartBase = vew?.part.partBase else { return false }	// vew.partBase.part
 		var found				= true
 
 		 // Check Simulator:
-/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
 			return true 					// handled by simulator
 		}
 
@@ -264,19 +259,19 @@ class FactalsModel : ObservableObject, Uid {
 			print("\n******************** 'V': Build the Model's Views:\n")
 			for vews in vewBases {
 				partBase.tree.forAllParts({	$0.markTree(dirty:.vew)			})
-				vews.updateVewSizePaint(for:"FactalsModel 'V'iew key")
+				updateViews()
 			}
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			for vews in vewBases {
 				partBase.tree.forAllParts({	$0.markTree(dirty:.size)		})
-				vews.updateVewSizePaint(for:"FactalsModel si'Z'e key")
+				updateViews()
 			}
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			for vews in vewBases {
 				partBase.tree.forAllParts({	$0.markTree(dirty:.paint)		})
-				vews.updateVewSizePaint(for:"FactalsModel 'P'aint key")
+				updateViews()
 			}
 		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
@@ -314,15 +309,17 @@ bug
 		default:					// // NOT RECOGNIZED // //
 			found			= false
 		}
-		if found == false {
-			 // Check Simulator:
-	/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
-				return true 		// handled by simulator
-			}
-			return false
-		}
-		return true					// comes here if recognized
+		 // already found or sim processes
+		return found || simulator.processEvent(nsEvent:nsEvent, inVew:vew!)
 	}
+//		if found == false {
+//			 // Check Simulator:
+//	/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
+//				return true 		// handled by simulator
+//			}
+//			return false
+//		}
+//		return true					// comes here if recognized
 	 // MARK: - 5.1 Make Associated Inspectors:
 	  /// Manage Inspec's:
 	var lastInspecVew:Vew?		= nil		// Last Vew may be needed again
@@ -410,11 +407,6 @@ bug
 	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
 		print("modelDispatch(fwEvent: to:")
 	}
-
-
-
-
-
 
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
@@ -525,29 +517,82 @@ bug
 //	//		anim.duration = 1
 //	//		node.addAnimation(anim, forKey: nil)
 	}
+	// MARK: - 9 Update Vew: -
+	   /// Update the Vew Tree from Part Tree
+	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
+	 /// - Parameter log: 		-- log the obtaining of locks.
+	func updateViews(initial:VewConfig?=nil, logIf log:Bool=true) { // VIEWS
+		SCNTransaction.begin()
+		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
+//		assert(partBase.curOwner!==nil, "should be locked by now")
+		assert(partBase.lock(for:"partBase"), "failed to get lock")
+
+		 // For ALL Views:
+		for vewBase in vewBases {
+			let lockName			= "vewBase\(vewBase.slot ?? -1234487)"
+//			assert(vewBase.curLockOwner == nil, "should be locked by now 2")
+			guard vewBase   .lock  (for:lockName, logIf:log) else { fatalError("Could not obtain lock '\(lockName)'") }
+
+			vewBase.updateVSP(initial:initial, logIf:log)
+
+			vewBase  .unlock  (for:lockName, logIf:log)
+		}
+//		if vewBases.count == 0 {
+//			atRve(6, log ? logd("updateVewSizePaint(vewConfig: Just to be nice") : nop)
+//		}
+
+		partBase.unlock(for:"partBase")
+		SCNTransaction.commit()
+	}
+
+			//	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
+			//	 ///   (This assures updateVewNScn work)
+			//	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
+			//		guard let vewBase			 	else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
+			//		let partBase			= vewBase.partBase
+			//
+			//		 // Paranoia
+			//		assert(vewBase.tree.name == "_ROOT","Paranoid check: vewBase.name=\(vewBase.tree.name) !=\"_ROOT\"")
+			//		assert(partBase.tree.name == "ROOT","Paranoid check: vews.part.name=\(partBase.tree.name) !=\"ROOT\"")
+			////		assert(tree.children.count == 1, "Paranoid check: parts has \(tree .children.count) children, !=1")
+			//
+			//		 // 1. 	GET LOCKS					// PartTree
+			//		let lockName			= "createVew[\(slot)]"
+			//		guard partBase.lock(for:lockName) else {
+			//			fatalError("createVews couldn't get PART lock")		// or
+			//		}		          					// VewTree
+			//		guard vewBase.lock(for:lockName) else {
+			//			fatalError("createVews  couldn't get VIEW lock")
+			//		}
+			//
+			//
+			//
+			//bug;//	partBase.tree.dirtySubTree(gotLock:true, .vsp)		// DEBUG ONLY
+			//
+			//		 // 2. Update Vew and Scn Tree
+			///**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
+			//		vewBase.setupLightsCamerasEtc()
+			//
+			//		 // Do one, just for good luck
+			////bug;	commitCameraMotion(reason:"to createVewNScn")
+			////		updatePole2Camera(reason:"to createVewNScn")
+			//
+			//		// 7. RELEASE LOCKS for PartTree and VewTree:
+			//		vewBase.unlock(	for:lockName)
+			//		partBase.unlock(for:lockName)
+			//	}
+
 	 // MARK: - 15. PrettyPrint
-//	func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{// CherryPick2023-0520:
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
-bug;		var rv				= ""//(rootPartActor.parts?.pp(.classUid, aux) ?? "parts=nil") + " "
-//			var rv				= (parts?.pp(.classUid, aux) ?? "parts=nil") + " "
-			rv					+= vewBases.pp(.classUid, aux) + " "
-//			if let document {
-//				rv				+= document.pp(.classUid, aux)
-//			}
+			var rv				= "\(partBase.tree.pp(.classUid, aux)) "
+			rv					+= "\(vewBases.count) VewBases "
 			return rv
 		default:
 			return ppFixedDefault(mode, aux)		// NO, try default method
 		}
 	}
-
-
-	func pq(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
-		pp(mode,aux)
-	}
-
-
 	 // MARK: - 17. Debugging Aids
 	var description	  			  : String {	return  "d'\(pp(.short))'"		}
 	var debugDescription 		  : String {	return "dd'\(pp(.short))'"		}

@@ -383,42 +383,42 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 //
 //	}
 
-	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
-	 ///   (This assures updateVewNScn work)
-	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-		guard let vewBase			 	else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
-		let partBase			= vewBase.partBase
-
-		 // Paranoia
-		assert(vewBase.tree.name == "_ROOT","Paranoid check: vewBase.name=\(vewBase.tree.name) !=\"_ROOT\"")
-		assert(partBase.tree.name == "ROOT","Paranoid check: vews.part.name=\(partBase.tree.name) !=\"ROOT\"")
-//		assert(tree.children.count == 1, "Paranoid check: parts has \(tree .children.count) children, !=1")
-
-		 // 1. 	GET LOCKS					// PartTree
-		let lockName			= "createVew[\(slot)]"
-		guard partBase.lock(for:lockName) else {
-			fatalError("createVews couldn't get PART lock")		// or
-		}		          					// VewTree
-		guard vewBase.lock(for:lockName) else {
-			fatalError("createVews  couldn't get VIEW lock")
-		}
-
-
-
-bug;//	partBase.tree.dirtySubTree(gotLock:true, .vsp)		// DEBUG ONLY
-
-		 // 2. Update Vew and Scn Tree
-/**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-		vewBase.setupLightsCamerasEtc()
-
-		 // Do one, just for good luck
-//bug;	commitCameraMotion(reason:"to createVewNScn")
-//		updatePole2Camera(reason:"to createVewNScn")
-
-		// 7. RELEASE LOCKS for PartTree and VewTree:
-		vewBase.unlock(	for:lockName)
-		partBase.unlock(for:lockName)
-	}
+//	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
+//	 ///   (This assures updateVewNScn work)
+//	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
+//		guard let vewBase			 	else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
+//		let partBase			= vewBase.partBase
+//
+//		 // Paranoia
+//		assert(vewBase.tree.name == "_ROOT","Paranoid check: vewBase.name=\(vewBase.tree.name) !=\"_ROOT\"")
+//		assert(partBase.tree.name == "ROOT","Paranoid check: vews.part.name=\(partBase.tree.name) !=\"ROOT\"")
+////		assert(tree.children.count == 1, "Paranoid check: parts has \(tree .children.count) children, !=1")
+//
+//		 // 1. 	GET LOCKS					// PartTree
+//		let lockName			= "createVew[\(slot)]"
+//		guard partBase.lock(for:lockName) else {
+//			fatalError("createVews couldn't get PART lock")		// or
+//		}		          					// VewTree
+//		guard vewBase.lock(for:lockName) else {
+//			fatalError("createVews  couldn't get VIEW lock")
+//		}
+//
+//
+//
+//bug;//	partBase.tree.dirtySubTree(gotLock:true, .vsp)		// DEBUG ONLY
+//
+//		 // 2. Update Vew and Scn Tree
+///**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
+//		vewBase.setupLightsCamerasEtc()
+//
+//		 // Do one, just for good luck
+////bug;	commitCameraMotion(reason:"to createVewNScn")
+////		updatePole2Camera(reason:"to createVewNScn")
+//
+//		// 7. RELEASE LOCKS for PartTree and VewTree:
+//		vewBase.unlock(	for:lockName)
+//		partBase.unlock(for:lockName)
+//	}
 }
 
  // Kinds of Nodes
@@ -430,68 +430,56 @@ enum FwNodeCategory : Int {
 }
 
 extension ScnBase : SCNSceneRendererDelegate {
+	private func doLocked(name:String, work:(_:VewBase)->Void) {
+		guard let factalsModel	= self.vewBase?.factalsModel else { return 		}
+		guard factalsModel.partBase  .lock  (for:name, logIf:false)
+								else {fatalError(" couldn't get PART lock")}
+			 // Copy changes to all Views:
+		for (i, vewBase) in factalsModel.vewBases.enumerated() {
+			let label		= "\(name)[\(i)]"
+			let _			= vewBase.lock(for:label)// //
+														 //
+				work(vewBase)							  //>-0
+														 //
+			vewBase.unlock(for:label)		// //////////
+		}
+			 // Clear change bits:
+		factalsModel.partBase.tree.forAllParts { part in part.dirty	= .clean }
+		factalsModel.partBase.unlock(for:name)
+	}
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 			guard let tree		= self.tree	else { return						}
-			guard let factalsModel = self.vewBase?.factalsModel	else { 	return	}
-			guard factalsModel.partBase .lock (for:"updateAtTime", logIf:false) else {fatalError(" couldn't get PART lock")}
-			atRsi(8, tree.logd("\n<><><> 9.5.1: STARTING Update At Time       -> updateVewSizePaint"))
-
-			for vewBase in factalsModel.vewBases {
-				let label		= "updateAtTime\(vewBase.slot)"
-				let _			= vewBase.lock(for:label)
-				vewBase.updateVewSizePaint(logIf:true)								//false//true//needsLock:"renderLoop",
-				vewBase.unlock(for:label)
-				atRsi(8, tree.logd("<><><> 9.5.1: ENDING ###### \(self.pp(.classUid)) Update At Time -> updateVewSizePaint"))
+			self.doLocked(name:"A_update") { vewBase in
+				vewBase.updateVSP()
+				//vewBase.factalsModel.updateViews(logIf:true)					//false//true//needsLock:"renderLoop",
 			}
-
-			factalsModel.partBase.tree.forAllParts { part in part.dirty	= .clean }
-			factalsModel.partBase.unlock(for:"updateAtTime")
-			atRsi(8, tree.logd("<><><> 9.5.1: ENDING   Update At Time       -> updateVewSizePaint"))
 		}
 	}
+
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
-//		DispatchQueue.main.async {
-//			guard let tree		= self.tree	else { return						}
-//			atRsi(8, self.tree.logd("<><><> 9.5.2: Did Apply Animations -> computeLinkForces"))
-//			let rVew			= self.vews!
-//			rVew .lockBoth("didApplyAnimationsAtTime")
-////			rVew .part.computeLinkForces(vew:rVew)
-//			rVew .unlockBoth("didApplyAnimationsAtTime")
-//		}
+		DispatchQueue.main.async {
+			self.doLocked(name:"B_animations") { vewBase in
+				vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
+			}
+		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
-//		DispatchQueue.main.async {
-//			guard let tree		= self.tree	else { return						}
-//			atRsi(8, self.tree.logd("<><><> 9.5.3: Did Simulate Physics -> applyLinkForces"))
-//			let rVew			= self.vews!
-//			rVew.lockBoth("didSimulatePhysicsAtTime")
-////			rVew.part.applyLinkForces(vew:rVew)
-//			rVew.unlockBoth("didSimulatePhysicsAtTime")
-//		}
-	}
-	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async {
-			guard let tree		= self.tree	else { return						}
-			atRsi(8, tree.logd("<><><> 9.5.4: Will Render Scene    -> rotateLinkSkins"))
-			let vewBase			= self.vewBase!
-			vewBase.lock(for: "willRenderScene")
-			vewBase.partBase.tree.rotateLinkSkins(vew:vewBase.tree)
-			vewBase.unlock(for: "willRenderScene")
-//
-//bug//("why not?")
-//
+			self.doLocked(name: "C_physics") {vewBase in
+				vewBase.factalsModel.partBase.tree.applyLinkForces(vew:vewBase.tree)
+			}
 		}
 	}
-	   // ODD Timing:
-//	func renderer(_ r:SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-//		atRsi(8, self.tree.logd("<><><> 9.5.@: ScnBase Rendered -- NOP"))
-//	}
-//	func renderer(_ r:SCNSceneRenderer, didApplyConstraintsAtTime atTime: TimeInterval) {
-//		atRsi(8, self.tree.logd("<><><> 9.5.*: Constraints Applied -- NOP"))
-//	}
+	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
+	//	DispatchQueue.main.async {
+	//		self.doLocked(name:"D_render") {vewBase in
+	//			vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
+	//		}
+	//	}
+	}
 	 // MARK: - 13. IBActions
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
 		guard let vewBase 		= vewBase else { print("processEvent.rootVews[?] is nil"); return false}
 		let slot				= vewBase.slot ?? -1

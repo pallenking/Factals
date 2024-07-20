@@ -24,10 +24,9 @@ extension FactalsDocument {
 	static var writableContentTypes: [UTType] { [.factals] }
 }
 
-extension FactalsDocument : Uid {
+extension FactalsDocument : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		let log					= self.factalsModel.log
-		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		factalsModel.log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
 //class FactalsDocument : ReferenceFileDocument {
@@ -75,15 +74,17 @@ struct FactalsDocument : FileDocument {
 		partBase.wireAndGroom([:])
 
 		 // 3. Vews
-			/*		How to configure?
-			1.	partBase.ansConfig 				[selfiePole:[:2 elts]]
-			2.	pt factalsModel.fmConfig		[]
-			3.	pt params4pp					[ppNCols4VewPosns:20,
-												 ...
-												 ppNNameCols:8,
-												 ppLinks:false]
-			 */
+		/*		How to configure?
+			1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
+			2.	pt factalsModel.fmConfig	xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
+			3.	pt params4pp							[ppNCols4VewPosns:20,
+														 ...
+														 ppNNameCols:8,
+														 ppLinks:false]
+		 */
 		factalsModel.configureVews(from:c)
+		factalsModel.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+		factalsModel.simulator.simEnabled	= true
 	}
 
 	 // Document supplied
@@ -179,34 +180,10 @@ bug;//	throw FwError(kind:".fileWriteUnknown")
 		return false // ofType == "public.plain-text"
 	}
 
-	 // MARK: - 5 Groom
-	//https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit
-//	func registerWithDocController() { bug
-//		if !DOCctlr.documents.contains(self) {
-//			DOCctlr.addDocument(self)	// we install ourselves!!!				//makeWindowControllers() /// VERY SUSPECT -- 210507PAK:makes 2'nd window
-//			showWindows()				// The nib should be loaded by here
-//		}
-//	}
-//	func makeWindowControllers() 		{	 bug								}
-
-//	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
-//		print("modelDispatch(fwEvent: to:")
-//	}
-
-//	func windowControllerDidLoadNib(_ windowController:NSWindowController) {
-//	//	updateDocConfigs(from:partBase.ansConfig)	// This time including rootScn
-//	//			// Build Views:
-//		rootScn.updateVews(fromRootPart:parts, reason:"InstallRootPart")
-//		displayName				= partBase.title
-//		window0?.title			= displayName									//makeInspectors()
-//		makeInspectors()
-//		parts.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
-//	}
-
 	// MARK: - 14. Building
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-bug//	factalsModel.log.log(banner:banner, format_, args, terminator:terminator)
-	}
+//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+//bug//	factalsModel.log.log(banner:banner, format_, args, terminator:terminator)
+//	}
 	
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

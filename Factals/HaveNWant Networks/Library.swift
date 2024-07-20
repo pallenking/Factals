@@ -83,11 +83,10 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	var debugDescription : String	{	return "dd'\(fwClassName) \(fileName)'"	}
 	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
 }
-extension Library : Uid {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
-		//let log				= FACTALSMODEL!.log
-	}
+extension Library : Logd {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+//		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+//	}
 }
 
 	/// Create FwConfig for Logging

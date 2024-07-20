@@ -24,7 +24,8 @@ struct VewBar: View {
 //				}
 			}
 			HStack {
-				if let slot		= vewBase.slot {	// Installed?
+				if let slot		= vewBase.slot, 	// Installed?
+				  let factalsModel	= vewBase.factalsModel {
 					Text("Vew").foregroundColor(.red).bold()
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
@@ -39,17 +40,17 @@ struct VewBar: View {
 					Button(label:{	Text("View")								})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})
-						vewBase.updateVewSizePaint(for:"VewBar V-key")
+						factalsModel.updateViews()
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
-						vewBase.updateVewSizePaint(for:"VewBar V-key")
+						factalsModel.updateViews()
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
-						vewBase.updateVewSizePaint(for:"VewBar V-key")
+						factalsModel.updateViews()
 					}
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
 					{	var s	= vewBase.selfiePole

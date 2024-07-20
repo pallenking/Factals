@@ -101,11 +101,11 @@ func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
 
  // Print SwiftFactal help from lldb
 func fwHelp(_ key:String="?", inVew vew:Vew?) {
-	sendApp(key:key, inVew:vew!)
+	sendApp(key:key, inVew:vew)
 }
  // Send a key to controller:
-func sendApp(key:String="?", inVew vew:Vew) {
-	if let fm				= vew.vewBase()?.factalsModel,
+func sendApp(key:String="?", inVew vew:Vew?) {
+	if let fm				= vew?.vewBase()?.factalsModel,
 	   let ginnedUpEvent	= NSEvent.keyEvent(
 			with			: .keyDown, //NSEvent.EventType(rawValue: 10)!,//keyDown,
 			location		: NSZeroPoint,

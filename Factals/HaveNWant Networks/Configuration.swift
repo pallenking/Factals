@@ -10,7 +10,6 @@ import SceneKit
   // MARK: - External linkage
  /// Initial Parameters for configuration:
 var params4all		: FwConfig		= {	return 
-	Factals.logAt(all:sharedLogN) + 
 	params4app		+
 	params4appLog	+
 	params4pp		+	//
@@ -34,9 +33,8 @@ var params4all		: FwConfig		= {	return
    // MARK: - B: Parameters App logging
   // Controls logging of the Application
  // Terms in FilterLog.swift
-let appLogN						= 7//0//5//8//
-let docLogN						= 7//0//5//8//
-let sharedLogN					= 7//0//1//
+let appLogN						= 7//5//8//
+let docLogN						= 7//5//8//
  // This must contain NO log statements!
 
 private let params4appLog		= params4pp + params4logs_
@@ -100,7 +98,7 @@ private let params4docLog		= params4pp + params4logs_
 								// + +  + +
 		"breakAtLogger"			: 1,
 								// + +  + +
-		"breakAtEvent"			:  150//-54,//240/3/0:off
+		"breakAtEvent"			: -54//150//-54,//240/3/0:off
 
 	]
 

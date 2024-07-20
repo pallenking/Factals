@@ -179,7 +179,7 @@ bug;	return rv
 	}
 
 	// MARK: - 13. IBActions
-	override func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	override func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false }
 
 		 /* Single Step */				// //// key DOWN ///////

@@ -5,19 +5,15 @@
 
 import SceneKit
 //xxx Logger()
-extension Log : Uid { }
-extension Log : Logd { 
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
-	}
-}
+//extension Log : Uid { }
+extension Log : Logd { }
 
 class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 
 	 // MARK: - 1. Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
-	static var app				= Log(name:"App Log", Factals.logAt(all:sharedLogN))
+	static var app				= Log(name:"App Log", params4all + 	Factals.logAt(all:appLogN))
 
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
@@ -99,9 +95,6 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		}
 		return ""
 	}
-//	static func pp(filter:String?, priority:Int?) -> String {
-//		return (filter ?? "f=0") + (priority == nil ? "-" : String(priority!))
-//	}
 
 	var simTimeLastLog	:Float? = -1//nil
 	var logTime			: Bool	= true
@@ -219,7 +212,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 
 		 // Print new Log, if it has changed:
- 		if logNo != Log.currentLogNo {						// Same as last time
+ 		if logNo != Log.currentLogNo {						// different than last time
 			Log.currentLogNo	= logNo							// switch to new
 			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
 										//	//	var x	LOG			= "33".pp(.line) ?? "nil"// GOOD
@@ -253,7 +246,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		}
 		print(newLines + fmt("%d.%03d%@", logNo, eventNumber, rv), terminator:terminator ?? "\n" )
 
-		 // Breakpoint Stop?
+		 // Breakpoint Stop?			// p (breakAtLogger, logNo, breakAtEvent, eventNumber)
 		if breakAtLogger == logNo,
 		   breakAtEvent == eventNumber {
 			panic("Encountered Break at Event \(breakAtEvent) in Log \(breakAtLogger).")

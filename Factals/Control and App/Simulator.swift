@@ -165,7 +165,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	   /// - Parameter from: -- NSEvent to process
 	  ///  - Parameter vew:         -- The Vew to use
 	 ///   - Returns: Key was recognized
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
 			return false						// Simulator has no key-ups
 		}

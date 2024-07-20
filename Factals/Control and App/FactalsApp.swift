@@ -286,7 +286,7 @@ bug
 //			factalsModel.setRootPart(partBase:partBase)
 //
 //			 // Make a default window
-//			factalsModel.addRootVew(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
+//			factalsModel.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
 //	
 //			 // --------------- C: FactalsDocument
 //bug;			let c				= /*doc.config +*/ partBase.ansConfig

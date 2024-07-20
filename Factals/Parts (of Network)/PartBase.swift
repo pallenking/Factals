@@ -45,7 +45,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
-//			self.title			= "'\(selector ?? "nil")' -> \(answer.testNum):\(lib.fileName).\(answer.lineNumber!)"
+			self.title			= "oqiuqq08uyqwfd"//'\(selector ?? "nil")' -> \(answer.testNum):\(lib.fileName).\(answer.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
 
 /* */		tree				= hnwMachine.trunkClosure?() ?? Part()
@@ -133,7 +133,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	 // Serialize 					// po container.contains(.name)
 	/*override*/ func encode(to encoder: Encoder) throws  {
 		 // Massage Part Tree, to make it
-		makeSelfCodable("writePartTree")		//readyForEncodable
+		makeSelfCodable(neededLock:"writePartTree")		//readyForEncodable
 
 bug		//try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
@@ -199,8 +199,8 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
-	func makeSelfCodable(_ msg:String?=nil) {		// was readyForEncodable
-		guard msg == nil || lock(for:msg!) else { fatalError("'\(msg!)' couldn't get PART lock") }
+	func makeSelfCodable(neededLock:String?=nil) {		// was readyForEncodable
+		guard neededLock == nil || lock(for:neededLock!) else { fatalError("'\(neededLock!)' couldn't get PART lock") }
 
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
@@ -210,13 +210,13 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
 		atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:""))
 	}
-	func makeSelfRunable(_ msg:String?=nil) {		// was recoverFromDecodable
+	func makeSelfRunable(_ releaseLock:String?=nil) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
 bug		//groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
-		msg == nil ? nop : unlock(for:msg)	// ---- 3. UNLOCK for PartTree
+		releaseLock == nil ? nop : unlock(for:releaseLock)	// ---- 3. UNLOCK for PartTree
 	}
 	func polyWrapChildren() {
 bug
@@ -338,12 +338,11 @@ bug
 
 		 /// === Get partTree lock:
 /**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
-//**/	while partTreeLock.wait(timeout:.distantFuture) != .success {
 			 // === ///// FAILED to get lock:
 			let val0		= semiphore.value ?? -99
 			let msg			= "\(ownerNId)      FAILED Part LOCK v:\(val0)"
 			wait  			? atBld(4, logd(" //######\(msg)")) :
-			verboseLocks ? atBld(4, logd(" //######\(msg)")) :
+			   verboseLocks ? atBld(4, logd(" //######\(msg)")) :
 							  nop
 			panic(msg)	// for debug only
 			return false

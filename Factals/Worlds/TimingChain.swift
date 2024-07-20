@@ -402,7 +402,7 @@ class TimingChain : Atom {
 	}
 
 	 // MARK: - 13. IBActions
-	override func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	override func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		if nsEvent.type == .keyDown {		// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {

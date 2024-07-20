@@ -179,6 +179,7 @@ class Tests01 : Book {
 		let eAnim    : FwConfig	= e + ["animatePhysics":true]
 		let eW2		 : FwConfig = ["Vews":[VewConfig.openAllChildren(toDeapth:4),
 										   VewConfig.openAllChildren(toDeapth:6)],]
+		let eW2x	 : FwConfig = [:]
 		let eW3		 : FwConfig = ["Vew0":VewConfig.openAllChildren(toDeapth:4),
 								   "Vew1":VewConfig.openAllChildren(toDeapth:2),
 								   "Vew2":VewConfig.openAllChildren(toDeapth:0)]
@@ -904,7 +905,7 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xr("- Multiple SCNViews", e + eW2 + selfiePole(h:0,s:10,u:10,z:1) +
+	 xr("- Multiple SCNViews", e + eW2x + selfiePole(h:0,s:10,u:10,z:1) +
 	 		velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 		Hamming([n:"c", f:1]),	//, share:["z"]
  		Mirror( [P:"c", f:1]),	// X+

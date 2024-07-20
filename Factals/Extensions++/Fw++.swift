@@ -1206,7 +1206,6 @@ extension String {
 	}
 }
 
-
 protocol Logd: FwAny, Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?)
 }
@@ -1222,14 +1221,7 @@ extension Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()	// trailing \n's become leading \n's
-
-//		var aaa					= pp(.fullName)
-//		if let selfIsPart		= self as? Part {
-//			aaa					= selfIsPart.pp(.fullName)
-//		}
-//		let bbb					= aaa.field(-25)
-		let str					= nls + msg2	//-nFullN uidClass
-//		let str					= nls + pp(.uidClass).field(-28) + msg2	//-nFullN uidClass
+		let str					= nls + msg2					//-nFullN uidClass
 		Log.app.log(str, terminator:terminator)
 	}
 }

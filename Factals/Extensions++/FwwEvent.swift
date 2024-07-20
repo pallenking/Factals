@@ -22,12 +22,12 @@ BTAction
 import SceneKit
 
 protocol ProcessNsEvent {
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool
 }
 
 extension ScnBase			: ProcessNsEvent {}
 extension VewBase				: ProcessNsEvent {
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew) -> Bool {
+	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 	}
 }
