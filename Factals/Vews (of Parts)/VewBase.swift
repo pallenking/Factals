@@ -15,7 +15,11 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	 var factalsModel :  FactalsModel!		// Owner
 
 	@Published var selfiePole	= SelfiePole()
- 	var cameraScn	: SCNNode?	{ scnBase.tree?.find(name:"*-camera", maxLevel:1) }
+// 	var cameraScnB	: SCNNode?	{
+// 	}
+ 	var cameraScn	: SCNNode?	{
+ 		scnBase.tree?.find(name:"*-camera", maxLevel:1)
+	}
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
 	 // Locks
@@ -122,10 +126,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 		 // update name/state BEFORE signals
 		prevOwner 			= curLockOwner
-		curLockOwner 			= nil
+		curLockOwner 		= nil
 
-		 // Unlock View's DispatchSemaphore:
-		semiphore.signal()
+		semiphore.signal()				 // Unlock View's DispatchSemaphore:
 
 		if debugOutterLock && logIf {
 			let val0		= semiphore.value ?? -99

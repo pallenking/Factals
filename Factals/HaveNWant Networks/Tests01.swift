@@ -905,7 +905,7 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xr("- Multiple SCNViews", e + eW2x + selfiePole(h:0,s:10,u:10,z:1) +
+	 xxr("- Multiple SCNViews", e + eW2x + selfiePole(h:0,s:10,u:10,z:1) +
 	 		velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 		Hamming([n:"c", f:1]),	//, share:["z"]
  		Mirror( [P:"c", f:1]),	// X+
@@ -1039,7 +1039,7 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xxr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0)
+xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0)
 	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
 	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
 	Mirror([n:"t1", f:1, P:"t2,l:4" ]),

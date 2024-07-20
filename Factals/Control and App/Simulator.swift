@@ -53,9 +53,8 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		if let tStep			= c.float("timeStep") {
 			timeStep 			= tStep
 		}
-//		logSimLocks				= c.bool("logSimLocks") ?? false
 		if let pst				= c.bool("logSimLocks") {
-			logSimLocks	 		= pst
+			logSimLocks	 		= pst		// unset (not reset) if not present
 		}
 	}
 																		
@@ -139,20 +138,22 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		startSimulationTask()		// reStartSimulationTask
 	}
 	func simulateOneStep() {
-		guard simBuilt		else {	return panic("calling for simulationTask() before simBuilt") }
-		guard simEnabled	else {	return 										}
-		guard let parts = factalsModel?.partBase	else {	return					}
-		guard parts.lock(for:"simulationTask", logIf:logSimLocks)
-							else {	fatalError("simulationTask couldn't get PART lock")	}
+		guard simBuilt			else {	return panic("calling for simulationTask() before simBuilt") }
+		guard simEnabled		else {	return 									}
+		guard let partBase 		= factalsModel?.partBase else {	return			}
 
-	/**/	parts.tree.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
+		guard partBase  .lock  (for:"simulationTask", logIf:logSimLocks)
+								else {	fatalError("simulationTask couldn't get PART lock")	}
+
+	/**/	partBase.tree.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
 
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= timeStep
 			if startChits > 0 {			// Clear out start cycles
 				startChits		-= 1
 			}
-		parts.unlock(for:"simulationTask", logIf:logSimLocks)
+
+		partBase .unlock (for:"simulationTask", logIf:logSimLocks)
 	}
 	// MARK: - 14. Building
 	var log : Log {	factalsModel?.log ?? { fatalError("factalsModel nil in Simulator")}()}

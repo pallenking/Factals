@@ -79,7 +79,7 @@ extension ScnBase {		// lights and camera
 	 coords:          |                |					getModelViewMatrix()
 				\ ∏ Tmodel i/    trans = cameraScn.transform
 				 \  Matrix /           |
-	world    =====    v   =============*============ WORLD		[x, y, z, 1]
+	world    =====    v   =============*============ WORLD			[x, y, z, 1]
 	 coords:          |
 			   \ trans.inverse /
 				\   Matrix    /
@@ -87,7 +87,7 @@ extension ScnBase {		// lights and camera
 	 coords:          |
 				\ PROJECTION /
 				 \  Matrix  /pm
-	clip     ======   v    ========================= ?        	[x, y, 1]
+	clip     ======   v    ========================= ?        		[x, y, 1]
 	 coords:          |
 				\ Perspective/         (not used)
 				 \ division /

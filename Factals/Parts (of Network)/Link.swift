@@ -299,7 +299,7 @@ class Link : Atom {
 			case .dual:
 				 // Add a 1-pixel wide line -- for UNIT skin
 				let sRay		= SCNNode(geometry:SCNGeometry.lines(lines:[0,1], withPoints:[.zero, -.uZ]))
-				sRay.name		= "s-Ray"
+				sRay.name		= "s-Dual"//"s-Ray"
 				sRay.color0		= .black
 				sLink.addChild(node:sRay)
 
@@ -417,21 +417,21 @@ class Link : Atom {
 	 // Position one Link Ports, from its [ps]EndV
 	override func rePosition(portVew:Vew)	{
 bug	// Never USED?
-//		guard let port			= portVew.part as? Port,	// All Link's children should be Ports
-//		  let parentLinkVew		= portVew.parent as? LinkVew else {
-//			panic("rePosition(portVew is confused");	return					}
-//
-//		for (portStr, endVip) in [	("P", parentLinkVew.pEndVip),		// Both Ends
-//									("S", parentLinkVew.sEndVip) ] {
-//			if port == ports[portStr] {
-//				guard let p		= endVip else {
-//					atRsi(3, warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil"))
-//					continue
-//				}
-//				portVew.scn.position = p
-//				atRsi(8, logd("<><> L 9.4\(portStr):  = \(p)"))
-//			}
-//		}
+		guard let port			= portVew.part as? Port,	// All Link's children should be Ports
+		  let parentLinkVew		= portVew.parent as? LinkVew else {
+			panic("rePosition(portVew is confused");	return					}
+
+		for (portStr, endVip) in [	("P", parentLinkVew.pEndVip),		// Both Ends
+									("S", parentLinkVew.sEndVip) ] {
+			if port == ports[portStr] {
+				guard let p		= endVip else {
+					atRsi(3, warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil"))
+					continue
+				}
+				portVew.scn.position = p
+				atRsi(8, logd("<><> L 9.4\(portStr):  = \(p)"))
+			}
+		}
 	}
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
