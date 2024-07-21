@@ -93,12 +93,12 @@ private let params4docLog		= params4pp + params4logs_
 
 	private let params4logs_	: FwConfig = [
 		"debugPreLog"		: true,		// Debug setting of logs before there is a Log ()
-		"debugOutterLock"	: false,	//true//false// Helpful logging, quite noisy
+		"debugOutterLock"	: false, 	//true//false// Helpful logging, quite noisy
 			 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
 		"breakAtLogger"			: 1,
 								// + +  + +
-		"breakAtEvent"			: -41//150//-54,//240/3/0:off
+		"breakAtEvent"			: 47//150//-54,//240/3/0:off
 
 	]
 

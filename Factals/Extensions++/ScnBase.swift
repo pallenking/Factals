@@ -409,7 +409,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 //
 //		 // 2. Update Vew and Scn Tree
 ///**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-//		vewBase.setupLightsCamerasEtc()
+//		vewBase.setupSceneVisuals()
 //
 //		 // Do one, just for good luck
 ////bug;	commitCameraMotion(reason:"to createVewNScn")
@@ -430,13 +430,13 @@ enum FwNodeCategory : Int {
 }
 
 extension ScnBase : SCNSceneRendererDelegate {
-	private func doLocked(name:String, work:(_:VewBase)->Void) {
+	private func doPartNViewsLocked(workNamed:String, work:(_:VewBase)->Void) {
 		guard let factalsModel	= self.vewBase?.factalsModel else { return 		}
-		guard factalsModel.partBase  .lock  (for:name, logIf:false)
+		guard factalsModel.partBase  .lock  (for:workNamed, logIf:false)
 								else {fatalError(" couldn't get PART lock")}
 			 // Copy changes to all Views:
 		for (i, vewBase) in factalsModel.vewBases.enumerated() {
-			let label		= "\(name)[\(i)]"
+			let label		= "\(workNamed)[\(i)]"
 			let _			= vewBase.lock(for:label)// //
 														 //
 				work(vewBase)							  //>-0
@@ -445,12 +445,12 @@ extension ScnBase : SCNSceneRendererDelegate {
 		}
 			 // Clear change bits:
 		factalsModel.partBase.tree.forAllParts { part in part.dirty	= .clean }
-		factalsModel.partBase.unlock(for:name)
+		factalsModel.partBase.unlock(for:workNamed)
 	}
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
-			guard let tree		= self.tree	else { return						}
-			self.doLocked(name:"A_update") { vewBase in
+			//guard let tree		= self.tree	else { return						}
+			self.doPartNViewsLocked(workNamed:"A_update") { vewBase in
 				vewBase.updateVSP()
 				//vewBase.factalsModel.updateViews(logIf:true)					//false//true//needsLock:"renderLoop",
 			}
@@ -459,21 +459,21 @@ extension ScnBase : SCNSceneRendererDelegate {
 
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
-			self.doLocked(name:"B_animations") { vewBase in
+			self.doPartNViewsLocked(workNamed:"B_animations") { vewBase in
 				vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
-			self.doLocked(name: "C_physics") {vewBase in
+			self.doPartNViewsLocked(workNamed: "C_physics") {vewBase in
 				vewBase.factalsModel.partBase.tree.applyLinkForces(vew:vewBase.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 	//	DispatchQueue.main.async {
-	//		self.doLocked(name:"D_render") {vewBase in
+	//		self.doPartNViewsLocked(name:"D_render") {vewBase in
 	//			vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
 	//		}
 	//	}

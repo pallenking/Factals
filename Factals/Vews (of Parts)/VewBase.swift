@@ -49,7 +49,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		selfiePole.configure(from:from)
 	}
 	// MARK: -
-	func setupLightsCamerasEtc() {
+	func setupSceneVisuals() {
 
 		 // 3. Add Lights, Camera and SelfiePole
 		scnBase.checkLights()
@@ -84,12 +84,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		guard let neededLockName else	{	return true		/* no lock needed */		}
 
 		let ownerNId		= ppUid(self) + " '\(neededLockName)'".field(-20)
-		atRve(3, {
-			let val0		= semiphore.value ?? -99	/// (wait if <=0)
-			if logIf && debugOutterLock {
-				logd("//#######\(ownerNId):     GET Vew  LOCK: v:\(val0)" )
-			}
-		}() )
+		if logIf && debugOutterLock {
+			atRve(3, logd("//#######\(ownerNId):     GET Vew  LOCK: v:\(semiphore.value ?? -99)" ))
+		}
 
 		 // === Get trunkVew DispatchSemaphore:
 		while semiphore.wait(timeout:.now() + .seconds(10)) != .success {		//.distantFuture
@@ -103,10 +100,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		 // === Succeeded:
 		assert(curLockOwner==nil, "'\(neededLockName)' attempting to lock, but '\(curLockOwner!)' still holds lock ")
 		curLockOwner 		= neededLockName
-		atRve(3, {						/// AFTER GETTING:
-			let val0		= semiphore.value ?? -99
-			!logIf ? nop : logd("//#######" + ownerNId + "      GOT Vew  LOCK: v:\(val0)")
-		}())
+		if logIf  {						/// AFTER GETTING:
+			atRve(3, logd("//#######" + ownerNId + "      GOT Vew  LOCK: v:\(semiphore.value ?? -99)"))
+		}
 		return true
 	}
 	/// Release DispatchSemaphor for Vew Tree
@@ -118,11 +114,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		assert(curLockOwner != nil, "releasing VewTreeLock but 'rootVewOwner' is nil")
 		assert(curLockOwner == neededLockName, "Releasing (as '\(neededLockName)') Vew lock owned by '\(curLockOwner!)'")
 		let u_name			= ppUid(self) + " '\(curLockOwner!)'".field(-20)
-		atRve(3, {
-			let val0		= semiphore.value ?? -99
-			let msg			= "\(u_name)  RELEASE Vew  LOCK: v:\(val0)"
-			!logIf ? nop	: logd("\\\\#######\(msg)")
-		}())
+		if logIf {
+			atRve(3, logd("\\\\#######\(u_name)  RELEASE Vew  LOCK: v:\(semiphore.value ?? -99)"))
+		}
 
 		 // update name/state BEFORE signals
 		prevOwner 			= curLockOwner
@@ -178,9 +172,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
-			//pRoot.computeLinkForces(vew:vRoot)	// Compute Forces (.force == 0 initially)
-			//pRoot  .applyLinkForces(vew:vRoot)	// Apply   Forces (zero out .force)
-			partsTree .rotateLinkSkins (vew:tree)		// Rotate Link Skins
+			partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
+			partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
+			partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
 
 		}
 	}

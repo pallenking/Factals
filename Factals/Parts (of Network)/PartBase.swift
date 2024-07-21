@@ -35,7 +35,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var curOwner  : String?		= nil
 	var prevOnwer : String?		= nil
-	var verboseLocks			= true
+	var verboseLocks			= true//false//
 
 	// MARK: - 3. Part Factory
 	init(tree t:Part) {
@@ -97,13 +97,13 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 			}
 		}
 
-//		 //  5. Print Errors
-// 		atBld(3, logd(ppRootPartErrors()))
-//
-//		 //  6. Print Part
-//		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
-//
-//		simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+		 //  5. Print Errors
+ 		atBld(3, logd(ppRootPartErrors()))
+
+		 //  6. Print Part
+		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(factalsModel!.simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+
+		factalsModel!.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
 		title					+= " (\(portCount()) Ports)"
@@ -160,7 +160,7 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 
 		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
 
-		makeSelfRunable()		// (no unlock)
+		makeSelfRunable("help")		// (no unlock)
 	}
 	 // MARK: - 3.5.1 Data
 	var data : Data? {
@@ -200,7 +200,7 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	func makeSelfCodable(neededLock:String) {		// was readyForEncodable
-		//guard neededLock == nil || lock(for:neededLock!) else { fatalError("'\(neededLock!)' couldn't get PART lock") }
+		guard lock(for:neededLock) else { fatalError("'\(neededLock)' couldn't get PART lock") }
 
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
@@ -210,13 +210,13 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
 		atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:""))
 	}
-	func makeSelfRunable(_ releaseLock:String?=nil) {		// was recoverFromDecodable
+	func makeSelfRunable(_ releaseLock:String) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
 bug		//groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
-		releaseLock == nil ? nop : unlock(for:releaseLock)	// ---- 3. UNLOCK for PartTree
+		unlock(for:releaseLock)
 	}
 	func polyWrapChildren() {
 bug
@@ -326,23 +326,18 @@ bug
 		guard let owner else {	return true 									}
 		let ownerNId			= ppUid(self) + " '\(owner)'".field(-20)
 								
-		atBld(3, {					// === ///// BEFORE GETTING:
-			let val0			= semiphore.value ?? -99
-			let msg				= " //######\(ownerNId)      GET Part LOCK: v:\(val0)"
-			 // Log:
-//			if logIf && debugOutterLock { 		 		// less verbose
-//				if val0 <= 0 {
-//					msg			+= atBld(4, logd(msg +  ", OWNER:'\(curOwner ?? "-")', PROBABLE WAIT..."))
-//				}
-//			 	msg				+=  verboseLocks ? atBld(4, logd(msg))// normal
-//			}
-
-//			!logIf || !debugOutterLock ? nop 		 		// less verbose
-//			 :				 val0 <= 0 ? atBld(4, logd(msg +  ", OWNER:'\(curOwner ?? "-")', PROBABLE WAIT..."))
-//			 : 		   verboseLocks ? atBld(4, logd(msg))// normal
-//			 : 		   					 nop			 	// silent
-		}())
-								//
+		if logIf && debugOutterLock { 		 		// less verbose
+			atBld(4, {					// === ///// BEFORE GETTING, Log:
+				let val0		= semiphore.value ?? -99
+				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(val0)"
+				if val0 <= 0 {							// Blocked, always print if verb
+					logd(msg +  ", OWNED BY:'\(curOwner ?? "-")', PROBABLE WAIT...")
+				}
+				else if verboseLocks {
+			 		logd(msg)
+				}
+			}())
+		}
 		 /// === Get partTree lock:
 /**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
 			 // === ///// FAILED to get lock: Timeout:
@@ -354,17 +349,13 @@ bug
 			panic(msg)	// for debug only
 			return false
 		}
-
+								//
 		 // === SUCCEEDED in getting lock:
 		assert(curOwner==nil, "'\(owner)' attempting to lock, but '\(curOwner!)' still holds lock ")
-		curOwner		= owner
-		atBld(3, {						// === /////  AFTER GETTING:
-			let msg			= "\(ownerNId)      GOT Part LOCK: v:\(semiphore.value ?? -99)"
-			!logIf ? nop
-				: curOwner != "renderScene" ? logd(" //######\(msg)")
-				:				 verboseLocks ? logd(" //######\(msg)")
-				:							 	   nop 		// print nothing
-		}())
+		curOwner				= owner
+		if logIf && (verboseLocks || curOwner != "renderScene") {
+			atBld(4, logd(" //######\(ownerNId)      GOT Part LOCK: v:\(semiphore.value ?? -99)"))
+		}
  		return true
  	}
 	
@@ -377,14 +368,9 @@ bug
 		assert(curOwner != nil, "Attempting to unlock ownerless lock")
 		assert(curOwner == owner, "Releasing (as '\(owner)') Part lock owned by '\(curOwner!)'")
 		let ownerNId		= ppUid(self) + " '\(curOwner!)'".field(-20)
-		atBld(3, {
-			let val0		= semiphore.value ?? -99
-			let msg			= "\(ownerNId)  RELEASE Part LOCK: v:\(val0)"
-			!logIf 						? nop 								:
-			curOwner != "renderScene" 	? logd(" \\\\######\(msg)")			:
-			verboseLocks 				? logd(" \\\\######\(msg)")			:
-												   nop
-		}())
+		if logIf && (curOwner != "renderScene" || verboseLocks) {
+			atBld(3, logd(" \\\\######\(ownerNId)  RELEASE Part LOCK: v:\(semiphore.value ?? -99)"))
+		}
 
 		 // update name/state BEFORE signals
 		prevOnwer			= curOwner
@@ -392,14 +378,9 @@ bug
 
 		semiphore.signal()			 // Unlock Part's DispatchSemaphore:
 
-		atBld(3, {
-			let val0		= semiphore.value ?? -99
-			let msg			= "\(ownerNId) RELEASED Part LOCK v:\(val0)"
-			!debugOutterLock || !logIf 			  ? nop		// less verbose
-			 : prevOnwer != "renderScene" ? atApp(4, logd(" \\\\######\(msg)"))
-			 :				     verboseLocks  ? atApp(4, logd(" \\\\######\(msg)"))
-			 :	 		    					    nop
-		}())
+		if debugOutterLock && logIf && (verboseLocks || prevOnwer != "renderScene") {
+			atBld(3, logd(" \\\\######\(ownerNId) RELEASED Part LOCK v:\(semiphore.value ?? -99)"))
+		}
 	}
 
 	 // MARK: - 8. Reenactment Simulator
@@ -448,7 +429,8 @@ bug
 		let titleWidth			= title.count
 		let width				= titleWidth + "######                ######".count
 		let errWarnWidth		= errors.count + warnings.count + 2
-		let trailing1			= String(repeating:"#", count:width - "#################### ".count - errWarnWidth - 2)
+		let count				= width - "#################### ".count - errWarnWidth - 2
+		let trailing1			= count <= 0 ? "" : String(repeating:"#", count:count)
 		let trailing2			= String(repeating:"#", count:width)
 		let blanks				= String(repeating:" ", count:title.count)
 		var rv 					= "BUILT PART!\n"

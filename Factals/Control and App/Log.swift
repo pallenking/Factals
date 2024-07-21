@@ -316,7 +316,7 @@ bug
 	var debugDescription : String {		"dd'Log\(logNo) \(name)'"				}
 	var summary			 : String {		 "s'Log\(logNo) \(name)'"				}
 }
-var debugOutterLock	= true//false/		// default value
+var debugOutterLock				= true		// default value (set by config.debugOutterLock)
 
 var warningLog : [String] 		= []
 var logNErrors					= 0

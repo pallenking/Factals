@@ -11,7 +11,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	var timeNow			: Float	= 0.0
 	var timeStep		: Float = 0.01
 	var globalDagDirUp	: Bool	= true
-	var logSimLocks				= false		// Overwritten by Configuration
+	var logSimLocks				= true//false// Overwritten by Configuration
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
@@ -141,6 +141,8 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		guard simBuilt			else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled		else {	return 									}
 		guard let partBase 		= factalsModel?.partBase else {	return			}
+
+//partBase.foob(for: "xxxkwjfo")
 
 		guard partBase  .lock  (for:"simulationTask", logIf:logSimLocks)
 								else {	fatalError("simulationTask couldn't get PART lock")	}

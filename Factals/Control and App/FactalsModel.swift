@@ -73,20 +73,12 @@ class FactalsModel : ObservableObject, Uid {
 		vewBase.factalsModel	= self						// Backpointer
 		vewBases.append(vewBase)							// Install
 
-		vewBase.setupLightsCamerasEtc()
 		vewBase.updateVSP()
-//XXX	updateViews(initial:vewConfig)
+		vewBase.setupSceneVisuals()
+
 		atBld(5, log.logd("---====--- anotherVewBase() generated \(vewBase.pp(.uidClass)) "))
-		let rootVewPp			= vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"])
-		atBld(5, log.logd("\n\(rootVewPp)"))
+		atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
 	}
-
-
-
-	//	vewBase.tree.configureVew(from:fwConfig)			// 4. Configure Vew
-	//	vewBase.tree.openChildren(using:vewConfig)			// 5. Open Vew
-	//	vewBase.updateVewSizePaint(initial:vewConfig, logIf:true)
-	//	tree.dirtySubTree(gotLock:true, .vsp)				// 6. Mark dirty
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
 					//		var data : Data? {
@@ -571,7 +563,7 @@ bug
 			//
 			//		 // 2. Update Vew and Scn Tree
 			///**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-			//		vewBase.setupLightsCamerasEtc()
+			//		vewBase.setupSceneVisuals()
 			//
 			//		 // Do one, just for good luck
 			////bug;	commitCameraMotion(reason:"to createVewNScn")
