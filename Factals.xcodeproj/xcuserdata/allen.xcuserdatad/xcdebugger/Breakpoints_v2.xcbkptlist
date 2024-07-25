@@ -156,8 +156,8 @@
             filePath = "Factals/Control and App/Simulator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "simulateOneStep()"
             landmarkType = "7">
          </BreakpointContent>
@@ -428,8 +428,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "init(scnScene:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -444,8 +444,8 @@
             filePath = "Factals/Vews (of Parts)/VewBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "setupSceneVisuals()"
             landmarkType = "7">
          </BreakpointContent>
@@ -460,8 +460,8 @@
             filePath = "Factals/Vews (of Parts)/VewBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "updateVSP(initial:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -476,8 +476,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "init(scnScene:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -524,8 +524,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "614"
-            endingLineNumber = "614"
+            startingLineNumber = "615"
+            endingLineNumber = "615"
             landmarkName = "modelPic(with:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -540,8 +540,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "658"
-            endingLineNumber = "658"
+            startingLineNumber = "659"
+            endingLineNumber = "659"
             landmarkName = "findVew(nsEvent:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -588,8 +588,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "617"
-            endingLineNumber = "617"
+            startingLineNumber = "618"
+            endingLineNumber = "618"
             landmarkName = "modelPic(with:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -604,8 +604,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "635"
-            endingLineNumber = "635"
+            startingLineNumber = "636"
+            endingLineNumber = "636"
             landmarkName = "findVew(nsEvent:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -997,13 +997,13 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "663"
-            endingLineNumber = "663"
+            startingLineNumber = "664"
+            endingLineNumber = "664"
             landmarkName = "findVew(nsEvent:inVewBase:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "74B37654-5D3E-41A3-9000-2359DC912C63 - 7cf627b275071d85"
+                  uuid = "74B37654-5D3E-41A3-9000-2359DC912C63 - 7cf627b27507123b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1013,11 +1013,11 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "663"
-                  endingLineNumber = "663">
+                  startingLineNumber = "665"
+                  endingLineNumber = "665">
                </Location>
                <Location
-                  uuid = "74B37654-5D3E-41A3-9000-2359DC912C63 - ce7b3cd09773fbdf"
+                  uuid = "74B37654-5D3E-41A3-9000-2359DC912C63 - ce7b3cd09773f461"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1027,8 +1027,36 @@
                   urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "663"
-                  endingLineNumber = "663">
+                  startingLineNumber = "665"
+                  endingLineNumber = "665">
+               </Location>
+               <Location
+                  uuid = "74B37654-5D3E-41A3-9000-2359DC912C63 - 7cf627b27507125a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.ScnBase.findVew(nsEvent: __C.NSEvent, inVewBase: Factals.VewBase) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "664"
+                  endingLineNumber = "664">
+               </Location>
+               <Location
+                  uuid = "74B37654-5D3E-41A3-9000-2359DC912C63 - ce7b3cd09773f400"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.SCNHitTestResult, __C.SCNHitTestResult) -&gt; Swift.Bool in Factals.ScnBase.findVew(nsEvent: __C.NSEvent, inVewBase: Factals.VewBase) -&gt; Swift.Optional&lt;Factals.Vew&gt;"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "664"
+                  endingLineNumber = "664">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1043,8 +1071,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "511"
-            endingLineNumber = "511"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1443,8 +1471,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "550"
-            endingLineNumber = "550"
+            startingLineNumber = "551"
+            endingLineNumber = "551"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1459,10 +1487,40 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "483"
-            endingLineNumber = "483"
+            startingLineNumber = "484"
+            endingLineNumber = "484"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "236A424D-24EB-440D-B910-B2C40003F331 - f7166bf93a1fd6b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.ScnBase.processEvent(nsEvent: __C.NSEvent, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Bool"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "486"
+                  endingLineNumber = "486">
+               </Location>
+               <Location
+                  uuid = "236A424D-24EB-440D-B910-B2C40003F331 - f7166bf93a1fd48"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.ScnBase.processEvent(nsEvent: __C.NSEvent, inVew: Swift.Optional&lt;Factals.Vew&gt;) -&gt; Swift.Bool"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "485"
+                  endingLineNumber = "485">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1891,8 +1949,8 @@
             filePath = "Factals/Vews (of Parts)/VewBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "lock(for:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1939,8 +1997,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "454"
-            endingLineNumber = "454"
+            startingLineNumber = "457"
+            endingLineNumber = "457"
             landmarkName = "renderer(_:updateAtTime:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1955,9 +2013,9 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
-            landmarkName = "doPartNViewsLocked(workNamed:work:)"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
+            landmarkName = "doPartNViewsLocked(workNamed:logIf:work:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2019,8 +2077,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "462"
-            endingLineNumber = "462"
+            startingLineNumber = "463"
+            endingLineNumber = "463"
             landmarkName = "renderer(_:didApplyAnimationsAtTime:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2099,25 +2157,9 @@
             filePath = "Factals/Vews (of Parts)/VewBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "updateVSP(initial:logIf:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D51C2ABE-3541-47BB-9412-6208407BEE10"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Parts (of Network)/PartBase.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
-            landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2131,25 +2173,9 @@
             filePath = "Factals/Control and App/Simulator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "simulateOneStep()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "97505106-7827-415E-9A16-BEB9BCD165D3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Parts (of Network)/PartBase.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "332"
-            endingLineNumber = "332"
-            landmarkName = "lock(for:wait:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2195,8 +2221,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "checkCamera()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2211,8 +2237,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "checkCamera()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2227,8 +2253,8 @@
             filePath = "Factals/Extensions++/ScnBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "touchLight(_:_:color:intensity:position:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -2237,15 +2263,15 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B8018F67-8462-47EE-8F7D-9CDD89B4776A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/PartBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
-            landmarkName = "lock(for:wait:logIf:)"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
+            landmarkName = "lock(for:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2259,9 +2285,9 @@
             filePath = "Factals/Parts (of Network)/PartBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
-            landmarkName = "lock(for:wait:logIf:)"
+            startingLineNumber = "332"
+            endingLineNumber = "332"
+            landmarkName = "lock(for:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2269,15 +2295,15 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "ACE49FE3-7E0C-48EB-9829-BE16781417F9"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/PartBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "336"
-            endingLineNumber = "336"
-            landmarkName = "lock(for:wait:logIf:)"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
+            landmarkName = "lock(for:logIf:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2291,9 +2317,115 @@
             filePath = "Factals/Control and App/Simulator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "simulateOneStep()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5E3439F4-94C5-4DB8-8F58-641518A2ACFB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Extensions++/ScnBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
+            landmarkName = "doPartNViewsLocked(workNamed:logIf:work:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C1F4B80C-AACA-4439-AB3B-2F3BEE00677B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Extensions++/ScnBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "456"
+            endingLineNumber = "456"
+            landmarkName = "renderer(_:updateAtTime:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C1F4B80C-AACA-4439-AB3B-2F3BEE00677B - 17937719ae804e31"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Factals.ScnBase.renderer(_: __C.SCNSceneRenderer, updateAtTime: Swift.Double) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "457"
+                  endingLineNumber = "457">
+               </Location>
+               <Location
+                  uuid = "C1F4B80C-AACA-4439-AB3B-2F3BEE00677B - 9058437afde620cb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Factals.VewBase) -&gt; () in closure #1 @Swift.MainActor () -&gt; () in Factals.ScnBase.renderer(_: __C.SCNSceneRenderer, updateAtTime: Swift.Double) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "458"
+                  endingLineNumber = "458">
+               </Location>
+               <Location
+                  uuid = "C1F4B80C-AACA-4439-AB3B-2F3BEE00677B - 17937719ae804e10"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Factals.ScnBase.renderer(_: __C.SCNSceneRenderer, updateAtTime: Swift.Double) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "456"
+                  endingLineNumber = "456">
+               </Location>
+               <Location
+                  uuid = "C1F4B80C-AACA-4439-AB3B-2F3BEE00677B - 9058437afde62028"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Factals.VewBase) -&gt; () in closure #1 @Swift.MainActor () -&gt; () in Factals.ScnBase.renderer(_: __C.SCNSceneRenderer, updateAtTime: Swift.Double) -&gt; ()"
+                  moduleName = "Factals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "457"
+                  endingLineNumber = "457">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F24EA20F-09B9-4E4B-9508-9CC6608CC94A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Vews (of Parts)/VewBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "configure(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

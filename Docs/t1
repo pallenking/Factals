@@ -1176,3 +1176,45 @@ DocLocal/HaveNWant/Factals/Factals/Control\ and\ App/SelfiePole.swift
 -pch-disable-validation -module-name Factals -frontend-parseable-output -disable-clang-spi -target-sdk-version 14.5 -target-sdk-name macosx14.5 -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/lib/swift/host/plugins -o 
 /Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Intermediates.noindex/Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.o -index-unit-output-path /Factals.build/Debug/Factals.build/Objects-normal/arm64/Tests01.o -index-store-path 
 /Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Index.noindex/DataStore -index-system-modules
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func renderer()
+	DispatchQueue.main.async {
+		self.doLocked(name:"A_update") { vewBase in			X X X X
+			factalsModel.partBase  .lock  ()
+					Work:
+			vewBase.factalsModel.updateViews(logIf:true) calls
+					assert(partBase.lock(for:"partBase"), "failed to get lock")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Log.debugOutterLock
+
+func lock(it:Bool=true, logIf:Bool) -> Bool {

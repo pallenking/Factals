@@ -200,7 +200,7 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	func makeSelfCodable(neededLock:String) {		// was readyForEncodable
-		guard lock(for:neededLock) else { fatalError("'\(neededLock)' couldn't get PART lock") }
+bug;	guard lock(for:neededLock, logIf:true) else { fatalError("'\(neededLock)' couldn't get PART lock") }
 
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
@@ -216,7 +216,7 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 bug		//groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
-		unlock(for:releaseLock)
+		unlock(for:releaseLock, logIf:true)
 	}
 	func polyWrapChildren() {
 bug
@@ -322,15 +322,13 @@ bug
 	///   - wait: logs if wait
 	///   - logIf: allows logging
 	/// - Returns: lock obtained
- 	func lock(for owner:String?, wait:Bool=true, logIf:Bool=true) -> Bool {
-		guard let owner else {	return true 									}
+ 	func lock(for owner:String, logIf:Bool) -> Bool {
 		let ownerNId			= ppUid(self) + " '\(owner)'".field(-20)
 								
 		if logIf && debugOutterLock { 		 		// less verbose
 			atBld(4, {					// === ///// BEFORE GETTING, Log:
-				let val0		= semiphore.value ?? -99
-				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(val0)"
-				if val0 <= 0 {							// Blocked, always print if verb
+				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(semiphore.value ?? -99)"
+				if semiphore.value ?? -99 <= 0 {	// Blocked, always print if verb
 					logd(msg +  ", OWNED BY:'\(curOwner ?? "-")', PROBABLE WAIT...")
 				}
 				else if verboseLocks {
@@ -340,16 +338,11 @@ bug
 		}
 		 /// === Get partTree lock:
 /**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
-			 // === ///// FAILED to get lock: Timeout:
-			let val0			= semiphore.value ?? -99
-			let msg				= "\(ownerNId)      FAILED Part LOCK v:\(val0)"
-			wait  			? atBld(4, logd(" //######\(msg)")) :
-			   verboseLocks ? atBld(4, logd(" //######\(msg)")) :
-							  nop
-			panic(msg)	// for debug only
+			logd(" //######\(ownerNId)      FAILED Part LOCK v:\(semiphore.value ?? -99)")
+			panic("\(ownerNId): FAILED Part LOCK)")
 			return false
 		}
-								//
+
 		 // === SUCCEEDED in getting lock:
 		assert(curOwner==nil, "'\(owner)' attempting to lock, but '\(curOwner!)' still holds lock ")
 		curOwner				= owner
@@ -363,8 +356,7 @@ bug
 	/// - Parameters:
 	///   - lockName:  of the lock. nil->don't get lock
 	///   - logIf: allows logging
- 	func unlock(for owner:String?, logIf:Bool=true) {
-		guard let owner else {	return 	 										}
+ 	func unlock(for owner:String, logIf:Bool) {
 		assert(curOwner != nil, "Attempting to unlock ownerless lock")
 		assert(curOwner == owner, "Releasing (as '\(owner)') Part lock owned by '\(curOwner!)'")
 		let ownerNId		= ppUid(self) + " '\(curOwner!)'".field(-20)
@@ -376,7 +368,7 @@ bug
 		prevOnwer			= curOwner
 		curOwner 			= nil
 
-		semiphore.signal()			 // Unlock Part's DispatchSemaphore:
+/**/	semiphore.signal()			 // Unlock Part's DispatchSemaphore:
 
 		if debugOutterLock && logIf && (verboseLocks || prevOnwer != "renderScene") {
 			atBld(3, logd(" \\\\######\(ownerNId) RELEASED Part LOCK v:\(semiphore.value ?? -99)"))

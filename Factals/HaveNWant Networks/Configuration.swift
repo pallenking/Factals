@@ -92,13 +92,13 @@ private let params4docLog		= params4pp + params4logs_
 								+ logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 
 	private let params4logs_	: FwConfig = [
-		"debugPreLog"		: true,		// Debug setting of logs before there is a Log ()
-		"debugOutterLock"	: false, 	//true//false// Helpful logging, quite noisy
+		"debugOutterLock"		: false, 	//true//false// Helpful logging, quite noisy
+
 			 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
 		"breakAtLogger"			: 1,
 								// + +  + +
-		"breakAtEvent"			: 47//150//-54,//240/3/0:off
+		"breakAtEvent"			: -50//150//-54,//240/3/0:off
 
 	]
 
@@ -109,6 +109,7 @@ private let params4sim : FwConfig = [
 	"simTaskPeriod" 			: 0.01,//5 1 .05// Simulation task retry delay nil->no Task
 	"timeStep"					: 0.01,			// Time between UP and DOWN scan (or vice versa)
 	"logSimLocks"				: false,//true//false// Log simulation lock activity
+	"logRenderLocks"			: false,//true//false// Log simulation lock activity
 ]
 
   // MARK: - F: Scene Params

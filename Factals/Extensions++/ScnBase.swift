@@ -20,6 +20,8 @@ class ScnBase : NSObject {
 		scnSceneRootNode.addChildNode(tree)
 	}
 	var scnView	 : SCNView?					// SCNView  of this ScnBase
+	var logRenderLocks			= true		// Overwritten by Configuration
+
 	weak
 	 var vewBase : VewBase?					// Delegate (of these ScnBase)
 
@@ -430,53 +432,52 @@ enum FwNodeCategory : Int {
 }
 
 extension ScnBase : SCNSceneRendererDelegate {
-	private func doPartNViewsLocked(workNamed:String, work:(_:VewBase)->Void) {
+	private func doPartNViewsLocked(workNamed:String, logIf:Bool, work:(_:VewBase)->Void) {
 		guard let factalsModel	= self.vewBase?.factalsModel else { return 		}
-		guard factalsModel.partBase  .lock  (for:workNamed, logIf:false)
+
+		guard factalsModel.partBase  .lock  (for:workNamed, logIf:logIf)
 								else {fatalError(" couldn't get PART lock")}
-			 // Copy changes to all Views:
+		 // Do change work to ALL Views:
 		for (i, vewBase) in factalsModel.vewBases.enumerated() {
-			let label		= "\(workNamed)[\(i)]"
-			let _			= vewBase.lock(for:label)// //
-														 //
-				work(vewBase)							  //>-0
-														 //
-			vewBase.unlock(for:label)		// //////////
+			let label			= "\(workNamed)[\(i)]"
+			let _				= vewBase  .lock   (for:label, logIf:logIf)
+
+				work(vewBase)
+
+			vewBase  .unlock  (for:label, logIf:logIf)
 		}
 			 // Clear change bits:
 		factalsModel.partBase.tree.forAllParts { part in part.dirty	= .clean }
-		factalsModel.partBase.unlock(for:workNamed)
+		factalsModel.partBase  .unlock  (for:workNamed, logIf:logIf)
 	}
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async {
 			//guard let tree		= self.tree	else { return						}
-			self.doPartNViewsLocked(workNamed:"A_update") { vewBase in
+			self.doPartNViewsLocked(workNamed:"A_update", logIf:self.logRenderLocks) { vewBase in
 				vewBase.updateVSP()
-				//vewBase.factalsModel.updateViews(logIf:true)					//false//true//needsLock:"renderLoop",
 			}
 		}
 	}
-
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
-			self.doPartNViewsLocked(workNamed:"B_animations") { vewBase in
+			self.doPartNViewsLocked(workNamed:"B_animations", logIf:self.logRenderLocks) { vewBase in
 				vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async {
-			self.doPartNViewsLocked(workNamed: "C_physics") {vewBase in
+			self.doPartNViewsLocked(workNamed: "C_physics", logIf:self.logRenderLocks) {vewBase in
 				vewBase.factalsModel.partBase.tree.applyLinkForces(vew:vewBase.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
-	//	DispatchQueue.main.async {
-	//		self.doPartNViewsLocked(name:"D_render") {vewBase in
+		DispatchQueue.main.async {
+			self.doPartNViewsLocked(workNamed:"D_render", logIf:self.logRenderLocks) {vewBase in
 	//			vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
-	//		}
-	//	}
+			}
+		}
 	}
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {

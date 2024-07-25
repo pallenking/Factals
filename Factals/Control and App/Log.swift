@@ -64,7 +64,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		if let bae				= c.int("breakAtEvent")	{
 			breakAtEvent		= bae
 		}
-		if let bal				= c .int("breakAtLogger"){
+		if let bal				= c.int("breakAtLogger"){
 			breakAtLogger		= bal
 		}
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.

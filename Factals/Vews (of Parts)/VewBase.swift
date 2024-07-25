@@ -47,6 +47,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	func configure(from:FwConfig) {
 		self.tree.configureVew(from:from)							// vewConfig = c
 		selfiePole.configure(from:from)
+		if let lrl				= from.bool("logRenderLocks") {
+			scnBase.logRenderLocks = lrl		// unset (not reset) if not present
+		}
 	}
 	// MARK: -
 	func setupSceneVisuals() {
@@ -80,7 +83,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	///   - for owner: get lock for this name. nil --> don't lock
 	///   - logIf: log the description
 	/// - Returns: Operation Succeeded
-	func lock(for neededLockName:String?=nil, logIf:Bool=true) -> Bool {
+	func lock(for neededLockName:String?=nil, logIf:Bool) -> Bool {
 		guard let neededLockName else	{	return true		/* no lock needed */		}
 
 		let ownerNId		= ppUid(self) + " '\(neededLockName)'".field(-20)
@@ -109,8 +112,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	/// - Parameters:
 	///   - lockName: get lock under this name. nil --> don't lock
 	///   - logIf: log the description
-	func unlock(for neededLockName:String?=nil, logIf:Bool=true) {
-		guard let neededLockName else {	return 		/* no lock to return */		}
+	func unlock(for neededLockName:String, logIf:Bool) {
 		assert(curLockOwner != nil, "releasing VewTreeLock but 'rootVewOwner' is nil")
 		assert(curLockOwner == neededLockName, "Releasing (as '\(neededLockName)') Vew lock owned by '\(curLockOwner!)'")
 		let u_name			= ppUid(self) + " '\(curLockOwner!)'".field(-20)

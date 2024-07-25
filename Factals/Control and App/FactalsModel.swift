@@ -517,7 +517,7 @@ bug
 		SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
 //		assert(partBase.curOwner!==nil, "should be locked by now")
-		assert(partBase.lock(for:"partBase"), "failed to get lock")
+		assert(partBase.lock(for:"partBase", logIf:true), "failed to get lock")
 
 		 // For ALL Views:
 		for vewBase in vewBases {
@@ -529,11 +529,11 @@ bug
 
 			vewBase  .unlock  (for:lockName, logIf:log)
 		}
-//		if vewBases.count == 0 {
-//			atRve(6, log ? logd("updateVewSizePaint(vewConfig: Just to be nice") : nop)
-//		}
+		if vewBases.count == 0 && log {
+			atRve(6, logd("updateVewSizePaint(vewConfig: Just to be nice"))
+		}
 
-		partBase.unlock(for:"partBase")
+		partBase.unlock(for:"partBase", logIf:log)
 		SCNTransaction.commit()
 	}
 
