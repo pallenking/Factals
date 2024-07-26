@@ -7,9 +7,38 @@ import SceneKit
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 // 20220912PAK: Simplification: all merged into one hash
 
+/*
+configApp	-- congrols:
+				--> FactalsGlobals
+				--> Log					sets default of configModel
+				--> Sounds				sets default of configVew
+configModel -- controls:
+				--> Simulator
+				--> PartBase
+					--> Parts in tree
+				--> Sounds
+				--> Log
+configVew	-- controls:
+				--> VewBase
+					--> ScnBase
+debug
+test
+	
+			parms4all -> Log.app, FactalsModel.log,  Sourcces:
+				params4app		:	soundVolume, regressScene, emptyEntry
+				params4appLog	:	params4pp + params4logs_ + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+				params4pp		:	pp... (50ish keys)
+				params4docLog	:	params4pp + params4logs_ + logAt(all:docLogN)
+				params4sim		:	enabled, timeStep, ...
+				params4vew		:	physical Characterists of object e.g: factalHeight
+
+				params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+				logAt(xxx:dd)
+ */
+
   // MARK: - External linkage
  /// Initial Parameters for configuration:
-var params4all		: FwConfig		= {	return 
+var params4allX		: FwConfig		= {	return
 	params4app		+
 	params4appLog	+
 	params4pp		+	//
@@ -20,7 +49,7 @@ var params4all		: FwConfig		= {	return
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
-/*private*/ let params4app : FwConfig = [
+let params4app : FwConfig 		= [
 	"soundVolume"	 			: 0.1,		// 0:quiet, 1:normal, 10:loud
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 
@@ -65,7 +94,7 @@ let params4aux : FwConfig 		= [:]
 	"ppScnBBox"			: false, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
-	"ppXYZWena"  		: "Y",//"XYZ"	// disable some dimensions //"XYZW"//
+	"ppXYZWena"  		: "Y",		//"XYZ"	// disable some dimensions //"XYZW"//
 				// Column Usage:
 	"ppViewTight"		: false, 	// better for ascii text //false//true
 	"ppBBoxCols"		: 28,		// columns printout for bounding boxs//32//24
@@ -88,19 +117,19 @@ let params4aux : FwConfig 		= [:]
 ]
  // MARK: -
  // MARK: - D: Parameters Doc Log
+let params4logs_				: FwConfig = [
+	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
+
+		 // BreakAt is composite: logId * entryNosPlog + logEvent:
+								// + +  + +
+	"breakAtLogger"				: 1,
+								// + +  + +
+	"breakAtEvent"				: -50//150//-54,//240/3/0:off
+
+]
 private let params4docLog		= params4pp + params4logs_
 								+ logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 
-	private let params4logs_	: FwConfig = [
-		"debugOutterLock"		: false, 	//true//false// Helpful logging, quite noisy
-
-			 // BreakAt is composite: logId * entryNosPlog + logEvent:
-								// + +  + +
-		"breakAtLogger"			: 1,
-								// + +  + +
-		"breakAtEvent"			: -50//150//-54,//240/3/0:off
-
-	]
 
   // MARK: - E: Sim Params
  /// Parameters for simulation
@@ -109,7 +138,7 @@ private let params4sim : FwConfig = [
 	"simTaskPeriod" 			: 0.01,//5 1 .05// Simulation task retry delay nil->no Task
 	"timeStep"					: 0.01,			// Time between UP and DOWN scan (or vice versa)
 	"logSimLocks"				: false,//true//false// Log simulation lock activity
-	"logRenderLocks"			: false,//true//false// Log simulation lock activity
+//	"logRenderLocks"			: false,//true//false// Log simulation lock activity
 ]
 
   // MARK: - F: Scene Params

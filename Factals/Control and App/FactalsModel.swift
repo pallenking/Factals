@@ -2,6 +2,7 @@
 
 import SceneKit
 import SwiftUI
+
 extension FactalsModel  : Logd {}
 class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
@@ -11,7 +12,19 @@ class FactalsModel : ObservableObject, Uid {
 	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 
-	var log 					= Log(name:"Model's Log", params4all + 	Factals.logAt(all:docLogN))
+	static let params4modelLog : FwConfig =
+		params4pp		+  //	pp... (50ish keys)
+	//	params4docLog	+ //	params4pp + params4logs_ + logAt(all:docLogN)
+	//	params4sim		+ //	enabled, timeStep, ...
+	//	params4vew		+ //	physical Characterists of object e.g: factalHeight
+	//
+	//	params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+	//	logAt(xxx:dd)
+		Factals.logAt(all:docLogN)
+	var log 					= Log(name:"Model's Log", params4modelLog)
+
+
+
 	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 
