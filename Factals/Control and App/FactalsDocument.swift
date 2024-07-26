@@ -69,7 +69,6 @@ struct FactalsDocument : FileDocument {
 		let partBase			= PartBase(fromLibrary:select)
 		 // 2. FactalModel
 		factalsModel			= FactalsModel(partBase:partBase)
-		let c					= factalsModel.fmConfig + partBase.ansConfig
 		factalsModel.configurePart(from:params4pp)
 		partBase.wireAndGroom([:])
 
@@ -77,12 +76,25 @@ struct FactalsDocument : FileDocument {
 		/*		How to configure?
 			1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
 			2.	pt factalsModel.fmConfig	xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
-			3.	pt params4pp							[ppNCols4VewPosns:20,
-														 ...
-														 ppNNameCols:8,
-														 ppLinks:false]
+			3.	pt params4pp							[ppNCols4VewPosns:20,... ppNNameCols:8, ppLinks:false]
 		 */
-		factalsModel.configureVews(from:c)
+		let fmConfig			= factalsModel.fmConfig
+								+ partBase.ansConfig
+								+ params4logs_ //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+								+ params4vew
+								+ params4pp
+								+ logAt(all:8)
+/*
+			parms4all
+				params4app		:	soundVolume, regressScene, emptyEntry
+				params4appLog	:	params4pp + params4logs_ + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+				params4pp		:	pp... (50ish keys)
+				params4sim		:	enabled, timeStep, ...
+				params4vew		:	physical Characterists of object e.g: factalHeight
+				params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+				logAt(xxx:dd)
+ */
+		factalsModel.configureVews(from:fmConfig)
 		factalsModel.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 		factalsModel.simulator.simEnabled	= true
 	}

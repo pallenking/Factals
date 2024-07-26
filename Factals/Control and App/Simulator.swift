@@ -19,8 +19,8 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	var startChits	  	:UInt8	= 0			// set to get simulator going
 
 	 /// Enable simulation task to run:																					//
-	var simEnabled : Bool 	 	= false {	// sim enabled to run?{
-		didSet {
+	var simEnabled : Bool 	 	= false 	// sim enabled to run?{
+	{	didSet {
 			if simBuilt && !simTaskRunning {
 				simTaskRunning	= false		// (so startSimulationTask notices)
 				startSimulationTask()		// try irrespect~ of simTaskRunning
@@ -28,8 +28,8 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		}
 	}
 	 /// Simulation is fully built and running
-	var simBuilt : Bool = false	{			// sim constructed?
-		didSet {		// whenever simEnabled gets set, try to st
+	var simBuilt : Bool = false				// sim constructed?
+	{	didSet {		// whenever simEnabled gets set, try to st
 			if simEnabled && simBuilt {
 				simTaskRunning	= false		// (so startSimulationTask
 				startSimulationTask()		// try irrespective of simTa

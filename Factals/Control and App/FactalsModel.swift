@@ -12,19 +12,16 @@ class FactalsModel : ObservableObject, Uid {
 	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 
-	static let params4modelLog : FwConfig =
-		params4pp		+  //	pp... (50ish keys)
-	//	params4docLog	+ //	params4pp + params4logs_ + logAt(all:docLogN)
-	//	params4sim		+ //	enabled, timeStep, ...
-	//	params4vew		+ //	physical Characterists of object e.g: factalHeight
-	//
-	//	params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-	//	logAt(xxx:dd)
-		Factals.logAt(all:docLogN)
-	var log 					= Log(name:"Model's Log", params4modelLog)
-
-
-
+	var log 					= {
+		let params4modelLog : FwConfig =
+			params4pp			+  	//	pp... (50ish keys)
+			params4logs_ 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+			params4sim			+ 	//	enabled, timeStep, ...
+			params4vew			+ 	//	physical Characterists of object e.g: factalHeight
+			logAt(all:docLogN)
+		let rv					= Log(name:"Model's Log", params4modelLog)
+		return rv
+	} ()
 	var	simulator				= Simulator()
 	var docSound	 			= Sounds()
 
@@ -53,7 +50,8 @@ class FactalsModel : ObservableObject, Uid {
 		simulator.configure(from:config)
 	}
 	func configureVews(from config:FwConfig) {
-		 // Open Views from config
+
+		 // Create new Views from config
 		for (key, value) in config {				// params4all
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
@@ -68,6 +66,7 @@ class FactalsModel : ObservableObject, Uid {
 				else {	panic("Confused wo38r")									}
 			}
 		}
+
 		 // Ensure 1 View
 		if vewBases.isEmpty {
 			atBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))

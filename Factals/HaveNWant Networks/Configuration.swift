@@ -23,29 +23,27 @@ configVew	-- controls:
 					--> ScnBase
 debug
 test
-	
-			parms4all -> Log.app, FactalsModel.log,  Sourcces:
+			parms4all
 				params4app		:	soundVolume, regressScene, emptyEntry
 				params4appLog	:	params4pp + params4logs_ + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
 				params4pp		:	pp... (50ish keys)
-				params4docLog	:	params4pp + params4logs_ + logAt(all:docLogN)
 				params4sim		:	enabled, timeStep, ...
 				params4vew		:	physical Characterists of object e.g: factalHeight
-
 				params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 				logAt(xxx:dd)
+					 -> Log.app, FactalsModel.log,  Sourcces:
  */
 
   // MARK: - External linkage
- /// Initial Parameters for configuration:
-var params4allX		: FwConfig		= {	return
-	params4app		+
-	params4appLog	+
-	params4pp		+	//
-	params4docLog	+	//
-	params4sim		+
-	params4vew
-} ()
+// /// Initial Parameters for configuration:
+//var params4allX		: FwConfig		= {	return
+//	params4app		+
+//	params4appLog	+
+//	params4pp		+	//
+//	params4docLog	+	//
+//	params4sim		+
+//	params4vew
+//} ()
 
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
@@ -133,17 +131,16 @@ private let params4docLog		= params4pp + params4logs_
 
   // MARK: - E: Sim Params
  /// Parameters for simulation
-private let params4sim : FwConfig = [
+let params4sim : FwConfig = [
 	"simEnabled"				: false,
 	"simTaskPeriod" 			: 0.01,//5 1 .05// Simulation task retry delay nil->no Task
 	"timeStep"					: 0.01,			// Time between UP and DOWN scan (or vice versa)
 	"logSimLocks"				: false,//true//false// Log simulation lock activity
-//	"logRenderLocks"			: false,//true//false// Log simulation lock activity
 ]
 
   // MARK: - F: Scene Params
  /// FactalsModel Viewing parameters
-private let params4vew : FwConfig = [
+let params4vew : FwConfig = [
 //	"initialDisplayMode"		: "invisible"	// mostly expunged
 //	"physics"					: ??
 /**/"linkVelocityLog2"			: Float(-8.0),	// link velocity = 2^n units/sec //slow:-6.0
@@ -199,11 +196,6 @@ private let params4vew : FwConfig = [
 	"axisTics"					: true,			//false//true//
 
 	"camera"					: "",			// HACK Define so ansConfig overrites
-	 // Breaks for debugging:
-	"breakAtViewOf"				: "",
-	"breakAtBoundOf"			: "",
-	"debugOverlapOf"			: "",
-	"breakAtRenderOf"			: "",
 
 	 // 11. 3D Display ******** 3D Display
 	"displayPortNames"			: true,
@@ -218,7 +210,14 @@ private let params4vew : FwConfig = [
 	 // bounding Boxes: default is unneeded
 
 	"wBox"						: "colors",		// "none", "gray", "white", "black", "colors"
-]
+
+	 // For debugging:
+	"logRenderLocks"			: false,//true//false// Log simulation lock activity
+	"breakAtViewOf"				: "",
+	"breakAtBoundOf"			: "",
+	"debugOverlapOf"			: "",
+	"breakAtRenderOf"			: "",
+] 												// params4vew : FwConfig
 
 let wBoxColorOf:[String:NSColor] = [
 	"Part"			:NSColor.red,
