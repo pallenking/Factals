@@ -12,18 +12,9 @@ class FactalsModel : ObservableObject, Uid {
 	var partBase  : PartBase
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 
-	var log 					= {
-		let params4modelLog : FwConfig =
-			params4pp			+  	//	pp... (50ish keys)
-			params4logs_ 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-			params4sim			+ 	//	enabled, timeStep, ...
-			params4vew			+ 	//	physical Characterists of object e.g: factalHeight
-			logAt(all:docLogN)
-		let rv					= Log(name:"Model's Log", params4modelLog)
-		return rv
-	} ()
-	var	simulator				= Simulator()
-	var docSound	 			= Sounds()
+	var log 	  : Log
+	var	simulator : Simulator
+	var docSound  :	Sounds
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
 		log.log(banner:banner, format_, args, terminator:terminator)
@@ -31,6 +22,17 @@ class FactalsModel : ObservableObject, Uid {
 
 	 // MARK: - 3. Factory
 	init(partBase rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
+
+		let params4modelLog : FwConfig =
+			params4pp			+  	//	pp... (50ish keys)
+			params4logs_ 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+		//	params4sim			+ 	//	enabled, timeStep, ...
+		//	params4vew			+ 	//	physical Characterists of object e.g: factalHeight
+			logAt(all:docLogN)
+		log						= Log(name:"Model's Log", params4modelLog)
+		simulator 				= Simulator(config:params4sim)
+		docSound				= Sounds()
+
 		partBase				= rp ?? PartBase(tree:Part())
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self			// set UGLY GLOBAL

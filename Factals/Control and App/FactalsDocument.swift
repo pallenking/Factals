@@ -69,36 +69,39 @@ struct FactalsDocument : FileDocument {
 		let partBase			= PartBase(fromLibrary:select)
 		 // 2. FactalModel
 		factalsModel			= FactalsModel(partBase:partBase)
-		factalsModel.configurePart(from:params4pp)
-		partBase.wireAndGroom([:])
-
-		 // 3. Vews
-		/*		How to configure?
-			1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
-			2.	pt factalsModel.fmConfig	xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
-			3.	pt params4pp							[ppNCols4VewPosns:20,... ppNNameCols:8, ppLinks:false]
-		 */
-		let fmConfig			= factalsModel.fmConfig
-								+ partBase.ansConfig
+		let pmConfig			= factalsModel.fmConfig
 								+ params4logs_ //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
 								+ params4vew
 								+ params4pp
+								+ partBase.ansConfig		// from library
 								+ logAt(all:8)
-/*
-			parms4all
-				params4app		:	soundVolume, regressScene, emptyEntry
-				params4appLog	:	params4pp + params4logs_ + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
-				params4pp		:	pp... (50ish keys)
-				params4sim		:	enabled, timeStep, ...
-				params4vew		:	physical Characterists of object e.g: factalHeight
-				params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-				logAt(xxx:dd)
- */
+		factalsModel.configurePart(from:pmConfig)
+		partBase.wireAndGroom([:])
+
+		 // 3. Vews
+		let fmConfig			= factalsModel.fmConfig
+								+ params4logs_ //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+								+ params4vew
+								+ params4pp
+								+ partBase.ansConfig		// from library
+								+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
 		factalsModel.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 		factalsModel.simulator.simEnabled	= true
 	}
-
+								/*		How to configure?
+									1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
+									2.	pt factalsModel.fmConfig	xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
+									3.	pt params4pp							[ppNCols4VewPosns:20,... ppNNameCols:8, ppLinks:false]
+									parms4all
+										params4app		:	soundVolume, regressScene, emptyEntry
+										params4appLog	:	params4pp + params4logs_ + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+										params4pp		:	pp... (50ish keys)
+										params4sim		:	enabled, timeStep, ...
+										params4vew		:	physical Characterists of object e.g: factalHeight
+										params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+										logAt(xxx:dd)
+						 */
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
 		factalsModel			= f			// girootPart!.ven

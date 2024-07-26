@@ -41,16 +41,22 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		let nLinksBuisy 		= linkChits							// Busy Links
 		return nPortsBuisy + nLinksBuisy == 0 ||  startChits > 0
 	}
+
+	 // MARK: - 2.? init()
+	init(config:FwConfig) {
+		super.init()
+		self.configure(from:config)
+	}
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation
-	func configure(from c:FwConfig) {
-		if let se				= c.bool("simEnabled") {
+	func configure(from config:FwConfig) {
+		if let se				= config.bool("simEnabled") {
 /**/		simEnabled 			= se						// set or reset
 		}
-		if let tStep			= c.float("timeStep") {
+		if let tStep			= config.float("timeStep") {
 			timeStep 			= tStep
 		}
-		if let pst				= c.bool("logSimLocks") {
+		if let pst				= config.bool("logSimLocks") {
 			logSimLocks	 		= pst		// unset (not reset) if not present
 		}
 	}
@@ -138,8 +144,6 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		guard simBuilt			else {	return panic("calling for simulationTask() before simBuilt") }
 		guard simEnabled		else {	return 									}
 		guard let partBase 		= factalsModel?.partBase else {	return			}
-
-//partBase.foob(for: "xxxkwjfo")
 
 		guard partBase  .lock  (for:"simulationTask", logIf:logSimLocks)
 								else {	fatalError("simulationTask couldn't get PART lock")	}

@@ -34,17 +34,6 @@ test
 					 -> Log.app, FactalsModel.log,  Sourcces:
  */
 
-  // MARK: - External linkage
-// /// Initial Parameters for configuration:
-//var params4allX		: FwConfig		= {	return
-//	params4app		+
-//	params4appLog	+
-//	params4pp		+	//
-//	params4docLog	+	//
-//	params4sim		+
-//	params4vew
-//} ()
-
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
 let params4app : FwConfig 		= [
