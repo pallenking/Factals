@@ -242,7 +242,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		guard let slot			= slot,
 		  slot >= 0 && slot < factalsModel.vewBases.count else { fatalError("Bad slot")}
 		assert(factalsModel.vewBases[slot] === self, "vewBases.'\(String(describing: factalsModel))'")
-		assert(self.tree.scn === self.scnBase.tree,  "ERROR .scn !== \(self.tree.scn.pp(.classUid))")
+///		assert(self.tree.scn === self.scnBase.tree,  "ERROR .scn !== \(self.tree.scn.pp(.classUid))")
 
 		let myName				= "VewBase      "
 		var myLine				= "slot\(slot) of \(factalsModel.vewBases.count) "

@@ -37,20 +37,20 @@ struct VewBar: View {
 						print(vewBase.scnBase.tree?.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 					}
 					Text("Review:")
-					Button(label:{	Text("View")								})
+					Button(label:{	Text("Vew")									})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})
-						factalsModel.updateViews()
+						factalsModel.updateVews()
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
-						factalsModel.updateViews()
+						factalsModel.updateVews()
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
-						factalsModel.updateViews()
+						factalsModel.updateVews()
 					}
 					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
 					{	var s	= vewBase.selfiePole

@@ -14,9 +14,10 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 	static var app				= Log(name:"App Log", params4appLog)
-	static let params4appLog : FwConfig =
-		params4pp		+	//	pp... (20ish keys)
-		params4logs_	+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+	static let params4appLog	=
+		params4app				+
+		params4pp				+	//	pp... (20ish keys)
+		params4logs				+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 		logAt(all:appLogN)
 
 	 // MARK: - 2. Object Variables:

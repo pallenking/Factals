@@ -70,7 +70,7 @@ struct FactalsDocument : FileDocument {
 		 // 2. FactalModel
 		factalsModel			= FactalsModel(partBase:partBase)
 		let pmConfig			= factalsModel.fmConfig
-								+ params4logs_ //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
 								+ params4vew
 								+ params4pp
 								+ partBase.ansConfig		// from library
@@ -80,7 +80,7 @@ struct FactalsDocument : FileDocument {
 
 		 // 3. Vews
 		let fmConfig			= factalsModel.fmConfig
-								+ params4logs_ //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
 								+ params4vew
 								+ params4pp
 								+ partBase.ansConfig		// from library
@@ -95,11 +95,11 @@ struct FactalsDocument : FileDocument {
 									3.	pt params4pp							[ppNCols4VewPosns:20,... ppNNameCols:8, ppLinks:false]
 									parms4all
 										params4app		:	soundVolume, regressScene, emptyEntry
-										params4appLog	:	params4pp + params4logs_ + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+										params4appLog	:	params4pp + params4logs + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
 										params4pp		:	pp... (50ish keys)
 										params4sim		:	enabled, timeStep, ...
 										params4vew		:	physical Characterists of object e.g: factalHeight
-										params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+										params4logs	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 										logAt(xxx:dd)
 						 */
 	 // Document supplied

@@ -42,8 +42,7 @@ struct FactalsModelView: View {
 					}
 				}
 				Button("+") {
-					//factalsModel.anotherVewBase(vewConfig:[:], fwConfig:FwConfig) {
-					print("lskdvjjso")
+					factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
 				}
 			}
 /*xyzzy100*/FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)

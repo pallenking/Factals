@@ -35,6 +35,7 @@ enum VewConfig : FwAny {
 	}
 	 // MARK: - 16. Global Constants
 	static let null				= subVew([:])
+	static let atom				= subVew([:])
 	 // MARK: - 17. Debugging Aids
 	var description			: String 	{	return  "d'\(pp(.short))'"			}
 	var debugDescription	: String	{	return "dd'\(pp(.short))'"			}

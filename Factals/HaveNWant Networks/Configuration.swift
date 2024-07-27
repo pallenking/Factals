@@ -23,14 +23,19 @@ configVew	-- controls:
 					--> ScnBase
 debug
 test
-			parms4all
-				params4app		:	soundVolume, regressScene, emptyEntry
-				params4appLog	:	params4pp + params4logs_ + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
-				params4pp		:	pp... (50ish keys)
+
+	=
+		
+			configuration sources
+
+		*
+	* params4appLog
+	*			params4app		:	soundVolume, regressScene, emptyEntry
+	*			params4pp		:	pp... (50ish keys)
 				params4sim		:	enabled, timeStep, ...
 				params4vew		:	physical Characterists of object e.g: factalHeight
-				params4logs_	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-				logAt(xxx:dd)
+	*			params4logs		:	"debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+	*			logAt(xxx:dd)
 					 -> Log.app, FactalsModel.log,  Sourcces:
  */
 
@@ -49,11 +54,11 @@ let params4app : FwConfig 		= [
    // MARK: - B: Parameters App logging
   // Controls logging of the Application
  // Terms in FilterLog.swift
-let appLogN						= 7//5//8//
-let docLogN						= 7//5//8//
+let appLogN						= 0//7//5//8//
+let docLogN						= 0//7//5//8//
  // This must contain NO log statements!
 
-private let params4appLog		= params4pp + params4logs_
+private let params4appLog		= params4pp + params4logs
 								+ logAt(app:appLogN, men:appLogN)
 //								+ logAt(doc:docLogN, bld:docLogN, ser:docLogN)
  // MARK: - C: Pretty Print
@@ -104,7 +109,7 @@ let params4aux : FwConfig 		= [:]
 ]
  // MARK: -
  // MARK: - D: Parameters Doc Log
-let params4logs_				: FwConfig = [
+let params4logs				: FwConfig = [
 	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
 
 		 // BreakAt is composite: logId * entryNosPlog + logEvent:
@@ -114,7 +119,7 @@ let params4logs_				: FwConfig = [
 	"breakAtEvent"				: -50//150//-54,//240/3/0:off
 
 ]
-private let params4docLog		= params4pp + params4logs_
+private let params4docLog		= params4pp + params4logs
 								+ logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 
 

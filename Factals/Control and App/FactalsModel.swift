@@ -25,7 +25,7 @@ class FactalsModel : ObservableObject, Uid {
 
 		let params4modelLog : FwConfig =
 			params4pp			+  	//	pp... (50ish keys)
-			params4logs_ 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+			params4logs 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 		//	params4sim			+ 	//	enabled, timeStep, ...
 		//	params4vew			+ 	//	physical Characterists of object e.g: factalHeight
 			logAt(all:docLogN)
@@ -263,22 +263,16 @@ class FactalsModel : ObservableObject, Uid {
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
-			for vews in vewBases {
-				partBase.tree.forAllParts({	$0.markTree(dirty:.vew)			})
-				updateViews()
-			}
+			partBase.tree.forAllParts({		$0.markTree(dirty:.vew)				})
+			updateVews()
 		case "Z":
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			for vews in vewBases {
-				partBase.tree.forAllParts({	$0.markTree(dirty:.size)		})
-				updateViews()
-			}
+			partBase.tree.forAllParts({		$0.markTree(dirty:.size)			})
+			updateVews()
 		case "P":
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			for vews in vewBases {
-				partBase.tree.forAllParts({	$0.markTree(dirty:.paint)		})
-				updateViews()
-			}
+			partBase.tree.forAllParts({	$0.markTree(dirty:.paint)			})
+			updateVews()
 		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
 		case "x":
@@ -524,32 +518,57 @@ bug
 //	//		node.addAnimation(anim, forKey: nil)
 	}
 	// MARK: - 9 Update Vew: -
+	
+	func doPartNViewsLocked(workNamed:String, logIf:Bool, work:(_:VewBase)->Void) {
+
+		guard partBase  .lock  (for:workNamed, logIf:logIf)
+								else {fatalError(" couldn't get PART lock")}
+		 // Do change work to ALL Views:
+		for (i, vewBase) in vewBases.enumerated() {
+			let label			= "\(workNamed)[\(i)]"
+			guard vewBase  .lock   (for:label, logIf:logIf)
+								else {fatalError(" couldn't get VEW lock")}
+				work(vewBase)
+
+			vewBase  .unlock  (for:label, logIf:logIf)
+		}
+			 // Clear change bits:
+		partBase.tree.forAllParts { part in part.dirty	= .clean }
+		partBase  .unlock  (for:workNamed, logIf:logIf)
+	}
+
+
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
-	func updateViews(initial:VewConfig?=nil, logIf log:Bool=true) { // VIEWS
+	func updateVews(initial:VewConfig?=nil, logIf log:Bool=true) { // VIEWS
+		let workName				= "updateVews"
 		SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
-//		assert(partBase.curOwner!==nil, "should be locked by now")
-		assert(partBase.lock(for:"partBase", logIf:true), "failed to get lock")
 
-		 // For ALL Views:
-		for vewBase in vewBases {
-			let lockName			= "vewBase\(vewBase.slot ?? -1234487)"
-//			assert(vewBase.curLockOwner == nil, "should be locked by now 2")
-			guard vewBase   .lock  (for:lockName, logIf:log) else { fatalError("Could not obtain lock '\(lockName)'") }
+		assert(partBase.curOwner==nil, "shouldn't be")
+		//assert(partBase .lock (for:workName, logIf:log), "failed to get lock")
 
-			vewBase.updateVSP(initial:initial, logIf:log)
-
-			vewBase  .unlock  (for:lockName, logIf:log)
-		}
-		if vewBases.count == 0 && log {
-			atRve(6, logd("updateVewSizePaint(vewConfig: Just to be nice"))
+		doPartNViewsLocked(workNamed:workName, logIf:log) { vewBase in
+			vewBase.updateVSP()
 		}
 
-		partBase.unlock(for:"partBase", logIf:log)
+		partBase.unlock(for:workName, logIf:log)
 		SCNTransaction.commit()
 	}
+//		 // For ALL Views:
+//		for vewBase in vewBases {
+//			let lockName			= "vewBase\(vewBase.slot ?? -1234487)"
+//			//assert(vewBase.curLockOwner == nil, "should be locked by now 2")
+//			guard vewBase   .lock  (for:lockName, logIf:log) else { fatalError("Could not obtain lock '\(lockName)'") }
+//
+//			vewBase.updateVSP(initial:initial, logIf:log)
+//
+//			vewBase  .unlock  (for:lockName, logIf:log)
+//		}
+	//	if vewBases.count == 0 && log {
+	//		atRve(6, logd("updateVewSizePaint(vewConfig: Just to be nice"))
+	//	}
 
 			//	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
 			//	 ///   (This assures updateVewNScn work)

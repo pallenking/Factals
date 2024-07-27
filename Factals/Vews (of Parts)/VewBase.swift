@@ -193,9 +193,4 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	}
 	  // MARK: - 16. Global Constants
 	static let null : VewBase = VewBase(for:.null)
-//	static let null : VewBase = {
-//		let rv					= Vews(for:.null)
-//		//rv.name					= "null"
-//		return rv
-//	}()
 }
