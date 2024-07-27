@@ -38,14 +38,14 @@ struct FactalsModelView: View {
 							 .frame(maxWidth: .infinity)
 							 .border(.black, width:1)
 						}
-/*xyzzy100*/			VewBar(vewBase:vewBase)
+						VewBar(vewBase:vewBase)
 					}
 				}
 				Button("+") {
 					factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
 				}
 			}
-/*xyzzy100*/FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
+			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
 			 .padding(10)
 /**/		Spacer()
 		}

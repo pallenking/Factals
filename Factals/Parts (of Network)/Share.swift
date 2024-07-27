@@ -361,26 +361,26 @@ class Sequence : Splitter	{ //################################################
 }  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	  // MARK: - 9.3 reSkin
-	//override func reSkin(fullOnto vew:Vew) -> BBox  {	// Pyramid
-	//	let scn : SCNNode		= vew.scn.find(name:"s-Share") ?? { //(() -> SCNNode) in
-	//		let scn 			= SCNNode(geometry:SCNSphere(radius:0.5))
-	//	//	let s				= 0.5
-	//	//	let scn 			= SCNNode(geometry:SCNBox(width:s, height:s/20, length:s, chamferRadius:0))// width:s, height:s, length:s))
-	//	//	let scn 			= SCNNode(geometry:SCNPyramid(width:s, height:s, length:s))
-	//		scn.name			= "s-Share"
-	//		scn.color0			= .red
-	//		vew.scn.addChild(node:scn, atIndex:0)
-	//		return scn
-	//	} ()
-	//	return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
-	//}
+	override func reSkin(fullOnto vew:Vew) -> BBox  {	// Pyramid
+		let scn : SCNNode		= vew.scn.find(name:"s-Share") ?? { //(() -> SCNNode) in
+			let scn 			= SCNNode(geometry:SCNSphere(radius:0.5))
+		//	let s				= 0.5
+		//	let scn 			= SCNNode(geometry:SCNBox(width:s, height:s/20, length:s, chamferRadius:0))// width:s, height:s, length:s))
+		//	let scn 			= SCNNode(geometry:SCNPyramid(width:s, height:s, length:s))
+			scn.name			= "s-Share"
+			scn.color0			= .red
+			vew.scn.addChild(node:scn, atIndex:0)
+			return scn
+		} ()
+		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
+	}
 	override func basicConSpot() -> ConSpot {
 		let r				= super.radius
 		let ind				= parent?.children.firstIndex(where: {$0 === self}) ?? 0
 		let nChildren 		= parent?.children.count ?? 0
 		let foo				= Double(ind) - Double(nChildren)/2
 		//return ConSpot(center:SCNVector3(0, SeqY, foo * r), radius:0)//2*r, foo * r))
-		return ConSpot(center:SCNVector3(0, 2*r, foo * r), radius:0)
+		return ConSpot(center:SCNVector3(0, -2*r, foo * r), radius:0)
 	}
 	override func simulate(up upLocal:Bool)
 	{
@@ -439,20 +439,24 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		let selfNo					= parent.children.firstIndex(where: {$0 === self})!// (of:self)!
 
 		if (upLocal) {		// === UP:
-			if (selfNo == 1) {		// First Share output (up) is set by primaryPort:
+			if selfNo == 1 {		// First Share output (up) is set by primaryPort:
 				 // Our parent's primary port:
-				let pPort		= parent.ports["P"] ?? .error
-				let pPort2Port	= pPort.con2?.port
-				let (value, valuePrev) = pPort2Port!.getValues()	// self's up now and prev
-
-				if valuePrev<0.5 && value>=0.5 {	// RISING EDGE (Event A)
-					take(value:1.0)						// START: / Share 1 output
-				}
-				if valuePrev>=0.5 && value<0.5 { 	// FALLING EDGE (Event H)
-					pPort.take(value:0.0)				// set next port
+				if let pPort	= parent.ports["P"],
+				  let pPort2Port = pPort.con2?.port {
+					let (value, valuePrev) = pPort2Port.getValues()	// self's up now and prev
+					if valuePrev<0.5 && value>=0.5 {	// RISING EDGE (Event A)
+						take(value:1.0)						// START: / Share 1 output
+					}
+					if valuePrev>=0.5 && value<0.5 { 	// FALLING EDGE (Event H)
+						pPort.take(value:0.0)				// set next port
+					}			//
+				} else {
+				//	guard let pPort	= parent.ports["P"] else { fatalError()		}
+				//	let pPort2Port = pPort.con2?.port
+				//	panic("couldn't get 'pPort2Port'")
 				}
 			}
-			else {					// other Share outputs (up)
+			else {					// other Shares' outputs (up)
 			}						//		were left there by previous Share's down
 		}
 		else {					// === DOWN

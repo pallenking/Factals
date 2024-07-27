@@ -67,7 +67,7 @@ final class EventReceiverView: NSView {
 
 	 // MARK: - 15. PrettyPrint
 	 // MARK: - 17. Debugging Aids
-	override func  becomeFirstResponder()	-> Bool	{	return true				}
+	override func becomeFirstResponder()	-> Bool	{	return true				}
 	override func validateProposedFirstResponder(_ responder: NSResponder,
 					   for event: NSEvent?) -> Bool {	return true				}
 	override func resignFirstResponder()	-> Bool	{	return true				}

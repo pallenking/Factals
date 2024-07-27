@@ -744,8 +744,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			  up2 			 	: Bool	= false,
 			  me2				: Bool	= false,
 			  maxLevel			: Int?	= nil) -> Part? { // Search by name:
-		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel)
-		{	$0.fullName.contains(desiredName) ? $0 : nil						}		//$0.fullName == desiredName ? $0 : nil
+		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel) {
+			$0.fullName.contains(desiredName) ? $0 : nil
+		}		//$0.fullName == desiredName ? $0 : nil
 	}
 	   /// A boolean predicate of a Part
 	typealias Part2PartClosure 	= (Part) -> Part?
@@ -754,16 +755,18 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			  up2				: Bool	= false,
 			  me2 				: Bool	= false,
 			  maxLevel			: Int?	= nil) -> Part? { // Search by Path:
-		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel)
-		{	$0.partMatching(path:path) 											}
+		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel) {
+			$0.partMatching(path:path)
+		}
 	}
 	func find(part				: Part,
 
 			  up			 	: Bool	= false,
 			  me2 				: Bool	= false,
 			  maxLevel 			: Int?	= nil) -> Part? { // Search for Part:
-		return findCommon(up2:up, me2:me2, maxLevel:maxLevel)
-		{	$0 === part ? $0 : nil	 											}
+		return findCommon(up2:up, me2:me2, maxLevel:maxLevel) {
+			$0 === part ? $0 : nil
+		}
 	}
 
 	 /// First where closure is true:
@@ -1425,7 +1428,7 @@ func foo () {
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
-/*xyzzy100*/		factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
+					factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}
 							// Double Click: show/hide insides

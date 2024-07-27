@@ -193,19 +193,12 @@ class Port : Part, PortTalk {
 	}
 
 	var con2 : Con2? = nil
-//	var con2port : Port? {
-//		if case .port(let port_) = con2 	{ return port_						}
-//		return nil
-//	}
-
 	func connect(to:Port) {
 		let assertString 		= con2?.port?.pp(.fullName) ?? ""
 		assert(self.con2==nil, "Port '\(pp(.fullName))' "	+ "already connected to \(assertString)")
 		assert(  to.con2==nil, "'\(assertString)' "		+ "FAILS; the latter is already connected to '\(assertString)'")
 		self.con2 				= .port(to)
-//		self.connectedTo		= to
 		to.con2					= .port(self)
-//		to.connectedTo			= self
 	}
 
 	 // MARK: - 2.3 Con2 Properties:

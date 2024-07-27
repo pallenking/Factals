@@ -184,8 +184,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	 // MARK: - 15. PrettyPrint
 	/*override*/func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
  							 				// Report any improper linking:
-		guard let factalsModel 					else{return "factalsModel BAD"	}
-		guard let slot 							else{return "slot IS NIL"		}
+		guard let factalsModel 					  else{return "factalsModel BAD"}
+		guard let slot 							  else{return "slot IS NIL"		}
 		guard slot < factalsModel.vewBases.count  else{return "slot TOO BIG"	}
 		guard factalsModel.vewBases[slot] == self else{return "self inclorectly in rootVews"}
 		

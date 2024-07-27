@@ -29,9 +29,9 @@ struct RootPartBar : View {
 		HStack {	// FULL!
 			Text("Model (partBase): ").foregroundColor(.red).bold()
 			Button(label:{	Text( "ptm")										})
-			{	print(partBase.pp(.tree, ["ppDagOrder":true]), terminator:"") 	}
+			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})
-			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]), terminator:"") }
+			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]))	}
 			Spacer()
 			Text("app:").foregroundColor(.red).bold()
 			Button(label:{	Text( "state")										})//.padding(.top, 300)

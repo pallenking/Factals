@@ -140,7 +140,7 @@ class Tests01 : Book {
 		let e 	 : FwConfig		= [:]		// Logs OFF		"logPri4all":8
 		let eSim : FwConfig		= e + [simEnabled:true]
 		let eSimX: FwConfig		= e						// Neuter eSim
-		let eTight : FwConfig	= e + [	// For debugging Link positions:
+		let eTight:FwConfig		= e + [	// For debugging Link positions:
 			"ppViewTight"		:true,		// eliminate titles in print
 			"ppIndentCols"		:7,			// limit of tree height indentations
 			"ppViewOptions"		:"UFVTWB",	// just Posn, World, and FwBBox
@@ -1039,19 +1039,21 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xr("+Mirror Oscillator", eSim + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0)
-	/*+ ["inspec":"net0"]*/, { Net([placeMy:"linky", parts:[
-	Mirror([n:"t2", "gain":-1+2*decay, "offset":1-decay]),
-	Mirror([n:"t1", f:1, P:"t2,l:4" ]),
-//	Mirror([n:"t2"]),
-//	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay, f:1, P:"t2,l:4" ]),
+xr("+Mirror Oscillator", eSimX + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+	Mirror([n:"t1", "gain":-1+2*decay, "offset":1-decay]),
+	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
 ] ]) })
-	xxr("+Mirror Oscillator", eSimX + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
-//		Bulb(  	  [n:"y", P+X:"t1 ,l:1.4,v:0.04"]),
-		Mirror([n:"t0", P:"t1.P", "gain":-1+2*decay, "offset":1-decay]),
-		Sequence([n:"t1", 			f:1]),
-		Mirror(  [n:"t2", P:"t1,l:4", f:1, jog:"3 -2 " ]),
-//		Mirror(  [n:"t3", P:"t1,l:4", f:1 ]),
+xxr("+Mirror Sequence Osc", eSimX + selfiePole(s:90,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+	Mirror(  [n:"t0", P:"t1.P", "gain":-1, "offset":1]),
+	Sequence([n:"t1", 			  f:1]),
+	Mirror(  [n:"t2", P:"t1,l:2", f:1, jog:"0 -1 -8" ]),
+	Mirror(  [n:"t3", P:"t1,l:2", f:1, jog:"0 -1 -4" ]),
+	Mirror(  [n:"t4", P:"t1,l:2", f:1 ]),
+] ]) })
+	r("-position of Sequence", eSimX + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+//		Broadcast([n:"t1", 			  f:1, jog:"3"]),
+		Sequence( [n:"t1", 			  f:1, jog:"3"]),
+		Mirror(   [n:"t2", P:"t1,l:2", f:1 ]),
 	] ]) })
 
 	 // Use Inspec to change offset
@@ -1819,7 +1821,7 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 
 	r("-Net name", e + logAt(eve:5), {Net() })
 
-	r("+Gen 1 Port", eSim + selfiePole(s:90,u:0) + logX(eve:5, dat:5, ani:5), {Net([placeMy:"linky", parts:[
+	r("+Gen 1 Port", eSim + selfiePole(s:90,u:0) + logAt(ani:5, dat:5, eve:5), {Net([placeMy:"linky", parts:[
 		Tunnel([n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),
 		Generator([n:"lo", events:["a", [], "again"], P:"evi="]),
 	]]) })

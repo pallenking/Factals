@@ -570,43 +570,6 @@ bug
 	//		atRve(6, logd("updateVewSizePaint(vewConfig: Just to be nice"))
 	//	}
 
-			//	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
-			//	 ///   (This assures updateVewNScn work)
-			//	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-			//		guard let vewBase			 	else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
-			//		let partBase			= vewBase.partBase
-			//
-			//		 // Paranoia
-			//		assert(vewBase.tree.name == "_ROOT","Paranoid check: vewBase.name=\(vewBase.tree.name) !=\"_ROOT\"")
-			//		assert(partBase.tree.name == "ROOT","Paranoid check: vews.part.name=\(partBase.tree.name) !=\"ROOT\"")
-			////		assert(tree.children.count == 1, "Paranoid check: parts has \(tree .children.count) children, !=1")
-			//
-			//		 // 1. 	GET LOCKS					// PartTree
-			//		let lockName			= "createVew[\(slot)]"
-			//		guard partBase.lock(for:lockName) else {
-			//			fatalError("createVews couldn't get PART lock")		// or
-			//		}		          					// VewTree
-			//		guard vewBase.lock(for:lockName) else {
-			//			fatalError("createVews  couldn't get VIEW lock")
-			//		}
-			//
-			//
-			//
-			//bug;//	partBase.tree.dirtySubTree(gotLock:true, .vsp)		// DEBUG ONLY
-			//
-			//		 // 2. Update Vew and Scn Tree
-			///**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-			//		vewBase.setupSceneVisuals()
-			//
-			//		 // Do one, just for good luck
-			////bug;	commitCameraMotion(reason:"to createVewNScn")
-			////		updatePole2Camera(reason:"to createVewNScn")
-			//
-			//		// 7. RELEASE LOCKS for PartTree and VewTree:
-			//		vewBase.unlock(	for:lockName)
-			//		partBase.unlock(for:lockName)
-			//	}
-
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {

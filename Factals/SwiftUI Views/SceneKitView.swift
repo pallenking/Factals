@@ -18,16 +18,13 @@ struct SceneKitView: NSViewRepresentable {
 		scnView.debugOptions	= [				// enable display of:
 			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
 		]
-		scnView.allowsCameraControl = false		// we control camera	//true//args.options.contains(.allowsCameraControl)
+		scnView.allowsCameraControl = true		// we control camera	//true//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously = true		//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = 30	//args.preferredFramesPerSecond
-
-
+ 
 		scnView.delegate		= scnBase 		//scnBase is SCNSceneRendererDelegate
 		scnView.scene			= scnBase.scnScene
-		scnView.autoenablesDefaultLighting = true
-		scnView.allowsCameraControl = true
 
 		scnBase.scnView			= scnView		// for pic
 		return scnView
@@ -51,36 +48,6 @@ struct SceneKitView: NSViewRepresentable {
 		//						 		y				= s.pp()
 		//						 	}
 		//						 	print("\(scnBase).scnView.scnBase = \(y)")
-
-
-//	func makeCoordinator() -> Coordinator {
-//		Coordinator(self)
-//	}
-//	class Coordinator: NSObject {
-//		var sceneKitView:SceneKitView
-//		init(_ sceneKitView: SceneKitView) {
-//			self.sceneKitView = sceneKitView
-//		}
-//		func mouseDownX(with event: NSEvent) {
-//bug		 //let c			= Context()
-//			let scnView 		= sceneKitView.scnBase.scnView
-//			let point			= scnView!.convert(event.locationInWindow, from: nil)
-//			let hitResults 		= scnView!.hitTest(point, options: [:])
-//			if let hitResult 	= hitResults.first {
-//				// This is the first object hit by the click
-//				let node 		= hitResult.node
-//				print("Clicked on node: \(node.name ?? "Unnamed")")
-//				// Perform any actions you want on the node here
-//			}
-//		}
-//	}
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
-
 //		.onAppear {
 //			let windows 	= NSApplication.shared.windows
 //			assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
@@ -112,11 +79,6 @@ struct SceneKitView: NSViewRepresentable {
 								//	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
 								//  print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
 								//}
-//			.onAppear() {
-//				let windows 	= NSApplication.shared.windows
-//				assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-//				windows.first!.title = factalsModel.partBase?.title ?? "<UNTITLED>"
-//			}
 //	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
 //	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
 //	 ?? []
@@ -134,9 +96,7 @@ struct SceneKitView: NSViewRepresentable {
 //			}
 //		}
 //	}
-
-/*	Scraps:
-//		animatePhysics 			= c.bool("animatePhysics") ?? false
+		//animatePhysics 			= c.bool("animatePhysics") ?? false
 		//if let gravityAny		= c["gravity"] {
 		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
 		//		scnScene.physicsWorld.gravity = gravityVect
@@ -156,32 +116,30 @@ struct SceneKitView: NSViewRepresentable {
 //		get {			return !scnScene.isPaused										}
 //		set(v) {		scnScene.isPaused = !v											}
 //	}
- */
-
-//class EventMonitor {
-//	private var monitor: Any?
-//	private let mask: NSEvent.EventTypeMask
-//	private let handler: (NSEvent) -> Void
-//	init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent) -> Void) {
-//		self.mask = mask
-//		self.handler = handler
-//	}
-//	deinit {		stopMonitoring()	}
-//	func startMonitoring(for window: NSWindow) {
-//		monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
-//			self?.handleEvent(event)
-//			return event
-//		}
-//		window.makeFirstResponder(window.contentView)
-//	}
-//	func stopMonitoring() {
-//		if let monitor = monitor {
-//			NSEvent.removeMonitor(monitor)
-//			self.monitor = nil
-//		}
-//	}
-//	private func handleEvent(_ event: NSEvent) {
-//		handler(event)
-//	}
-//}
+			//class EventMonitor {
+			//	private var monitor: Any?
+			//	private let mask: NSEvent.EventTypeMask
+			//	private let handler: (NSEvent) -> Void
+			//	init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent) -> Void) {
+			//		self.mask = mask
+			//		self.handler = handler
+			//	}
+			//	deinit {		stopMonitoring()	}
+			//	func startMonitoring(for window: NSWindow) {
+			//		monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
+			//			self?.handleEvent(event)
+			//			return event
+			//		}
+			//		window.makeFirstResponder(window.contentView)
+			//	}
+			//	func stopMonitoring() {
+			//		if let monitor = monitor {
+			//			NSEvent.removeMonitor(monitor)
+			//			self.monitor = nil
+			//		}
+			//	}
+			//	private func handleEvent(_ event: NSEvent) {
+			//		handler(event)
+			//	}
+			//}
 

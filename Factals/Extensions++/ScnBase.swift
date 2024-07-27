@@ -369,59 +369,17 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 		}
 		return zoomRv
 	}
+}
 //
 //	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 //		let windowPositionV3 : SCNVector3 = SCNVector3(windowPosition.x, windowPosition.y, 0)
 //											// BUGGY:
 //		let   rootPositionV3 : SCNVector3 = scn.convertPosition(windowPositionV3, from:nil)
 //		return NSPoint(x:rootPositionV3.x, y:rootPositionV3.y)
-//
 //		let
-//
 //NSView:
 //		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
 //SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
-//
-//
-//	}
-
-//	  /// Build  Vew and SCN  tree from  Part  tree for the first time.
-//	 ///   (This assures updateVewNScn work)
-//	func createVewNScn(slot:Int, vewConfig:VewConfig? = nil) { 	// Make the  _VIEW_  from Experiment
-//		guard let vewBase			 	else {	fatalError("scnBase.vews is nil")}	//factalsModel.rootVewOf(rootScn:self)
-//		let partBase			= vewBase.partBase
-//
-//		 // Paranoia
-//		assert(vewBase.tree.name == "_ROOT","Paranoid check: vewBase.name=\(vewBase.tree.name) !=\"_ROOT\"")
-//		assert(partBase.tree.name == "ROOT","Paranoid check: vews.part.name=\(partBase.tree.name) !=\"ROOT\"")
-////		assert(tree.children.count == 1, "Paranoid check: parts has \(tree .children.count) children, !=1")
-//
-//		 // 1. 	GET LOCKS					// PartTree
-//		let lockName			= "createVew[\(slot)]"
-//		guard partBase.lock(for:lockName) else {
-//			fatalError("createVews couldn't get PART lock")		// or
-//		}		          					// VewTree
-//		guard vewBase.lock(for:lockName) else {
-//			fatalError("createVews  couldn't get VIEW lock")
-//		}
-//
-//
-//
-//bug;//	partBase.tree.dirtySubTree(gotLock:true, .vsp)		// DEBUG ONLY
-//
-//		 // 2. Update Vew and Scn Tree
-///**/	vewBase.updateVewSizePaint(initial:vewConfig)		// tree(Part) -> tree(Vew)+tree(Scn)
-//		vewBase.setupSceneVisuals()
-//
-//		 // Do one, just for good luck
-////bug;	commitCameraMotion(reason:"to createVewNScn")
-////		updatePole2Camera(reason:"to createVewNScn")
-//
-//		// 7. RELEASE LOCKS for PartTree and VewTree:
-//		vewBase.unlock(	for:lockName)
-//		partBase.unlock(for:lockName)
-//	}
-}
 
  // Kinds of Nodes
 enum FwNodeCategory : Int {
@@ -432,7 +390,8 @@ enum FwNodeCategory : Int {
 }
 
 extension ScnBase : SCNSceneRendererDelegate {
-	func facMod() -> FactalsModel? {	vewBase?.factalsModel						}
+	func facMod() -> FactalsModel? {	vewBase?.factalsModel					}
+
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in
 			facMod()?.doPartNViewsLocked(workNamed:"A_updateVSP", logIf:self.logRenderLocks) { vewBase in
@@ -457,7 +416,7 @@ extension ScnBase : SCNSceneRendererDelegate {
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async { [self] in
 			facMod()?.doPartNViewsLocked(workNamed:"D_xx", logIf:self.logRenderLocks) {vewBase in
-	//			vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
+				//vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
 			}
 		}
 	}
@@ -541,7 +500,8 @@ extension ScnBase : SCNSceneRendererDelegate {
 			 // 2023-0305: nop, but it calls commitCameraMotion to update picture
 			beginCameraMotion(with:nsEvent)
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
-		case .rightMouseDragged:	nop
+		case .rightMouseDragged:
+			nop
 		case .rightMouseUp:
 			beginCameraMotion(with:nsEvent)
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
