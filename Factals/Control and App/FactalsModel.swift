@@ -26,7 +26,6 @@ class FactalsModel : ObservableObject, Uid {
 		let params4modelLog : FwConfig =
 			params4partPp		+  	//	pp... (50ish keys)
 			params4logs 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-		//	params4vew			+ 	//	physical Characterists of object e.g: factalHeight
 			logAt(all:docLogN)
 		log						= Log(name:"Model's Log", params4modelLog)
 		simulator 				= Simulator(config:params4sim)
@@ -91,7 +90,7 @@ class FactalsModel : ObservableObject, Uid {
 		vewBase.setupSceneVisuals()
 
 		atBld(5, log.logd("---====--- anotherVewBase() done \(vewBase.pp(.uidClass)) "))
-//		atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
+		//atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene

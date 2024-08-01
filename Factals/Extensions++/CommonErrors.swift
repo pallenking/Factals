@@ -34,13 +34,13 @@ func panic(_ message: @autoclosure () -> String="(No message supplied)") {
 	machineTrap()				// transfer control to debugger
 }
 
+	  /// Check that a condition is true. Trap to debugger if it isn't
+	 /// - Parameters:
+	///   - truthValue: must be true
+   ///   - message: description of proplem if truthValue == false. Message is only evaluated if that error occurs.
+  /// Neither truthValue nor message should cause any side effects.
+ ///	//https://medium.com/@johnsundell/using-autoclosure-when-designing-swift-apis-67fe20a8b2e
 #if DEBUG
-/// Check that a condition is true. Trap to debugger if it isn't
-/// - Parameters:
-///   - truthValue: must be true
-///   - message: description of proplem if truthValue == false. Message is only evaluated if that error occurs.
-/// Neither truthValue nor message should cause any side effects.
-///	//https://medium.com/@johnsundell/using-autoclosure-when-designing-swift-apis-67fe20a8b2e
 func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure") {
 	if truthValue == false {
 		let s					= ""//DOClogQ == nil ? ""

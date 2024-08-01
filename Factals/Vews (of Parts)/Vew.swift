@@ -596,14 +596,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		let (nl, fmt)			= format.stripLeadingNewLines()
+		var myLog				= Log.app
 		if let vewBase			= vewBase() {
-			vewBase.factalsModel.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-		}else if let root		= part.partBase {	// strangely redundant, but okay
-			root.factalsModel?.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-		}else{
-			Log.app.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-//			Log.reliable.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+			myLog 				= vewBase.factalsModel.log//.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
+		else if let root		= part.partBase {	// strangely redundant, but okay
+			myLog 				= root.factalsModel!.log//.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+		}
+		myLog.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

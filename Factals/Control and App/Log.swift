@@ -241,7 +241,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		let (newLines, format)	= format_.stripLeadingNewLines()
 
 		 // Formatted arguments:
-		var rv 					= ppLogFromString()
+		var rv 					= ppProcAreaPriority()
 		rv						+= String(format:format, arguments:args)
 
 		 // Banner Line
@@ -274,22 +274,22 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		return String(nChar)	// n as Character
 	}
 	var threadNameCache : [String] = []
+
 	 /// get a token identifying Filter and current Lock owner
-	func ppLogFromString() -> String {				// " Acon4 "
-//2.001 A<?>?    ❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️
+	func ppProcAreaPriority() -> String {			// " Acon4 " or " A<?>? "
 		var rv					= " "
 		rv						+= ppCurThread 	// Thread identifier: e.g: "A"
 		rv 						+= msgFilter ?? "<?>"	 			//e.g: "app"
-		let mp : Int?			= msgPriority	// avoids concurrency problem!!!
+		let mp : Int?			=  msgPriority	// avoids concurrency problem!!!
 		rv						+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
 		rv						= rv.field(-9, dots:false, grow:true)
 		rv						+= " "
 		return rv
 	}
-	static var ppLogFromBlank : String {
-		let nLog				= 3		// a quick approximation
-		return  String(repeating: " ", count:Log.app.ppLogFromString().count + nLog)
-	}
+//	static var ppLogFromBlank : String {
+//		let nLog				= 3				// a quick approximation
+//		return  String(repeating: " ", count:Log.app.ppProcAreaPriority().count + nLog)
+//	}
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {

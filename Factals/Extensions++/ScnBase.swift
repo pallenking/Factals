@@ -7,6 +7,9 @@
 
 import Foundation
 import SceneKit
+typealias EventHandler		= (NSEvent) -> Void
+//EventHandler.null				= { }
+//class EventHandler {}
 
 class ScnBase : NSObject {
 	var scnScene : SCNScene
@@ -16,31 +19,32 @@ class ScnBase : NSObject {
 		let scnSceneRootNode 	= self.scnScene.rootNode	// from SCNScene's binding
 		scnSceneRootNode.name	= "ROOT"
 		scnSceneRootNode.removeAllChildren()
-		guard let tree 			else { return	}			// no tree, no children
+		guard let tree 			else { return }	// no tree, no children
 		scnSceneRootNode.addChildNode(tree)
 	}
-	var scnView	 : SCNView?					// SCNView  of this ScnBase
-	var logRenderLocks			= true		// Overwritten by Configuration
+	var scnView	 : SCNView?						// SCNView  of this ScnBase
+	var logRenderLocks			= true			// Overwritten by Configuration
+	var eventHandler:EventHandler
 
 	weak
-	 var vewBase : VewBase?					// Delegate (of these ScnBase)
+	 var vewBase : VewBase?						// Delegate (of these ScnBase)
 
-	var nextIsAutoRepeat : Bool = false 	// filter out AUTOREPEAT keys
-	var mouseWasDragged			= false		// have dragging cancel pic
-	var lastPosition : SCNVector3? = nil	// spot cursor hit
+	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
+	var mouseWasDragged			= false			// have dragging cancel pic
+	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
-	init(scnScene s:SCNScene?=nil) {				// ScnBase(tree
+	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {		// ScnBase(tree
 		self.scnScene			= s ?? SCNScene()	// get scene
+		self.eventHandler		= eventHandler
 //		atRve(8 vews.factalsModel.logd("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))"))
-
  		super.init()
+
 		setRootNodeChild1 (from:tree)
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
-
 extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
 	func checkLights() {
@@ -159,41 +163,25 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 			let camera			= SCNCamera()
 			camera.name			= "SCNCamera"
 			rv.camera			= camera
-
-			let perspective		= false
-			camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
-			camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
-			camera.exposureAdaptationDarkeningSpeedFactor = 1
-			camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
-			// Check the condition to determine the camera mode
-			camera.zNear 		= 0.1 	// 1    Set the near clipping distance
-			camera.zFar 		= 1000	// 100  Set the far clipping distance
-			camera.fieldOfView 	= 60	// Set the field of view, in degrees
-			if !perspective {
-				 // Orthographic (non-perspective) mode
-				camera.usesOrthographicProjection = true
-				let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
-				camera.orthographicScale = orthoScale
-			}
-			// // Check the condition to determine the camera mode
-			//if false {
-			//	// Perspective mode
-			//	camera.usesOrthographicProjection = false
-			//	camera.zNear 	= 0.1 	// 1    Set the near clipping distance
-			//	camera.zFar 	= 1000	// 100  Set the far clipping distance
-			//	camera.fieldOfView = 60	// Set the field of view, in degrees
-			//} else {
-			//	// Orthographic mode
-//			//	camera.usesOrthographicProjection = true
-			//	let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
-			//	camera.orthographicScale = orthoScale
-			//}
 			return rv
 		}()
-		//	camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
-		//	camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
-		//	camera.exposureAdaptationDarkeningSpeedFactor = 1
-		//	camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
+		guard let camera 		= camNode.camera else { fatalError("camera node not proper") }
+
+		let perspective		= false
+		// Check the condition to determine the camera mode in perspective
+		camera.zNear 		= 0.1 	// 1    Set the near clipping distance
+		camera.zFar 		= 1000	// 100  Set the far clipping distance
+		camera.fieldOfView 	= 60	// Set the field of view, in degrees
+		if !perspective {
+			 // Orthographic (non-perspective) mode
+			camera.usesOrthographicProjection = true
+			let orthoScale: CGFloat = 10.0 // Adjust this value based on your scene's size
+			camera.orthographicScale = orthoScale
+		}
+		camera.wantsExposureAdaptation = false				// determines whether SceneKit automatically adjusts the exposure level.
+		camera.exposureAdaptationBrighteningSpeedFactor = 1// The relative duration of automatically animated exposure transitions from dark to bright areas.
+		camera.exposureAdaptationDarkeningSpeedFactor = 1
+		camera.automaticallyAdjustsZRange = true			//cam.zNear				= 1
 	}
 
 	  // MARK: - 4.3 Axes
@@ -677,11 +665,18 @@ extension ScnBase : SCNSceneRendererDelegate {
 		return rv
 	}
 	static let null 			= {
-		let null				= ScnBase()	// Any use of this should fail (NOT IMPLEMENTED)
+		let null				= ScnBase(eventHandler:eventHandler_null)
+
+
+		//EventHandler_null)	// Any use of this should fail (NOT IMPLEMENTED)
 		null.tree?.name			= "nullScnBase"
 		return null
 	}()
 }
+//typealias EventHandler		= (NSEvent) -> Void
+func eventHandler_null(a:NSEvent) -> Void {
+}
+
 // currently unused
 extension ScnBase : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
@@ -693,4 +688,69 @@ extension ScnBase : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
 		bug
 	}
+}
+
+extension SCNView {		//
+	var handler : EventHandler {
+		get { return	(delegate as! ScnBase).eventHandler}
+		set(val) { }
+	}
+/*
+	override var linkSkinType		: LinkSkinType	{	
+		get {			return .ray 	}
+		set(v) {		panic("MultiLink linkSkinType HELP!!")}
+	}
+
+
+		get {			return .ray 	}
+		set(v) {		panic("MultiLink linkSkinType HELP!!")}
+
+
+{
+		get {
+			return viewAsAtom_
+		}
+		set(val) {
+			viewAsAtom_		= val
+			markTree(dirty:.vew)
+		}
+	}(	get:{ "" }, set:{x in 		// Always out of range
+//					let factalsModel = self.partBase?.factalsModel
+					let port	= atom.ports[x]!
+//					for vewBase in factalsModel.vewBases {
+//						let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
+//						if var fwDocument = atom.partBase?.factalsModel.document {
+//							fwDocument.showInspecFor(vew:newVew, allowNew:false)
+//						}
+//					}
+				} )
+ */
+
+//	let handler: (NSEvent)->Void { get()}
+
+	 // MARK: - 13.1 Keys
+	open override func keyDown(with 	event:NSEvent) 		{	handler(event)	}
+	open override func keyUp(with 		event:NSEvent) 		{	handler(event)	}
+//	 // MARK: - 13.2 Mouse
+//	 //  ====== LEFT MOUSE ======
+//	override func mouseDown(with 		event:NSEvent)		{	handler(event)	}
+//	override func mouseDragged(with 	event:NSEvent)		{	handler(event)	}
+//	override func mouseUp(with 			event:NSEvent)		{	handler(event)	}
+//	override func mouseDown(with event: NSEvent) {
+//		print("SCNView.mouseDown")
+//	}
+//	 //  ====== CENTER MOUSE ======
+//	override func otherMouseDown(with 	event:NSEvent)		{	handler(event)	}
+//	override func otherMouseDragged(with event:NSEvent)		{	handler(event)	}
+//	override func otherMouseUp(with 	event:NSEvent)		{	handler(event)	}
+//	 //  ====== CENTER SCROLL WHEEL ======
+//	override func scrollWheel(with 		event:NSEvent) 		{	handler(event)	}
+//	 //  ====== RIGHT MOUSE ======			Right Mouse not used
+//	override func rightMouseDown(with 	event:NSEvent) 		{	handler(event)	}
+//	override func rightMouseDragged(with event:NSEvent) 	{	handler(event)	}
+//	override func rightMouseUp(with 	event:NSEvent) 		{	handler(event)	}
+//	 // MARK: - 13.3 TOUCHPAD Enters
+//	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
+//	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
+//	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
 }

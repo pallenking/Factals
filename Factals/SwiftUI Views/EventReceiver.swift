@@ -13,20 +13,20 @@
 import SwiftUI
 
 struct EventReceiver: NSViewRepresentable {
-	let handler: (NSEvent) -> Void					// OUTSKI: --> SceneKitHostingView
+	let eventHandler:EventHandler
 
 	func makeNSView(context:Context) -> EventReceiverView {
-		return EventReceiverView(handler: handler)
+		return EventReceiverView(eventHandler:eventHandler)
 	}
 	func updateNSView(_ nsView: EventReceiverView, context: Context) {
 	}
 }
-
+								
 final class EventReceiverView: NSView {
-	let handler: (NSEvent) -> Void
+	let eventHandler:EventHandler
 
-	init(handler: @escaping (NSEvent) -> Void) {
-		self.handler 			= handler
+	init(eventHandler: @escaping EventHandler) {
+		self.eventHandler		= eventHandler
 		super.init(frame:.zero)
 	}
 	@available(*, unavailable) required init?(coder aDecoder: NSCoder) {
@@ -42,28 +42,28 @@ final class EventReceiverView: NSView {
 
 
 	  // Intercept these messages to this NSView
-	 // MARK: - 13.1 Keys
-	override func keyDown(with 			event:NSEvent) 		{	handler(event)	}
-	override func keyUp(with 			event:NSEvent) 		{	handler(event)	}
-	 // MARK: - 13.2 Mouse
-	 //  ====== LEFT MOUSE ======
-	override func mouseDown(with 		event:NSEvent)		{	handler(event)	}
-	override func mouseDragged(with 	event:NSEvent)		{	handler(event)	}
-	override func mouseUp(with 			event:NSEvent)		{	handler(event)	}
-	 //  ====== CENTER MOUSE ======
-	override func otherMouseDown(with 	event:NSEvent)		{	handler(event)	}
-	override func otherMouseDragged(with event:NSEvent)		{	handler(event)	}
-	override func otherMouseUp(with 	event:NSEvent)		{	handler(event)	}
-	 //  ====== CENTER SCROLL WHEEL ======
-	override func scrollWheel(with 		event:NSEvent) 		{	handler(event)	}
-	 //  ====== RIGHT MOUSE ======			Right Mouse not used
-	override func rightMouseDown(with 	event:NSEvent) 		{	handler(event)	}
-	override func rightMouseDragged(with event:NSEvent) 	{	handler(event)	}
-	override func rightMouseUp(with 	event:NSEvent) 		{	handler(event)	}
-	 // MARK: - 13.3 TOUCHPAD Enters
-	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
-	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
-	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
+//	 // MARK: - 13.1 Keys
+//	override func keyDown(with 			event:NSEvent) 		{	handler(event)	}
+//	override func keyUp(with 			event:NSEvent) 		{	handler(event)	}
+//	 // MARK: - 13.2 Mouse
+//	 //  ====== LEFT MOUSE ======
+//	override func mouseDown(with 		event:NSEvent)		{	handler(event)	}
+//	override func mouseDragged(with 	event:NSEvent)		{	handler(event)	}
+//	override func mouseUp(with 			event:NSEvent)		{	handler(event)	}
+//	 //  ====== CENTER MOUSE ======
+//	override func otherMouseDown(with 	event:NSEvent)		{	handler(event)	}
+//	override func otherMouseDragged(with event:NSEvent)		{	handler(event)	}
+//	override func otherMouseUp(with 	event:NSEvent)		{	handler(event)	}
+//	 //  ====== CENTER SCROLL WHEEL ======
+//	override func scrollWheel(with 		event:NSEvent) 		{	handler(event)	}
+//	 //  ====== RIGHT MOUSE ======			Right Mouse not used
+//	override func rightMouseDown(with 	event:NSEvent) 		{	handler(event)	}
+//	override func rightMouseDragged(with event:NSEvent) 	{	handler(event)	}
+//	override func rightMouseUp(with 	event:NSEvent) 		{	handler(event)	}
+//	 // MARK: - 13.3 TOUCHPAD Enters
+//	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
+//	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
+//	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
 
 	 // MARK: - 15. PrettyPrint
 	 // MARK: - 17. Debugging Aids

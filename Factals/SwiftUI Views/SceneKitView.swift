@@ -9,25 +9,26 @@ import SwiftUI
 import SceneKit
 
 struct SceneKitView: NSViewRepresentable {
-	var scnBase : ScnBase		// ARG1: exposes visual world
-	typealias NSViewType 		= SCNView	//FwView:SCNView:NSView	// Type represented
+	var scnBase : ScnBase						// ARG1: exposes visual world
+	typealias NSViewType 		= SCNView		// Type represented
 
-	func makeNSView(context: Context) -> SCNView { //FwView {
-		let scnView				= SCNView()
-		scnView.isPlaying/*animations*/ = true	// does nothing showsStatistics 		= true			// works fine
-		scnView.debugOptions	= [				// enable display of:
+	func makeNSView(context: Context) -> SCNView {
+		let sv					= SCNView()
+		sv.isPlaying			= true			// animations, does nothing
+		sv.showsStatistics		= true			// controls extra bar
+		sv.debugOptions	= [				// enable display of:
 			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
 		]
-		scnView.allowsCameraControl = true		// we control camera	//true//args.options.contains(.allowsCameraControl)
-		scnView.autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
-		scnView.rendersContinuously = true		//args.options.contains(.rendersContinuously)
-		scnView.preferredFramesPerSecond = 30	//args.preferredFramesPerSecond
+		sv.allowsCameraControl	= true//false// // we control camera	//true//args.options.contains(.allowsCameraControl)
+		sv.autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
+		sv.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
+		sv.preferredFramesPerSecond = 30	//args.preferredFramesPerSecond
  
-		scnView.delegate		= scnBase 		//scnBase is SCNSceneRendererDelegate
-		scnView.scene			= scnBase.scnScene
+		sv.delegate				= scnBase 		//scnBase is SCNSceneRendererDelegate
+		sv.scene				= scnBase.scnScene
 
-		scnBase.scnView			= scnView		// for pic
-		return scnView
+		scnBase.scnView			= sv		// for pic
+		return sv
 	}
 
 	func updateNSView(_ nsView: SCNView, context:Context) {}		//FwView
@@ -119,8 +120,8 @@ struct SceneKitView: NSViewRepresentable {
 			//class EventMonitor {
 			//	private var monitor: Any?
 			//	private let mask: NSEvent.EventTypeMask
-			//	private let handler: (NSEvent) -> Void
-			//	init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent) -> Void) {
+			//	private let handler: EventHandler
+			//	init(mask: NSEvent.EventTypeMask, handler: @escaping EventHandler {
 			//		self.mask = mask
 			//		self.handler = handler
 			//	}

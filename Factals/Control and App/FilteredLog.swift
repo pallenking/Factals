@@ -2,8 +2,10 @@
 
 import Foundation
 
-//	at<A>(<V>, {...}) executes an action dependent on "arguments" <A> and <V>.
-//	If the current DOClog.verbosity[<A>] is >= <V> the closure is executed.
+//	at<A>(<V>, {...})
+//		executes an action {...} dependent on "arguments" <A> and <V>.
+//			If the current DOClog.verbosity[<A>] is >= <V>
+//				the closure is executed.
 //
 //	The following   verbosities <V>   are defined:
 		// 0 : silent (prints nothing)		// 5 : Normal
@@ -69,7 +71,7 @@ func logAt(
 	if all >= 0 	{		rv["logPri4all"] = all								}
 	return rv
 }
-// synchronize with 'func at(app ...'
+// synchronize with 'func at(app ..) below'
 
  /// 3b. Neutered (with suffix X) returns an empty hash
 func logAtX(prefix:String="",
@@ -144,11 +146,9 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 		  (verbosity["all"] ?? -1) >= verbos	   // verbosity["all"] high enough
 		{
 			if log.msgFilter != nil || log.msgPriority != nil {
-				let c			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
 				let new			= area + String(verbos)
 				let now			= log.msgFilter ?? "?" + String(log.msgPriority!)//Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
-//				let new			= Log.pp(filter:area, priority:verbos)
-//				let now			= Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
+				let c			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
 				panic(c + " '\(new)' found log '\(log.name)' busy doing '\(now)'")
 			}
 			log.msgFilter		= area

@@ -34,7 +34,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	 /// generate a new View, returning its index
 	init(for p:PartBase) {
 		partBase				= p
-		scnBase					= ScnBase()
+		scnBase					= ScnBase(eventHandler:eventHandler_null)
 		tree					= Vew()			// Start with just trunk Vew
 
 		super.init()			// NSObject

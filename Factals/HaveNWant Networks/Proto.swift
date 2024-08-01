@@ -5,7 +5,7 @@ import SceneKit
 class Proto : Book {
 	override func loadTest(args:ScanForKey, state:inout ScanState) {
 		super.loadTest(args:args, state:&state)
-		let e 	 : FwConfig		= [:]		// Logs OFF "logPri4all":8
+	//	let e 	 : FwConfig		= [:]		// Logs OFF "logPri4all":8
 
 		 // MARK: - * Tivo World
 		state.scanSubMenu		= "Proto Menu"
