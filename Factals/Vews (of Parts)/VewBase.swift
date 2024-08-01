@@ -83,10 +83,9 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	///   - for owner: get lock for this name. nil --> don't lock
 	///   - logIf: log the description
 	/// - Returns: Operation Succeeded
-	func lock(for neededLockName:String?=nil, logIf:Bool) -> Bool {
-		guard let neededLockName else	{	return true		/* no lock needed */		}
+	func lock(for lockName:String, logIf:Bool) -> Bool {
 
-		let ownerNId		= ppUid(self) + " '\(neededLockName)'".field(-20)
+		let ownerNId		= ppUid(self) + " '\(lockName)'".field(-20)
 		if logIf && debugOutterLock {
 			atRve(3, logd("//#######\(ownerNId):     GET Vew  LOCK: v:\(semiphore.value ?? -99)" ))
 		}
@@ -101,8 +100,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		}
 
 		 // === Succeeded:
-		assert(curLockOwner==nil, "'\(neededLockName)' attempting to lock, but '\(curLockOwner!)' still holds lock ")
-		curLockOwner 		= neededLockName
+		assert(curLockOwner==nil, "'\(lockName)' attempting to lock, but '\(curLockOwner!)' still holds lock ")
+		curLockOwner 		= lockName
 		if logIf  {						/// AFTER GETTING:
 			atRve(3, logd("//#######" + ownerNId + "      GOT Vew  LOCK: v:\(semiphore.value ?? -99)"))
 		}

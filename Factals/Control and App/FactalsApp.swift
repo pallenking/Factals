@@ -130,7 +130,7 @@ struct FactalsApp: Uid, FwAny {
 	var uid: UInt16				= randomUid()
 
 	 // Source of Truth:
-	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4pp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
+	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
 	 // MARK: - 2. Object Variables:
 	var log	: Log				= Log.app	// a Static var
@@ -156,7 +156,7 @@ struct FactalsApp: Uid, FwAny {
 	private init (foo:Bool) {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
-		let appConfig = params4pp
+		let appConfig = params4partPp
 		atApp(3, log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), "))
 		atApp(3, log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])"))
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))

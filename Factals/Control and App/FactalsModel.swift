@@ -24,9 +24,8 @@ class FactalsModel : ObservableObject, Uid {
 	init(partBase rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
 
 		let params4modelLog : FwConfig =
-			params4pp			+  	//	pp... (50ish keys)
+			params4partPp		+  	//	pp... (50ish keys)
 			params4logs 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-		//	params4sim			+ 	//	enabled, timeStep, ...
 		//	params4vew			+ 	//	physical Characterists of object e.g: factalHeight
 			logAt(all:docLogN)
 		log						= Log(name:"Model's Log", params4modelLog)
@@ -35,11 +34,12 @@ class FactalsModel : ObservableObject, Uid {
 
 		partBase				= rp ?? PartBase(tree:Part())
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+//		fmConfig				= params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
+//		configure(from:params4partPp)
+
 		FACTALSMODEL			= self			// set UGLY GLOBAL
 		simulator.factalsModel	= self			// backpointer
 		partBase.factalsModel	= self			// backpointer
-//		fmConfig				= params4pp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
-//		configure(from:params4pp)
 	}
 
 	func configurePart(from config:FwConfig) {
@@ -71,7 +71,7 @@ class FactalsModel : ObservableObject, Uid {
 
 		 // Ensure 1 View
 		if vewBases.isEmpty {
-			atBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
+			// atBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
 
@@ -90,8 +90,8 @@ class FactalsModel : ObservableObject, Uid {
 		vewBase.updateVSP()
 		vewBase.setupSceneVisuals()
 
-		atBld(5, log.logd("---====--- anotherVewBase() generated \(vewBase.pp(.uidClass)) "))
-		atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
+		atBld(5, log.logd("---====--- anotherVewBase() done \(vewBase.pp(.uidClass)) "))
+//		atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -518,7 +518,6 @@ bug
 //	//		node.addAnimation(anim, forKey: nil)
 	}
 	// MARK: - 9 Update Vew: -
-	
 	func doPartNViewsLocked(workNamed:String, logIf:Bool, work:(_:VewBase)->Void) {
 
 		guard partBase  .lock  (for:workNamed, logIf:logIf)
@@ -537,7 +536,6 @@ bug
 		partBase  .unlock  (for:workNamed, logIf:logIf)
 	}
 
-
 	   /// Update the Vew Tree from Part Tree
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
@@ -550,25 +548,13 @@ bug
 		//assert(partBase .lock (for:workName, logIf:log), "failed to get lock")
 
 		doPartNViewsLocked(workNamed:workName, logIf:log) { vewBase in
-			vewBase.updateVSP()
+
+			vewBase.updateVSP()		//##
 		}
 
 		partBase.unlock(for:workName, logIf:log)
 		SCNTransaction.commit()
 	}
-//		 // For ALL Views:
-//		for vewBase in vewBases {
-//			let lockName			= "vewBase\(vewBase.slot ?? -1234487)"
-//			//assert(vewBase.curLockOwner == nil, "should be locked by now 2")
-//			guard vewBase   .lock  (for:lockName, logIf:log) else { fatalError("Could not obtain lock '\(lockName)'") }
-//
-//			vewBase.updateVSP(initial:initial, logIf:log)
-//
-//			vewBase  .unlock  (for:lockName, logIf:log)
-//		}
-	//	if vewBases.count == 0 && log {
-	//		atRve(6, logd("updateVewSizePaint(vewConfig: Just to be nice"))
-	//	}
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{// CherryPick2023-0520:

@@ -69,7 +69,6 @@ func logAt(
 	if all >= 0 	{		rv["logPri4all"] = all								}
 	return rv
 }
-
 // synchronize with 'func at(app ...'
 
  /// 3b. Neutered (with suffix X) returns an empty hash

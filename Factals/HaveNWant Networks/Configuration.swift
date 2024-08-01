@@ -31,9 +31,9 @@ test
 		*
 	* params4appLog
 	*			params4app		:	soundVolume, regressScene, emptyEntry
-	*			params4pp		:	pp... (50ish keys)
-				params4sim		:	enabled, timeStep, ...
-				params4vew		:	physical Characterists of object e.g: factalHeight
+	*			params4partPp		:	pp... (50ish keys)
+	*			params4sim		:	enabled, timeStep, ...
+	*			params4vew		:	physical Characterists of object e.g: factalHeight
 	*			params4logs		:	"debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 	*			logAt(xxx:dd)
 					 -> Log.app, FactalsModel.log,  Sourcces:
@@ -58,14 +58,15 @@ let appLogN						= 7//5//8//
 let docLogN						= 7//5//8//
  // This must contain NO log statements!
 
-private let params4appLog		= params4pp + params4logs
+private let params4appLog		= params4partPp + params4logs
 								+ logAt(app:appLogN, men:appLogN)
 //								+ logAt(doc:docLogN, bld:docLogN, ser:docLogN)
  // MARK: - C: Pretty Print
 
 let params4aux : FwConfig 		= [:]
 
-/*private*/ let params4pp : FwConfig = [
+//let params4vewPp : FwConfig 	= [:]	// UNUSED
+let params4partPp  : FwConfig 	= [
 				// What:
 	"ppLinks"			: false, 	// pp includes Links  //true//
 	"ppPorts"			: true, 	// pp includes Ports //false//
@@ -74,7 +75,7 @@ let params4aux : FwConfig 		= [:]
 	"ppDagOrder"		: true, 	//true//false//
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
-	//"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
+	///"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
 	"ppViewOptions"		: "UF V TWB",		// Compact printout
 		// "U":		Show Uid			  "E":		Show my initial expose
 		// "F":		Show Flipped		  "T":		Show my position transform
@@ -99,13 +100,13 @@ let params4aux : FwConfig 		= [:]
 	"ppNCols4ScnPosn"	: 40,		// columns printout for SCN position  //25/20/18/14/./
 				// Floating Point Accuracy:
 	 		   // fmt("%*.*f", A, B, x) (e.g. %5.2f)
-	//"ppFloatA": 2, "ppFloatB":0,	// good, small
-	  "ppFloatA": 4, "ppFloatB":1,	// good, .1, tight printout
-//	  "ppFloatA": 5, "ppFloatB":2,	// good, .01 for bug hunting
-	//"ppFloatA": 7, "ppFloatB":4,	// BIG,  .0001 ACCURACY
-	//"ppFloatA": 4, "ppFloatB":2,
-	//"ppFloatA": 5, "ppFloatB":2,
-	//"ppFloatA": 3, "ppFloatB":1,
+ ///"ppFloatA": 2, "ppFloatB":0,	// good, small
+	"ppFloatA": 4, "ppFloatB":1,	// good, .1, tight printout
+ ///  "ppFloatA": 5, "ppFloatB":2,	// good, .01 for bug hunting
+	///"ppFloatA": 7, "ppFloatB":4,	// BIG,  .0001 ACCURACY
+	///"ppFloatA": 4, "ppFloatB":2,
+	///"ppFloatA": 5, "ppFloatB":2,
+	///"ppFloatA": 3, "ppFloatB":1,
 ]
  // MARK: -
  // MARK: - D: Parameters Doc Log
@@ -119,7 +120,7 @@ let params4logs				: FwConfig = [
 	"breakAtEvent"				: -50//150//-54,//240/3/0:off
 
 ]
-private let params4docLog		= params4pp + params4logs
+private let params4docLog		= params4partPp + params4logs
 								+ logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 
 

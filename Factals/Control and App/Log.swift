@@ -8,18 +8,18 @@ import SceneKit
 //extension Log : Uid { }
 extension Log : Logd { }
 
-class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
-
-	 // MARK: - 1. Class Variables:
+extension Log {
+	 // MARK: - 1. Static Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 	static var app				= Log(name:"App Log", params4appLog)
 	static let params4appLog	=
 		params4app				+
-		params4pp				+	//	pp... (20ish keys)
+		params4partPp				+	//	pp... (20ish keys)
 		params4logs				+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 		logAt(all:appLogN)
-
+}
+class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
 	var uid						= randomUid()
@@ -218,13 +218,12 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 		 // Print new Log, if it has changed:
  		if logNo != Log.currentLogNo {						// different than last time
+			let curLogNoStr		= "Log\(logNo)"
 			Log.currentLogNo	= logNo							// switch to new
-			// THERE IS A BUG HERE		//		var x				= [1].pp(.line) ?? "nil" // BAD, ["a"] too
-										//	//	var x	LOG			= "33".pp(.line) ?? "nil"// GOOD
-			let x				= "-- SWITCHING TO Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
+			let x				= "-- SWITCHING From \(curLogNoStr) TO Log\(Log.currentLogNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
 			print(x)
 		}
-		// DO SOME OTHER WAY: sim state shouldn't be actor isolated
+		// DO SOME OTHER WAY: sim state shouldn't be actor isolated, but Actors died in HNW
 		if let fm				= FACTALSMODEL {
 			let sim				= fm.simulator
 			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)

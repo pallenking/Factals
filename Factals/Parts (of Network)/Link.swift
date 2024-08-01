@@ -348,7 +348,7 @@ class Link : Atom {
 		 /// Skin "s-Link" displays the two bidirectional opposing values
 		 /// All calculations done in parentVew(.scn)'s coordinate system
 	override func reSizePost(vew:Vew) {				//  find endpoints
-		let aux					= params4pp				//log.params4aux
+		let aux					= params4partPp				//log.params4aux
 		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
 		guard let parentVew		= linkVew.parent  else { return	/* no parent, do nothing*/}
 		linkVew.scn.position	= .zero

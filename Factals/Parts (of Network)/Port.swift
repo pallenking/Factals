@@ -413,7 +413,7 @@ class Port : Part, PortTalk {
 	}
 	 /// Convert self.portConSpot to inVew
 	func portConSpot(inVew vew:Vew) -> ConSpot {
-		let aux					= params4pp				//log.params4aux
+		let aux					= params4partPp				//log.params4aux
 		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
 		atRsi(8, openParent.logd("---------- \(vew.pp(.fullName)).portConSpotNEW"))
 
@@ -471,7 +471,7 @@ class Port : Part, PortTalk {
 //	func portConSpotOLD(inVew vew:Vew) -> ConSpot {
 //		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
 //		var rv	: ConSpot		= basicConSpot()		// in parent's coords
-//		let aux					= params4pp				//log.params4aux
+//		let aux					= params4partPp				//log.params4aux
 //print("---------- portConSpotOLD")
 //		// H: SeLF, ViEW, World Position
 //		// AVew will not exist when it (and its parents) are atomized.

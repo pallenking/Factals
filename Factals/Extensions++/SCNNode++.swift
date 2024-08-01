@@ -423,7 +423,7 @@ bug;			rv				+= s.vewBase?.scnBase === self ? "" :
 		}
 
 		 // display position in trunk:
-		if params4pp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
+		if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
 		  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnNode:self) {
 			let p				= convertPosition(.zero, to:vews.tree.scn)
 			rv2					+= p.pp(.short, aux).field(-11, dots:false)

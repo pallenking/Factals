@@ -71,7 +71,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 
 		 // Scan through all Library swift source file, stop at first
 		for book in Library.books {
-	/**/	book.loadTest(args:args, state:&rv.state)	// state persists across library probes
+/**/		book.loadTest(args:args, state:&rv.state)	// state persists across library probes
 		}		// Hack: Stop after first found.  Ignore multi-source xr('s.
 		 // Return list of titles in a master catalog.
 		return rv

@@ -56,6 +56,8 @@ struct FactalsDocument : FileDocument {
 //	}
 
 	init(fromLibrary select:String?=nil) {
+
+		 // 1. Part
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
 			/**/	let select:String?=nil	//	Blank scene		 |	nil		  -1
@@ -65,14 +67,14 @@ struct FactalsDocument : FileDocument {
 			//**/	let select	= "- Port Missing"
 			return select
 		} ()
-		 // 1. Parts
 		let partBase			= PartBase(fromLibrary:select)
 		 // 2. FactalModel
 		factalsModel			= FactalsModel(partBase:partBase)
+		 // 3. Groom part
 		let pmConfig			= factalsModel.fmConfig
 								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
 								+ params4vew
-								+ params4pp
+								+ params4partPp
 								+ partBase.ansConfig		// from library
 								+ logAt(all:8)
 		factalsModel.configurePart(from:pmConfig)
@@ -82,7 +84,7 @@ struct FactalsDocument : FileDocument {
 		let fmConfig			= factalsModel.fmConfig
 								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
 								+ params4vew
-								+ params4pp
+								+ params4partPp
 								+ partBase.ansConfig		// from library
 								+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
