@@ -836,9 +836,9 @@ nop
 
 		let _					= findCommon(up2:false, me2:true, firstWith:					//all:false,
 		{ (inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
+			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
 
 			   // /////////////////////////////////////////////////////////////// //
-			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
 			  // /////// Search for a Link to fixed ground
 			 //							// // a. Ignore if not Port
 			guard let inMePort	= inMe as? Port else {

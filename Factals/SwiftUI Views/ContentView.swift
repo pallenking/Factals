@@ -19,7 +19,6 @@ struct ContentView: View {
 
 struct FactalsModelView: View {
 	@Binding	var factalsModel : FactalsModel		// not OK here
-	@State		var mouseDown	= false
 
 	var body: some View {
 		VStack {
@@ -31,7 +30,7 @@ struct FactalsModelView: View {
 						let scnBase			= vewBase.scnBase.wrappedValue
 						ZStack {
 							EventReceiver { 	nsEvent in // Catch events (goes underneath)
-								//print("EventReceiver:point = \(nsEvent.locationInWindow)")
+								print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
 							SceneKitView(scnBase:scnBase)		 // New Way (NSViewRepresentable)

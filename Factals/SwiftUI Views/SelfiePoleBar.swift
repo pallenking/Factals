@@ -77,7 +77,7 @@ struct LabeledCGFloat: View {
 //	}
 //}
 
-struct SelfiePoleBar: View {
+struct SelfiePoleBar: View   {
 	@Binding var selfiePole	: SelfiePole
 
 	var body: some View {

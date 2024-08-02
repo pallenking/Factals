@@ -24,10 +24,7 @@ configVew	-- controls:
 debug
 test
 
-	=
-		
 			configuration sources
-
 		*
 	* params4appLog
 	*			params4app		:	soundVolume, regressScene, emptyEntry
@@ -117,7 +114,7 @@ let params4logs				: FwConfig = [
 								// + +  + +
 	"breakAtLogger"				: 2,
 								// + +  + +
-	"breakAtEvent"				: 1 //150//-54,//240/3/0:off
+	"breakAtEvent"				: -1 //150//-54,//240/3/0:off
 
 ]
 private let params4docLog		= params4partPp + params4logs

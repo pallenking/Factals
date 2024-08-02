@@ -1,8 +1,4 @@
-//
-//  Vews.swift
-//  Factals
-//
-//  Created by Allen King on 9/19/22.
+//  VewBase.swift --  Created by Allen King on 9/19/22.
 //
 
 import SceneKit
@@ -131,15 +127,15 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		}
 	}
 
-	   /// Update one VewBase's tree from Part Tree
+	   /// Update VewBase.tree from Part.Tree
 	  /// - Parameter initial:	-- VewConfig for first appearance
-	 /// - Parameter log: 		-- log the obtaining of locks.
+	 ///  - Parameter log: 		-- controlls logging
 	func updateVSP(initial:VewConfig?=nil, logIf log:Bool=true) { // VIEWS
 		let partsTree			= partBase.tree		// Model
 
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
-		if partsTree.test(dirty:.vew) {		//" _ reVew _   VewBase (per updateVewSizePaint(needsLock:'\\(newOwner2)')") {
-			atRve(6, log ? logd("updateVewSizePaint(vewConfig:(initial)") : nop)
+		if partsTree.test(dirty:.vew) {		//" _ reVew _   VewBase (per updateVSP(needsLock:'\\(newOwner2)')") {
+			atRve(6, log ? logd("updateVSP(vewConfig:(initial)") : nop)
 
 			 // if Empty, make new base
 			if tree.name == "_null" {
@@ -158,7 +154,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 			partsTree.reVewPost(vew:tree)
 		}
 		 // ---- 2.  Adjust   S I Z E s   ---- //
-		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVewSizePaint(needsLock:'(newOwner2 ?? \"nil\")')") {
+		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP(needsLock:'(newOwner2 ?? \"nil\")')") {
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
 			
 			tree.bBox		|= BBox.unity			// insure a 1x1x1 minimum
@@ -169,7 +165,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 		}
 		 // -----   P A I N T   Skins ----- //
-		if partsTree.test(dirty:.paint) {		//" _ rePaint _ VewBase (per updateVewSizePaint(needsLock:'(newOwner2 ?? \"nil\")')") {
+		if partsTree.test(dirty:.paint) {		//" _ rePaint _ VewBase (per updateVSP(needsLock:'(newOwner2 ?? \"nil\")')") {
 	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
@@ -183,10 +179,10 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	 // MARK: - 15. PrettyPrint
 	/*override*/func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
  							 				// Report any improper linking:
-		guard let factalsModel 					  else{return "factalsModel BAD"}
+		guard let factalsModel 					  else{return "slot factalsModel BAD"}
 		guard let slot 							  else{return "slot IS NIL"		}
 		guard slot < factalsModel.vewBases.count  else{return "slot TOO BIG"	}
-		guard factalsModel.vewBases[slot] == self else{return "self inclorectly in rootVews"}
+		guard factalsModel.vewBases[slot] == self else{return "slot inclorectly in rootVews"}
 		
 		return super.pp(mode, aux)			// superclass does all the work.
 	}

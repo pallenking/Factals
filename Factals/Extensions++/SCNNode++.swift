@@ -338,10 +338,11 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
-			if let s			= self as? ScnBase {
-bug;			rv				+= s.vewBase?.scnBase === self ? "" :
-								   "--- BAD --- VewBase: vews?.scenes !== self"
-			}
+//Cast from 'SCNNode' to unrelated type 'ScnBase' always fails
+//			if let s			=  self as? ScnBase {
+//bug;			rv				+= s.vewBase?.scnBase === self ? "" :
+//								   "--- BAD --- VewBase: vews?.scenes !== self"
+//			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
 			rv					= pp(.line, aux) + "\n"

@@ -410,8 +410,8 @@
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F1E3CE528D926C5004548C9 /* VewBase.swift */,
-				9F6B9AB628E6711600E23DEC /* VewConfig.swift */,
 				9FBD6E4629258E2500F14075 /* VewBar.swift */,
+				9F6B9AB628E6711600E23DEC /* VewConfig.swift */,
 			);
 			path = "Vews (of Parts)";
 			sourceTree = "<group>";

@@ -17,10 +17,10 @@ struct VewBar: View {
 				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
 				Spacer()
 //				Button(label:{	Text("Z//RV").padding(.top, 300)				})
-//				{	var s	= vews.selfiePole
-//					s.zoom	/= 1.1
+//				{	var s	= $vewBase.selfiePole
+//			//		s.zoom	/= 1.1
 //					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-//					vews.selfiePole = s	// Put struct's val back
+//					$vewBase.selfiePole = s	// Put struct's val back
 //				}
 			}
 			HStack {
@@ -29,14 +29,14 @@ struct VewBar: View {
 					Text("Vew").foregroundColor(.red).bold()
 					Text("Slot\(slot):").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
-					{	print("===== Vew of Slot \(slot): =====")
+					{	print("===== Vew of Slot\(slot): =====")
 						print(vewBase.tree.pp(.tree, factalsGlobals.factalsConfig))
 					}
 					Button(label:{	Text("ptn")									})
-					{	print("===== SCNNodes of Slot \(slot): =====")
+					{	print("===== SCNNodes of Slot\(slot): =====")
 						print(vewBase.scnBase.tree?.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 					}
-					Text("Review:")
+					Text("Re-")
 					Button(label:{	Text("Vew")									})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})

@@ -341,7 +341,7 @@ bug
 		 /// === Get partTree lock:
 /**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
 			logd(" //######\(ownerNId)      FAILED Part LOCK v:\(semiphore.value ?? -99)")
-			panic("\(ownerNId): FAILED Part LOCK)")
+			panic("\(ownerNId): Timeout FAILURE in PartBase LOCK. Currenly owned:\(curOwner ?? "nil")")
 			return false
 		}
 

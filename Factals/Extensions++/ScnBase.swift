@@ -191,7 +191,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		let name				= "*-axis"
 
 		 // Already exist?
-		if let rv 				= tree.find(name:name) {
+		if tree.find(name:name) != nil {
 			return
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
@@ -289,43 +289,42 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 //		let transform			= selfiePole.transform
 //		return transform
 //	}
-	/// Compute Camera Transform from pole config
-	/// - Parameters:
-	///   - from: defines direction of camera
-	///   - message: for logging only
-	///   - duration: for animation
+		 /// Compute Camera Transform from pole config
+		/// - Parameters:
+	   ///   - from: defines direction of camera
+	  ///   - message: for logging only
+	 ///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-bug;
-		guard let cameraScn		= vewBase?.cameraScn else {return }
+bug
+		guard let cameraScn		= vewBase?.cameraScn else {		return 			}
+								
+		vewBase?.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
 
-		let zoom 				= zoom4fullScreen()
-//		zoom4fullScreen(selfiePole:selfiePole, cameraScn:cameraScn)
-		guard let vews		= self.vewBase else { fatalError("vews is nil")}
+		guard let vewBase		= self.vewBase else { fatalError("vews is nil")	}
+		guard let factalsModel	= vewBase.factalsModel else {fatalError("")		}
 
-		let animate				= vews.factalsModel?.fmConfig.bool("animatePan") ?? false
+		let animate				= factalsModel.fmConfig.bool("animatePan") ?? false
 		if animate && duration > 0.0 {
 			SCNTransaction.begin()			// Delay for double click effect
-// TYP		atRve(8, vews.factalsModel.logd("  /#######  animatePan: BEGIN All"))
-/*CherryPick2023-0520:*/atRve(8, vews.partBase.logd("  /#######  animatePan: BEGIN All"))
-
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
+
 			 // 181002 must do something, or there is no delay
 			cameraScn.transform	*= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
-bug//			atRve(8, self.vews!.vews!.factalsModel.logd("  /#######  animatePan: BEGIN Completion Block"))
+				atRve(8, factalsModel.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
 				cameraScn.transform = self.vewBase!.selfiePole.transform()
 
-bug//			atRve(8, self.vews!.factalsModel.logd("  \\#######  animatePan: COMMIT Completion Block"))
+				atRve(8, factalsModel.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
 			}
-bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
+			atRve(8, factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 			SCNTransaction.commit()
 		}
 		else {
-			cameraScn.transform = vews.selfiePole.transform()
+			cameraScn.transform	= vewBase.selfiePole.transform()
 		}
 	}
 		
@@ -352,7 +351,7 @@ bug//		atRve(8, vews.factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 			zoomRv				= rootVewSizeInEye.y
 			 // Is top going to be clipped off?
 			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
-				zoomRv				/= ratioHigher
+				zoomRv			/= ratioHigher
 			}
 		}
 		return zoomRv

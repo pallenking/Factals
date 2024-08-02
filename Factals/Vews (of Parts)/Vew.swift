@@ -251,6 +251,18 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 	}
 	 /// FIND child Vew by its PART:
+	func find(vew:Vew,
+
+			  up2:Bool=false,
+			  me2:Bool=false,
+			  maxLevel:Int?=nil) -> Vew?
+	{
+		return find(up2:up2, me2:me2, maxLevel:maxLevel)
+		{(v:Vew) -> Bool in
+			return v === vew	// view's part matches
+		}
+	}
+	 /// FIND child Vew by its PART:
 	func find(part:Part,
 
 			  up2:Bool=false,
@@ -595,7 +607,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	}	// calls toggelOpen()
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
-		let (nl, fmt)			= format.stripLeadingNewLines()
 		var myLog				= Log.app
 		if let vewBase			= vewBase() {
 			myLog 				= vewBase.factalsModel.log//.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
@@ -603,6 +614,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		else if let root		= part.partBase {	// strangely redundant, but okay
 			myLog 				= root.factalsModel!.log//.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 		}
+		let (nl, fmt)			= format.stripLeadingNewLines()
 		myLog.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint

@@ -5,18 +5,8 @@ import SceneKit
   /// Print State of ALL System Controllers in the App:
  /// - Returns: State of all Controllers, one per line
 func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
-//	guard let APP else {	return "FactalsApp: No Application registered, APP==nil"}
-//	var rv 						= FactalsApp.ppFactalsState(deapth:deapth-1)
-//	var rv 						= APP	  .ppFactalsState(deapth:deapth-1)
-	let rv						= FACTALSMODEL?.ppFactalsState(deapth:deapth-1) ?? ""	// current DOCument
-//bug
-	 // display current DOCument
-//	let msg						= DOC == nil ? "(none selected)" : "(currently selected)"
-//	rv							+= ppUid(pre:" ", DOC, post:" DOC \(msg)", showNil:true) + "\n"
-//	rv							+= DOC?.ppFactalsState(deapth:deapth-1) ?? ""	// current DOCument
-	return rv
+	return FACTALSMODEL?.ppFactalsState(deapth:deapth-1) ?? ""
 }
-
 
  /// Print status of Factal Workbench Controllers
 protocol FactalsStatus : FwAny {
@@ -253,7 +243,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 			myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.selfiePole.ppFactalsState(deapth:deapth-1)
-				rv 				+= self.cameraScn?.ppFactalsState(deapth:deapth-1) ?? ""
+				rv 				+= self.cameraScn?.ppFactalsState(deapth:deapth-1) ?? "\t\t cameraScn is nil\n"
 			//	rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
 				return rv
 			},

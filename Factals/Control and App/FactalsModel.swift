@@ -406,39 +406,41 @@ bug
 	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
 		print("modelDispatch(fwEvent: to:")
 	}
-
+								
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
-bug
-//		let key 				= 0			// only element 0 for now
-//		guard let vews		= vew.vews else {	fatalError("toggelOpen without VewBase")}
-//
-//		 // Toggel vew.expose: .open <--> .atomic
-//		vew.expose 				= vew.expose == .open   ? .atomic :
-//								  vew.expose == .atomic ? .open :
-//								  						  .null
-//	//	SCNTransaction.begin()
-//		assert(vew.expose != .null, "")
-//		let part				= vew.part
-//
-//		 // ========= Get Locks for two resources, in order: =============
-//		guard parts!.lock(for:"toggelOpen") else {
-//			fatalError("toggelOpen couldn't get PART lock")	}		// or
-//		guard  vews.lock(for:"toggelOpen") else {fatalError("couldn't get Vew lock") }
-//
-//		assert(!(part is Link), "cannot toggelOpen a Link")
-//		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
-//		vew.scn.removeFromParent()
-//		vew.removeFromParent()
-//
-//		vews.updateVewSizePaint(for:"toggelOpen4")
-//
-//		// ===== Release Locks for two resources, in reverse order: =========
-//		vews  .unlock( for:"toggelOpen")										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
-//		parts?.unlock(for:"toggelOpen")
-//
-//		let scenes			= vews.scenes
-//bug;	scenes.commitCameraMotion(reason:"toggelOpen")
+		let key 				= 0			// only element 0 for now
+		 // Toggel vew.expose: .open <--> .atomic
+		vew.expose 				= vew.expose == .open   ? .atomic
+								: vew.expose == .atomic ? .open
+								: 						  .null
+		assert(vew.expose != .null, "")
+		let partBase			= vew.part.partBase
+		let vewBase				= vewBases.first(where: {
+			$0.tree.find(vew:vew, up2:false, me2:true, maxLevel: 9999) == vew
+		})
+		guard let vewBase		else {	fatalError()							}
+		let slotx				= vewBase.slot
+
+		 // ========= Get Locks for two resources, in order: =============
+		let workName			= "toggelOpen"
+		guard partBase!.lock(for:workName, logIf:true) else {
+			fatalError("toggelOpen couldn't get PART lock")	}		// or
+		guard  vewBase.lock(for:workName, logIf:true) else {fatalError("couldn't get Vew lock") }
+
+		assert(!(vew.part is Link), "cannot toggelOpen a Link")
+		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
+		vew.scn.removeFromParent()
+		vew.removeFromParent()
+
+		vewBase.updateVSP()
+
+		// ===== Release Locks for two resources, in reverse order: =========
+		vewBase  .unlock(for:workName, logIf:true)										//		ctl.experiment.unlock(partTreeAs:"toggelOpen")
+		partBase!.unlock(for:workName, logIf:true)
+
+//		let scenes				= vewBase.scenes
+//		scenes.(reason:"toggelOpen")
 //		scenes.updatePole2Camera(reason:"toggelOpen")
 //		atAni(4, part.logd("expose = << \(vew.expose) >>"))
 //		atAni(4, part.logd(parts!.pp(.tree)))
@@ -526,7 +528,7 @@ bug
 			let label			= "\(workNamed)[\(i)]"
 			guard vewBase  .lock   (for:label, logIf:logIf)
 								else {fatalError(" couldn't get VEW lock")}
-				work(vewBase)
+			work(vewBase)
 
 			vewBase  .unlock  (for:label, logIf:logIf)
 		}
@@ -539,19 +541,19 @@ bug
 	  /// - Parameter as:		-- name of lock owner. Obtain no lock if nil.
 	 /// - Parameter log: 		-- log the obtaining of locks.
 	func updateVews(initial:VewConfig?=nil, logIf log:Bool=true) { // VIEWS
-		let workName				= "updateVews"
+		let workName				= "updateVew"
 		SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
 
 		assert(partBase.curOwner==nil, "shouldn't be")
-		//assert(partBase .lock (for:workName, logIf:log), "failed to get lock")
+		assert(partBase  .lock  (for:workName, logIf:log), "failed to get lock")
 
 		doPartNViewsLocked(workNamed:workName, logIf:log) { vewBase in
 
 			vewBase.updateVSP()		//##
 		}
 
-		partBase.unlock(for:workName, logIf:log)
+		partBase  .unlock  (for:workName, logIf:log)
 		SCNTransaction.commit()
 	}
 

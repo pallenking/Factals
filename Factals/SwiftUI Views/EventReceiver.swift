@@ -18,11 +18,11 @@ struct EventReceiver: NSViewRepresentable {
 	func makeNSView(context:Context) -> EventReceiverView {
 		return EventReceiverView(eventHandler:eventHandler)
 	}
-	func updateNSView(_ nsView: EventReceiverView, context: Context) {
+	func updateNSView(_ nsView:EventReceiverView, context:Context) {
 	}
 }
 								
-final class EventReceiverView: NSView {
+final class EventReceiverView : NSView {
 	let eventHandler:EventHandler
 
 	init(eventHandler: @escaping EventHandler) {

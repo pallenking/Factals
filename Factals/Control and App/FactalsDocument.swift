@@ -107,8 +107,6 @@ struct FactalsDocument : FileDocument {
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
 		factalsModel			= f			// girootPart!.ven
-//		factalsModel.document	= self		// owner back-link
-//		DOC						= self		// INSTALL Factals
 	}
 	init(configuration: ReadConfiguration) throws {		// async
 		//fatalError()

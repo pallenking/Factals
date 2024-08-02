@@ -19,7 +19,7 @@ struct SceneKitView: NSViewRepresentable {
 		sv.debugOptions	= [				// enable display of:
 			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
 		]
-		sv.allowsCameraControl	= true//false// // we control camera	//true//args.options.contains(.allowsCameraControl)
+		sv.allowsCameraControl	= false//true// // we control camera	//true//args.options.contains(.allowsCameraControl)
 		sv.autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
 		sv.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
 		sv.preferredFramesPerSecond = 30	//args.preferredFramesPerSecond
