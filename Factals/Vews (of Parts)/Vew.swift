@@ -3,7 +3,7 @@
 // :H: bbox=BBox, fw=FactalWorkbench
 
 import SceneKit
-		// Remove NSObject?
+		// can't remove NSObject?
 class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
 
 	// MARK: - 2. Object Variables:

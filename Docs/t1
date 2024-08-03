@@ -1218,3 +1218,43 @@ func renderer()
 Log.debugOutterLock
 
 func lock(it:Bool=true, logIf:Bool) -> Bool {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+part.VewForSelf()
+part.reVew(vew:parentVew:)
+part.reSize(vew:)
+part.rePosition(vew:)
+part.rePaint(vew:)
+part. rotateLinkSkins (vew:tree)
+bounding Box stuff
+Scenekit autopositioning: computeLinkForces() applyLinkForces()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cloud Walker. ver 3.0.3
+

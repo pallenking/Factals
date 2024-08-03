@@ -956,11 +956,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 				vew!.removeAllChildren()	// might eliminate later
 //				markTree(dirty:.size)		// (.vew loops endlessly!)
 			}
-			let _				= reSkin(atomicOnto:vew!)	// Put on skin.
-
+			let _				= reSkin(atomicOnto:vew!)	// xyzzy32 -- Put on skin after going atomic.
+// sound support bulse wireless headphones case: 02108778 $195 june
 		default:					// ////  including .invisible
 			if vew != nil {					// might linger
-				let _			= reSkin(invisibleOnto:vew!)
+				let _			= reSkin(invisibleOnto:vew!)				// xyzzy32
 			}
 		}
 		vew?.expose				= vew?.expose ?? initialExpose	// for the future
@@ -986,7 +986,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 		 //------ Put on my   Skin   on me.
 		vew.bBox				= .empty			// Set view's bBox EMPTY
-		vew.bBox				= reSkin(vew:vew)	// Put skin on Part
+		vew.bBox				= reSkin(vew:vew)	// Put skin on Part			// xyzzy32
 
 		 //------ reSize all  _CHILD Atoms_
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
@@ -1040,11 +1040,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		vew.expose				= expose_ ?? vew.expose
 		switch vew.expose {
 		case .invis, .null:
-			return reSkin(invisibleOnto:vew)	// no skin visible
+			return reSkin(invisibleOnto:vew)	// no skin visible			// xyzzy32
 		case .atomic:
-			return reSkin(atomicOnto:vew) 		// atomic skin (sphere/line)
+			return reSkin(atomicOnto:vew) 		// atomic skin (sphere/line)// xyzzy32
 		case .open:
-			return reSkin(fullOnto:vew)			// skin of Part
+			return reSkin(fullOnto:vew)			// skin of Part				// xyzzy32
 		}
 	}
 	/// Put on full skins onto a Part
@@ -1054,7 +1054,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// - Called _ONCE_ to get skin, as Views are constructed:
 	func reSkin(fullOnto vew:Vew) -> BBox  {	// Bare Part
 		 // No Full Skin overrides; make purple
-		let atomBBox			= reSkin(atomicOnto:vew)		// Expedient: uses atomic skins
+		let atomBBox			= reSkin(atomicOnto:vew)		// xyzzy32 // Expedient: uses atomic skins // xyzzy32
 		vew.scn.children[0].color0 = .purple
 		return atomBBox
 	}

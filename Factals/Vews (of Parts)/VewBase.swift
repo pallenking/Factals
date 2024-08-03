@@ -127,7 +127,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		}
 	}
 
-	   /// Update VewBase.tree from Part.Tree
+		/// Update one VewBase from changes marked in Part.Tree.dirty.
+	   ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
 	  /// - Parameter initial:	-- VewConfig for first appearance
 	 ///  - Parameter log: 		-- controlls logging
 	func updateVSP(initial:VewConfig?=nil, logIf log:Bool=true) { // VIEWS

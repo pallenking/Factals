@@ -261,7 +261,7 @@ class Link : Atom {
 			if port.test(dirty:.size) {		// clear Port's dirty size
 				guard let portsVew = vew.find(part:port, maxLevel:1) else {fatalError("Link's Part has no Vew") }
 
-				let _			= port.reSkin(linkPortsVew:portsVew)
+				let _			= port.reSkin(linkPortsVew:portsVew)		// xyzzy32 Link rebuilds link skins
 
 				portsVew.scn.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link Port skins picable
 			}
@@ -270,7 +270,7 @@ class Link : Atom {
 		  //  from Atom's, it's superclass.	.:. Don't call super
 		 //------ NOT SURE WHY THIS IS HERE (except it must be)
 		vew.bBox				= .empty			// ??? Set view's bBox EMPTY
-		vew.bBox				= reSkin(vew:vew)	// Put skin on Part
+		vew.bBox				= reSkin(vew:vew)	// Put skin on Part		// xyzzy32 -- Link's positioning of its Ports
 		markTree(dirty:.paint)
 	}
 	 // MARK: - 9.3 reSkin (Link Billboard)

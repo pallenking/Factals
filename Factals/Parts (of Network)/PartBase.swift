@@ -392,11 +392,11 @@ bug
 		return rv
 	}
 
-//	 // MARK: - 9.3 reSkin
-//	 func reSkin(_ expose:Expose?=nil, vew:Vew) -> BBox 	{
-//		// invisible?
-//		return .empty						// Root Part is invisible
-//	}
+	 // MARK: - 9.3 reSkin
+	 func reSkin(_ expose:Expose?=nil, vew:Vew) -> BBox 	{
+bug		// invisible?
+		return .empty						// Root Part is invisible
+	}
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
