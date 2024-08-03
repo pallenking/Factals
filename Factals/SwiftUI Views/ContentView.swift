@@ -33,7 +33,7 @@ struct FactalsModelView: View {
 								print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
-							SceneKitView(scnBase:scnBase)		 // New Way (NSViewRepresentable)
+							SceneKitView(scnBase:scnBase, prefFps: <#Binding<String>#>)		 // New Way (uses old NSViewRepresentable)
 							 .frame(maxWidth: .infinity)
 							 .border(.black, width:1)
 						}
@@ -50,6 +50,10 @@ struct FactalsModelView: View {
 		}
 	}
 }
+/*
+window group
+
+ */
 //SceneView(					 // Old Way
 //	scene:scnBase.scnScene,
 //	pointOfView:nil,	// SCNNode

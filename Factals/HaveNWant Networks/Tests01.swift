@@ -1043,7 +1043,7 @@ xxr("+Mirror Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Ne
 	Mirror([n:"t1", "gain":-1, "offset":1-decay]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
 ] ]) })
-xr("- short Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+xxr("- short Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
 	Mirror([n:"t1", "gain":0, "offset":1]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
  ] ]) })
@@ -1658,7 +1658,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 		r("-Leaf is nil_", e + selfiePole(s:0,u:0), {
 			Leaf(.nil_, [n:"a"])
 		} )
-		r("+ Bulb sizing", e + selfiePole(s:45,u:0,z:1.6) + velX(-5) + logAt(all:8) + //logAt(dat:5, eve:5) +
+		xr("+ Bulb sizing", e + selfiePole(s:45,u:0,z:1.6) + vel(-3) + logAt(all:8) + //logAt(dat:5, eve:5) +
 				["gapLinkFluff":1, "wBox":"colors", lookAt+X:"/net0/v.P"], { Net([placeMy:"linky", parts:[
 			Mirror([n:"t", P:"u"]),
 			Bulb(  [n:"u"]),					// Broadcast

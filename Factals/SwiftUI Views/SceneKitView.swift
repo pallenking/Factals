@@ -9,20 +9,24 @@ import SwiftUI
 import SceneKit
 
 struct SceneKitView: NSViewRepresentable {
-	var scnBase : ScnBase						// ARG1: exposes visual world
 	typealias NSViewType 		= SCNView		// Type represented
+	var scnBase : ScnBase						// ARG1: exposes visual world
+//	@Binding var x = 0
+    @Binding var prefFps: String
 
 	func makeNSView(context: Context) -> SCNView {
-		let sv					= SCNView()
+		let sv					= SCNView(frame: NSRect.zero, options: [String : Any]())
+//		print(x)
 		sv.isPlaying			= true			// animations, does nothing
 		sv.showsStatistics		= true			// controls extra bar
-		sv.debugOptions	= [				// enable display of:
-			SCNDebugOptions.showPhysicsFields,	//?EH?  regions affected by each SCNPhysicsField object
+		sv.debugOptions	= [						// enable display of:
+		//	SCNDebugOptions.showPhysicsFields,	//  regions affected by each SCNPhysicsField object
 		]
-		sv.allowsCameraControl	= false//true// // we control camera	//true//args.options.contains(.allowsCameraControl)
+		sv.allowsCameraControl	= true//false// // user may control camera	//true//args.options.contains(.allowsCameraControl)
 		sv.autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
-		sv.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
-		sv.preferredFramesPerSecond = 30	//args.preferredFramesPerSecond
+		sv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
+		let prefFps				= Int(prefFps) ?? 0
+		sv.preferredFramesPerSecond = prefFps		//args.preferredFramesPerSecond
  
 		sv.delegate				= scnBase 		//scnBase is SCNSceneRendererDelegate
 		sv.scene				= scnBase.scnScene
@@ -66,6 +70,8 @@ struct SceneKitView: NSViewRepresentable {
 		//							let y				= bind_scnView.wrappedValue?.scnBase?.pp() ?? "nil"
 		//						 	print("\(scnBase).scnView.scnBase = \(y)")
 		//						 }
+
+
 									//NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 									//	print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
 									//	return $0

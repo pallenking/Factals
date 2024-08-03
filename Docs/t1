@@ -1258,3 +1258,15 @@ Scenekit autopositioning: computeLinkForces() applyLinkForces()
 
 Cloud Walker. ver 3.0.3
 
+Net.swift:		  // xyzzy32 -- Net expands skin to encompass repacked contents
+Link.swift:		  // xyzzy32 -- Link rebuilds link skins
+Link.swift:		  // xyzzy32 -- Link's positioning of its Ports
+CommonParts.swift // xyzzy32 -- sets up bBox
+Part.swift:		  // xyzzy32 -- Put on skin after going atomic.
+Part.swift:		  // xyzzy32 -- Erase Skin
+Part.swift:		  // xyzzy32 -- Put skin on Part
+Part.swift:		  // xyzzy32 -- no skin visible
+Part.swift:		  // xyzzy32 -- atomic skin (sphere/line)
+Part.swift:		  // xyzzy32 -- skin of Part
+Part.swift:		  // xyzzy32 -- Expedient: uses atomic skins
+
