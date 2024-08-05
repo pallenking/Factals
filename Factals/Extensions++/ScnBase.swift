@@ -7,7 +7,7 @@
 
 import Foundation
 import SceneKit
-typealias EventHandler		= (NSEvent) -> Void
+typealias EventHandler			= (NSEvent) -> Void
 //EventHandler.null				= { }
 //class EventHandler {}
 
@@ -35,6 +35,10 @@ class ScnBase : NSObject {
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
+	override convenience init() {
+		self.init()
+		scnScene				= SCNScene()	// get scene
+	}
 	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {		// ScnBase(tree
 		self.scnScene			= s ?? SCNScene()	// get scene
 		self.eventHandler		= eventHandler

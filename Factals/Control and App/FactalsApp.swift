@@ -34,15 +34,18 @@ extension FactalsApp : App {
 //	@Environment(\.newDocument) private var newDocument		// Flock Extensions must not contain stored properties
 	var body: some Scene {
 		/*.retainIn($openDocuments)*/
+		// WindowsGroups()
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
 			 .environmentObject(factalsGlobals)	// inject in environment
 			 .onOpenURL { url in					// Load a document from the given URL
 				@Environment(\.newDocument) var newDocument
 				newDocument(FactalsDocument(fileURL:url))
-//				let _ = FactalsDocument(fileURL:url)/*.retainIn($openDocuments)*/
-			 }
-			 .onAppear { NSApplication.shared.windows.first?.title = file.document.factalsModel?.partBase.title ?? "<nil>" }
+				let _ = FactalsDocument(fileURL:url)/*.retainIn($openDocuments)*/
+			}
+			 .onAppear {
+			 	NSApplication.shared.windows.first?.title = file.document.factalsModel?.partBase.title ?? "<nil>"
+			}
 		}
 		 .commands {
 			CommandMenu("Library") {
@@ -264,9 +267,9 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 
 	 // MARK: Access Scene MENU
 	mutating func scheneAction(_ sender:NSMenuItem) {
-bug;	print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
+		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
-bug
+
 		 // Find scene number for Library lookup:
 		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
 											: regressScene	// from last time
