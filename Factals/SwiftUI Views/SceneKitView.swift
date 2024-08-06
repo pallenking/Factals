@@ -8,21 +8,22 @@
 import SwiftUI
 import SceneKit
 
-// Texting Scaffolding, after Josh and Peter help:
-
+// ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
 struct W: View {
 	@State var text = "hello"					// THE MASTER!
 //	@State var bogusScnBase = ScnBase(eventHandler: .null)
+
 	var body: some View {
 		VStack {
-			Text(text).foregroundStyle(.red)
-			Button("Reset") { text = "hello"}
-			SceneKitView(scnBase:nil, prefFps:text)//text: $text)		// loaned to AllensSceneKitView
+			Text(text).foregroundStyle(.red)		/// A: SwiftUI Text
+			Button("Reset") {
+				text += " o"			}			/// changes Text and V
+			SceneKitView(scnBase:nil, prefFps:$text)/// B: The target UItext)
+			V(text: $text)							/// B: The target UI
 		}
 		.font(.largeTitle)
 	}
 }
-
 final class Delegate: NSObject, NSTextFieldDelegate {
 	@Binding var text: String
 	init(_ binding: Binding<String>) {
@@ -32,17 +33,36 @@ final class Delegate: NSObject, NSTextFieldDelegate {
 		text = textField.stringValue
 	}
 }
+struct V: NSViewRepresentable {
+	typealias NSViewType = NSTextField
+	
+	@Binding var text: String
+				/// Modifying state during view update, this will cause undefined behavior.
+	func makeNSView(context: Context) -> NSTextField {
+		let view = NSTextField()
+		view.stringValue = text
+		view.delegate = context.coordinator	/// changes to coordinator
+		return view
+	}
+	func updateNSView(_ nsView: NSTextField, context: Context) {
+		if nsView.stringValue != text {
+			nsView.stringValue = text
+		}
+	}
+	func makeCoordinator() -> Delegate {
+		.init($text)
+	}
+}
+// MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
 
-
-
-
+ /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 	var scnBase : ScnBase?						// ARG1: exposes visual world
-    //@Binding var prefFps: String				// ARG2
-	let prefFps: String
+    @Binding var prefFps: String				// ARG2:
+	//let prefFps: String  						// ARG2:
 
-	func makeNSView(context: Context) -> SCNView {
+	func makeNSView(context: Context) -> SCNView {		// PW: some View?
 		let sv					= SCNView(frame: NSRect.zero, options: [String : Any]())
 		 // Defaults:
 		sv.isPlaying			= true			// animations, does nothing
@@ -59,11 +79,13 @@ struct SceneKitView: NSViewRepresentable {
 		sv.preferredFramesPerSecond = prefFps		//args.preferredFramesPerSecond
 
  
-		guard let scnBase	else {	fatalError()	}
-		sv.delegate				= scnBase 		//scnBase is SCNSceneRendererDelegate
-		sv.scene				= scnBase.scnScene
+		if let scnBase	{
+			sv.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
+			sv.scene			= scnBase.scnScene
 
-		scnBase.scnView			= sv		// for pic
+			scnBase.scnView		= sv		// for pic
+		}
+		//else {	fatalError("scnBase is nil")													}
 		return sv
 	}
 

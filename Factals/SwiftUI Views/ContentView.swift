@@ -34,7 +34,7 @@ struct FactalsModelView: View {
 								print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
-							SceneKitView(scnBase:scnBase, prefFps: prefFps /*Binding<String>*/)		 // New Way (uses old NSViewRepresentable)
+							SceneKitView(scnBase:scnBase, prefFps:$prefFps /*Binding<String>*/)		 // New Way (uses old NSViewRepresentable)
 							 .frame(maxWidth: .infinity)
 							 .border(.black, width:1)
 						}
@@ -44,6 +44,7 @@ struct FactalsModelView: View {
 				Button("+") {
 					factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
 				}
+				W()
 			}
 			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
 			 .padding(10)
