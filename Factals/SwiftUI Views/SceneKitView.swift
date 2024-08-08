@@ -7,17 +7,38 @@
 
 import SwiftUI
 import SceneKit
+import AppKit
 
+//extension TUINSRemoteViewController {
+//
+//    override func viewServiceDidTerminateWithError(_ error: Error) {
+//        // Handle the error appropriately
+//        print("View service did terminate with error: \(error)")
+//
+//        // Custom error handling code
+//        // For example, you could show an alert to the user or perform cleanup operations
+//        let alert = NSAlert()
+//        alert.messageText = "Error"
+//        alert.informativeText = error.localizedDescription
+//        alert.alertStyle = .warning
+//        alert.addButton(withTitle: "OK")
+//        
+//        alert.runModal()
+//
+//        // Additional custom handling as needed
+//    }
+//}
 // ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
 struct W: View {
-	@State var text = "hello"					// THE MASTER!
+	@State var text = "3.141"					// THE MASTER!
 //	@State var bogusScnBase = ScnBase(eventHandler: .null)
 
 	var body: some View {
 		VStack {
 			Text(text).foregroundStyle(.red)		/// A: SwiftUI Text
-			Button("Reset") {
-				text += " o"			}			/// changes Text and V
+			Button("Increment") {
+				let textDouble	= Double(text)!
+				text 			= String(textDouble + 1.0)			}			/// changes Text and V
 			SceneKitView(scnBase:nil, prefFps:$text)/// B: The target UItext)
 			V(text: $text)							/// B: The target UI
 		}
@@ -34,15 +55,15 @@ final class Delegate: NSObject, NSTextFieldDelegate {
 	}
 }
 struct V: NSViewRepresentable {
-	typealias NSViewType = NSTextField
-	
+	typealias NSViewType 		= NSTextField
+								//
 	@Binding var text: String
 				/// Modifying state during view update, this will cause undefined behavior.
 	func makeNSView(context: Context) -> NSTextField {
-		let view = NSTextField()
-		view.stringValue = text
-		view.delegate = context.coordinator	/// changes to coordinator
-		return view
+		let nsView 				= NSTextField()
+		nsView.stringValue 		= text
+		nsView.delegate 		= context.coordinator	/// changes to coordinator
+		return nsView
 	}
 	func updateNSView(_ nsView: NSTextField, context: Context) {
 		if nsView.stringValue != text {
