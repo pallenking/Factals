@@ -176,10 +176,11 @@ let findWorldUp					= true			// find scans parts bottom up
  /// Expose: how to vew the contents.
 enum Expose 	: UInt8, Codable, CaseIterable 	{ 			//	CodingKey // enum AdditionalInfoKeys: String, CodingKey { //https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
 	// Case A:		CASE
-	case null					= 0x10			// Does not exist
-	case invis					= 0x08			// Do not display at all
+	case null					= 0x01			// Does not exist
+	case invis					= 0x02			// Do not display anything
 	case atomic 				= 0x04 			// Display as an Atom (sphere)
-	case open					= 0x02			// Display all contents
+	case same					= 0x08			// Leave unchanged
+	case open					= 0x10			// Display all contents
 	// Case B:		Raw from String
 	static let name2raw : [String:UInt8]	= [
 		"undef"	:0x00,

@@ -31,17 +31,14 @@ var FACTALSMODEL : FactalsModel?=nil
  // MARK: - SwiftUI
 @main
 extension FactalsApp : App {
-//	@Environment(\.newDocument) private var newDocument		// Flock Extensions must not contain stored properties
 	var body: some Scene {
-		/*.retainIn($openDocuments)*/
-		// WindowsGroups()
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
-			 .environmentObject(factalsGlobals)	// inject in environment
-			 .onOpenURL { url in					// Load a document from the given URL
+			 .environmentObject(factalsGlobals)				// inject in environment
+			 .onOpenURL { url in							// Load a document from the given URL
 				@Environment(\.newDocument) var newDocument
 				newDocument(FactalsDocument(fileURL:url))
-				let _ = FactalsDocument(fileURL:url)/*.retainIn($openDocuments)*/
+				let _ = FactalsDocument(fileURL:url)
 			}
 			 .onAppear {
 			 	NSApplication.shared.windows.first?.title = file.document.factalsModel?.partBase.title ?? "<nil>"

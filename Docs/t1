@@ -1305,3 +1305,28 @@ physical therapist MD
 		 sillset.
 occupatation therapy
 		 not to be confined to a chair
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	func 	 	  reSkin(_ expose_:Expose?=nil,
+									   vew:Vew) -> BBox 	{
+		  reSkin(vew          :vew)	// Put skin on Part	// xyzzy32
+
+	func 		  reSkin(linkPortsVew vew :Vew) -> BBox {
+
+	override func reSkin(fullOnto vew     :Vew) -> BBox {
+	func 	 	  reSkin(atomicOnto vew	  :Vew) -> BBox {
+	func		  reSkin(invisibleOnto vew:Vew) -> BBox {
+

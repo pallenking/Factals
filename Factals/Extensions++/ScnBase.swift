@@ -12,7 +12,9 @@ typealias EventHandler			= (NSEvent) -> Void
 //class EventHandler {}
 
 class ScnBase : NSObject {
+
 	var scnScene : SCNScene
+
 	var tree	 : SCNNode?
 	{	didSet {				setRootNodeChild1(from:tree)					}}
 	func setRootNodeChild1 (from:SCNNode?) {
@@ -22,12 +24,14 @@ class ScnBase : NSObject {
 		guard let tree 			else { return }	// no tree, no children
 		scnSceneRootNode.addChildNode(tree)
 	}
+
 	var scnView	 : SCNView?						// SCNView  of this ScnBase
+	weak
+	 var vewBase : VewBase?						// Delegate (of these ScnBase)
+
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler:EventHandler
 
-	weak
-	 var vewBase : VewBase?						// Delegate (of these ScnBase)
 
 	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic

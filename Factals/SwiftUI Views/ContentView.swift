@@ -44,7 +44,7 @@ struct FactalsModelView: View {
 				Button("+") {
 					factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
 				}
-				W()
+				W(factalsModel:$factalsModel)
 			}
 			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
 			 .padding(10)

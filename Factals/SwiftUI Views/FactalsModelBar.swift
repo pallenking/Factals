@@ -52,11 +52,13 @@ struct SimulatorBar : View {
 		HStack {
 			//	Text("Settled:\(isSettled() ? "true" : "false")")
 			Text("simulator:").foregroundColor(.red).bold()
+			Text(" t=")
 			if let nogo = !simulator.simBuilt	? "unbuilt" : !simulator.simEnabled ? "disabled" : nil {
 				Text(nogo)
 				Spacer()
 			}
 			else {
+				Text(String(simulator.timeNow))
 				Button(label:{	Text("start")	})
 				{	simulator.simEnabled = true
 					simulator.startChits = 4								}

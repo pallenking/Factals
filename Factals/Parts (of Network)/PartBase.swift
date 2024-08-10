@@ -32,6 +32,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	 var factalsModel : FactalsModel? = nil
 
 	 // MARK: - 2.3 Part Tree Lock
+// be ware of structured concurency.
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var curOwner  : String?		= nil
 	var prevOnwer : String?		= nil

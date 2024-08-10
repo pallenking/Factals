@@ -270,7 +270,7 @@ class Link : Atom {
 		  //  from Atom's, it's superclass.	.:. Don't call super
 		 //------ NOT SURE WHY THIS IS HERE (except it must be)
 		vew.bBox				= .empty			// ??? Set view's bBox EMPTY
-		vew.bBox				= reSkin(vew:vew)	// Put skin on Part		// xyzzy32 -- Link's positioning of its Ports
+		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part		// xyzzy32 -- Link's positioning of its Ports
 		markTree(dirty:.paint)
 	}
 	 // MARK: - 9.3 reSkin (Link Billboard)

@@ -257,6 +257,7 @@
 		9F6B94692B86A73E007A14E5 /* NSView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView++.swift"; sourceTree = "<group>"; };
 		9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		9F6B9AB628E6711600E23DEC /* VewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewConfig.swift; sourceTree = "<group>"; };
+		9F70F1132C67D3D900FE5D8B /* ray's.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ray's.swift"; sourceTree = "<group>"; };
 		9F84C9ED2AF2BFAA002BD0C1 /* ShaftBundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaftBundleTap.swift; sourceTree = "<group>"; };
 		9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleTap.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
@@ -454,6 +455,7 @@
 		9FEE6F092835778A00E9E2AE = {
 			isa = PBXGroup;
 			children = (
+				9F70F1132C67D3D900FE5D8B /* ray's.swift */,
 				9F369DD6287C68F700196211 /* README.md */,
 				9F417F5E28EDB10A0047B359 /* TO_DO.md */,
 				9FC31EAB28E0B7820022E536 /* Install.md */,

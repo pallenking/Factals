@@ -986,7 +986,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 		 //------ Put on my   Skin   on me.
 		vew.bBox				= .empty			// Set view's bBox EMPTY
-		vew.bBox				= reSkin(vew:vew)	// Put skin on Part			// xyzzy32
+		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part			// xyzzy32
 
 		 //------ reSize all  _CHILD Atoms_
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
@@ -1036,17 +1036,21 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	///			If nil, use View's exposure
     /// - returns: The BBox of the part with new skins on.
     /// - note: The BBox of the view's SCNNode is INVALID at this point. (This is from a problem with non-zero gaps)
-	func reSkin(_ expose_:Expose?=nil, vew:Vew) -> BBox 	{
-		vew.expose				= expose_ ?? vew.expose
+	func reSkin(expose:Expose, vew:Vew) -> BBox 	{
+		let vewExposeWas		= vew.expose
+		vew.expose				= expose
 		switch vew.expose {
 		case .invis, .null:
 			return reSkin(invisibleOnto:vew)	// no skin visible			// xyzzy32
 		case .atomic:
 			return reSkin(atomicOnto:vew) 		// atomic skin (sphere/line)// xyzzy32
+		case .same:
+			return reSkin(expose:vewExposeWas, vew:vew)
 		case .open:
 			return reSkin(fullOnto:vew)			// skin of Part				// xyzzy32
 		}
 	}
+
 	/// Put on full skins onto a Part
     /// - Parameter vew: -- The Vew to use.
 	/// - Returns: FW Bounding Box of skin
