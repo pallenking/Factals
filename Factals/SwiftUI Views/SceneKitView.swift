@@ -9,6 +9,16 @@ import SwiftUI
 import SceneKit
 import AppKit
 
+
+import Cocoa
+
+//class TUINSRemoteViewController: NSViewController {
+//	func viewServiceDidTerminateWithError(_ error: Error) {
+//		// Handle the error
+//		print("View service terminated with error: \(error)")
+//		// Optionally, you can attempt to restart the service or inform the user
+//	}
+//}
 //extension TUINSRemoteViewController {
 //
 //    override func viewServiceDidTerminateWithError(_ error: Error) {
@@ -30,42 +40,45 @@ import AppKit
 //}
 // ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
 struct W: View {
-	@State   var text = "3.141"					// THE MASTER!
-//	@State   var bogusScnBase = ScnBase(eventHandler: .null)
 	@ObservedObject var factalsModel : FactalsModel
 	@State		var prefFps : String = " Set by FactalsModelView"
 
 	var body: some View {
 		VStack {
 			//Color(.pink)
-			Text("W").foregroundStyle(.blue)		/// A: SwiftUI Text
-			Text("Time now displayed \(factalsModel.simulator.timeNow)")
-
-			Text("timeNow=")
-			FwTextField(float:$factalsModel.simulator.timeNow)
-
-			Text(text).foregroundStyle(.red)		/// A: SwiftUI Text
-
-			Button("Increment") {
-				let textDouble	= Double(text)!
-				text 			= String(textDouble + 1.0)			}			/// changes Text and V
-
-			VStack {									//Binding<VewBase>
-				let vewBase0		= factalsModel.vewBases[0]					//.scnBase.wrappedValue
-				let scnBase			= vewBase0.scnBase							//.scnBase.wrappedValue
-				ZStack {
-					EventReceiver { 	nsEvent in // Catch events (goes underneath)
-						print("EventReceiver:point = \(nsEvent.locationInWindow)")
-						let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
-					}
-					SceneKitView(scnBase:scnBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
-					 .frame(maxWidth: .infinity)
-					 .border(.black, width:1)
-				}
-				//VewBar(vewBase:vewBase)
+			HStack {
+				Text("W").foregroundStyle(.blue)	/// A: SwiftUI Text
+				FwTextField(float:$factalsModel.simulator.timeNow)
 			}
+//			Text(text).foregroundStyle(.red)		/// A: SwiftUI Text
 
-			SceneKitView(scnBase:nil, prefFps:$text)/// B: The target UItext)
+			Button("Reset") {
+				factalsModel.simulator.timeNow = 0								}
+//			Button("Increment") {
+//				let textDouble	= Double(text)!
+//				text 			= String(textDouble + 1.0)			}			/// changes Text and V
+
+//			VStack {									//Binding<VewBase>
+//				let vewBase0		= factalsModel.vewBases[0]					//.scnBase.wrappedValue
+//				SelfiePoleBar(selfiePole:$vewBase0.selfiePole)
+//			}
+
+//			VStack {									//Binding<VewBase>
+//				let vewBase0		= factalsModel.vewBases[0]					//.scnBase.wrappedValue
+//				let scnBase			= vewBase0.scnBase							//.scnBase.wrappedValue
+//				ZStack {
+//					EventReceiver { 	nsEvent in // Catch events (goes underneath)
+//						print("EventReceiver:point = \(nsEvent.locationInWindow)")
+//						let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
+//					}
+//					SceneKitView(scnBase:scnBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
+//					 .frame(maxWidth: .infinity)
+//					 .border(.black, width:1)
+//				}
+//				//VewBar(vewBase:vewBase)
+//			}
+
+	//		SceneKitView(scnBase:nil, prefFps:$text)/// B: The target UItext)
 //			FwTextField(text:$text)							/// B: The target UI
 		
 		}
@@ -73,53 +86,32 @@ struct W: View {
 	}
 }
 final class Delegate: NSObject, NSTextFieldDelegate {
-//	@Binding var text: String
-//	init(_ binding: Binding<String>) {
 	@Binding var float: Float
 	init(_ binding: Binding<Float>) {
 		_float = binding
 	}
 	func textFieldDidEndEditing(_ textField: NSTextField) {
 		float = textField.floatValue
-//		text = textField.stringValue
 	}
 }
 struct FwTextField: NSViewRepresentable {
 	typealias NSViewType 		= NSTextField
-								//
-//	@Binding var text: String
 	@Binding var float: Float
+
 				/// Modifying state during view update, this will cause undefined behavior.
 	func makeNSView(context: Context) -> NSTextField {
 		let nsView 				= NSTextField()
-		//add target action
-//		nsView.stringValue 		= text
+		//add target action						//	view.addAction(UIAction { [weak view] action in }, for: .editingChanged)
 		nsView.floatValue		= float
 		nsView.delegate 		= context.coordinator	/// changes to coordinator
 		return nsView
 	}
-//	func makeNSView(context: Context) -> some UIView {
-//		let view = UITextField()
-//		view.addAction(UIAction { [weak view] action in
-//			text = view?.floatValue ?? -1.0
-//		}, for: .editingChanged)
-//		view.text = text
-//		return view
-//	}
-
-
 
 	func updateNSView(_ nsView: NSTextField, context: Context) {
 		nsView.floatValue = float
-//		if nsView.floatValue != float {
-//			nsView.floatValue = float
-////		if nsView.stringValue != text {
-////			nsView.stringValue = text
-//		}
 	}
 	func makeCoordinator() -> Delegate {
 		.init($float)
-//		.init($text)
 	}
 }
 // MARK: END OF SCAFFOLDING //////////////////////////////////////////////////

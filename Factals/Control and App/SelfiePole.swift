@@ -13,7 +13,7 @@ import SceneKit
  //  ---- spun about Y axis
 
  // Uses Cylindrical Coordinates
-struct SelfiePole: Equatable {
+struct SelfiePole: Observable, Equatable {
 	var uid		: UInt16  		= randomUid()
 	var position				= SCNVector3.origin	// world coordinates
 	var spin  	: CGFloat 		= 0.0				// in degrees

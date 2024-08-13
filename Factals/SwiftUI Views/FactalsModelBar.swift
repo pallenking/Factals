@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FactalsModelBar: View {
-	@Binding var factalsModel : FactalsModel
+	@ObservedObject var factalsModel : FactalsModel
 	
 	var body: some View {
 		VStack {
@@ -52,38 +52,41 @@ struct SimulatorBar : View {
 		HStack {
 			//	Text("Settled:\(isSettled() ? "true" : "false")")
 			Text("simulator:").foregroundColor(.red).bold()
-			Text(" t=")
-			if let nogo = !simulator.simBuilt	? "unbuilt" : !simulator.simEnabled ? "disabled" : nil {
-				Text(nogo)
+			if simulator.simBuilt == false {
+				Text("unbuilt")
 				Spacer()
 			}
 			else {
-				Text(String(simulator.timeNow))
 				Button(label:{	Text("start")	})
 				{	simulator.simEnabled = true
-					simulator.startChits = 4								}
-				Button(label:{	Text("stop")								})
+					simulator.startChits = 4									}
+				Button(label:{	Text(simulator.simEnabled ? "stop" : "step")										})
 				{	simulator.simEnabled = true
 					simulator.simulateOneStep()
-					simulator.simEnabled = false							}
+					simulator.simEnabled = false								}
+				Text(" T=")
+				Text(String(simulator.timeNow))
+				if  simulator.simEnabled == false {
+					Text("stopped")
+				}
 				// Other things to worry about later
-					//		!simulator.simTaskRunning
-					//	ro	var timeStep		: Float = 0.01
-					//		func isSettled() -> Bool				chevron
-					//		var timingChains:[TimingChain] = []	chevron
-					//	ro	var globalDagDirUp	: Bool	= true
+				//		!simulator.simTaskRunning
+				//	ro	var timeStep		: Float = 0.01
+				//		func isSettled() -> Bool				chevron
+				//		var timingChains:[TimingChain] = []	chevron
+				//	ro	var globalDagDirUp	: Bool	= true
 				HStack {
 					//let bRpQ		= $factalsModel.partBase//!.simulator		// Binding<Parts?>
 					//	@Bindable var viewModel = viewModel
 					//LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
 					//@Bindable var s			= $factalsModel.partBase				// Binding<Parts?>
-///
-/// SEE FactalStatus.Simulator.ppFactalsState()
-///
+					///
+					/// SEE FactalStatus.Simulator.ppFactalsState()
+					///
 					//var timeNow : Float	= 0.0
-//					LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
-					Text("\(simulator.globalDagDirUp ? ".up"  : ".down") ")
-					Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
+					//					LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
+					Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")
+					//Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
 				}
 				.padding(2)
 				.background(Color(red:1.0, green:0.9, blue:0.9))

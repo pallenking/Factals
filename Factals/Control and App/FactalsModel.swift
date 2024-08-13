@@ -13,7 +13,7 @@ class FactalsModel : ObservableObject, Uid {
 	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
 
 	var log 	  : Log
-	var	simulator : Simulator
+	@Published var	simulator : Simulator
 	var docSound  :	Sounds
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {

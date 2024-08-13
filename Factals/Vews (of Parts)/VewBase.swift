@@ -8,11 +8,10 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var tree		: Vew
 	var scnBase 	: ScnBase				// Master 3D Tree
 	weak
-	 var factalsModel :  FactalsModel!		// Owner
+	 var factalsModel : FactalsModel!		// Owner
 
 	@Published var selfiePole	= SelfiePole()
-// 	var cameraScnB	: SCNNode?	{
-// 	}
+
  	var cameraScn	: SCNNode?	{
  		scnBase.tree?.find(name:"*-camera", maxLevel:1)
 	}

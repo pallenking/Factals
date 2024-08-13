@@ -78,6 +78,7 @@ struct LabeledCGFloat: View {
 //}
 
 struct SelfiePoleBar: View   {
+	//@ObservedObject var selfiePole	: SelfiePole
 	@Binding var selfiePole	: SelfiePole
 
 	var body: some View {
@@ -90,8 +91,7 @@ struct SelfiePoleBar: View   {
 			 .padding(.horizontal, -8)
 			InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
 			 .padding(.horizontal, 5)
-			LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
-			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
+ 			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 			LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
 			Button(label:{	Text("Z**")											})//.padding(.top, 300)
 			{	var s			= selfiePole

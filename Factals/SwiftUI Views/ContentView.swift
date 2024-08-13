@@ -13,12 +13,12 @@ import SceneKit
 struct ContentView: View {
 	@Binding	var document	: FactalsDocument
 	var body: some View {
-		FactalsModelView(factalsModel:$document.factalsModel)
+		FactalsModelView(factalsModel: document.factalsModel)
 	}
 }
 
 struct FactalsModelView: View {
-	@Binding	var factalsModel : FactalsModel		// not OK here
+	@ObservedObject var factalsModel : FactalsModel		// not OK here
 	@State		var prefFps : String = " Set by FactalsModelView"
 
 	var body: some View {
@@ -44,9 +44,9 @@ struct FactalsModelView: View {
 				Button("+") {
 					factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
 				}
-				W(factalsModel:$factalsModel)
+				W(factalsModel:factalsModel)
 			}
-			FactalsModelBar(factalsModel:$factalsModel).padding(.vertical, -10)
+			FactalsModelBar(factalsModel: factalsModel).padding(.vertical, -10)
 			 .padding(10)
 /**/		Spacer()
 		}

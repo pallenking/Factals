@@ -1,6 +1,9 @@
 //  Simulator.swift -- simulation control elements C190715PAK
 import SceneKit
+import Observation
 
+
+@Observable
 class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//Logd
 
 	 // MARK: - 2. Object Variables:
