@@ -177,9 +177,9 @@ class Tests01 : Book {
 		let eYtightX : FwConfig	= [:]
 		let eNoUids  : FwConfig	= ["ppNUid4Tree":0, "ppNUid4Ctl":0]
 		let eAnim    : FwConfig	= e + ["animatePhysics":true]
+		let eW0		 : FwConfig = ["Vews":[]]
 		let eW2		 : FwConfig = ["Vews":[VewConfig.openAllChildren(toDeapth:4),
 										   VewConfig.openAllChildren(toDeapth:6)],]
-		let eW2x	 : FwConfig = [:]
 		let eW3		 : FwConfig = ["Vew0":VewConfig.openAllChildren(toDeapth:4),
 								   "Vew1":VewConfig.openAllChildren(toDeapth:2),
 								   "Vew2":VewConfig.openAllChildren(toDeapth:0)]
@@ -905,7 +905,7 @@ r("+ Generate AppIcon", e + selfiePole(h:0,s:10,u:10,z:1) + velX(-9) + ["gapLink
  		Mirror(   [n:"z", "gain":0, "offset":1, f:1]),
 	] ])
 ]]) })
-	 xxr("- Multiple SCNViews", e + eW2x + selfiePole(h:0,s:10,u:10,z:1) +
+	 xxr("- Multiple SCNViews", e + eW0 + selfiePole(h:0,s:10,u:10,z:1) +
 	 		velX(-9) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
 		Hamming([n:"c", f:1]),	//, share:["z"]
  		Mirror( [P:"c", f:1]),	// X+
@@ -1658,7 +1658,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 		r("-Leaf is nil_", e + selfiePole(s:0,u:0), {
 			Leaf(.nil_, [n:"a"])
 		} )
-		xr("+ Bulb sizing", e + selfiePole(s:45,u:0,z:1.6) + vel(-3) + logAt(all:8) + //logAt(dat:5, eve:5) +
+		xr("+ Bulb sizing", e + eW0 + selfiePole(s:45,u:0,z:1.6) + vel(-3) + logAt(all:8) + //logAt(dat:5, eve:5) +
 				["gapLinkFluff":1, "wBox":"colors", lookAt+X:"/net0/v.P"], { Net([placeMy:"linky", parts:[
 			Mirror([n:"t", P:"u"]),
 			Bulb(  [n:"u"]),					// Broadcast

@@ -9,9 +9,8 @@ import SwiftUI
 import SceneKit
 import AppKit
 
-
-import Cocoa
-
+// ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
+//import Cocoa
 //class TUINSRemoteViewController: NSViewController {
 //	func viewServiceDidTerminateWithError(_ error: Error) {
 //		// Handle the error
@@ -38,13 +37,12 @@ import Cocoa
 //        // Additional custom handling as needed
 //    }
 //}
-// ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
 struct W: View {
 	@ObservedObject var factalsModel : FactalsModel
 	@State		var prefFps : String = " Set by FactalsModelView"
 
 	var body: some View {
-		VStack {
+		VStack (alignment:.leading) {
 			//Color(.pink)
 			HStack {
 				Text("W").foregroundStyle(.blue)	/// A: SwiftUI Text

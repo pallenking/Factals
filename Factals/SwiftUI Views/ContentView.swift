@@ -18,14 +18,16 @@ struct ContentView: View {
 }
 
 struct FactalsModelView: View {
-	@ObservedObject var factalsModel : FactalsModel		// not OK here
-	@State		var prefFps : String = " Set by FactalsModelView"
-
+	@ObservedObject var factalsModel : FactalsModel
+	@State			var prefFps : String = " Set by FactalsModelView"
+	@State private	var selectedFileIndex : Int = 0
+	
 	var body: some View {
 		VStack {
-			HStack {
-				 // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-				 // NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
+			//HStack (alignment:.top) {
+			TabView(selection: $selectedFileIndex)  {
+				// NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
+				// NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 					VStack {									//Binding<VewBase>
 						let scnBase			= vewBase.scnBase.wrappedValue
@@ -35,21 +37,42 @@ struct FactalsModelView: View {
 								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
 							SceneKitView(scnBase:scnBase, prefFps:$prefFps /*Binding<String>*/)		 // New Way (uses old NSViewRepresentable)
-							 .frame(maxWidth: .infinity)
-							 .border(.black, width:1)
+								.frame(maxWidth: .infinity)
+								.border(.black, width:1)
+							//	.tabItem { Text("docTitle") }
 						}
 						VewBar(vewBase:vewBase)
-					}
-				}
-				Button("+") {
-					factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
+					}//
+					.tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
 				W(factalsModel:factalsModel)
+				 .tabItem { Label("W()", systemImage: "1.circle")				}
+				Button("+") {					addNewTab()						}
+				 .tabItem { Label("+",   systemImage: "plus").padding()			}
+				 .buttonStyle(BorderlessButtonStyle())
+	//			HStack {
+	//				Button(action: addNewTab) {	Image(systemName: "plus").padding()	}
+	//					.buttonStyle(BorderlessButtonStyle())
+	//			}
 			}
+			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+				updateTitle()
+			}
+	        .accentColor(.green) // Change the color of the selected tab
+
 			FactalsModelBar(factalsModel: factalsModel).padding(.vertical, -10)
-			 .padding(10)
-/**/		Spacer()
+				.padding(10)
+			Spacer()
 		}
+	}
+	private func updateTitle() {
+		//bug//	if let url = documentURL {
+		//			try? url.setResourceValues(URLResourceValues(name: document.text))
+		//		}
+	}
+	private func addNewTab() {
+		factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
+		selectedFileIndex = factalsModel.vewBases.count - 1
 	}
 }
 /*

@@ -547,7 +547,6 @@ bug
 
 		assert(partBase.curOwner==nil, "shouldn't be")
 		assert(partBase  .lock  (for:workName, logIf:log), "failed to get lock")
-
 		doPartNViewsLocked(workNamed:workName, logIf:log) { vewBase in
 
 			vewBase.updateVSP()		//##
