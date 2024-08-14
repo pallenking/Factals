@@ -27,7 +27,7 @@ struct PartBaseBar : View {
 
 	var body: some View {
 		HStack {	// FULL!
-			Text("Model (partBase): ").foregroundColor(.red).bold()
+			Text("PartBase (Model): ").foregroundColor(.red).bold()
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})
@@ -46,8 +46,10 @@ struct PartBaseBar : View {
 	}
 }
 struct SimulatorBar : View {
-    @Binding var simulator : Simulator
-
+    @Binding var simulator:Simulator
+	@State   var speed 			= 50.0
+	@State   var isEditing 		= false
+								//
 	var body: some View {
 		HStack {
 			//	Text("Settled:\(isSettled() ? "true" : "false")")
@@ -56,7 +58,7 @@ struct SimulatorBar : View {
 				Text("unbuilt")
 				Spacer()
 			}
-			else {
+			else { HStack {
 				Button(label:{	Text("start")	})
 				{	simulator.simEnabled = true
 					simulator.startChits = 4									}
@@ -90,7 +92,14 @@ struct SimulatorBar : View {
 				}
 				.padding(2)
 				.background(Color(red:1.0, green:0.9, blue:0.9))
-				Spacer()
+			}}
+			Spacer(minLength:4.0)
+			HStack {
+				FwTextField(float:$speed)
+//				Text("   speed=\(speed), isEditing=\(isEditing):")
+				Slider(value:$speed, in: 0.0...60.0) { editing in
+					isEditing = editing
+				}
 			}
 		}
 	}
