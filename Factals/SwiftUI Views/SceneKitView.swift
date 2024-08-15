@@ -39,44 +39,45 @@ import AppKit
 //}
 struct W: View {
 	@ObservedObject var factalsModel : FactalsModel
-	@State		var prefFps : String = " Set by FactalsModelView"
+	@State		var prefFps : String = " Set by W"
+//	@State		var prefFpsF: Float  = 30.0	// BETTER
 
 	var body: some View {
 		VStack (alignment:.leading) {
 			//Color(.pink)
 			HStack {
-				Text("W").foregroundStyle(.blue)	/// A: SwiftUI Text
+				Text("W:").foregroundStyle(.blue)	/// A: SwiftUI Text
+				Text("timeNow=")
 				FwTextField(float:$factalsModel.simulator.timeNow)
+				Button("Reset") {	factalsModel.simulator.timeNow = 0				}
 			}
 //			Text(text).foregroundStyle(.red)		/// A: SwiftUI Text
 
-			Button("Reset") {
-				factalsModel.simulator.timeNow = 0								}
 //			Button("Increment") {
 //				let textDouble	= Double(text)!
 //				text 			= String(textDouble + 1.0)			}			/// changes Text and V
 
-//			VStack {									//Binding<VewBase>
-//				let vewBase0		= factalsModel.vewBases[0]					//.scnBase.wrappedValue
-//				SelfiePoleBar(selfiePole:$vewBase0.selfiePole)
-//			}
+			VStack {									//Binding<VewBase>
+				let vewBase0		= $factalsModel.vewBases[0]					//.scnBase.wrappedValue
+				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
+			}
 
-//			VStack {									//Binding<VewBase>
-//				let vewBase0		= factalsModel.vewBases[0]					//.scnBase.wrappedValue
-//				let scnBase			= vewBase0.scnBase							//.scnBase.wrappedValue
-//				ZStack {
-//					EventReceiver { 	nsEvent in // Catch events (goes underneath)
-//						print("EventReceiver:point = \(nsEvent.locationInWindow)")
-//						let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
-//					}
-//					SceneKitView(scnBase:scnBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
-//					 .frame(maxWidth: .infinity)
-//					 .border(.black, width:1)
-//				}
-//				//VewBar(vewBase:vewBase)
-//			}
+			VStack {									//Binding<VewBase>
+				let vewBase0		= factalsModel.vewBases[0]					//.scnBase.wrappedValue
+				let scnBase			= vewBase0.scnBase							//.scnBase.wrappedValue
+				ZStack {
+					EventReceiver { 	nsEvent in // Catch events (goes underneath)
+						print("EventReceiver:point = \(nsEvent.locationInWindow)")
+						let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
+					}
+					SceneKitView(scnBase:scnBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
+					 .frame(maxWidth: .infinity)
+					 .border(.black, width:1)
+				}
+				//VewBaseBar(vewBase:vewBase)
+			}
 
-	//		SceneKitView(scnBase:nil, prefFps:$text)/// B: The target UItext)
+	//		SceneKitView(scnBase:nil, prefFpsF:$text)		/// B: The target UItext)
 //			FwTextField(text:$text)							/// B: The target UI
 		
 		}
@@ -119,6 +120,7 @@ struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 	var scnBase : ScnBase?						// ARG1: exposes visual world
     @Binding var prefFps: String				// ARG2:
+//	@Binding var prefFpsF : Float				// ARG2:	// BETTER
 	//let prefFps: String  						// ARG2:
 
 	func makeNSView(context: Context) -> SCNView {		// PW: some View?
@@ -137,6 +139,7 @@ struct SceneKitView: NSViewRepresentable {
 		let prefFps				= Int(prefFps) ?? 0
 		sv.preferredFramesPerSecond = prefFps		//args.preferredFramesPerSecond
 
+//		sv.preferredFramesPerSecond = Int(prefFpsF)		//args.preferredFramesPerSecond
  
 		if let scnBase	{
 			sv.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
@@ -152,6 +155,7 @@ struct SceneKitView: NSViewRepresentable {
 		let sv					= nsView as SCNView			//	scnBase.scnView
 		let prefFps				= Int(prefFps) ?? 0
 		sv.preferredFramesPerSecond = prefFps		//args.preferredFramesPerSecond
+//		sv.preferredFramesPerSecond = Int(prefFpsF)		//args.preferredFramesPerSecond
 	}
 }
 

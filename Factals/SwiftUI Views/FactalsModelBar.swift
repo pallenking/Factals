@@ -47,8 +47,6 @@ struct PartBaseBar : View {
 }
 struct SimulatorBar : View {
     @Binding var simulator:Simulator
-	@State   var speed 			= 50.0
-	@State   var isEditing 		= false
 								//
 	var body: some View {
 		HStack {
@@ -94,13 +92,17 @@ struct SimulatorBar : View {
 				.background(Color(red:1.0, green:0.9, blue:0.9))
 			}}
 			Spacer(minLength:4.0)
-			HStack {
-				FwTextField(float:$speed)
-//				Text("   speed=\(speed), isEditing=\(isEditing):")
-				Slider(value:$speed, in: 0.0...60.0) { editing in
-					isEditing = editing
-				}
-			}
+			Text("             ")
+////			@State   var speed 	= 50.0			// WORSE
+//			@State   var speed : Float = 50.0	// BETTER
+//			@State   var isEditing = false
+//			HStack (alignment:.top) {
+//				FwTextField(float:$speed)
+////				Text("   speed=\(speed), isEditing=\(isEditing):")
+//				Slider(value:$speed, in: 0.0...60.0) { editing in
+//					isEditing = editing
+//				}
+//			}
 		}
 	}
 }

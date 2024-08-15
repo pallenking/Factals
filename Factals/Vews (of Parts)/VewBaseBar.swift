@@ -1,5 +1,5 @@
 //
-//  VewBar.swift
+//  VewBaseBar.swift
 //  Factals
 //
 //  Created by Allen King on 11/16/22.
@@ -7,8 +7,14 @@
 
 import SwiftUI
 
-struct VewBar: View {
+struct VewBaseBar: View {
 	@Binding var vewBase : VewBase
+
+
+
+	//@State var speed 	= 50.0			// WORSE
+	@State   var speed : Float = 50.0	// BETTER
+	@State   var isEditing = false
 	@EnvironmentObject var factalsGlobals: FactalsApp.FactalsGlobals
 
 	var body: some View {
@@ -59,6 +65,14 @@ struct VewBar: View {
 						vewBase.selfiePole = s	// Put struct's val back
 					}
 					Spacer()
+					HStack (alignment:.top) {
+						FwTextField(float:$speed).frame(width:40 ).foregroundColor(Color(.red))
+						//				Text("   speed=\(speed), isEditing=\(isEditing):")
+						Slider(value:$speed, in: 0.0...60.0) { editing in
+							isEditing = editing
+						}
+						.frame(width:200 )
+					}
 				} else {
 					Text("Not registered in rootVews").bold()
 				}

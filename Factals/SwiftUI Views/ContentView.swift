@@ -41,7 +41,7 @@ struct FactalsModelView: View {
 								.border(.black, width:1)
 							//	.tabItem { Text("docTitle") }
 						}
-						VewBar(vewBase:vewBase)
+						VewBaseBar(vewBase:vewBase)
 					}//
 					.tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
@@ -50,10 +50,6 @@ struct FactalsModelView: View {
 				Button("+") {					addNewTab()						}
 				 .tabItem { Label("+",   systemImage: "plus").padding()			}
 				 .buttonStyle(BorderlessButtonStyle())
-	//			HStack {
-	//				Button(action: addNewTab) {	Image(systemName: "plus").padding()	}
-	//					.buttonStyle(BorderlessButtonStyle())
-	//			}
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()

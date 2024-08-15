@@ -51,8 +51,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "makeNSView(context:)"
             landmarkType = "7">
             <Actions>
@@ -75,8 +75,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "updateNSView(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -91,8 +91,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "init(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -107,8 +107,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "textFieldDidEndEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -123,8 +123,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "makeNSView(context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -139,8 +139,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "updateNSView(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -155,8 +155,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "makeCoordinator()"
             landmarkType = "7">
          </BreakpointContent>
@@ -203,8 +203,8 @@
             filePath = "Factals/SwiftUI Views/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "updateTitle()"
             landmarkType = "7">
          </BreakpointContent>
