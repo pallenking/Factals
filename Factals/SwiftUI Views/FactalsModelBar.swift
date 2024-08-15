@@ -28,6 +28,7 @@ struct PartBaseBar : View {
 	var body: some View {
 		HStack {	// FULL!
 			Text("PartBase (Model): ").foregroundColor(.red).bold()
+//			FwTextField(string: partBase.title)
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})
@@ -65,7 +66,10 @@ struct SimulatorBar : View {
 					simulator.simulateOneStep()
 					simulator.simEnabled = false								}
 				Text(" timeNow=")
-				FwTextField(float: $simulator.timeNow).frame(width: 300)
+				FwTextField(float: $simulator.timeNow).frame(width: 60)
+//				FwTextField(float:$speed).frame(width:60 )
+
+
 				//Text(String(simulator.timeNow))
 				if  simulator.simEnabled == false {
 					Text("stopped")

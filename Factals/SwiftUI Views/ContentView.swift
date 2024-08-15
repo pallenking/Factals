@@ -14,12 +14,12 @@ struct ContentView: View {
 	@Binding	var document	: FactalsDocument
 	var body: some View {
 		FactalsModelView(factalsModel: document.factalsModel)
+//		Text("Hellow World")
 	}
 }
 
 struct FactalsModelView: View {
 	@ObservedObject var factalsModel : FactalsModel
-	@State			var prefFps : String = " Set by FactalsModelView"
 	@State private	var selectedFileIndex : Int = 0
 	
 	var body: some View {
@@ -36,13 +36,12 @@ struct FactalsModelView: View {
 								print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
-							SceneKitView(scnBase:scnBase, prefFps:$prefFps /*Binding<String>*/)		 // New Way (uses old NSViewRepresentable)
+							SceneKitView(scnBase:scnBase, prefFps:vewBase.prefFps)
 								.frame(maxWidth: .infinity)
 								.border(.black, width:1)
-							//	.tabItem { Text("docTitle") }
 						}
 						VewBaseBar(vewBase:vewBase)
-					}//
+					}
 					.tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
 				W(factalsModel:factalsModel)

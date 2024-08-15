@@ -39,24 +39,16 @@ import AppKit
 //}
 struct W: View {
 	@ObservedObject var factalsModel : FactalsModel
-	@State		var prefFps : String = " Set by W"
-//	@State		var prefFpsF: Float  = 30.0	// BETTER
+	@State var prefFps : Float  = 30.0	// BETTER
 
 	var body: some View {
 		VStack (alignment:.leading) {
-			//Color(.pink)
 			HStack {
 				Text("W:").foregroundStyle(.blue)	/// A: SwiftUI Text
 				Text("timeNow=")
-				FwTextField(float:$factalsModel.simulator.timeNow)
+				FwTextField(float:$factalsModel.simulator.timeNow).frame(width: 160)
 				Button("Reset") {	factalsModel.simulator.timeNow = 0				}
 			}
-//			Text(text).foregroundStyle(.red)		/// A: SwiftUI Text
-
-//			Button("Increment") {
-//				let textDouble	= Double(text)!
-//				text 			= String(textDouble + 1.0)			}			/// changes Text and V
-
 			VStack {									//Binding<VewBase>
 				let vewBase0		= $factalsModel.vewBases[0]					//.scnBase.wrappedValue
 				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
@@ -104,13 +96,8 @@ struct FwTextField: NSViewRepresentable {
 		nsView.floatValue		= float
 		nsView.delegate 		= context.coordinator	/// changes to coordinator
 
-//		nsView.isBezeled = false
-//		nsView.isBordered = false
-		nsView.drawsBackground = true
-		nsView.backgroundColor = NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
-		nsView.textColor = NSColor.red
-//		nsView.stringValue = "Hello, World!"
-//		nsView.font = NSFont.systemFont(ofSize: 14)
+		nsView.textColor 		= NSColor.red
+		nsView.backgroundColor 	= NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
 		return nsView
 	}
 
@@ -127,27 +114,20 @@ struct FwTextField: NSViewRepresentable {
 struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 	var scnBase : ScnBase?						// ARG1: exposes visual world
-    @Binding var prefFps: String				// ARG2:
-//	@Binding var prefFpsF : Float				// ARG2:	// BETTER
-	//let prefFps: String  						// ARG2:
+	@Binding var prefFps : Float				// ARG2:	// BETTER
 
 	func makeNSView(context: Context) -> SCNView {		// PW: some View?
+
 		let sv					= SCNView(frame: NSRect.zero, options: [String : Any]())
-		 // Defaults:
 		sv.isPlaying			= true			// animations, does nothing
 		sv.showsStatistics		= true			// controls extra bar
 		sv.debugOptions	= [						// enable display of:
 			SCNDebugOptions.showPhysicsFields,	//  regions affected by each SCNPhysicsField object
 		]
-		sv.allowsCameraControl	= true//false// // user may control camera	//true//args.options.contains(.allowsCameraControl)
-		sv.autoenablesDefaultLighting = false	// we contol lighting	//true//args.options.contains(.autoenablesDefaultLighting)
+		sv.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
+		sv.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		sv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
-
-
-		let prefFps				= Int(prefFps) ?? 0
-		sv.preferredFramesPerSecond = prefFps		//args.preferredFramesPerSecond
-
-//		sv.preferredFramesPerSecond = Int(prefFpsF)		//args.preferredFramesPerSecond
+		sv.preferredFramesPerSecond = Int(prefFps)
  
 		if let scnBase	{
 			sv.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
@@ -155,15 +135,13 @@ struct SceneKitView: NSViewRepresentable {
 
 			scnBase.scnView		= sv		// for pic
 		}
-		//else {	fatalError("scnBase is nil")													}
+		else {	fatalError("scnBase is nil")													}
 		return sv
 	}
 
 	func updateNSView(_ nsView: SCNView, context:Context) {
 		let sv					= nsView as SCNView			//	scnBase.scnView
-		let prefFps				= Int(prefFps) ?? 0
-		sv.preferredFramesPerSecond = prefFps		//args.preferredFramesPerSecond
-//		sv.preferredFramesPerSecond = Int(prefFpsF)		//args.preferredFramesPerSecond
+		sv.preferredFramesPerSecond = Int(prefFps)		//args.preferredFramesPerSecond
 	}
 }
 

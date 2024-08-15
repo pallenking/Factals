@@ -7,6 +7,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var partBase	: PartBase
 	var tree		: Vew
 	var scnBase 	: ScnBase				// Master 3D Tree
+	var prefFps		: Float		= 10.0
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
