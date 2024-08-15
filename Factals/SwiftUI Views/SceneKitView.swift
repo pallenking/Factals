@@ -103,6 +103,14 @@ struct FwTextField: NSViewRepresentable {
 		//add target action						//	view.addAction(UIAction { [weak view] action in }, for: .editingChanged)
 		nsView.floatValue		= float
 		nsView.delegate 		= context.coordinator	/// changes to coordinator
+
+//		nsView.isBezeled = false
+//		nsView.isBordered = false
+		nsView.drawsBackground = true
+		nsView.backgroundColor = NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
+		nsView.textColor = NSColor.red
+//		nsView.stringValue = "Hello, World!"
+//		nsView.font = NSFont.systemFont(ofSize: 14)
 		return nsView
 	}
 

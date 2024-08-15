@@ -46,7 +46,7 @@ struct FactalsModelView: View {
 					.tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
 				W(factalsModel:factalsModel)
-				 .tabItem { Label("W()", systemImage: "1.circle")				}
+				 .tabItem { Label("W()", systemImage: "1.circle").labelStyle(DefaultLabelStyle())}
 				Button("+") {					addNewTab()						}
 				 .tabItem { Label("+",   systemImage: "plus").padding()			}
 				 .buttonStyle(BorderlessButtonStyle())

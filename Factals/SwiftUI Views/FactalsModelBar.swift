@@ -64,8 +64,9 @@ struct SimulatorBar : View {
 				{	simulator.simEnabled = true
 					simulator.simulateOneStep()
 					simulator.simEnabled = false								}
-				Text(" T=")
-				Text(String(simulator.timeNow))
+				Text(" timeNow=")
+				FwTextField(float: $simulator.timeNow).frame(width: 300)
+				//Text(String(simulator.timeNow))
 				if  simulator.simEnabled == false {
 					Text("stopped")
 				}
