@@ -24,7 +24,6 @@ struct FactalsModelView: View {
 	
 	var body: some View {
 		VStack {
-			//HStack (alignment:.top) {
 			TabView(selection: $selectedFileIndex)  {
 				// NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				// NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
@@ -46,9 +45,11 @@ struct FactalsModelView: View {
 				}
 				W(factalsModel:factalsModel)
 				 .tabItem { Label("W()", systemImage: "1.circle").labelStyle(DefaultLabelStyle())}
-				Button("+") {					addNewTab()						}
-				 .tabItem { Label("+",   systemImage: "plus").padding()			}
-				 .buttonStyle(BorderlessButtonStyle())
+				Button("+") {					/*addNewTab()*/					}
+				.onAppear() {					addNewTab()						}
+//				Button("+") {					addNewTab()						}
+//				 .tabItem { Label("+",   systemImage: "plus").padding()			}
+//				 .buttonStyle(BorderlessButtonStyle())
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()

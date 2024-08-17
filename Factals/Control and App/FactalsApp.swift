@@ -126,8 +126,8 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 }
  // MARK: - FactalsApp base
 struct FactalsApp: Uid, FwAny {
-	var fwClassName: String		= "FactalsApp"
 	var uid: UInt16				= randomUid()
+	let fwClassName: String		= "FactalsApp"
 
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State

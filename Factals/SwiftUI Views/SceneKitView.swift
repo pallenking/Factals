@@ -68,10 +68,6 @@ struct W: View {
 				}
 				//VewBaseBar(vewBase:vewBase)
 			}
-
-	//		SceneKitView(scnBase:nil, prefFpsF:$text)		/// B: The target UItext)
-//			FwTextField(text:$text)							/// B: The target UI
-		
 		}
 		.font(.largeTitle)
 	}

@@ -52,7 +52,7 @@ struct SimulatorBar : View {
 	var body: some View {
 		HStack {
 			//	Text("Settled:\(isSettled() ? "true" : "false")")
-			Text("simulator:").foregroundColor(.red).bold()
+			Text("Simulator:").foregroundColor(.red).bold()
 			if simulator.simBuilt == false {
 				Text("unbuilt")
 				Spacer()
@@ -74,30 +74,34 @@ struct SimulatorBar : View {
 				if  simulator.simEnabled == false {
 					Text("stopped")
 				}
-				// Other things to worry about later
-				//		!simulator.simTaskRunning
-				//	ro	var timeStep		: Float = 0.01
-				//		func isSettled() -> Bool				chevron
-				//		var timingChains:[TimingChain] = []	chevron
-				//	ro	var globalDagDirUp	: Bool	= true
-				HStack {
-					//let bRpQ		= $factalsModel.partBase//!.simulator		// Binding<Parts?>
-					//	@Bindable var viewModel = viewModel
-					//LabeledCGFloat(label:"time:", val:$bRpQ., oneLine:true)
-					//@Bindable var s			= $factalsModel.partBase				// Binding<Parts?>
-					///
-					/// SEE FactalStatus.Simulator.ppFactalsState()
-					///
-					//var timeNow : Float	= 0.0
-					//					LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
-					Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")
-					//Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
-				}
-				.padding(2)
-				.background(Color(red:1.0, green:0.9, blue:0.9))
+				Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")
+
+				Spacer()
+				Text("timeStep:")
+				FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
+				Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
+					.frame(width:100 )
+				
+						//@Bindable var s			= $factalsModel.partBase				// Binding<Parts?>
+						//Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
+						// Other things to worry about later
+						//		!simulator.simTaskRunning
+						//	ro	var timeStep		: Float = 0.01
+						//		func isSettled() -> Bool				chevron
+						//		var timingChains:[TimingChain] = []	chevron
+						//	ro	var globalDagDirUp	: Bool	= true
+//				HStack {
+//					///
+//					/// SEE FactalStatus.Simulator.ppFactalsState()
+//					///
+//					//var timeNow : Float	= 0.0
+//					//					LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
+//				}
+//				.padding(2)
+//				.background(Color(red:1.0, green:0.9, blue:0.9))
 			}}
-			Spacer(minLength:4.0)
-			Text("             ")
+	//		Spacer(minLength:4.0)
+	//		Text("             ")
 ////			@State   var speed 	= 50.0			// WORSE
 //			@State   var speed : Float = 50.0	// BETTER
 //			@State   var isEditing = false

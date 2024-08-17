@@ -123,7 +123,7 @@ class Net : Atom {		// Atom // Part
 		}
 		 // Color fades:
 		let den					= Float(vew.heightTree)
-		let ratio : Float		= den != 0 ? Float(vew.heightLeaf)/den : 0.5
+		//let ratio : Float		= den != 0 ? Float(vew.heightLeaf)/den : 0.5
 		let color0				= NSColor.brown//NSColor.color(ofValue:ratio)					//color(ofValue:ratio)
 
 		let bb					= vew.bBox		// existing value

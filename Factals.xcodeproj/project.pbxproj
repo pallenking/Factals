@@ -263,7 +263,6 @@
 		9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsModelBar.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
-		9FB117012BCD8EB300D83942 /* XXXFactalsAppSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXFactalsAppSwiftUI.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBaseBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBaseBar.swift; sourceTree = "<group>"; };
 		9FC31EAB28E0B7820022E536 /* Install.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Install.md; sourceTree = "<group>"; };
 		9FDBBED628AC45DB00445219 /* PrintBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBuffer.swift; sourceTree = "<group>"; };
@@ -402,7 +401,6 @@
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
 				9F190118288090240078DB6C /* InspecBase.swift */,
-				9FB117012BCD8EB300D83942 /* XXXFactalsAppSwiftUI.swift */,
 				9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */,
 			);
 			path = "SwiftUI Views";

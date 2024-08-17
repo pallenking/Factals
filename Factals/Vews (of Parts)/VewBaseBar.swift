@@ -9,27 +9,15 @@ import SwiftUI
 
 struct VewBaseBar: View {
 	@Binding var vewBase : VewBase
-	//@State var speed 	= 50.0			// WORSE
-	//@State   var speed : Float = 50.0	// BETTER
-	@State   var isEditing = false
 	@EnvironmentObject var factalsGlobals: FactalsApp.FactalsGlobals
+	@State   var isEditing = false
 
 	var body: some View {
 		VStack {
 			HStack {
-				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
-				Spacer()
-//				Button(label:{	Text("Z//RV").padding(.top, 300)				})
-//				{	var s	= $vewBase.selfiePole
-//			//		s.zoom	/= 1.1
-//					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-//					$vewBase.selfiePole = s	// Put struct's val back
-//				}
-			}
-			HStack {
 				if let slot		= vewBase.slot, 	// Installed?
 				  let factalsModel	= vewBase.factalsModel {
-					Text("VewBases")  .foregroundColor(.red)  .bold()
+					Text("VewBase")  .foregroundColor(.red)  .bold()
 					Text("[\(slot)]:").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot\(slot): =====")
@@ -64,13 +52,21 @@ struct VewBaseBar: View {
 					Spacer()
 					Text("prefFps:")
 					FwTextField(float:$vewBase.prefFps).frame(width:60 ).foregroundColor(Color(.red))
-					Slider(value:$vewBase.prefFps, in: 0.0...60.0) { editing in
-						isEditing = editing
-					}
+					Slider(value:$vewBase.prefFps, in: 0.0...60.0) { e in isEditing = e	}
 					.frame(width:100 )
 				} else {
 					Text("VewBase not registered in FactalsModel!").foregroundColor(.red).bold()
 				}
+			}
+			HStack {
+				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
+				Spacer()
+//				Button(label:{	Text("Z//RV").padding(.top, 300)				})
+//				{	var s	= $vewBase.selfiePole
+//			//		s.zoom	/= 1.1
+//					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+//					$vewBase.selfiePole = s	// Put struct's val back
+//				}
 			}
 		}
 		 .padding(4)

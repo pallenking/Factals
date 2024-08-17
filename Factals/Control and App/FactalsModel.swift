@@ -8,12 +8,12 @@ class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
-	var fmConfig  : FwConfig	= [:]
-	var partBase  : PartBase
-	var vewBases  : [VewBase]	= []			// VewBase of rootPartActor.parts
+	@Published var fmConfig  : FwConfig	= [:]
+	@Published var partBase  : PartBase
+	@Published var vewBases  : [VewBase] = []			// VewBase of rootPartActor.parts
+	@Published var simulator : Simulator
 
 	var log 	  : Log
-	@Published var	simulator : Simulator
 	var docSound  :	Sounds
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {

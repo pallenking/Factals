@@ -9,10 +9,11 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	 // MARK: - 2. Object Variables:
 	weak var factalsModel:FactalsModel? = nil// Owner
 
-	var timingChains:[TimingChain] = []
 	var timeNow			: Float	= 0.0
-	var timeStep		: Float = 0.01
 	var globalDagDirUp	: Bool	= true
+	var timeStep		: Float = 0.01
+
+	var timingChains	: [TimingChain] = []
 	var logSimLocks				= true		// Overwritten by Configuration
 
 	// MARK: - 2.1 Simulator State

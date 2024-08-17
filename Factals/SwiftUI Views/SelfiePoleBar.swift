@@ -85,7 +85,7 @@ struct SelfiePoleBar: View   {
 		HStack {
 			VStack {
 				Text("  " + "SelfiePole").foregroundColor(.red).bold()
-				Text("\(selfiePole.pp(.uid)):")
+				Text("id:\(selfiePole.pp(.uid))")
 			}
 //			Text("SelfiePole:\n\(selfiePole.pp(.uid)):")//.foregroundColor(.red).bold()
 			 .padding(.horizontal, -8)
