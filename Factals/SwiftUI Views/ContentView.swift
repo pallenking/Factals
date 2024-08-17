@@ -14,7 +14,6 @@ struct ContentView: View {
 	@Binding	var document	: FactalsDocument
 	var body: some View {
 		FactalsModelView(factalsModel: document.factalsModel)
-//		Text("Hellow World")
 	}
 }
 
@@ -29,27 +28,26 @@ struct FactalsModelView: View {
 				// NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 					VStack {									//Binding<VewBase>
-						let scnBase			= vewBase.scnBase.wrappedValue
+						let scnBase = vewBase.scnBase.wrappedValue
 						ZStack {
-							EventReceiver { 	nsEvent in // Catch events (goes underneath)
+							EventReceiver { nsEvent in // Catch events (goes underneath)
 								print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
 							SceneKitView(scnBase:scnBase, prefFps:vewBase.prefFps)
-								.frame(maxWidth: .infinity)
-								.border(.black, width:1)
+							 .frame(maxWidth: .infinity)
+							 .border(.black, width:1)
 						}
 						VewBaseBar(vewBase:vewBase)
 					}
-					.tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
+					 .tabItem { Label("L-\(33)", systemImage: "xmark.circle") }
+//					 .tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
 				W(factalsModel:factalsModel)
 				 .tabItem { Label("W()", systemImage: "1.circle").labelStyle(DefaultLabelStyle())}
-				Button("+") {					/*addNewTab()*/					}
-				.onAppear() {					addNewTab()						}
-//				Button("+") {					addNewTab()						}
-//				 .tabItem { Label("+",   systemImage: "plus").padding()			}
-//				 .buttonStyle(BorderlessButtonStyle())
+				Button("+") {}	/// WRONG, but slightly  fnctional ///
+				 .tabItem { Label("+",   systemImage: "plus").padding()			}
+				 .onAppear() {			 addNewTab()							}
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()
@@ -57,7 +55,7 @@ struct FactalsModelView: View {
 	        .accentColor(.green) // Change the color of the selected tab
 
 			FactalsModelBar(factalsModel: factalsModel).padding(.vertical, -10)
-				.padding(10)
+			 .padding(10)
 			Spacer()
 		}
 	}

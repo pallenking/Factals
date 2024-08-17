@@ -28,13 +28,14 @@ struct PartBaseBar : View {
 	var body: some View {
 		HStack {	// FULL!
 			Text("PartBase (Model): ").foregroundColor(.red).bold()
+			Text(partBase.title).foregroundColor(.blue).bold()
 //			FwTextField(string: partBase.title)
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]))	}
 			Spacer()
-			Text("app:").foregroundColor(.red).bold()
+			Text("FactalsApp:").foregroundColor(.red).bold()
 			Button(label:{	Text( "state")										})//.padding(.top, 300)
 			{	printFwState()													}
 			Button(label:{	Text( "config")										})

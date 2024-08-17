@@ -47,18 +47,17 @@ struct W: View {
 				Text("W:").foregroundStyle(.blue)	/// A: SwiftUI Text
 				Text("timeNow=")
 				FwTextField(float:$factalsModel.simulator.timeNow).frame(width: 160)
-				Button("Reset") {	factalsModel.simulator.timeNow = 0				}
+				Button("Reset") {	factalsModel.simulator.timeNow = 0			}
 			}
 			VStack {									//Binding<VewBase>
-				let vewBase0		= $factalsModel.vewBases[0]					//.scnBase.wrappedValue
+				let vewBase0		= $factalsModel.vewBases[0]
 				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
 			}
-
 			VStack {									//Binding<VewBase>
-				let vewBase0		= factalsModel.vewBases[0]					//.scnBase.wrappedValue
-				let scnBase			= vewBase0.scnBase							//.scnBase.wrappedValue
+				let vewBase0		= factalsModel.vewBases[0]
+				let scnBase			= vewBase0.scnBase
 				ZStack {
-					EventReceiver { 	nsEvent in // Catch events (goes underneath)
+					EventReceiver {	nsEvent in // Catch events (goes underneath)
 						print("EventReceiver:point = \(nsEvent.locationInWindow)")
 						let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
 					}
@@ -72,6 +71,9 @@ struct W: View {
 		.font(.largeTitle)
 	}
 }
+
+//nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
+
 final class Delegate: NSObject, NSTextFieldDelegate {
 	@Binding var float: Float
 	init(_ binding: Binding<Float>) {
@@ -83,8 +85,8 @@ final class Delegate: NSObject, NSTextFieldDelegate {
 }
 struct FwTextField: NSViewRepresentable {
 	typealias NSViewType 		= NSTextField
-	@Binding var float: Float
-
+	@Binding var float : Float
+//	@Binding var string: String
 				/// Modifying state during view update, this will cause undefined behavior.
 	func makeNSView(context: Context) -> NSTextField {
 		let nsView 				= NSTextField()

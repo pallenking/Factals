@@ -10,6 +10,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	weak var factalsModel:FactalsModel? = nil// Owner
 
 	var timeNow			: Float	= 0.0
+//	@Published var timeNow : Float			// can't add Published
 	var globalDagDirUp	: Bool	= true
 	var timeStep		: Float = 0.01
 
