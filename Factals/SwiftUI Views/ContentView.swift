@@ -40,7 +40,7 @@ struct FactalsModelView: View {
 						}
 						VewBaseBar(vewBase:vewBase)
 					}
-					 .tabItem { Label("L-\(33)", systemImage: "xmark.circle") }
+					 .tabItem { Label("L-\(33)", systemImage: "xmark.circle") }//vewBase.title
 //					 .tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
 				W(factalsModel:factalsModel)

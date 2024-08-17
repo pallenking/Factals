@@ -26,6 +26,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 	 // Sugar
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
+	static var nVewBase 		= 0
+	var title					= "VewBase\(nVewBase)"
 
 	 /// generate a new View, returning its index
 	init(for p:PartBase) {
