@@ -19,7 +19,7 @@ struct SelfiePole: Observable, Equatable {
 	var spin  	: CGFloat 		= 0.0				// in degrees
 	var gaze	: CGFloat 		= 0.0				// upward, in degrees
 	var zoom	: CGFloat 		= 1.0
-	var ortho	: CGFloat		= 1.0		// BROKEN
+	var ortho	: CGFloat		= 0.0				// BROKEN 0->perspective, else ortho
 
 	mutating func configure(from config:FwConfig) {
 		 // Configure Camera from Source Code:

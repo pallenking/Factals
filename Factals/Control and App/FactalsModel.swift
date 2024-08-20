@@ -21,7 +21,7 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 3. Factory
-	init(partBase rp:PartBase?=nil) {											// FactalsModel(fromRootPart rp:PartBase)
+	init(partBase rp:PartBase?=nil) {											// FactalsModel(partBase:PartBase)
 
 		let params4modelLog : FwConfig =
 			params4partPp		+  	//	pp... (50ish keys)

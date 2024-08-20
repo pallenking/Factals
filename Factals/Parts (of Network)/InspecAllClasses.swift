@@ -6,7 +6,6 @@ import SwiftUI
 
 //struct InspecBase : View, TableRowContent {
 //	typealias TableRowBody = InspecBase
-//
 //}
 
 struct InspecNet : View {

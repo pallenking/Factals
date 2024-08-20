@@ -7,12 +7,29 @@ import Observation
 class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//Logd
 
 	 // MARK: - 2. Object Variables:
+	 /// Simulation is fully built and running
+	var simBuilt : Bool = false				// sim constructed?
+	{	didSet {		// whenever simEnabled gets set, try to st
+			if simEnabled && simBuilt {
+				simTaskRunning	= false		// (so startSimulationTask
+				startSimulationTask()		// try irrespective of simTa
+			}
+		}
+	}
+	 /// Enable simulation task to run:																					//
+	var simEnabled : Bool 	 	= false 	// sim enabled to run?{
+	{	didSet {
+			if simBuilt && !simTaskRunning {
+				simTaskRunning	= false		// (so startSimulationTask notices)
+				startSimulationTask()		// try irrespect~ of simTaskRunning
+			}
+		}
+	}
+	var timeNow			: Float  = 0.0		// can't add @Published
+	var globalDagDirUp	: Bool	 = true
+	var timeStep		: Float  = 0.01
+	var simTaskPeriod	: Double = 0.01
 	weak var factalsModel:FactalsModel? = nil// Owner
-
-	var timeNow			: Float	= 0.0
-//	@Published var timeNow : Float			// can't add Published
-	var globalDagDirUp	: Bool	= true
-	var timeStep		: Float = 0.01
 
 	var timingChains	: [TimingChain] = []
 	var logSimLocks				= true		// Overwritten by Configuration
@@ -23,24 +40,6 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	var linkChits		: Int	= 0			// by things like links
 	var startChits	  	:UInt8	= 0			// set to get simulator going
 
-	 /// Enable simulation task to run:																					//
-	var simEnabled : Bool 	 	= false 	// sim enabled to run?{
-	{	didSet {
-			if simBuilt && !simTaskRunning {
-				simTaskRunning	= false		// (so startSimulationTask notices)
-				startSimulationTask()		// try irrespect~ of simTaskRunning
-			}
-		}
-	}
-	 /// Simulation is fully built and running
-	var simBuilt : Bool = false				// sim constructed?
-	{	didSet {		// whenever simEnabled gets set, try to st
-			if simEnabled && simBuilt {
-				simTaskRunning	= false		// (so startSimulationTask
-				startSimulationTask()		// try irrespective of simTa
-			}
-		}
-	}
 	func isSettled() -> Bool {
 		let nPortsBuisy 		= factalsModel?.partBase.tree.portChitArray().count ?? 0	// Busy Ports
 		let nLinksBuisy 		= linkChits							// Busy Links
@@ -58,8 +57,11 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		if let se				= config.bool("simEnabled") {
 /**/		simEnabled 			= se						// set or reset
 		}
-		if let tStep			= config.float("timeStep") {
-			timeStep 			= tStep
+		if let ts				= config.float("timeStep") {
+			timeStep 			= ts
+		}
+		if let stp				= config.double("simTaskPeriod") {
+			simTaskPeriod 		= stp
 		}
 		if let pst				= config.bool("logSimLocks") {
 			logSimLocks	 		= pst		// unset (not reset) if not present
@@ -124,9 +126,9 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 				simTaskRunning	= true
 				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
 			}
-			let taskPeriod		= factalsModel?.fmConfig.double("simTaskPeriod") ?? 0.01
+//			let taskPeriod		= factalsModel?.fmConfig.double("simTaskPeriod") ?? 2	// DEFAULT IS VERY JERKEY
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
-			perform(#selector(simulationTask), with:nil, afterDelay:taskPeriod, inModes:modes)
+			perform(#selector(simulationTask), with:nil, afterDelay:simTaskPeriod, inModes:modes)
 		}
 		else {
 			stopSimulationTask()				// ?? Perhaps wrong

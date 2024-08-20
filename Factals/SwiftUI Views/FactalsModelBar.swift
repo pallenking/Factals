@@ -49,7 +49,9 @@ struct PartBaseBar : View {
 }
 struct SimulatorBar : View {
     @Binding var simulator:Simulator
-								//
+	@State private var (textValue)  : String = ""
+	@State private var (textValue2) : String = ""
+
 	var body: some View {
 		HStack {
 			//	Text("Settled:\(isSettled() ? "true" : "false")")
@@ -66,31 +68,54 @@ struct SimulatorBar : View {
 				{	simulator.simEnabled = true
 					simulator.simulateOneStep()
 					simulator.simEnabled = false								}
+				Text(simulator.simEnabled ? "RUN  " : "STOP")
 				Text(" timeNow=")
 				FwTextField(float: $simulator.timeNow).frame(width: 60)
-//				FwTextField(float:$speed).frame(width:60 )
-
-
-				//Text(String(simulator.timeNow))
-				if  simulator.simEnabled == false {
-					Text("stopped")
-				}
+				TextField("", text: $textValue)
+					.onChange(of: textValue) { old, newTextValue in
+						simulator.timeNow = Float(newTextValue) ?? Float.nan
+					}
+					.onAppear {
+						textValue 	= String(simulator.timeNow)
+					}
+					.frame(width:50)
+		//		if  simulator.simEnabled == false {
+		//			Text("stopped")
+		//		}
 				Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")
-
 				Spacer()
+
 				Text("timeStep:")
-				FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
-				Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
-					.frame(width:100 )
-				
-						//@Bindable var s			= $factalsModel.partBase				// Binding<Parts?>
-						//Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
-						// Other things to worry about later
-						//		!simulator.simTaskRunning
-						//	ro	var timeStep		: Float = 0.01
-						//		func isSettled() -> Bool				chevron
-						//		var timingChains:[TimingChain] = []	chevron
-						//	ro	var globalDagDirUp	: Bool	= true
+		//		FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
+				TextField("", text: $textValue)
+					.onChange(of: textValue) { old, newTextValue in
+						simulator.timeStep = Float(newTextValue) ?? Float.nan
+					}
+					.onAppear {
+						textValue 	= String(simulator.timeStep)
+					}
+					.frame(width:40)
+				Text("simTaskPeriod:")
+		//		FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
+				TextField("", text: $textValue2)
+					.onChange(of: textValue2) { old, newTextValue in
+						simulator.simTaskPeriod = Double(newTextValue) ?? Double.nan
+					}
+					.onAppear {
+						textValue2 	= String(simulator.simTaskPeriod)
+					}
+					.frame(width:40)
+		//		Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
+		//			.frame(width:100 )
+		//
+		//				//@Bindable var s			= $factalsModel.partBase				// Binding<Parts?>
+		//				//Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
+		//				// Other things to worry about later
+		//				//		!simulator.simTaskRunning
+		//				//	ro	var timeStep		: Float = 0.01
+		//				//		func isSettled() -> Bool				chevron
+		//				//		var timingChains:[TimingChain] = []	chevron
+		//				//	ro	var globalDagDirUp	: Bool	= true
 //				HStack {
 //					///
 //					/// SEE FactalStatus.Simulator.ppFactalsState()
@@ -104,7 +129,7 @@ struct SimulatorBar : View {
 	//		Spacer(minLength:4.0)
 	//		Text("             ")
 ////			@State   var speed 	= 50.0			// WORSE
-//			@State   var speed : Float = 50.0	// BETTER
+//			@State   var speed : Float = 50.0
 //			@State   var isEditing = false
 //			HStack (alignment:.top) {
 //				FwTextField(float:$speed)

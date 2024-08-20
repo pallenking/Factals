@@ -10,48 +10,43 @@ import SceneKit
 import AppKit
 
 // ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
-//import Cocoa
-//class TUINSRemoteViewController: NSViewController {
-//	func viewServiceDidTerminateWithError(_ error: Error) {
-//		// Handle the error
-//		print("View service terminated with error: \(error)")
-//		// Optionally, you can attempt to restart the service or inform the user
-//	}
-//}
-//extension TUINSRemoteViewController {
-//
-//    override func viewServiceDidTerminateWithError(_ error: Error) {
-//        // Handle the error appropriately
-//        print("View service did terminate with error: \(error)")
-//
-//        // Custom error handling code
-//        // For example, you could show an alert to the user or perform cleanup operations
-//        let alert = NSAlert()
-//        alert.messageText = "Error"
-//        alert.informativeText = error.localizedDescription
-//        alert.alertStyle = .warning
-//        alert.addButton(withTitle: "OK")
-//        
-//        alert.runModal()
-//
-//        // Additional custom handling as needed
-//    }
-//}
+
+struct W_ModelView : View {
+	var body: some View {
+		Text("Dummy=")
+	}
+	@ObservedObject var factalsModel : FactalsModel
+	@State private	var selectedFileIndex : Int = 0
+}
+
+
+
 struct W: View {
 	@ObservedObject var factalsModel : FactalsModel
-	@State var prefFps : Float  = 30.0	// BETTER
+	@State var prefFps : Float		= 30.0
+	@State private var textValue: String = ""
 
 	var body: some View {
 		VStack (alignment:.leading) {
 			HStack {
-				Text("W:").foregroundStyle(.blue)	/// A: SwiftUI Text
+				Text("W:").foregroundStyle(.blue).font(.system(size:18))	/// A: SwiftUI Text
 				Text("timeNow=")
-				FwTextField(float:$factalsModel.simulator.timeNow).frame(width: 160)
+				FwTextField(float:$factalsModel.simulator.timeNow).frame(width:100)
+				TextField("", text: $textValue)
+					.onChange(of: textValue) { old, newTextValue in
+						factalsModel.simulator.timeNow = Float(newTextValue) ?? Float.nan
+					}
+					.onAppear {
+						textValue 	= String(factalsModel.simulator.timeNow)
+					}
+					.frame(width:100)
 				Button("Reset") {	factalsModel.simulator.timeNow = 0			}
 			}
+				.font(.system(size:12))
 			VStack {									//Binding<VewBase>
 				let vewBase0		= $factalsModel.vewBases[0]
 				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
+					.font(.system(size:12))
 			}
 			VStack {									//Binding<VewBase>
 				let vewBase0		= factalsModel.vewBases[0]
@@ -71,8 +66,7 @@ struct W: View {
 		.font(.largeTitle)
 	}
 }
-
-//nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
+// Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
 
 final class Delegate: NSObject, NSTextFieldDelegate {
 	@Binding var float: Float
@@ -112,7 +106,7 @@ struct FwTextField: NSViewRepresentable {
 struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 	var scnBase : ScnBase?						// ARG1: exposes visual world
-	@Binding var prefFps : Float				// ARG2:	// BETTER
+	@Binding var prefFps : Float				// ARG2:
 
 	func makeNSView(context: Context) -> SCNView {		// PW: some View?
 

@@ -43,12 +43,12 @@ struct VewBaseBar: View {
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
 						factalsModel.updateVews()
 					}
-					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
-					{	var s	= vewBase.selfiePole
-						s.zoom	/= 1.1
-						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line, factalsGlobals.factalsConfig))")
-						vewBase.selfiePole = s	// Put struct's val back
-					}
+//					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
+//					{	var s	= vewBase.selfiePole
+//						s.zoom	/= 1.1
+//						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line, factalsGlobals.factalsConfig))")
+//						vewBase.selfiePole = s	// Put struct's val back
+//					}
 					Spacer()
 					Text("prefFps:")
 					FwTextField(float:$vewBase.prefFps).frame(width:60 ).foregroundColor(Color(.red))
@@ -61,12 +61,6 @@ struct VewBaseBar: View {
 			HStack {
 				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
 				Spacer()
-//				Button(label:{	Text("Z//RV").padding(.top, 300)				})
-//				{	var s	= $vewBase.selfiePole
-//			//		s.zoom	/= 1.1
-//					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-//					$vewBase.selfiePole = s	// Put struct's val back
-//				}
 			}
 		}
 		 .padding(4)
