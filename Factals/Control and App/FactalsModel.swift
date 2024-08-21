@@ -78,7 +78,7 @@ class FactalsModel : ObservableObject, Uid {
 		for vewBase in vewBases {
 			vewBase.configure(from:config)
 		}
-		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+		atBld(2, logd("------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
 		atBld(5, log.logd("### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):"))

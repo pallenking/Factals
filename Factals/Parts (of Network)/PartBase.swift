@@ -104,7 +104,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
  		atBld(3, logd(ppRootPartErrors()))
 
 		 //  6. Print Part
-		atBld(2, logd("------- Parts, ready for simulation, simEnabled:\(factalsModel!.simulator.simEnabled)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+		atBld(2, logd("------- Parts, ready for simulation, simRun:\(factalsModel!.simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 
 		factalsModel!.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 

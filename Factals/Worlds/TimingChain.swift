@@ -255,7 +255,7 @@ class TimingChain : Atom {
 	override func simulate(up upLocal:Bool) {	 /// Step all my parts:
 		guard let simulator		= partBase?.factalsModel?.simulator else {return} // no sim
 //		guard let simulator		= partBase?.simulator else { return /* no sim */	}
-		guard simulator.simEnabled				  else { return /* not emabled */}
+		guard simulator.simRun				  else { return /* not emabled */}
 		 // Check for FwwEvent
 		if (state == 0) {	// when State Machine becomes idle
 			if let nextEvent = worldModel?.dequeEvent() { 	/// DUPLICATED in IBActions
@@ -319,7 +319,7 @@ class TimingChain : Atom {
 
 			  // Disable simulator to freeze activations levels and newborn in canal.
 			 //   Conceive leaves SIM unsettled//newb->birth canal (Unfortunately)
-	//		simulator.simEnabled	-= simulator.simEnabled > 0 ? 1 : 0
+	//		simulator.simRun	-= simulator.simRun > 0 ? 1 : 0
 			// 171021 If release occurs before here, ++ and -- still cancel to +=0
 
 			nextState			= 3

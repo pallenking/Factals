@@ -62,13 +62,13 @@ struct SimulatorBar : View {
 			}
 			else { HStack {
 				Button(label:{	Text("start")	})
-				{	simulator.simEnabled = true
+				{	simulator.simRun = true
 					simulator.startChits = 4									}
-				Button(label:{	Text(simulator.simEnabled ? "stop" : "step")										})
-				{	simulator.simEnabled = true
+				Button(label:{	Text(simulator.simRun ? "stop" : "step")										})
+				{	simulator.simRun = true
 					simulator.simulateOneStep()
-					simulator.simEnabled = false								}
-				Text(simulator.simEnabled ? "RUN  " : "STOP")
+					simulator.simRun = false								}
+				Text(simulator.simRun ? "RUN  " : "STOP")
 				Text(" timeNow=")
 				FwTextField(float: $simulator.timeNow).frame(width: 60)
 				TextField("", text: $textValue)
@@ -79,7 +79,7 @@ struct SimulatorBar : View {
 						textValue 	= String(simulator.timeNow)
 					}
 					.frame(width:50)
-		//		if  simulator.simEnabled == false {
+		//		if  simulator.simRun == false {
 		//			Text("stopped")
 		//		}
 				Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")

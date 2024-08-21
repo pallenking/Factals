@@ -185,42 +185,23 @@ extension PartBase : FactalsStatus	{								 ///PartBase
 }
 extension Simulator : FactalsStatus	{								///Simulator
  	func ppFactalsState(deapth:Int=999) -> String {
-		let showPre				= true//false//true//
-		let showPost			= true//false//true//
-		var rv					= factalsModel == nil 	? "(factalsModel==nil)"
+		var rv					= factalsModel == nil 	? "(factalsModel==nil) "
 								: factalsModel!.simulator === self ? ""
-								:						  "OWNER:'\(factalsModel!)' BAD"
+								:						  "OWNER:'\(factalsModel!)' BAD "
 		for _ in 0...0 {
-			if !simBuilt {
-				rv 				+= "NOT BUILT, "
-				if !showPost { break }
-			}
-			else if showPre {
-				rv				+= "simBuilt, "
-			}
-
-			if !simEnabled {
-				rv				+= "NOT ENABLED, "
-				if !showPost { break }
-			}
-			else if showPre {
-				rv				+= "simEnabled, "
-			}
-
-			rv					+= "t:\(timeNow) "
-			rv					+= "going:\(globalDagDirUp ? "up " : "down ")"
-			if let s		 	= factalsModel?.fmConfig.double("simTaskPeriod") {
-				rv				+= "simTaskPeriod=\(String(s)) "
-			}
-			rv					+= simTaskRunning ? "taskRun; " : "taskHalted; "
-///
-/// See FactalsModelBar.body
-///
-			rv					+= isSettled() ? "Sim SETTLED=" : "Run Sim="
-			rv					+= "\(portChits)/Ports,"
-			//rv				+= "[" + unPorts.map({hash in hash() }).joined(separator:",") + "] "
-			rv					+= "\(linkChits)/Links,"
-			rv					+= "\(startChits)/start"
+			rv 					+= simBuilt ? "simBuilt," : "no simulator"
+			guard simBuilt 		else {	break									}
+			rv					+= simRun ? " simRun" : " simHalt"
+			rv					+= ", timeNow:\(timeNow)"
+			rv					+= " going:\(globalDagDirUp ? "up " : "down ")"
+			rv					+= ", timeStep:\(timeStep)"
+			rv					+= simTaskRunning ? " simTask-Run" : " simTask-Halt"
+			rv					+= " ~period=\(String(simTaskPeriod)) "
+		//	rv					+= isSettled() ? " simSETTLED=" : " Run Sim="
+		//	rv					+= " \(portChits)/Ports,"
+		//	//rv				+= " [" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
+		//	rv					+= " \(linkChits)/Links,"
+		//	rv					+= " \(startChits)/start"
 		}
 		return ppFactalsStateHelper("Simulator    ", uid:self, myLine:rv, deapth:deapth-1)
 	}

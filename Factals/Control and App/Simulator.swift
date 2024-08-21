@@ -3,21 +3,21 @@ import SceneKit
 import Observation
 
 
-@Observable
+//@Observable
 class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//Logd
 
 	 // MARK: - 2. Object Variables:
 	 /// Simulation is fully built and running
 	var simBuilt : Bool = false				// sim constructed?
-	{	didSet {		// whenever simEnabled gets set, try to st
-			if simEnabled && simBuilt {
+	{	didSet {		// whenever simRun gets set, try to st
+			if simRun && simBuilt {
 				simTaskRunning	= false		// (so startSimulationTask
 				startSimulationTask()		// try irrespective of simTa
 			}
 		}
 	}
 	 /// Enable simulation task to run:																					//
-	var simEnabled : Bool 	 	= false 	// sim enabled to run?{
+	var simRun : Bool 	 	= false 	// sim enabled to run?{
 	{	didSet {
 			if simBuilt && !simTaskRunning {
 				simTaskRunning	= false		// (so startSimulationTask notices)
@@ -25,7 +25,10 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 			}
 		}
 	}
-	var timeNow			: Float  = 0.0		// can't add @Published
+	var timeNow			: Float  = 0.0
+//	@Published var timeNow : Float  = 0.0
+// Property wrapper cannot be applied to a computed property
+
 	var globalDagDirUp	: Bool	 = true
 	var timeStep		: Float  = 0.01
 	var simTaskPeriod	: Double = 0.01
@@ -54,8 +57,8 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation
 	func configure(from config:FwConfig) {
-		if let se				= config.bool("simEnabled") {
-/**/		simEnabled 			= se						// set or reset
+		if let se				= config.bool("simRun") {
+/**/		simRun 			= se						// set or reset
 		}
 		if let ts				= config.float("timeStep") {
 			timeStep 			= ts
@@ -77,7 +80,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	enum SimulatorKeys: String, CodingKey {
 		case timingChains
 		case simBuilt
-		case simEnabled
+		case simRun
 		case simTaskRunning
 		case kickstart
 		case unsettledOwned
@@ -90,7 +93,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		var container 		= encoder.container(keyedBy:SimulatorKeys.self)
 		try container.encode(timingChains, 	forKey:.timingChains)
 		try container.encode(simBuilt, 		forKey:.simBuilt)
-		try container.encode(simEnabled, 	forKey:.simEnabled)
+		try container.encode(simRun, 	forKey:.simRun)
 		try container.encode(simTaskRunning,forKey:.simTaskRunning)
 		try container.encode(startChits, 	forKey:.kickstart)
 		try container.encode(linkChits,		forKey:.unsettledOwned)
@@ -104,7 +107,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		let container 				= try decoder.container(keyedBy:SimulatorKeys.self)
 		timingChains 				= try container.decode([TimingChain].self, forKey:.timingChains	)
 		simBuilt					= try container.decode(			Bool.self, forKey:.simBuilt		)
-		simEnabled					= try container.decode(			Bool.self, forKey:.simEnabled	)
+		simRun					= try container.decode(			Bool.self, forKey:.simRun	)
 		simTaskRunning				= try container.decode(			Bool.self, forKey:.simTaskRunning)
 		startChits					= try container.decode(		   UInt8.self, forKey:.kickstart	)
 		linkChits					= try container.decode(		     Int.self, forKey:.unsettledOwned)
@@ -121,10 +124,10 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	 /// N.B: start occurs on a thread which has Part tree already locked
 	func startSimulationTask() {
 		//return // never simulate
-		if simBuilt && simEnabled {				// want to run
+		if simBuilt && simRun {				// want to run
 			if simTaskRunning == false {		// if not now running
 				simTaskRunning	= true
-				atBld(3, logd("# # # # STARTING Simulation Task (simEnabled=\(simEnabled))"))
+				atBld(3, logd("# # # # STARTING Simulation Task (simRun=\(simRun))"))
 			}
 //			let taskPeriod		= factalsModel?.fmConfig.double("simTaskPeriod") ?? 2	// DEFAULT IS VERY JERKEY
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
@@ -149,7 +152,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 	}
 	func simulateOneStep() {
 		guard simBuilt			else {	return panic("calling for simulationTask() before simBuilt") }
-		guard simEnabled		else {	return 									}
+		guard simRun		else {	return 									}
 		guard let partBase 		= factalsModel?.partBase else {	return			}
 
 		guard partBase  .lock  (for:"simulationTask", logIf:logSimLocks)
@@ -185,22 +188,22 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		switch character {
 		case " ":							// perhaps "+ shift"
 			 // One more cycle, stop if running:
-			simEnabled 			= !simEnabled
-			if simEnabled {
+			simRun 			= !simRun
+			if simRun {
 				startChits		= 4
 			}	// (Not using ppLog -- log numbers to be independent of
-			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
+			print("++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
 		case "k":							// kickstart simulator
-			simEnabled 			= true
+			simRun 			= true
 			startChits			= 4
-			print("++++++++++ simEnabled=\(simEnabled) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
+			print("++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
 		case "?":
 			print ("=== Simulator   commands:",
-				"\t' '             -- Toggel simEnabled: run(-1) / stop(0) ",
+				"\t' '             -- Toggel simRun: run(-1) / stop(0) ",
 				"\t'k'             -- kickstart simulator",
-//				"\t' ' + shift     -- Set simEnabled = 1: Run 1 cycle, then stop",
+//				"\t' ' + shift     -- Set simRun = 1: Run 1 cycle, then stop",
 				separator:"\n")
 		default:
 			nop

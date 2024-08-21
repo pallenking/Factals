@@ -55,7 +55,7 @@ struct ArgKey : ExpressibleByStringLiteral, Hashable {							//	typealias String
 	static let physics	: Self = "physics"
 	static let gravity	: Self = "gravity"
 	static let events	: Self = "events"
-	static let simEnabled:Self = "simEnabled"
+	static let simRun	: Self = "simRun"
 	static let lookAt 	: Self = "lookAt"
 	static let X	 	: Self = "X"
 //	1h	macros for: names, flip, spin, placement, 			LANGUAGE
@@ -96,7 +96,7 @@ private let jog					= "jog"
 private let physics				= "physics"
 private let gravity				= "gravity"
 private let events				= "events"
-private let simEnabled 			= "simEnabled"
+private let simRun 			= "simRun"
 private let lookAt 				= "lookAt"
 private let X	 				= "X"
 
@@ -138,7 +138,7 @@ class Tests01 : Book {
 		super.loadTest(args:args, state:&state)
 			 // Some commonly used Environmental variables
 		let e 	 : FwConfig		= [:]		// Logs OFF		"logPri4all":8
-		let eSim : FwConfig		= e + [simEnabled:true]
+		let eSim : FwConfig		= e + [simRun:true]
 		let eSimX: FwConfig		= e						// Neuter eSim
 		let eTight:FwConfig		= e + [	// For debugging Link positions:
 			"ppViewTight"		:true,		// eliminate titles in print

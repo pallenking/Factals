@@ -116,7 +116,7 @@ CONTEXT: findProgramToWatch:
 		 			"d",
 		 			"e",
 				] 					]
-//		r("- bug: drive with sequence", eXYtight + ["simEnabled":true] + selfiePole(s:90,u:0), { Net(["placeMy":"linky", "parts":[
+//		r("- bug: drive with sequence", eXYtight + ["simRun":true] + selfiePole(s:90,u:0), { Net(["placeMy":"linky", "parts":[
 //			Mirror(["n":"v", "P":"s", "gain":-1, "offset":1]),
 //			Sequence(["n":"s", "f":1, "share":["a"]]),//, "a", "a", ]]),
 //			Tunnel(of:.genMirror,["struc":["a"]]),

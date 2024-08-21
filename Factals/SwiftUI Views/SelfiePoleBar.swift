@@ -93,14 +93,14 @@ struct SelfiePoleBar: View   {
 			 .padding(.horizontal, 5)
  			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 			LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
-			Button(label:{	Text("Z**")											})//.padding(.top, 300)
+			Button(label:{	Text("**")											})//.padding(.top, 300)
 			{	var s			= selfiePole
 				s.zoom			*= 1.1
 				print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
 				selfiePole 		= s	// Put struct's val back
 			}
 			LabeledCGFloat(label:"ortho",val:$selfiePole.ortho, oneLine:false)
-			Button(label:{	Text("O-+")											})//.padding(.top, 300)
+			Button(label:{	Text("**")											})//.padding(.top, 300)
 			{	var s			= selfiePole
 				let values		= [0.0, 0.1, 1.0, 10]
 				let i	 		= values.firstIndex(where: { $0 >= s.ortho } ) ?? values.count
