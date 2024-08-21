@@ -201,9 +201,9 @@ struct InspecAtom : View {												 // Atom
 				Text("No Ports")
 			}
 			/*
-			vew.scn.color0 		= c			// in SCNNode, material 0's reflective color
+			vew.scnScene.color0 		= c			// in SCNNode, material 0's reflective color
 			*/
-//			ColorPicker("Color:", selection: $vew.scn.color0)
+//			ColorPicker("Color:", selection: $vew.scnScene.color0)
 			ColorPicker("Band Color:", selection: $bgColor)
 		}
 /*

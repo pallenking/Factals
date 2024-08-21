@@ -343,9 +343,9 @@ class FwBundle : Net {
 	 // MARK: - 9. 3D Support
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn.find(name:"s-Bun") ?? {
+		let scn					= vew.scnScene.find(name:"s-Bun") ?? {
 			let scn				= SCNNode()
-			vew.scn.addChild(node:scn, atIndex:0)
+			vew.scnScene.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Bun"
 			return scn
 		}()
@@ -356,7 +356,7 @@ class FwBundle : Net {
 		scn.geometry 			= SCN3DPictureframe(width:bb.size.x, length:bb.size.z, height:gsnb, step:gsnb)
 		scn.color0				= NSColor("darkgreen")!
 		scn.position			= bb.centerBottom //+ .uY * gsnb/2
-		return bb						//view.scn.bBox() //scn.bBox() // Xyzzy44 ** bb
+		return bb						//view.scnScene.bBox() //scnScene.bBox() // Xyzzy44 ** bb
 	}
 	 // MARK: - 11. 3D Display
 	override func typColor(ratio:Float) -> NSColor {
@@ -374,7 +374,7 @@ class FwBundle : Net {
 			let flip			= portVew.part.flipped
 			let bBox			= portVew.bBox
 			let place			= flip ? bBox.centerTop : bBox.centerBottom
-			portVew.scn.transform = SCNMatrix4(place, flip:flip)
+			portVew.scnScene.transform = SCNMatrix4(place, flip:flip)
 //			portVew.scn.transform = SCNMatarix4(portVew.bBox.centerBottom.x, 0, 0, flip:flip)
 		}
 		else {

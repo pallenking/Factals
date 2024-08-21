@@ -153,9 +153,9 @@ bug;	return nil
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn.find(name:"s-Leaf") ?? {
+		let scn					= vew.scnScene.find(name:"s-Leaf") ?? {
 			let scn				= SCNNode()
-			vew.scn.addChild(node:scn, atIndex:0)
+			vew.scnScene.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Leaf"
 			return scn
 		}()
@@ -168,7 +168,7 @@ bug;	return nil
 		scn.geometry 			= SCN3DPictureframe(width:bbs.x, length:bbs.z, height:gsnb, step:gsnb) //SCNPictureframe(width:bb.size.x, length:bb.size.z, step:gsnb)//bb.size.x/2)//0.1) //*gsnb/2)
 		scn.position			= bb.centerBottom //+ .uY * gsnb
 		scn.color0				= .red
-		return bb						// vew.scn.bBox()//scn.bBox()// Xyzzy44 ** bb
+		return bb						// vew.scnScene.bBox()//scnScene.bBox()// Xyzzy44 ** bb
 	}
 
 	 // MARK: - 15. PrettyPrint

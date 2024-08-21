@@ -83,7 +83,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 		 // 6. Set LookAtNode's position
 		let posn				= lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= lookAtVew?.scn.convertPosition(posn, to:nil/*scn*/) ?? .zero
+		let worldPosition		= lookAtVew?.scnScene.convertPosition(posn, to:nil/*scnScene*/) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}
@@ -157,7 +157,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 			 // if Empty, make new base
 			if tree.name == "_null" {
 				tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
-				scnBase.tree = tree.scn
+				scnBase.tree = tree.scnScene
 			}
 			 // Vew Configuration specifies open stuffss
 			if let initial {

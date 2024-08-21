@@ -137,7 +137,7 @@ class FactalsModel : ObservableObject, Uid {
 	func vew(ofScnNode  s:SCNNode) -> Vew? {	vewBase(ofScnNode:s)?.tree 		}
 	func vewBase(ofScnNode s:SCNNode) -> VewBase? {
 		for vews in vewBases {
-			if vews.tree.scn.find(firstWith:{ $0 == s }) != nil {
+			if vews.tree.scnScene.find(firstWith:{ $0 == s }) != nil {
 				return vews
 			}
 		}
@@ -189,7 +189,7 @@ class FactalsModel : ObservableObject, Uid {
 //		case "d":
 //			print("\n******************** 'd': ======== ")
 //			let l1v 			= rootVewL("_l1")
-//			print(l1v.scn.transform.pp(.tree))
+//			print(l1v.scnScene.transform.pp(.tree))
 
 		 // print out parts, views
 		 // Command Syntax:
@@ -245,7 +245,7 @@ class FactalsModel : ObservableObject, Uid {
 			log.ppIndentCols = 3
 			for vews in vewBases {
 				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnBase)))" +
-					  ".scn(\(ppUid(vews.scnBase))):")
+					  ".scnScene(\(ppUid(vews.scnBase))):")
 				print(vews.scnBase.pp(.tree), terminator:"")
 			}
 		case "#":				// OUTPUT MODEL
@@ -254,7 +254,7 @@ class FactalsModel : ObservableObject, Uid {
 											in:.userDomainMask,
 											appropriateFor:nil,
 											create:true)
-			let suffix			= alt ? ".dae" : ".scn"
+			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
 			let rootVews0scene	= vewBases.first?.scnBase.scnScene ?? {	fatalError("") } ()
@@ -295,7 +295,7 @@ bug
 				"\t'r'+cmd         -- go to lldb for rerun",
 				"\t'v'             -- print Vew tree",
 				"\t'n'             -- print User's SCNNode tree",
-				"\t'#'             -- write out SCNNode tree as .scn",
+				"\t'#'             -- write out SCNNode tree as .scnScene",
 				"\t'#'+alt         -- write out SCNNode tree as .dae",
 				"\t'V'             -- build the Model's Views",
 				"\t'T'             -- Size and pack the Model's Views",
@@ -430,7 +430,7 @@ bug
 
 		assert(!(vew.part is Link), "cannot toggelOpen a Link")
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
-		vew.scn.removeFromParent()
+		vew.scnScene.removeFromParent()
 		vew.removeFromParent()
 
 		vewBase.updateVSP()
@@ -448,9 +448,9 @@ bug
 //		if document.fmConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 //
 //			 // Mark old SCNNode as Morphing
-//			let oldScn			= vew.scn
+//			let oldScn			= vew.scnScene
 //			vew  .name			= "M" + vew   .name		// move old vew out of the way
-//			oldScn.name!		= "M" + oldScn.name!	// move old scn out of the way
+//			oldScn.name!		= "M" + oldScn.name!	// move old scnScene out of the way
 //			oldScn.scale		= .unity * 0.5			// debug
 //			vew.part.markTree(dirty:.vew)				// mark Part as needing reVew
 //
@@ -459,7 +459,7 @@ bug
 //			 //*******//
 //
 //			 // Animate Vew morph, from self to newVew:
-//			guard let newScn	= vew.parent?.find(name:"_" + part.name)?.scn else {
+//			guard let newScn	= vew.parent?.find(name:"_" + part.name)?.scnScene else {
 //				fatalError("updateVew didn't creat a new '_<name>' vew!!")
 //			}
 //			newScn.scale		= .unity * 0.3 //0.1, 0.0 	// New before Fade-in	-- zero size
@@ -474,7 +474,7 @@ bug
 //
 //			SCNTransaction.completionBlock 	= {
 //				 // Imprint JUST AFTER end, with OLD removed (Note: OLD == self):
-//				assert(vew.scn == oldScn, "oops")
+//				assert(vew.scnScene == oldScn, "oops")
 ////				part.logg("Removed old Vew '\(vew.fullName)' and its SCNNode")
 //				newScn.scale	= .unity
 //				oldScn.scale 	= .unity	// ?? reset for next time (Elim's BUG?)
@@ -491,18 +491,18 @@ bug
 //	//		let x				= CGFloat(0.2)
 //	//		let xPct			= SCNVector3(x, x, x)
 //	//		 /// Imprint Initial Vew, before newScn has non-zero size
-//	//		viewNew.scn.scale 	= xPct//.zero
-//	//		self   .scn.scale 	= .unity
+//	//		viewNew.scnScene.scale 	= xPct//.zero
+//	//		self   .scnScene.scale 	= .unity
 //	//		fws.updateVewSizePaint(needsLock:"toggelOpen5")	//\\//\\//\\//\\ To beginning of animation
 //	//		 /// Imprint Final Vew
-//	//		viewNew.scn.scale 	= .unity
-//	//		self   .scn.scale 	= .zero//xPct//
+//	//		viewNew.scnScene.scale 	= .unity
+//	//		self   .scnScene.scale 	= .zero//xPct//
 //	//		fws.updateVewSizePaint(needsLock:"toggelOpen6")	//\\//\\//\\//\\ To end of animation
 //	//
 //	//		 /// Remove old vew and its SCNNode
 //	//		atAni(4, log("Removed old Vew '\(fullName)' and its SCNNode"))
-//	//		scn.scale			= .unity
-//	//		scn.removeFromParent()
+//	//		scnScene.scale			= .unity
+//	//		scnScene.removeFromParent()
 //	//		removeFromParent()
 //	//	}
 //	//https://forums.developer.apple.com/thread/111572

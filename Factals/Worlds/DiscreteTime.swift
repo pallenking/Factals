@@ -269,27 +269,27 @@ class DiscreteTime : Atom {
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat	{		return 1									}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn.find(name:"s-Atom") ?? {
+		let scn					= vew.scnScene.find(name:"s-Atom") ?? {
 			let scn				= SCNNode()
-			vew.scn.addChild(node:scn, atIndex:0)
+			vew.scnScene.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Atom"
 			scn.geometry		= SCNBox(width:7, height:height, length:7, chamferRadius:1)
-//			scn.geometry		= SCNCylinder(radius:3, height:height)
+//			scnScene.geometry		= SCNCylinder(radius:3, height:height)
 			scn.position.y		= height/2
 			scn.color0			= NSColor("darkgreen")!//.orange
 			return scn
 		} ()
-		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
+		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(portVew vew:Vew) {
 		let port				= vew.part as! Port
 		if port === ports["P"] {
 			assert(!port.flipped, "P Port in DiscreteTime must be unflipped")
-			vew.scn.transform	= SCNMatrix4(0, -port.height,0)
+			vew.scnScene.transform	= SCNMatrix4(0, -port.height,0)
 		}
 		else if port === ports["S"] {
-			vew.scn.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
+			vew.scnScene.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
 		}
 		else {
 			super.rePosition(portVew:vew)

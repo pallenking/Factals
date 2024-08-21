@@ -51,7 +51,7 @@ let vewConfigAllToDeapth4		= VewConfig.openAllChildren(toDeapth:4)
 
 extension Vew {
 	/// Adorn self (a Part) in parentVew, using config (a VewConfig)
-	///   Adorn scn tree too
+	///   Adorn scnScene tree too
 	/// - Parameter config: how to open children
 	func openChildren(using config:VewConfig) {
 		atRve(3, part.logd("Vew(\(fullName)).openChildren(using:\(config.pp(.phrase))))"))

@@ -252,7 +252,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 		}
 	}
 	func removeFromParent() {
-		removeFromParentNode()				// remove scn from parent
+		removeFromParentNode()				// remove scnScene from parent
 	}
 
 	var root : SCNNode {
@@ -401,7 +401,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 
 			 /// 6. LAST print lower Parts, some are Ports
 			for child in children {
-				guard child.name != nil else {  fatalError("scn with nil name")  }
+				guard child.name != nil else {  fatalError("scnScene with nil name")  }
 				rv				+= child.name! == "*-axis"
 								?  child.pp(.line, aux)+" (TRUNCATED)\n"
 								:  child.pp(.tree, aux)
@@ -426,7 +426,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 		 // display position in trunk:
 		if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
 		  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnNode:self) {
-			let p				= convertPosition(.zero, to:vews.tree.scn)
+			let p				= convertPosition(.zero, to:vews.tree.scnScene)
 			rv2					+= p.pp(.short, aux).field(-11, dots:false)
 		}
 
@@ -454,8 +454,8 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	}
 	 // MARK: - 16. Global Constants
 	static let null : SCNNode	= {
-		let n					= SCNComment("null scn")		/// Any use of this should fail
-		n.name					= "null scn"
+		let n					= SCNComment("null scnScene")		/// Any use of this should fail
+		n.name					= "null scnScene"
 		return n
 	} ()
      // MARK: - 17. Debugging Aids

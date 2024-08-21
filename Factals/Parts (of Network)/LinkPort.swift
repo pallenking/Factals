@@ -280,7 +280,7 @@ class LinkPort : Port {
 
 //***** reVewPost(vew:Vew)
 //	linkVew.[s/p]Con2Vew	= [s/p]Con2Vew	 get Views we are connect to:
-//	.dualf:linkVew.scn.constraints = [[], [con0], [con0, con1]][nConstraints]
+//	.dualf:linkVew.scnScene.constraints = [[], [con0], [con0, con1]][nConstraints]
 //	//***** reSize(vew:Vew)
 //	markTree(dirty:.paint)					 mark tree to cause re-paint
 

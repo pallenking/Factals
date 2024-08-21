@@ -369,7 +369,7 @@ bug
 //	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
 //		let windowPositionV3 : SCNVector3 = SCNVector3(windowPosition.x, windowPosition.y, 0)
 //											// BUGGY:
-//		let   rootPositionV3 : SCNVector3 = scn.convertPosition(windowPositionV3, from:nil)
+//		let   rootPositionV3 : SCNVector3 = scnScene.convertPosition(windowPositionV3, from:nil)
 //		return NSPoint(x:rootPositionV3.x, y:rootPositionV3.y)
 //		let
 //NSView:
@@ -616,7 +616,7 @@ extension ScnBase : SCNSceneRendererDelegate {
 		 // Get Vew from SCNNode
 		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
 			if trueF 				{ return nil 		}		// Ignore missing vew
-			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scn.pp(.classUid))")
+			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scnScene.pp(.classUid))")
 			let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) // for debug only
 			return nil
 		}
@@ -664,7 +664,7 @@ extension ScnBase : SCNSceneRendererDelegate {
 		if mode == .line {
 			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 			guard let tree		= self.tree	else { return "tree==nil!! "		}
-			rv					+= "scn:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
+			rv					+= "scnScene:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
 //			rv					+= "\(self.scnView?.pp(.uidClass, aux) ?? "BAD: scnView=nil") "

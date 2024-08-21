@@ -936,7 +936,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			vew					= vew ?? 	// 3. CREATE:
 								  addNewVew(in:pVew)
 			 // Remove old skins:
-			vew!.scn.find(name:"s-atomic")?.removeFromParent()
+			vew!.scnScene.find(name:"s-atomic")?.removeFromParent()
 			markTree(dirty:.size)
 
 			 // For the moment, we open all Vews
@@ -1001,9 +1001,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			}
 			  // If our shape was just added recently, it has no parent.
 			 //   That it is "dangling" signals we should swap it in
-			if childVew.scn.parent == nil {
-//bug;			vew.scn.removeAllChildren()
-				vew.scn.addChild(node:childVew.scn)
+			if childVew.scnScene.parent == nil {
+//bug;			vew.scnScene.removeAllChildren()
+				vew.scnScene.addChild(node:childVew.scnScene)
 			}
 
 			 // 2. Reposition:
@@ -1014,13 +1014,13 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}
 
 		 //------ Part PROPERTIES for new skin:
-		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
+		vew.scnScene.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
 
 		 // ------ color0
 		if let colorStr 		= config("color")?.asString,					//partConfig["color"]?.asString,
 		  let c	 				= NSColor(colorStr),
 		  vew.expose == .open {			// Hack: atomic not colored				//partConfig["color"] = nil
-			vew.scn.color0 		= c			// in SCNNode, material 0's reflective color
+			vew.scnScene.color0 		= c			// in SCNNode, material 0's reflective color
 		}
 		markTree(dirty:.paint)
 
@@ -1059,14 +1059,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	func reSkin(fullOnto vew:Vew) -> BBox  {	// Bare Part
 		 // No Full Skin overrides; make purple
 		let atomBBox			= reSkin(atomicOnto:vew)		// xyzzy32 // Expedient: uses atomic skins // xyzzy32
-		vew.scn.children[0].color0 = .purple
+		vew.scnScene.children[0].color0 = .purple
 		return atomBBox
 	}
 	static let atomicRadius 	= CGFloat(1)
 	func reSkin(atomicOnto vew:Vew) -> BBox 	{
 
 		 // Remove most child skins:	REALLY???
-		for childScn in vew.scn.children {
+		for childScn in vew.scnScene.children {
 			if childScn.name != "s-atomic",
 			   childScn.name != "ship" {			// TOTAL HACK
 				childScn.removeFromParent()
@@ -1074,23 +1074,23 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}
 		 // Ensure 1 skin exists:
 		var scn4atom : SCNNode
-		if vew.scn.children.count == 0 {		// no children
+		if vew.scnScene.children.count == 0 {		// no children
 			scn4atom 			= SCNNode(geometry:SCNSphere(radius:Part.atomicRadius/2)) //SCNNode(geometry:SCNHemisphere(radius:0.5, slice:0.5, cap:false))
 			scn4atom.name		= "s-atomic"		// Make atomic skin
 			scn4atom.color0		= .black			//systemColor
 			scn4atom.categoryBitMask = FwNodeCategory.picable.rawValue
-			vew.scn.addChild(node:scn4atom, atIndex:0)
+			vew.scnScene.addChild(node:scn4atom, atIndex:0)
 		}
-		scn4atom				= vew.scn.children[0]
-		return scn4atom.bBox() * scn4atom.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
+		scn4atom				= vew.scnScene.children[0]
+		return scn4atom.bBox() * scn4atom.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
 	func reSkin(invisibleOnto vew:Vew) -> BBox {
-		vew.scn.removeAllChildren()
+		vew.scnScene.removeAllChildren()
 //		 // Remove skin named "s-..."
-//		if let skin				= vew.scn.find(name:"s-", prefixMatch:true) {
+//		if let skin				= vew.scnScene.find(name:"s-", prefixMatch:true) {
 //			skin.removeFromParent()
 //		}
-//		assert(vew.scn.find(name:"s-", prefixMatch:true)==nil, "Part had more than one skin")
+//		assert(vew.scnScene.find(name:"s-", prefixMatch:true)==nil, "Part had more than one skin")
 		return .empty
 	}
 
@@ -1102,14 +1102,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	
 	/// Confures a physicsBody for a Vew.
 	/// - Parameters:
-	///   * vew 				specifies scn
+	///   * vew 				specifies scnScene
 	///   * config
 	///   - FwConfig	==> recognizes keys: gravity, force, and impulse
 	///   - Bool	         ==> enable gravity
 	///   - nil			==> remove any physicsBody
 	func physics(vew:Vew, setConfiguration config:FwAny?) {
 		guard let config 		= config else {
-			vew.scn.physicsBody	= nil			// remove physicsBody
+			vew.scnScene.physicsBody	= nil			// remove physicsBody
 			return
 		}
 		assert(!(self is Port) && !(self is Link), "Ports and Links cannot have physics property")
@@ -1119,7 +1119,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		physicsShape.name		= "q" + name
 		let shape 				= SCNPhysicsShape(node:physicsShape)
 		let pb					= SCNPhysicsBody(type:.dynamic, shape:shape)//kinematic OK
-		vew.scn.physicsBody		= pb
+		vew.scnScene.physicsBody		= pb
 
 		 // Default PhysicsBody properties
 		pb.contactTestBitMask	= FwNodeCategory.collides.rawValue
@@ -1166,11 +1166,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}
 		  // Reset transforms if there's a PHYSICS BODY:
 		 //https://stackoverflow.com/questions/51456876/setting-scnnode-presentation-position/51679718?noredirect=1#comment91086879_51679718
-		if let pb				= vew.scn.physicsBody {
-			pb.resetTransform()			// scn.transform -> scn.presentation.transform
+		if let pb				= vew.scnScene.physicsBody {
+			pb.resetTransform()			// scnScene.transform -> scnScene.presentation.transform
 		}
-		vew.updateWireBox()				// Add/Refresh my wire box scn
-		vew.scn.isHidden		= false	// Include elements hiden for sizing:
+		vew.updateWireBox()				// Add/Refresh my wire box scnScene
+		vew.scnScene.isHidden		= false	// Include elements hiden for sizing:
 	}
 /*
 	a = xyz
@@ -1253,14 +1253,14 @@ func foo () {
 							parent?.config("placeMy")?.asString ?? // My Parent has place MY
 										   				"linky"	   // default is position by links
 		  // Set NEW's orientation (flip, lat, spin) at origin
-		vew.scn.transform	= SCNMatrix4(.origin,
+		vew.scnScene.transform	= SCNMatrix4(.origin,
 								 flip	 : flipped,
 								 latitude: CGFloat(lat.rawValue) * .pi/8,
 								 spin	 : CGFloat(spin)		 * .pi/8)
 		 // First has center at parent's origni
 		if vew.parent?.bBox.isEmpty ?? true {
-			let newBip		= vew.bBox * vew.scn.transform //new bBox in parent
-			vew.scn.position = -newBip.center
+			let newBip		= vew.bBox * vew.scnScene.transform //new bBox in parent
+			vew.scnScene.position = -newBip.center
 		}
 		 // Place by links
 		else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
@@ -1282,7 +1282,7 @@ func foo () {
 			  // :H:		 	   ..BBoxInP -- BoundingBox In Parent coords
 			 // 			 StacKeD objects -- are those already included in parent
 			// 					  NEW object -- being added, (= self)
-			var newBip			= vew.bBox * vew.scn.transform //new bBox in parent
+			var newBip			= vew.bBox * vew.scnScene.transform //new bBox in parent
 			var rv				= -newBip.center // center selfNode in parent
 			newBip.center		= .zero
 			atRsi(4, vew.log(">>===== Position \(self.fullName) by:\(mode) (stacked) in \(parent?.fullName ?? "nil") "))
@@ -1352,7 +1352,7 @@ func foo () {
 	//		let delta			= newBip.center - stkBip.center
 	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
 			atRsi(4, vew.log("<<===== rv=\(rv.pp(.short))\n"))
-			vew.scn.position	= rv + (vew.jog ?? .zero)
+			vew.scnScene.position	= rv + (vew.jog ?? .zero)
 	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
 		}
 		return true		// Success
@@ -1376,11 +1376,11 @@ func foo () {
 		for childVew in vew.children {			// repeat over Vew tree
 			childVew.part.applyLinkForces(vew:childVew) // #### HEAD RECURSIVE
 		}
-		if let pb 				= vew.scn.physicsBody,
+		if let pb 				= vew.scnScene.physicsBody,
 		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
 			pb.applyForce(vew.force, asImpulse:false)
 			atRve(9, logd(" Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))"))
-//			atRve(9, logd(" posn: \(vew.scn.transform.pp(.line))"))
+//			atRve(9, logd(" posn: \(vew.scnScene.transform.pp(.line))"))
 		}
 		vew.force				= .zero
 	}
@@ -1400,7 +1400,7 @@ func foo () {
 //		  where childVew.part.testNReset(dirty:.paint) {
 			childVew.part.rePaint(vew:childVew)		// #### HEAD RECURSIVE
 		}
-		assertWarn(!vew.scn.transform.isNan, "vew.scn.transform == nan!")
+		assertWarn(!vew.scnScene.transform.isNan, "vew.scnScene.transform == nan!")
 	}
 
 	 // MARK: - 11. 3D Display
@@ -1425,7 +1425,7 @@ func foo () {
 		}
 		else {			 // Mouse event
 			if let factalsModel	= partBase?.factalsModel { 	// take struct out
-				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(pickedVew.scn.pp(.classUid))) "
+				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(pickedVew.scnScene.pp(.classUid))) "
 								+ "==> '\(pp(.fullName))' :\(pp(.classUid))")		//\n\(pp(.tree))
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {

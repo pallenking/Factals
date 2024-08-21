@@ -11,7 +11,7 @@ extension Part {
 		}
 	}
 }
-/// Let scn's do play
+/// Let scnScene's do play
 protocol SoundFoo  {
 	func play(sound:String)
 }
@@ -59,7 +59,7 @@ bug
 		let node : SCNNode		= onNode_ ??	// 1. SCNNode supplied else
 		{										// 2. Search through rootVews for SCNNode
 			for vews in FACTALSMODEL?.vewBases ?? [] {
-				return vews.tree.scn			// found
+				return vews.tree.scnScene			// found
 			}
 			fatalError("###### Couldn't find SCNNode to play sound")
 		} ()

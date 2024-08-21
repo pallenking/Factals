@@ -131,10 +131,10 @@ class Net : Atom {		// Atom // Part
 		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0
 		let gsnbMin				= min(size.y, gsnb)
 		func putNetRing (scnName:String, top:Bool) {
-			let scn				= vew.scn.find(name:scnName) as? SCNComment ?? {
+			let scn				= vew.scnScene.find(name:scnName) as? SCNComment ?? {
 				let scn			= SCNComment()//SCNNode()
 				scn.name		= scnName
-				vew.scn.addChild(node:scn, atIndex:0)
+				vew.scnScene.addChild(node:scn, atIndex:0)
 				return scn
 			}()
 			 // Pictureframe geometry:
@@ -148,7 +148,7 @@ class Net : Atom {		// Atom // Part
 		putNetRing (scnName:"s-HiFrame", top:true)	// Ring at top:
 		putNetRing (scnName:"s-LoFrame", top:false)	// Ring at bottom:
 
-		return vew.bBox				// vew.scn.bBox() // Xyzzy44 ** vb
+		return vew.bBox				// vew.scnScene.bBox() // Xyzzy44 ** vb
 	}
 	override func typColor(ratio ratio_:Float) -> NSColor {			// colorOf
 		let ratio				= min(max(ratio_, 0), 1)

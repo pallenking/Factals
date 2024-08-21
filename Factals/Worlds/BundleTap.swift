@@ -278,10 +278,10 @@ bug
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 bug
-		let scn					= vew.scn.find(name:"s-xxxx") ?? {
+		let scn					= vew.scnScene.find(name:"s-xxxx") ?? {
 			let scn				= SCNNode()
-//			vew.scn.addChild(node:scn, atIndex:0)
-//			scn.name			= "s-Atom"
+//			vew.scnScene.addChild(node:scnScene, atIndex:0)
+//			scnScene.name			= "s-Atom"
 			return scn
 		} ()
 		return scn.bBox() * scn.transform
@@ -311,11 +311,11 @@ bug
 //		let port				= vew.part as! Port
 //		if port === ports["P"] {			// P: Primary
 //			assert(!port.flipped, "'M' in Atom must be unflipped")
-//			vew.scn.position.y	= -port.height
+//			vew.scnScene.position.y	= -port.height
 //		}
 //		else {
 //			atRsi(3, warning("Did not find position for '\(port.pp(.fullNameUidClass))'"))
-//			vew.scn.transform	= .identity
+//			vew.scnScene.transform	= .identity
 //		}
 	}
 

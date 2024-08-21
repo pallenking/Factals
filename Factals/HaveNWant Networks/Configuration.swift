@@ -145,8 +145,8 @@ let params4vew : FwConfig = [
 	"bitHeight"					: Float(1.0),	// radius of Port
 /**/"bitRadius"					: Float(1.0),	// radius of Port
 	"atomRadius"				: Float(1.0),	// radius of Atom
-	"factalHeight"				: Float(3.0),	// factal scn height
-	"factalWidth"				: Float(4.0),	// factal scn height xx factal scn width/depth/bigRadius
+	"factalHeight"				: Float(3.0),	// factal scnScene height
+	"factalWidth"				: Float(4.0),	// factal scnScene height xx factal scnScene width/depth/bigRadius
 	"factalTorusSmallRad"		: Float(0.5),	// factalTorusSmallRad
 //	"bundleHeight"				: Float(4.0),	// length of tunnel taper			*/
 //	"bundleRadius"				: Float(1.0),	// radius of post

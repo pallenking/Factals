@@ -376,7 +376,7 @@ class Port : Part, PortTalk {
 		}
 		mutating func convertToParent(vew:inout Vew) {
 			 // Move v (and rv) to v's parent
-			let t				= vew.scn.transform	// my position in parent
+			let t				= vew.scnScene.transform	// my position in parent
 			center				= t * center
 			radius				= abs((t * .uY * radius).y)
 			exclude				= exclude==nil ? vew.bBox * t :
@@ -384,7 +384,7 @@ class Port : Part, PortTalk {
 	//		 // HIghest part self is a part of..
 	//		let hiPart  		= ancestorThats(childOf:commonVew.part)!
 	//		let hiVew 			= commonVew.find(part:hiPart)!					//, maxLevel:1??
-	//		let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform
+	//		let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 			vew					= vew.parent!
 			atRsi(8, vew.log("--A-- rv:\(pp(inVew:vew)) after t:\(t.pp(.short))"))
 		}
@@ -392,7 +392,7 @@ class Port : Part, PortTalk {
 		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
 			let wpStr			= !aux.string_("ppViewOptions").contains("W") ? "" : {		// World position
 				guard let vb	= inVew?.vewBase() else { return "root of inVew bad" }
-				return "w" + inVew!.scn.convertPosition(center, to:vb.scnBase.tree).pp(.short, aux) + " "
+				return "w" + inVew!.scnScene.convertPosition(center, to:vb.scnBase.tree).pp(.short, aux) + " "
 			} ()
 			return fmt("c:\(center.pp(.short, aux)), r:%.3f, e:\(exclude?.pp(.short, aux) ?? "nil")", radius)
 		}
@@ -439,7 +439,7 @@ class Port : Part, PortTalk {
 		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
 		if let scnNode			= vew.vewBase()?.scnBase.tree, enaPpWorld {
-			worldPosn			= "w" + csVisVew.scn.convertPosition(rv.center, to:scnNode).pp(.short, aux) + " "
+			worldPosn			= "w" + csVisVew.scnScene.convertPosition(rv.center, to:scnNode).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "	
 		atRsi(8, csVisVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 
@@ -448,7 +448,7 @@ class Port : Part, PortTalk {
 		let rootScn				= csVisVew.vewBase()?.scnBase.tree
 		for openVew in csVisVew.selfNParents {								// while openVew != vew {
 			guard openVew != vew else 	{				break					}
-			let scn				= openVew.scn
+			let scn				= openVew.scnScene
 			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
 
 			 // Update rv by :H: Local TRANSformation, from self to parent:
@@ -460,9 +460,9 @@ class Port : Part, PortTalk {
 //			 // HIghest part self is a part of..	From Long Ago...
 //			let hiPart  		= ancestorThats(childOf:openVew.part)!			// commonVew
 //			let hiVew 			= openVew.find(part:hiPart)!					// commonVew
-//			let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform
+//			let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 
-			let openWPosn		= openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux)
+			let openWPosn		= openVew.scnScene.convertPosition(rv.center, to:rootScn).pp(.short, aux)
 			let wpStr 			= !enaPpWorld ? "" :  "w\(openWPosn) "
 			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))"))
 		}
@@ -493,8 +493,8 @@ class Port : Part, PortTalk {
 //		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
 //		
 //		var worldPosn			= ""
-//		if let rootScn			= vew.vewBase()?.scn, enaPpWorld {
-//			worldPosn			= "w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
+//		if let rootScn			= vew.vewBase()?.scnScene, enaPpWorld {
+//			worldPosn			= "w" + openVew.scnScene.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
 //		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "	
 ////		var worldPosn			= !enaPpWorld ? "" :
 ////			"w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
@@ -502,24 +502,24 @@ class Port : Part, PortTalk {
 //
 //		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 //		 //
-//		let rootScn				= openVew.vewBase()!.scn
+//		let rootScn				= openVew.vewBase()!.scnScene
 //		while openVew != vew {
 //			 // my position in parent
-//			let scn				= openVew.scn
-//			let activeScn		= scn.physicsBody==nil ? scn : scn.presentation
+//			let scnScene				= openVew.scnScene
+//			let activeScn		= scnScene.physicsBody==nil ? scnScene : scnScene.presentation
 //			let t				= activeScn.transform
 //			rv.center			= t * rv.center						// (SCNVector3)
 //			rv.radius			= length(t.m3x3 * .uY) * rv.radius	// might be scaling
 //			rv.exclude			= rv.exclude==nil ? openVew.bBox * t :
 //								 (rv.exclude! * t | openVew.bBox * t)
 //			let wpStr 			= !enaPpWorld ? "" :
-//								  "w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
+//								  "w" + openVew.scnScene.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
 //			guard openVew.parent != nil else {				break				}
 //
 //			// // HIghest part self is a part of..	From Long Ago...
 //			//let hiPart  			= ancestorThats(childOf:commonVew.part)!
 //			//let hiVew 			= commonVew.find(part:hiPart)!
-//			//let hiBBoxInCom		= hiVew.bBox * hiVew.scn.transform
+//			//let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 //			openVew					= openVew.parent!
 //			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(t.pp(.phrase)))"))
 //		} //while openVew != inVew			// we have not found desired Vew
@@ -570,10 +570,10 @@ class Port : Part, PortTalk {
 	var radius : CGFloat	{ return 1.0	}
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {		// Ports and Shares
-		let scn11 : SCNNode?	= vew.scn.find(name:"s-Port")
+		let scn11 : SCNNode?	= vew.scnScene.find(name:"s-Port")
 		let scn	: SCNNode		= scn11 ?? newPortSkin(vew:vew, skinName:"s-Port")
 		let bbox 			 	= scn.bBox()
-		return bbox * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
+		return bbox * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
 	func newPortSkin(vew:Vew, skinName:String) -> SCNNode {
 		assert(!(parent is Link), "paranoia")
@@ -581,7 +581,7 @@ class Port : Part, PortTalk {
 //			let rv				= SCNNode(geometry:SCNSphere(radius:0.1))		// the Ports of Links are invisible
 //			rv.name				= skinName
 //			rv.color0 			= NSColor("lightpink")!//.green"darkred"
-//			vew.scn.addChild(node:rv)
+//			vew.scnScene.addChild(node:rv)
 //			return rv
 //		}
 		let r					= radius
@@ -611,7 +611,7 @@ class Port : Part, PortTalk {
 		let geom				= SCNCylinder(radius: 0.9*r, height:h0)	// elim tear with ring
 		let scnDisc				= SCNNode(geometry:geom)
 		scnDisc.name			= skinName
-		vew.scn.addChild(node:scnDisc)
+		vew.scnScene.addChild(node:scnDisc)
 		let scnDiskY			= h - h0/2 - ep		// top is at h
 		scnDisc.position.y 		= scnDiskY
 		scnDisc.color0 			= NSColor("lightpink")!//.green"darkred"
@@ -649,20 +649,20 @@ class Port : Part, PortTalk {
 	 // MARK: - 9.4 rePosition
 	override func rePosition(vew:Vew) {
 bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition me (a Port)
-		vew.scn.transform		= SCNMatrix4(0, -height/2, 0, flip:flipped)/// lone Port
+		vew.scnScene.transform		= SCNMatrix4(0, -height/2, 0, flip:flipped)/// lone Port
 	}
 	 // MARK: - 9.5: RePaint:
 	override func rePaint(vew:Vew) {
 				// Tube with connectedTo's value:
-		let tube				= vew.scn.find(name:"s-Tube", maxLevel:2)
+		let tube				= vew.scnScene.find(name:"s-Tube", maxLevel:2)
 		let  curTubeColor0		= tube?.color0
 		let     tubeColor0	 	= upInWorld ? NSColor.green : .red
 		tube?.color0			= NSColor(mix:NSColor.whiteX, with:value, of:tubeColor0)
 		if tube?.color0 != curTubeColor0 {
-//			vew.scn.play(sound:value>0.5 ? "tick1" : "tock0")
+//			vew.scnScene.play(sound:value>0.5 ? "tick1" : "tock0")
 		}
 				// Cone with connectedTo's value:
-		let cone				= vew.scn.find(name:"s-Cone", maxLevel:2)
+		let cone				= vew.scnScene.find(name:"s-Cone", maxLevel:2)
 		if let valPort			= con2?.port {	//	GET to my INPUT
 			let val				= valPort.value
 			let coneColor0		= upInWorld ? NSColor.red : .green

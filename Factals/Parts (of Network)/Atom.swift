@@ -740,7 +740,7 @@ nop
 					rePosition(portVew:portVew)		// 2B. Reposition Port via Atom:
 
 					 // Get Port's position in parent:
-					let bBoxInAtom = portVew.bBox * portVew.scn.transform
+					let bBoxInAtom = portVew.bBox * portVew.scnScene.transform
 					bBoxAccum	|= bBoxInAtom		// Accumulate into _tmpBBox_
 				}
 			}
@@ -750,7 +750,7 @@ nop
 		for childVew in vew.children where
 				!(childVew.keep)  &&				// bug?  childVew.keep == false
 				!(childVew is LinkVew) {			//200124 expedient, to prevent thrashing LinkViews
-			childVew.scn.removeFromParent()			// needed?
+			childVew.scnScene.removeFromParent()			// needed?
 			childVew.removeFromParent()
 		}
 		 // Add gap around Atom, so lines don't overlap
@@ -759,9 +759,9 @@ nop
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn.find(name:"s-Atom") ?? {
+		let scn					= vew.scnScene.find(name:"s-Atom") ?? {
 			let scn				= SCNNode()
-			vew.scn.addChild(node:scn, atIndex:0)
+			vew.scnScene.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Atom"
 
 			let hei				= CGFloat(2.0)
@@ -770,7 +770,7 @@ nop
 			scn.color0			= .orange
 			return scn
 		} ()
-		return scn.bBox() * scn.transform //return vew.scn.bBox()			//scn.bBox()	// Xyzzy44 vsb
+		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
 
 	 // MARK: - 9.4 rePosition
@@ -780,11 +780,11 @@ nop
 		let port				= vew.part as! Port
 		if port === ports["P"] {			// P: Primary
 			assert(!port.flipped, "'M' in Atom must be unflipped")
-			vew.scn.position.y	= -port.height
+			vew.scnScene.position.y	= -port.height
 		}
 		else {
 			atRsi(3, warning("Did not find position for '\(port.pp(.fullNameUidClass))'"))
-			vew.scn.transform	= .identity
+			vew.scnScene.transform	= .identity
 		}
 	}
 		  // ////////////////////////////////////////////////////////////
@@ -803,7 +803,7 @@ nop
 		 // ////////////   Compute Position from wires   //////////
 		// presumes mode uses +Y
 		let popVew 				= vew.parent
-		vew.scn.position		= .zero		// remove nan spot, leave rotation part
+		vew.scnScene.position		= .zero		// remove nan spot, leave rotation part
 
 		  // :H: my	 -- a Part of me, whose position is being found
 		 // :H: trial -- a boss in the lower atom which has its position known
@@ -977,7 +977,7 @@ nop
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
 		atRsi(4, vew.log("<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))"))
-		vew.scn.position		= avgPosition + (vew.jog ?? .zero)
+		vew.scnScene.position		= avgPosition + (vew.jog ?? .zero)
 
 		vew.moveSoNoOverlapping()					// MOVE UPWARD
 		vew.orBBoxIntoParent()
