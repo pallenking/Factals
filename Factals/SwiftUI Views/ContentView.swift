@@ -38,6 +38,11 @@ struct FactalsModelView: View {
 							 .frame(maxWidth: .infinity)
 							 .border(.black, width:1)
 						}
+ 						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
+							Group {
+	                			vewBase.inspectors.wrappedValue[index]
+							}
+						}
 						VewBaseBar(vewBase:vewBase)
 					}
 					 .tabItem { Label("L-\(33)", systemImage: "xmark.circle") }//vewBase.title

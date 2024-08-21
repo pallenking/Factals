@@ -78,8 +78,7 @@ extension SelfiePole : Uid {
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {
 		case .line:
-			var rv				=  fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f, o:%.2f]", position.pp(.line, aux), spin, gaze, zoom, ortho)
-			return rv
+			return fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f, o:%.2f]", position.pp(.line, aux), spin, gaze, zoom, ortho)
 		default:
 			return ppFixedDefault(mode, aux)		// NO, try default method
 		}

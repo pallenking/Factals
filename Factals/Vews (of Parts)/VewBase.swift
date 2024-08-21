@@ -2,6 +2,7 @@
 //
 
 import SceneKit
+import SwiftUI
 
 class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var partBase	: PartBase
@@ -11,8 +12,20 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
-	@Published var selfiePole	= SelfiePole()
+	@State private var sliderTestVal: Double = 0.5
+	@Published var inspectors : [AnyView] = []
 
+	@State var selfiePole 		= SelfiePole()
+
+	func addInspector(_ inspector:AnyView) {
+		inspectors.append(inspector)
+	}
+	func inzInspecTests() {
+		addInspector(AnyView(Text("Inspectors:")))
+//		addInspector(AnyView(Slider(value:$sliderTestVal, in: 0...1).frame(width:300)))
+		addInspector(AnyView(SelfiePoleBar(selfiePole: $selfiePole)))
+// BAD	addInspector(AnyView(VewBaseBar(vewBase:$self)))
+	}
  	var cameraScn	: SCNNode?	{
  		scnBase.tree?.find(name:"*-camera", maxLevel:1)
 	}
@@ -36,6 +49,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		tree					= Vew()			// Start with just trunk Vew
 
 		super.init()			// NSObject
+		inzInspecTests()
 
 		scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
 		scnBase.tree?.name		= self.tree.name

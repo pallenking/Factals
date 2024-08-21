@@ -132,11 +132,11 @@ CONTEXT: findProgramToWatch:
 //			Broadcast(["n":"a"]),
 //		]]) })
 //
-//		// WORKS:
-//		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), { Net(["parts":[
-//			Sequence(["f":1, "share":["a", "b", "c"]]),
-//			Tunnel(["struc":["a", "b", "c"]]),
-//		]]) })
+		// WORKS:
+		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), { Net(["parts":[
+			Sequence(["f":1, "share":["a", "b", "c"]]),
+			Tunnel(["struc":["a", "b", "c"]]),
+		]]) })
 //		r("+ bug: ? Leaf and GenAtom overlap", e + selfiePole(s:0,u:0), { Net(["parts":[
 //			Tunnel(  ["struc":["a", "b"]]),						// in X
 //			FwBundle(["placeMy":"stackz", "struc":["a", "b"]]),	// in Z
