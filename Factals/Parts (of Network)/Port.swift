@@ -392,7 +392,7 @@ class Port : Part, PortTalk {
 		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
 			let wpStr			= !aux.string_("ppViewOptions").contains("W") ? "" : {		// World position
 				guard let vb	= inVew?.vewBase() else { return "root of inVew bad" }
-				return "w" + inVew!.scnRoot.convertPosition(center, to:vb.scnSceneBase.tree).pp(.short, aux) + " "
+				return "w" + inVew!.scnRoot.convertPosition(center, to:vb.scnSceneBase.tree?.rootNode).pp(.short, aux) + " "
 			} ()
 			return fmt("c:\(center.pp(.short, aux)), r:%.3f, e:\(exclude?.pp(.short, aux) ?? "nil")", radius)
 		}
@@ -438,14 +438,14 @@ class Port : Part, PortTalk {
 		
 		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
-		if let scnNode			= vew.vewBase()?.scnSceneBase.tree, enaPpWorld {
-			worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnNode).pp(.short, aux) + " "
-		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "	
+		if let scnScene			= vew.vewBase()?.scnSceneBase.tree, enaPpWorld {
+bug;		worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnScene.rootNode).pp(.short, aux) + " "
+		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
 		atRsi(8, csVisVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 
 		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
 		 //
-		let rootScn				= csVisVew.vewBase()?.scnSceneBase.tree
+		guard let scnScene		= csVisVew.vewBase()?.scnSceneBase.tree else {return rv}
 		for openVew in csVisVew.selfNParents {								// while openVew != vew {
 			guard openVew != vew else 	{				break					}
 			let scn				= openVew.scnRoot
@@ -462,8 +462,8 @@ class Port : Part, PortTalk {
 //			let hiVew 			= openVew.find(part:hiPart)!					// commonVew
 //			let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 
-			let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:rootScn).pp(.short, aux)
-			let wpStr 			= !enaPpWorld ? "" :  "w\(openWPosn) "
+//			let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:scnScene).pp(.short, aux)
+			let wpStr 			= !enaPpWorld ? "" :  "w\\(openWPosn) "
 			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))"))
 		}
 		return rv

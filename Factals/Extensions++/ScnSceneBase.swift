@@ -15,9 +15,9 @@ class ScnSceneBase : NSObject {
 
 	var scnScene : SCNScene
 
-	var tree	 : SCNNode?
+	var tree	 : SCNScene?
 	{	didSet {				setRootNodeChild1(from:tree)					}}
-	func setRootNodeChild1 (from:SCNNode?) {
+	func setRootNodeChild1 (from:SCNScene?) {
 nop//	let scnSceneRootNode 	= self.scnRoot	// from SCNScene's binding
 //		scnSceneRootNode.name	= "ROOT"
 //		scnSceneRootNode.removeAllChildren()
@@ -66,14 +66,14 @@ extension ScnSceneBase {		// lights and camera
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
 			guard let tree 		else { return									}
-			if tree.find(name:name) == nil {
+			if tree.rootNode.find(name:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
 				scn4light.name	= name				// arg 1
 				if let position {
 					scn4light.position = position	// arg 5
 				}
-				tree.addChildNode(scn4light)
+				tree.rootNode.addChildNode(scn4light)
 										 // Light:
 				let light		= SCNLight()
 				light.type 		= lightType			// arg 2
@@ -162,12 +162,12 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func checkCamera() {
 		let name				= "*-camera"
 		guard let tree 			else { return									}
-		let camNode				= tree.find(name:name, maxLevel:1) ?? { // use old
+		let camNode				= tree.rootNode.find(name:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-			tree.addChildNode(rv)
+			tree.rootNode.addChildNode(rv)
 
 			 // Just make a whole new camera system from scratch
 			let camera			= SCNCamera()
@@ -201,13 +201,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		let name				= "*-axis"
 
 		 // Already exist?
-		if tree.find(name:name) != nil {
+		if tree.rootNode.find(name:name) != nil {
 			return
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		let axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		tree.addChild(node:axesScn)
+		tree.rootNode.addChild(node:axesScn)
 		axesScn.name				= name
 
 		 // X/Z Poles (thinner)
@@ -601,19 +601,20 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 		 // SELECT HIT; prefer any child to its parents:
 		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
-		var pickedScn			= sortedHits.count==0 ? tree : sortedHits[0].node
+		var pickedScn			= sortedHits.first?.node ?? tree.rootNode
+//		var pickedScn			= (sortedHits.count==0 ? tree : sortedHits[0].node)// as! SCNNode
 
 		var msg					= "******************************************\n Slot\(slot): find "
-		msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
+bug//	msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
 			
 		 // If Node not picable and has parent
-		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-			  let parent 		= pickedScn.parent
-		{
-			msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
-			pickedScn 			= parent				// use parent
-			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
-		}
+	//	while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+	//		  let parent 		= pickedScn.parent
+	//	{
+	//		msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
+	//		pickedScn 			= parent				// use parent
+	//		msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
+	//	}
 
 		 // Get Vew from SCNNode
 		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
@@ -666,7 +667,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		if mode == .line {
 			rv					+= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 			guard let tree		= self.tree	else { return "tree==nil!! "		}
-			rv					+= "scnScene:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
+			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
 //			rv					+= "\(self.scnView?.pp(.uidClass, aux) ?? "BAD: scnView=nil") "
@@ -678,7 +679,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 
 		//EventHandler_null)	// Any use of this should fail (NOT IMPLEMENTED)
-		null.tree?.name			= "nullScnBase"
+		null.tree?.rootNode.name			= "nullScnBase"
 		return null
 	}()
 }

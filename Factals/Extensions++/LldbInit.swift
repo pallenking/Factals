@@ -64,39 +64,41 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-var LLDBscnNodes0tree : SCNNode  		{	// LLDBscnNodes0tree
-	get 		{	return FACTALSMODEL!.vewBases[0].scnSceneBase.tree ?? .null		}
-	set (v)		{		   FACTALSMODEL!.vewBases[0].scnSceneBase.tree = v			}
-}
-var LLDBscnNodes1tree : SCNNode  		{
-	get 		{	return FACTALSMODEL!.vewBases[1].scnSceneBase.tree ?? .null		}
-	set (v)		{		   FACTALSMODEL!.vewBases[1].scnSceneBase.tree = v			}
-}
-var LLDBscnNodes2tree : SCNNode  		{
-	get 		{	return FACTALSMODEL!.vewBases[2].scnSceneBase.tree ?? .null		}
-	set (v)		{		   FACTALSMODEL!.vewBases[2].scnSceneBase.tree = v			}
-}
-func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNNode	{
+//var LLDBscnNodes0tree : SCNNode  		{	// LLDBscnNodes0tree
+//	get 		{	return FACTALSMODEL!.vewBases[0].scnSceneBase.tree ?? .null		}
+//	set (v)		{		   FACTALSMODEL!.vewBases[0].scnSceneBase.tree = v			}
+//}
+//var LLDBscnNodes1tree : SCNNode  		{
+//	get 		{	return FACTALSMODEL!.vewBases[1].scnSceneBase.tree ?? .null		}
+//	set (v)		{		   FACTALSMODEL!.vewBases[1].scnSceneBase.tree = v			}
+//}
+//var LLDBscnNodes2tree : SCNNode  		{
+//	get 		{	return FACTALSMODEL!.vewBases[2].scnSceneBase.tree ?? .null		}
+//	set (v)		{		   FACTALSMODEL!.vewBases[2].scnSceneBase.tree = v			}
+//}
+func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNScene	{
 	guard let factalsModel 			= FACTALSMODEL else {
 		print("FACTALSMODEL is nil! returning SCNNode.null")
-		return .null
+		fatalError("FACTALSMODEL is nil! returning SCNNode.null")
 	}
 	guard index >= 0 && index < factalsModel.vewBases.count else {
 		print("index:\(index) exceeds rootVews=\(factalsModel.vewBases.count)! returning SCNNode.null")
-		return .null
+		fatalError("aegqvw")
 	}
-	var scnNode					= factalsModel.vewBases[index].scnSceneBase.tree
+	var scnSceneBase				= factalsModel.vewBases[index].scnSceneBase
 
 	 // Search for named SCN:
 	if name != nil {
-		scnNode					= scnNode?.find(inMe2:true, all:true, firstWith:
-								  { $0.name == name })  ?? scnNode
+		fatalError("aowivw;von")
+//		scnSceneBase				= scnSceneBase?.tree.rootNode.find(inMe2:true, all:true, firstWith:
+//								  { $0.name == name })  ?? scnSceneBase
 	}
-	guard let scnNode			else {
-		print("scnNode is set to .nil")
-		return .null
-	}
-	return scnNode
+//	guard let scnSceneBase			else {
+//		print("scnNode is set to .nil")
+//		return .null
+//	}
+	guard let rv 					= scnSceneBase.tree else { fatalError("ksajvkwvawpijv")}
+	return scnSceneBase.tree!
 }
 
  // Print SwiftFactal help from lldb

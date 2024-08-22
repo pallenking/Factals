@@ -232,7 +232,7 @@ class FactalsModel : ObservableObject, Uid {
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 			for vews in vewBases {
-				vews.scnSceneBase.tree?.play(sound:"Oooooooo")		//GameStarting
+				vews.scnSceneBase.tree?.rootNode.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")

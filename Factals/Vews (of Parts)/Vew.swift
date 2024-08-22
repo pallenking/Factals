@@ -704,7 +704,7 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= vewBase()?.scnSceneBase.tree ?? .null
+				let rootScn		= vewBase()?.scnSceneBase.tree?.rootNode ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scnRoot.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				if !(self is LinkVew) {

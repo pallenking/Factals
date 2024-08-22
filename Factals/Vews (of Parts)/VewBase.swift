@@ -7,7 +7,7 @@ import SwiftUI
 class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var partBase	: PartBase
 	var tree		: Vew
-	var scnSceneBase 	: ScnSceneBase				// Master 3D Tree
+	var scnSceneBase: ScnSceneBase				// Master 3D Tree
 	var prefFps		: Float		= 30.0
 	weak
 	 var factalsModel : FactalsModel!		// Owner
@@ -27,7 +27,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 // BAD	addInspector(AnyView(VewBaseBar(vewBase:$self)))
 	}
  	var cameraScn	: SCNNode?	{
- 		scnSceneBase.tree?.find(name:"*-camera", maxLevel:1)
+ 		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
 	}
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
@@ -51,8 +51,8 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		super.init()			// NSObject
 		inzInspecTests()
 
-		scnSceneBase.vewBase			= self			// weak backpointer to owner (vewBase)
-		scnSceneBase.tree?.name		= self.tree.name
+		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
+bug;	scnSceneBase.tree?.rootNode.name = self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
@@ -156,9 +156,10 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 			 // if Empty, make new base
 			if tree.name == "_null" {
-				tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
-				scnSceneBase.tree = tree.scnRoot
+				tree		= partBase.tree.VewForSelf() ?? fatalError("alhvaoufhaouih") as! Vew
+bug//			scnSceneBase.tree = tree.scnRoot
 			}
+
 			 // Vew Configuration specifies open stuffss
 			if let initial {
 				tree.openChildren(using:initial)
