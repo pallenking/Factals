@@ -106,7 +106,8 @@ class Broadcast : Splitter { //#################################################
 	 // MARK: - 9.0 3D Support
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnScene.rootNode.find(name:"s-Broadcast") ?? {
-			let scn  			= !pinSkin ? SCNNode(geometry:SCNHemisphere(radius:1, slice:0))
+			let scn  			= !pinSkin
+				? SCNNode(geometry:SCNHemisphere(radius:1, slice:0))
 				: SCNNode(geometry:SCNCone(topRadius:0.05, bottomRadius:0.01, height:2))	// for debug
 			scn.color0			= .orange
 			scn.name			= "s-Broadcast"

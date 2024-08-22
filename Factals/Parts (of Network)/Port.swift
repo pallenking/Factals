@@ -570,8 +570,8 @@ class Port : Part, PortTalk {
 	var radius : CGFloat	{ return 1.0	}
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {		// Ports and Shares
-		let scn11 : SCNNode?	= vew.scnScene.rootNode.find(name:"s-Port")
-		let scn	: SCNNode		= scn11 ?? newPortSkin(vew:vew, skinName:"s-Port")
+		let scn : SCNNode		= vew.scnScene.rootNode.find(name:"s-Port")
+								 ?? newPortSkin(vew:vew, skinName:"s-Port")
 		let bbox 			 	= scn.bBox()
 		return bbox * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
@@ -709,17 +709,17 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		let valUp				= downInWorld ? localValDown : localValUp
 		let valDown				= downInWorld ? localValUp   : localValDown
 
-		let color				= NSColor(0, 0, 0, 1)
+		var color				= NSColor(0, 0, 0, 1)
 		for i in 0..<4 {	// scan: -, s, d, sd
 			let a				= i&1 != 0 ? valUp:   1.0 - valUp
 			let b				= i&2 != 0 ? valDown: 1.0 - valDown
-			let ab				= a * b
-bug
-//			color				+=
-//
-//			for j in 0..<3 {		// for values r, g, b
-//				color.d[j]		+= (colorOfBidirActivations[i]).d[j] * ab;
-//			}
+			let ab				= CGFloat(a * b)
+			let cc				= Port.colorOfBidirActivations[i]
+			color				= NSColor(
+				red:   color.redComponent   + cc.redComponent   * ab,
+				green: color.greenComponent + cc.greenComponent * ab,
+				blue:  color.blueComponent  + cc.blueComponent  * ab,
+				alpha: 1)//color.alphaComponent + cc.alphaComponent * ab)
 		}
 		return color;
 	}

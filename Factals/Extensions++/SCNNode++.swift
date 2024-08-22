@@ -424,7 +424,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 		}
 
 		 // display position in trunk:
-bug	//	if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
+	//	if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
 	//	  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnScene:self) {
 	//		let p				= convertPosition(.zero, to:vews.tree.scnScene)
 	//		rv2					+= p.pp(.short, aux).field(-11, dots:false)

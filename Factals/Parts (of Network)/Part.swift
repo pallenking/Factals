@@ -1045,7 +1045,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		case .atomic:
 			return reSkin(atomicOnto:vew) 		// atomic skin (sphere/line)// xyzzy32
 		case .same:
-			return reSkin(expose:vewExposeWas, vew:vew)
+			return reSkin(expose:vewExposeWas, vew:vew)	// try over			// xyzzy32
 		case .open:
 			return reSkin(fullOnto:vew)			// skin of Part				// xyzzy32
 		}

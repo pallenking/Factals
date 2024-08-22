@@ -10,8 +10,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 	 // Glue these Neighbors together: (both Always present)
 	@Published var part : Part 				// Part which this Vew represents	// was let
-//	var scn			:  SCNScene				// Scn which draws this Vew
 	var scnScene	:  SCNScene				// SCNScene which draws this Vew
+	var scnRoot:SCNNode {scnScene.rootNode}	// Root SCNNode which draws this Vew
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
 	var vewConfig   : FwConfig	= [:]		// rename config?

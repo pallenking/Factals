@@ -112,8 +112,7 @@ bug;			var poleITread = self.tread - Float(i)
 		assert(i < 7, "Assertion failed")
 		let bitName 			= String(Character(UnicodeScalar(Int(UnicodeScalar("a").value) + i - 1)!))
 
-		if let targetBundle,
-		  let port 				= targetBundle.genPortOfLeafNamed(bitName) as? Port {
+		if let port 			= targetBundle?.genPortOfLeafNamed(bitName) {
 			return port
 		}
 		return nil
@@ -155,9 +154,11 @@ bug;			var poleITread = self.tread - Float(i)
 			for i in 0..<self.nPoles {
 				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
 				let portI 		= getPort(i)
-				let color1		= NSColor.orange//colorOf2Ports(0.0, portI.con2?.port?.value, 0)
-												//colorOf2Ports(localValUp:0.0, localValDown:portI!.con2?.port?.value ?? -1, downInWorld:false)		//
-				let color2		= NSColor.brown//colorOf2Ports(portI.value, 0.0, 0)
+
+				//let color1	= NSColor.orange
+				let color1		= portI!.colorOf2Ports(localValUp:0.0, localValDown:portI!.con2?.port?.value ?? -1, downInWorld:false)
+				//let color2	= NSColor.brown
+				let color2		= portI!.colorOf2Ports(localValUp:portI!.value, localValDown:0.0, downInWorld:false)
 
 				let armNode 	= SCNNode()//geometry: SCNBox(width: r/2, height: r*15, length: r/2, chamferRadius: 0.1)) 				//)//
 				scn.addChild(node:armNode)
