@@ -1,5 +1,5 @@
 //
-//  ScnBase.swift
+//  ScnSceneBase.swift
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -11,7 +11,7 @@ typealias EventHandler			= (NSEvent) -> Void
 //EventHandler.null				= { }
 //class EventHandler {}
 
-class ScnBase : NSObject {
+class ScnSceneBase : NSObject {
 
 	var scnScene : SCNScene
 
@@ -25,9 +25,9 @@ class ScnBase : NSObject {
 		scnSceneRootNode.addChildNode(tree)
 	}
 
-	var scnView	 : SCNView?						// SCNView  of this ScnBase
+	var scnView	 : SCNView?						// SCNView  of this ScnSceneBase
 	weak
-	 var vewBase : VewBase?						// Delegate (of these ScnBase)
+	 var vewBase : VewBase?						// Delegate (of these ScnSceneBase)
 
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler:EventHandler
@@ -43,7 +43,7 @@ class ScnBase : NSObject {
 		self.init()
 		scnScene				= SCNScene()	// get scene
 	}
-	 // ScnBase(scnScene: eventHandler:) :
+	 // ScnSceneBase(scnScene: eventHandler:) :
 	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {
 	
 		self.scnScene			= s ?? SCNScene()	// get scene
@@ -55,7 +55,7 @@ class ScnBase : NSObject {
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
-extension ScnBase {		// lights and camera
+extension ScnSceneBase {		// lights and camera
 	 // MARK: - 4.1 Lights
 	func checkLights() {
 		touchLight("*-omni1",  .omni, position:SCNVector3(0, 0, 15))
@@ -386,7 +386,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 
-extension ScnBase : SCNSceneRendererDelegate {
+extension ScnSceneBase : SCNSceneRendererDelegate {
 	func facMod() -> FactalsModel? {	vewBase?.factalsModel					}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
@@ -572,8 +572,8 @@ extension ScnBase : SCNSceneRendererDelegate {
 		guard let contentView 	= NSApp.keyWindow?.contentView else { return nil}
 		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
-		guard let tree			= vewBase.scnBase.tree   else { return nil		}
-		guard let scnView		= vewBase.scnBase.scnView else { fatalError("vewBase.scnBase.scnView is nil")	}
+		guard let tree			= vewBase.scnSceneBase.tree   else { return nil		}
+		guard let scnView		= vewBase.scnSceneBase.scnView else { fatalError("vewBase.scnSceneBase.scnView is nil")	}
 		guard let slot 			= vewBase.slot			 else { return nil		}
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
@@ -664,7 +664,7 @@ extension ScnBase : SCNSceneRendererDelegate {
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
-			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
+			rv					+= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 			guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) (\(tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
@@ -674,7 +674,7 @@ extension ScnBase : SCNSceneRendererDelegate {
 		return rv
 	}
 	static let null 			= {
-		let null				= ScnBase(eventHandler:eventHandler_null)
+		let null				= ScnSceneBase(eventHandler:eventHandler_null)
 
 
 		//EventHandler_null)	// Any use of this should fail (NOT IMPLEMENTED)
@@ -687,7 +687,7 @@ func eventHandler_null(a:NSEvent) -> Void {
 }
 
 // currently unused
-extension ScnBase : SCNPhysicsContactDelegate {
+extension ScnSceneBase : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug
 	}
@@ -701,7 +701,7 @@ extension ScnBase : SCNPhysicsContactDelegate {
 
 extension SCNView {		//
 	var handler : EventHandler {
-		get { return	(delegate as! ScnBase).eventHandler}
+		get { return	(delegate as! ScnSceneBase).eventHandler}
 		set(val) { }
 	}
 /*

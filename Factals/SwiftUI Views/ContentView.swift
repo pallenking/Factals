@@ -28,13 +28,13 @@ struct FactalsModelView: View {
 				// NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 					VStack {									//Binding<VewBase>
-						let scnBase = vewBase.scnBase.wrappedValue
+						let scnSceneBase = vewBase.scnSceneBase.wrappedValue
 						ZStack {
 							EventReceiver { nsEvent in // Catch events (goes underneath)
 								print("EventReceiver:point = \(nsEvent.locationInWindow)")
-								let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+								let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
-							SceneKitView(scnBase:scnBase, prefFps:vewBase.prefFps)
+							SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
 							 .frame(maxWidth: .infinity)
 							 .border(.black, width:1)
 						}
@@ -78,12 +78,12 @@ struct FactalsModelView: View {
 window group
  */
 //SceneView(					 // Old Way
-//	scene:scnBase.scnScene,
+//	scene:scnSceneBase.scnScene,
 //	pointOfView:nil,	// SCNNode
 //	options:[.rendersContinuously],
 //	preferredFramesPerSecond:30,
 //	antialiasingMode:.none,
-//	delegate:scnBase,	//SCNSceneRendererDelegate?
+//	delegate:scnSceneBase,	//SCNSceneRendererDelegate?
 //	technique: nil		//SCNTechnique?
 //)
 // .frame(maxWidth: .infinity)// .frame(width:500, height:300)

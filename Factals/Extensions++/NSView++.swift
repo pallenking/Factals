@@ -8,7 +8,7 @@
 //import Cocoa
 //
 //extension NSView {
-////		scnBase.NSView		= nsView.findFirstSubView {
+////		scnSceneBase.NSView		= nsView.findFirstSubView {
 //
 //	func findFirstSubView(_ predicate:(NSView)->Bool) -> NSView? {
 //		if predicate(self) {

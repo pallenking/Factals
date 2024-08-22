@@ -52,6 +52,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	var log : Log				{ 	part.log 									}
 
 	 // MARK: - 3. Factory
+	 // Vew(forPart:expose:)
 	init(forPart p:Part?=nil, expose e:Expose? = nil) {
 		let part				= p ?? .null
 		self.part 				= part
@@ -59,10 +60,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		self.expose				= e ?? part.initialExpose
 
 		 // Make SCNScene and apply skin:
-		scnScene				= SCNScene()	// has rootNode
-//		scnScene.rootNode		= SCNNode()		// cannot set!
-bug;	let x : SCNNode?		= nil//scnScene.rootNote
-		x!.name					= self.scnScene.rootNode.name ?? ("*-" + part.name)
+		scnScene				= SCNScene()	// makes rootNode:SCNNode too
+		scnScene.rootNode.name	= self.scnScene.rootNode.name ?? ("*-" + part.name)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
@@ -169,16 +168,16 @@ bug;	let x : SCNNode?		= nil//scnScene.rootNote
 			children.append(vew)
 		}
 		vew.parent 				= self
-//      assert(part.parent == parent?.part, "fails consistency check")
-        part.parent?.markTree(dirty:.size)	// Affects parent's size
-//      part.markTree(dirty:.vew)
+		assert(part.parent == parent?.part, "fails consistency check")
+		part.parent?.markTree(dirty:.size)	// Affects parent's size
+		part.markTree(dirty:.vew)
 
-		// Add the "entry SCNNode" for the vew
-bug//	scnScene.addChild(node:vew.scnScene)			// wire scnScene tree isomorphically
+//	??	// Add the "entry SCNNode" for the vew
+//		scnScene.addChild(node:vew.scnScene)// wire scnScene tree isomorphically
 	}
 	func replaceChild(_ oldVew:Vew?, withVew newVew:Vew) {
 		let i					= children.firstIndex(where: {$0 === oldVew ?? .null})
-bug		//oldVew?.scnScene.removeFromParent()	// remove old
+bug		//oldVew?.scnScene.removeFromParent()// remove old
 		oldVew?.removeFromParent()
 		addChild(newVew, atIndex:i)			// add new
 		part.markTree(dirty:.size)			// recalculate size
@@ -703,7 +702,7 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= vewBase()?.scnBase.tree ?? .null
+				let rootScn		= vewBase()?.scnSceneBase.tree ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scnScene.rootNode.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				if !(self is LinkVew) {

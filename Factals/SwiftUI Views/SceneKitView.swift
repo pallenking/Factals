@@ -50,13 +50,13 @@ struct W: View {
 			}
 			VStack {									//Binding<VewBase>
 				let vewBase0		= factalsModel.vewBases[0]
-				let scnBase			= vewBase0.scnBase
+				let scnSceneBase			= vewBase0.scnSceneBase
 				ZStack {
 					EventReceiver {	nsEvent in // Catch events (goes underneath)
 						print("EventReceiver:point = \(nsEvent.locationInWindow)")
-						let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
+						let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
 					}
-					SceneKitView(scnBase:scnBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
+					SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
 					 .frame(maxWidth: .infinity)
 					 .border(.black, width:1)
 				}
@@ -105,7 +105,7 @@ struct FwTextField: NSViewRepresentable {
  /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
-	var scnBase : ScnBase?						// ARG1: exposes visual world
+	var scnSceneBase : ScnSceneBase?			// ARG1: exposes visual world
 	@Binding var prefFps : Float				// ARG2:
 
 	func makeNSView(context: Context) -> SCNView {		// PW: some View?
@@ -121,18 +121,18 @@ struct SceneKitView: NSViewRepresentable {
 		sv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
 		sv.preferredFramesPerSecond = Int(prefFps)
  
-		if let scnBase	{
-			sv.delegate			= scnBase 		//scnBase is SCNSceneRendererDelegate
-			sv.scene			= scnBase.scnScene
+		if let scnSceneBase	{
+			sv.delegate			= scnSceneBase 		//scnSceneBase is SCNSceneRendererDelegate
+			sv.scene			= scnSceneBase.scnScene
 
-			scnBase.scnView		= sv		// for pic
+			scnSceneBase.scnView = sv		// for pic
 		}
-		else {	fatalError("scnBase is nil")													}
+		else {	fatalError("scnSceneBase is nil")													}
 		return sv
 	}
 
 	func updateNSView(_ nsView: SCNView, context:Context) {
-		let sv					= nsView as SCNView			//	scnBase.scnView
+		let sv					= nsView as SCNView			//	scnSceneBase.scnView
 		sv.preferredFramesPerSecond = Int(prefFps)		//args.preferredFramesPerSecond
 	}
 }
@@ -144,14 +144,14 @@ struct SceneKitView: NSViewRepresentable {
 //								 	print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
 //								 }
 		//						 .onAppear { 			//setupHitTesting
-		//						 	let scnBase			= vewBase.scnBase
-		//						 	let bind_fwView		= scnBase.scnView		//Binding<FwView?>
+		//						 	let scnSceneBase			= vewBase.scnSceneBase
+		//						 	let bind_fwView		= scnSceneBase.scnView		//Binding<FwView?>
 		//						 	var y				= "nil"
 		//						 	if let scnView		= bind_fwView.wrappedValue,
-		//						 	   let s			= scnView.scnBase {
+		//						 	   let s			= scnView.scnSceneBase {
 		//						 		y				= s.pp()
 		//						 	}
-		//						 	print("\(scnBase).scnView.scnBase = \(y)")
+		//						 	print("\(scnSceneBase).scnView.scnSceneBase = \(y)")
 //		.onAppear {
 //			let windows 	= NSApplication.shared.windows
 //			assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
@@ -164,10 +164,10 @@ struct SceneKitView: NSViewRepresentable {
 		//						 .onAppear { 			//setupHitTesting
 		//							//coordinator.onAppear()
 		//						 	//$factalsModel.coordinator.onAppear {				}
-		//						 	let scnBase			= vewBase.scnBase
-		//						 	let bind_scnView	= scnBase.scnView		//Binding<FwView?>
-		//							let y				= bind_scnView.wrappedValue?.scnBase?.pp() ?? "nil"
-		//						 	print("\(scnBase).scnView.scnBase = \(y)")
+		//						 	let scnSceneBase			= vewBase.scnSceneBase
+		//						 	let bind_scnView	= scnSceneBase.scnView		//Binding<FwView?>
+		//							let y				= bind_scnView.wrappedValue?.scnSceneBase?.pp() ?? "nil"
+		//						 	print("\(scnSceneBase).scnView.scnSceneBase = \(y)")
 		//						 }
 
 

@@ -7,7 +7,7 @@ import SwiftUI
 class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var partBase	: PartBase
 	var tree		: Vew
-	var scnBase 	: ScnBase				// Master 3D Tree
+	var scnSceneBase 	: ScnSceneBase				// Master 3D Tree
 	var prefFps		: Float		= 30.0
 	weak
 	 var factalsModel : FactalsModel!		// Owner
@@ -27,7 +27,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 // BAD	addInspector(AnyView(VewBaseBar(vewBase:$self)))
 	}
  	var cameraScn	: SCNNode?	{
- 		scnBase.tree?.find(name:"*-camera", maxLevel:1)
+ 		scnSceneBase.tree?.find(name:"*-camera", maxLevel:1)
 	}
 	var lookAtVew	: Vew?		= nil						// Vew we are looking at
 
@@ -45,14 +45,14 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	 /// generate a new View, returning its index
 	init(for p:PartBase) {
 		partBase				= p
-		scnBase					= ScnBase(eventHandler:eventHandler_null)
+		scnSceneBase					= ScnSceneBase(eventHandler:eventHandler_null)
 		tree					= Vew()			// Start with just trunk Vew
 
 		super.init()			// NSObject
 		inzInspecTests()
 
-		scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
-		scnBase.tree?.name		= self.tree.name
+		scnSceneBase.vewBase			= self			// weak backpointer to owner (vewBase)
+		scnSceneBase.tree?.name		= self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
@@ -60,16 +60,16 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		self.tree.configureVew(from:from)							// vewConfig = c
 		selfiePole.configure(from:from)
 		if let lrl				= from.bool("logRenderLocks") {
-			scnBase.logRenderLocks = lrl		// unset (not reset) if not present
+			scnSceneBase.logRenderLocks = lrl		// unset (not reset) if not present
 		}
 	}
 	// MARK: -
 	func setupSceneVisuals() {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		scnBase.checkLights()
-		scnBase.checkCamera()			// (had factalsModel.document.config)
-		let _ /*axesScn*/		= scnBase.touchAxesScn()
+		scnSceneBase.checkLights()
+		scnSceneBase.checkCamera()			// (had factalsModel.document.config)
+		let _ /*axesScn*/		= scnSceneBase.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
@@ -157,7 +157,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 			 // if Empty, make new base
 			if tree.name == "_null" {
 				tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
-bug;			scnBase.tree = tree.scnScene.rootNode
+				scnSceneBase.tree = tree.scnScene.rootNode
 			}
 			 // Vew Configuration specifies open stuffss
 			if let initial {

@@ -315,7 +315,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 //		guard let log			= FACTALSMODEL?.log else { return "DOClog is nil"}
 		var rv					= ""
 //		 // UGLY: Can't override an extension
-//		if let imARootNode		= self as? ScnBase {
+//		if let imARootNode		= self as? ScnSceneBase {
 //			rv					+= imARootNode.pp(mode, aux)
 //		}
 
@@ -338,9 +338,9 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
-//Cast from 'SCNNode' to unrelated type 'ScnBase' always fails
-//			if let s			=  self as? ScnBase {
-//bug;			rv				+= s.vewBase?.scnBase === self ? "" :
+//Cast from 'SCNNode' to unrelated type 'ScnSceneBase' always fails
+//			if let s			=  self as? ScnSceneBase {
+//bug;			rv				+= s.vewBase?.scnSceneBase === self ? "" :
 //								   "--- BAD --- VewBase: vews?.scenes !== self"
 //			}
 		case .tree:

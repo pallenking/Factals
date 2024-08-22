@@ -232,7 +232,7 @@ class FactalsModel : ObservableObject, Uid {
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 			for vews in vewBases {
-				vews.scnBase.tree?.play(sound:"Oooooooo")		//GameStarting
+				vews.scnSceneBase.tree?.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
@@ -244,9 +244,9 @@ class FactalsModel : ObservableObject, Uid {
 			print("\n******************** 'n': ==== SCNNodes:")
 			log.ppIndentCols = 3
 			for vews in vewBases {
-				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnBase)))" +
-					  ".scnScene(\(ppUid(vews.scnBase))):")
-				print(vews.scnBase.pp(.tree), terminator:"")
+				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnSceneBase)))" +
+					  ".scnScene(\(ppUid(vews.scnSceneBase))):")
+				print(vews.scnSceneBase.pp(.tree), terminator:"")
 			}
 		case "#":				// OUTPUT MODEL
 			let documentDirURL	= try! FileManager.default.url(
@@ -257,7 +257,7 @@ class FactalsModel : ObservableObject, Uid {
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.scnBase.scnScene ?? {	fatalError("") } ()
+			let rootVews0scene	= vewBases.first?.scnSceneBase.scnScene ?? {	fatalError("") } ()
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":
