@@ -426,11 +426,11 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.rootNode.find(name:"s-Split") ?? {
+		let scn					= vew.scnRoot.find(name:"s-Split") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1.6))
 			scn.color0			= .orange
 			scn.name			= "s-Split"
-			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
+			vew.scnRoot.addChild(node:scn, atIndex:0)
 			return scn
 		}()
 		scn.position.y			= 0.6
@@ -445,25 +445,25 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 		if let share 			= port as? Share {	// All Shares go to the origin for now
 			assert(share.flipped, "Share in Splitter must be flipped")
 			 // Place Shares at the origin 200731
-			vew.scnScene.rootNode.transform	= SCNMatrix4(.zero, flip:flipped) //.identity // vew.scnScene.transform	= SCNMatrix4(0, x.center.y, 0, flip:flipped) //.identity
+			vew.scnRoot.transform	= SCNMatrix4(.zero, flip:flipped) //.identity // vew.scnScene.transform	= SCNMatrix4(0, x.center.y, 0, flip:flipped) //.identity
 		}					/// on top, center
 		else if port === ports["U"] {				// U: Unknown Port
 			assert(!port.flipped, "'U' in Splitter must be unflipped")
-			vew.scnScene.rootNode.transform	= SCNMatrix4(splitterBb.centerTop + SCNVector3(0, 0, -2),
+			vew.scnRoot.transform	= SCNMatrix4(splitterBb.centerTop + SCNVector3(0, 0, -2),
 									latitude:.pi/4, spin:0)//(port.spin+3)%4)
 		}
 		else if port === ports["B"] {				// B: Broadcast Port
 			assert(!port.flipped, "'B' in Splitter must be unflipped")
-			vew.scnScene.rootNode.transform	= SCNMatrix4(splitterBb.centerTop + SCNVector3(2, 0, -2))
+			vew.scnRoot.transform	= SCNMatrix4(splitterBb.centerTop + SCNVector3(2, 0, -2))
 		}
 		else if port === ports["M"] {				// M: mPort
 			assert(!port.flipped,  "'M' in Splitter must be unflipped")
-			vew.scnScene.rootNode.transform	= SCNMatrix4(splitterBb.centerBottom + SCNVector3(2, 0, 0))	//2 * SCNVector3.uX)
+			vew.scnRoot.transform	= SCNMatrix4(splitterBb.centerBottom + SCNVector3(2, 0, 0))	//2 * SCNVector3.uX)
 			//port.latitude 	= 4
 		}
 		else if port === ports["KIND"] {				// KIND: kindPort
 			panic()
-			vew.scnScene.rootNode.transform	= .identity
+			vew.scnRoot.transform	= .identity
 		}
 		else {
 			super.rePosition(portVew:vew)

@@ -223,7 +223,7 @@ class Link : Atom {
 		linkVew.pCon2Vew	= p	  // get Views we are connect to:
 		linkVew.sCon2Vew	= s
 
-		if linkVew.scnScene.rootNode.constraints == nil {
+		if linkVew.scnRoot.constraints == nil {
 			if linkSkinType == .dual {	 	// SCNBillboardConstraint, SCNLookAtConstraint
 
 				 // 1. Point towards camera:	(UNUSED)
@@ -231,10 +231,10 @@ class Link : Atom {
 				con0.freeAxes = .Z 			// line 0...uZ	// Old way, points end of link away from camera	//.Y
 
 				 // 2. Spin only about Y:		(UNUSED)	// line rotates 2x spin	// Shows nothing		//.X
-				let con1 = SCNLookAtConstraint(target:s.scnScene.rootNode) // :H: Number (of CONSTRAINTS)
+				let con1 = SCNLookAtConstraint(target:s.scnRoot) // :H: Number (of CONSTRAINTS)
 
 				let nConstraints = 0		// debugging variant. use constraints, else do by hand
-				linkVew.scnScene.rootNode.constraints = [[], [con0], [con0, con1]][nConstraints]
+				linkVew.scnRoot.constraints = [[], [con0], [con0, con1]][nConstraints]
 			}
 		}
 	}
@@ -253,7 +253,7 @@ class Link : Atom {
 	override func reSize(vew:Vew) {
 		atRsi(8, logd("<><> L 9.2:   \\reSize Link '\(vew.part.fullName)'"))
 		 // HELP: dThis should go in Link.reSkin!
-		vew.scnScene.rootNode.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link skins picable
+		vew.scnRoot.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link skins picable
 
 		 // Reskin Link's Ports:
 		for (_, port) in ports {
@@ -263,7 +263,7 @@ class Link : Atom {
 
 				let _			= port.reSkin(linkPortsVew:portsVew)		// xyzzy32 Link rebuilds link skins
 
-				portsVew.scnScene.rootNode.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link Port skins picable
+				portsVew.scnRoot.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link Port skins picable
 			}
 		}
 	 	   // Link's positioning of its Ports is entirely different
@@ -277,10 +277,10 @@ class Link : Atom {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		atRsi(8, logd("<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'"))
 		let name				= "s-Link"
-		let _/*scn*/ : SCNNode	= vew.scnScene.rootNode.find(name:name) ?? {
+		let _/*scn*/ : SCNNode	= vew.scnRoot.find(name:name) ?? {
 			let sLink			= SCNNode()
 			sLink.name			= name
-			vew.scnScene.rootNode.addChild(node:sLink, atIndex:0)
+			vew.scnRoot.addChild(node:sLink, atIndex:0)
 
 			 // Make a UNIT skin, one of length:1 in .uZ
 			var sPaint:SCNNode? = nil
@@ -351,7 +351,7 @@ class Link : Atom {
 		let aux					= params4partPp				//log.params4aux
 		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
 		guard let parentVew		= linkVew.parent  else { return	/* no parent, do nothing*/}
-		linkVew.scnScene.rootNode.position	= .zero
+		linkVew.scnRoot.position	= .zero
 
 		  // :H: CONnected to_2_,			// Vew or Port that Link's S/P Port is connected to
 		 //  :H: _S_ port, _P_ port, 		// ends of link
@@ -401,13 +401,13 @@ class Link : Atom {
 		 // Position "P" Port
 		let p					= pCon2VIp + pR * unitRay	// position
 		let pVew				= linkVew.find(name:"_P", maxLevel:1)!
-/**/	pVew.scnScene.rootNode.position		= p							// -> Port
+/**/	pVew.scnRoot.position		= p							// -> Port
 		linkVew.pEndVip			= p
 
 		 // Position "S" Port
 		let s					= sCon2VIp - sR * unitRay
 		let sVew				= linkVew.find(name:"_S", maxLevel:1)!
-/**/	sVew.scnScene.rootNode.position		= s
+/**/	sVew.scnRoot.position		= s
 		linkVew.sEndVip			= s
 
 		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)"))
@@ -428,7 +428,7 @@ bug	// Never USED?
 					atRsi(3, warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil"))
 					continue
 				}
-				portVew.scnScene.rootNode.position = p
+				portVew.scnRoot.position = p
 				atRsi(8, logd("<><> L 9.4\(portStr):  = \(p)"))
 			}
 		}
@@ -437,7 +437,7 @@ bug	// Never USED?
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
 	override func computeLinkForces(vew:Vew) {
 		atRsi(8, logd("<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'"))
-		guard !vew.scnScene.rootNode.transform.isNan else {
+		guard !vew.scnRoot.transform.isNan else {
 			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
 		}
 		if let lv 				= vew as? LinkVew,		// lv is link
@@ -466,7 +466,7 @@ bug	// Never USED?
 				atAni(9, logd("Force  \(force.pp(.line)) "
 					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
 					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")"))
-				atAni(9, logd(" posn: \(vew.scnScene.rootNode.transform.pp(.line))"))
+				atAni(9, logd(" posn: \(vew.scnRoot.transform.pp(.line))"))
 			}
 			else {
 				logd("computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn
@@ -510,7 +510,7 @@ bug	// Never USED?
 
 			  // Link's position isn't in linkVew.scnScene, but it's child "s-Link".
 			 // (This allows S and P ornaments in linkVew.scnScene to be unstretched)
-			let s				= linkVew.scnScene.rootNode.find(name:"s-Link")!
+			let s				= linkVew.scnRoot.find(name:"s-Link")!
 			s.transform 		= m
 		}else{
 			logd("CURIOUS3 -- link ends nil, cannot rotate link toward camera")
@@ -542,14 +542,14 @@ bug	// Never USED?
 			 //    whenever you modify the objects in a scene graph.
 
 			 // Apply image to shape (Plane or Box)
-			let scn2paintOn	= linkVew.scnScene.rootNode.find(name: "s-Paint")
+			let scn2paintOn	= linkVew.scnRoot.find(name: "s-Paint")
 			guard let geom	= scn2paintOn?.geometry else {
 				fatalError("Attempt to paint on scnScene wo geometry") 				}
 			let i			= usePlane ? 0 : 4		// 0:base, 4:left side if rect
 			assert(i < geom.materials.count, "Link '\(pp(.fullName))' access: to \(i) but only has \(geom.materials.count) materials")
 			geom.materials[i].diffuse.contents = linksImage						//for j in 0..<6 {
 		}																		//	geom.materials[j].diffuse.contents = linksImage
-		if let scnLink:SCNNode = vew.scnScene.rootNode.find(name:"s-Link") {
+		if let scnLink:SCNNode = vew.scnRoot.find(name:"s-Link") {
 			//assert(scnLink.isHidden, "paranoia") //21200823 Happens often!
 			scnLink.isHidden = false				// now vew link
 		}
@@ -585,11 +585,11 @@ extension Port {
 	func reSkin(linkPortsVew vew:Vew) -> BBox  {
 		assert(parent is Link, "sanity check")
 		let name				= "s-LinkEnd"
-		let scn:SCNNode 		= vew.scnScene.rootNode.find(name:name) ?? {
+		let scn:SCNNode 		= vew.scnRoot.find(name:name) ?? {
 			 // None found, make one.
 			atRsi(8, logd("<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))"))
 			let scn				= SCNNode(geometry:SCNSphere(radius:0.2))		// the Ports of Links are invisible
-			vew.scnScene.rootNode.addChild(node:scn)
+			vew.scnRoot.addChild(node:scn)
 			scn.name			= name
 			scn.color0 			= NSColor("lightpink")!	//.green"darkred"
 			return scn

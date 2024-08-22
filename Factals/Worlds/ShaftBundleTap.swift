@@ -125,9 +125,9 @@ bug;			var poleITread = self.tread - Float(i)
 	var ffRadius		= CGFloat(2.5)
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.rootNode.find(name:"s-ShBT") ?? {
+		let scn					= vew.scnRoot.find(name:"s-ShBT") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
+			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-SBT1"
 
 			 // Shaft of rotation
@@ -184,7 +184,7 @@ bug;			var poleITread = self.tread - Float(i)
 		let port				= vew.part as! Port
 		if port === ports["P"] {
 			assert(!port.flipped, "P Port in DiscreteTime must be unflipped")
-			vew.scnScene.rootNode.transform	= SCNMatrix4(0, -ffRadius*2, 0)		//, -port.height - 10
+			vew.scnRoot.transform	= SCNMatrix4(0, -ffRadius*2, 0)		//, -port.height - 10
 		} else {
 			panic("")
 		}

@@ -45,7 +45,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	 /// generate a new View, returning its index
 	init(for p:PartBase) {
 		partBase				= p
-		scnSceneBase					= ScnSceneBase(eventHandler:eventHandler_null)
+		scnSceneBase			= ScnSceneBase(eventHandler:eventHandler_null)
 		tree					= Vew()			// Start with just trunk Vew
 
 		super.init()			// NSObject
@@ -83,7 +83,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 		 // 6. Set LookAtNode's position
 		let posn				= lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= lookAtVew?.scnScene.rootNode.convertPosition(posn, to:nil/*scnScene*/) ?? .zero
+		let worldPosition		= lookAtVew?.scnRoot.convertPosition(posn, to:nil/*scnScene*/) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}
@@ -157,7 +157,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 			 // if Empty, make new base
 			if tree.name == "_null" {
 				tree		= partBase.tree.VewForSelf() ?? { fatalError() }()
-				scnSceneBase.tree = tree.scnScene.rootNode
+				scnSceneBase.tree = tree.scnRoot
 			}
 			 // Vew Configuration specifies open stuffss
 			if let initial {

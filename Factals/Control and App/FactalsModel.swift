@@ -137,7 +137,7 @@ class FactalsModel : ObservableObject, Uid {
 	func vew(ofScnNode  s:SCNNode) -> Vew? {	bug; return nil}//vewBase(ofScnScene:s)?.tree 		}
 	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
 		for vews in vewBases {
-			if vews.tree.scnScene.rootNode.find(firstWith:{ $0 == s }) != nil {
+			if vews.tree.scnRoot.find(firstWith:{ $0 == s }) != nil {
 				return vews
 			}
 		}

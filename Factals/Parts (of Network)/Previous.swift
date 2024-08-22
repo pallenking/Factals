@@ -375,15 +375,15 @@ bug;						atDat(4, logd("Mode Port: " + //%% curMode=%-->%",
 	var height : CGFloat	{ return 1.0		}	// 5
 	var width  : CGFloat	{ return 6.0		}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.rootNode.find(name:"s-Prev") ?? {
+		let scn					= vew.scnRoot.find(name:"s-Prev") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
+			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Prev"
 //			scn.geometry		= SCNBox(width:0.2, height:0.2, length:0.2, chamferRadius:0.01)	//191113
 			scn.geometry		= SCNBox(width:width, height:height, length:3, chamferRadius:0.4)
 //			scn.position		= SCNVector3(1.0, height/2, 0)
 			scn.position		= SCNVector3(1.5, height/2, 0)
-			let color			= vew.scnScene.rootNode.color0
+			let color			= vew.scnRoot.color0
 //			let color			= NSColor.blue//.gray//.white//NSColor("lightpink")!//NSColor("lightslategray")!
 			scn.color0			= color.change(saturationBy:0.3, fadeTo:0.5)
 			return scn
@@ -395,24 +395,24 @@ bug;						atDat(4, logd("Mode Port: " + //%% curMode=%-->%",
 		let port				= vew.part as! Port
 		let h 					= height + port.height
 		if port === ports["S"] {					// S: Secondary
-			vew.scnScene.rootNode.transform	= SCNMatrix4(0, 	   h, 0, flip:true)
+			vew.scnRoot.transform	= SCNMatrix4(0, 	   h, 0, flip:true)
 		}
 		else if port === ports["T"] {				// T: Terciary
-			vew.scnScene.rootNode.transform	= SCNMatrix4(width/2, h, 0, flip:true)
+			vew.scnRoot.transform	= SCNMatrix4(width/2, h, 0, flip:true)
 		}
 		else if port === ports["L"] { 				// Latch (internal)
-			vew.scnScene.rootNode.transform 	= SCNMatrix4(previousLatchX-1, -port.height*0.6, 0, flip:false)
+			vew.scnRoot.transform 	= SCNMatrix4(previousLatchX-1, -port.height*0.6, 0, flip:false)
 		}
 		else if port === ports["M"] {				// Mode
 			port.spin 			= 3
 //			port.latitude		= previousLatchX
-			vew.scnScene.rootNode.transform 	= SCNMatrix4(previousWidth-4, 1.5, -2, flip:false)
+			vew.scnRoot.transform 	= SCNMatrix4(previousWidth-4, 1.5, -2, flip:false)
 		}
 		else if port === ports["N"] {				// Mode 2
 			port.spin 			= 3
 //			port.latitude 		= previousLatchX
 	//		assert(!port.flipped, "N Port in Previous must be unflipped")
-			vew.scnScene.rootNode.transform 	= SCNMatrix4(previousWidth-4, 2.5, -2)
+			vew.scnRoot.transform 	= SCNMatrix4(previousWidth-4, 2.5, -2)
 		}
 		else {
 			super.rePosition(portVew:vew)

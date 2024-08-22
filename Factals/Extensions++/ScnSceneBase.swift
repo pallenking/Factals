@@ -18,11 +18,11 @@ class ScnSceneBase : NSObject {
 	var tree	 : SCNNode?
 	{	didSet {				setRootNodeChild1(from:tree)					}}
 	func setRootNodeChild1 (from:SCNNode?) {
-		let scnSceneRootNode 	= self.scnScene.rootNode	// from SCNScene's binding
-		scnSceneRootNode.name	= "ROOT"
-		scnSceneRootNode.removeAllChildren()
-		guard let tree 			else { return }	// no tree, no children
-		scnSceneRootNode.addChildNode(tree)
+nop//	let scnSceneRootNode 	= self.scnRoot	// from SCNScene's binding
+//		scnSceneRootNode.name	= "ROOT"
+//		scnSceneRootNode.removeAllChildren()
+//		guard let tree 			else { return }	// no tree, no children
+//		scnSceneRootNode.addChildNode(tree)
 	}
 
 	var scnView	 : SCNView?						// SCNView  of this ScnSceneBase
@@ -48,7 +48,7 @@ class ScnSceneBase : NSObject {
 	
 		self.scnScene			= s ?? SCNScene()	// get scene
 		self.eventHandler		= eventHandler
-//		atRve(8 vews.factalsModel.logd("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))"))
+//		atRve(8 vews.factalsModel.logd("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnRoot.pp(.line))"))
  		super.init()
 
 		setRootNodeChild1 (from:tree)
