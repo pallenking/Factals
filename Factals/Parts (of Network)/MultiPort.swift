@@ -71,13 +71,13 @@ class MultiPort : Port {
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {		// Ports and Shares
 	  // / Put full skin onto MultiPort
-		let scn					= vew.scnScene.find(name:"s-Port") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Port") ?? {
 			let (r, h)			= (radius, height)
 			let ep : CGFloat 	= 0.01//0.1//
 
 			 // Scn is the big Cylinder 
 			let scn				= SCNNode(geometry:SCNCylinder(radius:r, height:h-ep))
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Port"
 			scn.position.y 		+= h/2 + ep/2		// All above origin
 			scn.color0 			= NSColor(mix:NSColor("lightpink")!, with:0.4, of:NSColor("darkgreen")!)

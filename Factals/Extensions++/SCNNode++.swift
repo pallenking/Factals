@@ -424,11 +424,11 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 		}
 
 		 // display position in trunk:
-		if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
-		  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnNode:self) {
-			let p				= convertPosition(.zero, to:vews.tree.scnScene)
-			rv2					+= p.pp(.short, aux).field(-11, dots:false)
-		}
+bug	//	if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
+	//	  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnScene:self) {
+	//		let p				= convertPosition(.zero, to:vews.tree.scnScene)
+	//		rv2					+= p.pp(.short, aux).field(-11, dots:false)
+	//	}
 
 //		rv						+= physicsBody != nil ? "pb" : "--"	// debugging
 		rv2						+= isHidden ? "#H " :

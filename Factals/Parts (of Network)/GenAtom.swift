@@ -139,11 +139,11 @@ class GenAtom : Atom {
 		let port				= vew.part as! Port
 		if port === ports["LOOP"] {
 			assert(port.flipped == false, "LOOP Port in Previous must be unflipped")
-			vew.scnScene.transform	= SCNMatrix4(1, vew.bBox.max.y+port.height, 0)
+			vew.scnScene.rootNode.transform	= SCNMatrix4(1, vew.bBox.max.y+port.height, 0)
 		}
 		else if port === ports["S"] {
 			assert(port.flipped, "S Port in Previous must be flipped")
-			vew.scnScene.transform	= SCNMatrix4(0, vew.bBox.max.y+port.height, 0, flip:true)
+			vew.scnScene.rootNode.transform	= SCNMatrix4(0, vew.bBox.max.y+port.height, 0, flip:true)
 		}
 		else {
 			super.rePosition(portVew:vew)
@@ -154,9 +154,9 @@ class GenAtom : Atom {
 	var height : CGFloat	{ return 0.2	}
 	var radius : CGFloat	{ return 1.2	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-GenAtom") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-GenAtom") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-GenAtom"
 
 			scn.geometry		= SCNCylinder(radius:radius, height:height)

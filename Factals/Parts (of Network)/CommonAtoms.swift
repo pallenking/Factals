@@ -18,12 +18,12 @@ class Portless : Atom {
 
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Portless") ??  {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Portless") ??  {
 			let scn				= SCNNode()
 			scn.name			= "s-Portless"
 			scn.geometry 		= SCNCapsule(capRadius:0.5, height:2) //(width:[1,4][i], height:1, length:[4,1][i], chamferRadius:0.5)
 			scn.color0			= .yellow
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			return scn
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
@@ -72,9 +72,9 @@ class Ago : Atom {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Ago") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Ago") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Ago"
 
 			for i in 0...1 {	// Two arms of an cross:
@@ -95,7 +95,7 @@ class Ago : Atom {
 		let port				= vew.part as! Port
 		if port === ports["S"] {			//// S: Secondary
 			assert(port.flipped, "S Port in Ago must be flipped")
-			vew.scnScene.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
+			vew.scnScene.rootNode.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
 		}
 		else {
 			super.rePosition(portVew:vew)
@@ -205,9 +205,9 @@ class Mirror : Atom {
 	var size   : CGFloat		{ 		return 3.0										}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let name 				= "s-Mir"
-		let scn					= vew.scnScene.find(name:name) ?? {
+		let scn					= vew.scnScene.rootNode.find(name:name) ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= name
 			scn.geometry		= SCNBox(width:size, height:height, length:size, chamferRadius:0.2)
 			scn.position 		= SCNVector3(0, height/2, 0)
@@ -264,9 +264,9 @@ class Modulator : Atom {
 	var sRadius : CGFloat		= 2.5	//1.5
 	var armLen  : CGFloat		= 4.0/2	//2.0
 	override func reSkin(fullOnto vew:Vew) -> BBox {
-		let scn					= vew.scnScene.find(name:"s-Modu") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Modu") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Modu"
 			scn.geometry		= SCNSphere(radius:sRadius/2)
 			scn.position.y		= sHeight
@@ -287,7 +287,7 @@ class Modulator : Atom {
 		}
 		let x					= -armLen * CGFloat(sin(angle!))
 		let y					=  armLen * CGFloat(cos(angle!)) + sHeight
-		vew.scnScene.transform		=  SCNMatrix4(x, y, 0, flip:true, latitude:angle!)
+		vew.scnScene.rootNode.transform =  SCNMatrix4(x, y, 0, flip:true, latitude:angle!)
 	}
 }
 

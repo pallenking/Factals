@@ -131,10 +131,10 @@ class Net : Atom {		// Atom // Part
 		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0
 		let gsnbMin				= min(size.y, gsnb)
 		func putNetRing (scnName:String, top:Bool) {
-			let scn				= vew.scnScene.find(name:scnName) as? SCNComment ?? {
+			let scn				= vew.scnScene.rootNode.find(name:scnName) as? SCNComment ?? {
 				let scn			= SCNComment()//SCNNode()
 				scn.name		= scnName
-				vew.scnScene.addChild(node:scn, atIndex:0)
+				vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 				return scn
 			}()
 			 // Pictureframe geometry:

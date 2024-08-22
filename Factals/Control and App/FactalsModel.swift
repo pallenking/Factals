@@ -134,10 +134,10 @@ class FactalsModel : ObservableObject, Uid {
 	}
 
 	 // MARK: - 4.?
-	func vew(ofScnNode  s:SCNNode) -> Vew? {	vewBase(ofScnNode:s)?.tree 		}
-	func vewBase(ofScnNode s:SCNNode) -> VewBase? {
+	func vew(ofScnNode  s:SCNNode) -> Vew? {	bug; return nil}//vewBase(ofScnScene:s)?.tree 		}
+	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
 		for vews in vewBases {
-			if vews.tree.scnScene.find(firstWith:{ $0 == s }) != nil {
+			if vews.tree.scnScene.rootNode.find(firstWith:{ $0 == s }) != nil {
 				return vews
 			}
 		}
@@ -430,7 +430,7 @@ bug
 
 		assert(!(vew.part is Link), "cannot toggelOpen a Link")
 		atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
-		vew.scnScene.removeFromParent()
+bug//	vew.scnScene.removeFromParent()
 		vew.removeFromParent()
 
 		vewBase.updateVSP()

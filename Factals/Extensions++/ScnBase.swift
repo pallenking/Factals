@@ -43,7 +43,9 @@ class ScnBase : NSObject {
 		self.init()
 		scnScene				= SCNScene()	// get scene
 	}
-	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {		// ScnBase(tree
+	 // ScnBase(scnScene: eventHandler:) :
+	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {
+	
 		self.scnScene			= s ?? SCNScene()	// get scene
 		self.eventHandler		= eventHandler
 //		atRve(8 vews.factalsModel.logd("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnScene.rootNode.pp(.line))"))

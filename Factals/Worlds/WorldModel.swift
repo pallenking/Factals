@@ -164,9 +164,9 @@ bug;	return rv
 
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Wm") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Wm") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Wm"
 			scn.geometry		= SCNCylinder(radius:1.4, height:0.2)// (width: 0.2, height:2, length:4, chamferRadius:1)
 //			scn.geometry		= SCNBox(width: 0.2, height:2, length:4, chamferRadius:1)

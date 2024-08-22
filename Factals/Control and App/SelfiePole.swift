@@ -52,7 +52,7 @@ struct SelfiePole: Observable, Equatable {
 		 //  ---- translated above Point of Interest by cameraPoleHeight
 		let lookAtVew			= Vew.null
 		let posn				= lookAtVew.bBox.center
-		let lookAtWorldPosn		= lookAtVew.scnScene.convertPosition(posn, to:nil)
+		let lookAtWorldPosn		= lookAtVew.scnScene.rootNode.convertPosition(posn, to:nil)
 		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
 
 		poleSpinAboutY.position	= lookAtWorldPosn + position

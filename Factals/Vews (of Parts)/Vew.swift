@@ -11,7 +11,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 // Glue these Neighbors together: (both Always present)
 	@Published var part : Part 				// Part which this Vew represents	// was let
 //	var scn			:  SCNScene				// Scn which draws this Vew
-	var scnScene			:  SCNNode				// Scn which draws this Vew
+	var scnScene	:  SCNScene				// SCNScene which draws this Vew
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
 	var vewConfig   : FwConfig	= [:]		// rename config?
@@ -28,7 +28,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		parent==nil   ? ""   :
 		parent!.fullName + "/" + name	// add lefter component
 	}
-	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofScnNode:scnScene)}
+	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofScnScene:scnScene)}
 
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
@@ -58,9 +58,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		self.name				= "_" + part.name 	// View's name is Part's with '_'
 		self.expose				= e ?? part.initialExpose
 
-		 // Make SCN from supplied skin:
-		scnScene						= SCNNode()				// Hoaker !!
-		scnScene.name 				= self.scnScene.name ?? ("*-" + part.name)
+		 // Make SCNScene and apply skin:
+		scnScene				= SCNScene()	// has rootNode
+//		scnScene.rootNode		= SCNNode()		// cannot set!
+bug;	let x : SCNNode?		= nil//scnScene.rootNote
+		x!.name					= self.scnScene.rootNode.name ?? ("*-" + part.name)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
@@ -82,13 +84,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		self.expose				= .open
 
 		 // Make new SCN:
-		scnScene						= SCNNode()
-		scnScene.name 				= "*-" + port.name
+		scnScene				= SCNScene()
+		let rn					= scnScene.rootNode
+		rn.name					= "*-" + port.name
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		let portProp  : String? = port.partConfig["portProp"] as? String //"xxx"//
-		scnScene.flipped				= portProp?.contains(substring:"f") ?? false
+		let portProp : String?	= port.partConfig["portProp"] as? String //"xxx"//
+		rn.flipped 				= portProp?.contains(substring:"f") ?? false
 		 // Flip
 		// Several ways to flip, each has problems:
 		// 1. ugly, inverts Z along with Y: 	scnScene.rotation = SCNVector4Make(1, 0, 0, CGFloat.pi)
@@ -125,7 +128,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		bBox 					= try container.decode(		  BBox.self, forKey:.bBox 	)
 		jog						= try container.decode(SCNVector3?.self, forKey:.jog	)
 		force					= try container.decode(SCNVector3 .self, forKey:.force	)
-		scnScene						= SCNNode()		// OOOOPS
+		scnScene				= SCNScene();bug
 
 		super.init()
  		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
@@ -171,11 +174,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 //      part.markTree(dirty:.vew)
 
 		// Add the "entry SCNNode" for the vew
-		scnScene.addChild(node:vew.scnScene)			// wire scnScene tree isomorphically
+bug//	scnScene.addChild(node:vew.scnScene)			// wire scnScene tree isomorphically
 	}
 	func replaceChild(_ oldVew:Vew?, withVew newVew:Vew) {
 		let i					= children.firstIndex(where: {$0 === oldVew ?? .null})
-		oldVew?.scnScene.removeFromParent()		// remove old
+bug		//oldVew?.scnScene.removeFromParent()	// remove old
 		oldVew?.removeFromParent()
 		addChild(newVew, atIndex:i)			// add new
 		part.markTree(dirty:.size)			// recalculate size
@@ -191,7 +194,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	}
 	func removeAllChildren() {
 		for childVew in children { 			// Remove all child Vews
-			childVew.scnScene.removeFromParent()		// Remove their skins first (needed?)
+bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed?)
 			childVew.removeFromParent()			// Remove them
 		}
 	//	part.markTree(dirty:.vew)
@@ -229,7 +232,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			return rv
 		}
 		 // Look in vewBase's configuration...
-		guard let vewBase		= factalsModel.vewBase(ofScnNode:scnScene) else { return nil }
+		guard let vewBase		= factalsModel.vewBase(ofScnScene:scnScene) else { return nil }
 		if let rv				= vewBase.tree.vewConfig[name] {
 			return rv
 		}
@@ -340,8 +343,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 		 // Go from vew toward self
 		if let vewParent		= vew.parent {
-			let vewScn			= vew.scnScene.physicsBody==nil ? vew.scnScene
-														   : vew.scnScene.presentation
+			let vewScn:SCNNode	= vew.scnScene.rootNode.physicsBody==nil ? vew.scnScene.rootNode
+												   : vew.scnScene.rootNode.presentation
 			let pInParent		= vewScn.transform * position
 					// RECURSIVE
 			let rv				= localPosition(of:pInParent, inSubVew:vewParent)
@@ -358,10 +361,10 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			return position
 		}
 		if let vewParent		= vew.parent {
-			let vewScn			= vew.scnScene.physicsBody==nil ? vew.scnScene
-														   : vew.scnScene.presentation
-			let vewParentScn	= vewParent.scnScene.physicsBody==nil ? vewParent.scnScene
-																 : vewParent.scnScene.presentation
+			let vewScn			= vew.scnScene.rootNode.physicsBody==nil ? vew.scnScene.rootNode
+														   : vew.scnScene.rootNode.presentation
+			let vewParentScn	= vewParent.scnScene.rootNode.physicsBody==nil ? vewParent.scnScene.rootNode
+																 : vewParent.scnScene.rootNode.presentation
 			let pInParent		= vewScn.transform * position
 			// we now have position in our parent's view
 			let rv				= vew.localPosition(of:pInParent, inSubVew:vewParent)
@@ -391,7 +394,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	  /// - parameter vew: -- Vew of bBox
 	 /// - Ignore animation
 	func convert(bBox:BBox, from vew:Vew) -> BBox {
-		let transform			= scnScene.convertTransform(.identity, from:vew.scnScene)
+		let transform			= scnScene.rootNode.convertTransform(.identity, from:vew.scnScene.rootNode)
 		let rv					= bBox.transformed(by:transform)
 		return rv
 	}
@@ -402,7 +405,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 /// Find a parent with a physis body, to take force
 	var intertialVew : Vew? {
 		for vew in selfNParents {
-			if vew.scnScene.physicsBody != nil {
+			if vew.scnScene.rootNode.physicsBody != nil {
 				return vew
 			}
 		}
@@ -440,7 +443,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		var relevantSpots : [SpotData] = []	 // Define an ARRAY of SPOTS:
 		  // All computations are done in the superVew ( H: Parent, Self)
 		 // Process self bounds
-		let sBBoxInP 			= bBox * scnScene.transform
+		let sBBoxInP 			= bBox * scnScene.rootNode.transform
 		let sSizeInP			= sBBoxInP.size
 		let sCenterInP			= sBBoxInP.center
 
@@ -457,7 +460,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				continue
 			}
 			 // Ignore siblings which have if no chance of collision from Y dimension
-			let siblingBBox 	= sibling.bBox * sibling.scnScene.transform
+			let siblingBBox 	= sibling.bBox * sibling.scnScene.rootNode.transform
 			let centerDistY 	= siblingBBox.center.y - sCenterInP.y - eps	// between the 2
 			let extentY  		= (siblingBBox.size.y  +   sSizeInP.y)/2	// size
 			if extentY <= centerDistY || extentY <= -centerDistY {
@@ -525,12 +528,12 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		var movedBy 			= closestSpot!.bBox.center - sCenterInP
 		movedBy.y 				= 0			// HACK: keep same Y
 
-		scnScene.position			+= movedBy
-		atRsi(4, log("<<===== Moved by \(movedBy.pp(.short)) to \(scnScene.transform.position.pp(.short))"))
+		scnScene.rootNode.position += movedBy
+		atRsi(4, log("<<===== Moved by \(movedBy.pp(.short)) to \(scnScene.rootNode.transform.position.pp(.short))"))
 	}
 	func orBBoxIntoParent() {
 		if let parentVew 		= parent {
-			let myBip 			= bBox * scnScene.transform
+			let myBip 			= bBox * scnScene.rootNode.transform
 			parentVew.bBox		|= myBip	// Accumulate me into parent
 		}
 	}
@@ -561,7 +564,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		}
 
 		 // Get wire box
-		let wBoxScn	: SCNNode		= scnScene.find(name:"w-", prefixMatch:true, maxLevel:1) ??	// 20210912PAK SStep BAD Here
+		let wBoxScn	: SCNNode		= scnScene.rootNode.find(name:"w-", prefixMatch:true, maxLevel:1) ??	// 20210912PAK SStep BAD Here
 		{	  // Recreate Wire box, and link it in
 			 // Make a unit cube so size changes can use same base SCNNode
 			var corners : [SCNVector3] = []
@@ -574,7 +577,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 								   0,4, 1,5, 2,6, 3,7]// Z runs	  | 0 --|-1 ->X
 			 // Make the SCNNode					  //		  4-----5
 			let bBoxScn			= SCNComment("")	  //		Z
-			scnScene.addChild(node:bBoxScn, atIndex:0)
+			scnScene.rootNode.addChild(node:bBoxScn, atIndex:0)
 
 			 // Name the wire frame
 			let partBase		= part.partBase
@@ -659,7 +662,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 															// /// LINKAGES:
 				if ppViewOptions.contains("S") {					// Scn:
 					rv			+= tight("", " s:")						  // (F)
-					rv			+= (scnScene.name ?? "<none>").field(tight(5,8), dots:false)
+					rv			+= (scnScene.rootNode.name ?? "<none>").field(tight(5,8), dots:false)
 					rv			+= ppUid(pre:"/", scnScene)					  // (G)
 				}
 				if ppViewOptions.contains("P") {					// Part:
@@ -684,17 +687,17 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 				}
 				var rv1			= ""						// /// POSITIONS:
 				if ppViewOptions.contains("T") {				 	// Transform:
-					let tr		= scnScene.transform.pp(.phrase, aux)		  // (N)
+					let tr		= scnScene.rootNode.transform.pp(.phrase, aux)		  // (N)
 					rv1			+= tr=="I" ? "" : (tight("", " p") + tr + " ")
 				}
 				 // hasActions ??
 				if ppViewOptions.contains("B") {					// physics Body:
-					let pr		= scnScene.physicsBody == nil ? "I" :		// ("I" -> "")
-								  scnScene.presentation.transform.pp(.phrase, aux)
+					let pr		= scnScene.rootNode.physicsBody == nil ? "I" :		// ("I" -> "")
+								  scnScene.rootNode.presentation.transform.pp(.phrase, aux)
 					rv1			+= pr=="I" ? "" : "b" + pr				  // (*)
 				}
 				if ppViewOptions.contains("I") {				 	// pIvot:
-					let pi		= scnScene.pivot.pp(.phrase, aux)			  // (*)
+					let pi		= scnScene.rootNode.pivot.pp(.phrase, aux)			  // (*)
 					rv1			+= pi=="I" ? "" : tight(pi, "i" + pi + " ")
 				}
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
@@ -702,11 +705,11 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 				let rootScn		= vewBase()?.scnBase.tree ?? .null
 				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
-								:  "w" + scnScene.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
+								:  "w" + scnScene.rootNode.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				if !(self is LinkVew) {
 					 // SceneKit's BBox:
 					if aux.bool_("ppScnBBox") {
-						rv += tight("", "s") + scnScene.bBox().pp(.line, aux)
+						rv += tight("", "s") + scnScene.rootNode.bBox().pp(.line, aux)
 					}
 					 // Factal Workbench BBox:
 					if aux.bool_("ppFwBBox") {

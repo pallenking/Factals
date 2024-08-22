@@ -343,9 +343,9 @@ class FwBundle : Net {
 	 // MARK: - 9. 3D Support
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Bun") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Bun") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Bun"
 			return scn
 		}()
@@ -374,7 +374,7 @@ class FwBundle : Net {
 			let flip			= portVew.part.flipped
 			let bBox			= portVew.bBox
 			let place			= flip ? bBox.centerTop : bBox.centerBottom
-			portVew.scnScene.transform = SCNMatrix4(place, flip:flip)
+			portVew.scnScene.rootNode.transform = SCNMatrix4(place, flip:flip)
 //			portVew.scn.transform = SCNMatarix4(portVew.bBox.centerBottom.x, 0, 0, flip:flip)
 		}
 		else {

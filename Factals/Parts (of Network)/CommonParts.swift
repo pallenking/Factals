@@ -63,14 +63,14 @@ class CommonPart : Part {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Box") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Box") ?? {
 			let scn				= SCNNode()
 			scn.geometry		= SCNBox(width:1.0, height:1.0, length:1.0, chamferRadius:0)
 //			scn.geometry		= SCNBox(width:size.x, height:size.y, length:size.z, chamferRadius:0)		// removed 20210709
 			scn.name			= "s-Box"
 			scn.scale			= size
 			scn.color0			= NSColor.green//.change(saturationBy:0.4, fadeTo:0.5)
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			return scn
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
@@ -80,9 +80,9 @@ class Box	: CommonPart {
 }
 class Sphere : CommonPart {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Sphere") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Sphere") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1.0))
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Sphere"
 			scn.scale			= size
 			scn.color0			= NSColor.green//.change(saturationBy:0.5)
@@ -93,10 +93,10 @@ class Sphere : CommonPart {
 }
 class Cylinder : CommonPart {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Cyl") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Cyl") ?? {
 			let scn				= SCNNode(geometry:SCNCylinder(radius:1.0, height:1.0))//SCNCylinder(radius:0.5, height:1)
 //			let scn				= SCNNode(geometry:SCNCylinder(radius:size.x, height:size.z))//SCNCylinder(radius:0.5, height:1)
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Cyl"
 			scn.scale			= size
 			scn.color0			= .green
@@ -107,9 +107,9 @@ class Cylinder : CommonPart {
 }
 class Hemisphere : CommonPart {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-HSphr") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-HSphr") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-HSphr"
 			scn.geometry		= SCNHemisphere(radius:1.0, slice:0)
 			scn.scale			= size
@@ -122,9 +122,9 @@ class Hemisphere : CommonPart {
 class TunnelHood : CommonPart {
 	 // / - used to test only
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-Tunl") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-Tunl") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Tunl"
 			scn.geometry		= SCNTunnelHood(n360:16, height:1, ends:false,
 									tSize_:SCNVector3(1,0,1), tRadius:0.5,
@@ -139,9 +139,9 @@ class TunnelHood : CommonPart {
 class ShapeTest : CommonPart {
 	 // / - used to test only
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnScene.find(name:"s-ShapeT") ?? {
+		let scn					= vew.scnScene.rootNode.find(name:"s-ShapeT") ?? {
 			let scn				= SCNNode()
-			vew.scnScene.addChild(node:scn, atIndex:0)
+			vew.scnScene.rootNode.addChild(node:scn, atIndex:0)
 			scn.name			= "s-ShapeT"
 			scn.geometry		= SCN3DPictureframe(width:3, length:3, height:0.25, step:0.25)
 			scn.scale			= size

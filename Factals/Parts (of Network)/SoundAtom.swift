@@ -132,7 +132,7 @@ class SoundAtom : Atom {
 	override func rePosition(portVew vew:Vew) {
 		let port				= vew.part as! Port
 		if port === ports["S"] {			// P: Primary
-			vew.scnScene.transform	= SCNMatrix4(0, 2 + port.height, 0, flip:true)
+			vew.scnScene.rootNode.transform	= SCNMatrix4(0, 2 + port.height, 0, flip:true)
 		}
 		else {
 			super.rePosition(portVew:vew) 
