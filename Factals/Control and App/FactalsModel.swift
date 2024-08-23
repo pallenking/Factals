@@ -257,7 +257,7 @@ class FactalsModel : ObservableObject, Uid {
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.scnSceneBase.scnScene ?? {	fatalError("") } ()
+			let rootVews0scene	= vewBases.first?.scnSceneBase.tree ?? {	fatalError("") } ()
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":

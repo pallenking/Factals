@@ -11,6 +11,7 @@ struct FactalsModelBar: View {
 	@ObservedObject var factalsModel : FactalsModel
 	
 	var body: some View {
+		HStack { Text("FactalsModel:").foregroundColor(.red).bold(); Spacer() }
 		VStack {
 			PartBaseBar (partBase: $factalsModel.partBase)
 			SimulatorBar(simulator:$factalsModel.simulator)
@@ -27,7 +28,7 @@ struct PartBaseBar : View {
 
 	var body: some View {
 		HStack {	// FULL!
-			Text("PartBase (Model): ").foregroundColor(.red).bold()
+			Text("PartBase: ").foregroundColor(.red).bold()
 			Text(partBase.title).foregroundColor(.blue).bold()
 //			FwTextField(string: partBase.title)
 			Button(label:{	Text( "ptm")										})

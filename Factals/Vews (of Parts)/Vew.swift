@@ -11,7 +11,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 // Glue these Neighbors together: (both Always present)
 	@Published var part : Part 				// Part which this Vew represents	// was let
 	var scnScene	:  SCNScene				// SCNScene which draws this Vew
-	var scnRoot:SCNNode {scnScene.rootNode}	// Root SCNNode which draws this Vew
+	var scnRoot		:  SCNNode { scnScene.rootNode } // sugar
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
 	var vewConfig   : FwConfig	= [:]		// rename config?
@@ -61,11 +61,10 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		 // Make SCNScene and apply skin:
 		scnScene				= SCNScene()	// makes rootNode:SCNNode too
-		scnScene.rootNode.name	= "*-" + part.name
-//		scnScene.rootNode.name	= self.scnRoot.name ?? ("*-" + part.name)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
+		scnRoot.name			= "*-" + part.name								// scnRoot.name = self.scnRoot.name ?? ("*-" + part.name)
 		  // Visible Shape:
 		// Jog
 		if let jogStr	 		= part.partConfig["jog"]?.asString,
@@ -84,15 +83,14 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		self.expose				= .open
 
 		 // Make new SCN:
-		scnScene				= SCNScene()
-		scnScene.rootNode.name	= "*-" + port.name
-//		let rn					= scnRoot
-//		rn.name					= "*-" + port.name
+		scnScene				= SCNScene()		// (also makes rootNode)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
+		scnRoot.name			= "*-" + port.name
+
 		let portProp : String?	= port.partConfig["portProp"] as? String //"xxx"//
-		scnScene.rootNode.flipped = portProp?.contains(substring:"f") ?? false
+		scnRoot.flipped 		= portProp?.contains(substring:"f") ?? false
 		 // Flip
 		// Several ways to flip, each has problems:
 		// 1. ugly, inverts Z along with Y: 	scnScene.rotation = SCNVector4Make(1, 0, 0, CGFloat.pi)

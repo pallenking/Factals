@@ -38,9 +38,12 @@ struct FactalsModelView: View {
 							 .frame(maxWidth: .infinity)
 							 .border(.black, width:1)
 						}
- 						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
+						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
 							Group {
-	                			vewBase.inspectors.wrappedValue[index]
+								HStack(alignment: .top) {
+									vewBase.inspectors.wrappedValue[index]
+									Spacer() // Ensures the content stays left-aligned
+								}
 							}
 						}
 						VewBaseBar(vewBase:vewBase)
@@ -49,10 +52,13 @@ struct FactalsModelView: View {
 //					 .tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
 				W(factalsModel:factalsModel)
-				 .tabItem { Label("W()", systemImage: "1.circle").labelStyle(DefaultLabelStyle())}
+				 .tabItem { Label("W() test", systemImage: "1.circle")}
 				Button("+") {}	/// WRONG, but slightly  fnctional ///
 				 .tabItem { Label("+",   systemImage: "plus").padding()			}
 				 .onAppear() {			 addNewTab()							}
+				Text("++")
+				 .tabItem { Label("++", systemImage:"") 				}
+				 .onTapGesture {		 	print("never executed")				}
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()

@@ -439,7 +439,7 @@ class Port : Part, PortTalk {
 		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
 		if let scnScene			= vew.vewBase()?.scnSceneBase.tree, enaPpWorld {
-bug;		worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnScene.rootNode).pp(.short, aux) + " "
+bug;		//worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnRoot).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
 		atRsi(8, csVisVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 
@@ -571,19 +571,19 @@ bug;		worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnScen
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {		// Ports and Shares
 		let scn : SCNNode		= vew.scnRoot.find(name:"s-Port")
-								 ?? newPortSkin(vew:vew, skinName:"s-Port")
+								?? newPortSkin(vew:vew, skinName:"s-Port")
 		let bbox 			 	= scn.bBox()
 		return bbox * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
 	func newPortSkin(vew:Vew, skinName:String) -> SCNNode {
 		assert(!(parent is Link), "paranoia")
-//		if parent is Link {			// UGLY
-//			let rv				= SCNNode(geometry:SCNSphere(radius:0.1))		// the Ports of Links are invisible
-//			rv.name				= skinName
-//			rv.color0 			= NSColor("lightpink")!//.green"darkred"
-//			vew.scnScene.addChild(node:rv)
-//			return rv
-//		}
+		if parent is Link {			// UGLY
+			let rv				= SCNNode(geometry:SCNSphere(radius:0.1))		// the Ports of Links are invisible
+			rv.name				= skinName
+			rv.color0 			= NSColor("lightpink")!//.green"darkred"
+			vew.scnRoot.addChild(node:rv)
+			return rv
+		}
 		let r					= radius
 		let h0:CGFloat			= 0.04
 		let h					= height
@@ -632,12 +632,12 @@ bug;		worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnScen
 		scnTube.position.y 		= h - scnDiskY - h2/2 - ep
 		scnTube.color0			= NSColor.blue
 
-//		 // C: 3D Origin Mark (for debug)
-//		let scnOrigin			= originMark(size:0.5, root:partBase!)
-//		scnOrigin.color0 		= NSColor.black
-//		scnOrigin.position.y 	= -scnDiskY
-//		scnOrigin.isHidden		= true
-//		scnDisc.addChild(node:scnOrigin)
+		 // C: 3D Origin Mark (for debug)
+		let scnOrigin			= originMark(size:0.5, partBase:partBase!)
+		scnOrigin.color0 		= NSColor.black
+		scnOrigin.position.y 	= -scnDiskY
+		scnOrigin.isHidden		= true
+		scnDisc.addChild(node:scnOrigin)
 
 		return scnDisc
 	}

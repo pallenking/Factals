@@ -109,31 +109,30 @@ struct SceneKitView: NSViewRepresentable {
 	@Binding var prefFps : Float				// ARG2:
 
 	func makeNSView(context: Context) -> SCNView {		// PW: some View?
-
-		let sv					= SCNView(frame: NSRect.zero, options: [String : Any]())
-		sv.isPlaying			= true			// animations, does nothing
-		sv.showsStatistics		= true			// controls extra bar
-		sv.debugOptions	= [						// enable display of:
+		let scnView				= SCNView(frame: NSRect.zero, options: [String : Any]())
+		scnView.isPlaying		= true			// animations, does nothing
+		scnView.showsStatistics	= true			// controls extra bar
+		scnView.debugOptions	= [						// enable display of:
 			SCNDebugOptions.showPhysicsFields,	//  regions affected by each SCNPhysicsField object
 		]
-		sv.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
-		sv.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
-		sv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
-		sv.preferredFramesPerSecond = Int(prefFps)
- 
+		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
+		scnView.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
+		scnView.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
+		scnView.preferredFramesPerSecond = Int(prefFps)
+								
 		if let scnSceneBase	{
-			sv.delegate			= scnSceneBase 		//scnSceneBase is SCNSceneRendererDelegate
-			sv.scene			= scnSceneBase.scnScene
+			scnView.delegate	= scnSceneBase 		//scnSceneBase is SCNSceneRendererDelegate
+			scnView.scene		= scnSceneBase.tree
 
-			scnSceneBase.scnView = sv		// for pic
+			scnSceneBase.scnView = scnView		// for pic
 		}
 		else {	fatalError("scnSceneBase is nil")													}
-		return sv
+		return scnView
 	}
 
 	func updateNSView(_ nsView: SCNView, context:Context) {
-		let sv					= nsView as SCNView			//	scnSceneBase.scnView
-		sv.preferredFramesPerSecond = Int(prefFps)		//args.preferredFramesPerSecond
+		let scnView					= nsView as SCNView			//	scnSceneBase.scnView
+		scnView.preferredFramesPerSecond = Int(prefFps)		//args.preferredFramesPerSecond
 	}
 }
 

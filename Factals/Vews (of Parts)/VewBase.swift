@@ -21,7 +21,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		inspectors.append(inspector)
 	}
 	func inzInspecTests() {
-		addInspector(AnyView(Text("Inspectors:")))
+		addInspector(AnyView(Text("Dynamica Inspectors:")))
 //		addInspector(AnyView(Slider(value:$sliderTestVal, in: 0...1).frame(width:300)))
 		addInspector(AnyView(SelfiePoleBar(selfiePole: $selfiePole)))
 // BAD	addInspector(AnyView(VewBaseBar(vewBase:$self)))
@@ -42,17 +42,18 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	static var nVewBase 		= 0
 	var title					= "VewBase\(nVewBase)"
 
-	 /// generate a new View, returning its index
+	 /// VewBase(for:)
 	init(for p:PartBase) {
 		partBase				= p
 		scnSceneBase			= ScnSceneBase(eventHandler:eventHandler_null)
 		tree					= Vew()			// Start with just trunk Vew
 
 		super.init()			// NSObject
-		inzInspecTests()
+
+		inzInspecTests()		// REPLACE with addInspecto..()
 
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
-bug;	scnSceneBase.tree?.rootNode.name = self.tree.name
+		scnSceneBase.tree?.rootNode.name = self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
@@ -153,11 +154,11 @@ bug;	scnSceneBase.tree?.rootNode.name = self.tree.name
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
 		if partsTree.test(dirty:.vew) {		//" _ reVew _   VewBase (per updateVSP(needsLock:'\\(newOwner2)')") {
 			atRve(6, log ? logd("updateVSP(vewConfig:(initial)") : nop)
-
+								
 			 // if Empty, make new base
 			if tree.name == "_null" {
-				tree		= partBase.tree.VewForSelf() ?? fatalError("alhvaoufhaouih") as! Vew
-bug//			scnSceneBase.tree = tree.scnRoot
+				tree			= partBase.tree.VewForSelf() ?? {fatalError("alhvaoufhaouih")}()
+				tree.scnRoot.name = "*-" + partBase.tree.name
 			}
 
 			 // Vew Configuration specifies open stuffss

@@ -13,25 +13,13 @@ typealias EventHandler			= (NSEvent) -> Void
 
 class ScnSceneBase : NSObject {
 
-	var scnScene : SCNScene
-
-	var tree	 : SCNScene?
-	{	didSet {				setRootNodeChild1(from:tree)					}}
-	func setRootNodeChild1 (from:SCNScene?) {
-nop//	let scnSceneRootNode 	= self.scnRoot	// from SCNScene's binding
-//		scnSceneRootNode.name	= "ROOT"
-//		scnSceneRootNode.removeAllChildren()
-//		guard let tree 			else { return }	// no tree, no children
-//		scnSceneRootNode.addChildNode(tree)
-	}
-
+	var tree	 : SCNScene?					//	{ didSet { setRootNodeChild1(from:tree) }}
 	var scnView	 : SCNView?						// SCNView  of this ScnSceneBase
 	weak
 	 var vewBase : VewBase?						// Delegate (of these ScnSceneBase)
 
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler:EventHandler
-
 
 	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
@@ -41,17 +29,15 @@ nop//	let scnSceneRootNode 	= self.scnRoot	// from SCNScene's binding
 	 // MARK: - 3.1 init
 	override convenience init() {
 		self.init()
-		scnScene				= SCNScene()	// get scene
+		tree					= SCNScene()	// get scene
 	}
-	 // ScnSceneBase(scnScene: eventHandler:) :
+	 /// ScnSceneBase(scnScene:eventHandler:)
 	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {
 	
-		self.scnScene			= s ?? SCNScene()	// get scene
+		self.tree				= s ?? SCNScene()	// get scene
 		self.eventHandler		= eventHandler
-//		atRve(8 vews.factalsModel.logd("/\\/\\/\\/ scnScene=\(scnScene.pp(.uidClass)), rootNode=\(scnRoot.pp(.line))"))
  		super.init()
-
-		setRootNodeChild1 (from:tree)
+//		setRootNodeChild1 (from:tree)
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }

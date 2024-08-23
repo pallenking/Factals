@@ -17,7 +17,7 @@ struct VewBaseBar: View {
 			HStack {
 				if let slot		= vewBase.slot, 	// Installed?
 				  let factalsModel	= vewBase.factalsModel {
-					Text("VewBase")  .foregroundColor(.red)  .bold()
+					Text("VewBase:")  .foregroundColor(.red)  .bold()
 					Text("[\(slot)]:").foregroundColor(.green).bold()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot\(slot): =====")

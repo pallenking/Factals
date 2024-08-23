@@ -249,12 +249,12 @@ extension Vew : FactalsStatus	{										  ///Vew
 extension ScnSceneBase : FactalsStatus	{						  ///ScnSceneBase
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-		myLine					+= "isPaused:\(scnScene.isPaused) "
+//		myLine					+= "isPaused:\(scnScene.isPaused) "
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.tree?				 .ppFactalsState(deapth:deapth-1) ?? ""
-				rv				+= self.scnScene.physicsWorld.ppFactalsState(deapth:deapth-1)
+				var rv			=  self.tree?			  .ppFactalsState(deapth:deapth-1) ?? ""
+				rv				+= self.tree?.physicsWorld.ppFactalsState(deapth:deapth-1) ?? ""
 				return rv
 			},
 			deapth:deapth-1)

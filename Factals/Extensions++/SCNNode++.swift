@@ -92,9 +92,9 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 				//m0?.locksAmbientWithDiffuse = true
 				///https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started self[k]!.asCGFloat
 				var color2		= newColor
-//				if let skinAlpha = DOC.fmConfig.cgFloat("skinAlpha") {
-//					color2		= color2.change(alphaTo:skinAlpha)
-//				}
+				if let skinAlpha = FACTALSMODEL?.fmConfig.cgFloat("skinAlpha") {
+					color2		= color2.change(alphaTo:skinAlpha)
+				}
 				m.diffuse.contents = color2 //newColor//color2//
 				m.specular.contents = NSColor.white
 			}
