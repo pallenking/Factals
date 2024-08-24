@@ -6,24 +6,32 @@
 /*
 IMPORT OSLog
 navigationsplitview
+
+
+UserDefaults
+AppStorage
+
 */
 import SwiftUI
 import SceneKit
 
 struct ContentView: View {
-	@Binding	var document	: FactalsDocument
+	@Binding var document : FactalsDocument
 	var body: some View {
 		FactalsModelView(factalsModel: document.factalsModel)
 	}
 }
 
 struct FactalsModelView: View {
-	@ObservedObject var factalsModel : FactalsModel
-	@State private	var selectedFileIndex : Int = 0
-	
+	/*@ObservedObject */@Bindable var factalsModel : FactalsModel
+
+	@State private	var tabViewSelect : Int = 0
 	var body: some View {
 		VStack {
-			TabView(selection: $selectedFileIndex)  {
+			TabView(selection: $tabViewSelect)  {
+				ViewRepTest(factalsModel:factalsModel)
+					.tabItem { Label("ViewRepTest() test", systemImage: "1.circle")		}
+
 				// NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				// NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
@@ -35,8 +43,8 @@ struct FactalsModelView: View {
 								let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
 							SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
-							 .frame(maxWidth: .infinity)
-							 .border(.black, width:1)
+								.frame(maxWidth: .infinity)
+								.border(.black, width:1)
 						}
 						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
 							Group {
@@ -48,36 +56,33 @@ struct FactalsModelView: View {
 						}
 						VewBaseBar(vewBase:vewBase)
 					}
-					 .tabItem { Label("L-\(33)", systemImage: "xmark.circle") }//vewBase.title
-//					 .tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
+					.tabItem { Label("L-\(33)", systemImage: "xmark.circle") }//vewBase.title
+					//					 .tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
 				}
-				W(factalsModel:factalsModel)
-				 .tabItem { Label("W() test", systemImage: "1.circle")}
-				Button("+") {}	/// WRONG, but slightly  fnctional ///
-				 .tabItem { Label("+",   systemImage: "plus").padding()			}
-				 .onAppear() {			 addNewTab()							}
-				Text("++")
-				 .tabItem { Label("++", systemImage:"") 				}
-				 .onTapGesture {		 	print("never executed")				}
+				Button("<+>") {}	/// WRONG, but slightly  fnctional ///
+					.tabItem { Label("+", systemImage: "1.circle").padding()	}
+					.onAppear {			 addNewTab()							}
+				Text("<++>")
+					.tabItem { Label("++", systemImage:"1.circle") 				}
+					.onTapGesture {		 	print("never executed")				}
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()
 			}
 	        .accentColor(.green) // Change the color of the selected tab
 
-			FactalsModelBar(factalsModel: factalsModel).padding(.vertical, -10)
-			 .padding(10)
+			FactalsModelBar(factalsModel: factalsModel)
 			Spacer()
 		}
 	}
 	private func updateTitle() {
-		//bug//	if let url = documentURL {
+		//bug//	if let url 		= documentURL {
 		//			try? url.setResourceValues(URLResourceValues(name: document.text))
 		//		}
 	}
 	private func addNewTab() {
 		factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
-		selectedFileIndex = factalsModel.vewBases.count - 1
+		tabViewSelect 			= factalsModel.vewBases.count - 1
 	}
 }
 /*

@@ -8,21 +8,28 @@
 import SwiftUI
 
 struct FactalsModelBar: View {
-	@ObservedObject var factalsModel : FactalsModel
+	/*@ObservedObject */@Bindable var factalsModel : FactalsModel
 	
 	var body: some View {
-		HStack { Text("FactalsModel:").foregroundColor(.red).bold(); Spacer() }
+		HStack {
+			Text("FactalsModel:").foregroundColor(.red).bold()
+			Button(label:{	Text( "state")										})
+			{	printFwState()													}
+		//	Button(label:{	Text( "config")										})
+		//	{	printFwConfig()													}
+			Button(label: {	Text("LLDB") 										})
+			{	breakToDebugger()												}
+			Spacer()
+		}
 		VStack {
 			PartBaseBar (partBase: $factalsModel.partBase)
 			SimulatorBar(simulator:$factalsModel.simulator)
 		}
 		.padding(4)
 		.background(Color(red:1.0, green:1.0, blue:0.9))
-		.border(Color.black, width:2.5)
-		.padding(2)
+		.border(Color.black, width:2)
 	}
 }
-
 struct PartBaseBar : View {
 	@Binding var partBase : PartBase
 
@@ -36,15 +43,6 @@ struct PartBaseBar : View {
 			Button(label:{	Text("ptLm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]))	}
 			Spacer()
-			Text("FactalsApp:").foregroundColor(.red).bold()
-			Button(label:{	Text( "state")										})//.padding(.top, 300)
-			{	printFwState()													}
-			Button(label:{	Text( "config")										})
-			{	printFwState()													}
-			Button(label: {	Text("LLDB") 										})
-			{	lldbPrint(partBase, /*VewBase.first!,*/ mode:.tree, [:])
-				breakToDebugger()												}
-			Text(" ")
 		}
 	}
 }
@@ -54,6 +52,8 @@ struct SimulatorBar : View {
 	@State private var timeNowText  : String = ""
 	@State private var timeStepText : String = ""
 	@State private var simTaskPeriodText: String = ""
+	@State var epoch2 = 0
+	@State private var myDouble: Double = 0.673
 
 	var body: some View {
 		HStack {
@@ -72,75 +72,66 @@ struct SimulatorBar : View {
 					simulator.simulateOneStep()
 					simulator.simRun = false									}
 				Text(simulator.simRun ? "RUN  " : "STOP")
+
 				Text(" timeNow=")
 				FwTextField(float: $simulator.timeNow).frame(width: 60)
-				TextField("", text: $timeNowText)
-					.onChange(of: timeNowText) { old, new in
-						simulator.timeNow = Float(new) ?? Float.nan
-					}
-					.onAppear {
-						timeNowText = String(simulator.timeNow)
-					}
-					.frame(width:50)
-		//		if  simulator.simRun == false {
-		//			Text("stopped")
-		//		}
-				Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")
+				TextField("Double", value:$simulator.timeNow, format: .number)
+//				FloatTextField(value:$simulator.timeNow, placeholder:"String")
+//				TextField("", text:$timeNowText)
+//					.onChange(of:timeNowText) { old, new in
+//						simulator.timeNow = Float(new) ?? Float.nan				}
+//					.onAppear {
+//						timeNowText = String(simulator.timeNow)					}
+//					.frame(width:50)
+//				Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")
 				Spacer()
 
-				Text("timeStep:")
-		//		FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
-				TextField("", text:$timeStepText)
-					.onChange(of: timeStepText) { old, new in
-						simulator.timeStep = Float(new) ?? Float.nan
-					}
-					.onAppear {
-						timeStepText = String(simulator.timeStep)
-					}
-					.frame(width:40)
-				Text("simTaskPeriod:")
-		//		FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
-				TextField("", text:$simTaskPeriodText)
-					.onChange(of: simTaskPeriodText) { old, new in
-						simulator.simTaskPeriod = Double(new) ?? Double.nan
-					}
-					.onAppear {
-						simTaskPeriodText = String(simulator.simTaskPeriod)
-					}
-					.frame(width:40)
+	//			Text("timeStep:")
+	//			FloatTextField(value:$simulator.timeStep)
+	//			TextField("", text:$timeStepText)
+	//				.onChange(of: timeStepText) { old, new in
+	//					//if let val = Float(new) {
+	//					simulator.timeStep = Float(new) ?? Float.nan			}
+	//				.onChange(of:simulator.timeNow) {
+	//					timeNowText = String(simulator.timeNow)					}
+	//				.onReceive(simulator.objectWillChange) { _ in
+	//					epoch2 += 1												}
+	//				.onAppear {
+	//					timeStepText = String(simulator.timeStep)				}
+	//				.frame(width:40)
+
+	//			Text("taskPeriod:")
+	//			FloatTextField(value:$simulator.simTaskPeriod)
+	//			TextField("", text:$simTaskPeriodText)
+	//				.onChange(of: simTaskPeriodText) { old, new in
+	//					simulator.simTaskPeriod = Float(new) ?? Float.nan		}
+	//				.onAppear {
+	//					simTaskPeriodText = String(simulator.simTaskPeriod)		}
+	//				.frame(width:40)
 		//		Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
 		//			.frame(width:100 )
-		//
-		//				//@Bindable var s			= $factalsModel.partBase				// Binding<Parts?>
-		//				//Text("chits: p:\(simulator.portChits) l:\(simulator.linkChits) s:\(simulator.startChits) ")
-		//				// Other things to worry about later
-		//				//		!simulator.simTaskRunning
-		//				//	ro	var timeStep		: Float = 0.01
-		//				//		func isSettled() -> Bool				chevron
-		//				//		var timingChains:[TimingChain] = []	chevron
-		//				//	ro	var globalDagDirUp	: Bool	= true
-//				HStack {
-//					///
-//					/// SEE FactalStatus.Simulator.ppFactalsState()
-//					///
-//					//var timeNow : Float	= 0.0
-//					//					LabeledCGFloat(label:" time:", val:$factalsModel.fooo, oneLine:true)
-//				}
-//				.padding(2)
-//				.background(Color(red:1.0, green:0.9, blue:0.9))
 			}}
-	//		Spacer(minLength:4.0)
-	//		Text("             ")
-////			@State   var speed 	= 50.0			// WORSE
-//			@State   var speed : Float = 50.0
-//			@State   var isEditing = false
-//			HStack (alignment:.top) {
-//				FwTextField(float:$speed)
-////				Text("   speed=\(speed), isEditing=\(isEditing):")
-//				Slider(value:$speed, in: 0.0...60.0) { editing in
-//					isEditing = editing
-//				}
-//			}
 		}
+	}
+}
+
+struct FloatTextField: View {
+	@Binding var value: Float
+
+	var placeholder: String = "33.77"
+	@State private var textValue: String = ""
+	var body: some View {
+		TextField(placeholder, text: $textValue)
+			.onChange(of: textValue) { old, newValue in
+				if let floatValue = Float(newValue) {
+					value = floatValue
+				} else {
+					value = Float.nan
+				}
+			}
+			.onAppear {
+				textValue = String(value)
+			}
+			.frame(width: 50)
 	}
 }

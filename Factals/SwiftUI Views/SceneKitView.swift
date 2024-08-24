@@ -15,34 +15,38 @@ struct W_ModelView : View {
 	var body: some View {
 		Text("Dummy=")
 	}
-	@ObservedObject var factalsModel : FactalsModel
+	/*@ObservedObject */var factalsModel : FactalsModel
 	@State private	var selectedFileIndex : Int = 0
 }
 
 
 
-struct W: View {
-	@ObservedObject var factalsModel : FactalsModel
+struct ViewRepTest: View {
+	/*@ObservedObject */@Bindable var factalsModel : FactalsModel
 	@State var prefFps : Float		= 30.0
-	@State private var textValue: String = ""
+//	@State private var textValue: String = ""
 
 	var body: some View {
 		VStack (alignment:.leading) {
 			let size = CGFloat(12)		// of Text
 			Text("FwTextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
 			HStack {
-				Text("W:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
+				Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
 				Text("timeNow=")
-				FwTextField(float:$factalsModel.simulator.timeNow).frame(width:100)
-				TextField("", text: $textValue)
-					.onChange(of: textValue) { old, newTextValue in
-						factalsModel.simulator.timeNow = Float(newTextValue) ?? Float.nan
-					}
-					.onAppear {
-						textValue 	= String(factalsModel.simulator.timeNow)
-					}
-					.frame(width:100)
-				Button("set to 55.0") {	factalsModel.simulator.timeNow = 55.0	}
+//				FwTextField(float:$factalsModel.simulator.timeNow).frame(width:100)
+//				FloatTextField(value:$factalsModel.simulator.timeNow)
+				TextField("Double", value:$factalsModel.simulator.timeNow, format:.number.precision(.significantDigits(5)))
+
+	//			TextField("", text:$textValue)
+	//				.onChange(of: textValue) { old, newTextValue in
+	//					factalsModel.simulator.timeNow = Float(newTextValue) ?? Float.nan
+	//				}
+	//				.onAppear {
+	//					textValue 	= String(factalsModel.simulator.timeNow)
+	//				}
+	//				.frame(width:100)
+				Button("+=1") {
+					factalsModel.simulator.timeNow += 1.0						}
 			}
 			 .font(.system(size:12))
 			Text("SelfiePoleBar(selfiePole):View").font(.system(size:size))

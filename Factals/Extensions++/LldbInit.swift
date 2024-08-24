@@ -140,6 +140,10 @@ func printFwState()  {
 	FACTALSMODEL?.log.ppIndentCols 	= 20		// sort of permanent!
 	print(ppFactalsState())
 }
+ // External Global interface (misc, lldb)
+func printFwConfig()  {
+	print("######## printFwConfig UNIMPLEMENTED ######")
+}
 
 func printDebuggerHints() {
 	print ("=== Controller   commands:",

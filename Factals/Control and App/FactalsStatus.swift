@@ -67,7 +67,7 @@ extension FactalsApp : FactalsStatus	{							///FactalsApp
 	}
 }
 
-// MARK: - DOCUMENT
+// MARK : - DOCUMENT
 extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("FactalsDocume", uid:self,
@@ -81,43 +81,43 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 		)
 	}
 }
-// MARK: - DOCUMENT
-extension NSDocument : FactalsStatus	{							///NSDocument
-	func ppFactalsState(deapth:Int=999) -> String {
-bug; //never used?
-		let wcc					= windowControllers.count
-		return ppFactalsStateHelper("NSDocument   ", uid:self,
-			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
-			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
-			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
-			//	+ "scnView:\(ppUid(scnView,		     showNil:true)) "
-			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
-			otherLines:{ deapth in
-				var rv			= "truncated"//  self.partBase.ppFactalsState(deapth:deapth-1) // Controller:
-				 // Window Controllers
-			//	for windowController in self.windowControllers {
-			//		rv		+= windowController.ppFactalsState(deapth:deapth-1)
-			//	}
-				return rv
-			},
-			deapth:deapth)
-	}
-}
-extension NSDocumentController : FactalsStatus {		 	 ///NSDocumentController
-	func ppFactalsState(deapth:Int=999) -> String {
-		let ct					= self.documents.count
-		return ppFactalsStateHelper("DOCctlr      ", uid:self,
-			myLine:"\(ct) FwDocument" + (ct != 1 ? "s:" : ":"),
-			otherLines:{ deapth in
-				var rv			= ""
-				for document in self.documents {	//NSDocument
-					rv			+= document.ppFactalsState(deapth:deapth-1)
-				}
-				return rv
-			},
-			deapth:deapth-1)
-	}
-}
+// MARK  - DOCUMENT
+//extension NSDocument : FactalsStatus	{							///NSDocument
+//	func ppFactalsState(deapth:Int=999) -> String {
+//bug; //never used?
+//		let wcc					= windowControllers.count
+//		return ppFactalsStateHelper("NSDocument   ", uid:self,
+//			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
+//			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
+//			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
+//			//	+ "scnView:\(ppUid(scnView,		     showNil:true)) "
+//			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
+//			otherLines:{ deapth in
+//				var rv			= "truncated"//  self.partBase.ppFactalsState(deapth:deapth-1) // Controller:
+//				 // Window Controllers
+//			//	for windowController in self.windowControllers {
+//			//		rv		+= windowController.ppFactalsState(deapth:deapth-1)
+//			//	}
+//				return rv
+//			},
+//			deapth:deapth)
+//	}
+//}
+//extension NSDocumentController : FactalsStatus {		 	 ///NSDocumentController
+//	func ppFactalsState(deapth:Int=999) -> String {
+//		let ct					= self.documents.count
+//		return ppFactalsStateHelper("DOCctlr      ", uid:self,
+//			myLine:"\(ct) FwDocument" + (ct != 1 ? "s:" : ":"),
+//			otherLines:{ deapth in
+//				var rv			= ""
+//				for document in self.documents {	//NSDocument
+//					rv			+= document.ppFactalsState(deapth:deapth-1)
+//				}
+//				return rv
+//			},
+//			deapth:deapth-1)
+//	}
+//}
 extension Library : FactalsStatus {							///Library
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("\(self.fileName.field(-13))", uid:self,
@@ -195,8 +195,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 			rv					+= ", timeNow:\(timeNow)"
 			rv					+= " going:\(globalDagDirUp ? "up " : "down ")"
 			rv					+= ", timeStep:\(timeStep)"
-			rv					+= simTaskRunning ? " simTask-Run" : " simTask-Halt"
-			rv					+= " ~period=\(String(simTaskPeriod)) "
+			rv					+= !simTaskRunning ? " taskHalted" : " taskPeriod=\(String(simTaskPeriod)) "
 		//	rv					+= isSettled() ? " simSETTLED=" : " Run Sim="
 		//	rv					+= " \(portChits)/Ports,"
 		//	//rv				+= " [" + unPorts.map({hash in hash() }).joined(separator:",") + "]"

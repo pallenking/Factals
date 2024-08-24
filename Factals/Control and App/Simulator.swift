@@ -4,9 +4,10 @@ import Observation
 
 
 @Observable
-class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//Logd
+class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NSCopying, Equatable	//Logd
 
 	 // MARK: - 2. Object Variables:
+	weak var factalsModel:FactalsModel? = nil// Owner
 	 /// Simulation is fully built and running
 	var simBuilt : Bool = false				// sim constructed?
 	{	didSet {		// whenever simRun gets set, try to st
@@ -25,21 +26,19 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 			}
 		}
 	}
-//	@Published	// Property wrapper cannot be applied to a computed property
-	var timeNow		   : Float	= 0.0
-	var globalDagDirUp : Bool	= true
-	var timeStep	   : Float	= 0.01
-	var simTaskPeriod  : Double	= 0.01
-	weak var factalsModel:FactalsModel? = nil// Owner
+	var timeNow 		: Float		= 0.0
+	var globalDagDirUp	: Bool		= true
+	var timeStep	   	: Float		= 0.01
+	var simTaskPeriod  	: Float		= 0.01
 
 	var timingChains	: [TimingChain] = []
 	var logSimLocks				= true		// Overwritten by Configuration
 
 	// MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var portChits		: Int	{	factalsModel?.partBase.tree.portChitArray().count ?? 0	}
-	var linkChits		: Int	= 0			// by things like links
-	var startChits	  	:UInt8	= 0			// set to get simulator going
+	var portChits		:  Int	{	factalsModel?.partBase.tree.portChitArray().count ?? 0	}
+	var linkChits		:  Int	= 0			// by things like links
+	var startChits	  	: UInt8	= 0			// set to get simulator going
 
 	func isSettled() -> Bool {
 		let nPortsBuisy 		= factalsModel?.partBase.tree.portChitArray().count ?? 0	// Busy Ports
@@ -61,7 +60,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 		if let ts				= config.float("timeStep") {
 			timeStep 			= ts
 		}
-		if let stp				= config.double("simTaskPeriod") {
+		if let stp				= config.float("simTaskPeriod") {
 			simTaskPeriod 		= stp
 		}
 		if let pst				= config.bool("logSimLocks") {
@@ -129,7 +128,7 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 			}
 //			let taskPeriod		= factalsModel?.fmConfig.double("simTaskPeriod") ?? 2	// DEFAULT IS VERY JERKEY
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
-			perform(#selector(simulationTask), with:nil, afterDelay:simTaskPeriod, inModes:modes)
+			perform(#selector(simulationTask), with:nil, afterDelay:TimeInterval(Float(simTaskPeriod)), inModes:modes)
 		}
 		else {
 			stopSimulationTask()				// ?? Perhaps wrong

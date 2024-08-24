@@ -5,14 +5,15 @@ import SwiftUI
 
 extension FactalsModel  : Logd {}
 
-class FactalsModel : ObservableObject, Uid {
+@Observable
+class FactalsModel : /*ObservableObject,*/ Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
-	@Published var fmConfig  : FwConfig	= [:]
-	@Published var partBase  : PartBase
-	@Published var simulator : Simulator
-	@Published var vewBases  : [VewBase] = []			// VewBase of rootPartActor.parts
+	var fmConfig  : FwConfig	= [:]
+	var partBase  : PartBase
+	var simulator : Simulator
+	var vewBases  : [VewBase] 	= []			// VewBase of rootPartActor.parts
 
 	var log 	  : Log
 	var docSound  :	Sounds
