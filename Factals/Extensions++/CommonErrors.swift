@@ -43,10 +43,12 @@ func panic(_ message: @autoclosure () -> String="(No message supplied)") {
 #if DEBUG
 func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure") {
 	if truthValue == false {
-		let s					= ""//DOClogQ == nil ? ""
-			 //: fmt("%03d", DOClog.eventNumber) + DOClog.ppCurThread + DOClog.ppCurLock
+		guard let log 			= FACTALSMODEL?.log else { fatalError("klwjowjvo")}
+		let pre 				= fmt("%03d", log.eventNumber) + log.ppCurThread + log.ppCurLock
+//		let pre					= ""; if let log = FACTALSMODEL?.log {
+//			pre					= fmt("%03d", log.eventNumber) + log.ppCurThread + log.ppCurLock }
 		print("\n\n" + """
-			\t\(s) ERROR ------------
+			\t\(pre) ERROR ------------
 			\t\(message())
 			\t----------- -------------------\n
 			""")
@@ -54,7 +56,7 @@ func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure
 	}
 }
 #else
-func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure") {}
+func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert used in non DEBUG execution") {}
 #endif
 
    /// Warn if a condition is not true

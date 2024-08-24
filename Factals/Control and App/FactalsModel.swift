@@ -4,14 +4,15 @@ import SceneKit
 import SwiftUI
 
 extension FactalsModel  : Logd {}
+
 class FactalsModel : ObservableObject, Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
 	@Published var fmConfig  : FwConfig	= [:]
 	@Published var partBase  : PartBase
-	@Published var vewBases  : [VewBase] = []			// VewBase of rootPartActor.parts
 	@Published var simulator : Simulator
+	@Published var vewBases  : [VewBase] = []			// VewBase of rootPartActor.parts
 
 	var log 	  : Log
 	var docSound  :	Sounds
@@ -33,6 +34,7 @@ class FactalsModel : ObservableObject, Uid {
 
 		partBase				= rp ?? PartBase(tree:Part())
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
 //		fmConfig				= params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
 //		configure(from:params4partPp)
 

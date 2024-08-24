@@ -3,7 +3,7 @@ import SceneKit
 import Observation
 
 
-//@Observable
+@Observable
 class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//Logd
 
 	 // MARK: - 2. Object Variables:
@@ -25,13 +25,11 @@ class Simulator : NSObject, Codable {		// Logd // NEVER NSCopying, Equatable	//L
 			}
 		}
 	}
-	var timeNow			: Float  = 0.0
-//	@Published var timeNow : Float  = 0.0
-// Property wrapper cannot be applied to a computed property
-
-	var globalDagDirUp	: Bool	 = true
-	var timeStep		: Float  = 0.01
-	var simTaskPeriod	: Double = 0.01
+//	@Published	// Property wrapper cannot be applied to a computed property
+	var timeNow		   : Float	= 0.0
+	var globalDagDirUp : Bool	= true
+	var timeStep	   : Float	= 0.01
+	var simTaskPeriod  : Double	= 0.01
 	weak var factalsModel:FactalsModel? = nil// Owner
 
 	var timingChains	: [TimingChain] = []

@@ -28,8 +28,10 @@ struct W: View {
 
 	var body: some View {
 		VStack (alignment:.leading) {
+			let size = CGFloat(12)		// of Text
+			Text("FwTextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
 			HStack {
-				Text("W:").foregroundStyle(.blue).font(.system(size:18))	/// A: SwiftUI Text
+				Text("W:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
 				Text("timeNow=")
 				FwTextField(float:$factalsModel.simulator.timeNow).frame(width:100)
 				TextField("", text: $textValue)
@@ -40,14 +42,16 @@ struct W: View {
 						textValue 	= String(factalsModel.simulator.timeNow)
 					}
 					.frame(width:100)
-				Button("Reset") {	factalsModel.simulator.timeNow = 0			}
+				Button("set to 55.0") {	factalsModel.simulator.timeNow = 55.0	}
 			}
-				.font(.system(size:12))
+			 .font(.system(size:12))
+			Text("SelfiePoleBar(selfiePole):View").font(.system(size:size))
 			VStack {									//Binding<VewBase>
 				let vewBase0		= $factalsModel.vewBases[0]
 				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
 					.font(.system(size:12))
 			}
+			Text("SceneKitView:NSViewRepresentable").font(.system(size:size))
 			VStack {									//Binding<VewBase>
 				let vewBase0		= factalsModel.vewBases[0]
 				let scnSceneBase			= vewBase0.scnSceneBase

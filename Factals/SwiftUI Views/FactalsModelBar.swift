@@ -50,8 +50,10 @@ struct PartBaseBar : View {
 }
 struct SimulatorBar : View {
     @Binding var simulator:Simulator
-	@State private var (textValue)  : String = ""
-	@State private var (textValue2) : String = ""
+
+	@State private var timeNowText  : String = ""
+	@State private var timeStepText : String = ""
+	@State private var simTaskPeriodText: String = ""
 
 	var body: some View {
 		HStack {
@@ -68,16 +70,16 @@ struct SimulatorBar : View {
 				Button(label:{	Text(simulator.simRun ? "stop" : "step")										})
 				{	simulator.simRun = true
 					simulator.simulateOneStep()
-					simulator.simRun = false								}
+					simulator.simRun = false									}
 				Text(simulator.simRun ? "RUN  " : "STOP")
 				Text(" timeNow=")
 				FwTextField(float: $simulator.timeNow).frame(width: 60)
-				TextField("", text: $textValue)
-					.onChange(of: textValue) { old, newTextValue in
-						simulator.timeNow = Float(newTextValue) ?? Float.nan
+				TextField("", text: $timeNowText)
+					.onChange(of: timeNowText) { old, new in
+						simulator.timeNow = Float(new) ?? Float.nan
 					}
 					.onAppear {
-						textValue 	= String(simulator.timeNow)
+						timeNowText = String(simulator.timeNow)
 					}
 					.frame(width:50)
 		//		if  simulator.simRun == false {
@@ -88,22 +90,22 @@ struct SimulatorBar : View {
 
 				Text("timeStep:")
 		//		FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
-				TextField("", text: $textValue)
-					.onChange(of: textValue) { old, newTextValue in
-						simulator.timeStep = Float(newTextValue) ?? Float.nan
+				TextField("", text:$timeStepText)
+					.onChange(of: timeStepText) { old, new in
+						simulator.timeStep = Float(new) ?? Float.nan
 					}
 					.onAppear {
-						textValue 	= String(simulator.timeStep)
+						timeStepText = String(simulator.timeStep)
 					}
 					.frame(width:40)
 				Text("simTaskPeriod:")
 		//		FwTextField(float:$simulator.timeStep).frame(width:60 ).foregroundColor(Color(.red))
-				TextField("", text: $textValue2)
-					.onChange(of: textValue2) { old, newTextValue in
-						simulator.simTaskPeriod = Double(newTextValue) ?? Double.nan
+				TextField("", text:$simTaskPeriodText)
+					.onChange(of: simTaskPeriodText) { old, new in
+						simulator.simTaskPeriod = Double(new) ?? Double.nan
 					}
 					.onAppear {
-						textValue2 	= String(simulator.simTaskPeriod)
+						simTaskPeriodText = String(simulator.simTaskPeriod)
 					}
 					.frame(width:40)
 		//		Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
