@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct FactalsModelBar: View {
-	/*@ObservedObject */@Bindable var factalsModel : FactalsModel
+	@Bindable var factalsModel : FactalsModel
 	
 	var body: some View {
 		HStack {
-			Text("FactalsModel:").foregroundColor(.red).bold()
+			Text("FactalsModel:").foregroundColor(.red).bold().presentationBackground(Color(.white))
 			Button(label:{	Text( "state")										})
 			{	printFwState()													}
 		//	Button(label:{	Text( "config")										})
@@ -72,66 +72,21 @@ struct SimulatorBar : View {
 					simulator.simulateOneStep()
 					simulator.simRun = false									}
 				Text(simulator.simRun ? "RUN  " : "STOP")
-
 				Text(" timeNow=")
-				FwTextField(float: $simulator.timeNow).frame(width: 60)
-				TextField("Double", value:$simulator.timeNow, format: .number)
-//				FloatTextField(value:$simulator.timeNow, placeholder:"String")
-//				TextField("", text:$timeNowText)
-//					.onChange(of:timeNowText) { old, new in
-//						simulator.timeNow = Float(new) ?? Float.nan				}
-//					.onAppear {
-//						timeNowText = String(simulator.timeNow)					}
-//					.frame(width:50)
-//				Text("\(simulator.globalDagDirUp ? ".up    "  : ".down") ")
+				TextField("timeNow=", value:$simulator.timeNow,
+					format:.number.precision(.significantDigits(5))).frame(width:60)
 				Spacer()
 
-	//			Text("timeStep:")
-	//			FloatTextField(value:$simulator.timeStep)
-	//			TextField("", text:$timeStepText)
-	//				.onChange(of: timeStepText) { old, new in
-	//					//if let val = Float(new) {
-	//					simulator.timeStep = Float(new) ?? Float.nan			}
-	//				.onChange(of:simulator.timeNow) {
-	//					timeNowText = String(simulator.timeNow)					}
-	//				.onReceive(simulator.objectWillChange) { _ in
-	//					epoch2 += 1												}
-	//				.onAppear {
-	//					timeStepText = String(simulator.timeStep)				}
-	//				.frame(width:40)
+				Text("timeStep:")
+				TextField("timeStep=", value:$simulator.timeStep,
+					format:.number.precision(.significantDigits(5))).frame(width:60)
 
-	//			Text("taskPeriod:")
-	//			FloatTextField(value:$simulator.simTaskPeriod)
-	//			TextField("", text:$simTaskPeriodText)
-	//				.onChange(of: simTaskPeriodText) { old, new in
-	//					simulator.simTaskPeriod = Float(new) ?? Float.nan		}
-	//				.onAppear {
-	//					simTaskPeriodText = String(simulator.simTaskPeriod)		}
-	//				.frame(width:40)
+				Text("taskPeriod:")
+				TextField("taskPeriod=", value:$simulator.simTaskPeriod,
+					format:.number.precision(.significantDigits(5))).frame(width:60)
 		//		Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
 		//			.frame(width:100 )
 			}}
 		}
-	}
-}
-
-struct FloatTextField: View {
-	@Binding var value: Float
-
-	var placeholder: String = "33.77"
-	@State private var textValue: String = ""
-	var body: some View {
-		TextField(placeholder, text: $textValue)
-			.onChange(of: textValue) { old, newValue in
-				if let floatValue = Float(newValue) {
-					value = floatValue
-				} else {
-					value = Float.nan
-				}
-			}
-			.onAppear {
-				textValue = String(value)
-			}
-			.frame(width: 50)
 	}
 }

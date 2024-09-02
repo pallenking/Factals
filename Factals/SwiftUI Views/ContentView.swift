@@ -18,24 +18,24 @@ import SceneKit
 struct ContentView: View {
 	@Binding var document : FactalsDocument
 	var body: some View {
+		//Text("ContentView")
 		FactalsModelView(factalsModel: document.factalsModel)
 	}
 }
 
 struct FactalsModelView: View {
-	/*@ObservedObject */@Bindable var factalsModel : FactalsModel
+	@Bindable var factalsModel : FactalsModel
 
 	@State private	var tabViewSelect : Int = 0
 	var body: some View {
 		VStack {
+			//Text("FactalsModelView(factalsModel")
 			TabView(selection: $tabViewSelect)  {
-				ViewRepTest(factalsModel:factalsModel)
-					.tabItem { Label("ViewRepTest() test", systemImage: "1.circle")		}
-
-				// NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-				// NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
+				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
+				 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 					VStack {									//Binding<VewBase>
+						//Text("ForEach($factalsModel.vewBases)")
 						let scnSceneBase = vewBase.scnSceneBase.wrappedValue
 						ZStack {
 							EventReceiver { nsEvent in // Catch events (goes underneath)
@@ -46,39 +46,43 @@ struct FactalsModelView: View {
 								.frame(maxWidth: .infinity)
 								.border(.black, width:1)
 						}
-						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
-							Group {
-								HStack(alignment: .top) {
-									vewBase.inspectors.wrappedValue[index]
-									Spacer() // Ensures the content stays left-aligned
-								}
-							}
-						}
+//						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
+//							Group {
+//								HStack(alignment: .top) {
+//									vewBase.inspectors.wrappedValue[index]
+//									Spacer() // Ensures the content stays left-aligned
+//								}
+//							}
+//						}
+						SelfiePoleBar(selfiePole: vewBase.selfiePole)
 						VewBaseBar(vewBase:vewBase)
 					}
-					.tabItem { Label("L-\(33)", systemImage: "xmark.circle") }//vewBase.title
-					//					 .tabItem { Label(factalsModel.partBase.title, systemImage: "xmark.circle") }
+					.tabItem { Label("L-\(33)", systemImage: "") 				}
 				}
-				Button("<+>") {}	/// WRONG, but slightly  fnctional ///
-					.tabItem { Label("+", systemImage: "1.circle").padding()	}
+	//			ViewRepTest(factalsModel:factalsModel)
+	//				.tabItem { Label("ViewRepTest() test", systemImage: "")		}
+				 /// WRONG, but slightly  fnctional
+				Button("<+>") {}
+					.tabItem { Label("+", systemImage: "")						}
 					.onAppear {			 addNewTab()							}
 				Text("<++>")
-					.tabItem { Label("++", systemImage:"1.circle") 				}
+					.tabItem { Label("++", systemImage:"") 						}
 					.onTapGesture {		 	print("never executed")				}
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()
 			}
-	        .accentColor(.green) // Change the color of the selected tab
-
+			.accentColor(.green) // Change the color of the selected tab
+	
 			FactalsModelBar(factalsModel: factalsModel)
 			Spacer()
 		}
 	}
 	private func updateTitle() {
-		//bug//	if let url 		= documentURL {
-		//			try? url.setResourceValues(URLResourceValues(name: document.text))
-		//		}
+		NSApplication.shared.windows.first?.title = "code updateTitle()!!"
+		//if let url 		= documentURL {
+		//	try? url.setResourceValues(URLResourceValues(name: document.text))
+		//}
 	}
 	private func addNewTab() {
 		factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])

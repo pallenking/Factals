@@ -58,10 +58,10 @@ struct VewBaseBar: View {
 					Text("VewBase not registered in FactalsModel!").foregroundColor(.red).bold()
 				}
 			}
-	//		HStack {
-	//			SelfiePoleBar(selfiePole:$vewBase.selfiePole)
-	//			Spacer()
-	//		}
+			HStack {
+				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
+				Spacer()
+			}
 		}
 		 .padding(4)
 		 .background(Color(red:1.0, green:1.0, blue:0.9))

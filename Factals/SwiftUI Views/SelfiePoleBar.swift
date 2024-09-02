@@ -88,7 +88,7 @@ struct SelfiePoleBar: View   {
 				Text("id:\(selfiePole.pp(.uid))")
 			}
 //			Text("SelfiePole:\n\(selfiePole.pp(.uid)):")//.foregroundColor(.red).bold()
-			 .padding(.horizontal, -8)
+//			 .padding(.horizontal, -8)
 			InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
 			 .padding(.horizontal, 5)
  			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)

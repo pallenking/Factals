@@ -7,24 +7,20 @@ import SwiftUI
 class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 	var partBase	: PartBase
 	var tree		: Vew
-	var scnSceneBase: ScnSceneBase				// Master 3D Tree
-	var prefFps		: Float		= 30.0
+	@State
+	 var selfiePole 			= SelfiePole()
+	@State
+	 var prefFps	: Float		= 30.0
+	@State private
+	 var sliderTestVal: Double = 0.5
+
+	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
-	@State private var sliderTestVal: Double = 0.5
 	@Published var inspectors : [AnyView] = []
-
-	@State var selfiePole 		= SelfiePole()
-
 	func addInspector(_ inspector:AnyView) {
 		inspectors.append(inspector)
-	}
-	func inzInspecTests() {
-		addInspector(AnyView(Text("Dynamica Inspectors:")))
-//		addInspector(AnyView(Slider(value:$sliderTestVal, in: 0...1).frame(width:300)))
-		addInspector(AnyView(SelfiePoleBar(selfiePole: $selfiePole)))
-// BAD	addInspector(AnyView(VewBaseBar(vewBase:$self)))
 	}
  	var cameraScn	: SCNNode?	{
  		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
@@ -49,8 +45,6 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		tree					= Vew()			// Start with just trunk Vew
 
 		super.init()			// NSObject
-
-		inzInspecTests()		// REPLACE with addInspecto..()
 
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
 		scnSceneBase.tree?.rootNode.name = self.tree.name

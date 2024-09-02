@@ -64,18 +64,18 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 }
 
  /// Access to current ////// SCNNode Tree  ////// 
-//var LLDBscnNodes0tree : SCNNode  		{	// LLDBscnNodes0tree
-//	get 		{	return FACTALSMODEL!.vewBases[0].scnSceneBase.tree ?? .null		}
-//	set (v)		{		   FACTALSMODEL!.vewBases[0].scnSceneBase.tree = v			}
-//}
-//var LLDBscnNodes1tree : SCNNode  		{
-//	get 		{	return FACTALSMODEL!.vewBases[1].scnSceneBase.tree ?? .null		}
+var LLDBvew0sceneTreeRoot : SCNNode  		{	// LLDBvew0sceneTreeRoot
+	get 		{	return FACTALSMODEL!.vewBases[0].scnSceneBase.tree?.rootNode ?? .null}
+//	set (v)		{		   FACTALSMODEL!.vewBases[0].scnSceneBase.tree?.rootNode = v}
+}
+var LLDBvew1sceneTreeRoot : SCNNode  		{
+	get 		{	return FACTALSMODEL!.vewBases[1].scnSceneBase.tree?.rootNode ?? .null		}
 //	set (v)		{		   FACTALSMODEL!.vewBases[1].scnSceneBase.tree = v			}
-//}
-//var LLDBscnNodes2tree : SCNNode  		{
-//	get 		{	return FACTALSMODEL!.vewBases[2].scnSceneBase.tree ?? .null		}
+}
+var LLDBvew2sceneTreeRoot : SCNNode  		{
+	get 		{	return FACTALSMODEL!.vewBases[2].scnSceneBase.tree?.rootNode ?? .null		}
 //	set (v)		{		   FACTALSMODEL!.vewBases[2].scnSceneBase.tree = v			}
-//}
+}
 func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNScene	{
 	guard let factalsModel 			= FACTALSMODEL else {
 		print("FACTALSMODEL is nil! returning SCNNode.null")

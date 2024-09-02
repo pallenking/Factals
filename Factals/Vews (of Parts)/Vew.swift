@@ -36,7 +36,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	@Published var expose : Expose	= .open {// how the insides are currently exposed
 		willSet(v) {
 			if v != expose, parent != nil {		// ignore simple cases
-				print("--- '\(fullName)'.expose.willSet: \(expose) -> \(v)")
+				//print("--- '\(fullName)'.expose.willSet: \(expose) -> \(v)")
 				part.markTree(dirty:.vew)
 			}
 		}

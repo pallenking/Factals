@@ -143,6 +143,16 @@ extension SCNScene 					{		     //: FwAny
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		return "SCNScene:\(ppUid(self)) "
 	}
+//	var rootNode : SCNNode {
+//       get {
+//            // Assuming you want to return the actual root node of the scene,
+//            // use the built-in rootNode property directly.
+//            return super.rootNode
+//        }
+//        set(v) {
+//            fatalError("rootNode property is read-only and cannot be set")
+//        }
+//	}
 }
 extension NSView 					{		// also SCNView : FwAny
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

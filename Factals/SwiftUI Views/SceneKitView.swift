@@ -19,61 +19,50 @@ struct W_ModelView : View {
 	@State private	var selectedFileIndex : Int = 0
 }
 
-
-
-struct ViewRepTest: View {
-	/*@ObservedObject */@Bindable var factalsModel : FactalsModel
-	@State var prefFps : Float		= 30.0
-//	@State private var textValue: String = ""
-
-	var body: some View {
-		VStack (alignment:.leading) {
-			let size = CGFloat(12)		// of Text
-			Text("FwTextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
-			HStack {
-				Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
-				Text("timeNow=")
-//				FwTextField(float:$factalsModel.simulator.timeNow).frame(width:100)
-//				FloatTextField(value:$factalsModel.simulator.timeNow)
-				TextField("Double", value:$factalsModel.simulator.timeNow, format:.number.precision(.significantDigits(5)))
-
-	//			TextField("", text:$textValue)
-	//				.onChange(of: textValue) { old, newTextValue in
-	//					factalsModel.simulator.timeNow = Float(newTextValue) ?? Float.nan
-	//				}
-	//				.onAppear {
-	//					textValue 	= String(factalsModel.simulator.timeNow)
-	//				}
-	//				.frame(width:100)
-				Button("+=1") {
-					factalsModel.simulator.timeNow += 1.0						}
-			}
-			 .font(.system(size:12))
-			Text("SelfiePoleBar(selfiePole):View").font(.system(size:size))
-			VStack {									//Binding<VewBase>
-				let vewBase0		= $factalsModel.vewBases[0]
-				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
-					.font(.system(size:12))
-			}
-			Text("SceneKitView:NSViewRepresentable").font(.system(size:size))
-			VStack {									//Binding<VewBase>
-				let vewBase0		= factalsModel.vewBases[0]
-				let scnSceneBase			= vewBase0.scnSceneBase
-				ZStack {
-					EventReceiver {	nsEvent in // Catch events (goes underneath)
-						print("EventReceiver:point = \(nsEvent.locationInWindow)")
-						let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
-					}
-					SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
-					 .frame(maxWidth: .infinity)
-					 .border(.black, width:1)
-				}
-				//VewBaseBar(vewBase:vewBase)
-			}
-		}
-		.font(.largeTitle)
-	}
-}
+ // VIEWREPresentable TEST:
+//struct ViewRepTest: View {
+//	@Bindable var factalsModel : FactalsModel
+//
+//	@State var prefFps : Float		= 30.0
+//	var body: some View {
+//		VStack (alignment:.leading) {
+//			let size = CGFloat(12)		// of Text
+//			Text("FwTextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
+//			HStack {
+//				Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
+//				Text("timeNow=")
+//				TextField("timeNow=", value:$factalsModel.simulator.timeNow,
+//						  format:.number.precision(.significantDigits(5)))
+//					.frame(width:100)
+//				Button("+=1") {
+//					factalsModel.simulator.timeNow += 1.0						}
+//			}
+//			 .font(.system(size:12))
+//			Text("SelfiePoleBar(selfiePole):View").font(.system(size:size))
+//			VStack {									//Binding<VewBase>
+//				let vewBase0		= $factalsModel.vewBases[0]
+//				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
+//					.font(.system(size:12))
+//			}
+//			Text("SceneKitView:NSViewRepresentable").font(.system(size:size))
+//			VStack {									//Binding<VewBase>
+//				let vewBase0		= factalsModel.vewBases[0]
+//				let scnSceneBase	= vewBase0.scnSceneBase
+//				ZStack {
+//					EventReceiver {	nsEvent in // Catch events (goes underneath)
+//						print("EventReceiver:point = \(nsEvent.locationInWindow)")
+//						let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
+//					}
+//					SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
+//					 .frame(maxWidth: .infinity)
+//					 .border(.black, width:1)
+//				}
+//				//VewBaseBar(vewBase:$vewBase0)
+//			}
+//		}
+//		.font(.largeTitle)
+//	}
+//}
 // Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
 
 final class Delegate: NSObject, NSTextFieldDelegate {

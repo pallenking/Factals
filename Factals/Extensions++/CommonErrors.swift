@@ -14,6 +14,14 @@ var bug : () 			{
 		  \t---   a   B U G   to fix!    ---
 		  \t--------------------------------
 		  """)
+
+//	for i in 1...100 {
+//		print("Bug, HIT BREAK QUICK!!")
+//		for i in 1...1000000 { nop }			//		sleep(2)
+//	}
+
+//	builtin_debugtrap()
+//	__builtin_trap()
 	Thread.callStackSymbols.map {		print($0)								}
 	print("\t--------------------------------")
 	while true {	nop }
@@ -79,7 +87,8 @@ func assertWarn(_ truthValue:Bool, _ message:@autoclosure()->String="assert fail
  // 5. Does not involve machine language (so Rosetta won't be needed)
  //			See INSTALL.md and TO_DO.md for bug
 func machineTrap() {
-	raise(SIGTRAP)
+	raise(SIGINT)
+//	raise(SIGTRAP)
 }
 
    /// Clock time

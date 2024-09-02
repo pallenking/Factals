@@ -112,9 +112,9 @@ let params4logs				: FwConfig = [
 
 		 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-	"breakAtLogger"				:1,
+	"breakAtLogger"				:2,
 								// + +  + +
-	"breakAtEvent"				: -37 //150//-54,//240/3/0:off
+	"breakAtEvent"				: 1 //150//-54,//240/3/0:off
 
 ]
 private let params4docLog		= params4partPp + params4logs
@@ -161,7 +161,7 @@ let params4vew : FwConfig = [
 	 // between boss & worker if no link:
 	"gapLinkDirect"				: CGFloat(0.1),
 	 // min gap between boss and worker, if link:
-	"gapLinkFluff"				: CGFloat(1),
+	"gapLinkFluff"				: CGFloat(1.234321),
 
 //	"linkRadius"				: Float(0.25),	// radius of link (<0.2? 1pix line: <0? ainvis
 //	"linkEventRadius"			: Float(-1),	// radius of link (<0.2? 1pix line: <0? ainvis

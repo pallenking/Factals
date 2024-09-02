@@ -47,8 +47,8 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		 // Find the Library that contains the trunk for self, the root.
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
 			self.title			= "'\(selector ?? "nil")' -> " +
-				"\(hnwMachine.testNum) \(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
-//			self.title			= "oqiuqq08uyqwfd"//'\(selector ?? "nil")' -> \(answer.testNum):\(lib.fileName).\(answer.lineNumber!)"
+				"\(hnwMachine.testNum) " +
+				"\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
 
 /* */		tree				= hnwMachine.trunkClosure?() ?? Part()
@@ -136,9 +136,9 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	 // Serialize 					// po container.contains(.name)
 	/*override*/ func encode(to encoder: Encoder) throws  {
 		 // Massage Part Tree, to make it
-		makeSelfCodable(neededLock:"writePartTree")		//readyForEncodable
+//		makeSelfCodable(neededLock:"writePartTree")		//readyForEncodable
 
-bug		//try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
+		//try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
 
 		try container.encode(title,				forKey:.title					)
@@ -163,7 +163,7 @@ bug		//try super.encode(to: encoder)											//try super.encode(to: container.
 
 		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
 
-		makeSelfRunable("help")		// (no unlock)
+//		makeSelfRunable("help")		// (no unlock)
 	}
 	 // MARK: - 3.5.1 Data
 	var data : Data? {
@@ -341,8 +341,8 @@ bug
 		}
 		 /// === Get partTree lock:
 /**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
-			logd(" //######\(ownerNId)      FAILED Part LOCK v:\(semiphore.value ?? -99)")
-			panic("\(ownerNId): Timeout FAILURE in PartBase LOCK. Currenly owned:\(curOwner ?? "nil")")
+			logd(" //######\(ownerNId)   FAILED Part LOCK v:\(semiphore.value ?? -99)")
+			panic("\(ownerNId): Lock Timeout FAILURE.  PartBase BLOCKED by currenly owned:\(curOwner ?? "nil")")
 			return false
 		}
 

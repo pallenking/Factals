@@ -23,7 +23,7 @@ class FactalsModel : /*ObservableObject,*/ Uid {
 	}
 
 	 // MARK: - 3. Factory
-	init(partBase rp:PartBase?=nil) {											// FactalsModel(partBase:PartBase)
+	init(partBase pb:PartBase?=nil) {											// FactalsModel(partBase:PartBase)
 
 		let params4modelLog : FwConfig =
 			params4partPp		+  	//	pp... (50ish keys)
@@ -33,7 +33,7 @@ class FactalsModel : /*ObservableObject,*/ Uid {
 		simulator 				= Simulator(config:params4sim)
 		docSound				= Sounds()
 
-		partBase				= rp ?? PartBase(tree:Part())
+		partBase				= pb ?? PartBase(tree:Part())
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 //		fmConfig				= params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals

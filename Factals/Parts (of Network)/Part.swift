@@ -1002,7 +1002,13 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			  // If our shape was just added recently, it has no parent.
 			 //   That it is "dangling" signals we should swap it in
 			if childVew.scnRoot.parent == nil {
-				vew.scnRoot.removeAllChildren()
+		//		let x =
+		//		vew.scnRoot.removeAllChildren()
+		//		let x = childVew.scnScene.rootNode
+		//		x.removeFromParent()
+		//		vew.scnRoot.addChild(node:x)
+
+				vew.scnRoot.addChild(node:childVew.scnRoot)
 				vew.scnRoot.addChild(node:childVew.scnRoot)
 			}
 
