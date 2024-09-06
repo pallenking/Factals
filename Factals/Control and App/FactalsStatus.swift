@@ -222,9 +222,10 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.selfiePole.ppFactalsState(deapth:deapth-1)
-				rv 				+= self.cameraScn?.ppFactalsState(deapth:deapth-1) ?? "\t\t cameraScn is nil\n"
-			//	rv 				+= self.tree	  .ppFactalsState(deapth:deapth-1)
+				var rv			=  self.scnSceneBase.ppFactalsState(deapth:deapth-1)
+				rv				+= self.selfiePole  .ppFactalsState(deapth:deapth-1)
+				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1) ?? "\t\t cameraScn is nil\n"
+			//	rv 				+= self.tree	    .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
@@ -247,24 +248,26 @@ extension Vew : FactalsStatus	{										  ///Vew
 
 extension ScnSceneBase : FactalsStatus	{						  ///ScnSceneBase
 	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+		let myLine				= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 //		myLine					+= "isPaused:\(scnScene.isPaused) "
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.tree?			  .ppFactalsState(deapth:deapth-1) ?? ""
-				rv				+= self.tree?.physicsWorld.ppFactalsState(deapth:deapth-1) ?? ""
-				return rv
-			},
-			deapth:deapth-1)
+				return self.tree!   .ppFactalsState(deapth:deapth-1)
+					+ (self.scnView?.ppFactalsState(deapth:deapth-1) ?? "")
+			}, deapth:deapth-1)
 	}
 }
 extension SCNScene : FactalsStatus {								 ///SCNScene
 	func ppFactalsState(deapth: Int) -> String {
+		let myLine				= rootNode.name == "rootNode" ? "" : "rootNode.name=\(rootNode .name) -- BAD!!"
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,
-			myLine:"bla bla",
+			myLine:myLine,
 			otherLines: { deapth in
-				return self.rootNode.ppFactalsState(deapth:deapth-1)
+				return self.rootNode    .ppFactalsState(deapth:deapth-1)
+					+  self.physicsWorld.ppFactalsState(deapth:deapth-1)
+					+  self.lightingEnvironment.ppFactalsState(deapth:deapth-1)
+					+  self.background  .ppFactalsState(deapth:deapth-1)
  			},
 			deapth:deapth-1)
 	}
@@ -292,6 +295,20 @@ extension SCNPhysicsWorld : FactalsStatus	{					///SCNPhysicsWorld
 		return ppFactalsStateHelper("SCNPhysicsWor", uid:self,
 			myLine:fmt("gravity:\(gravity.pp(.phrase)), speed:%.4f, timeStep:%.4f", speed, timeStep),
 			deapth:deapth-1)
+	}
+}
+extension SCNMaterialProperty : FactalsStatus	{			  ///SCNMaterialProperty
+	func ppFactalsState(deapth:Int=999) -> String {
+		// borderColor
+		// contents
+		// mappingChannel
+		// minificationFilter	__C.SCNFilterMode
+		//	magnificationFilter, mipFilter
+		// wrapS. wrapS			__C.SCNWrapMode
+		// textureComponents
+		// intensity
+		// maxAnisotropy		3.4028234663852886e+38
+		return ppFactalsStateHelper("SCNMaterialPr", uid:self, myLine:"--", deapth:deapth-1)
 	}
 }
 extension Log : FactalsStatus {											  ///Log
@@ -377,8 +394,10 @@ extension NSView : FactalsStatus	{								   ///NSView
 		return ppFactalsStateHelper(msg, uid:self,
 			myLine:
 				"\(subviews.count) children "									+
-				"superv:\(ppUid(superview, showNil:true)) "						+
-				   "win:\(ppUid(window,    showNil:true)) " 					,
+				"superv:\(superview?.pp(.classUid) ?? "nil") "					+
+				   "win:\(window?   .pp(.classUid) ?? "nil") " 					,
+//				"superv:\(ppUid(superview, showNil:true)) "						+
+//				   "win:\(ppUid(window,    showNil:true)) " 					,
 			otherLines:{ deapth in
 				var rv			= ""
 				if deapth > 0 {

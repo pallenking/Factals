@@ -30,11 +30,13 @@ class ScnSceneBase : NSObject {
 	override convenience init() {
 		self.init()
 		tree					= SCNScene()	// get scene
+		tree!.rootNode.name		= "rootNode4"
 	}
 	 /// ScnSceneBase(scnScene:eventHandler:)
 	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {
 	
 		self.tree				= s ?? SCNScene()	// get scene
+		self.tree!.rootNode.name = "rootNode"
 		self.eventHandler		= eventHandler
  		super.init()
 //		setRootNodeChild1 (from:tree)

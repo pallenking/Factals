@@ -121,14 +121,14 @@ extension Array 		: FwAny		{
 				return count == 0 ? "[]" : "[\(count) elts]"
 			case .line:
 				var (rv, sep)	= ("[", "")
-				for elt in self {
+				for _ in self {
 					rv			+= sep + ppFixedDefault(.short, aux)
 					sep 		= ", "
 				}
 				return rv + "]"
 			case .tree:
 				var (sep, rv)	= ("", "[")
-				for elt in self {
+				for _ in self {
 					rv			+= sep + ppFixedDefault(.line, aux)
 					sep 		= ",\n "
 				}
@@ -141,17 +141,21 @@ extension Array 		: FwAny		{
 
 extension SCNScene 					{		     //: FwAny
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-		return "SCNScene:\(ppUid(self)) "
+		return "SCNScene:\(ppUid(self)) \(rootNode.pp(.tree)) "
 	}
+	//convenience override init() {
+	//	self.init(named:"Fww SCNScene foo")!
+	//	self.rootNode.name		= "rootNode"
+	//}
 //	var rootNode : SCNNode {
-//       get {
-//            // Assuming you want to return the actual root node of the scene,
-//            // use the built-in rootNode property directly.
-//            return super.rootNode
-//        }
-//        set(v) {
-//            fatalError("rootNode property is read-only and cannot be set")
-//        }
+//		get {
+//			// Assuming you want to return the actual root node of the scene,
+//			// use the built-in rootNode property directly.
+//			return super.rootNode
+//		}
+//		set(v) {
+//			fatalError("rootNode property is read-only and cannot be set")
+//		}
 //	}
 }
 extension NSView 					{		// also SCNView : FwAny

@@ -47,7 +47,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		super.init()			// NSObject
 
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
-		scnSceneBase.tree?.rootNode.name = self.tree.name
+//		scnSceneBase.tree?.rootNode.name = self.tree.name
 	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 

@@ -61,6 +61,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		 // Make SCNScene and apply skin:
 		scnScene				= SCNScene()	// makes rootNode:SCNNode too
+		scnScene.rootNode.name	= "rootNode1"
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
@@ -84,6 +85,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 		 // Make new SCN:
 		scnScene				= SCNScene()		// (also makes rootNode)
+		scnScene.rootNode.name	= "rootNode2"
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
@@ -92,7 +94,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		let portProp : String?	= port.partConfig["portProp"] as? String //"xxx"//
 		scnRoot.flipped 		= portProp?.contains(substring:"f") ?? false
 		 // Flip
-		// Several ways to flip, each has problems:
+		// Several ways to do a flip. Each has problems:
 		// 1. ugly, inverts Z along with Y: 	scnScene.rotation = SCNVector4Make(1, 0, 0, CGFloat.pi)
 		// 2. IY ++, Some skins show as black, because inside out: 		scale = SCNVector3(1, -1, 1)
 		// 3. causes Inside Out meshes, which are mostly tollerated:	scnScene.transform.m22 *= -1
@@ -128,6 +130,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		jog						= try container.decode(SCNVector3?.self, forKey:.jog	)
 		force					= try container.decode(SCNVector3 .self, forKey:.force	)
 		scnScene				= SCNScene();bug
+		scnScene.rootNode.name	= "rootNode3"
 
 		super.init()
  		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))

@@ -71,7 +71,7 @@ struct SimulatorBar : View {
 				{	simulator.simRun = true
 					simulator.simulateOneStep()
 					simulator.simRun = false									}
-				Text(simulator.simRun ? "RUN  " : "STOP")
+				Text(simulator.simRun ? "RUNNING" : "STOPPED")
 				Text(" timeNow=")
 				TextField("timeNow=", value:$simulator.timeNow,
 					format:.number.precision(.significantDigits(5))).frame(width:60)

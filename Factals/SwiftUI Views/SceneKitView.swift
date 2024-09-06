@@ -101,17 +101,17 @@ struct FwTextField: NSViewRepresentable {
 
  /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
-	typealias NSViewType 		= SCNView		// Type represented
 	var scnSceneBase : ScnSceneBase?			// ARG1: exposes visual world
-	@Binding var prefFps : Float				// ARG2:
+	@Binding var prefFps : Float				// ARG2: (DEBUG)
+	typealias NSViewType 		= SCNView		// Type represented
 
-	func makeNSView(context: Context) -> SCNView {		// PW: some View?
+	func makeNSView(context: Context) -> SCNView {
 		let scnView				= SCNView(frame: NSRect.zero, options: [String : Any]())
 		scnView.isPlaying		= true			// animations, does nothing
 		scnView.showsStatistics	= true			// controls extra bar
-		scnView.debugOptions	= [						// enable display of:
-			SCNDebugOptions.showPhysicsFields,	//  regions affected by each SCNPhysicsField object
-		]
+//		scnView.debugOptions	= [						// enable display of:
+//			SCNDebugOptions.showPhysicsFields,	//  regions affected by each SCNPhysicsField object
+//		]
 		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously	= true			//args.options.contains(.rendersContinuously)

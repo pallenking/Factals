@@ -50,10 +50,13 @@ struct VewBaseBar: View {
 //						vewBase.selfiePole = s	// Put struct's val back
 //					}
 					Spacer()
-					Text("prefFps:")
-					FwTextField(float:$vewBase.prefFps).frame(width:60 ).foregroundColor(Color(.red))
+
+					TextField("prefFps", value:$vewBase.prefFps, formatter:d2formatter).frame(width:50)
+//					FwTextField(float:$vewBase.prefFps)
+					 .frame(width:60 ).foregroundColor(Color(.red))
+
 					Slider(value:$vewBase.prefFps, in: 0.0...60.0) { e in isEditing = e	}
-					.frame(width:100 )
+					 .frame(width:100 )
 				} else {
 					Text("VewBase not registered in FactalsModel!").foregroundColor(.red).bold()
 				}

@@ -535,7 +535,7 @@ bug//	vew.scnScene.removeFromParent()
 
 			vewBase  .unlock  (for:label, logIf:logIf)
 		}
-			 // Clear change bits:
+		 // Clear change bits:
 		partBase.tree.forAllParts { part in part.dirty	= .clean }
 		partBase  .unlock  (for:workNamed, logIf:logIf)
 	}
