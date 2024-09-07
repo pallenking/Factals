@@ -14,32 +14,28 @@ import SceneKit
 import UniformTypeIdentifiers
  // Define a new UTType for factals:
 extension UTType {
-	static var factals: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  	}	// com.example.fooTry3
+	static var hnw: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  		}
+	static var vew: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  		}
 }
 
  // MARK: - FactalsDocument
  // Requirement of <<FileDocument>> protocol FileDocumentWriteConfiguration:
 extension FactalsDocument {
-	static var readableContentTypes: [UTType] { [.factals] }					//{ [.exampleText, .text] }
-	static var writableContentTypes: [UTType] { [.factals] }
+	static var readableContentTypes: [UTType] { 	[.hnw, .vew] 				}
+	static var writableContentTypes: [UTType] { 	[.hnw, .vew] 				}
 }
-
 extension FactalsDocument : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
 		factalsModel.log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
-//class FactalsDocument : ReferenceFileDocument {
+
+ //class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument {
 	let uid:UInt16				= randomUid()
 
 	var factalsModel : FactalsModel! = nil				// content
 							
-//	func retainIn(_ docs:Binding<[FactalsDocument]>) -> FactalsDocument {
-//		docs.wrappedValue.append(self)
-//		print("======== retainIn nibName:'\(windowNibName ?? "nil")' Now \(docs.wrappedValue.count) documents")
-//		return self
-//	}
 	init(fileURL: URL) {
 		bug
 	}
@@ -114,15 +110,19 @@ struct FactalsDocument : FileDocument {
 			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
 			throw FwError(kind:".fileReadCorruptFile")						}
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
-		case .factals:
+		case .hnw:
 			 // Decode data as a Root Part
-			let parts		= PartBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
+			let partsBase		= PartBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
-			let factalsModel	= FactalsModel(partBase:parts)
+			let factalsModel	= FactalsModel(partBase:partsBase)
 bug;		self.init(factalsModel:factalsModel)
 
-//			fmConfig				+= partBase.ansConfig	// from library
+//			fmConfig			+= partBase.ansConfig	// from library
+		case .vew:
+			fatalError()
+//			let vewBase			= VewBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
+//			le
 		default:
 				throw FwError(kind:".fileReadCorruptFile")
 		}
@@ -136,19 +136,21 @@ bug;		self.init(factalsModel:factalsModel)
 	// MARK: PolyWrap
 	 /// Requirement of <<FileDocument>> protocol
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {		// cannot ba async throws
-bug;//	throw FwError(kind:".fileWriteUnknown")
 		switch configuration.contentType {
-	//	case .factals:
-	//		guard let dat		= factalsModel.rootPartActor.data else {	// how is Parts.data worked?
-	//			panic("FactalsDocument.factalsModel.partBase.data is nil")
-	//			let d			= factalsModel.rootPartActor.data		// redo for debug
-	//			throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
-	//		}
-	//		return .init(regularFileWithContents:dat)
+		case .hnw:
+			guard let dat		= factalsModel.partBase.data else {	// how is Parts.data worked?
+				panic("FactalsDocument.factalsModel.partBase.data is nil")
+				let d			= factalsModel.partBase.data		// redo for debug
+				throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
+			}
+			return .init(regularFileWithContents:dat)
+		case .vew:
+			fatalError()
 		default:
 			throw FwError(kind:".fileWriteUnknown")
 		}
 	}
+		//bug;	throw FwError(kind:".fileWriteUnknown")
 
 	typealias PolyWrap = Part
 	class Part : Codable /* PartProtocol*/ {

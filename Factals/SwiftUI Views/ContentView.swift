@@ -51,13 +51,13 @@ struct FactalsModelView: View {
 						VewBaseBar(vewBase:vewBase)
 						let scnSceneBase = vewBase.scnSceneBase.wrappedValue
 						ZStack {
+							SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
+								.frame(maxWidth: .infinity)
+								.border(.black, width:1)
 							EventReceiver { nsEvent in // Catch events (goes underneath)
 								print("EventReceiver:point = \(nsEvent.locationInWindow)")
 								let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
-							SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
-								.frame(maxWidth: .infinity)
-								.border(.black, width:1)
 						}
 //						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
 //							Group {

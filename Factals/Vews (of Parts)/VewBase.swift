@@ -4,7 +4,7 @@
 import SceneKit
 import SwiftUI
 
-class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
+class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {	//FwAny, //,
 	static var nVewBase 		= 0
 	var title					= "VewBase\(nVewBase)"
 	var partBase	: PartBase
@@ -50,7 +50,7 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
 //		scnSceneBase.tree?.rootNode.name = self.tree.name
 	}
-	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
+//	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func configure(from:FwConfig) {
 		self.tree.configureVew(from:from)							// vewConfig = c
@@ -82,6 +82,74 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 		let worldPosition		= lookAtVew?.scnRoot.convertPosition(posn, to:nil/*scnScene*/) ?? .zero
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
+	}
+
+
+/*
+	static var nVewBase 		= 0
+
+ */
+
+
+//	 // MARK: - 3.5 Codable
+	enum VewKeys: String, CodingKey {
+		case title
+		case partBase
+		case tree
+		case scnSceneBase
+		case selfiePole
+		case prefFps
+//		case sliderTestVal
+	}
+
+	 // Serialize 					// po container.contains(.name)
+	func encode(to encoder: Encoder) throws  {
+		//try super.encode(to: encoder) // Not needed for NSObject
+		var container 			= encoder.container(keyedBy:VewKeys.self)
+
+		try container.encode(title,				forKey:.title					)
+		try container.encode(partBase,			forKey:.partBase				)
+		try container.encode(tree,				forKey:.tree					)
+	//	try container.encode(scnSceneBase,		forKey:.scnSceneBase			)
+//		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
+		try container.encode(prefFps,			forKey:.prefFps					)
+		atSer(3, logd("Encoded"))
+	}
+	 // Deserialize
+	required init(from decoder: Decoder) throws {
+		let container 			= try decoder.container(keyedBy:VewKeys.self)
+
+		title					= try container.decode(   String.self, forKey:.title		)
+		partBase				= try container.decode( PartBase.self, forKey:.partBase		)
+		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
+//		scnSceneBase			= try container.decode(ScnSceneBase.self, forKey:.scnSceneBase	)
+		scnSceneBase			= ScnSceneBase()
+bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
+		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
+
+		super.init() // NSObject
+		atSer(3, logd("Decoded  as? Vew \(ppUid(self))"))
+	}
+
+	 // MARK: - 3.5.1 Data
+	var data : Data? {
+		do {
+			let enc 			= JSONEncoder()
+			enc.outputFormatting = .prettyPrinted
+			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
+			//print(String(data: data, encoding: .utf8)!)
+			return dataRv
+		} catch {
+			print("\(error)")
+			return nil
+		}
+	}
+	static func from(data:Data, encoding:String.Encoding) -> VewBase {
+		do {
+			return try JSONDecoder().decode(VewBase.self, from:data)
+		} catch {
+			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
+		}
 	}
 
 	// MARK: - 4. Factory
