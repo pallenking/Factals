@@ -9,15 +9,15 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	// MARK: - 2. Object Variables:
 
 	 // Glue these Neighbors together: (both Always present)
-	@Published var part : Part 				// Part which this Vew represents	// was let
+	/*@Published*/ var part : Part 				// Part which this Vew represents	// was let
 	var scnScene	:  SCNScene				// SCNScene which draws this Vew
 	var scnRoot		:  SCNNode { scnScene.rootNode } // sugar
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
 	var vewConfig   : FwConfig	= [:]		// rename config?
     
-	@Published var name :  String			// Cannot be String! because of FwAny
-	@Published var color000	: NSColor? = nil
+	/*@Published*/ var name :  String			// Cannot be String! because of FwAny
+	/*@Published*/ var color000	: NSColor? = nil
 	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
 	var keep		:  Bool		= false		// used in reVew
 
@@ -33,7 +33,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
 
-	@Published var expose : Expose	= .open {// how the insides are currently exposed
+	/*@Published*/ var expose : Expose	= .open {// how the insides are currently exposed
 		willSet(v) {
 			if v != expose, parent != nil {		// ignore simple cases
 				//print("--- '\(fullName)'.expose.willSet: \(expose) -> \(v)")

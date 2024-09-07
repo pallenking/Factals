@@ -42,28 +42,28 @@ final class EventReceiverView : NSView {
 
 
 	  // Intercept these messages to this NSView
-//	 // MARK: - 13.1 Keys
-//	override func keyDown(with 			event:NSEvent) 		{	handler(event)	}
-//	override func keyUp(with 			event:NSEvent) 		{	handler(event)	}
-//	 // MARK: - 13.2 Mouse
-//	 //  ====== LEFT MOUSE ======
-//	override func mouseDown(with 		event:NSEvent)		{	handler(event)	}
-//	override func mouseDragged(with 	event:NSEvent)		{	handler(event)	}
-//	override func mouseUp(with 			event:NSEvent)		{	handler(event)	}
-//	 //  ====== CENTER MOUSE ======
-//	override func otherMouseDown(with 	event:NSEvent)		{	handler(event)	}
-//	override func otherMouseDragged(with event:NSEvent)		{	handler(event)	}
-//	override func otherMouseUp(with 	event:NSEvent)		{	handler(event)	}
-//	 //  ====== CENTER SCROLL WHEEL ======
-//	override func scrollWheel(with 		event:NSEvent) 		{	handler(event)	}
-//	 //  ====== RIGHT MOUSE ======			Right Mouse not used
-//	override func rightMouseDown(with 	event:NSEvent) 		{	handler(event)	}
-//	override func rightMouseDragged(with event:NSEvent) 	{	handler(event)	}
-//	override func rightMouseUp(with 	event:NSEvent) 		{	handler(event)	}
-//	 // MARK: - 13.3 TOUCHPAD Enters
-//	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
-//	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
-//	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
+	 // MARK: - 13.1 Keys
+	override func keyDown(with 			event:NSEvent) 		{	eventHandler(event)	}
+	override func keyUp(with 			event:NSEvent) 		{	eventHandler(event)	}
+	 // MARK: - 13.2 Mouse
+	 //  ====== LEFT MOUSE ======
+	override func mouseDown(with 		event:NSEvent)		{	eventHandler(event)	}
+	override func mouseDragged(with 	event:NSEvent)		{	eventHandler(event)	}
+	override func mouseUp(with 			event:NSEvent)		{	eventHandler(event)	}
+	 //  ====== CENTER MOUSE ======
+	override func otherMouseDown(with 	event:NSEvent)		{	eventHandler(event)	}
+	override func otherMouseDragged(with event:NSEvent)		{	eventHandler(event)	}
+	override func otherMouseUp(with 	event:NSEvent)		{	eventHandler(event)	}
+	 //  ====== CENTER SCROLL WHEEL ======
+	override func scrollWheel(with 		event:NSEvent) 		{	eventHandler(event)	}
+	 //  ====== RIGHT MOUSE ======			Right Mouse not used
+	override func rightMouseDown(with 	event:NSEvent) 		{	eventHandler(event)	}
+	override func rightMouseDragged(with event:NSEvent) 	{	eventHandler(event)	}
+	override func rightMouseUp(with 	event:NSEvent) 		{	eventHandler(event)	}
+	 // MARK: - 13.3 TOUCHPAD Enters
+	override func touchesBegan(with 	event:NSEvent)		{	eventHandler(event)	}
+	override func touchesMoved(with 	event:NSEvent)		{	eventHandler(event)	}
+	override func touchesEnded(with 	event:NSEvent)		{	eventHandler(event)	}
 
 	 // MARK: - 15. PrettyPrint
 	 // MARK: - 17. Debugging Aids

@@ -77,7 +77,7 @@ extension FactalsApp : App {
 extension FactalsApp {		// FactalsGlobals
 	class FactalsGlobals : ObservableObject {				// (not @Observable)
 		// MARK: -A Configuration
-		@Published var factalsConfig : FwConfig
+		/*@Published*/ var factalsConfig : FwConfig
 
 		// MARK: -B Library Menu:
 		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")

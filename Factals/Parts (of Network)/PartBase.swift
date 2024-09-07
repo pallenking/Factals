@@ -216,7 +216,7 @@ bug;	guard lock(for:neededLock, logIf:true) else { fatalError("'\(neededLock)' c
 	func makeSelfRunable(_ releaseLock:String) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
-bug		//groomModel(parent:nil)		// nil as Part?
+		//groomModel(parent:nil)		// nil as Part?
 		atSer(5, logd(" ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
 		
 		unlock(for:releaseLock, logIf:true)

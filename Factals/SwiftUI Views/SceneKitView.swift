@@ -20,83 +20,84 @@ struct W_ModelView : View {
 }
 
  // VIEWREPresentable TEST:
-//struct ViewRepTest: View {
-//	@Bindable var factalsModel : FactalsModel
+struct ViewRepTest: View {
+	@Bindable var factalsModel : FactalsModel
+
+	@State var prefFps : Float		= 30.0
+	var body: some View {
+		VStack (alignment:.leading) {
+			let size = CGFloat(12)		// of Text
+			Text("TextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
+			HStack {
+				Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
+				Text("timeNow=")
+				TextField("timeNow=", value:$factalsModel.simulator.timeNow,
+						  format:.number.precision(.significantDigits(5)))
+					.frame(width:100)
+				Button("+=1") {
+					factalsModel.simulator.timeNow += 1.0						}
+			}
+			 .font(.system(size:12))
+			Text("SelfiePoleBar(selfiePole):View").font(.system(size:size))
+			VStack {									//Binding<VewBase>
+				let vewBase0		= $factalsModel.vewBases[0]
+				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
+					.font(.system(size:12))
+			}
+			Text("SceneKitView:NSViewRepresentable").font(.system(size:size))
+			VStack {									//Binding<VewBase>
+				let vewBase0		= factalsModel.vewBases[0]
+				let scnSceneBase	= vewBase0.scnSceneBase
+				ZStack {
+					SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
+					 .frame(maxWidth: .infinity)
+					 .border(.black, width:1)
+					Text("Overlayed Text")
+					EventReceiver {	nsEvent in // Catch events (goes underneath)
+ 						print("EventReceiver:point = \(nsEvent.locationInWindow)")
+						let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
+					}
+				}
+			//	VewBaseBar(vewBase:$vewBase0)
+			}
+		}
+		.font(.largeTitle)
+	}
+}
+// Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
 //
-//	@State var prefFps : Float		= 30.0
-//	var body: some View {
-//		VStack (alignment:.leading) {
-//			let size = CGFloat(12)		// of Text
-//			Text("FwTextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
-//			HStack {
-//				Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
-//				Text("timeNow=")
-//				TextField("timeNow=", value:$factalsModel.simulator.timeNow,
-//						  format:.number.precision(.significantDigits(5)))
-//					.frame(width:100)
-//				Button("+=1") {
-//					factalsModel.simulator.timeNow += 1.0						}
-//			}
-//			 .font(.system(size:12))
-//			Text("SelfiePoleBar(selfiePole):View").font(.system(size:size))
-//			VStack {									//Binding<VewBase>
-//				let vewBase0		= $factalsModel.vewBases[0]
-//				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
-//					.font(.system(size:12))
-//			}
-//			Text("SceneKitView:NSViewRepresentable").font(.system(size:size))
-//			VStack {									//Binding<VewBase>
-//				let vewBase0		= factalsModel.vewBases[0]
-//				let scnSceneBase	= vewBase0.scnSceneBase
-//				ZStack {
-//					EventReceiver {	nsEvent in // Catch events (goes underneath)
-//						print("EventReceiver:point = \(nsEvent.locationInWindow)")
-//						let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
-//					}
-//					SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
-//					 .frame(maxWidth: .infinity)
-//					 .border(.black, width:1)
-//				}
-//				//VewBaseBar(vewBase:$vewBase0)
-//			}
-//		}
-//		.font(.largeTitle)
+//final class Delegate: NSObject, NSTextFieldDelegate {
+//	@Binding var float: Float
+//	init(_ binding: Binding<Float>) {
+//		_float = binding
+//	}
+//	func textFieldDidEndEditing(_ textField: NSTextField) {
+//		float = textField.floatValue
 //	}
 //}
-// Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
-
-final class Delegate: NSObject, NSTextFieldDelegate {
-	@Binding var float: Float
-	init(_ binding: Binding<Float>) {
-		_float = binding
-	}
-	func textFieldDidEndEditing(_ textField: NSTextField) {
-		float = textField.floatValue
-	}
-}
-struct FwTextField: NSViewRepresentable {
-	typealias NSViewType 		= NSTextField
-	@Binding var float : Float
-//	@Binding var string: String
-				/// Modifying state during view update, this will cause undefined behavior.
-	func makeNSView(context: Context) -> NSTextField {
-		let nsView 				= NSTextField()
-		//add target action						//	view.addAction(UIAction { [weak view] action in }, for: .editingChanged)
-		nsView.floatValue		= float
-		nsView.delegate 		= context.coordinator	/// changes to coordinator
-
-		nsView.textColor 		= NSColor.red
-		nsView.backgroundColor 	= NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
-		return nsView
-	}
-
-	func updateNSView(_ nsView: NSTextField, context: Context) {
-		nsView.floatValue = float
-	}
-	func makeCoordinator() -> Delegate {
-		.init($float)
-	}
-}
+//struct FwTextField: NSViewRepresentable {
+//	typealias NSViewType 		= NSTextField
+//	@Binding var float : Float
+////	@Binding var string: String
+//				/// Modifying state during view update, this will cause undefined behavior.
+//	func makeNSView(context: Context) -> NSTextField {
+//		let nsView 				= NSTextField()
+//		//add target action						//	view.addAction(UIAction { [weak view] action in }, for: .editingChanged)
+//		nsView.floatValue		= float
+//		nsView.delegate 		= context.coordinator	/// changes to coordinator
+//
+//		nsView.textColor 		= NSColor.red
+//		nsView.backgroundColor 	= NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
+//		return nsView
+//	}
+//
+//	func updateNSView(_ nsView: NSTextField, context: Context) {
+//		nsView.floatValue = float
+//	}
+//	func makeCoordinator() -> Delegate {
+//		.init($float)
+//	}
+//}
 // MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
 
  /// SwiftUI Wrapper of SCNView

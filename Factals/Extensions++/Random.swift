@@ -25,6 +25,7 @@ func randomUInt(_ limit:UInt64=0x100000000) -> UInt {	// float boxcar, a..b, inc
 	let rv2					= UInt(rv)
 	return rv2
 }
+
 func setRandomSeed(seed:Int) {
 	srand48(seed)
 //	static char seedState[256];			// currently, only one random generator supplied

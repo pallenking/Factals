@@ -86,7 +86,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	 // MARK: - 2.4 Display Suggestions
 	var initialExpose : Expose	= .open		// Hint to use on dumb creation of views. (never changed)
 			// See View.expose for GUI interactions
-	@Published var flipped : Bool = false
+	/*@Published*/ var flipped : Bool = false
 	{	didSet {	if flipped != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
@@ -101,16 +101,16 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	}
 
 	 // MARK: - 2.2b INTERNAL to Part
-	@Published var lat : Latitude = Latitude.northPole 			// Xyzzy87 markTree
+	/*@Published*/ var lat : Latitude = Latitude.northPole 			// Xyzzy87 markTree
 	{	didSet {	if lat != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-  //@Published var longitude
-	@Published var spin : UInt8 = 0
+  ///*@Published*/ var longitude
+	/*@Published*/ var spin : UInt8 = 0
 	{	didSet {	if spin != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-	@Published var shrink : Int8 = 0			// smaller or larger as one goes in
+	/*@Published*/ var shrink : Int8 = 0			// smaller or larger as one goes in
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
@@ -122,7 +122,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 	 // MARK: - 2.5 SwiftUI Stuff
 	 // just put here to get things working?
-	@Published var placeSelf = ""			// from config!
+	/*@Published*/ var placeSelf = ""			// from config!
 	{	didSet {	if placeSelf != oldValue {
 						markTree(dirty:.vew)
 																		}	}	}

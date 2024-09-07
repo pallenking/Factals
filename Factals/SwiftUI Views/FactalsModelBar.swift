@@ -35,9 +35,9 @@ struct PartBaseBar : View {
 
 	var body: some View {
 		HStack {	// FULL!
-			Text("PartBase: ").foregroundColor(.red).bold()
-			Text(partBase.title).foregroundColor(.blue).bold()
-//			FwTextField(string: partBase.title)
+			Text("PartBase.").foregroundColor(.red).bold()
+			Text("title: ")
+			TextField("title", text:$partBase.title).foregroundColor(.blue).bold()
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})
@@ -64,6 +64,7 @@ struct SimulatorBar : View {
 				Spacer()
 			}
 			else { HStack {
+				Text(simulator.simRun ? "RUNNING" : "STOPPED")
 				Button(label:{	Text("start")	})
 				{	simulator.simRun = true
 					simulator.startChits = 4									}
@@ -71,7 +72,6 @@ struct SimulatorBar : View {
 				{	simulator.simRun = true
 					simulator.simulateOneStep()
 					simulator.simRun = false									}
-				Text(simulator.simRun ? "RUNNING" : "STOPPED")
 				Text(" timeNow=")
 				TextField("timeNow=", value:$simulator.timeNow,
 					format:.number.precision(.significantDigits(5))).frame(width:60)

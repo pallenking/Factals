@@ -33,7 +33,7 @@ struct LabeledCGFloat: View {
 
 
 //class ViewModel: ObservableObject {
-//	@Published var numberString: String = ""
+//	/*@Published*/ var numberString: String = ""
 //	var number: CGFloat? {
 //		if let doubleValue = Double(numberString) {
 //			return CGFloat(doubleValue)

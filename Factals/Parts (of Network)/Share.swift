@@ -526,15 +526,15 @@ class Bulb : Splitter { //######################################################
 	 /// Diameter and Radius are functions of value
 	func diam(  ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
 	func radius(ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
-	@Published var gain  : Float	= 2.0//0.1//
+	/*@Published*/ var gain  : Float	= 2.0//0.1//
 	{	didSet { if gain != oldValue {
 				markTree(dirty:.size)
 																		}	}	}
-	@Published var offset: Float	= 0.5
+	/*@Published*/ var offset: Float	= 0.5
 	{	didSet { if offset != oldValue {
 				markTree(dirty:.size)
 																		}	}	}
-	@Published var currentRadius : CGFloat = 0.0
+	/*@Published*/ var currentRadius : CGFloat = 0.0
 //	{	didSet { if currentRadius != oldValue {
 //				markTree(dirty:.size)
 //																		}	}	}

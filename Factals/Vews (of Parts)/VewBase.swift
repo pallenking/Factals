@@ -5,20 +5,22 @@ import SceneKit
 import SwiftUI
 
 class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
+	static var nVewBase 		= 0
+	var title					= "VewBase\(nVewBase)"
 	var partBase	: PartBase
 	var tree		: Vew
+	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
 	@State
 	 var selfiePole 			= SelfiePole()
 	@State
 	 var prefFps	: Float		= 30.0
 	@State private
 	 var sliderTestVal: Double = 0.5
-
-	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
-	@Published var inspectors : [AnyView] = []
+
+	var inspectors : [AnyView]	= []		/*@Published*/
 	func addInspector(_ inspector:AnyView) {
 		inspectors.append(inspector)
 	}
@@ -35,14 +37,13 @@ class VewBase : NSObject, Identifiable, ObservableObject {	//FwAny, //Codable,
 
 	 // Sugar
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
-	static var nVewBase 		= 0
-	var title					= "VewBase\(nVewBase)"
 
 	 /// VewBase(for:)
 	init(for p:PartBase) {
 		partBase				= p
 		scnSceneBase			= ScnSceneBase(eventHandler:eventHandler_null)
 		tree					= Vew()			// Start with just trunk Vew
+		VewBase.nVewBase 		+= 1
 
 		super.init()			// NSObject
 

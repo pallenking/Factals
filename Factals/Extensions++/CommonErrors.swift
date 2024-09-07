@@ -6,6 +6,9 @@
 //  Copyright © 2021 Allen King. All rights reserved.
 //
 
+//CustomError.message("a is nil")
+//NS
+
 import Foundation
 
 var bug : () 			{
@@ -15,6 +18,7 @@ var bug : () 			{
 		  \t--------------------------------
 		  """)
 
+	fatalError("")
 //	for i in 1...100 {
 //		print("Bug, HIT BREAK QUICK!!")
 //		for i in 1...1000000 { nop }			//		sleep(2)
@@ -53,8 +57,6 @@ func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure
 	if truthValue == false {
 		guard let log 			= FACTALSMODEL?.log else { fatalError("klwjowjvo")}
 		let pre 				= fmt("%03d", log.eventNumber) + log.ppCurThread + log.ppCurLock
-//		let pre					= ""; if let log = FACTALSMODEL?.log {
-//			pre					= fmt("%03d", log.eventNumber) + log.ppCurThread + log.ppCurLock }
 		print("\n\n" + """
 			\t\(pre) ERROR ------------
 			\t\(message())

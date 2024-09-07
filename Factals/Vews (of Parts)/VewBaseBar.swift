@@ -51,10 +51,9 @@ struct VewBaseBar: View {
 //					}
 					Spacer()
 
-					TextField("prefFps", value:$vewBase.prefFps, formatter:d2formatter).frame(width:50)
-//					FwTextField(float:$vewBase.prefFps)
+					Text("$vewBase.prefFps=")
+					TextField("prefFps", value:$vewBase.prefFps, formatter:d2formatter)
 					 .frame(width:60 ).foregroundColor(Color(.red))
-
 					Slider(value:$vewBase.prefFps, in: 0.0...60.0) { e in isEditing = e	}
 					 .frame(width:100 )
 				} else {

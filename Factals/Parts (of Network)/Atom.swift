@@ -15,7 +15,7 @@ class Atom : Part {	//Part//FwPart
 	*/
 
 	 // MARK: - 2. Object Variables:
-	@Published var bandColor : NSColor?	= nil	 // Port whose value determines the Bundle's band color
+	/*@Published*/ var bandColor : NSColor?	= nil	 // Port whose value determines the Bundle's band color
 	var proxyColor: NSColor?	= nil
 	var postBuilt				= false		// object has been built
 	var ports	 :[String:Port] = [:]

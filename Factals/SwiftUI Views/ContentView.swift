@@ -18,8 +18,9 @@ import SceneKit
 struct ContentView: View {
 	@Binding var document : FactalsDocument
 	var body: some View {
-		//Text("ContentView")
+		Text("ContentView")
 		FactalsModelView(factalsModel: document.factalsModel)
+		//ViewRepTest(factalsModel:document.factalsModel)
 	}
 }
 
@@ -29,13 +30,25 @@ struct FactalsModelView: View {
 	@State private	var tabViewSelect : Int = 0
 	var body: some View {
 		VStack {
-			//Text("FactalsModelView(factalsModel")
+			FactalsModelBar(factalsModel:factalsModel)
+			HStack {
+				Text("")
+				Spacer()
+				Button("<+>") {}
+					.tabItem { Label("+", systemImage: "")						}
+					.onAppear {			 addNewTab()							}
+				Text("<++>")
+					.tabItem { Label("++", systemImage:"") 						}
+					.onTapGesture {		 	print("never executed")				}
+
+			}
 			TabView(selection: $tabViewSelect)  {
+
 				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 				 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 					VStack {									//Binding<VewBase>
-						//Text("ForEach($factalsModel.vewBases)")
+						VewBaseBar(vewBase:vewBase)
 						let scnSceneBase = vewBase.scnSceneBase.wrappedValue
 						ZStack {
 							EventReceiver { nsEvent in // Catch events (goes underneath)
@@ -54,28 +67,17 @@ struct FactalsModelView: View {
 //								}
 //							}
 //						}
-						SelfiePoleBar(selfiePole: vewBase.selfiePole)
-						VewBaseBar(vewBase:vewBase)
 					}
+					 // Flock: want to access
 					.tabItem { Label("L-\(33)", systemImage: "") 				}
 				}
-	//			ViewRepTest(factalsModel:factalsModel)
-	//				.tabItem { Label("ViewRepTest() test", systemImage: "")		}
-				 /// WRONG, but slightly  fnctional
-				Button("<+>") {}
-					.tabItem { Label("+", systemImage: "")						}
-					.onAppear {			 addNewTab()							}
-				Text("<++>")
-					.tabItem { Label("++", systemImage:"") 						}
-					.onTapGesture {		 	print("never executed")				}
+				ViewRepTest(factalsModel:factalsModel)
+					.tabItem { Label("ViewRepTest()", systemImage: "")		}
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()
 			}
 			.accentColor(.green) // Change the color of the selected tab
-	
-			FactalsModelBar(factalsModel: factalsModel)
-			Spacer()
 		}
 	}
 	private func updateTitle() {

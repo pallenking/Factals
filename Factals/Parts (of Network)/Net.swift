@@ -75,7 +75,7 @@ class Net : Atom {		// Atom // Part
 		return true
 	}
 
-	@Published var minSize :SCNVector3? 	= nil
+	/*@Published*/ var minSize :SCNVector3? 	= nil
 	{	didSet { 	markTree(dirty:.size)  									}	}
 
 	var enable3 : Port?		{	return port(named:"E", localUp:false)			}
