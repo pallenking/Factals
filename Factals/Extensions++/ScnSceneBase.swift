@@ -28,11 +28,8 @@ class ScnSceneBase : NSObject {
 
 	 // MARK: - 3.1 init
 	override convenience init() {
-		self.init()
-		tree					= SCNScene()	// get scene
-		tree!.rootNode.name		= "rootNode4"
+		self.init(scnScene:SCNScene(), eventHandler:{_ in })
 	}
-	 /// ScnSceneBase(scnScene:eventHandler:)
 	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {
 	
 		self.tree				= s ?? SCNScene()	// get scene
@@ -417,7 +414,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		  //  ====== KEYBOARD ======
 		 //
 		case .keyDown:
-			if nsEvent.isARepeat {	return false }		// Ignore repeats
+			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
 			nextIsAutoRepeat 	= true
 			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
@@ -539,9 +536,8 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	/// - Parameter v: specific base Vew (else check all rootVews)
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVewBase vb:VewBase? = nil) -> Vew? {
-		let vewBases2check : [VewBase] = vb != nil ? [vb!] :			// use ARG
-										 vewBase!.factalsModel.vewBases	// check all
-		for vewBase in vewBases2check {
+		let possibleVewBases 	= vb != nil ? [vb!] : vewBase!.factalsModel.vewBases // check all
+		for vewBase in possibleVewBases {
 			if let picdVew		= findVew(nsEvent:nsEvent, inVewBase:vewBase) {
 				 // PART pic'ed, DISPATCH to it!
 				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
@@ -560,9 +556,9 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		guard let contentView 	= NSApp.keyWindow?.contentView else { return nil}
 		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
-		guard let tree			= vewBase.scnSceneBase.tree   else { return nil		}
-		guard let scnView		= vewBase.scnSceneBase.scnView else { fatalError("vewBase.scnSceneBase.scnView is nil")	}
-		guard let slot 			= vewBase.slot			 else { return nil		}
+		guard let tree			= vewBase.scnSceneBase.tree    else { return nil}
+		guard let scnView		= vewBase.scnSceneBase.scnView else { fatal("vewBase.scnSceneBase.scnView is nil") }
+		guard let slot 			= vewBase.slot			 	   else { return nil}
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -626,10 +622,11 @@ bug//	msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNod
 			//	 : NSPoint			     NsView:								: NSPoint :window
 			//	 : CGPoint
 		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
+		print("Start position \(hitPosnV3.pp(.phrase)) in frame \(contentNsView.frame)")
 
 		 // Movement since last, 0 if first time and there is none
 		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
-		//print("beginCameraMotion:deltaPosition=\(deltaPosition)")
+		print("beginCameraMotion. deltaPosition=\(deltaPosition.pp(.phrase))")
 		lastPosition			= hitPosnV3
 	}
 

@@ -11,19 +11,16 @@ import AppKit
 
 // ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
 
-struct W_ModelView : View {
-	var body: some View {
-		Text("Dummy=")
-	}
-	/*@ObservedObject */var factalsModel : FactalsModel
-	@State private	var selectedFileIndex : Int = 0
-}
-
- // VIEWREPresentable TEST:
-struct ViewRepTest: View {
+ // Simple test of things like VIEWREPresentable
+struct SimpleTestView: View {
 	@Bindable var factalsModel : FactalsModel
 
 	@State var prefFps : Float		= 30.0
+
+//	var body: some View {
+////		SimpleViewRepresentable(factalsModel:nil)				// WORKS
+//		SimpleViewRepresentable(factalsModel:factalsModel)		// FAILS
+//	}
 	var body: some View {
 		VStack (alignment:.leading) {
 			let size = CGFloat(12)		// of Text
@@ -62,42 +59,42 @@ struct ViewRepTest: View {
 			}
 		}
 		.font(.largeTitle)
-	}
-}
+	}}
+
 // Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
 //
-//final class Delegate: NSObject, NSTextFieldDelegate {
-//	@Binding var float: Float
-//	init(_ binding: Binding<Float>) {
-//		_float = binding
-//	}
-//	func textFieldDidEndEditing(_ textField: NSTextField) {
-//		float = textField.floatValue
-//	}
-//}
-//struct FwTextField: NSViewRepresentable {
-//	typealias NSViewType 		= NSTextField
-//	@Binding var float : Float
-////	@Binding var string: String
-//				/// Modifying state during view update, this will cause undefined behavior.
-//	func makeNSView(context: Context) -> NSTextField {
-//		let nsView 				= NSTextField()
-//		//add target action						//	view.addAction(UIAction { [weak view] action in }, for: .editingChanged)
-//		nsView.floatValue		= float
-//		nsView.delegate 		= context.coordinator	/// changes to coordinator
-//
-//		nsView.textColor 		= NSColor.red
-//		nsView.backgroundColor 	= NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
-//		return nsView
-//	}
-//
-//	func updateNSView(_ nsView: NSTextField, context: Context) {
-//		nsView.floatValue = float
-//	}
-//	func makeCoordinator() -> Delegate {
-//		.init($float)
-//	}
-//}
+final class Delegate: NSObject, NSTextFieldDelegate {
+	@Binding var float: Float
+	init(_ binding: Binding<Float>) {
+		_float = binding
+	}
+	func textFieldDidEndEditing(_ textField: NSTextField) {
+		float = textField.floatValue
+	}
+}
+struct FwTextField: NSViewRepresentable {
+	typealias NSViewType 		= NSTextField
+	@Binding var float : Float
+//	@Binding var string: String
+				/// Modifying state during view update, this will cause undefined behavior.
+	func makeNSView(context: Context) -> NSTextField {
+		let nsView 				= NSTextField()
+		//add target action						//	view.addAction(UIAction { [weak view] action in }, for: .editingChanged)
+		nsView.floatValue		= float
+		nsView.delegate 		= context.coordinator	/// changes to coordinator
+
+		nsView.textColor 		= NSColor.red
+		nsView.backgroundColor 	= NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
+		return nsView
+	}
+
+	func updateNSView(_ nsView: NSTextField, context: Context) {
+		nsView.floatValue = float
+	}
+	func makeCoordinator() -> Delegate {
+		.init($float)
+	}
+}
 // MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
 
  /// SwiftUI Wrapper of SCNView
@@ -107,31 +104,33 @@ struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
+		guard let scnSceneBase	else {	fatal("scnSceneBase is nil")			}
 		let scnView				= SCNView(frame: NSRect.zero, options: [String : Any]())
+		scnSceneBase.scnView	= scnView		// for pic
+
 		scnView.isPlaying		= true			// animations, does nothing
 		scnView.showsStatistics	= true			// controls extra bar
-//		scnView.debugOptions	= [						// enable display of:
-//			SCNDebugOptions.showPhysicsFields,	//  regions affected by each SCNPhysicsField object
-//		]
+		scnView.debugOptions	= [				// enable display of:
+			SCNDebugOptions.showPhysicsFields,]	//  regions affected by each SCNPhysicsField object
 		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = Int(prefFps)
-								
-		if let scnSceneBase	{
-			scnView.delegate	= scnSceneBase 		//scnSceneBase is SCNSceneRendererDelegate
-			scnView.scene		= scnSceneBase.tree
-
-			scnSceneBase.scnView = scnView		// for pic
-		}
-		else {	fatalError("scnSceneBase is nil")													}
+		scnView.delegate		= scnSceneBase 	//scnSceneBase is SCNSceneRendererDelegate
+		scnView.scene			= scnSceneBase.tree
 		return scnView
 	}
 
 	func updateNSView(_ nsView: SCNView, context:Context) {
-		let scnView					= nsView as SCNView			//	scnSceneBase.scnView
+		let scnView				= nsView as SCNView			//	scnSceneBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFps)		//args.preferredFramesPerSecond
 	}
+}
+struct SimpleViewRepresentable: NSViewRepresentable {
+	var fooFactalsModel : FooFactalsModel? 					// ARG1: non-nil causes hierarchy bug
+	typealias NSViewType 		= NSView//SCNView		// Type represented
+	func makeNSView(context: Context) -> NSViewType 		 {	NSViewType()	}
+	func updateNSView(_ nsView: NSViewType, context:Context) {					}
 }
 
 /////////////////////////  SCRAPS   //////////////////////////////////
@@ -149,6 +148,9 @@ struct SceneKitView: NSViewRepresentable {
 		//						 		y				= s.pp()
 		//						 	}
 		//						 	print("\(scnSceneBase).scnView.scnSceneBase = \(y)")
+		//						 .onAppear { 			//setupHitTesting
+		//							//coordinator.onAppear()
+		//						 	//$factalsModel.coordinator.onAppear {				}
 //		.onAppear {
 //			let windows 	= NSApplication.shared.windows
 //			assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
@@ -158,14 +160,32 @@ struct SceneKitView: NSViewRepresentable {
 //	bug;		print("Event: \(event)")			// Handle the event here
 //			}.startMonitoring(for: windows.first!)
 //		}
-		//						 .onAppear { 			//setupHitTesting
-		//							//coordinator.onAppear()
-		//						 	//$factalsModel.coordinator.onAppear {				}
-		//						 	let scnSceneBase			= vewBase.scnSceneBase
-		//						 	let bind_scnView	= scnSceneBase.scnView		//Binding<FwView?>
-		//							let y				= bind_scnView.wrappedValue?.scnSceneBase?.pp() ?? "nil"
-		//						 	print("\(scnSceneBase).scnView.scnSceneBase = \(y)")
-		//						 }
+			//class EventMonitor {
+			//	private var monitor: Any?
+			//	private let mask: NSEvent.EventTypeMask
+			//	private let handler: EventHandler
+			//	init(mask: NSEvent.EventTypeMask, handler: @escaping EventHandler {
+			//		self.mask = mask
+			//		self.handler = handler
+			//	}
+			//	deinit {		stopMonitoring()	}
+			//	func startMonitoring(for window: NSWindow) {
+			//		monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
+			//			self?.handleEvent(event)
+			//			return event
+			//		}
+			//		window.makeFirstResponder(window.contentView)
+			//	}
+			//	func stopMonitoring() {
+			//		if let monitor = monitor {
+			//			NSEvent.removeMonitor(monitor)
+			//			self.monitor = nil
+			//		}
+			//	}
+			//	private func handleEvent(_ event: NSEvent) {
+			//		handler(event)
+			//	}
+			//}
 
 
 									//NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
@@ -219,30 +239,4 @@ struct SceneKitView: NSViewRepresentable {
 //		get {			return !scnScene.isPaused										}
 //		set(v) {		scnScene.isPaused = !v											}
 //	}
-			//class EventMonitor {
-			//	private var monitor: Any?
-			//	private let mask: NSEvent.EventTypeMask
-			//	private let handler: EventHandler
-			//	init(mask: NSEvent.EventTypeMask, handler: @escaping EventHandler {
-			//		self.mask = mask
-			//		self.handler = handler
-			//	}
-			//	deinit {		stopMonitoring()	}
-			//	func startMonitoring(for window: NSWindow) {
-			//		monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
-			//			self?.handleEvent(event)
-			//			return event
-			//		}
-			//		window.makeFirstResponder(window.contentView)
-			//	}
-			//	func stopMonitoring() {
-			//		if let monitor = monitor {
-			//			NSEvent.removeMonitor(monitor)
-			//			self.monitor = nil
-			//		}
-			//	}
-			//	private func handleEvent(_ event: NSEvent) {
-			//		handler(event)
-			//	}
-			//}
 

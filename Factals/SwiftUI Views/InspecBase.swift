@@ -194,9 +194,9 @@ struct PickerStyles : View {
 	func indChange(_ tag: Int) {
 		print("ind tag: \(tag)")
 	}
-	@State private var ind = 0 {
-		didSet { print("ind=\(ind)")}
-	}
+	@State private var ind = 0
+	{	didSet { print("ind=\(ind)")}											}
+
 	var body: some View {
 		HStack {
 			ClassBox(labeled:"PickerStyles")

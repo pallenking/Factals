@@ -5,7 +5,6 @@ import SwiftUI
 import SceneKit
 
 @propertyWrapper struct FooTrimmed<Value> {
-//	@state private var valueString = ""
 	private(set) var value:Value
 
 	var wrappedValue:Value {

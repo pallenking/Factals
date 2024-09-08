@@ -16,18 +16,21 @@ import SwiftUI
 import SceneKit
 
 struct ContentView: View {
+	@StateObject var fooFactalsModel = FooFactalsModel()
 	@Binding var document : FactalsDocument
 	var body: some View {
-		Text("ContentView")
-		FactalsModelView(factalsModel: document.factalsModel)
-		//ViewRepTest(factalsModel:document.factalsModel)
+		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
+//		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
+		SimpleViewRepresentable(fooFactalsModel:nil)				// WORKS
+//		SimpleViewRepresentable(fooFactalsModel:fooFactalsModel)	// FAILS
+		//Text("ContentView")  										// Minimal View
 	}
 }
 
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel
-
 	@State private	var tabViewSelect : Int = 0
+
 	var body: some View {
 		VStack {
 			FactalsModelBar(factalsModel:factalsModel)
@@ -55,7 +58,7 @@ struct FactalsModelView: View {
 								.frame(maxWidth: .infinity)
 								.border(.black, width:1)
 							EventReceiver { nsEvent in // Catch events (goes underneath)
-								print("EventReceiver:point = \(nsEvent.locationInWindow)")
+ 								print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
 								let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 							}
 						}
@@ -71,8 +74,8 @@ struct FactalsModelView: View {
 					 // Flock: want to access
 					.tabItem { Label("L-\(33)", systemImage: "") 				}
 				}
-				ViewRepTest(factalsModel:factalsModel)
-					.tabItem { Label("ViewRepTest()", systemImage: "")		}
+				SimpleTestView(factalsModel:factalsModel)
+					.tabItem { Label("SimpleTestView()", systemImage: "")		}
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTitle()

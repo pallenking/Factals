@@ -10,11 +10,11 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var partBase	: PartBase
 	var tree		: Vew
 	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
-	@State
+//	@State
 	 var selfiePole 			= SelfiePole()
-	@State
+//	@State
 	 var prefFps	: Float		= 30.0
-	@State private
+//	@State private
 	 var sliderTestVal: Double = 0.5
 	weak
 	 var factalsModel : FactalsModel!		// Owner

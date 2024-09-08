@@ -11,39 +11,47 @@
 
 import Foundation
 
-var bug : () 			{
-	print("""
+ // Get thee to a debugger.  Should:
+ // 1. Work without lldb breakpoints enabled
+ // 2. Allow continue operation
+ // 3. Work in all threads
+ // 4. Leave the stack so symbols are accessable.
+ //		Best if no pop required
+ // 5. Does not involve machine language (so Rosetta won't be needed)
+ //			See INSTALL.md and TO_DO.md for bug
+func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line ) -> Never
+{					//	value: @autoclosure () -> Value ) 		  -> Value
+	let m						= message + Thread.callStackSymbols.prefix(50).joined(separator:"\n")
+
+#if DEBUG
+	fatalError(m)				// transfer control to debugger	// fatalError("###")
+#else
+	reportErrorToServer(m)
+					// return value()
+#endif
+
+	 // Should never get here, but historically helpful:
+	raise(SIGINT)		//	builtin_debugtrap() __builtin_trap()
+	raise(SIGTRAP)
+	while true { print("\t--------------------------------") 					}
+}
+
+var bug : () { //(file:String /*= #file*/, line:UInt /*= #line*/) 			{
+	fatal("""
 		  \t--------------------------------
 		  \t---   a   B U G   to fix!    ---
 		  \t--------------------------------
-		  """)
-
-	fatalError("")
-//	for i in 1...100 {
-//		print("Bug, HIT BREAK QUICK!!")
-//		for i in 1...1000000 { nop }			//		sleep(2)
-//	}
-
-//	builtin_debugtrap()
-//	__builtin_trap()
-	Thread.callStackSymbols.map {		print($0)								}
-	print("\t--------------------------------")
-	while true {	nop }
-	machineTrap()				// transfer control to debugger	// fatalError("###")
-	return
-}
-var bug0 : Bool			{
-	bug
-	return false
+		  """, file:#file, line:#line)
 }
 
-func panic(_ message: @autoclosure () -> String="(No message supplied)") {
-	print("\n\n" + """
+func panic(_ message: @autoclosure () -> String="(No message supplied)",
+	file:StaticString = #file,	line:UInt = #line)
+{
+	fatal("\n\n" + """
 		  \t---- FATAL ERROR --------------------------------
-		  \t\(message())
+		  \t\("\(file):\(line) -- \(message())")
 		  \t-------------------------------------------------\n\n
 		  """)
-	machineTrap()				// transfer control to debugger
 }
 
 	  /// Check that a condition is true. Trap to debugger if it isn't
@@ -52,22 +60,19 @@ func panic(_ message: @autoclosure () -> String="(No message supplied)") {
    ///    - message: description of proplem if truthValue == false. Message is only evaluated if that error occurs.
   /// Neither truthValue nor message should cause any side effects.
  ///	//https://medium.com/@johnsundell/using-autoclosure-when-designing-swift-apis-67fe20a8b2e
-#if DEBUG
-func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure") {
-	if truthValue == false {
-		guard let log 			= FACTALSMODEL?.log else { fatalError("klwjowjvo")}
-		let pre 				= fmt("%03d", log.eventNumber) + log.ppCurThread + log.ppCurLock
-		print("\n\n" + """
-			\t\(pre) ERROR ------------
-			\t\(message())
-			\t----------- -------------------\n
-			""")
-		machineTrap()			// transfer control to debugger
-	}
-}
-#else
-func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert used in non DEBUG execution") {}
-#endif
+//func assert(_ truthValue:Bool, _ message:@autoclosure()-> String="assert failure",
+//	file:StaticString = #file,	line:UInt = #line)
+//{
+//	if truthValue == false {
+//		guard let log 			= FACTALSMODEL?.log else { fatal("klwjowjvo");return}
+//		let pre 				= fmt("%03d", log.eventNumber) + log.ppCurThread + log.ppCurLock
+//		fatal("\n\n" + """
+//			\t\(pre) ERROR ------------
+//			\t\(message())
+//			\t----------- -------------------\n
+//			""")
+//	}
+//}
 
    /// Warn if a condition is not true
   /// - parameters:
@@ -79,18 +84,6 @@ func assertWarn(_ truthValue:Bool, _ message:@autoclosure()->String="assert fail
 		warningLog.append(msg)
 		print("\n############# WARNING: \(msg) #############")
 	}
-}
- // Get thee to a debugger.  Should:
- // 1. Work without lldb breakpoints enabled
- // 2. Allow continue operation
- // 3. Work in all threads
- // 4. Leave the stack so symbols are accessable.
- //		Best if no pop required
- // 5. Does not involve machine language (so Rosetta won't be needed)
- //			See INSTALL.md and TO_DO.md for bug
-func machineTrap() {
-	raise(SIGINT)
-//	raise(SIGTRAP)
 }
 
    /// Clock time

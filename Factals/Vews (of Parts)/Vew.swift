@@ -736,10 +736,11 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 		}
 	}
 
+	 // PW: Why is this needed
 	func panic(_ message: @autoclosure () -> String=("")) { //ppUid(self)
-		print("\n\n\(fullName) \(log.ppCurThread) \(pp(.fullNameUidClass))" +
+		fatal("\n\n\(fullName) \(log.ppCurThread) \(pp(.fullNameUidClass))" +
 			": --------------\n\(message())\n" + "----------------------------\n")
-		machineTrap()				// transfer control to debugger
+		//machineTrap()				// transfer control to debugger
 	}
 
 	  // MARK: - 16. Global Constants
