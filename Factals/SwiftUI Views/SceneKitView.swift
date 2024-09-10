@@ -18,8 +18,8 @@ struct SimpleTestView: View {
 	@State var prefFps : Float		= 30.0
 
 //	var body: some View {
-////		SimpleViewRepresentable(factalsModel:nil)				// WORKS
-//		SimpleViewRepresentable(factalsModel:factalsModel)		// FAILS
+////		SimpleViewRepresentable(simpleObject:nil)				// WORKS
+//		SimpleViewRepresentable(simpleObject:factalsModel)		// FAILS
 //	}
 	var body: some View {
 		VStack (alignment:.leading) {
@@ -127,17 +127,11 @@ struct SceneKitView: NSViewRepresentable {
 	}
 }
 struct SimpleViewRepresentable: NSViewRepresentable {
-	var fooFactalsModel : FooFactalsModel? 					// ARG1: non-nil causes hierarchy bug
-	typealias NSViewType 		= NSView//SCNView		// Type represented
-	func makeNSView(context: Context) -> NSViewType 		 {	NSViewType()	}
-	func updateNSView(_ nsView: NSViewType, context:Context) {					}
+	var simpleObject : AnyObject	//?//FooFactalsModel?	// ARG1: non-nil causes hierarchy bug
+	typealias NSViewType 		= NSView//SCNView			// Type represented
+	func makeNSView(context: Context) -> NSViewType 		{	NSViewType()	}
+	func updateNSView(_ nsView:NSViewType, context:Context) {					}
 }
-//struct SimpleViewRepresentable: NSViewRepresentable {
-//	var factalsModel : FactalsModel? 							// ARG1: non-nil causes hierarchy bug
-//	typealias NSViewType 		= NSView//SCNView			// Type represented
-//	func makeNSView(context: Context) -> NSViewType 		 {	NSViewType()	}
-//	func updateNSView(_ nsView: NSViewType, context:Context) {					}
-//}
 
 /////////////////////////  SCRAPS   //////////////////////////////////
 

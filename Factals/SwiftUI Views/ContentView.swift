@@ -16,31 +16,22 @@ import SwiftUI
 import SceneKit
 
 struct ContentView: View {
-	@StateObject var fooFactalsModel = FooFactalsModel()
+	 // Objects for Testing:
+	@State var mySimpleOjbect 	= SimpleClass()			// WORKS
+	@State var factalsModel		= FooFactalsModel()		// FAILS
+
 	@Binding var document : FactalsDocument
 	var body: some View {
-		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
-//		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
-//		SimpleViewRepresentable(fooFactalsModel:nil)				// WORKS
-		SimpleViewRepresentable(fooFactalsModel:fooFactalsModel)	// FAILS
-		//Text("ContentView")  										// Minimal View
+	//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+	//	SimpleTestView(  factalsModel:document.factalsModel)  		// Test NSViewRepresentable
+//		SimpleViewRepresentable(simpleObject:nil)					// WORKS
+//		SimpleViewRepresentable(simpleObject:mySimpleOjbect)		// WORKS
+		SimpleViewRepresentable(simpleObject:factalsModel)			// FAILS
+	//	Text("ContentView")  										// Minimal View
 	}
 }
-// struct ContentView2: View {
-// 	@State var factalsModel = FactalsModel()
-// 	@Binding var document : FactalsDocument
-//
-// 	var body: some View {
-// 		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
-// //		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
-// //		SimpleViewRepresentable(factalsModel:nil)				// WORKS
-// 		SimpleViewRepresentable(factalsModel:factalsModel)	// FAILS
-// 		Text("ContentView")  										// Minimal View
-// 	}
-// }
-//
-// @Observable class SimpleClass {	}
-//
+@Observable class SimpleClass {	}
+
 // struct ContentView: View {
 // 	@State var myObject = SimpleClass()//FooFactalsModel()
 // 	@State var factalsModel = FactalsModel()
@@ -48,8 +39,8 @@ struct ContentView: View {
 // 	var body: some View {
 // 		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
 // //		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
-// //		SimpleViewRepresentable(fooFactalsModel:nil)				// WORKS
-// 		SimpleViewRepresentable(factalsModel:myObject)				// FAILS
+// //		SimpleViewRepresentable(simpleObject:nil)				// WORKS
+// 		SimpleViewRepresentable(simpleObject:myObject)				// FAILS
 // 		Text("ContentView")  										// Minimal View
 // 	}
 // }

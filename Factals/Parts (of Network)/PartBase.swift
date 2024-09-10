@@ -39,7 +39,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	var verboseLocks			= true//false//
 
 	// MARK: - 3. Part Factory
-	init(tree t:Part) {
+	init(tree t:Part=Part()) {
 		tree					= t
 	}
 	init(fromLibrary selector:String?) {			// Parts(fromLibrary...
