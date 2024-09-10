@@ -132,6 +132,12 @@ struct SimpleViewRepresentable: NSViewRepresentable {
 	func makeNSView(context: Context) -> NSViewType 		 {	NSViewType()	}
 	func updateNSView(_ nsView: NSViewType, context:Context) {					}
 }
+//struct SimpleViewRepresentable: NSViewRepresentable {
+//	var factalsModel : FactalsModel? 							// ARG1: non-nil causes hierarchy bug
+//	typealias NSViewType 		= NSView//SCNView			// Type represented
+//	func makeNSView(context: Context) -> NSViewType 		 {	NSViewType()	}
+//	func updateNSView(_ nsView: NSViewType, context:Context) {					}
+//}
 
 /////////////////////////  SCRAPS   //////////////////////////////////
 

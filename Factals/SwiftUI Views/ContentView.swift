@@ -21,11 +21,38 @@ struct ContentView: View {
 	var body: some View {
 		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
 //		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
-		SimpleViewRepresentable(fooFactalsModel:nil)				// WORKS
-//		SimpleViewRepresentable(fooFactalsModel:fooFactalsModel)	// FAILS
+//		SimpleViewRepresentable(fooFactalsModel:nil)				// WORKS
+		SimpleViewRepresentable(fooFactalsModel:fooFactalsModel)	// FAILS
 		//Text("ContentView")  										// Minimal View
 	}
 }
+// struct ContentView2: View {
+// 	@State var factalsModel = FactalsModel()
+// 	@Binding var document : FactalsDocument
+//
+// 	var body: some View {
+// 		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
+// //		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
+// //		SimpleViewRepresentable(factalsModel:nil)				// WORKS
+// 		SimpleViewRepresentable(factalsModel:factalsModel)	// FAILS
+// 		Text("ContentView")  										// Minimal View
+// 	}
+// }
+//
+// @Observable class SimpleClass {	}
+//
+// struct ContentView: View {
+// 	@State var myObject = SimpleClass()//FooFactalsModel()
+// 	@State var factalsModel = FactalsModel()
+// 	@Binding var document : FactalsDocument
+// 	var body: some View {
+// 		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
+// //		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
+// //		SimpleViewRepresentable(fooFactalsModel:nil)				// WORKS
+// 		SimpleViewRepresentable(factalsModel:myObject)				// FAILS
+// 		Text("ContentView")  										// Minimal View
+// 	}
+// }
 
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel

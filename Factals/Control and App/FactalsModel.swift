@@ -413,8 +413,7 @@ bug//	vew.scnScene.removeFromParent()
 	var debugDescription 		  : String {	return "dd'\(pp(.short))'"		}
 	var summary					  : String {	return  "s'\(pp(.short))'"		}
 }
-@Observable
-class FactalsModel : /*ObservableObject,*/ Uid {
+@Observable class FactalsModel : Uid {
 	var uid: UInt16				= randomUid()
 
 	  // MARK: - 2. Object Variables:
