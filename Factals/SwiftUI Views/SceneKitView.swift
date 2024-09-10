@@ -17,10 +17,6 @@ struct SimpleTestView: View {
 
 	@State var prefFps : Float		= 30.0
 
-//	var body: some View {
-////		SimpleViewRepresentable(simpleObject:nil)				// WORKS
-//		SimpleViewRepresentable(simpleObject:factalsModel)		// FAILS
-//	}
 	var body: some View {
 		VStack (alignment:.leading) {
 			let size = CGFloat(12)		// of Text
@@ -125,12 +121,6 @@ struct SceneKitView: NSViewRepresentable {
 		let scnView				= nsView as SCNView			//	scnSceneBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFps)		//args.preferredFramesPerSecond
 	}
-}
-struct SimpleViewRepresentable: NSViewRepresentable {
-	var simpleObject : AnyObject	//?//FooFactalsModel?	// ARG1: non-nil causes hierarchy bug
-	typealias NSViewType 		= NSView//SCNView			// Type represented
-	func makeNSView(context: Context) -> NSViewType 		{	NSViewType()	}
-	func updateNSView(_ nsView:NSViewType, context:Context) {					}
 }
 
 /////////////////////////  SCRAPS   //////////////////////////////////

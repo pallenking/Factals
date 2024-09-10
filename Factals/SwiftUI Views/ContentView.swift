@@ -15,35 +15,53 @@ AppStorage
 import SwiftUI
 import SceneKit
 
-struct ContentView: View {
-	 // Objects for Testing:
-	@State var mySimpleOjbect 	= SimpleClass()			// WORKS
-	@State var factalsModel		= FooFactalsModel()		// FAILS
 
+
+struct ContentView: View {
 	@Binding var document : FactalsDocument
+	@State var a				= A()			// FAILS
 	var body: some View {
-	//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
-	//	SimpleTestView(  factalsModel:document.factalsModel)  		// Test NSViewRepresentable
-//		SimpleViewRepresentable(simpleObject:nil)					// WORKS
-//		SimpleViewRepresentable(simpleObject:mySimpleOjbect)		// WORKS
-		SimpleViewRepresentable(simpleObject:factalsModel)			// FAILS
-	//	Text("ContentView")  										// Minimal View
+		FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
 	}
 }
-@Observable class SimpleClass {	}
+struct SimpleViewRepresentable: NSViewRepresentable {
+	var simpleObject : AnyObject							// ARG1: causes hierarchy bug
+	typealias NSViewType 		= NSView//SCNView			// Type represented
+	func makeNSView(context: Context) -> NSViewType 		{	NSViewType()	}
+	func updateNSView(_ nsView:NSViewType, context:Context) {					}
+}
+@Observable class A {
+	var b  : B					= B()
+}
+@Observable class B : Codable {
+	var name  : String?			= nil
+	init() {}
+//	func encodeX(to: Encoder)  {						// Fixes FAILS
+	func encode(to: Encoder)   {
+		let _					= 	//	name!			// FAILS
+										name			// WORKS
+									//	name ?? "asdffa"// WORKS
+	}
+	required init(from decoder: Decoder) throws {	fatalError("sjvowjh wspoi") }
+}
 
-// struct ContentView: View {
-// 	@State var myObject = SimpleClass()//FooFactalsModel()
-// 	@State var factalsModel = FactalsModel()
-// 	@Binding var document : FactalsDocument
-// 	var body: some View {
-// 		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
-// //		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
-// //		SimpleViewRepresentable(simpleObject:nil)				// WORKS
-// 		SimpleViewRepresentable(simpleObject:myObject)				// FAILS
-// 		Text("ContentView")  										// Minimal View
-// 	}
-// }
+//struct ContentView: View {
+//	 // Objects for Testing:
+//	@State var mySimpleOjbect 	= SimpleClass()			// WORKS
+//	@State var factalsModel		= FooFactalsModel()		// FAILS
+//
+//	@Binding var document : FactalsDocument
+//	var body: some View {
+//	//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+//	//	SimpleTestView(  factalsModel:document.factalsModel)  		// Test NSViewRepresentable
+////		SimpleViewRepresentable(simpleObject:nil)					// WORKS
+////		SimpleViewRepresentable(simpleObject:mySimpleOjbect)		// WORKS
+//		SimpleViewRepresentable(simpleObject:factalsModel)			// FAILS
+//	//	Text("ContentView")  										// Minimal View
+//	}
+//}
+//@Observable class SimpleClass {	}
 
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel
