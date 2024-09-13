@@ -668,9 +668,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		return null
 	}()
 }
-//typealias EventHandler		= (NSEvent) -> Void
-func eventHandler_null(a:NSEvent) -> Void {
-}
+func eventHandler_null(a:NSEvent) -> Void {	}
 
 // currently unused
 extension ScnSceneBase : SCNPhysicsContactDelegate {

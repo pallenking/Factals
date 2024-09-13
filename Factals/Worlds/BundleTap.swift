@@ -287,36 +287,22 @@ bug
 		return scn.bBox() * scn.transform
 	}
 
-//	- (void) drawFullView:(View *)v context:(RenderingContext *)rc; {
-//
-//		float r = self.brain.bitRadius;
-//		Vector3f ctr = v.bounds.center();			// origin2center of BundleTap
-//		Vector3f siz = v.bounds.size();
-//
-//		if (self.inspectorNibName) {
-//			glutSolidCube(self.brain.bitRadius);		// Billboard
-//		} //		else {
-//				glutSolidCube(r);
-//			glPopMatrix();
-//		}
-//		[super drawFullView/*Ports*/:v context:rc];	// paint Ports and bounding box
-//	}
-
-
 	 // MARK: - 9.4 rePosition
 	/// Reposition a Port's vew in parent, by name
 	/// - Parameter vew: --- a Port's views
 	override func rePosition(portVew vew:Vew) {
 	bug
-//		let port				= vew.part as! Port
-//		if port === ports["P"] {			// P: Primary
-//			assert(!port.flipped, "'M' in Atom must be unflipped")
+		let port				= vew.part as! Port
+		if port === ports["P"] {			// P: Primary
+			assert(!port.flipped, "'M' in Atom must be unflipped")
+			vew.scnRoot.position.y	= -port.height
 //			vew.scnScene.position.y	= -port.height
-//		}
-//		else {
-//			atRsi(3, warning("Did not find position for '\(port.pp(.fullNameUidClass))'"))
+		}
+		else {
+			atRsi(3, warning("Did not find position for '\(port.pp(.fullNameUidClass))'"))
+			vew.scn.transform		= .identity
 //			vew.scnScene.transform	= .identity
-//		}
+		}
 	}
 
 	 //	 MARK: - 15. PrettyPrint

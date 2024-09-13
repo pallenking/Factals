@@ -439,7 +439,7 @@ class Port : Part, PortTalk {
 		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
 		if let scnScene			= vew.vewBase()?.scnSceneBase.tree, enaPpWorld {
-bug;		//worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnRoot).pp(.short, aux) + " "
+			worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:nil/*scnRoot*/).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
 		atRsi(8, csVisVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 
@@ -462,7 +462,7 @@ bug;		//worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:scnRo
 //			let hiVew 			= openVew.find(part:hiPart)!					// commonVew
 //			let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 
-//			let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:scnScene).pp(.short, aux)
+			let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:nil/*scnScene*/).pp(.short, aux)
 			let wpStr 			= !enaPpWorld ? "" :  "w\\(openWPosn) "
 			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))"))
 		}

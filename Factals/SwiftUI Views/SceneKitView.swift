@@ -72,9 +72,9 @@ struct SceneKitView: NSViewRepresentable {
 		scnSceneBase.scnView	= scnView		// for pic
 
 		scnView.isPlaying		= true			// animations, does nothing
-		scnView.showsStatistics	= true			// controls extra bar
-		scnView.debugOptions	= [				// enable display of:
-			SCNDebugOptions.showPhysicsFields,]	//  regions affected by each SCNPhysicsField object
+	//	scnView.showsStatistics	= true			// controls extra bar
+	//	scnView.debugOptions	= [				// enable display of:
+	//		SCNDebugOptions.showPhysicsFields,]	//  regions affected by each SCNPhysicsField object
 		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously	= true			//args.options.contains(.rendersContinuously)

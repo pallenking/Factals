@@ -32,7 +32,7 @@ struct SimpleSceneKitView : View {
 	var body: some View {
 		ZStack {
 			let scnSceneBase = vewBase!.scnSceneBase
-			SceneKitView(scnSceneBase:scnSceneBase,prefFps:$prefFps)
+			SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)
 				.frame(maxWidth: .infinity)
 				.border(.black, width:1)
 			EventReceiver { nsEvent in // Catch events (goes underneath)
@@ -82,23 +82,46 @@ struct FactalsModelView: View {
 					.onTapGesture {		 	print("never executed")				}
 
 			}
-			TabView(selection: $tabViewSelect)  {
-
-				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-				 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
-				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-					VStack {									//Binding<VewBase>
-						VewBaseBar(vewBase:vewBase)
-						let scnSceneBase = vewBase.scnSceneBase.wrappedValue
-						ZStack {
-							SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
-								.frame(maxWidth: .infinity)
-								.border(.black, width:1)
-							EventReceiver { nsEvent in // Catch events (goes underneath)
- 								print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
-								let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+			HStack {
+				TabView(selection: $tabViewSelect)  {
+					
+					// NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
+					//  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
+					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+						VStack {									//Binding<VewBase>
+							VewBaseBar(vewBase:vewBase)
+							let scnSceneBase = vewBase.scnSceneBase.wrappedValue
+							ZStack {
+								SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
+									.frame(maxWidth: .infinity)
+									.border(.black, width:1)
+								EventReceiver { nsEvent in // Catch events (goes underneath)
+									print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+									let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+								}
 							}
+	//						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
+	//							Group {
+	//								HStack(alignment: .top) {
+	//									vewBase.inspectors.wrappedValue[index]
+	//									Spacer() // Ensures the content stays left-aligned
+	//								}
+	//							}
+	//						}
 						}
+						// Flock: want to access
+						.tabItem { Label("L-\(33)", systemImage: "") 				}
+					}
+					SimpleTestView(factalsModel:factalsModel)
+						.tabItem { Label("SimpleTestView()", systemImage: "")		}
+				}
+				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+					updateTitle()
+				}
+				.accentColor(.green) // Change the color of the selected tab
+				// UGLY
+//				VStack {
+//					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 //						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
 //							Group {
 //								HStack(alignment: .top) {
@@ -107,17 +130,9 @@ struct FactalsModelView: View {
 //								}
 //							}
 //						}
-					}
-					 // Flock: want to access
-					.tabItem { Label("L-\(33)", systemImage: "") 				}
-				}
-				SimpleTestView(factalsModel:factalsModel)
-					.tabItem { Label("SimpleTestView()", systemImage: "")		}
+//					}
+//				}
 			}
-			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-				updateTitle()
-			}
-			.accentColor(.green) // Change the color of the selected tab
 		}
 	}
 	private func updateTitle() {

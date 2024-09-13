@@ -137,7 +137,8 @@ extension FactalsModel  : Logd {}
 
 	 // MARK: - 4.?
 	func vew(ofScnNode  s:SCNNode) -> Vew? {	bug; return nil}//vewBase(ofScnScene:s)?.tree 		}
-	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
+	func vewBase(ofScnNode  s:SCNNode)  -> VewBase? {
+//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
 		for vews in vewBases {
 			if vews.tree.scnRoot.find(firstWith:{ $0 == s }) != nil {
 				return vews

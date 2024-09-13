@@ -1431,7 +1431,8 @@ func foo () {
 		}
 		else {			 // Mouse event
 			if let factalsModel	= partBase?.factalsModel { 	// take struct out
-				print("NSEvent (clicks:\(nsEvent.clickCount), vew.scn:\(pickedVew.scnScene.pp(.classUid))) "
+				let s			= ", vew.scn:\(pickedVew.scnRoot.pp(.classUid))"
+				print("NSEvent (clicks:\(nsEvent.clickCount)\(s)) "
 								+ "==> '\(pp(.fullName))' :\(pp(.classUid))")		//\n\(pp(.tree))
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
