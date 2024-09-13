@@ -5,20 +5,6 @@ import SwiftUI
 
 extension FactalsModel  : Logd {}
 
-@Observable class FooFactalsModel /*: ObservableObject*/ {
-	var partBase  : PartBase	= PartBase()
-
-	init() {	}
-//	func encode(to encoder: Encoder) throws  {
-//		fatalError("FactalsModel.encode(coder..) unexpectantly called")
-//	}
-//	required init(coder aDecoder: NSCoder) {
-//		fatalError("FactalsModel.init(coder..) unexpectantly called")
-//	}
-}
-
-
-
 @Observable class FactalsModel : Uid {
 	var uid: UInt16				= randomUid()
 

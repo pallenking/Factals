@@ -58,39 +58,6 @@ struct SimpleTestView: View {
 	}}
 
 // Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
-//
-final class Delegate: NSObject, NSTextFieldDelegate {
-	@Binding var float: Float
-	init(_ binding: Binding<Float>) {
-		_float = binding
-	}
-	func textFieldDidEndEditing(_ textField: NSTextField) {
-		float = textField.floatValue
-	}
-}
-struct FwTextField: NSViewRepresentable {
-	typealias NSViewType 		= NSTextField
-	@Binding var float : Float
-//	@Binding var string: String
-				/// Modifying state during view update, this will cause undefined behavior.
-	func makeNSView(context: Context) -> NSTextField {
-		let nsView 				= NSTextField()
-		//add target action						//	view.addAction(UIAction { [weak view] action in }, for: .editingChanged)
-		nsView.floatValue		= float
-		nsView.delegate 		= context.coordinator	/// changes to coordinator
-
-		nsView.textColor 		= NSColor.red
-		nsView.backgroundColor 	= NSColor(red:1.0, green:0.9, blue:0.9, alpha:1.0)
-		return nsView
-	}
-
-	func updateNSView(_ nsView: NSTextField, context: Context) {
-		nsView.floatValue = float
-	}
-	func makeCoordinator() -> Delegate {
-		.init($float)
-	}
-}
 // MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
 
  /// SwiftUI Wrapper of SCNView

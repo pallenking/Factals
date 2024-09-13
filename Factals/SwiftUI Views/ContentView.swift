@@ -15,14 +15,31 @@ AppStorage
 import SwiftUI
 import SceneKit
 
-
-
 struct ContentView: View {
 	@Binding var document : FactalsDocument
-	@State var a				= A()			// FAILS
+	@State var prefFps = Float(0.5)
 	var body: some View {
-		FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+	//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+		SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
+//	////////////////////// SCAFFOLDING /////////////////////////////////////////
 	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
+	//	Text("ContentView")  										// Minimal View
+	}
+}
+struct SimpleSceneKitView : View {
+	let vewBase : VewBase?
+	@Binding var prefFps : Float
+	var body: some View {
+		ZStack {
+			let scnSceneBase = vewBase!.scnSceneBase
+			SceneKitView(scnSceneBase:scnSceneBase,prefFps:$prefFps)
+				.frame(maxWidth: .infinity)
+				.border(.black, width:1)
+			EventReceiver { nsEvent in // Catch events (goes underneath)
+				print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+				let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
+			}
+		}
 	}
 }
 struct SimpleViewRepresentable: NSViewRepresentable {
@@ -45,23 +62,7 @@ struct SimpleViewRepresentable: NSViewRepresentable {
 	}
 	required init(from decoder: Decoder) throws {	fatalError("sjvowjh wspoi") }
 }
-
-//struct ContentView: View {
-//	 // Objects for Testing:
-//	@State var mySimpleOjbect 	= SimpleClass()			// WORKS
-//	@State var factalsModel		= FooFactalsModel()		// FAILS
-//
-//	@Binding var document : FactalsDocument
-//	var body: some View {
-//	//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
-//	//	SimpleTestView(  factalsModel:document.factalsModel)  		// Test NSViewRepresentable
-////		SimpleViewRepresentable(simpleObject:nil)					// WORKS
-////		SimpleViewRepresentable(simpleObject:mySimpleOjbect)		// WORKS
-//		SimpleViewRepresentable(simpleObject:factalsModel)			// FAILS
-//	//	Text("ContentView")  										// Minimal View
-//	}
-//}
-//@Observable class SimpleClass {	}
+// ////////////////////// END SCAFFOLDING //////////////////////////////////////
 
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel

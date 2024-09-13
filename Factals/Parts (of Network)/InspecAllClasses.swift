@@ -12,7 +12,7 @@ struct InspecNet : View {
 	typealias TableRowBody = InspecNet
 
 	// Net
-	@ObservedObject var net: Net
+	/*@ObservedObject*/ var net: Net
 
 	var body: some View {
 		HStack {

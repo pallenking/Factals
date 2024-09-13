@@ -376,8 +376,8 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			facMod()?.doPartNViewsLocked(workNamed:"A_updateVSP", logIf:self.logRenderLocks) { vewBase in
-				vewBase.updateVSP()
+			facMod()?.doPartNViewsLocked(workNamed:"A_updateVSP", logIf:self.logRenderLocks) {
+				$0.updateVSP()
 			}
 		}
 	}
@@ -589,16 +589,16 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 //		var pickedScn			= (sortedHits.count==0 ? tree : sortedHits[0].node)// as! SCNNode
 
 		var msg					= "******************************************\n Slot\(slot): find "
-bug//	msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
+		msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
 			
 		 // If Node not picable and has parent
-	//	while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
-	//		  let parent 		= pickedScn.parent
-	//	{
-	//		msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
-	//		pickedScn 			= parent				// use parent
-	//		msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
-	//	}
+		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+			  let parent 		= pickedScn.parent
+		{
+			msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
+			pickedScn 			= parent				// use parent
+			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
+		}
 
 		 // Get Vew from SCNNode
 		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
@@ -622,11 +622,11 @@ bug//	msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNod
 			//	 : NSPoint			     NsView:								: NSPoint :window
 			//	 : CGPoint
 		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
-		print("Start position \(hitPosnV3.pp(.phrase)) in frame \(contentNsView.frame)")
+		print("Start position=\(hitPosnV3.pp(.phrase)) in frame of \(contentNsView.frame)")
 
 		 // Movement since last, 0 if first time and there is none
 		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
-		print("beginCameraMotion. deltaPosition=\(deltaPosition.pp(.phrase))")
+		print("beginCameraMotion: deltaPosition=\(deltaPosition.pp(.phrase))")
 		lastPosition			= hitPosnV3
 	}
 
