@@ -3,14 +3,11 @@
 //  Factals
 //
 //  Created by Allen King on 5/18/22.
-/*
-IMPORT OSLog
-navigationsplitview
-
-
-UserDefaults
-AppStorage
-
+/* TO DO:
+import OSLog
+NavigationSplitView -- A view that presents views in two or three columns, where selections in leading columns control presentations in subsequent columns
+UserDefaults == An interface to the user’s defaults database, where you store key-value pairs persistently across launches of your app.
+AppStorage -- A property wrapper type that reflects a value from UserDefaults and invalidates a view on a change in value in that user default
 */
 import SwiftUI
 import SceneKit
@@ -19,8 +16,8 @@ struct ContentView: View {
 	@Binding var document : FactalsDocument
 	@State var prefFps = Float(0.5)
 	var body: some View {
-	//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
-		SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
+		FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+	//	SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
 //	////////////////////// SCAFFOLDING /////////////////////////////////////////
 	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
 	//	Text("ContentView")  										// Minimal View

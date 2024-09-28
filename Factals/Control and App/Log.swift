@@ -4,21 +4,41 @@
 // lifeCycleLogger
 
 import SceneKit
-//xxx Logger()
-//extension Log : Uid { }
-extension Log : Logd { }
+
+import OSLog
+extension Log {
+	func makeDummyLogEntries() {
+		guard let logger		= Log.osLogger else { fatalError()				}
+		os_log("This is a default log message", log:logger, type:.default)
+		os_log("This is an info log message",   log:logger, type:.info)
+		os_log("This is a debug log message",   log:logger, type:.debug)
+		os_log("This is an error log message",  log:logger, type:.error)
+		os_log("This is a fault log message",   log:logger, type:.fault)
+		let userName = "John"
+		let loginStatus = true
+		os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+	}
+}
+
 
 extension Log {
 	 // MARK: - 1. Static Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
+
 	static var app				= Log(name:"App Log", params4appLog)
+
 	static let params4appLog	=
 		params4app				+
 		params4partPp				+	//	pp... (20ish keys)
 		params4logs				+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 		logAt(all:appLogN)
+
+	static var osLogger:OSLog?	= OSLog(subsystem:Bundle.main.bundleIdentifier!, category:"havenwant?")
 }
+extension Log : Logd { }
+//extension Log : Uid { }
+
 class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
@@ -104,6 +124,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	var simTimeLastLog	:Float? = -1//nil
 	var logTime			: Bool	= true
 
+	// MARK: pp stuff
 	var ppIndentCols 	: Int	= 0
 	var ppPorts			: Bool	= true
 				 /// UID Pseudo-Address Digits for Parts/Vew Tree items
@@ -146,6 +167,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			// Learnings:	1) Cannot use Log here -- we're initting a Log!
 			//				2) \(ppUid(self)) uses a Log! (but
 
+//		makeDummyLogEntries()
 //		print("ALLOCATED Log\(logNo)(\(ppUid(self)))  '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
 	}
 
@@ -215,7 +237,21 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 // END CODABLE /////////////////////////////////////////////////////////////////
 	// MARK: - 5. Log
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String? = nil) {
 
+		if let logger = Log.osLogger {
+			let formattedBanner = banner != nil ? "\(banner!): " : ""
+			let formatStr = formattedBanner + format_
+			
+			if let terminator = terminator {
+				os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
+			} else {
+				os_log("%{public}@", log: logger, type: .default, formatStr)
+			}
+	//		os_log(formatStr, log:logger, type:.default, args)
+//			os_log("This is a default log message", log:logger, type:.default)
+//			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+		}
 		 // Print new Log, if it has changed:
  		if logNo != Log.currentLogNo {						// different than last time
 			let curLogNoStr		= "Log\(logNo)"

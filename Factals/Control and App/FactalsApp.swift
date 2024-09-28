@@ -9,7 +9,7 @@
 import Cocoa
 import SwiftUI
 import SceneKit
-
+//import OSLog
 
 	 // MARK: - Version
 	let (majorVersion, minorVersion, nameVersion) = (6, 4, "Factals")		// 240210
@@ -52,6 +52,19 @@ extension FactalsApp : App {
 			}
 		}
 	}
+//	func xxxx() {
+//		let logger = OSLog(subsystem:Bundle.main.bundleIdentifier!, category:"havenwant?")
+//		
+//		os_log("This is a default log message", log:logger, type:.default)
+//		os_log("This is an info log message",   log:logger, type:.info)
+//		os_log("This is a debug log message",   log:logger, type:.debug)
+//		os_log("This is an error log message",  log:logger, type:.error)
+//		os_log("This is a fault log message",   log:logger, type:.fault)
+//		let userName = "John"
+//		let loginStatus = true
+//		os_log("User %{public}@ logged in: %{public}@", log:logger, type:.info, userName, String(loginStatus))
+//	}
+
 	 // MARK: - Generate Library Menu View (RECIRSIVE)
 	func menuView(for crux:LibraryMenuTree) -> AnyView {
 		if crux.children.count == 0 {				// Crux has nominal Button

@@ -1347,3 +1347,19 @@ fog...(4
 23,347
 22,832
 22,892
+
+@Observable
+class simpleClass : ObservableObject {
+}
+
+struct ContentView: View {
+	@StateObject var myObject = simpleClass()//FooFactalsModel()
+	@Binding var document : FactalsDocument
+	var body: some View {
+		//FactalsModelView(factalsModel: document.factalsModel)		// Full App Views
+//		SimpleTestView(factalsModel:document.factalsModel)  		// Test NSViewRepresentable
+//		SimpleViewRepresentable(fooFactalsModel:nil)				// WORKS
+		SimpleViewRepresentable(myObject:myObject)					// FAILS
+		Text("ContentView")  										// Minimal View
+	}
+}

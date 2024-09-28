@@ -84,30 +84,35 @@ struct SelfiePoleBar: View   {
 	var body: some View {
 		HStack {
 			VStack {
-				Text("  " + "SelfiePole").foregroundColor(.red).bold()
+				Text("  " + "SelfiePole:").bold()	//.foregroundColor(.red)
 				Text("id:\(selfiePole.pp(.uid))")
 			}
-//			Text("SelfiePole:\n\(selfiePole.pp(.uid)):")//.foregroundColor(.red).bold()
-//			 .padding(.horizontal, -8)
-			InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
-			 .padding(.horizontal, 5)
- 			LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
-			LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
-			Button(label:{	Text("**")											})//.padding(.top, 300)
-			{	var s			= selfiePole
-				s.zoom			*= 1.1
-				print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
-				selfiePole 		= s	// Put struct's val back
+			HStack {
+				InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
+					.padding(.horizontal, 5)
+				LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
+				LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
+				Button(label:{	Text("**")											})//.padding(.top, 300)
+				{	var s			= selfiePole
+					s.zoom			*= 1.1
+					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+					selfiePole 		= s	// Put struct's val back
+				}
+				LabeledCGFloat(label:"ortho",val:$selfiePole.ortho, oneLine:false)
+				Button(label:{	Text("**")											})//.padding(.top, 300)
+				{	var s			= selfiePole
+					let values		= [0.0, 0.1, 1.0, 10]
+					let i	 		= values.firstIndex(where: { $0 >= s.ortho } ) ?? values.count
+					s.ortho 		= values[(i+1) % values.count]
+					print("======== \(s.pp(.uidClass)) o=\(s.ortho.pp(.line))")
+					selfiePole 		= s	// Put struct's val back
+				}
 			}
-			LabeledCGFloat(label:"ortho",val:$selfiePole.ortho, oneLine:false)
-			Button(label:{	Text("**")											})//.padding(.top, 300)
-			{	var s			= selfiePole
-				let values		= [0.0, 0.1, 1.0, 10]
-				let i	 		= values.firstIndex(where: { $0 >= s.ortho } ) ?? values.count
-				s.ortho 		= values[(i+1) % values.count]
-				print("======== \(s.pp(.uidClass)) o=\(s.ortho.pp(.line))")
-				selfiePole 		= s	// Put struct's val back
-			}
+			 .background(Color(red:1.0, green:0.9, blue:0.9))
+		}
+		// .padding(6)
+	}
+}
 
 ////FloatingPoint
 ////BinaryFloatingPoint
@@ -144,8 +149,3 @@ struct SelfiePoleBar: View   {
 //
 //				}
 //			}
-		}
-		// .padding(6)
-		 .background(Color(red:1.0, green:0.9, blue:0.9))
-	}
-}

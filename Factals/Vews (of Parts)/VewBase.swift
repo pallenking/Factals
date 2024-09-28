@@ -10,15 +10,11 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var partBase	: PartBase
 	var tree		: Vew
 	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
-//	@State
-	 var selfiePole 			= SelfiePole()
-//	@State
-	 var prefFps	: Float		= 30.0
-//	@State private
-	 var sliderTestVal: Double = 0.5
+	var selfiePole 				= SelfiePole()
+	var prefFps	: Float			= 30.0
+	var sliderTestVal: Double = 0.5
 	weak
 	 var factalsModel : FactalsModel!		// Owner
-
 
 	var inspectors : [AnyView]	= []		/*@Published*/
 	func addInspector(_ inspector:AnyView) {
@@ -34,7 +30,6 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var curLockOwner: String?	= nil
 	var prevOwner	: String? 	= nil
 	var verbose 				= false		// (unused)
-
 	 // Sugar
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
 
@@ -207,6 +202,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		}
 	}
 
+		 // MARK: - 4.? Update Vews and SCNScenes
 		/// Update one VewBase from changes marked in Part.Tree.dirty.
 	   ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
 	  /// - Parameter initial:	-- VewConfig for first appearance

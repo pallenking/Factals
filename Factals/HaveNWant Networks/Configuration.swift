@@ -112,9 +112,9 @@ let params4logs				: FwConfig = [
 
 		 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-	"breakAtLogger"				:2,
+	"breakAtLogger"				:1,
 								// + +  + +
-	"breakAtEvent"				: 1 //150//-54,//240/3/0:off
+	"breakAtEvent"				:-18 //150//-54,//240/3/0:off
 
 ]
 private let params4docLog		= params4partPp + params4logs

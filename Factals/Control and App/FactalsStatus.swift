@@ -222,10 +222,10 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.scnSceneBase.ppFactalsState(deapth:deapth-1)
-				rv				+= self.selfiePole  .ppFactalsState(deapth:deapth-1)
+				var rv			=  self.selfiePole  .ppFactalsState(deapth:deapth-1)
 				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1) ?? "\t\t cameraScn is nil\n"
-			//	rv 				+= self.tree	    .ppFactalsState(deapth:deapth-1)
+				rv				+= self.scnSceneBase.ppFactalsState(deapth:deapth-1)
+				//rv 			+= self.tree	    .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
