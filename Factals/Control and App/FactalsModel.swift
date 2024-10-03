@@ -17,7 +17,7 @@ extension FactalsModel  : Logd {}
 	var log 	  : Log
 	var docSound  :	Sounds
 
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
@@ -88,7 +88,7 @@ extension FactalsModel  : Logd {}
 		vewBase.factalsModel	= self						// Backpointer
 		vewBases.append(vewBase)							// Install
 
-		vewBase.updateVSP()
+		vewBase.updateVSP(initial:vewConfig)
 		vewBase.setupSceneVisuals()
 
 		atBld(5, log.logd("---====--- anotherVewBase() done \(vewBase.pp(.uidClass)) "))

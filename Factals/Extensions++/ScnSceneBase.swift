@@ -27,12 +27,8 @@ class ScnSceneBase : NSObject {
 	var deltaPosition			= SCNVector3.zero
 
 	 // MARK: - 3.1 init
-	override convenience init() {
-		self.init(scnScene:SCNScene(), eventHandler:{_ in })
-	}
-	init(scnScene s:SCNScene?=nil, eventHandler: @escaping EventHandler) {
-	
-		self.tree				= s ?? SCNScene()	// get scene
+	init(scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in }) { //aka ScnSceneBase(scnScene:eventHandler)
+		self.tree				= scnScene		// get scene
 		self.tree!.rootNode.name = "rootNode"
 		self.eventHandler		= eventHandler
  		super.init()
@@ -659,16 +655,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		}
 		return rv
 	}
-	static let null 			= {
-		let null				= ScnSceneBase(eventHandler:eventHandler_null)
-
-
-		//EventHandler_null)	// Any use of this should fail (NOT IMPLEMENTED)
-		null.tree?.rootNode.name			= "nullScnBase"
-		return null
-	}()
 }
-func eventHandler_null(a:NSEvent) -> Void {	}
 
 // currently unused
 extension ScnSceneBase : SCNPhysicsContactDelegate {
@@ -718,8 +705,6 @@ extension SCNView {		//
 //					}
 				} )
  */
-
-//	let handler: (NSEvent)->Void { get()}
 
 	 // MARK: - 13.1 Keys
 	open override func keyDown(with 	event:NSEvent) 		{	handler(event)	}

@@ -238,7 +238,7 @@ r("Net(Part())",	e, { 	Net([parts:[
 // cameraB(h:0,s:-134,u:5)
 
 state.scanSubMenu				= "Primitive Forms"
-xr("Box",		e, { Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]) }) 					// +
+r("Box",		e, { Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]) }) 					// +
 //r("Port",			e, { Port([n:"port"]) })  		// Broken 191204
 //r("Port2",		e, { Port([f:1]) })				// Broken 191204
 r("Hemisphere",e + selfiePole(s:-134,u:5), { Hemisphere([jog+X:"2 3 0"])	})
@@ -1039,7 +1039,7 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xxr("+Mirror Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+xr("+Mirror Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
 	Mirror([n:"t1", "gain":-1, "offset":1-decay]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
 ] ]) })

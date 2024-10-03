@@ -360,7 +360,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 			// 20201225 Wouldn't create logOfRuns; must do manually
 		}
 	}
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") { //String?=nil
 		let msg					= String(format:format_, arguments:args)
 		log.log(banner:banner, msg, terminator:terminator)
 	}

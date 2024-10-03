@@ -20,6 +20,7 @@ extension Log {
 	}
 }
 
+//import SwiftLog  https://swiftpackageindex.com/apple/swift-log
 
 extension Log {
 	 // MARK: - 1. Static Class Variables:
@@ -236,22 +237,20 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
 	// MARK: - 5. Log
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String? = nil) {
+	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {	//String?=nil
 
-		if let logger = Log.osLogger {
+		 // Initial simple cutting in OSLog:
+		if false, let logger = Log.osLogger {
 			let formattedBanner = banner != nil ? "\(banner!): " : ""
 			let formatStr = formattedBanner + format_
 			
-			if let terminator = terminator {
-				os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
-			} else {
-				os_log("%{public}@", log: logger, type: .default, formatStr)
-			}
+			os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
 	//		os_log(formatStr, log:logger, type:.default, args)
 //			os_log("This is a default log message", log:logger, type:.default)
 //			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+			return
 		}
+
 		 // Print new Log, if it has changed:
  		if logNo != Log.currentLogNo {						// different than last time
 			let curLogNoStr		= "Log\(logNo)"

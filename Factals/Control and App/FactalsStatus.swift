@@ -8,6 +8,8 @@ func ppFactalsState(deapth:Int=999/*, config:Bool=false*/) -> String {
 	return FACTALSMODEL?.ppFactalsState(deapth:deapth-1) ?? ""
 }
 
+// DEBUG: insert ppFactalsState() in code
+
  /// Print status of Factal Workbench Controllers
 protocol FactalsStatus : FwAny {
 	func ppFactalsState(deapth:Int) -> String
@@ -175,7 +177,8 @@ extension FactalsModel : FactalsStatus	{						///FactalsModel
 extension PartBase : FactalsStatus	{								 ///PartBase
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("PartBase     ", uid:self,
-			myLine: "parts:\(ppUid(self, showNil:true)) " 			+
+			myLine: "tree:\(tree.pp(.classUid)) "		 			+
+//			myLine: "tree:\(ppUid(tree, showNil:true)) " 			+
 					"(\(portCount()) Ports) " 						+
 					"lock=\(semiphore.value ?? -98) " 				+
 					(curOwner==nil ? "UNOWNED," : "OWNER:'\(curOwner!)',") +
@@ -214,17 +217,18 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		assert(factalsModel.vewBases[slot] === self, "vewBases.'\(String(describing: factalsModel))'")
 ///		assert(self.tree.scn === self.scnSceneBase.tree,  "ERROR .scn !== \(self.tree.scn.pp(.classUid))")
 
-		let myName				= "VewBase      "
-		var myLine				= "slot\(slot) of \(factalsModel.vewBases.count) "
+		let myName				= "VewBase[\(slot)]:  "
+//		let myName				= "VewBase      "
+		var myLine				= "tree:\(tree.pp(.classUid)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.selfiePole  .ppFactalsState(deapth:deapth-1)
-				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1) ?? "\t\t cameraScn is nil\n"
-				rv				+= self.scnSceneBase.ppFactalsState(deapth:deapth-1)
+				var rv			=  self.scnSceneBase.ppFactalsState(deapth:deapth-1)
+				rv				+= self.selfiePole  .ppFactalsState(deapth:deapth-1)
+				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1) ?? "\t\t\t\t cameraScn is nil\n"
 				//rv 			+= self.tree	    .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
@@ -234,7 +238,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 extension Vew : FactalsStatus	{										  ///Vew
 	func ppFactalsState(deapth:Int=999) -> String {
 		var rv					= ""
-		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,				//"ScnBase      "
+		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,			//"ScnBase      "
 			myLine:"'\(fullName)'",
 			otherLines: { deapth in
 				for child in self.children {
@@ -245,22 +249,32 @@ extension Vew : FactalsStatus	{										  ///Vew
 			deapth:deapth-1)
 	}
 }
+extension SelfiePole : FactalsStatus	{							///SelfiePole
+	func ppFactalsState(deapth:Int=999) -> String {
+		let myLine				= self.pp(.line)
+		return ppFactalsStateHelper("SelfiePole   ", uid:self,
+			myLine:myLine,
+			deapth:deapth-1)
+	}
+}
 
 extension ScnSceneBase : FactalsStatus	{						  ///ScnSceneBase
 	func ppFactalsState(deapth:Int=999) -> String {
-		let myLine				= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-//		myLine					+= "isPaused:\(scnScene.isPaused) "
-		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,
-			myLine:myLine,
-			otherLines: { deapth in
-				return self.tree!   .ppFactalsState(deapth:deapth-1)
-					+ (self.scnView?.ppFactalsState(deapth:deapth-1) ?? "")
-			}, deapth:deapth-1)
+		var myLine				= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+		myLine					+= "tree:\(tree?.rootNode.pp(.classUid) ?? "<nil>")=rootNode "
+		myLine					+= "\(tree?				 .pp(.classUid) ?? "<nil>") "
+		myLine					+= "scnView:\(	 scnView?.pp(.classUid) ?? "<nil>") "
+		return ppFactalsStateHelper(fwClassName.field(-13), uid:self, myLine:myLine,
+//			otherLines: { deapth in
+//				return self.tree!   .ppFactalsState(deapth:deapth-1)
+//					+ (self.scnView?.ppFactalsState(deapth:deapth-1) ?? "")
+//			},
+			deapth:deapth-1)
 	}
 }
 extension SCNScene : FactalsStatus {								 ///SCNScene
 	func ppFactalsState(deapth: Int) -> String {
-		let myLine				= rootNode.name == "rootNode" ? "" : "rootNode.name=\(rootNode .name) -- BAD!!"
+		let myLine				= rootNode.name == "rootNode" ? "" : "rootNode.name=\(rootNode .name ?? "?") -- BAD!!"
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self,
 			myLine:myLine,
 			otherLines: { deapth in
@@ -278,14 +292,6 @@ extension SCNNode : FactalsStatus	{								  ///SCNNode
 		myLine					+= camera == nil ? "" : "camera:\(camera!.pp(.classUid)) "
 		myLine					+= light  == nil ? "" :  "light:\( light!.pp(.classUid)) "
 		return ppFactalsStateHelper("SCNNode      ", uid:self,				//"SCNPhysicsWor"
-			myLine:myLine,
-			deapth:deapth-1)
-	}
-}
-extension SelfiePole : FactalsStatus	{							///SelfiePole
-	func ppFactalsState(deapth:Int=999) -> String {
-		let myLine				= self.pp(.line)
-		return ppFactalsStateHelper("SelfiePole   ", uid:self,
 			myLine:myLine,
 			deapth:deapth-1)
 	}

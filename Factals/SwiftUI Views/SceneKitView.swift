@@ -18,12 +18,13 @@ struct SimpleTestView: View {
 	@State var prefFps : Float		= 30.0
 
 	var body: some View {
+//		let x = factalsModel.simulator.timeNow
 		VStack (alignment:.leading) {
 			let size = CGFloat(12)		// of Text
 			Text("TextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
 			HStack {
-				Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
-				Text("timeNow=")
+				//Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
+				Text("timeNow=(factalsModel.simulator.timeNow)")
 				TextField("timeNow=", value:$factalsModel.simulator.timeNow,
 						  format:.number.precision(.significantDigits(5)))
 					.frame(width:100)

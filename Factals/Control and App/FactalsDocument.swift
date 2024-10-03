@@ -25,7 +25,7 @@ extension FactalsDocument {
 	static var writableContentTypes: [UTType] { 	[.hnw, .vew] 				}
 }
 extension FactalsDocument : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
 		factalsModel.log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }

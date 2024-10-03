@@ -7,7 +7,6 @@ class Net : Atom {		// Atom // Part
 
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig = [:]) {
-		//print("Net.wleifujw")
 		super.init(["placeMy":"linky"] + config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		if let a 				= partConfig["parts"] as? [Part] {
@@ -81,7 +80,9 @@ class Net : Atom {		// Atom // Part
 	var enable3 : Port?		{	return port(named:"E", localUp:false)			}
 
 	   // MARK: - 9.0 make a Vew for a Net
-	override func VewForSelf() -> Vew? {	return NetVew(forPart:self)			}
+	override func VewForSelf() -> Vew? {
+		return NetVew(forPart:self)
+	}
 	  // MARK: - 9.1 reVew
 	override func reVew(vew:Vew?, parentVew:Vew?) {
 		let vew : Vew?			= vew
@@ -163,13 +164,13 @@ class Net : Atom {		// Atom // Part
 
 		switch mode {
 		case .phrase:
-			rv +=  " \(children.count) children, \(ports.count) Ports"
+			rv 					+= " \(children.count) children, \(ports.count) Ports"
 		case .short:
-			rv +=  " Net with \(children.count) children and \(ports.count) Ports"
+			rv 					+= " Net with \(children.count) children and \(ports.count) Ports"
 		case .line:
 			rv					+= minSize?.pp(.line, aux) ?? ""
 		default:
-			return super.pp(mode, aux)
+			nop
 		}
 		return rv
 	}

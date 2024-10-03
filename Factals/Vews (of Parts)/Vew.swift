@@ -14,6 +14,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 // PAK20240913 reverting back:
 	var scn			: SCNNode
 	var scnRoot		: SCNNode	{	scn											}
+ // Proper way, not yet working:
 //	var scnScene	: SCNScene					// SCNScene which draws this Vew
 //	var scnRoot		: SCNNode	{ scnScene.rootNode } // sugar
 
@@ -598,7 +599,7 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 		return true
 	}	// calls toggelOpen()
 	 // MARK: - 14. Logging
-	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String?=nil) {
+	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
 		var myLog				= Log.app
 		if let vewBase			= vewBase() {
 			myLog 				= vewBase.factalsModel.log//.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)

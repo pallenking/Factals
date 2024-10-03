@@ -32,11 +32,12 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var verbose 				= false		// (unused)
 	 // Sugar
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
+	var slotx : Int { slot ?? -1 }
 
 	 /// VewBase(for:)
 	init(for p:PartBase) {
 		partBase				= p
-		scnSceneBase			= ScnSceneBase(eventHandler:eventHandler_null)
+		scnSceneBase			= ScnSceneBase()
 		tree					= Vew()			// Start with just trunk Vew
 		VewBase.nVewBase 		+= 1
 
@@ -78,13 +79,6 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}
-
-
-/*
-	static var nVewBase 		= 0
-
- */
-
 
 //	 // MARK: - 3.5 Codable
 	enum VewKeys: String, CodingKey {
@@ -202,7 +196,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		}
 	}
 
-		 // MARK: - 4.? Update Vews and SCNScenes
+		 // MARK: - 4.? Update from PartBase of my Vews and SCNScenes
 		/// Update one VewBase from changes marked in Part.Tree.dirty.
 	   ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
 	  /// - Parameter initial:	-- VewConfig for first appearance
@@ -214,9 +208,9 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		if partsTree.test(dirty:.vew) {		//" _ reVew _   VewBase (per updateVSP(needsLock:'\\(newOwner2)')") {
 			atRve(6, log ? logd("updateVSP(vewConfig:(initial)") : nop)
 								
-			 // if Empty, make new base
+			 // change from viewing null
 			if tree.name == "_null" {
-				tree			= partBase.tree.VewForSelf() ?? {fatalError("alhvaoufhaouih")}()
+				tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 				tree.scnRoot.name = "*-" + partBase.tree.name
 			}
 
@@ -250,7 +244,6 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
 			partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 			partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
-
 		}
 	}
 

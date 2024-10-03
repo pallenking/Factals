@@ -84,7 +84,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
 }
 extension Library : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
 		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }

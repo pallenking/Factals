@@ -141,6 +141,18 @@ extension Array 		: FwAny		{
 
 extension SCNScene 					{		     //: FwAny
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+		var rv 					= super.pp(mode, aux)
+		switch mode {
+		case .phrase, .short:
+			rv					+= " SCNScene:\(ppUid(self))"
+		case .line:
+			rv					+= " SCNScene:\(self.pp(.uidClass)) "
+		case .tree:
+			rv					+= " tree??"
+		default:
+			return super.pp(mode, aux)
+		}
+
 		return "SCNScene:\(ppUid(self)) \(rootNode.pp(.tree)) "
 	}
 	//convenience override init() {
@@ -553,7 +565,7 @@ extension Dictionary : Uid {
 	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
 extension Dictionary : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()
 		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
@@ -1221,7 +1233,7 @@ extension String {
 }
 
 protocol Logd: FwAny, Uid {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?)
+	func logd(_ format:String, _ args:CVarArg..., terminator:String)
 }
 extension Logd {
 	// MARK: - 14. Logging
@@ -1232,7 +1244,7 @@ extension Logd {
 	///   - args: printf args
 	///   - terminator: for print
 	///   - note: HACK
-	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let msg					= String(format:format, arguments:args)
 		let (nls, msg2)			= msg.stripLeadingNewLines()	// trailing \n's become leading \n's
 		let str					= nls + msg2					//-nFullN uidClass

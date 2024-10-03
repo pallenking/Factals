@@ -17,73 +17,77 @@ struct ContentView: View {
 	@State var prefFps = Float(0.5)
 	var body: some View {
 		FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
-	//	SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
 //	////////////////////// SCAFFOLDING /////////////////////////////////////////
+	//	SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
 	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
 	//	Text("ContentView")  										// Minimal View
 	}
 }
-struct SimpleSceneKitView : View {
-	let vewBase : VewBase?
-	@Binding var prefFps : Float
-	var body: some View {
-		ZStack {
-			let scnSceneBase = vewBase!.scnSceneBase
-			SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)
-				.frame(maxWidth: .infinity)
-				.border(.black, width:1)
-			EventReceiver { nsEvent in // Catch events (goes underneath)
-				print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
-				let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
-			}
-		}
-	}
-}
-struct SimpleViewRepresentable: NSViewRepresentable {
-	var simpleObject : AnyObject							// ARG1: causes hierarchy bug
-	typealias NSViewType 		= NSView//SCNView			// Type represented
-	func makeNSView(context: Context) -> NSViewType 		{	NSViewType()	}
-	func updateNSView(_ nsView:NSViewType, context:Context) {					}
-}
-@Observable class A {
-	var b  : B					= B()
-}
-@Observable class B : Codable {
-	var name  : String?			= nil
-	init() {}
-//	func encodeX(to: Encoder)  {						// Fixes FAILS
-	func encode(to: Encoder)   {
-		let _					= 	//	name!			// FAILS
-										name			// WORKS
-									//	name ?? "asdffa"// WORKS
-	}
-	required init(from decoder: Decoder) throws {	fatalError("sjvowjh wspoi") }
-}
+//struct SimpleSceneKitView : View {
+//	let vewBase : VewBase?
+//	@Binding var prefFps : Float
+//	var body: some View {
+//		ZStack {
+//			let scnSceneBase = vewBase!.scnSceneBase
+//			SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)
+//				.frame(maxWidth: .infinity)
+//				.border(.black, width:1)
+//			EventReceiver { nsEvent in // Catch events (goes underneath)
+//				print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+//				let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
+//			}
+//		}
+//	}
+//}
+//struct SimpleViewRepresentable: NSViewRepresentable {
+//	var simpleObject : AnyObject							// ARG1: causes hierarchy bug
+//	typealias NSViewType 		= NSView//SCNView			// Type represented
+//	func makeNSView(context: Context) -> NSViewType 		{	NSViewType()	}
+//	func updateNSView(_ nsView:NSViewType, context:Context) {					}
+//}
+//@Observable class A {
+//	var b  : B					= B()
+//}
+//@Observable class B : Codable {
+//	var name  : String?			= nil
+//	init() {}
+// //func encodeX(to: Encoder)  {						// Fixes FAILS
+//	func encode(to: Encoder)   {
+//		let _					= 	//	name!			// FAILS
+//										name			// WORKS
+//									//	name ?? "asdffa"// WORKS
+//	}
+//	required init(from decoder: Decoder) throws {	fatalError("sjvowjh wspoi") }
+//}
 // ////////////////////// END SCAFFOLDING //////////////////////////////////////
+/*
+all vewbases have
+ */
 
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel
-	@State private	var tabViewSelect : Int = 0
+	@State private var tabViewSelect : Int	= 0
 
 	var body: some View {
+		let _ = Self._printChanges()
+
 		VStack {
 			FactalsModelBar(factalsModel:factalsModel)
 			HStack {
 				Text("")
 				Spacer()
-				Button("<+>") {}
-					.tabItem { Label("+", systemImage: "")						}
-					.onAppear {			 addNewTab()							}
+//				Button("<+>") {}
+//					.tabItem { Label("+", systemImage: "")						}
+// //				.onAppear {			print("dubiousValue")					}
+//					.onTapGesture {		addNewTab()								}
 				Text("<++>")
 					.tabItem { Label("++", systemImage:"") 						}
-					.onTapGesture {		 	print("never executed")				}
-
+					.onTapGesture {		addNewTab()								}
 			}
 			HStack {
-				TabView(selection: $tabViewSelect)  {
-					
-					// NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-					//  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
+				TabView(selection:$tabViewSelect)  {
+					  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
+					 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 						VStack {									//Binding<VewBase>
 							VewBaseBar(vewBase:vewBase)
@@ -97,6 +101,7 @@ struct FactalsModelView: View {
 									let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 								}
 							}
+						//	let xxx = vewBase.wrappedValue.slotx
 	//						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
 	//							Group {
 	//								HStack(alignment: .top) {
@@ -107,16 +112,20 @@ struct FactalsModelView: View {
 	//						}
 						}
 						// Flock: want to access
-						.tabItem { Label("L-\(33)", systemImage: "") 				}
+						.tabItem { Label("L-\(vewBase.wrappedValue.slotx)", systemImage: "") 			}
+						.tag(vewBase.wrappedValue.slotx)
 					}
+
+					 // A View selectable in TabView
 					SimpleTestView(factalsModel:factalsModel)
-						.tabItem { Label("SimpleTestView()", systemImage: "")		}
+					 .tabItem { Label("SimpleTestView()", systemImage: "")		}
+					 .tag(-2)
 				}
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-					updateTitle()
-				}
+					updateTitle()												}
 				.accentColor(.green) // Change the color of the selected tab
-				// UGLY
+
+				// UGLY first attempt at displaying inspectors in a third column
 //				VStack {
 //					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 //						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
@@ -140,7 +149,7 @@ struct FactalsModelView: View {
 	}
 	private func addNewTab() {
 		factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
-		tabViewSelect 			= factalsModel.vewBases.count - 1
+		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
 	}
 }
 /*

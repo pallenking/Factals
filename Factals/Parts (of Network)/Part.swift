@@ -43,7 +43,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	 var partBase	: PartBase?	= nil	//
 
 	func checkTreeThat(parent p:Part?, partBase pb:PartBase?) -> Bool {
-		var wasOk				= parent==p && partBase==pb
+		var wasOk				= parent===p && partBase===pb
 		parent 					= p
 		partBase 		  		= pb
 		for child in children {
@@ -988,28 +988,25 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		vew.bBox				= .empty			// Set view's bBox EMPTY
 		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part			// xyzzy32
 
-		 //------ reSize all  _CHILD Atoms_
+		 //------ reSize all and only   _CHILD Atoms_
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
 		for childVew in orderedChildren 	// For all Children, except
 		  where !(childVew.part is Port) 		// Atom handles child Ports
 		{	let childPart		= childVew.part
 
 			 // 1. Repack insides (if dirty size):
-//bug//NReset
 			if childPart.test(dirty:.size) {
 				childPart.reSize(vew:childVew)	// #### HEAD RECURSIVEptv
 			}
 			  // If our shape was just added recently, it has no parent.
 			 //   That it is "dangling" signals we should swap it in
 			if childVew.scnRoot.parent == nil {
-		//		let x =
+				vew.scnRoot.addChild(node:childVew.scnRoot) // Single-Scene mode
+		//				PAK20240929: other thoughts, perhaps for Many-Scene mode
 		//		vew.scnRoot.removeAllChildren()
 		//		let x = childVew.scnScene.rootNode
 		//		x.removeFromParent()
 		//		vew.scnRoot.addChild(node:x)
-
-				vew.scnRoot.addChild(node:childVew.scnRoot)
-				vew.scnRoot.addChild(node:childVew.scnRoot)
 			}
 
 			 // 2. Reposition:
