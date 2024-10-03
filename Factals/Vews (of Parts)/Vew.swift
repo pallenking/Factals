@@ -9,7 +9,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	// MARK: - 2. Object Variables:
 
 	 // Glue these Neighbors together: (both Always present)
-	/*@Published*/ var part : Part 				// Part which this Vew represents	// was let
+	var part : Part 							// Part which this Vew represents	// was let
 
 	 // PAK20240913 reverting back:
 	var scn			: SCNNode
@@ -22,8 +22,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	var children 	: [Vew]		= []
 	var vewConfig   : FwConfig	= [:]			// rename config?
     
-	/*@Published*/ var name :  String			// Cannot be String! because of FwAny
-	/*@Published*/ var color000	: NSColor? = nil
+	var name 		: String					// Cannot be String! because of FwAny
+	var color000	: NSColor? = nil
 	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
 	var keep		:  Bool		= false			// used in reVew
 
@@ -40,7 +40,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
 
-	/*@Published*/ var expose : Expose	= .open {// how the insides are currently exposed
+	var expose : Expose	= .open {			// how the insides are currently exposed
 		willSet(v) {
 			if v != expose, parent != nil {		// ignore simple cases
 				//print("--- '\(fullName)'.expose.willSet: \(expose) -> \(v)")
@@ -60,7 +60,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 	 // MARK: - 3. Factory
 	 // Vew(forPart:expose:)
-	init(forPart p:Part?=nil, expose e:Expose? = nil) {
+	init(forPart p:Part?/*=nil*/, expose e:Expose? = nil) {
 		let part				= p ?? .null
 		self.part 				= part
 		self.name				= "_" + part.name 	// View's name is Part's with '_'
@@ -739,7 +739,7 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	}
 
 	  // MARK: - 16. Global Constants
-	static let null 			= Vew(forPart:.null)	/// Any use of this should fail
+//	static let null 			= Vew(forPart:.null)	/// Any use of this should fail
 
 	 // MARK: - 17. Debugging Aids
 	override var description	  : String {	return  "d'\(pp(.short))'"		}

@@ -44,12 +44,12 @@ class Splitter : Atom {
 												// >S	Winning Share
 												//  0	no winner yet declared
 												// -1	proportional sharing
-	/*@Published*/ var upIsDirty : Bool! = true	// must recompute upward, no matter what
+	var upIsDirty : Bool! = true	// must recompute upward, no matter what
 		//weak  
 		 // https://www.hackingwithswift.com/quick-start/swiftui/what-is-the-binding-property-wrapper
 
-	///*@Published*/ var isABcast	:  String!		//[shareClassName isEqualToString:@"Broadcast"];
-	/*@Published*/ var a1 		: Float = 0.0
+	//var isABcast	:  String!		//[shareClassName isEqualToString:@"Broadcast"];
+	var a1 		: Float = 0.0
 	{	didSet {	if a1 != oldValue {
 						markTree(dirty:.paint)
 																		}	}	}

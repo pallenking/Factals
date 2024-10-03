@@ -8,8 +8,6 @@
 import Foundation
 import SceneKit
 typealias EventHandler			= (NSEvent) -> Void
-//EventHandler.null				= { }
-//class EventHandler {}
 
 class ScnSceneBase : NSObject {
 

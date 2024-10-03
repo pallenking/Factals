@@ -82,7 +82,6 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 
 //	 /// Color of material[0]
 //	// Should figure out a Kosher way of setting colors
-////	/*@Published*/ 		//Non-static property 'color0' declared inside an extension cannot have a wrapper
 	var color0 : NSColor {
 		get {	 material_0()?.diffuse.contents as? NSColor ?? .black		}
 //		get {	 material_0()?.reflective.contents as? NSColor ?? .black		}

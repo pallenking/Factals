@@ -73,12 +73,10 @@ class Port : Part, PortTalk {
 	No redraw. Redraw from another button does update it.
 	*/
 
-	/*@Published*/
-	 var value 		: Float	= 0.0
+	var value 		: Float	= 0.0
 	{	didSet {	if value != oldValue {
 						markTree(dirty:.paint)							}	}	}
-	/*@Published*/
-	 var valuePrev	: Float	= 0.0
+	var valuePrev	: Float	= 0.0
 	{	didSet {	if valuePrev != oldValue {
 						markTree(dirty:.paint)							}	}	}
 

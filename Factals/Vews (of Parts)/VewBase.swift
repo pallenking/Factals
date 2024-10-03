@@ -16,7 +16,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
-	var inspectors : [AnyView]	= []		/*@Published*/
+	var inspectors : [AnyView]	= []
 	func addInspector(_ inspector:AnyView) {
 		inspectors.append(inspector)
 	}

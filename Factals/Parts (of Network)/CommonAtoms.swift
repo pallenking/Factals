@@ -114,12 +114,12 @@ class Ago : Atom {
 class Mirror : Atom {
 
 	 // MARK: - 2. Object Variables:
-	/*@Published*/ var gain : Float = 1.0		// Default is Identity function
+	var gain : Float = 1.0		// Default is Identity function
 	{	didSet {	if gain != oldValue {
 						partBase?.factalsModel?.simulator.startChits = 4	// gain changes simulation
 						markTree(dirty:.paint)
 																		}	}	}
-	/*@Published*/ var offset:Float = 0.0
+	var offset:Float = 0.0
 	{	didSet {	if offset != oldValue {
 						partBase?.factalsModel?.simulator.startChits = 4	// gain changes simulation
 						markTree(dirty:.paint)
