@@ -142,9 +142,9 @@ extension Book : FactalsStatus {							///Book or ///Tests01, ...
 	}
 }
 
-extension FactalsModel : FactalsStatus	{						///FactalsModel
+extension FactalsModel : FactalsStatus	{							///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
-		let myLine				= "\(vewBases.count) bases "
+		let myLine				= "\(vewBases.count) vewBases "
 		return ppFactalsStateHelper("FactalsModel ", uid:self,
 			myLine:myLine,
 			otherLines:{deapth in

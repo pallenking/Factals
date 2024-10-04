@@ -32,13 +32,6 @@ class LinkPort : Port {
 		//root?.simulator.linkChits	+= 1
 		//assert(root?.simulator.linkChits ?? 1 != 0, "wraparound")
 	}
-
-//	init() { // only for nullConveyor
-//		outPort					= Port.error
-//		super.init()
-//	}
-
-//	init( ["named":portName, "portProp":portProp]) :
 	init(_ config_:FwConfig, parent:Atom, i0:(Int, Int)=(0,0), color0:NSColor?=nil, _ initialSegments:[LinkSegment] = []) {
 		self.imageX0 			= i0.0
 		self.imageY0 			= i0.1
@@ -164,12 +157,12 @@ class LinkPort : Port {
 				atDat(5, outPort.logd("Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value))
 				if outPort.value != nextVal {
 					let parts = outPort.partBase!.tree
-					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")
+//					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")
 					//print("Before: \(c1)")
 					outPort.value = nextVal								// not outPort.take(value:v)
 					outPort.markTree(dirty:.paint)
 					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
-					let c2		= parts.portChitArray().map { $0() }.joined(separator:", ")
+//					let c2		= parts.portChitArray().map { $0() }.joined(separator:", ")
 					//print("After:  \(c2)")
 				}
 			}
@@ -236,7 +229,6 @@ class LinkPort : Port {
 		}
 		return rv
 	}
-//	static let nullLinkPort	= LinkPort()
 }
 
 

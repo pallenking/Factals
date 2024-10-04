@@ -179,7 +179,9 @@ class Link : Atom {
 		   sDownCPort.simulate()
 	}
 	  // MARK: - 9.0 make a Vew for a Part
-	override func VewForSelf() -> Vew? {	return LinkVew(forPart:self)		}
+	override func VewForSelf() -> Vew? {
+		return LinkVew(forPart:self)
+	}
 	 // MARK: - 9.1 reVew
 	override func reVew(vew:Vew?, parentVew:Vew?) {
 		if trueF {//trueF//falseF//
@@ -355,8 +357,8 @@ class Link : Atom {
 
 		  // :H: CONnected to_2_,			// Vew or Port that Link's S/P Port is connected to
 		 //  :H: _S_ port, _P_ port, 		// ends of link
-		guard let pCon2Port 	= linkVew.pCon2Vew.part as? Port,
-		  let sCon2Port : Port	= linkVew.sCon2Vew.part as? Port else {	return	}
+		guard let pCon2Port 	= linkVew.pCon2Vew?.part as? Port,
+		  let sCon2Port : Port	= linkVew.sCon2Vew?.part as? Port else { return	}
 
 		  // :H: conSpot; scn_V_ector3; scn_F_loat
 		 //  :H: CONnnected to(2)
@@ -441,11 +443,13 @@ bug	// Never USED?
 			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
 		}
 		if let lv 				= vew as? LinkVew,		// lv is link
-		  let lvp				= lv.parent 				// lv has parent
+		  let lvp				= lv.parent, 				// lv has parent
+		  let lvPCon2Vew		= lv.pCon2Vew,
+		  let lvSCon2Vew		= lv.sCon2Vew
 		{
 //			print(lv.sCon2Vew.parent?.scnScene.pp(.tree) ?? "xx")
-			let sPinPar			= lvp.localPosition(of:.zero, inSubVew:lv.sCon2Vew)// e.g: p9/t3.P
-			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lv.pCon2Vew)// e.g: p9/t1.P
+			let sPinPar			= lvp.localPosition(of:.zero, inSubVew:lvSCon2Vew)// e.g: p9/t3.P
+			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lvPCon2Vew)// e.g: p9/t1.P
 //			if pPinPar.isNan {				/// FOR DEBUG
 //				computeLinkForces(vew:vew)		// might go recursive!
 //				return
@@ -454,8 +458,8 @@ bug	// Never USED?
 			let springK			= CGFloat(1.0)
 			let force			= delta * springK
 			if !force.isNan {
-				let pInertialVew = lv.pCon2Vew.intertialVew	// Who takes brunt?
-				let sInertialVew = lv.sCon2Vew.intertialVew
+				let pInertialVew = lvPCon2Vew.intertialVew	// Who takes brunt?
+				let sInertialVew = lvSCon2Vew.intertialVew
 				if (pInertialVew?.force.isNan ?? false) || (sInertialVew?.force.isNan ?? false) {
 					panic("lskdfj;owifj")
 				}

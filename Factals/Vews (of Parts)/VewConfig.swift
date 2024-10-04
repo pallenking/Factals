@@ -68,7 +68,7 @@ extension Vew {
 			 // ensure each childPart has a childVew
 			for childPart in part.children {
 				let childVew	= self.find(part:childPart, maxLevel:1) ?? {
-					let vew		= childPart.VewForSelf()						//let vew		= Vew(forPart:childPart)	// Build a new one
+					let vew		= childPart.VewForSelf()
 					self.addChild(vew)
 					return vew
 				}()

@@ -34,11 +34,11 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
 	var slotx : Int { slot ?? -1 }
 
-	 /// VewBase(for:)
-	init(for p:PartBase) {
-		partBase				= p
+	init(for pb:PartBase) {	 			/// VewBase(for:)
+		partBase				= pb
 		scnSceneBase			= ScnSceneBase()
-		tree					= Vew()			// Start with just trunk Vew
+		tree					= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
+
 		VewBase.nVewBase 		+= 1
 
 		super.init()			// NSObject
@@ -46,7 +46,6 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
 //		scnSceneBase.tree?.rootNode.name = self.tree.name
 	}
-//	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 
 	func configure(from:FwConfig) {
 		self.tree.configureVew(from:from)							// vewConfig = c
@@ -210,7 +209,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 								
 			 // change from viewing null
 			if tree.name == "_null" {
-				tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
+bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 				tree.scnRoot.name = "*-" + partBase.tree.name
 			}
 
@@ -257,6 +256,6 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		
 		return super.pp(mode, aux)			// superclass does all the work.
 	}
-	  // MARK: - 16. Global Constants
-	static let null : VewBase = VewBase(for:.null)
+//	  // MARK: - 16. Global Constants
+//	static let null : VewBase = VewBase(for:.null)
 }

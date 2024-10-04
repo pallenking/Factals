@@ -78,7 +78,7 @@ final class FactalsTests: XCTestCase {
 		let m2 = m1.pp(.uidClass)
 		XCTAssertTrue(m2.hasSuffix(":MaxOr"))
 
-		let n1 = Vew()
+bug;	let n1 = Vew(forPart:m1)
 		let n2 = n1.pp(.uidClass)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
@@ -222,8 +222,8 @@ final class FactalsTests: XCTestCase {
 	}
 
 	func testIdenticalOperator() {
-		var vew : Vew?			= Vew()
-		vew						??= Vew()
+//		var vew : Vew?			= Vew()
+//		vew						??= Vew()
 
 		struct Test {
 			let lhs : Part?

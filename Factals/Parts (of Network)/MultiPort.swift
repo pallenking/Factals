@@ -93,9 +93,4 @@ class MultiPort : Port {
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scn.bBox()	// Xyzzy44 vsb
 	}
-	  // MARK: - 9.5: RePaint:
-//	 override func rePaint(vew:Vew) {	// MultiPorts have no colorings
-//		super.rePaint(vew:vew)
-//	 }
-//	static let null1 			= MultiPort()
 }

@@ -29,9 +29,10 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }//
-var LLDBParts : PartBase		{	FACTALSMODEL?.partBase ?? .null }
+var LLDBParts : PartBase		{	FACTALSMODEL?.partBase ?? fatalError("FACTALSMODEL is nil") as! PartBase }
 func LLDBParts(_ name:String?=nil) -> Part  {
-	guard var rv : Part			= FACTALSMODEL?.partBase.tree else { return .null	}
+	guard var rv : Part			= FACTALSMODEL?.partBase.tree else {
+									return Part(["name":"COULD NOT FIND tree"])	}
 	if name != nil {			// Search for sought Part	//maxLevel:1,
 		rv						= rv.find(name:name!, up2:false, me2:true) ?? rv
 	}
@@ -40,20 +41,22 @@ func LLDBParts(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  LLDBvews0  : VewBase {
-	get 		{	return FACTALSMODEL?.vewBases.first ?? .null				}
-	set (v)		{		   FACTALSMODEL?.vewBases[0] = v							}
+	get 		{	return FACTALSMODEL?.vewBases.first ?? fatalError("vewBases.first is nil") as! VewBase	}
+	set (v)		{		   FACTALSMODEL?.vewBases[0] = v						}
 }
 var  LLDBvews1  : VewBase {
-	get 		{	return FACTALSMODEL!.vewBases.count > 1 ? FACTALSMODEL!.vewBases[1] : .null									}
-	set (v)		{		   FACTALSMODEL?.vewBases[1] = v							}
+	get 		{	return FACTALSMODEL!.vewBases.count > 1 ? FACTALSMODEL!.vewBases[1]
+						 : fatalError("vewBases.first is nil") as! VewBase		}
+	set (v)		{		   FACTALSMODEL?.vewBases[1] = v						}
 }
 var  LLDBvews2  : VewBase {
-	get 		{	return FACTALSMODEL!.vewBases.count > 2 ? FACTALSMODEL!.vewBases[2] : .null									}
-	set (v)		{		   FACTALSMODEL?.vewBases[2] = v							}
+	get 		{	return FACTALSMODEL!.vewBases.count > 2 ? FACTALSMODEL!.vewBases[2]
+						 : fatalError("vewBases[2] is nil") as! VewBase			}
+	set (v)		{		   FACTALSMODEL?.vewBases[2] = v						}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 	guard let factalsModel 		= FACTALSMODEL else {
-		fatalError("FACTALSMODEL returns .null:\(ppUid(Vew.null)) !!!")
+		fatalError("FACTALSMODEL returns nil !!!")
 	}
 	guard index >= 0 && index < factalsModel.vewBases.count else { fatalError("rootvew() returns .null !!!")	}
 	var vew : Vew				= factalsModel.vewBases[index].tree

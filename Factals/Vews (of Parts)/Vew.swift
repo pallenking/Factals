@@ -59,9 +59,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	var log : Log				{ 	part.log 									}
 
 	 // MARK: - 3. Factory
-	 // Vew(forPart:expose:)
-	init(forPart p:Part?/*=nil*/, expose e:Expose? = nil) {
-		let part				= p ?? .null
+	init(forPart p:Part/*?=nil*/, expose e:Expose? = nil) {	 // Vew(forPart:expose:)
+		let part				= p
 		self.part 				= part
 		self.name				= "_" + part.name 	// View's name is Part's with '_'
 		self.expose				= e ?? part.initialExpose
@@ -87,7 +86,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	func configureVew(from config:FwConfig) {
 		vewConfig				= config
 	}
-	init(forPort port:Port) {			// Vew(forPort
+	init(forPort port:Port) {			/// Vew(forPort
 		self.part 				= port
 		self.name				= "_" + port.name 	// Vew's name is Part's with '_'
 		self.expose				= .open
@@ -189,7 +188,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 //		scnScene.addChild(node:vew.scnScene)// wire scnScene tree isomorphically
 	}
 	func replaceChild(_ oldVew:Vew?, withVew newVew:Vew) {
-		let i					= children.firstIndex(where: {$0 === oldVew ?? .null})
+		let i					= children.firstIndex(where: {$0 === oldVew})	// ?? .null
 bug		//oldVew?.scnScene.removeFromParent()// remove old
 		oldVew?.removeFromParent()
 		addChild(newVew, atIndex:i)			// add new
@@ -737,10 +736,6 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 			": --------------\n\(message())\n" + "----------------------------\n")
 		//machineTrap()				// transfer control to debugger
 	}
-
-	  // MARK: - 16. Global Constants
-//	static let null 			= Vew(forPart:.null)	/// Any use of this should fail
-
 	 // MARK: - 17. Debugging Aids
 	override var description	  : String {	return  "d'\(pp(.short))'"		}
 	override var debugDescription : String {	return "dd'\(pp(.short))'" 		}

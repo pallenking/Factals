@@ -911,8 +911,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		parentVew?.addChild(v)
 		return v
 	}
-	func VewForSelf() -> Vew? 	{		return Vew(forPart:self)				}
-
+	func VewForSelf() -> Vew? 	{
+		return Vew(forPart:self)
+	}
 	  // MARK: - 9.1 reVew
 	 /// Ensure Vew has proper child Vew's
 	/// - Parameter vew_: 	------ Possible Vew of self
@@ -1599,9 +1600,6 @@ func foo () {
 		nLinesLeft				-= nLinesLeft != 0 ?  1 : 0	// decrement if non-zero
 		return rv
 	}
-	 // MARK: - 16. Global Constants
-//	static let null 			= Part(["n":"null"])	// Any use of this should fail (NOT IMPLEMENTED)
-
 	 // MARK: - 17. Debugging Aids
 	var description	 	 : String 	{	return  "d'\(pp(.short))'"				}
 	var debugDescription : String	{	return "dd'\(pp(.short))'"				}

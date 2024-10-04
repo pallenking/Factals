@@ -448,11 +448,4 @@ bug		// invisible?
 			"""
 		return "\n" + rv
 	}
-	 // MARK: - 16. Global Constants
-	// Any use of this should fail (NOT IMPLEMENTED)
-	static let null 		=  PartBase(fromLibrary:"")
-//	static let null 		= {
-//		let rp					= Parts(fromLibrary:"")	// Any use of this should fail (NOT IMPLEMENTED)
-//		return rp
-//	}()
 }

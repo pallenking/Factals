@@ -72,7 +72,7 @@ class Previous : Atom {
 ////bug;		let index 			= prevMinorModeNames.index(of:modeStr)			//NSInteger index = [prevMinorModeNames indexOfObject:mode]
 //			 // default:
 //			if let n			= modeStr as? Int {						// major mode = 0 --> Default
-//				assert(n == 0, "only number 0 (=null mode) defined")
+//				assert(n == 0, "only number 0 (= null mode) defined")
 //				majorMode 		= .monitor
 ////				minorMode 		= .prevMinorModeMonitor
 //			}

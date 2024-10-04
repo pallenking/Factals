@@ -50,16 +50,15 @@ struct SelfiePole: Observable, Equatable {
 		var poleSpinAboutY		= SCNMatrix4MakeRotation(spinRadians, 0, 1, 0)
 
 		 //  ---- translated above Point of Interest by cameraPoleHeight
-		let lookAtVew			= Vew.null
-		let posn				= lookAtVew.bBox.center
-		let lookAtWorldPosn		= lookAtVew.scnRoot.convertPosition(posn, to:nil)
-		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
-
-		poleSpinAboutY.position	= lookAtWorldPosn + position
+//		let lookAtVew			= Vew.null
+//		let posn				= lookAtVew.bBox.center
+//		let lookAtWorldPosn		= lookAtVew.scnRoot.convertPosition(posn, to:nil)
+//		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
+//
+//		poleSpinAboutY.position	= lookAtWorldPosn + position
 
 		 //  ---- With a boom (crane or derek) raised upward above the horizon:
-		let upTilt				= gaze * .pi / 180.0
-		let riseAboveHoriz		= SCNMatrix4MakeRotation(upTilt, 1, 0, 0)
+		let riseAboveHoriz		= SCNMatrix4MakeRotation(gaze * .pi / 180.0, 1, 0, 0)
 
 		 //  ---- move out boom from pole, looking backward:
 		let toEndOfBoom			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5

@@ -357,7 +357,7 @@ extension Dictionary {
 	func color0_   (_ k:Key) -> NSColor {  return   color0(k) ?? .purple		}
 	func color0    (_ k:Key) -> NSColor?{  return     self[k] as? NSColor		}
 //	func color0    (_ k:Key) -> NSColor?{  return    (self[k] as? FwAny)?.asNSColor}
-	func part_     (_ k:Key) -> Part 	{  return     part(k) ?? .null			}
+// 	func part_     (_ k:Key) -> Part 	{  return     part(k) ?? .null			}
 	func part      (_ k:Key) -> Part?	{  return    (self[k] as? FwAny)?.asPart}
 	func fwConfig_ (_ k:Key) -> FwConfig{  return fwConfig(k) ?? [:]			}
 	func fwConfig  (_ k:Key) -> FwConfig?{ return    (self[k] as? FwAny)?.asFwConfig}

@@ -64,8 +64,10 @@ struct FactalsDocument : FileDocument {
 			return select
 		} ()
 		let partBase			= PartBase(fromLibrary:select)
+
 		 // 2. FactalModel
 		factalsModel			= FactalsModel(partBase:partBase)
+
 		 // 3. Groom part
 		let pmConfig			= factalsModel.fmConfig
 								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
