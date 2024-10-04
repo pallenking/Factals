@@ -86,10 +86,12 @@ extension FactalsModel  : Logd {}
 		atBld(5, log.logd("### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):"))
 		let vewBase				= VewBase(for:partBase)
 		vewBase.factalsModel	= self						// Backpointer
-		vewBases.append(vewBase)							// Install
-
+		vewBases.append(vewBase)							// Install vewBase
+															// Install in scnSceneBase
+		vewBase.scnSceneBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
+		vewBase.setupSceneVisuals()							// Lights and Camera
 		vewBase.updateVSP(initial:vewConfig)
-		vewBase.setupSceneVisuals()
+		//printFwState()
 
 		atBld(5, log.logd("---====--- anotherVewBase() done \(vewBase.pp(.uidClass)) "))
 		//atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))

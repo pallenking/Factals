@@ -173,7 +173,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		guard let vew else {
 			return							// no part, nuttin to do
 		}
-		if let ind {					// Index specified
+		if let ind {						// Index specified
 			children.insert(vew, at:ind)
 		}
 		else {								// Index nil --> append
@@ -184,24 +184,17 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		part.parent?.markTree(dirty:.size)	// Affects parent's size
 		part.markTree(dirty:.vew)
 
-//	??	// Add the "entry SCNNode" for the vew
+		// Add the "entry SCNNode" for the vew
+		scn.addChild(node:vew.scn)			// wire scn tree isomorphically	// was node:vew.scnScene
 //		scnScene.addChild(node:vew.scnScene)// wire scnScene tree isomorphically
-	}
-	func replaceChild(_ oldVew:Vew?, withVew newVew:Vew) {
-		let i					= children.firstIndex(where: {$0 === oldVew})	// ?? .null
-bug		//oldVew?.scnScene.removeFromParent()// remove old
-		oldVew?.removeFromParent()
-		addChild(newVew, atIndex:i)			// add new
-		part.markTree(dirty:.size)			// recalculate size
 	}
 	 // Remove if parent exists
 	func removeFromParent() {
-		if let i		 		= parent?.children.firstIndex(where: {$0 === self}) {
-			parent?.children.remove(at:i)
-			parent?.part.markTree(dirty:.size)	//.vew
-		}else{
-			panic("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
+		guard let i		 		= parent?.children.firstIndex(where: {$0 === self}) else {
+			fatalError("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
 		}
+		parent?.children.remove(at:i)
+		parent?.part.markTree(dirty:.size)	//.vew
 	}
 	func removeAllChildren() {
 		for childVew in children { 			// Remove all child Vews
@@ -697,10 +690,11 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				let rootScn		= vewBase()?.scnSceneBase.tree?.rootNode ?? .null
-				rv				+= !ppViewOptions.contains("W") ? ""	// World coordinates
+				if let rootScn	= vewBase()?.scnSceneBase.tree?.rootNode {
+					rv			+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
-//								:  "w" + scnRoot.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
+							//	:  "w" + scnRoot.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
+				}
 				if !(self is LinkVew) {
 					 // SceneKit's BBox:
 					if aux.bool_("ppScnBBox") {

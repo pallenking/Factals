@@ -377,22 +377,22 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			facMod()?.doPartNViewsLocked(workNamed:"B_computeLinkForces", logIf:self.logRenderLocks) { vewBase in
-				vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
+			facMod()?.doPartNViewsLocked(workNamed:"B_computeLinkForces", logIf:self.logRenderLocks) {
+				$0.factalsModel.partBase.tree.computeLinkForces(vew:$0.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			facMod()?.doPartNViewsLocked(workNamed: "C_applyLinkForces", logIf:self.logRenderLocks) {vewBase in
-				vewBase.factalsModel.partBase.tree.applyLinkForces(vew:vewBase.tree)
+			facMod()?.doPartNViewsLocked(workNamed: "C_applyLinkForces", logIf:self.logRenderLocks) {
+				$0.factalsModel.partBase.tree.applyLinkForces(vew:$0.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			facMod()?.doPartNViewsLocked(workNamed:"D_xx", logIf:self.logRenderLocks) {vewBase in
-				//vewBase.factalsModel.partBase.tree.computeLinkForces(vew:vewBase.tree)
+			facMod()?.doPartNViewsLocked(workNamed:"D_xx", logIf:self.logRenderLocks) {
+				$0.factalsModel.partBase.tree.computeLinkForces(vew:$0.tree)
 			}
 		}
 	}

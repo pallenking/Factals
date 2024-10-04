@@ -110,7 +110,7 @@ extension Part {
 //		return rv != 0
 //	}
 	func test(dirty bit:DirtyBits) -> Bool {
-		assert(bit != .reset, "Illegal semantics - should never testNReset .reset because ...")
+		assert(bit != .reset, "Illegal semantics - should never test(dirty:.reset)")
 		let rv					= dirty.rawValue & bit.rawValue
 		return rv != 0
 	}

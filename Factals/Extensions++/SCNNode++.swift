@@ -452,12 +452,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 		return rv2
 	}
 	 // MARK: - 16. Global Constants
-	static let null : SCNNode	= {
-		let n					= SCNComment("null scnScene")		/// Any use of this should fail
-		n.name					= "null scnScene"
-		return n
-	} ()
-     // MARK: - 17. Debugging Aids
+//      // MARK: - 17. Debugging Aids
 	override open var description	   : String {	return  "d'\(pp(.short))'"	}
 	override open var debugDescription : String {	return "dd'\(pp(.short))'"	}		// works 181120
 	var summary					  	   : String {	return  "s'\(pp(.short))'"	}

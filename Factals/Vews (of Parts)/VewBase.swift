@@ -204,7 +204,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		let partsTree			= partBase.tree		// Model
 
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
-		if partsTree.test(dirty:.vew) {		//" _ reVew _   VewBase (per updateVSP(needsLock:'\\(newOwner2)')") {
+		if partsTree.test(dirty:.vew) {				//" _ reVew _   VewBase (per updateVSP()" {
 			atRve(6, log ? logd("updateVSP(vewConfig:(initial)") : nop)
 								
 			 // change from viewing null
@@ -212,11 +212,11 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 				tree.scnRoot.name = "*-" + partBase.tree.name
 			}
-
 			 // Vew Configuration specifies open stuffss
 			if let initial {
 				tree.openChildren(using:initial)
 			}
+
 			  // Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		partsTree.reVew(vew:tree, parentVew:nil)
@@ -225,7 +225,7 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 			partsTree.reVewPost(vew:tree)
 		}
 		 // ---- 2.  Adjust   S I Z E s   ---- //
-		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP(needsLock:'(newOwner2 ?? \"nil\")')") {
+		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()" {
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
 			
 			tree.bBox		|= BBox.unity			// insure a 1x1x1 minimum
@@ -235,8 +235,8 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 			partsTree.reSizePost(vew:tree)				// ===(set link Billboard constraints)
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 		}
-		 // -----   P A I N T   Skins ----- //
-		if partsTree.test(dirty:.paint) {		//" _ rePaint _ VewBase (per updateVSP(needsLock:'(newOwner2 ?? \"nil\")')") {
+		 // ----- 3.  Re  P A I N T   Skins ----- //
+		if partsTree.test(dirty:.paint) {		//" _ rePaint _ VewBase (per updateVSP()" {
 	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!

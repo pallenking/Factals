@@ -177,8 +177,7 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 extension PartBase : FactalsStatus	{								 ///PartBase
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("PartBase     ", uid:self,
-			myLine: "tree:\(tree.pp(.classUid)) "		 			+
-//			myLine: "tree:\(ppUid(tree, showNil:true)) " 			+
+			myLine: "tree:\(tree.pp(.uidClass)) "		 			+
 					"(\(portCount()) Ports) " 						+
 					"lock=\(semiphore.value ?? -98) " 				+
 					(curOwner==nil ? "UNOWNED," : "OWNER:'\(curOwner!)',") +
@@ -215,11 +214,11 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		guard let slot			= slot,
 		  slot >= 0 && slot < factalsModel.vewBases.count else { fatalError("Bad slot")}
 		assert(factalsModel.vewBases[slot] === self, "vewBases.'\(String(describing: factalsModel))'")
-///		assert(self.tree.scn === self.scnSceneBase.tree,  "ERROR .scn !== \(self.tree.scn.pp(.classUid))")
-
 		let myName				= "VewBase[\(slot)]:  "
-//		let myName				= "VewBase      "
-		var myLine				= "tree:\(tree.pp(.classUid)) "
+
+		var (a, b)				= (self.tree.scn, self.scnSceneBase.tree?.rootNode)
+		var myLine				= a===b ? "" : ("ERROR tree.scn(\(a.pp(.uid))!==scnBase's \(b?.pp(.uid) ?? "nil")  ")
+		myLine					+= "tree:\(tree.pp(.uidClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
@@ -261,9 +260,9 @@ extension SelfiePole : FactalsStatus	{							///SelfiePole
 extension ScnSceneBase : FactalsStatus	{						  ///ScnSceneBase
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-		myLine					+= "tree:\(tree?.rootNode.pp(.classUid) ?? "<nil>")=rootNode "
-		myLine					+= "\(tree?				 .pp(.classUid) ?? "<nil>") "
-		myLine					+= "scnView:\(	 scnView?.pp(.classUid) ?? "<nil>") "
+		myLine					+= "tree:\(tree?.rootNode.pp(.uidClass) ?? "<nil>")=rootNode "
+		myLine					+= "\(tree?				 .pp(.uidClass) ?? "<nil>") "			//classUid
+		myLine					+= "scnView:\(	 scnView?.pp(.uidClass) ?? "<nil>") "			//classUid
 		return ppFactalsStateHelper(fwClassName.field(-13), uid:self, myLine:myLine,
 //			otherLines: { deapth in
 //				return self.tree!   .ppFactalsState(deapth:deapth-1)

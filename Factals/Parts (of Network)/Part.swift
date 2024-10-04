@@ -934,8 +934,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		switch vew?.expose ?? initialExpose{// (if no vew, use default in part)
 
 		case .open:					// //// Show insides of Part ////////////
-			vew					= vew ?? 	// 3. CREATE:
-								  addNewVew(in:pVew)
+			vew					= vew ??
+								  addNewVew(in:pVew) 	// 3. CREATE:
 			 // Remove old skins:
 			vew!.scnRoot.find(name:"s-atomic")?.removeFromParent()
 			markTree(dirty:.size)
@@ -950,8 +950,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			}
 
 		case .atomic:				// //// "think harder"
-			vew					= vew ?? 	// 3. CREATE:
-								  addNewVew(in:pVew)
+			vew					= vew ??
+								  addNewVew(in:pVew) 	// 3. CREATE:
 			if vew != nil,
 			  vew!.children.count > 0 {
 				vew!.removeAllChildren()	// might eliminate later
