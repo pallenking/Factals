@@ -160,23 +160,6 @@ struct SceneKitView: NSViewRepresentable {
 								//	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
 								//  print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
 								//}
-//	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
-//	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
-//	 ?? []
-//	func handleMouseDown(event: NSEvent) {
-//		mouseDown = true
-//		handleMouseEvent(event)
-//	}
-//	func handleMouseEvent(_ event: NSEvent) {
-//		if let view = NSApplication.shared.keyWindow?.contentView {
-//			let location = view.convert(event.locationInWindow, from: nil)
-//bug;		if let hitNsView = view.hitTest(location) {//,
-//				bug
-//			//let sceneView = hitNsView.node.scene?.view {//as? SCNView {
-//			//	sceneView.mouseDown(with: event)
-//			}
-//		}
-//	}
 		//animatePhysics 			= c.bool("animatePhysics") ?? false
 		//if let gravityAny		= c["gravity"] {
 		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {

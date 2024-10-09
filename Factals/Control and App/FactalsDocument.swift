@@ -86,8 +86,8 @@ struct FactalsDocument : FileDocument {
 								+ partBase.ansConfig		// from library
 								+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
-		factalsModel.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
-		factalsModel.simulator.simRun	= true
+		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
+	//	factalsModel.simulator.simRun	= true
 	}
 								/*		How to configure?
 									1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]

@@ -573,6 +573,23 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 										//		 // Find the 3D Vew for the Part under the mouse:
 										//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
 		 // scnView is SCNSceneRenderer:
+
+//	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
+//	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
+
+//	func handleMouseEvent(_ event: NSEvent) {
+//		if let view = NSApplication.shared.keyWindow?.contentView {
+//			let location = view.convert(event.locationInWindow, from: nil)
+//bug;		if let hitNsView = view.hitTest(location) {//,
+//				bug
+//			//let sceneView = hitNsView.node.scene?.view {//as? SCNView {
+//			//	sceneView.mouseDown(with: event)
+//			}
+//		}
+//	}
+//		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+
+//		let view2 = NSApplication.shared.keyWindow?.contentView
 		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
 		atDoc(5, print("\n---nsEvent loc \(f2(nsEvent.locationInWindow)) -> \(f2(locationInRoot)) in View.frame \(contentView.frame.size), \(hits.count) hits."))
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
@@ -633,12 +650,12 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
 		let transform			= selfiePole.transform()
-		guard let cameraScn		= vewBase?.cameraScn else {fatalError("RootScn.cameraScn in nil")}
+		guard let cameraScn		= vewBase?.cameraScn else {fatalError("vewBase.cameraScn is nil")}
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("selfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
 			// add ortho magnification.
-		cameraScn.camera?.orthographicScale = selfiePole.zoom * 20
+cameraScn.camera?.orthographicScale = selfiePole.zoom * 10
 	}
 	 // MARK: - 15. PrettyPrint
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {

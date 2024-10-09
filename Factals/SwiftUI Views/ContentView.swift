@@ -16,29 +16,29 @@ struct ContentView: View {
 	@Binding var document : FactalsDocument
 	@State var prefFps = Float(0.5)
 	var body: some View {
-		FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+	//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
 //	////////////////////// SCAFFOLDING /////////////////////////////////////////
-	//	SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
+		SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
 	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
 	//	Text("ContentView")  										// Minimal View
 	}
 }
-//struct SimpleSceneKitView : View {
-//	let vewBase : VewBase?
-//	@Binding var prefFps : Float
-//	var body: some View {
-//		ZStack {
-//			let scnSceneBase = vewBase!.scnSceneBase
-//			SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)
-//				.frame(maxWidth: .infinity)
-//				.border(.black, width:1)
-//			EventReceiver { nsEvent in // Catch events (goes underneath)
-//				print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
-//				let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
-//			}
-//		}
-//	}
-//}
+struct SimpleSceneKitView : View {
+	let vewBase : VewBase?
+	@Binding var prefFps : Float
+	var body: some View {
+		ZStack {
+			let scnSceneBase = vewBase!.scnSceneBase
+			SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)
+				.frame(maxWidth: .infinity)
+				.border(.black, width:1)
+			EventReceiver { nsEvent in // Catch events (goes underneath)
+				print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+				let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
+			}
+		}
+	}
+}
 //struct SimpleViewRepresentable: NSViewRepresentable {
 //	var simpleObject : AnyObject							// ARG1: causes hierarchy bug
 //	typealias NSViewType 		= NSView//SCNView			// Type represented
@@ -97,7 +97,7 @@ struct FactalsModelView: View {
 									.frame(maxWidth: .infinity)
 									.border(.black, width:1)
 								EventReceiver { nsEvent in // Catch events (goes underneath)
-									print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+									print("...\n...Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
 									let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 								}
 							}

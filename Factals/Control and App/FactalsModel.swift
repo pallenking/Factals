@@ -22,7 +22,7 @@ extension FactalsModel  : Logd {}
 	}
 
 	 // MARK: - 3. Factory
-	init(partBase pb:PartBase?=nil) {											// FactalsModel(partBase:PartBase)
+	init(partBase pb:PartBase) {	// FactalsModel(partBase:)
 
 		let params4modelLog : FwConfig =
 			params4partPp		+  	//	pp... (50ish keys)
@@ -32,7 +32,7 @@ extension FactalsModel  : Logd {}
 		simulator 				= Simulator(config:params4sim)
 		docSound				= Sounds()
 
-		partBase				= pb ?? PartBase(tree:Part())
+		partBase				= pb
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 //		fmConfig				= params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
