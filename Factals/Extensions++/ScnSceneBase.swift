@@ -567,15 +567,10 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 //		let view2 = NSApplication.shared.keyWindow?.contentView
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-		 // Find vews of NSEvent
 
-//		guard let contentView 	= NSApp.keyWindow?.contentView else { return nil}
 		guard let tree			= vewBase.scnSceneBase.tree    else { return nil}
-		guard let scnView		= scnView 					   else { fatal("vewBase.scnSceneBase.scnView is nil") }
-//		guard let scnView		= vewBase.scnSceneBase.scnView else { fatal("vewBase.scnSceneBase.scnView is nil") }
-		guard let slot 			= vewBase.slot			 	   else { return nil}
-
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
@@ -585,28 +580,27 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
 		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-			.rootNode:tree				// The root of the node hierarchy to be searched.
+	//		.rootNode:tree				// The root of the node hierarchy to be searched.
 		]
 
+		guard let scnView				else { fatal("self.scnView is nil") }
 		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)
 		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
-		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:
 		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
 		var pickedScn			= sortedHits.first?.node ?? tree.rootNode
-//		var pickedScn			= (sortedHits.count==0 ? tree : sortedHits[0].node)// as! SCNNode
 
-		var msg					= "******************************************\n Slot\(slot): find "
-		msg 					+= "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"	// SCNNode<3433>'/*-ROOT'
+		var msg					= "******************************************\n Slot\(vewBase.slot ?? -1): "
+		msg 					+= "find \(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"		// SCNNode<3433>'/*-ROOT'
 			
 		 // If Node not picable and has parent
 		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
 			  let parent 		= pickedScn.parent
 		{
-			msg					+= fmt(" --> category %02x (Ignore)", pickedScn.categoryBitMask)
+			msg					+= fmt("\t--> category %02x subpart", pickedScn.categoryBitMask)
 			pickedScn 			= parent				// use parent
 			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
 		}
@@ -615,11 +609,10 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
 			if trueF 				{ return nil 		}		// Ignore missing vew
 			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scnScene.pp(.classUid))")
-			let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) // for debug only
-			return nil
+			let redo4debug			= vewBase.tree.find(scnNode:pickedScn, me2:true) // for debug only
+			return redo4debug
 		}
-		msg							+= "      ===>    ####  ..."//\(vew.part.pp(.fullNameUidClass))  ####"
-	//	msg							+= "background -> trunkVew"
+		msg							+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
 		atEve(3, print("\n" + msg))
 		return vew
 	}
