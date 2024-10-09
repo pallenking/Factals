@@ -6,7 +6,8 @@ import SwiftUI
 extension FactalsModel  : Logd {}
 
 @Observable class FactalsModel : Uid {
-	var uid: UInt16				= randomUid()
+	var epoch: UInt16			= 1				// to mark dirty
+	var uid:   UInt16			= randomUid()
 
 	  // MARK: - 2. Object Variables:
 	var fmConfig  : FwConfig	= [:]
@@ -139,11 +140,10 @@ extension FactalsModel  : Logd {}
 
 	 // MARK: - 4.?
 	func vew(ofScnNode  s:SCNNode) -> Vew? {	bug; return nil}//vewBase(ofScnScene:s)?.tree 		}
-	func vewBase(ofScnNode  s:SCNNode)  -> VewBase? {
-//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
-		for vews in vewBases {
-			if vews.tree.scnRoot.find(firstWith:{ $0 == s }) != nil {
-				return vews
+	func vewBase(ofScnNode  s:SCNNode)  -> VewBase? {							//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
+		for vewBase in vewBases {
+			if vewBase.tree.scnRoot.find(firstWith:{ $0 == s }) != nil {
+				return vewBase
 			}
 		}
 		return nil
@@ -395,7 +395,7 @@ bug
 
 				// Title window
 		window.title			= vew.part.fullName
-		window.subtitle			= "Slot\(vew.vewBase()?.slot ?? -1)"
+		window.subtitle			= "Slot\(vew.vewBase()?.slot_)"
 
 				// Position on screen: Quite AD HOC!!
 		window.orderFront(self)				// Doesn't work -- not front when done!
@@ -425,7 +425,7 @@ bug
 			$0.tree.find(vew:vew, up2:false, me2:true, maxLevel: 9999) == vew
 		})
 		guard let vewBase		else {	fatalError()							}
-		let slotx				= vewBase.slot
+		let slot_				= vewBase.slot
 
 		 // ========= Get Locks for two resources, in order: =============
 		let workName			= "toggelOpen"

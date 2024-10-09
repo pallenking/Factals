@@ -51,6 +51,7 @@ struct SimpleTestView: View {
  						print("EventReceiver:point = \(nsEvent.locationInWindow)")
 						let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
 					}
+					MySceneView(scnSceneBase:scnSceneBase)
 				}
 			//	VewBaseBar(vewBase:$vewBase0)
 			}
@@ -60,6 +61,23 @@ struct SimpleTestView: View {
 
 // Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
 // MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
+
+
+	//		that communicates with a ViewModel
+	//			to render a SceneKit scene and
+	//		the ViewModel updates
+	//			with changes from SceneKit,
+	//				acting as the single source of truth.
+	////////////////////////////// Testing	$publisher/	$view
+	// Generate code exemplefying the following thoughts that I am told:
+	// sceneview takes in a publisher		// PW essential/big
+	// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+	// scenkit -> write models back to viewmodel. s
+	// viewmodel single source of truth.
+	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+	// now       : SceneView 	native SwiftUI (not full-featured)
+
+
 
  /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
@@ -91,7 +109,27 @@ struct SceneKitView: NSViewRepresentable {
 	}
 }
 
-/////////////////////////  SCRAPS   //////////////////////////////////
+// /////////////////////////////// SceneView ////////////////////////////
+
+struct MySceneView : View {
+	var scnSceneBase : ScnSceneBase?			// ARG1: exposes visual world
+
+	var body : some View {
+		SceneView(					 // Old Way
+			scene:scnSceneBase?.scnView!.scene,		//scnSceneBase.
+			pointOfView:nil,	// SCNNode
+			options:[.rendersContinuously],
+			preferredFramesPerSecond:30,
+			antialiasingMode:.none,
+			delegate:scnSceneBase,	//SCNSceneRendererDelegate?
+			technique: nil		//SCNTechnique?
+		)
+		 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
+		 .border(.black, width:1)
+	}
+}
+
+// ///////////////////////  SCRAPS   //////////////////////////////////
 
 //	@State		var isLoaded	= false
 //								 .onChange(of:isLoaded) { oldVal, newVal in				// compiles, seems OK

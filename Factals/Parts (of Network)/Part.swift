@@ -1415,6 +1415,41 @@ func foo () {
 	}
 
 
+
+//					let hostCtlr = NSHostingController(rootView:vewsInspec)		// NSViewController hostCtlr.view.frame = NSRect()
+//					pickedVew.addInspector(hostCtlr)
+//			 // Create Inspector Window (Note: NOT SwiftUI !!)
+//			window				= NSWindow(contentViewController:hostCtlr)	// create window
+//			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
+//			window!.contentViewController = hostCtlr		// if successful
+//	 func showInspecFor(vew:Vew, allowNew:Bool) {
+//		let vewsInspec			= Inspec(vew:vew)
+//		var window : NSWindow?	= nil
+//
+//		if let iw				= lastInspecWindow {		// New, less functional manner
+//			iw.close()
+//			self.lastInspecWindow	= nil
+//		} else {										// Old broken way
+//			 // Find an existing NSWindow for the inspec
+//			window 				= inspecWindow4vew[vew]	// Does one Exist?
+//			if window == nil,								// no,
+//			  !allowNew,									// Shouldn't create
+//			  let lv			= lastInspecVew {
+//				window			= inspecWindow4vew[lv]				// try LAST
+//			}
+//		}
+//
+//		// PW+4: How do I access MainMenu from inside SwiftUI
+//		// PW3: What is the right way to display vewsInspec? as popup?, window?, WindowGroup?...
+//		if window == nil {								// must make NEW
+//			let hostCtlr		= NSHostingController(rootView:vewsInspec)		// hostCtlr.view.frame = NSRect()
+//			 // Create Inspector Window (Note: NOT SwiftUI !!)
+//			window				= NSWindow(contentViewController:hostCtlr)	// create window
+//			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
+//			window!.contentViewController = hostCtlr		// if successful
+//		}
+//		guard let window 		else { fatalError("Unable to fine NSWindow")	}
+
 	 // MARK: - 13. IBActions
 	 /// Prosses keyboard key
     /// - Parameter from: ---- NSEvent to process
@@ -1435,9 +1470,11 @@ func foo () {
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
-					let alt 	= nsEvent.modifierFlags.contains(.option)
+			//		let alt 	= nsEvent.modifierFlags.contains(.option)
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
-					factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
+					let vewsInspec = Inspec(vew:pickedVew)
+					pickedVew.vewBase()?.addInspector(vewsInspec)
+			//		factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}
 							// Double Click: show/hide insides

@@ -253,10 +253,10 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 		 // Print new Log, if it has changed:
  		if logNo != Log.currentLogNo {						// different than last time
-			let curLogNoStr		= "Log\(logNo)"
+			let lastLogNo		= Log.currentLogNo
 			Log.currentLogNo	= logNo							// switch to new
-			let x				= "-- SWITCHING From \(curLogNoStr) TO Log\(Log.currentLogNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")"
-			print(x)
+			let x				= lastLogNo >= 0 ? "(From Log\(lastLogNo)) " : ""
+			print("-- SWITCHING \(x)To Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
 		}
 		// DO SOME OTHER WAY: sim state shouldn't be actor isolated, but Actors died in HNW
 		if let fm				= FACTALSMODEL {

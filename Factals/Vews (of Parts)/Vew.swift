@@ -50,12 +50,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 	}
 	var jog			: SCNVector3? = nil		// an ad-hoc change in position
 	var force		: SCNVector3 = .zero 	// for Animation for positioning
-																				 // Branch's Actor call for atomic?
-																				//		if p is Branch ||			// we are Branch
-																				//		   p is Leaf 		{			// we are Leaf
-																				//			if let a = p.parent.enclosedByClass("Actor"),
-																				//			  a.viewAsAtom {						// wants us to be atom
-																				//					return true													}
 	var log : Log				{ 	part.log 									}
 
 	 // MARK: - 3. Factory

@@ -144,13 +144,12 @@ extension Book : FactalsStatus {							///Book or ///Tests01, ...
 
 extension FactalsModel : FactalsStatus	{							///FactalsModel
 	func ppFactalsState(deapth:Int=999) -> String {
-		let myLine				= "\(vewBases.count) vewBases "
 		return ppFactalsStateHelper("FactalsModel ", uid:self,
-			myLine:myLine,
+			myLine : "\(vewBases.count) vewBases ",
 			otherLines:{deapth in
 
 				 // Controller:
-				var rv			= self.partBase.ppFactalsState(deapth:deapth-1)		//Actor
+				var rv			= self.partBase.ppFactalsState(deapth:deapth-1)
 				rv				+= self.simulator.ppFactalsState(deapth:deapth-1)
 				for vews in self.vewBases {
 					rv			+= vews.ppFactalsState(deapth:deapth-1)
@@ -158,17 +157,17 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 				rv				+= self.log.ppFactalsState(deapth:deapth-1)
 				rv				+= self.docSound.ppFactalsState(deapth:deapth-1)
 
-				 // Inspectors:
-				//rv			+= "---- inspecWindow4vew omitted -----"
-				if self.inspecWindow4vew.count > 0 {
-					rv			+= self.log.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
-					self.log.nIndent += 1
-					for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-						let win	= self.inspecWindow4vew[inspec]
-						rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
-					}
-					self.log.nIndent -= 1
-				}
+			//	 // Inspectors:
+			//	//rv			+= "---- inspecWindow4vew omitted -----"
+			//	if self.inspecWindow4vew.count > 0 {
+			//		rv			+= self.log.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
+			//		self.log.nIndent += 1
+			//		for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
+			//			let win	= self.inspecWindow4vew[inspec]
+			//			rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
+			//		}
+			//		self.log.nIndent -= 1
+			//	}
 				return rv
 			},
 			deapth:deapth-1)

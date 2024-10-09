@@ -15,8 +15,10 @@ struct FactalsModelBar: View {
 			Text("FactalsModel:").foregroundColor(.red).bold().presentationBackground(Color(.white))
 			Button(label:{	Text( "state")										})
 			{	printFwState()													}
-		//	Button(label:{	Text( "config")										})
-		//	{	printFwConfig()													}
+			Button(label:{	Text( "config")										})
+			{	printFwConfig()													}
+			Button(label: {	Text("++epoch\(factalsModel.epoch)")				})
+			{	factalsModel.epoch		+= 1									}
 			Button(label: {	Text("LLDB") 										})
 			{	breakToDebugger()												}
 			Spacer()

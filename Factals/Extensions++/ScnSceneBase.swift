@@ -400,7 +400,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
 		guard let vewBase 		= vewBase else { print("processEvent.rootVews[?] is nil"); return false}
-		let slot				= vewBase.slot ?? -1
+		let slot				= vewBase.slot_
 		let factalsModel		= vewBase.factalsModel		// why ! ??
 
 		switch nsEvent.type {
@@ -433,7 +433,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			mouseWasDragged 	= true			// drag cancels pic
-			spinNUp(with:nsEvent)			// change Spin and Up of camera
+			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
 			commitCameraMotion(reason:"Left mouseDragged")
 		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
@@ -452,7 +452,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
-			spinNUp(with:nsEvent)
+			motorSpinNUp(with:nsEvent)
 			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
@@ -477,7 +477,9 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			beginCameraMotion(with:nsEvent)
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .rightMouseDragged:
-			nop
+			beginCameraMotion(with:nsEvent)
+			motorZ(with:nsEvent)
+			commitCameraMotion(reason:"Left mouseDragged")
 		case .rightMouseUp:
 			beginCameraMotion(with:nsEvent)
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
@@ -582,7 +584,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 		  //.sortResults:1, 			// (implied)
-	//		.rootNode:tree				// The root of the node hierarchy to be searched.
+	//		.rootNode:tree				// The root of the node hierarchy to be searched. 			MOTOR BUSTED
 		]
 
 		guard let scnView				else { fatal("self.scnView is nil") }
@@ -593,8 +595,9 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
 		var pickedScn			= sortedHits.first?.node ?? tree.rootNode
 
-		var msg					= "******************************************\n Slot\(vewBase.slot ?? -1): "
-		msg 					+= "find \(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"		// SCNNode<3433>'/*-ROOT'
+		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><uid>'<fullName>'
+		var msg					= "******************************************\n Slot\(vewBase.slot_): "
+		msg 					+= "find \(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"
 			
 		 // If Node not picable and has parent
 		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
@@ -634,10 +637,14 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		lastPosition			= hitPosnV3
 	}
 
-	func spinNUp(with nsEvent:NSEvent) {
+	func motorSpinNUp(with nsEvent:NSEvent) {
 		vewBase!.selfiePole.spin -=  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
 		vewBase!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
+	func motorZ(with nsEvent:NSEvent) {
+		vewBase!.selfiePole.position.z += deltaPosition.y * 20
+	}
+
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
 		var selfiePole			= vewBase!.selfiePole
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
@@ -648,7 +655,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		//print("selfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
 			// add ortho magnification.
-cameraScn.camera?.orthographicScale = selfiePole.zoom * 10
+		cameraScn.camera?.orthographicScale = selfiePole.zoom * 10
 	}
 	 // MARK: - 15. PrettyPrint
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {

@@ -16,14 +16,14 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
-	var inspectors : [AnyView]	= []
-	func addInspector(_ inspector:AnyView) {
+	var inspectors : [Inspec]	= []
+	func addInspector(_ inspector:Inspec) {		//AnyView
 		inspectors.append(inspector)
 	}
  	var cameraScn	: SCNNode?	{
  		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
 	}
-	var lookAtVew	: Vew?		= nil						// Vew we are looking at
+	var lookAtVew	: Vew?		= nil		// Vew we are looking at
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -31,8 +31,8 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var prevOwner	: String? 	= nil
 	var verbose 				= false		// (unused)
 	 // Sugar
-	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)		}
-	var slotx : Int { slot ?? -1 }
+	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
+	 var slot_ 		: Int 		{	slot ?? -1 									}
 
 	init(for pb:PartBase) {	 			/// VewBase(for:)
 		partBase				= pb
