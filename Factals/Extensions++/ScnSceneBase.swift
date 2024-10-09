@@ -545,34 +545,11 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 	func f2(_ p:NSPoint) -> String { String(format:"(%.1f, %.1f)", p.x, p.y) }
 
-	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-		 // Find vews of NSEvent
-		guard let contentView 	= NSApp.keyWindow?.contentView else { return nil}
-		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
-
-		guard let tree			= vewBase.scnSceneBase.tree    else { return nil}
-		guard let scnView		= vewBase.scnSceneBase.scnView else { fatal("vewBase.scnSceneBase.scnView is nil") }
-		guard let slot 			= vewBase.slot			 	   else { return nil}
-
-		let configHitTest : [SCNHitTestOption:Any]? = [
-			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-				FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
-				FwNodeCategory.byDefault.rawValue ,
-			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-		  //.sortResults:1, 			// (implied)
-			.rootNode:tree				// The root of the node hierarchy to be searched.
-		]
 										//		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
 										// 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
 										//		guard let scnView else { fatalError("Couldn't find sceneView")			}
 										//		 // Find the 3D Vew for the Part under the mouse:
 										//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
-		 // scnView is SCNSceneRenderer:
 
 //	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
 //	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
@@ -588,10 +565,33 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 //		}
 //	}
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
-
 //		let view2 = NSApplication.shared.keyWindow?.contentView
+//		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
+	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
+		 // Find vews of NSEvent
+
+//		guard let contentView 	= NSApp.keyWindow?.contentView else { return nil}
+		guard let tree			= vewBase.scnSceneBase.tree    else { return nil}
+		guard let scnView		= scnView 					   else { fatal("vewBase.scnSceneBase.scnView is nil") }
+//		guard let scnView		= vewBase.scnSceneBase.scnView else { fatal("vewBase.scnSceneBase.scnView is nil") }
+		guard let slot 			= vewBase.slot			 	   else { return nil}
+
+		let configHitTest : [SCNHitTestOption:Any]? = [
+			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
+				FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
+				FwNodeCategory.byDefault.rawValue ,
+			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+			.searchMode:1,				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+		  //.sortResults:1, 			// (implied)
+			.rootNode:tree				// The root of the node hierarchy to be searched.
+		]
+
+		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)
 		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
-		atDoc(5, print("\n---nsEvent loc \(f2(nsEvent.locationInWindow)) -> \(f2(locationInRoot)) in View.frame \(contentView.frame.size), \(hits.count) hits."))
 		//		 + +   + +		// hitTest in protocol SCNSceneRenderer
 
 		 // SELECT HIT; prefer any child to its parents:
