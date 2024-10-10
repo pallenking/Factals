@@ -17,8 +17,11 @@ let d2formatter					= { () -> NumberFormatter in
 } ()
 
  // MAIN ENTRY POINT:
-struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
-	@ObservedObject var vew:Vew	// arg: object to be inspected.
+struct Inspec: View, Equatable {
+	@ObservedObject var vew:Vew	// arg1: object to be inspected.
+	static func == (lhs: Inspec, rhs: Inspec) -> Bool {
+		lhs.vew == rhs.vew
+	}
 
 	@ViewBuilder
 	func inspectionViewBuilder(subClass:String) -> some View {

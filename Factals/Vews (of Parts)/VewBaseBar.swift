@@ -13,7 +13,7 @@ struct VewBaseBar: View {
 	@State   var isEditing = false
 
 	var body: some View {
-		let _ = Self._printChanges()
+//		let _ = Self._printChanges()
 		VStack {
 			HStack {
 				if let slot		= vewBase.slot, 	// Installed?

@@ -430,12 +430,12 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 				print("leftMouseDown pic's Vew:\(v.pp(.short))")
 			}
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
-		case .leftMouseDragged:	// override func mouseDragged(with nsEvent:NSEvent) {
+		case .leftMouseDragged:			// override func mouseDragged(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			mouseWasDragged 	= true			// drag cancels pic
 			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
 			commitCameraMotion(reason:"Left mouseDragged")
-		case .leftMouseUp:	// override func mouseUp(with nsEvent:NSEvent) {
+		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
 				if let vew		= modelPic(with:nsEvent) {
