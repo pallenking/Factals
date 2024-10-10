@@ -17,8 +17,12 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	 var factalsModel : FactalsModel!		// Owner
 
 	var inspectors : [Inspec]	= []
-	func addInspector(_ inspector:Inspec) {		//AnyView
+	func addInspector(_ inspector:Inspec, allowNew:Bool) {		//was AnyView
+	//	if !allowNew {
+	//		inspectors			= []
+	//	}
 		inspectors.append(inspector)
+		print("Now VewBase:\(title) has \(inspectors.count) inspectors")
 	}
  	var cameraScn	: SCNNode?	{
  		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)

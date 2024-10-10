@@ -91,7 +91,7 @@ struct FactalsModelView: View {
 							}
 						}
 						// Flock: want to access
-						.tabItem { Label("L-\(vewBase.wrappedValue.slot_)", systemImage: "") 			}
+						.tabItem { Label("L:\(vewBase.wrappedValue.slot_)", systemImage: "") 			}
 						.tag(vewBase.wrappedValue.slot_)
 					}
 

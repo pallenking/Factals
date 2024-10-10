@@ -50,23 +50,31 @@ struct Inspec: View {			//struct Inspec<Label> where Label: View {	// ??
 		}
 	}
 
-
 	var body: some View {
 		VStack(alignment:.leading)  {					// Add Class Inspectors
 			let inheritedClasses:[String] = vew.part.inheritedClasses()//["Net"]//
+			Text("\(vew.part.fullName)")
+				.frame(maxWidth:.infinity, alignment:.center)
+				.bold() //.font(.system(size:12)
+//				.background(Color.white)
+//			Divider()
 			ForEach (inheritedClasses, id:\.self) { subClass in
 				inspectionViewBuilder(subClass:subClass)
-				Divider().background(Color.gray)
+			//	Divider().background(Color.gray)
 			}
+//				.background(Color.white)
+//				.border(Color.black, width:2)
 		//	ColorsPalette()
 		//	PickerStyles()
 		//	InspecTest(inspec:inspec)
-		}.padding(10)
+		}
+		.padding(10)
+		.border(Color.black, width:1)
 	}
 }
 
  // // // 3. Debug switch to select Previews:
-let inspectedPreview			= Vew(forPort:Port())	// 1. HNW Parts
+// let inspectedPreview			= Vew(forPort:Port())	// 1. HNW Parts
 
 struct InspecTest : View {
 	@State private var placeSelfy 			= "placeSelfy"

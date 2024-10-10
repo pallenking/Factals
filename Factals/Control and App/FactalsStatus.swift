@@ -215,12 +215,13 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		assert(factalsModel.vewBases[slot] === self, "vewBases.'\(String(describing: factalsModel))'")
 		let myName				= "VewBase[\(slot)]:  "
 
-		var (a, b)				= (self.tree.scn, self.scnSceneBase.tree?.rootNode)
+		let (a, b)				= (self.tree.scn, self.scnSceneBase.tree?.rootNode)
 		var myLine				= a===b ? "" : ("ERROR tree.scn(\(a.pp(.uid))!==scnBase's \(b?.pp(.uid) ?? "nil")  ")
 		myLine					+= "tree:\(tree.pp(.uidClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classUid) ?? "nil") "
+		myLine					+= "\(inspectors.count) inspectors"
 		return ppFactalsStateHelper(myName, uid:self,
 			myLine:myLine,
 			otherLines: { deapth in

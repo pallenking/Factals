@@ -1470,10 +1470,12 @@ func foo () {
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
-			//		let alt 	= nsEvent.modifierFlags.contains(.option)
+					let alt 	= nsEvent.modifierFlags.contains(.option)
+
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
 					let vewsInspec = Inspec(vew:pickedVew)
-					pickedVew.vewBase()?.addInspector(vewsInspec)
+					pickedVew.vewBase()?.addInspector(vewsInspec, allowNew:alt)
+
 			//		factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}

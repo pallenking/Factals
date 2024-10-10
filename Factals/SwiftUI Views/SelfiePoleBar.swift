@@ -7,29 +7,29 @@
 
 import SwiftUI
 
-struct LabeledCGFloat: View {
-			 var label		: String
-	@Binding var val		: CGFloat
-			 var formatter	: NumberFormatter = d2formatter
-			 var oneLine	= true
-
-	var body: some View {
-		if oneLine {
-			Text(label)
-			 .padding(.horizontal, -3)
-			TextField("", value:$val, formatter:formatter).frame(width:35)
-			 .padding(.horizontal, -3)
-		} else {
-			VStack {
-				Text(label)
-				 .padding(.horizontal, -3)
-				 .padding(.vertical, -10)
-				TextField("", value:$val, formatter:formatter).frame(width:35)
-				 .padding(.horizontal, -3)
-			}
-		}
-	}
-}
+//struct LabeledCGFloat: View {
+//			 var label		: String
+//	@Binding var val		: CGFloat
+//			 var formatter	: NumberFormatter = d2formatter
+//			 var oneLine	= true
+//
+//	var body: some View {
+//		if oneLine {
+//			Text(label)
+//			 .padding(.horizontal, -3)
+//			TextField("", value:$val, formatter:formatter).frame(width:35)
+//			 .padding(.horizontal, -3)
+//		} else {
+//			VStack {
+//				Text(label)
+//				 .padding(.horizontal, -3)
+//				 .padding(.vertical, -10)
+//				TextField("", value:$val, formatter:formatter).frame(width:35)
+//				 .padding(.horizontal, -3)
+//			}
+//		}
+//	}
+//}
 
 
 //class ViewModel: ObservableObject {
@@ -78,13 +78,12 @@ struct LabeledCGFloat: View {
 //}
 
 struct SelfiePoleBar: View   {
-	//@ObservedObject var selfiePole	: SelfiePole
 	@Binding var selfiePole	: SelfiePole
 
 	var body: some View {
 		HStack {
 			VStack {
-				Text("  " + "SelfiePole:").bold()	//.foregroundColor(.red)
+				Text("  " + "SelfiePole").bold()	//.foregroundColor(.red)
 				Text("id:\(selfiePole.pp(.uid))")
 			}
 			HStack {
