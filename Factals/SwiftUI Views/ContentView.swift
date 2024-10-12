@@ -100,6 +100,11 @@ struct FactalsModelView: View {
 					SimpleTestView(factalsModel:factalsModel)
 					 .tabItem { Label("SimpleTestView()", systemImage: "")		}
 					 .tag(-2)
+
+					 // force redraw
+					Text("Clear")
+					 .tabItem { Label("Clear", systemImage: "")		}
+					 .tag(-3)
 				}
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 					updateTitle()												}

@@ -305,7 +305,7 @@ bug
 				"\t'V'             -- build the Model's Views",
 				"\t'T'             -- Size and pack the Model's Views",
 				"\t'P'             -- Paint the skins of Views",
-				"\t'w'             -- print FactalsModel camera",
+				"\t'w'             -- print FactalsModel",
 				"\t'x'             -- send to model",
 //				"\t'f'             -- Freeze SceneKit Animations",
 				separator:"\n")

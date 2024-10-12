@@ -641,24 +641,30 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 
 var a1 : String 		{ return "a,v:-" + String(randomDist(0.0, 1.0))
 								+ ",l:"  + String(randomDist(4.0, 6.0))			}
-r("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
+xr("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Mirror(   [n:"a", "gain":-1, "offset":1, f:1]),
+//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+	Broadcast([n:"a", P:"t2,l:4"]),
+	Mirror([n:"t1", "gain":-1, "offset":1]),
+	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
+//	Mirror(   [n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )
 	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
 		Bulb(  [n:"u", share:"a", f:1]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
 	] ] ) } )
-	r("+ Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
-		Bulb([  n:"u", P:"a"]),  				// Broadcast
-		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+	xxr("+ Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
+//		Bulb([  n:"u", P:"t2"]),  				// Broadcast
+		Mirror([n:"t1", "gain":-1]),
+		Broadcast([n:"t0", P:"t2,l:5"]),
+		Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
+
 	] ]) })
 	r("Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
 		Bulb([  n:"b", P:"m"]),  				// Broadcast
@@ -1039,7 +1045,7 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xr("+Mirror Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+xxr("+Mirror Oscillator", e + selfiePole(s:0,u:30) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
 	Mirror([n:"t1", "gain":-1, "offset":1-decay]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
 ] ]) })

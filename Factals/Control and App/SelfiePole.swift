@@ -22,7 +22,7 @@ struct SelfiePole: Observable, Equatable {
 	var ortho	: CGFloat		= 0.0				// BROKEN 0->perspective, else ortho
 
 	mutating func configure(from config:FwConfig) {
-		 // Configure Camera from Source Code:
+		 // Configure Camera from Source Code: ["camera":["p":[1,2,3], "u":3.4] ...]]
 		if let c 				= config.fwConfig("camera") {
 			if let p 			= c.scnVector3("p"), !p.isNan {	// Pole Height
 				position		= p

@@ -488,8 +488,8 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .rightMouseDragged:
 			beginCameraMotion(with:nsEvent)
-			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
-//			motorZ(with:nsEvent)
+//			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
+			motorZ(with:nsEvent)
 			mouseWasDragged = true
 			commitCameraMotion(reason:"Left mouseDragged")
 		case .rightMouseUp:
@@ -658,14 +658,14 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	}
 
 	func commitCameraMotion(duration:Float=0, reason:String?=nil) {
-		var selfiePole			= vewBase!.selfiePole
-	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
-
-		let transform			= selfiePole.transform()
 		guard let cameraScn		= vewBase?.cameraScn else {fatalError("vewBase.cameraScn is nil")}
+		let selfiePole			= vewBase!.selfiePole
+	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
+		let transform			= selfiePole.transform()
 		//print("commitCameraMotion(:reason:'\(reason ?? "nil")')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("selfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
+
 			// add ortho magnification.
 		cameraScn.camera?.orthographicScale = selfiePole.zoom * 10
 	}
