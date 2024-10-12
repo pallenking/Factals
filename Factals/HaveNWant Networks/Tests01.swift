@@ -641,7 +641,7 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 
 var a1 : String 		{ return "a,v:-" + String(randomDist(0.0, 1.0))
 								+ ",l:"  + String(randomDist(4.0, 6.0))			}
-xr("++ Testing bcast.''", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
+xr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
