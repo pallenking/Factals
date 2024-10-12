@@ -432,8 +432,8 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:			// override func mouseDragged(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
-			mouseWasDragged 	= true			// drag cancels pic
 			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
+	/**/	mouseWasDragged = true
 			commitCameraMotion(reason:"Left mouseDragged")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
@@ -449,14 +449,24 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			beginCameraMotion(with:nsEvent)
+	/**/	if let v		= modelPic(with:nsEvent) {
+	/**/		print("otherMouseDown pic's Vew:\(v.pp(.short))")
+	/**/	}
 			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			motorSpinNUp(with:nsEvent)
+			mouseWasDragged = true
 			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			beginCameraMotion(with:nsEvent)
 			atEve(9, print("\( vewBase.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+	/**/	if !mouseWasDragged {			// UnDragged Up -> pic
+	/**/		if let vew		= modelPic(with:nsEvent) {
+	/**/			vewBase.lookAtVew = vew			// found a Vew: Look at it!
+	/**/		}
+	/**/	}
+	/**/	mouseWasDragged = false
 			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
@@ -478,7 +488,9 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			commitCameraMotion(duration:duration, reason:"Left mouseDown")
 		case .rightMouseDragged:
 			beginCameraMotion(with:nsEvent)
-			motorZ(with:nsEvent)
+			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
+//			motorZ(with:nsEvent)
+			mouseWasDragged = true
 			commitCameraMotion(reason:"Left mouseDragged")
 		case .rightMouseUp:
 			beginCameraMotion(with:nsEvent)
@@ -609,10 +621,10 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		}
 
 		 // Get Vew from SCNNode
-		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, me2:true) else {
+		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else {
 			if trueF 				{ return nil 		}		// Ignore missing vew
 			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scnScene.pp(.classUid))")
-			let redo4debug			= vewBase.tree.find(scnNode:pickedScn, me2:true) // for debug only
+			let redo4debug			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) // for debug only
 			return redo4debug
 		}
 		msg							+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="

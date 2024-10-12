@@ -72,6 +72,7 @@ struct FactalsModelView: View {
 							VewBaseBar(vewBase:vewBase)
 							let scnSceneBase = vewBase.scnSceneBase.wrappedValue
 							ZStack {
+								 // NSViewRepresentable of a SCNView : UIView
 								SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
 									.frame(maxWidth: .infinity)
 									.border(.black, width:1)

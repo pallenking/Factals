@@ -241,14 +241,14 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	 // MARK: - 4.6 Find Children
 	 /// FIND child Vew by its NAME:
 	//	all ->		up2		 :Bool	= false,			// search relatives of my parent
-	//	inMe2 ->	me2		 :Bool	= true,				// search me
+	//	inMe2 ->	inMe2		 :Bool	= true,				// search me
 	func find(name:String,
 
 			  up2:Bool=false,
-			  me2:Bool=false,
+			  inMe2:Bool=false,
 			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(up2:up2, me2:me2, maxLevel:maxLevel)
+		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.name == name		// view's name matches
 		}
@@ -257,10 +257,10 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	func find(vew:Vew,
 
 			  up2:Bool=false,
-			  me2:Bool=false,
+			  inMe2:Bool=false,
 			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(up2:up2, me2:me2, maxLevel:maxLevel)
+		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
 		{(v:Vew) -> Bool in
 			return v === vew	// view's part matches
 		}
@@ -269,10 +269,10 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	func find(part:Part,
 
 			  up2:Bool=false,
-			  me2:Bool=false,
+			  inMe2:Bool=false,
 			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(up2:up2, me2:me2, maxLevel:maxLevel)
+		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.part === part	// view's part matches
 		}
@@ -281,10 +281,10 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	func find(forPartNamed name:String,
 
 			  up2:Bool=false,
-			  me2:Bool=false,
+			  inMe2:Bool=false,
 			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(up2:up2, me2:me2, maxLevel:maxLevel)
+		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.part.name == name	// view's part.name matches
 		}
@@ -293,10 +293,10 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	func find(scnNode node:SCNNode,
 
 			  up2:Bool=false,
-			  me2:Bool=false,
+			  inMe2:Bool=false,
 			  maxLevel:Int?=nil) -> Vew?
 	{
-		return find(up2:up2, me2:me2, maxLevel:maxLevel)
+		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
 		{(vew:Vew) -> Bool in
 			return vew.scn == node				// view's SCNNode
 //			return vew.scnScene == node			// view's SCNNode
@@ -304,14 +304,14 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	}
 		/// find if closure is true:
 	func find(up2:Bool=false,
-			  me2:Bool=false,
+			  inMe2:Bool=false,
 			  maxLevel:Int?=nil,
 			  except exception:Vew?=nil,
 
 			  firstWith closureResult:(Vew) -> Bool) -> Vew?
 	{
 		 // Check self:
-		if me2,
+		if inMe2,
 		  closureResult(self) {				// Self match
 			return self
 		}
@@ -320,14 +320,14 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 			 // Check children:
 			//?let orderedChildren = upInWorld ? children.reversed() : children
 			for child in children where child != exception {	// Child match
-				if let sv		= child.find(up2:up2, me2:true, maxLevel:mLev1, firstWith:closureResult) {
+				if let sv		= child.find(up2:up2, inMe2:true, maxLevel:mLev1, firstWith:closureResult) {
 					return sv
 				}
 			}
 		}
 		 // Check around self
 		if up2 {
-			return parent?.find(up2:false, me2:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
+			return parent?.find(up2:false, inMe2:true, maxLevel:maxLevel, except:self, firstWith:closureResult)
 		}
 		return nil
 	}

@@ -742,9 +742,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	func find(name desiredName:String,
 								
 			  up2 			 	: Bool	= false,
-			  me2				: Bool	= false,
+			  inMe2				: Bool	= false,
 			  maxLevel			: Int?	= nil) -> Part? { // Search by name:
-		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel) {
+		return findCommon(up2:up2, inMe2:inMe2, maxLevel:maxLevel) {
 			$0.fullName.contains(desiredName) ? $0 : nil
 		}		//$0.fullName == desiredName ? $0 : nil
 	}
@@ -753,18 +753,18 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	func find(path				: Path,
 
 			  up2				: Bool	= false,
-			  me2 				: Bool	= false,
+			  inMe2 				: Bool	= false,
 			  maxLevel			: Int?	= nil) -> Part? { // Search by Path:
-		return findCommon(up2:up2, me2:me2, maxLevel:maxLevel) {
+		return findCommon(up2:up2, inMe2:inMe2, maxLevel:maxLevel) {
 			$0.partMatching(path:path)
 		}
 	}
 	func find(part				: Part,
 
 			  up			 	: Bool	= false,
-			  me2 				: Bool	= false,
+			  inMe2 				: Bool	= false,
 			  maxLevel 			: Int?	= nil) -> Part? { // Search for Part:
-		return findCommon(up2:up, me2:me2, maxLevel:maxLevel) {
+		return findCommon(up2:up, inMe2:inMe2, maxLevel:maxLevel) {
 			$0 === part ? $0 : nil
 		}
 	}
@@ -777,12 +777,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// - except	-- don't search, already search
 	func findCommon(
 					up2		 :Bool	= false,			// search relatives of my parent
-					me2		 :Bool	= true,				// search me
+					inMe2		 :Bool	= true,				// search me
 					mineBut  :Part?	= nil,				// search my children, except
 					maxLevel :Int?	= nil,
 					firstWith:Part2PartClosure) -> Part? { /// Search by closure:
 		 // Check self:
-		if me2,
+		if inMe2,
 		  let cr 				= firstWith(self) {		// Self match?
 			return cr
 		}

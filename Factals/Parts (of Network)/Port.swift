@@ -419,13 +419,13 @@ class Port : Part, PortTalk {
 		 // If atomized, up for a visible Vew:
 		var rv	: ConSpot		= basicConSpot()	// in parent's coords
 		// :H: find VEW where ConSpot VISible		// Is it inside of openParent
-		var csVisVew : Vew?		= vew.find(part:self, me2:true)					//openParent
+		var csVisVew : Vew?		= vew.find(part:self, inMe2:true)					//openParent
 		while csVisVew == nil, 						// we have no Vew yet
 			  let p				= openParent.parent {// but we do have a parent
 			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew"))
 			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
 			openParent			= p
-			csVisVew			= vew.find(part:openParent, me2:true)
+			csVisVew			= vew.find(part:openParent, inMe2:true)
 			rv					= .zero
 		}
 		guard let csVisVew else {
@@ -474,13 +474,13 @@ class Port : Part, PortTalk {
 //		// H: SeLF, ViEW, World Position
 //		// AVew will not exist when it (and its parents) are atomized.
 //		// Search upward thru its parents for a visible Vew
-//		var openVew : Vew?		= vew.find(part:openParent, me2:true)
+//		var openVew : Vew?		= vew.find(part:openParent, inMe2:true)
 //		while openVew == nil, 						// we have no Vew yet
 //			  let p		= openParent.parent {	// but we do have a parent
 //			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew"))
 //			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
 //			openParent			= p
-//			openVew				= vew.find(part:openParent, me2:true)
+//			openVew				= vew.find(part:openParent, inMe2:true)
 //			rv					= .zero
 //		}
 //		guard var openVew : Vew else {

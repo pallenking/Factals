@@ -422,7 +422,7 @@ bug
 		assert(vew.expose != .null, "")
 		let partBase			= vew.part.partBase
 		let vewBase				= vewBases.first(where: {
-			$0.tree.find(vew:vew, up2:false, me2:true, maxLevel: 9999) == vew
+			$0.tree.find(vew:vew, up2:false, inMe2:true, maxLevel: 9999) == vew
 		})
 		guard let vewBase		else {	fatalError()							}
 		let slot_				= vewBase.slot

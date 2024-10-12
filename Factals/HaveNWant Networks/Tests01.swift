@@ -1034,7 +1034,7 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 		] ])
 	})
 	r("-+'P' moves up", e + selfiePole(s:80,u:10), {
-		Sphere()
+			Sphere()
 	//	Broadcast()
 	})
  // First test of link values

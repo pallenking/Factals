@@ -123,21 +123,21 @@ class Atom : Part {	//Part//FwPart
 	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 						else {		return true			}
 		guard let rhs			= rhs as? Atom	else {		return false		}
-		guard super.equalsFW(rhs)					else {		return false		}
-//		guard postBuilt	 == rhs.postBuilt		else {		return false		}
-//		guard bandColor	 == rhs.bandColor		else {		return false		}
-//		guard proxyColor == rhs.proxyColor		else {		return false		}
-//		guard ports.equals(rhs.ports)			else {		return false		}		//. Ports are also in Children!!!
-//		guard bindings	 == rhs.bindings		else {		return false		}
-//		return true
- 		let rv					= super.equalsFW(rhs)
- 			&& postBuilt		== rhs.postBuilt
- 			&& bandColor		== rhs.bandColor
- 			&& proxyColor		== rhs.proxyColor
- 		//??	&& ports.equalsFW(rhs.ports)			//. Ports are also in Children!!!
-				//Referencing instance method 'equalsFW' on 'Dictionary' requires that 'Port' conform to 'Equatable'
- 			&& bindings			== rhs.bindings
- 		return rv
+		guard super.equalsFW(rhs)				else {		return false		}
+		guard postBuilt	 == rhs.postBuilt		else {		return false		}
+		guard bandColor	 == rhs.bandColor		else {		return false		}
+		guard proxyColor == rhs.proxyColor		else {		return false		}
+		guard ports.equals(rhs.ports)			else {		return false		}		//. Ports are also in Children!!!
+		guard bindings	 == rhs.bindings		else {		return false		}
+		return true
+// 		let rv					= super.equalsFW(rhs)
+// 			&& postBuilt		== rhs.postBuilt
+// 			&& bandColor		== rhs.bandColor
+// 			&& proxyColor		== rhs.proxyColor
+// 		//??	&& ports.equalsFW(rhs.ports)			//. Ports are also in Children!!!
+//				//Referencing instance method 'equalsFW' on 'Dictionary' requires that 'Port' conform to 'Equatable'
+// 			&& bindings			== rhs.bindings
+// 		return rv
 	}
 
 	// MARK: - 4. Factory
@@ -523,7 +523,7 @@ nop
 					}
 					 // //// 1c. Path? ------> Atom, *----------> port name,
 					if let trgPath	= trgAny as? Path {			// link props
-						guard let trgAtom = self.find(path:trgPath, up2:true, me2:true) else {	//, all:true
+						guard let trgAtom = self.find(path:trgPath, up2:true, inMe2:true) else {	//, all:true
 							panic("Starting at '\(self.pp(.fullName))', " +
 								  "Failed to follow Path <\(trgPath.pp(.line))>.")
 							return
@@ -833,7 +833,7 @@ nop
 			return nil		// nil -> not found -> look at all in self
 		})
 
-		let _					= findCommon(up2:false, me2:true, firstWith:					//all:false,
+		let _					= findCommon(up2:false, inMe2:true, firstWith:					//all:false,
 		{ (inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
 			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
 
@@ -901,7 +901,7 @@ nop
 			guard let commonNet	= smallestNetEnclosing(fixedPort, self) else {
 				return atPri_fail(		"smallestNetEnclosing failed")
 			}
-			let commonVew 		= refVew.find(part:commonNet, up2:true, me2:true)
+			let commonVew 		= refVew.find(part:commonNet, up2:true, inMe2:true)
 			let inMePOpensUpIC	= inMePort.upInPart(until:commonNet)		// ???wtf???
 
 			atRsi(4, print(inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:""))

@@ -77,7 +77,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= tree//trunkVew			// default
 		if let laStr			= factalsModel.fmConfig.string("lookAt"), laStr != "",
-		  let  laPart 			= partBase.tree.find(path:Path(withName:laStr), me2:true) {
+		  let  laPart 			= partBase.tree.find(path:Path(withName:laStr), inMe2:true) {
 			lookAtVew			= tree.find(part:laPart)
 		}
 

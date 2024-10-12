@@ -204,7 +204,7 @@ struct InspecAtom : View {												 // Atom
 			vew.scnScene.color0 		= c			// in SCNNode, material 0's reflective color
 			*/
 //			ColorPicker("Color:", selection: $vew.scnScene.color0)
-			ColorPicker("Band Color:", selection: $bgColor)
+			ColorPicker("BandColor:", selection: $bgColor)
 		}
 /*
 	var proxyColor: NSColor?	= nil
@@ -335,12 +335,12 @@ struct InspecPart : View {												 // Part
 				let navList		= part.selfNParents.reversed() + part.children
 				let selfIndex	= part.selfNParents.count - 1
 				Text("Inspect:")
-
-//				Picker("", selection:Binding<String>(	get:{ "" }, set:{x in 		// Always out of range
 				Picker("", selection:Binding<Int>( 	get:{ -1 }, set:{
 						let nav	= navList[$0]					// Set notification
-		//				let newVew = rootVewL().find(part:nav, inMe2:true) ?? vew
-	bug	//				doc?.showInspecFor(vew:newVew, allowNew:false)
+						let newVew = rootVewL().find(part:nav, inMe2:true) ?? vew
+						let newInspec = Inspec(vew:newVew)
+						vew.vewBase()?.addInspector(newInspec, allowNew: false)
+					//	doc?.showInspecFor(vew:newVew, allowNew:false)
 					} ) )
 				{
  					ForEach(navList, id:\.self) { aPart in					

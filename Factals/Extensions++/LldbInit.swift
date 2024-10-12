@@ -34,7 +34,7 @@ func LLDBParts(_ name:String?=nil) -> Part  {
 	guard var rv : Part			= FACTALSMODEL?.partBase.tree else {
 									return Part(["name":"COULD NOT FIND tree"])	}
 	if name != nil {			// Search for sought Part	//maxLevel:1,
-		rv						= rv.find(name:name!, up2:false, me2:true) ?? rv
+		rv						= rv.find(name:name!, up2:false, inMe2:true) ?? rv
 	}
 	return rv
 }
@@ -61,7 +61,7 @@ func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 	guard index >= 0 && index < factalsModel.vewBases.count else { fatalError("rootvew() returns .null !!!")	}
 	var vew : Vew				= factalsModel.vewBases[index].tree
 	if name != nil {			// Search for named Vew
-		vew						= vew.find(name:name!, me2:true) ?? vew
+		vew						= vew.find(name:name!, inMe2:true) ?? vew
 	}
 	return vew
 }
