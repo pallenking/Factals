@@ -10,7 +10,8 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var partBase	: PartBase
 	var tree		: Vew
 	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
-	var selfiePole 				= SelfiePole()
+	@Published
+	 var selfiePole 			= SelfiePole()
 	var prefFps	: Float			= 30.0
 	var sliderTestVal: Double = 0.5
 	weak
@@ -54,6 +55,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
 //		scnSceneBase.tree?.rootNode.name = self.tree.name
+		scnSceneBase.subscribe()
 	}
 
 	func configure(from:FwConfig) {

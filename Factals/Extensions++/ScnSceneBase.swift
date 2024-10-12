@@ -4,7 +4,7 @@
 //
 //  Created by Allen King on 2/2/23.
 //
-
+import Combine
 import Foundation
 import SceneKit
 typealias EventHandler			= (NSEvent) -> Void
@@ -23,6 +23,19 @@ class ScnSceneBase : NSObject {
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
+
+	var subscription: AnyCancellable?
+	func subscribe() {
+		guard let vewBase else { return }
+		subscription = vewBase.$selfiePole.sink { [weak self] _ in
+			guard self?.vewBase?.cameraScn != nil else { return }
+			self?.commitCameraMotion(duration: 0)
+		}
+	}
+	deinit {
+		subscription?.cancel()
+		subscription = nil
+	}
 
 	 // MARK: - 3.1 init
 	init(scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in }) { //aka ScnSceneBase(scnScene:eventHandler)

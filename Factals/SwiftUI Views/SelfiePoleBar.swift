@@ -107,6 +107,7 @@ struct SelfiePoleBar: View   {
 					selfiePole 		= s	// Put struct's val back
 				}
 			}
+			.onChange(of: selfiePole.zoom) { print($0, $1) }
 			 .background(Color(red:1.0, green:0.9, blue:0.9))
 		}
 		// .padding(6)
