@@ -650,8 +650,8 @@ xr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-
 //	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 //	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 //	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Broadcast([n:"a", P:"t2,l:4"]),
 	Mirror([n:"t1", "gain":-1, "offset":1]),
+	Broadcast([n:"a", P:"t2,l:4"]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
 //	Mirror(   [n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )

@@ -10,7 +10,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	var partBase	: PartBase
 	var tree		: Vew
 	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
-	@Published
+	@Published								// subscribe to selfiePole.synk for changes
 	 var selfiePole 			= SelfiePole()
 	var prefFps	: Float			= 30.0
 	var sliderTestVal: Double = 0.5
