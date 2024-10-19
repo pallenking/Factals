@@ -641,19 +641,18 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 
 var a1 : String 		{ return "a,v:-" + String(randomDist(0.0, 1.0))
 								+ ",l:"  + String(randomDist(4.0, 6.0))			}
-xr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
+ xr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-//	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Mirror([n:"t1", "gain":-1, "offset":1]),
 	Broadcast([n:"a", P:"t2,l:4"]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
-//	Mirror(   [n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )
 	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
 		Bulb(  [n:"u", share:"a", f:1]),

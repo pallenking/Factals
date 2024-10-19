@@ -15,7 +15,7 @@ import AppKit
 struct SimpleTestView: View {
 	@Bindable var factalsModel : FactalsModel
 
-	@State var prefFps : Float		= 30.0
+	@State var prefFpsC : CGFloat	= 30.0
 
 	var body: some View {
 //		let x = factalsModel.simulator.timeNow
@@ -43,7 +43,7 @@ struct SimpleTestView: View {
 				let vewBase0		= factalsModel.vewBases[0]
 				let scnSceneBase	= vewBase0.scnSceneBase
 				ZStack {
-					SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)		 // New Way (uses old NSViewRepresentable)
+					SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:$prefFpsC)		 // New Way (uses old NSViewRepresentable)
 					 .frame(maxWidth: .infinity)
 					 .border(.black, width:1)
 					Text("Overlayed Text")
@@ -82,7 +82,7 @@ struct SimpleTestView: View {
  /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
 	var scnSceneBase : ScnSceneBase?			// ARG1: exposes visual world
-	@Binding var prefFps : Float				// ARG2: (DEBUG)
+	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
@@ -91,13 +91,13 @@ struct SceneKitView: NSViewRepresentable {
 		scnSceneBase.scnView	= scnView		// for pic
 
 		scnView.isPlaying		= true			// animations, does nothing
-	//	scnView.showsStatistics	= true			// controls extra bar
+		scnView.showsStatistics	= true			// controls extra bar
 	//	scnView.debugOptions	= [				// enable display of:
 	//		SCNDebugOptions.showPhysicsFields,]	//  regions affected by each SCNPhysicsField object
 		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
-		scnView.preferredFramesPerSecond = Int(prefFps)
+		scnView.preferredFramesPerSecond = Int(prefFpsC)
 		scnView.delegate		= scnSceneBase 	//scnSceneBase is SCNSceneRendererDelegate
 		scnView.scene			= scnSceneBase.tree
 		return scnView
@@ -105,7 +105,7 @@ struct SceneKitView: NSViewRepresentable {
 
 	func updateNSView(_ nsView: SCNView, context:Context) {
 		let scnView				= nsView as SCNView			//	scnSceneBase.scnView
-		scnView.preferredFramesPerSecond = Int(prefFps)		//args.preferredFramesPerSecond
+		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
 }
 

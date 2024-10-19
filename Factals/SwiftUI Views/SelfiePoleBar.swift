@@ -7,76 +7,6 @@
 
 import SwiftUI
 
-//struct LabeledCGFloat: View {
-//			 var label		: String
-//	@Binding var val		: CGFloat
-//			 var formatter	: NumberFormatter = d2formatter
-//			 var oneLine	= true
-//
-//	var body: some View {
-//		if oneLine {
-//			Text(label)
-//			 .padding(.horizontal, -3)
-//			TextField("", value:$val, formatter:formatter).frame(width:35)
-//			 .padding(.horizontal, -3)
-//		} else {
-//			VStack {
-//				Text(label)
-//				 .padding(.horizontal, -3)
-//				 .padding(.vertical, -10)
-//				TextField("", value:$val, formatter:formatter).frame(width:35)
-//				 .padding(.horizontal, -3)
-//			}
-//		}
-//	}
-//}
-
-
-//class ViewModel: ObservableObject {
-//	var numberString: String = ""
-//	var number: CGFloat? {
-//		if let doubleValue = Double(numberString) {
-//			return CGFloat(doubleValue)
-//		}
-//		return nil
-//	}
-//
-//	init(number: CGFloat?) {
-//		if let number = number {
-//			numberString = "\(number)"
-//		} else {
-//			numberString = "nil"
-//		}
-//	}
-//}
-
-//@propertyWrapper
-//struct OptionalFloatingPoint<T: FloatingPoint> {
-//	private var value: T?
-//
-//	var wrappedValue: String {
-//		get {
-//			guard let value = value else { return "nil" }
-//			value == 1
-//			return String(describing: value)
-//		}
-//		set {
-//			if newValue.lowercased() == "nil" {
-//				value = nil
-//			} else if let number = Float(newValue) { 	// T(newValue) fails
-//				value = number as! T
-//			} else if let number = T(exactly:1) { 	// T(newValue) fails
-//				value = number
-//			} else {
-//				value = nil
-//			}
-//		}
-//	}
-//	init() {
-//		self.value = nil
-//	}
-//}
-
 struct SelfiePoleBar: View   {
 	@Binding var selfiePole	: SelfiePole
 
@@ -88,7 +18,7 @@ struct SelfiePoleBar: View   {
 			}
 			HStack {
 				InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
-					.padding(.horizontal, 5)
+				LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
 				LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 				LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
 				Button(label:{	Text("**")											})//.padding(.top, 300)
@@ -108,7 +38,7 @@ struct SelfiePoleBar: View   {
 				}
 			}
 			.onChange(of: selfiePole.zoom) { print($0, $1) }
-			 .background(Color(red:1.0, green:0.9, blue:0.9))
+			 .background(Color(red:1.0, green:0.9, blue:0.9))	// pink
 		}
 		// .padding(6)
 	}

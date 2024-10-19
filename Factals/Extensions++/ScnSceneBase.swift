@@ -24,23 +24,36 @@ class ScnSceneBase : NSObject {
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
-	var subscription: AnyCancellable?
-	func subscribe() {
-		guard let vewBase else { return }
-		subscription = vewBase.$selfiePole.sink { [weak self] _ in
-			guard self?.vewBase?.cameraScn != nil else { return }
-			self?.commitCameraMotion()
+	func monitor<T: Publisher>(onChangeOf publisher: T,
+							   performs: @escaping () -> Void) where T.Failure == Never {
+		publisher.sink { _ in				//	{ [weak self] _ in
+			performs()						//		guard self != nil else { return }
 		}
+		 .store(in: &monitoring)
 	}
+	var monitoring 				= Set<AnyCancellable>()
 	deinit {
-		subscription?.cancel()
-		subscription = nil
+		monitoring.forEach { $0.cancel() }
+		monitoring.removeAll()
+											//		subscription?.cancel()
+											//		subscription = nil
 	}
-
+											//	func subscribe() {
+											//		guard let vewBase else { return }
+											//		subscription = vewBase.$selfiePole.sink { [weak self] _ in
+											//			guard self?.vewBase?.cameraScn != nil else { return }
+											//			self?.selfiePole2camera()
+											//		}
+											//	}
+											//	var subscription: AnyCancellable?
+											//	deinit {
+											//		subscription?.cancel()
+											//		subscription = nil
+											//	}
 	 // MARK: - 3.1 init
 	init(scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in }) { //aka ScnSceneBase(scnScene:eventHandler)
 		self.tree				= scnScene		// get scene
-		self.tree!.rootNode.name = "rootNode"
+		self.tree!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
  		super.init()
 //		setRootNodeChild1 (from:tree)
@@ -286,7 +299,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 //		}
 //	}
 	//
-//	func commitCameraMotion(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
+//	func selfiePole2camera(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
 //	//	selfiePole.zoom			= zoom4fullScreen()
 //		let transform			= selfiePole.transform
 //		return transform
@@ -383,9 +396,13 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in
+			SCNTransaction.begin()
+			SCNTransaction.animationDuration = CFTimeInterval(0.6)	//0.15//0.3//0.6//
 			facMod()?.doPartNViewsLocked(workNamed:"A_updateVSP", logIf:self.logRenderLocks) {
+
 				$0.updateVSP()
 			}
+			SCNTransaction.commit()
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
@@ -438,41 +455,41 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		  //  ====== LEFT MOUSE ======
 		 //
 		case .leftMouseDown:
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 			if let v		= modelPic(with:nsEvent) {
 				print("leftMouseDown pic's Vew:\(v.pp(.short))")
 			}
-			commitCameraMotion(duration:duration, reason:"Left mouseDown")
+			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:			// override func mouseDragged(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
 	/**/	mouseWasDragged = true
-			commitCameraMotion(reason:"Left mouseDragged")
+			selfiePole2camera(reason:"Left mouseDragged")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
 				if let vew		= modelPic(with:nsEvent) {
 					vewBase.lookAtVew = vew			// found a Vew: Look at it!
 				}
 			}
 			mouseWasDragged = false
-			commitCameraMotion(duration:duration, reason:"Left mouseUp")
+			selfiePole2camera(duration:duration, reason:"Left mouseUp")
 
 		  //  ====== CENTER MOUSE (scroll wheel) ======
 		 //
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 	/**/	if let v		= modelPic(with:nsEvent) {
 	/**/		print("otherMouseDown pic's Vew:\(v.pp(.short))")
 	/**/	}
-			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseDown")
+			selfiePole2camera(duration:duration, reason:"Slot\(slot): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 			motorSpinNUp(with:nsEvent)
 			mouseWasDragged = true
-			commitCameraMotion(reason:"Slot\(slot): Other mouseDragged")
+			selfiePole2camera(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 			atEve(9, print("\( vewBase.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
 	/**/	if !mouseWasDragged {			// UnDragged Up -> pic
 	/**/		if let vew		= modelPic(with:nsEvent) {
@@ -480,34 +497,34 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	/**/		}
 	/**/	}
 	/**/	mouseWasDragged = false
-			commitCameraMotion(duration:duration, reason:"Slot\(slot): Other mouseUp")
+			selfiePole2camera(duration:duration, reason:"Slot\(slot): Other mouseUp")
 
 		  //  ====== CENTER SCROLL WHEEL ======
 		 //
 		case .scrollWheel:
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 			let d				= nsEvent.deltaY
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			vewBase.selfiePole.zoom *= delta
 			//let s				= vews.selfiePole
 			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
-			commitCameraMotion(duration:duration, reason:"Scroll Wheel")
+			selfiePole2camera(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
 		 //
 		case .rightMouseDown:
-			 // 2023-0305: nop, but it calls commitCameraMotion to update picture
-			beginCameraMotion(with:nsEvent)
-			commitCameraMotion(duration:duration, reason:"Left mouseDown")
+			 // 2023-0305: nop, but it calls selfiePole2camera to update picture
+			prepareDeltas(with:nsEvent)
+			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 		case .rightMouseDragged:
-			beginCameraMotion(with:nsEvent)
+			prepareDeltas(with:nsEvent)
 //			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
 			motorZ(with:nsEvent)
 			mouseWasDragged = true
-			commitCameraMotion(reason:"Left mouseDragged")
+			selfiePole2camera(reason:"Left mouseDragged")
 		case .rightMouseUp:
-			beginCameraMotion(with:nsEvent)
-			commitCameraMotion(duration:duration, reason:"Left mouseDown")
+			prepareDeltas(with:nsEvent)
+			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 
 		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
 		case .magnify:			bug
@@ -647,7 +664,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 	 // MARK: - 13.4 Mouse Variables
 	 /// Common update: deltaPosition and lastPosition
-	func beginCameraMotion(with nsEvent:NSEvent)	{
+	func prepareDeltas(with nsEvent:NSEvent)	{
 		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
 
 		let hitPosn 			= contentNsView.convert(nsEvent.locationInWindow, from:nil)	// nil -> window
@@ -670,7 +687,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		vewBase!.selfiePole.position.z += deltaPosition.y * 20
 	}
 
-	func commitCameraMotion(duration:Float=0, reason:String="") {
+	func selfiePole2camera(duration:Float=0, reason:String="") {
 		guard let cameraScn		= vewBase?.cameraScn else {fatalError("vewBase.cameraScn is nil")}
 		let selfiePole			= vewBase!.selfiePole
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE

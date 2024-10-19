@@ -46,18 +46,13 @@ struct VewBaseBar: View {
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
 						factalsModel.updateVews()
 					}
-//					Button(label:{	Text("Z//RV")								})//.padding(.top, 300)
-//					{	var s	= vewBase.selfiePole
-//						s.zoom	/= 1.1
-//						print("======== \(s.pp(.uidClass)) z=\(s.pp(.line, factalsGlobals.factalsConfig))")
-//						vewBase.selfiePole = s	// Put struct's val back
-//					}
 					Spacer()
 
-					Text("$vewBase.prefFps=")
-					TextField("prefFps", value:$vewBase.prefFps, formatter:d2formatter)
-					 .frame(width:60 ).foregroundColor(Color(.red))
-					Slider(value:$vewBase.prefFps, in: 0.0...60.0) { e in isEditing = e	}
+					LabeledCGFloat(label:"prefFpsC",val:$vewBase.prefFpsC)
+//					Text("prefFps=")
+//					TextField("prefFps", value:$vewBase.prefFps, formatter:d2formatter)
+//					 .frame(width:60 ).foregroundColor(Color(.red))
+					Slider(value:$vewBase.prefFpsC, in: 0.0...60.0) { e in isEditing = e	}
 					 .frame(width:100 )
 				} else {
 					Text("VewBase not registered in FactalsModel!").foregroundColor(.red).bold()

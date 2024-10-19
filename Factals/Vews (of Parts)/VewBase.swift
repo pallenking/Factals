@@ -4,7 +4,7 @@
 import SceneKit
 import SwiftUI
 
-class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {	//FwAny, //,
+class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny, //,
 	static var nVewBase 		= 0
 	var title					= "VewBase\(nVewBase)"
 	var partBase	: PartBase
@@ -13,11 +13,13 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 	@Published								// subscribe to selfiePole.synk for changes
 	 var selfiePole 			= SelfiePole()
 	var prefFps	: Float			= 30.0
+	var prefFpsC: CGFloat		= 33.0
 	var sliderTestVal: Double = 0.5
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
-	var inspectors : [Inspec]	= []
+	@Published
+	 var inspectors : [Inspec]	= []
 	func addInspector(_ newInspector:Inspec, allowNew:Bool) {		//was AnyView
 		if allowNew {
 			inspectors.append(newInspector)			// Add to end
@@ -51,11 +53,14 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {//} Codable {
 
 		VewBase.nVewBase 		+= 1
 
-		super.init()			// NSObject
+		super.init()			// NSObject  //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
-//		scnSceneBase.tree?.rootNode.name = self.tree.name
-		scnSceneBase.subscribe()
+
+		scnSceneBase.monitor(onChangeOf:$selfiePole, performs:{ [weak self] in	// scnSceneBase.subscribe()
+			guard self?.cameraScn != nil else {	return 							}
+			self?.scnSceneBase.selfiePole2camera()
+		})
 	}
 
 	func configure(from:FwConfig) {

@@ -24,11 +24,11 @@ struct ContentView: View {
 }
 struct SimpleSceneKitView : View {
 	let vewBase : VewBase?
-	@Binding var prefFps : Float
+	@Binding var prefFpsC : CGFloat
 	var body: some View {
 		ZStack {
 			let scnSceneBase = vewBase!.scnSceneBase
-			SceneKitView(scnSceneBase:scnSceneBase, prefFps:$prefFps)
+			SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:$prefFpsC)
 				.frame(maxWidth: .infinity)
 				.border(.black, width:1)
 			EventReceiver { nsEvent in // Catch events (goes underneath)
@@ -73,7 +73,7 @@ struct FactalsModelView: View {
 							let scnSceneBase = vewBase.scnSceneBase.wrappedValue
 							ZStack {
 								 // NSViewRepresentable of a SCNView : UIView
-								SceneKitView(scnSceneBase:scnSceneBase, prefFps:vewBase.prefFps)
+								SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:vewBase.prefFpsC)
 									.frame(maxWidth: .infinity)
 									.border(.black, width:1)
 								EventReceiver { nsEvent in // Catch events (goes underneath)
