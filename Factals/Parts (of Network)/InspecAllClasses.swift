@@ -50,8 +50,11 @@ struct InspecBulb : View {												 // Bulb
 			ClassBox(labeled:"Bulb")
 			Spacer()
 
+			Text("gain")
 			TextField("", value:$bulb.gain, 		 formatter:d2formatter).frame(width:50)
+			Text("offset")
 			TextField("", value:$bulb.offset, 		 formatter:d2formatter).frame(width:50)
+			Text("currentRadius")
 			TextField("", value:$bulb.currentRadius, formatter:d2formatter).frame(width:50)
 		}
 	}

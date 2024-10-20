@@ -603,8 +603,9 @@ nop
 					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)
 
 					let msg0 	= (srcPort == nil ? " srcPort==nil" : "") + (trgPort == nil ? " trgPort==nil" : "")
-					guard msg0 == "" else {
-					 	return panic("L\(wireNumber): Port (from \(self.fullName)) missing: \(msg0)") }
+					assert(msg0=="", "L\(wireNumber): Port (from \(self.fullName)) missing: \(msg0)")
+//					guard msg0 == "" else {
+//					 	return panic("L\(wireNumber): Port (from \(self.fullName)) missing: \(msg0)") }
 
 					  // //////////////////////////////////
 					 //   4. Link

@@ -45,12 +45,10 @@ extension FactalsModel  : Logd {}
 	}
 
 	func configurePart(from config:FwConfig) {
-		self.fmConfig			+= partBase.ansConfig	// from library
-
-		log.configure(from:config)
-		docSound.configure(from:config)
-
-		partBase.configure(from:config)
+		self.fmConfig			= config		// Save in ourselves   WHY???
+		log      .configure(from:config)
+		docSound .configure(from:config)
+		partBase .configure(from:config)
 		simulator.configure(from:config)
 	}
 	func configureVews(from config:FwConfig) {

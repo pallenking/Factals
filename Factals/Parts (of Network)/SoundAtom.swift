@@ -108,7 +108,7 @@ class SoundAtom : Atom {
 				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
 					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
 					
-//					AppDel.appSounds.play(docSound, onNode:)
+//					partBase?.factalsModel.docSound.play(docSound, onNode:)
 //					if sObj.isPlaying {
 //						print("\n\n NOTE: Going TOO FAST\n\n")
 //					}

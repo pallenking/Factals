@@ -160,7 +160,7 @@ struct FactalsApp: Uid, FwAny {
 
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
-	var appSounds				= Sounds()
+//	var appSounds				= Sounds()
 
 	 // MARK: - 3. Factory
 	init () {

@@ -69,12 +69,10 @@ struct FactalsDocument : FileDocument {
 		factalsModel			= FactalsModel(partBase:partBase)
 
 		 // 3. Groom part
-		let pmConfig			= factalsModel.fmConfig
-								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+		let pmConfig			= params4logs
 								+ params4vew
 								+ params4partPp
 								+ partBase.ansConfig		// from library
-								+ logAt(all:8)
 		factalsModel.configurePart(from:pmConfig)
 		partBase.wireAndGroom([:])
 
@@ -84,10 +82,9 @@ struct FactalsDocument : FileDocument {
 								+ params4vew
 								+ params4partPp
 								+ partBase.ansConfig		// from library
-								+ logAt(all:8)
+						//		+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
-	//	factalsModel.simulator.simRun	= true
 	}
 								/*		How to configure?
 									1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]

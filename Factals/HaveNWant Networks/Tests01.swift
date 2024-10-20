@@ -655,15 +655,17 @@ xxr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
 ] ] ) } )
 	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
-		Bulb(  [n:"u", share:"a", f:1]),
+		Bulb(  [n:"u", share:"a"]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
 	] ] ) } )
-	xxr("+ Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
-//		Bulb([  n:"u", P:"t2"]),  				// Broadcast
-		Mirror([n:"t1", "gain":-1]),
-		Broadcast([n:"t0", P:"t2,l:5"]),
-		Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
-
+	xr("- blink old way", eSim + vel(-4) , { Net([placeMy:"linky", parts:[
+		Bulb([P:"a"]),
+		Mirror([n:"t1", "gain":-1, "offset":1, jog:"4"]),
+		Mirror([n:"a", f:1, P:"t1,l:4"]),
+	] ]) })
+	r("- blink new way", eSim + vel(-4) , { Net([placeMy:"linky", parts:[
+		Bulb([n:"t1"]),
+		Mirror([n:"a", f:1, "gain":-1, "offset":1, P:"t1,l:4"]),
 	] ]) })
 	r("Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
 		Bulb([  n:"b", P:"m"]),  				// Broadcast
@@ -1466,7 +1468,7 @@ state.scanSubMenu				= "Generator"
 //	xxr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
 //			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { //Net([placeMy:"linky", parts:[
 //xr("+ Shaft Spin 3", e + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
-xr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
   Net([parts:[												// logAt(dat:5, eve:5)
  	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",

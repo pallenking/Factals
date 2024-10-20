@@ -36,6 +36,7 @@ class Sounds : Logd {
 	// NEVER NSCopying, Equatable
 	 // MARK: - 5.4 Sound
 	var knownSources : [String:SCNAudioSource] = [:]
+	var foo = 3
 	func configure(from:FwConfig) {
 		//print("Sounds.configure UNIPLMEMENTED")
 	}

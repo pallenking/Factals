@@ -83,7 +83,8 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		if prop == "sound" {	// e.g. "sound:di-sound" or
 			if let sndPPort		= port(named:"SND"),
 			  let sndAtom		= sndPPort.atom as? SoundAtom,
-			  let v				= val as? String {
+			  let v				= val as? String
+			{
 				sndAtom.sound	= v
 			}
 			else {

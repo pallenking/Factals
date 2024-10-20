@@ -567,14 +567,18 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 class BulbSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	override func bid() -> Float	{	return 1								}
 	 /// Intercept Port.value, to perhaps set viewSizeIsDirty
+	private var looparoundValue : Float = .nan
 	override var value : Float 		{		// a place for debug breakpoints:
-		get		{	return super.value											}
-		set(v) 	{ 
+		get		{	return true ? looparoundValue : super.value					}
+		set(v) 	{
 			if super.value != v {
+
 				 // A change in value -->  resize / rebound  event
 				parent?.markTree(dirty:.size)
+
 				super.value 	= v
 			}
+			looparoundValue 	= v
 		}
 	}
 	override func basicConSpot() -> ConSpot {
