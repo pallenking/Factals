@@ -44,7 +44,7 @@ class Atom : Part {	//Part//FwPart
 			if portProp.contains("c") {		// c --> create at birth
 				let newPort		=
 					portProp.contains("M") ?
-					  MultiPort(["named":portName, "portProp":portProp]) :
+					   MultiPort(["named":portName, "portProp":portProp]) :
 					portProp.contains("C") ?
 						LinkPort(["named":portName, "portProp":portProp], parent:self) :
 							Port(["named":portName, "portProp":portProp])

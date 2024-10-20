@@ -174,7 +174,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			children.append(vew)
 		}
 		vew.parent 				= self
-		assert(part.parent == parent?.part, "fails consistency check")
+		assert(part.parent === parent?.part, "fails consistency check")
 		part.parent?.markTree(dirty:.size)	// Affects parent's size
 		part.markTree(dirty:.vew)
 

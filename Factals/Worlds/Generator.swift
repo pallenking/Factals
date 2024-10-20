@@ -2,9 +2,10 @@
 
 import SceneKit
 
- // A Generator is supervises the creation and expression of sampled data to a Network
-// It is a composite objetct, composed of
+ // Present clocked, "Discrete Time" data into a HaveNWant Network,
+// 	  It is composed of a number of classes
 // 		* A World Model (WM) which operates in discrete sample time
+//						clocked data (In/Out?) prob,again,gate
 //		* A Timing Chain (TC) to insure the network settles before the new sample time enters
 //		* A Discrete Time (DT) to connect to the network
 /*
@@ -81,12 +82,12 @@ class Generator : Net {
 		if dtNeeded {
 			let dt				= DiscreteTime(dtArgs)	// MAKE Discrete Time
 			assertWarn(dtArgs["P"] != nil, "'\(dt.pp(.fullNameUidClass).field(-35))' \"P\":Port unconnected")
-			addChild(dt)
+			addChild(dt)				// //////
 		}
-		addChild(TimingChain(tcArgs))					// MAKE Timing Chain
+		addChild(TimingChain(tcArgs))	// //////		// MAKE Timing Chain
 		if wmNeeded {
 			let wm				= WorldModel(wmArgs)
-			addChild(wm)								// MAKE World Model
+			addChild(wm)				// //////		// MAKE World Model
 		}
 
 		 // ////////// Flip order if needed

@@ -321,8 +321,9 @@ class Link : Atom {
 				 // Add a 1-pixel wide line
 				sPaint			= SCNNode()
 				sPaint!.name	= "s-Paint"
-				sPaint!.geometry = SCNCylinder(radius:0.3, height:1) 			// height -> y
-			//	sRay.geometry	= SCNBox(width:0.2,  height:1,  length:0.2,chamferRadius:0) // width:.uX, height:.uY, length:.uZ
+				sPaint!.geometry = SCNCylinder(radius:0.6, height:1) 			// height -> y
+				//				= SCNBox(width:0.2,  height:1,  length:0.2,chamferRadius:0) // width:.uX, height:.uY, length:.uZ
+				sPaint!.color0	= .red		// BROKEN
 				sPaint!.transform = SCNMatrix4MakeRotation(.pi/2, 1,0,0)
 				sPaint!.position.z -= 0.5
 				sLink.addChild(node:sPaint!)

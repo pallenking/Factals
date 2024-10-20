@@ -217,6 +217,9 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	  /// - Parameter initial:	-- VewConfig for first appearance
 	 ///  - Parameter log: 		-- controlls logging
 	func updateVSP(initial:VewConfig?=nil, logIf log:Bool=true) { // VIEWS
+		SCNTransaction.begin()
+		SCNTransaction.animationDuration = CFTimeInterval(0.6)	//0.15//0.3//0.6//
+
 		let partsTree			= partBase.tree		// Model
 
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
@@ -240,7 +243,7 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 			// should have created all Vews and one *-<name> in ptn tree
 			partsTree.reVewPost(vew:tree)
 		}
-		 // ---- 2.  Adjust   S I Z E s   ---- //
+		 // ---- 2.  Adjust   S I Z E s   ----- //
 		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()" {
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
 			
@@ -251,7 +254,7 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 			partsTree.reSizePost(vew:tree)				// ===(set link Billboard constraints)
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 		}
-		 // ----- 3.  Re  P A I N T   Skins ----- //
+		 // --- 3.  Re  P A I N T   Skins ----- //
 		if partsTree.test(dirty:.paint) {		//" _ rePaint _ VewBase (per updateVSP()" {
 	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
@@ -260,6 +263,7 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 			partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 			partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
 		}
+		SCNTransaction.commit()
 	}
 
 	 // MARK: - 15. PrettyPrint

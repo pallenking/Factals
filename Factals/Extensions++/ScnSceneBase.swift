@@ -396,13 +396,9 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			SCNTransaction.begin()
-			SCNTransaction.animationDuration = CFTimeInterval(0.6)	//0.15//0.3//0.6//
 			facMod()?.doPartNViewsLocked(workNamed:"A_updateVSP", logIf:self.logRenderLocks) {
-
 				$0.updateVSP()
 			}
-			SCNTransaction.commit()
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {

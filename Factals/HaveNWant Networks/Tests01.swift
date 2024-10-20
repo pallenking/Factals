@@ -641,7 +641,7 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 
 var a1 : String 		{ return "a,v:-" + String(randomDist(0.0, 1.0))
 								+ ",l:"  + String(randomDist(4.0, 6.0))			}
- xr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
+xxr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
@@ -1466,9 +1466,9 @@ state.scanSubMenu				= "Generator"
 //	xxr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
 //			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { //Net([placeMy:"linky", parts:[
 //xr("+ Shaft Spin 3", e + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
-xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {	// FAILS
-  Net([parts:[
-	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
+xr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+  Net([parts:[												// logAt(dat:5, eve:5)
+ 	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",
 		"con":Tunnel([struc:["z", "y"], f:1]),
 		parts:[
@@ -1488,6 +1488,11 @@ xxr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve
 		MinAnd([n:"z", f:0, jog+X:"2 0 0"]),
 		MaxOr( [P:"z,l:5", f:1]),	// no Link
 	//	MaxOr(["share":"z,l:5"]),	// no Link
+	]]) })
+	xxr("- duplicate name PP SS", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+	  Net([parts:[												// logAt(dat:5, eve:5)
+		Tunnel([n:"b", P:"a", struc:[], jog:"1"]),
+		Tunnel([n:"a", struc:[], f:1]),
 	]]) })
 
 	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {

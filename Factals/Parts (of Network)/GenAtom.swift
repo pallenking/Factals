@@ -91,8 +91,8 @@ class GenAtom : Atom {
 	lazy var loopPort: Port	= .error		// nullPort gone by end of init()
 	var loopPortIn	: Port { return loopPort.con2!.port! }
 	 // MARK: - 3.5 Codable
-//	 // MARK: - 3.6 NSCopying
-//	 // MARK: - 3.7 Equatable
+	 // MARK: - 3.6 NSCopying
+	 // MARK: - 3.7 Equatable
 	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 						  else {	return true			}
 		guard let rhs			= rhs as? GenAtom else {	return false		}

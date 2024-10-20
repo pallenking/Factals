@@ -8,7 +8,14 @@ class MultiPort : Port {
 	 // MARK: - 2. Object Variables:
 	override var height : CGFloat	{ return 0.4								}
 	override var radius : CGFloat	{ return super.radius * 1.5 				}
-	 // MARK: - 8.1 PortTalk protocol
+	 // MARK: - 3. Part Factory:
+	override init(_ config:FwConfig = [:]) {
+		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+	}
+	required init?(coder: NSCoder) { fatalError("init(coder:) unimplemented")	}
+	required init(from decoder: Decoder) throws {	fatalError("init(from:) unimplemented")	}
+
+	// MARK: - 8.1 PortTalk protocol
 	override func take(value val:Float, key:String?=nil) {
 
 		 // Forward to other MPort, whose parent should be a Tunnel:

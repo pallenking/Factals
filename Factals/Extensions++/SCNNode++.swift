@@ -94,7 +94,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 				if let skinAlpha = FACTALSMODEL?.fmConfig.cgFloat("skinAlpha") {
 					color2		= color2.change(alphaTo:skinAlpha)
 				}
-				m.diffuse.contents = color2 //newColor//color2//
+				m.diffuse.contents = color2
 				m.specular.contents = NSColor.white
 			}
 		}

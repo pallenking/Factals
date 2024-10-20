@@ -14,13 +14,16 @@ class TimingChain : Atom {
 								
 	 // our Status:
     var event		:FwwEvent? = nil	// event being executed
-	var state 		: UInt8	= 0	{	// of timing chain
-		didSet {
+
+	var state 		: State_ = .idle	// of timing chain
+	{	didSet {
 			if animateChain && state != oldValue {
 				markTree(dirty:.size)
 			}
-		}
-	}
+		}																		}
+	enum State_		: String, Codable {
+		case idle /* =0 */, s1, s2, s3, s4, s5									}
+
 	var animateChain			= true		//false//true//
 
 	// Basic Op Mode: Variations in Insertion Cycle:
@@ -129,7 +132,7 @@ class TimingChain : Atom {
 		try container.encode(worldModel, 	forKey:.worldModel)
 		try container.encode(discreteTimes,	forKey:.discreteTimes)
 		try container.encode(event, 		forKey:.event)
-		try container.encode(state,			forKey:.state)
+		try container.encode(state.rawValue,forKey:.state)
 		try container.encode(animateChain,	forKey:.animateChain)
 		try container.encode(eventDownPause,forKey:.eventDownPause)
 		try container.encode(asyncData, 	forKey:.asyncData)
@@ -143,8 +146,8 @@ class TimingChain : Atom {
 
 		worldModel	 	= try container.decode(    WorldModel.self, forKey:.worldModel)
 		discreteTimes	= try container.decode([DiscreteTime].self, forKey:.discreteTimes)
-		event	 		= try container.decode( 		FwwEvent.self, forKey:.event)
-		state	 		= try container.decode( 	    UInt8.self, forKey:.state)
+		event	 		= try container.decode( 	 FwwEvent.self, forKey:.event)
+		state	 		= try container.decode( 	   State_.self, forKey:.state)
 		animateChain	= try container.decode( 	     Bool.self, forKey:.animateChain)
 		eventDownPause	= try container.decode( 		 Bool.self, forKey:.eventDownPause)
 		asyncData	 	= try container.decode( 		 Bool.self, forKey:.asyncData)
@@ -239,7 +242,7 @@ class TimingChain : Atom {
 	//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*
 	//**//*//*//*//*//*/s*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//
 	override func reset() {								super.reset()
-		state 					= 0000
+		state					= .idle
 		eventDownPause			= false
 
 		atEve(4, logd("############ eventDownPause = false -- reset")) //print("
@@ -257,10 +260,10 @@ class TimingChain : Atom {
 //		guard let simulator		= partBase?.simulator else { return /* no sim */	}
 		guard simulator.simRun				  else { return /* not emabled */}
 		 // Check for FwwEvent
-		if (state == 0) {	// when State Machine becomes idle
+		if (state == .idle) {	// when State Machine becomes idle
 			if let nextEvent = worldModel?.dequeEvent() { 	/// DUPLICATED in IBActions
 				 // DEQUEUED a pending World Experiment FwwEvent:
-				assert(state == 0, "    TimingChain Gone Busy")
+				assert(state == .idle, "    TimingChain Gone Busy")
 				atEve(4, logd("    TimingChain: worldModel?.dequeEvent '\(nextEvent.pp())'"))
 				assert(self.event==nil, "Should be space by now")
 
@@ -270,10 +273,10 @@ class TimingChain : Atom {
 				retractPort			= nil			// default param
 				eventDownPause		= true			// assert lock, which blocks till up
 				atEve(4, logd("############ eventDownPause = true  -- simulate(up:) && state==0"))
-				state 				= 0001			// Start Timing Chain
+				state 				= .s1			// Start Timing Chain
 				//!	playSound("")
 			//?	releaseEvent()
-	bug;		simulator.startChits = 200			// start simulator after key goes up
+	/*bug;*/	simulator.startChits = 200			// start simulator after key goes up
 //				simulator.linkChits += 1			// not settled
 //				assert(simulator.linkChits != 0, "linkChits count wraparound")
 			}
@@ -285,20 +288,20 @@ class TimingChain : Atom {
 		guard simulator.isSettled()				else {	return 					}
 
 		 // ///// STATE MACHINE: ///////
-		var nextState 	: UInt8 = 0				// default next state is 0
+		var nextState : State_	= .idle				// default next state is 0
 		switch state {
-		case 0:					// ----> Idle. (Needs -takeEvent: to activate)
+		case .idle:				// ----> Idle. (Needs -takeEvent: to activate)
 			return								// idle, do nothing
 
-		case 1:					// ----> When Settled do 'ad1:?cPrev,lData'
+		case .s1://ad1cPrevlData	// ----> When Settled do 'ad1:?cPrev,lData'
 		//	if simulator.settled == false {		// Sim unsettled or not enabled
 		//		return							// do nothing
 		//	}											// ## 1. Await Sim Settled
 			if asyncData {
-				atEve(4, logd("//// %02o=>State; Sim Settled; Asynchronous Data Mode: nop", state))
+				atEve(4, logd("//// %02o=>State; Sim Settled; Asynchronous Data Mode: nop \(state)"))
 			}
 			else {
-				atEve(4, logd("//// %02o=>State; Sim Settled; Synchronous Data Mode: cPrev;lData", state))
+				atEve(4, logd("//// %02o=>State; Sim Settled; Synchronous Data Mode: cPrev;lData\(state)"))
 														// ## 2. do EARLY Clk Previous:
 				partBase!.tree.sendMessage(fwType:.clockPrevious)
 
@@ -310,9 +313,9 @@ class TimingChain : Atom {
 			atEve(7, logd("|| LOAD FwwEvent '\(event?.pp() ?? "nil")' complete"))
 			event				= nil		// done with event, even if async
 
-			nextState			= 2
-		case 2:					// ----> When Settled do 'ad2:Conceive'
-			atEve(4, logd("|||| %02o=>State; Sim Settled; Now do 'ad2:Conceive'", state))
+			nextState			= .s2
+		case .s2://ad2:Conceive	// ----> When Settled do 'ad2:Conceive'
+			atEve(4, logd("|||| %02o=>State; Sim Settled; Now do 'ad2:Conceive'\(state)"))
 																 // ## 4. Await Sim Settled
 			partBase!.tree.sendMessage(fwType:.writeHeadConcieve)// ## 5. do: CONCEIVE:
 			partBase!.tree.sendMessage(fwType:.writeHeadLabor)	 // ## 6. do: LABOR, BIRTH:
@@ -322,15 +325,15 @@ class TimingChain : Atom {
 	//		simulator.simRun	-= simulator.simRun > 0 ? 1 : 0
 			// 171021 If release occurs before here, ++ and -- still cancel to +=0
 
-			nextState			= 3
-		case 3:					// ----> When Settled AND UsrUp do '?cPrev ?retract'
+			nextState			= .s3
+		case .s3:				// ----> When Settled AND UsrUp do '?cPrev ?retract'
 			if eventDownPause {					// First, wait till user pause is up
 				return
 			}
 		//	if !simulator.settled { 					// Second, Await simSettled
 		//		return
 		//	}
-			atEve(4, logd("|||| %02o=>State: userUpEvent and Sim Settled.  Now do 'ad3:?cPrev'", state))
+			atEve(4, logd("|||| %02o=>State: userUpEvent and Sim Settled.  Now do 'ad3:?cPrev'\(state)"))
 														// ## 8. Let Newbie run
 			assert(!eventDownPause, "should be OFF")	// elim after a while
 
@@ -341,21 +344,21 @@ class TimingChain : Atom {
 			retractPort?.take(value:0.0)
 			retractPort			= nil
 
-			nextState			= 4
-		case 4:					// ----> When Settled, we're done!
+			nextState			= .s4
+		case .s4:					// ----> When Settled, we're done!
 		//	if !sim.settled { 				// Await simSettled
 		//		return
 		//	}
-			atEve(4, logd("\\\\\\\\ %02o=>State; Sim Settled;  EVENT DONE", state))
+			atEve(4, logd("\\\\\\\\ %02o=>State; Sim Settled;  EVENT DONE\(state)"))
 
 			 // Stop wanting simulator
 //			assert(simulator.linkChits != 0, "wraparound")
 //			simulator.linkChits -= 1
-			nextState			= 0					// ** 11. go idle
+			nextState			= .idle				// ** 11. go idle
 		default:				// ----> PROBLEMS!
-			panic(fmt("state=%04o UNDEFINED", state))
+			panic(fmt("state=%04o UNDEFINED\(state)"))
 		}
-		state = nextState					// Enter next state
+		state 					= nextState			// Enter next state
 	}
 
 	 // MARK: - 9.3 reSkin
@@ -384,7 +387,13 @@ class TimingChain : Atom {
 			}
 			return scn
 		} ()
-		let s					= animateChain ? min(Int(state), 4) : 0
+		let s					= !animateChain ? 0 :
+									state == .idle ? 0 :
+									state == .s1   ? 1 :
+									state == .s2   ? 2 :
+									state == .s3   ? 3 :
+									state == .s4   ? 4 : 0
+//		let s					= animateChain ? min(Int(state), 4) : 0
 		scn.scale.y				= [1.0, 1.5, 1.75, 1.51, 1.25][s]				//[1.0, 1.25, 1.5, 1.75, 2]//[1.0, 2, 1.75, 1.5, 1.25]
 		atEve(4, logd("@@@@@ @ @ @ @ @@@@@ TimingChain scale.y: \(scn.scale.y)"))
 		return scn.bBox() * scn.transform	//vew.scnScene.bBox()// Xyzzy44 ** sbt
@@ -444,7 +453,7 @@ class TimingChain : Atom {
 			if (event != nil) {
 				rv				+= "event:\(event!.pp()) "
 			}
-			rv					+= fmt("state:%03o ", state)
+			rv					+= fmt("state:\(state)")
 			rv					+= eventDownPause ? "eventDownPause " : ""
 			rv					+= animateChain  ? "animateChain "  : ""
 			rv					+= asyncData 	 ? "asyncData " 	: ""

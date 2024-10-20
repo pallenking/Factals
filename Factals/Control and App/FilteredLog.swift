@@ -8,27 +8,30 @@ import Foundation
 //				the closure is executed.
 //
 //	The following   verbosities <V>   are defined:
-		// 0 : silent (prints nothing)		// 5 : Normal
-		// 1 : initialization and errors	// 6 : Verbose
-		// 2 : 1 line per model				// 7 : a lot
-		// 3 : important					// 8 : Most Everything
-		// 4 : lite							// 9 : Everything
-
+//		0 : silent (prints nothing)		5 : Normal
+//		1 : initialization and errors	6 : Verbose
+//		2 : 1 line per model			7 : a lot
+//		3 : important					8 : Most Everything
+//		4 : lite						9 : Everything
+//
 //	The following   areas <A>   are defined:
-		// app	-- APPlication		- construction of app
-//______// men	-- MENus 			- construction of menus
-		// doc	-- DOCument			- construction of document, including mouse
-		// ser	-- SERilization		- serialization and desrialization of Part
-//______// bld	-- BuiLD			- building of part
-		// dat	-- sim DATa			- simulation data
-		// eve	-- sim EVEnts		- simulation events
-		// rve	-- ReViEw 			- review visual properties
-		// rsi	-- ReSIze 			- reSize shapes
-		// rnd	-- ReNDer protocol	-
-		// ani	-- phys ANImation	- physical animation events
-		// ins	-- INSpectors		-
-		// tst	-- TeSTing
-		// all	-- ALL OF ABOVE		-
+//	------- Application:
+//		app	-- APPlication		- construction of app
+//		men	-- MENus 			- construction of menus
+//	------- Document:
+// 		doc	-- DOCument			- construction of document, including mouse
+//		ser	-- SERilization		- serialization and desrialization of Part
+//	------- Execution:
+//		bld	-- BuiLD			- building of part
+// 		dat	-- sim DATa			- simulation data
+// 		eve	-- sim EVEnts		- simulation events
+// 		rve	-- ReViEw 			- review visual properties
+// 		rsi	-- ReSIze 			- reSize shapes
+// 		rnd	-- ReNDer protocol	-
+// 		ani	-- phys ANImation	- physical animation events
+// 		ins	-- INSpectors		-
+// 		tst	-- TeSTing
+// 		all	-- ALL OF ABOVE		-
 
 
 
@@ -37,6 +40,7 @@ import Foundation
    /// - Parameters:
   ///   - prefix: Set to "*" for XCTests
  /// - Returns: Hash for logPri4 verbosity
+/// (synchronize with 'func at(app ..) below')
 func logAt(
 		app:Int = -1,
 		doc:Int = -1,
@@ -71,10 +75,7 @@ func logAt(
 	if all >= 0 	{		rv["logPri4all"] = all								}
 	return rv
 }
-// synchronize with 'func at(app ..) below'
-
- /// 3b. Neutered (with suffix X) returns an empty hash
-func logAtX(prefix:String="",
+func logAtX(prefix:String="", // / 3b. Neutered (with suffix X) returns an empty hash
 		  con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, dat:Int=0,
 		  rve:Int=0, rsi:Int=0, rnd:Int=0, ani:Int=0, ins:Int=0, tst:Int=0, all:Int=0)
 		  -> FwConfig { return [:] }

@@ -385,6 +385,11 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}
 		return true
 	}
+	func containsFW(_ part:Part) -> Bool {
+		bug
+		return false
+	}
+
 	 // MARK: - 4.1 Part Properties
 	 /// Short forms for Spin
 	static let str2spin : [String : Int] = [
@@ -486,7 +491,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	func addChild(_ child:Part?, atIndex index:Int?=nil) {
 		guard let child 		else {		return								}
 		assert(self !== child, "can't add self to self (non-exhaustive check)")
-		assert(!children.contains(child), "Adding child that's already there")
+ // 20241019PAK: uses == on Part, which is depricated?
+//		assert(!children.containsFW(child), "Adding child that's already there")
 
 		 // add at index
 		if var index {							// Find right spot in children
@@ -528,7 +534,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			child.groomModel(parent:self, partBase:partBase)	// ### RECURSIVE
 		}
 	}
-
 
 	func groomModelPostWires(partBase:PartBase)  {
 		 // Check for duplicate names:
@@ -987,7 +992,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 		 //------ Put on my   Skin   on me.
 		vew.bBox				= .empty			// Set view's bBox EMPTY
-		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part			// xyzzy32
+		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part	// xyzzy32 xyzzy18
 
 		 //------ reSize all and only   _CHILD Atoms_
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()

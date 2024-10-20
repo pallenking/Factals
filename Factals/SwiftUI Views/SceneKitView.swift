@@ -48,8 +48,11 @@ struct SimpleTestView: View {
 					 .border(.black, width:1)
 					Text("Overlayed Text")
 					EventReceiver {	nsEvent in // Catch events (goes underneath)
- 						print("EventReceiver:point = \(nsEvent.locationInWindow)")
-						let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree)
+ 						//print("EventReceiver:point = \(nsEvent.locationInWindow)")
+						if !scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree) {
+							guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+							print("Key '\(c)'  not recognized")
+						}
 					}
 					MySceneView(scnSceneBase:scnSceneBase)
 				}

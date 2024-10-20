@@ -7,7 +7,7 @@ class MultiLink : Link {
 
 	 // MARK: - 1. Class Variables:
 	override var linkSkinType		: LinkSkinType	{	
-		get {			return .ray 	}
+		get {			return .tube}//.dual}//.ray}
 		set(v) {		panic("MultiLink linkSkinType HELP!!")}
 	}
 	
