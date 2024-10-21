@@ -558,7 +558,8 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 			let partBase		= part.partBase
 			let wBoxNameIndex	= partBase?.indexFor["WBox"] ?? 1
 			partBase?.indexFor["WBox"] = wBoxNameIndex + 1
-			print(partBase != nil ? "" : "%%%%%%%% partBase==nil")
+			assert(partBase != nil, "%%%%%%%% partBase==nil")
+//			print(partBase != nil ? "" : "%%%%%%%% partBase==nil")
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
 			bBoxScn.geometry 	= SCNGeometry.lines(lines:indices, withPoints:corners) //material.diffuse.contents = color0		// BUG doesn't work, all are white
 			bBoxScn.categoryBitMask = FwNodeCategory.adornment.rawValue			//material.lightingModel 	= .blinn

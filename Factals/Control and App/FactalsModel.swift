@@ -23,34 +23,30 @@ extension FactalsModel  : Logd {}
 	}
 
 	 // MARK: - 3. Factory
-	init(partBase pb:PartBase) {	// FactalsModel(partBase:)
+	init(partBase pb:PartBase, configure cfgArg:FwConfig) {	// FactalsModel(partBase:)
+		partBase				= pb
+		fmConfig				= cfgArg				// Save in ourselves   WHY???
+//		fmConfig				= params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
 
 		let params4modelLog : FwConfig =
 			params4partPp		+  	//	pp... (50ish keys)
 			params4logs 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 			logAt(all:docLogN)
-		log						= Log(name:"Model's Log", params4modelLog)
-		simulator 				= Simulator(config:params4sim)
-		docSound				= Sounds()
+		log						= Log(name:"Model's Log", configure:params4modelLog)
+//		simulator 				= Simulator(configure:params4sim)
+		simulator 				= Simulator(configure:cfgArg)
+		docSound				= Sounds(   configure:cfgArg)
 
-		partBase				= pb
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
-//		fmConfig				= params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
-//		configure(from:params4partPp)
-
 		FACTALSMODEL			= self			// set UGLY GLOBAL
 		simulator.factalsModel	= self			// backpointer
-		partBase.factalsModel	= self			// backpointer
+		partBase .factalsModel	= self			// backpointer
+
+		log      .configure(from:cfgArg)
+		partBase .configure(from:cfgArg)
+		simulator.configure(from:cfgArg)
 	}
 
-	func configurePart(from config:FwConfig) {
-		self.fmConfig			= config		// Save in ourselves   WHY???
-		log      .configure(from:config)
-		docSound .configure(from:config)
-		partBase .configure(from:config)
-		simulator.configure(from:config)
-	}
 	func configureVews(from config:FwConfig) {
 
 		 // Create new Views from config

@@ -559,7 +559,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		var rv 					= super.pp(mode, aux)
 		if mode == .line { 
-			rv					+= ", r(\(currentRadius)) = v(\(pValue)) * g(\(gain)) + o(\(offset))"
+			rv					+= ", r(\(currentRadius)) =v(\(pValue))*g(\(gain))+o(\(offset))"
 		}
 		return rv
 	}
@@ -569,7 +569,7 @@ class BulbSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	 /// Intercept Port.value, to perhaps set viewSizeIsDirty
 	private var looparoundValue : Float = .nan
 	override var value : Float 		{		// a place for debug breakpoints:
-		get		{	return true ? looparoundValue : super.value					}
+		get		{	return true ? looparoundValue : super.value	 				}
 		set(v) 	{
 			if super.value != v {
 

@@ -658,14 +658,10 @@ xxr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(
 		Bulb(  [n:"u", share:"a"]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
 	] ] ) } )
-	xr("- blink old way", eSim + vel(-4) , { Net([placeMy:"linky", parts:[
-		Bulb([P:"a"]),
-		Mirror([n:"t1", "gain":-1, "offset":1, jog:"4"]),
-		Mirror([n:"a", f:1, P:"t1,l:4"]),
-	] ]) })
-	r("- blink new way", eSim + vel(-4) , { Net([placeMy:"linky", parts:[
-		Bulb([n:"t1"]),
-		Mirror([n:"a", f:1, "gain":-1, "offset":1, P:"t1,l:4"]),
+	xr("+ blink", eSimX + vel(-4) , { Net([placeMy:"linky", parts:[
+		Bulb(  [n:"c", P:"a", jog:"-4 1"]),
+		Mirror([n:"b", P:"a", jog:"4"]),
+		Mirror([n:"a", "gain":-1, "offset":1, f:1, P+X:"t1,l:4"]),
 	] ]) })
 	r("Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
 		Bulb([  n:"b", P:"m"]),  				// Broadcast

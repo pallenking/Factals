@@ -667,11 +667,11 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			//	 : NSPoint			     NsView:								: NSPoint :window
 			//	 : CGPoint
 		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
-		print("Start position=\(hitPosnV3.pp(.phrase)) in frame of \(contentNsView.frame)")
+		//print("Start position=\(hitPosnV3.pp(.phrase)) in frame of \(contentNsView.frame)")
 
 		 // Movement since last, 0 if first time and there is none
 		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
-		print("beginCameraMotion: deltaPosition=\(deltaPosition.pp(.phrase))")
+		//print("beginCameraMotion: deltaPosition=\(deltaPosition.pp(.phrase))")
 		lastPosition			= hitPosnV3
 	}
 

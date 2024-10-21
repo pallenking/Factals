@@ -96,7 +96,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	func port4leafBinding(name:String) -> Part? {
 		let binding 			= self.bindings?[name]
-		if let path				= binding as? Path,
+bug;	if let path				= binding as? Path,
 		  let p					= resolveInwardReference(path, openingDown:false, except:nil)  {
 			return p
 		}

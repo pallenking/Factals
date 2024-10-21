@@ -66,14 +66,14 @@ struct FactalsDocument : FileDocument {
 		let partBase			= PartBase(fromLibrary:select)
 
 		 // 2. FactalModel
-		factalsModel			= FactalsModel(partBase:partBase)
-
-		 // 3. Groom part
 		let pmConfig			= params4logs
 								+ params4vew
 								+ params4partPp
 								+ partBase.ansConfig		// from library
-		factalsModel.configurePart(from:pmConfig)
+		factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
+//		factalsModel.configurePart(from:pmConfig)
+
+		 // 3. Groom part
 		partBase.wireAndGroom([:])
 
 		 // 3. Vews
@@ -114,7 +114,7 @@ struct FactalsDocument : FileDocument {
 			let partsBase		= PartBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
-			let factalsModel	= FactalsModel(partBase:partsBase)
+			let factalsModel	= FactalsModel(partBase:partsBase, configure:[:])
 bug;		self.init(factalsModel:factalsModel)
 
 //			fmConfig			+= partBase.ansConfig	// from library

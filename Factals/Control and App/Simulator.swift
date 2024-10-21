@@ -47,9 +47,9 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 	}
 
 	 // MARK: - 2.? init()
-	init(config:FwConfig) {
+	init(configure:FwConfig) {
 		super.init()
-		self.configure(from:config)
+		self.configure(from:configure)
 	}
 	 // MARK: - 2.3 Push Configuration to Controllers
 	 /// Controls the Simulator's operation

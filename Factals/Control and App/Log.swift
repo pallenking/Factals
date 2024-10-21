@@ -3,6 +3,8 @@
 // Log must deal with the case that it should handle it's own printing before Log
 // lifeCycleLogger
 
+//import SwiftLog  https://swiftpackageindex.com/apple/swift-log
+
 import SceneKit
 
 import OSLog
@@ -20,14 +22,12 @@ extension Log {
 	}
 }
 
-//import SwiftLog  https://swiftpackageindex.com/apple/swift-log
-
 extension Log {
 	 // MARK: - 1. Static Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 
-	static var app				= Log(name:"App Log", params4appLog)
+	static var app				= Log(name:"App Log", configure:params4appLog)
 
 	static let params4appLog	=
 		params4app				+
@@ -61,67 +61,6 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	 /// REALLY UGLY: what if different threads using log?
 	var msgPriority : Int?		= nil		// hack: pass argument to message via global
 	var msgFilter   : String?	= nil
-
-	 /// Configure Log facilities
-	func configure(from c:FwConfig) {
-
-		 // Unpack frequently used config hash elements to object parameters
-		if let pic 				= c.int("ppIndentCols")	{
-			ppIndentCols 		= pic
-		}
-		if let ppp				= c.bool("ppPorts") 	{
-			ppPorts				= ppp
-		}
-		if let uidd4p			= c .int("ppNUid4Tree") {
-			ppNUid4Tree 		= uidd4p
-		}
-		if let uidd4c			= c .int("ppNUid4Ctl")	{
-			ppNUid4Ctl 			= uidd4c
-		}
-		if let lo				= c.bool("debugOutterLock"){
-			debugOutterLock		= lo
-		}
-		if let lev				= c.bool("logEvents")	{
-			logEvents			= lev
-		}
-		if let t 				= c.bool("logTime")		{
-			logTime				= t
-		}
-		if let bae				= c.int("breakAtEvent")	{
-			breakAtEvent		= bae
-		}
-		if let bal				= c.int("breakAtLogger"){
-			breakAtLogger		= bal
-		}
-		 // Load verbosity filter from keys starting with "logPri4", if there are any.
-		verbosity 				= verbosityInfoFrom(c)
-	}
-	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
-		   // Process logPri4*** keys. SEMANTICS:
-		  //   If NONE with prefix "logPri4" are found, verbosity is unchanged
-		 // 	 if some are found, they replace the old verbosity.
-		var rv : [String:Int] 	= [:]
-		for (keyI, valI) in config {		// Scan config being loaded:
-			if keyI.hasPrefix("logPri4"),		// that start with "logPri4"
-			  let newVal 		= Int(fwAny:valI) {	// have an integer value
-				assert(newVal >= 0 && newVal <= 9, "\(keyI):\(valI) not in range 0...9")
-				let newKey		= String(keyI.dropFirst("logPri4".count))
-				rv[newKey]		= newVal				// save trailing part
-			}	// pt: Simultaneous accesses to 0x60000300ca68, but modification requires exclusive access.
-		}
-		return rv
-	}
-	func ppVerbosityOf(_ config:FwConfig) -> String {
-		let verbosityHash		= verbosityInfoFrom(config)
-		if verbosityHash.count > 0 {
-			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
-			msg					+= "=\(verbosityHash.pp(.line)) Cause:"
-			msg					+= config.string_("cause")
-			return msg
-		}
-		return ""
-	}
-
 	var simTimeLastLog	:Float? = -1//nil
 	var logTime			: Bool	= true
 
@@ -159,8 +98,8 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
-	init(name:String, _ config:FwConfig = [:])	{			//_ config:FwConfig = [:]
-		configure(from:config)
+	init(name:String, configure c:FwConfig = [:])	{			//_ config:FwConfig = [:]
+		configure(from:c)
 		Log.maximumLogNo		+= 1
 		logNo					= Log.maximumLogNo				// Logs have unique number
 		self.name				= name
@@ -171,6 +110,59 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 //		makeDummyLogEntries()
 //		print("ALLOCATED Log\(logNo)(\(ppUid(self)))  '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
 	}
+
+	 /// Configure Log facilities
+	func configure(from c:FwConfig) {
+
+		 // Unpack frequently used config hash elements to object parameters
+		if let pic 				= c.int("ppIndentCols")	{
+			ppIndentCols 		= pic											}
+		if let ppp				= c.bool("ppPorts") 	{
+			ppPorts				= ppp											}
+		if let uidd4p			= c .int("ppNUid4Tree") {
+			ppNUid4Tree 		= uidd4p										}
+		if let uidd4c			= c .int("ppNUid4Ctl")	{
+			ppNUid4Ctl 			= uidd4c										}
+		if let lo				= c.bool("debugOutterLock"){
+			debugOutterLock		= lo											}
+		if let lev				= c.bool("logEvents")	{
+			logEvents			= lev											}
+		if let t 				= c.bool("logTime")		{
+			logTime				= t												}
+		if let bae				= c.int("breakAtEvent")	{
+			breakAtEvent		= bae											}
+		if let bal				= c.int("breakAtLogger"){
+			breakAtLogger		= bal											}
+
+		 // Load verbosity filter from keys starting with "logPri4", if there are any.
+		verbosity 				= verbosityInfoFrom(c)
+	}
+	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
+		   // Process logPri4*** keys. SEMANTICS:
+		  //   If NONE with prefix "logPri4" are found, verbosity is unchanged
+		 // 	 if some are found, they replace the old verbosity.
+		var rv : [String:Int] 	= [:]
+		for (keyI, valI) in config {		// Scan config being loaded:
+			if keyI.hasPrefix("logPri4"),		// that start with "logPri4"
+			  let newVal 		= Int(fwAny:valI) {	// have an integer value
+				assert(newVal >= 0 && newVal <= 9, "\(keyI):\(valI) not in range 0...9")
+				let newKey		= String(keyI.dropFirst("logPri4".count))
+				rv[newKey]		= newVal				// save trailing part
+			}	// pt: Simultaneous accesses to 0x60000300ca68, but modification requires exclusive access.
+		}
+		return rv
+	}
+	func ppVerbosityOf(_ config:FwConfig) -> String {
+		let verbosityHash		= verbosityInfoFrom(config)
+		if verbosityHash.count > 0 {
+			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
+			msg					+= "=\(verbosityHash.pp(.line)) Cause:"
+			msg					+= config.string_("cause")
+			return msg
+		}
+		return ""
+	}
+
 
 // START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable

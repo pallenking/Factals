@@ -108,13 +108,13 @@ class SoundAtom : Atom {
 				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
 					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
 					
-//					partBase?.factalsModel.docSound.play(docSound, onNode:)
+					partBase?.factalsModel?.docSound.play(sound:"abc")//docSound, onNode:)
 //					if sObj.isPlaying {
 //						print("\n\n NOTE: Going TOO FAST\n\n")
 //					}
-//					 // If this terminates the previous sound, it's okay!
-//panic()//			sObj.play						// start playing sound
-//					playing 	= true;				// delay loading primary.L
+					 // If this terminates the previous sound, it's okay!
+panic()//			sObj.play						// start playing sound
+					playing 	= true;				// delay loading primary.L
 				}
 			}
 		}
