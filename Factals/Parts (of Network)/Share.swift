@@ -520,7 +520,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		{
 			atDat(3, logd("   BULB: %.2f (was %.2f)", pInput, pValue))
 			pValue				= pInput	//	pass on 
-			markTree(dirty:.size)			// mark splitter size as dirty
+			markTree(dirty:.size)			// mark Splitter's size as dirty
 		}
 	}	
 	 /// Diameter and Radius are functions of value

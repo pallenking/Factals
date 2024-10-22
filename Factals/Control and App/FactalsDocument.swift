@@ -26,23 +26,30 @@ extension FactalsDocument {
 }
 extension FactalsDocument : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
-		factalsModel.log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 	}
 }
 
  //class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument {
 	let uid:UInt16				= randomUid()
-
 	var factalsModel : FactalsModel! = nil				// content
-							
+	var log 	  : Log			= Log(name:"Model's Log", configure:
+		params4partPp			+  	//	pp... (50ish keys)
+		params4logs 			+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+		logAt(all:docLogN))
+	var foo = 3
+
 	init(fileURL: URL) {
 		bug
 	}
 	// MARK: - 2.4.4 Building
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
+
+		// create Log and Sound here
 		self.init(fromLibrary:"xr()")
+		log      .configure(from:[:])//cfgArg)
 	}
 //	enum LibrarySelector {				// NEW
 //		case empty						//		nil->			Blank scene		 |	nil		  -1
@@ -52,7 +59,7 @@ struct FactalsDocument : FileDocument {
 //	}
 
 	init(fromLibrary select:String?=nil) {
-
+log.log("slkfsljf")
 		 // 1. Part
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
@@ -71,8 +78,7 @@ struct FactalsDocument : FileDocument {
 								+ params4partPp
 								+ partBase.ansConfig		// from library
 		factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
-//		factalsModel.configurePart(from:pmConfig)
-
+		factalsModel.factalsDocument = self																		//factalsModel.configurePart(from:pmConfig)
 		 // 3. Groom part
 		partBase.wireAndGroom([:])
 
@@ -140,6 +146,7 @@ bug;		self.init(factalsModel:factalsModel)
 			guard let dat		= factalsModel.partBase.data else {	// how is Parts.data worked?
 				panic("FactalsDocument.factalsModel.partBase.data is nil")
 				let d			= factalsModel.partBase.data		// redo for debug
+				let _			= d
 				throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
 			}
 			return .init(regularFileWithContents:dat)
@@ -153,7 +160,7 @@ bug;		self.init(factalsModel:factalsModel)
 
 	typealias PolyWrap = Part
 	class Part : Codable /* PartProtocol*/ {
-		func polyWrap() -> PolyWrap {	polyWrap() }
+		func polyWrap() -> PolyWrap {	bug; return polyWrap() }
 		func polyUnwrap() -> Part 	{	Part()		}
 	}
 	//protocol PartProtocol {

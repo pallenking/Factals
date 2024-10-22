@@ -33,6 +33,9 @@ struct ScanForKey : Codable {
 struct HnwMachine {		// : Codable
 	 // From Chosen Test
 	var title		: String?  	= nil		// Network name from library
+	var preTitle	: String  	= ""		// Reason for Fetching String
+	var postTitle	: String  	= ""		// Number of Ports String
+
 	var config		: FwConfig	= [:]		// [NOT CODABLE]
 
 	 // From Scan:
@@ -174,14 +177,17 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 					nil)									// no, ignore
 		if matchReason != nil {						// BUILD
 			atBld(7, Log.app.log("=== \(matchReason!) ==="))
-			assert(answer.trunkClosure==nil, "Two Closures found marked xr():\n" +
-				"\t Previous = \(answer.testNum):\(answer.fileName ?? "lf823").\(answer.lineNumber!) '\(answer.title ?? "none")' <-- IGNORING\n" +
-				"\t Current  = \(state.scanTestNum):\(fileName).\(       lineNumber ) '\(         title)'")
+			assert(answer.trunkClosure==nil, "Two Closures found marked xr():\n"
+			  +	"\t Previous = \(answer.testNum):\(answer.fileName ?? "lf823").\(answer.lineNumber!) "
+			  +		"'\(answer.title ?? "none")' <-- IGNORING\n"
+			  +	"\t Current  = \(state.scanTestNum):\(fileName).\(       lineNumber ) '\(         title)'")
 
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
 								
 			answer.title		= title
+			answer.preTitle		= ""
+			answer.postTitle	= ""
 			answer.config 		= config
 			answer.trunkClosure = rootClosure
 			 // From Scan

@@ -76,7 +76,8 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 			myLine: factalsModel == nil ? "factalsModel is nil" : "",
 			otherLines:{ deapth in
 				guard let factalsModel else {	return ""						}
-				let rv			= factalsModel.ppFactalsState(deapth:deapth-1)
+				var rv			= factalsModel.ppFactalsState(deapth:deapth-1)
+				rv				+= self.log.ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth
@@ -154,7 +155,7 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 				for vews in self.vewBases {
 					rv			+= vews.ppFactalsState(deapth:deapth-1)
 				}
-				rv				+= self.log.ppFactalsState(deapth:deapth-1)
+//				rv				+= self.log.ppFactalsState(deapth:deapth-1)
 				rv				+= self.docSound.ppFactalsState(deapth:deapth-1)
 
 			//	 // Inspectors:

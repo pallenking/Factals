@@ -5,7 +5,8 @@ import SwiftUI
 
 extension FactalsModel  : Logd {}
 
-@Observable class FactalsModel : Uid {
+@Observable
+ class FactalsModel : Uid {
 	var epoch: UInt16			= 1				// to mark dirty
 	var uid:   UInt16			= randomUid()
 
@@ -15,36 +16,36 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []			// VewBase of rootPartActor.parts
 
-	var log 	  : Log
+//	var log 	  : Log
 	var docSound  :	Sounds
 
+	 var factalsDocument : FactalsDocument! = nil
+
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-		log.log(banner:banner, format_, args, terminator:terminator)
+		factalsDocument.log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
 	 // MARK: - 3. Factory
-	init(partBase pb:PartBase, configure cfgArg:FwConfig) {	// FactalsModel(partBase:)
+	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
 		partBase				= pb
-		fmConfig				= cfgArg				// Save in ourselves   WHY???
-//		fmConfig				= params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
+		fmConfig				= configure				// Save in ourselves   WHY???
+				//params4partPp	// SHOULD TAKE FROM FactalsApp.FactalsGlobals
 
-		let params4modelLog : FwConfig =
-			params4partPp		+  	//	pp... (50ish keys)
-			params4logs 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-			logAt(all:docLogN)
-		log						= Log(name:"Model's Log", configure:params4modelLog)
-//		simulator 				= Simulator(configure:params4sim)
-		simulator 				= Simulator(configure:cfgArg)
-		docSound				= Sounds(   configure:cfgArg)
+//	let params4modelLog : FwConfig =
+//		params4partPp		+  	//	pp... (50ish keys)
+//		params4logs 		+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+//		logAt(all:docLogN)
+//		log						= Log(name:"Model's Log", configure:params4modelLog)
+		simulator 				= Simulator(configure:configure)	// params4sim
+		docSound				= Sounds(   configure:configure)
 
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self			// set UGLY GLOBAL
 		simulator.factalsModel	= self			// backpointer
 		partBase .factalsModel	= self			// backpointer
 
-		log      .configure(from:cfgArg)
-		partBase .configure(from:cfgArg)
-		simulator.configure(from:cfgArg)
+		partBase .configure(from:configure)
+		simulator.configure(from:configure)
 	}
 
 	func configureVews(from config:FwConfig) {
@@ -75,10 +76,12 @@ extension FactalsModel  : Logd {}
 		for vewBase in vewBases {
 			vewBase.configure(from:config)
 		}
+
+		docSound.play(sound:"GameStarting")
 		atBld(2, logd("------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
-		atBld(5, log.logd("### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):"))
+		atBld(5, logd("### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):"))
 		let vewBase				= VewBase(for:partBase)
 		vewBase.factalsModel	= self						// Backpointer
 		vewBases.append(vewBase)							// Install vewBase
@@ -88,7 +91,11 @@ extension FactalsModel  : Logd {}
 		vewBase.updateVSP(initial:vewConfig)
 		//printFwState()
 
-		atBld(5, log.logd("---====--- anotherVewBase() done \(vewBase.pp(.uidClass)) "))
+
+log("hello")
+
+
+		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.uidClass)) "))
 		//atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
 	}
 					//	//	// FileDocument requires these interfaces:
@@ -241,7 +248,7 @@ extension FactalsModel  : Logd {}
 			}
 		case "n":
 			print("\n******************** 'n': ==== SCNNodes:")
-			log.ppIndentCols = 3
+//			log.ppIndentCols = 3
 			for vews in vewBases {
 				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnSceneBase)))" +
 					  ".scnScene(\(ppUid(vews.scnSceneBase))):")

@@ -27,6 +27,8 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 
 	 // MARK: - 2.1 Object Variables
 	var title					= ""
+	var preTitle				= ""
+	var postTitle				= ""
 	var ansConfig : FwConfig 	= [:]
 	weak
 	 var factalsModel : FactalsModel? = nil
@@ -59,10 +61,6 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		}
 		checkTree()
 										//		tree.configNames(config:[:])
-											//	wireAndGroom([:])
-										//		dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
-										//		self.dirty.turnOn(.vew)
-										//		markTree(dirty:.vew)
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
@@ -110,8 +108,14 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
 		title					+= " (\(portCount()) Ports)"
+		preTitle				= "'x'"
+		postTitle				= ""
 
 		//dirtySubTree(.vew)		// NOT NEEDED
+		//dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
+		//self.dirty.turnOn(.vew)
+		//markTree(dirty:.vew)
+
 	}
 
 // moved to FactalsModel
@@ -401,7 +405,7 @@ bug		// invisible?
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
-	var log : Log {	factalsModel?.log ?? { fatalError("factalsModel nil in PartBase")}()}
+	var log : Log {	factalsModel?.factalsDocument.log ?? { fatalError("factalsModel nil in PartBase")}()}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}

@@ -82,7 +82,7 @@ func logAtX(prefix:String="", // / 3b. Neutered (with suffix X) returns an empty
 
 //	E.g: the following will print "construction message" if DOClog.verbosity
 //	calls for >=3 verbosity messages:
-//			atApp(3, Log(<construction message>))
+//			atApp(3, log(<construction message>))
 
  // Functions called by logee, sugar to shorten commonly used cliche.
 func atApp(_ pri:Int, _ act:@autoclosure()->Void) 	{ at("app",pri, act())		}

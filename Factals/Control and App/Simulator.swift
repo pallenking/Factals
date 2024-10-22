@@ -166,7 +166,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 		partBase .unlock (for:"simulationTask", logIf:logSimLocks)
 	}
 	// MARK: - 14. Building
-	var log : Log {	factalsModel?.log ?? { fatalError("factalsModel nil in Simulator")}()}
+	var log : Log {	factalsModel?.factalsDocument.log ?? { fatalError("factalsModel nil in Simulator")}()}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}			//Cannot convert return expression of type 'Optional<_>' to return type 'Log'

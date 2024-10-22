@@ -35,7 +35,6 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		parent!.fullName + "/" + name	// add lefter component
 	}
 	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofScnNode:scn)}
-//	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofScnScene:scnScene)}
 
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
@@ -587,14 +586,8 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 	}	// calls toggelOpen()
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
-		var myLog				= Log.app
-		if let vewBase			= vewBase() {
-			myLog 				= vewBase.factalsModel.log//.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-		}
-		else if let root		= part.partBase {	// strangely redundant, but okay
-			myLog 				= root.factalsModel!.log//.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-		}
 		let (nl, fmt)			= format.stripLeadingNewLines()
+		var myLog				= part.partBase!.factalsModel!.factalsDocument.log
 		myLog.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint

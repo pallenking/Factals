@@ -183,7 +183,7 @@ class Tests01 : Book {
 		let eW3		 : FwConfig = ["Vew0":VewConfig.openAllChildren(toDeapth:4),
 								   "Vew1":VewConfig.openAllChildren(toDeapth:2),
 								   "Vew2":VewConfig.openAllChildren(toDeapth:0)]
-
+		let _ = eW3
 		 let _					= eSimX + eNoUids + eYtightX // no warning, even if unused
 	    //
 	   //

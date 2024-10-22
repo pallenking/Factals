@@ -140,7 +140,7 @@ func sendApp(key:String="?", inVew vew:Vew?) {
 
  // External Global interface (misc, lldb)
 func printFwState()  {
-	FACTALSMODEL?.log.ppIndentCols 	= 20		// sort of permanent!
+//	FACTALSMODEL?.log.ppIndentCols 	= 20		// sort of permanent!
 	print(ppFactalsState())
 }
  // External Global interface (misc, lldb)
