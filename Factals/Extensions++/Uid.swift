@@ -64,9 +64,12 @@ func uid4Ns(nsOb:NSObject) -> UInt16 {
 	}
 	return UInt16(j & 0xffff)
 }
- /// Generate a random Uid to initialize objects with a Uid variable
-func randomUid() -> UInt16 {
-	return UInt16(randomUInt() & 0xffff)
+ /// Nametags are
+typealias NameTag = UInt16
+var lastNametag : NameTag		= 0x0000//0x3333
+func getNametag() -> NameTag {
+	lastNametag					+= 1
+	return lastNametag															//return UInt16(randomUInt() & 0xffff)
 }
 
 // Maximally separated

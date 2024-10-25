@@ -217,7 +217,8 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		let (a, b)				= (self.tree.scn, self.scnSceneBase.tree?.rootNode)
-		var myLine				= a===b ? "" : ("ERROR tree.scn(\(a.pp(.uid))!==scnBase's \(b?.pp(.uid) ?? "nil")  ")
+		var myLine				= a===b ? "" : ("ERROR< tree.scn(\(a.pp(.uid)) " +
+									"!== scnSceneBase.tree= \(b?.pp(.uid) ?? "nil") >ERROR\n ")
 		myLine					+= "tree:\(tree.pp(.uidClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
@@ -228,8 +229,11 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 			otherLines: { deapth in
 				var rv			=  self.scnSceneBase.ppFactalsState(deapth:deapth-1)
 				rv				+= self.selfiePole  .ppFactalsState(deapth:deapth-1)
-				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1) ?? "\t\t\t\t cameraScn is nil\n"
-				//rv 			+= self.tree	    .ppFactalsState(deapth:deapth-1)
+				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1)
+									?? "\t\t\t\t cameraScn is nil\n"
+				for inspector in self.inspectors {
+					rv 			+= inspector	    .ppFactalsState(deapth:deapth-1)
+				}
 				return rv
 			},
 			deapth:deapth-1)
@@ -250,6 +254,14 @@ extension Vew : FactalsStatus	{										  ///Vew
 	}
 }
 extension SelfiePole : FactalsStatus	{							///SelfiePole
+	func ppFactalsState(deapth:Int=999) -> String {
+		let myLine				= self.pp(.line)
+		return ppFactalsStateHelper("SelfiePole   ", uid:self,
+			myLine:myLine,
+			deapth:deapth-1)
+	}
+}
+extension Inspec : FactalsStatus	{									///Inspec
 	func ppFactalsState(deapth:Int=999) -> String {
 		let myLine				= self.pp(.line)
 		return ppFactalsStateHelper("SelfiePole   ", uid:self,

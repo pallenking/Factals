@@ -8,7 +8,7 @@ extension FactalsModel  : Logd {}
 @Observable
  class FactalsModel : Uid {
 	var epoch: UInt16			= 1				// to mark dirty
-	var uid:   UInt16			= randomUid()
+	var uid						= getNametag()
 
 	  // MARK: - 2. Object Variables:
 	var fmConfig  : FwConfig	= [:]
@@ -552,7 +552,9 @@ bug//	vew.scnScene.removeFromParent()
 		SCNTransaction.animationDuration = CFTimeInterval(0.15)	//0.3//0.6//
 
 		assert(partBase.curOwner==nil, "shouldn't be")
-		assert(partBase  .lock  (for:workName, logIf:log), "failed to get lock")
+		guard  partBase.lock(for:workName, logIf:log) else {		// don't use assert
+			fatalError("failed to get lock")
+		}																		//assert(partBase  .lock  (for:workName, logIf:log), "failed to get lock")
 		doPartNViewsLocked(workNamed:workName, logIf:log) { vewBase in
 
 			vewBase.updateVSP()		//##

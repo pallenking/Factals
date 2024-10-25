@@ -319,7 +319,11 @@ bug
 		guard let factalsModel	= vewBase.factalsModel else {fatalError("")		}
 
 		let animate				= factalsModel.fmConfig.bool("animatePan") ?? false
-		if animate && duration > 0.0 {
+		if !animate || duration == 0.0,
+		  let lookAtVew = vewBase.lookAtVew {
+			cameraScn.transform	= vewBase.selfiePole.transform(lookAtVew:vewBase.lookAtVew!)
+		}
+		else {
 			SCNTransaction.begin()			// Delay for double click effect
 			SCNTransaction.animationDuration = CFTimeInterval(0.5)
 
@@ -330,16 +334,13 @@ bug
 				atRve(8, factalsModel.logd("  /#######  animatePan: BEGIN Completion Block"))
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				cameraScn.transform = self.vewBase!.selfiePole.transform()
+				cameraScn.transform = self.vewBase!.selfiePole.transform(lookAtVew:self.vewBase!.lookAtVew)
 
 				atRve(8, factalsModel.logd("  \\#######  animatePan: COMMIT Completion Block"))
 				SCNTransaction.commit()
 			}
 			atRve(8, factalsModel.logd("  \\#######  animatePan: COMMIT All"))
 			SCNTransaction.commit()
-		}
-		else {
-			cameraScn.transform	= vewBase.selfiePole.transform()
 		}
 	}
 		
@@ -687,7 +688,8 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		guard let cameraScn		= vewBase?.cameraScn else {fatalError("vewBase.cameraScn is nil")}
 		let selfiePole			= vewBase!.selfiePole
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
-		let transform			= selfiePole.transform()
+
+		let transform			= selfiePole.transform(lookAtVew:self.vewBase!.lookAtVew)
 		//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
 		//print("selfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
@@ -700,7 +702,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
 			rv					+= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
-			guard let tree		= self.tree	else { return "tree==nil!! "		}
+	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
 		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SelfiePoleBar.swift
 //  Factals
 //
 //  Created by Allen King on 2/19/23.
@@ -21,9 +21,15 @@ struct SelfiePoleBar: View   {
 				LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
 				LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 				LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
-				Button(label:{	Text("**")											})//.padding(.top, 300)
+				Button(label:{	Text("Zo+")											})//.padding(.top, 300)
 				{	var s			= selfiePole
 					s.zoom			*= 1.1
+					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+					selfiePole 		= s	// Put struct's val back
+				}
+				Button(label:{	Text("Zo-")											})//.padding(.top, 300)
+				{	var s			= selfiePole
+					s.zoom			/= 1.1
 					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
 					selfiePole 		= s	// Put struct's val back
 				}
@@ -37,8 +43,8 @@ struct SelfiePoleBar: View   {
 					selfiePole 		= s	// Put struct's val back
 				}
 			}
-			.onChange(of: selfiePole.zoom) { print($0, $1) }
-			 .background(Color(red:1.0, green:0.9, blue:0.9))	// pink
+				.onChange(of: selfiePole.zoom) { print($0, $1) }
+				.background(Color(red:1.0, green:0.9, blue:0.9))	// pink
 		}
 		// .padding(6)
 	}

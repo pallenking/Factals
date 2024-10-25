@@ -5,8 +5,8 @@ import SwiftUI
 import SceneKit
 
 struct InspecSCNVector3: View {
-			 var label		: String
-	@Binding var vect3:SCNVector3
+			 var label		: String		// ARG 1: Title
+	@Binding var vect3:SCNVector3			// ARG 2: the vector
 			 var formatter	: NumberFormatter = d2formatter
 			 var oneLine	= false
 

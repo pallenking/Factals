@@ -146,11 +146,11 @@ func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Locat
 		  (verbosity[area]  ?? -1) >= verbos	|| // verbosity[area]  high enough	OR
 		  (verbosity["all"] ?? -1) >= verbos	   // verbosity["all"] high enough
 		{
-			if log.msgFilter != nil || log.msgPriority != nil {
+			guard log.msgFilter==nil && log.msgPriority==nil else {
+				let problem		= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
 				let new			= area + String(verbos)
 				let now			= log.msgFilter ?? "?" + String(log.msgPriority!)//Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
-				let c			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
-				panic(c + " '\(new)' found log '\(log.name)' busy doing '\(now)'")
+				fatalError(problem + " '\(new)' found log '\(log.name)' busy doing '\(now)'")
 			}
 			log.msgFilter		= area
 			log.msgPriority		= verbos

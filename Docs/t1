@@ -1388,3 +1388,48 @@ struct ContentView: View {
 				 cameraScn is nil
  f11e | log          . . . . . . Log 2: "Model's Log": entryNo:1, breakAtEvent:-18 in:1, verbosity:[:1 elts],
  1ef0 | sounds       . . . . . . 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================
+* SelfiePole:	struct SelfiePole: Equatable {		//Observable, 
+uid		
+position
+spin  	
+gaze	
+zoom	
+ortho	
+
+================================================================
+			* SelfiePole:	mutating func configure(from config:FwConfig) {
+			position
+			gaze
+			spin
+			zoom
+			ortho
+================================================================
+						* SelfiePole: func transform(lookAtVew:Vew) -> SCNM..
+						spin
+						lookAtVew.bBox.center
+						position
+						gaze
+						zoom
+================================================================
+									* SelfiePoleBar: struct SelfiePoleBar:View
+									id
+									position
+									spin
+									gaze
+									zoom
+================================================================

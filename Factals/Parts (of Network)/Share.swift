@@ -479,7 +479,8 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 }
 
 //##############################################################################
-@Observable class Bulb : Splitter { //######################################################
+@Observable				 //#####################################################
+ class Bulb : Splitter {
 
 	 // MARK: - 2. Object Variables:
 	var pValue : Float			= 0.0
@@ -526,7 +527,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	 /// Diameter and Radius are functions of value
 	func diam(  ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
 	func radius(ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
-	var gain  : Float	= 2.0//0.1//
+	var gain  : Float	= 5.0//2.0//0.1//
 	{	didSet { if gain != oldValue {
 				markTree(dirty:.size)
 																		}	}	}

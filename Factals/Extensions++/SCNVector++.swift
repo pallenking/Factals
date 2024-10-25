@@ -268,7 +268,7 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 	 // from https://gist.github.com/magicien/b0c87d26ffded8aa2161630c56853ca4 :
 	 // Serialize
 	public func encode(to encoder: Encoder) throws {
-		var container 		= encoder.container(keyedBy:ScnVector3Keys.self)
+		var container 			= encoder.container(keyedBy:ScnVector3Keys.self)
 		try container.encode(self.x, forKey:.x)
 		try container.encode(self.y, forKey:.y)
 		try container.encode(self.z, forKey:.z)
@@ -277,13 +277,31 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 	 // Deserialize
 	public init(from decoder: Decoder) throws {
 		self.init()
-		let container 		= try decoder.container(keyedBy:ScnVector3Keys.self)
+		let container 			= try decoder.container(keyedBy:ScnVector3Keys.self)
 
-		x	 				= try container.decode(CGFloat.self, forKey:.x)
-		y	 				= try container.decode(CGFloat.self, forKey:.y)
-		z	 				= try container.decode(CGFloat.self, forKey:.z)
+		x	 					= try container.decode(CGFloat.self, forKey:.x)
+		y	 					= try container.decode(CGFloat.self, forKey:.y)
+		z	 					= try container.decode(CGFloat.self, forKey:.z)
 		print("Decoded  as? ScnVector3 \(self.pp(.line)) ")
 	}
+								
+	init(string:String) {
+		var arg : [Double]		= []
+		for str in string.split(separator:" ") where !str.isEmpty {
+			if let d 			= Double(str) {
+				arg.append(d)
+			}
+		}
+		let scnVector3			= arg.count==0 ? SCNVector3(x:0,      y:0,		z:0) :
+								  arg.count==1 ? SCNVector3(x:arg[0], y:0,		z:0) :
+								  arg.count==2 ? SCNVector3(x:arg[0], y:arg[1], z:0) :
+								  arg.count==3 ? SCNVector3(x:arg[0], y:arg[1], z:arg[2]) :
+								  				 SCNVector3(x:.nan,   y:.nan,	z:.nan)		// rethink
+		self					= scnVector3
+	}
+//		if let scnVector3		= SCNVector3(from:string) ??			// x y z
+//								  SCNVector3(from:string + " 0") ??	// x y 0
+//								  SCNVector3(from:string + " 0 0") {
 	
 	 // MARK: - 4.1 Subscript
 	//var elt(_ index:Int) : CGFloat { // Brian would like help herer
@@ -434,13 +452,37 @@ extension SCNVector4 {
 		self.init()
 		let container 		= try decoder.container(keyedBy:ScnVector4Keys.self)
 
-		x	 				= try container.decode(CGFloat.self, forKey:.x)
-		y	 				= try container.decode(CGFloat.self, forKey:.y)
-		z	 				= try container.decode(CGFloat.self, forKey:.z)
-		w	 				= try container.decode(CGFloat.self, forKey:.w)
+		x	 					= try container.decode(CGFloat.self, forKey:.x)
+		y	 					= try container.decode(CGFloat.self, forKey:.y)
+		z	 					= try container.decode(CGFloat.self, forKey:.z)
+		w	 					= try container.decode(CGFloat.self, forKey:.w)
 		print("Decoded  as? ScnVector4 \(self.pp(.line)) ")
 	}
-	
+
+	init(string:String) throws {
+		var arg : [Double]		= []
+		for str in string.split(separator:" ") where !str.isEmpty {
+			if let d 			= Double(str) {
+				arg.append(d)
+			}
+		}
+		let scnVector4			= arg.count==0 ? SCNVector4(x:0,      y:0,	    z:0,	  w:0) :
+								  arg.count==1 ? SCNVector4(x:arg[0], y:0,	    z:0,	  w:0) :
+								  arg.count==2 ? SCNVector4(x:arg[0], y:arg[1], z:0,	  w:0) :
+								  arg.count==3 ? SCNVector4(x:arg[0], y:arg[1], z:arg[2], w:0) :
+								  arg.count==4 ? SCNVector4(x:arg[0], y:arg[1], z:arg[2], w:arg[3]) :
+								  				 SCNVector4(x:.nan,   y:.nan,	z:.nan,	  w:.nan)		// rethink
+		self					= scnVector4
+
+		if let scnVector3		= SCNVector3(from:string) ??			// x y z
+								  SCNVector3(from:string + " 0") ??	// x y 0
+								  SCNVector3(from:string + " 0 0") {
+			self				= SCNVector4(scnVector3)
+		}
+		else {
+			bug//throw()
+		}
+	}
 	 // MARK: - 4.1 Subscript Access
 	subscript(index:Int) -> CGFloat {
 		get {

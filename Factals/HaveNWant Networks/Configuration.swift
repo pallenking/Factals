@@ -201,7 +201,7 @@ let params4vew : FwConfig = [
 //	"rotRate"					: Float(0.0003/(2*Float.pi)),
 	 // bounding Boxes: default is unneeded
 
-	"wBox"						: "colors",		// "none", "gray", "white", "black", "colors"
+	"wBox"						: "gray", //"colors",		// "none", "gray", "white", "black", "colors"
 
 	 // For debugging:
 	"logRenderLocks"			: false,//true//false// Log simulation lock activity

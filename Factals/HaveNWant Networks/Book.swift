@@ -49,10 +49,10 @@ struct HnwMachine {		// : Codable
 
 	 // MARK: - 2.4.2 Scan State
 class ScanState : Codable {
-	var uid			: UInt16	= randomUid()
+	var uid						= getNametag()
 	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
 	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
-	var scanCatalog	: [LibraryMenuArray] = []	// Catalog of Library
+	var scanCatalog	: [LibraryMenuArray]=[]	// Catalog of Library
 	var scanEOFencountered:Bool = false		// marks scan done
 }
 struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
@@ -70,7 +70,7 @@ extension Book : Logd {
 
 class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
 	 // MARK: - 2. Register all Libraries HERE!
-	var uid						= randomUid()
+	var uid						= getNametag()
 	var fileName : String
 
 	 // MARK: - 3. Factory

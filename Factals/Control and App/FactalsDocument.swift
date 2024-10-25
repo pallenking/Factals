@@ -32,7 +32,7 @@ extension FactalsDocument : Logd {
 
  //class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument {
-	let uid:UInt16				= randomUid()
+	let uid						= getNametag()
 	var factalsModel : FactalsModel! = nil				// content
 	var log 	  : Log			= Log(name:"Model's Log", configure:
 		params4partPp			+  	//	pp... (50ish keys)
@@ -59,7 +59,7 @@ struct FactalsDocument : FileDocument {
 //	}
 
 	init(fromLibrary select:String?=nil) {
-log.log("slkfsljf")
+//log.log("slkfsljf")
 		 // 1. Part
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:

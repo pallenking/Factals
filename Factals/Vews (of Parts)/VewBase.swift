@@ -35,7 +35,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
  	var cameraScn	: SCNNode?	{
  		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
 	}
-	var lookAtVew	: Vew?		= nil		// Vew we are looking at
+	var lookAtVew	: Vew!			// Vew we are looking at
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -57,6 +57,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 
 		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
 
+		lookAtVew				= tree			// set default
 		scnSceneBase.monitor(onChangeOf:$selfiePole, performs:{ [weak self] in	// scnSceneBase.subscribe()
 			guard self?.cameraScn != nil else {	return 							}
 			self?.scnSceneBase.selfiePole2camera()
@@ -82,15 +83,17 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 		selfiePole.configure(from:factalsModel.fmConfig)
 
 		 // 5.  Configure Initial Camera Target:
-		lookAtVew				= tree//trunkVew			// default
-		if let laStr			= factalsModel.fmConfig.string("lookAt"), laStr != "",
-		  let  laPart 			= partBase.tree.find(path:Path(withName:laStr), inMe2:true) {
-			lookAtVew			= tree.find(part:laPart)
+		lookAtVew				= tree		// default is trunk
+		if let laStr			= factalsModel.fmConfig.string("lookAt"),
+		  laStr != "",
+		  let  laPart 			= partBase.tree.find(path:Path(withName:laStr), inMe2:true),
+		  let laVew				= tree.find(part:laPart) {
+			lookAtVew			= laVew
 		}
 
 		 // 6. Set LookAtNode's position
-		let posn				= lookAtVew?.bBox.center ?? .zero
-		let worldPosition		= lookAtVew?.scnRoot.convertPosition(posn, to:nil/*scnScene*/) ?? .zero
+		let posn				= lookAtVew.bBox.center
+		let worldPosition		= lookAtVew.scnRoot.convertPosition(posn, to:nil/*scnScene*/)
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}

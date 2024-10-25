@@ -254,7 +254,7 @@ class TimingChain : Atom {
 			discreteTime.resetForAgain()
 		}
 	}
-
+								
 	override func simulate(up upLocal:Bool) {	 /// Step all my parts:
 		guard let simulator		= partBase?.factalsModel?.simulator else {return} // no sim
 //		guard let simulator		= partBase?.simulator else { return /* no sim */	}
@@ -268,16 +268,16 @@ class TimingChain : Atom {
 				assert(self.event==nil, "Should be space by now")
 
 				 // Receive FwwEvent inside ourselves:
-				event				= nextEvent		// Symbolic, Destined for targetBundle
+				event			= nextEvent		// Symbolic, Destined for targetBundle
 
-				retractPort			= nil			// default param
-				eventDownPause		= true			// assert lock, which blocks till up
+				retractPort		= nil			// default param
+				eventDownPause	= true			// assert lock, which blocks till up
 				atEve(4, logd("############ eventDownPause = true  -- simulate(up:) && state==0"))
-				state 				= .s1			// Start Timing Chain
+				state 			= .s1			// Start Timing Chain
 				//!	playSound("")
 			//?	releaseEvent()
-	/*bug;*/	simulator.startChits = 200			// start simulator after key goes up
-//				simulator.linkChits += 1			// not settled
+	/*bug;*/	simulator.startChits = 200		// start simulator after key goes up
+//				simulator.linkChits += 1		// not settled
 //				assert(simulator.linkChits != 0, "linkChits count wraparound")
 			}
 		}

@@ -105,13 +105,15 @@ class Net : Atom {		// Atom // Part
 
 		 // Minimum Size:
 		if let ms				= minSize {
-			vew.bBox.size	|>= ms
+			vew.bBox.size		|>= ms
 		}
 
 		 // Extra GAP around Atom:
 		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
 		vew.bBox.size			+= 2*gsnb
-		let _					= reSkin(expose:.same, vew:vew)			// xyzzy32		 // Net expands skin to encompass repacked contents
+
+		 // Net expands skin to encompass repacked contents
+		let _					= reSkin(expose:.same, vew:vew)			// xyzzy32
 	}
 	 // MARK: - 9.3 reSkin
 	// / Put full skin onto Net

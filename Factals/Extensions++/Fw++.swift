@@ -562,7 +562,7 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 																				//extension Dictionary<Key, Value> where Key : Comparable, Hashable {			//Cannot find type 'Key' in scope
 																				//extension Dictionary<Key, Value> where Key : Hashable, Value : Comparable {  	//Cannot find type 'Key' in scope
 extension Dictionary : Uid {
-	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
+	var uid:UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
 extension Dictionary : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
@@ -1013,7 +1013,7 @@ func !~==( left:CGFloat, right:CGFloat) -> Bool {
 //					//let newStr = str.substring(from: index) // Swift 3
 //					let newStr = String(valStr[index...]) // Swift 4
 extension String : Uid {
-	var uid: UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
+	var uid:UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
 extension String {
 	init(bool:Bool) {			// Bool -> String
@@ -1253,7 +1253,7 @@ extension Logd {
 }
 
 extension NSObject : Uid {
-	var uid: UInt16 			{ 	return uid4Ns(nsOb:self)					}
+	var uid:UInt16 				{ 	return uid4Ns(nsOb:self)					}
 }
 
 extension NSObject : Logd {

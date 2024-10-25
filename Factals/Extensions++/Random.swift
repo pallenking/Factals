@@ -19,7 +19,6 @@ func randomDist(_ a:Float, _ b:Float) -> Float {	// float boxcar, a..b, incl
 	}
 	return rv;
 }
-//func randomUid() -> UInt16 {	return UInt16(randomUInt() & 0xffff)			}
 func randomUInt(_ limit:UInt64=0x100000000) -> UInt {	// float boxcar, a..b, incl
 	let rv					= drand48() * Double(limit)
 	let rv2					= UInt(rv)

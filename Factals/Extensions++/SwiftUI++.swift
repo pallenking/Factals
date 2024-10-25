@@ -8,10 +8,19 @@
 import SwiftUI
 
 extension Button {
-
-	init(label: () -> Label, action:@escaping () -> Void){
+	init(label: @escaping () -> Label, action:@escaping () -> Void){
 		self.init(action:action, label:label)
 	}
-
-
+//	init(label: @escaping () -> Label, action:@escaping () -> Void){
+//		self.init(action:action, label:label)				//.color(.red)
+//	}
+ //	init(label: () -> Label, action: @escaping () -> Void) {
+ //		self.init(action:action, label:
+ //			label()
+ //				.padding()
+ //				.background(Color.blue.opacity(0.5)) // Light blue background
+ //				.cornerRadius(8)
+ // //				.foregroundColor(.white) // Text color
+ //		)}
+ //	}
 }

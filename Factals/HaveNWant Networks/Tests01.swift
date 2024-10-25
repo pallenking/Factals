@@ -302,20 +302,20 @@ r("-bug with overlap", eSim + selfiePole(s:5,u:5), { Net([placeMy:"stackX -1 0",
 //	Box(),
 //	Sphere([color:"red", size:"0.5 0.5 0.5"]),
 ]]) })
-r("-Hangs as 2'nd ^r", e + selfiePole( s:9, u:3), { Net([placeMy:"stackX -1", parts:[
+r("-Hangs as 2'nd ^r", e + selfiePole(s:9, u:3), { Net([placeMy:"stackX -1", parts:[
 //	Broadcast(),	//Broadcast(),
 //	Mirror(),
 	Atom(),
 //	Port(),
 ]]) })
-	r("-new Port skin", e + selfiePole( s:0, u:0), {
+	r("-new Port skin", e + selfiePole(s:0, u:0), {
 		Rotator()
 //		MinAnd()
 //		Mirror()
 //		Broadcast()
 	})
 
-xxr("+Family Portrait", e + selfiePole( s:-90, u:30) +
+xxr("+Family Portrait", e + selfiePole(s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),
@@ -639,9 +639,14 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.genAtom/*bcast*/, [struc:["a"], placeMy:"stackx -1 1"]),
 ] ] ) } )
 
+xr("+ simple blink", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
+	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
+	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
+	Mirror([n:"a", "gain":-1, "offset":1, f:1, P+X:"t1,l:4"]),
+] ]) })
 var a1 : String 		{ return "a,v:-" + String(randomDist(0.0, 1.0))
 								+ ",l:"  + String(randomDist(4.0, 6.0))			}
-xxr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
+xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
@@ -650,19 +655,13 @@ xxr("++ Testing bcast.''", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
 	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Mirror([n:"t1", "gain":-1, "offset":1]),
-	Broadcast([n:"a", P:"t2,l:4"]),
-	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
+	Mirror([n:"b", P:"a", jog:"4"]),
+	Mirror([n:"a", "gain":-1, "offset":1, f:1, P+X:"t1,l:4"]),
 ] ] ) } )
 	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
 		Bulb(  [n:"u", share:"a"]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
 	] ] ) } )
-	xr("+ blink", eSimX + vel(-4) , { Net([placeMy:"linky", parts:[
-		Bulb(  [n:"c", P:"a", jog:"-4 1"]),
-		Mirror([n:"b", P:"a", jog:"4"]),
-		Mirror([n:"a", "gain":-1, "offset":1, f:1, P+X:"t1,l:4"]),
-	] ]) })
 	r("Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
 		Bulb([  n:"b", P:"m"]),  				// Broadcast
 		Mirror([n:"m", P+X:"b", "gain":-1, "offset":1, f:1]),

@@ -32,7 +32,7 @@ extension Part : Hashable {
  /// Base class for Factal Workbench Models
 // Used to be based on NSObject, not now.  What about NSCopying, NSResponder,
 class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
-	var uid:UInt16				= randomUid()
+	var uid						= getNametag()
 	 // MARK: - 2. Object Variables:
 	@objc dynamic var name		= "<unnamed>"
 	var children	: [Part]	= []
@@ -666,7 +666,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 	/// Class Inheritance Ancestor Array, from self up to but excluding 'inside'
 	func inheritedClasses() -> [String] {
-//	var inheritedClasses : [String] {
 		var rv 	: [String]		= []
 		var curClass:Part.Type? = type(of:self)	
 		repeat { 
@@ -1273,12 +1272,16 @@ func foo () {
 		}
 		 // Place by links
 		else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
-			assert(placeByLinks(inVew:vew, mode:placeMode)	// try link first
-				|| placeStacked(inVew:vew, mode:"stacky"), "placeByLinks and placeStacked failed")
+			if !placeByLinks(inVew:vew, mode:placeMode),	// (else)
+			   !placeStacked(inVew:vew, mode:"stacky") {
+					panic("placeByLinks and placeStacked failed")
+			}
 		}			// "-> errs -> stacking
 		 // Place by stacking
 		else if placeMode.hasPrefix("stack") {	// Position Stacked
-			assert(placeStacked(inVew:vew, mode:placeMode), "placeStacked failed")
+			if !placeStacked(inVew:vew, mode:placeMode) {
+					panic("placeStacked failed")
+			}
 		}
 		else {
 			panic("positioning method '\(placeMode)' unknown")

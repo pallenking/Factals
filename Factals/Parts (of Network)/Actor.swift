@@ -311,7 +311,7 @@ bug//		for user in self.previousClocks {
 //	 reSize; fw boundIntoVew
 //	 override func reSize(vew:Vew) {
 //		super.reSize(vew vew:vew)
-//	panic("Un-debugged")
+//		panic("Un-debugged")
 //		  //// 1. BOUND all, in order of v.superViews (==self.parts):  DO NOT PLACE
 //		 /**/	// CONtext (if it exists)
 //				// ... other entries ...
