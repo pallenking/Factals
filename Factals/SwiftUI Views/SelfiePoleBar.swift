@@ -21,17 +21,19 @@ struct SelfiePoleBar: View   {
 				LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
 				LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 				LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
-				Button(label:{	Text("Zo+")											})//.padding(.top, 300)
-				{	var s			= selfiePole
-					s.zoom			*= 1.1
-					print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
-					selfiePole 		= s	// Put struct's val back
-				}
-				Button(label:{	Text("Zo-")											})//.padding(.top, 300)
-				{	var s			= selfiePole
-					s.zoom			/= 1.1
-					print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
-					selfiePole 		= s	// Put struct's val back
+				VStack {
+					Button(label:{	Text("Zo+")											})//.padding(.top, 300)
+					{	var s			= selfiePole
+						s.zoom			*= 1.1
+						print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
+						selfiePole 		= s	// Put struct's val back
+					}
+					Button(label:{	Text("Zo-")											})//.padding(.top, 300)
+					{	var s			= selfiePole
+						s.zoom			/= 1.1
+						print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
+						selfiePole 		= s	// Put struct's val back
+					}
 				}
 				LabeledCGFloat(label:"ortho",val:$selfiePole.ortho, oneLine:false)
 				Button(label:{	Text("**")											})//.padding(.top, 300)

@@ -642,7 +642,7 @@ class Port : Part, PortTalk {
 	 // MARK: - 9.2 reSize
 	override func reSize(vew:Vew) {
 		super.reSize(vew:vew)
-		panic("Port.reSize")
+//		panic("Port.reSize")
 	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(vew:Vew) {

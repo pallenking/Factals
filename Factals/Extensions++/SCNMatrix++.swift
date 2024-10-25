@@ -334,7 +334,7 @@ extension SCNMatrix4 {
 			}
 		}
 		if allZero {
-			bug;return "0\(position.pp(.short, aux))"
+			return "\(position.pp(.short, aux))"
 		}
 		if anyNan {
 			return "<hasNan>"

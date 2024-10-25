@@ -801,8 +801,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}
 		if up2,								// Check parent
 		  let p					= parent,		// Have parent
-		  p.parent != nil {					// parent not ROOT
-//		  p.name != "ROOT" {					// parent not ROOT
+		  p.parent != nil {						// parent not ROOT
 			return parent?.findCommon(up2:true, mineBut:self, maxLevel:maxLevel, firstWith:firstWith)
 		}
 		return nil
