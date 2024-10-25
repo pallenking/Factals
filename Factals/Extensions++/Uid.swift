@@ -4,11 +4,11 @@
 import SceneKit
 
 protocol Uid {
-	var uid 		: UInt16 		{ 	get 									}
+	var nameTag 		: UInt16 		{ 	get 									}
 	func pp(_:UInt16) -> String
 }
 extension Uid {
-	func pp(_:UInt16) -> String		{ String(uid, radix:16)						}
+	func pp(_:UInt16) -> String		{ String(nameTag, radix:16)						}
 }
   ///  Support for Uid:
  ///  Conformers to Uid can use this:
@@ -38,7 +38,7 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 	 // return <pre>UID<post>
 	let max : Int	= 1 << (4 * uidDigits)		// e.g: 0x00001000
 	let mask		= UInt16(max - 1)			// e.g: 0x00000FFF
-	return pre + fmt("%0*x", uidDigits, obj!.uid & mask) + post
+	return pre + fmt("%0*x", uidDigits, obj!.nameTag & mask) + post
 }
 
  /// pp nil object as dashes ("-")s Uid with proper indents
@@ -76,14 +76,14 @@ func getNametag() -> NameTag {
 func pseudoAddressString<T>(_ t:T) -> String where T : NSObject
 {	fmt("%p", t)				/* Memory Address of NSObject */				}
 func pseudoAddressString<T>(_ t:T) -> String where T : Uid
-{	fmt("%p", t.uid)			/* Uid of Swift */								}
+{	fmt("%p", t.nameTag)			/* Uid of Swift */								}
 func pseudoAddressString<T>(_ t:T) -> String
 {	""							/* PUNT */										}
 
 //protocol NativeSwiftObject: AnyObject { }	// Empty protocol used to identify native Swift objects
 //extension NSObject: NativeSwiftObject { }	// NSObject does NOTconform to it
 //func pseudoAddress<T:AnyObject>(_ ob:T) -> String where T: NativeSwiftObject {
-//	"\(ob.uid())"
+//	"\(ob.nameTag())"
 //}
 //
 //func pseudoAddress<T:AnyObject>(_ ob:T) -> String {

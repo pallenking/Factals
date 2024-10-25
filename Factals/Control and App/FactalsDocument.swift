@@ -26,13 +26,13 @@ extension FactalsDocument {
 }
 extension FactalsDocument : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
-		log.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		log.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }
 
  //class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument {
-	let uid						= getNametag()
+	let nameTag						= getNametag()
 	var factalsModel : FactalsModel! = nil				// content
 	var log 	  : Log			= Log(name:"Model's Log", configure:
 		params4partPp			+  	//	pp... (50ish keys)

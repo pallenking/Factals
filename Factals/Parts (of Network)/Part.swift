@@ -24,15 +24,15 @@ extension Part : Equatable {
  // Generic struct 'ForEach' requires that 'Part' conform to 'Hashable' (from InspecPart.body.Picker)
 extension Part : Hashable {
 	func hash(into hasher: inout Hasher) {
-		//DOClog.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", uid)))")
-		hasher.combine(uid)					// fwClassName, fullName, children?
+		//DOClog.log("\(pp(.fullName)) hasher.combine(\(String(format: "%02X", nameTag)))")
+		hasher.combine(nameTag)					// fwClassName, fullName, children?
 	}
 }
 
  /// Base class for Factal Workbench Models
 // Used to be based on NSObject, not now.  What about NSCopying, NSResponder,
 class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
-	var uid						= getNametag()
+	var nameTag					= getNametag()
 	 // MARK: - 2. Object Variables:
 	@objc dynamic var name		= "<unnamed>"
 	var children	: [Part]	= []
@@ -64,8 +64,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 	 // MARK: - 2.1 Sugar
 	var parts 		: [Part]	{ 		children 								}
-	@objc dynamic var fullName	: String	{
-		return parent==nil  ? "ROOT" :
+	/*@objc dynamic*/ var fullName	: String	{
+		return parent==nil  ? "/" + name :
 			   parent!.fullName + "/" + name
 
 
@@ -158,7 +158,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 		 // Print out invocation
 		let n					= ("\'" + name + "\'").field(8)
-		atBld(6, logd("  \(n)\(pp(.uid)):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
+		atBld(6, logd("  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
 
 		 // Options:
 		if let valStr			= partConfig["expose"] as? String,
@@ -260,7 +260,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	  // MARK: - 3.5 Codable
 	 //https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
 	enum PartsKeys: String, CodingKey {
-		//case uid			// IGNORE
+		//case nameTag			// IGNORE
 		case name
 		case children		// --- (SUBSUMES .parts)
 		//case parent		// IGNORE, weak, reconstructed
@@ -657,7 +657,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		var ancestor :  Part?	= self
 		while ancestor != nil, 			// ancestor exists and
 			  ancestor! !== upto  {		// not at explicit limit
-//		  ancestor!.name != "ROOT" {
 			rv.append(ancestor!)
 			ancestor 			= ancestor!.parent
 		}
@@ -802,7 +801,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}
 		if up2,								// Check parent
 		  let p					= parent,		// Have parent
-		  p.name != "ROOT" {					// parent not ROOT
+		  p.parent != nil {					// parent not ROOT
+//		  p.name != "ROOT" {					// parent not ROOT
 			return parent?.findCommon(up2:true, mineBut:self, maxLevel:maxLevel, firstWith:firstWith)
 		}
 		return nil
@@ -1472,9 +1472,9 @@ func foo () {
 		}
 		else {			 // Mouse event
 			if let factalsModel	= partBase?.factalsModel { 	// take struct out
-				let s			= ", vew.scn:\(pickedVew.scnRoot.pp(.classUid))"
+				let s			= ", vew.scn:\(pickedVew.scnRoot.pp(.classTag))"
 				print("NSEvent (clicks:\(nsEvent.clickCount)\(s)) "
-								+ "==> '\(pp(.fullName))' :\(pp(.classUid))")		//\n\(pp(.tree))
+								+ "==> '\(pp(.fullName))' :\(pp(.classTag))")		//\n\(pp(.tree))
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
@@ -1528,7 +1528,7 @@ func foo () {
 	}
 
 	func ppUnusedKeys() -> String {
-	//	let uid					= ppUid(self)
+	//	let nameTag					= ppUid(self)
 		let approvedConfigKeys	= ["placeMe", "placeMy", "portProp", "l", "len", "length"]
 		let dubiousConfig		= partConfig.filter { key, value in !approvedConfigKeys.contains(key) }
 		var rv 					= dubiousConfig.count == 0 ? "" :	// ignore empty configs
@@ -1548,7 +1548,7 @@ func foo () {
 			rv					+= fullName
 		case .fullNameUidClass:
 			return "\(name)\(ppUid(pre:"/", self)):\(fwClassName)"
-//		case .uidClass:
+//		case .tagClass:
 //			return "\(ppUid(self)):\(fwClassName)"	// e.g: "xxx:Port"
 //		case .classUid:
 //			return "\(fwClassName)<\(ppUid(self))>"	// e.g: "Port<xxx>"

@@ -32,7 +32,7 @@ bug
 //	}
 }
 class Sounds : Logd {
-	var uid						= getNametag()
+	var nameTag					= getNametag()
 	// NEVER NSCopying, Equatable
 	 // MARK: - 5.4 Sound
 	var knownSources : [String:SCNAudioSource] = [:]

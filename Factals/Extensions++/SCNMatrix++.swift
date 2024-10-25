@@ -308,7 +308,7 @@ extension SCNMatrix4 {
 					sep			= "\n "
 				}
 				return rv + "]"
-			case .fullName, .name, .uid:		//.fwClassName,
+			case .fullName, .name, .nameTag:		//.fwClassName,
 				return ""
 			default:
 				return ppFixedDefault(mode, aux)		// NO, try default method

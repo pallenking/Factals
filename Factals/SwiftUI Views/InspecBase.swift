@@ -18,7 +18,7 @@ let d2formatter					= { () -> NumberFormatter in
 
  // MAIN ENTRY POINT:
 struct Inspec: View, Equatable, Uid {
-	var uid						= getNametag()
+	var nameTag					= getNametag()
 	
 	@ObservedObject var vew:Vew	// arg1: object to be inspected.
 	static func == (lhs: Inspec, rhs: Inspec) -> Bool {

@@ -384,7 +384,7 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 				if m.contains("Y") 	{	rv += pre+fmt("y:%6.3f\n", y);	pre=" "	}
 				if m.contains("Z") 	{	rv += pre+fmt("z:%6.3f\n", z)			}
 				rv 				= String(rv.dropLast())
-			case .fullName, .name, .uid:		//.fwClassName,
+			case .fullName, .name, .nameTag:		//.fwClassName,
 				return ""
 			default:
 				return ppFixedDefault(mode, aux)		// NO, try default method
@@ -520,12 +520,12 @@ extension SCNVector4 {
 	}
 /*
 	case fwClassName	//    (Really should be "class"?)		(e.g: "Port"
-	case uid			// 10 Uid								(e.g: "4C4")
+	case nameTag			// 10 Uid								(e.g: "4C4")
 	case uidClass		//5,8 Uid:Class						(e.g: "4C4:Port")
-	case classUid		//  9 Class<uid>						(e.g: "Port<4C4>")
+	case classUid		//  9 Class<nameTag>						(e.g: "Port<4C4>")
   
 	case name			//6,14name in parent, a single token 	(e.g: "P")
-	case nameUidClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")
+	case nameTagClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")
   
 	case fullName		// 13 path in composition 				(e.g: "/net/a.P")
 	case fullNameUidClass//11 Identifier: fullName/Uid:Class	(e.g: "ROOT/max.P/4C4:Port")
@@ -577,7 +577,7 @@ extension SCNVector4 {
 				if m.contains("Z") 	{	rv += pre+fmt("z:%6.3f\n", z);	pre=" " }
 				if m.contains("W") 	{	rv += pre+fmt("w:%6.3f\n", w)   		}
 				rv 				= String(rv.dropLast())
-			case .fullName, .name, .uid:		//.fwClassName,
+			case .fullName, .name, .nameTag:		//.fwClassName,
 				return ""
 			default:
 				return ppFixedDefault(mode, aux)		// NO, try default method

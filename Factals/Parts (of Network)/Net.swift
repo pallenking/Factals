@@ -120,7 +120,7 @@ class Net : Atom {		// Atom // Part
     // / - Parameter vew_: -- The Vew to use
 	override func reSkin(fullOnto vew_:Vew) -> BBox {
 		guard let vew 			= vew_ as? NetVew else {
-			panic("Net \(vew_.part.pp(.uidClass))'s has Vew \(vew_.pp(.uidClass)), not NetVew")
+			panic("Net \(vew_.part.pp(.tagClass))'s has Vew \(vew_.pp(.tagClass)), not NetVew")
 //			panic("Net's has Vew, not NetVew")
 			return .empty
 		}

@@ -255,7 +255,7 @@ bug;	let n1 = Vew(forPart:m1)
 								//
 		let part1  = Part(["n":"a"]), part2	 = Part(["n":"a"]), part3 = Part(["n":"a"])
 		let	part4  = Part(["n":"b"])
-			part2.uid 	= part1.uid		// make part2 (value) Equavalent to part1
+			part2.nameTag 	= part1.nameTag		// make part2 (value) Equavalent to part1
 //			part2.uidForDeinit 	= part1.uidForDeinit// make part2 (value) Equavalent to part1
 		let port1  = Port(["n":"a"]), port2	 = Port(["n":"a"]), port3 = Port(["n":"b"])
 		let atom1  = Atom(["n":"a"]), atom2	 = Atom(["n":"a"]), atom3 = Atom(["n":"b"])

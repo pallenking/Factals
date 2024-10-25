@@ -32,10 +32,10 @@ command alias lldbIsLoaded p "ya, ya, ya,  LLDBInitFile is loaded"
 # pf<t>    .fullName	// fullname					e.g: /net/foo/a.P
 # po<t>    	 <n.a.>     // print object
 # # ---------- pi**     //
-# pi<t>    .uidClass	// uid:class				e.g. 456:Port
-# piU<t>   .uid			// uid						e.g: "456")
-# piCu<t>  .classUid	// class:uid				e.g: "Port<456>"
-# piUc<t>  .uidClass  	// uid:class				e.g: "456:Port"		<-- DUPLICATE
+# pi<t>    .uidClass	// nameTag:class				e.g. 456:Port
+# piU<t>   .nameTag			// nameTag						e.g: "456")
+# piCu<t>  .classUid	// class:nameTag				e.g: "Port<456>"
+# piUc<t>  .uidClass  	// nameTag:class				e.g: "456:Port"		<-- DUPLICATE
 # piFuc<t> .fullNameUidClass						e.g: "ROOT/max/P/456:Port"
 # # ---- p*             //
 # pp<t>    .phrase		// shorter than short		e.g: [z:1]
@@ -68,7 +68,7 @@ command regex pf     's/^(.+)$/e lldbPrint(%1, mode:.fullName	)/' 			-h "print H
 #command regex po     's/^(.+)$/po %1/'  # don't overload
 # ---- pi*
 command regex pi     's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id>:<Class>'      e.g: 76a8:PartBase"
-command regex piU    's/^(.+)$/e lldbPrint(%1, mode:.uid		)/' 			-h "print HNW '<id>'              e.g: 76a8"
+command regex piU    's/^(.+)$/e lldbPrint(%1, mode:.nameTag		)/' 			-h "print HNW '<id>'              e.g: 76a8"
 command regex piCu   's/^(.+)$/e lldbPrint(%1, mode:.classUid	)/' 			-h "print HNW '<Class><id>'       e.g: Parts<76a8>"
 command regex piUc   's/^(.+)$/e lldbPrint(%1, mode:.uidClass	)/' 			-h "print HNW '<id><Class>'       e.g: 76a8:PartBase"
 command regex piFuc  's/^(.+)$/e lldbPrint(%1, mode:.fullNameUidClass)/' 		-h "print HNW '<fullName><id><Class>' e.g: ROOT/76a8:PartBase"

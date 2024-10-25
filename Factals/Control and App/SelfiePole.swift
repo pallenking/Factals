@@ -14,7 +14,7 @@ import SceneKit
 
  // Uses Cylindrical Coordinates
 struct SelfiePole: Equatable {		//Observable, 
-	var uid				 		= getNametag()
+	var nameTag				 	= getNametag()
 	var position				= SCNVector3.origin	// world coordinates
 	var spin  	: CGFloat 		= 0.0				// in degrees
 	var gaze	: CGFloat 		= 0.0				// upward, in degrees

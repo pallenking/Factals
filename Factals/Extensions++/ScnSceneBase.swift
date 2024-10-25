@@ -504,7 +504,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			let delta : CGFloat	= d>0 ? 0.95 : d==0 ? 1.0 : 1.05
 			vewBase.selfiePole.zoom *= delta
 			//let s				= vews.selfiePole
-			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.uid))=\(s.pp())")
+			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.nameTag))=\(s.pp())")
 			selfiePole2camera(duration:duration, reason:"Scroll Wheel")
 
 		  //  ====== RIGHT MOUSE ======			Right Mouse not used
@@ -634,9 +634,9 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
 		var pickedScn			= sortedHits.first?.node ?? tree.rootNode
 
-		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><uid>'<fullName>'
+		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
 		var msg					= "******************************************\n Slot\(vewBase.slot_): "
-		msg 					+= "find \(pickedScn.pp(.classUid))'\(pickedScn.fullName)':"
+		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
 			
 		 // If Node not picable and has parent
 		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
@@ -644,7 +644,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		{
 			msg					+= fmt("\t--> category %02x subpart", pickedScn.categoryBitMask)
 			pickedScn 			= parent				// use parent
-			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classUid))'\(pickedScn.fullName)': "
+			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
 		}
 
 		 // Get Vew from SCNNode
@@ -690,8 +690,8 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
 		let transform			= selfiePole.transform(lookAtVew:self.vewBase!.lookAtVew)
-		//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.uid))")
-		//print("selfiePole:\(selfiePole.pp(.uid)) = \(selfiePole.pp(.line))\n")
+		//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.nameTag))")
+		//print("selfiePole:\(selfiePole.pp(.nameTag)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
 
 			// add ortho magnification.

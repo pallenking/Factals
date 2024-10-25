@@ -724,10 +724,10 @@ nop
 	override func reSize(vew:Vew) {
 		vew.children.forEach {$0.keep = false}	// mark all Views as unused
 
-				// 1. Resizes all  _CHILD Atoms_ FIRST (inside inner box) FIRST
+				// 1. Resizes all  _CHILD Atoms_ FIRST (no _CHILD Ports_)
 		super.reSize(vew:vew)
 
-				// 2. reSize  _CHILD Ports_ around the packed Atoms        LAST
+				// 2. reSize  _CHILD Ports_ around the packed Atoms LAST
 		if vew.expose == .open {
 			var bBoxAccum		= vew.bBox		// Accumulate wo disturbing Atom's vew.bBox
 			 // Loop through Ports:

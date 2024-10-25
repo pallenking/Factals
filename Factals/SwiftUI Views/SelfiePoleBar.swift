@@ -14,7 +14,7 @@ struct SelfiePoleBar: View   {
 		HStack {
 			VStack {
 				Text("  " + "SelfiePole").bold()	//.foregroundColor(.red)
-				Text("id:\(selfiePole.pp(.uid))")
+				Text("id:\(selfiePole.pp(.nameTag))")
 			}
 			HStack {
 				InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
@@ -24,13 +24,13 @@ struct SelfiePoleBar: View   {
 				Button(label:{	Text("Zo+")											})//.padding(.top, 300)
 				{	var s			= selfiePole
 					s.zoom			*= 1.1
-					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+					print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
 					selfiePole 		= s	// Put struct's val back
 				}
 				Button(label:{	Text("Zo-")											})//.padding(.top, 300)
 				{	var s			= selfiePole
 					s.zoom			/= 1.1
-					print("======== \(s.pp(.uidClass)) z=\(s.pp(.line))")
+					print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
 					selfiePole 		= s	// Put struct's val back
 				}
 				LabeledCGFloat(label:"ortho",val:$selfiePole.ortho, oneLine:false)
@@ -39,7 +39,7 @@ struct SelfiePoleBar: View   {
 					let values		= [0.0, 0.1, 1.0, 10]
 					let i	 		= values.firstIndex(where: { $0 >= s.ortho } ) ?? values.count
 					s.ortho 		= values[(i+1) % values.count]
-					print("======== \(s.pp(.uidClass)) o=\(s.ortho.pp(.line))")
+					print("======== \(s.pp(.tagClass)) o=\(s.ortho.pp(.line))")
 					selfiePole 		= s	// Put struct's val back
 				}
 			}

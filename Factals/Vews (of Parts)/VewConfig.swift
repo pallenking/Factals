@@ -17,7 +17,7 @@ enum VewConfig : FwAny {
 	case subVew(FwConfig)
 
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-		switch mode {//.fwClassName, .uid, .uidClass, .classUid, .name, .nameUidClass, .fullName, .fullNameUidClass,
+		switch mode {
 		case .line, .phrase, .short, .tree:
 			switch self {
 			case .openPath(to:let path):

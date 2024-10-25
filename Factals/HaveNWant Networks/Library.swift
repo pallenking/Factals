@@ -18,7 +18,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		Tests01(	"Tests01"	),				// Standard Regression Tests
 	]
 	 // MARK: - 2. Register all Libraries HERE!
-	var uid						= getNametag()
+	var nameTag					= getNametag()
 	var fileName : String
 
 	 // MARK: - 3. Factory
@@ -85,6 +85,6 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 }
 extension Library : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
-		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+		Log.app.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }

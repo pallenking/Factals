@@ -14,12 +14,12 @@ import SceneKit
 
 class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	static func == (lhs: PartBase, rhs: PartBase) -> Bool {
-		lhs.uid==rhs.uid &&
+		lhs.nameTag==rhs.nameTag &&
 		lhs.tree==rhs.tree &&
 		lhs.factalsModel===rhs.factalsModel
 	}
 	
-	var uid			 			= getNametag()
+	var nameTag			 		= getNametag()
 	var tree : Part
 
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)

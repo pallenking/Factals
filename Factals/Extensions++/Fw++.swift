@@ -36,15 +36,15 @@ extension FwAny  {
 			return ""
 		case .fullName:						// -> .name
 			return pp(.name,   	 aux)
-		case .fullNameUidClass:				// -> .fullName + .uid + .fwClassName
+		case .fullNameUidClass:				// -> .fullName + .nameTag + .fwClassName
 			return "\(pp(.fullName, aux))\(ppUid(pre:".", self as? Uid)):\(fwClassName)"
-		case .nameUidClass:					// -> .name + .uid + .fwClassName
+		case .nameTagClass:					// -> .name + .nameTag + .fwClassName
 			return "\(pp(    .name, aux))\(ppUid(pre:".", self as? Uid)):\(fwClassName)"
-		case .uidClass:						// -> .uid + .fwClassName
+		case .tagClass:						// -> .nameTag + .fwClassName
 			return "\(ppUid(self as? Uid)):\(fwClassName)"	// e.g: "xxx:Port"
-		case .classUid:						// -> .fwClassName + .uid
+		case .classTag:						// -> .fwClassName + .nameTag
 			return "\(pp(.fwClassName, aux))<\(ppUid(self as? Uid))>"	// e.g: "Port<xxx>"
-		case .uid:							// -> uid
+		case .nameTag:							// -> nameTag
 			return ppUid(self as? Uid)
 		case .phrase:						// -> .fullNameUidClass
 			return pp(.fullNameUidClass, aux)
@@ -66,13 +66,13 @@ extension FwAny  {
 enum PpMode : Int {
 	 // How to PrettyPrint Name and Class:
 	case fwClassName	//    (Really should be "class"?)		(e.g: "Port"
-	case uid			// 10 Uid								(e.g: "4C4")
-	case uidClass		//5,8 Uid:Class							(e.g: "4C4:Port")
-	case classUid		//  9 Class<uid>						(e.g: "Port<4C4>")
+	case nameTag		// 10 Uid								(e.g: "4C4")
+	case tagClass		//5,8 Uid:Class							(e.g: "4C4:Port")
+	case classTag		//  9 Class<nameTag>						(e.g: "Port<4C4>")
 //	case classUidFullName //? 									(e.g: "Port<4C4>'a/b.P'" OOPS -- fullName not in FwAny
   
 	case name			//6,14name in parent, a single token 	(e.g: "P")
-	case nameUidClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")
+	case nameTagClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")
   
 	case fullName		// 13 path in composition 				(e.g: "/net/a.P")
 	case fullNameUidClass//11 Identifier: fullName/Uid:Class	(e.g: "ROOT/max.P/4C4:Port")
@@ -146,7 +146,7 @@ extension SCNScene 					{		     //: FwAny
 		case .phrase, .short:
 			rv					+= " SCNScene:\(ppUid(self))"
 		case .line:
-			rv					+= " SCNScene:\(self.pp(.uidClass)) "
+			rv					+= " SCNScene:\(self.pp(.tagClass)) "
 		case .tree:
 			rv					+= " tree??"
 		default:
@@ -176,10 +176,10 @@ extension NSView 					{		// also SCNView : FwAny
 		switch mode {
 		case .fwClassName:
 			return className
-		case .uid:
+		case .nameTag:
 			return ppUid(self)
 		case .line:
-			return self.pp(.classUid, aux)
+			return self.pp(.classTag, aux)
 		default:
 			return "\(className):\(ppUid(self))"
 		}
@@ -487,11 +487,11 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 
 		for key in keys {
 			if self[key] != dict[key] {			// Value for key MISMATCH
-				atTst(7, logd("(\(self[key]!.pp(.nameUidClass))) != (\(dict[key]!.pp(.nameUidClass))) ?"))
+				atTst(7, logd("(\(self[key]!.pp(.nameTagClass))) != (\(dict[key]!.pp(.nameTagClass))) ?"))
 				return false
 			}
 		}
-		atTst(7, logd("Testing Dict:    .equals(\(dict.pp(.nameUidClass)))  ---> true"))
+		atTst(7, logd("Testing Dict:    .equals(\(dict.pp(.nameTagClass)))  ---> true"))
 		return true
 	}
 }
@@ -562,7 +562,7 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 																				//extension Dictionary<Key, Value> where Key : Comparable, Hashable {			//Cannot find type 'Key' in scope
 																				//extension Dictionary<Key, Value> where Key : Hashable, Value : Comparable {  	//Cannot find type 'Key' in scope
 extension Dictionary : Uid {
-	var uid:UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
+	var nameTag:UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
 extension Dictionary : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
@@ -1013,7 +1013,7 @@ func !~==( left:CGFloat, right:CGFloat) -> Bool {
 //					//let newStr = str.substring(from: index) // Swift 3
 //					let newStr = String(valStr[index...]) // Swift 4
 extension String : Uid {
-	var uid:UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
+	var nameTag:UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
 extension String {
 	init(bool:Bool) {			// Bool -> String
@@ -1169,7 +1169,7 @@ extension String {
 			return "_"
 		case .phrase, .short, .line, .tree:
 			return self
-		case .fullName, .uid:		//.name, .fwClassName,
+		case .fullName, .nameTag:		//.name, .fwClassName,
 				return ""
 		default:
 			return ppFixedDefault(mode, aux)		// NO, try default method
@@ -1253,7 +1253,7 @@ extension Logd {
 }
 
 extension NSObject : Uid {
-	var uid:UInt16 				{ 	return uid4Ns(nsOb:self)					}
+	var nameTag:UInt16 				{ 	return uid4Ns(nsOb:self)					}
 }
 
 extension NSObject : Logd {

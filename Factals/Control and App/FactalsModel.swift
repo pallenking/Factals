@@ -8,7 +8,7 @@ extension FactalsModel  : Logd {}
 @Observable
  class FactalsModel : Uid {
 	var epoch: UInt16			= 1				// to mark dirty
-	var uid						= getNametag()
+	var nameTag					= getNametag()
 
 	  // MARK: - 2. Object Variables:
 	var fmConfig  : FwConfig	= [:]
@@ -95,7 +95,7 @@ extension FactalsModel  : Logd {}
 log("hello")
 
 
-		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.uidClass)) "))
+		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
 		//atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
 	}
 					//	//	// FileDocument requires these interfaces:
@@ -568,7 +568,7 @@ bug//	vew.scnScene.removeFromParent()
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4aux) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
-			var rv				= "\(partBase.tree.pp(.classUid, aux)) "
+			var rv				= "\(partBase.tree.pp(.classTag, aux)) "
 			rv					+= "\(vewBases.count) VewBases "
 			return rv
 		default:
