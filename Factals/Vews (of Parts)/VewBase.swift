@@ -10,14 +10,14 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	var partBase	: PartBase
 	var tree		: Vew
 	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
-	@Published								// subscribe to selfiePole.synk for changes
+	@Published								// subscribe to selfiePole.synk for changes	//xyzzy14
 	 var selfiePole 			= SelfiePole()
 	var prefFps	: Float			= 30.0
 	var prefFpsC: CGFloat		= 33.0
 	var sliderTestVal: Double = 0.5
 	weak
 	 var factalsModel : FactalsModel!		// Owner
-
+x
 	@Published
 	 var inspectors : [Inspec]	= []
 	func addInspector(_ newInspector:Inspec, allowNew:Bool) {		//was AnyView

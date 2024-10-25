@@ -241,8 +241,8 @@ state.scanSubMenu				= "Primitive Forms"
 r("Box",		e, { Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]) }) 					// +
 //r("Port",			e, { Port([n:"port"]) })  		// Broken 191204
 //r("Port2",		e, { Port([f:1]) })				// Broken 191204
-r("Hemisphere",e + selfiePole(s:-134,u:5), { Hemisphere([jog+X:"2 3 0"])	})
-r("TunnelHood",e + selfiePole(s:-134,u:5), { TunnelHood()					})
+r("Hemisphere", e + selfiePole(s:-134,u:5), { Hemisphere([jog+X:"2 3 0"])	})
+r("TunnelHood", e + selfiePole(s:-134,u:5), { TunnelHood()					})
 r("ShapeTest",	e + selfiePole(s:-134,u:5), { ShapeTest()					})
 r("Port", 		e + selfiePole(s:-134,u:5), { Port()						})
 
@@ -639,12 +639,12 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.genAtom/*bcast*/, [struc:["a"], placeMy:"stackx -1 1"]),
 ] ] ) } )
 
-xxr("+ simple blink", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
+xr("+ simple blink", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
 	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
 	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
-xr("- Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
+xxr("- Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
 	Net([placeMy:"linky", parts:[
 		Broadcast()
 	]]) 

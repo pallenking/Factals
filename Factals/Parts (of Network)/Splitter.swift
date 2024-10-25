@@ -501,7 +501,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 //				rv			+=	"WTA \(w.pp()) "
 //			}
 			if upIsDirty {
-				rv			+= "reComp "									
+				rv			+= "reComp"									
 			}
 		}
 		return rv

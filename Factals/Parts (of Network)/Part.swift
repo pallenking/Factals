@@ -756,7 +756,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	func find(path				: Path,
 
 			  up2				: Bool	= false,
-			  inMe2 				: Bool	= false,
+			  inMe2 			: Bool	= false,
 			  maxLevel			: Int?	= nil) -> Part? { // Search by Path:
 		return findCommon(up2:up2, inMe2:inMe2, maxLevel:maxLevel) {
 			$0.partMatching(path:path)
@@ -765,7 +765,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	func find(part				: Part,
 
 			  up			 	: Bool	= false,
-			  inMe2 				: Bool	= false,
+			  inMe2 			: Bool	= false,
 			  maxLevel 			: Int?	= nil) -> Part? { // Search for Part:
 		return findCommon(up2:up, inMe2:inMe2, maxLevel:maxLevel) {
 			$0 === part ? $0 : nil
@@ -780,7 +780,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// - except	-- don't search, already search
 	func findCommon(
 					up2		 :Bool	= false,			// search relatives of my parent
-					inMe2		 :Bool	= true,				// search me
+					inMe2	 :Bool	= true,				// search me
 					mineBut  :Part?	= nil,				// search my children, except
 					maxLevel :Int?	= nil,
 					firstWith:Part2PartClosure) -> Part? { /// Search by closure:
@@ -793,19 +793,19 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
 			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
 			 // Check children:
-			for child in orderedChildren where mineBut === nil || child !== mineBut! { // don't redo exception
+			for child in orderedChildren
+			  where mineBut === nil || child !== mineBut! { // don't redo exception
 				if let rv 		= child.findCommon(up2:false, mineBut:self, maxLevel:mLev1, firstWith:firstWith) {
 					return rv
 				}
 			}
 		}
 		if up2,								// Check parent
-		  let p					= parent,		// Have parent
-		  p.parent != nil {						// parent not ROOT
-			return parent?.findCommon(up2:true, mineBut:self, maxLevel:maxLevel, firstWith:firstWith)
+		  let parent {						// Have parent
+			return parent.findCommon(up2:true, mineBut:self, maxLevel:maxLevel, firstWith:firstWith)
 		}
 		return nil
-	}
+	} 
 	// MARK: - 4.8 Matches Path
 	/// Get a Proxy Part matching path
 	/// # The Path must specify a Part inside self.

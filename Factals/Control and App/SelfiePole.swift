@@ -24,14 +24,17 @@ struct SelfiePole: Equatable {		//Observable,
 	mutating func configure(from config:FwConfig) {
 		 // Configure Camera from Source Code: ["camera":["p":[1,2,3], "u":3.4] ...]]
 		if let c 				= config.fwConfig("selfiePole") {//camera") {
-			if let pStr 		= c.string("p") {			// 1, 1 2, 1 2 3, 1 2 3 4
-				position		= SCNVector3(string:pStr)
+			if let n	 		= c.string("n") {
+				fatalError("NameTags are read only")
+			}
+			if let p 			= c.string("p") {			// 1, 1 2, 1 2 3, 1 2 3 4
+				position		= SCNVector3(string:p)
 			}
 			if let s 			= c.float("s"), !s.isNan {	// Spin
 				spin 			= CGFloat(s) 					// (in degrees)
 			}
-			if let u 			= c.float("u"), !u.isNan {	// Horizon look Up
-				gaze 			= -CGFloat(u)					// (in degrees)
+			if let g 			= c.float("g"), !g.isNan {	// Horizon look Up
+				gaze 			= -CGFloat(g)					// (in degrees)
 			}
 			if let z 			= c.float("z"), !z.isNan {	// Zoom
 				zoom 			= CGFloat(z)

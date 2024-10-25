@@ -1403,33 +1403,53 @@ struct ContentView: View {
 
 
 ================================================================
-* SelfiePole:	struct SelfiePole: Equatable {		//Observable, 
-uid		
-position
-spin  	
-gaze	
-zoom	
-ortho	
+
+
+
+
+*1 SelfiePole:		<<struct SelfiePole>>
+*2 SelfiePole:		<<mutating func configure>>	Hash Key
+*3 SelfiePole:		<<func transform()>>		for camera position
+*4 SelfiePoleBar:	<<struct SelfiePoleBar>>	for 
+*5 Book:			<<func selfiePole(>>		set test environment
+
+struct      config		camera		Selfie		library
+selfiePole				transform	PoleBar		book
+*1          *2          *3          *4          *5          
+
+nameTag     n			--		    name		na
+(alias uid) read only
+                     
+position    p           p           position	Height-->py
+
+spin        s           s           spin		s
+                         
+gaze        U ##        U ##        gaze		u ##
+                           
+zoom        z           z           zoom		z
+                         
+ortho       o           o           no ##		no ## 
+                        lookAtVew.bBox.center
 
 ================================================================
-			* SelfiePole:	mutating func configure(from config:FwConfig) {
-			position
-			gaze
-			spin
-			zoom
-			ortho
 ================================================================
-						* SelfiePole: func transform(lookAtVew:Vew) -> SCNM..
-						spin
-						lookAtVew.bBox.center
-						position
-						gaze
-						zoom
 ================================================================
-									* SelfiePoleBar: struct SelfiePoleBar:View
-									id
-									position
-									spin
-									gaze
-									zoom
 ================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class VewBase @Published var selfiePol = SelfiePole()
+								// subscribe to selfiePole.synk for changes	//xyzzy14
+								
