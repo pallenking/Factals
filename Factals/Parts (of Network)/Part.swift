@@ -1302,7 +1302,7 @@ func foo () {
 			let span			= stkBip.size + newBip.size	// of both parent and self
 			let slop			= stkBip.size - newBip.size	// amount parent is bigger than self
 			atRsi(6, vew.log("   newBip:\(newBip.pp(.phrase)) stkBip:\(stkBip.pp(.phrase))"))
-			atRsi(5, vew.log("   span:\(span.pp(.short)) slop:\(slop.pp(.short))"))	//\(stkBip.size.pp(.phrase)) += \(newBip.size.pp(.phrase)):
+			atRsi(5, vew.log("   span:\(span.pp(.line)) slop:\(slop.pp(.line))"))
 
 			  // e.g. mode = "stackY 0.5 1"
 			 // determine: u0,u1,u2, stackSign, alignU1, alignU2
@@ -1362,7 +1362,7 @@ func foo () {
 			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
 	//		let delta			= newBip.center - stkBip.center
 	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
-			atRsi(4, vew.log("=====>> rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n"))
+			atRsi(4, vew.log("=====>> FOUND: rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n"))
 			vew.scnRoot.position	= rv + (vew.jog ?? .zero)
 	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
 		}

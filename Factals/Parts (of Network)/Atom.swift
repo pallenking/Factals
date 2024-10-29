@@ -979,7 +979,7 @@ nop
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
 		atRsi(4, vew.log("<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))"))
-		atRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
+		//atRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
 		vew.scnRoot.position = avgPosition + (vew.jog ?? .zero)
 
 		vew.moveSoNoOverlapping()					// MOVE UPWARD

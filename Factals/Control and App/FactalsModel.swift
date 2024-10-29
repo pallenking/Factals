@@ -89,14 +89,9 @@ extension FactalsModel  : Logd {}
 		vewBase.scnSceneBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals()							// Lights and Camera
 		vewBase.updateVSP(initial:vewConfig)
-		//printFwState()
-
-
-log("hello")
-
 
 		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
-		//atBld(5, log.logd("\n\(vewBase.pp(.tree, ["ppViewOptions":"UFVTWB"]))"))
+		printFwState()
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene

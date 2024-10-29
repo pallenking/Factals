@@ -275,7 +275,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		if let ban 				= banner {
 			print("\n" + "***** " + ban + " *****")
 		}
-		print(newLines + fmt("%d.%03d%@", logNo, eventNumber, rv), terminator:terminator ?? "\n" )
+		print(newLines + fmt("%d.%03d%@", logNo, eventNumber, rv), terminator:terminator )
 
 		 // Breakpoint Stop?			// p (breakAtLogger, logNo, breakAtEvent, eventNumber)
 		if breakAtLogger == logNo,
