@@ -954,7 +954,8 @@ nop
 				panic("Second dominant Link con2 (\(fixedPort.pp(.fullName)) were found")
 			}
 			newInMePosn.y		+= gap
-			atRsi(4, print("\t\t\t\t\t\t\t\t" + "FOUND:\(newInMePosn.pp(.short))"))
+			atRsi(4, logd("\t\t\t\t" + "<<===== FOUND: p=\(newInMePosn.pp(.short)); "
+						  + "\(vew.part.fullName).vew.bBox = (\(vew.bBox.pp(.line)))"))
 
 			 // ////// Accumulate position: average for x,z; max for y
 			avgPosition 		+= newInMePosn//* weightVect // bit by bit *
@@ -978,6 +979,7 @@ nop
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
 		atRsi(4, vew.log("<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))"))
+		atRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
 		vew.scnRoot.position = avgPosition + (vew.jog ?? .zero)
 
 		vew.moveSoNoOverlapping()					// MOVE UPWARD

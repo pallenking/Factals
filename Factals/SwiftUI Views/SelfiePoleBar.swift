@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelfiePoleBar: View   {
+struct SelfiePoleBar: View   {													//xyzzy15.5
 	@Binding var selfiePole	: SelfiePole
 
 	var body: some View {

@@ -216,7 +216,7 @@ extension Book {
 	func velX(_ vel:Float) -> FwConfig 	{	return [:] 							}
 
 	// 2. Used in tests to set initial camera
-	func selfiePole(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil, o:Float?=nil) -> FwConfig {
+	func selfiePole(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil, o:Float?=nil) -> FwConfig {//xyzzy15.1
 		var rv : FwConfig 		= [:]
 		if let h {	rv["h"] 	= h												}
 		if let s {	rv["s"] 	= s												}

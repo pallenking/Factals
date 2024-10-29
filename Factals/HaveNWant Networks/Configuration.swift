@@ -72,14 +72,18 @@ let params4partPp  : FwConfig 	= [
 	"ppDagOrder"		: true, 	//true//false//
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
-	///"ppViewOptions"	: "UFVSPLETBIW",// Vew Property Letters:	"UFVTBIW""UFVSPLETBIW"
-	"ppViewOptions"		: "UF V TWB",		// Compact printout
+
 		// "U":		Show Uid			  "E":		Show my initial expose
 		// "F":		Show Flipped		  "T":		Show my position transform
 		// "V":		Show Vew (self)		  "B":		Show my physics Body
 		// "S":		Show my Scn			  "I":		Show my pIvot point
 		// "P":		Show my Part		  "W":		Show my position in World coordinates
 		// "L":		Show my Leaf height
+	"ppViewOptions"	//	: "UFV    TB W",	// Compact printout
+					//	: "UFVSPLETBIW",	// Vew Property Letters:
+						: "UFVS   TB W",	// Vew Property Letters:
+					//	: "UFV PL  B  ",	// Vew Property Letters:
+					//	: "UFV    TBIW",
 
 	"ppScnBBox"			: false, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box

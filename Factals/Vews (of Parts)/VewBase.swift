@@ -17,7 +17,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	var sliderTestVal: Double = 0.5
 	weak
 	 var factalsModel : FactalsModel!		// Owner
-x
+
 	@Published
 	 var inspectors : [Inspec]	= []
 	func addInspector(_ newInspector:Inspec, allowNew:Bool) {		//was AnyView

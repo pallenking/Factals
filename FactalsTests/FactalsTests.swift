@@ -75,19 +75,19 @@ final class FactalsTests: XCTestCase {
 
 	func testVewPp() {
 		let m1 = MaxOr()
-		let m2 = m1.pp(.uidClass)
+		let m2 = m1.pp(.tagClass)
 		XCTAssertTrue(m2.hasSuffix(":MaxOr"))
 
 bug;	let n1 = Vew(forPart:m1)
-		let n2 = n1.pp(.uidClass)
+		let n2 = n1.pp(.tagClass)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
 		let o0 = PartBase(tree:Part())
 		let o1 = VewBase(for:o0)
-		let o2 = o1.pp(.uidClass)
+		let o2 = o1.pp(.tagClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
-		let p2 = self.pp(.uidClass)
+		let p2 = self.pp(.tagClass)
 		XCTAssertTrue(p2.hasSuffix(":FactalsTests"))		// may be wrong
 
 		//logd("abcdefg")
@@ -182,10 +182,10 @@ bug;	let n1 = Vew(forPart:m1)
 			let partsClassName =    part.fwClassName
 										/* *** */
 			if partsClassName != expectedClassName {
-				let msg			= "testClassFromString \(i): (\(part.pp(.uidClass)).fwClassName " +
+				let msg			= "testClassFromString \(i): (\(part.pp(.tagClass)).fwClassName " +
 								  "is \(partsClassName), expected \(expectedClassName)"
 				XCTAssertEqual(partsClassName, expectedClassName, msg)
-				print("############ \(i+1). (\(part.pp(.uidClass))).fwClassName is \(partsClassName), should be \(expectedClassName) ###########")
+				print("############ \(i+1). (\(part.pp(.tagClass))).fwClassName is \(partsClassName), should be \(expectedClassName) ###########")
 				let _			= part.fwClassName	// try again for debugger
 			}
 
@@ -195,7 +195,7 @@ bug;	let n1 = Vew(forPart:m1)
 			let partsClass		= type(of:part)
 			if expectedClass != partsClass {
 				XCTAssertFalse(true, "")		//		XCTAssertFalse(false, "")
-				print("############ \(i+1). (\(part.pp(.uidClass))).Type is \(partsClass), should be \(expectedClass) ###########")
+				print("############ \(i+1). (\(part.pp(.tagClass))).Type is \(partsClass), should be \(expectedClass) ###########")
 				let _ : Part.Type = classFrom(string:expectedClassName)
 			}
 		}
@@ -293,19 +293,19 @@ bug;	let n1 = Vew(forPart:m1)
 			(ago,   net1,  false, false),		// 23
 		]
 		for (i, (p1, p2, identity, equatable)) in tests.enumerated() {
-			print("\n############  \(i+1). (\(p1.pp(.uidClass))).equalsPart(\(p2.pp(.uidClass)))  ###########")
+			print("\n############  \(i+1). (\(p1.pp(.tagClass))).equalsPart(\(p2.pp(.tagClass)))  ###########")
 			print("\(p1.pp(.tree)) ??====(\(identity ? " " : "!")identical, \(equatable ? " " : "!")equatable)====??  CALCULATED\n\(p2.pp(.tree))", terminator:"")
 			let matchIdnetP		= p1 === p2						//  identity
 			let matchEqualP		= p1.equalsFW(p2)				//  equatableFW
 
 			 // Questionable Value:
 			print(" p1 \(matchIdnetP ? "=" : "!")== p2, p1.equals(p2) => \(matchEqualP)")
-			XCTAssertEqual(matchIdnetP, identity,  "testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
-			XCTAssertEqual(matchEqualP, equatable, "testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
+			XCTAssertEqual(matchIdnetP, identity,  "testPartIdenticle \(i): \(p1.pp(.tagClass)) === \(p2.pp(.tagClass)) isn't \(identity)")
+			XCTAssertEqual(matchEqualP, equatable, "testPartEquatable \(i): \(p1.pp(.tagClass))  == \(p2.pp(.tagClass)) isn't \(equatable)")
 			let matchIdnetM		= p1 !== p2						// !identity
 			let matchEqualM		= p1.equalsFW(p2)	== false 	// !equatableFW
-			XCTAssertEqual(matchIdnetM, !identity, "!testPartIdenticle \(i): \(p1.pp(.uidClass)) === \(p2.pp(.uidClass)) isn't \(identity)")
-			XCTAssertEqual(matchEqualM, !equatable,"!testPartEquatable \(i): \(p1.pp(.uidClass))  == \(p2.pp(.uidClass)) isn't \(equatable)")
+			XCTAssertEqual(matchIdnetM, !identity, "!testPartIdenticle \(i): \(p1.pp(.tagClass)) === \(p2.pp(.tagClass)) isn't \(identity)")
+			XCTAssertEqual(matchEqualM, !equatable,"!testPartEquatable \(i): \(p1.pp(.tagClass))  == \(p2.pp(.tagClass)) isn't \(equatable)")
 
 			 // Redo for debug if any errors
 			if matchIdnetP != identity || matchEqualP != equatable ||

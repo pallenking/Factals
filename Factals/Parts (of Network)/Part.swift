@@ -992,7 +992,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		vew.bBox				= .empty			// Set view's bBox EMPTY
 		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part	// xyzzy32 xyzzy18
 
-		 //------ reSize all and only   _CHILD Atoms_
+		 //------ reSize all   _CHILD Atoms_     No Ports
 		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
 		for childVew in orderedChildren 	// For all Children, except
 		  where !(childVew.part is Port) 		// Atom handles child Ports
@@ -1255,10 +1255,10 @@ func foo () {
 	 // MARK: - 9.4 rePosition
 	func rePosition(vew:Vew) { //}, first:Bool=false) {
 		guard vew.parent != nil else {		return			}
-		 // Get Placement Modep
-		let placeMode		=  partConfig["placeMe"]?.asString ?? // I have place ME
+		 // Get Placement Mode
+		let placeMode		=   partConfig["placeMe"]?.asString ?? // I have place ME
 							parent?.config("placeMy")?.asString ?? // My Parent has place MY
-										   				"linky"	   // default is position by links
+										   			  "linky"	   // default is position by links
 		  // Set NEW's orientation (flip, lat, spin) at origin
 		vew.scnRoot.transform	= SCNMatrix4(.origin,
 								 flip	 : flipped,
@@ -1362,7 +1362,7 @@ func foo () {
 			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
 	//		let delta			= newBip.center - stkBip.center
 	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
-			atRsi(4, vew.log("<<===== rv=\(rv.pp(.short))\n"))
+			atRsi(4, vew.log("=====>> rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n"))
 			vew.scnRoot.position	= rv + (vew.jog ?? .zero)
 	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
 		}

@@ -499,8 +499,8 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 
 		scn.position 			+= movedBy
 //		scnRoot.position		+= movedBy
-		atRsi(4, log("<<===== Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))"))
-//		atRsi(4, log("<<===== Moved by \(movedBy.pp(.short)) to \(scnRoot.transform.position.pp(.short))"))
+		atRsi(4, log("=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))"))
+//		atRsi(4, log("=====>> Moved by \(movedBy.pp(.short)) to \(scnRoot.transform.position.pp(.short))"))
 	}
 	func orBBoxIntoParent() {
 		if let parentVew 		= parent {

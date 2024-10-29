@@ -13,7 +13,7 @@ import SceneKit
  //  ---- spun about Y axis
 
  // Uses Cylindrical Coordinates
-struct SelfiePole: Equatable {		//Observable, 
+struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 	var nameTag				 	= getNametag()
 	var position				= SCNVector3.origin	// world coordinates
 	var spin  	: CGFloat 		= 0.0				// in degrees
@@ -21,7 +21,7 @@ struct SelfiePole: Equatable {		//Observable,
 	var zoom	: CGFloat 		= 1.0
 	var ortho	: CGFloat		= 0.0				// BROKEN 0->perspective, else ortho
 
-	mutating func configure(from config:FwConfig) {
+	mutating func configure(from config:FwConfig) {								//xyzzy15.2
 		 // Configure Camera from Source Code: ["camera":["p":[1,2,3], "u":3.4] ...]]
 		if let c 				= config.fwConfig("selfiePole") {//camera") {
 			if let n	 		= c.string("n") {
@@ -45,7 +45,7 @@ struct SelfiePole: Equatable {		//Observable,
 	}
 
 	 // Computes the transform from a camera A on a selfie stick back to the origin
-	func transform(lookAtVew:Vew) -> SCNMatrix4 {
+	func transform(lookAtVew:Vew) -> SCNMatrix4 {								//xyzzy15.4
 
 		  // From the Origin to the Camera, in steps:
 		 //  ---- 1: Spin about Y axis

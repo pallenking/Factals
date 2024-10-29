@@ -366,7 +366,7 @@ class Link : Atom {
 		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
 		 let sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
-		atRsi(4, vew.log("<<===== reSizePost, found pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))"))
+		atRsi(4, vew.log("=====>> reSizePost, found pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))"))
 
 		 // Center point of each end, in world coordinates
 		// :H: _CENT_er					// of spot

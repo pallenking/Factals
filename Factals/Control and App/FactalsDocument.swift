@@ -34,10 +34,11 @@ extension FactalsDocument : Logd {
 struct FactalsDocument : FileDocument {
 	let nameTag						= getNametag()
 	var factalsModel : FactalsModel! = nil				// content
-	var log 	  : Log			= Log(name:"Model's Log", configure:
-		params4partPp			+  	//	pp... (50ish keys)
-		params4logs 			+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-		logAt(all:docLogN))
+	var log 	  : Log			= Log.app // Use Apps log
+//	var log 	  : Log			= Log(name:"Model's Log", configure:
+//		params4partPp			+  	//	pp... (50ish keys)
+//		params4logs 			+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+//		logAt(all:docLogN))
 	var foo = 3
 
 	init(fileURL: URL) {
