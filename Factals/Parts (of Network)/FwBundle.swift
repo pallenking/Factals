@@ -17,7 +17,7 @@ class FwBundle : Net {
 	   /// - parameter leafConfig: -- to configure Leaf
 	  /// - parameter config:	  -- to configure FwBundle
 	 /// ## --- struc: names	 -- names of the Bundle's leafs
-	init(of kind:LeafKind = .genAtom, leafConfig lc:FwConfig?=[:], _ tunnelConfig:FwConfig=[:])
+	init(of kind:LeafKind = .genAtom,  leafConfig lc:FwConfig?=[:],  _ tunnelConfig:FwConfig=[:])	//FwBundle
 	{
 		let leafConfig			= ["placeMy":"linky" ] + lc!	//  default: // was stackx
 		let tunnelConfig2		= ["placeMy":"stackx"] + tunnelConfig
@@ -29,7 +29,7 @@ class FwBundle : Net {
 
 		 // Construct FwBundle elements
 		if leafStruc != nil {
-			apply(constructor:leafStruc!, leafConfig:leafConfig)
+			apply(constructor:leafStruc!, leafConfig:leafConfig)//, tunnelConfig)
 		}
 	}
 	 // MARK: - 3.1 Port Factory
@@ -139,7 +139,7 @@ class FwBundle : Net {
 	 */
 
 	// MARK: - 4.1 Part Properties
-	func apply(constructor con:FwAny, leafConfig:FwConfig) {
+	func apply(constructor con:FwAny, leafConfig:FwConfig){//}, _ tunnelConfig:FwConfig) {
 		atBld(7, logd("apply(constructor:\(con.pp(.line))))"))
 
 		  // ==== Parse constructor:  It has many forms:
@@ -273,8 +273,8 @@ class FwBundle : Net {
 			 //
 			if (newsProperty != nil) {
 				 // CASE 1.4a: Make newElt from subSpec
-				if arg is Array<FwAny> || arg is FwConfig {
-
+				if arg is Array<FwAny> || arg is FwConfig
+				{
 					let newBun 	= FwBundle()					// Build a new FwBundle or Tunnel
 					newsProperty!(newBun)					// Apply delayed property
 					newBun.apply(constructor:arg!, leafConfig:leafConfig)

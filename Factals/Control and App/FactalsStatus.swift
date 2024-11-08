@@ -217,15 +217,14 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		let (a, b)				= (self.tree.scn, self.scnSceneBase.tree?.rootNode)
-		var myLine				= a===b ? "" : ("ERROR< tree.scn(\(a.pp(.nameTag)) " +
-									"!== scnSceneBase.tree= \(b?.pp(.nameTag) ?? "nil") >ERROR\n ")
+		var myLine				= a===b ? "" : ("ERROR< tree.scn(\(a.pp(.nameTag)))  " +
+									"!==  scnSceneBase.tree= \(b?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
 		myLine					+= "tree:\(tree.pp(.tagClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classTag) ?? "nil") "
 		myLine					+= "\(inspectors.count) inspectors"
-		return ppFactalsStateHelper(myName, nameTag:self,
-			myLine:myLine,
+		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.scnSceneBase.ppFactalsState(deapth:deapth-1)
 				rv				+= self.selfiePole  .ppFactalsState(deapth:deapth-1)

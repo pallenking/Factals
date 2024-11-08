@@ -639,11 +639,24 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.genAtom/*bcast*/, [struc:["a"], placeMy:"stackx -1 1"]),
 ] ] ) } )
 
-xr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+xxr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
 	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
 	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+] ]) })
+xr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
+//	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
+//	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
+//	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+		Tunnel(of:.genMirror,
+			   leafConfig:["gain":-1.1, "offset":1.1, f:1],
+			   [struc:["a", "b", "c"], placeMy:"stackx -1 1"]),			// etc1
+			   ["gain":-1, "offset":1, f:1],							// etc2
+//		[parts:[
+//			Broadcast([n:"xxx"])
+//		]]
 ] ]) })
 xxr("- Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
 	Net([placeMy:"linky", parts:[

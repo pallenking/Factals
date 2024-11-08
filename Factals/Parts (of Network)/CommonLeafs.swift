@@ -65,8 +65,8 @@ extension Leaf {	/// Generate Common Leafs
 		case .genMirror:
 			self.init(of:leafKind,
 				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
-		 			Mirror(["n":"gen", "f":1] 			+ etc2),
-			], leafConfig:								  etc1)
+		 			Mirror(["n":"gen", "f":1] 			+ etc2),		//[:]
+			], leafConfig:								  etc1)			//
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 
 		 // -------- Broadcast -------------------------------------------------------
