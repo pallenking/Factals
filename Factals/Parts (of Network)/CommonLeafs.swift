@@ -9,46 +9,68 @@ let bPrev			= ["":"prev.S", "+":"prev.S"								]
 let bPrevPM			= ["":"prev.S", "+":"prev.S", "-":"prev.T"					]
 
 extension LeafKind : Equatable {
+	static func == (lhs: LeafKind, rhs: LeafKind) -> Bool {
+		lhs.equalsFW(rhs)
+	}
+	
 	func equalsFW(_ rhs: LeafKind) -> Bool {
 	//	guard self !== rhs 					  else {	return true				}
 bug;	return self == rhs
 	}
 }
-enum LeafKind : String, Codable {
-    typealias RawValue = String
-	case nil_				= "nil_" // (FwConfig?, FwConfig?, FwConfig?, FwConfig?, FwConfig?) -> Leaf
-	case cylinder			= "cylinder" // for gap size testing		
-	case genAtom			= "genAtom"
-	case genMirror			= "genMirror"
-	case bcast				= "bcast"
-	case genBcast			= "genBcast"
-	case genMax				= "genMax"
-	case genMaxSq			= "genMaxSq"
-	case bayes				= "bayes"
-	case genBayes			= "genBayes"
-	case mod				= "mod"
-	case rot				= "rot"
-	case branch				= "branch"
-	case bulb				= "bulb"
-	case genBulb			= "genBulb"
-	case genPrev			= "genPrev"
-	case flipPrev			= "flipPrev"
-	case prev				= "prev"
-	case ago				= "ago"
-	case genAgo				= "genAgo"
-	case agoMax				= "agoMax"
+enum LeafKindx: Codable {
+    case nil_
+    case cylinder
+    case closureCase(() -> Int) // Case with a closure returning an Int
+	init(from:Decoder) throws		{ fatalError()}
+	func encode(to:Encoder) throws {}
+}
+
+enum LeafKind : Codable {
+	init(from	  :Decoder) throws	{ 	fatalError()							}
+	func encode(to:Encoder) throws	{ 	fatalError()							}
+//	init?(rawValue: String) {
+//		<#code#>
+//	}
+//	typealias RawValue = String
+	case leafClosure(() -> Part) // Case with a closure returns a Part
+//	case leaf(kind:Leaf)					// Only children on path are effected
+	case nil_			//	= "nil_" // (FwConfig?, FwConfig?, FwConfig?, FwConfig?, FwConfig?) -> Leaf
+	case cylinder		//	= "cylinder" // for gap size testing
+	case genAtom		//	= "genAtom"
+	case genMirror		//	= "genMirror"
+	case bcast			//	= "bcast"
+	case genBcast		//	= "genBcast"
+	case genMax			//	= "genMax"
+	case genMaxSq		//	= "genMaxSq"
+	case bayes			//	= "bayes"
+	case genBayes		//	= "genBayes"
+	case mod			//	= "mod"
+	case rot			//	= "rot"
+	case branch			//	= "branch"
+	case bulb			//	= "bulb"
+	case genBulb		//	= "genBulb"
+	case genPrev		//	= "genPrev"
+	case flipPrev		//	= "flipPrev"
+	case prev			//	= "prev"
+	case ago			//	= "ago"
+	case genAgo			//	= "genAgo"
+	case agoMax			//	= "agoMax"
 }
 
 extension Leaf {	/// Generate Common Leafs
-	 /// Check that unused configuration hashes have nothing in them
-	func unusedConfigsMustBeNil(_ etcHash:[FwConfig]) {
-		for hash in etcHash {
-			assert(hash.count == 0, "Hash:\(hash.pp(.line)) should be empty")
-		}
-	}
 	convenience init(_ leafKind:LeafKind, _ etc1:FwConfig=[:], _ etc2:FwConfig=[:],
 					 _ etc3:FwConfig=[:], _ etc4:FwConfig=[:], _ etc5:FwConfig=[:]) {
 		switch leafKind {
+
+
+		case .leafClosure(let x):
+			let b 				= ["":"gen", "G":"gen.P", "R":"gen.P"]
+			let p				= x()//[GenAtom(["n":"gen", "f":1] + etc2)]
+			self.init(of:leafKind, bindings:b, parts:[p], leafConfig:etc1)
+			unusedConfigsMustBeNil([etc3, etc4, etc5])
+
+
 		case .nil_:
 			self.init(of:leafKind, bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)
 			unusedConfigsMustBeNil([etc2, etc3, etc4, etc5])
@@ -65,8 +87,8 @@ extension Leaf {	/// Generate Common Leafs
 		case .genMirror:
 			self.init(of:leafKind,
 				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
-		 			Mirror(["n":"gen", "f":1] 			+ etc2),		//[:]
-			], leafConfig:								  etc1)			//
+		 			Mirror(["n":"gen", "f":1] 			+ etc2),		//[placeMy:stackx -1 1, struc:[3 elts]]
+			], leafConfig:								  etc1)			//[gain:-1, f:1, offset:1, placeMy:linky]
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 
 		 // -------- Broadcast -------------------------------------------------------
@@ -191,12 +213,18 @@ extension Leaf {	/// Generate Common Leafs
 				MaxOr(["n":"main", "f":1, "P":"ago="]	+ etc2),
 			], leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
-		default:
-			fatalError("LeafKind \(leafKind.self) should never happen")
+		//default:
+		//	fatalError("LeafKind \(leafKind.self) should never happen")
 		}
 //		groomModel(parent:nil, partBase:partBase)	// groom: add ports[] from children[]
 //		fixPorts()
 		nop
+	}
+	 /// Check that unused configuration hashes have nothing in them
+	func unusedConfigsMustBeNil(_ unusedConfigs:[FwConfig]) {
+		for config in unusedConfigs {
+			assert(config.count == 0, "Config:\(config.pp(.line)) should be empty")
+		}
 	}
 }
 

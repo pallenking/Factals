@@ -25,11 +25,10 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 //	var bindings 					= [String:String]()
 
 	 // MARK: - 3. Part Factory
-//	convenience init(_ leafKind:LeafKind, fwConfig:FwConfig = [:], bindings:FwConfig = [:], parts:[Part]) { // NEW WAY
+//	convenience init(_  leafKind:LeafKind, fwConfig:FwConfig = [:], bindings:FwConfig = [:], parts:[Part]) { // NEW WAY
 	convenience init(of leafKind:LeafKind, bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { // OLD WAY
 		let xtraConfig:FwConfig = ["parts":parts, "bindings":bindings]		// /*"type":type,*/
-		self.init(leafKind:leafKind, leafConfig:leafConfig+xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-//		self.init(leafKind:leafKind, leafConfig:xtraConfig+leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\	// might be fun to try LATER
+		self.init(leafKind:leafKind, leafConfig:leafConfig+xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\xtraConfig+leafConfig
 	}
 	    /// Terminal element of a FwBundle
 	   /// - parameter leafKind: -- of terminal Leaf
@@ -39,7 +38,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		let leafConfig			= ["placeMy":"linky"] + leafConfig_
 		super.init(of:leafKind!, leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		type					= leafKind!.rawValue
+		type					= "leafKind!.rawValue"//leafKind!.rawValue
 	}
 	 // MARK: - 3.5 Codable
 	enum LeafsKeys: String, CodingKey {
@@ -50,7 +49,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		try super.encode(to: encoder)
 		var container 			= encoder.container(keyedBy:LeafsKeys.self)
 
-		try container.encode(type, 		forKey:.type)
+		try container.encode(type, forKey:.type)
 		atSer(3, logd("Encoded  as? Leaf        '\(fullName)'"))
 	}
 	 // Deserialize

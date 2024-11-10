@@ -1272,7 +1272,7 @@ extension NSObject {
 }
 func possibleNameSpaces() -> [String] {
 	return [
-		Bundle.main.infoDictionary!["CFBundleExecutable"] as! String,
+		Foundation.Bundle.main.infoDictionary!["CFBundleExecutable"] as! String,
 		"Factals",				// ZEV: Shouldn't this be in Bundle.main
 		"FactalsTests",
 	]

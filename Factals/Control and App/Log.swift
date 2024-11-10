@@ -35,7 +35,7 @@ extension Log {
 		params4logs				+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 		logAt(all:appLogN)
 
-	static var osLogger:OSLog?	= OSLog(subsystem:Bundle.main.bundleIdentifier!, category:"havenwant?")
+	static var osLogger:OSLog?	= OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 }
 extension Log : Logd { }
 //extension Log : Uid { }
