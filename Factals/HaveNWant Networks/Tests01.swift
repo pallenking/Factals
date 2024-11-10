@@ -653,33 +653,29 @@ xxr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2
 	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
-var b0:String 	{ 	"a,v:-\(String(randomDist(0.0, 3.0)))"						}
-var b2offset = 0.0
-var b2:String 	{
-	b2offset		+= 0.5
-	let vVal		= b2offset+3//log(a2offset+3)
+
+// Unison
+var a00:String 	{ 	"a,v:1"						}
+// Random
+var a01:String 	{ 	"a,v:\(String(randomDist(0.0, 0.5)))"						}
+//
+var a02:String 	{ 	"a,v:\(String(randomDist(0.0, 0.9)))"						}
+// Unison
+var a03:String 	{ 	"a,v:\(String(randomDist(0.0, 0.0)))"						}
+// Binary Counter:
+var a1:String 	{
+	aOffset			+= 1
+	let vVal		= aOffset//log(a2offset+3)
 	return "a,v:-\(String(vVal))"		 //\(String(a2offset))
 }
-xr("+ 8 blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
-			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
-	Bundle([struc:["a","b","c","d","e","f","g","h"], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
-		Net([placeMy:"linky", spin:4, parts:[
-			Bulb([P:"a,l:3"]),
-			Mirror([n:"b", P:b2, jog:"4", "latitude":-1, "spin":"1"]),		//a2//"a,v:-1"
-			Mirror([n:"a", "gain":-1, "offset":1, f:1]),
-		] ] )
-	},			// etc1
- ] ]) })
-
-
-var a0:String 	{ 	"a,v:-\(String(randomDist(0.0, 3.0)))"						}
-var a2offset = 0.0
+// Wave
 var a2:String 	{
-	a2offset		+= 0.1
-	let vVal		= a2offset//log(a2offset+3)
+	aOffset			+= 0.1
+	let vVal		= aOffset//log(a2offset+3)
 	return "a,v:-\(String(vVal))"		 //\(String(a2offset))
 }
-xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+var aOffset = 0.0
+xr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
 	Bundle([struc:["a","b","c","d"], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
@@ -696,16 +692,16 @@ xxr("- Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + [
 	]]) 
 })
 
-var a1:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }
+var a9:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }
 xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
-	Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),		Bulb([P:a1]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Mirror([n:"b", P:"a", jog:"4"]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )

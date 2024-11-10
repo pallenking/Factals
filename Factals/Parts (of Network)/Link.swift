@@ -575,7 +575,8 @@ bug	// Never USED?
 			if linkSkinType != .invisible {
 				rv				+= ", linkSkinType:\(linkSkinType.rawValue)"
 			}
-		default: nop
+		default:
+			nop
 		}
 		return rv
 	}

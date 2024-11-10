@@ -9,7 +9,7 @@ func randomProb(p:Float) -> Bool {				// 1 with prob p
 }
 func randomDist(_ a:Float, _ b:Float) -> Float {	// float boxcar, a..b, incl
 	assert(b>=a, "illegal call, a>b")
-	if a == b {
+	if a == b {						// boxcar is one point
 		return a
 	}
 	let frac 					= Float(drand48())

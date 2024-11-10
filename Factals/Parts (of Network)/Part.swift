@@ -1480,8 +1480,8 @@ func foo () {
 					let alt 	= nsEvent.modifierFlags.contains(.option)
 
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
-					let vewsInspec = Inspec(vew:pickedVew)
-					pickedVew.vewBase()?.addInspector(vewsInspec, allowNew:alt)
+					//let vewsInspec = Inspec(vew:pickedVew)
+					pickedVew.vewBase()?.addInspectorVew(pickedVew, allowNew:alt)
 
 			//		factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//

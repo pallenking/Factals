@@ -21,8 +21,10 @@ struct Inspec: View, Equatable, Uid {
 	var nameTag					= getNametag()
 	
 	@ObservedObject var vew:Vew	// arg1: object to be inspected.
+
 	static func == (lhs: Inspec, rhs: Inspec) -> Bool {
-		lhs.vew == rhs.vew
+		lhs.nameTag == rhs.nameTag
+		&& lhs.vew === rhs.vew
 	}
 
 	@ViewBuilder

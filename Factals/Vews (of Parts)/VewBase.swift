@@ -2,7 +2,7 @@
 //
 
 import SceneKit
-import SwiftUI
+//import SwiftUI
 
 class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny, //,
 	static var nVewBase 		= 0
@@ -19,18 +19,19 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	 var factalsModel : FactalsModel!		// Owner
 
 	@Published
-	 var inspectors : [Inspec]	= []
-	func addInspector(_ newInspector:Inspec, allowNew:Bool) {		//was AnyView
+	 var inspectorVews : [Vew]	= []
+	func addInspectorVew(_ newInspector:Vew, allowNew:Bool) {		//was AnyView
 		if allowNew {
-			inspectors.append(newInspector)			// Add to end
+			inspectorVews.append(newInspector)			// Add to end
 		}
-		else if let i			= inspectors.firstIndex(where: { $0 == newInspector}) {		//inspectors.contains(newInspector),
-			inspectors[i]		= newInspector		// Replace existing
+		else if let i			= inspectorVews.firstIndex(where: { $0 == newInspector}) {		//inspectors.contains(newInspector),
+			inspectorVews[i]	= newInspector		// Replace existing
 		}
 		else {										// Ignore all previous
-			inspectors			= [newInspector]
+			inspectorVews		= [newInspector]
 		}
-		print("Now \(title) has \(inspectors.count) inspectors")
+		print("Now \(title) has \(inspectorVews.count) inspectors")
+	//	objectWillChange.send()
 	}
  	var cameraScn	: SCNNode?	{
  		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)

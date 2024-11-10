@@ -185,17 +185,17 @@ class Mirror : Atom {
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up upLocal:Bool)  {
 		super.simulate(up:upLocal)
-		if upLocal {									/////// going UP
+		if upLocal {									// ///// going UP
 			assert(ports.count == 1, "Mirror: \(ports.count) Ports illegal")
 			if let pPort		= ports["P"],
 			  let pPort2Port	= pPort.con2?.port {
-				let val		 	= pPort2Port.getValue()	///////	GET to my INPUT
+				let val		 	= pPort2Port.getValue()	// /////	GET to my INPUT
 				let val2 :Float = val * gain + offset
 				let val3		= min(1.0, max(0.0, val2))
 				if val3 != pPort.value {
 					atDat(3, logd(fmt("Mirror-. %.2f (was %.2f)  ===/=\\=/=\\==="), val3, val))
 //					atDat(3, logd("mirror ===/=\\=/=\\=== \(val) -> \(val3)"))
-					pPort.take(value:val3)			 		///////	PUT to my OUTPUT
+					pPort.take(value:val3)			 	// /////	PUT to my OUTPUT
 				}
 			}
 		}

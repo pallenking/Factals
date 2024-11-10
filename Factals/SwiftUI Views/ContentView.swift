@@ -11,6 +11,21 @@ AppStorage -- A property wrapper type that reflects a value from UserDefaults an
 import SwiftUI
 import SceneKit
 
+struct InspectorsVew: View {
+	@ObservedObject var vewBase: VewBase
+	var body: some View {
+		let _ = Self._printChanges()
+		ForEach(vewBase.inspectorVews, id: \.self) { (inspectorVew: Vew) in
+			Group {
+				HStack(alignment: .top) {
+					Inspec(vew: inspectorVew)
+					Spacer() // Ensures the content stays left-aligned
+				}
+			}
+		}
+	}
+}
+
 struct ContentView: View {
 	@Binding var document : FactalsDocument
 	@State var prefFps = Float(0.5)
@@ -84,15 +99,10 @@ struct FactalsModelView: View {
 									}
 								}
 							}
-						//	let xxx = vewBase.wrappedValue.slot_
-							ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
-								Group {
-									HStack(alignment: .top) {
-										vewBase.inspectors.wrappedValue[index]
-										Spacer() // Ensures the content stays left-aligned
-									}
-								}
-							}
+//							let xxx = vewBase.wrappedValue.slot_
+//							let xxy = vewBase.inspectors
+//							InspectorsVew(vew: vewBase)
+							InspectorsVew(vewBase: vewBase.wrappedValue)
 						}
 						// Flock: want to access
 						.tabItem { Label("L:\(vewBase.wrappedValue.slot_)", systemImage: "") 			}
