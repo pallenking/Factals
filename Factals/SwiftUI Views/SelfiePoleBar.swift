@@ -6,14 +6,13 @@
 //
 
 import SwiftUI
-
 struct SelfiePoleBar: View   {													//xyzzy15.5
 	@Binding var selfiePole	: SelfiePole
 
 	var body: some View {
 		HStack {
 			VStack {
-				Text("  " + "SelfiePole").bold()	//.foregroundColor(.red)
+				Text("SelfiePole").bold()			//.foregroundColor(.red)
 				Text("id:\(selfiePole.pp(.nameTag))")
 			}
 			HStack {
@@ -22,13 +21,13 @@ struct SelfiePoleBar: View   {													//xyzzy15.5
 				LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 				LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
 				VStack {
-					Button(label:{	Text("Zo+")											})//.padding(.top, 300)
+					Button(label:{	Text("Zo+")									})//.padding(.top, 300)
 					{	var s			= selfiePole
 						s.zoom			*= 1.1
 						print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
 						selfiePole 		= s	// Put struct's val back
 					}
-					Button(label:{	Text("Zo-")											})//.padding(.top, 300)
+					Button(label:{	Text("Zo-")									})//.padding(.top, 300)
 					{	var s			= selfiePole
 						s.zoom			/= 1.1
 						print("======== \(s.pp(.tagClass)) z=\(s.pp(.line))")
@@ -36,7 +35,7 @@ struct SelfiePoleBar: View   {													//xyzzy15.5
 					}
 				}
 				LabeledCGFloat(label:"ortho",val:$selfiePole.ortho, oneLine:false)
-				Button(label:{	Text("**")											})//.padding(.top, 300)
+				Button(label:{	Text("**")										})//.padding(.top, 300)
 				{	var s			= selfiePole
 					let values		= [0.0, 0.1, 1.0, 10]
 					let i	 		= values.firstIndex(where: { $0 >= s.ortho } ) ?? values.count
@@ -45,8 +44,8 @@ struct SelfiePoleBar: View   {													//xyzzy15.5
 					selfiePole 		= s	// Put struct's val back
 				}
 			}
-				.onChange(of: selfiePole.zoom) { print($0, $1) }
-				.background(Color(red:1.0, green:0.9, blue:0.9))	// pink
+			.onChange(of: selfiePole.zoom) { print(".onChange(of:selfiePole.zoom:",$0, $1) }
+			.background(Color(red:1.0, green:0.9, blue:0.9))	// pink
 		}
 		// .padding(6)
 	}

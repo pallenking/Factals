@@ -12,23 +12,22 @@ extension Part {
 	}
 }
 /// Let scnScene's do play
-protocol SoundFoo  {
+protocol SoundPro  {
 	func play(sound:String)
 }
-//extension SoundFoo {
+//extension SoundPro {
 //	func play(sound:String) {
-//		APP.appSounds.play(sound:sound, onNode:self)
+//		FactalsApp.sounds.play(sound:sound, onNode:self)
 //	}
 //}
-extension SCNNode : SoundFoo {
+extension SCNNode : SoundPro {
 	func play(sound:String) {
-bug
-//		APP.appSounds.play(sound:sound, onNode:self)
+//		FactalsApp.sounds.play(sound:sound, onNode:self)
 	}
 //	func play(sound: String) {
 //		print("::::::::::::::::: PLAYING SOUND \(sound) :::::::::::")
-//bug;//	assert(APPDEL != nil, "play(sound:\(sound)), but APPDEL is nil")
-//	//	APPDEL!.appSounds.play(sound:sound, onNode:self)
+//		assert(APPDEL != nil, "play(sound:\(sound)), but APPDEL is nil")
+//		APPDEL!.appSounds.play(sound:sound, onNode:self)
 //	}
 }
 class Sounds : Logd {
@@ -41,11 +40,31 @@ class Sounds : Logd {
 		nop
 	}
 	func load(name:String, path:String) {
-		if let source:SCNAudioSource = SCNAudioSource(fileNamed: path) {
+
+	//	if let dataAsset 		= NSDataAsset(name:path),
+	//	    let source		 	= SCNAudioSource(data: dataAsset.data) {
+	//		SCNAudioSource(named: T##String)
+//		if let source:SCNAudioSource = SCNAudioSource(fileNamed: path) {
+//		let path2 = Bundle.main.path(forResource: "foo", ofType: nil)
+//Bundle.
+
+//		let audioDataAsset 		= NSDataAsset(name: "da-sound")
+//		let source2				= SCNAudioSource(data: audioDataAsset.data)
+			
+
+		if let source = SCNAudioSource(named: "da-sound") {
+			source.load()
+			nop
+		} else {
+			print("Failed to load audio source 'da-sound'")
+		}
+
+
+		if let source:SCNAudioSource = SCNAudioSource(named:path) {
 			assert(knownSources[name] == nil, "Redefinition of sounds not suported!")
 			knownSources[name] 	= source// register soundSource
 			source.isPositional = false
-bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
+			source.volume 		= 1//bug; APPDEL?.config4app.float("soundVolume") ?? 1
 		//	source.rate 		= 1
 			source.load()				// load audio data into soundSource
 			atApp(6, logd("SUCCEEDED loading name:\(name.field(-20)) path:\"\(path)\""))
@@ -56,8 +75,8 @@ bug//		source.volume 		= APPDEL?.config4app.float("soundVolume") ?? 1
 	}
 	func play(sound:String, onNode:SCNNode?=nil) {
 		//return
-		let node 				= onNode ??	{						// 1. SCNNode supplied else
-			for vew in FACTALSMODEL?.vewBases ?? [] {	// 2. Search through rootVews for SCNNode
+		let node 				= onNode ??	{			// 1. SCNNode supplied else
+			for vew in FACTALSMODEL?.vewBases ?? [] {	// 2. Search through vewBases for SCNNode
 				if let node 	= vew.scnSceneBase.tree?.rootNode {
 					return node
 				}

@@ -9,24 +9,63 @@
 import SceneKit
 import SwiftUI
 
-let d2formatter					= { () -> NumberFormatter in
-	let rv 						= NumberFormatter()
-	rv.minimumFractionDigits 	= 2
-	rv.maximumFractionDigits 	= 2
-	return rv
-} ()
+struct InspectorsVew: View {
+	@ObservedObject var vewBase:VewBase
+	var body: some View {
+		let _ 					= Self._printChanges()
+		
+		VStack {
+			ForEach(vewBase.inspectorVews, id: \.self) { (inspectorVew:Vew) in
+				Group {
+					HStack(alignment:.top) {
+						Inspec(vew: inspectorVew as! InspectorVew)
+					}
+				}
+			}
+		}
+	}
+}
 
  // MAIN ENTRY POINT:
 struct Inspec: View, Equatable, Uid {
+	@ObservedObject var vew:InspectorVew			// arg1: object to be inspected.
 	var nameTag					= getNametag()
-	
-	@ObservedObject var vew:Vew	// arg1: object to be inspected.
 
 	static func == (lhs: Inspec, rhs: Inspec) -> Bool {
 		lhs.nameTag == rhs.nameTag
 		&& lhs.vew === rhs.vew
 	}
 
+	var body: some View {
+		VStack(alignment:.leading)  {					// Add Class Inspectors
+			HStack {
+				Text("Location")
+				Text(vew.part.fullName)
+					.bold() //.font(.system(size:12) // .frame(maxWidth:.infinity)
+					.foregroundColor(.red)
+					.onChange(of: vew.part.fullName) { oldValue, newValue in
+						print("newValue: \(newValue)")
+					}
+				Spacer()
+				Button(label:{ Text("x") }) {
+					guard let x = vew.vewBase() else { print("couldn't find vewBase()"); return }
+					x.removeInspectorVew(vew)
+				}
+			}
+								
+		//	var first = true
+			let inheritedClasses:[String] = vew.part.inheritedClasses()	 //["Net"]//
+			ForEach (inheritedClasses, id:\.self) { subClass in
+				inspectionViewBuilder(subClass:subClass)
+		//		var first = false
+			}
+		//	ColorsPalette()
+		//	PickerStyles()
+		//	InspecTest(inspec:inspec)
+		}
+		.padding(10)
+		.border(Color.black, width:1)
+	}
 	@ViewBuilder
 	func inspectionViewBuilder(subClass:String) -> some View {
 				 // Dispatch via switch
@@ -38,7 +77,7 @@ struct Inspec: View, Equatable, Uid {
 			case "KNorm": 	  InspecKNorm(			kNorm:vew.part as! KNorm)
 			case "Multiply":  InspecMultiply(	 multiply:vew.part as! Multiply)
 			case "Hamming":   InspecHamming(	  hamming:vew.part as! Hamming)
-			case "Bayes":	  InspecNothing(className:subClass)
+			case "Bayes":	  InspecNothing(	className:subClass)
 			case "MinAnd": 	  InspecMinAnd(		   minAnd:vew.part as! MinAnd)
 			case "MaxOr": 	  InspecMaxOr( 			maxOr:vew.part as! MaxOr)
 			case "Broadcast": InspecBroadcast(	broadcast:vew.part as! Broadcast)
@@ -55,28 +94,6 @@ struct Inspec: View, Equatable, Uid {
 			case "Part":	  InspecPart(		     part:vew.part, vew:vew)
 			default:		  InspecUndefined(className:subClass)
 		}
-	}
-
-	var body: some View {
-		VStack(alignment:.leading)  {					// Add Class Inspectors
-			let inheritedClasses:[String] = vew.part.inheritedClasses()//["Net"]//
-			Text("\(vew.part.fullName)")
-				.frame(maxWidth:.infinity, alignment:.center)
-				.bold() //.font(.system(size:12)
-//				.background(Color.white)
-//			Divider()
-			ForEach (inheritedClasses, id:\.self) { subClass in
-				inspectionViewBuilder(subClass:subClass)
-			//	Divider().background(Color.gray)
-			}
-//				.background(Color.white)
-//				.border(Color.black, width:2)
-		//	ColorsPalette()
-		//	PickerStyles()
-		//	InspecTest(inspec:inspec)
-		}
-		.padding(10)
-		.border(Color.black, width:1)
 	}
 }
 
@@ -173,12 +190,14 @@ struct InspecNothing : View {
 
 
 struct ClassBox : View {
-	let labeled: String
+	let labeled: String						// arg1
+	var isFirst:Bool = false				// arg2
 	var body: some View {
+		let color:Color = isFirst ? .red : .black
 		Text(labeled)
-			.font(.custom("", size:12))
-			.foregroundColor(.primary)
-			.padding(5)
+			.foregroundColor(color)		//	.font(.custom("", size:12))
+			.bold()
+			.padding(3)
 			.background(
 				RoundedRectangle(cornerRadius: 5)
 				.stroke())//.fill(Color.pink))

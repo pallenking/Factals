@@ -36,7 +36,7 @@ struct InspecNet : View {
 					net.objectWillChange.send()
 					net.minSize = SCNVector3(30,30,30)//.zero
 				}) {
-				Text("")
+					Text("")
 					Text("minSize:nil")
 				}
 			}
@@ -125,17 +125,15 @@ struct InspecMinAnd : View {										   // MinAnd
 	}
 }
 struct InspecBroadcast : View {										// Broadcast
-	@ObservedObject var broadcast:Broadcast
+	@ObservedObject var broadcast:Broadcast			// arg1
 	var body: some View {
 		HStack {
 			ClassBox(labeled:"Broadcast")
 			Spacer()
-			//Text("InspecBroadcast").background(Color.yellow)
 		}//.padding(15).background(Color.yellow)	//blue
 	}
 }
-struct
-	   InspecSplitter : View {										 // Splitter
+struct InspecSplitter : View {										 // Splitter
 	@ObservedObject var splitter:Splitter
 	var body: some View {
 		HStack {
@@ -187,14 +185,14 @@ struct InspecAtom : View {												 // Atom
 			if atom.ports.count > 0 {
 				Text("Ports:")
 				Picker("", selection:Binding<String>(	get:{ "" }, set:{x in 		// Always out of range
-//					let factalsModel = self.partBase?.factalsModel
 					let port	= atom.ports[x]!
-//					for vewBase in factalsModel.vewBases {
-//						let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
-//						if var fwDocument = atom.partBase?.factalsModel.document {
-//							fwDocument.showInspecFor(vew:newVew, allowNew:false)
-//						}
-//					}
+					//	let factalsModel = self.partBase?.factalsModel
+					//	for vewBase in factalsModel.vewBases {
+					//		let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
+					//		if var fwDocument = atom.partBase?.factalsModel.document {
+					//			fwDocument.showInspecFor(vew:newVew, allowNew:false)
+					//		}
+					//	}
 				} )) {
 					ForEach(Array(atom.ports.keys.enumerated()), id:\.element) { _, key in
 						Text(key)
@@ -216,8 +214,7 @@ struct InspecAtom : View {												 // Atom
 */
 	}
 }
-struct
-	   InspecRootPartBase : View {									 // InspecRoot
+struct InspecRootPartBase : View {									 // InspecRoot
 	@ObservedObject var partBase:PartBase
 	@ObservedObject var vew:Vew				// For Inspec navigation
 
@@ -337,12 +334,14 @@ struct InspecPart : View {												 // Part
 						// --- Navigate:
 				let navList		= part.selfNParents.reversed() + part.children
 				let selfIndex	= part.selfNParents.count - 1
-				Text("Inspect:")
-				Picker("", selection:Binding<Int>( 	get:{ -1 }, set:{
+				Picker("Inspec:", selection:Binding<Int>(
+					get:{ -1 },
+					set:{
 						let nav	= navList[$0]					// Set notification
 						let newVew = rootVewL().find(part:nav, inMe2:true) ?? vew
+						let newVew2 = newVew as! InspectorVew
 	//					let newInspec = Inspec(vew:newVew)
-						vew.vewBase()?.addInspectorVew(newVew, allowNew: false)
+						vew.vewBase()?.addInspectorVew(newVew2, allowNew: false)
 					//	doc?.showInspecFor(vew:newVew, allowNew:false)
 					} ) )
 				{
@@ -351,7 +350,7 @@ struct InspecPart : View {												 // Part
 						let label = ind <  selfIndex ? "/ \(aPart.name)" :
 									ind == selfIndex ? "- \(aPart.name)" :
 													  "\\ \(aPart.name)"
-						Text(label).tag(ind)
+						Text("Inspec " + label).tag(ind)
 					}
 				}												.frame(width:30)
 			}

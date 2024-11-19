@@ -25,9 +25,11 @@ func ppFactalsStateHelper(_ fwClassName_	: String,
 	let log						= Log.app
 	var rv						= ppFwPrefix(nameTag:nameTag, fwClassName_) + myLine + "\n"
 			// Other Lines:
-	log.nIndent					+= 1
-	rv 							+= otherLines?(deapth) ?? ""
-	log.nIndent					-= 1
+	if deapth > 0 {
+		log.nIndent				+= 1
+		rv 						+= otherLines?(deapth) ?? ""
+		log.nIndent				-= 1
+	}
 	return rv
 }
  /// Prefix: "1e98 | | <fwClass>   0    . . . . . . . . "
@@ -106,7 +108,7 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 //			deapth:deapth)
 //	}
 //}
-//extension NSDocumentController : FactalsStatus {		 	 ///NSDocumentController
+//extension NSDocumentController : FactalsStatus {		  ///NSDocumentController
 //	func ppFactalsState(deapth:Int=999) -> String {
 //		let ct					= self.documents.count
 //		return ppFactalsStateHelper("DOCctlr      ", nameTag:self,
@@ -121,7 +123,7 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 //			deapth:deapth-1)
 //	}
 //}
-extension Library : FactalsStatus {							///Library
+extension Library : FactalsStatus {										///Library
 	func ppFactalsState(deapth:Int=999) -> String {
 		return ppFactalsStateHelper("\(self.fileName.field(-13))", nameTag:self,
 			myLine:"(\(Library.books.count.asString!.field(4)) Books)",
@@ -135,7 +137,7 @@ extension Library : FactalsStatus {							///Library
 			deapth:deapth-1)
 	}
 }
-extension Book : FactalsStatus {							///Book or ///Tests01, ...
+extension Book : FactalsStatus {								///Book or ///Tests01, ...
 	func ppFactalsState(deapth:Int=999) -> String {
 "oops"
 //		let myLine				= "(\(count.asString!.field(4)) tests)"
@@ -150,25 +152,12 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 			otherLines:{deapth in
 
 				 // Controller:
-				var rv			= self.partBase.ppFactalsState(deapth:deapth-1)
+				var rv			= self.partBase  .ppFactalsState(deapth:deapth-1)
 				rv				+= self.simulator.ppFactalsState(deapth:deapth-1)
-				for vews in self.vewBases {
-					rv			+= vews.ppFactalsState(deapth:deapth-1)
+				for vewBase in self.vewBases {
+					rv			+= vewBase       .ppFactalsState(deapth:deapth-1)
 				}
-//				rv				+= self.log.ppFactalsState(deapth:deapth-1)
-				rv				+= self.docSound.ppFactalsState(deapth:deapth-1)
-
-			//	 // Inspectors:
-			//	//rv			+= "---- inspecWindow4vew omitted -----"
-			//	if self.inspecWindow4vew.count > 0 {
-			//		rv			+= self.log.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
-			//		self.log.nIndent += 1
-			//		for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-			//			let win	= self.inspecWindow4vew[inspec]
-			//			rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
-			//		}
-			//		self.log.nIndent -= 1
-			//	}
+				rv				+= self.docSound .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
@@ -231,17 +220,29 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1)
 									?? "\t\t\t\t cameraScn is nil\n"
 				for inspectorVew in self.inspectorVews {
-					rv 			+= inspectorVew	    .ppFactalsState(deapth:deapth-1)
+					rv 			+= inspectorVew	    .ppFactalsState(deapth:0)
 				}
 				return rv
 			},
 			deapth:deapth-1)
 	}
 }
+			//	 // Inspectors:
+			//	//rv			+= "---- inspecWindow4vew omitted -----"
+			//	if self.inspecWindow4vew.count > 0 {
+			//		rv			+= self.log.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
+			//		self.log.nIndent += 1
+			//		for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
+			//			let win	= self.inspecWindow4vew[inspec]
+			//			rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
+			//		}
+			//		self.log.nIndent -= 1
+			//	}
+
 extension Vew : FactalsStatus	{										  ///Vew
 	func ppFactalsState(deapth:Int=999) -> String {
 		var rv					= ""
-		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self,			//"ScnBase      "
+		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self,
 			myLine:"'\(fullName)'",
 			otherLines: { deapth in
 				for child in self.children {

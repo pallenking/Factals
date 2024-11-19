@@ -14,6 +14,28 @@ protocol  FwAny  {		// : Codable : Equatable
 	var  fwClassName	: String 	{	get										}
 	func pp(_ mode:PpMode, _ aux:FwConfig) -> String
 }
+ /// Pretty Print Modes:
+enum PpMode : Int {
+	 // How to PrettyPrint Name and Class:
+	case fwClassName	//    (Really should be "class"?)		(e.g: "Port"
+	case nameTag		// 10 Uid								(e.g: "4C4")
+	case tagClass		//5,8 Uid:Class							(e.g: "4C4:Port")
+	case classTag		//  9 Class<nameTag>						(e.g: "Port<4C4>")
+//	case classUidFullName //? 									(e.g: "Port<4C4>'a/b.P'" OOPS -- fullName not in FwAny
+  
+	case name			//6,14name in parent, a single token 	(e.g: "P")
+	case nameTagClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")
+  
+	case fullName		// 13 path in composition 				(e.g: "/net/a.P")
+	case fullNameUidClass//11 Identifier: fullName/Uid:Class	(e.g: "ROOT/max.P/4C4:Port")
+  
+	 // How to PrettyPrint Contents:
+	case phrase			//  4 shortened form, sub short			(e.g: [z:1]
+	case short			//  3 shortest, canonic form			(e.g: [0.0, 0.0, 0.0]
+	case line			//  2 single line, often used in .tree	(e.g: 1 line)
+	case tree			//  1 tree of all elements				(e.g: multi-line)
+}//x 3->14
+
  /// This extension provides uniform default values.
 var ppStopGapLoop				= 0
 extension FwAny  {
@@ -61,28 +83,6 @@ extension FwAny  {
 		return String(describing:type(of:self))
 	}
 }
-
- /// Pretty Print Modes:
-enum PpMode : Int {
-	 // How to PrettyPrint Name and Class:
-	case fwClassName	//    (Really should be "class"?)		(e.g: "Port"
-	case nameTag		// 10 Uid								(e.g: "4C4")
-	case tagClass		//5,8 Uid:Class							(e.g: "4C4:Port")
-	case classTag		//  9 Class<nameTag>						(e.g: "Port<4C4>")
-//	case classUidFullName //? 									(e.g: "Port<4C4>'a/b.P'" OOPS -- fullName not in FwAny
-  
-	case name			//6,14name in parent, a single token 	(e.g: "P")
-	case nameTagClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")
-  
-	case fullName		// 13 path in composition 				(e.g: "/net/a.P")
-	case fullNameUidClass//11 Identifier: fullName/Uid:Class	(e.g: "ROOT/max.P/4C4:Port")
-  
-	 // How to PrettyPrint Contents:
-	case phrase			//  4 shortened form, sub short			(e.g: [z:1]
-	case short			//  3 shortest, canonic form			(e.g: [0.0, 0.0, 0.0]
-	case line			//  2 single line, often used in .tree	(e.g: 1 line)
-	case tree			//  1 tree of all elements				(e.g: multi-line)
-}//x 3->14
 
  // For building:
 typealias PartClosure 		= () -> Part?

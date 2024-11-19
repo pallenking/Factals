@@ -23,13 +23,13 @@ func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line ) -
 {					//	value: @autoclosure () -> Value ) 		  -> Value
 	let m						= message + Thread.callStackSymbols.prefix(50).joined(separator:"\n")
 
-#if DEBUG
+//#if DEBUG
 	fatalError(m)				// transfer control to debugger	// fatalError("###")
-#else
-	reportErrorToServer(m)
-					// return value()
-#endif
-
+//#else
+//	reportErrorToServer(m)
+//		// return value()
+// #endif
+ 
 	 // Should never get here, but historically helpful:
 	raise(SIGINT)		//	builtin_debugtrap() __builtin_trap()
 	raise(SIGTRAP)

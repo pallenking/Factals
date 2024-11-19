@@ -13,7 +13,7 @@ struct VewBaseBar: View {
 	@State   var isEditing = false
 
 	var body: some View {
-//		let _ = Self._printChanges()
+		let _ = Self._printChanges()
 		VStack {
 			HStack {
 				if let slot		= vewBase.slot, 	// Installed?
@@ -48,24 +48,25 @@ struct VewBaseBar: View {
 					}
 					Spacer()
 
-					LabeledCGFloat(label:"prefFpsC",val:$vewBase.prefFpsC)
+	//				LabeledCGFloat(label:"prefFpsC",val:$vewBase.prefFpsC)
 //					Text("prefFps=")
 //					TextField("prefFps", value:$vewBase.prefFps, formatter:d2formatter)
 //					 .frame(width:60 ).foregroundColor(Color(.red))
-					Slider(value:$vewBase.prefFpsC, in: 0.0...60.0) { e in isEditing = e	}
-					 .frame(width:100 )
+	//				Slider(value:$vewBase.prefFpsC, in: 0.0...60.0) { e in isEditing = e	}
+	//				 .frame(width:100 )
 				} else {
-					Text("VewBase not registered in FactalsModel!").foregroundColor(.red).bold()
+					Text("FactalsModel not registered in VewBase!").foregroundColor(.red).bold()
 				}
 			}
 			HStack {
 				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
+//					 .frame(width:100 )
 				Spacer()
 			}
 		}
 		 .padding(4)
-		 .background(Color(red:1.0, green:1.0, blue:0.9))
-		 .border(Color.black, width:0.5)
+//		 .background(Color(red:1.0, green:1.0, blue:0.9))
+		 .border(Color.black, width:1.0)
 //		 .padding(2)
 	}
 }

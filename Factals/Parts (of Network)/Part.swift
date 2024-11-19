@@ -1474,6 +1474,7 @@ func foo () {
 				let s			= ", vew.scn:\(pickedVew.scnRoot.pp(.classTag))"
 				print("NSEvent (clicks:\(nsEvent.clickCount)\(s)) "
 								+ "==> '\(pp(.fullName))' :\(pp(.classTag))")		//\n\(pp(.tree))
+
 				 // SINGLE/FIRST CLICK  -- INSPECT									// from SimNsWc:
 				if nsEvent.clickCount == 1 {
 							// // // 2. Debug switch to select Instantiation:
@@ -1481,12 +1482,13 @@ func foo () {
 
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
 					//let vewsInspec = Inspec(vew:pickedVew)
-					pickedVew.vewBase()?.addInspectorVew(pickedVew, allowNew:alt)
+					pickedVew.vewBase()?.addInspectorVew(pickedVew as! InspectorVew, allowNew:alt)
 
 			//		factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}
-							// Double Click: show/hide insides
+
+				 // Double Click: show/hide insides
 				if nsEvent.clickCount > 1 {
 					factalsModel.toggelOpen(vew:pickedVew)
 					rv			= true

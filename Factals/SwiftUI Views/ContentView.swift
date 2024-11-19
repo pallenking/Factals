@@ -8,23 +8,27 @@ NavigationSplitView -- A view that presents views in two or three columns, where
 UserDefaults == An interface to the user’s defaults database, where you store key-value pairs persistently across launches of your app.
 AppStorage -- A property wrapper type that reflects a value from UserDefaults and invalidates a view on a change in value in that user default
 */
+/*
+viewthatfits
+anylayout
+
+`fixedSize()` on text returns the ideal size and ignores the proposed size of the parent.
+(Adding a note for the week note :)
+ 
+Josh Homann to Everyone (Nov 16, 2024, 1:39 PM)
+https://sarunw.com/posts/swiftui-anylayout/
+ 
+John Brewer to Everyone (Nov 16, 2024, 1:43 PM)
+Added Josh’s version to GitHub:
+https://github.com/jeradesign/LongestPrefix/tree/josh
+ 
+Bob DeLaurentis to Everyone (Nov 16, 2024, 1:44 PM)
+For Allen: a ViewThatFits example
+https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-an-adaptive-layout-with-viewthatfits
+ */
+
 import SwiftUI
 import SceneKit
-
-struct InspectorsVew: View {
-	@ObservedObject var vewBase: VewBase
-	var body: some View {
-		let _ = Self._printChanges()
-		ForEach(vewBase.inspectorVews, id: \.self) { (inspectorVew: Vew) in
-			Group {
-				HStack(alignment: .top) {
-					Inspec(vew: inspectorVew)
-					Spacer() // Ensures the content stays left-aligned
-				}
-			}
-		}
-	}
-}
 
 struct ContentView: View {
 	@Binding var document : FactalsDocument
@@ -37,6 +41,7 @@ struct ContentView: View {
 	//	Text("ContentView")  										// Minimal View
 	}
 }
+
 struct SimpleSceneKitView : View {
 	let vewBase : VewBase?
 	@Binding var prefFpsC : CGFloat
@@ -63,7 +68,7 @@ struct FactalsModelView: View {
 	@State private var tabViewSelect : Int	= 0
 
 	var body: some View {
-		let _ = Self._printChanges()
+//		let _ = Self._printChanges()
 
 		VStack {
 			FactalsModelBar(factalsModel:factalsModel)
@@ -82,39 +87,43 @@ struct FactalsModelView: View {
 				TabView(selection:$tabViewSelect)  {
 					  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 					 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
+
+					 // tag slot_
 					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-						VStack {									//Binding<VewBase>
-							VewBaseBar(vewBase:vewBase)
-							let scnSceneBase = vewBase.scnSceneBase.wrappedValue
-							ZStack {
-								 // NSViewRepresentable of a SCNView : UIView
-								SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:vewBase.prefFpsC)
-									.frame(maxWidth: .infinity)
-									.border(.black, width:1)
-								EventReceiver { nsEvent in // Catch events (goes underneath)
-									//print("...\n...Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
-									if !scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-										guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-										print("Key '\(c)' not recognized")
+						HStack (alignment:.top) {
+							VStack {									//Binding<VewBase>
+								let scnSceneBase = vewBase.scnSceneBase.wrappedValue
+								ZStack {
+									 // NSViewRepresentable of a SCNView
+									SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:vewBase.prefFpsC)
+										.frame(maxWidth: .infinity)
+										.border(.black, width:1)
+									EventReceiver { nsEvent in // Catch events (goes underneath)
+										//print("...\n...Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+										if !scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+											print("Key '\(c)' not recognized")
+										}
 									}
 								}
-							}
-//							let xxx = vewBase.wrappedValue.slot_
-//							let xxy = vewBase.inspectors
-//							InspectorsVew(vew: vewBase)
-							InspectorsVew(vewBase: vewBase.wrappedValue)
+							}//.frame(width: 555)
+
+							VStack {
+								VewBaseBar(vewBase:vewBase)
+								InspectorsVew(vewBase: vewBase.wrappedValue)
+											//	.frame(width: 300)
+							}.frame(width:400)
 						}
-						// Flock: want to access
-						.tabItem { Label("L:\(vewBase.wrappedValue.slot_)", systemImage: "") 			}
-						.tag(vewBase.wrappedValue.slot_)
+						 .tabItem { Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 			}
+						 .tag(vewBase.wrappedValue.slot_)
 					}
 
-					 // A View selectable in TabView
+					 // -2: A View selectable in TabView
 					SimpleTestView(factalsModel:factalsModel)
-					 .tabItem { Label("SimpleTestView()", systemImage: "")		}
+					 .tabItem { Label("SimpleView()", systemImage: "")		}
 					 .tag(-2)
 
-					 // force redraw
+					 // -3: force redraw
 					Text("Clear")
 					 .tabItem { Label("Clear", systemImage: "")		}
 					 .tag(-3)
@@ -122,20 +131,6 @@ struct FactalsModelView: View {
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 					updateTitle()												}
 				.accentColor(.green) // Change the color of the selected tab
-
-				// UGLY first attempt at displaying inspectors in a third column
-//				VStack {
-//					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-//						ForEach(0..<vewBase.inspectors.count, id: \.self) { index in
-//							Group {
-//								HStack(alignment: .top) {
-//									vewBase.inspectors.wrappedValue[index]
-//									Spacer() // Ensures the content stays left-aligned
-//								}
-//							}
-//						}
-//					}
-//				}
 			}
 		}
 	}
@@ -150,12 +145,53 @@ struct FactalsModelView: View {
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
 	}
 }
+
+// ///////////////////////////// Trial Code: ///////////////////////////////////
+// ///////////////////////////// Trial Code: ///////////////////////////////////
+// ///////////////////////////// Trial Code: ///////////////////////////////////
+let layout = falseF ? AnyLayout(HStackLayout()) : AnyLayout(VStackLayout())
+
+struct ContentView2: View {
+	@Binding var document : FactalsDocument
+	@State var selfiePole = SelfiePole()
+	var body: some View {
+//		InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
+//			.frame(maxWidth: 100)
+		SelfiePoleBar(selfiePole: Binding(
+			get: { selfiePole },
+			set: { selfiePole = $0 }
+		))
+		.minimumScaleFactor(0.5)
+			.frame(width:700)				// 400+, 300?
+//			.frame(maxWidth:300)				// 400+, 300?
+			.font(.system(size:12))
+	}
+}
+struct SelfiePoleBar2: View   {													//xyzzy15.5
+	@Binding var selfiePole	: SelfiePole
+
+	var body: some View {
+		HStack {
+			VStack {
+				Text("  " + "SelfiePole").bold()	//.foregroundColor(.red)
+				Text("id:\(selfiePole.pp(.nameTag))")
+			}
+	//		HStack {
+				InspecSCNVector3(label:"position", vect3:$selfiePole.position, oneLine:false)
+				LabeledCGFloat(label:"spin", val:$selfiePole.spin, oneLine:false)
+				LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
+				LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
+	//		}
+	//		.onChange(of: selfiePole.zoom) { print(".onChange(of:selfiePole.zoom:",$0, $1) }
+	//		.background(Color(red:1.0, green:0.9, blue:0.9))	// pink
+		}
+		// .padding(6)
+	}
+}
+
 /*
 window group
  */
-
-
-
 /*
 struct SizeEnvironmentKey: EnvironmentKey {
 	static var defaultValue: CGSize = .zero

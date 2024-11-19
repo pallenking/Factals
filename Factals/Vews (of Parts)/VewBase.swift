@@ -14,25 +14,34 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	 var selfiePole 			= SelfiePole()
 	var prefFps	: Float			= 30.0
 	var prefFpsC: CGFloat		= 33.0
-	var sliderTestVal: Double = 0.5
+	var sliderTestVal: Double 	= 0.5
 	weak
 	 var factalsModel : FactalsModel!		// Owner
 
 	@Published
-	 var inspectorVews : [Vew]	= []
-	func addInspectorVew(_ newInspector:Vew, allowNew:Bool) {		//was AnyView
-		if allowNew {
-			inspectorVews.append(newInspector)			// Add to end
-		}
-		else if let i			= inspectorVews.firstIndex(where: { $0 == newInspector}) {		//inspectors.contains(newInspector),
+	 var inspectorVews : [InspectorVew]	= []
+	func addInspectorVew(_ newInspector:InspectorVew, allowNew:Bool) {		//was AnyView
+		 // use pre-existing
+		if let i				= inspectorVews.firstIndex(where:{$0==newInspector}) {		//inspectors.contains(newInspector),
 			inspectorVews[i]	= newInspector		// Replace existing
+			return
 		}
-		else {										// Ignore all previous
-			inspectorVews		= [newInspector]
+		if inspectorVews.count > 2 {
+			inspectorVews.removeFirst()
 		}
+		inspectorVews.append(newInspector)			// Add to end
 		print("Now \(title) has \(inspectorVews.count) inspectors")
 	//	objectWillChange.send()
 	}
+	func removeInspectorVew(_ inspectorVew:InspectorVew){
+		if !inspectorVews.contains(inspectorVew) {
+			print("\(inspectorVews.pp(.tagClass)) does not contain \\(inspectorVew.pp(.tagClass))")
+		}
+//		assert(inspectorVew.parent ==
+		inspectorVew.removeFromParent()
+		objectWillChange.send()
+	}
+
  	var cameraScn	: SCNNode?	{
  		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
 	}

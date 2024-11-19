@@ -4,6 +4,13 @@
 import SwiftUI
 import SceneKit
 
+let d2formatter					= { () -> NumberFormatter in
+	let rv 						= NumberFormatter()
+	rv.minimumFractionDigits 	= 2
+	rv.maximumFractionDigits 	= 2
+	return rv
+} ()
+
 struct InspecSCNVector3: View {
 			 var label		: String		// ARG 1: Title
 	@Binding var vect3:SCNVector3			// ARG 2: the vector
@@ -17,8 +24,9 @@ struct InspecSCNVector3: View {
 			LabeledCGFloat(label:"y", 		val:$vect3.y, formatter:formatter)
 			LabeledCGFloat(label:"z", 		val:$vect3.z, formatter:formatter)
 		} else {
-			VStack {
-				Text(label).padding(.vertical, -10)
+			VStack (spacing:0){
+				Text(label).fixedSize()		//.padding(.vertical, -10)
+//				Text(label).lineLimit(1)		//.padding(.vertical, -10)
 				HStack {
 					LabeledCGFloat(label:"x", val:$vect3.x, formatter:formatter)
 					LabeledCGFloat(label:"y", val:$vect3.y, formatter:formatter)

@@ -574,8 +574,9 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 		let possibleVewBases 	= vb != nil ? [vb!] : vewBase!.factalsModel.vewBases // check all
 		for vewBase in possibleVewBases {
 			if let picdVew		= findVew(nsEvent:nsEvent, inVewBase:vewBase) {
+
 				 // PART pic'ed, DISPATCH to it!
-				if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
+/**/			if picdVew.part.processEvent(nsEvent:nsEvent, inVew:picdVew) {
 					return picdVew		// Successfully Completed
 				}
 			}

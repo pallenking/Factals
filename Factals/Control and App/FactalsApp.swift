@@ -9,6 +9,7 @@
 import Cocoa
 import SwiftUI
 import SceneKit
+//import AVFoundation
 //import OSLog
 
 	 // MARK: - Version
@@ -160,7 +161,7 @@ struct FactalsApp: Uid, FwAny {
 
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("APP's Library")
-//	var appSounds				= Sounds()
+	var sounds					= Sounds(configure:[:])
 
 	 // MARK: - 3. Factory
 	init () {
@@ -169,7 +170,7 @@ struct FactalsApp: Uid, FwAny {
 	private init (foo:Bool) {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
-		let appConfig = params4partPp
+		let appConfig 			= params4partPp
 		atApp(3, log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), "))
 		atApp(3, log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])"))
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
@@ -179,6 +180,29 @@ struct FactalsApp: Uid, FwAny {
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
 		// printFwState()	causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 		//atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
+
+		
+	
+//		// Assuming you have an SCNScene and an SCNNode you want to play the sound from
+//	//	let scene = SCNScene(named: "yourScene.scn")
+//	//	let node = scene?.rootNode.childNode(withName: "yourNode", recursively:true)
+//
+//		// Set up the audio source
+//		let audioSource 		= SCNAudioSource(named: "da-sound")! // 'da-sound' should be in the project assets
+//		audioSource.loops 		= false  // Set to true if you want the sound to loop
+//		audioSource.isPositional = true  // Positional audio based on 3D location
+//		audioSource.shouldStream = false  // Load sound into memory for low-latency playback
+//		audioSource.volume 		= 1.0  // Adjust volume as needed
+//		audioSource.load()
+//
+//		// Create an audio player with the audio source
+//		let audioPlayer = SCNAudioPlayer(source: audioSource)
+//
+//		// Add the audio player to the node to play the sound
+//	//	node?.addAudioPlayer(audioPlayer)
+		
+		sounds.load(name:"da-sound", path:"da-sound")
+		sounds.play(sound:"da-sound", onNode:SCNNode())	//GameStarting
 	}
 
 
@@ -258,7 +282,7 @@ bug		//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
 //		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
 //		atApp(7, printFwState())
 ////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
-//		appSounds.play(sound:"GameStarting")
+//		sounds.play(sound:"GameStarting")
 	}
 
 	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
