@@ -362,7 +362,8 @@ bug
 	   ///  - vew: vew to inspec
 	  ///   - allowNew: window, else use existing
 	 func showInspecFor(vew:Vew, allowNew:Bool) {
-		 let vewsInspec			= Inspec(vew:vew as! InspectorVew)
+		 let vewsInspec			= Inspec(vew:vew)
+//		 let vewsInspec			= Inspec(vew:vew as! InspectorVew)
 		var window : NSWindow?	= nil
 
 		if let iw				= lastInspecWindow {		// New, less functional manner

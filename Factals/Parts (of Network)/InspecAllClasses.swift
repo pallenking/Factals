@@ -339,9 +339,9 @@ struct InspecPart : View {												 // Part
 					set:{
 						let nav	= navList[$0]					// Set notification
 						let newVew = rootVewL().find(part:nav, inMe2:true) ?? vew
-						let newVew2 = newVew as! InspectorVew
+		//				let newVew2 = newVew as! InspectorVew
 	//					let newInspec = Inspec(vew:newVew)
-						vew.vewBase()?.addInspectorVew(newVew2, allowNew: false)
+						vew.vewBase()?.addVew(newVew, allowNew: false)
 					//	doc?.showInspecFor(vew:newVew, allowNew:false)
 					} ) )
 				{

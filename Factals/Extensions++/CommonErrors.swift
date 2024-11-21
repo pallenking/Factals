@@ -29,7 +29,7 @@ func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line ) -
 //	reportErrorToServer(m)
 //		// return value()
 // #endif
- 
+// ->  0x183bcb9bc <+168>: brk    #0x1
 	 // Should never get here, but historically helpful:
 	raise(SIGINT)		//	builtin_debugtrap() __builtin_trap()
 	raise(SIGTRAP)

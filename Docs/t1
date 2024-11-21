@@ -37,3 +37,28 @@
 2.032 A<?>?          /_prt1: <<===== found position in parent [ 0.000  7.901  0.000] by Links (weightSum=1.0)
 2.033 A<?>?          /_prt3: <<===== reSizePost, found pCon2SIp=[ 1.901], s=[ 6.901]
 2.034 A<?>?          /_prt4: <<===== reSizePost, found pCon2SIp=[ 1.901], s=[ 5.135]
+
+
+
+
+
+	  ClassBox(labeled:"Broadcast", isFirst:true)
+
+struct ClassBox : View {
+	let labeled: String						// arg1
+	let isFirst:Bool = false				// arg2
+	var body: some View {
+		let color:Color = isFirst ? .red : .black
+		Text(labeled)
+			.foregroundColor(color)		//	.font(.custom("", size:12))
+	}		
+}
+
+
+
+
+
+
+
+
+

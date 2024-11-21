@@ -15,10 +15,11 @@ struct InspectorsVew: View {
 		let _ 					= Self._printChanges()
 		
 		VStack {
-			ForEach(vewBase.inspectorVews, id: \.self) { (inspectorVew:Vew) in
+			ForEach(vewBase.vews, id: \.self) { vew in
 				Group {
 					HStack(alignment:.top) {
-						Inspec(vew: inspectorVew as! InspectorVew)
+						Inspec(vew:vew)
+//						Inspec(vew: inspectorVew as! InspectorVew)
 					}
 				}
 			}
@@ -28,7 +29,7 @@ struct InspectorsVew: View {
 
  // MAIN ENTRY POINT:
 struct Inspec: View, Equatable, Uid {
-	@ObservedObject var vew:InspectorVew			// arg1: object to be inspected.
+	@ObservedObject var vew:Vew			// arg1: object to be inspected.
 	var nameTag					= getNametag()
 
 	static func == (lhs: Inspec, rhs: Inspec) -> Bool {
@@ -49,7 +50,7 @@ struct Inspec: View, Equatable, Uid {
 				Spacer()
 				Button(label:{ Text("x") }) {
 					guard let x = vew.vewBase() else { print("couldn't find vewBase()"); return }
-					x.removeInspectorVew(vew)
+					x.removeVew(vew)
 				}
 			}
 								
