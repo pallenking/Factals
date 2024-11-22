@@ -731,60 +731,8 @@ extension SCNView {		//
 		get { return	(delegate as! ScnSceneBase).eventHandler}
 		set(val) { }
 	}
-/*
-	override var linkSkinType		: LinkSkinType	{	
-		get {			return .ray 	}
-		set(v) {		panic("MultiLink linkSkinType HELP!!")}
-	}
-
-
-		get {			return .ray 	}
-		set(v) {		panic("MultiLink linkSkinType HELP!!")}
-
-
-	{
-		get {
-			return viewAsAtom_
-		}
-		set(val) {
-			viewAsAtom_		= val
-			markTree(dirty:.vew)
-		}
-	}(	get:{ "" }, set:{x in 		// Always out of range
-//					let factalsModel = self.partBase?.factalsModel
-					let port	= atom.ports[x]!
-//					for vewBase in factalsModel.vewBases {
-//						let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
-//						if var fwDocument = atom.partBase?.factalsModel.document {
-//							fwDocument.showInspecFor(vew:newVew, allowNew:false)
-//						}
-//					}
-				} )
- */
 
 	 // MARK: - 13.1 Keys
 	open override func keyDown(with 	event:NSEvent) 		{	handler(event)	}
 	open override func keyUp(with 		event:NSEvent) 		{	handler(event)	}
-//	 // MARK: - 13.2 Mouse
-//	 //  ====== LEFT MOUSE ======
-//	override func mouseDown(with 		event:NSEvent)		{	handler(event)	}
-//	override func mouseDragged(with 	event:NSEvent)		{	handler(event)	}
-//	override func mouseUp(with 			event:NSEvent)		{	handler(event)	}
-//	override func mouseDown(with event: NSEvent) {
-//		print("SCNView.mouseDown")
-//	}
-//	 //  ====== CENTER MOUSE ======
-//	override func otherMouseDown(with 	event:NSEvent)		{	handler(event)	}
-//	override func otherMouseDragged(with event:NSEvent)		{	handler(event)	}
-//	override func otherMouseUp(with 	event:NSEvent)		{	handler(event)	}
-//	 //  ====== CENTER SCROLL WHEEL ======
-//	override func scrollWheel(with 		event:NSEvent) 		{	handler(event)	}
-//	 //  ====== RIGHT MOUSE ======			Right Mouse not used
-//	override func rightMouseDown(with 	event:NSEvent) 		{	handler(event)	}
-//	override func rightMouseDragged(with event:NSEvent) 	{	handler(event)	}
-//	override func rightMouseUp(with 	event:NSEvent) 		{	handler(event)	}
-//	 // MARK: - 13.3 TOUCHPAD Enters
-//	override func touchesBegan(with 	event:NSEvent)		{	handler(event)	}
-//	override func touchesMoved(with 	event:NSEvent)		{	handler(event)	}
-//	override func touchesEnded(with 	event:NSEvent)		{	handler(event)	}
 }

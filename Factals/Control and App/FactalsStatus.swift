@@ -227,17 +227,6 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 			deapth:deapth-1)
 	}
 }
-			//	 // Inspectors:
-			//	//rv			+= "---- inspecWindow4vew omitted -----"
-			//	if self.inspecWindow4vew.count > 0 {
-			//		rv			+= self.log.pidNindent(for:self) + "Inspectors:\n"	// deapth:\(deapth)
-			//		self.log.nIndent += 1
-			//		for inspec in self.inspecWindow4vew.keys {					//self.inspecWindow4vew.forEach((key:Vew, win:NSWindow) -> Void) {
-			//			let win	= self.inspecWindow4vew[inspec]
-			//			rv		+= win?.ppFactalsState(deapth:0/*, config:config*/) ?? "----"
-			//		}
-			//		self.log.nIndent -= 1
-			//	}
 
 extension Vew : FactalsStatus	{										  ///Vew
 	func ppFactalsState(deapth:Int=999) -> String {

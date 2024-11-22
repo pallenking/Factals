@@ -160,10 +160,10 @@ extension FactalsModel  : Logd {}
 		guard let partBase : PartBase = vew?.part.partBase else { return false }	// vew.partBase.part
 		var found				= true
 
-		 // Check Simulator:
-/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
-			return true 					// handled by simulator
-		}
+//		 // Check Simulator:
+///**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
+//			return true 					// handled by simulator
+//		}
 
 		 // Check Controller:
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
@@ -275,20 +275,17 @@ extension FactalsModel  : Logd {}
 			updateVews()
 		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
-		case "x":
-			print("\n******************** 'x':   === FactalsModel: --> parts")
-bug
-//			if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
-//				print("ERROR: factalsModel.Process('x') failed")
-//			}
-			return true								// recognize both
-//		case "f": 					// // f // //
-//			var msg					= ""
-//			for vews in rootVews {
-//				msg 				+= vews.rootScn.animatePhysics ? "Run   " : "Freeze"
-//			}
-//			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
-//			return true								// recognize both
+		case "x": bug
+		//	print("\n******************** 'x':   === FactalsModel: --> parts")
+		//	if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
+		//	return true								// recognize both
+	//	case "f": 					// // f // //
+	//		var msg					= ""
+	//		for vews in rootVews {
+	//			msg 				+= vews.rootScn.animatePhysics ? "Run   " : "Freeze"
+	//		}
+	//		print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
+	//		return true								// recognize both
 		case "?":
 			printDebuggerHints()
 			print ("\n=== FactalsModel   commands:",
@@ -309,105 +306,11 @@ bug
 		default:					// // NOT RECOGNIZED // //
 			found			= false
 		}
-		 // already found or sim processes
+
 		return found || simulator.processEvent(nsEvent:nsEvent, inVew:vew!)
 	}
-//		if found == false {
-//			 // Check Simulator:
-//	/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew)  {
-//				return true 		// handled by simulator
-//			}
-//			return false
-//		}
-//		return true					// comes here if recognized
 	 // MARK: - 5.1 Make Associated Inspectors:
-	  /// Manage Inspec's:
-	var lastInspecVew:Vew?		= nil		// Last Vew may be needed again
-	var lastInspecWindow :NSWindow? = nil		//
-	var inspecWindow4vew:[Vew:NSWindow] = [:]									//[Vew : [weak NSWindow]]
 
-//	func makeInspectors() {
-//		atIns(7, print("code makeInspectors"))
-//			// TODO: should move ansConfig stuff into wireAndGroom
-//bug
-//		if let vew2inspec		= fmConfig["inspec"] {
-//			if let name			= vew2inspec as? String {	// Single String
-//				showInspec(for:name)
-//			}
-//			else if let names 	= vew2inspec as? [String] {	// Array of Strings
-//				for name in names {								// make one for each
-//					showInspec(for:name)
-//				}
-//			} else {
-//				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
-//		}
-//	}
-//	func showInspec(for name:String) {
-//		bug
-//		if let part	= partBase.tree.find(name:name) {
-//	
-//			 // Open inspectors for all RootVews:
-//			for vewBase in vewBases {
-//		 		if let vew = vewBase.tree.find(part:part) {
-//					showInspecFor(vew:vew, allowNew:true)
-//				}
-//			}
-//		}
-//		else {
-//			atIns(4, warning("Inspector for '\(name)' could not be opened"))
-//		}
-//	}
-		 /// Show an Inspec for a vew.
-		/// - Parameters:
-	   ///  - vew: vew to inspec
-	  ///   - allowNew: window, else use existing
-	 func showInspecFor(vew:Vew, allowNew:Bool) {
-		 let vewsInspec			= Inspec(vew:vew)
-		var window : NSWindow?	= nil
-
-		if let iw				= lastInspecWindow {		// New, less functional manner
-			iw.close()
-			self.lastInspecWindow	= nil
-		} else {										// Old broken way
-			 // Find an existing NSWindow for the inspec
-			window 				= inspecWindow4vew[vew]	// Does one Exist?
-			if window == nil,								// no,
-			  !allowNew,									// Shouldn't create
-			  let lv			= lastInspecVew {
-				window			= inspecWindow4vew[lv]				// try LAST
-			}
-		}
-
-		// PW+4: How do I access MainMenu from inside SwiftUI
-		// PW3: What is the right way to display vewsInspec? as popup?, window?, WindowGroup?...
-		if window == nil {								// must make NEW
-			let hostCtlr		= NSHostingController(rootView:vewsInspec)		// hostCtlr.view.frame = NSRect()
-			 // Create Inspector Window (Note: NOT SwiftUI !!)
-			window				= NSWindow(contentViewController:hostCtlr)	// create window
-			// Picker: the selection "-1" is invalid and does not have an associated tag, this will give undefined results.
-			window!.contentViewController = hostCtlr		// if successful
-		}
-		guard let window 		else { fatalError("Unable to fine NSWindow")	}
-
-				// Title window
-		window.title			= vew.part.fullName
-		window.subtitle			= "Slot\(vew.vewBase()?.slot_)"
-
-				// Position on screen: Quite AD HOC!!
-		window.orderFront(self)				// Doesn't work -- not front when done!
-		window.makeKeyAndOrderFront(self)
-		window.setFrameTopLeftPoint(CGPoint(x:300, y:1000))	// AD-HOC solution -- needs improvement
-
-			// Remember window for next creation
-		lastInspecVew			= vew			// activate Old way
-		lastInspecWindow		= window		// activate New way
-		inspecWindow4vew[vew]	= window		// activate Old way
-	}
-
-	func modelDispatch(with event:NSEvent, to pickedVew:Vew) {
-		print("modelDispatch(fwEvent: to:")
-	}
-								
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
 		let key 				= 0			// only element 0 for now

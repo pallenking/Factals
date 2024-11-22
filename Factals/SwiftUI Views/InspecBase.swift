@@ -29,6 +29,7 @@ struct InspectorsVew: View {
  // MAIN ENTRY POINT:
 struct Inspec: View, Equatable, Uid {
 	@ObservedObject var vew:Vew			// arg1: object to be inspected.
+	var index:Int				= 0		// arg2:
 	var nameTag					= getNametag()
 
 	static func == (lhs: Inspec, rhs: Inspec) -> Bool {

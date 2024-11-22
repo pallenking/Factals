@@ -94,12 +94,10 @@ struct FactalsModelView: View {
 							VStack {									//Binding<VewBase>
 								let scnSceneBase = vewBase.scnSceneBase.wrappedValue
 								ZStack {
-									 // NSViewRepresentable of a SCNView
 									SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:vewBase.prefFpsC)
 										.frame(maxWidth: .infinity)
 										.border(.black, width:1)
 									EventReceiver { nsEvent in // Catch events (goes underneath)
-										//print("...\n...Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
 										if !scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 											print("Key '\(c)' not recognized")
