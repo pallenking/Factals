@@ -19,29 +19,28 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	 var factalsModel : FactalsModel!		// Owner
 
 	@Published
-	 var vews : [Vew]	= []
-	func addVew(_ newVew:Vew, allowNew:Bool) {		//was AnyView
-//	 var inspectorVews : [InspectorVew]	= []
-//	func addInspectorVew(_ newInspector:InspectorVew, allowNew:Bool) {		//was AnyView
+	 var inspectorVews : [Vew]	= []
+	func addInspectorVew(_ newInspectorVew:Vew, allowNew:Bool) {		//was AnyView
 		 // use pre-existing
-		if let i				= vews.firstIndex(where:{$0==newVew}) {		//inspectors.contains(newInspector),
-			vews[i]	= newVew		// Replace existing
+		if let i				= inspectorVews.firstIndex(where:{$0==newInspectorVew}) {		//inspectors.contains(newInspector),
+			inspectorVews[i]	= newInspectorVew		// Replace existing
 			return
 		}
-		if vews.count > 2 {
-			vews.removeFirst()
+		if inspectorVews.count > 2 {
+			inspectorVews.removeFirst()
 		}
-		vews.append(newVew)			// Add to end
-		print("Now \(title) has \(vews.count) inspectors")
+		inspectorVews.append(newInspectorVew)			// Add to end
+		print("Now \(title) has \(inspectorVews.count) inspectors")
 	//	objectWillChange.send()
 	}
-	func removeVew(_ vew:Vew){
-		if vews.contains(vew) == false {
-			print("\(vews.pp(.tagClass)) does not contain \\(inspectorVew.pp(.tagClass))")
+	func removeInspectorVew(_ inspectorVew:Vew){
+		if inspectorVews.contains(inspectorVew) == false {
+			print("\(inspectorVews.pp(.tagClass)) does not contain \\(inspectorVew.pp(.tagClass))")
 		}
-//		assert(vew.parent ==
-		vew.removeFromParent()
-		objectWillChange.send()
+	//	inspectorVews.remove(inspectorVew)
+//		assert(inspectorVew.parent == inspectorVews, "")
+//		inspectorVew.removeFromParent()
+//		objectWillChange.send()
 	}
 
  	var cameraScn	: SCNNode?	{

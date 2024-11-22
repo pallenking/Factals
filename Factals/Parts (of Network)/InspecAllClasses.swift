@@ -186,13 +186,13 @@ struct InspecAtom : View {												 // Atom
 				Text("Ports:")
 				Picker("", selection:Binding<String>(	get:{ "" }, set:{x in 		// Always out of range
 					let port	= atom.ports[x]!
-					//	let factalsModel = self.partBase?.factalsModel
-					//	for vewBase in factalsModel.vewBases {
-					//		let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
-					//		if var fwDocument = atom.partBase?.factalsModel.document {
-					//			fwDocument.showInspecFor(vew:newVew, allowNew:false)
-					//		}
-					//	}
+						let factalsModel = FACTALSMODEL!//self.partBase?.factalsModel
+						for vewBase in factalsModel.vewBases {
+							let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
+bug						//	if var fwDocument = atom.partBase?.factalsModel.document {
+						//		fwDocument.showInspecFor(vew:newVew, allowNew:false)
+						//	}
+						}
 				} )) {
 					ForEach(Array(atom.ports.keys.enumerated()), id:\.element) { _, key in
 						Text(key)
@@ -339,10 +339,7 @@ struct InspecPart : View {												 // Part
 					set:{
 						let nav	= navList[$0]					// Set notification
 						let newVew = rootVewL().find(part:nav, inMe2:true) ?? vew
-		//				let newVew2 = newVew as! InspectorVew
-	//					let newInspec = Inspec(vew:newVew)
-						vew.vewBase()?.addVew(newVew, allowNew: false)
-					//	doc?.showInspecFor(vew:newVew, allowNew:false)
+						vew.vewBase()?.addInspectorVew(newVew, allowNew: false)
 					} ) )
 				{
  					ForEach(navList, id:\.self) { aPart in					

@@ -742,7 +742,7 @@ extension SCNView {		//
 		set(v) {		panic("MultiLink linkSkinType HELP!!")}
 
 
-{
+	{
 		get {
 			return viewAsAtom_
 		}

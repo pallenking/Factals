@@ -15,11 +15,10 @@ struct InspectorsVew: View {
 		let _ 					= Self._printChanges()
 		
 		VStack {
-			ForEach(vewBase.vews, id: \.self) { vew in
+			ForEach(vewBase.inspectorVews, id: \.self) { vew in
 				Group {
 					HStack(alignment:.top) {
 						Inspec(vew:vew)
-//						Inspec(vew: inspectorVew as! InspectorVew)
 					}
 				}
 			}
@@ -38,11 +37,11 @@ struct Inspec: View, Equatable, Uid {
 	}
 
 	var body: some View {
-		VStack(alignment:.leading)  {					// Add Class Inspectors
+		VStack(alignment:.leading)  {	// Add Class Inspectors
 			HStack {
-				Text("Location")
+				Text("\(1): Location")
 				Text(vew.part.fullName)
-					.bold() //.font(.system(size:12) // .frame(maxWidth:.infinity)
+					.bold() //.font(.system(size:12) //.frame(maxWidth:.infinity)
 					.foregroundColor(.red)
 					.onChange(of: vew.part.fullName) { oldValue, newValue in
 						print("newValue: \(newValue)")
@@ -50,7 +49,7 @@ struct Inspec: View, Equatable, Uid {
 				Spacer()
 				Button(label:{ Text("x") }) {
 					guard let vewBase = vew.vewBase() else { print("couldn't find vewBase()"); return }
-					vewBase.removeVew(vew)
+					vewBase.removeInspectorVew(vew)
 				}
 			}
 								

@@ -212,14 +212,14 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classTag) ?? "nil") "
-		myLine					+= "\(vews.count) inspectorVews"
+		myLine					+= "\(inspectorVews.count) inspectorVews"
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: { deapth in
 				var rv			=  self.scnSceneBase.ppFactalsState(deapth:deapth-1)
 				rv				+= self.selfiePole  .ppFactalsState(deapth:deapth-1)
 				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1)
 									?? "\t\t\t\t cameraScn is nil\n"
-				for vew in self.vews {
+				for vew in self.inspectorVews {
 					rv 			+= vew	   			.ppFactalsState(deapth:0)
 				}
 				return rv

@@ -3,13 +3,6 @@
 // :H: bbox=BBox, fw=FactalWorkbench
 
 import SceneKit
-//class InspectorVew : Vew {											///InspetorVew
-//	func ppFactalsState(deapth:Int=999) -> String {
-//		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self,
-//			myLine:"'\(fullName)'",
-//			deapth:deapth-1)
-//	}
-//}
 		// can't remove NSObject?
 class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
 

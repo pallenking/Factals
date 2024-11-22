@@ -1482,10 +1482,8 @@ func foo () {
 
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
 					//let vewsInspec = Inspec(vew:pickedVew)
-					pickedVew.vewBase()?.addVew(pickedVew, allowNew:alt)
-//					pickedVew.vewBase()?.addInspectorVew(pickedVew as! InspectorVew, allowNew:alt)
+					pickedVew.vewBase()?.addInspectorVew(pickedVew, allowNew:alt)
 
-			//		factalsModel.showInspecFor(vew:pickedVew, allowNew:alt)
 					rv			= true		//trueF//
 				}
 

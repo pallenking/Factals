@@ -326,44 +326,43 @@ bug
 	var lastInspecWindow :NSWindow? = nil		//
 	var inspecWindow4vew:[Vew:NSWindow] = [:]									//[Vew : [weak NSWindow]]
 
-	func makeInspectors() {
-		atIns(7, print("code makeInspectors"))
-			// TODO: should move ansConfig stuff into wireAndGroom
-bug
-		if let vew2inspec		= fmConfig["inspec"] {
-			if let name			= vew2inspec as? String {	// Single String
-				showInspec(for:name)
-			}
-			else if let names 	= vew2inspec as? [String] {	// Array of Strings
-				for name in names {								// make one for each
-					showInspec(for:name)
-				}
-			} else {
-				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
-		}
-	}
-	func showInspec(for name:String) {
-		bug
-		if let part	= partBase.tree.find(name:name) {
-	
-			 // Open inspectors for all RootVews:
-			for vewBase in vewBases {
-		 		if let vew = vewBase.tree.find(part:part) {
-					showInspecFor(vew:vew, allowNew:true)
-				}
-			}
-		}
-		else {
-			atIns(4, warning("Inspector for '\(name)' could not be opened"))
-		}
-	}
+//	func makeInspectors() {
+//		atIns(7, print("code makeInspectors"))
+//			// TODO: should move ansConfig stuff into wireAndGroom
+//bug
+//		if let vew2inspec		= fmConfig["inspec"] {
+//			if let name			= vew2inspec as? String {	// Single String
+//				showInspec(for:name)
+//			}
+//			else if let names 	= vew2inspec as? [String] {	// Array of Strings
+//				for name in names {								// make one for each
+//					showInspec(for:name)
+//				}
+//			} else {
+//				panic("Illegal type for inspector:\(vew2inspec.pp(.line))")	}
+//		}
+//	}
+//	func showInspec(for name:String) {
+//		bug
+//		if let part	= partBase.tree.find(name:name) {
+//	
+//			 // Open inspectors for all RootVews:
+//			for vewBase in vewBases {
+//		 		if let vew = vewBase.tree.find(part:part) {
+//					showInspecFor(vew:vew, allowNew:true)
+//				}
+//			}
+//		}
+//		else {
+//			atIns(4, warning("Inspector for '\(name)' could not be opened"))
+//		}
+//	}
 		 /// Show an Inspec for a vew.
 		/// - Parameters:
 	   ///  - vew: vew to inspec
 	  ///   - allowNew: window, else use existing
 	 func showInspecFor(vew:Vew, allowNew:Bool) {
 		 let vewsInspec			= Inspec(vew:vew)
-//		 let vewsInspec			= Inspec(vew:vew as! InspectorVew)
 		var window : NSWindow?	= nil
 
 		if let iw				= lastInspecWindow {		// New, less functional manner
