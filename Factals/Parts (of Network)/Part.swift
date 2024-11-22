@@ -1446,7 +1446,7 @@ func foo () {
 
 					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
 					//let vewsInspec = Inspec(vew:pickedVew)
-					pickedVew.vewBase()?.addInspectorVew(pickedVew, allowNew:alt)
+					pickedVew.vewBase()?.addInspector(forVew:pickedVew, allowNew:alt)
 
 					rv			= true		//trueF//
 				}
