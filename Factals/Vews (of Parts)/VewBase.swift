@@ -36,7 +36,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	//	objectWillChange.send()
 	}
 	func removeVew(_ vew:Vew){
-		if !vews.contains(vew) {
+		if vews.contains(vew) == false {
 			print("\(vews.pp(.tagClass)) does not contain \\(inspectorVew.pp(.tagClass))")
 		}
 //		assert(vew.parent ==

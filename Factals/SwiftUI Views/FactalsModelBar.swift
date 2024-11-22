@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct f: View {
+struct FactalsModelBar: View {
 	@Bindable var factalsModel : FactalsModel
 	
 	var body: some View {

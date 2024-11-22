@@ -49,8 +49,8 @@ struct Inspec: View, Equatable, Uid {
 					}
 				Spacer()
 				Button(label:{ Text("x") }) {
-					guard let x = vew.vewBase() else { print("couldn't find vewBase()"); return }
-					x.removeVew(vew)
+					guard let vewBase = vew.vewBase() else { print("couldn't find vewBase()"); return }
+					vewBase.removeVew(vew)
 				}
 			}
 								
