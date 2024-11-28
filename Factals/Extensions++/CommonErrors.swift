@@ -21,7 +21,7 @@ import Foundation
  //			See INSTALL.md and TO_DO.md for bug
 func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line ) -> Never
 {					//	value: @autoclosure () -> Value ) 		  -> Value
-	let m						= message + Thread.callStackSymbols.prefix(50).joined(separator:"\n")
+	let m						= message //+ Thread.callStackSymbols.prefix(50).joined(separator:"\n")
 
 //#if DEBUG
 	fatalError(m)				// transfer control to debugger	// fatalError("###")

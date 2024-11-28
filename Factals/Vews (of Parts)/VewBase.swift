@@ -16,7 +16,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	var prefFpsC: CGFloat		= 33.0
 	var sliderTestVal: Double 	= 0.5
 	weak
-	 var factalsModel : FactalsModel!		// Owner
+	 var factalsModel : FactalsModel!		// Our Owner
 
 	@Published
 	 var inspectedVews : [Vew]	= []		// ... to be Inspected
@@ -35,17 +35,12 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	}
 	func removeInspector(forVew:Vew){
 		guard let i				= inspectedVews.firstIndex(of:forVew) else {
-			print("\(inspectedVews.pp(.tagClass)) does not contain \\(inspectorVew.pp(.tagClass))")
+			print("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
 			return
 		}
 		inspectedVews.remove(at:i)
-
-	//	if inspectedVews.contains(forVew) == false {
-	//		print("\(inspectedVews.pp(.tagClass)) does not contain \\(inspectorVew.pp(.tagClass))")
-	//	}
-//		assert(inspectorVew.parent == inspectedVews, "")
 //		inspectorVew.removeFromParent()
-//		objectWillChange.send()
+	//	objectWillChange.send()
 	}
 
  	var cameraScn	: SCNNode?	{
@@ -62,7 +57,7 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
 	 var slot_ 		: Int 		{	slot ?? -1 									}
 
-	init(for pb:PartBase) {	 			/// VewBase(for:)
+	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:)
 		partBase				= pb
 		scnSceneBase			= ScnSceneBase()
 		tree					= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
@@ -79,6 +74,19 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 			self?.scnSceneBase.selfiePole2camera()
 		})
 	}
+//	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
+//		atBld(5, logd("### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):"))
+//		let vewBase				= VewBase(for:partBase)		// Create
+//		vewBase.factalsModel	= self						// Backpointer
+//		vewBases.append(vewBase)							// Install vewBase
+//															// Install in scnSceneBase
+//		vewBase.scnSceneBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
+//		vewBase.setupSceneVisuals()							// Lights and Camera
+//		vewBase.updateVSP(initial:vewConfig)
+//
+//		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
+//		printFwState()
+//	}
 
 	func configure(from:FwConfig) {
 		self.tree.configureVew(from:from)							// vewConfig = c

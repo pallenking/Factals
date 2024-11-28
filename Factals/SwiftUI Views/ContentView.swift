@@ -69,21 +69,22 @@ struct FactalsModelView: View {
 
 	var body: some View {
 //		let _ = Self._printChanges()
-
 		VStack {
+
 			FactalsModelBar(factalsModel:factalsModel)
-			HStack {
+
+			HStack {			// Body Header 0 Buttons
 				Text("")
 				Spacer()
-//				Button("<+>") {}
-//					.tabItem { Label("+", systemImage: "")						}
-// //				.onAppear {			print("dubiousValue")					}
-//					.onTapGesture {		addNewTab()								}
-				Text("<++>")
+				Text("--")
+					.tabItem { Label("--", systemImage: "")						}
+					.onTapGesture {		deleteCurrentTab()						}
+				Text("++")
 					.tabItem { Label("++", systemImage:"") 						}
 					.onTapGesture {		addNewTab()								}
 			}
-			HStack {
+			HStack {			// Body Elements
+
 				TabView(selection:$tabViewSelect)  {
 					  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
 					 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
@@ -108,7 +109,7 @@ struct FactalsModelView: View {
 
 							VStack {
 								VewBaseBar(vewBase:vewBase)
-								InspectorsVew(vewBase: vewBase.wrappedValue)
+								InspectorsVew(vewBase:vewBase.wrappedValue)
 											//	.frame(width: 300)
 							}.frame(width:400)
 						}
@@ -141,6 +142,9 @@ struct FactalsModelView: View {
 	private func addNewTab() {
 		factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
+	}
+	private func deleteCurrentTab() {
+		factalsModel.vewBases.removeFirst(tabViewSelect)
 	}
 }
 

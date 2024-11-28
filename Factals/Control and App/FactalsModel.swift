@@ -72,7 +72,7 @@ extension FactalsModel  : Logd {}
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
 
-		 // Apply config to all Views
+		 // Configure all Views
 		for vewBase in vewBases {
 			vewBase.configure(from:config)
 		}
@@ -82,7 +82,7 @@ extension FactalsModel  : Logd {}
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
 		atBld(5, logd("### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):"))
-		let vewBase				= VewBase(for:partBase)
+		let vewBase				= VewBase(for:partBase, vewConfig:vewConfig)		// Create
 		vewBase.factalsModel	= self						// Backpointer
 		vewBases.append(vewBase)							// Install vewBase
 															// Install in scnSceneBase

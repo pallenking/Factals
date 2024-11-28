@@ -11,24 +11,24 @@ struct FactalsModelBar: View {
 	@Bindable var factalsModel : FactalsModel
 	
 	var body: some View {
-		HStack {
-			Text("FactalsModel:").foregroundColor(.red).bold().presentationBackground(Color(.white))
-			Button(label:{	Text( "state")										})
-			{	printFwState()													}
-			Button(label:{	Text( "config")										})
-			{	printFwConfig()													}
-			Button(label: {	Text("++epoch\(factalsModel.epoch)")				})
-			{	factalsModel.epoch		+= 1									}
-			Button(label: {	Text("LLDB") 										})
-			{	breakToDebugger()												}
-			Spacer()
-		}
 		VStack {
+			HStack {
+				Text("FactalsModel:").foregroundColor(.red).bold().presentationBackground(Color(.white))
+				Button(label:{	Text( "state")										})
+				{	printFwState()													}
+				Button(label:{	Text( "config")										})
+				{	printFwConfig()													}
+				Button(label: {	Text("++epoch\(factalsModel.epoch)")				})
+				{	factalsModel.epoch		+= 1									}
+				Button(label: {	Text("LLDB") 										})
+				{	breakToDebugger()												}
+				Spacer()
+			}
 			PartBaseBar (partBase: $factalsModel.partBase)
 			SimulatorBar(simulator:$factalsModel.simulator)
 		}
 		.padding(4)
-		.background(Color(red:1.0, green:1.0, blue:0.9))
+		.background(Color(red:1.0, green:1.0, blue:0.9))	// faint yellow
 		.border(Color.black, width:2)
 	}
 }

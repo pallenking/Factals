@@ -55,11 +55,9 @@ struct Inspec: View, Equatable, Uid {
 				}
 			}
 								
-		//	var first = true
 			let inheritedClasses:[String] = vew.part.inheritedClasses()	 //["Net"]//
 			ForEach (inheritedClasses, id:\.self) { subClass in
 				inspectionViewBuilder(subClass:subClass)
-		//		var first = false
 			}
 		//	ColorsPalette()
 		//	PickerStyles()
