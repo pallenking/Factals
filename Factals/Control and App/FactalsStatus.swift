@@ -205,11 +205,11 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		assert(factalsModel.vewBases[slot] === self, "vewBases.'\(String(describing: factalsModel))'")
 		let myName				= "VewBase[\(slot)]:  "
 
-		let vewTreeScn				= self.tree.scn
+		let vewTreeScnParent	= self.tree.scn.parent!
 		let scnTreeRoot			= self.scnSceneBase.tree?.rootNode
-		var myLine				= vewTreeScn===scnTreeRoot ? "" :
-									("vewTreeScn(\(vewTreeScn.pp(.nameTag)))  " +
-									"!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
+		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
+								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
+								+	"!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
 		myLine					+= "vewBase.tree:\(tree.pp(.tagClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'

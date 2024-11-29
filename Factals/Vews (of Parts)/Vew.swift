@@ -3,8 +3,41 @@
 // :H: bbox=BBox, fw=FactalWorkbench
 
 import SceneKit
+
+extension Vew : Uid {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		Log.app.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+	}
+}
+extension Vew : Equatable {
+	static func == (lhs: Vew, rhs: Vew) -> Bool {
+		if lhs.part	!= rhs.part 	{ 							return false 	}
+	//	if lhs.vewConfig != rhs.vewConfig 	{ 					return false 	}
+		for (lhsChild, rhsChild) in zip(lhs.children, rhs.children) {
+			if lhsChild != rhsChild {							return false	}
+		}
+		return true
+	}
+}
+extension Vew: Hashable {
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(part)
+		for child in children {
+			hasher.combine(child)
+		}
+	}
+}
 		// can't remove NSObject?
-class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
+class Vew : /*NSObject, */ ObservableObject, Codable {
+	 // Uid:
+	let nameTag : UInt16 				= getNametag()
+//	func pp(_:UInt16) -> String
+
+	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+//bug		//Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+//	}
+
 
 	// MARK: - 2. Object Variables:
 
@@ -20,8 +53,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
-//	var vewConfig   : FwConfig	= [:]			// rename config?
-	var vewConfig   : VewConfig	= .null	
+	var vewConfig   : VewConfig	= .null
     
 	var name 		: String					// Cannot be String! because of FwAny
 	var color000	: NSColor? = nil
@@ -64,7 +96,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 //		scnScene				= SCNScene()	// makes rootNode:SCNNode too
 //		scnScene.rootNode.name	= "rootNode1"
 
-		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		//super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		scn.name				= "*-" + part.name								// scnRoot.name = self.scnRoot.name ?? ("*-" + part.name)
 //		scnRoot.name			= "*-" + part.name								// scnRoot.name = self.scnRoot.name ?? ("*-" + part.name)
@@ -90,7 +122,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 		scn						= SCNNode()		// makes rootNode:SCNNode too
 		var scnRoot : SCNNode	{	scn											}
 
-		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		//super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		scnRoot.name			= "*-" + port.name
 
@@ -136,7 +168,7 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 //		scnScene				= SCNScene();bug
 //		scnScene.rootNode.name	= "rootNode3"
 
-		super.init()
+		//super.init()
  		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
 	}
 	 // MARK: - 4.2 Manage Tree
@@ -590,7 +622,7 @@ bug
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nl, fmt)			= format.stripLeadingNewLines()
-		var myLog				= part.partBase!.factalsModel!.factalsDocument.log
+		let myLog				= part.partBase!.factalsModel!.factalsDocument.log
 		myLog.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
@@ -722,8 +754,8 @@ bug
 		//machineTrap()				// transfer control to debugger
 	}
 	 // MARK: - 17. Debugging Aids
-	override var description	  : String {	return  "d'\(pp(.short))'"		}
-	override var debugDescription : String {	return "dd'\(pp(.short))'" 		}
+	/*override*/ var description	  : String {	return  "d'\(pp(.short))'"	}
+	/*override*/ var debugDescription : String {	return "dd'\(pp(.short))'" 	}
 	var summary					  : String {	return  "s'\(pp(.short))'" 		}
 	 // MARK: - 20. Extension variables
 	var adornTargetVew 			  : Vew?	= nil

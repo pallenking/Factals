@@ -1253,7 +1253,7 @@ extension Logd {
 }
 
 extension NSObject : Uid {
-	var nameTag:UInt16 				{ 	return uid4Ns(nsOb:self)					}
+	var nameTag:UInt16 			{ 	return uid4Ns(nsOb:self)					}
 }
 
 extension NSObject : Logd {

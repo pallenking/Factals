@@ -3,8 +3,22 @@
 
 import SceneKit
 //import SwiftUI
+extension VewBase : Uid {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		Log.app.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+	}
+}
+extension VewBase : Equatable {
+	static func == (lhs:VewBase, rhs:VewBase) -> Bool {	// protocol Equatable
+		if lhs.partBase != rhs.partBase 	{ 					return false 	}
+		if lhs.tree != rhs.tree 	{ 							return false 	}
+		return true
+	}
+}
 
-class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny, //,
+class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
+	var nameTag: UInt16			= getNametag()				// protocol Uid
+
 	static var nVewBase 		= 0
 	var title					= "VewBase\(nVewBase)"
 	var partBase	: PartBase
@@ -70,12 +84,12 @@ class VewBase : NSObject, Identifiable, ObservableObject, Codable {				 //FwAny,
 
 		VewBase.nVewBase 		+= 1
 
-		super.init()			// NSObject  //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+//		super.init()			// NSObject  //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
+		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
 		scnSceneBase.monitor(onChangeOf:$selfiePole)
 		{ [weak self] in					// scnSceneBase.subscribe()
 			if self?.cameraScn == nil {		return 								}
@@ -154,7 +168,7 @@ bug//	self.tree.configureVew(from:from)							// vewConfig = c
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
 
-		super.init() // NSObject
+		//super.init() // NSObject
 		atSer(3, logd("Decoded  as? Vew \(ppUid(self))"))
 	}
 
@@ -263,7 +277,8 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		partsTree.reVew(vew:tree, parentVew:nil)
 
-			// should have created all Vews and one *-<name> in ptn tree
+			  // LinkVew's [sp]Con2Vew endpoints and constraints:
+			 // should have created all Vews and one *-<name> in ptn tree
 			partsTree.reVewPost(vew:tree)
 		}
 		 // ---- 2.  Adjust   S I Z E s   ----- //
@@ -296,9 +311,10 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 		guard let slot 							  else{return "slot IS NIL"		}
 		guard slot < factalsModel.vewBases.count  else{return "slot TOO BIG"	}
 		guard factalsModel.vewBases[slot] == self else{return "slot inclorectly in rootVews"}
-		
-		return super.pp(mode, aux)			// superclass does all the work.
+
+		return "VewBase.pp() needs work"
+		//return super.pp(mode, aux)		// superclass does all the work.
 	}
 //	  // MARK: - 16. Global Constants
-//	static let null : VewBase = VewBase(for:.null)
+//	static let nullnull : VewBase = VewBase(for:.null)
 }

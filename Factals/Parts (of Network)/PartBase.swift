@@ -19,7 +19,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		lhs.factalsModel===rhs.factalsModel
 	}
 	
-	var nameTag			 		= getNametag()
+	let nameTag			 		= getNametag()
 	var tree : Part
 
 	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)

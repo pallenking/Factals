@@ -63,9 +63,6 @@ struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
 }
 
 extension Book : Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//		Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
-//	}
 }
 
 class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
