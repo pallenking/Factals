@@ -83,7 +83,7 @@ bug;	let n1 = Vew(forPart:m1)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
 		let o0 = PartBase(tree:Part())
-		let o1 = VewBase(for:o0)
+		let o1 = VewBase(for:o0, vewConfig: .openAllChildren(toDeapth:5) )
 		let o2 = o1.pp(.tagClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 

@@ -91,6 +91,7 @@ struct FactalsDocument : FileDocument {
 								+ partBase.ansConfig		// from library
 						//		+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
+
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
 	}
 								/*		How to configure?

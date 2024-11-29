@@ -20,7 +20,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
-	var vewConfig   : FwConfig	= [:]			// rename config?
+//	var vewConfig   : FwConfig	= [:]			// rename config?
+	var vewConfig   : VewConfig	= .null	
     
 	var name 		: String					// Cannot be String! because of FwAny
 	var color000	: NSColor? = nil
@@ -76,7 +77,8 @@ class Vew : NSObject, ObservableObject, Codable {	// NEVER NSCopying, Equatable,
 			jog 				= jogVect
 		}
 	}
-	func configureVew(from config:FwConfig) {
+	func configureVew(config:VewConfig) {
+//	func configureVew(from config:FwConfig) {
 		vewConfig				= config
 	}
 	init(forPort port:Port) {			/// Vew(forPort
@@ -230,10 +232,11 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 		}
 		 // Look in vewBase's configuration...
 		guard let vewBase		= factalsModel.vewBase(ofScnNode:scn) else { return nil }
+bug
 //		guard let vewBase		= factalsModel.vewBase(ofScnScene:scnScene) else { return nil }
-		if let rv				= vewBase.tree.vewConfig[name] {
-			return rv
-		}
+//		if let rv				= vewBase.tree.vewConfig[name] {
+//			return rv
+//		}
 		return nil
 	}
 

@@ -72,10 +72,10 @@ extension FactalsModel  : Logd {}
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
 
-		 // Configure all Views
-		for vewBase in vewBases {
-			vewBase.configure(from:config)
-		}
+//		 // Configure all Views
+//		for vewBase in vewBases {
+//			vewBase.configure(from:config)
+//		}
 
 		docSound.play(sound:"GameStarting")
 		atBld(2, logd("------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
@@ -88,7 +88,8 @@ extension FactalsModel  : Logd {}
 															// Install in scnSceneBase
 		vewBase.scnSceneBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals()							// Lights and Camera
-		vewBase.updateVSP(initial:vewConfig)
+		vewBase.tree.openChildren(using:vewConfig)
+		vewBase.updateVSP()
 
 		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
 		printFwState()

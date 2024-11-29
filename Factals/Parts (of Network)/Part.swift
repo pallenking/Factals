@@ -934,7 +934,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			vew				= nil							// don't use it
 		}
 
-		switch vew?.expose ?? initialExpose{// (if no vew, use default in part)
+		switch vew?.expose ?? initialExpose { // (if no vew, use default in part)
 
 		case .open:					// //// Show insides of Part ////////////
 			vew					= vew ??

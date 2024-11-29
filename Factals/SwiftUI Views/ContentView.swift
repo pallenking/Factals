@@ -140,7 +140,7 @@ struct FactalsModelView: View {
 		//}
 	}
 	private func addNewTab() {
-		factalsModel.anotherVewBase(vewConfig:.atom, fwConfig:[:])
+		factalsModel.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
 	}
 	private func deleteCurrentTab() {

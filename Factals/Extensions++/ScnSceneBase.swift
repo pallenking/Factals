@@ -11,7 +11,8 @@ typealias EventHandler			= (NSEvent) -> Void
 
 class ScnSceneBase : NSObject {
 
-	var tree	 : SCNScene?					//	{ didSet { setRootNodeChild1(from:tree) }}
+	var tree	 : SCNScene?
+	 // { didSet { setRootNodeChild1(from:tree) }}
 	var scnView	 : SCNView?						// SCNView  of this ScnSceneBase
 	weak
 	 var vewBase : VewBase?						// Delegate (of these ScnSceneBase)
