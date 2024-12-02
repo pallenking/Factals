@@ -76,12 +76,19 @@ struct FactalsModelView: View {
 			HStack {			// Body Header 0 Buttons
 				Text("")
 				Spacer()
+
 				Text("--")
 					.tabItem { Label("--", systemImage: "")						}
 					.onTapGesture {		deleteCurrentTab()						}
-				Text("++")
-					.tabItem { Label("++", systemImage:"") 						}
-					.onTapGesture {		addNewTab()								}
+//				Text("++")
+//					.tabItem { Label("++", systemImage:"") 						}
+//					.onTapGesture {		addNewTab()								}
+				Button(label:{ Text("--") }) {
+					deleteCurrentTab()											}
+					.onTapGesture {
+						deleteCurrentTab()						}
+				Button(label:{ Text("++") }) {
+					addNewTab()													}
 			}
 			HStack {			// Body Elements
 
@@ -113,18 +120,19 @@ struct FactalsModelView: View {
 											//	.frame(width: 300)
 							}.frame(width:400)
 						}
-						 .tabItem { Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 			}
+						 .tabItem {
+						 	 Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") }
 						 .tag(vewBase.wrappedValue.slot_)
 					}
 
 					 // -2: A View selectable in TabView
 					SimpleTestView(factalsModel:factalsModel)
-					 .tabItem { Label("SimpleView()", systemImage: "")		}
+					 .tabItem { Label("SimpleView()", systemImage: "")			}
 					 .tag(-2)
 
 					 // -3: force redraw
 					Text("Clear")
-					 .tabItem { Label("Clear", systemImage: "")		}
+					 .tabItem { Label("Clear", systemImage: "")					}
 					 .tag(-3)
 				}
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in

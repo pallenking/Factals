@@ -18,7 +18,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		Tests01(	"Tests01"	),				// Standard Regression Tests
 	]
 	 // MARK: - 2. Register all Libraries HERE!
-	var nameTag					= getNametag()
+	let nameTag					= getNametag()
 	var fileName : String
 
 	 // MARK: - 3. Factory

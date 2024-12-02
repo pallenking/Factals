@@ -8,7 +8,7 @@ extension FactalsModel  : Logd {}
 @Observable
  class FactalsModel : Uid {
 	var epoch: UInt16			= 1				// to mark dirty
-	var nameTag					= getNametag()
+	let nameTag					= getNametag()
 
 	  // MARK: - 2. Object Variables:
 	var fmConfig  : FwConfig	= [:]
@@ -88,8 +88,8 @@ extension FactalsModel  : Logd {}
 															// Install in scnSceneBase
 		vewBase.scnSceneBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals()							// Lights and Camera
-		vewBase.tree.openChildren(using:vewConfig)
-		vewBase.updateVSP()
+		vewBase.tree.openChildren(using:vewConfig)			// Vew configuration
+		vewBase.updateVSP()		// DELETE?
 
 		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
 		printFwState()

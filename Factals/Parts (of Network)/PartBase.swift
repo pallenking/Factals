@@ -14,9 +14,9 @@ import SceneKit
 
 class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	static func == (lhs: PartBase, rhs: PartBase) -> Bool {
-		lhs.nameTag==rhs.nameTag &&
-		lhs.tree==rhs.tree &&
-		lhs.factalsModel===rhs.factalsModel
+		lhs.nameTag				== rhs.nameTag &&
+		lhs.tree				== rhs.tree &&
+		lhs.factalsModel		=== rhs.factalsModel
 	}
 	
 	let nameTag			 		= getNametag()

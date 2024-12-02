@@ -4,11 +4,11 @@
 import SceneKit
 
 protocol Uid {
-	var nameTag 		: UInt16 		{ 	get 									}
+	var nameTag 		: UInt16 		{ 	get 								}
 	func pp(_:UInt16) -> String
 }
 extension Uid {
-	func pp(_:UInt16) -> String		{ String(nameTag, radix:16)						}
+	func pp(_:UInt16) -> String			{	String(nameTag, radix:16)			}
 }
   ///  Support for Uid:
  ///  Conformers to Uid can use this:

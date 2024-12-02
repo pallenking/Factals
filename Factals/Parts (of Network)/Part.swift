@@ -32,7 +32,7 @@ extension Part : Hashable {
  /// Base class for Factal Workbench Models
 // Used to be based on NSObject, not now.  What about NSCopying, NSResponder,
 class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
-	var nameTag					= getNametag()
+	let nameTag					= getNametag()
 	 // MARK: - 2. Object Variables:
 	@objc dynamic var name		= "<unnamed>"
 	var children	: [Part]	= []

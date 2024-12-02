@@ -200,12 +200,13 @@ extension Simulator : FactalsStatus	{								///Simulator
 extension VewBase : FactalsStatus	{								  ///VewBase
 	func ppFactalsState(deapth:Int=999) -> String {
 		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }
-		guard let slot			= slot,
-		  slot >= 0 && slot < factalsModel.vewBases.count else { fatalError("Bad slot")}
-		assert(factalsModel.vewBases[slot] === self, "vewBases.'\(String(describing: factalsModel))'")
+		guard let slot			= slot, slot >= 0,
+		   slot < factalsModel.vewBases.count
+								else { 	return("Slot \(slot ?? -1)")			}
+		guard factalsModel.vewBases[slot] === self else { return "vewBases[] mismatch" }
 		let myName				= "VewBase[\(slot)]:  "
 
-		let vewTreeScnParent	= self.tree.scn.parent!
+		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
 		let scnTreeRoot			= self.scnSceneBase.tree?.rootNode
 		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "

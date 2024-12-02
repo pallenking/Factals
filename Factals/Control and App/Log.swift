@@ -43,7 +43,7 @@ extension Log : Logd { }
 class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
-	var nameTag					= getNametag()
+	let nameTag					= getNametag()
 	var name 					= "untitled"
 	var logNo		   			= -1		// Index number of this log
 

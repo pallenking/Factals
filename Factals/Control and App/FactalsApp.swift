@@ -140,7 +140,7 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 }
  // MARK: - FactalsApp base
 struct FactalsApp: Uid, FwAny {
-	var nameTag					= getNametag()
+	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
 
 	 // Source of Truth:

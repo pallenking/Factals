@@ -56,7 +56,9 @@ class ScnSceneBase : NSObject {
 		self.tree				= scnScene		// get scene
 		self.tree!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
- 		super.init()
+
+ 		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
 //		setRootNodeChild1 (from:tree)
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}

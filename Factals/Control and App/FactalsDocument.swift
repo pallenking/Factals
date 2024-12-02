@@ -50,7 +50,7 @@ struct FactalsDocument : FileDocument {
 
 		// create Log and Sound here
 		self.init(fromLibrary:"xr()")
-		log      .configure(from:[:])//cfgArg)
+		log.configure(from:[:])//cfgArg)
 	}
 //	enum LibrarySelector {				// NEW
 //		case empty						//		nil->			Blank scene		 |	nil		  -1

@@ -61,4 +61,54 @@ struct ClassBox : View {
 
 
 
+"++" .onTapGesture:
+addNewTab()
+		|
+anotherVewBase(vewConfig:	vewConfig
+
+
+
+
+
+
+configureVews(from config:FwConfig)
+		|
+ON (Vew:, (Vews:, ensure 1 Vew \\
+anotherVewBase(vewConfig:	vewConfig
+				if None:	.opeanAllChildren(toDeapth:5. fwConfig
+ALL Views \\
+vewBase.configure(from:config)
+	self.tree.configureVew(from:from)
+	selfiePole.configure(from:from)
+
+
+
+
+
+
+
+
+
+
+class Vew : /*NSObject, */ ObservableObject, Codable {
+	var nameTag : UInt16 				= getNametag()
+	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
+bug		//Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

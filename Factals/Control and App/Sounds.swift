@@ -31,7 +31,7 @@ extension SCNNode : SoundPro {
 //	}
 }
 class Sounds : Logd {
-	var nameTag					= getNametag()
+	let nameTag					= getNametag()
 	// NEVER NSCopying, Equatable
 	 // MARK: - 5.4 Sound
 	var knownSources : [String:SCNAudioSource] = [:]
