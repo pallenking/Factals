@@ -64,7 +64,7 @@ class BundleTap : Atom {
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		assert(config["events"] == nil, "BundleTap does not support events any more")
-		assert(config["asyncData"]==nil, "BundleTap does not support setting syncData")
+		assert(config["asyncData"]==nil, "BundleTap does not support setting syncronousData")
 	}
 
 	// MARK: - 7. Simulation Actions

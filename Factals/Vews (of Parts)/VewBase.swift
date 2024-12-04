@@ -21,23 +21,28 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 
 	static var nVewBase 		= 0
 	var title					= "VewBase\(nVewBase)"
-	var partBase	: PartBase
-	var tree		: Vew
-	var scnSceneBase: ScnSceneBase			// reference top Master 3D Tree
-	@Published								// subscribe to selfiePole.synk for changes	//xyzzy14
+	var partBase	  : PartBase
+	var tree		  : Vew
+	var scnBase: ScnBase				// reference top Master 3D Tree
+
+	 // Instance method 'monitor(onChangeOf:performs:)' requires that
+	//   'SelfiePole' conform to 'Publisher'
+	@Published							// subscribe to selfiePole.sink for changes
 	 var selfiePole 			= SelfiePole()
-	var prefFps	: Float			= 30.0
-	var prefFpsC: CGFloat		= 33.0
-	var sliderTestVal: Double 	= 0.5
+	var config		 : FwConfig = [:]
 	weak
-	 var factalsModel : FactalsModel!		// Our Owner
+	 var factalsModel : FactalsModel!	// Our Owner
+
+	var prefFps		  : Float	= 30.0
+	var prefFpsC	  : CGFloat	= 33.0
+	var sliderTestVal : Double 	= 0.5
 
 	@Published
-	 var inspectedVews : [Vew]	= []		// ... to be Inspected
+	 var inspectedVews : [Vew]	= []	// ... to be Inspected
 	func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
 		 // use pre-existing
 		if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
-			inspectedVews[i]	= forVew		// Replace existing
+			inspectedVews[i]	= forVew	// Replace existing
 			return
 		}
 		if inspectedVews.count > 2 {		// Limit growth
@@ -58,7 +63,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	}
 
  	var cameraScn	: SCNNode?	{
- 		scnSceneBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
+ 		scnBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
 	}
 	var lookAtVew	: Vew!			// Vew we are looking at
 
@@ -69,49 +74,47 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	var verbose 				= false		// (unused)
 	 // Sugar
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
-	 var slot_ 		: Int 		{	slot ?? -1 									}
+	 var slot_ 		: Int 		{
+	 	let s					= slot ?? -1
+		print("slot_ = \(s)")
+		return s
+	}
 
-//	//	let vewBase				= VewBase(for:partBase)		// Create
-//		vewBase.factalsModel	= self						// Backpointer
-//		vewBases.append(vewBase)							// Install vewBase,scnSceneBase
-//		vewBase.scnSceneBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
-//		vewBase.setupSceneVisuals()							// Lights and Camera
-//		vewBase.updateVSP(initial:vewConfig)
 	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
 		partBase				= pb
-		scnSceneBase			= ScnSceneBase()
+		scnBase					= ScnBase()
 		tree					= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
-
 		VewBase.nVewBase 		+= 1
 
-//		super.init()			// NSObject  //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		//super.init()			// NSObject  //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-		scnSceneBase.vewBase	= self			// weak backpointer to owner (vewBase)
-		scnSceneBase.monitor(onChangeOf:$selfiePole)
-		{ [weak self] in					// scnSceneBase.subscribe()
+		scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
+		scnBase.monitor(onChangeOf:selfiePole)
+		{ [weak self] in						// scnBase.subscribe()
 			if self?.cameraScn == nil {		return 								}
-			self!.scnSceneBase.selfiePole2camera()
+			self!.scnBase.selfiePole2camera()
 		}
 	}
 
 
 	func configure(from:FwConfig) {
-bug//	self.tree.configureVew(from:from)							// vewConfig = c
+		self.config 			= from			// VewBase.self
+	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		selfiePole.configure(from:from)
 		if let lrl				= from.bool("logRenderLocks") {
-			scnSceneBase.logRenderLocks = lrl		// unset (not reset) if not present
+			scnBase.logRenderLocks = lrl		// unset (not reset) if not present
 		}
 	}
 	// MARK: -
-	func setupSceneVisuals() {
+	func setupSceneVisuals(fwConfig:FwConfig) {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		scnSceneBase.checkLights()
-		scnSceneBase.checkCamera()			// (had factalsModel.document.config)
-		let _ /*axesScn*/		= scnSceneBase.touchAxesScn()
+		scnBase.checkLights()
+		scnBase.checkCamera()			// (had factalsModel.document.config)
+		let _ /*axesScn*/		= scnBase.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
@@ -137,7 +140,7 @@ bug//	self.tree.configureVew(from:from)							// vewConfig = c
 		case title
 		case partBase
 		case tree
-		case scnSceneBase
+		case scnBase
 		case selfiePole
 		case prefFps
 //		case sliderTestVal
@@ -151,7 +154,7 @@ bug//	self.tree.configureVew(from:from)							// vewConfig = c
 		try container.encode(title,				forKey:.title					)
 		try container.encode(partBase,			forKey:.partBase				)
 		try container.encode(tree,				forKey:.tree					)
-	//	try container.encode(scnSceneBase,		forKey:.scnSceneBase			)
+	//	try container.encode(scnBase,		forKey:.scnBase			)
 //		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
 		try container.encode(prefFps,			forKey:.prefFps					)
 		atSer(3, logd("Encoded"))
@@ -163,8 +166,8 @@ bug//	self.tree.configureVew(from:from)							// vewConfig = c
 		title					= try container.decode(   String.self, forKey:.title		)
 		partBase				= try container.decode( PartBase.self, forKey:.partBase		)
 		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
-//		scnSceneBase			= try container.decode(ScnSceneBase.self, forKey:.scnSceneBase	)
-		scnSceneBase			= ScnSceneBase()
+//		scnBase			= try container.decode(ScnBase.self, forKey:.scnBase	)
+		scnBase			= ScnBase()
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
 
@@ -253,7 +256,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	   ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
 	  /// - Parameter initial:	-- VewConfig for first appearance
 	 ///  - Parameter log: 		-- controlls logging
-	func updateVSP(/*initial:VewConfig?=nil,*/ logIf log:Bool=true) { // VIEWS
+	func updateVSP(logIf log:Bool=true) { // VIEWS
 		SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(0.6)	//0.15//0.3//0.6//
 
@@ -315,6 +318,4 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 		return "VewBase.pp() needs work"
 		//return super.pp(mode, aux)		// superclass does all the work.
 	}
-//	  // MARK: - 16. Global Constants
-//	static let nullnull : VewBase = VewBase(for:.null)
 }

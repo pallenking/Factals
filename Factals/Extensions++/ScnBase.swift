@@ -1,5 +1,5 @@
 //
-//  ScnSceneBase.swift
+//  ScnBase.swift
 //  Factals
 //
 //  Created by Allen King on 2/2/23.
@@ -9,13 +9,13 @@ import Foundation
 import SceneKit
 typealias EventHandler			= (NSEvent) -> Void
 
-class ScnSceneBase : NSObject {
+class ScnBase : NSObject {
 
 	var tree	 : SCNScene?
 	 // { didSet { setRootNodeChild1(from:tree) }}
-	var scnView	 : SCNView?						// SCNView  of this ScnSceneBase
+	var scnView	 : SCNView?						// SCNView  of this ScnBase
 	weak
-	 var vewBase : VewBase?						// Delegate (of these ScnSceneBase)
+	 var vewBase : VewBase?						// Delegate (of these ScnBase)
 
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler:EventHandler
@@ -34,25 +34,20 @@ class ScnSceneBase : NSObject {
 	}
 	var monitoring 				= Set<AnyCancellable>()
 	deinit {
-		monitoring.forEach { $0.cancel() }
-		monitoring.removeAll()
-											//		subscription?.cancel()
-											//		subscription = nil
-	}
-											//	func subscribe() {
-											//		guard let vewBase else { return }
-											//		subscription = vewBase.$selfiePole.sink { [weak self] _ in
-											//			guard self?.vewBase?.cameraScn != nil else { return }
-											//			self?.selfiePole2camera()
-											//		}
-											//	}
-											//	var subscription: AnyCancellable?
-											//	deinit {
-											//		subscription?.cancel()
-											//		subscription = nil
-											//	}
+		monitoring.forEach { 	$0.cancel() 									}
+		monitoring.removeAll()													}
+
 	 // MARK: - 3.1 init
-	init(scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in }) { //aka ScnSceneBase(scnScene:eventHandler)
+	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { //aka ScnBase(scnScene:eventHandler)
+		let scnScene 			= scnScene ??  {
+			let scene 			= SCNScene()
+			return scene
+		}()
+//		do {
+//			let scene = try SCNScene(named: "art.scnassets/MyScene.scn")
+//		} catch {
+//			print("Failed to load SceneKit scene: \(error)")
+//		}
 		self.tree				= scnScene		// get scene
 		self.tree!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
@@ -63,7 +58,7 @@ class ScnSceneBase : NSObject {
 	}
 	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
 }
-extension ScnSceneBase {		// lights and camera
+extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
 	func checkLights() {
 		touchLight("*-omni1",  .omni, position:SCNVector3(0, 0, 15))
@@ -395,7 +390,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 
-extension ScnSceneBase : SCNSceneRendererDelegate {
+extension ScnBase : SCNSceneRendererDelegate {
 	func facMod() -> FactalsModel? {	vewBase?.factalsModel					}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
@@ -426,6 +421,8 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 			}
 		}
 	}
+}
+extension ScnBase : ProcessNsEvent {
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
@@ -615,7 +612,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 
-		guard let tree			= vewBase.scnSceneBase.tree    else { return nil}
+		guard let tree			= vewBase.scnBase.tree    else { return nil}
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
@@ -705,7 +702,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
-			rv					+= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
+			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
@@ -717,7 +714,7 @@ extension ScnSceneBase : SCNSceneRendererDelegate {
 }
 
 // currently unused
-extension ScnSceneBase : SCNPhysicsContactDelegate {
+extension ScnBase : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug
 	}
@@ -731,7 +728,7 @@ extension ScnSceneBase : SCNPhysicsContactDelegate {
 
 extension SCNView {		//
 	var handler : EventHandler {
-		get { return	(delegate as! ScnSceneBase).eventHandler}
+		get { return	(delegate as! ScnBase).eventHandler}
 		set(val) { }
 	}
 

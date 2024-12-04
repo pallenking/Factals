@@ -32,7 +32,7 @@ extension Part : Hashable {
  /// Base class for Factal Workbench Models
 // Used to be based on NSObject, not now.  What about NSCopying, NSResponder,
 class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
-	let nameTag					= getNametag()
+	var nameTag					= getNametag()
 	 // MARK: - 2. Object Variables:
 	@objc dynamic var name		= "<unnamed>"
 	var children	: [Part]	= []
@@ -64,9 +64,10 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 	 // MARK: - 2.1 Sugar
 	var parts 		: [Part]	{ 		children 								}
-	/*@objc dynamic*/ var fullName	: String	{
-		return parent==nil  ? "/" + name :
-			   parent!.fullName + "/" + name
+	/*@objc dynamic*/
+	var fullName	: String	{
+		return parent==nil  ? 		"/" + name :
+			   parent!.fullName + 	"/" + name
 
 
 //		let rv					= parent==nil  ? "" :
@@ -1115,55 +1116,55 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	///   - Bool	         ==> enable gravity
 	///   - nil			==> remove any physicsBody
 	func physics(vew:Vew, setConfiguration config:FwAny?) {
-bug//	guard let config 		= config else {
-//			vew.scnScene.physicsBody	= nil			// remove physicsBody
-//			return
-//		}
-//		assert(!(self is Port) && !(self is Link), "Ports and Links cannot have physics property")
-//
-//		 // PhysicsBody Shape is   A SPHERE
-//		let physicsShape		= SCNNode(geometry:SCNSphere(radius:1.5))	// (acceptable simplification)
-//		physicsShape.name		= "q" + name
-//		let shape 				= SCNPhysicsShape(node:physicsShape)
-//		let pb					= SCNPhysicsBody(type:.dynamic, shape:shape)//kinematic OK
-//		vew.scnScene.physicsBody		= pb
-//
-//		 // Default PhysicsBody properties
-//		pb.contactTestBitMask	= FwNodeCategory.collides.rawValue
-//		pb.angularVelocityFactor = .zero
-//		pb.rollingFriction		= 0.0	// resistance to rolling motion.
-//		pb.restitution			= 1.5	// It determines how much kinetic energy the body loses or gains in collisions.
-//		pb.damping				= 0.8	// It reduces the body’s linear velocity.
-//		pb.usesDefaultMomentOfInertia = false // does SceneKit automatically calculates the body’s moment of inertia or allows setting a custom value.
-//		// not used currently:
-//		//	pb.resetTransform()
-//		//	pb.mass				= 1 	// The mass of the body, in kilograms.
-//		//	pb.charge			= 0 	// electric charge of the body, in coulombs.
-//		//	pb.angularDamping	= 1		// It reduces the body’s angular velocity.
-//		//	pb.momentOfInertia 	= SCNVector3(1,1,1) // The moment of inertia, expressed in the local coordinate system of the node that contains the body.
-//
-//		 // Settable PhysicsBody's properties:
-//		if let config			= config.asFwConfig {
-//			for (key, value) in config {
-//				let val			= SCNVector3(from:value) ?? SCNVector3(0,0.1,0)
-//				switch key {
-//				case "impulse":
-//					pb.applyForce(val, at: SCNVector3.zero, asImpulse:true)
-//				case "force":
-//					pb.applyForce(val, at: SCNVector3.zero, asImpulse:false)
-//				case "gravity":
-//					let v 			= value.asBool
-//					assert(v != nil, "gravity: value (\(value)) is not Bool")
-//					pb.isAffectedByGravity = v!
-//				default:
-//					break
-//				}
-//			}
-//			pb.isAffectedByGravity	= false
-//		}
-//		else if let doGravity	= config.asBool {
-//			pb.isAffectedByGravity	= doGravity
-//		}
+		guard let config 		= config else {
+			vew.scn.physicsBody	= nil			// remove physicsBody
+			return
+		}
+		assert(!(self is Port) && !(self is Link), "Ports and Links cannot have physics property")
+
+		 // PhysicsBody Shape is   A SPHERE
+		let physicsShape		= SCNNode(geometry:SCNSphere(radius:1.5))	// (acceptable simplification)
+		physicsShape.name		= "q" + name
+		let shape 				= SCNPhysicsShape(node:physicsShape)
+		let pb					= SCNPhysicsBody(type:.dynamic, shape:shape)//kinematic OK
+		vew.scn.physicsBody		= pb
+
+		 // Default PhysicsBody properties
+		pb.contactTestBitMask	= FwNodeCategory.collides.rawValue
+		pb.angularVelocityFactor = .zero
+		pb.rollingFriction		= 0.0	// resistance to rolling motion.
+		pb.restitution			= 1.5	// It determines how much kinetic energy the body loses or gains in collisions.
+		pb.damping				= 0.8	// It reduces the body’s linear velocity.
+		pb.usesDefaultMomentOfInertia = false // does SceneKit automatically calculates the body’s moment of inertia or allows setting a custom value.
+		// not used currently:
+		//	pb.resetTransform()
+		//	pb.mass				= 1 	// The mass of the body, in kilograms.
+		//	pb.charge			= 0 	// electric charge of the body, in coulombs.
+		//	pb.angularDamping	= 1		// It reduces the body’s angular velocity.
+		//	pb.momentOfInertia 	= SCNVector3(1,1,1) // The moment of inertia, expressed in the local coordinate system of the node that contains the body.
+
+		 // Settable PhysicsBody's properties:
+		if let config			= config.asFwConfig {
+			for (key, value) in config {
+				let val			= SCNVector3(from:value) ?? SCNVector3(0,0.1,0)
+				switch key {
+				case "impulse":
+					pb.applyForce(val, at: SCNVector3.zero, asImpulse:true)
+				case "force":
+					pb.applyForce(val, at: SCNVector3.zero, asImpulse:false)
+				case "gravity":
+					let v 			= value.asBool
+					assert(v != nil, "gravity: value (\(value)) is not Bool")
+					pb.isAffectedByGravity = v!
+				default:
+					break
+				}
+			}
+			pb.isAffectedByGravity	= false
+		}
+		else if let doGravity	= config.asBool {
+			pb.isAffectedByGravity	= doGravity
+		}
 	}
 	func reSizePost(vew:Vew) {
 

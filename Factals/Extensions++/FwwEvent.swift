@@ -25,8 +25,7 @@ protocol ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool
 }
 
-extension ScnSceneBase			: ProcessNsEvent {}
-extension VewBase				: ProcessNsEvent {
+extension VewBase			: ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 	}
@@ -51,7 +50,7 @@ extension NSEvent {
 
 			 // Find vewBase whose scnView is a descendant of nsViewOfEv
 			for vewBase in factalsModel.vewBases {
-bug;			if let scnView	= vewBase.scnSceneBase.scnView,		//rootScn.scnView,
+bug;			if let scnView	= vewBase.scnBase.scnView,		//rootScn.scnView,
 				  scnView.isDescendant(of:nsViewOfEv) {
 					return vewBase
 				}

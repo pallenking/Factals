@@ -41,20 +41,20 @@ struct SimpleTestView: View {
 			Text("SceneKitView:NSViewRepresentable").font(.system(size:size))
 			VStack {									//Binding<VewBase>
 				let vewBase0		= factalsModel.vewBases[0]
-				let scnSceneBase	= vewBase0.scnSceneBase
+				let scnBase	= vewBase0.scnBase
 				ZStack {
-					SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:$prefFpsC)		 // New Way (uses old NSViewRepresentable)
+					SceneKitView(scnBase:scnBase, prefFpsC:$prefFpsC)		 // New Way (uses old NSViewRepresentable)
 					 .frame(maxWidth: .infinity)
 					 .border(.black, width:1)
 					Text("Overlayed Text")
 					EventReceiver {	nsEvent in // Catch events (goes underneath)
  						//print("EventReceiver:point = \(nsEvent.locationInWindow)")
-						if !scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree) {
+						if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree) {
 							guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 							print("Key '\(c)'  not recognized")
 						}
 					}
-					MySceneView(scnSceneBase:scnSceneBase)
+					MySceneView(scnBase:scnBase)
 				}
 			//	VewBaseBar(vewBase:$vewBase0)
 			}
@@ -74,7 +74,7 @@ struct SimpleTestView: View {
 	////////////////////////////// Testing	$publisher/	$view
 	// Generate code exemplefying the following thoughts that I am told:
 	// sceneview takes in a publisher		// PW essential/big
-	// swift publishes deltas - $viewmodel.property -> sceneview .sync -> camera of view scenekit
+	// swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
 	// scenkit -> write models back to viewmodel. s
 	// viewmodel single source of truth.
 	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
@@ -84,30 +84,30 @@ struct SimpleTestView: View {
 
  /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
-	var scnSceneBase : ScnSceneBase?			// ARG1: exposes visual world
+	var scnBase : ScnBase?			// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
-		guard let scnSceneBase	else {	fatal("scnSceneBase is nil")			}
+		guard let scnBase	else {	fatal("scnBase is nil")			}
 		let scnView				= SCNView(frame: NSRect.zero, options: [String : Any]())
-		scnSceneBase.scnView	= scnView		// for pic
+		scnBase.scnView	= scnView		// for pic
 
 		scnView.isPlaying		= true			// animations, does nothing
 		scnView.showsStatistics	= true			// controls extra bar
 	//	scnView.debugOptions	= [				// enable display of:
 	//		SCNDebugOptions.showPhysicsFields,]	//  regions affected by each SCNPhysicsField object
 		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
-		scnView.autoenablesDefaultLighting = false	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
-		scnView.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
+		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
+		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
-		scnView.delegate		= scnSceneBase 	//scnSceneBase is SCNSceneRendererDelegate
-		scnView.scene			= scnSceneBase.tree
+		scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
+		scnView.scene			= scnBase.tree
 		return scnView
 	}
 
 	func updateNSView(_ nsView: SCNView, context:Context) {
-		let scnView				= nsView as SCNView			//	scnSceneBase.scnView
+		let scnView				= nsView as SCNView			//	scnBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
 }
@@ -115,16 +115,16 @@ struct SceneKitView: NSViewRepresentable {
 // /////////////////////////////// SceneView ////////////////////////////
 
 struct MySceneView : View {
-	var scnSceneBase : ScnSceneBase?			// ARG1: exposes visual world
+	var scnBase : ScnBase?			// ARG1: exposes visual world
 
 	var body : some View {
 		SceneView(					 // Old Way
-			scene:scnSceneBase?.scnView!.scene,		//scnSceneBase.
+			scene:scnBase?.scnView!.scene,		//scnBase.
 			pointOfView:nil,	// SCNNode
 			options:[.rendersContinuously],
 			preferredFramesPerSecond:30,
 			antialiasingMode:.none,
-			delegate:scnSceneBase,	//SCNSceneRendererDelegate?
+			delegate:scnBase,	//SCNSceneRendererDelegate?
 			technique: nil		//SCNTechnique?
 		)
 		 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
@@ -139,14 +139,14 @@ struct MySceneView : View {
 //								 	print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
 //								 }
 		//						 .onAppear { 			//setupHitTesting
-		//						 	let scnSceneBase			= vewBase.scnSceneBase
-		//						 	let bind_fwView		= scnSceneBase.scnView		//Binding<FwView?>
+		//						 	let scnBase			= vewBase.scnBase
+		//						 	let bind_fwView		= scnBase.scnView		//Binding<FwView?>
 		//						 	var y				= "nil"
 		//						 	if let scnView		= bind_fwView.wrappedValue,
-		//						 	   let s			= scnView.scnSceneBase {
+		//						 	   let s			= scnView.scnBase {
 		//						 		y				= s.pp()
 		//						 	}
-		//						 	print("\(scnSceneBase).scnView.scnSceneBase = \(y)")
+		//						 	print("\(scnBase).scnView.scnBase = \(y)")
 		//						 .onAppear { 			//setupHitTesting
 		//							//coordinator.onAppear()
 		//						 	//$factalsModel.coordinator.onAppear {				}

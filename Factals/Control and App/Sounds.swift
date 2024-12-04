@@ -44,15 +44,22 @@ class Sounds : Logd {
 	//	if let dataAsset 		= NSDataAsset(name:path),
 	//	    let source		 	= SCNAudioSource(data: dataAsset.data) {
 	//		SCNAudioSource(named: T##String)
-//		if let source:SCNAudioSource = SCNAudioSource(fileNamed: path) {
-//		let path2 = Bundle.main.path(forResource: "foo", ofType: nil)
-//Bundle.
 
-//		let audioDataAsset 		= NSDataAsset(name: "da-sound")
-//		let source2				= SCNAudioSource(data: audioDataAsset.data)
-			
+//		if let scnAudioSource 	= SCNAudioSource(fileNamed: path) {
+//		let path2 				= Bundle.main.path(forResource: "foo", ofType: nil)
 
-		if let source = SCNAudioSource(named: "da-sound") {
+		//if let path 			= Bundle.main.path(forResource: "da-sound", ofType: nil) {
+		//    print("Sound file exists at path: \(path)")
+		//} else {
+		//    print("Sound file not found in bundle.")
+		//}
+
+		let url 				= Foundation.Bundle.main.url(forResource: "da-sound",
+									withExtension: "m4a", subdirectory: "Assets.xcassets/da-sound.dataset")
+		if url == nil {			print("Failed to find audio file at expected path")	}
+
+		let source2 = SCNAudioSource(named: "da-sound.dataset/da-sound.m4a")
+		if let source = SCNAudioSource(named:"da-sound") {
 			source.load()
 			nop
 		} else {
@@ -77,7 +84,7 @@ class Sounds : Logd {
 		//return
 		let node 				= onNode ??	{			// 1. SCNNode supplied else
 			for vew in FACTALSMODEL?.vewBases ?? [] {	// 2. Search through vewBases for SCNNode
-				if let node 	= vew.scnSceneBase.tree?.rootNode {
+				if let node 	= vew.scnBase.tree?.rootNode {
 					return node
 				}
 			}

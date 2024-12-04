@@ -27,6 +27,15 @@ For Allen: a ViewThatFits example
 https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-an-adaptive-layout-with-viewthatfits
  */
 
+/*
+ScnView:
+	SCNSceneRenderer(frame) --> ScnBase -> ...
+					(key)   --> SYSTEMWIDE
+					(key)	--> command
+Scene
+ */
+
+
 import SwiftUI
 import SceneKit
 
@@ -47,13 +56,13 @@ struct SimpleSceneKitView : View {
 	@Binding var prefFpsC : CGFloat
 	var body: some View {
 		ZStack {
-			let scnSceneBase = vewBase!.scnSceneBase
-			SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:$prefFpsC)
+			let scnBase = vewBase!.scnBase
+			SceneKitView(scnBase:scnBase, prefFpsC:$prefFpsC)
 				.frame(maxWidth: .infinity)
 				.border(.black, width:1)
 			EventReceiver { nsEvent in // Catch events (goes underneath)
 				//print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
-				let _ = scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
+				let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
 			}
 		}
 	}
@@ -69,7 +78,7 @@ struct FactalsModelView: View {
 
 	var body: some View {
 //		let _ = Self._printChanges()
-		VStack {
+		VStack() {	//spacing:-10) {// does nothing
 
 			FactalsModelBar(factalsModel:factalsModel)
 
@@ -79,14 +88,16 @@ struct FactalsModelView: View {
 
 				Text("--")
 					.tabItem { Label("--", systemImage: "")						}
-					.onTapGesture {		deleteCurrentTab()						}
-//				Text("++")
-//					.tabItem { Label("++", systemImage:"") 						}
-//					.onTapGesture {		addNewTab()								}
-				Button(label:{ Text("--") }) {
-					deleteCurrentTab()											}
 					.onTapGesture {
-						deleteCurrentTab()						}
+						deleteCurrentTab()										}
+				Text("++")
+					.tabItem { Label("++", systemImage:"") 						}
+					.onTapGesture {
+						addNewTab()												}
+				Button(label:{ Text("--") })
+					{ 	deleteCurrentTab()										}
+					.onTapGesture
+					{ 	deleteCurrentTab()										}
 				Button(label:{ Text("++") }) {
 					addNewTab()													}
 			}
@@ -100,13 +111,13 @@ struct FactalsModelView: View {
 					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 						HStack (alignment:.top) {
 							VStack {									//Binding<VewBase>
-								let scnSceneBase = vewBase.scnSceneBase.wrappedValue
+								let scnBase = vewBase.scnBase.wrappedValue
 								ZStack {
-									SceneKitView(scnSceneBase:scnSceneBase, prefFpsC:vewBase.prefFpsC)
+									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
 										.frame(maxWidth: .infinity)
 										.border(.black, width:1)
 									EventReceiver { nsEvent in // Catch events (goes underneath)
-										if !scnSceneBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 											print("Key '\(c)' not recognized")
 										}
@@ -121,7 +132,10 @@ struct FactalsModelView: View {
 							}.frame(width:400)
 						}
 						 .tabItem {
-						 	 Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") }
+//							 let slot =
+//print("xxx  \(vewBase.title)")
+//						 	Label("Slot_\(vewBase.title)", systemImage: "") 				}	// PW broken
+						 	Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
 						 .tag(vewBase.wrappedValue.slot_)
 					}
 
@@ -131,7 +145,7 @@ struct FactalsModelView: View {
 					 .tag(-2)
 
 					 // -3: force redraw
-					Text("Clear")
+					Text("")
 					 .tabItem { Label("Clear", systemImage: "")					}
 					 .tag(-3)
 				}

@@ -20,7 +20,7 @@ configModel -- controls:
 				--> Log
 configVew	-- controls:
 				--> VewBase
-					--> ScnSceneBase
+					--> ScnBase
 debug
 test
 

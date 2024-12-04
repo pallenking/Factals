@@ -203,11 +203,11 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		guard let slot			= slot, slot >= 0,
 		   slot < factalsModel.vewBases.count
 								else { 	return("Slot \(slot ?? -1)")			}
-		guard factalsModel.vewBases[slot] === self else { return "vewBases[] mismatch" }
+		guard factalsModel.vewBases[slot] === self else { return "\t\t\t\t vewBases[] mismatch\n" }
 		let myName				= "VewBase[\(slot)]:  "
 
 		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
-		let scnTreeRoot			= self.scnSceneBase.tree?.rootNode
+		let scnTreeRoot			= self.scnBase.tree?.rootNode
 		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
 								+	"!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
@@ -218,7 +218,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "\(inspectedVews.count) inspectedVews"
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: { deapth in
-				var rv			=  self.scnSceneBase.ppFactalsState(deapth:deapth-1)
+				var rv			=  self.scnBase.ppFactalsState(deapth:deapth-1)
 				rv				+= self.selfiePole  .ppFactalsState(deapth:deapth-1)
 				rv 				+= self.cameraScn?  .ppFactalsState(deapth:deapth-1)
 									?? "\t\t\t\t cameraScn is nil\n"
@@ -262,9 +262,9 @@ extension Inspec : FactalsStatus	{									///Inspec
 	}
 }
 
-extension ScnSceneBase : FactalsStatus	{						  ///ScnSceneBase
+extension ScnBase : FactalsStatus	{						  ///ScnBase
 	func ppFactalsState(deapth:Int=999) -> String {
-		var myLine				= vewBase?.scnSceneBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 		myLine					+= "tree:\(tree?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
 		myLine					+= "\(tree?				 .pp(.tagClass) ?? "<nil>") "			//classUid
 		myLine					+= "scnView:\(	 scnView?.pp(.tagClass) ?? "<nil>") "			//classUid

@@ -127,8 +127,8 @@
 		9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */; };
 		9F5996452C5E8E290013EBF3 /* Workstation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5996442C5E8E290013EBF3 /* Workstation.swift */; };
 		9F5996462C5E8E290013EBF3 /* Workstation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5996442C5E8E290013EBF3 /* Workstation.swift */; };
-		9F5AE2D0298C3C4B00EF6B20 /* ScnSceneBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* ScnSceneBase.swift */; };
-		9F5AE2D1298C3C4B00EF6B20 /* ScnSceneBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* ScnSceneBase.swift */; };
+		9F5AE2D0298C3C4B00EF6B20 /* ScnBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* ScnBase.swift */; };
+		9F5AE2D1298C3C4B00EF6B20 /* ScnBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5AE2CF298C3C4B00EF6B20 /* ScnBase.swift */; };
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9F675ADB2A2F6D6B006370E6 /* FactalsModelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */; };
@@ -252,7 +252,7 @@
 		9F4A3AD9288B386300574925 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		9F581E6C28CAD4F1003107E8 /* SelfiePole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePole.swift; sourceTree = "<group>"; };
 		9F5996442C5E8E290013EBF3 /* Workstation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workstation.swift; sourceTree = "<group>"; };
-		9F5AE2CF298C3C4B00EF6B20 /* ScnSceneBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnSceneBase.swift; sourceTree = "<group>"; };
+		9F5AE2CF298C3C4B00EF6B20 /* ScnBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnBase.swift; sourceTree = "<group>"; };
 		9F65A4AC28E0999700BC615D /* LLDBInitFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LLDBInitFile; sourceTree = SOURCE_ROOT; };
 		9F6B94692B86A73E007A14E5 /* NSView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView++.swift"; sourceTree = "<group>"; };
 		9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
@@ -510,7 +510,7 @@
 				9FEE51BF286BCF0A00C8C22A /* BBox.swift */,
 				9F969540288B4E8800106DBC /* SwiftUI++.swift */,
 				9FEE70A8284318B500E9E2AE /* SCNNode++.swift */,
-				9F5AE2CF298C3C4B00EF6B20 /* ScnSceneBase.swift */,
+				9F5AE2CF298C3C4B00EF6B20 /* ScnBase.swift */,
 				9F6B94692B86A73E007A14E5 /* NSView++.swift */,
 				9FEE51B9286BAF2E00C8C22A /* SCNGeometry++.swift */,
 				9FEE51BA286BAF2E00C8C22A /* SCNMatrix++.swift */,
@@ -719,7 +719,7 @@
 				9F417F4528EB94D80047B359 /* Log.swift in Sources */,
 				9F417F2E28EB94530047B359 /* PolyWrap.swift in Sources */,
 				9F417F3228EB946B0047B359 /* VewBase.swift in Sources */,
-				9F5AE2D1298C3C4B00EF6B20 /* ScnSceneBase.swift in Sources */,
+				9F5AE2D1298C3C4B00EF6B20 /* ScnBase.swift in Sources */,
 				9F417F5928EB95620047B359 /* Uid.swift in Sources */,
 				9F417F2A28EB94470047B359 /* Port.swift in Sources */,
 				9F84C9F22AF2FDC6002BD0C1 /* BundleTap.swift in Sources */,
@@ -796,7 +796,7 @@
 				9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */,
 				9F9AC6A4299C7C6000CDEB08 /* FactalsModelBar.swift in Sources */,
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
-				9F5AE2D0298C3C4B00EF6B20 /* ScnSceneBase.swift in Sources */,
+				9F5AE2D0298C3C4B00EF6B20 /* ScnBase.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
 				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FactalsApp.swift in Sources */,

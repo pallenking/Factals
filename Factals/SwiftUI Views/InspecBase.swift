@@ -12,7 +12,7 @@ import SwiftUI
 struct InspectorsVew: View {
 	@ObservedObject var vewBase:VewBase
 	var body: some View {
-		let _ 					= Self._printChanges()
+		//let _ 					= Self._printChanges()
 		
 		VStack {
 			ForEach(vewBase.inspectedVews, id: \.self) { vew in
@@ -40,6 +40,7 @@ struct Inspec: View, Equatable, Uid {
 
 	var body: some View {
 		VStack(alignment:.leading)  {	// Add Class Inspectors
+			 // Inspec's Title/Control Line
 			HStack {
 				Text("\(index)").bold().foregroundColor(.red)
 				Text(": Location")
@@ -54,17 +55,19 @@ struct Inspec: View, Equatable, Uid {
 					vewBase.removeInspector(forVew: vew)
 				}
 			}
-								
-			let inheritedClasses:[String] = vew.part.inheritedClasses()	 //["Net"]//
-			ForEach (inheritedClasses, id:\.self) { subClass in
-				inspectionViewBuilder(subClass:subClass)
+			 // Inspec's Body
+			VStack {
+				let inheritedClasses:[String] = vew.part.inheritedClasses()	 //["Net"]//
+				ForEach (inheritedClasses, id:\.self) { subClass in
+					inspectionViewBuilder(subClass:subClass)
+				}
 			}
-		//	ColorsPalette()
-		//	PickerStyles()
-		//	InspecTest(inspec:inspec)
+			.padding(10)
+			.border(Color.black, width:1)
+			//	ColorsPalette()
+			//	PickerStyles()
+			//	InspecTest(inspec:inspec)
 		}
-		.padding(10)
-		.border(Color.black, width:1)
 	}
 	@ViewBuilder
 	func inspectionViewBuilder(subClass:String) -> some View {

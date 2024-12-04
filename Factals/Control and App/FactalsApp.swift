@@ -200,9 +200,8 @@ struct FactalsApp: Uid, FwAny {
 //
 //		// Add the audio player to the node to play the sound
 //	//	node?.addAudioPlayer(audioPlayer)
-		
 		sounds.load(name:"da-sound", path:"da-sound")
-		sounds.play(sound:"da-sound", onNode:SCNNode())	//GameStarting
+	//	sounds.play(sound:"da-sound", onNode:SCNNode())	//GameStarting
 	}
 
 

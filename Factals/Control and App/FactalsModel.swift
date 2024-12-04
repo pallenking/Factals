@@ -4,7 +4,6 @@ import SceneKit
 import SwiftUI
 
 extension FactalsModel  : Logd {}
-
 @Observable
  class FactalsModel : Uid {
 	var epoch: UInt16			= 1				// to mark dirty
@@ -16,10 +15,9 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []			// VewBase of rootPartActor.parts
 
-//	var log 	  : Log
 	var docSound  :	Sounds
 
-	 var factalsDocument : FactalsDocument! = nil
+	var factalsDocument : FactalsDocument! = nil
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 		factalsDocument.log.log(banner:banner, format_, args, terminator:terminator)
@@ -85,9 +83,9 @@ extension FactalsModel  : Logd {}
 		let vewBase				= VewBase(for:partBase, vewConfig:vewConfig)		// Create
 		vewBase.factalsModel	= self						// Backpointer
 		vewBases.append(vewBase)							// Install vewBase
-															// Install in scnSceneBase
-		vewBase.scnSceneBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
-		vewBase.setupSceneVisuals()							// Lights and Camera
+															// Install in scnBase
+		vewBase.scnBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
+		vewBase.setupSceneVisuals(fwConfig:fwConfig)		// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)			// Vew configuration
 		vewBase.updateVSP()		// DELETE?
 
@@ -162,7 +160,7 @@ extension FactalsModel  : Logd {}
 		var found				= true
 
 //		 // Check Simulator:
-///**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
+// /**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
 //			return true 					// handled by simulator
 //		}
 
@@ -234,7 +232,7 @@ extension FactalsModel  : Logd {}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 			for vews in vewBases {
-				vews.scnSceneBase.tree?.rootNode.play(sound:"Oooooooo")		//GameStarting
+				vews.scnBase.tree?.rootNode.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
@@ -246,9 +244,9 @@ extension FactalsModel  : Logd {}
 			print("\n******************** 'n': ==== SCNNodes:")
 //			log.ppIndentCols = 3
 			for vews in vewBases {
-				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnSceneBase)))" +
-					  ".scnScene(\(ppUid(vews.scnSceneBase))):")
-				print(vews.scnSceneBase.pp(.tree), terminator:"")
+				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnBase)))" +
+					  ".scnScene(\(ppUid(vews.scnBase))):")
+				print(vews.scnBase.pp(.tree), terminator:"")
 			}
 		case "#":				// OUTPUT MODEL
 			let documentDirURL	= try! FileManager.default.url(
@@ -259,7 +257,7 @@ extension FactalsModel  : Logd {}
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.scnSceneBase.tree ?? {	fatalError("") } ()
+			let rootVews0scene	= vewBases.first?.scnBase.tree ?? {	fatalError("") } ()
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":

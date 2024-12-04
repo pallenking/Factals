@@ -93,13 +93,10 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 
 		 // Make SCNScene and apply skin:
 		scn						= SCNNode()		// makes rootNode:SCNNode too
-//		scnScene				= SCNScene()	// makes rootNode:SCNNode too
-//		scnScene.rootNode.name	= "rootNode1"
 
 		//super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		scn.name				= "*-" + part.name								// scnRoot.name = self.scnRoot.name ?? ("*-" + part.name)
-//		scnRoot.name			= "*-" + part.name								// scnRoot.name = self.scnRoot.name ?? ("*-" + part.name)
 		  // Visible Shape:
 		// Jog
 		if let jogStr	 		= part.partConfig["jog"]?.asString,
@@ -110,7 +107,6 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 		}
 	}
 	func configureVew(config:VewConfig) {
-//	func configureVew(from config:FwConfig) {
 		vewConfig				= config
 	}
 	init(forPort port:Port) {			/// Vew(forPort
@@ -713,7 +709,7 @@ bug
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				if let rootScn	= vewBase()?.scnSceneBase.tree?.rootNode {
+				if let rootScn	= vewBase()?.scnBase.tree?.rootNode {
 					rv			+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 							//	:  "w" + scnRoot.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "

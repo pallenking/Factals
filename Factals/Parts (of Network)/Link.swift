@@ -485,7 +485,7 @@ bug	// Never USED?
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
 		guard let base			= vew.vewBase(),
 		 	  let cameraScn		= base.cameraScn else {
-			return // silently: scnSceneBase.tree?.find(name:"*-camera", maxLevel:1)
+			return // silently: scnBase.tree?.find(name:"*-camera", maxLevel:1)
 		}
 		let cameraPosn			= cameraScn.position
 		guard let linkVew		= vew as? LinkVew 	 else { fatalError("Vew type mismach")}

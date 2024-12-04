@@ -675,7 +675,7 @@ var a2:String 	{
 	return "a,v:-\(String(vVal))"		 //\(String(a2offset))
 }
 var aOffset = 0.0
-xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+xr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
 	Bundle([struc:["a","b","c","d"], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
@@ -686,15 +686,12 @@ xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10,
 	},			// etc1
  ] ]) })
 
-xr("- Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
-//	Net([placeMy:"linky", parts:[
-		Net([placeMy:"linky", spin:4, parts:[
-			Bulb([P:"a,l:3"]),
-			Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
-			Mirror([n:"a", "gain":-1, "offset":1, f:1]),
-		] ] )
-//		Broadcast()
-//	]]) 
+xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
+	Net([placeMy:"linky", spin:4, parts:[
+		Bulb([P:"a,l:3"]),
+		Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
+		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+	] ] )
 })
 
 var a9:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }

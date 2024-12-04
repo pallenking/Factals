@@ -9,7 +9,7 @@ import SceneKit
 
 protocol Workstation {
 	// // VIDEO: (OUTPUT)
-		// make ScnSceneBase()				// Make SCNView
+		// make ScnBase()				// Make SCNView
 			func SCNScene(for:SCNNode)		// skins for one Part. perhaps 3 .. 5 SCNNodes
 		// Skins for Parts
 			func reSkin()
