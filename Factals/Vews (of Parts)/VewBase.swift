@@ -271,11 +271,10 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 				tree.scnRoot.name = "*-" + partBase.tree.name
 			}
-//			 // Vew Configuration specifies open stuffss
-//			if let initial {
-//				tree.openChildren(using:initial)
-//			}
-
+										//	 // Vew Configuration specifies open stuffss
+										//	if let initial {
+										//		tree.openChildren(using:initial)
+										//	}
 			  // Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		partsTree.reVew(vew:tree, parentVew:nil)

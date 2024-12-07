@@ -491,7 +491,7 @@ r("Bundles2, BUG?noBBox", e + selfiePole(s:90), { Net([placeMy:"stackz", parts:[
   // MARK: - * Skins (for Net, FwBundle, Leaf, and Splitter)
  // To test out the display of (aka Broadcast)
 // :H: Atom Net FwBundle Tunnel Link Splitter Cylinder
-state.scanSubMenu				= "Skins for Net"
+state.scanSubMenu				= "+ Skins for Net"
 r("SKIN: C", e, { Cylinder([n:"cyl"]) })							// +
 r("SKIN: S", e, { Broadcast([n:"bcast"]) })						// +
 r("SKIN: NC", e + selfiePole(s:45,u:10), { Net([placeMy:"stackx", parts:[
@@ -686,7 +686,7 @@ xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10,
 	},			// etc1
  ] ]) })
 
-xr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
+xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
 	Net([placeMy:"linky", spin:4, parts:[
 		Bulb([P:"a,l:3"]),
 		Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"

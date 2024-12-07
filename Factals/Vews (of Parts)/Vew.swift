@@ -67,18 +67,14 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 		parent==nil   ? ""   :
 		parent!.fullName + "/" + name	// add lefter component
 	}
-	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofScnNode:scn)}
+	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofVew:self) }
 
 	 // Used for construction, which must exclude unplaced members of SCN's boundingBoxes
 	var bBox 		:  BBox		= .empty	// bounding box size in my coorinate system (not parent's)
 
 	var expose : Expose	= .open {			// how the insides are currently exposed
 		willSet(v) {
-			if v != expose, parent != nil {		// ignore simple cases
-				//print("--- '\(fullName)'.expose.willSet: \(expose) -> \(v)")
-				part.markTree(dirty:.vew)
-			}
-		}
+			part.markTree(dirty:.vew)											}
 	}
 	var jog			: SCNVector3? = nil		// an ad-hoc change in position
 	var force		: SCNVector3 = .zero 	// for Animation for positioning
@@ -221,7 +217,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	}
 	func removeAllChildren() {
 		for childVew in children { 			// Remove all child Vews
-bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed?)
+			childVew.scn.removeFromParent()		// Remove their skins first (needed?)
 			childVew.removeFromParent()			// Remove them
 		}
 	//	part.markTree(dirty:.vew)

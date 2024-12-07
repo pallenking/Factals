@@ -126,15 +126,21 @@ extension FactalsModel  : Logd {}
 		fatalError("FactalsModel.init(coder..) unexpectantly called")
 	}
 	 // MARK: - 4.?
-	func vew(    ofScnNode s:SCNNode) -> Vew? {	bug; return nil}//vewBase(ofScnScene:s)?.tree 		}
-	func vewBase(ofScnNode s:SCNNode)  -> VewBase? {							//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
+	func vewBase(ofVew v:Vew)  -> VewBase? {							//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
 		for vewBase in vewBases {
-			if vewBase.tree.scnRoot.find(firstWith:{ $0 == s }) != nil {
-				return vewBase
-			}
+			if vewBase.tree.find(vew:v, inMe2:true) != nil { return vewBase		}
 		}
 		return nil
 	}
+//	func vew(    ofScnNode s:SCNNode) -> Vew? {	bug; return nil}//vewBase(ofScnScene:s)?.tree 		}
+//	func vewBase(ofScnNode s:SCNNode)  -> VewBase? {							//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
+//		for vewBase in vewBases {
+//			if vewBase.tree.scnRoot.find(firstWith:{ $0 == s }) != nil {
+//				return vewBase
+//			}
+//		}
+//		return nil
+//	}
 	  // MARK: - 9.0 3D Support
 	 // mouse may "paw through" parts, using wiggle
 	var wiggledPart	  : Part?	= nil
@@ -264,18 +270,22 @@ extension FactalsModel  : Logd {}
 	func doPartNViewsLocked(onlyVew:Vew?=nil, workNamed:String, logIf:Bool, work:(_:VewBase)->Void) {
 		guard partBase  .lock  (for:workNamed, logIf:logIf)
 								else {fatalError(" couldn't get PART lock")		}
-
+								
 		 // Do change work to ALL Views:
 		for (i, vewBase) in vewBases.enumerated() {
-			if vewBase != onlyVew?.vewBase() {	continue						}
-			guard vewBase  .lock   (for:"\(workNamed)[\(i)]", logIf:logIf)
+			let ovb					= onlyVew?.vewBase()
+			if ovb==nil || ovb == vewBase {			// all if onlyVew==nilvvvvvvv
+				
+				guard vewBase  .lock  (for:"\(workNamed)[\(i)]", logIf:logIf)
 								else {fatalError(" couldn't get VEW lock")		}
-			work(vewBase)
-
-			vewBase  .unlock  (for:"\(workNamed)[\(i)]", logIf:logIf)
+				work(vewBase)
+				vewBase.updateVSP()		// update Vews and their Scns
+				
+				vewBase      .unlock  (for:"\(workNamed)[\(i)]", logIf:logIf)
+			}
 		}
 
-		 // Clear change bits:
+		 // Clear all change bits:
 		partBase.tree.forAllParts { $0.dirty = .clean 							}
 		partBase  .unlock  (for:workNamed, logIf:logIf)
 	}

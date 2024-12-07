@@ -53,7 +53,8 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		for book in Library.books {
 	/**/	book.loadTest(args:args, state:&state)		// state persists across library probes
 			 // Return selected test if valid:
-			if book.answer.trunkClosure != nil {
+			if book.answer.trunkClosure != nil/*,
+			   book.answer.title?.first == "+" */  {
 				 // REMOVED to allow greedy xr()
 				assert(rv == nil, """
 					Two entries for selector: '\(s)'
