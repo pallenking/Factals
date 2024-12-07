@@ -180,30 +180,10 @@ struct FactalsApp: Uid, FwAny {
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
 		// printFwState()	causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 		//atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
-
-		
 	
-//		// Assuming you have an SCNScene and an SCNNode you want to play the sound from
-//	//	let scene = SCNScene(named: "yourScene.scn")
-//	//	let node = scene?.rootNode.childNode(withName: "yourNode", recursively:true)
-//
-//		// Set up the audio source
-//		let audioSource 		= SCNAudioSource(named: "da-sound")! // 'da-sound' should be in the project assets
-//		audioSource.loops 		= false  // Set to true if you want the sound to loop
-//		audioSource.isPositional = true  // Positional audio based on 3D location
-//		audioSource.shouldStream = false  // Load sound into memory for low-latency playback
-//		audioSource.volume 		= 1.0  // Adjust volume as needed
-//		audioSource.load()
-//
-//		// Create an audio player with the audio source
-//		let audioPlayer = SCNAudioPlayer(source: audioSource)
-//
-//		// Add the audio player to the node to play the sound
-//	//	node?.addAudioPlayer(audioPlayer)
-		sounds.load(name:"da-sound", path:"da-sound")
-	//	sounds.play(sound:"da-sound", onNode:SCNNode())	//GameStarting
+//		sounds.load(name:"di-sound", path:"di-sound")
+//		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
-
 
 	// MARK: - 4.1 APP Launching
 		//	20230627PAK: applicationWillFinishLaunching NOT CALLED

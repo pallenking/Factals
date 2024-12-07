@@ -84,16 +84,6 @@ struct FactalsDocument : FileDocument {
 		partBase.wireAndGroom([:])
 
 		 // 3. Vews
-		let fmConfig			= factalsModel.fmConfig
-								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
-								+ params4vew
-								+ params4partPp
-								+ partBase.ansConfig		// from library
-						//		+ logAt(all:8)
-		factalsModel.configureVews(from:fmConfig)
-
-		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
-	}
 								/*		How to configure?
 									1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
 									2.	pt factalsModel.fmConfig	xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
@@ -107,6 +97,17 @@ struct FactalsDocument : FileDocument {
 										params4logs	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 										logAt(xxx:dd)
 						 */
+		let fmConfig			= factalsModel.fmConfig
+								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
+								+ params4vew
+								+ params4partPp
+								+ partBase.ansConfig		// from library
+						//		+ logAt(all:8)
+		factalsModel.configureVews(from:fmConfig)
+		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
+		factalsModel.docSound.load(name: "di-sound", path:"di-sound")
+		factalsModel.docSound.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
+	}
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
 		factalsModel			= f			// girootPart!.ven

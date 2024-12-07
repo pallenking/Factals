@@ -92,7 +92,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 		lookAtVew				= tree			// set default
 
 		scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
-		scnBase.monitor(onChangeOf:selfiePole)
+		scnBase.monitor(onChangeOf:$selfiePole)
 		{ [weak self] in						// scnBase.subscribe()
 			if self?.cameraScn == nil {		return 								}
 			self!.scnBase.selfiePole2camera()

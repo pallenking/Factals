@@ -38,7 +38,7 @@ struct VewBaseBar: View {
 					Button(label:{	Text("Vew")									})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})
-						factalsModel.updateVews()
+						factalsModel.updateVews()		//(gui instgated)
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")

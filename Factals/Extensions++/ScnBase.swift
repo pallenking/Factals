@@ -25,8 +25,8 @@ class ScnBase : NSObject {
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 
-	func monitor<T: Publisher>(onChangeOf publisher: T,
-							   performs: @escaping () -> Void) where T.Failure == Never {
+	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
+													where T.Failure == Never {
 		publisher.sink { _ in				//	{ [weak self] _ in
 			performs()						//		guard self != nil else { return }
 		}
@@ -280,7 +280,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 //		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
 //		let wPosn				= rootNode.convertPosition(localPoint, to:rootNode)
 //
-/////		assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
+// //	assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 //
 //		let animateIt			= factalsModel.document.config.bool_("animatePole")
 //		if animateIt {	 // Animate 3D Cursor Pole motion"∫
@@ -288,7 +288,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 //// 		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 //		}
 //
-/////		pole.worldPosition		= wPosn
+// //	pole.worldPosition		= wPosn
 //
 //		if animateIt {
 //			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)

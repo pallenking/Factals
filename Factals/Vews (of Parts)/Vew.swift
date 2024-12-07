@@ -253,18 +253,18 @@ bug//		childVew.scnScene.removeFromParent()		// Remove their skins first (needed
 				return rv						// return an ancestor's config
 			}
 		}
+
 		 // Try Document's configuration (in FactalsModel)
 		guard let factalsModel	= part.partBase?.factalsModel else { return nil }
 		if let rv				= factalsModel.fmConfig[name] {
 			return rv
 		}
-		 // Look in vewBase's configuration...
-		guard let vewBase		= factalsModel.vewBase(ofScnNode:scn) else { return nil }
-bug
-//		guard let vewBase		= factalsModel.vewBase(ofScnScene:scnScene) else { return nil }
-//		if let rv				= vewBase.tree.vewConfig[name] {
-//			return rv
-//		}
+
+	//	 // Look in vewBase's configuration...
+	//	if let vewBase			= vewBase(),
+	//	  let rv				= vewBase.tree.vewConfig[name] {
+	//		return rv
+	//	}
 		return nil
 	}
 

@@ -43,6 +43,8 @@
 		9F190125288090240078DB6C /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* PartBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* PartBase.swift */; };
+		9F19FD9B2D0105EA000851FA /* di-sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F19FD9A2D0105EA000851FA /* di-sound.m4a */; };
+		9F19FD9C2D0105EA000851FA /* di-sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F19FD9A2D0105EA000851FA /* di-sound.m4a */; };
 		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F1E3CE628D926C5004548C9 /* VewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* VewBase.swift */; };
 		9F2BC4162B7FE38F0045991D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
@@ -242,6 +244,7 @@
 		9F19011B288090240078DB6C /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* PartBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartBase.swift; sourceTree = "<group>"; };
+		9F19FD9A2D0105EA000851FA /* di-sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "di-sound.m4a"; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* VewBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBase.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
@@ -485,6 +488,7 @@
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
 				9FEE6F1B2835779000E9E2AE /* Assets.xcassets */,
 				9FEE6F202835779000E9E2AE /* Info.plist */,
+				9F19FD9A2D0105EA000851FA /* di-sound.m4a */,
 				9FEE6F212835779000E9E2AE /* Factals.entitlements */,
 				9FEE6F1D2835779000E9E2AE /* Preview Content */,
 			);
@@ -623,6 +627,7 @@
 				9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */,
 				9F675ADE2A2F72A0006370E6 /* Document.xib in Resources */,
 				9F675ADD2A2F729D006370E6 /* Preferences.storyboard in Resources */,
+				9F19FD9B2D0105EA000851FA /* di-sound.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,6 +641,7 @@
 				9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */,
 				9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */,
 				9F190125288090240078DB6C /* Preferences.storyboard in Resources */,
+				9F19FD9C2D0105EA000851FA /* di-sound.m4a in Resources */,
 				9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */,
 				9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */,
 			);
