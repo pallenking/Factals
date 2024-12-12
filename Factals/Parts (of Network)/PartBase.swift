@@ -45,22 +45,17 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		tree					= t
 	}
 	init(fromLibrary selector:String?) {			// Parts(fromLibrary...
+		self.title				= "'\(selector ?? "nil")' -> "
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
-			self.title			= "'\(selector ?? "nil")' -> "
-								+ "\(hnwMachine.testNum) "
-								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
+			self.title			+= "\(hnwMachine.testNum) "
+								+  "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
-//			self.title			= "'\(selector ?? "nil")' -> "
-//								+ "\(hnwMachine.testNum) "
-//								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
-//			self.ansConfig		= hnwMachine.config
-
 /* */		tree				= hnwMachine.trunkClosure?() ?? Part()
 		}
 		else {
-			self.title 			= "nil"
+			self.title 			+= " Not in Library"
 			tree				= Part()
 		}
 		checkTree()
@@ -111,9 +106,8 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		factalsModel!.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
-		title					+= " (\(portCount()) Ports)"
-		preTitle				= "'x'"
-		postTitle				= ""
+//		preTitle				= "aaa"
+		postTitle				= " (\(portCount()) Ports)"
 
 		//dirtySubTree(.vew)		// NOT NEEDED
 		//dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?

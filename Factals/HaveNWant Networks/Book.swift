@@ -186,8 +186,8 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
 								
+			answer.preTitle		= "\(args!.argName):'\(args!.argNumber)"
 			answer.title		= title
-			answer.preTitle		= ""
 			answer.postTitle	= ""
 			answer.config 		= config
 			answer.trunkClosure = rootClosure

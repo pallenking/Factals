@@ -18,8 +18,8 @@ struct FactalsModelBar: View {
 				{	printFwState()													}
 				Button(label:{	Text( "config")										})
 				{	printFwConfig()													}
-				Button(label: {	Text("++epoch\(factalsModel.epoch)")				})
-				{	factalsModel.epoch		+= 1									}
+			//	Button(label: {	Text("++epoch\(factalsModel.epoch)")				})
+			//	{	factalsModel.epoch		+= 1									}
 				Button(label: {	Text("LLDB") 										})
 				{	breakToDebugger()												}
 				Spacer()
@@ -38,9 +38,10 @@ struct PartBaseBar : View {
 	var body: some View {
 		HStack {	// FULL!
 			Text("PartBase:").foregroundColor(.red).bold()
-			Text("title: '\($partBase.preTitle)'")
+			Text("title: ").foregroundColor(.blue)
+			Text(partBase.preTitle).foregroundColor(.blue)
 			TextField("title", text:$partBase.title).foregroundColor(.blue).bold()
-			Text("'\($partBase.postTitle)'")
+			Text(partBase.postTitle).foregroundColor(.blue)
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})

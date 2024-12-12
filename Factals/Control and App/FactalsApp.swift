@@ -141,6 +141,7 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 struct FactalsApp: Uid, FwAny {
 	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
+    @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
 
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
@@ -184,16 +185,6 @@ struct FactalsApp: Uid, FwAny {
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
 
-	// MARK: - 4.1 APP Launching
-		//	20230627PAK: applicationWillFinishLaunching NOT CALLED
-	//func uncalledFunction() {
-	//	  // Set Apple Event Manager so FactalWorkbench will recieve URL's
-	//	 //     OS X recieves "factalWorkbench://a/b" --> activates network "a/b"
-	//	let appleEventManager = NSAppleEventManager.shared()  //AppleEventManager];
-	//	//appleEventManager.setEventHandler(self,
-	//	//	andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
-	//	//	forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-	//}
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
 	//    someone double-clicked it again or used the dock to activate it.
@@ -218,29 +209,6 @@ struct FactalsApp: Uid, FwAny {
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")
 		fwHelp("?", inVew:nil)
-	}
-	  // MARK: - 4.5 APP URL Processing
-	 // URL Event from OS
-	func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
-		let name           		= event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue
-		openURL(named:name)
-	}
-	 // Common:
-	func openURL(named:String?) {
-		guard let name			= named,
-		  let url         		= NSURL(string:name) else {
-			fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil")
-		}
-		print("openURL('\(named!)' -> \(url))")
-		var urlStr         		= name//url.absoluteString! //.stringByRemovingPercentEncoding
-		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
-		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
-		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
-		urlStr      			= String(urlStr[index...])
-
-		 ////// BUILD Simulation Part per received URL.
-bug		//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
-		//Build a window; install brain //  self.simNsWc = [self createASimNsWcFor:brain :"Selected by factalWorkbench:// URL"];
 	}
 
 
@@ -368,53 +336,32 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	}
 }
 
-
-
-
-
-//					switch item {	//default: nop
-//					case SceneMenuLeaf(let id, let name, let imageName):
-//						Text(name)
-//						Image(systemName: imageName)
-//						Button {
-//							document = FactalsDocument(fromLibrary:"entry\(id)")
-//							print("Test")
-//						} label: {
-//							Text(name)
-//							Image(systemName: imageName)
-//						}
-//					case SceneMenuCrux(let id, let name, let imageName):
-//						Button {
-//							document = FactalsDocument(fromLibrary:"entry\(id)")
-//							print("Test")
-//						} label: {
-//							Text(name)
-//							//Image(systemName: imageName)
-//						}
-//					}
-
-
-
-
-			//	if menu4Path[path] == nil {	// make NSMenu for path if none exists
-			//		// Create a NEW MenuItem, with a Menu in it, for path:
-			//		let newNsMenuItem = NSMenuItem(title:path,
-			//									   action:nil,
-			//									   keyEquivalent:""
-			//		)
-			//		newNsMenuItem.tag = catalog.tag + 1		// nsMenuInTree has tag of instigator (??? WHY
-			//		newNsMenuItem.submenu = NSMenu(title:path)
-	//**/	//		outNsMenu.addItem(newNsMenuItem)// insert into base (currently)
-			//
-			//		menu4Path[path] = outNsMenu // remember the nsMenuInTree:
-			//	}
-
-				// Make new menu entry:
-//				let menuItem		= NSMenuItem(title:catalog.title,
-//												 action:#selector(DummyApp.scheneAction(_:)),
-//												 keyEquivalent:""
-//				)	//action:#selector(scheneAction(sender:)),
-//				menuItem.tag 		= catalog.tag// + 1
-//				/**/		outNsMenu.addItem(menuItem)	// insert into base (currently)
-//				
-//				atMen(9, log("Built tag:\(catalog.tag)"))		// Build
+class AppDelegate: NSObject, NSApplicationDelegate {
+	 // Set Apple Event Manager so Factals recieve URL's
+	func applicationDidFinishLaunching(_ notification: Notification) {
+		NSAppleEventManager.shared().setEventHandler(self,
+			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
+			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
+	}
+	 // MARK: - 4.5 Event from OS
+	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
+		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
+	}
+	 // Common:
+	func openURL(named:String?) {
+bug	//	guard let name			= named,
+	//	  let url         		= NSURL(string:name) else {
+	//		fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil")
+	//	}
+	//	print("openURL('\(named!)' -> \(url))")
+	//	var urlStr         		= name//url.absoluteString! //.stringByRemovingPercentEncoding
+	//	let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
+	//	assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
+	//	let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
+	//	urlStr      			= String(urlStr[index...])
+	//
+	//	 ////// BUILD Simulation Part per received URL.
+	//	//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
+	//	//Build a window; install brain //  self.simNsWc = [self createASimNsWcFor:brain :"Selected by factalWorkbench:// URL"];
+	}
+}
