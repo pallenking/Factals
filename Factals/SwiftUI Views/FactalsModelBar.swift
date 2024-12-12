@@ -38,10 +38,10 @@ struct PartBaseBar : View {
 	var body: some View {
 		HStack {	// FULL!
 			Text("PartBase:").foregroundColor(.red).bold()
-			Text("title: ").foregroundColor(.blue)
-			Text(partBase.preTitle).foregroundColor(.blue)
+//			Text("title: ").foregroundColor(.blue)
+//			Text(partBase.preTitle).foregroundColor(.blue)
 			TextField("title", text:$partBase.title).foregroundColor(.blue).bold()
-			Text(partBase.postTitle).foregroundColor(.blue)
+//			Text(partBase.postTitle).foregroundColor(.blue)
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})

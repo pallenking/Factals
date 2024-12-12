@@ -11,13 +11,15 @@ import SceneKit
  *    If your app modifies the scene graph from multiple threads, use a transaction
  * lock to ensure that your modifications take effect as intended.
  */
-
-class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
+extension PartBase : Equatable {
 	static func == (lhs: PartBase, rhs: PartBase) -> Bool {
 		lhs.nameTag				== rhs.nameTag &&
 		lhs.tree				== rhs.tree &&
 		lhs.factalsModel		=== rhs.factalsModel
 	}
+}
+
+class PartBase : Codable, ObservableObject, Uid, Logd {
 	
 	let nameTag			 		= getNametag()
 	var tree : Part
@@ -27,8 +29,8 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 
 	 // MARK: - 2.1 Object Variables
 	var title					= ""
-	var preTitle				= ""
-	var postTitle				= ""
+//	var preTitle				= ""
+//	var postTitle				= ""
 	var ansConfig : FwConfig 	= [:]
 	weak
 	 var factalsModel : FactalsModel? = nil
@@ -106,8 +108,8 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 		factalsModel!.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
-//		preTitle				= "aaa"
-		postTitle				= " (\(portCount()) Ports)"
+//		select				= "aaa"
+//		postTitle				= " (\(portCount()) Ports)"
 
 		//dirtySubTree(.vew)		// NOT NEEDED
 		//dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?

@@ -32,9 +32,9 @@ struct ScanForKey : Codable {
 	  // MARK: - 2.4.3 Machine resulting from Scan
 struct HnwMachine {		// : Codable
 	 // From Chosen Test
+	var select		: String  	= ""		// Reason for Fetching String
 	var title		: String?  	= nil		// Network name from library
-	var preTitle	: String  	= ""		// Reason for Fetching String
-	var postTitle	: String  	= ""		// Number of Ports String
+//	var postTitle	: String  	= ""		// Number of Ports String
 
 	var config		: FwConfig	= [:]		// [NOT CODABLE]
 
@@ -185,10 +185,9 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
-								
-			answer.preTitle		= "\(args!.argName):'\(args!.argNumber)"
+			answer.select		= "\(args!.argName):'\(args!.argNumber)"
 			answer.title		= title
-			answer.postTitle	= ""
+//			answer.postTitle	= ""
 			answer.config 		= config
 			answer.trunkClosure = rootClosure
 			 // From Scan
