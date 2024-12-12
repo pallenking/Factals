@@ -33,14 +33,14 @@ struct FactalsModelBar: View {
 	}
 }
 struct PartBaseBar : View {
-//	@Bindable var partBase : PartBase		// XXX
-	@Binding var partBase : PartBase
+	@Binding var partBase : PartBase		// NOT @Bindable
 
 	var body: some View {
 		HStack {	// FULL!
-			Text("PartBase.").foregroundColor(.red).bold()
-			Text("title: ")
+			Text("PartBase:").foregroundColor(.red).bold()
+			Text("title: '\($partBase.preTitle)'")
 			TextField("title", text:$partBase.title).foregroundColor(.blue).bold()
+			Text("'\($partBase.postTitle)'")
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text("ptLm")										})

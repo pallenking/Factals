@@ -194,50 +194,6 @@
             endingLineNumber = "35"
             landmarkName = "FactalsDocument"
             landmarkType = "14">
-            <Locations>
-               <Location
-                  uuid = "B0737628-3903-4AB9-89D3-A648F5706849 - 1fcb5b7c0105778a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.FactalsDocument.init(fileURL: Foundation.URL) -&gt; Factals.FactalsDocument"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsDocument.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35">
-               </Location>
-               <Location
-                  uuid = "B0737628-3903-4AB9-89D3-A648F5706849 - 60401e9866d44360"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.FactalsDocument.init(fromLibrary: Swift.Optional&lt;Swift.String&gt;) -&gt; Factals.FactalsDocument"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsDocument.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35">
-               </Location>
-               <Location
-                  uuid = "B0737628-3903-4AB9-89D3-A648F5706849 - 9207f4a18521b460"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.FactalsDocument.init(factalsModel: Factals.FactalsModel) -&gt; Factals.FactalsDocument"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/FactalsDocument.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -395,8 +351,8 @@
             filePath = "Factals/Control and App/FactalsApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "init(foo:)"
             landmarkType = "7">
          </BreakpointContent>

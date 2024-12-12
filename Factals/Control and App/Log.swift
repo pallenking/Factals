@@ -231,7 +231,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	// MARK: - 5. Log
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {	//String?=nil
 
-		 // Initial simple cutting in OSLog:
+//		 // Initial simple cutting in OSLog:
 //		if false, let logger = Log.osLogger {
 //			let formattedBanner = banner != nil ? "\(banner!): " : ""
 //			let formatStr = formattedBanner + format_

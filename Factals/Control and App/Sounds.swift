@@ -84,10 +84,10 @@ class Sounds : Logd {
 		audioScn.addAudioPlayer(audioPlayer)	// place this in active tree:
 		rootScn.addChildNode(audioScn)
 
-		let moveAction 			= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
-		audioScn.runAction(moveAction) {
-			print("Movement action completed.")		// NEVER HITS
-		}
+//		let moveAction 			= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
+//		audioScn.runAction(moveAction) {
+//			print("Movement action completed.")		// NEVER HITS
+//		}
 
 		let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)
 		audioScn.runAction(playAction)	{

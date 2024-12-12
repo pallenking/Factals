@@ -10,7 +10,6 @@ import Cocoa
 import SwiftUI
 import SceneKit
 //import AVFoundation
-//import OSLog
 
 	 // MARK: - Version
 	let (majorVersion, minorVersion, nameVersion) = (6, 4, "Factals")		// 240210
