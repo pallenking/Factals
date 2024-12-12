@@ -7,20 +7,20 @@
 
 import SceneKit
 
-import OSLog
-extension Log {
-	func makeDummyLogEntries() {
-		guard let logger		= Log.osLogger else { fatalError()				}
-		os_log("This is a default log message", log:logger, type:.default)
-		os_log("This is an info log message",   log:logger, type:.info)
-		os_log("This is a debug log message",   log:logger, type:.debug)
-		os_log("This is an error log message",  log:logger, type:.error)
-		os_log("This is a fault log message",   log:logger, type:.fault)
-		let userName = "John"
-		let loginStatus = true
-		os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
-	}
-}
+//import OSLog
+//extension Log {
+//	func makeDummyLogEntries() {
+//		guard let logger		= Log.osLogger else { fatalError()				}
+//		os_log("This is a default log message", log:logger, type:.default)
+//		os_log("This is an info log message",   log:logger, type:.info)
+//		os_log("This is a debug log message",   log:logger, type:.debug)
+//		os_log("This is an error log message",  log:logger, type:.error)
+//		os_log("This is a fault log message",   log:logger, type:.fault)
+//		let userName = "John"
+//		let loginStatus = true
+//		os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+//	}
+//}
 
 extension Log {
 	 // MARK: - 1. Static Class Variables:
@@ -35,7 +35,7 @@ extension Log {
 		params4logs				+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 		logAt(all:appLogN)
 
-	static var osLogger:OSLog?	= OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
+//	static var osLogger:OSLog?	= OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 }
 extension Log : Logd { }
 //extension Log : Uid { }
@@ -232,16 +232,16 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {	//String?=nil
 
 		 // Initial simple cutting in OSLog:
-		if false, let logger = Log.osLogger {
-			let formattedBanner = banner != nil ? "\(banner!): " : ""
-			let formatStr = formattedBanner + format_
-			
-			os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
-	//		os_log(formatStr, log:logger, type:.default, args)
-//			os_log("This is a default log message", log:logger, type:.default)
-//			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
-			return
-		}
+//		if false, let logger = Log.osLogger {
+//			let formattedBanner = banner != nil ? "\(banner!): " : ""
+//			let formatStr = formattedBanner + format_
+//			
+//			os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
+//	//		os_log(formatStr, log:logger, type:.default, args)
+////			os_log("This is a default log message", log:logger, type:.default)
+////			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+//			return
+//		}
 
 		 // Print new Log, if it has changed:
  		if logNo != Log.currentLogNo {						// different than last time

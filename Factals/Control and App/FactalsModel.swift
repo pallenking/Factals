@@ -63,10 +63,10 @@ extension FactalsModel  : Logd {}
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
 
-//		 // Configure all Views
-//		for vewBase in vewBases {
-//			vewBase.configure(from:config)
-//		}
+		// // Configure all Views
+		//for vewBase in vewBases {
+		//	vewBase.configure(from:config)
+		//}
 
 		docSound.play(sound:"GameStarting")
 		atBld(2, logd("------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
@@ -80,7 +80,7 @@ extension FactalsModel  : Logd {}
 		vewBase.scnBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)		// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)			// Vew configuration
-		vewBase.updateVSP()		// DELETE?
+		vewBase.updateVSP()								// DELETE?
 
 		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
 		printFwState()
@@ -277,9 +277,9 @@ extension FactalsModel  : Logd {}
 			if ovb==nil || ovb == vewBase {			// all if onlyVew==nilvvvvvvv
 				
 				guard vewBase  .lock  (for:"\(workNamed)[\(i)]", logIf:logIf)
-								else {fatalError(" couldn't get VEW lock")		}
-				work(vewBase)
-				vewBase.updateVSP()		// update Vews and their Scns
+									else {fatalError(" couldn't get VEW lock")	}
+				work(vewBase)			// Do desired changes
+				vewBase.updateVSP()		// Update Vews and their Scns
 				
 				vewBase      .unlock  (for:"\(workNamed)[\(i)]", logIf:logIf)
 			}

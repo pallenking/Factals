@@ -35,11 +35,6 @@ struct FactalsDocument : FileDocument {
 	let nameTag						= getNametag()
 	var factalsModel : FactalsModel! = nil				// content
 	var log 	  : Log			= Log.app // Use Apps log
-//	var log 	  : Log			= Log(name:"Model's Log", configure:
-//		params4partPp			+  	//	pp... (50ish keys)
-//		params4logs 			+	// : "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-//		logAt(all:docLogN))
-	var foo = 3
 
 	init(fileURL: URL) {
 		bug
@@ -49,7 +44,7 @@ struct FactalsDocument : FileDocument {
 	init() {	// Build a blank document, so there is a document of record with a Log
 
 		// create Log and Sound here
-		self.init(fromLibrary:"xr()")
+		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
 		log.configure(from:[:])//cfgArg)
 	}
 //	enum LibrarySelector {				// NEW
@@ -60,7 +55,7 @@ struct FactalsDocument : FileDocument {
 //	}
 
 	init(fromLibrary select:String?=nil) {
-//log.log("slkfsljf")
+
 		 // 1. Part
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
@@ -105,6 +100,9 @@ struct FactalsDocument : FileDocument {
 						//		+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
+
+
+
 		factalsModel.docSound.load(name: "di-sound", path:"di-sound")
 		factalsModel.docSound.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}

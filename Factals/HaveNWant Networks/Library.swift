@@ -29,7 +29,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	var state : ScanState		= ScanState()		// class
 	var answer: HnwMachine		= HnwMachine()		// struc
 
-	var count : Int				{
+	var count : Int {
 		var state				= ScanState()
 		let args				= ScanForKey(selectionString:"", wantOnlyIndex:true)
 		loadTest(args:args, state:&state)
@@ -48,9 +48,9 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		var rv : HnwMachine?	= nil					// search value for desired string
 		let args				= ScanForKey(selectionString:s, wantOnlyIndex:false)
 
-		 // 1. look in all libraries
+		 // 1. look in ALL Books in Library
 		var state				= ScanState()
-		for book in Library.books {
+		for book in Library.books {					// All books
 	/**/	book.loadTest(args:args, state:&state)		// state persists across library probes
 			 // Return selected test if valid:
 			if book.answer.trunkClosure != nil/*,

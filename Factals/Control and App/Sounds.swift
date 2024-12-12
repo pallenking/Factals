@@ -1,6 +1,8 @@
 //  Sounds.swift -- Support the playing sounds during simulation ©2020PAK
 
 import SceneKit
+import AVFoundation
+
 extension Part {
 	func applyProp(_ prop:String, withVal val:String) {
 		let dummy = Atom()
@@ -40,6 +42,64 @@ class Sounds : Logd {
 		nop
 	}
 
+
+//		if let pathsUrl 		= Foundation.Bundle.main.url(forResource: "di-sound", withExtension: "m4a"),
+
+								//
+	//	let path = Foundation.Bundle.main.path(forResource: "di-sound", ofType: "m4a")!
+	//	let url = URL(fileURLWithPath:path)
+	//	var player: AVAudioPlayer?
+	//	do {
+	//		player = try AVAudioPlayer(contentsOf:url)
+	//		player?.play()
+	//		 // AddInstanceForFactory: No factory registered for id <CFUUID 0x60000002b420> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+	//	} catch {
+	//		print("Error playing audio: \(error)")
+	//	}
+	//	nop
+		//		 let pathsUrl1 			= Foundation.Bundle.main.url(forResource:"da-sound", withExtension: "m4a")
+		//		let audioSource1		= SCNAudioSource(url:(pathsUrl1 ?? URL(string:""))!)
+		//		let audioSource2		= SCNAudioSource(named:"di-sound.m4a")
+		//		 let dataAsset3			= NSDataAsset(name:"di-sound.m4a")
+		//		let audioSource3		= SCNAudioSource()
+		//		 let path4				= Foundation.Bundle.main.path(forResource:"da-sound", ofType:"m4a")
+		//	//	let audioSource4 		= SCNAudioSource(path:path4)
+		//		let audioSource 		= (audioSource1, audioSource2, audioSource3).2
+		//	let rootScn				= SCNScene(named: "yourScene.scn")?.rootNode
+		
+		//		let pathsUrl 			= Foundation.Bundle.main.url(forResource:"da-sound", withExtension: "m4a")!
+		//		let audioSource			= SCNAudioSource(url:pathsUrl)!					// fails
+	func playSimple(rootScn:SCNNode) {
+		let audioSource			= SCNAudioSource(named:"di-sound.m4a")!
+		 // exists: "file:///Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug/Factals.app/Contents/Resources/di-sound.m4a"
+		
+		audioSource.isPositional = false//true
+		audioSource.volume 		= 1
+		audioSource.rate 		= 1
+		audioSource.shouldStream = true//false
+		audioSource.load() // Preload the audio for smoother playback
+		
+		let audioPlayer			= SCNAudioPlayer(source:audioSource)
+		let audioScn 			= SCNNode()
+		audioScn.addAudioPlayer(audioPlayer)	// place this in active tree:
+		rootScn.addChildNode(audioScn)
+
+		let moveAction 			= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
+		audioScn.runAction(moveAction) {
+			print("Movement action completed.")		// NEVER HITS
+		}
+
+		let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)
+		audioScn.runAction(playAction)	{
+			print("Audio action completed or interrupted.")
+		}
+		nop
+		// run action play
+	}
+/*
+AddInstanceForFactory: No factory registered for id <CFUUID 0x60000347f140> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+170,759 HALC_ProxyIOContext.cpp:1,621 HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload
+ */
 	func load(name:String, path:String) {
 		if let pathsUrl 		= Foundation.Bundle.main.url(forResource:path, withExtension: "m4a"),
 		   let source			= SCNAudioSource(url:pathsUrl) {
@@ -47,8 +107,8 @@ class Sounds : Logd {
 			knownSources[name] 	= source// register soundSource
 			source.isPositional = true
 			source.shouldStream = false
-//			source.volume 		= 1//bug; APPDEL?.config4app.float("soundVolume") ?? 1
-//		  //source.rate 		= 1
+			source.volume 		= 1//bug; APPDEL?.config4app.float("soundVolume") ?? 1
+		  //source.rate 		= 1
 			source.load() // Preload the audio for smoother playback
 			
 			// Attach the audio to a SceneKit node
@@ -62,58 +122,6 @@ class Sounds : Logd {
 		}
 		return
 	}
-
-		//tesSoundLoadding()
-//		let b03  				= SCNAudioSource(named: "di-sound.m4a")
-//		if let diUrl 			= Foundation.Bundle.main.url(forResource: "di-sound", withExtension: "m4a"),
-
-//		if let source:SCNAudioSource = SCNAudioSource(named:path) {
-//			assert(knownSources[name] == nil, "Redefinition of sounds not suported!")
-//			knownSources[name] 	= source// register soundSource
-//			source.isPositional = false
-//			source.volume 		= 1//bug; APPDEL?.config4app.float("soundVolume") ?? 1
-//		//	source.rate 		= 1
-//			source.load()				// load audio data into soundSource
-//			atApp(6, logd("SUCCEEDED loading name:\(name.field(-20)) path:\"\(path)\""))
-//		}
-//		else {
-//			panic("FAILED loading sound \(name.field(-20)) \"\(path)\"")
-//		}
-
-
-
-	//	if let dataAsset 		= NSDataAsset(name:path),
-	//	    let source		 	= SCNAudioSource(data: dataAsset.data) {
-	//		SCNAudioSource(named: T##String)
-
-//		if let scnAudioSource 	= SCNAudioSource(fileNamed: path) {
-//		let path2 				= Bundle.main.path(forResource: "foo", ofType: nil)
-
-		//if let path 			= Bundle.main.path(forResource: "da-sound", ofType: nil) {
-		//    print("Sound file exists at path: \(path)")
-		//} else {
-		//    print("Sound file not found in bundle.")
-		//}
-		
-//		// Assuming you have an SCNScene and an SCNNode you want to play the sound from
-//	//	let scene = SCNScene(named: "yourScene.scn")
-//	//	let node = scene?.rootNode.childNode(withName: "yourNode", recursively:true)
-//
-//		// Set up the audio source
-//		let audioSource 		= SCNAudioSource(named: "da-sound")! // 'da-sound' should be in the project assets
-//		audioSource.loops 		= false  // Set to true if you want the sound to loop
-//		audioSource.isPositional = true  // Positional audio based on 3D location
-//		audioSource.shouldStream = false  // Load sound into memory for low-latency playback
-//		audioSource.volume 		= 1.0  // Adjust volume as needed
-//		audioSource.load()
-//
-//		// Create an audio player with the audio source
-//		let audioPlayer = SCNAudioPlayer(source: audioSource)
-//
-//		// Add the audio player to the node to play the sound
-//	//	node?.addAudioPlayer(audioPlayer)
-
-
 
 	func tesSoundLoadding() {
 		let m = Foundation.Bundle.main

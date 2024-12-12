@@ -149,18 +149,21 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 						 lineNumber		:Int)
 	{									// ALIASES for parts:
 		state.scanTestNum 		+= 1		// count every test
-		if args!.argOnlyIndex {				// Wants Index
-			 // //// Display only those entries starting with a "+" ////////////	//why?	assert(state.scanTestNum == state.titleList.count, "dropped title while creating scene menu index")
+
+		if args!.argOnlyIndex {				// Generate Library menus
+//			guard testName?.first == "+" else {	return	} // skip testName not starting with +
+
 			let title		= "\(state.scanTestNum)  \(fileName):\(lineNumber):  " + (testName ?? "-")
 			let elt			= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
 			state.scanCatalog.append(elt)
 			return
 		}
+
 		 // ///////////// Wants Test ///////////////////////////////
 		let title				= testName != nil ? "\(testName!)" : "unnamed_\(state.scanTestNum)"
 		let matchReason0 : String? =
-			args!.argName != nil &&				// Name exists
-			args!.argName == testName ?			//   and matches?
+			args!.argName != nil &&				// Search by name
+			args!.argName == testName ?			//   and it matches
 				"Building testName  ''\(testName!)''" :	// yes, name matchs
 				args!.argNumber == state.scanTestNum ?// no, numbers match?
 					"Building  ''scene #\(state.scanTestNum)''" :// yes, match
@@ -172,7 +175,8 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 				 args!.argNumber < 0 ?				//   no wanted number?
 					"Building Network marked with xr()" :	// yes
 					nil)									// no, ignore
-		if matchReason != nil {						// BUILD
+
+		if matchReason != nil {						// Save in ANSWER
 			atBld(7, Log.app.log("=== \(matchReason!) ==="))
 			assert(answer.trunkClosure==nil, "Two Closures found marked xr():\n"
 			  +	"\t Previous = \(answer.testNum):\(answer.fileName ?? "lf823").\(answer.lineNumber!) "

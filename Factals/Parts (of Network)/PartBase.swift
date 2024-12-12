@@ -34,7 +34,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 	 var factalsModel : FactalsModel? = nil
 
 	 // MARK: - 2.3 Part Tree Lock
-// be ware of structured concurency.
+																				// be ware of structured concurency.
 	var semiphore 				= DispatchSemaphore(value:1)					//https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var curOwner  : String?		= nil
 	var prevOnwer : String?		= nil
@@ -48,10 +48,14 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 
 		 // Find the Library that contains the trunk for self, the root.
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
-			self.title			= "'\(selector ?? "nil")' -> " +
-				"\(hnwMachine.testNum) " +
-				"\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
+			self.title			= "'\(selector ?? "nil")' -> "
+								+ "\(hnwMachine.testNum) "
+								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
+//			self.title			= "'\(selector ?? "nil")' -> "
+//								+ "\(hnwMachine.testNum) "
+//								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
+//			self.ansConfig		= hnwMachine.config
 
 /* */		tree				= hnwMachine.trunkClosure?() ?? Part()
 		}
@@ -122,7 +126,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd, Equatable {
 
 	 // Configuration for Part Tree's
 	func configure(from:FwConfig) {
-		tree.partConfig			= from
+		tree.partConfig			= from		// save in base of tree's config
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////
@@ -404,7 +408,11 @@ bug		// invisible?
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
-	var log : Log {	factalsModel?.factalsDocument.log ?? { fatalError("factalsModel nil in PartBase")}()}
+	var log : Log {
+		let fm : FactalsModel?	= factalsModel ?? FACTALSMODEL
+		let log					= fm?.factalsDocument.log ?? Log.app //FactalsApp.main().log ?? { fatalError("factalsModel nil in PartBase")}().log("=
+		return log
+	}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 		log.log(banner:banner, format_, args, terminator:terminator)
 	}
