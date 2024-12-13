@@ -93,17 +93,17 @@ struct FactalsModelView: View {
 				Text("++")
 					.tabItem { Label("++", systemImage:"") 						}
 					.onTapGesture {
+						addNewTab()
 						let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.tree!.rootNode
-						FACTALSMODEL!.docSound.playSimple(rootScn:rootScn)
-						addNewTab()												}
+						FACTALSMODEL!.docSound.playSimple(rootScn:rootScn)		}
 				Button(label:{ Text("--") })
 					{ 	deleteCurrentTab()										}
 					.onTapGesture
 					{	deleteCurrentTab()										}
 				Button(label:{ Text("++") }) {
+					addNewTab()
 					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.tree!.rootNode
-					FACTALSMODEL!.docSound.playSimple(rootScn:rootScn)
-					addNewTab()													}
+					FACTALSMODEL!.docSound.playSimple(rootScn:rootScn)			}
 			}
 			HStack {			// Body Elements
 

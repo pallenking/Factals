@@ -43,7 +43,7 @@ struct FactalsDocument : FileDocument {
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
 
-		// create Log and Sound here
+		 // create Log and Sound here
 		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
 		log.configure(from:[:])//cfgArg)
 	}

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9F0295CF288091EF00DD0004 /* FactalsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FactalsStatus.swift */; };
-		9F0295D32880923000DD0004 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
+		9F0295D32880923000DD0004 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sound.swift */; };
 		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
 		9F0295D92880926D00DD0004 /* FwwEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D72880926D00DD0004 /* FwwEvent.swift */; };
 		9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
@@ -104,7 +104,7 @@
 		9F417F4428EB94D40047B359 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F417F4528EB94D80047B359 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A1286B8F5B00C8C22A /* Log.swift */; };
 		9F417F4628EB94DB0047B359 /* FilteredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */; };
-		9F417F4728EB94DF0047B359 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sounds.swift */; };
+		9F417F4728EB94DF0047B359 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sound.swift */; };
 		9F417F4828EB94EE0047B359 /* FwwEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D72880926D00DD0004 /* FwwEvent.swift */; };
 		9F417F4928EB94FD0047B359 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
 		9F417F4A28EB952A0047B359 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52202874AB7300C8C22A /* Path.swift */; };
@@ -203,7 +203,7 @@
 
 /* Begin PBXFileReference section */
 		9F0295CD288091EF00DD0004 /* FactalsStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FactalsStatus.swift; sourceTree = "<group>"; };
-		9F0295D22880923000DD0004 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
+		9F0295D22880923000DD0004 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
 		9F0295D72880926D00DD0004 /* FwwEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwwEvent.swift; sourceTree = "<group>"; };
 		9F0295DA2880928600DD0004 /* FwTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwTypes.swift; sourceTree = "<group>"; };
@@ -432,7 +432,7 @@
 				9F19CA31285EA5090072C50E /* Simulator.swift */,
 				9FEE51A1286B8F5B00C8C22A /* Log.swift */,
 				9FEE51A0286B8F5B00C8C22A /* FilteredLog.swift */,
-				9F0295D22880923000DD0004 /* Sounds.swift */,
+				9F0295D22880923000DD0004 /* Sound.swift */,
 			);
 			path = "Control and App";
 			sourceTree = "<group>";
@@ -704,7 +704,7 @@
 				9F417F3928EB94A80047B359 /* FactalsApp.swift in Sources */,
 				9F417F2228EB942A0047B359 /* LinkPort.swift in Sources */,
 				9F417F2728EB943D0047B359 /* Atom.swift in Sources */,
-				9F417F4728EB94DF0047B359 /* Sounds.swift in Sources */,
+				9F417F4728EB94DF0047B359 /* Sound.swift in Sources */,
 				9F417F3128EB94680047B359 /* VewConfig.swift in Sources */,
 				9F417F2828EB94410047B359 /* Share.swift in Sources */,
 				9F417F2528EB94350047B359 /* CommonAtoms.swift in Sources */,
@@ -821,7 +821,7 @@
 				9FEE51B8286BA61000C8C22A /* Uid.swift in Sources */,
 				9F1900FF28808DC10078DB6C /* Generator.swift in Sources */,
 				9FEE521F2874A42000C8C22A /* LldbInit.swift in Sources */,
-				9F0295D32880923000DD0004 /* Sounds.swift in Sources */,
+				9F0295D32880923000DD0004 /* Sound.swift in Sources */,
 				9F19010528808DC10078DB6C /* GenAtom.swift in Sources */,
 				9F0295DF2880932200DD0004 /* CG++.swift in Sources */,
 				9F0295D92880926D00DD0004 /* FwwEvent.swift in Sources */,

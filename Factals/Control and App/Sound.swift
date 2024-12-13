@@ -1,4 +1,4 @@
-//  Sounds.swift -- Support the playing sounds during simulation ©2020PAK
+//  Sound.swift -- Support the playing sounds during simulation ©2020PAK
 
 import SceneKit
 import AVFoundation
@@ -32,7 +32,7 @@ extension SCNNode : SoundPro {
 //		APPDEL!.appSounds.play(sound:sound, onNode:self)
 //	}
 }
-class Sounds : Logd {
+class Sound : Logd {
 	let nameTag					= getNametag()
 	// NEVER NSCopying, Equatable
 	 // MARK: - 5.4 Sound
@@ -42,10 +42,6 @@ class Sounds : Logd {
 		nop
 	}
 
-
-//		if let pathsUrl 		= Foundation.Bundle.main.url(forResource: "di-sound", withExtension: "m4a"),
-
-								//
 	//	let path = Foundation.Bundle.main.path(forResource: "di-sound", ofType: "m4a")!
 	//	let url = URL(fileURLWithPath:path)
 	//	var player: AVAudioPlayer?
@@ -56,7 +52,6 @@ class Sounds : Logd {
 	//	} catch {
 	//		print("Error playing audio: \(error)")
 	//	}
-	//	nop
 		//		 let pathsUrl1 			= Foundation.Bundle.main.url(forResource:"da-sound", withExtension: "m4a")
 		//		let audioSource1		= SCNAudioSource(url:(pathsUrl1 ?? URL(string:""))!)
 		//		let audioSource2		= SCNAudioSource(named:"di-sound.m4a")
@@ -70,31 +65,65 @@ class Sounds : Logd {
 		//		let pathsUrl 			= Foundation.Bundle.main.url(forResource:"da-sound", withExtension: "m4a")!
 		//		let audioSource			= SCNAudioSource(url:pathsUrl)!					// fails
 	func playSimple(rootScn:SCNNode) {
-		let audioSource			= SCNAudioSource(named:"di-sound.m4a")!
-		 // exists: "file:///Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug/Factals.app/Contents/Resources/di-sound.m4a"
 		
-		audioSource.isPositional = false//true
-		audioSource.volume 		= 1
-		audioSource.rate 		= 1
-		audioSource.shouldStream = true//false
-		audioSource.load() // Preload the audio for smoother playback
-		
-		let audioPlayer			= SCNAudioPlayer(source:audioSource)
-		let audioScn 			= SCNNode()
-		audioScn.addAudioPlayer(audioPlayer)	// place this in active tree:
-		rootScn.addChildNode(audioScn)
-
-//		let moveAction 			= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
-//		audioScn.runAction(moveAction) {
-//			print("Movement action completed.")		// NEVER HITS
-//		}
-
-		let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)
-		audioScn.runAction(playAction)	{
-			print("Audio action completed or interrupted.")
+		// Load the audio data from the Assets.xcassets
+		guard let audioDataAsset = NSDataAsset(name: "t-sound") else {
+			print("Failed to load audio asset")
+			return
 		}
-		nop
-		// run action play
+		
+		
+		// Create a temporary file URL
+		let temporaryDirectory 			= FileManager.default.temporaryDirectory
+		let temporaryFileURL 			= temporaryDirectory.appendingPathComponent("di-sound.m4a")
+		do {
+			// Write the data to the temporary file
+			try audioDataAsset.data.write(to: temporaryFileURL)
+			
+			// Load the audio source from the temporary file
+			let audioSource = SCNAudioSource(url: temporaryFileURL)!
+			audioSource.load()
+			
+			// Attach the audio source to the node
+			let audioPlayer = SCNAudioPlayer(source: audioSource)
+			rootScn.addAudioPlayer(audioPlayer)
+		} catch {
+			print("Failed to write audio data to temporary file: \(error)")
+		}
+//		// Create an SCNAudioSource from the data
+//		let audioSource = SCNAudioSource(data: audioDataAsset.data)
+//		audioSource?.load()
+//		
+//		// Attach the audio source to the node
+//		let audioPlayer = SCNAudioPlayer(source: audioSource!)
+//		rootScn.addAudioPlayer(audioPlayer)
+
+
+	//	let audioSource			= SCNAudioSource(named:"di-sound.m4a")!//"Assets.xcassets/da-sound.m4a")!//
+	//	 // exists: "file:///Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug/Factals.app/Contents/Resources/di-sound.m4a"
+	//
+	//	audioSource.isPositional = false//true
+	//	audioSource.volume 		= 1
+	//	audioSource.rate 		= 1
+	//	audioSource.shouldStream = true//false
+	//	audioSource.load() // Preload the audio for smoother playback
+	//	//
+	//	let audioPlayer			= SCNAudioPlayer(source:audioSource)
+	//	let audioScn 			= SCNNode()
+	//	audioScn.addAudioPlayer(audioPlayer)	// place this in active tree:
+	//	rootScn.addChildNode(audioScn)
+	//	//
+//	//	let moveAction 			= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
+//	//	audioScn.runAction(moveAction) {
+//	//		print("Movement action completed.")		// NEVER HITS
+//	//	}
+	//	//
+	//	let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)
+	//	audioScn.runAction(playAction)	{
+	//		print("Audio action completed or interrupted.")
+	//	}
+	//	nop
+	//	// run action play
 	}
 /*
 AddInstanceForFactory: No factory registered for id <CFUUID 0x60000347f140> F8BB1C28-BAE8-11D6-9C31-00039315CD46

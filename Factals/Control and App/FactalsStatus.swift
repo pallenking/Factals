@@ -331,7 +331,7 @@ extension Log : FactalsStatus {											  ///Log
 		return ppFactalsStateHelper(logKind, nameTag:self, myLine:msg, deapth:deapth-1)
 	}
 }
-extension Sounds : FactalsStatus {										///Sounds
+extension Sound : FactalsStatus {										///Sound
 	func ppFactalsState(deapth:Int=999) -> String {
 		let msg					= ""
 		let logKind				= "sounds".field(-13)

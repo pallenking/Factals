@@ -152,9 +152,8 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 
 		if args!.argOnlyIndex {				// Generate Library menus
 //			guard testName?.first == "+" else {	return	} // skip testName not starting with +
-
-			let title		= "\(state.scanTestNum)  \(fileName):\(lineNumber):  " + (testName ?? "-")
-			let elt			= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
+			let title			= "\(state.scanTestNum)  \(fileName):\(lineNumber):  " + (testName ?? "-")
+			let elt				= LibraryMenuArray(tag:state.scanTestNum, title:title, parentMenu:state.scanSubMenu)
 			state.scanCatalog.append(elt)
 			return
 		}

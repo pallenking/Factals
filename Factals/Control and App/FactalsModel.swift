@@ -15,7 +15,7 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []			// VewBase of rootPartActor.parts
 
-	var docSound  :	Sounds
+	var docSound  :	Sound
 
 	var factalsDocument : FactalsDocument! = nil
 
@@ -28,7 +28,7 @@ extension FactalsModel  : Logd {}
 		partBase				= pb
 		fmConfig				= configure				// Save in ourselves   WHY???
 		simulator 				= Simulator(configure:configure)	// params4sim
-		docSound				= Sounds(   configure:configure)
+		docSound				= Sound(   configure:configure)
 
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self			// set UGLY GLOBAL

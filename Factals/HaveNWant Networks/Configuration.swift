@@ -11,12 +11,12 @@ import SceneKit
 configApp	-- congrols:
 				--> FactalsGlobals
 				--> Log					sets default of configModel
-				--> Sounds				sets default of configVew
+				--> Sound				sets default of configVew
 configModel -- controls:
 				--> Simulator
 				--> PartBase
 					--> Parts in tree
-				--> Sounds
+				--> Sound
 				--> Log
 configVew	-- controls:
 				--> VewBase
