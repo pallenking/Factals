@@ -44,6 +44,9 @@ struct ContentView: View {
 	@State var prefFps = Float(0.5)
 	var body: some View {
 		FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+												//	guard let fm = document.factalsModel else { return Text("No FactalsModel") }
+												//	return FactalsModelView(factalsModel:fm)		// Full App Views
+												//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
 //	////////////////////// SCAFFOLDING /////////////////////////////////////////
 	//	SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
 	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
@@ -86,40 +89,41 @@ struct FactalsModelView: View {
 				Text("")
 				Spacer()
 
-				Text("--")
-					.tabItem { Label("--", systemImage: "")						}
-					.onTapGesture {
-						deleteCurrentTab()										}
-				Text("++")
-					.tabItem { Label("++", systemImage:"") 						}
-					.onTapGesture {
-						addNewTab()
-						let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.tree!.rootNode
-						FACTALSMODEL!.docSound.playSimple(rootScn:rootScn)		}
+			//	Text("--")
+			//		.tabItem { Label("--", systemImage: "")						}
+			//		.onTapGesture
+			//		{	deleteCurrentTab()										}
+			//	Text("++")
+			//		.tabItem { Label("++", systemImage:"") 						}
+			//		.onTapGesture
+			//		{	addNewTab()												}
 				Button(label:{ Text("--") })
 					{ 	deleteCurrentTab()										}
-					.onTapGesture
-					{	deleteCurrentTab()										}
+//					.onTapGesture
+//					{	deleteCurrentTab()										}
 				Button(label:{ Text("++") }) {
-					addNewTab()
-					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.tree!.rootNode
+					addNewTab()													}
+				Button(label:{ Text("Test Sound") }) {
+					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.roots!.rootNode
 					FACTALSMODEL!.docSound.playSimple(rootScn:rootScn)			}
 			}
 			HStack {			// Body Elements
 
+				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
+				 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 				TabView(selection:$tabViewSelect)  {
-					  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-					 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
 
-					 // tag slot_
+					 // Create, with tag = slot_
 					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 						HStack (alignment:.top) {
 							VStack {									//Binding<VewBase>
 								let scnBase = vewBase.scnBase.wrappedValue
 								ZStack {
+
 									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
 										.frame(maxWidth: .infinity)
 										.border(.black, width:1)
+
 									EventReceiver { nsEvent in // Catch events (goes underneath)
 										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}

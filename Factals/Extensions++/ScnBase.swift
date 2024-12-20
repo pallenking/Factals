@@ -11,11 +11,16 @@ typealias EventHandler			= (NSEvent) -> Void
 
 class ScnBase : NSObject {
 
-	var tree	 : SCNScene?
+	var roots	 : SCNScene?
+	var tree	 : SCNNode?	{
+		set(v) 	{	roots?.rootNode.addChildNode(v!)							}
+		get 	{	roots?.rootNode.children.first								}
+ 	}
+
 	 // { didSet { setRootNodeChild1(from:tree) }}
 	var scnView	 : SCNView?						// SCNView  of this ScnBase
 	weak
-	 var vewBase : VewBase?						// Delegate (of these ScnBase)
+	 var vewBase : VewBase?						// Owner
 
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler:EventHandler
@@ -48,8 +53,8 @@ class ScnBase : NSObject {
 //		} catch {
 //			print("Failed to load SceneKit scene: \(error)")
 //		}
-		self.tree				= scnScene		// get scene
-		self.tree!.rootNode.name = "tree"
+		self.roots				= scnScene		// get scene
+		self.roots!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
 
  		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -68,15 +73,15 @@ extension ScnBase {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
-			guard let tree 		else { return									}
-			if tree.rootNode.find(name:name) == nil {
+			guard let roots 		else { return									}
+			if roots.rootNode.find(name:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
 				scn4light.name	= name				// arg 1
 				if let position {
 					scn4light.position = position	// arg 5
 				}
-				tree.rootNode.addChildNode(scn4light)
+				roots.rootNode.addChildNode(scn4light)
 										 // Light:
 				let light		= SCNLight()
 				light.type 		= lightType			// arg 2
@@ -164,13 +169,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 	func checkCamera() {
 		let name				= "*-camera"
-		guard let tree 			else { return									}
-		let camNode				= tree.rootNode.find(name:name, maxLevel:1) ?? { // use old
+		guard let roots 			else { return									}
+		let camNode				= roots.rootNode.find(name:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-			tree.rootNode.addChildNode(rv)
+			roots.rootNode.addChildNode(rv)
 
 			 // Just make a whole new camera system from scratch
 			let camera			= SCNCamera()
@@ -200,17 +205,17 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func touchAxesScn() {			// was updatePole()
-		guard let tree			else { return									}
+		guard let roots			else { return									}
 		let name				= "*-axis"
 
 		 // Already exist?
-		if tree.rootNode.find(name:name) != nil {
+		if roots.rootNode.find(name:name) != nil {
 			return
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		let axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		tree.rootNode.addChild(node:axesScn)
+		roots.rootNode.addChild(node:axesScn)
 		axesScn.name				= name
 
 		 // X/Z Poles (thinner)
@@ -612,7 +617,7 @@ extension ScnBase : ProcessNsEvent {
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 
-		guard let tree			= vewBase.scnBase.tree    else { return nil}
+		guard let tree			= vewBase.scnBase.roots    else { return nil}
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.

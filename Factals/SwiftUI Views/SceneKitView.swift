@@ -102,7 +102,7 @@ struct SceneKitView: NSViewRepresentable {
 		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
 		scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
-		scnView.scene			= scnBase.tree
+		scnView.scene			= scnBase.roots
 		return scnView
 	}
 

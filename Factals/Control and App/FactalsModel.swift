@@ -68,7 +68,7 @@ extension FactalsModel  : Logd {}
 		//	vewBase.configure(from:config)
 		//}
 
-		docSound.play(sound:"GameStarting")
+	//	docSound.play(sound:"GameStarting")	// sound not configured yet!
 		atBld(2, logd("------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
@@ -77,7 +77,7 @@ extension FactalsModel  : Logd {}
 		vewBase.factalsModel	= self						// Backpointer
 		vewBases.append(vewBase)							// Install vewBase
 															// Install in scnBase
-		vewBase.scnBase.tree!.rootNode.addChildNode(vewBase.tree.scn)
+		vewBase.scnBase.roots!.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)		// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)			// Vew configuration
 		vewBase.updateVSP()								// DELETE?
@@ -393,7 +393,7 @@ extension FactalsModel  : Logd {}
 	  //case "r" alone:				// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 			for vews in vewBases {
-				vews.scnBase.tree?.rootNode.play(sound:"Oooooooo")		//GameStarting
+				vews.scnBase.roots?.rootNode.play(sound:"Oooooooo")		//GameStarting
 			}
 		case "v":
 			print("\n******************** 'v': ==== Views:")
@@ -418,7 +418,7 @@ extension FactalsModel  : Logd {}
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.scnBase.tree ?? {	fatalError("") } ()
+			let rootVews0scene	= vewBases.first?.scnBase.roots ?? {	fatalError("") } ()
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { fatalError("writing dumpSCN.\(suffix) failed")	}
 		case "V":

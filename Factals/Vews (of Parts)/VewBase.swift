@@ -63,7 +63,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	}
 
  	var cameraScn	: SCNNode?	{
- 		scnBase.tree?.rootNode.find(name:"*-camera", maxLevel:1)
+ 		scnBase.roots?.rootNode.find(name:"*-camera", maxLevel:1)
 	}
 	var lookAtVew	: Vew!			// Vew we are looking at
 

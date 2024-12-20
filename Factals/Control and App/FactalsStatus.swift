@@ -207,7 +207,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
-		let scnTreeRoot			= self.scnBase.tree?.rootNode
+		let scnTreeRoot			= self.scnBase.roots?.rootNode
 		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
 								+	"!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
@@ -265,8 +265,8 @@ extension Inspec : FactalsStatus	{									///Inspec
 extension ScnBase : FactalsStatus	{						  ///ScnBase
 	func ppFactalsState(deapth:Int=999) -> String {
 		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-		myLine					+= "tree:\(tree?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-		myLine					+= "\(tree?				 .pp(.tagClass) ?? "<nil>") "			//classUid
+		myLine					+= "tree:\(roots?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+		myLine					+= "\(roots?				 .pp(.tagClass) ?? "<nil>") "			//classUid
 		myLine					+= "scnView:\(	 scnView?.pp(.tagClass) ?? "<nil>") "			//classUid
 		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine,
 //			otherLines: { deapth in

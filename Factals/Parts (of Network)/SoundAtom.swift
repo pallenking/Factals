@@ -97,18 +97,16 @@ class SoundAtom : Atom {
 
 		if up {						// /////// going UP /////////
 
-			if let pPort2Port 	= pPort.con2?.port,
+			if let pPort2Port 	= pPort.con2?.port,  
 			  pPort2Port.valueChanged() {			// Input = other guy's output
-				let (val, valPrev) = pPort2Port.getValues()	// Get value from S
-//				let v1 = val, v2 = valPrev 
-
-				sPort.take(value:val)			// Pass it on to P
+				let (val, valPrev) = pPort2Port.getValues()	// Get value from S // let v1 = val, v2 = valPrev
+				sPort.take(value:val)				// Pass it on to P
 
 				 // Rising edge starts a Sound
 				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
 					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
 					
-					partBase?.factalsModel?.docSound.play(sound:"abc")//docSound, onNode:)
+					partBase?.factalsModel?.docSound.play(sound:"di")//docSound, onNode:)
 //					if sObj.isPlaying {
 //						print("\n\n NOTE: Going TOO FAST\n\n")
 //					}
@@ -121,7 +119,21 @@ panic()//			sObj.play						// start playing sound
 		if !up {					// /////// going DOWN ////////////
 			if let sPort2Port	= sPort.con2?.port,
 			  sPort2Port.valueChanged() {
+				let (val, valPrev) = sPort2Port.getValues()	// Get value from P
 				pPort.take(value:sPort2Port.getValue())
+
+				 // Rising edge starts a Sound
+				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
+					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
+					
+					partBase?.factalsModel?.docSound.play(sound:sound!)//"di" docSound, onNode:)
+//					if sObj.isPlaying {
+//						print("\n\n NOTE: Going TOO FAST\n\n")
+//					}
+					 // If this terminates the previous sound, it's okay!
+//					sObj.play						// start playing sound
+					playing 	= true;				// delay loading primary.L
+				}
 			}
 		}
 		return;

@@ -650,8 +650,9 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 xr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
 	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
-	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
-	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+	SoundAtom([n:"a", S:"c", "sound":"forward", f:1]),		//t-sound.mp3
+	Mirror([n:"b", P:"c", jog:"4 1", "latitude"+X:-2]),
+	Mirror([n:"c", "gain":-1, "offset":1, f:1]),
 ] ]) })
 
 // Unison

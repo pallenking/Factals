@@ -390,7 +390,7 @@ class Port : Part, PortTalk {
 		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
 			let wpStr			= !aux.string_("ppViewOptions").contains("W") ? "" : {		// World position
 				guard let vb	= inVew?.vewBase() else { return "root of inVew bad" }
-				return "w" + inVew!.scnRoot.convertPosition(center, to:vb.scnBase.tree?.rootNode).pp(.short, aux) + " "
+				return "w" + inVew!.scnRoot.convertPosition(center, to:vb.scnBase.roots?.rootNode).pp(.short, aux) + " "
 			} ()
 			return fmt("c:\(center.pp(.short, aux)), r:%.3f, e:\(exclude?.pp(.short, aux) ?? "nil")", radius)
 		}
@@ -436,14 +436,14 @@ class Port : Part, PortTalk {
 		
 		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
-		if let scnScene			= vew.vewBase()?.scnBase.tree, enaPpWorld {
+		if let scnScene			= vew.vewBase()?.scnBase.roots, enaPpWorld {
 			worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:nil/*scnRoot*/).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
 		atRsi(8, csVisVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 
 		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
 		 //
-		guard let scnScene		= csVisVew.vewBase()?.scnBase.tree else {return rv}
+		guard let scnScene		= csVisVew.vewBase()?.scnBase.roots else {return rv}
 		for openVew in csVisVew.selfNParents {								// while openVew != vew {
 			guard openVew != vew else 	{				break					}
 			let scn				= openVew.scnRoot

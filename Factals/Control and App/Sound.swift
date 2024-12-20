@@ -52,8 +52,6 @@ class Sound : Logd {
 	//	} catch {
 	//		print("Error playing audio: \(error)")
 	//	}
-		//		 let pathsUrl1 			= Foundation.Bundle.main.url(forResource:"da-sound", withExtension: "m4a")
-		//		let audioSource1		= SCNAudioSource(url:(pathsUrl1 ?? URL(string:""))!)
 		//		let audioSource2		= SCNAudioSource(named:"di-sound.m4a")
 		//		 let dataAsset3			= NSDataAsset(name:"di-sound.m4a")
 		//		let audioSource3		= SCNAudioSource()
@@ -65,92 +63,130 @@ class Sound : Logd {
 		//		let pathsUrl 			= Foundation.Bundle.main.url(forResource:"da-sound", withExtension: "m4a")!
 		//		let audioSource			= SCNAudioSource(url:pathsUrl)!					// fails
 	func playSimple(rootScn:SCNNode) {
-		
-		// Load the audio data from the Assets.xcassets
-		guard let audioDataAsset = NSDataAsset(name: "t-sound") else {
-			print("Failed to load audio asset")
-			return
+		var audioSource : SCNAudioSource?
+		var sourceMode					= 1
+		switch sourceMode+0 {
+		case 0:			// from name, but not in Assets.xcassets				WORKS, bun not in Assets
+			audioSource					= SCNAudioSource(named:"di-sound.m4a")//"Assets.xcassets/da-sound.m4a")//
+			 // exists: "file:///Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug/Factals.app/Contents/Resources/di-sound.m4a"
+		case 1:			// from Assets.xcassets via temp file					 NFG
+			guard let audioDataAsset 	= NSDataAsset(name: "t-sound") else
+			{	print("Failed to load audio asset");	return					}
+			let t1URL 					= FileManager.default.temporaryDirectory
+				.appendingPathComponent("t-sound.m4a")
+			do
+			{	try audioDataAsset.data.write(to: t1URL)						}
+			catch
+			{	print("Failed to write audio data to temporary file: \(error)")	}
+			audioSource 				= SCNAudioSource(url: t1URL)
+		case 2:			// Create an SCNAudioSource from the data
+			guard let pathsUrl 			= Foundation.Bundle.main.url(forResource:"da-sound", withExtension: "m4a") else
+			{	print("Failed to load audio asset");					return	}
+			audioSource					= SCNAudioSource(url:pathsUrl)
+		default:
+			audioSource					= SCNAudioSource()
 		}
-		
-		
-		// Create a temporary file URL
-		let temporaryDirectory 			= FileManager.default.temporaryDirectory
-		let temporaryFileURL 			= temporaryDirectory.appendingPathComponent("di-sound.m4a")
-		do {
-			// Write the data to the temporary file
-			try audioDataAsset.data.write(to: temporaryFileURL)
+		guard let audioSource	else {	print("audioSource in nil");	return	}
+ 		audioSource.isPositional = false//true
+ 		audioSource.volume 				= 1
+ 		audioSource.rate 				= 1
+ 		audioSource.shouldStream = true//false
+ 		audioSource.load() // Preload the audio for smoother playback
 			
-			// Load the audio source from the temporary file
-			let audioSource = SCNAudioSource(url: temporaryFileURL)!
-			audioSource.load()
-			
-			// Attach the audio source to the node
-			let audioPlayer = SCNAudioPlayer(source: audioSource)
-			rootScn.addAudioPlayer(audioPlayer)
-		} catch {
-			print("Failed to write audio data to temporary file: \(error)")
+		// Attach the audio source to the node
+		let audioPlayer 				= SCNAudioPlayer(source:audioSource)
+		rootScn.addAudioPlayer(audioPlayer)
+
+// 		let audioScn 					= SCNNode()
+// 		audioScn.addAudioPlayer(audioPlayer)	// place this in active tree:
+// 		rootScn.addChildNode(audioScn)
+
+		 // Test
+		let moveAction 					= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
+		rootScn/*audioScn*/.runAction(moveAction) {
+			print("Movement action completed.")
 		}
-//		// Create an SCNAudioSource from the data
-//		let audioSource = SCNAudioSource(data: audioDataAsset.data)
-//		audioSource?.load()
-//		
-//		// Attach the audio source to the node
-//		let audioPlayer = SCNAudioPlayer(source: audioSource!)
-//		rootScn.addAudioPlayer(audioPlayer)
-
-
-	//	let audioSource			= SCNAudioSource(named:"di-sound.m4a")!//"Assets.xcassets/da-sound.m4a")!//
-	//	 // exists: "file:///Users/allen/Library/Developer/Xcode/DerivedData/Factals-gctqvjjuzubwpfhbgdfehqxdqwpg/Build/Products/Debug/Factals.app/Contents/Resources/di-sound.m4a"
-	//
-	//	audioSource.isPositional = false//true
-	//	audioSource.volume 		= 1
-	//	audioSource.rate 		= 1
-	//	audioSource.shouldStream = true//false
-	//	audioSource.load() // Preload the audio for smoother playback
-	//	//
-	//	let audioPlayer			= SCNAudioPlayer(source:audioSource)
-	//	let audioScn 			= SCNNode()
-	//	audioScn.addAudioPlayer(audioPlayer)	// place this in active tree:
-	//	rootScn.addChildNode(audioScn)
-	//	//
-//	//	let moveAction 			= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
-//	//	audioScn.runAction(moveAction) {
-//	//		print("Movement action completed.")		// NEVER HITS
-//	//	}
-	//	//
-	//	let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)
-	//	audioScn.runAction(playAction)	{
-	//		print("Audio action completed or interrupted.")
-	//	}
-	//	nop
-	//	// run action play
+ 		let playAction					= SCNAction.playAudio(audioSource, waitForCompletion:false)
+ 		rootScn/*audioScn*/.runAction(playAction)	{
+ 			print("Audio action completed or interrupted.")
+ 		}
+ 		nop
 	}
 /*
 AddInstanceForFactory: No factory registered for id <CFUUID 0x60000347f140> F8BB1C28-BAE8-11D6-9C31-00039315CD46
 170,759 HALC_ProxyIOContext.cpp:1,621 HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload
  */
-	func load(name:String, path:String) {
-		if let pathsUrl 		= Foundation.Bundle.main.url(forResource:path, withExtension: "m4a"),
-		   let source			= SCNAudioSource(url:pathsUrl) {
-			assert(knownSources[name] == nil, "Redefinition of sounds not suported!")
-			knownSources[name] 	= source// register soundSource
-			source.isPositional = true
-			source.shouldStream = false
-			source.volume 		= 1//bug; APPDEL?.config4app.float("soundVolume") ?? 1
+	func loadAllSounds(to docSound:Sound) {
+		docSound.load(name:		  "b", path:		"b-sound")//, playOn:scn0tree)
+		docSound.load(name:"backward", path: "backward-sound")
+		docSound.load(name:		 "da", path:	   "da-sound")
+		docSound.load(name:		 "di", path:	   "di-sound")
+		docSound.load(name: "forward", path:  "forward-sound")
+		docSound.load(name:		  "t", path:		"t-sound")
+	}
+	func load(name:String, path:String, playOn rootScn:SCNNode?=nil) {
+		guard let audioDataAsset = NSDataAsset(name:path) else
+		{	print("Failed to load '\(name)' audio asset");	return			}
+		let t1URL 				= FileManager.default.temporaryDirectory
+			.appendingPathComponent("t1URL")
+		do
+		{	try audioDataAsset.data.write(to:t1URL)							}
+		 catch
+		 {	print("Failed to write audio data to URL '\(name)': ERROR \(error)")}
+		if let audioSource 		= SCNAudioSource(url:t1URL) {
+			audioSource.isPositional = true
+			audioSource.shouldStream = false
+			audioSource.volume 	= 1//bug; APPDEL?.config4app.float("soundVolume") ?? 1
 		  //source.rate 		= 1
-			source.load() // Preload the audio for smoother playback
-			
-			// Attach the audio to a SceneKit node
-			let audioNode 		= SCNNode()
-			audioNode.addAudioPlayer(SCNAudioPlayer(source: source))
-			if let scene		= FACTALSMODEL?.vewBases.first?.scnBase.tree {
-				scene.rootNode.addChildNode(audioNode)
+			audioSource.load() // Preload the audio for smoother playback
+
+			assert(knownSources[name] == nil, "Redefinition of sounds (here '\(name)') not suported!")
+			knownSources[name] 	= audioSource// register soundSource
+
+
+			guard let rootScn else {	return									}
+			// Attach the audio source to the node
+			let audioPlayer 				= SCNAudioPlayer(source:audioSource)
+			rootScn.addAudioPlayer(audioPlayer)
+
+			 // Test
+			let moveAction 					= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
+			rootScn/*audioScn*/.runAction(moveAction) {
+				print("Movement action completed.")
 			}
-		} else {
-			print("Error: Failed to find da-sound.m4a in the app bundle.")
+			let playAction					= SCNAction.playAudio(audioSource, waitForCompletion:false)
+			rootScn/*audioScn*/.runAction(playAction)	{
+				print("Audio action completed or interrupted.")
+			}
+			nop
 		}
 		return
 	}
+	func play(sound:String, onNode:SCNNode?=nil) {
+		let node 				= onNode ??	{			// 1. SCNNode supplied else
+			for vew in FACTALSMODEL?.vewBases ?? [] {	// 2. Search through vewBases for SCNNode
+				if let node 	= vew.scnBase.roots?.rootNode {
+					return node
+				}
+			}
+			fatalError("###### Couldn't find SCNNode to play sound")
+		} ()
+
+		 // Get audio source:
+		guard let source		= knownSources[sound] else {
+			atAni(6, logd("###### Sound source '\(sound)' unknow"))
+			return
+		}
+		let audioPlayer			= SCNAudioPlayer(source:source)
+		node.addAudioPlayer(audioPlayer)										// let x1 = node.audioPlayers
+		 // Command it to play:
+		let playAction			= SCNAction.playAudio(source, waitForCompletion:false)
+		node.runAction(playAction)
+
+	//	logg("\(node.fullName) play \"\(sound)\"")
+//		node.removeAudioPlayer(audioPlayer)
+	}
+
 
 	func tesSoundLoadding() {
 		let m = Foundation.Bundle.main
@@ -174,29 +210,5 @@ AddInstanceForFactory: No factory registered for id <CFUUID 0x60000347f140> F8BB
 		} else {
 			print("Failed to load audio source 'da-sound'")
 		}
-	}
-	func play(sound:String, onNode:SCNNode?=nil) {
-		let node 				= onNode ??	{			// 1. SCNNode supplied else
-			for vew in FACTALSMODEL?.vewBases ?? [] {	// 2. Search through vewBases for SCNNode
-				if let node 	= vew.scnBase.tree?.rootNode {
-					return node
-				}
-			}
-			fatalError("###### Couldn't find SCNNode to play sound")
-		} ()
-
-		 // Get audio source:
-		guard let source		= knownSources[sound] else {
-			atAni(6, logd("###### Sound source '\(sound)' unknow"))
-			return
-		}
-		let audioPlayer			= SCNAudioPlayer(source:source)
-		node.addAudioPlayer(audioPlayer)										// let x1 = node.audioPlayers
-		 // Command it to play:
-		let playAction			= SCNAction.playAudio(source, waitForCompletion:false)
-		node.runAction(playAction)
-
-	//	logg("\(node.fullName) play \"\(sound)\"")
-//		node.removeAudioPlayer(audioPlayer)
 	}
 }

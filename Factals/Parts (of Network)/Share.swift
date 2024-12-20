@@ -505,7 +505,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		let rv					= super.equalsFW(rhs)
 								&& pValue 		 == rhs.pValue
 								&& gain 		 == rhs.gain
-								&& offset 		 == rhs.offset
+										&& offset 		 == rhs.offset
 								&& currentRadius == rhs.currentRadius
 		return rv
 	}

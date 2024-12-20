@@ -705,7 +705,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				if let rootScn	= vewBase()?.scnBase.tree?.rootNode {
+				if let rootScn	= vewBase()?.scnBase.roots?.rootNode {
 					rv			+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 							//	:  "w" + scnRoot.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "

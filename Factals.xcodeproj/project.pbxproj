@@ -397,13 +397,13 @@
 		9FAD595C29A270430065406B /* SwiftUI Views */ = {
 			isa = PBXGroup;
 			children = (
-				9F5996442C5E8E290013EBF3 /* Workstation.swift */,
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
 				9F190118288090240078DB6C /* InspecBase.swift */,
+				9F5996442C5E8E290013EBF3 /* Workstation.swift */,
 				9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */,
 			);
 			path = "SwiftUI Views";

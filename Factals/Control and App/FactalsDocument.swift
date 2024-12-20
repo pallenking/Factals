@@ -32,7 +32,7 @@ extension FactalsDocument : Logd {
 
  //class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument {
-	let nameTag						= getNametag()
+	let nameTag					= getNametag()
 	var factalsModel : FactalsModel! = nil				// content
 	var log 	  : Log			= Log.app // Use Apps log
 
@@ -55,7 +55,7 @@ struct FactalsDocument : FileDocument {
 //	}
 
 	init(fromLibrary select:String?=nil) {
-
+//return
 		 // 1. Part
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
@@ -74,7 +74,8 @@ struct FactalsDocument : FileDocument {
 								+ params4partPp
 								+ partBase.ansConfig		// from library
 		factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
-		factalsModel.factalsDocument = self																		//factalsModel.configurePart(from:pmConfig)
+		factalsModel.factalsDocument = self		// backpointer																	//factalsModel.configurePart(from:pmConfig)
+
 		 // 3. Groom part
 		partBase.wireAndGroom([:])
 
@@ -99,12 +100,10 @@ struct FactalsDocument : FileDocument {
 								+ partBase.ansConfig		// from library
 						//		+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
+
+		 // ?. Load sounds
+		factalsModel.docSound.loadAllSounds(to:factalsModel.docSound)
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
-
-
-
-		factalsModel.docSound.load(name: "di-sound", path:"di-sound")
-		factalsModel.docSound.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
 	 // Document supplied
 	init(factalsModel f:FactalsModel) {
