@@ -105,7 +105,7 @@ struct FactalsModelView: View {
 					addNewTab()													}
 				Button(label:{ Text("Test Sound") }) {
 					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.roots!.rootNode
-					FACTALSMODEL!.docSound.playSimple(rootScn:rootScn)			}
+					FACTALSMODEL!.docSound.play(sound:"forward") }//playSimple(rootScn:rootScn)			}
 			}
 			HStack {			// Body Elements
 

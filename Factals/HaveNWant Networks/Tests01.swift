@@ -647,7 +647,7 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.genAtom/*bcast*/, [struc:["a"], placeMy:"stackx -1 1"]),
 ] ] ) } )
 
-xr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+xxr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
 	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
 	SoundAtom([n:"a", S:"c", "sound":"forward", f:1]),		//t-sound.mp3
@@ -695,7 +695,6 @@ xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + [
 	] ] )
 })
 
-var a9:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }
 xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
@@ -708,6 +707,8 @@ xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-
 	Mirror([n:"b", P:"a", jog:"4"]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )
+var a9:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }
+
 	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
 		Bulb(  [n:"u", share:"a"]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
@@ -1734,12 +1735,16 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 				Mirror(   [n:"v", "gain":-1, "offset":1, f:1]),
 			] ])
 		})
-			r("+ BlinksALot", eSim + eXYtight + //logAt(all:7) +
-						[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
-					Mirror(	  [n:"y", P:"v,l:5,v:0.00"]),
-					Mirror(	  [n:"x", P:"v,l:5,v:-2.00"]),
-					Mirror(	  [n:"x", P:"v,l:5,v:-4.00"]),
-					Mirror(   [n:"v", "gain":-1, "offset":1, f:1]),
+			xr("+ BlinksALot", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"],
+						{ 	Net([placeMy:"linky", placeMe:stackx, parts:[
+					FwBundle([n:"bundle",  parts:[
+						Mirror(	[n:"y", P:"v,l:5,v:4.0"]),
+						Mirror(	[n:"x", P:"v,l:5,v:2.0"]),
+						Mirror(	[n:"w", P:"v,l:5,v:0.0"]),
+					 ] ]),
+					SoundAtom(	[n:"v", P:"v1", f:0]),
+//					SoundAtom(	[n:"v", S:"v1", f:1]),
+					Mirror( 	[n:"v1", "gain":-1, "offset":1, f:1]),
 				] ])
 			})
 			r("+ BlinksALot", eSim + eXYtight + //logAt(all:7) +
@@ -1944,7 +1949,7 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + logAt(dat:3
 		Tunnel(of:.genAtom, [n:"evi", struc:["d1", "d2", "d3"], placeMy:"stackz 0 -1"]),
 	]]) })
 		xxr("- auto-bcast Bug ", eSim + selfiePole(s:070,u:23) + vel(-1) + logAt(dat:3, eve:5) +
-							[lookAt:"/net0/evi/d1/genP"], {Net([placeMy:"linky", parts:[
+							[lookAt:"/netƒ0/evi/d1/genP"], {Net([placeMy:"linky", parts:[
 			MaxOr([  n:"e2", P:["d2"], f:0]),
 			MaxOr([  n:"e1", P:["d2"], f:0]),
 			MinAnd([ n:"d2", f:1])

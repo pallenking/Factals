@@ -89,11 +89,11 @@ struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
-		guard let scnBase	else {	fatal("scnBase is nil")			}
+		guard let scnBase	else {	fatalError("scnBase is nil")			}
 		let scnView				= SCNView(frame: NSRect.zero, options: [String : Any]())
 		scnBase.scnView	= scnView		// for pic
 
-		scnView.isPlaying		= true			// animations, does nothing
+//		scnView.isPlaying		= false			// book keeping
 		scnView.showsStatistics	= true			// controls extra bar
 	//	scnView.debugOptions	= [				// enable display of:
 	//		SCNDebugOptions.showPhysicsFields,]	//  regions affected by each SCNPhysicsField object

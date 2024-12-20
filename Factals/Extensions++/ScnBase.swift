@@ -632,7 +632,7 @@ extension ScnBase : ProcessNsEvent {
 	//		.rootNode:tree				// The root of the node hierarchy to be searched. 			MOTOR BUSTED
 		]
 
-		guard let scnView				else { fatal("self.scnView is nil") }
+		guard let scnView				else { fatalError("self.scnView is nil") }
 		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)
 		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
 

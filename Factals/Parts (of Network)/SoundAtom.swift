@@ -103,16 +103,16 @@ class SoundAtom : Atom {
 				sPort.take(value:val)				// Pass it on to P
 
 				 // Rising edge starts a Sound
-				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
+				if val>=0.5 && valPrev<0.5 { 		// Rising Edge +
 					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
-					
-					partBase?.factalsModel?.docSound.play(sound:"di")//docSound, onNode:)
-//					if sObj.isPlaying {
-//						print("\n\n NOTE: Going TOO FAST\n\n")
-//					}
-					 // If this terminates the previous sound, it's okay!
-panic()//			sObj.play						// start playing sound
-					playing 	= true;				// delay loading primary.L
+
+
+					if let sObj					= partBase?.factalsModel?.docSound {
+						guard let sound else { print("sound is nil"); return	}
+						guard !playing  else { print("\n\n NOTE: Going TOO FAST\n\n"); return}
+						sObj.play(sound:sound)// onNode:??)
+						playing 	= true;				// delay loading primary.L
+					}
 				}
 			}
 		}
@@ -123,16 +123,14 @@ panic()//			sObj.play						// start playing sound
 				pPort.take(value:sPort2Port.getValue())
 
 				 // Rising edge starts a Sound
-				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
+				if val>=0.5 && valPrev<0.5 { 	// //  Rising Edge +
 					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
-					
-					partBase?.factalsModel?.docSound.play(sound:sound!)//"di" docSound, onNode:)
-//					if sObj.isPlaying {
-//						print("\n\n NOTE: Going TOO FAST\n\n")
-//					}
-					 // If this terminates the previous sound, it's okay!
-//					sObj.play						// start playing sound
-					playing 	= true;				// delay loading primary.L
+					if let sObj					= partBase?.factalsModel?.docSound {
+						guard let sound else { print("sound is nil"); return	}
+						guard !playing  else { print("\n\n NOTE: Going TOO FAST\n\n"); return}
+						sObj.play(sound:sound)			// onNode:??)
+						playing 	= true;				// delay loading primary.L
+					}
 				}
 			}
 		}

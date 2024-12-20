@@ -19,21 +19,23 @@ import Foundation
  //		Best if no pop required
  // 5. Does not involve machine language (so Rosetta won't be needed)
  //			See INSTALL.md and TO_DO.md for bug
-func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line ) -> Never
+func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line )// -> Never
 {					//	value: @autoclosure () -> Value ) 		  -> Value
 	let m						= message //+ Thread.callStackSymbols.prefix(50).joined(separator:"\n")
 
 //#if DEBUG
-	fatalError(m)				// transfer control to debugger	// fatalError("###")
+	raise(SIGTRAP)
+	//debugger()
+	//fatalError(m)				// transfer control to debugger	// fatalError("###")
 //#else
 //	reportErrorToServer(m)
 //		// return value()
 // #endif
 // ->  0x183bcb9bc <+168>: brk    #0x1
 	 // Should never get here, but historically helpful:
-	raise(SIGINT)		//	builtin_debugtrap() __builtin_trap()
-	raise(SIGTRAP)
-	while true { print("\t--------------------------------") 					}
+	//raise(SIGINT)		//	builtin_debugtrap() __builtin_trap()
+	//raise(SIGTRAP)
+	//while true { print("\t--------------------------------") 					}
 }
 
 var bug : () { //(file:String /*= #file*/, line:UInt /*= #line*/) 			{

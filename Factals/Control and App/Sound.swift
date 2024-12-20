@@ -133,6 +133,7 @@ AddInstanceForFactory: No factory registered for id <CFUUID 0x60000347f140> F8BB
 		{	try audioDataAsset.data.write(to:t1URL)							}
 		 catch
 		 {	print("Failed to write audio data to URL '\(name)': ERROR \(error)")}
+
 		if let audioSource 		= SCNAudioSource(url:t1URL) {
 			audioSource.isPositional = true
 			audioSource.shouldStream = false
@@ -142,23 +143,23 @@ AddInstanceForFactory: No factory registered for id <CFUUID 0x60000347f140> F8BB
 
 			assert(knownSources[name] == nil, "Redefinition of sounds (here '\(name)') not suported!")
 			knownSources[name] 	= audioSource// register soundSource
-
-
-			guard let rootScn else {	return									}
-			// Attach the audio source to the node
-			let audioPlayer 				= SCNAudioPlayer(source:audioSource)
-			rootScn.addAudioPlayer(audioPlayer)
-
-			 // Test
-			let moveAction 					= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
-			rootScn/*audioScn*/.runAction(moveAction) {
-				print("Movement action completed.")
-			}
-			let playAction					= SCNAction.playAudio(audioSource, waitForCompletion:false)
-			rootScn/*audioScn*/.runAction(playAction)	{
-				print("Audio action completed or interrupted.")
-			}
-			nop
+//
+//
+//			guard let rootScn else {	return									}
+//			// Attach the audio source to the node
+//			let audioPlayer 				= SCNAudioPlayer(source:audioSource)
+//			rootScn.addAudioPlayer(audioPlayer)
+//
+//			 // Test
+//			let moveAction 					= SCNAction.move(by: SCNVector3(0, 1, 0), duration: 2.0)
+//			rootScn/*audioScn*/.runAction(moveAction) {
+//				print("Movement action completed.")
+//			}
+//			let playAction					= SCNAction.playAudio(audioSource, waitForCompletion:false)
+//			rootScn/*audioScn*/.runAction(playAction)	{
+//				print("Audio action completed or interrupted.")
+//			}
+//			nop
 		}
 		return
 	}

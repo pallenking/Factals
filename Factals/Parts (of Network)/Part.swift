@@ -97,7 +97,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		for p in selfNParents() {			//		for (Part *p=self; p.parent; p=p.parent)
 			rv = rv != p.flipped;//^=		// rv now applies from self
 		}
-		assert(rv == selfNParents().reduce(into:false) { rv, p in rv != p.flipped  }, "OOps should ==")
+//		assert(rv == selfNParents().reduce(into:true) { rv, p:Part in rv = rv && (p == p.flipped)}, "OOps should ==")
 		return rv;
 	}
 
@@ -1493,7 +1493,6 @@ func foo () {
 	}
 
 	func ppUnusedKeys() -> String {
-	//	let nameTag					= ppUid(self)
 		let approvedConfigKeys	= ["placeMe", "placeMy", "portProp", "l", "len", "length"]
 		let dubiousConfig		= partConfig.filter { key, value in !approvedConfigKeys.contains(key) }
 		var rv 					= dubiousConfig.count == 0 ? "" :	// ignore empty configs

@@ -476,10 +476,10 @@ nop
 
 		 // Paw through Atom's local configuration
 		for (srcPortString, targets_) in partConfig {
+
 			  // Find a configuration key which is a Port con2:
 			 // :H: SouRCe is always a Port name
 			let srcPortPath		= Path(withName:srcPortString)
-
 			let srcPortName 	= srcPortPath.portName
 			if srcPortName == nil || srcPortAbilities[srcPortName!] == nil {
 				continue				// Not Port connections
