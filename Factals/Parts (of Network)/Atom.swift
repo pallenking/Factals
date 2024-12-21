@@ -107,7 +107,7 @@ class Atom : Part {	//Part//FwPart
 		bindings 				= try container.decode([String:String]?.self, forKey:.bindings)
 		atSer(3, logd("Decoded  as? Atom       '\(name)'"))
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Atom
@@ -210,8 +210,8 @@ class Atom : Part {	//Part//FwPart
 	  // MARK: - 4.7 Editing Network
 	 /// Search an Atom for a Port, create if needed.
 	/// * If desired port not in Atom's .ports, check delayed populate and bindings.
-	/// - Parameter wantName:		 --- required name of Port, "*" generates automatic name, nil or "" allows any name
-	/// - Parameter wantUp:			 --- required flip of Port, nil->either
+	/// - Parameter named:			 --- required name of Port, "*" generates automatic name, nil or "" allows any name
+	/// - Parameter localUp:		 --- required flip of Port, nil->either
 	/// - Parameter wantOpen:		 --- required that Port be open
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
@@ -313,7 +313,7 @@ class Atom : Part {	//Part//FwPart
 		}
 		return rv
 	}
-	
+
 	 /// Create auto-populated Ports
 	/// * Port must be in hasPorts() with an "a" (autopopulate) character
 	/// - Parameters:
@@ -322,18 +322,19 @@ class Atom : Part {	//Part//FwPart
 	/// - Returns: created Port, or nil
 	func delayedPopulate(named wantName:String?=nil, localUp wantUp:Bool?) -> Port? {
 		 // Delayed pouplate -- Create the Port
-		if wantName != nil, 				// Port name specified
-		  ports[wantName!] == nil, 			// Its not already in ports[]
-		  let pProp			= hasPorts( )[wantName!],// process "a", "f", "M"
-		 (wantUp == nil ||					// (flip unimportant OR
-		  pProp.contains("f") == wantUp!),	//  flip matches)
-		  pProp.contains("a")				// a --> auto-populate
+		if let wantName				= (wantName != nil && wantName != "") ? wantName! : // name supplied
+									     wantUp != nil ? (wantUp! ? "S": "P") : nil   , // pick up or down
+   		  ports[wantName] == nil, 			// Its not already in ports[]
+		  let pProp					= hasPorts()[wantName],// process "a", "f", "M"
+		  (wantUp == nil ||					// (flip unimportant OR
+			pProp.contains("f") == wantUp!),//  flip matches)
+		  pProp.contains("a")				// a=auto-populate
 		{		// Make a new Port:
-			let newPort		= (self is Splitter) ? (self as? Splitter)?.anotherShare(named:"*") :
-							  pProp.contains("M") ?
-								  MultiPort(["named":wantName!, "portProp":pProp]) :
-									   Port(["named":wantName!, "portProp":pProp])
-			ports[wantName!] = newPort
+			let newPort				= (self is Splitter) ? (self as? Splitter)?.anotherShare(named:"*") :
+									  !pProp.contains("M") ?
+										   Port(["named":wantName, "portProp":pProp]) :
+									  MultiPort(["named":wantName, "portProp":pProp])
+			ports[wantName] = newPort
 			addChild(newPort)
 			return newPort					// (always open)
 		}
@@ -396,7 +397,7 @@ class Atom : Part {	//Part//FwPart
 									// worry about toPort inside Tunnel
 		let child	 			= toPort.ancestorThats(childOf:papaNet)!
 		guard var ind 			= papaNet.children.firstIndex(where: {$0 === child}) else {
-			fatalError("Broadcast index bad of false'\(toPort.fullName)'")
+			debugger("Broadcast index bad of false'\(toPort.fullName)'")
 		}
 		newBcast.flipped		= toPort.upInPart(until:papaNet) == false
 		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD	//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
@@ -436,7 +437,7 @@ nop
 		con2Port!.con2			= .port(newS1Port)	  	// 2. link newBcast to toPort
 		newS1Port.con2			= .port(con2Port!)
 
-//		guard let toPort		= inPort.con2?.port else { fatalError("Link error slhf")}		// l0.P
+//		guard let toPort		= inPort.con2?.port else { debugger("Link error slhf")}		// l0.P
 //		toPort.con2 			= .port(pPort)		// toPort -> pPort
 //		pPort.con2				= .port(toPort)	// pPort -> toPort
 
@@ -541,9 +542,8 @@ nop
 						trgPortName	= trgPort1.name
 					}
 					 // //// 1e. Atom!
-					assert(trgAny is Atom, "In  \(self.pp(.fullName)):  target  '\(trgAnyIn.pp(.short))'  cannot be resolved to Atom")
 					guard let trgAtom = trgAny as? Atom else {
-						panic("target cannot be resolved to Atom")
+						panic("In  \(self.pp(.fullName)):  target  '\(trgAnyIn.pp(.short))'  cannot be resolved to Atom")
 						return
 					}
 					trgPortName	= trgPortName ?? ""		/// portName: nil -> ""

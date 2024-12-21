@@ -54,7 +54,7 @@ enum FwKnown : Codable {
 //		case let nSColor	as NSColor		: 	self = .nSColor		(nSColor	)
 //		case let array		as Array		: 	self = .array		(array		)
 //		case let dictionary	as Dictionary	: 	self = .dictionary	(dictionary	)
-		default: fatalError("Could not encode \(obj)")
+		default: debugger("Could not encode \(obj)")
 		}
 	}
 	func value() -> Codable {
@@ -81,7 +81,7 @@ enum FwKnown : Codable {
 //		case let .nSColor	(nSColor	)	:		return nSColor
 //		case let .array		(array		)	:		return array
 //		case let .dictionary(dictionary	)	:		return dictionary
-		default: fatalError("Could not decode \(self)")
+		default: debugger("Could not decode \(self)")
 		}
 	}
 }

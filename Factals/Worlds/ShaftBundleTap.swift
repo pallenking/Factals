@@ -23,8 +23,8 @@ class ShaftBundleTap : BundleTap { //Generator {
 		super.init(sConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
 	
-	required init?(coder: NSCoder) {	fatalError("init(coder:) has not been implemented")	}
-	required init(from decoder: Decoder) throws {	fatalError("init(from:) has not been implemented")	}
+	required init?(coder: NSCoder) {	debugger("init(coder:) has not been implemented")	}
+	required init(from decoder: Decoder) throws {	debugger("init(from:) has not been implemented")	}
 
 	  // MARK: - 3.1 Port Factory
  	override func hasPorts() -> [String:String]	{
@@ -59,7 +59,7 @@ class ShaftBundleTap : BundleTap { //Generator {
 */
 	 // MARK: - 8. Reenactment Simulator
 	func eventReady() -> String? {	return nil									}
-	override func loadTargetBundle(event:FwwEvent) {fatalError("Not implemented") }
+	override func loadTargetBundle(event:FwwEvent) {debugger("Not implemented") }
 
 	override func simulate(up upLocal:Bool) {
 

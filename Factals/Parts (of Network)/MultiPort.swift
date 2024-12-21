@@ -12,8 +12,8 @@ class MultiPort : Port {
 	override init(_ config:FwConfig = [:]) {
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
-	required init?(coder: NSCoder) { fatalError("init(coder:) unimplemented")	}
-	required init(from decoder: Decoder) throws {	fatalError("init(from:) unimplemented")	}
+	required init?(coder: NSCoder) { debugger("init(coder:) unimplemented")	}
+	required init(from decoder: Decoder) throws {	debugger("init(from:) unimplemented")	}
 
 	// MARK: - 8.1 PortTalk protocol
 	override func take(value val:Float, key:String?=nil) {

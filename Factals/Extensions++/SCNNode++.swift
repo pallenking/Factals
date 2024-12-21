@@ -33,8 +33,8 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 																				//		set(v) 		{	fatalError()											}//self.parent = v}
 																				//	}
 																				//	var root		:  SCNNode?	{
-																				//		get 		{	fatalError("Vew has no .partBase")}
-																				//		set(v)		{	fatalError("Vew has no .partBase")}
+																				//		get 		{	debugger("Vew has no .partBase")}
+																				//		set(v)		{	debugger("Vew has no .partBase")}
 																				//	}
 																				//
 																				//	func addChild(_ child: SCNNode?, atIndex index: Int?) {
@@ -240,7 +240,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	 /// Semantic Sugar, to make SCNNode, Vew, and Part all use term children
 	/// - entries are unique
 	func addChild(node:SCNNode, atIndex index:Int?=nil) {
-		guard !childNodes.contains(node) else { fatalError("no duplicates allowed")}
+		guard !childNodes.contains(node) else { debugger("no duplicates allowed")}
 		let ind					= index ?? children.count
 		insertChildNode(node, at:ind)
 	}
@@ -400,7 +400,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 
 			 /// 6. LAST print lower Parts, some are Ports
 			for child in children {
-				guard child.name != nil else {  fatalError("scnScene with nil name")  }
+				guard child.name != nil else {  debugger("scnScene with nil name")  }
 				rv				+= child.name! == "*-axis"
 								?  child.pp(.line, aux)+" (TRUNCATED)\n"
 								:  child.pp(.tree, aux)
@@ -464,7 +464,7 @@ class SCNComment : SCNNode {
 		comment = com
 		super.init()
 	}
-	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")	}
+	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")	}
 }
 
  //https://openbase.com/swift/GDPerformanceView

@@ -274,11 +274,11 @@ let fwColorSpace = [	//	rrggbbaa
 //extension NSColor : Codable {
 //	//'required' initializer must be declared directly in class 'NSColor' (not in an extension)
 //	public required convenience init(from decoder: Decoder) throws {
-//		fatalError("irrelevant")
+//		debugger("irrelevant")
 //	}
 //
 //	public func encode(to encoder: Encoder) throws {
-//		fatalError("irrelevant")
+//		debugger("irrelevant")
 //	}
 //
 //	enum NSColorKeys: String, CodingKey {

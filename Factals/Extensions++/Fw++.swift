@@ -166,7 +166,7 @@ extension SCNScene 					{		     //: FwAny
 //			return super.rootNode
 //		}
 //		set(v) {
-//			fatalError("rootNode property is read-only and cannot be set")
+//			debugger("rootNode property is read-only and cannot be set")
 //		}
 //	}
 }
@@ -1289,7 +1289,7 @@ func classFrom<T>(string:String) -> T.Type where T : Any {
 			return aTClass!
 		}
 	}
-	fatalError("classFrom(string:\(string)) FAILS")
+	debugger("classFrom(string:\(string)) FAILS")
 }
 
 extension Array where Element: Equatable {

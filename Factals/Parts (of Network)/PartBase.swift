@@ -118,7 +118,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 
 	}
 
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 
 	 // Configuration for Part Tree's
 	func configure(from:FwConfig) {
@@ -185,7 +185,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 		do {
 			return try JSONDecoder().decode(PartBase.self, from:data)
 		} catch {
-			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
+			debugger("Parts.from(data:encoding:) ERROR:'\(error)'")
 		}
 	}
 //	convenience init?(data:Data, encoding:String.Encoding) {
@@ -206,7 +206,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	func makeSelfCodable(neededLock:String) {		// was readyForEncodable
-bug;	guard lock(for:neededLock, logIf:true) else { fatalError("'\(neededLock)' couldn't get PART lock") }
+bug;	guard lock(for:neededLock, logIf:true) else { debugger("'\(neededLock)' couldn't get PART lock") }
 
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
@@ -268,10 +268,10 @@ bug
 //	override func read(from savedData:Data, ofType typeName: String) throws {
 //		logd("\n" + "read(from:Data, ofType:      ''\(typeName.description)''       )")
 //		guard let unarchiver : NSKeyedUnarchiver = try? NSKeyedUnarchiver(forReadingFrom:savedData) else {
-//				fatalError("NSKeyedUnarchiver cannot read data (its nil or throws)")
+//				debugger("NSKeyedUnarchiver cannot read data (its nil or throws)")
 //		}
 //		let inPolyPart			= try? unarchiver.decodeTopLevelDecodable(PolyWrap.self, forKey:NSKeyedArchiveRootObjectKey)
-//								?? {	fatalError("decodeTopLevelDecodable(:forKey:) throws")} ()
+//								?? {	debugger("decodeTopLevelDecodable(:forKey:) throws")} ()
 //		unarchiver.finishDecoding()
 //		guard let inPolyPart 	= inPolyPart else {	throw MyError.funcky 	}
 //
@@ -406,7 +406,7 @@ bug		// invisible?
 	 // Part.log comes here to stop  -- else infinite loop
 	var log : Log {
 		let fm : FactalsModel?	= factalsModel ?? FACTALSMODEL
-		let log					= fm?.factalsDocument.log ?? Log.app //FactalsApp.main().log ?? { fatalError("factalsModel nil in PartBase")}().log("=
+		let log					= fm?.factalsDocument.log ?? Log.app //FactalsApp.main().log ?? { debugger("factalsModel nil in PartBase")}().log("=
 		return log
 	}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {

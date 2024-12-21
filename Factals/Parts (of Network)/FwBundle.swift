@@ -9,8 +9,8 @@ class Bundle : FwBundle {
 							  .leafClosure(trailingHash!)
 		super.init(of:.leafClosure(trailingHash!), leafConfig:lc, tunnelConfig)
 	}
-	required init(from decoder: Decoder) throws {	fatalError("unimplemented") }
-	required init?(coder: NSCoder) 				{	fatalError("unimplemented") }
+	required init(from decoder: Decoder) throws {	debugger("unimplemented") }
+	required init?(coder: NSCoder) 				{	debugger("unimplemented") }
 }
 
  /// A FwBundle is a hierarchical structure of Leafs, one per port
@@ -73,7 +73,7 @@ class FwBundle : Net {
 		label	 			= try container.decode(String.self,   forKey:.label)
 		atSer(3, logd("Decoded  as? FwBundle     named  '\(name)'"))
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy			= super.copy(with:zone) as! FwBundle

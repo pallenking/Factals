@@ -262,7 +262,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 //			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
 		}
 //		else {			 		// Install new parts in current window
-//			guard let doc = DOC else { fatalError("no DOC")}
+//			guard let doc = DOC else { debugger("no DOC")}
 //			guard let factalsModel = doc.factalsModel else {	return	}
 //
 //			let partBase		= Parts(fromLibrary:scanKey)

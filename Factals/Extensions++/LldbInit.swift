@@ -29,7 +29,7 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }//
-var LLDBParts : PartBase		{	FACTALSMODEL?.partBase ?? fatalError("FACTALSMODEL is nil") as! PartBase }
+var LLDBParts : PartBase		{	FACTALSMODEL?.partBase ?? debugger("FACTALSMODEL is nil") as! PartBase }
 func LLDBParts(_ name:String?=nil) -> Part  {
 	guard var rv : Part			= FACTALSMODEL?.partBase.tree else {
 									return Part(["name":"COULD NOT FIND tree"])	}
@@ -41,24 +41,24 @@ func LLDBParts(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  LLDBvews0  : VewBase {
-	get 		{	return FACTALSMODEL?.vewBases.first ?? fatalError("vewBases.first is nil") as! VewBase	}
+	get 		{	return FACTALSMODEL?.vewBases.first ?? debugger("vewBases.first is nil") as! VewBase	}
 	set (v)		{		   FACTALSMODEL?.vewBases[0] = v						}
 }
 var  LLDBvews1  : VewBase {
 	get 		{	return FACTALSMODEL!.vewBases.count > 1 ? FACTALSMODEL!.vewBases[1]
-						 : fatalError("vewBases.first is nil") as! VewBase		}
+						 : debugger("vewBases.first is nil") as! VewBase		}
 	set (v)		{		   FACTALSMODEL?.vewBases[1] = v						}
 }
 var  LLDBvews2  : VewBase {
 	get 		{	return FACTALSMODEL!.vewBases.count > 2 ? FACTALSMODEL!.vewBases[2]
-						 : fatalError("vewBases[2] is nil") as! VewBase			}
+						 : debugger("vewBases[2] is nil") as! VewBase			}
 	set (v)		{		   FACTALSMODEL?.vewBases[2] = v						}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
 	guard let factalsModel 		= FACTALSMODEL else {
-		fatalError("FACTALSMODEL returns nil !!!")
+		debugger("FACTALSMODEL returns nil !!!")
 	}
-	guard index >= 0 && index < factalsModel.vewBases.count else { fatalError("rootvew() returns .null !!!")	}
+	guard index >= 0 && index < factalsModel.vewBases.count else { debugger("rootvew() returns .null !!!")	}
 	var vew : Vew				= factalsModel.vewBases[index].tree
 	if name != nil {			// Search for named Vew
 		vew						= vew.find(name:name!, inMe2:true) ?? vew
@@ -74,7 +74,7 @@ func LLDBvewISceneTreeRoot(_ index:Int) -> SCNNode {
 	guard let vewBases			= FACTALSMODEL?.vewBases,
 	  vewBases.count > index,
 	  let scn					= vewBases[index].scnBase.roots?.rootNode else {
-		fatalError("Found ...vewBases[\(index)].scnBase.tree?.rootNode = nil")
+		debugger("Found ...vewBases[\(index)].scnBase.tree?.rootNode = nil")
 	}
 	return scn
 }
@@ -82,17 +82,17 @@ func LLDBvewISceneTreeRoot(_ index:Int) -> SCNNode {
 //func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNScene	{
 //	guard let factalsModel 			= FACTALSMODEL else {
 //		print("FACTALSMODEL is nil! returning SCNNode.null")
-//		fatalError("FACTALSMODEL is nil! returning SCNNode.null")
+//		debugger("FACTALSMODEL is nil! returning SCNNode.null")
 //	}
 //	guard index >= 0 && index < factalsModel.vewBases.count else {
 //		print("index:\(index) exceeds rootVews=\(factalsModel.vewBases.count)! returning SCNNode.null")
-//		fatalError("aegqvw")
+//		debugger("aegqvw")
 //	}
 //	var scnBase				= factalsModel.vewBases[index].scnBase
 //
 //	 // Search for named SCN:
 //	if name != nil {
-//		fatalError("aowivw;von")
+//		debugger("aowivw;von")
 ////		scnBase				= scnBase?.tree.rootNode.find(inMe2:true, all:true, firstWith:
 ////								  { $0.name == name })  ?? scnBase
 //	}
@@ -100,7 +100,7 @@ func LLDBvewISceneTreeRoot(_ index:Int) -> SCNNode {
 ////		print("scnNode is set to .nil")
 ////		return .null
 ////	}
-//	guard let rv 					= scnBase.tree else { fatalError("ksajvkwvawpijv")}
+//	guard let rv 					= scnBase.tree else { debugger("ksajvkwvawpijv")}
 //	return scnBase.tree!
 //}
 
@@ -133,7 +133,7 @@ func sendApp(key:String="?", inVew vew:Vew?) {
 		case "?":
 			printDebuggerHints()
 		default:
-			fatalError("sendApp finds nil Controller.current")
+			debugger("sendApp finds nil Controller.current")
 		}
 	}
 }

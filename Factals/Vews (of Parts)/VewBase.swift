@@ -192,7 +192,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		do {
 			return try JSONDecoder().decode(VewBase.self, from:data)
 		} catch {
-			fatalError("Parts.from(data:encoding:) ERROR:'\(error)'")
+			debugger("Parts.from(data:encoding:) ERROR:'\(error)'")
 		}
 	}
 

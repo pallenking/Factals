@@ -109,7 +109,7 @@ class Splitter : Atom {
 		a1 						= try container.decode( Float.self,	forKey:.a1)
 		atSer(3, logd("Decoded  as? Splitter   named  '\(name)'"))
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Splitter

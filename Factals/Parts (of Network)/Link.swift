@@ -64,7 +64,7 @@ class Link : Atom {
 					"dual"							// default
 		guard let skinTypeString = skinTypeAny as? String,
 		  let stStr				= LinkSkinType(rawValue:skinTypeString) else {
-			fatalError("Configuration for 'linkSkinType', 'type' or 't' has illegal value '\(skinTypeAny.pp())'")
+			debugger("Configuration for 'linkSkinType', 'type' or 't' has illegal value '\(skinTypeAny.pp())'")
 		}
 		linkSkinType 			= stStr
 
@@ -143,7 +143,7 @@ class Link : Atom {
 		maxColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
 		atSer(3, logd("Decoded  as? Link       named  '\(name)'"))
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Link
@@ -261,7 +261,7 @@ class Link : Atom {
 		for (_, port) in ports {
 //bug //NReset
 			if port.test(dirty:.size) {		// clear Port's dirty size
-				guard let portsVew = vew.find(part:port, maxLevel:1) else {fatalError("Link's Part has no Vew") }
+				guard let portsVew = vew.find(part:port, maxLevel:1) else {debugger("Link's Part has no Vew") }
 
 				let _			= port.reSkin(linkPortsVew:portsVew)		// xyzzy32 Link rebuilds link skins
 
@@ -352,7 +352,7 @@ class Link : Atom {
 		 /// All calculations done in parentVew(.scnScene)'s coordinate system
 	override func reSizePost(vew:Vew) {				//  find endpoints
 		let aux					= params4partPp				//log.params4aux
-		guard let linkVew		= vew as? LinkVew else { fatalError("Link's Vew isn't a LinkVew") }
+		guard let linkVew		= vew as? LinkVew else { debugger("Link's Vew isn't a LinkVew") }
 		guard let parentVew		= linkVew.parent  else { return	/* no parent, do nothing*/}
 		linkVew.scnRoot.position	= .zero
 
@@ -488,7 +488,7 @@ bug	// Never USED?
 			return // silently: scnBase.tree?.find(name:"*-camera", maxLevel:1)
 		}
 		let cameraPosn			= cameraScn.position
-		guard let linkVew		= vew as? LinkVew 	 else { fatalError("Vew type mismach")}
+		guard let linkVew		= vew as? LinkVew 	 else { debugger("Vew type mismach")}
 		 // Get ends of link, and set positions
 		if let pEndVip			= linkVew.pEndVip,
 		  let  sEndVip 			= linkVew.sEndVip {
@@ -535,7 +535,7 @@ bug	// Never USED?
 		super.rePaint(vew:vew)				// hits my end LinkPorts
 
 		if linkSkinType == .dual {
-			guard let linkVew = vew as? LinkVew else {	fatalError("paranoia")	}
+			guard let linkVew = vew as? LinkVew else {	debugger("paranoia")	}
 			let linksImage	= NSImage(size: NSSize(width:imageWidth, height:imageHeight))
 			let link : Link = linkVew.part as! Link
 			link  .pUpCPort.paintSegments(on:linksImage)
@@ -549,7 +549,7 @@ bug	// Never USED?
 			 // Apply image to shape (Plane or Box)
 			let scn2paintOn	= linkVew.scnRoot.find(name: "s-Paint")
 			guard let geom	= scn2paintOn?.geometry else {
-				fatalError("Attempt to paint on scnScene wo geometry") 				}
+				debugger("Attempt to paint on scnScene wo geometry") 				}
 			let i			= usePlane ? 0 : 4		// 0:base, 4:left side if rect
 			assert(i < geom.materials.count, "Link '\(pp(.fullName))' access: to \(i) but only has \(geom.materials.count) materials")
 			geom.materials[i].diffuse.contents = linksImage						//for j in 0..<6 {

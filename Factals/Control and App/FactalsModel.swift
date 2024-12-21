@@ -100,7 +100,7 @@ extension FactalsModel  : Logd {}
 					//		}
 					//		 // initialize new SCNScene from Data
 					//		convenience init?(data:Data, encoding:String.Encoding) {
-					//			fatalError("FactalsModel.init?(data:Data")
+					//			debugger("FactalsModel.init?(data:Data")
 					//		//	do {		// 1. Write data to file.
 					//		//		try data.write(to: fileURL)
 					//		//	} catch {
@@ -119,11 +119,11 @@ extension FactalsModel  : Logd {}
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
 //		try container.encode(simulator,			forKey:.simulator				)
-		fatalError("FactalsModel.encode(coder..) unexpectantly called")
+		debugger("FactalsModel.encode(coder..) unexpectantly called")
 	}
 	 // ///////// Deserialize
 	required init(coder aDecoder: NSCoder) {
-		fatalError("FactalsModel.init(coder..) unexpectantly called")
+		debugger("FactalsModel.init(coder..) unexpectantly called")
 	}
 	 // MARK: - 4.?
 	func vewBase(ofVew v:Vew)  -> VewBase? {							//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
@@ -166,8 +166,8 @@ extension FactalsModel  : Logd {}
 
 //		let workName			= "toggelOpen"
 //		guard partBase.lock(for:workName, logIf:true) else {
-//			fatalError("toggelOpen couldn't get PART lock")	}		// or
-//		guard  vew.vewBase()?.lock(for:workName, logIf:true) ?? false else {fatalError("couldn't get Vew lock") }
+//			debugger("toggelOpen couldn't get PART lock")	}		// or
+//		guard  vew.vewBase()?.lock(for:workName, logIf:true) ?? false else {debugger("couldn't get Vew lock") }
 //
 //bug;	let partBase			= vew.part.partBase
 //		let vewBase				= vewBases.first(where: {
@@ -208,7 +208,7 @@ extension FactalsModel  : Logd {}
 //
 //			 // Animate Vew morph, from self to newVew:
 //			guard let newScn	= vew.parent?.find(name:"_" + part.name)?.scnScene else {
-//				fatalError("updateVew didn't creat a new '_<name>' vew!!")
+//				debugger("updateVew didn't creat a new '_<name>' vew!!")
 //			}
 //			newScn.scale		= .unity * 0.3 //0.1, 0.0 	// New before Fade-in	-- zero size
 //			oldScn.scale		= .unity * 0.7 //0.9, 1.0	// Old before Fade-out	-- full size
@@ -269,7 +269,7 @@ extension FactalsModel  : Logd {}
 	 /// Do  work in all VewBases, unless onlyView!=nil
 	func doPartNViewsLocked(onlyVew:Vew?=nil, workNamed:String, logIf:Bool, work:(_:VewBase)->Void) {
 		guard partBase  .lock  (for:workNamed, logIf:logIf)
-								else {fatalError(" couldn't get PART lock")		}
+								else {debugger(" couldn't get PART lock")		}
 								
 		 // Do change work to ALL Views:
 		for (i, vewBase) in vewBases.enumerated() {
@@ -277,7 +277,7 @@ extension FactalsModel  : Logd {}
 			if ovb==nil || ovb == vewBase {			// all if onlyVew==nilvvvvvvv
 				
 				guard vewBase  .lock  (for:"\(workNamed)[\(i)]", logIf:logIf)
-									else {fatalError(" couldn't get VEW lock")	}
+									else {debugger(" couldn't get VEW lock")	}
 				work(vewBase)			// Do desired changes
 				vewBase.updateVSP()		// Update Vews and their Scns
 				
@@ -300,7 +300,7 @@ extension FactalsModel  : Logd {}
 
 		assert(partBase.curOwner==nil, "shouldn't be")
 		guard  partBase.lock(for:workName, logIf:log) else {		// don't use assert
-			fatalError("failed to get lock")
+			debugger("failed to get lock")
 		}																		//assert(partBase  .lock  (for:workName, logIf:log), "failed to get lock")
 		doPartNViewsLocked(workNamed:workName, logIf:log) { vewBase in
 
@@ -418,9 +418,9 @@ extension FactalsModel  : Logd {}
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.scnBase.roots ?? {	fatalError("") } ()
+			let rootVews0scene	= vewBases.first?.scnBase.roots ?? {	debugger("") } ()
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
-						else { fatalError("writing dumpSCN.\(suffix) failed")	}
+						else { debugger("writing dumpSCN.\(suffix) failed")	}
 		case "V":
 			print("\n******************** 'V': Build the Model's Views:\n")
 			partBase.tree.forAllParts({		$0.markTree(dirty:.vew)				})

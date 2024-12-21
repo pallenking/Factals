@@ -35,7 +35,7 @@ extension Dictionary : PolyWrappable where Value : PolyWrappable {
 class PolyWrap : Part {
 
 	 // MARK: - 2. Object Variables:
-	/*@objc*/ override func polyWrap() -> PolyWrap {	fatalError("Cannot polyWrap a PolyWrap") }
+	/*@objc*/ override func polyWrap() -> PolyWrap {	debugger("Cannot polyWrap a PolyWrap") }
 	/*@objc*/ override func polyUnwrap() -> Part {
 
 		 // check proper form of PolyWrap
@@ -74,7 +74,7 @@ class PolyWrap : Part {
 		case polyWrap				// CodingKey to access polyWrap
 	}
 	//@objc func polyUnwrap() -> Part {
-	//	fatalError("Should be overridden")
+	//	debugger("Should be overridden")
 	//}
 	override func encode(to encoder: Encoder) throws {
 		let polyWrap			= child0!
@@ -110,7 +110,7 @@ class PolyWrap : Part {
 		atSer(3, logd("Decoded  as? PolyWrap   named '\(name)', partType\(newbiePartType)"))
 		self.addChild(newbiePart)
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 	
 	 // MARK: - 3.6 NSCopying
 	 // MARK: - 3.7 Equatable

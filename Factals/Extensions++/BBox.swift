@@ -126,8 +126,8 @@ func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 	var summary				:String	{	return  "s'\(pp(.short))'"				}
 }
 extension BBox : Codable {
-	init(from: Decoder)		 throws { fatalError("init(from: Decoder)   UNIMPLEMENTED")}
-	func encode(to: Encoder) throws { fatalError("encode(to: Encoder)   UNIMPLEMENTED")}
+	init(from: Decoder)		 throws { debugger("init(from: Decoder)   UNIMPLEMENTED")}
+	func encode(to: Encoder) throws { debugger("encode(to: Encoder)   UNIMPLEMENTED")}
 }
 extension BBox : Equatable {
 	static func ==(aBox:BBox, bBox:BBox) -> Bool {

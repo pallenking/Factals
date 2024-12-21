@@ -85,7 +85,7 @@ class WorldModel : Atom {
 		prob			= try container.decode(  	 Float.self, forKey:.prob)
 		atSer(3, logd("Decoded  as? WorldModel named  '\(name)'"))
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! WorldModel
@@ -135,7 +135,7 @@ bug;	return rv
 
 		guard eventLimit < 0 || eventLimit > eventNow else { return nil			}
 		guard event != nil 						else {	return nil	/* space in event */}
-		guard case .anArray(let array)? = event else {	fatalError("Need an FwwEvent array here!")	}
+		guard case .anArray(let array)? = event else {	debugger("Need an FwwEvent array here!")	}
 		guard eventIndex < array.count			else {	return nil				}
 
 		let rv 					= array[eventIndex]// get next FwwEvent

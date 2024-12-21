@@ -80,7 +80,7 @@ class LinkPort : Port {
 		atSer(3, logd("Decoded  as? LinkPort"))
 	}
 //	 // MARK: - 3.6 NSCopying
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! LinkPort
 //		theCopy.outPort	 		= self.outPort
@@ -169,7 +169,7 @@ class LinkPort : Port {
 		}
 	}
 	func paintSegments(on image:NSImage) {	// Draw contents of LinkPort on an NSImage
-		guard let parentLink	= parent as? Link else {	fatalError("")		}
+		guard let parentLink	= parent as? Link else {	debugger("")		}
 		image.lockFocus()
 		let imageHeight			= Float(parentLink.imageHeight)
 

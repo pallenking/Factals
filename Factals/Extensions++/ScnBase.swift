@@ -61,7 +61,7 @@ class ScnBase : NSObject {
 
 //		setRootNodeChild1 (from:tree)
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
 }
 extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
@@ -183,7 +183,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 			rv.camera			= camera
 			return rv
 		}()
-		guard let camera 		= camNode.camera else { fatalError("camera node not proper") }
+		guard let camera 		= camNode.camera else { debugger("camera node not proper") }
 
 		let perspective		= false
 		// Check the condition to determine the camera mode in perspective
@@ -318,8 +318,8 @@ bug
 								
 		vewBase?.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
 
-		guard let vewBase		= self.vewBase else { fatalError("vews is nil")	}
-		guard let factalsModel	= vewBase.factalsModel else {fatalError("")		}
+		guard let vewBase		= self.vewBase else { debugger("vews is nil")	}
+		guard let factalsModel	= vewBase.factalsModel else {debugger("")		}
 
 		let animate				= factalsModel.fmConfig.bool("animatePan") ?? false
 		if !animate || duration == 0.0,
@@ -349,7 +349,7 @@ bug
 		
 	 /// Determine zoom so that all parts of the scene are seen.
 	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
-		guard let vewBase  else {	fatalError("RootScn.vews is nil")}
+		guard let vewBase  else {	debugger("RootScn.vews is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= vewBase.tree.bBox //BBox(size:3, 3, 3)//			// in world coords
@@ -594,9 +594,9 @@ extension ScnBase : ProcessNsEvent {
 
 										//		 // Find the SCNView hit, somewhere in NSEvent's nsView			// SCNView holds a SCNScene
 										// 		var scnView : SCNView?	= nsView.hitTest(locationInRoot) as? SCNView	// in sub-View // nsView as? SCNView ?? 	// OLD WAY
-										//		guard let scnView else { fatalError("Couldn't find sceneView")			}
+										//		guard let scnView else { debugger("Couldn't find sceneView")			}
 										//		 // Find the 3D Vew for the Part under the mouse:
-										//		guard let rootNode		= scnView.scene?.rootNode else { fatalError("sceneView.scene is nil") }
+										//		guard let rootNode		= scnView.scene?.rootNode else { debugger("sceneView.scene is nil") }
 
 //	 .map {	NSApp.keyWindow?.contentView?.convert($0, to: nil)	}
 //	 .map { point in SceneView.pointOfView?.hitTest(rayFromScreen: point)?.node }
@@ -632,7 +632,7 @@ extension ScnBase : ProcessNsEvent {
 	//		.rootNode:tree				// The root of the node hierarchy to be searched. 			MOTOR BUSTED
 		]
 
-		guard let scnView				else { fatalError("self.scnView is nil") }
+		guard let scnView				else { debugger("self.scnView is nil") }
 		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)
 		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
 
@@ -691,7 +691,7 @@ extension ScnBase : ProcessNsEvent {
 	}
 
 	func selfiePole2camera(duration:Float=0, reason:String="") {
-		guard let cameraScn		= vewBase?.cameraScn else {fatalError("vewBase.cameraScn is nil")}
+		guard let cameraScn		= vewBase?.cameraScn else {debugger("vewBase.cameraScn is nil")}
 		let selfiePole			= vewBase!.selfiePole
 	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 

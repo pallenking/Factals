@@ -17,7 +17,7 @@ bug
 	 // MARK: - 3.5 Codable
 	  // Deserialize
 	required init(from decoder: Decoder) 	  throws	{	try super.init(from:decoder)	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 }
 
 
@@ -53,7 +53,7 @@ class Tunnel : FwBundle {
 		minSize 				= try container.decode(SCNVector3?.self, forKey:.minSize)
 		atSer(3, logd("Decoded  as? Tunnel        named  '\(name)' minSize = \(minSize?.pp(.line) ?? "nil")"))
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Tunnel

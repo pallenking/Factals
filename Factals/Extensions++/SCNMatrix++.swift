@@ -114,7 +114,7 @@ extension SCNMatrix4 {
 			case 1:	m12		= val
 			case 2:	m13		= val
 			case 3:	m14		= val
-			default: fatalError("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
+			default: debugger("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
 			}
 		case 1:
 			switch y {
@@ -122,7 +122,7 @@ extension SCNMatrix4 {
 			case 1:	m22		= val
 			case 2:	m23		= val
 			case 3:	m24		= val
-			default: fatalError("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
+			default: debugger("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
 			}
 		case 2:
 			switch y {
@@ -130,7 +130,7 @@ extension SCNMatrix4 {
 			case 1:	m32		= val
 			case 2:	m33		= val
 			case 3:	m34		= val
-			default: fatalError("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
+			default: debugger("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
 			}
 		case 3:
 			switch y {
@@ -138,9 +138,9 @@ extension SCNMatrix4 {
 			case 1:	m42		= val
 			case 2:	m43		= val
 			case 3:	m44		= val
-			default: fatalError("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
+			default: debugger("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
 			}
-		default: fatalError("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
+		default: debugger("SCNMatrix4.setElement(\(x), \(y), \(val)) fails")
 		}
 	
 	}

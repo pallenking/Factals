@@ -43,7 +43,7 @@ class CommonPart : Part {
 		atSer(3, logd("Decoded  as? CommonPart        named  '\(name)' size:\(size.pp(.line))"))
 	}
 //	 // MARK: - 3.6 NSCopying
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! CommonPart
 //		theCopy.size			= self.size

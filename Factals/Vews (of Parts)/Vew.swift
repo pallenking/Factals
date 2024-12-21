@@ -210,7 +210,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	 // Remove if parent exists
 	func removeFromParent() {
 		guard let i		 		= parent?.children.firstIndex(where: {$0 === self}) else {
-			fatalError("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
+			debugger("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
 		}
 		parent?.children.remove(at:i)
 		parent?.part.markTree(dirty:.size)	//.vew
@@ -378,7 +378,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
 			return rv
 		}
-		fatalError("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.pp(.fullName))' HAS NO PARENT")
+		debugger("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.pp(.fullName))' HAS NO PARENT")
 	}
 
 	    /// Convert bBox from vew to self's Vew

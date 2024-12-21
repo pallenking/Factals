@@ -98,9 +98,9 @@ class Generator : Net {
 
 	 // MARK: - 3.5 Codable
 	 // Deserialize
-	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented") }
 	required init(from decoder: Decoder) throws {
-		fatalError("init(from:) has not been implemented")						}
+		debugger("init(from:) has not been implemented")						}
 //	// MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Generator

@@ -10,51 +10,7 @@
 //NS
 
 import Foundation
-
- // Get thee to a debugger.  Should:
- // 1. Work without lldb breakpoints enabled
- // 2. Allow continue operation
- // 3. Work in all threads
- // 4. Leave the stack so symbols are accessable.
- //		Best if no pop required
- // 5. Does not involve machine language (so Rosetta won't be needed)
- //			See INSTALL.md and TO_DO.md for bug
-func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line )// -> Never
-{					//	value: @autoclosure () -> Value ) 		  -> Value
-	let m						= message //+ Thread.callStackSymbols.prefix(50).joined(separator:"\n")
-
-//#if DEBUG
-	raise(SIGTRAP)
-	//debugger()
-	//fatalError(m)				// transfer control to debugger	// fatalError("###")
-//#else
-//	reportErrorToServer(m)
-//		// return value()
-// #endif
-// ->  0x183bcb9bc <+168>: brk    #0x1
-	 // Should never get here, but historically helpful:
-	//raise(SIGINT)		//	builtin_debugtrap() __builtin_trap()
-	//raise(SIGTRAP)
-	//while true { print("\t--------------------------------") 					}
-}
-
-var bug : () { //(file:String /*= #file*/, line:UInt /*= #line*/) 			{
-	fatal("""
-		  \t--------------------------------
-		  \t---   a   B U G   to fix!    ---
-		  \t--------------------------------
-		  """, file:#file, line:#line)
-}
-
-func panic(_ message: @autoclosure () -> String="(No message supplied)",
-	file:StaticString = #file,	line:UInt = #line)
-{
-	fatal("\n\n" + """
-		  \t---- FATAL ERROR --------------------------------
-		  \t\("\(file):\(line) -- \(message())")
-		  \t-------------------------------------------------\n\n
-		  """)
-}
+//Usage:
 
 	  /// Check that a condition is true. Trap to debugger if it isn't
 	 ///  - Parameters:
@@ -87,6 +43,43 @@ func assertWarn(_ truthValue:Bool, _ message:@autoclosure()->String="assert fail
 		print("\n############# WARNING: \(msg) #############")
 	}
 }
+var bug : () { //(file:String /*= #file*/, line:UInt /*= #line*/) 			{
+	fatal("""
+		  \t--------------------------------
+		  \t---   a   B U G   to fix!    ---
+		  \t--------------------------------
+		  """, file:#file, line:#line)
+}
+func debugger(_ message:String, file:StaticString = #file, line:UInt = #line ) -> Never {
+	let callStack = Thread.callStackSymbols.prefix(50).joined(separator:"\n")
+	#if DEBUG
+		// Get thee to a debugger.  Should:
+			// 1. Work without lldb breakpoints enabled
+			// 2. Allow continue operation
+			// 3. Work in all threads
+			// 4. Leave the stack so symbols are accessable.
+			//		Best if no pop required
+			// 5. Does not involve machine language (so Rosetta won't be needed)
+			//			See INSTALL.md and TO_DO.md for bug
+		raise(SIGTRAP)	//debugger()
+	#else
+		reportErrorToServer(message)// + callStack)
+	#endif
+	fatalError("debugger(\(message))")
+}
+func panic(_ message: @autoclosure () -> String="(No message supplied)",
+	file:StaticString = #file,	line:UInt = #line)
+{
+	fatal("\n\n" + """
+		  \t---- FATAL ERROR --------------------------------
+		  \t\("\(file):\(line) -- \(message())")
+		  \t-------------------------------------------------\n\n
+		  """)
+}
+func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line )// -> Never
+{					//	value: @autoclosure () -> Value ) 		  -> Value
+	raise(SIGTRAP)
+}	//raise(SIGINT)	//	builtin_debugtrap() __builtin_trap()//while true { print("\t--------------------------------")}
 
    /// Clock time
   /// - parameters:
@@ -98,7 +91,6 @@ func wallTime(_ format:String="%c") -> String	{
 	let x						= dateFormatter.string(from: NSDate() as Date)
 	return x
 }
-
  /// a shortcut for sprintf
 func fmt(_ format:String, _ args:CVarArg...) -> String {
 	return  String(format:format, arguments:args)

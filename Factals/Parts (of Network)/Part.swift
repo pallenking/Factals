@@ -116,7 +116,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 						markTree(dirty:.size)
 																		}	}	}
 	var log : Log { partBase?.log ?? Log.app}
-//	var log : Log { partBase?.log ?? { fatalError("partBase not setup in Part") }()}
+//	var log : Log { partBase?.log ?? { debugger("partBase not setup in Part") }()}
 
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew
@@ -199,7 +199,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			partConfig["parts"] = nil
 		}
 	}
-	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}
 	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
 		atBld(3, print("#### DEINIT    \(ppUid(self)):\(fwClassName)")) // 20221105 Bad history deleted
 	}
@@ -257,7 +257,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}
 		return polyWrap
 	}
-	func polyUnwrap() -> Part {		fatalError("Part.polyUnwrap should be overridden by PolyWrap or Parts")	}
+	func polyUnwrap() -> Part {		debugger("Part.polyUnwrap should be overridden by PolyWrap or Parts")	}
 	  // MARK: - 3.5 Codable
 	 //https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
 	enum PartsKeys: String, CodingKey {
@@ -722,7 +722,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 //		if end0 == end1 {
 			return flip0 ^^ flip1
 		}
-		fatalError("self:\(fullName) and endPart:\(endPart.fullName) don't share a root")
+		debugger("self:\(fullName) and endPart:\(endPart.fullName) don't share a root")
 	}
 	 /// scan up the tree from self to (but not including) endPart
 	private func flipTo(endPart:Part) -> (Bool, Part) {

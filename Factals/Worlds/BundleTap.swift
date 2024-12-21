@@ -43,8 +43,8 @@ class BundleTap : Atom {
 		rv["S"]					= "pc";			// Secondary		(always create)
 		return rv;
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")	}
-	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
+	required init(from decoder: Decoder) throws {debugger("init(from:) has not been implemented")	}
 	
 		/// an Atom which generates data for a Bundle
 		/// - Parameter config:
@@ -86,7 +86,7 @@ class BundleTap : Atom {
 		targetBundle.forAllLeafs { leaf in
 			guard let _			= leaf.port4leafBinding(name: "R"),
 			 let _ 				= leaf.port4leafBinding(name: "G") else {
-				fatalError("Leaf \(self.pp(.fullName)) type '\(leaf.type)' has no R or G port, needed by\n")
+				debugger("Leaf \(self.pp(.fullName)) type '\(leaf.type)' has no R or G port, needed by\n")
 				// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
 			}
 		}
@@ -111,7 +111,7 @@ class BundleTap : Atom {
 	// MARK:  -8. Reenactment Simulator
 
 	 /// Load the next event to the target bundle:
-	func loadTargetBundle(event:FwwEvent) {		//fatalError("Not implemented")		}
+	func loadTargetBundle(event:FwwEvent) {		//debugger("Not implemented")		}
 		guard let targetBundle 			else { print("@@@@@@@@@ Burp fkwfj");return}
 
 			  /// Floating Point --> Random Events

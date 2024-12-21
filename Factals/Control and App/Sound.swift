@@ -170,7 +170,7 @@ AddInstanceForFactory: No factory registered for id <CFUUID 0x60000347f140> F8BB
 					return node
 				}
 			}
-			fatalError("###### Couldn't find SCNNode to play sound")
+			debugger("###### Couldn't find SCNNode to play sound")
 		} ()
 
 		 // Get audio source:

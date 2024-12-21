@@ -25,7 +25,7 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 		 // Configure Camera from Source Code: ["camera":["p":[1,2,3], "u":3.4] ...]]
 		if let c 				= config.fwConfig("selfiePole") {//camera") {
 			if let n	 		= c.string("n") {
-				fatalError("NameTags are read only")
+				debugger("NameTags are read only")
 			}
 			if let p 			= c.string("p") {			// 1, 1 2, 1 2 3, 1 2 3 4
 				position		= SCNVector3(string:p)

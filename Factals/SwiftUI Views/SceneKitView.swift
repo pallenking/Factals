@@ -89,7 +89,7 @@ struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
-		guard let scnBase	else {	fatalError("scnBase is nil")			}
+		guard let scnBase	else {	debugger("scnBase is nil")			}
 		let scnView				= SCNView(frame: NSRect.zero, options: [String : Any]())
 		scnBase.scnView	= scnView		// for pic
 

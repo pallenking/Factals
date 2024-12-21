@@ -55,7 +55,7 @@ class Share : Port { // ///////////// The common parts//////////////////////////
 	}
 	 // MARK: - 3.5 Codable
 	required init(from decoder: Decoder) throws { try super.init(from:decoder)	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 	 // MARK: - 8. Reenactment Simulator
 	 //-- distribute: (local UP)--//

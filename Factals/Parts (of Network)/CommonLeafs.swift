@@ -214,7 +214,7 @@ extension Leaf {	/// Generate Common Leafs
 			], leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 		//default:
-		//	fatalError("LeafKind \(leafKind.self) should never happen")
+		//	debugger("LeafKind \(leafKind.self) should never happen")
 		}
 //		groomModel(parent:nil, partBase:partBase)	// groom: add ports[] from children[]
 //		fixPorts()
@@ -320,4 +320,4 @@ extension Leaf {	/// Generate Common Leafs
 // // -------- qState -------------------------------------------------------
 //		case .array(let leafArray):
 //			let _ = leafArray	// silences warning
-//			fatalError("should never happen")
+//			debugger("should never happen")

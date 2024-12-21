@@ -137,7 +137,7 @@
 //									/// worry about toPort inside Tunnel
 //		let child	 			= toPort.ancestorThats(childOf:papaNet)!
 //		guard var ind 			= papaNet.children.firstIndex(where: {$0 === evi!})(of:child) else {
-//			fatalError("Broadcast index bad of false'\(toPort.fullName)'")
+//			debugger("Broadcast index bad of false'\(toPort.fullName)'")
 //		}
 //		if toPort.upInPart(papaNet) {
 //			ind					+= 0		// add new bcast after child

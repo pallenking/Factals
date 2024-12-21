@@ -254,7 +254,7 @@ class Port : Part, PortTalk {
 								  "conTo:\(con2?.port?.fullName ?? "xxq8ahx")"
 		atSer(3, logd("Decoded  as? Port       \(msg)"))
 	}
-	required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy : Port		= super.copy(with:zone) as! Port
@@ -307,7 +307,7 @@ class Port : Part, PortTalk {
 		while let scan2Port		= scan.con2?.port,	  // -------'     /     /|\
 		  let link				= scan2Port.parent as? Link {   // --------'       |
 			scan				= scan2Port.otherPort ?? {       // scan----------'
-				fatalError("Malformed Link: could not find otherPort")			}()
+				debugger("Malformed Link: could not find otherPort")			}()
 			let linkPName 		= scan2Port.name
 			let linkName 		= link.name
 			rv		 			+= " ->\(linkName).\(linkPName)"
@@ -412,7 +412,7 @@ class Port : Part, PortTalk {
 	 /// Convert self.portConSpot to inVew
 	func portConSpot(inVew vew:Vew) -> ConSpot {
 		let aux					= params4partPp				//log.params4aux
-		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
+		guard var openParent	= parent else {	debugger("portConSpot: Port with nil parent")	}
 		atRsi(8, openParent.logd("---------- \(vew.pp(.fullName)).portConSpotNEW"))
 
 		  // H: SeLF, ViEW, World Position, ConSpot
@@ -467,7 +467,7 @@ class Port : Part, PortTalk {
 		return rv
 	}
 //	func portConSpotOLD(inVew vew:Vew) -> ConSpot {
-//		guard var openParent	= parent else {	fatalError("portConSpot: Port with nil parent")	}
+//		guard var openParent	= parent else {	debugger("portConSpot: Port with nil parent")	}
 //		var rv	: ConSpot		= basicConSpot()		// in parent's coords
 //		let aux					= params4partPp				//log.params4aux
 //print("---------- portConSpotOLD")
