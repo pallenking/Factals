@@ -51,7 +51,7 @@ var bug : () { //(file:String /*= #file*/, line:UInt /*= #line*/) 			{
 		  """, file:#file, line:#line)
 }
 func debugger(_ message:String, file:StaticString = #file, line:UInt = #line ) -> Never {
-	let callStack = Thread.callStackSymbols.prefix(50).joined(separator:"\n")
+	let callStack = ""//Thread.callStackSymbols.prefix(50).joined(separator:"\n")
 	#if DEBUG
 		// Get thee to a debugger.  Should:
 			// 1. Work without lldb breakpoints enabled
@@ -63,7 +63,7 @@ func debugger(_ message:String, file:StaticString = #file, line:UInt = #line ) -
 			//			See INSTALL.md and TO_DO.md for bug
 		raise(SIGTRAP)	//debugger()
 	#else
-		reportErrorToServer(message)// + callStack)
+		reportErrorToServer(message + callStack)
 	#endif
 	fatalError("debugger(\(message))")
 }
@@ -78,16 +78,17 @@ func panic(_ message: @autoclosure () -> String="(No message supplied)",
 }
 func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line )// -> Never
 {					//	value: @autoclosure () -> Value ) 		  -> Value
-	raise(SIGTRAP)
-}	//raise(SIGINT)	//	builtin_debugtrap() __builtin_trap()//while true { print("\t--------------------------------")}
+	print(message)
+	raise(SIGTRAP)	//raise(SIGINT)	//	builtin_debugtrap() __builtin_trap()//while true { print("\t--------------------------------")}
+}
 
    /// Clock time
   /// - parameters:
  /// - truthValue:  -- Should be true
 /// - message:  -- Closure to execute if false
-func wallTime(_ format:String="%c") -> String	{
+func wallTime(_ format:String="yyyy-MM-dd'T'HH:mm:ss") -> String	{
 	let dateFormatter 			= DateFormatter()
-	dateFormatter.dateFormat = format
+	dateFormatter.dateFormat 	= format
 	let x						= dateFormatter.string(from: NSDate() as Date)
 	return x
 }

@@ -68,11 +68,14 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	var fullName	: String	{
 		return parent==nil  ? 		"/" + name :
 			   parent!.fullName + 	"/" + name
-
-
 //		let rv					= parent==nil  ? "" :
 //								  parent!.fullName + "/" + name		// add lefter component
 //		return rv
+	}
+	var vew0 : Vew? {
+		let vew0 				= partBase?.factalsModel?.vewBases.first?.tree.find(part:self)
+		assert(vew0!.part === self, "vew0.part !== self")
+		return vew0
 	}
 	var fullName16 	: String	{		return fullName.field(16)				}
 	 // - Array of unsettled ports. Elements are closures that returns the Port's name
@@ -458,13 +461,15 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			   let genPort			= leaf.port(named:"G"),
 			   let genAtom  		= genPort.atom as? SoundAtom	// was GenAtom!
 			{
-				genAtom.sound		= val
+				genAtom.sounds		= [val]
 			}
 			else {
 				panic("sound's val must be string")
 			}
 			return true							// found a spin property
 		}
+		if prop == "sounds" {	// e.g. "sound:di-sound" or
+bug		}
 		//if ([prop isEqualToString:"sound"]) {	// e.g. "sound:di-sound" or
 		//	panic("")
 		//	//if (coerceTo(NSString, val)) {
@@ -796,7 +801,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			 // Check children:
 			for child in orderedChildren
 			  where mineBut === nil || child !== mineBut! { // don't redo exception
-				if let rv 		= child.findCommon(up2:false, mineBut:self, maxLevel:mLev1, firstWith:firstWith) {
+/**/			if let rv 		= child.findCommon(up2:false, mineBut:self, maxLevel:mLev1, firstWith:firstWith) {
 					return rv
 				}
 			}

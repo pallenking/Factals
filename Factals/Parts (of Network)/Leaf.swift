@@ -84,21 +84,23 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 			  let sndAtom		= sndPPort.atom as? SoundAtom,
 			  let v				= val as? String
 			{
-				sndAtom.sound	= v
+				sndAtom.sounds	= [v]
 			}
 			else {
 				panic()
 			}
 		}
+		if prop == "sounds" {
+bug		}
 		return super.apply(prop:prop, withVal:val)
 	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	func port4leafBinding(name:String) -> Part? {
 		let binding 			= self.bindings?[name]
-bug;	if let path				= binding as? Path,
-		  let p					= resolveInwardReference(path, openingDown:false, except:nil)  {
-			return p
-		}
+bug;//	if let path				= binding as? Path,
+	//	  let p					= resolveInwardReference(path, openingDown:false, except:nil)  {
+	//		return p
+	//	}
 		return nil;			// not found
 	}
 	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?) -> Part? {

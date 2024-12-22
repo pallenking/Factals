@@ -101,8 +101,8 @@ struct FactalsDocument : FileDocument {
 						//		+ logAt(all:8)
 		factalsModel.configureVews(from:fmConfig)
 
-		 // ?. Load sounds
-		factalsModel.docSound.loadAllSounds(to:factalsModel.docSound)
+//		 // ?. Load sounds
+//		factalsModel.docSound.loadAllSounds(to:factalsModel.docSound)
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
 	}
 	 // Document supplied

@@ -17,18 +17,17 @@ import SceneKit
 class SoundAtom : Atom {
 
 	 // MARK: - 2. Object Variables:
-	var sound 	: String? 		= nil
+	var sounds 	: [String]		= []		// "" is quiet
 	var playing	: Bool			= false
 
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig = [:]) {
 
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
-		if let snd				= partConfig["sound"] as? String {
-			sound				= snd
-			partConfig["sound"] = nil
+		if let snds				= partConfig["sounds"] as? [String] {
+			sounds				= snds
 		}
+		assert(partConfig["sound"]==nil)
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{
@@ -46,8 +45,8 @@ class SoundAtom : Atom {
 	override func encode(to encoder: Encoder) throws  {
 		try super.encode(to: encoder)
 		var container 			= encoder.container(keyedBy:SoundAtomKeys.self)
-
-		try container.encode(sound,   forKey:.sound)
+bug
+//		try container.encode(sound,   forKey:.sound)
 		try container.encode(playing, forKey:.playing)
 		atSer(3, logd("Encoded  as? SoundAtom   '\(fullName)'"))
 	}
@@ -56,7 +55,7 @@ class SoundAtom : Atom {
 		try super.init(from:decoder)
 		let container 			= try decoder.container(keyedBy:SoundAtomKeys.self)
 
-		sound	 				= try container.decode(String.self, forKey:.sound)
+bug//	sound	 				= try container.decode(String.self, forKey:.sound)
 		playing	 				= try container.decode(  Bool.self, forKey:.playing)
 		atSer(3, logd("Decoded  as? SoundAtom  named  '\(name)'"))
 	}
@@ -73,8 +72,8 @@ class SoundAtom : Atom {
 	override func equalsFW(_ rhs:Part) -> Bool {
 		guard self !== rhs 							else {	return true			}
 		guard let rhs			= rhs as? SoundAtom else {	return false 		}
-		let rv					= super.equalsFW(rhs)
-								&& sound 	== rhs.sound
+bug;		let rv				= super.equalsFW(rhs)
+//								&& sound 	== rhs.sound
 								&& playing 	== rhs.playing
 		return rv
 	}
@@ -83,35 +82,35 @@ class SoundAtom : Atom {
 
 		if prop == "sound" {			// e.g. "sound:di-sound" or
 			panic("Must debug! old code was:")
-			self.sound			= val		//sound's val must be string
+			self.sounds			= [val]		// sound's val must be string
 			return true						// found a spin property
+		}
+		if prop == "sounds" {
+bug;		panic("Must debug! old code was:")
 		}
 		return super.apply(prop:prop, withVal:val)
 	}
 
 	 // MARK: - 8. Reenactment Simulator
+	let tickTock	= ["b","tick","t","tock"]		// tick b		// b t
+
 	override func simulate(up:Bool)  {
 		super.simulate(up:up)
 		let pPort				= ports["P"] ?? .error
 		let sPort				= ports["S"] ?? .error
 
 		if up {						// /////// going UP /////////
-
-			if let pPort2Port 	= pPort.con2?.port,  
+			if let pPort2Port 	= pPort.con2?.port,
 			  pPort2Port.valueChanged() {			// Input = other guy's output
 				let (val, valPrev) = pPort2Port.getValues()	// Get value from S // let v1 = val, v2 = valPrev
 				sPort.take(value:val)				// Pass it on to P
 
-				 // Rising edge starts a Sound
-				if val>=0.5 && valPrev<0.5 { 		// Rising Edge +
-					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
-
-
-					if let sObj					= partBase?.factalsModel?.docSound {
-						guard let sound else { print("sound is nil"); return	}
-						guard !playing  else { print("\n\n NOTE: Going TOO FAST\n\n"); return}
-						sObj.play(sound:sound)// onNode:??)
-						playing 	= true;				// delay loading primary.L
+				if sounds.count==4 {
+					if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
+						vew0?.scn.play(sound:sounds[0])
+					}
+					if val<=0.5 && valPrev>0.5 { 	// Fallling Edge +
+						vew0?.scn.play(sound:sounds[1])
 					}
 				}
 			}
@@ -122,19 +121,17 @@ class SoundAtom : Atom {
 				let (val, valPrev) = sPort2Port.getValues()	// Get value from P
 				pPort.take(value:sPort2Port.getValue())
 
-				 // Rising edge starts a Sound
-				if val>=0.5 && valPrev<0.5 { 	// //  Rising Edge +
-					atDat(4, logd("starting sound '\(self.sound ?? "-")'"))
-					if let sObj					= partBase?.factalsModel?.docSound {
-						guard let sound else { print("sound is nil"); return	}
-						guard !playing  else { print("\n\n NOTE: Going TOO FAST\n\n"); return}
-						sObj.play(sound:sound)			// onNode:??)
-						playing 	= true;				// delay loading primary.L
+				if sounds.count==4 {
+					if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
+						vew0?.scn.play(sound:sounds[2])
+					}
+					if val<=0.5 && valPrev>0.5 { 	// Fallling Edge +
+						vew0?.scn.play(sound:sounds[3])
 					}
 				}
 			}
 		}
-		return;
+		return
 	}
 	 // MARK: - 9.0 3D Support
 	override func typColor(ratio:Float) -> NSColor {	return .orange			}
@@ -153,13 +150,11 @@ class SoundAtom : Atom {
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		var rv 					= super.pp(mode, aux)
 		if mode ==  .line {
-			if let s			= sound {
-				rv 				+= " sound:'\(s)'"
-			}
+			rv 					+= " sounds=\(sounds.pp(.line))"
 			if playing {
-				rv				+= "playing"
+				rv				+= " playing"
 			}
-			assert(!(playing && sound != nil), "should not be!!!");
+//?			assert(!(playing && sound != nil), "should not be!!!");
 		}
 		return rv
 	}

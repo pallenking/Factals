@@ -44,13 +44,13 @@ extension FactalsApp : App {
 			 	NSApplication.shared.windows.first?.title = file.document.factalsModel?.partBase.title ?? "<nil>"
 			}
 		}
-//		 .commands {
-//			CommandMenu("Library") {
-//				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
-//					menuView(for:crux)
-//				}
-//			}
-//		}
+		 .commands {
+			CommandMenu("Library") {
+				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
+					menuView(for:crux)
+				}
+			}
+		}
 	}
 //	func xxxx() {
 //		let logger = OSLog(subsystem:Bundle.main.bundleIdentifier!, category:"havenwant?")

@@ -80,7 +80,7 @@ struct FactalsModelView: View {
 	@State private var tabViewSelect : Int	= 0
 
 	var body: some View {
-//		let _ = Self._printChanges()
+		//let _ = Self._printChanges()
 		VStack() {	//spacing:-10) {// does nothing
 
 			FactalsModelBar(factalsModel:factalsModel)
@@ -104,8 +104,9 @@ struct FactalsModelView: View {
 				Button(label:{ Text("++") }) {
 					addNewTab()													}
 				Button(label:{ Text("Test Sound") }) {
+					//FACTALSMODEL!.docSound.play(sound:"tick") }
 					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.roots!.rootNode
-					FACTALSMODEL!.docSound.play(sound:"forward") }//playSimple(rootScn:rootScn)			}
+					playSimple(rootScn:rootScn)			}
 			}
 			HStack {			// Body Elements
 
