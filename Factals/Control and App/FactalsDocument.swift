@@ -56,7 +56,7 @@ struct FactalsDocument : FileDocument {
 
 	init(fromLibrary select:String?=nil) {
 //return
-		 // 1. Part
+		 // 1. Part ******
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
 			/**/	let select:String?=nil	//	Blank scene		 |	nil		  -1
@@ -66,20 +66,20 @@ struct FactalsDocument : FileDocument {
 			//**/	let select	= "- Port Missing"
 			return select
 		} ()
-		let partBase			= PartBase(fromLibrary:select)
+/***/	let partBase			= PartBase(fromLibrary:select)
 
-		 // 2. FactalModel
+		 // 2. FactalModel ******
 		let pmConfig			= params4logs
 								+ params4vew
 								+ params4partPp
 								+ partBase.ansConfig		// from library
-		factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
+/***/	factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
 		factalsModel.factalsDocument = self		// backpointer																	//factalsModel.configurePart(from:pmConfig)
 
-		 // 3. Groom part
+		 // 3. Groom part ******
 		partBase.wireAndGroom([:])
 
-		 // 3. Vews
+		 // 4. Vews ******
 								/*		How to configure?
 									1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
 									2.	pt factalsModel.fmConfig	xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]

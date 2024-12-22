@@ -547,6 +547,7 @@ class Port : Part, PortTalk {
 
 	 // MARK: - 8. Reenactment Simulator
 	override func reset() {											super.reset()
+		valuePrev				= 0.0
 		value					= 0.0
 	}
 	 // no specific action required for Ports:

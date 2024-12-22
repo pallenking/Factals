@@ -207,30 +207,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		atBld(3, print("#### DEINIT    \(ppUid(self)):\(fwClassName)")) // 20221105 Bad history deleted
 	}
 
-//	func configNames(config:FwConfig = [:]) {
-//		var nam : String?		= nil
-//		 // Do this early, to improve creation printout
-//		for key in ["n", "name", "named"] {		// (Name has 3 keys)
-//			if let na:String 	= config[key] as? String {
-//				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
-//				nam				= na
-//				//config[key]	= nil			// remove from config
-//			}
-//		}			// -- Name was given
-//		name					= nam ?? { [self] in
-//			if let partBase		= partBase,
-//			  let prefix		= prefixForClass[fwClassName]
-//			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
-//				let index		= partBase.indexFor[prefix] ?? 0
-//				partBase.indexFor[prefix] = index + 1		// for next
-//				return prefix + String(index)
-//			} else {	// -- Use fallback
-//				defaultPrtIndex	+= 1
-//				return "prt" + String(defaultPrtIndex)
-//			}
-//		} ()
-//		children.forEach {	$0.configNames(config:config)	}
-//	}
 	 // START CODABLE ///////////////////////////////////////////////////////////////
 	   // MARK: - 3.4 PolyPart
 			//			input		returned (E) ^backlink

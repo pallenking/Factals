@@ -28,40 +28,40 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	var indexFor				= Dictionary<String,Int>()
 
 	 // MARK: - 2.1 Object Variables
-	var title					= ""
-//	var preTitle				= ""
-//	var postTitle				= ""
+	var preTitle				= ""			// source(arg)
+	var title					= ""			// Test Name or Status
+	var postTitle				= ""
+
 	var ansConfig : FwConfig 	= [:]
+
 	weak
-	 var factalsModel : FactalsModel? = nil
+	 var factalsModel : FactalsModel? = nil			// OWNER
 
 	 // MARK: - 2.3 Part Tree Lock
-									
 	var semiphore 				= DispatchSemaphore(value:1)	// be ware of structured concurency.
 	var curOwner  : String?		= nil							//	https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var prevOnwer : String?		= nil
 	var verboseLocks			= true//false//
 
-	// MARK: - 3. Part Factory
+	 // MARK: - 3. Part Factory
 	init(tree t:Part=Part()) {
 		tree					= t
 	}
 	init(fromLibrary selector:String?) {			// Parts(fromLibrary...
-		self.title				= "'\(selector ?? "nil")' -> "
+		self.preTitle			= "'\(selector ?? "nil")' -> "
+		self.title 				= " Not in Library"
 
-		 // Find the Library that contains the trunk for self, the root.
+		 // Get HaveNWant Machine (a Network)
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
-			self.title			+= "\(hnwMachine.testNum) "
-								+  "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
+			self.title			= hnwMachine.title!
+			self.preTitle		= "\(hnwMachine.testNum) "
+								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
-/* */		tree				= hnwMachine.trunkClosure?() ?? Part()
-		}
-		else {
-			self.title 			+= " Not in Library"
+/* */		self.tree			= hnwMachine.trunkClosure?() ?? Part()	// EXPAND Closure from Lib
+		} else {
 			tree				= Part()
 		}
 		checkTree()
-										//		tree.configNames(config:[:])
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)

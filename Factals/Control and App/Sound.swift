@@ -43,8 +43,8 @@ extension SCNNode : SoundProtocol {
 /**/	guard let audioSource	= SCNAudioSource(url:t1URL) else { return		}
 		audioSource.isPositional = true
 		audioSource.shouldStream = false
-		audioSource.volume 		= 1//bug; APPDEL?.config4app.float("soundVolume") ?? 1
-	  //source.rate 			= 1
+		audioSource.volume 		= 10//bug; APPDEL?.config4app.float("soundVolume") ?? 1
+		audioSource.rate 		= 0.1
 		audioSource.load() // Preload the audio for smoother playback
 
 		let audioPlayer			= SCNAudioPlayer(source:audioSource)

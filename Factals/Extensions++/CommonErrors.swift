@@ -89,8 +89,7 @@ func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line )//
 func wallTime(_ format:String="yyyy-MM-dd'T'HH:mm:ss") -> String	{
 	let dateFormatter 			= DateFormatter()
 	dateFormatter.dateFormat 	= format
-	let x						= dateFormatter.string(from: NSDate() as Date)
-	return x
+	return dateFormatter.string(from: NSDate() as Date)
 }
  /// a shortcut for sprintf
 func fmt(_ format:String, _ args:CVarArg...) -> String {
