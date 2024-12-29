@@ -60,6 +60,7 @@ struct SimulatorBar : View {
 	@State private var simTaskPeriodText: String = ""
 	@State var epoch2 = 0
 	@State private var myDouble: Double = 0.673
+	@State private var volume: 	 Double = 1
 
 	var body: some View {
 		HStack {
@@ -80,6 +81,9 @@ struct SimulatorBar : View {
 					simulator.simRun = false									}
 				Text(" timeNow=")
 				TextField("timeNow=", value:$simulator.timeNow,
+					format:.number.precision(.significantDigits(5))).frame(width:80)
+				Text(" volume=")
+				TextField("volume=", value:$volume,
 					format:.number.precision(.significantDigits(5))).frame(width:80)
 				Spacer()
 
