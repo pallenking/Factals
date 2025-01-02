@@ -235,8 +235,7 @@ class Actor : Net {
 
 		 // An enable for previousClock.
 		if let _		 		= partConfig["clockEnable"] {
-			panic("this has never been activated")
-			let enaPort			= Port()
+bug;		let enaPort			= Port()
 			addChild(enaPort)
 			enaPort.name		= "Ena"
 			enaPort.flipped		= true

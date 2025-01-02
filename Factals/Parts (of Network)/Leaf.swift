@@ -80,15 +80,15 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	override func apply(prop:String, withVal val:FwAny?) -> Bool {
 		 // Leafs get sound names from the .nib file:
 		if prop == "sound" {	// e.g. "sound:di-sound" or
-			if let sndPPort		= port(named:"SND"),
-			  let sndAtom		= sndPPort.atom as? SoundAtom,
-			  let v				= val as? String
-			{
-				sndAtom.sounds	= [v]
-			}
-			else {
-				panic()
-			}
+bug		//	if let sndPPort		= port(named:"SND"),
+		//	  let sndAtom		= sndPPort.atom as? SoundAtom,
+		//	  let v				= val as? String
+		//	{
+		//		sndAtom.sounds	= [v]
+		//	}
+		//	else {
+		//		panic()
+		//	}
 		}
 		if prop == "sounds" {
 bug		}
@@ -96,8 +96,8 @@ bug		}
 	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	func port4leafBinding(name:String) -> Part? {
-		let binding 			= self.bindings?[name]
-bug;//	if let path				= binding as? Path,
+bug;//	let binding 			= self.bindings?[name]
+	//	if let path				= binding as? Path,
 	//	  let p					= resolveInwardReference(path, openingDown:false, except:nil)  {
 	//		return p
 	//	}

@@ -467,8 +467,8 @@ nop
 	 // MARK: - 5. Wiring
 //	var defaultLinkProps : FwConfig	{ return [:]		}
 	override func gatherLinkUps(into linkUpList:inout [() -> ()], partBase:PartBase) {
-
 /**/	super.gatherLinkUps(into:&linkUpList, partBase:partBase)
+
 		   // /////////////////////////////////////////////////////////////////////
 		  // //    :H: src=SouRCe, lnk=LiNK, trg=TaRGet con=CONtaining net      //
 		 // /////////////////////////////////////////////////////////////////////

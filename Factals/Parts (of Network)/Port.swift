@@ -79,6 +79,7 @@ class Port : Part, PortTalk {
 	var valuePrev	: Float	= 0.0
 	{	didSet {	if valuePrev != oldValue {
 						markTree(dirty:.paint)							}	}	}
+	var sounder		: PortSound? = nil
 
 	func take(value newValue:Float, key:String?=nil) {
 		assert(key==nil,		"Key mode only supported on MPort, not on Port"	)
@@ -88,9 +89,9 @@ class Port : Part, PortTalk {
 		 // set our value.  (Usually done from self)
 		if value != newValue {
 			atDat(3, logd("<------' %.2f (was %.2f)", newValue, self.value))
-			 //*******//
-			value 				= newValue
-			 //*******//
+
+/***/		value 				= newValue
+
 			markTree(dirty:.paint)					// repaint myself
 			con2?.port?.markTree(dirty:.paint)// repaint my other too
 			partBase?.factalsModel?.simulator.startChits = 4			// start simulator after Port value changes
@@ -549,6 +550,7 @@ class Port : Part, PortTalk {
 	override func reset() {											super.reset()
 		valuePrev				= 0.0
 		value					= 0.0
+		sounder?.reset()
 	}
 	 // no specific action required for Ports:
 	override func simulate(up upLocal:Bool) {									}

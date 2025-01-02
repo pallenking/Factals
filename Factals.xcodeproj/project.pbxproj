@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F019EF02D20F0FA0064F58C /* PortSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F019EEF2D20F0FA0064F58C /* PortSound.swift */; };
+		9F019EF12D20F0FA0064F58C /* PortSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F019EEF2D20F0FA0064F58C /* PortSound.swift */; };
 		9F0295CF288091EF00DD0004 /* FactalsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295CD288091EF00DD0004 /* FactalsStatus.swift */; };
 		9F0295D32880923000DD0004 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D22880923000DD0004 /* Sound.swift */; };
 		9F0295D82880926D00DD0004 /* Self++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295D62880926D00DD0004 /* Self++.swift */; };
@@ -202,6 +204,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F019EEF2D20F0FA0064F58C /* PortSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortSound.swift; sourceTree = "<group>"; };
 		9F0295CD288091EF00DD0004 /* FactalsStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FactalsStatus.swift; sourceTree = "<group>"; };
 		9F0295D22880923000DD0004 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		9F0295D62880926D00DD0004 /* Self++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Self++.swift"; sourceTree = "<group>"; };
@@ -364,6 +367,7 @@
 				9F19010C28808EE70078DB6C /* Share.swift */,
 				9F19010E28808EF80078DB6C /* MultiPort.swift */,
 				9F19011028808F070078DB6C /* Port.swift */,
+				9F019EEF2D20F0FA0064F58C /* PortSound.swift */,
 				9FEE522A287602B400C8C22A /* CommonParts.swift */,
 				9F4A3AD9288B386300574925 /* Part.swift */,
 				9F19CA34285EB0730072C50E /* PartBase.swift */,
@@ -696,6 +700,7 @@
 				9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */,
 				9F417F1928EB940D0047B359 /* TimingChain.swift in Sources */,
 				9F417F0F28EB93E50047B359 /* Proto.swift in Sources */,
+				9F019EF12D20F0FA0064F58C /* PortSound.swift in Sources */,
 				9F417F2C28EB944D0047B359 /* PartBase.swift in Sources */,
 				9F417F4628EB94DB0047B359 /* FilteredLog.swift in Sources */,
 				9FDE5DA62C29C23A001D4A73 /* Book.swift in Sources */,
@@ -787,6 +792,7 @@
 				9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */,
 				9FEE6F182835778A00E9E2AE /* FactalsDocument.swift in Sources */,
 				9FEE52212874AB7300C8C22A /* Path.swift in Sources */,
+				9F019EF02D20F0FA0064F58C /* PortSound.swift in Sources */,
 				9F1900FD28808DC10078DB6C /* TimingChain.swift in Sources */,
 				9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */,
 				9F19010B28808EC90078DB6C /* Splitter.swift in Sources */,
