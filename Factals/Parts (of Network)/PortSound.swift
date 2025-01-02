@@ -13,38 +13,28 @@ class PortSound : Part {
 	var sounds 	: [String]		= []		// "" is quiet
 	var playing	: Bool			= false
 
-	var soundNodeName : String?	= nil
+	var playerNodeName :String?	= nil
 	weak
-	 var soundNode	  : Port?	= nil
+	 var playerNode	   :Port?	= nil
 
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig=[:]) {
-		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		super.init(config)	 //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		if let snds				= partConfig["sounds"] as? [String] {
 			sounds				= snds
 		}
-		if let mon				= partConfig["monitor"] as? String {
-			soundNodeName		= mon
+		if let mon				= partConfig["playerNodeName"] as? String {
+			playerNodeName		= mon
 		}
 	}
-	
 	required init?(coder: NSCoder) {	fatalError("init(coder:) has not been implemented")	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 	override func simulate(up:Bool)  {
+		playerNode				= getPlayerNode()	 // source as yet unresolved. This is rather ugly, but:
 		super.simulate(up:up)
 
-		 // source as yet unresolved. This is rather ugly, but:
-		if soundNode == nil {
-			if soundNodeName != nil  {
-				soundNode		= find(name:soundNodeName!, up2:true) as? Port
-							//parent?.port(named:soundNodeName!, localUp:true,  wantOpen:true)
-				soundNodeName 	= nil
-			}
-			guard soundNode != nil else { 		return 							}
-		}
-
 		if up {						// /////// going UP /////////
-			if let pPort2Port 	= soundNode!.con2?.port,
+			if let pPort2Port 	= playerNode!.con2?.port,
 			  pPort2Port.valueChanged() {			// Input = other guy's output
 				let (val, valPrev) = pPort2Port.getValues()	// Get value from S // let v1 = val, v2 = valPrev
 
@@ -59,8 +49,8 @@ class PortSound : Part {
 			}
 		}
 		if !up {					// /////// going DOWN ////////////
-			if soundNode!.valueChanged() {
-				let (val, valPrev) = soundNode!.getValues()	// Get value from P
+			if playerNode!.valueChanged() {
+				let (val, valPrev) = playerNode!.getValues()	// Get value from P
 
 				if sounds.count==4 {
 					if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
@@ -73,6 +63,13 @@ class PortSound : Part {
 			}
 		}
 	}
+	func getPlayerNode() -> Port? {
+		return playerNode ?? {
+			if playerNodeName != nil  {		return nil							}
+			return find(name:playerNodeName!, up2:true) as? Port
+		} ()
+	}
+
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1.6))
