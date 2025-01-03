@@ -1736,25 +1736,29 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 			] ])
 		})
 			//let tickTock	= ["b","tick","t","tock"]		// tick b		// b t
-			let tickTock	= ["tock","tick","tock","tick"]	// tick b		// b t
-			//let tickTock	= ["tick","b","tock","t"]		// tick b		// b t
+			//let tickTock	= ["tock","tick","tock","tick"]	// tick b		// b t
+			let tickTock	= ["tick","b","tock","t"]		// tick b		// tick bewlfuwo
 			//let tickTock	= ["tick","","tock",""]			// tick tock
 			//let tickTock	= ["tick","tock","",""]			// does both
 			//let tickTock	= ["","","tick","tock"]			// does both
-			xr("+ BlinksALot", eSimX + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
+			xr("+ BlinksALot", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
+					Mirror(		[n:"w", P:"v,l:5,v:1.5"]),
+					PortSound(	[n:"s1", "port":"v.P", "sounds":tickTock]),
+					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
+				] ])
+			})
+
+
 			//		FwBundle([n:"bundle",  parts:[
 			//			Mirror(	[n:"y", P:"v,l:5,v:5.3 "]),
 			//			Mirror(	[n:"x", P:"v,l:5,v:4.0"]),
-						Mirror(	[n:"w", P:"v,l:5,v:1.5"]),
 //			//			Mirror(	[n:"u", P:"v,l:5,v:0.0"]),
 			//		 ] ]),
 	//				SoundAtom(	[n:"v", P:"v1,l:1,v:9", "sounds":tickTock, f:0]),
 //					SoundAtom(	[n:"v", P:"v1=", "sounds":tickTock, f:0]),
 //					SoundAtom(	[n:"v", S:"v1=", "sounds":tickTock, f:1]),
-					PortSound(	[n:"sound1", "monitor":"v", "sounds":tickTock]),
-					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
-				] ])
-			})
+
+
 			xxr("+ BlinksSteady", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
 					Mirror(		[n:"w", P:"v,v:3"]),
 	//				SoundAtom(	[n:"v", P:"v1,v:3", "sounds":tickTock, f:0]),

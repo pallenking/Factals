@@ -139,7 +139,6 @@ bug;	let n1 = Vew(forPart:m1)
 			(			Generator(), 		"Generator"		),
 			(		Portless(), 			"Portless"		),
 			(		Previous(), 			"Previous"		),
-			(		SoundAtom(), 			"SoundAtom"		),
 			(		Splitter(), 			"Splitter"		),
 			(			Bayes(), 			"Bayes"			),
 			(			Broadcast(), 		"Broadcast"		),
@@ -531,5 +530,28 @@ bug;	let n1 = Vew(forPart:m1)
 	 // Test form XCTest:		/// MOVE TO ManyTests.swift
 //	func testOpen(urlNamed name:String) {
 //		APP.openURL(named:name)
+//	}
+//	func tesSoundLoadding() {
+//		let m = Foundation.Bundle.main
+//		
+//		let a00g = m.url(forResource: "di-sound", withExtension: "m4a")
+//		let a01x = m.url(forResource: "da-sound", withExtension: "m4a")
+//		let a02g = m.url(forResource: "di-sound", withExtension: "m4a", subdirectory: "")
+//		let a03x = m.url(forResource: "di-sound", withExtension: "m4a", subdirectory: "Assets")
+//		let a04x = m.url(forResource: "di-sound", withExtension: "m4a", subdirectory: "Assets.xcassets")
+//		
+//		let b00x = SCNAudioSource(named: "di-sound")
+//		let b01x = SCNAudioSource(named: "da-sound")
+//		let b02  = SCNAudioSource(named: "da-sound.dataset/da-sound.m4a")
+//		let b03  = SCNAudioSource(named: "di-sound.m4a")
+//		
+//		let _ = (a00g, a01x, a02g, a03x, a04x, b00x, b01x, b02, b03)
+//
+//		if let source = SCNAudioSource(named:"Assets.xcassets/di-sound.dataset/di-sound") {
+//			source.load()
+//			nop
+//		} else {
+//			print("Failed to load audio source 'da-sound'")
+//		}
 //	}
 }
