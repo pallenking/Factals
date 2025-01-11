@@ -31,7 +31,6 @@
 		9F19010528808DC10078DB6C /* GenAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F528808DC00078DB6C /* GenAtom.swift */; };
 		9F19010628808DC10078DB6C /* LinkPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* LinkPort.swift */; };
 		9F19010728808DC10078DB6C /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F728808DC10078DB6C /* Tunnel.swift */; };
-		9F19010928808E890078DB6C /* SoundAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010828808E890078DB6C /* SoundAtom.swift */; };
 		9F19010B28808EC90078DB6C /* Splitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010A28808EC90078DB6C /* Splitter.swift */; };
 		9F19010D28808EE70078DB6C /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010C28808EE70078DB6C /* Share.swift */; };
 		9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010E28808EF80078DB6C /* MultiPort.swift */; };
@@ -76,7 +75,6 @@
 		9F417F2128EB94270047B359 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
 		9F417F2228EB942A0047B359 /* LinkPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* LinkPort.swift */; };
 		9F417F2328EB942E0047B359 /* GenAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F528808DC00078DB6C /* GenAtom.swift */; };
-		9F417F2428EB94310047B359 /* SoundAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010828808E890078DB6C /* SoundAtom.swift */; };
 		9F417F2528EB94350047B359 /* CommonAtoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52282876023A00C8C22A /* CommonAtoms.swift */; };
 		9F417F2628EB94380047B359 /* Splitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010A28808EC90078DB6C /* Splitter.swift */; };
 		9F417F2728EB943D0047B359 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
@@ -232,7 +230,6 @@
 		9F1900F528808DC00078DB6C /* GenAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenAtom.swift; sourceTree = "<group>"; };
 		9F1900F628808DC00078DB6C /* LinkPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPort.swift; sourceTree = "<group>"; };
 		9F1900F728808DC10078DB6C /* Tunnel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tunnel.swift; sourceTree = "<group>"; };
-		9F19010828808E890078DB6C /* SoundAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundAtom.swift; sourceTree = "<group>"; };
 		9F19010A28808EC90078DB6C /* Splitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Splitter.swift; sourceTree = "<group>"; };
 		9F19010C28808EE70078DB6C /* Share.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		9F19010E28808EF80078DB6C /* MultiPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPort.swift; sourceTree = "<group>"; };
@@ -358,7 +355,6 @@
 				9F1900EA28808DC00078DB6C /* Previous.swift */,
 				9F1900E928808DC00078DB6C /* MultiLink.swift */,
 				9F1900F528808DC00078DB6C /* GenAtom.swift */,
-				9F19010828808E890078DB6C /* SoundAtom.swift */,
 				9FEE52282876023A00C8C22A /* CommonAtoms.swift */,
 				9F19010A28808EC90078DB6C /* Splitter.swift */,
 				9F1900E728808DC00078DB6C /* Link.swift */,
@@ -683,7 +679,6 @@
 				9F417F2328EB942E0047B359 /* GenAtom.swift in Sources */,
 				9F417F4E28EB95390047B359 /* BBox.swift in Sources */,
 				9F417F4C28EB95310047B359 /* FwTypes.swift in Sources */,
-				9F417F2428EB94310047B359 /* SoundAtom.swift in Sources */,
 				9F417F1C28EB94160047B359 /* WorldModel.swift in Sources */,
 				9F417F1F28EB94210047B359 /* Previous.swift in Sources */,
 				9F417F5328EB954F0047B359 /* SCNMatrix++.swift in Sources */,
@@ -798,7 +793,6 @@
 				9F19010B28808EC90078DB6C /* Splitter.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
 				9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */,
-				9F19010928808E890078DB6C /* SoundAtom.swift in Sources */,
 				9FEE522D2879E0CA00C8C22A /* TestsFoo.swift in Sources */,
 				9F19010D28808EE70078DB6C /* Share.swift in Sources */,
 				9FDE5DA52C29C23A001D4A73 /* Book.swift in Sources */,

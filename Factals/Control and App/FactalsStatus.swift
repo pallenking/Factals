@@ -157,7 +157,7 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 				for vewBase in self.vewBases {
 					rv			+= vewBase       .ppFactalsState(deapth:deapth-1)
 				}
-				rv				+= self.docSound .ppFactalsState(deapth:deapth-1)
+//				rv				+= self.docSound .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)
@@ -331,13 +331,13 @@ extension Log : FactalsStatus {											  ///Log
 		return ppFactalsStateHelper(logKind, nameTag:self, myLine:msg, deapth:deapth-1)
 	}
 }
-extension Sound : FactalsStatus {										///Sound
-	func ppFactalsState(deapth:Int=999) -> String {
-		let msg					= ""
-		let logKind				= "sounds".field(-13)
-		return ppFactalsStateHelper(logKind, nameTag:self, myLine:msg, deapth:deapth-1)
-	}
-}
+//extension Sound : FactalsStatus {										///Sound
+//	func ppFactalsState(deapth:Int=999) -> String {
+//		let msg					= ""
+//		let logKind				= "sounds".field(-13)
+//		return ppFactalsStateHelper(logKind, nameTag:self, myLine:msg, deapth:deapth-1)
+//	}
+//}
 		// ///////////////////////////////////// //
 
 extension NSWindowController : FactalsStatus {				///NSWindowController

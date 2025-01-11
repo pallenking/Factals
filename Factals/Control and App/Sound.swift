@@ -5,57 +5,60 @@ import AVFoundation
 protocol SoundProtocol {
 	func play(sound:String?)
 }
-let knownSounds  : [String:String] = [	// name -> fileName in Assets
-		   "tick":	  "tick-sound",
-		   "tock":	  "tock-sound",
-			  "t":		 "t-sound",
-			  "b":		 "b-sound",
-		"forward": "forward-sound",
-	   "backward":"backward-sound",
-			 "da":		"da-sound",
-			 "di":		"di-sound",
+let audioSources : [String:SCNAudioSource] = [	// name -> fileName in Assets
+		   "tick": source(name:    "tick-sound"),
+		   "tock": source(name:    "tock-sound"),
+//			  "t": source(name:       "t-sound"),
+//			  "b": source(name:       "b-sound"),
+//		"forward": source(name: "forward-sound"),
+//	   "backward": source(name:"backward-sound"),
+//			 "da": source(name:      "da-sound"),
+//			 "di": source(name:      "di-sound"),
 ]
+func source(name:String) -> SCNAudioSource {
+
+	 // SCNAudioSource(url:) fetches from assets (others initializers don't)
+	guard let audioDataAsset 	= NSDataAsset(name:name) else
+	{	fatalError("Failed to load file '\(name)' audio asset")			}
+	let url 					= FileManager.default.temporaryDirectory.appendingPathComponent("temp.data\(name)")
+	do
+	{	try audioDataAsset.data.write(to:url)									}
+	 catch
+	 {	print("Failed to write audio data to URL '\(name)': ERROR \(error)")	}
+
+	guard let source			= SCNAudioSource(url:url) else { fatalError()	}
+	source.isPositional 		= true
+	source.shouldStream 		= false
+	source.volume 				= 1//10//bug; APPDEL?.config4app.float("soundVolume") ?? 1
+	source.rate 				= 1//0.1
+	source.load() // Preload the audio for smoother playback
+	return source
+}
+//testSounds() {
+//
+//}
+
 extension SCNNode : SoundProtocol {
 	func play(sound:String?) {
-		print("\(wallTime()):\t\t--- \(sound ?? "nil") ---")
-		guard let sound								 else { return 				}// no sound specified
-		guard let fileName 		= knownSounds[sound] else { return 				}// a known sound
-
-		 // SCNAudioSource(url:) fetches from assets (others initializers don't)
-		guard let audioDataAsset = NSDataAsset(name:fileName) else
-		{	print("Failed to load file '\(fileName)' audio asset");	return		}
-		let t1URL 				= FileManager.default.temporaryDirectory
-								   .appendingPathComponent("t1URL")
-		do
-		{	try audioDataAsset.data.write(to:t1URL)								}
-		 catch
-		 {	print("Failed to write audio data to URL '\(fileName)': ERROR \(error)")}
-
-/**/	guard let audioSource	= SCNAudioSource(url:t1URL) else { return		}
-		audioSource.isPositional = true
-		audioSource.shouldStream = false
-		audioSource.volume 		= 1//10//bug; APPDEL?.config4app.float("soundVolume") ?? 1
-		audioSource.rate 		= 1//0.1
-		audioSource.load() // Preload the audio for smoother playback
-
+		guard let sound, sound != ""	 			 else { return 				}// no sound specified
+	//	guard audioPlayers .isEmpty else {return }
+		audioPlayers.forEach({self.removeAudioPlayer($0)})
+		let audioSource			= audioSources[sound]!
+	//	if !audioPlayers .isEmpty {
 		let audioPlayer			= SCNAudioPlayer(source:audioSource)
-		addAudioPlayer(audioPlayer)										// let x1 = node.audioPlayers
-
+		addAudioPlayer(audioPlayer)								// let x1 = node.audioPlayers
+	//	}
+//		} else {
+//			audioPlayers = [audioSource]
+//		}
 		 // Command it to play:
+		print("\(wallTime()):\t\t--- \(sound) ---,  \(audioPlayers.count) audioPlayer(s)")
 		let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)
 		runAction(playAction)
-	//	audioPlayer.didFinishPlayback = {
-	//		print("Audio playback is complete.")
-	//	}
-	}
-}
-class Sound : Logd {
-	let nameTag					= getNametag()
-	// NEVER NSCopying, Equatable
-	 // MARK: - 5.4 Sound
-	var knownSources : [String:SCNAudioSource] = [:]
-	init(configure:FwConfig) {
-		nop
+		audioPlayer.didFinishPlayback = { //[weak self] in
+	//		self?.removeAudioPlayer(audioPlayer)
+			print("\(wallTime()):\t\t\t--- Audio playback is complete.")
+		}
 	}
 }
 

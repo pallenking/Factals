@@ -304,8 +304,8 @@
             filePath = "Factals/Parts (of Network)/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1409"
-            endingLineNumber = "1409"
+            startingLineNumber = "1419"
+            endingLineNumber = "1419"
             landmarkName = "ppUnusedKeys()"
             landmarkType = "7">
          </BreakpointContent>
@@ -464,8 +464,8 @@
             filePath = "Factals/Parts (of Network)/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
             landmarkName = "init(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -704,8 +704,8 @@
             filePath = "Factals/Control and App/Sound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "play(sound:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -720,8 +720,8 @@
             filePath = "Factals/Control and App/Sound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "play(sound:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -746,7 +746,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7F08CCB2-1A43-421F-98E8-5284D74156DA"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/Part.swift"
@@ -896,8 +896,8 @@
             filePath = "Factals/Parts (of Network)/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "init(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -928,8 +928,8 @@
             filePath = "Factals/Parts (of Network)/Part.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "init(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -938,7 +938,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "FAC83A0E-3A93-4E93-B357-800B8A987FBA"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/PortSound.swift"
@@ -954,47 +954,15 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1FB4111A-8F16-47B9-A288-73395A23AFB3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/PortSound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "reSkin(fullOnto:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7D8F6DB7-BCDE-49A0-BDD2-0B3781C7D1E6"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Parts (of Network)/PortSound.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "simulate(up:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B8E2E8A1-DA30-4358-B825-5D64EB4C6A92"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Parts (of Network)/PortSound.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "simulate(up:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1033,15 +1001,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "54314006-DCFA-4B29-B2D7-E88EE2F108ED"
+            uuid = "8249FF9E-F2F4-4B18-B78D-80646AC88C85"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/PortSound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "simulate(up:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1049,15 +1017,63 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "402F0A8C-43DB-4BB4-A8A4-504458F6EA3F"
+            uuid = "1C57DD1F-5842-4C10-9956-01089D4F113A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/FactalsModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "FactalsModel"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "61AAB6E9-2C14-414D-B8E1-C9E9E48ED8C5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/PortSound.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "simulate(up:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F074E678-893E-400C-9230-509AF76F06A2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/Part.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "742"
+            endingLineNumber = "742"
+            landmarkName = "find(name:up2:inMe2:maxLevel:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7BCA71AF-AB3A-407E-A01D-A45A29EB3712"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/Sound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "play(sound:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1065,15 +1081,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8249FF9E-F2F4-4B18-B78D-80646AC88C85"
-            shouldBeEnabled = "Yes"
+            uuid = "D9D6F3BF-3D09-4A6D-82A6-BC6BEF0EE50C"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/PortSound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "simulate(up:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1081,15 +1097,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D512B1A4-CC3E-42C1-B9A7-A499D9F7CB8D"
-            shouldBeEnabled = "Yes"
+            uuid = "4E591946-B075-44E4-84AB-A24FAB606992"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/PortSound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "simulate(up:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1097,17 +1113,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FB99CC2F-A2C8-4E8B-B9E1-1CE3D4BD3888"
-            shouldBeEnabled = "Yes"
+            uuid = "4FA0FC78-FA1B-4493-B1CD-2538C3AA18C0"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Control and App/Sound.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "Sound"
-            landmarkType = "3">
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "play(sound:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B5F265FC-6931-40D7-96D2-19EF3125E180"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Control and App/Sound.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "play(sound:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7E7C31DF-69BB-4466-8961-70650C470281"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/PortSound.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "simulate(up:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -10,10 +10,10 @@ import SceneKit
 class PortSound : Part {
 								
 	 // MARK: - 2. Object Variables:
-	var sounds 	: [String]		= []		// "" is quiet
+	var sounds 	: [String]		= []		// 4 sounds for up(/\) and down (/\), "" is quiet
 	var playing	: Bool			= false
 
-	var port 	: String?		= nil
+	var port 	: String?		= nil		// Port to both monitor and play sound on
 	weak
 	 var portPort : Port?		= nil
 
@@ -30,37 +30,28 @@ class PortSound : Part {
 	required init?(coder: NSCoder) {	fatalError("init(coder:) has not been implemented")	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 	override func simulate(up:Bool)  {
-		portPort				??= getPlayerNode()	 // source as yet unresolved. This is rather ugly, but:
-		guard sounds.count==4 else { 	return 									}
-		if up {						// /////// going UP /////////
-			if let pPort2Port 	= portPort!.con2?.port,
-			  pPort2Port.valueChanged() {			// Input = other guy's output
-
-				let (val, valPrev) = pPort2Port.getValues()	// Get value from S // let v1 = val, v2 = valPrev
-				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
-					portPort!.vew0?.scn.play(sound:sounds[0])					}
-//					vew0?.scn.play(sound:sounds[0])								}
-				if val<=0.5 && valPrev>0.5 { 	// Fallling Edge +
-					portPort!.vew0?.scn.play(sound:sounds[1])					}
-			}
-			super.simulate(up:up)
-		}
+//		guard sounds.count==2	else { 	return 									}
+		guard let portPort		= portPort ?? (port==nil ? nil
+								:	find(name:port!, up2:true) as? Port)
+								else { 	return 									}
+//		let vew0 = vew
+//		let vew0 = vew(part:portPort.part)
 		if !up {					// /////// going DOWN ////////////
-			if portPort!.valueChanged() {
-
-//				let (val, valPrev) = portPort!.getValues()	// Get value from P
-//				if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
-//					vew0?.scn.play(sound:sounds[2])								}
-//				if val<=0.5 && valPrev>0.5 { 	// Fallling Edge +
-//					vew0?.scn.play(sound:sounds[3])								}
-			}
-			super.simulate(up:up)
-		}
+			guard let vew 		else { 	return 									}
+			let (val, valPrev) = (portPort.value, portPort.valuePrev)
+			if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
+				vew.scn.play(sound:sounds[0])									}
+			if val<=0.5 && valPrev>0.5 { 	// Fallling Edge +
+				vew .scn.play(sound:sounds[1])									}
+		}							// /////// going UP /////////
+//		if up, let pPort2Port 	= portPort.con2?.port	{	// there is an UP
+//			let (val, valPrev) = (pPort2Port.value, pPort2Port.valuePrev)	// Get value from S // let v1 = val, v2 = valPrev
+//			if val>=0.5 && valPrev<0.5 { 	// Fallling Edge +
+//				portPort.vew0?.scn.play(sound:sounds[2])						}
+//			if val<=0.5 && valPrev>0.5 { 	// Rising Edge  +
+//				portPort.vew0?.scn.play(sound:sounds[3])						}
+//		}
 	}
-	func getPlayerNode() -> Port? {
-		port==nil ? nil :     find(name:port!, up2:true) as? Port
-	}
-
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1.6))
@@ -70,7 +61,6 @@ class PortSound : Part {
 		}()
 		return vew.bBox						// vew.scnScene.bBox()//scnScene.bBox()// Xyzzy44 ** bb
 	}
-
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		var rv					= super.pp(mode, aux)

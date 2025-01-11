@@ -77,6 +77,16 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		assert(vew0!.part === self, "vew0.part !== self")
 		return vew0
 	}
+	/// first vew which references us
+	var vew : Vew? {
+		for vew in partBase?.factalsModel?.vewBases ?? [] {
+			if let vew = vew.tree.find(part:self) {
+				return vew
+			}
+		}
+		return nil
+	}
+
 	var fullName16 	: String	{		return fullName.field(16)				}
 	 // - Array of unsettled ports. Elements are closures that returns the Port's name
 	func portChitArray() -> [()->String]	{

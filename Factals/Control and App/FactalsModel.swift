@@ -15,7 +15,7 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []			// VewBase of rootPartActor.parts
 
-	var docSound  :	Sound
+//	var docSound  :	Sound
 
 	var factalsDocument : FactalsDocument! = nil
 
@@ -28,7 +28,7 @@ extension FactalsModel  : Logd {}
 		partBase				= pb
 		fmConfig				= configure				// Save in ourselves   WHY???
 		simulator 				= Simulator(configure:configure)	// params4sim
-		docSound				= Sound(   configure:configure)
+//		docSound				= Sound(   configure:configure)
 
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self			// set UGLY GLOBAL
@@ -150,8 +150,8 @@ extension FactalsModel  : Logd {}
 
 	 /// Toggel the specified vew, between open and atom
 	func toggelOpen(vew:Vew) {
-		assert(vew.expose != .null, "vew.expose == .null  NOT supported")
-		assert(!(vew.part is Link), "cannot toggelOpen a Links")
+		guard vew.expose != .null else { print("vew.expose == .null  NOT supported");return}
+		guard !(vew.part is Link) else { print("cannot toggelOpen a Links");return }
 
 		 // do on only 1 vew!!
 		doPartNViewsLocked(onlyVew:vew, workNamed:"toggelOpen", logIf:true) {_ in
