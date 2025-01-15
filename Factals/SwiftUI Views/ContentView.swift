@@ -96,23 +96,12 @@ struct FactalsModelView: View {
 
 			FactalsModelBar(factalsModel:factalsModel)
 
-			NavigationStack {
-				List(parks) { park in
-					NavigationLink(park.name, value: park)
-				}
-				.navigationDestination(for:Park.self) { park in
-					Text("ParkDetails(\(park))")
-				}
-			}
-
 			HStack {			// Body Header 0 Buttons
 				Text("")
 				Spacer()
 
 				Button(label:{ Text("--") })
 					{ 	deleteCurrentTab()										}
-//					.onTapGesture
-//					{	deleteCurrentTab()										}
 				Button(label:{ Text("++") }) {
 					addNewTab()													}
 				Button(label:{ Text("Test Sound") }) {
@@ -121,59 +110,113 @@ struct FactalsModelView: View {
 					rootScn.play(sound:"tick")  // playSimple(rootScn:rootScn)
 				}
 			}
-			HStack {			// Body Elements
-
-				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-				 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
-				TabView(selection:$tabViewSelect)  {
-
-					 // Create, with tag = slot_
-					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-						HStack (alignment:.top) {
-							VStack {									//Binding<VewBase>
-								let scnBase = vewBase.scnBase.wrappedValue
-								ZStack {
-
-									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
-										.frame(maxWidth: .infinity)
-										.border(.black, width:1)
-
-									EventReceiver { nsEvent in // Catch events (goes underneath)
-										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-											print("Key '\(c)' not recognized")
-										}
+			NavigationStack {
+				List($factalsModel.vewBases) { vewBase in
+					//					NavigationLink(park.name, value: park)
+					
+					HStack (alignment:.top) {
+						VStack {									//Binding<VewBase>
+							let scnBase = vewBase.scnBase.wrappedValue
+							ZStack {
+								
+								SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
+									.frame(maxWidth: .infinity)
+									.border(.black, width:1)
+								EventReceiver { nsEvent in // Catch events (goes underneath)
+									if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+										guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+										print("Key '\(c)' not recognized")
 									}
 								}
-							}//.frame(width: 555)
-
-							VStack {
-								VewBaseBar(vewBase:vewBase)
-								InspectorsVew(vewBase:vewBase.wrappedValue)
-											//	.frame(width: 300)
-							}.frame(width:400)
-						}
-						 .tabItem {
-//							 let slot =
-//print("xxx  \(vewBase.title)")
-//						 	Label("Slot_\(vewBase.title)", systemImage: "") 				}	// PW broken
-						 	Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
-						 .tag(vewBase.wrappedValue.slot_)
+							}
+						}.frame(width:555, height:355)
+						VStack {
+							VewBaseBar(vewBase:vewBase)
+							InspectorsVew(vewBase:vewBase.wrappedValue)
+						}.frame(width:400)
 					}
-
-					 // -2: A View selectable in TabView
-					SimpleTestView(factalsModel:factalsModel)
-					 .tabItem { Label("SimpleView()", systemImage: "")			}
-					 .tag(-2)
-
-					 // -3: clear screan force redraw
-					Text("")
-					 .tabItem { Label("Clear", systemImage: "")					}
-					 .tag(-3)
+					.tabItem {
+						//							 let slot =
+						//print("xxx  \(vewBase.title)")
+						//						 	Label("Slot_\(vewBase.title)", systemImage: "") 				}	// PW broken
+						Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
+					.tag(vewBase.wrappedValue.slot_)
 				}
+				.navigationDestination(for:Park.self) { park in
+					Text("ParkDetails(\(park))")
+			}
+
+		//		TabView(selection:$tabViewSelect)  {
+		//
+		//			 // Create, with tag = slot_
+		//			ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+		//
+		//			 // -2: A View selectable in TabView
+		//			SimpleTestView(factalsModel:factalsModel)
+		//			 .tabItem { Label("SimpleView()", systemImage: "")			}
+		//			 .tag(-2)
+		//
+		//			 // -3: clear screan force redraw
+		//			Text("")
+		//			 .tabItem { Label("Clear", systemImage: "")					}
+		//			 .tag(-3)
+		//		}
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 					updateTitle()												}
 				.accentColor(.green) // Change the color of the selected tab
+
+
+//				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
+//				 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
+//				TabView(selection:$tabViewSelect)  {
+//
+//					 // Create, with tag = slot_
+//					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+//						HStack (alignment:.top) {
+//							VStack {									//Binding<VewBase>
+//								let scnBase = vewBase.scnBase.wrappedValue
+//								ZStack {
+//
+//									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
+//										.frame(maxWidth: .infinity)
+//										.border(.black, width:1)
+//
+//									EventReceiver { nsEvent in // Catch events (goes underneath)
+//										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+//											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+//											print("Key '\(c)' not recognized")
+//										}
+//									}
+//								}
+//							}//.frame(width: 555)
+//
+//							VStack {
+//								VewBaseBar(vewBase:vewBase)
+//								InspectorsVew(vewBase:vewBase.wrappedValue)
+//											//	.frame(width: 300)
+//							}.frame(width:400)
+//						}
+//						 .tabItem {
+////							 let slot =
+////print("xxx  \(vewBase.title)")
+////						 	Label("Slot_\(vewBase.title)", systemImage: "") 				}	// PW broken
+//						 	Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
+//						 .tag(vewBase.wrappedValue.slot_)
+//					}
+//
+//					 // -2: A View selectable in TabView
+//					SimpleTestView(factalsModel:factalsModel)
+//					 .tabItem { Label("SimpleView()", systemImage: "")			}
+//					 .tag(-2)
+//
+//					 // -3: clear screan force redraw
+//					Text("")
+//					 .tabItem { Label("Clear", systemImage: "")					}
+//					 .tag(-3)
+//				}
+//				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+//					updateTitle()												}
+//				.accentColor(.green) // Change the color of the selected tab
 			}
 		}
 	}

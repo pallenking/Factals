@@ -676,7 +676,7 @@ var a2:String 	{
 	return "a,v:-\(String(vVal))"		 //\(String(a2offset))
 }
 var aOffset = 0.0
-xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+xr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
 	Bundle([struc:["a","b","c","d"], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
@@ -1765,7 +1765,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 				] ])
 			})
 
-			xr("+ BlinksALot", eSim + eXYtight + selfiePole(s:45,u:10,z:1.6) + //logAt(all:7) +
+			r("Blinks4", eSim + eXYtight + selfiePole(s:45,u:10,z:1.6) + //logAt(all:7) +
 						[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 					Mirror(	  [n:"y", P:"v,l:1.4,v:0.04"]),
 					Mirror(	  [n:"x", P:"v,l:1.2,v:0.02"]),
