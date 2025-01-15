@@ -74,6 +74,17 @@ struct SimpleSceneKitView : View {
 /*
 all vewbases have
  */
+struct Park: Identifiable, Hashable {
+    var id: UUID = UUID()
+    var name: String
+    // Other properties...
+}
+var parks: [Park] = [
+	Park(name: "Chicago"),
+	Park(name: "Los Angeles"),
+	Park(name: "San Francisco"),
+	Park(name: "Denver"),
+]
 
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel
@@ -85,18 +96,19 @@ struct FactalsModelView: View {
 
 			FactalsModelBar(factalsModel:factalsModel)
 
+			NavigationStack {
+				List(parks) { park in
+					NavigationLink(park.name, value: park)
+				}
+				.navigationDestination(for:Park.self) { park in
+					Text("ParkDetails(\(park))")
+				}
+			}
+
 			HStack {			// Body Header 0 Buttons
 				Text("")
 				Spacer()
 
-			//	Text("--")
-			//		.tabItem { Label("--", systemImage: "")						}
-			//		.onTapGesture
-			//		{	deleteCurrentTab()										}
-			//	Text("++")
-			//		.tabItem { Label("++", systemImage:"") 						}
-			//		.onTapGesture
-			//		{	addNewTab()												}
 				Button(label:{ Text("--") })
 					{ 	deleteCurrentTab()										}
 //					.onTapGesture
@@ -154,7 +166,7 @@ struct FactalsModelView: View {
 					 .tabItem { Label("SimpleView()", systemImage: "")			}
 					 .tag(-2)
 
-					 // -3: force redraw
+					 // -3: clear screan force redraw
 					Text("")
 					 .tabItem { Label("Clear", systemImage: "")					}
 					 .tag(-3)

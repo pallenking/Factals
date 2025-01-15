@@ -68,17 +68,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	var fullName	: String	{
 		return parent==nil  ? 		"/" + name :
 			   parent!.fullName + 	"/" + name
-//		let rv					= parent==nil  ? "" :
-//								  parent!.fullName + "/" + name		// add lefter component
-//		return rv
-	}
-	var vew0 : Vew? {
-		let vew0 				= partBase?.factalsModel?.vewBases.first?.tree.find(part:self)
-		assert(vew0!.part === self, "vew0.part !== self")
-		return vew0
 	}
 	/// first vew which references us
-	var vew : Vew? {
+	var vewFirstThatReferencesUs : Vew? {
 		for vew in partBase?.factalsModel?.vewBases ?? [] {
 			if let vew = vew.tree.find(part:self) {
 				return vew

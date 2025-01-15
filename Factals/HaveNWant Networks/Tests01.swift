@@ -1753,24 +1753,19 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
 				] ])
 			})
-			xr("+ BlinksALot", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
+			xxr("+ BlinksALot", eSimX + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
 					FwBundle([n:"bundle",  parts:[
-						Mirror(	[n:"y", P:"v,l:5,v:5.3 "]),
+						Mirror(	[n:"y", P:"v,l:5,v:7.3 "]),
 						Mirror(	[n:"x", P:"v,l:5,v:4.0"]),
 						Mirror(	[n:"u", P:"v,l:5,v:4.4"]),
 					 ] ]),
 					PortSound(	[n:"s1", "port":"v.P", "sounds":tickTock]),
-					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
+					Broadcast(	[n:"v", P:"v1,l:0.8,v:10"]),
+					Mirror( 	[n:"v1", "gain":-1, "offset":1, f:1]),
 				] ])
 			})
 
-
-	//				SoundAtom(	[n:"v", P:"v1,l:1,v:9", "sounds":tickTock, f:0]),
-//					SoundAtom(	[n:"v", P:"v1=", "sounds":tickTock, f:0]),
-//					SoundAtom(	[n:"v", S:"v1=", "sounds":tickTock, f:1]),
-
-
-			r("+ BlinksALot", eSim + eXYtight + //logAt(all:7) +
+			xr("+ BlinksALot", eSim + eXYtight + selfiePole(s:45,u:10,z:1.6) + //logAt(all:7) +
 						[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 					Mirror(	  [n:"y", P:"v,l:1.4,v:0.04"]),
 					Mirror(	  [n:"x", P:"v,l:1.2,v:0.02"]),

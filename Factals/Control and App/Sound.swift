@@ -8,12 +8,12 @@ protocol SoundProtocol {
 let audioSources : [String:SCNAudioSource] = [	// name -> fileName in Assets
 		   "tick": source(name:    "tick-sound"),
 		   "tock": source(name:    "tock-sound"),
-//			  "t": source(name:       "t-sound"),
-//			  "b": source(name:       "b-sound"),
-//		"forward": source(name: "forward-sound"),
-//	   "backward": source(name:"backward-sound"),
-//			 "da": source(name:      "da-sound"),
-//			 "di": source(name:      "di-sound"),
+			  "t": source(name:       "t-sound"),
+			  "b": source(name:       "b-sound"),
+		"forward": source(name: "forward-sound"),
+	   "backward": source(name:"backward-sound"),
+			 "da": source(name:      "da-sound"),
+			 "di": source(name:      "di-sound"),
 ]
 func source(name:String) -> SCNAudioSource {
 
@@ -41,16 +41,11 @@ func source(name:String) -> SCNAudioSource {
 extension SCNNode : SoundProtocol {
 	func play(sound:String?) {
 		guard let sound, sound != ""	 			 else { return 				}// no sound specified
-	//	guard audioPlayers .isEmpty else {return }
 		audioPlayers.forEach({self.removeAudioPlayer($0)})
 		let audioSource			= audioSources[sound]!
-	//	if !audioPlayers .isEmpty {
 		let audioPlayer			= SCNAudioPlayer(source:audioSource)
 		addAudioPlayer(audioPlayer)								// let x1 = node.audioPlayers
-	//	}
-//		} else {
-//			audioPlayers = [audioSource]
-//		}
+
 		 // Command it to play:
 		print("\(wallTime()):\t\t--- \(sound) ---,  \(audioPlayers.count) audioPlayer(s)")
 		let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)

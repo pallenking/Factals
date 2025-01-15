@@ -30,27 +30,24 @@ class PortSound : Part {
 	required init?(coder: NSCoder) {	fatalError("init(coder:) has not been implemented")	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 	override func simulate(up:Bool)  {
-//		guard sounds.count==2	else { 	return 									}
 		guard let portPort		= portPort ?? (port==nil ? nil
 								:	find(name:port!, up2:true) as? Port)
 								else { 	return 									}
-//		let vew0 = vew
-//		let vew0 = vew(part:portPort.part)
 		if !up {					// /////// going DOWN ////////////
-			guard let vew 		else { 	return 									}
+			guard let vewFirstThatReferencesUs 		else { 	return 				}
 			let (val, valPrev) = (portPort.value, portPort.valuePrev)
 			if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
-				vew.scn.play(sound:sounds[0])									}
+				vewFirstThatReferencesUs.scn.play(sound:sounds[0])				}
 			if val<=0.5 && valPrev>0.5 { 	// Fallling Edge +
-				vew .scn.play(sound:sounds[1])									}
+				vewFirstThatReferencesUs .scn.play(sound:sounds[1])				}
 		}							// /////// going UP /////////
-//		if up, let pPort2Port 	= portPort.con2?.port	{	// there is an UP
-//			let (val, valPrev) = (pPort2Port.value, pPort2Port.valuePrev)	// Get value from S // let v1 = val, v2 = valPrev
-//			if val>=0.5 && valPrev<0.5 { 	// Fallling Edge +
-//				portPort.vew0?.scn.play(sound:sounds[2])						}
-//			if val<=0.5 && valPrev>0.5 { 	// Rising Edge  +
-//				portPort.vew0?.scn.play(sound:sounds[3])						}
-//		}
+								//if up, let pPort2Port 	= portPort.con2?.port	{	// there is an UP
+								//	let (val, valPrev) = (pPort2Port.value, pPort2Port.valuePrev)	// Get value from S // let v1 = val, v2 = valPrev
+								//	if val>=0.5 && valPrev<0.5 { 	// Fallling Edge +
+								//		portPort.vew0?.scn.play(sound:sounds[2])						}
+								//	if val<=0.5 && valPrev>0.5 { 	// Rising Edge  +
+								//		portPort.vew0?.scn.play(sound:sounds[3])						}
+								//}
 	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn ?? {
