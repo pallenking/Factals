@@ -647,36 +647,37 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.genAtom/*bcast*/, [struc:["a"], placeMy:"stackx -1 1"]),
 ] ] ) } )
 
-xxr("+ simple blink", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+			//let tickTock	= ["b","tick","t","tock"]		// tick b		// b t
+			let tickTock	= ["tock","tick","tock","tick"]	// tick b		// b t
+			//let tickTock	= ["tick","b","tock","t"]		// tick b		// tick bewlfuwo
+			//let tickTock	= ["tick","","tock",""]			// tick tock
+			//let tickTock	= ["tick","tock","",""]			// does both
+			//let tickTock	= ["","tick","","tock"]			// does both
+
+xr("+ simple blink tick", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
 	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
-//	SoundAtom([n:"a", S:"c", "sound":"forward", f:1]),		//t-sound.mp3
-	Mirror([n:"b", P:"c", jog:"4 1", "latitude"+X:-2]),
-	Mirror([n:"c", "gain":-1, "offset":1, f:1]),
+	PortSound(	[n:"s1", "inP":"a.P", "sounds":tickTock]),
+	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
+	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
 
-// Unison
-var a00:String 	{ 	"a,v:1"						}
-// Random
-var a01:String 	{ 	"a,v:\(String(randomDist(0.0, 0.5)))"						}
-//
-var a02:String 	{ 	"a,v:\(String(randomDist(0.0, 0.9)))"						}
-// Unison
-var a03:String 	{ 	"a,v:\(String(randomDist(0.0, 0.0)))"						}
-// Binary Counter:
-var a1:String 	{
+var a00:String 	{ 	"a,v:1"									}	// Unison
+var a01:String 	{ 	"a,v:\(String(randomDist(0.0, 0.5)))"	}	// Random
+var a02:String 	{ 	"a,v:\(String(randomDist(0.0, 0.9)))"	}	// Random Big
+var a03:String 	{ 	"a,v:\(String(randomDist(0.0, 0.0)))"	}	// Unison
+var a1:String 	{												// Binary Counter:
 	aOffset			+= 1
 	let vVal		= aOffset//log(a2offset+3)
 	return "a,v:-\(String(vVal))"		 //\(String(a2offset))
 }
-// Wave
-var a2:String 	{
+var a2:String 	{												// Wave
 	aOffset			+= 0.1
 	let vVal		= aOffset//log(a2offset+3)
 	return "a,v:-\(String(vVal))"		 //\(String(a2offset))
 }
 var aOffset = 0.0
-xr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
 	Bundle([struc:["a","b","c","d"], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
@@ -1735,12 +1736,6 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 				Mirror(   [n:"v", "gain":-1, "offset":1, f:1]),
 			] ])
 		})
-			//let tickTock	= ["b","tick","t","tock"]		// tick b		// b t
-			let tickTock	= ["tock","tick","tock","tick"]	// tick b		// b t
-			//let tickTock	= ["tick","b","tock","t"]		// tick b		// tick bewlfuwo
-			//let tickTock	= ["tick","","tock",""]			// tick tock
-			//let tickTock	= ["tick","tock","",""]			// does both
-			//let tickTock	= ["","tick","","tock"]			// does both
 			xxr("+ BlinksSlently", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
 					Mirror(		[n:"w", P:"v,l:3,v:3"]),
 					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
@@ -1748,7 +1743,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 			})
 			xxr("+ BlinksABit", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
 					Mirror(		[n:"w", P:"v,l:5,v:2.0"]),
-					PortSound(	[n:"s1", "port":"v.P", "sounds":tickTock]),
+					PortSound(	[n:"s1", "inP":"v.P", "sounds":tickTock]),
 				//	Broadcast(	[n:"v"], P:),
 					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
 				] ])
@@ -1759,7 +1754,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 						Mirror(	[n:"x", P:"v,l:5,v:4.0"]),
 						Mirror(	[n:"u", P:"v,l:5,v:4.4"]),
 					 ] ]),
-					PortSound(	[n:"s1", "port":"v.P", "sounds":tickTock]),
+					PortSound(	[n:"s1", "inP":"v.P", "sounds":tickTock]),
 					Broadcast(	[n:"v", P:"v1,l:0.8,v:10"]),
 					Mirror( 	[n:"v1", "gain":-1, "offset":1, f:1]),
 				] ])

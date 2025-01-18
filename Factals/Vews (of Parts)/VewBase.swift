@@ -29,7 +29,8 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	//   'SelfiePole' conform to 'Publisher'
 	@Published							// subscribe to selfiePole.sink for changes
 	 var selfiePole 			= SelfiePole()
-	var config		 : FwConfig = [:]
+//	var config		 : FwConfig = [:]
+	var vewBaseConfig: FwConfig = [:]
 	weak
 	 var factalsModel : FactalsModel!	// Our Owner
 
@@ -101,7 +102,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 
 
 	func configure(from:FwConfig) {
-		self.config 			= from			// VewBase.self
+//		self.config 			= from			// VewBase.self
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		selfiePole.configure(from:from)
 		if let lrl				= from.bool("logRenderLocks") {

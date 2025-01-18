@@ -16,12 +16,12 @@ struct InspectorsVew: View {
 		
 		VStack {
 			ForEach(vewBase.inspectedVews, id: \.self) { vew in
-				Group {
+	//			Group {
 					HStack(alignment:.top) {
 						let i = vewBase.inspectedVews.firstIndex(of: vew)!
 						Inspec(vew:vew, index:i)
 					}
-				}
+	//			}
 			}
 		}
 	}

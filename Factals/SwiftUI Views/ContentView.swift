@@ -112,8 +112,6 @@ struct FactalsModelView: View {
 			}
 			NavigationStack {
 				List($factalsModel.vewBases) { vewBase in
-					//					NavigationLink(park.name, value: park)
-					
 					HStack (alignment:.top) {
 						VStack {									//Binding<VewBase>
 							let scnBase = vewBase.scnBase.wrappedValue
@@ -145,25 +143,12 @@ struct FactalsModelView: View {
 				.navigationDestination(for:Park.self) { park in
 					Text("ParkDetails(\(park))")
 			}
-
-		//		TabView(selection:$tabViewSelect)  {
-		//
-		//			 // Create, with tag = slot_
-		//			ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-		//
-		//			 // -2: A View selectable in TabView
-		//			SimpleTestView(factalsModel:factalsModel)
-		//			 .tabItem { Label("SimpleView()", systemImage: "")			}
-		//			 .tag(-2)
-		//
-		//			 // -3: clear screan force redraw
-		//			Text("")
-		//			 .tabItem { Label("Clear", systemImage: "")					}
-		//			 .tag(-3)
-		//		}
-				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-					updateTitle()												}
-				.accentColor(.green) // Change the color of the selected tab
+			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+				updateTitle()												}
+			.accentColor(.green) // Change the color of the selected tab
+			}
+		}
+	}
 
 
 //				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
@@ -217,9 +202,6 @@ struct FactalsModelView: View {
 //				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 //					updateTitle()												}
 //				.accentColor(.green) // Change the color of the selected tab
-			}
-		}
-	}
 	private func updateTitle() {
 		NSApplication.shared.windows.first?.title = "code updateTitle()!!"
 		//if let url 		= documentURL {

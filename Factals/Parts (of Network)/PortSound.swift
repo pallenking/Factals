@@ -10,44 +10,40 @@ import SceneKit
 class PortSound : Part {
 								
 	 // MARK: - 2. Object Variables:
-	var sounds 	: [String]		= []		// 4 sounds for up(/\) and down (/\), "" is quiet
+	var sounds 	: [String]		= ["", "", "", ""]		// 4 sounds for up(/\) and down (/\), "" is quiet
 	var playing	: Bool			= false
 
-	var port 	: String?		= nil		// Port to both monitor and play sound on
-	weak
-	 var portPort : Port?		= nil
+	var inPstr 	: String?		= nil		// monitor Port's in-side
+	var outPstr : String?		= nil		// monitor Port's out-side
+	var inPort  : Port?			= nil
+	var outPort : Port?			= nil
 
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig=[:]) {
 		super.init(config)	 //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
 		if let snds				= partConfig["sounds"] as? [String] {
-			sounds				= snds
-		}
-		if let pla				= partConfig["port"] as? String {
-			port				= pla		// e.g. v.P or atom.S
-		}
+			guard snds.count==4 else {	fatalError("PortSound: sounds array must have 4 elements")}
+			sounds				= snds											}
+		if let inStr			= partConfig["inP"] as? String {
+			inPstr				= inStr		/* e.g. v.P or atom.S	*/			}
+		if let out_				= partConfig["outP"] as? String {
+			outPstr				= out_		/* e.g. v.P or atom.S	*/			}
 	}
 	required init?(coder: NSCoder) {	fatalError("init(coder:) has not been implemented")	}
 	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
 	override func simulate(up:Bool)  {
-		guard let portPort		= portPort ?? (port==nil ? nil
-								:	find(name:port!, up2:true) as? Port)
-								else { 	return 									}
-		if !up {					// /////// going DOWN ////////////
-			guard let vewFirstThatReferencesUs 		else { 	return 				}
-			let (val, valPrev) = (portPort.value, portPort.valuePrev)
-			if val>=0.5 && valPrev<0.5 { 	// Rising Edge +
-				vewFirstThatReferencesUs.scn.play(sound:sounds[0])				}
-			if val<=0.5 && valPrev>0.5 { 	// Fallling Edge +
-				vewFirstThatReferencesUs .scn.play(sound:sounds[1])				}
-		}							// /////// going UP /////////
-								//if up, let pPort2Port 	= portPort.con2?.port	{	// there is an UP
-								//	let (val, valPrev) = (pPort2Port.value, pPort2Port.valuePrev)	// Get value from S // let v1 = val, v2 = valPrev
-								//	if val>=0.5 && valPrev<0.5 { 	// Fallling Edge +
-								//		portPort.vew0?.scn.play(sound:sounds[2])						}
-								//	if val<=0.5 && valPrev>0.5 { 	// Rising Edge  +
-								//		portPort.vew0?.scn.play(sound:sounds[3])						}
-								//}
+		 // might be done once in a late phase of initialization
+		let inPort				= inPort ?? (inPstr==nil ? nil
+								:	find(name:inPstr!, up2:true) as? Port)
+		let outPort				= outPort ?? (outPstr==nil ? nil
+								:	find(name:outPstr!, up2:true) as? Port)
+
+		if let port				= up ? inPort : outPort,
+		  (port.value >= 0.5) != (port.valuePrev >= 0.5) {
+			let soundIndex		= port.value >= 0.5 ? (up ? 0 : 2) : (up ? 1 : 3)
+			vewFirstThatReferencesUs?.scn.play(sound:sounds[soundIndex])
+		}
 	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn ?? {
@@ -62,8 +58,8 @@ class PortSound : Part {
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		var rv					= super.pp(mode, aux)
 		if mode ==  .line {						//		if case .line = mode {
-			rv 					+= "sounds:\(sounds.count) port:\"\(port ?? "nil")\"" +
-								   " -> \(portPort?.pp(.fullNameUidClass) ?? "nil")"
+			rv 					+= "sounds:\(sounds.count) inP:\"\(inPstr ?? "nil")\"" +
+								   " -> \(inPort?.pp(.fullNameUidClass) ?? "nil")"
 		}
 		return rv
 	}

@@ -160,24 +160,23 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 
 		 // ///////////// Wants Test ///////////////////////////////
 		let title				= testName != nil ? "\(testName!)" : "unnamed_\(state.scanTestNum)"
-		let matchReason0 : String? =
+		var matchCause : String? =
 			args!.argName != nil &&				// Search by name
 			args!.argName == testName ?			//   and it matches
-				"Building testName  ''\(testName!)''" :	// yes, name matchs
+				"testName  ''\(testName!)''" :	// yes, name matchs
 				args!.argNumber == state.scanTestNum ?// no, numbers match?
-					"Building  ''scene #\(state.scanTestNum)''" :// yes, match
+					" ''scene #\(state.scanTestNum)''" :// yes, match
 					nil
-		let matchReason			= matchReason0 ??
+		matchCause				= matchCause ??
 			(!markedXr ?							// is this marked xr?
 				nil :									// no, just r(), ignore
 				args!.argName == "xr()" &&			// yes, is name xr() and
 				 args!.argNumber < 0 ?				//   no wanted number?
-					"Building Network marked with xr()" :	// yes
+					"Network marked with xr()" :	// yes
 					nil)									// no, ignore
 
-		if matchReason != nil {						// Save in ANSWER
-			atBld(7, Log.app.log("=== \(matchReason!) ==="))
-			assert(answer.trunkClosure==nil, "Two Closures found marked xr():\n"
+		if matchCause != nil {						// Save in ANSWER
+			assert(answer.trunkClosure==nil, "Two Closures found:\n"
 			  +	"\t Previous = \(answer.testNum):\(answer.fileName ?? "lf823").\(answer.lineNumber!) "
 			  +		"'\(answer.title ?? "none")' <-- IGNORING\n"
 			  +	"\t Current  = \(state.scanTestNum):\(fileName).\(       lineNumber ) '\(         title)'")
@@ -195,6 +194,7 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			 // Anonymous from Scan
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
+			atBld(7, Log.app.log("=== MatchedBecause: \(matchCause!) ==="))
 		}
 	}
 	var fwClassName		 : String	{	"Book"									}

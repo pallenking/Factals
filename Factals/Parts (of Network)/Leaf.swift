@@ -77,23 +77,23 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		return rv
 	}
 	// MARK: - 4.1 Part Properties
-	override func apply(prop:String, withVal val:FwAny?) -> Bool {
-		 // Leafs get sound names from the .nib file:
-		if prop == "sound" {	// e.g. "sound:di-sound" or
-bug		//	if let sndPPort		= port(named:"SND"),
-		//	  let sndAtom		= sndPPort.atom as? SoundAtom,
-		//	  let v				= val as? String
-		//	{
-		//		sndAtom.sounds	= [v]
-		//	}
-		//	else {
-		//		panic()
-		//	}
-		}
-		if prop == "sounds" {
-bug		}
-		return super.apply(prop:prop, withVal:val)
-	}
+//	override func apply(prop:String, withVal val:FwAny?) -> Bool {
+//		 // Leafs get sound names from the .nib file:
+//		if prop == "sound" {	// e.g. "sound:di-sound" or
+//bug		//	if let sndPPort		= port(named:"SND"),
+//		//	  let sndAtom		= sndPPort.atom as? SoundAtom,
+//		//	  let v				= val as? String
+//		//	{
+//		//		sndAtom.sounds	= [v]
+//		//	}
+//		//	else {
+//		//		panic()
+//		//	}
+//		}
+//		if prop == "sounds" {
+//bug		}
+//		return super.apply(prop:prop, withVal:val)
+//	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	func port4leafBinding(name:String) -> Part? {
 bug;//	let binding 			= self.bindings?[name]

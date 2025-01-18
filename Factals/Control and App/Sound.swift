@@ -56,21 +56,3 @@ extension SCNNode : SoundProtocol {
 		}
 	}
 }
-
-
-
-
-// Garbage:
-//extension Part {
-//	func applyProp(_ prop:String, withVal val:String) {
-//		let dummy = Atom()
-//		if prop == "sound" {	// e.g. "sound:di-sound" or
-//			let soundPort		= dummy.port(named:"SND")					//Port *sndPPort		= [self port4leafBinding:@"SND"];
-//			let soundAtom		= soundPort?.atom as? PortSound				//SoundAtom *sndAtom	= mustBe(SoundAtom, sndPPort.atom);
-//bug;		soundAtom!.sounds	= [val]
-//		}
-//		if prop == "sounds" {	// e.g. "sound:di-sound" or
-//bug
-//		}
-//	}
-//}

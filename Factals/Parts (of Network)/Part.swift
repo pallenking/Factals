@@ -432,35 +432,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			spin				= UInt8(x)
 			return true						// found a spin property
 		}
-		if prop == "sound" {	// e.g. "sound:di-sound" or
-			bug
-		//	if let val = val.asString,
-		//	   let leaf				= self as? Leaf,
-		//	   let genPort			= leaf.port(named:"G"),
-		//	   let genAtom  		= genPort.atom as? SoundAtom	// was GenAtom!
-		//	{
-		//		genAtom.sounds		= [val]
-		//	}
-		//	else {
-		//		panic("sound's val must be string")
-		//	}
-		//	return true							// found a spin property
-		}
-		if prop == "sounds" {	// e.g. "sound:di-sound" or
-bug		}
-		//if ([prop isEqualToString:"sound"]) {	// e.g. "sound:di-sound" or
-		//	panic("")
-		//	//if (coerceTo(NSString, val)) {
-		//	//	Leaf *leaf			= mustBe(Leaf, self)
-		//	//	Port *genPort		= [leaf port(named:"G")
-		//	//	GenAtom *genAtom 	= mustBe(GenAtom, genPort.atom)
-		//	//	genAtom.sound		= val
-		//	//}
-		//	//else
-		//	//	panic("sound's val must be string")
-		//	//
-		//	//return true							// found a spin property
-		//}
 		return false
 	}
 

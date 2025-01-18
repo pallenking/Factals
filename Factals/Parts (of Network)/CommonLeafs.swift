@@ -228,10 +228,6 @@ extension Leaf {	/// Generate Common Leafs
 	}
 }
 
-
-
-
-//	case port				= "port"
 //	case mPort				= "multiPort"
 //	case splitter			= "splitter"
 //	case genSplitter		= "genSplitter"

@@ -13,11 +13,9 @@ extension FactalsModel  : Logd {}
 	var fmConfig  : FwConfig	= [:]
 	var partBase  : PartBase
 	var simulator : Simulator
-	var vewBases  : [VewBase] 	= []			// VewBase of rootPartActor.parts
+	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
 
-//	var docSound  :	Sound
-
-	var factalsDocument : FactalsDocument! = nil
+	var factalsDocument : FactalsDocument! = nil	// (a struct)
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 		factalsDocument.log.log(banner:banner, format_, args, terminator:terminator)
@@ -28,7 +26,6 @@ extension FactalsModel  : Logd {}
 		partBase				= pb
 		fmConfig				= configure				// Save in ourselves   WHY???
 		simulator 				= Simulator(configure:configure)	// params4sim
-//		docSound				= Sound(   configure:configure)
 
 		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self			// set UGLY GLOBAL
@@ -62,13 +59,6 @@ extension FactalsModel  : Logd {}
 			// atBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
-
-		// // Configure all Views
-		//for vewBase in vewBases {
-		//	vewBase.configure(from:config)
-		//}
-
-	//	docSound.play(sound:"GameStarting")	// sound not configured yet!
 		atBld(2, logd("------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
