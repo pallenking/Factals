@@ -47,12 +47,12 @@ extension SCNNode : SoundProtocol {
 		addAudioPlayer(audioPlayer)								// let x1 = node.audioPlayers
 
 		 // Command it to play:
-		print("\(wallTime()):\t\t--- \(sound) ---,  \(audioPlayers.count) audioPlayer(s)")
+		//print("\(wallTime()):\t\t--- \(sound) ---,  \(audioPlayers.count) audioPlayer(s)")
 		let playAction			= SCNAction.playAudio(audioSource, waitForCompletion:false)
 		runAction(playAction)
 		audioPlayer.didFinishPlayback = { //[weak self] in
 	//		self?.removeAudioPlayer(audioPlayer)
-			print("\(wallTime()):\t\t\t--- Audio playback is complete.")
+		//	print("\(wallTime()):\t\t\t--- Audio playback is complete.")
 		}
 	}
 }

@@ -654,7 +654,7 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 			//let tickTock	= ["tick","tock","",""]			// does both
 			//let tickTock	= ["","tick","","tock"]			// does both
 
-xr("+ simple blink tick", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+xxr("+ simple blink tick", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
 	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
 	PortSound(	[n:"s1", "inP":"a.P", "sounds":tickTock]),
@@ -683,6 +683,7 @@ xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10,
 		Net([placeMy:"linky", spin:4, parts:[
 			Bulb([P:"a,l:3"]),
 			Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
+			PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
 			Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 		] ] )
 	},			// etc1
@@ -692,6 +693,7 @@ xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + [
 	Net([placeMy:"linky", spin:4, parts:[
 		Bulb([P:"a,l:3"]),
 		Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
+		PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
 		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 	] ] )
 })
@@ -706,6 +708,7 @@ xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Mirror([n:"b", P:"a", jog:"4"]),
+//	PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )
 var a9:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }
