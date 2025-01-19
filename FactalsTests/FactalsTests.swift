@@ -14,15 +14,25 @@ final class FactalsTests: XCTestCase {
 //		print("static override func setUp()")
 //	}
 
-	override func setUpWithError() throws {
-		print("-------------- XCTest setup code: --------------------")
+	override func setUp() {
+		print("-------------- XCTest.func setUp(): --------------------")
 		super.setUp()
 	}
 
-	override func tearDownWithError() throws {
+	override func tearDown() {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 		print("-------------- XCTest tearDownWithError code: --------------------")
+		super.tearDown()
 	}
+//	override func setUpWithError() throws {
+//		print("-------------- XCTest setup code: --------------------")
+//		super.setUp()
+//	}
+//
+//	override func tearDownWithError() throws {
+//		// Put teardown code here. This method is called after the invocation of each test method in the class.
+//		print("-------------- XCTest tearDownWithError code: --------------------")
+//	}
 
 	func testLldb() {
 		let x 					= LLDBParts
@@ -78,7 +88,7 @@ final class FactalsTests: XCTestCase {
 		let m2 = m1.pp(.tagClass)
 		XCTAssertTrue(m2.hasSuffix(":MaxOr"))
 
-bug;	let n1 = Vew(forPart:m1)
+		let n1 = Vew(forPart:m1)
 		let n2 = n1.pp(.tagClass)
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
