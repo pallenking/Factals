@@ -47,7 +47,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	init(tree t:Part=Part()) {
 		tree					= t
 	}
-	init(fromLibrary selector:String?) {			// Parts(fromLibrary...
+	init(fromLibrary selector:String?) {			// Part(fromLibrary...
 		self.preTitle			= "'\(selector ?? "nil")' -> "
 		self.title 				= " Not in Library"
 
@@ -103,9 +103,9 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
  		atBld(3, logd(ppRootPartErrors()))
 
 		 //  6. Print Part
-		atBld(2, logd("------- Parts, ready for simulation, simRun:\(factalsModel!.simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+		atBld(2, logd("------- Parts, ready for simulation, simRun:\(factalsModel?.simulator.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 
-		factalsModel!.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+		factalsModel?.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
 //		select				= "aaa"

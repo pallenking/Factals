@@ -28,9 +28,9 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 	}
 }
 
- // Access to current ////// Part Tree //////return nil }//
-var LLDBParts : PartBase		{	(FACTALSMODEL ??
-									 FactalsModel(partBase:PartBase(), configure:[:])).partBase} // ?? debugger("FACTALSMODEL is nil") as! PartBase }
+ // Access to current ////// Part Tree //////return nil }// 
+var LLDBParts : PartBase		{	(FACTALSMODEL ?? runtFm()  ).partBase}
+var runtFm						= { FactalsModel(partBase:PartBase(), configure:[:]) } // ?? debugger("FACTALSMODEL is nil") as! PartBase }
 //var LLDBParts : PartBase		{	FACTALSMODEL?.partBase ?? debugger("FACTALSMODEL is nil") as! PartBase }
 func LLDBParts(_ name:String?=nil) -> Part  {
 	guard var rv : Part			= FACTALSMODEL?.partBase.tree else {

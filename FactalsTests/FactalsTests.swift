@@ -69,19 +69,18 @@ final class FactalsTests: XCTestCase {
 				extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		 */
 	}
-//func testRootAsPart1() {
-//	let rootPart1			= Parts()
-//	print("Parts:    '\(rootPart1.pp())'    DOESN'T HANG")				//
-//	let factalsModel1		= FactalsModel(parts:rootPart1)
-//	print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
+//	func testRootAsPart1() {
+//		let rootPart1			= Part()
+//		print("Part:     '\(rootPart1.pp())'    DOESN'T HANG")				//
+//		let factalsModel1		= FactalsModel(part:rootPart1)
+//		print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
+//		let document			= FactalsDocument(factalsModel:factalsModel1)
 //
-//	let document			= FactalsDocument(factalsModel:factalsModel1)
+//		factalsModel1.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+//		print("FactalsModel(rP1:)  '\(factalsModel1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
 //
-//	factalsModel1.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-//	print("FactalsModel(rP1:)  '\(factalsModel1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
-//
-//	print("&&&&&& No         ppMode Default Hang     errors")
-//}
+//		print("&&&&&& No         ppMode Default Hang     errors")
+//	}
 
 	func testVewPp() {
 		let m1 = MaxOr()
@@ -457,17 +456,15 @@ final class FactalsTests: XCTestCase {
 	}
 
 	 /// Expedient test: build specified tests in the library. (Correctness and vew not checked)
-	func xtestBuildLibrary() {
+	func testBuildLibrary() {
 
 		 // Build every part in the library
 		let firstNumber			= 1
 		let lastNumber			= 1200//74//12//31//1200	// Limit of tests
 		for testNum in firstNumber...lastNumber {
-
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
-			let s				= Simulator()
-			let partBase		= PartBase(fromLibrary:"entry\(testNum)")//, simulator:s)	//, fwDocument:nil
 
+			let partBase			= PartBase(fromLibrary:"entry\(testNum)")
 			partBase.wireAndGroom([:])
 
 			if partBase.ansConfig.bool("LastTest") ?? false {
