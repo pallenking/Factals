@@ -55,7 +55,6 @@ struct FactalsDocument : FileDocument {
 //	}
 
 	init(fromLibrary select:String?=nil) {
-//return
 		 // 1. Part ******
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
@@ -66,14 +65,15 @@ struct FactalsDocument : FileDocument {
 			//**/	let select	= "- Port Missing"
 			return select
 		} ()
-/***/	let partBase			= PartBase(fromLibrary:select)
+/**/	let partBase			= PartBase(fromLibrary:select)
+		logd("===============#### built test '\(partBase.title)' from '\(partBase.testFrom)' ####=================\n")
 
 		 // 2. FactalModel ******
 		let pmConfig			= params4logs
 								+ params4vew
 								+ params4partPp
 								+ partBase.ansConfig		// from library
-/***/	factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
+/**/	factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
 		factalsModel.factalsDocument = self		// backpointer																	//factalsModel.configurePart(from:pmConfig)
 
 		 // 3. Groom part ******

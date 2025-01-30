@@ -28,7 +28,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	var indexFor				= Dictionary<String,Int>()
 
 	 // MARK: - 2.1 Object Variables
-	var preTitle				= ""			// source(arg)
+	var testFrom				= ""			// source(arg)
 	var title					= ""			// Test Name or Status
 	var postTitle				= ""
 
@@ -48,13 +48,13 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 		tree					= t
 	}
 	init(fromLibrary selector:String?) {			// Part(fromLibrary...
-		self.preTitle			= "'\(selector ?? "nil")' -> "
+		self.testFrom			= "'\(selector ?? "nil")' -> "
 		self.title 				= " Not in Library"
 
 		 // Get HaveNWant Machine (a Network)
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
 			self.title			= hnwMachine.title!
-			self.preTitle		= "\(hnwMachine.testNum) "
+			self.testFrom		= "\(hnwMachine.testNum) "
 								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
 /* */		self.tree			= hnwMachine.trunkClosure?() ?? Part()	// EXPAND Closure from Lib

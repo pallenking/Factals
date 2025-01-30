@@ -4,6 +4,7 @@
 //
 //  Created by Allen King on 10/3/22.
 //
+// xcode: ctl opt cmd g -- redo last test
 
 import XCTest
 import SceneKit
@@ -459,15 +460,21 @@ final class FactalsTests: XCTestCase {
 	func testBuildLibrary() {
 
 		 // Build every part in the library
+		let justNumber : Int?	= nil	//10//94//
 		let firstNumber			= 1
-		let lastNumber			= 1200//74//12//31//1200	// Limit of tests
-		for testNum in firstNumber...lastNumber {
+		var lastNumber			= 1200//74//12//31//1200	// Limit of tests
+		for var testNum in firstNumber...lastNumber {
+			if let justNumber {
+				testNum 		= justNumber
+				lastNumber		= justNumber
+			}
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 
-			let partBase			= PartBase(fromLibrary:"entry\(testNum)")
+			let partBase		= PartBase(fromLibrary:"entry\(testNum)")
+			logd("===========####: built test '\(partBase.title)' from '\(partBase.testFrom)'  ####=================\n")
 			partBase.wireAndGroom([:])
 
-			if partBase.ansConfig.bool("LastTest") ?? false {
+			if justNumber != nil || partBase.ansConfig.bool("LastTest") ?? false {
 				break							// Done
 			}
 		}

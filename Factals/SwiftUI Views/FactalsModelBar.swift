@@ -41,7 +41,7 @@ struct PartBaseBar : View {
 		HStack {	// FULL!
 			Text("PartBase:").foregroundColor(.red).bold()
 //			Text("title: ").foregroundColor(.blue)
-//			Text(partBase.preTitle).foregroundColor(.blue)
+//			Text(partBase.testFrom).foregroundColor(.blue)
 			TextField("title", text:$partBase.title).foregroundColor(.blue).bold()
 //			Text(partBase.postTitle).foregroundColor(.blue)
 			Button(label:{	Text( "ptm")										})

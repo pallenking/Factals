@@ -163,7 +163,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}()
 
 		 // Print out invocation
-		let n					= ("\'" + name + "\'").field(8)
+		let n					= "create share " + ("\'" + name + "\': ").field(8)
 		atBld(6, logd("  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
 
 		 // Options:
@@ -708,20 +708,20 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	}
 	   /// A boolean predicate of a Part
 	typealias Part2PartClosure 	= (Part) -> Part?
-	func find(path				: Path,
+	func find(path		: Path,
 
-			  up2				: Bool	= false,
-			  inMe2 			: Bool	= false,
-			  maxLevel			: Int?	= nil) -> Part? { // Search by Path:
+			  up2		: Bool 	= false,
+			  inMe2 	: Bool	= false,
+			  maxLevel	: Int?	= nil) -> Part? { // Search by Path:
 		return findCommon(up2:up2, inMe2:inMe2, maxLevel:maxLevel) {
 			$0.partMatching(path:path)
 		}
 	}
-	func find(part				: Part,
+	func find(part		: Part,
 
-			  up			 	: Bool	= false,
-			  inMe2 			: Bool	= false,
-			  maxLevel 			: Int?	= nil) -> Part? { // Search for Part:
+			  up		: Bool	= false,
+			  inMe2 	: Bool	= false,
+			  maxLevel 	: Int?	= nil) -> Part? { // Search for Part:
 		return findCommon(up2:up, inMe2:inMe2, maxLevel:maxLevel) {
 			$0 === part ? $0 : nil
 		}
@@ -734,17 +734,17 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// - maxLevel	-- search children down to this level
 	/// - except	-- don't search, already search
 	func findCommon(
-					up2		 :Bool	= false,			// search relatives of my parent
-					inMe2	 :Bool	= true,				// search me
-					mineBut  :Part?	= nil,				// search my children, except
-					maxLevel :Int?	= nil,
-					firstWith:Part2PartClosure) -> Part? { /// Search by closure:
+			up2		 : Bool		= false,			// search relatives of my parent
+			inMe2	 : Bool		= true,				// search me
+			mineBut  : Part?	= nil,				// search my children, except
+			maxLevel : Int?	= nil,
+			firstWith:Part2PartClosure) -> Part? { /// Search by closure:
 		 // Check self:
 		if inMe2,
 		  let cr 				= firstWith(self) {		// Self match?
 			return cr
 		}
-		if (maxLevel ?? 1) > 0 {		// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
+		if (maxLevel ?? 1) > 0 {					// 0 nothing else; 1 immediate children; 2 ...
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
 			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
 			 // Check children:
@@ -755,8 +755,8 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 				}
 			}
 		}
-		if up2,								// Check parent
-		  let parent {						// Have parent
+		if up2,										// Check parent
+		  let parent {								// Have parent
 			return parent.findCommon(up2:true, mineBut:self, maxLevel:maxLevel, firstWith:firstWith)
 		}
 		return nil

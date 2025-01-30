@@ -28,7 +28,7 @@ let auxiliary		= ["will"]
 let nouns			= ["Mary", "Bill", "Mayor", "Boston", "leak"]
 let proposition		= ["of"]
 let words			= ["proposition", "determinat", "nouns", "auxiliary", "verbs", "cp"]
-let words0			= ["bar"]
+let words0			= ["auxiliary"]
 //let words			= [proposition, determinat, nouns, auxiliary, verbs, cp]
 let inputWords		= [
 				"Mary", "told", "Bill", "that",
@@ -39,32 +39,36 @@ let _ = [wordType, determinat, cp, verbs, auxiliary, nouns, proposition, words, 
  // Nounst words		:
 //		let vinputWordsalPtr			= noun_lookup(nouns)
 
+  // BROKEN
  // Verbs:
-xxr("Language Deserializer", e, {
-  Net(["parts":[
-	Actor(["n":"wordType", "placeMy":"linky",
-		"con":Tunnel(["struc":wordType, "f":1]),
-		"parts":[
-			MaxOr( ["n":"ma", "share":["nouns", "auxiliary"], "f":0, "P":"mj"]),//"nouns",  "auxiliary"
-			MinAnd(["n":"mj", "share":["determinat", "nouns"], "f":1]),
-		],
-		"evi":Tunnel(["struc":words, "n":"words", "placeMy":"stackz"]),
-	]),
-//	Generator(["n":"lo", "P":"wordType/evi", "events":inputWords]),
-  ]])
-})
-	r("Language Deserializer", e, {
-	  Net(["parts":[
-		Actor(["n":"wordType", "placeMy":"linky",
-			"con":Tunnel(["struc":wordType0, "f":1]),
-			"parts":[
-				MaxOr( ["n":"ma", "share":["foo"], "f":0, "P":"mj"]),//"nouns",  "auxiliary"
-				MinAnd(["n":"mj", "share":["bar"], "f":1]),
-			],
-			"evi":Tunnel(["struc":words0, "n":"words", "placeMy":"stackz"]),
-		]),
-	  ]])
-	})
+//xxr("Language Deserializer", e, {
+//  Net(["parts":[
+//	Actor(["n":"wordType", "placeMy":"linky",
+//		"con":Tunnel(["struc":wordType, "f":1]),
+//		"parts":[
+//			MaxOr( ["n":"ma", "share":"auxiliary", "f":0, "P":"mj"]),
+//			MinAnd(["n":"mj", "shareX":["determinat", "nouns"], "f":1]),
+//	//		MaxOr( ["n":"ma", "share":["nouns", "auxiliary"], "f":0, "P":"mj"]),
+//	//		MinAnd(["n":"mj", "share":["determinat", "nouns"], "f":1]),
+//		],
+//		"evi":Tunnel(["struc":words0, "n":"words", "placeMy":"stackz"]),
+//	]),
+////	Generator(["n":"lo", "P":"wordType/evi", "events":inputWords]),
+//  ]])
+//})
+ // BROKEN
+//	r("Language Deserializer", e, {
+//	  Net(["parts":[
+//		Actor(["n":"wordType", "placeMy":"linky",
+//			"con":Tunnel(["struc":wordType0, "f":1]),
+//			"parts":[
+//				MaxOr( ["n":"ma", "share":["foo"], "f":0, "P":"mj"]),//"nouns",  "auxiliary"
+//				MinAnd(["n":"mj", "share":["bar"], "f":1]),
+//			],
+//			"evi":Tunnel(["struc":words0, "n":"words", "placeMy":"stackz"]),
+//		]),
+//	  ]])
+//	})
 
 r("- bug: Ref:\"a\" is confused by definitions", e, {
   Net(["placeMy":"linky", "parts":[
@@ -84,19 +88,20 @@ r("- bug: Ref:\"a\" is confused by definitions", e, {
 		DiscreteTime(["n":"lo", "P":"evi", "f":1])
 	  ]])
 	})
-r("Language Deserializer", e, {
-  Net(["parts":[
-	Actor(["n":"wordType", "placeMy":"linky",
-		"con":Tunnel(["struc":["a", "b"], "f":1]),
-		"parts":[
-			Bulb(["n":"mk", "P":"mj"]),
-			MaxOr(["n":"mj", "share":["told", "fix"], "f":1]),
-		],
-		"evi":Tunnel(["n":"words", "placeMy":"stackz", "struc":verbs]),
-	]),
-	Generator(["n":"lo", "P":"wordType/evi", "events":inputWords]),
-  ]])
-})
+ // BROKEN
+//r("Language Deserializer", e, {
+//  Net(["parts":[
+//	Actor(["n":"wordType", "placeMy":"linky",
+//		"con":Tunnel(["struc":["a", "b"], "f":1]),
+//		"parts":[
+//			Bulb(["n":"mk", "P":"mj"]),
+//			MaxOr(["n":"mj", "share":["told", "fix"], "f":1]),
+//		],
+//		"evi":Tunnel(["n":"words", "placeMy":"stackz", "struc":verbs]),
+//	]),
+//	Generator(["n":"lo", "P":"wordType/evi", "events":inputWords]),
+//  ]])
+//})
 //
  //
   //

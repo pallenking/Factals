@@ -62,15 +62,11 @@ extension Leaf {	/// Generate Common Leafs
 	convenience init(_ leafKind:LeafKind, _ etc1:FwConfig=[:], _ etc2:FwConfig=[:],
 					 _ etc3:FwConfig=[:], _ etc4:FwConfig=[:], _ etc5:FwConfig=[:]) {
 		switch leafKind {
-
-
-		case .leafClosure(let x):
+		case .leafClosure(let closure):
 			let b 				= ["":"gen", "G":"gen.P", "R":"gen.P"]
-			let p				= x()//[GenAtom(["n":"gen", "f":1] + etc2)]
+			let p				= closure()		//might get e.g. [GenAtom(["n":"gen", "f":1] + etc2)]
 			self.init(of:leafKind, bindings:b, parts:[p], leafConfig:etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
-
-
 		case .nil_:
 			self.init(of:leafKind, bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)
 			unusedConfigsMustBeNil([etc2, etc3, etc4, etc5])
@@ -81,8 +77,8 @@ extension Leaf {	/// Generate Common Leafs
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genAtom:
 			let b 				= ["":"gen", "G":"gen.P", "R":"gen.P"]
-			let p				= [GenAtom(["n":"gen", "f":1] + etc2)]
-			self.init(of:leafKind, bindings:b, parts:p, leafConfig:etc1)
+			let p				= [GenAtom(["n":"gen", "f":1]/* + etc2*/)]	//etc2=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
+			self.init(of:leafKind, bindings:b, parts:p, leafConfig:etc1)	//etc1=[placeMy:linky]
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genMirror:
 			self.init(of:leafKind,

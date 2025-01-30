@@ -216,43 +216,37 @@ class Atom : Part {	//Part//FwPart
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		atBld(7, logd(" .CALLS.port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))"))
-		var rvPort : Port?		= nil				// Initially no return value
+		atBld(7, logd(" '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))"))
+		var rvPort : Port?		= nil					// Initially no return value
 
-		 // ***** Is wantName in _BINDINGS_? (e.g. for Previous)
-		if let b				= bindings, 		// Atom has a :H:Binding
-		  let bString 			= b[wantedName]		  // binding String
-		{
-			 // Matches bindings. Resolve to Port or Atom:
-			let bPath			= Path(withName:bString)// binding's Path
-			let bPart			= find(path:bPath)		// binding's Part
-			rvPort 				= bPart as? Port		// Found a Port?
-			if let bAtom		= bPart as? Atom {		// Found an Atom?
-				 // Binding leads to an atom:
-				let sWantUp		= wantUp == nil ? nil :
-								  wantUp! ^^ bAtom.upInPart(until:self)
-				atBld(9, logd(" .BINDING \"\(wantedName)\":\"\(bString)\" now at \(fwClassName): \"\(bAtom.pp(.fullName))\""))
+		 // _BINDINGS_
+		if let bindingString 	= bindings?[wantedName] {
+			let bindingPath		= Path(withName:bindingString)
+			if let boundPart	= find(path:bindingPath) {	// Decode binding target Part
+				if let boundAtom = boundPart as? Atom {			// Case 1: Atom?
+					// Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
+					let sWantUp	= wantUp==nil ? nil : wantUp! ^^ boundAtom.upInPart(until:self)
+					atBld(6, logd(" .BINDING \"\(wantedName)\":\"\(bindingString)\" now at \(fwClassName): \"\(boundAtom.pp(.fullName))\""))
 
-				 // ******* RECURSIVE CALL:		(But not infinitely so, always to subtrees)
-				rvPort			= bAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+			/**/	rvPort		= boundAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+				}
+				rvPort 			=  boundPart as? Port			// Case 2: Port?
 			}
-			assert(rvPort != nil, "path '\(wantedName)' did not find Port")
-			atBld(4, logd(" .RETURNs (BINDING \"\(wantedName)\":\"\(bString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
+			atBld(4, logd("-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
 		}
-
 		 // ****** Existing Port
 		let possiblePorts		= existingPorts(named:wantedName, localUp:wantUp)
 		if rvPort == nil,
 		  possiblePorts.count == 1 {
 			rvPort				= possiblePorts[0]		// Exactly 1 Port found
-			atBld(4, logd(" .RETURN EXISTING Port: '\(rvPort!.pp(.fullNameUidClass))'"))
+			atBld(4, logd("-----Returns EXISTING Port: '\(rvPort!.pp(.fullNameUidClass))'"))
 		}
 
 		 // ****** Delayed Populate Port
 		if rvPort == nil,
 		  let p					= delayedPopulate(named:wantedName, localUp:wantUp) {
 			rvPort				= p
-			atBld(4, logd(" .RETURN DELAYED Populate Port: '\(rvPort!.pp(.fullNameUidClass))'"))
+			atBld(4, logd("-----Returns DELAYED Populate Port: '\(rvPort!.pp(.fullNameUidClass))'"))
 		}
 
 		 // Want open, but its occupied. Make a :H:Clone
@@ -267,7 +261,7 @@ class Atom : Part {	//Part//FwPart
 			  cPort.flipped,
 			  splitter.isBroadcast {
 				rvPort				= splitter.anotherShare(named:"*")
-				atBld(4, logd(" .RETURN Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'"))
+				atBld(4, logd("-----Returns Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'"))
 				return rvPort
 			}
 
@@ -276,16 +270,16 @@ class Atom : Part {	//Part//FwPart
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
 				rvPort				= conSplitter.anotherShare(named:"*")
-				atBld(4, logd(" .RETURN Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'"))
+				atBld(4, logd("-----Returns Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'"))
 				return rvPort
 			}
 
 			 // Add Auto Broadcast?:
 			else if let x		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
-				atBld(4, logd(" .RETURN Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'"))
+				atBld(4, logd("-----Returns Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'"))
 				return x
 			}
-			panic("Unable to construct autoBroadcast")
+			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 		}
 		return rvPort
 	}
@@ -453,9 +447,9 @@ nop
 	//	assert(proxy==self, "proxy?")
 
 		if path.portName != nil { 		// path has portName:
-
+								
 			 // reBind Atom's Port to an internal Port?
-			if let bindingName 		= bindings?[path.portName!] {
+			if let bindingName	= bindings?[path.portName!] {
 				let bindingPath	= Path(withName:bindingName) // Path for binding
 				return find(path:bindingPath)					// exists in self
 			}
@@ -495,7 +489,7 @@ nop
 				let breakAtWireNo = partBase.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(log.eventNumber-1)")
-				atBld(4, logd("L\(wireNumber)'s source:\(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:\(trgAny.pp(.line))"))
+				atBld(4, logd("L\(wireNumber) source:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))"))
 
   /* **************************************************************************/
  /* *********/	let aWire = { () -> () in    /* ******* DO LATER: ************/
@@ -579,33 +573,31 @@ nop
 // BAD CHANGE!		let trgAboveSInCon = trgInd! > srcInd!
 					let trgAboveSInCon = trgInd! < srcInd!
 					let lnkInsInd = min(trgInd!, srcInd!) + 1	// insert after first
-
+								//
 					   // /////////////////////////////////
 					  //   3. Get Ports for Atoms. MAKE NEW ONES IF NEEDED
 
-					 //    3a. //// SouRCe (self)
+					 //    3a. //// SouRCe (is self)				// Log
 					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(until:conNet)
-					let srcInfo	= "L\(wireNumber)'s SOURCE:\(self.fullName)" +
-								  ".'\((srcPortName! + "'").field(-6)) in:" +
-								   "\(conNet.fullName), opens _\(ppUp(trgAboveSInS))_"
-					atBld(4, self.logd(srcInfo))
+					atBld(4, self.logd("L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_"))
 
-					 // 	3b. //// Get the SouRCe Port
+					 // 	3b. //// Get the SouRCe Port			// source Port
 					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
 								
-					 //		3c. //// TaRGet:
+					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon==trgAtom.upInPart(until:conNet)
-					let trgInfo	= "     TARGET:\(trgAtom.fullName16)" +
+					let trgInfo	= "---TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6)) in:" +
 								  "\(conNet.fullName), opens _\(ppUp(trgAboveSInT))_"		//!trg...
-					atBld(6, self.logd(trgInfo))
-					 //		3d. //// Get the TaRGet Port		(name=="" -> share)
-					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)
+					atBld(4, self.logd(trgInfo))
 
-					let msg0 	= (srcPort == nil ? " srcPort==nil" : "") + (trgPort == nil ? " trgPort==nil" : "")
-					assert(msg0=="", "L\(wireNumber): Port (from \(self.fullName)) missing: \(msg0)")
-//					guard msg0 == "" else {
-//					 	return panic("L\(wireNumber): Port (from \(self.fullName)) missing: \(msg0)") }
+					 //		3d. //// Get the TaRGet Port			// target Port
+					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
+					let msg0	= (srcPort == nil ? " srcPort==nil" : "") + (trgPort == nil ? " trgPort==nil" : "")
+					if msg0 != "" {
+						self.logd("Error Linking '\(self.fullName)' to '\(srcPortString)'. Fault : \(msg0)")
+						panic("Fault in previous log message")
+					}
 
 					  // //////////////////////////////////
 					 //   4. Link

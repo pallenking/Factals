@@ -40,7 +40,7 @@ class FwBundle : Net {
 
 		 // Construct FwBundle elements
 		if leafStruc != nil {
-			apply(constructor:leafStruc!, leafConfig:leafConfig, tunnelConfig)
+			apply(constructor:leafStruc!, leafConfig:leafConfig, tunnelConfig)	//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 		}
 	}
 	 // MARK: - 3.1 Port Factory
@@ -161,7 +161,7 @@ class FwBundle : Net {
 		 // ARRAY: apply each element of con to self
 		else if let conArray = con as? [FwAny] {// Array of constructors to apply to bundle
 			for subSpec in conArray {				// paw through array, build each
-				apply(spec:subSpec, leafConfig:leafConfig, tunnelConfig)
+				apply(spec:subSpec, leafConfig:leafConfig, tunnelConfig)		//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 			}
 		}
 		  // HASH: apply each par of con to self (key->con; val->subSpec
@@ -281,29 +281,28 @@ class FwBundle : Net {
 				 // CASE 1.4a: Make newElt from subSpec
 				if arg is Array<FwAny> || arg is FwConfig
 				{
-					let newBun 	= FwBundle()					// Build a new FwBundle or Tunnel
+					let newBun 	= FwBundle()				// Build a new FwBundle or Tunnel
 					newsProperty!(newBun)					// Apply delayed property
 					newBun.apply(constructor:arg!, leafConfig:leafConfig, tunnelConfig)
 					addChild(newBun)
 				}
 				 // CASE 1.4b: Get a new Leaf:
 				else {
-					let newLeaf	= Leaf(leafKind, leafConfig, tunnelConfig)
-//					let newLeaf	= Leaf(leafKind, [:], leafConfig)
+					let newLeaf	= Leaf(leafKind, leafConfig, tunnelConfig)	//tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
 					addChild(newLeaf)
 					newsProperty!(newLeaf)					// Apply delayed property to it
 
-//					   /// For the special case where newLaf contains just
-//					  /// 1 Port as child (no atom), add them to Leaf.ports
-//					 /// (More interior ports get generated and added in hasPorts())
-//					for nlChild in newLeaf.children { 
-//						if let nlPort = nlChild as? Port {
-//							if newLeaf.ports[nlPort.name]==nil {
-//								newLeaf.ports[nlPort.name] = nlPort
-//								nlPort.parent = newLeaf
-//							}
-//						}
-//					}
+					   /// For the special case where newLaf contains just
+					  /// 1 Port as child (no atom), add them to Leaf.ports
+					 /// (More interior ports get generated and added in hasPorts())
+					for nlChild in newLeaf.children { 
+						if let nlPort = nlChild as? Port {
+							if newLeaf.ports[nlPort.name]==nil {
+								newLeaf.ports[nlPort.name] = nlPort
+								nlPort.parent = newLeaf
+							}
+						}
+					}
 				}
 			}
 		}

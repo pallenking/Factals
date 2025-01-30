@@ -524,7 +524,7 @@ r("SKIN: BLS", e + selfiePole(s:0, u:0), {	//, "f", "g"
 //})
 
  // Auto Broadcast: (GOOD TEST)
-r("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
+xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 	MinAnd([P:"a"]),  MinAnd([P:"a"]),  MinAnd([P:"a"]),
 	MinAnd([P:"b"]),  MinAnd([P:"b"]),  MinAnd([P:"b"]),
 	MinAnd([P:"c"]),  MinAnd([P:"c"]),  MinAnd([P:"c"]),
@@ -698,7 +698,7 @@ xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + [
 	] ] )
 })
 
-xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
+xr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
@@ -708,13 +708,13 @@ xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Mirror([n:"b", P:"a", jog:"4"]),
-//	PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
+	PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ] ) } )
 var a9:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }
 
-	r("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
-		Bulb(  [n:"u", share:"a"]),
+	xxr("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
+		Bulb(  [n:"u", P:"a"]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
 	] ] ) } )
 	r("Bulb sizing", eSim + vel(-7) , { Net([placeMy:"linky", parts:[
@@ -1053,8 +1053,10 @@ r("Link is screwey", e + selfiePole(s:0,u:0), {Net([placeMy:"linky", parts		:[
 	Broadcast([n:"a", share:["g,l:0.5"], f:1]),
 	Hamming([  n:"g",            f:0]),				//, "b"
 ]]) })
-r("Bug Positioning", e + selfiePole(s:90,u:0), {Net([placeMy:"linky", parts:[
-	Hamming([n:"d", share:["a,l:0.1"], f:1]),				//, "b"
+xxr("Bug Positioning", e + selfiePole(s:90,u:0), {Net([placeMy:"linky", parts:[
+//	Hamming([n:"d", share:["a,l:0.1"], f:1]),				//, "b"
+//	Broadcast([n:"a"]),
+	Broadcast([n:"ax", P:"evi/a"]), //"a"]),
 	Tunnel([ n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),//, "d", "e", "f", "g", "h", "i", "j"
 ]]) })
 r("Positioning bug", e + selfiePole(s:0,u:0), {Net([placeMy:"linky", parts:[

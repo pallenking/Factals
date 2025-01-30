@@ -194,7 +194,7 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			 // Anonymous from Scan
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
-			atBld(7, Log.app.log("=== MatchedBecause: \(matchCause!) ==="))
+			atBld(7, Log.app.log("=== Matched Because: \(matchCause!) ==="))
 		}
 	}
 	var fwClassName		 : String	{	"Book"									}

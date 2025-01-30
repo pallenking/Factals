@@ -7,7 +7,7 @@ import SceneKit
 class Tunl : Tunnel {
 	 // MARK: - 3. Part Factory
 	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig=[:], _ tunnelConfig:FwConfig=[:]) { 	//.port
-//	init(leafConfig:FwConfig=[:], tunnelConfig:FwConfig=[:], leaf:()->Part) { 	//.port
+//	init(                                      leafConfig:FwConfig=[:],   tunnelConfig:FwConfig=[:], leaf:()->Part) { 	//.port
 bug
 		super.init(of:kind, leafConfig:leafConfig, tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
