@@ -47,6 +47,12 @@ struct ContentView: View {
 												//	guard let fm = document.factalsModel else { return Text("No FactalsModel") }
 												//	return FactalsModelView(factalsModel:fm)		// Full App Views
 												//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+		.onAppear {
+			if let window = NSApplication.shared.windows.first {	//where: { $0.isMainWindow }
+				window.title 	= "FactalsDocument TitleA"
+			}
+		}
+
 //	////////////////////// SCAFFOLDING /////////////////////////////////////////
 	//	SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
 	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
@@ -105,106 +111,100 @@ struct FactalsModelView: View {
 				Button(label:{ Text("++") }) {
 					addNewTab()													}
 				Button(label:{ Text("Test Sound") }) {
-					//FACTALSMODEL!.docSound.play(sound:"tick") }
 					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.roots!.rootNode
 					rootScn.play(sound:"tick")  // playSimple(rootScn:rootScn)
 				}
 			}
 			NavigationStack {
-				List($factalsModel.vewBases) { vewBase in
-					HStack (alignment:.top) {
-						VStack {									//Binding<VewBase>
-							let scnBase = vewBase.scnBase.wrappedValue
-							ZStack {
-								
-								SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
-									.frame(maxWidth: .infinity)
-									.border(.black, width:1)
-								EventReceiver { nsEvent in // Catch events (goes underneath)
-									if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-										guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-										print("Key '\(c)' not recognized")
+				TabView(selection:$tabViewSelect)  {
+
+					 // Create, with tag = slot_
+					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+						HStack (alignment:.top) {
+							VStack {									//Binding<VewBase>
+								let scnBase = vewBase.scnBase.wrappedValue
+								ZStack {
+
+									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
+										.frame(maxWidth: .infinity)
+										.border(.black, width:1)
+
+									EventReceiver { nsEvent in // Catch events (goes underneath)
+										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+											print("Key '\(c)' not recognized")
+										}
 									}
 								}
-							}
-						}.frame(width:555, height:355)
-						VStack {
-							VewBaseBar(vewBase:vewBase)
-							InspectorsVew(vewBase:vewBase.wrappedValue)
-						}.frame(width:400)
+							}//.frame(width: 555)
+
+							VStack {
+								VewBaseBar(vewBase:vewBase)
+								InspectorsVew(vewBase:vewBase.wrappedValue)
+											//	.frame(width: 300)
+							}.frame(width:400)
+						}
+						 .tabItem {
+//							 let slot =
+//print("xxx  \(vewBase.title)")
+//						 	Label("Slot_\(vewBase.title)", systemImage: "") 				}	// PW broken
+						 	Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
+						 .tag(vewBase.wrappedValue.slot_)
 					}
-					.tabItem {
-						//							 let slot =
-						//print("xxx  \(vewBase.title)")
-						//						 	Label("Slot_\(vewBase.title)", systemImage: "") 				}	// PW broken
-						Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
-					.tag(vewBase.wrappedValue.slot_)
+
+					 // -2: A View selectable in TabView
+					SimpleTestView(factalsModel:factalsModel)
+					 .tabItem { Label("SimpleView()", systemImage: "")			}
+					 .tag(-2)
+
+					 // -3: clear screan force redraw
+					Text("")
+					 .tabItem { Label("Clear", systemImage: "")					}
+					 .tag(-3)
 				}
-				.navigationDestination(for:Park.self) { park in
-					Text("ParkDetails(\(park))")
-			}
-			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-				updateTitle()												}
-			.accentColor(.green) // Change the color of the selected tab
+				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+					updateTitle()												}
+				.accentColor(.green) // Change the color of the selected tab
+		//		List($factalsModel.vewBases) { vewBase in
+		//			HStack (alignment:.top) {
+		//				VStack {									//Binding<VewBase>
+		//					let scnBase = vewBase.scnBase.wrappedValue
+		//					ZStack {
+		//
+		//						SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
+		//							.frame(maxWidth: .infinity)
+		//							.border(.black, width:1)
+		//						EventReceiver { nsEvent in // Catch events (goes underneath)
+		//							if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+		//								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+		//								print("Key '\(c)' not recognized")
+		//							}
+		//						}
+		//					}
+		//				}.frame(width:555, height:355)
+		//				VStack {
+		//					VewBaseBar(vewBase:vewBase)
+		//					InspectorsVew(vewBase:vewBase.wrappedValue)
+		//				}.frame(width:400)
+		//			}
+		//			.tabItem {
+		//				Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
+		//			.tag(vewBase.wrappedValue.slot_)
+		//		}
+		//		.navigationDestination(for:Park.self) { park in
+		//			Text("ParkDetails(\(park))")
+		//		}
+		//		.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+		//			updateTitle()												}
+		//		.accentColor(.green) // Change the color of the selected tab
 			}
 		}
 	}
 
-
-//				  // NOTE: To add more views, change variable "Vews":[] or "Vew1" in Library
-//				 //  NOTE: 20231016PAK: ForEach{} messes up 'Debug View Hierarchy'
-//				TabView(selection:$tabViewSelect)  {
-//
-//					 // Create, with tag = slot_
-//					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-//						HStack (alignment:.top) {
-//							VStack {									//Binding<VewBase>
-//								let scnBase = vewBase.scnBase.wrappedValue
-//								ZStack {
-//
-//									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
-//										.frame(maxWidth: .infinity)
-//										.border(.black, width:1)
-//
-//									EventReceiver { nsEvent in // Catch events (goes underneath)
-//										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-//											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-//											print("Key '\(c)' not recognized")
-//										}
-//									}
-//								}
-//							}//.frame(width: 555)
-//
-//							VStack {
-//								VewBaseBar(vewBase:vewBase)
-//								InspectorsVew(vewBase:vewBase.wrappedValue)
-//											//	.frame(width: 300)
-//							}.frame(width:400)
-//						}
-//						 .tabItem {
-////							 let slot =
-////print("xxx  \(vewBase.title)")
-////						 	Label("Slot_\(vewBase.title)", systemImage: "") 				}	// PW broken
-//						 	Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
-//						 .tag(vewBase.wrappedValue.slot_)
-//					}
-//
-//					 // -2: A View selectable in TabView
-//					SimpleTestView(factalsModel:factalsModel)
-//					 .tabItem { Label("SimpleView()", systemImage: "")			}
-//					 .tag(-2)
-//
-//					 // -3: clear screan force redraw
-//					Text("")
-//					 .tabItem { Label("Clear", systemImage: "")					}
-//					 .tag(-3)
-//				}
-//				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-//					updateTitle()												}
-//				.accentColor(.green) // Change the color of the selected tab
 	private func updateTitle() {
-		NSApplication.shared.windows.first?.title = "code updateTitle()!!"
-		//if let url 		= documentURL {
+		factalsModel.partBase.title
+		//NSApplication.shared.windows.first?.title = "code updateTitle()!!"
+//bug		//if let url 		= documentURL {
 		//	try? url.setResourceValues(URLResourceValues(name: document.text))
 		//}
 	}

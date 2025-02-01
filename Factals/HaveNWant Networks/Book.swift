@@ -1,66 +1,11 @@
 //
-//  File.swift
+//  Book.swift
 //  Factals
 //
 //  Created by Allen King on 6/24/24.
 //
 
 import SceneKit
-
-struct ScanForKey : Codable {
-  	 //selectionString+------FUNCTION---------+-argName:---argNumber:
-	 //	nil			  |	Blank scene			  |	nil			-1
-	 //	"entry<N>"	  |	entry N				  |	nil			N *
-	 //	"xr()"		  |	entry labeled as xr() |	"xr()" *	-1
-	 //	<name>		  |	named scene			  |	<name> *	-1
-	init(selectionString:String?, wantOnlyIndex w:Bool) {
-		 // --- selectionString -> want****:
-		argOnlyIndex			= w
-		if let sel 				= selectionString {
-			if sel.hasPrefix("entry") {			// E.g: "scene12"
-				let index 		= sel.index(sel.startIndex, offsetBy:"entry".count)
-				argNumber 		= Int(String(sel[index...]))!
-			} else {							// E.g: "xr()" or <name>
-				argName		= sel
-			}
-		}
-	}
-	var argNumber		: Int = -1		// if select scene by number
-	var argName 		: String?=nil	// if select scene by name
-	var argOnlyIndex	: Bool			// Used for menu preparation
-}
-	  // MARK: - 2.4.3 Machine resulting from Scan
-struct HnwMachine {		// : Codable
-	 // From Chosen Test
-	var select		: String  	= ""		// Reason for Fetching String
-	var title		: String?  	= nil		// Network name from library
-//	var postTitle	: String  	= ""		// Number of Ports String
-
-	var config		: FwConfig	= [:]		// [NOT CODABLE]
-
-	 // From Scan:
-	var testNum  	: Int		= 0
-	var subMenu 	: String	= ""		// the scanSubMenu of the test found
-	 // Anonymous from Scan
-	var trunkClosure:PartClosure? = nil		// [NOT CODABLE] Closure from Library, generates Part
-	var fileName	: String?	= nil
-	var lineNumber	:Int?		= nil
-}
-
-	 // MARK: - 2.4.2 Scan State
-class ScanState : Codable {
-	let nameTag					= getNametag()
-	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
-	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
-	var scanCatalog	: [LibraryMenuArray]=[]	// Catalog of Library
-	var scanEOFencountered:Bool = false		// marks scan done
-}
-struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
-	var id 			= UUID()													// var id : Int { tag	}
-	var tag		  	: Int
-	var title	  	: String
-	var parentMenu	: String				// path scene/decoder/...
-}
 
 extension Book : Logd {
 }
@@ -77,13 +22,6 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 	var args  : ScanForKey?		= nil
 	var state : ScanState		= ScanState()		// class
 	var answer: HnwMachine		= HnwMachine()		// struc
-
-//	var count : Int				{		// # tests in a Book
-//		var state				= ScanState()
-//		let args				= ScanForKey(selectionString:"", wantOnlyIndex:true)
-//		loadTest(args:args, state:&state)
-//		return state.scanTestNum
-//	}
 
 	 // Each Library file loads an answer if it is selected
 	func loadTest(args:ScanForKey, state:inout ScanState) {
@@ -183,7 +121,7 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
-			answer.select		= "\(args!.argName):'\(args!.argNumber)"
+			answer.sourceOfTest		= "\(args!.argName):'\(args!.argNumber)"
 			answer.title		= title
 //			answer.postTitle	= ""
 			answer.config 		= config
@@ -228,4 +166,59 @@ extension Book {
 	func cameraX(h:Float?=nil, s:Float?=nil, u:Float?=nil, z:Float?=nil) -> FwConfig {
 		return [:]
 	}
+}
+
+struct ScanForKey : Codable {
+  	 //selectionString+------FUNCTION---------+-argName:---argNumber:
+	 //	nil			  |	Blank scene			  |	nil			-1
+	 //	"entry<N>"	  |	entry N				  |	nil			N *
+	 //	"xr()"		  |	entry labeled as xr() |	"xr()" *	-1
+	 //	<name>		  |	named scene			  |	<name> *	-1
+	init(selectionString:String?, wantOnlyIndex w:Bool) {
+		 // --- selectionString -> want****:
+		argOnlyIndex			= w
+		if let sel 				= selectionString {
+			if sel.hasPrefix("entry") {			// E.g: "scene12"
+				let index 		= sel.index(sel.startIndex, offsetBy:"entry".count)
+				argNumber 		= Int(String(sel[index...]))!
+			} else {							// E.g: "xr()" or <name>
+				argName		= sel
+			}
+		}
+	}
+	var argNumber		: Int = -1		// if select scene by number
+	var argName 		: String?=nil	// if select scene by name
+	var argOnlyIndex	: Bool			// Used for menu preparation
+}
+	  // MARK: - 2.4.3 Machine resulting from Scan
+struct HnwMachine {		// : Codable
+	 // From Chosen Test
+	var sourceOfTest: String  	= "HnwMachine"		// Reason for Fetching String
+	var title		: String?  	= nil				// Network name from library
+	var postTitle	: String  	= "HnwMachine.post"	// Number of Ports String
+
+	var config		: FwConfig	= [:]		// [NOT CODABLE]
+
+	 // From Scan:
+	var testNum  	: Int		= 0
+	var subMenu 	: String	= ""		// the scanSubMenu of the test found
+	 // Anonymous from Scan
+	var trunkClosure:PartClosure? = nil		// [NOT CODABLE] Closure from Library, generates Part
+	var fileName	: String?	= nil
+	var lineNumber	:Int?		= nil
+}
+
+	 // MARK: - 2.4.2 Scan State
+class ScanState : Codable {
+	let nameTag					= getNametag()
+	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
+	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
+	var scanCatalog	: [LibraryMenuArray]=[]	// Catalog of Library
+	var scanEOFencountered:Bool = false		// marks scan done
+}
+struct LibraryMenuArray	: Codable, Identifiable {		// of input array (upstream)
+	var id 			= UUID()													// var id : Int { tag	}
+	var tag		  	: Int
+	var title	  	: String
+	var parentMenu	: String				// path scene/decoder/...
 }

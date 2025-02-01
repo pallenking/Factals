@@ -34,15 +34,24 @@ extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument()) { file in
 			ContentView(document: file.$document)
+			 .id(file.fileURL?.absoluteString ?? UUID().uuidString) // Ensure uniqueness
 			 .environmentObject(factalsGlobals)				// inject in environment
 			 .onOpenURL { url in							// Load a document from the given URL
 				@Environment(\.newDocument) var newDocument
 				newDocument(FactalsDocument(fileURL:url))
 				let _ = FactalsDocument(fileURL:url)
-			}
+			 }
 			 .onAppear {
-			 	NSApplication.shared.windows.first?.title = file.document.factalsModel?.partBase.title ?? "<nil>"
-			}
+				guard let pb = file.document.factalsModel?.partBase else {return}
+				NSApplication.shared.windows.last?.title = pb.title3 + "   (from App.onAppear)"
+			 }
+//			 .onAppear {
+//				if let window = NSApplication.shared.windows.first(where: {
+//					$0.windowController?.document?.fileURL == file.fileURL
+//				}) {
+//					window.title = (file.document.factalsModel?.partBase.title ?? "<nil>") + "   (from App.onAppear)"
+//				}
+//			 }
 		}
 		 .commands {
 			CommandMenu("Library") {

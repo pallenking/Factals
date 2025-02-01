@@ -157,7 +157,6 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 				for vewBase in self.vewBases {
 					rv			+= vewBase       .ppFactalsState(deapth:deapth-1)
 				}
-//				rv				+= self.docSound .ppFactalsState(deapth:deapth-1)
 				return rv
 			},
 			deapth:deapth-1)

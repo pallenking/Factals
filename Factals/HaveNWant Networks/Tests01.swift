@@ -524,6 +524,7 @@ r("SKIN: BLS", e + selfiePole(s:0, u:0), {	//, "f", "g"
 //})
 
  // Auto Broadcast: (GOOD TEST)
+state.scanSubMenu				= "+ Auto Broadcast"
 xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 	MinAnd([P:"a"]),  MinAnd([P:"a"]),  MinAnd([P:"a"]),
 	MinAnd([P:"b"]),  MinAnd([P:"b"]),  MinAnd([P:"b"]),
@@ -627,7 +628,7 @@ r("-auto-bcast", e + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 	MinAnd([P:"a.-"]), MinAnd([P:"a.-"]), MinAnd([P:"a.-"]),
 // 	Broadcast([n:"a"]),
 //	Previous( [n:"a"]),
-	FwBundle(of:.prev, [struc:["a"]]),//prev//genAtom//port//
+	FwBundle(of:.prev, [struc:["a"]]),//prev//ge∂akinsnAtom//port//
 ] ] ) } )
 	r("-port(named bug", e + selfiePole(s:0,u:0), { Net([placeMy:"linky", parts:[
 //		MinAnd([	n:"c", P:"a.S"]),
@@ -647,20 +648,13 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.genAtom/*bcast*/, [struc:["a"], placeMy:"stackx -1 1"]),
 ] ] ) } )
 
+state.scanSubMenu				= "+ blink and click"
 			//let tickTock	= ["b","tick","t","tock"]		// tick b		// b t
 			let tickTock	= ["tock","tick","tock","tick"]	// tick b		// b t
 			//let tickTock	= ["tick","b","tock","t"]		// tick b		// tick bewlfuwo
 			//let tickTock	= ["tick","","tock",""]			// tick tock
 			//let tickTock	= ["tick","tock","",""]			// does both
 			//let tickTock	= ["","tick","","tock"]			// does both
-
-xxr("+ simple blink tick", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
-			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
-	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
-	PortSound(	[n:"s1", "inP":"a.P", "sounds":tickTock]),
-	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
-	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
-] ]) })
 
 var a00:String 	{ 	"a,v:1"									}	// Unison
 var a01:String 	{ 	"a,v:\(String(randomDist(0.0, 0.5)))"	}	// Random
@@ -677,7 +671,15 @@ var a2:String 	{												// Wave
 	return "a,v:-\(String(vVal))"		 //\(String(a2offset))
 }
 var aOffset = 0.0
-xxr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+
+xxr("+ simple blink tick", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
+	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
+	PortSound(	[n:"s1", "inP":"a.P", "sounds":tickTock]),
+	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
+	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+] ]) })
+xr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
 	Bundle([struc:["a","b","c","d"], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
@@ -698,7 +700,7 @@ xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + [
 	] ] )
 })
 
-xr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
+xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
@@ -730,7 +732,7 @@ r(e + selfiePole(u:20), { Net([parts:[Box()]]) })
 
 // // MARK: - * Tunnels:
 // 200102: BUG: Timmel placement bad
-//state.scanSubMenu				= "Tunnels"
+state.scanSubMenu				= "Tunnels"
 // HANGS in positioning Port 'c':
 r("False Ago Bcast overlap", e + selfiePole(s:2,u:2), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.bcast, [struc:["c"], placeMy:"stackZ"]) // , "d"  .port .genAtom .prev .agoMax Bcast

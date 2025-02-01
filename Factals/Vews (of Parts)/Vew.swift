@@ -739,11 +739,9 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 		}
 	}
 
-	 // PW: Why is this needed
 	func panic(_ message: @autoclosure () -> String=("")) { //ppUid(self)
 		fatal("\n\n\(fullName) \(log.ppCurThread) \(pp(.fullNameUidClass))" +
 			": --------------\n\(message())\n" + "----------------------------\n")
-		//machineTrap()				// transfer control to debugger
 	}
 	 // MARK: - 17. Debugging Aids
 	/*override*/ var description	  : String {	return  "d'\(pp(.short))'"	}

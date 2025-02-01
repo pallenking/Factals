@@ -471,7 +471,7 @@ final class FactalsTests: XCTestCase {
 			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 
 			let partBase		= PartBase(fromLibrary:"entry\(testNum)")
-			logd("===========####: built test '\(partBase.title)' from '\(partBase.testFrom)'  ####=================\n")
+			logd("===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
 			partBase.wireAndGroom([:])
 
 			if justNumber != nil || partBase.ansConfig.bool("LastTest") ?? false {

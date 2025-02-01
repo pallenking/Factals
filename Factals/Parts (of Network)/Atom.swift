@@ -583,6 +583,7 @@ nop
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
 					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
+					assert(srcPort != nil, "srcPort==nil")
 								
 					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon==trgAtom.upInPart(until:conNet)
@@ -593,11 +594,7 @@ nop
 
 					 //		3d. //// Get the TaRGet Port			// target Port
 					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
-					let msg0	= (srcPort == nil ? " srcPort==nil" : "") + (trgPort == nil ? " trgPort==nil" : "")
-					if msg0 != "" {
-						self.logd("Error Linking '\(self.fullName)' to '\(srcPortString)'. Fault : \(msg0)")
-						panic("Fault in previous log message")
-					}
+					assert(trgPort != nil, "trgPort==nil")
 
 					  // //////////////////////////////////
 					 //   4. Link

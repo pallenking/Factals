@@ -28,9 +28,10 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	var indexFor				= Dictionary<String,Int>()
 
 	 // MARK: - 2.1 Object Variables
-	var testFrom				= ""			// source(arg)
+	var sourceOfTest			= ""			// source(arg)
 	var title					= ""			// Test Name or Status
 	var postTitle				= ""
+	var title3 : String			{ sourceOfTest + title + postTitle 				}
 
 	var ansConfig : FwConfig 	= [:]
 
@@ -48,18 +49,19 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 		tree					= t
 	}
 	init(fromLibrary selector:String?) {			// Part(fromLibrary...
-		self.testFrom			= "'\(selector ?? "nil")' -> "
+		self.sourceOfTest			= "'\(selector ?? "nil")' -> "
 		self.title 				= " Not in Library"
 
 		 // Get HaveNWant Machine (a Network)
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
 			self.title			= hnwMachine.title!
-			self.testFrom		= "\(hnwMachine.testNum) "
+			self.sourceOfTest	= "\(hnwMachine.testNum) "
 								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
+
 /* */		self.tree			= hnwMachine.trunkClosure?() ?? Part()	// EXPAND Closure from Lib
 		} else {
-			tree				= Part()
+			self.tree			= Part()
 		}
 		checkTree()
 	}
@@ -105,11 +107,10 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 		 //  6. Print Part
 		atBld(2, logd("------- Parts, ready for simulation, simRun:\(factalsModel?.simulator.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true]))))
 
-		factalsModel?.simulator.simBuilt		= true	// maybe before config4log, so loading simEnable works
+		factalsModel?.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
-//		select				= "aaa"
-//		postTitle				= " (\(portCount()) Ports)"
+		postTitle				= " (\(portCount()) Ports)"
 
 		//dirtySubTree(.vew)		// NOT NEEDED
 		//dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
@@ -139,7 +140,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	 // Serialize 					// po container.contains(.name)
 	/*override*/ func encode(to encoder: Encoder) throws  {
 		 // Massage Part Tree, to make it
-//		makeSelfCodable(neededLock:"writePartTree")		//readyForEncodable
+		makeSelfCodable(neededLock:"writePartTree")		//readyForEncodable
 
 		//try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
