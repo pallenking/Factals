@@ -151,10 +151,6 @@ struct MySceneView : View {
 		//							//coordinator.onAppear()
 		//						 	//$factalsModel.coordinator.onAppear {				}
 //		.onAppear {
-//			let windows 	= NSApplication.shared.windows
-//			assert(windows.count == 1, "Cannot find widow unless exactly 1")			//NSApp.keyWindow
-//			let rp			= document.factalsModel.partBase
-//			windows.first!.title = rp.title
 //			EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
 //	bug;		print("Event: \(event)")			// Handle the event here
 //			}.startMonitoring(for: windows.first!)

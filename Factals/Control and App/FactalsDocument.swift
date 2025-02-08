@@ -8,12 +8,11 @@
 import SwiftUI
 import SceneKit
 
-   //	Uniform Type Identifiers Overview:		https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
-  // Defining file and data types for your app:	https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
- //	System-declared uniform type identifiers:	https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
 import UniformTypeIdentifiers
- // Define a new UTType for factals:
-extension UTType {
+   // Uniform Type Identifiers Overview:		https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis.tasks/understand_utis_tasks.html
+  //  Defining file and data types for your app:https://developer.apple.com/documentation/uniformtypeidentifiers/defining_file_and_data_types_for_your_app
+ //	  System-declared uniform type identifiers:	https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
+extension UTType {				// Define a new UTType for factals:
 	static var hnw: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  		}
 	static var vew: UTType 	{ UTType(exportedAs: "us.a-king.havenwant")  		}
 }
@@ -36,7 +35,7 @@ struct FactalsDocument : FileDocument {
 	var factalsModel : FactalsModel! = nil				// content
 	var log 	  : Log			= Log.app // Use Apps log
 
-	init(fileURL: URL) {
+	init(fileURL : URL) {
 		bug
 	}
 	// MARK: - 2.4.4 Building
@@ -108,14 +107,12 @@ struct FactalsDocument : FileDocument {
 		factalsModel			= f			// girootPart!.ven
 	}
 	init(configuration: ReadConfiguration) throws {		// async
-		//fatalError()
-		guard let data : Data 	= configuration.file.regularFileContents else {
-			print("\n\n######################\nCORRUPT configuration.file.regularFileContents\n######################\n\n\n")
-			throw FwError(kind:".fileReadCorruptFile")						}
+		guard let data : Data 	= configuration.file.regularFileContents
+			else {	throw FwError(kind:".fileReadCorruptFile")					}
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .hnw:
 			 // Decode data as a Root Part
-			let partsBase		= PartBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
+			let partsBase		= PartBase.from(data:data, encoding:.utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
 			let factalsModel	= FactalsModel(partBase:partsBase, configure:[:])
@@ -141,13 +138,18 @@ bug;		self.init(factalsModel:factalsModel)
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {		// cannot ba async throws
 		switch configuration.contentType {
 		case .hnw:
-			guard let dat		= factalsModel.partBase.data else {	// how is Parts.data worked?
-				panic("FactalsDocument.factalsModel.partBase.data is nil")
-				let d			= factalsModel.partBase.data		// redo for debug
-				let _			= d
+			do {
+				let dat			= try factalsModel.partBase.data()
+				return .init(regularFileWithContents:dat)
+			} catch {
+				let d			= try factalsModel.partBase.data()		// redo for debug
 				throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
 			}
-			return .init(regularFileWithContents:dat)
+//			guard let dat		= factalsModel.partBase.data() else {	// how is Parts.data worked?
+//				panic("FactalsDocument.factalsModel.partBase.data is nil")
+//				let d			= factalsModel.partBase.data()		// redo for debug
+//				throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
+//			}
 		case .vew:
 			fatalError()
 		default:

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
@@ -26,12 +26,6 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                            <menuItem title="Log Configuration" keyEquivalent="C" id="yfH-sM-t0F" userLabel="State">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="appConfiguration:" target="Voe-Tx-rLC" id="ESG-a4-Xhu"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
                                 <connections>
                                     <action selector="appPreferences:" target="Voe-Tx-rLC" id="eAA-PS-MMn"/>
@@ -41,6 +35,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="appState:" target="Voe-Tx-rLC" id="bYO-1M-xBe"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Log Configuration" keyEquivalent="C" id="yfH-sM-t0F" userLabel="State">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="appConfiguration:" target="Voe-Tx-rLC" id="ESG-a4-Xhu"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Log Help" keyEquivalent="/" id="HPg-FR-4Du" userLabel="State">

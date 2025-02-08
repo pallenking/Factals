@@ -73,7 +73,7 @@ extension FactalsModel  : Logd {}
 		vewBase.updateVSP()								// DELETE?
 
 		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
-		printFwState()
+		print(ppControlElement(config:false))
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -326,42 +326,42 @@ extension FactalsModel  : Logd {}
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
 		switch character {
-		case "u": // + cmd
+		case "u": // + cmd						// misplaced ^u
 			if cmd {
 				panic("Press 'cmd u'   A G A I N    to retest")	// break to debugger
 			}
-		case Character("\u{1b}"):				// Escape
+		case Character("\u{1b}"):				// Escape -- exit program
 			print("\n******************** 'esc':  === EXIT PROGRAM\n")
 			NSSound.beep()
 			exit(0)								// exit program (hack: brute force)
-		case "b":
+		case "b":								// to debugger
 			print("\n******************** 'b': ======== keyboard break to debugger")
 			panic("'?' for debugger hints")
-//		case "d":
-//			print("\n******************** 'd': ======== ")
-//			let l1v 			= rootVewL("_l1")
-//			print(l1v.scnScene.transform.pp(.tree))
+		case "d":
+			print("\n******************** 'd': ======== ")
+			let l1v 			= rootVewL("_l1")
+bug//		print(l1v.scnScene.transform.pp(.tree))
 
 		 // print out parts, views
 		 // Command Syntax:
 		 // mM/lL 		normal  /  normal + links	L	 ==> Links
 		 // ml/ML		normal  /  normal + ports	ROOT ==> Ports
 		 //
-		case "m":
+		case "m":								// print Model
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'm': === Parts:")
 			print(partBase.pp(.tree, aux), terminator:"")
-		case "M":
+		case "M":								// print Model and Ports
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'M': === Parts and Ports:")
 			print(partBase.pp(.tree, aux), terminator:"")
-		case "l":
+		case "l":								// print Model and Links
 			aux["ppLinks"]		= true
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'l': === Parts, Links:")
 			print(partBase.pp(.tree, aux), terminator:"")
-		case "L":
+		case "L":								// print Model Ports and Links""
 			aux["ppPorts"]		= true
 			aux["ppDagOrder"]	= true
 			aux["ppLinks"]		= true
@@ -369,29 +369,31 @@ extension FactalsModel  : Logd {}
 			print(partBase.pp(.tree, aux), terminator:"")
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
-		case "c":
-			printFwState()				// Current controller state
-//		case "?":
-//			printDebuggerHints()
-//			return false				// anonymous printout
+		case "c":								// print Controller State
+			print(ppControlElement(config:false))
+		case "C":								// print Controller Config
+			print(ppControlElement(config:true))
+		case "?":								// print help
+			printDebuggerHints()
+			return false						// anonymous printout
 
-		case "r": // (+ cmd)
+		case "r": // (+ cmd)					// go to lldb for rerun
 			if cmd {
 				panic("Press 'cmd r'   A G A I N    to rerun")	// break to debugger
 				return true 									// continue
 			}
-	  //case "r" alone:				// Sound Test
+	  //case "r" alone:							// Sound Test
 			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 			for vews in vewBases {
 				vews.scnBase.roots?.rootNode.play(sound:"Oooooooo")		//GameStarting
 			}
-		case "v":
+		case "v":								// print Vew tree
 			print("\n******************** 'v': ==== Views:")
 			for vews in vewBases {
 				print("-------- ptv0   rootVews[++]:\(ppUid(vews)):")
 				print("\(vews.pp(.tree))", terminator:"")
 			}
-		case "n":
+		case "n":								// print SCNNode tree
 			print("\n******************** 'n': ==== SCNNodes:")
 //			log.ppIndentCols = 3
 			for vews in vewBases {
@@ -399,7 +401,7 @@ extension FactalsModel  : Logd {}
 					  ".scnScene(\(ppUid(vews.scnBase))):")
 				print(vews.scnBase.pp(.tree), terminator:"")
 			}
-		case "#":				// OUTPUT MODEL
+		case "#":								// write out SCNNode tree as .scnScene
 			let documentDirURL	= try! FileManager.default.url(
 											for:.documentDirectory,
 											in:.userDomainMask,
@@ -411,15 +413,15 @@ extension FactalsModel  : Logd {}
 			let rootVews0scene	= vewBases.first?.scnBase.roots ?? {	debugger("") } ()
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { debugger("writing dumpSCN.\(suffix) failed")	}
-		case "V":
-			print("\n******************** 'V': Build the Model's Views:\n")
+		case "V":								// Update Views
+			print("\n******************** 'V': Update Views:\n")
 			partBase.tree.forAllParts({		$0.markTree(dirty:.vew)				})
 			updateVews()		//(key instgated)
-		case "Z":
+		case "Z":								// Update siZe
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
 			partBase.tree.forAllParts({		$0.markTree(dirty:.size)			})
 			updateVews()
-		case "P":
+		case "P":								// Paint the skins of Views
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			partBase.tree.forAllParts({	$0.markTree(dirty:.paint)			})
 			updateVews()
@@ -439,18 +441,32 @@ extension FactalsModel  : Logd {}
 		case "?":
 			printDebuggerHints()
 			print ("\n=== FactalsModel   commands:",
-				"\t'r'             -- r sound test",
+				"\t'u'+cmd         -- misplaced ^u should go to xcode",
+				"\t'esc'           -- exit program",
+				"\t'b'             -- to debugger",
+//				"\t'd'             -- ",
+				"\t'm'             -- print Model",
+				"\t'M'             -- print Model and Ports",
+				"\t'l'             -- print Model and Links",
+				"\t'L'             -- print Model Ports and Links",
+				"\t'c'             -- print Controller State",
+				"\t'C'             -- print Controller Config",
+				"\t'?'             -- print help",
 				"\t'r'+cmd         -- go to lldb for rerun",
+				"\t'r'             -- r sound test",
 				"\t'v'             -- print Vew tree",
-				"\t'n'             -- print User's SCNNode tree",
+				"\t'n'             -- print SCNNode tree",
 				"\t'#'             -- write out SCNNode tree as .scnScene",
 				"\t'#'+alt         -- write out SCNNode tree as .dae",
-				"\t'V'             -- build the Model's Views",
+				"\t'V'             -- Update Views",
+				"\t'Z'             -- Update siZe",
 				"\t'T'             -- Size and pack the Model's Views",
+										//
 				"\t'P'             -- Paint the skins of Views",
 				"\t'w'             -- print FactalsModel",
 				"\t'x'             -- send to model",
-//				"\t'f'             -- Freeze SceneKit Animations",
+				"\t'f'             -- Freeze SceneKit Animations",
+
 				separator:"\n")
 			found			= false
 		default:					// // NOT RECOGNIZED // //

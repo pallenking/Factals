@@ -1140,23 +1140,23 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	func rePosition(vew:Vew) { //}, first:Bool=false) {
 		guard vew.parent != nil else {		return			}
 		 // Get Placement Mode
-		let placeMode		=   partConfig["placeMe"]?.asString ?? // I have place ME
-							parent?.config("placeMy")?.asString ?? // My Parent has place MY
-										   			  "linky"	   // default is position by links
+		let placeMode			=   partConfig["placeMe"]?.asString ?? // I have place ME
+								parent?.config("placeMy")?.asString ?? // My Parent has place MY
+											 			  "linky"	   // default is position by links
 		  // Set NEW's orientation (flip, lat, spin) at origin
 		vew.scnRoot.transform	= SCNMatrix4(.origin,
-								 flip	 : flipped,
-								 latitude: CGFloat(lat.rawValue) * .pi/8,
-								 spin	 : CGFloat(spin)		 * .pi/8)
-		 // First has center at parent's origni
+								  flip	  : flipped,
+								  latitude: CGFloat(lat.rawValue) * .pi/8,
+								  spin	  : CGFloat(spin)		  * .pi/8)
+		 // First has center at parent's origin
 		if vew.parent?.bBox.isEmpty ?? true {
 			let newBip		= vew.bBox * vew.scnRoot.transform //new bBox in parent
 			vew.scnRoot.position = -newBip.center
 		}
 		 // Place by links
 		else if placeMode.hasPrefix("link")  {	// Position Link or Stacked
-			if !placeByLinks(inVew:vew, mode:placeMode),	// (else)
-			   !placeStacked(inVew:vew, mode:"stacky") {
+			if !placeByLinks(inVew:vew, mode:placeMode),	// try links
+			   !placeStacked(inVew:vew, mode:"stacky") {	// try stack
 					panic("placeByLinks and placeStacked failed")
 			}
 		}			// "-> errs -> stacking

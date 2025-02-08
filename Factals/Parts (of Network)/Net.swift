@@ -125,13 +125,18 @@ class Net : Atom {		// Atom // Part
 		}
 		 // Color fades:
 		let den					= Float(vew.heightTree)
-		//let ratio : Float		= den != 0 ? Float(vew.heightLeaf)/den : 0.5
-		let color0				= NSColor.brown//NSColor.color(ofValue:ratio)					//color(ofValue:ratio)
+		let ratio : Float		= den != 0 ? Float(vew.heightLeaf)/den : 0.5
+		let color0				= typColor(ratio:ratio)
+//		let color0				= NSColor.brown//NSColor.color(ofValue:ratio)					//color(ofValue:ratio)
 
 		let bb					= vew.bBox		// existing value
 		let size				= bb.size
 		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0
 		let gsnbMin				= min(size.y, gsnb)
+		putNetRing (scnName:"s-HiFrame", top:true)	// Ring at top:
+		putNetRing (scnName:"s-LoFrame", top:false)	// Ring at bottom:
+		return vew.bBox				// vew.scnScene.bBox() // Xyzzy44 ** vb
+
 		func putNetRing (scnName:String, top:Bool) {
 			let scn				= vew.scnRoot.find(name:scnName) as? SCNComment ?? {
 				let scn			= SCNComment()//SCNNode()
@@ -147,13 +152,9 @@ class Net : Atom {		// Atom // Part
 			scn.comment			= fmt("PictureFrame(w:%.2f, l:%.2f, h:%.2f step:%.2f)", size.x, size.z, height, gsnb)
 			scn.color0			= color0// .withAlphaComponent(0.5)
 		}
-		putNetRing (scnName:"s-HiFrame", top:true)	// Ring at top:
-		putNetRing (scnName:"s-LoFrame", top:false)	// Ring at bottom:
-
-		return vew.bBox				// vew.scnScene.bBox() // Xyzzy44 ** vb
 	}
-	override func typColor(ratio ratio_:Float) -> NSColor {			// colorOf
-		let ratio				= min(max(ratio_, 0), 1)
+	override func typColor(ratio r:Float) -> NSColor {
+		let ratio				= min(max(r, 0), 1)
 		let inside  = NSColor(red:0.7, green:0.0, blue:0.7,  alpha:1)
 		let outside = NSColor(red:0.5, green:0.0, blue:0.5,  alpha:1)
 		return NSColor(mix:inside, with:ratio, of:outside)

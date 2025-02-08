@@ -40,9 +40,9 @@ func source(name:String) -> SCNAudioSource {
 
 extension SCNNode : SoundProtocol {
 	func play(sound:String?) {
-		guard let sound, sound != ""	 			 else { return 				}// no sound specified
+		guard let sound, sound != ""	 			  else { return 			}// no sound specified
 		audioPlayers.forEach({self.removeAudioPlayer($0)})
-		let audioSource			= audioSources[sound]!
+		guard let audioSource	= audioSources[sound] else { return 			}
 		let audioPlayer			= SCNAudioPlayer(source:audioSource)
 		addAudioPlayer(audioPlayer)								// let x1 = node.audioPlayers
 

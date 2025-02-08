@@ -131,7 +131,7 @@ func sendApp(key:String="?", inVew vew:Vew?) {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")
 		switch key {
 		case "c":
-			printFwState()		// Current controller state
+			print(ppController(config:false))
 		case "?":
 			printDebuggerHints()
 		default:
@@ -141,14 +141,9 @@ func sendApp(key:String="?", inVew vew:Vew?) {
 }
 
  // External Global interface (misc, lldb)
-func printFwState()  {
-//	FACTALSMODEL?.log.ppIndentCols 	= 20		// sort of permanent!
-	print(ppFactalsState())
-}
- // External Global interface (misc, lldb)
-func printFwConfig()  {
-	print("######## printFwConfig UNIMPLEMENTED ######")
-}
+//func printFwConfig()  {
+//	print("######## printFwConfig UNIMPLEMENTED ######")
+//}
 
 func printDebuggerHints() {
 	print ("=== Controller   commands:",

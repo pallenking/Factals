@@ -28,10 +28,10 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	var indexFor				= Dictionary<String,Int>()
 
 	 // MARK: - 2.1 Object Variables
-	var sourceOfTest			= ""			// source(arg)
-	var title					= ""			// Test Name or Status
-	var postTitle				= ""
-	var title3 : String			{ sourceOfTest + title + postTitle 				}
+	var sourceOfTest	: String			// source(arg)
+	var title			: String			// Test Name or Status
+	var postTitle		: String
+	var title3 : String			{ sourceOfTest + "   " + title + "   " + postTitle}
 
 	var ansConfig : FwConfig 	= [:]
 
@@ -47,6 +47,9 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	 // MARK: - 3. Part Factory
 	init(tree t:Part=Part()) {
 		tree					= t
+		sourceOfTest			= " call to PartBase(tree:)"
+		title					= " I don't know"
+		postTitle				= " a String "
 	}
 	init(fromLibrary selector:String?) {			// Part(fromLibrary...
 		self.sourceOfTest			= "'\(selector ?? "nil")' -> "
@@ -57,11 +60,15 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 			self.title			= hnwMachine.title!
 			self.sourceOfTest	= "\(hnwMachine.testNum) "
 								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
+			self.postTitle		= "wpowuwf"
 			self.ansConfig		= hnwMachine.config
 
 /* */		self.tree			= hnwMachine.trunkClosure?() ?? Part()	// EXPAND Closure from Lib
 		} else {
 			self.tree			= Part()
+			sourceOfTest		= " call to PartBase(tree:)"
+			title				= " I don't know"
+			postTitle			= " a String "
 		}
 		checkTree()
 	}
@@ -155,32 +162,29 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 		makeSelfRunable("writePartTree")
 	}
 	 // Deserialize
-	required init(from decoder: Decoder) throws {
-		 // Needn't lock or makeSelfCodable, it's virginal
-		let container 			= try decoder.container(keyedBy:PartsKeys.self)
-
-		title					= try container.decode(   String.self, forKey:.title		)
-//		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
-		semiphore 				= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
-		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
-		tree					= try container.decode(	    Part.self, forKey:.partTreeVerbose)
-
-		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
-
-//		makeSelfRunable("help")		// (no unlock)
-	}
+	required init(from decoder: Decoder) throws {	fatalError("sdfwovnaw;ofhw")}
+//		 // Needn't lock or makeSelfCodable, it's virginal
+//		let container 			= try decoder.container(keyedBy:PartsKeys.self)
+//
+//		title					= try container.decode(   String.self, forKey:.title		)
+////		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
+//		semiphore 				= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
+//		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
+//		tree					= try container.decode(	    Part.self, forKey:.partTreeVerbose)
+//
+//		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
+//
+////		makeSelfRunable("help")		// (no unlock)
+//	}
 	 // MARK: - 3.5.1 Data
-	var data : Data? {
+	func data() throws -> Data {
 		do {
 			let enc 			= JSONEncoder()
 			enc.outputFormatting = .prettyPrinted
 			let dataRv 			= try enc.encode(self)							//Thread 4: EXC_BAD_ACCESS (code=2, address=0x16d91bfd8)
-			//print(String(data: data, encoding: .utf8)!)
 			return dataRv
-		} catch {
-			print("\(error)")
-			return nil
 		}
+		catch { 	throw FwError(kind:"error")									}
 	}
 	static func from(data:Data, encoding:String.Encoding) -> PartBase {
 		do {
@@ -207,7 +211,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	func makeSelfCodable(neededLock:String) {		// was readyForEncodable
-bug;	guard lock(for:neededLock, logIf:true) else { debugger("'\(neededLock)' couldn't get PART lock") }
+		guard lock(for:neededLock, logIf:true) else { debugger("'\(neededLock)' couldn't get PART lock") }
 
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)

@@ -1,8 +1,7 @@
 //  VewBase.swift --  Created by Allen King on 9/19/22.
 //
-
 import SceneKit
-//import SwiftUI
+
 extension VewBase : Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		Log.app.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
@@ -55,11 +54,10 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	}
 	func removeInspector(forVew:Vew){
 		guard let i				= inspectedVews.firstIndex(of:forVew) else {
-			print("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
+			panic("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
 			return
 		}
 		inspectedVews.remove(at:i)
-//		inspectorVew.removeFromParent()
 	//	objectWillChange.send()
 	}
 
@@ -77,7 +75,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
 	 var slot_ 		: Int 		{
 	 	let s					= slot ?? -1
-		print("slot_ = \(s)")
+		print("######### Fetching slot_for '\(self.title)': returns \(s) ######### ")
 		return s
 	}
 
@@ -99,7 +97,6 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 			self!.scnBase.selfiePole2camera()
 		}
 	}
-
 
 	func configure(from:FwConfig) {
 //		self.config 			= from			// VewBase.self

@@ -648,6 +648,7 @@ r("Testing bcast. \"\"", e + selfiePole(u:0), { Net([placeMy:"linky", parts:[
 	Tunnel(of:.genAtom/*bcast*/, [struc:["a"], placeMy:"stackx -1 1"]),
 ] ] ) } )
 
+// MARK: * + blink and click
 state.scanSubMenu				= "+ blink and click"
 			//let tickTock	= ["b","tick","t","tock"]		// tick b		// b t
 			let tickTock	= ["tock","tick","tock","tick"]	// tick b		// b t
@@ -674,22 +675,34 @@ var aOffset = 0.0
 
 xxr("+ simple blink tick", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
-	Bulb(  [P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
-	PortSound(	[n:"s1", "inP":"a.P", "sounds":tickTock]),
-	Mirror([n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
-	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+	Bulb(  		[n:"d", P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
+	PortSound(	[n:"c", "inP":"d.P", "sounds":tickTock]),
+	Mirror(		[n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
+	Mirror(		[n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
-xr("+ blinking Bulbs", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+xxr("+ blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
-	Bundle([struc:["a","b","c","d"], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
+	Bundle([struc:["a","b"/*,"c","d","e","f"*/], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
 			Bulb([P:"a,l:3"]),
 			Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
-			PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
+			PortSound([n:"s1", "inP":"b.P", "sounds":tickTock]),
 			Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 		] ] )
 	},			// etc1
+	Net([placeMy:"linky", parts:[
+//		Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+//		Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+		Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
+		Mirror([n:"b", P:"a", jog:"4"]),
+		PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
+		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+	] ])
  ] ]) })
+	xr("- stackx does linky", [:], { Net([placeMy:"stackx", parts:[
+		Sphere(),//[placeMe:"stackx"]),
+		Box(   ) //[placeMe:"stackx"]),
+	 ] ]) })
 
 xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
 	Net([placeMy:"linky", spin:4, parts:[

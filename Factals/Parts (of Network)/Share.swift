@@ -80,7 +80,7 @@ class Share : Port { // ///////////// The common parts//////////////////////////
 			let s				= CGFloat(0.5)
 			 // A plate:
 			let scn 			= SCNNode(geometry:SCNBox(width:s, height:s/20, length:s, chamferRadius:0))// width:s, height:s, length:s))
-//			let scnScene 			= SCNNode(geometry:SCNPyramid(width:s, height:s, length:s))
+//			let scnScene 		= SCNNode(geometry:SCNPyramid(width:s, height:s, length:s))
 			scn.name			= "s-Share"	// (was a cone)
 			scn.color0			= .black//.red
 			vew.scnRoot.addChild(node:scn, atIndex:0)

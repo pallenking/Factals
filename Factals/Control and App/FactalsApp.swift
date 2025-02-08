@@ -32,19 +32,20 @@ var FACTALSMODEL : FactalsModel?=nil
 @main
 extension FactalsApp : App {
 	var body: some Scene {
-		DocumentGroup(newDocument:FactalsDocument()) { file in
+		DocumentGroup(newDocument:FactalsDocument(/*file name??*/)) { file in
 			ContentView(document: file.$document)
-			 .id(file.fileURL?.absoluteString ?? UUID().uuidString) // Ensure uniqueness
+			 .id(/*file.fileURL?.absoluteString ??*/ UUID().uuidString) // Ensure uniqueness
 			 .environmentObject(factalsGlobals)				// inject in environment
 			 .onOpenURL { url in							// Load a document from the given URL
 				@Environment(\.newDocument) var newDocument
 				newDocument(FactalsDocument(fileURL:url))
-				let _ = FactalsDocument(fileURL:url)
+				let x = FactalsDocument(fileURL:url)
 			 }
-			 .onAppear {
-				guard let pb = file.document.factalsModel?.partBase else {return}
-				NSApplication.shared.windows.last?.title = pb.title3 + "   (from App.onAppear)"
-			 }
+			 .navigationTitle("sldfjsdlfk")
+//			 .onAppear {
+//				guard let pb = file.document.factalsModel?.partBase else {return}
+//				 NSApplication.shared.windows.last?.title = pb.title3 + "   (from App.onAppear)"
+//			 }
 //			 .onAppear {
 //				if let window = NSApplication.shared.windows.first(where: {
 //					$0.windowController?.document?.fileURL == file.fileURL
@@ -187,7 +188,7 @@ struct FactalsApp: Uid, FwAny {
 		atApp(1, log("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
 		atApp(3, log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
-		// printFwState()	causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
+		// print(ppController(config:false))	causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 		//atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
 	
 //		sounds.load(name:"di-sound", path:"di-sound")
@@ -208,12 +209,17 @@ struct FactalsApp: Uid, FwAny {
 //	}
 	var sceneMenu:NSMenu!			// @IBOutlet weak 	var sceneMenu:NSMenu!
 
+	 // 
 	func appPreferences(_ sender: Any) {		// Show App preferences
 		print("'⌘,': AppDelegate.appPreferences(): PREF WINDOW UNDEF")
 	}													// why not use SwiftUI?
 	func appState(_ sender: Any) {
 		print("'c': AppDelegate.appState():")
-		print(ppFactalsState())
+		print(ppControlElement(config:false))
+	}
+	func appConfig(_ sender: Any) {
+		print("'c': AppDelegate.appState():")
+		print(ppControlElement(config:true))
 	}
 	func appHelp(_ sender: Any) {
 		print("'?': AppDelegate.appConfiguration():")
@@ -226,7 +232,7 @@ struct FactalsApp: Uid, FwAny {
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		bug
 //		 // Add entry on system's menu bar: (DOESN'T WORK)
-//		let systemMenuBar 		= NSStatusBar.system
+//		let systemM/Users/allen/DocLocal/HaveNWant/Factals/Factals/Control and App/FactalsApp.swift:		print("'c': AppDelegate.appState():")enuBar 		= NSStatusBar.system
 //		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
 //		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
 //			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
@@ -235,7 +241,7 @@ struct FactalsApp: Uid, FwAny {
 //
 //		 // Log program usage instances
 //		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
-//		atApp(7, printFwState())
+//		atApp(7, print(ppController(config:false)))
 ////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
 //		sounds.play(sound:"GameStarting")
 	}

@@ -365,10 +365,10 @@ class FwBundle : Net {
 	}
 	 // MARK: - 11. 3D Display
 	override func typColor(ratio:Float) -> NSColor {
-		let inside  = NSColor(red:0.9, green:0.9, blue:1.0,  alpha:1)
-		let outside = NSColor(red:0.8, green:0.8, blue:1.0,  alpha:1)
-//		let inside				=  NSColor{0.7, 0.7, 0.7,  1}
-//		let outside				=  NSColor{0.7, 0.7, 0.7,  1};
+		let inside  			= NSColor(red:0.9, green:0.9, blue:1.0,  alpha:1)
+		let outside 			= NSColor(red:0.8, green:0.8, blue:1.0,  alpha:1)
+//		let inside				= NSColor{0.7, 0.7, 0.7,  1}
+//		let outside				= NSColor{0.7, 0.7, 0.7,  1};
 		return NSColor(mix:inside, with:ratio, of:outside)
 	}
 	 // MARK: - 9.4 rePosition

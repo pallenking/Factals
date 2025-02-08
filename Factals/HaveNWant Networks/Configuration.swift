@@ -157,11 +157,11 @@ let params4vew : FwConfig = [
 
 	  // ///  Gap_: USER DEFINITIONS ////////////////////////////////////////////
 	 // indent for each layer of FwBundle terminal block:
-	"gapTerminalBlock"			: CGFloat([0, 0.04, 0.2]	[2]),	// !=0 --> ^P broken
+	"gapTerminalBlock"			: CGFloat([0, 0.04, 0.2, 0.5]	[3]),// !=0 --> ^P broken
 	 // gap around atom to disambiguate bounding boxes:
-	"gapAroundAtom"				: CGFloat([0, 0.01, 0.2]	[0]),	// !=0 --> ^P broken
+	"gapAroundAtom"				: CGFloat([0, 0.01, 0.2]		[0]),// !=0 --> ^P broken
 	 // linear between successive Atoms:
-	"gapStackingInbetween"		: CGFloat([0, 0.1,  0.2]	[0]),	// OK
+	"gapStackingInbetween"		: CGFloat([0, 0.1,  0.2]		[0]),// OK
 	 // between boss & worker if no link:
 	"gapLinkDirect"				: CGFloat(0.1),
 	 // min gap between boss and worker, if link:

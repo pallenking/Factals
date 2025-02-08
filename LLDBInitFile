@@ -392,9 +392,10 @@ type summary add --summary-string  "Part.name=${var.name}"  Part
 type summary add --summary-string  "Vew.name=${var.name} part:${var.part.name}"  Vew
 ########## ########## ########## ########## ########## ########## ########## 
 #
+command     alias pFwState		expression print(ppController(config:true))
+command     alias pFwConfig		expression print(ppController(config:false))
+																		#printFwConfig()
 command     alias fwHelp 		expression fwHelp("?")
-command     alias pFwConfig		expression printFwConfig()
-command     alias pFwState		expression printFwState()
 
 ############################### FILE A BUG REPORT: Would like, but BROKEN. wanted badly:
 #command alias lldbinit		command source ~/.lldbinit					# DOESN'T WORK

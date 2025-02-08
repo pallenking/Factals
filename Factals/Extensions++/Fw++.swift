@@ -426,16 +426,18 @@ extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value
 	}
 }
 
-//// METHOD 1:
+//// METHOD 1: 		see Dictionary merge PW
 func +=(dict1: inout FwConfig, dict2:FwConfig) 	{	dict1 = dict1 + dict2		}
 func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 	var rv						= lhs						// initial values, older, overwritten
 	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
-	for (keyRhs, valueRhs) in rhsSorted {
+	for (keyRhs, var valueRhs) in rhsSorted {
 		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-//			valueLhs == valueRhs ? nop :
-//				atBld(9, Log.app.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
-	//			atBld(9, print(         "Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+			if valueLhs != valueRhs {
+				atBld(9, Log.app.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+				atBld(9, print(         "Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+			}
+			valueRhs 			= valueLhs
 		}
 		rv[keyRhs] 				= valueRhs
 	}
