@@ -69,7 +69,7 @@ struct FactalsDocument : FileDocument {
 
 		 // 2. FactalModel ******
 		let pmConfig			= params4logs
-								+ params4vew
+								+ params4vew		//
 								+ params4partPp
 								+ partBase.ansConfig		// from library
 /**/	factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)

@@ -143,8 +143,8 @@ let params4vew : FwConfig = [
 
 /**/"placeMe"					:"linky",		// place me (self)	//"stackY"
 /**/"placeMy"					:"linky",		// place my parts	//"stackY"
-///**/"placeMe"					:"stacky",		// place me (self)	//"stackY"
-///**/"placeMy"					:"stacky",		// place my parts	//"stackY"
+//**/"placeMe"					:"stacky",		// place me (self)	//"stackY"
+//**/"placeMy"					:"stacky",		// place my parts	//"stackY"
 // 	"skinAlpha"					: 0.3,			// nil -> 1		// BROKEN
 	"bitHeight"					: Float(1.0),	// radius of Port
 /**/"bitRadius"					: Float(1.0),	// radius of Port

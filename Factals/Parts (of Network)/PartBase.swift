@@ -51,7 +51,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 		title					= " I don't know"
 		postTitle				= " a String "
 	}
-	init(fromLibrary selector:String?) {			// Part(fromLibrary...
+	init(fromLibrary selector:String?) {			// PartBase(fromLibrary...
 		self.sourceOfTest			= "'\(selector ?? "nil")' -> "
 		self.title 				= " Not in Library"
 
@@ -130,7 +130,8 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 
 	 // Configuration for Part Tree's
 	func configure(from:FwConfig) {
-		tree.partConfig			= from		// save in base of tree's config
+		tree.partConfig			= from + tree.partConfig	// save in base of tree's config
+//		tree.partConfig			= from		// save in base of tree's config
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////
