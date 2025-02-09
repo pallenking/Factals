@@ -51,16 +51,16 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 		 // 1. look in ALL Books in Library
 		var state				= ScanState()
 		for book in Library.books {					// All books
-	/**/	book.loadTest(args:args, state:&state)		// state persists across library probes
-			 // Return selected test if valid:
-			if book.answer.trunkClosure != nil/*,
-			   book.answer.title?.first == "+" */  {
-				 // REMOVED to allow greedy xr()
-				assert(rv == nil, """
-					Two entries for selector: '\(s)'
-							\((rv!.title ?? "?").field(12)):(rv!.ansTestNum)\t line:(rv!.ansLineNumber!)
-							(book.name.field(12)):(book.answer.ansTestNum)\t line:(book.answer.ansLineNumber!)
-					""")
+	/**/	book.loadTest(args:args, state:&state)		// (state persists across library probes)
+			if book.answer.trunkClosure != nil {			// test valid?
+			// book.answer.title?.first == "+" */  {
+				if let rv {										// log multiple select
+					atBld(2, Log.app.log(/*Log.app.log(*/"""
+						\n Selector: '\(s)' returns multiple entries
+							USING      new:  \(book.answer.ppr())
+							DISCARDING old:  \(rv		  .ppr())\n
+						"""))
+				}
 				rv				= book.answer
 			}
 		}								// no, loop for another

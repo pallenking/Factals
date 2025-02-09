@@ -150,7 +150,7 @@ extension FactalsModel  : Logd {}
 								: vew.expose == .atomic ? .open
 								: 						  .null
 			
-			atAni(5, log("Removed old Vew '\(vew.fullName)' and its SCNNode"))
+			atAni(5, log("Changed '\(vew.fullName).expose' to \(vew.expose)"))
 		}
 	}
 
@@ -265,10 +265,11 @@ extension FactalsModel  : Logd {}
 		for (i, vewBase) in vewBases.enumerated() {
 			let ovb					= onlyVew?.vewBase()
 			if ovb==nil || ovb == vewBase {			// all if onlyVew==nilvvvvvvv
-				
 				guard vewBase  .lock  (for:"\(workNamed)[\(i)]", logIf:logIf)
 									else {debugger(" couldn't get VEW lock")	}
+				
 				work(vewBase)			// Do desired changes
+				
 				vewBase.updateVSP()		// Update Vews and their Scns
 				
 				vewBase      .unlock  (for:"\(workNamed)[\(i)]", logIf:logIf)
@@ -310,10 +311,10 @@ extension FactalsModel  : Logd {}
 		guard let partBase : PartBase = vew?.part.partBase else { return false }	// vew.partBase.part
 		var found				= true
 
-//		 // Check Simulator:
-// /**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
-//			return true 					// handled by simulator
-//		}
+		 // Check Simulator:
+/**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
+			return true 					// handled by simulator
+		}
 
 		 // Check Controller:
 		if nsEvent.type == .keyUp {			// ///// Key UP ///////////

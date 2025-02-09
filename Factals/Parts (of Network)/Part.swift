@@ -10,6 +10,8 @@ import SwiftUI
 //let superclassOfB	: AnyClass? = Swift._getSuperclass (B.self)
 //let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
+// sound support bulse wireless headphones case: 02108778 $195 june
+
 protocol EquatableFW {
 	func equalsFW(_:Part) -> Bool
 }
@@ -880,21 +882,21 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	/// * Depending on self.expose:Expose
 	/// * --- .open -> full; .atomic -> sphere; .invisible -> nothing
 	func reVew(vew vew_:Vew?=nil, parentVew pVew:Vew?=nil) {
-		var vew 	= vew_ ??							// 1 supplied as ARG, or from parent:
-					  pVew?.find(part:self, maxLevel:1)	// 2. FIND in self in parentVew
+		var vew 				= vew_ ??							// 1 ARG, or
+								  pVew?.find(part:self, maxLevel:1)	// 2 FIND in parentVew
 		 // Discard if it doesn't match self, or names mismatch.
 		if let v		= vew,							// Vew supplied and
 		 (v.part !== self ||							//  it seems wrong:	//!=
 		  v.name != "_" + v.part.name) {
-			vew				= nil							// don't use it
+			vew					= nil						// don't use it
 		}
-
+								
 		switch vew?.expose ?? initialExpose { // (if no vew, use default in part)
 
 		case .open:					// //// Show insides of Part ////////////
 			vew					= vew ??
 								  addNewVew(in:pVew) 	// 3. CREATE:
-			 // Remove old skins:
+			 // Remove lingering Atomic skins:
 			vew!.scnRoot.find(name:"s-atomic")?.removeFromParent()
 			markTree(dirty:.size)
 
@@ -913,10 +915,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			if vew != nil,
 			  vew!.children.count > 0 {
 				vew!.removeAllChildren()	// might eliminate later
-//				markTree(dirty:.size)		// (.vew loops endlessly!)
+				markTree(dirty:.size)		// (.vew loops endlessly!)
 			}
 			let _				= reSkin(atomicOnto:vew!)	// xyzzy32 -- Put on skin after going atomic.
-// sound support bulse wireless headphones case: 02108778 $195 june
 		default:					// ////  including .invisible
 			if vew != nil {					// might linger
 				let _			= reSkin(invisibleOnto:vew!)				// xyzzy32
@@ -1341,7 +1342,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 					rv			= true
 				}
 				else if nsEvent.clickCount == 2 {		///// DOUBLE CLICK or DOUBLE DRAG   /////
-					
+bug//never gets here
 					 // Let fwPart handle it:
 					print("-------- mouseDragged (click \(nsEvent.clickCount))\n")
 

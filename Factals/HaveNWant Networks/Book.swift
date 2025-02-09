@@ -206,11 +206,14 @@ struct HnwMachine {		// : Codable
 	var trunkClosure:PartClosure? = nil		// [NOT CODABLE] Closure from Library, generates Part
 	var fileName	: String?	= nil
 	var lineNumber	:Int?		= nil
+	func ppr() -> String {
+		"test \(testNum.asString_.field(4))\t source:\(fileName!.field(20))::\(lineNumber!)\t title:'\(title ?? "?")'"
+	}
 }
 
 	 // MARK: - 2.4.2 Scan State
 class ScanState : Codable {
-	let nameTag					= getNametag()
+	var nameTag					= getNametag()
 	var scanTestNum	: Int		= 0			// Number of elements scanned (so far, total)
 	var scanSubMenu : String	= ""		// name of current FactalsModel sub-menu
 	var scanCatalog	: [LibraryMenuArray]=[]	// Catalog of Library

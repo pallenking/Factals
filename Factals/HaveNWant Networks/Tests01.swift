@@ -699,7 +699,13 @@ xxr("+ blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, 
 		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 	] ])
  ] ]) })
-	xr("- stackx does linky", [:], { Net([placeMy:"stackx", parts:[
+xr("- atomicToggle bug",eYtight, { Net([placeMy:"stackx", parts:[
+	Mirror(),
+	Net([parts:[
+		Bulb(),
+	] ])
+ ] ]) })
+	r("-+ stackx does linky", [:], { Net([placeMy:"stackx", parts:[
 		Sphere(),//[placeMe:"stackx"]),
 		Box(   ) //[placeMe:"stackx"]),
 	 ] ]) })
