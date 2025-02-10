@@ -65,7 +65,7 @@ struct FactalsDocument : FileDocument {
 			return select
 		} ()
 /**/	let partBase			= PartBase(fromLibrary:select)
-		logd("===============#### built test '\(partBase.title)' from '\(partBase.sourceOfTest)' ####=================\n")
+		logd("\n===============#### built test '\(partBase.title)' from '\(partBase.sourceOfTest)' ####=================\n")
 
 		 // 2. FactalModel ******
 		let pmConfig			= params4logs

@@ -121,7 +121,7 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
-			answer.sourceOfTest		= "\(args!.argName):'\(args!.argNumber)"
+			answer.sourceOfTest	= "\(args!.argName):'\(args!.argNumber)"
 			answer.title		= title
 //			answer.postTitle	= ""
 			answer.config 		= config
@@ -132,7 +132,8 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			 // Anonymous from Scan
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
-			atBld(7, Log.app.log("=== Matched Because: \(matchCause!) ==="))
+			atBld(7, Log.app.log("=== Matched Because: \(matchCause!) ===\n" +
+								 "=========<<< \(answer.ppr()) >>>========="))
 		}
 	}
 	var fwClassName		 : String	{	"Book"									}

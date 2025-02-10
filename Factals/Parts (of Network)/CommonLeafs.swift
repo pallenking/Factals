@@ -67,9 +67,9 @@ extension Leaf {	/// Generate Common Leafs
 			let p				= closure()		//might get e.g. [GenAtom(["n":"gen", "f":1] + etc2)]
 			self.init(of:leafKind, bindings:b, parts:[p], leafConfig:etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
-		case .nil_:
+		case .`nil_`:
 			self.init(of:leafKind, bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)
-			unusedConfigsMustBeNil([etc2, etc3, etc4, etc5])
+			unusedConfigsMustBeNil([etc3, etc4, etc5])	// etc2: WTF?
 		case .cylinder:
 			self.init(of:leafKind, bindings:[:], parts:[
 				Cylinder(								  etc2),//"size":"1 1 1" + 

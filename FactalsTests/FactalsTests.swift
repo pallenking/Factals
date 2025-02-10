@@ -479,7 +479,7 @@ final class FactalsTests: XCTestCase {
 	func testBuildLibrary() {
 
 		 // Build every part in the library
-		let justNumber : Int?	= nil	//10//94//
+		let justNumber : Int?	= nil	//10//94//217//
 		let firstNumber			= 1
 		var lastNumber			= 1200//74//12//31//1200	// Limit of tests
 		for var testNum in firstNumber...lastNumber {

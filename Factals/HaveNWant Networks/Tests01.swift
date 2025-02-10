@@ -1873,7 +1873,7 @@ xxr("+Gen Ham Bulb", e + selfiePole(s:45,u:0) + vel(-2) + logAt(dat:5, eve:5) +
 		["a", 	   ["a",	"b"], 	  "b", 		[], "again"],
 	]),
 ]]) })
-r("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:5, eve:5) +
+xxr("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:5, eve:5) +
 							[lookAt+X:"/net0/e"], {Net([placeMy:"linky", parts:[
 	Tunnel(of:.genBulb, [n:"evi", struc:["a", "b", "c"], placeMy:"stackz 0 -1"]),
 	Generator([n:"lo", P:"evi=", placeMy:"stacky", eventLimit:0, events:[	//-1
@@ -1884,6 +1884,10 @@ r("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:5, eve:5) +
 			  "b",
 		[],
 		"again"]]),
+]]) })
+xr("- bug failed to follow path", logAt(dat:5, eve:5), {Net([placeMy:"linky", parts:[
+	Tunnel(of:.genBulb, [n+X:"evi", struc:["a"], placeMy:"stackz 0 -1"]),
+//	Generator([n:"lo", P:"evi=", placeMy:"stacky", eventLimit:0]),
 ]]) })
 xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
 	Tunnel([n:"evi", struc:["a"], placeMy:"stackz 0 -1"]), //genBulb//of:.genPrev,
