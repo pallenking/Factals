@@ -323,10 +323,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 			  maxLevel:Int?=nil) -> Vew?
 	{
 		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
-		{(vew:Vew) -> Bool in
-			return vew.scn == node				// view's SCNNode
-//			return vew.scnScene == node			// view's SCNNode
-		}
+		{ (vew:Vew)->Bool in vew.scn == node			}			// vew.scnScene == node //view's SCNNode
 	}
 		/// find if closure is true:
 	func find(up2:Bool=false,
@@ -345,7 +342,8 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
 			 // Check children:
 			//?let orderedChildren = upInWorld ? children.reversed() : children
-			for child in children where child != exception {	// Child match
+			for child in children
+			  where child != exception {	// Child match
 				if let sv		= child.find(up2:up2, inMe2:true, maxLevel:mLev1, firstWith:closureResult) {
 					return sv
 				}

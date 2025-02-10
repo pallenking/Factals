@@ -409,6 +409,24 @@ final class FactalsTests: XCTestCase {
 		var aMtx				= SCNMatrix4(SCNVector3(4,5,6))
 		let aMtxPpLine			= aMtx.pp(.line)
 	}
+
+
+
+	func testFindScn() {
+		let partBase		= PartBase(fromLibrary:"Structure for XCTEST")
+		logd("===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
+		partBase.wireAndGroom([:])
+		let p1				= partBase.tree.find(name:"p1")
+		XCTAssert(p1?.fullName == "/p2/p1")
+
+		let vewBase			= VewBase(for:partBase, vewConfig:vewConfigAllToDeapth4)		// Create
+		let z				= vewBase.tree.find(part:p1!)
+		let str2			= z?.fullName
+	}
+		
+		
+		
+
 	func testFwXppMode() {
 		print("""
 			\n\n\n

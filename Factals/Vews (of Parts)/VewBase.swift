@@ -303,16 +303,16 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 		}
 		SCNTransaction.commit()
 	}
-
+								
 	 // MARK: - 15. PrettyPrint
 	/*override*/func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
- 							 				// Report any improper linking:
-		guard let factalsModel 					  else{return "slot factalsModel BAD"}
-		guard let slot 							  else{return "slot IS NIL"		}
-		guard slot < factalsModel.vewBases.count  else{return "slot TOO BIG"	}
-		guard factalsModel.vewBases[slot] == self else{return "slot inclorectly in rootVews"}
-
-		return "VewBase.pp() needs work"
-		//return super.pp(mode, aux)		// superclass does all the work.
+ 							 	// Report any improper linking:
+		var rv					= ""
+		if slot == nil || factalsModel?.vewBases[slot!] != self {
+			rv					+= "not placed in a VewBase slot properly\n"
+		}
+		return rv + " VewBase.pp() needs work\n"
+	//	switch mode {
+	//	case .name:
 	}
 }

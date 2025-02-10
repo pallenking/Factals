@@ -573,10 +573,11 @@ extension ScnBase : ProcessNsEvent {
 	
 	/// Choose the Vew of v containing mouse point
 	/// - Parameter n: an NSEvent (else current NSEvent)
-	/// - Parameter v: specific base Vew (else check all rootVews)
+	/// - Parameter vb: specific ViewBase, nil --> all
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVewBase vb:VewBase? = nil) -> Vew? {
-		let possibleVewBases 	= vb != nil ? [vb!] : vewBase!.factalsModel.vewBases // check all
+		let possibleVewBases 	= vb != nil ? [vb!]				// ARG specifies
+								: vewBase!.factalsModel.vewBases// fall
 		for vewBase in possibleVewBases {
 			if let picdVew		= findVew(nsEvent:nsEvent, inVewBase:vewBase) {
 
@@ -636,7 +637,7 @@ extension ScnBase : ProcessNsEvent {
 		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)
 		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
 
-		 // SELECT HIT; prefer any child to its parents:
+		 // Find closest to screen:
 		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
 		var pickedScn			= sortedHits.first?.node ?? tree.rootNode
 
@@ -644,23 +645,23 @@ extension ScnBase : ProcessNsEvent {
 		var msg					= "******************************************\n Slot\(vewBase.slot_): "
 		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
 			
-		 // If Node not picable and has parent
-		while pickedScn.categoryBitMask & FwNodeCategory.picable.rawValue == 0,
+		 // If un-picable, try parent
+		while pickedScn.categoryBitMask & FwNodeCategory .picable .rawValue == 0,
 			  let parent 		= pickedScn.parent
 		{
 			msg					+= fmt("\t--> category %02x subpart", pickedScn.categoryBitMask)
 			pickedScn 			= parent				// use parent
 			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
 		}
-
+								
 		 // Get Vew from SCNNode
-		guard let vew 				= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else {
-			if trueF 				{ return nil 		}		// Ignore missing vew
+		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else {
+			if trueF 			{ return nil 		}		// Ignore missing vew
 			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scnScene.pp(.classUid))")
-			let redo4debug			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) // for debug only
+			let redo4debug		= vewBase.tree.find(scnNode:pickedScn, inMe2:true) // for debug only
 			return redo4debug
 		}
-		msg							+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
+		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
 		atEve(3, print("\n" + msg))
 		return vew
 	}

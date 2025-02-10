@@ -20,12 +20,12 @@ protocol FactalsStatus : FwAny {
 	func ppControlElement(deapth:Int, config:Bool) -> String
 }
 
-func ppFactalsStateHelper(_ fwClassName_	: String,
-						nameTag			: Uid,
-						myLine		: String 			= "",
-						otherLines	: ((Int)->String)?	= nil,
-						deapth		: Int				//= 999
-					) -> String
+func ppFactalsStateHelper(_ fwClassName_: String,
+							nameTag		: Uid,
+							myLine		: String 			= "",	// stuff after ". . ."
+							otherLines	: ((Int)->String)?	= nil,	// hash generating trailing lines
+							deapth		: Int						// Infinite loop detection //= 999
+						 ) -> String
 {
 	let log						= Log.app
 	var rv						= ppFwPrefix(nameTag:nameTag, fwClassName_) + myLine + "\n"
