@@ -223,14 +223,15 @@ class Atom : Part {	//Part//FwPart
 		if let bindingString 	= bindings?[wantedName] {
 			let bindingPath		= Path(withName:bindingString)
 			if let boundPart	= find(path:bindingPath) {	// Decode binding target Part
-				if let boundAtom = boundPart as? Atom {			// Case 1: Atom?
-					// Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
+				rvPort 			=  boundPart as? Port			// Case 1: already a Port?
+				if let boundAtom = boundPart as? Atom {			// Case 1: Atom's Port?
 					let sWantUp	= wantUp==nil ? nil : wantUp! ^^ boundAtom.upInPart(until:self)
 					atBld(6, logd(" .BINDING \"\(wantedName)\":\"\(bindingString)\" now at \(fwClassName): \"\(boundAtom.pp(.fullName))\""))
 
+					// Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
 			/**/	rvPort		= boundAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 				}
-				rvPort 			=  boundPart as? Port			// Case 2: Port?
+//				rvPort 			=  boundPart as? Port			// Case 2: Port?
 			}
 			atBld(4, logd("-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
 		}

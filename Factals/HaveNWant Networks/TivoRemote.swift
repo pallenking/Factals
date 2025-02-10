@@ -133,7 +133,7 @@ CONTEXT: findProgramToWatch:
 //		]]) })
 //
 		// WORKS:
-		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), { Net(["parts":[
+		r("- bug: drive with sequence", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Sequence(["f":1, "share":["a", "b", "c"]]),
 			Tunnel(["struc":["a", "b", "c"]]),
 		]]) })

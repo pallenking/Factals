@@ -227,14 +227,8 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 
 	 // MARK: - 4.2 Manage Tree
 	var fullName : String {
-		var rv = ""
-		if let parent {
-			rv					+= parent.fullName + "/"
-		}
-		return rv + (name ?? "?")
-//		let parentsFullName 	= parent?.fullName ?? ""
-//		let lastName			= name ?? "?"
-//		return parentsFullName + "/" + lastName
+		parent==nil  ? 		"/" + (name ?? "???") :
+							parent!.fullName + "/" + (name ?? "???")
 	}
 	  /// Add child node
 	 /// Semantic Sugar, to make SCNNode, Vew, and Part all use term children

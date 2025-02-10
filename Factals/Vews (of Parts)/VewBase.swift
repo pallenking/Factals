@@ -75,7 +75,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
 	 var slot_ 		: Int 		{
 	 	let s					= slot ?? -1
-		print("######### Fetching slot_for '\(self.title)': returns \(s) ######### ")
+//		print("######### Fetching slot_for '\(self.title)': returns \(s) ######### ")
 		return s
 	}
 

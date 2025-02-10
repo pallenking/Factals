@@ -118,7 +118,7 @@ let params4logs				: FwConfig = [
 								// + +  + +
 	"breakAtLogger"				:-1,
 								// + +  + +
-	"breakAtEvent"				:29 //150//-54,//240/3/0:off
+	"breakAtEvent"				:34 //150//-54,//240/3/0:off
 
 ]
 private let params4docLog		= params4partPp + params4logs
