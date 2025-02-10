@@ -305,14 +305,19 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 	}
 								
 	 // MARK: - 15. PrettyPrint
-	/*override*/func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
  							 	// Report any improper linking:
 		var rv					= ""
 		if slot == nil || factalsModel?.vewBases[slot!] != self {
 			rv					+= "not placed in a VewBase slot properly\n"
 		}
-		return rv + " VewBase.pp() needs work\n"
-	//	switch mode {
-	//	case .name:
+		rv						+= tree.pp(mode, aux)
+		if mode == .line {
+			rv					+= " \"\(title)\""
+			rv					+= "\(nameTag) "
+			rv					+= "\(partBase.pp(.nameTagClass)) "
+			rv					+= "\(scnBase .pp(.nameTagClass)) "
+		}
+		return rv
 	}
 }

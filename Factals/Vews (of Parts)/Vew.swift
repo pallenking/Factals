@@ -63,9 +63,12 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	 // Sugar:
 	var child0		:  Vew?		{	return children.count == 0 ? nil : children[0] }
 	var fullName	: String	{	 // Hierarchy:
-		name=="_ROOT" ? name :			// Leftmost component
-		parent==nil   ? ""   :
-		parent!.fullName + "/" + name	// add lefter component
+		return parent==nil  ? 		"/" + name :
+			   						parent!.fullName + "/" + name
+//
+//		name == "_ROOT" ?		name :			// Leftmost component
+//		parent == nil  	? 		""   :
+//								parent!.fullName + "/" + name	// add lefter component
 	}
 	func vewBase() -> VewBase?	{	part.partBase?.factalsModel?.vewBase(ofVew:self) }
 

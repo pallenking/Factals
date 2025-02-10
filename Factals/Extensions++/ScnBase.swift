@@ -40,8 +40,8 @@ class ScnBase : NSObject {
 	var monitoring 				= Set<AnyCancellable>()
 	deinit {
 		monitoring.forEach { 	$0.cancel() 									}
-		monitoring.removeAll()													}
-
+		monitoring.removeAll()
+	}
 	 // MARK: - 3.1 init
 	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { //aka ScnBase(scnScene:eventHandler)
 		let scnScene 			= scnScene ??  {

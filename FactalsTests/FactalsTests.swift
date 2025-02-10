@@ -409,24 +409,25 @@ final class FactalsTests: XCTestCase {
 		var aMtx				= SCNMatrix4(SCNVector3(4,5,6))
 		let aMtxPpLine			= aMtx.pp(.line)
 	}
-
-
-
-	func testFindScn() {
-		let partBase		= PartBase(fromLibrary:"Structure for XCTEST")
+	func testFindPartVewScn() {
+		let partBase			= PartBase(fromLibrary:"Structure for XCTEST")
 		logd("===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
 		partBase.wireAndGroom([:])
-		let p1				= partBase.tree.find(name:"p1")
-		XCTAssert(p1?.fullName == "/p2/p1")
+		let p1					= partBase.tree.find(name:"p1")
+		let strP1				= p1?.fullName
+		XCTAssert(strP1 == "/p2/p1")
 
-		let vewBase			= VewBase(for:partBase, vewConfig:vewConfigAllToDeapth4)		// Create
-		let z				= vewBase.tree.find(part:p1!)
-		let str2			= z?.fullName
+		let vewBase				= VewBase(for:partBase, vewConfig:vewConfigAllToDeapth4)		// Create
+		vewBase.tree.openChildren(using:vewConfigAllToDeapth4)	// Vew configuration	//vewBase.updateVSP()
+		let vewP1				= vewBase.tree.find(part:p1!)
+		let strVew				= vewP1?.fullName
+		XCTAssert(strVew == "/_p2/_p1")
+
+		let scnP1				= vewP1?.scn
+		let strScn				= scnP1?.fullName
+		XCTAssert(strScn == "/*-p2/*-p1")
+		nop
 	}
-		
-		
-		
-
 	func testFwXppMode() {
 		print("""
 			\n\n\n
