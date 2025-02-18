@@ -533,7 +533,7 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 	FwBundle([placeMy:"stackz 0 -1", parts: [
 		FwBundle(of:.genAtom, [struc:["a"], placeMy:"stackx -1 1"]),
 		FwBundle(of:.bcast,   [struc:["b"], placeMy:"stackx -1 1"]),
-		FwBundle(of:.prev, leafConfig:["value":"1.0"], [struc:["c"], placeMy:"stackx -1 1"]),
+		FwBundle(of:.prev, tunnelConfig:[struc:["c"], placeMy:"stackx -1 1"], ["value":"1.0"]),
 	] ]),
 ] ] ) } )
 	r("- port occupied", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
@@ -554,7 +554,7 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 	] ] ) } )
 	r("- path did not find Port", e + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 		MinAnd([P:"a"]), //MinAnd([P:"a"]), //MinAnd([P:"a"]),
-		FwBundle(of:.genAtom, leafConfig:["value":1.0], [struc:["a"], placeMy:"stackx -1 1"]),
+		FwBundle(of:.genAtom, tunnelConfig:[struc:["a"], placeMy:"stackx -1 1"], ["value":1.0]),
 	] ] ) } )
 	r("- .genAtom no port 'G'", e + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 		FwBundle(of:.genAtom, [struc:["a"], placeMy:"stackx -1 1"]),
@@ -563,7 +563,7 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 	r("-already connected", e + selfiePole(s:45,u:10) + logAt(all:8), { Net([placeMy:"linky", parts:[
 		MinAnd([P:"c", jog:"1 0 0"]),  MinAnd([P:"c"]),  MinAnd([P:"c"]),
 	//	Previous([n:"c"]),
-		FwBundle(of:.genAtom, leafConfig:["value":"1.0"], [struc:["c"]]),
+		FwBundle(of:.genAtom, tunnelConfig:[struc:["c"]], ["value":1.0]),
 	] ] ) } )
 	r("-already connected", e + cameraX(s:45,u:10) + logAt(all:8), { Net([placeMy:"linky", parts:[
 		MinAnd( [P:"c", jog:"1 0 0"]),  MinAnd([P:"c"]),  //MinAnd([P:"c"]),
@@ -582,7 +582,7 @@ r("-auto-bcast", eSim + vel(-7) + selfiePole(s:45,u:10), { Net([placeMy:"linky",
 	MaxOr([P:"b"]),  MinAnd([P:"b"]),  MinAnd([P:"b"]),
 //	GenAtom([n:"b", "value":"1.0", f:1])
 	FwBundle([placeMy:"stackz 0 -1", parts: [
-		FwBundle(of:.genAtom, leafConfig:["value":1.0], [struc:["b"], placeMy:"stackx -1 1"]),
+		FwBundle(of:.genAtom, tunnelConfig:[struc:["b"], placeMy:"stackx -1 1"], ["value":1.0]),
 	] ]),
 ] ] ) } )
 	r("-bug: MinAnd outline \"\"", e + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
@@ -1486,8 +1486,8 @@ r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5,
 			"parts":[
 				Broadcast([n:"fwd", P:"a"]),
 			],
-			"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"],
-									  ["struc": ["a"], S+X:"fwd"]),
+			"evi":Tunnel(of:.genPrev, tunnelConfig:["struc": ["a"], S+X:"fwd"],
+									  ["mode":"netForward", "spin":"4"]),
 		]),
 	] ])
 })
@@ -1496,7 +1496,7 @@ xxr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 	Net([parts:[
 //		Broadcast([n:"x", f:1])//, "a.-"//
 		Hamming([n:"A", share:bundleNames, f:1]),//, "a.-"//
-		Tunnel(of:.genBcast, leafConfig:[share:"A"], ["struc":bundleNames]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		Tunnel(of:.genBcast, tunnelConfig:["struc":bundleNames], [share:"A"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	] ])
 })
 	r("- minimum link", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
@@ -1535,7 +1535,7 @@ r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(da
 })
 r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-		"evi":Tunnel(of:.genPrev, leafConfig:["mode":"netForward", "spin":"4"], ["struc": ["a"]]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		"evi":Tunnel(of:.genPrev, tunnelConfig:["struc": ["a"]], ["mode":"netForward", "spin":"4"]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	])
 //	Net([parts:[
 //		ShaftBundleTap(["nPoles":5, P+sX:"wheelA/evi", f:1])
@@ -1722,8 +1722,8 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 //	Tunnel(of:.port, 	[n:"evi3", placeMy:"stackx", struc:bits, f:0]),
 	Tunnel(of:.bulb, 	[n:"evi4", placeMy:"stackx", struc:bits, f:0]),
  	Tunnel(of:.genAtom,	[n:"evi5", placeMy:"stackx", struc:bits, f:0]),
-	Tunnel(of:.cylinder, leafConfig:["size":"0.2 1.0 0.2"],
-						[n:"evi6", placeMy:"stackx", struc:bits, f:0]),//genMaxSq
+	Tunnel(of:.cylinder, tunnelConfig:[n:"evi6", placeMy:"stackx", struc:bits, f:0],
+						["size":"0.2 1.0 0.2"]					),//genMaxSq
 ]]) })
 	r("-Tunnel Leaf is Port", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 		Tunnel(of:.genAtom, [n:"evi", placeMy:"stackx", struc:bits, f:0]),
@@ -1732,8 +1732,8 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 			Tunnel(of:.nil_, [n:"evi", placeMy:"stackx", struc:bits, f:0])
 		} )
 		r("-Tunnel/Leaf is cylinder", e + selfiePole(s:0,u:0), { //, "c", "d"
-			Tunnel(of:.cylinder, leafConfig:["size":"0.8 6 0.4"],
-					[n:"evi", placeMy:"stackx", struc:bits, f:0])
+			Tunnel(of:.cylinder, tunnelConfig:[n:"evi", placeMy:"stackx", struc:bits, f:0],
+						["size":"0.8 6 0.4"])
 		} )
 		r("-FwBundle/Leaf(s)", e + selfiePole(s:0,u:0), {FwBundle([placeMy:"stackx -1", parts:[	//Tunnel
 //			Leaf(.port,    [n:"a"]),
@@ -1886,8 +1886,8 @@ xxr("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:5, eve:5) 
 		"again"]]),
 ]]) })
 xr("- bug failed to follow path", logAt(dat:5, eve:5), {Net([placeMy:"linky", parts:[
-	Tunnel(of:.genBulb, [n+X:"evi", struc:["a"], placeMy:"stackz 0 -1"]),
-//	Generator([n:"lo", P:"evi=", placeMy:"stacky", eventLimit:0]),
+	Tunnel(of:.genBulb, tunnelConfig:[n:"evi", struc:["a", "b", "c"], placeMy:"stackz 0 -1"]),
+	Generator([n:"lo", P:"evi=", placeMy:"stacky", eventLimit:0]),
 ]]) })
 xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([placeMy:"linky", parts:[
 	Tunnel([n:"evi", struc:["a"], placeMy:"stackz 0 -1"]), //genBulb//of:.genPrev,
@@ -2041,7 +2041,7 @@ r("+2Gen 3Ham Max Mir", eSim + selfiePole(s:40,u:3) + logAt(dat:3, eve:5) +
 	Hamming([n:"d0", share:["a", "b"], f:1, jog+X:"1 0 0"]),
 	Hamming([n:"d1", share:["b"], f:1]),
 	Hamming([n:"d2", share:["a"], f:1]),
-  	Tunnel(of:.genAtom, leafConfig:["value":1.0], [n:"evi", struc:["a", "b"], placeMy:"stackz 0 -1"]),
+  	Tunnel(of:.genAtom, tunnelConfig:[n:"evi", struc:["a", "b"], placeMy:"stackz 0 -1"], ["value":1.0]),
 //	Mirror( [n:"a", "gain":-1, "offset":1, f:1]),
 //	Mirror( [n:"b", "gain":-1, "offset":1, f:1]),
 //  	Tunnel(of:.genAtom, [n:"evi", struc:["a", "b"], placeMy:"stackz 0 -1"]),//, "d", "e", "f", "g", "h", "i", "j"
@@ -2055,7 +2055,7 @@ r("-Hamming output bad", e + selfiePole(s:40,u:3) + logAt(dat:5, eve:0), {Net([p
 		Mirror([   n:"f", P:"e"]),
 		Hamming([  n:"e", share:["a"], f:1]),
 //		Mirror(   [n:"a", "gain":-1, "offset":1, f:1]),
-  		Tunnel(of:.genAtom, leafConfig:["value":1.0], [n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),
+  		Tunnel(of:.genAtom, tunnelConfig:[n:"evi", struc:["a"], placeMy:"stackz 0 -1"], ["value":1.0]),
 //		Tunnel(of:.genAtom, [n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),//, "b", "d", "e", "f", "g", "h", "i", "j"
 //		Generator([n:"lo", events:["a", [], "again"], eventLimit:1,  P:"evi="]),
 	]]) })
@@ -2068,7 +2068,7 @@ r("-Hamming output bad", e + selfiePole(s:40,u:3) + logAt(dat:5, eve:0), {Net([p
 	r("-runs forever", eSim + selfiePole(s:40,u:3) + logAt(dat:9, eve:5), {Net([placeMy:"linky", parts:[
 		Mirror([   n:"mir", P:"d0"]),
 		Hamming([  n:"d0", share:["a", "a"], 	f:1]),
-		Tunnel(of:.genAtom, leafConfig:["value":1.0], [n:"evi", struc:["a"]]),
+		Tunnel(of:.genAtom, tunnelConfig:[n:"evi", struc:["a"]], ["value":1.0]),
 	]]) })
 
 r("+2Gen 2Ham Max Mir", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:9, eve:9), {Net([placeMy:"linky", parts:[

@@ -3,11 +3,11 @@
 import SceneKit
 
 class Bundle : FwBundle {
-	init(of kind:LeafKind = .genAtom,  leafConfig lc:FwConfig=[:],
+	init(of kind:LeafKind = .genAtom,  leafConfig:FwConfig=[:],
 			_ tunnelConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
 		var kind			= trailingHash == nil ? kind :
 							  .leafClosure(trailingHash!)
-		super.init(of:.leafClosure(trailingHash!), leafConfig:lc, tunnelConfig)
+		super.init(of:.leafClosure(trailingHash!), tunnelConfig:tunnelConfig, leafConfig)
 	}
 	required init(from decoder: Decoder) throws {	debugger("unimplemented") }
 	required init?(coder: NSCoder) 				{	debugger("unimplemented") }
@@ -28,12 +28,12 @@ class FwBundle : Net {
 	   /// - parameter leafConfig: -- to configure Leaf
 	  /// - parameter config:	  -- to configure FwBundle
 	 /// ## --- struc: names	 -- names of the Bundle's leafs
-	init(of kind:LeafKind = .genAtom,  leafConfig lc:FwConfig=[:],  _ tunnelConfig:FwConfig=[:])	//FwBundle
+	init(of leafKind:LeafKind = .genAtom,  tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:])	//FwBundle
 	{
-		let leafConfig			= ["placeMy":"linky" ] + lc		//  default: // was stackx
-		let tunnelConfig2		= ["placeMy":"stackx"] + tunnelConfig
-		self.leafKind			= kind
-		super.init(tunnelConfig2) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		let leafConfig			= ["placeMy":"linky" ] + leafConfig		//  default: // was stackx
+		let tunnelConfig/*2*/	= ["placeMy":"stackx"] + tunnelConfig
+		self.leafKind			= leafKind
+		super.init(tunnelConfig/*2*/) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		leafStruc				= partConfig["struc"];	partConfig["struc"] = nil
 		assert(partConfig["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")

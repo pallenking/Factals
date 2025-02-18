@@ -9,9 +9,10 @@ extension VewBase : Uid {
 }
 extension VewBase : Equatable {
 	static func == (lhs:VewBase, rhs:VewBase) -> Bool {	// protocol Equatable
-		if lhs.partBase != rhs.partBase 	{ 					return false 	}
-		if lhs.tree != rhs.tree 	{ 							return false 	}
-		return true
+		lhs === rhs
+	//	if lhs.partBase !== rhs.partBase 	{ 					return false 	}
+	//	if lhs.tree != rhs.tree 	{ 							return false 	}
+	//	return true
 	}
 }
 

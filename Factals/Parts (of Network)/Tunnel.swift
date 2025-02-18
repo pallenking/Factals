@@ -6,10 +6,9 @@ import SceneKit
 // experimental
 class Tunl : Tunnel {
 	 // MARK: - 3. Part Factory
-	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig=[:], _ tunnelConfig:FwConfig=[:]) { 	//.port
-//	init(                                      leafConfig:FwConfig=[:],   tunnelConfig:FwConfig=[:], leaf:()->Part) { 	//.port
+	override init(of kind:LeafKind = .genAtom, tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:]) { 	//.port
 bug
-		super.init(of:kind, leafConfig:leafConfig, tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		super.init(of:kind, tunnelConfig:tunnelConfig, leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
 //	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig=[:], _ tunnelConfig:FwConfig=[:]) { 	//.port
 //		super.init(of:kind, leafConfig:leafConfig, tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -25,8 +24,8 @@ bug
  ///  A Tunnel combines multiple signals into one
 class Tunnel : FwBundle {
 	 // MARK: - 3. Part Factory
-	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig=[:], _ tunnelConfig:FwConfig=[:]) { 	//.port
-		super.init(of:kind, leafConfig:leafConfig, tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	override init(of kind:LeafKind = .genAtom, tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:]) { 	//.port
+		super.init(of:kind, tunnelConfig:tunnelConfig, leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{  

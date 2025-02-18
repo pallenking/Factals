@@ -11,12 +11,13 @@ extension Vew : Uid {
 }
 extension Vew : Equatable {
 	static func == (lhs: Vew, rhs: Vew) -> Bool {
-		if lhs.part	!= rhs.part 	{ 							return false 	}
-	//	if lhs.vewConfig != rhs.vewConfig 	{ 					return false 	}
-		for (lhsChild, rhsChild) in zip(lhs.children, rhs.children) {
-			if lhsChild != rhsChild {							return false	}
-		}
-		return true
+		lhs === rhs
+//		if lhs.part	!= rhs.part 	{ 							return false 	}
+//	//	if lhs.vewConfig != rhs.vewConfig 	{ 					return false 	}
+//		for (lhsChild, rhsChild) in zip(lhs.children, rhs.children) {
+//			if lhsChild != rhsChild {							return false	}
+//		}
+//		return true
 	}
 }
 extension Vew: Hashable {
