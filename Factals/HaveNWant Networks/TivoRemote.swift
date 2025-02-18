@@ -124,7 +124,7 @@ CONTEXT: findProgramToWatch:
 //		r("- bug: why call reSize twice", eXYtight + selfiePole(s:90,u:0), { Net(["placeMy":"linky", "parts":[
 //			Sequence( ["f":1, "share":["a", "b"]]),
 ////			Broadcast(["f":1, "share":["a", "b"]]),
-//			Tunnel(of:.genAtom,  ["struc":["a", "b"]]),
+//			Tunnel(of:.genAtom, tunnelConfig:tunnelConfig:["struc":["a", "b"]]),
 //		]]) })
 //		r("- bug: drive with sequence", eXYtight + selfiePole(s:90,u:0), { Net(["placeMy":"linky", "parts":[
 ////			Broadcast(["f":1, "share":["a"]]),
