@@ -26,7 +26,7 @@ enum LeafKindx: Codable {
 	func encode(to:Encoder) throws {}
 }
 
-enum LeafKind : Codable {
+enum LeafKind : Codable, FwAny {
 	init(from	  :Decoder) throws	{ 	fatalError()							}
 	func encode(to:Encoder) throws	{ 	fatalError()							}
 //	init?(rawValue: String) {

@@ -1873,7 +1873,7 @@ xxr("+Gen Ham Bulb", e + selfiePole(s:45,u:0) + vel(-2) + logAt(dat:5, eve:5) +
 		["a", 	   ["a",	"b"], 	  "b", 		[], "again"],
 	]),
 ]]) })
-xr("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:5, eve:5) +
+xxr("+Gen 3 Bulbs", eSim + selfiePole(s:90,u:0) + vel(-4) + logAt(dat:5, eve:5) +
 							[lookAt+X:"/net0/e"], {Net([placeMy:"linky", parts:[
 	Tunnel(of:.genBulb, tunnelConfig:[n:"evi", struc:["a", "b", "c"], placeMy:"stackz 0 -1"]),
 	Generator([n:"lo", P:"evi=", placeMy:"stacky", eventLimit:0, events:[	//-1
@@ -1939,6 +1939,16 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 		Tunnel([n:"evi", struc:["a"], placeMy:"stackz 0 -1"]),
 		Generator([n:"lo", events:["a", [], "again"], P:"evi="]),
 	]]) })
+		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), { Net(["parts":[
+//			Broadcast(["n":"a"]), Broadcast(["n":"b"]), Broadcast(["n":"c"]),
+			Tunnel(of:.genBcast, tunnelConfig:["f":0, "struc":["a", "b"]]),
+//			Sequence(["f":0, "share":["a", "b"]]),
+//			Sequence(["f":1, "share":["a", "b"]]),
+//			Tunnel(of:[.genAtom,.genBulb,.genBcast][2], tunnelConfig:["struc":["a", "b"]/*, "of":.genBulb*/]),
+		]]) })
+		xr("- bug: drive with sequence", e + selfiePole(s:0,u:0), {
+			Tunnel(of:.genBcast, tunnelConfig:["struc":["a", "b"]])
+		})
 r("pack tighter", e + selfiePole(s:90,u:0), {Net([placeMy:"stacky", parts:[
 	Tunnel(of:.nil_, tunnelConfig:[parts:[	Box()	]]),
 ]]) })

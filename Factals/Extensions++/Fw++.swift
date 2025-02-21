@@ -600,10 +600,11 @@ infix operator ??= :  AssignmentPrecedence
 /// If lhs is nil, assign rhs to it
 /// - Parameters:
 ///   - lhs: --- update if nil
-///   - rhs: --- new value to replace it with
+///   - rhs: --- possible new value to replace it with
 func ??=<T> (lhs:inout T?, rhs:T?) {											//func ??=(lhs: inout Any?, rhs:  Any?) {
-	if lhs == nil {
-		lhs					= rhs
+	if lhs == nil,
+	  let r					= rhs{
+		lhs					= r
 	}
 }
 

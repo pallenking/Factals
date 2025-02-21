@@ -219,7 +219,7 @@ class Atom : Part {	//Part//FwPart
 		atBld(7, logd(" '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))"))
 		var rvPort : Port?		= nil					// Initially no return value
 
-		 // _BINDINGS_
+		 // Check BINDINGS?
 		if let bindingString 	= bindings?[wantedName] {
 			let bindingPath		= Path(withName:bindingString)
 			if let boundPart	= find(path:bindingPath) {	// Decode binding target Part
@@ -235,23 +235,14 @@ class Atom : Part {	//Part//FwPart
 			}
 			atBld(4, logd("-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
 		}
-		 // ****** Existing Port
-		let possiblePorts		= existingPorts(named:wantedName, localUp:wantUp)
-		if rvPort == nil,
-		  possiblePorts.count == 1 {
-			rvPort				= possiblePorts[0]		// Exactly 1 Port found
-			atBld(4, logd("-----Returns EXISTING Port: '\(rvPort!.pp(.fullNameUidClass))'"))
-		}
+		 // If Existing Port?
+		rvPort					??= existingPorts(named:wantedName, localUp:wantUp).first
+		 // If Delayed Populate Port?
+		rvPort					??= delayedPopulate(named:wantedName, localUp:wantUp)
 
-		 // ****** Delayed Populate Port
+		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
 		if rvPort == nil,
-		  let p					= delayedPopulate(named:wantedName, localUp:wantUp) {
-			rvPort				= p
-			atBld(4, logd("-----Returns DELAYED Populate Port: '\(rvPort!.pp(.fullNameUidClass))'"))
-		}
-
-		 // Want open, but its occupied. Make a :H:Clone
-		if wantOpen,								// want an open port
+		  wantOpen,								// want an open port
 		  let origConPort		= rvPort?.con2?.port// found a port, but it's not open!
 		{
 			 // :H:Clone rv
@@ -296,7 +287,7 @@ class Atom : Part {	//Part//FwPart
 	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil) -> [Port] {
 		var rv 					= [Port]()	// initially empty
 
-		 // wantName in ports[]:
+		 // Is wantName in ports[]?
 		for (pName, port) in ports {		// Search ports:
 			if wantName    == ""		||		// (name unimportant     OR
 			  wantName     == pName,			//  name matches port's)  AND
@@ -320,7 +311,7 @@ class Atom : Part {	//Part//FwPart
 		if let wantName				= (wantName != nil && wantName != "") ? wantName! : // name supplied
 									     wantUp != nil ? (wantUp! ? "S": "P") : nil   , // pick up or down
    		  ports[wantName] == nil, 			// Its not already in ports[]
-		  let pProp					= hasPorts()[wantName],// process "a", "f", "M"
+		  let pProp					= hasPorts()[wantName],	// process "a", "f", "M"
 		  (wantUp == nil ||					// (flip unimportant OR
 			pProp.contains("f") == wantUp!),//  flip matches)
 		  pProp.contains("a")				// a=auto-populate
@@ -589,8 +580,8 @@ nop
 					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon==trgAtom.upInPart(until:conNet)
 					let trgInfo	= "---TARGET:\(trgAtom.fullName16)" +
-								  ".'\((trgPortName! + "'").field(-6)) in:" +
-								  "\(conNet.fullName), opens _\(ppUp(trgAboveSInT))_"		//!trg...
+								  ".'\((trgPortName! + "'").field(-6))" +
+								  " opens _\(ppUp(trgAboveSInT))_"
 					atBld(4, self.logd(trgInfo))
 
 					 //		3d. //// Get the TaRGet Port			// target Port

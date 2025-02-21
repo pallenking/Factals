@@ -21,7 +21,8 @@ import SceneKit
 class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 
 	 // MARK: - 2. Object Variables:
-	var type : String 				= "undefined"	// for printout/debug
+	var type : LeafKind
+//	var type : String 				= "undefined"	// for printout/debug
 //	var bindings 					= [String:String]()
 
 	 // MARK: - 3. Part Factory
@@ -34,11 +35,10 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	   /// - parameter leafKind: -- of terminal Leaf
 	  /// - parameter config_: -- to configure Leaf
 	 /// ## --- bindings: FwConfig -- binds external Ports to internal Ports by name
-	init(leafKind:LeafKind? = .genAtom, leafConfig leafConfig_:FwConfig = [:]) {//override
+	init(leafKind:LeafKind = .genAtom, leafConfig leafConfig_:FwConfig = [:]) {//override
 		let leafConfig			= ["placeMy":"linky"] + leafConfig_
-		super.init(of:leafKind!, leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
-		type					= "leafKind!.rawValue"//leafKind!.rawValue
+		type					= leafKind//.rawValue//leafKind!.rawValue
+		super.init(of:leafKind, leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	 // MARK: - 3.5 Codable
 	enum LeafsKeys: String, CodingKey {
@@ -54,10 +54,9 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
-		try super.init(from:decoder)
 		let container 		= try decoder.container(keyedBy:LeafsKeys.self)
-
-		type	 			= try container.decode(String.self, forKey:.type)
+		type	 			= try container.decode(LeafKind.self, forKey:.type)
+		try super.init(from:decoder)
 		atSer(3, logd("Decoded  as? Leaf       named  '\(name)'"))
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
