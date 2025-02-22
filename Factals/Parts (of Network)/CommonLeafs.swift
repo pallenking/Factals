@@ -71,9 +71,11 @@ extension Leaf {	/// Generate Common Leafs
 			self.init(of:leafKind, bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])	// etc2: WTF?
 		case .cylinder:
-			self.init(of:leafKind, bindings:[:], parts:[
-				Cylinder(								  etc2),//"size":"1 1 1" + 
-			], leafConfig: 								  etc1)
+			self.init(of:leafKind, bindings:[:],
+				parts:[
+					Cylinder(								etc2),//"size":"1 1 1" +
+				],
+				leafConfig: 								  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genAtom:
 			let b 				= ["":"gen", "G":"gen.P", "R":"gen.P"]
@@ -82,7 +84,8 @@ extension Leaf {	/// Generate Common Leafs
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genMirror:
 			self.init(of:leafKind,
-				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
+				bindings:bMain + ["G":"gen.P", "R":"gen.P"],
+				parts:[
 		 			Mirror(["n":"gen", "f":1] 			+ etc2),		//[placeMy:stackx -1 1, struc:[3 elts]]
 			], leafConfig:								  etc1)			//[gain:-1, f:1, offset:1, placeMy:linky]
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
@@ -90,66 +93,84 @@ extension Leaf {	/// Generate Common Leafs
 		 // -------- Broadcast -------------------------------------------------------
 		case .bcast:
 			self.init(of:leafKind, 
-				bindings:bMain + ["G":"P", "R":"P"], parts:[
+				bindings:bMain + ["G":"P", "R":"P"],
+				parts:[
 					Broadcast(["n":"main"]  			+ etc2),
-			], leafConfig:								  etc1)
+				],
+				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genBcast:					// elim?
 			self.init(of:leafKind,
-				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
+				bindings:bMain + ["G":"gen.P", "R":"gen.P"],
+				parts:[
 					Broadcast(["n":"main", "P":"gen="]	+ etc3),
 		 			GenAtom([  "n":"gen", "f":1] 		+ etc2),
-			], leafConfig:				 				  etc1)
+				],
+				leafConfig:				 				  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 
 		case .genMax:
 			self.init(of:leafKind, 
-				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[		// R:NO STATE
+				bindings:bMain + ["G":"gen.P", "R":"gen.P"],
+				parts:[		// R:NO STATE
 					MaxOr([  "n":"main",  "P":"gen="]	+ etc3),
 		 			GenAtom(["n":"gen",   "f":1]		+ etc2),
-			], leafConfig:								  etc1)
+				],
+				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 
 		////////// DEFAULT CONTEXT #######################
 		case .genMaxSq:
 			self.init(of:leafKind, 
-				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[	// R:NO STATE
+				bindings:bMain + ["G":"gen.P", "R":"gen.P"],
+				parts:[	// R:NO STATE
 					Hamming(["P":"main,l:1",  "jog":"0 0 4"]),		// no sec:main "0, -6, 3" "0, -5, 4"
 					MaxOr([	 "n":"main", "P":"gen="]	+ etc3),
 					GenAtom(["n":"gen", "f":1]			+ etc2),
-			], leafConfig:				 				  etc1)
+				],
+				leafConfig:				 				  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
  		 // -------- Bayes -------------------------------------------------------
 		case .bayes:
-			self.init(of:leafKind, bindings:bMain, parts:[
-				Bayes(["n":"main"]						+ etc2),
-			], leafConfig:								  etc1)
+			self.init(of:leafKind, bindings:bMain,
+				parts:[
+					Bayes(["n":"main"]					+ etc2),
+				],
+				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genBayes:
 			self.init(of:leafKind, 
-				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
+				bindings:bMain + ["G":"gen.P", "R":"gen.P"],
+				parts:[
 					Bayes([  "n":"main", "P":"gen="]	+ etc3),
 		 			GenAtom(["n":"gen", "f":1]			+ etc2),
-			], leafConfig:								  etc1)
+				],
+				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 
  		// -------- Mod -------------------------------------------------------
 		case .mod:
-			self.init(of:leafKind, bindings:bMain, parts:[
-				Modulator(["n":"main"] 					+ etc2),
-			], leafConfig:								  etc1)
+			self.init(of:leafKind, bindings:bMain,
+				parts:[
+					Modulator(["n":"main"] 				+ etc2),
+				],
+				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		 // -------- Rotator -------------------------------------------------------
 		case .rot:
-			self.init(of:leafKind, bindings:bMain, parts:[
-				Rotator(["n":"main"]					+ etc2),
-			], leafConfig:								  etc1)
+			self.init(of:leafKind, bindings:bMain,
+				parts:[
+					Rotator(["n":"main"]				+ etc2),
+				],
+				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		 // -------- Branch -------------------------------------------------------
 		case .branch:
-			self.init(of:leafKind, bindings:bMain, parts:[
-//				Branch(["n":"rot", "ShareXX":"Bulb", /*"S":sproutSpot, "M":sproutPredicate*/] + etc2),
-			], leafConfig:								  etc1)
+			self.init(of:leafKind, bindings:bMain,
+				parts:[
+//					Branch(["n":"rot", "ShareXX":"Bulb", /*"S":sproutSpot, "M":sproutPredicate*/] + etc2),
+				],
+				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc2, etc3, etc4, etc5])
 
 		 // -------- Bulb -------------------------------------------------------

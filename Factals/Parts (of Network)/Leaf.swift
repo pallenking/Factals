@@ -21,7 +21,7 @@ import SceneKit
 class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 
 	 // MARK: - 2. Object Variables:
-	var type : LeafKind
+//	var type : LeafKind
 //	var type : String 				= "undefined"	// for printout/debug
 //	var bindings 					= [String:String]()
 
@@ -37,7 +37,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	 /// ## --- bindings: FwConfig -- binds external Ports to internal Ports by name
 	init(leafKind:LeafKind = .genAtom, leafConfig leafConfig_:FwConfig = [:]) {//override
 		let leafConfig			= ["placeMy":"linky"] + leafConfig_
-		type					= leafKind//.rawValue//leafKind!.rawValue
+		//type					= leafKind//.rawValue//leafKind!.rawValue
 		super.init(of:leafKind, leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	 // MARK: - 3.5 Codable
@@ -49,13 +49,13 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		try super.encode(to: encoder)
 		var container 			= encoder.container(keyedBy:LeafsKeys.self)
 
-		try container.encode(type, forKey:.type)
+//		try container.encode(type, forKey:.type)
 		atSer(3, logd("Encoded  as? Leaf        '\(fullName)'"))
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
 		let container 		= try decoder.container(keyedBy:LeafsKeys.self)
-		type	 			= try container.decode(LeafKind.self, forKey:.type)
+//		type	 			= try container.decode(LeafKind.self, forKey:.type)
 		try super.init(from:decoder)
 		atSer(3, logd("Decoded  as? Leaf       named  '\(name)'"))
 	}
@@ -63,7 +63,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Leaf
-//		theCopy.type			= self.type
+//	//	theCopy.type			= self.type
 //		atSer(3, logd("copy(with as? Leaf       '\(fullName)'"))
 //		return theCopy
 //	}
@@ -72,7 +72,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		guard self !== rhs 					   else {	return true				}
 		guard let rhs			= rhs as? Leaf else {	return false 			}
 		let rv					= super.equalsFW(rhs)
-			&& type				== rhs.type
+	//		&& type				== rhs.type
 		return rv
 	}
 	// MARK: - 4.1 Part Properties
@@ -180,7 +180,7 @@ bug;	return nil
 			if aux.bool_("ppParam") {			// Ad Hoc: if printing Param's,
 				return rv							// don't print extra
 			}
-			rv				+= "type:.\(type) "	// print type and bindings:
+		//	rv				+= "type:.\(type) "	// print type and bindings:
 		//	rv				+= "bindings:\(bindings.pp(.line, aux)) "
 		}
 		return rv

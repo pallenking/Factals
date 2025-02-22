@@ -2,6 +2,26 @@
 
 import SceneKit
 
+//       Atom :_Part
+//          Net : Atom
+//          Actor : Net
+
+//       FwBundle :_Net				// A hierarchical structure of Leafs, one per port
+//             Leaf : FwBundle		// Terminal element of a FwBundle
+//           Tunnel : FwBundle		// Combines multiple Ports into one MultiPort
+//           Bundle : FwBundle		// A hierarchical structure of Leafs, one per port
+
+//  DiscreteTime : Atom				// Connects HaveNWant analog time domain to discrete time
+
+
+//      Generator : Net				// Generates stimulus for a HaveNWant network
+//   WorldModel :_Atom				// Prototype discrete time world model
+//  TimingChain : Atom				// Split analog time into Sample time
+//   WorldModel : Atom				// A WorldModel ia a generic discrete time/value data source
+
+//    BundleTap :_Atom				// an Atom which loads data into a Bundle
+// ShaftBundleTap : BundleTap
+
 class Bundle : FwBundle {
 	init(of kind:LeafKind = .genAtom,  leafConfig:FwConfig=[:],
 			_ tunnelConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
@@ -35,10 +55,9 @@ class FwBundle : Net {
 		self.leafKind			= leafKind
 		super.init(tunnelConfig/*2*/) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		leafStruc				= partConfig["struc"];	partConfig["struc"] = nil
-		assert(partConfig["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")
-
 		 // Construct FwBundle elements
+		assert(partConfig["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")
+		leafStruc				= partConfig["struc"];	partConfig["struc"] = nil
 		if leafStruc != nil {
 			apply(constructor:leafStruc!, leafConfig:leafConfig, tunnelConfig)	//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 		}

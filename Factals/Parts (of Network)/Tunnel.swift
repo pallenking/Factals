@@ -4,24 +4,24 @@ import SceneKit
 
 
 // experimental
-class Tunl : Tunnel {
-	 // MARK: - 3. Part Factory
-	override init(of kind:LeafKind = .genAtom, tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:]) { 	//.port
-bug
-		super.init(of:kind, tunnelConfig:tunnelConfig, leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-	}
-//	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig=[:], _ tunnelConfig:FwConfig=[:]) { 	//.port
-//		super.init(of:kind, leafConfig:leafConfig, tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+//class Tunl : Tunnel {
+//	 // MARK: - 3. Part Factory
+//	override init(of kind:LeafKind = .genAtom, tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:]) { 	//.port
+//bug
+//		super.init(of:kind, tunnelConfig:tunnelConfig, leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 //	}
-	 // MARK: - 3.5 Codable
-	  // Deserialize
-	required init(from decoder: Decoder) 	  throws	{	try super.init(from:decoder)	}
-	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
-}
+////	override init(of kind:LeafKind = .genAtom, leafConfig:FwConfig=[:], _ tunnelConfig:FwConfig=[:]) { 	//.port
+////		super.init(of:kind, leafConfig:leafConfig, tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+////	}
+//	 // MARK: - 3.5 Codable
+//	  // Deserialize
+//	required init(from decoder: Decoder) 	  throws	{	try super.init(from:decoder)	}
+//	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
+//}
 
 
 
- ///  A Tunnel combines multiple signals into one
+ ///  Tunnel: combines multiple Ports into one MultiPort
 class Tunnel : FwBundle {
 	 // MARK: - 3. Part Factory
 	override init(of kind:LeafKind = .genAtom, tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:]) { 	//.port
@@ -29,7 +29,7 @@ class Tunnel : FwBundle {
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{  
-		return ["P":"pcM"]			// final//["P":"pc"] -> P not MultiPort  [:] -> no P
+		return ["P":"pcM"]
 	}
 
 	 // MARK: - 3.5 Codable

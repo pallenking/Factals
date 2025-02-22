@@ -2,24 +2,26 @@
 
 import SceneKit
 
- // Present clocked, "Discrete Time" data into a HaveNWant Network,
-// 	  It is composed of a number of classes
-// 		* A World Model (WM) which operates in discrete sample time
-//						clocked data (In/Out?) prob,again,gate
-//		* A Timing Chain (TC) to insure the network settles before the new sample time enters
-//		* A Discrete Time (DT) to connect to the network
+ // Present clocked, "Discrete Time" data into a HaveNWant Network:
+// 	  Contains 3 classes
+//		* Dt: Discrete Time: connects discrete time to HaveNWant analog time.
+//		* Tc: Timing Chain: to insure the network settles before the new sample time enters
+// 		* Wm: World Model: operates in discrete sample time
+//						has clocked data (Out?,Hist?) prob,again,gate
 /*
+								(HaveNWant network)
 				  S	 S	  S	 S
-				  [Dt]	  [Dt]
+				  [Dt]	  [Dt]		DiscreteTime
 					P		P
 					:		:
-					S		S		discreteTimes.append(dt2add)
-					  [Tc]
+					S		S					discreteTimes.append(dt2add)
+					  [Tc]			TimingChain
 						P
 						:
 						S
-					  [Wm]
- */
+					  [Wm]			WorldModel
+
+ */// P,S are Ports				(Discrete Time)
 class Generator : Net {
 
 	 // MARK: - 3. Part Factory

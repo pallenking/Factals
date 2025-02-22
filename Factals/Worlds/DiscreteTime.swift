@@ -1,7 +1,7 @@
-//  DiscreteTime.swift -- Connects to the continuous-time HaveNWant network C2014PAK
-// We assume that the network settles between samples.
-// The Generator exposes a sequence of samples to a and records its response.
-// The HaveNWant Network is exposed a sequence of numbers, and is given enough time inbetween samples for th
+//  DiscreteTime.swift -- Connects HaveNWant analog time domain to discrete time C2014PAK
+// Cooperates with TiminingChanin to define discrete time data
+// e.g uses loadTargetBundle(fwEvent:) to start the next discrete sample.
+// Built by Generator.swift
 
 import SceneKit
 
@@ -120,8 +120,8 @@ class DiscreteTime : Atom {
 			 //   (Commonly, these are Bindings)
 			targetBundle?.forAllLeafs(
 			{(leaf : Leaf) in									//##BLOCK
-				assert(leaf.port(named:"R") != nil, "\(leaf.fullName): Leaf<\(leaf.type)>: nil 'R' Port")
-				assert(leaf.port(named:"G") != nil, "\(leaf.fullName): Leaf<\(leaf.type)>: nil 'G' Port")
+				assert(leaf.port(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil
+				assert(leaf.port(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil
 			})
 		}
 	}

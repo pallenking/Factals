@@ -7,8 +7,8 @@
 import SceneKit
 
 class ShaftBundleTap : BundleTap { //Generator {
-	let nPoles : Int
-	var tread : Float			= 0.0				// angle of rotation?
+	let nPoles  : Int
+	var tread   : Float			= 0.0				// angle of rotation?
 	var armNode : SCNNode?		= nil
 
 	// MARK: Factory
@@ -34,22 +34,12 @@ class ShaftBundleTap : BundleTap { //Generator {
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(partBase:PartBase) {
 											super.groomModelPostWires(partBase:partBase)
-		  // Connect up our targetBundle:
-		 //
-		guard let pPort			= ports["P"] else {
-			return error("DiscreteTime has no 'P' Port")
-		}
-		guard let targPort 		= pPort.portPastLinks,
-		  let targetBundle 		= targPort.parent as? FwBundle else {
-			print("targetBundle is nil")
-			return
-		}
-		  // Test new target bundle has both R (for reset) and G (for generate)
-		 //   (Commonly, these are Bindings)
-		targetBundle.forAllLeafs(
-		{(leaf : Leaf) in									//##BLOCK
-			assert(leaf.port(named:"R") != nil, "\(leaf.fullName): Leaf<\(leaf.type)>: nil 'R' Port")
-			assert(leaf.port(named:"G") != nil, "\(leaf.fullName): Leaf<\(leaf.type)>: nil 'G' Port")
+								
+		 // Test new targetBundle has bindings for both R and G Ports
+		(ports["P"]?.portPastLinks?.parent as? FwBundle)?.forAllLeafs(
+		{(leaf : Leaf) in
+			assert(leaf.port(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil 
+			assert(leaf.port(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil 
 		})
 	}
 /*

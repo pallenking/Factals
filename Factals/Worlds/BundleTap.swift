@@ -86,7 +86,7 @@ class BundleTap : Atom {
 		targetBundle.forAllLeafs { leaf in
 			guard let _			= leaf.port4leafBinding(name: "R"),
 			 let _ 				= leaf.port4leafBinding(name: "G") else {
-				debugger("Leaf \(self.pp(.fullName)) type '\(leaf.type)' has no R or G port, needed by\n")
+				debugger("Leaf \(self.pp(.fullName)) has no R or G port, needed by\n")	//type '\(leaf.type)' 
 				// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
 			}
 		}

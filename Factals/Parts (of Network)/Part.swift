@@ -152,7 +152,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 			}
 		}			// -- Name was given
 		name					= nam ?? { [self] in
-			if let partBase		= partBase,
+			if let partBase,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
 				let index		= partBase.indexFor[prefix] ?? 0
@@ -197,12 +197,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 
 		if let a 				= partConfig["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
-			partConfig["parts"] = nil
-		}
-		if let parts 			= partConfig["parts"] {
-			let arrayOfParts	= parts as? [Part]
-			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
-			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
 			partConfig["parts"] = nil
 		}
 	}

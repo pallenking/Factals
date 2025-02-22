@@ -1947,7 +1947,7 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 //			Tunnel(of:[.genAtom,.genBulb,.genBcast][2], tunnelConfig:["struc":["a", "b"]/*, "of":.genBulb*/]),
 		]]) })
 		xr("- bug: drive with sequence", e + selfiePole(s:0,u:0), {
-			Tunnel(of:.genBcast, tunnelConfig:["struc":["a", "b"]])
+			Tunnel(of:.genBcast, tunnelConfig:[f:0, "struc":["a", "b"]])
 		})
 r("pack tighter", e + selfiePole(s:90,u:0), {Net([placeMy:"stacky", parts:[
 	Tunnel(of:.nil_, tunnelConfig:[parts:[	Box()	]]),
