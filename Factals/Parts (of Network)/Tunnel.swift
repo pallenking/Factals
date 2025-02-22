@@ -5,8 +5,8 @@ import SceneKit
  ///  Tunnel: combines multiple Ports into one MultiPort
 class Tunnel : FwBundle {
 	 // MARK: - 3. Part Factory
-	override init(of kind:LeafKind = .genAtom, tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:]) { 	//.port
-		super.init(of:kind, tunnelConfig:tunnelConfig, leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	override init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:]) { 	//of kind:LeafKind = .genAtom,  //.port
+		super.init(tunnelConfig, leafConfig:leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ //of:kind,
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{  

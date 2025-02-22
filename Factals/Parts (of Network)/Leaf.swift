@@ -26,19 +26,20 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 //	var bindings 					= [String:String]()
 
 	 // MARK: - 3. Part Factory
-//	convenience init(_  leafKind:LeafKind, fwConfig:FwConfig = [:], bindings:FwConfig = [:], parts:[Part]) { // NEW WAY
-	convenience init(of leafKind:LeafKind, bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { // OLD WAY
+//	convenience init(_  leafKind:LeafKind, fwConfig:FwConfig = [:], bindings:FwConfig = [:], parts:[Part]) {   // A WAY
+//	convenience init(of leafKind:LeafKind, bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { // OLD WAY
+	convenience init(bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { 	//leafKind:leafKind,  // NEW WAY
 		let xtraConfig:FwConfig = ["parts":parts, "bindings":bindings]		// /*"type":type,*/
-		self.init(leafKind:leafKind, leafConfig:leafConfig+xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\xtraConfig+leafConfig
+		self.init(leafConfig:leafConfig+xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\xtraConfig+leafConfig
 	}
 	    /// Terminal element of a FwBundle
 	   /// - parameter leafKind: -- of terminal Leaf
 	  /// - parameter config_: -- to configure Leaf
 	 /// ## --- bindings: FwConfig -- binds external Ports to internal Ports by name
-	init(leafKind:LeafKind = .genAtom, leafConfig leafConfig_:FwConfig = [:]) {//override
+	init(leafConfig leafConfig_:FwConfig = [:]) {//override		//leafKind:LeafKind = .genAtom,
 		let leafConfig			= ["placeMy":"linky"] + leafConfig_
 		//type					= leafKind//.rawValue//leafKind!.rawValue
-		super.init(of:leafKind, leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		super.init(leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	 // MARK: - 3.5 Codable
 	enum LeafsKeys: String, CodingKey {

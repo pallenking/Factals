@@ -11,8 +11,7 @@ import SceneKit
 //           Tunnel : FwBundle		// Combines multiple Ports into one MultiPort
 //           Bundle : FwBundle		// A hierarchical structure of Leafs, one per port
 
-//  DiscreteTime : Atom				// Connects HaveNWant analog time domain to discrete time
-
+//  DiscreteTime??:Atom				// Connects HaveNWant analog time domain to discrete time
 
 //      Generator : Net				// Generates stimulus for a HaveNWant network
 //   WorldModel :_Atom				// Prototype discrete time world model
@@ -23,12 +22,14 @@ import SceneKit
 // ShaftBundleTap : BundleTap
 
 class Bundle : FwBundle {
-	init(of kind:LeafKind = .genAtom,  leafConfig:FwConfig=[:],
-			_ tunnelConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
-		var kind			= trailingHash == nil ? kind :
-							  .leafClosure(trailingHash!)
-		super.init(of:.leafClosure(trailingHash!), tunnelConfig:tunnelConfig, leafConfig)
+	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
+bug//	var  x			= trailingHash != nil ? .leafClosure(trailingHash!) : nil
+		super.init(tunnelConfig, leafConfig:leafConfig)
 	}
+//	init(leafConfig:FwConfig=[:],
+//			_ tunnelConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
+//	//	var  			= trailingHash == nil ? kind :
+//	//						  .leafClosure(trailingHash!)
 	required init(from decoder: Decoder) throws {	debugger("unimplemented") }
 	required init?(coder: NSCoder) 				{	debugger("unimplemented") }
 }
@@ -38,7 +39,8 @@ class FwBundle : Net {
 
      // MARK: - 2. Object Variables:
 	var leafStruc: FwAny?			// structure of name-structure				// boneyard:var leafStruc: FwConfigC?;var leafProto: Part?
-	var leafKind : LeafKind			// an enum
+	var leafKind : String		= ""
+//	var leafKind : LeafKind			// an enum
 	var label 	 : String?			// Of pattern IN FwBundle
 
 	 // MARK: - 3. Part Factory
@@ -48,18 +50,17 @@ class FwBundle : Net {
 	   /// - parameter leafConfig: -- to configure Leaf
 	  /// - parameter config:	  -- to configure FwBundle
 	 /// ## --- struc: names	 -- names of the Bundle's leafs
-	init(of leafKind:LeafKind = .genAtom,  tunnelConfig:FwConfig=[:], _ leafConfig:FwConfig=[:])	//FwBundle
+	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:])	//FwBundle
 	{
 		let leafConfig			= ["placeMy":"linky" ] + leafConfig		//  default: // was stackx
 		let tunnelConfig/*2*/	= ["placeMy":"stackx"] + tunnelConfig
-		self.leafKind			= leafKind
 		super.init(tunnelConfig/*2*/) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		 // Construct FwBundle elements
-		assert(partConfig["leafKind"]==nil, "use leafKind as argument e.g: 'FwBundle(<dictionary>, leafKind), not in <dictionary>")
-		leafStruc				= partConfig["struc"];	partConfig["struc"] = nil
+		leafKind  				= (partConfig["of"] as? String) ?? "hun23r8"
+		leafStruc 				=  partConfig["struc"]
 		if leafStruc != nil {
-			apply(constructor:leafStruc!, leafConfig:leafConfig, tunnelConfig)	//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
+			apply(constructor:leafStruc!, leafConfig:leafConfig)//, tunnelConfig)	//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 		}
 	}
 	 // MARK: - 3.1 Port Factory
@@ -83,13 +84,15 @@ class FwBundle : Net {
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
-		leafKind			= .nil_		// WTF?
+//		leafKind			= .nil_		// WTF?
 		try super.init(from:decoder)
 
 		let container 		= try decoder.container(keyedBy:BundleKeys.self)
-	//	leafStruc			= try container.decode(leafStruc.self,forKey:.leafStruc)//No exact matches in call to instance method 'decode'
-		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
-		label	 			= try container.decode(String.self,   forKey:.label)
+		leafStruc			= try container.decode(String.self, forKey:.leafStruc)//No exact matches in call to instance method 'decode'
+//		leafStruc			= try container.decode(leafStruc.self,forKey:.leafStruc)//No exact matches in call to instance method 'decode'
+		leafKind			= try container.decode(String.self, forKey:.leafKind)
+//		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
+		label	 			= try container.decode(String.self, forKey:.label)
 		atSer(3, logd("Decoded  as? FwBundle     named  '\(name)'"))
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
@@ -169,31 +172,31 @@ class FwBundle : Net {
 	 */
 
 	// MARK: - 4.1 Part Properties
-	func apply(constructor con:FwAny, leafConfig:FwConfig, _ tunnelConfig:FwConfig) {
+	func apply(constructor con:FwAny, leafConfig:FwConfig){//, _ tunnelConfig:FwConfig) {
 		atBld(7, logd("apply(constructor:\(con.pp(.line))))"))
 
 		  // ==== Parse constructor:  It has many forms:
 		 // STRING:
 		if con is String {
-			apply(spec:con, leafConfig:leafConfig, tunnelConfig)
+			apply(spec:con, leafConfig:leafConfig)//, tunnelConfig)
 		}
 		 // ARRAY: apply each element of con to self
 		else if let conArray = con as? [FwAny] {// Array of constructors to apply to bundle
 			for subSpec in conArray {				// paw through array, build each
-				apply(spec:subSpec, leafConfig:leafConfig, tunnelConfig)		//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
+				apply(spec:subSpec, leafConfig:leafConfig)//, tunnelConfig)		//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 			}
 		}
 		  // HASH: apply each par of con to self (key->con; val->subSpec
 		 // <key>=name of new element; <val>=kind of element
 		else if let con3 = con as? FwConfig{// Hash of name:kind
 			for (conKey, conValue) in con3 {	// paw through hash
-				apply(spec:conKey, arg:conValue, leafConfig:leafConfig, tunnelConfig)
+				apply(spec:conKey, arg:conValue, leafConfig:leafConfig)//, tunnelConfig)
 				// newElt		name		  constructor	prototypes
 			}								//BUGGY:.name; = subSpecKey;
 		}
 		 // BUNDLE (and Leaf):
 		else if con is FwBundle {
-			apply(spec:con, leafConfig:leafConfig, tunnelConfig)
+			apply(spec:con, leafConfig:leafConfig)//, tunnelConfig)
 		}
 		 // NULL	 -- do nothing
 		else if con is NSNull {
@@ -217,7 +220,7 @@ class FwBundle : Net {
 	}
 								
 	 /// Add leaves by apply a specification to ourselves
-	func apply(spec:FwAny, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig) {
+	func apply(spec:FwAny, arg:FwAny?=nil, leafConfig:FwConfig){//}, _ tunnelConfig:FwConfig) {
 		atBld(7, logd("apply(spec:\(spec.pp(.line)), arg:\(arg?.pp(.line) ?? "nil"))"))
 								
 		   // Interpret << spec >>, making appropriate changes to self, a FwBundle
@@ -279,7 +282,7 @@ class FwBundle : Net {
 				case 3:							// con1=tokens[0,..2]
 					  // --- All decodings past here apply to the new bundle ---
 					 // case 1.3: name : prop : val
-					let dummy : Part = Leaf(leafKind)
+					let dummy : Part = Leaf()		//leafKind
 //					let dummy : Part = leafKind == .port ? Port(["f":1]) :Leaf(leafKind)
 					if dummy.apply(prop:tokens[1], withVal:tokens[2]) {
 						newsProperty = { (p : Part) in
@@ -302,12 +305,13 @@ class FwBundle : Net {
 				{
 					let newBun 	= FwBundle()				// Build a new FwBundle or Tunnel
 					newsProperty!(newBun)					// Apply delayed property
-					newBun.apply(constructor:arg!, leafConfig:leafConfig, tunnelConfig)
+					newBun.apply(constructor:arg!, leafConfig:leafConfig)//, tunnelConfig)
 					addChild(newBun)
 				}
 				 // CASE 1.4b: Get a new Leaf:
 				else {
-					let newLeaf	= Leaf(leafKind, leafConfig, tunnelConfig)	//tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
+					let newLeaf	= Leaf()	//leafKind, //tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
+//					let newLeaf	= Leaf(leafConfig, tunnelConfig)	//leafKind, //tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
 					addChild(newLeaf)
 					newsProperty!(newLeaf)					// Apply delayed property to it
 
@@ -328,7 +332,7 @@ class FwBundle : Net {
 		 // Case 2: ARRAYs and HASHs -- add all, recursively// E.g: @[name1, ..], or @{name1:kind1, ...}
 		else if (spec is Array<Any> || spec is FwConfig) {
 			let newElt				= FwBundle()				// Build a new FwBundle
-			newElt.apply(constructor:spec, leafConfig:leafConfig, tunnelConfig)
+			newElt.apply(constructor:spec, leafConfig:leafConfig/*, tunnelConfig*/)
 			addChild(newElt)
 		}
 		 // Case 3: BUNDLE -- ready immediately				// E.g: leaf:Leaf
