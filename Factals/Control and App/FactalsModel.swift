@@ -15,10 +15,11 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
 
+	var log 	 : Log			= Log.ofApp // Use Apps log
 	var factalsDocument : FactalsDocument! = nil	// (a struct)
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-		factalsDocument.log.log(banner:banner, format_, args, terminator:terminator)
+		log.log(banner:banner, format_, args, terminator:terminator)
 	}
 
 	 // MARK: - 3. Factory

@@ -159,7 +159,7 @@ struct FactalsApp: Uid, FwAny {
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
 	 // MARK: - 2. Object Variables:
-	var log	: Log				= Log.app	// a Static var
+	var log	: Log				= Log.ofApp	// a Static var
 	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:

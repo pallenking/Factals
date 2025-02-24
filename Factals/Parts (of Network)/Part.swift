@@ -122,7 +122,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-	var log : Log { partBase?.log ?? Log.app}
+	var log : Log { partBase?.log ?? Log.ofApp}
 //	var log : Log { partBase?.log ?? { debugger("partBase not setup in Part") }()}
 
 	 // MARK: - 2.2c EXTERNAL to Part

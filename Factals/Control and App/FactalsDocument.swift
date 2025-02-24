@@ -25,7 +25,7 @@ extension FactalsDocument {
 }
 extension FactalsDocument : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
-		log.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+		factalsModel.log.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }
 
@@ -34,7 +34,7 @@ struct FactalsDocument : FileDocument {
 
 	let nameTag					= getNametag()			// for Logd
 	var factalsModel : FactalsModel! = nil				// content
-	var log 	 : Log			= Log.app // Use Apps log
+//	var log 	 : Log			= Log.ofApp // Use Apps log
 
 	// 4 OLD Enablers
 	var windowNibName:NSNib.Name? 	{		bug;return "Document"				}// The  nib file  name of the document:
@@ -53,7 +53,7 @@ struct FactalsDocument : FileDocument {
 
 		 // create Log and Sound here
 		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
-		log.configure(from:[:])//cfgArg)
+		factalsModel.log.configure(from:[:])//cfgArg)
 	}
 	init(fromLibrary select:String?=nil) {
 		 // 1. Part ******

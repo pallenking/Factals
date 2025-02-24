@@ -33,7 +33,7 @@ test
 	*			params4vew		:	physical Characterists of object e.g: factalHeight
 	*			params4logs		:	"debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 	*			logAt(xxx:dd)
-					 -> Log.app, FactalsModel.log,  Sourcces:
+					 -> Log.ofApp, FactalsModel.log,  Sourcces:
  */
 
   // MARK: - A: App Params

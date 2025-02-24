@@ -412,7 +412,7 @@ bug		// invisible?
 	 // Part.log comes here to stop  -- else infinite loop
 	var log : Log {
 		let fm : FactalsModel?	= factalsModel ?? FACTALSMODEL
-		let log					= fm?.factalsDocument.log ?? Log.app //FactalsApp.main().log ?? { debugger("factalsModel nil in PartBase")}().log("=
+		let log					= fm?.log ?? Log.ofApp //FactalsApp.main().log ?? { debugger("factalsModel nil in PartBase")}().log("=
 		return log
 	}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {

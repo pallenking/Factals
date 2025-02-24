@@ -137,7 +137,7 @@ func at(app:Int?=nil, doc:Int?=nil, bld:Int?=nil, ser:Int?=nil,
 ///   - action: = an automatically generated closure which does a (log) operation
 func at(_ area:String, _ verbos:Int, _ action:@autoclosure() -> Void) {	// Location supplied
 	assert(verbos >= 0 && verbos < 10, "Message priorities must be in range 0...9")
-	let log						= Log.app					//DOCfactalsModelQ?.log ?? APPQ?.log,
+	let log						= Log.ofApp					//DOCfactalsModelQ?.log ?? APPQ?.log,
 	assert(log.msgFilter==nil && log.msgPriority==nil)
 
 	 // Decide on action()

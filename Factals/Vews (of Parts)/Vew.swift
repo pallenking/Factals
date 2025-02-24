@@ -6,7 +6,7 @@ import SceneKit
 
 extension Vew : Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.app.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+		Log.ofApp.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }
 extension Vew : Equatable {
@@ -36,7 +36,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 
 	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
 //	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//bug		//Log.app.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+//bug		//Log.ofApp.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 //	}
 
 
@@ -616,7 +616,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nl, fmt)			= format.stripLeadingNewLines()
-		let myLog				= part.partBase!.factalsModel!.factalsDocument.log
+		let myLog				= part.partBase!.factalsModel!.log
 		myLog.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint

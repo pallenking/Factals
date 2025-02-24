@@ -29,7 +29,7 @@ func ppFactalsStateHelper(_ fwClassName_: String,
 							deapth		: Int						// Infinite loop detection //= 999
 						 ) -> String
 {
-	let log						= Log.app
+	let log						= Log.ofApp
 	var rv						= ppFwPrefix(nameTag:nameTag, fwClassName_) + myLine + "\n"
 			// Other Lines:
 	if deapth > 0 {
@@ -42,7 +42,7 @@ func ppFactalsStateHelper(_ fwClassName_: String,
  /// Prefix: "1e98 | | <fwClass>   0    . . . . . . . . "
 func ppFwPrefix(nameTag:Uid?, _ fwClassName_:String) -> String {
 	 // align nameTag printouts for ctl and part to 4 characters
-	let log						= Log.app
+	let log						= Log.ofApp
 	var rv						= ppUid(pre:" ", nameTag, showNil:true).field(-5) + " "
 	rv 							+= log.indentString()
 	rv							+= fmt("%-12@", fwClassName_)
@@ -86,11 +86,29 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 			otherLines:{ deapth in
 				guard let factalsModel else {	return ""						}
 				var rv			= factalsModel.ppControlElement(deapth:deapth-1, config:false)
-				rv				+= self.log   .ppControlElement(deapth:deapth-1, config:false)
+//				rv				+= self.log   .ppControlElement(deapth:deapth-1, config:false)
 				return rv
 			},
 			deapth:deapth
 		)
+	}
+}
+extension FactalsModel : FactalsStatus	{							///FactalsModel
+	func ppControlElement(deapth:Int=999, config:Bool) -> String {
+		return ppFactalsStateHelper("FactalsModel ", nameTag:self,
+			myLine : "\(vewBases.count) vewBases ",
+			otherLines:{deapth in
+
+				 // Controller:
+				var rv			= self.partBase  .ppControlElement(deapth:deapth-1, config:config)
+				rv				+= self.simulator.ppControlElement(deapth:deapth-1, config:config)
+				rv				+= self.log      .ppControlElement(deapth:deapth-1, config:false)
+				for vewBase in self.vewBases {
+					rv			+= vewBase       .ppControlElement(deapth:deapth-1, config:config)
+				}
+				return rv
+			},
+			deapth:deapth-1)
 	}
 }
 // MARK  - DOCUMENT
@@ -151,23 +169,6 @@ extension Book : FactalsStatus {								///Book or ///Tests01, ...
 	}
 }
 
-extension FactalsModel : FactalsStatus	{							///FactalsModel
-	func ppControlElement(deapth:Int=999, config:Bool) -> String {
-		return ppFactalsStateHelper("FactalsModel ", nameTag:self,
-			myLine : "\(vewBases.count) vewBases ",
-			otherLines:{deapth in
-
-				 // Controller:
-				var rv			= self.partBase  .ppControlElement(deapth:deapth-1, config:config)
-				rv				+= self.simulator.ppControlElement(deapth:deapth-1, config:config)
-				for vewBase in self.vewBases {
-					rv			+= vewBase       .ppControlElement(deapth:deapth-1, config:config)
-				}
-				return rv
-			},
-			deapth:deapth-1)
-	}
-}
 extension PartBase : FactalsStatus	{								 ///PartBase
 	func ppControlElement(deapth:Int=999, config:Bool) -> String {
 		return ppFactalsStateHelper("PartBase     ", nameTag:self,
@@ -369,7 +370,7 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 	func ppControlElement(deapth:Int=999, config:Bool) -> String {
 								//
 		let contract 			= trueF
-		let log					= Log.app
+		let log					= Log.ofApp
 		return ppFactalsStateHelper("NSWindow     ", nameTag:self,
 			myLine:
    			       "title:'\(title)' "											+
