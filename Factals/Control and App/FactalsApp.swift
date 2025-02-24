@@ -46,13 +46,14 @@ extension FactalsApp : App {
 //				guard let pb = file.document.factalsModel?.partBase else {return}
 //				 NSApplication.shared.windows.last?.title = pb.title3 + "   (from App.onAppear)"
 //			 }
-//			 .onAppear {
-//				if let window = NSApplication.shared.windows.first(where: {
-//					$0.windowController?.document?.fileURL == file.fileURL
-//				}) {
-//					window.title = (file.document.factalsModel?.partBase.title ?? "<nil>") + "   (from App.onAppear)"
-//				}
-//			 }
+			 .onAppear {
+				if let window = NSApplication.shared.windows.first(where: {
+						$0.windowController?.document?.fileURL == file.fileURL 	})
+				{	window.title = (file.document.factalsModel?.partBase.title ?? "<nil>") + "   (from App.onAppear)"
+//					logRunInfo("\(library.answer.titlePlus())")		// still no answer
+				}
+				else { print("no window found")}
+			 }
 		}
 		 .commands {
 			CommandMenu("Library") {
@@ -95,7 +96,7 @@ extension FactalsApp : App {
 			}
 		)
 	}
-}								//
+}
  // MARK: - Globals
 extension FactalsApp {		// FactalsGlobals
 	class FactalsGlobals : ObservableObject {				// (not @Observable)
@@ -104,7 +105,7 @@ extension FactalsApp {		// FactalsGlobals
 
 		// MARK: -B Library Menu:
 		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")
-		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {
+		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {	// FactalsApp(factalsConfig:libraryMenuArray:)
 			factalsConfig 		= a
 			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
 			let tree 			= LibraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray
@@ -151,7 +152,8 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 struct FactalsApp: Uid, FwAny {
 	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
-    @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
+	@NSApplicationDelegateAdaptor private
+	 var appDelegate: AppDelegate
 
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
@@ -181,7 +183,7 @@ struct FactalsApp: Uid, FwAny {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
 		let appConfig 			= params4partPp
-		atApp(3, log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100))), "))
+		atApp(3, log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
 		atApp(3, log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])"))
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
 		atApp(3, log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
@@ -190,7 +192,8 @@ struct FactalsApp: Uid, FwAny {
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
 		// print(ppController(config:false))	causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 		//atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
-	
+//		logRunInfo("\(library.answer.titlePlus())")
+
 //		sounds.load(name:"di-sound", path:"di-sound")
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
@@ -314,35 +317,20 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	 // MARK: - 20. Log
 	  ///  Write 1-line summary of this usage
 	func logRunInfo(_ comment:String) {
-		//return
-		 /// BUG: not allowed by sandbox
-		 // Gather Information for 1 line
-		let nextEntry		= wallTime("YYMMDD.HHMMSS: ") + comment + "\n"
-
-		guard let documentDirURL 	= try? FileManager.default.url(
-							for:.applicationDirectory,	// ~/Library/Containers/self.SwiftFactals/Data/Applications/
-			//				for:.documentDirectory,		// ~/Library/Containers/self.SwiftFactals/Data/Documents/
-			//				for:.desktopDirectory,		// ~/Library/Containers/self.SwiftFactals/Data/Desktop/
-			//				for:.userDirectory,			// unexpectedly raised: Foundation._GenericObjCError.nilError
-							in:.userDomainMask,
-							appropriateFor:nil,
-							create:true)
-		else {
-			print("logRunIfo FAILED: \"documentDirURL == nil\"")
-			return
-		}
-		let fileURL 			= documentDirURL.appendingPathComponent("logOfRuns")
 		do {
+			let newEntry		= wallTime() + comment + "\n"		//"YYMMDD.HHMMSS: "
+			let homeDirectory 	= FileManager.default.homeDirectoryForCurrentUser
+			let fileURL 		= homeDirectory.appendingPathComponent("Documents/logOfRuns")// FileManager.default.url(for:.applicationDirectory,	// ~/Library/Containers/self.SwiftFactals/Data/Applications/
 			let fileUpdater		= try FileHandle(forUpdating:fileURL)
 
 			 // Write at EOF:
 			fileUpdater.seekToEndOfFile()
-			fileUpdater.write(nextEntry.data(using:.utf8)!)
+			fileUpdater.write(newEntry.data(using:.utf8)!)
 			fileUpdater.closeFile()
 		}
 		catch let errorCodeProtocol {
-			print("logRunIfo FAILED: \"\(errorCodeProtocol)\"")
-			// 20201225 Wouldn't create logOfRuns; must do manually
+			print("logRunIfo FAILED: \n\"\(errorCodeProtocol)\"")
+			//  BUG: 20201225 Wouldn't create logOfRuns; must do manually
 		}
 	}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") { //String?=nil
@@ -351,6 +339,7 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 	}
 }
 
+ // MARK: - 4.5 Event from OS
 class AppDelegate: NSObject, NSApplicationDelegate {
 	 // Set Apple Event Manager so Factals recieve URL's
 	func applicationDidFinishLaunching(_ notification: Notification) {
@@ -358,25 +347,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
 			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
 	}
-	 // MARK: - 4.5 Event from OS
 	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
 		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
 	}
 	 // Common:
 	func openURL(named:String?) {
-bug	//	guard let name			= named,
-	//	  let url         		= NSURL(string:name) else {
-	//		fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil")
-	//	}
-	//	print("openURL('\(named!)' -> \(url))")
-	//	var urlStr         		= name//url.absoluteString! //.stringByRemovingPercentEncoding
-	//	let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
-	//	assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
-	//	let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
-	//	urlStr      			= String(urlStr[index...])
-	//
-	//	 ////// BUILD Simulation Part per received URL.
-	//	//  if (Brain *brain = aBrain_selectedBy(-1, -1, urlStr)) {
-	//	//Build a window; install brain //  self.simNsWc = [self createASimNsWcFor:brain :"Selected by factalWorkbench:// URL"];
+		guard let name			= named, let url = NSURL(string:name) else
+		{	fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil") }
+		print("openURL('\(named!)' -> \(url))")
+		var urlStr         		= url.absoluteString! //.stringByRemovingPercentEncoding//name//
+		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
+		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
+		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
+bug;	urlStr      			= String(urlStr[index...])
 	}
 }

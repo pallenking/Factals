@@ -198,6 +198,7 @@ struct HnwMachine {		// : Codable
 	var sourceOfTest: String  	= "HnwMachine"		// Reason for Fetching String
 	var title		: String?  	= nil				// Network name from library
 	var postTitle	: String  	= "HnwMachine.post"	// Number of Ports String
+	func titlePlus() -> String 	{ sourceOfTest + (title ?? "<???>") + postTitle}
 
 	var config		: FwConfig	= [:]		// [NOT CODABLE]
 

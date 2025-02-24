@@ -39,7 +39,7 @@ test
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
 let params4app : FwConfig 		= [
-	"soundVolume"	 			: 0.1,		// 0:quiet, 1:normal, 10:loud
+	"soundVolume"	 			: 1,//0.1,// 0:quiet, 1:normal, 10:loud
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 
 //**/		// Omit emptyEntry	: nil,		// nil entry
@@ -118,7 +118,7 @@ let params4logs				: FwConfig = [
 								// + +  + +
 	"breakAtLogger"				:-1,
 								// + +  + +
-	"breakAtEvent"				:34 //150//-54,//240/3/0:off
+	"breakAtEvent"				:2 //150//-54,//240/3/0:off
 
 ]
 private let params4docLog		= params4partPp + params4logs

@@ -236,6 +236,7 @@ class Atom : Part {	//Part//FwPart
 			atBld(4, logd("-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
 		}
 		 // If Existing Port?
+		atBld(4, logd("xxxxxxxx"))
 		rvPort					??= existingPorts(named:wantedName, localUp:wantUp).first
 		 // If Delayed Populate Port?
 		rvPort					??= delayedPopulate(named:wantedName, localUp:wantUp)
