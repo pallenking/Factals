@@ -12,7 +12,7 @@ import SceneKit
   /// Print State of ALL System Controllers in the App, starting with FactalModel:
  /// - Returns: State of all Controllers, one per line
 func ppController(deapth:Int=999, config:Bool/*=false*/) -> String {
-	//let x = FactalsApp
+	//let x = factalsApp
 	//return ""
 	return FACTALSMODEL?.ppControlElement(deapth:deapth-1, config:false) ?? ""
 }

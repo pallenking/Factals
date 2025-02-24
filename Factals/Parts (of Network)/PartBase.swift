@@ -178,7 +178,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 ////		makeSelfRunable("help")		// (no unlock)
 //	}
 	 // MARK: - 3.5.1 Data
-	func data() throws -> Data {
+	func data() throws -> Data {	// )Used by FactalsDocument)
 		do {
 			let enc 			= JSONEncoder()
 			enc.outputFormatting = .prettyPrinted

@@ -31,14 +31,23 @@ extension FactalsDocument : Logd {
 
  //class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument {
-	let nameTag					= getNametag()
-	var factalsModel : FactalsModel! = nil				// content
-	var log 	  : Log			= Log.app // Use Apps log
 
+	let nameTag					= getNametag()			// for Logd
+	var factalsModel : FactalsModel! = nil				// content
+	var log 	 : Log			= Log.app // Use Apps log
+
+	// 4 OLD Enablers
+	var windowNibName:NSNib.Name? 	{		bug;return "Document"				}// The  nib file  name of the document:
+	var autosavesInPlace: Bool 		{		bug;return false					}// Enable Auto Savea:
+	func canAsynchronouslyWrite(to:URL, ofType:String, for:NSDocument.SaveOperationType) -> Bool // Enable Asynchronous Writing:
+	{	bug;return false	}		// Enable Asynchronous Reading:
+	func canConcurrentlyReadDocuments(ofType:String) -> Bool
+	{	bug;return false 	} // ofType == "public.plain-text"
+
+	// MARK: - 2.4.4 Building
 	init(fileURL : URL) {
 		bug
 	}
-	// MARK: - 2.4.4 Building
 	 // @main uses this to generate a blank document
 	init() {	// Build a blank document, so there is a document of record with a Log
 
@@ -46,13 +55,6 @@ struct FactalsDocument : FileDocument {
 		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
 		log.configure(from:[:])//cfgArg)
 	}
-//	enum LibrarySelector {				// NEW
-//		case empty						//		nil->			Blank scene		 |	nil		  -1
-//		case MarkedXr 					//					//	entry with xr()	 |	"xr()"	  -1
-//		case Numbered(Int)				//		= "entry120"//	entry 120		 |	nil		  N *
-//		case Titled(String)				//		= "name"	//	entry named name |	"name" *  -1
-//	}
-
 	init(fromLibrary select:String?=nil) {
 		 // 1. Part ******
 		let select = select ?? {
@@ -63,6 +65,12 @@ struct FactalsDocument : FileDocument {
 			//**/	let select	= "name"	//	entry named name |	"name" *  -1
 			//**/	let select	= "- Port Missing"
 			return select
+			//	enum LibrarySelector {		// Someday ADD
+			//		case empty				//		nil->			Blank scene		 |	nil		  -1
+			//		case MarkedXr 			//					//	entry with xr()	 |	"xr()"	  -1
+			//		case Numbered(Int)		//		= "entry120"//	entry 120		 |	nil		  N *
+			//		case Titled(String)		//		= "name"	//	entry named name |	"name" *  -1
+			//	}
 		} ()
 /**/	let partBase			= PartBase(fromLibrary:select)
 		 // 2. FactalModel ******
@@ -126,11 +134,6 @@ bug;		self.init(factalsModel:factalsModel)
 		}
 	//	self.init()		// temporary
 	}
-
-//	func configure(config:FwConfig) {		// Everything associated with a FactlsDocument
-//		 // Build Vews per Configuration
-//		factalsModel.configure(from:config)
-//	}										// next comes viewAppearedFor (was didLoadNib(to)
 	// MARK: PolyWrap
 	 /// Requirement of <<FileDocument>> protocol
 	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {		// cannot ba async throws
@@ -154,7 +157,6 @@ bug;		self.init(factalsModel:factalsModel)
 			throw FwError(kind:".fileWriteUnknown")
 		}
 	}
-		//bug;	throw FwError(kind:".fileWriteUnknown")
 
 	typealias PolyWrap = Part
 	class Part : Codable /* PartProtocol*/ {
@@ -164,7 +166,6 @@ bug;		self.init(factalsModel:factalsModel)
 	//protocol PartProtocol {
 	//	func polyWrap() -> PolyWrap
 	//}
-
 	func serializeDeserialize(_ inPart:Part) throws -> Part? {
 
 		 //  - INSERT -  PolyWrap's
@@ -185,27 +186,6 @@ bug;		self.init(factalsModel:factalsModel)
 
 		return outPart
 	}
-
-
-
-	// MARK: - 4 Enablers
-			// The  nib file  name of the document:
-	var windowNibName:NSNib.Name? 	{		return "Document"					}
-			// Enable Auto Savea:
-	var autosavesInPlace: Bool 		{		return false						}
-			// Enable Asynchronous Writing:
-	func canAsynchronouslyWrite(to:URL, ofType:String, for:NSDocument.SaveOperationType) -> Bool {
-		return false
-	}		// Enable Asynchronous Reading:
-	func canConcurrentlyReadDocuments(ofType:String) -> Bool {
-		return false // ofType == "public.plain-text"
-	}
-
-	// MARK: - 14. Building
-//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String?=nil) {
-//bug//	factalsModel.log.log(banner:banner, format_, args, terminator:terminator)
-//	}
-	
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {

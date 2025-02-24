@@ -104,13 +104,13 @@ extension FactalsApp {		// FactalsGlobals
 		var factalsConfig : FwConfig
 
 		// MARK: -B Library Menu:
-		var libraryMenuTree : LibraryMenuTree = LibraryMenuTree(name: "ROOT")
 		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {	// FactalsApp(factalsConfig:libraryMenuArray:)
 			factalsConfig 		= a
 			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
 			let tree 			= LibraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray
 			libraryMenuTree 	= tree
  		}
+		var libraryMenuTree : LibraryMenuTree// = LibraryMenuTree(name: "ROOT")
 	}
 }
 class LibraryMenuTree : Identifiable {		// of a Tree
@@ -184,14 +184,13 @@ struct FactalsApp: Uid, FwAny {
 		 // Henry A. King and P. Allen King:
 		let appConfig 			= params4partPp
 		atApp(3, log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
-		atApp(3, log("verbosity:[\(log.verbosity?.pp() ?? "nil")]"))
+//		atApp(3, log("verbosity:[\(log.verbosity?.pp() ?? "nil")]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
 		atApp(3, log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(1, log("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
 		atApp(3, log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
-		// print(ppController(config:false))	causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
-		//atApp(1, log("\(isRunningXcTests ? "IS " : "Is NOT ") Running XcTests"))
+		print(ppController(config:false))	//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 //		logRunInfo("\(library.answer.titlePlus())")
 
 //		sounds.load(name:"di-sound", path:"di-sound")
