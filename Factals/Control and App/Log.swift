@@ -137,10 +137,8 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
 		verbosity 				= verbosityInfoFrom(c)
 	}
+	 /// Return a Dictionary of keys starting with "logPri4". They control verbosity.
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
-		   // Process logPri4*** keys. SEMANTICS:
-		  //   If NONE with prefix "logPri4" are found, verbosity is unchanged
-		 // 	 if some are found, they replace the old verbosity.
 		var rv : [String:Int] 	= [:]
 		for (keyI, valI) in config {		// Scan config being loaded:
 			if keyI.hasPrefix("logPri4"),		// that start with "logPri4"
@@ -148,7 +146,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 				assert(newVal >= 0 && newVal <= 9, "\(keyI):\(valI) not in range 0...9")
 				let newKey		= String(keyI.dropFirst("logPri4".count))
 				rv[newKey]		= newVal				// save trailing part
-			}	// pt: Simultaneous accesses to 0x60000300ca68, but modification requires exclusive access.
+			}
 		}
 		return rv
 	}

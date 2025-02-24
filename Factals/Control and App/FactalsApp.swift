@@ -184,7 +184,7 @@ struct FactalsApp: Uid, FwAny {
 		 // Henry A. King and P. Allen King:
 		let appConfig 			= params4partPp
 		atApp(3, log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
-		atApp(3, log("verbosity:[\(log.ppVerbosityOf(appConfig).pp(.short))])"))
+		atApp(3, log("verbosity:[\(log.verbosity?.pp() ?? "nil")]"))
 		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
 		atApp(3, log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(1, log("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
