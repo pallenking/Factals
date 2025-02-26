@@ -134,7 +134,7 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			answer.lineNumber 	= lineNumber
 			atBld(7, Log.ofApp.log("=== Matched Because: \(matchCause!) ===\n" +
 								 "=========<<< \(answer.ppr()) >>>=========\n" +
-								 "========================================================================"))
+								 "========================================================================\n"))
 		}
 	}
 	var fwClassName		 : String	{	"Book"									}

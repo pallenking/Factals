@@ -27,11 +27,11 @@ extension Log {
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 
-	static var ofApp				= Log(name:"App Log", configure:params4appLog)
+	static var ofApp			= Log(name:"Log of App", configure:params4appLog)
 
 	static let params4appLog	=
 		params4app				+
-		params4partPp				+	//	pp... (20ish keys)
+		params4partPp			+	//	pp... (20ish keys)
 		params4logs				+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 		logAt(all:appLogN)
 

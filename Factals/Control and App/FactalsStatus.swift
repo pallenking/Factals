@@ -14,7 +14,7 @@ import SceneKit
 func ppController(deapth:Int=999, config:Bool/*=false*/) -> String {
 	//let x = factalsApp
 	//return ""
-	return FACTALSMODEL?.ppControlElement(deapth:deapth-1, config:false) ?? ""
+	return FACTALSMODEL?.ppControlElement(deapth:deapth-1, config:false) ?? "FACTALSMODEL is nil"
 }
 
  /// Print status of Factal Workbench Controllers

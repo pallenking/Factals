@@ -87,7 +87,8 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 
 		 //  2. ADD LINKS:
 		atBld(4, logd("------- WIRING \(linkUps.count) Links to Network:"))
-		linkUps.forEach { 	addLink in 		addLink() 							}
+		linkUps.forEach
+		{ 	addLink in 		addLink() 							}
 
 		checkTree()
 

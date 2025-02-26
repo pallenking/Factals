@@ -152,7 +152,7 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 struct FactalsApp: Uid, FwAny {
 	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
-	@NSApplicationDelegateAdaptor private
+	@NSApplicationDelegateAdaptor(AppDelegate.self)// private
 	 var appDelegate: AppDelegate
 
 	 // Source of Truth:
@@ -229,38 +229,24 @@ struct FactalsApp: Uid, FwAny {
 	}
 
 
-	 // MARK: - 4.6 APP Terminate
-	 // From DocumentBasedApp:
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		bug
-//		 // Add entry on system's menu bar: (DOESN'T WORK)
-//		let systemM/Users/allen/DocLocal/HaveNWant/Factals/Factals/Control and App/FactalsApp.swift:		print("'c': AppDelegate.appState():")enuBar 		= NSStatusBar.system
-//		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
-//		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
-//			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
-//			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
-//		}
-//
-//		 // Log program usage instances
-//		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
-//		atApp(7, print(ppController(config:false)))
-////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
-//		sounds.play(sound:"GameStarting")
-	}
-
-	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
-bug;	return .terminateNow													}
-	func applicationWillTerminate(_ 	 aNotification: Notification) {
-bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
-		print("                   G O O D    B I E  ! !")
-	}
-
-	  // App Did Finish Launching //////////////////////
-	 //							 // 210710PAK Never CALLED
-	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
-		panic()
-		return true
-	}
+//	 // MARK: - 4.6 APP Terminate
+//	 // From DocumentBasedApp:
+//	func applicationDidFinishLaunching(_ aNotification: Notification) {
+//		bug
+////		 // Add entry on system's menu bar: (DOESN'T WORK)
+////		let systemM/Users/allen/DocLocal/HaveNWant/Factals/Factals/Control and App/FactalsApp.swift:		print("'c': AppDelegate.appState():")enuBar 		= NSStatusBar.system
+////		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
+////		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
+////			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
+////			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
+////		}
+////
+////		 // Log program usage instances
+////		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
+////		atApp(7, print(ppController(config:false)))
+//////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
+////		sounds.play(sound:"GameStarting")
+//	}
 
 	 // MARK: Access Scene MENU
 	mutating func scheneAction(_ sender:NSMenuItem) {
@@ -340,17 +326,29 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 
  // MARK: - 4.5 Event from OS
 class AppDelegate: NSObject, NSApplicationDelegate {
-	 // Set Apple Event Manager so Factals recieve URL's
 	func applicationDidFinishLaunching(_ notification: Notification) {
+
+		 // Set Apple Event Manager so Factals recieve URL's
 		NSAppleEventManager.shared().setEventHandler(self,
 			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
 			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
+
+		atApp(7, print(ppController(config:false)))
+		atApp(3, print("------------- AppDelegate: Application Did Finish Launching --------------\n"))
 	}
+	 // MARK: - 4.6 APP Terminate
+	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
+bug;	return .terminateNow													}
+	func applicationWillTerminate(_ 	 aNotification: Notification) {
+bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
+		print("                   G O O D    B I E  ! !")						}
+	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
+bug;	return false															}
+
 	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
 		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
 	}
-	 // Common:
-	func openURL(named:String?) {
+	func openURL(named:String?) {					 // Common:
 		guard let name			= named, let url = NSURL(string:name) else
 		{	fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil") }
 		print("openURL('\(named!)' -> \(url))")
