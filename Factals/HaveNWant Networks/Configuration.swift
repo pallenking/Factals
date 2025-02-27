@@ -23,17 +23,6 @@ configVew	-- controls:
 					--> ScnBase
 debug
 test
-
-			configuration sources
-		*
-	* params4appLog
-	*			params4app		:	soundVolume, regressScene, emptyEntry
-	*			params4partPp		:	pp... (50ish keys)
-	*			params4sim		:	enabled, timeStep, ...
-	*			params4vew		:	physical Characterists of object e.g: factalHeight
-	*			params4logs		:	"debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-	*			logAt(xxx:dd)
-					 -> Log.ofApp, FactalsModel.log,  Sourcces:
  */
 
   // MARK: - A: App Params
@@ -53,16 +42,12 @@ let params4app : FwConfig 		= [
  // Terms in FilterLog.swift
 let appLogN						= 8//7//0//5//
 let docLogN						= 8//7//0//5//
- // This must contain NO log statements!
+ // This (??) must contain NO log statements!
 
-private let params4appLog		= params4partPp + params4logs
-								+ logAt(app:appLogN, men:appLogN)
-//								+ logAt(doc:docLogN, bld:docLogN, ser:docLogN)
  // MARK: - C: Pretty Print
 
 let params4aux : FwConfig 		= [:]
 
-//let params4vewPp : FwConfig 	= [:]	// UNUSED
 let params4partPp  : FwConfig 	= [
 				// What:
 	"ppLinks"			: false, 	// pp includes Links  //true//
@@ -123,7 +108,6 @@ let params4logs				: FwConfig = [
 ]
 private let params4docLog		= params4partPp + params4logs
 								+ logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
-
 
   // MARK: - E: Sim Params
  /// Parameters for simulation
@@ -209,11 +193,7 @@ let params4vew : FwConfig = [
 
 	 // For debugging:
 	"logRenderLocks"			: false,//true//false// Log simulation lock activity
-	"breakAtViewOf"				: "",
-	"breakAtBoundOf"			: "",
-	"debugOverlapOf"			: "",
-	"breakAtRenderOf"			: "",
-] 												// params4vew : FwConfig
+]
 
 let wBoxColorOf:[String:NSColor] = [
 	"Part"			:NSColor.red,

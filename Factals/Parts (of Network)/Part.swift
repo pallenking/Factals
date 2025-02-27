@@ -44,6 +44,12 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	weak
 	 var partBase	: PartBase?	= nil	//
 
+	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
+//	{	willSet(v) {  markTree(dirty:v) }  }// BIG PROBLEMS: (Loops!)
+	var partConfig	: FwConfig				// Configuration of Part
+	 // Ugly:
+	var nLinesLeft	: UInt8		= 0			// left to print in current atom
+
 	func checkTreeThat(parent p:Part?, partBase pb:PartBase?) -> Bool {
 		var wasOk				= parent===p && partBase===pb
 		parent 					= p
@@ -57,12 +63,10 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	//	print("######### \(pp(.fullName)): \(pp(.classUid)) returns \(wasOk)")
 		return wasOk
 	}
-
-	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
-//	{	willSet(v) {  markTree(dirty:v) }  }// BIG PROBLEMS: (Loops!)
-	var partConfig	: FwConfig				// Configuration of Part
-	 // Ugly:
-	var nLinesLeft	: UInt8		= 0			// left to print in current atom
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+		Log.ofApp.log(nls + msg, terminator:terminator)
+	}
 
 	 // MARK: - 2.1 Sugar
 	var parts 		: [Part]	{ 		children 								}

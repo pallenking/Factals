@@ -8,6 +8,10 @@
 import SceneKit
 
 extension Book : Logd {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+		Log.ofApp.log(nls + msg, terminator:terminator)
+	}
 }
 
 class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
@@ -132,7 +136,7 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			 // Anonymous from Scan
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
-			atBld(7, Log.ofApp.log("=== Matched Because: \(matchCause!) ===\n" +
+			atBld(7, Log.ofApp.log("=== Matched Because: '\(matchCause!)' ===\n" +
 								 "=========<<< \(answer.ppr()) >>>=========\n" +
 								 "========================================================================\n"))
 		}

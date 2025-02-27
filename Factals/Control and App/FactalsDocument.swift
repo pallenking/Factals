@@ -49,14 +49,20 @@ struct FactalsDocument : FileDocument {
 		bug
 	}
 	 // @main uses this to generate a blank document
-	init() {	// Build a blank document, so there is a document of record with a Log
-
-		 // create Log and Sound here
+	init() {
 		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
 		factalsModel.log.configure(from:[:])//cfgArg)
 	}
 	init(fromLibrary select:String?=nil) {
-		 // 1. Part ******
+
+		 // 1. FactalModel ******
+		let fmConfig			= params4logs
+								+ params4vew
+								+ params4partPp
+		factalsModel			= FactalsModel(configure:fmConfig)
+		factalsModel.factalsDocument = self			// backpointer
+
+		 // 2. Part ******
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
 			/**/	let select:String?=nil	//	Blank scene		 |	nil		  -1
@@ -72,39 +78,27 @@ struct FactalsDocument : FileDocument {
 			//		case Titled(String)		//		= "name"	//	entry named name |	"name" *  -1
 			//	}
 		} ()
-/**/	let partBase			= PartBase(fromLibrary:select)
-		 // 2. FactalModel ******
-		let pmConfig			= params4logs
-								+ params4vew		//
-								+ params4partPp
-								+ partBase.ansConfig		// from library
-/**/	factalsModel			= FactalsModel(partBase:partBase, configure:pmConfig)
-		factalsModel.factalsDocument = self		// backpointer																	//factalsModel.configurePart(from:pmConfig)
+		let partBase			= PartBase(fromLibrary:select)
+		factalsModel.partBase	= partBase
+
+						//		+ partBase.ansConfig		// from library
+
+
+//	/**/let partBase			= PartBase(fromLibrary:select)
+//
+//		 // 2. FactalModel ******
+//		let fmConfig			= params4logs
+//								+ params4vew		//
+//								+ params4partPp
+//								+ partBase.ansConfig		// from library
+//	/**/factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)
+//		factalsModel.factalsDocument = self			// backpointer
 
 		 // 3. Groom part ******
 		partBase.wireAndGroom([:])
 
 		 // 4. Vews ******
-								/*		How to configure?
-									1.	pt partBase.ansConfig		xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
-									2.	pt factalsModel.fmConfig	xrConfig	[selfiePole:[:4 elts], gapLinkFluff:3]
-									3.	pt params4pp							[ppNCols4VewPosns:20,... ppNNameCols:8, ppLinks:false]
-									parms4all
-										params4app		:	soundVolume, regressScene, emptyEntry
-										params4appLog	:	params4pp + params4logs + logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
-										params4pp		:	pp... (50ish keys)
-										params4sim		:	enabled, timeStep, ...
-										params4vew		:	physical Characterists of object e.g: factalHeight
-										params4logs	: "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-										logAt(xxx:dd)
-						 */
-		let fmConfig			= factalsModel.fmConfig
-								+ params4logs //+ logAt(app:appLogN, ...) + logAt(doc:docLogN,...)
-								+ params4vew
-								+ params4partPp
-								+ partBase.ansConfig		// from library
-						//		+ logAt(all:8)
-		factalsModel.configureVews(from:fmConfig)
+		factalsModel.configureVews(from:fmConfig + partBase.ansConfig)
 
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
 	}
@@ -121,7 +115,7 @@ struct FactalsDocument : FileDocument {
 			let partsBase		= PartBase.from(data:data, encoding:.utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
-			let factalsModel	= FactalsModel(partBase:partsBase, configure:[:])
+			let factalsModel	= FactalsModel(/*partBase:partsBase,*/ configure:[:])
 bug;		self.init(factalsModel:factalsModel)
 
 //			fmConfig			+= partBase.ansConfig	// from library

@@ -44,7 +44,7 @@ func assertWarn(_ truthValue:Bool, _ message:@autoclosure()->String="assert fail
 	}
 }
 var bug : () { //(file:String /*= #file*/, line:UInt /*= #line*/) 			{
-	fatal("""
+	panic("""
 		  \t--------------------------------
 		  \t---   a   B U G   to fix!    ---
 		  \t--------------------------------
@@ -67,20 +67,19 @@ func debugger(_ message:String, file:StaticString = #file, line:UInt = #line ) -
 	#endif
 	fatalError("debugger(\(message))")
 }
-func panic(_ message: @autoclosure () -> String="(No message supplied)",
-	file:StaticString = #file,	line:UInt = #line)
-{
-	fatal("\n\n" + """
+func panic(_ message: @autoclosure () -> String="Panic with No message",
+								file:StaticString = #file,	line:UInt = #line) {
+	print("\n\n" + """
 		  \t---- FATAL ERROR --------------------------------
 		  \t\("\(file):\(line) -- \(message())")
 		  \t-------------------------------------------------\n\n
 		  """)
-}
-func fatal (_ message:String,			file:StaticString = #file, line:UInt = #line )// -> Never
-{					//	value: @autoclosure () -> Value ) 		  -> Value
-	print(message)
 	raise(SIGTRAP)	//raise(SIGINT)	//	builtin_debugtrap() __builtin_trap()//while true { print("\t--------------------------------")}
 }
+//func fatal (_ message:String,	file:StaticString = #file, line:UInt = #line ) {
+//	print(message)
+//	raise(SIGTRAP)	//raise(SIGINT)	//	builtin_debugtrap() __builtin_trap()//while true { print("\t--------------------------------")}
+//}
 
    /// Clock time
   /// - parameters:

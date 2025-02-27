@@ -740,11 +740,6 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 				return ppFixedDefault(mode, aux) 		// NO, try default method
 		}
 	}
-
-	func panic(_ message: @autoclosure () -> String=("")) { //ppUid(self)
-		fatal("\n\n\(fullName) \(log.ppCurThread) \(pp(.fullNameUidClass))" +
-			": --------------\n\(message())\n" + "----------------------------\n")
-	}
 	 // MARK: - 17. Debugging Aids
 	/*override*/ var description	  : String {	return  "d'\(pp(.short))'"	}
 	/*override*/ var debugDescription : String {	return "dd'\(pp(.short))'" 	}

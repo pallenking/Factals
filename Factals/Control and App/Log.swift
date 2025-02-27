@@ -27,18 +27,21 @@ extension Log {
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 
-	static var ofApp			= Log(name:"Log of App", configure:params4appLog)
-
-	static let params4appLog	=
-		params4app				+
-		params4partPp			+	//	pp... (20ish keys)
-		params4logs				+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-		logAt(all:appLogN)
-
-//	static var osLogger:OSLog?	= OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
+	static var ofApp			= Log(name:"Log of App", configure:
+			params4app			+
+			params4partPp		+	//	pp... (20ish keys)
+			params4logs			+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+			logAt(all:appLogN)
+		)
+	 // Someday:
+	//static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 }
-extension Log : Logd { }
-//extension Log : Uid { }
+extension Log : Logd {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+		Log.ofApp.log(nls + msg, terminator:terminator)
+	}
+}
 
 class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:
@@ -135,7 +138,10 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			breakAtLogger		= bal											}
 
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
-		verbosity 				= verbosityInfoFrom(c)
+		let verb 				= verbosityInfoFrom(c)
+//		if verb.count > 0 {
+			verbosity 			= verb
+//		}
 	}
 	 /// Return a Dictionary of keys starting with "logPri4". They control verbosity.
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
@@ -245,8 +251,8 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
  		if logNo != Log.currentLogNo {						// different than last time
 			let lastLogNo		= Log.currentLogNo
 			Log.currentLogNo	= logNo							// switch to new
-			let x				= lastLogNo >= 0 ? "(From Log\(lastLogNo)) " : ""
-			print("-- SWITCHING \(x)To Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
+			let x				= lastLogNo >= 0 ? "from Log\(lastLogNo) " : ""
+			print("-- SWITCHING \(x)to Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
 		}
 		// DO SOME OTHER WAY: sim state shouldn't be actor isolated, but Actors died in HNW
 		if let fm				= FACTALSMODEL {

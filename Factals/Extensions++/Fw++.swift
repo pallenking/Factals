@@ -1236,31 +1236,30 @@ extension String {
 	}
 }
 
-protocol Logd: FwAny, Uid {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String)
-}
-extension Logd {
 	// MARK: - 14. Logging
-	/// Log critical actions with a line that starts with
-	/// - Parameters:
-	///   - banner: Descriptive message to display before message
+protocol Logd: FwAny, Uid {
+	/// Log critical actions with a line that includes
 	///   - format: printf format
 	///   - args: printf args
 	///   - terminator: for print
-	///   - note: HACK
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		let msg					= String(format:format, arguments:args)
-		let (nls, msg2)			= msg.stripLeadingNewLines()	// trailing \n's become leading \n's
-		let str					= nls + msg2					//-nFullN uidClass
-		Log.ofApp.log(str, terminator:terminator)
-	}
+	func logd(_ format:String, _ args:CVarArg..., terminator:String)
 }
+//extension Logd {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+//		Log.ofApp.log(nls + msg, terminator:terminator)
+//	}
+//}
 
 extension NSObject : Uid {
 	var nameTag:UInt16 			{ 	return uid4Ns(nsOb:self)					}
 }
 
 extension NSObject : Logd {
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+		Log.ofApp.log(nls + msg, terminator:terminator)
+	}
 }
 
 extension NSObject {

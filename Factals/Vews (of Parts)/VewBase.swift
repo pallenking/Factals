@@ -30,7 +30,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
 	@Published							// subscribe to selfiePole.sink for changes
 	 var selfiePole 			= SelfiePole()
 //	var config		 : FwConfig = [:]
-	var vewBaseConfig: FwConfig = [:]
+//	var vewBaseConfig: FwConfig = [:]
 	weak
 	 var factalsModel : FactalsModel!	// Our Owner
 

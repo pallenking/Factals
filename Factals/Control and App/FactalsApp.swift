@@ -211,22 +211,21 @@ struct FactalsApp: Uid, FwAny {
 //	}
 	var sceneMenu:NSMenu!			// @IBOutlet weak 	var sceneMenu:NSMenu!
 
-	 // 
-	func appPreferences(_ sender: Any) {		// Show App preferences
-		print("'⌘,': AppDelegate.appPreferences(): PREF WINDOW UNDEF")
-	}													// why not use SwiftUI?
-	func appState(_ sender: Any) {
-		print("'c': AppDelegate.appState():")
-		print(ppControlElement(config:false))
-	}
-	func appConfig(_ sender: Any) {
-		print("'c': AppDelegate.appState():")
-		print(ppControlElement(config:true))
-	}
-	func appHelp(_ sender: Any) {
-		print("'?': AppDelegate.appConfiguration():")
-		fwHelp("?", inVew:nil)
-	}
+//	func appPreferences(_ sender: Any) {		// Show App preferences
+//		print("'⌘,': AppDelegate.appPreferences(): PREF WINDOW UNDEF")
+//	}													// why not use SwiftUI?
+//	func appState(_ sender: Any) {
+//		print("'c': AppDelegate.appState():")
+//		print(ppControlElement(config:false))
+//	}
+//	func appConfig(_ sender: Any) {
+//		print("'c': AppDelegate.appState():")
+//		print(ppControlElement(config:true))
+//	}
+//	func appHelp(_ sender: Any) {
+//		print("'?': AppDelegate.appConfiguration():")
+//		fwHelp("?", inVew:nil)
+//	}
 
 
 //	 // MARK: - 4.6 APP Terminate

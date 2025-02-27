@@ -28,12 +28,12 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	var indexFor				= Dictionary<String,Int>()
 
 	 // MARK: - 2.1 Object Variables
-	var sourceOfTest	: String			// source(arg)
-	var title			: String			// Test Name or Status
-	var postTitle		: String
-	var title3 : String			{ sourceOfTest + "   " + title + "   " + postTitle}
+	var sourceOfTest : String	= "src"		// source(arg)
+	var title		 : String	= "title"	// Test Name or Status
+	var postTitle	 : String	= "post"
+	var title3 		 : String	{ sourceOfTest + "   " + title + "   " + postTitle}
 
-	var ansConfig : FwConfig 	= [:]
+	var ansConfig    : FwConfig = [:]
 
 	weak
 	 var factalsModel : FactalsModel? = nil			// OWNER
@@ -47,30 +47,28 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	 // MARK: - 3. Part Factory
 	init(tree t:Part=Part()) {
 		tree					= t
-		sourceOfTest			= " call to PartBase(tree:)"
-		title					= " I don't know"
-		postTitle				= " a String "
 	}
 	init(fromLibrary selector:String?) {			// PartBase(fromLibrary...
-		self.sourceOfTest			= "'\(selector ?? "nil")' -> "
+		self.sourceOfTest		= "'\(selector ?? "nil")' -> "
 		self.title 				= " Not in Library"
 
 		 // Get HaveNWant Machine (a Network)
 		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
 			self.title			= hnwMachine.title!
-			self.sourceOfTest	= "\(hnwMachine.testNum) "
-								+ "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
-			self.postTitle		= "wpowuwf"
+			self.sourceOfTest	+= "\(hnwMachine.testNum) "
+								+  "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
 			self.ansConfig		= hnwMachine.config
 
 /* */		self.tree			= hnwMachine.trunkClosure?() ?? Part()	// EXPAND Closure from Lib
 		} else {
 			self.tree			= Part()
-			sourceOfTest		= " call to PartBase(tree:)"
-			title				= " I don't know"
-			postTitle			= " a String "
+			title				= "Unknown Title"
 		}
 		checkTree()
+	}
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+		Log.ofApp.log(nls + msg, terminator:terminator)
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)

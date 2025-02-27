@@ -6,7 +6,7 @@ import SwiftUI
 extension FactalsModel  : Logd {}
 @Observable
  class FactalsModel : Uid {
-	var epoch: UInt16			= 1				// to mark dirty
+ 	var epoch: UInt16			= 1				// to mark dirty
 	let nameTag					= getNametag()
 
 	  // MARK: - 2. Object Variables:
@@ -15,7 +15,7 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
 
-	var log 	 : Log			= Log.ofApp // Use Apps log
+	var log 	 : Log															// = Log.ofApp // Use Apps log
 	var factalsDocument : FactalsDocument! = nil	// (a struct)
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
@@ -23,20 +23,24 @@ extension FactalsModel  : Logd {}
 	}
 
 	 // MARK: - 3. Factory
-	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
-		partBase				= pb
-		fmConfig				= configure				// Save in ourselves   WHY???
+	init(configure:FwConfig) {	// FactalsModel(partBase:)
+		fmConfig				= configure		// Save in ourselves   WHY???
+		log						= Log(name:"FactalModel N", configure:configure)
+		partBase				= PartBase()	// Dummy
 		simulator 				= Simulator(configure:configure)	// params4sim
 
-		// self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 		FACTALSMODEL			= self			// set UGLY GLOBAL
 		simulator.factalsModel	= self			// backpointer
 		partBase .factalsModel	= self			// backpointer
 
-		partBase .configure(from:configure)
-		simulator.configure(from:configure)
+		partBase.configure(from:configure)
 	}
 
+	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+		Log.ofApp.log(nls + msg, terminator:terminator)
+	}
 	func configureVews(from config:FwConfig) {
 
 		 // Create new Views from config
