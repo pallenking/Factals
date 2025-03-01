@@ -6,6 +6,8 @@ protocol SoundProtocol {
 	func play(sound:String?)
 }
 let audioSources : [String:SCNAudioSource] = [	// name -> fileName in Assets
+	// Initial Sound Library, from FactalWorkbench.
+		   "tick": source(name:    "tick-sound"),
 		   "tick": source(name:    "tick-sound"),
 		   "tock": source(name:    "tock-sound"),
 			  "t": source(name:       "t-sound"),
@@ -17,16 +19,18 @@ let audioSources : [String:SCNAudioSource] = [	// name -> fileName in Assets
 ]
 func source(name:String) -> SCNAudioSource {
 
-	 // SCNAudioSource(url:) fetches from assets (others initializers don't)
+	 // Note: SCNAudioSource(url:) seems only way to fetch sounds in assets
 	guard let audioDataAsset 	= NSDataAsset(name:name) else
 	{	fatalError("Failed to load file '\(name)' audio asset")			}
-	let url 					= FileManager.default.temporaryDirectory.appendingPathComponent("temp.data\(name)")
-	do
-	{	try audioDataAsset.data.write(to:url)									}
+	let fileUrl 				= FileManager.default.temporaryDirectory.appendingPathComponent("temp.data\(name)")
+ 
+	do	// Write to disk
+	{	try audioDataAsset.data.write(to:fileUrl)								}
 	 catch
 	 {	print("Failed to write audio data to URL '\(name)': ERROR \(error)")	}
 
-	guard let source			= SCNAudioSource(url:url) else { fatalError()	}
+		// Read from disk
+	guard let source			= SCNAudioSource(url:fileUrl) else { fatalError() }
 	source.isPositional 		= true
 	source.shouldStream 		= false
 	source.volume 				= 1//10//bug; APPDEL?.config4app.float("soundVolume") ?? 1
@@ -34,9 +38,6 @@ func source(name:String) -> SCNAudioSource {
 	source.load() // Preload the audio for smoother playback
 	return source
 }
-//testSounds() {
-//
-//}
 
 extension SCNNode : SoundProtocol {
 	func play(sound:String?) {

@@ -139,9 +139,9 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
 		let verb 				= verbosityInfoFrom(c)
-//		if verb.count > 0 {
+		if verb.count > 0 {
 			verbosity 			= verb
-//		}
+		}
 	}
 	 /// Return a Dictionary of keys starting with "logPri4". They control verbosity.
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {

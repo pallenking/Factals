@@ -616,7 +616,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nl, fmt)			= format.stripLeadingNewLines()
-		let myLog				= part.partBase!.factalsModel!.log
+		let myLog				= part.partBase!.factalsModel?.log ?? Log.ofApp
 		myLog.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint

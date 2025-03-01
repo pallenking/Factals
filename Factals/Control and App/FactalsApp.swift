@@ -19,15 +19,6 @@ import SceneKit
   //let (majorVersion, minorVersion, nameVersion) = (5, 1, "After a rest")	// 210710 Post
   //let (majorVersion, minorVersion, dnameVersion) = (5, 0, "Swift Recode")
   //let (majorVersion, minorVersion, nameVersion) = (4, 0, "xxx")			// 180127 FactalWorkbench UNRELEASED
-
- // MARK: - Singleton
-var FACTALSMODEL : FactalsModel?=nil
-
-  // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
-//var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
-
-	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
-
  // MARK: - SwiftUI
 @main
 extension FactalsApp : App {
@@ -36,21 +27,16 @@ extension FactalsApp : App {
 			ContentView(document: file.$document)
 			 .id(/*file.fileURL?.absoluteString ??*/ UUID().uuidString) // Ensure uniqueness
 			 .environmentObject(factalsGlobals)				// inject in environment
-			 .onOpenURL { url in							// Load a document from the given URL
+			 .onOpenURL { url in							// UNTESTED: Load a document from the given URL
 				@Environment(\.newDocument) var newDocument
 				newDocument(FactalsDocument(fileURL:url))
-				let x = FactalsDocument(fileURL:url)
 			 }
-			 .navigationTitle("sldfjsdlfk")
-//			 .onAppear {
-//				guard let pb = file.document.factalsModel?.partBase else {return}
-//				 NSApplication.shared.windows.last?.title = pb.title3 + "   (from App.onAppear)"
-//			 }
+			 .navigationTitle("DOES NOTHING sldfjsdlfk")
 			 .onAppear {
 				if let window = NSApplication.shared.windows.first(where: {
 						$0.windowController?.document?.fileURL == file.fileURL 	})
 				{	window.title = (file.document.factalsModel?.partBase.title ?? "<nil>") + "   (from App.onAppear)"
-//					logRunInfo("\(library.answer.titlePlus())")		// still no answer
+					logRunInfo("Library: \(library.answer.titlePlus())")		// still no answer
 				}
 				else { print("no window found")}
 			 }
@@ -97,6 +83,62 @@ extension FactalsApp : App {
 		)
 	}
 }
+
+ // MARK: - Singleton
+var FACTALSMODEL : FactalsModel?=nil
+
+  // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
+//var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+
+	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
+
+ // MARK: - 4.5 Event from OS
+class AppDelegate: NSObject, NSApplicationDelegate {
+
+	 // MARK: - 4.2 APP Enablers
+	 // Reactivates an already running application because
+	//    someone double-clicked it again or used the dock to activate it.
+//	func applicationShouldHandleReopen(_ sender:NSApplication, hasVisibleWindows:Bool) -> Bool
+//	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool
+	func applicationDidFinishLaunching(_ notification: Notification) {
+
+		 // Set Apple Event Manager so Factals recieve URL's
+		NSAppleEventManager.shared().setEventHandler(self,
+			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
+			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
+
+	//	sounds.play(sound:"GameStarting")
+		atApp(7, print(ppController(config:false)))
+		atApp(3, print("------------- AppDelegate: Application Did Finish Launching --------------\n"))
+	}
+//	func appPreferences(_ sender: Any)		// Show App preferences
+//	func appState(_ sender: Any)
+//	func appConfig(_ sender: Any)
+//	func appHelp(_ sender: Any)
+	
+	 // MARK: - 4.6 APP Terminate
+	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
+bug;	return .terminateNow													}
+	func applicationWillTerminate(_ 	 aNotification: Notification) {
+bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
+		print("                   G O O D    B I E  ! !")						}
+	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
+bug;	return false															}
+
+	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
+		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
+	}
+	func openURL(named:String?) {					 // Common:
+		guard let name			= named, let url = NSURL(string:name) else
+		{	fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil") }
+		print("openURL('\(named!)' -> \(url))")
+		var urlStr         		= url.absoluteString! //.stringByRemovingPercentEncoding//name//
+		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
+		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
+		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
+bug;	urlStr      			= String(urlStr[index...])
+	}
+}
  // MARK: - Globals
 extension FactalsApp {		// FactalsGlobals
 	class FactalsGlobals : ObservableObject {				// (not @Observable)
@@ -107,7 +149,7 @@ extension FactalsApp {		// FactalsGlobals
 		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {	// FactalsApp(factalsConfig:libraryMenuArray:)
 			factalsConfig 		= a
 			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
-			let tree 			= LibraryMenuTree(array:libraryMenuArray)	 //LibraryMenuArray
+			let tree 			= LibraryMenuTree(array:libraryMenuArray)
 			libraryMenuTree 	= tree
  		}
 		var libraryMenuTree : LibraryMenuTree// = LibraryMenuTree(name: "ROOT")
@@ -197,55 +239,8 @@ struct FactalsApp: Uid, FwAny {
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
 
-	 // MARK: - 4.2 APP Enablers
-	 // Reactivates an already running application because
-	//    someone double-clicked it again or used the dock to activate it.
-//	func applicationShouldHandleReopen(_ sender:NSApplication, hasVisibleWindows:Bool) -> Bool {
-//		return true
-//		//return !hasVisibleWindows	// handle windows if none visible
-//		//return false				// Don't open any windows
-//	}
-//	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-//		return true 				// final, untested 210710PAK no workey
-//		//return false 				// conservative, must deal with no-FwDocument situation
-//	}
-	var sceneMenu:NSMenu!			// @IBOutlet weak 	var sceneMenu:NSMenu!
-
-//	func appPreferences(_ sender: Any) {		// Show App preferences
-//		print("'⌘,': AppDelegate.appPreferences(): PREF WINDOW UNDEF")
-//	}													// why not use SwiftUI?
-//	func appState(_ sender: Any) {
-//		print("'c': AppDelegate.appState():")
-//		print(ppControlElement(config:false))
-//	}
-//	func appConfig(_ sender: Any) {
-//		print("'c': AppDelegate.appState():")
-//		print(ppControlElement(config:true))
-//	}
-//	func appHelp(_ sender: Any) {
-//		print("'?': AppDelegate.appConfiguration():")
-//		fwHelp("?", inVew:nil)
-//	}
-
-
-//	 // MARK: - 4.6 APP Terminate
-//	 // From DocumentBasedApp:
-//	func applicationDidFinishLaunching(_ aNotification: Notification) {
-//		bug
-////		 // Add entry on system's menu bar: (DOESN'T WORK)
-////		let systemM/Users/allen/DocLocal/HaveNWant/Factals/Factals/Control and App/FactalsApp.swift:		print("'c': AppDelegate.appState():")enuBar 		= NSStatusBar.system
-////		let statusItem:NSStatusItem	= systemMenuBar.statusItem(withLength:NSStatusItem.variableLength)
-////		if let sb : NSStatusBarButton = statusItem.button {	// aka NSButton
-////			sb.title			= NSLocalizedString("#FW1#", tableName:"#FW2#", comment:"#FW3#")	// 'title' was deprecated in macOS 10.14: Use the receiver's button.title instead
-////			sb.cell?.isHighlighted = true  										// 'highlightMode' was deprecated in macOS 10.14: Use the receiver's button.cell.highlightsBy instead
-////		}
-////
-////		 // Log program usage instances
-////		logRunInfo("\(library.answer.ansTitle ?? "-no title-")")
-////		atApp(7, print(ppController(config:false)))
-//////.		atApp(3, log("------------- AppDelegate: Application Did Finish Launching --------------\n"))
-////		sounds.play(sound:"GameStarting")
-//	}
+	//@IBOutlet weak
+	 var sceneMenu:NSMenu!
 
 	 // MARK: Access Scene MENU
 	mutating func scheneAction(_ sender:NSMenuItem) {
@@ -323,38 +318,4 @@ struct FactalsApp: Uid, FwAny {
 	}
 }
 
- // MARK: - 4.5 Event from OS
-class AppDelegate: NSObject, NSApplicationDelegate {
-	func applicationDidFinishLaunching(_ notification: Notification) {
 
-		 // Set Apple Event Manager so Factals recieve URL's
-		NSAppleEventManager.shared().setEventHandler(self,
-			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
-			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-
-		atApp(7, print(ppController(config:false)))
-		atApp(3, print("------------- AppDelegate: Application Did Finish Launching --------------\n"))
-	}
-	 // MARK: - 4.6 APP Terminate
-	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
-bug;	return .terminateNow													}
-	func applicationWillTerminate(_ 	 aNotification: Notification) {
-bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
-		print("                   G O O D    B I E  ! !")						}
-	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
-bug;	return false															}
-
-	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
-		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
-	}
-	func openURL(named:String?) {					 // Common:
-		guard let name			= named, let url = NSURL(string:name) else
-		{	fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil") }
-		print("openURL('\(named!)' -> \(url))")
-		var urlStr         		= url.absoluteString! //.stringByRemovingPercentEncoding//name//
-		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
-		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
-		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
-bug;	urlStr      			= String(urlStr[index...])
-	}
-}

@@ -42,7 +42,6 @@ let params4app : FwConfig 		= [
  // Terms in FilterLog.swift
 let appLogN						= 8//7//0//5//
 let docLogN						= 8//7//0//5//
- // This (??) must contain NO log statements!
 
  // MARK: - C: Pretty Print
 
@@ -101,13 +100,11 @@ let params4logs				: FwConfig = [
 
 		 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-	"breakAtLogger"				:-1,
+	"breakAtLogger"				:1,
 								// + +  + +
-	"breakAtEvent"				:2 //150//-54,//240/3/0:off
+	"breakAtEvent"				:26 //150//-54,//240/3/0:off
 
 ]
-private let params4docLog		= params4partPp + params4logs
-								+ logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 
   // MARK: - E: Sim Params
  /// Parameters for simulation

@@ -40,7 +40,7 @@ final class FactalsTests: XCTestCase {
 		lldbPrint(x, mode:.tree, [:])
 	}
 	func testUid() {	// incomplete
-		let objectNs 			= FactalsModel(partBase:PartBase(tree:Part()), configure:[:])
+		let objectNs 			= FactalsModel(partBase:PartBase(/*tree:Part()*/), configure:[:])
 		let objectSwift			= Part()
 		let strNs				= pseudoAddressString(objectNs)
 		let strSwift			= pseudoAddressString(objectSwift)
@@ -82,6 +82,10 @@ final class FactalsTests: XCTestCase {
 //
 //		print("&&&&&& No         ppMode Default Hang     errors")
 //	}
+
+//testSounds() {
+//
+//}
 
 	func testVewPp() {
 		let m1 = MaxOr()

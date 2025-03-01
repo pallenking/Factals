@@ -10,7 +10,7 @@ extension FactalsModel  : Logd {}
 	let nameTag					= getNametag()
 
 	  // MARK: - 2. Object Variables:
-	var fmConfig  : FwConfig	= [:]
+	var fmConfig  : FwConfig
 	var partBase  : PartBase
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
@@ -23,10 +23,10 @@ extension FactalsModel  : Logd {}
 	}
 
 	 // MARK: - 3. Factory
-	init(configure:FwConfig) {	// FactalsModel(partBase:)
+	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
 		fmConfig				= configure		// Save in ourselves   WHY???
 		log						= Log(name:"FactalModel N", configure:configure)
-		partBase				= PartBase()	// Dummy
+		partBase				= pb//PartBase()	// Dummy
 		simulator 				= Simulator(configure:configure)	// params4sim
 
 		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -39,7 +39,7 @@ extension FactalsModel  : Logd {}
 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.ofApp.log(nls + msg, terminator:terminator)
+		log.log(nls + msg, terminator:terminator)	//Log.ofApp
 	}
 	func configureVews(from config:FwConfig) {
 

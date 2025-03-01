@@ -40,9 +40,9 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	var children	: [Part]	= []
 	var child0		:  Part?	{	return children.count==0 ? nil : children[0]}
 	weak
-	 var parent 	:  Part?	= nil 	// add the parent property
+	 var parent 	:  Part?	= nil 		// add the parent property
 	weak
-	 var partBase	: PartBase?	= nil	//
+	 var partBase	: PartBase?	= nil		// base of tree
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
 //	{	willSet(v) {  markTree(dirty:v) }  }// BIG PROBLEMS: (Loops!)
@@ -65,7 +65,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	}
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.ofApp.log(nls + msg, terminator:terminator)
+		log.log(nls + msg, terminator:terminator)	//Log.ofApp
 	}
 
 	 // MARK: - 2.1 Sugar
@@ -169,7 +169,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 		}()
 
 		 // Print out invocation
-		let n					= "create share " + ("\'" + name + "\': ").field(8)
+		let n					= "create \(fwClassName) " + ("\'" + name + "\': ").field(8)
 		atBld(6, logd("  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
 
 		 // Options:
