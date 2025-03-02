@@ -15,7 +15,7 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
 
-	var log 	 : Log															// = Log.ofApp // Use Apps log
+	var log 	  : Log
 	var factalsDocument : FactalsDocument! = nil	// (a struct)
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
@@ -39,7 +39,8 @@ extension FactalsModel  : Logd {}
 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		log.log(nls + msg, terminator:terminator)	//Log.ofApp
+		Log.ofModel(factalsModel:self).log(nls + msg, terminator:terminator)
+//		log.log(nls + msg, terminator:terminator)
 	}
 	func configureVews(from config:FwConfig) {
 

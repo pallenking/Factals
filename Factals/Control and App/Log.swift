@@ -22,24 +22,27 @@ import SceneKit
 //	}
 //}
 
+	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 extension Log {
 	 // MARK: - 1. Static Class Variables:
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 
-	static var ofApp			= Log(name:"Log of App", configure:
-			params4app			+
-			params4partPp		+	//	pp... (20ish keys)
-			params4logs			+	// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-			logAt(all:appLogN)
-		)
-	 // Someday:
-	//static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
+	static var defaultParams : FwConfig	{
+		params4app				+
+		params4partPp			+			//	pp... (20ish keys)
+		params4logs							// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
+	}
+	static let  ofX				= Log(name:"X's Log",   configure:logAt(all:appLogN)+defaultParams)
+	static let  ofApp			= Log(name:"App's Log", configure:logAt(all:appLogN)+defaultParams)
+	static func ofModel(factalsModel:FactalsModel?) -> Log	{
+		(factalsModel ?? FACTALSMODEL)?.log ?? Log.ofX
+	}
 }
 extension Log : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.ofApp.log(nls + msg, terminator:terminator)
+		Log.ofX.log(nls + msg, terminator:terminator)
 	}
 }
 
@@ -359,12 +362,12 @@ func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let msg						= fmt(format, args)
 	warningLog.append(msg)
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	Log.ofApp.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
+	Log.ofX.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
 }
 func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
 	logNErrors					+= 1
-	Log.ofApp.log(banner:targName + "ERROR \(logNErrors) ", format, args)
+	Log.ofX.log(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
 
 

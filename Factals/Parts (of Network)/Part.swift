@@ -65,7 +65,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	}
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		log.log(nls + msg, terminator:terminator)	//Log.ofApp
+		log.log(nls + msg, terminator:terminator)
 	}
 
 	 // MARK: - 2.1 Sugar
@@ -126,8 +126,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-	var log : Log { partBase?.log ?? Log.ofApp}
-//	var log : Log { partBase?.log ?? { debugger("partBase not setup in Part") }()}
+	var log : Log { partBase?.log ?? Log.ofX}
 
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew

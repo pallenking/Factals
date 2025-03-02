@@ -201,7 +201,6 @@ struct FactalsApp: Uid, FwAny {
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
 	 // MARK: - 2. Object Variables:
-	var log	: Log				= Log.ofApp	// a Static var
 	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:
@@ -314,7 +313,7 @@ struct FactalsApp: Uid, FwAny {
 	}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") { //String?=nil
 		let msg					= String(format:format_, arguments:args)
-		log.log(banner:banner, msg, terminator:terminator)
+		Log.ofApp.log(banner:banner, msg, terminator:terminator)
 	}
 }
 

@@ -34,7 +34,6 @@ struct FactalsDocument : FileDocument {
 
 	let nameTag					= getNametag()			// for Logd
 	var factalsModel : FactalsModel! = nil				// content
-//	var log 	 : Log			= Log.ofApp // Use Apps log
 
 	// 4 OLD Enablers
 	var windowNibName:NSNib.Name? 	{		bug;return "Document"				}// The  nib file  name of the document:
@@ -56,7 +55,7 @@ struct FactalsDocument : FileDocument {
 	init(fromLibrary select:String?=nil) {
 
 		 // 1. FactalModel first
-		let fmConfig			= logAt(all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
+		let fmConfig			= logAt(rve:1, all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 								+ params4logs
 								+ params4vew		// new
 								+ params4partPp
