@@ -21,6 +21,7 @@ import SceneKit
 //		os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
 //	}
 //}
+//func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 
 	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 extension Log {
@@ -28,12 +29,11 @@ extension Log {
 	static var currentLogNo		= -1		// Active now, -1 --> none
 	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
 
-	static var defaultParams : FwConfig	{
-		params4app				+
-		params4partPp			+			//	pp... (20ish keys)
-		params4logs							// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
-	}
-	static let  shared			= Log(name:"Shared Log", configure:logAt(all:appLogN)+defaultParams)
+	static var defaultParams : FwConfig	= logAt(all:appLogN)
+		+ params4app
+		+ params4partPp						//	pp... (20ish keys)
+		+ params4logs						// "debugOutterLock":f
+	static let  shared			= Log(name:"Shared Log", configure:defaultParams)
 }
 extension Log : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
@@ -54,7 +54,6 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 
 	 // Breakpoint
 	var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
-	var breakAtLogger			= 0			// 0:UNDEF, 1... : The Hot Log
 
 	var logEvents				= true
 
@@ -135,8 +134,6 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 			logTime				= t												}
 		if let bae				= c.int("breakAtEvent")	{
 			breakAtEvent		= bae											}
-		if let bal				= c.int("breakAtLogger"){
-			breakAtLogger		= bal											}
 
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
 		let verb 				= verbosityInfoFrom(c)
@@ -175,7 +172,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		case name
 		case logNo
 		case entryNo
-		case breakAtEvent, breakAtLogger
+		case breakAtEvent
 		case logEvents
 		case verbosity
 		case msgPriority
@@ -218,7 +215,6 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		logNo					= try container.decode(			  Int.self, forKey:.logNo		)
 		eventNumber				= try container.decode(			  Int.self, forKey:.entryNo		)
 		breakAtEvent			= try container.decode(			  Int.self, forKey:.breakAtEvent)
-		breakAtLogger			= try container.decode(			  Int.self, forKey:.breakAtLogger)
 		logEvents				= try container.decode(			 Bool.self, forKey:.logEvents	)
 		verbosity				= try container.decode( [String:Int]?.self, forKey:.verbosity	)
 		msgPriority				= try container.decode(			  Int.self, forKey:.msgPriority	)
@@ -282,10 +278,8 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		}
 		print(newLines + fmt("%d.%03d%@", logNo, eventNumber, rv), terminator:terminator )
 
-		 // Breakpoint Stop?			// p (breakAtLogger, logNo, breakAtEvent, eventNumber)
-		if breakAtLogger == logNo,
-		   breakAtEvent == eventNumber {
-			panic("Encountered Break at Event \(breakAtEvent) in Log \(breakAtLogger).")
+		if breakAtEvent == eventNumber {
+			panic("Encountered Break at Event \(breakAtEvent).")
 		}
 		eventNumber				+= 1		// go on to next log number
 	}

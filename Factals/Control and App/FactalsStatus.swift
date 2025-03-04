@@ -329,10 +329,9 @@ extension SCNMaterialProperty : FactalsStatus	{			  ///SCNMaterialProperty
 extension Log : FactalsStatus {											  ///Log
 	func ppControlElement(deapth:Int=999, config:Bool) -> String {
 		let msg					= !logEvents ? "disabled" :
-			"Log \(logNo): \"\(name)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent) in:\(breakAtLogger), " +
+			"Log \(logNo): \"\(name)\": entryNo:\(eventNumber), breakAtEvent:\(breakAtEvent), " +
 			"verbosity:\(verbosity?.pp(.phrase) ?? "-"),"// + stk
 		let logKind				= "log".field(-13)
-//		let logKind				= (title[0...0] == "A" ? "APPlog" : "DOClog").field(-13)
 		return ppFactalsStateHelper(logKind, nameTag:self, myLine:msg, deapth:deapth-1)
 	}
 }

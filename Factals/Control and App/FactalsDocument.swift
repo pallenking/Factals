@@ -55,9 +55,9 @@ struct FactalsDocument : FileDocument {
 	init(fromLibrary select:String?=nil) {
 
 		 // 1. FactalModel first
-		let fmConfig			= logAt(rve:1, all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
+		let fmConfig			= /*logAt(rve:1, all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
 								+ params4logs
-								+ params4vew		// new
+								+ */params4vew
 								+ params4partPp
 		factalsModel			= FactalsModel(partBase:PartBase(), configure:fmConfig)
 		factalsModel.factalsDocument = self			// backpointer
@@ -82,18 +82,15 @@ struct FactalsDocument : FileDocument {
 		factalsModel.partBase	= partBase
 		partBase.factalsModel	= factalsModel	
 						//		+ partBase.ansConfig		// from library
-
-
-//	/**/let partBase			= PartBase(fromLibrary:select)
-//
-//		 // 2. FactalModel ******
-//		let fmConfig			= params4logs
-//								+ params4vew		//
-//								+ params4partPp
-//								+ partBase.ansConfig		// from library
-//	/**/factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)
-//		factalsModel.factalsDocument = self			// backpointer
-
+											//	/**/let partBase			= PartBase(fromLibrary:select)
+											//
+											//		 // 2. FactalModel ******
+											//		let fmConfig			= params4logs
+											//								+ params4vew		//
+											//								+ params4partPp
+											//								+ partBase.ansConfig		// from library
+											//	/**/factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)
+											//		factalsModel.factalsDocument = self			// backpointer
 		 // 3. Groom part ******
 		partBase.wireAndGroom([:])
 

@@ -45,7 +45,7 @@ let docLogN						= 8//7//0//5//
 
  // MARK: - C: Pretty Print
 
-let params4aux : FwConfig 		= [:]
+let params4aux : FwConfig 		= [:]	// default if none suppled
 
 let params4partPp  : FwConfig 	= [
 				// What:
@@ -100,10 +100,8 @@ let params4logs				: FwConfig = [
 
 		 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-	"breakAtLogger"				:3,
+	"breakAtEvent"				:-37 //150//-54,//240/3/0:off
 								// + +  + +
-	"breakAtEvent"				:37 //150//-54,//240/3/0:off
-
 ]
 
   // MARK: - E: Sim Params
