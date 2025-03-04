@@ -413,22 +413,22 @@ bug//	atRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
 		SCNTransaction.animationDuration = CFTimeInterval(timeA*0.25)
 		SCNTransaction.completionBlock = {		 		  /// Then:
 			SCNTransaction.begin()
-			atRve(8, self.logd("  /#######  SCNTransaction: BEGIN"))
+			atRve(8, /*self.*/logd("  /#######  SCNTransaction: BEGIN"))
 			self.reflective.contents = NSColor.white 		/// go white
 			SCNTransaction.animationDuration = CFTimeInterval(timeA*0.75)
 			SCNTransaction.completionBlock = {		 		  /// Then:
 				SCNTransaction.begin()
-				atRve(8, self.logd("  /#######  SCNTransaction: BEGIN"))
+				atRve(8, /*self.*/logd("  /#######  SCNTransaction: BEGIN"))
 				self.reflective.contents = oldColor				///  restore
 				SCNTransaction.animationDuration = CFTimeInterval(timeR)
 
-				atRve(8, self.logd("  \\#######  SCNTransaction: COMMIT"))
+				atRve(8, /*self.*/logd("  \\#######  SCNTransaction: COMMIT"))
 				SCNTransaction.commit()
 			} 
-			atRve(8, self.logd("  \\#######  SCNTransaction: COMMIT"))
+			atRve(8, /*self.*/logd("  \\#######  SCNTransaction: COMMIT"))
 			SCNTransaction.commit()
 		}
-		atRve(8, self.logd("  \\#######  SCNTransaction: COMMIT"))
+		atRve(8, /*self.*/logd("  \\#######  SCNTransaction: COMMIT"))
 		SCNTransaction.commit()
 	}
 }

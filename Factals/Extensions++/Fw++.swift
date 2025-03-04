@@ -139,9 +139,9 @@ extension Array 		: FwAny		{
 	}
 }
 
-extension SCNScene 					{		     //: FwAny
+extension SCNScene 	: FwAny				{		     //
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
-		var rv 					= super.pp(mode, aux)
+		var rv 					= ""//super.pp(mode, aux)
 		switch mode {
 		case .phrase, .short:
 			rv					+= " SCNScene:\(ppUid(self))"
@@ -150,10 +150,10 @@ extension SCNScene 					{		     //: FwAny
 		case .tree:
 			rv					+= " tree??"
 		default:
-			return super.pp(mode, aux)
+			rv					+= "return super.pp(mode, aux)"
 		}
-
-		return "SCNScene:\(ppUid(self)) \(rootNode.pp(.tree)) "
+		return rv
+//		return "SCNScene:\(ppUid(self)) \(rootNode.pp(.tree)) "
 	}
 	//convenience override init() {
 	//	self.init(named:"Fww SCNScene foo")!
@@ -364,7 +364,7 @@ extension Dictionary {
 	func scnNode_  (_ k:Key) -> SCNNode {  return  scnNode(k) ?? SCNNode()		}
 	func scnNode   (_ k:Key) -> SCNNode?{  return     self[k] as? SCNNode 		}
 //	func scnNode   (_ k:Key) -> SCNNode?{  return    (self[k] as? FwAny)?.asSCNNode}
-	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
+//	func fwAny_    (_ k:Key) -> FwAny 	{  return    fwAny(k) ?? fwNull			}
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
 }
 extension Dictionary		: FwAny {				// pp(..
@@ -1376,8 +1376,8 @@ extension NSNull {
 //		panic(); return "yeuch"
 	}
 }
-let xx = NSNull()
-let fwNull : FwAny = (NSNull() as NSObject) as FwAny
+//let xx = NSNull().ppXX()
+//let fwNull : FwAny = (NSNull() as NSObject) as FwAny
 //		      return (NSNull() as NSObject) as! FwAny			/// NSNull
 
 extension DispatchSemaphore {

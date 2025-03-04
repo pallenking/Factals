@@ -251,36 +251,6 @@
             endingLineNumber = "45"
             landmarkName = "SCNNode"
             landmarkType = "21">
-            <Locations>
-               <Location
-                  uuid = "E89A04F5-55F7-445E-BA78-4C248164CFBF - 9718a70a56abcffc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__C.SCNNode.play(sound: Swift.Optional&lt;Swift.String&gt;) -&gt; ()"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Sound.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "45"
-                  endingLineNumber = "45">
-               </Location>
-               <Location
-                  uuid = "E89A04F5-55F7-445E-BA78-4C248164CFBF - 52ef9ce473e41bd3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.SCNAudioPlayer) -&gt; () in __C.SCNNode.play(sound: Swift.Optional&lt;Swift.String&gt;) -&gt; ()"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Control%20and%20App/Sound.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "45"
-                  endingLineNumber = "45">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1753,36 +1723,6 @@
             endingLineNumber = "486"
             landmarkName = "moveSoNoOverlapping()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "09E568FB-65EA-4C71-B21E-E4B97A64F1B3 - 34e3645ecf520cb7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Vew.moveSoNoOverlapping() -&gt; ()"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "487"
-                  endingLineNumber = "487">
-               </Location>
-               <Location
-                  uuid = "09E568FB-65EA-4C71-B21E-E4B97A64F1B3 - 34e3645ecf520cb7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Vew.moveSoNoOverlapping() -&gt; ()"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vew.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "487"
-                  endingLineNumber = "487">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

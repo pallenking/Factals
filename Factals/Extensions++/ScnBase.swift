@@ -706,7 +706,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	}
 	 // MARK: - 15. PrettyPrint
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
-		var rv					= super.pp(mode, aux)
+		var rv					= "super.pp(mode, aux)"
 		if mode == .line {
 			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 	//		guard let tree		= self.tree	else { return "tree==nil!! "		}

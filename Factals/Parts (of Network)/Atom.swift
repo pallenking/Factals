@@ -572,7 +572,7 @@ nop
 
 					 //    3a. //// SouRCe (is self)				// Log
 					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(until:conNet)
-					atBld(4, self.logd("L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_"))
+					atBld(4, /*self.*/logd("L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_"))
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
 					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
@@ -583,7 +583,7 @@ nop
 					let trgInfo	= "---TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6))" +
 								  " opens _\(ppUp(trgAboveSInT))_"
-					atBld(4, self.logd(trgInfo))
+					atBld(4, /*self.*/logd(trgInfo))
 
 					 //		3d. //// Get the TaRGet Port			// target Port
 					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
@@ -609,7 +609,7 @@ nop
 						link 	=  !s ? Link(linkProps) : MultiLink(linkProps)
 						msg1 	+= " <->\(link!.name)"
 					}
-					atBld(4, self.logd(msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)"))
+					atBld(4, /*self.*/logd(msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)"))
 
 					 // CHECK: Boss and Worker Ports face opposite // MIGHT BETTER CHECK s->d wrt children.index
 					if trgPort!.upInWorld ^^ !srcPort!.upInWorld,	// direction fault and
@@ -804,7 +804,7 @@ nop
 		var avgPosition	:SCNVector3	= .zero		// default return position is Nan
 		var lastDomIf2	: Part?	= nil
 
-		atRsi(4, vew.log(">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")"))
+		atRsi(4, /*vew.*/logd(">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")"))
 			   // /////////////////////////////////////////////////////////////// //
 			  // 															     //
 			 //  For all enclosed subBits, looking for things to position it by //
@@ -818,7 +818,7 @@ nop
 
 		let _					= findCommon(up2:false, inMe2:true, firstWith:					//all:false,
 		{ (inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
-			atRsi(5, vew.log("  TRY \(inMe.fullName.field(10)) ", terminator:""))
+			atRsi(5, /*vew.*/logd("  TRY \(inMe.fullName.field(10)) ", terminator:""))
 
 			   // /////////////////////////////////////////////////////////////// //
 			  // /////// Search for a Link to fixed ground
@@ -960,7 +960,7 @@ nop
 			avgPosition 		/=  weightSum		// take average
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
-		atRsi(4, vew.log("<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))"))
+		atRsi(4, /*vew.*/logd("<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))"))
 		//atRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
 		vew.scnRoot.position = avgPosition + (vew.jog ?? .zero)
 
