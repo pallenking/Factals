@@ -3,11 +3,10 @@
 import SceneKit
 import SwiftUI
 
-extension FactalsModel  : Logd {}
 @Observable
  class FactalsModel : Uid {
- 	var epoch: UInt16			= 1				// to mark dirty
 	let nameTag					= getNametag()
+ 	var epoch: UInt16			= 1				// to mark dirty
 
 	  // MARK: - 2. Object Variables:
 	var fmConfig  : FwConfig
@@ -17,9 +16,9 @@ extension FactalsModel  : Logd {}
 
 	var factalsDocument : FactalsDocument! = nil	// (a struct)
 
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.shared.log(banner:banner, format_, args, terminator:terminator)
-	}
+//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
+//		Log.shared.log(banner:banner, format_, args, terminator:terminator)
+//	}
 
 	 // MARK: - 3. Factory
 	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
@@ -35,10 +34,10 @@ extension FactalsModel  : Logd {}
 		partBase.configure(from:configure)
 	}
 
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.shared.log(nls + msg, terminator:terminator)
-	}
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+//		Log.shared.log(nls + msg, terminator:terminator)
+//	}
 	func configureVews(from config:FwConfig) {
 
 		 // Create new Views from config
@@ -153,7 +152,7 @@ extension FactalsModel  : Logd {}
 								: vew.expose == .atomic ? .open
 								: 						  .null
 			
-			atAni(5, log("Changed '\(vew.fullName).expose' to \(vew.expose)"))
+			atAni(5, logd("Changed '\(vew.fullName).expose' to \(vew.expose)"))
 		}
 	}
 

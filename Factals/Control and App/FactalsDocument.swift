@@ -23,14 +23,14 @@ extension FactalsDocument {
 	static var readableContentTypes: [UTType] { 	[.hnw, .vew] 				}
 	static var writableContentTypes: [UTType] { 	[.hnw, .vew] 				}
 }
-extension FactalsDocument : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
-		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
-	}
-}
+//extension FactalsDocument : Logd {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
+//		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+//	}
+//}
 
  //class FactalsDocument : ReferenceFileDocument {
-struct FactalsDocument : FileDocument {
+struct FactalsDocument : FileDocument, Uid {
 
 	let nameTag					= getNametag()			// for Logd
 	var factalsModel : FactalsModel! = nil				// content

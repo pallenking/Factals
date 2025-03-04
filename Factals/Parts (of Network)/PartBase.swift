@@ -19,7 +19,7 @@ extension PartBase : Equatable {
 	}
 }
 
-class PartBase : Codable, ObservableObject, Uid, Logd {
+class PartBase : Codable, ObservableObject, Uid {
 	
 	let nameTag			 		= getNametag()
 	var tree : Part
@@ -66,10 +66,10 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 		}
 		checkTree()
 	}
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.shared.log(nls + msg, terminator:terminator)
-	}
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+//		Log.shared.log(nls + msg, terminator:terminator)
+//	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
 		atBld(4, logd("***** checkTree returned \(changed)"))
@@ -407,11 +407,11 @@ bug		// invisible?
 		return .empty						// Root Part is invisible
 	}
 
-	// MARK: - 14. Building
-	 // Part.log comes here to stop  -- else infinite loop
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.shared.log(banner:banner, format_, args, terminator:terminator)
-	}
+//	// MARK: - 14. Building
+//	 // Part.log comes here to stop  -- else infinite loop
+//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
+//		Log.shared.log(banner:banner, format_, args, terminator:terminator)
+//	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		//var rv 				= super.pp(mode, aux)	// Use Part's pp()

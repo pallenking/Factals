@@ -7,12 +7,12 @@
 
 import SceneKit
 
-extension Book : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.shared.log(nls + msg, terminator:terminator)
-	}
-}
+//extension Book : Logd {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+//		Log.shared.log(nls + msg, terminator:terminator)
+//	}
+//}
 
 class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
 	 // MARK: - 2. Register all Libraries HERE!
@@ -136,9 +136,9 @@ class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: a
 			 // Anonymous from Scan
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
-			atBld(7, Log.shared.log("=== Matched Because: '\(matchCause!)' ===\n" +
-								 "=========<<< \(answer.ppr()) >>>=========\n" +
-								 "========================================================================\n"))
+			atBld(7, logd("=== Matched Because: '\(matchCause!)' ===\n" +
+						  "=========<<< \(answer.ppr()) >>>=========\n" +
+						  "========================================================================\n"))
 		}
 	}
 	var fwClassName		 : String	{	"Book"									}

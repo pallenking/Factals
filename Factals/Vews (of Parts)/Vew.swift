@@ -4,11 +4,11 @@
 
 import SceneKit
 
-extension Vew : Uid {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.shared.logd("\(pp(.tagClass)): \(format)", args, terminator:terminator)
-	}
-}
+//extension Vew : Uid {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		Log.shared.logd("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+//	}
+//}
 extension Vew : Equatable {
 	static func == (lhs: Vew, rhs: Vew) -> Bool {
 		lhs === rhs
@@ -29,9 +29,8 @@ extension Vew: Hashable {
 	}
 }
 		// can't remove NSObject?
-class Vew : /*NSObject, */ ObservableObject, Codable {
-	 // Uid:
-	let nameTag : UInt16 				= getNametag()
+class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
+	let nameTag 				= getNametag()	 // Uid:
 //	func pp(_:UInt16) -> String
 
 	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
@@ -377,7 +376,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 					// RECURSIVE
 			let rv				= localPosition(of:pInParent, inSubVew:vewParent)
 
-			atRsi(9, log("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
+			atRsi(9, logd("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
 			return rv
 		}
 		debugger("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.pp(.fullName))' HAS NO PARENT")
@@ -480,7 +479,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 		if overlap(of:sBBoxInP, withAnyIn:relevantSpots) == nil {
 			return								// no overlap, done!
 		}
-		atRsi(5, log(" in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:"))
+		atRsi(5, logd(" in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:"))
 		atRsi(5, logSpots(relevantSpots))
 
 		 // go through all given spots, adding the 4 points around each
@@ -498,12 +497,12 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 
 				 // Does trial overlap any given spot?
 				if let ol 		= overlap(of:tryBBox, withAnyIn:relevantSpots) {
-					atRsi(8, log("%3d+\(dir): overlaps %-3d! c:\(tryBBox.center.pp(.line))", i, ol))
+					atRsi(8, logd("%3d+\(dir): overlaps %-3d! c:\(tryBBox.center.pp(.line))", i, ol))
 				}
 				else {
 					 // ADD one of 4 SPOTs around placedSpot to spots, to check later
 					let newSpot	= SpotData(state:.added, bBox:tryBBox, vew:nil)
-					atRsi(5, log("   \(relevantSpots.count): \(newSpot.pp())") )
+					atRsi(5, logd("   \(relevantSpots.count): \(newSpot.pp())") )
 					relevantSpots.append(newSpot)
 				}
 			}
@@ -528,8 +527,8 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 
 		scn.position 			+= movedBy
 //		scnRoot.position		+= movedBy
-		atRsi(4, log("=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))"))
-//		atRsi(4, log("=====>> Moved by \(movedBy.pp(.short)) to \(scnRoot.transform.position.pp(.short))"))
+		atRsi(4, logd("=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))"))
+//		atRsi(4, logd("=====>> Moved by \(movedBy.pp(.short)) to \(scnRoot.transform.position.pp(.short))"))
 	}
 	func orBBoxIntoParent() {
 		if let parentVew 		= parent {
@@ -540,7 +539,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	}
 	func logSpots(_ spots:[SpotData]) {		// Print for debug
 		for (i, spot) in spots.enumerated() {
-			log("   \(i): \(spot.pp())")
+			logd("   \(i): \(spot.pp())")
 		}
 	}
 
@@ -613,11 +612,11 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 		panic();
 		return true
 	}	// calls toggelOpen()
-	 // MARK: - 14. Logging
-	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
-		let (nl, fmt)			= format.stripLeadingNewLines()
-		Log.shared.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-	}
+//	 // MARK: - 14. Logging
+//	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		let (nl, fmt)			= format.stripLeadingNewLines()
+//		Log.shared.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+//	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
 		switch mode {

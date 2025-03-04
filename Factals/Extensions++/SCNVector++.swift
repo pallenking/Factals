@@ -521,8 +521,8 @@ extension SCNVector4 {
 /*
 	case fwClassName	//    (Really should be "class"?)		(e.g: "Port"
 	case nameTag		// 10 Uid								(e.g: "4C4")
-	case uidClass		//5,8 Uid:Class						(e.g: "4C4:Port")
-	case classUid		//  9 Class<nameTag>						(e.g: "Port<4C4>")
+	case uidClass		//5,8 Uid:Class							(e.g: "4C4:Port")
+	case classUid		//  9 Class<nameTag>					(e.g: "Port<4C4>")
   
 	case name			//6,14name in parent, a single token 	(e.g: "P")
 	case nameTagClass	//  7 name/Uid:Class					(e.g: "P/4C4:Port")

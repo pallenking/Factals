@@ -250,7 +250,7 @@ bug
 			value 				= anonValue
 		}
 		if let genPort			= targetBundle!.genPortOfLeafNamed(signal) {
-			genPort.logd("|| /\\/\\ '%@'.valueTake = %.2f was%.2f", genPort.name, value, genPort.value)
+			/*genPort.*/logd("|| /\\/\\ '%@'.valueTake = %.2f was%.2f", genPort.name, value, genPort.value)
 			genPort.take(value:value)
 		}
 

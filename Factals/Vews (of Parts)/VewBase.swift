@@ -2,11 +2,11 @@
 //
 import SceneKit
 
-extension VewBase : Uid {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
-	}
-}
+//extension VewBase : Uid {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+//	}
+//}
 extension VewBase : Equatable {
 	static func == (lhs:VewBase, rhs:VewBase) -> Bool {	// protocol Equatable
 		lhs === rhs
@@ -16,7 +16,7 @@ extension VewBase : Equatable {
 	}
 }
 
-class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable {
+class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
 	static var nVewBase 		= 0

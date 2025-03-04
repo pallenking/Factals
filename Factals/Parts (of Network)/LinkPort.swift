@@ -154,7 +154,7 @@ class LinkPort : Port {
 				let	nextVal		= inTransit.count >= 1 ?
 								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
 								  inPort2Port.value 	// Link input port if no previous value
-				atDat(5, outPort.logd("Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value))
+				atDat(5, /*outPort.*/logd("Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value))
 				if outPort.value != nextVal {
 					let parts = outPort.partBase!.tree
 //					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")

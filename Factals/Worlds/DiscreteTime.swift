@@ -254,7 +254,7 @@ class DiscreteTime : Atom {
 		let sigName				= String(comp[0])	// Leaf name <== value
 		if let pPort			= ports["P"]?.portPastLinks {
 			let was				= pPort.valuePrev	// pPort!.getValues(key:sigName)
-			atEve(4, pPort.logd("|| /\\/\\ '\(pPort.name)'.take(value:\(theValue), key:\(sigName)), was \(was)"))
+			atEve(4, /*pPort.*/logd("|| /\\/\\ '\(pPort.name)'.take(value:\(theValue), key:\(sigName)), was \(was)"))
 			pPort.take(value:theValue, key:sigName)
 		}
 //		else { panic("DiscreteTime 'P' Port fault") }

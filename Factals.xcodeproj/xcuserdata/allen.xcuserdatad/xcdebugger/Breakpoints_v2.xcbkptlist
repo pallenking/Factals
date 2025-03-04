@@ -433,8 +433,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "toggelOpen(vew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -449,10 +449,10 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "encode(to:)"
-            landmarkType = "7">
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "FactalsModel"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -625,8 +625,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "init(partBase:configure:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -657,8 +657,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "toggelOpen(vew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -673,8 +673,8 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "doPartNViewsLocked(onlyVew:workNamed:logIf:work:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -705,8 +705,8 @@
             filePath = "Factals/Vews (of Parts)/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "removeAllChildren()"
             landmarkType = "7">
          </BreakpointContent>
@@ -881,8 +881,8 @@
             filePath = "Factals/Vews (of Parts)/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "find(up2:inMe2:maxLevel:except:firstWith:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -897,8 +897,8 @@
             filePath = "FactalsTests/FactalsTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "427"
-            endingLineNumber = "427"
+            startingLineNumber = "425"
+            endingLineNumber = "425"
             landmarkName = "testFindPartVewScn()"
             landmarkType = "7">
          </BreakpointContent>
@@ -913,8 +913,8 @@
             filePath = "FactalsTests/FactalsTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "429"
+            endingLineNumber = "429"
             landmarkName = "testFindPartVewScn()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1233,10 +1233,10 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "Log"
-            landmarkType = "3">
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "init(name:configure:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1249,9 +1249,9 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "configure(from:)"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "encode(to:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1265,9 +1265,9 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "verbosityInfoFrom(_:)"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "encode(to:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1281,10 +1281,10 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "verbosityInfoFrom(_:)"
-            landmarkType = "7">
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "Log"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1329,9 +1329,9 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "ppVerbosityOf(_:)"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "init(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1393,8 +1393,8 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "Log"
             landmarkType = "3">
          </BreakpointContent>
@@ -1489,9 +1489,9 @@
             filePath = "Factals/Control and App/Log.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "init(name:configure:)"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
+            landmarkName = "ppVerbosityOf(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1651,8 +1651,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
-            landmarkName = "logd(_:_:terminator:)"
-            landmarkType = "7">
+            landmarkName = "Part"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1745,10 +1745,10 @@
             filePath = "Factals/Control and App/FactalsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "init(partBase:configure:)"
-            landmarkType = "7">
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "FactalsModel"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1802,17 +1802,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "66CF29D9-A678-499D-9513-18075CD0CC8F"
+            uuid = "09E568FB-65EA-4C71-B21E-E4B97A64F1B3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Factals/Control and App/Log.swift"
+            filePath = "Factals/Vews (of Parts)/Vew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
-            landmarkName = "log(banner:_:_:terminator:)"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "moveSoNoOverlapping()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "09E568FB-65EA-4C71-B21E-E4B97A64F1B3 - 34e3645ecf520cb7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Vew.moveSoNoOverlapping() -&gt; ()"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vew.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "487"
+                  endingLineNumber = "487">
+               </Location>
+               <Location
+                  uuid = "09E568FB-65EA-4C71-B21E-E4B97A64F1B3 - 34e3645ecf520cb7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Vew.moveSoNoOverlapping() -&gt; ()"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Vews%20(of%20Parts)/Vew.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "487"
+                  endingLineNumber = "487">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

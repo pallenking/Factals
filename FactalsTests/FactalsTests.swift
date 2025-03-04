@@ -101,10 +101,8 @@ final class FactalsTests: XCTestCase {
 		let o2 = o1.pp(.tagClass)
 		XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
-		let p2 = self.pp(.tagClass)
-		XCTAssertTrue(p2.hasSuffix(":FactalsTests"))		// may be wrong
-
-		//logd("abcdefg")
+//		let p2 = self.pp(.tagClass)
+//		XCTAssertTrue(p2.hasSuffix(":FactalsTests"))		// may be wrong
 	}
 
 	func testForEach() {

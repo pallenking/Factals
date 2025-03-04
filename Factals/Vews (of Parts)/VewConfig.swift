@@ -54,7 +54,7 @@ extension Vew {
 	///   Adorn scnScene tree too
 	/// - Parameter config: how to open children
 	func openChildren(using config:VewConfig) {
-		atRve(3, part.logd("Vew(\(fullName)).openChildren(using:\(config.pp(.phrase))))"))
+		atRve(3, /*part.*/logd("Vew(\(fullName)).openChildren(using:\(config.pp(.phrase))))"))
 																 // A new skin is made by Part:
 																//?	let bbox = parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
 																//?	parentVew.part.markTree(dirty:.size)

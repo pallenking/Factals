@@ -3,7 +3,7 @@
 
 import SceneKit
 
-class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
+class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
 
 	 // MARK: - 1. Register all Libraries HERE!
 	static let books : [Book] = [		// In order of evaluation
@@ -55,7 +55,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 			if book.answer.trunkClosure != nil {			// test valid?
 			// book.answer.title?.first == "+" */  {
 				if let rv {										// log multiple select
-					atBld(2, Log.shared.log(/*Log.app.log(*/"""
+					atBld(2, logd("""
 						\n Selector: '\(s)' returns multiple entries
 							USING      new:  \(book.answer.ppr())
 							DISCARDING old:  \(rv		  .ppr())\n
@@ -84,8 +84,8 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 	var debugDescription : String	{	return "dd'\(fwClassName) \(fileName)'"	}
 	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
 }
-extension Library : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
-	}
-}
+//extension Library : Logd {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+//	}
+//}

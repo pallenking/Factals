@@ -23,6 +23,60 @@ import SceneKit
 //}
 //func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
 
+func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {	//String?=nil
+
+//		 // Initial simple cutting in OSLog:
+//		if false, let logger = Log.osLogger {
+//			let formattedBanner = banner != nil ? "\(banner!): " : ""
+//			let formatStr = formattedBanner + format_
+//
+//			os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
+//	//		os_log(formatStr, log:logger, type:.default, args)
+////			os_log("This is a default log message", log:logger, type:.default)
+////			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+//			return
+//		}
+	let sh	 				= Log.shared
+	 // Print new Log, if it has changed:
+	if sh.logNo != Log.currentLogNo {						// different than last time
+		let lastLogNo		= Log.currentLogNo
+		Log.currentLogNo	= sh.logNo							// switch to new
+		let x				= lastLogNo >= 0 ? "from Log\(lastLogNo) " : ""
+		print("-- SWITCHING \(x)to Log\(sh.logNo): '\(sh.name)',   verbosity:\(sh.verbosity?.pp(.line) ?? "nil")")
+	}
+	// DO SOME OTHER WAY: sim state shouldn't be actor isolated, but Actors died in HNW
+	if let fm				= FACTALSMODEL {
+		let sim				= fm.simulator
+		let deltaTime 		= sim.timeNow  - (sh.simTimeLastLog ?? 0)
+		if sh.logEvents, deltaTime > 0 || sh.simTimeLastLog == nil {
+			let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
+			let delta 		= (sh.simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
+			let dashes		= deltaTime <= sim.timeStep ? "                                  "
+														: "- - - - - - - - - - - - - - - - - "
+			let chits		= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
+			print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
+		}
+		sh.simTimeLastLog		= sim.timeNow
+	}
+	 // Strip leading \n's:
+	let (newLines, format)		= format_.stripLeadingNewLines()
+
+	 // Formatted arguments:
+	var rv 						= sh.ppProcAreaPriority()
+	rv							+= String(format:format, arguments:args)
+								
+	 // Banner Line
+	if let ban 					= banner {
+		print("\n" + "***** " + ban + " *****")
+	}
+	print(newLines + fmt("%d.%03d%@", sh.logNo, sh.eventNumber, rv), terminator:terminator )
+
+	if sh.breakAtEvent == sh.eventNumber {
+		panic("Encountered Break at Event \(sh.breakAtEvent).")
+	}
+	sh.eventNumber				+= 1		// go on to next log number
+}
+
 	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 extension Log {
 	 // MARK: - 1. Static Class Variables:
@@ -35,14 +89,14 @@ extension Log {
 		+ params4logs						// "debugOutterLock":f
 	static let  shared			= Log(name:"Shared Log", configure:defaultParams)
 }
-extension Log : Logd {
-	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.shared.log(nls + msg, terminator:terminator)
-	}
-}
+//extension Log : Logd {
+//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
+//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
+//		Log.shared.log(nls + msg, terminator:terminator)
+//	}
+//}
 
-class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
+class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
 	let nameTag					= getNametag()
@@ -157,7 +211,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	func ppVerbosityOf(_ config:FwConfig) -> String {
 		let verbosityHash		= verbosityInfoFrom(config)
 		if verbosityHash.count > 0 {
-			var msg				=  "\(logNo)(\(ppUid(self))).verbosity "
+			var msg				=  "\(Log.shared.logNo)(\(ppUid(self))).verbosity "
 			msg					+= "=\(verbosityHash.pp(.line)) Cause:"
 			msg					+= config.string_("cause")
 			return msg
@@ -229,60 +283,6 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
-	// MARK: - 5. Log
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {	//String?=nil
-
-//		 // Initial simple cutting in OSLog:
-//		if false, let logger = Log.osLogger {
-//			let formattedBanner = banner != nil ? "\(banner!): " : ""
-//			let formatStr = formattedBanner + format_
-//			
-//			os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
-//	//		os_log(formatStr, log:logger, type:.default, args)
-////			os_log("This is a default log message", log:logger, type:.default)
-////			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
-//			return
-//		}
-
-		 // Print new Log, if it has changed:
- 		if logNo != Log.currentLogNo {						// different than last time
-			let lastLogNo		= Log.currentLogNo
-			Log.currentLogNo	= logNo							// switch to new
-			let x				= lastLogNo >= 0 ? "from Log\(lastLogNo) " : ""
-			print("-- SWITCHING \(x)to Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
-		}
-		// DO SOME OTHER WAY: sim state shouldn't be actor isolated, but Actors died in HNW
-		if let fm				= FACTALSMODEL {
-			let sim				= fm.simulator
-			let deltaTime 		= sim.timeNow  - (simTimeLastLog ?? 0)
-			if logEvents, deltaTime > 0 || simTimeLastLog == nil {
-				let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
-				let delta 		= (simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
-				let dashes		= deltaTime <= sim.timeStep ? "                                  "
-															: "- - - - - - - - - - - - - - - - - "
-				let chits		= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
-				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
-			}
-			simTimeLastLog		= sim.timeNow
-		}
-		 // Strip leading \n's:
-		let (newLines, format)	= format_.stripLeadingNewLines()
-
-		 // Formatted arguments:
-		var rv 					= ppProcAreaPriority()
-		rv						+= String(format:format, arguments:args)
-
-		 // Banner Line
-		if let ban 				= banner {
-			print("\n" + "***** " + ban + " *****")
-		}
-		print(newLines + fmt("%d.%03d%@", logNo, eventNumber, rv), terminator:terminator )
-
-		if breakAtEvent == eventNumber {
-			panic("Encountered Break at Event \(breakAtEvent).")
-		}
-		eventNumber				+= 1		// go on to next log number
-	}
      // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux/*[:]*/) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
@@ -354,12 +354,12 @@ func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let msg						= fmt(format, args)
 	warningLog.append(msg)
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	Log.shared.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
+	logd(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
 }
 func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
 	logNErrors					+= 1
-	Log.shared.log(banner:targName + "ERROR \(logNErrors) ", format, args)
+	logd(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
 
 

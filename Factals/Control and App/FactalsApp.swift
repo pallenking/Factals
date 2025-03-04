@@ -191,7 +191,7 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 	}
 }
  // MARK: - FactalsApp base
-struct FactalsApp: Uid, FwAny {
+struct FactalsApp: FwAny, Uid {
 	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
 	@NSApplicationDelegateAdaptor(AppDelegate.self)// private
@@ -224,13 +224,13 @@ struct FactalsApp: Uid, FwAny {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
 		let appConfig 			= params4partPp
-		atApp(3, log("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
-//		atApp(3, log("verbosity:[\(log.verbosity?.pp() ?? "nil")]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
-		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
-		atApp(3, log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
-		atApp(1, log("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
-		atApp(3, log("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
-		atApp(3, log("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
+		atApp(3, logd("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
+//		atApp(3, logd("verbosity:[\(log.verbosity?.pp() ?? "nil")]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
+		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
+		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
+		atApp(1, logd("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
+		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
+		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
 		print(ppController(config:false))	//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 //		logRunInfo("\(library.answer.titlePlus())")
 
@@ -311,10 +311,10 @@ struct FactalsApp: Uid, FwAny {
 			//  BUG: 20201225 Wouldn't create logOfRuns; must do manually
 		}
 	}
-	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") { //String?=nil
-		let msg					= String(format:format_, arguments:args)
-		Log.shared.log(banner:banner, msg, terminator:terminator)
-	}
+//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") { //String?=nil
+//		let msg					= String(format:format_, arguments:args)
+//		Log.shared.log(banner:banner, msg, terminator:terminator)
+//	}
 }
 
 

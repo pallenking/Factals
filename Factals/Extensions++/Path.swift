@@ -86,7 +86,6 @@ class Path : NSObject, Codable {			// xyzzy4
 //		self.nameAtom = nameAtom;							/// Name without options
 //	}
 //
-//
 //	var nameAtom	: String
 //	var namePort	: String			// after last '.'
 //	var linkOptions	:[String]	= []	// NSMutableArray;// just length now
@@ -95,9 +94,6 @@ class Path : NSObject, Codable {			// xyzzy4
 //	var noCheck		: Bool				// trailing '^'
 //	var dominant	: Bool				// trailing '!'
 //	var invisible	: Bool				// trailing '@'
-////	var openingDown : Bool				// EXPERIMENTAL
-//
-
 
 	var portName   :  String? 	= nil	// after last '.'
 
