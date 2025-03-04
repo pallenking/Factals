@@ -313,7 +313,7 @@ struct FactalsApp: Uid, FwAny {
 	}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") { //String?=nil
 		let msg					= String(format:format_, arguments:args)
-		Log.ofApp.log(banner:banner, msg, terminator:terminator)
+		Log.shared.log(banner:banner, msg, terminator:terminator)
 	}
 }
 

@@ -68,7 +68,7 @@ class PartBase : Codable, ObservableObject, Uid, Logd {
 	}
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		(factalsModel?.log ?? Log.ofX).log(nls + msg, terminator:terminator)
+		Log.shared.log(nls + msg, terminator:terminator)
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
@@ -409,9 +409,8 @@ bug		// invisible?
 
 	// MARK: - 14. Building
 	 // Part.log comes here to stop  -- else infinite loop
-	var  log : Log {	(factalsModel ?? FACTALSMODEL)?.log ?? Log.ofX			}
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-		log.log(banner:banner, format_, args, terminator:terminator)
+		Log.shared.log(banner:banner, format_, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

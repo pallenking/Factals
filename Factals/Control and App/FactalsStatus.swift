@@ -29,7 +29,7 @@ func ppFactalsStateHelper(_ fwClassName_: String,
 							deapth		: Int						// Infinite loop detection //= 999
 						 ) -> String
 {
-	let log						= Log.ofX
+	let log						= Log.shared
 	var rv						= ppFwPrefix(nameTag:nameTag, fwClassName_) + myLine + "\n"
 			// Other Lines:
 	if deapth > 0 {
@@ -42,7 +42,7 @@ func ppFactalsStateHelper(_ fwClassName_: String,
  /// Prefix: "1e98 | | <fwClass>   0    . . . . . . . . "
 func ppFwPrefix(nameTag:Uid?, _ fwClassName_:String) -> String {
 	 // align nameTag printouts for ctl and part to 4 characters
-	let log						= Log.ofX
+	let log						= Log.shared
 	var rv						= ppUid(pre:" ", nameTag, showNil:true).field(-5) + " "
 	rv 							+= log.indentString()
 	rv							+= fmt("%-12@", fwClassName_)
@@ -100,8 +100,7 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 			otherLines:{deapth in
 
 				 // Controller:
-				var rv			=  self.log      .ppControlElement(deapth:deapth-1, config:false)
-				rv				+= self.partBase .ppControlElement(deapth:deapth-1, config:config)
+				var rv			=  self.partBase .ppControlElement(deapth:deapth-1, config:config)
 				rv				+= self.simulator.ppControlElement(deapth:deapth-1, config:config)
 				for vewBase in self.vewBases {
 					rv			+= vewBase       .ppControlElement(deapth:deapth-1, config:config)
@@ -370,7 +369,7 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 	func ppControlElement(deapth:Int=999, config:Bool) -> String {
 								//
 		let contract 			= trueF
-		let log					= Log.ofX
+		let log					= Log.shared
 		return ppFactalsStateHelper("NSWindow     ", nameTag:self,
 			myLine:
    			       "title:'\(title)' "											+

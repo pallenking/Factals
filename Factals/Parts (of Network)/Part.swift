@@ -65,7 +65,7 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	}
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		log.log(nls + msg, terminator:terminator)
+		Log.shared.log(nls + msg, terminator:terminator)
 	}
 
 	 // MARK: - 2.1 Sugar
@@ -126,7 +126,6 @@ class Part : Codable, ObservableObject, Uid, Logd {			//, Equatable Hashable
 	{	didSet {	if shrink != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
-	var log : Log { partBase?.log ?? Log.ofX}
 
 	 // MARK: - 2.2c EXTERNAL to Part
 	// - position[3], 						external to Part, in Vew
@@ -1404,7 +1403,7 @@ bug//never gets here
 			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 			rv					= ppUid(self, post:" ", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
-			rv 					+= log.indentString()							// Bb..
+			rv 					+= Log.shared.indentString()						// Bb..
 			let ind				= parent?.children.firstIndex(where: {$0 === self})			//firstIndex(of:self)
 			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
 				// adds "name;class<unindent><Expose><ramId>":
@@ -1436,7 +1435,7 @@ bug//never gets here
 	func ppCenterPart(_ aux:FwConfig) -> String {
 		var rv 			 		=  name.field(10) + ":"					// " net0:"
 		rv 						+= fwClassName.field(-8, dots:false)	// "Net "
-		rv 						=  log.unIndent(rv)
+		rv 						=  Log.shared.unIndent(rv)
 //		rv 						=  root?.log.unIndent(rv) ?? "___ "
 //		rv 						+= root?.log.unIndent(rv) ?? "___ "
 		rv						+= initialExpose.pp(.short, aux)		// "o"
@@ -1454,7 +1453,7 @@ bug//never gets here
 	 /// Print children
 	func ppChildren(_ aux:FwConfig, reverse:Bool, ppPorts:Bool) -> String {
 		var rv					= ""
-		log.nIndent				+= 1		//root?.
+		Log.shared.nIndent				+= 1		//root?.
 		let orderedChildren		= reverse ? children.reversed() : children
 		for child in orderedChildren where ppPorts || !(child is Port) {
 			 // Exclude undesireable Links
@@ -1462,14 +1461,14 @@ bug//never gets here
 				rv				+= mark_line(aux, child.pp(.tree, aux))
 			}
 		}
-		log.nIndent				-= 1
+		Log.shared.nIndent				-= 1
 		return rv
 	}
 	 /// Print Ports
 	func printPorts(_ aux:FwConfig, early:Bool) -> String {
 		var rv 					= ""
-		log.nIndent				+= 1		// root?.
-		if log.ppPorts {	// early ports // !(port.flipped && ppDagOrder)
+		Log.shared.nIndent		+= 1		// root?.
+		if Log.shared.ppPorts {	// early ports // !(port.flipped && ppDagOrder)
 			for part in children {
 				if let port 	= part as? Port,
 				  early == port.upInWorld {
@@ -1477,7 +1476,7 @@ bug//never gets here
 				}
 			}
 		}
-		log.nIndent				-= 1
+		Log.shared.nIndent		-= 1
 		return rv
 	}
 	 /// Marking line with '_'s improves readability

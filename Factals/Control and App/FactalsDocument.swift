@@ -25,7 +25,7 @@ extension FactalsDocument {
 }
 extension FactalsDocument : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
-		factalsModel.log.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }
 
@@ -50,7 +50,7 @@ struct FactalsDocument : FileDocument {
 	 // @main uses this to generate a blank document
 	init() {
 		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
-		factalsModel.log.configure(from:[:])//cfgArg)
+//		factalsModel.log.configure(from:[:])//cfgArg)
 	}
 	init(fromLibrary select:String?=nil) {
 

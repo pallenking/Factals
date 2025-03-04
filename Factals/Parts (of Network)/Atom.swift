@@ -481,7 +481,7 @@ nop
 				partBase.indexFor["wire"] = wireNumber								// let wireNumber	= root.wireNumber
 				let breakAtWireNo = partBase.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
-				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(log.eventNumber-1)")
+				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(Log.shared.eventNumber-1)")
 				atBld(4, logd("L\(wireNumber) source:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))"))
 
   /* **************************************************************************/

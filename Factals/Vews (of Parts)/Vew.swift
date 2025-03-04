@@ -6,8 +6,7 @@ import SceneKit
 
 extension Vew : Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.ofModel(factalsModel:part.partBase?.factalsModel)
-			.logd("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+		Log.shared.logd("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }
 extension Vew : Equatable {
@@ -37,7 +36,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 
 	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
 //	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//bug		//Log.ofModel(factalsModel:factalsModel).log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
+//bug		//Log.shared.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
 //	}
 
 
@@ -83,7 +82,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	}
 	var jog			: SCNVector3? = nil		// an ad-hoc change in position
 	var force		: SCNVector3 = .zero 	// for Animation for positioning
-	var log : Log				{ 	part.log 									}
+	var log 					= Log.shared
 
 	 // MARK: - 3. Factory
 	init(forPart p:Part/*?=nil*/, expose e:Expose? = nil) {	 // Vew(forPart:expose:)
@@ -617,8 +616,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable {
 	 // MARK: - 14. Logging
 	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nl, fmt)			= format.stripLeadingNewLines()
-		let myLog				= Log.ofModel(factalsModel:part.partBase?.factalsModel)
-		myLog.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
+		Log.shared.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{

@@ -14,7 +14,7 @@ extension Uid {
  ///  Conformers to Uid can use this:
 func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
 	 // For fwConTroL elements:
-	let log					= Log.ofApp
+	let log					= Log.shared
 	var uidDigits : Int		= aux.int("ppNUid4Ctl") ?? log.ppNUid4Ctl
 	 // For Parts, VewBase, and SCN Stuff:
 	if obj==nil ? false :			// obj==nil --> uses ppNUid4Ctl (AD HOC?)
@@ -45,7 +45,7 @@ func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:Fw
 func uidStrDashes(nilLike obj:Uid?) -> String {			// no object
 	let forTree					= obj is Part || obj is Vew || obj is SCNNode
 							   || obj is SCNConstraint || obj is SCNPhysicsBody
-	let log						= Log.ofApp
+	let log						= Log.shared
 	let uidDigits 				= forTree ? log.ppNUid4Tree : log.ppNUid4Ctl
 	return  String(repeating: "-", count:uidDigits)
 }

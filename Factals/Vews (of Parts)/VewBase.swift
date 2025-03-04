@@ -4,7 +4,7 @@ import SceneKit
 
 extension VewBase : Uid {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.ofModel(factalsModel:factalsModel).log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }
 extension VewBase : Equatable {

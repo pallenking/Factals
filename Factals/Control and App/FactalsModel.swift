@@ -15,17 +15,16 @@ extension FactalsModel  : Logd {}
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
 
-	var log 	  : Log
+//	var log 	  : Log
 	var factalsDocument : FactalsDocument! = nil	// (a struct)
 
 	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-		log.log(banner:banner, format_, args, terminator:terminator)
+		Log.shared.log(banner:banner, format_, args, terminator:terminator)
 	}
 
 	 // MARK: - 3. Factory
 	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
 		fmConfig				= configure		// Save in ourselves   WHY???
-		log						= Log(name:"FactalModel N", configure:configure)
 		partBase				= pb//PartBase()	// Dummy
 		simulator 				= Simulator(configure:configure)	// params4sim
 
@@ -39,8 +38,7 @@ extension FactalsModel  : Logd {}
 
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.ofModel(factalsModel:self).log(nls + msg, terminator:terminator)
-//		log.log(nls + msg, terminator:terminator)
+		Log.shared.log(nls + msg, terminator:terminator)
 	}
 	func configureVews(from config:FwConfig) {
 

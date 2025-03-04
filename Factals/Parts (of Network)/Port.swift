@@ -739,7 +739,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 			// e.g: "Ff| |/            P:Port  . . . o| <0.00> -> /prt4/prt2/t1.s0
 			var rv				= ppUid(self, post:" ", aux:aux)
 			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")
-			rv 					+= log.indentString(minus:1)
+			rv 					+= Log.shared.indentString(minus:1)
 			//rv  				+= root?.factalsModel?.log.indentString(minus:1) ?? ";;"
 			rv					+= self.upInWorld 	? 	"|/   " :
 								   						"|\\   "

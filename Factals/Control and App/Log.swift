@@ -33,16 +33,12 @@ extension Log {
 		params4partPp			+			//	pp... (20ish keys)
 		params4logs							// "debugOutterLock":f, "breakAtLogger":1, "breakAtEvent":50
 	}
-	static let  ofX				= Log(name:"X's Log",   configure:logAt(all:appLogN)+defaultParams)
-	static let  ofApp			= Log(name:"App's Log", configure:logAt(all:appLogN)+defaultParams)
-	static func ofModel(factalsModel:FactalsModel?) -> Log	{
-		(factalsModel ?? FACTALSMODEL)?.log ?? Log.ofX
-	}
+	static let  shared			= Log(name:"Shared Log", configure:logAt(all:appLogN)+defaultParams)
 }
 extension Log : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
 		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-		Log.ofX.log(nls + msg, terminator:terminator)
+		Log.shared.log(nls + msg, terminator:terminator)
 	}
 }
 
@@ -116,7 +112,9 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 //		makeDummyLogEntries()
 //		print("ALLOCATED Log\(logNo)(\(ppUid(self)))  '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
 	}
-
+//	private init()
+//	{
+//	}
 	 /// Configure Log facilities
 	func configure(from c:FwConfig) {
 
@@ -322,7 +320,7 @@ class Log : Codable, FwAny {	// Never Equatable, NSCopying, NSObject // CherryPi
 	}
 //	static var ppLogFromBlank : String {
 //		let nLog				= 3				// a quick approximation
-//		return  String(repeating: " ", count:Log.ofApp.ppProcAreaPriority().count + nLog)
+//		return  String(repeating: " ", count:Log.shared.ppProcAreaPriority().count + nLog)
 //	}
 
 	 /// Character to represent Transaction ID:
@@ -362,12 +360,12 @@ func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let msg						= fmt(format, args)
 	warningLog.append(msg)
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	Log.ofX.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
+	Log.shared.log(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
 }
 func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
 	logNErrors					+= 1
-	Log.ofX.log(banner:targName + "ERROR \(logNErrors) ", format, args)
+	Log.shared.log(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
 
 

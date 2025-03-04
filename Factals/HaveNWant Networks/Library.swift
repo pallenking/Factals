@@ -55,7 +55,7 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 			if book.answer.trunkClosure != nil {			// test valid?
 			// book.answer.title?.first == "+" */  {
 				if let rv {										// log multiple select
-					atBld(2, Log.ofX.log(/*Log.app.log(*/"""
+					atBld(2, Log.shared.log(/*Log.app.log(*/"""
 						\n Selector: '\(s)' returns multiple entries
 							USING      new:  \(book.answer.ppr())
 							DISCARDING old:  \(rv		  .ppr())\n
@@ -86,6 +86,6 @@ class Library {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520
 }
 extension Library : Logd {
 	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-		Log.ofX.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
+		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
 	}
 }
