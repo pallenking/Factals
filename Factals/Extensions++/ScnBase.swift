@@ -324,7 +324,7 @@ bug
 		let animate				= factalsModel.fmConfig.bool("animatePan") ?? false
 		if !animate || duration == 0.0,
 		  let lookAtVew = vewBase.lookAtVew {
-			cameraScn.transform	= vewBase.selfiePole.transform(lookAtVew:vewBase.lookAtVew!)
+			cameraScn.transform	= vewBase.selfiePole.transform(lookAtVew:lookAtVew)
 		}
 		else {
 			SCNTransaction.begin()			// Delay for double click effect
@@ -427,7 +427,7 @@ extension ScnBase : SCNSceneRendererDelegate {
 		}
 	}
 }
-extension ScnBase : ProcessNsEvent {
+extension ScnBase : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)

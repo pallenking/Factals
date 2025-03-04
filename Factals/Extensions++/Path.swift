@@ -39,7 +39,7 @@ import SceneKit
 /// 	e) ||			-- alternatives,				a || b
 
 // CherryPick2023-0520: remove NSObject
-class Path : NSObject, Codable {			// xyzzy4
+class Path : NSObject, Codable, FwAny {			// xyzzy4
 
 	 // MARK: - 1. Class Variables:
 	static let shortNames		= [ "=":"direct", "%":"flipPort", "^":"noCheck",

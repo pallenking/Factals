@@ -192,17 +192,17 @@ extension FactalsDocument 	: FwAny { }
 extension SelfiePole	: FwAny		{}
 //extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 //extension SCNConstraint : FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-extension SCNGeometry	{				// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
+extension SCNGeometry : FwAny {				// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 }
-extension SCNAudioSource  	{
+extension SCNAudioSource : FwAny  	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 }
-extension SCNAudioPlayer 	{
+extension SCNAudioPlayer : FwAny   	{
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
@@ -1376,7 +1376,7 @@ extension NSNull {
 //		panic(); return "yeuch"
 	}
 }
-
+let xx = NSNull()
 let fwNull : FwAny = (NSNull() as NSObject) as FwAny
 //		      return (NSNull() as NSObject) as! FwAny			/// NSNull
 

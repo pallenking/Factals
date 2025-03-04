@@ -85,9 +85,7 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 			myLine: factalsModel == nil ? "factalsModel is nil" : "",
 			otherLines:{ deapth in
 				guard let factalsModel else {	return ""						}
-				var rv			= factalsModel.ppControlElement(deapth:deapth-1, config:false)
-//				rv				+= self.log   .ppControlElement(deapth:deapth-1, config:false)
-				return rv
+				return factalsModel.ppControlElement(deapth:deapth-1, config:false)
 			},
 			deapth:deapth
 		)
@@ -298,8 +296,8 @@ extension SCNScene : FactalsStatus {								 ///SCNScene
 extension SCNNode : FactalsStatus	{								  ///SCNNode
 	func ppControlElement(deapth:Int=999, config:Bool) -> String {
 		var myLine				= "'\(fullName)': \(children.count) children, (\(nodeCount()) SCNNodes) "
-		myLine					+= camera == nil ? "" : "camera:\(camera!.pp(.classTag)) "
-		myLine					+= light  == nil ? "" :  "light:\( light!.pp(.classTag)) "
+		myLine					+= camera == nil ? "" : "camera:(camera!.pp(.classTag)) "
+		myLine					+= light  == nil ? "" :  "light:( light!.pp(.classTag)) "
 		return ppFactalsStateHelper("SCNNode      ", nameTag:self,				//"SCNPhysicsWor"
 			myLine:myLine,
 			deapth:deapth-1)
