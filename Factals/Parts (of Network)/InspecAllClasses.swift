@@ -226,8 +226,6 @@ struct InspecRootPartBase : View {									 // InspecRoot
 				Text("Log")
 				Text("Time")
 				Text("Break")
-				Text("LogEvents")
-				Text("LogTime")
 			}
 			HStack {			// Simulator
 				Spacer()

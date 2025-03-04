@@ -3,57 +3,21 @@
 // Log must deal with the case that it should handle it's own printing before Log
 // lifeCycleLogger
 
-//import SwiftLog  https://swiftpackageindex.com/apple/swift-log
-
 import SceneKit
 
-//import OSLog
-//extension Log {
-//	func makeDummyLogEntries() {
-//		guard let logger		= Log.osLogger else { fatalError()				}
-//		os_log("This is a default log message", log:logger, type:.default)
-//		os_log("This is an info log message",   log:logger, type:.info)
-//		os_log("This is a debug log message",   log:logger, type:.debug)
-//		os_log("This is an error log message",  log:logger, type:.error)
-//		os_log("This is a fault log message",   log:logger, type:.fault)
-//		let userName = "John"
-//		let loginStatus = true
-//		os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
-//	}
-//}
-//func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
+func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
+	let sh	 				= Log.shared			// There should be only one Log in the system
 
-func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {	//String?=nil
-
-//		 // Initial simple cutting in OSLog:
-//		if false, let logger = Log.osLogger {
-//			let formattedBanner = banner != nil ? "\(banner!): " : ""
-//			let formatStr = formattedBanner + format_
-//
-//			os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
-//	//		os_log(formatStr, log:logger, type:.default, args)
-////			os_log("This is a default log message", log:logger, type:.default)
-////			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
-//			return
-//		}
-	let sh	 				= Log.shared
-	 // Print new Log, if it has changed:
-	if sh.logNo != Log.currentLogNo {						// different than last time
-		let lastLogNo		= Log.currentLogNo
-		Log.currentLogNo	= sh.logNo							// switch to new
-		let x				= lastLogNo >= 0 ? "from Log\(lastLogNo) " : ""
-		print("-- SWITCHING \(x)to Log\(sh.logNo): '\(sh.name)',   verbosity:\(sh.verbosity?.pp(.line) ?? "nil")")
-	}
-	// DO SOME OTHER WAY: sim state shouldn't be actor isolated, but Actors died in HNW
-	if let fm				= FACTALSMODEL {
-		let sim				= fm.simulator
-		let deltaTime 		= sim.timeNow  - (sh.simTimeLastLog ?? 0)
-		if sh.logEvents, deltaTime > 0 || sh.simTimeLastLog == nil {
-			let globalUp	= sim.globalDagDirUp ? "UP  " : "DOWN"
-			let delta 		= (sh.simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
-			let dashes		= deltaTime <= sim.timeStep ? "                                  "
+	 // Similation Time Change?
+	if let fm					= FACTALSMODEL {
+		let sim					= fm.simulator
+		let deltaTime 			= sim.timeNow  - (sh.simTimeLastLog ?? 0)
+		if deltaTime > 0 || sh.simTimeLastLog == nil {
+			let globalUp		= sim.globalDagDirUp ? "UP  " : "DOWN"
+			let delta 			= (sh.simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
+			let dashes			= deltaTime <= sim.timeStep ? "                                  "
 														: "- - - - - - - - - - - - - - - - - "
-			let chits		= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
+			let chits			= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
 			print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
 		}
 		sh.simTimeLastLog		= sim.timeNow
@@ -62,14 +26,14 @@ func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:St
 	let (newLines, format)		= format_.stripLeadingNewLines()
 
 	 // Formatted arguments:
-	var rv 						= sh.ppProcAreaPriority()
-	rv							+= String(format:format, arguments:args)
+	var eventKind 				= sh.procAreaPriorityStr()
+	eventKind					+= String(format:format, arguments:args)
 								
 	 // Banner Line
 	if let ban 					= banner {
 		print("\n" + "***** " + ban + " *****")
 	}
-	print(newLines + fmt("%d.%03d%@", sh.logNo, sh.eventNumber, rv), terminator:terminator )
+	print(newLines + fmt("%03d%@", sh.eventNumber, eventKind), terminator:terminator )
 
 	if sh.breakAtEvent == sh.eventNumber {
 		panic("Encountered Break at Event \(sh.breakAtEvent).")
@@ -80,14 +44,11 @@ func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:St
 	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 extension Log {
 	 // MARK: - 1. Static Class Variables:
-	static var currentLogNo		= -1		// Active now, -1 --> none
-	static var maximumLogNo		= 0			// Next Log index to assign. (Now exist 0..<nextLogIndex)
-
+	static let  shared			= Log(name:"Shared Log", configure:defaultParams)
 	static var defaultParams : FwConfig	= logAt(all:appLogN)
 		+ params4app
 		+ params4partPp						//	pp... (20ish keys)
 		+ params4logs						// "debugOutterLock":f
-	static let  shared			= Log(name:"Shared Log", configure:defaultParams)
 }
 //extension Log : Logd {
 //	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
@@ -101,7 +62,6 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	 // Identification of Log
 	let nameTag					= getNametag()
 	var name 					= "untitled"
-	var logNo		   			= -1		// Index number of this log
 
 	 // Each Log has an event number
 	var eventNumber		   		= 1			// Current entry number (runs 1...)
@@ -109,15 +69,12 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	 // Breakpoint
 	var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
 
-	var logEvents				= true
-
 	var verbosity   : [String:Int]? = [:] 	 // Current logging verbosity filter to select log messages
 
-	 /// REALLY UGLY: what if different threads using log?
+	 // MARK: - 2. REALLY UGLY: what if different threads using log?
 	var msgPriority : Int?		= nil		// hack: pass argument to message via global
 	var msgFilter   : String?	= nil
 	var simTimeLastLog	:Float? = -1//nil
-	var logTime			: Bool	= true
 
 	// MARK: pp stuff
 	var ppIndentCols 	: Int	= 0
@@ -155,15 +112,11 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	// /////////////////////////////////////////////////////////////////////////
 	init(name:String, configure c:FwConfig = [:])	{			//_ config:FwConfig = [:]
 		configure(from:c)
-		Log.maximumLogNo		+= 1
-		logNo					= Log.maximumLogNo				// Logs have unique number
 		self.name				= name
-		print("----- ALLOCATED Log\(logNo): '\(name)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
+		print("----- ALLOCATED Log \"\(name)\",   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
 			// Learnings:	1) Cannot use Log here -- we're initting a Log!
 			//				2) \(ppUid(self)) uses a Log! (but
-
 //		makeDummyLogEntries()
-//		print("ALLOCATED Log\(logNo)(\(ppUid(self)))  '\(title)',   verbosity:\(verbosity?.pp(.line) ?? "nil")")
 	}
 //	private init()
 //	{
@@ -182,10 +135,6 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 			ppNUid4Ctl 			= uidd4c										}
 		if let lo				= c.bool("debugOutterLock"){
 			debugOutterLock		= lo											}
-		if let lev				= c.bool("logEvents")	{
-			logEvents			= lev											}
-		if let t 				= c.bool("logTime")		{
-			logTime				= t												}
 		if let bae				= c.int("breakAtEvent")	{
 			breakAtEvent		= bae											}
 
@@ -211,7 +160,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	func ppVerbosityOf(_ config:FwConfig) -> String {
 		let verbosityHash		= verbosityInfoFrom(config)
 		if verbosityHash.count > 0 {
-			var msg				=  "\(Log.shared.logNo)(\(ppUid(self))).verbosity "
+			var msg				=  "(\(ppUid(self))).verbosity "
 			msg					+= "=\(verbosityHash.pp(.line)) Cause:"
 			msg					+= config.string_("cause")
 			return msg
@@ -224,15 +173,12 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	 // MARK: - 3.5 Codable
 	enum LogKeys: String, CodingKey {
 		case name
-		case logNo
 		case entryNo
 		case breakAtEvent
-		case logEvents
 		case verbosity
 		case msgPriority
 		case msgFilter
 		case simTimeLastLog
-		case logTime
 		case ppIndentCols
 		case ppPorts
 		case ppNUid4Tree
@@ -243,16 +189,13 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	func encode(to encoder: Encoder) throws  {
 		var container 			= encoder.container(keyedBy:LogKeys.self)
 		try container.encode(name,				forKey:.name					)
-		try container.encode(logNo,				forKey:.logNo					)
 		try container.encode(eventNumber,		forKey:.entryNo					)
 		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
 		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
-		try container.encode(logEvents,			forKey:.logEvents				)
 		try container.encode(verbosity,			forKey:.verbosity				)
 		try container.encode(msgPriority,		forKey:.msgPriority				)
 		try container.encode(msgFilter,			forKey:.msgFilter				)
 		try container.encode(simTimeLastLog,	forKey:.simTimeLastLog			)
-		try container.encode(logTime,			forKey:.logTime					)
 		try container.encode(ppIndentCols,		forKey:.ppIndentCols			)
 		try container.encode(ppPorts,			forKey:.ppPorts					)
 		try container.encode(ppNUid4Tree,		forKey:.ppNUid4Tree				)
@@ -266,15 +209,12 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 
 		let container 			= try decoder.container(keyedBy:LogKeys.self)
 		name					= try container.decode(		   String.self, forKey:.name		)
-		logNo					= try container.decode(			  Int.self, forKey:.logNo		)
 		eventNumber				= try container.decode(			  Int.self, forKey:.entryNo		)
 		breakAtEvent			= try container.decode(			  Int.self, forKey:.breakAtEvent)
-		logEvents				= try container.decode(			 Bool.self, forKey:.logEvents	)
 		verbosity				= try container.decode( [String:Int]?.self, forKey:.verbosity	)
 		msgPriority				= try container.decode(			  Int.self, forKey:.msgPriority	)
 		msgFilter				= try container.decode(  	  String?.self, forKey:.msgFilter	)
 		simTimeLastLog			= try container.decode(		   Float?.self, forKey:.simTimeLastLog)
-		logTime					= try container.decode(			 Bool.self, forKey:.logTime		)
 		ppIndentCols			= try container.decode(			  Int.self, forKey:.ppIndentCols)
 		ppPorts					= try container.decode(			 Bool.self, forKey:.ppPorts		)
 		ppNUid4Tree				= try container.decode(			  Int.self, forKey:.ppNUid4Tree	)
@@ -288,21 +228,21 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 	 /// Character to represent current Thread ID:
-	var ppCurThread : String {
+	var threadNameCache : [String] = []
+	var ppCurThread 	: String {
 		let threadName			= Thread.current.name ?? "??349"
 		guard let n				= threadNameCache.firstIndex(of:threadName) else {
-			threadNameCache.append(threadName)		/// add to cache
-			return self.ppCurThread					/// try again
+			threadNameCache.append(threadName)		// new, add
+			return self.ppCurThread					// try again
 		}
 		assert(n < 26, "more than 26 threads not supported")
 		let nInt 				= Int(("A" as UnicodeScalar).value) + n
 		let nChar				= Character(UnicodeScalar(nInt)!)
 		return String(nChar)	// n as Character
 	}
-	var threadNameCache : [String] = []
 
 	 /// get a token identifying Filter and current Lock owner
-	func ppProcAreaPriority() -> String {			// " Acon4 " or " A<?>? "
+	func procAreaPriorityStr() -> String {			// " Acon4 " or " A<?>? "
 		var rv					= " "
 		rv						+= ppCurThread 	// Thread identifier: e.g: "A"
 		rv 						+= msgFilter ?? "<?>"	 			//e.g: "app"
@@ -312,10 +252,6 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		rv						+= " "
 		return rv
 	}
-//	static var ppLogFromBlank : String {
-//		let nLog				= 3				// a quick approximation
-//		return  String(repeating: " ", count:Log.shared.ppProcAreaPriority().count + nLog)
-//	}
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
@@ -341,9 +277,9 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
 //	var params4aux : FwConfig	{	DOC?.fmConfig ?? [:]		}
 
-	var description		 : String {		 "d'Log\(logNo) \(name)'"				}
-	var debugDescription : String {		"dd'Log\(logNo) \(name)'"				}
-	var summary			 : String {		 "s'Log\(logNo) \(name)'"				}
+	var description		 : String {		 "d'Log \"\(name)\""				}
+	var debugDescription : String {		"dd'Log \"\(name)\""				}
+	var summary			 : String {		 "s'Log \"\(name)\""				}
 }
 var debugOutterLock				= true		// default value (set by config.debugOutterLock)
 
@@ -361,5 +297,29 @@ func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	logNErrors					+= 1
 	logd(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
+    //import SwiftLog  https://swiftpackageindex.com/apple/swift-log
+//import OSLog
+//extension Log {
+//	func makeDummyLogEntries() {
+//		guard let logger		= Log.osLogger else { fatalError()				}
+//		os_log("This is a default log message", log:logger, type:.default)
+//		os_log("This is an info log message",   log:logger, type:.info)
+//		os_log("This is a debug log message",   log:logger, type:.debug)
+//		os_log("This is an error log message",  log:logger, type:.error)
+//		os_log("This is a fault log message",   log:logger, type:.fault)
+//		let userName = "John"
+//		let loginStatus = true
+//		os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+//func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
+//		 // Initial simple cutting in OSLog:
+//		if false, let logger = Log.osLogger {
+//			let formattedBanner = banner != nil ? "\(banner!): " : ""
+//			let formatStr = formattedBanner + format_
+//
+//			os_log("%{public}@%{public}@", log: logger, type: .default, formatStr, terminator)
+//	//		os_log(formatStr, log:logger, type:.default, args)
+////			os_log("This is a default log message", log:logger, type:.default)
+////			os_log("U:%{public}@ I: %{public}@", 	log:logger, type:.info, userName, String(loginStatus))
+//			return
 
 

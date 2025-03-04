@@ -486,14 +486,14 @@ extension SCNMaterial {
 				 /// split[0]: Color Property:
 				let split0		= split[0].replacingOccurrences(of:"  ", with:"")
 				let shortNames 	= [	"diffuse"		: "difu",
-										"specular"		: "spcu",
-										"reflective"	: "refl",
-										"ambient"		: "ambi",
-										"metalness"		: "metl",
-										"roughness"		: "roug",
-										"normal"		: "norm",
-										"emission"		: "emis",
-										"transparent"	: "trns"	]
+									"specular"		: "spcu",
+									"reflective"	: "refl",
+									"ambient"		: "ambi",
+									"metalness"		: "metl",
+									"roughness"		: "roug",
+									"normal"		: "norm",
+									"emission"		: "emis",
+									"transparent"	: "trns"	]
 				if let sName	= shortNames[split0] {
 					rv			+= separator + sName + ":"
 	bug//			rv			+= NSColor.ppColor(scnString:aString(split[2])) ?? "<Bad Color>"
