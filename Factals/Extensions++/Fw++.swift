@@ -567,14 +567,6 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 extension Dictionary : Uid {
 	var nameTag:UInt16 {		return uid4Ns(nsOb:(self as NSObject))	}
 }
-//extension Dictionary : Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let msg					= String(format:format, arguments:args)
-//		let (nls, msg2)			= msg.stripLeadingNewLines()
-//		let str					= nls + "\(ppUid(self)):\(self.fwClassName):".field(-18) + msg2	//-nFullN uidClass
-//		Log.shared.log(str, terminator:terminator)
-//	}//Argument type 'Dictionary<Key, Value>' does not conform to expected type 'Uid'
-//}
 
 protocol Nib2Bool {
 	var bool	: Bool 		{ set get }
@@ -1237,30 +1229,9 @@ extension String {
 }
 
 	// MARK: - 14. Logging
-//protocol Logd: FwAny, Uid {
-//	/// Log critical actions with a line that includes
-//	///   - format: printf format
-//	///   - args: printf args
-//	///   - terminator: for print
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String)
-//}
-//extension Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-//		Log.shared.log(nls + msg, terminator:terminator)
-//	}
-//}
-
 extension NSObject : Uid {
 	var nameTag:UInt16 			{ 	return uid4Ns(nsOb:self)					}
 }
-
-//extension NSObject : Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-//		Log.shared.log(nls + msg, terminator:terminator)
-//	}
-//}
 
 extension NSObject {
 	@objc dynamic var fwClassName : String {

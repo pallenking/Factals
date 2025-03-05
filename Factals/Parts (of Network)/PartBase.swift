@@ -66,10 +66,6 @@ class PartBase : Codable, ObservableObject, Uid {
 		}
 		checkTree()
 	}
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-//		Log.shared.log(nls + msg, terminator:terminator)
-//	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
 		atBld(4, logd("***** checkTree returned \(changed)"))

@@ -23,11 +23,6 @@ extension FactalsDocument {
 	static var readableContentTypes: [UTType] { 	[.hnw, .vew] 				}
 	static var writableContentTypes: [UTType] { 	[.hnw, .vew] 				}
 }
-//extension FactalsDocument : Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {		//String?=nil
-//		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
-//	}
-//}
 
  //class FactalsDocument : ReferenceFileDocument {
 struct FactalsDocument : FileDocument, Uid {
@@ -55,8 +50,7 @@ struct FactalsDocument : FileDocument, Uid {
 	init(fromLibrary select:String?=nil) {
 
 		 // 1. FactalModel first
-		let fmConfig			= params4vew		//logAt(rve:1, all:docLogN)//! (bld:1)/(bld:2)/(all:8)/(all:5)
-								+ params4partPp		//params4logsPp
+		let fmConfig			= params4vew + params4partPp
 		factalsModel			= FactalsModel(partBase:PartBase(), configure:fmConfig)
 		factalsModel.factalsDocument = self			// backpointer
 

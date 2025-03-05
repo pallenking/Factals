@@ -12,6 +12,8 @@ struct VewBaseBar: View {
 	@EnvironmentObject var factalsGlobals: FactalsApp.FactalsGlobals
 	@State   var isEditing = false
 
+	@EnvironmentObject private var appDelegate: FactalsAppDelegate
+
 	var body: some View {
 		//let _ 				= Self._printChanges()
 		VStack {

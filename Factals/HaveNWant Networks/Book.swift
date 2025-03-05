@@ -7,13 +7,6 @@
 
 import SceneKit
 
-//extension Book : Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-//		Log.shared.log(nls + msg, terminator:terminator)
-//	}
-//}
-
 class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
 	 // MARK: - 2. Register all Libraries HERE!
 	let nameTag					= getNametag()

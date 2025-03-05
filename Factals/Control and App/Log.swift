@@ -6,9 +6,9 @@
 import SceneKit
 
 func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-	let sh	 				= Log.shared			// There should be only one Log in the system
+	let sh	 					= Log.shared	// There should be only one Log in the system
 
-	 // Similation Time Change?
+	 // Time Change in Similator?
 	if let fm					= FACTALSMODEL {
 		let sim					= fm.simulator
 		let deltaTime 			= sim.timeNow  - (sh.simTimeLastLog ?? 0)
@@ -26,14 +26,14 @@ func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:St
 	let (newLines, format)		= format_.stripLeadingNewLines()
 
 	 // Formatted arguments:
-	var eventKind 				= sh.procAreaPriorityStr()
-	eventKind					+= String(format:format, arguments:args)
+	var eventStr 				= sh.procAreaPriorityStr()
+	eventStr					+= String(format:format, arguments:args)
 								
 	 // Banner Line
 	if let ban 					= banner {
 		print("\n" + "***** " + ban + " *****")
 	}
-	print(newLines + fmt("%03d%@", sh.eventNumber, eventKind), terminator:terminator )
+	print(newLines + fmt("%03d%@", sh.eventNumber, eventStr), terminator:terminator )
 
 	if sh.breakAtEvent == sh.eventNumber {
 		panic("Encountered Break at Event \(sh.breakAtEvent).")
@@ -45,17 +45,11 @@ func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:St
 extension Log {
 	 // MARK: - 1. Static Class Variables:
 	static let  shared			= Log(name:"Shared Log", configure:defaultParams)
-	static var defaultParams : FwConfig	= logAt(all:appLogN)
+	static var defaultParams : FwConfig	= [:]
 		+ params4app
 		+ params4partPp						//	pp... (20ish keys)
 		+ params4logs						// "debugOutterLock":f
 }
-//extension Log : Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-//		Log.shared.log(nls + msg, terminator:terminator)
-//	}
-//}
 
 class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:

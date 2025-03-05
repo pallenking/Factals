@@ -37,12 +37,6 @@ let params4app : FwConfig 		= [
 //**/	"emptyEntry"			: "<name>",	// Test matching "<name>"
 ]
 
-   // MARK: - B: Parameters App logging
-  // Controls logging of the Application
- // Terms in FilterLog.swift
-let appLogN						= 8//7//0//5//
-let docLogN						= 8//7//0//5//
-
  // MARK: - C: Pretty Print
 
 let params4aux : FwConfig 		= [:]	// default if none suppled
@@ -94,15 +88,41 @@ let params4partPp  : FwConfig 	= [
 	///"ppFloatA": 3, "ppFloatB":1,
 ]
  // MARK: -
- // MARK: - D: Parameters Doc Log
-let params4logs				: FwConfig = [
-	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
+
+//
+//params4logsPp
+
+
+ // MARK: - D: Parameters Log
+//		app	-- APPlication		- construction of app
+// 		doc	-- DOCument			- construction of document, including mouse
+//		bld	-- BuiLD			- building of part
+//		ser	-- SERilization		- serialization and desrialization of Part
+// 		dat	-- sim DATa			- simulation data
+// 		eve	-- sim EVEnts		- simulation events
+// 		ins	-- INSpectors		-
+//		men	-- MENus 			- construction of menus
+// 		rve	-- ReViEw 			- review visual properties
+// 		rsi	-- ReSIze 			- reSize shapes
+// 		rnd	-- ReNDer protocol	-
+// 		ani	-- phys ANImation	- physical animation events
+// 		tst	-- TeSTing
+// 		all	-- ALL OF ABOVE		-
+
+let params4logs				: FwConfig =
+//	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
+//	logAt() +					// Nothing
+	logAt(all:8) +				// Everything
+
+//! (bld:1)/(bld:2)/(all:8)/(all:5)
+
+	[	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
 
 		 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-	"breakAtEvent"				:-37 //150//-54,//240/3/0:off
+		"breakAtEvent"				:-37 //150//-54,//240/3/0:off
 								// + +  + +
-]
+	]
 
   // MARK: - E: Sim Params
  /// Parameters for simulation

@@ -80,8 +80,29 @@ var FACTALSMODEL : FactalsModel?=nil
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 
+ // MARK: - Globals
+extension FactalsApp {		// FactalsGlobals
+	class FactalsGlobals : ObservableObject {				// (not @Observable)
+		// MARK: -A Configuration
+		var factalsConfig : FwConfig
+
+		// MARK: -B Library Menu:
+		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {	// FactalsApp(factalsConfig:libraryMenuArray:)
+			factalsConfig 		= a
+			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
+			let tree 			= LibraryMenuTree(array:libraryMenuArray)
+			libraryMenuTree 	= tree
+ 		}
+		var libraryMenuTree : LibraryMenuTree// = LibraryMenuTree(name: "ROOT")
+	}
+}
  // MARK: - 4.5 Event from OS
-class AppDelegate: NSObject, NSApplicationDelegate {
+class FactalsAppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
+//	func application(_ application: NSApplication,
+//		didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
+//	{
+//bug;	let x = deviceToken
+//	}
 
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
@@ -97,7 +118,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	//	sounds.play(sound:"GameStarting")
 		atApp(7, print(ppController(config:false)))
-		atApp(3, print("------------- AppDelegate: Application Did Finish Launching --------------\n"))
+		atApp(3, print("------------- FactalsAppDelegate: Application Did Finish Launching --------------\n"))
 	}
 //	func appPreferences(_ sender: Any)		// Show App preferences
 //	func appState(_ sender: Any)
@@ -127,22 +148,7 @@ bug;	return false															}
 bug;	urlStr      			= String(urlStr[index...])
 	}
 }
- // MARK: - Globals
-extension FactalsApp {		// FactalsGlobals
-	class FactalsGlobals : ObservableObject {				// (not @Observable)
-		// MARK: -A Configuration
-		var factalsConfig : FwConfig
 
-		// MARK: -B Library Menu:
-		init(factalsConfig a:FwConfig, libraryMenuArray lma:[LibraryMenuArray]?=nil) {	// FactalsApp(factalsConfig:libraryMenuArray:)
-			factalsConfig 		= a
-			let libraryMenuArray = lma ?? Library.catalog().state.scanCatalog
-			let tree 			= LibraryMenuTree(array:libraryMenuArray)
-			libraryMenuTree 	= tree
- 		}
-		var libraryMenuTree : LibraryMenuTree// = LibraryMenuTree(name: "ROOT")
-	}
-}
 class LibraryMenuTree : Identifiable {		// of a Tree
 	let id						= UUID()
 	let name: String
@@ -182,8 +188,8 @@ class LibraryMenuTree : Identifiable {		// of a Tree
 struct FactalsApp: FwAny, Uid {
 	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
-	@NSApplicationDelegateAdaptor(AppDelegate.self)// private
-	 var appDelegate: AppDelegate
+
+	@NSApplicationDelegateAdaptor private var appDelegate: FactalsAppDelegate
 
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
@@ -231,7 +237,7 @@ struct FactalsApp: FwAny, Uid {
 
 	 // MARK: Access Scene MENU
 	mutating func scheneAction(_ sender:NSMenuItem) {
-		print("\n\n" + ("--- - - - - - - AppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
+		print("\n\n" + ("--- - - - - - - FactalsAppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
 			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
 
 		 // Find scene number for Library lookup:

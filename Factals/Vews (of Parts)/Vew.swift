@@ -4,11 +4,6 @@
 
 import SceneKit
 
-//extension Vew : Uid {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		Log.shared.logd("\(pp(.tagClass)): \(format)", args, terminator:terminator)
-//	}
-//}
 extension Vew : Equatable {
 	static func == (lhs: Vew, rhs: Vew) -> Bool {
 		lhs === rhs
@@ -30,14 +25,9 @@ extension Vew: Hashable {
 }
 		// can't remove NSObject?
 class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
+	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
 	let nameTag 				= getNametag()	 // Uid:
 //	func pp(_:UInt16) -> String
-
-	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String?=nil) {
-//bug		//Log.shared.log("\(pp(.uidClass)): \(format)", args, terminator:terminator)
-//	}
-
 
 	// MARK: - 2. Object Variables:
 

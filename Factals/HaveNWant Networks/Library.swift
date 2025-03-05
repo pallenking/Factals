@@ -84,8 +84,3 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 	var debugDescription : String	{	return "dd'\(fwClassName) \(fileName)'"	}
 	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
 }
-//extension Library : Logd {
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		Log.shared.log("\(pp(.tagClass)): \(format)", args, terminator:terminator)
-//	}
-//}

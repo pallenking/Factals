@@ -63,10 +63,6 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	//	print("######### \(pp(.fullName)): \(pp(.classUid)) returns \(wasOk)")
 		return wasOk
 	}
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-//		Log.shared.log(nls + msg, terminator:terminator)
-//	}
 
 	 // MARK: - 2.1 Sugar
 	var parts 		: [Part]	{ 		children 								}

@@ -18,21 +18,18 @@ import Foundation
 //
 // MARK: 1.2 InterestAreas
 //	The following   areas <A>   are defined:
-//	------- Application:
 //		app	-- APPlication		- construction of app
-//		men	-- MENus 			- construction of menus
-//	------- Document:
 // 		doc	-- DOCument			- construction of document, including mouse
-//		ser	-- SERilization		- serialization and desrialization of Part
-//	------- Execution:
 //		bld	-- BuiLD			- building of part
+//		ser	-- SERilization		- serialization and desrialization of Part
 // 		dat	-- sim DATa			- simulation data
 // 		eve	-- sim EVEnts		- simulation events
+// 		ins	-- INSpectors		-
+//		men	-- MENus 			- construction of menus
 // 		rve	-- ReViEw 			- review visual properties
 // 		rsi	-- ReSIze 			- reSize shapes
 // 		rnd	-- ReNDer protocol	-
 // 		ani	-- phys ANImation	- physical animation events
-// 		ins	-- INSpectors		-
 // 		tst	-- TeSTing
 // 		all	-- ALL OF ABOVE		-
 

@@ -34,10 +34,6 @@ import SwiftUI
 		partBase.configure(from:configure)
 	}
 
-//	func logd(_ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nls, msg)			= String(format:format, arguments:args).stripLeadingNewLines()
-//		Log.shared.log(nls + msg, terminator:terminator)
-//	}
 	func configureVews(from config:FwConfig) {
 
 		 // Create new Views from config
