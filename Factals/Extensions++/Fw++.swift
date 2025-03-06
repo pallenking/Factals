@@ -1235,13 +1235,7 @@ extension NSObject : Uid {
 
 extension NSObject {
 	@objc dynamic var fwClassName : String {
-		get {
-//			let classNamePath		= className
-//			let classNameElements	= classNamePath.split(separator:".")
-//			let rv					= classNameElements.last
-//			let rv					= className.split(separator:".").last
-			return String(className.split(separator:".").last!)
-		}
+		get {	return String(className.split(separator:".").last!)				}
 	}
 }
 func possibleNameSpaces() -> [String] {

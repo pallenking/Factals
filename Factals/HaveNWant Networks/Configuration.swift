@@ -7,7 +7,18 @@ import SceneKit
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 // 20220912PAK: Simplification: all merged into one hash
 
+
 /*
+let params4aux   		// default if none suppled
+let params4partPp		// PP of Parts
+let/params4logsPp	???
+let params4logDetail
+let params4sim
+let params4vew
+*/
+
+/*
+
 configApp	-- congrols:
 				--> FactalsGlobals
 				--> Log					sets default of configModel
@@ -41,7 +52,7 @@ let params4app : FwConfig 		= [
 
 let params4aux : FwConfig 		= [:]	// default if none suppled
 
-let params4partPp  : FwConfig 	= [
+let params4partPp  : FwConfig 	= [		// PP of Parts
 				// What:
 	"ppLinks"			: false, 	// pp includes Links  //true//
 	"ppPorts"			: true, 	// pp includes Ports //false//
@@ -108,11 +119,12 @@ let params4partPp  : FwConfig 	= [
 // 		ani	-- phys ANImation	- physical animation events
 // 		tst	-- TeSTing
 // 		all	-- ALL OF ABOVE		-
-
-let params4logs				: FwConfig =
+								
+let params4logDetail : FwConfig =
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
-//	logAt() +					// Nothing
-	logAt(all:8) +				// Everything
+			// Nothing:
+	logAt(all:0) +
+//	logAt(rve:2/*, all:8*/) +				// Everything
 
 //! (bld:1)/(bld:2)/(all:8)/(all:5)
 

@@ -8,11 +8,11 @@
 */
 import SceneKit
 import SwiftUI
-
+								
 struct InspectorsVew: View {
 	@ObservedObject var vewBase:VewBase
 	var body: some View {
-		//let _ 					= Self._printChanges()
+		//let _ 				= Self._printChanges()
 		VStack {
 			ForEach(vewBase.inspectedVews, id: \.self) { vew in
 	//			Group {

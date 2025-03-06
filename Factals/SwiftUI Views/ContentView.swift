@@ -87,10 +87,7 @@ struct Park: Identifiable, Hashable {
     // Other properties...
 }
 var parks: [Park] = [
-	Park(name: "Chicago"),
-	Park(name: "Los Angeles"),
-	Park(name: "San Francisco"),
-	Park(name: "Denver"),
+	Park(name: "Chicago"),	Park(name: "Los Angeles"),	Park(name: "San Francisco"),
 ]
 
 struct FactalsModelView: View {
@@ -98,7 +95,7 @@ struct FactalsModelView: View {
 	@State private var tabViewSelect : Int	= 0
 
 	var body: some View {
-		let _ = Self._printChanges()
+		//let _ = Self._printChanges()
 		VStack() {	//spacing:-10) {// does nothing
 
 			FactalsModelBar(factalsModel:factalsModel)
@@ -125,7 +122,7 @@ struct FactalsModelView: View {
 							VStack {									//Binding<VewBase>
 								let scnBase = vewBase.scnBase.wrappedValue
 								ZStack {
-									let _ = Self._printChanges()
+									//let _ = Self._printChanges()
 
 									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
 										.frame(maxWidth: .infinity)

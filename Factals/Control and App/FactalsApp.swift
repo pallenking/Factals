@@ -98,11 +98,20 @@ extension FactalsApp {		// FactalsGlobals
 }
  // MARK: - 4.5 Event from OS
 class FactalsAppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
-//	func application(_ application: NSApplication,
-//		didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
-//	{
-//bug;	let x = deviceToken
-//	}
+
+	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
+		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
+	}
+	func openURL(named:String?) {					 // Common:
+		guard let name			= named, let url = NSURL(string:name) else
+		{	fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil") }
+		print("openURL('\(named!)' -> \(url))")
+		var urlStr         		= url.absoluteString! //.stringByRemovingPercentEncoding//name//
+		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
+		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
+		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
+bug;	urlStr      			= String(urlStr[index...])
+	}
 
 	 // MARK: - 4.2 APP Enablers
 	 // Reactivates an already running application because
@@ -133,20 +142,6 @@ bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
 		print("                   G O O D    B I E  ! !")						}
 	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
 bug;	return false															}
-
-	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
-		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
-	}
-	func openURL(named:String?) {					 // Common:
-		guard let name			= named, let url = NSURL(string:name) else
-		{	fatalError(named == nil ? "named is nil" : "url(\(named!)) is nil") }
-		print("openURL('\(named!)' -> \(url))")
-		var urlStr         		= url.absoluteString! //.stringByRemovingPercentEncoding//name//
-		let prefix         		= "SwiftFactal://"		// "SwiftFactal""SwiftFactals"
-		assert(urlStr.lowercased().hasPrefix(prefix), "URL does not have prefix '\(prefix)'")
-		let index     			= urlStr.index(urlStr.startIndex, offsetBy:18)
-bug;	urlStr      			= String(urlStr[index...])
-	}
 }
 
 class LibraryMenuTree : Identifiable {		// of a Tree
@@ -190,6 +185,10 @@ struct FactalsApp: FwAny, Uid {
 	let fwClassName: String		= "FactalsApp"
 
 	@NSApplicationDelegateAdaptor private var appDelegate: FactalsAppDelegate
+	func ppFactalsAppFoo() -> String {
+		return self.ppControlElement(config:false) ?? "FACTALSMODEL is nil uey3r8ypv"
+//	""
+	}
 
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
@@ -219,12 +218,13 @@ struct FactalsApp: FwAny, Uid {
 		 // Henry A. King and P. Allen King:
 		let appConfig 			= params4partPp
 		atApp(3, logd("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
-//		atApp(3, logd("verbosity:[\(log.verbosity?.pp() ?? "nil")]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
+//		atApp(3, logd("detailWanted:[\(log.detailWanted?.pp() ?? "nil")]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
 		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
 		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(1, logd("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
 		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
+		print(self.ppFactalsAppFoo())
 		print(ppController(config:false))	//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 //		logRunInfo("\(library.answer.titlePlus())")
 

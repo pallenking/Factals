@@ -48,7 +48,7 @@ extension Log {
 	static var defaultParams : FwConfig	= [:]
 		+ params4app
 		+ params4partPp						//	pp... (20ish keys)
-		+ params4logs						// "debugOutterLock":f
+		+ params4logDetail						// "debugOutterLock":f
 }
 
 class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
@@ -63,7 +63,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	 // Breakpoint
 	var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
 
-	var verbosity   : [String:Int]? = [:] 	 // Current logging verbosity filter to select log messages
+	var detailWanted : [String:Int] = [:] 	 // Current logging verbosity filter to select log messages
 
 	 // MARK: - 2. REALLY UGLY: what if different threads using log?
 	var msgPriority : Int?		= nil		// hack: pass argument to message via global
@@ -107,14 +107,12 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	init(name:String, configure c:FwConfig = [:])	{			//_ config:FwConfig = [:]
 		configure(from:c)
 		self.name				= name
-		print("----- ALLOCATED Log \"\(name)\",   verbosity:\(verbosity?.pp(.line) ?? "nil")")				// ppUid or pp(.line) breaks this
 			// Learnings:	1) Cannot use Log here -- we're initting a Log!
 			//				2) \(ppUid(self)) uses a Log! (but
-//		makeDummyLogEntries()
 	}
-//	private init()
-//	{
-//	}
+	//private init()
+	//{
+	//}
 	 /// Configure Log facilities
 	func configure(from c:FwConfig) {
 
@@ -135,10 +133,10 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		 // Load verbosity filter from keys starting with "logPri4", if there are any.
 		let verb 				= verbosityInfoFrom(c)
 		if verb.count > 0 {
-			verbosity 			= verb
+			detailWanted 			= verb
 		}
 	}
-	 /// Return a Dictionary of keys starting with "logPri4". They control verbosity.
+	 /// Return a Dictionary of keys starting with "logPri4". They control detailWanted.
 	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
 		var rv : [String:Int] 	= [:]
 		for (keyI, valI) in config {		// Scan config being loaded:
@@ -154,7 +152,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	func ppVerbosityOf(_ config:FwConfig) -> String {
 		let verbosityHash		= verbosityInfoFrom(config)
 		if verbosityHash.count > 0 {
-			var msg				=  "(\(ppUid(self))).verbosity "
+			var msg				=  "(\(ppUid(self))).detailWanted "
 			msg					+= "=\(verbosityHash.pp(.line)) Cause:"
 			msg					+= config.string_("cause")
 			return msg
@@ -186,7 +184,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		try container.encode(eventNumber,		forKey:.entryNo					)
 		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
 		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
-		try container.encode(verbosity,			forKey:.verbosity				)
+		try container.encode(detailWanted,			forKey:.verbosity				)
 		try container.encode(msgPriority,		forKey:.msgPriority				)
 		try container.encode(msgFilter,			forKey:.msgFilter				)
 		try container.encode(simTimeLastLog,	forKey:.simTimeLastLog			)
@@ -205,7 +203,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		name					= try container.decode(		   String.self, forKey:.name		)
 		eventNumber				= try container.decode(			  Int.self, forKey:.entryNo		)
 		breakAtEvent			= try container.decode(			  Int.self, forKey:.breakAtEvent)
-		verbosity				= try container.decode( [String:Int]?.self, forKey:.verbosity	)
+		detailWanted			= try container.decode(  [String:Int].self, forKey:.verbosity	)
 		msgPriority				= try container.decode(			  Int.self, forKey:.msgPriority	)
 		msgFilter				= try container.decode(  	  String?.self, forKey:.msgFilter	)
 		simTimeLastLog			= try container.decode(		   Float?.self, forKey:.simTimeLastLog)
