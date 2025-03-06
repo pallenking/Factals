@@ -71,7 +71,6 @@ import SwiftUI
 		vewBase.updateVSP()								// DELETE?
 
 		atBld(5, logd("---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) "))
-		print(ppControlElement(config:false))
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -369,7 +368,7 @@ bug//		print(l1v.scnScene.transform.pp(.tree))
 
 		 // N.B: The following are preempted by AppDelegate keyboard shortcuts in Menu.xib
 		case "c":								// print Controller State
-			print(ppControlElement(config:false))
+			print(ppControlElement())
 		case "C":								// print Controller Config
 			print(ppControlElement(config:true))
 		case "?":								// print help

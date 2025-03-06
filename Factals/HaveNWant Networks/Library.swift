@@ -22,7 +22,7 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 	var fileName : String
 
 	 // MARK: - 3. Factory
-	init(_ fileName:String) {
+	init(_ fileName:String) {					//Library()
 		self.fileName			= fileName
 	}
 	var args  : ScanForKey?		= nil

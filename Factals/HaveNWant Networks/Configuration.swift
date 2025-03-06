@@ -12,9 +12,9 @@ import SceneKit
 let params4aux   		// default if none suppled
 let params4partPp		// PP of Parts
 let/params4logsPp	???
-let params4logDetail
+let params4logDetail	// Logging Styles
 let params4sim
-let params4vew
+let params4partVew
 */
 
 /*
@@ -120,13 +120,11 @@ let params4partPp  : FwConfig 	= [		// PP of Parts
 // 		tst	-- TeSTing
 // 		all	-- ALL OF ABOVE		-
 								
-let params4logDetail : FwConfig =
+let params4logDetail : FwConfig =			// Logging Styles
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
-			// Nothing:
-	logAt(all:0) +
-//	logAt(rve:2/*, all:8*/) +				// Everything
-
-//! (bld:1)/(bld:2)/(all:8)/(all:5)
+	//* Nothing*/					logAt(all:0) +
+	//* Everything */				logAt(all:8) +
+	/* Everything except review */	logAt(rve:0, all:8) +
 
 	[	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
 
@@ -147,7 +145,7 @@ let params4sim : FwConfig = [
 
   // MARK: - F: Scene Params
  /// FactalsModel Viewing parameters
-let params4vew : FwConfig = [
+let params4partVew : FwConfig = [
 //	"initialDisplayMode"		: "invisible"	// mostly expunged
 //	"physics"					: ??
 /**/"linkVelocityLog2"			: Float(-8.0),	// link velocity = 2^n units/sec //slow:-6.0

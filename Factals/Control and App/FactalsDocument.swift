@@ -50,7 +50,7 @@ struct FactalsDocument : FileDocument, Uid {
 	init(fromLibrary select:String?=nil) {
 
 		 // 1. FactalModel first
-		let fmConfig			= params4vew + params4partPp
+		let fmConfig			= params4partVew + params4partPp
 		factalsModel			= FactalsModel(partBase:PartBase(), configure:fmConfig)
 		factalsModel.factalsDocument = self			// backpointer
 

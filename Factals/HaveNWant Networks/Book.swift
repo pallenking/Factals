@@ -7,7 +7,7 @@
 
 import SceneKit
 
-class Book {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
+class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0520: add :FwAny
 	 // MARK: - 2. Register all Libraries HERE!
 	let nameTag					= getNametag()
 	var fileName : String

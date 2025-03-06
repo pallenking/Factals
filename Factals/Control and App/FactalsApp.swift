@@ -98,6 +98,7 @@ extension FactalsApp {		// FactalsGlobals
 }
  // MARK: - 4.5 Event from OS
 class FactalsAppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
+    var factalsApp: FactalsApp?
 
 	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
 		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
@@ -114,10 +115,6 @@ bug;	urlStr      			= String(urlStr[index...])
 	}
 
 	 // MARK: - 4.2 APP Enablers
-	 // Reactivates an already running application because
-	//    someone double-clicked it again or used the dock to activate it.
-//	func applicationShouldHandleReopen(_ sender:NSApplication, hasVisibleWindows:Bool) -> Bool
-//	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool
 	func applicationDidFinishLaunching(_ notification: Notification) {
 
 		 // Set Apple Event Manager so Factals recieve URL's
@@ -125,8 +122,12 @@ bug;	urlStr      			= String(urlStr[index...])
 			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
 			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
 
+		atApp(3, print(factalsApp?.ppFactalsAppFoo() ?? "lkjoqhf"))
+
 	//	sounds.play(sound:"GameStarting")
-		atApp(7, print(ppController(config:false)))
+		//print(ppController())		//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
+	//	atApp(5, print(factalsApp?.ppFactalsAppFoo()))
+		atApp(5, print(ppController()))
 		atApp(3, print("------------- FactalsAppDelegate: Application Did Finish Launching --------------\n"))
 	}
 //	func appPreferences(_ sender: Any)		// Show App preferences
@@ -184,12 +185,12 @@ struct FactalsApp: FwAny, Uid {
 	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
 
-	@NSApplicationDelegateAdaptor private var appDelegate: FactalsAppDelegate
-	func ppFactalsAppFoo() -> String {
-		return self.ppControlElement(config:false) ?? "FACTALSMODEL is nil uey3r8ypv"
-//	""
-	}
+	//@NSApplicationDelegateAdaptor private var appDelegate: FactalsAppDelegate
+    @NSApplicationDelegateAdaptor(FactalsAppDelegate.self) var appDelegate
 
+	func ppFactalsAppFoo() -> String {
+		return ppControlElement()
+	}
 	 // Source of Truth:
 	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
 
@@ -206,12 +207,13 @@ struct FactalsApp: FwAny, Uid {
 	};private var regressScene_ = 0
 
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
-	var library 				= Library("APP's Library")
+	var library 				= Library("Library")
 //	var sound					= Sound(configure:[:])
 
 	 // MARK: - 3. Factory
 	init () {
 		self.init(foo:true)
+        appDelegate.factalsApp = self
 	}
 	private init (foo:Bool) {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
@@ -224,8 +226,8 @@ struct FactalsApp: FwAny, Uid {
 		atApp(1, logd("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
 		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
-		print(self.ppFactalsAppFoo())
-		print(ppController(config:false))	//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
+		atApp(3, print(self.ppFactalsAppFoo()))
+		//print(ppController())	//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 //		logRunInfo("\(library.answer.titlePlus())")
 
 //		sounds.load(name:"di-sound", path:"di-sound")

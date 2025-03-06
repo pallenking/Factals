@@ -15,9 +15,9 @@ struct FactalsModelBar: View {
 			HStack {
 				Text("FactalsModel:").foregroundColor(.red).bold().presentationBackground(Color(.white))
 				Button(label:{	Text( "state")									})
-				{	print(ppController(config:false))							}
+				{	print(ppController())										}
 				Button(label:{	Text( "config")									})
-				{	print(ppController(config:true))							}
+				{	print(ppController())										}
 				Button(label:{	Text("Reset")									})
 				{	factalsModel.partBase.tree.reset()							}
 				Spacer()
