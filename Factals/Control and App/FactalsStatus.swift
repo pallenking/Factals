@@ -55,7 +55,7 @@ func ppFwPrefix(nameTag:Uid?, _ fwClassName_:String) -> String {
 
 extension FactalsApp : FactalsStatus	{							///FactalsApp
 	func ppControlElement(config:Bool=false) -> String {
-//		let documents 			= NSDocumentController.shared.documents		// THIS BREAKS THINGS
+	//	let documents 			= NSDocumentController.shared.documents		// THIS BREAKS THINGS
 		return ppFactalsStateHelper("FactalsApp   ", nameTag:self,
 			myLine://(documents.count == 0 ? "No Open Files, " :"") 				+
 				"regressScene:\(regressScene), " 								,
@@ -64,9 +64,9 @@ extension FactalsApp : FactalsStatus	{							///FactalsApp
 				var rv			=		  Log.shared.ppControlElement()
 				rv				+= factalAppDelegate.ppControlElement()
 				rv				+= 			 library.ppControlElement()
-//				for document in documents {
-//					rv			+=			document.ppControlElement()
-//				}
+	//			for document in documents {
+	//				rv			+=			document.ppControlElement()
+	//			}
 				return rv
 			})
 	}

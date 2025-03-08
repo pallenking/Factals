@@ -62,9 +62,9 @@ func at(_ eventArea:String, _ eventDetail:Int, _ eventAction:@autoclosure() -> V
 	let detailWanted			= log.detailWanted
 	if //trueF 								||	// DEBUGGING ALL messages
 		detailWanted    [eventArea]  != nil ?	// area definition supercedes
-			detailWanted[eventArea]!  > eventDetail :
-		detailWanted    ["all"] != nil ?		// else default definition?
-			detailWanted["all"]! > eventDetail :
+			detailWanted[eventArea]! > eventDetail :
+		detailWanted    ["all"] 	 != nil ?	// else default definition?
+			detailWanted["all"]! 	 > eventDetail :
 		false									// neither
 	{
 		assert(log.msgFilter==nil && log.msgPriority==nil, "last guy didn't clear out properly")

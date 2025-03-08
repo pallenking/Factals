@@ -14,8 +14,6 @@ import SwiftUI
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
 
-//	var factalsDocument : FactalsDocument! = nil	// (a struct)
-
 	 // MARK: - 3. Factory
 	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
 		fmConfig				= configure		// Save in ourselves   WHY???

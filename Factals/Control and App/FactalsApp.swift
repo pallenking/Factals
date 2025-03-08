@@ -12,7 +12,8 @@ import SceneKit
 //import AVFoundation
 
 	 // MARK: - Version
-	let (majorVersion, minorVersion, nameVersion) = (6, 4, "Factals")		// 240210
+	let (majorVersion, minorVersion, nameVersion) = (6, 5, "Factals")		// 250308
+//	let (majorVersion, minorVersion, nameVersion) = (6, 4, "Factals")		// 240210
   //let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
   //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822
   //let (majorVersion, minorVersion, nameVersion) = (6, 0, "Factals re-App")// 220628
@@ -50,8 +51,8 @@ extension FactalsApp : App {
 		}
 	}
 
-	 // MARK: - Generate Library Menu View (RECIRSIVE)
-	func menuView(for crux:LibraryMenuTree) -> AnyView {
+	 // MARK: - Library Menu
+	func menuView(for crux:LibraryMenuTree) -> AnyView {		// RECURSIVE
 		if crux.children.count == 0 {				// Crux has nominal Button
 			return AnyView(
 				Button(crux.name) {
@@ -216,23 +217,22 @@ struct FactalsApp: FwAny, Uid {
 //	var sound					= Sound(configure:[:])
 
 	 // MARK: - 3. Factory
-	init () {
-		self.init(foo:true)														//factalAppDelegate.factalsApp = self
-	}
-	private init (foo:Bool) {
+	init() {
+		print("Hello FactalsApp")
+		//let _ = NSDocumentController.shared				// THIS BREAKS THINGS
+
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
 		let appConfig 			= params4partPp
 		atApp(3, logd("FactalsApp(\(appConfig.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
-//		atApp(3, logd("detailWanted:[\(log.detailWanted?.pp() ?? "nil")]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
+	//	atApp(3, logd("detailWanted:[\(log.detailWanted?.pp() ?? "nil")]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
 		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
 		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(1, logd("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
 		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
 		atApp(3, print(self.ppControlElement()))
-
-//		logRunInfo("\(library.answer.titlePlus())")
+		logRunInfo("\(library.answer.titlePlus())")
 //		sounds.load(name: "di-sound", path:"di-sound")
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}

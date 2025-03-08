@@ -45,14 +45,12 @@ struct FactalsDocument : FileDocument, Uid {
 	 // @main uses this to generate a blank document
 	init() {
 		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
-//		factalsModel.log.configure(from:[:])//cfgArg)
 	}
 	init(fromLibrary select:String?=nil) {
 
 		 // 1. FactalModel first
 		let fmConfig			= params4partVew + params4partPp
 		factalsModel			= FactalsModel(partBase:PartBase(), configure:fmConfig)
-//		factalsModel.factalsDocument = self			// backpointer
 
 		 // 2. Part ******
 		let select = select ?? {
