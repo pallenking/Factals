@@ -31,54 +31,51 @@ import Foundation
 // 		tst	-- TeSTing
 // 		all	-- ALL OF ABOVE		-
 
-// MARK: 2 Emit a Log Event:
+// MARK: 2 Generate a Log Event:
  // Sugar to shorten commonly used cliche.
-func atApp(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("app", detail, act())		}
-func atDoc(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("doc", detail, act())		}
-func atBld(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("bld", detail, act())		}
-func atSer(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("ser", detail, act())		}
-func atAni(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("ani", detail, act())		}
-func atDat(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("dat", detail, act())		}
-func atEve(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("eve", detail, act())		}
-func atIns(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("ins", detail, act())		}
-func atMen(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("men", detail, act())		}
-func atRve(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("rve", detail, act())		}
-func atRsi(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("rsi", detail, act())		}
-func atRnd(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("rsi", detail, act())		}
-func atTst(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("tst", detail, act())		}
-func atAny(_  detail:Int, _ act:@autoclosure()->Void) 	{ at("all", detail, act())		}	// may be buggy
+func atApp(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("app", detail, act())	}
+func atDoc(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("doc", detail, act())	}
+func atBld(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("bld", detail, act())	}
+func atSer(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("ser", detail, act())	}
+func atAni(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("ani", detail, act())	}
+func atDat(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("dat", detail, act())	}
+func atEve(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("eve", detail, act())	}
+func atIns(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("ins", detail, act())	}
+func atMen(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("men", detail, act())	}
+func atRve(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rve", detail, act())	}
+func atRsi(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rsi", detail, act())	}
+func atRnd(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rsi", detail, act())	}
+func atTst(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("tst", detail, act())	}
+func atAny(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("all", detail, act())	}	// may be buggy
 
  /// Emit a Log Event:
 /// - parameters:
-///   - area: 	= the kind of event encountered
-///   - detailNow:	= the detail of the event, how geeky is it 0<msgPri<10
-///   - action: = an automatically generated closure which does a (log) operation
-func at(_ area:String, _ detailNow:Int, _ action:@autoclosure() -> Void) {
+///   - eventArea: 	kind of event encountered
+///   - eventDetail:	detail of the event, how geeky is it 0<msgPri<10
+///   - eventAction: 	action to be executed if area/detail matches
+func at(_ eventArea:String, _ eventDetail:Int, _ eventAction:@autoclosure() -> Void) {
 	let log						= Log.shared	   // The one log
-	assert(log.msgFilter==nil && log.msgPriority==nil)
+	assert(log.msgFilter==nil && log.msgPriority==nil, "should be idle")
 	
 	// Decide on action()
-	assert(detailNow >= 0 && detailNow < 10, "Message priorities must be in range 0...9")
+	assert(eventDetail >= 0 && eventDetail < 10, "Message priorities must be in range 0...9")
 	let detailWanted			= log.detailWanted
-	if //trueF 								|| // DEBUGGING ALL messages
-		detailWanted[area]  != nil ? detailWanted[area]!  > detailNow :	// my area supercedes//		  (detailWanted[area]  ?? -1) >= verbos	|| // detailWanted[area]  high enough	OR
-		detailWanted["all"] != nil ? detailWanted["all"]! > detailNow : false				//		  (detailWanted["all"] ?? -1) >= verbos	   // detailWanted["all"] high enough
+	if //trueF 								||	// DEBUGGING ALL messages
+		detailWanted    [eventArea]  != nil ?	// area definition supercedes
+			detailWanted[eventArea]!  > eventDetail :
+		detailWanted    ["all"] != nil ?		// else default definition?
+			detailWanted["all"]! > eventDetail :
+		false									// neither
 	{
-		assert(log.msgFilter==nil && log.msgPriority==nil, "")
-//		guard log.msgFilter==nil && log.msgPriority==nil else {
-//			let problem			= "<>X<>X<>X<>X<>X<>X<> PROBLEM "
-//			let new				= area + String(detailNow)
-//			let now				= log.msgFilter ?? "?" + String(log.msgPriority!)//Log.pp(filter:log.msgFilter, priority:log.msgPriority)		//(log.msgFilter ?? "flt") + (log.msgPriority == nil ? "-" : String(log.msgPriority!))
-//			fatalError(problem + " '\(new)' found log '\(log.name)' busy doing '\(now)'")
-//		}
-		log.msgFilter			= area
-		log.msgPriority			= detailNow
-		action()							// Execute the action closure
-		log.msgFilter				= nil
-		log.msgPriority				= nil
+		assert(log.msgFilter==nil && log.msgPriority==nil, "last guy didn't clear out properly")
+		log.msgFilter			= eventArea
+		log.msgPriority			= eventDetail
+		eventAction()							// Execute the action closure
+		log.msgFilter			= nil
+		log.msgPriority			= nil
 	}
 }
-// MARK: 3 Configure Logs
+ // MARK: 3 Configure Logs
 func logAt(
 		app:Int = -1,		doc:Int = -1,		bld:Int = -1,		ser:Int = -1,
 		ani:Int = -1,		dat:Int = -1,		eve:Int = -1,		ins:Int = -1,
@@ -108,7 +105,7 @@ func logAtX(prefix:String="", // / 3b. Neutered (with suffix X) returns an empty
 		  -> FwConfig { return [:] }
 
 //	E.g: the following will print "construction message" if DOClog.detailWanted
-//	calls for >=3 verbosity messages:
+//	calls for >=3 detail messages:
 //			atApp(3, log(<construction message>))
 
 

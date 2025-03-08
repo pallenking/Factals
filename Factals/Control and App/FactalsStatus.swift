@@ -9,16 +9,14 @@
  */
 import SceneKit
 
-  /// Print State of ALL System Controllers in the App, starting with FactalModel:
+  /// Print State of ALL System Controllers in the App, starting with FactalApp:
  /// - Returns: State of all Controllers, one per line
-func ppController(config:Bool=false) -> String {
-//	return FACTALSMODEL?.ppControlElement() ?? "FACTALSMODEL is nil uey3r8ypv"
-	return ""
-	//FactalsApp.selfish
-	//let x = factalsApp
-	//return self.ppControlElement() ?? "FACTALSMODEL is nil uey3r8ypv"
-}
-
+func ppControllers(config:Bool=false) -> String {
+	return FactalsAppDelegate.shared?.ppControlElement() ?? ""
+}												//return FACTALSMODEL?.ppControlElement() ?? "FACTALSMODEL is nil uey3r8ypv"
+												//return ""
+												//let x = factalsApp
+												//return self.ppControlElement() ?? "FACTALSMODEL is nil uey3r8ypv"
  /// Print status of Factal Workbench Controllers
 protocol FactalsStatus : FwAny {
 	func ppControlElement(config:Bool) -> String
@@ -57,24 +55,18 @@ func ppFwPrefix(nameTag:Uid?, _ fwClassName_:String) -> String {
 // //// /////  / /////  / /////  / ///// / /////   / /////  / /////  / /////  /
 
 extension FactalsApp : FactalsStatus	{							///FactalsApp
-	var selfish : FactalsApp { self }
-
 	func ppControlElement(config:Bool=false) -> String {
- 		let emptyEntry			= "? "//APP?.factalsConfig.string("emptyEntry") ?? "xr()"
-		let regressScene		= "? "//APP?.config.int("regressScene") ?? -1
 		let documents 			= NSDocumentController.shared.documents
 		return ppFactalsStateHelper("FactalsApp   ", nameTag:self,
-			myLine:"regressScene:\(regressScene), " +
-				"emptyEntry:'\(emptyEntry)' " +
-				(documents.count == 0 ? "(No Open Files) " :""),
-//				"\(config.pp(.tagClass))=\(self.config.count)_elts",
+			myLine:(documents.count == 0 ? "No Open Files, " :"") 				+
+				"regressScene:\(regressScene), " 								,
 			otherLines:{
 				 // Menu Creation:
-				var rv			=  appDelegate.ppControlElement()
-				rv				+=     library.ppControlElement()
-				rv				+=  Log.shared.ppControlElement()
+				var rv			=		  Log.shared.ppControlElement()
+				rv				+= factalAppDelegate.ppControlElement()
+				rv				+= 			 library.ppControlElement()
 				for document in documents {
-					rv			+=    document.ppControlElement()
+					rv			+=			document.ppControlElement()
 				}
 				return rv
 			})

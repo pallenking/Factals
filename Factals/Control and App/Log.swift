@@ -63,7 +63,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	 // Breakpoint
 	var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
 
-	var detailWanted : [String:Int] = [:] 	 // Current logging verbosity filter to select log messages
+	var detailWanted : [String:Int] = [:] 	 // Current logging detail filter to select log messages
 
 	 // MARK: - 2. REALLY UGLY: what if different threads using log?
 	var msgPriority : Int?		= nil		// hack: pass argument to message via global
@@ -130,14 +130,14 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		if let bae				= c.int("breakAtEvent")	{
 			breakAtEvent		= bae											}
 
-		 // Load verbosity filter from keys starting with "logPri4", if there are any.
-		let verb 				= verbosityInfoFrom(c)
-		if verb.count > 0 {
-			detailWanted 			= verb
+		 // Load detail filter from keys starting with "logPri4", if there are any.
+		let detail 				= detailInfoFrom(c)
+		if detail.count > 0 {
+			detailWanted 		= detail
 		}
 	}
 	 /// Return a Dictionary of keys starting with "logPri4". They control detailWanted.
-	func verbosityInfoFrom(_ config:FwConfig) -> [String:Int] {
+	func detailInfoFrom(_ config:FwConfig) -> [String:Int] {
 		var rv : [String:Int] 	= [:]
 		for (keyI, valI) in config {		// Scan config being loaded:
 			if keyI.hasPrefix("logPri4"),		// that start with "logPri4"
@@ -149,15 +149,13 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		}
 		return rv
 	}
-	func ppVerbosityOf(_ config:FwConfig) -> String {
-		let verbosityHash		= verbosityInfoFrom(config)
-		if verbosityHash.count > 0 {
-			var msg				=  "(\(ppUid(self))).detailWanted "
-			msg					+= "=\(verbosityHash.pp(.line)) Cause:"
-			msg					+= config.string_("cause")
-			return msg
-		}
-		return ""
+	func ppdetailOf(_ config:FwConfig) -> String {
+		let detailHash			= detailInfoFrom(config)
+		guard detailHash.count > 0 else {		return "" 						}
+		var msg					=  "(\(ppUid(self))).detailWanted "
+		msg						+= "=\(detailHash.pp(.line)) Cause:"
+		msg						+= config.string_("cause")
+		return msg
 	}
 
 
@@ -167,7 +165,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		case name
 		case entryNo
 		case breakAtEvent
-		case verbosity
+		case detail
 		case msgPriority
 		case msgFilter
 		case simTimeLastLog
@@ -184,7 +182,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		try container.encode(eventNumber,		forKey:.entryNo					)
 		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
 		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
-		try container.encode(detailWanted,			forKey:.verbosity				)
+		try container.encode(detailWanted,		forKey:.detail					)
 		try container.encode(msgPriority,		forKey:.msgPriority				)
 		try container.encode(msgFilter,			forKey:.msgFilter				)
 		try container.encode(simTimeLastLog,	forKey:.simTimeLastLog			)
@@ -203,7 +201,7 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		name					= try container.decode(		   String.self, forKey:.name		)
 		eventNumber				= try container.decode(			  Int.self, forKey:.entryNo		)
 		breakAtEvent			= try container.decode(			  Int.self, forKey:.breakAtEvent)
-		detailWanted			= try container.decode(  [String:Int].self, forKey:.verbosity	)
+		detailWanted			= try container.decode(  [String:Int].self, forKey:.detail		)
 		msgPriority				= try container.decode(			  Int.self, forKey:.msgPriority	)
 		msgFilter				= try container.decode(  	  String?.self, forKey:.msgFilter	)
 		simTimeLastLog			= try container.decode(		   Float?.self, forKey:.simTimeLastLog)

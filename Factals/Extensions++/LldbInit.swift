@@ -130,7 +130,7 @@ func sendApp(key:String="?", inVew vew:Vew?) {
 		print("#### #### No current Controller; not using sendApp(key:\(key)) ########")
 		switch key {
 		case "c":
-			print(ppController())
+			print(ppControllers())
 		case "?":
 			printDebuggerHints()
 		default:

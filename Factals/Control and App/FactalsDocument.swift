@@ -52,7 +52,7 @@ struct FactalsDocument : FileDocument, Uid {
 		 // 1. FactalModel first
 		let fmConfig			= params4partVew + params4partPp
 		factalsModel			= FactalsModel(partBase:PartBase(), configure:fmConfig)
-		factalsModel.factalsDocument = self			// backpointer
+//		factalsModel.factalsDocument = self			// backpointer
 
 		 // 2. Part ******
 		let select = select ?? {

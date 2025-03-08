@@ -97,8 +97,17 @@ extension FactalsApp {		// FactalsGlobals
 	}
 }
  // MARK: - 4.5 Event from OS
-class FactalsAppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
-    var factalsApp: FactalsApp?
+class FactalsAppDelegate: NSObject, NSApplicationDelegate/*, ObservableObject*/ {
+
+	 // Allow global access
+	static var shared: FactalsAppDelegate?
+	override init() {
+		super.init()
+		FactalsAppDelegate.shared = self
+	}
+	func someMethod() {
+		print("Method called")
+	}
 
 	@objc func handleGetURLEvent(event:NSAppleEventDescriptor, withReplyEvent replyEvent:NSAppleEventDescriptor) {
 		openURL(named:event.paramDescriptor(forKeyword:keyDirectObject)?.stringValue)
@@ -121,28 +130,29 @@ bug;	urlStr      			= String(urlStr[index...])
 		NSAppleEventManager.shared().setEventHandler(self,
 			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
 			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-
-		atApp(3, print(factalsApp?.ppFactalsAppFoo() ?? "lkjoqhf"))
-
-	//	sounds.play(sound:"GameStarting")
-		//print(ppController())		//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
-	//	atApp(5, print(factalsApp?.ppFactalsAppFoo()))
-		atApp(5, print(ppController()))
+											//atApp(3, print(factalsApp?.ppFactalsAppFoo() ?? "lkjoqhf"))
+											//sounds.play(sound:"GameStarting")
+											//print(ppControllers())		//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
+											//atApp(5, print(factalsApp?.ppFactalsAppFoo()))
+		atApp(5, print(ppControllers()))
 		atApp(3, print("------------- FactalsAppDelegate: Application Did Finish Launching --------------\n"))
 	}
-//	func appPreferences(_ sender: Any)		// Show App preferences
-//	func appState(_ sender: Any)
-//	func appConfig(_ sender: Any)
-//	func appHelp(_ sender: Any)
+	func appPreferences(_ sender: Any)		{ bug }	// Show App preferences
+	func appState(		_ sender: Any)		{ bug }
+	func appConfig(		_ sender: Any)		{ bug }
+	func appHelp(		_ sender: Any)		{ bug }
 	
 	 // MARK: - 4.6 APP Terminate
+	func applicationWillFinishLaunching(_ notification:Notification) {
+		print(notification)														}
 	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
-bug;	return .terminateNow													}
-	func applicationWillTerminate(_ 	 aNotification: Notification) {
-bug;	print("xxxxx xxxxx xxxx applicationWillTerminate xxxxx xxxxx xxxx")
-		print("                   G O O D    B I E  ! !")						}
+		print(sender)
+		return .terminateNow													}
+	func applicationWillTerminate(		_ notification:Notification) {
+		print(notification)														}
 	func applicationShouldTerminateAfterLastWindowClosed(theApplication:NSApplication) -> Bool	{
-bug;	return false															}
+		print("applicationShouldTerminateAfterLastWindowClosed\(theApplication)")
+		return false															}
 }
 
 class LibraryMenuTree : Identifiable {		// of a Tree
@@ -185,14 +195,9 @@ struct FactalsApp: FwAny, Uid {
 	let nameTag					= getNametag()
 	let fwClassName: String		= "FactalsApp"
 
-	//@NSApplicationDelegateAdaptor private var appDelegate: FactalsAppDelegate
-    @NSApplicationDelegateAdaptor(FactalsAppDelegate.self) var appDelegate
-
-	func ppFactalsAppFoo() -> String {
-		return ppControlElement()
-	}
 	 // Source of Truth:
-	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)//, libraryMenuArray:Library.catalog().state.scanCatalog)	// not @State
+	@StateObject var factalsGlobals	= FactalsGlobals(factalsConfig:params4partPp)
+    @NSApplicationDelegateAdaptor(FactalsAppDelegate.self) var factalAppDelegate
 
 	 // MARK: - 2. Object Variables:
 	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
@@ -212,8 +217,7 @@ struct FactalsApp: FwAny, Uid {
 
 	 // MARK: - 3. Factory
 	init () {
-		self.init(foo:true)
-        appDelegate.factalsApp = self
+		self.init(foo:true)														//factalAppDelegate.factalsApp = self
 	}
 	private init (foo:Bool) {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
@@ -226,15 +230,14 @@ struct FactalsApp: FwAny, Uid {
 		atApp(1, logd("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
 		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
-		atApp(3, print(self.ppFactalsAppFoo()))
-		//print(ppController())	//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
-//		logRunInfo("\(library.answer.titlePlus())")
+	//	atApp(3, print(self.ppControlElement()))
 
+//		logRunInfo("\(library.answer.titlePlus())")
 //		sounds.load(name:"di-sound", path:"di-sound")
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
 
-	//@IBOutlet weak
+	//@IBOutlet weak		//Only class instance properties can be declared @IBOutlet
 	 var sceneMenu:NSMenu!
 
 	 // MARK: Access Scene MENU

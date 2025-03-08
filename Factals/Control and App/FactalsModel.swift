@@ -14,11 +14,7 @@ import SwiftUI
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
 
-	var factalsDocument : FactalsDocument! = nil	// (a struct)
-
-//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-//		Log.shared.log(banner:banner, format_, args, terminator:terminator)
-//	}
+//	var factalsDocument : FactalsDocument! = nil	// (a struct)
 
 	 // MARK: - 3. Factory
 	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
