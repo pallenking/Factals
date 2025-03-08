@@ -230,10 +230,10 @@ struct FactalsApp: FwAny, Uid {
 		atApp(1, logd("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
 		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
 		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
-	//	atApp(3, print(self.ppControlElement()))
+		atApp(3, print(self.ppControlElement()))
 
 //		logRunInfo("\(library.answer.titlePlus())")
-//		sounds.load(name:"di-sound", path:"di-sound")
+//		sounds.load(name: "di-sound", path:"di-sound")
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
 

@@ -28,12 +28,11 @@ func ppFactalsStateHelper(_ fwClassName_: String,
 							otherLines	: (()->String)?	= nil	// hash generating trailing lines
 						 ) -> String
 {
-	let log						= Log.shared
 	var rv						= ppFwPrefix(nameTag:nameTag, fwClassName_) + myLine + "\n"
 		// Other Lines:
-	log.nIndent					+= 1
+	Log.shared.nIndent			+= 1
 	rv 							+= otherLines?() ?? ""
-	log.nIndent					-= 1
+	Log.shared.nIndent			-= 1
 	return rv
 }
  /// Prefix: "1e98 | | <fwClass>   0    . . . . . . . . "
@@ -56,18 +55,18 @@ func ppFwPrefix(nameTag:Uid?, _ fwClassName_:String) -> String {
 
 extension FactalsApp : FactalsStatus	{							///FactalsApp
 	func ppControlElement(config:Bool=false) -> String {
-		let documents 			= NSDocumentController.shared.documents
+//		let documents 			= NSDocumentController.shared.documents		// THIS BREAKS THINGS
 		return ppFactalsStateHelper("FactalsApp   ", nameTag:self,
-			myLine:(documents.count == 0 ? "No Open Files, " :"") 				+
+			myLine://(documents.count == 0 ? "No Open Files, " :"") 				+
 				"regressScene:\(regressScene), " 								,
 			otherLines:{
 				 // Menu Creation:
 				var rv			=		  Log.shared.ppControlElement()
 				rv				+= factalAppDelegate.ppControlElement()
 				rv				+= 			 library.ppControlElement()
-				for document in documents {
-					rv			+=			document.ppControlElement()
-				}
+//				for document in documents {
+//					rv			+=			document.ppControlElement()
+//				}
 				return rv
 			})
 	}
