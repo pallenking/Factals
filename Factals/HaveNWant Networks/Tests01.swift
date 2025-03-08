@@ -1453,24 +1453,24 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-//xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
-//	Net([parts:[
-////		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
-//		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-//			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
-//			"parts":[
-//				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
-//				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
-//				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
-//				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
-//				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
-//				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
-//			],
-//			"evi":Tunnel(["struc": ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
-//		]),
-//		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
-//	] ])
-//})
+xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	Net([parts:[
+//		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
+		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"parts":[
+				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
+				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
+				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
+				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
+				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
+				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
+			],
+			"evi":Tunnel(["struc": ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		]),
+		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+	] ])
+})
 xxr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + logAt(dat:5, eve:5), {
 	Net([parts:[
 		Hamming([n:"h1", P:["a"]]),
