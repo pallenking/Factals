@@ -44,18 +44,17 @@ func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:St
 	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 extension Log {
 	 // MARK: - 1. Static Class Variables:
-	static let  shared			= Log(name:"Shared Log", configure:defaultParams)
+	static let  shared			= Log(configure:defaultParams)
 	static var defaultParams : FwConfig	= [:]
 		+ params4app
 		+ params4partPp						//	pp... (20ish keys)
 		+ params4logDetail						// "debugOutterLock":f
 }
 
-class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
+class Log : FwAny, Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
 	let nameTag					= getNametag()
-	var name 					= "untitled"
 
 	 // Each Log has an event number
 	var eventNumber		   		= 1			// Current entry number (runs 1...)
@@ -104,9 +103,8 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
-	init(name:String, configure c:FwConfig = [:])	{			//_ config:FwConfig = [:]
+	private init(configure c:FwConfig = [:]){			//_ config:FwConfig = [:]
 		configure(from:c)
-		self.name				= name
 			// Learnings:	1) Cannot use Log here -- we're initting a Log!
 			//				2) \(ppUid(self)) uses a Log! (but
 	}
@@ -158,61 +156,6 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 		return msg
 	}
 
-
-// START CODABLE ///////////////////////////////////////////////////////////////
-	 // MARK: - 3.5 Codable
-	enum LogKeys: String, CodingKey {
-		case name
-		case entryNo
-		case breakAtEvent
-		case detail
-		case msgPriority
-		case msgFilter
-		case simTimeLastLog
-		case ppIndentCols
-		case ppPorts
-		case ppNUid4Tree
-		case ppNUid4Ctl
-		case nIndent
-	}
-	 // Serialize 					// po container.contains(.name)
-	func encode(to encoder: Encoder) throws  {
-		var container 			= encoder.container(keyedBy:LogKeys.self)
-		try container.encode(name,				forKey:.name					)
-		try container.encode(eventNumber,		forKey:.entryNo					)
-		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
-		try container.encode(breakAtEvent,		forKey:.breakAtEvent			)
-		try container.encode(detailWanted,		forKey:.detail					)
-		try container.encode(msgPriority,		forKey:.msgPriority				)
-		try container.encode(msgFilter,			forKey:.msgFilter				)
-		try container.encode(simTimeLastLog,	forKey:.simTimeLastLog			)
-		try container.encode(ppIndentCols,		forKey:.ppIndentCols			)
-		try container.encode(ppPorts,			forKey:.ppPorts					)
-		try container.encode(ppNUid4Tree,		forKey:.ppNUid4Tree				)
-		try container.encode(ppNUid4Ctl,		forKey:.ppNUid4Ctl				)
-		try container.encode(nIndent,			forKey:.nIndent					)
-		atSer(3, logd("Encoded"))
-	}
-	 // Deserialize
-	required init(from decoder: Decoder) throws {
-		//super.init()
-
-		let container 			= try decoder.container(keyedBy:LogKeys.self)
-		name					= try container.decode(		   String.self, forKey:.name		)
-		eventNumber				= try container.decode(			  Int.self, forKey:.entryNo		)
-		breakAtEvent			= try container.decode(			  Int.self, forKey:.breakAtEvent)
-		detailWanted			= try container.decode(  [String:Int].self, forKey:.detail		)
-		msgPriority				= try container.decode(			  Int.self, forKey:.msgPriority	)
-		msgFilter				= try container.decode(  	  String?.self, forKey:.msgFilter	)
-		simTimeLastLog			= try container.decode(		   Float?.self, forKey:.simTimeLastLog)
-		ppIndentCols			= try container.decode(			  Int.self, forKey:.ppIndentCols)
-		ppPorts					= try container.decode(			 Bool.self, forKey:.ppPorts		)
-		ppNUid4Tree				= try container.decode(			  Int.self, forKey:.ppNUid4Tree	)
-		ppNUid4Ctl				= try container.decode(			  Int.self, forKey:.ppNUid4Ctl	)
-		nIndent					= try container.decode(			  Int.self, forKey:.nIndent		)
-		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
-	}
-// END CODABLE /////////////////////////////////////////////////////////////////
      // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux/*[:]*/) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
@@ -267,9 +210,9 @@ class Log : Codable, FwAny, Uid {	// Never Equatable, NSCopying, NSObject // Che
 	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
 //	var params4aux : FwConfig	{	DOC?.fmConfig ?? [:]		}
 
-	var description		 : String {		 "d'Log \"\(name)\""				}
-	var debugDescription : String {		"dd'Log \"\(name)\""				}
-	var summary			 : String {		 "s'Log \"\(name)\""				}
+	var description		 : String {		 "d'Log'"				}
+	var debugDescription : String {		"dd'Log'"				}
+	var summary			 : String {		 "s'Log'"				}
 }
 var debugOutterLock				= true		// default value (set by config.debugOutterLock)
 

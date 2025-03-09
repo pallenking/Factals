@@ -309,7 +309,7 @@ extension SCNMaterialProperty : FactalsStatus	{			  ///SCNMaterialProperty
 }
 extension Log : FactalsStatus {											  ///Log
 	func ppControlElement(config:Bool=false) -> String {
-		let msg					= "\"\(name)\": event:\(eventNumber), breakAt:\(breakAtEvent), " +
+		let msg					= "event:\(eventNumber), breakAt:\(breakAtEvent), " +
 			"detailWanted:\(detailWanted.pp(.line)),"
 		return ppFactalsStateHelper("Log".field(-13), nameTag:self, myLine:msg)
 	}

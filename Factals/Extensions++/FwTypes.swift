@@ -22,7 +22,7 @@ enum FwKnown : Codable {
 	case part		(Part		)
 	case bBox		(BBox		)
 	case event		(FwwEvent	)
-	case log		(Log		)
+	//case log		(Log		)
 	case path		(Path		)
 //	case sCNVector4	(SCNVector4	)
 //	case sCNVector3	(SCNVector3	)
@@ -47,7 +47,7 @@ enum FwKnown : Codable {
 		case let part		as Part			: 	self = .part		(part		)
 		case let bBox		as BBox			: 	self = .bBox		(bBox		)
 		case let event		as FwwEvent		: 	self = .event		(event		)
-		case let log		as Log			: 	self = .log			(log		)
+//		case let log		as Log			: 	self = .log			(log		)
 		case let path		as Path			: 	self = .path		(path		)
 //		case let sCNVector4	as SCNVector4	: 	self = .sCNVector4	(sCNVector4	)
 //		case let sCNVector3	as SCNVector3	: 	self = .sCNVector3	(sCNVector3	)
@@ -74,14 +74,14 @@ enum FwKnown : Codable {
 		case let .part		(part		)	:		return part
 		case let .bBox		(bBox		)	:		return bBox
 		case let .event		(event		)	:		return event
-		case let .log		(log		)	:		return log
+//		case let .log		(log		)	:		return log
 		case let .path		(path		)	:		return path
 //		case let .sCNVector4(sCNVector4	)	:		return sCNVector4
 //		case let .sCNVector3(sCNVector3	)	:		return sCNVector3
 //		case let .nSColor	(nSColor	)	:		return nSColor
 //		case let .array		(array		)	:		return array
 //		case let .dictionary(dictionary	)	:		return dictionary
-		default: debugger("Could not decode \(self)")
+	//	default: debugger("Could not decode \(self)")
 		}
 	}
 }
