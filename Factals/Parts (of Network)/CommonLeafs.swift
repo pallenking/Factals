@@ -30,7 +30,7 @@ enum LeafKind : Codable, FwAny {
 	init(from	  :Decoder) throws	{ 	fatalError()							}
 	func encode(to:Encoder) throws	{ 	fatalError()							}
 	init?(rawValue: String) {
-bug;	self.init(rawValue:rawValue)
+		self.init(rawValue:rawValue)
 	}
 	typealias RawValue = String
 

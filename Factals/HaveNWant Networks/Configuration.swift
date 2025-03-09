@@ -17,25 +17,6 @@ let params4sim
 let params4partVew
 */
 
-/*
-
-configApp	-- congrols:
-				--> FactalsGlobals
-				--> Log					sets default of configModel
-				--> Sound				sets default of configVew
-configModel -- controls:
-				--> Simulator
-				--> PartBase
-					--> Parts in tree
-				--> Sound
-				--> Log
-configVew	-- controls:
-				--> VewBase
-					--> ScnBase
-debug
-test
- */
-
   // MARK: - A: App Params
  /// Parameters globally defined for Application()
 let params4app : FwConfig 		= [
@@ -125,7 +106,7 @@ let params4logDetail : FwConfig =			// Logging Styles
 
 		 // BreakAt is composite: logId * entryNosPlog + logEvent:
 								// + +  + +
-		"breakAtEvent"				:-37 //150//-54,//240/3/0:off
+		"breakAtEvent"				:-13 //150//-54,//240/3/0:off
 								// + +  + +
 	]
 

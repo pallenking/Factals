@@ -39,29 +39,41 @@ class FwBundle : Net {
 
      // MARK: - 2. Object Variables:
 	var leafStruc: FwAny?			// structure of name-structure				// boneyard:var leafStruc: FwConfigC?;var leafProto: Part?
-	var leafKind : String		= ""
-//	var leafKind : LeafKind			// an enum
+//	var leafKind : String		= ""
+	var leafKind : LeafKind			// an enum
 	var label 	 : String?			// Of pattern IN FwBundle
 
 	 // MARK: - 3. Part Factory
+
+//	init(_ tunnelConfig:FwConfig=[:], 		leafConfig:FwConfig=[:])	//FwBundle
+//	{	//[f:0,struc:[2 elts],of:genBcast]	[]
+//		let tunnelConfig/*2*/	= ["placeMy":"stackx"] + tunnelConfig
+//		let leafConfig			= ["placeMy":"linky" ] + leafConfig		//  default: // was stackx
+//		super.init(tunnelConfig/*2*/) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 	     /// Grouping of Leaf
 	    /// - parameter kind: 		-- of terminal Leaf
 	   /// - parameter leafConfig: -- to configure Leaf
 	  /// - parameter config:	  -- to configure FwBundle
 	 /// ## --- struc: names	 -- names of the Bundle's leafs
-	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:])	//FwBundle
-	{
-		let leafConfig			= ["placeMy":"linky" ] + leafConfig		//  default: // was stackx
-		let tunnelConfig/*2*/	= ["placeMy":"stackx"] + tunnelConfig
-		super.init(tunnelConfig/*2*/) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+	//it(of kind:LeafKind = .genAtom, _ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:]) { 	////.port
+	init(of kind:LeafKind = .genAtom, _ tunnelConfig:FwConfig=[:], leafConfig:FwConfig?=[:]) /*(_ tunnelConfig:FwConfig=[:], 		leafConfig:FwConfig=[:])*/	//FwBundle
+	{	//  .genBcast				  [f:0,struc:[2 elts],"of":"genBcast"]	[]
+		let tunnelConfig		= ["placeMy":"stackx"] + tunnelConfig
+		self.leafKind			= kind
+//		if let t1				= tunnelConfig["of"] as? String,	// Overrides
+//			let lk  			= LeafKind(rawValue:t1) {
+//			self.leafKind  		= lk		// overrides									// leafKind = (partConfig["of"] as? String) ?? "hun23r8"
+//		}
+		super.init(tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		 // Construct FwBundle elements
-		leafKind  				= (partConfig["of"] as? String) ?? "hun23r8"
-		leafStruc 				=  partConfig["struc"]
-		if leafStruc != nil {
+		if let ls 				= partConfig["struc"] {
+			leafStruc 			= ls
+			let leafConfig		= ["placeMy":"linky" ] + leafConfig!		//  default: // was stackx
+
 			apply(constructor:leafStruc!, leafConfig:leafConfig)//, tunnelConfig)	//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
-		}
+		}			// ["a", "b"]			["placeMy":"linky"]
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String] {	super.hasPorts()	}	//return[:]//["P":"pcM"]//
@@ -84,14 +96,13 @@ class FwBundle : Net {
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
-//		leafKind			= .nil_		// WTF?
+		leafKind			= .nil_		// WTF?
 		try super.init(from:decoder)
 
 		let container 		= try decoder.container(keyedBy:BundleKeys.self)
 		leafStruc			= try container.decode(String.self, forKey:.leafStruc)//No exact matches in call to instance method 'decode'
 //		leafStruc			= try container.decode(leafStruc.self,forKey:.leafStruc)//No exact matches in call to instance method 'decode'
-		leafKind			= try container.decode(String.self, forKey:.leafKind)
-//		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
+		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
 		label	 			= try container.decode(String.self, forKey:.label)
 		atSer(3, logd("Decoded  as? FwBundle     named  '\(name)'"))
 	}
@@ -173,6 +184,7 @@ class FwBundle : Net {
 
 	// MARK: - 4.1 Part Properties
 	func apply(constructor con:FwAny, leafConfig:FwConfig){//, _ tunnelConfig:FwConfig) {
+		//				[ "a", "b"]	  [placeMy:linky]
 		atBld(7, logd("apply(constructor:\(con.pp(.line))))"))
 
 		  // ==== Parse constructor:  It has many forms:
