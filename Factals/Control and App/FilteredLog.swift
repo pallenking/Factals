@@ -33,16 +33,18 @@ import Foundation
 
 // MARK: 2 Generate a Log Event:
  // Sugar to shorten commonly used cliche.
-func atApp(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("app", detail, act())	}
-func atDoc(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("doc", detail, act())	}
+func atApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+{ 	at("app", detail, format:format, args:format, terminator:terminator)		}
+func atDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+{ 	at("doc", detail, format:format, args:format, terminator:terminator)		}
 func atBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-		{ 	at("bld", detail, format:format, args:format, terminator:terminator)		}
+{ 	at("bld", detail, format:format, args:format, terminator:terminator)		}
 func atSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-		{ 	at("ser", detail, format:format, args:format, terminator:terminator)		}
+{ 	at("ser", detail, format:format, args:format, terminator:terminator)		}
 func atAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-		{ 	at("ani", detail, format:format, args:format, terminator:terminator)		}
-
-func atDat(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("dat", detail, act())	}
+{ 	at("ani", detail, format:format, args:format, terminator:terminator)		}
+func atDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+{ 	at("dat", detail, format:format, args:format, terminator:terminator)		}
 func atEve(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("eve", detail, act())	}
 func atIns(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("ins", detail, act())	}	//
 func atMen(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("men", detail, act())	}	//del
@@ -58,42 +60,26 @@ func atAny(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("all", detail, act()
 ///   - eventDetail:	detail of the event, how geeky is it 0<msgPri<10
 ///   - eventAction: 	action to be executed if area/detail matches
 func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
-	let log						= Log.shared	   // The one log
-	
-	// Decide on action()
-	assert(eventDetail >= 0 && eventDetail < 10, "Message priorities must be in range 0...9")
-	let detailWanted			= log.detailWanted
-	if //trueF 								||	// DEBUGGING ALL messages
-		detailWanted    [eventArea]  != nil ?	// area definition supercedes
-			detailWanted[eventArea]! > eventDetail :
-		detailWanted    ["all"] 	 != nil ?	// else default definition?
-			detailWanted["all"]! 	 > eventDetail :
-		false									// neither
-	{
+	if eventIs(ofArea:eventArea, detail:eventDetail) {
+		let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
 		logd(format, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
 	}
 }
 func at(_ eventArea:String, _ eventDetail:Int, _ eventAction:@autoclosure() -> Void) {
-	let log						= Log.shared	   // The one log
-//	assert(log.msgFilter==nil && log.msgPriority==nil, "should be idle")
-	
-	// Decide on action()
+	if eventIs(ofArea:eventArea, detail:eventDetail) {
+		eventAction()							// Execute the action closure
+	}
+}
+func eventIs(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
 	assert(eventDetail >= 0 && eventDetail < 10, "Message priorities must be in range 0...9")
-	let detailWanted			= log.detailWanted
-	if //trueF 								||	// DEBUGGING ALL messages
+	let detailWanted : [String:Int]	= Log.shared.detailWanted
+	let rv 						= //trueF 	||	// DEBUGGING ALL messages
 		detailWanted    [eventArea]  != nil ?	// area definition supercedes
 			detailWanted[eventArea]! > eventDetail :
 		detailWanted    ["all"] 	 != nil ?	// else default definition?
 			detailWanted["all"]! 	 > eventDetail :
 		false									// neither
-	{
-//		assert(log.msgFilter==nil && log.msgPriority==nil, "last guy didn't clear out properly")
-//		log.msgFilter			= eventArea
-//		log.msgPriority			= eventDetail
-		eventAction()							// Execute the action closure
-//		log.msgFilter			= nil
-//		log.msgPriority			= nil
-	}
+	return rv
 }
  // MARK: 3 Configure Logs
 func logAt(

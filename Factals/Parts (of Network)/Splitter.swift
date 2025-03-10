@@ -256,7 +256,7 @@ class Splitter : Atom {
 						}
 
 						if shareInputChanged {
-							atDat(4, /*sh.*/logd("   COMB:val=%.2f:a1=%.2f cWin=%d", val,	a1, combineWinner))
+							atDat(4, "   COMB:val=%.2f:a1=%.2f cWin=%d", val,	a1, combineWinner)
 						}
 					}
 				}
@@ -281,14 +281,14 @@ class Splitter : Atom {
 				pPort.take(value:self.a1)
 
 				if let b 		= bPort {
-					atDat(4, /*b.*/logd("   broadcast =%.2f", pPort.value))
-					atDat(4, b.take(value:pPort.value))
+					atDat(4, "   broadcast =%.2f", pPort.value)
+bug			//		atDat(4, b.take(value:pPort.value))
 				}
 				if let u 		= uPort {
 					var unknownValue = pPort.con2!.port!.value - a1	// unexplained residue
 					unknownValue = unknownValue < 0 ? 0 : unknownValue	// (never negative)
 	
-					atDat(4, /*u.*/logd("   unknown =%.2f-%.2f", pPort.value, a1))
+					atDat(4, "   unknown =%.2f-%.2f", pPort.value, a1)
 					u.take(value:unknownValue)
 				}
 			}
@@ -323,14 +323,14 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 					var unknownValue = total - accountedFor
 					unknownValue = unknownValue < 0 ? 0 : unknownValue
 	
-					atDat(4, /*u.*/logd("   DIST U=%.2f (%.3f-%.3f)", unknownValue, total, accountedFor))
+					atDat(4, "   DIST U=%.2f (%.3f-%.3f)", unknownValue, total, accountedFor)
 					u.value/*Take*/ = unknownValue	// silently
 					u.markTree(dirty:.paint)
 				}
 
 				 // Process BROADCASTs (same to all)
 				if let b		= bPort {
-					atDat(4, /*b.*/logd("   DIST B=%.2f", total))
+					atDat(4, "   DIST B=%.2f", total)
 					b.value/*Take*/	= total			// silently
 				}
 			}
@@ -373,7 +373,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 			for sc in children {		   			// //////////////////// //
 				i				+= 1
 				if i == 0 && combineWinner == 0 {
-					atDat(3, logd("No winner: all Shares get 0.0"))
+					atDat(3, "No winner: all Shares get 0.0")
 				}
 				if let sh	 	= sc as? Share {
 					var distribution = Float(0.0)	// loosers get nothing
@@ -383,7 +383,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 						distribution = total			// winner takes all
 						msg 	= "WINNER"
 					}
-					atDat(4, /*sh.*/logd("  %@ val=%.2f", msg, distribution))
+					atDat(4, "  %@ val=%.2f", msg, distribution)
 					sh.take(value:distribution)
 				}
 			}
@@ -404,8 +404,8 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 														 total * bidOfShare / bidTotal_
 					let wasStr 	= sh.value==distribution ? "(unchanged)":
 													  fmt("(was %.2f)", sh.value)
-					atDat(4, /*sh.*/logd("   DIST: %.2f =%.2f*(%.2f/%.2f)  %",
-						distribution, total, bidOfShare, bidTotal_, wasStr))
+					atDat(4, "   DIST: %.2f =%.2f*(%.2f/%.2f)  %",
+						distribution, total, bidOfShare, bidTotal_, wasStr)		//sh.log
 	
 					if sh.value != distribution {
 						sh.value/*Take*/= distribution	// silently

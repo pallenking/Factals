@@ -117,7 +117,7 @@ class LinkPort : Port {
 			let (valueIn, valuePrev) = inPort2Port.getValues()
 			assert(!valueIn.isNaN,      "enqueing nan value to link")
 			assert(!valueIn.isInfinite, "enqueing inf value to link")
-			atDat(3, logd("Link<--' %.2f (was %.2f)", valueIn, valuePrev))
+			atDat(3, "Link<--' %.2f (was %.2f)", valueIn, valuePrev)
 
 			 // Set the previous value into the conveyer, to go up
 			inTransit.insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
@@ -154,7 +154,7 @@ class LinkPort : Port {
 				let	nextVal		= inTransit.count >= 1 ?
 								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
 								  inPort2Port.value 	// Link input port if no previous value
-				atDat(5, /*outPort.*/logd("Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value))
+				atDat(5, "Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value)
 				if outPort.value != nextVal {
 					let parts = outPort.partBase!.tree
 //					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")

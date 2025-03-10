@@ -200,9 +200,10 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}
 	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
-		/*atBld(3, */print("#### DEINIT    \(ppUid(self)):\(fwClassName)") // 20221105 Bad history deleted
+		if eventIs(ofArea:"bld", detail:3) {
+			print("#### DEINIT    \(ppUid(self)):\(fwClassName)") // 20221105 Bad history deleted
+		}
 	}
-
 	 // START CODABLE ///////////////////////////////////////////////////////////////
 	   // MARK: - 3.4 PolyPart
 			//			input		returned (E) ^backlink

@@ -221,17 +221,20 @@ class TimingChain : Atom {
 			discreteTimes.append(dt2add)
 		}
 		else {
-			atDat(4, warning("TimingChain's 'P' Port must be connected to a DiscreteTime\n" +
-									"\t" + "Sometimes this is from an auto-inserted"))
+			if eventIs(ofArea:"dat", detail:4) {
+				warning("TimingChain's 'P' Port must be connected to a DiscreteTime\n" +
+						"\t" + "Sometimes this is from an auto-inserted")
+			}
 		}
-
 		if let sPort			= ports["S"],
 		  let mySPort			= sPort.portPastLinks,
 		  let mySAtom 			= mySPort.atom as? WorldModel		{	
 			worldModel			= mySAtom
 		}
 		else {
-			atDat(4, warning("TimingChain's 'S' Port must be connected to a WorldModel"))
+			if eventIs(ofArea:"dat", detail:4) {
+				warning("TimingChain's 'S' Port must be connected to a WorldModel")
+			}
 		}
 	}
 

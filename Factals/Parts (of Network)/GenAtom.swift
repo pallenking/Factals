@@ -124,7 +124,7 @@ class GenAtom : Atom {
 
 			let pInVal 		= pPort2Port.getValue()	// always read P to clear changed
 			if loopVal > 0.5 || (loop ?? false) {	// Two causes, port or config
-				atDat(4, logd("Loop to value \(pInVal) to sPort"))
+				atDat(4, "Loop to value \(pInVal) to sPort")
 				pPort.take(value:pInVal)					// looped value from pPortIn
 			}
 			 // GenAtom has the power to generate a constant value

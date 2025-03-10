@@ -519,7 +519,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		  let pInput			= ports["P"]?.con2?.port?.getValue(),
 		  pValue != pInput 			// Value changed?	//prev != total
 		{
-			atDat(3, logd("   BULB: %.2f (was %.2f)", pInput, pValue))
+			atDat(3, "   BULB: %.2f (was %.2f)", pInput, pValue)
 			pValue				= pInput	//	pass on 
 			markTree(dirty:.size)			// mark Splitter's size as dirty
 		}

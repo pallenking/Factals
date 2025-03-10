@@ -98,9 +98,9 @@ let params4partPp  : FwConfig 	= [		// PP of Parts
 								
 let params4logDetail : FwConfig =			// Logging Styles
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
-	/* Nothing*/					logAt(all:0) +
+	//* Nothing*/					logAt(all:0) +
 	//* Everything */				logAt(all:8) +
-	//* Everything except review */	logAt(rve:0, all:8) +
+	/* Everything except review */	logAt(rve:0, all:8) +
 
 	[	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
 

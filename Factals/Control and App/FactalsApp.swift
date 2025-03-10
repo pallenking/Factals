@@ -138,8 +138,8 @@ bug;	urlStr      			= String(urlStr[index...])
 											//sounds.play(sound:"GameStarting")
 											//print(ppControllers())		//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
 											//atApp(5, print(factalsApp?.ppFactalsAppFoo()))
-		atApp(5, print(ppControllers()))
-		atApp(3, print("------------- FactalsAppDelegate: Application Did Finish Launching --------------\n"))
+		atApp(5, ppControllers())
+		atApp(3, "------------- FactalsAppDelegate: Application Did Finish Launching --------------\n")
 	}
 	func appPreferences(_ sender: Any)		{ bug }	// Show App preferences
 	func appState(		_ sender: Any)		{ bug }
@@ -148,7 +148,7 @@ bug;	urlStr      			= String(urlStr[index...])
 	
 	 // MARK: - 4.6 APP Terminate
 	func applicationWillFinishLaunching(_ notification:Notification) {
-		print(notification)														}
+		atApp(5, "\(notification)")													}
 	func applicationShouldTerminate(_ sender: NSApplication)-> NSApplication.TerminateReply {
 		print(sender)
 		return .terminateNow													}
@@ -223,14 +223,14 @@ struct FactalsApp: FwAny, Uid {
 	init() {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
-		atApp(3, logd("detailWanted:[\(Log.shared.detailWanted.pp(.line))]"))//, XcTests is\(isRunningXcTests ? "" : "n't") running"))
-		atApp(3, logd("FactalsApp(\(params4partPp.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))"))
-		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️"))
-		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
-		atApp(1, logd("\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ"))
-		atApp(3, logd("\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ"))
-		atApp(3, logd("❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n"))
-		atApp(3, print(self.ppControlElement()))
+		atApp(3, "detailWanted:[\(Log.shared.detailWanted.pp(.line))]")//, XcTests is\(isRunningXcTests ? "" : "n't") running")
+		atApp(3, "FactalsApp(\(params4partPp.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))")
+		atApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
+		atApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
+		atApp(1, "\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ")
+		atApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
+		atApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n")
+		atApp(3, ppControlElement())
 //		logRunInfo("\(library.answer.titlePlus())")
 //		sounds.load(name: "di-sound", path:"di-sound")
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting

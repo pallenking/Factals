@@ -359,10 +359,10 @@ class Previous : Atom {
 						self.minorMode = nextminorMode
 						src4		= minorMode		// push mode into machine
 						//Expression took 15258ms to type-check (limit: 200ms)
-bug;						atDat(4, logd("Mode Port: " + //%% curMode=%-->%",
+bug;						atDat(4, "Mode Port: " + //%% curMode=%-->%",
 								(mvc! ? fmt("M=%.2f ", mModeValue) : "") +	//		cm? ["" addF:"M=%.2f ", mModeValue]: "",
 								(nvc! ? fmt("N=%.2f ", nModeValue) : "") +
-								self.minorMode.rawValue + " --> " + ppSrc4))	//prevMinorModeNames[self.minorMode], [self ppSrc4]))
+								self.minorMode.rawValue + " --> " + ppSrc4)	//prevMinorModeNames[self.minorMode], [self ppSrc4]))
 						partBase?.factalsModel?.simulator.startChits = 4	// start simulator after changing minor mode
 						//root!.simulator.startChits = 4	// start simulator after changing minor mode
 					}
