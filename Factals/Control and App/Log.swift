@@ -5,7 +5,8 @@
 
 import SceneKit
 
-func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
+func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n",
+								msgFilter:String?=nil, msgPriority:Int?=nil) {
 	let sh	 					= Log.shared	// There should be only one Log in the system
 
 	 // Time Change in Similator?
@@ -26,7 +27,13 @@ func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:St
 	let (newLines, format)		= format_.stripLeadingNewLines()
 
 	 // Formatted arguments:
-	var eventStr 				= sh.procAreaPriorityStr()
+	var rv						= " "
+	rv 							+= msgFilter ?? "<?>"	 			//e.g: "app"
+	let mp : Int?				=  msgPriority	// avoids concurrency problem!!!
+	rv							+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
+	rv							= rv.field(-9, dots:false, grow:true)
+	rv							+= " "
+	var eventStr 				= " "//sh.procAreaPriorityStr()
 	eventStr					+= String(format:format, arguments:args)
 								
 	 // Banner Line
@@ -50,24 +57,20 @@ extension Log {
 		+ params4partPp						//	pp... (20ish keys)
 		+ params4logDetail						// "debugOutterLock":f
 }
-
-class Log : FwAny, Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
+		// elim Uid? Actor?
+class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
 	 // MARK: - 2. Object Variables:
 	 // Identification of Log
 	let nameTag					= getNametag()
 
-	 // Each Log has an event number
-	var eventNumber		   		= 1			// Current entry number (runs 1...)
-
-	 // Breakpoint
-	var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
-
-	var detailWanted : [String:Int] = [:] 	 // Current logging detail filter to select log messages
+	fileprivate(set) var eventNumber		   		= 1			// Current entry number (runs 1...)
+	private(set) var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
+	private(set) var detailWanted : [String:Int] = [:] 	// Current logging detail filter to select log messages
 
 	 // MARK: - 2. REALLY UGLY: what if different threads using log?
-	var msgPriority : Int?		= nil		// hack: pass argument to message via global
-	var msgFilter   : String?	= nil
-	var simTimeLastLog	:Float? = -1//nil
+//	var msgPriority : Int?		= nil		// hack: pass argument to message via global
+//	var msgFilter   : String?	= nil
+	fileprivate var simTimeLastLog	:Float? = -1//nil
 
 	// MARK: pp stuff
 	var ppIndentCols 	: Int	= 0
@@ -160,31 +163,30 @@ class Log : FwAny, Uid {				// Never Equatable, NSCopying, NSObject // CherryPic
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux/*[:]*/) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
-	 /// Character to represent current Thread ID:
-	var threadNameCache : [String] = []
-	var ppCurThread 	: String {
-		let threadName			= Thread.current.name ?? "??349"
-		guard let n				= threadNameCache.firstIndex(of:threadName) else {
-			threadNameCache.append(threadName)		// new, add
-			return self.ppCurThread					// try again
-		}
-		assert(n < 26, "more than 26 threads not supported")
-		let nInt 				= Int(("A" as UnicodeScalar).value) + n
-		let nChar				= Character(UnicodeScalar(nInt)!)
-		return String(nChar)	// n as Character
-	}
+//	 /// Character to represent current Thread ID:
+//	var threadNameCache : [String] = []
+//	var ppCurThread 	: String {
+//		let threadName			= Thread.current.name ?? "??349"
+//		guard let n				= threadNameCache.firstIndex(of:threadName) else {
+//			threadNameCache.append(threadName)		// new, add
+//			return self.ppCurThread					// try again
+//		}
+//		assert(n < 26, "more than 26 threads not supported")
+//		let nInt 				= Int(("A" as UnicodeScalar).value) + n
+//		let nChar				= Character(UnicodeScalar(nInt)!)
+//		return String(nChar)	// n as Character
+//	}
 
 	 /// get a token identifying Filter and current Lock owner
-	func procAreaPriorityStr() -> String {			// " Acon4 " or " A<?>? "
-		var rv					= " "
-		rv						+= ppCurThread 	// Thread identifier: e.g: "A"
-		rv 						+= msgFilter ?? "<?>"	 			//e.g: "app"
-		let mp : Int?			=  msgPriority	// avoids concurrency problem!!!
-		rv						+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
-		rv						= rv.field(-9, dots:false, grow:true)
-		rv						+= " "
-		return rv
-	}
+//	func procAreaPriorityStr() -> String {			// " Acon4 " or " A<?>? "
+//		var rv					= " "
+//		rv 						+= msgFilter ?? "<?>"	 			//e.g: "app"
+//		let mp : Int?			=  msgPriority	// avoids concurrency problem!!!
+//		rv						+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
+//		rv						= rv.field(-9, dots:false, grow:true)
+//		rv						+= " "
+//		return rv
+//	}
 
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {

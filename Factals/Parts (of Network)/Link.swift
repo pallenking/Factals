@@ -468,10 +468,12 @@ bug	// Never USED?
 				 // Accumulate FORCE on node:
 	/**/		pInertialVew?.force += force
 	/**/		sInertialVew?.force -= force
-				atAni(9, logd("Force  \(force.pp(.line)) "
+				atAni(9, "Force  \(force.pp(.line)) "
 					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
-					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")"))
-				atAni(9, logd(" posn: \(vew.scnRoot.transform.pp(.line))"))
+					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")")
+//				atAni(9, logd(" posn: \(vew.scnRoot.transform.pp(.line))"))
+				atAni(9, " posn: \(vew.scnRoot.transform.pp(.line))")
+
 			}
 			else {
 				logd("computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn

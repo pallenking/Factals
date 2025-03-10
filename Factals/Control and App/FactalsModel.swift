@@ -141,7 +141,7 @@ import SwiftUI
 								: vew.expose == .atomic ? .open
 								: 						  .null
 			
-			atAni(5, logd("Changed '\(vew.fullName).expose' to \(vew.expose)"))
+			atAni(5, "Changed '\(vew.fullName).expose' to \(vew.expose)")
 		}
 	}
 
