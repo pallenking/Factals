@@ -266,12 +266,12 @@ bug;		let enaPort			= Port()
 
 		let v0				= self.enable3?.con2?.port?.getValue() ?? 0
 		if v0 > 0.5 {			// no enable Port --> enabled
-			atEve(4, logd("|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):"))
+			atEve(4, "|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):")
 			for user in self.previousClocks {
 bug//			user as? Actor?.clockPrevious() // Actor got -clockPrevious; send to customer
 			}
 		}
-		else {  atEve(4, logd("|| $$ clockPrevious to Actor: IGNORED"))			}
+		else {  atEve(4, "|| $$ clockPrevious to Actor: IGNORED")				}
 	}
 
 	 // MARK: - 8. Reenactment Simulator

@@ -189,7 +189,7 @@ bug;	return rv
 				let el			= eventLimit >= 0 	// any Limits?
 								?	-1 			  		// yes: START by turnomg limits OFF
 								:	eventNow			// no:  STOP by limiting events
-				atEve(4, logd("\n" + "=== EVENT: Key 'S' DOWN: eventLimit = \(el) (was \(eventLimit)) eventNow=\(eventNow)"))
+				atEve(4, "\n" + "=== EVENT: Key 'S' DOWN: eventLimit = \(el) (was \(eventLimit)) eventNow=\(eventNow)")
 				eventLimit		= el					// N.B: other process reads and starts
 				return true
 			case "s":
@@ -209,7 +209,7 @@ bug;	return rv
 			}
 		}
 		else if nsEvent.type == .keyUp {
-			atEve(4, logd("\n=== EVENT: Key 's' UP, userUpEvent=1"))
+			atEve(4, "\n=== EVENT: Key 's' UP, userUpEvent=1")
 		}
 		return false
 	}

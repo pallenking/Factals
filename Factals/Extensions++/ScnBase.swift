@@ -447,7 +447,9 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 /**/		if vewBase.processEvent(nsEvent:nsEvent, inVew:vew) == false,
 			  char != "?"  {		// okay for "?" to get here
-				atEve(3, print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)"))
+				if eventIs(ofArea:"eve", detail:3) {
+					print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
+				}
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
@@ -492,7 +494,9 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			selfiePole2camera(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
-			atEve(9, print("\( vewBase.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")"))
+			if eventIs(ofArea:"eve", detail:8) {
+				print("\( vewBase.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")")
+			}
 	/**/	if !mouseWasDragged {			// UnDragged Up -> pic
 	/**/		if let vew		= modelPic(with:nsEvent) {
 	/**/			vewBase.lookAtVew = vew			// found a Vew: Look at it!
@@ -587,7 +591,9 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 				}
 			}
 		}
-		atEve(3, print("\t\t" + "** No Part FOUND\n"))
+		if eventIs(ofArea:"eve", detail:3) {
+			print("\t\t" + "** No Part FOUND\n")
+		}
 		return nil
 	}
 
@@ -662,7 +668,9 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			return redo4debug
 		}
 		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
-		atEve(3, print("\n" + msg))
+		if eventIs(ofArea:"eve", detail:3) {
+			print("\n" + msg)
+		}
 		return vew
 	}
 

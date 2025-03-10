@@ -131,13 +131,13 @@ class DiscreteTime : Atom {
 	  // / Generates a "resetTo" pattern to target bundle
 		anonValue 				= 1.0			// first so resetTo = "a" sets a=1
 		if let resetTo 			= self.resetTo {
-			atEve(4, logd("|| resetTo '\(resetTo.pp())'"))
+			atEve(4, "|| resetTo '\(resetTo.pp())'")
 			let _ 				= loadTargetBundle(event:resetTo)
 		}
 	}
 	func resetForAgain() {
 		anonValue = 1.0				// anonymous value restarts on "again"
-		atEve(4, logd("/// resetForAgain():"))
+		atEve(4, "/// resetForAgain():")
 		ports["P"]?.portPastLinks?.take(value:0.0, key:nil)	// Perhaps discreteTimes[*]
 	}
 	 /// Load the next event to the target bundle:
@@ -147,13 +147,13 @@ class DiscreteTime : Atom {
 		self.anonValue 			= 1.0
 		switch event {
 		case .anArray(let eventArray):	 // FwwEvent is an Array
-			atEve(4, logd("|| LOAD FwwEvent '\(eventArray.pp())' into target \(pPort.fullName)"))
+			atEve(4, "|| LOAD FwwEvent '\(eventArray.pp())' into target \(pPort.fullName)")
 
 			 // First element of an array might set the current anonymous value
 			if let ea0 			= eventArray.first {
 			  	if case .aProb(let anonValue) = ea0 {		// cannot chain w ,
 					self.anonValue = anonValue
-					atEve(4, logd("|| Element 1 ='\(ea0.pp())'; \(anonValue) => anonValue"))
+					atEve(4, "|| Element 1 ='\(ea0.pp())'; \(anonValue) => anonValue")
 			  	}
 			}
 			 // Clear all Ports:
@@ -171,21 +171,22 @@ class DiscreteTime : Atom {
 		case .aString(let eventStr):	 	// FwwEvent is an String
 			if eventStr == "incrementalEvents" {// "incrementalEvents" -- reserved word
 				self.incrementalEvents = true	//  (do not use as signal name)
-				atEve(4, logd("|| FwwEvent 'incrementalEvents' -- hold previous values"))
+				atEve(4, "|| FwwEvent 'incrementalEvents' -- hold previous values")
 				return
 			}
 			loadTargetBundle(event: .anArray([event]))	// package up eventStr
 		case .aProb(let prob):			 	// FwwEvent is a Floating Point --> Random Events (for easy first tests)
-			atEve(4, logd("|| FwwEvent '\(prob)': RANDOMIZE targetBundle \(targetPort?.fullName ?? "?232")"))
+			atEve(4, "|| FwwEvent '\(prob)': RANDOMIZE targetBundle \(targetPort?.fullName ?? "?232")")
 			 // Put in random data
 			let value = prob <= Float.random(from:0.0, to:1.0)
 			panic("This doesn't give independent random values!")
 			targetPort?.take(value:value ? 1.0 : 0.0, key:"*")
 		 // Epochs are unsupported
 		case .anEpoch(let eInt):			 // FwwEvent is a single number
-			atEve(4, logd("|| FwwEvent '\(eInt)': Epoch Mark")) /// Integer --> 0 Epoch Mark
+			atEve(4, "|| FwwEvent '\(eInt)': Epoch Mark") /// Integer --> 0 Epoch Mark
 		default: 				// e.g: FwwEvent is an NSInteger, etc. -- no effect on
-			atEve(4, atEve(4, logd("|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")))
+			atEve(4, "|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")
+//			atEve(4, atEve(4, logd("|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")))
 		}
 	}
 	  /// Load an event into the target bundle.
@@ -254,7 +255,7 @@ class DiscreteTime : Atom {
 		let sigName				= String(comp[0])	// Leaf name <== value
 		if let pPort			= ports["P"]?.portPastLinks {
 			let was				= pPort.valuePrev	// pPort!.getValues(key:sigName)
-			atEve(4, /*pPort.*/logd("|| /\\/\\ '\(pPort.name)'.take(value:\(theValue), key:\(sigName)), was \(was)"))
+			atEve(4, "|| /\\/\\ '\(pPort.name)'.take(value:\(theValue), key:\(sigName)), was \(was)")
 			pPort.take(value:theValue, key:sigName)
 		}
 //		else { panic("DiscreteTime 'P' Port fault") }

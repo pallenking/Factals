@@ -60,20 +60,20 @@ class Branch : Splitter {
 //		self.parameters["addPreviousClock"] = 1
 	}
 	override func sendMessage(fwType:FwType) {
-bug;	atEve(4, logd("      all parts ||  sendMessage(\(fwType))."))
+bug;	atEve(4, "      all parts ||  sendMessage(\(fwType)).")
 		let fwEvent 			= HnwEvent(fwType:fwType)
 		return receiveMessage(fwEvent:fwEvent)
 	}
 	 /// Recieve message and broadcast to all children
 	override func receiveMessage(fwEvent:HnwEvent) {
 		if fwEvent.fwType == .clockPrevious {
-			atEve(4, logd("$$$$$$$$ << clockPrevious >>"))
+			atEve(4,"$$$$$$$$ << clockPrevious >>")
 			clockPrevious()
 		}
 	}
 	
 	func clockPrevious() {
-		atEve(4, logd("|| $$ clockPrevious to Branch: L=\(lPreLatch) (was \(lPort?.value ?? -1))"))
+		atEve(4, "|| $$ clockPrevious to Branch: L=\(lPreLatch) (was \(lPort?.value ?? -1))")
 		lPort!.take(value:lPreLatch)
 	}
 	
@@ -86,15 +86,15 @@ bug;	atEve(4, logd("      all parts ||  sendMessage(\(fwType))."))
 		if speakInPort?.valueChanged() ?? false {
 			let valPrev 		= speakInPort!.valuePrev
 			let valNext 		= speakInPort!.value
-			atEve(4, logd("Branch: speak=\(valNext) (was \(valPrev))"))
+			atEve(4, "Branch: speak=\(valNext) (was \(valPrev))")
 bug//		self.speak = Int(valNext)
 		}
 
 		if !self.speak {
 			if upLocal { //!downLocal {
 				if sInPort!.valueChanged() {
-					atEve(4, logd("Branch: S->lPre =(was)"))
-					atEve(4, logd("Branch: S->lPre =\(sInPort!.value) (was \(lPreLatch))"))
+					atEve(4, "Branch: S->lPre =(was)")
+					atEve(4, "Branch: S->lPre =\(sInPort!.value) (was \(lPreLatch))")
 					lPreLatch 	= sInPort!.value
 				}
 				super.simulate(up:upLocal)
@@ -104,10 +104,10 @@ bug//		self.speak = Int(valNext)
 					let valPrev = lInPort!.valuePrev
 					let valNext = lInPort!.value
 					if let mPort = self.mPort {
-						atEve(4, logd("Branch: L->M=\(valNext) (was \(valPrev))"))
+						atEve(4, "Branch: L->M=\(valNext) (was \(valPrev))")
 						mPort.take(value:valNext)
 					} else {
-						atEve(4, logd("Branch: L->S=\(valNext) (was \(valPrev))"))
+						atEve(4, "Branch: L->S=\(valNext) (was \(valPrev))")
 						sPort.take(value:valNext)
 					}
 				}

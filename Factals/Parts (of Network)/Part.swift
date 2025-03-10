@@ -803,7 +803,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	  // MARK: - 7. Simulator Messages
 	 // Inject message
 	func sendMessage(fwType:FwType) {
-		atEve(4, logd("      all parts ||  sendMessage(\(fwType))."))
+		atEve(4, "      all parts ||  sendMessage(\(fwType)).")
 		let fwEvent 			= HnwEvent(fwType:fwType)
 		return receiveMessage(fwEvent:fwEvent)
 	}

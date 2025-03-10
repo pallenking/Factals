@@ -45,7 +45,8 @@ func atAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=
 { 	at("ani", detail, format:format, args:format, terminator:terminator)		}
 func atDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
 { 	at("dat", detail, format:format, args:format, terminator:terminator)		}
-func atEve(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("eve", detail, act())	}
+func atEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+{ 	at("eve", detail, format:format, args:format, terminator:terminator)		}
 func atIns(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("ins", detail, act())	}	//
 func atMen(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("men", detail, act())	}	//del
 func atRve(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rve", detail, act())	}
