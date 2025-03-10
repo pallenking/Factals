@@ -93,7 +93,7 @@ class Atom : Part {	//Part//FwPart
 //?		try container.encode(proxyColor,forKey:.proxyColor)
 		try container.encode(ports, 	forKey:.ports)
 		try container.encode(bindings, 	forKey:.bindings)
-		atSer(3, "Encoded  as? Atom        '\(fullName)'")
+		logSer(3, "Encoded  as? Atom        '\(fullName)'")
 	}
 	 /// Deserialize
 	required init(from decoder: Decoder) throws {
@@ -105,7 +105,7 @@ class Atom : Part {	//Part//FwPart
 //?		proxyColor 				= try container.decode(			NSColor.self, forKey:.proxyColor)
 		ports 					= try container.decode(	  [String:Port].self, forKey:.ports)
 		bindings 				= try container.decode([String:String]?.self, forKey:.bindings)
-		atSer(3, "Decoded  as? Atom       '\(name)'")
+		logSer(3, "Decoded  as? Atom       '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -116,7 +116,7 @@ class Atom : Part {	//Part//FwPart
 //		theCopy.proxyColor		= self.proxyColor
 //		theCopy.ports	 		= self.ports
 //		theCopy.bindings		= self.bindings
-//		atSer(3, logd("copy(with as? Atom       '\(fullName)'"))
+//		logSer(3, "copy(with as? Atom       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -181,11 +181,11 @@ class Atom : Part {	//Part//FwPart
 //			}
 //			 // report and return results:
 //			if rv != nil {
-//				atBld(5, "   MATCHES Inward check: \(rv.fullName)")
+//				logBld(5, "   MATCHES Inward check: \(rv.fullName)")
 //				return rv
 //			}
 //		}
-//		atBld(5, "   FAILS   Inward check")
+//		logBld(5, "   FAILS   Inward check")
 //
 //		return super.resolveInwardReference(path, openingDown:downInSelf, except:exception)
 //	}
@@ -200,7 +200,7 @@ class Atom : Part {	//Part//FwPart
 					rv 			= port
 				}
 				else {
-					atBld(4, "[getBit)????? : ignoring %@, alrady found %", port.name, rv!.name)
+					logBld(4, "[getBit)????? : ignoring %@, alrady found %", port.name, rv!.name)
 				}
 			}
 		}
@@ -216,7 +216,7 @@ class Atom : Part {	//Part//FwPart
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		atBld(7, " '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+		logBld(7, " '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 		var rvPort : Port?		= nil					// Initially no return value
 
 		 // Check BINDINGS?
@@ -226,17 +226,17 @@ class Atom : Part {	//Part//FwPart
 				rvPort 			=  boundPart as? Port			// Case 1: already a Port?
 				if let boundAtom = boundPart as? Atom {			// Case 1: Atom's Port?
 					let sWantUp	= wantUp==nil ? nil : wantUp! ^^ boundAtom.upInPart(until:self)
-					atBld(6, " .BINDING \"\(wantedName)\":\"\(bindingString)\" now at \(fwClassName): \"\(boundAtom.pp(.fullName))\"")
+					logBld(6, " .BINDING \"\(wantedName)\":\"\(bindingString)\" now at \(fwClassName): \"\(boundAtom.pp(.fullName))\"")
 
 					// Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
 			/**/	rvPort		= boundAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 				}
 //				rvPort 			=  boundPart as? Port			// Case 2: Port?
 			}
-			atBld(4, "-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'")
+			logBld(4, "-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'")
 		}
 		 // If Existing Port?
-		atBld(4, "xxxxxxxx")
+		logBld(4, "xxxxxxxx")
 		rvPort					??= existingPorts(named:wantedName, localUp:wantUp).first
 		 // If Delayed Populate Port?
 		rvPort					??= delayedPopulate(named:wantedName, localUp:wantUp)
@@ -254,7 +254,7 @@ class Atom : Part {	//Part//FwPart
 			  cPort.flipped,
 			  splitter.isBroadcast {
 				rvPort				= splitter.anotherShare(named:"*")
-				atBld(4, "-----Returns Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'")
+				logBld(4, "-----Returns Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'")
 				return rvPort
 			}
 
@@ -263,13 +263,13 @@ class Atom : Part {	//Part//FwPart
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
 				rvPort				= conSplitter.anotherShare(named:"*")
-				atBld(4, "-----Returns Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'")
+				logBld(4, "-----Returns Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'")
 				return rvPort
 			}
 
 			 // Add Auto Broadcast?:
 			else if let x		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
-				atBld(4, "-----Returns Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'")
+				logBld(4, "-----Returns Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'")
 				return x
 			}
 			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
@@ -371,7 +371,7 @@ class Atom : Part {	//Part//FwPart
 
 		  //   "AUTO-BCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
-		atBld(4, "<<++ Auto Broadcast ++>>")
+		logBld(4, "<<++ Auto Broadcast ++>>")
 
 		 // 1.  Make a Broadcast Splitter Atom:
 		let newName				= "\(name)\(toPort.name)"
@@ -482,7 +482,7 @@ nop
 				let breakAtWireNo = partBase.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(Log.shared.eventNumber-1)")
-				atBld(4, "L\(wireNumber) source:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))")
+				logBld(4, "L\(wireNumber) source:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))")
 
   /* **************************************************************************/
  /* *********/	let aWire = { () -> () in    /* ******* DO LATER: ************/
@@ -572,7 +572,7 @@ nop
 
 					 //    3a. //// SouRCe (is self)				// Log
 					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(until:conNet)
-					atBld(4, "L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
+					logBld(4, "L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
 					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
@@ -583,7 +583,7 @@ nop
 					let trgInfo	= "---TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6))" +
 								  " opens _\(ppUp(trgAboveSInT))_"
-					atBld(4, trgInfo)
+					logBld(4, trgInfo)
 
 					 //		3d. //// Get the TaRGet Port			// target Port
 					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
@@ -609,7 +609,7 @@ nop
 						link 	=  !s ? Link(linkProps) : MultiLink(linkProps)
 						msg1 	+= " <->\(link!.name)"
 					}
-					atBld(4, msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)")
+					logBld(4, msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)")
 
 					 // CHECK: Boss and Worker Ports face opposite // MIGHT BETTER CHECK s->d wrt children.index
 					if trgPort!.upInWorld ^^ !srcPort!.upInWorld,	// direction fault and
@@ -619,7 +619,7 @@ nop
 						msg1	+= " " + srcPort!.upInWorldStr()
 						msg1    += "\n\t" + "Target: " + trgPort!.fullName
 						msg1	+= " " + trgPort!.upInWorldStr()
-bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
+bug				//		logBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
 				//				" Consider using config[noCheck] '^'." + msg1))
 					}
 					assert(srcPort?.con2 == nil, "SouRCe PORT occupied")
@@ -780,7 +780,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 	 //
 	override func placeByLinks(inVew vew:Vew, mode:String?=nil) -> Bool {
 		func atPri_fail(_ format:String, _ args:CVarArg...) -> Part? {
-			atRsi(5, "\t\t" + "ABORT: " + format, args)
+			logRsi(5, "\t\t" + "ABORT: " + format, args)
 			return nil
 		}
 		assert(mode == "linky", "placeByLinks only debugged for 'linky' mode")
@@ -806,7 +806,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 		var avgPosition	:SCNVector3	= .zero		// default return position is Nan
 		var lastDomIf2	: Part?	= nil
 
-		atRsi(4, ">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")")
+		logRsi(4, ">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")")
 			   // /////////////////////////////////////////////////////////////// //
 			  // 															     //
 			 //  For all enclosed subBits, looking for things to position it by //
@@ -820,7 +820,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 
 		let _					= findCommon(up2:false, inMe2:true, firstWith:					//all:false,
 		{ (inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
-			atRsi(5, "  TRY \(inMe.fullName.field(10)) ", terminator:"")
+			logRsi(5, "  TRY \(inMe.fullName.field(10)) ", terminator:"")
 
 			   // /////////////////////////////////////////////////////////////// //
 			  // /////// Search for a Link to fixed ground
@@ -828,7 +828,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			guard let inMePort	= inMe as? Port else {
 				return atPri_fail(		"inMe not Port")
 			}
-			atRsi(4, "Port ", terminator:"")
+			logRsi(4, "Port ", terminator:"")
 			if inMe.parent is Link {
 				return atPri_fail(		"inMe's atom is Link inside of self!")
 			}
@@ -850,7 +850,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			if fixedPort is ParameterPort {
 				return atPri_fail(		"Fixed Port is a ParameterPort")
 			}
-			atRsi(4, "-->\(fixedPort.fullName16) ", terminator:"")
+			logRsi(4, "-->\(fixedPort.fullName16) ", terminator:"")
 										// // f. INSIDE of self, IGNORE
 			if find(part:fixedPort) != nil {
 				return atPri_fail(		"fixedP is inside self")
@@ -889,7 +889,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			let commonVew 		= refVew.find(part:commonNet, up2:true, inMe2:true)
 			let inMePOpensUpIC	= inMePort.upInPart(until:commonNet)		// ???wtf???
 
-			atRsi(4, inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:"")
+			logRsi(4, inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:"")
 			if  inMePOpensUpIC {		// // g. pointing up, but not into a Context
 				return atPri_fail(		"not in context")
 			}
@@ -938,7 +938,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 				panic("Second dominant Link con2 (\(fixedPort.pp(.fullName)) were found")
 			}
 			newInMePosn.y		+= gap
-			atRsi(4, "\t\t\t\t" + "<<===== FOUND: p=\(newInMePosn.pp(.short)); "
+			logRsi(4, "\t\t\t\t" + "<<===== FOUND: p=\(newInMePosn.pp(.short)); "
 						  + "\(vew.part.fullName).vew.bBox = (\(vew.bBox.pp(.line)))")
 
 			 // ////// Accumulate position: average for x,z; max for y
@@ -953,7 +953,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 		   // ///////////////////////////////////////////////////////////////
 
 		guard !maxPositionY.isInfinite else {									//guard weightSum > 0 && !maxPositionY.isInfinite else {
-			atRsi(4, "\t\t ABORT: ============ FAILS link positioning: position unchanged")
+			logRsi(4, "\t\t ABORT: ============ FAILS link positioning: position unchanged")
 			return false														}
 
 		// <N>:average of N, 0:nothing found, -1:dominated
@@ -962,8 +962,8 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			avgPosition 		/=  weightSum		// take average
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
-		atRsi(4, "<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))")
-		//atRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
+		logRsi(4, "<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))")
+		//logRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
 		vew.scnRoot.position = avgPosition + (vew.jog ?? .zero)
 
 		vew.moveSoNoOverlapping()					// MOVE UPWARD

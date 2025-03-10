@@ -48,7 +48,7 @@ class Net : Atom {		// Atom // Part
 		var container 			= encoder.container(keyedBy:NetsKeys.self)
 
 		try container.encode(minSize, forKey:.minSize)
-		atSer(3, "Encoded  as? Net         '\(fullName)'")
+		logSer(3, "Encoded  as? Net         '\(fullName)'")
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -56,14 +56,14 @@ class Net : Atom {		// Atom // Part
 		let container 			= try decoder.container(keyedBy:NetsKeys.self)
 
 		minSize 				= try container.decode(SCNVector3?.self, forKey:.minSize)
-		atSer(3, "Decoded  as? Net        named  '\(name)' minSize = \(minSize?.pp(.line) ?? "nil")")
+		logSer(3, "Decoded  as? Net        named  '\(name)' minSize = \(minSize?.pp(.line) ?? "nil")")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Net
 //		theCopy.minSize			= self.minSize
-//		atSer(3, logd("copy(with as? Net       '\(fullName)'"))
+//		logSer(3, "copy(with as? Net       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable

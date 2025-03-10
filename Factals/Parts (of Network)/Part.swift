@@ -164,7 +164,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 		 // Print out invocation
 		let n					= "create \(fwClassName) " + ("\'" + name + "\': ").field(8)
-		atBld(6, "  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))")
+		logBld(6, "  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))")
 
 		 // Options:
 		if let valStr			= partConfig["expose"] as? String,
@@ -273,7 +273,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		try container.encode(spin, 			forKey:.spin)
 		try container.encode(shrink,		forKey:.shrink)
 		try container.encode(placeSelf,		forKey:.placeSelf)
-		atSer(3, "Encoded  as? Part        '\(fullName)' dirty:\(dirty.pp())")
+		logSer(3, "Encoded  as? Part        '\(fullName)' dirty:\(dirty.pp())")
 	}
 
 	required init(from decoder: Decoder) throws {
@@ -300,7 +300,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		var str					=  "name='\(name)', "
 		str						+= "\(children.count) children, "
 		str						+= "dirty:\(dirty.pp())"
-		atSer(3, "Decoded  as? Part       \(str)")
+		logSer(3, "Decoded  as? Part       \(str)")
 	}
 	// END CODABLE /////////////////////////////////////////////////////////////////
 //	 // MARK: - 3.6 NSCopying
@@ -319,7 +319,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 //		theCopy.spin			= self.spin
 //		theCopy.shrink			= self.shrink
 //		theCopy.placeSelf		= self.placeSelf
-//		atSer(3, logd("copy(with as? Part       '\(fullName)'"))
+//		logSer(3, "copy(with as? Part       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 EquatableFW
@@ -771,7 +771,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			}
 			if index == path.atomTokens.count-1,	// At the token to the left of the first '/'?
 			  path.atomTokens[index] == "" {		  // "" before --> Absolute Path
-				logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
+bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 				return self								// .:. match!
 			}
 			if part.name != path.atomTokens[index]{	// name MISMATCH
@@ -803,13 +803,13 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	  // MARK: - 7. Simulator Messages
 	 // Inject message
 	func sendMessage(fwType:FwType) {
-		atEve(4, "      all parts ||  sendMessage(\(fwType)).")
+		logEve(4, "      all parts ||  sendMessage(\(fwType)).")
 		let fwEvent 			= HnwEvent(fwType:fwType)
 		return receiveMessage(fwEvent:fwEvent)
 	}
 	 /// Recieve message and broadcast to all children
 	func receiveMessage(fwEvent:HnwEvent) {
-	//	atEve(4, log("$$$$$$$$ all parts receiveMessage:\(fwTypeDefnNames[fwEvent->fwType])") )))
+	//	logEve(4, log("$$$$$$$$ all parts receiveMessage:\(fwTypeDefnNames[fwEvent->fwType])") )))
 		for elt in children {				// do for our parts too
 			elt.receiveMessage(fwEvent:fwEvent)
 		}
@@ -1174,13 +1174,13 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			var newBip			= vew.bBox * vew.scnRoot.transform //new bBox in parent
 			var rv				= -newBip.center // center selfNode in parent
 			newBip.center		= .zero
-			atRsi(4, ">>===== Position \(self.fullName) by:\(mode) (stacked) in \(parent?.fullName ?? "nil") ")
+			logRsi(4, ">>===== Position \(self.fullName) by:\(mode) (stacked) in \(parent?.fullName ?? "nil") ")
 			let stkBip 			= vew.parent!.bBox
 			rv		 			+= stkBip.center // center of stacked in parent
 			let span			= stkBip.size + newBip.size	// of both parent and self
 			let slop			= stkBip.size - newBip.size	// amount parent is bigger than self
-			atRsi(6, "   newBip:\(newBip.pp(.phrase)) stkBip:\(stkBip.pp(.phrase))")
-			atRsi(5, "   span:\(span.pp(.line)) slop:\(slop.pp(.line))")
+			logRsi(6, "   newBip:\(newBip.pp(.phrase)) stkBip:\(stkBip.pp(.phrase))")
+			logRsi(5, "   span:\(span.pp(.line)) slop:\(slop.pp(.line))")
 
 			  // e.g. mode = "stackY 0.5 1"
 			 // determine: u0,u1,u2, stackSign, alignU1, alignU2
@@ -1205,7 +1205,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 				alignU2			= 0.5 * a2
 			}
 			let ax				= ["x", "y", "z"] 
-			atRsi(5, "   Stack:\(stackSign > 0 ? "+" : "-")\(ax[u0]): Align \(ax[u1])=\(alignU1), \(ax[u2])=\(alignU1)")
+			logRsi(5, "   Stack:\(stackSign > 0 ? "+" : "-")\(ax[u0]): Align \(ax[u1])=\(alignU1), \(ax[u2])=\(alignU1)")
 
 			 // the move (delta) to put self's bBox centered within parent's bBox
 			   // Place next Vew (self) on side of stacked parts   \\\
@@ -1240,7 +1240,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
 	//		let delta			= newBip.center - stkBip.center
 	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
-			atRsi(4, "=====>> FOUND: rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n")
+			logRsi(4, "=====>> FOUND: rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n")
 			vew.scnRoot.position	= rv + (vew.jog ?? .zero)
 	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
 		}
@@ -1268,8 +1268,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		if let pb 				= vew.scnRoot.physicsBody,
 		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
 			pb.applyForce(vew.force, asImpulse:false)
-			atRve(9, " Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))")
-//			atRve(9, " posn: \(vew.scnScene.transform.pp(.line))")
+			logRve(9, " Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))")
+//			logRve(9, " posn: \(vew.scnScene.transform.pp(.line))")
 		}
 		vew.force				= .zero
 	}
@@ -1358,15 +1358,15 @@ bug//never gets here
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
 		warningLog.append(targName + fmtWithArgs)
-		partBase != nil ? logd(banner:"WARNING", targName + fmtWithArgs + "\n")
-					: print("WARNING" + targName + fmtWithArgs  + "\n")
+		partBase != nil ? logd(banner:"WARNING",  targName + fmtWithArgs + "\n")
+						      : print("WARNING" + targName + fmtWithArgs + "\n")
 	}
 	func error(_ format:String, _ args:CVarArg...) {
 		logNErrors 				+= 1
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
 		partBase != nil ? logd(banner:"ERROR", targName + fmtWithArgs + "\n")
-					: print("ERROR", targName + fmtWithArgs + "\n")
+							  : print("ERROR", targName + fmtWithArgs + "\n")
 	}
 
 	func ppUnusedKeys() -> String {

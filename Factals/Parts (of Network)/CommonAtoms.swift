@@ -153,7 +153,7 @@ class Mirror : Atom {
 
 		try container.encode(gain,	forKey:.gain)
 		try container.encode(offset,forKey:.offset)
-		atSer(3, "Encoded  as? Mirror      '\(fullName)'")
+		logSer(3, "Encoded  as? Mirror      '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -162,7 +162,7 @@ class Mirror : Atom {
 
 		gain					= try container.decode(Float.self, forKey:.gain)
 		offset					= try container.decode(Float.self, forKey:.offset)
-		atSer(3, "Decoded  as? Mirror")
+		logSer(3, "Decoded  as? Mirror")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -170,7 +170,7 @@ class Mirror : Atom {
 //		let theCopy				= super.copy(with:zone) as! Mirror
 //		theCopy.gain 			= self.gain
 //		theCopy.offset 			= self.offset
-//		atSer(3, logd("copy(with as? LinkPort   '\(fullName)'"))
+//		logSer(3, "copy(with as? LinkPort   '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -193,7 +193,7 @@ class Mirror : Atom {
 				let val2 :Float = val * gain + offset
 				let val3		= min(1.0, max(0.0, val2))
 				if val3 != pPort.value {
-					atDat(3, "Mirror-. %.2f (was %.2f)  ===/=\\=/=\\===", val3, val)
+					logDat(3, "Mirror-. %.2f (was %.2f)  ===/=\\=/=\\===", val3, val)
 					pPort.take(value:val3)			 	// /////	PUT to my OUTPUT
 				}
 			}
@@ -245,7 +245,7 @@ class Modulator : Atom {
 //		theCopy.sHeight 		= self.sHeight
 //		theCopy.sRadius 		= self.sRadius
 //		theCopy.armLen 			= self.armLen
-//		atSer(3, logd("copy(with as? LinkPort   '\(fullName)'"))
+//		logSer(3, "copy(with as? LinkPort   '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable

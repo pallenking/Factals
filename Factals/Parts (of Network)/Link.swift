@@ -128,7 +128,7 @@ class Link : Atom {
 		try container.encode(sDownCPort, 			forKey:.downCPort)
 		try container.encode(minColorVal, 			forKey:.minColorVal)
 		try container.encode(maxColorVal, 			forKey:.maxColorVal)
-		atSer(3, "Encoded  as? Link        '\(fullName)'")
+		logSer(3, "Encoded  as? Link        '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -141,7 +141,7 @@ class Link : Atom {
 		sDownCPort				= try container.decode(LinkPort	.self, forKey:.downCPort)
 		minColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
 		maxColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
-		atSer(3, "Decoded  as? Link       named  '\(name)'")
+		logSer(3, "Decoded  as? Link       named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -152,7 +152,7 @@ class Link : Atom {
 //		theCopy.sDownCPort	= self.sDownCPort
 //		theCopy.minColorVal	 	= self.minColorVal
 //		theCopy.maxColorVal	 	= self.maxColorVal
-//		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
+//		logSer(3, "copy(with as? Actor       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -253,7 +253,7 @@ class Link : Atom {
 	}
 	  // MARK: - 9.2 reSize (position its ends)
 	override func reSize(vew:Vew) {
-		atRsi(8, "<><> L 9.2:   \\reSize Link '\(vew.part.fullName)'")
+		logRsi(8, "<><> L 9.2:   \\reSize Link '\(vew.part.fullName)'")
 		 // HELP: dThis should go in Link.reSkin!
 		vew.scnRoot.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link skins picable
 
@@ -277,7 +277,7 @@ class Link : Atom {
 	}
 	 // MARK: - 9.3 reSkin (Link Billboard)
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		atRsi(8, "<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'")
+		logRsi(8, "<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'")
 		let name				= "s-Link"
 		let _/*scn*/ : SCNNode	= vew.scnRoot.find(name:name) ?? {
 			let sLink			= SCNNode()
@@ -366,7 +366,7 @@ class Link : Atom {
 		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
 		 let sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
-		atRsi(4, "<<===== reSizePost, FOUND pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))")
+		logRsi(4, "<<===== reSizePost, FOUND pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))")
 
 		 // Center point of each end, in world coordinates
 		// :H: _CENT_er					// of spot
@@ -413,7 +413,7 @@ class Link : Atom {
 /**/	sVew.scnRoot.position		= s
 		linkVew.sEndVip			= s
 
-		atRsi(8, "<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)")
+		logRsi(8, "<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)")
 	}
 
 		// Xyzzy19e
@@ -434,14 +434,14 @@ bug	// Never USED?
 					continue
 				}
 				portVew.scnRoot.position = p
-				atRsi(8, "<><> L 9.4\(portStr):  = \(p)")
+				logRsi(8, "<><> L 9.4\(portStr):  = \(p)")
 			}
 		}
 	}
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
 	override func computeLinkForces(vew:Vew) {
-		atRsi(8, "<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'")
+		logRsi(8, "<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'")
 		guard !vew.scnRoot.transform.isNan else {
 			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
 		}
@@ -470,15 +470,14 @@ bug	// Never USED?
 				 // Accumulate FORCE on node:
 	/**/		pInertialVew?.force += force
 	/**/		sInertialVew?.force -= force
-				atAni(9, "Force  \(force.pp(.line)) "
+				logAni(9, "Force  \(force.pp(.line)) "
 					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
 					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")")
-//				atAni(9, logd(" posn: \(vew.scnRoot.transform.pp(.line))"))
-				atAni(9, " posn: \(vew.scnRoot.transform.pp(.line))")
+				logAni(9, " posn: \(vew.scnRoot.transform.pp(.line))")
 
 			}
 			else {
-				logd("computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn
+				logAni(3, "##### computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn
 			//	let sPinParX	= lvp.localPosition(of:.zero, inSubVew:lv.sCon2Vew)
 			}
 		}
@@ -496,7 +495,7 @@ bug	// Never USED?
 		 // Get ends of link, and set positions
 		if let pEndVip			= linkVew.pEndVip,
 		  let  sEndVip 			= linkVew.sEndVip {
-//			atRsi(8, logd("<><> L 9.5.4: \\set xform from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line))"))
+//			logRsi(8, "<><> L 9.5.4: \\set xform from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line))")
 
 			 // Create a transform that maps (0,0,0)->pEndVip and (0,0,1)->sEndVip
 			//	  |m11* + m12* + m13*|   |in.x| transposed into a colum
@@ -522,7 +521,7 @@ bug	// Never USED?
 			let s				= linkVew.scnRoot.find(name:"s-Link")!
 			s.transform 		= m
 		}else{
-			logd("CURIOUS3 -- link ends nil, cannot rotate link toward camera")
+			logRnd(1, "CURIOUS3 -- link ends nil, cannot rotate link toward camera")
 		}
 	}		// Xyzzy19e
 
@@ -532,7 +531,7 @@ bug	// Never USED?
 	var imageHeight: Int					{ 	return 300						}
 	 /// Paint red and green onto Link skins
 	override func rePaint(vew:Vew) 		{		// paint red and green
-		atRsi(8, "<><> L 9.6:   \\rePaint")
+		logRsi(8, "<><> L 9.6:   \\rePaint")
 		 // S and P port of a link have no views, but their .paint bits must be cleared:
 		let _ 				= ports.map 	{	$1.dirty.turnOff(.paint) 		}
 
@@ -597,7 +596,7 @@ extension Port {
 		let name				= "s-LinkEnd"
 		let scn:SCNNode 		= vew.scnRoot.find(name:name) ?? {
 			 // None found, make one.
-			atRsi(8, "<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))")
+			logRsi(8, "<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))")
 			let scn				= SCNNode(geometry:SCNSphere(radius:0.2))		// the Ports of Links are invisible
 			vew.scnRoot.addChild(node:scn)
 			scn.name			= name

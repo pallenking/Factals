@@ -97,7 +97,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 		try container.encode(timeNow, 		forKey:.timeNow)
 		try container.encode(timeStep,		forKey:.timeStep)
 		try container.encode(globalDagDirUp,forKey:.globalDagDirUp)
-//		atSer(3, logd("Encoded"))
+//		logSer(3, "Encoded")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -113,7 +113,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 		globalDagDirUp				= try container.decode(			Bool.self, forKey:.globalDagDirUp)
 
 		super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-//		atSer(3, logd("Decoded  as? Controller"))
+//		logSer(3, "Decoded  as? Controller")
 	}
 // END CODABLE /////////////////////////////////////////////////////////////////
 	   // MARK: - x.1 Simulator Task
@@ -124,7 +124,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 		if simBuilt && simRun {				// want to run
 			if simTaskRunning == false {		// if not now running
 				simTaskRunning	= true
-				atBld(3, "# # # # STARTING Simulation Task (simRun=\(simRun))")
+				logBld(3, "# # # # STARTING Simulation Task (simRun=\(simRun))")
 			}
 //			let taskPeriod		= factalsModel?.fmConfig.double("simTaskPeriod") ?? 2	// DEFAULT IS VERY JERKEY
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
@@ -137,7 +137,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 	func stopSimulationTask() {
 		if simTaskRunning == true {				// now running
 			simTaskRunning		= false
-			atBld(3, "# # # # STOPPED  Simulation Task \n")
+			logBld(3, "# # # # STOPPED  Simulation Task \n")
 			 // Remove "perform-requests" from the current run loop, not ALL run loops.
 			NSObject.cancelPreviousPerformRequests(withTarget:self)
 		}

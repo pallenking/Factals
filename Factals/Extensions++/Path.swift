@@ -180,7 +180,7 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 		try container.encode(atomTokens, forKey:.atomTokens)
 bug;	try container.encode(portName,   forKey:.portName)
 //		try container.encode(linkProps,  forKey:.linkProps)
-//		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))  // CherryPick2023-0520:
+//		logSer(3, "Encoded  as? Path        '\(String(describing: fullName))'")  // CherryPick2023-0520:
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:PathKeys.self)
@@ -189,7 +189,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		linkProps 				= try container.decode(FwConfig.self, forKey:.linkProps)
 
 		super.init()
- 		atSer(3, "Decoded  as? Path       named  '\(String(describing: fullName))'")
+ 		logSer(3, "Decoded  as? Path       named  '\(String(describing: fullName))'")
 	}
 //	 // MARK: - 3.6 NSCopying
 //	func copy(with zone: NSZone?=nil) -> Any {
@@ -197,7 +197,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		theCopy.atomTokens 		= self.atomTokens
 //		theCopy.portName   		= self.portName
 //		theCopy.linkProps	  	= self.linkProps
-//		atSer(3, logd("copy(with as? Path       ''"))
+//		logSer(3, "copy(with as? Path       ''")
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable

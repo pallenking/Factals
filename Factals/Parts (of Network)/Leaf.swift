@@ -51,21 +51,21 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		var container 			= encoder.container(keyedBy:LeafsKeys.self)
 
 //		try container.encode(type, forKey:.type)
-		atSer(3, "Encoded  as? Leaf        '\(fullName)'")
+		logSer(3, "Encoded  as? Leaf        '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
 		let container 		= try decoder.container(keyedBy:LeafsKeys.self)
 //		type	 			= try container.decode(LeafKind.self, forKey:.type)
 		try super.init(from:decoder)
-		atSer(3, "Decoded  as? Leaf       named  '\(name)'")
+		logSer(3, "Decoded  as? Leaf       named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Leaf
 //	//	theCopy.type			= self.type
-//		atSer(3, logd("copy(with as? Leaf       '\(fullName)'"))
+//		logSer(3, "copy(with as? Leaf       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -114,7 +114,7 @@ bug;	return nil
 //			if let bindingStr 	= self.bindings?[path.namePort] {
 //				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
 //				
-//				atBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
+//				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
 //								  self.fullName, path.namePort, bindingPath.pp())
 //
 //				  // Look that name up
@@ -135,11 +135,11 @@ bug;	return nil
 //			} //			rv = self;								// found	(why?)
 //			
 //			if let rv {
-//				atBld(5, "   MATCHES Inward check as Leaf '\(fullName)'")
+//				logBld(5, "   MATCHES Inward check as Leaf '\(fullName)'")
 //			}
 //			return rv;
 //		}
-//		atBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
+//		logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
 //		
 //		// Didn't match as Leaf, try normal match:
 //		return super.resolveInwardReference(path, openingDown:downInSelf, except:except)

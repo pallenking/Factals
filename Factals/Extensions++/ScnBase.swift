@@ -290,14 +290,14 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 //		let animateIt			= factalsModel.document.config.bool_("animatePole")
 //		if animateIt {	 // Animate 3D Cursor Pole motion"∫
 //			SCNTransaction.begin()
-//// 		atRve(8, logg("  /#######  SCNTransaction: BEGIN"))
+//// 		logRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 //		}
 //
 // //	pole.worldPosition		= wPosn
 //
 //		if animateIt {
 //			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
-//			atRve(8, factalsModel.logd("  \\#######  SCNTransaction: COMMIT"))
+//			logRve(8, "  \\#######  SCNTransaction: COMMIT")
 //			SCNTransaction.commit()
 //		}
 //	}
@@ -334,15 +334,15 @@ bug
 			cameraScn.transform	*= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, "  /#######  animatePan: BEGIN Completion Block")
+				logRve(8, "  /#######  animatePan: BEGIN Completion Block")
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
 				cameraScn.transform = self.vewBase!.selfiePole.transform(lookAtVew:self.vewBase!.lookAtVew)
 
-				atRve(8, "  \\#######  animatePan: COMMIT Completion Block")		//factalsModel.*/logd(
+				logRve(8, "  \\#######  animatePan: COMMIT Completion Block")		//factalsModel.*/logd(
 				SCNTransaction.commit()
 			}
-			atRve(8, "  \\#######  animatePan: COMMIT All")
+			logRve(8, "  \\#######  animatePan: COMMIT All")
 			SCNTransaction.commit()
 		}
 	}
@@ -554,7 +554,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 //			for touch in touchs {
 //				let prevLoc		= touch.previousLocation(in:nil)
 //				let loc			= touch.location(in:nil)
-//				atEve(3, (print("\(prevLoc) \(loc)")))
+//				logEve(3, (print("\(prevLoc) \(loc)")))
 //			}
 		case .endGesture: bug	//override func touchesEnded(with event:NSEvent) {
 //			let touchs			= nsEvent.touches(matching:.ended, in:scnView)

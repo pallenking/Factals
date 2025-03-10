@@ -69,7 +69,7 @@ class WorldModel : Atom {
 		try container.encode(event, 		forKey:.event)
 		try container.encode(eventIndex, 	forKey:.eventIndex)
 		try container.encode(prob, 			forKey:.prob)
-		atSer(3, "Encoded  as? WorldModel  '\(fullName)'")
+		logSer(3, "Encoded  as? WorldModel  '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -83,7 +83,7 @@ class WorldModel : Atom {
 		event			= try container.decode(   FwwEvent.self, forKey:.event)
 		eventIndex		= try container.decode(  	   Int.self, forKey:.eventIndex)
 		prob			= try container.decode(  	 Float.self, forKey:.prob)
-		atSer(3, "Decoded  as? WorldModel named  '\(name)'")
+		logSer(3, "Decoded  as? WorldModel named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -96,7 +96,7 @@ class WorldModel : Atom {
 //		theCopy.event			= self.event
 //		theCopy.eventIndex		= self.eventIndex
 //		theCopy.prob			= self.prob
-//		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
+//		logSer(3, "copy(with as? Actor       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -189,7 +189,7 @@ bug;	return rv
 				let el			= eventLimit >= 0 	// any Limits?
 								?	-1 			  		// yes: START by turnomg limits OFF
 								:	eventNow			// no:  STOP by limiting events
-				atEve(4, "\n" + "=== EVENT: Key 'S' DOWN: eventLimit = \(el) (was \(eventLimit)) eventNow=\(eventNow)")
+				logEve(4, "\n" + "=== EVENT: Key 'S' DOWN: eventLimit = \(el) (was \(eventLimit)) eventNow=\(eventNow)")
 				eventLimit		= el					// N.B: other process reads and starts
 				return true
 			case "s":
@@ -209,7 +209,7 @@ bug;	return rv
 			}
 		}
 		else if nsEvent.type == .keyUp {
-			atEve(4, "\n=== EVENT: Key 's' UP, userUpEvent=1")
+			logEve(4, "\n=== EVENT: Key 's' UP, userUpEvent=1")
 		}
 		return false
 	}

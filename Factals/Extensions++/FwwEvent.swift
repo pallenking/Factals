@@ -246,7 +246,7 @@ enum FwwEvent : Codable {
 					}
 				}
 			}
-			//atEve(4, D OClog.log("- - - - - eventUnrand((events.pp()))"))
+			//logEve(4, D OClog.log("- - - - - eventUnrand((events.pp()))"))
 			 // paw through all elements of outter array
 			return "broken"
 		}

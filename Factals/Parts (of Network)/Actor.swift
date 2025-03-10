@@ -103,7 +103,7 @@ class Actor : Net {
 		try container.encode(positionViaCon, forKey:.positionViaCon)
 		try container.encode(viewAsAtom_, forKey:.viewAsAtom_)
 		try container.encode(linkDisplayInvisible, forKey:.linkDisplayInvisible)
-		atSer(3, "Encoded  as? Actor       '\(fullName)'")
+		logSer(3, "Encoded  as? Actor       '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -116,7 +116,7 @@ class Actor : Net {
 		positionViaCon			= try container.decode(Bool  .self, forKey:.positionViaCon)
 		viewAsAtom_				= try container.decode(Bool  .self, forKey:.viewAsAtom_)
 		linkDisplayInvisible	= try container.decode(Bool  .self, forKey:.linkDisplayInvisible)
-		atSer(3, "Decoded  as? Actor      named  '\(name)'")
+		logSer(3, "Decoded  as? Actor      named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -128,7 +128,7 @@ class Actor : Net {
 //		theCopy.positionViaCon	= self.positionViaCon
 //		theCopy.viewAsAtom_		= self.viewAsAtom_
 //		theCopy.linkDisplayInvisible = self.linkDisplayInvisible
-//		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
+//		logSer(3, "copy(with as? Actor       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -182,7 +182,7 @@ class Actor : Net {
 							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
 							  otherI > scanI		 {
 								 // pull that worker to just below us
-								atBld(4, "Actor reordering '%@' to index %d", otherAtom.name, scanI)
+								logBld(4, "Actor reordering '%@' to index %d", otherAtom.name, scanI)
 								children.remove(at:otherI)//	children.removeObject(otherAtom)
 								children.insert(otherAtom, at:scanI)
 								 // and start all over again...
@@ -243,7 +243,7 @@ bug;		let enaPort			= Port()
 			for part in parent?.selfNParents ?? [] {
 				if let actor = part as? Actor {
 					actor.previousClocks.append(self)
-					atBld(4, "CLOCK  '\(actor.fullName16)'.previousClocks now contains '\(fullName16)'")
+					logBld(4, "CLOCK  '\(actor.fullName16)'.previousClocks now contains '\(fullName16)'")
 					break
 				}
 			}
@@ -266,12 +266,12 @@ bug;		let enaPort			= Port()
 
 		let v0				= self.enable3?.con2?.port?.getValue() ?? 0
 		if v0 > 0.5 {			// no enable Port --> enabled
-			atEve(4, "|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):")
+			logEve(4, "|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):")
 			for user in self.previousClocks {
 bug//			user as? Actor?.clockPrevious() // Actor got -clockPrevious; send to customer
 			}
 		}
-		else {  atEve(4, "|| $$ clockPrevious to Actor: IGNORED")				}
+		else {  logEve(4, "|| $$ clockPrevious to Actor: IGNORED")				}
 	}
 
 	 // MARK: - 8. Reenactment Simulator

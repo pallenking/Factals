@@ -69,7 +69,7 @@ class GenAtom : Atom {
 
 		try container.encode(value, forKey:.value)
 		try container.encode(loop, 	forKey:.loop)
-		atSer(3, "Encoded  as? GenAtom     '\(fullName)'")
+		logSer(3, "Encoded  as? GenAtom     '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -78,7 +78,7 @@ class GenAtom : Atom {
 
 		value	 				= try container.decode(Float.self, forKey:.value)
 		loop	 				= try container.decode( Bool.self, forKey:.loop)
-		atSer(3, "Decoded  as? GenAtom    named  '\(name)'")
+		logSer(3, "Decoded  as? GenAtom    named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 	 // MARK: - 3.1 Port Factory
@@ -124,7 +124,7 @@ class GenAtom : Atom {
 
 			let pInVal 		= pPort2Port.getValue()	// always read P to clear changed
 			if loopVal > 0.5 || (loop ?? false) {	// Two causes, port or config
-				atDat(4, "Loop to value \(pInVal) to sPort")
+				logDat(4, "Loop to value \(pInVal) to sPort")
 				pPort.take(value:pInVal)					// looped value from pPortIn
 			}
 			 // GenAtom has the power to generate a constant value

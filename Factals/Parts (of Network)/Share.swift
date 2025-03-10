@@ -495,7 +495,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 //		theCopy.gain 			= self.gain
 //		theCopy.offset 			= self.offset
 //		theCopy.currentRadius 	= self.currentRadius
-//		atSer(3, logd("copy(with as? LinkPort       '\(fullName)'"))
+//		logSer(3, "copy(with as? LinkPort       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -519,7 +519,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		  let pInput			= ports["P"]?.con2?.port?.getValue(),
 		  pValue != pInput 			// Value changed?	//prev != total
 		{
-			atDat(3, "   BULB: %.2f (was %.2f)", pInput, pValue)
+			logDat(3, "   BULB: %.2f (was %.2f)", pInput, pValue)
 			pValue				= pInput	//	pass on 
 			markTree(dirty:.size)			// mark Splitter's size as dirty
 		}

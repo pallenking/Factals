@@ -54,7 +54,7 @@ class MultiPort : Port {
 		let cur					= port!.getValue()
 
 		if changed {
-			atDat(3, ">------.  %.2f (was %.2f)", value, valuePrev)
+			logDat(3, ">------.  %.2f (was %.2f)", value, valuePrev)
 		}
 		return cur
 	}
@@ -71,7 +71,7 @@ class MultiPort : Port {
 		let (cur, prev)			= port!.getValues()
 
 		if changed {
-			atDat(3, ">------.s %.2f (was %.2f)", value, valuePrev)
+			logDat(3, ">------.s %.2f (was %.2f)", value, valuePrev)
 		}
 		return (cur, prev)
 	}

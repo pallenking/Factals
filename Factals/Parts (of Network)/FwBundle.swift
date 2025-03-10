@@ -92,7 +92,7 @@ class FwBundle : Net {
 	//	try container.encode(leafStruc,	forKey:.leafStruc)	//Protocol 'FwAny' as a type cannot conform to 'Encodable'
 		try container.encode(leafKind,	forKey:.leafKind)
 		try container.encode(label, 	forKey:.label)
-		atSer(3, "Encoded  as? FwBundle      '\(fullName)'")
+		logSer(3, "Encoded  as? FwBundle      '\(fullName)'")
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -104,7 +104,7 @@ class FwBundle : Net {
 //		leafStruc			= try container.decode(leafStruc.self,forKey:.leafStruc)//No exact matches in call to instance method 'decode'
 		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
 		label	 			= try container.decode(String.self, forKey:.label)
-		atSer(3, "Decoded  as? FwBundle     named  '\(name)'")
+		logSer(3, "Decoded  as? FwBundle     named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -113,7 +113,7 @@ class FwBundle : Net {
 //		theCopy.leafStruc 	= self.leafStruc
 //		theCopy.leafKind 	= self.leafKind
 //		theCopy.label 		= self.label
-//		atSer(3, logd("copy(with as? FwBundle       '\(fullName)'"))
+//		logSer(3, "copy(with as? FwBundle       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -185,7 +185,7 @@ class FwBundle : Net {
 	// MARK: - 4.1 Part Properties
 	func apply(constructor con:FwAny, leafConfig:FwConfig){//, _ tunnelConfig:FwConfig) {
 		//				[ "a", "b"]	  [placeMy:linky]
-		atBld(7, "apply(constructor:\(con.pp(.line))))")
+		logBld(7, "apply(constructor:\(con.pp(.line))))")
 
 		  // ==== Parse constructor:  It has many forms:
 		 // STRING:
@@ -233,7 +233,7 @@ class FwBundle : Net {
 								
 	 /// Add leaves by apply a specification to ourselves
 	func apply(spec:FwAny, arg:FwAny?=nil, leafConfig:FwConfig){//}, _ tunnelConfig:FwConfig) {
-		atBld(7, "apply(spec:\(spec.pp(.line)), arg:\(arg?.pp(.line) ?? "nil"))")
+		logBld(7, "apply(spec:\(spec.pp(.line)), arg:\(arg?.pp(.line) ?? "nil"))")
 								
 		   // Interpret << spec >>, making appropriate changes to self, a FwBundle
 		  //

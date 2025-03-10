@@ -68,32 +68,32 @@ class PartBase : Codable, ObservableObject, Uid {
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
-		atBld(4, "***** checkTree returned \(changed)")
+		logBld(4, "***** checkTree returned \(changed)")
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		checkTree()
-		atBld(4, "Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true]))
+		logBld(4, "Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true]))
 
 		 //  1. GATHER LINKS as wirelist:
-		atBld(4, "------- GATHERING potential Links:")
+		logBld(4, "------- GATHERING potential Links:")
 		var linkUps : [()->()]	= []
 		tree.gatherLinkUps(into:&linkUps, partBase:self)
 
 		 //  2. ADD LINKS:
-		atBld(4, "------- WIRING \(linkUps.count) Links to Network:")
+		logBld(4, "------- WIRING \(linkUps.count) Links to Network:")
 		linkUps.forEach
 		{ 	addLink in 		addLink() 							}
 
 		checkTree()
 
 		 //  3. Grooom post wires:
-		atBld(4, "------- Grooming Parts...")
+		logBld(4, "------- Grooming Parts...")
 		tree.groomModelPostWires(partBase:self)				// + +  + +
 		tree.dirtySubTree()															//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
 																				//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
 																				//dirty.turnOn(.vew)
 		 //  4. Reset
-		atBld(4, "------- Reset...")
+		logBld(4, "------- Reset...")
 		tree.reset()
 
 		 // must be done after reset
@@ -104,10 +104,10 @@ class PartBase : Codable, ObservableObject, Uid {
 		}
 
 		 //  5. Print Errors
- 		atBld(3, ppRootPartErrors())
+ 		logBld(3, ppRootPartErrors())
 
 		 //  6. Print Part
-		atBld(2, "------- Parts, ready for simulation, simRun:\(factalsModel?.simulator.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true])))
+		logBld(2, "------- Parts, ready for simulation, simRun:\(factalsModel?.simulator.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true])))
 
 		factalsModel?.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
 
@@ -152,7 +152,7 @@ class PartBase : Codable, ObservableObject, Uid {
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
 		try container.encode(verboseLocks,	forKey:.partTreeVerbose			)
 
-		atSer(3, "Encoded")
+		logSer(3, "Encoded")
 
 		 // Massage Part Tree, to make it
 		makeSelfRunable("writePartTree")
@@ -168,7 +168,7 @@ class PartBase : Codable, ObservableObject, Uid {
 //		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
 //		tree					= try container.decode(	    Part.self, forKey:.partTreeVerbose)
 //
-//		atSer(3, logd("Decoded  as? Parts \(ppUid(self))"))
+//		logSer(3, "Decoded  as? Parts \(ppUid(self))")
 //
 ////		makeSelfRunable("help")		// (no unlock)
 //	}
@@ -212,16 +212,16 @@ class PartBase : Codable, ObservableObject, Uid {
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
 		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-		atSer(5, " ========== parts to Serialize:\n\(pp(.tree, aux))", terminator:"")
+		logSer(5, " ========== parts to Serialize:\n\(pp(.tree, aux))", terminator:"")
 						
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
-		atSer(5, " ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:"")
+		logSer(5, " ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:"")
 	}
 	func makeSelfRunable(_ releaseLock:String) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
 		//groomModel(parent:nil)		// nil as Part?
-		atSer(5, " ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:"")
+		logSer(5, " ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:"")
 		
 		unlock(for:releaseLock, logIf:true)
 	}
@@ -267,7 +267,7 @@ bug
 	}
 
 //	override func read(from savedData:Data, ofType typeName: String) throws {
-//		logd("\n" + "read(from:Data, ofType:      ''\(typeName.description)''       )")
+//		logSer(1, "\n" + "read(from:Data, ofType:      ''\(typeName.description)''       )")
 //		guard let unarchiver : NSKeyedUnarchiver = try? NSKeyedUnarchiver(forReadingFrom:savedData) else {
 //				debugger("NSKeyedUnarchiver cannot read data (its nil or throws)")
 //		}
@@ -286,7 +286,7 @@ bug
 //		 // 4. Remove symbolic links on Ports
 //		parts.realizeLinks()
 //
-//		logd("read(from:ofType:)  -- SUCCEEDED")
+//		logSer(3, "read(from:ofType:)  -- SUCCEEDED")
 //	}
 //
 //// END CODABLE /////////////////////////////////////////////////////////////////
@@ -302,7 +302,7 @@ bug
 //	//x	theCopy.partTreeOwner	= self.partTreeOwner
 //	//x	theCopy.prevOnwer = self.prevOnwer
 //		theCopy.partTreeVerbose	= self.partTreeVerbose
-//		atSer(3, logd("copy(with as? Parts       '\(fullName)'"))
+//		logSer(3, "copy(with as? Parts       '\(fullName)'")
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable
@@ -331,30 +331,26 @@ bug
 	/// - Returns: lock obtained
  	func lock(for owner:String, logIf:Bool) -> Bool {
 		let ownerNId			= ppUid(self) + " '\(owner)'".field(-20)
-								
 		if logIf && debugOutterLock { 		 		// less verbose
-bug//		atBld(4, {					// === ///// BEFORE GETTING, Log:
-//				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(semiphore.value ?? -99)"
-//				if semiphore.value ?? -99 <= 0 {	// Blocked, always print if verb
-//					logd(msg +  ", OWNED BY:'\(curOwner ?? "-")', PROBABLE WAIT...")
-//				}
-//				else if verboseLocks {
-//			 		logd(msg)
-//				}
-//			}())
+				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(semiphore.value ?? -99)"
+				if semiphore.value ?? -99 <= 0 {	// Blocked, always print if verb
+					logBld(4, msg +  ", OWNED BY:'\(curOwner ?? "-")', PROBABLE WAIT...")
+				}
+				else if verboseLocks {
+			 		logBld(4, msg)
+				}
 		}
 		 /// === Get partTree lock:
 /**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
-			logd(" //######\(ownerNId)   FAILED Part LOCK v:\(semiphore.value ?? -99)")
+			logRve(4, " //######\(ownerNId)   FAILED Part LOCK v:\(semiphore.value ?? -99)")
 			panic("\(ownerNId): Lock Timeout FAILURE.  PartBase BLOCKED by currenly owned:\(curOwner ?? "nil")")
 			return false
 		}
-
 		 // === SUCCEEDED in getting lock:
 		assert(curOwner==nil, "'\(owner)' attempting to lock, but '\(curOwner!)' still holds lock ")
 		curOwner				= owner
 		if logIf && (verboseLocks || curOwner != "renderScene") {
-			atRve(4, " //######\(ownerNId)      GOT Part LOCK: v:\(semiphore.value ?? -99)")
+			logRve(4, " //######\(ownerNId)      GOT Part LOCK: v:\(semiphore.value ?? -99)")
 		}
  		return true
  	}
@@ -368,7 +364,7 @@ bug//		atBld(4, {					// === ///// BEFORE GETTING, Log:
 		assert(curOwner == owner, "Releasing (as '\(owner)') Part lock owned by '\(curOwner!)'")
 		let ownerNId		= ppUid(self) + " '\(curOwner!)'".field(-20)
 		if logIf && (curOwner != "renderScene" || verboseLocks) {
-			atRve(3, " \\\\######\(ownerNId)  RELEASE Part LOCK: v:\(semiphore.value ?? -99)")
+			logRve(3, " \\\\######\(ownerNId)  RELEASE Part LOCK: v:\(semiphore.value ?? -99)")
 		}
 
 		 // update name/state BEFORE signals
@@ -378,7 +374,7 @@ bug//		atBld(4, {					// === ///// BEFORE GETTING, Log:
 /**/	semiphore.signal()			 // Unlock Part's DispatchSemaphore:
 
 		if debugOutterLock && logIf && (verboseLocks || prevOnwer != "renderScene") {
-			atBld(3, " \\\\######\(ownerNId) RELEASED Part LOCK v:\(semiphore.value ?? -99)")
+			logBld(3, " \\\\######\(ownerNId) RELEASED Part LOCK v:\(semiphore.value ?? -99)")
 		}
 	}
 

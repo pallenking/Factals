@@ -88,7 +88,7 @@ class Port : Part, PortTalk {
 
 		 // set our value.  (Usually done from self)
 		if value != newValue {
-			atDat(3, "<------' %.2f (was %.2f)", newValue, self.value)
+			logDat(3, "<------' %.2f (was %.2f)", newValue, self.value)
 
 /***/		value 				= newValue
 
@@ -107,7 +107,7 @@ class Port : Part, PortTalk {
 	func getValue(key:String?=nil) -> Float {
 		assert(key==nil, "key mode not supported")
 		if valueChanged() {
-			atDat(3, ">------. %.2f (was %.2f)", value, valuePrev)
+			logDat(3, ">------. %.2f (was %.2f)", value, valuePrev)
 		}
 		 // mark value taken
 		if valuePrev != value {			// Only do this on a change, so debug easier
@@ -120,7 +120,7 @@ class Port : Part, PortTalk {
 	func getValues(key:String?=nil) -> (Float, Float) {
 		assert(key==nil, "key mode not supported")
 		if valueChanged() {
-			atDat(3, ">------. %.2f (was %.2f)", value, valuePrev)
+			logDat(3, ">------. %.2f (was %.2f)", value, valuePrev)
 		}
 		 // mark value taken
 		let prevValuePrev 		= valuePrev
@@ -237,7 +237,7 @@ class Port : Part, PortTalk {
 		try container.encode(noCheck,	forKey:.noCheck)
 		try container.encode(dominant,	forKey:.dominant)
 
-		atSer(3, "Encoded  as? Port        '\(fullName)'")
+		logSer(3, "Encoded  as? Port        '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -253,7 +253,7 @@ class Port : Part, PortTalk {
 		let msg					= "value:\(value.pp(.line))," 				+
 							 	  "valuePrev:\(valuePrev.pp(.line)), " 		+
 								  "conTo:\(con2?.port?.fullName ?? "xxq8ahx")"
-		atSer(3, "Decoded  as? Port       \(msg)")
+		logSer(3, "Decoded  as? Port       \(msg)")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -265,7 +265,7 @@ class Port : Part, PortTalk {
 //		theCopy.connectedX = self.connectedX
 //		theCopy.noCheck			= self.noCheck
 //		theCopy.dominant		= self.dominant
-//		atSer(3, logd("copy(with as? Actor       '\(fullName)'"))
+//		logSer(3, "copy(with as? Actor       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -385,7 +385,7 @@ class Port : Part, PortTalk {
 	//		let hiVew 			= commonVew.find(part:hiPart)!					//, maxLevel:1??
 	//		let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 			vew					= vew.parent!
-			atRsi(8, "--A-- rv:\(pp(inVew:vew)) after t:\(t.pp(.short))")
+			logRsi(8, "--A-- rv:\(pp(inVew:vew)) after t:\(t.pp(.short))")
 		}
 	 	// MARK: - 15. PrettyPrint
 		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
@@ -414,7 +414,7 @@ class Port : Part, PortTalk {
 	func portConSpot(inVew vew:Vew) -> ConSpot {
 		let aux					= params4partPp				//log.params4aux
 		guard var openParent	= parent else {	debugger("portConSpot: Port with nil parent")	}
-		atRsi(8, "---------- \(vew.pp(.fullName)).portConSpotNEW")
+		logRsi(8, "---------- \(vew.pp(.fullName)).portConSpotNEW")
 
 		  // H: SeLF, ViEW, World Position, ConSpot
 		 // If atomized, up for a visible Vew:
@@ -423,7 +423,7 @@ class Port : Part, PortTalk {
 		var csVisVew : Vew?		= vew.find(part:self, inMe2:true)					//openParent
 		while csVisVew == nil, 						// we have no Vew yet
 			  let p				= openParent.parent {// but we do have a parent
-			atRsi(8, " not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew")
+			logRsi(8, " not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew")
 			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
 			openParent			= p
 			csVisVew			= vew.find(part:openParent, inMe2:true)
@@ -440,7 +440,7 @@ class Port : Part, PortTalk {
 		if let scnScene			= vew.vewBase()?.scnBase.roots, enaPpWorld {
 			worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:nil/*scnRoot*/).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
-		atRsi(8, "INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'")
+		logRsi(8, "INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'")
 
 		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
 		 //
@@ -463,7 +463,7 @@ class Port : Part, PortTalk {
 
 			let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:nil/*scnScene*/).pp(.short, aux)
 			let wpStr 			= !enaPpWorld ? "" :  "w\\(openWPosn) "
-			atRsi(8, "  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))")
+			logRsi(8, "  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))")
 		}
 		return rv
 	}
@@ -478,7 +478,7 @@ class Port : Part, PortTalk {
 //		var openVew : Vew?		= vew.find(part:openParent, inMe2:true)
 //		while openVew == nil, 						// we have no Vew yet
 //			  let p		= openParent.parent {	// but we do have a parent
-//			atRsi(8, openParent.logd(" not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew"))
+//			logRsi(8, " not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew")
 //			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
 //			openParent			= p
 //			openVew				= vew.find(part:openParent, inMe2:true)
@@ -497,7 +497,7 @@ class Port : Part, PortTalk {
 //		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "	
 ////		var worldPosn			= !enaPpWorld ? "" :
 ////			"w" + openVew.scn.convertPosition(rv.center, to:rootScn).pp(.short, aux) + " "
-//		atRsi(8, openVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
+//		logRsi(8, openVew.log("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
 //
 //		  // Move vew (and rv) to vew's parent, hopefully finding refVew along the way:
 //		 //
@@ -520,7 +520,7 @@ class Port : Part, PortTalk {
 //			//let hiVew 			= commonVew.find(part:hiPart)!
 //			//let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 //			openVew					= openVew.parent!
-//			atRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(t.pp(.phrase)))"))
+//			logRsi(8, openVew.log("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(t.pp(.phrase)))"))
 //		} //while openVew != inVew			// we have not found desired Vew
 //		return rv
 //	}
@@ -542,7 +542,7 @@ class Port : Part, PortTalk {
 			rv.y				-= spotIC.radius	// assume straight down
 			rv.y				= min(rv.y, exclude?.min.y ?? rv.y) // Exclude zone too?
 		}
-		atRsi(8, "rv:\(rv.pp(.short)) returns peakSpot")
+		logRsi(8, "rv:\(rv.pp(.short)) returns peakSpot")
 		return rv
 	}
 

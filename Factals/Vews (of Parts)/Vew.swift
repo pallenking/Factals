@@ -135,7 +135,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		try container.encode(bBox, 		forKey:.bBox 	)
 		try container.encode(jog, 		forKey:.jog		)
 		try container.encode(force, 	forKey:.force	)
-		atSer(3, "Encoded  as? Path        '\(String(describing: fullName))'")
+		logSer(3, "Encoded  as? Path        '\(String(describing: fullName))'")
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:VewKeys.self)
@@ -154,7 +154,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 //		scnScene.rootNode.name	= "rootNode3"
 
 		//super.init()
- 		atSer(3, "Decoded  as? Vew       named  '\(String(describing: fullName))'")
+ 		logSer(3, "Decoded  as? Vew       named  '\(String(describing: fullName))'")
 	}
 	 // MARK: - 4.2 Manage Tree
 	 /// Array of ancestor. The first element is self, last is top Vew:
@@ -366,7 +366,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 					// RECURSIVE
 			let rv				= localPosition(of:pInParent, inSubVew:vewParent)
 
-			atRsi(9, "localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))")
+			logRsi(9, "localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))")
 			return rv
 		}
 		debugger("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.pp(.fullName))' HAS NO PARENT")
@@ -469,7 +469,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		if overlap(of:sBBoxInP, withAnyIn:relevantSpots) == nil {
 			return								// no overlap, done!
 		}
-		atRsi(5, " in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:")
+		logRsi(5, " in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:")
 		if eventIs(ofArea:"rsi", detail:5) {
 			logSpots(relevantSpots)
 		}
@@ -488,12 +488,12 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 
 				 // Does trial overlap any given spot?
 				if let ol 		= overlap(of:tryBBox, withAnyIn:relevantSpots) {
-					atRsi(8, "%3d+\(dir): overlaps %-3d! c:\(tryBBox.center.pp(.line))", i, ol)
+					logRsi(8, "%3d+\(dir): overlaps %-3d! c:\(tryBBox.center.pp(.line))", i, ol)
 				}
 				else {
 					 // ADD one of 4 SPOTs around placedSpot to spots, to check later
 					let newSpot	= SpotData(state:.added, bBox:tryBBox, vew:nil)
-					atRsi(5, "   \(relevantSpots.count): \(newSpot.pp())")
+					logRsi(5, "   \(relevantSpots.count): \(newSpot.pp())")
 					relevantSpots.append(newSpot)
 				}
 			}
@@ -518,7 +518,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 
 		scn.position 			+= movedBy
 //		scnRoot.position		+= movedBy
-		atRsi(4, "=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))")	//scnRoot.transform.position.pp(.short)
+		logRsi(4, "=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))")	//scnRoot.transform.position.pp(.short)
 	}
 	func orBBoxIntoParent() {
 		if let parentVew 		= parent {
@@ -529,7 +529,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 	}
 	func logSpots(_ spots:[SpotData]) {		// Print for debug
 		for (i, spot) in spots.enumerated() {
-			logd("   \(i): \(spot.pp())")
+			logRve(4, "   \(i): \(spot.pp())")
 		}
 	}
 

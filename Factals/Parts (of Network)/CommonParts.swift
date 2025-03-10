@@ -32,7 +32,7 @@ class CommonPart : Part {
 		var container 			= encoder.container(keyedBy:CommonPartKeys.self)
 
 		try container.encode(size, forKey:.size)
-		atSer(3, "Encoded  as? CommonPart  '\(fullName)'")
+		logSer(3, "Encoded  as? CommonPart  '\(fullName)'")
 	}
 	 /// Deserialize
 	required init(from decoder: Decoder) throws {
@@ -40,14 +40,14 @@ class CommonPart : Part {
 		let container 		= try decoder.container(keyedBy:CommonPartKeys.self)
 
 		size 				= try container.decode(SCNVector3.self, forKey:.size)
-		atSer(3, "Decoded  as? CommonPart        named  '\(name)' size:\(size.pp(.line))")
+		logSer(3, "Decoded  as? CommonPart        named  '\(name)' size:\(size.pp(.line))")
 	}
 //	 // MARK: - 3.6 NSCopying
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! CommonPart
 //		theCopy.size			= self.size
-//		atSer(3, logd("copy(with as? CommonPart       '\(fullName)'"))
+//		logSer(3, "copy(with as? CommonPart       '\(fullName)'")
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable

@@ -399,7 +399,7 @@ extension Dictionary		: FwAny {				// pp(..
 //		for (keyRhs, valueRhs) in rhsSorted {
 //			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
 //				//			valueLhs == valueRhs ? nop :
-//				atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+//				logBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 //			}
 //			rv[keyRhs] 				= valueRhs
 //		}
@@ -432,13 +432,13 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 
 	let rv 						= lhs.merging(rhs)
 	{ 	(_, new) in new
-		//atBld(9, Log.shared.log("Dictionary Conflict, Key: \(new.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+		//logBld(9, Log.shared.log("Dictionary Conflict, Key: \(new.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 	}
 //	var rv						= lhs						// initial values, older, overwritten
 //	let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
 //	for (keyRhs, var valueRhs) in rhsSorted {
 //		if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs//
-//			atBld(9, Log.shared.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+//			logBld(9, Log.shared.log("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 //			rv[keyRhs]			= valueLhs//valueRhs 			= valueLhs
 //		}
 //	}
@@ -456,7 +456,7 @@ func +(lhs:FwConfig, rhs:FwConfig) -> FwConfig {
 //		let rhsSorted				= rhs.sorted(by: {$0.key > $1.key})	 // Sort so comparisons match on successive runs
 //		for (keyRhs, valueRhs) in rhsSorted {
 //			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
-//				atBld(9, print("Possible Dictionary Conflict, Key:\(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+//				logBld(9, print("Possible Dictionary Conflict, Key:\(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
 //			}
 //			rv[keyRhs] 				= valueRhs
 //		}
@@ -470,7 +470,7 @@ extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// xyz
 		for (keyRhs, valueRhs) in rhsSorted {
 			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
 //				valueLhs == valueRhs ? nop :
-bug		//			atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+bug		//			logBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
   			}
 			rv[keyRhs] 				= valueRhs
 		}
@@ -482,7 +482,7 @@ bug		//			atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(va
 extension Dictionary where Value : FwAny, Value : Equatable {
 	static func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
 		let rv				= lhs.equals(rhs)
-		atTst(7, "Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)")
+		logTst(7, "Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)")
 		return rv
 	}
 	func equals(_ dict:Dictionary) -> Bool {
@@ -490,11 +490,11 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 
 		for key in keys {
 			if self[key] != dict[key] {			// Value for key MISMATCH
-				atTst(7, "(\(self[key]!.pp(.nameTagClass))) != (\(dict[key]!.pp(.nameTagClass))) ?")
+				logTst(7, "(\(self[key]!.pp(.nameTagClass))) != (\(dict[key]!.pp(.nameTagClass))) ?")
 				return false
 			}
 		}
-		atTst(7, "Testing Dict:    .equals(\(dict.pp(.nameTagClass)))  ---> true")
+		logTst(7, "Testing Dict:    .equals(\(dict.pp(.nameTagClass)))  ---> true")
 		return true
 	}
 }
@@ -515,7 +515,7 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 //	//			let y				= valueRhs is (any Equatable)
 //				let val1			= valueLhs.pp(.short).field(10) + isEq(valueLhs)
 //				let val2			= valueRhs.pp(.short)			+ isEq(valueRhs)
-//				atBld(9, print("dictAdd conflict 1, Key: \(keyRhs.field(20)) was \(val1) \t<-- \(val2)"))
+//				logBld(9, print("dictAdd conflict 1, Key: \(keyRhs.field(20)) was \(val1) \t<-- \(val2)"))
 //			}
 //			rv[keyRhs] 				= valueRhs
 //		}
@@ -540,7 +540,7 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 //
 //				 // Same key, different values
 //				if valLhs != valRhs {
-//					atBld(9, DOClog.log("Dictionary Conflict 3, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
+//					logBld(9, DOClog.log("Dictionary Conflict 3, Key: \(key.field(20)) was \(lhs.pp(.phrase).field(10)) \t<-- \(rhs.pp(.phrase))"))
 //					rv[key] 		= valRhs
 //				}
 //			}

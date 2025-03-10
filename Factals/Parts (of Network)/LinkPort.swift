@@ -65,7 +65,7 @@ class LinkPort : Port {
 		try container.encode(imageY0,	forKey:.imageY0)
 //		try container.encode(colorOfVal1,	forKey:.colorOfVal1)
 		try container.encode(inTransit,		forKey:.array)
-		atSer(3, "Encoded  LinkPort    '\(self.fullName)'")
+		logSer(3, "Encoded  LinkPort    '\(self.fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -77,7 +77,7 @@ class LinkPort : Port {
 		imageY0	 				= try container.decode(			 Int.self, forKey:.imageY0)
 //		colorOfVal1	 			= try container.decode(		 NSColor.self, forKey:.colorOfVal1)
 		inTransit	 				= try container.decode([LinkSegment].self, forKey:.array)
-		atSer(3, "Decoded  as? LinkPort")
+		logSer(3, "Decoded  as? LinkPort")
 	}
 //	 // MARK: - 3.6 NSCopying
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
@@ -88,7 +88,7 @@ class LinkPort : Port {
 //		theCopy.imageY0	 		= self.imageY0
 //	//	theCopy.colorOfVal	 	= self.colorOfVal1
 //		theCopy.array	 		= self.array
-//		atSer(3, logd("copy(with as? LinkPort       '\(fullName)'"))
+//		logSer(3, "copy(with as? LinkPort       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -117,7 +117,7 @@ class LinkPort : Port {
 			let (valueIn, valuePrev) = inPort2Port.getValues()
 			assert(!valueIn.isNaN,      "enqueing nan value to link")
 			assert(!valueIn.isInfinite, "enqueing inf value to link")
-			atDat(3, "Link<--' %.2f (was %.2f)", valueIn, valuePrev)
+			logDat(3, "Link<--' %.2f (was %.2f)", valueIn, valuePrev)
 
 			 // Set the previous value into the conveyer, to go up
 			inTransit.insert( LinkSegment(heightPct:0.0, val:valuePrev), at:0)
@@ -154,7 +154,7 @@ class LinkPort : Port {
 				let	nextVal		= inTransit.count >= 1 ?
 								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
 								  inPort2Port.value 	// Link input port if no previous value
-				atDat(5, "Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value)
+				logDat(5, "Link-->> %.2f (was %.2f) to '\(outPort.fullName)'", nextVal, outPort.value)
 				if outPort.value != nextVal {
 					let parts = outPort.partBase!.tree
 //					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")

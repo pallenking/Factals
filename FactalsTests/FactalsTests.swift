@@ -371,32 +371,32 @@ final class FactalsTests: XCTestCase {
 	static var savedObject32:[(String, Part)]	= []
 
 	func serializeDeserialize(_ inPart:Part) throws -> Part? {
-		atSer(5, "========== inPart_ to Serialize:\n\(inPart.pp(.tree))", terminator:"")
+		logSer(5, "========== inPart_ to Serialize:\n\(inPart.pp(.tree))", terminator:"")
 
 		 //  - INSERT -  PolyWrap's
 		let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
-		atSer(5, "========== wrapped inPart:\n\(inPolyPart.pp(.tree))", terminator:"")
+		logSer(5, "========== wrapped inPart:\n\(inPolyPart.pp(.tree))", terminator:"")
 
 		 //  - ENCODE -  PolyWrap as JSON
 		let jsonData 			= try JSONEncoder().encode(inPolyPart)
 		guard let jsonString 	= String(data:jsonData, encoding:.utf8) else {
-			atSer(5, "========== JSON: FAILED")
+			logSer(5, "========== JSON: FAILED")
 			return nil
 		}
-		atSer(5, ("========== JSON: " + jsonString).wrap())
+		logSer(5, ("========== JSON: " + jsonString).wrap())
 
 		 //  - DECODE -  PolyWrap from JSON
 		let outPolyPart			= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
-		atSer(5, "========== outPolyPart is recovered warapped inPart:\n\(outPolyPart.pp(.tree))", terminator:"")
+		logSer(5, "========== outPolyPart is recovered warapped inPart:\n\(outPolyPart.pp(.tree))", terminator:"")
 		let match				= true//outPolyPart == inPolyPart
 		print("testPolyWrap() has no EQUITABLE")
-		atSer(5, "\t\t\tMatches:\(match)")
+		logSer(5, "\t\t\tMatches:\(match)")
 
 		 //  - REMOVE -  PolyWrap's
 		let outPart				= outPolyPart.polyUnwrap()
 		 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
 		let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
-		atSer(5, "========== Output From Deserialize:\n\(outPart.pp(.tree))", terminator:"")
+		logSer(5, "========== Output From Deserialize:\n\(outPart.pp(.tree))", terminator:"")
 		
 		return outPart
 	}
@@ -413,7 +413,7 @@ final class FactalsTests: XCTestCase {
 	}
 	func testFindPartVewScn() {
 		let partBase			= PartBase(fromLibrary:"Structure for XCTEST")
-		logd("===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
+		logTst(1, "===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
 		partBase.wireAndGroom([:])
 		let p1					= partBase.tree.find(name:"p1")
 		let strP1				= p1?.fullName
@@ -489,17 +489,17 @@ final class FactalsTests: XCTestCase {
 				testNum 		= justNumber
 				lastNumber		= justNumber
 			}
-			logd("\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
+			logTst(1, "\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 
 			let partBase		= PartBase(fromLibrary:"entry\(testNum)")
-			logd("===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
+			logTst(1, "===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
 			partBase.wireAndGroom([:])
 
 			if justNumber != nil || partBase.ansConfig.bool("LastTest") ?? false {
 				break							// Done
 			}
 		}
-		logd("\n==================== XCTest completed all \(lastNumber-12) tests ====================")
+		logTst(1, "\n==================== XCTest completed all \(lastNumber-12) tests ====================")
 	}	/// When it leaves here, deinit's things, then accesses an illegal address
 	 // Test form XCTest:
 	func testOpen(urlNamed name:String) {
@@ -556,7 +556,7 @@ final class FactalsTests: XCTestCase {
 			let match			= result == expect
 			if !match {
 				XCTAssertEqual(result, expect, "testPpFwMode failed")
-				logd("Test fwObj:'\(fwObj.pp())' .pp(in mode \(ppMode)) actual:'\(result)' expected:'\(expect)' MISMATCH")
+				logTst(1, "Test fwObj:'\(fwObj.pp())' .pp(in mode \(ppMode)) actual:'\(result)' expected:'\(expect)' MISMATCH")
 				bug
 				let _ 			= fwObj.pp(ppMode, aux4PpFwTest)
 			}

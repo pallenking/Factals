@@ -408,27 +408,27 @@ extension SCNMaterial {
 	func blink(to blipColor:NSColor, attack timeA:Float, retract timeR:Float) {
 		let oldColor = self.reflective.contents
 		SCNTransaction.begin()
-bug//	atRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
+bug//	logRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
 		self.reflective.contents = NSColor.black 		/// go black
 		SCNTransaction.animationDuration = CFTimeInterval(timeA*0.25)
 		SCNTransaction.completionBlock = {		 		  /// Then:
 			SCNTransaction.begin()
-			atRve(8, "  /#######  SCNTransaction: BEGIN")
+			logRve(8, "  /#######  SCNTransaction: BEGIN")
 			self.reflective.contents = NSColor.white 		/// go white
 			SCNTransaction.animationDuration = CFTimeInterval(timeA*0.75)
 			SCNTransaction.completionBlock = {		 		  /// Then:
 				SCNTransaction.begin()
-				atRve(8, "  /#######  SCNTransaction: BEGIN")
+				logRve(8, "  /#######  SCNTransaction: BEGIN")
 				self.reflective.contents = oldColor				///  restore
 				SCNTransaction.animationDuration = CFTimeInterval(timeR)
 
-				atRve(8, "  \\#######  SCNTransaction: COMMIT")
+				logRve(8, "  \\#######  SCNTransaction: COMMIT")
 				SCNTransaction.commit()
 			} 
-			atRve(8, "  \\#######  SCNTransaction: COMMIT")
+			logRve(8, "  \\#######  SCNTransaction: COMMIT")
 			SCNTransaction.commit()
 		}
-		atRve(8, "  \\#######  SCNTransaction: COMMIT")
+		logRve(8, "  \\#######  SCNTransaction: COMMIT")
 		SCNTransaction.commit()
 	}
 }

@@ -95,7 +95,7 @@ class BundleTap : Atom {
 		 ///
 		self.anonValue 			= 1.0				// first so resetTo = @"a" sets a=1
 		if let resetTo {
-			logd("|| resetTo '\(resetTo.pp(.tree)))'")							//[self logEvent:@"|| resetTo '%@'", [resetTo pp]];
+			logEve(3, "|| resetTo '\(resetTo.pp(.tree)))'")							//[self logEvent:@"|| resetTo '%@'", [resetTo pp]];
 			bug; let _ = loadHashEvent(event: FwwEvent(any:resetTo)!)
 /*event*/
 		}
@@ -120,8 +120,7 @@ bug
 
 		switch event {
 		case .aProb(let prob): 				/// Event is a single number
-			logd("|| Event '%@': RANDOMIZE targetBundle %@",
-										event.pp(), targetBundle.fullName)
+			logEve(7, "|| Event '%@': RANDOMIZE targetBundle %@", event.pp(), targetBundle.fullName)
 			 // Put in random data
 			targetBundle.forAllLeafs { leaf in
 				if let leafsGport = leaf.port4leafBinding(name:"G") {
@@ -130,15 +129,15 @@ bug					//leafsGport.valueTake = value
 				}
 			}
 		case .anEpoch(let epoch):			/// Integer --> @0 Epoch Mark
-			logd("|| Event '%@': Epoch Mark", epoch)
+			logEve(7, "|| Event '%@': Epoch Mark", epoch)
 		case .anArray(let array):			/// Event is an Array
-			logd("|| Event '%@' LOADS targetBundle %@...",
+			logEve(7, "|| Event '%@' LOADS targetBundle %@...",
 								event.pp(), self.targetBundle!.fullName)
 			 // First element of an array sets the current anonymous value
 			if array.count > 0,
 			  case .aProb(let f) = array[0] {				// OR anEpoch(Int)
 				self.anonValue	= f
-				logd("|| Element 1 ='%@' sets %f => anonValue", array[0].pp(), f)
+				logEve(7, "|| Element 1 ='%@' sets %f => anonValue", array[0].pp(), f)
 			}
 								//
 			// ofphan
@@ -154,11 +153,11 @@ bug					//leafsGport.valueTake = value
 		case .aString(let eventStr):		/// Event is an String
 			 // ("incrementalEvents" is a reserved word amongst signal names)
 			if eventStr == "incrementalEvents" {
-				logd("|| Event 'incrementalEvents' -- hold previous values")
+				logEve(7, "|| Event 'incrementalEvents' -- hold previous values")
 				self.incrementalEvents = true;
 				return;
 			}
-			logd("|| Event '%@' to targetBundle %@", event.pp(), targetBundle.fullName)
+			logEve(7, "|| Event '%@' to targetBundle %@", event.pp(), targetBundle.fullName)
 			if (!self.incrementalEvents!) {
 				loadPreClear()
 			}
@@ -168,7 +167,7 @@ bug					//leafsGport.valueTake = value
 		case .aNil_:			bug
 		}
 		// [self.brain kickstartSimulator];	// start simulator
-		logd("|| Event '%@': targetBundle %@ UNCHANGED", event.pp(), self.targetBundle!.fullName)
+		logEve(7, "|| Event '%@': targetBundle %@ UNCHANGED", event.pp(), self.targetBundle!.fullName)
 	}
 
 	func loadPreClear() {
@@ -178,7 +177,7 @@ bug					//leafsGport.valueTake = value
 	//		[self logEvent:@"|| .incrementalEvents ABORTS loadPreClear of '%@'", self.targetBundle.name];
 	//		return;
 	//	}
-		logd("|| loadPreClear: Clears all '%@'.G Ports:", self.targetBundle!.name)
+		logEve(7, "|| loadPreClear: Clears all '%@'.G Ports:", self.targetBundle!.name)
 
 		   /////// 2. CLEAR all Port value's inValue
 		  ///
@@ -250,7 +249,7 @@ bug
 			value 				= anonValue
 		}
 		if let genPort			= targetBundle!.genPortOfLeafNamed(signal) {
-			/*genPort.*/logd("|| /\\/\\ '%@'.valueTake = %.2f was%.2f", genPort.name, value, genPort.value)
+			logEve(7, "|| /\\/\\ '%@'.valueTake = %.2f was%.2f", genPort.name, value, genPort.value)
 			genPort.take(value:value)
 		}
 

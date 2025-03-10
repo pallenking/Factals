@@ -29,7 +29,7 @@ class Tunnel : FwBundle {
 		var container 			= encoder.container(keyedBy:TunnelsKeys.self)
 
 		try container.encode(minSize, forKey:.minSize)
-		atSer(3, "Encoded  as? Tunnel         '\(fullName)'")
+		logSer(3, "Encoded  as? Tunnel         '\(fullName)'")
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -37,14 +37,14 @@ class Tunnel : FwBundle {
 		let container 			= try decoder.container(keyedBy:TunnelsKeys.self)
 
 		minSize 				= try container.decode(SCNVector3?.self, forKey:.minSize)
-		atSer(3, "Decoded  as? Tunnel        named  '\(name)' minSize = \(minSize?.pp(.line) ?? "nil")")
+		logSer(3, "Decoded  as? Tunnel        named  '\(name)' minSize = \(minSize?.pp(.line) ?? "nil")")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Tunnel
 //		theCopy.minSize			= self.minSize
-//		atSer(3, logd("copy(with as? Tunnel       '\(fullName)'"))
+//		logSer(3, "copy(with as? Tunnel       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable

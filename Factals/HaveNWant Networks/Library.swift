@@ -55,7 +55,7 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 			if book.answer.trunkClosure != nil {			// test valid?
 			// book.answer.title?.first == "+" */  {
 				if let rv {										// log multiple select
-					atBld(2, """
+					logBld(2, """
 						\n Selector: '\(s)' returns multiple entries
 							USING      new:  \(book.answer.ppr())
 							DISCARDING old:  \(rv		  .ppr())\n

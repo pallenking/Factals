@@ -48,13 +48,13 @@ import SwiftUI
 
 		 // Ensure 1 View
 		if vewBases.isEmpty {
-			// atBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
+			// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
-		atBld(2, "------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true])))
+		logBld(2, "------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true])))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
-		atBld(5, "### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
+		logBld(5, "### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 		let vewBase				= VewBase(for:partBase, vewConfig:vewConfig)		// Create
 		vewBase.factalsModel	= self						// Backpointer
 		vewBases.append(vewBase)							// Install vewBase
@@ -64,7 +64,7 @@ import SwiftUI
 		vewBase.tree.openChildren(using:vewConfig)			// Vew configuration
 		vewBase.updateVSP()								// DELETE?
 
-		atBld(5, "---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) ")
+		logBld(5, "---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) ")
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
@@ -141,7 +141,7 @@ import SwiftUI
 								: vew.expose == .atomic ? .open
 								: 						  .null
 			
-			atAni(5, "Changed '\(vew.fullName).expose' to \(vew.expose)")
+			logAni(5, "Changed '\(vew.fullName).expose' to \(vew.expose)")
 		}
 	}
 
@@ -171,8 +171,8 @@ import SwiftUI
 //		let scenes				= vewBase.scenes
 //		scenes.(reason:"toggelOpen")
 //		scenes.updatePole2Camera(reason:"toggelOpen")
-//		atAni(4, part.logd("expose = << \(vew.expose) >>"))
-//		atAni(4, part.logd(parts!.pp(.tree)))
+//		logAni(4, "expose = << \(vew.expose) >>")
+//		logAni(4, parts!.pp(.tree))
 //
 //		if document.fmConfig.bool_("animateOpen") {	//$	/// Works iff no PhysicsBody //true ||
 //
@@ -195,7 +195,7 @@ import SwiftUI
 //			oldScn.scale		= .unity * 0.7 //0.9, 1.0	// Old before Fade-out	-- full size
 //
 //			SCNTransaction.begin()
-////			atRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
+////			logRve??(8, logg("  /#######  SCNTransaction: BEGIN"))
 //			SCNTransaction.animationDuration = CFTimeInterval(3)//3//0.3//10//
 //			 // Imprint parameters AFTER "togelOpen" ends:
 //			newScn.scale		= SCNVector3(0.7, 0.7, 0.7)	//.unity						// After Fade-in
@@ -213,7 +213,7 @@ import SwiftUI
 //				vews.updateVewSizePaint()	// Imprint AFTER animation
 //				//*******//	// //// wants a third animatio	qn (someday):
 //			}
-////			atRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
+////			logRve??(8, logg("  \\#######  SCNTransaction: COMMIT"))
 //			SCNTransaction.commit()
 //		}
 //	//	else {			/// just TEST CODE:
@@ -229,7 +229,7 @@ import SwiftUI
 //	//		fws.updateVewSizePaint(needsLock:"toggelOpen6")	//\\//\\//\\//\\ To end of animation
 //	//
 //	//		 /// Remove old vew and its SCNNode
-//	//		atAni(4, log("Removed old Vew '\(fullName)' and its SCNNode"))
+//	//		logAni(4, log("Removed old Vew '\(fullName)' and its SCNNode"))
 //	//		scnScene.scale			= .unity
 //	//		scnScene.removeFromParent()
 //	//		removeFromParent()

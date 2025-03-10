@@ -253,7 +253,7 @@ let fwColorSpace = [	//	rrggbbaa
 //		try container.encode(greenComponent, forKey:.g)
 //		try container.encode(blueComponent,  forKey:.b)
 //		try container.encode(alphaComponent, forKey:.a)
-//		atSer(3, logg("Encoded  as? NSColor"))
+//		logSer(3, logg("Encoded  as? NSColor"))
 //	}
 ////	public required init(from decoder: Decoder) throws {
 ////	}
@@ -268,7 +268,7 @@ let fwColorSpace = [	//	rrggbbaa
 //		self.init(_colorLiteralRed:r, green:g, blue:b, alpha:a)
 ////		self = NSColor(red:r, green:g, blue:b, alpha:a)
 //
-//		atSer(3, logg("Decoded  as? NSColor"))
+//		logSer(3, logg("Decoded  as? NSColor"))
 //	}
 //}
 //extension NSColor : Codable {
@@ -290,7 +290,7 @@ let fwColorSpace = [	//	rrggbbaa
 //		try container.encode(greenComponent, forKey:.g)
 //		try container.encode(blueComponent,  forKey:.b)
 //		try container.encode(alphaComponent, forKey:.a)
-//		atSer(3, logg("Encoded  as? NSColor"))
+//		logSer(3, logg("Encoded  as? NSColor"))
 //	}
 ////    public required init(from decoder: Decoder) throws {
 ////    }
@@ -304,6 +304,6 @@ let fwColorSpace = [	//	rrggbbaa
 //        self.init(red:r, green:g, blue:b, alpha:a)
 ////		self = NSColor(red:r, green:g, blue:b, alpha:a)
 //
-//		atSer(3, logg("Decoded  as? NSColor"))
+//		logSer(3, logg("Decoded  as? NSColor"))
 //	}
 //}

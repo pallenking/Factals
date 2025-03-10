@@ -3,7 +3,7 @@
 import Foundation
 
 // MARK: A Event Generation:
-// e.g:	atRve(5, log("hi")		// Just Normal detail on ReView screen
+// e.g:	logRve(5, log("hi")		// Just Normal detail on ReView screen
 //		atAll(0, {...})			// no output
 // MARK: B Log Attention:
 //func logAt(app:doc:bld:ser:ani:dat:eve:ins:men:rve:rsi:rnd:tst:all:) -> FwConfig
@@ -16,7 +16,6 @@ import Foundation
 //		4 : lite						9 : Everything
 //
 // MARK: 1.2 Area
-//func logAt(app:doc:bld:ser:ani:dat:eve:ins:men:rve:rsi:rnd:tst:all:) -> FwConfig
 //		app	-- APPlication		14	- construction of app
 // 		doc	-- DOCument			 0	- construction of document, including mouse
 //		bld	-- BuiLD part		54	- building of part
@@ -34,31 +33,31 @@ import Foundation
 
 // MARK: 2 Generate a Log Event:
  // Sugar to shorten commonly used cliche.
-func  atApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// APPlication
+func  logApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// APPlication
 { 	at("app", detail, format:format, args:args, terminator:terminator)		}
-func  atDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// DOCument
+func  logDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// DOCument
 { 	at("doc", detail, format:format, args:args, terminator:terminator)		}
-func  atBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// BuiLD part
+func  logBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// BuiLD part
 { 	at("bld", detail, format:format, args:args, terminator:terminator)		}
-func  atSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// SERilization
+func  logSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// SERilization
 { 	at("ser", detail, format:format, args:args, terminator:terminator)		}
-func  atAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// phys ANImation
+func  logAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// phys ANImation
 { 	at("ani", detail, format:format, args:args, terminator:terminator)		}
-func  atDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim DATa
+func  logDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim DATa
 { 	at("dat", detail, format:format, args:args, terminator:terminator)		}
-func  atEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim EVEnts
+func  logEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim EVEnts
 { 	at("eve", detail, format:format, args:args, terminator:terminator)		}
-func  atIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// INSpectors
+func  logIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// INSpectors
 { 	at("ins", detail, format:format, args:args, terminator:terminator)		}
-func  atMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// MENus
+func  logMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// MENus
 { 	at("men", detail, format:format, args:args, terminator:terminator)		}
-func  atRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReViEw
+func  logRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReViEw
 { 	at("rve", detail, format:format, args:args, terminator:terminator)		}
-func atRsi(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReSIze
+func logRsi(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReSIze
 { 	at("rsi", detail, format:format, args:args, terminator:terminator)		}
-func atRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReNDer protocol
+func logRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReNDer protocol
 { 	at("rnd", detail, format:format, args:args, terminator:terminator)		}
-func atTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// TeSTing
+func logTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// TeSTing
 { 	at("tst", detail, format:format, args:args, terminator:terminator)		}
 
  /// Emit a Log Event:
@@ -114,7 +113,7 @@ func logAtX(prefix:String="", // / 3b. Neutered (with suffix X) returns an empty
 
 //	E.g: the following will print "construction message" if DOClog.detailWanted
 //	calls for >=3 detail messages:
-//			atApp(3, log(<construction message>))
+//			logApp(3, log(<construction message>))
 
 
 

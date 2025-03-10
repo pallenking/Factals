@@ -66,7 +66,7 @@ class DiscreteTime : Atom {
 		try container.encode(inspecIsOpen, 		forKey:.inspecIsOpen)
 		try container.encode(incrementalEvents, forKey:.incrementalEvents)
 		try container.encode(anonValue, 		forKey:.anonValue)
-		atSer(3, "Encoded  as? DiscTime    '\(fullName)'")
+		logSer(3, "Encoded  as? DiscTime    '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -78,7 +78,7 @@ class DiscreteTime : Atom {
 		inspecIsOpen 			= try container.decode(   Bool.self, forKey:.inspecIsOpen)
 		incrementalEvents		= try container.decode(    Bool.self, forKey:.incrementalEvents)
 		anonValue				= try container.decode(   Float.self, forKey:.anonValue)
-		atSer(3, "Decoded  as? DiscTime   named  '\(name)'")
+		logSer(3, "Decoded  as? DiscTime   named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying
@@ -89,7 +89,7 @@ class DiscreteTime : Atom {
 //		theCopy.inspecIsOpen	= self.inspecIsOpen
 //		theCopy.incrementalEvents = self.incrementalEvents
 //		theCopy.anonValue		= self.anonValue
-//		atSer(3, logd("copy(with as? DiscreteTime       '\(fullName)'"))
+//		logSer(3, "copy(with as? DiscreteTime       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
@@ -131,13 +131,13 @@ class DiscreteTime : Atom {
 	  // / Generates a "resetTo" pattern to target bundle
 		anonValue 				= 1.0			// first so resetTo = "a" sets a=1
 		if let resetTo 			= self.resetTo {
-			atEve(4, "|| resetTo '\(resetTo.pp())'")
+			logEve(4, "|| resetTo '\(resetTo.pp())'")
 			let _ 				= loadTargetBundle(event:resetTo)
 		}
 	}
 	func resetForAgain() {
 		anonValue = 1.0				// anonymous value restarts on "again"
-		atEve(4, "/// resetForAgain():")
+		logEve(4, "/// resetForAgain():")
 		ports["P"]?.portPastLinks?.take(value:0.0, key:nil)	// Perhaps discreteTimes[*]
 	}
 	 /// Load the next event to the target bundle:
@@ -147,13 +147,13 @@ class DiscreteTime : Atom {
 		self.anonValue 			= 1.0
 		switch event {
 		case .anArray(let eventArray):	 // FwwEvent is an Array
-			atEve(4, "|| LOAD FwwEvent '\(eventArray.pp())' into target \(pPort.fullName)")
+			logEve(4, "|| LOAD FwwEvent '\(eventArray.pp())' into target \(pPort.fullName)")
 
 			 // First element of an array might set the current anonymous value
 			if let ea0 			= eventArray.first {
 			  	if case .aProb(let anonValue) = ea0 {		// cannot chain w ,
 					self.anonValue = anonValue
-					atEve(4, "|| Element 1 ='\(ea0.pp())'; \(anonValue) => anonValue")
+					logEve(4, "|| Element 1 ='\(ea0.pp())'; \(anonValue) => anonValue")
 			  	}
 			}
 			 // Clear all Ports:
@@ -171,22 +171,22 @@ class DiscreteTime : Atom {
 		case .aString(let eventStr):	 	// FwwEvent is an String
 			if eventStr == "incrementalEvents" {// "incrementalEvents" -- reserved word
 				self.incrementalEvents = true	//  (do not use as signal name)
-				atEve(4, "|| FwwEvent 'incrementalEvents' -- hold previous values")
+				logEve(4, "|| FwwEvent 'incrementalEvents' -- hold previous values")
 				return
 			}
 			loadTargetBundle(event: .anArray([event]))	// package up eventStr
 		case .aProb(let prob):			 	// FwwEvent is a Floating Point --> Random Events (for easy first tests)
-			atEve(4, "|| FwwEvent '\(prob)': RANDOMIZE targetBundle \(targetPort?.fullName ?? "?232")")
+			logEve(4, "|| FwwEvent '\(prob)': RANDOMIZE targetBundle \(targetPort?.fullName ?? "?232")")
 			 // Put in random data
 			let value = prob <= Float.random(from:0.0, to:1.0)
 			panic("This doesn't give independent random values!")
 			targetPort?.take(value:value ? 1.0 : 0.0, key:"*")
 		 // Epochs are unsupported
 		case .anEpoch(let eInt):			 // FwwEvent is a single number
-			atEve(4, "|| FwwEvent '\(eInt)': Epoch Mark") /// Integer --> 0 Epoch Mark
+			logEve(4, "|| FwwEvent '\(eInt)': Epoch Mark") /// Integer --> 0 Epoch Mark
 		default: 				// e.g: FwwEvent is an NSInteger, etc. -- no effect on
-			atEve(4, "|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")
-//			atEve(4, atEve(4, logd("|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")))
+			logEve(4, "|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")
+//			logEve(4, "|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")
 		}
 	}
 	  /// Load an event into the target bundle.
@@ -255,7 +255,7 @@ class DiscreteTime : Atom {
 		let sigName				= String(comp[0])	// Leaf name <== value
 		if let pPort			= ports["P"]?.portPastLinks {
 			let was				= pPort.valuePrev	// pPort!.getValues(key:sigName)
-			atEve(4, "|| /\\/\\ '\(pPort.name)'.take(value:\(theValue), key:\(sigName)), was \(was)")
+			logEve(4, "|| /\\/\\ '\(pPort.name)'.take(value:\(theValue), key:\(sigName)), was \(was)")
 			pPort.take(value:theValue, key:sigName)
 		}
 //		else { panic("DiscreteTime 'P' Port fault") }

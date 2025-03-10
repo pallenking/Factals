@@ -106,7 +106,7 @@ class Generator : Net {
 //	// MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! Generator
-//		atSer(3, logd("copy(with as? Generator       '\(fullName)'"))
+//		logSer(3, "copy(with as? Generator       '\(fullName)'")
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
