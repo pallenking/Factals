@@ -253,7 +253,7 @@ class Link : Atom {
 	}
 	  // MARK: - 9.2 reSize (position its ends)
 	override func reSize(vew:Vew) {
-		atRsi(8, logd("<><> L 9.2:   \\reSize Link '\(vew.part.fullName)'"))
+		atRsi(8, "<><> L 9.2:   \\reSize Link '\(vew.part.fullName)'")
 		 // HELP: dThis should go in Link.reSkin!
 		vew.scnRoot.categoryBitMask = FwNodeCategory.picable.rawValue 	// Link skins picable
 
@@ -277,7 +277,7 @@ class Link : Atom {
 	}
 	 // MARK: - 9.3 reSkin (Link Billboard)
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		atRsi(8, logd("<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'"))
+		atRsi(8, "<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'")
 		let name				= "s-Link"
 		let _/*scn*/ : SCNNode	= vew.scnRoot.find(name:name) ?? {
 			let sLink			= SCNNode()
@@ -366,7 +366,7 @@ class Link : Atom {
 		let pCon2SIp 			= pCon2Port.portConSpot(inVew:parentVew)	// (Spot defines area arround)
 		 let sCon2SIp			= sCon2Port.portConSpot(inVew:parentVew)
 		assertWarn(!(pCon2SIp.center.isNan || sCon2SIp.center.isNan), "\(linkVew.pp(.fullNameUidClass).field(-35)) connect spot is nan")
-		atRsi(4, /*vew.*/logd("<<===== reSizePost, FOUND pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))"))
+		atRsi(4, "<<===== reSizePost, FOUND pCon2SIp=\(pCon2SIp.center.pp(.line, aux)), s=\(sCon2SIp.center.pp(.line, aux))")
 
 		 // Center point of each end, in world coordinates
 		// :H: _CENT_er					// of spot
@@ -413,7 +413,7 @@ class Link : Atom {
 /**/	sVew.scnRoot.position		= s
 		linkVew.sEndVip			= s
 
-		atRsi(8, logd("<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)"))
+		atRsi(8, "<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)")
 	}
 
 		// Xyzzy19e
@@ -428,18 +428,20 @@ bug	// Never USED?
 									("S", parentLinkVew.sEndVip) ] {
 			if port == ports[portStr] {
 				guard let p		= endVip else {
-					atRsi(3, warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil"))
+					if eventIs(ofArea:"rsi", detail:3) {
+						warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil")
+					}
 					continue
 				}
 				portVew.scnRoot.position = p
-				atRsi(8, logd("<><> L 9.4\(portStr):  = \(p)"))
+				atRsi(8, "<><> L 9.4\(portStr):  = \(p)")
 			}
 		}
 	}
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
 	override func computeLinkForces(vew:Vew) {
-		atRsi(8, logd("<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'"))
+		atRsi(8, "<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'")
 		guard !vew.scnRoot.transform.isNan else {
 			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
 		}
@@ -530,7 +532,7 @@ bug	// Never USED?
 	var imageHeight: Int					{ 	return 300						}
 	 /// Paint red and green onto Link skins
 	override func rePaint(vew:Vew) 		{		// paint red and green
-		atRsi(8, logd("<><> L 9.6:   \\rePaint"))
+		atRsi(8, "<><> L 9.6:   \\rePaint")
 		 // S and P port of a link have no views, but their .paint bits must be cleared:
 		let _ 				= ports.map 	{	$1.dirty.turnOff(.paint) 		}
 
@@ -595,7 +597,7 @@ extension Port {
 		let name				= "s-LinkEnd"
 		let scn:SCNNode 		= vew.scnRoot.find(name:name) ?? {
 			 // None found, make one.
-			atRsi(8, logd("<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))"))
+			atRsi(8, "<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))")
 			let scn				= SCNNode(geometry:SCNSphere(radius:0.2))		// the Ports of Links are invisible
 			vew.scnRoot.addChild(node:scn)
 			scn.name			= name

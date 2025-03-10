@@ -53,7 +53,8 @@ func atMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=
 { 	at("men", detail, format:format, args:format, terminator:terminator)		}			// 0 //del
 func atRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
 { 	at("rve", detail, format:format, args:format, terminator:terminator)		}
-func atRsi(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rsi", detail, act())	}
+func atRsi(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+{ 	at("rsi", detail, format:format, args:format, terminator:terminator)		}
 func atRnd(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rsi", detail, act())	}
 func atTst(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("tst", detail, act())	}
 func atAny(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("all", detail, act())	}	// may be buggy

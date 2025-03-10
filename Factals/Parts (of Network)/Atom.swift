@@ -766,7 +766,9 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			vew.scnRoot.position.y	= -port.height
 		}
 		else {
-			atRsi(3, warning("Did not find position for '\(port.pp(.fullNameUidClass))'"))
+			if eventIs(ofArea:"rsi", detail:3) {
+				warning("Did not find position for '\(port.pp(.fullNameUidClass))'")
+			}
 			vew.scnRoot.transform	= .identity
 		}
 	}
@@ -778,7 +780,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 	 //
 	override func placeByLinks(inVew vew:Vew, mode:String?=nil) -> Bool {
 		func atPri_fail(_ format:String, _ args:CVarArg...) -> Part? {
-			atRsi(5, print("\t\t" + "ABORT: " + format, args))
+			atRsi(5, "\t\t" + "ABORT: " + format, args)
 			return nil
 		}
 		assert(mode == "linky", "placeByLinks only debugged for 'linky' mode")
@@ -804,7 +806,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 		var avgPosition	:SCNVector3	= .zero		// default return position is Nan
 		var lastDomIf2	: Part?	= nil
 
-		atRsi(4, /*vew.*/logd(">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")"))
+		atRsi(4, ">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")")
 			   // /////////////////////////////////////////////////////////////// //
 			  // 															     //
 			 //  For all enclosed subBits, looking for things to position it by //
@@ -818,7 +820,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 
 		let _					= findCommon(up2:false, inMe2:true, firstWith:					//all:false,
 		{ (inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
-			atRsi(5, /*vew.*/logd("  TRY \(inMe.fullName.field(10)) ", terminator:""))
+			atRsi(5, "  TRY \(inMe.fullName.field(10)) ", terminator:"")
 
 			   // /////////////////////////////////////////////////////////////// //
 			  // /////// Search for a Link to fixed ground
@@ -826,7 +828,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			guard let inMePort	= inMe as? Port else {
 				return atPri_fail(		"inMe not Port")
 			}
-			atRsi(4, print("Port ", terminator:""))
+			atRsi(4, "Port ", terminator:"")
 			if inMe.parent is Link {
 				return atPri_fail(		"inMe's atom is Link inside of self!")
 			}
@@ -848,7 +850,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			if fixedPort is ParameterPort {
 				return atPri_fail(		"Fixed Port is a ParameterPort")
 			}
-			atRsi(4, print("-->\(fixedPort.fullName16) ", terminator:""))
+			atRsi(4, "-->\(fixedPort.fullName16) ", terminator:"")
 										// // f. INSIDE of self, IGNORE
 			if find(part:fixedPort) != nil {
 				return atPri_fail(		"fixedP is inside self")
@@ -887,7 +889,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			let commonVew 		= refVew.find(part:commonNet, up2:true, inMe2:true)
 			let inMePOpensUpIC	= inMePort.upInPart(until:commonNet)		// ???wtf???
 
-			atRsi(4, print(inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:""))
+			atRsi(4, inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:"")
 			if  inMePOpensUpIC {		// // g. pointing up, but not into a Context
 				return atPri_fail(		"not in context")
 			}
@@ -936,8 +938,8 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 				panic("Second dominant Link con2 (\(fixedPort.pp(.fullName)) were found")
 			}
 			newInMePosn.y		+= gap
-			atRsi(4, logd("\t\t\t\t" + "<<===== FOUND: p=\(newInMePosn.pp(.short)); "
-						  + "\(vew.part.fullName).vew.bBox = (\(vew.bBox.pp(.line)))"))
+			atRsi(4, "\t\t\t\t" + "<<===== FOUND: p=\(newInMePosn.pp(.short)); "
+						  + "\(vew.part.fullName).vew.bBox = (\(vew.bBox.pp(.line)))")
 
 			 // ////// Accumulate position: average for x,z; max for y
 			avgPosition 		+= newInMePosn//* weightVect // bit by bit *
@@ -951,7 +953,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 		   // ///////////////////////////////////////////////////////////////
 
 		guard !maxPositionY.isInfinite else {									//guard weightSum > 0 && !maxPositionY.isInfinite else {
-			atRsi(4, print("\t\t ABORT: ============ FAILS link positioning: position unchanged"))
+			atRsi(4, "\t\t ABORT: ============ FAILS link positioning: position unchanged")
 			return false														}
 
 		// <N>:average of N, 0:nothing found, -1:dominated
@@ -960,7 +962,7 @@ bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(
 			avgPosition 		/=  weightSum		// take average
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
-		atRsi(4, /*vew.*/logd("<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))"))
+		atRsi(4, "<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))")
 		//atRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
 		vew.scnRoot.position = avgPosition + (vew.jog ?? .zero)
 

@@ -385,7 +385,7 @@ class Port : Part, PortTalk {
 	//		let hiVew 			= commonVew.find(part:hiPart)!					//, maxLevel:1??
 	//		let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 			vew					= vew.parent!
-			atRsi(8, /*vew.*/logd("--A-- rv:\(pp(inVew:vew)) after t:\(t.pp(.short))"))
+			atRsi(8, "--A-- rv:\(pp(inVew:vew)) after t:\(t.pp(.short))")
 		}
 	 	// MARK: - 15. PrettyPrint
 		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
@@ -414,7 +414,7 @@ class Port : Part, PortTalk {
 	func portConSpot(inVew vew:Vew) -> ConSpot {
 		let aux					= params4partPp				//log.params4aux
 		guard var openParent	= parent else {	debugger("portConSpot: Port with nil parent")	}
-		atRsi(8, /*openParent.*/logd("---------- \(vew.pp(.fullName)).portConSpotNEW"))
+		atRsi(8, "---------- \(vew.pp(.fullName)).portConSpotNEW")
 
 		  // H: SeLF, ViEW, World Position, ConSpot
 		 // If atomized, up for a visible Vew:
@@ -423,7 +423,7 @@ class Port : Part, PortTalk {
 		var csVisVew : Vew?		= vew.find(part:self, inMe2:true)					//openParent
 		while csVisVew == nil, 						// we have no Vew yet
 			  let p				= openParent.parent {// but we do have a parent
-			atRsi(8, /*openParent.*/logd(" not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew"))
+			atRsi(8, " not in Vew! (rv = [\(rv.pp(aux))]) See if parent '\(p.fullName)' has Vew")
 			// Move to parent if Vew for slf is not currently being viewed;;;;;;;
 			openParent			= p
 			csVisVew			= vew.find(part:openParent, inMe2:true)
@@ -440,7 +440,7 @@ class Port : Part, PortTalk {
 		if let scnScene			= vew.vewBase()?.scnBase.roots, enaPpWorld {
 			worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:nil/*scnRoot*/).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
-		atRsi(8, /*csVisVew.*/logd("INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'"))
+		atRsi(8, "INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'")
 
 		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
 		 //
@@ -463,7 +463,7 @@ class Port : Part, PortTalk {
 
 			let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:nil/*scnScene*/).pp(.short, aux)
 			let wpStr 			= !enaPpWorld ? "" :  "w\\(openWPosn) "
-			atRsi(8, /*openVew.*/logd("  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))"))
+			atRsi(8, "  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))")
 		}
 		return rv
 	}
@@ -542,7 +542,7 @@ class Port : Part, PortTalk {
 			rv.y				-= spotIC.radius	// assume straight down
 			rv.y				= min(rv.y, exclude?.min.y ?? rv.y) // Exclude zone too?
 		}
-		atRsi(8, /*vew.*/logd("rv:\(rv.pp(.short)) returns peakSpot"))
+		atRsi(8, "rv:\(rv.pp(.short)) returns peakSpot")
 		return rv
 	}
 

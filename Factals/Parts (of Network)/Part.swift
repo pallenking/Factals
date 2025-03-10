@@ -1174,13 +1174,13 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			var newBip			= vew.bBox * vew.scnRoot.transform //new bBox in parent
 			var rv				= -newBip.center // center selfNode in parent
 			newBip.center		= .zero
-			atRsi(4, /*vew.*/logd(">>===== Position \(self.fullName) by:\(mode) (stacked) in \(parent?.fullName ?? "nil") "))
+			atRsi(4, ">>===== Position \(self.fullName) by:\(mode) (stacked) in \(parent?.fullName ?? "nil") ")
 			let stkBip 			= vew.parent!.bBox
 			rv		 			+= stkBip.center // center of stacked in parent
 			let span			= stkBip.size + newBip.size	// of both parent and self
 			let slop			= stkBip.size - newBip.size	// amount parent is bigger than self
-			atRsi(6, /*vew.*/logd("   newBip:\(newBip.pp(.phrase)) stkBip:\(stkBip.pp(.phrase))"))
-			atRsi(5, /*vew.*/logd("   span:\(span.pp(.line)) slop:\(slop.pp(.line))"))
+			atRsi(6, "   newBip:\(newBip.pp(.phrase)) stkBip:\(stkBip.pp(.phrase))")
+			atRsi(5, "   span:\(span.pp(.line)) slop:\(slop.pp(.line))")
 
 			  // e.g. mode = "stackY 0.5 1"
 			 // determine: u0,u1,u2, stackSign, alignU1, alignU2
@@ -1205,7 +1205,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 				alignU2			= 0.5 * a2
 			}
 			let ax				= ["x", "y", "z"] 
-			atRsi(5, /*vew.*/logd("   Stack:\(stackSign > 0 ? "+" : "-")\(ax[u0]): Align \(ax[u1])=\(alignU1), \(ax[u2])=\(alignU1)"))
+			atRsi(5, "   Stack:\(stackSign > 0 ? "+" : "-")\(ax[u0]): Align \(ax[u1])=\(alignU1), \(ax[u2])=\(alignU1)")
 
 			 // the move (delta) to put self's bBox centered within parent's bBox
 			   // Place next Vew (self) on side of stacked parts   \\\
@@ -1240,7 +1240,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
 	//		let delta			= newBip.center - stkBip.center
 	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
-			atRsi(4, /*vew.*/logd("=====>> FOUND: rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n"))
+			atRsi(4, "=====>> FOUND: rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n")
 			vew.scnRoot.position	= rv + (vew.jog ?? .zero)
 	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
 		}

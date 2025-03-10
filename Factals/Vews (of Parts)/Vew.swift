@@ -366,7 +366,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 					// RECURSIVE
 			let rv				= localPosition(of:pInParent, inSubVew:vewParent)
 
-			atRsi(9, logd("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))"))
+			atRsi(9, "localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.parent!.pp(.fullName))' returns \(rv.pp(.short))")
 			return rv
 		}
 		debugger("localPosition(of:\(position.pp(.short)), inSubVew:'\(vew.pp(.fullName))' HAS NO PARENT")
@@ -469,9 +469,10 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		if overlap(of:sBBoxInP, withAnyIn:relevantSpots) == nil {
 			return								// no overlap, done!
 		}
-		atRsi(5, logd(" in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:"))
-		atRsi(5, logSpots(relevantSpots))
-
+		atRsi(5, " in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:")
+		if eventIs(ofArea:"rsi", detail:5) {
+			logSpots(relevantSpots)
+		}
 		 // go through all given spots, adding the 4 points around each
 		for (i, trySpot) in relevantSpots.enumerated() where trySpot.state == .given {
 			var tryBBox			= sBBoxInP 	// trial starts with self's size
@@ -487,12 +488,12 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 
 				 // Does trial overlap any given spot?
 				if let ol 		= overlap(of:tryBBox, withAnyIn:relevantSpots) {
-					atRsi(8, logd("%3d+\(dir): overlaps %-3d! c:\(tryBBox.center.pp(.line))", i, ol))
+					atRsi(8, "%3d+\(dir): overlaps %-3d! c:\(tryBBox.center.pp(.line))", i, ol)
 				}
 				else {
 					 // ADD one of 4 SPOTs around placedSpot to spots, to check later
 					let newSpot	= SpotData(state:.added, bBox:tryBBox, vew:nil)
-					atRsi(5, logd("   \(relevantSpots.count): \(newSpot.pp())") )
+					atRsi(5, "   \(relevantSpots.count): \(newSpot.pp())")
 					relevantSpots.append(newSpot)
 				}
 			}
@@ -517,8 +518,8 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 
 		scn.position 			+= movedBy
 //		scnRoot.position		+= movedBy
-		atRsi(4, logd("=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))"))
-//		atRsi(4, logd("=====>> Moved by \(movedBy.pp(.short)) to \(scnRoot.transform.position.pp(.short))"))
+		atRsi(4, "=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))")
+//		atRsi(4, "=====>> Moved by \(movedBy.pp(.short)) to \(scnRoot.transform.position.pp(.short))")
 	}
 	func orBBoxIntoParent() {
 		if let parentVew 		= parent {
