@@ -200,7 +200,7 @@ class Atom : Part {	//Part//FwPart
 					rv 			= port
 				}
 				else {
-					atBld(4, logd("[getBit)????? : ignoring %@, alrady found %", port.name, rv!.name))
+					atBld(4, "[getBit)????? : ignoring %@, alrady found %", port.name, rv!.name)
 				}
 			}
 		}
@@ -216,7 +216,7 @@ class Atom : Part {	//Part//FwPart
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		atBld(7, logd(" '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))"))
+		atBld(7, " '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 		var rvPort : Port?		= nil					// Initially no return value
 
 		 // Check BINDINGS?
@@ -226,17 +226,17 @@ class Atom : Part {	//Part//FwPart
 				rvPort 			=  boundPart as? Port			// Case 1: already a Port?
 				if let boundAtom = boundPart as? Atom {			// Case 1: Atom's Port?
 					let sWantUp	= wantUp==nil ? nil : wantUp! ^^ boundAtom.upInPart(until:self)
-					atBld(6, logd(" .BINDING \"\(wantedName)\":\"\(bindingString)\" now at \(fwClassName): \"\(boundAtom.pp(.fullName))\""))
+					atBld(6, " .BINDING \"\(wantedName)\":\"\(bindingString)\" now at \(fwClassName): \"\(boundAtom.pp(.fullName))\"")
 
 					// Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
 			/**/	rvPort		= boundAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 				}
 //				rvPort 			=  boundPart as? Port			// Case 2: Port?
 			}
-			atBld(4, logd("-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'"))
+			atBld(4, "-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'")
 		}
 		 // If Existing Port?
-		atBld(4, logd("xxxxxxxx"))
+		atBld(4, "xxxxxxxx")
 		rvPort					??= existingPorts(named:wantedName, localUp:wantUp).first
 		 // If Delayed Populate Port?
 		rvPort					??= delayedPopulate(named:wantedName, localUp:wantUp)
@@ -254,7 +254,7 @@ class Atom : Part {	//Part//FwPart
 			  cPort.flipped,
 			  splitter.isBroadcast {
 				rvPort				= splitter.anotherShare(named:"*")
-				atBld(4, logd("-----Returns Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'"))
+				atBld(4, "-----Returns Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'")
 				return rvPort
 			}
 
@@ -263,13 +263,13 @@ class Atom : Part {	//Part//FwPart
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
 				rvPort				= conSplitter.anotherShare(named:"*")
-				atBld(4, logd("-----Returns Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'"))
+				atBld(4, "-----Returns Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'")
 				return rvPort
 			}
 
 			 // Add Auto Broadcast?:
 			else if let x		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
-				atBld(4, logd("-----Returns Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'"))
+				atBld(4, "-----Returns Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'")
 				return x
 			}
 			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
@@ -371,7 +371,7 @@ class Atom : Part {	//Part//FwPart
 
 		  //   "AUTO-BCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
-		atBld(4, logd("<<++ Auto Broadcast ++>>"))
+		atBld(4, "<<++ Auto Broadcast ++>>")
 
 		 // 1.  Make a Broadcast Splitter Atom:
 		let newName				= "\(name)\(toPort.name)"
@@ -482,7 +482,7 @@ nop
 				let breakAtWireNo = partBase.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(Log.shared.eventNumber-1)")
-				atBld(4, logd("L\(wireNumber) source:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))"))
+				atBld(4, "L\(wireNumber) source:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))")
 
   /* **************************************************************************/
  /* *********/	let aWire = { () -> () in    /* ******* DO LATER: ************/
@@ -572,7 +572,7 @@ nop
 
 					 //    3a. //// SouRCe (is self)				// Log
 					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(until:conNet)
-					atBld(4, /*self.*/logd("L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_"))
+					atBld(4, "L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
 					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
@@ -583,7 +583,7 @@ nop
 					let trgInfo	= "---TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6))" +
 								  " opens _\(ppUp(trgAboveSInT))_"
-					atBld(4, /*self.*/logd(trgInfo))
+					atBld(4, trgInfo)
 
 					 //		3d. //// Get the TaRGet Port			// target Port
 					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
@@ -609,7 +609,7 @@ nop
 						link 	=  !s ? Link(linkProps) : MultiLink(linkProps)
 						msg1 	+= " <->\(link!.name)"
 					}
-					atBld(4, /*self.*/logd(msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)"))
+					atBld(4, msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)")
 
 					 // CHECK: Boss and Worker Ports face opposite // MIGHT BETTER CHECK s->d wrt children.index
 					if trgPort!.upInWorld ^^ !srcPort!.upInWorld,	// direction fault and
@@ -619,8 +619,8 @@ nop
 						msg1	+= " " + srcPort!.upInWorldStr()
 						msg1    += "\n\t" + "Target: " + trgPort!.fullName
 						msg1	+= " " + trgPort!.upInWorldStr()
-						atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
-								" Consider using config[noCheck] '^'." + msg1))
+bug				//		atBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
+				//				" Consider using config[noCheck] '^'." + msg1))
 					}
 					assert(srcPort?.con2 == nil, "SouRCe PORT occupied")
 					assert(trgPort?.con2 == nil, "TarGeT PORT occupied")

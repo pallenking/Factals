@@ -185,7 +185,7 @@ class FwBundle : Net {
 	// MARK: - 4.1 Part Properties
 	func apply(constructor con:FwAny, leafConfig:FwConfig){//, _ tunnelConfig:FwConfig) {
 		//				[ "a", "b"]	  [placeMy:linky]
-		atBld(7, logd("apply(constructor:\(con.pp(.line))))"))
+		atBld(7, "apply(constructor:\(con.pp(.line))))")
 
 		  // ==== Parse constructor:  It has many forms:
 		 // STRING:
@@ -233,7 +233,7 @@ class FwBundle : Net {
 								
 	 /// Add leaves by apply a specification to ourselves
 	func apply(spec:FwAny, arg:FwAny?=nil, leafConfig:FwConfig){//}, _ tunnelConfig:FwConfig) {
-		atBld(7, logd("apply(spec:\(spec.pp(.line)), arg:\(arg?.pp(.line) ?? "nil"))"))
+		atBld(7, "apply(spec:\(spec.pp(.line)), arg:\(arg?.pp(.line) ?? "nil"))")
 								
 		   // Interpret << spec >>, making appropriate changes to self, a FwBundle
 		  //

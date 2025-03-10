@@ -470,7 +470,7 @@ extension Dictionary where Key:Comparable, Value:FwAny, Value:Equatable {	// xyz
 		for (keyRhs, valueRhs) in rhsSorted {
 			if let valueLhs 		= lhs[keyRhs] { 			// possible conflict if keyRhs in lhs
 //				valueLhs == valueRhs ? nop :
-					atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
+bug		//			atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(valueLhs.pp(.short).field(10)) \t<-- \(valueRhs.pp(.short))"))
   			}
 			rv[keyRhs] 				= valueRhs
 		}

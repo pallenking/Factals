@@ -164,7 +164,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 		 // Print out invocation
 		let n					= "create \(fwClassName) " + ("\'" + name + "\': ").field(8)
-		atBld(6, logd("  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))"))
+		atBld(6, "  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))")
 
 		 // Options:
 		if let valStr			= partConfig["expose"] as? String,
@@ -200,7 +200,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}
 	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
-		atBld(3, print("#### DEINIT    \(ppUid(self)):\(fwClassName)")) // 20221105 Bad history deleted
+		/*atBld(3, */print("#### DEINIT    \(ppUid(self)):\(fwClassName)") // 20221105 Bad history deleted
 	}
 
 	 // START CODABLE ///////////////////////////////////////////////////////////////

@@ -114,8 +114,8 @@ bug;	return nil
 //			if let bindingStr 	= self.bindings?[path.namePort] {
 //				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
 //				
-//				atBld(5, logd("   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
-//								  self.fullName, path.namePort, bindingPath.pp()))
+//				atBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
+//								  self.fullName, path.namePort, bindingPath.pp())
 //
 //				  // Look that name up
 //				 //XX		rv=[self resolveInwardReference:bindingPath openingDown:downInSelf except:nil]

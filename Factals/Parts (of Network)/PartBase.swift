@@ -68,32 +68,32 @@ class PartBase : Codable, ObservableObject, Uid {
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
-		atBld(4, logd("***** checkTree returned \(changed)"))
+		atBld(4, "***** checkTree returned \(changed)")
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		checkTree()
-		atBld(4, logd("Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true])))
+		atBld(4, "Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true]))
 
 		 //  1. GATHER LINKS as wirelist:
-		atBld(4, logd("------- GATHERING potential Links:"))
+		atBld(4, "------- GATHERING potential Links:")
 		var linkUps : [()->()]	= []
 		tree.gatherLinkUps(into:&linkUps, partBase:self)
 
 		 //  2. ADD LINKS:
-		atBld(4, logd("------- WIRING \(linkUps.count) Links to Network:"))
+		atBld(4, "------- WIRING \(linkUps.count) Links to Network:")
 		linkUps.forEach
 		{ 	addLink in 		addLink() 							}
 
 		checkTree()
 
 		 //  3. Grooom post wires:
-		atBld(4, logd("------- Grooming Parts..."))
+		atBld(4, "------- Grooming Parts...")
 		tree.groomModelPostWires(partBase:self)				// + +  + +
 		tree.dirtySubTree()															//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
 																				//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
 																				//dirty.turnOn(.vew)
 		 //  4. Reset
-		atBld(4, logd("------- Reset..."))
+		atBld(4, "------- Reset...")
 		tree.reset()
 
 		 // must be done after reset
@@ -104,10 +104,10 @@ class PartBase : Codable, ObservableObject, Uid {
 		}
 
 		 //  5. Print Errors
- 		atBld(3, logd(ppRootPartErrors()))
+ 		atBld(3, ppRootPartErrors())
 
 		 //  6. Print Part
-		atBld(2, logd("------- Parts, ready for simulation, simRun:\(factalsModel?.simulator.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true]))))
+		atBld(2, "------- Parts, ready for simulation, simRun:\(factalsModel?.simulator.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true])))
 
 		factalsModel?.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
 
@@ -333,15 +333,15 @@ bug
 		let ownerNId			= ppUid(self) + " '\(owner)'".field(-20)
 								
 		if logIf && debugOutterLock { 		 		// less verbose
-			atBld(4, {					// === ///// BEFORE GETTING, Log:
-				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(semiphore.value ?? -99)"
-				if semiphore.value ?? -99 <= 0 {	// Blocked, always print if verb
-					logd(msg +  ", OWNED BY:'\(curOwner ?? "-")', PROBABLE WAIT...")
-				}
-				else if verboseLocks {
-			 		logd(msg)
-				}
-			}())
+bug//		atBld(4, {					// === ///// BEFORE GETTING, Log:
+//				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(semiphore.value ?? -99)"
+//				if semiphore.value ?? -99 <= 0 {	// Blocked, always print if verb
+//					logd(msg +  ", OWNED BY:'\(curOwner ?? "-")', PROBABLE WAIT...")
+//				}
+//				else if verboseLocks {
+//			 		logd(msg)
+//				}
+//			}())
 		}
 		 /// === Get partTree lock:
 /**/	while semiphore.wait(timeout:.now() + .seconds(10)) != .success {
@@ -378,7 +378,7 @@ bug
 /**/	semiphore.signal()			 // Unlock Part's DispatchSemaphore:
 
 		if debugOutterLock && logIf && (verboseLocks || prevOnwer != "renderScene") {
-			atBld(3, logd(" \\\\######\(ownerNId) RELEASED Part LOCK v:\(semiphore.value ?? -99)"))
+			atBld(3, " \\\\######\(ownerNId) RELEASED Part LOCK v:\(semiphore.value ?? -99)")
 		}
 	}
 

@@ -182,7 +182,7 @@ class Actor : Net {
 							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
 							  otherI > scanI		 {
 								 // pull that worker to just below us
-								atBld(4, logd("Actor reordering '%@' to index %d", otherAtom.name, scanI))
+								atBld(4, "Actor reordering '%@' to index %d", otherAtom.name, scanI)
 								children.remove(at:otherI)//	children.removeObject(otherAtom)
 								children.insert(otherAtom, at:scanI)
 								 // and start all over again...
@@ -243,7 +243,7 @@ bug;		let enaPort			= Port()
 			for part in parent?.selfNParents ?? [] {
 				if let actor = part as? Actor {
 					actor.previousClocks.append(self)
-					atBld(4, logd("CLOCK  '\(actor.fullName16)'.previousClocks now contains '\(fullName16)'"))
+					atBld(4, "CLOCK  '\(actor.fullName16)'.previousClocks now contains '\(fullName16)'")
 					break
 				}
 			}

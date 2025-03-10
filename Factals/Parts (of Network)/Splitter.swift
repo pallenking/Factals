@@ -180,8 +180,8 @@ class Splitter : Atom {
 					else if rv==nil	{			// first
 						rv 		= port										}
 					else {
-						atBld(4, logd("????? [%@ getBit_...]: ignoring %@, alrady found %",
-							name, port.name, rv?.name ?? "-"))
+						atBld(4, "????? [%@ getBit_...]: ignoring %@, alrady found %",
+							name, port.name, rv?.name ?? "-")
 					}
 				}
 			}

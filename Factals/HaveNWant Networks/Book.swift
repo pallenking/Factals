@@ -129,9 +129,9 @@ class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0
 			 // Anonymous from Scan
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
-			atBld(7, logd("=== Matched Because: '\(matchCause!)' ===\n" +
-						  "=========<<< \(answer.ppr()) >>>=========\n" +
-						  "========================================================================\n"))
+			atBld(7, "=== Matched Because: '\(matchCause!)' ===\n" +
+					 "=========<<< \(answer.ppr()) >>>=========\n" +
+					 "========================================================================\n")
 		}
 	}
 	var fwClassName		 : String	{	"Book"									}

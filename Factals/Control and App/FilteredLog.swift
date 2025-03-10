@@ -35,12 +35,11 @@ import Foundation
  // Sugar to shorten commonly used cliche.
 func atApp(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("app", detail, act())	}
 func atDoc(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("doc", detail, act())	}
-func atBld(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("bld", detail, act())	}
-func atSer(_ detail:Int, _ format:String, args:CVarArg..., terminator:String?=nil)
+func atBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+		{ 	at("bld", detail, format:format, args:format, terminator:terminator)		}
+func atSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
 		{ 	at("ser", detail, format:format, args:format, terminator:terminator)		}
-//func atSer(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("ser", detail, act())	}
-
-func atAni(_ detail:Int, _ format:String, args:CVarArg..., terminator:String?=nil)
+func atAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
 		{ 	at("ani", detail, format:format, args:format, terminator:terminator)		}
 
 func atDat(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("dat", detail, act())	}

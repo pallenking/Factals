@@ -64,8 +64,8 @@
 //				   else if rv==nil	{			// first
 //					   rv 		= port										}
 //				   else {
-//					   atBld(4, log("????? [%@ getBit_...]: ignoring %@, alrady found %",
-//						   name, port.name, rv?.name ?? "-"))
+//					   atBld(4, l"????? [%@ getBit_...]: ignoring %@, alrady found %",
+//						   name, port.name, rv?.name ?? "-")
 //				   }
 //			   }
 //		   }
@@ -125,7 +125,7 @@
 //		   /// NOPE,
 //		  ///   "AUTO-BCAST": Add a new Broadcast to split the port
 //		 ///					/auto Broadcast/auto-broadcast/
-//		atBld(1, log("<<++ Auto Broadcast ++>>"))
+//		atBld(1, "<<++ Auto Broadcast ++>>")
 //
 //		 /// 1.  Make a Broadcast Splitter Atom:
 //		let newName				= "\(name)\(toPort.name)"
@@ -169,7 +169,7 @@
 //					rv 			= port
 //				}
 //				else {
-//					atBld(4, log("[getBit)????? : ignoring %@, alrady found %", port.name, rv!.name))
+//					atBld(4, "[getBit)????? : ignoring %@, alrady found %", port.name, rv!.name)
 //				}
 //			}
 //		}
