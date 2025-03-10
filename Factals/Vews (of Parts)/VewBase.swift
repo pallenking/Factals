@@ -201,7 +201,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 
 		let ownerNId		= ppUid(self) + " '\(lockName)'".field(-20)
 		if logIf && debugOutterLock {
-			atRve(3, logd("//#######\(ownerNId):     GET Vew  LOCK: v:\(semiphore.value ?? -99)" ))
+			atRve(3, "//#######\(ownerNId):     GET Vew  LOCK: v:\(semiphore.value ?? -99)")
 		}
 
 		 // === Get trunkVew DispatchSemaphore:
@@ -217,7 +217,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		assert(curLockOwner==nil, "'\(lockName)' attempting to lock, but '\(curLockOwner!)' still holds lock ")
 		curLockOwner 		= lockName
 		if logIf  {						/// AFTER GETTING:
-			atRve(3, logd("//#######" + ownerNId + "      GOT Vew  LOCK: v:\(semiphore.value ?? -99)"))
+			atRve(3, "//#######" + ownerNId + "      GOT Vew  LOCK: v:\(semiphore.value ?? -99)")
 		}
 		return true
 	}
@@ -230,7 +230,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		assert(curLockOwner == neededLockName, "Releasing (as '\(neededLockName)') Vew lock owned by '\(curLockOwner!)'")
 		let u_name			= ppUid(self) + " '\(curLockOwner!)'".field(-20)
 		if logIf {
-			atRve(3, logd("\\\\#######\(u_name)  RELEASE Vew  LOCK: v:\(semiphore.value ?? -99)"))
+			atRve(3, "\\\\#######\(u_name)  RELEASE Vew  LOCK: v:\(semiphore.value ?? -99)")
 		}
 
 		 // update name/state BEFORE signals
@@ -241,7 +241,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 
 		if debugOutterLock && logIf {
 			let val0		= semiphore.value ?? -99
-			atRve(3, logd("\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)"))
+			atRve(3, "\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)")
 		}
 	}
 
@@ -258,8 +258,9 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
 		if partsTree.test(dirty:.vew) {				//" _ reVew _   VewBase (per updateVSP()" {
-			atRve(6, log ? logd("updateVSP(vewConfig:(initial)") : nop)
-								
+			if log {
+				atRve(6, "updateVSP(vewConfig:(initial)")
+			}
 			 // change from viewing null
 			if tree.name == "_null" {
 bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()

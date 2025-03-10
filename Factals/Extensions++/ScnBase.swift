@@ -334,15 +334,15 @@ bug
 			cameraScn.transform	*= 0.999999	// virtually no effect
 			SCNTransaction.completionBlock = {
 				SCNTransaction.begin()			// Animate Camera Update
-				atRve(8, /*factalsModel.*/logd("  /#######  animatePan: BEGIN Completion Block"))
+				atRve(8, "  /#######  animatePan: BEGIN Completion Block")
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
 				cameraScn.transform = self.vewBase!.selfiePole.transform(lookAtVew:self.vewBase!.lookAtVew)
 
-				atRve(8, /*factalsModel.*/logd("  \\#######  animatePan: COMMIT Completion Block"))
+				atRve(8, "  \\#######  animatePan: COMMIT Completion Block")		//factalsModel.*/logd(
 				SCNTransaction.commit()
 			}
-			atRve(8, /*factalsModel.*/logd("  \\#######  animatePan: COMMIT All"))
+			atRve(8, "  \\#######  animatePan: COMMIT All")
 			SCNTransaction.commit()
 		}
 	}

@@ -47,9 +47,12 @@ func atDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=
 { 	at("dat", detail, format:format, args:format, terminator:terminator)		}
 func atEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
 { 	at("eve", detail, format:format, args:format, terminator:terminator)		}
-func atIns(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("ins", detail, act())	}	//
-func atMen(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("men", detail, act())	}	//del
-func atRve(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rve", detail, act())	}
+func atIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// 0
+{ 	at("ins", detail, format:format, args:format, terminator:terminator)		}
+func atMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+{ 	at("men", detail, format:format, args:format, terminator:terminator)		}			// 0 //del
+func atRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
+{ 	at("rve", detail, format:format, args:format, terminator:terminator)		}
 func atRsi(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rsi", detail, act())	}
 func atRnd(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rsi", detail, act())	}
 func atTst(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("tst", detail, act())	}

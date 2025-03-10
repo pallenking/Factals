@@ -354,7 +354,7 @@ bug//		atBld(4, {					// === ///// BEFORE GETTING, Log:
 		assert(curOwner==nil, "'\(owner)' attempting to lock, but '\(curOwner!)' still holds lock ")
 		curOwner				= owner
 		if logIf && (verboseLocks || curOwner != "renderScene") {
-			atRve(4, logd(" //######\(ownerNId)      GOT Part LOCK: v:\(semiphore.value ?? -99)"))
+			atRve(4, " //######\(ownerNId)      GOT Part LOCK: v:\(semiphore.value ?? -99)")
 		}
  		return true
  	}
@@ -368,7 +368,7 @@ bug//		atBld(4, {					// === ///// BEFORE GETTING, Log:
 		assert(curOwner == owner, "Releasing (as '\(owner)') Part lock owned by '\(curOwner!)'")
 		let ownerNId		= ppUid(self) + " '\(curOwner!)'".field(-20)
 		if logIf && (curOwner != "renderScene" || verboseLocks) {
-			atRve(3, logd(" \\\\######\(ownerNId)  RELEASE Part LOCK: v:\(semiphore.value ?? -99)"))
+			atRve(3, " \\\\######\(ownerNId)  RELEASE Part LOCK: v:\(semiphore.value ?? -99)")
 		}
 
 		 // update name/state BEFORE signals

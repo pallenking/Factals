@@ -40,7 +40,7 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 				zoom 			= CGFloat(z)
 			}
 			ortho 				= c.cgFloat("o") ?? 0.0		// Ortho
-			atRve(2, print("=== Configure selfiePole(from:\(c.pp(.line)) -> \(pp(.line))"))
+			atRve(2, "=== Configure selfiePole(from:\(c.pp(.line)) -> \(pp(.line))")
 		}
 	}
 

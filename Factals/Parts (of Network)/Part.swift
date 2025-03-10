@@ -1268,8 +1268,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		if let pb 				= vew.scnRoot.physicsBody,
 		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
 			pb.applyForce(vew.force, asImpulse:false)
-			atRve(9, logd(" Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))"))
-//			atRve(9, logd(" posn: \(vew.scnScene.transform.pp(.line))"))
+			atRve(9, " Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))")
+//			atRve(9, " posn: \(vew.scnScene.transform.pp(.line))")
 		}
 		vew.force				= .zero
 	}
