@@ -85,7 +85,7 @@ class PolyWrap : Part {
 		var container 			= encoder.container(keyedBy: PolyWrapCodingKeys.self)
 		try container.encode(typeString, 			   forKey:.polyWrapsType)
 		try polyWrap .encode(to:container.superEncoder(forKey:.polyWrap))
-		atSer(3, logd("Encoded  as? PolyWrap    '\(fullName)'"))
+		atSer(3, "Encoded  as? PolyWrap    '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -99,7 +99,7 @@ class PolyWrap : Part {
 		 // ////// Newbie Part's class comes from from .polyType:String
 		let newbieClassString 	= try container.decode(String.self, forKey:.polyWrapsType)
 		let newbiePartType:Part.Type = classFrom(string:newbieClassString)
-		atSer(6, logd("Decoding as? PolyWrap,  has \(container.allKeys.count) keys, partType:\(newbiePartType)"))
+		atSer(6, "Decoding as? PolyWrap,  has \(container.allKeys.count) keys, partType:\(newbiePartType)")
 
 		 // ////// Get Part of type/class partType
 		let polyWrapsContainer 	= try container.superDecoder(forKey:.polyWrap)
@@ -107,7 +107,7 @@ class PolyWrap : Part {
 
 		//name = ""
 		partConfig				= [:]
-		atSer(3, logd("Decoded  as? PolyWrap   named '\(name)', partType\(newbiePartType)"))
+		atSer(3, "Decoded  as? PolyWrap   named '\(name)', partType\(newbiePartType)")
 		self.addChild(newbiePart)
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}

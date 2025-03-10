@@ -153,7 +153,7 @@ class Mirror : Atom {
 
 		try container.encode(gain,	forKey:.gain)
 		try container.encode(offset,forKey:.offset)
-		atSer(3, logd("Encoded  as? Mirror      '\(fullName)'"))
+		atSer(3, "Encoded  as? Mirror      '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -162,7 +162,7 @@ class Mirror : Atom {
 
 		gain					= try container.decode(Float.self, forKey:.gain)
 		offset					= try container.decode(Float.self, forKey:.offset)
-		atSer(3, logd("Decoded  as? Mirror"))
+		atSer(3, "Decoded  as? Mirror")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

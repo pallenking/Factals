@@ -93,7 +93,7 @@ class Atom : Part {	//Part//FwPart
 //?		try container.encode(proxyColor,forKey:.proxyColor)
 		try container.encode(ports, 	forKey:.ports)
 		try container.encode(bindings, 	forKey:.bindings)
-		atSer(3, logd("Encoded  as? Atom        '\(fullName)'"))
+		atSer(3, "Encoded  as? Atom        '\(fullName)'")
 	}
 	 /// Deserialize
 	required init(from decoder: Decoder) throws {
@@ -105,7 +105,7 @@ class Atom : Part {	//Part//FwPart
 //?		proxyColor 				= try container.decode(			NSColor.self, forKey:.proxyColor)
 		ports 					= try container.decode(	  [String:Port].self, forKey:.ports)
 		bindings 				= try container.decode([String:String]?.self, forKey:.bindings)
-		atSer(3, logd("Decoded  as? Atom       '\(name)'"))
+		atSer(3, "Decoded  as? Atom       '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

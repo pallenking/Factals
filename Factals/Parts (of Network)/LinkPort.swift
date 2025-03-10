@@ -65,7 +65,7 @@ class LinkPort : Port {
 		try container.encode(imageY0,	forKey:.imageY0)
 //		try container.encode(colorOfVal1,	forKey:.colorOfVal1)
 		try container.encode(inTransit,		forKey:.array)
-		atSer(3, logd("Encoded  LinkPort    '\(self.fullName)'"))
+		atSer(3, "Encoded  LinkPort    '\(self.fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -77,7 +77,7 @@ class LinkPort : Port {
 		imageY0	 				= try container.decode(			 Int.self, forKey:.imageY0)
 //		colorOfVal1	 			= try container.decode(		 NSColor.self, forKey:.colorOfVal1)
 		inTransit	 				= try container.decode([LinkSegment].self, forKey:.array)
-		atSer(3, logd("Decoded  as? LinkPort"))
+		atSer(3, "Decoded  as? LinkPort")
 	}
 //	 // MARK: - 3.6 NSCopying
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}

@@ -66,7 +66,7 @@ class DiscreteTime : Atom {
 		try container.encode(inspecIsOpen, 		forKey:.inspecIsOpen)
 		try container.encode(incrementalEvents, forKey:.incrementalEvents)
 		try container.encode(anonValue, 		forKey:.anonValue)
-		atSer(3, logd("Encoded  as? DiscTime    '\(fullName)'"))
+		atSer(3, "Encoded  as? DiscTime    '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -78,7 +78,7 @@ class DiscreteTime : Atom {
 		inspecIsOpen 			= try container.decode(   Bool.self, forKey:.inspecIsOpen)
 		incrementalEvents		= try container.decode(    Bool.self, forKey:.incrementalEvents)
 		anonValue				= try container.decode(   Float.self, forKey:.anonValue)
-		atSer(3, logd("Decoded  as? DiscTime   named  '\(name)'"))
+		atSer(3, "Decoded  as? DiscTime   named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

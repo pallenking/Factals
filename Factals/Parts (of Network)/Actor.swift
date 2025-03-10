@@ -103,7 +103,7 @@ class Actor : Net {
 		try container.encode(positionViaCon, forKey:.positionViaCon)
 		try container.encode(viewAsAtom_, forKey:.viewAsAtom_)
 		try container.encode(linkDisplayInvisible, forKey:.linkDisplayInvisible)
-		atSer(3, logd("Encoded  as? Actor       '\(fullName)'"))
+		atSer(3, "Encoded  as? Actor       '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -116,7 +116,7 @@ class Actor : Net {
 		positionViaCon			= try container.decode(Bool  .self, forKey:.positionViaCon)
 		viewAsAtom_				= try container.decode(Bool  .self, forKey:.viewAsAtom_)
 		linkDisplayInvisible	= try container.decode(Bool  .self, forKey:.linkDisplayInvisible)
-		atSer(3, logd("Decoded  as? Actor      named  '\(name)'"))
+		atSer(3, "Decoded  as? Actor      named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

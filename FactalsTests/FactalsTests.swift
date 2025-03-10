@@ -371,32 +371,32 @@ final class FactalsTests: XCTestCase {
 	static var savedObject32:[(String, Part)]	= []
 
 	func serializeDeserialize(_ inPart:Part) throws -> Part? {
-		atSer(5, logd("========== inPart_ to Serialize:\n\(inPart.pp(.tree))", terminator:""))
+		atSer(5, "========== inPart_ to Serialize:\n\(inPart.pp(.tree))", terminator:"")
 
 		 //  - INSERT -  PolyWrap's
 		let inPolyPart:PolyWrap	= inPart.polyWrap()	// modifies inPart
-		atSer(5, logd("========== wrapped inPart:\n\(inPolyPart.pp(.tree))", terminator:""))
+		atSer(5, "========== wrapped inPart:\n\(inPolyPart.pp(.tree))", terminator:"")
 
 		 //  - ENCODE -  PolyWrap as JSON
 		let jsonData 			= try JSONEncoder().encode(inPolyPart)
 		guard let jsonString 	= String(data:jsonData, encoding:.utf8) else {
-			atSer(5, logd("========== JSON: FAILED"))
+			atSer(5, "========== JSON: FAILED")
 			return nil
 		}
-		atSer(5, logd(("========== JSON: " + jsonString).wrap()))
+		atSer(5, ("========== JSON: " + jsonString).wrap())
 
 		 //  - DECODE -  PolyWrap from JSON
 		let outPolyPart			= try JSONDecoder().decode(PolyWrap.self, from:jsonData)
-		atSer(5, logd("========== outPolyPart is recovered warapped inPart:\n\(outPolyPart.pp(.tree))", terminator:""))
+		atSer(5, "========== outPolyPart is recovered warapped inPart:\n\(outPolyPart.pp(.tree))", terminator:"")
 		let match				= true//outPolyPart == inPolyPart
 		print("testPolyWrap() has no EQUITABLE")
-		atSer(5, logd("\t\t\tMatches:\(match)"))
+		atSer(5, "\t\t\tMatches:\(match)")
 
 		 //  - REMOVE -  PolyWrap's
 		let outPart				= outPolyPart.polyUnwrap()
 		 // As it turns out, the 'inPart.polyWrap()' above changes inPoly!!!; undue the changes
 		let _					= inPolyPart.polyUnwrap()	// WTF 210906PAK polyWrap()
-		atSer(5, logd("========== Output From Deserialize:\n\(outPart.pp(.tree))", terminator:""))
+		atSer(5, "========== Output From Deserialize:\n\(outPart.pp(.tree))", terminator:"")
 		
 		return outPart
 	}

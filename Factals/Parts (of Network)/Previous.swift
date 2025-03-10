@@ -191,7 +191,7 @@ class Previous : Atom {
 		try container.encode(src4tPrev	.rawValue, forKey:.src4tPrev)
 		try container.encode(src4lLatch	.rawValue, forKey:.src4lLatch)
 		try container.encode(src4pPri	.rawValue, forKey:.src4pPri)
-		atSer(3, logd("Encoded  as? Previous      '\(fullName)'"))
+		atSer(3, "Encoded  as? Previous      '\(fullName)'")
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -205,7 +205,7 @@ class Previous : Atom {
 		src4lLatch	 			= try container.decode(PrevMuxSources.self,	forKey:.src4lLatch)
 		src4pPri	 			= try container.decode(PrevMuxSources.self, forKey:.src4pPri)
 		try super.init(from:decoder)
-		atSer(3, logd("Decoded  as? Previous     named  '\(name)'"))
+		atSer(3, "Decoded  as? Previous     named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

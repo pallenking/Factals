@@ -128,7 +128,7 @@ class Link : Atom {
 		try container.encode(sDownCPort, 			forKey:.downCPort)
 		try container.encode(minColorVal, 			forKey:.minColorVal)
 		try container.encode(maxColorVal, 			forKey:.maxColorVal)
-		atSer(3, logd("Encoded  as? Link        '\(fullName)'"))
+		atSer(3, "Encoded  as? Link        '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -141,7 +141,7 @@ class Link : Atom {
 		sDownCPort				= try container.decode(LinkPort	.self, forKey:.downCPort)
 		minColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
 		maxColorVal	 			= try container.decode(Float		.self, forKey:.minColorVal)
-		atSer(3, logd("Decoded  as? Link       named  '\(name)'"))
+		atSer(3, "Decoded  as? Link       named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

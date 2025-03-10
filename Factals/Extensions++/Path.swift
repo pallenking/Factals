@@ -189,7 +189,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		linkProps 				= try container.decode(FwConfig.self, forKey:.linkProps)
 
 		super.init()
- 		atSer(3, logd("Decoded  as? Path       named  '\(String(describing: fullName))'"))
+ 		atSer(3, "Decoded  as? Path       named  '\(String(describing: fullName))'")
 	}
 //	 // MARK: - 3.6 NSCopying
 //	func copy(with zone: NSZone?=nil) -> Any {

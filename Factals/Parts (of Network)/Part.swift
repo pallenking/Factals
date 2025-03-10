@@ -272,7 +272,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		try container.encode(spin, 			forKey:.spin)
 		try container.encode(shrink,		forKey:.shrink)
 		try container.encode(placeSelf,		forKey:.placeSelf)
-		atSer(3, logd("Encoded  as? Part        '\(fullName)' dirty:\(dirty.pp())"))
+		atSer(3, "Encoded  as? Part        '\(fullName)' dirty:\(dirty.pp())")
 	}
 
 	required init(from decoder: Decoder) throws {
@@ -299,7 +299,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		var str					=  "name='\(name)', "
 		str						+= "\(children.count) children, "
 		str						+= "dirty:\(dirty.pp())"
-		atSer(3, logd("Decoded  as? Part       \(str)"))
+		atSer(3, "Decoded  as? Part       \(str)")
 	}
 	// END CODABLE /////////////////////////////////////////////////////////////////
 //	 // MARK: - 3.6 NSCopying

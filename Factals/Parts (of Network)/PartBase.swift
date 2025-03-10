@@ -152,7 +152,7 @@ class PartBase : Codable, ObservableObject, Uid {
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
 		try container.encode(verboseLocks,	forKey:.partTreeVerbose			)
 
-		atSer(3, logd("Encoded"))
+		atSer(3, "Encoded")
 
 		 // Massage Part Tree, to make it
 		makeSelfRunable("writePartTree")
@@ -212,16 +212,16 @@ class PartBase : Codable, ObservableObject, Uid {
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
 								 // (modifies self)
 		let aux : FwConfig		= ["ppDagOrder":false, "ppIndentCols":20, "ppLinks":true]
-		atSer(5, logd(" ========== parts to Serialize:\n\(pp(.tree, aux))", terminator:""))
+		atSer(5, " ========== parts to Serialize:\n\(pp(.tree, aux))", terminator:"")
 						
 		polyWrapChildren()		// ---- 2. INSERT -  PolyWrap's to handls Polymorphic nature of Parts
-		atSer(5, logd(" ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:""))
+		atSer(5, " ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:"")
 	}
 	func makeSelfRunable(_ releaseLock:String) {		// was recoverFromDecodable
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
 		//groomModel(parent:nil)		// nil as Part?
-		atSer(5, logd(" ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:""))
+		atSer(5, " ========== parts unwrapped:\n\(pp(.tree, ["ppDagOrder":false]))", terminator:"")
 		
 		unlock(for:releaseLock, logIf:true)
 	}

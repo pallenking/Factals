@@ -51,14 +51,14 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		var container 			= encoder.container(keyedBy:LeafsKeys.self)
 
 //		try container.encode(type, forKey:.type)
-		atSer(3, logd("Encoded  as? Leaf        '\(fullName)'"))
+		atSer(3, "Encoded  as? Leaf        '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
 		let container 		= try decoder.container(keyedBy:LeafsKeys.self)
 //		type	 			= try container.decode(LeafKind.self, forKey:.type)
 		try super.init(from:decoder)
-		atSer(3, logd("Decoded  as? Leaf       named  '\(name)'"))
+		atSer(3, "Decoded  as? Leaf       named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

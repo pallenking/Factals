@@ -69,7 +69,7 @@ class GenAtom : Atom {
 
 		try container.encode(value, forKey:.value)
 		try container.encode(loop, 	forKey:.loop)
-		atSer(3, logd("Encoded  as? GenAtom     '\(fullName)'"))
+		atSer(3, "Encoded  as? GenAtom     '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -78,7 +78,7 @@ class GenAtom : Atom {
 
 		value	 				= try container.decode(Float.self, forKey:.value)
 		loop	 				= try container.decode( Bool.self, forKey:.loop)
-		atSer(3, logd("Decoded  as? GenAtom    named  '\(name)'"))
+		atSer(3, "Decoded  as? GenAtom    named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 	 // MARK: - 3.1 Port Factory

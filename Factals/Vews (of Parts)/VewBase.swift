@@ -151,7 +151,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	//	try container.encode(scnBase,		forKey:.scnBase			)
 //		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
 		try container.encode(prefFps,			forKey:.prefFps					)
-		atSer(3, logd("Encoded"))
+		atSer(3, "Encoded")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -166,7 +166,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
 
 		//super.init() // NSObject
-		atSer(3, logd("Decoded  as? Vew \(ppUid(self))"))
+		atSer(3, "Decoded  as? Vew \(ppUid(self))")
 	}
 
 	 // MARK: - 3.5.1 Data

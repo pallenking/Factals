@@ -237,7 +237,7 @@ class Port : Part, PortTalk {
 		try container.encode(noCheck,	forKey:.noCheck)
 		try container.encode(dominant,	forKey:.dominant)
 
-		atSer(3, logd("Encoded  as? Port        '\(fullName)'"))
+		atSer(3, "Encoded  as? Port        '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -253,7 +253,7 @@ class Port : Part, PortTalk {
 		let msg					= "value:\(value.pp(.line))," 				+
 							 	  "valuePrev:\(valuePrev.pp(.line)), " 		+
 								  "conTo:\(con2?.port?.fullName ?? "xxq8ahx")"
-		atSer(3, logd("Decoded  as? Port       \(msg)"))
+		atSer(3, "Decoded  as? Port       \(msg)")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

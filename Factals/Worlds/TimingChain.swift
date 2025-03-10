@@ -137,7 +137,7 @@ class TimingChain : Atom {
 		try container.encode(eventDownPause,forKey:.eventDownPause)
 		try container.encode(asyncData, 	forKey:.asyncData)
 		try container.encode(retractPort, 	forKey:.retractPort)
-		atSer(3, logd("Encoded  as? TimingChan  '\(fullName)'"))
+		atSer(3, "Encoded  as? TimingChan  '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -152,7 +152,7 @@ class TimingChain : Atom {
 		eventDownPause	= try container.decode( 		 Bool.self, forKey:.eventDownPause)
 		asyncData	 	= try container.decode( 		 Bool.self, forKey:.asyncData)
 		retractPort	 	= try container.decode( 		 Port.self, forKey:.retractPort)
-		atSer(3, logd("Decoded  as? TimingChan named  '\(name)'"))
+		atSer(3, "Decoded  as? TimingChan named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

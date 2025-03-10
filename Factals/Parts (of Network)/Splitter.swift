@@ -96,7 +96,7 @@ class Splitter : Atom {
 		try container.encode(combineWinner,		  forKey:.combineWinner)
 		try container.encode(upIsDirty,			  forKey:.upIsDirty)
 		try container.encode(a1, 				  forKey:.a1)
-		atSer(3, logd("Encoded  as? Splitter    '\(fullName)'"))
+		atSer(3, "Encoded  as? Splitter    '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -107,7 +107,7 @@ class Splitter : Atom {
 		combineWinner			= try container.decode(   Int.self,	forKey:.combineWinner)
 		upIsDirty				= try container.decode(  Bool.self,	forKey:.upIsDirty)
 		a1 						= try container.decode( Float.self,	forKey:.a1)
-		atSer(3, logd("Decoded  as? Splitter   named  '\(name)'"))
+		atSer(3, "Decoded  as? Splitter   named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

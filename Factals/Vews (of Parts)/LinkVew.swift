@@ -26,7 +26,7 @@ class LinkVew : Vew {
 		try container.encode(sCon2Vew,	forKey:.sCon2Vew 	)
 		try container.encode(pEndVip, 	forKey:.pEndVip 	)
 		try container.encode(sEndVip,	forKey:.sEndVip 	)
-		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))
+		atSer(3, "Encoded  as? Path        '\(String(describing: fullName))'")
 	}
 	required init(from decoder: Decoder) throws {
 		super.init(forPart: Part())
@@ -35,7 +35,7 @@ class LinkVew : Vew {
 		sCon2Vew 				= try container.decode( Vew.self, forKey:.sCon2Vew )
 		pEndVip					= try container.decode( SCNVector3.self, forKey:.pEndVip )
 		sEndVip 				= try container.decode( SCNVector3.self, forKey:.sEndVip )
- 		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
+ 		atSer(3, "Decoded  as? Vew       named  '\(String(describing: fullName))'")
 	}
 //	 // MARK: - 3.6 NSCopying
 //	override func copy(with zone: NSZone?=nil) -> Any {

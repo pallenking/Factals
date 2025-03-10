@@ -92,7 +92,7 @@ class FwBundle : Net {
 	//	try container.encode(leafStruc,	forKey:.leafStruc)	//Protocol 'FwAny' as a type cannot conform to 'Encodable'
 		try container.encode(leafKind,	forKey:.leafKind)
 		try container.encode(label, 	forKey:.label)
-		atSer(3, logd("Encoded  as? FwBundle      '\(fullName)'"))
+		atSer(3, "Encoded  as? FwBundle      '\(fullName)'")
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -104,7 +104,7 @@ class FwBundle : Net {
 //		leafStruc			= try container.decode(leafStruc.self,forKey:.leafStruc)//No exact matches in call to instance method 'decode'
 		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
 		label	 			= try container.decode(String.self, forKey:.label)
-		atSer(3, logd("Decoded  as? FwBundle     named  '\(name)'"))
+		atSer(3, "Decoded  as? FwBundle     named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

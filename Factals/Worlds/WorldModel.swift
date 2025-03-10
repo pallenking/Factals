@@ -69,7 +69,7 @@ class WorldModel : Atom {
 		try container.encode(event, 		forKey:.event)
 		try container.encode(eventIndex, 	forKey:.eventIndex)
 		try container.encode(prob, 			forKey:.prob)
-		atSer(3, logd("Encoded  as? WorldModel  '\(fullName)'"))
+		atSer(3, "Encoded  as? WorldModel  '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
@@ -83,7 +83,7 @@ class WorldModel : Atom {
 		event			= try container.decode(   FwwEvent.self, forKey:.event)
 		eventIndex		= try container.decode(  	   Int.self, forKey:.eventIndex)
 		prob			= try container.decode(  	 Float.self, forKey:.prob)
-		atSer(3, logd("Decoded  as? WorldModel named  '\(name)'"))
+		atSer(3, "Decoded  as? WorldModel named  '\(name)'")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")}
 //	 // MARK: - 3.6 NSCopying

@@ -135,7 +135,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		try container.encode(bBox, 		forKey:.bBox 	)
 		try container.encode(jog, 		forKey:.jog		)
 		try container.encode(force, 	forKey:.force	)
-		atSer(3, logd("Encoded  as? Path        '\(String(describing: fullName))'"))
+		atSer(3, "Encoded  as? Path        '\(String(describing: fullName))'")
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:VewKeys.self)
@@ -154,7 +154,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 //		scnScene.rootNode.name	= "rootNode3"
 
 		//super.init()
- 		atSer(3, logd("Decoded  as? Vew       named  '\(String(describing: fullName))'"))
+ 		atSer(3, "Decoded  as? Vew       named  '\(String(describing: fullName))'")
 	}
 	 // MARK: - 4.2 Manage Tree
 	 /// Array of ancestor. The first element is self, last is top Vew:
