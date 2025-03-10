@@ -16,48 +16,50 @@ import Foundation
 //		4 : lite						9 : Everything
 //
 // MARK: 1.2 Area
-//		app	-- APPlication		- construction of app
-// 		doc	-- DOCument			- construction of document, including mouse
-//		bld	-- BuiLD			- building of part
-//		ser	-- SERilization		- serialization and desrialization of Part
-// 		dat	-- sim DATa			- simulation data
-// 		eve	-- sim EVEnts		- simulation events
-// 		ins	-- INSpectors		-
-//		men	-- MENus 			- construction of menus
-// 		rve	-- ReViEw 			- review visual properties
-// 		rsi	-- ReSIze 			- reSize shapes
-// 		rnd	-- ReNDer protocol	-
-// 		ani	-- phys ANImation	- physical animation events
-// 		tst	-- TeSTing
+//func logAt(app:doc:bld:ser:ani:dat:eve:ins:men:rve:rsi:rnd:tst:all:) -> FwConfig
+//		app	-- APPlication		14	- construction of app
+// 		doc	-- DOCument			 0	- construction of document, including mouse
+//		bld	-- BuiLD part		54	- building of part
+//		ser	-- SERilization		90	- serialization and desrialization of Part
+// 		ani	-- phys ANImation	 7	- physical animation events
+// 		dat	-- sim DATa			21	- simulation data
+// 		eve	-- sim EVEnts		42	- simulation events
+// 		ins	-- INSpectors		 0	-
+//		men	-- MENus 			 0	- construction of menus
+// 		rve	-- ReViEw 			22	- review visual properties
+// 		rsi	-- ReSIze 			38	- reSize shapes
+// 		rnd	-- ReNDer protocol	 0	-
+// 		tst	-- TeSTing			 3
 // 		all	-- ALL OF ABOVE		-
 
 // MARK: 2 Generate a Log Event:
  // Sugar to shorten commonly used cliche.
-func atApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("app", detail, format:format, args:format, terminator:terminator)		}
-func atDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("doc", detail, format:format, args:format, terminator:terminator)		}
-func atBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("bld", detail, format:format, args:format, terminator:terminator)		}
-func atSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("ser", detail, format:format, args:format, terminator:terminator)		}
-func atAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("ani", detail, format:format, args:format, terminator:terminator)		}
-func atDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("dat", detail, format:format, args:format, terminator:terminator)		}
-func atEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("eve", detail, format:format, args:format, terminator:terminator)		}
-func atIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// 0
-{ 	at("ins", detail, format:format, args:format, terminator:terminator)		}
-func atMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("men", detail, format:format, args:format, terminator:terminator)		}			// 0 //del
-func atRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("rve", detail, format:format, args:format, terminator:terminator)		}
-func atRsi(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)
-{ 	at("rsi", detail, format:format, args:format, terminator:terminator)		}
-func atRnd(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("rsi", detail, act())	}
-func atTst(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("tst", detail, act())	}
-func atAny(_ detail:Int, _ act:@autoclosure()->Void) 		{ at("all", detail, act())	}	// may be buggy
+func  atApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// APPlication
+{ 	at("app", detail, format:format, args:args, terminator:terminator)		}
+func  atDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// DOCument
+{ 	at("doc", detail, format:format, args:args, terminator:terminator)		}
+func  atBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// BuiLD part
+{ 	at("bld", detail, format:format, args:args, terminator:terminator)		}
+func  atSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// SERilization
+{ 	at("ser", detail, format:format, args:args, terminator:terminator)		}
+func  atAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// phys ANImation
+{ 	at("ani", detail, format:format, args:args, terminator:terminator)		}
+func  atDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim DATa
+{ 	at("dat", detail, format:format, args:args, terminator:terminator)		}
+func  atEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim EVEnts
+{ 	at("eve", detail, format:format, args:args, terminator:terminator)		}
+func  atIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// INSpectors
+{ 	at("ins", detail, format:format, args:args, terminator:terminator)		}
+func  atMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// MENus
+{ 	at("men", detail, format:format, args:args, terminator:terminator)		}
+func  atRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReViEw
+{ 	at("rve", detail, format:format, args:args, terminator:terminator)		}
+func atRsi(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReSIze
+{ 	at("rsi", detail, format:format, args:args, terminator:terminator)		}
+func atRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReNDer protocol
+{ 	at("rnd", detail, format:format, args:args, terminator:terminator)		}
+func atTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// TeSTing
+{ 	at("tst", detail, format:format, args:args, terminator:terminator)		}
 
  /// Emit a Log Event:
 /// - parameters:
@@ -68,11 +70,6 @@ func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., t
 	if eventIs(ofArea:eventArea, detail:eventDetail) {
 		let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
 		logd(format, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
-	}
-}
-func at(_ eventArea:String, _ eventDetail:Int, _ eventAction:@autoclosure() -> Void) {
-	if eventIs(ofArea:eventArea, detail:eventDetail) {
-		eventAction()							// Execute the action closure
 	}
 }
 func eventIs(ofArea eventArea:String, detail eventDetail:Int) -> Bool {

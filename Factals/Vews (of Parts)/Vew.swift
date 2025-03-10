@@ -518,8 +518,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 
 		scn.position 			+= movedBy
 //		scnRoot.position		+= movedBy
-		atRsi(4, "=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))")
-//		atRsi(4, "=====>> Moved by \(movedBy.pp(.short)) to \(scnRoot.transform.position.pp(.short))")
+		atRsi(4, "=====>> Moved by \(movedBy.pp(.short)) to \(scn.transform.position.pp(.short))")	//scnRoot.transform.position.pp(.short)
 	}
 	func orBBoxIntoParent() {
 		if let parentVew 		= parent {

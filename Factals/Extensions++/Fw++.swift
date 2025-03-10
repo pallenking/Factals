@@ -482,7 +482,7 @@ bug		//			atBld(9, print("Dictionary Conflict, Key: \(keyRhs.field(20)) was \(va
 extension Dictionary where Value : FwAny, Value : Equatable {
 	static func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
 		let rv				= lhs.equals(rhs)
-		atTst(7, /*lhs.*/logd("Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)"))
+		atTst(7, "Result  Dict:    \(lhs.debugDescription) == \(rhs.debugDescription) ---> \(rv)")
 		return rv
 	}
 	func equals(_ dict:Dictionary) -> Bool {
@@ -490,11 +490,11 @@ extension Dictionary where Value : FwAny, Value : Equatable {
 
 		for key in keys {
 			if self[key] != dict[key] {			// Value for key MISMATCH
-				atTst(7, logd("(\(self[key]!.pp(.nameTagClass))) != (\(dict[key]!.pp(.nameTagClass))) ?"))
+				atTst(7, "(\(self[key]!.pp(.nameTagClass))) != (\(dict[key]!.pp(.nameTagClass))) ?")
 				return false
 			}
 		}
-		atTst(7, logd("Testing Dict:    .equals(\(dict.pp(.nameTagClass)))  ---> true"))
+		atTst(7, "Testing Dict:    .equals(\(dict.pp(.nameTagClass)))  ---> true")
 		return true
 	}
 }
