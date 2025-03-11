@@ -1,4 +1,4 @@
-//  Dashboard.swift -- Configure Factal Workbench ©2019PAK
+//  Dashboard.swift -- to Configure Factal Workbench Runs ©2019PAK
 
 import SceneKit
 
@@ -7,15 +7,6 @@ import SceneKit
 //		a) Apps, b) App Logs, c) Pretty Print,  d) Doc Log, e) Simulator, f) 3D Scene
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 // 20220912PAK: Simplification: all merged into one hash
-
-/*
-let params4defaultPp   		// default if none suppled
-let params4partPp		// PP of Parts
-let/params4logsPp	???
-let params4logDetail	// Logging Styles
-let params4sim
-let params4partVew
-*/
 
   // MARK: - A: App Params		- params4app
  /// Parameters globally defined for Application()

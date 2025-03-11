@@ -589,16 +589,24 @@ extension NSTextField : Nib2Bool {
 }
 
 infix operator ??= :  AssignmentPrecedence
-/// If lhs is nil, assign rhs to it
+/// If `lhs` is nil, assign the result of `rhs` to it, ensuring `rhs` is only evaluated if needed.
 /// - Parameters:
-///   - lhs: --- update if nil
-///   - rhs: --- possible new value to replace it with
-func ??=<T> (lhs:inout T?, rhs:T?) {											//func ??=(lhs: inout Any?, rhs:  Any?) {
-	if lhs == nil,
-	  let r					= rhs{
-		lhs					= r
-	}
+///   - lhs: The optional variable to update if nil.
+///   - rhs: A closure returning the value to assign if `lhs` is nil.
+func ??=<T>(lhs: inout T?, rhs: @autoclosure () -> T) {
+    if lhs == nil {
+        lhs = rhs()
+    }
 }
+/// BUG a ??= b isn't equivalent to a = a ?? b
+//func ??=<T> (lhs:inout T?, rhs:T?) {											//func ??=(lhs: inout Any?, rhs:  Any?) {
+//	if lhs == nil,
+//	  let r					= rhs {
+//		lhs					= r
+//	}
+//}
+
+
 
 infix operator ||= : AssignmentPrecedence
 func ||=( left: inout Bool, right:Bool) {	left	= left || right	/* OR */	}

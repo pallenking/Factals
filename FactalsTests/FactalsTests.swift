@@ -255,7 +255,8 @@ final class FactalsTests: XCTestCase {
 		for (i, test) in tests.enumerated() {
 			var lhs	: Part?		= test.lhs
 
-			lhs					??= test.rhs
+//			lhs					??= test.rhs
+bug;		lhs					= lhs ?? test.rhs
 
 			let match			= lhs === test.ans
 			XCTAssert(match, "testNilEqualsOperator \(i): \( test.note)")

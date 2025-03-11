@@ -715,9 +715,9 @@ xxr("- atomicToggle bug",eYtight, { Net([placeMy:"stackx", parts:[
 		Box(   ) //[placeMe:"stackx"]),
 	 ] ]) })
 
-xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
+xr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
 	Net([placeMy:"linky", spin:4, parts:[
-		Bulb([P:"a,l:3"]),
+		Bulb([P:"a,l:3"]),//+X
 		Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
 		PortSound([n:"s1", "inP":"a.P", "sounds":tickTock]),
 		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
@@ -1945,8 +1945,8 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 //			Sequence(["f":1, "share":["a", "b"]]),
 //			Tunnel(["struc":["a", "b"], of:["genAtom","genBulb","genBcast"][2]]),
 		]]) })
-		xr("- bug: drive with sequence", e + selfiePole(s:0,u:0), {
-			Tunnel([f:0, "struc":["a", "b"], "of":"genBcast"])
+		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), {
+			Tunnel([f:0, "struc":["a", "b"], "of":"genBulb"])
 		})
 r("pack tighter", e + selfiePole(s:90,u:0), {Net([placeMy:"stacky", parts:[
 	Tunnel([/*of:"nil_",*/ parts:[	Box()	]]),

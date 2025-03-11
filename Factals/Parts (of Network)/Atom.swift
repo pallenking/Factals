@@ -236,13 +236,12 @@ class Atom : Part {	//Part//FwPart
 			logBld(4, "-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'")
 		}
 		 // If Existing Port?
-		logBld(4, "xxxxxxxx")
-		rvPort					??= existingPorts(named:wantedName, localUp:wantUp).first
+		rvPort					= rvPort ?? existingPorts(named:wantedName, localUp:wantUp).first
 		 // If Delayed Populate Port?
-		rvPort					??= delayedPopulate(named:wantedName, localUp:wantUp)
+		rvPort					= rvPort ?? delayedPopulate(named:wantedName, localUp:wantUp)
 
 		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-		if rvPort == nil,
+		if //rvPort == nil,
 		  wantOpen,								// want an open port
 		  let origConPort		= rvPort?.con2?.port// found a port, but it's not open!
 		{
@@ -579,7 +578,7 @@ nop
 					assert(srcPort != nil, "srcPort==nil")
 								
 					 //		3c. //// TaRGet:						// Log
-					let trgAboveSInT = trgAboveSInCon==trgAtom.upInPart(until:conNet)
+					let trgAboveSInT = trgAboveSInCon == trgAtom.upInPart(until:conNet)
 					let trgInfo	= "---TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6))" +
 								  " opens _\(ppUp(trgAboveSInT))_"

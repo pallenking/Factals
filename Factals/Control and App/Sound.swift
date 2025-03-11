@@ -8,7 +8,6 @@ protocol SoundProtocol {
 let audioSources : [String:SCNAudioSource] = [	// name -> fileName in Assets
 	// Initial Sound Library, from FactalWorkbench.
 		   "tick": source(name:    "tick-sound"),
-		   "tick": source(name:    "tick-sound"),
 		   "tock": source(name:    "tock-sound"),
 			  "t": source(name:       "t-sound"),
 			  "b": source(name:       "b-sound"),
