@@ -26,38 +26,78 @@ bug;	return self == rhs
 //	func encode(to:Encoder) throws {}
 //}
 
-enum LeafKind : Codable, FwAny {
-	init(from	  :Decoder) throws	{ 	fatalError()							}
-	func encode(to:Encoder) throws	{ 	fatalError()							}
-	init?(rawValue: String) {
-		self.init(rawValue:rawValue)
-	}
-	typealias RawValue = String
+enum LeafKind: String, Codable, FwAny {
+//	case leaf(kind:Leaf)	// Enum with raw type cannot have cases with arguments
+    case nil_
+    case cylinder
+    case genAtom
+    case genMirror
+    case bcast
+    case genBcast
+    case genMax
+    case genMaxSq
+    case bayes
+    case genBayes
+    case mod
+    case rot
+    case branch
+    case bulb
+    case genBulb
+    case genPrev
+    case flipPrev
+    case prev
+    case ago
+    case genAgo
+    case agoMax
 
-	case leafClosure(() -> Part) // Case with a closure returns a Part
-//	case leaf(kind:Leaf)					// Only children on path are effected
-	case nil_			//	= "nil_" // (FwConfig?, FwConfig?, FwConfig?, FwConfig?, FwConfig?) -> Leaf
-	case cylinder		//	= "cylinder" // for gap size testing
-	case genAtom		//	= "genAtom"
-	case genMirror		//	= "genMirror"
-	case bcast			//	= "bcast"
-	case genBcast		//	= "genBcast"
-	case genMax			//	= "genMax"
-	case genMaxSq		//	= "genMaxSq"
-	case bayes			//	= "bayes"
-	case genBayes		//	= "genBayes"
-	case mod			//	= "mod"
-	case rot			//	= "rot"
-	case branch			//	= "branch"
-	case bulb			//	= "bulb"
-	case genBulb		//	= "genBulb"
-	case genPrev		//	= "genPrev"
-	case flipPrev		//	= "flipPrev"
-	case prev			//	= "prev"
-	case ago			//	= "ago"
-	case genAgo			//	= "genAgo"
-	case agoMax			//	= "agoMax"
+    // Decoding
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        guard let value = LeafKind(rawValue: rawValue) else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid LeafKind value: \(rawValue)")
+        }
+        self = value
+    }
+
+    // Encoding
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(self.rawValue)
+    }
 }
+//enum LeafKind : Codable, FwAny {
+//	init(from	  :Decoder) throws	{ 	fatalError()							}
+//	func encode(to:Encoder) throws	{ 	fatalError()							}
+//	init?(rawValue: String) {
+//		self.init(rawValue:rawValue)
+//	}
+//	typealias RawValue = String
+//
+//	case leafClosure(() -> Part) // Case with a closure returns a Part
+////	case leaf(kind:Leaf)					// Only children on path are effected
+//	case nil_			//	= "nil_" // (FwConfig?, FwConfig?, FwConfig?, FwConfig?, FwConfig?) -> Leaf
+//	case cylinder		//	= "cylinder" // for gap size testing
+//	case genAtom		//	= "genAtom"
+//	case genMirror		//	= "genMirror"
+//	case bcast			//	= "bcast"
+//	case genBcast		//	= "genBcast"
+//	case genMax			//	= "genMax"
+//	case genMaxSq		//	= "genMaxSq"
+//	case bayes			//	= "bayes"
+//	case genBayes		//	= "genBayes"
+//	case mod			//	= "mod"
+//	case rot			//	= "rot"
+//	case branch			//	= "branch"
+//	case bulb			//	= "bulb"
+//	case genBulb		//	= "genBulb"
+//	case genPrev		//	= "genPrev"
+//	case flipPrev		//	= "flipPrev"
+//	case prev			//	= "prev"
+//	case ago			//	= "ago"
+//	case genAgo			//	= "genAgo"
+//	case agoMax			//	= "agoMax"
+//}
 
 extension Leaf {	/// Generate Common Leafs
 	convenience init(_ etc1:FwConfig=[:], _ etc2:FwConfig=[:],
@@ -65,11 +105,11 @@ extension Leaf {	/// Generate Common Leafs
 		guard let raw			= etc1["leafKind"]?.asString else { fatalError("leafKind is not specified")}
 		let leafKind 			= LeafKind(rawValue:raw)
 		switch leafKind {
-		case .leafClosure(let closure):
-			let b 				= ["":"gen", "G":"gen.P", "R":"gen.P"]
-			let p				= closure()		//might get e.g. [GenAtom(["n":"gen", "f":1] + etc2)]
-			self.init(bindings:b, parts:[p], leafConfig:etc1)			//of:leafKind,
-			unusedConfigsMustBeNil([etc3, etc4, etc5])
+	//	case .leafClosure(let closure):
+	//		let b 				= ["":"gen", "G":"gen.P", "R":"gen.P"]
+	//		let p				= closure()		//might get e.g. [GenAtom(["n":"gen", "f":1] + etc2)]
+	//		self.init(bindings:b, parts:[p], leafConfig:etc1)			//of:leafKind,
+	//		unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .`nil_`:
 			self.init(bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)	//of:leafKind,
 			unusedConfigsMustBeNil([etc3, etc4, etc5])	// etc2: WTF?

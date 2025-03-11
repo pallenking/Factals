@@ -81,26 +81,13 @@ let params4partPp  : FwConfig 	= [		// PP of Parts
 
 
  // MARK: - D: Parameters Log
-//		app	-- APPlication		- construction of app
-// 		doc	-- DOCument			- construction of document, including mouse
-//		bld	-- BuiLD			- building of part
-//		ser	-- SERilization		- serialization and desrialization of Part
-// 		dat	-- sim DATa			- simulation data
-// 		eve	-- sim EVEnts		- simulation events
-// 		ins	-- INSpectors		-
-//		men	-- MENus 			- construction of menus
-// 		rve	-- ReViEw 			- review visual properties
-// 		rsi	-- ReSIze 			- reSize shapes
-// 		rnd	-- ReNDer protocol	-
-// 		ani	-- phys ANImation	- physical animation events
-// 		tst	-- TeSTing
-// 		all	-- ALL OF ABOVE		-
-								
+							
 let params4logDetail : FwConfig =			// Logging Styles
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
 	//* Nothing*/					logAt(all:0) +
 	//* Everything */				logAt(all:8) +
 	/* Everything except review */	logAt(rve:0, all:8) +
+	//* App */						logAt(app:8) +
 
 	[	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
 

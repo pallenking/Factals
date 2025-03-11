@@ -200,7 +200,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	func lock(for lockName:String, logIf:Bool) -> Bool {
 
 		let ownerNId		= ppUid(self) + " '\(lockName)'".field(-20)
-		if logIf && debugOutterLock {
+		if logIf && Log.shared.debugOutterLock {
 			logRve(3, "//#######\(ownerNId):     GET Vew  LOCK: v:\(semiphore.value ?? -99)")
 		}
 
@@ -239,7 +239,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 
 		semiphore.signal()				 // Unlock View's DispatchSemaphore:
 
-		if debugOutterLock && logIf {
+		if Log.shared.debugOutterLock && logIf {
 			let val0		= semiphore.value ?? -99
 			logRve(3, "\\\\#######" + u_name + " RELEASED Vew  LOCK: v:\(val0)")
 		}

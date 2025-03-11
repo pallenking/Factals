@@ -5,47 +5,18 @@
 
 import SceneKit
 
-func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n",
-								msgFilter:String?=nil, msgPriority:Int?=nil) {
-	let sh	 					= Log.shared	// There should be only one Log in the system
+var logNErrors					= 0
 
-	 // Time Change in Similator?
-	if let fm					= FACTALSMODEL {
-		let sim					= fm.simulator
-		let deltaTime 			= sim.timeNow  - (sh.simTimeLastLog ?? 0)
-		if deltaTime > 0 || sh.simTimeLastLog == nil {
-			let globalUp		= sim.globalDagDirUp ? "UP  " : "DOWN"
-			let delta 			= (sh.simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
-			let dashes			= deltaTime <= sim.timeStep ? "                                  "
-														: "- - - - - - - - - - - - - - - - - "
-			let chits			= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
-			print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
-		}
-		sh.simTimeLastLog		= sim.timeNow
-	}
-	 // Strip leading \n's:
-	let (newLines, format)		= format_.stripLeadingNewLines()
-
-	 // Formatted arguments:
-	var rv						= " "
-	rv 							+= msgFilter ?? "<?>"	 			//e.g: "app"
-	let mp : Int?				=  msgPriority	// avoids concurrency problem!!!
-	rv							+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
-	rv							= rv.field(-9, dots:false, grow:true)
-	rv							+= " "
-	var eventStr 				= " "//sh.procAreaPriorityStr()
-	eventStr					+= String(format:format, arguments:args)
-								
-	 // Banner Line
-	if let ban 					= banner {
-		print("\n" + "***** " + ban + " *****")
-	}
-	print(newLines + fmt("%03d%@", sh.eventNumber, eventStr), terminator:terminator )
-
-	if sh.breakAtEvent == sh.eventNumber {
-		panic("Encountered Break at Event \(sh.breakAtEvent).")
-	}
-	sh.eventNumber				+= 1		// go on to next log number
+func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
+	let msg						= fmt(format, args)
+	Log.shared.warningLog.append(msg)
+	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
+	Log.shared.logd(banner:targName + "WARNING \(Log.shared.warningLog.count) ", msg + "\n")
+}
+func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
+	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
+	logNErrors					+= 1
+	Log.shared.logd(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
 
 	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
@@ -55,7 +26,7 @@ extension Log {
 	static var defaultParams : FwConfig	= [:]
 		+ params4app
 		+ params4partPp						//	pp... (20ish keys)
-		+ params4logDetail						// "debugOutterLock":f
+		+ params4logDetail					// "debugOutterLock":f
 }
 		// elim Uid? Actor?
 class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
@@ -68,8 +39,10 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	private(set) var detailWanted : [String:Int] = [:] 	// Current logging detail filter to select log messages
 
 	 // MARK: - 2. REALLY UGLY: what if different threads using log?
-//	var msgPriority : Int?		= nil		// hack: pass argument to message via global
-//	var msgFilter   : String?	= nil
+
+	var debugOutterLock			= true		// default value (set by config.debugOutterLock)
+	var warningLog : [String] 	= []
+
 	fileprivate var simTimeLastLog	:Float? = -1//nil
 
 	// MARK: pp stuff
@@ -126,7 +99,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 			ppNUid4Tree 		= uidd4p										}
 		if let uidd4c			= c .int("ppNUid4Ctl")	{
 			ppNUid4Ctl 			= uidd4c										}
-		if let lo				= c.bool("debugOutterLock"){
+		if let lo				= c.bool("debugOutterLock") {
 			debugOutterLock		= lo											}
 		if let bae				= c.int("breakAtEvent")	{
 			breakAtEvent		= bae											}
@@ -136,6 +109,29 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		if detail.count > 0 {
 			detailWanted 		= detail
 		}
+	}
+	// MARK: - ?. Program logs events whose detail is selected by Log's detail
+	 /// Emit a Log Event:
+	/// - parameters:
+	///   - eventArea: 	kind of event encountered
+	///   - eventDetail:	detail of the event, how geeky is it 0<msgPri<10
+	///   - eventAction: 	action to be executed if area/detail matches
+	func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
+		if eventIs(ofArea:eventArea, detail:eventDetail) {
+			let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
+			Log.shared.logd(format, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
+		}
+	}
+	func eventIs(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
+		assert(eventDetail >= 0 && eventDetail < 10, "Message priorities must be in range 0...9")
+		let detailWanted : [String:Int]	= Log.shared.detailWanted
+		let rv 						= //trueF 	||	// DEBUGGING ALL messages
+			detailWanted    [eventArea]  != nil ?	// area definition supercedes
+				detailWanted[eventArea]! > eventDetail :
+			detailWanted    ["all"] 	 != nil ?	// else default definition?
+				detailWanted["all"]! 	 > eventDetail :
+			false									// neither
+		return rv
 	}
 	 /// Return a Dictionary of keys starting with "logPri4". They control detailWanted.
 	func detailInfoFrom(_ config:FwConfig) -> [String:Int] {
@@ -159,35 +155,53 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		return msg
 	}
 
+	func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n",
+									msgFilter:String?=nil, msgPriority:Int?=nil) {
+		let sh	 					= Log.shared	// There should be only one Log in the system
+
+		 // Time Change in Similator?
+		if let fm					= FACTALSMODEL {
+			let sim					= fm.simulator
+			let deltaTime 			= sim.timeNow  - (sh.simTimeLastLog ?? 0)
+			if deltaTime > 0 || sh.simTimeLastLog == nil {
+				let globalUp		= sim.globalDagDirUp ? "UP  " : "DOWN"
+				let delta 			= (sh.simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
+				let dashes			= deltaTime <= sim.timeStep ? "                                  "
+															: "- - - - - - - - - - - - - - - - - "
+				let chits			= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
+				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
+			}
+			sh.simTimeLastLog		= sim.timeNow
+		}
+		 // Strip leading \n's:
+		let (newLines, format)		= format_.stripLeadingNewLines()
+
+		 // Formatted arguments:
+		var rv						= " "
+		rv 							+= msgFilter ?? "<?>"	 			//e.g: "app"
+		let mp : Int?				=  msgPriority	// avoids concurrency problem!!!
+		rv							+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
+		rv							= rv.field(-9, dots:false, grow:true)
+		rv							+= " "
+		var eventStr 				= " "//sh.procAreaPriorityStr()
+		eventStr					+= String(format:format, arguments:args)
+									
+		 // Banner Line
+		if let ban 					= banner {
+			print("\n" + "***** " + ban + " *****")
+		}
+		print(newLines + fmt("%03d%@", sh.eventNumber, eventStr), terminator:terminator )
+
+		if sh.breakAtEvent == sh.eventNumber {
+			panic("Encountered Break at Event \(sh.breakAtEvent).")
+		}
+		sh.eventNumber				+= 1		// go on to next log number
+	}
+
      // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux/*[:]*/) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
-//	 /// Character to represent current Thread ID:
-//	var threadNameCache : [String] = []
-//	var ppCurThread 	: String {
-//		let threadName			= Thread.current.name ?? "??349"
-//		guard let n				= threadNameCache.firstIndex(of:threadName) else {
-//			threadNameCache.append(threadName)		// new, add
-//			return self.ppCurThread					// try again
-//		}
-//		assert(n < 26, "more than 26 threads not supported")
-//		let nInt 				= Int(("A" as UnicodeScalar).value) + n
-//		let nChar				= Character(UnicodeScalar(nInt)!)
-//		return String(nChar)	// n as Character
-//	}
-
-	 /// get a token identifying Filter and current Lock owner
-//	func procAreaPriorityStr() -> String {			// " Acon4 " or " A<?>? "
-//		var rv					= " "
-//		rv 						+= msgFilter ?? "<?>"	 			//e.g: "app"
-//		let mp : Int?			=  msgPriority	// avoids concurrency problem!!!
-//		rv						+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
-//		rv						= rv.field(-9, dots:false, grow:true)
-//		rv						+= " "
-//		return rv
-//	}
-
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
 		if let curLockStr		= FACTALSMODEL?.partBase.curOwner {
@@ -215,22 +229,6 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	var description		 : String {		 "d'Log'"				}
 	var debugDescription : String {		"dd'Log'"				}
 	var summary			 : String {		 "s'Log'"				}
-}
-var debugOutterLock				= true		// default value (set by config.debugOutterLock)
-
-var warningLog : [String] 		= []
-var logNErrors					= 0
-
-func warning(target:Part?=nil, _ format:String, _ args:CVarArg...) {
-	let msg						= fmt(format, args)
-	warningLog.append(msg)
-	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	logd(banner:targName + "WARNING \(warningLog.count) ", msg + "\n")
-}
-func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
-	let targName 				= target != nil ? target!.fullName.field(12) + ": " : ""
-	logNErrors					+= 1
-	logd(banner:targName + "ERROR \(logNErrors) ", format, args)
 }
     //import SwiftLog  https://swiftpackageindex.com/apple/swift-log
 //import OSLog

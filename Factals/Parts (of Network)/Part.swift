@@ -200,7 +200,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}
 	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
-		if eventIs(ofArea:"bld", detail:3) {
+		if Log.shared.eventIs(ofArea:"bld", detail:3) {
 			print("#### DEINIT    \(ppUid(self)):\(fwClassName)") // 20221105 Bad history deleted
 		}
 	}
@@ -1357,16 +1357,16 @@ bug//never gets here
 	func warning(_ format:String, _ args:CVarArg...) {
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
-		warningLog.append(targName + fmtWithArgs)
-		partBase != nil ? logd(banner:"WARNING",  targName + fmtWithArgs + "\n")
-						      : print("WARNING" + targName + fmtWithArgs + "\n")
+bug;	Log.shared.warningLog.append(targName + fmtWithArgs)
+		partBase == nil ?    print("WARNING" + targName + fmtWithArgs + "\n") :
+			Log.shared.logd(banner:"WARNING",  targName + fmtWithArgs + "\n")
 	}
 	func error(_ format:String, _ args:CVarArg...) {
 		logNErrors 				+= 1
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
-		partBase != nil ? logd(banner:"ERROR", targName + fmtWithArgs + "\n")
-							  : print("ERROR", targName + fmtWithArgs + "\n")
+		partBase == nil ?	 print("ERROR", targName + fmtWithArgs + "\n") :
+			Log.shared.logd(banner:"ERROR", targName + fmtWithArgs + "\n")
 	}
 
 	func ppUnusedKeys() -> String {

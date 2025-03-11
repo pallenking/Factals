@@ -58,13 +58,15 @@ class FwBundle : Net {
 	 /// ## --- struc: names	 -- names of the Bundle's leafs
 	//it(of kind:LeafKind = .genAtom, _ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:]) { 	////.port
 	init(of kind:LeafKind = .genAtom, _ tunnelConfig:FwConfig=[:], leafConfig:FwConfig?=[:]) /*(_ tunnelConfig:FwConfig=[:], 		leafConfig:FwConfig=[:])*/	//FwBundle
-	{	//  .genBcast				  [f:0,struc:[2 elts],"of":"genBcast"]	[]
+	{	//  .genBcast				  [..,struc:[2 elts],"of":"genBcast"]	[]
+
 		let tunnelConfig		= ["placeMy":"stackx"] + tunnelConfig
 		self.leafKind			= kind
-//		if let t1				= tunnelConfig["of"] as? String,	// Overrides
-//			let lk  			= LeafKind(rawValue:t1) {
-//			self.leafKind  		= lk		// overrides									// leafKind = (partConfig["of"] as? String) ?? "hun23r8"
-//		}
+		if let leafKindStr		= tunnelConfig["of"] as? String,	// Overrides
+		  let leafKind 			= LeafKind(rawValue:leafKindStr)
+		{
+			self.leafKind  		= leafKind		// overrides									// leafKind = (partConfig["of"] as? String) ?? "hun23r8"
+		}
 		super.init(tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		 // Construct FwBundle elements

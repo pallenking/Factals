@@ -39,7 +39,7 @@ import Foundation
 func assertWarn(_ truthValue:Bool, _ message:@autoclosure()->String="assert failure") {
 	if truthValue == false {
 		let msg					= message()
-		warningLog.append(msg)
+		Log.shared.warningLog.append(msg)
 		print("\n############# WARNING: \(msg) #############")
 	}
 }

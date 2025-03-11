@@ -470,7 +470,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 			return								// no overlap, done!
 		}
 		logRsi(5, " in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:")
-		if eventIs(ofArea:"rsi", detail:5) {
+		if Log.shared.eventIs(ofArea:"rsi", detail:5) {
 			logSpots(relevantSpots)
 		}
 		 // go through all given spots, adding the 4 points around each

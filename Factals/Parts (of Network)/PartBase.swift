@@ -331,7 +331,7 @@ bug
 	/// - Returns: lock obtained
  	func lock(for owner:String, logIf:Bool) -> Bool {
 		let ownerNId			= ppUid(self) + " '\(owner)'".field(-20)
-		if logIf && debugOutterLock { 		 		// less verbose
+		if logIf && Log.shared.debugOutterLock { 		 		// less verbose
 				let msg			= " //######\(ownerNId)      GET Part LOCK: v:\(semiphore.value ?? -99)"
 				if semiphore.value ?? -99 <= 0 {	// Blocked, always print if verb
 					logBld(4, msg +  ", OWNED BY:'\(curOwner ?? "-")', PROBABLE WAIT...")
@@ -373,7 +373,7 @@ bug
 
 /**/	semiphore.signal()			 // Unlock Part's DispatchSemaphore:
 
-		if debugOutterLock && logIf && (verboseLocks || prevOnwer != "renderScene") {
+		if Log.shared.debugOutterLock && logIf && (verboseLocks || prevOnwer != "renderScene") {
 			logBld(3, " \\\\######\(ownerNId) RELEASED Part LOCK v:\(semiphore.value ?? -99)")
 		}
 	}
@@ -417,9 +417,9 @@ bug		// invisible?
 		let errors 				= logNErrors	   == 0 ? "no errors"
 								: logNErrors	   == 1 ? "1 error"
 										  : "\(logNErrors) errors"
-		let warnings 			= warningLog.count == 0 ? "no warnings"
-								: warningLog.count == 1 ? "1 warning"
-								: "\(warningLog.count) warnings"
+		let warnings 			= Log.shared.warningLog.count == 0 ? "no warnings"
+								: Log.shared.warningLog.count == 1 ? "1 warning"
+								: "\(Log.shared.warningLog.count) warnings"
 		let titleWidth			= title.count
 		let width				= titleWidth + "######                ######".count
 		let errWarnWidth		= errors.count + warnings.count + 2
@@ -437,7 +437,7 @@ bug		// invisible?
 			######        \(blanks   )        ######
 			\(trailing2)\n
 			"""
-		for (i, msg) in warningLog.enumerated() {
+		for (i, msg) in Log.shared.warningLog.enumerated() {
 			rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
 		}
 		rv							+= tree.ppUnusedKeys()

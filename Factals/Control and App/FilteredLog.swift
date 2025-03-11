@@ -34,54 +34,32 @@ import Foundation
 // MARK: 2 Generate a Log Event:
  // Sugar to shorten commonly used cliche.
 func  logApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// APPlication
-{ 	at("app", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("app", detail, format:format, args:args, terminator:terminator)}
 func  logDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// DOCument
-{ 	at("doc", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("doc", detail, format:format, args:args, terminator:terminator)}
 func  logBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// BuiLD part
-{ 	at("bld", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("bld", detail, format:format, args:args, terminator:terminator)}
 func  logSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// SERilization
-{ 	at("ser", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("ser", detail, format:format, args:args, terminator:terminator)}
 func  logAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// phys ANImation
-{ 	at("ani", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("ani", detail, format:format, args:args, terminator:terminator)}
 func  logDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim DATa
-{ 	at("dat", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("dat", detail, format:format, args:args, terminator:terminator)}
 func  logEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim EVEnts
-{ 	at("eve", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("eve", detail, format:format, args:args, terminator:terminator)}
 func  logIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// INSpectors
-{ 	at("ins", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("ins", detail, format:format, args:args, terminator:terminator)}
 func  logMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// MENus
-{ 	at("men", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("men", detail, format:format, args:args, terminator:terminator)}
 func  logRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReViEw
-{ 	at("rve", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("rve", detail, format:format, args:args, terminator:terminator)}
 func logRsi(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReSIze
-{ 	at("rsi", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("rsi", detail, format:format, args:args, terminator:terminator)}
 func logRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReNDer protocol
-{ 	at("rnd", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("rnd", detail, format:format, args:args, terminator:terminator)}
 func logTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// TeSTing
-{ 	at("tst", detail, format:format, args:args, terminator:terminator)		}
+{ 	Log.shared.at("tst", detail, format:format, args:args, terminator:terminator)}
 
- /// Emit a Log Event:
-/// - parameters:
-///   - eventArea: 	kind of event encountered
-///   - eventDetail:	detail of the event, how geeky is it 0<msgPri<10
-///   - eventAction: 	action to be executed if area/detail matches
-func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
-	if eventIs(ofArea:eventArea, detail:eventDetail) {
-		let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
-		logd(format, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
-	}
-}
-func eventIs(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
-	assert(eventDetail >= 0 && eventDetail < 10, "Message priorities must be in range 0...9")
-	let detailWanted : [String:Int]	= Log.shared.detailWanted
-	let rv 						= //trueF 	||	// DEBUGGING ALL messages
-		detailWanted    [eventArea]  != nil ?	// area definition supercedes
-			detailWanted[eventArea]! > eventDetail :
-		detailWanted    ["all"] 	 != nil ?	// else default definition?
-			detailWanted["all"]! 	 > eventDetail :
-		false									// neither
-	return rv
-}
  // MARK: 3 Configure Logs
 func logAt(
 		app:Int = -1,		doc:Int = -1,		bld:Int = -1,		ser:Int = -1,
@@ -110,10 +88,3 @@ func logAtX(prefix:String="", // / 3b. Neutered (with suffix X) returns an empty
 		  con:Int=0, men:Int=0, doc:Int=0, bld:Int=0, ser:Int=0, eve:Int=0, dat:Int=0,
 		  rve:Int=0, rsi:Int=0, rnd:Int=0, ani:Int=0, ins:Int=0, tst:Int=0, all:Int=0)
 		  -> FwConfig { return [:] }
-
-//	E.g: the following will print "construction message" if DOClog.detailWanted
-//	calls for >=3 detail messages:
-//			logApp(3, log(<construction message>))
-
-
-

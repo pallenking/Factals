@@ -298,7 +298,7 @@ bug
 //			vew.scnScene.position.y	= -port.height
 		}
 		else {
-			if eventIs(ofArea:"rsi", detail:3) {
+			if Log.shared.eventIs(ofArea:"rsi", detail:3) {
 				warning("Did not find position for '\(port.pp(.fullNameUidClass))'")
 			}
 			vew.scn.transform		= .identity

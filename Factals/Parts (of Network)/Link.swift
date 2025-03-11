@@ -428,7 +428,7 @@ bug	// Never USED?
 									("S", parentLinkVew.sEndVip) ] {
 			if port == ports[portStr] {
 				guard let p		= endVip else {
-					if eventIs(ofArea:"rsi", detail:3) {
+					if Log.shared.eventIs(ofArea:"rsi", detail:3) {
 						warning("\(parentLinkVew.pp(.fullNameUidClass)) has \(portStr)endVip:SCNVector3 == nil")
 					}
 					continue

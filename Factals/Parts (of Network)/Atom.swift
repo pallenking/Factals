@@ -766,7 +766,7 @@ bug				//		logBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\
 			vew.scnRoot.position.y	= -port.height
 		}
 		else {
-			if eventIs(ofArea:"rsi", detail:3) {
+			if Log.shared.eventIs(ofArea:"rsi", detail:3) {
 				warning("Did not find position for '\(port.pp(.fullNameUidClass))'")
 			}
 			vew.scnRoot.transform	= .identity
