@@ -337,7 +337,7 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		let m				= aux.string("ppXYZWena") ?? "XYZ"
 		var pre				= ""
 		var rv				= "["
@@ -534,7 +534,7 @@ extension SCNVector4 {
 
  */
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		let m 					= aux.string("ppXYZWena") ?? "XYZW"
 		let a 					= aux.int_("ppFloatA")
 		let b 					= aux.int_("ppFloatB")

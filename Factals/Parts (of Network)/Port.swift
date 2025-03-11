@@ -412,7 +412,7 @@ class Port : Part, PortTalk {
 	}
 	 /// Convert self.portConSpot to inVew
 	func portConSpot(inVew vew:Vew) -> ConSpot {
-		let aux					= params4partPp				//log.params4aux
+		let aux					= params4partPp				//log.params4defaultPp
 		guard var openParent	= parent else {	debugger("portConSpot: Port with nil parent")	}
 		logRsi(8, "---------- \(vew.pp(.fullName)).portConSpotNEW")
 
@@ -470,7 +470,7 @@ class Port : Part, PortTalk {
 //	func portConSpotOLD(inVew vew:Vew) -> ConSpot {
 //		guard var openParent	= parent else {	debugger("portConSpot: Port with nil parent")	}
 //		var rv	: ConSpot		= basicConSpot()		// in parent's coords
-//		let aux					= params4partPp				//log.params4aux
+//		let aux					= params4partPp				//log.params4defaultPp
 //print("---------- portConSpotOLD")
 //		// H: SeLF, ViEW, World Position
 //		// AVew will not exist when it (and its parents) are atomized.
@@ -729,7 +729,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 		case .fullName:						// -> .name
 			return (parent?.pp(.fullName, aux) ?? "") + "." + name

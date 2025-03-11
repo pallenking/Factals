@@ -608,7 +608,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 //		Log.shared.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
 //	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 			case .name:
 				return self.name

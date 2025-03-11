@@ -41,7 +41,7 @@ var ppStopGapLoop				= 0
 extension FwAny  {
 
 	 // Default implementation, with default values:
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		 // N.B: If this loops forever, check self's class .pp protocol
 		ppStopGapLoop			+= 1;	assert(ppStopGapLoop<20, "code self.pp() more")
 		let rv 					= self.ppFixedDefault(mode, aux)
@@ -115,7 +115,7 @@ extension SCNVector3	: FwAny 	{}
 //extension NSColor		: FwAny 	{}	//x Extension outside of file declaring class 'NSColor' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNMatrix4	: FwAny 	{}	//code Extension outside of file declaring struct 'CATransform3D' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension Array 		: FwAny		{
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 			case .phrase, .short:
 				return count == 0 ? "[]" : "[\(count) elts]"
@@ -140,7 +140,7 @@ extension Array 		: FwAny		{
 }
 
 extension SCNScene 	: FwAny				{		     //
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv 					= ""//super.pp(mode, aux)
 		switch mode {
 		case .phrase, .short:
@@ -171,7 +171,7 @@ extension SCNScene 	: FwAny				{		     //
 //	}
 }
 extension NSView 					{		// also SCNView : FwAny
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		let className			= self is SCNView ? "SCNView" : "NSView"
 		switch mode {
 		case .fwClassName:
@@ -193,17 +193,17 @@ extension SelfiePole	: FwAny		{}
 //extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 //extension SCNConstraint : FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 extension SCNGeometry : FwAny {				// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 }
 extension SCNAudioSource : FwAny  	{
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 }
 extension SCNAudioPlayer : FwAny   	{
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 }
@@ -368,7 +368,7 @@ extension Dictionary {
 	func fwAny     (_ k:Key) -> FwAny?	{  return     self[k] as? FwAny			}
 }
 extension Dictionary		: FwAny {				// pp(..
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 		case .phrase, .short:
 			return count == 0 ? "[:]" : "[:\(count) elts]"
@@ -407,7 +407,7 @@ extension Dictionary		: FwAny {				// pp(..
 //	}
 }
 extension Dictionary where Key:Comparable, Value:FwAny {	// Comparable	//, Value:Equatable, Value :FwAny
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 		case .phrase, .short:
 			return count == 0 ? "[:]" : "[:\(count) elts]"
@@ -625,7 +625,7 @@ extension Bool {
 		}
 		self.init(val!) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		if mode == .short {
 			return self ? "true" : "false"										}
 		 // NO: return super.pp(mode, aux)
@@ -651,7 +651,7 @@ extension Int {
 		}
 		self.init(val!) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:				//
 			// Type of expression is ambiguous without more context
@@ -695,7 +695,7 @@ extension UInt {
 //			return self[value]
 //		}
 //	}
-	func pp(_ mode:PpMode	= .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode	= .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:
 			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
@@ -738,7 +738,7 @@ extension Int16 {
 //			return self[value]
 //		}
 //	}
-	func pp(_ mode:PpMode	= .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode	= .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:
 			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
@@ -778,7 +778,7 @@ extension UInt16 {
 //			return self[value]
 //		}
 //	}
-	func pp(_ mode:PpMode	= .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode	= .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:
 			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
@@ -830,7 +830,7 @@ extension Int8	{
 		}
 		self.init(val!) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		return String(self)
 	}
 	static func +( d0:Int8, d1:Int8) -> Int8 {
@@ -870,7 +870,7 @@ extension UInt8 {
 			return nil									// no, failure
 		}
 	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		return String(self)
 	}
 	static func + ( d0:UInt8, d1:UInt8) -> UInt8 {
@@ -902,7 +902,7 @@ extension Float	{
 //		let rand		= (Float(arc4random()) / 4294967296) // 0xFFFFFFFF + 1
 		return n1 + (n2 - n1) * rand
 	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:
 			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
@@ -922,7 +922,7 @@ extension Double	{
 		let rand		= (Double(arc4random()) / 0xFFFFFFFF)
 		return n1 + (n2 - n1) * rand
 	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:
 bug;		return "\(self.pp(.fullName, aux)) :\(self.fwClassName)"
@@ -958,7 +958,7 @@ extension CGFloat {
 		let rand		= (CGFloat(arc4random()) / 0xFFFFFFFF)
 		return n1 + (n2 - n1) * rand
 	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:
 			return "\(ppUid(self as Uid, post:"."))\(self.pp(.fullName, aux)) :\(self.fwClassName)"
@@ -1157,7 +1157,7 @@ extension String {
 //		print("abcdefgh".field( 14, 				  dots:false), "|")
 //		print("abcdefgh".field( 14, 				  dots:true),  "|")
 //	}
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .fullNameUidClass:
 			return "\(ppUid(self, post:"."))\"\(self)\":\(self.fwClassName)"
@@ -1330,13 +1330,13 @@ extension Data {
 }
 
 extension NSColor {
-	func pp(_ mode:PpMode = .tree, _ aux_: FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux_: FwConfig = params4defaultPp) -> String {
 		return "NSColor"
 //		panic(); return "yeuch"
 	}
 }
 extension NSNull {
-	func pp(_ mode:PpMode = .tree, _ aux_: FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux_: FwConfig = params4defaultPp) -> String {
 		return "NSNull"
 //		panic(); return "yeuch"
 	}

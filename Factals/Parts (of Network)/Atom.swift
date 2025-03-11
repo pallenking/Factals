@@ -972,7 +972,7 @@ bug				//		logBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\
 		return true			// Success
 	}
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv		= ""
 		switch mode {
 		case .line:

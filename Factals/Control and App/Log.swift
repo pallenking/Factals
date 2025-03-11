@@ -22,7 +22,7 @@ func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 extension Log {
 	 // MARK: - 1. Static Class Variables:
-	static let  shared			= Log(configure:defaultParams)
+	static let shared			= Log(configure:defaultParams)
 	static var defaultParams : FwConfig	= [:]
 		+ params4app
 		+ params4partPp						//	pp... (20ish keys)
@@ -199,7 +199,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	}
 
      // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux/*[:]*/) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp/*[:]*/) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 	 /// Character to represent Transaction ID:
@@ -223,8 +223,8 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		"toggelOpen5"					: "op5",
 		"toggelOpen6"					: "op6",
 	]
-	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4aux
-//	var params4aux : FwConfig	{	DOC?.fmConfig ?? [:]		}
+	 // N.B: Sometimes it is hard to get to this w/o using DOC. Then use global params4defaultPp
+//	var params4defaultPp : FwConfig	{	DOC?.fmConfig ?? [:]		}
 
 	var description		 : String {		 "d'Log'"				}
 	var debugDescription : String {		"dd'Log'"				}

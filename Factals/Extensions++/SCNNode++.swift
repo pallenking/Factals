@@ -302,7 +302,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		
 		let log					= Log.shared
 //		guard let log			= FACTALSMODEL?.log else { return "DOClog is nil"}
@@ -417,7 +417,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 		}
 
 		 // display position in trunk:
-	//	if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4aux; params4aux
+	//	if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4defaultPp; params4defaultPp
 	//	  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnScene:self) {
 	//		let p				= convertPosition(.zero, to:vews.tree.scnScene)
 	//		rv2					+= p.pp(.short, aux).field(-11, dots:false)

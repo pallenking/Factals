@@ -288,7 +288,7 @@ extension SCNMatrix4 {
 	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {		// PpMode .short and .phrase exists in many places
 			case .short:
 				var rv				= ""

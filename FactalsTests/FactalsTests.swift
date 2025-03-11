@@ -50,7 +50,7 @@ final class FactalsTests: XCTestCase {
 //	class Simulatee : NSObject, FwAny {					// won't compile
 //	class Simulatee : NSObject 		  {		// FwAny	// HANGS
 	class Simulatee : 		 	FwAny {					// WORKS
-		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+		func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 			//ppCommon(mode, aux)		// NO, try default method
 			return "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ FSIVjsd"
 		}
@@ -67,7 +67,7 @@ final class FactalsTests: XCTestCase {
 		/*
 		object calls method pp()
 				class Simulatee { func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
-				extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+				extension FwAny { func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		 */
 	}
 //	func testRootAsPart1() {

@@ -308,7 +308,7 @@ class DiscreteTime : Atom {
 		self.inspecIsOpen = true		// only open once
 	}
 		 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
 			if aux.bool_("ppParam") {	// a long line, display nothing else.

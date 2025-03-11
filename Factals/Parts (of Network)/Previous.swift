@@ -426,7 +426,7 @@ bug;						logDat(4, "Mode Port: " + //%% curMode=%-->%",
 	let previousLatchX : CGFloat = 3.0
 
 	   // MARK: -  15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		var rv 					= super.pp(mode, aux)
 		if mode == .line && !aux.bool_("ppParam")  {			//$
 			rv					+= " Prev mode:?" /*self.majorMode + prevMinorModeNames[self.minorMode] + self ppSrc4*/

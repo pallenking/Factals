@@ -218,7 +218,7 @@ class LinkPort : Port {
 		}
 		return rv
 	}
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv = super.pp(mode, aux)
 		if mode == .tree {
 			var sep				= ""

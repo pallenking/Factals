@@ -74,7 +74,7 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 extension SelfiePole : Uid {
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 		case .line:
 			return fmt("[at:%@, s:%.2f, u:%.2f, z:%.2f, o:%.2f]", position.pp(.line, aux), spin, gaze, zoom, ortho)

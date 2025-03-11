@@ -169,7 +169,7 @@ class GenAtom : Atom {
 	override func typColor(ratio:Float) -> NSColor {	return .orange			}
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv 					= super.pp(mode, aux)
 		if mode == .line {
 			rv 					+= loop ?? false ? " loop" : ""

@@ -16,7 +16,7 @@ enum VewConfig : FwAny {
 	case subVewList([VewConfig])			// array of directives, to
 	case subVew(FwConfig)
 
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 		case .line, .phrase, .short, .tree:
 			switch self {

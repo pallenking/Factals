@@ -351,7 +351,7 @@ class Link : Atom {
 		 /// Skin "s-Link" displays the two bidirectional opposing values
 		 /// All calculations done in parentVew(.scnScene)'s coordinate system
 	override func reSizePost(vew:Vew) {				//  find endpoints
-		let aux					= params4partPp				//log.params4aux
+		let aux					= params4partPp				//log.params4defaultPp
 		guard let linkVew		= vew as? LinkVew else { debugger("Link's Vew isn't a LinkVew") }
 		guard let parentVew		= linkVew.parent  else { return	/* no parent, do nothing*/}
 		linkVew.scnRoot.position	= .zero
@@ -564,7 +564,7 @@ bug	// Never USED?
 	}		// Xyzzy19e
 
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv = super.pp(mode, aux)
 		switch mode {
 		case .tree:

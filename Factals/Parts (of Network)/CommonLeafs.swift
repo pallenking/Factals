@@ -102,7 +102,8 @@ enum LeafKind: String, Codable, FwAny {
 extension Leaf {	/// Generate Common Leafs
 	convenience init(_ etc1:FwConfig=[:], _ etc2:FwConfig=[:],
 					 _ etc3:FwConfig=[:], _ etc4:FwConfig=[:], _ etc5:FwConfig=[:]) {
-		guard let raw			= etc1["leafKind"]?.asString else { fatalError("leafKind is not specified")}
+		let raw					= etc1["leafKind"]?.asString ?? "genAtom"
+//		guard let raw			= etc1["leafKind"]?.asString else { fatalError("leafKind is not specified")}
 		let leafKind 			= LeafKind(rawValue:raw)
 		switch leafKind {
 	//	case .leafClosure(let closure):

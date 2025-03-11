@@ -55,7 +55,7 @@ class PortSound : Part {
 		return vew.bBox						// vew.scnScene.bBox()//scnScene.bBox()// Xyzzy44 ** bb
 	}
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv					= super.pp(mode, aux)
 		if mode ==  .line {						//		if case .line = mode {
 			rv 					+= "sounds:\(sounds.count) inP:\"\(inPstr ?? "nil")\"" +

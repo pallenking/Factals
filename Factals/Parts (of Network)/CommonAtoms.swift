@@ -102,7 +102,7 @@ class Ago : Atom {
 		}
 	}
 	 // MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv = super.pp(mode, aux)
 		if mode == .line  && !aux.bool_("ppParam") {		//$
 			rv					+= " Ago:?" /*self.majorMode + prevMinorModeNames[self.minorMode] + self ppSrc4*/
@@ -222,7 +222,7 @@ class Mirror : Atom {
 		return NSColor(mix:inside, with:ratio, of:outside)
 	}
 	 // MARK: -  15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		let rv 					= super.pp(mode, aux)
 		guard  mode == .line && !aux.bool_("ppParam") else { 	return rv	}
 //		guard  /*mode == .line &&*/ !aux.bool_("ppParam") else { 	return rv	}

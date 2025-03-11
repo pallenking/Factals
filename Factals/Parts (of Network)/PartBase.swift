@@ -405,7 +405,7 @@ bug		// invisible?
 //		Log.shared.log(banner:banner, format_, args, terminator:terminator)
 //	}
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		//var rv 				= super.pp(mode, aux)	// Use Part's pp()
 		var rv					= tree.pp(mode, aux)
 		if mode == .line {

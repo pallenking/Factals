@@ -7,13 +7,9 @@ class Tunnel : FwBundle {
 	 // MARK: - 2. Object Variables:
 	//var label : String?			= nil
 	 // MARK: - 3. Part Factory
-	override  init(of kind:LeafKind = .genAtom, _ tunnelConfig:FwConfig=[:], leafConfig:FwConfig?=[:]) { 	////.port
-		super.init(of:kind, 					  tunnelConfig,	   			 leafConfig:leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ //of:kind,
-	}		// 		  .genAtom					  [of:genBcast,struc:["a", "b"]]		[]
-	//	[struc:[2 elts],f:0,of:genBcast]	[]
-//	override init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:]) { 	//of kind:LeafKind = .genAtom,  //.port
-//		super.init(tunnelConfig, 			leafConfig:leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ //of:kind,
-//	}//	[struc:[2 elts],f:0,of:genBcast]	[]
+	override  init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig?=[:]) { 	////.port
+		super.init(tunnelConfig,	   			leafConfig:leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ //of:kind,
+	}		// 	  [struc:["a","b"],of:genBcast]	[]
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String]	{  
 		return ["P":"pcM"]

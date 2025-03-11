@@ -236,7 +236,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //	}
 
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		switch mode {
 		case .phrase, .short, .line, .tree:
 			return fullName() + ",[" + ppLinkProps() + "]"

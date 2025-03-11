@@ -307,7 +307,7 @@ bug
 	}
 
 	 //	 MARK: - 15. PrettyPrint
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{		// Why is this not an override
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{		// Why is this not an override
 		var rv					= super.pp(mode, aux)
 		if mode == .line {
 			if let resetTo {

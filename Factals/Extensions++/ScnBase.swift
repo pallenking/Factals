@@ -713,7 +713,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		cameraScn.camera?.orthographicScale = selfiePole.zoom * 10
 	}
 	 // MARK: - 15. PrettyPrint
-	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		var rv					= "super.pp(mode, aux)"
 		if mode == .line {
 			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"

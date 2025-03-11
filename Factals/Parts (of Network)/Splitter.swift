@@ -483,7 +483,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 	  //\\//\\//\\//\\//\\// PRINTOUT //\\//\\//\\//\\//\\//
 	 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 	//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
-	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv 				= super.pp(mode, aux)
 		if !aux.bool_("ppParam"),		// Ad Hoc: printing params is so voluminus, print nothing else!ppp
 		  mode == .line { 

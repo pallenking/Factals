@@ -58,7 +58,7 @@
 		9F417F0E28EB93E20047B359 /* TestsFoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */; };
 		9F417F0F28EB93E50047B359 /* Proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AE286BA57A00C8C22A /* Proto.swift */; };
 		9F417F1028EB93E90047B359 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AB286BA57900C8C22A /* Library.swift */; };
-		9F417F1128EB93EC0047B359 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Configuration.swift */; };
+		9F417F1128EB93EC0047B359 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Dashboard.swift */; };
 		9F417F1428EB93FC0047B359 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F417F1528EB93FF0047B359 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
 		9F417F1628EB94020047B359 /* EditNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F228808DC00078DB6C /* EditNet.swift */; };
@@ -165,7 +165,7 @@
 		9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A1286B8F5B00C8C22A /* Log.swift */; };
 		9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A4286B958700C8C22A /* PolyWrap.swift */; };
 		9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A6286B962300C8C22A /* CommonErrors.swift */; };
-		9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Configuration.swift */; };
+		9FEE51A9286BA2D700C8C22A /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Dashboard.swift */; };
 		9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AB286BA57900C8C22A /* Library.swift */; };
 		9FEE51B1286BA57A00C8C22A /* LangDeser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AC286BA57900C8C22A /* LangDeser.swift */; };
 		9FEE51B2286BA57A00C8C22A /* TivoRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AD286BA57900C8C22A /* TivoRemote.swift */; };
@@ -280,7 +280,7 @@
 		9FEE51A1286B8F5B00C8C22A /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		9FEE51A4286B958700C8C22A /* PolyWrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyWrap.swift; sourceTree = "<group>"; };
 		9FEE51A6286B962300C8C22A /* CommonErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonErrors.swift; sourceTree = "<group>"; };
-		9FEE51A8286BA2D700C8C22A /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		9FEE51A8286BA2D700C8C22A /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		9FEE51AB286BA57900C8C22A /* Library.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		9FEE51AC286BA57900C8C22A /* LangDeser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LangDeser.swift; sourceTree = "<group>"; };
 		9FEE51AD286BA57900C8C22A /* TivoRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TivoRemote.swift; sourceTree = "<group>"; };
@@ -451,7 +451,7 @@
 				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
 				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
 				9FEE51AF286BA57A00C8C22A /* Tests01.swift */,
-				9FEE51A8286BA2D700C8C22A /* Configuration.swift */,
+				9FEE51A8286BA2D700C8C22A /* Dashboard.swift */,
 			);
 			path = "HaveNWant Networks";
 			sourceTree = "<group>";
@@ -719,7 +719,7 @@
 				9F417F1A28EB94100047B359 /* DiscreteTime.swift in Sources */,
 				9F417F2928EB94450047B359 /* MultiPort.swift in Sources */,
 				9F417F0C28EB93DB0047B359 /* TivoRemote.swift in Sources */,
-				9F417F1128EB93EC0047B359 /* Configuration.swift in Sources */,
+				9F417F1128EB93EC0047B359 /* Dashboard.swift in Sources */,
 				9F417F4A28EB952A0047B359 /* Path.swift in Sources */,
 				9F417F3C28EB94BA0047B359 /* EventReceiver.swift in Sources */,
 				9F417F4D28EB95350047B359 /* Fw++.swift in Sources */,
@@ -811,7 +811,7 @@
 				9F19010728808DC10078DB6C /* Tunnel.swift in Sources */,
 				9F5AE2D0298C3C4B00EF6B20 /* ScnBase.swift in Sources */,
 				9F1900F928808DC10078DB6C /* Actor.swift in Sources */,
-				9FEE51A9286BA2D700C8C22A /* Configuration.swift in Sources */,
+				9FEE51A9286BA2D700C8C22A /* Dashboard.swift in Sources */,
 				9FEE6F162835778A00E9E2AE /* FactalsApp.swift in Sources */,
 				9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */,
 				9F1900FC28808DC10078DB6C /* CommonLeafs.swift in Sources */,

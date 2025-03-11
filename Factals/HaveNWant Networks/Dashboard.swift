@@ -1,15 +1,15 @@
-//  Configuration.swift -- Configure Factal Workbench ©2019PAK
+//  Dashboard.swift -- Configure Factal Workbench ©2019PAK
 
 import SceneKit
 
+// Notes:
 // Default constants, used to configure the 6 sub-system of Factal Workbench:
 //		a) Apps, b) App Logs, c) Pretty Print,  d) Doc Log, e) Simulator, f) 3D Scene
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 // 20220912PAK: Simplification: all merged into one hash
 
-
 /*
-let params4aux   		// default if none suppled
+let params4defaultPp   		// default if none suppled
 let params4partPp		// PP of Parts
 let/params4logsPp	???
 let params4logDetail	// Logging Styles
@@ -17,16 +17,15 @@ let params4sim
 let params4partVew
 */
 
-  // MARK: - A: App Params
+  // MARK: - A: App Params		- params4app
  /// Parameters globally defined for Application()
 let params4app : FwConfig 		= [
 	"soundVolume"	 			: 1,//0.1,// 0:quiet, 1:normal, 10:loud
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 ]
 
- // MARK: - C: Pretty Print
-
-let params4aux : FwConfig 		= [:]	// default if none suppled
+ // MARK: - B: Pretty Print		- params4defaultPp, params4partPp
+let params4defaultPp : FwConfig 		= [:]	// default if none suppled
 
 let params4partPp  : FwConfig 	= [		// PP of Parts
 				// What:
@@ -74,30 +73,23 @@ let params4partPp  : FwConfig 	= [		// PP of Parts
 	///"ppFloatA": 5, "ppFloatB":2,
 	///"ppFloatA": 3, "ppFloatB":1,
 ]
- // MARK: -
-
-//
-//params4logsPp
-
-
- // MARK: - D: Parameters Log
+  // MARK: - C: Parameters Log		- params4logDetail
 							
-let params4logDetail : FwConfig =			// Logging Styles
+let params4logDetail : FwConfig =	// Set events to be logged
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
 	//* Nothing*/					logAt(all:0) +
 	//* Everything */				logAt(all:8) +
-	/* Everything except review */	logAt(rve:0, all:8) +
+	 /* Everything except review */	logAt(rve:0, all:8) +
 	//* App */						logAt(app:8) +
 
-	[	"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
+	[							// + +  + +
+		"breakAtEvent"				:-16, //150//-54,//240/3/0:off
+								// + +  + +
 
-		 // BreakAt is composite: logId * entryNosPlog + logEvent:
-								// + +  + +
-		"breakAtEvent"				:-13 //150//-54,//240/3/0:off
-								// + +  + +
+		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
 	]
 
-  // MARK: - E: Sim Params
+  // MARK: - D: Sim Params			- params4sim
  /// Parameters for simulation
 let params4sim : FwConfig = [
 	"simRun"				: false,
@@ -106,7 +98,7 @@ let params4sim : FwConfig = [
 	"logSimLocks"				: false,//true//false// Log simulation lock activity
 ]
 
-  // MARK: - F: Scene Params
+  // MARK: - E: Scene Params		- params4partVew, wBoxColorOf
  /// FactalsModel Viewing parameters
 let params4partVew : FwConfig = [
 //	"initialDisplayMode"		: "invisible"	// mostly expunged

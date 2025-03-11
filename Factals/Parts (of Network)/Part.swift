@@ -1380,7 +1380,7 @@ bug;	Log.shared.warningLog.append(targName + fmtWithArgs)
 		return rv
 	}
 	 //	 MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{		// Why is this not an override
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{		// Why is this not an override
 		var rv					= ""
 		switch mode {
 		case .name:

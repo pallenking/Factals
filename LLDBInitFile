@@ -58,10 +58,10 @@ command alias lldbIsLoaded p "ya, ya, ya,  LLDBInitFile is loaded"
 ## :H:
 ######## ---- First  Character: -------- [Pp] -------------- {p: print without property hash; P is with)
 ######## ---- Middle Character(s): ----- [pc,pn,pnu,pf,pi,piCu,piU,piFuc,pp,ps,pl,pt] -- Tree with Ports and Links
-#command regex pc    's/^(.+)$/e print(%1.pp(.fwClassName, DOClog.params4aux + ["ppDagOrder":true]))/'
+#command regex pc    's/^(.+)$/e print(%1.pp(.fwClassName, DOClog.params4defaultPp + ["ppDagOrder":true]))/'
 
 ##---------------- third arg from
-command regex pc     's/^(.+)$/e lldbPrint(%1, mode:.fwClassName,DOClog.params4aux + ["ppDagOrder":true])/'
+command regex pc     's/^(.+)$/e lldbPrint(%1, mode:.fwClassName,DOClog.params4defaultPp + ["ppDagOrder":true])/'
 command regex pn     's/^(.+)$/e lldbPrint(%1, mode:.name		)/'				-h "print HNW '<name>'            e.g: ROOT"
 command regex pnuc   's/^(.+)$/e lldbPrint(%1, mode:.nameUidClass)/'			-h "print HNW '<name>.<id>:<class>' e.g: ROOT.76a8:PartBase"
 command regex pf     's/^(.+)$/e lldbPrint(%1, mode:.fullName	)/' 			-h "print HNW '<fullName>' the hierarchy path e.g: xxxxx FIXME"

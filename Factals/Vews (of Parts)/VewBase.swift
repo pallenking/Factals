@@ -302,7 +302,7 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 	}
 								
 	 // MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String {
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
  							 	// Report any improper linking:
 		var rv					= ""
 		if slot == nil || factalsModel?.vewBases[slot!] != self {

@@ -255,7 +255,7 @@ enum FwwEvent : Codable {
 	}
 
 	 //	 MARK: - 15. PrettyPrint
-	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4aux) -> String	{
+	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
 		case .phrase, .short:
 			switch self {
