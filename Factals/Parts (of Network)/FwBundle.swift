@@ -38,8 +38,8 @@ bug//	var  x			= trailingHash != nil ? .leafClosure(trailingHash!) : nil
 class FwBundle : Net {
 
      // MARK: - 2. Object Variables:
-	var leafStruc: FwAny?			// structure of name-structure				// boneyard:var leafStruc: FwConfigC?;var leafProto: Part?
-	var leafKind : LeafKind			// an enum
+//	var leafStruc: FwAny?			// structure of name-structure				// boneyard:var leafStruc: FwConfigC?;var leafProto: Part?
+//	var leafKind : LeafKind			// an enum for structure's atoms
 	var label 	 : String?			// Of pattern IN FwBundle
 
 	 // MARK: - 3. Part Factory
@@ -59,19 +59,18 @@ class FwBundle : Net {
 	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig?=[:]) /*(_ tunnelConfig:FwConfig=[:], 		leafConfig:FwConfig=[:])*/	//FwBundle
 	{	//  .genBcast				  [..,struc:[2 elts],"of":"genBcast"]	[]
 
-		let leafKindStr			= tunnelConfig["of"] as? String  ?? "genAtom"
-		self.leafKind 			= LeafKind(rawValue:leafKindStr) ?? .genAtom
-		// done with tunnelConfig["of"]
-
 		let tunnelConfig		= ["placeMy":"stackx"] + tunnelConfig
 		super.init(tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		 // Construct FwBundle elements
 		if let leafStruc 		= partConfig["struc"] {
-			self.leafStruc 		= leafStruc
 			let leafConfig		= ["placeMy":"linky" ] + leafConfig!		//  default: // was stackx
+			 let leafKindStr	= tunnelConfig["of"] as? String  ?? "genAtom"
+			let leafKind 		= LeafKind(rawValue:leafKindStr) ?? .genAtom
+			let newCunnelConfig	= FwConfig()	// USELESS
+			 // might delete upstream tunnelConfig[struc:of:] past here
 
-			apply(constructor:leafStruc, leafConfig:leafConfig, tunnelConfig)	//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
+			apply(constructor:leafStruc, leafConfig:leafConfig, newCunnelConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 		}			// ["c"]	     	 ["placeMy":"linky"]    [struc:["c"],of:prev]
 	}
 	 // MARK: - 3.1 Port Factory
@@ -80,7 +79,7 @@ class FwBundle : Net {
 	 // MARK: - 3.5 Codable
 	enum BundleKeys:String, CodingKey {
 		case leafStruc
-		case leafKind
+//		case leafKind
 		case label
 	}
 	 // Serialize
@@ -89,19 +88,19 @@ class FwBundle : Net {
 		var container 		= encoder.container(keyedBy:BundleKeys.self)
 
 	//	try container.encode(leafStruc,	forKey:.leafStruc)	//Protocol 'FwAny' as a type cannot conform to 'Encodable'
-		try container.encode(leafKind,	forKey:.leafKind)
+//		try container.encode(leafKind,	forKey:.leafKind)
 		try container.encode(label, 	forKey:.label)
 		logSer(3, "Encoded  as? FwBundle      '\(fullName)'")
 	}
 	  // Deserialize
 	required init(from decoder: Decoder) throws {
-		leafKind			= .nil_		// WTF?
+//		leafKind			= .nil_		// WTF?
 		try super.init(from:decoder)
 
 		let container 		= try decoder.container(keyedBy:BundleKeys.self)
-		leafStruc			= try container.decode(String.self, forKey:.leafStruc)//No exact matches in call to instance method 'decode'
+//		leafStruc			= try container.decode(String.self, forKey:.leafStruc)//No exact matches in call to instance method 'decode'
 //		leafStruc			= try container.decode(leafStruc.self,forKey:.leafStruc)//No exact matches in call to instance method 'decode'
-		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
+//		leafKind			= try container.decode(LeafKind.self, forKey:.leafKind)
 		label	 			= try container.decode(String.self, forKey:.label)
 		logSer(3, "Decoded  as? FwBundle     named  '\(name)'")
 	}
@@ -121,7 +120,7 @@ class FwBundle : Net {
 		guard let rhs			= rhs as? FwBundle else {	return false 		}
 		let rv					= super.equalsFW(rhs)
 //								&& leafStruc == rhs.leafStruc	//Type 'any FwAny' cannot conform to 'Equatable'
-								&& leafKind  == rhs.leafKind
+//								&& leafKind  == rhs.leafKind
 								&& label 	 == rhs.label
 		return rv
 	}
@@ -182,7 +181,7 @@ class FwBundle : Net {
 	 */
 
 	// MARK: - 4.1 Part Properties
-	func apply(constructor con:FwAny, leafConfig:FwConfig, _ tunnelConfig:FwConfig) {
+	func apply(constructor con:FwAny, leafConfig:FwConfig, _ tunnelConfig:FwConfig) { // xyzzy342
 		//				[ "c"]	      [placeMy:value:]		 [struc:of:]
 		logBld(7, "apply(constructor:\(con.pp(.line))))")
 
@@ -316,7 +315,7 @@ class FwBundle : Net {
 				{
 					let newBun 	= FwBundle()				// Build a new FwBundle or Tunnel
 					newsProperty!(newBun)					// Apply delayed property
-					newBun.apply(constructor:arg!, leafConfig:leafConfig, tunnelConfig)
+					newBun.apply(constructor:arg!, leafConfig:leafConfig, tunnelConfig)			// xyzzy342
 	//				newBun.apply(constructor:arg!, leafConfig:leafConfig)//, tunnelConfig)
 					addChild(newBun)
 				}
