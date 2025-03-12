@@ -143,8 +143,9 @@ class Atom : Part {	//Part//FwPart
 	// MARK: - 4. Factory
 
 // xyzzyx4
-//	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?) -> Part? {
-//
+	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
+		nil
+	}
 //		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
 //			var rv : Part?			= nil;
 //			if path.namePort.count {					// if named Port is specified

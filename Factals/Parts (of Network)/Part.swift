@@ -1357,7 +1357,7 @@ bug//never gets here
 	func warning(_ format:String, _ args:CVarArg...) {
 		let fmtWithArgs			= String(format:format, arguments:args)
 		let targName 			= fullName.field(nFullN) + ": "
-bug;	Log.shared.warningLog.append(targName + fmtWithArgs)
+		Log.shared.warningLog.append(targName + fmtWithArgs)
 		partBase == nil ?    print("WARNING" + targName + fmtWithArgs + "\n") :
 			Log.shared.logd(banner:"WARNING",  targName + fmtWithArgs + "\n")
 	}

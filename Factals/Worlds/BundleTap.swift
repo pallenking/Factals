@@ -256,7 +256,7 @@ bug
 		  // hack: If we are part of a GenAtom, load the S Port also.
 		 //        This allows initial values to be synced with .nib values
 		if let ga 				= self.parent as? GenAtom {
-			ga.port(named:"S")?.take(value:value)
+bug//		ga.port(named:"S")?.take(value:value)
 		}
 		return labeled;
 	}
@@ -289,7 +289,7 @@ bug
 	 // MARK: - 9.4 rePosition
 	/// Reposition a Port's vew in parent, by name
 	/// - Parameter vew: --- a Port's views
-	override func rePosition(portVew vew:Vew) {
+	override func rePosition(portVew vew:Vew) {	//override
 	bug
 		let port				= vew.part as! Port
 		if port === ports["P"] {			// P: Primary

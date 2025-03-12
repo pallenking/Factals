@@ -28,77 +28,44 @@ bug;	return self == rhs
 
 enum LeafKind: String, Codable, FwAny {
 //	case leaf(kind:Leaf)	// Enum with raw type cannot have cases with arguments
-    case nil_
-    case cylinder
-    case genAtom
-    case genMirror
-    case bcast
-    case genBcast
-    case genMax
-    case genMaxSq
-    case bayes
-    case genBayes
-    case mod
-    case rot
-    case branch
-    case bulb
-    case genBulb
-    case genPrev
-    case flipPrev
-    case prev
-    case ago
-    case genAgo
-    case agoMax
+	case nil_
+	case cylinder
+	case genAtom
+	case genMirror
+	case bcast
+	case genBcast
+	case genMax
+	case genMaxSq
+	case bayes
+	case genBayes
+	case mod
+	case rot
+	case branch
+	case bulb
+	case genBulb
+	case genPrev
+	case flipPrev
+	case prev
+	case ago
+	case genAgo
+	case agoMax
 
-    // Decoding
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let rawValue = try container.decode(String.self)
-        guard let value = LeafKind(rawValue: rawValue) else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid LeafKind value: \(rawValue)")
-        }
-        self = value
-    }
+	// Decoding
+	init(from decoder: Decoder) throws {
+		let container = try decoder.singleValueContainer()
+		let rawValue = try container.decode(String.self)
+		guard let value = LeafKind(rawValue: rawValue) else {
+			throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid LeafKind value: \(rawValue)")
+		}
+		self = value
+	}
 
-    // Encoding
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(self.rawValue)
-    }
+	// Encoding
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.singleValueContainer()
+		try container.encode(self.rawValue)
+	}
 }
-//enum LeafKind : Codable, FwAny {
-//	init(from	  :Decoder) throws	{ 	fatalError()							}
-//	func encode(to:Encoder) throws	{ 	fatalError()							}
-//	init?(rawValue: String) {
-//		self.init(rawValue:rawValue)
-//	}
-//	typealias RawValue = String
-//
-//	case leafClosure(() -> Part) // Case with a closure returns a Part
-////	case leaf(kind:Leaf)					// Only children on path are effected
-//	case nil_			//	= "nil_" // (FwConfig?, FwConfig?, FwConfig?, FwConfig?, FwConfig?) -> Leaf
-//	case cylinder		//	= "cylinder" // for gap size testing
-//	case genAtom		//	= "genAtom"
-//	case genMirror		//	= "genMirror"
-//	case bcast			//	= "bcast"
-//	case genBcast		//	= "genBcast"
-//	case genMax			//	= "genMax"
-//	case genMaxSq		//	= "genMaxSq"
-//	case bayes			//	= "bayes"
-//	case genBayes		//	= "genBayes"
-//	case mod			//	= "mod"
-//	case rot			//	= "rot"
-//	case branch			//	= "branch"
-//	case bulb			//	= "bulb"
-//	case genBulb		//	= "genBulb"
-//	case genPrev		//	= "genPrev"
-//	case flipPrev		//	= "flipPrev"
-//	case prev			//	= "prev"
-//	case ago			//	= "ago"
-//	case genAgo			//	= "genAgo"
-//	case agoMax			//	= "agoMax"
-//}
-
 extension Leaf {	/// Generate Common Leafs
 	convenience init(_ etc1:FwConfig=[:], _ etc2:FwConfig=[:],
 					 _ etc3:FwConfig=[:], _ etc4:FwConfig=[:], _ etc5:FwConfig=[:]) {

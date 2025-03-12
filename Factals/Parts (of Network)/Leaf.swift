@@ -103,46 +103,47 @@ bug;//	let binding 			= self.bindings?[name]
 	//	}
 		return nil;			// not found
 	}
-	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?) -> Part? {
+	override func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
 bug;	return nil
-//		// path matches self's name
+		// path matches self's name
+		if true{//path.nameAtom == self {		// Terminal's name (w.o. Port) matches
 //		if path.atomName == self {		// Terminal's name (w.o. Port) matches
-//			var rv : Part? 		= nil
-//								//
-//			  //////////// Is named port a BINDING? ///////////////////
-//			 //
-//			if let bindingStr 	= self.bindings?[path.namePort] {
-//				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
-//				
-//				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
-//								  self.fullName, path.namePort, bindingPath.pp())
-//
-//				  // Look that name up
-//				 //XX		rv=[self resolveInwardReference:bindingPath openingDown:downInSelf except:nil]
-//				for elt in parts {
-////					if (coerceTo(NSNumber, elt))
-////						continue;
-//					
-//					// Look up internal name
-//					let downInElt = !downInSelf == !elt.flipped	// was ^
-//					if let rv	= elt.resolveInwardReference(bindingPath, openingDown:downInSelf, except:nil) {
-//						break;					// found
-//					}
-//				}
-//			}
-//			else if path.namePort.count == 0 { 	// empty string "" in bindings has priority
-//				panic("wtf")
-//			} //			rv = self;								// found	(why?)
-//			
-//			if let rv {
-//				logBld(5, "   MATCHES Inward check as Leaf '\(fullName)'")
-//			}
-//			return rv;
-//		}
-//		logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
-//		
-//		// Didn't match as Leaf, try normal match:
-//		return super.resolveInwardReference(path, openingDown:downInSelf, except:except)
+			var rv : Part? 		= nil
+								//
+			  //////////// Is named port a BINDING? ///////////////////
+			 //
+			if let bindingStr 	= self.bindings?[path.namePort] {
+				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
+				
+				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
+								  self.fullName, path.namePort, bindingPath.pp())
+
+				  // Look that name up
+				 //XX		rv=[self resolveInwardReference:bindingPath openingDown:downInSelf except:nil]
+				for elt in parts {
+//					if (coerceTo(NSNumber, elt))
+//						continue;
+					
+					// Look up internal name
+					let downInElt = !downInSelf == !elt.flipped	// was ^
+		bug		//	if let rv	= elt.resolveInwardReference(bindingPath, openingDown:downInSelf) {	//, except:nil
+				//		break;					// found
+				//	}
+				}
+			}
+			else if path.namePort.count == 0 { 	// empty string "" in bindings has priority
+				panic("wtf")
+			} //			rv = self;								// found	(why?)
+			
+			if let rv {
+				logBld(5, "   MATCHES Inward check as Leaf '\(fullName)'")
+			}
+			return rv;
+		}
+		logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
+		
+		// Didn't match as Leaf, try normal match:
+		return super.resolveInwardReference(path, openingDown:downInSelf, except:except)
 	}
 
 	 // MARK: - 9.2 reSize

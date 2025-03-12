@@ -61,7 +61,7 @@ class FwBundle : Net {
 
 		let leafKindStr			= tunnelConfig["of"] as? String  ?? "genAtom"
 		self.leafKind 			= LeafKind(rawValue:leafKindStr) ?? .genAtom
-		// tunnelConfig["of"] essentially gone
+		// done with tunnelConfig["of"]
 
 		let tunnelConfig		= ["placeMy":"stackx"] + tunnelConfig
 		super.init(tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -72,7 +72,7 @@ class FwBundle : Net {
 			let leafConfig		= ["placeMy":"linky" ] + leafConfig!		//  default: // was stackx
 
 			apply(constructor:leafStruc, leafConfig:leafConfig, tunnelConfig)	//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
-		}			// ["a", "b"]			["placeMy":"linky"]
+		}			// ["c"]	     	 ["placeMy":"linky"]    [struc:["c"],of:prev]
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String] {	super.hasPorts()	}	//return[:]//["P":"pcM"]//
@@ -183,7 +183,7 @@ class FwBundle : Net {
 
 	// MARK: - 4.1 Part Properties
 	func apply(constructor con:FwAny, leafConfig:FwConfig, _ tunnelConfig:FwConfig) {
-		//				[ "a", "b"]	  [placeMy:linky]
+		//				[ "c"]	      [placeMy:value:]		 [struc:of:]
 		logBld(7, "apply(constructor:\(con.pp(.line))))")
 
 		  // ==== Parse constructor:  It has many forms:
@@ -294,8 +294,7 @@ class FwBundle : Net {
 				case 3:							// con1=tokens[0,..2]
 					  // --- All decodings past here apply to the new bundle ---
 					 // case 1.3: name : prop : val
-					let dummy : Part = Leaf()		//leafKind
-//					let dummy : Part = leafKind == .port ? Port(["f":1]) :Leaf(leafKind)
+					let dummy : Part = Leaf()
 					if dummy.apply(prop:tokens[1], withVal:tokens[2]) {
 						newsProperty = { (p : Part) in
 							let _ = p.apply(prop:tokens[1], withVal:tokens[2])
@@ -323,7 +322,6 @@ class FwBundle : Net {
 				}
 				 // CASE 1.4b: Get a new Leaf:
 				else {
-//					let newLeaf	= Leaf()	//leafKind, //tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
 					let newLeaf	= Leaf(leafConfig, tunnelConfig)	//leafKind, //tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
 					addChild(newLeaf)
 					newsProperty!(newLeaf)					// Apply delayed property to it

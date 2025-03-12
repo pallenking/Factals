@@ -536,6 +536,11 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 		FwBundle([struc:["c"], of:"prev",    placeMy:"stackx -1 1"], leafConfig:["value":"1.0"]),
 	] ]),
 ] ] ) } )
+	xr("- path bad", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
+	//	MinAnd([P+X:"c.-"]),
+	//	Previous([n:"c"])
+		FwBundle([struc:["c"], of:"prev",    placeMy:"stackx -1 1"], leafConfig:["value":"1.0"]),
+	] ] ) } )
 	r("- port occupied", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 		MinAnd([P:"c"]),  MinAnd([P:"c"]),  MinAnd([P:"c"]),
 		//Previous([n:"c"])
@@ -715,7 +720,7 @@ xxr("- atomicToggle bug",eYtight, { Net([placeMy:"stackx", parts:[
 		Box(   ) //[placeMe:"stackx"]),
 	 ] ]) })
 
-xr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
+xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + ["lookAtX":"b"], {
 	Net([placeMy:"linky", spin:4, parts:[
 		Bulb([P:"a,l:3"]),//+X
 		Mirror([n:"b", P:a2, jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"

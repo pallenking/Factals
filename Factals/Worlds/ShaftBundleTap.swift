@@ -39,6 +39,8 @@ class ShaftBundleTap : BundleTap { //Generator {
 		(ports["P"]?.portPastLinks?.parent as? FwBundle)?.forAllLeafs(
 		{(leaf : Leaf) in
 			assert(leaf.port(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil 
+//	override       func port(named wantName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
+
 			assert(leaf.port(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil 
 		})
 	}

@@ -48,13 +48,25 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 	var atomTokens : [String]			// array of tokens in reversed order
 										// abs has trailing "" string
 										// (no Port or Link Options)
-// xyzzyx4
-//	var nameFull	: String
-//
-//	func sd(nameFull:String) {
+	var nameFull	: String	= "WTF is this?"
+
+	var nameAtom	: String	= "WTF is this too?"
+	var namePort	: String	= "WTF is this tree?"			// after last '.'
+	var linkOptions	:[String]	= []	// NSMutableArray;// just length now
+	var direct		: Bool		= false	// trailing '='
+	var flipPort	: Bool		= false	// trailing '%'
+	var noCheck		: Bool		= false	// trailing '^'
+	var dominant	: Bool		= false	// trailing '!'
+	var invisible	: Bool		= false	// trailing '@'
+
+	var portName   :  String? 	= nil	// after last '.'
+	 /// Link's required propeties.
+	var linkProps 	: FwConfig 	= [:]	// e.g. l=3
+
+//	func sd(nameFull:String) {		// Nobody seems to call		// xyzzyx4
 //		self.nameFull = nameFull
 //
-//		  // NOTE: setNameStr can ignore leading '/'s to the atom
+//		   // NOTE: setNameStr can ignore leading '/'s to the atom
 //		  // process link parameters; those after the first comma
 //		 /// AAA in Path.h
 //		let components		= nameFull.components(separatedBy:",")
@@ -85,20 +97,6 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 //		}
 //		self.nameAtom = nameAtom;							/// Name without options
 //	}
-//
-//	var nameAtom	: String
-//	var namePort	: String			// after last '.'
-//	var linkOptions	:[String]	= []	// NSMutableArray;// just length now
-//	var direct		: Bool				// trailing '='
-//	var flipPort	: Bool				// trailing '%'
-//	var noCheck		: Bool				// trailing '^'
-//	var dominant	: Bool				// trailing '!'
-//	var invisible	: Bool				// trailing '@'
-
-	var portName   :  String? 	= nil	// after last '.'
-
-	 /// Link's required propeties.
-	var linkProps 	: FwConfig 	= [:]	// e.g. l=3
 
 	func fullName() -> String {	// tokens and Port
 		return atomTokens.reversed().joined(separator:"/") +
@@ -187,6 +185,7 @@ bug;	try container.encode(portName,   forKey:.portName)
 		atomTokens				= try container.decode([String].self, forKey:.atomTokens)
 bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		linkProps 				= try container.decode(FwConfig.self, forKey:.linkProps)
+		
 
 		super.init()
  		logSer(3, "Decoded  as? Path       named  '\(String(describing: fullName))'")
@@ -209,31 +208,31 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //	}
 
 // xyzzyx4
-//	func atomNameMatches(part:Part) -> Bool {
-//
-//		  // Compare Atom names:
-//		 /// DDD in Path.h
-//		 //											Hungarian COMPonentS
-//		let partComps 				= part.fullName.components(separatedBy:"/")
-//		let pathComps				= atomTokens
-//
-//		 // loop through PATH, in REVERSE order, while scanning PART (in rev too)
-//		var nPart 					= partComps.count-1		// e.g: 3 [ "", brain1, main]
-//		var nPath					= pathComps.count-1;		// e.g: 2         [ "", main]
-//
-//		 // Check all components specified in Path match
-//		while nPath >= 0 && pathComps.count >= 0 {
-//			guard nPath>=0 else {break}
-//			assert(nPart>=0, "Path has more components than Part.nameFull")
-//			var partComp 			= partComps[nPart]
-//			var pathComp 			= pathComps[nPath];
-//			guard partComp == pathComp else { return false }
-//
-//			nPath -= 1; nPart -= 1
-//		}
-//		assert(nPath == 0 && pathComps.count == 0, "if first component is ")
-//		return true;							// all tests pass
-//	}
+	func atomNameMatches(part:Part) -> Bool {
+
+		  // Compare Atom names:
+		 /// DDD in Path.h
+		 //											Hungarian COMPonentS
+		let partComps 				= part.fullName.components(separatedBy:"/")
+		let pathComps				= atomTokens
+
+		 // loop through PATH, in REVERSE order, while scanning PART (in rev too)
+		var nPart 					= partComps.count-1		// e.g: 3 [ "", brain1, main]
+		var nPath					= pathComps.count-1;		// e.g: 2         [ "", main]
+
+		 // Check all components specified in Path match
+		while nPath >= 0 && pathComps.count >= 0 {
+			guard nPath>=0 else {break}
+			assert(nPart>=0, "Path has more components than Part.nameFull")
+			var partComp 			= partComps[nPart]
+			var pathComp 			= pathComps[nPath];
+			guard partComp == pathComp else { return false }
+
+			nPath -= 1; nPart -= 1
+		}
+		assert(nPath == 0 && pathComps.count == 0, "if first component is ")
+		return true;							// all tests pass
+	}
 
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
