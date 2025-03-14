@@ -67,11 +67,9 @@ class FwBundle : Net {
 			let leafConfig		= ["placeMy":"linky" ] + leafConfig!		//  default: // was stackx
 			 let leafKindStr	= tunnelConfig["of"] as? String  ?? "genAtom"
 			let leafKind 		= LeafKind(rawValue:leafKindStr) ?? .genAtom
-			let newCunnelConfig	= FwConfig()	// USELESS
 			 // might delete upstream tunnelConfig[struc:of:] past here
-
-			apply(constructor:leafStruc, leafConfig:leafConfig, newCunnelConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
-		}			// ["c"]	     	 ["placeMy":"linky"]    [struc:["c"],of:prev]
+			apply(struc:leafStruc, of:leafKind, leafConfig:leafConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
+		}			// ["c"]	     	 		["placeMy":"linky"]
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String] {	super.hasPorts()	}	//return[:]//["P":"pcM"]//
@@ -133,7 +131,7 @@ class FwBundle : Net {
 		<leafSTR>		::= "<name>"				// <name>
 						::= "<name>:<spin>"			// <spin> = (spin,R), ...
 						::= "<name>:spin:<dir>"	// <dir> = L, R, ?
-		<bunListDesc>	::= "spin:L"|"sL"| "spin:R"|"sR"| "spin:2"|"s2"| <nil>
+		<bunListDesc>	::= "spin:<dir>"|"s<dir>"  <dir> = L, R, 0,1,2...
 	2. Array
 			[<subSpec>, ...]				// apply each subSpec in Array to self
 					properties:		-- strings that apply to the PARENT
@@ -179,11 +177,20 @@ class FwBundle : Net {
 	HASH					 // 4  PROCESS key:con's in hash// E.g: {name1:con1, ...}
 	BUNDLE					 // 5  ADD bundle				// E.g: (Leaf *)leaf
 	 */
+/*
+			 func apply(struc:FwAny, of:LeafKind,			      leafConfig:FwConfig) { // xyzzy342
+	???		 func apply(spec:FwAny,  of:LeafKind, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig=[:]) {
+
+			 func apply(propNVal:String) -> Bool {
+			 func apply(prop:String, withVal val:FwAny?) -> Bool {
+	override func apply(prop:String, withVal val:FwAny?) -> Bool {
+	override func apply(prop:String, withVal val:FwAny?) -> Bool {
+  */
 
 	// MARK: - 4.1 Part Properties
-	func apply(constructor con:FwAny, leafConfig:FwConfig, _ tunnelConfig:FwConfig) { // xyzzy342
+	func apply(struc con:FwAny, of leafKind:LeafKind, leafConfig:FwConfig) { // xyzzy342
 		//				[ "c"]	      [placeMy:value:]		 [struc:of:]
-		logBld(7, "apply(constructor:\(con.pp(.line))))")
+		logBld(7, "apply(struc:\(con) of:\(leafKind), leafConfig:\(leafConfig))")
 
 		  // ==== Parse constructor:  It has many forms:
 		 // STRING:
@@ -193,8 +200,8 @@ class FwBundle : Net {
 		 // ARRAY: apply each element of con to self
 		else if let conArray = con as? [FwAny] {// Array of constructors to apply to bundle
 			for subSpec in conArray {				// paw through array, build each
-				apply(spec:subSpec, leafConfig:leafConfig)//, tunnelConfig)		//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
-				//    			"a"
+				apply(spec:subSpec, of:leafKind, leafConfig:leafConfig)//, tunnelConfig)		//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
+				//    			"c"
 			}
 		}
 		  // HASH: apply each par of con to self (key->con; val->subSpec
@@ -230,9 +237,9 @@ class FwBundle : Net {
 		return true
 	}
 								
-	 /// Add leaves by apply a specification to ourselves
-	func apply(spec:FwAny, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig=[:]) {
-		logBld(7, "apply(spec:\(spec.pp(.line)), arg:\(arg?.pp(.line) ?? "nil"))")
+	 // Apply a specification to ourselves to form leaves
+	func apply(spec:FwAny, of leafKind:LeafKind?=nil, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig=[:]) {
+		logBld(7, "apply(spec:\(spec.pp(.short)) of:\(leafKind?.pp(.phrase) ?? "x") arg:\(arg?.pp(.line) ?? "nil"))")
 								
 		   // Interpret << spec >>, making appropriate changes to self, a FwBundle
 		  //
@@ -315,12 +322,13 @@ class FwBundle : Net {
 				{
 					let newBun 	= FwBundle()				// Build a new FwBundle or Tunnel
 					newsProperty!(newBun)					// Apply delayed property
-					newBun.apply(constructor:arg!, leafConfig:leafConfig, tunnelConfig)			// xyzzy342
-	//				newBun.apply(constructor:arg!, leafConfig:leafConfig)//, tunnelConfig)
+					newBun.apply(struc:arg!, of:.genPrev, leafConfig:leafConfig)	//, tunnelConfig)// xyzzy342
 					addChild(newBun)
 				}
 				 // CASE 1.4b: Get a new Leaf:
 				else {
+					guard let leafKind else { fatalError() }
+					let leafConfig		= leafConfig + ["leafKind":leafKind]
 					let newLeaf	= Leaf(leafConfig, tunnelConfig)	//leafKind, //tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
 					addChild(newLeaf)
 					newsProperty!(newLeaf)					// Apply delayed property to it
@@ -342,7 +350,7 @@ class FwBundle : Net {
 		 // Case 2: ARRAYs and HASHs -- add all, recursively// E.g: @[name1, ..], or @{name1:kind1, ...}
 		else if (spec is Array<Any> || spec is FwConfig) {
 			let newElt				= FwBundle()				// Build a new FwBundle
-			newElt.apply(constructor:spec, leafConfig:leafConfig, tunnelConfig)
+bug//		newElt.apply(constructor:spec, leafConfig:leafConfig, tunnelConfig)
 			addChild(newElt)
 		}
 		 // Case 3: BUNDLE -- ready immediately				// E.g: leaf:Leaf

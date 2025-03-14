@@ -110,9 +110,9 @@
             filePath = "Factals/Parts (of Network)/FwBundle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
-            landmarkName = "apply(spec:arg:leafConfig:_:)"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
+            landmarkName = "apply(spec:of:arg:leafConfig:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -126,9 +126,9 @@
             filePath = "Factals/Parts (of Network)/FwBundle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "apply(constructor:leafConfig:_:)"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "apply(struc:of:leafConfig:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -224,7 +224,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "220"
             endingLineNumber = "220"
-            landmarkName = "biggestBit(openingUp:)"
+            landmarkName = "port(named:localUp:wantOpen:allowDuplicates:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -270,8 +270,8 @@
             filePath = "Factals/Parts (of Network)/CommonLeafs.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "init(_:_:_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -280,7 +280,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "C7B1C7A9-8415-4E1F-9415-6141566D6E53"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/HaveNWant Networks/Tests01.swift"
@@ -289,6 +289,38 @@
             startingLineNumber = "542"
             endingLineNumber = "542"
             landmarkName = "loadTest(args:state:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9EC6274E-63F7-4BEC-8C92-04378FB21DFF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/FwBundle.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "apply(spec:of:arg:leafConfig:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A6099FD9-9F6A-48F6-8151-111D0683EDE2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/FwBundle.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "apply(spec:of:arg:leafConfig:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

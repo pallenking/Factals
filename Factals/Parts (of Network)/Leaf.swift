@@ -77,7 +77,9 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		return rv
 	}
 	// MARK: - 4.1 Part Properties
-//	override func apply(prop:String, withVal val:FwAny?) -> Bool {
+	override func apply(prop:String, withVal val:FwAny?) -> Bool {
+bug;	return false
+	}
 //		 // Leafs get sound names from the .nib file:
 //		if prop == "sound" {	// e.g. "sound:di-sound" or
 //bug		//	if let sndPPort		= port(named:"SND"),
