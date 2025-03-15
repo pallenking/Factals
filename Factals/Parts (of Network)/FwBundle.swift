@@ -23,7 +23,8 @@ import SceneKit
 
 class Bundle : FwBundle {
 	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
-bug//	var  x			= trailingHash != nil ? .leafClosure(trailingHash!) : nil
+		fatalError("can't do leaf closure with leafKind enum")
+//		var  x			= trailingHash != nil ? .leafClosure(trailingHash!) : nil
 		super.init(tunnelConfig, leafConfig:leafConfig)
 	}
 //	init(leafConfig:FwConfig=[:],
@@ -65,9 +66,8 @@ class FwBundle : Net {
 		 // Construct FwBundle elements
 		if let leafStruc 		= partConfig["struc"] {
 			let leafConfig		= ["placeMy":"linky" ] + leafConfig!		//  default: // was stackx
-			 let leafKindStr	= tunnelConfig["of"] as? String  ?? "genAtom"
+			 let leafKindStr	= partConfig["of"] as? String  ?? "genAtom"
 			let leafKind 		= LeafKind(rawValue:leafKindStr) ?? .genAtom
-			 // might delete upstream tunnelConfig[struc:of:] past here
 			apply(struc:leafStruc, of:leafKind, leafConfig:leafConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 		}			// ["c"]	     	 		["placeMy":"linky"]
 	}
@@ -195,7 +195,8 @@ class FwBundle : Net {
 		  // ==== Parse constructor:  It has many forms:
 		 // STRING:
 		if con is String {
-			apply(spec:con, leafConfig:leafConfig)//, tunnelConfig)
+//	func    apply(spec:, of leafKind:LeafKind?=nil, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig=[:]) {
+			apply(spec:con, of:leafKind, leafConfig:leafConfig)//, tunnelConfig)
 		}
 		 // ARRAY: apply each element of con to self
 		else if let conArray = con as? [FwAny] {// Array of constructors to apply to bundle
@@ -239,7 +240,7 @@ class FwBundle : Net {
 								
 	 // Apply a specification to ourselves to form leaves
 	func apply(spec:FwAny, of leafKind:LeafKind?=nil, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig=[:]) {
-		logBld(7, "apply(spec:\(spec.pp(.short)) of:\(leafKind?.pp(.phrase) ?? "x") arg:\(arg?.pp(.line) ?? "nil"))")
+		logBld(7, "apply(spec:\(spec.pp(.short)) of:\(leafKind?.pp(.phrase) ?? "nil") arg:\(arg?.pp(.line) ?? "nil"))")
 								
 		   // Interpret << spec >>, making appropriate changes to self, a FwBundle
 		  //

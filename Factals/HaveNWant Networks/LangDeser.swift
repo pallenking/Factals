@@ -77,7 +77,7 @@ r("- bug: Ref:\"a\" is confused by definitions", e, {
 //	Broadcast(["n":"ax"]),	// CONFOUNDER: another "a" opening down
   ]])
 })
-	xxr("- bug: Ref:\"a\" is confused by definitions", e, {
+	r("- bug: Ref:\"a\" is confused by definitions", e, {
 	  Tunnel(["struc":wordType, "f":1])
 	})
 	r("- nan Link FIXED", e, {
@@ -87,6 +87,9 @@ r("- bug: Ref:\"a\" is confused by definitions", e, {
 		] ]),
 		DiscreteTime(["n":"lo", "P":"evi", "f":1])
 	  ]])
+	})
+	r("- :of: bug", e, {
+		Tunnel(["n":"evi", "placeMy":"stackz", "struc":"a"])
 	})
  // BROKEN
 //r("Language Deserializer", e, {
