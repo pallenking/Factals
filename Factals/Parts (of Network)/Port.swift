@@ -95,7 +95,6 @@ class Port : Part, PortTalk {
 			markTree(dirty:.paint)					// repaint myself
 			con2?.port?.markTree(dirty:.paint)// repaint my other too
 			partBase?.factalsModel?.simulator.startChits = 4			// start simulator after Port value changes
-//			partBase!.simulator.startChits = 4			// start simulator after Port value changes
 		}
 	}
 	func valueChanged(key:String?=nil) -> Bool {

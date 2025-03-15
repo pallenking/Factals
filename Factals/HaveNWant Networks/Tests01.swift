@@ -685,7 +685,7 @@ xxr("+ simple blink tick", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:45,u:
 	Mirror(		[n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
 	Mirror(		[n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
-r("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
 //	Bundle([struc:["a","b"/*,"c","d","e","f"*/], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
@@ -704,11 +704,13 @@ r("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, 
 //		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 //	] ])
  ] ]) })
-xxr("- atomicToggle bug",eYtight, { Net([placeMy:"stackx", parts:[
-	Mirror(),
-	Net([expose:"atomic", parts:[
-		Bulb(),
-	] ])
+xr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
+	Mirror([n:"b", P:"a,v:4,l:3", jog+X:"4"]),
+	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+//	Mirror(),
+//	Net([expose:"atomic", parts:[
+//		Bulb(),
+//	] ])
  ] ]) })
 		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Sequence(["f":1, "share":["a","b","c","d"]]),

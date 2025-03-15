@@ -8,15 +8,13 @@ class LinkVew : Vew {
 	 // MARK: - 2. Object Variables:
 	var  pCon2Vew : Vew?		= nil		// Vew to which my Ports are connected
 	 var sCon2Vew : Vew?		= nil		// dummy values for now
-//	lazy var  pCon2Vew : Vew	= .null		// Vew to which my Ports are connected
-//	 lazy var sCon2Vew : Vew	= .null		// dummy values for now
-	var  pEndVip : SCNVector3?	= nil		// H: P END scnVector3 position In Parent coordinate system
-	 var sEndVip : SCNVector3?	= nil		// H: S END scnVector3 position In Parent coordinate system
+	var  pEndVip : SCNVector3?	= nil		// H: P END scnVector3 position _I_n _P_arent coordinate system
+	 var sEndVip : SCNVector3?	= nil		// H: S END scnVector3 position _I_n _P_arent coordinate system
 
-	 // MARK: - 3. Factory
-	override init(forPart part:Part/*?=nil*/, expose expose_:Expose? = nil) {
-		super.init(forPart:part, expose:expose_)
-	}
+ 	 // MARK: - 3. Factory
+ 	override init(forPart part:Part/*?=nil*/, expose expose_:Expose? = nil) {
+ 		super.init(forPart:part, expose:expose_)
+ 	}
 	 // MARK: - 3.5 Codable
 	enum LinkVewKeys : CodingKey { 	case pCon2Vew, sCon2Vew, pEndVip, sEndVip	}
 	override func encode(to encoder: Encoder) throws {
@@ -57,7 +55,7 @@ class LinkVew : Vew {
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig) -> String	{
 		var rv			= super.pp(mode, aux)
 		if mode == .line {
-//			rv				+= " ->\(pCon2Vew?.pp(.nameTag, aux)),\(sCon2Vew.pp(.nameTag, aux))"
+			rv				+= " ->\(pCon2Vew?.pp(.nameTag, aux) ?? "nil"),\(sCon2Vew?.pp(.nameTag, aux) ?? "nil")"
 		}
 		return rv
 	}

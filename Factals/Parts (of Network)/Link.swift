@@ -196,7 +196,7 @@ class Link : Atom {
 //			 // reVew Link's Ports ourselves. (Inherited reVew in Atom may not work)
 //			markTree(dirty:.size)	// NEEDED, if no super.reVew(vew:)	// 2. why needed
 //			for childPart in children {
-//				if	childPart.testNReset(dirty:.vew) {						// 3. can't put in
+//	bug;		if	childPart.test(dirty:.vew) {							// 3. can't put in
 //					childPart.reVew(parentVew:linksVew)
 //					if let childVew = linksVew?.find(part:childPart, maxLevel:1) {
 //						 // Tiny Black Sphere
@@ -404,13 +404,13 @@ class Link : Atom {
 		 // Position "P" Port
 		let p					= pCon2VIp + pR * unitRay	// position
 		let pVew				= linkVew.find(name:"_P", maxLevel:1)!
-/**/	pVew.scnRoot.position		= p							// -> Port
+/**/	pVew.scnRoot.position	= p							// -> Port
 		linkVew.pEndVip			= p
 
 		 // Position "S" Port
 		let s					= sCon2VIp - sR * unitRay
 		let sVew				= linkVew.find(name:"_S", maxLevel:1)!
-/**/	sVew.scnRoot.position		= s
+/**/	sVew.scnRoot.position	= s
 		linkVew.sEndVip			= s
 
 		logRsi(8, "<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)")
@@ -421,8 +421,8 @@ class Link : Atom {
 	override func rePosition(portVew:Vew)	{
 bug	// Never USED?
 		guard let port			= portVew.part as? Port,	// All Link's children should be Ports
-		  let parentLinkVew		= portVew.parent as? LinkVew else {
-			panic("rePosition(portVew is confused");	return					}
+		  let parentLinkVew		= portVew.parent as? LinkVew else
+		{	panic("rePosition(portVew is confused");	return					}
 
 		for (portStr, endVip) in [	("P", parentLinkVew.pEndVip),		// Both Ends
 									("S", parentLinkVew.sEndVip) ] {
@@ -440,55 +440,56 @@ bug	// Never USED?
 	}
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
-	override func computeLinkForces(vew:Vew) {
-		logRsi(8, "<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'")
-		guard !vew.scnRoot.transform.isNan else {
-			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
-		}
-		if let lv 				= vew as? LinkVew,		// lv is link
-		  let lvp				= lv.parent, 				// lv has parent
-		  let lvPCon2Vew		= lv.pCon2Vew,
-		  let lvSCon2Vew		= lv.sCon2Vew
-		{
-//			print(lv.sCon2Vew.parent?.scnScene.pp(.tree) ?? "xx")
-			let sPinPar			= lvp.localPosition(of:.zero, inSubVew:lvSCon2Vew)// e.g: p9/t3.P
-			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lvPCon2Vew)// e.g: p9/t1.P
-//			if pPinPar.isNan {				/// FOR DEBUG
-//				computeLinkForces(vew:vew)		// might go recursive!
-//				return
+//	override func computeLinkForces(vew:Vew) {
+//		logRve(8, "<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'")
+//		guard !vew.scnRoot.transform.isNan else {
+//			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
+//		}
+//		if let lv 				= vew as? LinkVew,		// lv is link
+//		  let lvp				= lv.parent, 				// lv has parent
+//		  let lvPCon2Vew		= lv.pCon2Vew,
+//		  let lvSCon2Vew		= lv.sCon2Vew
+//		{
+////			print(lv.sCon2Vew.parent?.scnScene.pp(.tree) ?? "xx")
+//			let sPinPar			= lvp.localPosition(of:.zero, inSubVew:lvSCon2Vew)// e.g: p9/t3.P
+//			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lvPCon2Vew)// e.g: p9/t1.P
+////			if pPinPar.isNan {				/// FOR DEBUG
+////				computeLinkForces(vew:vew)		// might go recursive!
+////				return
+////			}
+//			let delta 			= sPinPar - pPinPar
+//			let springK			= CGFloat(1.0)
+//			let force			= delta * springK
+//			if !force.isNan {
+//				let pInertialVew = lvPCon2Vew.intertialVew	// Who takes brunt?
+//				let sInertialVew = lvSCon2Vew.intertialVew
+//				if (pInertialVew?.force.isNan ?? false) || (sInertialVew?.force.isNan ?? false) {
+//					panic("lskdfj;owifj")
+//				}
+//
+//				 // Accumulate FORCE on node:
+//	/**/		pInertialVew?.force += force
+//	/**/		sInertialVew?.force -= force
+//				logAni(9, "Force  \(force.pp(.line)) "
+//					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
+//					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")")
+//				logAni(9, " posn: \(vew.scnRoot.transform.pp(.line))")
+//
 //			}
-			let delta 			= sPinPar - pPinPar
-			let springK			= CGFloat(1.0)
-			let force			= delta * springK
-			if !force.isNan {
-				let pInertialVew = lvPCon2Vew.intertialVew	// Who takes brunt?
-				let sInertialVew = lvSCon2Vew.intertialVew
-				if (pInertialVew?.force.isNan ?? false) || (sInertialVew?.force.isNan ?? false) {
-					panic("lskdfj;owifj")
-				}
-
-				 // Accumulate FORCE on node:
-	/**/		pInertialVew?.force += force
-	/**/		sInertialVew?.force -= force
-				logAni(9, "Force  \(force.pp(.line)) "
-					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
-					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")")
-				logAni(9, " posn: \(vew.scnRoot.transform.pp(.line))")
-
-			}
-			else {
-				logAni(3, "##### computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn
-			//	let sPinParX	= lvp.localPosition(of:.zero, inSubVew:lv.sCon2Vew)
-			}
-		}
-	}		// Xyzzy19e
+//			else {
+//				logAni(3, "##### computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn
+//			//	let sPinParX	= lvp.localPosition(of:.zero, inSubVew:lv.sCon2Vew)
+//			}
+//		}
+//	}		// Xyzzy19e
 
 	 // MARK: - 9.5.4: will Render Scene -- Rotate Links toward camera
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
 		guard let base			= vew.vewBase(),
-		 	  let cameraScn		= base.cameraScn else {
-			return // silently: scnBase.tree?.find(name:"*-camera", maxLevel:1)
+		 	  let cameraScn		= base.cameraScn else 
+		{	print("silently: can't find camera")
+			return
 		}
 		let cameraPosn			= cameraScn.position
 		guard let linkVew		= vew as? LinkVew 	 else { debugger("Vew type mismach")}
@@ -506,12 +507,12 @@ bug	// Never USED?
 			 // Compute :H: LENgth between ENDS
 			let len				= length(deltaV)
 			assertWarn(!len.isNan, "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
-			let f1				= cameraPosn.crossProduct(deltaV)// c x delta
+			let f1				= cameraPosn.crossProduct(deltaV)// cam x delta
 			let fLen			= length(f1)
 			var m				= SCNMatrix4.identity
 			if fLen > eps {
 				let f			= f1 / fLen
-				let g1			= -f.crossProduct(deltaV)// f x delta
+				let g1			= -f.crossProduct(deltaV)		// see perpendicular above!!!
 				let g			= g1 / length(g1)
 				m				= SCNMatrix4(row1v3:f, row2v3:g, row3v3:-deltaV, row4v3:pEndVip)	// print("a:\(a.pp(.line))--d:\(delta.pp(.line))-> cam:\(camera.pp(.line)),\nf:\(f.pp(.line)), g:\(g.pp(.line)), m:\n\(m.pp(.tree))")
 			}; assert(!m.isNan, "Transformation of Link failed")

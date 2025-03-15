@@ -101,14 +101,7 @@ extension Part {
 
 	/// Test a bit in property 'dirty'
 	/// - Parameter bit: what kind of dirty
-	/// - Returns: value of bit before it was reset
-//	func testNReset(dirty bit:DirtyBits) -> Bool {
-//		assert(bit != .reset, "Illegal semantics - should never testNReset .reset because ...")
-//		let rv					= dirty.rawValue & bit.rawValue
-//		let newVal				= DirtyBits(rawValue:dirty.rawValue & ~bit.rawValue)!
-//		dirty					= newVal
-//		return rv != 0
-//	}
+	/// - Returns: value of bit
 	func test(dirty bit:DirtyBits) -> Bool {
 		assert(bit != .reset, "Illegal semantics - should never test(dirty:.reset)")
 		let rv					= dirty.rawValue & bit.rawValue

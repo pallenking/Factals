@@ -255,25 +255,32 @@ struct FactalsApp: FwAny, Uid {
 			newDocument(FactalsDocument(fromLibrary:scanKey))
 //			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
 		}
-//		else {			 		// Install new parts in current window
-//			guard let doc = DOC else { debugger("no DOC")}
-//			guard let factalsModel = doc.factalsModel else {	return	}
-//
-//			let partBase		= Parts(fromLibrary:scanKey)
-//			factalsModel.setRootPart(partBase:partBase)
-//
-//			 // Make a default window
-//			factalsModel.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
-//	
-//			 // --------------- C: FactalsDocument
-//bug;			let c				= /*doc.config +*/ partBase.ansConfig
-//			factalsModel.configure(from:c)
-//			//newRootVew.configure(from: ?FwConfig)
-//			//let newDoc		= FactalsDocument(fromLibrary:"entry\(regressScene)")
-//			factalsModel.document = doc
-//			doc.makeWindowControllers()
-//			doc.registerWithDocController()	// a new DOc must be registered
-//		}
+		else {			 		// Install new parts in current window
+			guard let factalsModel = FACTALSMODEL else {	return				}
+
+			let partBase		= PartBase(fromLibrary:scanKey)
+			factalsModel.partBase	= partBase
+			partBase.factalsModel	= factalsModel
+			 // 3. Groom part ******
+			partBase.wireAndGroom([:])
+
+			 // 4. Vews ******
+			let fmConfig			= params4partVew + params4partPp + partBase.ansConfig
+			factalsModel.configureVews(from:fmConfig)
+
+			factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
+											//	factalsModel.setRootPart(partBase:partBase)
+											//	 // Make a default window
+											//	factalsModel.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
+											//	 // --------------- C: FactalsDocument
+											//bug;let c				= /*doc.config +*/ partBase.ansConfig
+											//	factalsModel.configure(from:c)
+											//	//newRootVew.configure(from: ?FwConfig)
+											//	//let newDoc		= FactalsDocument(fromLibrary:"entry\(regressScene)")
+											//	factalsModel.document = doc
+											//	doc.makeWindowControllers()
+											//	doc.registerWithDocController()	// a new DOc must be registered
+		}
 	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]) -> String	{

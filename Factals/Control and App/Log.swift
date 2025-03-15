@@ -123,15 +123,14 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		}
 	}
 	func eventIs(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
-		assert(eventDetail >= 0 && eventDetail < 10, "Message priorities must be in range 0...9")
-		let detailWanted : [String:Int]	= Log.shared.detailWanted
-		let rv 						= //trueF 	||	// DEBUGGING ALL messages
-			detailWanted    [eventArea]  != nil ?	// area definition supercedes
-				detailWanted[eventArea]! > eventDetail :
-			detailWanted    ["all"] 	 != nil ?	// else default definition?
-				detailWanted["all"]! 	 > eventDetail :
-			false									// neither
-		return rv
+		assert(eventDetail >= 0 && eventDetail < 10, "Message prioritiy \(eventDetail) isn't in range 0...9")
+		let detailWanted			= Log.shared.detailWanted
+		if let x = detailWanted [eventArea] {	// area definition supercedes
+			return x > eventDetail
+		}
+		if let x = detailWanted ["all"] {		// else default definition?
+			return x > eventDetail												}
+		return false
 	}
 	 /// Return a Dictionary of keys starting with "logPri4". They control detailWanted.
 	func detailInfoFrom(_ config:FwConfig) -> [String:Int] {

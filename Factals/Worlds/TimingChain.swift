@@ -419,7 +419,6 @@ class TimingChain : Atom {
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {
 				partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
-				//root!.simulator.startChits = 4					// set simulator to run, to pick event up
 				return true				// other process processes it
 			}
 		}		  // ///////// key UP  ///////
@@ -435,7 +434,6 @@ class TimingChain : Atom {
 		eventDownPause			= false			// assert lock, which blocks till up
 		logEve(4, "############ eventDownPause = false -- releaseEvent")
 		partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
-		//partBase!.simulator.startChits = 4					// set simulator to run, to pick event up
 		retractPort?.take(value:0.0)
 		return
 	}

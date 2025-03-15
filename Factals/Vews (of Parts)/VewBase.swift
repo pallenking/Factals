@@ -263,7 +263,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			}
 			 // change from viewing null
 			if tree.name == "_null" {
-bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
+			bug;tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 				tree.scnRoot.name = "*-" + partBase.tree.name
 			}
 										//	 // Vew Configuration specifies open stuffss
@@ -294,8 +294,8 @@ bug;			tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
 
 			 // THESE SEEM IN THE WRONG PLACE!!!
-			partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
-			partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
+		//	partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
+		//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 			partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
 		}
 		SCNTransaction.commit()

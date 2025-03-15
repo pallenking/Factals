@@ -149,7 +149,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 	}
 	func simulateOneStep() {
 		guard simBuilt			else {	return panic("calling for simulationTask() before simBuilt") }
-		guard simRun		else {	return 									}
+		guard simRun			else {	return 									}
 		guard let partBase 		= factalsModel?.partBase else {	return			}
 
 		guard partBase  .lock  (for:"simulationTask", logIf:logSimLocks)
@@ -159,17 +159,12 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 
 			globalDagDirUp		= !globalDagDirUp
 			timeNow				+= timeStep
-			if startChits > 0 {			// Clear out start cycles
+			if  startChits > 0 {			// Clear out start cycles
 				startChits		-= 1
 			}
 
 		partBase .unlock (for:"simulationTask", logIf:logSimLocks)
 	}
-//	// MARK: - 14. Building
-//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-//		Log.shared.log(banner:banner, format_, args, terminator:terminator)
-//	}			//Cannot convert return expression of type 'Optional<_>' to return type 'Log'
-
 	// MARK: - 13. IBActions
 		/// Prosses keyboard key
 	   /// - Parameter from: -- NSEvent to process
@@ -188,12 +183,12 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 			if simRun {
 				startChits		= 4
 			}	// (Not using ppLog -- log numbers to be independent of
-			print("++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
+			logEve(7, "++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
 		case "k":							// kickstart simulator
 			simRun 			= true
 			startChits			= 4
-			print("++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
+			logEve(7, "++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
 		case "?":
 			print ("=== Simulator   commands:",

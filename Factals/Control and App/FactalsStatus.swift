@@ -182,10 +182,10 @@ extension Simulator : FactalsStatus	{								///Simulator
 			rv					+= ", timeStep:\(timeStep)"
 			rv					+= !simTaskRunning ? " taskHalted" : " taskPeriod=\(String(simTaskPeriod)) "
 		//	rv					+= isSettled() ? " simSETTLED=" : " Run Sim="
-		//	rv					+= " \(portChits)/Ports,"
+			rv					+= " \(portChits)/Ports,"
 		//	//rv				+= " [" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
-		//	rv					+= " \(linkChits)/Links,"
-		//	rv					+= " \(startChits)/start"
+			rv					+= " \(linkChits)/Links,"
+			rv					+= " \(startChits)/start"
 		}
 		return ppFactalsStateHelper("Simulator    ", nameTag:self, myLine:rv)
 	}

@@ -4,16 +4,22 @@ import Foundation
 
 // MARK: A Event Generation:
 // e.g:	logRve(5, log("hi")		// Just Normal detail on ReView screen
-//		atAll(0, {...})			// no output
+//		logAll(0, {...})		// no output
 // MARK: B Log Attention:
 //func logAt(app:doc:bld:ser:ani:dat:eve:ins:men:rve:rsi:rnd:tst:all:) -> FwConfig
 //
 // MARK: 1.1 Detail
-//		0 : silent (prints nothing)		5 : Normal
-//		1 : initialization and errors	6 : Verbose
-//		2 : 1 line per model			7 : a lot
-//		3 : important					8 : Most Everything
-//		4 : lite						9 : Everything
+//	 Detail		Generation	  	 log if		Selection
+//		0 	||	almost always		>		totally silent					||
+//		1 	||  Very Important		>		only initialization and errors	||
+//		2 	||						>		1 line per model				||
+//		3 	||						>		important						||
+//		4 	||						>		lite							||
+//		5 	||	Normal				>		Normal							||
+//		6 	||						>		Verbose							||
+//		7 	||	detailed			>		a lot							||
+//		8 	||						>		Most Everything					||
+//		9 	||	never print			>		Everything						||
 //
 // MARK: 1.2 Area
 //		app	-- APPlication		14	- construction of app
@@ -32,7 +38,7 @@ import Foundation
 // 		all	-- ALL OF ABOVE		-
 
 // MARK: 2 Generate a Log Event:
- // Sugar to shorten commonly used cliche.
+ // Sugar to shorten commonl y used cliche.
 func  logApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// APPlication
 { 	Log.shared.at("app", detail, format:format, args:args, terminator:terminator)}
 func  logDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// DOCument
@@ -60,7 +66,7 @@ func logRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String
 func logTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// TeSTing
 { 	Log.shared.at("tst", detail, format:format, args:args, terminator:terminator)}
 
- // MARK: 3 Configure Logs
+ // MARK: 3 Selection: to Configure Logs
 func logAt(
 		app:Int = -1,		doc:Int = -1,		bld:Int = -1,		ser:Int = -1,
 		ani:Int = -1,		dat:Int = -1,		eve:Int = -1,		ins:Int = -1,

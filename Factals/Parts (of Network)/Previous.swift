@@ -269,7 +269,6 @@ class Previous : Atom {
 			ports["L"]?.take(value:newVal!)
 			 //********//
 			partBase?.factalsModel?.simulator.startChits = 4	// start simulator after L port changes
-			//root!.simulator.startChits = 4	// start simulator after L port changes
 		}else{
 			logEve(4, "$$$$$$$$ " + msg)
 		}
@@ -364,7 +363,6 @@ bug;						logDat(4, "Mode Port: " + //%% curMode=%-->%",
 								(nvc! ? fmt("N=%.2f ", nModeValue) : "") +
 								self.minorMode.rawValue + " --> " + ppSrc4)	//prevMinorModeNames[self.minorMode], [self ppSrc4]))
 						partBase?.factalsModel?.simulator.startChits = 4	// start simulator after changing minor mode
-						//root!.simulator.startChits = 4	// start simulator after changing minor mode
 					}
 				}
 			}
