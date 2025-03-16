@@ -305,7 +305,6 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		
 		let log					= Log.shared
-//		guard let log			= FACTALSMODEL?.log else { return "DOClog is nil"}
 		var rv					= ""
 //		 // UGLY: Can't override an extension
 //		if let imARootNode		= self as? ScnBase {
@@ -331,11 +330,6 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
 			rv 					= log.unIndent(rv)				// unindent	 (D)
 			rv					+= self.scn1Line(aux) 			//		  (E..G)
-//Cast from 'SCNNode' to unrelated type 'ScnBase' always fails
-//			if let s			=  self as? ScnBase {
-//bug;			rv				+= s.vewBase?.scnBase === self ? "" :
-//								   "--- BAD --- VewBase: vews?.scenes !== self"
-//			}
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
 			rv					= pp(.line, aux) + "\n"

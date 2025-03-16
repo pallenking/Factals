@@ -309,14 +309,32 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		}
 	}
 	 /// FIND child Vew by its SCNNode:	// 20210214PAK not used
-	func find(scnNode node:SCNNode,
+	func find(scnNode soughtNode:SCNNode,
 
 			  up2:Bool=false,
 			  inMe2:Bool=false,
 			  maxLevel:Int?=nil) -> Vew?
 	{
 		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
-		{ (vew:Vew)->Bool in vew.scn == node			}			// vew.scnScene == node //view's SCNNode
+		{ (vew:Vew)->Bool in
+			print("\(soughtNode.fullName)    ==    \(vew.scn.fullName)")
+			 // soughtNode is vew
+			if soughtNode == vew.scn {
+				return true
+			}
+			 // soughtNode is inside vew
+			var rv2 = true
+			let rv = vew.scn.find(maxLevel:maxLevel)
+			{ (scn:SCNNode)->Bool in
+ 				print("\(soughtNode.fullName)    ==??  \(scn.fullName)")
+ 				if (scn.name ?? "").hasPrefix("*-") {
+					rv2 = false
+					return true		//
+				}
+				return scn == soughtNode
+			}
+			return rv2 && rv != nil
+		}
 	}
 		/// find if closure is true:
 	func find(up2:Bool=false,

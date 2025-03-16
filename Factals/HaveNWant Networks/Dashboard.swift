@@ -72,7 +72,7 @@ let params4logDetail : FwConfig =	// Set events to be logged
 	//* App */						logAt(app:8) +
 	//* Everything */				logAt(all:8) +
 	//* Everything except review */	logAt(rve:0, all:9) +
-	/* " except  review, resize */	logAt(rve:7, rsi:0, all:9) +
+	/* " except  review, resize */	logAt(rve:0, rsi:0, all:9) +
 
 	[							// + +  + +
 		"breakAtEvent"				:-16, //150//-54,//240/3/0:off

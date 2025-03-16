@@ -705,12 +705,12 @@ xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0
 //	] ])
  ] ]) })
 xr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
-	Mirror([n:"b", P:"a,v:4,l:3", jog+X:"4"]),
-	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
-//	Mirror(),
-//	Net([expose:"atomic", parts:[
-//		Bulb(),
-//	] ])
+//	Mirror([n:"b", P:"a,v:4,l:3", jog:"4"]),	//+X
+//	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+	Net([expose:"atomic", parts:[
+		Broadcast(),		//Bulb
+	] ]),
+	Mirror(),
  ] ]) })
 		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Sequence(["f":1, "share":["a","b","c","d"]]),

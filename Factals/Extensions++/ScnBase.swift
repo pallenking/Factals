@@ -650,8 +650,8 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		var msg					= "******************************************\n Slot\(vewBase.slot_): "
 		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
 			
-		 // If un-picable, try parent
-		while pickedScn.categoryBitMask & FwNodeCategory .picable .rawValue == 0,
+		 // While not picable, try parent
+		while pickedScn.categoryBitMask & FwNodeCategory .picable .rawValue == 0,	//
 			  let parent 		= pickedScn.parent
 		{
 			msg					+= fmt("\t--> category %02x subpart", pickedScn.categoryBitMask)
@@ -660,12 +660,13 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		}
 								
 		 // Get Vew from SCNNode
-		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else {
-			if trueF 			{ return nil 		}		// Ignore missing vew
-			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scnScene.pp(.classUid))")
-			let redo4debug		= vewBase.tree.find(scnNode:pickedScn, inMe2:true) // for debug only
-			return redo4debug
-		}
+		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else
+		{	return nil															}
+//		{	if trueF 			{ return nil 		}		// Ignore missing vew
+//			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scnScene.pp(.classUid))")
+//			let redo4debug		= vewBase.tree.find(scnNode:pickedScn, inMe2:true) // for debug only
+//			return redo4debug
+//		}
 		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
 		if Log.shared.eventIs(ofArea:"eve", detail:3) {
 			print("\n" + msg)
