@@ -190,7 +190,7 @@ class Mirror : Atom {
 			if let pPort		= ports["P"],
 			  let pPort2Port	= pPort.con2?.port {
 				let val		 	= pPort2Port.getValue()	// /////	GET to my INPUT
-				let val2 :Float = val * gain + offset
+				let val2:Float  = val * gain + offset
 				let val3		= min(1.0, max(0.0, val2))
 				if val3 != pPort.value {
 					logDat(3, "Mirror-. %.2f (was %.2f)  ===/=\\=/=\\===", val3, val)

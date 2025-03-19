@@ -704,17 +704,26 @@ xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0
 //		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 //	] ])
  ] ]) })
-xr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
-//	Mirror([n:"b", P:"a,v:4,l:3", jog:"4"]),	//+X
-//	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 	Net([expose:"atomic", parts:[
-		Broadcast(),		//Bulb
+		Broadcast([P:"a"]),		//Bulb
 	] ]),
-	Mirror(),
+	Mirror([n:"a", f:1]),
  ] ]) })
+xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
+	Mirror([n:"b", P:"a,v:4,l:3", jog+X:"4"]),	//+X
+	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+ ] ]) })
+		xr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
+			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
+			Sequence([n:"y", f:1, spin:12, "share":["a,v:5","b,v:5","c,v:5","d,v:5"]]),
+			Tunnel(["struc":["a","b","c","d"], of:LeafKind.genBulbMirror]),
+//			Tunnel(["struc":["a","b","c","d"], of:LeafKind.genMirror]),//:"genMirror"
+		]]) })
 		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
-			Sequence(["f":1, "share":["a","b","c","d"]]),
-  			Tunnel(["struc":["a","b","c","d"], of:"genBulb"]),
+			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
+			Sequence([n:"y", f:1, spin:12, "share":["a,v:5"]]),
+			Tunnel(["struc":["a"], of:LeafKind.genBulbMirror]),
 		]]) })
 
 	r("-+ stackx does linky", [:], { Net([placeMy:"stackx", parts:[

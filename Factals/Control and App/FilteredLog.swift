@@ -2,12 +2,12 @@
 
 import Foundation
 
-// MARK: A Event Generation:
-// e.g:	logRve(5, log("hi")		// Just Normal detail on ReView screen
-//		logAll(0, {...})		// no output
-// MARK: B Log Attention:
+// MARK: A Program configures Log with Attention areas in a hash:
 //func logAt(app:doc:bld:ser:ani:dat:eve:ins:men:rve:rsi:rnd:tst:all:) -> FwConfig
 //
+// MARK: B Program generates an Event, Log filters areas of interest..
+// e.g:	logRve(5, log("hi")		// Just Normal detail on ReView screen
+//		logAll(0, {...})		// no output
 // MARK: 1.1 Detail
 //	 Detail		Generation	  	 log if		Selection
 //		0 	||	almost always		>		totally silent					||
@@ -37,7 +37,7 @@ import Foundation
 // 		tst	-- TeSTing			 3
 // 		all	-- ALL OF ABOVE		-
 
-// MARK: 2 Generate a Log Event:
+// MARK: 2 Program Generates an Event to log, at an area of a certain detail:
  // Sugar to shorten commonl y used cliche.
 func  logApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// APPlication
 { 	Log.shared.at("app", detail, format:format, args:args, terminator:terminator)}
@@ -66,7 +66,7 @@ func logRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String
 func logTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// TeSTing
 { 	Log.shared.at("tst", detail, format:format, args:args, terminator:terminator)}
 
- // MARK: 3 Selection: to Configure Logs
+ // MARK: 3 Hash to Configure Log's filter detail
 func logAt(
 		app:Int = -1,		doc:Int = -1,		bld:Int = -1,		ser:Int = -1,
 		ani:Int = -1,		dat:Int = -1,		eve:Int = -1,		ins:Int = -1,

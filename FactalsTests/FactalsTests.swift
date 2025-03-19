@@ -34,7 +34,11 @@ final class FactalsTests: XCTestCase {
 //		// Put teardown code here. This method is called after the invocation of each test method in the class.
 //		print("-------------- XCTest tearDownWithError code: --------------------")
 //	}
-
+	func testLeafKind() {
+		let broadcastLeafKind 	= LeafKind.bcast
+		let y					= broadcastLeafKind.pp(.tree)
+		XCTAssertEqual(y, "LeafKind.bcast", "LeafKind.bcast.pp(.tree) FAILED")
+	}
 	func testLldb() {
 		let x 					= LLDBParts
 		lldbPrint(x, mode:.tree, [:])

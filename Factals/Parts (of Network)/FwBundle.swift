@@ -66,9 +66,17 @@ class FwBundle : Net {
 		 // Construct FwBundle elements
 		if let leafStruc 		= partConfig["struc"] {
 			let leafConfig		= ["placeMy":"linky" ] + leafConfig!		//  default: // was stackx
-			 let leafKindStr	= partConfig["of"] as? String  ?? "genAtom"
-			let leafKind 		= LeafKind(rawValue:leafKindStr) ?? .genAtom
-			apply(struc:leafStruc, of:leafKind, leafConfig:leafConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
+			var leafKind 		= LeafKind.genAtom
+			if let partConfigOf	= partConfig["of"] {
+				if let lk		= partConfigOf as? LeafKind
+				{	leafKind 	= lk											}
+				if let lks		= partConfigOf as? String
+				{	leafKind	= LeafKind(rawValue:lks) ?? .genAtom			}
+				apply(struc:leafStruc, of:leafKind, leafConfig:leafConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
+			}
+//			 let leafKindStr	= partConfig["of"] as? String  ?? "genAtom"
+//			let leafKind 		= LeafKind(rawValue:leafKindStr) ?? .genAtom
+//			apply(struc:leafStruc, of:leafKind, leafConfig:leafConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 		}			// ["c"]	     	 		["placeMy":"linky"]
 	}
 	 // MARK: - 3.1 Port Factory

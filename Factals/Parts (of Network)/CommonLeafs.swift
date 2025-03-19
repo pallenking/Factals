@@ -43,6 +43,7 @@ enum LeafKind: String, Codable, FwAny {
 	case branch
 	case bulb
 	case genBulb
+	case genBulbMirror
 	case genPrev
 	case flipPrev
 	case prev
@@ -54,9 +55,8 @@ enum LeafKind: String, Codable, FwAny {
 	init(from decoder: Decoder) throws {
 		let container = try decoder.singleValueContainer()
 		let rawValue = try container.decode(String.self)
-		guard let value = LeafKind(rawValue: rawValue) else {
-			throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid LeafKind value: \(rawValue)")
-		}
+		guard let value = LeafKind(rawValue: rawValue) else
+		{	throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid LeafKind value: \(rawValue)")}
 		self = value
 	}
 
@@ -64,6 +64,9 @@ enum LeafKind: String, Codable, FwAny {
 	func encode(to encoder: Encoder) throws {
 		var container = encoder.singleValueContainer()
 		try container.encode(self.rawValue)
+	}
+	func pp(_ mode: PpMode, _ aux: FwConfig) -> String {
+		"LeafKind.\(self)"
 	}
 }
 extension Leaf {	/// Generate Common Leafs
@@ -85,9 +88,9 @@ extension Leaf {	/// Generate Common Leafs
 		case .cylinder:
 			self.init(bindings:[:],												//of:leafKind,
 				parts:[
-					Cylinder(								etc2),//"size":"1 1 1" +
+					Cylinder(							  etc2),//"size":"1 1 1" +
 				],
-				leafConfig: 								  etc1)
+				leafConfig: 							  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genAtom:
 			let b 				= ["":"gen", "G":"gen.P", "R":"gen.P"]
@@ -95,10 +98,14 @@ extension Leaf {	/// Generate Common Leafs
 			self.init(bindings:b, parts:p, leafConfig:etc1)	//of:leafKind,  //etc1=[placeMy:linky]
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genMirror:
-			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"],	//of:leafKind,
+			self.init(bindings:bMain + ["G":"main.P", "R":"main.P"],	//of:leafKind,
 				parts:[
-		 			Mirror(["n":"gen", "f":1] 			+ etc2),		//[placeMy:stackx -1 1, struc:[3 elts]]
-				], leafConfig:								  etc1)			//[gain:-1, f:1, offset:1, placeMy:linky]
+		 			Mirror(["n":"main", "f":1] 			+ etc2),		//[placeMy:stackx -1 1, struc:[3 elts]]
+				], leafConfig:							  etc1)			//[gain:-1, f:1, offset:1, placeMy:linky]
+//			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"],	//of:leafKind,
+//				parts:[
+//		 			Mirror(["n":"gen", "f":1] 			+ etc2),		//[placeMy:stackx -1 1, struc:[3 elts]]
+//				], leafConfig:							  etc1)			//[gain:-1, f:1, offset:1, placeMy:linky]
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 
 		 // -------- Broadcast -------------------------------------------------------
@@ -120,8 +127,8 @@ extension Leaf {	/// Generate Common Leafs
 		case .genMax:
 			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"],		//
 				parts:[		// R:NO STATE
-					MaxOr([  "n":"main",  "P":"gen="]	+ etc3),
-		 			GenAtom(["n":"gen",   "f":1]		+ etc2),
+					MaxOr([  "n":"main", "P":"gen="]	+ etc3),
+		 			GenAtom(["n":"gen",  "f":1]			+ etc2),
 				],
 				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
@@ -188,7 +195,14 @@ extension Leaf {	/// Generate Common Leafs
 			self.init(bindings:bMain + ["":"gen", "G":"gen.P", "R":"gen.P"],
 				parts:[
 					Bulb([   "n":"main", "P":"gen"] 	+ etc3),	// "gen="
-		 			GenAtom(["n":"gen",   "f":1]		+ etc2),
+		 			GenAtom(["n":"gen",  "f":1]			+ etc2),
+				], leafConfig:							  etc1)
+			unusedConfigsMustBeNil([etc4, etc5])
+		case .genBulbMirror:
+			self.init(bindings:bMain + ["":"gen", "G":"gen.P", "R":"gen.P"],
+				parts:[
+					Bulb([   "n":"main", "P":"gen", "jog":"3"] + etc3),
+		 			Mirror( ["n":"gen",  "f":1] 		+ etc2),
 				], leafConfig:							  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 

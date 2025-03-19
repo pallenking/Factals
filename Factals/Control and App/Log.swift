@@ -165,8 +165,8 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 			if deltaTime > 0 || sh.simTimeLastLog == nil {
 				let globalUp		= sim.globalDagDirUp ? "UP  " : "DOWN"
 				let delta 			= (sh.simTimeLastLog==nil) ? "": fmt("+%.3f", deltaTime)
-				let dashes			= deltaTime <= sim.timeStep ? "                                  "
-															: "- - - - - - - - - - - - - - - - - "
+				let dashes			= deltaTime <= sim.timeStep ? "        | "
+																: "- - - - + "
 				let chits			= "p\(fm.partBase.tree.portChitArray().count) l\(sim.linkChits) s\(sim.startChits) "
 				print(fmt("\t" + "T=%.3f \(globalUp): - - - \(chits)\(dashes)\(delta)", sim.timeNow))
 			}
@@ -184,7 +184,16 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		rv							+= " "
 		var eventStr 				= " "//sh.procAreaPriorityStr()
 		eventStr					+= String(format:format, arguments:args)
-									
+
+
+		var aaa					= pp(.fullName)
+//		if let selfIsPart		= self as? Part {
+//			aaa					= selfIsPart.pp(.fullName)
+//		}
+//		let bbb					= aaa.field(-25)
+
+
+
 		 // Banner Line
 		if let ban 					= banner {
 			print("\n" + "***** " + ban + " *****")

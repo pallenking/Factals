@@ -184,9 +184,9 @@ bug;	return nil
 			if aux.bool_("ppParam") {			// Ad Hoc: if printing Param's,
 				return rv							// don't print extra
 			}
-			rv				+= "type:.(type) "	// print type and bindings:
+//			rv				+= "type:.\(type) "	// print type and bindings:
 			rv				+= "bindings:\(bindings?.pp(.line, aux) ?? "none") "
 		}
 		return rv
 	}
-}
+ }

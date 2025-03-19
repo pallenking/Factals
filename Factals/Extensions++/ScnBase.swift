@@ -662,11 +662,6 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		 // Get Vew from SCNNode
 		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else
 		{	return nil															}
-//		{	if trueF 			{ return nil 		}		// Ignore missing vew
-//			panic(msg + "\n"+"couldn't find it in vew's ...") //\(vews.scnScene.pp(.classUid))")
-//			let redo4debug		= vewBase.tree.find(scnNode:pickedScn, inMe2:true) // for debug only
-//			return redo4debug
-//		}
 		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
 		if Log.shared.eventIs(ofArea:"eve", detail:3) {
 			print("\n" + msg)

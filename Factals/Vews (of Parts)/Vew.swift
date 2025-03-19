@@ -315,9 +315,10 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 			  inMe2:Bool=false,
 			  maxLevel:Int?=nil) -> Vew?
 	{
+ 		logRve(8, "Sought = \(soughtNode.fullName)")		//factalsModel.*/logd(
 		return find(up2:up2, inMe2:inMe2, maxLevel:maxLevel)
 		{ (vew:Vew)->Bool in
-			print("\(soughtNode.fullName)    ==    \(vew.scn.fullName)")
+			logRve(8, "  Trying \(vew.scn.fullName)")		//factalsModel.*/logd(
 			 // soughtNode is vew
 			if soughtNode == vew.scn {
 				return true
@@ -326,7 +327,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 			var rv2 = true
 			let rv = vew.scn.find(maxLevel:maxLevel)
 			{ (scn:SCNNode)->Bool in
- 				print("\(soughtNode.fullName)    ==??  \(scn.fullName)")
+ 				logRve(8, "       ? \(scn.fullName)")		//factalsModel.*/logd(
  				if (scn.name ?? "").hasPrefix("*-") {
 					rv2 = false
 					return true		//

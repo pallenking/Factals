@@ -296,8 +296,10 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			 // THESE SEEM IN THE WRONG PLACE!!!
 		//	partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
 		//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
-			partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
+	//		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
 		}
+		 // This should only be done on camera roatation (someday)
+		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
 		SCNTransaction.commit()
 	}
 								
