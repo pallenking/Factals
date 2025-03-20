@@ -77,7 +77,7 @@ r("- bug: Ref:\"a\" is confused by definitions", e, {
 //	Broadcast(["n":"ax"]),	// CONFOUNDER: another "a" opening down
   ]])
 })
-	r("- bug: Ref:\"a\" is confused by definitions", e, {
+	xxr("- bug: Ref:\"a\" is confused by definitions", e, {
 	  Tunnel(["struc":wordType, "f":1])
 	})
 	r("- nan Link FIXED", e, {

@@ -34,11 +34,10 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	}
 	    /// Terminal element of a FwBundle
 	   /// - parameter leafKind: -- of terminal Leaf
-	  /// - parameter config_: -- to configure Leaf
+	  /// - parameter XXX config_: -- to configure Leaf
 	 /// ## --- bindings: FwConfig -- binds external Ports to internal Ports by name
-	init(leafConfig leafConfig_:FwConfig = [:]) {//override		//leafKind:LeafKind = .genAtom,
-		let leafConfig			= ["placeMy":"linky"] + leafConfig_
-		//type					= leafKind//.rawValue//leafKind!.rawValue
+	init(leafConfig lc:FwConfig = [:]) {//override		//leafKind:LeafKind = .genAtom,
+		let leafConfig			= ["placeMy":"linky"] + lc
 		super.init(leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
 	 // MARK: - 3.5 Codable

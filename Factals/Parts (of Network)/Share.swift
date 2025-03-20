@@ -364,7 +364,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	  // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {	// Pyramid
 		let scn : SCNNode		= vew.scnRoot.find(name:"s-SeqSh") ?? {
-			let scn 			= SCNNode(geometry:SCNSphere(radius:1.0))
+			let scn 			= SCNNode(geometry:SCNSphere(radius:0.25))
 			scn.name			= "s-SeqSh"
 			scn.color0			= .red
 			vew.scnRoot.addChild(node:scn, atIndex:0)

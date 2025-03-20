@@ -51,6 +51,18 @@ enum LeafKind: String, Codable, FwAny {
 	case genAgo
 	case agoMax
 
+// 20250320 Resurected, unchecked, value unknown, ....
+	case port				//= "port"
+	case mPort				//= "multiPort"
+	case splitter			//= "splitter"
+	case genSplitter		//= "genSplitter"
+	case orModBcast			//= "orModBcast"
+	case rotBcast			//= "rotBcast"
+	case genPrevBcast		//= "genPrevBcast		"
+	case prevBcast			//= "prevBcast		"
+//	case array([LeafKind])	//= "array([LeafKind])"
+	case agoDistComb		//= "agoDistComb"
+
 	// Decoding
 	init(from decoder: Decoder) throws {
 		let container = try decoder.singleValueContainer()
@@ -72,9 +84,9 @@ enum LeafKind: String, Codable, FwAny {
 extension Leaf {	/// Generate Common Leafs
 	convenience init(_ etc1:FwConfig=[:], _ etc2:FwConfig=[:],
 					 _ etc3:FwConfig=[:], _ etc4:FwConfig=[:], _ etc5:FwConfig=[:]) {
-		let raw					= etc1["leafKind"] ?? "genAtom"
-		let leafKind : LeafKind	= raw is String   ? .init(rawValue:raw as! String)! :
-								  raw is LeafKind ? raw as! LeafKind 				:
+		let ofKind				= etc1["of"] ?? "genAtom"
+		let leafKind : LeafKind	= ofKind is String   ? .init(rawValue:ofKind as! String) ?? .genAtom :
+								  ofKind is LeafKind ? ofKind as! LeafKind 				  :
 								  .genAtom
 		switch leafKind {
 	//	case .leafClosure(let closure):
@@ -86,7 +98,7 @@ extension Leaf {	/// Generate Common Leafs
 			self.init(bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)	//of:leafKind,
 			unusedConfigsMustBeNil([etc3, etc4, etc5])	// etc2: WTF?
 		case .cylinder:
-			self.init(bindings:[:],												//of:leafKind,
+			self.init(bindings:[:],
 				parts:[
 					Cylinder(							  etc2),//"size":"1 1 1" +
 				],
@@ -98,14 +110,10 @@ extension Leaf {	/// Generate Common Leafs
 			self.init(bindings:b, parts:p, leafConfig:etc1)	//of:leafKind,  //etc1=[placeMy:linky]
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genMirror:
-			self.init(bindings:bMain + ["G":"main.P", "R":"main.P"],	//of:leafKind,
+			self.init(bindings:bMain + ["G":"main.P", "R":"main.P"],
 				parts:[
-		 			Mirror(["n":"main", "f":1] 			+ etc2),		//[placeMy:stackx -1 1, struc:[3 elts]]
-				], leafConfig:							  etc1)			//[gain:-1, f:1, offset:1, placeMy:linky]
-//			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"],	//of:leafKind,
-//				parts:[
-//		 			Mirror(["n":"gen", "f":1] 			+ etc2),		//[placeMy:stackx -1 1, struc:[3 elts]]
-//				], leafConfig:							  etc1)			//[gain:-1, f:1, offset:1, placeMy:linky]
+		 			Mirror(["n":"main", "f":1] 			+ etc2), //[placeMy:stackx -1 1, struc:[3 elts]]
+				], leafConfig:							  etc1)	 //[gain:-1, f:1, offset:1, placeMy:linky]
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 
 		 // -------- Broadcast -------------------------------------------------------
@@ -162,7 +170,7 @@ extension Leaf {	/// Generate Common Leafs
 
  		// -------- Mod -------------------------------------------------------
 		case .mod:
-			self.init(bindings:bMain,		//of:leafKind,
+			self.init(bindings:bMain,
 				parts:[
 					Modulator(["n":"main"] 				+ etc2),
 				],
@@ -170,7 +178,7 @@ extension Leaf {	/// Generate Common Leafs
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		 // -------- Rotator -------------------------------------------------------
 		case .rot:
-			self.init(bindings:bMain,				//of:leafKind,
+			self.init(bindings:bMain,
 				parts:[
 					Rotator(["n":"main"]				+ etc2),
 				],
@@ -178,30 +186,30 @@ extension Leaf {	/// Generate Common Leafs
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		 // -------- Branch -------------------------------------------------------
 		case .branch:
-			self.init(bindings:bMain,		//of:leafKind,
+			self.init(bindings:bMain,
 				parts:[
-//					Branch(["n":"rot", "ShareXX":"Bulb", /*"S":sproutSpot, "M":sproutPredicate*/] + etc2),
+					//Branch(["n":"rot", "Share":"Bulb", /*"S":sproutSpot, "M":sproutPredicate*/] + etc2),
 				],
 				leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc2, etc3, etc4, etc5])
 
 		 // -------- Bulb -------------------------------------------------------
 		case .bulb:
-			self.init(bindings:bMain, parts:[			//of:leafKind,
+			self.init(bindings:bMain, parts:[
 				Bulb(["n":"main"]						+ etc2),
 			], leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genBulb:
 			self.init(bindings:bMain + ["":"gen", "G":"gen.P", "R":"gen.P"],
 				parts:[
-					Bulb([   "n":"main", "P":"gen"] 	+ etc3),	// "gen="
+					Bulb([   "n":"main", "P":"gen"] 	+ etc3),
 		 			GenAtom(["n":"gen",  "f":1]			+ etc2),
 				], leafConfig:							  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 		case .genBulbMirror:
 			self.init(bindings:bMain + ["":"gen", "G":"gen.P", "R":"gen.P"],
 				parts:[
-					Bulb([   "n":"main", "P":"gen", "jog":"3"] + etc3),
+					Bulb([   "n":"main", "P":"gen"] 	+ etc3),
 		 			Mirror( ["n":"gen",  "f":1] 		+ etc2),
 				], leafConfig:							  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
@@ -209,14 +217,14 @@ extension Leaf {	/// Generate Common Leafs
 		 // -------- Previous -------------------------------------------------------
 		case .genPrev:
 			self.init(
-				bindings:bPrevPM + ["G":"gen.P", "R":"prev.L"],	//of:leafKind,
+				bindings:bPrevPM + ["G":"gen.P", "R":"prev.L"],
 				parts:[
 					Previous(["n":"prev", "P":"gen=", "placeMe":"linky"] + etc3),
 		 			GenAtom([ "n":"gen",  "f":1]		+ etc2),
 				], leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 		case .flipPrev:
-			self.init(bindings:bPrevPM + ["G":"prev.L"/*@0*/, "R":"prev.L"],		//of:leafKind,
+			self.init(bindings:bPrevPM + ["G":"prev.L"/*@0*/, "R":"prev.L"],
 				parts:[		// "G":"gen.P"
 					Previous(["n":"prev", "spin":2,"f":1] + etc1),
 			], leafConfig:								  etc2)
@@ -230,28 +238,107 @@ extension Leaf {	/// Generate Common Leafs
 
 		 // -------- Ago -------------------------------------------------------
 		case .ago:
-			self.init(bindings:["":"ago", "+":"ago"], //of:leafKind,
+			self.init(bindings:["":"ago", "+":"ago"],
 				parts:[
 					Ago(["n":"ago"]						+ etc2),
 				], leafConfig:							  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genAgo:
 			self.init(
-				bindings:bMain + ["G":"gen.P"], //of:leafKind,
+				bindings:bMain + ["G":"gen.P"],
 				parts:[
 					Ago([    "n":"main", "P":"gen="] 	+ etc3),
 		 			GenAtom(["n":"gen",   "f":1]		+ etc2),
 				], leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 		case .agoMax:
-			self.init(bindings:bMain,			//of:leafKind, 
+			self.init(bindings:bMain,
 				parts:[
 					Ago([  "n":"ago"]						+ etc3),
 					MaxOr(["n":"main", "f":1, "P":"ago="]	+ etc2),
 				], leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
+
+ // 20250320 Resurected, unchecked, unknown, ....
+
+		case .port:
+			self.init(
+				bindings:["G":"P", "R":"P"], parts:[
+					 /// 200127 Cannot name Port's name, as it is in bindings as "P"
+					Port(["f":1]						+ etc2 + ["n":"P"]),	//etc2 dominates n:P
+			], leafConfig:				 				  etc1)
+			unusedConfigsMustBeNil([etc3, etc4, etc5])
+		case .mPort:
+			self.init(
+				bindings:["G":"P", "R":"P"], parts:[
+					 /// 200127 Cannot name Port's name, as it is in bindings as "P"
+					MultiPort(["f":1]					+ etc2 + ["n":"P"]),	//etc2 dominates n:P
+				], 			 				  leafConfig: etc1)
+			unusedConfigsMustBeNil([etc3, etc4, etc5])
+
+ 		// -------- Generic Splitter -------------------------------------------------------
+		case .splitter:
+			self.init(bindings:[:], parts:[
+				Splitter(["n":"main"]					+ etc2),
+			], leafConfig:								  etc1)
+			unusedConfigsMustBeNil([etc3, etc4, etc5])
+		case .genSplitter:
+			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
+		 			Splitter(["n":"main", "P":"gen="] 	+ etc3),
+		 			GenAtom([ "n":"gen", "f":1] 		+ etc2),
+			], leafConfig:								  etc1)
+			unusedConfigsMustBeNil([etc4, etc5])
+
+		case .orModBcast:
+			self.init(bindings:[:], parts:[			//"G":"gen.P"
+				MaxOr([    "n":"gen", "P":"mod.P="]		+ etc4),
+				Modulator(["n":"mod"] 					+ etc3),	// "mod":"???bid", (spin,0)})),
+				Broadcast(["n":"main", "P":"mod.S="]	+ etc2),
+			], leafConfig:								  etc1)
+		 	unusedConfigsMustBeNil([etc5])
+
+		case .rotBcast:
+			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
+					Broadcast(["n":"main", "P":"rot.T=", "latitude":-2, "jog":"0 -0.5 0"] 
+														+ etc3),
+					Rotator([  "n":"rot"]				+ etc2),
+			],leafConfig:									  etc1)
+			unusedConfigsMustBeNil([etc4, etc5])
+ //////// DEFAULT EVIDENCE with Previous's: #######################
+		case .genPrevBcast:
+			self.init(bindings:bMainPM + ["G":"gen.P", "R":"prev.L"], parts:[
+					Broadcast(["n":"main-", "P":"prev.T="] + etc4),
+					Broadcast(["n":"main+", "P":"prev.S="] + etc4),
+					Previous([ "n":"prev",  "P":"gen="]  + etc3),
+		 			GenAtom([  "n":"gen",   "f":1  ]	+ etc2),
+			], leafConfig:								  etc1)
+			unusedConfigsMustBeNil([etc5])
+
+		// // ////		 BASIS port to invoke Previous's con2 to below:
+		case .prevBcast:
+			self.init(bindings:bMainPM + ["G":"ERROR-not generatable", "R":"prev.L"], parts:[
+					Broadcast(["n":"main-", "P":"prev.T="] + etc3),
+					Broadcast(["n":"main+", "P":"prev.S="] + etc3),
+					Previous([ "n":"prev", "spin":"R" ]  + etc2),	//??
+			], leafConfig:								  etc1)
+			unusedConfigsMustBeNil([etc4, etc5])
+ // -------- qState -------------------------------------------------------
+		case .agoDistComb:
+			self.init(bindings:["":"dist", "in":"comb"], parts:[
+				Broadcast(["n":"dist"]					+ etc2), //? xxx
+ //			anAgo     (0,			@{n(ago), 		etc1etc}),	//"comb^"
+ //			aBroadcast("ago=",	0,	@{n(dist),		etc2etc}),	//aBayes
+ //				aBroadcast(0,		0,	@{n(comb),flip, etc3etc, selfStackY}),		// name doesn't work!
+			], leafConfig:								etc1)
+			unusedConfigsMustBeNil([etc4, etc5])
+ // -------- qState -------------------------------------------------------
+	//	case .array(let leafArray):
+	//		let _ = leafArray	// silences warning
+	//		debugger("should never happen")
+
 		default:
 			debugger("LeafKind \(leafKind.self) should never happen")
+
 		}
 //		groomModel(parent:nil, partBase:partBase)	// groom: add ports[] from children[]
 //		fixPorts()
@@ -274,7 +361,7 @@ extension Leaf {	/// Generate Common Leafs
 //	case prevBcast			= "prevBcast		"
 //	case array([LeafKind])	= "array([LeafKind])"
 //	case agoDistComb		= "agoDistComb"
-
+//
 //		case .port:
 //			self.init(of:leafKind, 
 //				bindings:["G":"P", "R":"P"], parts:[
@@ -289,7 +376,7 @@ extension Leaf {	/// Generate Common Leafs
 //					MultiPort(["f":1]					+ etc2 + ["n":"P"]),	//etc2 dominates n:P
 //			], fwConfig:				 				  etc1)
 //			unusedConfigsMustBeNil([etc3, etc4, etc5])
-
+//
 // 		// -------- Generic Splitter -------------------------------------------------------
 //		case .splitter:
 //			self.init(of:leafKind, bindings:[:], parts:[
@@ -303,7 +390,7 @@ extension Leaf {	/// Generate Common Leafs
 //		 			GenAtom([ "n":"gen", "f":1] 		+ etc2),
 //			], fwConfig:								  etc1)
 //			unusedConfigsMustBeNil([etc4, etc5])
-
+//
 //		case .orModBcast:
 //			self.init(of:leafKind, bindings:[:], parts:[			//"G":"gen.P"
 //				MaxOr([    "n":"gen", "P":"mod.P="]		+ etc4),
@@ -311,7 +398,7 @@ extension Leaf {	/// Generate Common Leafs
 //				Broadcast(["n":"main", "P":"mod.S="]	+ etc2),
 //			], fwConfig:								  etc1)
 //		 	unusedConfigsMustBeNil([etc5])
-
+//
 //		case .rotBcast:
 //			self.init(of:leafKind, 
 //				bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
@@ -320,7 +407,7 @@ extension Leaf {	/// Generate Common Leafs
 //					Rotator([  "n":"rot"]				+ etc2),
 //			],fwConfig:									  etc1)
 //			unusedConfigsMustBeNil([etc4, etc5])
- ////////// DEFAULT EVIDENCE with Previous's: #######################
+// //////// DEFAULT EVIDENCE with Previous's: #######################
 //		case .genPrevBcast:
 //			self.init(of:leafKind, 
 //				bindings:bMainPM + ["G":"gen.P", "R":"prev.L"], parts:[
@@ -330,8 +417,8 @@ extension Leaf {	/// Generate Common Leafs
 //		 			GenAtom[   "n":"gen",   "f":1  ]	+ etc2),
 //			], fwConfig:								  etc1)
 //			unusedConfigsMustBeNil([etc5])
-
-						// BASIS port to invoke Previous's con2 to below:
+//
+//						 BASIS port to invoke Previous's con2 to below:
 //		case .prevBcast:
 //			self.init(of:type:"prevBcast",
 //				bindings:bMainPM + ["G":"ERROR-not generatable", "R":"prev.L"], parts:[

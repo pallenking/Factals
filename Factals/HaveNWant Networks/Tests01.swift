@@ -437,6 +437,9 @@ xxr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy
 	] ])
 ] ] ) } )
 
+	xr("- Leaf Branch BUG", e + selfiePole(s:-6,u:-27,z:0.622), { Net([parts:[
+		Leaf([n:"o", of:"branch"]),
+	] ] ) } )
 	r("- repaint bug", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy:"stackx -1 0", parts:[
 //		Leaf([n:"c", of:"port"]),
 //		Leaf([n:"p", of:"bulb"]),
@@ -547,7 +550,7 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 		Broadcast([n:"c"])
 	] ] ) } )
 
-	r(" binding-path", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
+	xxr("- binding-path", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 		MinAnd([P:"a"]), // MinAnd([P:"a"]),  MinAnd([P:"a"]),
 		FwBundle([struc:["a"], placeMy:"stackx -1 1"]),		//of:.genAtom,
 	] ] ) } )
@@ -714,16 +717,17 @@ xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 	Mirror([n:"b", P:"a,v:4,l:3", jog+X:"4"]),	//+X
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
  ] ]) })
-		xr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
+		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
 			Sequence([n:"y", f:1, spin:12, "share":["a,v:5","b,v:5","c,v:5","d,v:5"]]),
-			Tunnel(["struc":["a","b","c","d"], of:LeafKind.genBulbMirror]),
+			Tunnel(["struc":["a","b","c","d"], of:LeafKind.genBulbMirror])//genMirror]),//genBulbMirror]),
 //			Tunnel(["struc":["a","b","c","d"], of:LeafKind.genMirror]),//:"genMirror"
 		]]) })
 		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
-			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
+//			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
 			Sequence([n:"y", f:1, spin:12, "share":["a,v:5"]]),
-			Tunnel(["struc":["a"], of:LeafKind.genBulbMirror]),
+			Broadcast([n:"a"]),
+//			Tunnel(["struc":["a"], of:LeafKind.genMirror])//BulbMirror]),
 		]]) })
 
 	r("-+ stackx does linky", [:], { Net([placeMy:"stackx", parts:[

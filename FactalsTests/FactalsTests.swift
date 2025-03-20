@@ -39,6 +39,12 @@ final class FactalsTests: XCTestCase {
 		let y					= broadcastLeafKind.pp(.tree)
 		XCTAssertEqual(y, "LeafKind.bcast", "LeafKind.bcast.pp(.tree) FAILED")
 	}
+	func x_testLeafConstructors() {
+		let fwb					= FwBundle(["struc":"a", "of":LeafKind.bcast], leafConfig:["jog":"3"])
+		let str					= fwb.pp(.tree)
+		let correct				= "0001   <##        p1:FwBundle. . . . . . . ?48V \n0005   | < 0         a:Leaf    . . . . . . ?48V bindings:[:main, +:main, G:P, R:P] bindings:[:main, +:main, G:P, R:P] \n0003   | | < 0      main:Broadcas. . . . . ?48V Broadcast a1=0.00 cWin=0 Broadcast isBroadcast WTA false reComp\n0004   | | |\\            P:Port    . . . . ?48  0.00> unconnected\n"
+		XCTAssertEqual(str, correct, "failed Leaf Create--PP")
+	}
 	func testLldb() {
 		let x 					= LLDBParts
 		lldbPrint(x, mode:.tree, [:])
