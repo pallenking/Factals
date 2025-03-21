@@ -9,8 +9,7 @@ import SceneKit
 // 		* Wm: World Model: operates in discrete sample time
 //						has clocked data (Out?,Hist?) prob,again,gate
 /*
-								(HaveNWant network)
-				  S	 S	  S	 S
+		(HaveNWant network)
 				  [Dt]	  [Dt]		DiscreteTime
 					P		P
 					:		:
@@ -19,9 +18,9 @@ import SceneKit
 						P
 						:
 						S
-					  [Wm]			WorldModel
-
- */// P,S are Ports				(Discrete Time)
+					  [Wm]			World Model
+		Synchronous WorldModel			// P,S are Ports
+ */
 class Generator : Net {
 
 	 // MARK: - 3. Part Factory

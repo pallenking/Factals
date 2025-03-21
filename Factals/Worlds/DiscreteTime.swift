@@ -185,7 +185,6 @@ class DiscreteTime : Atom {
 			logEve(4, "|| FwwEvent '\(eInt)': Epoch Mark") /// Integer --> 0 Epoch Mark
 		default: 				// e.g: FwwEvent is an NSInteger, etc. -- no effect on
 			logEve(4, "|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")
-//			logEve(4, "|| FwwEvent '\(event.pp(.line))': targetBundle '\(pPort.con2?.port?.fullName ?? "-")' UNCHANGED")
 		}
 	}
 	  /// Load an event into the target bundle.

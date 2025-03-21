@@ -217,7 +217,7 @@ class Atom : Part {	//Part//FwPart
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		logBld(7, " '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+//		logBld(7, " '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 		var rvPort : Port?		= nil					// Initially no return value
 
 		 // Check BINDINGS?

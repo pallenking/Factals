@@ -157,7 +157,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 
 	/**/	partBase.tree.simulate(up:globalDagDirUp)	// RUN Simulator ONE Cycle: up OR down the entire Network: ///////
 
-			globalDagDirUp		= !globalDagDirUp
+			globalDagDirUp		= !globalDagDirUp		// Alternate Up and Down
 			timeNow				+= timeStep
 			if  startChits > 0 {			// Clear out start cycles
 				startChits		-= 1

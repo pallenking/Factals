@@ -279,17 +279,14 @@ bug//			user as? Actor?.clockPrevious() // Actor got -clockPrevious; send to cus
 
 		if (up) {				// /////// going UP /////////	enable
 			if let enaInPort	= enable3?.con2?.port {
-				let _ 			= enaInPort.getValue()
-				panic()
+				let unusedVal	= enaInPort.getValue()
+				panic("unused enable3 signal")
 			}
-//
-////						if case .direct(let otherPort) = scanPort.connectedX,
-//
-//			guard case .direct(let enaInPort) = self.enable3?.connectedX else {fatalError()}
-//			let _ 			= enaInPort.getValue()
 		}
 		super.simulate(up:up)
 	}
+	//		if    case .direct(let otherPort) = scanPort.con2 //connectedX,
+	//		guard case .direct(let enaInPort) = self.enable3?.con2/*onnectedX*/ else {fatalError()}
 
 	 // MARK: - 9. 3D Support
 	// Actors do not use superclass methods
