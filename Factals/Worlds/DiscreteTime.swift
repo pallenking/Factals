@@ -147,7 +147,7 @@ class DiscreteTime : Atom {
 		self.anonValue 			= 1.0
 		switch event {
 		case .anArray(let eventArray):	 // FwwEvent is an Array
-			logEve(4, "|| LOAD FwwEvent '\(eventArray.pp())' into target \(pPort.fullName)")
+			logEve(4, "|| LOAD FwwEvent '\(eventArray.pp(.line))' into target \(pPort.fullName)")
 
 			 // First element of an array might set the current anonymous value
 			if let ea0 			= eventArray.first {
@@ -206,14 +206,6 @@ class DiscreteTime : Atom {
 					}
 				default: panic()
 				}
-//				if case .aString(var signal) = event {
-//					if let ev_label = loadBit(named:signal) {
-//						rv_label = (rv_label ?? "") + ev_label  // catenate all event labels
-//					}
-//				}
-//				else {
-//					panic()
-//				}
 			}
 		case .anEpoch(let eventNum):	 //  EVENT NUMBER: 0 means no signals: n is illegal
 			assert(eventNum == 0, "\(eventNum) is illegal epoch")	// E.g: 0

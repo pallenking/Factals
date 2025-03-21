@@ -107,9 +107,9 @@ class PartBase : Codable, ObservableObject, Uid {
  		logBld(3, ppRootPartErrors())
 
 		 //  6. Print Part
-		logBld(2, "------- Parts, ready for simulation, simRun:\(factalsModel?.simulator.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true])))
-
-		factalsModel?.simulator.simBuilt = true	// maybe before config4log, so loading simEnable works
+		let sim					= factalsModel?.simulator
+		logBld(2, "------- Parts, ready for simulation, simRun:\(sim?.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true])))
+		sim?.simBuilt 			= true		// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
 		postTitle				= " (\(portCount()) Ports)"

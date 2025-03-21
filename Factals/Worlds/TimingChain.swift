@@ -6,23 +6,22 @@ import SceneKit
 class TimingChain : Atom {
 
 	  // MARK: - 2. Object Variables:
-	 // our BOSSES: (presuming sensor orientation)
-	var worldModel 	: WorldModel? = nil	// of WorldModels
 
+	 // our BOSSES: (presuming sensor orientation)
+	var worldModel 	 : WorldModel? = nil	// of WorldModels
 	 // our WORKERS:
 	var discreteTimes: [DiscreteTime] = []
-								
-	 // our Status:
-    var event		:FwwEvent? = nil	// event being executed
-
-	var state 		: State_ = .idle	// of timing chain
+	 // our State:
+	enum State_		 : String, Codable {
+		case idle /* =0 */, state1, state2, state3, state4, state5				}
+	var state 		 : State_ = .idle	// of timing chain
 	{	didSet {
 			if animateChain && state != oldValue {
 				markTree(dirty:.size)
 			}
 		}																		}
-	enum State_		: String, Codable {
-		case idle /* =0 */, state1, state2, state3, state4, state5				}
+	 // our content:
+    var event		 : FwwEvent? = nil	// event being executed
 
 	var animateChain			= true		//false//true//
 
@@ -248,7 +247,7 @@ class TimingChain : Atom {
 		state					= .idle
 		eventDownPause			= false
 
-		logEve(4, "############ eventDownPause = false -- reset") //print("
+		logEve(4, "############ eventDownPause = false -- reset; .\(state) ->State") //print("
 		//[bundleTap reset]
 	}
 	 /// When "again" is encountered, some state must be reset for proper operation
@@ -274,7 +273,7 @@ class TimingChain : Atom {
 
 				retractPort		= nil			// default param
 				eventDownPause	= true			// assert lock, which blocks till up
-				logEve(4, "############ eventDownPause = true  -- simulate(up:) && state==0")
+				logEve(4, "############ eventDownPause = true  -- simulate(up:) && state==\(state)")
 				state 			= .state1			// Start Timing Chain
 				//!	playSound("")
 			//?	releaseEvent()
@@ -300,10 +299,10 @@ class TimingChain : Atom {
 				return							// do nothing
 			}											// ## 1. Await Sim Settled
 			if asyncData {
-				logEve(4, "//// %02o=>State; Sim Settled; Asynchronous Data Mode: nop \(state)")
+				logEve(4, "//// .\(state) ->State; Sim Settled; Asynchronous Data Mode: nop")
 			}
 			else {
-				logEve(4, "//// %02o=>State; Sim Settled; Synchronous Data Mode: cPrev;lData\(state)")
+				logEve(4, "//// .\(state) ->State; Sim Settled; Synchronous Data Mode: cPrev;lData")
 														// ## 2. do EARLY Clk Previous:
 				partBase!.tree.sendMessage(fwType:.clockPrevious)
 
@@ -317,7 +316,7 @@ class TimingChain : Atom {
 
 			nextState			= .state2
 		case .state2://ad2:Conceive	// ----> When Settled do 'ad2:Conceive'
-			logEve(4, "|||| %02o=>State; Sim Settled; Now do 'ad2:Conceive'\(state)")
+			logEve(4, "|||| .\(state) ->State=>State; Sim Settled; Now do 'ad2:Conceive'")
 																 // ## 4. Await Sim Settled
 			partBase!.tree.sendMessage(fwType:.writeHeadConcieve)// ## 5. do: CONCEIVE:
 			partBase!.tree.sendMessage(fwType:.writeHeadLabor)	 // ## 6. do: LABOR, BIRTH:

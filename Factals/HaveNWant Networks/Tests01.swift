@@ -1566,7 +1566,7 @@ state.scanSubMenu				= "Generator"
 //	xxr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
 //			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { //Net([placeMy:"linky", parts:[
 //xr("+ Shaft Spin 3", e + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
-xr("+ Shaft Spin 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+xr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
   Net([parts:[												// logAt(dat:5, eve:5)
  	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",

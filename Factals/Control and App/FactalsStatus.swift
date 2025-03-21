@@ -12,7 +12,9 @@ import SceneKit
   /// Print State of ALL System Controllers in the App, starting with FactalApp:
  /// - Returns: State of all Controllers, one per line
 func ppControllers(config:Bool=false) -> String {
-	return FactalsAppDelegate.shared?.ppControlElement() ?? ""
+	let fm : FactalsStatus?	= false ? FactalsAppDelegate.shared
+									: FACTALSMODEL
+	return fm?.ppControlElement(config:false) ?? ""
 }												//return FACTALSMODEL?.ppControlElement() ?? "FACTALSMODEL is nil uey3r8ypv"
 												//return ""
 												//let x = factalsApp
