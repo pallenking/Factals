@@ -26,37 +26,38 @@ class TimingChain : Atom {
 	var animateChain			= true		//false//true//
 
 	// Basic Op Mode: Variations in Insertion Cycle:
-	 // Halt insertion sequence in middle while user key or button is down
-	var eventDownPause 	: Bool	= false
 	 // Issue previous clock late in the cycle
 	var asyncData 		: Bool	= false // change clocking mode:
-	// ____ Asynchronous Gui ____: Data with Snapshot:
-	//	User adjusts sliders and buttons, changes propigate through the network real time
-	//	User presses button to capture existing data. (optional)
-	// ____ Synchronous Data ____: (lists, sync world model)
-	// 	downstroke: capture old data at time t, then load new data of t+1.
-	//		Calculate Unknowns, and conceive a network modification to learn.
-	//	upstroke: release the modification and allow the Network to settle
-	//
 
-		//______Sync_Data:______________________Async_Data:_________
-		//					00: Idle
-		//					01: Await EventDown + SIM-SETTLED
-		//		- .clockPrevious				- nop
-		//		- load TargetBundle:
-		//						- nil->event
-		//					02: Await SIM-SETTLED
-		//						- sim_writeHeadConcieve
-		//						- sim_writeHeadLabor
-		//					03: Await SIM-SETTLED + EventUp
-		//		 - nop							- .clockPrevious
-		//						- retractPort
-		//					04: Await SIM-SETTLED
-		//					00: Idle
+		// ____ Asynchronous Gui ____: Data with Snapshot:
+		//	User adjusts sliders and buttons, changes propigate through the network real time
+		//	User presses button to capture existing data. (optional)
 
+		// ____ Synchronous Data ____: (lists, sync world model)
+		// 	downstroke: capture old data at time t, then load new data of t+1.
+		//		Calculate Unknowns, and conceive a network modification to learn.
+		//	upstroke: release the modification and allow the Network to settle
+
+		//______Sync_Data:_____________________________Async_Data:_________
+		//					.idle: Idle
+		//					.state1: Await EventDown + SIM-SETTLED
+		//		* .clockPrevious
+		//		* load TargetBundle:
+		//		*				* nil->event				*
+		//					.state2: Await SIM-SETTLED
+		//		*				* sim_writeHeadConcieve		*
+		//		*				* sim_writeHeadLabor		*
+		//					.state3: Await SIM-SETTLED + EventUp
+		//													* .clockPrevious
+		//		*				* retractPort				*
+		//					.state4: Await SIM-SETTLED
+		//					.idel: Idle
+
+	 // Halt insertion sequence in middle while user key or button is down
+	var eventDownPause 	: Bool	= false
 	 // Retract 1:N assertion when button UP
-	var retractPort : Port?	= nil
-
+	var retractPort 	: Port?	= nil
+								
 	  // MARK: - 3. Part Factory
 	 /// Defines Sample clocks
 	 /// - parameter config: 
@@ -90,27 +91,28 @@ class TimingChain : Atom {
 		case retractPort
 	}
 
-//	struct ParamDef {
-//		var keyPath 		: KeyPath<Any, Any>
-//		var codingKey		: CodingKey
-//		var classx			: AnyClass
-//		init(_ keyPath:KeyPath<Any, Any>, _ codingKey:TimingChainKeys, _ classx:AnyClass) {
-//			self.keyPath 		= keyPath
-//			self.codingKey		= codingKey
-//			self.classx			= classx
-//		}
-//	}
-//	var myParams : [ParamDef] { [
+		// // WHAT IS THIS FOR?
+	struct ParamDef {
+		var keyPath 		: KeyPath<Any, Any>
+		var codingKey		: CodingKey
+		var classx			: AnyClass
+		init(_ keyPath:KeyPath<Any, Any>, _ codingKey:TimingChainKeys, _ classx:AnyClass) {
+			self.keyPath 		= keyPath
+			self.codingKey		= codingKey
+			self.classx			= classx
+		}
+	}
+	var myParams : [ParamDef] { [
 //		ParamDef(\TimingChain.worldModel! 	 as! KeyPath<Any, Any>, .worldModel,	WorldModel),
 //		ParamDef(\TimingChain.discreteTimes! as! KeyPath<Any, Any>, .discreteTimes, DiscreteTime),
 //		ParamDef(\TimingChain.event! 		 as! KeyPath<Any, Any>, .event, 		FwwEvent),
 //		ParamDef(\TimingChain.animateChain!	 as! KeyPath<Any, Any>, .animateChain, 	Bool),
-//	] }	//Cannot convert value of type 'KeyPath<TimingChain, WorldModel>'
-//		//	 to expected argument type 'KeyPath<Any, Any>'
-//
-//	func getPropertyValue<Type, Value>(in object:Type, keyPath:KeyPath<Type,Value>) -> Value {
-//		return object[keyPath:keyPath]
-//	}
+	] }	//Cannot convert value of type 'KeyPath<TimingChain, WorldModel>'
+		//	 to expected argument type 'KeyPath<Any, Any>'
+
+	func getPropertyValue<Type, Value>(in object:Type, keyPath:KeyPath<Type,Value>) -> Value {
+		return object[keyPath:keyPath]
+	}
 //	override func encode(to encoder: Encoder) throws  {
 //		try super.encode(to: encoder)
 //		var container 			= encoder.container(keyedBy:TimingChainKeys.self)

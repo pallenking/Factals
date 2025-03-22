@@ -7,6 +7,7 @@
 // xcode: ctl opt cmd g -- redo last test
 
 import XCTest
+import Testing
 import SceneKit
 
 final class FactalsTests: XCTestCase {
