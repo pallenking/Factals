@@ -120,7 +120,6 @@ class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0
 			 // from Chosen Test
 			answer.sourceOfTest	= "\(args!.argName):'\(args!.argNumber)"
 			answer.title		= title
-//			answer.postTitle	= ""
 			answer.config 		= config
 			answer.trunkClosure = rootClosure
 			 // From Scan
@@ -195,7 +194,7 @@ struct HnwMachine {		// : Codable
 	var sourceOfTest: String  	= "HnwMachine"		// Reason for Fetching String
 	var title		: String?  	= nil				// Network name from library
 	var postTitle	: String  	= "HnwMachine.post"	// Number of Ports String
-	func titlePlus() -> String 	{ sourceOfTest + (title ?? "<???>") + postTitle}
+	func titlePlus() -> String 	{ sourceOfTest + (title ?? "<title=nil>") + postTitle}
 
 	var config		: FwConfig	= [:]		// [NOT CODABLE]
 

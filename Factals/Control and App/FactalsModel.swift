@@ -51,6 +51,7 @@ import SwiftUI
 			// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
+let x = pp(.tree)
 		logBld(2, "------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true])))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
@@ -307,10 +308,10 @@ import SwiftUI
 			return true 					// handled by simulator
 		}
 
-		 // Check Controller:
-		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
-			return false						/* FwDocument has no key-ups */
-		}
+//		 // Check Controller:
+//		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
+//			return false						/* FwDocument has no key-ups */
+//		}
 		 // Sim EVENTS						// /// Key DOWN ///////
 		let cmd 				= nsEvent.modifierFlags.contains(.command)
 		let alt 				= nsEvent.modifierFlags.contains(.option)

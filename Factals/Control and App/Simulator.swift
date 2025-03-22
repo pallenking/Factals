@@ -124,7 +124,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 		if simBuilt && simRun {				// want to run
 			if simTaskRunning == false {		// if not now running
 				simTaskRunning	= true
-				logBld(3, "# # # # STARTING Simulation Task (simRun=\(simRun))")
+				logEve(6, "@ @ @ @ STARTING Simulation Task (simRun=\(simRun))")
 			}
 //			let taskPeriod		= factalsModel?.fmConfig.double("simTaskPeriod") ?? 2	// DEFAULT IS VERY JERKEY
 			let modes			= [RunLoop.Mode.eventTracking, RunLoop.Mode.default]
@@ -137,7 +137,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 	func stopSimulationTask() {
 		if simTaskRunning == true {				// now running
 			simTaskRunning		= false
-			logBld(3, "# # # # STOPPED  Simulation Task \n")
+			logEve(6, "@ @ @ @ STOPPED  Simulation Task \n")
 			 // Remove "perform-requests" from the current run loop, not ALL run loops.
 			NSObject.cancelPreviousPerformRequests(withTarget:self)
 		}
@@ -171,9 +171,9 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 	  ///  - Parameter vew:         -- The Vew to use
 	 ///   - Returns: Key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
-		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
-			return false						// Simulator has no key-ups
-		}
+//		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
+//			return false						// Simulator has no key-ups
+//		}
 	//	let shift 				= nsEvent.modifierFlags.contains(.shift)
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
 		switch character {

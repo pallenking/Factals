@@ -453,7 +453,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			nextIsAutoRepeat 	= false
-			let _				= factalsModel != nil && factalsModel!.processEvent(nsEvent:nsEvent, inVew:vew)
+			let _				= factalsModel?.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		  //  ====== LEFT MOUSE ======
 		 //
@@ -544,22 +544,22 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		case .changeMode:		bug
 
 		case .beginGesture:	bug	// override func touchesBegan(with event:NSEvent) {
-//			let touchs			= nsEvent.touches(matching:.began, in:scnView)
-//			for touch in touchs {
-//				let _:CGPoint	= touch.location(in:nil)
-//			}
+			let touchs			= nsEvent.touches(matching:.began, in:scnView)
+			for touch in touchs {
+				let _:CGPoint	= touch.location(in:nil)
+			}
 		case .mouseMoved: bug
-//			let touchs			= nsEvent.touches(matching:.moved, in:scnView)
-//			for touch in touchs {
-//				let prevLoc		= touch.previousLocation(in:nil)
-//				let loc			= touch.location(in:nil)
-//				logEve(3, (print("\(prevLoc) \(loc)")))
-//			}
+			let touchs			= nsEvent.touches(matching:.moved, in:scnView)
+			for touch in touchs {
+				let prevLoc		= touch.previousLocation(in:nil)
+				let loc			= touch.location(in:nil)
+				logEve(3, "\(prevLoc) \(loc)")
+			}
 		case .endGesture: bug	//override func touchesEnded(with event:NSEvent) {
-//			let touchs			= nsEvent.touches(matching:.ended, in:scnView)
-//			for touch in touchs {
-//				let _:CGPoint	= touch.location(in:nil)
-//			}
+			let touchs			= nsEvent.touches(matching:.ended, in:scnView)
+			for touch in touchs {
+				let _:CGPoint	= touch.location(in:nil)
+			}
 		default:
 			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
 			return false

@@ -256,9 +256,9 @@ struct FactalsApp: FwAny, Uid {
 //			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
 		}
 		else {			 		// Install new parts in current window
-			guard let factalsModel = FACTALSMODEL else {	return				}
-
-			let partBase		= PartBase(fromLibrary:scanKey)
+			guard let factalsModel	= FACTALSMODEL else {	return				}
+								
+			let partBase			= PartBase(fromLibrary:scanKey)
 			factalsModel.partBase	= partBase
 			partBase.factalsModel	= factalsModel
 			 // 3. Groom part ******

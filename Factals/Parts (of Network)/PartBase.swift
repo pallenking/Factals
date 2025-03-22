@@ -36,7 +36,7 @@ class PartBase : Codable, ObservableObject, Uid {
 	var ansConfig    : FwConfig = [:]
 
 	weak
-	 var factalsModel : FactalsModel? = nil			// OWNER
+	 var factalsModel: FactalsModel? = nil			// OWNER
 
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)	// be ware of structured concurency.

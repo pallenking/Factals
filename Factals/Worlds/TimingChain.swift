@@ -88,7 +88,6 @@ class TimingChain : Atom {
 		case eventDownPause
 		case asyncData
 		case retractPort
-//		case bundleTap
 	}
 
 //	struct ParamDef {
@@ -246,9 +245,7 @@ class TimingChain : Atom {
 	override func reset() {								super.reset()
 		state					= .idle
 		eventDownPause			= false
-
-		logEve(4, "############ eventDownPause = false -- reset; .\(state) ->State") //print("
-		//[bundleTap reset]
+		logEve(4, "############ eventDownPause = false -- reset; .\(state)") //print("
 	}
 	 /// When "again" is encountered, some state must be reset for proper operation
 	func resetForAgain() {
@@ -299,10 +296,10 @@ class TimingChain : Atom {
 				return							// do nothing
 			}											// ## 1. Await Sim Settled
 			if asyncData {
-				logEve(4, "//// .\(state) ->State; Sim Settled; Asynchronous Data Mode: nop")
+				logEve(4, "//// .\(state): Sim Settled; Asynchronous Data Mode: nop")
 			}
 			else {
-				logEve(4, "//// .\(state) ->State; Sim Settled; Synchronous Data Mode: cPrev;lData")
+				logEve(4, "//// .\(state): Sim Settled; Synchronous Data Mode: cPrev;lData")
 														// ## 2. do EARLY Clk Previous:
 				partBase!.tree.sendMessage(fwType:.clockPrevious)
 
@@ -316,7 +313,7 @@ class TimingChain : Atom {
 
 			nextState			= .state2
 		case .state2://ad2:Conceive	// ----> When Settled do 'ad2:Conceive'
-			logEve(4, "|||| .\(state) ->State=>State; Sim Settled; Now do 'ad2:Conceive'")
+			logEve(4, "|||| .\(state): Sim Settled; Now do 'ad2:Conceive'")
 																 // ## 4. Await Sim Settled
 			partBase!.tree.sendMessage(fwType:.writeHeadConcieve)// ## 5. do: CONCEIVE:
 			partBase!.tree.sendMessage(fwType:.writeHeadLabor)	 // ## 6. do: LABOR, BIRTH:
@@ -334,7 +331,7 @@ class TimingChain : Atom {
 			if !simulator.isSettled() { 		// Second, Await simSettled
 				return
 			}
-			logEve(4, "|||| %02o=>State: userUpEvent and Sim Settled.  Now do 'ad3:?cPrev'\(state)")
+			logEve(4, "|||| \(state): userUpEvent and Sim Settled.  Now do 'ad3:?cPrev'")
 														// ## 8. Let Newbie run
 			assert(!eventDownPause, "should be OFF")	// elim after a while
 
@@ -350,14 +347,14 @@ class TimingChain : Atom {
 			if !simulator.isSettled() {				// Await simSettled
 				return
 			}
-			logEve(4, "\\\\\\\\ %02o=>State; Sim Settled;  EVENT DONE\(state)")
+			logEve(4, "\\\\\\\\ (state): Sim Settled;  EVENT DONE")
 
 			 // Stop wanting simulator
 //			assert(simulator.linkChits != 0, "wraparound")
 //			simulator.linkChits -= 1
 			nextState			= .idle				// ** 11. go idle
 		default:				// ----> PROBLEMS!
-			panic(fmt("state=%04o UNDEFINED\(state)"))
+			panic(fmt("\(state) UNDEFINED"))
 		}
 		state 					= nextState			// Enter next state
 	}
@@ -413,22 +410,25 @@ class TimingChain : Atom {
 
 	 // MARK: - 13. IBActions
 	override func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
-		if nsEvent.type == .keyDown {		// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
+		if nsEvent.type == .keyDown {	// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {
 				partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
-				return true				// other process processes it
+				return true					// other process processes it
 			}
+			nop
 		}		  // ///////// key UP  ///////
-		else if eventDownPause {
-			releaseEvent()				// retract event
+		else if nsEvent.type == .keyUp {
+			if eventDownPause {
+				releaseEvent()				// retract event
+			}
 		}
 		return false
 	}
 	  // MARK: - 8.1 FwwEvent Chain
 	 // Get an event from users (e.g. PushButtonBidirNsV, keyboard, ...)
 	func releaseEvent() {
-		logEve(4, "    TimingChain: Release FwwEvent")
+bug;	logEve(4, "    TimingChain: Release FwwEvent")
 		eventDownPause			= false			// assert lock, which blocks till up
 		logEve(4, "############ eventDownPause = false -- releaseEvent")
 		partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
@@ -452,7 +452,7 @@ class TimingChain : Atom {
 			if (event != nil) {
 				rv				+= "event:\(event!.pp()) "
 			}
-			rv					+= fmt("state:\(state)")
+			rv					+= fmt("state:\(state) ")
 			rv					+= eventDownPause ? "eventDownPause " : ""
 			rv					+= animateChain  ? "animateChain "  : ""
 			rv					+= asyncData 	 ? "asyncData " 	: ""
