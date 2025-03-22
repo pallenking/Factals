@@ -20,20 +20,11 @@ extension PartBase : Equatable {
 }
 
 class PartBase : Codable, ObservableObject, Uid {
-	
-	let nameTag			 		= getNametag()
-	var tree : Part
-
-	 // hold index of named items (<Class>, "wire", "WBox", "origin", "breakAtWire", etc)
-	var indexFor				= Dictionary<String,Int>()
-
 	 // MARK: - 2.1 Object Variables
-	var sourceOfTest : String	= "src"		// source(arg)
-	var title		 : String	= "title"	// Test Name or Status
-	var postTitle	 : String	= "post"
-	var title3 		 : String	{ sourceOfTest + "   " + title + "   " + postTitle}
-
-	var ansConfig    : FwConfig = [:]
+	let nameTag			 		= getNametag()
+	var indexFor				= Dictionary<String,Int>() // for <Class>, "wire", "WBox", "origin", "breakAtWire", etc
+	var tree : Part
+	var hnwMachine	 : HnwMachine = HnwMachine()
 
 	weak
 	 var factalsModel: FactalsModel? = nil			// OWNER
@@ -47,22 +38,21 @@ class PartBase : Codable, ObservableObject, Uid {
 	 // MARK: - 3. Part Factory
 	init(tree t:Part=Part()) {
 		tree					= t
+		hnwMachine				= HnwMachine()
+		hnwMachine.sourceOfTest	= "PartBase(tree:\(t.pp(.line))) "
 	}
 	init(fromLibrary selector:String?) {			// PartBase(fromLibrary...
-		self.sourceOfTest		= "'\(selector ?? "nil")' -> "
-		self.title 				= " Not in Library"
-
 		 // Get HaveNWant Machine (a Network)
-		if let hnwMachine		= Library.hnwMachine(fromSelector:selector) {
-			self.title			= hnwMachine.title!
-			self.sourceOfTest	+= "\(hnwMachine.testNum) "
-								+  "\(hnwMachine.fileName ?? "??"):\(hnwMachine.lineNumber!)"
-			self.ansConfig		= hnwMachine.config
-
-/* */		self.tree			= hnwMachine.trunkClosure?() ?? Part()	// EXPAND Closure from Lib
-		} else {
+		if var hnwm:HnwMachine  = Library.hnwMachine(fromSelector:selector) {
+			hnwm.sourceOfTest	= "\(hnwm.testNum) \(hnwm.fileName ?? "??"):" +
+								  "\(hnwm.lineNumber ?? -99)"
+			hnwMachine			= hnwm
+/* */		self.tree			= hnwm.trunkClosure?() ?? Part()	// EXPAND Closure from Lib
+		}
+		else {
 			self.tree			= Part()
-			title				= "Unknown Title"
+			hnwMachine			= HnwMachine()
+			hnwMachine.sourceOfTest	= "Test '\(selector ?? "<nil>")' not in library"
 		}
 		checkTree()
 	}
@@ -112,7 +102,7 @@ class PartBase : Codable, ObservableObject, Uid {
 		sim?.simBuilt 			= true		// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"
-		postTitle				= " (\(portCount()) Ports)"
+		hnwMachine.postTitle	= " (\(portCount()) Ports)"
 
 		//dirtySubTree(.vew)		// NOT NEEDED
 		//dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
@@ -148,7 +138,7 @@ class PartBase : Codable, ObservableObject, Uid {
 		//try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
 
-		try container.encode(title,				forKey:.title					)
+	//	try container.encode(title,				forKey:.title					)
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
 		try container.encode(verboseLocks,	forKey:.partTreeVerbose			)
 
@@ -409,7 +399,7 @@ bug		// invisible?
 		//var rv 				= super.pp(mode, aux)	// Use Part's pp()
 		var rv					= tree.pp(mode, aux)
 		if mode == .line {
-			rv					+= " \"\(title)\""
+			rv					+= " \"\(hnwMachine.title)\""
 		}
 		return rv
 	}
@@ -420,20 +410,20 @@ bug		// invisible?
 		let warnings 			= Log.shared.warningLog.count == 0 ? "no warnings"
 								: Log.shared.warningLog.count == 1 ? "1 warning"
 								: "\(Log.shared.warningLog.count) warnings"
-		let titleWidth			= title.count
+		let titleWidth			= hnwMachine.title.count
 		let width				= titleWidth + "######                ######".count
 		let errWarnWidth		= errors.count + warnings.count + 2
 		let count				= width - "#################### ".count - errWarnWidth - 2
 		let trailing1			= count <= 0 ? "" : String(repeating:"#", count:count)
 		let trailing2			= String(repeating:"#", count:width)
-		let blanks				= String(repeating:" ", count:title.count)
+		let blanks				= String(repeating:" ", count:titleWidth)
 		var rv 					= "BUILT PART!\n"
 		rv 						+= """
 			######        \(blanks   )        ######
 			######        \(blanks   )        ######
 			##################### \(errors), \(warnings) \(trailing1)
 			######        \(blanks   )        ######
-			######     \"\" \(title) \"\"     ######
+			######     \"\" \(hnwMachine.titlePlus()) \"\"     ######
 			######        \(blanks   )        ######
 			\(trailing2)\n
 			"""

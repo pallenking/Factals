@@ -40,13 +40,14 @@ struct PartBaseBar : View {
 
 	var body: some View {
 		HStack {	// FULL!
+			let	hnw			= partBase.hnwMachine
 			Text("PartBase:").foregroundColor(.red).bold()
-			Text(partBase.sourceOfTest)
-			TextField("title", text:$partBase.title)
+			Text(hnw.sourceOfTest)
+			TextField("title", text:$partBase.hnwMachine.title)
 				.frame(width:200)
 				.foregroundColor(.blue)
 				.bold()
-			Text(partBase.postTitle)
+			Text(partBase.hnwMachine.postTitle)
 			Spacer()
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}

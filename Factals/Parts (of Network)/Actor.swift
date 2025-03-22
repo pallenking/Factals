@@ -263,31 +263,28 @@ bug;		let enaPort			= Port()
 
 	 // Propigate cockPrevious to all contents registered in previousClocks
 	func clockPrevious()  {
-
-		let v0				= self.enable3?.con2?.port?.getValue() ?? 0
+							
+		let v0					= self.enable3?.con2?.port?.getValue() ?? 0
 		if v0 > 0.5 {			// no enable Port --> enabled
-			logEve(4, "|| $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):")
+			logEve(4, "||   $$ clockPrevious to Actor; send to \(previousClocks.count) customer(s):")
 			for user in self.previousClocks {
-bug//			user as? Actor?.clockPrevious() // Actor got -clockPrevious; send to customer
+				guard let actor = user as? Actor else {fatalError()}
+				actor.clockPrevious() // Actor got -clockPrevious; send to customer
 			}
 		}
-		else {  logEve(4, "|| $$ clockPrevious to Actor: IGNORED")				}
+		else {  logEve(4, "||   $$ clockPrevious to Actor: IGNORED")				}
 	}
 
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up:Bool) {
-
 		if (up) {				// /////// going UP /////////	enable
 			if let enaInPort	= enable3?.con2?.port {
 				let unusedVal	= enaInPort.getValue()
-				panic("unused enable3 signal")
+				panic("unused enable3?.con2?.port.getValue \(unusedVal) signal")
 			}
 		}
 		super.simulate(up:up)
 	}
-	//		if    case .direct(let otherPort) = scanPort.con2 //connectedX,
-	//		guard case .direct(let enaInPort) = self.enable3?.con2/*onnectedX*/ else {fatalError()}
-
 	 // MARK: - 9. 3D Support
 	// Actors do not use superclass methods
 	var viewAsAtom : Bool	{

@@ -37,7 +37,7 @@ extension FactalsApp : App {
 			 .onAppear {
 				if let window = NSApplication.shared.windows.first(where: {
 						$0.windowController?.document?.fileURL == file.fileURL 	})
-				{	window.title = (file.document.factalsModel?.partBase.title ?? "<nil>") + "   (from App.onAppear)"
+				{	window.title = (file.document.factalsModel?.partBase.hnwMachine.title ?? "<nil>") + "   (from App.onAppear)"
 				}
 				else { print("no window found")}
 			 }
@@ -265,7 +265,7 @@ struct FactalsApp: FwAny, Uid {
 			partBase.wireAndGroom([:])
 
 			 // 4. Vews ******
-			let fmConfig			= params4partVew + params4partPp + partBase.ansConfig
+			let fmConfig			= params4partVew + params4partPp + partBase.hnwMachine.config
 			factalsModel.configureVews(from:fmConfig)
 
 			factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works

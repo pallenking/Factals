@@ -60,7 +60,7 @@ class Branch : Splitter {
 //		self.parameters["addPreviousClock"] = 1
 	}
 	override func sendMessage(fwType:FwType) {
-bug;	logEve(4, "      all parts ||  sendMessage(\(fwType)).")
+bug;	logEve(4, "||      all parts: sendMessage(\(fwType)).")
 		let fwEvent 			= HnwEvent(fwType:fwType)
 		return receiveMessage(fwEvent:fwEvent)
 	}

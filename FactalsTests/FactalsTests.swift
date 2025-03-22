@@ -424,7 +424,8 @@ final class FactalsTests: XCTestCase {
 	}
 	func XtestFindPartVewScn() {
 		let partBase			= PartBase(fromLibrary:"Structure for XCTEST")
-		logTst(1, "===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
+		logTst(1, "===========####: built test \(partBase.hnwMachine.titlePlus())  ####=================\n")
+//		logTst(1, "===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
 		partBase.wireAndGroom([:])
 		let p1					= partBase.tree.find(name:"p1")
 		let strP1				= p1?.fullName
@@ -503,10 +504,10 @@ final class FactalsTests: XCTestCase {
 			logTst(1, "\n==================== XCTest Build Document: 'entry\(testNum)' ====================")
 
 			let partBase		= PartBase(fromLibrary:"entry\(testNum)")
-			logTst(1, "===========####: built test '\(partBase.title)' from '\(partBase.sourceOfTest)'  ####=================\n")
+			logTst(1, "===========####: built test \(partBase.hnwMachine.titlePlus())  ####=================\n")
 			partBase.wireAndGroom([:])
 
-			if justNumber != nil || partBase.ansConfig.bool("LastTest") ?? false {
+			if justNumber != nil || partBase.hnwMachine.config.bool("LastTest") ?? false {
 				break							// Done
 			}
 		}

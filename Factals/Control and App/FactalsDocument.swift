@@ -85,7 +85,7 @@ struct FactalsDocument : FileDocument, Uid {
 		partBase.wireAndGroom([:])
 
 		 // 4. Vews ******
-		factalsModel.configureVews(from:fmConfig + partBase.ansConfig)
+		factalsModel.configureVews(from:fmConfig + partBase.hnwMachine.config)
 
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
 	}

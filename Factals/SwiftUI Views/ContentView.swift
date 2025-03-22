@@ -51,7 +51,8 @@ struct ContentView: View {
 												//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
 		.onAppear {
 			if let window = NSApplication.shared.windows.first {	//where: { $0.isMainWindow }
-				window.title 	= document.factalsModel.partBase.title3 + "   from ContentView"
+				window.title 	= document.factalsModel.partBase.hnwMachine.titlePlus()// + "   from ContentView"
+//				window.title 	= document.factalsModel.partBase.title3 + "   from ContentView"
 			}
 		}
 //	////////////////////// SCAFFOLDING /////////////////////////////////////////
@@ -131,7 +132,7 @@ struct FactalsModelView: View {
 									EventReceiver { nsEvent in // Catch events (goes underneath)
 										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-											print("Key '\(c)' not recognized")
+											print("Key '\(c)' not recognized and hence ignored...")
 										}
 									}
 								}
