@@ -11,7 +11,7 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 		 //  (Within a file, test specification must be weak.)
 		// Proto(	"Proto"		),				// Prototype Tests - used to create new
 		 // Special regiemes:
-		TestsFoo(	"TestsFoo"	),				// New Regression Tests for Factals
+		//TestsFoo(	"TestsFoo"	),				// New Regression Tests for Factals
 		TivoRemote(	"TivoRemote"),				// Operation of Tivo Remote
 		LangDeser(	"LangDeser"	),				// Language Deserializer
 		 // Default testing:

@@ -157,7 +157,8 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 					rv			+= vewBase       .ppControlElement(config:config)
 				}
 				return rv
-			})
+			}
+		)
 	}
 }
 extension PartBase : FactalsStatus	{								 ///PartBase
@@ -170,26 +171,48 @@ extension PartBase : FactalsStatus	{								 ///PartBase
 					" dirty:'\(tree.dirty.pp())' "					)
 	}																			//bug; return "extension Parts : FwStatus needs HELP"	}
 }
+extension TimingChain : FactalsStatus {
+	func ppControlElement(config:Bool=false) -> String {
+		var myline			= "'\(pp(.fullName))':\(pp(.fullNameUidClass))"
+		myline 				+= event != nil ? "event:\(event!.pp()) " : ""
+		myline				+= "  state:.\(state) "
+		myline				+= eventDownPause ? " eventDownPause": ""
+		myline				+= animateChain   ? " animateChain"  : ""
+		myline				+= asyncData 	 ? " asyncData" 	: ""
+		return ppFactalsStateHelper("TimingChain  ", nameTag:self, myLine:myline)
+	}
+}
+
 extension Simulator : FactalsStatus	{								///Simulator
  	func ppControlElement(config:Bool=false) -> String {
-		var rv					= factalsModel == nil 	? "(factalsModel==nil) "
-								: factalsModel!.simulator === self ? ""
-								:						  "OWNER:'\(factalsModel!)' BAD "
-		for _ in 0...0 {
-			rv 					+= simBuilt ? "simBuilt," : "no simulator"
-			guard simBuilt 		else {	break									}
-			rv					+= simRun ? " simRun" : " simHalt"
-			rv					+= ", timeNow:\(timeNow)"
-			rv					+= " going:\(globalDagDirUp ? "up " : "down ")"
-			rv					+= ", timeStep:\(timeStep)"
-			rv					+= !simTaskRunning ? " taskHalted" : " taskPeriod=\(String(simTaskPeriod)) "
-		//	rv					+= isSettled() ? " simSETTLED=" : " Run Sim="
-			rv					+= " \(portChits)/Ports,"
-		//	//rv				+= " [" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
-			rv					+= " \(linkChits)/Links,"
-			rv					+= " \(startChits)/start"
-		}
-		return ppFactalsStateHelper("Simulator    ", nameTag:self, myLine:rv)
+		guard simBuilt else
+		{	return "Simulator not built "										}
+		var myline				= factalsModel == nil 	? "(factalsModel==nil)"
+								: factalsModel!.simulator === self ? "" : "OWNER:'\(factalsModel!)' BAD"
+		myline 					+= "simBuilt "
+		myline					+= simRun ? " simRun" : " simHalt"
+		myline					+= ", timeNow:\(timeNow)"
+		myline					+= " going:\(globalDagDirUp ? "up " : "down ")"
+		myline					+= ", timeStep:\(timeStep)"
+		myline					+= !simTaskRunning ? " taskHalted" : " taskPeriod=\(String(simTaskPeriod)) "
+	//	myline					+= isSettled() ? " simSETTLED=" : " Run Sim="
+
+		myline					+= " \(portChits)/Ports,"
+	//	//myline				+= " [" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
+		myline					+= " \(linkChits)/Links,"
+		myline					+= " \(startChits)/start"
+		return ppFactalsStateHelper(
+			"Simulator    ", nameTag:self, myLine:myline)
+			{	guard let fm	= self.factalsModel else { return "factalsModel in nil"}
+				var rv			= ""
+				let _ 			= fm.partBase.tree.findCommon() {
+					if let tc	= $0 as? TimingChain {
+						rv		= tc.ppControlElement(config:config)
+					}
+					return nil		// search whole tree (never find)
+				}
+				return rv
+			}
 	}
 }
 

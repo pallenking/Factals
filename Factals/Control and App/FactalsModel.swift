@@ -17,7 +17,7 @@ import SwiftUI
 	 // MARK: - 3. Factory
 	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
 		fmConfig				= configure		// Save in ourselves   WHY???
-		partBase				= pb//PartBase()	// Dummy
+		partBase				= pb						//PartBase()// Dummy
 		simulator 				= Simulator(configure:configure)	// params4sim
 
 		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -51,7 +51,6 @@ import SwiftUI
 			// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
-let x = pp(.tree)
 		logBld(2, "------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true])))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {

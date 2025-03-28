@@ -51,7 +51,7 @@ struct SimpleTestView: View {
  						//print("EventReceiver:point = \(nsEvent.locationInWindow)")
 						if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree) {
 							guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-							print("Key '\(c)' not recognized and hence ignored")
+							//print("Key '\(c)' not recognized and hence ignored")
 						}
 					}
 					MySceneView(scnBase:scnBase)

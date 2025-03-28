@@ -803,7 +803,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 	  // MARK: - 7. Simulator Messages
 	 // Inject message
 	func sendMessage(fwType:FwType) {
-		logEve(4, "      all parts ||  sendMessage(\(fwType)).")
+		logEve(4, "||      all parts sendMessage(\(fwType)).")
 		let fwEvent 			= HnwEvent(fwType:fwType)
 		return receiveMessage(fwEvent:fwEvent)
 	}

@@ -132,7 +132,7 @@ struct FactalsModelView: View {
 									EventReceiver { nsEvent in // Catch events (goes underneath)
 										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-											print("Key '\(c)' not recognized and hence ignored...")
+											//print("Key '\(c)' not recognized and hence ignored...")
 										}
 									}
 								}
