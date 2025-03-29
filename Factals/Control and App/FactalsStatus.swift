@@ -171,14 +171,14 @@ extension PartBase : FactalsStatus	{								 ///PartBase
 					" dirty:'\(tree.dirty.pp())' "					)
 	}																			//bug; return "extension Parts : FwStatus needs HELP"	}
 }
-extension TimingChain : FactalsStatus {
+extension TimingChain : FactalsStatus {								///TimingChain
 	func ppControlElement(config:Bool=false) -> String {
-		var myline			= "'\(pp(.fullName))':\(pp(.fullNameUidClass))"
+		var myline			= "'\(pp(.fullName))':"
 		myline 				+= event != nil ? "event:\(event!.pp()) " : ""
 		myline				+= "  state:.\(state) "
 		myline				+= eventDownPause ? " eventDownPause": ""
 		myline				+= animateChain   ? " animateChain"  : ""
-		myline				+= asyncData 	 ? " asyncData" 	: ""
+		myline				+= asyncData 	  ? " asyncData" 	 : ""
 		return ppFactalsStateHelper("TimingChain  ", nameTag:self, myLine:myline)
 	}
 }
@@ -189,18 +189,17 @@ extension Simulator : FactalsStatus	{								///Simulator
 		{	return "Simulator not built "										}
 		var myline				= factalsModel == nil 	? "(factalsModel==nil)"
 								: factalsModel!.simulator === self ? "" : "OWNER:'\(factalsModel!)' BAD"
-		myline 					+= "simBuilt "
+		myline 					+= "simBuilt"
 		myline					+= simRun ? " simRun" : " simHalt"
-		myline					+= ", timeNow:\(timeNow)"
-		myline					+= " going:\(globalDagDirUp ? "up " : "down ")"
+		myline					+= ", timeNow:\(timeNow,decimals:3)"
+		myline					+= " going:\(globalDagDirUp ? "up" : "down")"
 		myline					+= ", timeStep:\(timeStep)"
-		myline					+= !simTaskRunning ? " taskHalted" : " taskPeriod=\(String(simTaskPeriod)) "
-	//	myline					+= isSettled() ? " simSETTLED=" : " Run Sim="
+		myline					+= !simTaskRunning ? " taskHalt" : " taskPeriod=\(String(simTaskPeriod)) "
 
-		myline					+= " \(portChits)/Ports,"
-	//	//myline				+= " [" + unPorts.map({hash in hash() }).joined(separator:",") + "]"
-		myline					+= " \(linkChits)/Links,"
-		myline					+= " \(startChits)/start"
+		myline					+= isSettled() ? " settled" : " running"
+		myline					+= ":(\(portChits)/P"
+		myline					+= " \(linkChits)/L"
+		myline					+= " \(startChits)/S)"
 		return ppFactalsStateHelper(
 			"Simulator    ", nameTag:self, myLine:myline)
 			{	guard let fm	= self.factalsModel else { return "factalsModel in nil"}

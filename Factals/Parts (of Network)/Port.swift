@@ -436,7 +436,7 @@ class Port : Part, PortTalk {
 		
 		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
-		if let scnScene			= vew.vewBase()?.scnBase.roots, enaPpWorld {
+		if /*let scnScene		= vew.vewBase()?.scnBase.roots,*/ enaPpWorld {
 			worldPosn			= "w" + csVisVew.scnRoot.convertPosition(rv.center, to:nil/*scnRoot*/).pp(.short, aux) + " "
 		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
 		logRsi(8, "INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'")

@@ -2,7 +2,7 @@
 
 import SceneKit
 
- // Present clocked, "Discrete Time" data into a HaveNWant Network:
+ // Present clocked, interface "Discrete Time" data into a HaveNWant Network:
 // 	  Contains 3 classes
 //		* Dt: Discrete Time: connects discrete time to HaveNWant analog time.
 //		* Tc: Timing Chain: to insure the network settles before the new sample time enters
@@ -39,11 +39,11 @@ class Generator : Net {
 		}
 		if let prob 			= partConfig["prob"]?.asFloat {
 			wmArgs["prob"] 		= prob
-			partConfig["prob"] = nil
+			partConfig["prob"]	= nil
 		}
 		if let eventLimit		= partConfig["eventLimit"]?.asInt {
 			wmArgs["eventLimit"] = eventLimit
-			partConfig["eventLimit"] = nil
+			partConfig["eventLimit"] = nil	// Remove from partConfig and put in wmArgs
 		}
 		let wmNeeded			= wmArgs.count != 0
 		wmArgs					+= ["n":"wm", "f":1]

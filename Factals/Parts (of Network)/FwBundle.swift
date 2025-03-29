@@ -246,6 +246,10 @@ bug;		nop // for break
 		}
 		return true
 	}
+/*
+decorators
+dynamicMemberLookup
+ */
 								
 	 // Apply a specification to ourselves to form leaves
 	func apply(struc:FwAny, of leafKind:LeafKind?=nil, arg:FwAny?=nil, leafConfig:FwConfig, _ sub1:FwConfig=[:], _ sub2:FwConfig=[:]) {

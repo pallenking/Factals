@@ -13,11 +13,9 @@ class ScnBase : NSObject {
 
 	var roots	 : SCNScene?
 	var tree	 : SCNNode?	{
-		set(v) 	{	roots?.rootNode.addChildNode(v!)							}
-		get 	{	roots?.rootNode.children.first								}
+		set(v) 	 {	roots?.rootNode.addChildNode(v!)							}
+		get 	 {	roots?.rootNode.children.first								}
  	}
-
-	 // { didSet { setRootNodeChild1(from:tree) }}
 	var scnView	 : SCNView?						// SCNView  of this ScnBase
 	weak
 	 var vewBase : VewBase?						// Owner
@@ -29,6 +27,11 @@ class ScnBase : NSObject {
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
+	 /// animatePhysics is a posative quantity (isPaused is a negative)
+	var animatePhysics : Bool {
+		get {			return !(roots?.isPaused ?? false)						}
+		set(v) {		roots?.isPaused = v										}
+	}
 
 	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
 													where T.Failure == Never {
@@ -45,21 +48,14 @@ class ScnBase : NSObject {
 	 // MARK: - 3.1 init
 	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { //aka ScnBase(scnScene:eventHandler)
 		let scnScene 			= scnScene ??  {
-			let scene 			= SCNScene()
+			let scene 			= SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
 			return scene
 		}()
-//		do {
-//			let scene = try SCNScene(named: "art.scnassets/MyScene.scn")
-//		} catch {
-//			print("Failed to load SceneKit scene: \(error)")
-//		}
 		self.roots				= scnScene		// get scene
 		self.roots!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
 
- 		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-
-//		setRootNodeChild1 (from:tree)
+ 		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
 }
@@ -430,33 +426,32 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
-		guard let vewBase 		= vewBase else { print("processEvent.rootVews[?] is nil"); return false}
+		guard let vewBase else { print("ScnBase.vewBase is nil"); return false	}
 		let slot				= vewBase.slot_
-		let factalsModel		= vewBase.factalsModel		// why ! ??
+		guard let factalsModel	= vewBase.factalsModel else 	{ return false	}
 
 		switch nsEvent.type {
 
-		  //  ====== KEYBOARD ======
-		 //
+		 //  ====== KEYBOARD ===================================================
 		case .keyDown:
 			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
 			nextIsAutoRepeat 	= true
-			guard let char : String	= nsEvent.charactersIgnoringModifiers else { return false}
+			guard let char		= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 
-/**/		if vewBase.processEvent(nsEvent:nsEvent, inVew:vew) == false,
-			  char != "?"  {		// okay for "?" to get here
-				if Log.shared.eventIs(ofArea:"eve", detail:3) {
-					print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
-				}
-			}
+			if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) {}
+			else if char != "?"  {		// others  besides"?" to get here
+				logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
+			}											//if vewBase.processEvent(nsEvent:nsEvent, inVew:vew) == false,
+														//  char != "?"  {		// okay for "?" to get here
+														//	if Log.shared.eventIs(ofArea:"eve", detail:3) {
+														//		print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			nextIsAutoRepeat 	= false
-			let _				= factalsModel?.processEvent(nsEvent:nsEvent, inVew:vew)
+			if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) {}
 
-		  //  ====== LEFT MOUSE ======
-		 //
+		 //  ====== LEFT MOUSE =================================================
 		case .leftMouseDown:
 			prepareDeltas(with:nsEvent)
 			if let v		= modelPic(with:nsEvent) {
@@ -478,8 +473,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			mouseWasDragged = false
 			selfiePole2camera(duration:duration, reason:"Left mouseUp")
 
-		  //  ====== CENTER MOUSE (scroll wheel) ======
-		 //
+		 //  ====== CENTER MOUSE (scroll wheel) ================================
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			prepareDeltas(with:nsEvent)
 	/**/	if let v		= modelPic(with:nsEvent) {
@@ -504,8 +498,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	/**/	mouseWasDragged = false
 			selfiePole2camera(duration:duration, reason:"Slot\(slot): Other mouseUp")
 
-		  //  ====== CENTER SCROLL WHEEL ======
-		 //
+		 //  ====== CENTER SCROLL WHEEL ========================================
 		case .scrollWheel:
 			prepareDeltas(with:nsEvent)
 			let d				= nsEvent.deltaY
@@ -515,9 +508,8 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			//print("Slot\(slot): processEvent(type:  .scrollWheel  ) found pole:\(s.pp(.nameTag))=\(s.pp())")
 			selfiePole2camera(duration:duration, reason:"Scroll Wheel")
 
-		  //  ====== RIGHT MOUSE ======			Right Mouse not used
-		 //
-		case .rightMouseDown:
+		 //  ====== RIGHT MOUSE ================================================
+		case .rightMouseDown:	// Right Mouse not used
 			 // 2023-0305: nop, but it calls selfiePole2camera to update picture
 			prepareDeltas(with:nsEvent)
 			selfiePole2camera(duration:duration, reason:"Left mouseDown")
@@ -531,7 +523,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			prepareDeltas(with:nsEvent)
 			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 
-		  //  ====== TOUCH PAD ======(no touchesBegan, touchesMoved, touchesEnded)
+		  //  ====== TOUCH PAD ====== (no touchesBegan, touchesMoved, touchesEnded)
 		case .magnify:			bug
 		case .smartMagnify:		bug
 		case .swipe:			bug
@@ -561,13 +553,12 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		default:
-			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by RootScn")
+			print("Slot\(slot): processEvent(type:\(nsEvent.type)) NOT PROCESSED by ScnBase")
 			return false
 		}
 		return true
 	}
 	// MARK: - PIC
-	
 					  // ///////////////////////// //////////// //
 					 // ///                   /// //
 					// ///		 PIC         /// //
@@ -722,7 +713,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	}
 }
 
-// currently unused
+ // currently unused
 extension ScnBase : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		bug

@@ -11,6 +11,9 @@ class TimingChain : Atom {
 	var worldModel 	 : WorldModel? = nil	// of WorldModels
 	 // our WORKERS:
 	var discreteTimes: [DiscreteTime] = []
+	 // digital content:
+    var event		 : FwwEvent? = nil	// event being executed
+
 	 // our State:
 	enum State_		 : String, Codable {
 		case idle /* =0 */, state1, state2, state3, state4, state5				}
@@ -19,9 +22,8 @@ class TimingChain : Atom {
 			if animateChain && state != oldValue {
 				markTree(dirty:.size)
 			}
-		}																		}
-	 // our content:
-    var event		 : FwwEvent? = nil	// event being executed
+		}
+	}
 
 	var animateChain			= true		//false//true//
 
@@ -57,18 +59,18 @@ class TimingChain : Atom {
 	var eventDownPause 	: Bool	= false
 	 // Retract 1:N assertion when button UP
 	var retractPort 	: Port?	= nil
-								
-	  // MARK: - 3. Part Factory
-	 /// Defines Sample clocks
-	 /// - parameter config: 
+
+
+	   // MARK: - 3. Part Factory
+	  /// Defines Sample clocks
+	 /// - parameter config:
 	/// ## --- asyncData    :Bool   --  computNClock v.s. clockNCompute
 	override init(_ config:FwConfig = [:]) {
-		super.init(config)//, leafKind:leafKind_)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ //
+		super.init(config)//, leafKind:leafKind_)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
 		asyncData				= partConfig["asyncData"]    as? Bool ?? false
 		if let ac				= trueF_ {//factalsModel!.config4factalsModel.bool("animateChain") {		//partConfig["animateChain"] //config.bool("animateChain")
 			animateChain		= ac		//Bool(fwAny:ac) ?? false
 		}
-
 		 // Register ourselves with simulator:
 		partBase?.factalsModel?.simulator.timingChains.append(self)	/*WTF!*/
 	}
@@ -178,7 +180,7 @@ class TimingChain : Atom {
 	func equalsFW(_ a:[Part], _ b:[Part]) -> Bool {
 		guard a.count == b.count 					  else {	return false	}
 		for i in 0...a.count {
-			guard a[i].equalsFW(b[i])					  else {	return true		}
+			guard a[i].equalsFW(b[i])				  else {	return true		}
 		}
 		return true
 	}
@@ -247,7 +249,7 @@ class TimingChain : Atom {
 	override func reset() {								super.reset()
 		state					= .idle
 		eventDownPause			= false
-		logEve(4, "############ eventDownPause = false -- reset; .\(state)") //print("
+		logEve(4, "############ reset(): state:.\(state) eventDownPause:false")
 	}
 	 /// When "again" is encountered, some state must be reset for proper operation
 	func resetForAgain() {
@@ -259,10 +261,11 @@ class TimingChain : Atom {
 	override func simulate(up upLocal:Bool) {	 /// Step all my parts:
 		guard let simulator		= partBase?.factalsModel?.simulator else {return} // no sim
 		guard simulator.simRun				  else { return /* not emabled */}
-		 // Check for FwwEvent
-		if (state == .idle) {	// when State Machine becomes idle
+
+		 // Check state for FwwEvent
+		if state == .idle {		// when State Machine becomes idle
 			if let nextEvent = worldModel?.dequeEvent() { 	/// DUPLICATED in IBActions
-				 // DEQUEUED a pending World Experiment FwwEvent:
+				 // Dequeue
 				assert(state == .idle, "    TimingChain Gone Busy")
 				logEve(4, "    TimingChain: worldModel?.dequeEvent '\(nextEvent.pp())'")
 				assert(self.event==nil, "Should be space by now")
@@ -271,12 +274,12 @@ class TimingChain : Atom {
 				event			= nextEvent		// Symbolic, Destined for targetBundle
 
 				retractPort		= nil			// default param
-				eventDownPause	= true			// assert lock, which blocks till up
-				logEve(4, "############ eventDownPause = true  -- simulate(up:) && state==\(state)")
-				state 			= .state1			// Start Timing Chain
+			//	eventDownPause	= true			// assert lock, which blocks till up
+				state 			= .state1		// Start Timing Chain
+				logEve(4, "############ simulate(up:): eventDownPause<-true, state<-\(state)")
 				//!	playSound("")
 			//?	releaseEvent()
-	/*bug;*/	simulator.startChits = 200		// start simulator after key goes up
+	/*bug;*/	simulator.startChits = 250		// start simulator after key goes up
 //				simulator.linkChits += 1		// not settled
 //				assert(simulator.linkChits != 0, "linkChits count wraparound")
 			}
@@ -294,9 +297,7 @@ class TimingChain : Atom {
 			return								// idle, do nothing
 
 		case .state1://ad1cPrevlData	// ----> When Settled do 'ad1:?cPrev,lData'
-			if simulator.isSettled() == false {	// Sim unsettled or not enabled
-				return							// do nothing
-			}											// ## 1. Await Sim Settled
+			guard simulator.isSettled() else { return }	// Await sim settled										// ## 1. Await Sim Settled
 			if asyncData {
 				logEve(4, "//== .\(state): Sim Settled; Asynchronous Data Mode: nop")
 			}
@@ -305,8 +306,8 @@ class TimingChain : Atom {
 														// ## 2. do EARLY Clk Previous:
 				partBase!.tree.sendMessage(fwType:.clockPrevious)
 
-				for discreteTime in discreteTimes {
-					discreteTime.loadTargetBundle(event:event!)//## 3. load target bundle
+				for discreteTime in discreteTimes {		//## 3. load target bundle
+					discreteTime.loadTargetBundle(event:event!)
 				}
 				simulator.startChits = 4 		// start simulator before State 2
 			}
@@ -315,7 +316,7 @@ class TimingChain : Atom {
 
 			nextState			= .state2
 		case .state2://ad2:Conceive	// ----> When Settled do 'ad2:Conceive'
-			logEve(4, "||// .\(state): Sim Settled; Now do 'ad2:Conceive'")
+			logEve(4, "||== .\(state): Sim Settled; Now do 'ad2:Conceive'")
 																 // ## 4. Await Sim Settled
 			partBase!.tree.sendMessage(fwType:.writeHeadConcieve)// ## 5. do: CONCEIVE:
 			partBase!.tree.sendMessage(fwType:.writeHeadLabor)	 // ## 6. do: LABOR, BIRTH:
@@ -333,7 +334,7 @@ class TimingChain : Atom {
 			if !simulator.isSettled() { 		// Second, Await simSettled
 				return
 			}
-			logEve(4, "||// .\(state): userUpEvent and Sim Settled.  Now do 'ad3:?cPrev'")
+			logEve(4, "||== .\(state): userUpEvent and Sim Settled.  Now do 'ad3:?cPrev'")
 														// ## 8. Let Newbie run
 			assert(!eventDownPause, "should be OFF")	// elim after a while
 
@@ -388,7 +389,7 @@ class TimingChain : Atom {
 			return scn
 		} ()
 		let s					= !animateChain ? 0 :
-									state == .idle ? 0 :
+									state == .idle 	   ? 0 :
 									state == .state1   ? 1 :
 									state == .state2   ? 2 :
 									state == .state3   ? 3 :
@@ -415,27 +416,27 @@ class TimingChain : Atom {
 		if nsEvent.type == .keyDown {	// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {
+				assert(!eventDownPause, ".keyDown but eventDownPause")
+				eventDownPause	= true		// assert lock, which blocks till up
 				partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
+				logEve(4, "############ .keyDown: eventDownPause<-true,  startChits = 4")
 				return true					// other process processes it
 			}
 			nop
 		}		  // ///////// key UP  ///////
 		else if nsEvent.type == .keyUp {
-			if eventDownPause {
-				releaseEvent()				// retract event
-			}
+			assert(eventDownPause, ".keyUp   but no eventDownPause")
+			eventDownPause		= false			// release lock
+			partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
+			logEve(4, "############ .keyUp:   eventDownPause<-false, retractPort:" +
+										"\(retractPort?.pp(.fullName) ?? "nil")'")
+			retractPort?.take(value:0.0)
 		}
 		return false
 	}
 	  // MARK: - 8.1 FwwEvent Chain
 	 // Get an event from users (e.g. PushButtonBidirNsV, keyboard, ...)
 	func releaseEvent() {
-	 	logEve(4, "    TimisngChain: Release FwwEvent")
-		eventDownPause			= false			// assert lock, which blocks till up
-		logEve(4, "############ eventDownPause = false -- releaseEvent")
-		partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
-		retractPort?.take(value:0.0)
-		return
 	}
 
 	 // MARK: - 15. PrettyPrint

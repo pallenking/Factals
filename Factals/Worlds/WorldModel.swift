@@ -186,15 +186,14 @@ bug;	return rv
 			case "S":
 				let el			= eventLimit >= 0 	// any Limits?
 								?	-1 			  		// yes: START by turnomg limits OFF
-								:	eventNow			// no:  STOP by limiting events
+								: eventNow				// no:  STOP by limiting events
 				logEve(4, "\n" + "=== EVENT: Key 'S' DOWN: eventLimit = \(el) (was \(eventLimit)) eventNow=\(eventNow)")
 				eventLimit		= el					// N.B: other process reads and starts
 				return true
 			case "s":
 				let el			= eventLimit >= 0 ?	// any Limits?
-									eventLimit + 1 :	// yes: increase by 1
-									eventNow   + 1 		// no:  let 1 event through
-									
+								  eventLimit + 1 :		// yes: increase by 1
+								  eventNow   + 1 		// no:  let 1 event through
 				print("\n******************** 's' DOWN: eventLimit = \(el) (was \(eventLimit)) eventNow=\(eventNow)")
 				eventLimit		= el					// N.B: other process reads and starts
 				return true

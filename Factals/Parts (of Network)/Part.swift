@@ -11,7 +11,6 @@ import SwiftUI
 //let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
 // sound support bulse wireless headphones case: 02108778 $195 june
-
 protocol EquatableFW {
 	func equalsFW(_:Part) -> Bool
 }

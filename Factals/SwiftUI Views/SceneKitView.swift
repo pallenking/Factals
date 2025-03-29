@@ -212,9 +212,4 @@ struct MySceneView : View {
 //		scnView!.backgroundColor = NSColor("veryLightGray")!
 //		scnView!.antialiasingMode = .multisampling16X
 //		scnView!.delegate		= self as any SCNSceneRendererDelegate
-//	 /// animatePhysics is a posative quantity (isPaused is a negative)
-//	var animatePhysics : Bool {
-//		get {			return !scnScene.isPaused										}
-//		set(v) {		scnScene.isPaused = !v											}
-//	}
 

@@ -34,7 +34,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 	var timingChains	: [TimingChain] = []
 	var logSimLocks				= true		// Overwritten by Configuration
 
-	// MARK: - 2.1 Simulator State
+	 // MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
 	var portChits		:  Int	{	factalsModel?.partBase.tree.portChitArray().count ?? 0	}
 	var linkChits		:  Int	= 0			// by things like links
@@ -165,16 +165,12 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 
 		partBase .unlock (for:"simulationTask", logIf:logSimLocks)
 	}
-	// MARK: - 13. IBActions
-		/// Prosses keyboard key
+		 // MARK: - 13. IBActions
+		/// Prosses keyboard down events
 	   /// - Parameter from: -- NSEvent to process
 	  ///  - Parameter vew:         -- The Vew to use
 	 ///   - Returns: Key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
-//		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
-//			return false						// Simulator has no key-ups
-//		}
-	//	let shift 				= nsEvent.modifierFlags.contains(.shift)
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
 		switch character {
 		case " ":							// perhaps "+ shift"
@@ -194,7 +190,6 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 			print ("=== Simulator   commands:",
 				"\t' '             -- Toggel simRun: run(-1) / stop(0) ",
 				"\t'k'             -- kickstart simulator",
-//				"\t' ' + shift     -- Set simRun = 1: Run 1 cycle, then stop",
 				separator:"\n")
 		default:
 			nop
@@ -203,7 +198,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 		 // Check registered TimingChains
 		for timingChain in timingChains {
 /**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
-				return true 				/* handled by timingChain */
+				return true
 			}
 		}
 

@@ -25,11 +25,11 @@ protocol ProcessNsEvent {
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool
 }
 
-extension VewBase			: ProcessNsEvent {
-	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
-		factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
-	}
-}
+//extension VewBase			: ProcessNsEvent {
+//	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
+//		return factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+//	}
+//}
 //extension Parts		/*	: ProcessNsEvent */{
 // extension TimingChain	: ProcessNsEvent {}		// Redundant
 // extension WorldModel		: ProcessNsEvent {}		// Redundant

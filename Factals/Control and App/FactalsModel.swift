@@ -299,24 +299,20 @@ import SwiftUI
 	/// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-		guard let partBase : PartBase = vew?.part.partBase else { return false }	// vew.partBase.part
-		var found				= true
+		guard let partBase		= vew?.part.partBase else { return false 		}
 
-		 // Check Simulator:
+		guard nsEvent.type == .keyDown else { return false}// /// Key UP ///////
+		 // Check Simulator:							   // /// Key DOWN /////
 /**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
 			return true 					// handled by simulator
 		}
-
-//		 // Check Controller:
-//		if nsEvent.type == .keyUp {			// ///// Key UP ///////////
-//			return false						/* FwDocument has no key-ups */
-//		}
-		 // Sim EVENTS						// /// Key DOWN ///////
+		 // Check FactalsModel:
 		let cmd 				= nsEvent.modifierFlags.contains(.command)
 		let alt 				= nsEvent.modifierFlags.contains(.option)
 		var aux : FwConfig		= fmConfig	// gets us params4pp
 		aux["ppParam"]			= alt		// Alternate means print parameters
 
+		var found				= true
 		switch character {
 		case "u": // + cmd						// misplaced ^u
 			if cmd {
@@ -329,16 +325,6 @@ import SwiftUI
 		case "b":								// to debugger
 			print("\n******************** 'b': ======== keyboard break to debugger")
 			panic("'?' for debugger hints")
-		case "d":
-			print("\n******************** 'd': ======== ")
-			let l1v 			= rootVewL("_l1")
-bug//		print(l1v.scnScene.transform.pp(.tree))
-
-		 // print out parts, views
-		 // Command Syntax:
-		 // mM/lL 		normal  /  normal + links	L	 ==> Links
-		 // ml/ML		normal  /  normal + ports	ROOT ==> Ports
-		 //
 		case "m":								// print Model
 			aux["ppDagOrder"]	= true
 			print("\n******************** 'm': === Parts:")
@@ -365,9 +351,6 @@ bug//		print(l1v.scnScene.transform.pp(.tree))
 			print(ppControlElement())
 		case "C":								// print Controller Config
 			print(ppControlElement(config:true))
-		case "?":								// print help
-			printDebuggerHints()
-			return false						// anonymous printout
 
 		case "r": // (+ cmd)					// go to lldb for rerun
 			if cmd {
@@ -417,25 +400,26 @@ bug//		print(l1v.scnScene.transform.pp(.tree))
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			partBase.tree.forAllParts({	$0.markTree(dirty:.paint)			})
 			updateVews()
-		case "w":
+		case "w": bug
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
-		case "x": bug
-		//	print("\n******************** 'x':   === FactalsModel: --> parts")
-		//	if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
-		//	return true								// recognize both
-	//	case "f": 					// // f // //
-	//		var msg					= ""
-	//		for vews in rootVews {
-	//			msg 				+= vews.rootScn.animatePhysics ? "Run   " : "Freeze"
-	//		}
-	//		print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
-	//		return true								// recognize both
+		case "x":
+			print("\n******************** 'x':   === FactalsModel: --> parts")
+	bug	//	if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
+			return true								// recognize both
+		case "f": 						// // f // //
+			var msg					= ""
+			for vewBase in vewBases {
+				msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
+									(vewBase.scnBase.animatePhysics ? "Run   " : "Freeze")
+			}
+			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
+	bug;	return true								// recognize both
 		case "?":
 			printDebuggerHints()
 			print ("\n=== FactalsModel   commands:",
 				"\t'u'+cmd         -- misplaced ^u should go to xcode",
 				"\t'esc'           -- exit program",
-				"\t'b'             -- to debugger",
+				"\t'b'             -- break to debugger",
 //				"\t'd'             -- ",
 				"\t'm'             -- print Model",
 				"\t'M'             -- print Model and Ports",
@@ -456,16 +440,14 @@ bug//		print(l1v.scnScene.transform.pp(.tree))
 										//
 				"\t'P'             -- Paint the skins of Views",
 				"\t'w'             -- print FactalsModel",
-				"\t'x'             -- send to model",
-				"\t'f'             -- Freeze SceneKit Animations",
-
+			//	"\t'x'             -- send to model",
+			//	"\t'f'             -- Freeze SceneKit Animations",
 				separator:"\n")
-			found			= false
+			found			= false	// '?' special case, to show all
 		default:					// // NOT RECOGNIZED // //
 			found			= false
 		}
-
-		return found || simulator.processEvent(nsEvent:nsEvent, inVew:vew!)
+		return found															//|| simulator.processEvent(nsEvent:nsEvent, inVew:vew!)
 	}
 
 	 // MARK: - 15. PrettyPrint
