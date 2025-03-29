@@ -301,11 +301,12 @@ import SwiftUI
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
 		guard let partBase		= vew?.part.partBase else { return false 		}
 
-		guard nsEvent.type == .keyDown else { return false}// /// Key UP ///////
-		 // Check Simulator:							   // /// Key DOWN /////
+		 // Check Simulator:
 /**/	if simulator.processEvent(nsEvent:nsEvent, inVew:vew!)  {
 			return true 					// handled by simulator
 		}
+		guard nsEvent.type == .keyDown else { return false}// /// Key UP ///////
+														   // /// Key DOWN /////
 		 // Check FactalsModel:
 		let cmd 				= nsEvent.modifierFlags.contains(.command)
 		let alt 				= nsEvent.modifierFlags.contains(.option)

@@ -278,8 +278,8 @@ class TimingChain : Atom {
 				state 			= .state1		// Start Timing Chain
 				logEve(4, "############ simulate(up:): eventDownPause<-true, state<-\(state)")
 				//!	playSound("")
-			//?	releaseEvent()
-	/*bug;*/	simulator.startChits = 250		// start simulator after key goes up
+				releaseEvent()
+				simulator.startChits = 4		// start simulator after key goes up
 //				simulator.linkChits += 1		// not settled
 //				assert(simulator.linkChits != 0, "linkChits count wraparound")
 			}
@@ -422,15 +422,15 @@ class TimingChain : Atom {
 				logEve(4, "############ .keyDown: eventDownPause<-true,  startChits = 4")
 				return true					// other process processes it
 			}
-			nop
 		}		  // ///////// key UP  ///////
 		else if nsEvent.type == .keyUp {
 			assert(eventDownPause, ".keyUp   but no eventDownPause")
 			eventDownPause		= false			// release lock
 			partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
+			retractPort?.take(value:0.0)
 			logEve(4, "############ .keyUp:   eventDownPause<-false, retractPort:" +
 										"\(retractPort?.pp(.fullName) ?? "nil")'")
-			retractPort?.take(value:0.0)
+			return true
 		}
 		return false
 	}

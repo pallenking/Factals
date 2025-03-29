@@ -434,22 +434,21 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 		 //  ====== KEYBOARD ===================================================
 		case .keyDown:
-			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
-			nextIsAutoRepeat 	= true
 			guard let char		= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
-
-			if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) {}
-			else if char != "?"  {		// others  besides"?" to get here
-				logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
-			}											//if vewBase.processEvent(nsEvent:nsEvent, inVew:vew) == false,
-														//  char != "?"  {		// okay for "?" to get here
-														//	if Log.shared.eventIs(ofArea:"eve", detail:3) {
-														//		print("Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
+			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
+			assert(nextIsAutoRepeat==false)
+			nextIsAutoRepeat 	= true
+		/**/if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+			{	nop		/*taken*/												}
+			else if char != "?"  		// others  besides"?" to get here
+			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
+			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
+			assert(nextIsAutoRepeat==true)
 			nextIsAutoRepeat 	= false
-			if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew) {}
+		/**/let _ = factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		 //  ====== LEFT MOUSE =================================================
 		case .leftMouseDown:

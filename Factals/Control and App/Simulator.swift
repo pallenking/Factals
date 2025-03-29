@@ -172,17 +172,25 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 	 ///   - Returns: Key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
-		switch character {
+
+		var rv					= false
+		for timingChain in timingChains
+	/**/{	rv					||= timingChain.processEvent(nsEvent:nsEvent, inVew:vew)}
+		if rv
+		{	return true															}
+
+		guard nsEvent.type == .keyDown else { return false} // /// Key UP //////
+		switch character {									// /// Key DOWN ////
 		case " ":							// perhaps "+ shift"
 			 // One more cycle, stop if running:
-			simRun 			= !simRun
+			simRun 				= !simRun
 			if simRun {
 				startChits		= 4
 			}	// (Not using ppLog -- log numbers to be independent of
 			logEve(7, "++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
 		case "k":							// kickstart simulator
-			simRun 			= true
+			simRun 				= true
 			startChits			= 4
 			logEve(7, "++++++++++ simRun=\(simRun) globalDagDirUp=\(globalDagDirUp) kickstart=\(startChits)")
 			return true
@@ -191,17 +199,8 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 				"\t' '             -- Toggel simRun: run(-1) / stop(0) ",
 				"\t'k'             -- kickstart simulator",
 				separator:"\n")
-		default:
-			nop
+		default: nop
 		}
-
-		 // Check registered TimingChains
-		for timingChain in timingChains {
-/**/		if timingChain.processEvent(nsEvent:nsEvent, inVew:vew) {
-				return true
-			}
-		}
-
 		return false
 	}
 }
