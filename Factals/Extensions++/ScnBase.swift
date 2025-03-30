@@ -21,9 +21,9 @@ class ScnBase : NSObject {
 	 var vewBase : VewBase?						// Owner
 
 	var logRenderLocks			= true			// Overwritten by Configuration
-	var eventHandler:EventHandler
+	var eventHandler : EventHandler
 
-	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
+	var keyIsDown 	 : Bool 	= false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
@@ -437,18 +437,18 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			guard let char		= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
-			assert(nextIsAutoRepeat==false)
-			nextIsAutoRepeat 	= true
-		/**/if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+			assert(keyIsDown==false, "keyIsDown is already true")
+			keyIsDown 	= true
+	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 			{	nop		/*taken*/												}
 			else if char != "?"  		// others  besides"?" to get here
 			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
 			}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-			assert(nextIsAutoRepeat==true)
-			nextIsAutoRepeat 	= false
-		/**/let _ = factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+			assert(keyIsDown==true, "keyIsDown has gone false")
+			keyIsDown 	= false
+	/**/	let _ = factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		 //  ====== LEFT MOUSE =================================================
 		case .leftMouseDown:

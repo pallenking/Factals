@@ -176,7 +176,7 @@ extension TimingChain : FactalsStatus {								///TimingChain
 		var myline			= "'\(pp(.fullName))':"
 		myline 				+= event != nil ? "event:\(event!.pp()) " : ""
 		myline				+= "  state:.\(state) "
-		myline				+= eventDownPause ? " eventDownPause": ""
+//		myline				+= eventDownPause ? " eventDownPause": ""
 		myline				+= animateChain   ? " animateChain"  : ""
 		myline				+= asyncData 	  ? " asyncData" 	 : ""
 		return ppFactalsStateHelper("TimingChain  ", nameTag:self, myLine:myline)
@@ -197,7 +197,6 @@ extension Simulator : FactalsStatus	{								///Simulator
 		myline					+= !simTaskRunning ? " taskHalt" : " taskPeriod=\(String(simTaskPeriod)) "
 
 		myline					+= isSettled() ? " settled" : " running"
-		myline					+= ":(\(portChits)/P"
 		myline					+= " \(linkChits)/L"
 		myline					+= " \(startChits)/S)"
 		return ppFactalsStateHelper(

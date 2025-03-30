@@ -18,7 +18,7 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 		}
 	}
 	 /// Enable simulation task to run:																					//
-	var simRun : Bool 	 	= false 	// sim enabled to run?{
+	var simRun : Bool 	 		= false 	// sim enabled to run?{
 	{	didSet {
 			if simBuilt && !simTaskRunning {
 				simTaskRunning	= false		// (so startSimulationTask notices)
@@ -26,17 +26,16 @@ class Simulator : NSObject/*, ObservableObject*/, Codable {		// Logd // NEVER NS
 			}
 		}
 	}
-	var timeNow 		: Float		= 0.0
-	var globalDagDirUp	: Bool		= true
-	var timeStep	   	: Float		= 0.01
-	var simTaskPeriod  	: Float		= 0.01
-
+	var timeNow 		: Float	= 0.0
+	var globalDagDirUp	: Bool	= true
+	var timeStep	   	: Float	= 0.01
+	var simTaskPeriod  	: Float	= 0.01
+								
 	var timingChains	: [TimingChain] = []
 	var logSimLocks				= true		// Overwritten by Configuration
 
 	 // MARK: - 2.1 Simulator State
 	var simTaskRunning			= false		// sim task pending?
-	var portChits		:  Int	{	factalsModel?.partBase.tree.portChitArray().count ?? 0	}
 	var linkChits		:  Int	= 0			// by things like links
 	var startChits	  	: UInt8	= 0			// set to get simulator going
 

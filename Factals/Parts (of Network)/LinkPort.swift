@@ -29,8 +29,6 @@ class LinkPort : Port {
 	func addSegment(_ seg:LinkSegment) {
 		inTransit.append(seg)
 		partBase?.factalsModel?.simulator.linkChits	+= 1
-		//root?.simulator.linkChits	+= 1
-		//assert(root?.simulator.linkChits ?? 1 != 0, "wraparound")
 	}
 	init(_ config_:FwConfig, parent:Atom, i0:(Int, Int)=(0,0), color0:NSColor?=nil, _ initialSegments:[LinkSegment] = []) {
 		self.imageX0 			= i0.0
@@ -156,14 +154,9 @@ class LinkPort : Port {
 								  inPort2Port.value 	// Link input port if no previous value
 				logDat(5, "Link-->> %.2f (was %.2f) (\(outPort.fullName))", nextVal, outPort.value)
 				if outPort.value != nextVal {
-					let parts = outPort.partBase!.tree
-//					let c1		= parts.portChitArray().map { $0() }.joined(separator:", ")
-					//print("Before: \(c1)")
 					outPort.value = nextVal								// not outPort.take(value:v)
 					outPort.markTree(dirty:.paint)
 					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
-//					let c2		= parts.portChitArray().map { $0() }.joined(separator:", ")
-					//print("After:  \(c2)")
 				}
 			}
 		}

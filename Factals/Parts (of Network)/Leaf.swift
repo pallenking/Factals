@@ -97,18 +97,17 @@ bug;	return false
 //	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	func port4leafBinding(name:String) -> Part? {
-bug;//	let binding 			= self.bindings?[name]
-	//	if let path				= binding as? Path,
-	//	  let p					= resolveInwardReference(path, openingDown:false, except:nil)  {
-	//		return p
-	//	}
+		if let binding			= bindings?[name],
+		  let p					= resolveInwardReference(Path(withName:binding), openingDown:false, except:nil)  {
+			return p
+		}
 		return nil;			// not found
 	}
 	override func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
 bug;	return nil
 		// path matches self's name
 		if true{//path.nameAtom == self {		// Terminal's name (w.o. Port) matches
-//		if path.atomName == self {		// Terminal's name (w.o. Port) matches
+//		if path.atomName == self {				// Terminal's name (w.o. Port) matches
 			var rv : Part? 		= nil
 								//
 			  //////////// Is named port a BINDING? ///////////////////

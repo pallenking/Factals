@@ -12,7 +12,13 @@ import SwiftUI
 	var fmConfig  : FwConfig
 	var partBase  : PartBase
 	var simulator : Simulator
-	var vewBases  : [VewBase] 	= []				// VewBase of rootPartActor.parts
+	var vewBases  : [VewBase] 	= []
+	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
+		for vewBase in vewBases {
+			if vewBase.scnBase.keyIsDown { return true 							}
+		}
+		return false
+	}
 
 	 // MARK: - 3. Factory
 	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)

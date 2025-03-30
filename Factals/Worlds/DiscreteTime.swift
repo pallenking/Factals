@@ -144,7 +144,7 @@ class DiscreteTime : Atom {
 	func loadTargetBundle(event:FwwEvent) {
 		let pPort				= ports["P"]!				// Perhaps discreteTimes[*]
 		let targetPort			= pPort.portPastLinks
-		self.anonValue 			= 1.0
+		self.anonValue 			= 1.0						// value if nothing supplied
 		switch event {
 		case .anArray(let eventArray):	 // FwwEvent is an Array
 			logEve(4, "|| LOAD FwwEvent '\(eventArray.pp(.line))' into target \(pPort.fullName)")
@@ -156,24 +156,23 @@ class DiscreteTime : Atom {
 					logEve(4, "|| Element 1 ='\(ea0.pp())'; \(anonValue) => anonValue")
 			  	}
 			}
-			 // Clear all Ports:
+			 // Clear all Ports first:
 			if !incrementalEvents {
-/**/			targetPort?.take(value:0.0, key:nil)	// nil -> all
+		/**/	targetPort?.take(value:0.0, key:nil)	// nil -> all
 			}
 			 // Load FwwEvent:
-/**/		if let label 		= loadEvent(event:event) {
+	/**/	if let label 		= loadEvent(event:event) {
 				let tunnel		= targetPort!.atom! as! Tunnel
 				tunnel.label	= label
-				//targetBundle?.label = label // GUI: Labels in events are moved onto the bundle
 			}
 			partBase?.factalsModel?.simulator.startChits = 4// start simulator when event loads
 		case .aString(let eventStr):	 	// FwwEvent is an String
-			if eventStr == "incrementalEvents" {// "incrementalEvents" -- reserved word
+			if eventStr == "indcrementalEvents"{	// "incrementalEvents" -- reserved word
 				self.incrementalEvents = true	//  (do not use as signal name)
 				logEve(4, "|| FwwEvent 'incrementalEvents' -- hold previous values")
 				return
 			}
-			loadTargetBundle(event: .anArray([event]))	// package up eventStr
+			loadTargetBundle(event:.anArray([event]))	// package up eventStr
 		case .aProb(let prob):			 	// FwwEvent is a Floating Point --> Random Events (for easy first tests)
 			logEve(4, "|| FwwEvent '\(prob)': RANDOMIZE targetBundle \(targetPort?.fullName ?? "?232")")
 			 // Put in random data
@@ -201,7 +200,7 @@ class DiscreteTime : Atom {
 			for event in eventArray {								// E.g: [ ... ]
 				switch event {	 	  	// go through all signals in event:
 				case .aString(let signal):
-					if let ev_label = loadBit(named:signal) {
+			/**/	if let ev_label = loadBit(named:signal) {
 						rv_label = (rv_label ?? "") + ev_label  // catenate all event labels
 					}
 				default: panic()
@@ -246,7 +245,7 @@ class DiscreteTime : Atom {
 		if let pPort			= ports["P"]?.portPastLinks {
 			let was				= pPort.valuePrev	// pPort!.getValues(key:sigName)
 			logEve(4, "|| /\\/\\ '\(pPort.name)'.take(value:\(theValue), key:\(sigName)), was \(was)")
-			pPort.take(value:theValue, key:sigName)
+	/**/	pPort.take(value:theValue, key:sigName)
 		}
 //		else { panic("DiscreteTime 'P' Port fault") }
 

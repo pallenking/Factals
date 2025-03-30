@@ -25,12 +25,6 @@ class TimingChain : Atom {
 		}
 	}
 
-	var animateChain			= true		//false//true//
-
-	// Basic Op Mode: Variations in Insertion Cycle:
-	 // Issue previous clock late in the cycle
-	var asyncData 		: Bool	= false // change clocking mode:
-
 		// ____ Asynchronous Gui ____: Data with Snapshot:
 		//	User adjusts sliders and buttons, changes propigate through the network real time
 		//	User presses button to capture existing data. (optional)
@@ -54,12 +48,14 @@ class TimingChain : Atom {
 		//		*				* retractPort				*
 		//					.state4: Await SIM-SETTLED
 		//					.idel: Idle
+	// Basic Op Mode: Variations in Insertion Cycle:
+	 // Issue previous clock late in the cycle
+	var asyncData 		: Bool	= false // change clocking mode:
+	var animateChain			= true		//false//true//
 
-	 // Halt insertion sequence in middle while user key or button is down
-	var eventDownPause 	: Bool	= false
 	 // Retract 1:N assertion when button UP
 	var retractPort 	: Port?	= nil
-
+//	var sounder					= PortSound([:])
 
 	   // MARK: - 3. Part Factory
 	  /// Defines Sample clocks
@@ -88,7 +84,6 @@ class TimingChain : Atom {
 		case event
 		case state
 		case animateChain
-		case eventDownPause
 		case asyncData
 		case retractPort
 	}
@@ -136,7 +131,6 @@ class TimingChain : Atom {
 		try container.encode(event, 		forKey:.event)
 		try container.encode(state.rawValue,forKey:.state)
 		try container.encode(animateChain,	forKey:.animateChain)
-		try container.encode(eventDownPause,forKey:.eventDownPause)
 		try container.encode(asyncData, 	forKey:.asyncData)
 		try container.encode(retractPort, 	forKey:.retractPort)
 		logSer(3, "Encoded  as? TimingChan  '\(fullName)'")
@@ -151,7 +145,6 @@ class TimingChain : Atom {
 		event	 		= try container.decode( 	 FwwEvent.self, forKey:.event)
 		state	 		= try container.decode( 	   State_.self, forKey:.state)
 		animateChain	= try container.decode( 	     Bool.self, forKey:.animateChain)
-		eventDownPause	= try container.decode( 		 Bool.self, forKey:.eventDownPause)
 		asyncData	 	= try container.decode( 		 Bool.self, forKey:.asyncData)
 		retractPort	 	= try container.decode( 		 Port.self, forKey:.retractPort)
 		logSer(3, "Decoded  as? TimingChan named  '\(name)'")
@@ -165,7 +158,6 @@ class TimingChain : Atom {
 //		theCopy.event			= self.event
 //		theCopy.state			= self.state
 //		theCopy.animateChain	= self.animateChain
-//		theCopy.eventDownPause	= self.eventDownPause
 //		theCopy.asyncData		= self.asyncData
 //		theCopy.retractPort		= self.retractPort
 //		logSer(3, "copy(with as? TimingChain       '\(fullName)'")
@@ -199,7 +191,6 @@ class TimingChain : Atom {
 								&& equalsFW(event,		   rhs.event)
 								&& state 		  		== rhs.state
 								&& animateChain   		== rhs.animateChain
-								&& eventDownPause 		== rhs.eventDownPause
 								&& asyncData 	  		== rhs.asyncData
 								&& equalsFW(retractPort,   rhs.retractPort)
 		return rv
@@ -248,8 +239,7 @@ class TimingChain : Atom {
 	//**//*//*//*//*//*/s*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//
 	override func reset() {								super.reset()
 		state					= .idle
-		eventDownPause			= false
-		logEve(4, "############ reset(): state:.\(state) eventDownPause:false")
+		logEve(4, "############ reset(): state:.\(state)")
 	}
 	 /// When "again" is encountered, some state must be reset for proper operation
 	func resetForAgain() {
@@ -262,10 +252,9 @@ class TimingChain : Atom {
 		guard let simulator		= partBase?.factalsModel?.simulator else {return} // no sim
 		guard simulator.simRun				  else { return /* not emabled */}
 
-		 // Check state for FwwEvent
+		 // Deque FwwEvent
 		if state == .idle {		// when State Machine becomes idle
 			if let nextEvent = worldModel?.dequeEvent() { 	/// DUPLICATED in IBActions
-				 // Dequeue
 				assert(state == .idle, "    TimingChain Gone Busy")
 				logEve(4, "    TimingChain: worldModel?.dequeEvent '\(nextEvent.pp())'")
 				assert(self.event==nil, "Should be space by now")
@@ -274,14 +263,12 @@ class TimingChain : Atom {
 				event			= nextEvent		// Symbolic, Destined for targetBundle
 
 				retractPort		= nil			// default param
-			//	eventDownPause	= true			// assert lock, which blocks till up
 				state 			= .state1		// Start Timing Chain
-				logEve(4, "############ simulate(up:): eventDownPause<-true, state<-\(state)")
-				//!	playSound("")
+				logEve(4, "############ simulate(up:): state<-.\(state), events:'\(event?.pp(.line) ?? "nil")'")
+
+				vewFirstThatReferencesUs?.scn.play(sound:"tick")
 				releaseEvent()
 				simulator.startChits = 4		// start simulator after key goes up
-//				simulator.linkChits += 1		// not settled
-//				assert(simulator.linkChits != 0, "linkChits count wraparound")
 			}
 		}
 		super.simulate(up:upLocal)
@@ -311,7 +298,7 @@ class TimingChain : Atom {
 				}
 				simulator.startChits = 4 		// start simulator before State 2
 			}
-			logEve(7, "|| LOAD FwwEvent '\(event?.pp() ?? "nil")' complete")
+			logEve(7, "|| LOAD FwwEvent '\(event?.pp(.line) ?? "nil")' complete")
 			event				= nil		// done with event, even if async
 
 			nextState			= .state2
@@ -328,15 +315,16 @@ class TimingChain : Atom {
 
 			nextState			= .state3
 		case .state3:				// ----> When Settled AND UsrUp do '?cPrev ?retract'
-			if eventDownPause {					// First, wait till user pause is up
+			if partBase!.factalsModel!.aKeyIsDown() {	// First, wait till user pause is up
 				return
 			}
 			if !simulator.isSettled() { 		// Second, Await simSettled
 				return
 			}
+			vewFirstThatReferencesUs?.scn.play(sound:"tock")
 			logEve(4, "||== .\(state): userUpEvent and Sim Settled.  Now do 'ad3:?cPrev'")
 														// ## 8. Let Newbie run
-			assert(!eventDownPause, "should be OFF")	// elim after a while
+//			assert(!eventDownPause, "should be OFF")	// elim after a while
 
 			 //	 !asyncData used in Morse Code (F1, F2, F3)
 			if asyncData {		 						// ## 9. LATE Previous Clk
@@ -350,11 +338,7 @@ class TimingChain : Atom {
 			if !simulator.isSettled() {				// Await simSettled
 				return
 			}
-			logEve(4, "\\\\\\\\ .\(state): Sim Settled;  EVENT DONE")
-
-			 // Stop wanting simulator
-//			assert(simulator.linkChits != 0, "wraparound")
-//			simulator.linkChits -= 1
+			logEve(4, "\\\\== .\(state): Sim Settled;  EVENT DONE")
 			nextState			= .idle				// ** 11. go idle
 		default:				// ----> PROBLEMS!
 			panic(fmt("state: .\(state) UNDEFINED"))
@@ -396,7 +380,7 @@ class TimingChain : Atom {
 									state == .state4   ? 4 : 0
 //		let s					= animateChain ? min(Int(state), 4) : 0
 		scn.scale.y				= [1.0, 1.5, 1.75, 1.51, 1.25][s]				//[1.0, 1.25, 1.5, 1.75, 2]//[1.0, 2, 1.75, 1.5, 1.25]
-		logEve(4, "@@@@@ @ @ @ @ @@@@@ TimingChain scale.y: \(scn.scale.y)")
+		logEve(7, "@@@@@ @ @ @ @ @@@@@ TimingChain scale.y: \(Float(scn.scale.y), decimals:3)")
 		return scn.bBox() * scn.transform	//vew.scnScene.bBox()// Xyzzy44 ** sbt
 	}
 	 // MARK: - 9.4 rePosition
@@ -416,16 +400,12 @@ class TimingChain : Atom {
 		if nsEvent.type == .keyDown {	// nsEvent.modifierFlags.rawValue & FWKeyUpModifier == 0	{
 				  // ///////// key DOWN ///////
 			if worldModel?.processEvent(nsEvent:nsEvent, inVew:vew) ?? false {
-				assert(!eventDownPause, ".keyDown but eventDownPause")
-				eventDownPause	= true		// assert lock, which blocks till up
 				partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
-				logEve(4, "############ .keyDown: eventDownPause<-true,  startChits = 4")
+				logEve(4, "############ .keyDown: startChits = 4")
 				return true					// other process processes it
 			}
 		}		  // ///////// key UP  ///////
 		else if nsEvent.type == .keyUp {
-			assert(eventDownPause, ".keyUp   but no eventDownPause")
-			eventDownPause		= false			// release lock
 			partBase?.factalsModel?.simulator.startChits = 4// set simulator to run, to pick event up
 			retractPort?.take(value:0.0)
 			logEve(4, "############ .keyUp:   eventDownPause<-false, retractPort:" +
@@ -456,7 +436,7 @@ class TimingChain : Atom {
 				rv				+= "event:\(event!.pp()) "
 			}
 			rv					+= fmt("state:.\(state) ")
-			rv					+= eventDownPause ? "eventDownPause " : ""
+//			rv					+= eventDownPause ? "eventDownPause " : ""
 			rv					+= animateChain  ? "animateChain "  : ""
 			rv					+= asyncData 	 ? "asyncData " 	: ""
 			if retractPort != nil {

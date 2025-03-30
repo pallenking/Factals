@@ -31,10 +31,10 @@ final class FactalsTests: XCTestCase {
 //		super.setUp()
 //	}
 //
-//	override func tearDownWithError() throws {
-//		// Put teardown code here. This method is called after the invocation of each test method in the class.
-//		print("-------------- XCTest tearDownWithError code: --------------------")
-//	}
+	override func tearDownWithError() throws {
+		// Put teardown code here. This method is called after the invocation of each test method in the class.
+		print("-------------- XCTest tearDownWithError code: --------------------")
+	}
 	func testLeafKind() {
 		let broadcastLeafKind 	= LeafKind.bcast
 		let y					= broadcastLeafKind.pp(.tree)
@@ -124,6 +124,15 @@ final class FactalsTests: XCTestCase {
 			print("Str = \(str)")
 		}
 		XCTAssertEqual(a, "aaabbbccc", "actual:\(a) != expected:\"aaabbbccc\"")
+	}
+	func testAllLeafs() {
+		let tunnel		= Tunnel(["struc":["a", "b", "c", "d"], "placeMy":"stackz 0 -1"])
+		var rv:String	= ""
+		tunnel.forAllLeafs {
+			(leaf:Leaf) in
+			rv			+= leaf.name + " "
+		}
+		XCTAssertEqual(rv, "a b c d ", "forAllLeafs()")
 	}
 
 	 // First test is verrry easy

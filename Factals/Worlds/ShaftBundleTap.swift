@@ -34,21 +34,13 @@ class ShaftBundleTap : BundleTap { //Generator {
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(partBase:PartBase) {
 											super.groomModelPostWires(partBase:partBase)
-								
-		 // Test new targetBundle has bindings for both R and G Ports
-		(ports["P"]?.portPastLinks?.parent as? FwBundle)?.forAllLeafs(
-		{(leaf : Leaf) in
-			assert(leaf.port(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil 
-//	override       func port(named wantName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-
-			assert(leaf.port(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil 
-		})
+		 // Test new targetBundle has R and G bindings
+		guard let fwBundle		= ports["P"]?.portPastLinks?.parent as? FwBundle else {fatalError() }
+		fwBundle.forAllLeafs() {leaf in
+			assert(leaf.port(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil
+			assert(leaf.port(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil
+		}
 	}
-/*
-
-		let wmNeeded			= wmArgs.count != 0
-		wmArgs					+= ["n":"wm", "f":1]
-*/
 	 // MARK: - 8. Reenactment Simulator
 	func eventReady() -> String? {	return nil									}
 	override func loadTargetBundle(event:FwwEvent) {debugger("Not implemented") }

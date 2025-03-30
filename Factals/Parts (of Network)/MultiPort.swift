@@ -20,10 +20,17 @@ class MultiPort : Port {
 
 		 // Forward to other MPort, whose parent should be a Tunnel:
 		if let tunnel			= self.atom as? Tunnel {
-			tunnel.forAllLeafs		// Go through all Leafs of Tunnel:
-			{(leaf:Leaf) in			  //##BLOCK
-				if key==nil || 		// nil --> 'all mode'
-				  leaf.name == key! 	// at named Leaf
+
+			if key != nil {
+				tunnel.forAllLeafs() {
+					(leaf:Leaf) in
+					print(leaf.fullName)
+				}
+			}
+			tunnel.forAllLeafs() {
+			(leaf:Leaf) in
+				if key  == nil || 		// --> 'all mode'
+				   key! == leaf.name 	// at named Leaf
 				{
 					guard let gPort = leaf.port(named:"G") else {
 						panic("Leaf \(leaf.fullName) must have 'G' Port")

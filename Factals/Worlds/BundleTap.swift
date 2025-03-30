@@ -83,7 +83,7 @@ class BundleTap : Atom {
 		}
 								//
 		 // Test new target bundle; must have both R (for reset) and G (for generate)
-		targetBundle.forAllLeafs { leaf in
+		targetBundle.forAllLeafs {leaf in
 			guard let _			= leaf.port4leafBinding(name: "R"),
 			 let _ 				= leaf.port4leafBinding(name: "G") else {
 				debugger("Leaf \(self.pp(.fullName)) has no R or G port, needed by\n")	//type '\(leaf.type)' 
@@ -122,26 +122,22 @@ bug
 		case .aProb(let prob): 				/// Event is a single number
 			logEve(7, "|| Event '%@': RANDOMIZE targetBundle %@", event.pp(), targetBundle.fullName)
 			 // Put in random data
-			targetBundle.forAllLeafs { leaf in
-				if let leafsGport = leaf.port4leafBinding(name:"G") {
-					let value	= randomProb(p:prob)
-bug					//leafsGport.valueTake = value
+			targetBundle.forAllLeafs {leaf in
+				if let leafsGport = leaf.port4leafBinding(name:"G") as? Port {
+					let value:Float	= prob < randomDist(0, 1) ? 0.0 : 1.0
+					leafsGport.take(value:value) 		// let value	= randomProb(p:prob)
 				}
 			}
 		case .anEpoch(let epoch):			/// Integer --> @0 Epoch Mark
 			logEve(7, "|| Event '%@': Epoch Mark", epoch)
 		case .anArray(let array):			/// Event is an Array
-			logEve(7, "|| Event '%@' LOADS targetBundle %@...",
-								event.pp(), self.targetBundle!.fullName)
+			logEve(7, "|| Event '%@' LOADS targetBundle %@...", event.pp(), self.targetBundle!.fullName)
 			 // First element of an array sets the current anonymous value
 			if array.count > 0,
 			  case .aProb(let f) = array[0] {				// OR anEpoch(Int)
 				self.anonValue	= f
 				logEve(7, "|| Element 1 ='%@' sets %f => anonValue", array[0].pp(), f)
 			}
-								//
-			// ofphan
-			 /// Clear:
 			if self.incrementalEvents! == false {
 				self.loadPreClear()
 			}

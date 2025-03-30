@@ -379,9 +379,10 @@ bug//		newElt.apply(constructor:spec, leafConfig:leafConfig, tunnelConfig)
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	 typealias LeafOperation = (Leaf) -> ()
 	 func forAllLeafs(_ leafOperation : LeafOperation)  {
-		 for elt in self.children {
-			 if let subBlk = elt as? Leaf {		// ignore Ports and numbers
-				 subBlk.forAllLeafs(leafOperation)
+		 for elt in children {
+			 if let leaf = elt as? Leaf {		// ignore Ports and numbers
+				 leafOperation(leaf)
+				 leaf.forAllLeafs(leafOperation)
 			 }
 		 }
 	 }

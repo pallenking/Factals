@@ -634,7 +634,6 @@ bug				//		logBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\
 						conNet.addChild(link, atIndex:lnkInsInd)
 						 // Active segments from creation
 						partBase.factalsModel?.simulator.linkChits += link!.curActiveSegments
-						//self.partBase!.simulator.linkChits += link!.curActiveSegments
 					}
 				}
 /* ***************************** END OF CLOSURE **************************/

@@ -72,8 +72,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 	/// first vew which references us
 	var vewFirstThatReferencesUs : Vew? {
-		for vew in partBase?.factalsModel?.vewBases ?? [] {
-			if let vew = vew.tree.find(part:self) {
+		for vewBase in partBase?.factalsModel?.vewBases ?? [] {
+			if let vew = vewBase.tree.find(part:self) {
 				return vew
 			}
 		}

@@ -128,7 +128,7 @@ class Port : Part, PortTalk {
 	}
 	 // Design Note: uses [()->String]: efficient, allows count or
 	override func portChitArray() -> [()->String] {
-		let portChanged			= self.con2 != nil &&			// Connected Port
+		let portChanged			= self.con2  != nil &&			// Connected Port
 								  self.value != self.valuePrev	// and Value changed
 		return !portChanged ? [] :
 				[{ "\(self.fullName)," }]
