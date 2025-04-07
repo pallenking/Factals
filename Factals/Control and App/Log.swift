@@ -186,7 +186,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		eventStr					+= String(format:format, arguments:args)
 
 
-		var aaa					= pp(.fullName)
+//		var aaa					= pp(.fullName)
 //		if let selfIsPart		= self as? Part {
 //			aaa					= selfIsPart.pp(.fullName)
 //		}
@@ -201,7 +201,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		print(newLines + fmt("%03d%@", sh.eventNumber, eventStr), terminator:terminator )
 
 		if sh.breakAtEvent == sh.eventNumber {
-			panic("Encountered Break at Event \(sh.breakAtEvent).")
+			panic("Break at Event \(fmt("%04d", sh.breakAtEvent))")
 		}
 		sh.eventNumber				+= 1		// go on to next log number
 	}

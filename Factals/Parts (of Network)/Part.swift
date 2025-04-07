@@ -162,8 +162,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}()
 
 		 // Print out invocation
-		let n					= "create \(fwClassName) " + ("\'" + name + "\': ").field(8)
-		logBld(6, "  \(n)\(pp(.nameTag)):\(fwClassName.field(12))(\(partConfig.pp(.line)))")
+		let n					= "    created \(pp(.nameTag)) " + ("\'" + name + "\': ").field(8)
+		logBld(6, n + "\(fwClassName.field(12))(\(partConfig.pp(.line)))")
 
 		 // Options:
 		if let valStr			= partConfig["expose"] as? String,
@@ -486,10 +486,13 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 	func groomModelPostWires(partBase:PartBase)  {
 		 // Check for duplicate names:
-		var allNames : [String] = []
-		for child in children {
-			assertWarn(!allNames.contains(child.name), "\(self.fullName) contains duplicate name \(child.name)")
-			allNames.append(child.name)
+		var portName2atom : [String:Atom] = [:]		// PortName --> target
+		for child in children where child is Atom {
+			if let otherAtom = portName2atom[child.name] {
+				print("\(otherAtom.fullName) contains duplicate names \(child.name)")
+				print("\t\(otherAtom.fullName) and \(child.fullName)")
+			}
+			portName2atom[child.name] = child as? Atom
 		}
 		 // Do whole tree
 		for child in children {

@@ -189,7 +189,7 @@ class Splitter : Atom {
 		return rv
 	}
 	  // MARK: - 4.7 Editing Network
-	override func port(named wantName:String, localUp wantUp:Bool?, wantOpen:Bool, allowDuplicates:Bool) -> Port? {
+	override func port(named wantName  :String, localUp wantUp:Bool?, wantOpen:Bool, allowDuplicates:Bool) -> Port? {
 //	override func port(named wantName  :String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
 //	Atom	 func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
 

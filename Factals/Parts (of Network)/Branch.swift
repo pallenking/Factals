@@ -7,6 +7,20 @@
 
 import SceneKit
 
+//#pragma mark  4a Factory Access						// Methods defined by Factory
+var atomsDefinedPorts:[String:String]	= [ //				id rv = [super atomsDefinedPorts];
+//	 /// upper (splitter) half: Has P U
+	 // Just as a reminder:
+	//"P" 	: "pcd", 	// Bottom of upper half, connects to L <-.
+	//"U" 	: "p  ",	// Unknown sensation
+//	 /// bottom half:												 |
+	"S"		: "pcd",	// Lowest Port in Branch 170202
+	"L"		: "pc ",	// Top of bottom half, connects to P <---'
+	"M"		: "p d",	// Modulator, enables
+	"SPEAK"	: "p, d",	// Chooses shareProto[0,1]
+	]
+
+
 class Branch : Splitter {
 	var speak		: Bool 		= false			// or 0->listen
 	var noMInSpeak	: Bool 		= false
@@ -190,20 +204,20 @@ let discDiameter: Float = 3.5
 //	return rv;
 //}
 //
-//#pragma mark  4a Factory Access						// Methods defined by Factory
-//- (id) atomsDefinedPorts;	{				id rv = [super atomsDefinedPorts];
-//											// probably returns P sec U B kind
-//	  /// upper (splitter) half: Has P U
-//	 // Just as a reminder:
-//	//rv[@"P"]		= @"pcd";	// Bottom of upper half, connects to L <-.
-//	//rv[@"U"]		= @"p  ";	// Unknown sensation
-//	 /// bottom half:												 |
-//	rv[@"S"]		= @"pcd";	// Lowest Port in Branch 170202
-//	rv[@"L"]		= @"pc ";	// Top of bottom half, connects to P <---'
-//	rv[@"M"]		= @"p d";	// Modulator, enables
-//	rv[@"SPEAK"]	= @"p d";	// Chooses shareProto[0,1]
-//	return rv;
-//}
+								//#pragma mark  4a Factory Access						// Methods defined by Factory
+								//- (id) atomsDefinedPorts;	{				id rv = [super atomsDefinedPorts];
+								//											// probably returns P sec U B kind
+								//	  /// upper (splitter) half: Has P U
+								//	 // Just as a reminder:
+								//	//rv[@"P"]		= @"pcd";	// Bottom of upper half, connects to L <-.
+								//	//rv[@"U"]		= @"p  ";	// Unknown sensation
+								//	 /// bottom half:												 |
+								//	rv[@"S"]		= @"pcd";	// Lowest Port in Branch 170202
+								//	rv[@"L"]		= @"pc ";	// Top of bottom half, connects to P <---'
+								//	rv[@"M"]		= @"p d";	// Modulator, enables
+								//	rv[@"SPEAK"]	= @"p d";	// Chooses shareProto[0,1]
+								//	return rv;
+								//}
 //atomsPortAccessors(sPort,		S,		true)
 //atomsPortAccessors(lPort,		L,		false)
 //atomsPortAccessors(mPort,		M,		true)

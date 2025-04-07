@@ -28,7 +28,7 @@ import SceneKit
 /// *		i=					direct link to closet part named "i"
 /// *		i!^					link to "i", position only by it, suspend checking
 /// *		a.P					name ends in "a", the Port name is "P"
-/// *		/r/net/aa.P,l:5	to .../aa.P with length 5.0
+/// *		/r/net/aa.P,l:5		to .../aa.P with length 5.0
 /// *		foob!,max:5 		to foo, positioning using this link only, link max=5
 /// 
 /// *	Code NOTATION (pretty vanilla:)
@@ -51,8 +51,8 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 	var nameFull	: String	= "WTF is this?"
 
 	var nameAtom	: String	= "WTF is this too?"
-	var namePort	: String	= "WTF is this tree?"			// after last '.'
-	var linkOptions	:[String]	= []	// NSMutableArray;// just length now
+	var namePort	: String	= ""	// name of Port after last '.'		name1/name2.S
+	var linkOptions	:[String:String] = [:]										//var linkOptions	:[String]	= []	// just length now
 	var direct		: Bool		= false	// trailing '='
 	var flipPort	: Bool		= false	// trailing '%'
 	var noCheck		: Bool		= false	// trailing '^'
@@ -63,56 +63,10 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 	 /// Link's required propeties.
 	var linkProps 	: FwConfig 	= [:]	// e.g. l=3
 
-//	func sd(nameFull:String) {		// Nobody seems to call		// xyzzyx4
-//		self.nameFull = nameFull
-//
-//		   // NOTE: setNameStr can ignore leading '/'s to the atom
-//		  // process link parameters; those after the first comma
-//		 /// AAA in Path.h
-//		let components		= nameFull.components(separatedBy:",")
-//		var n 				= components.count - 1
-//		nameAtom			= components[0]			// first is atom
-//
-//		self.linkOptions 	= []
-//		while n > 0 {								// all but first --> linkOptions
-//			let option 		= components[n];	n  -= 1
-//			let nameVal		= option.components(separatedBy:"=")
-//			assert(nameVal.count==2, "Syntax: '\(option)' not of form <prop>=<val> (HINT: older form was just length, no key)")
-//			linkOptions[nameVal[0]] = nameVal[1]	// [self.linkOptions setValue:nameVal[1] forKey:nameVal[0]];
-//		}
-//		(direct, flipPort, dominant, invisible, noCheck) = (false, false, false, false, false)
-//		nameAtom 			= takeOptionsFrom(nameAtom)
-//
-//		 ///! CCC in Path.h
-//		namePort			= ""				/// Initially no Port
-//		if let range 		= nameAtom.range(of:".", options:.backwards) {
-//			namePort 		= String(nameAtom.suffix(from:nameAtom.index(after:range.lowerBound)))
-//			nameAtom		= String(nameAtom.prefix(upTo:range.lowerBound))
-//		}
-//
-//		suffixLoc 			= nameAtom.range(of:".", options:[BackwardsSearch].location;
-//		if (suffixLoc != NSNotFound) {
-//			self.namePort = [nameAtom substringFromIndex:suffixLoc+1];	// after  "."
-//			nameAtom = [nameAtom substringToIndex:suffixLoc];				// before "."
-//		}
-//		self.nameAtom = nameAtom;							/// Name without options
-//	}
-
-	func fullName() -> String {	// tokens and Port
-		return atomTokens.reversed().joined(separator:"/") +
-				(portName==nil ? "" : "." + portName!)
-	}
-	func dequeFirstName() -> String? {
-		guard atomTokens.count > 0 		else {		return nil }
-		let rv					= atomTokens[0]
-		atomTokens				= Array(atomTokens[1...])
-		return rv
-	}
-
 	 // MARK: - 3. Factory
 	init(withName name:String) {
 
-		  // Parse name into partNames, port, 1-char link modifiers, and val=prop link modifiers
+		  // Parse name into 1) partName(s), 2) port, 3) 1-char link modifiers, and val=prop link modifiers
 		 // Split name separated by "/" into atom tokens
 		 	            					 	//#  E.G: name = "r/bun/ab.P=@,l:5"
 		atomTokens 				= name.components(separatedBy:"/").reversed()
@@ -159,16 +113,64 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 				portName 		= lastName						// special Port Name
 				atomTokens		= Array(atomTokens.dropFirst()) // shift other tokens
 			}
-//			if portName == "share" {				// Port name "share" --> ""
-//				panic("WTF")
-//				portName		= ""				// meaning ???
-//			}
+			if portName == "share" {			// Port name "share" --> ""
+bug;			portName		= ""				// meaning ???
+			}
 		}
 		else {
 			panic("token with multiple dots (\".\")")
 		}
 		//assert(tokens.allSatisfy({ $0.count != 0 }), "null string in token from '\(name)'")
 	}
+
+	func wtf(nameFull:String) {		// Nobody seems to call		// xyzzyx4
+		self.nameFull 		= nameFull
+
+		   // NOTE: setNameStr can ignore leading '/'s to the atom
+		  // process link parameters; those after the first comma
+		 /// AAA in Path.h
+		let components		= nameFull.components(separatedBy:",")
+		var n 				= components.count - 1
+		nameAtom			= components[0]			// first is atom
+
+		self.linkOptions 	= [:]
+		while n > 0 {								// all but first --> linkOptions
+			let option 		= components[n];	n  -= 1
+			let nameVal		= option.components(separatedBy:"=")
+			assert(nameVal.count==2, "Syntax: '\(option)' not of form <prop>=<val> (HINT: older form was just length, no key)")
+
+
+			linkOptions[nameVal[0]] = nameVal[1]	// [self.linkOptions setValue:nameVal[1] forKey:nameVal[0]];
+		}
+		(direct, flipPort, dominant, invisible, noCheck) = (false, false, false, false, false)
+bug//	nameAtom 			= takeOptionsFrom(nameAtom)
+
+		 ///! CCC in Path.h
+		namePort			= ""				/// Initially no Port
+		if let range 		= nameAtom.range(of:".", options:.backwards) {
+			namePort 		= String(nameAtom.suffix(from:nameAtom.index(after:range.lowerBound)))
+			nameAtom		= String(nameAtom.prefix(upTo:range.lowerBound))
+		}
+
+//		suffixLoc 			= nameAtom.range(of:".", options:[BackwardsSearch].location;
+//		if (suffixLoc != NSNotFound) {
+//			self.namePort 	= [nameAtom substringFromIndex:suffixLoc+1];	// after  "."
+//			nameAtom 		= [nameAtom substringToIndex:suffixLoc];				// before "."
+//		}
+//		self.nameAtom 		= nameAtom;							/// Name without options
+	}
+
+	func fullName() -> String {	// tokens and Port
+		return atomTokens.reversed().joined(separator:"/") +
+				(portName==nil ? "" : "." + portName!)
+	}
+	func dequeFirstName() -> String? {
+		guard atomTokens.count > 0 		else {		return nil }
+		let rv					= atomTokens[0]
+		atomTokens				= Array(atomTokens[1...])
+		return rv
+	}
+
 
 	 // MARK: - 3.5 Codable
 	enum PathKeys : CodingKey { 	case atomTokens, portName, linkProps }

@@ -144,52 +144,51 @@ class Atom : Part {	//Part//FwPart
 
 // xyzzyx4
 	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
-		nil
-	}
-//		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
-//			var rv : Part?			= nil;
-//			if path.namePort.count {					// if named Port is specified
-//
-//				  // Search all existing component Ports:
-//				 //
-//				for port in parts where port is Port {
-//					if port.name == path.portName {
-//						assert(rv == nil, "multiple Ports named '\(path.portName)' found")
-//						if let portAbility = atomsDefinedPorts[path.portName] {
-//							let aPort 	= addPart(Port())
-//							aPort.flipped = portAbility.contains("d")
-//							aPort.name = path.portName;
-//							rv = aPort;						// return newly created Port
-//						}
-//					}
-//				}
-//				if rv == nil,
-//				  let portAbility = atomsDefinedPorts[path.portName] {
-//					let aPort = Port()
-//					addPart(aPort)
-//					aPort.flipped = portAbility.contains("d")
-//					aPort.name = path.portName;
-//					rv = aPort;						// return newly created Port
-//
-//				 // If not found, perhaps it could be built
-//				if (rv == 0)
-//					if (NSString *portAbility = [self xxx) {
+		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
+			var rv : Part?			= nil;
+			if path.namePort.count != 0 {					// if named Port is specified
+
+				  // Search all existing component Ports:
+				 //
+				for port in parts where port is Port {
+					if port.name == path.portName {
+						assert(rv == nil, "multiple Ports named '\(path.portName ?? "eh?w202520")' found")
+						if let portAbility = atomsDefinedPorts[path.portName!] {
+bug;						let rv = Port([:])
+							rv.flipped = portAbility.contains("d")
+							rv.name = path.portName!
+							addChild(rv)
+						}
+					}
+				}
+				if rv == nil,
+				  let portAbility = atomsDefinedPorts[path.portName!]
+				{
+bug;				let rv = Port([:])
+					rv.flipped = portAbility.contains("d")
+					rv.name = path.portName!
+					addChild(rv)
+				}
+				 // If not found, perhaps it could be built
+				if rv == nil {
+bug //				if (NSString *portAbility = [self xxx) {
 //						Port *aPort = [self addPart:[Port another]];
 //					}
-//			}
-//			else {
-//				rv = self							// matches the Atom
-//			}
-//			 // report and return results:
-//			if rv != nil {
-//				logBld(5, "   MATCHES Inward check: \(rv.fullName)")
-//				return rv
-//			}
-//		}
-//		logBld(5, "   FAILS   Inward check")
-//
-//		return super.resolveInwardReference(path, openingDown:downInSelf, except:exception)
-//	}
+				}
+			}
+			else {
+				rv = self							// matches the Atom
+			}
+			 // report and return results:
+			if rv != nil {
+				logBld(5, "   MATCHES Inward check: \(rv!.fullName)")
+				return rv
+			}
+		}
+		logBld(5, "   FAILS   Inward check")
+		return nil
+bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:exception)
+	}
 
 	// MARK: - 4.4 Navigating Network
 	func biggestBit(openingUp  upInSelf:Bool) -> Port? {
@@ -217,32 +216,28 @@ class Atom : Part {	//Part//FwPart
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-//		logBld(7, " '\(fullName)'   .port(   named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+		logBld(7, " '\(fullName)'   called port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 		var rvPort : Port?		= nil					// Initially no return value
 
 		 // Check BINDINGS?
 		if let bindingString 	= bindings?[wantedName] {
 			let bindingPath		= Path(withName:bindingString)
 			if let boundPart	= find(path:bindingPath) {	// Decode binding target Part
-				rvPort 			=  boundPart as? Port			// Case 1: already a Port?
-				if let boundAtom = boundPart as? Atom {			// Case 1: Atom's Port?
-					let sWantUp	= wantUp==nil ? nil : wantUp! ^^ boundAtom.upInPart(until:self)
-					logBld(6, " .BINDING \"\(wantedName)\":\"\(bindingString)\" now at \(fwClassName): \"\(boundAtom.pp(.fullName))\"")
-
-					// Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
-			/**/	rvPort		= boundAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+				rvPort 			= boundPart as? Port			// Case 1: already a Port?
+				if let bAtom 	= boundPart as? Atom {			// Case 1: Atom's Port?
+					let sWantUp	= wantUp==nil ? nil : wantUp! ^^ bAtom.upInPart(until:self)
+					 // Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
+			/**/	rvPort		= bAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+					logBld(4, "-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'")
 				}
-//				rvPort 			=  boundPart as? Port			// Case 2: Port?
 			}
-			logBld(4, "-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'")
 		}
-		 // If Existing Port?
-		rvPort					= rvPort ?? existingPorts(named:wantedName, localUp:wantUp).first
-		 // If Delayed Populate Port?
-		rvPort					= rvPort ?? delayedPopulate(named:wantedName, localUp:wantUp)
+		rvPort					= rvPort							// Binding
+			?? existingPorts(  named:wantedName, localUp:wantUp).first// If Existing Port?
+			?? delayedPopulate(named:wantedName, localUp:wantUp)	// If Delayed Populate Port?
 
 		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-		if //rvPort == nil,
+		if rvPort == nil,
 		  wantOpen,								// want an open port
 		  let origConPort		= rvPort?.con2?.port// found a port, but it's not open!
 		{

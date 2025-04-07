@@ -209,14 +209,81 @@ https://youtu.be/18ahFtnuBwI?list=TLPQMDgwMTIwMjXr2t9CYaELYQ&t=89
 
 
 
-(Factals.VewBase?) 0x0000600001ca0e00 {
-  nameTag = 97
-  title = "VewBase0"
-  partBase = 0x00006000011a4c80 {
-    nameTag = 16
 
-(Factals.VewBase?) 0x0000600001c20f00 {
-  nameTag = 177
-  title = "VewBase1"
-  partBase = 0x00006000011a4c80 {
-    nameTag = 16
+
+
+/tree/*-p5    ==    /tree/*-p5/*-p4/s-atomic
+/tree/*-p5/*-p2    ==    /tree/*-p5/*-p4/s-atomic
+/tree/*-p5/*-p2/*-P    ==    /tree/*-p5/*-p4/s-atomic
+/tree/*-p5/*-p4    ==    /tree/*-p5/*-p4/s-atomic
+		** No Part FOUND
+
+===== SCNNodes of Slot0: =====
+ 054f  tree    . . . . . . .                      01 geom:nil
+ 817f  | *-p5    . . . . . .                      02 geom:nil
+ 7574  | | w-3     . . . . . p<2.3>I[0.8]         04 bb:-2<2, -2<3, -2<2
+ 0b15  | | s-LoFram. . . . . pI[-1.5]             01 PictureFrame(w:4.00, l:4.00, h:0.50 step:0.50)
+ d534  | | s-HiFram. . . . . pI[3.1]              01 PictureFrame(w:4.00, l:4.00, h:-0.50 step:0.50)
+ 3fd5  | | *-p2    . . . . . pI[2.0]              02 geom:nil
+ 724c  | | | w-2     . . . . p<0.8>I[-0.2]        04 bb:-2<2, -1<1, -2<2
+ 5918  | | | s-Mir   . . . . pI[0.3]              01 <Box: w=3.0 h=0.6 l=3.0 cr=0.2>
+ 345e  | | | *-P     . . . . pI[-1.0]             02 geom:nil
+ 36dc  | | *-p4    . . . . .                      02 geom:nil
+ 2883  | | | s-atomic. . . .                      02 <Sphere: r=0.5>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://us06web.zoom.us/j/82724538116?pwd=P9VHbRhVT4L1rRu1cbGQgv6bRReNJf.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+001b   | | | < 0  a    main:Bulb    . . . . ?48  Bulb a1=0.00 Bulb WTA false , r(0.5) =v(0.0)*g(5.0)+o(0.5)
+0020   | | | < 0  b    main:Bulb    . . . . ?48  Bulb a1=0.00 Bulb WTA false , r(5.5) =v(1.0)*g(5.0)+o(0.5)
+0025   | | | < 0  c    main:Bulb    . . . . ?48  Bulb a1=0.00 Bulb WTA false , r(0.5) =v(0.0)*g(5.0)+o(0.5)
+
+
+
+
+001b   | | | < 0      main:Bulb    . . . . ?48  Bulb a1=0.00 Bulb WTA false , r(0.5) =v(0.0)*g(5.0)+o(0.5)
+001c___|_|_|_|\____________P:Port    . . . ?48  0.00><0.00 ->p13.S -> /p7/p2/a/genP.s2
+0045 Ff| | | |/           s1:Broadcas. . . ?48  0.00><0.00 ->p9.P -> /p7/y.s1
+0046 Ff| | | |/           s2:Broadcas. . . ?48  0.00><0.00 ->p13.P -> /p7/p2/a/main.P
+0043   | | | < 2      genP:Broadcas. . . . ?48  Broadcast a1=0.00 Broadcast isBroadcast WTA false 
+0044___|_|_|_|\____________P:Port    . . . ?48  0.00><0.00 -> /p7/p2/a/gen.P
+001e F | | | |/            P:Port    . . . ?48  0.00><0.00 -> /p7/p2/a/genP.P
+001d_Ff|_|_|_<_3_______gen:Mirror  . . . . ?48  gain:1.0, offset:0.0
+001f   | | < 1         a:Leaf    . . . . . ?48  bindings:[:gen, +:main, G:gen.P, R:gen.P] bindings:[:gen, +:main, G:gen.P, R:gen.P] 
+0020   | | | < 0      main:Bulb    . . . . ?48  Bulb a1=0.00 Bulb WTA false , r(5.5) =v(1.0)*g(5.0)+o(0.5)
+0021___|_|_|_|\____________P:Port    . . . ?48  0.00><1.00 ->p14.S -> /p7/p2/b/genP.s2
+004c Ff| | | |/           s1:Broadcas. . . ?48  0.00><0.00 ->p10.P -> /p7/y.s2
+004d Ff| | | |/           s2:Broadcas. . . ?48  0.00><0.00 ->p14.P -> /p7/p2/b/main.P
+004a   | | | < 2      genP:Broadcas. . . . ?48  Broadcast a1=0.00 Broadcast isBroadcast WTA false 
+004b___|_|_|_|\____________P:Port    . . . ?48  0.00><0.00 -> /p7/p2/b/gen.P
+0023 F | | | |/            P:Port    . . . ?48  0.00><0.00 -> /p7/p2/b/genP.P
+0022_Ff|_|_|_<_3_______gen:Mirror  . . . . ?48  gain:1.0, offset:0.0
+0024   | | < 2         b:Leaf    . . . . . ?48  bindings:[:gen, +:main, G:gen.P, R:gen.P] bindings:[:gen, +:main, G:gen.P, R:gen.P] 

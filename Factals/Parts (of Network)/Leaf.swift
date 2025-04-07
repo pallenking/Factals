@@ -104,7 +104,6 @@ bug;	return false
 		return nil;			// not found
 	}
 	override func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
-bug;	return nil
 		// path matches self's name
 		if true{//path.nameAtom == self {		// Terminal's name (w.o. Port) matches
 //		if path.atomName == self {				// Terminal's name (w.o. Port) matches
