@@ -70,8 +70,8 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 		 // Split name separated by "/" into atom tokens
 		 	            					 	//#  E.G: name = "r/bun/ab.P=@,l:5"
 		atomTokens 				= name.components(separatedBy:"/").reversed()
-		let atEnd				= atomTokens[0]	//#  E.G: "ab.P=@,l:5"
-		let options				= atEnd.components(separatedBy:",")
+		let lastToken			= atomTokens[0]	//#  E.G: "ab.P=@,l:5"
+		let options				= lastToken.components(separatedBy:",")
 
 		var lastName			= options[0]  	//#  E.G: "P=@,l:5"
 		 // options[1..] are name=value pairs defining link E.G: [ "l=5", ... ]
@@ -81,7 +81,7 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 												" E.G: \"l:5\", \"@\" and \"=\"")
 			linkProps[nameVal[0]] = nameVal[1]
 		}
-		 // Strip trailing characters
+		 // Strip trailing option characters
 		while let cSub 			= lastName.last {
 			let c				= String(cSub)
 			var found			= false
@@ -91,7 +91,7 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 				linkProps[x] 	= true			// 		linkProps["direct"] = true
 			}
 			if !found {							// NOT PRESENT
-				break								// Stop on first non-special char
+				break								// Stop on first non-option char
 			}
 			lastName 			= String(lastName.dropLast())		// remove trailing modifiers
 		}
@@ -104,7 +104,7 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 			}
 			else {											// No atom part
 				assert(atomTokens.count == 1, "nil atom name, with other tokens")
-				atomTokens		= []
+				atomTokens		= []						// no more!
 			}
 		}
 		else if lastNameComps.count == 1 {		//#  E.G: "P" is a Port?

@@ -19,12 +19,13 @@ class Atom : Part {	//Part//FwPart
 	var proxyColor: NSColor?	= nil
 	var postBuilt				= false		// object has been built
 	var ports	 :[String:Port] = [:]
-	var bindings :[String:String]? = nil	// a map of names to internal Ports.
+	var bindings :[String:String]? = nil	// Map external names to internal Ports
+			// key:internal resource
 			//	""	Major output
 			//	+	Major output, cur
 			//	-	Major output, previous
 			//	G	DiscreteTime con2 point (a GenAtom.P)
-			//	R	Set the state (esp of a Previouss)
+			//	R	Set the state (esp of a Previous)
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig = [:]) {
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -210,35 +211,39 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	  // MARK: - 4.7 Editing Network
 	 /// Search an Atom for a Port, create if needed.
 	/// * If desired port not in Atom's .ports, check delayed populate and bindings.
-	/// - Parameter named:			 --- required name of Port, "*" generates automatic name, nil or "" allows any name
+	/// - Parameter named:			 --- required name of Port,
+	/// 	"*" 			generates automatic name,
+	/// 	nil or ""		allows any name
 	/// - Parameter localUp:		 --- required flip of Port, nil->either
 	/// - Parameter wantOpen:		 --- required that Port be open
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
-	func port(named wantedName:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		logBld(7, " '\(fullName)'   called port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
-		var rvPort : Port?		= nil					// Initially no return value
+	func port(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
+		let (wName, wAtom) 		= (named, self)
+		logBld(7, " '\(fullName)'   called port(named:\"\(wName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 
 		 // Check BINDINGS?
-		if let bindingString 	= bindings?[wantedName] {
+		if let bindingString 	= bindings?[wName] {
 			let bindingPath		= Path(withName:bindingString)
-			if let boundPart	= find(path:bindingPath) {	// Decode binding target Part
-				rvPort 			= boundPart as? Port			// Case 1: already a Port?
-				if let bAtom 	= boundPart as? Atom {			// Case 1: Atom's Port?
-					let sWantUp	= wantUp==nil ? nil : wantUp! ^^ bAtom.upInPart(until:self)
-					 // Binding leads to an atom:  ******* RECURSIVE CALL: deapth < 3
-			/**/	rvPort		= bAtom.port(named:wantedName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-					logBld(4, "-----Returns (BINDING \"\(wantedName)\":\"\(bindingString)\") -> Port '\(rvPort?.fullName ?? "nil")'")
-				}
+			let boundPart		= find(path:bindingPath)	// find bound part
+			let sWantUp			= wantUp==nil ? nil : wantUp! ^^ boundPart!.upInPart(until:self)
+			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
+				return bAtom.port(named:wName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+			}
+			if let rv 			= boundPart as? Port {			// Case 2: Port?
+				return !wantOpen || rv.con2==nil ? rv :
+						rv.atom?.port(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+//				(wName, wAtom)	= (bindingString, rv.atom!)
 			}
 		}
-		rvPort					= rvPort							// Binding
-			?? existingPorts(  named:wantedName, localUp:wantUp).first// If Existing Port?
-			?? delayedPopulate(named:wantedName, localUp:wantUp)	// If Delayed Populate Port?
+		if let rv				= wAtom.existingPorts(  named:wName, localUp:wantUp).first
+		{	return rv 															}
+		if let rv 				= wAtom.delayedPopulate(named:wName, localUp:wantUp)
+		{	return rv 															}
 
 		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-		if rvPort == nil,
-		  wantOpen,								// want an open port
+		var rvPort : Port?		= nil
+		if wantOpen,								// want an open port
 		  let origConPort		= rvPort?.con2?.port// found a port, but it's not open!
 		{
 			 // :H:Clone rv
@@ -248,32 +253,32 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			if let splitter 	= self as? Splitter,
 			  cPort.flipped,
 			  splitter.isBroadcast {
-				rvPort				= splitter.anotherShare(named:"*")
-				logBld(4, "-----Returns Splitter Share: '\(rvPort!.pp(.fullNameUidClass))'")
-				return rvPort
+				let rv			= splitter.anotherShare(named:"*")
+				logBld(4, "-----Returns Splitter Share: '\(rv.pp(.fullNameUidClass))'")
+				return rv
 			}
 
 			 // Get another Port from an attached Splitter?:
 			else if let cPort	= cPort.con2?.port,
 			  let conSplitter 	= cPort.atom as? Splitter,
 			  conSplitter.isBroadcast {
-				rvPort				= conSplitter.anotherShare(named:"*")
-				logBld(4, "-----Returns Another Share from Attached Splitter: '\(rvPort!.pp(.fullNameUidClass))'")
-				return rvPort
+				let rv			= conSplitter.anotherShare(named:"*")
+				logBld(4, "-----Returns Another Share from Attached Splitter: '\(rv.pp(.fullNameUidClass))'")
+				return rv
 			}
 
 			 // Add Auto Broadcast?:
-			else if let x		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
-				logBld(4, "-----Returns Another in autoBroadcast Attached Splitter Share: '\(x.pp(.fullNameUidClass))'")
-				return x
+			else if let rv		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
+				logBld(4, "-----Returns Another in autoBroadcast Attached Splitter Share: '\(rv.pp(.fullNameUidClass))'")
+				return rv
 			}
-			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(wantedName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(wName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 		}
 		return rvPort
 	}
 	  // MARK: - 4.7 Editing Network
 
-	 /// Find all existing Ports (those in .ports) that match parameters
+	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
 	/// * (Bindings and Delayed Populate are ignored.)
 	/// - Parameters:
@@ -281,16 +286,16 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	///   - portUp: if the port must be up (down, or nil)
 	/// - Returns: A (possibly empty) array of matching ports.
 	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil) -> [Port] {
-		var rv 					= [Port]()	// initially empty
+		var rv : [Port]			= []
 
 		 // Is wantName in ports[]?
 		for (pName, port) in ports {		// Search ports:
 			if wantName    == ""		||		// (name unimportant     OR
-			  wantName     == pName,			//  name matches port's)  AND
-			  portUp       == nil 		||		// (flip unimportant     OR
-			  port.flipped == portUp!			//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
+			   wantName    == pName,			//  name matches port's)  AND
+			   portUp      == nil 		||		// (flip unimportant     OR
+			   portUp!	   == port.flipped		//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
 			{
-				rv.append(port)					// found unique acceptable Port
+				rv.append(port)						// acceptable Ports
 			}
 		}
 		return rv

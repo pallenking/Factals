@@ -540,7 +540,7 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 	] ]),
 ] ] ) } )
 	xr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
-		MinAnd([P:"a"]), /**/ MinAnd([P:"a"]),
+		MinAnd([n:"a1", P:"a"]), /**/ MinAnd([n:"a2", P:"a"]),
 		Previous([n:"a"])
 	] ] ) } )
 	r("- path bad", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
