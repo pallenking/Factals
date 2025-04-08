@@ -366,8 +366,8 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
             landmarkName = "autoBroadcast(toPort:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +382,8 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "589"
-            endingLineNumber = "589"
+            startingLineNumber = "581"
+            endingLineNumber = "581"
             landmarkName = "gatherLinkUps(into:partBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -398,8 +398,8 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "port(named:localUp:wantOpen:allowDuplicates:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -447,22 +447,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "149BCF72-3F58-49AD-BCF4-769CFF93D450"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Factals/Parts (of Network)/Atom.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "port(named:localUp:wantOpen:allowDuplicates:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "32F71740-ED0C-40D0-8390-EBA313053B15"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -470,8 +454,8 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "port(named:localUp:wantOpen:allowDuplicates:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -489,6 +473,22 @@
             startingLineNumber = "72"
             endingLineNumber = "72"
             landmarkName = "init(withName:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2A517180-5BB8-4A76-BE35-BA72F61B345B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/Atom.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "port(named:localUp:wantOpen:allowDuplicates:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -219,60 +219,52 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func port(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		let (wName, wAtom) 		= (named, self)
-		logBld(7, " '\(fullName)'   called port(named:\"\(wName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+		logBld(7, " '\(fullName)'   called port(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 
 		 // Check BINDINGS?
-		if let bindingString 	= bindings?[wName] {
+		if let bindingString 	= bindings?[named] {
 			let bindingPath		= Path(withName:bindingString)
 			let boundPart		= find(path:bindingPath)	// find bound part
 			let sWantUp			= wantUp==nil ? nil : wantUp! ^^ boundPart!.upInPart(until:self)
 			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
-				return bAtom.port(named:wName, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-			}
+				return bAtom.port(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+			}		// all recursive calls
 			if let rv 			= boundPart as? Port {			// Case 2: Port?
 				return !wantOpen || rv.con2==nil ? rv :
 						rv.atom?.port(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-//				(wName, wAtom)	= (bindingString, rv.atom!)
 			}
+			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
 		}
-		if let rv				= wAtom.existingPorts(  named:wName, localUp:wantUp).first
+		if let rv				= existingPorts(  named:named, localUp:wantUp).first
 		{	return rv 															}
-		if let rv 				= wAtom.delayedPopulate(named:wName, localUp:wantUp)
+		if let rv 				= delayedPopulate(named:named, localUp:wantUp)
 		{	return rv 															}
 
 		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-		var rvPort : Port?		= nil
+		let rvPort : Port?		= nil
 		if wantOpen,								// want an open port
 		  let origConPort		= rvPort?.con2?.port// found a port, but it's not open!
 		{
 			 // :H:Clone rv
-			let cPort 			= rvPort!					// Clone non-open rv
+			let cPort 			= origConPort//??			// Clone non-open rv
 
 			 // Get another Port similar to similarPort from Splitter?:
 			if let splitter 	= self as? Splitter,
 			  cPort.flipped,
-			  splitter.isBroadcast {
-				let rv			= splitter.anotherShare(named:"*")
-				logBld(4, "-----Returns Splitter Share: '\(rv.pp(.fullNameUidClass))'")
-				return rv
-			}
+			  splitter.isBroadcast
+			{	return splitter.anotherShare(named:"*")							}
 
 			 // Get another Port from an attached Splitter?:
 			else if let cPort	= cPort.con2?.port,
 			  let conSplitter 	= cPort.atom as? Splitter,
-			  conSplitter.isBroadcast {
-				let rv			= conSplitter.anotherShare(named:"*")
-				logBld(4, "-----Returns Another Share from Attached Splitter: '\(rv.pp(.fullNameUidClass))'")
-				return rv
-			}
-
+			  conSplitter.isBroadcast
+			{	return conSplitter.anotherShare(named:"*")						}
+			
 			 // Add Auto Broadcast?:
-			else if let rv		= rvPort!.atom?.autoBroadcast(toPort:cPort) {
-				logBld(4, "-----Returns Another in autoBroadcast Attached Splitter Share: '\(rv.pp(.fullNameUidClass))'")
-				return rv
-			}
-			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(wName)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+			else if let rv		= rvPort!.atom?.autoBroadcast(toPort:cPort)
+			{	return rv														}
+
+			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 		}
 		return rvPort
 	}
@@ -315,7 +307,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		  let pProp					= hasPorts()[wantName],	// process "a", "f", "M"
 		  (wantUp == nil ||					// (flip unimportant OR
 			pProp.contains("f") == wantUp!),//  flip matches)
-		  pProp.contains("a")				// a=auto-populate
+		    pProp.contains("a")				// a=auto-populate
 		{		// Make a new Port:
 			let newPort				= (self is Splitter) ? (self as? Splitter)?.anotherShare(named:"*") :
 									  !pProp.contains("M") ?
