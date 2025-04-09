@@ -227,46 +227,47 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			let boundPart		= find(path:bindingPath)	// find bound part
 			let sWantUp			= wantUp==nil ? nil : wantUp! ^^ boundPart!.upInPart(until:self)
 			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
-				return bAtom.port(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-			}		// all recursive calls
+	/**/		return bAtom.port(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+			}											//A\\ ??
 			if let rv 			= boundPart as? Port {			// Case 2: Port?
-				return !wantOpen || rv.con2==nil ? rv :
+	/**/		return !wantOpen || rv.con2==nil ? rv :
 						rv.atom?.port(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}
 			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
 		}
-		if let rv				= existingPorts(  named:named, localUp:wantUp).first
-		{	return rv 															}
-		if let rv 				= delayedPopulate(named:named, localUp:wantUp)
-		{	return rv 															}
+
+		 // May be Existing Port:
+		let ports : [Port]		= 	existingPorts(  named:named, localUp:wantUp, wantOpen:wantOpen)
+		switch ports.count {
+		case 0:		nop
+		case 1:		return ports.first		// found, ship it!
+		default:	logBld(7, "multiple existingPorts\(ports)")
+		}
+
+		 // Time to delayed populate?
+		if let rv 				= 	delayedPopulate(named:named, localUp:wantUp)
+		{	return rv
+		}
 
 		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-		let rvPort : Port?		= nil
-		if wantOpen,								// want an open port
-		  let origConPort		= rvPort?.con2?.port// found a port, but it's not open!
-		{
-			 // :H:Clone rv
-			let cPort 			= origConPort//??			// Clone non-open rv
+		let cPort 			= Port(["n":"nonsense"])	//  s["nonsense"]// //origConPort//??			// Clone non-open rv
 
-			 // Get another Port similar to similarPort from Splitter?:
-			if let splitter 	= self as? Splitter,
-			  cPort.flipped,
-			  splitter.isBroadcast
-			{	return splitter.anotherShare(named:"*")							}
+		 // Get another Port similar to similarPort from Splitter?:
+		if let splitter 	= self as? Splitter,
+		  cPort.flipped,
+		  splitter.isBroadcast
+		{	return splitter.anotherShare(named:"*")							}
 
-			 // Get another Port from an attached Splitter?:
-			else if let cPort	= cPort.con2?.port,
-			  let conSplitter 	= cPort.atom as? Splitter,
-			  conSplitter.isBroadcast
-			{	return conSplitter.anotherShare(named:"*")						}
-			
-			 // Add Auto Broadcast?:
-			else if let rv		= rvPort!.atom?.autoBroadcast(toPort:cPort)
-			{	return rv														}
-
-			panic("FAILS to find Port it: '\(fullName)'.port(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
-		}
-		return rvPort
+		 // Get another Port from an attached Splitter?:
+		else if let cPort	= cPort.con2?.port,
+		  let conSplitter 	= cPort.atom as? Splitter,
+		  conSplitter.isBroadcast
+		{	return conSplitter.anotherShare(named:"*")						}
+		
+	//	 // Add Auto Broadcast?:
+	//	else if let rv		= rvPort!.atom?.autoBroadcast(toPort:cPort)
+	//	{	return rv														}
+		return nil
 	}
 	  // MARK: - 4.7 Editing Network
 
@@ -277,7 +278,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	///   - wantName: name the port must have (or nil)
 	///   - portUp: if the port must be up (down, or nil)
 	/// - Returns: A (possibly empty) array of matching ports.
-	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil) -> [Port] {
+	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil, wantOpen:Bool=false) -> [Port] {//, allowDuplicates:Bool=false
 		var rv : [Port]			= []
 
 		 // Is wantName in ports[]?
@@ -285,7 +286,8 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			if wantName    == ""		||		// (name unimportant     OR
 			   wantName    == pName,			//  name matches port's)  AND
 			   portUp      == nil 		||		// (flip unimportant     OR
-			   portUp!	   == port.flipped		//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
+			   portUp!	   == port.flipped,		//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
+			   !wantOpen || port.con2==nil		// don't care, or open
 			{
 				rv.append(port)						// acceptable Ports
 			}
@@ -320,37 +322,37 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		return nil
 	}
 
-	 /// Get a (perhaps open) Port like the prototype
-	/// * If port is open, or mustn't be open, return it
-	/// * If port is on a Splitter, add another share
-	/// * If port is connected to a Broadcast, make a Port on it.
-	/// - Parameter givenPort: --- prototype to duplicate
-	/// - Returns: the wanted Port, or nil
-//	func makeOpenIfNot(port givenPort:Port) -> Port? {
-//		let s					= givenPort.atom
-//		assert(s != nil && s !== self, "")		// "!==" -> same identity
-//
-//		let similarPorts		= s!.existingPorts(named:givenPort.name, localUp:givenPort.flipped)
-//		if  similarPorts.count > 0 {
-//			let similarPort = similarPorts[0]	// Just pick one
-//			assert(similarPort.connectedX != nil, "should be occupied")
-//
-//			 // Get another Port similar to similarPort from Splitter?
-//			if let splitter = self as? Splitter,
-//			  similarPort.flipped,
-//			  splitter.isBroadcast {
-//				return splitter.anotherShare(named:"*")
-//			}
-//
-//			 // Get another Port from an attached Splitter:
-//			if let conSplitter = similarPort.connectedX?.atom as? Splitter,
-//			  conSplitter.isBroadcast {
-//				return conSplitter.anotherShare(named:"*")
-//			}
-//			return s!.autoBroadcast(toPort:similarPort)
-//		}
-//		return nil
-//	}
+																	 /// Get a (perhaps open) Port like the prototype
+																	/// * If port is open, or mustn't be open, return it
+																	/// * If port is on a Splitter, add another share
+																	/// * If port is connected to a Broadcast, make a Port on it.
+																	/// - Parameter givenPort: --- prototype to duplicate
+																	/// - Returns: the wanted Port, or nil
+																//	func makeOpenIfNot(port givenPort:Port) -> Port? {
+																//		let s					= givenPort.atom
+																//		assert(s != nil && s !== self, "")		// "!==" -> same identity
+																//
+																//		let similarPorts		= s!.existingPorts(named:givenPort.name, localUp:givenPort.flipped)
+																//		if  similarPorts.count > 0 {
+																//			let similarPort = similarPorts[0]	// Just pick one
+																//			assert(similarPort.connectedX != nil, "should be occupied")
+																//
+																//			 // Get another Port similar to similarPort from Splitter?
+																//			if let splitter = self as? Splitter,
+																//			  similarPort.flipped,
+																//			  splitter.isBroadcast {
+																//				return splitter.anotherShare(named:"*")
+																//			}
+																//
+																//			 // Get another Port from an attached Splitter:
+																//			if let conSplitter = similarPort.connectedX?.atom as? Splitter,
+																//			  conSplitter.isBroadcast {
+																//				return conSplitter.anotherShare(named:"*")
+																//			}
+																//			return s!.autoBroadcast(toPort:similarPort)
+																//		}
+																//		return nil
+																//	}
 
 	 /// Edit a Network to splice in a Broadcast unit
 	/// - At the Port that needs tapping
@@ -567,7 +569,7 @@ nop
 					logBld(4, "L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
-					let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
+			/**/	let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
 					assert(srcPort != nil, "srcPort==nil")
 								
 					 //		3c. //// TaRGet:						// Log
@@ -578,7 +580,7 @@ nop
 					logBld(4, trgInfo)
 
 					 //		3d. //// Get the TaRGet Port			// target Port
-					let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
+			/**/	let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
 					assert(trgPort != nil, "trgPort==nil")
 
 					  // //////////////////////////////////
@@ -596,7 +598,7 @@ nop
 					if !direct {		// Make (Multi)Link:
 						let s	=    srcPort! is MultiPort
 						let t	=    trgPort! is MultiPort
-						assert( !(s  && !t), "srcPort=\(srcPort!.pp(.fullName)) is a MultiPort, but trgPort=\(trgPort!.pp(.fullName)) isn't.")
+						assert( !( s && !t), "srcPort=\(srcPort!.pp(.fullName)) is a MultiPort, but trgPort=\(trgPort!.pp(.fullName)) isn't.")
 						assert( !(!s &&  t), "srcPort=\(srcPort!.pp(.fullName)) isn't a MultiPort, but trgPort=\(trgPort!.pp(.fullName)) is.")
 						link 	=  !s ? Link(linkProps) : MultiLink(linkProps)
 						msg1 	+= " <->\(link!.name)"
