@@ -32,7 +32,7 @@ class MultiPort : Port {
 				if key  == nil || 		// --> 'all mode'
 				   key! == leaf.name 	// at named Leaf
 				{
-					guard let gPort = leaf.port(named:"G") else {
+					guard let gPort = leaf.getPort(named:"G") else {
 						panic("Leaf \(leaf.fullName) must have 'G' Port")
 						return
 					}						// use 'G' Port in Leaf for generation

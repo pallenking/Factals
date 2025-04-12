@@ -120,8 +120,8 @@ class DiscreteTime : Atom {
 			 //   (Commonly, these are Bindings)
 			targetBundle?.forAllLeafs(
 			{(leaf : Leaf) in									//##BLOCK
-				assert(leaf.port(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil
-				assert(leaf.port(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil
+				assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil
+				assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil
 			})
 		}
 	}

@@ -49,16 +49,16 @@ class Branch : Splitter {
 		return rv
 	}
 	 // atomsPortAccessors(sPort,	S,	 true)
-	var     sPort   : Port! { port(named:"sPort", localUp:true, wantOpen:false, allowDuplicates:false) }
+	var     sPort   : Port! { getPort(named:"sPort", localUp:true, wantOpen:false, allowDuplicates:false) }
 	var     sPortIn : Port! { sPort.con2?.port									}
 	 // atomsPortAccessors(lPort,	L,	 false)
-	var     lPort   : Port! { port(named:"lPort", localUp:false, wantOpen:false, allowDuplicates:false) }
+	var     lPort   : Port! { getPort(named:"lPort", localUp:false, wantOpen:false, allowDuplicates:false) }
 	var     lPortIn : Port! { lPort.con2?.port 									}
 	 // atomsPortAccessors(mPort,	M,	 true)
-	var     mPort   : Port! { port(named:"mPort", localUp:true, wantOpen:false, allowDuplicates:false) }
+	var     mPort   : Port! { getPort(named:"mPort", localUp:true, wantOpen:false, allowDuplicates:false) }
 	var     mPortIn : Port! { mPort.con2?.port 									}
 	 // atomsPortAccessors(speakPort,SPEAK,true)
-	var speakPort   : Port! { port(named:"speakPort", localUp:true, wantOpen:false, allowDuplicates:false) }
+	var speakPort   : Port! { getPort(named:"speakPort", localUp:true, wantOpen:false, allowDuplicates:false) }
 	var speakPortIn : Port! { speakPort.con2?.port 								}
 
 	override init(_ config:FwConfig = [:]) {

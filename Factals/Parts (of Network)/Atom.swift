@@ -218,56 +218,57 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	/// - Parameter wantOpen:		 --- required that Port be open
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
-	func port(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
+	func getPort(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
 		logBld(7, " '\(fullName)'   called port(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 
-		 // Check BINDINGS?
+		 // -- Check BINDINGS?
 		if let bindingString 	= bindings?[named] {
 			let bindingPath		= Path(withName:bindingString)
-			let boundPart		= find(path:bindingPath)	// find bound part
+			let boundPart		= find(path:bindingPath)	// find bound Part
 			let sWantUp			= wantUp==nil ? nil : wantUp! ^^ boundPart!.upInPart(until:self)
+
 			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
-	/**/		return bAtom.port(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+	/**/		return bAtom.getPort(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}											//A\\ ??
+
 			if let rv 			= boundPart as? Port {			// Case 2: Port?
-	/**/		return !wantOpen || rv.con2==nil ? rv :
-						rv.atom?.port(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+	/**/		return !wantOpen || rv.con2==nil ? rv :				// okay, or Recursion
+						rv.atom?.getPort(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}
 			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
 		}
 
-		 // May be Existing Port:
-		let ports : [Port]		= 	existingPorts(  named:named, localUp:wantUp, wantOpen:wantOpen)
+		 // -- May be EXISTING Port:
+		let ports : [Port]		= 	existingPorts(  named:named, localUp:wantUp/*, wantOpen:wantOpen*/)
 		switch ports.count {
 		case 0:		nop
-		case 1:		return ports.first		// found, ship it!
+		case 1:
+			let port			= ports.first!
+			return !wantOpen || port.con2 == nil ? port		// port's OK (don't care, or open)
+				: nil										// no match here
 		default:	logBld(7, "multiple existingPorts\(ports)")
 		}
 
-		 // Time to delayed populate?
+		 // -- Time to DELAYED Populate?
 		if let rv 				= 	delayedPopulate(named:named, localUp:wantUp)
 		{	return rv
 		}
-
-		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-		let cPort 			= Port(["n":"nonsense"])	//  s["nonsense"]// //origConPort//??			// Clone non-open rv
-
-		 // Get another Port similar to similarPort from Splitter?:
+		 // -- Get another Port similar to similarPort from Splitter?:
 		if let splitter 	= self as? Splitter,
-		  cPort.flipped,
+		  splitter.flipped,				//cPort.
 		  splitter.isBroadcast
-		{	return splitter.anotherShare(named:"*")							}
-
-		 // Get another Port from an attached Splitter?:
-		else if let cPort	= cPort.con2?.port,
-		  let conSplitter 	= cPort.atom as? Splitter,
+		{	return splitter.anotherShare(named:"*")
+		}
+		 // -- Get another Port from an attached Splitter?:
+		let pPort			= getPort(named:"P")
+		if let conSplitter 	= pPort?.con2?.port?.atom as? Splitter,
 		  conSplitter.isBroadcast
-		{	return conSplitter.anotherShare(named:"*")						}
-		
-	//	 // Add Auto Broadcast?:
-	//	else if let rv		= rvPort!.atom?.autoBroadcast(toPort:cPort)
-	//	{	return rv														}
-		return nil
+		{	return conSplitter.anotherShare(named:"*")
+		}
+
+		assert(wantOpen==true, "seems like it has to be false by now")
+		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
+		return pPort==nil ? nil : autoBroadcast(toPort:pPort!)
 	}
 	  // MARK: - 4.7 Editing Network
 
@@ -278,7 +279,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	///   - wantName: name the port must have (or nil)
 	///   - portUp: if the port must be up (down, or nil)
 	/// - Returns: A (possibly empty) array of matching ports.
-	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil, wantOpen:Bool=false) -> [Port] {//, allowDuplicates:Bool=false
+	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil/*, wantOpen:Bool=false*/) -> [Port] {//, allowDuplicates:Bool=false
 		var rv : [Port]			= []
 
 		 // Is wantName in ports[]?
@@ -286,8 +287,8 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			if wantName    == ""		||		// (name unimportant     OR
 			   wantName    == pName,			//  name matches port's)  AND
 			   portUp      == nil 		||		// (flip unimportant     OR
-			   portUp!	   == port.flipped,		//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
-			   !wantOpen || port.con2==nil		// don't care, or open
+			   portUp!	   == port.flipped		//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
+//			   !wantOpen || port.con2==nil		// don't care, or open
 			{
 				rv.append(port)						// acceptable Ports
 			}
@@ -354,14 +355,16 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 																//		return nil
 																//	}
 
-	 /// Edit a Network to splice in a Broadcast unit
+	 /// Add a Broadcast unit before a Port, arg1
 	/// - At the Port that needs tapping
 	/// - Trace through the Links
 	/// - Try, perhaps it's a Bcast
 	/// - Otherwise, insert a new Broadcast Element into the network
 	/// - Parameter toPort: one end of the link that gets the Broacast added
 	/// - Returns: a free port in the added Broadcast
-	func autoBroadcast(toPort:Port) -> Port {
+	func autoBroadcast(toPort:Port?) -> Port? {
+		guard let toPort							else {	return nil 			}
+		guard let con2Port		= toPort.con2?.port else {	return nil 			}
 
 		  //   "AUTO-BCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
@@ -383,14 +386,29 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		newBcast.flipped		= toPort.upInPart(until:papaNet) == false
 		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD	//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 		papaNet.addChild(newBcast, atIndex:ind)
-nop
+
 		 //	 3,  Wire up new Broadcast into Network:
+		let newS1Port: Port		= newBcast.anotherShare(named:"*")
+		let newPPort : Port		= newBcast.ports["P"]!					//to go to self.P
+		
+		toPort.con2				= .port(newPPort)
+		newPPort.con2			= .port(toPort)		// 1. move old connection to share1
+
+		con2Port.con2			= .port(newS1Port)	// 2. link newBcast to toPort
+		newS1Port.con2			= .port(con2Port)
+
+//		guard let toPort		= inPort.con2?.port else { debugger("Link error slhf")}		// l0.P
+//		toPort.con2 			= .port(pPort)		// toPort -> pPort
+//		pPort.con2				= .port(toPort)		// pPort -> toPort
+
+		return newBcast.anotherShare(named:"*") 	// 3. share2 is autoBroadcast
+	}
 		//		|___			  ________|
 		//			\.connectedX /				 inPort:Port
 		//			 \--|--V----/				 inCon :Con2
-		//				A  V
-		//		before #A  V# 		   #A V# after
-		//				 |			    V A
+		//				A  V		   after		   |
+		//		before #A  V# - - - -> #A V#		   |
+		//				 |			    V A			   |
 		//				 |		.____/-=|-A--\___s2Con :Con2.
 		//				 |		|		|		 s2Port:Port|
 		//				 | 		|		|					|
@@ -401,29 +419,13 @@ nop
 		//				 |		|___P pPort "abc"_pPort:Port
 		//				 |			 \--|-V--*-/  pCon :Con2
 		//				 |				A V
-		//		before #A  V# 		   #A V# after	(A)
+		//		before #A  V# - - - -> #A V# after	(A)
 		//				V    A
 		//			 /--|----A-=-----\		   toPort:Con2
 	   	//		 ___P toPort "def"    \_____   toPort:Port
 		//		|		|					|
 		//		|		Atom				|
-		let newS1Port: Port		= newBcast.anotherShare(named:"*")
-		let newPPort : Port		= newBcast.ports["P"]!					//to go to self.P
 
-		let con2Port			= toPort.con2!.port
-		
-		toPort.con2				= .port(newPPort)
-		newPPort.con2			= .port(toPort)		// 1. move old connection to share1
-
-		con2Port!.con2			= .port(newS1Port)	  	// 2. link newBcast to toPort
-		newS1Port.con2			= .port(con2Port!)
-
-//		guard let toPort		= inPort.con2?.port else { debugger("Link error slhf")}		// l0.P
-//		toPort.con2 			= .port(pPort)		// toPort -> pPort
-//		pPort.con2				= .port(toPort)	// pPort -> toPort
-
-		return newBcast.anotherShare(named:"*") 	// 3. share2 is autoBroadcast
-	}
 	   // MARK: - 4.8 Matches Path
 	override func partMatching(path:Path) -> Part? {
 
@@ -476,7 +478,7 @@ nop
 				let breakAtWireNo = partBase.indexFor["breakAtWire"]
 				let brk			= wireNumber == breakAtWireNo
 				assert(!brk, "Break at Creation of wire \(wireNumber) (at entryNo \(Log.shared.eventNumber-1)")
-				logBld(4, "L\(wireNumber) source:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))")
+				logBld(4, "L\(wireNumber) -- SOURCE:   \(fullName16).\'\((srcPortString + "'").field(-6))  -->  target:   \(trgAny.pp(.line))")
 
   /* **************************************************************************/
  /* *********/	let aWire = { () -> () in    /* ******* DO LATER: ************/
@@ -566,21 +568,21 @@ nop
 
 					 //    3a. //// SouRCe (is self)				// Log
 					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(until:conNet)
-					logBld(4, "L\(wireNumber)-SOURCE in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
+					logBld(4, "L\(wireNumber) -- SOURCE: in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
-			/**/	let srcPort	= self.port(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
+			/**/	let srcPort	= self.getPort(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
 					assert(srcPort != nil, "srcPort==nil")
 								
 					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon == trgAtom.upInPart(until:conNet)
-					let trgInfo	= "---TARGET:\(trgAtom.fullName16)" +
+					let trgInfo	= "   -- TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6))" +
 								  " opens _\(ppUp(trgAboveSInT))_"
 					logBld(4, trgInfo)
 
 					 //		3d. //// Get the TaRGet Port			// target Port
-			/**/	let trgPort = trgAtom.port(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
+			/**/	let trgPort = trgAtom.getPort(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
 					assert(trgPort != nil, "trgPort==nil")
 
 					  // //////////////////////////////////
@@ -590,7 +592,7 @@ nop
 					//	  Atom	  ]o========= Link? ===============o[    Atom
 					//			--'									'--
 					 // Is this a direct con2? or is there a Link involved?
-					var msg1 	= "L\(wireNumber) ADDED: << \(srcPort?.fullName ?? "") "
+					var msg1 	= "L\(wireNumber) -- ADDED: << \(srcPort?.fullName ?? "") "
 					 // Link properties depend on those of Ports involved and Link
 					let neighbors:[FwAny] = [linkProps, trgPort!, srcPort!]
 					var link :Link?	= nil

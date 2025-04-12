@@ -85,7 +85,7 @@ class Tunnel : FwBundle {
 			forAllLeafs(
 			{(leaf:Leaf) in						 //##BLOCK
 				 // if Leaf's G has Port:
-				if let gPort 	= leaf.port(named:"G") {
+				if let gPort 	= leaf.getPort(named:"G") {
 					assert(gPort !== pAsMPort, "output port matches input port")
 					if let gPortCon2 = gPort.con2?.port,
 						   gPortCon2.valueChanged()

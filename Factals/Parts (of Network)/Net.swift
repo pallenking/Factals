@@ -78,7 +78,7 @@ class Net : Atom {		// Atom // Part
 	var minSize :SCNVector3? 	= nil
 	{	didSet { 	markTree(dirty:.size)  									}	}
 
-	var enable3 : Port?		{	return port(named:"E", localUp:false)			}
+	var enable3 : Port?		{	return getPort(named:"E", localUp:false)			}
 
 	   // MARK: - 9.0 make a Vew for a Net
 	override func VewForSelf() -> Vew? {

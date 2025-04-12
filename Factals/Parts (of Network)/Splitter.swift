@@ -132,9 +132,9 @@ class Splitter : Atom {
 		return rv
 	}
 	// MARK: - 4.4 Tree Navigation
-	override func autoBroadcast(toPort:Port) -> Port {
+	override func autoBroadcast(toPort:Port?) -> Port? {
 		if //isBroadcast, 						// now for any type Splitter
-		  toPort.flipped { 						// active end of a Splitter?
+		  toPort?.flipped ?? false { 			// active end of a Splitter?
 			return anotherShare(named:"*")		// + + make a new Share + +
 		}
 		return super.autoBroadcast(toPort:toPort)
@@ -189,8 +189,8 @@ class Splitter : Atom {
 		return rv
 	}
 	  // MARK: - 4.7 Editing Network
-	override func port(named wantName  :String, localUp wantUp:Bool?,     wantOpen:Bool,       allowDuplicates:Bool) -> Port? {
-//	override func port(named wantName  :String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
+	override func getPort(named wantName  :String, localUp wantUp:Bool?,     wantOpen:Bool,       allowDuplicates:Bool) -> Port? {
+
 		 // Another Share of a Splitter, but no Share is open					//		if wantOpen, wantUp!{
 		if (wantName=="share" || wantName==""),	// Want a new share
 			wantOpen,							// It should be an open share
@@ -198,7 +198,7 @@ class Splitter : Atom {
 		{
 			return anotherShare(named:"*")
 		}
-		return super.port(named:wantName,          localUp:wantUp,           wantOpen:wantOpen,   allowDuplicates:allowDuplicates)
+		return super.getPort(named:wantName, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 	}
 
 	 // MARK: - 8. Reenactment Simulator
