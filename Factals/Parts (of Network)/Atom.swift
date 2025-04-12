@@ -219,7 +219,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func getPort(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		logBld(7, " '\(fullName)'   called port(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+		logBld(7, " '\(fullName)'   called getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 
 		 // -- Check BINDINGS?
 		if let bindingString 	= bindings?[named] {
@@ -243,25 +243,26 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		switch ports.count {
 		case 0:		nop
 		case 1:
-			let port			= ports.first!
-			return !wantOpen || port.con2 == nil ? port		// port's OK (don't care, or open)
-				: nil										// no match here
+			if let port			= ports.first,
+			   !wantOpen || port.con2 == nil		// port's OK (don't care, or open)
+			{	return port 													}
+			// Do not return
 		default:	logBld(7, "multiple existingPorts\(ports)")
 		}
 
 		 // -- Time to DELAYED Populate?
-		if let rv 				= 	delayedPopulate(named:named, localUp:wantUp)
-		{	return rv
+		if let rv 				= 	delayedPopulate(named:named, localUp:wantUp) {
+			return rv
 		}
 		 // -- Get another Port similar to similarPort from Splitter?:
-		if let splitter 	= self as? Splitter,
+		if let splitter 		= self as? Splitter,
 		  splitter.flipped,				//cPort.
 		  splitter.isBroadcast
 		{	return splitter.anotherShare(named:"*")
 		}
 		 // -- Get another Port from an attached Splitter?:
-		let pPort			= getPort(named:"P")
-		if let conSplitter 	= pPort?.con2?.port?.atom as? Splitter,
+		let pPort				= getPort(named:"P")
+		if let conSplitter 		= pPort?.con2?.port?.atom as? Splitter,
 		  conSplitter.isBroadcast
 		{	return conSplitter.anotherShare(named:"*")
 		}
