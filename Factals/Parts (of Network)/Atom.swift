@@ -246,7 +246,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			if let port			= ports.first,
 			   !wantOpen || port.con2 == nil		// port's OK (don't care, or open)
 			{	return port 													}
-			// Do not return
+			// Else continue
 		default:	logBld(7, "multiple existingPorts\(ports)")
 		}
 
@@ -254,25 +254,38 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		if let rv 				= 	delayedPopulate(named:named, localUp:wantUp) {
 			return rv
 		}
-		 // -- Get another Port similar to similarPort from Splitter?:
+		 // caution
+		assert(wantOpen==true, "seems like it has to be false by now")
+
+		  // Want a downward facing Port fed by what's feeding our P Port
+		 // -- 1. If we are a Broadcast Splitter, just get another share
 		if let splitter 		= self as? Splitter,
 		  splitter.flipped,				//cPort.
 		  splitter.isBroadcast
 		{	return splitter.anotherShare(named:"*")
 		}
-		 // -- Get another Port from an attached Splitter?:
-		let pPort				= getPort(named:"P")
-		if let conSplitter 		= pPort?.con2?.port?.atom as? Splitter,
-		  conSplitter.isBroadcast
+
+		 // -- 2. Get another Port from an attached Splitter?:
+		guard let pPort			= getPort(named:"P") else {return nil }
+		if let conSplitter 	= pPort.con2?.port?.atom as? Splitter,
+		   conSplitter.isBroadcast
 		{	return conSplitter.anotherShare(named:"*")
 		}
+			
+			// 3. Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
+/**/	return autoBroadcast(toPort:pPort)
 
-		assert(wantOpen==true, "seems like it has to be false by now")
-		 // Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-		return pPort==nil ? nil : autoBroadcast(toPort:pPort!)
+//		if let pPort			= getPort(named:"P") {
+//			if let conSplitter 	= pPort.con2?.port?.atom as? Splitter,
+//			   conSplitter.isBroadcast
+//			{	return conSplitter.anotherShare(named:"*")
+//			}
+//			
+//			// 3. Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
+//	/**/	return autoBroadcast(toPort:pPort)
+//		}
+//		else {	return nil	}
 	}
-	  // MARK: - 4.7 Editing Network
-
 	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
 	/// * (Bindings and Delayed Populate are ignored.)
@@ -357,10 +370,10 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 																//	}
 
 	 /// Add a Broadcast unit before a Port, arg1
-	/// - At the Port that needs tapping
-	/// - Trace through the Links
-	/// - Try, perhaps it's a Bcast
-	/// - Otherwise, insert a new Broadcast Element into the network
+	/// 	s- At the Port that needs tapping
+	/// 	s- Trace through the Links
+	/// 	s- Try, perhaps it's a Bcast
+	/// 	s- Otherwise, insert a new Broadcast Element into the network
 	/// - Parameter toPort: one end of the link that gets the Broacast added
 	/// - Returns: a free port in the added Broadcast
 	func autoBroadcast(toPort:Port?) -> Port? {
@@ -369,11 +382,11 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 
 		  //   "AUTO-BCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
-		logBld(4, "<<++ Auto Broadcast ++>>")
+		logBld(4, "<<++ Auto Broadcast toPort:\(toPort.pp(.fullName))++>>")
 
 		 // 1.  Make a Broadcast Splitter Atom:
 		let newName				= "\(name)\(toPort.name)"
-		let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])	//"flipped"
+/**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])	//"flipped"
 		newBcast.flipped		= true												// elim
 
 		 // 2.  Find a spot to insert it (above or below):

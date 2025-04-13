@@ -14,10 +14,10 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "getPort(named:localUp:wantOpen:allowDuplicates:)"
-            landmarkType = "7">
+            startingLineNumber = "285"
+            endingLineNumber = "285"
+            landmarkName = "Atom"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -62,10 +62,40 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
             landmarkName = "autoBroadcast(toPort:)"
-            landmarkType = "7">
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "B6E8E18B-8DC8-4CBF-A632-335944189106 - 9801001435dcdd35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.autoBroadcast(toPort: Swift.Optional&lt;Factals.Port&gt;) -&gt; Swift.Optional&lt;Factals.Port&gt;"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "388"
+                  endingLineNumber = "388">
+               </Location>
+               <Location
+                  uuid = "B6E8E18B-8DC8-4CBF-A632-335944189106 - bce99ca81faf0540"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Factals.Part) -&gt; Swift.Bool in Factals.Atom.autoBroadcast(toPort: Swift.Optional&lt;Factals.Port&gt;) -&gt; Swift.Optional&lt;Factals.Port&gt;"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "388"
+                  endingLineNumber = "388">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -88,16 +118,16 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "FFE7AE87-63F2-4DFD-89A1-FD2B6D6666E6"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "586"
-            endingLineNumber = "586"
+            startingLineNumber = "599"
+            endingLineNumber = "599"
             landmarkName = "gatherLinkUps(into:partBase:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -110,10 +140,10 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "580"
-            endingLineNumber = "580"
+            startingLineNumber = "593"
+            endingLineNumber = "593"
             landmarkName = "gatherLinkUps(into:partBase:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -142,9 +172,55 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
             landmarkName = "getPort(named:localUp:wantOpen:allowDuplicates:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "19449DA6-C7AF-433D-9A75-249773C92234 - eb43598990c1ea6e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.getPort(named: Swift.String, localUp: Swift.Optional&lt;Swift.Bool&gt;, wantOpen: Swift.Bool, allowDuplicates: Swift.Bool) -&gt; Swift.Optional&lt;Factals.Port&gt;"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "263"
+                  endingLineNumber = "263">
+               </Location>
+               <Location
+                  uuid = "19449DA6-C7AF-433D-9A75-249773C92234 - eb43598990c1ea0d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.Atom.getPort(named: Swift.String, localUp: Swift.Optional&lt;Swift.Bool&gt;, wantOpen: Swift.Bool, allowDuplicates: Swift.Bool) -&gt; Swift.Optional&lt;Factals.Port&gt;"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Atom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "262"
+                  endingLineNumber = "262">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "81838049-897C-49BA-8FE2-BA0E02F9A310"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/Splitter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "autoBroadcast(toPort:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
