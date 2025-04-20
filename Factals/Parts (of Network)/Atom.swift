@@ -238,53 +238,41 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
 		}
 
-		 // -- May be EXISTING Port:
-		let ports : [Port]		= 	existingPorts(  named:named, localUp:wantUp/*, wantOpen:wantOpen*/)
-		switch ports.count {
-		case 0:		nop
-		case 1:
-			if let port			= ports.first,
-			   !wantOpen || port.con2 == nil		// port's OK (don't care, or open)
-			{	return port 													}
-			// Else continue
-		default:	logBld(7, "multiple existingPorts\(ports)")
+		 // -- 1. May be EXISTING Port:
+		let ports : [Port]		= existingPorts(  named:named, localUp:wantUp)	///*, wantOpen:wantOpen*/
+		assert(ports.count <= 1, "multiple existingPorts\(ports)")
+		
+		if let portsFirst		= ports.first,
+		  !wantOpen || portsFirst.con2 == nil { 	// port is as required
+				return portsFirst
 		}
 
-		 // -- Time to DELAYED Populate?
-		if let rv 				= 	delayedPopulate(named:named, localUp:wantUp) {
-			return rv
+		 // -- 2. Time to DELAYED Populate?
+		if let rv 				= delayedPopulate(named:named, localUp:wantUp) {
+			return rv					// N.B: new --> alway open
 		}
-		 // caution
 		assert(wantOpen==true, "seems like it has to be false by now")
 
 		  // Want a downward facing Port fed by what's feeding our P Port
-		 // -- 1. If we are a Broadcast Splitter, just get another share
+		 // -- 3. If we are a Broadcast Splitter, just get another share
 		if let splitter 		= self as? Splitter,
 		  splitter.flipped,				//cPort.
 		  splitter.isBroadcast
 		{	return splitter.anotherShare(named:"*")
 		}
 
-		 // -- 2. Get another Port from an attached Splitter?:
-		guard let pPort			= getPort(named:"P") else {return nil }
-		if let conSplitter 	= pPort.con2?.port?.atom as? Splitter,
-		   conSplitter.isBroadcast
-		{	return conSplitter.anotherShare(named:"*")
-		}
-			
-			// 3. Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-/**/	return autoBroadcast(toPort:pPort)
+		 // -- 4. Get another Port from an attached Splitter?:
+/**/	return autoBroadcast(toPort:ports.first)
 
-//		if let pPort			= getPort(named:"P") {
-//			if let conSplitter 	= pPort.con2?.port?.atom as? Splitter,
-//			   conSplitter.isBroadcast
-//			{	return conSplitter.anotherShare(named:"*")
-//			}
+//		 // -- 4. Get another Port from an attached Splitter?:
+//		guard let pPort			= getPort(named:"P") else {		return nil 		}
+//		if let conSplitter 		= pPort.con2?.port?.atom as? Splitter,
+//		   conSplitter.isBroadcast
+//		{	return conSplitter.anotherShare(named:"*")
+//		}
 //			
 //			// 3. Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-//	/**/	return autoBroadcast(toPort:pPort)
-//		}
-//		else {	return nil	}
+// /**/	return autoBroadcast(toPort:pPort)
 	}
 	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
@@ -384,12 +372,18 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		 //					/auto Broadcast/auto-broadcast/
 		logBld(4, "<<++ Auto Broadcast toPort:\(toPort.pp(.fullName))++>>")
 
-		 // 1.  Make a Broadcast Splitter Atom:
+		 // -- 1. Already connetcted to a Splitter:
+		if let conSplitter 		= con2Port.atom as? Splitter,
+		   conSplitter.isBroadcast
+		{	return conSplitter.anotherShare(named:"*")
+		}
+
+		 // 2.  Make a Broadcast Splitter Atom:
 		let newName				= "\(name)\(toPort.name)"
 /**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])	//"flipped"
 		newBcast.flipped		= true												// elim
 
-		 // 2.  Find a spot to insert it (above or below):
+		 // 3.  Find a spot to insert it (above or below):
 		 // Choose so inserted element is in scan order, to reduces settle time.
 		let papaNet				= toPort.atom!.enclosingNet! /// Find Net
 									// worry about toPort inside Tunnel
@@ -401,7 +395,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD	//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 		papaNet.addChild(newBcast, atIndex:ind)
 
-		 //	 3,  Wire up new Broadcast into Network:
+		 //	 4,  Wire up new Broadcast into Network:
 		let newS1Port: Port		= newBcast.anotherShare(named:"*")
 		let newPPort : Port		= newBcast.ports["P"]!					//to go to self.P
 		

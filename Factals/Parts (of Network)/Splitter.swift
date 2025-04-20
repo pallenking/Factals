@@ -132,13 +132,14 @@ class Splitter : Atom {
 		return rv
 	}
 	// MARK: - 4.4 Tree Navigation
-	override func autoBroadcast(toPort:Port?) -> Port? {
-		if //isBroadcast, 						// now for any type Splitter
-		  toPort?.flipped ?? false { 			// active end of a Splitter?
-			return anotherShare(named:"*")		// + + make a new Share + +
-		}
-		return super.autoBroadcast(toPort:toPort)
-	}
+// // OBSOLETE
+//	override func autoBroadcast(toPort:Port?) -> Port? {
+//		if //isBroadcast, 						// now for any type Splitter
+//		  toPort?.flipped ?? false { 			// active end of a Splitter?
+//			return anotherShare(named:"*")		// + + make a new Share + +
+//		}
+//		return super.autoBroadcast(toPort:toPort)
+//	}
 	  /// Create a share for a Splitter
 	 /// - Parameter name: -- of new share; "*"->s23, nil->anonymous
 	/// - Returns: Share of type <shareTypeStr>
@@ -160,6 +161,26 @@ class Splitter : Atom {
 		}										 // then upward pass
 		return share
 	}
+//	/// Create a Share of kind 'shareName'
+//   func anotherShare(named portName:String?=nil) -> Share {
+//	   let nam					= fmt("s%ld", ports.count)
+//	   let aClass 	: AnyClass	= classFrom(string:shareName!)
+//	   let shareType			= aClass as! Share.Type
+//
+//	   let share				= shareType.init(["named":nam])	/// INIT
+//
+//	   share.flipped			= true			// shares are always flipped
+//		/// Optionally insert new share in ports:
+//	   if portName != nil {
+//		   let name : String	= portName! != "*" ? portName! : share.name
+//		   assert(ports[name]==nil, "\(pp(.fullName)) already has a Share named '\(name)'")
+//
+//		   ports[name]	 		= share			/// add to ports
+//		   addChild(share)						/// add to children
+//		   upIsDirty 			= true			// new Shares need downward,
+//	   }										 // then upward pass
+//	   return share
+//   }
 	override func biggestBit(openingUp upInSelf:Bool?) -> Port? {
 		if flipped {
 			return super.biggestBit(openingUp:flipped)	// follow P

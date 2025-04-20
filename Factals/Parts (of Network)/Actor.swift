@@ -219,14 +219,14 @@ class Actor : Net {
 				children.insert(con!, at:0)			// at start
 				con!.parent 	= self				// required first time
 			}
-		if evi != nil {			// ///// evi exists:
-			if let ind 			= children.firstIndex(where: {$0 === evi!}),//(of:evi!),
-			  ind != children.count-1 {			// evi not last:
-				children.remove(at:ind)				// remove
-				children.append(evi!)				// add at end
-				evi!.parent 	= self				// required first time
+			if evi != nil {			// ///// evi exists:
+				if let ind 			= children.firstIndex(where: {$0 === evi!}),//(of:evi!),
+				  ind != children.count-1 {			// evi not last:
+					children.remove(at:ind)				// remove
+					children.append(evi!)				// add at end
+					evi!.parent 	= self				// required first time
+				}
 			}
-		}
 		}
 	}
 	// / also add actor.previousClocks
