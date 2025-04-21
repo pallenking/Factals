@@ -529,18 +529,23 @@ r("SKIN: BLS", e + selfiePole(s:0, u:0), {	//, "f", "g"
  // Auto Broadcast: (GOOD TEST)
 state.scanSubMenu				= "+ Auto Broadcast"
 xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
-	MinAnd([P:"a"]),  MinAnd([P:"a"]),  MinAnd([P:"a"]),
-	MinAnd([P:"b"]),  MinAnd([P:"b"]),  MinAnd([P:"b"]),
+//	MinAnd([P:"a"]),  MinAnd([P:"a"]),  MinAnd([P:"a"]),
+//	MinAnd([P:"b"]),  MinAnd([P:"b"]),  MinAnd([P:"b"]),
 	MinAnd([P:"c"]),  MinAnd([P:"c"]),  MinAnd([P:"c"]),
 	MinAnd([P:"c.-"]),MinAnd([P:"c.-"]),MinAnd([P:"c.-"]),
 	FwBundle([placeMy:"stackz 0 -1", parts: [
-		FwBundle([struc:["a"], of:"genAtom", placeMy:"stackx -1 1"]),
-		FwBundle([struc:["b"], of:"bcast",   placeMy:"stackx -1 1"]),
+//		FwBundle([struc:["a"], of:"genAtom", placeMy:"stackx -1 1"]),
+//		FwBundle([struc:["b"], of:"bcast",   placeMy:"stackx -1 1"]),
 		FwBundle([struc:["c"], of:"prev",    placeMy:"stackx -1 1"], leafConfig:["value":"1.0"]),
 	] ]),
 ] ] ) } )
-	xr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
-		MinAnd([n:"a1", P:"a"]), /**/ MinAnd([n:"a2", P:"a"]),
+	xr("- auto-bcast bug", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
+		MinAnd([P:"c"]),  MinAnd([P:"c"]), //MinAnd([P:"c"]),
+//		Previous([n:"c"]),
+		FwBundle([struc:["c"], of:"prev",    placeMy:"stackx -1 1"], leafConfig:["value":"1.0"]),
+	] ] ) } )
+	xxr("- auto-bcast bug", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
+		MinAnd([n:"a1", P:"a"]), /**/ MinAnd([n:"a2", P:"a"]),  MinAnd([P:"a"]),
 		Previous([n:"a"])
 	] ] ) } )
 	r("- path bad", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[

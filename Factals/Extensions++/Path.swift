@@ -45,23 +45,14 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 	static let shortNames		= [ "=":"direct", "%":"flipPort", "^":"noCheck",
 									"!":"dominant", "@":"invisible"]
 	 // MARK: - 2. Object Variables:
-	var atomTokens : [String]			// array of tokens in reversed order
+	var atomTokens  : [String]			// array of tokens in reversed order
 										// abs has trailing "" string
 										// (no Port or Link Options)
-	var nameFull	: String	= "WTF is this?"
-
-	var nameAtom	: String	= "WTF is this too?"
-	var namePort	: String	= ""	// name of Port after last '.'		name1/name2.S
-	var linkOptions	:[String:String] = [:]										//var linkOptions	:[String]	= []	// just length now
-	var direct		: Bool		= false	// trailing '='
-	var flipPort	: Bool		= false	// trailing '%'
-	var noCheck		: Bool		= false	// trailing '^'
-	var dominant	: Bool		= false	// trailing '!'
-	var invisible	: Bool		= false	// trailing '@'
-
-	var portName   :  String? 	= nil	// after last '.'
-	 /// Link's required propeties.
-	var linkProps 	: FwConfig 	= [:]	// e.g. l=3
+	var nameAtom	: String?	= nil	// Only Leaf uses this
+	var namePort	: String?	= nil	// name of Port after last '.'		name1/name2.S
+	var portName   	:  String? 	= nil	// after last '.'
+	 
+	var linkProps 	: FwConfig 	= [:]	// Link's required propeties. e.g. [l:3, f:1]
 
 	 // MARK: - 3. Factory
 	init(withName name:String) {
@@ -114,7 +105,7 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 				atomTokens		= Array(atomTokens.dropFirst()) // shift other tokens
 			}
 			if portName == "share" {			// Port name "share" --> ""
-bug;			portName		= ""				// meaning ???
+/*bug;*/		portName		= ""				// meaning ???
 			}
 		}
 		else {
@@ -122,44 +113,6 @@ bug;			portName		= ""				// meaning ???
 		}
 		//assert(tokens.allSatisfy({ $0.count != 0 }), "null string in token from '\(name)'")
 	}
-
-	func wtf(nameFull:String) {		// Nobody seems to call		// xyzzyx4
-		self.nameFull 		= nameFull
-
-		   // NOTE: setNameStr can ignore leading '/'s to the atom
-		  // process link parameters; those after the first comma
-		 /// AAA in Path.h
-		let components		= nameFull.components(separatedBy:",")
-		var n 				= components.count - 1
-		nameAtom			= components[0]			// first is atom
-
-		self.linkOptions 	= [:]
-		while n > 0 {								// all but first --> linkOptions
-			let option 		= components[n];	n  -= 1
-			let nameVal		= option.components(separatedBy:"=")
-			assert(nameVal.count==2, "Syntax: '\(option)' not of form <prop>=<val> (HINT: older form was just length, no key)")
-
-
-			linkOptions[nameVal[0]] = nameVal[1]	// [self.linkOptions setValue:nameVal[1] forKey:nameVal[0]];
-		}
-		(direct, flipPort, dominant, invisible, noCheck) = (false, false, false, false, false)
-bug//	nameAtom 			= takeOptionsFrom(nameAtom)
-
-		 ///! CCC in Path.h
-		namePort			= ""				/// Initially no Port
-		if let range 		= nameAtom.range(of:".", options:.backwards) {
-			namePort 		= String(nameAtom.suffix(from:nameAtom.index(after:range.lowerBound)))
-			nameAtom		= String(nameAtom.prefix(upTo:range.lowerBound))
-		}
-
-//		suffixLoc 			= nameAtom.range(of:".", options:[BackwardsSearch].location;
-//		if (suffixLoc != NSNotFound) {
-//			self.namePort 	= [nameAtom substringFromIndex:suffixLoc+1];	// after  "."
-//			nameAtom 		= [nameAtom substringToIndex:suffixLoc];				// before "."
-//		}
-//		self.nameAtom 		= nameAtom;							/// Name without options
-	}
-
 	func fullName() -> String {	// tokens and Port
 		return atomTokens.reversed().joined(separator:"/") +
 				(portName==nil ? "" : "." + portName!)

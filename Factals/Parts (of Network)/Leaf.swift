@@ -105,39 +105,41 @@ bug;	return false
 	}
 	override func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
 		// path matches self's name
-		if true{//path.nameAtom == self {		// Terminal's name (w.o. Port) matches
+bug;	if path.nameAtom == self.name {			// Terminal's name (w.o. Port) matches
 //		if path.atomName == self {				// Terminal's name (w.o. Port) matches
 			var rv : Part? 		= nil
 								//
 			  //////////// Is named port a BINDING? ///////////////////
 			 //
-			if let bindingStr 	= self.bindings?[path.namePort] {
+			if let bindingStr 	= self.bindings?[path.namePort!] {
 				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
 				
 				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
-								  self.fullName, path.namePort, bindingPath.pp())
+								  self.fullName, path.namePort!, bindingPath.pp())
 
 				  // Look that name up
 				 //XX		rv=[self resolveInwardReference:bindingPath openingDown:downInSelf except:nil]
 				for elt in parts {
-//					if (coerceTo(NSNumber, elt))
-//						continue;
-					
+//					if (coerceTo(NSNumber, elt)) continue;
 					// Look up internal name
 					let downInElt = !downInSelf == !elt.flipped	// was ^
-		bug		//	if let rv	= elt.resolveInwardReference(bindingPath, openingDown:downInSelf) {	//, except:nil
-				//		break;					// found
-				//	}
+		bug;		if let elt 	= elt as? Atom,
+					   let rv1	= elt.resolveInwardReference(bindingPath, openingDown:downInElt) {	//, except:nil
+//					  let rv1	= elt.resolveInwardReference(bindingPath, openingDown:downInSelf) {	//, except:nil
+						rv		= rv1
+						break;					// found
+					}
 				}
 			}
-			else if path.namePort.count == 0 { 	// empty string "" in bindings has priority
+			else if path.namePort!.count == 0 { 	// empty string "" in bindings has priority
 				panic("wtf")
 			} //			rv = self;								// found	(why?)
 			
 			if let rv {
 				logBld(5, "   MATCHES Inward check as Leaf '\(fullName)'")
+				return rv
 			}
-			return rv;
+			return nil
 		}
 		logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
 		

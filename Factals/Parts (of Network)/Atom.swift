@@ -147,7 +147,7 @@ class Atom : Part {	//Part//FwPart
 	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
 		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
 			var rv : Part?			= nil;
-			if path.namePort.count != 0 {					// if named Port is specified
+			if path.namePort!.count != 0 {					// if named Port is specified
 
 				  // Search all existing component Ports:
 				 //
@@ -229,23 +229,30 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 
 			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
 	/**/		return bAtom.getPort(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-			}											//A\\ ??
+			}								//????		//A\\ ??
 
 			if let rv 			= boundPart as? Port {			// Case 2: Port?
-	/**/		return !wantOpen || rv.con2==nil ? rv :				// okay, or Recursion
-						rv.atom?.getPort(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+				if !wantOpen || rv.con2==nil {
+	/**/			return rv										// okay
+				} 													// or Recursion:
+	/**/		return rv.atom?.getPort(named:bindingPath.portName!, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+//	/**/		return rv.atom?.getPort(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}
 			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
 		}
 
 		 // -- 1. May be EXISTING Port:
-		let ports : [Port]		= existingPorts(  named:named, localUp:wantUp)	///*, wantOpen:wantOpen*/
-		assert(ports.count <= 1, "multiple existingPorts\(ports)")
+		let ports : [Port]		= existingPorts(named:named, localUp:wantUp)	///*, wantOpen:wantOpen*/
+		assert(ports.count <= 1, "multiple existingPorts\(ports) seems illogical")
 		
 		if let portsFirst		= ports.first,
-		  !wantOpen || portsFirst.con2 == nil { 	// port is as required
+		  !wantOpen || portsFirst.con2==nil { 	// port is as required
 				return portsFirst
 		}
+//		if let portsFirst		= ports.first,
+//		  !wantOpen || portsFirst.con2==nil { 	// port is as required
+//				return portsFirst
+//		}
 
 		 // -- 2. Time to DELAYED Populate?
 		if let rv 				= delayedPopulate(named:named, localUp:wantUp) {
@@ -263,16 +270,6 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 
 		 // -- 4. Get another Port from an attached Splitter?:
 /**/	return autoBroadcast(toPort:ports.first)
-
-//		 // -- 4. Get another Port from an attached Splitter?:
-//		guard let pPort			= getPort(named:"P") else {		return nil 		}
-//		if let conSplitter 		= pPort.con2?.port?.atom as? Splitter,
-//		   conSplitter.isBroadcast
-//		{	return conSplitter.anotherShare(named:"*")
-//		}
-//			
-//			// 3. Auto-Broadcast: Want open, but its occupied. Make a :H:Clone
-// /**/	return autoBroadcast(toPort:pPort)
 	}
 	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
