@@ -40,33 +40,32 @@ import SceneKit
 
 // CherryPick2023-0520: remove NSObject
 class Path : NSObject, Codable, FwAny {			// xyzzy4
-
-	 // MARK: - 1. Class Variables:
 	static let shortNames		= [ "=":"direct", "%":"flipPort", "^":"noCheck",
 									"!":"dominant", "@":"invisible"]
 	 // MARK: - 2. Object Variables:
-	var atomTokens  : [String]			// array of tokens in reversed order
-										// abs has trailing "" string
-										// (no Port or Link Options)
-	var nameAtom	: String?	= nil	// Only Leaf uses this
-	var namePort	: String?	= nil	// name of Port after last '.'		name1/name2.S
-	var portName   	:  String? 	= nil	// after last '.'
-	 
+	var tokens  	: [String]			// array of tokens in reversed order
+	var atomName	: String?			// Only Leaf uses this
+	var portName   	: String?	= nil	// after last '.'
 	var linkProps 	: FwConfig 	= [:]	// Link's required propeties. e.g. [l:3, f:1]
 
 	 // MARK: - 3. Factory
+	init(from path:Path) {
+		tokens 					= path.tokens
+		atomName 				= path.atomName
+		portName 				= path.portName
+		linkProps 				= path.linkProps
+	}
 	init(withName name:String) {
 
 		  // Parse name into 1) partName(s), 2) port, 3) 1-char link modifiers, and val=prop link modifiers
-		 // Split name separated by "/" into atom tokens
-		 	            					 	//#  E.G: name = "r/bun/ab.P=@,l:5"
-		atomTokens 				= name.components(separatedBy:"/").reversed()
-		let lastToken			= atomTokens[0]	//#  E.G: "ab.P=@,l:5"
+		 // Split name separated by "/" into atom tokens //#  E.G: name = "r/bun/ab.P=@,l:5"
+		tokens 					= name.components(separatedBy:"/").reversed()
+		let lastToken			= tokens[0]		//#  E.G: "ab.P=@,l:5"
 		let options				= lastToken.components(separatedBy:",")
+		var lastName			= options[0]  	//#  E.G: "P=@,l:5,v:3"
 
-		var lastName			= options[0]  	//#  E.G: "P=@,l:5"
 		 // options[1..] are name=value pairs defining link E.G: [ "l=5", ... ]
-		for option in options[1...] {	// all but first --> linkOptions
+		for option in options[1...] {			// all but first --> linkOptions
 			let nameVal 		= option.components(separatedBy:":")	//"="
 			assert(nameVal.count==2, "Syntax: '\(option)' not of form <prop>:<val>" +
 												" E.G: \"l:5\", \"@\" and \"=\"")
@@ -75,37 +74,24 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 		 // Strip trailing option characters
 		while let cSub 			= lastName.last {
 			let c				= String(cSub)
-			var found			= false
 			 // Find long linkProp from short character
-			if let x			= Path.shortNames[c] {
-				found			= true			//#  E.G: "=" (->"direct")
-				linkProps[x] 	= true			// 		linkProps["direct"] = true
-			}
-			if !found {							// NOT PRESENT
-				break								// Stop on first non-option char
-			}
+			guard let shortName	= Path.shortNames[c] else { break }
+			linkProps[shortName] = true			// 		linkProps["direct"] = true
 			lastName 			= String(lastName.dropLast())		// remove trailing modifiers
 		}
+
 		 // Get Port name from lastName token:	//#  E.G: "P"
 		let lastNameComps		= lastName.components(separatedBy:".")	// e.g=t1.P
 		if  lastNameComps.count == 2 {			//#  E.G: "ab.P"
 			portName 			= String(lastNameComps[1])	// Port name
-			if lastNameComps[0].count != 0 {
-				atomTokens[0] 	= lastNameComps[0]			// Atom part exists
-			}
-			else {											// No atom part
-				assert(atomTokens.count == 1, "nil atom name, with other tokens")
-				atomTokens		= []						// no more!
-			}
+			atomName			= lastNameComps[0]			// Atom part exists
+			tokens[0] 			= lastNameComps[0]
 		}
 		else if lastNameComps.count == 1 {		//#  E.G: "P" is a Port?
-			atomTokens[0]		= lastName					// NO, Atom (or Part)
+			tokens[0]			= lastName					// NO, Atom (or Part)
 			if Port.reservedPortNames.contains(lastName) {	// YES, it's a Port!
 				portName 		= lastName						// special Port Name
-				atomTokens		= Array(atomTokens.dropFirst()) // shift other tokens
-			}
-			if portName == "share" {			// Port name "share" --> ""
-/*bug;*/		portName		= ""				// meaning ???
+				tokens			= Array(tokens.dropFirst()) // shift other tokens
 			}
 		}
 		else {
@@ -114,13 +100,13 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 		//assert(tokens.allSatisfy({ $0.count != 0 }), "null string in token from '\(name)'")
 	}
 	func fullName() -> String {	// tokens and Port
-		return atomTokens.reversed().joined(separator:"/") +
+		return tokens.reversed().joined(separator:"/") +
 				(portName==nil ? "" : "." + portName!)
 	}
 	func dequeFirstName() -> String? {
-		guard atomTokens.count > 0 		else {		return nil }
-		let rv					= atomTokens[0]
-		atomTokens				= Array(atomTokens[1...])
+		guard tokens.count > 0 		else {		return nil }
+		let rv					= tokens[0]
+		tokens				= Array(tokens[1...])
 		return rv
 	}
 
@@ -130,14 +116,14 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 	func encode(to encoder: Encoder) throws {
 //		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:PathKeys.self)
-		try container.encode(atomTokens, forKey:.atomTokens)
+		try container.encode(tokens, forKey:.atomTokens)
 bug;	try container.encode(portName,   forKey:.portName)
 //		try container.encode(linkProps,  forKey:.linkProps)
 //		logSer(3, "Encoded  as? Path        '\(String(describing: fullName))'")  // CherryPick2023-0520:
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:PathKeys.self)
-		atomTokens				= try container.decode([String].self, forKey:.atomTokens)
+		tokens				= try container.decode([String].self, forKey:.atomTokens)
 bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		linkProps 				= try container.decode(FwConfig.self, forKey:.linkProps)
 		
@@ -169,7 +155,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 		 /// DDD in Path.h
 		 //											Hungarian COMPonentS
 		let partComps 				= part.fullName.components(separatedBy:"/")
-		let pathComps				= atomTokens
+		let pathComps				= tokens
 
 		 // loop through PATH, in REVERSE order, while scanning PART (in rev too)
 		var nPart 					= partComps.count-1		// e.g: 3 [ "", brain1, main]

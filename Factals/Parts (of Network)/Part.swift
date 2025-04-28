@@ -711,7 +711,10 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			  inMe2 	: Bool	= false,
 			  maxLevel	: Int?	= nil) -> Part? { // Search by Path:
 		return findCommon(up2:up2, inMe2:inMe2, maxLevel:maxLevel) {
-			$0.partMatching(path:path)
+			//print("At \($0.fullName)")
+			let rv = $0.partMatching(path:path)
+			//print("\t\t\t\t\t\t the path = \(path)")
+			return rv
 		}
 	}
 	func find(part		: Part,
@@ -768,20 +771,20 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		 // Does my Path's tokens match Atom:
 		for (index, part) in selfNParents.enumerated() {
 			assert(!(self is Port), "Ports can only be last element of a Path")
-			if index >= path.atomTokens.count {		// Past last token?
+			if index >= path.tokens.count {		// Past last token?
 				return self								// .:. match!
 			}
-			if index == path.atomTokens.count-1,	// At the token to the left of the first '/'?
-			  path.atomTokens[index] == "" {		  // "" before --> Absolute Path
+			if index == path.tokens.count-1,	// At the token to the left of the first '/'?
+			  path.tokens[index] == "" {		  // "" before --> Absolute Path
 bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 				return self								// .:. match!
 			}
-			if part.name != path.atomTokens[index]{	// name MISMATCH
+			if part.name != path.tokens[index]{	// name MISMATCH
 				return nil								// .:. nfg
 			}
 		}
 		if parent == nil, 							// no parents and
-		  path.atomTokens.count != 0 {				  //  still more tokens?
+		  path.tokens.count != 0 {					  //  still more tokens?
 			return nil									// mismatch
 		}
 		return self									// Match

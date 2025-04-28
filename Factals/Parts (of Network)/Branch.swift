@@ -129,24 +129,6 @@ bug//		self.speak = Int(valNext)
 		}
 	}
 	
-//	override func drawFullView(_ v: View, context rc: RenderingContext) {
-//		let radius = discDiameter
-//		let height = discThickness
-//		rc.color = .blue
-//		
-//		if let bandPort = self.bandColor as? Port, bandPort.value > 0.5 {
-//			rc.color = bandPort.colorOfValue
-//		}
-//		
-//		glPushMatrix()
-//		glTranslatef(0, 2 + discThickness / 2.0, 0)
-//		glRotated(90, 1, 0, 0)
-//		myGlSolidCylinder(radius, height, 16, 1)
-//		glPopMatrix()
-//		
-//		super.drawFullView(v, context: rc)
-//	}
-	
 //	override func pp1line(aux: Any?) -> String {
 //		var rv = super.pp1line(aux: aux)
 //		rv += " speak=\(speak) lPrev=\(lPreLatch) "

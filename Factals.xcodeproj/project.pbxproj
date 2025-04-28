@@ -16,6 +16,8 @@
 		9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
 		9F0295DD288092F800DD0004 /* Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DC288092F800DD0004 /* Equatable.swift */; };
 		9F0295DF2880932200DD0004 /* CG++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DE2880932200DD0004 /* CG++.swift */; };
+		9F132F832DBECD9700E28189 /* Chanty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F132F822DBECD9700E28189 /* Chanty.swift */; };
+		9F132F842DBECD9700E28189 /* Chanty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F132F822DBECD9700E28189 /* Chanty.swift */; };
 		9F1900F828808DC10078DB6C /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
 		9F1900F928808DC10078DB6C /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
 		9F1900FA28808DC10078DB6C /* MultiLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E928808DC00078DB6C /* MultiLink.swift */; };
@@ -217,6 +219,7 @@
 		9F0295E22880936400DD0004 /* XXXNSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XXXNSObject+MachineTrap.h"; sourceTree = "<group>"; };
 		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F0295E42880936400DD0004 /* XXXSwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXXSwiftTryCatch.m; sourceTree = "<group>"; };
+		9F132F822DBECD9700E28189 /* Chanty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chanty.swift; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		9F1900E928808DC00078DB6C /* MultiLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiLink.swift; sourceTree = "<group>"; };
@@ -447,6 +450,7 @@
 				9FEE51AB286BA57900C8C22A /* Library.swift */,
 				9FDE5DA42C29C23A001D4A73 /* Book.swift */,
 				9FEE51AE286BA57A00C8C22A /* Proto.swift */,
+				9F132F822DBECD9700E28189 /* Chanty.swift */,
 				9FEE522C2879E0CA00C8C22A /* TestsFoo.swift */,
 				9FEE51AD286BA57900C8C22A /* TivoRemote.swift */,
 				9FEE51AC286BA57900C8C22A /* LangDeser.swift */,
@@ -697,6 +701,7 @@
 				9F417F1828EB94080047B359 /* FwBundle.swift in Sources */,
 				9F417F2D28EB94500047B359 /* Part.swift in Sources */,
 				9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
+				9F132F842DBECD9700E28189 /* Chanty.swift in Sources */,
 				9F417F3728EB947A0047B359 /* InspecSCNVector3.swift in Sources */,
 				9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */,
 				9F417F1928EB940D0047B359 /* TimingChain.swift in Sources */,
@@ -783,6 +788,7 @@
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
 				9F84C9EE2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
 				9F1E3CE628D926C5004548C9 /* VewBase.swift in Sources */,
+				9F132F832DBECD9700E28189 /* Chanty.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
 				9F5996452C5E8E290013EBF3 /* Workstation.swift in Sources */,
 				9F6B946C2B8A5073007A14E5 /* SceneKitView.swift in Sources */,

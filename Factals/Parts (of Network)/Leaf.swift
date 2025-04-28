@@ -105,17 +105,16 @@ bug;	return false
 	}
 	override func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
 		// path matches self's name
-bug;	if path.nameAtom == self.name {			// Terminal's name (w.o. Port) matches
-//		if path.atomName == self {				// Terminal's name (w.o. Port) matches
+bug;	if path.atomName == self.name {			// Terminal's name (w.o. Port) matches
 			var rv : Part? 		= nil
 								//
 			  //////////// Is named port a BINDING? ///////////////////
 			 //
-			if let bindingStr 	= self.bindings?[path.namePort!] {
+			if let bindingStr 	= self.bindings?[path.portName!] {
 				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
 				
 				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
-								  self.fullName, path.namePort!, bindingPath.pp())
+								  self.fullName, path.portName!, bindingPath.pp())
 
 				  // Look that name up
 				 //XX		rv=[self resolveInwardReference:bindingPath openingDown:downInSelf except:nil]
@@ -131,7 +130,7 @@ bug;	if path.nameAtom == self.name {			// Terminal's name (w.o. Port) matches
 					}
 				}
 			}
-			else if path.namePort!.count == 0 { 	// empty string "" in bindings has priority
+			else if path.portName!.count == 0 { 	// empty string "" in bindings has priority
 				panic("wtf")
 			} //			rv = self;								// found	(why?)
 			
@@ -146,6 +145,7 @@ bug;	if path.nameAtom == self.name {			// Terminal's name (w.o. Port) matches
 		// Didn't match as Leaf, try normal match:
 		return super.resolveInwardReference(path, openingDown:downInSelf, except:except)
 	}
+	 // MARK: - 4.7 Editing Network
 
 	 // MARK: - 9.2 reSize
 	override func reSize(vew:Vew) {

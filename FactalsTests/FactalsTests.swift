@@ -116,6 +116,31 @@ final class FactalsTests: XCTestCase {
 //		XCTAssertTrue(p2.hasSuffix(":FactalsTests"))		// may be wrong
 	}
 
+//	func getPort(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
+//		logBld(7, " '\(fullName)'   called getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+	func testGetPortNamed() {
+//		 // -- Check BINDINGS?
+//		if let bindingString 	= bindings?[named] {
+//			let bindingPath		= Path(withName:bindingString)
+//			let boundPart		= find(path:bindingPath)	// find bound Part
+//nop
+//			let sWantUp			= wantUp==nil ? nil : wantUp! ^^ boundPart!.upInPart(until:self)
+//
+//			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
+//	/**/		return bAtom.getPort(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+//			}								//????		//A\\ ??
+//
+//			if let rv 			= boundPart as? Port {			// Case 2: Port?
+//				if !wantOpen || rv.con2==nil {
+//	/**/			return rv										// okay
+//				} 													// or Recursion:
+//	/**/		return rv.atom?.getPort(named:bindingPath.portName!, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+////	/**/		return rv.atom?.getPort(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+//			}
+//			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
+//		}
+	}
+
 	func testForEach() {
 		let array = ["aaa", "bbb", "ccc"]
 		var a = ""

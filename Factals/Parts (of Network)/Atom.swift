@@ -147,7 +147,7 @@ class Atom : Part {	//Part//FwPart
 	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
 		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
 			var rv : Part?			= nil;
-			if path.namePort!.count != 0 {					// if named Port is specified
+			if path.portName!.count != 0 {					// if named Port is specified
 
 				  // Search all existing component Ports:
 				 //
@@ -226,17 +226,15 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			let bindingPath		= Path(withName:bindingString)
 			let boundPart		= find(path:bindingPath)	// find bound Part
 			let sWantUp			= wantUp==nil ? nil : wantUp! ^^ boundPart!.upInPart(until:self)
-
 			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
-	/**/		return bAtom.getPort(named:named, localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+	/**/		return bAtom.getPort(named:named, 					localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}								//????		//A\\ ??
-
 			if let rv 			= boundPart as? Port {			// Case 2: Port?
 				if !wantOpen || rv.con2==nil {
 	/**/			return rv										// okay
 				} 													// or Recursion:
-	/**/		return rv.atom?.getPort(named:bindingPath.portName!, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-//	/**/		return rv.atom?.getPort(named:bindingString, localUp:wantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+	/**/		return rv.atom?.getPort(named:bindingPath.portName!,localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+//	/**/		return rv.atom?.getPort(named:bindingString,        localUp:wantUp,  wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}
 			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
 		}

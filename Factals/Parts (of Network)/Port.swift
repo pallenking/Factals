@@ -314,37 +314,34 @@ class Port : Part, PortTalk {
 		}
 		return scan
 	}
-	   // MARK: - 4.8 Matches Path
-	override func partMatching(path:Path) -> Part? {
+	 // MARK: - 4.7 Editing Network
 
-		 // Port name matches
-		guard path.portName == nil ||			// portName specified in Path?
-		   path.portName! == name else {		  // matches?
-			return nil								// no, mismatch
+	 // MARK: - 4.8 Matches Path
+	override func partMatching(path:Path) -> Part? {
+		if path.portName != name {
+			return nil					 			// Port name mis-matches
 		}
-		 // Is Port known to Atom, with portName?
-		if let atom				= parent as? Atom {
-			 // Path has portName
-			if let pathPortName	= path.portName {
-				 // Is registered in atom's ports?
-				if atom.ports[pathPortName] != nil {
-				}									// registered in ports
-				 // Port is defined in bindings
-				else if let bindingName = atom.bindings?[pathPortName] {// is in bindings:
+			// Examine parent Atom for clues
+		if let atom				= parent as? Atom { 	// Is Port known to Atom
+			if let pathPortName	= path.portName {			// Path has portName
+				if atom.ports[pathPortName] != nil {			// 1. Is registered in atom's ports?
+				}												// 2. Bindings?:
+				else if let bindingName = atom.bindings?[pathPortName] {
 					let bindingPath	= Path(withName:bindingName)	// Path for binding
 					if find(path:bindingPath) == nil {				// exists in self
 						return nil
 					}
-				}else{	// Port is unknown
+				} else {										// 3. Port is unknown
 					return nil
 				}
-			}
-			let atomPath		= path 			// make a path for Atom
-			atomPath.portName 	= nil			// ignore
+			}			// Does my Atom even match path part?
+			let atomPath		= Path(from:path) 	// force a copy
+			atomPath.portName 	= nil					// modify copy
 			if atom.partMatching(path:atomPath) != nil {
 				return self
 			}
 		}
+		 // ELSE
 		return nil								// failed test
 	}
 	  

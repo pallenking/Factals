@@ -16,6 +16,7 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 		LangDeser(	"LangDeser"	),				// Language Deserializer
 		 // Default testing:
 		Tests01(	"Tests01"	),				// Standard Regression Tests
+		Chanty(		"Chanty"    ),
 	]
 	 // MARK: - 2. Register all Libraries HERE!
 	let nameTag					= getNametag()
