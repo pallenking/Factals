@@ -93,7 +93,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 // MARK: - 2.4 Display Suggestions
 	var initialExpose : Expose	= .open		// Hint to use on dumb creation of views. (never changed)
 			// See View.expose for GUI interactions
-	var flipped : Bool = false
+	var flipped : Bool = false				// true --> upside down in parent
 	{	didSet {	if flipped != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
@@ -101,7 +101,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	var downInWorld : Bool {
 		var rv 					= false
 		for p in selfNParents() {			//		for (Part *p=self; p.parent; p=p.parent)
-			rv = rv != p.flipped;//^=		// rv now applies from self
+			rv 					= rv != p.flipped		// rv now applies from self		//^=
 		}
 //		assert(rv == selfNParents().reduce(into:true) { rv, p:Part in rv = rv && (p == p.flipped)}, "OOps should ==")
 		return rv;
@@ -127,7 +127,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 	 // MARK: - 2.5 SwiftUI Stuff
 	 // just put here to get things working?
-	var placeSelf = ""				// from config!
+	var placeSelf 				= ""				// from config!
 	{	didSet {	if placeSelf != oldValue {
 						markTree(dirty:.vew)
 																		}	}	}

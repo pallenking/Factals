@@ -1,4 +1,12 @@
 # TO_DO.md -- Factals
+20250329: 
+	Features
+		Manage Link editing
+
+	Major holes
+
+
+
 
 ---------------------------------------------------------------------
 20230930: FactalWorkbench: 

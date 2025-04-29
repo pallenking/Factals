@@ -240,17 +240,13 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		}
 
 		 // -- 1. May be EXISTING Port:
-		let ports : [Port]		= existingPorts(named:named, localUp:wantUp)	///*, wantOpen:wantOpen*/
-		assert(ports.count <= 1, "multiple existingPorts\(ports) seems illogical")
+		let candidatePorts : [Port] = existingPorts(named:named, localUp:wantUp)	///*, wantOpen:wantOpen*/
+		assert(candidatePorts.count <= 1, "multiple existingPorts\(candidatePorts) seems illogical")
 		
-		if let portsFirst		= ports.first,
+		if let portsFirst		= candidatePorts.first,
 		  !wantOpen || portsFirst.con2==nil { 	// port is as required
 				return portsFirst
 		}
-//		if let portsFirst		= ports.first,
-//		  !wantOpen || portsFirst.con2==nil { 	// port is as required
-//				return portsFirst
-//		}
 
 		 // -- 2. Time to DELAYED Populate?
 		if let rv 				= delayedPopulate(named:named, localUp:wantUp) {
@@ -266,8 +262,8 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		{	return splitter.anotherShare(named:"*")
 		}
 
-		 // -- 4. Get another Port from an attached Splitter?:
-/**/	return autoBroadcast(toPort:ports.first)
+		 // -- 4. Last option -- Get another Port from an attached Splitter?:
+/**/	return autoBroadcast(toPort:candidatePorts.first)
 	}
 	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
@@ -284,7 +280,8 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			if wantName    == ""		||		// (name unimportant     OR
 			   wantName    == pName,			//  name matches port's)  AND
 			   portUp      == nil 		||		// (flip unimportant     OR
-			   portUp!	   == port.flipped		//  flipped properly)     AND	// port.connectedX==nil || !wantOpen// open if need be
+			  !portUp!	   == port.flipped		//  flipped state?)		  AND	// port.connectedX==nil || !wantOpen// open if need be
+//			   portUp!	   == port.flipped		//  flipped state?)		  AND	// port.connectedX==nil || !wantOpen// open if need be
 //			   !wantOpen || port.con2==nil		// don't care, or open
 			{
 				rv.append(port)						// acceptable Ports
