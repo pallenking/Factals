@@ -19,8 +19,8 @@ class Atom : Part {	//Part//FwPart
 	var proxyColor: NSColor?	= nil
 	var postBuilt				= false		// object has been built
 	var ports	 :[String:Port] = [:]
-	var bindings :[String:String]? = nil	// Map external names to internal Ports
-			// key:internal resource
+	var bindings :[String:String]? = nil	// Bindings map external names to internal Ports
+			// key:internal resource -- typical choices
 			//	""	Major output
 			//	+	Major output, cur
 			//	-	Major output, previous
@@ -224,27 +224,32 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		 // -- Check BINDINGS?
 		if let bindingString 	= bindings?[named] {
 			let bindingPath		= Path(withName:bindingString)
-			let boundPart		= find(path:bindingPath)	// find bound Part
-			let sWantUp			= wantUp==nil ? nil : wantUp! ^^ boundPart!.upInPart(until:self)
-			if let bAtom 		= boundPart as? Atom {			// Case 1: Atom?
-	/**/		return bAtom.getPort(named:named, 					localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-			}								//????		//A\\ ??
-			if let rv 			= boundPart as? Port {			// Case 2: Port?
-				if !wantOpen || rv.con2==nil {
-	/**/			return rv										// okay
-				} 													// or Recursion:
-	/**/		return rv.atom?.getPort(named:bindingPath.portName!,localUp:sWantUp, wantOpen:wantOpen, allowDuplicates:allowDuplicates)
-//	/**/		return rv.atom?.getPort(named:bindingString,        localUp:wantUp,  wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+			let boundPart		= find(path:bindingPath)// find bound Part
+			let sWantUp			= wantUp==nil ? nil 							// nil stays
+								: wantUp! ^^ boundPart!.upInPart(within:self)	// negate per boundPart
+			let nsWantUp		= sWantUp==nil ? nil : !sWantUp!
+								
+			if let rv 			= boundPart as? Port {		// Case 1: Port?
+				if !wantOpen || rv.con2==nil {					// eh? or open
+					return rv										// okay
+				} 												// try my Atom
+	/**/		return rv .atom? .getPort(named:bindingPath.portName!, localUp:nsWantUp,
+//	/**/		return rv .atom? .getPort(named:bindingPath.portName!, localUp:sWantUp,
+										  wantOpen:wantOpen, allowDuplicates:allowDuplicates)
+			}
+			if let bAtom 		= boundPart as? Atom {		// Case 2: Atom?
+	/**/		return bAtom .getPort(named:named, localUp:sWantUp,
+									 wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}
 			panic("boundPart \(boundPart?.pp(.fullNameUidClass) ?? "nil, ") not recognized: ")
 		}
 
 		 // -- 1. May be EXISTING Port:
-		let candidatePorts : [Port] = existingPorts(named:named, localUp:wantUp)	///*, wantOpen:wantOpen*/
+		let candidatePorts : [Port] = existingPorts(named:named, localUp:wantUp)
 		assert(candidatePorts.count <= 1, "multiple existingPorts\(candidatePorts) seems illogical")
 		
 		if let portsFirst		= candidatePorts.first,
-		  !wantOpen || portsFirst.con2==nil { 	// port is as required
+		  !wantOpen || portsFirst.con2==nil { 	// the Port is as required
 				return portsFirst
 		}
 
@@ -272,7 +277,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	///   - wantName: name the port must have (or nil)
 	///   - portUp: if the port must be up (down, or nil)
 	/// - Returns: A (possibly empty) array of matching ports.
-	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil/*, wantOpen:Bool=false*/) -> [Port] {//, allowDuplicates:Bool=false
+	func existingPorts(named wantName:String?=nil, localUp portUp:Bool?=nil) -> [Port] {//, allowDuplicates:Bool=false
 		var rv : [Port]			= []
 
 		 // Is wantName in ports[]?
@@ -280,9 +285,8 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 			if wantName    == ""		||		// (name unimportant     OR
 			   wantName    == pName,			//  name matches port's)  AND
 			   portUp      == nil 		||		// (flip unimportant     OR
-			  !portUp!	   == port.flipped		//  flipped state?)		  AND	// port.connectedX==nil || !wantOpen// open if need be
-//			   portUp!	   == port.flipped		//  flipped state?)		  AND	// port.connectedX==nil || !wantOpen// open if need be
-//			   !wantOpen || port.con2==nil		// don't care, or open
+	/*old*/	   portUp!	   == port.flipped		//  flipped state?)
+//			  !portUp!	   == port.flipped		//  flipped state?)
 			{
 				rv.append(port)						// acceptable Ports
 			}
@@ -362,7 +366,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 
 		  //   "AUTO-BCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
-		logBld(4, "<<++ Auto Broadcast toPort:\(toPort.pp(.fullName))++>>")
+		logBld(4, "<<++ Auto Broadcast toPort:'\(toPort.pp(.fullName))' ++>>")
 
 		 // -- 1. Already connetcted to a Splitter:
 		if let conSplitter 		= con2Port.atom as? Splitter,
@@ -377,13 +381,13 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 
 		 // 3.  Find a spot to insert it (above or below):
 		 // Choose so inserted element is in scan order, to reduces settle time.
-		let papaNet				= toPort.atom!.enclosingNet! /// Find Net
+		let papaNet				= toPort.atom!.enclosingNet! // Find Net
 									// worry about toPort inside Tunnel
 		let child	 			= toPort.ancestorThats(childOf:papaNet)!
 		guard var ind 			= papaNet.children.firstIndex(where: {$0 === child}) else {
 			debugger("Broadcast index bad of false'\(toPort.fullName)'")
 		}
-		newBcast.flipped		= toPort.upInPart(until:papaNet) == false
+		newBcast.flipped		= toPort.upInPart(within:papaNet) == false
 		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD	//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 		papaNet.addChild(newBcast, atIndex:ind)
 
@@ -559,15 +563,14 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 					assert(srcInd != nil, "conNet doesn't contain Self")
 					assert(trgAtom !== self, "Self and target are at the same location: \(self.fullName)")
 					assert(trgInd! != srcInd!, "Self and Target enter at same index \(trgInd!). This is strange")
-// BAD CHANGE!		let trgAboveSInCon = trgInd! > srcInd!
-					let trgAboveSInCon = trgInd! < srcInd!
+					let trgAboveSInCon = trgInd! <= srcInd!		// >, <=
 					let lnkInsInd = min(trgInd!, srcInd!) + 1	// insert after first
-								//
+
 					   // /////////////////////////////////
 					  //   3. Get Ports for Atoms. MAKE NEW ONES IF NEEDED
 
 					 //    3a. //// SouRCe (is self)				// Log
-					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(until:conNet)
+					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(within:conNet)
 					logBld(4, "L\(wireNumber) -- SOURCE: in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
@@ -575,14 +578,14 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 					assert(srcPort != nil, "srcPort==nil")
 								
 					 //		3c. //// TaRGet:						// Log
-					let trgAboveSInT = trgAboveSInCon == trgAtom.upInPart(until:conNet)
+					let trgAboveSInT = trgAboveSInCon == trgAtom.upInPart(within:conNet)
 					let trgInfo	= "   -- TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6))" +
 								  " opens _\(ppUp(trgAboveSInT))_"
 					logBld(4, trgInfo)
 
-					 //		3d. //// Get the TaRGet Port			// target Port
-			/**/	let trgPort = trgAtom.getPort(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)//	(name=="" -> share)
+					 //		3d. //// Get the TaRGet Port			// target Port	  Self Target
+			/**/	let trgPort = trgAtom.getPort(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)	// (name=="" -> share)
 					assert(trgPort != nil, "trgPort==nil")
 
 					  // //////////////////////////////////
@@ -882,7 +885,7 @@ bug				//		logBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\
 				return atPri_fail(		"smallestNetEnclosing failed")
 			}
 			let commonVew 		= refVew.find(part:commonNet, up2:true, inMe2:true)
-			let inMePOpensUpIC	= inMePort.upInPart(until:commonNet)		// ???wtf???
+			let inMePOpensUpIC	= inMePort.upInPart(within:commonNet)		// ???wtf???
 
 			logRsi(4, inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:"")
 			if  inMePOpensUpIC {		// // g. pointing up, but not into a Context

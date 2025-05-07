@@ -389,11 +389,6 @@ bug		// invisible?
 		return .empty						// Root Part is invisible
 	}
 
-//	// MARK: - 14. Building
-//	 // Part.log comes here to stop  -- else infinite loop
-//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") {
-//		Log.shared.log(banner:banner, format_, args, terminator:terminator)
-//	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		//var rv 				= super.pp(mode, aux)	// Use Part's pp()

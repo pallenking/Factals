@@ -644,6 +644,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	///	- UPsidedown (as controlled by fliped)
 	///	- Port opens UP
 	var upInWorld : Bool {						// true --> flipped in World
+		//selfNParents.publisher.sequence(maxPublishers:1).sink {_ in }
 		var rv 					= false
 		for part in selfNParents {
 			rv 					^^= part.flipped	// rv now applies from self
@@ -651,29 +652,24 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		return rv
 	}
 	 /// self isUp in Part
-	 /// - argument: inPart -- part which is parent of self
-	func upInPart(until endPart:Part) -> Bool {
+	 /// - argument: within -- part which is grandaddy of them all
+	func upInPart(within:Part) -> Bool {
 
-		 // Trace from self to endPart:
-		let (flip0, end0)		= self   .flipTo(endPart:endPart)
-		if end0 === endPart {		// found endPart
-//		if end0 == endPart {		// found endPart
-			return  flip0				// return its flip
-		}
+		 // flip from self --> within:
+		let (flip0, foundWithin) = self.flipTo(endPart:within)
+		if foundWithin === within			// found endPart
+		{	return  flip0	}			// return its flip
 
-		 // Trace from endPart to self:
-		let (flip1, end1)		= endPart.flipTo(endPart:self   )
-		if end1 === self {			// found self
-//		if end1 == self {			// found self
-			return  flip1				// return its flip
-		}
+		 // flip from within --> self:
+		let (flip1, foundSelf)	= within.flipTo(endPart:self   )
+		if foundSelf === self 			// found self
+		{	return  flip1 	}			// return its flip
 
 		 // They end at the same root!
-		if end0 === end1 {
-//		if end0 == end1 {
-			return flip0 ^^ flip1
-		}
-		debugger("self:\(fullName) and endPart:\(endPart.fullName) don't share a root")
+		if foundWithin === foundSelf
+		{	return flip0 ^^ flip1	}
+		
+		debugger("self:\(fullName) and endPart:\(within.fullName) don't share a root")
 	}
 	 /// scan up the tree from self to (but not including) endPart
 	private func flipTo(endPart:Part) -> (Bool, Part) {

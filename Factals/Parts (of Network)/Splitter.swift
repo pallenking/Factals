@@ -189,7 +189,7 @@ class Splitter : Atom {
 		return rv
 	}
 	  // MARK: - 4.7 Editing Network
-	override func getPort(named wantName  :String, localUp wantUp:Bool?,     wantOpen:Bool,       allowDuplicates:Bool) -> Port? {
+	override func getPort(named wantName:String, localUp wantUp:Bool?, wantOpen:Bool, allowDuplicates:Bool) -> Port? {
 
 		 // Another Share of a Splitter, but no Share is open					//		if wantOpen, wantUp!{
 		if (wantName=="share" || wantName==""),	// Want a new share

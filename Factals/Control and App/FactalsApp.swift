@@ -77,7 +77,7 @@ extension FactalsApp : App {
 var FACTALSMODEL : FactalsModel?=nil
 
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
-//var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+	var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
 	//B: https://wwdcbysundell.com/2020/creating-document-based-apps-in-swiftui/
 
@@ -223,7 +223,7 @@ struct FactalsApp: FwAny, Uid {
 	init() {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
-		logApp(3, "detailWanted:[\(Log.shared.detailWanted.pp(.line))]")//, XcTests is\(isRunningXcTests ? "" : "n't") running")
+		logApp(3, "detailWanted:[\(Log.shared.detailWanted.pp(.line))] XcTests is\(isRunningXcTests ? "" : "n't") running")
 		logApp(3, "FactalsApp(\(params4partPp.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))")
 		logApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
 		logApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
@@ -253,7 +253,6 @@ struct FactalsApp: FwAny, Uid {
 		if (trueF) {		 	// Make new window:
 			@Environment(\.newDocument) var newDocument
 			newDocument(FactalsDocument(fromLibrary:scanKey))
-//			let x = FactalsDocument()//fmConfig:scanKey) // who holds onto this
 		}
 		else {			 		// Install new parts in current window
 			guard let factalsModel	= FACTALSMODEL else {	return				}
@@ -316,10 +315,6 @@ struct FactalsApp: FwAny, Uid {
 			//  BUG: 20201225 Wouldn't create logOfRuns; must do manually
 		}
 	}
-//	func log(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n") { //String?=nil
-//		let msg					= String(format:format_, arguments:args)
-//		Log.shared.log(banner:banner, msg, terminator:terminator)
-//	}
 }
 
 

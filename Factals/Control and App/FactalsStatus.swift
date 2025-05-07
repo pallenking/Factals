@@ -279,8 +279,8 @@ extension ScnBase : FactalsStatus	{						  ///ScnBase
 	func ppControlElement(config:Bool=false) -> String {
 		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 		myLine					+= "tree:\(roots?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-		myLine					+= "\(roots?				 .pp(.tagClass) ?? "<nil>") "			//classUid
-		myLine					+= "scnView:\(	 scnView?.pp(.tagClass) ?? "<nil>") "			//classUid
+		myLine					+= "\(roots?			  .pp(.tagClass) ?? "<nil>") "			//classUid
+		myLine					+= "scnView:\(	  scnView?.pp(.tagClass) ?? "<nil>") "			//classUid
 		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
 //			otherLines: {
 //				return self.tree!   .ppControlElement()

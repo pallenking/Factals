@@ -621,11 +621,6 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		panic();
 		return true
 	}	// calls toggelOpen()
-//	 // MARK: - 14. Logging
-//	func log(banner:String?=nil, _ format:String, _ args:CVarArg..., terminator:String="\n") {
-//		let (nl, fmt)			= format.stripLeadingNewLines()
-//		Log.shared.log(banner:banner, nl + fullName.field(12) + ": " + fmt, args, terminator:terminator)
-//	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
