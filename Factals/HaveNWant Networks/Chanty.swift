@@ -1,26 +1,34 @@
-//  Chanty.swift -- Prototype HaveNWant network ©2021PAK
+//  Chanty.swift -- Miscellaneous small networks ©2021PAK
 //
 import SceneKit
+let e 	 : FwConfig		= [:]		// Logs OFF "logPri4all":8
+
+class WorldSpaniel : Book {
+	override func loadTest(args:ScanForKey, state:inout ScanState) {
+		super.loadTest(args:args, state:&state)
+
+		 // MARK: - * Tivo World
+		state.scanSubMenu		= "Proto Menu"
+		r("Prototype HaveNWant", e, { Net(["parts":[
+			/*
+			Coalition(USA, friends:[Ukrain, other], enemies:[Russia,other2])
+			Coalition(other, friends:[USA,Ukrain]], enemies:[Russia,other2])
+			Coalition(Russia, friends:[China, Iran, other2], enemies:[US, other, Ukrain])
+			Coalition(other2, friends:[Russia,China], enemies:[Iran,china1])
+			Coalition(China, friends:[Russia, other2], enemies:[])
+//			Coalition(, friends:[], enemies:[])
+			 */
+		] ]) })
+	}
+}
 
 class Chanty : Book {
 	override func loadTest(args:ScanForKey, state:inout ScanState) {
 		super.loadTest(args:args, state:&state)
-	//	let e 	 : FwConfig		= [:]		// Logs OFF "logPri4all":8
 
 		 // MARK: - * Tivo World
 		state.scanSubMenu		= "Proto Menu"
-//		r("Prototype HaveNWant", e, { Net(["parts":[
-//			Actor(["n":"wheelA", "placeMy":"linky",
-//				"con":Tunnel(["struc":["z", "y"], "f":1]),
-//				"parts":[
-//					MaxOr( ["n":"ma", "share":["z", "y"], "f":0]),
-//					MinAnd(["n":"mi", "share":["a", "b", "c", "d"], "P":"ma", "f":1]),
-//					MinAnd(["n":"mj", "share":["a", "b"], "f":1]),
-//				],
-//				"evi":Tunnel(["struc":["a", "b", "c", "d"], "placeMy":"stackz 0 -1"]),
-//			]),
-//			Generator(["n":"lo", "events":["a", "b", "c", "d", "again"], "P":"wheelA/evi"]),
-//		]]) })
+//		r("Prototype HaveNWant", e, { Net(["parts":[...]) })
 	}
 }
 

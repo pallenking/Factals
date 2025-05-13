@@ -84,11 +84,13 @@ class BundleTap : Atom {
 								//
 		 // Test new target bundle; must have both R (for reset) and G (for generate)
 		targetBundle.forAllLeafs {leaf in
-			guard let _			= leaf.port4leafBinding(name: "R"),
-			 let _ 				= leaf.port4leafBinding(name: "G") else {
-				debugger("Leaf \(self.pp(.fullName)) has no R or G port, needed by\n")	//type '\(leaf.type)' 
-				// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
-			}
+			assert(leaf.port4leafBinding(name:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil
+			assert(leaf.port4leafBinding(name:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil
+//			guard let _			= leaf.port4leafBinding(name: "R"),
+//			 let _ 				= leaf.port4leafBinding(name: "G") else {
+//				debugger("Leaf \(self.pp(.fullName)) has no R or G port, needed by\n")	//type '\(leaf.type)' 
+//				// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
+//			}
 		}
 
 		  //// reset to an BundleTap generates a resetTo pattern to target bundle

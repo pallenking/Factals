@@ -539,7 +539,7 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 		FwBundle([struc:["c"], of:"prev",    placeMy:"stackx -1 1"], leafConfig:["value":"1.0"]),
 	] ]),
 ] ] ) } )
-	xr("- auto-bcast bug", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
+	xxr("- auto-bcast bug", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 		MinAnd([P:"c"]),  MinAnd([P:"c"]), //MinAnd([P:"c"]),
 //		Previous([n:"c"]),
 		FwBundle([struc:["c"], of:"prev",    placeMy:"stackx -1 1"], leafConfig:["value":"1.0"]),
@@ -1482,7 +1482,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
