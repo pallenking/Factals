@@ -165,7 +165,7 @@ bug;						let rv = Port([:])
 				if rv == nil,
 				  let portAbility = atomsDefinedPorts[path.portName!]
 				{
-bug;				let rv = Port([:])
+					let rv = Port([:])
 					rv.flipped = portAbility.contains("d")
 					rv.name = path.portName!
 					addChild(rv)
@@ -187,8 +187,10 @@ bug //				if (NSString *portAbility = [self xxx) {
 			}
 		}
 		logBld(5, "   FAILS   Inward check")
+		bug
 		return nil
-bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:exception)
+//bug//
+//		return super.resolveInwardReference(path, openingDown:downInSelf, except:exception)
 	}
 
 	// MARK: - 4.4 Navigating Network
@@ -219,7 +221,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func getPort(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		logBld(7, " '\(fullName)'   called getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+		logBld(7, " '\(fullName)' . getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 
 		 // -- Check BINDINGS?
 		if let bindingString 	= bindings?[named] {
@@ -364,7 +366,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		guard let toPort							else {	return nil 			}
 		guard let con2Port		= toPort.con2?.port else {	return nil 			}
 
-		  //   "AUTO-BCAST": Add a new Broadcast to split the port
+		  //   "AUTO-BROADCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
 		logBld(4, "<<++ Auto Broadcast toPort:'\(toPort.pp(.fullName))' ++>>")
 
@@ -377,7 +379,7 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		 // 2.  Make a Broadcast Splitter Atom:
 		let newName				= "\(name)\(toPort.name)"
 /**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])	//"flipped"
-		newBcast.flipped		= true												// elim
+//		newBcast.flipped		= true												// elim
 
 		 // 3.  Find a spot to insert it (above or below):
 		 // Choose so inserted element is in scan order, to reduces settle time.
@@ -387,8 +389,9 @@ bug//	return super.resolveInwardReference(path, openingDown:downInSelf, except:e
 		guard var ind 			= papaNet.children.firstIndex(where: {$0 === child}) else {
 			debugger("Broadcast index bad of false'\(toPort.fullName)'")
 		}
-		newBcast.flipped		= toPort.upInPart(within:papaNet) == false
-		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD	//		ind						+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
+		newBcast.flipped		= toPort.upInPart(within:papaNet) == true
+		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD
+		//ind					+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 		papaNet.addChild(newBcast, atIndex:ind)
 
 		 //	 4,  Wire up new Broadcast into Network:

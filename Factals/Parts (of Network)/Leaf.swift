@@ -104,27 +104,21 @@ bug;	return false
 		return nil;			// not found
 	}
 	override func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
-		// path matches self's name
-bug;	if path.atomName == self.name {			// Terminal's name (w.o. Port) matches
+		 // matches my name
+		if path.atomName == self.name {			// Terminal's name (w.o. Port) matches
 			var rv : Part? 		= nil
-								//
-			  //////////// Is named port a BINDING? ///////////////////
-			 //
+
+			 // ////////// Is named port a BINDING? ///////////////////
 			if let bindingStr 	= self.bindings?[path.portName!] {
 				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
-				
 				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
 								  self.fullName, path.portName!, bindingPath.pp())
-
-				  // Look that name up
-				 //XX		rv=[self resolveInwardReference:bindingPath openingDown:downInSelf except:nil]
+				 // Look that name up
 				for elt in parts {
-//					if (coerceTo(NSNumber, elt)) continue;
 					// Look up internal name
 					let downInElt = !downInSelf == !elt.flipped	// was ^
-		bug;		if let elt 	= elt as? Atom,
-					   let rv1	= elt.resolveInwardReference(bindingPath, openingDown:downInElt) {	//, except:nil
-//					  let rv1	= elt.resolveInwardReference(bindingPath, openingDown:downInSelf) {	//, except:nil
+					if let elt 	= elt as? Atom,
+					   let rv1	= elt.resolveInwardReference(bindingPath, openingDown:downInElt) {	//downInSelf
 						rv		= rv1
 						break;					// found
 					}

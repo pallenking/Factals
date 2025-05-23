@@ -526,6 +526,9 @@ r("SKIN: BLS", e + selfiePole(s:0, u:0), {	//, "f", "g"
 //	Tunnel(of:.port, tunnelConfig:[n:"tun", struc:["a"], placeMy:"stackZ"])//"a", "b"
 //})
 
+
+
+
  // Auto Broadcast: (GOOD TEST)
 state.scanSubMenu				= "+ Auto Broadcast"
 xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
@@ -1482,7 +1485,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
@@ -1498,6 +1501,35 @@ xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) 
 			"evi":Tunnel(["struc": ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 		]),
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+	] ])
+})
+xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	Net([parts:[
+//		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
+		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"parts":[
+				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
+				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
+				Hamming([P:"fwd", share:["c.+", "a.-"], f:1]),
+				Hamming([P:"bkw", share:["a.+", "c.-"], f:1]),
+				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
+				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
+			],
+			"evi":Tunnel(["struc": ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		]),
+		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
+	] ])
+})
+xr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	Net([parts:[
+		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+			"con":Tunnel(["struc":["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"parts":[
+				Hamming([P:"fwd", f:1, jog:4]),
+				Hamming([P:"fwd", f:1]),
+			],
+		]),
 	] ])
 })
 xxr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + logAt(dat:5, eve:5), {
