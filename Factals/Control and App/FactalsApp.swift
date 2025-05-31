@@ -27,9 +27,9 @@ extension FactalsApp : App {
 	var body: some Scene {
 		DocumentGroup(newDocument:FactalsDocument(/*file name??*/)) { file in
 			ContentView(document: file.$document)
-			 .id(/*file.fileURL?.absoluteString ??*/ UUID().uuidString) // Ensure uniqueness
-			 .environmentObject(factalsGlobals)				// inject in environment
-			 .onOpenURL { url in							// UNTESTED: Load a document from the given URL
+			 .id(UUID().uuidString) 				// Ensure uniqueness
+			 .environmentObject(factalsGlobals)		// inject in environment
+			 .onOpenURL { url in					// UNTESTED: Load a document from the given URL
 				@Environment(\.newDocument) var newDocument
 				newDocument(FactalsDocument(fileURL:url))
 			 }
@@ -229,8 +229,8 @@ struct FactalsApp: FwAny, Uid {
 		logApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 		logApp(1, "\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ")
 		logApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
-		logApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️\n")
-		logApp(3, ppControlElement())
+		logApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
+		logApp(3, "Initial Factals machine (but no Docs):\n" + ppControlElement())
 //		logRunInfo("\(library.answer.titlePlus())")
 //		sounds.load(name: "di-sound", path:"di-sound")
 //		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
