@@ -132,14 +132,6 @@ class Splitter : Atom {
 		return rv
 	}
 	// MARK: - 4.4 Tree Navigation
-// // OBSOLETE
-//	override func autoBroadcast(toPort:Port?) -> Port? {
-//		if //isBroadcast, 						// now for any type Splitter
-//		  toPort?.flipped ?? false { 			// active end of a Splitter?
-//			return anotherShare(named:"*")		// + + make a new Share + +
-//		}
-//		return super.autoBroadcast(toPort:toPort)
-//	}
 	  /// Create a share for a Splitter
 	 /// - Parameter name: -- of new share; "*"->s23, nil->anonymous
 	/// - Returns: Share

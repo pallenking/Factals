@@ -270,7 +270,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 		}
 
 		 // -- 4. Last option -- Get another Port from an attached Splitter?:
-/**/	return autoBroadcast(toPort:candidatePorts.first)
+/**/	return addTap(onPort:candidatePorts.first/*, using:Broadcast*/)
 	}
 	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
@@ -323,90 +323,51 @@ bug //				if (NSString *portAbility = [self xxx) {
 		return nil
 	}
 
-																	 /// Get a (perhaps open) Port like the prototype
-																	/// * If port is open, or mustn't be open, return it
-																	/// * If port is on a Splitter, add another share
-																	/// * If port is connected to a Broadcast, make a Port on it.
-																	/// - Parameter givenPort: --- prototype to duplicate
-																	/// - Returns: the wanted Port, or nil
-																//	func makeOpenIfNot(port givenPort:Port) -> Port? {
-																//		let s					= givenPort.atom
-																//		assert(s != nil && s !== self, "")		// "!==" -> same identity
-																//
-																//		let similarPorts		= s!.existingPorts(named:givenPort.name, localUp:givenPort.flipped)
-																//		if  similarPorts.count > 0 {
-																//			let similarPort = similarPorts[0]	// Just pick one
-																//			assert(similarPort.connectedX != nil, "should be occupied")
-																//
-																//			 // Get another Port similar to similarPort from Splitter?
-																//			if let splitter = self as? Splitter,
-																//			  similarPort.flipped,
-																//			  splitter.isBroadcast {
-																//				return splitter.anotherShare(named:"*")
-																//			}
-																//
-																//			 // Get another Port from an attached Splitter:
-																//			if let conSplitter = similarPort.connectedX?.atom as? Splitter,
-																//			  conSplitter.isBroadcast {
-																//				return conSplitter.anotherShare(named:"*")
-																//			}
-																//			return s!.autoBroadcast(toPort:similarPort)
-																//		}
-																//		return nil
-																//	}
-
-	 /// Add a Broadcast unit before a Port, arg1
+	 /// Add a Broadcast before a Port, arg1
 	/// 	s- At the Port that needs tapping
 	/// 	s- Trace through the Links
 	/// 	s- Try, perhaps it's a Bcast
 	/// 	s- Otherwise, insert a new Broadcast Element into the network
-	/// - Parameter toPort: one end of the link that gets the Broacast added
+	/// - Parameter onPort: one end of the link that gets the Broacast added
 	/// - Returns: a free port in the added Broadcast
-	func autoBroadcast(toPort:Port?) -> Port? {
-		guard let toPort							else {	return nil 			}
-		guard let con2Port		= toPort.con2?.port else {	return nil 			}
+	func addTap(onPort:Port?/*, using:Broadcast*/) -> Port? {
+		guard let onPort							else {	return nil 			}
+		guard let con2Port		= onPort.con2?.port else {	return nil 			}
+		if let conSplitter 		= con2Port.atom as? Splitter, conSplitter.isBroadcast
+		{	return conSplitter.anotherShare(named:"*")}	// Already connetcted to a Splitter
+
+		 // Find the spot to insert newBast (above or below):
+		 // worry about onPort inside Tunnel
+		 // Choose so inserted element is in scan order, to reduces settle time.
+		guard let papaNet		= onPort.atom?.enclosingNet else { fatalError("Couldn't find common Net") }
+		let child	 			= onPort.ancestorThats(childOf:papaNet)!
+ 		let newFlipped			= onPort.upInPart(within:papaNet)
+		guard var ind 			= papaNet.children.firstIndex(where: {$0 === child})
+			else { debugger("Broadcast index bad of false'\(onPort.fullName)'")	}
+		ind						+= newFlipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD
+		//ind					+= newFlipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 
 		  //   "AUTO-BROADCAST": Add a new Broadcast to split the port
 		 //					/auto Broadcast/auto-broadcast/
-		logBld(4, "<<++ Auto Broadcast toPort:'\(toPort.pp(.fullName))' ++>>")
-
-		 // -- 1. Already connetcted to a Splitter:
-		if let conSplitter 		= con2Port.atom as? Splitter,
-		   conSplitter.isBroadcast
-		{	return conSplitter.anotherShare(named:"*")
-		}
-
-		 // 2.  Make a Broadcast Splitter Atom:
-		let newName				= "\(name)\(toPort.name)"
-/**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky"])	//"flipped"
-//		newBcast.flipped		= true												// elim
-
-		 // 3.  Find a spot to insert it (above or below):
-		 // Choose so inserted element is in scan order, to reduces settle time.
-		let papaNet				= toPort.atom!.enclosingNet! // Find Net
-									// worry about toPort inside Tunnel
-		let child	 			= toPort.ancestorThats(childOf:papaNet)!
-		guard var ind 			= papaNet.children.firstIndex(where: {$0 === child}) else {
-			debugger("Broadcast index bad of false'\(toPort.fullName)'")
-		}
-		newBcast.flipped		= toPort.upInPart(within:papaNet) == true
-		ind						+= newBcast.flipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD
-		//ind					+= newBcast.flipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
+		logBld(4, "<<++ Auto Broadcast onPort:'\(onPort.pp(.fullName))' ++>>")
+//		logBld(4, "<<++ Auto Broadcast onPort:'\(onPort.pp(.fullName))' ++>>")
+		let newName				= "\(name)\(onPort.name)"
+/**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky", "f":newFlipped])
 		papaNet.addChild(newBcast, atIndex:ind)
 
 		 //	 4,  Wire up new Broadcast into Network:
 		let newS1Port: Port		= newBcast.anotherShare(named:"*")
 		let newPPort : Port		= newBcast.ports["P"]!					//to go to self.P
 		
-		toPort.con2				= .port(newPPort)
-		newPPort.con2			= .port(toPort)		// 1. move old connection to share1
+		onPort.con2				= .port(newPPort)
+		newPPort.con2			= .port(onPort)		// 1. move old connection to share1
 
-		con2Port.con2			= .port(newS1Port)	// 2. link newBcast to toPort
+		con2Port.con2			= .port(newS1Port)	// 2. link newBcast to onPort
 		newS1Port.con2			= .port(con2Port)
 
-//		guard let toPort		= inPort.con2?.port else { debugger("Link error slhf")}		// l0.P
-//		toPort.con2 			= .port(pPort)		// toPort -> pPort
-//		pPort.con2				= .port(toPort)		// pPort -> toPort
+//		guard let onPort		= inPort.con2?.port else { debugger("Link error slhf")}		// l0.P
+//		onPort.con2 			= .port(pPort)		// onPort -> pPort
+//		pPort.con2				= .port(onPort)		// pPort -> toPort
 
 		return newBcast.anotherShare(named:"*") 	// 3. share2 is autoBroadcast
 	}
@@ -428,8 +389,8 @@ bug //				if (NSString *portAbility = [self xxx) {
 		//				 |				A V
 		//		before #A  V# - - - -> #A V# after	(A)
 		//				V    A
-		//			 /--|----A-=-----\		   toPort:Con2
-	   	//		 ___P toPort "def"    \_____   toPort:Port
+		//			 /--|----A-=-----\		   onPort:Con2
+	   	//		 ___P onPort "def"    \_____   onPort:Port
 		//		|		|					|
 		//		|		Atom				|
 
@@ -621,8 +582,8 @@ bug //				if (NSString *portAbility = [self xxx) {
 						msg1	+= " " + srcPort!.upInWorldStr()
 						msg1    += "\n\t" + "Target: " + trgPort!.fullName
 						msg1	+= " " + trgPort!.upInWorldStr()
-bug				//		logBld(4, self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
-				//				" Consider using config[noCheck] '^'." + msg1))
+						self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
+								" Consider using config[noCheck] '^'." + msg1)
 					}
 					assert(srcPort?.con2 == nil, "SouRCe PORT occupied")
 					assert(trgPort?.con2 == nil, "TarGeT PORT occupied")

@@ -28,7 +28,6 @@
 		9F1900FF28808DC10078DB6C /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900EF28808DC00078DB6C /* Generator.swift */; };
 		9F19010028808DC10078DB6C /* WorldModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F028808DC00078DB6C /* WorldModel.swift */; };
 		9F19010128808DC10078DB6C /* FwBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F128808DC00078DB6C /* FwBundle.swift */; };
-		9F19010228808DC10078DB6C /* EditNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F228808DC00078DB6C /* EditNet.swift */; };
 		9F19010328808DC10078DB6C /* Leaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F328808DC00078DB6C /* Leaf.swift */; };
 		9F19010528808DC10078DB6C /* GenAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F528808DC00078DB6C /* GenAtom.swift */; };
 		9F19010628808DC10078DB6C /* LinkPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F628808DC00078DB6C /* LinkPort.swift */; };
@@ -63,7 +62,6 @@
 		9F417F1128EB93EC0047B359 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51A8286BA2D700C8C22A /* Dashboard.swift */; };
 		9F417F1428EB93FC0047B359 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52242875F84F00C8C22A /* Net.swift */; };
 		9F417F1528EB93FF0047B359 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E828808DC00078DB6C /* Actor.swift */; };
-		9F417F1628EB94020047B359 /* EditNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F228808DC00078DB6C /* EditNet.swift */; };
 		9F417F1728EB94050047B359 /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F728808DC10078DB6C /* Tunnel.swift */; };
 		9F417F1828EB94080047B359 /* FwBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900F128808DC00078DB6C /* FwBundle.swift */; };
 		9F417F1928EB940D0047B359 /* TimingChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900ED28808DC00078DB6C /* TimingChain.swift */; };
@@ -230,7 +228,6 @@
 		9F1900EF28808DC00078DB6C /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		9F1900F028808DC00078DB6C /* WorldModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldModel.swift; sourceTree = "<group>"; };
 		9F1900F128808DC00078DB6C /* FwBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FwBundle.swift; sourceTree = "<group>"; };
-		9F1900F228808DC00078DB6C /* EditNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNet.swift; sourceTree = "<group>"; };
 		9F1900F328808DC00078DB6C /* Leaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaf.swift; sourceTree = "<group>"; };
 		9F1900F528808DC00078DB6C /* GenAtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenAtom.swift; sourceTree = "<group>"; };
 		9F1900F628808DC00078DB6C /* LinkPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPort.swift; sourceTree = "<group>"; };
@@ -353,7 +350,6 @@
 			children = (
 				9FEE52242875F84F00C8C22A /* Net.swift */,
 				9F1900E828808DC00078DB6C /* Actor.swift */,
-				9F1900F228808DC00078DB6C /* EditNet.swift */,
 				9F1900F728808DC10078DB6C /* Tunnel.swift */,
 				9F1900F128808DC00078DB6C /* FwBundle.swift */,
 				9F1900EB28808DC00078DB6C /* CommonLeafs.swift */,
@@ -697,7 +693,6 @@
 				9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */,
 				9F417F4828EB94EE0047B359 /* FwwEvent.swift in Sources */,
 				9F417F5128EB95450047B359 /* SCNNode++.swift in Sources */,
-				9F417F1628EB94020047B359 /* EditNet.swift in Sources */,
 				9F417F1828EB94080047B359 /* FwBundle.swift in Sources */,
 				9F417F2D28EB94500047B359 /* Part.swift in Sources */,
 				9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
@@ -764,7 +759,6 @@
 				9FEE51B3286BA57A00C8C22A /* Proto.swift in Sources */,
 				9FEE519F286B507600C8C22A /* SubPart.swift in Sources */,
 				9F19010028808DC10078DB6C /* WorldModel.swift in Sources */,
-				9F19010228808DC10078DB6C /* EditNet.swift in Sources */,
 				9F458C752D693CD700E65B82 /* Branch.swift in Sources */,
 				9FEE51A2286B8F5B00C8C22A /* FilteredLog.swift in Sources */,
 				9FEE51A3286B8F5B00C8C22A /* Log.swift in Sources */,
