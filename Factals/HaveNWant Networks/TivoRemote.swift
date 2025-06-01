@@ -7,16 +7,16 @@ class TivoRemote : Book {
 	override func loadTest(args:ScanForKey, state:inout ScanState) {
 		super.loadTest(args:args, state:&state)
 		let e 	 : FwConfig		= [:]
-		let eXYtight : FwConfig = e + [	// For debugging Link positions:
-			"ppViewTight"		:true,		// eliminate titles in print
-			"ppIndentCols"		:7,			// limit of tree height indentations
-			"ppViewOptions"		:"UFVTWB",	// just Posn, World, and FwBBox
-			"ppXYZWena"			:"XY",		// 3 axis(xyz), world coords,
-			"ppNNameCols"		:6,			// shortened name
-			"ppNClassCols"		:6,			// shortened class
-			"ppNCols4VewPosns"	:15,
-		//	"ppFloatA":5, "ppFloatB":2,		// 2 desimal digits: F5.2 (default is F4.1)
-		]
+//		let eXYtight : FwConfig = e + [	// For debugging Link positions:
+//			"ppViewTight"		:true,		// eliminate titles in print
+//			"ppIndentCols"		:7,			// limit of tree height indentations
+//			"ppViewOptions"		:"UFVTWB",	// just Posn, World, and FwBBox
+//			"ppXYZWena"			:"XY",		// 3 axis(xyz), world coords,
+//			"ppNNameCols"		:6,			// shortened name
+//			"ppNClassCols"		:6,			// shortened class
+//			"ppNCols4VewPosns"	:15,
+//		//	"ppFloatA":5, "ppFloatB":2,		// 2 desimal digits: F5.2 (default is F4.1)
+//		]
 
 		 // MARK: - * Tivo World
 		state.scanSubMenu		= "Tivo World"

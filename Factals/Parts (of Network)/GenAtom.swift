@@ -111,7 +111,7 @@ class GenAtom : Atom {
 	}
 	override func simulate(up upLocal:Bool) {
 		super.simulate(up:upLocal)
-
+								
 		if upLocal,				// /////// going UP /////////
 		  let pPort				= ports["P"],
 		  let _					= pPort.con2?.port?.getValue(),	// drain any existing
@@ -119,10 +119,10 @@ class GenAtom : Atom {
 		  let loopPort2Port		= loopPort.con2?.port,
 		  let pPort2Port		= pPort.con2?.port
 		{
-			let loopVal		= loopPort2Port.getValue()	// always read LOOP to clear changed
-			let pPortVal	= pPort2Port.valueChanged()
+			let loopVal			= loopPort2Port.getValue()	// always read LOOP to clear changed
+		//	let pPortVal		= pPort2Port.valueChanged()
 
-			let pInVal 		= pPort2Port.getValue()	// always read P to clear changed
+			let pInVal 			= pPort2Port.getValue()		// always read P to clear changed
 			if loopVal > 0.5 || (loop ?? false) {	// Two causes, port or config
 				logDat(4, "Loop to value \(pInVal) to sPort")
 				pPort.take(value:pInVal)					// looped value from pPortIn

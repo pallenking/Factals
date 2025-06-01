@@ -12,6 +12,7 @@ import SceneKit
  /// Parameters globally defined for Application()
 let params4app : FwConfig 		= [
 	"soundVolume"	 			: 1,//0.1,// 0:quiet, 1:normal, 10:loud
+	"menuScene"		 			: 162,//145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 ]
 

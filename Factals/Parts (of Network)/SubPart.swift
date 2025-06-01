@@ -32,7 +32,7 @@ enum DirtyBits : UInt8, CaseIterable, Codable {//, Identifiable
 		return rawValue & kind.rawValue != 0
 	}
 	func pp() -> String {
-		var rv				= self == .reset				 ? 		"RST"
+		let rv				= self == .reset				 ? 		"RST"
 							: rawValue >= raw2string44.count ?		"ILL"
 							: raw2string44[Int(rawValue)]
 		return rv

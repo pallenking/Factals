@@ -113,12 +113,12 @@ class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0
 		if matchCause != nil {						// Save in ANSWER
 			assert(answer.trunkClosure==nil, "Two Closures found:\n"
 			  +	"\t Previous = \(answer.testNum):\(answer.fileName ?? "lf823").\(answer.lineNumber!) "
-			  +		"'\(answer.title ?? "none")' <-- IGNORING\n"
+			  +		"'\(answer.title)' <-- IGNORING\n"
 			  +	"\t Current  = \(state.scanTestNum):\(fileName).\(       lineNumber ) '\(         title)'")
 
 			 // CAPTURE: Copy current to exp
 			 // from Chosen Test
-			answer.sourceOfTest	= "\(args!.argName):'\(args!.argNumber)"
+			answer.sourceOfTest	= "\(args!.argName ?? "nil"):'\(args!.argNumber)"
 			answer.title		= title
 			answer.config 		= config
 			answer.trunkClosure = rootClosure
@@ -194,7 +194,7 @@ struct HnwMachine {		// : Codable
 	var sourceOfTest: String  	= "HnwMachine.source"	// Reason for Fetching String
 	var title		: String  	= "HnwMachine.title"	// Network name from library
 	var postTitle	: String  	= "HnwMachine.post"		// Number of Ports String
-	func titlePlus() -> String 	{ sourceOfTest + (title ?? "<title=nil>") + postTitle}
+	func titlePlus() -> String 	{ sourceOfTest + title + postTitle}
 
 	var config		: FwConfig	= [:]		// [NOT CODABLE]
 
@@ -206,7 +206,7 @@ struct HnwMachine {		// : Codable
 	var fileName	: String?	= nil
 	var lineNumber	:Int?		= nil
 	func ppr() -> String {
-		"test \(testNum.asString_.field(4))\t source:\(fileName!.field(20))::\(lineNumber!)\t title:'\(title ?? "?")'"
+		"test \(testNum.asString_.field(4))\t source:\(fileName!.field(20))::\(lineNumber!)\t title:'\(title)'"
 	}
 }
 

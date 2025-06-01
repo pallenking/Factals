@@ -440,7 +440,7 @@ class Port : Part, PortTalk {
 
 		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
 		 //
-		guard let scnScene		= csVisVew.vewBase()?.scnBase.roots else {return rv}
+		guard let scnScene		= csVisVew.vewBase()?.scnBase.roots else { return rv }
 		for openVew in csVisVew.selfNParents {								// while openVew != vew {
 			guard openVew != vew else 	{				break					}
 			let scn				= openVew.scnRoot

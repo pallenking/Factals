@@ -15,7 +15,7 @@ class Previous : Atom {
 	enum MajorMode : String, Codable {
 		case monitor, simModeDir, simMode2
 	}
-	var majorMode  : MajorMode	= .monitor// set during construction, constant during operation
+	var majorMode  : MajorMode	= .monitor	// set during construction, constant during operation
 
 	// =============== Minor Modes  ==============
 	enum MinorMode : String, Codable {		//prevMinorMode
@@ -65,36 +65,36 @@ class Previous : Atom {
 		majorMode 				= .monitor				// Default is monitor  :MajorMode
 		minorMode 				= .monitor				// ""
 		if let modeStr 			= config.string("mode") {		// From factory
-	print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Previous")
-//		majorMode 			= MajorMode(rawValue: modeStr)	// never changes
-//
-//			let index : String	= modeStr
-////bug;		let index 			= prevMinorModeNames.index(of:modeStr)			//NSInteger index = [prevMinorModeNames indexOfObject:mode]
-//			 // default:
-//			if let n			= modeStr as? Int {						// major mode = 0 --> Default
-//				assert(n == 0, "only number 0 (= null mode) defined")
-//				majorMode 		= .monitor
-////				minorMode 		= .prevMinorModeMonitor
-//			}
-//			 // minor is static and equal to major
-//			else if index != nil {						// major mode is also a minor mode:
-////				minorMode		= (PrevMinorMode)index		// (presumes order maintained with prevMinorModeNames)
-//			}
-//			 // minor depends on major and M (?and N):
-//			else if modeStr == "simModeDir" {
-////				minorMode		= .prevMinorModeSimBackward	// Default: M==0 ==> Backward
-//			}
-//			else if modeStr == "simMode2" {
-////				minorMode		= .prevMinorModeHold			// Default: M==N==0 ==> Hold
-//			}
-//			else {
-////				panic("PreviousX: unknown mode:'%'", modeStr)
-//			}
-//			 // Set bias:
-//			bias				= 0.555
-//			if let b			= configArg.float("bias") {
-//				bias 			= b
-//			}	
+			print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Previous")
+			majorMode 				= MajorMode(rawValue: modeStr)!	// never changes
+bug
+			let index : String	= modeStr
+//bug;		let index 			= prevMinorModeNames.index(of:modeStr)			//NSInteger index = [prevMinorModeNames indexOfObject:mode]
+			 // default:
+			if let n			= modeStr as? Int {						// major mode = 0 --> Default
+				assert(n == 0, "only number 0 (= null mode) defined")
+				majorMode 		= .monitor
+	//			minorMode 		= .prevMinorModeMonitor
+			}
+			 // minor is static and equal to major
+			else if index != nil {						// major mode is also a minor mode:
+//				minorMode		= (PrevMinorMode)index		// (presumes order maintained with prevMinorModeNames)
+			}
+			 // minor depends on major and M (?and N):
+			else if modeStr == "simModeDir" {
+//				minorMode		= .prevMinorModeSimBackward	// Default: M==0 ==> Backward
+			}
+			else if modeStr == "simMode2" {
+//				minorMode		= .prevMinorModeHold			// Default: M==N==0 ==> Hold
+			}
+			else {
+//				panic("PreviousX: unknown mode:'%'", modeStr)
+			}
+			 // Set bias:
+			bias				= 0.555
+			if let b			= configArg.float("bias") {
+				bias 			= b
+			}	
 		}
 		src4					= .monitor			//.hold??
 

@@ -25,7 +25,7 @@ class Bundle : FwBundle {
 	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
 		fatalError("can't do leaf closure with leafKind enum")
 //		var  x			= trailingHash != nil ? .leafClosure(trailingHash!) : nil
-		super.init(tunnelConfig, leafConfig:leafConfig)
+//		super.init(tunnelConfig, leafConfig:leafConfig)
 	}
 //	init(leafConfig:FwConfig=[:],
 //			_ tunnelConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
@@ -197,7 +197,7 @@ class FwBundle : Net {
 	// MARK: - 4.1 Part Properties
 	func apply(struc:FwAny, of leafKind:LeafKind, leafConfig:FwConfig) { 		// xyzzy342
 		logBld(7, "apply(struc:\(struc) of:'\(leafKind)'s leafConfig:\(leafConfig))")
-
+bug
 		  // ==== Parse constructor:  It has many forms:
 		 // STRING:
 		if struc is String {			/// Instantiate the leaf

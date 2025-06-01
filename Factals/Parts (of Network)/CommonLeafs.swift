@@ -336,8 +336,8 @@ extension Leaf {	/// Generate Common Leafs
 	//		let _ = leafArray	// silences warning
 	//		debugger("should never happen")
 
-		default:
-			debugger("LeafKind \(leafKind.self) should never happen")
+		//default:
+		//	debugger("LeafKind \(leafKind.self) should never happen")
 
 		}
 //		groomModel(parent:nil, partBase:partBase)	// groom: add ports[] from children[]

@@ -254,7 +254,7 @@ bug
 		  // hack: If we are part of a GenAtom, load the S Port also.
 		 //        This allows initial values to be synced with .nib values
 		if let ga 				= self.parent as? GenAtom {
-bug//		ga.port(named:"S")?.take(value:value)
+bug;//		ga.port(named:"S")?.take(value:value)
 		}
 		return labeled;
 	}

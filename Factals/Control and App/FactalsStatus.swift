@@ -14,11 +14,9 @@ import SceneKit
 func ppControllers(config:Bool=false) -> String {
 	let fm : FactalsStatus?	= false ? FactalsAppDelegate.shared
 									: FACTALSMODEL
-	return fm?.ppControlElement(config:false) ?? ""
-}												//return FACTALSMODEL?.ppControlElement() ?? "FACTALSMODEL is nil uey3r8ypv"
-												//return ""
-												//let x = factalsApp
-												//return self.ppControlElement() ?? "FACTALSMODEL is nil uey3r8ypv"
+	return fm?.ppControlElement(config:config) ?? ""
+//	return fm?.ppControlElement(config:false)  ?? ""
+}
  /// Print status of Factal Workbench Controllers
 protocol FactalsStatus : FwAny {
 	func ppControlElement(config:Bool) -> String
@@ -60,7 +58,7 @@ extension FactalsApp : FactalsStatus	{							///FactalsApp
 	//	let documents 			= NSDocumentController.shared.documents		// THIS BREAKS THINGS
 		return ppFactalsStateHelper("FactalsApp   ", nameTag:self,
 			myLine://(documents.count == 0 ? "No Open Files, " :"") 				+
-				"regressScene:\(regressScene), " 								,
+				"menuScene:\(menuScene), regressScene:\(regressScene), " 								,
 			otherLines:{
 				 // Menu Creation:
 				var rv			=		  Log.shared.ppControlElement()
@@ -109,27 +107,26 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 			})
 	}
 }
- // MARK  - DOCUMENT
-extension NSDocument : FactalsStatus	{							///NSDocument
-	func ppControlElement(config:Bool=false) -> String {
-bug; //never used?
-		let wcc					= windowControllers.count
-		return ppFactalsStateHelper("NSDocument   ", nameTag:self,
-			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
-			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
-			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
-			//	+ "scnView:\(ppUid(scnView,		     showNil:true)) "
-			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
-			otherLines:{
-				var rv			= "truncated"//  self.partBase.ppControlElement() // Controller:
-				 // Window Controllers
-			//	for windowController in self.windowControllers {
-			//		rv		+= windowController.ppControlElement()
-			//	}
-				return rv
-			})
-	}
-}
+//extension NSDocument : FactalsStatus	{							///NSDocument
+//	func ppControlElement(config:Bool=false) -> String {
+//bug; //never used?
+//		let wcc					= windowControllers.count
+//		return ppFactalsStateHelper("NSDocument   ", nameTag:self,
+//			myLine:"Has \(wcc) wc\(wcc != 1 ? "'s" : ""):   #ADD MORE HERE#",
+//			//	+ "wc0:\(   ppUid(windowController0, showNil:true)) "
+//			//	+ "w0:\(    ppUid(window0, 			 showNil:true)) ",
+//			//	+ "scnView:\(ppUid(scnView,		     showNil:true)) "
+//			//	+ "paramPrefix:'\(documentParamPrefix.pp())'"
+//			otherLines:{
+//				var rv			= "truncated"//  self.partBase.ppControlElement() // Controller:
+//				 // Window Controllers
+//			//	for windowController in self.windowControllers {
+//			//		rv		+= windowController.ppControlElement()
+//			//	}
+//				return rv
+//			})
+//	}
+//}
 //extension NSDocumentController : FactalsStatus {		  ///NSDocumentController
 //	func ppControlElement(config:Bool=false) -> String {
 //		let ct					= self.documents.count

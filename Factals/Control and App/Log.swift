@@ -22,11 +22,9 @@ func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 	 // Someday: static var osLogger:OSLog? = OSLog(subsystem:Foundation.Bundle.main.bundleIdentifier!, category:"havenwant?")
 extension Log {
 	 // MARK: - 1. Static Class Variables:
-	static let shared			= Log(configure:defaultParams)
-	static var defaultParams : FwConfig	= [:]
-		+ params4app
-		+ params4partPp						//	pp... (20ish keys)
-		+ params4logDetail					// "debugOutterLock":f
+	static let shared			= Log(configure:params4app
+								+ params4partPp				//	pp... (20ish keys)
+								+ params4logDetail)			// "debugOutterLock":f
 }
 		// elim Uid? Actor?
 class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
@@ -212,7 +210,6 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		 // Name in code			/// Name returned / printed
 		"buildSceneMenus"				: "mnu",	// was "men"
 		"updateVewNScn"					: "ins",
-		"scheneAction"					: "sa ",
 		"buildVew"						: "bv ",	 // Short Thread Name
 		"renderLoop"					: "ren",
 		"simulationTask"				: "sim",

@@ -37,17 +37,13 @@
 		9F19010F28808EF80078DB6C /* MultiPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19010E28808EF80078DB6C /* MultiPort.swift */; };
 		9F19011128808F070078DB6C /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19011028808F070078DB6C /* Port.swift */; };
 		9F19011D288090240078DB6C /* InspecSCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190113288090240078DB6C /* InspecSCNVector3.swift */; };
-		9F19011E288090240078DB6C /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190114288090240078DB6C /* Document.xib */; };
 		9F19011F288090240078DB6C /* InspecAllClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190115288090240078DB6C /* InspecAllClasses.swift */; };
-		9F190120288090240078DB6C /* Jnspec.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F190116288090240078DB6C /* Jnspec.storyboard */; };
 		9F190121288090240078DB6C /* LinkVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190117288090240078DB6C /* LinkVew.swift */; };
 		9F190122288090240078DB6C /* InspecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190118288090240078DB6C /* InspecBase.swift */; };
-		9F190125288090240078DB6C /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
 		9F19CA32285EA5090072C50E /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA31285EA5090072C50E /* Simulator.swift */; };
 		9F19CA35285EB0730072C50E /* PartBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19CA34285EB0730072C50E /* PartBase.swift */; };
 		9F19FD9B2D0105EA000851FA /* di-sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F19FD9A2D0105EA000851FA /* di-sound.m4a */; };
 		9F19FD9C2D0105EA000851FA /* di-sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F19FD9A2D0105EA000851FA /* di-sound.m4a */; };
-		9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
 		9F1E3CE628D926C5004548C9 /* VewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* VewBase.swift */; };
 		9F2BC4162B7FE38F0045991D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
 		9F2BC4172B7FE38F0045991D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
@@ -93,7 +89,6 @@
 		9F417F3428EB94710047B359 /* InspecAllClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190115288090240078DB6C /* InspecAllClasses.swift */; };
 		9F417F3528EB94740047B359 /* InspecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190118288090240078DB6C /* InspecBase.swift */; };
 		9F417F3728EB947A0047B359 /* InspecSCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F190113288090240078DB6C /* InspecSCNVector3.swift */; };
-		9F417F3828EB94820047B359 /* Jnspec.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F190116288090240078DB6C /* Jnspec.storyboard */; };
 		9F417F3928EB94A80047B359 /* FactalsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F152835778A00E9E2AE /* FactalsApp.swift */; };
 		9F417F3A28EB94B30047B359 /* FactalsDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F172835778A00E9E2AE /* FactalsDocument.swift */; };
 		9F417F3B28EB94B60047B359 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE6F192835778A00E9E2AE /* ContentView.swift */; };
@@ -136,9 +131,6 @@
 		9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */ = {isa = PBXBuildFile; fileRef = 9F65A4AC28E0999700BC615D /* LLDBInitFile */; };
 		9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9F675ADB2A2F6D6B006370E6 /* FactalsModelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */; };
-		9F675ADC2A2F7297006370E6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190112288090240078DB6C /* MainMenu.xib */; };
-		9F675ADD2A2F729D006370E6 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F19011B288090240078DB6C /* Preferences.storyboard */; };
-		9F675ADE2A2F72A0006370E6 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F190114288090240078DB6C /* Document.xib */; };
 		9F675AE02A2F744A006370E6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F272837C54E00E9E2AE /* art.scnassets */; };
 		9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FEE6F1B2835779000E9E2AE /* Assets.xcassets */; };
 		9F6B946A2B86A73E007A14E5 /* NSView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B94692B86A73E007A14E5 /* NSView++.swift */; };
@@ -236,14 +228,10 @@
 		9F19010C28808EE70078DB6C /* Share.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		9F19010E28808EF80078DB6C /* MultiPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPort.swift; sourceTree = "<group>"; };
 		9F19011028808F070078DB6C /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Port.swift; sourceTree = "<group>"; };
-		9F190112288090240078DB6C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		9F190113288090240078DB6C /* InspecSCNVector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecSCNVector3.swift; sourceTree = "<group>"; };
-		9F190114288090240078DB6C /* Document.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Document.xib; sourceTree = "<group>"; };
 		9F190115288090240078DB6C /* InspecAllClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecAllClasses.swift; sourceTree = "<group>"; };
-		9F190116288090240078DB6C /* Jnspec.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Jnspec.storyboard; sourceTree = "<group>"; };
 		9F190117288090240078DB6C /* LinkVew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkVew.swift; sourceTree = "<group>"; };
 		9F190118288090240078DB6C /* InspecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspecBase.swift; sourceTree = "<group>"; };
-		9F19011B288090240078DB6C /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		9F19CA31285EA5090072C50E /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		9F19CA34285EB0730072C50E /* PartBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartBase.swift; sourceTree = "<group>"; };
 		9F19FD9A2D0105EA000851FA /* di-sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "di-sound.m4a"; sourceTree = "<group>"; };
@@ -378,17 +366,6 @@
 			path = "Parts (of Network)";
 			sourceTree = "<group>";
 		};
-		9F2BC4152B7FDF250045991D /* Cocoa */ = {
-			isa = PBXGroup;
-			children = (
-				9F190116288090240078DB6C /* Jnspec.storyboard */,
-				9F190112288090240078DB6C /* MainMenu.xib */,
-				9F19011B288090240078DB6C /* Preferences.storyboard */,
-				9F190114288090240078DB6C /* Document.xib */,
-			);
-			path = Cocoa;
-			sourceTree = "<group>";
-		};
 		9F417F0328EB91FE0047B359 /* FactalsTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -486,7 +463,6 @@
 				9F19CA33285EAF730072C50E /* Parts (of Network) */,
 				9FEE519C286B4EDF00C8C22A /* Vews (of Parts) */,
 				9FAD595C29A270430065406B /* SwiftUI Views */,
-				9F2BC4152B7FDF250045991D /* Cocoa */,
 				9FEE519D286B4F1C00C8C22A /* Control and App */,
 				9FEE6FDB2843182A00E9E2AE /* Extensions++ */,
 				9FEE6F272837C54E00E9E2AE /* art.scnassets */,
@@ -627,11 +603,7 @@
 			files = (
 				9F417F5C28EB956E0047B359 /* LLDBInitFile in Resources */,
 				9F675AE02A2F744A006370E6 /* art.scnassets in Resources */,
-				9F417F3828EB94820047B359 /* Jnspec.storyboard in Resources */,
-				9F675ADC2A2F7297006370E6 /* MainMenu.xib in Resources */,
 				9F675AE12A2F744F006370E6 /* Assets.xcassets in Resources */,
-				9F675ADE2A2F72A0006370E6 /* Document.xib in Resources */,
-				9F675ADD2A2F729D006370E6 /* Preferences.storyboard in Resources */,
 				9F19FD9B2D0105EA000851FA /* di-sound.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,15 +612,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F19011E288090240078DB6C /* Document.xib in Resources */,
 				9FEE6F1F2835779000E9E2AE /* Preview Assets.xcassets in Resources */,
-				9F190120288090240078DB6C /* Jnspec.storyboard in Resources */,
 				9FEE6F282837C54E00E9E2AE /* art.scnassets in Resources */,
 				9FEE6F1C2835779000E9E2AE /* Assets.xcassets in Resources */,
-				9F190125288090240078DB6C /* Preferences.storyboard in Resources */,
 				9F19FD9C2D0105EA000851FA /* di-sound.m4a in Resources */,
 				9F65A4AD28E0999700BC615D /* LLDBInitFile in Resources */,
-				9F1E3CC328D39E4F004548C9 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -273,8 +273,8 @@ class Splitter : Atom {
 				pPort.take(value:self.a1)
 
 				if let b 		= bPort {
+bug;				b.take(value:pPort.value)
 					logDat(4, "   broadcast =%.2f", pPort.value)
-bug			//		logDat(4, b.take(value:pPort.value))
 				}
 				if let u 		= uPort {
 					var unknownValue = pPort.con2!.port!.value - a1	// unexplained residue
@@ -291,10 +291,9 @@ bug			//		logDat(4, b.take(value:pPort.value))
 			if let kindPort2Port = ports["KIND"]?.con2?.port,
 			  kindPort2Port.valueChanged() {			// KIND port changes mode
 bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value remove )
-	//			logDat(4, log(" Branch: kind=%.2f (was %.2f)", valNext, valPrev))
+				logDat(4, " Branch: kind=%.2f (was %.2f)", valNext, valPrev)
 				let shareIndex	=  valNext > 0.5
 	//			shareProto 		= shareIndex ? self.shareProto1 : self.shareProto0
-	//			assert(shareProto != nil, "")
 			}
 		}													  // ////////////// //
 															 // ////  UP  //// //

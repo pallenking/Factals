@@ -93,7 +93,7 @@ bug;	logEve(4, "||      all parts: sendMessage(\(fwType)).")
 	
 	override func simulate(up upLocal:Bool) {
 		let sInPort 			= sPort.con2!.port ?? sPort
-		let mInPort 			= mPort.con2!.port ?? mPort
+		//let mInPort 			= mPort.con2!.port ?? mPort
 		let lInPort 			= lPort.con2!.port ?? lPort
 		let speakInPort 		= speakPort.con2!.port ?? speakPort
 		

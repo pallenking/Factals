@@ -35,11 +35,12 @@ extension FactalsApp : App {
 			 }
 			 .navigationTitle("DOES NOTHING sldfjsdlfk")
 			 .onAppear {
-				if let window = NSApplication.shared.windows.first(where: {
-						$0.windowController?.document?.fileURL == file.fileURL 	})
-				{	window.title = (file.document.factalsModel?.partBase.hnwMachine.title ?? "<nil>") + "   (from App.onAppear)"
-				}
-				else { print("no window found")}
+				let title		= file.document.factalsModel?.partBase.hnwMachine.title ?? "<nil>"
+				if let window	= NSApplication.shared.windows.first(
+					where: { file.fileURL == $0.windowController?.document?.fileURL	})
+				{	window.title = title + "   (from App.onAppear)"				}
+				else
+				{	fatalError("no window found")								}
 			 }
 		}
 		 .commands {
@@ -47,6 +48,28 @@ extension FactalsApp : App {
 				ForEach(factalsGlobals.libraryMenuTree.children) { crux in
 					menuView(for:crux)
 				}
+			}
+			CommandMenu("Regress") {
+				AnyView(
+					Button("Current Menu Test: \(menuScene) ++") {
+						print("\n\n" + ("--- - - - - - - " +  "menuScene:\(menuScene) - - - - - - - -")
+										.field(-80, dots: false) + "---")
+						@Environment(\.newDocument) var newDocument
+						newDocument(FactalsDocument(fromLibrary:"entry\(menuScene)"))
+	//					menuScene				= menuScene + 1			// next menuScene
+					}
+        			 .keyboardShortcut("m", modifiers: [.command])
+				)
+				AnyView(
+					Button("Current Regress Test: \(regressScene) ++") {
+						print("\n\n" + ("--- - - - - - - " +  "regressScene:\(regressScene) - - - - - - - -")
+										.field(-80, dots: false) + "---")
+						@Environment(\.newDocument) var newDocument
+						newDocument(FactalsDocument(fromLibrary:"entry\(regressScene)"))
+	//					regressScene			= regressScene + 1			// next regressScene
+					}
+        			 .keyboardShortcut("r", modifiers: [.command])
+				)
 			}
 		}
 	}
@@ -134,10 +157,7 @@ bug;	urlStr      			= String(urlStr[index...])
 		NSAppleEventManager.shared().setEventHandler(self,
 			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
 			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-											//logApp(3, print(factalsApp?.ppFactalsAppFoo() ?? "lkjoqhf"))
-											//sounds.play(sound:"GameStarting")
-											//print(ppControllers())		//causes "X<> PROBLEM  'bld9' found log 'App's Log' busy doing 'app3'"
-											//logApp(5, print(factalsApp?.ppFactalsAppFoo()))
+		//sounds.play(sound:"GameStarting")
 		logApp(5, ppControllers())
 		logApp(3, "------------- FactalsAppDelegate: Application Did Finish Launching --------------\n")
 	}
@@ -207,17 +227,14 @@ struct FactalsApp: FwAny, Uid {
 	var appStartTime:String 	= dateTime(format:"yyyy-MM-dd HH:mm:ss")
 
 	 // Keeps FactalsModel menu in sync with itself:
-	var regressScene : Int {				// number of next "^r" regression test
-		get			{	return regressScene_										}
-		set(v)	 	{
-			regressScene_ 		= v
-			sceneMenu?.item(at:0)?.title = "   Next scene: \(regressScene)"
-		}
-	};private var regressScene_ = 0
+	var menuScene 	 : Int 		= -1		// number of next "^r" regression test
+	var regressScene : Int 		= -1		// number of next "^r" regression test
 
 	 // MARK: - 2.2 Private variables used during menu generation: (TO_DO: make automatic variables)
 	var library 				= Library("Library")
 //	var sound					= Sound(configure:[:])
+//		sounds.load(name: "di-sound", path:"di-sound")
+//		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 
 	 // MARK: - 3. Factory
 	init() {
@@ -230,57 +247,14 @@ struct FactalsApp: FwAny, Uid {
 		logApp(1, "\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ")
 		logApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
 		logApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
-		logApp(3, "Initial Factals machine (but no Docs):\n" + ppControlElement())
+		menuScene				= params4app.int_("menuScene")
+		regressScene			= params4app.int_("regressScene")
+		logApp(3, "Factals Application, before docs:\n" + ppControlElement())
 //		logRunInfo("\(library.answer.titlePlus())")
-//		sounds.load(name: "di-sound", path:"di-sound")
-//		sounds.play(sound:"di-sound", onNode:SCNNode())	//GameStarting
 	}
 
-	//@IBOutlet weak		//Only class instance properties can be declared @IBOutlet
-	 var sceneMenu:NSMenu!
+	var sceneMenu:NSMenu!	//@IBOutlet weak		//Only class instance properties can be declared @IBOutlet
 
-	 // MARK: Access Scene MENU
-	mutating func scheneAction(_ sender:NSMenuItem) {
-		print("\n\n" + ("--- - - - - - - FactalsAppDelegate.sceneAction(\(sender.className)) tag:\(sender.tag) " +
-			  "regressScene:\(regressScene) - - - - - - - -").field(-80, dots: false) + "---")
-
-		 // Find scene number for Library lookup:
-		let sceneNumber			= sender.tag>=0 ? sender.tag// from menu //.tag was .id
-											: regressScene	// from last time
-		regressScene			= sceneNumber + 1			// next regressScene
-		let scanKey				= "entry\(regressScene)"
-
-		if (trueF) {		 	// Make new window:
-			@Environment(\.newDocument) var newDocument
-			newDocument(FactalsDocument(fromLibrary:scanKey))
-		}
-		else {			 		// Install new parts in current window
-			guard let factalsModel	= FACTALSMODEL else {	return				}
-								
-			let partBase			= PartBase(fromLibrary:scanKey)
-			factalsModel.partBase	= partBase
-			partBase.factalsModel	= factalsModel
-			 // 3. Groom part ******
-			partBase.wireAndGroom([:])
-
-			 // 4. Vews ******
-			let fmConfig			= params4partVew + params4partPp + partBase.hnwMachine.config
-			factalsModel.configureVews(from:fmConfig)
-
-			factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
-											//	factalsModel.setRootPart(partBase:partBase)
-											//	 // Make a default window
-											//	factalsModel.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig: ["oops":"help"])
-											//	 // --------------- C: FactalsDocument
-											//bug;let c				= /*doc.config +*/ partBase.ansConfig
-											//	factalsModel.configure(from:c)
-											//	//newRootVew.configure(from: ?FwConfig)
-											//	//let newDoc		= FactalsDocument(fromLibrary:"entry\(regressScene)")
-											//	factalsModel.document = doc
-											//	doc.makeWindowControllers()
-											//	doc.registerWithDocController()	// a new DOc must be registered
-		}
-	}
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = [:]) -> String	{
 		switch mode {
