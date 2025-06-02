@@ -7,7 +7,7 @@ class Tunnel : FwBundle {
 	 // MARK: - 2. Object Variables:
 	//var label : String?			= nil
 	 // MARK: - 3. Part Factory
-	override  init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig?=[:]) { 	////.port
+	override  init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:]) { 	////.port
 		super.init(  tunnelConfig,	   			leafConfig:leafConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ //of:kind,
 	}		// 	  [struc:["a","b"],of:genBcast]	[]
 	 // MARK: - 3.1 Port Factory

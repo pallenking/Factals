@@ -377,7 +377,7 @@ class Port : Part, PortTalk {
 			exclude				= exclude==nil ? vew.bBox * t :
 								  exclude! * t | vew.bBox * t
 	//		 // HIghest part self is a part of..
-	//		let hiPart  		= ancestorThats(childOf:commonVew.part)!
+	//		let hiPart  		= lowestAncestorThats(childOf:commonVew.part)!
 	//		let hiVew 			= commonVew.find(part:hiPart)!					//, maxLevel:1??
 	//		let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 			vew					= vew.parent!
@@ -453,7 +453,7 @@ class Port : Part, PortTalk {
 			rv.exclude			= rv.exclude==nil ? openVew.bBox * lTrans :
 								 (rv.exclude! * lTrans | openVew.bBox * lTrans)
 //			 // HIghest part self is a part of..	From Long Ago...
-//			let hiPart  		= ancestorThats(childOf:openVew.part)!			// commonVew
+//			let hiPart  		= lowestAncestorThats(childOf:openVew.part)!			// commonVew
 //			let hiVew 			= openVew.find(part:hiPart)!					// commonVew
 //			let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 
@@ -512,7 +512,7 @@ class Port : Part, PortTalk {
 //			guard openVew.parent != nil else {				break				}
 //
 //			// // HIghest part self is a part of..	From Long Ago...
-//			//let hiPart  			= ancestorThats(childOf:commonVew.part)!
+//			//let hiPart  			= lowestAncestorThats(childOf:commonVew.part)!
 //			//let hiVew 			= commonVew.find(part:hiPart)!
 //			//let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 //			openVew					= openVew.parent!

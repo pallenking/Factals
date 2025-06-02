@@ -83,14 +83,12 @@ class BundleTap : Atom {
 		}
 								//
 		 // Test new target bundle; must have both R (for reset) and G (for generate)
-		targetBundle.forAllLeafs {leaf in
-			guard let _			= leaf.port4leafBinding(name: "R"),
-			 let _ 				= leaf.port4leafBinding(name: "G") else {
-				debugger("Leaf \(self.pp(.fullName)) has no R or G port, needed by\n")	//type '\(leaf.type)' 
-				// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
-			}
-			assert(leaf.port4leafBinding(name:"R") != nil, "\(leaf.fullName): 'R' Port")
- 			assert(leaf.port4leafBinding(name:"G") != nil, "\(leaf.fullName): 'G' Port")
+		targetBundle.forAllLeafs { leaf in
+			guard leaf.port4leafBinding(name: "R") != nil else
+			{	debugger("Leaf \(self.pp(.fullName)) has no R port\n")			}
+			guard leaf.port4leafBinding(name: "G") != nil else
+			{	debugger("Leaf \(self.pp(.fullName)) has no G port\n")			}
+			// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
 		}
 
 		  //// reset to an BundleTap generates a resetTo pattern to target bundle
@@ -254,7 +252,7 @@ bug
 		  // hack: If we are part of a GenAtom, load the S Port also.
 		 //        This allows initial values to be synced with .nib values
 		if let ga 				= self.parent as? GenAtom {
-bug;//		ga.port(named:"S")?.take(value:value)
+			ga.getPort(named:"S")?.take(value:value)
 		}
 		return labeled;
 	}

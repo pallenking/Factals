@@ -1,6 +1,10 @@
 //  FwBundle.mm -- A hierarchical structure of Leafs, one per port C2013PAK
 
 import SceneKit
+/*
+decorators
+dynamicMemberLookup
+ */
 
 //       Atom :_Part
 //          Net : Atom
@@ -56,25 +60,24 @@ class FwBundle : Net {
 	   /// - parameter leafConfig: -- to configure Leaf
 	  /// - parameter config:	  -- to configure FwBundle
 	 /// ## --- struc: names	 -- names of the Bundle's leafs
-	//it(of kind:LeafKind = .genAtom, _ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:]) { 	////.port
-	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig?=[:]) /*(_ tunnelConfig:FwConfig=[:], 		leafConfig:FwConfig=[:])*/	//FwBundle
-	{	//  .genBcast				  [..,struc:[2 elts],"of":"genBcast"]	[]
+  	init(_ tc:FwConfig=[:], leafConfig lc:FwConfig=[:]) {			//FwBundle
 
-		let tunnelConfig		= ["placeMy":"stackx"] + tunnelConfig
+		let tunnelConfig		= ["placeMy":"stackx"] + tc
 		super.init(tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		 // Construct FwBundle elements
 		if let  leafStruc 		= partConfig["struc"] {
-			let leafConfig		= ["placeMy":"linky" ] + leafConfig!	// default: // was stackx
-			var leafKind 		= LeafKind.genAtom				// default
-			if let partConfigOf	= partConfig["of"] {
-				if let lk		= partConfigOf as? LeafKind
-				{	leafKind 	= lk											}
-				if let lks		= partConfigOf as? String
-				{	leafKind	= LeafKind(rawValue:lks) ?? .genAtom			}
+			guard let partConfigOf	= partConfig["of"] else
+			{	fatalError("What kind of Leafs? No 'of' key specified")								}
+
+			var leafKind 		= partConfigOf as? LeafKind			// LeafKind is given
+			if let lks			= partConfigOf as? String			// convert from String
+			{	leafKind		= LeafKind(rawValue:lks) ??
+				{	fatalError("LeafKind: '\(lks)' undefined")					}()
 			}
-			apply(struc:leafStruc, of:leafKind, leafConfig:leafConfig)	// xyzzy342 //tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
-		}
+			let leafConfig		= ["placeMy":"linky" ] + lc			// default
+			apply(struc:leafStruc, of:leafKind ?? .genAtom, leafConfig:leafConfig)	// xyzzy342
+		}																		//tunnelConfig=[struc:[1 elts],n:evi,placeMy:stackz 0 -1]
 	}
 	 // MARK: - 3.1 Port Factory
 	override func hasPorts() -> [String:String] {	super.hasPorts()	}	//return[:]//["P":"pcM"]//
@@ -182,23 +185,15 @@ class FwBundle : Net {
 	BUNDLE					 // 5  ADD bundle				// E.g: (Leaf *)leaf
 	 */
 /*
-			 func apply(struc:FwAny, of:LeafKind,			      leafConfig:FwConfig) { // xyzzy342
-	???		 func apply(spec:FwAny,  of:LeafKind, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig=[:]) {
-
-			 func apply(struc:FwAny, of leafKind:LeafKind, leafConfig:FwConfig) { 		// xyzzy342
-			 func apply(struc:FwAny, of leafKind:LeafKind?=nil, arg:FwAny?=nil, leafConfig:FwConfig, _ tunnelConfig:FwConfig=[:]) {
-
-			 func apply(propNVal:String) -> Bool {
-			 func apply(prop:String, withVal val:FwAny?) -> Bool {
-	override func apply(prop:String, withVal val:FwAny?) -> Bool {
-	override func apply(prop:String, withVal val:FwAny?) -> Bool {
+xxx			func apply(struc:FwAny, of leafKind:LeafKind, leafConfig:FwConfig) { 		// xyzzy342
+xxx			func apply(prop:String, withVal val:FwAny?) -> Bool {
+xxx			func apply(struc:FwAny, of leafKind:LeafKind = .genAtom, arg:FwAny?=nil, leafConfig:FwConfig, _ sub1:FwConfig=[:], _ sub2:FwConfig=[:]) {
   */
 
 	// MARK: - 4.1 Part Properties
 	func apply(struc:FwAny, of leafKind:LeafKind, leafConfig:FwConfig) { 		// xyzzy342
-		logBld(7, "apply(struc:\(struc) of:'\(leafKind)'s leafConfig:\(leafConfig))")
-bug
 		  // ==== Parse constructor:  It has many forms:
+		logBld(7, "apply(struc:\(struc) of:'\(leafKind)'s leafConfig:\(leafConfig))")
 		 // STRING:
 		if struc is String {			/// Instantiate the leaf
 			let newLeaf			= Leaf(["n":struc, "of":leafKind], leafConfig)
@@ -246,19 +241,35 @@ bug;		nop // for break
 		}
 		return true
 	}
-/*
-decorators
-dynamicMemberLookup
- */
 								
 	 // Apply a specification to ourselves to form leaves
-	func apply(struc:FwAny, of leafKind:LeafKind?=nil, arg:FwAny?=nil, leafConfig:FwConfig, _ sub1:FwConfig=[:], _ sub2:FwConfig=[:]) {
-		logBld(7, "apply(struc:\(struc.pp(.short)) of:\(leafKind?.pp(.phrase) ?? "nil") arg:\(arg?.pp(.line) ?? "nil"))")
+	func apply(struc:FwAny, of leafKind:LeafKind = .genAtom, arg:FwAny?=nil, leafConfig:FwConfig, _ sub1:FwConfig=[:], _ sub2:FwConfig=[:]) {
+		logBld(7, "apply(struc:\(struc.pp(.short)) of:\(leafKind.pp(.phrase)) arg:\(arg?.pp(.line) ?? "nil"))")
 								
 		   // Interpret << spec >>, making appropriate changes to self, a FwBundle
 		  //
+		 // Case 1: BUNDLE -- ready immediately				// E.g: leaf:Leaf
+		if let spec1 = struc as? FwBundle {			// WHY HAVE THIS OPTION?
+			addChild(spec1)									// silently reach inside and insert
+		}
+		 // Case 2: ARRAYs -- add all (recursively)// E.g: @[name1, ..], or @{name1:kind1, ...}
+		else if let struc = struc as? Array<Any> {
+			for elt in struc {
+				let newElt		= FwBundle()				// Build a new FwBundle
+				newElt.apply(struc:struc, leafConfig:leafConfig)//, tunnelConfig)
+				addChild(newElt)
+			}
+		}
+		 // Case 3: HASHs -- add all, recursively// E.g: @[name1, ..], or @{name1:kind1, ...}
+		else if let struc = struc as? Dictionary<String,Any> {
+			for (name, elt) in struc {
+				let newElt		= FwBundle()				// Build a new FwBundle
+				newElt.apply(struc:struc, leafConfig:leafConfig)//, tunnelConfig)
+				addChild(newElt)
+			}
+		}
 		 // Case 1: STRINGs -- rich semantics
-		if let specStr = struc as? String {
+		else if let specStr 	= struc as? String {
 			typealias DelayedProperty = (Part) -> ()
 			var newsProperty : DelayedProperty?	= nil	// to apply to new element
 			 // Apply string constructor to newElt, either augment self or make new element below.
@@ -341,7 +352,7 @@ dynamicMemberLookup
 				}
 				 // CASE 1.4b: Get a new Leaf:
 				else {
-					guard let leafKind else { fatalError() }
+					//guard let leafKind else { fatalError() 						}
 					let leafConfig		= leafConfig + ["leafKind":leafKind]
 					let newLeaf	= Leaf(leafConfig, sub1)	//leafKind, //tunnelConfig=[struc:[1 elts], n:evi, placeMy:stackz 0 -1]
 					addChild(newLeaf)
@@ -361,18 +372,8 @@ dynamicMemberLookup
 				}
 			}
 		}
-		 // Case 2: ARRAYs and HASHs -- add all, recursively// E.g: @[name1, ..], or @{name1:kind1, ...}
-		else if (struc is Array<Any> || struc is FwConfig) {
-			let newElt				= FwBundle()				// Build a new FwBundle
-bug//		newElt.apply(constructor:spec, leafConfig:leafConfig, tunnelConfig)
-			addChild(newElt)
-		}
-		 // Case 3: BUNDLE -- ready immediately				// E.g: leaf:Leaf
-		else if let spec1 = struc as? FwBundle {
-			addChild(spec1)									// silently reach inside and insert
-		}
 		else {
-			panic("Unknown FwBundle spec type")
+			panic("Unknown FwBundle spec '\(struc.pp())'")
 		}
 	}
 

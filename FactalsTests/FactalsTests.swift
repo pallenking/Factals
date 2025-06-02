@@ -151,7 +151,7 @@ final class FactalsTests: XCTestCase {
 		XCTAssertEqual(a, "aaabbbccc", "actual:\(a) != expected:\"aaabbbccc\"")
 	}
 	func testAllLeafs() {
-		let tunnel		= Tunnel(["struc":["a", "b", "c", "d"], "placeMy":"stackz 0 -1"])
+		let tunnel		= Tunnel(["struc":["a", "b", "c", "d"], "of":"bcast", "placeMy":"stackz 0 -1"])
 		var rv:String	= ""
 		tunnel.forAllLeafs {
 			(leaf:Leaf) in

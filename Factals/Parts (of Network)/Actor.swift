@@ -178,7 +178,7 @@ class Actor : Net {
 
 						if let otherAtom  = scanPort.con2?.port?.atom {		// Identify otherAtom
 							 // If ancestor of otherAtom is part of self
-//							let othersActorPart = otherAtom.ancestorThats(childOf:self)
+//							let othersActorPart = otherAtom.lowestAncestorThats(childOf:self)
 							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
 							  otherI > scanI		 {
 								 // pull that worker to just below us

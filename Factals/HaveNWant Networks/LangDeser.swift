@@ -78,18 +78,18 @@ r("- bug: Ref:\"a\" is confused by definitions", e, {
   ]])
 })
 	xxr("- bug: Ref:\"a\" is confused by definitions", e, {
-	  Tunnel(["struc":wordType, "f":1])
+	  Tunnel(["struc":wordType, "of":"bcast", "f":1])
 	})
 	r("- nan Link FIXED", e, {
 	  Net(["parts":[
 		Actor(["n":"wordType", "placeMy":"linky", "parts": [
-				Tunnel(["n":"evi", "placeMy":"stackz", "struc":"a"]),
+				Tunnel(["n":"evi", "of":"bcast", "placeMy":"stackz", "struc":"a"]),
 		] ]),
 		DiscreteTime(["n":"lo", "P":"evi", "f":1])
 	  ]])
 	})
 	r("- :of: bug", e, {
-		Tunnel(["n":"evi", "placeMy":"stackz", "struc":"a"])
+		Tunnel(["n":"evi", "of":"bcast", "placeMy":"stackz", "struc":"a"])
 	})
  // BROKEN
 //r("Language Deserializer", e, {

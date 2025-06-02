@@ -228,7 +228,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 			let bindingPath		= Path(withName:bindingString)
 			let boundPart		= find(path:bindingPath)// find bound Part
 			let sWantUp			= wantUp==nil ? nil 							// nil stays
-								: wantUp! ^^ boundPart!.upInPart(within:self)	// negate per boundPart
+								: wantUp! ^^ boundPart!.isFlipped(withResepectTo:self)	// negate per boundPart
 			let nsWantUp		= sWantUp==nil ? nil : !sWantUp!
 								
 			if let rv 			= boundPart as? Port {		// Case 1: Port?
@@ -270,7 +270,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 		}
 
 		 // -- 4. Last option -- Get another Port from an attached Splitter?:
-/**/	return addTap(onPort:candidatePorts.first/*, using:Broadcast*/)
+/**/	return tapInto(port:candidatePorts.first/*, using:Broadcast*/)
 	}
 	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
@@ -330,37 +330,41 @@ bug //				if (NSString *portAbility = [self xxx) {
 	/// 	s- Otherwise, insert a new Broadcast Element into the network
 	/// - Parameter onPort: one end of the link that gets the Broacast added
 	/// - Returns: a free port in the added Broadcast
-	func addTap(onPort:Port?/*, using:Broadcast*/) -> Port? {
-		guard let onPort							else {	return nil 			}
-		guard let con2Port		= onPort.con2?.port else {	return nil 			}
+	func tapInto(port:Port?/*, using:Broadcast*/) -> Port? {
+		guard let port								else {	return nil 			}
+		guard let con2Port		= port.con2?.port 	else {	return nil 			}
 		if let conSplitter 		= con2Port.atom as? Splitter, conSplitter.isBroadcast
 		{	return conSplitter.anotherShare(named:"*")}	// Already connetcted to a Splitter
+
+		 // port  ->	atom	->	xxx		-> papaNet
+		 //			 	child
+		 //				newBcast
+		guard let papaNet		= port.atom?.enclosingNet else { fatalError("Couldn't find common Net") }
+		let child	 			= port.lowestAncestorThats(childOf:papaNet)!
+
+		  //   "AUTO-BROADCAST": Add a new Broadcast to split the port
+		 //					/auto Broadcast/auto-broadcast/
+		logBld(4, "<<++ Auto Broadcast: Tap into Port:\(port.pp(.fullName)), child:\(child.pp(.fullName)), papaNet:\(papaNet.pp(.fullName)) ++>>")
 
 		 // Find the spot to insert newBast (above or below):
 		 // worry about onPort inside Tunnel
 		 // Choose so inserted element is in scan order, to reduces settle time.
-		guard let papaNet		= onPort.atom?.enclosingNet else { fatalError("Couldn't find common Net") }
-		let child	 			= onPort.ancestorThats(childOf:papaNet)!
- 		let newFlipped			= onPort.upInPart(within:papaNet)
-		guard var ind 			= papaNet.children.firstIndex(where: {$0 === child})
-			else { debugger("Broadcast index bad of false'\(onPort.fullName)'")	}
-		ind						+= newFlipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD
-		//ind					+= newFlipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
+ 		let newFlipped			= port.isFlipped(withResepectTo:papaNet)
+		let newName				= "\(name)\(port.name)"
+/**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky", "f":!newFlipped])
 
-		  //   "AUTO-BROADCAST": Add a new Broadcast to split the port
-		 //					/auto Broadcast/auto-broadcast/
-		logBld(4, "<<++ Auto Broadcast onPort:'\(onPort.pp(.fullName))' ++>>")
-//		logBld(4, "<<++ Auto Broadcast onPort:'\(onPort.pp(.fullName))' ++>>")
-		let newName				= "\(name)\(onPort.name)"
-/**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky", "f":newFlipped])
+		guard var ind 			= papaNet.children.firstIndex(where: { $0 === child })
+			else { debugger("Broadcast index bad of false'\(port.fullName)'")	}
+		//ind  					+= newFlipped ? 1 : 0		// orig,	3:Broadcast, 4:Previous		GOOD
+		ind  					+= newFlipped ? 0 : 1		// proposed,3:Previous,  4:Broadcast	BAD
 		papaNet.addChild(newBcast, atIndex:ind)
 
 		 //	 4,  Wire up new Broadcast into Network:
 		let newS1Port: Port		= newBcast.anotherShare(named:"*")
 		let newPPort : Port		= newBcast.ports["P"]!					//to go to self.P
 		
-		onPort.con2				= .port(newPPort)
-		newPPort.con2			= .port(onPort)		// 1. move old connection to share1
+		port.con2				= .port(newPPort)
+		newPPort.con2			= .port(port)		// 1. move old connection to share1
 
 		con2Port.con2			= .port(newS1Port)	// 2. link newBcast to onPort
 		newS1Port.con2			= .port(con2Port)
@@ -534,7 +538,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 					  //   3. Get Ports for Atoms. MAKE NEW ONES IF NEEDED
 
 					 //    3a. //// SouRCe (is self)				// Log
-					let trgAboveSInS = trgAboveSInCon ^^ self.upInPart(within:conNet)
+					let trgAboveSInS = trgAboveSInCon ^^ self.isFlipped(withResepectTo:conNet)
 					logBld(4, "L\(wireNumber) -- SOURCE: in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
@@ -542,7 +546,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 					assert(srcPort != nil, "srcPort==nil")
 								
 					 //		3c. //// TaRGet:						// Log
-					let trgAboveSInT = trgAboveSInCon == trgAtom.upInPart(within:conNet)
+					let trgAboveSInT = trgAboveSInCon == trgAtom.isFlipped(withResepectTo:conNet)
 					let trgInfo	= "   -- TARGET:\(trgAtom.fullName16)" +
 								  ".'\((trgPortName! + "'").field(-6))" +
 								  " opens _\(ppUp(trgAboveSInT))_"
@@ -849,7 +853,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 				return atPri_fail(		"smallestNetEnclosing failed")
 			}
 			let commonVew 		= refVew.find(part:commonNet, up2:true, inMe2:true)
-			let inMePOpensUpIC	= inMePort.upInPart(within:commonNet)		// ???wtf???
+			let inMePOpensUpIC	= inMePort.isFlipped(withResepectTo:commonNet)		// ???wtf???
 
 			logRsi(4, inMePOpensUpIC ? "facingUp " : "facingDown -> SUCCESS\n", terminator:"")
 			if  inMePOpensUpIC {		// // g. pointing up, but not into a Context

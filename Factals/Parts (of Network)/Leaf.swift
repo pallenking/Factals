@@ -75,26 +75,6 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	//		&& type				== rhs.type
 		return rv
 	}
-	// MARK: - 4.1 Part Properties
-	override func apply(prop:String, withVal val:FwAny?) -> Bool {
-bug;	return false
-	}
-//		 // Leafs get sound names from the .nib file:
-//		if prop == "sound" {	// e.g. "sound:di-sound" or
-//bug		//	if let sndPPort		= port(named:"SND"),
-//		//	  let sndAtom		= sndPPort.atom as? SoundAtom,
-//		//	  let v				= val as? String
-//		//	{
-//		//		sndAtom.sounds	= [v]
-//		//	}
-//		//	else {
-//		//		panic()
-//		//	}
-//		}
-//		if prop == "sounds" {
-//bug		}
-//		return super.apply(prop:prop, withVal:val)
-//	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	func port4leafBinding(name:String) -> Part? {
 		if let binding			= bindings?[name],
@@ -136,7 +116,7 @@ bug;	return false
 		}
 		logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
 		
-		// Didn't match as Leaf, try normal match:
+		 // Didn't match as Leaf, try normal match:
 		return super.resolveInwardReference(path, openingDown:downInSelf, except:except)
 	}
 	 // MARK: - 4.7 Editing Network

@@ -524,13 +524,12 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 // MARK: - 4.4 Navigation
 	var enclosingNet : Net? {
 		for s in parents {
-			if let n 			= s as? Net {
-				return n
-			}
+			if s is Net
+			{	return s as? Net	}
 		}
 		return nil
 	}
-	func ancestorThats(childOf child:Part) -> Part? {
+	func lowestAncestorThats(childOf child:Part) -> Part? {
 		for part in selfNParents {
 			if part.parent === child {
 				return part
@@ -632,7 +631,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		return rv
 	}
 	func dagIndex(ancestorOf part:Part) -> Int? {
-		if let p 				= part.ancestorThats(childOf:self) {
+		if let p 				= part.lowestAncestorThats(childOf:self) {
 			return children.firstIndex(where: {$0 === p})//(of:p)
 		}
 		return nil
@@ -653,30 +652,31 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 	 /// self isUp in Part
 	 /// - argument: within -- part which is grandaddy of them all
-	func upInPart(within:Part) -> Bool {
+	func isFlipped(withResepectTo:Part) -> Bool {
 
-		 // flip from self --> within:
-		let (flip0, foundWithin) = self.flipTo(endPart:within)
-		if foundWithin === within			// found endPart
-		{	return  flip0	}			// return its flip
+		 // within's tree contains self
+		let (flip0, foundWithin) = self.flippedIn(parent:withResepectTo)
+		if foundWithin === withResepectTo	// found endPart
+		{	return  flip0			}			// return its flip
 
-		 // flip from within --> self:
-		let (flip1, foundSelf)	= within.flipTo(endPart:self   )
-		if foundSelf === self 			// found self
-		{	return  flip1 	}			// return its flip
+		 // self's tree contains within
+		let (flip1, foundSelf)	= withResepectTo.flippedIn(parent:self   )
+		if foundSelf === self 				// found self
+		{	return  flip1 			}			// return its flip
 
 		 // They end at the same root!
 		if foundWithin === foundSelf
 		{	return flip0 ^^ flip1	}
 		
-		debugger("self:\(fullName) and endPart:\(within.fullName) don't share a root")
+		debugger("self:\(fullName) and endPart:\(withResepectTo.fullName) don't share a root")
 	}
 	 /// scan up the tree from self to (but not including) endPart
-	private func flipTo(endPart:Part) -> (Bool, Part) {
+	///  If self not in parent tree, return flip in root
+	private func flippedIn(parent:Part) -> (Bool, Part) {
 		var flipd				= false
 		var endP : Part			= self
-		while endP !== endPart && 				// we are not endpart			//!=
-			  endP.parent != nil 				// we have a parent
+		while endP !== parent, 					// not at root yet
+			  endP.parent != nil 				// have a parent
 		{
 			flipd				^^= endP.flipped		
 			endP 				= endP.parent!
