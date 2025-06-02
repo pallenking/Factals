@@ -773,7 +773,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 
 	 // MARK: - 17. Debugging Aids
 	override var description	  : String 	{	return  "d'\(pp(.short))'"		}
-	override var debugDescription : String	{	return "dd'\(pp(.short))'"		}
+	override var debugDescription : String	{	return "'\(pp(.short))'"		}
 	override var summary		  : String	{	return  "s'\(pp(.short))'"		}
 }
 

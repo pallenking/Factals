@@ -122,7 +122,7 @@ func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 
 	 // MARK: - 17. Debugging Aids
 	var description			:String	{	return  "d'\(pp(.short))'"				}
-	var debugDescription 	:String	{	return "dd'\(pp(.short))'"				}
+	var debugDescription 	:String	{	return "'\(pp(.short))'"				}
 	var summary				:String	{	return  "s'\(pp(.short))'"				}
 }
 extension BBox : Codable {

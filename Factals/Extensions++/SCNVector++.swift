@@ -405,7 +405,7 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 
 	 // MARK: - 17. Debugging Aids
 	var description		 : String	{	return  "d'\(pp(.short))'"				}
-	var debugDescription : String	{	return "dd'\(pp(.short))'"				}
+	var debugDescription : String	{	return "'\(pp(.short))'"				}
 	var summary			 : String	{	return  "s'\(pp(.short))'"				}
 }
 
@@ -587,7 +587,7 @@ extension SCNVector4 {
 
 	 // MARK: - 17. Debugging Aids
 	var description			:String	{	return  "d'\(pp(.short))'"				}
-	var debugDescription	:String	{	return "dd'\(pp(.short))'"				}
+	var debugDescription	:String	{	return "'\(pp(.short))'"				}
 	var summary				:String	{	return  "s'\(pp(.short))'"				}
 
 	 // MARK: - 16. Global Constants

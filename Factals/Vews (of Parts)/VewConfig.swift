@@ -38,7 +38,7 @@ enum VewConfig : FwAny {
 	static let atom				= subVew([:])
 	 // MARK: - 17. Debugging Aids
 	var description			: String 	{	return  "d'\(pp(.short))'"			}
-	var debugDescription	: String	{	return "dd'\(pp(.short))'"			}
+	var debugDescription	: String	{	return "'\(pp(.short))'"			}
 	var summary				: String	{	return  "s'\(pp(.short))'"			}
 }
 

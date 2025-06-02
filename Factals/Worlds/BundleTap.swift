@@ -84,9 +84,9 @@ class BundleTap : Atom {
 								//
 		 // Test new target bundle; must have both R (for reset) and G (for generate)
 		targetBundle.forAllLeafs { leaf in
-			guard leaf.port4leafBinding(name: "R") != nil else
+			guard leaf.port4leafBinding(name:"R") != nil else
 			{	debugger("Leaf \(self.pp(.fullName)) has no R port\n")			}
-			guard leaf.port4leafBinding(name: "G") != nil else
+			guard leaf.port4leafBinding(name:"G") != nil else
 			{	debugger("Leaf \(self.pp(.fullName)) has no G port\n")			}
 			// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
 		}

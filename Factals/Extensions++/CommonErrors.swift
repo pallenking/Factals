@@ -85,7 +85,7 @@ func panic(_ message: @autoclosure () -> String="Panic with No message",
   /// - parameters:
  /// - truthValue:  -- Should be true
 /// - message:  -- Closure to execute if false
-func wallTime(_ format:String="yyyy-MM-dd' 'HH:mm: ") -> String	{
+func wallTime(_ format:String="yyyy-MM-' 'HH:mm: ") -> String	{
 	let dateFormatter 			= DateFormatter()
 	dateFormatter.dateFormat 	= format
 	return dateFormatter.string(from: NSDate() as Date)

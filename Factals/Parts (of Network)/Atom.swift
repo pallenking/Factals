@@ -221,7 +221,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 	/// - Parameter allowDuplicates: --- pick the first match
 	/// - Returns: selected Port
 	func getPort(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
-		logBld(7, " '\(fullName)' . getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
+		logBld(7, " '\(fullName)'. getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 
 		 // -- Check BINDINGS?
 		if let bindingString 	= bindings?[named] {
@@ -975,7 +975,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 	}
 	 // MARK: - 17. Debugging Aids
 	override var description	  : String 	{	return  "d'\(pp(.short))'"		}
-	override var debugDescription : String	{	return "dd'\(pp(.short))'"		}
+	override var debugDescription : String	{	return "'\(pp(.short))'"		}
 	override var summary		  : String	{	return  "s'\(pp(.short))'"		}
 }
 

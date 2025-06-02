@@ -62,6 +62,6 @@ class LinkVew : Vew {
 
 	 // MARK: - 17. Debugging Aids
 	override var description	  : String 	{ return  "d'\(pp(.short))'"		}
-	override var debugDescription : String	{ return "dd'\(pp(.short))'"		}
+	override var debugDescription : String	{ return "'\(pp(.short))'"		}
 	override var summary		  : String	{ return  "s'\(pp(.short))'"		}
 }
