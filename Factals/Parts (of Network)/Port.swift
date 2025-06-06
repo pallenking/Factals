@@ -567,7 +567,7 @@ class Port : Part, PortTalk {
 	var radius : CGFloat	{ return 1.0	}
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {		// Ports and Shares
-		let scn : SCNNode		= vew.scnRoot.find(name:"s-Port")
+		let scn : SCNNode		= vew.scnRoot.findScn(named:"s-Port")
 								?? newPortSkin(vew:vew, skinName:"s-Port")
 		let bbox 			 	= scn.bBox()
 		return bbox * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
@@ -651,7 +651,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 	 // MARK: - 9.5: RePaint:
 	override func rePaint(vew:Vew) {
 				// Tube with connectedTo's value:
-		let tube				= vew.scnRoot.find(name:"s-Tube", maxLevel:2)
+		let tube				= vew.scnRoot.findScn(named:"s-Tube", maxLevel:2)
 		let  curTubeColor0		= tube?.color0
 		let     tubeColor0	 	= upInWorld ? NSColor.green : .red
 		tube?.color0			= NSColor(mix:NSColor.whiteX, with:value, of:tubeColor0)
@@ -659,7 +659,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 //			vew.scnScene.play(sound:value>0.5 ? "tick1" : "tock0")
 		}
 				// Cone with connectedTo's value:
-		let cone				= vew.scnRoot.find(name:"s-Cone", maxLevel:2)
+		let cone				= vew.scnRoot.findScn(named:"s-Cone", maxLevel:2)
 		if let valPort			= con2?.port {	//	GET to my INPUT
 			let val				= valPort.value
 			let coneColor0		= upInWorld ? NSColor.red : .green

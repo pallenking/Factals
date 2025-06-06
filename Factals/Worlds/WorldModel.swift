@@ -162,7 +162,7 @@ bug;	return rv
 
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Wm") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Wm") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Wm"

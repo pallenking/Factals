@@ -63,7 +63,7 @@ class CommonPart : Part {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Box") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Box") ?? {
 			let scn				= SCNNode()
 			scn.geometry		= SCNBox(width:1.0, height:1.0, length:1.0, chamferRadius:0)
 //			scn.geometry		= SCNBox(width:size.x, height:size.y, length:size.z, chamferRadius:0)		// removed 20210709
@@ -80,7 +80,7 @@ class Box	: CommonPart {
 }
 class Sphere : CommonPart {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Sphere") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Sphere") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1.0))
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Sphere"
@@ -93,7 +93,7 @@ class Sphere : CommonPart {
 }
 class Cylinder : CommonPart {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Cyl") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Cyl") ?? {
 			let scn				= SCNNode(geometry:SCNCylinder(radius:1.0, height:1.0))//SCNCylinder(radius:0.5, height:1)
 //			let scn				= SCNNode(geometry:SCNCylinder(radius:size.x, height:size.z))//SCNCylinder(radius:0.5, height:1)
 			vew.scnRoot.addChild(node:scn, atIndex:0)
@@ -107,7 +107,7 @@ class Cylinder : CommonPart {
 }
 class Hemisphere : CommonPart {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-HSphr") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-HSphr") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-HSphr"
@@ -122,7 +122,7 @@ class Hemisphere : CommonPart {
 class TunnelHood : CommonPart {
 	 // / - used to test only
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Tunl") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Tunl") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Tunl"
@@ -139,7 +139,7 @@ class TunnelHood : CommonPart {
 class ShapeTest : CommonPart {
 	 // / - used to test only
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-ShapeT") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-ShapeT") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-ShapeT"

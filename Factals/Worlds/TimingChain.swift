@@ -350,7 +350,7 @@ class TimingChain : Atom {
 	var height : CGFloat	{		return 1									}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 	  // / Put full skin onto TimingChain
-		let scn					= vew.scnRoot.find(name:"s-Tc") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Tc") ?? {
 			 // First Box
 			let h				= height
 			let scn				= SCNNode()

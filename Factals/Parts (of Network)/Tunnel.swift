@@ -111,7 +111,7 @@ class Tunnel : FwBundle {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Tun") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Tun") ?? {
 			let scn				= SCNNode()
 			scn.name			= "s-Tun"
 			scn.geometry 		= SCNBox(width:1, height:1, length:1, chamferRadius:0)

@@ -143,39 +143,39 @@ class Atom : Part {	//Part//FwPart
 
 	// MARK: - 4. Factory
 // xyzzyx4
-	func findPart(binding:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
-		if binding.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
-			var rv : Part?			= nil;
-			if binding.portName!.count != 0 {		// if named Port is specified
+	func findPort(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Port? {
+		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
+			var rv : Port?			= nil;
+			if path.portName!.count != 0 {		// if named Port is specified
 
 				  // Search all existing component Ports:
 				 //
 				for port in parts where port is Port {
-					if port.name == binding.portName {
-						assert(rv == nil, "multiple Ports named '\(binding.portName ?? "eh?w202520")' found")
-						if let portAbility = atomsDefinedPorts[binding.portName!] {
+					if port.name == path.portName {
+						assert(rv == nil, "multiple Ports named '\(path.portName ?? "eh?w202520")' found")
+						if let portAbility = atomsDefinedPorts[path.portName!] {
 bug;						let rv	= Port([:])
 							rv.flipped = portAbility.contains("d")
-							rv.name = binding.portName!
+							rv.name = path.portName!
 							addChild(rv)
 						}
 					}
 				}
-				if rv == nil, let portAbility = atomsDefinedPorts[binding.portName!] {
+				if rv == nil, let portAbility = atomsDefinedPorts[path.portName!] {
 					let rv 			= Port([:])
 					rv.flipped		= portAbility.contains("d")
-					rv.name			= binding.portName!
+					rv.name			= path.portName!
 					addChild(rv)
 				}
 				 // If not found, perhaps it could be built
 				if rv == nil {
-bug 			//	if (NSString *portAbility = [self xxx) {
+				bug//if (NSString *portAbility = [self xxx) {
 				//		Port *aPort = [self addPart:[Port another]];
 				//	}
 				}
 			}
 			else {
-				rv = self							// matches the Atom
+				rv = self as? Port					// matches the Atom
 			}
 			 // report and return results:
 			if rv != nil {
@@ -183,7 +183,7 @@ bug 			//	if (NSString *portAbility = [self xxx) {
 				return rv
 			}
 		}
-		logBld(5, "   '\(fullName)'.findPart(binding:\(binding), downInSelf:\(downInSelf)) FAILS")
+		logBld(5, "   '\(fullName)'.findPart(binding:\(path), downInSelf:\(downInSelf)) FAILS")
 		return nil
 	}
 
@@ -701,7 +701,7 @@ bug 			//	if (NSString *portAbility = [self xxx) {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Atom") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Atom") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Atom"

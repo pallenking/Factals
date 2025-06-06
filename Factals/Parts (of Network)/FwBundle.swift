@@ -399,13 +399,13 @@ bug;		nop // for break
 				soughtLeaf = leaf
 			}
 		}
-		return soughtLeaf?.port4leafBinding(name:"G") as? Port
+		return soughtLeaf?.boundPort(named:"G") as? Port
 
 	}
 	 // MARK: - 9. 3D Support
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Bun") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Bun") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Bun"

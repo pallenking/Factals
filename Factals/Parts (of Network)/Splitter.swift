@@ -417,7 +417,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Split") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Split") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1.6))
 			scn.color0			= .orange
 			scn.name			= "s-Split"

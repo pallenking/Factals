@@ -14,40 +14,10 @@
             filePath = "Factals/Parts (of Network)/Leaf.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "findPart(binding:openingDown:except:)"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "findPort(_:openingDown:except:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "981E36CB-B2BB-42C5-8713-03F77653EB15 - eb5fe0c697779b3a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Leaf.findPart(binding: Factals.Path, openingDown: Swift.Bool, except: Swift.Optional&lt;Factals.Part&gt;) -&gt; Swift.Optional&lt;Factals.Part&gt;"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Leaf.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83">
-               </Location>
-               <Location
-                  uuid = "981E36CB-B2BB-42C5-8713-03F77653EB15 - eb5fe0c697779ba7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Leaf.findPart(binding: Factals.Path, openingDown: Swift.Bool, except: Swift.Optional&lt;Factals.Part&gt;) -&gt; Swift.Optional&lt;Factals.Part&gt;"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Leaf.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -60,40 +30,10 @@
             filePath = "Factals/Parts (of Network)/Leaf.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "findPart(binding:openingDown:except:)"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "findPort(_:openingDown:except:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "04E2FDD0-25D2-45A0-B6A4-32837F45B4E0 - eb5fe0c69777e73b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Leaf.findPart(binding: Factals.Path, openingDown: Swift.Bool, except: Swift.Optional&lt;Factals.Part&gt;) -&gt; Swift.Optional&lt;Factals.Part&gt;"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Leaf.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114">
-               </Location>
-               <Location
-                  uuid = "04E2FDD0-25D2-45A0-B6A4-32837F45B4E0 - eb5fe0c69777e75a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Factals.Leaf.findPart(binding: Factals.Path, openingDown: Swift.Bool, except: Swift.Optional&lt;Factals.Part&gt;) -&gt; Swift.Optional&lt;Factals.Part&gt;"
-                  moduleName = "Factals.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/Leaf.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -301,6 +241,22 @@
             startingLineNumber = "86"
             endingLineNumber = "86"
             landmarkName = "reset()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ECF17EBF-76E5-4DDC-A658-A727C7A381C2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Factals/Parts (of Network)/Atom.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "findPort(_:openingDown:except:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

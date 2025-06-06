@@ -254,23 +254,16 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	 // MARK: - 4.6 Find Children
 	// WHY THESE TWO?
 	 /// flat search of one layer.
-	func find(name:String, prefixMatch:Bool=false, maxLevel:Int?=nil) -> SCNNode? 	{
+	func findScn(named:String, prefixMatch:Bool=false, maxLevel:Int?=nil) -> SCNNode? 	{
 		 /// Check children only to 1 level:
 		return find(inMe2:false, all:false, maxLevel:maxLevel, firstWith:
 		{(scn:SCNNode) -> Bool in
 			return prefixMatch ?
-					scn.name?.hasPrefix(name) ?? false :
-					scn.name == name
+					scn.name?.hasPrefix(named) ?? false :
+					scn.name == named
+			// return scn.name == name	// previous hash
 		} )
 	}
-////	 /// hierarchical search
-////	func find(name:String, maxLevel:Int) -> SCNNode? 	{
-////		 /// Check children only to 1 level:
-////		return find(inMe2:false, all:false, maxLevel:maxLevel, firstWith:
-////		{(scn:SCNNode) -> Bool in
-////			return scn.name == name
-////		} )
-////	}
 
 	 /// First where closure is true:
 	typealias ScnPredicate 	= (SCNNode) -> Bool

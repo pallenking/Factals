@@ -279,7 +279,7 @@ class Link : Atom {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		logRsi(8, "<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'")
 		let name				= "s-Link"
-		let _/*scn*/ : SCNNode	= vew.scnRoot.find(name:name) ?? {
+		let _/*scn*/ : SCNNode	= vew.scnRoot.findScn(named:name) ?? {
 			let sLink			= SCNNode()
 			sLink.name			= name
 			vew.scnRoot.addChild(node:sLink, atIndex:0)
@@ -519,7 +519,7 @@ bug	// Never USED?
 
 			  // Link's position isn't in linkVew.scnScene, but it's child "s-Link".
 			 // (This allows S and P ornaments in linkVew.scnScene to be unstretched)
-			let s				= linkVew.scnRoot.find(name:"s-Link")!
+			let s				= linkVew.scnRoot.findScn(named:"s-Link")!
 			s.transform 		= m
 		}else{
 			logRnd(1, "CURIOUS3 -- link ends nil, cannot rotate link toward camera")
@@ -551,14 +551,14 @@ bug	// Never USED?
 			 //    whenever you modify the objects in a scene graph.
 
 			 // Apply image to shape (Plane or Box)
-			let scn2paintOn	= linkVew.scnRoot.find(name: "s-Paint")
+			let scn2paintOn	= linkVew.scnRoot.findScn(named: "s-Paint")
 			guard let geom	= scn2paintOn?.geometry else {
 				debugger("Attempt to paint on scnScene wo geometry") 				}
 			let i			= usePlane ? 0 : 4		// 0:base, 4:left side if rect
 			assert(i < geom.materials.count, "Link '\(pp(.fullName))' access: to \(i) but only has \(geom.materials.count) materials")
 			geom.materials[i].diffuse.contents = linksImage						//for j in 0..<6 {
 		}																		//	geom.materials[j].diffuse.contents = linksImage
-		if let scnLink:SCNNode = vew.scnRoot.find(name:"s-Link") {
+		if let scnLink:SCNNode = vew.scnRoot.findScn(named:"s-Link") {
 			//assert(scnLink.isHidden, "paranoia") //21200823 Happens often!
 			scnLink.isHidden = false				// now vew link
 		}
@@ -595,7 +595,7 @@ extension Port {
 	func reSkin(linkPortsVew vew:Vew) -> BBox  {
 		assert(parent is Link, "sanity check")
 		let name				= "s-LinkEnd"
-		let scn:SCNNode 		= vew.scnRoot.find(name:name) ?? {
+		let scn:SCNNode 		= vew.scnRoot.findScn(named:name) ?? {
 			 // None found, make one.
 			logRsi(8, "<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))")
 			let scn				= SCNNode(geometry:SCNSphere(radius:0.2))		// the Ports of Links are invisible

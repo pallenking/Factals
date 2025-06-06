@@ -76,7 +76,7 @@ class Share : Port { // ///////////// The common parts//////////////////////////
 
 	  // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {	// Pyramid
-		let scn : SCNNode		= vew.scnRoot.find(name:"s-Share") ?? { //(() -> SCNNode) in
+		let scn : SCNNode		= vew.scnRoot.findScn(named:"s-Share") ?? { //(() -> SCNNode) in
 			let s				= CGFloat(0.5)
 			 // A plate:
 			let scn 			= SCNNode(geometry:SCNBox(width:s, height:s/20, length:s, chamferRadius:0))// width:s, height:s, length:s))
@@ -105,7 +105,7 @@ class Broadcast : Splitter { //#################################################
 	override func bidTotal() -> Float	{	return 1							} // Broadcast
 	 // MARK: - 9.0 3D Support
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Broadcast") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Broadcast") ?? {
 			let scn  			= !pinSkin
 				? SCNNode(geometry:SCNHemisphere(radius:1, slice:0))
 				: SCNNode(geometry:SCNCone(topRadius:0.05, bottomRadius:0.01, height:2))	// for debug
@@ -149,7 +149,7 @@ class MaxOr : Splitter {	//##################################################
 	let pipeRadius : CGFloat	= 0.4 + 0.4
 	let ringRadius : CGFloat	= 1.4 - 0.4
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Max") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Max") ?? {
 			let scn				= SCNNode(geometry:SCNTorus(ringRadius:ringRadius, pipeRadius:pipeRadius))
 			scn.name			= "s-Max"
 			scn.color0			= .orange
@@ -183,7 +183,7 @@ class MinAnd : Splitter { //####################################################
 	}
 	 // MARK: - 9.0 3D Support
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Min") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Min") ?? {
 			let r : CGFloat		= 1//BroadcastSh.hBcast/2
 			let scn				= SCNNode(geometry:SCNHemisphere(radius:r, slice:0))	//0.9*
 			//let scnScene 			= SCNNode(geometry:SCNSphere(radius:r))	//
@@ -214,7 +214,7 @@ class Bayes : Splitter	{  //***################################################
 	  //   Acc1 is sum of downward vals...
 	 //-- distribute: (local UP)--//
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Bayes") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Bayes") ?? {
 			let scn				= SCNNode(geometry:SCNBox(width:3, height:3, length:3, chamferRadius:0.75))
 			scn.color0			= .orange
 			scn.name			= "s-Bayes"
@@ -251,7 +251,7 @@ class Hamming : Splitter { //###################################################
 	 // MARK: - 9.0 3D Support
 	var height:CGFloat	{ 		return 2								} // override??
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Hamm") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Hamm") ?? {
 			let scn  			= !pinSkin ? 
 				SCNNode(geometry:SCNCone(topRadius:0, bottomRadius:1, height:height)) :			
 				SCNNode(geometry:SCNCone(topRadius:0.15, bottomRadius:0.01, height:height))	// debug
@@ -287,7 +287,7 @@ class Multiply : Splitter { //##################################################
 	 //-- distribute: (local UP)--//
 	let bidParam : Float 	= 3		//
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Mult") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Mult") ?? {
 			let s				= CGFloat(2.0)
 			let scn				= SCNNode(geometry:SCNPyramid(width:s, height:s, length:s))
 			scn.name			= "s-Mult"
@@ -319,7 +319,7 @@ let kNormK : Float		 = 1.0	// build this out
 	}
 	 // MARK: - 9.0 3D Support
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-KNorm") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-KNorm") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1.6))
 			scn.color0			= .orange
 			scn.name			= "s-KNorm"
@@ -347,7 +347,7 @@ class Sequence : Splitter	{ //################################################
 	override func combineNext(val:Float) -> Bool {	/*print("debug me")*/return false}
 	 // MARK: - 9.0 3D Support
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn : SCNNode		= vew.scn.find(name:"s-Seq") ?? {
+		let scn : SCNNode		= vew.scn.findScn(named:"s-Seq") ?? {
 			let height 			= Double(parent?.children.count ?? 2) - 1.0
 			let scn				= SCNNode(geometry:SCNCylinder(radius:1.0, height:height))
 			scn.color0			= .orange
@@ -363,7 +363,7 @@ class Sequence : Splitter	{ //################################################
 class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	  // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {	// Pyramid
-		let scn : SCNNode		= vew.scnRoot.find(name:"s-SeqSh") ?? {
+		let scn : SCNNode		= vew.scnRoot.findScn(named:"s-SeqSh") ?? {
 			let scn 			= SCNNode(geometry:SCNSphere(radius:0.25))
 			scn.name			= "s-SeqSh"
 			scn.color0			= .red
@@ -528,7 +528,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 //				markTree(dirty:.size)
 //																		}	}	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Bulb") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Bulb") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1))
 			scn.color0			= .orange
 			scn.name			= "s-Bulb"

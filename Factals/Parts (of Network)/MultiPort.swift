@@ -85,7 +85,7 @@ class MultiPort : Port {
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {		// Ports and Shares
 	  // / Put full skin onto MultiPort
-		let scn					= vew.scnRoot.find(name:"s-Port") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Port") ?? {
 			let (r, h)			= (radius, height)
 			let ep : CGFloat 	= 0.01//0.1//
 

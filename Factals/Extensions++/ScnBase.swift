@@ -70,7 +70,7 @@ extension ScnBase {		// lights and camera
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
 			guard let roots 		else { return									}
-			if roots.rootNode.find(name:name) == nil {
+			if roots.rootNode.findScn(named:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
 				scn4light.name	= name				// arg 1
@@ -166,7 +166,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	func checkCamera() {
 		let name				= "*-camera"
 		guard let roots 			else { return									}
-		let camNode				= roots.rootNode.find(name:name, maxLevel:1) ?? { // use old
+		let camNode				= roots.rootNode.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
@@ -205,7 +205,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 		let name				= "*-axis"
 
 		 // Already exist?
-		if roots.rootNode.find(name:name) != nil {
+		if roots.rootNode.findScn(named:name) != nil {
 			return
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)

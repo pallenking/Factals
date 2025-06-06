@@ -373,7 +373,7 @@ bug;						logDat(4, "Mode Port: " + //%% curMode=%-->%",
 	var height : CGFloat	{ return 1.0		}	// 5
 	var width  : CGFloat	{ return 6.0		}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Prev") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Prev") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Prev"

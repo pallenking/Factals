@@ -18,7 +18,7 @@ class Portless : Atom {
 
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Portless") ??  {
+		let scn					= vew.scnRoot.findScn(named:"s-Portless") ??  {
 			let scn				= SCNNode()
 			scn.name			= "s-Portless"
 			scn.geometry 		= SCNCapsule(capRadius:0.5, height:2) //(width:[1,4][i], height:1, length:[4,1][i], chamferRadius:0.5)
@@ -72,7 +72,7 @@ class Ago : Atom {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Ago") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Ago") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Ago"
@@ -204,7 +204,7 @@ class Mirror : Atom {
 	var size   : CGFloat		{ 		return 3.0										}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let name 				= "s-Mir"
-		let scn					= vew.scnRoot.find(name:name) ?? {
+		let scn					= vew.scnRoot.findScn(named:name) ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= name
@@ -263,7 +263,7 @@ class Modulator : Atom {
 	var sRadius : CGFloat		= 2.5	//1.5
 	var armLen  : CGFloat		= 4.0/2	//2.0
 	override func reSkin(fullOnto vew:Vew) -> BBox {
-		let scn					= vew.scnRoot.find(name:"s-Modu") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Modu") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Modu"

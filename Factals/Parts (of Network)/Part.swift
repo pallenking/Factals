@@ -891,7 +891,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			vew					= vew ??
 								  addNewVew(in:pVew) 	// 3. CREATE:
 			 // Remove lingering Atomic skins:
-			vew!.scnRoot.find(name:"s-atomic")?.removeFromParent()
+			vew!.scnRoot.findScn(named:"s-atomic")?.removeFromParent()
 			markTree(dirty:.size)
 
 			 // For the moment, we open all Vews
@@ -1044,10 +1044,10 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 	func reSkin(invisibleOnto vew:Vew) -> BBox {
 		vew.scnRoot.removeAllChildren()
 //		 // Remove skin named "s-..."
-//		if let skin				= vew.scnScene.find(name:"s-", prefixMatch:true) {
+//		if let skin				= vew.scnScene.findScn(named:"s-", prefixMatch:true) {
 //			skin.removeFromParent()
 //		}
-//		assert(vew.scnScene.find(name:"s-", prefixMatch:true)==nil, "Part had more than one skin")
+//		assert(vew.scnScene.findScn(named:"s-", prefixMatch:true)==nil, "Part had more than one skin")
 		return .empty
 	}
 

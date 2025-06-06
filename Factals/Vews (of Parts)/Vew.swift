@@ -573,8 +573,8 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		}
 
 		 // Get wire box
-		let wBoxScn	: SCNNode		= scn.find(name:"w-", prefixMatch:true, maxLevel:1) ??	// 20210912PAK SStep BAD Here
-//		let wBoxScn	: SCNNode		= scnRoot.find(name:"w-", prefixMatch:true, maxLevel:1) ??	// 20210912PAK SStep BAD Here
+		let wBoxScn	: SCNNode		= scn.findScn(named:"w-", prefixMatch:true, maxLevel:1) ??	// 20210912PAK SStep BAD Here
+//		let wBoxScn	: SCNNode		= scnRoot.findScn(named:"w-", prefixMatch:true, maxLevel:1) ??	// 20210912PAK SStep BAD Here
 		{	  // Recreate Wire box, and link it in
 			 // Make a unit cube so size changes can use same base SCNNode
 			var corners : [SCNVector3] = []

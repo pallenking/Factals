@@ -109,7 +109,7 @@ bug;			var poleITread = self.tread - Float(i)
 	var ffRadius		= CGFloat(2.5)
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-ShBT") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-ShBT") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-SBT1"

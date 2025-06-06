@@ -139,7 +139,7 @@ class Net : Atom {		// Atom // Part
 		return vew.bBox				// vew.scnScene.bBox() // Xyzzy44 ** vb
 
 		func putNetRing (scnName:String, top:Bool) {
-			let scn				= vew.scnRoot.find(name:scnName) as? SCNComment ?? {
+			let scn				= vew.scnRoot.findScn(named:scnName) as? SCNComment ?? {
 				let scn			= SCNComment()//SCNNode()
 				scn.name		= scnName
 				vew.scnRoot.addChild(node:scn, atIndex:0)

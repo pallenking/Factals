@@ -74,16 +74,20 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 		return rv
 	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
-	func port4leafBinding(name:String) -> Part? {
-		guard let binding		= bindings?[name] else { return nil 			}
-		return findPart(binding:Path(withName:binding), openingDown:false, except:nil)
+	//override var ports: [String : Port]
+//s		if let sPort			= ports["S"],
+
+
+	func boundPort(named:String) -> Port? {
+		guard let binding		= bindings?[named] else { return nil 			}
+		return findPort(Path(withName:binding), openingDown:false, except:nil)
 	}
-	override func findPart(binding:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
+	override func findPort(_ binding:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Port? {
 		 // At end of path?	( Terminal's name (w.o. Port) matches self )
 //		if binding.atomName == self.name {
 
 			 // ////////// Is named port a BINDING? ///////////////////
-			var rv : Part? 		= nil
+			var rv : Port? 		= nil
 			if let bindingStr 	= bindings?[binding.portName!] {
 				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
 				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
@@ -93,7 +97,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 					// Look up internal name
 					let downInElt = !downInSelf == !elt.flipped	// was ^
 					if let elt 	= elt as? Atom,
-					   let rv1	= elt.findPart(binding:bindingPath, openingDown:downInElt) {	//downInSelf
+					   let rv1	= elt.findPort(bindingPath, openingDown:downInElt) {	//downInSelf
 						rv		= rv1
 						break;					// found
 					}
@@ -111,7 +115,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 			return nil
 //		}
 		  // Didn't match as Leaf, try normal match:
-		return super.findPart(binding:binding, openingDown:downInSelf, except:except)
+		return super.findPort(binding, openingDown:downInSelf, except:except)
 	}
 	 // MARK: - 4.7 Editing Network
 
@@ -125,8 +129,8 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn.find(name:"s-Leaf") ?? {
-//		let scn					= vew.scnRoot.find(name:"s-Leaf") ?? {
+		let scn					= vew.scn.findScn(named:"s-Leaf") ?? {
+//		let scn					= vew.scnRoot.findScn(named:"s-Leaf") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Leaf"
@@ -146,7 +150,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
-		var rv 				= super.pp(mode, aux)
+		let rv 					= super.pp(mode, aux)
 		if mode == .line {
 			if aux.bool_("ppParam") {			// Ad Hoc: if printing Param's,
 				return rv							// don't print extra

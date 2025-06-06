@@ -259,7 +259,7 @@ class DiscreteTime : Atom {
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat	{		return 1									}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.find(name:"s-Atom") ?? {
+		let scn					= vew.scnRoot.findScn(named:"s-Atom") ?? {
 			let scn				= SCNNode()
 			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Atom"
