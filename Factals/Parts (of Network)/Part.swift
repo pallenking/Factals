@@ -1132,7 +1132,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 //		case stack(AxisDirn)		}
 
 	 // MARK: - 9.4 rePosition
-	func rePosition(vew:Vew) { //}, first:Bool=false) {
+	func rePosition(vew:Vew, first:Bool=false) {
 		guard vew.parent != nil else {		return			}
 		 // Get Placement Mode
 		let placeMode			=   partConfig["placeMe"]?.asString ?? // I have place ME

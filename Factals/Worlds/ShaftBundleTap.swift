@@ -33,12 +33,12 @@ class ShaftBundleTap : BundleTap { //Generator {
 
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(partBase:PartBase) {
-											super.groomModelPostWires(partBase:partBase)
+		super    .groomModelPostWires(partBase:partBase)
 		 // Test new targetBundle has R and G bindings
 		guard let fwBundle		= ports["P"]?.portPastLinks?.parent as? FwBundle else {fatalError() }
 		fwBundle.forAllLeafs() {leaf in
-			assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil
-			assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil
+			assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
+			assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
 		}
 	}
 	 // MARK: - 8. Reenactment Simulator

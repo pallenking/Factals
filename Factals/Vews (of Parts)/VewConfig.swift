@@ -50,19 +50,16 @@ let vewConfig3					= VewConfig.subVewList([vewConfig1, vewConfig2])
 let vewConfigAllToDeapth4		= VewConfig.openAllChildren(toDeapth:4)
 
 extension Vew {
-	/// Adorn self (a Part) in parentVew, using config (a VewConfig)
+	/// Adorn a Part (self) in parentVew, using config (a VewConfig)
 	///   Adorn scnScene tree too
 	/// - Parameter config: how to open children
 	func openChildren(using config:VewConfig) {
 		logRve(3, "Vew(\(fullName)).openChildren(using:\(config.pp(.phrase))))")		// vew.
-																 // A new skin is made by Part:
-																//?	let bbox = parentVew.part.reSkin(fullOnto:parentVew)		// skin of Part
-																//?	parentVew.part.markTree(dirty:.size)
 		switch config {
-		case .openPath(let path):
-			guard let subPathName = path.dequeFirstName(),						//guard let name = p != nil && tok.count > 0 ? tok[0] : nil,
-			  let subPart		= children.first(where: { $0.name == subPathName} ) else { return }
-			subPart.openChildren(using:config)		// #### SEMI-RECURSIVE CALL
+		case .openPath(let path):			// Open all Vews in Path
+			if path.tokens.count > 0,
+			  let subVew		= children.first(where:{$0.name==path.tokens[0]})
+			{	subVew.openChildren(using:config)	}		// #### SEMI-RECURSIVE CALL
 		case .openAllChildren(let deapth):
 			if deapth <= 1 {	break											}
 			 // ensure each childPart has a childVew
@@ -79,9 +76,9 @@ extension Vew {
 				self.openChildren(using:vewConfig)
 			}
 		case .subVew(let fwConfig):
-bug//		self.partConfig	= fwConfig	//??
-			//print("??? adorn(.subVew(let fwConfig): ???")
-			//panic(".subVew(\(fwConfig.pp(.phrase))")
+			bug//self.partConfig = fwConfig	//??
+			print("??? adorn(.subVew(let fwConfig): ???")
+			panic(".subVew(\(fwConfig.pp(.phrase))")
 		}
 	}
 //	/// Insure the Vews for the parts in config are present in self

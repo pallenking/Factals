@@ -81,15 +81,13 @@ class BundleTap : Atom {
 			print("$$$$$$$$ Burp: targetBundle is nil")
 			return
 		}
-								//
 		 // Test new target bundle; must have both R (for reset) and G (for generate)
 		targetBundle.forAllLeafs { leaf in
 			guard leaf.port4leafBinding(name:"R") != nil else
 			{	debugger("Leaf \(self.pp(.fullName)) has no R port\n")			}
 			guard leaf.port4leafBinding(name:"G") != nil else
 			{	debugger("Leaf \(self.pp(.fullName)) has no G port\n")			}
-			// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
-		}
+		}	// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
 
 		  //// reset to an BundleTap generates a resetTo pattern to target bundle
 		 ///
@@ -169,16 +167,15 @@ bug
 	func loadPreClear() {
 		guard let targetBundle	else {	print(" Burp 3wff!"); return			}
 
-	//	if (self.incrementalEvents) {
-	//		[self logEvent:@"|| .incrementalEvents ABORTS loadPreClear of '%@'", self.targetBundle.name];
-	//		return;
-	//	}
+		if incrementalEvents ?? false {
+			logEve(7, "|| .incrementalEvents ABORTS loadPreClear of '\(targetBundle.name)'")
+			return;
+		}
 		logEve(7, "|| loadPreClear: Clears all '%@'.G Ports:", self.targetBundle!.name)
 
-		   /////// 2. CLEAR all Port value's inValue
+		   // ///// 2. CLEAR all Port value's inValue
 		  ///
-		targetBundle.forAllLeafs { leaf in										//[self.targetBundle forAllLeafs:^(Leaf *leaf) {					//##BLOCK
-								//
+		targetBundle.forAllLeafs { leaf in
 			let genPort			= leaf.port4leafBinding(name:"G")
 			if let p			= genPort as? Port {
 				p.take(value:0.0)												// wild removal: genPort.valuePrev = 0.01;		// set different
@@ -189,7 +186,7 @@ bug
 			else {
 				panic("Leaf '\(genPort?.name ?? "<nunnaamed>d)' has no \"G\" binding")")
 			}
-		}															//##BLOCK
+		}
 	}
 
 	  /// Load an event into the target bundle.

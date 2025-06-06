@@ -287,7 +287,7 @@ bug;		nop // for break
 					}
 					 // Case 1.1c: -- set name of new element	   E.g: "a" sets name
 					else {
-						newsProperty = { (p : Part) in		// ##BLOCK: set name
+						newsProperty = { (p : Part) in
 							p.name = tokens[0]
 						}
 					}

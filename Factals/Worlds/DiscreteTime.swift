@@ -119,9 +119,9 @@ class DiscreteTime : Atom {
 			  // Test new target bundle has both R (for reset) and G (for generate)
 			 //   (Commonly, these are Bindings)
 			targetBundle?.forAllLeafs(
-			{(leaf : Leaf) in									//##BLOCK
-				assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): 'R' Port") //Leaf<\(leaf.type)>: nil
-				assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): 'G' Port") //Leaf<\(leaf.type)>: nil
+			{(leaf : Leaf) in
+				assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
+				assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
 			})
 		}
 	}

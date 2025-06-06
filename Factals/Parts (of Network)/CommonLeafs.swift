@@ -18,13 +18,6 @@ extension LeafKind : Equatable {
 bug;	return self == rhs
 	}
 }
-//enum LeafKindx: Codable {
-//    case nil_
-//    case cylinder
-//    case closureCase(() -> Int) // Case with a closure returning an Int
-//	init(from:Decoder) throws		{ fatalError()}
-//	func encode(to:Encoder) throws {}
-//}
 
 enum LeafKind: String, Codable, FwAny {
 //	case leaf(kind:Leaf)	// Enum with raw type cannot have cases with arguments

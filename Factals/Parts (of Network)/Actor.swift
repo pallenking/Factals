@@ -299,68 +299,67 @@ bug;		let enaPort			= Port()
 	var viewAsAtom_			= false		// force our content to be Atomic
     var linkDisplayInvisible = false	// Ignore link invisibility
 
-//	 reSize; fw boundIntoVew
-//	 override func reSize(vew:Vew) {
-//		super.reSize(vew vew:vew)
-//		panic("Un-debugged")
-//		  //// 1. BOUND all, in order of v.superViews (==self.parts):  DO NOT PLACE
-//		 /**/	// CONtext (if it exists)
-//				// ... other entries ...
-//				// EVIdence (if it exists)
-//		var first				= true
-//		for childVew in vew.children {			// Subviews:
-//			let childPart		= childVew.part
-//			 /// First Repack:
-//			childPart    .reSize(vew vew:childVew)		// #### HEAD RECURSIVE
-//			 /// Then Reposition:
-//			childPart.rePosition(vew:childVew)
-//			childVew.orBBoxIntoParent()
-//			first				= false
-//			childVew.placed	= true
-//		}
-//		vew.bBox 				= .empty	// initially nil, to occupy elt 0's origin
-//
-//		  /// 2. PLACE   (CONtext FIRST, at the BOTTOM,
-//		 /// so the assimilated content can be better placed
-//		if con != nil && positionViaCon {
-//			guard let conVew 	= vew.children.last else {
-//				return panic("why is't there an element in v?")
-//			}
-//			con!.rePosition(vew:conVew, first:true)
-//			conVew.orBBoxIntoParent()
-//		}
-//		vew.bBox = .empty					// remove con from self, but it's still placed
-//		  /// 3. Scan subVews: begin<< [evi], . .. ., [con] >>end
-//		 /// and insure 2..n-1 were at least gardenSize
-//		var eviGardenBounds 	= BBox.empty
-//		for subVew in vew.children {	// SubVews:
-//			let subPart 		= subVew.part
-//			let subBun 			= subPart as? FwBundle
-//			  ///// Two special Cases:
-//			 /// CONtext    (this is processed SECOND)
-//			if subBun == con {		/* and self.positionViaCon*/
-//				if !eviGardenBounds.isNan {	// if already set up
-//					vew.bBox	|= eviGardenBounds	// lay gardenSize upon v.bounds
-//				}
-//			}
-//			subPart.rePosition(vew:subVew)
-//			subVew.orBBoxIntoParent()
-//			  /// EVIdence  (this is processed FIRST)
-//			 // Now place the garden on top EVIdence
-//			if (subBun == evi/* and self.positionViaCon*/) {
-//				 // lay gardenSize upon v.bounds
-//				let minSize_	= minSize ?? .zero
-//				let gardenCenter = (vew.bBox.size  + minSize_)/2.0
-//				let gardenBBox	= BBox(gardenCenter, minSize_)
-//				 // eviGardenBounds includes evi and gardenBounds:
-//				assert(eviGardenBounds.isNan, "")
-//				eviGardenBounds = vew.bBox | gardenBBox
-//			}
-//		}
-	//	if vew.bBox.isNan {			// NO NON-Cohort subvews
-	//		vew.bBox 			= .empty	// use our un-gapped size as zero
-	//	}
-	//}
+	// reSize; fw boundIntoVew
+	override func reSize(vew:Vew) {
+		super.reSize(vew:vew)
+
+		  //// 1. BOUND all, in order of v.superViews (==self.parts):  DO NOT PLACE
+		 /**/	// CONtext (if it exists)
+				// ... other entries ...
+				// EVIdence (if it exists)
+		var first				= true
+		for childVew in vew.children {			// Subviews:
+			let childPart		= childVew.part
+			 /// First Repack:
+			childPart    .reSize(vew:childVew)		// #### HEAD RECURSIVE
+			 /// Then Reposition:
+			childPart.rePosition(vew:childVew)
+			childVew.orBBoxIntoParent()
+			first				= false
+			//childVew.placed	= true
+		}
+		vew.bBox 				= .empty	// initially nil, to occupy elt 0's origin
+
+		  /// 2. PLACE   (CONtext FIRST, at the BOTTOM,
+		 /// so the assimilated content can be better placed
+		if con != nil && positionViaCon {
+			guard let conVew 	= vew.children.last
+			else {	return panic("why is't there an element in v?")				}
+			con!.rePosition(vew:conVew, first:true)
+			conVew.orBBoxIntoParent()
+		}
+		vew.bBox = .empty					// remove con from self, but it's still placed
+		  /// 3. Scan subVews: begin<< [evi], . .. ., [con] >>end
+		 /// and insure 2..n-1 were at least gardenSize
+		var eviGardenBounds 	= BBox.empty
+		for subVew in vew.children {	// SubVews:
+			let subPart 		= subVew.part
+			let subBun 			= subPart as? FwBundle
+			  ///// Two special Cases:
+			 /// CONtext    (this is processed SECOND)
+			if subBun == con {		/* and self.positionViaCon*/
+				if !eviGardenBounds.isNan {	// if already set up
+					vew.bBox	|= eviGardenBounds	// lay gardenSize upon v.bounds
+				}
+			}
+			subPart.rePosition(vew:subVew)
+			subVew.orBBoxIntoParent()
+			  /// EVIdence  (this is processed FIRST)
+			 // Now place the garden on top EVIdence
+			if (subBun == evi/* and self.positionViaCon*/) {
+				 // lay gardenSize upon v.bounds
+				let minSize_	= minSize ?? .zero
+				let gardenCenter = (vew.bBox.size  + minSize_)/2.0
+				let gardenBBox	= BBox(gardenCenter, minSize_)
+				 // eviGardenBounds includes evi and gardenBounds:
+				assert(eviGardenBounds.isNan, "")
+				eviGardenBounds = vew.bBox | gardenBBox
+			}
+		}
+		if vew.bBox.isNan {			// NO NON-Cohort subvews
+			vew.bBox 			= .empty	// use our un-gapped size as zero
+		}
+	}
 
 	 // MARK: - 13. IBActions
 	//guiVector3fAccessors4(gardenSize, GardenSize, _gardenSize)

@@ -119,7 +119,7 @@ final class FactalsTests: XCTestCase {
 //	func getPort(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
 //		logBld(7, " '\(fullName)'   called getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 	func testGetPortNamed() {
-//		 // -- Check BINDINGS?
+		 // -- Check BINDINGS?
 //		if let bindingString 	= bindings?[named] {
 //			let bindingPath		= Path(withName:bindingString)
 //			let boundPart		= find(path:bindingPath)	// find bound Part

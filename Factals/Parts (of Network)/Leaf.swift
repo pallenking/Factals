@@ -26,11 +26,9 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 //	var bindings 					= [String:String]()
 
 	 // MARK: - 3. Part Factory
-//	convenience init(_  leafKind:LeafKind, fwConfig:FwConfig = [:], bindings:FwConfig = [:], parts:[Part]) {   // A WAY
-//	convenience init(of leafKind:LeafKind, bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { // OLD WAY
-	convenience init(bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { 	//leafKind:leafKind,  // NEW WAY
+	convenience init(bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { 	//leafKind:leafKind,
 		let xtraConfig:FwConfig = ["parts":parts, "bindings":bindings]		// /*"type":type,*/
-		self.init(leafConfig:leafConfig+xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\xtraConfig+leafConfig
+		self.init(leafConfig:leafConfig + xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\xtraConfig+leafConfig
 	}
 	    /// Terminal element of a FwBundle
 	   /// - parameter leafKind: -- of terminal Leaf
@@ -77,34 +75,31 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
 	func port4leafBinding(name:String) -> Part? {
-		if let binding			= bindings?[name],
-		  let p					= resolveInwardReference(Path(withName:binding), openingDown:false, except:nil)  {
-			return p
-		}
-		return nil;			// not found
+		guard let binding		= bindings?[name] else { return nil 			}
+		return findPart(binding:Path(withName:binding), openingDown:false, except:nil)
 	}
-	override func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
-		 // matches my name
-		if path.atomName == self.name {			// Terminal's name (w.o. Port) matches
-			var rv : Part? 		= nil
+	override func findPart(binding:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
+		 // At end of path?	( Terminal's name (w.o. Port) matches self )
+		if binding.atomName == self.name {
 
 			 // ////////// Is named port a BINDING? ///////////////////
-			if let bindingStr 	= self.bindings?[path.portName!] {
+			var rv : Part? 		= nil
+			if let bindingStr 	= bindings?[binding.portName!] {
 				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
 				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
-								  self.fullName, path.portName!, bindingPath.pp())
+								  self.fullName, binding.portName!, bindingPath.pp())
 				 // Look that name up
 				for elt in parts {
 					// Look up internal name
 					let downInElt = !downInSelf == !elt.flipped	// was ^
 					if let elt 	= elt as? Atom,
-					   let rv1	= elt.resolveInwardReference(bindingPath, openingDown:downInElt) {	//downInSelf
+					   let rv1	= elt.findPart(binding:bindingPath, openingDown:downInElt) {	//downInSelf
 						rv		= rv1
 						break;					// found
 					}
 				}
 			}
-			else if path.portName!.count == 0 { 	// empty string "" in bindings has priority
+			else if binding.portName!.count == 0 { 	// empty string "" in bindings has priority
 				panic("wtf")
 			} //			rv = self;								// found	(why?)
 			
@@ -112,12 +107,11 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 				logBld(5, "   MATCHES Inward check as Leaf '\(fullName)'")
 				return rv
 			}
+			logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
 			return nil
 		}
-		logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
-		
-		 // Didn't match as Leaf, try normal match:
-		return super.resolveInwardReference(path, openingDown:downInSelf, except:except)
+		  // Didn't match as Leaf, try normal match:
+		return super.findPart(binding:binding, openingDown:downInSelf, except:except)
 	}
 	 // MARK: - 4.7 Editing Network
 
@@ -157,8 +151,6 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 			if aux.bool_("ppParam") {			// Ad Hoc: if printing Param's,
 				return rv							// don't print extra
 			}
-//			rv				+= "type:.\(type) "	// print type and bindings:
-//duped		rv				+= "bindings:\(bindings?.pp(.line, aux) ?? "none") "
 		}
 		return rv
 	}

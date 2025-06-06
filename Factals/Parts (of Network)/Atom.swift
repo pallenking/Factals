@@ -142,39 +142,36 @@ class Atom : Part {	//Part//FwPart
 	}
 
 	// MARK: - 4. Factory
-
 // xyzzyx4
-	func resolveInwardReference(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
-		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
+	func findPart(binding:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
+		if binding.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
 			var rv : Part?			= nil;
-			if path.portName!.count != 0 {					// if named Port is specified
+			if binding.portName!.count != 0 {		// if named Port is specified
 
 				  // Search all existing component Ports:
 				 //
 				for port in parts where port is Port {
-					if port.name == path.portName {
-						assert(rv == nil, "multiple Ports named '\(path.portName ?? "eh?w202520")' found")
-						if let portAbility = atomsDefinedPorts[path.portName!] {
-bug;						let rv = Port([:])
+					if port.name == binding.portName {
+						assert(rv == nil, "multiple Ports named '\(binding.portName ?? "eh?w202520")' found")
+						if let portAbility = atomsDefinedPorts[binding.portName!] {
+bug;						let rv	= Port([:])
 							rv.flipped = portAbility.contains("d")
-							rv.name = path.portName!
+							rv.name = binding.portName!
 							addChild(rv)
 						}
 					}
 				}
-				if rv == nil,
-				  let portAbility = atomsDefinedPorts[path.portName!]
-				{
-					let rv = Port([:])
-					rv.flipped = portAbility.contains("d")
-					rv.name = path.portName!
+				if rv == nil, let portAbility = atomsDefinedPorts[binding.portName!] {
+					let rv 			= Port([:])
+					rv.flipped		= portAbility.contains("d")
+					rv.name			= binding.portName!
 					addChild(rv)
 				}
 				 // If not found, perhaps it could be built
 				if rv == nil {
-bug //				if (NSString *portAbility = [self xxx) {
-//						Port *aPort = [self addPart:[Port another]];
-//					}
+bug 			//	if (NSString *portAbility = [self xxx) {
+				//		Port *aPort = [self addPart:[Port another]];
+				//	}
 				}
 			}
 			else {
@@ -186,11 +183,8 @@ bug //				if (NSString *portAbility = [self xxx) {
 				return rv
 			}
 		}
-		logBld(5, "   FAILS   Inward check")
-		bug
+		logBld(5, "   '\(fullName)'.findPart(binding:\(binding), downInSelf:\(downInSelf)) FAILS")
 		return nil
-//bug//
-//		return super.resolveInwardReference(path, openingDown:downInSelf, except:exception)
 	}
 
 	// MARK: - 4.4 Navigating Network
@@ -236,7 +230,6 @@ bug //				if (NSString *portAbility = [self xxx) {
 					return rv										// okay
 				} 												// try my Atom
 	/**/		return rv .atom? .getPort(named:bindingPath.portName!, localUp:nsWantUp,
-//	/**/		return rv .atom? .getPort(named:bindingPath.portName!, localUp:sWantUp,
 										  wantOpen:wantOpen, allowDuplicates:allowDuplicates)
 			}
 			if let bAtom 		= boundPart as? Atom {		// Case 2: Atom?
@@ -785,7 +778,7 @@ bug //				if (NSString *portAbility = [self xxx) {
 		})
 
 		let _					= findCommon(up2:false, inMe2:true, firstWith:					//all:false,
-		{ (inMe:Part) -> Part? in		// all Parts inside self ##BLOCK## //
+		{ (inMe:Part) -> Part? in		// all Parts inside self
 			logRsi(5, "  TRY \(inMe.fullName.field(10)) ", terminator:"")
 
 			   // /////////////////////////////////////////////////////////////// //

@@ -97,20 +97,12 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 		else {
 			panic("token with multiple dots (\".\")")
 		}
-		//assert(tokens.allSatisfy({ $0.count != 0 }), "null string in token from '\(name)'")
+		assert(tokens.allSatisfy({ $0.count != 0 }), "null string in token from '\(name)'")
 	}
 	func fullName() -> String {	// tokens and Port
 		return tokens.reversed().joined(separator:"/") +
 				(portName==nil ? "" : "." + portName!)
 	}
-	func dequeFirstName() -> String? {
-		guard tokens.count > 0 		else {		return nil }
-		let rv					= tokens[0]
-		tokens				= Array(tokens[1...])
-		return rv
-	}
-
-
 	 // MARK: - 3.5 Codable
 	enum PathKeys : CodingKey { 	case atomTokens, portName, linkProps }
 	func encode(to encoder: Encoder) throws {
@@ -150,29 +142,16 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 
 // xyzzyx4
 	func atomNameMatches(part:Part) -> Bool {
-
-		  // Compare Atom names:
-		 /// DDD in Path.h
-		 //											Hungarian COMPonentS
-		let partComps 				= part.fullName.components(separatedBy:"/")
-		let pathComps				= tokens
-
 		 // loop through PATH, in REVERSE order, while scanning PART (in rev too)
+		let partComps 				= part.fullName.components(separatedBy:"/")	//:H: PART COMPonentS
 		var nPart 					= partComps.count-1		// e.g: 3 [ "", brain1, main]
-		var nPath					= pathComps.count-1;		// e.g: 2         [ "", main]
-
-		 // Check all components specified in Path match
-		while nPath >= 0 && pathComps.count >= 0 {
-			guard nPath>=0 else {break}
-			assert(nPart>=0, "Path has more components than Part.nameFull")
-			var partComp 			= partComps[nPart]
-			var pathComp 			= pathComps[nPath];
-			guard partComp == pathComp else { return false }
-
+		var nPath					= tokens   .count-1;	// e.g: 2         [ "", main]
+		while nPath >= 0 && tokens.count >= 0 {
+			guard nPath>=0 else {	fatalError("Path has more components than Part.nameFull")}
+			guard partComps[nPart] == tokens[nPath] else { return false 		}
 			nPath -= 1; nPart -= 1
 		}
-		assert(nPath == 0 && pathComps.count == 0, "if first component is ")
-		return true;							// all tests pass
+		return nPath == 0 && tokens.count==0;				// all tests pass
 	}
 
 	 // MARK: - 15. PrettyPrint
@@ -204,7 +183,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 	}
 
          // MARK: - 17. Debugging Aids
-	override var description	  :String 	{	return  "d'\(pp(.short))'"		}
+	override var description	  :String 	{	return "'\(pp(.short))'"		}
 	override var debugDescription :String	{	return "'\(pp(.short))'"		}
-	var summary					  :String	{	return  "s'\(pp(.short))'"		}
+	var summary					  :String	{	return "s'\(pp(.short))'"		}
 }
