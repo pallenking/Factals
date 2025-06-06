@@ -441,9 +441,9 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	}
 	 // MARK: - 16. Global Constants
 //      // MARK: - 17. Debugging Aids
-	override open var description	   : String {	return  "d'\(pp(.short))'"	}
+	override open var description	   : String {	return "'\(pp(.short))'"	}
 	override open var debugDescription : String {	return "'\(pp(.short))'"	}		// works 181120
-	var summary					  	   : String {	return  "s'\(pp(.short))'"	}
+	var summary					  	   : String {	return "'\(pp(.short))'"	}
 }
 
 class SCNComment : SCNNode {

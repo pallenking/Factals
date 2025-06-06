@@ -80,7 +80,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	}
 	override func findPart(binding:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Part? {
 		 // At end of path?	( Terminal's name (w.o. Port) matches self )
-		if binding.atomName == self.name {
+//		if binding.atomName == self.name {
 
 			 // ////////// Is named port a BINDING? ///////////////////
 			var rv : Part? 		= nil
@@ -109,7 +109,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 			}
 			logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
 			return nil
-		}
+//		}
 		  // Didn't match as Leaf, try normal match:
 		return super.findPart(binding:binding, openingDown:downInSelf, except:except)
 	}

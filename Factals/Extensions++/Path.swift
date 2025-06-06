@@ -185,5 +185,5 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
          // MARK: - 17. Debugging Aids
 	override var description	  :String 	{	return "'\(pp(.short))'"		}
 	override var debugDescription :String	{	return "'\(pp(.short))'"		}
-	var summary					  :String	{	return "s'\(pp(.short))'"		}
+	var summary					  :String	{	return "'\(pp(.short))'"		}
 }

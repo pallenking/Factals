@@ -743,9 +743,9 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		}
 	}
 	 // MARK: - 17. Debugging Aids
-	/*override*/ var description	  : String {	return  "d'\(pp(.short))'"	}
+	/*override*/ var description	  : String {	return "'\(pp(.short))'"	}
 	/*override*/ var debugDescription : String {	return "'\(pp(.short))'" 	}
-	var summary					  : String {	return  "s'\(pp(.short))'" 		}
+	var summary					 	  : String {	return "'\(pp(.short))'"	}
 	 // MARK: - 20. Extension variables
 	var adornTargetVew 			  : Vew?	= nil
 }

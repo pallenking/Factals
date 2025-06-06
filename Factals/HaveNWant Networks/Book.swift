@@ -137,9 +137,9 @@ class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0
 	var fwClassName		 : String	{	"Book"									}
 
          // MARK: - 17. Debugging Aids
-	var description		 : String 	{	return  "d'\(fwClassName) \(fileName)'"	}
+	var description		 : String 	{	return "'\(fwClassName) \(fileName)'"	}
 	var debugDescription : String	{	return "'\(fwClassName) \(fileName)'"	}
-	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
+	var summary			 : String	{	return "'\(fwClassName) \(fileName)'"	}
 }
  // ================ User Sugar, for prettier networks: ========================
 extension Book {

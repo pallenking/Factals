@@ -81,7 +81,7 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 	var fwClassName		 : String	{	"Library"								}
 
          // MARK: - 17. Debugging Aids
-	var description		 : String 	{	return  "d'\(fwClassName) \(fileName)'"	}
+	var description		 : String 	{	return "'\(fwClassName) \(fileName)'"	}
 	var debugDescription : String	{	return "'\(fwClassName) \(fileName)'"	}
-	var summary			 : String	{	return  "s'\(fwClassName) \(fileName)'"	}
+	var summary			 : String	{	return "'\(fwClassName) \(fileName)'"	}
 }

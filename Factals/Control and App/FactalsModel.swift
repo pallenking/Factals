@@ -469,8 +469,8 @@ import SwiftUI
 		}
 	}
 	 // MARK: - 17. Debugging Aids
-	var description	  			  : String {	return  "d'\(pp(.short))'"		}
+	var description	  			  : String {	return "'\(pp(.short))'"		}
 	var debugDescription 		  : String {	return "'\(pp(.short))'"		}
-	var summary					  : String {	return  "s'\(pp(.short))'"		}
+	var summary					  : String {	return "'\(pp(.short))'"		}
 }
 
