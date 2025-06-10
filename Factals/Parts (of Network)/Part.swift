@@ -519,6 +519,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 	}
 //	func forAllPorts<T>() -> T? 	{		return nil							}
+	 /// Somewhere in self is
+//	func satisfies(path:Path) -> Bool {	}
 
 	  // /////////////////////////// Navigation //////////////////////////////////////
 	 // MARK: - 4.4 Navigation
@@ -588,7 +590,46 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 		return nil          // no Net in any of m1's parents
 	}
-	 /// Ancestor array starting with parent 
+	func follow(path:Path) -> Part? {
+		var p				= [1, 2, 3]
+		for i in p + [42] {
+		
+		}
+
+		var part : Part?	= self
+		for name in path.namesNport {
+			guard let p		= part?.find(name:name, maxLevel:1) else
+			{	return nil														}
+			part			= p
+//			if let p 		= part?.find(name:name!, maxLevel:1)
+//			{	part		= p
+//			}
+		}
+		return part
+	}
+
+//	func find(name desiredName:String,
+//								
+//			  up2 			 	: Bool	= false,
+//			  inMe2				: Bool	= false,
+//			  maxLevel			: Int?	= nil) -> Part? { // Search by name:
+//				children[:name) {
+//				
+//			}
+//		}
+//
+//		let partComps 				= part.fullName.components(separatedBy:"/")	//:H: PART COMPonentS
+//		var nPart 					= partComps.count-1		// e.g: 3 [ "", brain1, main]
+//		var nPath					= tokens   .count-1;	// e.g: 2         [ "", main]
+//		 // loop through PATH and PART, in REVERSE order, while scanning PART (in rev too)
+//		while nPath >= 0 && tokens.count >= 0 {
+//			guard partComps[nPart] == tokens[nPath] else { return false 		}
+//			nPath -= 1; nPart -= 1
+//		}
+//		return nPath == 0 && tokens.count==0;				// all tests pass
+//
+//	}
+	 /// Ancestor array starting with parent
 	var parents : [Part] {				
 		var rv 		 : [Part]	= []
 		var ancestor :  Part?	= parent

@@ -50,7 +50,7 @@ class ShaftBundleTap : BundleTap { //Generator {
 		super.simulate(up:upLocal)	// step super FIRST
 
 		if (!upLocal) {
-			let nPoles = self.nPoles
+//			let nPoles = self.nPoles
 			var force: Float = 0.0
 
 			for i in 0..<nPoles {
@@ -91,18 +91,11 @@ bug;			var poleITread = self.tread - Float(i)
 			}
 		}
 	}
-
 	func getPort(_ i: Int) -> Port? {
 		assert(i < 7, "Assertion failed")
 		let bitName 			= String(Character(UnicodeScalar(Int(UnicodeScalar("a").value) + i - 1)!))
-
-		if let port 			= targetBundle?.genPortOfLeafNamed(bitName) {
-			return port
-		}
-		return nil
+		return targetBundle?.genPortOfLeafNamed(bitName)
 	}
-
-
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat	{ return 1.0		}	// 5
 	var width  : CGFloat	{ return 6.0		}
@@ -135,8 +128,8 @@ bug;			var poleITread = self.tread - Float(i)
 
 			 // Poles
 			let r				= partConfig["bitRadius"]?.asCGFloat ?? 1.0
-			for i in 0..<self.nPoles {
-				let poleInDegrees = 360 * Float(i) / Float(self.nPoles)
+			for i in 0..<nPoles {
+				let poleInDegrees = 360 * Float(i) / Float(nPoles)
 				let portI 		= getPort(i)
 
 				//let color1	= NSColor.orange

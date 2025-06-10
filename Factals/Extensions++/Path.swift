@@ -46,6 +46,9 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 	var tokens  	: [String]			// array of tokens in reversed order
 	var atomName	: String?			// Only Leaf uses this
 	var portName   	: String?	= nil	// after last '.'
+	var namesNport	: [String] {
+		portName==nil ? tokens : tokens + [portName!]
+	}
 	var linkProps 	: FwConfig 	= [:]	// Link's required propeties. e.g. [l:3, f:1]
 
 	 // MARK: - 3. Factory
@@ -142,12 +145,11 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 
 // xyzzyx4
 	func atomNameMatches(part:Part) -> Bool {
-		 // loop through PATH, in REVERSE order, while scanning PART (in rev too)
 		let partComps 				= part.fullName.components(separatedBy:"/")	//:H: PART COMPonentS
 		var nPart 					= partComps.count-1		// e.g: 3 [ "", brain1, main]
 		var nPath					= tokens   .count-1;	// e.g: 2         [ "", main]
+		 // loop through PATH and PART, in REVERSE order, while scanning PART (in rev too)
 		while nPath >= 0 && tokens.count >= 0 {
-			guard nPath>=0 else {	fatalError("Path has more components than Part.nameFull")}
 			guard partComps[nPart] == tokens[nPath] else { return false 		}
 			nPath -= 1; nPart -= 1
 		}

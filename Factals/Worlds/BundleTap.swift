@@ -84,9 +84,9 @@ class BundleTap : Atom {
 		 // Test new target bundle; must have both R (for reset) and G (for generate)
 		targetBundle.forAllLeafs { leaf in
 			guard leaf.boundPort(named:"R") != nil else
-			{	debugger("Leaf \(self.pp(.fullName)) has no R port\n")			}
+			{	fatalError("Leaf \(self.pp(.fullName)) has no R port\n")		}
 			guard leaf.boundPort(named:"G") != nil else
-			{	debugger("Leaf \(self.pp(.fullName)) has no G port\n")			}
+			{	fatalError("Leaf \(self.pp(.fullName)) has no G port\n")		}
 		}	// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
 
 		  //// reset to an BundleTap generates a resetTo pattern to target bundle
@@ -121,7 +121,7 @@ bug
 			logEve(7, "|| Event '%@': RANDOMIZE targetBundle %@", event.pp(), targetBundle.fullName)
 			 // Put in random data
 			targetBundle.forAllLeafs {leaf in
-				if let leafsGport = leaf.boundPort(named:"G") as? Port {
+				if let leafsGport = leaf.boundPort(named:"G") {
 					let value:Float	= prob < randomDist(0, 1) ? 0.0 : 1.0
 					leafsGport.take(value:value) 		// let value	= randomProb(p:prob)
 				}
@@ -176,15 +176,11 @@ bug
 		   // ///// 2. CLEAR all Port value's inValue
 		  ///
 		targetBundle.forAllLeafs { leaf in
-			let genPort			= leaf.boundPort(named:"G")
-			if let p			= genPort as? Port {
-				p.take(value:0.0)												// wild removal: genPort.valuePrev = 0.01;		// set different
+			if let genPort		= leaf.boundPort(named:"G") {
+				genPort.take(value:0.0)												// wild removal: genPort.valuePrev = 0.01;		// set different
 			}
-			//else if let n		= genPort as? Float {
-			//	assert(n == 0, "@0 is ignore, others not permitted")
-			//}
 			else {
-				panic("Leaf '\(genPort?.name ?? "<nunnaamed>d)' has no \"G\" binding")")
+				panic("Leaf '\(leaf.fullName)' has no \"G\" binding")
 			}
 		}
 	}

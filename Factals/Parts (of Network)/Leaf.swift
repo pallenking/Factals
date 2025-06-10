@@ -4,8 +4,7 @@ import SceneKit
 
 // A Leaf is both:
 //		The mechanism for a bit in some FwBundle in the machine
-//		A prototype for making said mechanisms
-// N.B: There is an inherent circularity in this definition:
+//		A prototype for making said mechanisms		??
 // 181011:	1. Factory explicitly makes any kind of Part, we use it for Leafs in Bundles
 
 /* ?? Find Home
@@ -20,21 +19,14 @@ import SceneKit
  /// A Leaf is a functional terminal of a FwBundle
 class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 
-	 // MARK: - 2. Object Variables:
-//	var type : LeafKind
-//	var type : String 				= "undefined"	// for printout/debug
-//	var bindings 					= [String:String]()
-
 	 // MARK: - 3. Part Factory
 	convenience init(bindings:FwConfig = [:], parts:[Part], leafConfig:FwConfig = [:]) { 	//leafKind:leafKind,
 		let xtraConfig:FwConfig = ["parts":parts, "bindings":bindings]		// /*"type":type,*/
 		self.init(leafConfig:leafConfig + xtraConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\xtraConfig+leafConfig
 	}
-	    /// Terminal element of a FwBundle
-	   /// - parameter leafKind: -- of terminal Leaf
-	  /// - parameter XXX config_: -- to configure Leaf
-	 /// ## --- bindings: FwConfig -- binds external Ports to internal Ports by name
-	init(leafConfig lc:FwConfig = [:]) {//override		//leafKind:LeafKind = .genAtom,
+	  /// Terminal element of a FwBundle
+	 /// - parameter leafConfig: -- to configure the created Leaf
+	init(leafConfig lc:FwConfig = [:]) {	//leafKind:LeafKind=.genAtom now in config
 		let leafConfig			= ["placeMy":"linky"] + lc
 		super.init(leafConfig)//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	}
@@ -45,14 +37,13 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	 // Serialize
 	override func encode(to encoder: Encoder) throws  {
 		try super.encode(to: encoder)
-		var container 			= encoder.container(keyedBy:LeafsKeys.self)
-
+//		var container 			= encoder.container(keyedBy:LeafsKeys.self)
 //		try container.encode(type, forKey:.type)
 		logSer(3, "Encoded  as? Leaf        '\(fullName)'")
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {
-		let container 		= try decoder.container(keyedBy:LeafsKeys.self)
+//		let container 		= try decoder.container(keyedBy:LeafsKeys.self)
 //		type	 			= try container.decode(LeafKind.self, forKey:.type)
 		try super.init(from:decoder)
 		logSer(3, "Decoded  as? Leaf       named  '\(name)'")
@@ -67,58 +58,18 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 //	}
 	 // MARK: - 3.7 Equatable
 	override func equalsFW(_ rhs:Part) -> Bool {
-		guard self !== rhs 					   else {	return true				}
-		guard let rhs			= rhs as? Leaf else {	return false 			}
+		guard self !== rhs 					   else {		return true			}
+		guard let rhs			= rhs as? Leaf else {		return false 		}
 		let rv					= super.equalsFW(rhs)
 	//		&& type				== rhs.type
 		return rv
 	}
 	  // MARK: - 4.5 Iterate (forAllLeafs)
-	//override var ports: [String : Port]
-//s		if let sPort			= ports["S"],
-
-
 	func boundPort(named:String) -> Port? {
-		guard let binding		= bindings?[named] else { return nil 			}
-		return findPort(Path(withName:binding), openingDown:false, except:nil)
+		guard let binding		= bindings?[named] else {	return nil 			}
+		let path				= Path(withName:binding)
+		return follow(path:path) as? Port
 	}
-	override func findPort(_ binding:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Port? {
-		 // At end of path?	( Terminal's name (w.o. Port) matches self )
-//		if binding.atomName == self.name {
-
-			 // ////////// Is named port a BINDING? ///////////////////
-			var rv : Port? 		= nil
-			if let bindingStr 	= bindings?[binding.portName!] {
-				let bindingPath = Path(withName:bindingStr)		// Look inside Leaf
-				logBld(5, "   MATCHES Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'",
-								  self.fullName, binding.portName!, bindingPath.pp())
-				 // Look that name up
-				for elt in parts {
-					// Look up internal name
-					let downInElt = !downInSelf == !elt.flipped	// was ^
-					if let elt 	= elt as? Atom,
-					   let rv1	= elt.findPort(bindingPath, openingDown:downInElt) {	//downInSelf
-						rv		= rv1
-						break;					// found
-					}
-				}
-			}
-			else if binding.portName!.count == 0 { 	// empty string "" in bindings has priority
-				panic("wtf")
-			} //			rv = self;								// found	(why?)
-			
-			if let rv {
-				logBld(5, "   MATCHES Inward check as Leaf '\(fullName)'")
-				return rv
-			}
-			logBld(5, "   FAILS   Inward check as Leaf '\(fullName)'")
-			return nil
-//		}
-		  // Didn't match as Leaf, try normal match:
-		return super.findPort(binding, openingDown:downInSelf, except:except)
-	}
-	 // MARK: - 4.7 Editing Network
-
 	 // MARK: - 9.2 reSize
 	override func reSize(vew:Vew) {
 		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/

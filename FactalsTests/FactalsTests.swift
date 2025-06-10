@@ -115,7 +115,20 @@ final class FactalsTests: XCTestCase {
 //		let p2 = self.pp(.tagClass)
 //		XCTAssertTrue(p2.hasSuffix(":FactalsTests"))		// may be wrong
 	}
-
+	func testStringFormat() {
+		let leaf				= Leaf(["name":"g", "of":"genBcast"])		//
+		let l					= leaf.boundPort(named:"R")
+		XCTAssertTrue(l != nil, "boundPort(named(xx))")
+//		assert(leaf.boundPort(named:"R") != nil, "Leaf '\(leaf.pp(.fullName))' has no R port\n")
+//		guard leaf.boundPort(named:"R") != nil else
+//		{	fatalError("Leaf '\(leaf.pp(.fullName))' has no R port\n")			}
+//
+//
+//		let l					= leaf.boundPort(named:"R")
+//		let args : [CVarArg]	= ["/p3/wheelA/evi/a", "P", "gen.P,[]"]
+//		let format				= "bld5    Inward check as Leaf '%@'\n   Search inward for binding[%@]->'%@'"
+//		let x					= String(format:format, arguments:args)
+	}
 //	func getPort(named:String, localUp wantUp:Bool?=nil, wantOpen:Bool=false, allowDuplicates:Bool=false) -> Port? {
 //		logBld(7, " '\(fullName)'   called getPort(named:\"\(named)\" want:\(ppUp(wantUp)) wantOpen:\(wantOpen) allowDuplicates:\(allowDuplicates))")
 	func testGetPortNamed() {

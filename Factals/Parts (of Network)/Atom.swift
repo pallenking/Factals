@@ -142,51 +142,6 @@ class Atom : Part {	//Part//FwPart
 	}
 
 	// MARK: - 4. Factory
-// xyzzyx4
-	func findPort(_ path:Path, openingDown downInSelf:Bool, except:Part?=nil) -> Port? {
-		if path.atomNameMatches(part:self) {		// matches as Atom, ignoring Port
-			var rv : Port?			= nil;
-			if path.portName!.count != 0 {		// if named Port is specified
-
-				  // Search all existing component Ports:
-				 //
-				for port in parts where port is Port {
-					if port.name == path.portName {
-						assert(rv == nil, "multiple Ports named '\(path.portName ?? "eh?w202520")' found")
-						if let portAbility = atomsDefinedPorts[path.portName!] {
-bug;						let rv	= Port([:])
-							rv.flipped = portAbility.contains("d")
-							rv.name = path.portName!
-							addChild(rv)
-						}
-					}
-				}
-				if rv == nil, let portAbility = atomsDefinedPorts[path.portName!] {
-					let rv 			= Port([:])
-					rv.flipped		= portAbility.contains("d")
-					rv.name			= path.portName!
-					addChild(rv)
-				}
-				 // If not found, perhaps it could be built
-				if rv == nil {
-				bug//if (NSString *portAbility = [self xxx) {
-				//		Port *aPort = [self addPart:[Port another]];
-				//	}
-				}
-			}
-			else {
-				rv = self as? Port					// matches the Atom
-			}
-			 // report and return results:
-			if rv != nil {
-				logBld(5, "   MATCHES Inward check: \(rv!.fullName)")
-				return rv
-			}
-		}
-		logBld(5, "   '\(fullName)'.findPart(binding:\(path), downInSelf:\(downInSelf)) FAILS")
-		return nil
-	}
-
 	// MARK: - 4.4 Navigating Network
 	func biggestBit(openingUp  upInSelf:Bool) -> Port? {
 		var rv : Port? 			= nil

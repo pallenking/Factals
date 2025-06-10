@@ -123,7 +123,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	func eventIs(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
 		assert(eventDetail >= 0 && eventDetail < 10, "Message prioritiy \(eventDetail) isn't in range 0...9")
 		let detailWanted			= Log.shared.detailWanted
-		if let x = detailWanted [eventArea] {	// area definition supercedes
+		if let x = detailWanted [eventArea] {	// area definition supercedes all others
 			return x > eventDetail
 		}
 		if let x = detailWanted ["all"] {		// else default definition?
@@ -156,7 +156,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 									msgFilter:String?=nil, msgPriority:Int?=nil) {
 		let sh	 					= Log.shared	// There should be only one Log in the system
 
-		 // Time Change in Similator?
+		 // note Similator time change?
 		if let fm					= FACTALSMODEL {
 			let sim					= fm.simulator
 			let deltaTime 			= sim.timeNow  - (sh.simTimeLastLog ?? 0)
@@ -174,9 +174,9 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		let (newLines, format)		= format_.stripLeadingNewLines()
 
 		 // Formatted arguments:
+		let mp : Int?				=  msgPriority	// avoids concurrency problem!!!
 		var rv						= " "
 		rv 							+= msgFilter ?? "<?>"	 			//e.g: "app"
-		let mp : Int?				=  msgPriority	// avoids concurrency problem!!!
 		rv							+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
 		rv							= rv.field(-9, dots:false, grow:true)
 		rv							+= " "

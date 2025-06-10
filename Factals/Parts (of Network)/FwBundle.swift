@@ -389,9 +389,8 @@ bug;		nop // for break
 	 }
 
 	// MARK: - 6. Navigation
-  // Find Port in targetBundle whose name is leafPathStr.
- // Returns nil if Leaf not found, or if it has no "G" bindings
-
+	  // Find Port in targetBundle whose name is leafPathStr.
+	 // Returns nil if Leaf not found, or if it has no "G" bindings
 	func genPortOfLeafNamed(_ leafStr:String) -> Port? {
 		var soughtLeaf:Leaf?	= nil
 		forAllLeafs { leaf in
@@ -399,10 +398,8 @@ bug;		nop // for break
 				soughtLeaf = leaf
 			}
 		}
-		return soughtLeaf?.boundPort(named:"G") as? Port
-
+		return soughtLeaf?.boundPort(named:"G")
 	}
-	 // MARK: - 9. 3D Support
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnRoot.findScn(named:"s-Bun") ?? {
@@ -431,7 +428,7 @@ bug;		nop // for break
 	 // MARK: - 9.4 rePosition
 	override func rePosition(portVew:Vew) {
 		 // Place 'ALL' Port specially: the tip of the funnel
-		if portVew.part === ports["P"] {		//"ALL" is in bottom center
+		if portVew.part === ports["P"] {	//"ALL" is in bottom center
 //		if portVew.part == ports["P"] {		//"ALL" is in bottom center
 			let flip			= portVew.part.flipped
 			let bBox			= portVew.bBox
