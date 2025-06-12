@@ -32,15 +32,16 @@ class ShaftBundleTap : BundleTap { //Generator {
  	}
 
 	 // MARK: - 5 Groom
-	override func groomModelPostWires(partBase:PartBase) {
-		super    .groomModelPostWires(partBase:partBase)
-		 // Test new targetBundle has R and G bindings
-		guard let fwBundle		= ports["P"]?.portPastLinks?.parent as? FwBundle else {fatalError() }
-		fwBundle.forAllLeafs() {leaf in
-			assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
-			assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
-		}
-	}
+//	override func groomModelPostWires(partBase:PartBase) {
+//		super    .groomModelPostWires(partBase:partBase)
+//		 // Test new targetBundle has R and G bindings
+//		guard let fwBundle		= ports["P"]?.portPastLinks?.parent as? FwBundle else {fatalError() }
+//		assert(targetBundle != nil, "\(fullName): targetBundle == nil")
+//		fwBundle.forAllLeafs() {leaf in
+//			assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
+//			assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
+//		}
+//	}
 	 // MARK: - 8. Reenactment Simulator
 	func eventReady() -> String? {	return nil									}
 	override func loadTargetBundle(event:FwwEvent) {debugger("Not implemented") }
@@ -92,8 +93,8 @@ bug;			var poleITread = self.tread - Float(i)
 		}
 	}
 	func getPort(_ i: Int) -> Port? {
-		assert(i < 7, "Assertion failed")
-		let bitName 			= String(Character(UnicodeScalar(Int(UnicodeScalar("a").value) + i - 1)!))
+		assert(i >= 0 && i < nPoles, "Assertion failed")	// a,b,....
+		let bitName 			= String(Character(UnicodeScalar(Int(UnicodeScalar("a").value) + i)!))
 		return targetBundle?.genPortOfLeafNamed(bitName)
 	}
 	 // MARK: - 9.3 reSkin

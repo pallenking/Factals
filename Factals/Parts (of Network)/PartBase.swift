@@ -72,16 +72,15 @@ class PartBase : Codable, ObservableObject, Uid {
 		 //  2. ADD LINKS:
 		logBld(4, "------- WIRING \(linkUps.count) Links to Network:")
 		linkUps.forEach
-		{ 	addLink in 		addLink() 							}
-
-		checkTree()
+		{ 	addLink in 		addLink() 											}
 
 		 //  3. Grooom post wires:
+		checkTree()
 		logBld(4, "------- Grooming Parts...")
 		tree.groomModelPostWires(partBase:self)				// + +  + +
-		tree.dirtySubTree()															//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
-																				//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
-																				//dirty.turnOn(.vew)
+		tree.dirtySubTree()		//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
+								//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
+								//dirty.turnOn(.vew)
 		 //  4. Reset
 		logBld(4, "------- Reset...")
 		tree.reset()

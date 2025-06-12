@@ -1,41 +1,29 @@
 //  BundleTap.mm -- an Atom which loads data into a Bundle C2014PAK
+//	 Communicates WorldModel's symbolic data  to   the leafs of its attached targetBundle.
+//	 Symbolic Discrete Time Data may come from worldModel or GUI.
+//		a) Incremental change model, including "again"
+//		b) anonValue ("a" -> "a=<ananVlue>")
+//		c) random data for initial testing
+//		d) per-run random data
+//		e) Epoch Marks
 
-// 171004 -- removed TimingChain and SimpleWorlds.
 // 231101 -- transliterated from objc
+// 171004 -- removed TimingChain and SimpleWorlds.
 
 import SceneKit
 
-	//	Loads Symbolic Discret Time named scalar values
-	//			into an analog Port's value output in a HaveNWant Bundle
-	//		Samples too??
-	//	Resets Bundle at start of run
-	//	Symbolic Discrete Time Data may come from worldModel.
-	//		a) Incremental change model, including "again"
-	//		b) anonValue ("a" -> "a=<ananVlue>")
-	//		c) random data for initial testing
-	//		d) per-run random data
-	//		e) Epoch Marks
-	//	Data may come from GUI			// not yet debugged
-
-	/// BundleTap communicates between
-	/// 	WorldModel's symbolic data
-	/// 	and the leafs of its attached targetBundle.
-	///
 class BundleTap : Atom {
-
-	 // Construction properties
-	let  resetTo 				: [String]?	// event at reset
-	let  heightAlongRightSide	: Float?	// vert placement
-	var  incrementalEvents 		: Bool?		// /*IBOutlet*/char incrementalEvents;// Next event inherets previous
-	let  inspectorNibName		: String?	// "nib"
-	var  inspectorAlreadyOpen	= false	 	// kind of a hack
-
+	var targetBundle 			: FwBundle?	// where we put our data
+	let resetTo 				: [String]?	// event at reset
+	var incrementalEvents 		: Bool?		// /*IBOutlet*/char incrementalEvents;// Next event inherets previous
 	  // Sometimes just a name and no floating point value is specified.
 	 //   e.g: "a". What is meant is a=anonValue. Typically anonValue = 1.0
 	var anonValue 				: Float?	// used when value is unknwon
 
-	 /////// where we put our data
-	var targetBundle 			: FwBundle?
+	 // Construction properties
+	let heightAlongRightSide	: Float?	// vert placement
+//	let inspectorNibName		: String?	// "nib"
+	var inspectorAlreadyOpen	= false	 	// kind of a hack
 
  	// MARK: - 4. Factory
  	override func hasPorts() -> [String:String]	{
@@ -52,12 +40,11 @@ class BundleTap : Atom {
 		/// -    key:"nib"					  value:<name of nib file>.nib
 		/// -    key:"heightAlongRightSide"   value:<float>
 		/// -    key:"incrementalEvents"      value:<bool>	-- values hold between events, must be explicitly cleared
-		/// -    key:"inspectorNibName"		  ???
 
 	override init(_ config:FwConfig = [:]) {
 
 		self.resetTo			= config["resetTo"] as? [String]
-		self.inspectorNibName	= config.string("nib")
+//		self.inspectorNibName	= config.string("nib")
 		self.heightAlongRightSide = config.float("heightAlongRightSide")
 		self.incrementalEvents	= config.bool("incrementalEvents")
 
@@ -94,8 +81,7 @@ class BundleTap : Atom {
 		self.anonValue 			= 1.0				// first so resetTo = @"a" sets a=1
 		if let resetTo {
 			logEve(3, "|| resetTo '\(resetTo.pp(.tree)))'")							//[self logEvent:@"|| resetTo '%@'", [resetTo pp]];
-			bug; let _ = loadHashEvent(event: FwwEvent(any:resetTo)!)
-/*event*/
+		bug;let _ = loadHashEvent(event: FwwEvent(any:resetTo)!)	/*event*/
 		}
 	}
 
@@ -110,12 +96,10 @@ class BundleTap : Atom {
 
 	 /// Load the next event to the target bundle:
 	func loadTargetBundle(event:FwwEvent) {		//debugger("Not implemented")		}
-		guard let targetBundle 			else { print("@@@@@@@@@ Burp fkwfj");return}
-
-			  /// Floating Point --> Random Events
-bug
-		self.anonValue = 1.0;
-
+		guard let targetBundle 			else { fatalError("Target Bundle not set")}
+	
+bug		  /// Floating Point --> Random Events
+		self.anonValue 			= 1.0;
 		switch event {
 		case .aProb(let prob): 				/// Event is a single number
 			logEve(7, "|| Event '%@': RANDOMIZE targetBundle %@", event.pp(), targetBundle.fullName)
@@ -165,7 +149,7 @@ bug
 	}
 
 	func loadPreClear() {
-		guard let targetBundle	else {	print(" Burp 3wff!"); return			}
+		guard let targetBundle 			else { fatalError("Target Bundle not set")}
 
 		if incrementalEvents ?? false {
 			logEve(7, "|| .incrementalEvents ABORTS loadPreClear of '\(targetBundle.name)'")
@@ -302,9 +286,9 @@ bug
 			if let resetTo {
 				rv					+= "resetTo=\(resetTo.pp(.tree))"				//rv=[rv addF:@"resetTo=%@ ", [self.resetTo pp]];
 			}
-			if let inspectorNibName {
-				rv					+= "nibName33=\(inspectorNibName.pp()) "
-			}
+//			if let inspectorNibName {
+//				rv					+= "nibName33=\(inspectorNibName.pp()) "
+//			}
 			rv						+= "tBundle=\(self.targetBundle?.fullName ?? "<nil>") "
 		}
 		return rv

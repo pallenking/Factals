@@ -108,7 +108,6 @@ class DiscreteTime : Atom {
 	override func groomModelPostWires(partBase:PartBase) {
 											super.groomModelPostWires(partBase:partBase)
 		  // Connect up our targetBundle:
-		 //
 		guard let pPort			= ports["P"] else {
 			return error("DiscreteTime has no 'P' Port")
 		}

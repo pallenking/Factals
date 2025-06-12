@@ -1,40 +1,31 @@
-//  TimingChain.mm -- Split analog time into Sample time C2017PAK
+//  TimingChain.mm --Feeds and samples discrete time events into a HaveNWant network C2017PAK
+ // - Sequences loading event, clocking Previous, and WriteHead's Conceive and Labor
 import SceneKit
 
- /// A TimingChain bridges the gap betweent analog time and discrete time
- /// - Sequences loading event, clocking Previous, and WriteHead's Conceive and Labor
 class TimingChain : Atom {
-
 	  // MARK: - 2. Object Variables:
-
-	 // our BOSSES: (presuming sensor orientation)
-	var worldModel 	 : WorldModel? = nil	// of WorldModels
-	 // our WORKERS:
-	var discreteTimes: [DiscreteTime] = []
-	 // digital content:
-    var event		 : FwwEvent? = nil	// event being executed
-
-	 // our State:
-	enum State_		 : String, Codable {
-		case idle /* =0 */, state1, state2, state3, state4, state5				}
-	var state 		 : State_ = .idle	// of timing chain
+	var worldModel 	 : WorldModel? = nil	// the digital world model  BOSS
+	var discreteTimes: [DiscreteTime] = []	// connect world to network WORKER
+    var event		 : FwwEvent? = nil		// inputted digital event being executed
+	enum State_		 : String, Codable 		// our STATE
+	{	case idle /* =0 */, state1, state2, state3, state4, state5				}
+	var state 		 : State_ = .idle		// of timing chain
 	{	didSet {
 			if animateChain && state != oldValue {
 				markTree(dirty:.size)
 			}
 		}
 	}
-
-		// ____ Asynchronous Gui ____: Data with Snapshot:
+		 // ____ Asynchronous Gui ____: Data with Snapshot:
 		//	User adjusts sliders and buttons, changes propigate through the network real time
 		//	User presses button to capture existing data. (optional)
 
-		// ____ Synchronous Data ____: (lists, sync world model)
+		 // ____ Synchronous Data ____: (lists, sync world model)
 		// 	downstroke: capture old data at time t, then load new data of t+1.
 		//		Calculate Unknowns, and conceive a network modification to learn.
 		//	upstroke: release the modification and allow the Network to settle
 
-		//______Sync_Data:_____________________________Async_Data:_________
+		 //______Sync_Data:_____________________________Async_Data:_________
 		//					.idle: Idle
 		//					.state1: Await EventDown + SIM-SETTLED
 		//		* .clockPrevious
@@ -50,7 +41,7 @@ class TimingChain : Atom {
 		//					.idel: Idle
 	// Basic Op Mode: Variations in Insertion Cycle:
 	 // Issue previous clock late in the cycle
-	var asyncData 		: Bool	= false // change clocking mode:
+	var asyncData 		: Bool	= false 	// change clocking mode:
 	var animateChain			= true		//false//true//
 
 	 // Retract 1:N assertion when button UP
@@ -100,6 +91,7 @@ class TimingChain : Atom {
 		}
 	}
 	var myParams : [ParamDef] { [
+	// PW?
 //		ParamDef(\TimingChain.worldModel! 	 as! KeyPath<Any, Any>, .worldModel,	WorldModel),
 //		ParamDef(\TimingChain.discreteTimes! as! KeyPath<Any, Any>, .discreteTimes, DiscreteTime),
 //		ParamDef(\TimingChain.event! 		 as! KeyPath<Any, Any>, .event, 		FwwEvent),
@@ -119,8 +111,6 @@ class TimingChain : Atom {
 //			try container.encode(xx, forKey:param.codingKey as! TimingChain.TimingChainKeys)
 //		}
 //	}
-
-	
 	 // Serialize
 	override func encode(to encoder: Encoder) throws  {
 		try super.encode(to: encoder)
