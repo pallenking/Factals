@@ -14,16 +14,11 @@ import SceneKit
 
 class BundleTap : Atom {
 	var targetBundle 			: FwBundle?	// where we put our data
-	let resetTo 				: [String]?	// event at reset
 	var incrementalEvents 		: Bool?		// /*IBOutlet*/char incrementalEvents;// Next event inherets previous
 	  // Sometimes just a name and no floating point value is specified.
 	 //   e.g: "a". What is meant is a=anonValue. Typically anonValue = 1.0
 	var anonValue 				: Float?	// used when value is unknwon
-
-	 // Construction properties
-	let heightAlongRightSide	: Float?	// vert placement
-//	let inspectorNibName		: String?	// "nib"
-	var inspectorAlreadyOpen	= false	 	// kind of a hack
+	let resetTo 				: [String]?	// event at reset
 
  	// MARK: - 4. Factory
  	override func hasPorts() -> [String:String]	{
@@ -36,16 +31,10 @@ class BundleTap : Atom {
 	
 		/// an Atom which generates data for a Bundle
 		/// - Parameter config:
-		/// -    key:"resetTo"				  value:<event>	-- on reset
-		/// -    key:"nib"					  value:<name of nib file>.nib
-		/// -    key:"heightAlongRightSide"   value:<float>
-		/// -    key:"incrementalEvents"      value:<bool>	-- values hold between events, must be explicitly cleared
-
+		/// -    key:"resetTo"				 value:<event>	-- on reset
+		/// -    key:"incrementalEvents:		Bool
 	override init(_ config:FwConfig = [:]) {
-
 		self.resetTo			= config["resetTo"] as? [String]
-//		self.inspectorNibName	= config.string("nib")
-		self.heightAlongRightSide = config.float("heightAlongRightSide")
 		self.incrementalEvents	= config.bool("incrementalEvents")
 
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -54,22 +43,14 @@ class BundleTap : Atom {
 		assert(config["asyncData"]==nil, "BundleTap does not support setting syncronousData")
 	}
 
+	override func groomModelPostWires(partBase:PartBase) {
+		targetBundle			= ports["P"]?.portPastLinks?.parent as? FwBundle
+		assert(targetBundle != nil, "$$$$$$$$ Burp: targetBundle is nil")
+	}
 	// MARK: - 7. Simulation Actions
 	override func reset() {											super.reset()
-
-			 //   MOVE TO groomModelPostWires(partBase:PartBase) {
-			/// Connect up our targetBundle:
-		   ///
-		 // my P-Port connects where?
-		guard let pPort			= ports["P"],
-		  let targPort 			= pPort.portPastLinks,
-		  let targetBundle		= targPort.parent as? FwBundle
-		else {
-			print("$$$$$$$$ Burp: targetBundle is nil")
-			return
-		}
-		 // Test new target bundle; must have both R (for reset) and G (for generate)
-		targetBundle.forAllLeafs { leaf in
+		 // Target bundle must have both R (for reset) and G (for generate) ports
+		targetBundle!.forAllLeafs { leaf in
 			guard leaf.boundPort(named:"R") != nil else
 			{	fatalError("Leaf \(self.pp(.fullName)) has no R port\n")		}
 			guard leaf.boundPort(named:"G") != nil else
@@ -240,7 +221,7 @@ bug
 	//	if inspectorNibName != nil && !self.inspectorAlreadyOpen {				// if (self.inspectorNibName and !self.inspectorAlreadyOpen)
 //			[self.brain.simNsWc.autoOpenInspectors addObject:mustBe(View, v)];
 	//	}
-		inspectorAlreadyOpen	= true;		// only open once
+	//	inspectorAlreadyOpen	= true;		// only open once
 	}
 
 	 // MARK: - 9.2 reSize

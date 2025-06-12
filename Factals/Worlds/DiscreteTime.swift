@@ -9,8 +9,8 @@ class DiscreteTime : Atom {
 
 	 // MARK: - 2. Object Variables:
 	var resetTo			: FwwEvent?	= nil	// event at reset
-	var inspecNibName	: String?	= nil 	// "nib"
-	var inspecIsOpen	: Bool? 	= nil	// kind of a hack
+//	var inspecNibName	: String?	= nil 	// "nib"
+//	var inspecIsOpen	: Bool? 	= nil	// kind of a hack
 	var incrementalEvents: Bool 	= false	// Next event inherets previous
 	  // Sometimes just a name and no floating point value is specified.
 	 //   e.g: "a". What is meant is a=anonValue. Typically anonValue = 1.0
@@ -28,10 +28,9 @@ class DiscreteTime : Atom {
 
 		super.init(config) //\/\/\/\/\/\/\/\/\/
 
-		if let nibString		= partConfig["nib"] as? String {
-			inspecNibName		= nibString
-			partConfig["nib"]	= nil
-		}
+//		if let nibString		= partConfig["nib"] as? String {
+//			inspecNibName		= nibString
+//		}
 		if let str 				= partConfig["resetTo"] as? FwwEvent {	//String
 			resetTo				= str
 		}
@@ -51,8 +50,8 @@ class DiscreteTime : Atom {
 	 // MARK: - 3.5 Codable
 	enum DiscreteTimeKeys:String, CodingKey {
 		case resetTo
-		case inspecNibName
-		case inspecIsOpen
+//		case inspecNibName
+//		case inspecIsOpen
 		case incrementalEvents
 		case anonValue
 	}
@@ -62,8 +61,8 @@ class DiscreteTime : Atom {
 		var container 			= encoder.container(keyedBy:DiscreteTimeKeys.self)
 
 		try container.encode(resetTo, 			forKey:.resetTo)
-		try container.encode(inspecNibName, 	forKey:.inspecNibName)
-		try container.encode(inspecIsOpen, 		forKey:.inspecIsOpen)
+//		try container.encode(inspecNibName, 	forKey:.inspecNibName)
+//		try container.encode(inspecIsOpen, 		forKey:.inspecIsOpen)
 		try container.encode(incrementalEvents, forKey:.incrementalEvents)
 		try container.encode(anonValue, 		forKey:.anonValue)
 		logSer(3, "Encoded  as? DiscTime    '\(fullName)'")
@@ -73,9 +72,9 @@ class DiscreteTime : Atom {
 		try super.init(from:decoder)
         let container 			= try decoder.container(keyedBy:DiscreteTimeKeys.self)
     
-		resetTo					= try container.decode(   FwwEvent.self, forKey:.resetTo)
-		inspecNibName			= try container.decode(  String.self, forKey:.inspecNibName)
-		inspecIsOpen 			= try container.decode(   Bool.self, forKey:.inspecIsOpen)
+		resetTo					= try container.decode(FwwEvent.self, forKey:.resetTo)
+//		inspecNibName			= try container.decode(  String.self, forKey:.inspecNibName)
+//		inspecIsOpen 			= try container.decode(    Bool.self, forKey:.inspecIsOpen)
 		incrementalEvents		= try container.decode(    Bool.self, forKey:.incrementalEvents)
 		anonValue				= try container.decode(   Float.self, forKey:.anonValue)
 		logSer(3, "Decoded  as? DiscTime   named  '\(name)'")
@@ -85,8 +84,6 @@ class DiscreteTime : Atom {
 //	override func copy(with zone: NSZone?=nil) -> Any {
 //		let theCopy				= super.copy(with:zone) as! DiscreteTime
 //		theCopy.resetTo			= self.resetTo
-//		theCopy.inspecNibName	= self.inspecNibName
-//		theCopy.inspecIsOpen	= self.inspecIsOpen
 //		theCopy.incrementalEvents = self.incrementalEvents
 //		theCopy.anonValue		= self.anonValue
 //		logSer(3, "copy(with as? DiscreteTime       '\(fullName)'")
@@ -98,36 +95,28 @@ class DiscreteTime : Atom {
 		guard let rhs			= rhs as? DiscreteTime else {	return false 	}
 		let rv					= super.equalsFW(rhs)
 							////	&& resetTo 			 == rhs.resetTo
-								&& inspecNibName 	 == rhs.inspecNibName
-								&& inspecIsOpen 	 == rhs.inspecIsOpen
 								&& incrementalEvents == rhs.incrementalEvents
 								&& anonValue 		 == rhs.anonValue
 		return rv
 	}
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(partBase:PartBase) {
-											super.groomModelPostWires(partBase:partBase)
-		  // Connect up our targetBundle:
-		guard let pPort			= ports["P"] else {
-			return error("DiscreteTime has no 'P' Port")
-		}
-		if let targPort 		= pPort.portPastLinks {
-			let targetBundle 	= targPort.parent as? FwBundle
-			assert(targetBundle != nil, "targetBundle is nil")
+										super.groomModelPostWires(partBase:partBase)
+		let targetBundle		= ports["P"]?.portPastLinks?.parent as? FwBundle
+		assert(targetBundle != nil, "targetBundle is nil 2")
 
-			  // Test new target bundle has both R (for reset) and G (for generate)
-			 //   (Commonly, these are Bindings)
-			targetBundle?.forAllLeafs(
-			{(leaf : Leaf) in
-				assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
-				assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
-			})
-		}
+		  // Test new target bundle has both R (for reset) and G (for generate)
+		 //   (Commonly, these are Bindings)
+		targetBundle?.forAllLeafs(
+		{(leaf : Leaf) in
+			assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
+			assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
+		})
 	}
 
 	  // MARK: - 8. Reenactment Simulator
-	override func reset() {								super.reset()
-	  // / Generates a "resetTo" pattern to target bundle
+	override func reset() {											super.reset()
+	  // Generates a "resetTo" pattern to target bundle
 		anonValue 				= 1.0			// first so resetTo = "a" sets a=1
 		if let resetTo 			= self.resetTo {
 			logEve(4, "|| resetTo '\(resetTo.pp())'")
@@ -285,15 +274,15 @@ class DiscreteTime : Atom {
 		}
 	}
 	override func reVew(vew:Vew?, parentVew:Vew?) {
+										super.reVew(vew:vew, parentVew:parentVew)
 	  // / Add InspecVc
-		super.reVew(vew:vew, parentVew:parentVew)
 		 // inspecNibName --> automatically add an InspecVc panel
 		// (might move into -postBuild
-		if inspecNibName != nil && !inspecIsOpen! {
-			panic()
-			//[self.brain.simNsWc.inspecVcs2open addObject:mustBe(Vew, view)]
-		}
-		self.inspecIsOpen = true		// only open once
+	//	if inspecNibName != nil && !inspecIsOpen! {
+	//		panic()
+	//		//[self.brain.simNsWc.inspecVcs2open addObject:mustBe(Vew, view)]
+	//	}
+	//	self.inspecIsOpen = true		// only open once
 	}
 		 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
@@ -303,7 +292,7 @@ class DiscreteTime : Atom {
 				return rv
 			}
 			rv					+= " resetTo='\(resetTo?.pp(.line, aux) ?? "nil")'"
-			rv					+= " inspecNibName='\(inspecNibName ?? "nil")'"
+//			rv					+= " inspecNibName='\(inspecNibName ?? "nil")'"
 		}
 		return rv
 	}

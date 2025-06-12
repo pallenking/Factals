@@ -64,7 +64,6 @@ class Generator : Net {
 		var dtArgs : FwConfig	= ["n":"dt", "f":1]
 		if let nib 				= partConfig["nib"] {
 			dtArgs["nib"] 		= nib
-			partConfig["nib"]	= nil
 		}
 		if let p				= partConfig["P"] {	// generator connects to network here
 			dtArgs["P"] 		= p

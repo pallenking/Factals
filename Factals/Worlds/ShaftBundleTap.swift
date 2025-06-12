@@ -36,7 +36,7 @@ class ShaftBundleTap : BundleTap { //Generator {
 //		super    .groomModelPostWires(partBase:partBase)
 //		 // Test new targetBundle has R and G bindings
 //		guard let fwBundle		= ports["P"]?.portPastLinks?.parent as? FwBundle else {fatalError() }
-//		assert(targetBundle != nil, "\(fullName): targetBundle == nil")
+//		assert(targetBundle != nil, "\(fullName): targetBundle  == nil")
 //		fwBundle.forAllLeafs() {leaf in
 //			assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
 //			assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
