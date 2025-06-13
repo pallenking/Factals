@@ -45,7 +45,7 @@ class BundleTap : Atom {
 
 	override func groomModelPostWires(partBase:PartBase) {
 		targetBundle			= ports["P"]?.portPastLinks?.parent as? FwBundle
-		assert(targetBundle != nil, "$$$$$$$$ Burp: targetBundle is nil")
+		assertWarn(targetBundle != nil, "$$$$$$$$ Burp: targetBundle is nil")
 	}
 	// MARK: - 7. Simulation Actions
 	override func reset() {											super.reset()

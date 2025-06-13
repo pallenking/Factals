@@ -36,7 +36,7 @@ import Foundation
   /// - parameters:
  ///   - truthValue: = Should be true
 ///   - message: = Pass your alert message in String
-func assertWarn(_ truthValue:Bool, _ message:@autoclosure()->String="assert failure") {
+func assertWarn(_ truthValue:Bool=false, _ message:@autoclosure()->String="assert failure") {
 	if truthValue == false {
 		let msg					= message()
 		Log.shared.warningLog.append(msg)
@@ -52,7 +52,7 @@ var bug : () { //(file:String /*= #file*/, line:UInt /*= #line*/) 			{
 }
 func debugger(_ message:String, file:StaticString = #file, line:UInt = #line ) -> Never {
 	let callStack = ""//Thread.callStackSymbols.prefix(50).joined(separator:"\n")
-	#if DEBUG
+//	#if DEBUG
 		// Get thee to a debugger.  Should:
 			// 1. Work without lldb breakpoints enabled
 			// 2. Allow continue operation
@@ -62,9 +62,9 @@ func debugger(_ message:String, file:StaticString = #file, line:UInt = #line ) -
 			// 5. Does not involve machine language (so Rosetta won't be needed)
 			//			See INSTALL.md and TO_DO.md for bug
 		raise(SIGTRAP)	//debugger()
-	#else
-		reportErrorToServer(message + callStack)
-	#endif
+//	#else
+//		reportErrorToServer(message + callStack)
+//	#endif
 	fatalError("debugger(\(message))")
 }
 func panic(_ message: @autoclosure () -> String="Panic with No message",

@@ -13,7 +13,7 @@ class ShaftBundleTap : BundleTap { //Generator {
 
 	// MARK: Factory
 	override init(_ config:FwConfig = [:]){
-		let extraConfig:FwConfig = ["placeMy":"stacky"]
+		let extraConfig:FwConfig = ["placeMy":"stacolorcky"]
 		let sConfig				= extraConfig + config
 
 		  //  WorldModel.swift   Args (if needed)
@@ -100,7 +100,7 @@ bug;			var poleITread = self.tread - Float(i)
 	 // MARK: - 9.3 reSkin
 	var height : CGFloat	{ return 1.0		}	// 5
 	var width  : CGFloat	{ return 6.0		}
-	var ffRadius		= CGFloat(2.5)
+	var ffRadius				= CGFloat(2.5)
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnRoot.findScn(named:"s-ShBT") ?? {
@@ -127,16 +127,26 @@ bug;			var poleITread = self.tread - Float(i)
 			pointNode.color0	= NSColor.red
  			pointNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/2)
 
+			 // Donout Wheels
+			for i in 0..<2 {
+				let offset 		= (i == 0) ? -ffRadius : ffRadius
+				let torus		= SCNTorus(ringRadius:2, pipeRadius:0.3)
+				torus.ringSegmentCount	= 6
+				torus.firstMaterial?.diffuse.contents = NSColor.black
+				let wheel 		= SCNNode(geometry:torus)
+				wheel.name		= "wheel\(i)"
+				wheel.position	= SCNVector3(0, 0, offset)
+				wheel.rotation	= SCNVector4(1, 0, 0, CGFloat.pi/2)
+				scn.addChild(node:wheel)
+			}
 			 // Poles
 			let r				= partConfig["bitRadius"]?.asCGFloat ?? 1.0
 			for i in 0..<nPoles {
 				let poleInDegrees = 360 * Float(i) / Float(nPoles)
-				let portI 		= getPort(i)
-
-				//let color1	= NSColor.orange
-				let color1		= portI!.colorOf2Ports(localValUp:0.0, localValDown:portI!.con2?.port?.value ?? -1, downInWorld:false)
-				//let color2	= NSColor.brown
-				let color2		= portI!.colorOf2Ports(localValUp:portI!.value, localValDown:0.0, downInWorld:false)
+				guard let portI = getPort(i) else {		fatalError()			}
+				let pv			= portI.con2?.port?.value ?? -1
+				let color1		= portI.colorOf2Ports(localValUp:0.0, localValDown:pv, downInWorld:false)
+				let color2		= portI.colorOf2Ports(localValUp:portI.value, localValDown:0.0, downInWorld:false)
 
 				let armNode 	= SCNNode()//geometry: SCNBox(width: r/2, height: r*15, length: r/2, chamferRadius: 0.1)) 				//)//
 				scn.addChild(node:armNode)

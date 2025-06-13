@@ -102,16 +102,11 @@ class DiscreteTime : Atom {
 	 // MARK: - 5 Groom
 	override func groomModelPostWires(partBase:PartBase) {
 										super.groomModelPostWires(partBase:partBase)
-		let targetBundle		= ports["P"]?.portPastLinks?.parent as? FwBundle
-		assert(targetBundle != nil, "targetBundle is nil 2")
 
-		  // Test new target bundle has both R (for reset) and G (for generate)
-		 //   (Commonly, these are Bindings)
-		targetBundle?.forAllLeafs(
-		{(leaf : Leaf) in
+		(ports["P"]?.portPastLinks?.parent as? FwBundle)?.forAllLeafs { (leaf : Leaf) in					//	var targetBundle		= (ports["P"]?.portPastLinks?.parent as? FwBundle)
 			assert(leaf.getPort(named:"R") != nil, "\(leaf.fullName): missing 'R' Port")
 			assert(leaf.getPort(named:"G") != nil, "\(leaf.fullName): missing 'G' Port")
-		})
+		}
 	}
 
 	  // MARK: - 8. Reenactment Simulator

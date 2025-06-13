@@ -62,13 +62,13 @@ import SwiftUI
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
 		logBld(5, "### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 		let vewBase				= VewBase(for:partBase, vewConfig:vewConfig)		// Create
-		vewBase.factalsModel	= self						// Backpointer
-		vewBases.append(vewBase)							// Install vewBase
-															// Install in scnBase
+		vewBase.factalsModel	= self					// Backpointer
+		vewBases.append(vewBase)						// Install vewBase
+														// Install in scnBase
 		vewBase.scnBase.roots!.rootNode.addChildNode(vewBase.tree.scn)
-		vewBase.setupSceneVisuals(fwConfig:fwConfig)		// Lights and Camera
-		vewBase.tree.openChildren(using:vewConfig)			// Vew configuration
-		vewBase.updateVSP()								// DELETE?
+		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
+		vewBase.tree.openChildren(using:vewConfig)		// Vew configuration
+		vewBase.updateVSP()							// DELETE?
 
 		logBld(5, "---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) ")
 	}

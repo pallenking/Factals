@@ -128,10 +128,10 @@ class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0
 			 // Anonymous from Scan
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
-			logBld(7, "\n========================================================================\n" +
-						"=========<<< Building \(matchCause!) >>>=========\n" +
-						"=========<<< \(answer.ppr()		) >>>=========\n" +
-						"========================================================================\n")
+			logBld(7, "\n\n========================================================================\n" +
+						"=========<<< Building '\(matchCause!)' >>>=========\n" +
+						"=========<<< \(answer.ppr()		  ) >>>=========\n" +
+						"========================================================================")
 		}
 	}
 	var fwClassName		 : String	{	"Book"									}

@@ -352,7 +352,7 @@ bug;		let enaPort			= Port()
 				let gardenCenter = (vew.bBox.size  + minSize_)/2.0
 				let gardenBBox	= BBox(gardenCenter, minSize_)
 				 // eviGardenBounds includes evi and gardenBounds:
-				assert(eviGardenBounds.isNan, "")
+				assert(!eviGardenBounds.isNan, "")
 				eviGardenBounds = vew.bBox | gardenBBox
 			}
 		}

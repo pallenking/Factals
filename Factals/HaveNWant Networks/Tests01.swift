@@ -698,14 +698,14 @@ xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
 			Sequence([n:"y", f:1, spin:12, "share":["a,v:5","b,v:5","c,v:5","d,v:5"]]),
-			Tunnel(["struc":["a","b","c","d"], of:LeafKind.genBulbMirror])//genMirror]),//genBulbMirror]),
-//			Tunnel(["struc":["a","b","c","d"], of:LeafKind.genMirror]),//:"genMirror"
+			Tunnel([struc:["a","b","c","d"], of:LeafKind.genBulbMirror])//genMirror]),//genBulbMirror]),
+//			Tunnel([struc:["a","b","c","d"], of:LeafKind.genMirror]),//:"genMirror"
 		]]) })
 		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
 //			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
 			Sequence([n:"y", f:1, spin:12, "share":["a,v:5"]]),
 			Broadcast([n:"a"]),
-//			Tunnel(["struc":["a"], of:LeafKind.genMirror])//BulbMirror]),
+//			Tunnel([struc:["a"], of:LeafKind.genMirror])//BulbMirror]),
 		]]) })
 
 	r("-+ stackx does linky", [:], { Net([placeMy:"stackx", parts:[
@@ -1455,7 +1455,7 @@ xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5)
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel(["struc":["fwd", "bkw"], of:"genBcast",  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel([struc:["fwd", "bkw"], of:"genBcast",  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
 				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
@@ -1464,22 +1464,22 @@ xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5)
 				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
 				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
 			],
-			"evi":Tunnel(["struc": ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+			"evi":Tunnel([struc: ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 		]),
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
 })
-	xr("- fails", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	xxr("- fails", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Net([parts:[
-			Actor([n:"wheelA", "evi":Tunnel(["struc":"a", of:"genAtom"])]),
-			ShaftBundleTap([n:"shaft", "nPoles":1, P:"wheelA/evi", f:1]),
+			Actor([n:"wheelA", "evi":Tunnel([struc:["a", "b", "c", "d", "e", "f"], of:"genAtom"])]),
+			ShaftBundleTap([n:"shaft", "nPoles":6, P:"wheelA/evi", f:1]),
 		] ])
 	})
 xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel([struc:["fwd", "bkw"], of:"genBcast",  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", share:["a.+", "b.-"], f:1]),
 				Hamming([P:"fwd", share:["b.+", "c.-"], f:1]),
@@ -1488,7 +1488,7 @@ xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
 				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
 			],
-			"evi":Tunnel(["struc": ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+			"evi":Tunnel([struc: ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 		]),
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
@@ -1496,7 +1496,7 @@ xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel(["struc":["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel([struc:["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", f:1, jog:4]),
 				Hamming([P:"fwd", f:1]),
@@ -1515,11 +1515,11 @@ xxr("+ Previous auto-broadcast bug", eSimX + selfiePole(s:45,u:10) + logAt(dat:5
 r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-//			"con":Tunnel(["struc":["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+//			"con":Tunnel([struc:["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Broadcast([n:"fwd", P:"a"]),
 			],
-			"evi":Tunnel(["struc": ["a"], of:"genPrev", S+X:"fwd"],
+			"evi":Tunnel([struc: ["a"], of:"genPrev", S+X:"fwd"],
 						 leafConfig:["mode":"netForward", "spin":"4"]),
 		]),
 	] ])
@@ -1529,7 +1529,7 @@ xxr("- links 4", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 	Net([parts:[
 //		Broadcast([n:"x", f:1])//, "a.-"//
 		Hamming([n:"A", share:bundleNames, f:1]),//, "a.-"//
-		Tunnel(["struc":bundleNames, of:"genBcast"], leafConfig:[share:"A"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		Tunnel([struc:bundleNames, of:"genBcast"], leafConfig:[share:"A"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	] ])
 })
 	r("- minimum link", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
@@ -1555,11 +1555,11 @@ xxr("- FIXED: no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + logAt(da
 //			"parts":[
 //				Hamming([P:["a.-="], jog:"0 0 0"]), // +-ST
 //			],
-//			"evi":Tunnel(["struc": ["a"], of:"genPrev"], leafConfig:["mode":"netForward"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+//			"evi":Tunnel([struc: ["a"], of:"genPrev"], leafConfig:["mode":"netForward"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 //		]),
 r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0, "placeMy":"linky",
-			"con":Tunnel(["struc":["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel([struc:["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", f:1]),
 				Hamming([P:"bkw", f:1]),
@@ -1568,7 +1568,7 @@ r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(da
 })
 r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-		"evi":Tunnel(["struc":["a"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		"evi":Tunnel([struc:["a"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	])
 //	Net([parts:[
 //		ShaftBundleTap(["nPoles":5, P+sX:"wheelA/evi", f:1])
@@ -1982,13 +1982,13 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 	]]) })
 		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), { Net(["parts":[
 //			Broadcast(["n":"a"]), Broadcast(["n":"b"]), Broadcast(["n":"c"]),
-			Tunnel(["f":0, "struc":["a", "b"], of:"genBcast"]),
+			Tunnel(["f":0, struc:["a", "b"], of:"genBcast"]),
 //			Sequence(["f":0, "share":["a", "b"]]),
 //			Sequence(["f":1, "share":["a", "b"]]),
-//			Tunnel(["struc":["a", "b"], of:["genAtom","genBulb","genBcast"][2]]),
+//			Tunnel([struc:["a", "b"], of:["genAtom","genBulb","genBcast"][2]]),
 		]]) })
 		xxr("- bug: drive with sequence", e + selfiePole(s:0,u:0), {
-			Tunnel([f:0, "struc":["a", "b"], "of":"genBulb"])
+			Tunnel([f:0, struc:["a", "b"], "of":"genBulb"])
 		})
 r("pack tighter", e + selfiePole(s:90,u:0), {Net([placeMy:"stacky", parts:[
 	Tunnel([/*of:"nil_",*/ parts:[	Box()	]]),

@@ -52,7 +52,6 @@ struct ContentView: View {
 		.onAppear {
 			if let window = NSApplication.shared.windows.first {	//where: { $0.isMainWindow }
 				window.title 	= document.factalsModel.partBase.hnwMachine.titlePlus()// + "   from ContentView"
-//				window.title 	= document.factalsModel.partBase.title3 + "   from ContentView"
 			}
 		}
 //	////////////////////// SCAFFOLDING /////////////////////////////////////////

@@ -670,13 +670,13 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		}
 	}
 	// MARK: -
-	//static var alternate = 0
-	static var colorOfBidirActivations : [NSColor] {[
-			NSColor.white,		//	colorWhite,			// <all zero>
-			NSColor.green,		//	colorGreen,			// have
-			NSColor.red,		//	colorRed,			// want
-			NSColor.black		//	colorBlack			// haveNwant
-	]}
+	static let colorOfBidirActivations : [NSColor]  = [
+			 // Force to 'sRGB IEC61966-2.1 colorspace 0 1 0 1'
+			NSColor(srgbRed:1, green:1, blue:1, alpha:1),	//NSColor.white,	//	colorWhite,	// -	-
+			NSColor(srgbRed:0, green:1, blue:0, alpha:1),	//NSColor.green,	//	colorGreen,	// 1	-
+			NSColor(srgbRed:1, green:0, blue:0, alpha:1),	//NSColor.red,		//	colorRed,	// -	1
+			NSColor(srgbRed:0, green:0, blue:0, alpha:1),	//NSColor.black		//	colorBlack	// 1	1
+	]
 	func colorOfValue() -> NSColor {
 		let rv					= self.color(ofValue:self.value)
 		return rv;
@@ -691,39 +691,30 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 
 		return NSColor(mix:on, with:val, of:off)					//lerp(on, off, val);
 	}
-
 	func colorOf2Ports(localValUp:Float, localValDown:Float, downInWorld:Bool) -> NSColor {
-		var localValUp			= localValUp  .isNan ?  0.0: localValUp;		// nan --> 0
-		var localValDown		= localValDown.isNan ?  0.0: localValDown;
-
-		 // AGC/ signal compression:  POOR PERFORMANCE
-		let pMax				= max(localValUp, localValDown)
-		if pMax > 1.0   {
-			localValUp			/= pMax
-			localValDown		/= pMax
-		}
-		
+		 // Condition input from HaveNWant network:
+		assert(localValUp.isNan   == false,   "localValUp.isNan")
+		assert(localValDown.isNan == false, "localValDown.isNan")
+		let localValUp			= max(min(localValUp,   1.0), 0.0)
+		let localValDown		= max(min(localValDown, 1.0), 0.0)
+		 // Flip
 		let valUp				= downInWorld ? localValDown : localValUp
 		let valDown				= downInWorld ? localValUp   : localValDown
-
+		 // Constructt Link's Color
 		var color				= NSColor(0, 0, 0, 1)
-		for i in 0..<4 {	// scan: -, s, d, sd
+		for i in 0..<4 {		 // Scan: 0:neither, 1:have, 2:want, 3: have & want
 			let a				= i&1 != 0 ? valUp:   1.0 - valUp
 			let b				= i&2 != 0 ? valDown: 1.0 - valDown
 			let ab				= CGFloat(a * b)
 			let cc				= Port.colorOfBidirActivations[i]
-			color				= NSColor(
-				red:   color.redComponent   + cc.redComponent   * ab,
-				green: color.greenComponent + cc.greenComponent * ab,
-				blue:  color.blueComponent  + cc.blueComponent  * ab,
-				alpha: 1)//color.alphaComponent + cc.alphaComponent * ab)
+nop
+			let	r				= color.redComponent   + cc.redComponent   * ab
+			let	g				= color.greenComponent + cc.greenComponent * ab
+			let	bl				= color.blueComponent  + cc.blueComponent  * ab
+			color				= NSColor(red:r, green:g, blue:bl, alpha:1)
 		}
 		return color;
 	}
-
-
-
-
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
