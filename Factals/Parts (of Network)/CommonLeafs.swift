@@ -91,16 +91,6 @@ extension Leaf {	/// Generate Common Leafs
 		case .`nil_`:
 			self.init(bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)	//of:leafKind,
 			unusedConfigsMustBeNil([etc3, etc4, etc5])	// etc2: WTF?
-		case .nil_A:	/// VERY SUSPECT
-			self.init(bindings:[:], parts:[], leafConfig:["minSize":"0.5 0.5 0.5"] + etc1)	//of:leafKind,
-			unusedConfigsMustBeNil([etc3, etc4, etc5])	// etc2: WTF?
-//			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"],		//of:leafKind,
-//				parts:[
-//					Broadcast(["n":"main", "P":"gen="]	+ etc3),
-//		 			GenAtom([  "n":"gen", "f":1] 		+ etc2),
-//				],
-//				leafConfig:				 				  etc1)
-//			unusedConfigsMustBeNil([etc4, etc5])
 
 		case .cylinder:
 			self.init(bindings:[:],
@@ -122,14 +112,21 @@ extension Leaf {	/// Generate Common Leafs
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 
 		 // -------- Broadcast -------------------------------------------------------
+		case .nil_A:	/// VERY SUSPECT
+			self.init(bindings:["":"main", "G":"main.P", "R":"main.P"],			//of:leafKind,
+				parts:[
+					Broadcast(["n":"main"]				+ etc2),
+				], leafConfig:			 				  etc1)
+			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .bcast:
-			self.init(bindings:bMain + ["G":"P", "R":"P"],			//of:leafKind,
+			self.init(bindings:["":"main", "G":"main.P", "R":"main.P"],			//of:leafKind,
+//			self.init(bindings:bMain + ["G":"P", "R":"P"],						//of:leafKind,
 				parts:[
 					Broadcast(["n":"main"]  			+ etc2),
 				], leafConfig:							  etc1)
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .genBcast:					// elim?
-			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"],		//of:leafKind,
+			self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"],				//of:leafKind,
 				parts:[
 					Broadcast(["n":"main", "P":"gen="]	+ etc3),
 		 			GenAtom([  "n":"gen", "f":1] 		+ etc2),

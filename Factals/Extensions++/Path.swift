@@ -78,7 +78,7 @@ class Path : NSObject, Codable, FwAny {			// xyzzy4
 		while let cSub 			= lastName.last {
 			let c				= String(cSub)
 			 // Find long linkProp from short character
-			guard let shortName	= Path.shortNames[c] else { break }
+			guard let shortName	= Path.shortNames[c] else { break 				}
 			linkProps[shortName] = true			// 		linkProps["direct"] = true
 			lastName 			= String(lastName.dropLast())		// remove trailing modifiers
 		}

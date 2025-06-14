@@ -43,14 +43,10 @@ class GenAtom : Atom {
 
 		self.value				= Float.nan			// initial value
 		if let v				= partConfig["value"] {  // Single String:
+//			self.value			= Float(v)
 			value				= v.asFloat ?? Float.nan
 			partConfig["value"] = nil
 		}
-//		self.value				= Float.nan			// initial value
-//		if let v				= partConfig["value"] as? String {  // Single String:
-//			self.value			= Float(v)
-//			partConfig["value"] = nil
-//		}
 		if let loop				= partConfig["loop"] as? String {
 			self.loop			= Bool(loop)
 			partConfig["loop"] = nil
