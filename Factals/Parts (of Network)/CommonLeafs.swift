@@ -22,7 +22,7 @@ bug;	return self == rhs
 enum LeafKind: String, Codable, FwAny {
 //	case leaf(kind:Leaf)	// Enum with raw type cannot have cases with arguments
 	case nil_
-	case nil_A
+//	case bcast/*nil_A*/
 	case cylinder
 	case genAtom
 	case genMirror
@@ -112,12 +112,12 @@ extension Leaf {	/// Generate Common Leafs
 			unusedConfigsMustBeNil([etc3, etc4, etc5])
 
 		 // -------- Broadcast -------------------------------------------------------
-		case .nil_A:	/// VERY SUSPECT
-			self.init(bindings:["":"main", "G":"main.P", "R":"main.P"],			//of:leafKind,
-				parts:[
-					Broadcast(["n":"main"]				+ etc2),
-				], leafConfig:			 				  etc1)
-			unusedConfigsMustBeNil([etc3, etc4, etc5])
+//		case .bcast/*nil_A*/:	/// VERY SUSPECT
+//			self.init(bindings:["":"main", "G":"main.P", "R":"main.P"],			//of:leafKind,
+//				parts:[
+//					Broadcast(["n":"main"]				+ etc2),
+//				], leafConfig:			 				  etc1)
+//			unusedConfigsMustBeNil([etc3, etc4, etc5])
 		case .bcast:
 			self.init(bindings:["":"main", "G":"main.P", "R":"main.P"],			//of:leafKind,
 //			self.init(bindings:bMain + ["G":"P", "R":"P"],						//of:leafKind,
