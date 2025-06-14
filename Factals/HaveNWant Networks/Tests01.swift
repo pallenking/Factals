@@ -1493,10 +1493,10 @@ xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
 })
-xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel([struc:["fwd"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel([struc:["fwd"], of:"nil_A",  f:1]),	//nil_A//genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", f:1, jog:4]),
 				Hamming([P:"fwd", f:1]),
@@ -1559,7 +1559,7 @@ xxr("- FIXED: no con T bug", eTight + selfiePole(s:45,u:10) + vel(-3) + logAt(da
 //		]),
 r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0, "placeMy":"linky",
-			"con":Tunnel([struc:["fwd", "bkw"],  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel([struc:["fwd", "bkw"], of:"nil_A",  f:1]),			//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", f:1]),
 				Hamming([P:"bkw", f:1]),
@@ -1583,14 +1583,14 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
   Net([parts:[												// logAt(dat:5, eve:5)
  	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",
-		"con":Tunnel([struc:["z", "y"], f:1]),
+		"con":Tunnel([struc:["z", "y"], of:"nil_A", f:1]),
 		parts:[
 //			Bulb(	[n:"mk", P:"mj"]),
 //			Hamming([n:"mj", share:["a", "b"], f:1]),
 			MaxOr(	[n:"ma", share:["z", "y"], f:0]),
 			MinAnd(	[n:"mi", share:["a", "b", "c", "d"], P:"ma", f:1]),
 		],
-		"evi":Tunnel([struc:["a", "b", "c", "d"], placeMy:"stackz 0 -1"]),
+		"evi":Tunnel([struc:["a", "b", "c", "d"], of:"nil_A", placeMy:"stackz 0 -1"]),
 	]),
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
@@ -1598,7 +1598,7 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
   Net([parts:[												// logAt(dat:5, eve:5)
 	Actor([n:"wheelA", placeMy:"linky",
-		"evi":Tunnel([struc:["a", "b"], placeMy:"stackz 0 -1"]),
+		"evi":Tunnel([struc:["a", "b"], of:"nil_A", placeMy:"stackz 0 -1"]),
 	]),
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
@@ -1613,8 +1613,8 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 	]]) })
 	xxr("- duplicate name PP SS", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
 	  Net([parts:[												// logAt(dat:5, eve:5)
-		Tunnel([n:"b", P:"a", struc:[], jog:"1"]),
-		Tunnel([n:"a", struc:[], f:1]),
+		Tunnel([n:"b", P:"a", struc:[], of:"nil_A", jog:"1"]),
+		Tunnel([n:"a", struc:[], of:"nil_A", f:1]),
 	]]) })
 
 	r("- drive from top too", eSim + selfiePole(s:45,u:0,z:0.7) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
@@ -1622,12 +1622,12 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 		Generator([n:"hi", events:[["y", "z"], [], "again"], P:"wheelA/con", "resetTo":["y", "z"], f:1]),
 //		DiscreteTime([n:"hiDt", P:"wheelA/con", "generator":"lo", "resetTo":["x", "y"]]),
 		Actor([n:"wheelA", placeMy:"linky",
-			"con":Tunnel([struc:["z", "y"], f:1]),
+			"con":Tunnel([struc:["z", "y"], of:"nil_A", f:1]),
 			parts:[
 				MaxOr(	[n:"ma", share:["z", "y"], f:0]),
 				MinAnd(	[n:"mi", share:["a", "b"], f:1, P:"ma"]),
 			],
-			"evi":Tunnel([struc:["a", "b"], placeMy:"stackz 0 -1"]),
+			"evi":Tunnel([struc:["a", "b"], of:"nil_A", placeMy:"stackz 0 -1"]),
 		]),
 	//	Tunnel([n:"qqq", struc:["a", "b"], placeMy:"stackz 0 -1"]),
 //		Generator([n:"lo", events:["a", ["a", "b"], "b", [], "again"], P:"wheelA/evi", "resetTo":["a", "b"]]),//"wheelA/evi"

@@ -502,7 +502,7 @@ class Atom : Part {	//Part//FwPart
 
 					 //		3d. //// Get the TaRGet Port			// target Port	  Self Target
 			/**/	let trgPort = trgAtom.getPort(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)	// (name=="" -> share)
-					assert(trgPort != nil, "trgPort==nil")
+					assert(trgPort != nil, "\(self.fullName).getPort(named:\"\(trgPortName!)\" want:\(ppUp(trgAboveSInT)) wantOpen:true) --> nil")
 
 					  // //////////////////////////////////
 					 //   4. Link
