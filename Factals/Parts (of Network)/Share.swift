@@ -104,10 +104,12 @@ class Broadcast : Splitter { //#################################################
 	var hBcast : CGFloat				{ 	return 2							}
 	override func bidTotal() -> Float	{	return 1							} // Broadcast
 	 // MARK: - 9.0 3D Support
+	let height : CGFloat		= 1
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnRoot.findScn(named:"s-Broadcast") ?? {
-			let scn  			= !pinSkin
-				? SCNNode(geometry:SCNHemisphere(radius:1, slice:0))
+			let scn  			= !pinSkin						// for debug
+				? SCNNode(geometry:SCNCylinder(radius:1, height:height))
+//				? SCNNode(geometry:SCNHemisphere(radius:1, slice:0))
 				: SCNNode(geometry:SCNCone(topRadius:0.05, bottomRadius:0.01, height:2))	// for debug
 			scn.color0			= .orange
 			scn.name			= "s-Broadcast"
@@ -116,7 +118,7 @@ class Broadcast : Splitter { //#################################################
 		}()
 		scn.scale 				= .unity * hBcast/2
 		let bb					= vew.bBox
-		scn.position			= bb.centerBottom	// + .uY * gsnb/2
+		scn.position			= bb.centerBottom + .uY * height/2
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
 }  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#

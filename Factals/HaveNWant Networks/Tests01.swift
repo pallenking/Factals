@@ -1496,7 +1496,7 @@ xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel([struc:["fwd"], of:"bcast"/*nil_A*/,  f:1]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"con":Tunnel([struc:["fwd"], of:"bcast"/*nil_A*/,  f:0]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 			"parts":[
 				Hamming([P:"fwd", f:1, jog:4]),
 				Hamming([P:"fwd", f:1]),
@@ -1504,7 +1504,19 @@ xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve
 		]),
 	] ])
 })
-	xr("- bugAutoBcast V2", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	xr("- actor ordering", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+		Net([parts:[
+			Broadcast([n:"fwd2"]),
+	//		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
+//				"con":Tunnel([struc:["fwd"], of:"bcast"/*nil_A*/,  f:0]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+	//			"parts":[
+//					Hamming([P:"fwd", f:1, jog:4]),
+					Hamming([P:"fwd2", f:1]),
+	//			],
+	//		]),
+		] ])
+	})
+	xxr("- bugAutoBcast V2", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Net([parts:[
 			Leaf([n:"fwd", of:"bcast"/*nil_A*/, f:1]),
 //			Tunnel([n:"con", struc:["fwd"], of:"bcast"/*nil_A*/, f:1]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
