@@ -398,37 +398,17 @@ bug		// invisible?
 		return rv
 	}
 	func ppRootPartErrors() -> String {
+		var rv 					= ":\n\nBUILT PART  \(hnwMachine.titlePlus())\n"
 		let errors 				= logNErrors	   == 0 ? "no errors"
 								: logNErrors	   == 1 ? "1 error"
 										  : "\(logNErrors) errors"
 		let warnings 			= Log.shared.warningLog.count == 0 ? "no warnings"
 								: Log.shared.warningLog.count == 1 ? "1 warning"
 								: "\(Log.shared.warningLog.count) warnings"
-		let titleWidth			= hnwMachine.title.count
-		let width				= titleWidth + "######                ######".count
-		let errWarnWidth		= errors.count + warnings.count + 2
-		let count				= width - "#################### ".count - errWarnWidth - 2
-		let trailing1			= count <= 0 ? "" : String(repeating:"#", count:count)
-		let trailing2			= String(repeating:"#", count:width)
-		let blanks				= String(repeating:" ", count:titleWidth)
-		var rv 					= "BUILT PART!\n"
-		rv 						+= """
-			######        \(blanks   )        ######
-			######        \(blanks   )        ######
-			##################### \(errors), \(warnings) \(trailing1)
-			######        \(blanks   )        ######
-			######     \"\" \(hnwMachine.titlePlus()) \"\"     ######
-			######        \(blanks   )        ######
-			\(trailing2)\n
-			"""
+		rv						+= "\t######## \(errors), \(warnings) ########\n"
 		for (i, msg) in Log.shared.warningLog.enumerated() {
 			rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
 		}
-		rv							+= tree.ppUnusedKeys()
-		rv							+= """
-			######        \(blanks   )        ######
-			######        \(blanks   )        ######\n
-			"""
-		return "\n" + rv
+		return rv
 	}
 }
