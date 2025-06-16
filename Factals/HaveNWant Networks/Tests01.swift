@@ -116,20 +116,20 @@ private let flip0				= ("flip", 0)
 
 private let spin				=  "spin"
 private let spin_0				=  "spin:0"		// Array control string
-private let spin$0				= ("spin", "0")	// Hash pair
+private let spin$0				= (spin, "0")	// Hash pair
 
 private let spin_R				=  "spin:1"
-private let spin$R				= ("spin", "1")
+private let spin$R				= (spin, "1")
 private let spin_1				=  "spin:1"
-private let spin$1				= ("spin", "1")
+private let spin$1				= (spin, "1")
 
 private let spin_2				=  "spin:2"
-private let spin$2				= ("spin", "2")
+private let spin$2				= (spin, "2")
 
 private let spin_L				=  "spin:3"
-private let spin$L				= ("spin", "3")
+private let spin$L				= (spin, "3")
 private let spin_3				=  "spin:3"
-private let spin$3				= ("spin", "3")
+private let spin$3				= (spin, "3")
 
 enum Constants {
 	static let spin_L				=  "spin:3"
@@ -1464,7 +1464,7 @@ xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5)
 				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
 				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
 			],
-			"evi":Tunnel([struc: ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+			"evi":Tunnel([struc: ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", spin:4]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 		]),
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
@@ -1488,7 +1488,7 @@ xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 				Hamming([P:"bkw", share:["b.+", "a.-"], f:1]),
 				Hamming([P:"bkw", share:["c.+", "b.-"], f:1]),
 			],
-			"evi":Tunnel([struc: ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+			"evi":Tunnel([struc: ["a", "b", "c"], of:"genPrev"], leafConfig:["mode":"netForward", spin:4]), //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 		]),
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
@@ -1504,7 +1504,7 @@ xr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:
 //				Hamming([P:"fwd", f:1]),
 //				Hamming([P:"fwd", f:1, jog:"0 0 2"]),
 			],
-			"evi":Tunnel([struc:["a", "b", "c"], of:"genPrev", spin: 1, f:1]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+			"evi":Tunnel([struc:["a", "b", "c"], of:"genPrev", spin:1, f:1]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 		]),
 	] ])
 })
@@ -1542,7 +1542,7 @@ r("- top congestion bug", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5,
 				Broadcast([n:"fwd", P:"a"]),
 			],
 			"evi":Tunnel([struc: ["a"], of:"genPrev", S+X:"fwd"],
-						 leafConfig:["mode":"netForward", "spin":"4"]),
+						 leafConfig:["mode":"netForward", spin:4]),
 		]),
 	] ])
 })
@@ -1590,7 +1590,7 @@ r("- funny placement corner", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(da
 })
 r("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
-		"evi":Tunnel([struc:["a"], of:"genPrev"], leafConfig:["mode":"netForward", "spin":"4"]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
+		"evi":Tunnel([struc:["a"], of:"genPrev"], leafConfig:["mode":"netForward", spin:4]) //, "b", "c"//"proto":aGenPrevBcastLeaf(0, @{@"mode":@"netForward", spin$1}) }),
 	])
 //	Net([parts:[
 //		ShaftBundleTap(["nPoles":5, P+sX:"wheelA/evi", f:1])
