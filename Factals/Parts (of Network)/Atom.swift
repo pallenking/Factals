@@ -527,7 +527,7 @@ class Atom : Part {	//Part//FwPart
 					logBld(4, msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)")
 
 					 // CHECK: Boss and Worker Ports face opposite // MIGHT BETTER CHECK s->d wrt children.index
-					if trgPort!.upInWorld ^^ !srcPort!.upInWorld,	// direction fault and
+					if trgPort!.flippedInWorld ^^ !srcPort!.flippedInWorld,	// direction fault and
 					  !(self.check("noCheck", in:neighbors) == true)	// checks enabled
 					{	msg1	=  "\n  Within Containing Net" + conNet.fullName + ":"
 						msg1	+= "\n\t" + "Source: " + srcPort!.fullName
@@ -898,7 +898,7 @@ class Atom : Part {	//Part//FwPart
 			rv					+= bindings==nil ? "" : "bindings:\(bindings!.pp(.line, aux)) "
 		case .tree:
 			let ppDagOrder 		= aux.bool_("ppDagOrder")	// Print Ports early
-			let reverseOrder	= ppDagOrder && (upInWorld ^^ printTopDown)
+			let reverseOrder	= ppDagOrder && (flippedInWorld ^^ printTopDown)
 
 			 // Compute the number of lines in this Atom
 			let n				= !ppDagOrder ? 0 :			// !dag --> never mark

@@ -653,7 +653,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 				// Tube with connectedTo's value:
 		let tube				= vew.scnRoot.findScn(named:"s-Tube", maxLevel:2)
 		let  curTubeColor0		= tube?.color0
-		let     tubeColor0	 	= upInWorld ? NSColor.green : .red
+		let     tubeColor0	 	= flippedInWorld ? NSColor.green : .red
 		tube?.color0			= NSColor(mix:NSColor.whiteX, with:value, of:tubeColor0)
 		if tube?.color0 != curTubeColor0 {
 //			vew.scnScene.play(sound:value>0.5 ? "tick1" : "tock0")
@@ -662,7 +662,7 @@ bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition m
 		let cone				= vew.scnRoot.findScn(named:"s-Cone", maxLevel:2)
 		if let valPort			= con2?.port {	//	GET to my INPUT
 			let val				= valPort.value
-			let coneColor0		= upInWorld ? NSColor.red : .green
+			let coneColor0		= flippedInWorld ? NSColor.red : .green
 			cone?.color0		= NSColor(mix:NSColor.whiteX, with:val, of:coneColor0)
 		}
 		else {	// Cone unconnected
@@ -725,10 +725,10 @@ nop
 		case .line:
 			// e.g: "Ff| |/            P:Port  . . . o| <0.00> -> /prt4/prt2/t1.s0
 			var rv				= ppUid(self, post:" ", aux:aux)
-			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")
+			rv					+= (flippedInWorld ? "F" : " ") + (flipped ? "f" : " ")
 			rv 					+= Log.shared.indentString(minus:1)
 			//rv  				+= root?.factalsModel?.log.indentString(minus:1) ?? ";;"
-			rv					+= self.upInWorld 	? 	"|/   " :
+			rv					+= self.flippedInWorld 	? 	"|/   " :
 								   						"|\\   "
 			rv					+= ppCenterPart(aux)	// adds "name;class<unindent><Expose><ramId>"
 			if aux.bool_("ppParam") {		// when printing parameters

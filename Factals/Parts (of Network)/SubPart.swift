@@ -163,7 +163,7 @@ let commonNameDefinitions = [
 	"MultiLink"		: "MLink",
 ]
 let printTopDown				= false 		// print top line first
-let findWorldUp					= true			// find scans parts bottom up
+//let findWorldUp  				= true			// find scans parts bottom up
 
 
  /// Expose: how to vew the contents.

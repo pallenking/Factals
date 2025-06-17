@@ -683,7 +683,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	/// Up has 2 meanings:
 	///	- UPsidedown (as controlled by fliped)
 	///	- Port opens UP
-	var upInWorld : Bool {						// true --> flipped in World
+	var flippedInWorld : Bool {						// true --> flipped in World
 		//selfNParents.publisher.sequence(maxPublishers:1).sink {_ in }
 		var rv 					= false
 		for part in selfNParents {
@@ -725,7 +725,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		return (flipd, endP)
 	}
 	func upInWorldStr()		 	 -> String {
-		return upInWorld ? "up" : "down"
+		return flippedInWorld ? "up" : "down"
 	}
 
 		 // MARK: - 4.6 Find Children
@@ -783,7 +783,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 		if (maxLevel ?? 1) > 0 {					// 0 nothing else; 1 immediate children; 2 ...
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
-			let orderedChildren	= (upInWorld ^^ findWorldUp) ? children.reversed() : children
+			let orderedChildren	= (flippedInWorld /*^^ findWorldUp*/) ? children.reversed() : children
 			 // Check children:
 			for child in orderedChildren
 			  where mineBut === nil || child !== mineBut! { // don't redo exception
@@ -984,7 +984,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part	// xyzzy32 xyzzy18
 
 		 //------ reSize all   _CHILD Atoms_     No Ports
-		let orderedChildren		= upInWorld==findWorldUp ? vew.children : vew.children.reversed()
+		let orderedChildren		= flippedInWorld/*==findWorldUp*/ ? vew.children : vew.children.reversed()
 		for childVew in orderedChildren 	// For all Children, except
 		  where !(childVew.part is Port) 		// Atom handles child Ports
 		{	let childPart		= childVew.part
@@ -1183,7 +1183,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 		vew.scnRoot.transform	= SCNMatrix4(.origin,
 								  flip	  : flipped,
 								  latitude: CGFloat(latitude.rawValue) * .pi/8,
-								  spin	  : CGFloat(spin)		  * .pi/8)
+								  spin	  : CGFloat(spin)			   * .pi/8)
 		 // First has center at parent's origin
 		if vew.parent?.bBox.isEmpty ?? true {
 			let newBip		= vew.bBox * vew.scnRoot.transform //new bBox in parent
@@ -1439,7 +1439,7 @@ bug//never gets here
 			  //      AaBbbbbbCccDdddddddddddddddddddddddEeeeeeeeeeeee
 			 // e.g: "Ff| | | < 0      prev:Prev  o> 76a8  Prev mode:?
 			rv					= ppUid(self, post:" ", aux:aux)
-			rv					+= (upInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
+			rv					+= (flippedInWorld ? "F" : " ") + (flipped ? "f" : " ")	// Aa
 			rv 					+= Log.shared.indentString()						// Bb..
 			let ind				= parent?.children.firstIndex(where: {$0 === self})			//firstIndex(of:self)
 			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
@@ -1454,7 +1454,7 @@ bug//never gets here
 																					// Ee..
 		case .tree:
 			let ppDagOrder 		= aux.bool_("ppDagOrder")	// Print Ports early
-			let reverseOrder	= ppDagOrder && (upInWorld ^^ printTopDown) //trueF//falseF//
+			let reverseOrder	= ppDagOrder && (flippedInWorld ^^ printTopDown) //trueF//falseF//
 
 			if ppDagOrder {				// Dag Order
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
@@ -1508,7 +1508,7 @@ bug//never gets here
 		if Log.shared.ppPorts {	// early ports // !(port.flipped && ppDagOrder)
 			for part in children {
 				if let port 	= part as? Port,
-				  early == port.upInWorld {
+				  early == port.flippedInWorld {
 					rv			+=  mark_line(aux, port.pp(.line, aux) + "\n")
 				}
 			}

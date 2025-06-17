@@ -353,7 +353,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		if (maxLevel ?? 1) > 0 {			// maxLevel1: 0 nothing else; 1 immediate children; 2 ...
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
 			 // Check children:
-			//?let orderedChildren = upInWorld ? children.reversed() : children
+			//?let orderedChildren = flippedInWorld ? children.reversed() : children
 			for child in children
 			  where child != exception {	// Child match
 				if let sv		= child.find(up2:up2, inMe2:true, maxLevel:mLev1, firstWith:closureResult) {
@@ -651,7 +651,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 					rv			+= ppUid(self, post:":")	 	 		  // (A)
 				}
 				if ppViewOptions.contains("F") {				 	// Flipped:
-					rv			+= part.upInWorld ? "F" : " "			  // (B)
+					rv			+= part.flippedInWorld ? "F" : " "			  // (B)
 					rv			+= part.flipped   ? "f" : " "			  // (B)
 				}
 																	// Indent:
