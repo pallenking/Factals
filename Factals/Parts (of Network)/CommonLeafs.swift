@@ -304,7 +304,7 @@ extension Leaf {	/// Generate Common Leafs
 					Broadcast(["n":"main", "P":"rot.T=", "latitude":-2, "jog":"0 -0.5 0"] 
 														+ etc3),
 					Rotator([  "n":"rot"]				+ etc2),
-			],leafConfig:									  etc1)
+			],leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
  //////// DEFAULT EVIDENCE with Previous's: #######################
 		case .genPrevBcast:

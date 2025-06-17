@@ -36,10 +36,10 @@
 //		})
 //
 //		state.scanSubMenu		= ign+"Aaaa/Bbbb/Cccc"
-//		r("Broatcast",  	e,	{ Broadcast(["n":"a", "lat":1])})				// 190311 +
+//		r("Broatcast",  	e,	{ Broadcast(["n":"a", "latitude":1])})				// 190311 +
 //
 //		state.scanSubMenu		= ign+"Aaaa/Bbbb/Cccc/Dddd"
-//		r("Broatcast",  	e,	{ Broadcast(["n":"a", "lat":1])})				// 190311 +
+//		r("Broatcast",  	e,	{ Broadcast(["n":"a", "latitude":1])})				// 190311 +
 //	}
 //}
 //

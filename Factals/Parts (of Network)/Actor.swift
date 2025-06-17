@@ -66,9 +66,9 @@ class Actor : Net {
 		let evi1				= partConfig["evi"]
 		assertWarn(evi1==nil, "'evi:\(evi1!.pp(.fullNameUidClass))' must be a FwBundle")
 
-		viewAsAtom		 		= partConfig["viewAsAtom"			]?.asBool ?? false
+		viewAsAtom		 		= partConfig["viewAsAtom"		   ]?.asBool ?? false
 		linkDisplayInvisible	= partConfig["linkDisplayInvisible"]?.asBool ?? false
-		positionViaCon			= partConfig["positionViaCon"		]?.asBool ?? false
+		positionViaCon			= partConfig["positionViaCon"	   ]?.asBool ?? false
 
 		 // Color EVIdence FwBundle GREEN (
 		let _					= evi?.findCommon(firstWith:

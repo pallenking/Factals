@@ -19,7 +19,7 @@ let params4app : FwConfig 		= [
  // MARK: - B: Pretty Print		- params4defaultPp, params4partPp
 let params4defaultPp : FwConfig 		= [:]	// default if none suppled
 
-let params4partPp  : FwConfig 	= [		// PP of Parts
+let params4partPp  : FwConfig 	= [	// ///// All prameters controlling printing Parts
 				// What:
 	"ppLinks"			: false, 	// pp includes Links  //true//
 	"ppPorts"			: true, 	// pp includes Ports //false//
@@ -55,8 +55,8 @@ let params4partPp  : FwConfig 	= [		// PP of Parts
 	"ppNUid4Ctl" 		: 4,  //0//3//4// hex digits of UID identifier for controllers //0
 	"ppNCols4VewPosns"	: 20,		// columns printout for position  //20/18/15/14/./
 	"ppNCols4ScnPosn"	: 40,		// columns printout for SCN position  //25/20/18/14/./
-				// Floating Point Accuracy:
-	 		   // fmt("%*.*f", A, B, x) (e.g. %5.2f)
+
+	// ////// Specify Floating Point Accuracy: fmt("%*.*f", A, B, x) (e.g. %5.2f)
  ///"ppFloatA": 2, "ppFloatB":0,	// good, small
 	"ppFloatA": 4, "ppFloatB":1,	// good, .1, tight printout
  ///  "ppFloatA": 5, "ppFloatB":2,	// good, .01 for bug hunting
@@ -66,17 +66,16 @@ let params4partPp  : FwConfig 	= [		// PP of Parts
 	///"ppFloatA": 3, "ppFloatB":1,
 ]
   // MARK: - C: Parameters Log		- params4logDetail
-							
 let params4logDetail : FwConfig =	// Set events to be logged
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
 	//* Nothing*/					logAt(all:0) +
 	//* App */						logAt(app:8) +
 	//* Everything */				logAt(all:8) +
-	//* Everything except review */	logAt(rve:0, all:9) +
-	/* " except  review, resize */	logAt(rve:0, rsi:0, all:9) +
+	/* Everything except review */	logAt(rve:0, all:9) +
+	//* " except  review, resize */	logAt(rve:0, rsi:0, all:9) +
 
 	[							// + +  + +
-		"breakAtEvent"				:-28, //150//-54,//240/3/0:off
+		"breakAtEvent"				:45, //150//-54,//240/3/0:off
 								// + +  + +
 
 		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy

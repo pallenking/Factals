@@ -127,7 +127,7 @@ class SCNHemisphere : SCNGeometry {		///			  ---*---		<-- PREVious BASE
 				//indx.append(Int16(base + lon0)) 	// B 	C
 			}
 			prevBase			= base
-			base				+= stepsAround // lat % 2 == 0 ? 1 : 0
+			base				+= stepsAround // latitude % 2 == 0 ? 1 : 0
 		}
 
 		 /// Disc to cover missing half:

@@ -127,7 +127,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 			return x > eventDetail
 		}
 		if let x = detailWanted ["all"] {		// else default definition?
-			return x > eventDetail												}
+			return x > eventDetail												}//>
 		return false
 	}
 	 /// Return a Dictionary of keys starting with "logPri4". They control detailWanted.
@@ -190,7 +190,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		print(newLines + fmt("%03d%@", sh.eventNumber, eventStr), terminator:terminator )
 
 		if sh.breakAtEvent == sh.eventNumber {
-			panic("BREAK at   Event \(sh.breakAtEvent)")
+			panic("BREAK  at Event  \(sh.breakAtEvent)")
 		}
 		sh.eventNumber				+= 1		// go on to next log number
 	}

@@ -720,7 +720,7 @@ class Atom : Part {	//Part//FwPart
 		var avgPosition	:SCNVector3	= .zero		// default return position is Nan
 		var lastDomIf2	: Part?	= nil
 
-		logRsi(4, ">>===== Position \(self.fullName) by:\(mode ?? "2r23") (via links) in \(parent?.fullName ?? "nil")")
+		logRsi(4, ">>===== Position (by:  \(mode ?? "2r23")  ):  \(self.fullName) -via-links-in- \(parent?.fullName ?? "nil")")
 			   // /////////////////////////////////////////////////////////////// //
 			  // 															     //
 			 //  For all enclosed subBits, looking for things to position it by //
@@ -852,7 +852,7 @@ class Atom : Part {	//Part//FwPart
 				panic("Second dominant Link con2 (\(fixedPort.pp(.fullName)) were found")
 			}
 			newInMePosn.y		+= gap
-			logRsi(4, "\t\t\t\t" + "<<===== FOUND: p=\(newInMePosn.pp(.short)); "
+			logRsi(4, "   <<== FOUND PARTIAL: p=\(newInMePosn.pp(.short)); "
 						  + "\(vew.part.fullName).vew.bBox = (\(vew.bBox.pp(.line)))")
 
 			 // ////// Accumulate position: average for x,z; max for y
@@ -876,7 +876,8 @@ class Atom : Part {	//Part//FwPart
 			avgPosition 		/=  weightSum		// take average
 		}											// height calculation from max:
 		avgPosition.y 			= maxPositionY		// height calculation from max:
-		logRsi(4, "<<===== found position in parent \(avgPosition.pp(.line)) by Links (weightSum=\(weightSum))")
+
+		logRsi(4, "<<===== FOUND Position by Links   \(self.fullName) -in- \(parent?.fullName ?? "nil") (weightSum=\(weightSum))")
 		//logRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
 		vew.scnRoot.position = avgPosition + (vew.jog ?? .zero)
 

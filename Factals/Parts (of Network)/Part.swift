@@ -108,8 +108,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 
 	 // MARK: - 2.2b INTERNAL to Part
-	var lat : Latitude = Latitude.northPole 			// Xyzzy87 markTree
-	{	didSet {	if lat != oldValue {
+	var latitude : Latitude = Latitude.northPole 			// Xyzzy87 markTree
+	{	didSet {	if latitude != oldValue {
 						markTree(dirty:.size)
 																		}	}	}
   //var longitude
@@ -182,7 +182,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			if let ff			= partConfig[key] {
 				if let f		= Int(fwAny:ff),
 				  let g			= Latitude(rawValue:f) {
-					lat				= g
+					latitude			= g
 					partConfig[key] = nil
 				}
 			}
@@ -268,7 +268,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		try container.encode(dirty,			forKey:.dirty)			// ??rawValue?? //	var dirty : DirtyBits
 		try container.encode(initialExpose,	forKey:.initialExpose)
 		try container.encode(flipped, 		forKey:.flipped)
-		try container.encode(lat,			forKey:.lat)
+		try container.encode(latitude,			forKey:.lat)
 		try container.encode(spin, 			forKey:.spin)
 		try container.encode(shrink,		forKey:.shrink)
 		try container.encode(placeSelf,		forKey:.placeSelf)
@@ -291,7 +291,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		dirty					= try container.decode( DirtyBits.self, forKey:.dirty)
 		initialExpose			= try container.decode(	   Expose.self, forKey:.initialExpose)
 		flipped					= try container.decode(		 Bool.self, forKey:.flipped)
-		lat						= try container.decode(  Latitude.self, forKey:.lat)
+		latitude						= try container.decode(  Latitude.self, forKey:.lat)
 		spin					= try container.decode( 	UInt8.self, forKey:.spin)
 		shrink					= try container.decode(		 Int8.self, forKey:.shrink)
 		placeSelf				= try container.decode(	   String.self, forKey:.placeSelf)
@@ -314,7 +314,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 //		theCopy.dirty			= self.dirty
 //		theCopy.initialExpose	= self.initialExpose
 //		theCopy.flipped			= self.flipped
-//		theCopy.lat				= self.lat
+//		theCopy.latitude				= self.latitude
 //		theCopy.spin			= self.spin
 //		theCopy.shrink			= self.shrink
 //		theCopy.placeSelf		= self.placeSelf
@@ -349,7 +349,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		//	&& config			== rhs.config			// not Equatable
 			&& initialExpose 	== rhs.initialExpose
 			&& flipped			== rhs.flipped
-			&& lat				== rhs.lat
+			&& latitude				== rhs.latitude
 			&& spin				== rhs.spin
 			&& shrink			== rhs.shrink
 			&& placeSelf		== rhs.placeSelf
@@ -1179,10 +1179,10 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 		let placeMode			=   partConfig["placeMe"]?.asString ?? // I have place ME
 								parent?.config("placeMy")?.asString ?? // My Parent has place MY
 											 			  "linky"	   // default is position by links
-		  // Set NEW's orientation (flip, lat, spin) at origin
+		  // Set NEW's orientation (flip, latitude, spin) at origin
 		vew.scnRoot.transform	= SCNMatrix4(.origin,
 								  flip	  : flipped,
-								  latitude: CGFloat(lat.rawValue) * .pi/8,
+								  latitude: CGFloat(latitude.rawValue) * .pi/8,
 								  spin	  : CGFloat(spin)		  * .pi/8)
 		 // First has center at parent's origin
 		if vew.parent?.bBox.isEmpty ?? true {
@@ -1216,7 +1216,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			var newBip			= vew.bBox * vew.scnRoot.transform //new bBox in parent
 			var rv				= -newBip.center // center selfNode in parent
 			newBip.center		= .zero
-			logRsi(4, ">>===== Position \(self.fullName) by:\(mode) (stacked) in \(parent?.fullName ?? "nil") ")
+			logRsi(4, ">>===== Position (by:  \(mode)   ):  \(self.fullName) -stacked-in- \(parent?.fullName ?? "nil") ")
 			let stkBip 			= vew.parent!.bBox
 			rv		 			+= stkBip.center // center of stacked in parent
 			let span			= stkBip.size + newBip.size	// of both parent and self
@@ -1282,7 +1282,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
 	//		let delta			= newBip.center - stkBip.center
 	//		rv					+= SCNVector3(delta.x,0,delta.z) /// H A C K !!!!
-			logRsi(4, "=====>> FOUND: rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n")
+			logRsi(4, "<<===== FOUND: rv=\(rv.pp(.short)); \(vew.name).bbox=(\(vew.bBox.pp(.line)))\n")
 			vew.scnRoot.position	= rv + (vew.jog ?? .zero)
 	//		vew.scn.transform	= SCNMatrix4(rv + (vew.jog ?? .zero))
 		}
@@ -1478,7 +1478,7 @@ bug//never gets here
 		rv						+= initialExpose.pp(.short, aux)		// "o"
 		rv						+= dirty.pp()
 //		rv						+= " s:\(spin)"
-//		rv						+= " l:\(lat)"
+//		rv						+= " l:\(latitude)"
 		return rv + " "
 	}
 	  //	 MARK: - 15.1 pp support

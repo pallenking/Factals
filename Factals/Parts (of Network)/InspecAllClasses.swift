@@ -323,7 +323,7 @@ struct InspecPart : View {												 // Part
 					Text("flip")
 				}													.frame(width:50)
 				 // Latitude:
-				Picker("lat:", selection:$part.lat) {
+				Picker("lat:", selection:$part.latitude) {
 					ForEach(Latitude.allCases, id:\.self) { lat in
 						Text(Latitude.latitude2string[lat.rawValue]).tag(lat.rawValue)
 					}
