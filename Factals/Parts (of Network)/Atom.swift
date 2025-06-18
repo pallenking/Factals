@@ -33,11 +33,11 @@ class Atom : Part {	//Part//FwPart
 		if let skin2			= partConfig["skin"] as? SCNNode {
 			panic("skin2:\(skin2)")
 			//skin				= skin2
-			partConfig["skin"]	= nil
+//			partConfig["skin"]	= nil
 		}
 		if let b				= partConfig["bindings"] as? [String:String] {  //config.fwConfig("bindings")
 			bindings			= b
-			partConfig["bindings"] = nil
+//			partConfig["bindings"] = nil
 		}
 
 		 // Create PORTS in Atoms
@@ -491,7 +491,7 @@ class Atom : Part {	//Part//FwPart
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
 			/**/	let srcPort	= self.getPort(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
-					assert(srcPort != nil, "couldn't getPort(named:\(srcPortName ?? "<unnamed>"))")
+					assert(srcPort != nil, "couldn't getPort(named:\(srcPortName ?? "<unnamed>")")
 
 					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon == trgAtom.isFlipped(withResepectTo:conNet)

@@ -47,7 +47,7 @@ class Actor : Net {
 		if let c				= partConfig["con"] {
 			guard let cc		= c as? FwBundle else {fatalError("Parts.con isn't FwBundle")}
 			con					= cc
-			partConfig["con"] 	= nil
+//			partConfig["con"] 	= nil
 			con!.name 			= "con"
 			addChild(con)
 		}
@@ -56,7 +56,7 @@ class Actor : Net {
 		if let e				= partConfig["evi"] {
 			guard let ee		= e as? FwBundle else {fatalError("Parts.evi isn't FwBundle")}
 			evi					= ee
-			partConfig["evi"]	= nil
+//			partConfig["evi"]	= nil
 			evi!.name			= "evi"
 			addChild(evi)
 		}
@@ -78,7 +78,7 @@ class Actor : Net {
 			return nil
 		})
 
-		enforceOrder()						// evi on bottom, con on top
+//		enforceOrder()						// evi on bottom, con on top
 		partConfig["addPreviousClock"] = 1	// Add Previous Clock for me
 	}
 
@@ -144,86 +144,86 @@ class Actor : Net {
 	 // MARK: - 4.2 Manage Tree
 	///	ALGORITHM:	scan through Net,
 	///				move improper forward references infront of us
-	func orderPartsByConnections() {
-		panic()//return
-		var retryCount 			= 100
-		var orderIsGood			= false
-		while !orderIsGood {
-			enforceOrder()
-
-			 // Make a try to clear out children
-			var scanI 			= 0
-			orderIsGood 		= true			// presume scan succeeds
-
-			 // Scan through our Actor's Parts, from bottom up
-			while scanI < children.count {
-				let scanPart = children[scanI]
-//				if scanPart is NSNumber {
-//					continue
+//	func orderPartsByConnections() {
+//		panic()//return
+//		var retryCount 			= 100
+//		var orderIsGood			= false
+//		while !orderIsGood {
+////			enforceOrder()
+//
+//			 // Make a try to clear out children
+//			var scanI 			= 0
+//			orderIsGood 		= true			// presume scan succeeds
+//
+//			 // Scan through our Actor's Parts, from bottom up
+//			while scanI < children.count {
+//				let scanPart = children[scanI]
+////				if scanPart is NSNumber {
+////					continue
+////				}
+//				 // Look only at Atoms:
+//				/*else*/ if let scanAtom = scanPart as? Atom {
+//
+//					 // Scan thru Ports of Atoms:
+//					for (_, scanPort) in scanAtom.ports {
+//						//if scanPort_ is NSNumber {	continue }
+//						if !scanPort.flipped ^^ scanAtom.flipped { // going down is OKAY
+//							continue
+//						}
+//
+//						if let otherAtom  = scanPort.con2?.port?.atom {		// Identify otherAtom
+//							 // If ancestor of otherAtom is part of self
+////							let othersActorPart = otherAtom.lowestAncestorThats(childOf:self)
+//							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
+//							  otherI > scanI		 {
+//								 // pull that worker to just below us
+//								logBld(4, "Actor reordering '%@' to index %d", otherAtom.name, scanI)
+//								children.remove(at:otherI)//	children.removeObject(otherAtom)
+//								children.insert(otherAtom, at:scanI)
+//								 // and start all over again...
+//								orderIsGood = false
+//								break
+//							}
+//						}
+//						else {
+//							assert(scanPort.con2==nil, "peculiar")
+//						}
+//					}
+//					if orderIsGood == false {
+//						break
+//					}
 //				}
-				 // Look only at Atoms:
-				/*else*/ if let scanAtom = scanPart as? Atom {
-
-					 // Scan thru Ports of Atoms:
-					for (_, scanPort) in scanAtom.ports {
-						//if scanPort_ is NSNumber {	continue }
-						if !scanPort.flipped ^^ scanAtom.flipped { // going down is OKAY
-							continue
-						}
-
-						if let otherAtom  = scanPort.con2?.port?.atom {		// Identify otherAtom
-							 // If ancestor of otherAtom is part of self
-//							let othersActorPart = otherAtom.lowestAncestorThats(childOf:self)
-							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
-							  otherI > scanI		 {
-								 // pull that worker to just below us
-								logBld(4, "Actor reordering '%@' to index %d", otherAtom.name, scanI)
-								children.remove(at:otherI)//	children.removeObject(otherAtom)
-								children.insert(otherAtom, at:scanI)
-								 // and start all over again...
-								orderIsGood = false
-								break
-							}
-						}
-						else {
-							assert(scanPort.con2==nil, "peculiar")
-						}
-					}
-					if orderIsGood == false {
-						break
-					}
-				}
-			}
-			orderIsGood 		=  scanI == children.count
-			retryCount			-= 1
-			if retryCount < 0 {
-				panic("In ordering Actor Parts, Looped 100x: Actor has an unusual net!")
-				break
-			}
-			scanI				-= 1
-		}
-		enforceOrder()
-	}
+//			}
+//			orderIsGood 		=  scanI == children.count
+//			retryCount			-= 1
+//			if retryCount < 0 {
+//				panic("In ordering Actor Parts, Looped 100x: Actor has an unusual net!")
+//				break
+//			}
+//			scanI				-= 1
+//		}
+////		enforceOrder()
+//	}
 
 	 /// Ensure EVIdence is first element (if it exists), and CONtext the last (if it exists):
-	func enforceOrder() {
-		if con != nil {			// ///// con exists:
-			if let ind 			= children.firstIndex(where: {$0 === con!}),//(of:con!),
-			  ind != 0 {						  // con not first:
-				children.remove(at:ind)				// remove
-				children.insert(con!, at:0)			// at start
-				con!.parent 	= self				// required first time
-			}
-		}
-		if evi != nil {			// ///// evi exists:
-			if let ind 			= children.firstIndex(where: {$0 === evi!}),//(of:evi!),
-			  ind != children.count-1 {			// evi not last:
-				children.remove(at:ind)				// remove
-				children.append(evi!)				// add at end
-				evi!.parent 	= self				// required first time
-			}
-		}
-	}
+//	func enforceOrder() {
+//		if con != nil {			// ///// con exists:
+//			if let ind 			= children.firstIndex(where: {$0 === con!}),//(of:con!),
+//			  ind != 0 {						  // con not first:
+//				children.remove(at:ind)				// remove
+//				children.insert(con!, at:0)			// at start
+//				con!.parent 	= self				// required first time
+//			}
+//		}
+//		if evi != nil {			// ///// evi exists:
+//			if let ind 			= children.firstIndex(where: {$0 === evi!}),//(of:evi!),
+//			  ind != children.count-1 {			// evi not last:
+//				children.remove(at:ind)				// remove
+//				children.append(evi!)				// add at end
+//				evi!.parent 	= self				// required first time
+//			}
+//		}
+//	}
 	// / also add actor.previousClocks
 	override func gatherLinkUps(into linkUpList:inout [() -> ()], partBase:PartBase) {
 		super.gatherLinkUps(into:&linkUpList, partBase:partBase)

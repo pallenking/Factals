@@ -65,7 +65,7 @@ class PolyWrap : Part {
 //			self.partBase			= child.partBase			// WTF
 			self.addChild(child)
 //			arrayOfParts!.forEach { addChild($0) }		// add children in "parts"
-			partConfig["parts"] = nil
+//			partConfig["parts"] = nil
 		}
 	}
 	 // MARK: - 3.5 Codable Serialization

@@ -33,7 +33,7 @@ class WorldModel : Atom {
 		//!		x=.4		--		x==0.4
 
 		if let ev				= FwwEvent(any:partConfig["events"]) {
-			partConfig["events"] = nil
+//			partConfig["events"] = nil
 			event				= ev
 		}
 		if let eli				= partConfig["eventLimit"]?.asInt {

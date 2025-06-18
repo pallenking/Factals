@@ -36,7 +36,7 @@ class DiscreteTime : Atom {
 		}
 		if let incEv 			= partConfig["incrementalEvents"] as? Bool {
 			incrementalEvents	= incEv
-			partConfig["incrementalEvents"] = nil
+//			partConfig["incrementalEvents"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory

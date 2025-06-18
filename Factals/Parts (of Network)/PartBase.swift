@@ -402,10 +402,10 @@ bug		// invisible?
 		let errors 				= logNErrors	   == 0 ? "no errors"
 								: logNErrors	   == 1 ? "1 error"
 										  : "\(logNErrors) errors"
-		let warnings 			= Log.shared.warningLog.count == 0 ? "no warnings"
-								: Log.shared.warningLog.count == 1 ? "1 warning"
-								: "\(Log.shared.warningLog.count) warnings"
-		rv						+= "\t######## \(errors), \(warnings) ########\n"
+//		let warnings 			= Log.shared.warningLog.count == 0 ? "no warnings"
+//								: Log.shared.warningLog.count == 1 ? "1 warning"
+//								: "\(Log.shared.warningLog.count) warnings"
+		rv						+= "\t######## \(errors) ########\n"		//\(warnings) 
 		for (i, msg) in Log.shared.warningLog.enumerated() {
 			rv						+= "###### WARNING \(i+1)): " + msg.wrap(min:5,cur:5,max:80) + "\n"
 		}

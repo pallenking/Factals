@@ -169,7 +169,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		if let valStr			= partConfig["expose"] as? String,
 		  let e : Expose		= Expose(string:valStr) {
 			initialExpose		= e
-			partConfig["expose"] = nil
+//			partConfig["expose"] = nil
 		}
 		for key in ["f", "flip", "flipped"] {
 			if let ff			= partConfig[key],		// in config
@@ -194,7 +194,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 		if let a 				= partConfig["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
-			partConfig["parts"] = nil
+//			partConfig["parts"] = nil
 		}
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}

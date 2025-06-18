@@ -35,15 +35,15 @@ class Generator : Net {
 		var wmArgs  : FwConfig	= [:]
 		if let events 			= partConfig["events"] {
 			wmArgs["events"] 	= events
-			partConfig["events"] = nil
+//			partConfig["events"] = nil
 		}
 		if let prob 			= partConfig["prob"]?.asFloat {
 			wmArgs["prob"] 		= prob
-			partConfig["prob"]	= nil
+//			partConfig["prob"]	= nil
 		}
 		if let eventLimit		= partConfig["eventLimit"]?.asInt {
 			wmArgs["eventLimit"] = eventLimit
-			partConfig["eventLimit"] = nil	// Remove from partConfig and put in wmArgs
+//			partConfig["eventLimit"] = nil	// Remove from partConfig and put in wmArgs
 		}
 		let wmNeeded			= wmArgs.count != 0
 		wmArgs					+= ["n":"wm", "f":1]
@@ -63,19 +63,19 @@ class Generator : Net {
 		 //  An Atom which generates data C2014PAK
 		var dtArgs : FwConfig	= ["n":"dt", "f":1]
 		if let nib 				= partConfig["nib"] {
-			dtArgs["nib"] 		= nib
+//			dtArgs["nib"] 		= nib
 		}
 		if let p				= partConfig["P"] {	// generator connects to network here
 			dtArgs["P"] 		= p
-			partConfig["P"]	= nil
+//			partConfig["P"]	= nil
 		}
 		if let resetTo			= partConfig["resetTo"] {
 			dtArgs["resetTo"]	= resetTo
-			partConfig["resetTo"] = nil
+//			partConfig["resetTo"] = nil
 		}
 		if let ie 				= partConfig["incrementalEvents"] {
 			dtArgs["incrementalEvents"] = ie
-			partConfig["incrementalEvents"] = nil
+//			partConfig["incrementalEvents"] = nil
 		}
 
 		 // /////////// MAKE Elements

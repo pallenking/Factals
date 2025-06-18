@@ -1510,33 +1510,22 @@ xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve
 	] ])
 })
 
-xxr("- t1 non-Actor", ["wBox":"black"], { Net([parts:[	// t1
-	Net([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
-		"parts":[
-			FwBundle([n:"con", struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),
-			Hamming([P:"fwd", f:1, "latitude":0]),
-		],
-	]),
-] ]) })
-xxr("- t2 Actor", ["wBox":"black"], { Net([parts:[		// t2
-	Actor([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
-		"con":FwBundle([struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),
-		"parts":[
-			Hamming([P:"fwd", /*share:"a",*/ f:1, "latitude":0]),
-		],
-	]),
-] ]) })
-xr("- t2 Actor", ["wBox":"black"], { Net([parts:[		// t3
-	Actor([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
-		"con":Leaf([n:"fwd", of:"bcast"]),
-//			let newLeaf			= Leaf(["n":struc, "of":leafKind], leafConfig)
-//		"con":FwBundle([struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),
-		"parts":[
-			Hamming([P:"con", /*share:"a",*/ f:1, "latitude":0]),
-		],
-	]),
-] ]) })
-
+if false {		//true//false//
+	xr("- t1 non-Actor", ["wBox":"black"], {
+		Net([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
+			"parts":[
+				FwBundle([n:"con", struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),	// Leaf([n:"fwd", of:"bcast", f:0]),
+				Hamming([P:"fwd", f:1, "latitude":0]),
+	],	]) })
+} else {
+	xr("- t2 Actor UPSIDEDOWN", ["wBox":"black"], {
+		Actor([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
+			"con":FwBundle([n:"con", struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),	// "con":Leaf([n:"fwd", of:"bcast", f:0]/*, leafConfig:[f:1]*/),
+			"parts":[
+				Hamming([/*P:"con",*/ f:1, "latitude":0]),
+		],	])
+	})
+}
 	xxr("- placement of parts", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Net([parts:[
 			Actor([n:"wheelA", placeMy:stackx, "positionViaCon":1, "minHeight":0.0,

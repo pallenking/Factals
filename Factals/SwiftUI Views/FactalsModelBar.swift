@@ -51,7 +51,7 @@ struct PartBaseBar : View {
 			Spacer()
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
-			Button(label:{	Text( "ptm//")										})
+			Button(label:{	Text( "ptmX")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":false])) 				}
 			Button(label:{	Text("ptLm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]))	}
@@ -60,13 +60,13 @@ struct PartBaseBar : View {
 }
 struct SimulatorBar : View {
     @Binding var simulator:Simulator
-
+								
 	@State private var timeNowText  : String = ""
 	@State private var timeStepText : String = ""
 	@State private var simTaskPeriodText: String = ""
-	@State var epoch2 = 0
-	@State private var myDouble: Double = 0.673
-	@State private var volume: 	 Double = 1
+	@State var epoch2 			= 0
+	@State private var myDouble : Double = 0.673
+	@State private var volume   : Double = 1
 
 	var body: some View {
 		HStack {

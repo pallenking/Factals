@@ -33,7 +33,7 @@ class Net : Atom {		// Atom // Part
 				}
 				minSize!.y 		= f
 			}
-			partConfig["minHeight"] = nil
+//			partConfig["minHeight"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory

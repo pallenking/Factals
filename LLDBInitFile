@@ -137,7 +137,8 @@ command alias piFucm	piFuc LLDBParts
 command alias ppm      pp    LLDBParts
 command alias psm       ps    LLDBParts
 command alias plm       pl    LLDBParts
-command alias ptm       pt    LLDBParts
+command alias ptmX      pl    LLDBParts
+#lldbPrint(LLDBParts, mode:.tree, aux:["ppDagOrder":false])
 # ---- p*Lm
 command alias ppLm     ppL   LLDBParts
 command alias plLm      plL   LLDBParts
@@ -414,7 +415,7 @@ command alias lldbinitFactalWorkbench command source ~/DocLocal/HaveNWant/Factal
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # reload with  lldbinit  = '  command source ~/DocLocal/HaveNWant/Factals/LLDBInitFile '
 #    N.B: Edit Schema; in tabs [run | debug]; in field 'lldb init file' enter:$(SRCROOT)/LLDBInitFile
-## Common Commands: ptm, plv, ppn, pfs, ptPm, plLm
+## Common Commands: ptm, ptmX, plv, ppn, pfs, ptPm, plLm
 # :H: Character 1:   p- -: Pretty Print
 # :H: Character 2:   -p -:.phrase; -l -:.line,          -t--:.tree,
 # :H: Character 2:   -c -:classF;  -n -:name,           -f--:fullName, -i--:.id,aaaaaaa
