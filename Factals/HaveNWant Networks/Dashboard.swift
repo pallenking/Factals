@@ -8,7 +8,7 @@ import SceneKit
 // When in XCTest mode, keys with "*" prefix replace their non-star'ed name.
 // 20220912PAK: Simplification: all merged into one hash
 
-  // MARK: - A: App Params		- params4app
+  // MARK: A: Config App
  /// Parameters globally defined for Application()
 let params4app : FwConfig 		= [
 	"soundVolume"	 			: 1,//0.1,// 0:quiet, 1:normal, 10:loud
@@ -16,10 +16,8 @@ let params4app : FwConfig 		= [
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 ]
 
- // MARK: - B: Pretty Print		- params4defaultPp, params4partPp
-let params4defaultPp : FwConfig 		= [:]	// default if none suppled
-
-let params4partPp  : FwConfig 	= [	// ///// All prameters controlling printing Parts
+ // MARK: B: Config Pretty Print of Parts as text
+let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Parts
 				// What:
 	"ppLinks"			: false, 	// pp includes Links  //true//
 	"ppPorts"			: true, 	// pp includes Ports //false//
@@ -29,19 +27,21 @@ let params4partPp  : FwConfig 	= [	// ///// All prameters controlling printing P
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
 
-		// "U":		Show Uid			  "E":		Show my initial expose
-		// "F":		Show Flipped		  "T":		Show my position transform
-		// "V":		Show Vew (self)		  "B":		Show my physics Body
-		// "S":		Show my Scn			  "I":		Show my pIvot point
-		// "P":		Show my Part		  "W":		Show my position in World coordinates
-		// "L":		Show my Leaf height
-	"ppViewOptions"	//	: "UFV    TB W",	// Compact printout
-					//	: "UFVSPLETBIW",	// Vew Property Letters:
-						: "UFVS   TB W",	// Vew Property Letters:
-					//	: "UFV PL  B  ",	// Vew Property Letters:
-					//	: "UFV    TBIW",
+		// "U":		Show ( V ) Uid		  "E":		Show ( VI) initial expose
+		// "F":		Show ( V ) Flipped	  "T":		Show (  I) position transform
+		// "V":		Show ( V ) (self)	  "B":		Show (  I) physics Body
+		// "S":		Show ( V ) Scn		  "I":		Show (  I) pIvot point
+		// "P":		Show ( V ) Part		  "W":		Show (PVI) position in World coordinates
+		// "L":		Show ( V ) Leaf height				   '-> :H: Part, View, scN
+	"ppViewOptions"	//**/:	"UFV    TB W",	// Compact
+					//**/:	"UFVSPLETBIW",	// Everything
+					/**/:	"UFV       W",	// WIP
+					//**/:	"UFVTWB",		// Tests
+					//**/: 	"UFVS   TB W",	//
+					//**/:	"UFV PL  B  ",	//
+					//**/:	"UFV    TBIW",	//
 
-	"ppScnBBox"			: false, 	// pp SCNNode's bounding box	//false//true
+	"ppScnBBox"			: true, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
 	"ppXYZWena"  		: "Y",		//"XYZ"	// disable some dimensions //"XYZW"//
@@ -65,7 +65,9 @@ let params4partPp  : FwConfig 	= [	// ///// All prameters controlling printing P
 	///"ppFloatA": 5, "ppFloatB":2,
 	///"ppFloatA": 3, "ppFloatB":1,
 ]
-  // MARK: - C: Parameters Log		- params4logDetail
+let params4defaultPp : FwConfig = [:]	// default if none suppled
+
+ // MARK: C: Config which events are logged
 let params4logDetail : FwConfig =	// Set events to be logged
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
 	//* Nothing*/					logAt(all:0) +
@@ -75,23 +77,19 @@ let params4logDetail : FwConfig =	// Set events to be logged
 	//* " except  review, resize */	logAt(rve:0, rsi:0, all:9) +
 
 	[							// + +  + +
-		"breakAtEvent"				:45, //150//-54,//240/3/0:off
+		"breakAtEvent"				:-45, //150//-54,//240/3/0:off
 								// + +  + +
 
 		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
 	]
-
-  // MARK: - D: Sim Params			- params4sim
- /// Parameters for simulation
+ // MARK: D: Config Simulation
 let params4sim : FwConfig = [
 	"simRun"				: false,
 	"simTaskPeriod" 			: 0.01,//5 1 .05// Simulation task retry delay nil->no Task
 	"timeStep"					: 0.01,			// Time between UP and DOWN scan (or vice versa)
 	"logSimLocks"				: false,//true//false// Log simulation lock activity
 ]
-
-  // MARK: - E: Scene Params		- params4partVew, wBoxColorOf
- /// FactalsModel Viewing parameters
+ // MARK: E: Config APPEARANCE of Parts on screen
 let params4partVew : FwConfig = [
 //	"initialDisplayMode"		: "invisible"	// mostly expunged
 //	"physics"					: ??

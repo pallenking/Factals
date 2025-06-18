@@ -42,29 +42,24 @@ class Actor : Net {
 		let config				= /*[placeMy:"stackx"] +*/ config_	// default: stackx
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-			// MAKE ALL PARTS OF ACTOR:
-		   //
-		  // CONTEXT, gather parameters and build
-		 //
-		if let con1				= partConfig["con"] as? FwBundle {
-			con					= con1
+		  // MAKE ALL PARTS OF ACTOR:
+		 // CONTEXT, gather parameters and build
+		if let c				= partConfig["con"] {
+			guard let cc		= c as? FwBundle else {fatalError("Parts.con isn't FwBundle")}
+			con					= cc
 			partConfig["con"] 	= nil
-			con1.name 			= "con"
-			addChild(con1)
+			con!.name 			= "con"
+			addChild(con)
 		}
-		let con1				= partConfig["con"]
-		assertWarn(con1==nil, "'con:\(con1!.pp(.fullNameUidClass))' must be a FwBundle")
 
-		  // EVIDENCE, gather parameters and build
-		 //
-		if let evi1				= partConfig["evi"] as? FwBundle {
-			evi					= evi1
+		 // EVIDENCE, gather parameters and build
+		if let e				= partConfig["evi"] {
+			guard let ee		= e as? FwBundle else {fatalError("Parts.evi isn't FwBundle")}
+			evi					= ee
 			partConfig["evi"]	= nil
-			evi1.name			= "evi"
-			addChild(evi1)
+			evi!.name			= "evi"
+			addChild(evi)
 		}
-		let evi1				= partConfig["evi"]
-		assertWarn(evi1==nil, "'evi:\(evi1!.pp(.fullNameUidClass))' must be a FwBundle")
 
 		viewAsAtom		 		= partConfig["viewAsAtom"		   ]?.asBool ?? false
 		linkDisplayInvisible	= partConfig["linkDisplayInvisible"]?.asBool ?? false
@@ -219,13 +214,13 @@ class Actor : Net {
 				children.insert(con!, at:0)			// at start
 				con!.parent 	= self				// required first time
 			}
-			if evi != nil {			// ///// evi exists:
-				if let ind 			= children.firstIndex(where: {$0 === evi!}),//(of:evi!),
-				  ind != children.count-1 {			// evi not last:
-					children.remove(at:ind)				// remove
-					children.append(evi!)				// add at end
-					evi!.parent 	= self				// required first time
-				}
+		}
+		if evi != nil {			// ///// evi exists:
+			if let ind 			= children.firstIndex(where: {$0 === evi!}),//(of:evi!),
+			  ind != children.count-1 {			// evi not last:
+				children.remove(at:ind)				// remove
+				children.append(evi!)				// add at end
+				evi!.parent 	= self				// required first time
 			}
 		}
 	}

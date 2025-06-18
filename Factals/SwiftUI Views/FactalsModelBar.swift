@@ -51,6 +51,8 @@ struct PartBaseBar : View {
 			Spacer()
 			Button(label:{	Text( "ptm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
+			Button(label:{	Text( "ptm//")										})
+			{	print(partBase.pp(.tree, ["ppDagOrder":false])) 				}
 			Button(label:{	Text("ptLm")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":true, "ppLinks":true]))	}
 		}

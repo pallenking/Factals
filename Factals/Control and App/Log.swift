@@ -115,12 +115,12 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	///   - eventDetail:	detail of the event, how geeky is it 0<msgPri<10
 	///   - eventAction: 	action to be executed if area/detail matches
 	func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
-		if eventIs(ofArea:eventArea, detail:eventDetail) {
+		if eventIsWanted(ofArea:eventArea, detail:eventDetail) {
 			let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
 			Log.shared.logd(format, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
 		}
 	}
-	func eventIs(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
+	func eventIsWanted(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
 		assert(eventDetail >= 0 && eventDetail < 10, "Message prioritiy \(eventDetail) isn't in range 0...9")
 		let detailWanted			= Log.shared.detailWanted
 		if let x = detailWanted [eventArea] {	// area definition supercedes all others

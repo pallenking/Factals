@@ -199,7 +199,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}
 	deinit {//func ppUid(pre:String="", _ obj:Uid?, post:String="", showNil:Bool=false, aux:FwConfig = [:]) -> String {
-		if Log.shared.eventIs(ofArea:"bld", detail:3) {
+		if Log.shared.eventIsWanted(ofArea:"bld", detail:3) {
 			print("#### DEINIT    \(ppUid(self)):\(fwClassName)") // 20221105 Bad history deleted
 		}
 	}
@@ -783,7 +783,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 		if (maxLevel ?? 1) > 0 {					// 0 nothing else; 1 immediate children; 2 ...
 			let mLev1			= maxLevel != nil ? maxLevel! - 1 : nil
-			let orderedChildren	= (flippedInWorld /*^^ findWorldUp*/) ? children.reversed() : children
+			let orderedChildren	= flippedInWorld ? children.reversed() : children
 			 // Check children:
 			for child in orderedChildren
 			  where mineBut === nil || child !== mineBut! { // don't redo exception
@@ -984,7 +984,9 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part	// xyzzy32 xyzzy18
 
 		 //------ reSize all   _CHILD Atoms_     No Ports
-		let orderedChildren		= flippedInWorld/*==findWorldUp*/ ? vew.children : vew.children.reversed()
+		// unflipped works bottom up
+		let orderedChildren		= flippedInWorld ? vew.children : vew.children.reversed()
+//		let orderedChildren		= flippedInWorld==findWorldUp ? vew.children : vew.children.reversed()
 		for childVew in orderedChildren 	// For all Children, except
 		  where !(childVew.part is Port) 		// Atom handles child Ports
 		{	let childPart		= childVew.part

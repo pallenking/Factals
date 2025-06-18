@@ -204,7 +204,7 @@ class TimingChain : Atom {
 			discreteTimes.append(dt2add)
 		}
 		else {
-			if Log.shared.eventIs(ofArea:"dat", detail:4) {
+			if Log.shared.eventIsWanted(ofArea:"dat", detail:4) {
 				warning("TimingChain's 'P' Port must be connected to a DiscreteTime\n" +
 						"\t" + "Sometimes this is from an auto-inserted")
 			}
@@ -215,7 +215,7 @@ class TimingChain : Atom {
 			worldModel			= mySAtom
 		}
 		else {
-			if Log.shared.eventIs(ofArea:"dat", detail:4) {
+			if Log.shared.eventIsWanted(ofArea:"dat", detail:4) {
 				warning("TimingChain's 'S' Port must be connected to a WorldModel")
 			}
 		}

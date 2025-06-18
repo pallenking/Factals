@@ -385,7 +385,7 @@ class Port : Part, PortTalk {
 		}
 	 	// MARK: - 15. PrettyPrint
 		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
-			let wpStr			= !aux.string_("ppViewOptions").contains("W") ? "" : {		// World position
+			let wpStr			= !aux.string_("ppViewOptions").contains("W") ? "" : {		// World position of Port
 				guard let vb	= inVew?.vewBase() else { return "root of inVew bad" }
 				return "w" + inVew!.scnRoot.convertPosition(center, to:vb.scnBase.roots?.rootNode).pp(.short, aux) + " "
 			} ()
@@ -440,7 +440,7 @@ class Port : Part, PortTalk {
 
 		  // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
 		 //
-		guard let scnScene		= csVisVew.vewBase()?.scnBase.roots else { return rv }
+	//	guard let scnScene		= csVisVew.vewBase()?.scnBase.roots else { return rv }
 		for openVew in csVisVew.selfNParents {								// while openVew != vew {
 			guard openVew != vew else 	{				break					}
 			let scn				= openVew.scnRoot
@@ -457,7 +457,7 @@ class Port : Part, PortTalk {
 //			let hiVew 			= openVew.find(part:hiPart)!					// commonVew
 //			let hiBBoxInCom		= hiVew.bBox * hiVew.scnScene.transform
 
-			let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:nil/*scnScene*/).pp(.short, aux)
+	//		let openWPosn		= openVew.scnRoot.convertPosition(rv.center, to:nil/*scnScene*/).pp(.short, aux)
 			let wpStr 			= !enaPpWorld ? "" :  "w\\(openWPosn) "
 			logRsi(8, "  now spot=[\(rv.pp(aux))] \(wpStr) (after \(lTrans.pp(.phrase)))")
 		}

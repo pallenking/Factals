@@ -260,11 +260,11 @@ class Atom : Part {	//Part//FwPart
 			pProp.contains("f") == wantUp!),//  flip matches)
 		    pProp.contains("a")				// a=auto-populate
 		{		// Make a new Port:
-			let newPort				= (self is Splitter) ? (self as? Splitter)?.anotherShare(named:"*") :
-									  !pProp.contains("M") ?
-										   Port(["named":wantName, "portProp":pProp]) :
+			let newPort				= (self is Splitter) ? (self as? Splitter)?.anotherShare(named:"*")
+									: !pProp.contains("M")
+									?	   Port(["named":wantName, "portProp":pProp]) :
 									  MultiPort(["named":wantName, "portProp":pProp])
-			ports[wantName] = newPort
+			ports[wantName] 		= newPort
 			addChild(newPort)
 			return newPort					// (always open)
 		}
@@ -491,8 +491,8 @@ class Atom : Part {	//Part//FwPart
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
 			/**/	let srcPort	= self.getPort(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
-					assert(srcPort != nil, "srcPort==nil")
-								
+					assert(srcPort != nil, "couldn't getPort(named:\(srcPortName ?? "<unnamed>"))")
+
 					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon == trgAtom.isFlipped(withResepectTo:conNet)
 					let trgInfo	= "   -- TARGET:\(trgAtom.fullName16)" +
@@ -680,7 +680,7 @@ class Atom : Part {	//Part//FwPart
 			vew.scnRoot.position.y	= -port.height
 		}
 		else {
-			if Log.shared.eventIs(ofArea:"rsi", detail:3) {
+			if Log.shared.eventIsWanted(ofArea:"rsi", detail:3) {
 				warning("Did not find position for '\(port.pp(.fullNameUidClass))'")
 			}
 			vew.scnRoot.transform	= .identity

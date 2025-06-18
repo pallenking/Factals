@@ -486,7 +486,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			selfiePole2camera(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
-			if Log.shared.eventIs(ofArea:"eve", detail:8) {
+			if Log.shared.eventIsWanted(ofArea:"eve", detail:8) {
 				print("\( vewBase.cameraScn?.transform.pp(PpMode.tree) ?? " cam=nil! ")")
 			}
 	/**/	if !mouseWasDragged {			// UnDragged Up -> pic
@@ -580,7 +580,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 				}
 			}
 		}
-		if Log.shared.eventIs(ofArea:"eve", detail:3) {
+		if Log.shared.eventIsWanted(ofArea:"eve", detail:3) {
 			print("\t\t" + "** No Part FOUND\n")
 		}
 		return nil
@@ -653,7 +653,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else
 		{	return nil															}
 		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
-		if Log.shared.eventIs(ofArea:"eve", detail:3) {
+		if Log.shared.eventIsWanted(ofArea:"eve", detail:3) {
 			print("\n" + msg)
 		}
 		return vew

@@ -489,7 +489,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 			return								// no overlap, done!
 		}
 		logRsi(5, " in parent:  bBox=\(sBBoxInP.pp(.line)), ctr=\(sCenterInP.pp(.line)). Relevant Spots:")
-		if Log.shared.eventIs(ofArea:"rsi", detail:5) {
+		if Log.shared.eventIsWanted(ofArea:"rsi", detail:5) {
 			logSpots(relevantSpots)
 		}
 		 // go through all given spots, adding the 4 points around each
@@ -688,6 +688,9 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 					rv			+= " " + expose.pp(.short, aux)			  // (M)
 					rv			+= keep ? "+" : "-"						  // (M)
 				}
+
+// SCN:
+
 				var rv1			= ""						// /// POSITIONS:
 				if ppViewOptions.contains("T") {				 	// Transform:
 					let tr		= scn.transform.pp(.phrase, aux)		  // (N)
@@ -717,8 +720,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 				if !(self is LinkVew) {
 					 // SceneKit's BBox:
 					if aux.bool_("ppScnBBox") {
-						rv += tight("", "s") + scn.bBox().pp(.line, aux)
-//						rv += tight("", "s") + scnRoot.bBox().pp(.line, aux)
+						rv += tight("", "s") + scn.bBox().pp(.line, aux) + " "
 					}
 					 // Factal Workbench BBox:
 					if aux.bool_("ppFwBBox") {

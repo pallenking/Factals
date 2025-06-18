@@ -1509,17 +1509,34 @@ xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve
 		]),
 	] ])
 })
-xr("- upside down Actor", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
-	Net([parts:[
-		Actor([n:"w", placeMy:"linky"/*stackx*/, "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel([struc:["fwd"], of:"bcast", f:1, "latitude":1], leafConfig:[f:1]),
-			"parts":[
-				Hamming([P:"fwd"/*, share:"a"*/, f:1, "latitude":1]),
-			],
-// 			"evi":Tunnel([struc:["a"], of:"bcast", f:1], leafConfig:[jog:1/*, f:1*/]) //)//
-		]),
-	] ])
-})
+
+xxr("- t1 non-Actor", ["wBox":"black"], { Net([parts:[	// t1
+	Net([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
+		"parts":[
+			FwBundle([n:"con", struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),
+			Hamming([P:"fwd", f:1, "latitude":0]),
+		],
+	]),
+] ]) })
+xxr("- t2 Actor", ["wBox":"black"], { Net([parts:[		// t2
+	Actor([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
+		"con":FwBundle([struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),
+		"parts":[
+			Hamming([P:"fwd", /*share:"a",*/ f:1, "latitude":0]),
+		],
+	]),
+] ]) })
+xr("- t2 Actor", ["wBox":"black"], { Net([parts:[		// t3
+	Actor([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
+		"con":Leaf([n:"fwd", of:"bcast"]),
+//			let newLeaf			= Leaf(["n":struc, "of":leafKind], leafConfig)
+//		"con":FwBundle([struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),
+		"parts":[
+			Hamming([P:"con", /*share:"a",*/ f:1, "latitude":0]),
+		],
+	]),
+] ]) })
+
 	xxr("- placement of parts", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 		Net([parts:[
 			Actor([n:"wheelA", placeMy:stackx, "positionViaCon":1, "minHeight":0.0,
