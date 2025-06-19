@@ -1495,43 +1495,52 @@ xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 })
 xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
-//		Broadcast([n:"fwd", f:1]),
-//		Tunnel([struc:["fwd"], of:"bcast"/*nil_A*/,  f:0]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+													// Broadcast([n:"fwd", f:1]),
+													// Tunnel([struc:["fwd"], of:"bcast"/*nil_A*/,  f:0]),	//bcast/*nil_A*///genPrev		//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 		Actor([n:"wheelA", placeMy:"linky"/*stackx*/, "positionViaCon":1, "minHeight":0.0,
-			"con":Tunnel([struc:["fwd"], of:"bcast", f:0], leafConfig:[f:1]),
+			"con":FwBundle([struc:["fwd"], of:"bcast", f:1], leafConfig:[f:0]),
 			"parts":[
-				Hamming([P:"fwd", share:"a", f:1]),
+				Hamming([P:"fwd", share:"a.-", f:1]),
 				Hamming([P:"fwd", share:"b", f:1]),
-//				Hamming([P:"fwd", share:"c", f:1, jog:"0 0 2"]),
+				Hamming([P:"fwd", share:"c", f:1, jog:"0 0 2"]),
 			],
- 			"evi":Tunnel([struc:["a", "b"], of:"bcast", f:1])//, leafConfig:[f:1]
-//			"evi":Tunnel([struc:["a", "b", "c"], of:"genPrev", f:1], leafConfig:[spin:2])	//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+// 			"evi":FwBundle([struc:["a", "b"], of:"bcast", f:0])//, leafConfig:[f:1]
+			"evi":FwBundle([struc:["a", "b", "c"], of:"genPrev", f:0], leafConfig:[spin:4])	//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 		]),
 	] ])
 })
 
+xr("- shapeTest", [:], {
+	Net([n:"w", placeMy:"stacky","parts":[
+		FwBundle([struc:["a", "b", "c"], of:"genPrev", f:0], leafConfig:[spin:4]),	//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
+		Sphere([n:"sphere"]),
+		Box([n:"box"]),
+],	]) })
+	
 if false {		//true//false//
-	xr("- t1 non-Actor", ["wBox":"black"], {
-		Net([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
+	xxr("- t1 non-Actor", [:], {
+		Net([n:"w", placeMy:"linky", "minHeight":0.0,//, "positionViaCon":1
 			"parts":[
 				FwBundle([n:"con", struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),	// Leaf([n:"fwd", of:"bcast", f:0]),
 				Hamming([P:"fwd", f:1, "latitude":0]),
 	],	]) })
 } else {
-	xr("- t2 Actor UPSIDEDOWN", ["wBox":"black"], {
-		Actor([n:"w", placeMy:"linky", "positionViaCon":1, "minHeight":0.0,
-			"con":FwBundle([n:"con", struc:["fwd"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),	// "con":Leaf([n:"fwd", of:"bcast", f:0]/*, leafConfig:[f:1]*/),
+	xxr("- t2 Actor UPSIDEDOWN", [:], {
+		Actor([n:"w", placeMy:"linky", "minHeight":0.0,
+			"con":FwBundle([n:"con", struc:["fwd", "xxx"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),	// "con":Leaf([n:"fwd", of:"bcast", f:0]/*, leafConfig:[f:1]*/),
 			"parts":[
-				Hamming([/*P:"con",*/ f:1, "latitude":0]),
+				Hamming([n:"ham", P:"fwd",/**/ f:1, "latitude":0]),
+				Hamming([n:"ham", P:"xxx",/**/ f:1, "latitude":0]),
 		],	])
 	})
 }
-	xxr("- placement of parts", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+	xxr("- placement of parts", [:], {
 		Net([parts:[
 			Actor([n:"wheelA", placeMy:stackx, "positionViaCon":1, "minHeight":0.0,
+				"con":FwBundle([n:"con", struc:["fwd1", "fwd2"], of:"bcast", f:1, "latitude":0], leafConfig:[f:1]),	// "con":Leaf([n:"fwd", of:"bcast", f:0]/*, leafConfig:[f:1]*/),
 				"parts":[
-					Hamming([P+X:"fwd2", f:1, jog+X:4]),
-					Hamming([P+X:"fwd2", f:1]),
+					Hamming([P:"fwd1", f:1, jog+X:4]),
+					Hamming([P:"fwd2", f:1]),
 				],
 			]),
 		] ])

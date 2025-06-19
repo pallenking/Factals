@@ -23,15 +23,15 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 	"ppPorts"			: true, 	// pp includes Ports //false//
 	"ppScnMaterial"		: false, 	// pp of SCNNode prints materials (e.g. colors) on separate line
 				// Order:
-	"ppDagOrder"		: true, 	//true//false//
+	"ppDagOrder"		: false, 	//true//false//
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
 
-		// "U":		Show ( V ) Uid		  "E":		Show ( VI) initial expose
-		// "F":		Show ( V ) Flipped	  "T":		Show (  I) position transform
-		// "V":		Show ( V ) (self)	  "B":		Show (  I) physics Body
-		// "S":		Show ( V ) Scn		  "I":		Show (  I) pIvot point
-		// "P":		Show ( V ) Part		  "W":		Show (PVI) position in World coordinates
+		// "U":		Show ( V ) Uid		// "E":		Show ( VI) initial expose
+		// "F":		Show ( V ) Flipped	// "T":		Show (  I) position transform
+		// "V":		Show ( V ) (self)	// "B":		Show (  I) physics Body
+		// "S":		Show ( V ) Scn		// "I":		Show (  I) pIvot point
+		// "P":		Show ( V ) Part		// "W":		Show (PVI) position in World coordinates
 		// "L":		Show ( V ) Leaf height				   '-> :H: Part, View, scN
 	"ppViewOptions"	//**/:	"UFV    TB W",	// Compact
 					//**/:	"UFVSPLETBIW",	// Everything

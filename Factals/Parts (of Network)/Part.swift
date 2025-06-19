@@ -145,7 +145,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			if let na:String 	= partConfig[key] as? String {
 				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
 				nam				= na
-				partConfig[key] = nil			// remove from config
+//				partConfig[key] = nil			// remove from config
 			}
 		}			// -- Name was given
 		name					= nam ?? { [self] in
@@ -985,8 +985,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 
 		 //------ reSize all   _CHILD Atoms_     No Ports
 		// unflipped works bottom up
-		let orderedChildren		= flippedInWorld ? vew.children : vew.children.reversed()
-//		let orderedChildren		= flippedInWorld==findWorldUp ? vew.children : vew.children.reversed()
+		let orderedChildren		= (flippedInWorld^^firstIsUp) ? vew.children.reversed() : vew.children
 		for childVew in orderedChildren 	// For all Children, except
 		  where !(childVew.part is Port) 		// Atom handles child Ports
 		{	let childPart		= childVew.part
@@ -1218,7 +1217,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			var newBip			= vew.bBox * vew.scnRoot.transform //new bBox in parent
 			var rv				= -newBip.center // center selfNode in parent
 			newBip.center		= .zero
-			logRsi(4, ">>===== Position (by:  \(mode)   ):  \(self.fullName) -stacked-in- \(parent?.fullName ?? "nil") ")
+			logRsi(4, ">>===== Position    '\(self.name)'   (by:  \(mode)   )  in \(parent?.fullName ?? "nil") ")
 			let stkBip 			= vew.parent!.bBox
 			rv		 			+= stkBip.center // center of stacked in parent
 			let span			= stkBip.size + newBip.size	// of both parent and self
@@ -1485,14 +1484,11 @@ bug//never gets here
 	}
 	  //	 MARK: - 15.1 pp support
 	 /// Print children
-	func ppSelf(_ aux:FwConfig) -> String {
-		let rv					= mark_line(aux, pp(.line, aux) + "\n")
-		return rv
-	}
+	func ppSelf(_ aux:FwConfig) -> String { mark_line(aux, pp(.line, aux) + "\n") }
 	 /// Print children
 	func ppChildren(_ aux:FwConfig, reverse:Bool, ppPorts:Bool) -> String {
 		var rv					= ""
-		Log.shared.nIndent				+= 1		//root?.
+		Log.shared.nIndent		+= 1		//root?.
 		let orderedChildren		= reverse ? children.reversed() : children
 		for child in orderedChildren where ppPorts || !(child is Port) {
 			 // Exclude undesireable Links
@@ -1500,7 +1496,7 @@ bug//never gets here
 				rv				+= mark_line(aux, child.pp(.tree, aux))
 			}
 		}
-		Log.shared.nIndent				-= 1
+		Log.shared.nIndent		-= 1
 		return rv
 	}
 	 /// Print Ports

@@ -395,10 +395,10 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	func scn1Line(prefix:String="", _ aux:FwConfig) -> String {
 		var p					= transform.pp(.phrase, aux)		// position	 (E)
 		p						= p == "I0" ? "" : ("p" + p + " ")
-		var t					= pivot.pp(.phrase, aux)
-		t						= t == "I0" ? "" : ("i" + t + " ")
+		var piv					= pivot.pp(.phrase, aux)
+		piv						= piv == "I0" ? "" : ("i" + piv + " ")
 		let ppNCols4ScnPosn 	= aux.int_("ppNCols4ScnPosn")
-		var rv2					= (prefix + p + t).field(-ppNCols4ScnPosn, dots:false) + " "// (E)
+		var rv2					= (prefix + p + piv).field(-ppNCols4ScnPosn, dots:false) + " "// (E)
 		if aux.bool_("ppScnBBox") {
 			rv2					+= "s" + bBox().pp(.line, aux)
 		}

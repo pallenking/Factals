@@ -30,30 +30,29 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }// 
-var LLDBParts : PartBase		{	(FACTALSMODEL ?? runtFm()  ).partBase}
-var runtFm						= { FactalsModel(partBase:PartBase(), configure:[:]) } 				// ?? debugger("FACTALSMODEL is nil") as! PartBase }
+var  LLDBParts : PartBase		{	FACTALSMODEL!.partBase 						}
 func LLDBParts(_ name:String?=nil) -> Part  {
-	guard var rv : Part			= FACTALSMODEL?.partBase.tree else {
-									return Part(["name":"COULD NOT FIND tree"])	}
-	if name != nil {			// Search for sought Part	//maxLevel:1,
-		rv						= rv.find(name:name!, up2:false, inMe2:true) ?? rv
-	}
+	guard var rv : Part			= FACTALSMODEL?.partBase.tree
+	 else { return Part(["name":"COULD NOT FIND tree"])							}
+	if name != nil 				// Search for sought Part	//maxLevel:1,
+	{	rv						= rv.find(name:name!, up2:false, inMe2:true) ?? rv }
 	return rv
 }
 
  /// Access to current ////// Vew Tree //////
 var  LLDBvews0  : VewBase {
-	get 		{	return FACTALSMODEL?.vewBases.first ?? debugger("vewBases.first is nil") as! VewBase	}
+	get 		{	return FACTALSMODEL?.vewBases.first ??
+						   fatalError("vewBases.first is nil") as! VewBase		}
 	set (v)		{		   FACTALSMODEL?.vewBases[0] = v						}
 }
 var  LLDBvews1  : VewBase {
 	get 		{	return FACTALSMODEL!.vewBases.count > 1 ? FACTALSMODEL!.vewBases[1]
-						 : debugger("vewBases.first is nil") as! VewBase		}
+						 : fatalError("vewBases.first is nil") as! VewBase		}
 	set (v)		{		   FACTALSMODEL?.vewBases[1] = v						}
 }
 var  LLDBvews2  : VewBase {
 	get 		{	return FACTALSMODEL!.vewBases.count > 2 ? FACTALSMODEL!.vewBases[2]
-						 : debugger("vewBases[2] is nil") as! VewBase			}
+						 : fatalError("vewBases[2] is nil") as! VewBase			}
 	set (v)		{		   FACTALSMODEL?.vewBases[2] = v						}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {

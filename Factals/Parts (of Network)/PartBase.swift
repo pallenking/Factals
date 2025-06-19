@@ -62,7 +62,7 @@ class PartBase : Codable, ObservableObject, Uid {
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		checkTree()
-		logBld(4, "Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":true]))
+		logBld(4, "Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":false]))
 
 		 //  1. GATHER LINKS as wirelist:
 		logBld(4, "------- GATHERING potential Links:")
@@ -97,7 +97,7 @@ class PartBase : Codable, ObservableObject, Uid {
 
 		 //  6. Print Part
 		let sim					= factalsModel?.simulator
-		logBld(2, "------- Parts, ready for simulation, simRun:\(sim?.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":true])))
+		logBld(2, "------- Parts, ready for simulation, simRun:\(sim?.simRun ?? false)):\n" + (pp(.tree, ["ppDagOrder":false])))
 		sim?.simBuilt 			= true		// maybe before config4log, so loading simEnable works
 
 		 //  7. TITLE of window: 			//e.g: "'<title>' 33:142 (3 Ports)"

@@ -31,50 +31,50 @@ class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0
 	   // //////////// linkages for library entries ////////////////
 	  // Tests are wrapped in closures, so they are not evaluated if not needed
 	 /// An Unmarked experiment (e.g. r()) might still be selected by name or sought number.
-	func r(	_ config:FwConfig, _ rootClosure:@escaping PartClosure,
+	func r( _ testName:String?=nil,
+			_ config:FwConfig/*=[:]*/, _ rootClosure:@escaping PartClosure,
 			_ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:false, testName:nil,
+	{	registerNetwork(markedXr:false, testName:testName,
 						config:config, rootClosure:rootClosure,
 						file:file, lineNumber:lineNumber)
 	}
-	func r( _ testName:String?=nil,
-			_ config:FwConfig, _ rootClosure:@escaping PartClosure,
+	func r(	_ config:FwConfig/*=[:]*/, _ rootClosure:@escaping PartClosure,
 			_ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:false, testName:testName,
+	{	registerNetwork(markedXr:false, testName:nil,
 						config:config, rootClosure:rootClosure,
 						file:file, lineNumber:lineNumber)
 	}
 
 	 /// The one test is marked xr() will be run.
-	func xr(_ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			_ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:true, testName:nil,
-						config:config, rootClosure:rootClosure,
-						file:file, lineNumber:lineNumber)
-	}
 	func xr(_ testName:String?=nil,
-			_ config:FwConfig, _ rootClosure:@escaping PartClosure,
+			_ config:FwConfig/*=[:]*/, _ rootClosure:@escaping PartClosure,
 			_ file:String?=#file, _ lineNumber:Int=#line)
 	{	registerNetwork(markedXr:true, testName:testName,
 						config:config, rootClosure:rootClosure,
 						file:file, lineNumber:lineNumber)
 	}
-
-	 /// Texts marked xxr() are ignored as are the r(), but easily searchable by "xr"
-	func xxr(_ config:FwConfig, _ rootClosure:@escaping PartClosure,
-			 _ file:String?=#file, _ lineNumber:Int=#line)
-	{	registerNetwork(markedXr:false, testName:nil,
+	func xr(_ config:FwConfig/*=[:]*/, _ rootClosure:@escaping PartClosure,
+			_ file:String?=#file, _ lineNumber:Int=#line)
+	{	registerNetwork(markedXr:true, testName:nil,
 						config:config, rootClosure:rootClosure,
 						file:file, lineNumber:lineNumber)
 	}
+
+	 /// Texts marked xxr() are ignored as are the r(), but easily searchable by "xr"
 	func xxr(_ testName:String?=nil,
-			 _ config:FwConfig, _ rootClosure:@escaping PartClosure,
+			 _ config:FwConfig/*=[:]*/, _ rootClosure:@escaping PartClosure,
 			 _ file:String?=#file, _ lineNumber:Int=#line)
 	{	registerNetwork(markedXr:false, testName:testName,
 						config:config, rootClosure:rootClosure,
 						file:file, lineNumber:lineNumber)
 	}
-	
+	func xxr(_ config:FwConfig/*=[:]*/, _ rootClosure:@escaping PartClosure,
+			 _ file:String?=#file, _ lineNumber:Int=#line)
+	{	registerNetwork(markedXr:false, testName:nil,
+						config:config, rootClosure:rootClosure,
+						file:file, lineNumber:lineNumber)
+	}
+
 	 /// Definition of a particular test, to exp
 	func registerNetwork(markedXr	 	:Bool,
 						 testName	 	:String?,

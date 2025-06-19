@@ -203,9 +203,9 @@ xxx			func apply(struc:FwAny, of leafKind:LeafKind = .genAtom, arg:FwAny?=nil, l
 		  // HASH: apply each par of con to self (key->con; val->subSpec
 		 // <key>=name of new element; <val>=kind of element
 		else if let config = struc as? FwConfig{// Hash of name:kind
-			for (conKey, conValue) in config {		// paw through hash
+bug;		for (conKey, conValue) in config {		// paw through hash
 				let newLeaf		= Leaf(["n":conKey, "of":leafKind], leafConfig)
-bug; // what is conValue used for?
+ // what is conValue used for?
 				addChild(newLeaf)
 	//			apply(struc:conKey, arg:conValue, leafConfig:leafConfig)		//, tunnelConfig)
 				// newElt		name		  constructor	prototypes

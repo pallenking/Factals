@@ -79,6 +79,7 @@ func panic(_ message: @autoclosure () -> String="Panic with No message",
 //func fatal (_ message:String,	file:StaticString = #file, line:UInt = #line ) {
 //	print(message)
 //	raise(SIGTRAP)	//raise(SIGINT)	//	builtin_debugtrap() __builtin_trap()//while true { print("\t--------------------------------")}
+//	raise(SIGTRAP)	//raise(SIGINT)	//	builtin_debugtrap() __builtin_trap()//while true { print("\t--------------------------------")}
 //}
 
    /// Clock time

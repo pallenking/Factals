@@ -49,8 +49,8 @@ struct PartBaseBar : View {
 				.bold()
 			Text(partBase.hnwMachine.postTitle)
 			Spacer()
-			Button(label:{	Text( "ptm")										})
-			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
+//			Button(label:{	Text( "ptm")										})
+//			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text( "ptmX")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":false])) 				}
 			Button(label:{	Text("ptLm")										})

@@ -720,7 +720,7 @@ class Atom : Part {	//Part//FwPart
 		var avgPosition	:SCNVector3	= .zero		// default return position is Nan
 		var lastDomIf2	: Part?	= nil
 
-		logRsi(4, ">>===== Position (by:  \(mode ?? "2r23")  ):  \(self.fullName) -via-links-in- \(parent?.fullName ?? "nil")")
+		logRsi(4, ">>===== Position    '\(self.name)'   (by:  \(mode ?? "2r23")  ) in \(parent?.fullName ?? "nil")")
 			   // /////////////////////////////////////////////////////////////// //
 			  // 															     //
 			 //  For all enclosed subBits, looking for things to position it by //
@@ -906,10 +906,10 @@ class Atom : Part {	//Part//FwPart
 			nLinesLeft			= UInt8(fwAny:n) ?? 255
 
 			if !ppDagOrder {	// Array Order:
-				rv				+= printPorts(aux, early:true)
+//				rv				+= printPorts(aux, early:true)
 				rv				+= ppSelf(	  aux)
-				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:false)
-				rv				+= printPorts(aux, early:false)
+				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:true)
+//				rv				+= printPorts(aux, early:false)
 			}
 			else {				// Dag Order:
 				rv				+= ppChildren(aux, reverse:reverseOrder, ppPorts:false)

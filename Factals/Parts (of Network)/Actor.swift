@@ -29,55 +29,44 @@ class Actor : Net {
 	/// - Parameter config_: hash with parameters:
 	/// 1.	"con" : Context FwBundle (flipped by default)
 	/// 2.	"evi" : Evidence FwBundle:
-	/// 	- a. evi.struc				: <>
-	/// 	- b. evi.proto				:<Leaf>
-	///		- c. evi.info				:{...}
-	///		- d. evi.spin				: <spin>
-	///		- e. evi.is					:"aTunnel", "aBundle"
 	/// 3.	"viewAsAtom" : Bool - Initially view as Atomic
 	/// 4.	"linkDisplayInvisible" : Bool
 	/// 5.	"E"						: Bool -- Enable Actor operation
 	/// 6.	"TimingChain":1		: add timing chain module
-	override init(_ config_:FwConfig = [:]) {
-		let config				= /*[placeMy:"stackx"] +*/ config_	// default: stackx
+	override init(_ config:FwConfig = [:]) {
+		//let config			= config	// default: /*[placeMy:"stackx"] +*/ stackx
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		  // MAKE ALL PARTS OF ACTOR:
 		 // CONTEXT, gather parameters and build
 		if let c				= partConfig["con"] {
-			guard let cc		= c as? FwBundle else {fatalError("Parts.con isn't FwBundle")}
-			con					= cc
-//			partConfig["con"] 	= nil
+			guard let cc		= c as? FwBundle else { fatalError("Actor's 'con' isn't FwBundle") }
+			con					= cc					// partConfig["con"] 	= nil
 			con!.name 			= "con"
-			addChild(con)
+			addChild(con, atIndex:0)		// highest index is top
+			proxyColor			= .red		// Color CONtext FwBundle RED (
+								//	let _					= con?.findCommon(firstWith:
+								//	{(m:Part) -> Part? in
+								//		(m as? Atom)?.proxyColor = .red
+								//		return nil
+								//	})
 		}
-
 		 // EVIDENCE, gather parameters and build
 		if let e				= partConfig["evi"] {
 			guard let ee		= e as? FwBundle else {fatalError("Parts.evi isn't FwBundle")}
-			evi					= ee
-//			partConfig["evi"]	= nil
+			evi					= ee					// partConfig["evi"]	= nil
 			evi!.name			= "evi"
-			addChild(evi)
+			addChild(evi)					// lowest index is bottom
+			proxyColor			= .green	// Color EVIdence FwBundle GREEN (
+								//	let _					= evi?.findCommon(firstWith:
+								//	{(m:Part) -> Part? in
+								//		(m as? Atom)?.proxyColor = .green
+								//		return nil
+								//	})
 		}
-
 		viewAsAtom		 		= partConfig["viewAsAtom"		   ]?.asBool ?? false
 		linkDisplayInvisible	= partConfig["linkDisplayInvisible"]?.asBool ?? false
 		positionViaCon			= partConfig["positionViaCon"	   ]?.asBool ?? false
-
-		 // Color EVIdence FwBundle GREEN (
-		let _					= evi?.findCommon(firstWith:
-		{(m:Part) -> Part? in
-			(m as? Atom)?.proxyColor = .green
-			return nil
-		})
-		 // Color CONtext FwBundle RED (
-		let _					= con?.findCommon(firstWith:
-		{(m:Part) -> Part? in
-			(m as? Atom)?.proxyColor = .red
-			return nil
-		})
-
 //		enforceOrder()						// evi on bottom, con on top
 		partConfig["addPreviousClock"] = 1	// Add Previous Clock for me
 	}
@@ -133,7 +122,7 @@ class Actor : Net {
 		let rv					= super.equalsFW(rhs)
 			&& con != nil && rhs.con != nil && con!.equalsFW(rhs.con!)
 			&& evi != nil && rhs.evi != nil && evi!.equalsFW(rhs.evi!)
-&& {bug;return false}()// Value of type '[Part]' has no member 'equals'
+			&& {bug;return false}()// Value of type '[Part]' has no member 'equals'
 //			&& previousClocks != nil && rhs.previousClocks != nil
 //											&& previousClocks.equals(rhs.previousClocks)
 			&& positionViaCon 	== rhs.positionViaCon
@@ -298,62 +287,62 @@ bug;		let enaPort			= Port()
 	override func reSize(vew:Vew) {
 		super.reSize(vew:vew)
 
-		  //// 1. BOUND all, in order of v.superViews (==self.parts):  DO NOT PLACE
-		 /**/	// CONtext (if it exists)
-				// ... other entries ...
-				// EVIdence (if it exists)
-		var first				= true
-		for childVew in vew.children {			// Subviews:
-			let childPart		= childVew.part
-			 /// First Repack:
-			childPart    .reSize(vew:childVew)		// #### HEAD RECURSIVE
-			 /// Then Reposition:
-			childPart.rePosition(vew:childVew)
-			childVew.orBBoxIntoParent()
-			first				= false
-			//childVew.placed	= true
-		}
-		vew.bBox 				= .empty	// initially nil, to occupy elt 0's origin
-
-		  /// 2. PLACE   (CONtext FIRST, at the BOTTOM,
-		 /// so the assimilated content can be better placed
-		if con != nil && positionViaCon {
-			guard let conVew 	= vew.children.last
-			else {	return panic("why is't there an element in v?")				}
-			con!.rePosition(vew:conVew, first:true)
-			conVew.orBBoxIntoParent()
-		}
-		vew.bBox = .empty					// remove con from self, but it's still placed
-		  /// 3. Scan subVews: begin<< [evi], . .. ., [con] >>end
-		 /// and insure 2..n-1 were at least gardenSize
-		var eviGardenBounds 	= BBox.empty
-		for subVew in vew.children {	// SubVews:
-			let subPart 		= subVew.part
-			let subBun 			= subPart as? FwBundle
-			  ///// Two special Cases:
-			 /// CONtext    (this is processed SECOND)
-			if subBun == con {		/* and self.positionViaCon*/
-				if !eviGardenBounds.isNan {	// if already set up
-					vew.bBox	|= eviGardenBounds	// lay gardenSize upon v.bounds
-				}
-			}
-			subPart.rePosition(vew:subVew)
-			subVew.orBBoxIntoParent()
-			  /// EVIdence  (this is processed FIRST)
-			 // Now place the garden on top EVIdence
-			if (subBun == evi/* and self.positionViaCon*/) {
-				 // lay gardenSize upon v.bounds
-				let minSize_	= minSize ?? .zero
-				let gardenCenter = (vew.bBox.size  + minSize_)/2.0
-				let gardenBBox	= BBox(gardenCenter, minSize_)
-				 // eviGardenBounds includes evi and gardenBounds:
-				assert(!eviGardenBounds.isNan, "")
-				eviGardenBounds = vew.bBox | gardenBBox
-			}
-		}
-		if vew.bBox.isNan {			// NO NON-Cohort subvews
-			vew.bBox 			= .empty	// use our un-gapped size as zero
-		}
+//		  //// 1. SIZE all, in order of v.subVews (==self.parts):  DO NOT PLACE
+//		 /**/	// CONtext (if it exists)
+//				// ... other entries ...
+//				// EVIdence (if it exists)
+//		var first				= true
+//		for childVew in vew.children {			// Subviews:
+//			let childPart		= childVew.part
+//			 /// First Repack:
+//			childPart    .reSize(vew:childVew)		// #### HEAD RECURSIVE
+//			 /// Then Reposition:
+//			childPart.rePosition(vew:childVew)
+//			childVew.orBBoxIntoParent()
+//			first				= false
+//			//childVew.placed	= true
+//		}
+//		vew.bBox 				= .empty	// initially nil, to occupy elt 0's origin
+//
+//		  /// 2. PLACE   (CONtext FIRST, at the BOTTOM,
+//		 /// so the assimilated content can be better placed
+//		if con != nil && positionViaCon {
+//			guard let conVew 	= vew.children.last
+//			else {	return panic("why is't there an element in v?")				}
+//			con!.rePosition(vew:conVew, first:true)
+//			conVew.orBBoxIntoParent()
+//		}
+//		vew.bBox = .empty					// remove con from self, but it's still placed
+//		  /// 3. Scan subVews: begin<< [evi], . .. ., [con] >>end
+//		 /// and insure 2..n-1 were at least gardenSize
+//		var eviGardenBounds 	= BBox.empty
+//		for subVew in vew.children {	// SubVews:
+//			let subPart 		= subVew.part
+//			let subBun 			= subPart as? FwBundle
+//			  ///// Two special Cases:
+//			 /// CONtext    (this is processed SECOND)
+//			if subBun == con {		/* and self.positionViaCon*/
+//				if !eviGardenBounds.isNan {	// if already set up
+//					vew.bBox	|= eviGardenBounds	// lay gardenSize upon v.bounds
+//				}
+//			}
+//			subPart.rePosition(vew:subVew)
+//			subVew.orBBoxIntoParent()
+//			  /// EVIdence  (this is processed FIRST)
+//			 // Now place the garden on top EVIdence
+//			if (subBun == evi/* and self.positionViaCon*/) {
+//				 // lay gardenSize upon v.bounds
+//				let minSize_	= minSize ?? .zero
+//				let gardenCenter = (vew.bBox.size  + minSize_)/2.0
+//				let gardenBBox	= BBox(gardenCenter, minSize_)
+//				 // eviGardenBounds includes evi and gardenBounds:
+//				assert(!eviGardenBounds.isNan, "")
+//				eviGardenBounds = vew.bBox | gardenBBox
+//			}
+//		}
+//		if vew.bBox.isNan {			// NO NON-Cohort subvews
+//			vew.bBox 			= .empty	// use our un-gapped size as zero
+//		}
 	}
 
 	 // MARK: - 13. IBActions

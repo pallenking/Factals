@@ -263,7 +263,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			}
 			 // change from viewing null
 			if tree.name == "_null" {
-			bug;tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
+		bug;	tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
 				tree.scnRoot.name = "*-" + partBase.tree.name
 			}
 										//	 // Vew Configuration specifies open stuffss

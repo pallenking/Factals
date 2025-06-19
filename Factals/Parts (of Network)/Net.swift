@@ -8,18 +8,19 @@ class Net : Atom {		// Atom // Part
 	 // MARK: - 3. Part Factory
 	override init(_ config:FwConfig = [:]) {
 			// E.g:		[struc:["a"],of:genBcast,placeMy:stackx,f:0]
-		super.init(["placeMy":"linky"] + config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
+		let config				= ["placeMy":"linky"] + config	// default
+		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		if let a 				= partConfig["parts"] as? [Part] {
-			a.forEach { addChild($0) }						// add children in "parts"
-			partConfig["parts"] = nil
-		}
-		if let parts 			= partConfig["parts"] {
-			let arrayOfParts	= parts as? [Part]
-			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
-			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
-			partConfig["parts"] = nil
-		}
+//		if let a 				= partConfig["parts"] as? [Part] {
+//			a.forEach { addChild($0) }						// add children in "parts"
+//			partConfig["parts"] = nil
+//		}
+//		if let parts 			= partConfig["parts"] {
+//			let arrayOfParts	= parts as? [Part]
+//			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
+//			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
+//			partConfig["parts"] = nil
+//		}
 		if let minSizeStr 		= partConfig["minSize"] as? String {
 			if let vect 		= SCNVector3(from:minSizeStr) {
 				minSize 		= vect
