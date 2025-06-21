@@ -1352,10 +1352,12 @@ r(expose, e + selfiePole(s:-135,u:5), { Net([placeMy:"stackZ", parts:[
 		Broadcast([n:"t1"]),
 	] ] ),
 ] ]) })
-r(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
+xr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
 	Net([placeMy:"stackX", expose:"atom", parts:[
-		Hamming(  [n:"t2", f:1, share:[L2("t1")], jog:"0 4 0", phys:[gravity:1]]),
-		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")], jog:"0 4 0", phys:[gravity:1]]),
+		Hamming(  [n:"t2", f:1, share:[], jog:"0 4 0"]),
+		Hamming(  [n:"t3", f:1, share:[], jog:"0 4 0"]),
+//		Hamming(  [n:"t2", f:1, share:[L2("t1")], jog:"0 4 0", phys:[gravity:1]]),
+//		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")], jog:"0 4 0", phys:[gravity:1]]),
 		Broadcast([n:"t2"]),
 		Broadcast([n:"t1"]),
 	] ] ),
@@ -1504,15 +1506,13 @@ xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve
 				Hamming([P:"fwd", share:"b", f:1]),
 				Hamming([P:"fwd", share:"c", f:1, jog:"0 0 2"]),
 			],
-// 			"evi":FwBundle([struc:["a", "b"], of:"bcast", f:0])//, leafConfig:[f:1]
 			"evi":FwBundle([struc:["a", "b", "c"], of:"genPrev", f:0], leafConfig:[spin:4])	//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 		]),
 	] ])
 })
 
-xr("- shapeTest", [:], {
+xxr("- shapeTest", [:], {
 	Net([n:"w", placeMy:"stacky","parts":[
-		FwBundle([struc:["a", "b", "c"], of:"genPrev", f:0], leafConfig:[spin:4]),	//"proto":aGenMaxLeaf(), spin$1, "positionPriorityXz":1,
 		Sphere([n:"sphere"]),
 		Box([n:"box"]),
 ],	]) })

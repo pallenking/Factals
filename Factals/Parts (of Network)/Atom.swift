@@ -491,7 +491,7 @@ class Atom : Part {	//Part//FwPart
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
 			/**/	let srcPort	= self.getPort(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
-					assert(srcPort != nil, "couldn't getPort(named:\(srcPortName ?? "<unnamed>")")
+					assert(srcPort != nil, "couldn't getPort(named:\(srcPortName ?? "<unnamed>"))")
 
 					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon == trgAtom.isFlipped(withResepectTo:conNet)
@@ -593,7 +593,7 @@ class Atom : Part {	//Part//FwPart
 
 	 // MARK: - 9.1 reVew
  // UNNEEDED since Ports are in children
-//	override func reVewfunc reVew(vew vew:Vew?, parentVew:Vew?) {
+//	override func reVew(vew vew:Vew?, parentVew:Vew?) {
 //		super.reVew(vew:vew, parentVew:parentVew)
 //
 //			// ///// reView PORTS

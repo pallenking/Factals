@@ -118,7 +118,7 @@ command alias ptPs     ptP     self
 # ---- p*LPs
 command alias ppLPs   ppLP    self
 command alias plLPs    plLP    self
-command alias ptLPs    lLP    self
+command alias ptLPs    plLP     self
 
 
 ##---------------- 'm' is for whole model

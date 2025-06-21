@@ -553,9 +553,9 @@ class Port : Part, PortTalk {
 
 	  // MARK: - 9.1 reVew
 	override func reVew(vew:Vew?, parentVew:Vew?) {
-		let vew					= vew							// 1. vew specified
+		let vew					= vew							// 1. vew given by caller
 					?? parentVew?.find(part:self, maxLevel:1)	// 2. vew in parent:
-					?? addNewVew(in:parentVew)!					// 3. vew created
+					?? addNewVew(in:parentVew)!					// 3. vew newly created
 		assert(vew.part === self, "sanity check")// "=="?
 		assert(vew.expose != .invis,  "Invisible not supported!")//atomic//invis//
 		markTree(dirty:.size)					// needed ??
