@@ -23,7 +23,7 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 	"ppPorts"			: true, 	// pp includes Ports //false//
 	"ppScnMaterial"		: false, 	// pp of SCNNode prints materials (e.g. colors) on separate line
 				// Order:
-	"ppDagOrder"		: false, 	//true//false//
+	"ppDagOrder"		: true, 	//true//false//
 				// Options:
 	"ppParam"			: false,	// pp config info with parts
 
@@ -44,7 +44,7 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 	"ppScnBBox"			: true, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
-	"ppXYZWena"  		: "Y",		//"XYZ"	// disable some dimensions //"XYZW"//
+	"ppXYZWena"  		: "XYZ",	//"Y"XYZ"	// disable some dimensions //"XYZW"//
 				// Column Usage:
 	"ppViewTight"		: false, 	// better for ascii text //false//true
 	"ppBBoxCols"		: 28,		// columns printout for bounding boxs//32//24

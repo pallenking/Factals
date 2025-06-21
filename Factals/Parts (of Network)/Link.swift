@@ -280,8 +280,9 @@ class Link : Atom {
 		logRsi(8, "<><> L 9.3:   \\reSkin Link '\(vew.part.fullName)'")
 		let name				= "s-Link"
 		let _/*scn*/ : SCNNode	= vew.scnRoot.findScn(named:name) ?? {
-			let sLink			= SCNNode()
+			let sLink			= SCNNode()	// invisible bucket
 			sLink.name			= name
+//			sLink.isHidden		= true	// N.B: so unpositioned Links don't interfere
 			vew.scnRoot.addChild(node:sLink, atIndex:0)
 
 			 // Make a UNIT skin, one of length:1 in .uZ
@@ -486,16 +487,15 @@ bug	// Never USED?
 	 // MARK: - 9.5.4: will Render Scene -- Rotate Links toward camera
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
+		guard let linkVew		= vew as? LinkVew 	 else { debugger("Vew type mismach")}
 		guard let base			= vew.vewBase(),
 		 	  let cameraScn		= base.cameraScn else 
 		{	print("silently: can't find camera")
 			return
-		}
-		let cameraPosn			= cameraScn.position
-		guard let linkVew		= vew as? LinkVew 	 else { debugger("Vew type mismach")}
+		}			// :H: VECTor,Vector,  InWorld, InParent
 		 // Get ends of link, and set positions
-		if let pEndVip			= linkVew.pEndVip,
-		  let  sEndVip 			= linkVew.sEndVip {
+		if let pEndVectIp		= linkVew.pEndVip,
+		  let  sEndVectIp 		= linkVew.sEndVip {
 //			logRsi(8, "<><> L 9.5.4: \\set xform from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line))")
 
 			 // Create a transform that maps (0,0,0)->pEndVip and (0,0,1)->sEndVip
@@ -503,24 +503,25 @@ bug	// Never USED?
 			//	  |m21* + m22* + m23*|<--|in.y|
 			//	  |m31* + m32* + m33*|   |in.z|
 			//	  out.x   out.y  out.z			output is a row
-			let deltaV			= sEndVip - pEndVip
-			 // Compute :H: LENgth between ENDS
-			let len				= length(deltaV)
-			assertWarn(!len.isNan, "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
-			let f1				= cameraPosn.crossProduct(deltaV)// cam x delta
+			let linkVectIp		= sEndVectIp - pEndVectIp
+			let len				= length(linkVectIp)
+			 assertWarn(!len.isNan, "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
+			guard let cameraPosnIp	= vew.parent?.scn.convertPosition(cameraScn.position, from:nil as SCNNode?)
+			 else {fatalError()}
+			let f1				= cameraPosnIp.crossProduct(linkVectIp)
 			let fLen			= length(f1)
-			var m				= SCNMatrix4.identity
+			var transform		= SCNMatrix4.identity
 			if fLen > eps {
 				let f			= f1 / fLen
-				let g1			= -f.crossProduct(deltaV)		// see perpendicular above!!!
+				let g1			= -f.crossProduct(linkVectIp)		// see perpendicular above!!!
 				let g			= g1 / length(g1)
-				m				= SCNMatrix4(row1v3:f, row2v3:g, row3v3:-deltaV, row4v3:pEndVip)	// print("a:\(a.pp(.line))--d:\(delta.pp(.line))-> cam:\(camera.pp(.line)),\nf:\(f.pp(.line)), g:\(g.pp(.line)), m:\n\(m.pp(.tree))")
-			}; assert(!m.isNan, "Transformation of Link failed")
+				transform		= SCNMatrix4(row1v3:f, row2v3:g, row3v3:-linkVectIp, row4v3:pEndVectIp)	// print("a:\(a.pp(.line))--d:\(delta.pp(.line))-> cam:\(camera.pp(.line)),\nf:\(f.pp(.line)), g:\(g.pp(.line)), m:\n\(m.pp(.tree))")
+			}; assert(!transform.isNan, "Transformation of Link failed")
 
 			  // Link's position isn't in linkVew.scnScene, but it's child "s-Link".
 			 // (This allows S and P ornaments in linkVew.scnScene to be unstretched)
-			let s				= linkVew.scnRoot.findScn(named:"s-Link")!
-			s.transform 		= m
+			let sLink			= linkVew.scnRoot.findScn(named:"s-Link")!
+			sLink.transform 	= transform
 		}else{
 			logRnd(1, "CURIOUS3 -- link ends nil, cannot rotate link toward camera")
 		}

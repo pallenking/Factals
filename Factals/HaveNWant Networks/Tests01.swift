@@ -677,12 +677,25 @@ xxr("+ simple blink tick", eSimX + eYtight + vel(0) + selfiePole(h:5.0, s:45,u:0
 	Mirror(		[n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
 xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+			+ ["lookAtX":"b"], { Net([placeMy:"stacky", parts:[
+		Net([placeMy:"linky", spin:4, parts:[
+	//		Bulb([P:"x,l:3"]),
+			Mirror([n:"y", P:"x,v:2", jog+X:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
+	//		PortSound([n:"s1", "inP":"y.P", "sounds":tickTock]),
+			Mirror([n:"x", "gain":-1, "offset":1, f:1]),
+		] ] )
+//	//	Net([placeMy:"linky", spin:4, parts:[
+	//		Mirror([n:"y", P:"x,l:3,v:2", jog:"0 2", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
+	//		Mirror([n:"x", "gain":-1, "offset":1, f:1]),
+//	//	] ] )
+ ] ]) })
+xr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
 //	Bundle([struc:["a","b"/*,"c","d","e","f"*/], placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 		Net([placeMy:"linky", spin:4, parts:[
-			Bulb([P:"x,l:3"]),
-			Mirror([n:"y", P:"x,v:-0.1", jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
-			PortSound([n:"s1", "inP":"y.P", "sounds":tickTock]),
+	//		Bulb([P:"x,l:3"]),
+			Mirror([n:"y", P:"x,v:2", jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
+	//		PortSound([n:"s1", "inP":"y.P", "sounds":tickTock]),
 			Mirror([n:"x", "gain":-1, "offset":1, f:1]),
 		] ] )
 //	},			// etc1
@@ -1374,7 +1387,7 @@ xxr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
 ]]) })
 
 // ORIG
-xr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
+xxr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
 	Net([placeMy:"stacky", expose+X:"atom", parts:[
 //		Hamming(  [n:"t4", f:1, share:[L2("t1")], jog:"0 4 0"]),
 //		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")]]),

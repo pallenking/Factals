@@ -298,9 +298,9 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 	//		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
 		}
+		SCNTransaction.commit()
 		 // This should only be done on camera roatation (someday)
 		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
-		SCNTransaction.commit()
 	}
 								
 	 // MARK: - 15. PrettyPrint
