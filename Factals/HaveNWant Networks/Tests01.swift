@@ -1353,11 +1353,11 @@ r(expose, e + selfiePole(s:-135,u:5), { Net([placeMy:"stackZ", parts:[
 	] ] ),
 ] ]) })
 xr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
-	Net([placeMy:"stackX", expose:"atom", parts:[
-		Hamming(  [n:"t2", f:1, share:[], jog:"0 4 0"]),
-		Hamming(  [n:"t3", f:1, share:[], jog:"0 4 0"]),
-//		Hamming(  [n:"t2", f:1, share:[L2("t1")], jog:"0 4 0", phys:[gravity:1]]),
-//		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")], jog:"0 4 0", phys:[gravity:1]]),
+	Net([placeMy:"stackY", expose+X:"atom", parts:[
+//		Hamming(  [n:"t4", f:1, share:[L2("t1")], jog:"0 4 0"]),
+//		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")]]),
+		Hamming(  [n:"t2", f:1, share:[L2("t1")],       phys:[gravity:1], jog+X:"0 4 0"]),
+		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")], phys:[gravity:1], jog+X:"0 9 0"]),
 		Broadcast([n:"t2"]),
 		Broadcast([n:"t1"]),
 	] ] ),

@@ -490,8 +490,8 @@ class Atom : Part {	//Part//FwPart
 					logBld(4, "L\(wireNumber) -- SOURCE: in \(conNet.fullName) opens _\(ppUp(trgAboveSInS))_")
 
 					 // 	3b. //// Get the SouRCe Port			// source Port
-			/**/	let srcPort	= self.getPort(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
-					assert(srcPort != nil, "couldn't getPort(named:\(srcPortName ?? "<unnamed>"))")
+			/**/	guard let srcPort = self.getPort(named:srcPortName!, localUp:trgAboveSInS, wantOpen:true)
+					 else { fatalError("couldn't getPort(named:\(srcPortName ?? "<unnamed>"))")}
 
 					 //		3c. //// TaRGet:						// Log
 					let trgAboveSInT = trgAboveSInCon == trgAtom.isFlipped(withResepectTo:conNet)
@@ -501,8 +501,8 @@ class Atom : Part {	//Part//FwPart
 					logBld(4, trgInfo)
 
 					 //		3d. //// Get the TaRGet Port			// target Port	  Self Target
-			/**/	let trgPort = trgAtom.getPort(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)	// (name=="" -> share)
-					assert(trgPort != nil, "\(self.fullName).getPort(named:\"\(trgPortName!)\" want:\(ppUp(trgAboveSInT)) wantOpen:true) --> nil")
+			/**/	guard let trgPort = trgAtom.getPort(named:trgPortName!, localUp:trgAboveSInT, wantOpen:true)	// (name=="" -> share)
+					 else { fatalError("\(self.fullName).getPort(named:\"\(trgPortName!)\" want:\(ppUp(trgAboveSInT)) wantOpen:true) --> nil")}
 
 					  // //////////////////////////////////
 					 //   4. Link
@@ -511,41 +511,41 @@ class Atom : Part {	//Part//FwPart
 					//	  Atom	  ]o========= Link? ===============o[    Atom
 					//			--'									'--
 					 // Is this a direct con2? or is there a Link involved?
-					var msg1 	= "L\(wireNumber) -- ADDED: << \(srcPort?.fullName ?? "") "
+					var msg1 	= "L\(wireNumber) -- ADDED: << \(srcPort.fullName) "
 					 // Link properties depend on those of Ports involved and Link
-					let neighbors:[FwAny] = [linkProps, trgPort!, srcPort!]
+					let neighbors:[FwAny] = [linkProps, trgPort, srcPort]
 					var link :Link?	= nil
 					let direct 	= self.check("direct", in:neighbors) == true
 					if !direct {		// Make (Multi)Link:
-						let s	=    srcPort! is MultiPort
-						let t	=    trgPort! is MultiPort
-						assert( !( s && !t), "srcPort=\(srcPort!.pp(.fullName)) is a MultiPort, but trgPort=\(trgPort!.pp(.fullName)) isn't.")
-						assert( !(!s &&  t), "srcPort=\(srcPort!.pp(.fullName)) isn't a MultiPort, but trgPort=\(trgPort!.pp(.fullName)) is.")
+						let s	=    srcPort is MultiPort
+						let t	=    trgPort is MultiPort
+						assert( !( s && !t), "srcPort=\(srcPort.pp(.fullName)) is a MultiPort, but trgPort=\(trgPort.pp(.fullName)) isn't.")
+						assert( !(!s &&  t), "srcPort=\(srcPort.pp(.fullName)) isn't a MultiPort, but trgPort=\(trgPort.pp(.fullName)) is.")
 						link 	=  !s ? Link(linkProps) : MultiLink(linkProps)
 						msg1 	+= " <->\(link!.name)"
 					}
-					logBld(4, msg1 + "<-> \(trgPort!.fullName) >> in:\(conNet.fullName)")
+					logBld(4, msg1 + "<-> \(trgPort.fullName) >> in:\(conNet.fullName)")
 
 					 // CHECK: Boss and Worker Ports face opposite // MIGHT BETTER CHECK s->d wrt children.index
-					if trgPort!.flippedInWorld ^^ !srcPort!.flippedInWorld,	// direction fault and
+					if trgPort.flippedInWorld ^^ !srcPort.flippedInWorld,	// direction fault and
 					  !(self.check("noCheck", in:neighbors) == true)	// checks enabled
 					{	msg1	=  "\n  Within Containing Net" + conNet.fullName + ":"
-						msg1	+= "\n\t" + "Source: " + srcPort!.fullName
-						msg1	+= " " + srcPort!.upInWorldStr()
-						msg1    += "\n\t" + "Target: " + trgPort!.fullName
-						msg1	+= " " + trgPort!.upInWorldStr()
-						self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort!.upInWorldStr())." +
+						msg1	+= "\n\t" + "Source: " + srcPort.fullName
+						msg1	+= " " + srcPort.upInWorldStr()
+						msg1    += "\n\t" + "Target: " + trgPort.fullName
+						msg1	+= " " + trgPort.upInWorldStr()
+						self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort.upInWorldStr())." +
 								" Consider using config[noCheck] '^'." + msg1)
 					}
-					assert(srcPort?.con2 == nil, "SouRCe PORT occupied")
-					assert(trgPort?.con2 == nil, "TarGeT PORT occupied")
-							// DIRECT Connect: ?? ""
-					if link==nil {						// no Link made
-						srcPort!.connect(to:trgPort!)		// Direct Con2
+					assert(srcPort.con2 == nil, "SouRCe PORT occupied")
+					assert(trgPort.con2 == nil, "TarGeT PORT occupied")
+													
+					if link==nil {					// DIRECT Connect: (no Link made)
+						srcPort.connect(to:trgPort)
 					}
-					else { 								// LINK'ed Con2:
-						link!.ports[trgAboveSInCon ? "P" : "S"]!.connect(to:srcPort!)
-						link!.ports[trgAboveSInCon ? "S" : "P"]!.connect(to:trgPort!)
+					else { 							// LINK'ed Connect":
+						link!.ports[trgAboveSInCon ? "P" : "S"]!.connect(to:srcPort)
+						link!.ports[trgAboveSInCon ? "S" : "P"]!.connect(to:trgPort)
 						conNet.addChild(link, atIndex:lnkInsInd)
 						 // Active segments from creation
 						partBase.factalsModel?.simulator.linkChits += link!.curActiveSegments

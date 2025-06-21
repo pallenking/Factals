@@ -497,7 +497,7 @@
             startingLineNumber = "621"
             endingLineNumber = "621"
             landmarkName = "reSize(vew:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -545,7 +545,7 @@
             startingLineNumber = "723"
             endingLineNumber = "723"
             landmarkName = "placeByLinks(inVew:mode:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -561,7 +561,7 @@
             startingLineNumber = "879"
             endingLineNumber = "879"
             landmarkName = "placeByLinks(inVew:mode:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -577,7 +577,7 @@
             startingLineNumber = "737"
             endingLineNumber = "737"
             landmarkName = "placeByLinks(inVew:mode:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -849,7 +849,7 @@
             startingLineNumber = "624"
             endingLineNumber = "624"
             landmarkName = "reSize(vew:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -866,6 +866,64 @@
             endingLineNumber = "63"
             landmarkName = "init(_:leafConfig:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "16BA8FB6-FE5C-426B-8676-1B27BA2FC257 - 6f60153f96a01f7e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 0 of Factals.FwBundle.init(_: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;, leafConfig: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Factals.FwBundle"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/FwBundle.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63">
+               </Location>
+               <Location
+                  uuid = "16BA8FB6-FE5C-426B-8676-1B27BA2FC257 - 7f1e80b28b4d797f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of Factals.FwBundle.init(_: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;, leafConfig: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Factals.FwBundle"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/FwBundle.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63">
+               </Location>
+               <Location
+                  uuid = "16BA8FB6-FE5C-426B-8676-1B27BA2FC257 - e43ad4e08cc55013"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwBundle.__allocating_init(_: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;, leafConfig: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Factals.FwBundle"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/FwBundle.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "16BA8FB6-FE5C-426B-8676-1B27BA2FC257 - e03eacf3409e9dc9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.FwBundle.init(_: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;, leafConfig: Swift.Dictionary&lt;Swift.String, Factals.FwAny&gt;) -&gt; Factals.FwBundle"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Parts%20(of%20Network)/FwBundle.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -926,8 +984,8 @@
             filePath = "Factals/Parts (of Network)/Atom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "489"
-            endingLineNumber = "489"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
             landmarkName = "gatherLinkUps(into:partBase:)"
             landmarkType = "7">
          </BreakpointContent>
