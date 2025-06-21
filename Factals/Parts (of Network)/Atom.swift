@@ -196,7 +196,7 @@ class Atom : Part {	//Part//FwPart
 
 		 // -- 1. May be EXISTING Port:
 		let candidatePorts : [Port] = existingPorts(named:named, localUp:wantUp)
-		assert(candidatePorts.count <= 1, "multiple existingPorts\(candidatePorts) seems illogical")
+		 assert(candidatePorts.count <= 1, "multiple existingPorts\(candidatePorts) seems illogical")
 		
 		if let portsFirst		= candidatePorts.first,
 		  !wantOpen || portsFirst.con2==nil { 	// the Port is as required
@@ -207,7 +207,7 @@ class Atom : Part {	//Part//FwPart
 		if let rv 				= delayedPopulate(named:named, localUp:wantUp) {
 			return rv					// N.B: new --> alway open
 		}
-		assert(wantOpen==true, "seems like it has to be false by now")
+		assert(wantOpen==true, "Paranoia: seems like it has to be false by now")
 
 		  // Want a downward facing Port fed by what's feeding our P Port
 		 // -- 3. If we are a Broadcast Splitter, just get another share
@@ -218,7 +218,7 @@ class Atom : Part {	//Part//FwPart
 		}
 
 		 // -- 4. Last option -- Get another Port from an attached Splitter?:
-/**/	return tapInto(port:candidatePorts.first/*, using:Broadcast*/)
+/**/	return tap(into:candidatePorts.first/*, using:Broadcast*/)
 	}
 	 /// Find all Port's in .ports that match parameters
 	/// * Only Ports in Atom's .port array are considered.
@@ -278,7 +278,7 @@ class Atom : Part {	//Part//FwPart
 	/// 	s- Otherwise, insert a new Broadcast Element into the network
 	/// - Parameter onPort: one end of the link that gets the Broacast added
 	/// - Returns: a free port in the added Broadcast
-	func tapInto(port:Port?/*, using:Broadcast*/) -> Port? {
+	func tap(into port:Port?/*, using:Broadcast?=nil*/) -> Port? {
 		guard let port								else {	return nil 			}
 		guard let con2Port		= port.con2?.port 	else {	return nil 			}
 		if let conSplitter 		= con2Port.atom as? Splitter, conSplitter.isBroadcast
@@ -299,6 +299,7 @@ class Atom : Part {	//Part//FwPart
 		 // Choose so inserted element is in scan order, to reduces settle time.
  		let newFlipped			= port.isFlipped(withResepectTo:papaNet)
 		let newName				= "\(name)\(port.name)"
+		//assert(using != nil, "uncoded")
 /**/	let newBcast 			= Broadcast(["name":newName, "placeMe":"linky", "f":!newFlipped])
 
 		guard var ind 			= papaNet.children.firstIndex(where: { $0 === child })
@@ -697,12 +698,12 @@ class Atom : Part {	//Part//FwPart
 			logRsi(5, "\t\t" + "ABORT: " + format, args)
 			return nil
 		}
-		assert(mode == "linky", "placeByLinks only debugged for 'linky' mode")
-
+		assert(mode!.hasPrefix("link"), "placeByLinks only debugged for 'linky' mode")
+								
 		 // ////////////   Compute Position from wires   //////////
 		// presumes mode uses +Y
 		let popVew 				= vew.parent
-		vew.scnRoot.position		= .zero		// remove nan spot, leave rotation part
+		vew.scnRoot.position	= .zero		// remove nan spot, leave rotation part
 
 		  // :H: my	 -- a Part of me, whose position is being found
 		 // :H: trial -- a boss in the lower atom which has its position known

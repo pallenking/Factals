@@ -1217,7 +1217,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			var newBip			= vew.bBox * vew.scnRoot.transform //new bBox in parent
 			var rv				= -newBip.center // center selfNode in parent
 			newBip.center		= .zero
-			logRsi(4, ">>===== Position    '\(self.name)'   (by:  \(mode)   )  in \(parent?.fullName ?? "nil") ")
+			logRsi(4, ">>===== Position    '\(self.name)'   (by:  \(mode)   ):  in \(parent?.fullName ?? "nil") ")
 			let stkBip 			= vew.parent!.bBox
 			rv		 			+= stkBip.center // center of stacked in parent
 			let span			= stkBip.size + newBip.size	// of both parent and self

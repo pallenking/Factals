@@ -57,7 +57,6 @@ import SwiftUI
 			// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
 			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
-		logBld(2, "------- Parts, ready for simulation, simRun:\(simulator.simRun)):\n" + (pp(.tree, ["ppDagOrder":true])))
 	}
 	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
 		logBld(5, "### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")

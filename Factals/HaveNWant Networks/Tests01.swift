@@ -437,6 +437,16 @@ xxr("+ Leaf family portrait", e + selfiePole(s:-6,u:-27,z:0.622), { Net([placeMy
 	] ])
 ] ] ) } )
 
+r("- bug crept in Leaf([n:'i', of:'genMaxSq'", e + selfiePole(s:-6,u:-27,z:0.622), {
+	Net([placeMy:"linky -1 0", parts:[
+	//	Hamming([P:"main"]),
+	//	MaxOr([	 n:"main"]),
+		Leaf([n:"i", of:"genMaxSq"]),
+//		Hamming(["P":"bbb"]),	//"share"
+//		MaxOr([	 "n":"bbb", f:1]),
+	]
+] ) } )
+
 	r("- Leaf Branch BUG", e + selfiePole(s:-6,u:-27,z:0.622), { Net([parts:[
 		Leaf([n:"o", of:"branch"]),
 	] ] ) } )
@@ -1352,18 +1362,28 @@ r(expose, e + selfiePole(s:-135,u:5), { Net([placeMy:"stackZ", parts:[
 		Broadcast([n:"t1"]),
 	] ] ),
 ] ]) })
-xr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
-	Net([placeMy:"stackY", expose+X:"atom", parts:[
-//		Hamming(  [n:"t4", f:1, share:[L2("t1")], jog:"0 4 0"]),
-//		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")]]),
-		Hamming(  [n:"t2", f:1, share:[L2("t1")],       phys:[gravity:1], jog+X:"0 4 0"]),
-		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")], phys:[gravity:1], jog+X:"0 9 0"]),
-		Broadcast([n:"t2"]),
+xxr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
+	Net([placeMy:"linkY", expose+X:"atom", parts:[
+	//	Hamming(  [n:"t4", f:1, share:[L2("t1")], jog:"0 4 0"]),
+	//	Hamming(  [n:"t3", f:1, share:["t2", L2("t1")]]),
+		Hamming(  [n:"t4", f:1, share:[L2("t1")],       phys:[gravity:1], jog+X:"0 4 0"]),
+//		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")], phys:[gravity:1], jog+X:"0 9 0"]),
+//		Broadcast([n:"t2"]),
 		Broadcast([n:"t1"]),
 	] ] ),
 ]]) })
 
 // ORIG
+xr(e + selfiePole(s:5,u:5) + ["scene":[gravity:"0 10 0"]], { Net([parts:[
+	Net([placeMy:"stacky", expose+X:"atom", parts:[
+//		Hamming(  [n:"t4", f:1, share:[L2("t1")], jog:"0 4 0"]),
+//		Hamming(  [n:"t3", f:1, share:["t2", L2("t1")]]),
+		Hamming(  [n:"t4", f:1, share:[L2("t1")],       phys:[gravity:1], jog+X:"1 0 0"]),
+	//	Hamming(  [n:"t3", f:1, share:["t2", L2("t1")], phys:[gravity:1], jog+X:"2 0 0"]),
+		Broadcast([n:"t2", jog:"-3 -2 0"]),
+		Broadcast([n:"t1"]),
+	] ] ),
+]]) })
 
  // 180727:Fixed 180725: Should wire t3.share to t1.share, but picks t3.P to t1.share
 r(e + selfiePole(s:-45,u:5), { Net([parts:[

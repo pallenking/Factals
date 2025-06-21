@@ -62,7 +62,7 @@ class PartBase : Codable, ObservableObject, Uid {
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		checkTree()
-		logBld(4, "Raw Network:" + "\n" + pp(.tree, ["ppDagOrder":false]))
+		logBld(4, "Raw Network:" + "\n" + pp(.tree, ["ppParam":true, "ppDagOrder":false]))
 
 		 //  1. GATHER LINKS as wirelist:
 		logBld(4, "------- GATHERING potential Links:")

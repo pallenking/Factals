@@ -281,38 +281,6 @@ extension Leaf {	/// Generate Common Leafs
 			], leafConfig:								  etc1)
 			unusedConfigsMustBeNil([etc4, etc5])
 
-		//case .orModBcast:
-		//	self.init(bindings:[:], parts:[			//"G":"gen.P"
-		//		MaxOr([    "n":"gen", "P":"mod.P="]		+ etc2),
-		//		Modulator(["n":"mod"] 					+ etc3),	// "mod":"???bid", (spin,0)})),
-		//		Broadcast(["n":"main", "P":"mod.S="]	+ etc4),
-		//	], leafConfig:								  etc1)
-		// 	unusedConfigsMustBeNil([etc5])
-
-		//case .rotBcast:
-		//	self.init(bindings:bMain + ["G":"gen.P", "R":"gen.P"], parts:[
-		//			Broadcast(["n":"main", "P":"rot.T=", "latitude":-2, "jog":"0 -0.5 0"] + etc2),
-		//			Rotator([  "n":"rot"]				+ etc3),
-		//	],leafConfig:								  etc1)
-		//	unusedConfigsMustBeNil([etc4, etc5])
- //////// DEFAULT EVIDENCE with Previous's: #######################
-		//case .genPrevBcast: bug
-		//	self.init(bindings:bMainPM + ["G":"gen.P", "R":"prev.L"], parts:[
-		//			Broadcast(["n":"main-", "P":"prev.T="] + etc2),
-		//			Broadcast(["n":"main+", "P":"prev.S="] + etc2),
-		//			Previous([ "n":"prev",  "P":"gen="]  + etc3),
-		//			GenAtom([  "n":"gen",   "f":1  ]	+ etc4),
-		//	], leafConfig:								  etc1)
-		//	unusedConfigsMustBeNil([etc5])
-
-		// // ////		 BASIS port to invoke Previous's con2 to below:
-		//case .prevBcast:
-		//	self.init(bindings:bMainPM + ["G":"ERROR-not generatable", "R":"prev.L"], parts:[
-		//			Broadcast(["n":"main-", "P":"prev.T="] + etc3),
-		//			Broadcast(["n":"main+", "P":"prev.S="] + etc3),
-		//			Previous([ "n":"prev", "spin":"R" ]  + etc2),	//??
-		//	], leafConfig:								  etc1)
-		//	unusedConfigsMustBeNil([etc4, etc5])
  // -------- qState -------------------------------------------------------
 		//case .agoDistComb:
 		//	self.init(bindings:["":"dist", "in":"comb"], parts:[
@@ -326,10 +294,6 @@ extension Leaf {	/// Generate Common Leafs
 	//	case .array(let leafArray):
 	//		let _ = leafArray	// silences warning
 	//		debugger("should never happen")
-
-		//default:
-		//	debugger("LeafKind \(leafKind.self) should never happen")
-
 		}
 //		groomModel(parent:nil, partBase:partBase)	// groom: add ports[] from children[]
 //		fixPorts()
