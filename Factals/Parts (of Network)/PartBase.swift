@@ -23,16 +23,16 @@ class PartBase : Codable, ObservableObject, Uid {
 	 // MARK: - 2.1 Object Variables
 	let nameTag			 		= getNametag()
 	var indexFor				= Dictionary<String,Int>() // for <Class>, "wire", "WBox", "origin", "breakAtWire", etc
-	var tree : Part
-	var hnwMachine	 : HnwMachine = HnwMachine()
+	var tree 	   : Part
+	var hnwMachine : HnwMachine = HnwMachine()
 
 	weak
 	 var factalsModel: FactalsModel? = nil			// OWNER
 
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)	// be ware of structured concurency.
-	var curOwner  : String?		= nil							//	https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
-	var prevOnwer : String?		= nil
+	var curOwner   : String?	= nil							//	https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
+	var prevOnwer  : String?	= nil
 	var verboseLocks			= true//false//
 
 	 // MARK: - 3. Part Factory
@@ -130,7 +130,9 @@ class PartBase : Codable, ObservableObject, Uid {
 	}
 
 	 // Serialize 					// po container.contains(.name)
-	/*override*/ func encode(to encoder: Encoder) throws  {
+	/*override*/
+	func encode(to encoder: Encoder) throws  {
+bug
 		 // Massage Part Tree, to make it
 		makeSelfCodable(neededLock:"writePartTree")		//readyForEncodable
 
@@ -139,7 +141,7 @@ class PartBase : Codable, ObservableObject, Uid {
 
 	//	try container.encode(title,				forKey:.title					)
 	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
-		try container.encode(verboseLocks,	forKey:.partTreeVerbose			)
+		try container.encode(verboseLocks, forKey:.partTreeVerbose				)
 
 		logSer(3, "Encoded")
 
@@ -196,6 +198,7 @@ class PartBase : Codable, ObservableObject, Uid {
 	 // MARK: - 3.5.2 Codable <--> Simulatable
 	// // // // // // // // // // // // // // // // // // // // // // // // // //
 	func makeSelfCodable(neededLock:String) {		// was readyForEncodable
+bug
 		guard lock(for:neededLock, logIf:true) else { debugger("'\(neededLock)' couldn't get PART lock") }
 
 		virtualizeLinks() 		// ---- 1. Retract weak crossReference .connectedTo in Ports, replace with absolute string
@@ -207,6 +210,7 @@ class PartBase : Codable, ObservableObject, Uid {
 		logSer(5, " ========== inPolyPart with Poly's Wrapped :\n\(pp(.tree, aux))", terminator:"")
 	}
 	func makeSelfRunable(_ releaseLock:String) {		// was recoverFromDecodable
+bug
 		polyUnwrapRp()								// ---- 1. REMOVE -  PolyWrap's
 		realizeLinks()								// ---- 2. Replace weak references
 		//groomModel(parent:nil)		// nil as Part?

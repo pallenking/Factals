@@ -514,6 +514,10 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 			markTree(dirty:.size)			// mark Splitter's size as dirty
 		}
 	}	
+	override func reset() {							super.reset()
+		pValue					= 0.0
+		markTree(dirty:.size)
+	}
 	 /// Diameter and Radius are functions of value
 	func diam(  ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
 	func radius(ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}

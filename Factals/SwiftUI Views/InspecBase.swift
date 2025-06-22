@@ -93,6 +93,7 @@ struct Inspec: View, Equatable, Uid {
 			case "Box":		  InspecNothing(className:subClass)
 			case "CommonPart":InspecCommonPart(commonPart:vew.part as! CommonPart)
 			case "Port":	  InspecPort(		     port:vew.part as! Port)
+			case "Link":	  InspecLink(		     link:vew.part as! Link)
 			case "Part":	  InspecPart(		     part:vew.part, vew:vew)
 			default:		  InspecUndefined(className:subClass)
 		}

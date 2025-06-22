@@ -78,7 +78,7 @@ extension Part {
 			print("OOOO ERROR OOOO tree:'\(self.fullName)' extraBits:\(extraBits)|\(dirty)->\(newDirty)")	//\n\(pp(.tree))
 			dirty				= newDirty
 		}
-//		gotLock ? nop : SCNTransaction.unlock()
+//		gotLock ? SCNTransaction.unlock() : nop 
 		return dirty
 	}												// all dirty: Vew, Size, Paint
 	
@@ -96,7 +96,7 @@ extension Part {
 			child.dirtySubTree(gotLock:true, dirtyness)
 		}
 
-//		gotLock ? nop : SCNTransaction.unlock()
+//		gotLock ? SCNTransaction.unlock() : nop 
 	}
 
 	/// Test a bit in property 'dirty'

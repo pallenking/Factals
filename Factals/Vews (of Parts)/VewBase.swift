@@ -29,6 +29,8 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	weak
 	 var factalsModel : FactalsModel!	// Our Owner
 
+
+	var animateVBdelay: Float	= 0.3
 	var prefFps		  : Float	= 30.0
 	var prefFpsC	  : CGFloat	= 33.0
 	var sliderTestVal : Double 	= 0.5
@@ -100,6 +102,9 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 		selfiePole.configure(from:from)
 		if let lrl				= from.bool("logRenderLocks") {
 			scnBase.logRenderLocks = lrl		// unset (not reset) if not present
+		}
+		if let delay			= from.float("animateVBdelay") {
+			animateVBdelay		= delay			// unset (not reset) if not present
 		}
 	}
 	// MARK: -
@@ -252,7 +257,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	 ///  - Parameter log: 		-- controlls logging
 	func updateVSP(logIf log:Bool=true) { // VIEWS
 		SCNTransaction.begin()
-		SCNTransaction.animationDuration = CFTimeInterval(0.6)	//0.15//0.3//0.6//
+		SCNTransaction.animationDuration = CFTimeInterval(animateVBdelay)	//0.15//0.3//0.6//
 
 		let partsTree			= partBase.tree		// Model
 

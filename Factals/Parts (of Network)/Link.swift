@@ -16,7 +16,7 @@ import SceneKit
 		|			  portConSpot()	|/_   v						]
 	.---S--. or sec			pCon2Port	  *			.origin		]
 */				
-enum LinkSkinType : String, Codable	{
+enum LinkSkinType : String, CaseIterable, Codable	{
 	case invalid		// causes error
 	case invisible		// displays nothing		// BUG: shows Link's Ports
 	case ray			// black line
@@ -38,12 +38,12 @@ class Link : Atom {
 	 // MARK: - 1. Class Variables:
 
 	 // would like useBlane==true, but plane cannot have a Z component
-	static var linkNo 			= 1			//elim->hash
+	static var linkNo 			= 1			// elim->hash
 
 	 // MARK: - 2. Object Variables:
 	 // MARK: - specify type of line:
 	var linkSkinType : LinkSkinType
-	let usePlane	  			= false											//false//true//
+	let usePlane	  			= false		// true is BROKEN //false//true//
 	/// See notes at end
 	var   pUpCPort : LinkPort!	= nil
 	var sDownCPort : LinkPort!	= nil
@@ -171,6 +171,7 @@ class Link : Atom {
 	override func reset() {							super.reset()
 		sDownCPort.inTransit.removeAll()
 		  pUpCPort.inTransit.removeAll()
+		markTree(dirty:.size)
 	}
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up:Bool) {

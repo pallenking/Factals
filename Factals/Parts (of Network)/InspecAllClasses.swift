@@ -258,6 +258,31 @@ struct
 		}
 	}
 }
+struct InspecLink : View {												 // Port
+	@ObservedObject var link:Link
+
+	var body: some View {
+		HStack {
+			ClassBox(labeled:"Link")
+			Spacer()
+			HStack(spacing: 0) {	 // Spin:
+				TextField("", value:$link.minColorVal, formatter:d2formatter).frame(width:40)
+				Text("< color <")							//(=\(inspec.part.spin))
+				TextField("", value:$link.maxColorVal, formatter:d2formatter).frame(width:40)
+			}
+			Picker("skin", selection:$link.linkSkinType) {
+				ForEach(LinkSkinType.allCases, id:\.self) { linkSkinType in
+					Text(linkSkinType.rawValue).tag(linkSkinType.rawValue)
+				}
+			}.pickerStyle(MenuPickerStyle()).frame(width:130)				//MenuPickerStyle//SegmentedPickerStyle//
+		}
+		HStack {
+			Text("Connects:")
+			Text("< color <")							//(=\(inspec.part.spin))
+			
+		}
+	}
+}
 struct InspecPort : View {												 // Port
 	@ObservedObject var port: Port
 //	@Binding<get:{ return ""}, set:{}> valueString : String

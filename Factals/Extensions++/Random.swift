@@ -7,15 +7,15 @@ func randomProb(p:Float) -> Bool {				// 1 with prob p
 	let r 						= Float(drand48())
 	return r < p
 }
-func randomDist(_ a:Float, _ b:Float) -> Float {	// float boxcar, a..b, incl
-	assert(b>=a, "illegal call, a>b")
-	if a == b {						// boxcar is one point
-		return a
+func randomDist(_ min:Float, _ max:Float) -> Float {	// float boxcar, a..b, incl
+	assert(max>=min, "illegal call, a>b")
+	if min == max {						// boxcar is one point
+		return min
 	}
 	let frac 					= Float(drand48())
-	let rv						= a + (b-a) * frac
-	if rv == b {					// we never want to return the upper value.
-		return randomDist(a, b)		// N.B: This has an infinite probabilistic tail
+	let rv						= min + (max-min) * frac
+	if rv == max {					// we never want to return the upper value.
+		return randomDist(min, max)		// N.B: This has an infinite probabilistic tail
 	}
 	return rv;
 }

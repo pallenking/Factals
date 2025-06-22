@@ -298,10 +298,10 @@ import SwiftUI
 		SCNTransaction.commit()
 	}
 	 // MARK: - 13. IBActions
-	 /// Prosses keyboard key
-    /// - Parameter from: -- NSEvent to process
-    /// - Parameter vew: -- The Vew to use
-	/// - Returns: The key was recognized
+		/// Prosses keyboard key
+       /// - Parameter from: -- NSEvent to process
+      /// - Parameter vew: -- The Vew to use
+	 /// - Returns: The key was recognized
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		guard let character		= nsEvent.charactersIgnoringModifiers?.first else {return false}
 		guard let partBase		= vew?.part.partBase else { return false 		}

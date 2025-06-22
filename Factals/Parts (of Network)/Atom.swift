@@ -538,8 +538,8 @@ class Atom : Part {	//Part//FwPart
 						self.warning("Attempt to link 2 Ports both with worldDown=\(srcPort.upInWorldStr())." +
 								" Consider using config[noCheck] '^'." + msg1)
 					}
-					assert(srcPort.con2 == nil, "SouRCe PORT occupied")
-					assert(trgPort.con2 == nil, "TarGeT PORT occupied")
+					assert(srcPort.con2 == nil, "Paranoia: is SouRCe PORT occupied")
+					assert(trgPort.con2 == nil, "Paranoia: is TarGeT PORT occupied")
 													
 					if link==nil {					// DIRECT Connect: (no Link made)
 						srcPort.connect(to:trgPort)

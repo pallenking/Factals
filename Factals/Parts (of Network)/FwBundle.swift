@@ -25,19 +25,19 @@ dynamicMemberLookup
 //    BundleTap :_Atom				// an Atom which loads data into a Bundle
 // ShaftBundleTap : BundleTap
 
-class Bundle : FwBundle {
-	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
-		fatalError("can't do leaf closure with leafKind enum")
-//		var  x			= trailingHash != nil ? .leafClosure(trailingHash!) : nil
-//		super.init(tunnelConfig, leafConfig:leafConfig)
-	}
-//	init(leafConfig:FwConfig=[:],
-//			_ tunnelConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
-//	//	var  			= trailingHash == nil ? kind :
-//	//						  .leafClosure(trailingHash!)
-	required init(from decoder: Decoder) throws {	debugger("unimplemented") }
-	required init?(coder: NSCoder) 				{	debugger("unimplemented") }
-}
+//class Bundle : FwBundle {
+//	init(_ tunnelConfig:FwConfig=[:], leafConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
+//		fatalError("can't do leaf closure with leafKind enum")
+////		var  x			= trailingHash != nil ? .leafClosure(trailingHash!) : nil
+////		super.init(tunnelConfig, leafConfig:leafConfig)
+//	}
+////	init(leafConfig:FwConfig=[:],
+////			_ tunnelConfig:FwConfig=[:], trailingHash:(()->Part)? = nil) {
+////	//	var  			= trailingHash == nil ? kind :
+////	//						  .leafClosure(trailingHash!)
+//	required init(from decoder: Decoder) throws {	debugger("unimplemented") }
+//	required init?(coder: NSCoder) 				{	debugger("unimplemented") }
+//}
 
  /// A FwBundle is a hierarchical structure of Leafs, one per port
 class FwBundle : Net {

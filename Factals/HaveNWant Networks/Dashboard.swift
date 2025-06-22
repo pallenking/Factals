@@ -77,7 +77,7 @@ let params4logDetail : FwConfig =	// Set events to be logged
 	//* " except  review, resize */	logAt(rve:0, rsi:0, all:9) +
 
 	[							// + +  + +
-		"breakAtEvent"				:-65, //150//-54,//240/3/0:off
+		"breakAtEvent"				:-41, //150//-54,//240/3/0:off
 								// + +  + +
 
 		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy
@@ -136,7 +136,7 @@ let params4partVew : FwConfig = [
 	"animatePan"				: true,			//false//
 	"animatePole"				: true,			//false//
 	"animateOpen"				: true,			//false//
-
+	"animateVBdelay"			: 0.6,
 	"lookAt"					: "",
 	"vanishingPoint"			: Double.infinity,
 	//"render3DMode"			: render3Dcartoon,

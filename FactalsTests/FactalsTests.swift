@@ -627,7 +627,7 @@ final class FactalsTests: XCTestCase {
 //		APP.openURL(named:name)
 //	}
 //	func tesSoundLoadding() {
-//		let m = Foundation.Bundle.main
+//		let m = Foundation. ?? Bundle.main
 //		
 //		let a00g = m.url(forResource: "di-sound", withExtension: "m4a")
 //		let a01x = m.url(forResource: "da-sound", withExtension: "m4a")

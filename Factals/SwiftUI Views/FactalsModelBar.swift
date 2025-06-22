@@ -19,7 +19,10 @@ struct FactalsModelBar: View {
 				Button(label:{	Text( "config")									})
 				{	print(ppControllers())										}
 				Button(label:{	Text("Reset")									})
-				{	factalsModel.partBase.tree.reset()							}
+				{	let tree				= factalsModel.partBase.tree
+					tree.reset()
+					tree.dirtySubTree(.vsp)
+				}
 				Spacer()
 			//	Button(label: {	Text("++epoch\(factalsModel.epoch)")			})
 			//	{	factalsModel.epoch		+= 1								}
@@ -49,8 +52,8 @@ struct PartBaseBar : View {
 				.bold()
 			Text(partBase.hnwMachine.postTitle)
 			Spacer()
-//			Button(label:{	Text( "ptm")										})
-//			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
+			Button(label:{	Text( "ptm")										})
+			{	print(partBase.pp(.tree, ["ppDagOrder":true])) 					}
 			Button(label:{	Text( "ptmX")										})
 			{	print(partBase.pp(.tree, ["ppDagOrder":false])) 				}
 			Button(label:{	Text("ptLm")										})
