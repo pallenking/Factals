@@ -689,32 +689,40 @@ xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0
 	//		Mirror([n:"x", "gain":-1, "offset":1, f:1]),
 //	//	] ] )
  ] ]) })
-xr("- links move too fast", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
-			+ ["lookAtX":"b", "animateVBdelay":3], { Net([placeMy:"linky", parts:[
-	Bulb([n:"x", P:"a,v:4,l:3"]),
-	Bulb([n:"y", P:"a,v:-10),l:3"]),
+ 
+ 
+////	FwBundle([struc:["a","b"/*,"c","d","e","f"*/]/*, of:"genAtom"*/, placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
+xxr("- way extra size", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:2.0)
+			+ ["animateVBdelay":0.0], { Net([placeMy:"stackx", parts:[
+	Net([placeMy:"linky", parts:[
+//		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
+//		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
+		Bulb([P:a8]),		Bulb([P:a8]),	//	Bulb([P:a8]),		Bulb([P:a8]),
+		Mirror([n:"b", P:"a,v:3", jog:"4", "latitude":-1, "spinX":"1"]),
+		PortSound([n:"s1", "inP":"b.P", "sounds":tickTock, "soundVolume":5.0 ]),
+		Mirror([n:"a", "gain":-1, "offset":0, f:1]),
+	] ])
+] ]) })
+var a8:String {"a,v:\(String(randomDist(4.0, 5.0))),l:3" }
+xxr("- links move faster than balls", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+			+ ["animateVBdelay":3.0], { Net([placeMy:"linky", parts:[
+	Bulb(  [n:"x", P:"a,v:4.0,l:3"]),
+	Bulb(  [n:"y", P:"a,v:1.5,l:3"]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
  ] ]) })
-xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
-			+ ["lookAtX":"b"], { Net([placeMy:"stackx", parts:[
-////	FwBundle([struc:["a","b"/*,"c","d","e","f"*/]/*, of:"genAtom"*/, placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
-//		Net([placeMy:"linky", spin:4, parts:[
-//			Bulb([P:"x,l:3,v:1.5"]),
-//			Mirror([n:"y", P:"x,v:3", jog:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
-//			PortSound([n:"s1", "inP":"y.P", "sounds":tickTock]),
-//			Mirror([n:"x", "gain":-1, "offset":1, f:1]),
-//		] ] )
-////	},			// etc1
+xr("- animate size ??", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:2.0)
+			+ ["animateVBdelay":0.1], { Net([placeMy:"stackx", parts:[
 	Net([placeMy:"linky", parts:[
-	//	Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
-	//	Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
+//		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
+//		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
 		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
 		Mirror([n:"b", P:"a,v:3", jog:"4", "latitude":-1, "spinX":"1"]),
-		PortSound([n:"s1", "inP":"b.P", "sounds":tickTock]),
+		PortSound([n:"s1", "inP":"b.P", "sounds":tickTock, "soundVolume":5.5 ]),
 		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 	] ])
 ] ]) })
-var a8:String { a9  }//"a,v:\(String(randomDist(4.0, 5.0)))" }
+
+
 
 xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 	Net([expose:"atomic", parts:[

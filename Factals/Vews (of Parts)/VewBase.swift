@@ -304,8 +304,8 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	//		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
 		}
 		SCNTransaction.commit()
-		 // This should only be done on camera roatation (someday)
-		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
+
+		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins, no delay
 	}
 								
 	 // MARK: - 15. PrettyPrint

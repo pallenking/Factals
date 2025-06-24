@@ -129,8 +129,8 @@ class Book : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick2023-0
 			answer.fileName		= fileName
 			answer.lineNumber 	= lineNumber
 			logBld(7, "\n\n========================================================================\n" +
-						"=========<<< Building '\(matchCause!)' >>>=========\n" +
-						"=========<<< \(answer.ppr()		  ) >>>=========\n" +
+						"=========<<< Building '\(matchCause!)'\n" +
+						"=========<<< \(answer.ppr()		  )\n" +
 						"========================================================================")
 		}
 	}
@@ -192,9 +192,9 @@ struct ScanForKey : Codable {
 	  // MARK: - 2.4.3 Machine resulting from Scan
 struct HnwMachine {		// : Codable
 	 // From Chosen Test
-	var sourceOfTest: String  	= "HnwMachine.source"	// Reason for Fetching String
-	var title		: String  	= "HnwMachine.title"	// Network name from library
-	var postTitle	: String  	= "HnwMachine.post"		// Number of Ports String
+	var sourceOfTest: String  	= "<unset>"	// Reason for Fetching String
+	var title		: String  	= "<unset>"	// Network name from library
+	var postTitle	: String  	= "<unset>"	// Number of Ports String
 	func titlePlus() -> String 	{ sourceOfTest + title + postTitle}
 
 	var config		: FwConfig	= [:]		// [NOT CODABLE]

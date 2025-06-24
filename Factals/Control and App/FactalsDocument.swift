@@ -48,11 +48,7 @@ struct FactalsDocument : FileDocument, Uid {
 	}
 	init(fromLibrary select:String?=nil) {
 
-		 // 1. FactalModel first
-		let fmConfig			= params4partVew + params4partPp
-		factalsModel			= FactalsModel(partBase:PartBase(), configure:fmConfig)
-
-		 // 2. Part ******
+		 // 1. Part ******
 		let select = select ?? {
 			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
 			/**/	let select:String?=nil	//	Blank scene		 |	nil		  -1
@@ -69,23 +65,21 @@ struct FactalsDocument : FileDocument, Uid {
 			//	}
 		} ()
 		let partBase			= PartBase(fromLibrary:select)
-		factalsModel.partBase	= partBase
-		partBase.factalsModel	= factalsModel	
-						//		+ partBase.ansConfig		// from library
-											//	/**/let partBase			= PartBase(fromLibrary:select)
-											//
-											//		 // 2. FactalModel ******
-											//		let fmConfig			= params4logs
-											//								+ params4vew		//
-											//								+ params4partPp
-											//								+ partBase.ansConfig		// from library
-											//	/**/factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)
-											//		factalsModel.factalsDocument = self			// backpointer
+
+		 // 2. FactalModel first
+		let fmConfig			= params4partVew + params4partPp
+		factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)	//PartBase()
+								//		factalsModel.partBase	= partBase		// Backpointer
+								//		partBase.factalsModel	= factalsModel
+		let c					= partBase.hnwMachine.config	// from library
+		partBase.configure(from:c)
+
 		 // 3. Groom part ******
 		partBase.wireAndGroom([:])
 
 		 // 4. Vews ******
-		factalsModel.configureVews(from:fmConfig + partBase.hnwMachine.config)
+		let c2					= fmConfig + c
+		factalsModel.configureVews(from:c2)
 
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
 	}
@@ -102,6 +96,10 @@ struct FactalsDocument : FileDocument, Uid {
 			let partsBase		= PartBase.from(data:data, encoding:.utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
 
 			 // Make the FileDocument
+											//		let fmConfig			= params4logs
+											//								+ params4vew		//
+											//								+ params4partPp
+											//								+ partBase.ansConfig		// from library
 			let factalsModel	= FactalsModel(partBase:partsBase, configure:[:])
 bug;		self.init(factalsModel:factalsModel)
 

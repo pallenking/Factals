@@ -32,7 +32,7 @@ func scnAudioSource(name:String) -> SCNAudioSource {
 	guard let rv				= SCNAudioSource(url:fileUrl) else { fatalError() }
 	rv.isPositional 			= true
 	rv.shouldStream 			= false
-	rv.volume 					= params4app.float("soundVolume") ?? 1			//	rv.volume 					= 1//10//bug; APPDEL?.config4app.float("soundVolume") ?? 1
+	rv.volume 					= params4app.float("soundVolume") ?? 1	// = 1//10//
 	rv.rate 					= 1 //0.1
 	rv.load() // Preload the audio for smoother playback
 	return rv

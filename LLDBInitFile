@@ -393,8 +393,8 @@ type summary add --summary-string  "Part.name=${var.name}"  Part
 type summary add --summary-string  "Vew.name=${var.name} part:${var.part.name}"  Vew
 ########## ########## ########## ########## ########## ########## ########## 
 #
-command     alias pFwState		expression print(ppController())
-command     alias pFwConfig		expression print(ppController(config:true))
+command     alias pFwState		expression print(ppControllers())
+command     alias pFwConfig		expression print(ppControllers(config:true))
 																		#printFwConfig()
 command     alias fwHelp 		expression fwHelp("?")
 

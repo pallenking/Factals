@@ -389,7 +389,7 @@ class Port : Part, PortTalk {
 				guard let vb	= inVew?.vewBase() else { return "root of inVew bad" }
 				return "w" + inVew!.scnRoot.convertPosition(center, to:vb.scnBase.roots?.rootNode).pp(.short, aux) + " "
 			} ()
-			return fmt("c:\(center.pp(.short, aux)), r:%.3f, e:\(exclude?.pp(.short, aux) ?? "nil")", radius)
+			return fmt("c:\(center.pp(.short, aux)), r:%.3f, e:\(exclude?.pp(.short, aux) ?? "nil")", radius) + wpStr
 		}
 		var description	  	 	: String	{	return "'\(pp())'"				}
 		var debugDescription 	: String	{	return "'\(pp())'"				}

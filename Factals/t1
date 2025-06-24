@@ -1,0 +1,10 @@
+				 // Add constraints to keep link endpoints attached
+				let pConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace:false)
+				{ (node, position) in	// Return the current position of the connected port
+					return linkVew.pCon2Vew?.scn.position ?? position
+				}
+				let sConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace:false)
+			 	{ (node, position) in
+					return linkVew.sCon2Vew?.scn.position ?? position
+				}
+				linkVew.scnRoot.constraints?.append(contentsOf: [pConstraint, sConstraint])

@@ -228,16 +228,44 @@ class Link : Atom {
 
 		if linkVew.scnRoot.constraints == nil {
 			if linkSkinType == .dual {	 	// SCNBillboardConstraint, SCNLookAtConstraint
+				guard let parentVew = linkVew.parent else { return }
 
-				 // 1. Point towards camera:	(UNUSED)
-				let con0 = SCNBillboardConstraint()
-				con0.freeAxes = .Z 			// line 0...uZ	// Old way, points end of link away from camera	//.Y
+			//	 // Add constraints to keep link endpoints attached
+			//	let pConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace:false)
+			//	{ (node, position) in	// Return the current position of the connected port
+			//		return linkVew.pCon2Vew?.scn.position ?? position
+			//	}
+			//	let sConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace:false)
+			// 	{ (node, position) in
+			//		return linkVew.sCon2Vew?.scn.position ?? position
+			//	}
+			//	linkVew.scnRoot.constraints?.append(contentsOf: [pConstraint, sConstraint])
 
-				 // 2. Spin only about Y:		(UNUSED)	// line rotates 2x spin	// Shows nothing		//.X
-				let con1 = SCNLookAtConstraint(target:s.scnRoot) // :H: Number (of CONSTRAINTS)
 
-				let nConstraints = 0		// debugging variant. use constraints, else do by hand
-				linkVew.scnRoot.constraints = [[], [con0], [con0, con1]][nConstraints]
+				// Add constraints to keep link endpoints attached in parent's coordinate space
+				let pConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace: false) { (node, position) in
+					// Get connected port's position locally in parent's coordinate space
+					guard let pConnectedVew = linkVew.pCon2Vew,
+						  let pPort = pConnectedVew.part as? Port else { return position }
+					let pConSpot = pPort.portConSpot(inVew: parentVew)
+					return pConSpot.center
+				}
+				
+				let sConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace: false) { (node, position) in
+					// Get connected port's position locally in parent's coordinate space  
+					guard let sConnectedVew = linkVew.sCon2Vew,
+						  let sPort = sConnectedVew.part as? Port else { return position }
+					let sConSpot = sPort.portConSpot(inVew: parentVew)
+					return sConSpot.center
+				}
+				
+				// Apply constraints to the link's endpoints
+				if let pVew = linkVew.find(name:"_P", maxLevel:1) {
+					pVew.scnRoot.constraints = [pConstraint]
+				}
+				if let sVew = linkVew.find(name:"_S", maxLevel:1) {
+					sVew.scnRoot.constraints = [sConstraint]
+				}
 			}
 		}
 	}

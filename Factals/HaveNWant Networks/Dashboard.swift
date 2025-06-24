@@ -11,7 +11,7 @@ import SceneKit
   // MARK: A: Config App
  /// Parameters globally defined for Application()
 let params4app : FwConfig 		= [
-	"soundVolume"	 			: 1,//0.1,// 0:quiet, 1:normal, 10:loud
+	"soundVolume"	 			: 10,//0.1,// 0:quiet, 1:normal, 10:loud
 	"menuScene"		 			: 162,//145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 ]
@@ -72,8 +72,8 @@ let params4logDetail : FwConfig =	// Set events to be logged
 //	logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
 	//* Nothing*/					logAt(all:0) +
 	//* App */						logAt(app:8) +
-	//* Everything */				logAt(all:8) +
-	/* Everything except review */	logAt(rve:0, all:9) +
+	//* Most Everything */			logAt(all:8) +
+	/* Most Everything except review */logAt(rve:0, all:8) +
 	//* " except  review, resize */	logAt(rve:0, rsi:0, all:9) +
 
 	[							// + +  + +
@@ -136,7 +136,7 @@ let params4partVew : FwConfig = [
 	"animatePan"				: true,			//false//
 	"animatePole"				: true,			//false//
 	"animateOpen"				: true,			//false//
-	"animateVBdelay"			: 0.6,
+	"animateVBdelay"			: 0.6,			//3.0//0.6
 	"lookAt"					: "",
 	"vanishingPoint"			: Double.infinity,
 	//"render3DMode"			: render3Dcartoon,

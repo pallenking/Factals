@@ -27,9 +27,11 @@ import SwiftUI
 		simulator 				= Simulator(configure:configure)	// params4sim
 
 		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+		assert(FACTALSMODEL == nil, "FACTALSMODEL is nil")
 		FACTALSMODEL			= self			// set UGLY GLOBAL
-		simulator.factalsModel	= self			// backpointer
 		partBase .factalsModel	= self			// backpointer
+		simulator.factalsModel	= self			// backpointer
 
 		partBase.configure(from:configure)
 	}
@@ -64,6 +66,7 @@ import SwiftUI
 		vewBase.factalsModel	= self					// Backpointer
 		vewBases.append(vewBase)						// Install vewBase
 														// Install in scnBase
+		vewBase.configure(from:fwConfig)
 		vewBase.scnBase.roots!.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)		// Vew configuration
