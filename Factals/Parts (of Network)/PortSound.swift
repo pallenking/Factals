@@ -30,8 +30,9 @@ class PortSound : Part {
 		if let out_				= partConfig["outP"] as? String {
 			outPstr				= out_		/* e.g. v.P or atom.S	*/			}
 	}
-	required init?(coder: NSCoder) {	fatalError("init(coder:) has not been implemented")	}
-	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	}
+	required init?(coder: NSCoder) 				{fatalError("init(coder:) has not been implemented") }
+	required init(from decoder: Decoder) throws {fatalError("init(from:) has not been implemented")	 }
+
 	override func simulate(up:Bool)  {
 		 // might be done once in a late phase of initialization
 		let inPort				= inPort ?? (inPstr==nil ? nil
@@ -46,13 +47,17 @@ class PortSound : Part {
 		}
 	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn ?? {
-			let scn				= SCNNode(geometry:SCNSphere(radius:1.6))
+		let scn : SCNNode		= vew.scnRoot.findScn(named:"s-Sound") ?? {
+			let scn				= SCNNode(geometry:SCNSphere(radius:0.5))
+			scn.color0			= .red.change(alphaTo:0.5)
+//					color2		= color2.change(alphaTo:skinAlpha)
 			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Leaf"
+			scn.name			= "s-Sound"
 			return scn
-		}()
-		return vew.bBox						// vew.scnScene.bBox()//scnScene.bBox()// Xyzzy44 ** bb
+		} ()
+		let bbox 			 	= scn.bBox()
+		return bbox * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
+//		return vew.bBox						// vew.scnScene.bBox()//scnScene.bBox()// Xyzzy44 ** bb
 	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{

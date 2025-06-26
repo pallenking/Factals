@@ -50,17 +50,14 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	var nLinesLeft	: UInt8		= 0			// left to print in current atom
 
 	func checkTreeThat(parent p:Part?, partBase pb:PartBase?) -> Bool {
-		var wasOk				= parent===p && partBase===pb
+		var okay				= parent===p && partBase===pb
 		parent 					= p
 		partBase 		  		= pb
 		for child in children {
-			wasOk				&&= child.checkTreeThat(parent:self, partBase:partBase)
+			okay				&&= child.checkTreeThat(parent:self, partBase:partBase)
 		}
-//		wasOk					= children.reduce(wasOk) { (wasOk, child) in
-//			wasOk && child.checkTreeThat(parent:self, partBase:partBase)
-//		}
-	//	print("######### \(pp(.fullName)): \(pp(.classUid)) returns \(wasOk)")
-		return wasOk
+	//	print("######### \(pp(.fullName)): \(pp(.classUid)) returns \(okay)")
+		return okay
 	}
 
 	 // MARK: - 2.1 Sugar

@@ -10,7 +10,7 @@ import SceneKit
 
   // MARK: A: Config App
  /// Parameters globally defined for Application()
-let params4app : FwConfig 		= [
+var params4app : FwConfig 		= [
 	"soundVolume"	 			: 10,//0.1,// 0:quiet, 1:normal, 10:loud
 	"menuScene"		 			: 162,//145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
 	"regressScene"	 			: 189,//162,145,137,132,159,132,82,212,21,19,18,12,	// next (first) regression scene
@@ -77,7 +77,7 @@ let params4logDetail : FwConfig =	// Set events to be logged
 	//* " except  review, resize */	logAt(rve:0, rsi:0, all:9) +
 
 	[							// + +  + +
-		"breakAtEvent"				:-41, //150//-54,//240/3/0:off
+		"breakAtEvent"				:-2004, //150//-54,//240/3/0:off
 								// + +  + +
 
 		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy

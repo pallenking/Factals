@@ -30,7 +30,8 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }// 
-var  LLDBParts : PartBase		{	FACTALSMODEL!.partBase 						}
+var  LLDBParts : PartBase {	FACTALSMODEL?.partBase ??
+							fatalError("FACTALSMODEL is nil") as! PartBase		}
 func LLDBParts(_ name:String?=nil) -> Part  {
 	guard var rv : Part			= FACTALSMODEL?.partBase.tree
 	 else { return Part(["name":"COULD NOT FIND tree"])							}

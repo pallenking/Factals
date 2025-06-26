@@ -46,20 +46,20 @@ class PartBase : Codable, ObservableObject, Uid {
 		if let hnwm:HnwMachine  = Library.hnwMachine(fromSelector:selector),
 		  let newTree			= hnwm.trunkClosure?()
 		{	hnwMachine			= hnwm
-			tree				= newTree
 			hnwMachine.sourceOfTest	= "\(hnwMachine.testNum) \(hnwMachine.fileName ?? "<unnamed>"):" +
 								  "\(hnwMachine.lineNumber ?? -99)"
+			tree				= newTree
 		}
 		else {
 			hnwMachine			= HnwMachine()
-			tree				= Part()
 			hnwMachine.sourceOfTest	= "Test '\(selector ?? "<nil>")' not in library"
+			tree				= Part()
 		}
 		checkTree()
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
-		logBld(4, "***** checkTree returned \(changed)")
+		logBld(4, "***** checkTree() returned \(changed)")
 	}
 	func wireAndGroom(_ c:FwConfig) {
 		checkTree()

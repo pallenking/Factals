@@ -71,14 +71,18 @@ struct FactalsDocument : FileDocument, Uid {
 		factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)	//PartBase()
 								//		factalsModel.partBase	= partBase		// Backpointer
 								//		partBase.factalsModel	= factalsModel
-		let c					= partBase.hnwMachine.config	// from library
-		partBase.configure(from:c)
+		let testConfig			= partBase.hnwMachine.config	// from library
+		if let kludge			= testConfig["soundVolume"]	 {
+			params4app["soundVolume"] = kludge
+		}
+
+		partBase.configure(from:testConfig)
 
 		 // 3. Groom part ******
 		partBase.wireAndGroom([:])
 
 		 // 4. Vews ******
-		let c2					= fmConfig + c
+		let c2					= fmConfig + testConfig
 		factalsModel.configureVews(from:c2)
 
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
