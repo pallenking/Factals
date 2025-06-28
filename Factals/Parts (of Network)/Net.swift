@@ -137,6 +137,7 @@ class Net : Atom {		// Atom // Part
 		let gsnbMin				= min(size.y, gsnb)
 		putNetRing (scnName:"s-HiFrame", top:true)	// Ring at top:
 		putNetRing (scnName:"s-LoFrame", top:false)	// Ring at bottom:
+//debug	assert(size.y < 20.0, "debug")
 		return vew.bBox				// vew.scnScene.bBox() // Xyzzy44 ** vb
 
 		func putNetRing (scnName:String, top:Bool) {
