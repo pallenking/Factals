@@ -91,9 +91,9 @@ class Net : Atom {		// Atom // Part
 								?? parentVew?.find(part:self, maxLevel:1)	// should do by name?
 		 // Tree Height:
 		let pVewNet				= parentVew as? NetVew
-		let vewNet				= vew as? NetVew
-		vewNet?.heightLeaf		= pVewNet != nil ? (pVewNet!.heightLeaf + 1) : 1
-		vewNet?.heightTree		= vewNet?.heightLeaf ?? 0	// layer in current Net //BUGSVILLE
+		let vewNet				= vew       as? NetVew
+		vewNet?.heightLeaf		= pVewNet?.heightLeaf ?? 0 + 1
+		vewNet?.heightTree		= vewNet? .heightLeaf ?? 0	// layer in current Net //BUGSVILLE
 
 		super.reVew(vew:vew, parentVew:parentVew) //\/\/\/\/\/\/\/\/\/
 
@@ -137,7 +137,7 @@ class Net : Atom {		// Atom // Part
 		let gsnbMin				= min(size.y, gsnb)
 		putNetRing (scnName:"s-HiFrame", top:true)	// Ring at top:
 		putNetRing (scnName:"s-LoFrame", top:false)	// Ring at bottom:
-//debug	assert(size.y < 20.0, "debug")
+/*debug*/assert(size.y < 30.0, "debug: size.y (=\(size.y)) >= 30.0")
 		return vew.bBox				// vew.scnScene.bBox() // Xyzzy44 ** vb
 
 		func putNetRing (scnName:String, top:Bool) {

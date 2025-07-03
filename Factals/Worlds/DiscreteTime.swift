@@ -9,7 +9,6 @@ class DiscreteTime : Atom {
 
 	 // MARK: - 2. Object Variables:
 	var resetTo			: FwwEvent?	= nil	// event at reset
-//	var inspecNibName	: String?	= nil 	// "nib"
 //	var inspecIsOpen	: Bool? 	= nil	// kind of a hack
 	var incrementalEvents: Bool 	= false	// Next event inherets previous
 	  // Sometimes just a name and no floating point value is specified.
@@ -28,9 +27,6 @@ class DiscreteTime : Atom {
 
 		super.init(config) //\/\/\/\/\/\/\/\/\/
 
-//		if let nibString		= partConfig["nib"] as? String {
-//			inspecNibName		= nibString
-//		}
 		if let str 				= partConfig["resetTo"] as? FwwEvent {	//String
 			resetTo				= str
 		}
@@ -50,8 +46,6 @@ class DiscreteTime : Atom {
 	 // MARK: - 3.5 Codable
 	enum DiscreteTimeKeys:String, CodingKey {
 		case resetTo
-//		case inspecNibName
-//		case inspecIsOpen
 		case incrementalEvents
 		case anonValue
 	}
@@ -61,8 +55,6 @@ class DiscreteTime : Atom {
 		var container 			= encoder.container(keyedBy:DiscreteTimeKeys.self)
 
 		try container.encode(resetTo, 			forKey:.resetTo)
-//		try container.encode(inspecNibName, 	forKey:.inspecNibName)
-//		try container.encode(inspecIsOpen, 		forKey:.inspecIsOpen)
 		try container.encode(incrementalEvents, forKey:.incrementalEvents)
 		try container.encode(anonValue, 		forKey:.anonValue)
 		logSer(3, "Encoded  as? DiscTime    '\(fullName)'")
@@ -73,8 +65,6 @@ class DiscreteTime : Atom {
         let container 			= try decoder.container(keyedBy:DiscreteTimeKeys.self)
     
 		resetTo					= try container.decode(FwwEvent.self, forKey:.resetTo)
-//		inspecNibName			= try container.decode(  String.self, forKey:.inspecNibName)
-//		inspecIsOpen 			= try container.decode(    Bool.self, forKey:.inspecIsOpen)
 		incrementalEvents		= try container.decode(    Bool.self, forKey:.incrementalEvents)
 		anonValue				= try container.decode(   Float.self, forKey:.anonValue)
 		logSer(3, "Decoded  as? DiscTime   named  '\(name)'")
@@ -268,17 +258,9 @@ class DiscreteTime : Atom {
 			super.rePosition(portVew:vew)
 		}
 	}
-	override func reVew(vew:Vew?, parentVew:Vew?) {
-										super.reVew(vew:vew, parentVew:parentVew)
-	  // / Add InspecVc
-		 // inspecNibName --> automatically add an InspecVc panel
-		// (might move into -postBuild
-	//	if inspecNibName != nil && !inspecIsOpen! {
-	//		panic()
-	//		//[self.brain.simNsWc.inspecVcs2open addObject:mustBe(Vew, view)]
-	//	}
-	//	self.inspecIsOpen = true		// only open once
-	}
+//	override func reVew(vew:Vew?, parentVew:Vew?) {
+//										super.reVew(vew:vew, parentVew:parentVew)
+//	}
 		 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv					= super.pp(mode, aux)
@@ -287,7 +269,6 @@ class DiscreteTime : Atom {
 				return rv
 			}
 			rv					+= " resetTo='\(resetTo?.pp(.line, aux) ?? "nil")'"
-//			rv					+= " inspecNibName='\(inspecNibName ?? "nil")'"
 		}
 		return rv
 	}

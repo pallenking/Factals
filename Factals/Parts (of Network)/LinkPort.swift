@@ -30,7 +30,7 @@ class LinkPort : Port {
 		inTransit.append(seg)
 		partBase?.factalsModel?.simulator.linkChits	+= 1
 	}
-	init(_ config_:FwConfig, parent:Atom, i0:(Int, Int)=(0,0), color0:NSColor?=nil, _ initialSegments:[LinkSegment] = []) {
+	init(_ config_:FwConfig, parent:Atom, i0:(Int, Int)=(0,0), color0:NSColor?=nil, _ initialSegments:[LinkSegment] = []) { // LinkPort
 		self.imageX0 			= i0.0
 		self.imageY0 			= i0.1
 		if let color0 = color0 {

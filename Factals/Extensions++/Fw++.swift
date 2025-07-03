@@ -373,17 +373,21 @@ extension Dictionary		: FwAny {				// pp(..
 		case .phrase, .short:
 			return count == 0 ? "[:]" : "[:\(count) elts]"
 		case .line, .tree:
-			var (rv, sep)		= ("[", "")
-
-//			for (_, vews) in factalsModel.rootVews.sorted(using: Valu KeyPathComparator(\.key)) {
-//			let key1			= keys.sorted(using: )
-			var k3 : [Key]		= Array(keys)
-	//		if let k : [any Comparable] = k3 as? [any Comparable] {
-	//			k3				= k.sorted(by: String.compar
-	//		}
 			let m 				= mode == .tree ? PpMode.line : PpMode.short	// downgrade mode
-			for key in k3 {
-				rv				+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
+			var (rv, sep)		= ("[", "")
+									//	for (_, vews) in factalsModel.rootVews.sorted(using: Valu KeyPathComparator(\.key)) {
+									//	let key1			= keys.sorted(using: )
+									//	if let k : [any Comparable] = k3 as? [any Comparable] {
+									//		k3				= k.sorted(by: String.compar
+									//	}
+			var rv1				= ""
+			for key in Array(keys) {
+				let val : FwAny	= self[key] as! FwAny
+				if let valF		= val as? Float {
+					rv1			+= "\(sep)\(key):" + fmt("%.2d", valF)
+				} else {
+					rv1			+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
+				}
 				sep 			=  mode == .tree ? ",\n": ", "
 			}
 			return rv + "]"

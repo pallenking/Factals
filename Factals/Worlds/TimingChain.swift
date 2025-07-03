@@ -261,7 +261,7 @@ class TimingChain : Atom {
 				simulator.startChits = 4		// start simulator after key goes up
 			}
 		}
-		super.simulate(up:upLocal)
+		super.simulate(up:upLocal)	// MIDDLE
 
 		guard upLocal 							else {	return					}
 			// Only advance when simulator is settled:

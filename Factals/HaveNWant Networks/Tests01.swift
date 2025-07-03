@@ -695,9 +695,9 @@ xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0
 xr("- way extra size", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:2.0)
 			+ ["animateVBdelay":1.0], { Net([placeMy:"stackx", parts:[
 	Net([placeMy:"linky", parts:[
-		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
-		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
-		Bulb([P:a8  ]),	//	Bulb([P:a8]),	//	Bulb([P:a8]),		Bulb([P:a8]),
+		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),	// 3:ok,4:fails
+		Bulb([P:a8]),	//	Bulb([P:a8]),		Bulb([P:a8]),
+//		Bulb([P:a8  ]),	//	Bulb([P:a8]),	//	Bulb([P:a8]),		Bulb([P:a8]),
 		Mirror([n:"b", P:"a,v:3", jog:"4", "latitude":-1, "spinX":"1"]),
 //		PortSound([n:"s1",   "inP":"p1.P", "sounds":tickTock, "soundVolume":10.0 ]),
 		PortSound([n:"snd1", "inP":"a.P",  "sounds":tickTock, "soundVolume":0.0 ]),

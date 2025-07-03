@@ -3,29 +3,31 @@
 import Foundation
 import SceneKit
 
-/// An array of bits, stored in a char.
+/// An Array of Bits, stored in a Char.
 /// - To use 3 bits, 8 (=2**3) cases must be defined
 var raw2string44 : [String] = [" ", "V", "S", "VS", "P", "VP", "SP", "VSP"]
-enum DirtyBits : UInt8, CaseIterable, Codable {//, Identifiable
-	
+enum DirtyBits : UInt8, CaseIterable, Codable {	// Identifiable
 	case clean	= 0
 	case vew	= 1		// The Vew structure for this part needs updating
 	case size	= 2		// The sizing of this part needs updating
 	case paint	= 4		// The painting and color of the skins
-
  	  // multiple values which might occur together:
 	 // This is a wierd way to pack 3 dirty bits into one UInt8
-	case vs=3, vp=5, sp=6, vsp=7
-	case reset=255
+	case vs		= 3		//
+	case vp		= 5		// 2 on
+	case sp		= 6		//
+	case vsp	= 7		// all 3 ON
+	case reset	= 255
+
 	init(fromString string:String) {
 		let rawInt	: Int	= raw2string44.firstIndex(of:string) ?? 9999
 		let rawInt8	: UInt8 = UInt8(fwAny:rawInt) ?? 255
 		self				= DirtyBits(rawValue:rawInt8) ?? .reset
 	}
-	mutating func turnOn(_  kind:DirtyBits) {
+	mutating func turnOn(_  kind:DirtyBits) {	// just self
 		self				= DirtyBits(rawValue:rawValue | kind.rawValue)!
 	}
-	mutating func turnOff(_ kind:DirtyBits) {
+	mutating func turnOff(_ kind:DirtyBits) {	// just self
 		self				= DirtyBits(rawValue:rawValue & ~kind.rawValue)!
 	}
 	func isOn(_  kind:DirtyBits) -> Bool {
@@ -45,12 +47,10 @@ extension Part {
 	/// - Marks the bit from the selected node, through parents to the root.
 	/// - Stops if it encounters node marked with this bit
 	func markTree(dirty:DirtyBits) {
-		let bits				= dirty.rawValue
-
-		 // Go up the containment tree
+		 // Go up the containment tree, SEARCHING FOR an entry
 		for s in selfNParents {
-			if s.dirty.rawValue & bits ==  bits {	// node has bits ON
-				break									// do no more
+			if s.dirty != DirtyBits.clean {		// node has bits ON
+				break								// no need to go up farther
 			}
 			s.dirty.turnOn(dirty)
 		}

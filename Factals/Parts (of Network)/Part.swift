@@ -159,7 +159,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}()
 
 		 // Print out invocation
-		let n					= "    created \(pp(.nameTag)) " + ("\'" + name + "\': ").field(8)
+		let n					= " ID:\(pp(.nameTag)) " + ("\'" + name + "\': ").field(8)
 		logBld(6, n + "\(fwClassName.field(12))(\(partConfig.pp(.line)))")
 
 		 // Options:
@@ -434,9 +434,9 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	///   - child: child to add
 	///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
 	/// dirtyness of child is inhereted by self
-	func addChild(_ child:Part?, atIndex index:Int?=nil) {
-		guard let child 		else {		return								}
-		assert(self !== child, "can't add self to self (non-exhaustive check)")
+	func addChild(_ newChild:Part?, atIndex index:Int?=nil) {
+		guard let newChild 		else {		return								}
+		assert(self !== newChild, "can't add self to self (non-exhaustive check)")
  // 20241019PAK: uses == on Part, which is depricated?
 //		assert(!children.containsFW(child), "Adding child that's already there")
 
@@ -446,20 +446,20 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 				index = children.count - index
 			}
 			assert(index>=0 && index<=children.count, "index \(index) out of range")
-			children.insert(child, at:index)	// add at index
+			children.insert(newChild, at:index)	// add at index
 		}
 		else {	// add at end
-			children.append(child)
+			children.append(newChild)
 		}
-
+								
 		 // link in as self
-		child.parent			= self
-		child.partBase			= self.partBase
-		let a 					= child.checkTreeThat(parent:self, partBase:partBase)
+		newChild.parent			= self
+		newChild.partBase		= self.partBase
+		let _ 					= newChild.checkTreeThat(parent:self, partBase:partBase)
 
 		 // Process tree dirtyness:
 		markTree(dirty:.vew)				// ? tree has dirty.vew
-		markTree(dirty:child.dirty)			// ? tree also inherits child's other dirtynesses
+		markTree(dirty:newChild.dirty)			// ? tree also inherits child's other dirtynesses
 	}										// (child is not dirtied any more)
 	/// Groom Part tree after construction.
 	/// - Parameters:
@@ -867,8 +867,8 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 		 // Step all my parts:
 		let orderedChildren		= upLocal ? children : children.reversed()
 		for child in orderedChildren {
-			let upInEnt 		= child.flipped ^^ upLocal
-			child.simulate(up:upInEnt)		// step all somponents
+			let upInChild 		= child.flipped ^^ upLocal
+			child.simulate(up:upInChild)		// step all somponents
 		}
 	}
 
@@ -937,7 +937,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 //bug//NReset
 				if	childPart.test(dirty:.vew) ||		// 210719PAK do first, so it gets cleared
 				 	childPart.initialExpose == .open    {
-					childPart.reVew(parentVew:vew!)
+					childPart.reVew(parentVew:vew)
 				}
 			}
 
@@ -1360,7 +1360,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 							// // // 2. Debug switch to select Instantiation:
 					let alt 	= nsEvent.modifierFlags.contains(.option)
 
-					print("Show Inspec for Vew '\(pickedVew.pp(.fullName))'")
+					print("Showing Inspec for Part '\(pickedVew.part.pp(.fullName)) in Vew '\(pickedVew.pp(.fullName))'")
 					//let vewsInspec = Inspec(vew:pickedVew)
 					pickedVew.vewBase()?.addInspector(forVew:pickedVew, allowNew:alt)
 

@@ -213,7 +213,7 @@ class Splitter : Atom {
 		  // *//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*/
 		if (!upLocal) {
 
-			super.simulate(up:upLocal)	// step super FIRST
+			super.simulate(up:upLocal)	// TOP (step super FIRST)
 			   //												 ///////////////
 			  // GATHER/COMBINE from all the SHARES				/// COMBINE ///
 			 //												   ///////////////
@@ -325,7 +325,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 					b.value/*Take*/	= total			// silently
 				}
 			}
-			super.simulate(up:upLocal)			// step super AFTER, to skip a step
+			super.simulate(up:upLocal)	// BOTTOM step super AFTER, to skip a step
 		}
 	}
 

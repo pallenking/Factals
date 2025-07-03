@@ -66,19 +66,16 @@ protocol PortTalk {
 class Port : Part, PortTalk {
 
 	 // MARK: - 2. Object Variables:
-	  // MARK: - 2.1 ACTIVATION LEVELS
-	 // ////////////////////////////////////////////////////////////////////////
-	/*	210118PAK:
-	Asynchronoush changes to model do not update value in inspector.
-	No redraw. Redraw from another button does update it.
-	*/
-
+	   // MARK: - 2.1 ACTIVATION LEVELS
+	  // ////////////////////////////////////////////////////////////////////////
+	 //	210118PAK: Asynchronoush changes to model do not update value in inspector.
 	var value 		: Float	= 0.0
 	{	didSet {	if value != oldValue {
 						markTree(dirty:.paint)							}	}	}
 	var valuePrev	: Float	= 0.0
 	{	didSet {	if valuePrev != oldValue {
 						markTree(dirty:.paint)							}	}	}
+
 	var sounder		: PortSound? = nil
 
 	func take(value newValue:Float, key:String?=nil) {

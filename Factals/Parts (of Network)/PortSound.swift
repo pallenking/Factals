@@ -49,10 +49,9 @@ class PortSound : Part {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn : SCNNode		= vew.scnRoot.findScn(named:"s-Sound") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:0.5))
-			scn.color0			= .red.change(alphaTo:0.5)
-//					color2		= color2.change(alphaTo:skinAlpha)
-			vew.scnRoot.addChild(node:scn, atIndex:0)
 			scn.name			= "s-Sound"
+			scn.color0			= .red.change(alphaTo:0.5)	//skinAlpha
+			vew.scnRoot.addChild(node:scn, atIndex:0)
 			return scn
 		} ()
 		let bbox 			 	= scn.bBox()

@@ -48,7 +48,7 @@ class ShaftBundleTap : BundleTap { //Generator {
 
 	override func simulate(up upLocal:Bool) {
 
-		super.simulate(up:upLocal)	// step super FIRST
+		super.simulate(up:upLocal)	// TOP (step super FIRST)
 
 		if (!upLocal) {
 //			let nPoles = self.nPoles
@@ -177,16 +177,10 @@ bug;			var poleITread = self.tread - Float(i)
 			panic("")
 		}
 	}
-	override func reVew(vew:Vew?, parentVew:Vew?) {
-	  // / Add InspecVc
-		super.reVew(vew:vew, parentVew:parentVew)
-		 // inspecNibName --> automatically add an InspecVc panel
-		// (might move into -postBuild
-//		if inspecNibName != nil && !inspecIsOpen! {
-//			panic()	//[self.brain.simNsWc.inspecVcs2open addObject:mustBe(Vew, view)]
-//		}
-//		self.inspecIsOpen = true		// only open once
-	}
+//	override func reVew(vew:Vew?, parentVew:Vew?) {
+//	  // / Add InspecVc
+//		super.reVew(vew:vew, parentVew:parentVew)
+//	}
 
 	 //	 MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{

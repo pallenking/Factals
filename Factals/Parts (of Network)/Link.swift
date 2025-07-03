@@ -105,7 +105,7 @@ class Link : Atom {
 		}
 	}
 	 // MARK: - 3.1 Port Factory
-	override func hasPorts() -> [String:String]	 {  	[:]						}	//Ports defined elsewhere
+	override func hasPorts() -> [String:String]	 {  	[:]						}	// Ports defined elsewhere
 //	override func hasPorts() -> [String:String]	 {  	["P":"cC", "S":"cCf"]	}	// Ports of Link created by this
 //	override func hasPorts() -> [String:String]	 {  	["P":"c", "S":"cf"]		}
 	var curActiveSegments : Int	{ pUpCPort.inTransit.count + sDownCPort.inTransit.count	}

@@ -106,7 +106,7 @@ class GenAtom : Atom {
 		}
 	}
 	override func simulate(up upLocal:Bool) {
-		super.simulate(up:upLocal)
+		super.simulate(up:upLocal)	// TOP
 								
 		if upLocal,				// /////// going UP /////////
 		  let pPort				= ports["P"],

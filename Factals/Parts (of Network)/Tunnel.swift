@@ -75,7 +75,7 @@ class Tunnel : FwBundle {
 	L:Latch, G:Generate action
 	*/
 	override func simulate(up upLocal:Bool) {
-		super.simulate(up:upLocal)		// Simulate my children
+		super.simulate(up:upLocal)	// TOP
 
 		if !upLocal, 					 // If going up
 		  								  // our "P" Port is connected to a MultiPort

@@ -43,19 +43,23 @@ class PartBase : Codable, ObservableObject, Uid {
 	}
 	init(fromLibrary selector:String?) {			// PartBase(fromLibrary...
 		 // Get HaveNWant Machine (a Network)
-		if let hnwm:HnwMachine  = Library.hnwMachine(fromSelector:selector),
-		  let newTree			= hnwm.trunkClosure?()
-		{	hnwMachine			= hnwm
-			hnwMachine.sourceOfTest	= "\(hnwMachine.testNum) \(hnwMachine.fileName ?? "<unnamed>"):" +
-								  "\(hnwMachine.lineNumber ?? -99)"
-			tree				= newTree
+		if let hnwm:HnwMachine  = Library.hnwMachine(fromSelector:selector) {
+			logBld(6, "Create Parts:")
+			if let newTree		= hnwm.trunkClosure?()	//  <<=======
+			{
+				hnwMachine		= hnwm
+				hnwMachine.sourceOfTest	= "\(hnwMachine.testNum) \(hnwMachine.fileName ?? "<unnamed>"):" +
+									  "\(hnwMachine.lineNumber ?? -99)"
+				tree			= newTree
+			}
+			else {
+				hnwMachine		= HnwMachine()		// default, runt
+				hnwMachine.sourceOfTest	= "Test '\(selector ?? "<nil>")' not in library"
+				tree			= Part()
+			}
+			checkTree()
 		}
-		else {
-			hnwMachine			= HnwMachine()
-			hnwMachine.sourceOfTest	= "Test '\(selector ?? "<nil>")' not in library"
-			tree				= Part()
-		}
-		checkTree()
+		else {		fatalError("library selector '\(selector ?? "<nil>)' not found")'}") }
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)

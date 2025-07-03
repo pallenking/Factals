@@ -62,9 +62,6 @@ class Generator : Net {
 		  // //////  DiscreteTime.swift   Args: Connects to HnW Network
 		 //  An Atom which generates data C2014PAK
 		var dtArgs : FwConfig	= ["n":"dt", "f":1]
-		if let nib 				= partConfig["nib"] {
-//			dtArgs["nib"] 		= nib
-		}
 		if let p				= partConfig["P"] {	// generator connects to network here
 			dtArgs["P"] 		= p
 //			partConfig["P"]	= nil

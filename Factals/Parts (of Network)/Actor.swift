@@ -267,7 +267,7 @@ bug;		let enaPort			= Port()
 				panic("unused enable3?.con2?.port.getValue \(unusedVal) signal")
 			}
 		}
-		super.simulate(up:up)
+		super.simulate(up:up)		// BOTTOM
 	}
 	 // MARK: - 9. 3D Support
 	// Actors do not use superclass methods

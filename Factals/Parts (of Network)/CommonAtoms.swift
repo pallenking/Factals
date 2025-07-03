@@ -51,7 +51,7 @@ class Ago : Atom {
 	// MARK: - 8. Reenactment Simulator
 	override func simulate(up upLocal:Bool)  {
 	  // / BROKEN, no clock!!!
-		super.simulate(up:upLocal)
+		super.simulate(up:upLocal)	// TOP
 		let pPort				= ports["P"]
 		let sPort				= ports["S"]
 		if upLocal, 									/////// going UP
@@ -184,7 +184,7 @@ class Mirror : Atom {
 	}
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up upLocal:Bool)  {
-		super.simulate(up:upLocal)
+		super.simulate(up:upLocal)	// TOP
 		if upLocal {									// ///// going UP
 			assert(ports.count == 1, "Mirror: \(ports.count) Ports illegal")
 			if let pPort		= ports["P"],

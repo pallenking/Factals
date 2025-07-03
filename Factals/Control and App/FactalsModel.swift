@@ -266,11 +266,11 @@ import SwiftUI
 			if ovb==nil || ovb == vewBase {			// all if onlyVew==nilvvvvvvv
 				guard vewBase  .lock  (for:"\(workNamed)[\(i)]", logIf:logIf)
 									else {debugger(" couldn't get VEW lock")	}
-				
+
 				work(vewBase)			// Do desired changes
-				
+
 				vewBase.updateVSP()		// Update Vews and their Scns
-				
+
 				vewBase      .unlock  (for:"\(workNamed)[\(i)]", logIf:logIf)
 			}
 		}
@@ -422,7 +422,7 @@ import SwiftUI
 									(vewBase.scnBase.animatePhysics ? "Run   " : "Freeze")
 			}
 			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
-	bug;	return true								// recognize both
+			return true								// recognize both
 		case "?":
 			printDebuggerHints()
 			print ("\n=== FactalsModel   commands:",

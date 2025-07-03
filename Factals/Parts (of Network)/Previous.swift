@@ -282,7 +282,7 @@ bug
 	// //*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//* ///
 
 	override func simulate(up upLocal:Bool) {
-		super.simulate(up:upLocal)
+		super.simulate(up:upLocal)	// TOP
 		let pPriPort			= ports["P"]!	//  Pri Port
 		let sCurPort			= ports["S"]!	//  Cur Port
 		let tPrevPort			= ports["T"]!	// Prev Port

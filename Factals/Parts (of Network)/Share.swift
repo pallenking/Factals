@@ -384,7 +384,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	}
 	override func simulate(up upLocal:Bool)
 	{
-		super.simulate(up:upLocal)
+		super.simulate(up:upLocal)	// TOP
 		let parent : Splitter 		= self.parent as! Splitter
 
 	/* Splitter:								Events: A->a, B->b, ...H->h
@@ -502,7 +502,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	 // MARK: - 8. Reenactment Simulator
 	override func bidTotal() -> Float 		{	return 1						} // Bulb
 	override func simulate(up upLocal:Bool) {
-		super.simulate(up:upLocal)		// BUG: Breakpoint here doesn't work
+		super.simulate(up:upLocal)	// TOP
 
 		 // Bulbs size may change:
 		if upLocal,

@@ -111,9 +111,9 @@ bug//		self.speak = Int(valNext)
 					logEve(4, "Branch: S->lPre =\(sInPort!.value) (was \(lPreLatch))")
 					lPreLatch 	= sInPort!.value
 				}
-				super.simulate(up:upLocal)
+				super.simulate(up:upLocal)	// BOTTOM same
 			} else {
-				super.simulate(up:upLocal)
+				super.simulate(up:upLocal)	// TOP same
 				if lInPort?.valueChanged() ?? false {
 					let valPrev = lInPort!.valuePrev
 					let valNext = lInPort!.value

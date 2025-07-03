@@ -735,7 +735,7 @@ class Atom : Part {	//Part//FwPart
 
 		let _					= findCommon(up2:false, inMe2:true, firstWith:					//all:false,
 		{ (inMe:Part) -> Part? in		// all Parts inside self
-			logRsi(5, "  TRY \(inMe.fullName.field(10)) ", terminator:"")
+			logRsi(6, "  TRY \(inMe.fullName.field(10)) ", terminator:"")
 
 			   // /////////////////////////////////////////////////////////////// //
 			  // /////// Search for a Link to fixed ground

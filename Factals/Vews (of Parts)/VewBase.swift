@@ -260,6 +260,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		SCNTransaction.animationDuration = CFTimeInterval(animateVBdelay)	//0.15//0.3//0.6//
 
 		let partsTree			= partBase.tree		// Model
+	//	let levelCounter		= 0
 
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
 		if partsTree.test(dirty:.vew) {				//" _ reVew _   VewBase (per updateVSP()" {
@@ -283,6 +284,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			 // should have created all Vews and one *-<name> in ptn tree
 			partsTree.reVewPost(vew:tree)
 		}
+		
 		 // ---- 2.  Adjust   S I Z E s   ----- //
 		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()" {
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary

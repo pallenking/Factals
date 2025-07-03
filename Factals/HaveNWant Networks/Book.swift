@@ -203,9 +203,9 @@ struct HnwMachine {		// : Codable
 	var testNum  	: Int		= 0
 	var subMenu 	: String	= ""		// the scanSubMenu of the test found
 	 // Anonymous from Scan
-	var trunkClosure:PartClosure? = nil		// [NOT CODABLE] Closure from Library, generates Part
+	var trunkClosure:PartClosure?=nil		// [NOT CODABLE] Closure from Library, generates Part
 	var fileName	: String?	= nil
-	var lineNumber	:Int?		= nil
+	var lineNumber	: Int?		= nil
 	func ppr() -> String {
 		"test \(testNum.asString_.field(4))\t source:\(fileName!.field(20))::\(lineNumber!)\t title:'\(title)'"
 	}

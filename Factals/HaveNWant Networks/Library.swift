@@ -53,8 +53,7 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 		var state				= ScanState()
 		for book in Library.books {					// All books
 	/**/	book.loadTest(args:args, state:&state)		// (state persists across library probes)
-			if book.answer.trunkClosure != nil {			// test valid?
-			// book.answer.title?.first == "+" */  {
+			if book.answer.trunkClosure != nil {			// test valid? // book.answer.title?.first == "+"
 				if let rv {										// log multiple select
 					logBld(2, """
 						\n Selector: '\(s)' returns multiple entries
