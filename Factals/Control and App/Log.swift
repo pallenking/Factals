@@ -116,8 +116,33 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	///   - eventAction: 	action to be executed if area/detail matches
 	func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
 		if eventIsWanted(ofArea:eventArea, detail:eventDetail) {
-			let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
+	//		let str1				= String(format:format, args)
+	//		let str2				= String(format:"%1d", eventDetail)
+	//		let format				= "<< " + str2 + str1 + " >>"
+	//		Log.shared.logd(format, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
+
+			let str					= String(format:"%1d", eventDetail)
+			let format				= eventArea + str + " " + format
+//			let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
 			Log.shared.logd(format, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
+		}
+	}
+	func atFoo(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
+		if eventIsWanted(ofArea:eventArea, detail:eventDetail) {
+			let str1				= String(format:format, args)
+			let str2				= String(format:"%1d", eventDetail)
+			let format				= "<< " + str2 + str1 + " >>"
+			Log.shared.logd(format, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
+
+			let str3				= String(format:"%1d", eventDetail)
+			let str4				= String(format:format, args)
+			let format2				= "<< " + str3 + str4 + " >>"
+			Log.shared.logd(format2, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
+
+			let str					= String(format:"%1d", eventDetail)
+			let format3				= eventArea + str + " " + format
+//			let format3				= eventArea + String(format3:"%1d", eventDetail) + " " + format
+			Log.shared.logd(format3, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
 		}
 	}
 	func eventIsWanted(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
@@ -179,7 +204,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		rv 							+= msgFilter ?? "<?>"	 			//e.g: "app"
 		rv							+= mp != nil ? "\(mp!)" : "?"		//e.g: "4"
 		rv							= rv.field(-9, dots:false, grow:true)
-		rv							+= " "
+		 rv							+= " "
 		var eventStr 				= " "//sh.procAreaPriorityStr()
 		eventStr					+= String(format:format, arguments:args)
 

@@ -52,6 +52,17 @@ struct VewBaseBar: View {
 						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
 						factalsModel.updateVews()
 					}
+					Button(label:{	Text("Test")								})
+					{	print("===== Test =====")
+						let v1 = 1.0
+						let v2 = 0.0
+						print("1")
+						logDat(3, "v1 = %.2f   v2 = %.2f", v1, v2)						// v1 = 0.00   v2 = 0.00
+						print("2")
+					 	Log.shared.at("dat", 3, format:"v1=%.2f, v2=%.2f", args:v1, v2)	// v1=0.00, v2=0.00
+						print("3")
+					 	Log.shared.atFoo("dat", 3, format:"v1=%.2f, v2=%.2f", args:v1, v2)	// v1=0.00, v2=0.00
+					}
 
 	//				LabeledCGFloat(label:"prefFpsC",val:$vewBase.prefFpsC)
 //					Text("prefFps=")

@@ -104,10 +104,12 @@ class Port : Part, PortTalk {
 		assert(key==nil, "key mode not supported")
 		if valueChanged() {
 			logDat(3, ">------. %.2f (was %.2f) (\(fullName))", value, valuePrev)
-		}
-		 // mark value taken
-		if valuePrev != value {			// Only do this on a change, so debug easier
+			 // mark value taken
+			assert(valuePrev != value, "valuePrev == value")
 			valuePrev 			= value		// returning the inValue promotes it to the previous
+//			if valuePrev != value {			// Only do this on a change, so debug easier
+//				valuePrev 		= value		// returning the inValue promotes it to the previous
+//			}
 		}
 		return value
 	}
@@ -726,7 +728,7 @@ nop
 			rv 					+= Log.shared.indentString(minus:1)
 			//rv  				+= root?.factalsModel?.log.indentString(minus:1) ?? ";;"
 			rv					+= self.flippedInWorld 	? 	"|/   " :
-								   						"|\\   "
+								   							"|\\   "
 			rv					+= ppCenterPart(aux)	// adds "name;class<unindent><Expose><ramId>"
 			if aux.bool_("ppParam") {		// when printing parameters
 				return rv						// stop normal stuff
