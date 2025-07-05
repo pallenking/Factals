@@ -39,31 +39,31 @@ import Foundation
 
 // MARK: 2 Program Generates an Event to log, at an area of a certain detail:
  // Sugar to shorten commonl y used cliche.
-func  logApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// APPlication
+func  logApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// APPlication
 { 	Log.shared.at("app", detail, format:format, args:args, terminator:terminator)}
-func  logDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// DOCument
+func  logDoc(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// DOCument
 { 	Log.shared.at("doc", detail, format:format, args:args, terminator:terminator)}
-func  logBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// BuiLD part
+func  logBld(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// BuiLD part
 { 	Log.shared.at("bld", detail, format:format, args:args, terminator:terminator)}
-func  logSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// SERilization
+func  logSer(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// SERilization
 { 	Log.shared.at("ser", detail, format:format, args:args, terminator:terminator)}
-func  logAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// phys ANImation
+func  logAni(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// phys ANImation
 { 	Log.shared.at("ani", detail, format:format, args:args, terminator:terminator)}
-func  logDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim DATa
+func  logDat(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// sim DATa
 { 	Log.shared.at("dat", detail, format:format, args:args, terminator:terminator)}
-func  logEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// sim EVEnts
+func  logEve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// sim EVEnts
 { 	Log.shared.at("eve", detail, format:format, args:args, terminator:terminator)}
-func  logIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// INSpectors
+func  logIns(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// INSpectors
 { 	Log.shared.at("ins", detail, format:format, args:args, terminator:terminator)}
-func  logMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// MENus
+func  logMen(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// MENus
 { 	Log.shared.at("men", detail, format:format, args:args, terminator:terminator)}
-func  logRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReViEw
+func  logRve(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// ReViEw
 { 	Log.shared.at("rve", detail, format:format, args:args, terminator:terminator)}
-func logRsi(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReSIze
+func logRsi(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// ReSIze
 { 	Log.shared.at("rsi", detail, format:format, args:args, terminator:terminator)}
-func logRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// ReNDer protocol
+func logRnd(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// ReNDer protocol
 { 	Log.shared.at("rnd", detail, format:format, args:args, terminator:terminator)}
-func logTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String?=nil)		// TeSTing
+func logTst(_  detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// TeSTing
 { 	Log.shared.at("tst", detail, format:format, args:args, terminator:terminator)}
 
  // MARK: 3 Hash to Configure Log's filter detail

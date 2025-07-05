@@ -114,35 +114,16 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	///   - eventArea: 	kind of event encountered
 	///   - eventDetail:	detail of the event, how geeky is it 0<msgPri<10
 	///   - eventAction: 	action to be executed if area/detail matches
-	func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
+	func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String="\n") {
 		if eventIsWanted(ofArea:eventArea, detail:eventDetail) {
-	//		let str1				= String(format:format, args)
-	//		let str2				= String(format:"%1d", eventDetail)
-	//		let format				= "<< " + str2 + str1 + " >>"
-	//		Log.shared.logd(format, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
-
-			let str					= String(format:"%1d", eventDetail)
-			let format				= eventArea + str + " " + format
-//			let format				= eventArea + String(format:"%1d", eventDetail) + " " + format
-			Log.shared.logd(format, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
-		}
-	}
-	func atFoo(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String?=nil) {
-		if eventIsWanted(ofArea:eventArea, detail:eventDetail) {
-			let str1				= String(format:format, args)
-			let str2				= String(format:"%1d", eventDetail)
-			let format				= "<< " + str2 + str1 + " >>"
-			Log.shared.logd(format, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
-
-			let str3				= String(format:"%1d", eventDetail)
-			let str4				= String(format:format, args)
-			let format2				= "<< " + str3 + str4 + " >>"
-			Log.shared.logd(format2, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
-
-			let str					= String(format:"%1d", eventDetail)
-			let format3				= eventArea + str + " " + format
-//			let format3				= eventArea + String(format3:"%1d", eventDetail) + " " + format
-			Log.shared.logd(format3, args, terminator:terminator ?? "\n", msgFilter:eventArea, msgPriority:eventDetail)
+		// new way
+			let eventStr			= eventArea + String(format:"%1d ", eventDetail)
+			let message				= eventStr + String(format:format, args)	// FINALLY
+			Log.shared.logd(message, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
+	//	// old way
+	//		let str					= String(format:"%1d", eventDetail)
+	//		let format				= eventArea + str + " " + format
+	//		Log.shared.logd(format, args, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
 		}
 	}
 	func eventIsWanted(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
@@ -180,7 +161,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	func logd(banner:String?=nil, _ format_:String, _ args:CVarArg..., terminator:String="\n",
 									msgFilter:String?=nil, msgPriority:Int?=nil) {
 		let sh	 					= Log.shared	// There should be only one Log in the system
-
+		//print("format_:\(format_) args:\(args) --> '\(String(format:format_, arguments:args))'")
 		 // note Similator time change?
 		if let fm					= FACTALSMODEL {
 			let sim					= fm.simulator
