@@ -54,6 +54,27 @@ extension Part {
 			}
 			s.dirty.turnOn(dirty)
 		}
+		
+		// If size changed, notify connected links
+		if dirty.isOn(.size) {
+			notifyConnectedLinksOfSizeChange()
+		}
+	}
+	
+	/// Notify connected links that this part's size has changed
+	func notifyConnectedLinksOfSizeChange() {
+		// Iterate through all ports in this part
+		if let atom = self as? Atom {
+			for (_, port) in atom.ports {
+				// If this port is connected to another port
+				if let connectedPort = port.con2?.port {
+					// If the connected port belongs to a Link, mark the link as needing size update
+					if let link = connectedPort.parent as? Link {
+						link.markTree(dirty: .size)
+					}
+				}
+			}
+		}
 	}
 	
 	/// Ensure the dirtyBits of all leaf nodes are included here
