@@ -27,8 +27,10 @@ import SwiftUI
 		simulator 				= Simulator(configure:configure)	// params4sim
 
 		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
-		assert(FACTALSMODEL == nil, "FACTALSMODEL is nil")
+		if let fm 				= FACTALSMODEL {
+			 print("FACTALSMODEL already set by \(fm)")
+		}
+		//assert(FACTALSMODEL == nil, "FACTALSMODEL is nil")
 		FACTALSMODEL			= self			// set UGLY GLOBAL
 		partBase .factalsModel	= self			// backpointer
 		simulator.factalsModel	= self			// backpointer

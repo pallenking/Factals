@@ -250,7 +250,7 @@ struct FactalsApp: FwAny, Uid {
 		menuScene				= params4app.int_("menuScene")
 		regressScene			= params4app.int_("regressScene")
 		logApp(3, "Factals Application, before docs:\n" + ppControlElement())
-//		logRunInfo("\(library.answer.titlePlus())")
+		logRunInfo("\(library.answer.titlePlus())")
 	}
 
 	var sceneMenu:NSMenu!	//@IBOutlet weak		//Only class instance properties can be declared @IBOutlet

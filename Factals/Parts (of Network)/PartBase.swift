@@ -21,19 +21,19 @@ extension PartBase : Equatable {
 
 class PartBase : Codable, ObservableObject, Uid {
 	 // MARK: - 2.1 Object Variables
-	let nameTag			 		= getNametag()
-	var indexFor				= Dictionary<String,Int>() // for <Class>, "wire", "WBox", "origin", "breakAtWire", etc
+	var nameTag			 		= getNametag()
 	var tree 	   : Part
 	var hnwMachine : HnwMachine = HnwMachine()
-
-	weak
-	 var factalsModel: FactalsModel? = nil			// OWNER
-
+	 // Construction for <Class>, "wire", "WBox", "origin", "breakAtWire", etc:
+	var indexFor				= Dictionary<String,Int>()
 	 // MARK: - 2.3 Part Tree Lock
 	var semiphore 				= DispatchSemaphore(value:1)	// be ware of structured concurency.
 	var curOwner   : String?	= nil							//	https://medium.com/@roykronenfeld/semaphores-in-swift-e296ea80f860
 	var prevOnwer  : String?	= nil
 	var verboseLocks			= true//false//
+
+	weak
+	 var factalsModel: FactalsModel? = nil			// OWNER
 
 	 // MARK: - 3. Part Factory
 	init(tree t:Part=Part()) {
@@ -126,48 +126,61 @@ class PartBase : Codable, ObservableObject, Uid {
 	//// START CODABLE ///////////////////////////////////////////////////////////////
 	 // MARK: - 3.5 Codable
 	enum PartsKeys: String, CodingKey {
+//		case tree
+//		case simulator
+////		case log
+//		case title
+//		case partTreeVerbose		// Bool
+		case nameTag
 		case tree
-		case simulator
-//		case log
-		case title
-		case ansConfig
-		case partTreeVerbose		// Bool
+		case hnwMachine
+		case indexFor
+
+		case semiphore
+		case curOwner
+		case prevOnwer
+		case verboseLocks
 	}
+
+
 
 	 // Serialize 					// po container.contains(.name)
 	/*override*/
 	func encode(to encoder: Encoder) throws  {
-bug
 		 // Massage Part Tree, to make it
 		makeSelfCodable(neededLock:"writePartTree")		//readyForEncodable
 
-		//try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
+		//try super.encode (to: encoder), (to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:PartsKeys.self)
-
-	//	try container.encode(title,				forKey:.title					)
-	//?	try container.encode(ansConfig,			forKey:.ansConfig				)		// TODO requires work!
-		try container.encode(verboseLocks, forKey:.partTreeVerbose				)
-
+		try container.encode(nameTag,	   forKey:.nameTag						)
+		try container.encode(tree,		   forKey:.tree							)
+//		try container.encode(hnwMachine,   forKey:.hnwMachine					)
+		try container.encode(indexFor,	   forKey:.indexFor						)
+//		try container.encode(semiphore,	   forKey:.semiphore					)
+		try container.encode(curOwner,	   forKey:.curOwner						)
+		try container.encode(prevOnwer,	   forKey:.prevOnwer					)
+		try container.encode(verboseLocks, forKey:.verboseLocks					)
 		logSer(3, "Encoded")
 
 		 // Massage Part Tree, to make it
 		makeSelfRunable("writePartTree")
 	}
 	 // Deserialize
-	required init(from decoder: Decoder) throws {	fatalError("sdfwovnaw;ofhw")}
-//		 // Needn't lock or makeSelfCodable, it's virginal
-//		let container 			= try decoder.container(keyedBy:PartsKeys.self)
-//
-//		title					= try container.decode(   String.self, forKey:.title		)
-////		ansConfig				= [:]							//try container.decode(FwConfig.self, forKey:.ansConfig	)
-//		semiphore 				= DispatchSemaphore(value:1)	//try container.decode(DispatchSemaphore.self,forKey:.partTreeLock	)
-//		verboseLocks			= try container.decode(	    Bool.self, forKey:.partTreeVerbose)
-//		tree					= try container.decode(	    Part.self, forKey:.partTreeVerbose)
-//
-//		logSer(3, "Decoded  as? Parts \(ppUid(self))")
-//
-////		makeSelfRunable("help")		// (no unlock)
-//	}
+	required init(from decoder: Decoder) throws {	//fatalError("sdfwovnaw;ofhw")}
+		 // Needn't lock or makeSelfCodable, it's virginal
+		let container 			= try decoder.container(keyedBy:PartsKeys.self)
+		nameTag	 				= try container.decode( 	NameTag.self, forKey:.nameTag						)
+		tree		 			= try container.decode(		   Part.self, forKey:.tree							)
+//		hnwMachine  			= try container.decode(  HnwMachine.self, forKey:.hnwMachine					)
+		indexFor	 			= try container.decode([String:Int].self, forKey:.indexFor						)
+//		semiphore	 			= try container.decode(DispatchSemaphore.self, forKey:.semiphore					)
+		curOwner	 			= try container.decode(     String?.self, forKey:.curOwner						)
+		prevOnwer	 			= try container.decode(		String?.self, forKey:.prevOnwer					)
+		verboseLocks			= try container.decode( 	   Bool.self, forKey:.verboseLocks					)
+		logSer(3, "Decoded  as? Parts \(ppUid(self))")
+
+//		makeSelfRunable("help")		// (no unlock)
+	}
 	 // MARK: - 3.5.1 Data
 	func data() throws -> Data {	// )Used by FactalsDocument)
 		do {
@@ -178,12 +191,12 @@ bug
 		}
 		catch { 	throw FwError(kind:"error")									}
 	}
-	static func from(data:Data, encoding:String.Encoding) -> PartBase {
-		do {
+	static func from(data:Data, encoding:String.Encoding) throws -> PartBase {
+//		do {
 			return try JSONDecoder().decode(PartBase.self, from:data)
-		} catch {
-			debugger("Parts.from(data:encoding:) ERROR:'\(error)'")
-		}
+//		} catch {
+//			debugger("Parts.from(data:encoding:) ERROR:'\(error)'")
+//		}
 	}
 //	convenience init?(data:Data, encoding:String.Encoding) {
 //		bug							// PW: need Parts(data, encoding)
@@ -295,7 +308,6 @@ bug
 //								
 //		theCopy.simulator		= self.simulator
 //		theCopy.title			= self.title
-//		theCopy.ansConfig		= self.ansConfig
 //	//x	theCopy.partTreeLock 	= self.partTreeLock
 //	//x	theCopy.partTreeOwner	= self.partTreeOwner
 //	//x	theCopy.prevOnwer = self.prevOnwer
@@ -310,7 +322,6 @@ bug
 //		let rv					= super.equalsFW(rhs)
 //								&& simulator		 == rhs.simulator
 //								&& title			 == rhs.title
-////								&& ansConfig		 == rhs.ansConfig				//Protocol 'FwAny' as a type cannot conform to 'Equatable'
 //		//x						&& partTreeLock 	 == rhs.partTreeLock
 //		//x						&& partTreeOwner	 == rhs.partTreeOwner
 //		//x						&& prevOnwer == rhs.prevOnwer

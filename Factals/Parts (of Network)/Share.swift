@@ -530,9 +530,9 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 				markTree(dirty:.size)
 																		}	}	}
 	var currentRadius : CGFloat = 0.0
-//	{	didSet { if currentRadius != oldValue {
-//				markTree(dirty:.size)
-//																		}	}	}
+	{	didSet { if currentRadius != oldValue {
+				markTree(dirty:.size)
+																		}	}	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnRoot.findScn(named:"s-Bulb") ?? {
 			let scn				= SCNNode(geometry:SCNSphere(radius:1))

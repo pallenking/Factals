@@ -97,17 +97,24 @@ struct FactalsDocument : FileDocument, Uid {
 		switch configuration.contentType {	// :UTType: The expected uniform type of the file contents.
 		case .hnw:
 			 // Decode data as a Root Part
-			let partsBase		= PartBase.from(data:data, encoding:.utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
-
-			 // Make the FileDocument
-											//		let fmConfig			= params4logs
-											//								+ params4vew		//
-											//								+ params4partPp
-											//								+ partBase.ansConfig		// from library
-			let factalsModel	= FactalsModel(partBase:partsBase, configure:[:])
+			var partBase : PartBase?	= nil
+			do {
+				partBase		= try PartBase.from(data:data, encoding:.utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
+			} catch {
+				logDat(3, "*********** Could not decode PartBase from file '????'. Using default file")
+				partBase		= PartBase(fromLibrary: "xr()")
+			}
+			guard let partBase else {	fatalError("failed to find a partsBase")}
+			let fmConfig		= params4logDetail
+								+ params4partPp
+								+ params4defaultPp
+								+ params4sim 					//+ params4partVew
+								+ partBase.hnwMachine.config	// from library
+			partBase.configure(from:fmConfig)
+			let factalsModel	= FactalsModel(partBase:partBase, configure:[:])
 bug;		self.init(factalsModel:factalsModel)
 
-//			fmConfig			+= partBase.ansConfig	// from library
+			 // Make the FileDocument
 		case .vew:
 			fatalError()
 //			let vewBase			= VewBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
