@@ -380,13 +380,13 @@ extension Dictionary		: FwAny {				// pp(..
 									//	if let k : [any Comparable] = k3 as? [any Comparable] {
 									//		k3				= k.sorted(by: String.compar
 									//	}
-			var rv1				= ""
+			//var rv1				= ""
 			for key in Array(keys) {
 				let val : FwAny	= self[key] as! FwAny
 				if let valF		= val as? Float {
-					rv1			+= "\(sep)\(key):" + fmt("%.2d", valF)
+					rv			+= "\(sep)\(key):" + fmt("%.2d", valF)
 				} else {
-					rv1			+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
+					rv			+= "\(sep)\(key):\((self[key] as! FwAny).pp(m))"
 				}
 				sep 			=  mode == .tree ? ",\n": ", "
 			}
@@ -638,10 +638,11 @@ extension Bool {
 		self.init(val!) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
-		if mode == .short {
-			return self ? "true" : "false"										}
-		 // NO: return super.pp(mode, aux)
-		return ppFixedDefault(mode, aux)		// NO, try default method
+		self ? "true" : "false"
+//		if mode == .short {
+//			return self ? "true" : "false"										}
+//		 // NO: return super.pp(mode, aux)
+//		return ppFixedDefault(mode, aux)		// NO, try default method
 	}
 }
 var  trueF			= true		// true  which supresses optimizer warning

@@ -193,7 +193,7 @@ class Mirror : Atom {
 				let val2:Float  = val * gain + offset
 				let val3		= min(1.0, max(0.0, val2))
 				if val3 != pPort.value {
-					logDat(3, "Mirror-. %.2f (was %.2f)  ===/=\\=/=\\===", val3, val)
+					logDat(3, "Mirror-. %.2f (\(fullName) was %.2f)  ===/=\\=/=\\===", val3, val)
 					pPort.take(value:val3)			 	// /////	PUT to my OUTPUT
 				}
 			}

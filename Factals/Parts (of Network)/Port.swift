@@ -85,7 +85,7 @@ class Port : Part, PortTalk {
 
 		 // set our value.  (Usually done from self)
 		if value != newValue {
-			logDat(3, "<------' %.2f (was %.2f) (\(fullName))", newValue, self.value)
+			logDat(3, "<------' %.2f (\(fullName) was %.2f)", newValue, self.value)
 
 /***/		value 				= newValue
 
@@ -103,13 +103,10 @@ class Port : Part, PortTalk {
 	func getValue(key:String?=nil) -> Float {
 		assert(key==nil, "key mode not supported")
 		if valueChanged() {
-			logDat(3, ">------. %.2f (was %.2f) (\(fullName))", value, valuePrev)
+			logDat(3, ">------. %.2f (\(fullName) was %.2f)", value, valuePrev)
 			 // mark value taken
 			assert(valuePrev != value, "valuePrev == value")
 			valuePrev 			= value		// returning the inValue promotes it to the previous
-//			if valuePrev != value {			// Only do this on a change, so debug easier
-//				valuePrev 		= value		// returning the inValue promotes it to the previous
-//			}
 		}
 		return value
 	}
@@ -118,7 +115,7 @@ class Port : Part, PortTalk {
 	func getValues(key:String?=nil) -> (Float, Float) {
 		assert(key==nil, "key mode not supported")
 		if valueChanged() {
-			logDat(3, ">------. %.2f (was %.2f) (\(fullName))", value, valuePrev)
+			logDat(3, ">------. %.2f (\(fullName) was %.2f)", value, valuePrev)
 		}
 		 // mark value taken
 		let prevValuePrev 		= valuePrev

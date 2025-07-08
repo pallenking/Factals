@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(exec zsh)"
+      "Bash(exec zsh)",
+      "Bash(find:*)",
+      "WebFetch(domain:docs.anthropic.com)"
     ],
     "deny": []
   }

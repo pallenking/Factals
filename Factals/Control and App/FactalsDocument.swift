@@ -28,7 +28,7 @@ extension FactalsDocument {
 struct FactalsDocument : FileDocument, Uid {
 
 	let nameTag					= getNametag()			// for Logd
-	var factalsModel : FactalsModel! = nil				// content
+	var factalsModel:FactalsModel! = nil				// content
 
 	// 4 OLD Enablers
 	var windowNibName:NSNib.Name? 	{		bug;return "Document"				}// The  nib file  name of the document:
@@ -37,60 +37,28 @@ struct FactalsDocument : FileDocument, Uid {
 	{	bug;return false	}		// Enable Asynchronous Reading:
 	func canConcurrentlyReadDocuments(ofType:String) -> Bool
 	{	bug;return false 	} // ofType == "public.plain-text"
-
-	// MARK: - 2.4.4 Building
-	init(fileURL : URL) {
-		bug
-	}
-	 // @main uses this to generate a blank document
-	init() {
-		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
-	}
-	init(fromLibrary select:String?=nil) {
-
-		 // 1. Part ******
-		let select = select ?? {
-			 // 	1. Make Parts:			//--FUNCTION--------wantName:--wantNumber:
-			/**/	let select:String?=nil	//	Blank scene		 |	nil		  -1
-			//**/	let select	= "entry120"//	entry 120		 |	nil		  N *
-			//**/	let select	= "xr()"	//	entry with xr()	 |	"xr()"	  -1
-			//**/	let select	= "name"	//	entry named name |	"name" *  -1
-			//**/	let select	= "- Port Missing"
-			return select
-			//	enum LibrarySelector {		// Someday ADD
-			//		case empty				//		nil->			Blank scene		 |	nil		  -1
-			//		case MarkedXr 			//					//	entry with xr()	 |	"xr()"	  -1
-			//		case Numbered(Int)		//		= "entry120"//	entry 120		 |	nil		  N *
-			//		case Titled(String)		//		= "name"	//	entry named name |	"name" *  -1
-			//	}
-		} ()
+/*
+	init(fileURL : URL) 					{		bug	}
+	init() 									{// @main uses this to generate a blank document -> self.init(fromLibrary:"xr()")	// machine selected in Library Book.	}
+	init(fromLibrary select:String?=nil) 	{
 		let partBase			= PartBase(fromLibrary:select)
-
-		 // 2. FactalModel first
-		let fmConfig			= params4partVew + params4partPp
-		factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)	//PartBase()
-								//		factalsModel.partBase	= partBase		// Backpointer
-								//		partBase.factalsModel	= factalsModel
-		let testConfig			= partBase.hnwMachine.config	// from library
-		if let kludge			= testConfig["soundVolume"]	 {
-			params4app["soundVolume"] = kludge
-		}
-
+	init(partBase:PartBase) {
+		factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)
 		partBase.configure(from:testConfig)
-
-		 // 3. Groom part ******
 		partBase.wireAndGroom([:])
-
-		 // 4. Vews ******
-		let c2					= fmConfig + testConfig
-		factalsModel.configureVews(from:c2)
-
+		factalsModel.createVews(from:fmConfig + testConfig) // 4. Vews ******
 		factalsModel.simulator.simBuilt	= true	// maybe before config4log, so loading simEnable works
-	}
-	 // Document supplied
-	init(factalsModel f:FactalsModel) {
-		factalsModel			= f			// girootPart!.ven
-	}
+	init(factalsModel f:FactalsModel) 		{ just sets
+	init(configuration: ReadConfiguration) throws {		// async
+		switch configuration.contentType 	{	// :UTType: The expected uniform type of the file contents.
+		case .hnw:
+			let factalsModel	= FactalsModel(partBase:partBase, configure:fmConfig??)
+bug;		self.init(factalsModel:factalsModel)
+		self.init()		// temporary
+	*/
+	// MARK: - 2.4.4 Building
+	init(fileURL : URL) {		bug												}
+	 // Document from existing File
 	init(configuration: ReadConfiguration) throws {		// async
 		guard let data : Data 	= configuration.file.regularFileContents
 			else {	throw FwError(kind:".fileReadCorruptFile")					}
@@ -104,25 +72,69 @@ struct FactalsDocument : FileDocument, Uid {
 				logDat(3, "*********** Could not decode PartBase from file '????'. Using default file")
 				partBase		= PartBase(fromLibrary: "xr()")
 			}
-			guard let partBase else {	fatalError("failed to find a partsBase")}
-			let fmConfig		= params4logDetail
-								+ params4partPp
-								+ params4defaultPp
-								+ params4sim 					//+ params4partVew
-								+ partBase.hnwMachine.config	// from library
-			partBase.configure(from:fmConfig)
-			let factalsModel	= FactalsModel(partBase:partBase, configure:[:])
-bug;		self.init(factalsModel:factalsModel)
+			guard let partBase else { fatalError("failed to find a partsBase")	}
 
-			 // Make the FileDocument
+			self.init(partBase:partBase)
+														//		let fmConfig		= params4logDetail
+														//							+ params4partPp
+														//							+ params4defaultPp
+														//							+ params4sim 					//+ params4partVew
+														//							+ partBase.hnwMachine.config	// from library
+														//		partBase.configure(from:fmConfig)
+														//		let factalsModel	= FactalsModel(partBase:partBase, configure:[:])
+														//bug;	self.init(factalsModel:factalsModel)
 		case .vew:
-			fatalError()
+			fatalError("File format .vew not yet supported")
 //			let vewBase			= VewBase.from(data: data, encoding: .utf8)	//Parts(fromLibrary:"xr()")		// DEBUG 20221011
-//			le
 		default:
-				throw FwError(kind:".fileReadCorruptFile")
+			throw FwError(kind:".fileReadCorruptFile")
 		}
-	//	self.init()		// temporary
+	}
+	
+	init() { 			// @main uses this to generate a blank document
+		self.init(fromLibrary:"xr()")	// machine selected in Library Book.
+	}
+	init(fromLibrary select:String?=nil) {
+
+		let select = select ?? {
+			 // 	If select is nil:		//--FUNCTION--------wantName:--wantNumber:
+			/**/	let select:String?=nil	//	Blank scene		 |	nil		  -1
+			//**/	let select	= "entry120"//	entry 120		 |	nil		  N *
+			//**/	let select	= "xr()"	//	entry with xr()	 |	"xr()"	  -1
+			//**/	let select	= "name"	//	entry named name |	"name" *  -1
+			//**/	let select	= "- Port Missing"
+			return select
+													//	enum LibrarySelector {		// Someday ADD
+													//		case empty				//		nil->			Blank scene		 |	nil		  -1
+													//		case MarkedXr 			//					//	entry with xr()	 |	"xr()"	  -1
+													//		case Numbered(Int)		//		= "entry120"//	entry 120		 |	nil		  N *
+													//		case Titled(String)		//		= "name"	//	entry named name |	"name" *  -1
+													//	}
+		} ()
+		let partBase			= PartBase(fromLibrary:select)
+		self.init(partBase:partBase)
+	}
+	init(partBase:PartBase) {
+
+		 // 1. FactalModel for partBase
+		let fmConfig			= params4partVew + params4partPp
+		factalsModel			= FactalsModel(partBase:partBase, configure:fmConfig)
+
+		let testConfig			= partBase.hnwMachine.config
+		if let kludge			= testConfig["soundVolume"]	 {
+			params4app["soundVolume"] = kludge
+		}
+
+		partBase.configure(from:testConfig)
+
+		 // 3. Groom part ******
+		partBase.wireAndGroom([:])
+
+		 // 4. Vews ******
+		let c2					= fmConfig + testConfig
+		factalsModel.createVews(from:c2)
+		 // maybe before config4log, so loading simEnable works:
+		factalsModel.simulator.simBuilt	= true
 	}
 	// MARK: PolyWrap
 	 /// Requirement of <<FileDocument>> protocol
@@ -136,11 +148,6 @@ bug;		self.init(factalsModel:factalsModel)
 				let d			= try factalsModel.partBase.data()		// redo for debug
 				throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
 			}
-//			guard let dat		= factalsModel.partBase.data() else {	// how is Parts.data worked?
-//				panic("FactalsDocument.factalsModel.partBase.data is nil")
-//				let d			= factalsModel.partBase.data()		// redo for debug
-//				throw FwError(kind:"FactalsDocument.factalsModel.partBase.data is nil")
-//			}
 		case .vew:
 			fatalError()
 		default:
@@ -149,13 +156,13 @@ bug;		self.init(factalsModel:factalsModel)
 	}
 
 	typealias PolyWrap = Part
-	class Part : Codable /* PartProtocol*/ {
+	class Part : Codable, PartProtocol {
 		func polyWrap() -> PolyWrap {	bug; return polyWrap() }
 		func polyUnwrap() -> Part 	{	Part()		}
 	}
-	//protocol PartProtocol {
-	//	func polyWrap() -> PolyWrap
-	//}
+	protocol PartProtocol {
+		func polyWrap() -> PolyWrap
+	}
 	func serializeDeserialize(_ inPart:Part) throws -> Part? {
 
 		 //  - INSERT -  PolyWrap's

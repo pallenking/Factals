@@ -1,7 +1,7 @@
 //  Chanty.swift -- Miscellaneous small networks ©2021PAK
 //
 import SceneKit
-let e 	 : FwConfig		= [:]		// Logs OFF "logPri4all":8
+let e 	 : FwConfig				= logAt(8)
 
 class WorldSpaniel : Book {
 	override func loadTest(args:ScanForKey, state:inout ScanState) {

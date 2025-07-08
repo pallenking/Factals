@@ -21,24 +21,30 @@ import SwiftUI
 	}
 
 	 // MARK: - 3. Factory
-	init(partBase pb:PartBase, configure:FwConfig) {	// FactalsModel(partBase:)
-		fmConfig				= configure		// Save in ourselves   WHY???
-		partBase				= pb						//PartBase()// Dummy
-		simulator 				= Simulator(configure:configure)	// params4sim
+	init(partBase pb:PartBase, configure c:FwConfig) {	// FactalsModel(partBase:)
+		partBase				= pb
+		simulator 				= Simulator(configure:c)
+		fmConfig				= c				// Save in ourselves   WHY???
 
 		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
 		if let fm 				= FACTALSMODEL {
-			 print("FACTALSMODEL already set by \(fm)")
+			 print("******** FACTALSMODEL already set by \(fm) ********")	//assert(FACTALSMODEL == nil, "FACTALSMODEL is nil")
 		}
-		//assert(FACTALSMODEL == nil, "FACTALSMODEL is nil")
-		FACTALSMODEL			= self			// set UGLY GLOBAL
+		FACTALSMODEL			= self			// set GLOBAL <<<< UGLY >>>>
+
 		partBase .factalsModel	= self			// backpointer
 		simulator.factalsModel	= self			// backpointer
 
-		partBase.configure(from:configure)
+		partBase.configure(from:fmConfig)
 	}
 
-	func configureVews(from config:FwConfig) {
+	func createVews(from config:FwConfig) {
+
+	//	 // Update existing VewBases with new config
+	//	for vewBase in vewBases {
+	//		vewBase.configure(from:config)
+	//	}
 
 		 // Create new Views from config
 		for (key, value) in config {				// params4all

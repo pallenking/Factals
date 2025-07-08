@@ -145,7 +145,7 @@ class Tests01 : Book {
 
 		super.loadTest(args:args, state:&state)
 			 // Some commonly used Environmental variables
-		let e 	 : FwConfig		= [:]		// Logs OFF		"logPri4all":8
+		let e 	 : FwConfig		= logAt(8)
 		let eSim : FwConfig		= e + [simRun:true]
 		let eSimX: FwConfig		= e						// Neuter eSim
 		let eTight:FwConfig		= e + [	// For debugging Link positions:
@@ -272,14 +272,14 @@ r("NetPrevious", eSim + selfiePole(s:45,u:10), {
 	]])
 })
 
-	r("Mirror Display WORKS", e + logAt(all:8), {
+	r("Mirror Display WORKS", e + logAt(8), {
 		Net([parts:[
 			Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
 			Mirror(),
 			Cylinder(	["size":"1 1 1", "color":"red"]),		//		parts.addChild(b)
 		] ])
 	})
-	r("Mirror Display BROKEN", e + logAt(all:8), {
+	r("Mirror Display BROKEN", e + logAt(8), {
 		Mirror()
 	})
 
@@ -390,7 +390,7 @@ r("net flipped", e, { Net([placeMy:"stackx", f:1, parts:[
 // ///////////////////////////////////////////////////////////////////////
  // MARK: - * Stacking:
 state.scanSubMenu				= "Stacking"
-r("Box stackx 3", e + selfiePole(s:5,u:5) + logAt(all:8), { Net([placeMy:"stackx -1 -1", parts:[
+r("Box stackx 3", e + selfiePole(s:5,u:5) + logAt(8), { Net([placeMy:"stackx -1 -1", parts:[
 	Box(			[n:"a", color:"red",    size:"2 2 2"]),
 //	Box(			[n:"b", color:"orange", size:"1 1 1"]),
 //	Box(			[n:"c", color:"yellow", size:"1 4 1"]),
@@ -457,10 +457,10 @@ r("- bug crept in Leaf([n:'i', of:'genMaxSq'", e + selfiePole(s:-6,u:-27,z:0.622
 	] ] ) } )
 
 
-r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + logAt(all:0), { Net([placeMy:"stackx -1 0", parts:[
+r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + logAt(), { Net([placeMy:"stackx -1 0", parts:[
 	Leaf([of:"rot"]),		// nil_ genMaxSq, [n:"i"]),
 ] ] ) } )
-	r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + logAt(all:0), { Leaf([of:"nil_"]) } )
+	r("- skin missing", e + selfiePole(s:45,u:10) + vel(-4) + logAt(), { Leaf([of:"nil_"]) } )
 
 r("Leaf problem child", e + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:[
 //	Broadcast(["n":"main", "Px":"rot.T=", "latitude":1, "jogx":"0 -1.5 0"]),
@@ -594,12 +594,12 @@ xxr("+ auto-bcast", eSim + selfiePole(s:45,u:10), { Net([placeMy:"linky", parts:
 		FwBundle([struc:["a"], of:"genAtom", placeMy:"stackx -1 1"]),
 	] ] ) } )
 
-	r("-already connected", e + selfiePole(s:45,u:10) + logAt(all:8), { Net([placeMy:"linky", parts:[
+	r("-already connected", e + selfiePole(s:45,u:10) + logAt(8), { Net([placeMy:"linky", parts:[
 		MinAnd([P:"c", jog:"1 0 0"]),  MinAnd([P:"c"]),  MinAnd([P:"c"]),
 	//	Previous([n:"c"]),
 		FwBundle([struc:["c"], of:"genAtom"], leafConfig:["value":1.0]),
 	] ] ) } )
-	r("-already connected", e + cameraX(s:45,u:10) + logAt(all:8), { Net([placeMy:"linky", parts:[
+	r("-already connected", e + cameraX(s:45,u:10) + logAt(8), { Net([placeMy:"linky", parts:[
 		MinAnd( [P:"c", jog:"1 0 0"]),  MinAnd([P:"c"]),  //MinAnd([P:"c"]),
 		GenAtom([n:"c", "value":"1.0", f:1])
 	] ] ) } )
@@ -766,7 +766,7 @@ xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + [
 	] ] )
 })
 
-xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-5), { Net([placeMy:"linky", parts:[
+xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
@@ -781,7 +781,7 @@ xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-
 ] ] ) } )
 var a9:String { "a,v:-\(String(randomDist(0.0, 1.0))),l:\(String(randomDist(4.0, 6.0)))" }
 
-	xxr("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(all:0) + vel(-6), { Net([placeMy:"linky", parts:[
+	xxr("Testing 'share'", eSim + selfiePole(s:45,u:10,z:1.5) + logAt(0) + vel(-6), { Net([placeMy:"linky", parts:[
 		Bulb(  [n:"u", P:"a"]),
 		Mirror([n:"a", P+X:"u", "gain":-1, "offset":1, f:1]),
 	] ] ) } )
@@ -1104,7 +1104,7 @@ r("+ Link AllInOne", e + selfiePole(s:80,u:10), { Net([placeMy:"stackx -1 -1", p
 ] ]) })
 
 
- // MARK:  Linking special cases eXYtight+eSim+logAt(all:1) eSim+eXYtight+logAt(dat:5, eve:5)
+ // MARK:  Linking special cases eXYtight+eSim+logAt(1) eSim+eXYtight+logAt(dat:5, eve:5)
 r("-debug link as t:tube", eXYtight+logAt(ser:0,dat:5,eve:5)+selfiePole(h:0,s:-48,u:-10,z:0.815) +
 		 vel(-5) + ["gapLinkFluff":3], {Net([placeMy:"linky", parts:[	//stacky
  	Mirror([n:"a", P:["b,l:5,t:dual"]]),// :dual:tube:ray:
@@ -1166,40 +1166,40 @@ r("BUG 190708 link facing camera", eSim + selfiePole(s:0,u:0) + vel(-7), { Net([
 	})
  // First test of link values
 let decay = 0.0//5//.1
-xxr("+Mirror Oscillator", e + selfiePole(s:0,u:30) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+xxr("+Mirror Oscillator", e + selfiePole(s:0,u:30) + vel(-5) + logAt(0), { Net([placeMy:"linky", parts:[
 	Mirror([n:"t1", "gain":-1, "offset":1-decay]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
 ] ]) })
-xxr("- short Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+xxr("- short Oscillator", e + selfiePole(s:0,u:0) + vel(-5) + logAt(0), { Net([placeMy:"linky", parts:[
 	Mirror([n:"t1", "gain":0, "offset":1]),
 	Mirror([n:"t2", f:1, P:"t1,l:4", jog:"0 4" ]),
  ] ]) })
-xxr("+Mirror Sequence Osc", eSimX + selfiePole(s:90,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+xxr("+Mirror Sequence Osc", eSimX + selfiePole(s:90,u:0) + vel(-5) + logAt(0), { Net([placeMy:"linky", parts:[
 	Mirror(  [n:"t0", P:"t1.P", "gain":-1, "offset":1]),
 	Sequence([n:"t1", 			  f:1]),
 	Mirror(  [n:"t2", P:"t1,l:2", f:1, jog:"0 -1 -8" ]),
 	Mirror(  [n:"t3", P:"t1,l:2", f:1, jog:"0 -1 -4" ]),
 	Mirror(  [n:"t4", P:"t1,l:2", f:1 ]),
 ] ]) })
-	r("-position of Sequence", eSimX + selfiePole(s:0,u:0) + vel(-5) + logAt(all:0), { Net([placeMy:"linky", parts:[
+	r("-position of Sequence", eSimX + selfiePole(s:0,u:0) + vel(-5) + logAt(0), { Net([placeMy:"linky", parts:[
 //		Broadcast([n:"t1", 			  f:1, jog:"3"]),
 		Sequence( [n:"t1", 			  f:1, jog:"3"]),
 		Mirror(   [n:"t2", P:"t1,l:2", f:1 ]),
 	] ]) })
 
 	 // Use Inspec to change offset
-	r("LinkPort.out BUG231219", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(all:0), { Net([f:0, placeMy:"linky", parts:[
+	r("LinkPort.out BUG231219", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(0), { Net([f:0, placeMy:"linky", parts:[
 		Mirror(   [n:"t2", "gain":0, "offset":1]),
 		Mirror(   [n:"t1", "gain":0, "offset":1, P:"t2,l:4", f:1, ]),
 	] ]) })
 	 // Use Inspec to change offset
-	r("testing Mirror Gui", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(all:0), { Net([placeMy:"linky", parts:[
+	r("testing Mirror Gui", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(0), { Net([placeMy:"linky", parts:[
 		Mirror(   [n:"t3", "gain":-1, "offset":1]),
 		//Broadcast([n:"t2", share:"t3", jog:"5"]),
 		Mirror(   [n:"t1", P:"t3,l:5", f:1]),
 	] ]) })
 
-r("", e + selfiePole(s:-45,u:30) + logAt(all:0) + ["bBox4Atoms":true], { Net([placeMy:"stackY", parts:[
+r("", e + selfiePole(s:-45,u:30) + logAt(0) + ["bBox4Atoms":true], { Net([placeMy:"stackY", parts:[
 	Net([placeMy:"stackZ", parts:[//, jog:"0 1 0"
 		Box([color:"red"]),
 		Box([color:"orange"]),
@@ -1756,13 +1756,13 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 	]]) })
 // tc."S=":"wm" -> wm
 
-	xxr("- grows vert", eSimX + eYtight + selfiePole(s:0,u:0,z:0.7) + logAt(dat:5, eve:5,  all:1), {Net([placeMy:"linky", parts:[
+	xxr("- grows vert", eSimX + eYtight + selfiePole(s:0,u:0,z:0.7) + logAt(1, dat:5, eve:5), {Net([placeMy:"linky", parts:[
 		Mirror(		[n:"mk", P:"a,l:4"]),//, "gain":-1, "offset":1
 //		MaxOr(		[n:"mk", P:"a,l:4"]),
 		Tunnel(		[n:"evi", struc:["a"], of:"genBcast"]),
 		Generator(	[n:"lo", events:["a", [], "again"], P:"evi"]),
 	]]) })
-	xxr("- bug:", e + selfiePole(s:0,u:0,z:0.7) + logAt(dat:5, eve:5,  all:1), {Net([placeMy:"linky", parts:[
+	xxr("- bug:", e + selfiePole(s:0,u:0,z:0.7) + logAt(1, dat:5, eve:5), {Net([placeMy:"linky", parts:[
  //		Mirror(		[n:"a", P:"b"]),//, "gain":-1, "offset":1s
  //		MaxOr(		[n:"b", f:1]),
 	//	Mirror(		[n:"mk", P:"a"]),//, "gain":-1, "offset":1s
@@ -1835,7 +1835,7 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 		Generator([n:"lo", events:["a", [], "again"],
 									expose+X:"atomic", P:"wheelA/evi"]),
 	]]) })
-		r("-^P spaz", eSim + selfiePole(s:45,u:0) + logAt(all:8), {
+		r("-^P spaz", eSim + selfiePole(s:45,u:0) + logAt(8), {
 			Net([parts:[
 	//			TimingChain([n:"tc", f:1, "xP=":"wm"]),	//20220225
 	//			WorldModel( [n:"wm", f:1]),
@@ -1893,7 +1893,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 		r("-Leaf is nil_", e + selfiePole(s:0,u:0), {
 			Leaf([n:"a", of:"nil_"])
 		} )
-		xxr("+ Bulb sizing", e + eW2 + selfiePole(s:45,u:0,z:1.6) + vel(-3) + logAt(all:8) + //logAt(dat:5, eve:5) +
+		xxr("+ Bulb sizing", e + eW2 + selfiePole(s:45,u:0,z:1.6) + vel(-3) + logAt(8) + //logAt(dat:5, eve:5) +
 				["gapLinkFluff":1, "wBox":"colors", lookAt+X:"/net0/v.P"], { Net([placeMy:"linky", parts:[
 			Mirror([n:"t", P:"u"]),
 			Bulb(  [n:"u"]),					// Broadcast
@@ -1904,7 +1904,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 			Bulb(  [n:"u"]),					// Broadcast
 		] ]) })
 		r("-Port Skins", e + selfiePole(s:45,u:0,z:1.3) + logAt(rve:8), { Bulb([n:"u"])	})
-		r("-bug Bulb sizing", eSim + selfiePole(s:0,u:0) + vel(-7) + logAt(all:8) + //eve:5, dat:5
+		r("-bug Bulb sizing", eSim + selfiePole(s:0,u:0) + vel(-7) + logAt(8) + //eve:5, dat:5
 					[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 				Bulb(  	  [n:"y", P:"v,l:1.4,v:0.04"]),
 	//			Bulb(  	  [n:"x", P:"v,l:1.2,v:0.02"]),
@@ -1912,19 +1912,19 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 				Mirror(   [n:"v", "gain":-1, "offset":1, f:1]),
 			] ])
 		})
-			xxr("+ BlinksSlently", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
+			xxr("+ BlinksSlently", eSim + eXYtight + /*logAt(7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
 					Mirror(		[n:"w", P:"v,l:3,v:3"]),
 					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
 				] ])
 			})
-			xxr("+ BlinksABit", eSim + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
+			xxr("+ BlinksABit", eSim + eXYtight + /*logAt(7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
 					Mirror(		[n:"w", P:"v,l:5,v:2.0"]),
 					PortSound(	[n:"s1", "inP":"v.P", "sounds":tickTock]),
 				//	Broadcast(	[n:"v"], P:),
 					Mirror( 	[n:"v", "gain":-1, "offset":1, f:1]),
 				] ])
 			})
-			xxr("+ BlinksALot", eSimX + eXYtight + /*logAt(all:7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
+			xxr("+ BlinksALot", eSimX + eXYtight + /*logAt(7) +*/ [lookAt:"/net0"], { 	Net([placeMy:"linky", placeMe:stackx, parts:[
 					FwBundle([n:"bundle",  parts:[
 						Mirror(	[n:"y", P:"v,l:5,v:7.3 "]),
 						Mirror(	[n:"x", P:"v,l:5,v:4.0"]),
@@ -1936,7 +1936,7 @@ r("-Tunnel Leafs", e + selfiePole(s:0,u:0), {Net([placeMy:"stacky", parts:[
 				] ])
 			})
 
-			r("Blinks4", eSim + eXYtight + selfiePole(s:45,u:10,z:1.6) + //logAt(all:7) +
+			r("Blinks4", eSim + eXYtight + selfiePole(s:45,u:10,z:1.6) + //logAt(7) +
 						[lookAt:"/net0"], { Net([placeMy:"linky", parts:[
 					Mirror(	  [n:"y", P:"v,l:1.4,v:0.04"]),
 					Mirror(	  [n:"x", P:"v,l:1.2,v:0.02"]),
@@ -2053,8 +2053,8 @@ xxr("-bug struct['a']", e + eXYtight + selfiePole(s:30,u:0) + vel(-8), {Net([pla
 	]]) })
 
 	// This 2-test sequence leaves the second unable to run. Press ^r s
-		r("- press ^r s", eSim + logAt(all:5), { Net() } )
-		r("+Gen 1 Bulb", e + logAt(all:5) + vel(-8), { Net( [placeMy:"linky", parts:[
+		r("- press ^r s", eSim + logAt(5), { Net() } )
+		r("+Gen 1 Bulb", e + logAt(5) + vel(-8), { Net( [placeMy:"linky", parts:[
 //			Hamming([n:"a",     P:["b"]]),
 			Hamming([n:"a", share:["b"], f:1, jog:"2"]),
 			Mirror(	[n:"b", "gain":-1, "offset":1, f:1]),
@@ -2159,7 +2159,7 @@ xxr("+2Gen 3Ham 3Max Mir", eSim + selfiePole(s:070,u:23) + vel(-1) + logAt(dat:3
 //			MaxOr([  n:"e1", share:["d2"], f:1]),
 //			MinAnd([ n:"d2", f:1])
 		]]) })
-	xxr("- Layout Bug", eSim + selfiePole(s:90,u:0) + vel(-1) + logAt(dat:5, eve:5,  all:5) +
+	xxr("- Layout Bug", eSim + selfiePole(s:90,u:0) + vel(-1) + logAt(5, dat:5, eve:5) +
 						[lookAt:"/net0/evi/b/genP"], {Net([placeMy:"linky", parts:[
 		MaxOr([  n:"e2", share:["d3", "d2"], f:1]),
 		MaxOr([  n:"e1", share:["d1", "d2"], f:1]),

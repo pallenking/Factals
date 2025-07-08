@@ -23,8 +23,8 @@ func error(  target:Part?=nil, _ format:String, _ args:CVarArg...) {
 extension Log {
 	 // MARK: - 1. Static Class Variables:
 	static let shared			= Log(configure:params4app
-								+ params4partPp				//	pp... (20ish keys)
-								+ params4logDetail)			// "debugOutterLock":f
+									+ params4partPp				//	pp... (20ish keys)
+									+ params4logDetail)			// "debugOutterLock":f
 }
 		// elim Uid? Actor?
 class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0520: remove FwAny
@@ -77,7 +77,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 
 	// MARK: - 3. Factory
 	// /////////////////////////////////////////////////////////////////////////
-	private init(configure c:FwConfig = [:]){			//_ config:FwConfig = [:]
+	private init(configure c:FwConfig = [:]) {			//_ config:FwConfig = [:]
 		configure(from:c)
 			// Learnings:	1) Cannot use Log here -- we're initting a Log!
 			//				2) \(ppUid(self)) uses a Log! (but
@@ -99,7 +99,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 			ppNUid4Ctl 			= uidd4c										}
 		if let lo				= c.bool("debugOutterLock") {
 			debugOutterLock		= lo											}
-		if let bae				= c.int("breakAtEvent")	{
+		if let bae				= c .int("breakAtEvent") {
 			breakAtEvent		= bae											}
 
 		 // Load detail filter from keys starting with "logPri4", if there are any.
@@ -116,23 +116,18 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	///   - eventAction: 	action to be executed if area/detail matches
 	func at(_ eventArea:String, _ eventDetail:Int, format:String, args:CVarArg..., terminator:String="\n") {
 		if eventIsWanted(ofArea:eventArea, detail:eventDetail) {
-		// new way
-			let eventStr			= eventArea + String(format:"%1d ", eventDetail)
-			let message				= eventStr + String(format:format, args)	// FINALLY
+			let eventStr		= eventArea + String(format:"%1d ", eventDetail)
+			let message			= eventStr + String(format:format, args)	// FINALLY
 			Log.shared.logd(message, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
-	//	// old way
-	//		let str					= String(format:"%1d", eventDetail)
-	//		let format				= eventArea + str + " " + format
-	//		Log.shared.logd(format, args, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
 		}
 	}
 	func eventIsWanted(ofArea eventArea:String, detail eventDetail:Int) -> Bool {
 		assert(eventDetail >= 0 && eventDetail < 10, "Message prioritiy \(eventDetail) isn't in range 0...9")
-		let detailWanted			= Log.shared.detailWanted
+		let detailWanted		= Log.shared.detailWanted
 		if let x = detailWanted [eventArea] {	// area definition supercedes all others
 			return x > eventDetail
 		}
-		if let x = detailWanted ["all"] {		// else default definition?
+		if let x = detailWanted ["defalt"] {	// else default definition?
 			return x > eventDetail												}//>
 		return false
 	}

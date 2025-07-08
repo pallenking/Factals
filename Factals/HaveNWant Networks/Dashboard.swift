@@ -18,15 +18,15 @@ var params4app : FwConfig 		= [
  // MARK: B: Config which events are logged
 let params4logDetail : FwConfig =	// Set events to be logged
 	///logAt(app:0,doc:0,bld:0,ser:0,ani:0,dat:0,eve:0,ins:0,men:0,rve:0,rsi:0,rnd:0,tst:0,all:0) +
-	//* Nothing								*/	logAt(all:0) +
+	//* Nothing								*/	logAt(0) +
 	//* App 								*/	logAt(app:8) +
-	//* Most Everything 					*/	logAt(all:8) +
-	//* Most Everything except ReVIw 		*/	logAt(rve:0, all:8) +
-	/* Most Everything except + RevewSIze:4 */	logAt(rve:0, rsi:4, all:8) +
-	//* " except  review, resize 			*/	logAt(rve:0, rsi:0, all:9) +
+	//* Most Everything 					*/	logAt(8) +
+	//* Most Everything except ReVIw 		*/	logAt(8, rve:0) +
+	/* Most Everything except + RevewSIze:4 */	logAt(8, rve:0, rsi:4) +
+	//* " except  review, resize 			*/	logAt(9, rve:0, rsi:0) +
 
 	[							// + +  + +
-		"breakAtEvent"				:123, //150//-54,//240/3/0:off
+		"breakAtEvent"				:-62, //150//-54,//240/3/0:off
 								// + +  + +
 
 		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy

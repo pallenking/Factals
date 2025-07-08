@@ -5,7 +5,7 @@
 //class TestsFoo : Book {
 //	override func loadTest(args:ScanForKey, state:inout ScanState) {
 //		super.loadTest(args:args, state:&state)	// parse args
-//		let e 	 : FwConfig		= [:]			// Logs OFF "logPri4all":8
+//		let e 	 : FwConfig		= logAt(8)
 //
 //		 // MARK: - * Tivo World
 //		let ign	= "-"	//"-":ignore; "":test//

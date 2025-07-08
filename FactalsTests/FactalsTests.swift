@@ -427,7 +427,6 @@ final class FactalsTests: XCTestCase {
 			XCTAssert(match, "Test \(i+1): Purpose: \(purpose)")
 		}
 	}
-//	static var savedObject32:[(String, Part)]	= []
 
 	func serializeDeserialize(_ inPart:Part) throws -> Part? {
 		logSer(5, "========== inPart_ to Serialize:\n\(inPart.pp(.tree))", terminator:"")

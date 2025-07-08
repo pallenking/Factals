@@ -523,15 +523,15 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	func radius(ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
 	var gain  : Float	= 5.0//2.0//0.1//
 	{	didSet { if gain != oldValue {
-				markTree(dirty:.size)
+					markTree(dirty:.size)
 																		}	}	}
 	var offset: Float	= 0.5
 	{	didSet { if offset != oldValue {
-				markTree(dirty:.size)
+					markTree(dirty:.size)
 																		}	}	}
 	var currentRadius : CGFloat = 0.0
 	{	didSet { if currentRadius != oldValue {
-				markTree(dirty:.size)
+					markTree(dirty:.size)
 																		}	}	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnRoot.findScn(named:"s-Bulb") ?? {

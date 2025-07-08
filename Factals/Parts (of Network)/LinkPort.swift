@@ -115,7 +115,9 @@ class LinkPort : Port {
 			let (valueIn, valuePrev) = inPort2Port.getValues()
 			assert(!valueIn.isNaN,      "enqueing nan value to link")
 			assert(!valueIn.isInfinite, "enqueing inf value to link")
-			logDat(3, "Link<--' \(String(format: "%.2f", valueIn)) \(outPort.fullName) was \(String(format:"%.2f", valuePrev))")
+			//
+			logDat(3, "Link<--' %.2f (\(outPort.fullName) was %.2f)", valueIn, valuePrev)
+//			logDat(3, "Link<--' \(String(format: "%.2f", valueIn)) \(outPort.fullName) was \(String(format:"%.2f", valuePrev))")
 		//	logDat(5, "Link-->> \(String(format: "%.2f", nextVal)) (\(outPort.fullName)) (was \(String(format:"%.2f", outPort.value ))")
 //
 			 // Set the previous value into the conveyer, to go up
@@ -153,8 +155,7 @@ class LinkPort : Port {
 				let	nextVal		= inTransit.count >= 1 ?
 								  inTransit[i-1].val   :// TAKE the value quietly (not takeValue w printout)
 								  inPort2Port.value 	// Link input port if no previous value
-				logDat(5, "Link-->> %.2f \(outPort.fullName) was %.2f", nextVal, outPort.value)
-//				logDat(5, "Link-->> \(String(format: "%.2f", nextVal)) \(outPort.fullName) was \(String(format:"%.2f", outPort.value ))")
+				logDat(5, "Link-->> %.2f (\(outPort.fullName) was %.2f)", nextVal, outPort.value)
 				if outPort.value != nextVal {
 					outPort.value = nextVal								// not outPort.take(value:v)
 					outPort.markTree(dirty:.paint)

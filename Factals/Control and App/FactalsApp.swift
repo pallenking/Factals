@@ -240,16 +240,16 @@ struct FactalsApp: FwAny, Uid {
 	init() {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
-		logApp(3, "detailWanted:[\(Log.shared.detailWanted.pp(.line))] XcTests is\(isRunningXcTests ? "" : "n't") running")
+		logApp(3, "detailWanted:\(Log.shared.detailWanted.pp(.line));  XcTests is\(isRunningXcTests ? "" : "n't") running")
 		logApp(3, "FactalsApp(\(params4partPp.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))")
 		logApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
-		logApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
-		logApp(1, "\(appStartTime):🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 ----------------ττττ")
-		logApp(3, "\(appStartTime):🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘 ----------------ττττ")
+		logApp(3, "\t\t🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘")
+		logApp(1, "\t\t🚘🚘   \(nameVersion) \(majorVersion).\(minorVersion)   🚘🚘 --τ = \(appStartTime)")
+		logApp(3, "\t\t🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘")
 		logApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
 		menuScene				= params4app.int_("menuScene")
 		regressScene			= params4app.int_("regressScene")
-		logApp(3, "Factals Application, before docs:\n" + ppControlElement())
+		logApp(3, "Factals Application (before docs):\n" + ppControlElement())
 		logRunInfo("\(library.answer.titlePlus())")
 	}
 
