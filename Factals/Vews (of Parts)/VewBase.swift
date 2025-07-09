@@ -24,8 +24,14 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	//   'SelfiePole' conform to 'Publisher'
 	@Published							// subscribe to selfiePole.sink for changes
 	 var selfiePole 			= SelfiePole()
-//	var config		 : FwConfig = [:]
 //	var vewBaseConfig: FwConfig = [:]
+
+	 // From RealityQ
+	var renderer: any FactalsRenderer = rendererManager.createRenderer()
+	//init() {
+	//	self.renderer = rendererManager.createRenderer()
+	//}
+
 	weak
 	 var factalsModel : FactalsModel!	// Our Owner
 
@@ -97,7 +103,6 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	}
 
 	func configure(from:FwConfig) {
-//		self.config 			= from			// VewBase.self
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		selfiePole.configure(from:from)
 		if let lrl				= from.bool("logRenderLocks") {
@@ -112,7 +117,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 
 		 // 3. Add Lights, Camera and SelfiePole
 		scnBase.checkLights()
-		scnBase.checkCamera()			// (had factalsModel.document.config)
+		scnBase.checkCamera()				// (had factalsModel.document.config)
 		let _ /*axesScn*/		= scnBase.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access

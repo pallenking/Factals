@@ -13,7 +13,8 @@ import AppKit
 //import AVFoundation
 
 	 // MARK: - Version
-	let (majorVersion, minorVersion, nameVersion) = (6, 5, "Factals")		// 250308
+	let (majorVersion, minorVersion, nameVersion) = (6, 6, "SCN + AR")		// 250708
+//	let (majorVersion, minorVersion, nameVersion) = (6, 5, "Factals")		// 250308
 //	let (majorVersion, minorVersion, nameVersion) = (6, 4, "Factals")		// 240210
   //let (majorVersion, minorVersion, nameVersion) = (6, 3, "Factals")		// 230603
   //let (majorVersion, minorVersion, nameVersion) = (6, 1, "Factals++")		// 220822

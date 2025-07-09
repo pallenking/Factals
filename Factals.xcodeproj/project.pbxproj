@@ -16,6 +16,10 @@
 		9F0295DB2880928600DD0004 /* FwTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DA2880928600DD0004 /* FwTypes.swift */; };
 		9F0295DD288092F800DD0004 /* Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DC288092F800DD0004 /* Equatable.swift */; };
 		9F0295DF2880932200DD0004 /* CG++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0295DE2880932200DD0004 /* CG++.swift */; };
+		9F0A93532E1DD11900B64EF3 /* RealityQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0A93522E1DD11300B64EF3 /* RealityQ.swift */; };
+		9F0A93542E1DD11900B64EF3 /* RealityQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0A93522E1DD11300B64EF3 /* RealityQ.swift */; };
+		9F0A93552E1DDAF400B64EF3 /* RealityR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0A934F2E1DB30800B64EF3 /* RealityR.swift */; };
+		9F0A93562E1DDAFB00B64EF3 /* RealityR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0A934F2E1DB30800B64EF3 /* RealityR.swift */; };
 		9F132F832DBECD9700E28189 /* Chanty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F132F822DBECD9700E28189 /* Chanty.swift */; };
 		9F132F842DBECD9700E28189 /* Chanty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F132F822DBECD9700E28189 /* Chanty.swift */; };
 		9F1900F828808DC10078DB6C /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1900E728808DC00078DB6C /* Link.swift */; };
@@ -209,6 +213,8 @@
 		9F0295E22880936400DD0004 /* XXXNSObject+MachineTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XXXNSObject+MachineTrap.h"; sourceTree = "<group>"; };
 		9F0295E32880936400DD0004 /* SwiftFactalsTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftFactalsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F0295E42880936400DD0004 /* XXXSwiftTryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXXSwiftTryCatch.m; sourceTree = "<group>"; };
+		9F0A934F2E1DB30800B64EF3 /* RealityR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityR.swift; sourceTree = "<group>"; };
+		9F0A93522E1DD11300B64EF3 /* RealityQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityQ.swift; sourceTree = "<group>"; };
 		9F132F822DBECD9700E28189 /* Chanty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chanty.swift; sourceTree = "<group>"; };
 		9F1900E728808DC00078DB6C /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		9F1900E828808DC00078DB6C /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -392,6 +398,8 @@
 		9FEE519C286B4EDF00C8C22A /* Vews (of Parts) */ = {
 			isa = PBXGroup;
 			children = (
+				9F0A93522E1DD11300B64EF3 /* RealityQ.swift */,
+				9F0A934F2E1DB30800B64EF3 /* RealityR.swift */,
 				9FEE6FD72841A70E00E9E2AE /* Vew.swift */,
 				9F190117288090240078DB6C /* LinkVew.swift */,
 				9F1E3CE528D926C5004548C9 /* VewBase.swift */,
@@ -638,6 +646,7 @@
 				9F417F2028EB94240047B359 /* MultiLink.swift in Sources */,
 				9F5996462C5E8E290013EBF3 /* Workstation.swift in Sources */,
 				9F417F2128EB94270047B359 /* Link.swift in Sources */,
+				9F0A93542E1DD11900B64EF3 /* RealityQ.swift in Sources */,
 				9F417F0D28EB93DE0047B359 /* Tests01.swift in Sources */,
 				9F417F2B28EB944A0047B359 /* CommonParts.swift in Sources */,
 				9F417F1028EB93E90047B359 /* Library.swift in Sources */,
@@ -665,6 +674,7 @@
 				9F417F2D28EB94500047B359 /* Part.swift in Sources */,
 				9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
 				9F132F842DBECD9700E28189 /* Chanty.swift in Sources */,
+				9F0A93562E1DDAFB00B64EF3 /* RealityR.swift in Sources */,
 				9F417F3728EB947A0047B359 /* InspecSCNVector3.swift in Sources */,
 				9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */,
 				9F417F1928EB940D0047B359 /* TimingChain.swift in Sources */,
@@ -749,6 +759,7 @@
 				9F19010128808DC10078DB6C /* FwBundle.swift in Sources */,
 				9FEE51A7286B962300C8C22A /* CommonErrors.swift in Sources */,
 				9F84C9EE2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
+				9F0A93532E1DD11900B64EF3 /* RealityQ.swift in Sources */,
 				9F1E3CE628D926C5004548C9 /* VewBase.swift in Sources */,
 				9F132F832DBECD9700E28189 /* Chanty.swift in Sources */,
 				9FEE51A5286B958700C8C22A /* PolyWrap.swift in Sources */,
@@ -765,6 +776,7 @@
 				9F019EF02D20F0FA0064F58C /* PortSound.swift in Sources */,
 				9F1900FD28808DC10078DB6C /* TimingChain.swift in Sources */,
 				9FEE51BE286BAF2E00C8C22A /* SCNVector++.swift in Sources */,
+				9F0A93552E1DDAF400B64EF3 /* RealityR.swift in Sources */,
 				9F19010B28808EC90078DB6C /* Splitter.swift in Sources */,
 				9FEE70A9284318B500E9E2AE /* SCNNode++.swift in Sources */,
 				9F6B9AB728E6711600E23DEC /* VewConfig.swift in Sources */,
