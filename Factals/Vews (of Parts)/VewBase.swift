@@ -27,10 +27,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 //	var vewBaseConfig: FwConfig = [:]
 
 	 // From RealityQ
-	var renderer: any FactalsRenderer = rendererManager.createRenderer()
-	//init() {
-	//	self.renderer = rendererManager.createRenderer()
-	//}
+	lazy var renderer: any FactalsRenderer = rendererManager.createRenderer()
 
 	weak
 	 var factalsModel : FactalsModel!	// Our Owner

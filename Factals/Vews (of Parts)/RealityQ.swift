@@ -12,7 +12,6 @@ import RealityKit
 // MARK: - 1. Factals Renderer -- Protocol Definition
 
 // Updated RendererProtocol.swift
-import RealityKit
 
 protocol FactalsRenderer {
 	associatedtype NodeType
@@ -29,7 +28,8 @@ protocol FactalsRenderer {
 	func createGeometry(from mesh: FactalsMesh) -> Result<Any, Error>
 	
 	// NEW: Add method for creating renderable entities
-	func createRenderableNode(from mesh: FactalsMesh) -> Result<NodeType, Error>
+	func createRenderableNode(from mesh: FactalsMesh) -> Result<Any, Error>
+//	func createRenderableNode(from mesh: FactalsMesh) -> Result<NodeType, Error>
 }
 struct FactalsMesh {				// Geometry abstraction
 	let vertices: [SIMD3<Float>]
@@ -48,6 +48,7 @@ struct FactalsMaterial {
 
 // Updated SceneKitRenderer.swift
 class SceneKitRenderer: FactalsRenderer {
+
 	typealias NodeType 			= SCNNode
 	typealias SceneType 		= SCNScene
 	typealias ViewType 			= SCNView
@@ -59,9 +60,12 @@ class SceneKitRenderer: FactalsRenderer {
 	func createNode() -> SCNNode {
 		return SCNNode()
 	}
+	func createRenderableNode(from mesh: FactalsMesh) -> Result<Any, any Error> {
+		fatalError(" ** createRenderableNode(from:) not yet implemented **")
+	}
 	
 	func addChild(_ child: SCNNode, to parent: SCNNode) {
-		parent.addChild(node: child)
+		parent.addChildNode(child)
 	}
 	
 	func setPosition(_ position: SIMD3<Float>, for node: SCNNode) {
@@ -90,8 +94,8 @@ class SceneKitRenderer: FactalsRenderer {
 	}
 	
 	// CHANGE: Return Result for consistency
-	private func createSCNGeometry(from mesh: FactalsMesh) -> Result<SCNGeometry,
-	Error> {
+	private func createSCNGeometry(from mesh: FactalsMesh)
+							-> Result<SCNGeometry, Error> {
 		do {
 			let vertices = mesh.vertices.map {
 				SCNVector3($0.x, $0.y, $0.z)
@@ -144,10 +148,13 @@ class RealityKitRenderer: FactalsRenderer {
 	typealias  ViewType 		= ARView
 	
 	func createScene() -> Scene {
-		bug;return createScene()	// HELP
+		bug;return createScene()
 	}
 	func createNode() -> Entity {
 		return Entity()
+	}
+	func createRenderableNode(from mesh: FactalsMesh) -> Result<Any, any Error> {
+		fatalError("*** NOT IMPLEMENTED")
 	}
 	func addChild(_ child:Entity, to parent:Entity) {
 		parent.addChild(child)
@@ -181,25 +188,31 @@ class RealityKitRenderer: FactalsRenderer {
 			// Convert vertices to RealityKit format
 			descriptor.positions = MeshBuffer(mesh.vertices)
 			
-			// CHANGE: Proper triangle index conversion
-			let triangleIndices = stride(from:0, to:mesh.indices.count, by:3)
-							.compactMap { i -> (UInt32, UInt32, UInt32)? in
-				guard i + 2 < mesh.indices.count else { return nil }
-				return (
-					UInt32(mesh.indices[i]),
-					UInt32(mesh.indices[i + 1]),
-					UInt32(mesh.indices[i + 2])
-				)
-			}
-bug	//!!	descriptor.primitives = .triangles(triangleIndices)
+			let triangleIndices:[UInt32] = mesh.indices.map { UInt32($0) }
+			descriptor.primitives = .triangles(triangleIndices)
+						//	// CHANGE: Proper triangle index conversion
+						//	let triangleIndices = stride(from:0, to:mesh.indices.count, by:3)
+						//					.compactMap { i -> (UInt32, UInt32, UInt32)? in
+						//		guard i + 2 < mesh.indices.count else { return nil }
+						//		return (
+						//			UInt32(mesh.indices[i]),
+						//			UInt32(mesh.indices[i + 1]),
+						//			UInt32(mesh.indices[i + 2])
+						//		)
+						//	}
+					//!!//	descriptor.primitives = .triangles(triangleIndices)
 			
 			// Add normals if available
 			if let normals = mesh.normals {
 				descriptor.normals = MeshBuffer(normals)
 			}
-			
-			return .success(try MeshResource.generate(from: descriptor))//
-			
+			return .failure(RealityKitError.geometryCreationFailed("error" as! Error))
+bug	//		return .success(try MeshResource.generate(from:triangleIndices) as Any)
+//    @MainActor @preconcurrency public static func
+//											 generate(from descriptors: [MeshDescriptor]) throws -> MeshResource
+
+//			return .success(try MeshResource.generate(from:triangleIndices, vertexDescriptor:descriptor) as Any)
+//			return .success(try MeshResource.generate(from: descriptor) as Any)
 		} catch {
 			return .failure(RealityKitError.geometryCreationFailed(error))
 		}
@@ -265,24 +278,49 @@ struct ColorComponent: Component {
 
 
 // MARK: - 4. Update Usage in VewBase
+// MARK: - 5. RendererManager
+class RendererManager: ObservableObject {
+	@Published var currentRenderer: RendererType = .sceneKit
+
+	enum RendererType {
+		case sceneKit
+		case realityKit
+	}
+
+	func createRenderer() -> any FactalsRenderer {
+		switch currentRenderer {
+		case .sceneKit:
+			return SceneKitRenderer()
+		case .realityKit:
+			return RealityKitRenderer()
+		}
+	}
+}
+
+// Create global instance
+let rendererManager = RendererManager()
+
 // Updated VewBase.swift usage
 extension VewBase {
-	let rendererManager = RendererManager()
-	 // Moved to VewBase
-	//private var renderer: any FactalsRenderer
-	//init() {
-	//	self.renderer = rendererManager.createRenderer()
-	//}
 	
 	func createNode(from mesh: FactalsMesh) -> Result<Any, Error> {
-		return renderer.createRenderableNode(from: mesh)
+fatalError()//	return renderer.createRenderableNode(from: mesh)
 	}
 	
 	// CHANGE: Handle Result types properly
 	func addMeshToScene(_ mesh: FactalsMesh, at position: SIMD3<Float>) {
+//		switch renderer.createRenderableNode(from: mesh) {
+//			case .success(let node):
+//				renderer.setPosition(position, for:node)
 		switch renderer.createRenderableNode(from: mesh) {
 			case .success(let node):
-				renderer.setPosition(position, for: node)
+				if let scnRenderer = renderer as? SceneKitRenderer,
+				   let scnNode = node as? SCNNode {
+					scnRenderer.setPosition(position, for: scnNode)
+				} else if let rkRenderer = renderer as? RealityKitRenderer,
+						  let entity = node as? Entity {
+					rkRenderer.setPosition(position, for: entity)
+				}
 				// Add to scene...
 			case .failure(let error):
 				print("Failed to create node: \(error)")

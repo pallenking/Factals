@@ -1,16 +1,14 @@
-////
-////  RealityR.swift
-////  Factals
-////
-////  Created by Allen King on 7/8/25.
-////
-//import AppKit
-//import SceneKit
-//import RealityKit
 //
-////  Current SceneKit Architecture Analysis
-////
-////  Your app extensively uses SceneKit with:
+//  RealityR.swift
+//  Factals
+//
+//  Created by Allen King on 7/8/25.
+//
+//  Migration notes and documentation for RealityKit integration
+//
+//  Current SceneKit Architecture Analysis
+//
+//  Your app extensively uses SceneKit with:
 ////  - SceneKitView.swift: NSViewRepresentable wrapper for SCNView
 ////  - ScnBase.swift: Core SceneKit management (738 lines)
 ////  - Custom SCNGeometry classes: SCNHemisphere, SCNTunnelHood, SCN3DPictureframe
