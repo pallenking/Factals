@@ -39,17 +39,17 @@ struct VewBaseBar: View {
 					Text("Re-")
 					Button(label:{	Text("Vew")									})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
-						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.vew)	})
+						vewBase.partBase.tree.forAllParts({$0.markTree(argBit:.vew)	})
 						factalsModel.updateVews()		//(gui instgated)
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
-						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
+						vewBase.partBase.tree.forAllParts({$0.markTree(argBit:.size)})
 						factalsModel.updateVews()
 					}
 					Button(label:{	Text("Paint")								})
 					{	print("===== Re-Paint Slot\(slot): =====")
-						vewBase.partBase.tree.forAllParts({$0.markTree(dirty:.size)})
+						vewBase.partBase.tree.forAllParts({$0.markTree(argBit:.size)})
 						factalsModel.updateVews()
 					}
 			//		Button(label:{	Text("Test")								})

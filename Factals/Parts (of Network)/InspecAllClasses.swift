@@ -402,7 +402,7 @@ struct InspecPart : View {												 // Part
 				Text("spin")							//(=\(inspec.part.spin))
 				Button(action: {
 					part.spin	= (part.spin + 1) % UInt8(Part.spinMax)
-					part.markTree(dirty:.size)	// resize
+					part.markTree(argBit:.size)	// resize
 				}) {
 					Text("\(part.spin)")
 				}

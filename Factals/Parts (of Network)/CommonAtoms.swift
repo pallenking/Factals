@@ -116,13 +116,13 @@ class Mirror : Atom {
 	 // MARK: - 2. Object Variables:
 	var gain : Float = 1.0		// Default is Identity function
 	{	didSet {	if gain != oldValue {
-						partBase?.factalsModel?.simulator.startChits = 4	// gain changes simulation
-						markTree(dirty:.paint)
+			partBase?.factalsModel?.simulator.startChits = 4	// gain changes simulation
+			markTree(argBit:.paint)
 																		}	}	}
 	var offset:Float = 0.0
 	{	didSet {	if offset != oldValue {
-						partBase?.factalsModel?.simulator.startChits = 4	// gain changes simulation
-						markTree(dirty:.paint)
+			partBase?.factalsModel?.simulator.startChits = 4	// gain changes simulation
+			markTree(argBit:.paint)
 																		}	}	}
 	 // MARK: - 3. Part Factory
 	/// Mirror input to output

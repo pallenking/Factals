@@ -135,7 +135,7 @@ class LinkPort : Port {
 
 		if conveyorVelocity != 0,			// If LinkPort moving
 		   inTransit.count != 0 {			  // and something in it
-			parent?.markTree(dirty:.paint)		// order redisplay
+			parent?.markTree(argBit:.paint)		// order redisplay
 		}
 
 		 // Run the link "inTransit BELT", which delays changes for visualization.
@@ -157,9 +157,9 @@ class LinkPort : Port {
 								  inPort2Port.value 	// Link input port if no previous value
 				logDat(5, "Link-->> %.2f (\(outPort.fullName) was %.2f)", nextVal, outPort.value)
 				if outPort.value != nextVal {
-					outPort.value = nextVal								// not outPort.take(value:v)
-					outPort.markTree(dirty:.paint)
-					outPort.con2?.port?.markTree(dirty:.paint)		// repaint my other too
+					outPort.value = nextVal						// not outPort.take(value:v)
+					outPort.markTree(argBit:.paint)
+					outPort.con2?.port?.markTree(argBit:.paint)	// repaint my other too
 				}
 			}
 		}
@@ -270,7 +270,7 @@ class LinkPort : Port {
 //	linkVew.[s/p]Con2Vew	= [s/p]Con2Vew	 get Views we are connect to:
 //	.dualf:linkVew.scnScene.constraints = [[], [con0], [con0, con1]][nConstraints]
 //	//***** reSize(vew:Vew)
-//	markTree(dirty:.paint)					 mark tree to cause re-paint
+//	markTree(argBit:.paint)					 mark tree to cause re-paint
 
 //***** reSizePost(vew:Vew)
 //	vew.scn.transform = SCNMatrix4(row1v3:row2v3:row3v3:row4v3:)

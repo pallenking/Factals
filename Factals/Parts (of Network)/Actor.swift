@@ -277,7 +277,7 @@ bug;		let enaPort			= Port()
 		}
 		set(val) {
 			viewAsAtom_		= val
-			markTree(dirty:.vew)
+			markTree(argBit:.vew)
 		}
 	}
 	var viewAsAtom_			= false		// force our content to be Atomic

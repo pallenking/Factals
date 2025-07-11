@@ -171,7 +171,7 @@ class Link : Atom {
 	override func reset() {							super.reset()
 		sDownCPort.inTransit.removeAll()
 		  pUpCPort.inTransit.removeAll()
-		markTree(dirty:.size)
+		markTree(argBit:.size)
 	}
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up:Bool) {
@@ -195,7 +195,7 @@ class Link : Atom {
 //								  parentVew?.find(part:self, maxLevel:1) ?? // from parent
 //								  addNewVew(in:parentVew)					// create
 //			 // reVew Link's Ports ourselves. (Inherited reVew in Atom may not work)
-//			markTree(dirty:.size)	// NEEDED, if no super.reVew(vew:)	// 2. why needed
+//			markTree(argBit:.size)	// NEEDED, if no super.reVew(vew:)	// 2. why needed
 //			for childPart in children {
 //	bug;		if	childPart.test(dirty:.vew) {							// 3. can't put in
 //					childPart.reVew(parentVew:linksVew)
@@ -302,7 +302,7 @@ class Link : Atom {
 		 //------ NOT SURE WHY THIS IS HERE (except it must be)
 		vew.bBox				= .empty			// ??? Set view's bBox EMPTY
 		vew.bBox				= reSkin(expose:.same, vew:vew)	// Put skin on Part		// xyzzy32 -- Link's positioning of its Ports
-		markTree(dirty:.paint)
+		markTree(argBit:.paint)
 	}
 	 // MARK: - 9.3 reSkin (Link Billboard)
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
@@ -372,7 +372,7 @@ class Link : Atom {
 			sLink.isHidden		= true	// N.B: so unpositioned Links don't interfere
 			return sLink
 		} ()
-		markTree(dirty:.paint)
+		markTree(argBit:.paint)
 		return .empty						// Xyzzy19e	// Xyzzy44	vsb
 	}
 	 // MARK: - 9.4 rePosition

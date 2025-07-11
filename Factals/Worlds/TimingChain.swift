@@ -12,7 +12,7 @@ class TimingChain : Atom {
 	var state 		 : State_ = .idle		// of timing chain
 	{	didSet {
 			if animateChain && state != oldValue {
-				markTree(dirty:.size)
+				markTree(argBit:.size)
 			}
 		}
 	}

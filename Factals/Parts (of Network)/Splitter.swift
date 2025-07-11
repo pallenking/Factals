@@ -51,7 +51,7 @@ class Splitter : Atom {
 	//var isABcast	:  String!		//[shareClassName isEqualToString:@"Broadcast"];
 	var a1 		: Float = 0.0
 	{	didSet {	if a1 != oldValue {
-						markTree(dirty:.paint)
+			markTree(argBit:.paint)
 																		}	}	}
  //https://stackoverflow.com/questions/24561490/swift-protocol-iboutlet-property-cannot-have-non-object-type
 
@@ -316,7 +316,7 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 	
 					logDat(4, "   DIST U=%.2f (%.3f-%.3f)", unknownValue, total, accountedFor)
 					u.value/*Take*/ = unknownValue	// silently
-					u.markTree(dirty:.paint)
+					u.markTree(argBit:.paint)
 				}
 
 				 // Process BROADCASTs (same to all)

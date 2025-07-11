@@ -44,7 +44,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 var partBase	: PartBase?	= nil		// base of tree
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
-//	{	willSet(v) {  markTree(dirty:v) }  }// BIG PROBLEMS: (Loops!)
+//	{	willSet(v) {  markTree(argBit:v) } }// BIG PROBLEMS: (Loops!)
 	var partConfig	: FwConfig				// Configuration of Part
 	 // Ugly:
 	var nLinesLeft	: UInt8		= 0			// left to print in current atom
@@ -92,8 +92,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			// See View.expose for GUI interactions
 	var flipped : Bool = false				// true --> upside down in parent
 	{	didSet {	if flipped != oldValue {
-						markTree(dirty:.size)
-																		}	}	}
+			markTree(argBit:.size)										}	}	}
+
  //================= to the world:
 	var downInWorld : Bool {
 		var rv 					= false
@@ -107,16 +107,16 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 // MARK: - 2.2b INTERNAL to Part
 	var latitude : Latitude = Latitude.northPole 			// Xyzzy87 markTree
 	{	didSet {	if latitude != oldValue {
-						markTree(dirty:.size)
+			markTree(argBit:.size)
 																		}	}	}
   //var longitude
 	var spin : UInt8 = 0
 	{	didSet {	if spin != oldValue {
-						markTree(dirty:.size)
+			markTree(argBit:.size)
 																		}	}	}
 	var shrink : Int8 = 0			// smaller or larger as one goes in
 	{	didSet {	if shrink != oldValue {
-						markTree(dirty:.size)
+			markTree(argBit:.size)
 																		}	}	}
 
 	 // MARK: - 2.2c EXTERNAL to Part
@@ -126,7 +126,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 // just put here to get things working?
 	var placeSelf 				= ""				// from config!
 	{	didSet {	if placeSelf != oldValue {
-						markTree(dirty:.vew)
+			markTree(argBit:.vew)
 																		}	}	}
 // ///////////////////////////// Factory //////////////////////////////////////
 	// MARK: - 3. Part Factory
@@ -458,8 +458,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		let _ 					= newChild.checkTreeThat(parent:self, partBase:partBase)
 
 		 // Process tree dirtyness:
-		markTree(dirty:.vew)				// ? tree has dirty.vew
-		markTree(dirty:newChild.dirty)			// ? tree also inherits child's other dirtynesses
+		markTree(argBit:.vew)				// ? tree has dirty.vew
+		markTree(argBit:newChild.dirty)			// ? tree also inherits child's other dirtynesses
 	}										// (child is not dirtied any more)
 	/// Groom Part tree after construction.
 	/// - Parameters:
@@ -474,7 +474,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	//							?? self as? PartBase 	// me, I'm a RootPart
 	//							?? child0 as? PartBase	// if PolyWrapped
 		}
-		markTree(dirty:.vew)							// set dirty vew
+		markTree(argBit:.vew)							// set dirty vew
 
 		for child in children {							// do all children
 			child.groomModel(parent:self, partBase:partBase)	// ### RECURSIVE
@@ -930,7 +930,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 								  addNewVew(in:pVew) 	// 3. CREATE:
 			 // Remove lingering Atomic skins:
 			vew!.scnRoot.findScn(named:"s-atomic")?.removeFromParent()
-			markTree(dirty:.size)
+			markTree(argBit:.size)
 
 			 // For the moment, we open all Vews
 			for childPart in children {
@@ -947,7 +947,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			if vew != nil,
 			  vew!.children.count > 0 {
 				vew!.removeAllChildren()	// might eliminate later
-				markTree(dirty:.size)		// (.vew loops endlessly!)
+				markTree(argBit:.size)		// (.vew loops endlessly!)
 			}
 			let _				= reSkin(atomicOnto:vew!)	// xyzzy32 -- Put on skin after going atomic.
 		default:					// ////  including .invisible
@@ -1018,7 +1018,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 		  vew.expose == .open {			// Hack: atomic not colored				//partConfig["color"] = nil
 			vew.scnRoot.color0 		= c			// in SCNNode, material 0's reflective color
 		}
-		markTree(dirty:.paint)
+		markTree(argBit:.paint)
 
 		 //------ Activate Physics:
 		if let physConf			= partConfig["physics"] {

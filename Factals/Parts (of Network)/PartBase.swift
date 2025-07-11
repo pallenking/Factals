@@ -84,7 +84,7 @@ class PartBase : Codable, ObservableObject, Uid {
 		logBld(4, "------- Grooming Parts...")
 		tree.groomModelPostWires(partBase:self)				// + +  + +
 		tree.dirtySubTree()		//dirty.turnOn(.vew) 	// Mark parts dirty after installing new trunk
-								//markTree(dirty:.vew) 	// Mark parts dirty after installing new trunk
+								//markTree(argBit:.vew) // Mark parts dirty after installing new trunk
 								//dirty.turnOn(.vew)
 		 //  4. Reset
 		logBld(4, "------- Reset...")
@@ -111,7 +111,7 @@ class PartBase : Codable, ObservableObject, Uid {
 		//dirtySubTree(.vew)		// NOT NEEDED
 		//dirtySubTree(.vew)		// IS THIS SUFFICIENT, so early?
 		//self.dirty.turnOn(.vew)
-		//markTree(dirty:.vew)
+		//markTree(argBit:.vew)
 
 	}
 

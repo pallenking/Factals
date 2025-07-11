@@ -47,7 +47,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
     
 	var name 		: String					// Cannot be String! because of FwAny
 	var color000	: NSColor? = nil
-	{	willSet(v) {	part.markTree(dirty:.paint)							}	}
+	{	willSet(v) {	part.markTree(argBit:.paint)							}	}
 	var keep		:  Bool		= false			// used in reVew
 
 	 // Sugar:
@@ -67,7 +67,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 
 	var expose : Expose	= .open {			// how the insides are currently exposed
 		willSet(v) {
-			part.markTree(dirty:.vew)											}
+			part.markTree(argBit:.vew)											}
 	}
 	var jog			: SCNVector3? = nil		// an ad-hoc change in position
 	var force		: SCNVector3 = .zero 	// for Animation for positioning
@@ -193,8 +193,8 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		}
 		vew.parent 				= self
 		assert(part.parent === parent?.part, "fails consistency check")
-		part.parent?.markTree(dirty:.size)	// Affects parent's size
-		part.markTree(dirty:.vew)
+		part.parent?.markTree(argBit:.size)	// Affects parent's size
+		part.markTree(argBit:.vew)
 
 		// Add the "entry SCNNode" for the vew
 		scn.addChild(node:vew.scn)			// wire scn tree isomorphically	// was node:vew.scnScene
@@ -206,14 +206,14 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 			debugger("\(pp(.fullNameUidClass)).removeFromParent(): not in parent:\(parent?.pp(.fullNameUidClass) ?? "nil")")
 		}
 		parent?.children.remove(at:i)
-		parent?.part.markTree(dirty:.size)	//.vew
+		parent?.part.markTree(argBit:.size)	//.vew
 	}
 	func removeAllChildren() {
 		for childVew in children { 			// Remove all child Vews
 			childVew.scn.removeFromParent()		// Remove their skins first (needed?)
 			childVew.removeFromParent()			// Remove them
 		}
-	//	part.markTree(dirty:.vew)
+	//	part.markTree(argBit:.vew)
 //		scn.removeAllChildren()				// wipe out my skin
 	}
 

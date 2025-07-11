@@ -511,27 +511,27 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		{
 			logDat(3, "   BULB: %.2f (was %.2f)", pInput, pValue)
 			pValue				= pInput	//	pass on 
-			markTree(dirty:.size)			// mark Splitter's size as dirty
+			markTree(argBit:.size)			// mark Splitter's size as dirty
 		}
 	}	
 	override func reset() {							super.reset()
 		pValue					= 0.0
-		markTree(dirty:.size)
+		markTree(argBit:.size)
 	}
 	 /// Diameter and Radius are functions of value
 	func diam(  ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
 	func radius(ofValue value:Float) -> CGFloat	{	return CGFloat(max(gain * value + offset, 0.0))	}
 	var gain  : Float	= 5.0//2.0//0.1//
 	{	didSet { if gain != oldValue {
-					markTree(dirty:.size)
+					markTree(argBit:.size)
 																		}	}	}
 	var offset: Float	= 0.5
 	{	didSet { if offset != oldValue {
-					markTree(dirty:.size)
+					markTree(argBit:.size)
 																		}	}	}
 	var currentRadius : CGFloat = 0.0
 	{	didSet { if currentRadius != oldValue {
-					markTree(dirty:.size)
+			markTree(argBit:.size)
 																		}	}	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnRoot.findScn(named:"s-Bulb") ?? {
@@ -567,10 +567,8 @@ class BulbSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		get		{	return true ? looparoundValue : super.value	 				}
 		set(v) 	{
 			if super.value != v {
-
 				 // A change in value -->  resize / rebound  event
-				parent?.markTree(dirty:.size)
-
+				parent?.markTree(argBit:.size)
 				super.value 	= v
 			}
 			looparoundValue 	= v

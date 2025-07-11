@@ -70,7 +70,7 @@ extension Part {
 				if let connectedPort = port.con2?.port {
 					 // If the connected port belongs to a Link, mark the link as needing size update
 					if let link = connectedPort.parent as? Link {
-						link.markTree(dirty: .size)
+						link.markTree(argBit: .size)
 					}
 				}
 			}
