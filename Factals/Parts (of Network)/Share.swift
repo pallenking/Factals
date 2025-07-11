@@ -554,7 +554,7 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv 					= super.pp(mode, aux)
 		if mode == .line { 
-			rv					+= ", r(\(currentRadius)) =v(\(pValue))*g(\(gain))+o(\(offset))"
+			rv					+= "r(\(currentRadius))"	// =v(\(pValue))*g(\(gain))+o(\(offset))"
 		}
 		return rv
 	}

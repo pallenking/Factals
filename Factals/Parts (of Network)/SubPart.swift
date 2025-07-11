@@ -3,8 +3,8 @@
 import Foundation
 import SceneKit
 
-/// An Array of Bits, stored in a Char.
-/// - To use 3 bits, 8 (=2**3) cases must be defined
+  /// An Array of Bits, stored in a Char.
+ /// - To use 3 bits, 8 (=2**3) cases must be defined
 var raw2string44 : [String] = [" ", "V", "S", "VS", "P", "VP", "SP", "VSP"]
 enum DirtyBits : UInt8, CaseIterable, Codable {	// Identifiable
 	case clean	= 0
@@ -43,32 +43,32 @@ enum DirtyBits : UInt8, CaseIterable, Codable {	// Identifiable
 
 extension Part {
 	/// Turn a dirty bit ON this node, and go up through all parents, and insure set.
-	/// - parameter dirty: selects which bit is addressed
+	/// - parameter argBit: selects which bit is addressed
 	/// - Marks the bit from the selected node, through parents to the root.
 	/// - Stops if it encounters node marked with this bit
-	func markTree(dirty:DirtyBits) {
+	func markTree(argBit:DirtyBits) {
 		 // Go up the containment tree, SEARCHING FOR an entry
 		for s in selfNParents {
-			if s.dirty != DirtyBits.clean {		// node has bits ON
+			if s.dirty.isOn(argBit) {			// node has bits ON				// s.dirty != DirtyBits.clean
 				break								// no need to go up farther
 			}
-			s.dirty.turnOn(dirty)
+			s.dirty.turnOn(argBit)
 		}
 		
 		// If size changed, notify connected links
-		if dirty.isOn(.size) {
+		if argBit.isOn(.size) {
 			notifyConnectedLinksOfSizeChange()
 		}
 	}
 	
-	/// Notify connected links that this part's size has changed
+	 /// Notify connected links that this part's size has changed
 	func notifyConnectedLinksOfSizeChange() {
-		// Iterate through all ports in this part
+		 // Iterate through all ports in this part
 		if let atom = self as? Atom {
 			for (_, port) in atom.ports {
-				// If this port is connected to another port
+				 // If this port is connected to another port
 				if let connectedPort = port.con2?.port {
-					// If the connected port belongs to a Link, mark the link as needing size update
+					 // If the connected port belongs to a Link, mark the link as needing size update
 					if let link = connectedPort.parent as? Link {
 						link.markTree(dirty: .size)
 					}
