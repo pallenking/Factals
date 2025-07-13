@@ -85,25 +85,24 @@ class MultiPort : Port {
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {		// Ports and Shares
 	  // / Put full skin onto MultiPort
-		let scn					= vew.scnRoot.findScn(named:"s-Port") ?? {
+		let scn					= vew.scn.findScn(named:"s-Port") ?? {
 			let (r, h)			= (radius, height)
 			let ep : CGFloat 	= 0.01//0.1//
 
 			 // Scn is the big Cylinder 
-			let scn				= SCNNode(geometry:SCNCylinder(radius:r, height:h-ep))
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Port"
-			scn.position.y 		+= h/2 + ep/2		// All above origin
-			scn.color0 			= NSColor(mix:NSColor("lightpink")!, with:0.4, of:NSColor("darkgreen")!)
-//			scn.color0 			= NSColor("lightpink")! //"red"//.green//"darkred"//.lightpink//
-
+			let t1				= SCNNode(geometry:SCNCylinder(radius:r, height:h-ep))
+			vew.scn.addChild(node:t1, atIndex:0)
+			t1.name				= "s-Port"
+			t1.position.y 		+= h/2 + ep/2		// All above origin
+			t1.color0 			= NSColor(mix:NSColor("lightpink")!, with:0.4, of:NSColor("darkgreen")!)
+//			t1.color0 			= NSColor("lightpink")! //"red"//.green//"darkred"//.lightpink//
 			 // Disc marks its con2 point
 			let disc 			= SCNNode(geometry:SCNCylinder(radius:r/2, height:ep))
-			scn.addChild(node:disc, atIndex:0)
+			t1.addChild(node:disc, atIndex:0)
 			disc.name			= "disc"
 			disc.position.y		-= h/2
 			disc.color0			= NSColor.black
-			return scn
+			return t1
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scn.bBox()	// Xyzzy44 vsb
 	}

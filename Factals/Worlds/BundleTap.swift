@@ -231,11 +231,11 @@ bug
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 bug
-		let scn					= vew.scnRoot.findScn(named:"s-xxxx") ?? {
-			let scn				= SCNNode()
+		let scn					= vew.scn.findScn(named:"s-xxxx") ?? {
+			let rv				= SCNNode()
 //			vew.scnScene.addChild(node:scnScene, atIndex:0)
 //			scnScene.name			= "s-Atom"
-			return scn
+			return rv
 		} ()
 		return scn.bBox() * scn.transform
 	}
@@ -244,12 +244,10 @@ bug
 	/// Reposition a Port's vew in parent, by name
 	/// - Parameter vew: --- a Port's views
 	override func rePosition(portVew vew:Vew) {	//override
-	bug
-		let port				= vew.part as! Port
+	bug;let port				= vew.part as! Port
 		if port === ports["P"] {			// P: Primary
 			assert(!port.flipped, "'M' in Atom must be unflipped")
-			vew.scnRoot.position.y	= -port.height
-//			vew.scnScene.position.y	= -port.height
+			vew.scn.position.y	= -port.height
 		}
 		else {
 			if Log.shared.eventIsWanted(ofArea:"rsi", detail:3) {

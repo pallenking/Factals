@@ -402,11 +402,11 @@ bug;		nop // for break
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.findScn(named:"s-Bun") ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Bun"
-			return scn
+		let scn					= vew.scn.findScn(named:"s-Bun") ?? {
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-Bun"
+			return rv
 		}()
 		
 		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
@@ -433,7 +433,7 @@ bug;		nop // for break
 			let flip			= portVew.part.flipped
 			let bBox			= portVew.bBox
 			let place			= flip ? bBox.centerTop : bBox.centerBottom
-			portVew.scnRoot.transform = SCNMatrix4(place, flip:flip)
+			portVew.scn.transform = SCNMatrix4(place, flip:flip)
 //			portVew.scn.transform = SCNMatarix4(portVew.bBox.centerBottom.x, 0, 0, flip:flip)
 		}
 		else {

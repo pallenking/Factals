@@ -103,14 +103,14 @@ bug;			var poleITread = self.tread - Float(i)
 	var ffRadius				= CGFloat(2.5)
 
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.findScn(named:"s-ShBT") ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-SBT1"
+		let scn					= vew.scn.findScn(named:"s-ShBT") ?? {
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name			= "s-SBT1"
 
 			 // Shaft of rotation
 			let shaftNode 		= SCNNode(geometry:SCNBox(width:0.5, height:1, length:7, chamferRadius:0.01))
-			scn.addChild(node:shaftNode)
+			rv.addChild(node:shaftNode)
 			shaftNode.color0	= NSColor("darkgreen")!//.orange
  			shaftNode.rotation 	= SCNVector4(0, 0, 1, Float.pi/8)//0)//
 			 // Arm to a Pole
@@ -137,7 +137,7 @@ bug;			var poleITread = self.tread - Float(i)
 				wheel.name		= "wheel\(i)"
 				wheel.position	= SCNVector3(0, 0, offset)
 				wheel.rotation	= SCNVector4(1, 0, 0, CGFloat.pi/2)
-				scn.addChild(node:wheel)
+				rv.addChild(node:wheel)
 			}
 			 // Poles
 			let r				= partConfig["bitRadius"]?.asCGFloat ?? 1.0
@@ -149,7 +149,7 @@ bug;			var poleITread = self.tread - Float(i)
 				let color2		= portI.colorOf2Ports(localValUp:portI.value, localValDown:0.0, downInWorld:false)
 
 				let armNode 	= SCNNode()//geometry: SCNBox(width: r/2, height: r*15, length: r/2, chamferRadius: 0.1)) 				//)//
-				scn.addChild(node:armNode)
+				rv.addChild(node:armNode)
 				armNode.rotation = SCNVector4(0, 0, 1, GLKMathDegreesToRadians(poleInDegrees))
 
 				let plate1		= SCNNode(geometry:SCNCylinder(radius:r, height:r))
@@ -163,7 +163,7 @@ bug;			var poleITread = self.tread - Float(i)
 				plate2.geometry?.firstMaterial?.diffuse.contents = color2
 //				myGlDrawString(rc, poleStr, -1, inCameraShift, spot2labelCorner, 3)
 			}
-			return scn
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
@@ -172,7 +172,7 @@ bug;			var poleITread = self.tread - Float(i)
 		let port				= vew.part as! Port
 		if port === ports["P"] {
 			assert(!port.flipped, "P Port in DiscreteTime must be unflipped")
-			vew.scnRoot.transform	= SCNMatrix4(0, -ffRadius*2, 0)		//, -port.height - 10
+			vew.scn.transform	= SCNMatrix4(0, -ffRadius*2, 0)		//, -port.height - 10
 		} else {
 			panic("")
 		}

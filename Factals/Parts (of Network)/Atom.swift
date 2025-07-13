@@ -634,7 +634,7 @@ class Atom : Part {	//Part//FwPart
 					{	port.reSize(vew:portVew)	}// 2A. Pack Port (why is this needed)
 					rePosition(portVew:portVew)		 // 2B. Reposition Port via Atom:
 					 // Get Port's position in parent:
-					let bBoxInAtom = portVew.bBox * portVew.scnRoot.transform
+					let bBoxInAtom = portVew.bBox * portVew.scn.transform
 					bBoxAccum	|= bBoxInAtom		// Accumulate into _tmpBBox_
 				}
 			}
@@ -644,7 +644,7 @@ class Atom : Part {	//Part//FwPart
 		for childVew in vew.children where
 				!(childVew.keep)  &&				// bug?  childVew.keep == false
 				!(childVew is LinkVew) {			//200124 expedient, to prevent thrashing LinkViews
-			childVew.scnRoot.removeFromParent()			// needed?
+			childVew.scn.removeFromParent()			// needed?
 			childVew.removeFromParent()
 		}
 		 		// 5. Add gap around Atom, so lines don't overlap
@@ -653,16 +653,16 @@ class Atom : Part {	//Part//FwPart
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.findScn(named:"s-Atom") ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Atom"
+		let scn					= vew.scn.findScn(named:"s-Atom") ?? {
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-Atom"
 
 			let hei				= CGFloat(2.0)
-			scn.geometry		= SCNBox(width:0.6, height:hei, length:0.6, chamferRadius:0)
-			scn.position.y		= hei/2
-			scn.color0			= .orange
-			return scn
+			rv.geometry		= SCNBox(width:0.6, height:hei, length:0.6, chamferRadius:0)
+			rv.position.y		= hei/2
+			rv.color0			= .orange
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
@@ -674,13 +674,13 @@ class Atom : Part {	//Part//FwPart
 		let port				= vew.part as! Port
 		if port === ports["P"] {			// P: Primary
 			assert(!port.flipped, "'M' in Atom must be unflipped")
-			vew.scnRoot.position.y	= -port.height
+			vew.scn.position.y	= -port.height
 		}
 		else {
 			if Log.shared.eventIsWanted(ofArea:"rsi", detail:3) {
 				warning("Did not find position for '\(port.pp(.fullNameUidClass))'")
 			}
-			vew.scnRoot.transform	= .identity
+			vew.scn.transform	= .identity
 		}
 	}
 		  // ////////////////////////////////////////////////////////////
@@ -699,7 +699,7 @@ class Atom : Part {	//Part//FwPart
 		 // ////////////   Compute Position from wires   //////////
 		// presumes mode uses +Y
 		let popVew 				= vew.parent
-		vew.scnRoot.position	= .zero		// remove nan spot, leave rotation part
+		vew.scn.position		= .zero		// remove nan spot, leave rotation part
 
 		  // :H: my	 -- a Part of me, whose position is being found
 		 // :H: trial -- a boss in the lower atom which has its position known
@@ -876,7 +876,7 @@ class Atom : Part {	//Part//FwPart
 
 		logRsi(4, "<<===== FOUND Position by Links   \(self.fullName) -in- \(parent?.fullName ?? "nil") (weightSum=\(weightSum))")
 		//logRsi(6, vew.log("    === childVew.bBox = ( \(vew.bBox.pp(.line)) )"))
-		vew.scnRoot.position = avgPosition + (vew.jog ?? .zero)
+		vew.scn.position 		= avgPosition + (vew.jog ?? .zero)
 
 		vew.moveSoNoOverlapping()					// MOVE UPWARD
 		vew.orBBoxIntoParent()

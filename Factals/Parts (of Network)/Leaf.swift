@@ -81,11 +81,10 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.findScn(named:"s-Leaf") ?? {
-//		let scn					= vew.scnRoot.findScn(named:"s-Leaf") ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Leaf"
-			return scn
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-Leaf"
+			return rv
 		}()
 
 		 /// Purple Ring at bottom:

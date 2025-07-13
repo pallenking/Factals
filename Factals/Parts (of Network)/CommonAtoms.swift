@@ -18,13 +18,13 @@ class Portless : Atom {
 
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.findScn(named:"s-Portless") ??  {
-			let scn				= SCNNode()
-			scn.name			= "s-Portless"
-			scn.geometry 		= SCNCapsule(capRadius:0.5, height:2) //(width:[1,4][i], height:1, length:[4,1][i], chamferRadius:0.5)
-			scn.color0			= .yellow
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			return scn
+		let scn					= vew.scn.findScn(named:"s-Portless") ??  {
+			let rv				= SCNNode()
+			rv.name				= "s-Portless"
+			rv.geometry 		= SCNCapsule(capRadius:0.5, height:2) //(width:[1,4][i], height:1, length:[4,1][i], chamferRadius:0.5)
+			rv.color0			= .yellow
+			vew.scn.addChild(node:rv, atIndex:0)
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
@@ -72,10 +72,10 @@ class Ago : Atom {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.findScn(named:"s-Ago") ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Ago"
+		let scn					= vew.scn.findScn(named:"s-Ago") ?? {
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name			= "s-Ago"
 
 			for i in 0...1 {	// Two arms of an cross:
 				let geom 		= SCNBox(width:[1,4][i], height:1, length:[4,1][i], chamferRadius:0.5)
@@ -83,9 +83,9 @@ class Ago : Atom {
 				arm.position	= SCNVector3(0, height/2, 0)
 				arm.color0		= .purple
 				arm.name		= "s-Ago\(i)"
-				scn.addChild(node:arm, atIndex:0)
+				rv.addChild(node:arm, atIndex:0)
 			}
-			return scn
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
@@ -95,7 +95,7 @@ class Ago : Atom {
 		let port				= vew.part as! Port
 		if port === ports["S"] {			//// S: Secondary
 			assert(port.flipped, "S Port in Ago must be flipped")
-			vew.scnRoot.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
+			vew.scn.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
 		}
 		else {
 			super.rePosition(portVew:vew)
@@ -204,14 +204,14 @@ class Mirror : Atom {
 	var size   : CGFloat		{ 		return 3.0										}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let name 				= "s-Mir"
-		let scn					= vew.scnRoot.findScn(named:name) ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= name
-			scn.geometry		= SCNBox(width:size, height:height, length:size, chamferRadius:0.2)
-			scn.position 		= SCNVector3(0, height/2, 0)
-			scn.color0			= .orange
-			return scn
+		let scn					= vew.scn.findScn(named:name) ?? {
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= name
+			rv.geometry			= SCNBox(width:size, height:height, length:size, chamferRadius:0.2)
+			rv.position 		= SCNVector3(0, height/2, 0)
+			rv.color0			= .orange
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
@@ -263,14 +263,14 @@ class Modulator : Atom {
 	var sRadius : CGFloat		= 2.5	//1.5
 	var armLen  : CGFloat		= 4.0/2	//2.0
 	override func reSkin(fullOnto vew:Vew) -> BBox {
-		let scn					= vew.scnRoot.findScn(named:"s-Modu") ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Modu"
-			scn.geometry		= SCNSphere(radius:sRadius/2)
-			scn.position.y		= sHeight
-			scn.color0			= NSColor.orange	//.change(alphaTo:0.3)
-			return scn
+		let scn					= vew.scn.findScn(named:"s-Modu") ?? {
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-Modu"
+			rv.geometry			= SCNSphere(radius:sRadius/2)
+			rv.position.y		= sHeight
+			rv.color0			= NSColor.orange	//.change(alphaTo:0.3)
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
@@ -286,7 +286,7 @@ class Modulator : Atom {
 		}
 		let x					= -armLen * CGFloat(sin(angle!))
 		let y					=  armLen * CGFloat(cos(angle!)) + sHeight
-		vew.scnRoot.transform =  SCNMatrix4(x, y, 0, flip:true, latitude:angle!)
+		vew.scn.transform 		=  SCNMatrix4(x, y, 0, flip:true, latitude:angle!)
 	}
 }
 

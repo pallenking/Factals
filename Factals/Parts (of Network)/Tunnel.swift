@@ -111,13 +111,13 @@ class Tunnel : FwBundle {
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.findScn(named:"s-Tun") ?? {
-			let scn				= SCNNode()
-			scn.name			= "s-Tun"
-			scn.geometry 		= SCNBox(width:1, height:1, length:1, chamferRadius:0)
-			scn.color0			= NSColor("darkgreen")!//.change(alphaTo:0.3)
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			return scn
+		let scn					= vew.scn.findScn(named:"s-Tun") ?? {
+			let rv				= SCNNode()
+			rv.name				= "s-Tun"
+			rv.geometry 		= SCNBox(width:1, height:1, length:1, chamferRadius:0)
+			rv.color0			= NSColor("darkgreen")!//.change(alphaTo:0.3)
+			vew.scn.addChild(node:rv, atIndex:0)
+			return rv
 		}()
 		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
 		let bb					= vew.bBox
@@ -139,7 +139,7 @@ class Tunnel : FwBundle {
 			let parentVew		= vew.parent!
 			var ctr				= parentVew.bBox.centerBottom	// Parent's bottom
 			ctr.y				-= 1*gsnb + port.height			// up, just inside
-			vew.scnRoot.transform = SCNMatrix4(ctr, flip:false)
+			vew.scn.transform	= SCNMatrix4(ctr, flip:false)
 		}
 		else {
 			super.rePosition(portVew:vew)

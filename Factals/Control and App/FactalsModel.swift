@@ -132,7 +132,7 @@ import SwiftUI
 //	func vew(    ofScnNode s:SCNNode) -> Vew? {	bug; return nil}//vewBase(ofScnScene:s)?.tree 		}
 //	func vewBase(ofScnNode s:SCNNode)  -> VewBase? {							//	func vewBase(ofScnScene s:SCNScene) -> VewBase? {
 //		for vewBase in vewBases {
-//			if vewBase.tree.scnRoot.find(firstWith:{ $0 == s }) != nil {
+//			if vewBase.tree.scn.find(firstWith:{ $0 == s }) != nil {
 //				return vewBase
 //			}
 //		}

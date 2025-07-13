@@ -340,18 +340,18 @@ class TimingChain : Atom {
 	var height : CGFloat	{		return 1									}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 	  // / Put full skin onto TimingChain
-		let scn					= vew.scnRoot.findScn(named:"s-Tc") ?? {
+		let scn					= vew.scn.findScn(named:"s-Tc") ?? {
 			 // First Box
 			let h				= height
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Tc"
-			scn.position.y		= h/2			
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-Tc"
+			rv.position.y		= h/2			
 
 			 // Two Rings of a Chain:
 			for i in 0...1 {
 				let chain 		= SCNNode()
-				scn.addChild(node:chain, atIndex:0)
+				rv.addChild(node:chain, atIndex:0)
 				chain.name		= "chain\(i)"
 				chain.geometry	= SCNTorus(ringRadius:2, pipeRadius:0.5)
 				let arm			= SCNVector3([1,-1][i], 0, 0)
@@ -360,7 +360,7 @@ class TimingChain : Atom {
 				let c			= NSColor.red
 				chain.color0	= i == 0 ? c : c.change(saturationBy:0.6)
 			}
-			return scn
+			return rv
 		} ()
 		let s					= !animateChain ? 0 :
 									state == .idle 	   ? 0 :
@@ -378,7 +378,7 @@ class TimingChain : Atom {
 		let port				= vew.part as! Port
 		if port === ports["S"] {
 			assert(port.flipped == true, "S Port in Generator must be unflipped")
-			vew.scnRoot.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
+			vew.scn.transform	= SCNMatrix4(0, height + port.height, 0, flip:true)
 		}
 		else {
 			super.rePosition(portVew:vew)

@@ -162,16 +162,16 @@ bug;	return rv
 
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scnRoot.findScn(named:"s-Wm") ?? {
-			let scn				= SCNNode()
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			scn.name			= "s-Wm"
-			scn.geometry		= SCNCylinder(radius:1.4, height:0.2)// (width: 0.2, height:2, length:4, chamferRadius:1)
-//			scn.geometry		= SCNBox(width: 0.2, height:2, length:4, chamferRadius:1)
-			scn.position.y		= 1
-			scn.rotation		= SCNVector4(1,0,0, CGFloat.pi/2)
-			scn.color0			= NSColor.red.change(saturationBy:0.85)//NSColor("lightslategray")!//.change(saturation:0.9)
-			return scn
+		let scn					= vew.scn.findScn(named:"s-Wm") ?? {
+			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-Wm"
+			rv.geometry			= SCNCylinder(radius:1.4, height:0.2)// (width: 0.2, height:2, length:4, chamferRadius:1)
+//			rv.geometry			= SCNBox(width: 0.2, height:2, length:4, chamferRadius:1)
+			rv.position.y		= 1
+			rv.rotation			= SCNVector4(1,0,0, CGFloat.pi/2)
+			rv.color0			= NSColor.red.change(saturationBy:0.85)//NSColor("lightslategray")!//.change(saturation:0.9)
+			return rv
 		} ()
 		return scn.bBox() * scn.transform	// vew.scnScene.bBox()// Xyzzy44 ** sbt
 	}

@@ -47,12 +47,12 @@ class PortSound : Part {
 		}
 	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn : SCNNode		= vew.scnRoot.findScn(named:"s-Sound") ?? {
-			let scn				= SCNNode(geometry:SCNSphere(radius:0.5))
-			scn.name			= "s-Sound"
-			scn.color0			= .red.change(alphaTo:0.5)	//skinAlpha
-			vew.scnRoot.addChild(node:scn, atIndex:0)
-			return scn
+		let scn : SCNNode		= vew.scn.findScn(named:"s-Sound") ?? {
+			let t1				= SCNNode(geometry:SCNSphere(radius:0.5))
+			vew.scn.addChild(node:t1, atIndex:0)
+			t1.name				= "s-Sound"
+			t1.color0			= .red.change(alphaTo:0.5)	//skinAlpha
+			return t1
 		} ()
 		let bbox 			 	= scn.bBox()
 		return bbox * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb

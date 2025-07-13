@@ -131,7 +131,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 
 		 // 6. Set LookAtNode's position
 		let posn				= lookAtVew.bBox.center
-		let worldPosition		= lookAtVew.scnRoot.convertPosition(posn, to:nil/*scnScene*/)
+		let worldPosition		= lookAtVew.scn.convertPosition(posn, to:nil/*scnScene*/)
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}
