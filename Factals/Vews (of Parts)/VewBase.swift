@@ -252,28 +252,22 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		}
 	}
 
-		 // MARK: - 4.? Update from PartBase of my Vews and SCNScenes
-		/// Update one VewBase from changes marked in Part.Tree.dirty.
-	   ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
-	  /// - Parameter initial:	-- VewConfig for first appearance
-	 ///  - Parameter log: 		-- controlls logging
-	func updateVSP(logIf log:Bool=true) { // VIEWS
+		// MARK: - 4.? Update from PartBase of my Vews and SCNScenes
+	   /// Update one VewBase from changes marked in Part.Tree.dirty.
+	  ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
+	 /// - Parameter initial:	-- VewConfig for first appearance
+	func updateVSP() { 			// VIEWS
 		SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(animateVBdelay)	//0.15//0.3//0.6//
 
-		let partsTree			= partBase.tree		// Model
-	//	let levelCounter		= 0
-
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
+		let partsTree			= partBase.tree		// Model
 		if partsTree.test(dirty:.vew) {				//" _ reVew _   VewBase (per updateVSP()" {
-			if log {
-				logRve(6, "updateVSP(vewConfig:(initial)")
-			}
-			 // change from viewing null
-			if tree.name == "_null" {
-		bug;	tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
-				tree.scnRoot.name = "*-" + partBase.tree.name
-			}
+			logRve(6, "updateVSP(vewConfig:(initial)")							}
+											if tree.name == "_null" {		 // change from viewing null
+										bug;	tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
+												tree.scnRoot.name = "*-" + partBase.tree.name
+											}
 										//	 // Vew Configuration specifies open stuffss
 										//	if let initial {
 										//		tree.openChildren(using:initial)

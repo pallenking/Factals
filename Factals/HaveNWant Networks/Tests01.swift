@@ -709,9 +709,9 @@ xxr("- way extra size", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10,
 ] ]) })
 var a8:String {"a,v:\(String(randomDist(3.0, 5.0))),l:3" }
 xr("- bulb doesn't animate", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
-			+ ["animateVBdelay":1.0], { Net([placeMy:"linky", parts:[
+			+ ["animateVBdelay":3.0], { Net([placeMy:"linky", parts:[
 	Bulb(  [n:"x", P:"a,v:4.0,l:3"]),
-	Bulb(  [n:"y", P:"a,v:1.5,l:3"]),
+	Mirror([n:"y", P:"a,v:1.5,l:3"]),
 //	PortSound([n:"snd1", "inP":"a.P", "sounds":tickTock, "soundVolume":0.0 ]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
  ] ]) })

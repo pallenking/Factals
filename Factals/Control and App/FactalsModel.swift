@@ -197,7 +197,7 @@ import SwiftUI
 //			vew  .name			= "M" + vew   .name		// move old vew out of the way
 //			oldScn.name!		= "M" + oldScn.name!	// move old scnScene out of the way
 //			oldScn.scale		= .unity * 0.5			// debug
-//			vew.part.markTree(argBit:.vew)				// mark Part as needing reVew
+//			vew.part.markTreeDirty(bit:.vew)				// mark Part as needing reVew
 //
 //			 //*******// Imprint animation parameters JUST BEFORE start:
 //			vews.updateVewSizePaint()				// Update SCN's at START of animation
@@ -407,15 +407,15 @@ import SwiftUI
 						else { debugger("writing dumpSCN.\(suffix) failed")	}
 		case "V":								// Update Views
 			print("\n******************** 'V': Update Views:\n")
-			partBase.tree.forAllParts({		$0.markTree(argBit:.vew)				})
+			partBase.tree.forAllParts({		$0.markTreeDirty(bit:.vew)				})
 			updateVews()		//(key instgated)
 		case "Z":								// Update siZe
 			print("\n******************** 'Z': siZe ('s' is step) and pack the Model's Views:\n")
-			partBase.tree.forAllParts({		$0.markTree(argBit:.size)			})
+			partBase.tree.forAllParts({		$0.markTreeDirty(bit:.size)			})
 			updateVews()
 		case "P":								// Paint the skins of Views
 			print("\n******************** 'P': Paint the skins of Views:\n")
-			partBase.tree.forAllParts({	$0.markTree(argBit:.paint)			})
+			partBase.tree.forAllParts({	$0.markTreeDirty(bit:.paint)			})
 			updateVews()
 		case "w": bug
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
@@ -424,8 +424,9 @@ import SwiftUI
 	bug	//	if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
 			return true								// recognize both
 		case "f": 						// // f // //
-			var msg					= ""
+			var msg					= "\n"
 			for vewBase in vewBases {
+				vewBase.scnBase.animatePhysics ^^= true
 				msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
 									(vewBase.scnBase.animatePhysics ? "Run   " : "Freeze")
 			}

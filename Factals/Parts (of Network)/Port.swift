@@ -71,10 +71,10 @@ class Port : Part, PortTalk {
 	 //	210118PAK: Asynchronoush changes to model do not update value in inspector.
 	var value 		: Float	= 0.0
 	{	didSet {	if value != oldValue {
-			markTree(argBit:.paint)										}	}	}
+			markTreeDirty(bit:.paint)										}	}	}
 	var valuePrev	: Float	= 0.0
 	{	didSet {	if valuePrev != oldValue {
-			markTree(argBit:.paint)										}	}	}
+			markTreeDirty(bit:.paint)										}	}	}
 
 	var sounder		: PortSound? = nil
 
@@ -89,8 +89,8 @@ class Port : Part, PortTalk {
 
 /***/		value 				= newValue
 
-			markTree(argBit:.paint)					// repaint myself
-			con2?.port?.markTree(argBit:.paint)// repaint my other too
+			markTreeDirty(bit:.paint)					// repaint myself
+			con2?.port?.markTreeDirty(bit:.paint)// repaint my other too
 			partBase?.factalsModel?.simulator.startChits = 4			// start simulator after Port value changes
 		}
 	}
@@ -554,7 +554,7 @@ class Port : Part, PortTalk {
 					?? addNewVew(in:parentVew)!					// 3. vew newly created
 		assert(vew.part === self, "sanity check")// "=="?
 		assert(vew.expose != .invis,  "Invisible not supported!")//atomic//invis//
-		markTree(argBit:.size)					// needed ??
+		markTreeDirty(bit:.size)					// needed ??
 		vew.keep				= true				// Mark it's done:
 	}
 

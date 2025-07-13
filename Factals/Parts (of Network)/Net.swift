@@ -77,7 +77,7 @@ class Net : Atom {		// Atom // Part
 	}
 
 	var minSize :SCNVector3? 	= nil
-	{	didSet { 	markTree(argBit:.size)  									}	}
+	{	didSet { 	markTreeDirty(bit:.size)  									}	}
 
 	var enable3 : Port?		{	return getPort(named:"E", localUp:false)			}
 

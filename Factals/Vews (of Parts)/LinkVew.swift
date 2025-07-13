@@ -8,8 +8,8 @@ class LinkVew : Vew {
 	 // MARK: - 2. Object Variables:
 	var  pCon2Vew : Vew?		= nil		// Vew to which my Ports are connected
 	 var sCon2Vew : Vew?		= nil		// dummy values for now
-	var  pEndVip : SCNVector3?	= nil		// H: P END scnVector3 position _I_n _P_arent coordinate system
-	 var sEndVip : SCNVector3?	= nil		// H: S END scnVector3 position _I_n _P_arent coordinate system
+	var  pEndVip  : SCNVector3?	= nil		// H: P END scnVector3 position _I_n _P_arent coordinate system
+	 var sEndVip  : SCNVector3?	= nil		// H: S END scnVector3 position _I_n _P_arent coordinate system
 
  	 // MARK: - 3. Factory
  	override init(forPart part:Part/*?=nil*/, expose expose_:Expose? = nil) {

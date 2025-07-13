@@ -44,7 +44,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 var partBase	: PartBase?	= nil		// base of tree
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
-//	{	willSet(v) {  markTree(argBit:v) } }// BIG PROBLEMS: (Loops!)
+//	{	willSet(v) {  markTreeDirty(bit:v) } }// BIG PROBLEMS: (Loops!)
 	var partConfig	: FwConfig				// Configuration of Part
 	 // Ugly:
 	var nLinesLeft	: UInt8		= 0			// left to print in current atom
@@ -92,7 +92,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			// See View.expose for GUI interactions
 	var flipped : Bool = false				// true --> upside down in parent
 	{	didSet {	if flipped != oldValue {
-			markTree(argBit:.size)										}	}	}
+			markTreeDirty(bit:.size)										}	}	}
 
  //================= to the world:
 	var downInWorld : Bool {
@@ -107,16 +107,16 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 // MARK: - 2.2b INTERNAL to Part
 	var latitude : Latitude = Latitude.northPole 			// Xyzzy87 markTree
 	{	didSet {	if latitude != oldValue {
-			markTree(argBit:.size)
+			markTreeDirty(bit:.size)
 																		}	}	}
   //var longitude
 	var spin : UInt8 = 0
 	{	didSet {	if spin != oldValue {
-			markTree(argBit:.size)
+			markTreeDirty(bit:.size)
 																		}	}	}
 	var shrink : Int8 = 0			// smaller or larger as one goes in
 	{	didSet {	if shrink != oldValue {
-			markTree(argBit:.size)
+			markTreeDirty(bit:.size)
 																		}	}	}
 
 	 // MARK: - 2.2c EXTERNAL to Part
@@ -126,7 +126,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	 // just put here to get things working?
 	var placeSelf 				= ""				// from config!
 	{	didSet {	if placeSelf != oldValue {
-			markTree(argBit:.vew)
+			markTreeDirty(bit:.vew)
 																		}	}	}
 // ///////////////////////////// Factory //////////////////////////////////////
 	// MARK: - 3. Part Factory
@@ -458,8 +458,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		let _ 					= newChild.checkTreeThat(parent:self, partBase:partBase)
 
 		 // Process tree dirtyness:
-		markTree(argBit:.vew)				// ? tree has dirty.vew
-		markTree(argBit:newChild.dirty)			// ? tree also inherits child's other dirtynesses
+		markTreeDirty(bit:.vew)				// ? tree has dirty.vew
+		markTreeDirty(bit:newChild.dirty)			// ? tree also inherits child's other dirtynesses
 	}										// (child is not dirtied any more)
 	/// Groom Part tree after construction.
 	/// - Parameters:
@@ -474,7 +474,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	//							?? self as? PartBase 	// me, I'm a RootPart
 	//							?? child0 as? PartBase	// if PolyWrapped
 		}
-		markTree(argBit:.vew)							// set dirty vew
+		markTreeDirty(bit:.vew)							// set dirty vew
 
 		for child in children {							// do all children
 			child.groomModel(parent:self, partBase:partBase)	// ### RECURSIVE
@@ -930,7 +930,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 								  addNewVew(in:pVew) 	// 3. CREATE:
 			 // Remove lingering Atomic skins:
 			vew!.scnRoot.findScn(named:"s-atomic")?.removeFromParent()
-			markTree(argBit:.size)
+			markTreeDirty(bit:.size)
 
 			 // For the moment, we open all Vews
 			for childPart in children {
@@ -947,7 +947,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			if vew != nil,
 			  vew!.children.count > 0 {
 				vew!.removeAllChildren()	// might eliminate later
-				markTree(argBit:.size)		// (.vew loops endlessly!)
+				markTreeDirty(bit:.size)		// (.vew loops endlessly!)
 			}
 			let _				= reSkin(atomicOnto:vew!)	// xyzzy32 -- Put on skin after going atomic.
 		default:					// ////  including .invisible
@@ -1018,7 +1018,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 		  vew.expose == .open {			// Hack: atomic not colored				//partConfig["color"] = nil
 			vew.scnRoot.color0 		= c			// in SCNNode, material 0's reflective color
 		}
-		markTree(argBit:.paint)
+		markTreeDirty(bit:.paint)
 
 		 //------ Activate Physics:
 		if let physConf			= partConfig["physics"] {
@@ -1319,8 +1319,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			childVew.part.rotateLinkSkins(vew:childVew) // #### HEAD RECURSIVE
 		}
 	}
-
-
+	
 	  // MARK: - 9.6: Paint Image:
 	func rePaint(vew:Vew) 	{		/* prototype */
 		for childVew in vew.children 				// by Vew

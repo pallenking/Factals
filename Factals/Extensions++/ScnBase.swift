@@ -30,7 +30,7 @@ class ScnBase : NSObject {
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
 	var animatePhysics : Bool {
 		get {			return !(roots?.isPaused ?? false)						}
-		set(v) {		roots?.isPaused = v										}
+		set(v) {		roots?.isPaused = !v										}
 	}
 
 	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)

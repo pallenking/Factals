@@ -46,17 +46,17 @@ extension Part {
 	/// - parameter argBit: selects which bit is addressed
 	/// - Marks the bit from the selected node, through parents to the root.
 	/// - Stops if it encounters node marked with this bit
-	func markTree(argBit:DirtyBits) {
+	func markTreeDirty(bit:DirtyBits) {
 		 // Go up the containment tree, SEARCHING FOR an entry
 		for s in selfNParents {
-			if s.dirty.isOn(argBit) {			// node has bits ON				// s.dirty != DirtyBits.clean
+			if s.dirty.isOn(bit) {			// node has bits ON				// s.dirty != DirtyBits.clean
 				break								// no need to go up farther
 			}
-			s.dirty.turnOn(argBit)
+			s.dirty.turnOn(bit)
 		}
 		
 		// If size changed, notify connected links
-		if argBit.isOn(.size) {
+		if bit.isOn(.size) {
 			notifyConnectedLinksOfSizeChange()
 		}
 	}
@@ -70,7 +70,7 @@ extension Part {
 				if let connectedPort = port.con2?.port {
 					 // If the connected port belongs to a Link, mark the link as needing size update
 					if let link = connectedPort.parent as? Link {
-						link.markTree(argBit: .size)
+						link.markTreeDirty(bit: .size)
 					}
 				}
 			}
