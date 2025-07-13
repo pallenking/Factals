@@ -263,24 +263,15 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
 		let partsTree			= partBase.tree		// Model
 		if partsTree.test(dirty:.vew) {				//" _ reVew _   VewBase (per updateVSP()" {
-			logRve(6, "updateVSP(vewConfig:(initial)")							}
-											if tree.name == "_null" {		 // change from viewing null
-										bug;	tree			= partBase.tree.VewForSelf() ?? {fatalError()}()
-												tree.scnRoot.name = "*-" + partBase.tree.name
-											}
-										//	 // Vew Configuration specifies open stuffss
-										//	if let initial {
-										//		tree.openChildren(using:initial)
-										//	}
+			logRve(6, "updateVSP(vewConfig:(initial)")
 			  // Update Vew tree objects from Part tree
 			 // (Also build a sparse SCN "entry point" tree for Vew tree)
 /**/		partsTree.reVew(vew:tree, parentVew:nil)
-
-			  // LinkVew's [sp]Con2Vew endpoints and constraints:
+			  // Links: LinkVew [sp]Con2Vew endpoints and constraints:
 			 // should have created all Vews and one *-<name> in ptn tree
 			partsTree.reVewPost(vew:tree)
+		//	partsTree .rotateLinkSkins (vew:tree)	// INTEGRATE?
 		}
-		
 		 // ---- 2.  Adjust   S I Z E s   ----- //
 		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()" {
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
@@ -294,15 +285,12 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		}
 		 // --- 3.  Re  P A I N T   Skins ----- //
 		if partsTree.test(dirty:.paint) {		//" _ rePaint _ VewBase (per updateVSP()" {
-	/**/	partsTree.rePaint(vew:tree)				// Ports color, Links position
-
-			 // THESE SEEM IN THE WRONG PLACE!!!
-		//	partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
-		//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
-	//		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins
+/**/		partsTree.rePaint(vew:tree)				// Ports color, Links position
+									 // THESE SEEM IN THE WRONG PLACE!!!
+									//	partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
+									//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 		}
 		SCNTransaction.commit()
-
 		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins, no delay
 	}
 								

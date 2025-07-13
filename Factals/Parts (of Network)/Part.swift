@@ -1294,25 +1294,25 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 
 	   // MARK: - 9.5: Render Protocol
 	 // MARK: - 9.5.2: didApplyAnimations 		-- Compute spring forces
-//	func computeLinkForces(vew:Vew) {
-//		for childVew in vew.children {			// by Vew
-//			childVew.part.computeLinkForces(vew:childVew) // #### HEAD RECURSIVE
-//		}
-//	}
-//	  // MARK: - 9.5.3: did Simulate Physics 	-- Apply spring forces
-//	 /// Distribute Forces
-//	func applyLinkForces(vew:Vew) {
-//		for childVew in vew.children {			// repeat over Vew tree
-//			childVew.part.applyLinkForces(vew:childVew) // #### HEAD RECURSIVE
-//		}
-//		if let pb 				= vew.scnRoot.physicsBody,
-//		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
-//			pb.applyForce(vew.force, asImpulse:false)
-//			logRve(9, " Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))")
-////			logRve(9, " posn: \(vew.scnScene.transform.pp(.line))")
-//		}
-//		vew.force				= .zero
-//	}
+	func computeLinkForces(vew:Vew) {
+		for childVew in vew.children {			// by Vew
+			childVew.part.computeLinkForces(vew:childVew) // #### HEAD RECURSIVE
+		}
+	}
+	  // MARK: - 9.5.3: did Simulate Physics 	-- Apply spring forces
+	 /// Distribute Forces
+	func applyLinkForces(vew:Vew) {
+		for childVew in vew.children {			// repeat over Vew tree
+			childVew.part.applyLinkForces(vew:childVew) // #### HEAD RECURSIVE
+		}
+		if let pb 				= vew.scnRoot.physicsBody,
+		  !(vew.force ~== .zero) {					/// to all with Physics Bodies:
+			pb.applyForce(vew.force, asImpulse:false)
+			logRve(9, " Apply \(vew.force.pp(.line)) to    \(vew.pp(.fullName))")
+//			logRve(9, " posn: \(vew.scnScene.transform.pp(.line))")
+		}
+		vew.force				= .zero
+	}
 	 // MARK: - 9.5.5: will Render Scene -- Rotate Links toward camera
 	func rotateLinkSkins(vew:Vew) {
 		for childVew in vew.children {			// by Vew

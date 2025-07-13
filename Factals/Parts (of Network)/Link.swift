@@ -469,48 +469,48 @@ bug	// Never USED?
 	}
 	  // MARK: - 9.5: Render Protocol
 	  // MARK: - 9.5.2: did Apply Animations -- Compute spring forces
-//	override func computeLinkForces(vew:Vew) {
-//		logRve(8, "<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'")
-//		guard !vew.scnRoot.transform.isNan else {
-//			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
-//		}
-//		if let lv 				= vew as? LinkVew,		// lv is link
-//		  let lvp				= lv.parent, 				// lv has parent
-//		  let lvPCon2Vew		= lv.pCon2Vew,
-//		  let lvSCon2Vew		= lv.sCon2Vew
-//		{
-////			print(lv.sCon2Vew.parent?.scnScene.pp(.tree) ?? "xx")
-//			let sPinPar			= lvp.localPosition(of:.zero, inSubVew:lvSCon2Vew)// e.g: p9/t3.P
-//			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lvPCon2Vew)// e.g: p9/t1.P
-////			if pPinPar.isNan {				/// FOR DEBUG
-////				computeLinkForces(vew:vew)		// might go recursive!
-////				return
-////			}
-//			let delta 			= sPinPar - pPinPar
-//			let springK			= CGFloat(1.0)
-//			let force			= delta * springK
-//			if !force.isNan {
-//				let pInertialVew = lvPCon2Vew.intertialVew	// Who takes brunt?
-//				let sInertialVew = lvSCon2Vew.intertialVew
-//				if (pInertialVew?.force.isNan ?? false) || (sInertialVew?.force.isNan ?? false) {
-//					panic("lskdfj;owifj")
-//				}
-//
-//				 // Accumulate FORCE on node:
-//	/**/		pInertialVew?.force += force
-//	/**/		sInertialVew?.force -= force
-//				logAni(9, "Force  \(force.pp(.line)) "
-//					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
-//					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")")
-//				logAni(9, " posn: \(vew.scnRoot.transform.pp(.line))")
-//
+	override func computeLinkForces(vew:Vew) {
+		logRve(8, "<><> L 9.5.2: \\ Compute Spring Force from: '\(vew.part.fullName)'")
+		guard !vew.scnRoot.transform.isNan else {
+			return print("\(vew.pp(.fullNameUidClass)): Position is nan")
+		}
+		if let lv 				= vew as? LinkVew,		// lv is link
+		  let lvp				= lv.parent, 				// lv has parent
+		  let lvPCon2Vew		= lv.pCon2Vew,
+		  let lvSCon2Vew		= lv.sCon2Vew
+		{
+//			print(lv.sCon2Vew.parent?.scnScene.pp(.tree) ?? "xx")
+			let sPinPar			= lvp.localPosition(of:.zero, inSubVew:lvSCon2Vew)// e.g: p9/t3.P
+			let pPinPar			= lvp.localPosition(of:.zero, inSubVew:lvPCon2Vew)// e.g: p9/t1.P
+//			if pPinPar.isNan {				/// FOR DEBUG
+//				computeLinkForces(vew:vew)		// might go recursive!
+//				return
 //			}
-//			else {
-//				logAni(3, "##### computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn
-//			//	let sPinParX	= lvp.localPosition(of:.zero, inSubVew:lv.sCon2Vew)
-//			}
-//		}
-//	}		// Xyzzy19e
+			let delta 			= sPinPar - pPinPar
+			let springK			= CGFloat(1.0)
+			let force			= delta * springK
+			if !force.isNan {
+				let pInertialVew = lvPCon2Vew.intertialVew	// Who takes brunt?
+				let sInertialVew = lvSCon2Vew.intertialVew
+				if (pInertialVew?.force.isNan ?? false) || (sInertialVew?.force.isNan ?? false) {
+					panic("lskdfj;owifj")
+				}
+
+				 // Accumulate FORCE on node:
+	/**/		pInertialVew?.force += force
+	/**/		sInertialVew?.force -= force
+				logAni(9, "Force  \(force.pp(.line)) "
+					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
+					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")")
+				logAni(9, " posn: \(vew.scnRoot.transform.pp(.line))")
+
+			}
+			else {
+				logAni(3, "##### computeLinkForces found nan connecting p:\(pPinPar.pp(.short)) to s:\(sPinPar.pp(.short))")//Warn
+			//	let sPinParX	= lvp.localPosition(of:.zero, inSubVew:lv.sCon2Vew)
+			}
+		}
+	}		// Xyzzy19e
 
 	 // MARK: - 9.5.4: will Render Scene -- Rotate Links toward camera
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
