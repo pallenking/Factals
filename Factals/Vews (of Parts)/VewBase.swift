@@ -270,7 +270,6 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			  // Links: LinkVew [sp]Con2Vew endpoints and constraints:
 			 // should have created all Vews and one *-<name> in ptn tree
 			partsTree.reVewPost(vew:tree)
-		//	partsTree .rotateLinkSkins (vew:tree)	// INTEGRATE?
 		}
 		 // ---- 2.  Adjust   S I Z E s   ----- //
 		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()" {
@@ -291,7 +290,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 									//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 		}
 		SCNTransaction.commit()
-		partsTree .rotateLinkSkins (vew:tree)	// Rotate Link Skins, no delay
+		partsTree.rotateLinkSkins (vew:tree)	// WHY HERE? Rotate Link Skins, no delay
 	}
 								
 	 // MARK: - 15. PrettyPrint
