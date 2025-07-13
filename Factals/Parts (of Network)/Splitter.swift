@@ -412,9 +412,9 @@ bug;			let (valNext, valPrev) = kindPort2Port.getValues() // ( get new value rem
 	// \\ \\ \\ \\ \\ \\ \\ \\ \ 3D Support\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\  //
 	//  \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\//
 	 // MARK: - 9.2 reSize
-	override func reSize(vew:Vew) {
-		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-	}
+//	override func reSize(vew:Vew) {
+//		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+//	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scnRoot.findScn(named:"s-Split") ?? {

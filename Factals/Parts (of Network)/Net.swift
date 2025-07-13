@@ -128,8 +128,7 @@ class Net : Atom {		// Atom // Part
 		 // Color fades:
 		let den					= Float(vew.heightTree)
 		let ratio : Float		= den != 0 ? Float(vew.heightLeaf)/den : 0.5
-		let color0				= typColor(ratio:ratio)
-//		let color0				= NSColor.brown//NSColor.color(ofValue:ratio)					//color(ofValue:ratio)
+		let color0				= typColor(ratio:ratio)		// NSColor.brown
 
 		let bb					= vew.bBox		// existing value
 		let size				= bb.size
@@ -137,7 +136,7 @@ class Net : Atom {		// Atom // Part
 		let gsnbMin				= min(size.y, gsnb)
 		putNetRing (scnName:"s-HiFrame", top:true)	// Ring at top:
 		putNetRing (scnName:"s-LoFrame", top:false)	// Ring at bottom:
-/*debug*/assert(size.y < 30.0, "debug: size.y (=\(size.y)) >= 30.0")
+		//*debug*/assert(size.y < 30.0, "debug: size.y (=\(size.y)) >= 30.0")
 		return vew.bBox				// vew.scnScene.bBox() // Xyzzy44 ** vb
 
 		func putNetRing (scnName:String, top:Bool) {

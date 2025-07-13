@@ -995,7 +995,7 @@ bug//			logd("Absolute Path '\(path.pp(.line))', and at last token: UNTESTED")
 			 //   That it is "dangling" signals we should swap it in
 			if childVew.scnRoot.parent == nil {
 				vew.scnRoot.addChild(node:childVew.scnRoot) // Single-Scene mode
-		//				PAK20240929: other thoughts, perhaps for Many-Scene mode
+bug		//				PAK20240929: other thoughts, perhaps for Many-Scene mode
 		//		vew.scnRoot.removeAllChildren()
 		//		let x = childVew.scnScene.rootNode
 		//		x.removeFromParent()

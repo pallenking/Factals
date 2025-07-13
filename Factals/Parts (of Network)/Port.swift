@@ -635,10 +635,9 @@ class Port : Part, PortTalk {
 		return scnDisc
 	}
 	 // MARK: - 9.2 reSize
-	override func reSize(vew:Vew) {
-		super.reSize(vew:vew)
-//		panic("Port.reSize")
-	}
+//	override func reSize(vew:Vew) {
+//		super.reSize(vew:vew)
+//	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(vew:Vew, first:Bool=false) {
 bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition me (a Port)

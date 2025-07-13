@@ -287,6 +287,7 @@ bug;		let enaPort			= Port()
 	override func reSize(vew:Vew) {
 		super.reSize(vew:vew)
 
+ // RESURECT ME!!:
 //		  //// 1. SIZE all, in order of v.subVews (==self.parts):  DO NOT PLACE
 //		 /**/	// CONtext (if it exists)
 //				// ... other entries ...

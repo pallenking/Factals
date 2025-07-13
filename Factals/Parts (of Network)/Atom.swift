@@ -619,24 +619,20 @@ class Atom : Part {	//Part//FwPart
 		+---------------------------------------+
 	 */
 	override func reSize(vew:Vew) {
+				// 1. Mark children as expendable
 		vew.children.forEach {$0.keep = false}	// mark all Views as unused
-
-				// 1. Resizes all  _CHILD Atoms_ FIRST (no _CHILD Ports_)
+				// 2. Resizes all  _CHILD Atoms_ FIRST (no _CHILD Ports_)
 		super.reSize(vew:vew)
-
-				// 2. reSize  _CHILD Ports_ around the packed Atoms LAST
+				// 3. reSize  _CHILD Ports_ around the packed Atoms LAST
 		if vew.expose == .open {
 			var bBoxAccum		= vew.bBox		// Accumulate wo disturbing Atom's vew.bBox
 			 // Loop through Ports:
 			for (portName, port) in ports {		// if a Vew exists:
 				if let portVew	= vew.find(name:"_" + portName, maxLevel:1) {
 					portVew.keep = true
-//bug//NReset
-					if port.test(dirty:.size) {
-						port.reSize(vew:portVew)	// 2A. Pack Port (why is this needed)
-					}
-					rePosition(portVew:portVew)		// 2B. Reposition Port via Atom:
-
+					if port.test(dirty:.size)
+					{	port.reSize(vew:portVew)	}// 2A. Pack Port (why is this needed)
+					rePosition(portVew:portVew)		 // 2B. Reposition Port via Atom:
 					 // Get Port's position in parent:
 					let bBoxInAtom = portVew.bBox * portVew.scnRoot.transform
 					bBoxAccum	|= bBoxInAtom		// Accumulate into _tmpBBox_
@@ -644,14 +640,14 @@ class Atom : Part {	//Part//FwPart
 			}
 			vew.bBox			= bBoxAccum	 	// Install temporary BBox
 		}
-		 		// 3. Remove unused Views
+		 		// 4. Remove unused Views
 		for childVew in vew.children where
 				!(childVew.keep)  &&				// bug?  childVew.keep == false
 				!(childVew is LinkVew) {			//200124 expedient, to prevent thrashing LinkViews
 			childVew.scnRoot.removeFromParent()			// needed?
 			childVew.removeFromParent()
 		}
-		 // Add gap around Atom, so lines don't overlap
+		 		// 5. Add gap around Atom, so lines don't overlap
 		let gap				= vew.config("gapAroundAtom")?.asCGFloat ?? 0.01
 		vew.bBox.size		+= 2*gap
 	}

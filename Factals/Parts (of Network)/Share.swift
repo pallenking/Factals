@@ -547,9 +547,9 @@ class SequenceSh : Share {  //#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		scn.position.y			= max(r-0.2, 0)		// ensure sphere and Port overlap
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}
-	override func reSize(vew:Vew) {
-		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-	}
+//	override func reSize(vew:Vew) {
+//		super.reSize(vew:vew) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+//	}
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv 					= super.pp(mode, aux)
