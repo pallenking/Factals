@@ -427,13 +427,12 @@ class Port : Part, PortTalk {
 		}
 		// ---- Now rv contain's self's portConSpot in conSpotsVew ----
 		
-		var worldPosn			= ""
 		let enaPpWorld			= aux.string_("ppViewOptions").contains("W")
-		if /*let scnScene		= vew.vewBase()?.scnBase.roots,*/ enaPpWorld {
-			worldPosn			= "w" + csVisVew.scn.convertPosition(rv.center, to:nil/*scnRoot*/).pp(.short, aux) + " "
-		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
-//		var worldPosn			= !aux.string_("ppViewOptions").contains("W") ? ""
-//								: "w" + csVisVew.scn.convertPosition(rv.center, to:nil/*scn*/).pp(.short, aux) + " "
+//		if enaPpWorld {
+//			worldPosn			= "w" + csVisVew.scn.convertPosition(rv.center, to:nil/*scnRoot*/).pp(.short, aux) + " "
+//		}	// ^-- BAD worldPosn	String	"w[ 0.0 0.9] "
+		var worldPosn			= !enaPpWorld ? ""
+								: "w" + csVisVew.scn.convertPosition(rv.center, to:nil).pp(.short, aux) + " "
 		logRsi(8, "INPUT spot=[\(rv.pp(aux))] \(worldPosn). OUTPUT to '\(vew.pp(.fullName, aux))'")
 
 		 // Move openVew (and rv) to its parent, hopefully finding refVew along the way:
@@ -572,9 +571,9 @@ class Port : Part, PortTalk {
 		assert(!(parent is Link), "paranoia")
 		if parent is Link {			// UGLY
 			let rv				= SCNNode(geometry:SCNSphere(radius:0.1))		// the Ports of Links are invisible
+			vew.scn.addChild(node:rv)
 			rv.name				= skinName
 			rv.color0 			= NSColor("lightpink")!//.green"darkred"
-			vew.scn.addChild(node:rv)
 			return rv
 		}
 		let r					= radius
@@ -584,12 +583,12 @@ class Port : Part, PortTalk {
 		let ep :CGFloat 		= 0.002
 
 		 // Origin is at bottom, where con2 point is // All below origin
-	/*								   spin axis
+	/*	FIGURE 1:					   spin axis
 	Disc        _________________________________________________________
 	Tube	 B |_|						 \ | /						   |_|
 	Cone 								A \|/
 										   + Parent's Origin:
-
+		FIGURE 2:
 				 scnDisc:Disc		scnCone:Cone					scnTube:Tube
 		-h0/2-ep   ep  		  		    ep							  ep/2
 			.->+  .-->.<PORT......\.......-->....../	  .->+		 .-->...

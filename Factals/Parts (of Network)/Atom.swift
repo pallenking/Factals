@@ -659,7 +659,7 @@ class Atom : Part {	//Part//FwPart
 			rv.name				= "s-Atom"
 
 			let hei				= CGFloat(2.0)
-			rv.geometry		= SCNBox(width:0.6, height:hei, length:0.6, chamferRadius:0)
+			rv.geometry			= SCNBox(width:0.6, height:hei, length:0.6, chamferRadius:0)
 			rv.position.y		= hei/2
 			rv.color0			= .orange
 			return rv

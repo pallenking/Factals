@@ -90,19 +90,19 @@ class MultiPort : Port {
 			let ep : CGFloat 	= 0.01//0.1//
 
 			 // Scn is the big Cylinder 
-			let t1				= SCNNode(geometry:SCNCylinder(radius:r, height:h-ep))
-			vew.scn.addChild(node:t1, atIndex:0)
-			t1.name				= "s-Port"
-			t1.position.y 		+= h/2 + ep/2		// All above origin
-			t1.color0 			= NSColor(mix:NSColor("lightpink")!, with:0.4, of:NSColor("darkgreen")!)
+			let rv				= SCNNode(geometry:SCNCylinder(radius:r, height:h-ep))
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-Port"
+			rv.position.y 		+= h/2 + ep/2		// All above origin
+			rv.color0 			= NSColor(mix:NSColor("lightpink")!, with:0.4, of:NSColor("darkgreen")!)
 //			t1.color0 			= NSColor("lightpink")! //"red"//.green//"darkred"//.lightpink//
 			 // Disc marks its con2 point
 			let disc 			= SCNNode(geometry:SCNCylinder(radius:r/2, height:ep))
-			t1.addChild(node:disc, atIndex:0)
+			rv.addChild(node:disc, atIndex:0)
 			disc.name			= "disc"
 			disc.position.y		-= h/2
 			disc.color0			= NSColor.black
-			return t1
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scn.bBox()	// Xyzzy44 vsb
 	}

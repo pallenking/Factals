@@ -297,9 +297,9 @@ class Link : Atom {
 		let name				= "s-Link"
 		let _/*scn*/ : SCNNode	= vew.scn.findScn(named:name) ?? {
 			let rv				= SCNNode()	// invisible bucket
-			rv.name				= name
 //			sLink.isHidden		= true	// N.B: so unpositioned Links don't interfere
 			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= name
 
 			 // Make a UNIT skin, one of length:1 in .uZ
 			var sPaint:SCNNode? = nil
@@ -312,18 +312,19 @@ class Link : Atom {
 			case .ray:						// from origin (0,0,0) to .uZ (0,0,1)
 				 // Add a 1-pixel wide line, length:1, from origin to .uZ
 				let sRay		= SCNNode(geometry:SCNGeometry.lines(lines:[0,1], withPoints:[.zero, -.uZ]))
+				rv.addChild(node:sRay)
 				sRay.name		= "s-Ray"
 				sRay.color0		= .black
-				rv.addChild(node:sRay)
 			case .dual:
 				 // Add a 1-pixel wide line -- for UNIT skin
 				let sRay		= SCNNode(geometry:SCNGeometry.lines(lines:[0,1], withPoints:[.zero, -.uZ]))
+				rv.addChild(node:sRay)
 				sRay.name		= "s-Dual"//"s-Ray"
 				sRay.color0		= .black
-				rv.addChild(node:sRay)
 
 				 // Add Billboard of bidirectional values
 				sPaint			= SCNNode()
+				rv.addChild(node:sPaint!)
 				sPaint!.name	= "s-Paint"
 				if usePlane {				//(210805PAK: leaner, has bugs)
 					nPaint 		= 1				// 1-sided xy square; normal=.uZ
@@ -333,17 +334,16 @@ class Link : Atom {
 					sPaint!.geometry = SCNBox(width:1, height:0 , length:1, chamferRadius:0) // 2-sided!
 				}
 				sPaint!.position = -.uZ/2	// one end at origin, the other -.uZ
-				rv.addChild(node:sPaint!)
 			case .tube:
 				 // Add a 1-pixel wide line
 				sPaint			= SCNNode()
+				rv.addChild(node:sPaint!)
 				sPaint!.name	= "s-Paint"
 				sPaint!.geometry = SCNCylinder(radius:0.6, height:1) 			// height -> y
 				//				= SCNBox(width:0.2,  height:1,  length:0.2,chamferRadius:0) // width:.uX, height:.uY, length:.uZ
 				sPaint!.color0	= .red		// BROKEN
 				sPaint!.transform = SCNMatrix4MakeRotation(.pi/2, 1,0,0)
 				sPaint!.position.z -= 0.5
-				rv.addChild(node:sPaint!)
 			}
 
 			 // Create MATERIALS for faces to display colors
@@ -356,7 +356,7 @@ class Link : Atom {
 					geom.materials.append(m)
 				}
 			}																	//	skinLink.pivot.position	= SCNVector3(0, 0, 0)	// Pivot about Z-end
-			rv.isHidden		= true	// N.B: so unpositioned Links don't interfere
+			rv.isHidden			= true	// N.B: so unpositioned Links don't interfere
 			return rv
 		} ()
 		markTreeDirty(bit:.paint)
@@ -550,14 +550,14 @@ bug	// Never USED?
 	override func rePaint(vew:Vew) 		{		// paint red and green
 		logRsi(8, "<><> L 9.6:   \\rePaint")
 		 // S and P port of a link have no views, but their .paint bits must be cleared:
-		let _ 				= ports.map 	{	$1.dirty.turnOff(.paint) 		}
+		let _ 					= ports.map 	{	$1.dirty.turnOff(.paint) 		}
 
 		super.rePaint(vew:vew)				// hits my end LinkPorts
 
 		if linkSkinType == .dual {
-			guard let linkVew = vew as? LinkVew else {	debugger("paranoia")	}
-			let linksImage	= NSImage(size: NSSize(width:imageWidth, height:imageHeight))
-			let link : Link = linkVew.part as! Link
+			guard let linkVew	= vew as? LinkVew else {	debugger("paranoia")	}
+			let linksImage		= NSImage(size: NSSize(width:imageWidth, height:imageHeight))
+			let link : Link 	= linkVew.part as! Link
 			link  .pUpCPort.paintSegments(on:linksImage)
 			link.sDownCPort.paintSegments(on:linksImage)
 
@@ -565,12 +565,12 @@ bug	// Never USED?
 			   //   must be generated every frame! (PERFORMANCE ISSUE??)
 			  // DOc SAYS: SceneKit creates a transaction automatically
 			 //    whenever you modify the objects in a scene graph.
-
+								//
 			 // Apply image to shape (Plane or Box)
-			let scn2paintOn	= linkVew.scn.findScn(named: "s-Paint")
-			guard let geom	= scn2paintOn?.geometry else {
+			let scn2paintOn		= linkVew.scn.findScn(named: "s-Paint")
+			guard let geom		= scn2paintOn?.geometry else {
 				debugger("Attempt to paint on scnScene wo geometry") 				}
-			let i			= usePlane ? 0 : 4		// 0:base, 4:left side if rect
+			let i				= usePlane ? 0 : 4		// 0:base, 4:left side if rect
 			assert(i < geom.materials.count, "Link '\(pp(.fullName))' access: to \(i) but only has \(geom.materials.count) materials")
 			geom.materials[i].diffuse.contents = linksImage						//for j in 0..<6 {
 		}																		//	geom.materials[j].diffuse.contents = linksImage
@@ -616,7 +616,7 @@ extension Port {
 			//logRsi(8, "<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))")
 			let rv				= SCNNode(geometry:SCNSphere(radius:0.2))		// the Ports of Links are invisible
 			vew.scn.addChild(node:rv)
-			rv.name			= name
+			rv.name				= name
 			rv.color0 			= NSColor("lightpink")!	//.green"darkred"
 			return rv
 		} ()

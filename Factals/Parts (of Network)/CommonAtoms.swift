@@ -20,10 +20,10 @@ class Portless : Atom {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.findScn(named:"s-Portless") ??  {
 			let rv				= SCNNode()
+			vew.scn.addChild(node:rv, atIndex:0)
 			rv.name				= "s-Portless"
 			rv.geometry 		= SCNCapsule(capRadius:0.5, height:2) //(width:[1,4][i], height:1, length:[4,1][i], chamferRadius:0.5)
 			rv.color0			= .yellow
-			vew.scn.addChild(node:rv, atIndex:0)
 			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
@@ -80,10 +80,10 @@ class Ago : Atom {
 			for i in 0...1 {	// Two arms of an cross:
 				let geom 		= SCNBox(width:[1,4][i], height:1, length:[4,1][i], chamferRadius:0.5)
 				let arm 		= SCNNode(geometry:geom)
+				rv.addChild(node:arm, atIndex:0)
 				arm.position	= SCNVector3(0, height/2, 0)
 				arm.color0		= .purple
 				arm.name		= "s-Ago\(i)"
-				rv.addChild(node:arm, atIndex:0)
 			}
 			return rv
 		} ()

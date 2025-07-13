@@ -24,30 +24,18 @@ extension Vew: Hashable {
 	}
 }
 		// can't remove NSObject?
-class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
-	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
-	let nameTag 				= getNametag()	 // Uid:
-//	func pp(_:UInt16) -> String
-
+class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, Equatable, Uid, Logd xyzzy4
 	// MARK: - 2. Object Variables:
-
+	var nameTag 				= getNametag()	 // Uid:
+	var name 		: String
 	 // Glue these Neighbors together: (both Always present)
-	var part : Part 							// Part which this Vew represents	// was let
-
-	 // PAK20240913 reverting back:
-	var scn			: SCNNode
-//	var scnRoot		: SCNNode	{	scn											}
- // Proper way, not yet working:
-//	var scnScene	: SCNScene					// SCNScene which draws this Vew
-//	var scnRoot		: SCNNode	{ scnScene.rootNode } // sugar
-
+	var part 		: Part 						// Part which this Vew represents	// was let
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
+
+	var scn			: SCNNode		 // PAK20240913 reverting back:
 	var vewConfig   : VewConfig	= .null
-    
-	var name 		: String					// Cannot be String! because of FwAny
-	var color000	: NSColor? = nil
-	{	willSet(v) {	part.markTreeDirty(bit:.paint)							}	}
+
 	var keep		:  Bool		= false			// used in reVew
 
 	 // Sugar:
@@ -79,12 +67,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		self.part 				= part
 		self.name				= "_" + part.name 	// View's name is Part's with '_'
 		self.expose				= e ?? part.initialExpose
-
-		 // Make SCNScene and apply skin:
 		scn						= SCNNode()		// makes rootNode:SCNNode too
-
-		//super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
 		scn.name				= "*-" + part.name								// scn.name = self.scn.name ?? ("*-" + part.name)
 		  // Visible Shape:
 		// Jog
@@ -102,13 +85,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 		self.part 				= port
 		self.name				= "_" + port.name 	// Vew's name is Part's with '_'
 		self.expose				= .open
-
-		 // Make new SCN:
-		scn						= SCNNode()		// makes rootNode:SCNNode too
-		var scn : SCNNode	{	scn											}
-
-		//super.init() //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
+		scn						= SCNNode()		 // Make new SCN:
 		scn.name				= "*-" + port.name
 
 		let portProp : String?	= port.partConfig["portProp"] as? String //"xxx"//
@@ -121,38 +98,40 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {
 	}
 
 	 // MARK: - 3.5 Codable
-	enum VewKeys : CodingKey { 	case name, color000, keep, parent, children, part, scn, bBox, jog, force}
+	enum VewKeys : CodingKey { 	case nameTag, name, part, parent, children, scn
+								case vewConfig, keep, bBox, expose, jog, force }
 	func encode(to encoder: Encoder) throws {
 //		try super.encode(to: encoder)											//try super.encode(to: container.superEncoder())
 		var container 			= encoder.container(keyedBy:VewKeys.self)
-		try container.encode(name, 		forKey:.name 	)
-	//	try container.encode(color000,	forKey:.color000)
-		try container.encode(keep, 		forKey:.keep	)
-		try container.encode(parent, 	forKey:.parent	)
-		try container.encode(children, 	forKey:.children)
-		try container.encode(part, 		forKey:.part 	)
-	//	try container.encode(scnScene, 		forKey:.scnScene		)
-		try container.encode(bBox, 		forKey:.bBox 	)
-		try container.encode(jog, 		forKey:.jog		)
-		try container.encode(force, 	forKey:.force	)
+		try container.encode(nameTag, 	forKey:.nameTag	 	)
+		try container.encode(name, 		forKey:.name 	 	)
+		try container.encode(part, 		forKey:.part 	 	)
+		try container.encode(parent, 	forKey:.parent	 	)
+		try container.encode(children, 	forKey:.children  	)
+	//	try container.encode(scn, 		forKey:.scn		 	)
+	//	try container.encode(vewConfig, forKey:.vewConfig  	)
+		try container.encode(keep, 		forKey:.keep	 	)
+		try container.encode(bBox, 		forKey:.bBox 	 	)
+		try container.encode(expose, 	forKey:.expose 	 	)
+		try container.encode(jog, 		forKey:.jog		 	)
+		try container.encode(force, 	forKey:.force	 	)
 		logSer(3, "Encoded  as? Path        '\(String(describing: fullName))'")
 	}
 	required init(from decoder: Decoder) throws {
 		let container 			= try decoder.container(keyedBy:VewKeys.self)
-		name 					= try container.decode(		String.self, forKey:.name 	)
-	//	color000				= try container.decode(	  NSColor?.self, forKey:.color000)
-		keep					= try container.decode(		  Bool.self, forKey:.keep	)
-		parent					= try container.decode( 	  Vew?.self, forKey:.parent	)
-		children				= try container.decode(		 [Vew].self, forKey:.children)
-		part 					= try container.decode(		  Part.self, forKey:.part 	)
-	//	scnScene						= try container.decode(	   SCNNode.self, forKey:.scnScene	)
-		bBox 					= try container.decode(		  BBox.self, forKey:.bBox 	)
+		nameTag					= try container.decode(    NameTag.self, forKey:.nameTag)
+		name 					= try container.decode(     String.self, forKey:.name 	)
+		part 					= try container.decode(       Part.self, forKey:.part 	)
+		parent					= try container.decode(       Vew?.self, forKey:.parent	)
+		children 				= try container.decode(      [Vew].self, forKey:.children)
+	bug;scn 					= SCNNode()
+	//	scn						= try container.decode(    SCNNode.self, forKey:.scn	)
+	//	vewConfig  				= try container.decode(  VewConfig.self, forKey:.vewConfig)
+		keep					= try container.decode(       Bool.self, forKey:.keep	)
+		bBox 					= try container.decode(       BBox.self, forKey:.bBox 	)
+		expose 					= try container.decode(     Expose.self, forKey:.expose )
 		jog						= try container.decode(SCNVector3?.self, forKey:.jog	)
-		force					= try container.decode(SCNVector3 .self, forKey:.force	)
-		scn	= SCNNode()
-//		scnScene				= SCNScene();bug
-//		scnScene.rootNode.name	= "rootNode3"
-
+		force					= try container.decode( SCNVector3.self, forKey:.force		)
 		//super.init()
  		logSer(3, "Decoded  as? Vew       named  '\(String(describing: fullName))'")
 	}

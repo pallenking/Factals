@@ -151,13 +151,12 @@ class GenAtom : Atom {
 	var radius : CGFloat	{ return 1.2	}
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.findScn(named:"s-GenAtom") ?? {
-			let t1				= SCNNode()
-			vew.scn.addChild(node:t1, atIndex:0)
-			t1.name				= "s-GenAtom"
-			t1.geometry			= SCNCylinder(radius:radius, height:height)
-			t1.position.y		= height/2
-			t1.color0			= .orange
-			return t1
+			let rv				= SCNNode(geometry:SCNCylinder(radius:radius, height:height))
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-GenAtom"
+			rv.position.y		= height/2
+			rv.color0			= .orange
+			return rv
 		} ()
 		return scn.bBox() * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
 	}

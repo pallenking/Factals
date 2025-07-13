@@ -141,10 +141,10 @@ class Net : Atom {		// Atom // Part
 
 		func putNetRing (scnName:String, top:Bool) {
 			let scn				= vew.scn.findScn(named:scnName) as? SCNComment ?? {
-				let scn			= SCNComment()//SCNNode()
-				scn.name		= scnName
-				vew.scn.addChild(node:scn, atIndex:0)
-				return scn
+				let rv			= SCNComment()//SCNNode()
+				vew.scn.addChild(node:rv, atIndex:0)
+				rv.name			= scnName
+				return rv
 			}()
 			 // Pictureframe geometry:
 			let height			= top ? -gsnbMin : gsnbMin

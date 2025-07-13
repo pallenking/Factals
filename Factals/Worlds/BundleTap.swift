@@ -230,11 +230,10 @@ bug
 //	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-bug
-		let scn					= vew.scn.findScn(named:"s-xxxx") ?? {
+	bug;let scn					= vew.scn.findScn(named:"s-BunTap") ?? {
 			let rv				= SCNNode()
-//			vew.scnScene.addChild(node:scnScene, atIndex:0)
-//			scnScene.name			= "s-Atom"
+			vew.scn.addChild(node:rv, atIndex:0)
+			rv.name				= "s-BunTap"
 			return rv
 		} ()
 		return scn.bBox() * scn.transform
@@ -253,8 +252,7 @@ bug
 			if Log.shared.eventIsWanted(ofArea:"rsi", detail:3) {
 				warning("Did not find position for '\(port.pp(.fullNameUidClass))'")
 			}
-			vew.scn.transform		= .identity
-//			vew.scnScene.transform	= .identity
+			vew.scn.transform	= .identity
 		}
 	}
 

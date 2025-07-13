@@ -113,10 +113,10 @@ class Tunnel : FwBundle {
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
 		let scn					= vew.scn.findScn(named:"s-Tun") ?? {
 			let rv				= SCNNode()
-			rv.name				= "s-Tun"
-			rv.geometry 		= SCNBox(width:1, height:1, length:1, chamferRadius:0)
-			rv.color0			= NSColor("darkgreen")!//.change(alphaTo:0.3)
 			vew.scn.addChild(node:rv, atIndex:0)
+			rv.geometry 		= SCNBox(width:1, height:1, length:1, chamferRadius:0)
+			rv.name				= "s-Tun"
+			rv.color0			= NSColor("darkgreen")!//.change(alphaTo:0.3)
 			return rv
 		}()
 		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
