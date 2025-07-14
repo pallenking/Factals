@@ -1,6 +1,12 @@
-// Previous.swift -- Remembers what happened previously, used for prediction C2014PAK
+// Previous.swift -- Remembers what happened previous clock (used for prediction) C2014PAK
 
-/*
+/*! Concepts:
+	There are two top Ports, designed for input to association nets:
+		sCurPort		-- value for current time (mostly repeating self)
+		tPrevPort	-- value in the previous time (before the last clock)
+
+Hungarian: sCurPort expands as -- s: name is 'S'; Cur: for current time; Port, or whatever
+	[p s t l][
  */
 
 import SceneKit
@@ -8,110 +14,147 @@ import SceneKit
   /// A Previous is an Atom with a time delay. It has 3 Ports
 class Previous : Atom {
 
-	 // MARK: - 2. Object Variables:
-	var bias : Float			= 0.0		// used for halucination
-
-	// =============== Major Modes ==============
-	enum MajorMode : String, Codable {
-		case monitor, simModeDir, simMode2
+		  // === All Possible Multiplexor Sources
+		 // UNIFY THESE 3:
+		enum PrevMuxSourcesE : String, Codable {
+			case UNDEF 			= "-"
+			case fromPPri		= "p"
+			case fromSCur		= "s"
+			case fromTPrev		= "t"
+			case fromLLatch		= "l"
+			case fromZero		= "0"
+			case fromBias		= "b"
+		}
+	let prevMuxSourceNames:[String] = ["-", "p", "s", "t", "l", "0", "b"]
+	enum PrevMuxSources : Int, Codable {
+		case UNDEF 				= 0
+		case fromPPri			= 1
+		case fromSCur			= 2
+		case fromTPrev			= 3
+		case fromLLatch			= 4
+		case fromZero			= 5
+		case fromBias			= 6
 	}
-	var majorMode  : MajorMode	= .monitor	// set during construction, constant during operation
 
-	// =============== Minor Modes  ==============
-	enum MinorMode : String, Codable {		//prevMinorMode
+	 // MARK: - 2. Object State Variables:
+	var bias : Float			= 0.0		// used for halucination
+	 // === Master Control State:			// A Constant during operation
+	var   majorMode : MajorMode	= .monitor
+	 enum MajorMode : String, Codable {
+		case monitor
+		case simModeDir
+		case simMode2
+	 }
+	 // === Data Flow:						// Changes per M&N .prevMinorModeMonitor
+	var   minorMode : MinorMode = .monitor	// prevMinorMode
+	let   minorModeNames:[String] = ["hold", "monitor", "simForward","simBackward", "netForward","netBackward"]
+	 enum MinorMode : String, Codable {
 		case hold				= "hold"
 		case monitor			= "monitor"
 		case simForward			= "simForward"
 		case simBackward		= "simBackward"
 		case netForward			= "netForward"
 		case netBackward		= "netBackward"		// FW used prevMinorModeNames
-	}
-	var minorMode  : MinorMode 	= .monitor		// changes per M&N .prevMinorModeMonitor
-
-	// =============== Multiplexor Sources ==============
-	enum PrevMuxSources : String, Codable {
-		case UNDEF 				= "-"
-		case fromPPri			= "p"
-		case fromSCur			= "s"
-		case fromTPrev			= "t"
-		case fromLLatch			= "l"
-		case fromZero			= "0"
-		case fromBias			= "b"
-	}
+	 }
 	 // UP
-	var src4sCur  : PrevMuxSources = .UNDEF	// bias,  pPri,	lLatch
-	var src4tPrev : PrevMuxSources = .UNDEF	// bias,  pPri,	lLatch
+	var src4sCur  : PrevMuxSources = .UNDEF	// fromBias,  fromPPri,	fromLLatch
+	var src4tPrev : PrevMuxSources = .UNDEF	// fromBias,  fromPPri,	fromLLatch
 	 // LATCH
-	var src4lLatch: PrevMuxSources = .UNDEF	// pPri,  sCur,	tPrev
+	var src4lLatch: PrevMuxSources = .UNDEF	// fromPPri,  fromSCur,	fromTPrev
 	 // DOWN
-	var src4pPri  : PrevMuxSources = .UNDEF	// zero,  sCur,	tPrev
+	var src4pPri  : PrevMuxSources = .UNDEF	// fromZero,  fromSCur,	fromTPrev
+
 
 	 // MARK: - 3. Part Factory
 	 /// A Previous remembers what happened previously. It is used for prediction.
-	/// 1.	"bias":<float> -- for hallucinations
-	/// 2.	"mode" -- how it operates
-	/// 	- zero
-	/// 	- monitor
-	/// 	- simForward
-	/// 	- simBackward
-	/// 	- netForward
-	/// 	- netBackward
 	override init(_ configArg:FwConfig = [:]) {
-
 		super.init(configArg)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		let config 				= partConfig
 
-		 // Set mode:	
-		majorMode 				= .monitor				// Default is monitor  :MajorMode
-		minorMode 				= .monitor				// ""
-		if let modeStr 			= config.string("mode") {		// From factory
-			print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Previous")
-			majorMode 				= MajorMode(rawValue: modeStr)!	// never changes
-bug
-			let index : String	= modeStr
-//bug;		let index 			= prevMinorModeNames.index(of:modeStr)			//NSInteger index = [prevMinorModeNames indexOfObject:mode]
-			 // default:
-			if let n			= modeStr as? Int {						// major mode = 0 --> Default
-				assert(n == 0, "only number 0 (= null mode) defined")
-				majorMode 		= .monitor
-	//			minorMode 		= .prevMinorModeMonitor
-			}
-			 // minor is static and equal to major
-			else if index != nil {						// major mode is also a minor mode:
-//				minorMode		= (PrevMinorMode)index		// (presumes order maintained with prevMinorModeNames)
-			}
-			 // minor depends on major and M (?and N):
-			else if modeStr == "simModeDir" {
-//				minorMode		= .prevMinorModeSimBackward	// Default: M==0 ==> Backward
-			}
-			else if modeStr == "simMode2" {
-//				minorMode		= .prevMinorModeHold			// Default: M==N==0 ==> Hold
-			}
-			else {
-//				panic("PreviousX: unknown mode:'%'", modeStr)
-			}
-			 // Set bias:
-			bias				= 0.555
-			if let b			= configArg.float("bias") {
-				bias 			= b
-			}	
-		}
-		src4					= .monitor			//.hold??
+		bias 					= configArg.float("bias") ?? 0.555
+						// // Set bias:
+						//bias				= 0.555
+						//if let b			= configArg.float("bias") {
+						//	bias 			= b
+						//}
 
+						//let mMode				= configArg["majorMode"]
+						 // Set mode:
+						//var majorModeStr 		= "monitor"				// Default is monitor
+						//let minorModeStr 		= prevMinorModeMonitor	// ""
+		if let m				= configArg.string("majorMode") {
+			majorMode			= MajorMode(rawValue:m) ?? .monitor // never changes
+		}
+		if let m				= configArg.string("minorMode") {
+			minorMode			= MinorMode(rawValue:m) ?? .monitor
+			assert(Int(m) == nil, "minorMode must not be a number")				//	if let n			= mode as? Int {						// major mode = 0 --> Default
+
+							//	let index : Int 	= minorModeNames.firstIndex(of:mode)!
+						//minorMode.rawValue.lowercased().firstIndex(of: "m")!.utf16Offset(in: minorMode.rawValue.lowercased())
+						//prevMinorModeNames.indexOfObject(mode)
+						 // default:
+						//if let m 			= Int(mode) {						// major mode = @0 --> Default
+						//	assert(m==0, "only number @0 (=null mode) defined")
+						//	self.majorMode	= .monitor
+						//	self.minorMode 	= .monitor//prevMinorModeMonitor
+						//}
+							 // minor is static and equal to major
+						//	else if index != NSNotFound				// major mode is also a minor mode:
+						//	{	self.minorMode 	= prevMinorMode[index]		}// (presumes order maintained with prevMinorModeNames)
+						//	 // minor depends on major and M (?and N):
+						//	else if mode == "simModeDir"
+						//	{	self.minorMode 	= prevMinorModeSimBackward	}// Default: M==0 ==> Backward
+						//	else if mode == "simMode2"
+						//	{	self.minorMode 	= prevMinorModeHold			}// Default: M==N==0 ==> Hold
+						//	else
+						//	{	panic("Previous: unknown mode:'\(mode)'")	}//
+						//}
+						//if let modeStr 			= config.string("mode") {		// From factory
+						//	let index : String	= modeStr
+						//	let index 			= prevMinorModeNames.index(of:modeStr)			//NSInteger index = [prevMinorModeNames indexOfObject:mode]
+						//	 // default:
+						//	if let n			= mode as? Int {						// major mode = 0 --> Default
+						//		assert(n == 0, "only number 0 (= null mode) defined")
+						//		majorMode 		= .monitor
+					//	//		minorMode 		= .prevMinorModeMonitor
+						//	}
+						//	 // minor is static and equal to major
+						//	else if index != nil {						// major mode is also a minor mode:
+				//		//		minorMode		= (PrevMinorMode)index		// (presumes order maintained with prevMinorModeNames)
+						//	}
+						//	 // minor depends on major and M (?and N):
+						//	else if modeStr == "simModeDir" {
+				//		//		minorMode		= .prevMinorModeSimBackward	// Default: M==0 ==> Backward
+						//	}
+						//	else if modeStr == "simMode2" {
+				//		//		minorMode		= .prevMinorModeHold			// Default: M==N==0 ==> Hold
+						//	}
+						//	else {
+				//		//		panic("PreviousX: unknown mode:'%'", modeStr)
+						//	}
+		}
+		src4					= .monitor // setSrc4(self.minorMode)
+	
 		   // Latch Port connects to self
 		  // This causes it to be counted in the unsettledCount
 		 // and thus it flows out to P,S, or T
 		if let latchPort		= ports["L"] {
 			latchPort.noCheck	= true				// of up/down
-			latchPort.con2 		= .port(latchPort)
+			latchPort.con2 		= .port(latchPort)	// loop around
 		}
-		   // //////// check for consistency here... /////
-		//configArg["addPreviousXClock"] = 1
+		   ////////// check for consistency here... /////
+//		configArg["addPreviousClock"] = 1		//parameters[
+	//--------------------------------
+
+
+		 // Set mode:	
+		//majorMode 				= .monitor				// Default is monitor  :MajorMode
+		//minorMode 				= .monitor				// ""
+		//src4					= .monitor			//.hold??
 	}
 
-	 // Set the Previous's "plumbing", who connects to whom.
-	//- (void) setSrc4:(PrevMinorMode)mode {	}
-	var src4 : MinorMode {
+	  // Set the Previous's "plumbing", who connects to whom.
+	 var src4 : MinorMode {
 		get {	return  .hold }
 		set(mode) {
 			switch (mode) {
@@ -358,7 +401,7 @@ bug
 						self.minorMode = nextminorMode
 						src4		= minorMode		// push mode into machine
 						//Expression took 15258ms to type-check (limit: 200ms)
-bug;						logDat(4, "Mode Port: " + //%% curMode=%-->%",
+						logDat(4, "Mode Port: " + //%% curMode=%-->%",
 								(mvc! ? fmt("M=%.2f ", mModeValue) : "") +	//		cm? ["" addF:"M=%.2f ", mModeValue]: "",
 								(nvc! ? fmt("N=%.2f ", nModeValue) : "") +
 								self.minorMode.rawValue + " --> " + ppSrc4)	//prevMinorModeNames[self.minorMode], [self ppSrc4]))

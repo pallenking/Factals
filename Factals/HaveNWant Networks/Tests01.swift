@@ -708,7 +708,7 @@ xxr("- way extra size", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10,
 	] ])
 ] ]) })
 var a8:String {"a,v:\(String(randomDist(3.0, 5.0))),l:3" }
-xr("- bulb doesn't animate", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+xxr("- bulb doesn't animate", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["animateVBdelay":3.0], { Net([placeMy:"linky", parts:[
 	Bulb(  [n:"x", P:"a,v:4.0,l:3"]),
 	Mirror([n:"y", P:"a,v:1.5,l:3"]),
@@ -1507,7 +1507,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,

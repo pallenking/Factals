@@ -3,7 +3,8 @@
     "allow": [
       "Bash(exec zsh)",
       "Bash(find:*)",
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(xcodebuild:*)"
     ],
     "deny": []
   }
