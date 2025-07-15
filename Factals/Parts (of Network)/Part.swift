@@ -586,30 +586,29 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			}
 		}
 		return nil          // no Net in any of m1's parents
-	}
+	}							//
 	func follow(path:Path) -> Part? {
-		var p				= [1, 2, 3]
-		for i in p + [42] {
-		
-		}
-
-		var part : Part?	= self
-		for name in path.namesNport {
-			guard let p		= part?.find(name:name, maxLevel:1) else
+		var rv : Part?			= self
+		for name in path.namesNport {	// scan names in order
+			guard let p			= rv?.childWith(name:name) else
 			{	return nil														}
-			part			= p
-//			if let p 		= part?.find(name:name!, maxLevel:1)
-//			{	part		= p
-//			}
+			rv					= p			// move down list
 		}
-		return part
+		return rv
 	}
-
+	func childWith(name:String) -> Part? {	// // INTEGRATE with find(name....
+		for child in children {
+			if child.name == name  {
+				return child
+			}
+		}
+		return nil
+	}
 //	func find(name desiredName:String,
 //								
-//			  up2 			 	: Bool	= false,
-//			  inMe2				: Bool	= false,
-//			  maxLevel			: Int?	= nil) -> Part? { // Search by name:
+//			  up2 		: Bool		= false,
+//			  inMe2		: Bool		= false,
+//			  maxLevel	: Int?		= nil) -> Part? { // Search by name:
 //				children[:name) {
 //				
 //			}

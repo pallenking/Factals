@@ -306,7 +306,7 @@ class Port : Part, PortTalk {
 				debugger("Malformed Link: could not find otherPort")			}()
 			let linkPName 		= scan2Port.name
 			let linkName 		= link.name
-			rv		 			+= " ->\(linkName).\(linkPName)"
+			rv		 			+= " -> \(linkName).\(linkPName)"
 		}
 		return scan
 	}
@@ -738,7 +738,7 @@ nop
 				rv 				+= "<" + con2Port.ppPortOutValues()		// e.g. <1.00/0.00
 				let scPort		= portPastLinksPp(ppStr:&rv)
 				guard let sc2Port = scPort.con2?.port else { return rv + " No connect Port"	}
-				rv 				+= " -> \(sc2Port.fullName)"
+				rv 				+= " (-> \(sc2Port.fullName))"
 			case .string(let con2string):
 				rv 				+= " -> \"\"\(con2string)\"\""
 			}

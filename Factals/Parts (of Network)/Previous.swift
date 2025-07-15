@@ -25,7 +25,7 @@ class Previous : Atom {
 			case fromZero		= "0"
 			case fromBias		= "b"
 		}
-	let prevMuxSourceNames:[String] = ["-", "p", "s", "t", "l", "0", "b"]
+	//let prevMuxSourcesNames:[String] = ["-", "p", "s", "t", "l", "0", "b"]
 	enum PrevMuxSources : Int, Codable {
 		case UNDEF 				= 0
 		case fromPPri			= 1
@@ -69,36 +69,30 @@ class Previous : Atom {
 	 /// A Previous remembers what happened previously. It is used for prediction.
 	override init(_ configArg:FwConfig = [:]) {
 		super.init(configArg)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-		let config 				= partConfig
 
-		bias 					= configArg.float("bias") ?? 0.555
-						// // Set bias:
-						//bias				= 0.555
-						//if let b			= configArg.float("bias") {
-						//	bias 			= b
-						//}
+		bias 					= partConfig.float("bias") ?? 0.555
 
-						//let mMode				= configArg["majorMode"]
-						 // Set mode:
-						//var majorModeStr 		= "monitor"				// Default is monitor
-						//let minorModeStr 		= prevMinorModeMonitor	// ""
-		if let m				= configArg.string("majorMode") {
+		if let m				= partConfig.string("majorMode") {
 			majorMode			= MajorMode(rawValue:m) ?? .monitor // never changes
 		}
-		if let m				= configArg.string("minorMode") {
+		if let m				= partConfig.string("minorMode") {
 			minorMode			= MinorMode(rawValue:m) ?? .monitor
 			assert(Int(m) == nil, "minorMode must not be a number")				//	if let n			= mode as? Int {						// major mode = 0 --> Default
-
-							//	let index : Int 	= minorModeNames.firstIndex(of:mode)!
+		}
+		src4					= .monitor // setSrc4(self.minorMode)
+	
+		  // Latch Port connected to self (looped)
+		 // This causes it to be counted in the unsettledCount and thus it flows out to P,S, or T
+		if let latchPort		= ports["L"] {
+			latchPort.noCheck	= true				// of up/down
+			latchPort.con2 		= .port(latchPort)	// loop around
+		}
+		   ////////// check for consistency here... /////
+		partConfig["addPreviousClock"] = 1		//parameters[
+	}
+						//	let index : Int 	= minorModeNames.firstIndex(of:mode)!
 						//minorMode.rawValue.lowercased().firstIndex(of: "m")!.utf16Offset(in: minorMode.rawValue.lowercased())
-						//prevMinorModeNames.indexOfObject(mode)
-						 // default:
-						//if let m 			= Int(mode) {						// major mode = @0 --> Default
-						//	assert(m==0, "only number @0 (=null mode) defined")
-						//	self.majorMode	= .monitor
-						//	self.minorMode 	= .monitor//prevMinorModeMonitor
-						//}
-							 // minor is static and equal to major
+								 // minor is static and equal to major
 						//	else if index != NSNotFound				// major mode is also a minor mode:
 						//	{	self.minorMode 	= prevMinorMode[index]		}// (presumes order maintained with prevMinorModeNames)
 						//	 // minor depends on major and M (?and N):
@@ -132,26 +126,10 @@ class Previous : Atom {
 						//	else {
 				//		//		panic("PreviousX: unknown mode:'%'", modeStr)
 						//	}
-		}
-		src4					= .monitor // setSrc4(self.minorMode)
-	
-		   // Latch Port connects to self
-		  // This causes it to be counted in the unsettledCount
-		 // and thus it flows out to P,S, or T
-		if let latchPort		= ports["L"] {
-			latchPort.noCheck	= true				// of up/down
-			latchPort.con2 		= .port(latchPort)	// loop around
-		}
-		   ////////// check for consistency here... /////
-//		configArg["addPreviousClock"] = 1		//parameters[
-	//--------------------------------
-
-
-		 // Set mode:	
-		//majorMode 				= .monitor				// Default is monitor  :MajorMode
-		//minorMode 				= .monitor				// ""
-		//src4					= .monitor			//.hold??
-	}
+						 // Set mode:
+						//majorMode 				= .monitor				// Default is monitor  :MajorMode
+						//minorMode 				= .monitor				// ""
+						//src4					= .monitor			//.hold??
 
 	  // Set the Previous's "plumbing", who connects to whom.
 	 var src4 : MinorMode {
@@ -332,7 +310,7 @@ class Previous : Atom {
 		let lLatchPort			= ports["L"]!	//Latch Port
 		let (lLatchInVal, lLatchInPrev) = lLatchPort.con2?.port?.getValues() ?? (99,99)// must read every time to settle
 
-		if upLocal {				//============: going UP ==================
+		if upLocal {			//============: going UP ==================
 			let (pPriInVal, pPriInPrev)	=   pPriPort.con2?.port?.getValues() ?? (99,99)// must read every time to settle
 			if pPriInVal == pPriInPrev &&  lLatchInVal == lLatchInPrev {
 				return
@@ -357,8 +335,7 @@ class Previous : Atom {
 			assert(!nextValT.isNan, "Illegal src4tPrev value\(pp(fs:self.src4tPrev))")
 			tPrevPort.take(value:nextValT)
 		}
-										//============: going DOWN ================
-
+								//============: going DOWN ================
 		else {	// DOWN to 'P' (SELF) selector:			///--> pPri <--///
 			let (sCurInVal,  sCurInPrev) =  sCurPort.con2?.port?.getValues() ?? (99,99)
 			let (tPrevInVal,tPrevInPrev) = tPrevPort.con2?.port?.getValues() ?? (99,99)
@@ -478,6 +455,6 @@ class Previous : Atom {
 		return fmt("P%S%T%L%", pp(fs:src4pPri),  pp(fs:src4sCur), pp(fs:src4tPrev), pp(fs:src4lLatch))
 	}
 	func pp(fs:PrevMuxSources) -> String  {
-		return "fixme" //prevMuxSourceNames[fs]
+		return "fixme" //prevMuxSourcesNames[fs]
 	}
 }

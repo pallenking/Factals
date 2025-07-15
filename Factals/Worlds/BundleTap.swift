@@ -52,10 +52,10 @@ class BundleTap : Atom {
 		 // Target bundle must have both R (for reset) and G (for generate) ports
 		targetBundle!.forAllLeafs { leaf in
 			guard leaf.boundPort(named:"R") != nil else
-			{	fatalError("Leaf \(self.pp(.fullName)) has no R port\n")		}
+			{	fatalError("Leaf \(leaf.pp(.fullName)) has no R port\n")		}
 			guard leaf.boundPort(named:"G") != nil else
-			{	fatalError("Leaf \(self.pp(.fullName)) has no G port\n")		}
-		}	// "%@: %@: %@\nConsider using Leaf with a BundleTap", self.pp, self.targetBundle.pp, leaf.pp)
+			{	fatalError("Leaf \(leaf.pp(.fullName)) has no G port\n")		}
+		}
 
 		  //// reset to an BundleTap generates a resetTo pattern to target bundle
 		 ///

@@ -1507,7 +1507,7 @@ r(e, { Net([parts:[				//"bundle",
 
  // MARK: - * Shaft
 state.scanSubMenu				= "Shaft"
-xr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+xxr("+ ShaftBT 3", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 //		Generator([n:"hi", "nib??":"HiGen_fwdBkw", "resetTo":["fwd"], "P":"wheelA/con"]),
 		Actor([n:"wheelA", "positionViaCon":1, "minHeight":0.0,
@@ -1549,6 +1549,14 @@ xxr("- bugVect", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) +
 		ShaftBundleTap(["nPoles":3, P:"wheelA/evi", f:1]),
 	] ])
 })
+	xxr("- no R port", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
+		Net([parts:[
+			Hamming([P:["a"]]),
+			Hamming([P:["a"]]),
+			Tunnel( [n:"evi", struc: ["a"], of:"genPrev"]),
+			ShaftBundleTap([n:"shaft", P:"evi", "nPoles":1, f:1]),
+		] ])
+	})
 xxr("- bugAutoBcast", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBox":"black"], {	// FAILS
 	Net([parts:[
 													// Broadcast([n:"fwd", f:1]),
