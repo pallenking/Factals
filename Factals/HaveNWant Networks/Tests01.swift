@@ -1819,9 +1819,6 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 			Hamming(  [n:"b", P:"a"]),//,l:5
 			Broadcast([n:"a"]),
 		]]) })
-		r("- con:GenAtom", e + selfiePole(s:0,u:0) + logAt(dat:5, eve:5), {Net([parts:[
-			Actor([n:"w", "con":GenAtom()]),
-		]]) })
 	r("-evi missing", eSim + selfiePole(s:90,u:10), {Net([parts:[
 		//Hamming(  [share:["a", "b"], f:1]),
 		Actor([n:"wheelA", placeMy:"linky",
