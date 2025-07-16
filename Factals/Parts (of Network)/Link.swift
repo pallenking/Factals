@@ -214,13 +214,13 @@ class Link : Atom {
 	 // MARK: -- Connect LinkVew's [sp]Con2Vew endpoints and constraints:
 	override func reVewPost(vew:Vew) 	{	// Add constraints
 		guard let linkVew		= vew as? LinkVew
-		 else { 		panic("Link's Vew isn't a LinkVew");return				}
+		 else { 	panic("Link's Vew isn't a LinkVew");return					}
 
 		 // Connect LinkVew to its two end Port's Vew	  // :H: [S/P] CONnectd 2 Vew
 		guard let p	: Vew		= vewConnected(toPortNamed:"P", inViewHier:vew)
-		 else {			panic("\nLink end \(self.fullName).P unconnected");return }
+		 else {		panic("\nLink end \(self.fullName).P unconnected");return	}
 		guard let s	: Vew		= vewConnected(toPortNamed:"S", inViewHier:vew)
-		 else {			panic("\nLink end \(self.fullName).S unconnected");return }
+		 else {		panic("\nLink end \(self.fullName).S unconnected");return	}
 
 		 // Load LinkVew with Ports it connects to
 		linkVew.pCon2Vew		= p	  // get Views we are connect to:
@@ -550,7 +550,8 @@ bug	// Never USED?
 	override func rePaint(vew:Vew) 		{		// paint red and green
 		logRsi(8, "<><> L 9.6:   \\rePaint")
 		 // S and P port of a link have no views, but their .paint bits must be cleared:
-		let _ 					= ports.map 	{	$1.dirty.turnOff(.paint) 		}
+		let _ 					= ports.map {	$1.dirty.turnOff(.paint) 		}
+		 // ???? delay till all repainted?
 
 		super.rePaint(vew:vew)				// hits my end LinkPorts
 
@@ -568,8 +569,8 @@ bug	// Never USED?
 								//
 			 // Apply image to shape (Plane or Box)
 			let scn2paintOn		= linkVew.scn.findScn(named: "s-Paint")
-			guard let geom		= scn2paintOn?.geometry else {
-				debugger("Attempt to paint on scnScene wo geometry") 				}
+			guard let geom		= scn2paintOn?.geometry
+			 else { debugger("Attempt to paint on scnScene wo geometry") 		}
 			let i				= usePlane ? 0 : 4		// 0:base, 4:left side if rect
 			assert(i < geom.materials.count, "Link '\(pp(.fullName))' access: to \(i) but only has \(geom.materials.count) materials")
 			geom.materials[i].diffuse.contents = linksImage						//for j in 0..<6 {

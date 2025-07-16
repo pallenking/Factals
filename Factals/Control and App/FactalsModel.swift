@@ -375,10 +375,13 @@ import SwiftUI
 				return true 									// continue
 			}
 	  //case "r" alone:							// Sound Test
-			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
-			for vews in vewBases {
-				vews.scnBase.roots?.rootNode.play(sound:"Oooooooo")		//GameStarting
-			}
+			print("\n******************** 'r': === reset model\n")
+			partBase.tree.reset()
+			partBase.tree.dirtySubTree(.vsp)
+//			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
+//			for vews in vewBases {
+//				vews.scnBase.roots?.rootNode.play(sound:"Oooooooo")		//GameStarting
+//			}
 		case "v":								// print Vew tree
 			print("\n******************** 'v': ==== Views:")
 			for vews in vewBases {
@@ -447,7 +450,8 @@ import SwiftUI
 				"\t'C'             -- print Controller Config",
 				"\t'?'             -- print help",
 				"\t'r'+cmd         -- go to lldb for rerun",
-				"\t'r'             -- r sound test",
+				"\t'r'             -- reset model",
+//				"\t'r'             -- r sound test",
 				"\t'v'             -- print Vew tree",
 				"\t'n'             -- print SCNNode tree",
 				"\t'#'             -- write out SCNNode tree as .scnScene",

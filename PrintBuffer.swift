@@ -3,9 +3,9 @@ override func reVewPost(vew:Vew) 	{	// Add constraints
 	vew.sCon2Vew		= vewConnected(toPortNamed:"S", inViewHier:vew)
 	if linkVew.scnRoot.constraints == nil {
 		let pConstraint = SCNTransformConstraint.positionConstraint(inWS:f)
-***		{(n,p)in vew.pCon2Vew.part.portConSpot(inVew: parentVew).center}
+***		{(n,p) in vew.pCon2Vew.part.portConSpot(inVew: parentVew).center}
 		let sConstraint = SCNTransformConstraint.positionConstraint(inWS:f)
-***		{(n,p)in vew.sCon2Vew.part.portConSpot(inVew: parentVew).center}
+***		{(n,p) in vew.sCon2Vew.part.portConSpot(inVew: parentVew).center}
 		vew.find(name:"_P").scnRoot.constraints = [pConstraint]
 		vew.find(name:"_S").scnRoot.constraints = [sConstraint]
 	}	}

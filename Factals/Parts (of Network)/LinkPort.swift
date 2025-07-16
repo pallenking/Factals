@@ -42,7 +42,7 @@ class LinkPort : Port {
 		}
 		inTransit				= initialSegments	// 21200825 UNUSED
 		super.init(config_)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-		self.parent				= parent
+//		self.parent				= parent
 	}
 
 	 // MARK: - 3.5 Codable
@@ -111,10 +111,9 @@ class LinkPort : Port {
  		guard let simulator		= partBase?.factalsModel?.simulator else  {	fatalError(fullName)}
 		guard let outPort 						  else  {	fatalError(fullName)}
 		guard let inPort2Port	= self.con2?.port else  {	fatalError(fullName)}
-
-		 // Take data from inPort, and put output into outPort
+								
+		 // Enque data from inPort headed for outPort after delay
 		if inPort2Port.valueChanged() {
-
 		 	 // ENQUEUE the event (at beginning of inTransit)
 			let (valueIn, valuePrev) = inPort2Port.getValues()
 			assert(!valueIn.isNaN,      "enqueing nan value to link")
@@ -149,7 +148,6 @@ class LinkPort : Port {
 			inTransit[i].heightPct 	+= conveyorVelocity	// move along, from 0.0...1.0
 
 			 // DEQUEUE the next event (at beginning of inTransit)
-			 // DEQUEUE an event?:
 			if inTransit[i].heightPct >= 1 {	// has a seg gone off the end?
 				inTransit.remove(at:i) 				// deque used up element
 				 // Decrement unsettled count
@@ -172,24 +170,14 @@ class LinkPort : Port {
 		guard let parentLink	= parent as? Link else {	debugger("")		}
 		image.lockFocus()
 		let imageHeight			= Float(parentLink.imageHeight)
-
-		   // A NSBezierPath can have only one color.
-		  // .:. Each color value must be in a separate path
-		 // color of segment:
-
-
-//		if inPort2Port.valueChanged() {
-//			let (valueIn, valuePrev) = inPort2Port.getValues()
-//		guard let inPort2Port	= self.con2?.port else  {	return				}
-
-
-
 		guard let con2Port		= con2?.port else 	{ fatalError()				}
 		let v					= con2Port.valuePrev
 		var color : NSColor		= NSColor(mix:colorOfVal0, with:v, of:colorOfVal1)
 		var fromPt				= NSPoint(x:imageX0, y:imageY0)
 		for linkSegment in inTransit {		// inTransit ordered least to most
 
+			   // A NSBezierPath can have only one color.
+			  // .:. Each color value has a separate path color:
 			 // Draw a line of specified color:
 			let htPct			= imageY0 == 0 ? linkSegment.heightPct	// going up	  0.0..<1.0
 										 : 1.0 - linkSegment.heightPct	// going down 1.0>..0.0
