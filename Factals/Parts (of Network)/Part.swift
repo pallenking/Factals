@@ -430,11 +430,11 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 
 	// MARK: - 4.2 Manage Tree
-	/// Add a child part
-	/// - Parameters:
-	///   - child: child to add
-	///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
-	/// dirtyness of child is inhereted by self
+		 /// Add a child part
+		/// - Parameters:
+	   ///   - child: child to add
+	  ///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
+	 /// dirtyness of child is inhereted by self
 	func addChild(_ newChild:Part?, atIndex index:Int?=nil) {
 		guard let newChild 		else {		return								}
 		assert(self !== newChild, "can't add self to self (non-exhaustive check)")
@@ -462,10 +462,10 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		markTreeDirty(bit:.vew)				// ? tree has dirty.vew
 		markTreeDirty(bit:newChild.dirty)			// ? tree also inherits child's other dirtynesses
 	}										// (child is not dirtied any more)
-	/// Groom Part tree after construction.
-	/// - Parameters:
-	///   - parent_: ---- if known
-	///   - root_: ---- set in Part
+		/// Groom Part tree after construction.
+	   /// - Parameters:
+	  ///   - parent_: ---- if known
+	 ///   - root_: ---- set in Part
 	func groomModel(parent p:Part?, partBase r:PartBase?)  {
 		parent					= p
 		if partBase == nil || partBase !== r {

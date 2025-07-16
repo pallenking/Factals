@@ -47,10 +47,11 @@ class Atom : Part {	//Part//FwPart
 					portProp.contains("M") ?
 					   MultiPort(["named":portName, "portProp":portProp]) :
 					portProp.contains("C") ?
-						LinkPort(["named":portName, "portProp":portProp], parent:self) :
+						LinkPort(["named":portName, "portProp":portProp]) :
 							Port(["named":portName, "portProp":portProp])
+				
 				ports[portName]	= newPort
-				addChild(newPort)
+				addChild(newPort)			//newPort.parent = self
 			}
 			if portProp.prefix(1) == "b" {	// b:<pathString> --> binding
 				let tokens		= portProp.split(separator:":")

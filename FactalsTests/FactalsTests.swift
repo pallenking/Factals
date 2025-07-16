@@ -228,7 +228,7 @@ final class FactalsTests: XCTestCase {
 			(		ShapeTest(),			"ShapeTest"		),
 			(		Sphere(),				"Sphere"		),
 			(		TunnelHood(),			"TunnelHood"	),
-//			(		LinkPort(from: []), 			"LinkPort"		),  // LinkPort(cUp, parent:self, i0:p0, color0:.green)
+//			(		LinkPort(), 			"LinkPort"		),  // LinkPort(cUp, parent:self, i0:p0, color0:.green)
 			(	PolyWrap(), 				"PolyWrap"		),
 			(	Port(), 					"Port"			),
 			(		MultiPort(), 			"MultiPort"		),

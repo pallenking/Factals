@@ -31,7 +31,6 @@ class LinkPort : Port {
 		partBase?.factalsModel?.simulator.linkChits	+= 1
 	}
 	init(_ config_:FwConfig,	// LinkPort(
-		 parent:Atom,
 		 i0:(Int, Int)=(0,0),
 		 color0:NSColor?=nil,
 		 _ initialSegments:[LinkSegment] = [])

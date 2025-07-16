@@ -76,14 +76,14 @@ class Link : Atom {
 
 		let cUp					= config + ["name":"P"]//(2,300):(1, 0)
 		let p0	/* (x, y) */	= greenOnLeft ? (1, 0) : (imageWidth-1, imageHeight)
-		pUpCPort 				= LinkPort(cUp, parent:self, i0:p0, color0:.green)
-		addChild(pUpCPort)
+		pUpCPort 				= LinkPort(cUp, i0:p0, color0:.green)
+		addChild(pUpCPort)				//pUpCPort.parent = self
 		ports["P"]				= pUpCPort
 
 		let cDn					= config + ["name":"S", "f":1]
 		let p1					= greenOnLeft ? (imageWidth-1,imageHeight) : (1, 0)
-		sDownCPort				= LinkPort(cDn, parent:self, i0:p1, color0:.red)
-		addChild(sDownCPort)
+		sDownCPort				= LinkPort(cDn, i0:p1, color0:.red)
+		addChild(sDownCPort)			//sDownCPort.parent = self
 		ports["S"]				= sDownCPort
 
 		pUpCPort.outPort		= sDownCPort
