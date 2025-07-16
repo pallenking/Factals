@@ -669,14 +669,14 @@ var a2:String 	{												// Wave
 }
 var aOffset = 0.0
 
-xxr("+ simple blink tick", eSimX + eYtight + vel(0) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+xr("+ simple blink tick", eSimX + eYtight + vel(0) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
-	Bulb(  		[n:"d", P:"a,l:4"]),//	Bulb(  [P:"a,l:4"]),	Bulb([P:"a,l:4"]),
-	PortSound(	[n:"c", "inP":"d.P", "sounds":tickTock]),
-	Mirror(		[n:"b", P:"a", jog:"4 1", "latitude"+X:-2]),
+	Bulb(  		[n:"d", P:"a,v:4"]),	// ,l:4
+	Mirror(		[n:"b", P:"a,v:4"]),
+	PortSound(	[n:"c", "inP":"b.P", "sounds":tickTock]),
 	Mirror(		[n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
-xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+	xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"stacky", parts:[
 		Net([placeMy:"linky", spin:4, parts:[
 			Bulb([P:"x,l:3"]),
@@ -688,7 +688,7 @@ xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0
 	//		Mirror([n:"y", P:"x,l:3,v:2", jog:"0 2", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
 	//		Mirror([n:"x", "gain":-1, "offset":1, f:1]),
 //	//	] ] )
- ] ]) })
+ 	] ]) })
  
  
 ////	FwBundle([struc:["a","b"/*,"c","d","e","f"*/]/*, of:"genAtom"*/, placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
@@ -1249,13 +1249,13 @@ r("+Springs", e + selfiePole(s:-45,u:5), { Net([placeMy:"stacky", f:0, parts:[
 // SPRINGS
 // 200102: BUG: Timmel placement bad
 r("+ 5 BCast free-fall", e + selfiePole(s:0,u:0), {
- Net([placeMy:"linky", n:"net", parts:[
+  Net([placeMy:"linky", n:"net", parts:[
 	Mirror([n:"t1", P:"t0"]),
 	MaxOr ([n:"t0", share:["a", "b", "c", "d", "e"], f:1]),//, jog:"0 0 10"
 	Tunnel([struc:["a", "b", "c", "d", "e"], of:"genAtom", placeMy:"stackx 1", n:"net2"]),
 ]]) })
 r("-reform tunnel", e + selfiePole(s:0,u:0), {
- Net([placeMy:"linky", n:"net", parts:[
+  Net([placeMy:"linky", n:"net", parts:[
 	MaxOr ([n:"t0", share:["a", "b"], f:1]),//
 	Tunnel([struc:["a", "b"], of:"genAtom", placeMy:"stackx 1", n:"net2"]),	//.port
 ]]) })

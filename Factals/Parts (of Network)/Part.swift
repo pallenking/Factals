@@ -145,7 +145,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 //				partConfig[key] = nil			// remove from config
 			}
 		}			// -- Name was given
-		name					= nam ?? { [self] in
+		name					= nam ??
+		{ [self] in
 			if let partBase,
 			  let prefix		= prefixForClass[fwClassName]
 			{		// -- Use Default name: <shortName><index> 	(e.g. G1)
