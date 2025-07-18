@@ -671,10 +671,10 @@ var aOffset = 0.0
 
 xr("+ simple blink tick", eSimX + eYtight + vel(0) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
-	Bulb(  		[n:"d", P:"a,v:4"]),	// ,l:4
-	Broadcast(	[n:"b", P:"a,v:4"]),
+	Bulb(  		[n:"d", P:"a,v:3.5"]),	// ,l:4
+	MaxOr(		[n:"b", P:"a,v:3.5"]),
 //	Mirror(		[n:"b", P:"a,v:4"]),
-	PortSound(	[n:"c", "inP":"b.P", "sounds":tickTock]),
+ //	PortSound(	[n:"c", "inP":"b.P", "sounds":tickTock]),
 	Mirror(		[n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
 	xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)

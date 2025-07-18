@@ -29,9 +29,9 @@ enum LinkSkinType : String, CaseIterable, Codable	{
 	| | s-Ray   . . . Cube with wallpaper showing colors
 	| | s-Paint . . . A line
 	| *-S     . . . . S end
-	| | s-LinkEn. . .
+	| | s-LnkEn. . .
 	| *-P     . . . . P end
-	| | s-LinkEn. . .
+	| | s-LnkEn. . .
  */
 class Link : Atom {
 
@@ -53,6 +53,8 @@ class Link : Atom {
 
 	 // MARK: - 3. Part Factory
 	 /// Make a link
+	 /// @class xxxxxxx ???
+	 /// @abstract yy yy yy ???
 	 ///   - config		- 	configuration hash
 	override init(_ config:FwConfig = [:]) {
 
@@ -231,14 +233,14 @@ class Link : Atom {
 				guard let parentVew = linkVew.parent else { return }
 
 				// Add constraints to keep link endpoints attached in parent's coordinate space
-				let pConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace: false)
+				let pConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace:false)
 				{ (node, position) in			// Get connected port's position locally in parent's coordinate space
 					guard let pConnectedVew = linkVew.pCon2Vew,
 						  let pPort = pConnectedVew.part as? Port else { return position }
 					let pConSpot = pPort.portConSpot(inVew: parentVew)
 					return pConSpot.center
 				}
-				let sConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace: false)
+				let sConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace:false)
 				{ (node, position) in			// Get connected port's position locally in parent's coordinate space
 					guard let sConnectedVew = linkVew.sCon2Vew,
 						  let sPort = sConnectedVew.part as? Port else { return position }
@@ -246,14 +248,41 @@ class Link : Atom {
 					return sConSpot.center
 				}
 			//	linkVew.scn.constraints?.append(contentsOf: [pConstraint, sConstraint])
-				// Apply constraints to the link's endpoints
-				if let pVew = linkVew.find(name:"_P", maxLevel:1) {
-					pVew.scn.constraints = [pConstraint]
-				}
-				if let sVew = linkVew.find(name:"_S", maxLevel:1) {
-					sVew.scn.constraints = [sConstraint]
-				}
+			//	// Apply constraints to the link's endpoints
+			//	if let pVew = linkVew.find(name:"_P", maxLevel:1) {
+			//		pVew.scn.constraints = [pConstraint]
+			//	}
+			//	if let sVew = linkVew.find(name:"_S", maxLevel:1) {
+			//		sVew.scn.constraints = [sConstraint]
+			//	}
 			}
+//			if linkSkinType == .dual {	 	// SCNBillboardConstraint, SCNLookAtConstraint
+//				guard let parentVew = linkVew.parent else { return }
+//
+//				// Add constraints to keep link endpoints attached in parent's coordinate space
+//				let pConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace: false)
+//				{ (node, position) in			// Get connected port's position locally in parent's coordinate space
+//					guard let pConnectedVew = linkVew.pCon2Vew,
+//						  let pPort = pConnectedVew.part as? Port else { return position }
+//					let pConSpot = pPort.portConSpot(inVew: parentVew)
+//					return pConSpot.center
+//				}
+//				let sConstraint = SCNTransformConstraint.positionConstraint(inWorldSpace: false)
+//				{ (node, position) in			// Get connected port's position locally in parent's coordinate space
+//					guard let sConnectedVew = linkVew.sCon2Vew,
+//						  let sPort = sConnectedVew.part as? Port else { return position }
+//					let sConSpot = sPort.portConSpot(inVew: parentVew)
+//					return sConSpot.center
+//				}
+//			//	linkVew.scn.constraints?.append(contentsOf: [pConstraint, sConstraint])
+//			//	// Apply constraints to the link's endpoints
+//			//	if let pVew = linkVew.find(name:"_P", maxLevel:1) {
+//			//		pVew.scn.constraints = [pConstraint]
+//			//	}
+//			//	if let sVew = linkVew.find(name:"_S", maxLevel:1) {
+//			//		sVew.scn.constraints = [sConstraint]
+//			//	}
+//			}
 		}
 	}
 	func vewConnected(toPortNamed portName:String, inViewHier vew:Vew) -> Vew? {
@@ -420,13 +449,16 @@ class Link : Atom {
 		}
 		 // Position "P" Port
 		let p					= pCon2VIp + pR * unitRay	// position
-/**/	linkVew.find(name:"_P", maxLevel:1)!.scn.position = p							// -> Port
+//**/	linkVew.find(name:"_P", maxLevel:1)!.scn.position = p							// -> Port
+		let pNode = linkVew.find(name:"_P", maxLevel:1)!.scn
+		pNode.position = p																	// -> Port
 		linkVew.pEndVip			= p
 
 		 // Position "S" Port
 		let s					= sCon2VIp - sR * unitRay
 		let sVew				= linkVew.find(name:"_S", maxLevel:1)!
 /**/	sVew.scn.position		= s
+		sVew.scn.position		= s
 		linkVew.sEndVip			= s
 
 		logRsi(8, "<><> L 9.3b:  \\reSizePost set: p=\(p.pp(.line)) s=\(s.pp(.line)) (inParent)")
@@ -486,10 +518,10 @@ bug	// Never USED?
 				 // Accumulate FORCE on node:
 	/**/		pInertialVew?.force += force
 	/**/		sInertialVew?.force -= force
-				logAni(9, "Force  \(force.pp(.line)) "
+				logRve(9, "Force  \(force.pp(.line)) "
 					+ "from  \(pInertialVew?.pp(.fullName) ?? "fixed") "
 					+    "to \(sInertialVew?.pp(.fullName) ?? "fixed")")
-				logAni(9, " posn: \(vew.scn.transform.pp(.line))")
+				logRve(9, " posn: \(vew.scn.transform.pp(.line))")
 
 			}
 			else {
@@ -611,7 +643,7 @@ extension Port {
 		 // MARK: - 9.3 reSkin
 	func reSkin(linkPortsVew vew:Vew) -> BBox  {
 		assert(parent is Link, "sanity check")
-		let name				= "s-LinkEnd"
+		let name				= "s-LnkEnd"
 		let scn:SCNNode 		= vew.scn.findScn(named:name) ?? {
 			 // None found, make one.
 			//logRsi(8, "<><> L 9.3:   \\reSkin(linkPortsVew \(vew.part.fullName))")

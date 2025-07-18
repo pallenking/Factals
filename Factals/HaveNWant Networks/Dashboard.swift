@@ -22,11 +22,11 @@ let params4logDetail : FwConfig =	// Set events to be logged
 	//* App 								*/	logAt(app:8) +
 	//* Most Everything 					*/	logAt(8) +
 	//* Most Everything except ReVIw 		*/	logAt(8, rve:0) +
-	/* Most Everything except + RevewSIze:4 */	logAt(8, rve:0, rsi:4) +
-	//* " except  review, resize 			*/	logAt(9, rve:0, rsi:0) +
+	//* Most Everything except + RevewSIze:4 */	logAt(8, rve:0, rsi:4) +
+	/* " except  review, resize 			*/	logAt(9, rve:0, rsi:0) +
 
 	[							// + +  + +
-		"breakAtEvent"				:-62, //150//-54,//240/3/0:off
+		"breakAtEvent"				:-357,//-208,//150//-54,//240/3/0:off
 								// + +  + +
 
 		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy

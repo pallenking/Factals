@@ -287,3 +287,85 @@ https://us06web.zoom.us/j/82724538116?pwd=P9VHbRhVT4L1rRu1cbGQgv6bRReNJf.1
 0023 F | | | |/            P:Port    . . . ?48  0.00><0.00 -> /p7/p2/b/genP.P
 0022_Ff|_|_|_<_3_______gen:Mirror  . . . . ?48  gain:1.0, offset:0.0
 0024   | | < 2         b:Leaf    . . . . . ?48  bindings:[:gen, +:main, G:gen.P, R:gen.P] bindings:[:gen, +:main, G:gen.P, R:gen.P] 
+
+
+
+
+
+
+
+
+
+
+
+
+071 dat5 Link-->> 1.00 (/p3/p2/p4.S was 0.00)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5e16  tree    . . . . . . .                         s-1.3<15.101 geom:nil
+ 77c2  | *-p1 .... . . . . .                        s-1.3< 6.602 geom:nil
+ 3852  | | *-d ..... . . . . pI[5.1]                s-1.0< 0.802 geom:nil
+ ec59  | | | s-Bulb  . . . . p0.50I[0.3]            s-1.0< 1.001 <Sphere: r=1.0>
+ 9218  | | | *-P ...... . . pI[-1.0]               s 0.0< 1.002 geom:nil
+
+ 93f9  | | *-p2    . . . . .                        s 2.4< 4.402 geom:nil
+ e6ec  | | | s-Link  . . . . p[0.5][-0.4][-1.5][2.6]s 0.0< 0.001 geom:nil
+ e56f  | | | | s-Dual  . . .                        s 0.0<-0.001 Geometry
+ e00a  | | | | s-Paint . . . pI[-0.0]               s 0.0<-0.001 <Box: 6 elts w=1.0 h=0.0 l=1.0 cr=0.0>
+ 8431  | | | *-P     . . . . pI[2.6]                s-0.2< 0.202 geom:nil
+ c91c  | | | | s-LnkEnd. . .                        s-0.2< 0.201 <Sphere: r=0.2>
+ 1e4b  | | | *-S     . . . . pI[4.1]                s-0.2< 0.202 geom:nil
+ ce64  | | | | s-LnkEnd. . .                        s-0.2< 0.201 <Sphere: r=0.2>
+
+ 1cc9  | | *-b ..... . . . . pI[5.1]                s-1.0< 1.002 geom:nil
+ da6f  | | | s-Bcast . . . .                        s-0.0< 1.001 Geometry
+ 18b2  | | | *-P  ...... . . pI[-1.0]               s 0.0< 1.002 geom:nil
+ dff5  | | | | s-Port  . . . pI[1.0]                s-1.0< 0.001 <Cyl: 3 elts r=0.9 h=0.040>
+ 4e04  | | *-p3    . . . . .                        s 2.7< 4.302 geom:nil
+ 000a  | | | s-Link  . . . . p[0.0][-0.0][-1.2][2.9]s 0.0< 0.001 geom:nil
+ 0389  | | | | s-Dual  . . .                        s 0.0<-0.001 Geometry
+ 06ec  | | | | s-Paint . . . pI[-0.0]               s 0.0<-0.001 <Box: 6 elts w=1.0 h=0.0 l=1.0 cr=0.0>
+ 4c66  | | | *-P     . . . . pI[2.9]                s-0.2< 0.202 geom:nil
+ 08a2  | | | | s-LnkEnd. . .                        s-0.2< 0.201 <Sphere: r=0.2>
+ 481d  | | | *-S     . . . . pI[4.1]                s-0.2< 0.202 geom:nil
+ 0fda  | | | | s-LnkEnd. . .                        s-0.2< 0.201 <Sphere: r=0.2>
+ 416b  | | *-aP    . . . . . pI[1.9]                s-1.0< 1.002 geom:nil
+ 6772  | | | s-Bcast . . . .                        s-0.0< 1.001 Geometry
+ 42e8  | | | *-P     . . . . pI[-1.0]               s 0.0< 1.002 geom:nil
+ 466c  | | | *-s1    . . . .                        s-0.0< 0.002 geom:nil
+ a275  | | | | w-6     . . . p<0.0>I0               s-1.0< 1.004 bb:-0<0, -0<0, -0<0
+ 315b  | | | | s-Share . . .                        s-0.0< 0.001 <Box: w=0.5 h=0.025 l=0.5 cr=0.0>
+ 45ef  | | | *-s2    . . . .                        s-0.0< 0.002 geom:nil
+ f463  | | | | w-7     . . . p<0.0>I0               s-1.0< 1.004 bb:-0<0, -0<0, -0<0
+ 349e  | | | | s-Share . . .                        s-0.0< 0.001 <Box: w=0.5 h=0.025 l=0.5 cr=0.0>
+ 5085  | | *-a     . . . . . pIYZ[-0.2]             s-1.0< 0.602 geom:nil
+ 5a0f  | | | s-Mir   . . . . pI[0.3]                s-0.3< 0.301 <Box: w=3.0 h=0.6 l=3.0 cr=0.2>
+ 5306  | | | *-P     . . . . pI[-1.0]               s 0.0< 1.002 geom:nil
+ 
+
+
+
+202 rsi4 >>===== Position    'b'   (by:  linky  ) in /p1
+203 rsi4 Port 204 rsi4 -->       /p1/aP.s2 205 rsi4 facingDown -> SUCCESS
+206 rsi4    <<== FOUND PARTIAL: p=[050]; /p1/b.vew.bBox = (-1<1, -1<1, -1<1)
+207 rsi4 <<===== FOUND Position by Links   /p1/b -in- /p1 (weightSum=1.0)
+208 rsi4 >>===== Position    'p2'   (by:  linky  ) in /p1
+209 rsi4 Port 210 rsi4 Port 211 rsi4 >>===== Position    'p2'   (by:  stacky   ):  in /p1 
+212 rsi4 <<===== FOUND: rv=[060]; _p2.bbox=(0<0, 0<0, 0<0)
+
+213 rsi4 >>===== Position    'd'   (by:  linky  ) in /p1
+

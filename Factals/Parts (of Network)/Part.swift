@@ -1219,7 +1219,7 @@ bug		//		vew.scn.addChild(node:childVew.scnRoot) // Single-Scene mode
 			let span			= stkBip.size + newBip.size	// of both parent and self
 			let slop			= stkBip.size - newBip.size	// amount parent is bigger than self
 			logRsi(6, "   newBip:\(newBip.pp(.phrase)) stkBip:\(stkBip.pp(.phrase))")
-			logRsi(5, "   span:\(span.pp(.line)) slop:\(slop.pp(.line))")
+			logRsi(6, "   span:\(span.pp(.line)) slop:\(slop.pp(.line))")
 
 			  // e.g. mode = "stackY 0.5 1"
 			 // determine: u0,u1,u2, stackSign, alignU1, alignU2

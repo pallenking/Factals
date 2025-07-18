@@ -125,10 +125,10 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		assert(eventDetail >= 0 && eventDetail < 10, "Message prioritiy \(eventDetail) isn't in range 0...9")
 		let detailWanted		= Log.shared.detailWanted
 		if let x = detailWanted [eventArea] {	// area definition supercedes all others
-			return x > eventDetail
+			return x >= eventDetail
 		}
 		if let x = detailWanted ["defalt"] {	// else default definition?
-			return x > eventDetail												}//>
+			return x >= eventDetail												}//>
 		return false
 	}
 	 /// Return a Dictionary of keys starting with "logPri4". They control detailWanted.

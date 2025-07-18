@@ -319,10 +319,10 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 		case .line:
 			//AaaBbbbbbCcccccccDdddddEeeeeeeeeeeeeeeeeeeeeeeeeFffGggggggggggggggggggggggggggggggggggggggggg
 			//1eb| | | s-Port  . . . p=I[y: 0.1]              01 <Cylinder: 'material' 3 eltsr=1.0 h=0.190>
-			rv					= log.pidNindent(for:self)		//			(AB)
+			rv					= log.pidNindent(for:self)		//			(AB)
 			rv					+= "\((name ?? "UNNAMED ").field(-8, dots:false))"//(C)
-			rv 					= log.unIndent(rv)				// unindent	 (D)
-			rv					+= self.scn1Line(aux) 			//		  (E..G)
+			rv 					= log.unIndent(rv)				// unindent (D)
+			rv					+= self.scn1Line(aux) 			//		    (E..G)
 		case .tree:
 			 /// 1. MAIN: print self on 1 line
 			rv					= pp(.line, aux) + "\n"

@@ -104,14 +104,15 @@ class Broadcast : Splitter { //#################################################
 	override func bidTotal() -> Float	{	return 1							} // Broadcast
 	 // MARK: - 9.0 3D Support
 	let height : CGFloat		= 1
+	let name_					= "s-Bcast"
 	override func reSkin(fullOnto vew:Vew) -> BBox  {
-		let scn					= vew.scn.findScn(named:"s-Broadcast") ?? {
+		let scn					= vew.scn.findScn(named:name_) ?? {
 			let scn  			= !pinSkin						// for debug
 				? SCNNode(geometry:SCNHemisphere(radius:1, slice:0))
 //				? SCNNode(geometry:SCNCylinder(radius:1, height:height))
 				: SCNNode(geometry:SCNCone(topRadius:0.05, bottomRadius:0.01, height:height))	// for debug
 			scn.color0			= .orange
-			scn.name			= "s-Broadcast"
+			scn.name			= name_
 			vew.scn.addChild(node:scn, atIndex:0)
 			return scn
 		}()
