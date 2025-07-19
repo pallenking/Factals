@@ -192,9 +192,9 @@ struct ScanForKey : Codable {
 	  // MARK: - 2.4.3 Machine resulting from Scan
 struct HnwMachine {		// : Codable
 	 // From Chosen Test
-	var sourceOfTest: String  	= "<unset>"	// Reason for Fetching String
-	var title		: String  	= "<unset>"	// Network name from library
-	var postTitle	: String  	= "<unset>"	// Number of Ports String
+	var sourceOfTest: String  	= ""		// Reason for Fetching String
+	var title		: String  	= ""		// Network name from library
+	var postTitle	: String  	= ""		// Number of Ports String
 	func titlePlus() -> String 	{ sourceOfTest + title + postTitle}
 
 	var config		: FwConfig	= [:]		// [NOT CODABLE]

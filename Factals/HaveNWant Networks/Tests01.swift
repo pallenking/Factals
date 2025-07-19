@@ -669,36 +669,23 @@ var a2:String 	{												// Wave
 }
 var aOffset = 0.0
 
-xr("+ simple blink tick", eSimX + eYtight + vel(0) + selfiePole(h:5.0, s:45,u:0,z:2.0)
+xxr("+ simple blink tick", eSimX + eYtight + vel(0) + selfiePole(h:5.0, s:45,u:0,z:2.0)
 			+ ["lookAtX":"b"], { Net([placeMy:"linky", parts:[
 	Bulb(  		[n:"d", P:"a,v:3.5"]),	// ,l:4
+//	Bulb(		[n:"b", P:"a,v:3.5"]),
 	MaxOr(		[n:"b", P:"a,v:3.5"]),
 //	Mirror(		[n:"b", P:"a,v:4"]),
  //	PortSound(	[n:"c", "inP":"b.P", "sounds":tickTock]),
 	Mirror(		[n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })
-	xxr("--- blinking Bulbs + Flowers", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
-			+ ["lookAtX":"b"], { Net([placeMy:"stacky", parts:[
-		Net([placeMy:"linky", spin:4, parts:[
-			Bulb([P:"x,l:3"]),
-			Mirror([n:"y", P:"x,v:2", jog+X:"4", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
-			PortSound([n:"s1", "inP":"y.P", "sounds":tickTock]),
-			Mirror([n:"x", "gain":-1, "offset":1, f:1]),
-		] ] )
-//	//	Net([placeMy:"linky", spin:4, parts:[
-	//		Mirror([n:"y", P:"x,l:3,v:2", jog:"0 2", "latitude":-1, "spinX":"1"]),		//a2//"a,v:-1"
-	//		Mirror([n:"x", "gain":-1, "offset":1, f:1]),
-//	//	] ] )
- 	] ]) })
- 
  
 ////	FwBundle([struc:["a","b"/*,"c","d","e","f"*/]/*, of:"genAtom"*/, placeMy:"stackx -1 1"]) {			//"a","b","c","d","e","f","g","h"
 xxr("- way extra size", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:2.0)
 			+ ["animateVBdelay":1.0], { Net([placeMy:"stackx", parts:[
 	Net([placeMy:"linky", parts:[
-//		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),	// 3:ok,4:fails
-		Bulb([P:a8]),	//	Bulb([P:a8]),		Bulb([P:a8]),
-//		Bulb([P:a8]),	//	Bulb([P:a8]),	//	Bulb([P:a8]),		Bulb([P:a8]),
+		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),	// 3:ok,4:fails
+//		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
+//		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
 		Mirror([n:"b", P:"a,v:3", jog:"4", "latitude":-1, "spinX":"1"]),
 		PortSound([n:"snd1", "inP":"b.P", "sounds":tickTock, "soundVolume":10.0 ]),
 //		PortSound([n:"snd1", "inP":"a.P", "sounds":tickTock, "soundVolume":10.0 ]),

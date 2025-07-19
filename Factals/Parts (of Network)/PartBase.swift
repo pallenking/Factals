@@ -43,23 +43,21 @@ class PartBase : Codable, ObservableObject, Uid {
 	}
 	init(fromLibrary selector:String?) {			// PartBase(fromLibrary...
 		 // Get HaveNWant Machine (a Network)
-		if let hnwm:HnwMachine  = Library.hnwMachine(fromSelector:selector) {
-			logBld(6, "Create Parts:")
-			if let newTree		= hnwm.trunkClosure?()	//  <<=======
-			{
-				hnwMachine		= hnwm
-				hnwMachine.sourceOfTest	= "\(hnwMachine.testNum) \(hnwMachine.fileName ?? "<unnamed>"):" +
-									  "\(hnwMachine.lineNumber ?? -99)"
-				tree			= newTree
-			}
-			else {
-				hnwMachine		= HnwMachine()		// default, runt
-				hnwMachine.sourceOfTest	= "Test '\(selector ?? "<nil>")' not in library"
-				tree			= Part()
-			}
-			checkTree()
+		logBld(6, "Create PartBase(fromLibrary \(selector ?? "nil"))")
+		if let hnwm:HnwMachine  = Library.hnwMachine(fromSelector:selector),
+		  let newTree		= hnwm.trunkClosure?()	//  <<=======
+		{
+			hnwMachine		= hnwm
+			hnwMachine.sourceOfTest	= "\(hnwMachine.testNum) \(hnwMachine.fileName ?? "<unnamed>"):" +
+								  "\(hnwMachine.lineNumber ?? -99)"
+			tree			= newTree
 		}
-		else {		fatalError("library selector '\(selector ?? "<nil>)' not found")'}") }
+		else {
+			hnwMachine		= HnwMachine()		// default, runt
+			hnwMachine.sourceOfTest	= "Test '\(selector ?? "<nil>")' not in library"
+			tree			= Part()
+		}
+		checkTree()
 	}
 	func checkTree() {
 		let changed 			= tree.checkTreeThat(parent:nil, partBase:self)
