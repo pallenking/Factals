@@ -33,8 +33,8 @@ class Actor : Net {
 	/// 4.	"linkDisplayInvisible" : Bool
 	/// 5.	"E"						: Bool -- Enable Actor operation
 	/// 6.	"TimingChain":1		: add timing chain module
-	override init(_ config:FwConfig = [:]) {
-		//let config			= config	// default: /*[placeMy:"stackx"] +*/ stackx
+	override init(_ c:FwConfig = [:]) {
+		let config				= ["placeMy":"stackx"] + c
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		  // MAKE ALL PARTS OF ACTOR:
@@ -67,7 +67,7 @@ class Actor : Net {
 		viewAsAtom		 		= partConfig["viewAsAtom"		   ]?.asBool ?? false
 		linkDisplayInvisible	= partConfig["linkDisplayInvisible"]?.asBool ?? false
 		positionViaCon			= partConfig["positionViaCon"	   ]?.asBool ?? false
-//		enforceOrder()						// evi on bottom, con on top
+		enforceOrder()						// evi on bottom, con on top
 		partConfig["addPreviousClock"] = 1	// Add Previous Clock for me
 	}
 
@@ -133,86 +133,84 @@ class Actor : Net {
 	 // MARK: - 4.2 Manage Tree
 	///	ALGORITHM:	scan through Net,
 	///				move improper forward references infront of us
-//	func orderPartsByConnections() {
-//		panic()//return
-//		var retryCount 			= 100
-//		var orderIsGood			= false
-//		while !orderIsGood {
-////			enforceOrder()
-//
-//			 // Make a try to clear out children
-//			var scanI 			= 0
-//			orderIsGood 		= true			// presume scan succeeds
-//
-//			 // Scan through our Actor's Parts, from bottom up
-//			while scanI < children.count {
-//				let scanPart = children[scanI]
-////				if scanPart is NSNumber {
-////					continue
-////				}
-//				 // Look only at Atoms:
-//				/*else*/ if let scanAtom = scanPart as? Atom {
-//
-//					 // Scan thru Ports of Atoms:
-//					for (_, scanPort) in scanAtom.ports {
-//						//if scanPort_ is NSNumber {	continue }
-//						if !scanPort.flipped ^^ scanAtom.flipped { // going down is OKAY
-//							continue
-//						}
-//
-//						if let otherAtom  = scanPort.con2?.port?.atom {		// Identify otherAtom
-//							 // If ancestor of otherAtom is part of self
-////							let othersActorPart = otherAtom.lowestAncestorThats(childOf:self)
-//							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
-//							  otherI > scanI		 {
-//								 // pull that worker to just below us
-//								logBld(4, "Actor reordering '%@' to index %d", otherAtom.name, scanI)
-//								children.remove(at:otherI)//	children.removeObject(otherAtom)
-//								children.insert(otherAtom, at:scanI)
-//								 // and start all over again...
-//								orderIsGood = false
-//								break
-//							}
-//						}
-//						else {
-//							assert(scanPort.con2==nil, "peculiar")
-//						}
-//					}
-//					if orderIsGood == false {
-//						break
-//					}
-//				}
-//			}
-//			orderIsGood 		=  scanI == children.count
-//			retryCount			-= 1
-//			if retryCount < 0 {
-//				panic("In ordering Actor Parts, Looped 100x: Actor has an unusual net!")
-//				break
-//			}
-//			scanI				-= 1
-//		}
-////		enforceOrder()
-//	}
+	func orderPartsByConnections() {
+		panic()//return
+		var retryCount 			= 100
+		var orderIsGood			= false
+		while !orderIsGood {
+			enforceOrder()
 
+			 // Make a try to clear out children
+			var scanI 			= 0
+			orderIsGood 		= true			// presume scan succeeds
+
+			 // Scan through our Actor's Parts, from bottom up
+			while scanI < children.count {
+				let scanPart = children[scanI]
+//				if scanPart is NSNumber {
+//					continue
+//				}
+				 // Look only at Atoms:
+				/*else*/ if let scanAtom = scanPart as? Atom {
+
+					 // Scan thru Ports of Atoms:
+					for (_, scanPort) in scanAtom.ports {
+						//if scanPort_ is NSNumber {	continue }
+						if !scanPort.flipped ^^ scanAtom.flipped { // going down is OKAY
+							continue
+						}
+
+						if let otherAtom  = scanPort.con2?.port?.atom {		// Identify otherAtom
+							 // If ancestor of otherAtom is part of self
+//							let othersActorPart = otherAtom.lowestAncestorThats(childOf:self)
+							if let otherI = children.firstIndex(where: {$0 === otherAtom}), //(of:otherAtom),
+							  otherI > scanI		 {
+								 // pull that worker to just below us
+								logBld(4, "Actor reordering '%@' to index %d", otherAtom.name, scanI)
+								children.remove(at:otherI)//	children.removeObject(otherAtom)
+								children.insert(otherAtom, at:scanI)
+								 // and start all over again...
+								orderIsGood = false
+								break
+							}
+						}
+						else {
+							assert(scanPort.con2==nil, "peculiar")
+						}
+					}
+					if orderIsGood == false {
+						break
+					}
+				}
+			}
+			orderIsGood 		=  scanI == children.count
+			retryCount			-= 1
+			if retryCount < 0 {
+				panic("In ordering Actor Parts, Looped 100x: Actor has an unusual net!")
+				break
+			}
+			scanI				-= 1
+		}
+		enforceOrder()
+	}
+								
 	 /// Ensure EVIdence is first element (if it exists), and CONtext the last (if it exists):
-//	func enforceOrder() {
-//		if con != nil {			// ///// con exists:
-//			if let ind 			= children.firstIndex(where: {$0 === con!}),//(of:con!),
-//			  ind != 0 {						  // con not first:
-//				children.remove(at:ind)				// remove
-//				children.insert(con!, at:0)			// at start
-//				con!.parent 	= self				// required first time
-//			}
-//		}
-//		if evi != nil {			// ///// evi exists:
-//			if let ind 			= children.firstIndex(where: {$0 === evi!}),//(of:evi!),
-//			  ind != children.count-1 {			// evi not last:
-//				children.remove(at:ind)				// remove
-//				children.append(evi!)				// add at end
-//				evi!.parent 	= self				// required first time
-//			}
-//		}
-//	}
+	func enforceOrder() {
+		if let con, 			// ///// con exists:
+		  let  conInd 			= children.firstIndex(where: {$0 === con}),
+			   conInd != 0 {				// con not first:
+			children.remove(at:conInd)			// remove
+			children.insert(con, at:0)			// at start
+			con.parent 			= self			// required first time
+		}
+		if let evi, 			// ///// evi exists:
+		  let  eviInd 			= children.firstIndex(where: {$0 === evi}),
+			   eviInd != children.count-1 {	// evi not last:
+			children.remove(at:eviInd)			// remove
+			children.append(evi)				// add at end
+			evi.parent 			= self			// required first time
+		}
+	}
 	// / also add actor.previousClocks
 	override func gatherLinkUps(into linkUpList:inout [() -> ()], partBase:PartBase) {
 		super.gatherLinkUps(into:&linkUpList, partBase:partBase)
@@ -262,7 +260,8 @@ bug;		let enaPort			= Port()
 	 // MARK: - 8. Reenactment Simulator
 	override func simulate(up:Bool) {
 		if (up) {				// /////// going UP /////////	enable
-			if let enaInPort	= enable3?.con2?.port {
+			if let enaInPort	= enable3?.con2?.port
+			{
 				let unusedVal	= enaInPort.getValue()
 				panic("unused enable3?.con2?.port.getValue \(unusedVal) signal")
 			}
@@ -288,62 +287,62 @@ bug;		let enaPort			= Port()
 		super.reSize(vew:vew)
 
  // RESURECT ME!!:
-//		  //// 1. SIZE all, in order of v.subVews (==self.parts):  DO NOT PLACE
-//		 /**/	// CONtext (if it exists)
-//				// ... other entries ...
-//				// EVIdence (if it exists)
-//		var first				= true
-//		for childVew in vew.children {			// Subviews:
-//			let childPart		= childVew.part
-//			 /// First Repack:
-//			childPart    .reSize(vew:childVew)		// #### HEAD RECURSIVE
-//			 /// Then Reposition:
-//			childPart.rePosition(vew:childVew)
-//			childVew.orBBoxIntoParent()
-//			first				= false
-//			//childVew.placed	= true
-//		}
-//		vew.bBox 				= .empty	// initially nil, to occupy elt 0's origin
-//
-//		  /// 2. PLACE   (CONtext FIRST, at the BOTTOM,
-//		 /// so the assimilated content can be better placed
-//		if con != nil && positionViaCon {
-//			guard let conVew 	= vew.children.last
-//			else {	return panic("why is't there an element in v?")				}
-//			con!.rePosition(vew:conVew, first:true)
-//			conVew.orBBoxIntoParent()
-//		}
-//		vew.bBox = .empty					// remove con from self, but it's still placed
-//		  /// 3. Scan subVews: begin<< [evi], . .. ., [con] >>end
-//		 /// and insure 2..n-1 were at least gardenSize
-//		var eviGardenBounds 	= BBox.empty
-//		for subVew in vew.children {	// SubVews:
-//			let subPart 		= subVew.part
-//			let subBun 			= subPart as? FwBundle
-//			  ///// Two special Cases:
-//			 /// CONtext    (this is processed SECOND)
-//			if subBun == con {		/* and self.positionViaCon*/
-//				if !eviGardenBounds.isNan {	// if already set up
-//					vew.bBox	|= eviGardenBounds	// lay gardenSize upon v.bounds
-//				}
-//			}
-//			subPart.rePosition(vew:subVew)
-//			subVew.orBBoxIntoParent()
-//			  /// EVIdence  (this is processed FIRST)
-//			 // Now place the garden on top EVIdence
-//			if (subBun == evi/* and self.positionViaCon*/) {
-//				 // lay gardenSize upon v.bounds
-//				let minSize_	= minSize ?? .zero
-//				let gardenCenter = (vew.bBox.size  + minSize_)/2.0
-//				let gardenBBox	= BBox(gardenCenter, minSize_)
-//				 // eviGardenBounds includes evi and gardenBounds:
-//				assert(!eviGardenBounds.isNan, "")
-//				eviGardenBounds = vew.bBox | gardenBBox
-//			}
-//		}
-//		if vew.bBox.isNan {			// NO NON-Cohort subvews
-//			vew.bBox 			= .empty	// use our un-gapped size as zero
-//		}
+		  //// 1. SIZE all, in order of v.subVews (==self.parts):  DO NOT PLACE
+		 /**/	// CONtext (if it exists)
+				// ... other entries ...
+				// EVIdence (if it exists)
+		var first				= true
+		for childVew in vew.children {			// Subviews:
+			let childPart		= childVew.part
+			 /// First Repack:
+			childPart    .reSize(vew:childVew)		// #### HEAD RECURSIVE
+			 /// Then Reposition:
+			childPart.rePosition(vew:childVew)
+			childVew.orBBoxIntoParent()
+			first				= false
+			//childVew.placed	= true
+		}
+		vew.bBox 				= .empty	// initially nil, to occupy elt 0's origin
+
+		  /// 2. PLACE   (CONtext FIRST, at the BOTTOM,
+		 /// so the assimilated content can be better placed
+		if con != nil && positionViaCon {
+			guard let conVew 	= vew.children.last
+			else {	return panic("why is't there an element in v?")				}
+			con!.rePosition(vew:conVew, first:true)
+			conVew.orBBoxIntoParent()
+		}
+		vew.bBox = .empty					// remove con from self, but it's still placed
+		  /// 3. Scan subVews: begin<< [evi], . .. ., [con] >>end
+		 /// and insure 2..n-1 were at least gardenSize
+		var eviGardenBounds 	= BBox.empty
+		for subVew in vew.children {	// SubVews:
+			let subPart 		= subVew.part
+			let subBun 			= subPart as? FwBundle
+			  ///// Two special Cases:
+			 /// CONtext    (this is processed SECOND)
+			if subBun == con {		/* and self.positionViaCon*/
+				if !eviGardenBounds.isNan {	// if already set up
+					vew.bBox	|= eviGardenBounds	// lay gardenSize upon v.bounds
+				}
+			}
+			subPart.rePosition(vew:subVew)
+			subVew.orBBoxIntoParent()
+			  /// EVIdence  (this is processed FIRST)
+			 // Now place the garden on top EVIdence
+			if (subBun == evi/* and self.positionViaCon*/) {
+				 // lay gardenSize upon v.bounds
+				let minSize_	= minSize ?? .zero
+				let gardenCenter = (vew.bBox.size  + minSize_)/2.0
+				let gardenBBox	= BBox(gardenCenter, minSize_)
+				 // eviGardenBounds includes evi and gardenBounds:
+				assert(!eviGardenBounds.isNan, "")
+				eviGardenBounds = vew.bBox | gardenBBox
+			}
+		}
+		if vew.bBox.isNan {			// NO NON-Cohort subvews
+			vew.bBox 			= .empty	// use our un-gapped size as zero
+		}
 	}
 
 	 // MARK: - 13. IBActions
