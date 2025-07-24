@@ -55,9 +55,9 @@ class PortSound : Part {
 			return rv
 		} ()
 		let bbox 			 	= scn.bBox()
-		return bbox * scn.transform //return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
-//		return vew.bBox						// vew.scnScene.bBox()//scnScene.bBox()// Xyzzy44 ** bb
-	}
+		return bbox * scn.transform  // return vew.scnScene.bBox()			//scnScene.bBox()	// Xyzzy44 vsb
+//		return vew.bBox						// vew.scnScene.bBox()
+	}											 //scnScene.bBox()// Xyzzy44 ** bb
 	 // MARK: - 15. PrettyPrint
 	override func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		var rv					= super.pp(mode, aux)

@@ -38,8 +38,15 @@ class Net : Atom {		// Atom // Part
 		}
 	}
 	 // MARK: - 3.1 Port Factory
-	override func hasPorts() -> [String:String]	{	return [:]	} // None for debug
-	 // MARK: - 3.5 Codable
+	override func hasPorts() -> [String:String]	{	return ["E":"p d"]	} // None for debug
+														//[rv removeObjectForKey:@"P"];		// okay, but...
+														//[rv removeObjectForKey:@"S"];
+														//rv[@"E"]		= @"p d";
+	var minSize :SCNVector3? 	= nil
+	{	didSet { 	markTreeDirty(bit:.size)  									}}
+
+	var enable3 : Port?		{	return getPort(named:"E", localUp:false)		}
+ // MARK: - 3.5 Codable
 	enum NetsKeys: String, CodingKey {
 		case minSize
 	}
@@ -69,17 +76,12 @@ class Net : Atom {		// Atom // Part
 //	}
 	 // MARK: - 3.7 Equatable
 	override func equalsFW(_ rhs:Part) -> Bool {
-		guard self !== rhs 					  else {	return true				}
-		guard let rhs			= rhs as? Net else {	return false			}
-		guard super.equalsFW(rhs)				  else {	return false			}
-		guard self.minSize		== rhs.minSize else{	return false			}
+		guard self !== rhs 					  	else {	return true				}
+		guard let rhs			= rhs as? Net 	else {	return false			}
+		guard super.equalsFW(rhs)			  	else {	return false			}
+		guard self.minSize		== rhs.minSize	else {	return false			}
 		return true
 	}
-
-	var minSize :SCNVector3? 	= nil
-	{	didSet { 	markTreeDirty(bit:.size)  									}	}
-
-	var enable3 : Port?		{	return getPort(named:"E", localUp:false)			}
 
 	   // MARK: - 9.0 make a Vew for a Net
 	override func VewForSelf() -> Vew? {

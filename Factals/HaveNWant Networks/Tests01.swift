@@ -704,12 +704,12 @@ xxr("- bulb doesn't animate", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0,
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
  ] ]) })
 xxr("- animate size ??", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:2.0)
-			+ ["animateVBdelay":0.1], { Net([placeMy:"stackx", parts:[
+			+ ["animateVBdelay":1], { Net([placeMy:"stackx", parts:[
 	Net([placeMy:"linky", parts:[
 //		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
-		Bulb([P:a8]),	//	Bulb([P:a8]),		Bulb([P:a8]),
-		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
-		Mirror([n:"b", P:"a,v:3", jog:"4", "latitude":-1, "spinX":"1"]),
+		Bulb([P:a8]),	//	Bulb([P:a8]),	//	Bulb([P:a8]),
+	//	Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),		Bulb([P:a8]),
+		Mirror([n:"b", P:"a,v:3,l:3", jog:"4", "latitude":-1, "spinX":"1"]),
 		PortSound([n:"s1", "inP":"b.P", "sounds":tickTock, "soundVolume":0.0 ]),
 		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 	] ])
@@ -754,7 +754,7 @@ xxr("+ Atom.reSize bug", eSimX + vel(-4) + selfiePole(h:5.0, s:45,u:0,z:2.0) + [
 	] ] )
 })
 
-xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(0) + vel(-5), { Net([placeMy:"linky", parts:[
+ xxr("+ blinking flowers", e + selfiePole(s:45,u:10,z:1.5) + logAt(0) + vel(-5), { Net([placeMy:"linky", parts:[
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
 	Bulb([P:a9]),		Bulb([P:a9]),		Bulb([P:a9]),
@@ -1694,14 +1694,15 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
-xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
-  Net([parts:[												// logAt(dat:5, eve:5)
-	Actor([n:"wheelA", placeMy:"linky",
-		"evi":Tunnel([struc:["a", "b"], of:"bcast"/*nil_A*/, placeMy:"stackz 0 -1"]),
-	]),
-	Generator([n:"loGen", events:["a", ["a", "b"], "b", "again"],
-			P:"wheelA/evi", expose+X:"atomic"]),
-]]) })
+	xr("- bad paranoia", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+	  Net([parts:[
+//		Tunnel([n:"evi", struc:"a", of:"bcast", placeMy:"stackz 0 -1"]),
+//		Generator([n:"loGen", events:["a", "again"], P:"evi"]),//+X
+		Actor([n:"wheelA", placeMy:"linky",
+			"evi":Tunnel([struc:"a", of:"bcast", placeMy:"stackz 0 -1"]),
+		]),
+		Generator([n:"loGen", events:["a", "again"], P:"wheelA/evi"]),
+	]]) })
 
 	 // eTight
 	xxr("Structure for XCTEST", eSim + selfiePole(s:45,u:10) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {

@@ -546,7 +546,7 @@ bug	// Never USED?
 //			logRsi(8, "<><> L 9.5.4: \\set xform from p:\(pEndVip.pp(.line)) s:\(sEndVip.pp(.line))")
 
 			 // Create a transform that maps (0,0,0)->pEndVip and (0,0,1)->sEndVip
-			//	  |m11* + m12* + m13*|   |in.x| transposed into a colum
+			//	  |m11* + m12* + m13*|   |in.x|T (transposed into a colum)
 			//	  |m21* + m22* + m23*|<--|in.y|
 			//	  |m31* + m32* + m33*|   |in.z|
 			//	  out.x   out.y  out.z			output is a row

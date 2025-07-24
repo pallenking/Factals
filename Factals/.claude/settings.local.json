@@ -4,7 +4,8 @@
       "Bash(exec zsh)",
       "Bash(find:*)",
       "WebFetch(domain:docs.anthropic.com)",
-      "Bash(xcodebuild:*)"
+      "Bash(xcodebuild:*)",
+      "Bash(git diff:*)"
     ],
     "deny": []
   }

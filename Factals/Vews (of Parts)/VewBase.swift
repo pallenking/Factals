@@ -289,8 +289,9 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 									//	partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
 									//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 		}
-		partsTree.rotateLinkSkins (vew:tree)	// WHY HERE? Rotate Link Skins, no delay
+   		partsTree.rotateLinkSkins (vew:tree)	// WHY HERE? Rotate Link Skins, no delay
 		SCNTransaction.commit()
+//		partsTree.rotateLinkSkins (vew:tree)	// WHY HERE? Rotate Link Skins, no delay
 	}
 								
 	 // MARK: - 15. PrettyPrint

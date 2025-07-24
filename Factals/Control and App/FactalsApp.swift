@@ -241,7 +241,7 @@ struct FactalsApp: FwAny, Uid {
 	init() {
 		  // 🇵🇷🇮🇳🔴😎💥🐼🐮🐥🎩 🙏🌈❤️🌻💥💦 τ_0 = "abc";  τ_0 += "!" é 김 ⌘:apple, ⏎:enter
 		 // Henry A. King and P. Allen King:
-		logApp(3, "detailWanted:\(Log.shared.detailWanted.pp(.line));  XcTests is\(isRunningXcTests ? "" : "n't") running")
+		logApp(3, "Log detail wanted:\(Log.shared.detailWanted.pp(.line));  XcTests is\(isRunningXcTests ? "" : "n't") running")
 		logApp(3, "FactalsApp(\(params4partPp.pp(PpMode.line).wrap(min: 14, cur:25, max: 100)))")
 		logApp(3, "❤️ ❤️   ❤️ ❤️         ❤️ ❤️   ❤️ ❤️   ❤️ ❤️        ❤️ ❤️   ❤️ ❤️")
 		logApp(3, "\t\t🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘🚘")
