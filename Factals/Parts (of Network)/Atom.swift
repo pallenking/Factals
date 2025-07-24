@@ -198,7 +198,7 @@ class Atom : Part {	//Part//FwPart
 		 // -- 1. May be EXISTING Port:
 		let candidatePorts : [Port] = existingPorts(named:named, localUp:wantUp)
 		 assert(candidatePorts.count <= 1, "multiple existingPorts\(candidatePorts) seems illogical")
-		
+		 
 		if let portsFirst		= candidatePorts.first,
 		  !wantOpen || portsFirst.con2==nil { 	// the Port is as required
 				return portsFirst

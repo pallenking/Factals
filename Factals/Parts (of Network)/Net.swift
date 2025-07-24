@@ -6,35 +6,33 @@ import SceneKit
 class Net : Atom {		// Atom // Part
 
 	 // MARK: - 3. Part Factory
-	override init(_ config:FwConfig = [:]) {
+	override init(_ c:FwConfig = [:]) {
 			// E.g:		[struc:["a"],of:genBcast,placeMy:stackx,f:0]
-		let config				= ["placeMy":"linky"] + config	// default
+		var config				= ["placeMy":"linky"] + c	// default
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-//		if let a 				= partConfig["parts"] as? [Part] {
-//			a.forEach { addChild($0) }						// add children in "parts"
-//			partConfig["parts"] = nil
-//		}
-//		if let parts 			= partConfig["parts"] {
-//			let arrayOfParts	= parts as? [Part]
-//			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
-//			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
-//			partConfig["parts"] = nil
-//		}
-		if let minSizeStr 		= partConfig["minSize"] as? String {
-			if let vect 		= SCNVector3(from:minSizeStr) {
-				minSize 		= vect
-			}
-			partConfig["minSize"] = nil
+		if let a 				= partConfig["parts"] as? [Part] {
+			a.forEach { addChild($0) }						// add children in "parts"
+			partConfig["parts"]		= nil
 		}
-		if let str 				= partConfig["minHeight"] as? String {
-			if let f 			= CGFloat(str) {
-				if minSize==nil {
-					minSize 	= SCNVector3.zero
-				}
-				minSize!.y 		= f
+		if let parts 			= partConfig["parts"] {
+		bug;let arrayOfParts	= parts as? [Part]
+			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
+			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
+			partConfig["parts"] 	= nil
+		}
+		if let minSizeStr 		= partConfig["minSize"] as? String,
+		  let vect 				= SCNVector3(from:minSizeStr) {
+			minSize 			= vect
+			partConfig["minSize"] 	= nil
+		}
+		if let str 				= partConfig["minHeight"] as? String,
+		  let f 				= CGFloat(str) {
+			if minSize==nil {
+				minSize 		= SCNVector3.zero
 			}
-//			partConfig["minHeight"] = nil
+			minSize!.y 			= f
+			partConfig["minHeight"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory
