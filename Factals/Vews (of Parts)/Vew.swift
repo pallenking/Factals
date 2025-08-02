@@ -70,7 +70,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 		scn						= SCNNode()		// makes rootNode:SCNNode too
 		scn.name				= "*-" + part.name								// scn.name = self.scn.name ?? ("*-" + part.name)
 		  // Visible Shape:
-		// Jog
+		 // Jog
 		if let jogStr	 		= part.config["jog"]?.asString,
 		   let jogVect 			= SCNVector3(from:jogStr) ??			// x y z
 		  						  SCNVector3(from:jogStr + " 0") ??		// x y 0

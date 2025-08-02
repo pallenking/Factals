@@ -149,6 +149,8 @@
 		9F969531288B3F8E00106DBC /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE52262875FEE200C8C22A /* Atom.swift */; };
 		9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F969540288B4E8800106DBC /* SwiftUI++.swift */; };
 		9F9AC6A4299C7C6000CDEB08 /* FactalsModelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */; };
+		9F9AF6712E3DA738004E4F79 /* RealityKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */; };
+		9F9AF6722E3DA738004E4F79 /* RealityKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */; };
 		9FA1E4B92939AFF10012E02F /* VewBaseBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBaseBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBaseBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBaseBar.swift */; };
@@ -261,6 +263,7 @@
 		9F84C9F02AF2FDC6002BD0C1 /* BundleTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleTap.swift; sourceTree = "<group>"; };
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsModelBar.swift; sourceTree = "<group>"; };
+		9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitView.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBaseBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBaseBar.swift; sourceTree = "<group>"; };
@@ -385,6 +388,7 @@
 			children = (
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */,
+				9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
@@ -675,6 +679,7 @@
 				9F84C9EF2AF2BFAA002BD0C1 /* ShaftBundleTap.swift in Sources */,
 				9F132F842DBECD9700E28189 /* Chanty.swift in Sources */,
 				9F0A93562E1DDAFB00B64EF3 /* RealityR.swift in Sources */,
+				9F9AF6712E3DA738004E4F79 /* RealityKitView.swift in Sources */,
 				9F417F3728EB947A0047B359 /* InspecSCNVector3.swift in Sources */,
 				9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */,
 				9F417F1928EB940D0047B359 /* TimingChain.swift in Sources */,
@@ -753,6 +758,7 @@
 				9F581E6D28CAD4F1003107E8 /* SelfiePole.swift in Sources */,
 				9F1900FB28808DC10078DB6C /* Previous.swift in Sources */,
 				9FEE51B7286BA61000C8C22A /* Random.swift in Sources */,
+				9F9AF6722E3DA738004E4F79 /* RealityKitView.swift in Sources */,
 				9FEE51B0286BA57A00C8C22A /* Library.swift in Sources */,
 				9FEE52232874D9A100C8C22A /* NSColor++.swift in Sources */,
 				9F969541288B4E8800106DBC /* SwiftUI++.swift in Sources */,
@@ -1007,6 +1013,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = abcFoo.Factals;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1041,6 +1048,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = abcFoo.Factals;
 				PRODUCT_NAME = "$(TARGET_NAME)";

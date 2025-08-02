@@ -167,7 +167,6 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		if let valStr			= config["expose"] as? String,
 		  let e : Expose		= Expose(string:valStr) {
 			initialExpose		= e
-//			config["expose"] = nil
 		}
 		for key in ["f", "flip", "flipped"] {
 			if let ff			= config[key],		// in config
@@ -181,18 +180,15 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 				if let f		= Int(fwAny:ff),
 				  let g			= Latitude(rawValue:f) {
 					latitude			= g
-					config[key] = nil
 				}
 			}
 		}
 		if let s				= UInt8(fwAny:config["spin"]) {
 			spin 				= s
-			config["spin"] = nil
 		}
 
 		if let a 				= config["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
-//			config["parts"] = nil
 		}
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}
@@ -498,7 +494,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 	}
 
-	 // Get Part's configuration from config of Part and parents, and model
+	 /// Get Part's configuration from config, searching Part, parents, and then model
 	func getConfig(_ name:String) -> FwAny? {
 		 // Look in self and parents:
 		for s in selfNParents {					 // look in: self, parent?,...,root

@@ -275,12 +275,12 @@ bug;		let enaPort			= Port()
 			return viewAsAtom_
 		}
 		set(val) {
-			viewAsAtom_		= val
+			viewAsAtom_			= val
 			markTreeDirty(bit:.vew)
 		}
 	}
-	var viewAsAtom_			= false		// force our content to be Atomic
-    var linkDisplayInvisible = false	// Ignore link invisibility
+	var viewAsAtom_				= false		// force our content to be Atomic
+    var linkDisplayInvisible 	= false		// Ignore link invisibility
 
 	// reSize; fw boundIntoVew
 	override func reSize(vew:Vew) {
