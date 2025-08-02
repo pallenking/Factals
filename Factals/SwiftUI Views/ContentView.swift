@@ -54,7 +54,7 @@ struct ContentView: View {
 				window.title 	= document.factalsModel.partBase.hnwMachine.titlePlus()// + "   from ContentView"
 			}
 		}
-//	////////////////////// SCAFFOLDING /////////////////////////////////////////
+	// //////////////////// SCAFFOLDING /////////////////////////////////////////
 	//	SimpleSceneKitView(vewBase:document.factalsModel.vewBases.first, prefFps:$prefFps)
 	//	SimpleViewRepresentable(simpleObject:a)						// FAILS
 	//	Text("ContentView")  										// Minimal View
@@ -147,16 +147,21 @@ struct FactalsModelView: View {
 						 .tag(vewBase.wrappedValue.slot_)
 					}
 
-				//	 // -2: A View selectable in TabView
-				//	SimpleTestView(factalsModel:factalsModel)
-				//	 .tabItem { Label("SimpleBase0()", systemImage: "")			}
-				//	 .tag(-2)
+					 // -2: A View selectable in TabView
+					SimpleRealityView(factalsModel:factalsModel)
+					 .tabItem { Label("RealityView()", systemImage: "")			}
+					 .tag(-2)
+
+				//	 // -3: A View selectable in TabView
+				//	SimpleSceneView(factalsModel:factalsModel)
+				//	 .tabItem { Label("SceneView()", systemImage: "")			}
+				//	 .tag(-3)
 				//
-				//	 // -3: clear screan force redraw
+				//	 // -4: clear screan force redraw
 				//	Text("")
 				//	 .tabItem { Label("Clear", systemImage: "")					}
-				//	 .tag(-3)
-    				}
+				//	 .tag(-4)
+    			}
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 					updateTabTitle()												}
 				.accentColor(.green) // Change the color of the selected tab

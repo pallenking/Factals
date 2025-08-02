@@ -12,7 +12,7 @@ import AppKit
 // ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
 
  // Simple test of things like VIEWREPresentable
-struct SimpleTestView: View {
+struct SimpleSceneView: View {
 	@Bindable var factalsModel : FactalsModel
 
 	@State var prefFpsC : CGFloat	= 30.0
