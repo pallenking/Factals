@@ -71,7 +71,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 		scn.name				= "*-" + part.name								// scn.name = self.scn.name ?? ("*-" + part.name)
 		  // Visible Shape:
 		// Jog
-		if let jogStr	 		= part.partConfig["jog"]?.asString,
+		if let jogStr	 		= part.config["jog"]?.asString,
 		   let jogVect 			= SCNVector3(from:jogStr) ??			// x y z
 		  						  SCNVector3(from:jogStr + " 0") ??		// x y 0
 		  						  SCNVector3(from:jogStr + " 0 0") {	// x 0 0
@@ -88,7 +88,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 		scn						= SCNNode()		 // Make new SCN:
 		scn.name				= "*-" + port.name
 
-		let portProp : String?	= port.partConfig["portProp"] as? String //"xxx"//
+		let portProp : String?	= port.config["portProp"] as? String //"xxx"//
 		scn.flipped 			= portProp?.contains(substring:"f") ?? false
 		 // Flip
 		// Several ways to do a flip. Each has problems:
@@ -212,12 +212,12 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 		}
 	}
 
-	 /// Lookup configuration from Part's partConfig, up to root
-	func config(_ name:String)		-> FwAny? 		{
+	 /// Lookup configuration from Part's config, up to root
+	func getConfig(_ name:String)		-> FwAny? 		{
 
 		 // Go up Vew tree to top, looking...
 		for s in selfNParents {				// s = self, ..., top
-			if let rv			= s.part.partConfig[name] {
+			if let rv			= s.part.config[name] {
 				return rv						// return an ancestor's config
 			}
 		}
@@ -530,7 +530,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 	func updateWireBox() {
 
 		 // Determine color0, or ignore
-		let wBoxStr				= config("wBox")?.asString	// master // part.config("wBox")?.asString
+		let wBoxStr				= getConfig("wBox")?.asString	// master // part.getConfig("wBox")?.asString
 		let myColor : NSColor?	= 				// Config declares:
 			wBoxStr  == nil 	 ?	.red 		:	// red for debug	// nil : // nothing about Part
 			wBoxStr! == "none"   ?	nil 		:	// disabled!

@@ -89,7 +89,7 @@ class Leaf : FwBundle {			// perhaps : Atom is better 200811PAK
 
 		 /// Purple Ring at bottom:
 		let bb					= vew.bBox		// | BBox(size:0.5, 0.5, 0.5)
-		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
+		let gsnb				= vew.getConfig("gapTerminalBlock")?.asCGFloat ?? 0.0
 		// thrashes:
 		let bbs					= bb.size
 		scn.geometry 			= SCN3DPictureframe(width:bbs.x, length:bbs.z, height:gsnb, step:gsnb) //SCNPictureframe(width:bb.size.x, length:bb.size.z, step:gsnb)//bb.size.x/2)//0.1) //*gsnb/2)

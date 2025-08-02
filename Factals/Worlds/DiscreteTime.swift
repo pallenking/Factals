@@ -27,12 +27,12 @@ class DiscreteTime : Atom {
 
 		super.init(config) //\/\/\/\/\/\/\/\/\/
 
-		if let str 				= partConfig["resetTo"] as? FwwEvent {	//String
+		if let str 				= config["resetTo"] as? FwwEvent {	//String
 			resetTo				= str
 		}
-		if let incEv 			= partConfig["incrementalEvents"] as? Bool {
+		if let incEv 			= config["incrementalEvents"] as? Bool {
 			incrementalEvents	= incEv
-//			partConfig["incrementalEvents"] = nil
+//			config["incrementalEvents"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory

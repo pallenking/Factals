@@ -45,7 +45,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 	var dirty : DirtyBits		= .clean	// (methods in SubPart.swift)
 //	{	willSet(v) {  markTreeDirty(bit:v) } }// BIG PROBLEMS: (Loops!)
-	var partConfig	: FwConfig				// Configuration of Part
+	var config	: FwConfig				// Configuration of Part
 	 // Ugly:
 	var nLinesLeft	: UInt8		= 0			// left to print in current atom
 
@@ -133,16 +133,16 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	/// Base class for Factal Workbench Models
 	/// - Value "n", "name", "named": name of element
 	/// - Parameter config: FwConfig configuration hash 
-	init(_ config:FwConfig = [:]) {
-		partConfig				= config		// Set as my local configuration hash
+	init(_ c:FwConfig = [:]) {
+		config				= c					// Set as my local configuration hash
 
 		var nam : String?		= nil
 		 // Do this early, to improve creation printout
 		for key in ["n", "name", "named"] {		// (Name has 3 keys)
-			if let na:String 	= partConfig[key] as? String {
+			if let na:String 	= config[key] as? String {
 				assert(nam==nil, "Conflicting names: '\(nam!)' != '\(na)' found")
 				nam				= na
-//				partConfig[key] = nil			// remove from config
+//				config[key] = nil			// remove from config
 			}
 		}			// -- Name was given
 		name					= nam ??
@@ -161,38 +161,38 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 		 // Print out invocation
 		let n					= " ID:\(pp(.nameTag)) " + ("\'" + name + "\': ").field(8)
-		logBld(6, n + "\(fwClassName.field(12))(\(partConfig.pp(.line)))")
+		logBld(6, n + "\(fwClassName.field(12))(\(config.pp(.line)))")
 
 		 // Options:
-		if let valStr			= partConfig["expose"] as? String,
+		if let valStr			= config["expose"] as? String,
 		  let e : Expose		= Expose(string:valStr) {
 			initialExpose		= e
-//			partConfig["expose"] = nil
+//			config["expose"] = nil
 		}
 		for key in ["f", "flip", "flipped"] {
-			if let ff			= partConfig[key],		// in config
+			if let ff			= config[key],		// in config
 			  let f				= Bool(fwAny:ff) {			// can be Bool
 				flipped 		= f
-				partConfig[key] = nil
+				config[key] = nil
 			}
 		}
 		for key in ["lat", "latitude"] {
-			if let ff			= partConfig[key] {
+			if let ff			= config[key] {
 				if let f		= Int(fwAny:ff),
 				  let g			= Latitude(rawValue:f) {
 					latitude			= g
-					partConfig[key] = nil
+					config[key] = nil
 				}
 			}
 		}
-		if let s				= UInt8(fwAny:partConfig["spin"]) {
+		if let s				= UInt8(fwAny:config["spin"]) {
 			spin 				= s
-			partConfig["spin"] = nil
+			config["spin"] = nil
 		}
 
-		if let a 				= partConfig["parts"] as? [Part] {
+		if let a 				= config["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
-//			partConfig["parts"] = nil
+//			config["parts"] = nil
 		}
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}
@@ -241,7 +241,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		//case root_		// IGNORE, weak regenerate
 		case nLinesLeft		// new
 		case dirty
-		case partConfig		// ERRORS: want FwConfig to be Codable?
+		case config		// ERRORS: want FwConfig to be Codable?
 //		case config			// IGNORE: temp/debug FwConfig	= ["placeSelfy":"foo31"]
 		case initialExpose 	// --- (an Expose)	=.open	// Hint to use on dumb creation of views. (never changed)
 		//case expose		// IGNORE, it's in Vew, not part
@@ -261,7 +261,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 
 		try container.encode(nLinesLeft,	forKey:.nLinesLeft)		// ignore parts. (it's sugar for children)
 
-	//	try container.encode(partConfig,	foarKey:.partConfig)	// FwConfig not Codable!//Protocol 'FwAny' as a type cannot conform to 'Encodable'
+	//	try container.encode(config,	foarKey:.config)	// FwConfig not Codable!//Protocol 'FwAny' as a type cannot conform to 'Encodable'
 	//	try container.encode(config,		forKey:.config) 		// Type '(String) -> FwAny?' cannot conform to 'Encodable'
 		try container.encode(dirty,			forKey:.dirty)			// ??rawValue?? //	var dirty : DirtyBits
 		try container.encode(initialExpose,	forKey:.initialExpose)
@@ -274,7 +274,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	}
 
 	required init(from decoder: Decoder) throws {
-		partConfig				= [:]//try container.decode(FwConfig.self,forKey:.partConfig)
+		config				= [:]//try container.decode(FwConfig.self,forKey:.config)
 //		super.init()	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 		let container 			= try decoder.container(keyedBy:PartsKeys.self)
 			//  po container.allKeys: 0 elements
@@ -284,7 +284,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		children.forEach({ $0.parent = self})	// set parent
 		// root?
 		nLinesLeft				= try container.decode(		UInt8.self, forKey:.nLinesLeft)
-		partConfig 			= [:]	// PUNT
+		config 			= [:]	// PUNT
 		//config				= [:]	// PUNT
 		dirty					= try container.decode( DirtyBits.self, forKey:.dirty)
 		initialExpose			= try container.decode(	   Expose.self, forKey:.initialExpose)
@@ -307,7 +307,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 //		theCopy.name			= self.name
 //		theCopy.children		= self.children
 //		theCopy.nLinesLeft		= self.nLinesLeft
-//		theCopy.partConfig		= self.partConfig
+//		theCopy.config		= self.config
 //	//	theCopy.config			= self.config
 //		theCopy.dirty			= self.dirty
 //		theCopy.initialExpose	= self.initialExpose
@@ -343,7 +343,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 			&& name				== rhs.name
 			&& nLinesLeft		== rhs.nLinesLeft
 			&& dirty			== rhs.dirty			// allowed to differ
-		//	&& partConfig		== rhs.partConfig		// not Equatable
+		//	&& config		== rhs.config		// not Equatable
 		//	&& config			== rhs.config			// not Equatable
 			&& initialExpose 	== rhs.initialExpose
 			&& flipped			== rhs.flipped
@@ -498,11 +498,11 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 	}
 
-	 // Get Part's configuration from partConfig of Part and parents, and model
-	func config(_ name:String) -> FwAny? {
+	 // Get Part's configuration from config of Part and parents, and model
+	func getConfig(_ name:String) -> FwAny? {
 		 // Look in self and parents:
 		for s in selfNParents {					 // look in: self, parent?,...,root
-			if let rv			= s.partConfig[name] {
+			if let rv			= s.config[name] {
 				return rv							 // found in self and ancestor's config
 			}
 		}										 // Look in application:
@@ -1012,15 +1012,15 @@ bug		//		vew.scn.addChild(node:childVew.scnRoot) // Single-Scene mode
 		vew.scn.categoryBitMask = FwNodeCategory.picable.rawValue // Make node picable:
 
 		 // ------ color0
-		if let colorStr 		= config("color")?.asString,					//partConfig["color"]?.asString,
+		if let colorStr 		= getConfig("color")?.asString,					//config["color"]?.asString,
 		  let c	 				= NSColor(colorStr),
-		  vew.expose == .open {			// Hack: atomic not colored				//partConfig["color"] = nil
+		  vew.expose == .open {			// Hack: atomic not colored				//config["color"] = nil
 			vew.scn.color0 		= c			// in SCNNode, material 0's reflective color
 		}
 		markTreeDirty(bit:.paint)
 
 		 //------ Activate Physics:
-		if let physConf			= partConfig["physics"] {
+		if let physConf			= config["physics"] {
 			physics(vew:vew, setConfiguration:physConf)
 		}
 	}
@@ -1173,8 +1173,8 @@ bug		//		vew.scn.addChild(node:childVew.scnRoot) // Single-Scene mode
 	func rePosition(vew:Vew, first:Bool=false) {
 		guard vew.parent != nil else {		return			}
 		 // Get Placement Mode
-		let placeMode			=   partConfig["placeMe"]?.asString ?? // I have place ME
-								parent?.config("placeMy")?.asString ?? // My Parent has place MY
+		let placeMode			=   config["placeMe"]?.asString ?? // I have place ME
+								parent?.getConfig("placeMy")?.asString ?? // My Parent has place MY
 											 			  "linky"	   // default is position by links
 		  // Set NEW's orientation (flip, latitude, spin) at origin
 		vew.scn.transform	= SCNMatrix4(.origin,
@@ -1273,7 +1273,7 @@ bug		//		vew.scn.addChild(node:childVew.scnRoot) // Single-Scene mode
 			rv[u1] 				+= slop[u1] * alignU1
 			rv[u2] 				+= slop[u2] * alignU2
 
-			let gap				= config("gapStackingInbetween")?.asCGFloat ?? 0.0
+			let gap				= getConfig("gapStackingInbetween")?.asCGFloat ?? 0.0
 			rv[u0] 				+= gap * stackSign		/// gap on stacking axis
 				 // H A C K: !!!!
 			rv					+= SCNVector3(newBip.center.x,0,newBip.center.z)
@@ -1407,7 +1407,7 @@ bug//never gets here
 
 	func ppUnusedKeys() -> String {
 		let approvedConfigKeys	= ["placeMe", "placeMy", "portProp", "l", "len", "length"]
-		let dubiousConfig		= partConfig.filter { key, value in !approvedConfigKeys.contains(key) }
+		let dubiousConfig		= config.filter { key, value in !approvedConfigKeys.contains(key) }
 		var rv 					= dubiousConfig.count == 0 ? "" :	// ignore empty configs
   								  "######\(pp(.fullNameUidClass).field(35)) UNUSED KEY: \(dubiousConfig.pp(.line))\n"
 		for child in children {
@@ -1441,11 +1441,11 @@ bug//never gets here
 			rv					+= ind != nil ? fmt("<%2d", Int(ind!)) : "<##"		// Cc..
 				// adds "name;class<unindent><Expose><ramId>":
 			rv					+= ppCenterPart(aux)								// Dd..
-			if config("physics")?.asBool ?? false {
+			if getConfig("physics")?.asBool ?? false {
 				rv				+= "physics,"
 			}
 			if aux.bool_("ppParam") {
-				rv 				+= partConfig.pp(.line, aux)
+				rv 				+= config.pp(.line, aux)
 			}
 																					// Ee..
 		case .tree:

@@ -12,14 +12,14 @@ class CommonPart : Part {
 	override init(_ config:FwConfig = [:]) {
 
 		super.init(config)		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-		if let vectStr		= partConfig["size"] as? String,
+		if let vectStr		= config["size"] as? String,
 		  let vect			= SCNVector3(from:vectStr) {
 			size 			= vect
-//			partConfig["size"] = nil
+//			config["size"] = nil
 		}
 		if let vect			= config["size"] as? SCNVector3 {
 			size 			= vect
-//			partConfig["size"] = nil
+//			config["size"] = nil
 		}
 	}
 	 // MARK: - 3.5 Codable

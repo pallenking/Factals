@@ -30,14 +30,12 @@ class Atom : Part {	//Part//FwPart
 	override init(_ config:FwConfig = [:]) {
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		if let skin2			= partConfig["skin"] as? SCNNode {
+		if let skin2			= config["skin"] as? SCNNode {
 			panic("skin2:\(skin2)")
 			//skin				= skin2
-//			partConfig["skin"]	= nil
 		}
-		if let b				= partConfig["bindings"] as? [String:String] {  //config.fwConfig("bindings")
+		if let b				= config["bindings"] as? [String:String] {  //config.fwConfig("bindings")
 			bindings			= b
-//			partConfig["bindings"] = nil
 		}
 
 		 // Create PORTS in Atoms
@@ -381,7 +379,7 @@ class Atom : Part {	//Part//FwPart
 		var sRetiredKeys : [String] = []
 
 		 // Paw through Atom's local configuration
-		for (srcPortString, targets_) in partConfig {
+		for (srcPortString, targets_) in config {
 
 			  // Find a configuration key which is a Port con2:
 			 // :H: SouRCe is always a Port name
@@ -558,8 +556,8 @@ class Atom : Part {	//Part//FwPart
 				linkUpList.append(aWire)  // must copy, cause this stack goes away //.copy()
 			}
 		}
-		for key in sRetiredKeys {	// Retire used keys in partConfig
-			partConfig[key] 	= nil
+		for key in sRetiredKeys {	// Retire used keys in config
+			config[key] 	= nil
 		}
 	}
 	 /// Check con2 atributes in FwAny
@@ -571,7 +569,7 @@ class Atom : Part {	//Part//FwPart
 		}
 		for constraint:FwAny in constraints { /// return first attribute found
 			if let fwPart 		= constraint as? Part,		//FwPart
-			  let rv				= fwPart.config(attribute)?.asBool {
+			  let rv				= fwPart.getConfig(attribute)?.asBool {
 				return rv		// FwPart looks up in its config
 			}
 			else if let fwConfig = constraint as? [String:FwAny],
@@ -649,7 +647,7 @@ class Atom : Part {	//Part//FwPart
 			childVew.removeFromParent()
 		}
 		 		// 5. Add gap around Atom, so lines don't overlap
-		let gap				= vew.config("gapAroundAtom")?.asCGFloat ?? 0.01
+		let gap				= vew.getConfig("gapAroundAtom")?.asCGFloat ?? 0.01
 		vew.bBox.size		+= 2*gap
 	}
 	 // MARK: - 9.3 reSkin
@@ -754,7 +752,7 @@ class Atom : Part {	//Part//FwPart
 				// /////// Go through a LINK to a (hopefully) fixed point
 				//							// // c. invisible link
 				if let lnk		= inMePort.con2?.port?.atom as? Link,
-				   lnk.config("initialDisplayMode")?.asString == "invisible" {
+				   lnk.getConfig("initialDisplayMode")?.asString == "invisible" {
 					return atPri_fail(		"inMe goes through invisible Link")	// invisible if invisible link connects
 				}
 				// // d. not connected
@@ -814,7 +812,7 @@ class Atom : Part {	//Part//FwPart
 				let fixedSpot	= fixedPort.peakSpot(inVew:commonVew!, openingUp:true)		//print(fixedSpot.pp(.fullName))
 				var newInMePosn	= fixedSpot - inMeSpot		// (all SCNVector3's)
 				// ///// GAPs for con2 via Link or Direct
-				var gap 		= vew.config("gapLinkFluff")?.asCGFloat ?? 4	// minimal distance above
+				var gap 		= vew.getConfig("gapLinkFluff")?.asCGFloat ?? 4	// minimal distance above
 
 				// DOMINATED CONNECTION? (e.g. with no Link):
 				if inMePort.con2?.port === fixedPort ||
@@ -825,7 +823,7 @@ class Atom : Part {	//Part//FwPart
 						   " 1. \(inMe.pp(.fullName))\n" +
 						   " 2. \(lastDomIf2?.pp(.fullName) ?? "sdjsjvsjvjsd")")// not already dominated
 					weightSum	= -1.0			// enter dominant mode
-					gap			= vew.config("gapLinkDirect")?.asCGFloat ?? 0.1
+					gap			= vew.getConfig("gapLinkDirect")?.asCGFloat ?? 0.1
 					// would like gap=-2, but overlap forces moveSoNoOverlapping
 					lastDomIf2	= inMe
 				}
@@ -835,13 +833,13 @@ class Atom : Part {	//Part//FwPart
 					// Gap: Fluff + extraGap
 					let theLink	= inMePort.con2?.port?.parent as? Link
 					for key in ["length", "len", "l"] {
-						if let linksGap = theLink?.partConfig[key]?.asCGFloat {
+						if let linksGap = theLink?.config[key]?.asCGFloat {
 							gap = linksGap
 						}
 					}
 					// Line type
 					for key in ["type", "t"] {
-						if let any  = theLink?.partConfig[key] {
+						if let any  = theLink?.config[key] {
 							let str	= any as? String ?? "xxx"
 							let dla = LinkSkinType(rawValue:str)
 							assertWarn(dla != nil, "\(pp(.fullNameUidClass).field(-35)) linkSkinType:'\(any.pp())'")

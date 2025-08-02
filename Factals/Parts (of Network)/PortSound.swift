@@ -22,12 +22,12 @@ class PortSound : Part {
 	override init(_ config:FwConfig=[:]) {
 		super.init(config)	 //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		if let snds				= partConfig["sounds"] as? [String] {
+		if let snds				= config["sounds"] as? [String] {
 			guard snds.count==4 else {	fatalError("PortSound: sounds array must have 4 elements")}
 			sounds				= snds											}
-		if let inStr			= partConfig["inP"] as? String {
+		if let inStr			= config["inP"] as? String {
 			inPstr				= inStr		/* e.g. v.P or atom.S	*/			}
-		if let out_				= partConfig["outP"] as? String {
+		if let out_				= config["outP"] as? String {
 			outPstr				= out_		/* e.g. v.P or atom.S	*/			}
 	}
 	required init?(coder: NSCoder) 				{fatalError("init(coder:) has not been implemented") }

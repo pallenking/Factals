@@ -212,7 +212,7 @@ func printDebuggerHints() {
 	Log.current.breakAt
 
 	2C. ================ Printing Data
-				<Part>.config(name)?.asString        	--> String
+				<Part>.getConfig(name)?.asString       	--> String
 				   \>		>'
 				specific part, and then its parents
 				controller[key] as? Int					<-- **doc.config

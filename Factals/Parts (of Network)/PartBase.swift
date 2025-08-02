@@ -117,8 +117,8 @@ class PartBase : Codable, ObservableObject, Uid {
 
 	 // Configuration for Part Tree's
 	func configure(from:FwConfig) {
-		tree.partConfig			= from + tree.partConfig	// dont call twice
-//		tree.partConfig			= from		// save in base of tree's config
+		tree.config			= from + tree.config	// dont call twice
+//		tree.config			= from		// save in base of tree's config
 	}
 
 	//// START CODABLE ///////////////////////////////////////////////////////////////

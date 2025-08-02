@@ -66,8 +66,8 @@ class FwBundle : Net {
 		super.init(tunnelConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		 // Construct FwBundle elements
-		if let  leafStruc 		= partConfig["struc"] {
-			guard let partConfigOf	= partConfig["of"] else
+		if let  leafStruc 		= config["struc"] {
+			guard let partConfigOf	= config["of"] else
 			{	fatalError("What kind of Leafs? No 'of' key specified")								}
 
 			var leafKind 		= partConfigOf as? LeafKind			// LeafKind is given
@@ -234,7 +234,7 @@ bug;		nop // for break
 
 		if copyKeys.contains(prop) {
 			 // copy into bundle: DANGEROUS
-			partConfig[prop]	= val
+			config[prop]	= val
 		}
 		else {
 			return super.apply(prop:prop, withVal:val)
@@ -409,7 +409,7 @@ bug;		nop // for break
 			return rv
 		}()
 		
-		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
+		let gsnb				= vew.getConfig("gapTerminalBlock")?.asCGFloat ?? 0.0
 		let bb					= vew.bBox
 		 // Green Ring at bottom:
 		scn.geometry 			= SCN3DPictureframe(width:bb.size.x, length:bb.size.z, height:gsnb, step:gsnb)

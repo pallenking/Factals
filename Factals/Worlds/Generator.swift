@@ -33,17 +33,17 @@ class Generator : Net {
 		  //  WorldModel.swift   Args (if needed)
 		 //  -- Basic discrete time/value data source
 		var wmArgs  : FwConfig	= [:]
-		if let events 			= partConfig["events"] {
+		if let events 			= config["events"] {
 			wmArgs["events"] 	= events
-//			partConfig["events"] = nil
+//			config["events"] = nil
 		}
-		if let prob 			= partConfig["prob"]?.asFloat {
+		if let prob 			= config["prob"]?.asFloat {
 			wmArgs["prob"] 		= prob
-//			partConfig["prob"]	= nil
+//			config["prob"]	= nil
 		}
-		if let eventLimit		= partConfig["eventLimit"]?.asInt {
+		if let eventLimit		= config["eventLimit"]?.asInt {
 			wmArgs["eventLimit"] = eventLimit
-//			partConfig["eventLimit"] = nil	// Remove from partConfig and put in wmArgs
+//			config["eventLimit"] = nil	// Remove from config and put in wmArgs
 		}
 		let wmNeeded			= wmArgs.count != 0
 		wmArgs					+= ["n":"wm", "f":1]
@@ -51,7 +51,7 @@ class Generator : Net {
 		  // /////  TimingChain.swift: Insert Discrete Time samples into HaveNWant Network
 		 //
 		var tcArgs : FwConfig	= ["n":"tc", "f":1]//, f:flipMe]
-		let dtNeeded 			= partConfig["dtNeeded"]?.asBool ?? true
+		let dtNeeded 			= config["dtNeeded"]?.asBool ?? true
 		if dtNeeded {
 			tcArgs["P="] 		= "dt"		// Discrete Time --> timingChain
 		}
@@ -62,17 +62,17 @@ class Generator : Net {
 		  // //////  DiscreteTime.swift   Args: Connects to HnW Network
 		 //  An Atom which generates data C2014PAK
 		var dtArgs : FwConfig	= ["n":"dt", "f":1]
-		if let p				= partConfig["P"] {	// generator connects to network here
+		if let p				= config["P"] {	// generator connects to network here
 			dtArgs["P"] 		= p
-//			partConfig["P"]	= nil
+//			config["P"]	= nil
 		}
-		if let resetTo			= partConfig["resetTo"] {
+		if let resetTo			= config["resetTo"] {
 			dtArgs["resetTo"]	= resetTo
-//			partConfig["resetTo"] = nil
+//			config["resetTo"] = nil
 		}
-		if let ie 				= partConfig["incrementalEvents"] {
+		if let ie 				= config["incrementalEvents"] {
 			dtArgs["incrementalEvents"] = ie
-//			partConfig["incrementalEvents"] = nil
+//			config["incrementalEvents"] = nil
 		}
 
 		 // /////////// MAKE Elements
@@ -88,7 +88,7 @@ class Generator : Net {
 		}
 
 		 // ////////// Flip order if needed
-		if partConfig.bool_("f") {						// reverse order
+		if config.bool_("f") {						// reverse order
 			children			= children.reversed()
 		}
 	}

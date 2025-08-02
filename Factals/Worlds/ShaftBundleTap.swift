@@ -140,7 +140,7 @@ bug;			var poleITread = self.tread - Float(i)
 				rv.addChild(node:wheel)
 			}
 			 // Poles
-			let r				= partConfig["bitRadius"]?.asCGFloat ?? 1.0
+			let r				= config["bitRadius"]?.asCGFloat ?? 1.0
 			for i in 0..<nPoles {
 				let poleInDegrees = 360 * Float(i) / Float(nPoles)
 				guard let portI = getPort(i) else {		fatalError()			}

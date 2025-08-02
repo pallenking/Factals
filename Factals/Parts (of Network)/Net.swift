@@ -11,28 +11,28 @@ class Net : Atom {		// Atom // Part
 		var config				= ["placeMy":"linky"] + c	// default
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		if let a 				= partConfig["parts"] as? [Part] {
+		if let a 				= config["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"
-			partConfig["parts"]		= nil
+			config["parts"]		= nil
 		}
-		if let parts 			= partConfig["parts"] {
+		if let parts 			= config["parts"] {
 		bug;let arrayOfParts	= parts as? [Part]
 			assert(arrayOfParts != nil, "Net([parts:<val>]), but <val> is not [Part]")
 			arrayOfParts!.forEach { addChild($0) }				// add children in "parts"
-			partConfig["parts"] 	= nil
+			config["parts"] 	= nil
 		}
-		if let minSizeStr 		= partConfig["minSize"] as? String,
+		if let minSizeStr 		= config["minSize"] as? String,
 		  let vect 				= SCNVector3(from:minSizeStr) {
 			minSize 			= vect
-			partConfig["minSize"] 	= nil
+			config["minSize"] 	= nil
 		}
-		if let str 				= partConfig["minHeight"] as? String,
+		if let str 				= config["minHeight"] as? String,
 		  let f 				= CGFloat(str) {
 			if minSize==nil {
 				minSize 		= SCNVector3.zero
 			}
 			minSize!.y 			= f
-			partConfig["minHeight"] = nil
+			config["minHeight"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory
@@ -111,7 +111,7 @@ class Net : Atom {		// Atom // Part
 		}
 
 		 // Extra GAP around Atom:
-		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
+		let gsnb				= vew.getConfig("gapTerminalBlock")?.asCGFloat ?? 0.0
 		vew.bBox.size			+= 2*gsnb
 
 		 // Net expands skin to encompass repacked contents
@@ -132,7 +132,7 @@ class Net : Atom {		// Atom // Part
 
 		let bb					= vew.bBox		// existing value
 		let size				= bb.size
-		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0
+		let gsnb				= vew.getConfig("gapTerminalBlock")?.asCGFloat ?? 0
 		let gsnbMin				= min(size.y, gsnb)
 		putNetRing (scnName:"s-HiFrame", top:true)	// Ring at top:
 		putNetRing (scnName:"s-LoFrame", top:false)	// Ring at bottom:

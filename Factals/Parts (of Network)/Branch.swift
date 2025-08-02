@@ -65,10 +65,10 @@ class Branch : Splitter {
 		let config1 			= ["P":".L=", "bandColor":".L"] + config
 		super.init(config1)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		if let speak 			= partConfig["SPEAK"]?.asPart as? Port {
+		if let speak 			= config["SPEAK"]?.asPart as? Port {
 			self.speak 			= speak.value == 0
 		}
-		if let noMInSpeak 		= partConfig["noMInSpeak"] as? Bool {
+		if let noMInSpeak 		= config["noMInSpeak"] as? Bool {
 			self.noMInSpeak 	= noMInSpeak
 		}
 //		self.parameters["addPreviousClock"] = 1

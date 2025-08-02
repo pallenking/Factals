@@ -39,9 +39,9 @@ class Actor : Net {
 
 		  // MAKE ALL PARTS OF ACTOR:
 		 // CONTEXT, gather parameters and build
-		if let c				= partConfig["con"] {
+		if let c				= config["con"] {
 			guard let cc		= c as? FwBundle else { fatalError("Actor's 'con' isn't FwBundle") }
-			con					= cc					// partConfig["con"] 	= nil
+			con					= cc
 			con!.name 			= "con"
 			addChild(con, atIndex:0)		// highest index is top
 			proxyColor			= .red		// Color CONtext FwBundle RED (
@@ -52,9 +52,9 @@ class Actor : Net {
 								//	})
 		}
 		 // EVIDENCE, gather parameters and build
-		if let e				= partConfig["evi"] {
+		if let e				= config["evi"] {
 			guard let ee		= e as? FwBundle else {fatalError("Parts.evi isn't FwBundle")}
-			evi					= ee					// partConfig["evi"]	= nil
+			evi					= ee
 			evi!.name			= "evi"
 			addChild(evi)					// lowest index is bottom
 			proxyColor			= .green	// Color EVIdence FwBundle GREEN (
@@ -64,11 +64,11 @@ class Actor : Net {
 								//		return nil
 								//	})
 		}
-		viewAsAtom		 		= partConfig["viewAsAtom"		   ]?.asBool ?? false
-		linkDisplayInvisible	= partConfig["linkDisplayInvisible"]?.asBool ?? false
-		positionViaCon			= partConfig["positionViaCon"	   ]?.asBool ?? false
+		viewAsAtom		 		= config["viewAsAtom"		   ]?.asBool ?? false
+		linkDisplayInvisible	= config["linkDisplayInvisible"]?.asBool ?? false
+		positionViaCon			= config["positionViaCon"	   ]?.asBool ?? false
 		enforceOrder()						// evi on bottom, con on top
-		partConfig["addPreviousClock"] = 1	// Add Previous Clock for me
+		self.config["addPreviousClock"] = 1	// Add Previous Clock for me
 	}
 
 	 // MARK: - 3.5 Codable
@@ -216,7 +216,7 @@ class Actor : Net {
 		super.gatherLinkUps(into:&linkUpList, partBase:partBase)
 
 		 // An enable for previousClock.
-		if let _		 		= partConfig["clockEnable"] {
+		if let _		 		= config["clockEnable"] {
 bug;		let enaPort			= Port()
 			addChild(enaPort)
 			enaPort.name		= "Ena"

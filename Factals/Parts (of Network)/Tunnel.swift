@@ -119,7 +119,7 @@ class Tunnel : FwBundle {
 			rv.color0			= NSColor("darkgreen")!//.change(alphaTo:0.3)
 			return rv
 		}()
-		let gsnb				= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
+		let gsnb				= vew.getConfig("gapTerminalBlock")?.asCGFloat ?? 0.0
 		let bb					= vew.bBox
 		scn.scale				= bb.size
 		scn.scale.y				= gsnb
@@ -133,7 +133,7 @@ class Tunnel : FwBundle {
 	override func rePosition(portVew vew:Vew) {
 		let port				= vew.part as! Port
 		if port === ports["P"] {		/// Position "P" Port
-			let gsnb			= vew.config("gapTerminalBlock")?.asCGFloat ?? 0.0
+			let gsnb			= vew.getConfig("gapTerminalBlock")?.asCGFloat ?? 0.0
 			assert(!vew.part.flipped, "P Port in Tunnel must be unflipped")
 			 // Place at parent's center bottom
 			let parentVew		= vew.parent!

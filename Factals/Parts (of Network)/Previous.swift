@@ -67,15 +67,15 @@ class Previous : Atom {
 
 	 // MARK: - 3. Part Factory
 	 /// A Previous remembers what happened previously. It is used for prediction.
-	override init(_ configArg:FwConfig = [:]) {
-		super.init(configArg)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	override init(_ config:FwConfig = [:]) {
+		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		bias 					= partConfig.float("bias") ?? 0.555
+		bias 					= config.float("bias") ?? 0.555
 
-		if let m				= partConfig.string("majorMode") {
+		if let m				= config.string("majorMode") {
 			majorMode			= MajorMode(rawValue:m) ?? .monitor // never changes
 		}
-		if let m				= partConfig.string("minorMode") {
+		if let m				= config.string("minorMode") {
 			minorMode			= MinorMode(rawValue:m) ?? .monitor
 			assert(Int(m) == nil, "minorMode must not be a number")				//	if let n			= mode as? Int {						// major mode = 0 --> Default
 		}
@@ -88,7 +88,7 @@ class Previous : Atom {
 			latchPort.con2 		= .port(latchPort)	// loop around
 		}
 		   ////////// check for consistency here... /////
-		partConfig["addPreviousClock"] = 1		//parameters[
+		self.config["addPreviousClock"] = 1		//parameters[
 	}
 						//	let index : Int 	= minorModeNames.firstIndex(of:mode)!
 						//minorMode.rawValue.lowercased().firstIndex(of: "m")!.utf16Offset(in: minorMode.rawValue.lowercased())

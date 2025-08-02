@@ -120,7 +120,7 @@ struct InspecTest : View {
 			ClassBox(labeled:"Test")
 			Spacer()
 
-			//Text("<<\(repD3View.part.config("placeMy"))>>")
+			//Text("<<\(repD3View.part.getConfig("placeMy"))>>")
 			/// WHY: Instance method 'appendInterpolation(_:formatter:)' requires that 'FwAny?' inherit from 'NSObject'
 			TextField("placeSelfy", text:$placeSelfy).frame(width:40)
 //				.textFieldStyle(RoundedBorderTextFieldStyle)	/// BROKEN
