@@ -33,7 +33,6 @@ class WorldModel : Atom {
 		//!		x=.4		--		x==0.4
 
 		if let ev				= FwwEvent(any:config["events"]) {
-//			config["events"] = nil
 			event				= ev
 		}
 		if let eli				= config["eventLimit"]?.asInt {
@@ -41,8 +40,6 @@ class WorldModel : Atom {
 		}
 		prob					= nil
 		if let f				= config["prob"]?.asFloat {
-//		if let str				= config["prob"],
-//		  let f					= str.asFloat {
 			prob				= f
 		}
 	}

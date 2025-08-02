@@ -9,7 +9,7 @@ class Net : Atom {		// Atom // Part
 	override init(_ c:FwConfig = [:]) {
 			// E.g:		[struc:["a"],of:genBcast,placeMy:stackx,f:0]
 		var config				= ["placeMy":"linky"] + c	// default
-		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/
+		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		if let a 				= config["parts"] as? [Part] {
 			a.forEach { addChild($0) }						// add children in "parts"

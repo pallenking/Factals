@@ -133,11 +133,9 @@ class Mirror : Atom {
 		super.init(config) // -/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\[n:"gen",f:1]
 		if let g				= config["gain"]?.asFloat {
 			gain 				= g
-//			config["gain"]	= nil
 		}
 		if let ofs				= config["offset"]?.asFloat {
 			offset 				= ofs
-//			config["offset"] = nil
 		}
 	}
 

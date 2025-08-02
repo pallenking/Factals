@@ -93,7 +93,7 @@ class Link : Atom {
 
 		 // Register CPorts
 		assert(pUpCPort  .dirty == .clean, "paranoia")	//pPort.dirty.turnOff(.vew) // (link vew proper at init)
-//??	assert(sDownCPort.dirty == .clean, "paranoia")	//sPort.dirty.turnOff(.vew) // (link vew proper at init)
+		assert(sDownCPort.dirty == .clean, "paranoia")	//sPort.dirty.turnOff(.vew) // (link vew proper at init)
 
 		 // Initial values of LinkPort, for testing (of P/UpConveyor, not Q)
 		if let valStr			= config["initialSegments"] as? String {

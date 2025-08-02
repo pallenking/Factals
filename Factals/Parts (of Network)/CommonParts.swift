@@ -15,11 +15,9 @@ class CommonPart : Part {
 		if let vectStr		= config["size"] as? String,
 		  let vect			= SCNVector3(from:vectStr) {
 			size 			= vect
-//			config["size"] = nil
 		}
 		if let vect			= config["size"] as? SCNVector3 {
 			size 			= vect
-//			config["size"] = nil
 		}
 	}
 	 // MARK: - 3.5 Codable

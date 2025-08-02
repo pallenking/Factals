@@ -61,9 +61,9 @@ class Branch : Splitter {
 	var speakPort   : Port! { getPort(named:"speakPort", localUp:true, wantOpen:false, allowDuplicates:false) }
 	var speakPortIn : Port! { speakPort.con2?.port 								}
 
-	override init(_ config:FwConfig = [:]) {
-		let config1 			= ["P":".L=", "bandColor":".L"] + config
-		super.init(config1)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	override init(_ c:FwConfig = [:]) {
+		let config 			= ["P":".L=", "bandColor":".L"] + c
+		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		if let speak 			= config["SPEAK"]?.asPart as? Port {
 			self.speak 			= speak.value == 0

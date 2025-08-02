@@ -21,9 +21,9 @@ class DiscreteTime : Atom {
 	 /// # resetTo: String			-- event at start
 	 /// # nib: String				-- name of Inspec's nib file
 	 /// # incrementalEvents: Bool	-- values hold between events, must be explicitly cleared
-	override init(_ config_:FwConfig = [:]) {
-		let show : FwConfig = [:]//"expose":"atomic"]	///
-		let config				= show + config_
+	override init(_ c:FwConfig = [:]) {
+		let show : FwConfig = [:]		//"expose":"atomic"]	///
+		let config				= show + c
 
 		super.init(config) //\/\/\/\/\/\/\/\/\/
 
@@ -32,7 +32,6 @@ class DiscreteTime : Atom {
 		}
 		if let incEv 			= config["incrementalEvents"] as? Bool {
 			incrementalEvents	= incEv
-//			config["incrementalEvents"] = nil
 		}
 	}
 	 // MARK: - 3.1 Port Factory

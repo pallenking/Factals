@@ -42,14 +42,11 @@ class GenAtom : Atom {
 		super.init(config) //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 
 		self.value				= Float.nan			// initial value
-		if let v				= config["value"] {  // Single String:
-//			self.value			= Float(v)
-			value				= v.asFloat ?? Float.nan
-//			config["value"] = nil
+		if let v				= config["value"] as? Float {  // Single String:
+			self.value			= v
 		}
-		if let loop				= config["loop"] as? String {
-			self.loop			= Bool(loop)
-//			config["loop"] = nil
+		if let b				= config["loop"] as? Bool {
+			self.loop			= b
 		}
 	}
 
