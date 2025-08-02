@@ -147,15 +147,15 @@ struct FactalsModelView: View {
 						 .tag(vewBase.wrappedValue.slot_)
 					}
 
-					 // -2: A View selectable in TabView
-					SimpleRealityView(factalsModel:factalsModel)
-					 .tabItem { Label("RealityView()", systemImage: "")			}
-					 .tag(-2)
-
-				//	 // -3: A View selectable in TabView
+				//	 // -2: A View selectable in TabView
 				//	SimpleSceneView(factalsModel:factalsModel)
 				//	 .tabItem { Label("SceneView()", systemImage: "")			}
-				//	 .tag(-3)
+				//	 .tag(-2)
+
+					 // -3: A View selectable in TabView
+					SimpleRealityView(factalsModel:factalsModel)
+					 .tabItem { Label("RealityView()", systemImage: "")			}
+					 .tag(-3)
 				//
 				//	 // -4: clear screan force redraw
 				//	Text("")
@@ -163,7 +163,7 @@ struct FactalsModelView: View {
 				//	 .tag(-4)
     			}
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-					updateTabTitle()												}
+					updateTabTitle()											}
 				.accentColor(.green) // Change the color of the selected tab
 		//		List($factalsModel.vewBases) { vewBase in
 		//			HStack (alignment:.top) {
