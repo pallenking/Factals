@@ -148,15 +148,15 @@ struct FactalsModelView: View {
 					}
 
 				//	 // -2: A View selectable in TabView
-				//	SimpleSceneView(factalsModel:factalsModel)
+				//	SceneKit2View(factalsModel:factalsModel)
 				//	 .tabItem { Label("SceneView()", systemImage: "")			}
 				//	 .tag(-2)
 
-					 // -3: A View selectable in TabView
-					SimpleRealityView(factalsModel:factalsModel)
+					 // -3: Reality Kit
+					RealityKitView(/*factalsModel:factalsModel*/)
 					 .tabItem { Label("RealityView()", systemImage: "")			}
 					 .tag(-3)
-				//
+				
 				//	 // -4: clear screan force redraw
 				//	Text("")
 				//	 .tabItem { Label("Clear", systemImage: "")					}

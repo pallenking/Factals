@@ -151,6 +151,8 @@
 		9F9AC6A4299C7C6000CDEB08 /* FactalsModelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */; };
 		9F9AF6712E3DA738004E4F79 /* RealityKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */; };
 		9F9AF6722E3DA738004E4F79 /* RealityKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */; };
+		9F9AF68E2E3E2DC5004E4F79 /* RealityKitShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AF68D2E3E2DBD004E4F79 /* RealityKitShapes.swift */; };
+		9F9AF68F2E3E2DC5004E4F79 /* RealityKitShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AF68D2E3E2DBD004E4F79 /* RealityKitShapes.swift */; };
 		9FA1E4B92939AFF10012E02F /* VewBaseBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBaseBar.swift */; };
 		9FAD595F29A2775A0065406B /* SelfiePoleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */; };
 		9FBD6E4729258E2500F14075 /* VewBaseBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBD6E4629258E2500F14075 /* VewBaseBar.swift */; };
@@ -264,6 +266,7 @@
 		9F969540288B4E8800106DBC /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactalsModelBar.swift; sourceTree = "<group>"; };
 		9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitView.swift; sourceTree = "<group>"; };
+		9F9AF68D2E3E2DBD004E4F79 /* RealityKitShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitShapes.swift; sourceTree = "<group>"; };
 		9FAA4A0328524C40009332C9 /* XXXHasChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXXHasChildren.swift; sourceTree = "<group>"; };
 		9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfiePoleBar.swift; sourceTree = "<group>"; };
 		9FBD6E4629258E2500F14075 /* VewBaseBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBaseBar.swift; sourceTree = "<group>"; };
@@ -389,6 +392,7 @@
 				9FEE6F192835778A00E9E2AE /* ContentView.swift */,
 				9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */,
 				9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */,
+				9F9AF68D2E3E2DBD004E4F79 /* RealityKitShapes.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
@@ -672,6 +676,7 @@
 				9F458C762D693CD700E65B82 /* Branch.swift in Sources */,
 				9F417F2628EB94380047B359 /* Splitter.swift in Sources */,
 				9F675ADA2A2F6D45006370E6 /* SelfiePoleBar.swift in Sources */,
+				9F9AF68E2E3E2DC5004E4F79 /* RealityKitShapes.swift in Sources */,
 				9F417F4828EB94EE0047B359 /* FwwEvent.swift in Sources */,
 				9F417F5128EB95450047B359 /* SCNNode++.swift in Sources */,
 				9F417F1828EB94080047B359 /* FwBundle.swift in Sources */,
@@ -750,6 +755,7 @@
 				9F19CA35285EB0730072C50E /* PartBase.swift in Sources */,
 				9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */,
 				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,
+				9F9AF68F2E3E2DC5004E4F79 /* RealityKitShapes.swift in Sources */,
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
 				9F2BC4172B7FE38F0045991D /* XXGestures.swift in Sources */,
 				9F4A3ADB288B396800574925 /* Fw++.swift in Sources */,

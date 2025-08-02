@@ -187,7 +187,12 @@ extension SCNMatrix4 {
 		SCNMatrix4Invert(rv)	// invert it forward
 		return rv;
 	}
-
+	func inverse() -> SCNMatrix4 {
+		return SCNMatrix4Invert(self)			// invert it forward
+	}
+//	func inverse(m:SCNMatrix4) -> SCNMatrix4 {
+//		return SCNMatrix4Invert(m)				// invert it forward
+//	}
 	var position : SCNVector3 {
 		get {		return SCNVector3Make(m41, m42, m43)						}
 		set(newPosition)			{

@@ -46,6 +46,11 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 
 	 // Computes the transform from a camera A on a selfie stick back to the origin
 	func transform(lookAtVew:Vew) -> SCNMatrix4 {								//xyzzy15.4
+		let posnBoxCtr			= lookAtVew.bBox.center
+		let position			= lookAtVew.scn.convertPosition(posnBoxCtr, to:nil)
+		return transform(lookAt: position)
+	}
+	func transform(lookAt posn:SCNVector3) -> SCNMatrix4 {								//xyzzy15.4
 
 		  // From the Origin to the Camera, in steps:
 		 //  ---- 1: Spin about Y axis
@@ -53,10 +58,12 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 		var poleSpinAboutY1		= SCNMatrix4MakeRotation(spinRadians, 0, 1, 0)
 		 //  ---- translated above Point of Interest by cameraPoleHeight
 		//let lookAtVew : Vew?	= nil//		= Vew.null
-		let posn				= lookAtVew.bBox.center
-		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:nil)
-		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
-		poleSpinAboutY1.position = lookAtWorldPosn + position
+//		let posn				= lookAtVew.bBox.center
+//		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:nil)
+//		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
+//		poleSpinAboutY1.position = lookAtWorldPosn + position
+		assert(!posn.isNan, "About to use a NAN World Position")
+		poleSpinAboutY1.position = posn + position
 
 		 //  ---- 2: With a boom (crane or derek) raised upward above the horizon:
 		let riseAboveHoriz2		= SCNMatrix4MakeRotation(gaze * .pi / 180.0, 1, 0, 0)
