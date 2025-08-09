@@ -20,12 +20,20 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 	var gaze	: CGFloat 		= 0.0				// upward, in degrees
 	var zoom	: CGFloat 		= 1.0
 	var ortho	: CGFloat		= 0.0				// BROKEN 0->perspective, else ortho
+								
+	init(position:Vect3?=nil, spin:Float?=nil, gaze:Float?=nil, zoom:Float?=nil, ortho:Float?=nil) {
+ //		self.position 			= position  ?? Vect3(0, 0, 0)
+ //		self.spin 				= spin		?? 0.0
+ //		self.gaze 				= gaze		?? 0.0
+ //		self.zoom 				= zoom		?? 1.0
+ //		self.ortho 				= ortho		?? 0.0
+	}
 
 	mutating func configure(from config:FwConfig) {								//xyzzy15.2
 		 // Configure Camera from Source Code: ["camera":["p":[1,2,3], "u":3.4] ...]]
 		if let c 				= config.fwConfig("selfiePole") {//camera") {
 			if let n	 		= c.string("n") {
-				debugger("NameTags are read only")
+				debugger("NameTags are read only. '\(n)' ignored")
 			}
 			if let p 			= c.string("p") {			// 1, 1 2, 1 2 3, 1 2 3 4
 				position		= SCNVector3(string:p)
@@ -51,31 +59,44 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 		return transform(lookAt: position)
 	}
 	func transform(lookAt posn:SCNVector3) -> SCNMatrix4 {								//xyzzy15.4
-
-		  // From the Origin to the Camera, in steps:
-		 //  ---- 1: Spin about Y axis
-		let spinRadians			= spin * .pi / 180.0
-		var poleSpinAboutY1		= SCNMatrix4MakeRotation(spinRadians, 0, 1, 0)
-		 //  ---- translated above Point of Interest by cameraPoleHeight
-		//let lookAtVew : Vew?	= nil//		= Vew.null
-//		let posn				= lookAtVew.bBox.center
-//		let lookAtWorldPosn		= lookAtVew.scn.convertPosition(posn, to:nil)
-//		assert(!lookAtWorldPosn.isNan, "About to use a NAN World Position")
-//		poleSpinAboutY1.position = lookAtWorldPosn + position
 		assert(!posn.isNan, "About to use a NAN World Position")
-		poleSpinAboutY1.position = posn + position
 
-		 //  ---- 2: With a boom (crane or derek) raised upward above the horizon:
-		let riseAboveHoriz2		= SCNMatrix4MakeRotation(gaze * .pi / 180.0, 1, 0, 0)
-
-		 //  ---- move out boom from pole, looking backward:
-		let toEndOfBoom3		= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5
-
-		let rv					= toEndOfBoom3 * riseAboveHoriz2 * poleSpinAboutY1
+		 // From the Origin to the Camera, in steps:
+		let toFocusMatrix		= SCNMatrix4Translate(SCNMatrix4.identity, posn.x,posn.y,posn.z)
+		var spinMatrix			= SCNMatrix4MakeRotation(spin * .pi/180.0, 0, 1, 0)
+		let gazeMatrix			= SCNMatrix4MakeRotation(gaze * .pi/180.0, 1, 0, 0)
+		let boomMatrix			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5
+		let rv					= boomMatrix * gazeMatrix * spinMatrix * toFocusMatrix
 		assert(!rv.isNan, "newCameraXform is Not a Number")
 		assert(rv.at(3,3) == 1.0, "why?")	// Understand cameraXform.at(3,3). Is it 1.0? is it prudent to change it here
 
+//		 //  ---- 1: translated above Point of Interest by cameraPoleHeight
+//		var poleYSpin			= SCNMatrix4MakeRotation(spin * .pi/180.0, 0, 1, 0)
+//		poleYSpin.position 		= posn + position	// ---- 2:
+//		 //  ---- 3: With a boom (crane or derek) raised upward above the horizon:
+//		let gazeUp				= SCNMatrix4MakeRotation(gaze * .pi / 180.0, 1, 0, 0)
+//		 //  ---- 4: move out boom from pole, looking backward:
+//		let toBoomEnd			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5
+//
+//		let rv					= toBoomEnd * gazeUp * poleYSpin
+
 		return rv
+	}
+	
+	// Update spin and gaze based on mouse delta
+	mutating func updateFromMouseDelta(deltaX:Float, deltaY:Float, sensitivity:Float=0.005) {
+					// Horizontal mouse movement --> spin = Y-axis rotation
+		spin 					+= CGFloat(deltaX * sensitivity)
+					// Vertical mouse movement 	 --> gaze = X-axis rotation
+		gaze 					-= CGFloat(deltaY * sensitivity)  // Negative for natural mouse behavior
+		let maxGaze: CGFloat 	= .pi * 0.4  // Clamp gaze to prevent camera from flipping over
+		gaze 					=  max(-maxGaze, min(maxGaze, gaze))
+	}
+	
+	// Get the camera's world position for the current configuration
+	func getCameraPosition(focusPoint: Vect3) -> Vect3 {
+bug;//	let transform = self.transform(lookingAt: focusPoint)
+		return Vect3()//transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
 	}
 }
 extension SelfiePole : Uid {

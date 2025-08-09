@@ -1,3 +1,4 @@
+We are debugging the Factals applications in this directory.
 # Factals Debugging Session Summary
 
 ## Project Overview

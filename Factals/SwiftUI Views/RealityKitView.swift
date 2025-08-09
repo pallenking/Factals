@@ -23,30 +23,21 @@ struct RealityKitView: View {
 	
 	var body: some View {
 		RealityView { content in
-			// Create anchor for the scene
-			let anchor 			= AnchorEntity(.world(transform: matrix_identity_float4x4))
+			// 1. Create anchor for the scene
+			let anchor 			= AnchorEntity(.world(transform:matrix_identity_float4x4))
 			anchor.name 		= "mainAnchor"
-								
-			// Generate all SceneKit primitives (standard and custom)
+			// 2. Add anchor to content
 			createGeometries(anchor: anchor)
+			content.add(anchor)			// Add anchor to scene
 			
-			// Add anchor to scene
-			content.add(anchor)
-			
-			print("RealityView loaded with \(anchor.children.count) children")
+			print("RealityView loaded with \(anchor.children.count) children, transform:\(anchor.transform)")
 		} update: { content in
 			// Update view transformation using SelfiePole mathematics
 			if let anchor 		= content.entities.first(where: { $0.name == "mainAnchor" }) {
-				// Use SelfiePole to compute camera-like transform around focus point
-				let selfiePoleTransform = selfiePole.transform(lookAt:SCNVector3(focusPosition))
-					
-				// Convert to RealityKit Transform and apply inverse to move the scene
-				// (Since we're moving the scene instead of the camera)
-				let inverseTransform = selfiePoleTransform.inverse()	// SCNMatrix4
-				let matrix4x4	= Matrix4x4(inverseTransform)
-				anchor.transform = Transform(matrix:matrix4x4)
-
-				// Update highlighting
+				let self2focus	= selfiePole.transform(lookAt:SCNVector3(focusPosition))
+				let focus2self	= self2focus.inverse()				// SCNMatrix4
+				anchor.transform = Transform(matrix:Matrix4x4(focus2self))
+				print("RealityView update with \(anchor.children.count) children, transform:\(anchor.transform)")
 				updateHighlighting(anchor: anchor as! AnchorEntity)
 			}
 		}
@@ -54,32 +45,23 @@ struct RealityKitView: View {
 		.gesture(
 			DragGesture(minimumDistance: 0)
 				.onChanged { value in
-					if !isDragging {
-						// Perform hit testing on drag start
+					if !isDragging {	// Perform hit testing on drag start
 						performHitTest(at: value.startLocation)
 						lastDragLocation = value.startLocation
 						isDragging = true
 					}
-					
-					let deltaX = Float(value.location.x - lastDragLocation.x)
-					let deltaY = Float(value.location.y - lastDragLocation.y)
-					
-					// Use SelfiePole's mouse delta handling
-bug//				selfiePole.updateFromMouseDelta(deltaX: deltaX, deltaY: deltaY, sensitivity: 0.005)
-					
+					let d		= value.location - lastDragLocation
+					selfiePole.updateFromMouseDelta(deltaX:Float(d.x), deltaY:Float(d.y), sensitivity:0.005)
 					lastDragLocation = value.location
 				}
-				.onEnded { _ in
-					isDragging = false
-				}
+				.onEnded
+				{ _ in	isDragging = false										}
 		)
-		.onTapGesture { location in
-			performHitTest(at: location)
-		}
+		.onTapGesture
+		{	location in performHitTest(at: location)							}
 		.background(ScrollWheelCaptureView(selfiePole: $selfiePole))
-		.onAppear {
-			setupScrollWheelMonitor()
-		}
+		.onAppear
+		{	setupScrollWheelMonitor()											}
 	}
 	
 	private func performHitTest(at location: CGPoint) {
@@ -210,19 +192,32 @@ bug//				selfiePole.updateFromMouseDelta(deltaX: deltaX, deltaY: deltaY, sensiti
 	}
 
 	func createGeometries(anchor:AnchorEntity) {
-		originMark(size: 0.5, position:Vect3(0, 0, 0), anchor: anchor, name: "OriginMark")
+		originMark(size:0.5, position:Vect3(0,0,0), anchor:anchor, name:"OriginMark")
 		
 		// Standard SceneKit primitives 	- Row 1
-		var position: Vect3 	= [0,0,0]//[-4, 0, -2]
+		var position: Vect3 	= [0,0,0]//[-4, 0, -2]	//
 		let spacing: Float 		= 0.8
 
 		let boxEnt 				= RksBox(width:0.3, height:0.3, length:0.3)
 		boxEnt.position 		= position;		position.x += spacing
-		boxEnt.name 			= "RksBox"
+		boxEnt.name 			= "Box"	//"RksBox"
+		boxEnt.model?.materials = [SimpleMaterial(color:.blue, isMetallic:false)]
+		anchor.addChild(boxEnt)
+	}
+	func createGeometries2(anchor:AnchorEntity) {
+		originMark(size:0.5, position:Vect3(0,0,0), anchor:anchor, name:"OriginMark")
+		
+		// Standard SceneKit primitives 	- Row 1
+		var position: Vect3 	= [-4, 0, -2]	//[0,0,0]//
+		let spacing: Float 		= 0.8
+
+		let boxEnt 				= RksBox(width:0.3, height:0.3, length:0.3)
+		boxEnt.position 		= position;		position.x += spacing
+		boxEnt.name 			= "Box"	//"RksBox"
 		boxEnt.model?.materials = [SimpleMaterial(color:.blue, isMetallic:false)]
 		anchor.addChild(boxEnt)
 		
-		let box2 				= RksBox(width:0.4, height:0.2, length:0.3)
+		let box2 				= RksBox2(width:0.4, height:0.2, length:0.3)
 		box2.position 			= position;		position.x += spacing
 		box2.name 				= "RksBox2"
 		box2.model?.materials 	= [SimpleMaterial(color: .cyan, isMetallic: false)]
@@ -240,13 +235,13 @@ bug//				selfiePole.updateFromMouseDelta(deltaX: deltaX, deltaY: deltaY, sensiti
 //		cylinder.name 			= "Cylinder"
 //		cylinder.model?.materials = [SimpleMaterial(color: .green, isMetallic: false)]
 //		anchor.addChild(cylinder)
-//		
+//
 //		let cone 				= RksCone(height: 0.4, radius: 0.15)
 //		cone.position 			= position;		position.x += spacing
 //		cone.name 				= "Cone"
 //		cone.model?.materials 	= [SimpleMaterial(color: .yellow, isMetallic: false)]
 //		anchor.addChild(cone)
-//		
+//
 //		let plane 				= RksPlane(width: 0.4, depth: 0.3)
 //		plane.position 			= position;		position.x += spacing
 //		plane.name 				= "Plane"
@@ -269,26 +264,26 @@ bug//				selfiePole.updateFromMouseDelta(deltaX: deltaX, deltaY: deltaY, sensiti
 //			hemisphere.model?.materials = [SimpleMaterial(color: .orange, isMetallic: false)]
 //			anchor.addChild(hemisphere)
 //		}
-//		
+//
 //		let point 				= RksPoint(radius: 0.02)
 //		point.position 			= position;		position.x += spacing
 //		point.name 				= "Point"
 //		point.model?.materials 	= [SimpleMaterial(color: .black, isMetallic: false)]
 //		anchor.addChild(point)
-//		
+//
 //		if let torus 			= RksTorus(majorRadius: 0.15, minorRadius: 0.05) {
 //			torus.position 		= position;		position.x += spacing
 //			torus.name 			= "Torus"
 //			torus.model?.materials = [SimpleMaterial(color: .magenta, isMetallic: false)]
 //			anchor.addChild(torus)
 //		}
-//		
+//
 //		let tube 				= RksTube(height: 0.4, radius: 0.15)
 //		tube.position 			= position;		position.x += spacing
 //		tube.name 				= "Tube"
 //		tube.model?.materials 	= [SimpleMaterial(color: .brown, isMetallic: false)]
 //		anchor.addChild(tube)
-//		
+//
 //		if let pyramid 			= RksPyramid(width: 0.3, height: 0.4, length: 0.3) {
 //			pyramid.position 	= position;		position.x += spacing
 //			pyramid.name 		= "Pyramid"

@@ -32,8 +32,8 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	 // Identification of Log
 	let nameTag					= getNametag()
 
-	fileprivate(set) var eventNumber		   		= 1			// Current entry number (runs 1...)
-	private(set) var breakAtEvent			= 0			// 0:UNDEF, 1... : An Event
+	fileprivate(set) var eventNumber = 1	// Current entry number (runs 1...)
+	private(set) var breakAtEvent = 0		// 0:UNDEF, 1... : An Event
 	private(set) var detailWanted : [String:Int] = [:] 	// Current logging detail filter to select log messages
 
 	 // MARK: - 2. REALLY UGLY: what if different threads using log?

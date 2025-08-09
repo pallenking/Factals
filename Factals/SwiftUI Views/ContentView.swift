@@ -123,15 +123,13 @@ struct FactalsModelView: View {
 								let scnBase = vewBase.scnBase.wrappedValue
 								ZStack {
 									//let _ = Self._printChanges()
-
 									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
 										.frame(maxWidth: .infinity)
 										.border(.black, width:1)
-
 									EventReceiver { nsEvent in // Catch events (goes underneath)
 										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-											//print("Key '\(c)' not recognized and hence ignored...")
+											print("Key '\(c)' not recognized and hence ignored...")
 										}
 									}
 								}
@@ -146,6 +144,28 @@ struct FactalsModelView: View {
 						 }
 						 .tag(vewBase.wrappedValue.slot_)
 					}
+					 // Older attempt:
+					//List($factalsModel.vewBases) { vewBase in
+					//	HStack (alignment:.top) {
+					//		VStack {									//Binding<VewBase>
+					//			let scnBase = vewBase.scnBase.wrappedValue
+					//			ZStack { SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC) }
+					//		}.frame(width:555, height:355)
+					//		VStack {
+					//			VewBaseBar(vewBase:vewBase)
+					//			InspectorsVew(vewBase:vewBase.wrappedValue)
+					//		}.frame(width:400)
+					//	}
+					//	.tabItem {
+					//		Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
+					//	.tag(vewBase.wrappedValue.slot_)
+					//}
+					//.navigationDestination(for:Park.self) { park in
+					//	Text("ParkDetails(\(park))")
+					//}
+					//.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+					//	updateTabTitle()												}
+					//.accentColor(.green) // Change the color of the selected tab
 
 				//	 // -2: A View selectable in TabView
 				//	SceneKit2View(factalsModel:factalsModel)
@@ -165,27 +185,6 @@ struct FactalsModelView: View {
 				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 					updateTabTitle()											}
 				.accentColor(.green) // Change the color of the selected tab
-		//		List($factalsModel.vewBases) { vewBase in
-		//			HStack (alignment:.top) {
-		//				VStack {									//Binding<VewBase>
-		//					let scnBase = vewBase.scnBase.wrappedValue
-		//					ZStack { SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC) }
-		//				}.frame(width:555, height:355)
-		//				VStack {
-		//					VewBaseBar(vewBase:vewBase)
-		//					InspectorsVew(vewBase:vewBase.wrappedValue)
-		//				}.frame(width:400)
-		//			}
-		//			.tabItem {
-		//				Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
-		//			.tag(vewBase.wrappedValue.slot_)
-		//		}
-		//		.navigationDestination(for:Park.self) { park in
-		//			Text("ParkDetails(\(park))")
-		//		}
-		//		.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-		//			updateTabTitle()												}
-		//		.accentColor(.green) // Change the color of the selected tab
 			}
 		}
 	}

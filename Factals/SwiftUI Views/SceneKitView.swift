@@ -83,7 +83,7 @@ import AppKit
 
  /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
-	var scnBase : ScnBase?			// ARG1: exposes visual world
+	var scnBase 		  : ScnBase?			// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 	typealias NSViewType 		= SCNView		// Type represented
 
