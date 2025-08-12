@@ -364,7 +364,7 @@ class SCN3DPictureframe : SCNGeometry {
 //	}
 }
  // 3 lines, along each axis
-func originMark(size:Float, partBase:PartBase) -> SCNNode {		// was myGlJack3
+func ScnOriginMark(size:Float, partBase:PartBase) -> SCNNode {		// was myGlJack3
 	let vertices : [SCNVector3] = [SCNVector3(size, 0, 0), SCNVector3(-size, 0, 0),
 								   SCNVector3(0, size, 0), SCNVector3(0, -size, 0), 
 								   SCNVector3(0, 0, size), SCNVector3(0, 0, -size)]

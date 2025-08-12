@@ -22,11 +22,11 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 	var ortho	: CGFloat		= 0.0				// BROKEN 0->perspective, else ortho
 								
 	init(position:Vect3?=nil, spin:Float?=nil, gaze:Float?=nil, zoom:Float?=nil, ortho:Float?=nil) {
- //		self.position 			= position  ?? Vect3(0, 0, 0)
- //		self.spin 				= spin		?? 0.0
- //		self.gaze 				= gaze		?? 0.0
- //		self.zoom 				= zoom		?? 1.0
- //		self.ortho 				= ortho		?? 0.0
+		self.position 			= SCNVector3(position ?? Vect3(0, 0, 0))	//CGFloat(p)
+ 		self.spin 				= CGFloat(   spin	  ?? 0.0)
+ 		self.gaze 				= CGFloat(   gaze	  ?? 0.0)
+ 		self.zoom 				= CGFloat(   zoom	  ?? 1.0)
+ 		self.ortho 				= CGFloat(   ortho	  ?? 0.0)
 	}
 
 	mutating func configure(from config:FwConfig) {								//xyzzy15.2
@@ -58,6 +58,19 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 		let position			= lookAtVew.scn.convertPosition(posnBoxCtr, to:nil)
 		return transform(lookAt: position)
 	}
+	
+	// Computes the transform matrix for the camera/view position
+	// Based on the SelfiePole mathematics: spin about Y, gaze tilt, then translate out on boom
+//	func transform(lookingAt focusPoint: Vect3) -> Matrix4x4 {
+//		
+//		let focusTranslation 	= Matrix4x4(translation:focusPoint+position)
+//		let spinMatrix 			= Matrix4x4(rotationAbout:Vect3(0, 1, 0), angle:spin)
+//		let gazeMatrix 			= Matrix4x4(rotationAbout:Vect3(1, 0, 0), angle:gaze)
+//		let boomTranslation 	= Matrix4x4(translation  :Vect3(0, 0, 50.0 * zoom))
+//		// Combine transformations: 1) to focus, 2) spin, 3) gaze, 4) to boom end
+//		let rv 					= boomTranslation * gazeMatrix * spinMatrix * focusTranslation
+//		return rv
+//	}
 	func transform(lookAt posn:SCNVector3) -> SCNMatrix4 {								//xyzzy15.4
 		assert(!posn.isNan, "About to use a NAN World Position")
 

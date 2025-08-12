@@ -963,6 +963,10 @@ extension CGFloat {
 			return nil
 		}
 	}
+	public init<Source>(_ value: Source) where Source : BinaryFloatingPoint {
+		assert(value is CGFloat)
+		self = value as! CGFloat
+	}
 	var isNan			: Bool 		{
 		return self != self
 	}

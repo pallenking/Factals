@@ -625,7 +625,7 @@ class Port : Part, PortTalk {
 		scnTube.color0			= NSColor.blue
 
 		 // C: 3D Origin Mark (for debug)
-		let scnOrigin			= originMark(size:0.5, partBase:partBase!)
+		let scnOrigin			= ScnOriginMark(size:0.5, partBase:partBase!)
 		scnOrigin.color0 		= NSColor.black
 		scnOrigin.position.y 	= -scnDiskY
 		scnOrigin.isHidden		= true

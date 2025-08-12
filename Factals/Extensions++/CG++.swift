@@ -39,7 +39,7 @@ extension CGPoint {
 	}
 }
 
-extension CGFloat {		// convert to Float
+extension CGFloat {		// Serdes
 	enum CGFloatKeys: String, CodingKey {	case float		}
 	 /// Serialize
 	func encode(to encoder: Encoder) throws  {
