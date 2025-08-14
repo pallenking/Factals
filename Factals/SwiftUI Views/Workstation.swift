@@ -6,6 +6,17 @@
 //
 
 import SceneKit
+// // /////////////// Scene Kit
+//typealias Viz					= AnchorEntity
+//typealias Vect3 				= SCNVector3
+//typealias Vect4 				= SCNVector4
+//typealias Matrix4x4 			= SCNMatrix4
+
+ // /////////////// Reality Kit
+typealias Viz					= SCNNode
+typealias Vect3 				= SIMD3<Float>
+typealias Vect4 				= SIMD4<Float>
+typealias Matrix4x4 			= simd_float4x4
 
 protocol Workstation {
 	// // VIDEO: (OUTPUT)

@@ -10,10 +10,6 @@ import RealityKit
 import SceneKit
 import AppKit
 
-typealias Vect3 				= SIMD3<Float>
-typealias Vect4 				= SIMD4<Float>
-typealias Matrix4x4 			= simd_float4x4
-
 struct RealityKitView: View {
 	@State		   var selfiePole 				 = SelfiePole()
 	@State private var lastDragLocation:CGPoint	 = .zero

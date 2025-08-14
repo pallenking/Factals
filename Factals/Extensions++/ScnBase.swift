@@ -62,7 +62,7 @@ class ScnBase : NSObject {
 extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
 	func checkLights() {
-		touchLight("*-omni1",  .omni, position:SCNVector3(0, 0, 15))
+		touchLight("*-omni1",  .omni,position:SCNVector3(0, 0, 15))
 		touchLight("*-amb1",.ambient,color:NSColor.darkGray)
 		touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
 		touchLight("*-omni2",  .omni,color:NSColor.green, intensity:500)				//blue//
