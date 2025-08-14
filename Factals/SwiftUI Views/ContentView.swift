@@ -41,7 +41,7 @@ custom getter from UIFile
 import SwiftUI
 import SceneKit
 
-struct ContentView33: View {
+struct ContentView: View {
 	@Binding var document : FactalsDocument
 	@State var prefFps = Float(0.5)
 	var body: some View {
@@ -51,7 +51,7 @@ struct ContentView33: View {
 												//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
 		.onAppear {
 			if let window = NSApplication.shared.windows.first {	//where: { $0.isMainWindow }
-				window.title 	= document.factalsModel.partBase.hnwMachine.titlePlus()// + "   from ContentView"
+				window.title 	= "HnwM: " + document.factalsModel.partBase.hnwMachine.titlePlus()// + "   from ContentView"
 			}
 		}
 	// //////////////////// SCAFFOLDING /////////////////////////////////////////
@@ -77,17 +77,17 @@ struct SimpleSceneKitView : View {
 		}
 	}
 }
-struct ContentView : View {
+struct ContentViewRKV : View {
 	@Binding var document: FactalsDocument		// unused®
 
 	var body: some View {
 		VStack {
-			Text("FacReal - 3D Primitive Reality Kit Viewer")
-				.font(.title)
-			
+			Text("RealityKitView")
+			 .font(.title)
+
 			RealityKitView()
-				.frame(minWidth: 200, minHeight: 150)
-				.border(Color.gray, width: 1)
+//			 .frame(minWidth: 200, minHeight: 150)
+			 .border(Color.gray, width: 1)
 		}
 		//.padding()
 	}
@@ -133,33 +133,33 @@ struct FactalsModelView: View {
 				TabView(selection:$tabViewSelect)  {
 
 					 // Create, with tag = slot_
-//					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-//						HStack (alignment:.top) {
-//							VStack {									//Binding<VewBase>
-//								let scnBase = vewBase.scnBase.wrappedValue
-//								ZStack {
-//									//let _ = Self._printChanges()
-//									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
-//										.frame(maxWidth: .infinity)
-//										.border(.black, width:1)
-//									EventReceiver { nsEvent in // Catch events (goes underneath)
-//										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-//											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-//											print("Key '\(c)' not recognized and hence ignored...")
-//										}
-//									}
-//								}
-//							}//.frame(width: 555)
-//							VStack {
-//								VewBaseBar(vewBase:vewBase)
-//								InspectorsVew(vewBase:vewBase.wrappedValue)
-//							}.frame(width:400)
-//						}
-//						 .tabItem {
-//						 	Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
-//						 }
-//						 .tag(vewBase.wrappedValue.slot_)
-//					}
+					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+						HStack (alignment:.top) {
+							VStack {									//Binding<VewBase>
+								let scnBase = vewBase.scnBase.wrappedValue
+								ZStack {
+									//let _ = Self._printChanges()
+									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
+										.frame(maxWidth: .infinity)
+										.border(.black, width:1)
+									EventReceiver { nsEvent in // Catch events (goes underneath)
+										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+											print("Key '\(c)' not recognized and hence ignored...")
+										}
+									}
+								}
+							}//.frame(width: 555)
+							VStack {
+								VewBaseBar(vewBase:vewBase)
+								InspectorsVew(vewBase:vewBase.wrappedValue)
+							}.frame(width:400)
+						}
+						 .tabItem {
+						 	Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
+						 }
+						 .tag(vewBase.wrappedValue.slot_)
+					}
 					 // Older attempt:
 					//List($factalsModel.vewBases) { vewBase in
 					//	HStack (alignment:.top) {

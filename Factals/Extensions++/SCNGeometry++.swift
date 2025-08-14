@@ -397,9 +397,8 @@ extension SCNGeometry {
 	}
 	open override var description : String 	{		return "SCNGeometry"		}
 }
-extension SCNConstraint {
-
 	 // MARK: - 15. PrettyPrint
+extension SCNConstraint {
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		return "uncoded"
 	}
@@ -475,8 +474,7 @@ extension SCNMaterial {
 			//	2: "  specular=<SCNMaterialProperty: 0x600002c2cf80 | contents=Generic Gray Gamma 2.2 Profile colorspace 1 1>"
 			//	3: ">"								/// SKIP
 		var (rv, separator)		= ("", "")
-		if lines.count > 1 {
-			// (Skip over lines[0]; it's just SCNMaterial)
+		if lines.count > 1 {	  // (Skip over lines[0]; it's just SCNMaterial)
 			for line in lines[1..<lines.count - 1]
 					where line != ")>>>" && line != ")>>" && line != ">"
 			{
@@ -497,7 +495,7 @@ extension SCNMaterial {
 				if let sName	= shortNames[split0] {
 					rv			+= separator + sName + ":"
 	bug//			rv			+= NSColor.ppColor(scnString:aString(split[2])) ?? "<Bad Color>"
-				}else{
+				} else {
 					rv			+= separator + "unknown:<?>"
 				}
 				separator			= ", "

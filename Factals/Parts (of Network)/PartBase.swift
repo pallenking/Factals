@@ -13,8 +13,8 @@ import SceneKit
  */
 extension PartBase : Equatable {
 	static func == (lhs: PartBase, rhs: PartBase) -> Bool {
-		lhs.nameTag				== rhs.nameTag &&
-		lhs.tree				== rhs.tree &&
+		lhs.nameTag				==  rhs.nameTag &&
+		lhs.tree				==  rhs.tree 	&&
 		lhs.factalsModel		=== rhs.factalsModel
 	}
 }

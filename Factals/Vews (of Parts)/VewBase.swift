@@ -18,7 +18,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	var title					= "VewBase\(nVewBase)"
 	var partBase	 : PartBase
 	var tree		 : Vew
-	var scnBase		 : ScnBase				// reference top Master 3D Tree
+	var scnBase		 : ScnBase			// reference top Master 3D Tree
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
