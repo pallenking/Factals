@@ -494,7 +494,7 @@ extension SCNMaterial {
 									"transparent"	: "trns"	]
 				if let sName	= shortNames[split0] {
 					rv			+= separator + sName + ":"
-	bug//			rv			+= NSColor.ppColor(scnString:aString(split[2])) ?? "<Bad Color>"
+bug;				rv			+= NSColor.ppColor(scnString:String(split[2])) ?? "<Bad Color>"
 				} else {
 					rv			+= separator + "unknown:<?>"
 				}

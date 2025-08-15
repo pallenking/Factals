@@ -15,7 +15,7 @@ import SwiftUI
 	var vewBases  : [VewBase] 	= []
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-			if vewBase.scnBase.keyIsDown { return true 							}
+			if vewBase.scnView.scnBase.keyIsDown { return true 					}
 		}
 		return false
 	}
@@ -75,7 +75,8 @@ import SwiftUI
 		vewBases.append(vewBase)						// Install vewBase
 														// Install in scnBase
 		vewBase.configure(from:fwConfig)
-		vewBase.scnBase.roots!.rootNode.addChildNode(vewBase.tree.scn)
+		vewBase.scnView.scene!.rootNode.addChildNode(vewBase.tree.scn)
+//		vewBase.scnBase.scene!.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)		// Vew configuration
 		vewBase.updateVSP()							// DELETE?
@@ -380,7 +381,7 @@ import SwiftUI
 			partBase.tree.dirtySubTree(.vsp)
 //			print("\n******************** 'r': === play(sound(\"GameStarting\")\n")
 //			for vews in vewBases {
-//				vews.scnBase.roots?.rootNode.play(sound:"Oooooooo")		//GameStarting
+//				vews.scnBase.scene?.rootNode.play(sound:"Oooooooo")		//GameStarting
 //			}
 		case "v":								// print Vew tree
 			print("\n******************** 'v': ==== Views:")
@@ -392,9 +393,9 @@ import SwiftUI
 			print("\n******************** 'n': ==== SCNNodes:")
 //			log.ppIndentCols = 3
 			for vews in vewBases {
-				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnBase)))" +
-					  ".scnScene(\(ppUid(vews.scnBase))):")
-				print(vews.scnBase.pp(.tree), terminator:"")
+				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnView)))" +//scnBase
+					  ".scnScene(\(ppUid(vews.scnView))):")	//scnBase
+				print(vews.scnView.pp(.tree), terminator:"")//scnBase
 			}
 		case "#":								// write out SCNNode tree as .scnScene
 			let documentDirURL	= try! FileManager.default.url(
@@ -405,7 +406,7 @@ import SwiftUI
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.scnBase.roots ?? {	debugger("") } ()
+			let rootVews0scene	= vewBases.first?.scnView.scene ?? {	debugger("") } ()//scnBase
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { debugger("writing dumpSCN.\(suffix) failed")	}
 		case "V":								// Update Views
@@ -429,9 +430,10 @@ import SwiftUI
 		case "f": 						// // f // //
 			var msg					= "\n"
 			for vewBase in vewBases {
-				vewBase.scnBase.animatePhysics ^^= true
+				let scnBase			= vewBase.scnView.scnBase
+				scnBase.animatePhysics ^^= true
 				msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
-									(vewBase.scnBase.animatePhysics ? "Run   " : "Freeze")
+									(scnBase.animatePhysics ? "Run   " : "Freeze")
 			}
 			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
 			return true								// recognize both

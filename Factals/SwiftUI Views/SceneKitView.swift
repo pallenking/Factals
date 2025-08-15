@@ -83,25 +83,26 @@ import AppKit
 
  /// SwiftUI Wrapper of SCNView
 struct SceneKitView: NSViewRepresentable {
-	var scnBase 		  : ScnBase?			// ARG1: exposes visual world
+//	var scnBase 		  : ScnBase?			// ARG1: exposes visual world
+	var scnView 		  : SCNView?			// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
-		guard let scnBase	else {	debugger("scnBase is nil")			}
-		let scnView				= SCNView(frame: NSRect.zero, options: [String : Any]())
-		scnBase.scnView	= scnView		// for pic
+	//	guard let scnBase	else {	debugger("scnBase is nil")			}
+		var scnView				= scnView ?? SCNView(frame: NSRect.zero, options: [String : Any]())
+	//	scnBase.scnView			= scnView		// for pic
 
-//		scnView.isPlaying		= false			// book keeping
+//		scnView.isPlaying		= false			// book keepscnViewing
 		scnView.showsStatistics	= true			// controls extra bar
-	//	scnView.debugOptions	= [				// enable display of:
-	//		SCNDebugOptions.showPhysicsFields,]	//  regions affected by each SCNPhysicsField object
+	//	scnView.debugOptions	= 				// enable display of:
+	//	  [	SCNDebugOptions.showPhysicsFields]	//  regions affected by each SCNPhysicsField object
 		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
-		scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
-		scnView.scene			= scnBase.roots
+bug	//	scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
+	//	scnView.scene			= scnBase.scene
 		return scnView
 	}
 

@@ -18,7 +18,8 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	var title					= "VewBase\(nVewBase)"
 	var partBase	 : PartBase
 	var tree		 : Vew
-	var scnBase		 : ScnBase			// reference top Master 3D Tree
+//	var scnBase		 : ScnBase			// reference top Master 3D Tree
+	var scnView		 : SCNView!
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -63,7 +64,8 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	}
 
  	var cameraScn	: SCNNode?	{
- 		scnBase.roots?.rootNode.findScn(named:"*-camera", maxLevel:1)
+		return scnView.scene?.rootNode.findScn(named:"*-camera", maxLevel:1)
+ 		//return scnBase.scene?.rootNode.findScn(named:"*-camera", maxLevel:1)
 	}
 	var lookAtVew	: Vew!			// Vew we are looking at
 
@@ -82,7 +84,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 
 	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
 		partBase				= pb
-		scnBase					= ScnBase()
+	//	scnBase					= ScnBase()
 		tree					= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
 		VewBase.nVewBase 		+= 1
 
@@ -91,20 +93,20 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-		scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
-		scnBase.monitor(onChangeOf:$selfiePole)
-		{ [weak self] in						// scnBase.subscribe()
-			if self?.cameraScn == nil {		return 								}
-			self!.scnBase.selfiePole2camera()
-		}
+bug	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
+	//	scnBase.monitor(onChangeOf:$selfiePole)
+	//	{ [weak self] in						// scnBase.subscribe()
+	//		if self?.cameraScn == nil {		return 								}
+	//		self!.scnBase.selfiePole2camera()
+	//	}
 	}
 
 	func configure(from:FwConfig) {
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		selfiePole.configure(from:from)
-		if let lrl				= from.bool("logRenderLocks") {
-			scnBase.logRenderLocks = lrl		// unset (not reset) if not present
-		}
+	//	if let lrl				= from.bool("logRenderLocks") {
+bug	//		scnBase.logRenderLocks = lrl		// unset (not reset) if not present
+	//	}
 		if let delay			= from.float("animateVBdelay") {
 			animateVBdelay		= delay			// unset (not reset) if not present
 		}
@@ -112,10 +114,10 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	// MARK: -
 	func setupSceneVisuals(fwConfig:FwConfig) {
 
-		 // 3. Add Lights, Camera and SelfiePole
-		scnBase.checkLights()
-		scnBase.checkCamera()				// (had factalsModel.document.config)
-		let _ /*axesScn*/		= scnBase.touchAxesScn()
+	//	 // 3. Add Lights, Camera and SelfiePole
+bug	//	scnBase.checkLights()
+	//	scnBase.checkCamera()				// (had factalsModel.document.config)
+	//	let _ /*axesScn*/		= scnBase.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
@@ -167,8 +169,8 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 		title					= try container.decode(   String.self, forKey:.title		)
 		partBase				= try container.decode( PartBase.self, forKey:.partBase		)
 		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
-//		scnBase			= try container.decode(ScnBase.self, forKey:.scnBase	)
-		scnBase			= ScnBase()
+//		scnBase					= try container.decode(  ScnBase.self, forKey:.scnBase		)
+	//	scnBase			= ScnBase()
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
 
@@ -306,7 +308,8 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-			rv					+= "\(scnBase .pp(.nameTagClass)) "
+			rv					+= "\(scnView .pp(.nameTagClass)) "
+//			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv
 	}

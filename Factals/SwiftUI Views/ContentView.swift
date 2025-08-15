@@ -66,13 +66,15 @@ struct SimpleSceneKitView : View {
 	@Binding var prefFpsC : CGFloat
 	var body: some View {
 		ZStack {
-			let scnBase = vewBase!.scnBase
-			SceneKitView(scnBase:scnBase, prefFpsC:$prefFpsC)
+								//
+			let scnView 		= vewBase!.scnView
+			let scnBase 		= scnView!.scnBase
+			SceneKitView(scnView:scnView, prefFpsC:$prefFpsC)
 				.frame(maxWidth: .infinity)
 				.border(.black, width:1)
 			EventReceiver { nsEvent in // Catch events (goes underneath)
 				//print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
-				let _ = scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
+				let _ 			= scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
 			}
 		}
 	}
@@ -125,41 +127,42 @@ struct FactalsModelView: View {
 				Button(label:{ Text("++") }) {
 					addNewTab()													}
 				Button(label:{ Text("Test Sound") }) {
-					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.roots!.rootNode
+					let rootScn = FACTALSMODEL!.vewBases.first!.scnView.scene!.rootNode
+//					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.scene!.rootNode
 					rootScn.play(sound:"da")  									//"forward"//"tick"// playSimple(rootScn:rootScn)
 				}
 			}
 			NavigationStack {
 				TabView(selection:$tabViewSelect)  {
 
-					 // Create, with tag = slot_
-					ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-						HStack (alignment:.top) {
-							VStack {									//Binding<VewBase>
-								let scnBase = vewBase.scnBase.wrappedValue
-								ZStack {
-									//let _ = Self._printChanges()
-									SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
-										.frame(maxWidth: .infinity)
-										.border(.black, width:1)
-									EventReceiver { nsEvent in // Catch events (goes underneath)
-										if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-											guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-											print("Key '\(c)' not recognized and hence ignored...")
-										}
-									}
-								}
-							}//.frame(width: 555)
-							VStack {
-								VewBaseBar(vewBase:vewBase)
-								InspectorsVew(vewBase:vewBase.wrappedValue)
-							}.frame(width:400)
-						}
-						 .tabItem {
-						 	Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
-						 }
-						 .tag(vewBase.wrappedValue.slot_)
-					}
+				//	 // Create, with tag = slot_
+				//	ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+				//		HStack (alignment:.top) {
+				//			VStack {									//Binding<VewBase>
+				//				let scnBase = vewBase.scnBase.wrappedValue
+				//				ZStack {
+				//					//let _ = Self._printChanges()
+				//					SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
+				//						.frame(maxWidth: .infinity)
+				//						.border(.black, width:1)
+				//					EventReceiver { nsEvent in // Catch events (goes underneath)
+				//						if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+				//							guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+				//							print("Key '\(c)' not recognized and hence ignored...")
+				//						}
+				//					}
+				//				}
+				//			}//.frame(width: 555)
+				//			VStack {
+				//				VewBaseBar(vewBase:vewBase)
+				//				InspectorsVew(vewBase:vewBase.wrappedValue)
+				//			}.frame(width:400)
+				//		}
+				//		 .tabItem {
+				//		 	Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
+				//		 }
+				//		 .tag(vewBase.wrappedValue.slot_)
+				//	}
 					 // Older attempt:
 					//List($factalsModel.vewBases) { vewBase in
 					//	HStack (alignment:.top) {

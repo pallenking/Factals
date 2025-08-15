@@ -11,12 +11,12 @@ typealias EventHandler			= (NSEvent) -> Void
 
 class ScnBase : NSObject {
 
-	var roots	 : SCNScene?
+	var scene	 : SCNScene?
 	var tree	 : SCNNode?	{
-		set(v) 	 {	roots?.rootNode.addChildNode(v!)							}
-		get 	 {	roots?.rootNode.children.first								}
+		set(v) 	 {	scene?.rootNode.addChildNode(v!)	}// ?? replace all with 1?							}
+		get 	 {	scene?.rootNode.children.first								}
  	}
-	var scnView	 : SCNView?						// SCNView  of this ScnBase
+	var scnView	 : SCNView?						// SCNView of this ScnBase
 	weak
 	 var vewBase : VewBase?						// Owner
 
@@ -29,8 +29,8 @@ class ScnBase : NSObject {
 	var deltaPosition			= SCNVector3.zero
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
 	var animatePhysics : Bool {
-		get {			return !(roots?.isPaused ?? false)						}
-		set(v) {		roots?.isPaused = !v										}
+		get {			return !(scene?.isPaused ?? false)						}
+		set(v) {		scene?.isPaused = !v										}
 	}
 
 	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
@@ -51,8 +51,8 @@ class ScnBase : NSObject {
 			let scene 			= SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
 			return scene
 		}()
-		self.roots				= scnScene		// get scene
-		self.roots!.rootNode.name = "tree"
+		self.scene				= scnScene		// get scene
+		self.scene!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
 
  		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -69,15 +69,15 @@ extension ScnBase {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
-			guard let roots 		else { return									}
-			if roots.rootNode.findScn(named:name) == nil {
+			guard let scene 		else { return									}
+			if scene.rootNode.findScn(named:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
 				scn4light.name	= name				// arg 1
 				if let position {
 					scn4light.position = position	// arg 5
 				}
-				roots.rootNode.addChildNode(scn4light)
+				scene.rootNode.addChildNode(scn4light)
 										 // Light:
 				let light		= SCNLight()
 				light.type 		= lightType			// arg 2
@@ -165,13 +165,13 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 	func checkCamera() {
 		let name				= "*-camera"
-		guard let roots 			else { return									}
-		let camNode				= roots.rootNode.findScn(named:name, maxLevel:1) ?? { // use old
+		guard let scene 			else { return									}
+		let camNode				= scene.rootNode.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-			roots.rootNode.addChildNode(rv)
+			scene.rootNode.addChildNode(rv)
 
 			 // Just make a whole new camera system from scratch
 			let camera			= SCNCamera()
@@ -201,17 +201,17 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func touchAxesScn() {			// was updatePole()
-		guard let roots			else { return									}
+		guard let scene			else { return									}
 		let name				= "*-axis"
 
 		 // Already exist?
-		if roots.rootNode.findScn(named:name) != nil {
+		if scene.rootNode.findScn(named:name) != nil {
 			return
 		}
 		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
 		let axesScn				= SCNNode()				// New pole
 		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		roots.rootNode.addChild(node:axesScn)
+		scene.rootNode.addChild(node:axesScn)
 		axesScn.name				= name
 
 		 // X/Z Poles (thinner)
@@ -438,7 +438,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
 			assert(keyIsDown==false, "keyIsDown is already true")
-			keyIsDown 	= true
+			keyIsDown 			= true
 	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 			{	nop		/*taken*/												}
 			else if char != "?"  		// others  besides"?" to get here
@@ -447,20 +447,20 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 			assert(keyIsDown==true, "keyIsDown has gone false")
-			keyIsDown 	= false
-	/**/	let _ = factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+			keyIsDown 			= false
+	/**/	let _ 				= factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		 //  ====== LEFT MOUSE =================================================
 		case .leftMouseDown:
 			prepareDeltas(with:nsEvent)
-			if let v		= modelPic(with:nsEvent) {
+			if let v			= modelPic(with:nsEvent) {
 				print("leftMouseDown pic's Vew:\(v.pp(.short))")
 			}
 			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:			// override func mouseDragged(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
 			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
-	/**/	mouseWasDragged = true
+	/**/	mouseWasDragged 	= true
 			selfiePole2camera(reason:"Left mouseDragged")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
@@ -475,14 +475,14 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		 //  ====== CENTER MOUSE (scroll wheel) ================================
 		case .otherMouseDown:	// override func otherMouseDown(with nsEvent:NSEvent)	{
 			prepareDeltas(with:nsEvent)
-	/**/	if let v		= modelPic(with:nsEvent) {
+	/**/	if let v			= modelPic(with:nsEvent) {
 	/**/		print("otherMouseDown pic's Vew:\(v.pp(.short))")
 	/**/	}
 			selfiePole2camera(duration:duration, reason:"Slot\(slot): Other mouseDown")
 		case .otherMouseDragged:	// override func otherMouseDragged(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
 			motorSpinNUp(with:nsEvent)
-			mouseWasDragged = true
+			mouseWasDragged 	= true
 			selfiePole2camera(reason:"Slot\(slot): Other mouseDragged")
 		case .otherMouseUp:	// override func otherMouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
@@ -613,7 +613,8 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 
-		guard let tree			= vewBase.scnBase.roots    else { return nil}
+		guard let tree			= vewBase.scnView.scene    else { return nil}
+//		guard let tree			= vewBase.scnBase.scene    else { return nil}
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
@@ -701,7 +702,8 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		var rv					= "super.pp(mode, aux)"
 		if mode == .line {
-			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
+			rv					+= vewBase?.scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
+//			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
 		//	rv					+= "animatePhysics:\(animatePhysics) "
@@ -726,12 +728,13 @@ extension ScnBase : SCNPhysicsContactDelegate {
 }
 
 extension SCNView {		//
-	var handler : EventHandler {
-		get { return	(delegate as! ScnBase).eventHandler}
+	var scnBase : ScnBase		{ delegate as! ScnBase							}
+	var handler : EventHandler 	{
+		get { return			( delegate as! ScnBase).eventHandler			}
 		set(val) { }
 	}
 
 	 // MARK: - 13.1 Keys
-	open override func keyDown(with 	event:NSEvent) 		{	handler(event)	}
-	open override func keyUp(with 		event:NSEvent) 		{	handler(event)	}
+	open override func keyDown(with event:NSEvent) 		{	handler(event)	}
+	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
 }

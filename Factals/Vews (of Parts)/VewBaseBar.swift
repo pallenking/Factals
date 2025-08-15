@@ -32,7 +32,8 @@ struct VewBaseBar: View {
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot\(slot): =====")
-						let scnScene = vewBase.scnBase.roots
+						let scnScene = vewBase.scnView.scene
+//						let scnScene = vewBase.scnBase.scene
 						print(scnScene?.rootNode.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 //						print(scnScene?.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 					}

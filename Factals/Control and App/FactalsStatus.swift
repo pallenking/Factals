@@ -221,7 +221,8 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
-		let scnTreeRoot			= self.scnBase.roots?.rootNode
+		let scnTreeRoot			= self.scnView.scene?.rootNode
+//		let scnTreeRoot			= self.scnBase.scene?.rootNode
 		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
 								+	"!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
@@ -232,7 +233,8 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "\(inspectedVews.count) inspectedVews"
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-				var rv			=  self.scnBase   .ppControlElement(config:config)
+				var rv			=  self.scnView   .ppControlElement(config:config)
+//				var rv			=  self.scnBase   .ppControlElement(config:config)
 				rv				+= self.selfiePole.ppControlElement(config:config)
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
 									?? "\t\t\t\t cameraScn is nil\n"
@@ -274,9 +276,10 @@ extension Inspec : FactalsStatus	{									///Inspec
 
 extension ScnBase : FactalsStatus	{						  ///ScnBase
 	func ppControlElement(config:Bool=false) -> String {
-		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-		myLine					+= "tree:\(roots?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-		myLine					+= "\(roots?			  .pp(.tagClass) ?? "<nil>") "			//classUid
+		var myLine				= vewBase?.scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+//		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+		myLine					+= "tree:\(scene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+		myLine					+= "\(scene?			  .pp(.tagClass) ?? "<nil>") "			//classUid
 		myLine					+= "scnView:\(	  scnView?.pp(.tagClass) ?? "<nil>") "			//classUid
 		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
 //			otherLines: {
