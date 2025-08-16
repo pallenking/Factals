@@ -1694,7 +1694,7 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
-	xr("- bad paranoia", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+	xxr("- bad paranoia", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
 	  Net([parts:[
 //		Tunnel([n:"evi", struc:"a", of:"bcast", placeMy:"stackz 0 -1"]),
 //		Generator([n:"loGen", events:["a", "again"], P:"evi"]),//+X
@@ -1711,7 +1711,7 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 		MaxOr( [P:"z,l:5", f:1]),	// no Link
 	//	MaxOr(["share":"z,l:5"]),	// no Link
 	]]) })
-	xxr("- duplicate name PP SS", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+	xr("- duplicate name PP SS", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
 	  Net([parts:[												// logAt(dat:5, eve:5)
 		Tunnel([n:"b", P:"a", struc:[], of:"bcast"/*nil_A*/, jog:"1"]),
 		Tunnel([n:"a", struc:[], of:"bcast"/*nil_A*/, f:1]),

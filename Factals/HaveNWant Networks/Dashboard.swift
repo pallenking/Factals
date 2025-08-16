@@ -50,8 +50,8 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 		// "P":		Show ( V ) Part		// "W":		Show (PVI) position in World coordinates
 		// "L":		Show ( V ) Leaf height				   '-> :H: Part, View, scN
 	"ppViewOptions"	//**/:	"UFV    TB W",	// Compact
-					//**/:	"UFVSPLETBIW",	// Everything
-					/**/:	"UFV       W",	// WIP
+					/**/:	"UFVSPLETBIW",	// Everything
+					//**/:	"UFV       W",	// WIP
 					//**/:	"UFVTWB",		// Tests
 					//**/: 	"UFVS   TB W",	//
 					//**/:	"UFV PL  B  ",	//

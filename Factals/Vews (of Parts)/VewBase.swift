@@ -19,7 +19,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	var partBase	 : PartBase
 	var tree		 : Vew
 //	var scnBase		 : ScnBase			// reference top Master 3D Tree
-	var scnView		 : SCNView!
+	var scnView		 = SCNView()
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -28,7 +28,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 //	var vewBaseConfig: FwConfig = [:]
 
 	 // From RealityQ
-//	lazy var renderer: any FactalsRenderer = rendererManager.createRenderer()
+//	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
 
 	weak
 	 var factalsModel : FactalsModel!	// Our Owner
@@ -105,7 +105,7 @@ bug	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		selfiePole.configure(from:from)
 	//	if let lrl				= from.bool("logRenderLocks") {
-bug	//		scnBase.logRenderLocks = lrl		// unset (not reset) if not present
+	//		scnBase.logRenderLocks = lrl		// unset (not reset) if not present
 	//	}
 		if let delay			= from.float("animateVBdelay") {
 			animateVBdelay		= delay			// unset (not reset) if not present
