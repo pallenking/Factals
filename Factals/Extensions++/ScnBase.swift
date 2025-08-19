@@ -10,56 +10,47 @@ import SceneKit
 typealias EventHandler			= (NSEvent) -> Void
 
 class ScnBase : NSObject {
-
-	var scene	 : SCNScene?
-	var tree	 : SCNNode?	{
-		set(v) 	 {	scene?.rootNode.addChildNode(v!)	}// ?? replace all with 1?							}
-		get 	 {	scene?.rootNode.children.first								}
- 	}
-	var scnView	 : SCNView?						// SCNView of this ScnBase
 	weak
-	 var vewBase : VewBase?						// Owner
-
+	 var scnView : SCNView?						// Owner
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler : EventHandler
 
-	var keyIsDown 	 : Bool 	= false 		// filter out AUTOREPEAT keys
+//	var keyIsDown 	 : Bool 	= false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
-	var animatePhysics : Bool {
-		get {			return !(scene?.isPaused ?? false)						}
-		set(v) {		scene?.isPaused = !v										}
-	}
+//	var animatePhysics : Bool {
+//		get {			return !(scene?.isPaused ?? false)						}
+//		set(v) {		scene?.isPaused = !v										}
+//	}
 
-	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
-													where T.Failure == Never {
-		publisher.sink { _ in				//	{ [weak self] _ in
-			performs()						//		guard self != nil else { return }
-		}
-		 .store(in: &monitoring)
-	}
-	var monitoring 				= Set<AnyCancellable>()
-	deinit {
-		monitoring.forEach { 	$0.cancel() 									}
-		monitoring.removeAll()
-	}
+//	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
+//													where T.Failure == Never {
+//		publisher.sink { _ in				//	{ [weak self] _ in
+//			performs()						//		guard self != nil else { return }
+//		}
+//		 .store(in: &monitoring)
+//	}
+//	var monitoring 				= Set<AnyCancellable>()
+//	deinit {
+//		monitoring.forEach { 	$0.cancel() 									}
+//		monitoring.removeAll()
+//	}
 	 // MARK: - 3.1 init
-	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
-		let scnScene 			= scnScene ??  {
-			let scene 			= SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
-			return scene
-		}()
-		self.scene				= scnScene		// get scene
-		self.scene!.rootNode.name = "tree"
-		self.eventHandler		= eventHandler
-
- 		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-	}
+//	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
+//		let scnScene 			= scnScene ??  {
+//			let scene 			= SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
+//			return scene
+//		}()
+//		self.scene				= scnScene		// get scene
+//		self.scene!.rootNode.name = "tree"
+//		self.eventHandler		= eventHandler
+// 		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+//	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
-}
-extension ScnBase {		// lights and camera
+//}
+//extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
 	func checkLights() {
 		touchLight("*-omni1",  .omni,position:SCNVector3(0, 0, 15))
@@ -69,7 +60,8 @@ extension ScnBase {		// lights and camera
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
-			guard let scene 		else { return									}
+//			guard let scene 		else { return								}
+bug;		let scene 			= SCNScene(named:"fooNadaMach")!
 			if scene.rootNode.findScn(named:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
@@ -119,53 +111,10 @@ extension ScnBase {		// lights and camera
 	 coords:          |
 			 ====== SCREEN ========================= SCREEN		[x, y]
  */
-/*
-			View.convert(_:NSPoint, from:NSView?)
-- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
-
-
-
-Vew.swift:
-           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
-		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
-SceneKit:
-		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
-	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
-NSView:
-		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
-SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
-		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
-	       convert         (_:NSRect,        from:NSView?)       -> NSRect
-Quartzcore Calayer: UIView:
-		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
-		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
-		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
-SpriteKit:
-		   convertPoint    (fromView:CGPoint)			         -> CGPoint
-		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
-UIView:
-		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
-		   convert         (_:CGRect,      from:UIView?)         -> CGRect
-AppKit:
-		   convert         (_:NSFont                          )  -> NSFont
-
-			convertPointFromBacking:
-
-		   convert        (              to: UnitType)							UnitType conforms to Dimension
-
-https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
-- convertPointToBase:
-- convertSizeToBase:
-- convertSizeFromBase:
-- convertRectToBase:
-- convertRectFromBase:
-
- */
 	func checkCamera() {
 		let name				= "*-camera"
-		guard let scene 			else { return									}
+//		guard let scene 			else { return									}
+bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 		let camNode				= scene.rootNode.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
@@ -200,81 +149,81 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
-	func touchAxesScn() {			// was updatePole()
-		guard let scene			else { return									}
-		let name				= "*-axis"
-
-		 // Already exist?
-		if scene.rootNode.findScn(named:name) != nil {
-			return
-		}
-		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
-		let axesScn				= SCNNode()				// New pole
-		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		scene.rootNode.addChild(node:axesScn)
-		axesScn.name				= name
-
-		 // X/Z Poles (thinner)
-		let r : CGFloat			= 0.03
-		for i in 0..<2 {
-			let arm 			= SCNNode(geometry:SCNCylinder(radius:r, height:axesLen.x))
-			arm.categoryBitMask = FwNodeCategory.adornment.rawValue
-			arm.transform		= SCNMatrix4Rotate(SCNMatrix4.identity, CGFloat.pi/2,
-								(i == 0 ? 1 : 0), 0, (i == 1 ? 1 : 0)  )
-			arm.name			= "s-Cyl\(i)"
-			arm.color0			= .lightGray
-			arm.color0(emission:systemColor)
-			axesScn.addChild(node:arm)
-
-			let nTics			= [axesLen.x, axesLen.z][i]
-			addAxisTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
-		}
-		 // Y Pole (thicker)
-		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
-		upPole.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		upPole.position.y		+= axesLen.y / 2
-		upPole.name				= "s-CylT"
-		upPole.color0			= .lightGray
-		upPole.color0(emission:systemColor)
-		addAxisTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
-		axesScn.addChild(node:upPole)
-
-
-		 // Experimental label
-		let geom				= SCNText(string:"Origin", extrusionDepth:1)
-		geom.containerFrame		= CGRect(x:-0.5, y:-0.5, width:1, height:1)
-		let label		 		= SCNNode(geometry:geom)
-		label.name				= "Origin"
-		label.color0			= .black
-		label.color0(emission:systemColor)
-		axesScn.addChild(node:label)
-
-
-		 // Origin Node is a pyramid
-		let origin		 		= SCNNode(geometry:SCNSphere(radius:r*4))
-		origin.categoryBitMask	= FwNodeCategory.adornment.rawValue
-		origin.name				= "s-Pyr"
-		origin.color0			= .black
-		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
-		axesScn.addChild(node:origin)
-	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
-	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-		if true || vewBase?.factalsModel?.fmConfig.bool("axisTics") ?? false {
-			let pos				= toNode.position
-			for j in Int(from)...Int(to) where j != 0 {
-				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
-				tic.categoryBitMask	= FwNodeCategory.adornment.rawValue
-				tic.name		= "tic\(j)"
-				tic.transform 	= SCNMatrix4MakeRotation(.pi/2, 1, 0, 0)
-				tic.position 	= SCNVector3(0, CGFloat(j), 0) - pos
-				tic.scale		= SCNVector3(1, 1, 0.5)
-				tic.color0		= .black
-				tic.color0(emission:systemColor)
-				toNode.addChild(node:tic)
-			}
-		}
-	}
-
+//	func touchAxesScn() {			// was updatePole()
+//		guard let scene			else { return									}
+//		let name				= "*-axis"
+//
+//		 // Already exist?
+//		if scene.rootNode.findScn(named:name) != nil {
+//			return
+//		}
+//		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
+//		let axesScn				= SCNNode()				// New pole
+//		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//		scene.rootNode.addChild(node:axesScn)
+//		axesScn.name				= name
+//
+//		 // X/Z Poles (thinner)
+//		let r : CGFloat			= 0.03
+//		for i in 0..<2 {
+//			let arm 			= SCNNode(geometry:SCNCylinder(radius:r, height:axesLen.x))
+//			arm.categoryBitMask = FwNodeCategory.adornment.rawValue
+//			arm.transform		= SCNMatrix4Rotate(SCNMatrix4.identity, CGFloat.pi/2,
+//								(i == 0 ? 1 : 0), 0, (i == 1 ? 1 : 0)  )
+//			arm.name			= "s-Cyl\(i)"
+//			arm.color0			= .lightGray
+//			arm.color0(emission:systemColor)
+//			axesScn.addChild(node:arm)
+//
+//			let nTics			= [axesLen.x, axesLen.z][i]
+//			addAxisTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
+//		}
+//		 // Y Pole (thicker)
+//		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
+//		upPole.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//		upPole.position.y		+= axesLen.y / 2
+//		upPole.name				= "s-CylT"
+//		upPole.color0			= .lightGray
+//		upPole.color0(emission:systemColor)
+//		addAxisTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
+//		axesScn.addChild(node:upPole)
+//
+//
+//		 // Experimental label
+//		let geom				= SCNText(string:"Origin", extrusionDepth:1)
+//		geom.containerFrame		= CGRect(x:-0.5, y:-0.5, width:1, height:1)
+//		let label		 		= SCNNode(geometry:geom)
+//		label.name				= "Origin"
+//		label.color0			= .black
+//		label.color0(emission:systemColor)
+//		axesScn.addChild(node:label)
+//
+//
+//		 // Origin Node is a pyramid
+//		let origin		 		= SCNNode(geometry:SCNSphere(radius:r*4))
+//		origin.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//		origin.name				= "s-Pyr"
+//		origin.color0			= .black
+//		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
+//		axesScn.addChild(node:origin)
+//	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
+//	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
+//		if true || vewBase?.factalsModel?.fmConfig.bool("axisTics") ?? false {
+//			let pos				= toNode.position
+//			for j in Int(from)...Int(to) where j != 0 {
+//				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
+//				tic.categoryBitMask	= FwNodeCategory.adornment.rawValue
+//				tic.name		= "tic\(j)"
+//				tic.transform 	= SCNMatrix4MakeRotation(.pi/2, 1, 0, 0)
+//				tic.position 	= SCNVector3(0, CGFloat(j), 0) - pos
+//				tic.scale		= SCNVector3(1, 1, 0.5)
+//				tic.color0		= .black
+//				tic.color0(emission:systemColor)
+//				toNode.addChild(node:tic)
+//			}
+//		}
+//	}
+//
 //	 // MARK: 4.4 - Look At Updates
 //	func movePole(toWorldPosition wPosn:SCNVector3) {
 //		guard let factalsModel		= vews?.factalsModel else {		return						}
@@ -310,11 +259,11 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
 	 ///   - duration: for animation
 	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
 bug
-		guard let cameraScn		= vewBase?.cameraScn else {		return 			}
+		guard let vewBase		= scnView?.vewBase 	else {	return				}
+		guard let cameraScn		= vewBase.cameraScn else {	return 				}
 								
-		vewBase?.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
+		vewBase.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
 
-		guard let vewBase		= self.vewBase else { debugger("vews is nil")	}
 		guard let factalsModel	= vewBase.factalsModel else {debugger("")		}
 
 		let animate				= factalsModel.fmConfig.bool("animatePan") ?? false
@@ -333,7 +282,7 @@ bug
 				logRve(8, "  /#######  animatePan: BEGIN Completion Block")
 				SCNTransaction.animationDuration = CFTimeInterval(duration)
 
-				cameraScn.transform = self.vewBase!.selfiePole.transform(lookAtVew:self.vewBase!.lookAtVew)
+				cameraScn.transform = vewBase.selfiePole.transform(lookAtVew:vewBase.lookAtVew)
 
 				logRve(8, "  \\#######  animatePan: COMMIT Completion Block")		//factalsModel.*/logd(
 				SCNTransaction.commit()
@@ -345,7 +294,7 @@ bug
 		
 	 /// Determine zoom so that all parts of the scene are seen.
 	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
-		guard let vewBase  else {	debugger("RootScn.vews is nil")}
+		guard let vewBase 		= scnView?.vewBase else {	debugger("RootScn.vews is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= vewBase.tree.bBox //BBox(size:3, 3, 3)//			// in world coords
@@ -392,7 +341,7 @@ enum FwNodeCategory : Int {
 }
 
 extension ScnBase : SCNSceneRendererDelegate {
-	func facMod() -> FactalsModel? {	vewBase?.factalsModel					}
+	func facMod() -> FactalsModel? {	scnView?.vewBase.factalsModel			}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in
@@ -426,7 +375,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
-		guard let vewBase else { print("ScnBase.vewBase is nil"); return false	}
+		guard let vewBase 		= scnView?.vewBase else { print("ScnBase.vewBase is nil"); return false	}
 		let slot				= vewBase.slot_
 		guard let factalsModel	= vewBase.factalsModel else 	{ return false	}
 
@@ -435,19 +384,19 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		 //  ====== KEYBOARD ===================================================
 		case .keyDown:
 			guard let char		= nsEvent.charactersIgnoringModifiers else { return false}
-			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
-			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
-			assert(keyIsDown==false, "keyIsDown is already true")
-			keyIsDown 			= true
-	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
-			{	nop		/*taken*/												}
-			else if char != "?"  		// others  besides"?" to get here
-			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
-			}
+//			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
+//			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
+//			assert(keyIsDown==false, "keyIsDown is already true")
+//			keyIsDown 			= true
+//	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+//			{	nop		/*taken*/												}
+//			else if char != "?"  		// others  besides"?" to get here
+//			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
+//			}
 		case .keyUp:
-			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-			assert(keyIsDown==true, "keyIsDown has gone false")
-			keyIsDown 			= false
+//			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
+//			assert(keyIsDown==true, "keyIsDown has gone false")
+//			keyIsDown 			= false
 	/**/	let _ 				= factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		 //  ====== LEFT MOUSE =================================================
@@ -570,7 +519,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVewBase vb:VewBase? = nil) -> Vew? {
 		let possibleVewBases 	= vb != nil ? [vb!]				// ARG specifies
-								: vewBase!.factalsModel.vewBases// fall
+								: scnView?.vewBase.factalsModel.vewBases ?? []// fall
 		for vewBase in possibleVewBases {
 			if let picdVew		= findVew(nsEvent:nsEvent, inVewBase:vewBase) {
 
@@ -678,19 +627,22 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	}
 
 	func motorSpinNUp(with nsEvent:NSEvent) {
-		vewBase!.selfiePole.spin -=  deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
-		vewBase!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
+		var selfiePole			= scnView!.vewBase.selfiePole
+		selfiePole.spin 		-= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+		selfiePole.gaze 		-= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func motorZ(with nsEvent:NSEvent) {
-		vewBase!.selfiePole.position.z += deltaPosition.y * 20
+		var selfiePole			= scnView!.vewBase.selfiePole
+		selfiePole.position.z 	+= deltaPosition.y * 20
 	}
 
 	func selfiePole2camera(duration:Float=0, reason:String="") {
-		guard let cameraScn		= vewBase?.cameraScn else {debugger("vewBase.cameraScn is nil")}
-		let selfiePole			= vewBase!.selfiePole
-	//	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
+		var vewBase				= scnView!.vewBase
+		guard let cameraScn		= vewBase.cameraScn else {debugger("vewBase.cameraScn is nil")}
+		var selfiePole			= vewBase.selfiePole
+		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 
-		let transform			= selfiePole.transform(lookAtVew:self.vewBase!.lookAtVew)
+		let transform			= selfiePole.transform(lookAtVew:vewBase.lookAtVew)
 		//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.nameTag))")
 		//print("selfiePole:\(selfiePole.pp(.nameTag)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
@@ -702,7 +654,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		var rv					= "super.pp(mode, aux)"
 		if mode == .line {
-			rv					+= vewBase?.scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
+			rv					+= scnView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
 //			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
@@ -727,6 +679,13 @@ extension ScnBase : SCNPhysicsContactDelegate {
 	}
 }
 
+extension SCNView  {
+	var vewBase	 : VewBase 		{	bug; return self.vewBase					}
+	var scene	 : SCNScene 	{	bug; return self.scene						}
+	var animatePhysics : Bool 	{	bug; return self.animatePhysics				}
+	var cameraScn : SCNCamera? 	{	self.vewBase.cameraScn?.camera				}
+}
+
 extension SCNView {		//
 	var scnBase : ScnBase		{ delegate as! ScnBase							}
 	var handler : EventHandler 	{
@@ -738,3 +697,47 @@ extension SCNView {		//
 	open override func keyDown(with event:NSEvent) 		{	handler(event)	}
 	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
 }
+////////////////////
+///
+/*
+			View.convert(_:NSPoint, from:NSView?)
+- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
+
+Vew.swift:
+           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
+		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
+SceneKit:
+		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
+	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
+NSView:
+		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
+SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
+		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
+	       convert         (_:NSRect,        from:NSView?)       -> NSRect
+Quartzcore Calayer: UIView:
+		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
+		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
+		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
+SpriteKit:
+		   convertPoint    (fromView:CGPoint)			         -> CGPoint
+		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
+UIView:
+		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
+		   convert         (_:CGRect,      from:UIView?)         -> CGRect
+AppKit:
+		   convert         (_:NSFont                          )  -> NSFont
+
+			convertPointFromBacking:
+
+		   convert        (              to: UnitType)							UnitType conforms to Dimension
+
+https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
+- convertPointToBase:
+- convertSizeToBase:
+- convertSizeFromBase:
+- convertRectToBase:
+- convertRectFromBase:
+
+ */

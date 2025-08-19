@@ -10,6 +10,10 @@ extension VewBase : Equatable {
 	//	return true
 	}
 }
+protocol XNsView : NSView {
+	var scene : SCNScene		{	get set										}
+	var animatePhysics	: Bool 	{	get set										}
+}
 
 class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	var nameTag: UInt16			= getNametag()				// protocol Uid
@@ -19,9 +23,6 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	var partBase	 : PartBase
 	var tree		 : Vew
 	var xNsView		 : XNsView?
-	protocol XNsView : NSView {
-		var scene: SCNScene {get set}
-	}
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'

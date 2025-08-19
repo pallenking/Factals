@@ -680,8 +680,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				if let rootScn	= vewBase()?.scnView.scene?.rootNode {
-//				if let rootScn	= vewBase()?.scnBase.scene?.rootNode {
+				if let rootScn	= vewBase()?.xNsView?.scene.rootNode {
 					rv			+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				}

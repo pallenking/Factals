@@ -15,7 +15,7 @@ import SwiftUI
 	var vewBases  : [VewBase] 	= []
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-			if ((vewBase.nsView?.scnBase.keyIsDown) != nil) { return true 					}
+			//if ((vewBase.xNsView?.scnBase.keyIsDown) != nil) { return true 					}
 		}
 		return false
 	}
@@ -429,10 +429,10 @@ import SwiftUI
 		case "f": 						// // f // //
 			var msg					= "\n"
 			for vewBase in vewBases {
-				let scnBase			= vewBase.nsView.scnBase
-				scnBase.animatePhysics ^^= true
+				guard let xNsView	= vewBase.xNsView else {	continue		}
+				xNsView.animatePhysics ^^= true
 				msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
-									(scnBase.animatePhysics ? "Run   " : "Freeze")
+									(xNsView.animatePhysics ? "Run   " : "Freeze")
 			}
 			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
 			return true								// recognize both
