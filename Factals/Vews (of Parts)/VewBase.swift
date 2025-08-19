@@ -18,8 +18,10 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	var title					= "VewBase\(nVewBase)"
 	var partBase	 : PartBase
 	var tree		 : Vew
-//	var scnBase		 : ScnBase			// reference top Master 3D Tree
-	var scnView		 = SCNView()
+	var xNsView		 : XNsView?
+	protocol XNsView : NSView {
+		var scene: SCNScene {get set}
+	}
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -64,7 +66,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	}
 
  	var cameraScn	: SCNNode?	{
-		return scnView.scene?.rootNode.findScn(named:"*-camera", maxLevel:1)
+		return xNsView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
  		//return scnBase.scene?.rootNode.findScn(named:"*-camera", maxLevel:1)
 	}
 	var lookAtVew	: Vew!			// Vew we are looking at
@@ -88,7 +90,7 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 		tree					= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
 		VewBase.nVewBase 		+= 1
 
-		//super.init()			// NSObject  //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
@@ -157,7 +159,7 @@ bug	//	scnBase.checkLights()
 		try container.encode(title,				forKey:.title					)
 		try container.encode(partBase,			forKey:.partBase				)
 		try container.encode(tree,				forKey:.tree					)
-	//	try container.encode(scnBase,		forKey:.scnBase			)
+	//	try container.encode(scnBase,			forKey:.scnBase					)
 //		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
 		try container.encode(prefFps,			forKey:.prefFps					)
 		logSer(3, "Encoded")
@@ -170,7 +172,7 @@ bug	//	scnBase.checkLights()
 		partBase				= try container.decode( PartBase.self, forKey:.partBase		)
 		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
 //		scnBase					= try container.decode(  ScnBase.self, forKey:.scnBase		)
-	//	scnBase			= ScnBase()
+	//	scnBase					= ScnBase()
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
 
@@ -308,7 +310,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-			rv					+= "\(scnView .pp(.nameTagClass)) "
+			rv					+= "\(xNsView? .pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv

@@ -15,7 +15,7 @@ import SwiftUI
 	var vewBases  : [VewBase] 	= []
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-			if vewBase.scnView.scnBase.keyIsDown { return true 					}
+			if ((vewBase.nsView?.scnBase.keyIsDown) != nil) { return true 					}
 		}
 		return false
 	}
@@ -75,7 +75,7 @@ import SwiftUI
 		vewBases.append(vewBase)						// Install vewBase
 														// Install in scnBase
 		vewBase.configure(from:fwConfig)
-		vewBase.scnView.scene!.rootNode.addChildNode(vewBase.tree.scn)
+		vewBase.xNsView?.scene.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)		// Vew configuration
 		vewBase.updateVSP()							// DELETE?
@@ -391,10 +391,10 @@ import SwiftUI
 		case "n":								// print SCNNode tree
 			print("\n******************** 'n': ==== SCNNodes:")
 //			log.ppIndentCols = 3
-			for vews in vewBases {
-				print("-------- ptn   rootVews(\(ppUid(vews))).rootScn(\(ppUid(vews.scnView)))" +//scnBase
-					  ".scnScene(\(ppUid(vews.scnView))):")	//scnBase
-				print(vews.scnView.pp(.tree), terminator:"")//scnBase
+			for vewBase in vewBases {
+				print("-------- ptn   rootVews(\(ppUid(vewBase))).rootScn(\(ppUid(vewBase.xNsView)))" +//scnBase
+					  ".scnScene(\(ppUid(vewBase.xNsView))):")	//scnBase
+				print(vewBase.xNsView?.pp(.tree) ?? "xNsView:nil", terminator:"")//scnBase
 			}
 		case "#":								// write out SCNNode tree as .scnScene
 			let documentDirURL	= try! FileManager.default.url(
@@ -405,7 +405,7 @@ import SwiftUI
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.scnView.scene ?? {	debugger("") } ()//scnBase
+			let rootVews0scene	= vewBases.first?.xNsView?.scene ?? {	debugger("") } ()//scnBase
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { debugger("writing dumpSCN.\(suffix) failed")	}
 		case "V":								// Update Views
@@ -429,7 +429,7 @@ import SwiftUI
 		case "f": 						// // f // //
 			var msg					= "\n"
 			for vewBase in vewBases {
-				let scnBase			= vewBase.scnView.scnBase
+				let scnBase			= vewBase.nsView.scnBase
 				scnBase.animatePhysics ^^= true
 				msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
 									(scnBase.animatePhysics ? "Run   " : "Freeze")

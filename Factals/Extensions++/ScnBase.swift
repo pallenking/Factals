@@ -46,7 +46,7 @@ class ScnBase : NSObject {
 		monitoring.removeAll()
 	}
 	 // MARK: - 3.1 init
-	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { //aka ScnBase(scnScene:eventHandler)
+	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
 		let scnScene 			= scnScene ??  {
 			let scene 			= SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
 			return scene
@@ -613,8 +613,8 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 
-		guard let tree			= vewBase.scnView.scene    else { return nil}
-//		guard let tree			= vewBase.scnBase.scene    else { return nil}
+		guard let tree			= vewBase.xNsView?.scene    else { return nil	}
+//		guard let tree			= vewBase. scnBase.scene    else { return nil	}
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
@@ -635,7 +635,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 		 // Find closest to screen:
 		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
-		var pickedScn			= sortedHits.first?.node ?? tree.rootNode
+		var pickedScn : SCNNode	= sortedHits.first?.node ?? tree.rootNode
 
 		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
 		var msg					= "******************************************\n Slot\(vewBase.slot_): "

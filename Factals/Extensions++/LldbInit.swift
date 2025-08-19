@@ -75,7 +75,7 @@ var LLDBvew2sceneTreeRoot : SCNNode  		{ 	LLDBvewISceneTreeRoot(2) 		}
 func LLDBvewISceneTreeRoot(_ index:Int) -> SCNNode {
 	guard let vewBases			= FACTALSMODEL?.vewBases,
 	  vewBases.count > index,
-	  let scn					= vewBases[index].scnView.scene?.rootNode else {
+	  let scn					= vewBases[index].nsView.scene?.rootNode else {
 //	  let scn					= vewBases[index].scnBase.scene?.rootNode else {
 		debugger("Found ...vewBases[\(index)].scnBase.tree?.rootNode = nil")
 	}

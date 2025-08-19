@@ -383,8 +383,9 @@ class Port : Part, PortTalk {
 		func pp(inVew:Vew?=nil, _ aux:FwConfig = [:]) -> String {
 			let wpStr			= !aux.string_("ppViewOptions").contains("W") ? "" : {		// World position of Port
 				guard let vb	= inVew?.vewBase() else { return "root of inVew bad" }
-				return "w" + inVew!.scn.convertPosition(center, to:vb.scnView.scene?.rootNode).pp(.short, aux) + " "
+bug//			return "w" + inVew!.scn.convertPosition(center, to:vb.nsView.scene?.rootNode).pp(.short, aux) + " "
 //				return "w" + inVew!.scn.convertPosition(center, to:vb.scnBase.scene?.rootNode).pp(.short, aux) + " "
+return "bug"
 			} ()
 			return fmt("c:\(center.pp(.short, aux)), r:%.3f, e:\(exclude?.pp(.short, aux) ?? "nil")", radius) + wpStr
 		}

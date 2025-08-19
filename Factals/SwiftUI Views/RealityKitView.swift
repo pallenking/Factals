@@ -12,10 +12,10 @@ import AppKit
 
 struct RealityKitView: View {
 	@State		   var selfiePole 				 = SelfiePole()
-	@State private var lastDragLocation:CGPoint	 = .zero
-	@State private var isDragging:Bool 			 = false
 	@State 		   var focusPosition:Vect3 		 = Vect3(0, 0, 0)
 	@State 		   var selectedPrimitiveName:String = ""
+	@State private var lastDragLocation:CGPoint	 = .zero
+	@State private var isDragging:Bool 			 = false
 								
 	var body: some View {
 		VStack {

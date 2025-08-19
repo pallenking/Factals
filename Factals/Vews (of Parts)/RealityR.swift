@@ -10,7 +10,7 @@
 //
 //  Your app extensively uses SceneKit with:
 ////  - SceneKitView.swift: NSViewRepresentable wrapper for SCNView
-////  - ScnBase.swift: Core SceneKit management (738 lines)
+////  - Scn Base.swift: Core SceneKit management (738 lines)
 ////  - Custom SCNGeometry classes: SCNHemisphere, SCNTunnelHood, SCN3DPictureframe
 ////  - SCNNode extensions: Extensive customization (440+ lines)
 ////  - Complex 3D visualization: Network parts, links, and interactive elements
@@ -161,7 +161,7 @@
 //	// MARK: - Phase 4: Create Unified View
 //struct UnifiedSceneView: View {  	// UnifiedSceneView.swift
 //	@StateObject private var rendererManager = RendererManager()
-//	let scnBase: ScnBase?
+//	let scnBase: Scn Base?
 //
 //	var body: some View {
 //	  Group {

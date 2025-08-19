@@ -10,11 +10,8 @@ import RealityKit
 import simd
 import AppKit
 
-// Functions use NSColor directly since SimpleMaterial.Color is NSColor
-//let xxxx = RksBox(width:2, height:3, length:4)
-//extension RealityKitView {
 // MARK: - Standard Primitives
-//width:0.2, height:0.2, length:0.2, chamferRadius:0.01
+// Functions use NSColor directly since SimpleMaterial.Color is NSColor
 func RksBox2(width:Float, height:Float, length:Float, chamferRadius:Float=0.0) -> ModelEntity {
 	let boxMesh 				= MeshResource.generateBox(size:[width, height, length])
 	let boxMaterial 			= SimpleMaterial(color:.gray, isMetallic:false)
@@ -39,14 +36,12 @@ func RksCone(height:Float, radius:Float) -> ModelEntity {
 	let coneEntity 				= ModelEntity(mesh: coneMesh, materials: [coneMaterial])
 	return coneEntity
 }
-
 func RksPlane(width: Float, depth: Float) -> ModelEntity {
 	let planeMesh 				= MeshResource.generatePlane(width: width, depth: depth)
 	let planeMaterial 			= SimpleMaterial(color: .gray, isMetallic: false)
 	let planeEntity 			= ModelEntity(mesh: planeMesh, materials: [planeMaterial])
 	return planeEntity
 }
-
 func RksCapsule(height: Float, radius: Float) -> ModelEntity {
 	// RealityKit doesn't have generateCapsule, use cylinder as approximation
 	let capsuleMesh 			= MeshResource.generateCylinder(height: height, radius: radius)

@@ -61,52 +61,52 @@ struct ContentView: View {
 	}
 }
 
-struct SimpleSceneKitView : View {
-	let vewBase : VewBase?
-	@Binding var prefFpsC : CGFloat
-	var body: some View {
-		ZStack {
-								//
-			let scnView 		= vewBase!.scnView
-			let scnBase 		= scnView!.scnBase
-			SceneKitView(scnView:scnView, prefFpsC:$prefFpsC)
-				.frame(maxWidth: .infinity)
-				.border(.black, width:1)
-			EventReceiver { nsEvent in // Catch events (goes underneath)
-				//print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
-				let _ 			= scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
-			}
-		}
-	}
-}
-struct ContentViewRKV : View {
-	@Binding var document: FactalsDocument		// unused®
-
-	var body: some View {
-		VStack {
-			Text("RealityKitView")
-			 .font(.title)
-
-			RealityKitView()
-//			 .frame(minWidth: 200, minHeight: 150)
-			 .border(Color.gray, width: 1)
-		}
-		//.padding()
-	}
-
-}
+//struct SimpleSceneKitView : View {
+//	let vewBase : VewBase?
+//	@Binding var prefFpsC : CGFloat
+//	var body: some View {
+//		ZStack {
+//								//
+//			let scnView 		= vewBase!.scnView
+//			let scnBase 		= scnView!.scnBase
+//			SceneKitView(scnView:scnView, prefFpsC:$prefFpsC)
+//				.frame(maxWidth: .infinity)
+//				.border(.black, width:1)
+//			EventReceiver { nsEvent in // Catch events (goes underneath)
+//				//print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+//				let _ 			= scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
+//			}
+//		}
+//	}
+//}
+//struct ContentViewRKV : View {
+//	@Binding var document: FactalsDocument		// unused®
+//
+//	var body: some View {
+//		VStack {
+//			Text("RealityKitView")
+//			 .font(.title)
+//
+//			RealityKitView()
+////			 .frame(minWidth: 200, minHeight: 150)
+//			 .border(Color.gray, width: 1)
+//		}
+//		//.padding()
+//	}
+//
+//}
 // ////////////////////// END SCAFFOLDING //////////////////////////////////////
-/*
-all vewbases have
- */
-struct Park: Identifiable, Hashable {
-    var id: UUID = UUID()
-    var name: String
-    // Other properties...
-}
-var parks: [Park] = [
-	Park(name: "Chicago"),	Park(name: "Los Angeles"),	Park(name: "San Francisco"),
-]
+///*
+//all vewbases have
+// */
+//struct Park: Identifiable, Hashable {
+//    var id: UUID = UUID()
+//    var name: String
+//    // Other properties...
+//}
+//var parks: [Park] = [
+//	Park(name: "Chicago"),	Park(name: "Los Angeles"),	Park(name: "San Francisco"),
+//]
 
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel
@@ -127,9 +127,8 @@ struct FactalsModelView: View {
 				Button(label:{ Text("++") }) {
 					addNewTab()													}
 				Button(label:{ Text("Test Sound") }) {
-					let rootScn = FACTALSMODEL!.vewBases.first!.scnView.scene!.rootNode
-//					let rootScn = FACTALSMODEL!.vewBases.first!.scnBase.scene!.rootNode
-					rootScn.play(sound:"da")  									//"forward"//"tick"// playSimple(rootScn:rootScn)
+					let rootScn = FACTALSMODEL!.vewBases.first!.xNsView?.scene.rootNode
+					rootScn?.play(sound:"da")  									//"forward"//"tick"// playSimple(rootScn:rootScn)
 				}
 			}
 			NavigationStack {
