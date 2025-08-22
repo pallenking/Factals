@@ -1318,7 +1318,7 @@ bug		//		vew.scn.addChild(node:childVew.scnRoot) // Single-Scene mode
 	  // MARK: - 9.6: Paint Image:
 	func rePaint(vew:Vew) 	{		/* prototype */
 		for childVew in vew.children 				// by Vew
-		  where childVew.part.test(dirty:.paint) {
+					  where childVew.part.test(dirty:.paint) {
 			childVew.part.rePaint(vew:childVew)		// #### HEAD RECURSIVE
 		}
 		assertWarn(!vew.scn.transform.isNan, "vew.scnScene.transform == nan!")

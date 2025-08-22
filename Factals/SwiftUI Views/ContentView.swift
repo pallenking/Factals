@@ -127,13 +127,12 @@ struct FactalsModelView: View {
 			Spacer()
 
 			Button(label:{ Text("--") })
-				{ 	deleteCurrentTab()										}
-			Button(label:{ Text("++") }) {
-				addNewTab()													}
-			Button(label:{ Text("Test Sound") }) {
-				let rootScn = FACTALSMODEL!.vewBases.first!.xNsView?.scene.rootNode
-				rootScn?.play(sound:"da")  									//"forward"//"tick"// playSimple(rootScn:rootScn)
-			}
+			{ 	deleteCurrentTab()												}
+			Button(label:{ Text("++") })
+			{	addNewTab()														}
+			Button(label:{ Text("Test Sound") })
+			{	let rootScn = FACTALSMODEL!.vewBases.first!.xNsView?.scene.rootNode
+				rootScn?.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}
 	}
 	
@@ -147,7 +146,6 @@ struct FactalsModelView: View {
 						}
 						.tag(vewBase.wrappedValue.slot_)
 				}
-
 				// -3: Reality Kit
 				RealityKitView(/*factalsModel:factalsModel*/)
 					.tabItem { Label("RealityView()", systemImage: "")			}

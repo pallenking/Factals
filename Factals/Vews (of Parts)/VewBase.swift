@@ -41,28 +41,6 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
-		func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
-			 // use pre-existing
-			if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
-				inspectedVews[i]	= forVew	// Replace existing
-				return
-			}
-			if inspectedVews.count > 2 {		// Limit growth
-				inspectedVews.removeFirst()
-			}
-			inspectedVews.append(forVew)			// Add to end
-			print("Now \(title) has \(inspectedVews.count) inspectors")
-		//	objectWillChange.send()
-		}
-		func removeInspector(forVew:Vew){
-			guard let i				= inspectedVews.firstIndex(of:forVew) else {
-				panic("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
-				return
-			}
-			inspectedVews.remove(at:i)
-		//	objectWillChange.send()
-		}
-
  	var cameraScn	: SCNNode?	{
 		return xNsView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
  		//return scnBase.scene?.rootNode.findScn(named:"*-camera", maxLevel:1)
@@ -80,6 +58,27 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 	let s					= slot ?? -1
 //		print("######### Fetching slot_for '\(self.title)': returns \(s) ######### ")
 		return s
+	}
+	func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
+		 // use pre-existing
+		if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
+			inspectedVews[i]	= forVew	// Replace existing
+			return
+		}
+		if inspectedVews.count > 2 {		// Limit growth
+			inspectedVews.removeFirst()
+		}
+		inspectedVews.append(forVew)			// Add to end
+		print("Now \(title) has \(inspectedVews.count) inspectors")
+	//	objectWillChange.send()
+	}
+	func removeInspector(forVew:Vew){
+		guard let i				= inspectedVews.firstIndex(of:forVew) else {
+			panic("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
+			return
+		}
+		inspectedVews.remove(at:i)
+	//	objectWillChange.send()
 	}
 
 	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///

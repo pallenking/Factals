@@ -23,7 +23,7 @@ struct RealityKitView: View {
 				Spacer()
 				SelfiePoleBar(selfiePole:$selfiePole)
 				 .border(Color.gray, width: 3)
-				// .frame(width:800, height:20)
+				 .frame(width:800, height:20)
 			}
 			RealityView { content in
 				let anchor 			= AnchorEntity(.world(transform: matrix_identity_float4x4))
