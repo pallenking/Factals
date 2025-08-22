@@ -131,7 +131,7 @@ struct FactalsModelView: View {
 			Button(label:{ Text("++") })
 			{	addNewTab()														}
 			Button(label:{ Text("Test Sound") })
-			{	let rootScn = FACTALSMODEL!.vewBases.first!.xNsView?.scene.rootNode
+			{	let rootScn = FACTALSMODEL!.vewBases.first!.SeeView?.scene.rootNode
 				rootScn?.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}
 	}
@@ -160,14 +160,14 @@ struct FactalsModelView: View {
 	private func tabContentView(vewBase: Binding<VewBase>) -> some View {
 		HStack (alignment:.top) {
 			VStack {									//Binding<VewBase>
-				let xNsView = vewBase.wrappedValue.xNsView
+				let SeeView = vewBase.wrappedValue.SeeView
 				ZStack {
 					//let _ = Self._printChanges()
-					SceneKitView(scnView:xNsView as? SCNView, prefFpsC:vewBase.prefFpsC)
+					SceneKitView(scnView:SeeView as? SCNView, prefFpsC:vewBase.prefFpsC)
 						.frame(maxWidth: .infinity)
 						.border(.black, width:1)
 					EventReceiver { nsEvent in // Catch events (goes underneath)
-						if let scnView = xNsView as? SCNView {
+						if let scnView = SeeView as? SCNView {
 							if !scnView.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 								print("Key '\(c)' not recognized and hence ignored...")

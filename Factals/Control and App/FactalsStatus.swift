@@ -221,7 +221,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
-		let scnTreeRoot			= xNsView?.scene.rootNode
+		let scnTreeRoot			= SeeView?.scene.rootNode
 //		let scnTreeRoot			= self.scnBase.scene?.rootNode
 		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
@@ -233,7 +233,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "\(inspectedVews.count) inspectedVews"
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  self.xNsView?  .ppControlElement(config:config) ?? "pfqijepo"
+			var rv				=  self.SeeView?  .ppControlElement(config:config) ?? "pfqijepo"
 				rv				+= self.selfiePole.ppControlElement(config:config)
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
 									?? "\t\t\t\t cameraScn is nil\n"
@@ -275,7 +275,7 @@ extension Inspec : FactalsStatus	{									///Inspec
 
 extension ScnBase : FactalsStatus	{						  ///ScnBase
 	func ppControlElement(config:Bool=false) -> String {
-	//	var myLine				= vewBase.xNsView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+	//	var myLine				= vewBase.SeeView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 //		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 		var myLine				= "tree:\(scnView?.scene.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
 		myLine					+= "\(scnView?.scene			 .pp(.tagClass) ?? "<nil>") "	//classUid

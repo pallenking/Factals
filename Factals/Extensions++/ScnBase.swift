@@ -562,7 +562,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 
-		guard let tree			= vewBase.xNsView?.scene    else { return nil	}
+		guard let tree			= vewBase.SeeView?.scene    else { return nil	}
 //		guard let tree			= vewBase. scnBase.scene    else { return nil	}
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.

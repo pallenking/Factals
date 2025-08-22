@@ -246,7 +246,7 @@ r("Net(Part())",	e, { 	Net([parts:[
 // cameraB(h:0,s:-134,u:5)
 
 state.scanSubMenu				= "Primitive Forms"
-xr("Box",		e, { Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]) }) 					// +
+xxr("Box",		e, { Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]) }) 					// +
 //r("Port",			e, { Port([n:"port"]) })  		// Broken 191204
 //r("Port2",		e, { Port([f:1]) })				// Broken 191204
 r("Hemisphere", e + selfiePole(s:-134,u:5), { Hemisphere([jog+X:"2 3 0"])	})
@@ -256,7 +256,7 @@ r("Port", 		e + selfiePole(s:-134,u:5), { Port()						})
 
  // MARK: - * Basic Atoms
 state.scanSubMenu				= "Basic Atoms"
-r("Broatcast",  		e,	{ Broadcast([n:"a", "lat":0])})				// 190311 +
+xr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":0])})				// 190311 +
 r("Portless",  			e,  { Portless( [n:"a"]) 		})				// 190311 +
 r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
 r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
