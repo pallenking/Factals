@@ -15,12 +15,15 @@ protocol XNsView : NSView {
 	var animatePhysics	: Bool 	{	get set										}
 }
 
-class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
+class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
+	static var nVewBase 		= 0
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
-	static var nVewBase 		= 0
 	var title					= "VewBase\(nVewBase)"
-	var partBase	 : PartBase
+	weak
+	 var partBase	 : PartBase!
+	weak
+	 var factalsModel: FactalsModel!	// Our Owner
 	var tree		 : Vew
 	var xNsView		 : XNsView?
 
@@ -28,43 +31,37 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 	//   'SelfiePole' conform to 'Publisher'
 	@Published							// subscribe to selfiePole.sink for changes
 	 var selfiePole 			= SelfiePole()
-//	var vewBaseConfig: FwConfig = [:]
-
-	 // From RealityQ
-//	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
-
-	weak
-	 var factalsModel : FactalsModel!	// Our Owner
-
 
 	var animateVBdelay: Float	= 0.3
 	var prefFps		  : Float	= 30.0
 	var prefFpsC	  : CGFloat	= 33.0
 	var sliderTestVal : Double 	= 0.5
+//	var vewBaseConfig: FwConfig = [:]
+// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
 
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
-	func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
-		 // use pre-existing
-		if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
-			inspectedVews[i]	= forVew	// Replace existing
-			return
+		func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
+			 // use pre-existing
+			if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
+				inspectedVews[i]	= forVew	// Replace existing
+				return
+			}
+			if inspectedVews.count > 2 {		// Limit growth
+				inspectedVews.removeFirst()
+			}
+			inspectedVews.append(forVew)			// Add to end
+			print("Now \(title) has \(inspectedVews.count) inspectors")
+		//	objectWillChange.send()
 		}
-		if inspectedVews.count > 2 {		// Limit growth
-			inspectedVews.removeFirst()
+		func removeInspector(forVew:Vew){
+			guard let i				= inspectedVews.firstIndex(of:forVew) else {
+				panic("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
+				return
+			}
+			inspectedVews.remove(at:i)
+		//	objectWillChange.send()
 		}
-		inspectedVews.append(forVew)			// Add to end
-		print("Now \(title) has \(inspectedVews.count) inspectors")
-	//	objectWillChange.send()
-	}
-	func removeInspector(forVew:Vew){
-		guard let i				= inspectedVews.firstIndex(of:forVew) else {
-			panic("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
-			return
-		}
-		inspectedVews.remove(at:i)
-	//	objectWillChange.send()
-	}
 
  	var cameraScn	: SCNNode?	{
 		return xNsView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
@@ -96,7 +93,14 @@ class VewBase : /*NSObject,*/ Identifiable, ObservableObject, Codable, Uid {
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-bug	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
+	//	xNsView?.vewBase		= self			// weak backpointer to owner (vewBase)
+	//	xNsView!.monitor(onChangeOf:$selfiePole)
+	//	{ [weak self] in						// scnBase.subscribe()
+	//		guard let self?.cameraScn else { 		return 								}
+	//		self!.xNsView.selfiePole2camera()
+	//	}
+
+	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
 	//	scnBase.monitor(onChangeOf:$selfiePole)
 	//	{ [weak self] in						// scnBase.subscribe()
 	//		if self?.cameraScn == nil {		return 								}
@@ -118,7 +122,7 @@ bug	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
 	func setupSceneVisuals(fwConfig:FwConfig) {
 
 	//	 // 3. Add Lights, Camera and SelfiePole
-bug	//	scnBase.checkLights()
+	//	scnBase.checkLights()
 	//	scnBase.checkCamera()				// (had factalsModel.document.config)
 	//	let _ /*axesScn*/		= scnBase.touchAxesScn()
 

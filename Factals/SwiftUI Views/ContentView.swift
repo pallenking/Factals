@@ -115,95 +115,73 @@ struct FactalsModelView: View {
 	var body: some View {
 		//let _ = Self._printChanges()
 		VStack() {	//spacing:-10) {// does nothing
-
 			FactalsModelBar(factalsModel:factalsModel)
+			headerButtonsView
+			navigationView
+		}
+	}
+	
+	private var headerButtonsView: some View {
+		HStack {			// Body Header 0 Buttons
+			Text("")
+			Spacer()
 
-			HStack {			// Body Header 0 Buttons
-				Text("")
-				Spacer()
-
-				Button(label:{ Text("--") })
-					{ 	deleteCurrentTab()										}
-				Button(label:{ Text("++") }) {
-					addNewTab()													}
-				Button(label:{ Text("Test Sound") }) {
-					let rootScn = FACTALSMODEL!.vewBases.first!.xNsView?.scene.rootNode
-					rootScn?.play(sound:"da")  									//"forward"//"tick"// playSimple(rootScn:rootScn)
+			Button(label:{ Text("--") })
+				{ 	deleteCurrentTab()										}
+			Button(label:{ Text("++") }) {
+				addNewTab()													}
+			Button(label:{ Text("Test Sound") }) {
+				let rootScn = FACTALSMODEL!.vewBases.first!.xNsView?.scene.rootNode
+				rootScn?.play(sound:"da")  									//"forward"//"tick"// playSimple(rootScn:rootScn)
+			}
+		}
+	}
+	
+	private var navigationView: some View {
+		NavigationStack {
+			TabView(selection:$tabViewSelect)  {
+				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+					tabContentView(vewBase: vewBase)
+						.tabItem {
+							Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
+						}
+						.tag(vewBase.wrappedValue.slot_)
 				}
+
+				// -3: Reality Kit
+				RealityKitView(/*factalsModel:factalsModel*/)
+					.tabItem { Label("RealityView()", systemImage: "")			}
+					.tag(-3)
 			}
-			NavigationStack {
-				TabView(selection:$tabViewSelect)  {
-
-				//	 // Create, with tag = slot_
-				//	ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-				//		HStack (alignment:.top) {
-				//			VStack {									//Binding<VewBase>
-				//				let scnBase = vewBase.scnBase.wrappedValue
-				//				ZStack {
-				//					//let _ = Self._printChanges()
-				//					SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC)
-				//						.frame(maxWidth: .infinity)
-				//						.border(.black, width:1)
-				//					EventReceiver { nsEvent in // Catch events (goes underneath)
-				//						if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-				//							guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-				//							print("Key '\(c)' not recognized and hence ignored...")
-				//						}
-				//					}
-				//				}
-				//			}//.frame(width: 555)
-				//			VStack {
-				//				VewBaseBar(vewBase:vewBase)
-				//				InspectorsVew(vewBase:vewBase.wrappedValue)
-				//			}.frame(width:400)
-				//		}
-				//		 .tabItem {
-				//		 	Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
-				//		 }
-				//		 .tag(vewBase.wrappedValue.slot_)
-				//	}
-					 // Older attempt:
-					//List($factalsModel.vewBases) { vewBase in
-					//	HStack (alignment:.top) {
-					//		VStack {									//Binding<VewBase>
-					//			let scnBase = vewBase.scnBase.wrappedValue
-					//			ZStack { SceneKitView(scnBase:scnBase, prefFpsC:vewBase.prefFpsC) }
-					//		}.frame(width:555, height:355)
-					//		VStack {
-					//			VewBaseBar(vewBase:vewBase)
-					//			InspectorsVew(vewBase:vewBase.wrappedValue)
-					//		}.frame(width:400)
-					//	}
-					//	.tabItem {
-					//		Label("Slot_\(vewBase.wrappedValue.slot_)", systemImage: "") 				}	// PW broken
-					//	.tag(vewBase.wrappedValue.slot_)
-					//}
-					//.navigationDestination(for:Park.self) { park in
-					//	Text("ParkDetails(\(park))")
-					//}
-					//.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-					//	updateTabTitle()												}
-					//.accentColor(.green) // Change the color of the selected tab
-
-				//	 // -2: A View selectable in TabView
-				//	SceneKit2View(factalsModel:factalsModel)
-				//	 .tabItem { Label("SceneView()", systemImage: "")			}
-				//	 .tag(-2)
-
-					 // -3: Reality Kit
-					RealityKitView(/*factalsModel:factalsModel*/)
-					 .tabItem { Label("RealityView()", systemImage: "")			}
-					 .tag(-3)
-				
-				//	 // -4: clear screan force redraw
-				//	Text("")
-				//	 .tabItem { Label("Clear", systemImage: "")					}
-				//	 .tag(-4)
-    			}
-				.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-					updateTabTitle()											}
-				.accentColor(.green) // Change the color of the selected tab
-			}
+			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+				updateTabTitle()											}
+			.accentColor(.green) // Change the color of the selected tab
+		}
+	}
+	
+	private func tabContentView(vewBase: Binding<VewBase>) -> some View {
+		HStack (alignment:.top) {
+			VStack {									//Binding<VewBase>
+				let xNsView = vewBase.wrappedValue.xNsView
+				ZStack {
+					//let _ = Self._printChanges()
+					SceneKitView(scnView:xNsView as? SCNView, prefFpsC:vewBase.prefFpsC)
+						.frame(maxWidth: .infinity)
+						.border(.black, width:1)
+					EventReceiver { nsEvent in // Catch events (goes underneath)
+						if let scnView = xNsView as? SCNView {
+							if !scnView.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+								print("Key '\(c)' not recognized and hence ignored...")
+							}
+						}
+					}
+				}
+			}//.frame(width: 555)
+			VStack {
+				VewBaseBar(vewBase:vewBase)
+				InspectorsVew(vewBase:vewBase.wrappedValue)
+			}.frame(width:400)
 		}
 	}
 

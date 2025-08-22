@@ -91,13 +91,13 @@ struct SceneKitView: NSViewRepresentable {
 
 //		nsView.isPlaying		= false			// book keepscnViewing
 		scnView.showsStatistics	= true			// controls extra bar
-	//	nsView.debugOptions	= 				// enable display of:
+	//	nsView.debugOptions		= 				// enable display of:
 	//	  [	SCNDebugOptions.showPhysicsFields]	//  regions affected by each SCNPhysicsField object
 		scnView.allowsCameraControl	= true//false// // user may control camera	//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
-bug	//	nsView.delegate			= scnBase 		// scnBase is SCNSceneRendererDelegate
+	//	scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
 	//	nsView.scene			= scnBase.scene
 		return scnView
 	}
