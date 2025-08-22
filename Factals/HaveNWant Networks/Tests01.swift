@@ -246,7 +246,7 @@ r("Net(Part())",	e, { 	Net([parts:[
 // cameraB(h:0,s:-134,u:5)
 
 state.scanSubMenu				= "Primitive Forms"
-r("Box",		e, { Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]) }) 					// +
+xr("Box",		e, { Box([n:"b", size:SCNVector3(2, 2, 2), color:"red"]) }) 					// +
 //r("Port",			e, { Port([n:"port"]) })  		// Broken 191204
 //r("Port2",		e, { Port([f:1]) })				// Broken 191204
 r("Hemisphere", e + selfiePole(s:-134,u:5), { Hemisphere([jog+X:"2 3 0"])	})
@@ -1711,7 +1711,7 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 		MaxOr( [P:"z,l:5", f:1]),	// no Link
 	//	MaxOr(["share":"z,l:5"]),	// no Link
 	]]) })
-	xr("- duplicate name PP SS", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+	xxr("- duplicate name PP SS", eSimX + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
 	  Net([parts:[												// logAt(dat:5, eve:5)
 		Tunnel([n:"b", P:"a", struc:[], of:"bcast"/*nil_A*/, jog:"1"]),
 		Tunnel([n:"a", struc:[], of:"bcast"/*nil_A*/, f:1]),

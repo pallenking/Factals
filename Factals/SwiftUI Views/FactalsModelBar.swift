@@ -26,9 +26,9 @@ struct FactalsModelBar: View {
 				Spacer()
 			//	Button(label: {	Text("++epoch\(factalsModel.epoch)")			})
 			//	{	factalsModel.epoch		+= 1								}
+				Text("http://brain-gears.blogspot.com")// pw isable URL test -- .foregroundColor(.red) ignored
 				Button(label: {	Text("LLDB") 									})
 				{	breakToDebugger()											}
-				Text("http://brain-gears.blogspot.com")// pw isable URL test -- .foregroundColor(.red) ignored
 			}
 			PartBaseBar (partBase: $factalsModel.partBase)
 			SimulatorBar(simulator:$factalsModel.simulator)
