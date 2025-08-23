@@ -15,7 +15,7 @@ import SwiftUI
 	var vewBases  : [VewBase] 	= []
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-			//if ((vewBase.SeeView?.scnBase.keyIsDown) != nil) { return true 					}
+			//if ((vewBase.seeWorld?.scnBase.keyIsDown) != nil) { return true 					}
 		}
 		return false
 	}
@@ -75,7 +75,7 @@ import SwiftUI
 		vewBases.append(vewBase)						// Install vewBase
 														// Install in scnBase
 		vewBase.configure(from:fwConfig)
-		vewBase.SeeView?.scene.rootNode.addChildNode(vewBase.tree.scn)
+		vewBase.seeWorld?.scene.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)		// Vew configuration
 		vewBase.updateVSP()							// DELETE?
@@ -392,9 +392,9 @@ import SwiftUI
 			print("\n******************** 'n': ==== SCNNodes:")
 //			log.ppIndentCols = 3
 			for vewBase in vewBases {
-				print("-------- ptn   rootVews(\(ppUid(vewBase))).rootScn(\(ppUid(vewBase.SeeView)))" +//scnBase
-					  ".scnScene(\(ppUid(vewBase.SeeView))):")	//scnBase
-				print(vewBase.SeeView?.pp(.tree) ?? "SeeView:nil", terminator:"")//scnBase
+				print("-------- ptn   rootVews(\(ppUid(vewBase))).rootScn(\(ppUid(vewBase.seeWorld)))" +//scnBase
+					  ".scnScene(\(ppUid(vewBase.seeWorld))):")	//scnBase
+				print(vewBase.seeWorld?.pp(.tree) ?? "seeWorld=nil", terminator:"")//scnBase
 			}
 		case "#":								// write out SCNNode tree as .scnScene
 			let documentDirURL	= try! FileManager.default.url(
@@ -405,7 +405,7 @@ import SwiftUI
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.SeeView?.scene ?? {	debugger("") } ()//scnBase
+			let rootVews0scene	= vewBases.first?.seeWorld?.scene ?? {	debugger("") } ()//scnBase
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { debugger("writing dumpSCN.\(suffix) failed")	}
 		case "V":								// Update Views
@@ -429,10 +429,10 @@ import SwiftUI
 		case "f": 						// // f // //
 			var msg					= "\n"
 			for vewBase in vewBases {
-				guard let SeeView	= vewBase.SeeView else {	continue		}
-				SeeView.animatePhysics ^^= true
+				guard let seeWorld	= vewBase.seeWorld else {	continue		}
+				seeWorld.animatePhysics ^^= true
 				msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
-									(SeeView.animatePhysics ? "Run   " : "Freeze")
+									(seeWorld.animatePhysics ? "Run   " : "Freeze")
 			}
 			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
 			return true								// recognize both

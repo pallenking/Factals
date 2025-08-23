@@ -10,7 +10,12 @@ extension VewBase : Equatable {
 	//	return true
 	}
 }
-protocol SeeView : NSView {
+protocol SeeWorld : NSView {
+//	var makeScenery:  Type 		{	get set										}
+//	var OriginMark				{	get set										}
+//	var cameraXform				{	get set										}
+//	var Sounds					{	get set										}
+//	var codable					{	get set										}
 	var scene : SCNScene		{	get set										}
 	var animatePhysics	: Bool 	{	get set										}
 }
@@ -25,27 +30,27 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	weak
 	 var factalsModel: FactalsModel!	// Our Owner
 	var tree		 : Vew
-	var SeeView		 : SeeView?
+	//var seeWorld
+	var seeWorld	 : SeeWorld?
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
 	@Published							// subscribe to selfiePole.sink for changes
 	 var selfiePole 			= SelfiePole()
+	var lookAtVew	  : Vew!			// Vew we are looking at
 
 	var animateVBdelay: Float	= 0.3
 	var prefFps		  : Float	= 30.0
 	var prefFpsC	  : CGFloat	= 33.0
 	var sliderTestVal : Double 	= 0.5
-//	var vewBaseConfig: FwConfig = [:]
-// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
-
+																			//	var vewBaseConfig: FwConfig = [:]
+																			// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
  	var cameraScn	: SCNNode?	{
-		return SeeView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
+		return seeWorld?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
  		//return scnBase.scene?.rootNode.findScn(named:"*-camera", maxLevel:1)
 	}
-	var lookAtVew	: Vew!			// Vew we are looking at
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -92,11 +97,11 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-	//	SeeView?.vewBase		= self			// weak backpointer to owner (vewBase)
-	//	SeeView!.monitor(onChangeOf:$selfiePole)
+	//	seeWorld?.vewBase		= self			// weak backpointer to owner (vewBase)
+	//	seeWorld!.monitor(onChangeOf:$selfiePole)
 	//	{ [weak self] in						// scnBase.subscribe()
 	//		guard let self?.cameraScn else { 		return 								}
-	//		self!.SeeView.selfiePole2camera()
+	//		self!.seeWorld.selfiePole2camera()
 	//	}
 
 	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
@@ -121,13 +126,13 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	func setupSceneVisuals(fwConfig:FwConfig) {
 
 		 // 3. Add Lights, Camera and SelfiePole
-		scnBase.checkLights()
-		scnBase.checkCamera()				// (had factalsModel.document.config)
-		let _ /*axesScn*/		= scnBase.touchAxesScn()
+//		seeWorld.vendor
+//		scnBase.checkLights()
+//		scnBase.checkCamera()				// (had factalsModel.document.config)
+//		let _ /*axesScn*/		= scnBase.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
-vewBase.SeeView
 		 // 5.  Configure Initial Camera Target:
 		lookAtVew				= tree		// default is trunk
 		if let laStr			= factalsModel.fmConfig.string("lookAt"),
@@ -314,7 +319,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-			rv					+= "\(SeeView? .pp(.nameTagClass) ?? "nsView:nil") "
+			rv					+= "\(seeWorld? .pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv

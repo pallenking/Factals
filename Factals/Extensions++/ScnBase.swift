@@ -38,16 +38,13 @@ class ScnBase : NSObject {
 //		monitoring.removeAll()
 //	}
 	 // MARK: - 3.1 init
-//	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
-//		let scnScene 			= scnScene ??  {
-//			let scene 			= SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
-//			return scene
-//		}()
-//		self.scene				= scnScene		// get scene
+	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
+		let scnScene 			= scnScene ?? SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
+bug//		self.scene				= scnScene		// get scene
 //		self.scene!.rootNode.name = "tree"
-//		self.eventHandler		= eventHandler
-// 		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-//	}
+		self.eventHandler		= eventHandler
+ 		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
 //}
 //extension ScnBase {		// lights and camera
@@ -562,7 +559,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 
-		guard let tree			= vewBase.SeeView?.scene    else { return nil	}
+		guard let tree			= vewBase.seeWorld?.scene    else { return nil	}
 //		guard let tree			= vewBase. scnBase.scene    else { return nil	}
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.

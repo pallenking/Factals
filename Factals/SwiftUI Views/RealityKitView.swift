@@ -76,7 +76,7 @@ struct RealityKitView: View {
 	}
 }
 func createGeometries(anchor:AnchorEntity) {
-	ArkOriginMark(size: 0.5, position:Vect3(0, 0, 0), anchor: anchor, name: "OriginMark")
+	ArkOriginMark(size: 0.5, position:Vect3(0, 0, 0), anchor:anchor, name:"OriginMark")
 								
 	// Standard SceneKit primitives 	- Row 1
 	var position: Vect3 		= [0,0,0]	//[-4, 0, -2]	// IN USE
@@ -340,7 +340,6 @@ struct ScrollWheelCaptureView: NSViewRepresentable {
 		view.selfiePoleBinding = $selfiePole
 		return view
 	}
-	
 	func updateNSView(_ nsView: ScrollWheelNSView, context: Context) {
 		nsView.selfiePoleBinding = $selfiePole
 	}

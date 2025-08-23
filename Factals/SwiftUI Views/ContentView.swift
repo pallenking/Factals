@@ -66,7 +66,6 @@ struct ContentView: View {
 //	@Binding var prefFpsC : CGFloat
 //	var body: some View {
 //		ZStack {
-//								//
 //			let scnView 		= vewBase!.scnView
 //			let scnBase 		= scnView!.scnBase
 //			SceneKitView(scnView:scnView, prefFpsC:$prefFpsC)
@@ -131,7 +130,7 @@ struct FactalsModelView: View {
 			Button(label:{ Text("++") })
 			{	addNewTab()														}
 			Button(label:{ Text("Test Sound") })
-			{	let rootScn = FACTALSMODEL!.vewBases.first!.SeeView?.scene.rootNode
+			{	let rootScn = FACTALSMODEL!.vewBases.first!.seeWorld?.scene.rootNode
 				rootScn?.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}
 	}
@@ -160,14 +159,14 @@ struct FactalsModelView: View {
 	private func tabContentView(vewBase: Binding<VewBase>) -> some View {
 		HStack (alignment:.top) {
 			VStack {									//Binding<VewBase>
-				let SeeView = vewBase.wrappedValue.SeeView
+				let seeWorld = vewBase.wrappedValue.seeWorld
 				ZStack {
 					//let _ = Self._printChanges()
-					SceneKitView(scnView:SeeView as? SCNView, prefFpsC:vewBase.prefFpsC)
+					SceneKitView(scnView:seeWorld as? SCNView, prefFpsC:vewBase.prefFpsC)
 						.frame(maxWidth: .infinity)
 						.border(.black, width:1)
 					EventReceiver { nsEvent in // Catch events (goes underneath)
-						if let scnView = SeeView as? SCNView {
+						if let scnView = seeWorld as? SCNView {
 							if !scnView.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 								print("Key '\(c)' not recognized and hence ignored...")
