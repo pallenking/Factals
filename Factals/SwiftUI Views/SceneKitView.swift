@@ -80,15 +80,13 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView: NSViewRepresentable {
-	var scnView 		  : SCNView?			// ARG1: exposes visual world
+	var scnView 		  : SCNView				// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
 		let scnView				= scnView		// ARG1
-			?? SCNView(frame: NSRect.zero, options: [String : Any]())
-bug
-		scnView.isPlaying		= false			// book keepscnViewing
+bug;	scnView.isPlaying		= false			// book keepscnViewing
 		scnView.showsStatistics	= true			// controls extra bar
 		scnView.debugOptions	= 				// enable display of:
 		  [	SCNDebugOptions.showPhysicsFields]	//  regions affected by each SCNPhysicsField object

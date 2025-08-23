@@ -221,7 +221,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
-		let scnTreeRoot			= seeWorld?.scene.rootNode
+		let scnTreeRoot			= seeView?.scene.rootNode
 //		let scnTreeRoot			= self.scnBase.scene?.rootNode
 		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
@@ -233,7 +233,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "\(inspectedVews.count) inspectedVews"
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  self.seeWorld?  .ppControlElement(config:config) ?? "pfqijepo"
+			var rv				=  self.seeView?  .ppControlElement(config:config) ?? "pfqijepo"
 				rv				+= self.selfiePole.ppControlElement(config:config)
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
 									?? "\t\t\t\t cameraScn is nil\n"

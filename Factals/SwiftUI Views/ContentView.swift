@@ -119,7 +119,6 @@ struct FactalsModelView: View {
 			navigationView
 		}
 	}
-	
 	private var headerButtonsView: some View {
 		HStack {			// Body Header 0 Buttons
 			Text("")
@@ -130,11 +129,10 @@ struct FactalsModelView: View {
 			Button(label:{ Text("++") })
 			{	addNewTab()														}
 			Button(label:{ Text("Test Sound") })
-			{	let rootScn = FACTALSMODEL!.vewBases.first!.seeWorld?.scene.rootNode
+			{	let rootScn = FACTALSMODEL!.vewBases.first!.seeView?.scene.rootNode
 				rootScn?.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}
 	}
-	
 	private var navigationView: some View {
 		NavigationStack {
 			TabView(selection:$tabViewSelect)  {
@@ -155,18 +153,17 @@ struct FactalsModelView: View {
 			.accentColor(.green) // Change the color of the selected tab
 		}
 	}
-	
 	private func tabContentView(vewBase: Binding<VewBase>) -> some View {
 		HStack (alignment:.top) {
 			VStack {									//Binding<VewBase>
-				let seeWorld = vewBase.wrappedValue.seeWorld
+				let seeView = vewBase.wrappedValue.seeView
 				ZStack {
 					//let _ = Self._printChanges()
-					SceneKitView(scnView:seeWorld as? SCNView, prefFpsC:vewBase.prefFpsC)
-						.frame(maxWidth: .infinity)
-						.border(.black, width:1)
+					SceneKitView(scnView:seeView as! SCNView, prefFpsC:vewBase.prefFpsC)
+					 .frame(maxWidth: .infinity)
+					 .border(.black, width:1)
 					EventReceiver { nsEvent in // Catch events (goes underneath)
-						if let scnView = seeWorld as? SCNView {
+						if let scnView = seeView as? SCNView {
 							if !scnView.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 								print("Key '\(c)' not recognized and hence ignored...")

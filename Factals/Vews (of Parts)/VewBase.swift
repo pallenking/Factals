@@ -10,7 +10,8 @@ extension VewBase : Equatable {
 	//	return true
 	}
 }
-protocol SeeWorld : NSView {
+protocol SeeView : NSView {
+	var vewBase	: VewBase!		{	get set										}
 //	var makeScenery:  Type 		{	get set										}
 //	var OriginMark				{	get set										}
 //	var cameraXform				{	get set										}
@@ -30,8 +31,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	weak
 	 var factalsModel: FactalsModel!	// Our Owner
 	var tree		 : Vew
-	//var seeWorld
-	var seeWorld	 : SeeWorld?
+	var seeView	 	 : SeeView?
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -48,9 +48,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
  	var cameraScn	: SCNNode?	{
-		return seeWorld?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
- 		//return scnBase.scene?.rootNode.findScn(named:"*-camera", maxLevel:1)
-	}
+		return seeView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
+ 	}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -97,11 +96,11 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-	//	seeWorld?.vewBase		= self			// weak backpointer to owner (vewBase)
-	//	seeWorld!.monitor(onChangeOf:$selfiePole)
+		seeView?.vewBase		= self			// weak backpointer to owner (vewBase)
+	//	seeView!.monitor(onChangeOf:$selfiePole)
 	//	{ [weak self] in						// scnBase.subscribe()
 	//		guard let self?.cameraScn else { 		return 								}
-	//		self!.seeWorld.selfiePole2camera()
+	//		self!.seeView.selfiePole2camera()
 	//	}
 
 	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
@@ -126,7 +125,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	func setupSceneVisuals(fwConfig:FwConfig) {
 
 		 // 3. Add Lights, Camera and SelfiePole
-//		seeWorld.vendor
+//		seeView.vendor
 //		scnBase.checkLights()
 //		scnBase.checkCamera()				// (had factalsModel.document.config)
 //		let _ /*axesScn*/		= scnBase.touchAxesScn()
@@ -319,7 +318,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-			rv					+= "\(seeWorld? .pp(.nameTagClass) ?? "nsView:nil") "
+			rv					+= "\(seeView? .pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv
