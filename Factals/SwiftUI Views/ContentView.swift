@@ -138,15 +138,15 @@ struct FactalsModelView: View {
 			TabView(selection:$tabViewSelect)  {
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
 					tabContentView(vewBase: vewBase)
-						.tabItem {
-							Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
-						}
-						.tag(vewBase.wrappedValue.slot_)
+					 .tabItem {
+						Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
+					 }
+					 .tag(vewBase.wrappedValue.slot_)
 				}
 				// -3: Reality Kit
-				RealityKitView(/*factalsModel:factalsModel*/)
-					.tabItem { Label("RealityView()", systemImage: "")			}
-					.tag(-3)
+				RealityKitView(/*fa ctalsModel:factalsModel*/)
+				 .tabItem { Label("RealityView()", systemImage: "")			}
+				 .tag(-3)
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTabTitle()											}

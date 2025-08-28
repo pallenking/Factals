@@ -8,3 +8,40 @@
 					return linkVew.sCon2Vew?.scn.position ?? position
 				}
 				linkVew.scnRoot.constraints?.append(contentsOf: [pConstraint, sConstraint])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 28f6  tree    . . . . . . .                s-1.0<15.101 geom:nil
+ 02dc  | *-a     . . . . . .                s-1.0< 1.002 geom:nil
+ 37d6  | | w-2     . . . . . p<1.0>I[0.0]   s-1.0< 1.004 bb:-1<1, -1<1, -1<1
+ 0917  | | s-Bcast . . . . .                s-0.0< 1.001 Geometry
+ 0c52  | | *-P     . . . . . pI[-1.0]       s 0.0< 1.002 geom:nil
+ 3332  | | | w-1     . . . . p<0.5>I[0.5]   s-1.0< 1.004 bb:-1<1, 0<1, -1<1
+ 009e  | | | s-Port  . . . . pI[1.0]        s-1.0< 0.001 <Cyl: 3 elts r=0.9 h=0.040>
+ 2a74  | | | | s-Tube  . . . pI[-0.2]       s-0.2< 0.201 <Tube:4 elts iR=0.8 oR=1.0 h=0.498>
+ 07d9  | | | | s-Cone  . . . pI[-0.5]       s-0.5< 0.501 <Cone:3 elts rT=0.5 rB=0.2 h=0.996>
+ 2816  | | | | o-1     . . . pI[-1.0]       s 0.0< 0.0#H OriginMark(size:0.5)
+ 6816  | *-omni1 . . . . . . pI[0.0]        s 0.0< 0.001 geom:nil
+ c7d9  | |  \light:. . . . . 
+ 3e00  | *-amb1  . . . . . .                s 0.0< 0.001 geom:nil
+ 4dd3  | |  \light:. . . . . 
+ 956b  | *-amb2  . . . . . .                s 0.0< 0.001 geom:nil
+ 3d9c  | |  \light:. . . . . 
+ 8937  | *-omni2 . . . . . .                s 0.0< 0.001 geom:nil
+ 3b05  | |  \light:. . . . . 
+ f9a7  | *-camera. . . . . . pI[0.0]        s 0.0< 0.001 geom:nil
+ 938d  | |  \camera:. . . . . 
+ ddbc  | *-axis  . . . . . .                s-0.1<15.104 geom:nil (TRUNCATED)

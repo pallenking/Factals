@@ -11,6 +11,7 @@ extension VewBase : Equatable {
 	}
 }
 protocol SeeView : NSView {
+	var isScnView: Bool 		{	get											}
 	var vewBase	: VewBase!		{	get set										}
 //	var makeScenery:  Type 		{	get set										}
 //	var OriginMark				{	get set										}
@@ -19,6 +20,14 @@ protocol SeeView : NSView {
 //	var codable					{	get set										}
 	var scene : SCNScene		{	get set										}
 	var animatePhysics	: Bool 	{	get set										}
+	 // Abstract hitTest that works for both SceneKit and RealityKit
+	func hitTest3D(_ point: NSPoint, options: [String: Any]?) -> [HitTestResult]
+}
+// Common result type for both renderers
+struct HitTestResult {
+	let node: Any      // SCNNode for SceneKit, Entity for RealityKit
+	let position: SIMD3<Float>
+	let distance: Float
 }
 
 class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
@@ -27,11 +36,12 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 
 	var title					= "VewBase\(nVewBase)"
 	weak
-	 var partBase	 : PartBase!
-	weak
 	 var factalsModel: FactalsModel!	// Our Owner
+	weak
+	 var partBase	 : PartBase!		//, or a friend of his
+
 	var tree		 : Vew
-	var seeView	 	 : SeeView?
+	var seeView	 	 : SeeView?			// attached and used from here
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -43,13 +53,11 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var prefFps		  : Float	= 30.0
 	var prefFpsC	  : CGFloat	= 33.0
 	var sliderTestVal : Double 	= 0.5
-																			//	var vewBaseConfig: FwConfig = [:]
 																			// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
- 	var cameraScn	: SCNNode?	{
-		return seeView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)
- 	}
+ 	var cameraScn	: SCNNode?
+	{	return seeView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)	}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -125,9 +133,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	func setupSceneVisuals(fwConfig:FwConfig) {
 
 		 // 3. Add Lights, Camera and SelfiePole
-//		seeView.vendor
-//		scnBase.checkLights()
-//		scnBase.checkCamera()				// (had factalsModel.document.config)
+//		scnBase.lightsOn()
+//		scnBase.cameraOn()				// (had factalsModel.document.config)
 //		let _ /*axesScn*/		= scnBase.touchAxesScn()
 
 		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
@@ -318,7 +325,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-			rv					+= "\(seeView? .pp(.nameTagClass) ?? "nsView:nil") "
+			rv					+= "\(seeView?.pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv

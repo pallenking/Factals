@@ -76,23 +76,12 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 
 		 // From the Origin to the Camera, in steps:
 		let toFocusMatrix		= SCNMatrix4Translate(SCNMatrix4.identity, posn.x,posn.y,posn.z)
-		var spinMatrix			= SCNMatrix4MakeRotation(spin * .pi/180.0, 0, 1, 0)
-		let gazeMatrix			= SCNMatrix4MakeRotation(gaze * .pi/180.0, 1, 0, 0)
-		let boomMatrix			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5
+		let    spinMatrix		= SCNMatrix4MakeRotation(spin * .pi/180.0, 0, 1, 0)
+		let    gazeMatrix		= SCNMatrix4MakeRotation(gaze * .pi/180.0, 1, 0, 0)
+		let    boomMatrix		= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5
 		let rv					= boomMatrix * gazeMatrix * spinMatrix * toFocusMatrix
 		assert(!rv.isNan, "newCameraXform is Not a Number")
 		assert(rv.at(3,3) == 1.0, "why?")	// Understand cameraXform.at(3,3). Is it 1.0? is it prudent to change it here
-
-//		 //  ---- 1: translated above Point of Interest by cameraPoleHeight
-//		var poleYSpin			= SCNMatrix4MakeRotation(spin * .pi/180.0, 0, 1, 0)
-//		poleYSpin.position 		= posn + position	// ---- 2:
-//		 //  ---- 3: With a boom (crane or derek) raised upward above the horizon:
-//		let gazeUp				= SCNMatrix4MakeRotation(gaze * .pi / 180.0, 1, 0, 0)
-//		 //  ---- 4: move out boom from pole, looking backward:
-//		let toBoomEnd			= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5
-//
-//		let rv					= toBoomEnd * gazeUp * poleYSpin
-
 		return rv
 	}
 	

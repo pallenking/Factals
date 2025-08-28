@@ -75,6 +75,40 @@ struct RealityKitView: View {
 		}
 	}
 }
+extension ARView : SeeView {
+	var vewBase: VewBase! {
+		get {			self.vewBase											}
+		set {			self.vewBase = newValue									}
+	}
+	var isScnView: Bool { false }
+	var scene: SCNScene {
+		get { fatalError("RealityKit doesn't use SCNScene") 					}
+		set { fatalError("RealityKit doesn't use SCNScene") 					}
+	}
+	var animatePhysics: Bool {
+		get { return true 														}
+		set { bug 																}
+	}
+ 	func hitTest3D(_ point: NSPoint, options: [String: Any]?) -> [HitTestResult] {
+
+		//		let raycast = self.raycast(from: point, allowing:.estimatedPlane, alignment:.any)
+	//	let cgPoint 			= CGPoint(x: point.x, y: point.y)
+	//	let xxx:ARView 			= self as! ARView
+	//	let ray 				= xxx.raycast(from:cgPoint, allowing:.estimatedPlane, alignment:.any)
+		let ray					= self.raycast(from: point, allowing: .estimatedPlane, alignment: .any)
+		return ray.map { result in
+			HitTestResult(
+				node: result.anchor,
+				//position: SCNVector3(result.worldTransform.columns.3.x,
+				//					 result.worldTransform.columns.3.y,
+				//					 result.worldTransform.columns.3.z),
+				position: result.worldTransform.columns.3.xyz,
+				distance: simd_length(result.worldTransform.columns.3.xyz)
+			)
+		}
+	}
+}
+
 func createGeometries(anchor:AnchorEntity) {
 	ArkOriginMark(size: 0.5, position:Vect3(0, 0, 0), anchor:anchor, name:"OriginMark")
 								

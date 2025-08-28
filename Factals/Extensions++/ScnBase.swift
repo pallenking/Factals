@@ -11,7 +11,7 @@ typealias EventHandler			= (NSEvent) -> Void
 
 class ScnBase : NSObject {
 	weak
-	 var scnView : SCNView?						// Owner
+	 var seeView 	 : SeeView?					// Owner
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler : EventHandler
 
@@ -22,7 +22,7 @@ class ScnBase : NSObject {
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
 //	var animatePhysics : Bool {
 //		get {			return !(scene?.isPaused ?? false)						}
-//		set(v) {		scene?.isPaused = !v										}
+//		set(v) {		scene?.isPaused = !v									}
 //	}
 
 //	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
@@ -49,7 +49,7 @@ bug//		self.scene				= scnScene		// get scene
 //}
 //extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
-	func checkLights() {
+	func lightsOn() {
 		touchLight("*-omni1",  .omni,position:SCNVector3(0, 0, 15))
 		touchLight("*-amb1",.ambient,color:NSColor.darkGray)
 		touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
@@ -108,7 +108,7 @@ bug;		let scene 			= SCNScene(named:"fooNadaMach")!
 	 coords:          |
 			 ====== SCREEN ========================= SCREEN		[x, y]
  */
-	func checkCamera() {
+	func cameraOn() {
 		let name				= "*-camera"
 //		guard let scene 			else { return									}
 bug;	let scene 				= SCNScene(named:"fooNadaMach")!
@@ -146,6 +146,9 @@ bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
+	 
+	 // rename axisOn
+	 
 //	func touchAxesScn() {			// was updatePole()
 //		guard let scene			else { return									}
 //		let name				= "*-axis"
@@ -254,51 +257,50 @@ bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 	   ///   - from: defines direction of camera
 	  ///   - message: for logging only
 	 ///   - duration: for animation
-	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
-bug
-		guard let vewBase		= scnView?.vewBase 	else {	return				}
-		guard let cameraScn		= vewBase.cameraScn else {	return 				}
-								
-		vewBase.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
-
-		guard let factalsModel	= vewBase.factalsModel else {debugger("")		}
-
-		let animate				= factalsModel.fmConfig.bool("animatePan") ?? false
-		if !animate || duration == 0.0,
-		  let lookAtVew = vewBase.lookAtVew {
-			cameraScn.transform	= vewBase.selfiePole.transform(lookAtVew:lookAtVew)
-		}
-		else {
-			SCNTransaction.begin()			// Delay for double click effect
-			SCNTransaction.animationDuration = CFTimeInterval(0.5)
-
-			 // 181002 must do something, or there is no delay
-			cameraScn.transform	*= 0.999999	// virtually no effect
-			SCNTransaction.completionBlock = {
-				SCNTransaction.begin()			// Animate Camera Update
-				logRve(8, "  /#######  animatePan: BEGIN Completion Block")
-				SCNTransaction.animationDuration = CFTimeInterval(duration)
-
-				cameraScn.transform = vewBase.selfiePole.transform(lookAtVew:vewBase.lookAtVew)
-
-				logRve(8, "  \\#######  animatePan: COMMIT Completion Block")		//factalsModel.*/logd(
-				SCNTransaction.commit()
-			}
-			logRve(8, "  \\#######  animatePan: COMMIT All")
-			SCNTransaction.commit()
-		}
-	}
+//	func updatePole2Camera(duration:Float=0.0, reason:String?=nil) { //updateCameraRotator
+//		guard let vewBase		= seeView?.vewBase 	else {	return				}
+//		guard let cameraScn		= vewBase.cameraScn else {	return 				}
+//								
+//		vewBase.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
+//
+//		guard let factalsModel	= vewBase.factalsModel else {debugger("")		}
+//
+//		let animate				= factalsModel.fmConfig.bool("animatePan") ?? false
+//		if !animate || duration == 0.0,
+//		  let lookAtVew = vewBase.lookAtVew {
+//			cameraScn.transform	= vewBase.selfiePole.transform(lookAtVew:lookAtVew)
+//		}
+//		else {
+//			SCNTransaction.begin()			// Delay for double click effect
+//			SCNTransaction.animationDuration = CFTimeInterval(0.5)
+//
+//			 // 181002 must do something, or there is no delay
+//			cameraScn.transform	*= 0.999999	// virtually no effect
+//			SCNTransaction.completionBlock = {
+//				SCNTransaction.begin()			// Animate Camera Update
+//				logRve(8, "  /#######  animatePan: BEGIN Completion Block")
+//				SCNTransaction.animationDuration = CFTimeInterval(duration)
+//
+//				cameraScn.transform = vewBase.selfiePole.transform(lookAtVew:vewBase.lookAtVew)
+//
+//				logRve(8, "  \\#######  animatePan: COMMIT Completion Block")		//factalsModel.*/logd(
+//				SCNTransaction.commit()
+//			}
+//			logRve(8, "  \\#######  animatePan: COMMIT All")
+//			SCNTransaction.commit()
+//		}
+//	}
 		
 	 /// Determine zoom so that all parts of the scene are seen.
 	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
-		guard let vewBase 		= scnView?.vewBase else {	debugger("RootScn.vews is nil")}
+		guard let vewBase 		= seeView?.vewBase else {	debugger("RootScn.vews is nil")}
 
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= vewBase.tree.bBox //BBox(size:3, 3, 3)//			// in world coords
 		let world2eye			= SCNMatrix4Invert(vewBase.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
 		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
 		let rootVewSizeInEye	= rootVewBbInEye.size
-		let nsRect				= scnView?.frame ?? NSRect(x:9,y:9,width:200, height:200)
+		let nsRect				= seeView?.frame ?? NSRect(x:9,y:9,width:200, height:200)
 
 		 // Orientation is "Height Dominated"
 		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
@@ -338,7 +340,7 @@ enum FwNodeCategory : Int {
 }
 
 extension ScnBase : SCNSceneRendererDelegate {
-	func facMod() -> FactalsModel? {	scnView?.vewBase.factalsModel			}
+	func facMod() -> FactalsModel? {	seeView?.vewBase.factalsModel			}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in
@@ -372,7 +374,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
-		guard let vewBase 		= scnView?.vewBase else { print("ScnBase.vewBase is nil"); return false	}
+		guard let vewBase 		= seeView?.vewBase else { print("ScnBase.vewBase is nil"); return false	}
 		let slot				= vewBase.slot_
 		guard let factalsModel	= vewBase.factalsModel else 	{ return false	}
 
@@ -481,19 +483,19 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		case .changeMode:		bug
 
 		case .beginGesture:	bug	// override func touchesBegan(with event:NSEvent) {
-			let touchs			= nsEvent.touches(matching:.began, in:scnView)
+			let touchs			= nsEvent.touches(matching:.began, in:seeView)
 			for touch in touchs {
 				let _:CGPoint	= touch.location(in:nil)
 			}
 		case .mouseMoved: bug
-			let touchs			= nsEvent.touches(matching:.moved, in:scnView)
+			let touchs			= nsEvent.touches(matching:.moved, in:seeView)
 			for touch in touchs {
 				let prevLoc		= touch.previousLocation(in:nil)
 				let loc			= touch.location(in:nil)
 				logEve(3, "\(prevLoc) \(loc)")
 			}
 		case .endGesture: bug	//override func touchesEnded(with event:NSEvent) {
-			let touchs			= nsEvent.touches(matching:.ended, in:scnView)
+			let touchs			= nsEvent.touches(matching:.ended, in:seeView)
 			for touch in touchs {
 				let _:CGPoint	= touch.location(in:nil)
 			}
@@ -516,7 +518,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	/// - Returns: The Vew of the part pressed
 	func modelPic(with nsEvent:NSEvent, inVewBase vb:VewBase? = nil) -> Vew? {
 		let possibleVewBases 	= vb != nil ? [vb!]				// ARG specifies
-								: scnView?.vewBase.factalsModel.vewBases ?? []// fall
+								: seeView?.vewBase.factalsModel.vewBases ?? []
 		for vewBase in possibleVewBases {
 			if let picdVew		= findVew(nsEvent:nsEvent, inVewBase:vewBase) {
 
@@ -575,9 +577,9 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	//		.rootNode:tree				// The root of the node hierarchy to be searched. 			MOTOR BUSTED
 		]
 
-		guard let scnView				else { debugger("self.scnView is nil") }
-		let locationInRoot		= scnView.convert(nsEvent.locationInWindow, from:nil)
-		let hits 				= scnView.hitTest(locationInRoot, options:configHitTest)
+		guard let seeView		else { debugger("self.scnView is nil") 			}
+		let locationInRoot		= seeView.convert(nsEvent.locationInWindow, from:nil)
+		let hits 				= seeView.hitTest(locationInRoot, options:configHitTest)
 
 		 // Find closest to screen:
 		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
@@ -624,22 +626,21 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	}
 
 	func motorSpinNUp(with nsEvent:NSEvent) {
-		var selfiePole			= scnView!.vewBase.selfiePole
+		var selfiePole			= seeView!.vewBase.selfiePole
 		selfiePole.spin 		-= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
 		selfiePole.gaze 		-= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func motorZ(with nsEvent:NSEvent) {
-		var selfiePole			= scnView!.vewBase.selfiePole
+		var selfiePole			= seeView!.vewBase.selfiePole
 		selfiePole.position.z 	+= deltaPosition.y * 20
 	}
 
 	func selfiePole2camera(duration:Float=0, reason:String="") {
-		var vewBase				= scnView!.vewBase
-		guard let cameraScn		= vewBase.cameraScn else {debugger("vewBase.cameraScn is nil")}
-		var selfiePole			= vewBase.selfiePole
+		let vewBase				= seeView!.vewBase
+		guard let cameraScn		= vewBase?.cameraScn else {debugger("vewBase.cameraScn is nil")}
+		var selfiePole			= vewBase!.selfiePole
 		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
-
-		let transform			= selfiePole.transform(lookAtVew:vewBase.lookAtVew)
+		let transform			= selfiePole.transform(lookAtVew:vewBase!.lookAtVew)
 		//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.nameTag))")
 		//print("selfiePole:\(selfiePole.pp(.nameTag)) = \(selfiePole.pp(.line))\n")
 		cameraScn.transform 	= transform		//SCNMatrix4.identity // does nothing
@@ -651,7 +652,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		var rv					= "super.pp(mode, aux)"
 		if mode == .line {
-			rv					+= scnView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
+			rv					+= ""//seeView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
 //			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
@@ -665,22 +666,36 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
  // currently unused
 extension ScnBase : SCNPhysicsContactDelegate {
-	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-		bug
-	}
-	func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
-		bug
-	}
-	func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
-		bug
-	}
+	func physicsWorld(_ world:SCNPhysicsWorld, didBegin  contact:SCNPhysicsContact) {	bug	}
+	func physicsWorld(_ world:SCNPhysicsWorld, didUpdate contact:SCNPhysicsContact) {	bug	}
+	func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {	bug	}
 }
 
-extension SCNView  {
-	var vewBase	 : VewBase 		{	bug; return self.vewBase					}
-	var scene	 : SCNScene 	{	bug; return self.scene						}
-	var animatePhysics : Bool 	{	bug; return self.animatePhysics				}
-	var cameraScn : SCNCamera? 	{	self.vewBase.cameraScn?.camera				}
+extension SCNView : SeeView {
+	var isScnView: Bool		{ true		}
+	var vewBase:VewBase! {
+		get {	self.vewBase		}
+		set {	bug	}
+	}
+	var scene:SCNScene {
+		get { self.scene		}
+		set {		}
+	}
+	var animatePhysics:Bool {
+		get {		}
+		set {		}
+	}
+	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult] {
+		let scnResults = self.hitTest(point, options: options!)
+		return scnResults.map { scnHit in
+			HitTestResult(
+				node: scnHit.node,
+				position: SIMD3<Float>(scnHit.worldCoordinates),
+				distance: scnHit.distance
+			)
+		}
+	}
+//	var cameraScn : SCNCamera? 	{	seeView.vewBase.cameraScn?.camera				}
 }
 
 extension SCNView {		//
