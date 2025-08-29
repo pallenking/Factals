@@ -221,7 +221,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
-		let scnTreeRoot			= seeView?.scene.rootNode
+		let scnTreeRoot			= gui?.scene.rootNode
 //		let scnTreeRoot			= self.scnBase.scene?.rootNode
 		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
@@ -233,7 +233,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "\(inspectedVews.count) inspectedVews"
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  self.seeView?  .ppControlElement(config:config) ?? "pfqijepo"
+			var rv				=  self.gui?  .ppControlElement(config:config) ?? "pfqijepo"
 				rv				+= self.selfiePole.ppControlElement(config:config)
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
 									?? "\t\t\t\t cameraScn is nil\n"
@@ -277,9 +277,9 @@ extension ScnBase : FactalsStatus	{						  ///ScnBase
 	func ppControlElement(config:Bool=false) -> String {
 bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 //		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-		var myLine				= "tree:\(seeView?.scene.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-		myLine					+= "\(seeView?.scene			 .pp(.tagClass) ?? "<nil>") "	//classUid
-		myLine					+= "seeView:\(	  seeView?.pp(.tagClass) ?? "<nil>") "			//classUid
+		var myLine				= "tree:\(gui?.scene.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+		myLine					+= "\(gui?.scene			 .pp(.tagClass) ?? "<nil>") "	//classUid
+		myLine					+= "gui:\(	  gui?.pp(.tagClass) ?? "<nil>") "			//classUid
 		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
 //			otherLines: {
 //				return self.tree!   .ppControlElement()

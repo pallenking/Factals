@@ -10,38 +10,18 @@ extension VewBase : Equatable {
 	//	return true
 	}
 }
-protocol SeeView : NSView {
-	var isScnView: Bool 		{	get											}
-	var vewBase	: VewBase!		{	get set										}
-//	var makeScenery:  Type 		{	get set										}
-//	var OriginMark				{	get set										}
-//	var cameraXform				{	get set										}
-//	var Sounds					{	get set										}
-//	var codable					{	get set										}
-	var scene : SCNScene		{	get set										}
-	var animatePhysics	: Bool 	{	get set										}
-	 // Abstract hitTest that works for both SceneKit and RealityKit
-	func hitTest3D(_ point: NSPoint, options: [String: Any]?) -> [HitTestResult]
-}
-// Common result type for both renderers
-struct HitTestResult {
-	let node: Any      // SCNNode for SceneKit, Entity for RealityKit
-	let position: SIMD3<Float>
-	let distance: Float
-}
-
 class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	static var nVewBase 		= 0
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
 	var title					= "VewBase\(nVewBase)"
 	weak
-	 var factalsModel: FactalsModel!	// Our Owner
+	 var factalsModel : FactalsModel!	// Our Owner
 	weak
-	 var partBase	 : PartBase!		//, or a friend of his
+	 var partBase	  : PartBase!		//, or a friend of his
 
-	var tree		 : Vew
-	var seeView	 	 : SeeView?			// attached and used from here
+	var tree		  : Vew
+	var gui	 	 	  : Gui?			// attached and used from here
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -57,7 +37,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
  	var cameraScn	: SCNNode?
-	{	return seeView?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)	}
+	{	return gui?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)	}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -104,11 +84,11 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-		seeView?.vewBase		= self			// weak backpointer to owner (vewBase)
-	//	seeView!.monitor(onChangeOf:$selfiePole)
+		gui?.vewBase		= self			// weak backpointer to owner (vewBase)
+	//	gui!.monitor(onChangeOf:$selfiePole)
 	//	{ [weak self] in						// scnBase.subscribe()
 	//		guard let self?.cameraScn else { 		return 								}
-	//		self!.seeView.selfiePole2camera()
+	//		self!.gui.selfiePole2camera()
 	//	}
 
 	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
@@ -325,7 +305,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-			rv					+= "\(seeView?.pp(.nameTagClass) ?? "nsView:nil") "
+			rv					+= "\(gui?.pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv

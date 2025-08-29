@@ -224,7 +224,7 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 		self.init()
 		(x, y, z)  = (x_, y_, z_)
 	}
-	init(_ v3:Vect3) {
+	init(_ v3:SCNVector3) {
 		self.init()
 		(x, y, z)  = (CGFloat(v3.x), CGFloat(v3.y), CGFloat(v3.z))
 	}

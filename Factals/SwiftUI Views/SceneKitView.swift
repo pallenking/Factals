@@ -80,6 +80,10 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView: NSViewRepresentable {
+	typealias Viz				= SCNNode
+	typealias Vect3 			= SCNVector3
+	typealias Vect4 			= SCNVector4
+	typealias Matrix4x4 		= SCNMatrix4
 	typealias NSViewType 		= SCNView		// Type represented
 	var scnView 		  : SCNView				// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)

@@ -21,12 +21,12 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 	var zoom	: CGFloat 		= 1.0
 	var ortho	: CGFloat		= 0.0				// BROKEN 0->perspective, else ortho
 								
-	init(position:Vect3?=nil, spin:Float?=nil, gaze:Float?=nil, zoom:Float?=nil, ortho:Float?=nil) {
-		self.position 			= SCNVector3(position ?? Vect3(0, 0, 0))	//CGFloat(p)
- 		self.spin 				= CGFloat(   spin	  ?? 0.0)
- 		self.gaze 				= CGFloat(   gaze	  ?? 0.0)
- 		self.zoom 				= CGFloat(   zoom	  ?? 1.0)
- 		self.ortho 				= CGFloat(   ortho	  ?? 0.0)
+	init(position:SCNVector3 = .zero, spin:Float=0.0, gaze:Float=0.0, zoom:Float=1.0, ortho:Float=0.0) {
+		self.position 			= SCNVector3(position)
+ 		self.spin 				= CGFloat(   spin)
+ 		self.gaze 				= CGFloat(   gaze)
+ 		self.zoom 				= CGFloat(   zoom)
+ 		self.ortho 				= CGFloat(   ortho)
 	}
 
 	mutating func configure(from config:FwConfig) {								//xyzzy15.2
@@ -96,9 +96,9 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 	}
 	
 	// Get the camera's world position for the current configuration
-	func getCameraPosition(focusPoint: Vect3) -> Vect3 {
+	func getCameraPosition(focusPoint:SCNVector3) -> SCNVector3 {
 bug;//	let transform = self.transform(lookingAt: focusPoint)
-		return Vect3()//transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+		return SCNVector3()//transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
 	}
 }
 extension SelfiePole : Uid {
