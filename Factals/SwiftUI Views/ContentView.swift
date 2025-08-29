@@ -153,13 +153,13 @@ struct FactalsModelView: View {
 			.accentColor(.green) // Change the color of the selected tab
 		}
 	}
-	private func tabContentView(vewBase: Binding<VewBase>) -> some View {
+	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
 		HStack (alignment:.top) {
 			VStack {									//Binding<VewBase>
 				let gui = vewBase.wrappedValue.gui
 				ZStack {
 					//let _ = Self._printChanges()
-					SceneKitView(scnView:gui as! SCNView, prefFpsC:vewBase.prefFpsC)
+					SceneKitView(scnView:gui! as! SCNView, prefFpsC:vewBase.prefFpsC)
 					 .frame(maxWidth: .infinity)
 					 .border(.black, width:1)
 					EventReceiver { nsEvent in // Catch events (goes underneath)

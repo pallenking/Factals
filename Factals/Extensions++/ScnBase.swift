@@ -38,9 +38,9 @@ class ScnBase : NSObject {
 //		monitoring.removeAll()
 //	}
 	 // MARK: - 3.1 init
-	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
-		let scnScene 			= scnScene ?? SCNScene()		// try SCNScene(named: "art.scnassets/MyScene.scn")
-bug//		self.scene				= scnScene		// get scene
+	init(scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
+		let scnScene 			= scnScene 		// try SCNScene(named: "art.scnassets/MyScene.scn")
+bug
 //		self.scene!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
  		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -110,7 +110,7 @@ bug;		let scene 			= SCNScene(named:"fooNadaMach")!
  */
 	func cameraOn() {
 		let name				= "*-camera"
-//		guard let scene 			else { return									}
+//		guard let scene 		else { return									}
 bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 		let camNode				= scene.rootNode.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
@@ -146,83 +146,76 @@ bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
-	 
-	 // rename axisOn
-	 
-//	func touchAxesScn() {			// was updatePole()
-//		guard let scene			else { return									}
-//		let name				= "*-axis"
-//
-//		 // Already exist?
-//		if scene.rootNode.findScn(named:name) != nil {
-//			return
-//		}
-//		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
-//		let axesScn				= SCNNode()				// New pole
-//		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
-//		scene.rootNode.addChild(node:axesScn)
-//		axesScn.name				= name
-//
-//		 // X/Z Poles (thinner)
-//		let r : CGFloat			= 0.03
-//		for i in 0..<2 {
-//			let arm 			= SCNNode(geometry:SCNCylinder(radius:r, height:axesLen.x))
-//			arm.categoryBitMask = FwNodeCategory.adornment.rawValue
-//			arm.transform		= SCNMatrix4Rotate(SCNMatrix4.identity, CGFloat.pi/2,
-//								(i == 0 ? 1 : 0), 0, (i == 1 ? 1 : 0)  )
-//			arm.name			= "s-Cyl\(i)"
-//			arm.color0			= .lightGray
-//			arm.color0(emission:systemColor)
-//			axesScn.addChild(node:arm)
-//
-//			let nTics			= [axesLen.x, axesLen.z][i]
-//			addAxisTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
-//		}
-//		 // Y Pole (thicker)
-//		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
-//		upPole.categoryBitMask	= FwNodeCategory.adornment.rawValue
-//		upPole.position.y		+= axesLen.y / 2
-//		upPole.name				= "s-CylT"
-//		upPole.color0			= .lightGray
-//		upPole.color0(emission:systemColor)
-//		addAxisTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
-//		axesScn.addChild(node:upPole)
-//
-//
-//		 // Experimental label
-//		let geom				= SCNText(string:"Origin", extrusionDepth:1)
-//		geom.containerFrame		= CGRect(x:-0.5, y:-0.5, width:1, height:1)
-//		let label		 		= SCNNode(geometry:geom)
-//		label.name				= "Origin"
-//		label.color0			= .black
-//		label.color0(emission:systemColor)
-//		axesScn.addChild(node:label)
-//
-//
-//		 // Origin Node is a pyramid
-//		let origin		 		= SCNNode(geometry:SCNSphere(radius:r*4))
-//		origin.categoryBitMask	= FwNodeCategory.adornment.rawValue
-//		origin.name				= "s-Pyr"
-//		origin.color0			= .black
-//		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
-//		axesScn.addChild(node:origin)
-//	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
-//	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
-//		if true || vewBase?.factalsModel?.fmConfig.bool("axisTics") ?? false {
-//			let pos				= toNode.position
-//			for j in Int(from)...Int(to) where j != 0 {
-//				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
-//				tic.categoryBitMask	= FwNodeCategory.adornment.rawValue
-//				tic.name		= "tic\(j)"
-//				tic.transform 	= SCNMatrix4MakeRotation(.pi/2, 1, 0, 0)
-//				tic.position 	= SCNVector3(0, CGFloat(j), 0) - pos
-//				tic.scale		= SCNVector3(1, 1, 0.5)
-//				tic.color0		= .black
-//				tic.color0(emission:systemColor)
-//				toNode.addChild(node:tic)
-//			}
-//		}
-//	}
+	func axisOn() {			// was updatePole()
+		guard let scene			= gui?.scene	else { return					}
+		let name				= "*-axis"
+		if scene.rootNode.findScn(named:name) != nil {
+			return					 // Already exists
+		}
+		let axesLen				= SCNVector3(15,15,15)	//SCNVector3(5,15,5)
+		let axesScn				= SCNNode()				// New pole
+		axesScn.categoryBitMask	= FwNodeCategory.adornment.rawValue
+		scene.rootNode.addChild(node:axesScn)
+		axesScn.name			= name
+
+		 // X/Z Poles (thinner)
+		let r : CGFloat			= 0.03
+		for i in 0..<2 {
+			let arm 			= SCNNode(geometry:SCNCylinder(radius:r, height:axesLen.x))
+			arm.categoryBitMask = FwNodeCategory.adornment.rawValue
+			arm.transform		= SCNMatrix4Rotate(SCNMatrix4.identity, CGFloat.pi/2,
+								(i == 0 ? 1 : 0), 0, (i == 1 ? 1 : 0)  )
+			arm.name			= "s-Cyl\(i)"
+			arm.color0			= .lightGray
+			arm.color0(emission:systemColor)
+			axesScn.addChild(node:arm)
+
+			let nTics			= [axesLen.x, axesLen.z][i]
+			addAxisTics(toNode:arm, from:-nTics/2, to:nTics/2, r:r) // /////////////
+		}
+		 // Y Pole (thicker)
+		let upPole 				= SCNNode(geometry:SCNCylinder(radius:r*2, height:axesLen.y))
+		upPole.categoryBitMask	= FwNodeCategory.adornment.rawValue
+		upPole.position.y		+= axesLen.y / 2
+		upPole.name				= "s-CylT"
+		upPole.color0			= .lightGray
+		upPole.color0(emission:systemColor)
+		addAxisTics(toNode:upPole, from:0, to:axesLen.y, r:2*r) // /////////////////
+		axesScn.addChild(node:upPole)
+
+		 // Experimental label
+		let geom				= SCNText(string:"Origin", extrusionDepth:1)
+		geom.containerFrame		= CGRect(x:-0.5, y:-0.5, width:1, height:1)
+		let label		 		= SCNNode(geometry:geom)
+		label.name				= "Origin"
+		label.color0			= .black
+		label.color0(emission:systemColor)
+		axesScn.addChild(node:label)
+
+		 // Origin Node is a pyramid
+		let origin		 		= SCNNode(geometry:SCNSphere(radius:r*4))
+		origin.categoryBitMask	= FwNodeCategory.adornment.rawValue
+		origin.name				= "s-Pyr"
+		origin.color0			= .black
+		origin.color0(emission:systemColor)									//let origin	  = SCNNode(geometry:SCNPyramid(width:0.5, height:0.5, length:0.5))
+		axesScn.addChild(node:origin)
+	}																		//origin.rotation = SCNVector4(x:0, y:1, z:0, w:.pi/4)
+	func addAxisTics(toNode:SCNNode, from:CGFloat, to:CGFloat, r:CGFloat) {
+		if true { //|| vewBase?.factalsModel?.fmConfig.bool("axisTics") ?? false {
+			let pos				= toNode.position
+			for j in Int(from)...Int(to) where j != 0 {
+				let tic			= SCNNode(geometry:SCNSphere(radius:2*r))
+				tic.categoryBitMask	= FwNodeCategory.adornment.rawValue
+				tic.name		= "tic\(j)"
+				tic.transform 	= SCNMatrix4MakeRotation(.pi/2, 1, 0, 0)
+				tic.position 	= SCNVector3(0, CGFloat(j), 0) - pos
+				tic.scale		= SCNVector3(1, 1, 0.5)
+				tic.color0		= .black
+				tic.color0(emission:systemColor)
+				toNode.addChild(node:tic)
+			}
+		}
+	}
 //
 //	 // MARK: 4.4 - Look At Updates
 //	func movePole(toWorldPosition wPosn:SCNVector3) {
