@@ -153,23 +153,35 @@ struct FactalsModelView: View {
 			.accentColor(.green) // Change the color of the selected tab
 		}
 	}
+								//
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
 		HStack (alignment:.top) {
-			VStack {									//Binding<VewBase>
-				let gui = vewBase.wrappedValue.gui
-				ZStack {
-					//let _ = Self._printChanges()
-					SceneKitView(scnView:gui! as! SCNView, prefFpsC:vewBase.prefFpsC)
-					 .frame(maxWidth: .infinity)
-					 .border(.black, width:1)
-					EventReceiver { nsEvent in // Catch events (goes underneath)
-						if let scnView = gui as? SCNView {
-							if !scnView.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-								print("Key '\(c)' not recognized and hence ignored...")
+			VStack { // H: Q=optional, Any callable		//Binding<VewBase>
+				let guiAQ		= vewBase.wrappedValue.gui	// might have a thing
+				if let guiA 	= guiAQ {						// safely unwrap the optional
+					ZStack {
+						//let _ = Self._printChanges()
+						SceneKitView(scnView:guiA as! SCNView, prefFpsC:vewBase.prefFpsC)
+						 .frame(maxWidth: .infinity)
+						 .border(.black, width:1)
+						EventReceiver { nsEvent in // Catch events (goes underneath)
+							if let guiXA = guiA as? SCNView {
+								if !guiXA.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+									guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+									print("Key '\(c)' not recognized and hence ignored...")
+								}
 							}
 						}
 					}
+				} else {	// guiAQ was nil
+					Rectangle()
+						.fill(Color.gray.opacity(0.3))
+						.frame(maxWidth: .infinity)
+						.border(.red, width:1)
+						.overlay(
+							Text("No GUI Available")
+								.foregroundColor(.red)
+						)
 				}
 			}//.frame(width: 555)
 			VStack {
