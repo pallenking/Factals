@@ -193,7 +193,7 @@ struct FactalsModelView: View {
 	private func updateTabTitle() {		// NO:factalsModel.partBase.title: XXXX
 	}
 	private func addNewTab() {
-		factalsModel.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		let vb = factalsModel.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
 	}
 	private func deleteCurrentTab() {

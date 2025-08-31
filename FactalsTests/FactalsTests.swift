@@ -88,7 +88,7 @@ final class FactalsTests: XCTestCase {
 //		print("FactalsModel:      '\(factalsModel1.pp())'    DOESN'T HANG")					// OK // (.tree, [:])
 //		let document			= FactalsDocument(factalsModel:factalsModel1)
 //
-//		factalsModel1.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+//		factalsModel1.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 //		print("FactalsModel(rP1:)  '\(factalsModel1.rootVew0?.pp() ?? "nil")'    DOESN'T HANG")								// OK // (.tree, [:])
 //
 //		print("&&&&&& No         ppMode Default Hang     errors")

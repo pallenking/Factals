@@ -106,9 +106,8 @@ struct SceneKitView: NSViewRepresentable {
 		scnView.scene			= scnBase.gui!.scene							// wrapped.scnScene //gui.scene //.scene
 
 		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
-		fm.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-
-	//	VewBase.gui 			= scnView
+		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		vewBase.gui 			= scnView
 		return scnView
 	}
 	func updateNSView(_ nsView: SCNView, context:Context) {

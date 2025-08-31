@@ -220,11 +220,11 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 //			return "\t\t\t\t vewBases[] mismatch\n" }
 		let myName				= "VewBase[\(slot)]:  "
 
-		guard let vewTreeScnParent = self.tree.scn.parent else { return "ERROR: vewTreeScnParent == nil"}
+		let vewTreeScnParent	= self.tree.scn.parent
 		let scnTreeRoot			= gui?.scene.rootNode
-//		let scnTreeRoot			= self.scnBase.scene?.rootNode
-		var myLine				= vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
-								+	"vewTreeScnParent(\(vewTreeScnParent.pp(.nameTag)))  "
+		var myLine				= vewTreeScnParent != nil &&
+								  vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
+								+	"vewTreeScnParent(\(vewTreeScnParent?.pp(.nameTag) ?? "nil"))  "
 								+	"!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
 		myLine					+= "vewBase.tree:\(tree.pp(.tagClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "

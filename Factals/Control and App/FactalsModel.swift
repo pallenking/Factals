@@ -51,12 +51,12 @@ import SwiftUI
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					anotherVewBase(vewConfig:vewConfig, fwConfig:config)
+					let vb = NewVewBase(vewConfig:vewConfig, fwConfig:config)
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					anotherVewBase(vewConfig:vewConfig, fwConfig:config)
+					let vb = NewVewBase(vewConfig:vewConfig, fwConfig:config)
 				}
 				else {	panic("Confused wo38r")									}
 			}
@@ -65,11 +65,11 @@ import SwiftUI
 		 // Ensure 1 View
 		if vewBases.isEmpty {
 			// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
-			anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
+			let vb = NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}
 	}
-	func anotherVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
-		logBld(5, "### ---======= anotherVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
+	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) -> VewBase {
+		logBld(5, "### ---======= NewVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 		let vewBase				= VewBase(for:partBase, vewConfig:vewConfig) // Create
 		vewBase.factalsModel	= self					// Backpointer
 		vewBases.append(vewBase)						// Install vewBase
@@ -80,7 +80,8 @@ import SwiftUI
 		vewBase.tree.openChildren(using:vewConfig)		// Open Vews per config
 		vewBase.updateVSP()							// DELETE?
 
-		logBld(5, "---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) ")
+		logBld(5, "---====--- NewVewBase() done \(vewBase.pp(.tagClass)) ")
+		return vewBase
 	}
 					//	//	// FileDocument requires these interfaces:
 					//		 // Data in the SCNScene
