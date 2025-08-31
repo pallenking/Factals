@@ -74,11 +74,11 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	}
 
 	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
-		partBase				= pb
-	//	scnBase					= ScnBase()
-		tree					= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
+		self.partBase			= pb
+		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
 		VewBase.nVewBase 		+= 1
 
+		self.gui 				= nil
 		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		self.tree.vewConfig		= vewConfig
@@ -166,8 +166,6 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		title					= try container.decode(   String.self, forKey:.title		)
 		partBase				= try container.decode( PartBase.self, forKey:.partBase		)
 		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
-//		scnBase					= try container.decode(  ScnBase.self, forKey:.scnBase		)
-	//	scnBase					= ScnBase()
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
 

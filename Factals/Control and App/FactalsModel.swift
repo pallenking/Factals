@@ -77,7 +77,7 @@ import SwiftUI
 		vewBase.configure(from:fwConfig)
 		vewBase.gui?.scene.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
-		vewBase.tree.openChildren(using:vewConfig)		// Vew configuration
+		vewBase.tree.openChildren(using:vewConfig)		// Open Vews per config
 		vewBase.updateVSP()							// DELETE?
 
 		logBld(5, "---====--- anotherVewBase() done \(vewBase.pp(.tagClass)) ")

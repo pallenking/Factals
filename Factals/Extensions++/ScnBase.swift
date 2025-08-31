@@ -39,9 +39,10 @@ class ScnBase : NSObject {
 //	}
 	 // MARK: - 3.1 init
 	init(scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
-		let scnScene 			= scnScene 		// try SCNScene(named: "art.scnassets/MyScene.scn")
-bug
-//		self.scene!.rootNode.name = "tree"
+		//let scnScene 			= scnScene 		// try SCNScene(named: "art.scnassets/MyScene.scn")
+		assert(gui != nil, "gui == nil")
+		gui?.scene 				= scnScene
+		gui?.scene.rootNode.name = "tree"										//self.scene!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
  		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}

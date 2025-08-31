@@ -153,7 +153,6 @@ struct FactalsModelView: View {
 			.accentColor(.green) // Change the color of the selected tab
 		}
 	}
-								//
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
 		HStack (alignment:.top) {
 			VStack { // H: Q=optional, Any callable		//Binding<VewBase>
@@ -180,7 +179,7 @@ struct FactalsModelView: View {
 						.border(.red, width:1)
 						.overlay(
 							Text("No GUI Available")
-								.foregroundColor(.red)
+							.foregroundColor(.red)
 						)
 				}
 			}//.frame(width: 555)

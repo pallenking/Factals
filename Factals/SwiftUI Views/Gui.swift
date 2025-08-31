@@ -25,15 +25,16 @@ import SceneKit
 //		//	experiment state (load generate save)
 //		//	time slider
 
-//								Scene Kit	Reality Kit
-//typealias		Viz			= SCNNode		AnchorEntity
-//typealias		Vect3 		= SCNVector3	SIMD3<Float>
-//typealias		Vect4 		= SCNVector4	SIMD4<Float>
-//typealias		Matrix4x4 	= SCNMatrix4	simd_float4x4
+// Generic		||	Scene Kit	|	Reality Kit
+//--------------++--------------+-------------------
+// Visible		||	SCNNode		|	AnchorEntity
+// Vect3 		||	SCNVector3	|	SIMD3<Float>
+// Vect4 		||	SCNVector4	|	SIMD4<Float>
+// Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
 protocol Gui : NSView {			 /// Protypical Graphical User Interface
-	var isScnView: Bool 		{	get											}
 	var vewBase	: VewBase!		{	get set										}
+	var isScnView: Bool 		{	get											}
 //	var makeScenery:  Type 		{	get set										}
 //	var OriginMark				{	get set										}
 //	var cameraXform				{	get set										}

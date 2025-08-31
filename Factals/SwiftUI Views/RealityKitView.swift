@@ -11,16 +11,17 @@ import SceneKit
 import AppKit
 
 struct RealityKitView: View {
-	typealias Viz				= SCNNode
-	typealias Vect3 			= SIMD3<Float>
-	typealias Vect4 			= SIMD4<Float>
-	typealias Matrix4x4 		= simd_float4x4
 	@State		   var selfiePole 				 = SelfiePole()
 	@State 		   var focusPosition:Vect3 		 = Vect3(0, 0, 0)
 	@State 		   var selectedPrimitiveName:String = ""
 	@State private var lastDragLocation:CGPoint	 = .zero
 	@State private var isDragging:Bool 			 = false
-								
+
+	typealias Visible			= Entity
+	typealias Vect3 			= SIMD3<Float>
+	typealias Vect4 			= SIMD4<Float>
+	typealias Matrix4x4 		= simd_float4x4
+
 	var body: some View {
 		VStack {
 			HStack {

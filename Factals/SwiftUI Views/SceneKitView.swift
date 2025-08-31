@@ -83,7 +83,7 @@ struct SceneKitView: NSViewRepresentable {
 	var scnView 		  : SCNView				// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
-	typealias Viz				= SCNNode
+	typealias Visible			= SCNNode
 	typealias Vect3 			= SCNVector3
 	typealias Vect4 			= SCNVector4
 	typealias Matrix4x4 		= SCNMatrix4
@@ -100,12 +100,17 @@ struct SceneKitView: NSViewRepresentable {
 		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
 
-//		let scnBase 			= ScnBase(scnScene:scnView.SCNScene, eventHandler: )
-//		scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
-//		scnView.scene			= scnBase.scene
+		let scnBase 			= ScnBase()
+		scnBase.gui				= scnView		// BACKPOINTER
+		scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
+		scnView.scene			= scnBase.gui!.scene							// wrapped.scnScene //gui.scene //.scene
+
+		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
+		fm.anotherVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+
+	//	VewBase.gui 			= scnView
 		return scnView
 	}
-
 	func updateNSView(_ nsView: SCNView, context:Context) {
 		let scnView				= nsView as SCNView			//	scnBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
