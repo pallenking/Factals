@@ -63,7 +63,7 @@ import SwiftUI
 		}
 
 		 // Ensure 1 View
-		if vewBases.isEmpty {
+		if false,vewBases.isEmpty {
 			// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
 			let vb = NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
 		}

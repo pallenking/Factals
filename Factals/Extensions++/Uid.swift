@@ -2,7 +2,17 @@
 // A lightweight UUID
 
 import SceneKit
+/* flock 2025-1422
+print(ObjectIdentifier(a).debugDescription)
 
+print(String(Int.random(in: 0..<Int.max), radix: 36).uppercased())
+enum Action {
+    case tap(count: Int, traceID: String)
+    init(tapCount: Int, traceId: String = #function) {
+        self = .tap(count: tapCount, traceID: traceId)
+    }
+}
+ */
 protocol Uid {
 	var nameTag 		: UInt16 		{ 	get 								}
 	func ppUi16(_:UInt16) -> String

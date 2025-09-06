@@ -12,9 +12,9 @@ typealias EventHandler			= (NSEvent) -> Void
 class ScnBase : NSObject {
 	weak
 	 var gui 	 		: Gui?					// Owner
-	var logRenderLocks			= true			// Overwritten by Configuration
 	var eventHandler 	: EventHandler
 
+	var logRenderLocks			= true			// Overwritten by Configuration
 //	var keyIsDown 	 	: Bool 	= false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
@@ -38,11 +38,12 @@ class ScnBase : NSObject {
 //		monitoring.removeAll()
 //	}
 	 // MARK: - 3.1 init
-	init(scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in }) { // ScnBase(scnScene:eventHandler)
+	init(gui:Gui, /*scnScene:SCNScene=SCNScene(), */eventHandler: @escaping EventHandler={_ in}) { // ScnBase(scnScene:eventHandler)
 		//let scnScene 			= scnScene 		// try SCNScene(named: "art.scnassets/MyScene.scn")
-		assert(gui != nil, "gui == nil")
-		gui?.scene 				= scnScene
-		gui?.scene.rootNode.name = "tree"										//self.scene!.rootNode.name = "tree"
+	//	assert(gui != nil, "gui == nil")
+	//	gui?.scene 				= scnScene
+	//	gui?.scene.rootNode.name = "tree"
+		self.gui				= gui									//self.scene!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
  		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
@@ -666,19 +667,33 @@ extension ScnBase : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {	bug	}
 }
 
-extension SCNView : Gui {				/// SceneKit's Gue
+
+extension SCNView {		//
+	var scnBase : ScnBase		{ delegate as! ScnBase							}
+	var handler : EventHandler 	{
+		get { return			( delegate as! ScnBase).eventHandler			}
+		set(val) { }
+	}
+
+	 // MARK: - 13.1 Keys
+	open override func keyDown(with event:NSEvent) 		{	handler(event)	}
+	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
+}
+extension SCNView : Gui {
+	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
+	/// SceneKit's Gui
 	var isScnView: Bool		{ true		}
 	var vewBase:VewBase! {
-		get {	bug; return self.vewBase										}
-		set {	bug																}
+		get {	gui?.vewBase													}
+		set {	gui?.vewBase		= newValue									}
 	}
 	var scene:SCNScene {
-		get {	bug; return  self.scene											}
-		set {	bug																}
+		get {	self.scene														}
+		set {	gui!.scene			= newValue									}
 	}
 	var animatePhysics:Bool {
-		get {	bug; return  self.animatePhysics								}
-		set {	bug																}
+		get {	gui!.animatePhysics												}
+		set {	gui!.animatePhysics	= newValue									}
 	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let scnResults = self.hitTest(point, options: options!)
@@ -691,18 +706,6 @@ extension SCNView : Gui {				/// SceneKit's Gue
 		}
 	}
 //	var cameraScn : SCNCamera? 	{	gui.vewBase.cameraScn?.camera				}
-}
-
-extension SCNView {		//
-	var scnBase : ScnBase		{ delegate as! ScnBase							}
-	var handler : EventHandler 	{
-		get { return			( delegate as! ScnBase).eventHandler			}
-		set(val) { }
-	}
-
-	 // MARK: - 13.1 Keys
-	open override func keyDown(with event:NSEvent) 		{	handler(event)	}
-	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
 }
 /*
 			View.convert(_:NSPoint, from:NSView?)

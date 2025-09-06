@@ -215,7 +215,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 	func ppControlElement(config:Bool=false) -> String {
 		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }
 		guard let slot			= slot, slot >= 0, slot < factalsModel.vewBases.count
-								else { 	return("Error Illegal slot: \(slot ?? -1)")			}
+								else { 	return("Error Illegal slot: \(slot ?? -1)") }
 //		guard factalsModel.vewBases[slot] === self else {
 //			return "\t\t\t\t vewBases[] mismatch\n" }
 		let myName				= "VewBase[\(slot)]:  "
@@ -233,18 +233,19 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "\(inspectedVews.count) inspectedVews"
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  self.gui?  .ppControlElement(config:config) ?? "pfqijepo"
-				rv				+= self.selfiePole.ppControlElement(config:config)
+			var rv				=  self.gui?      .ppControlElement(config:config)
+									?? "\t\t\t\tgui is nil\n"
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
-									?? "\t\t\t\t cameraScn is nil\n"
+									?? "\t\t\t\tcameraScn is nil\n"
+				rv				+= self.selfiePole.ppControlElement(config:config)
 				for vew in self.inspectedVews {
 					rv 			+= vew	   		  .ppControlElement(config:config)		//deapth:0,
 				}
 				return rv
-			})
+			}
+		)
 	}
 }
-
 extension Vew : FactalsStatus	{										  ///Vew
 	func ppControlElement(config:Bool=false) -> String {
 		var rv					= ""

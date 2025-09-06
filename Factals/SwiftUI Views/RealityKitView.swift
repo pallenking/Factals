@@ -30,12 +30,13 @@ struct RealityKitView: View {
 				 .border(Color.gray, width: 3)
 				 .frame(width:800, height:20)
 			}
+
 			RealityView { content in
 				let anchor 			= AnchorEntity(.world(transform: matrix_identity_float4x4))
 				anchor.name 		= "mainAnchor"		// Create anchor for the scene
 	/**/		createGeometries(anchor:anchor)
 				content.add(anchor)
-				Swift.print("RealityView loaded with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation) \n\t translation: \(anchor.transform.translation)")
+				print("RealityView loaded with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation) \n\t translation: \(anchor.transform.translation)")
 			} update: { content in
 			  // Update camera transform using SelfiePole mathematics
 				if let anchor 		= content.entities.first(where: { $0.name == "mainAnchor" }) {
@@ -78,6 +79,28 @@ struct RealityKitView: View {
 				setupScrollWheelMonitor(realityKitView:self)
 			}
 		}
+	}
+ 	func makeNSViewXX() -> SCNView {
+		let rv					= SCNView()		// ARG1
+		rv.isPlaying			= false			// book keepscnViewing
+		rv.showsStatistics		= true			// controls extra bar
+		rv.debugOptions			= 				// enable display of:
+		  [	SCNDebugOptions.showPhysicsFields]	//  regions affected by each SCNPhysicsField object
+		rv.allowsCameraControl	= true			// user may control camera	//args.options.contains(.allowsCameraControl)
+		rv.autoenablesDefaultLighting = false 	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
+		rv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
+	//	rv.preferredFramesPerSecond = Int(prefFpsC)
+
+		 // Make delegate
+		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
+		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
+		assert(scnBase.gui != nil, "scnBase.gui is nil")
+		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
+
+		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
+		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		vewBase.gui 			= rv
+		return rv
 	}
 //}
 //extension RealityKitView {
@@ -333,18 +356,34 @@ struct RealityKitView: View {
 					// Keep original material (simplified - in practice you'd store originals)
 					// This is a simplified approach for the demo
 				}
+				let someArView = ARView()
+				if let someArViewSubclass = someArView as? ArView {
+				someArViewSubclass.delegate
+				}
 			}
 		}
 	}
 }
+class ArView : ARView {
+	typealias Body = ARView
+	weak var delegate: SCNSceneRendererDelegate?
+	
+	
+}
+
+/*
+weak var delegate: (any SCNSceneRendererDelegate)? { get set }
+ */
 extension ARView : Gui {				/// RealityKit's Gui
+//	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
 	var isScnView: Bool { false }
 	var vewBase: VewBase! {
-		get {			self.vewBase											}
-		set {			self.vewBase = newValue									}
+		get {			bug; return self.vewBase								}
+		set {			bug; return self.vewBase = newValue 								}
 	}
 	var scene: SCNScene {
-		get { fatalError("RealityKit doesn't use SCNScene") 					}
+		get { self.scene
+		fatalError("RealityKit doesn't use SCNScene") 					}
 		set { fatalError("RealityKit doesn't use SCNScene") 					}
 	}
 	var animatePhysics: Bool {

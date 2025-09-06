@@ -80,7 +80,7 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView: NSViewRepresentable {
-	var scnView 		  : SCNView				// ARG1: exposes visual world
+	var scnView 		 		= SCNView()		// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
 	typealias Visible			= SCNNode
@@ -90,25 +90,26 @@ struct SceneKitView: NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context: Context) -> SCNView {
-		let scnView				= scnView		// ARG1
-		scnView.isPlaying		= false			// book keepscnViewing
-		scnView.showsStatistics	= true			// controls extra bar
-		scnView.debugOptions	= 				// enable display of:
+		let rv					= scnView		// ARG1
+		rv.isPlaying			= false			// book keepscnViewing
+		rv.showsStatistics		= true			// controls extra bar
+		rv.debugOptions			= 				// enable display of:
 		  [	SCNDebugOptions.showPhysicsFields]	//  regions affected by each SCNPhysicsField object
-		scnView.allowsCameraControl	= true		// user may control camera	//args.options.contains(.allowsCameraControl)
-		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
-		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
-		scnView.preferredFramesPerSecond = Int(prefFpsC)
+		rv.allowsCameraControl	= true			// user may control camera	//args.options.contains(.allowsCameraControl)
+		rv.autoenablesDefaultLighting = false 	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
+		rv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
+		rv.preferredFramesPerSecond = Int(prefFpsC)
 
-		let scnBase 			= ScnBase()
-		scnBase.gui				= scnView		// BACKPOINTER
-		scnView.delegate		= scnBase 		// scnBase is SCNSceneRendererDelegate
-		scnView.scene			= scnBase.gui!.scene							// wrapped.scnScene //gui.scene //.scene
+		 // Make delegate
+		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
+		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
+		assert(scnBase.gui != nil, "scnBase.gui is nil")
+		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
 
 		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
 		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		vewBase.gui 			= scnView
-		return scnView
+		vewBase.gui 			= rv
+		return rv
 	}
 	func updateNSView(_ nsView: SCNView, context:Context) {
 		let scnView				= nsView as SCNView			//	scnBase.scnView
