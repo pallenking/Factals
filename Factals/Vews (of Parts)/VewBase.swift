@@ -37,7 +37,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
  	var cameraScn	: SCNNode?
-	{	return gui?.scene.rootNode.findScn(named:"*-camera", maxLevel:1)	}
+	{	return gui?.getScene.rootNode.findScn(named:"*-camera", maxLevel:1)	}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)

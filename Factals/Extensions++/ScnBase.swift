@@ -41,8 +41,8 @@ class ScnBase : NSObject {
 	init(gui:Gui, /*scnScene:SCNScene=SCNScene(), */eventHandler: @escaping EventHandler={_ in}) { // ScnBase(scnScene:eventHandler)
 		//let scnScene 			= scnScene 		// try SCNScene(named: "art.scnassets/MyScene.scn")
 	//	assert(gui != nil, "gui == nil")
-	//	gui?.scene 				= scnScene
-	//	gui?.scene.rootNode.name = "tree"
+	//	gui?.getScene 				= scnScene
+	//	gui?.getScene.rootNode.name = "tree"
 		self.gui				= gui									//self.scene!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
  		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -149,7 +149,7 @@ bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
 	func axisOn() {			// was updatePole()
-		guard let scene			= gui?.scene	else { return					}
+		guard let scene			= gui?.getScene	else { return					}
 		let name				= "*-axis"
 		if scene.rootNode.findScn(named:name) != nil {
 			return					 // Already exists
@@ -556,7 +556,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
 
-		guard let tree			= vewBase.gui?.scene    else { return nil	}
+		guard let tree			= vewBase.gui?.getScene    else { return nil	}
 //		guard let tree			= vewBase. scnBase.scene    else { return nil	}
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -687,9 +687,9 @@ extension SCNView : Gui {
 		get {	gui?.vewBase													}
 		set {	gui?.vewBase		= newValue									}
 	}
-	var scene:SCNScene {
-		get {	self.scene														}
-		set {	gui!.scene			= newValue									}
+	var getScene:SCNScene {
+		get {	self.getScene														}
+		set {	gui!.getScene			= newValue									}
 	}
 	var animatePhysics:Bool {
 		get {	gui!.animatePhysics												}

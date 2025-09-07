@@ -129,7 +129,7 @@ struct FactalsModelView: View {
 			Button(label:{ Text("++") })
 			{	addNewTab()														}
 			Button(label:{ Text("Test Sound") })
-			{	let rootScn = FACTALSMODEL!.vewBases.first!.gui?.scene.rootNode
+			{	let rootScn = FACTALSMODEL!.vewBases.first!.gui?.getScene.rootNode
 				rootScn?.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}
 	}

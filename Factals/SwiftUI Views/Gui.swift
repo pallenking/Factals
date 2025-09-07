@@ -41,7 +41,7 @@ protocol Gui: NSView {			 /// Protypical Graphical User Interface
 //	var cameraXform				{	get set										}
 //	var Sounds					{	get set										}
 //	var codable					{	get set										}
-	var scene : SCNScene		{	get set										}
+	var getScene : SCNScene		{	get set										}
 	var animatePhysics : Bool 	{	get set										}
 	 // Abstract hitTest that works for both SceneKit and RealityKit
 	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult]

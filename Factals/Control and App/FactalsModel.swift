@@ -75,7 +75,7 @@ import SwiftUI
 		vewBases.append(vewBase)						// Install vewBase
 														// Install in scnBase
 		vewBase.configure(from:fwConfig)
-		vewBase.gui?.scene.rootNode.addChildNode(vewBase.tree.scn)
+		vewBase.gui?.getScene.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)		// Open Vews per config
 		vewBase.updateVSP()							// DELETE?
@@ -406,7 +406,7 @@ import SwiftUI
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.gui?.scene ?? {	debugger("") } ()//scnBase
+			let rootVews0scene	= vewBases.first?.gui?.getScene ?? {	debugger("") } ()//scnBase
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { debugger("writing dumpSCN.\(suffix) failed")	}
 		case "V":								// Update Views

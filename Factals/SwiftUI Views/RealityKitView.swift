@@ -372,8 +372,8 @@ extension ARView : Gui {				/// RealityKit's Gui
 		get {			bug; return self.vewBase								}
 		set {			bug; return self.vewBase = newValue 								}
 	}
-	var scene: SCNScene {
-		get { self.scene
+	var getScene: SCNScene {
+		get { self.getScene
 		fatalError("RealityKit doesn't use SCNScene") 					}
 		set { fatalError("RealityKit doesn't use SCNScene") 					}
 	}

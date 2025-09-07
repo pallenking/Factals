@@ -221,7 +221,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		let myName				= "VewBase[\(slot)]:  "
 
 		let vewTreeScnParent	= self.tree.scn.parent
-		let scnTreeRoot			= gui?.scene.rootNode
+		let scnTreeRoot			= gui?.getScene.rootNode
 		var myLine				= vewTreeScnParent != nil &&
 								  vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
 								+	"vewTreeScnParent(\(vewTreeScnParent?.pp(.nameTag) ?? "nil"))  "
@@ -278,8 +278,8 @@ extension ScnBase : FactalsStatus	{						  ///ScnBase
 	func ppControlElement(config:Bool=false) -> String {
 bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 //		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-		var myLine				= "tree:\(gui?.scene.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-		myLine					+= "\(gui?.scene			 .pp(.tagClass) ?? "<nil>") "	//classUid
+		var myLine				= "tree:\(gui?.getScene.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+		myLine					+= "\(gui?.getScene			 .pp(.tagClass) ?? "<nil>") "	//classUid
 		myLine					+= "gui:\(	  gui?.pp(.tagClass) ?? "<nil>") "			//classUid
 		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
 //			otherLines: {
