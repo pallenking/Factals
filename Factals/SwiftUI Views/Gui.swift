@@ -33,6 +33,7 @@ import SceneKit
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
 protocol Gui: NSView {			 /// Protypical Graphical User Interface
+//protocol Gui: AnyObject {  PW		 /// Protypical Graphical User Interface
 	var vewBase	: VewBase!		{	get set										}
 	var isScnView : Bool 		{	get											}
 //	var makeScenery:  Type 		{	get set										}

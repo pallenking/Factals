@@ -31,6 +31,19 @@ struct RealityKitView: View {
 				 .frame(width:800, height:20)
 			}
 
+//	func makeNSViewXX() -> SCNView {
+//
+//		 // Make delegate
+//		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
+//		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
+//		assert(scnBase.gui != nil, "scnBase.gui is nil")
+//		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
+//
+//		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
+//		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+//		vewBase.gui 			= rv
+//		return rv
+//	}
 			RealityView { content in
 				let anchor 			= AnchorEntity(.world(transform: matrix_identity_float4x4))
 				anchor.name 		= "mainAnchor"		// Create anchor for the scene
@@ -79,28 +92,6 @@ struct RealityKitView: View {
 				setupScrollWheelMonitor(realityKitView:self)
 			}
 		}
-	}
- 	func makeNSViewXX() -> SCNView {
-		let rv					= SCNView()		// ARG1
-		rv.isPlaying			= false			// book keepscnViewing
-		rv.showsStatistics		= true			// controls extra bar
-		rv.debugOptions			= 				// enable display of:
-		  [	SCNDebugOptions.showPhysicsFields]	//  regions affected by each SCNPhysicsField object
-		rv.allowsCameraControl	= true			// user may control camera	//args.options.contains(.allowsCameraControl)
-		rv.autoenablesDefaultLighting = false 	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
-		rv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
-	//	rv.preferredFramesPerSecond = Int(prefFpsC)
-
-		 // Make delegate
-		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
-		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
-		assert(scnBase.gui != nil, "scnBase.gui is nil")
-		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
-
-		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
-		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		vewBase.gui 			= rv
-		return rv
 	}
 //}
 //extension RealityKitView {
@@ -358,7 +349,7 @@ struct RealityKitView: View {
 				}
 				let someArView = ARView()
 				if let someArViewSubclass = someArView as? ArView {
-				someArViewSubclass.delegate
+					someArViewSubclass.delegate
 				}
 			}
 		}

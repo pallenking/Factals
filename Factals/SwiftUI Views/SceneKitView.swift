@@ -103,7 +103,6 @@ struct SceneKitView: NSViewRepresentable {
 		 // Make delegate
 		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
 		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
-		assert(scnBase.gui != nil, "scnBase.gui is nil")
 		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
 
 		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
