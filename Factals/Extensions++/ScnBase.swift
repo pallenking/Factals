@@ -7,6 +7,7 @@
 import Combine
 import Foundation
 import SceneKit
+import RealityKit
 typealias EventHandler			= (NSEvent) -> Void
 
 class ScnBase : NSObject {
@@ -38,11 +39,11 @@ class ScnBase : NSObject {
 //		monitoring.removeAll()
 //	}
 	 // MARK: - 3.1 init
-	init(gui:Gui, /*scnScene:SCNScene=SCNScene(), */eventHandler: @escaping EventHandler={_ in}) { // ScnBase(scnScene:eventHandler)
-		//let scnScene 			= scnScene 		// try SCNScene(named: "art.scnassets/MyScene.scn")
+	init(gui:Gui, scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in}) { // ScnBase(gui:Gui, scnScene:eventHandler)
+		// try SCNScene(named: "art.scnassets/MyScene.scn")
 	//	assert(gui != nil, "gui == nil")
-	//	gui?.getScene 				= scnScene
-	//	gui?.getScene.rootNode.name = "tree"
+		gui.getScene 			= scnScene
+		gui.getScene!.rootNode.name = "tree"
 		self.gui				= gui									//self.scene!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
  		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -680,6 +681,10 @@ extension SCNView {		//
 	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
 }
 extension SCNView : Gui {
+	func makeScenery(anchorEntity:AnchorEntity) {
+		bug
+	}
+	
 	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
 	/// SceneKit's Gui
 	var isScnView: Bool		{ true		}
@@ -687,9 +692,9 @@ extension SCNView : Gui {
 		get {	gui?.vewBase													}
 		set {	gui?.vewBase		= newValue									}
 	}
-	var getScene:SCNScene {
-		get {	self.getScene														}
-		set {	gui!.getScene			= newValue									}
+	var getScene : SCNScene? {
+		get {	self.scene														}
+		set {	self.scene			= newValue									}
 	}
 	var animatePhysics:Bool {
 		get {	gui!.animatePhysics												}

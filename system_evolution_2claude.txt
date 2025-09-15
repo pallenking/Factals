@@ -1,0 +1,38 @@
+> I would like to write an apple shell program that peeks into my 
+    longtime git repo and pulls out one system diagram that has constantly 
+    been representing my understanding of all parts of the system. To start
+     off with, I'd like to peek into the repo at a specific, pull out and 
+    look at a particular image file .png . Then have it add a frame to a 
+    movie it's accumulating.
+		>>>> Claude made an .mp4
+
+> the note "Commit xxxxxxxx morning 2025-0907" should be one line of 
+    half-sized text and place in the extreme upper left hand of each frame 
+    in purple text. Also erase all frame_xx.png files and start processing 
+    with the oldest commit and work forward in time. 50 commits, and make 
+    movie
+		>>>> Claude made an .mp4
+
+> in not show only commit number and date/time. show 3 frames/second. do 
+    all 245 commits available.
+		>>>> Claude made an .mp4
+
+> the note "Commit xxxxxxxx morning 2025-0907" should be one line of 
+    half-sized text and place in the extreme upper left hand of each frame 
+    in purple text. Also erase all frame_xx.png files and start processing 
+    with the oldest commit and work forward in time. 50 commits, and make 
+    movie
+		>>>> Claude made an .mp4
+
+> in not show only commit number and date/time. show 3 frames/second. do 
+    all 245 commits available.
+		>>>> Claude made an .mp4
+
+> do for file ApplicationViewControllerV.pages, all recoverable pages. Do
+     not show the word "Commit" in the note. Use a higher resolution
+     font.
+	 	>>>> Claude made an .mp4
+
+> for a few frames, attempt to locate similar elements in successive frames and 
+  animate to smooth their movement.
+  		>>>> Claude made an .mp4

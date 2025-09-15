@@ -304,6 +304,7 @@
 		9FEE6F272837C54E00E9E2AE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		9FEE6FD72841A70E00E9E2AE /* Vew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vew.swift; sourceTree = "<group>"; };
 		9FEE70A8284318B500E9E2AE /* SCNNode++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode++.swift"; sourceTree = "<group>"; };
+		9FF12C632E77863E00EC6ECD /* Factals.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Factals.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -442,6 +443,7 @@
 		9FEE6F092835778A00E9E2AE = {
 			isa = PBXGroup;
 			children = (
+				9FF12C632E77863E00EC6ECD /* Factals.xcodeproj */,
 				9F369DD6287C68F700196211 /* README.md */,
 				9F417F5E28EDB10A0047B359 /* TO_DO.md */,
 				9FC31EAB28E0B7820022E536 /* Install.md */,

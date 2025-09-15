@@ -10,6 +10,54 @@ import RealityKit
 import SceneKit
 import AppKit
 
+class ArView : ARView {
+	typealias Body = ARView
+	weak var delegate: SCNSceneRendererDelegate?
+}
+
+/*
+weak var delegate: (any SCNSceneRendererDelegate)? { get set }
+ */
+extension ArView : Gui {
+	func makeScenery(anchorEntity:AnchorEntity) {
+		bug//createGeometries(anchor: AnchorEntity)
+	}
+	/// RealityKit's Gui
+//	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
+	var isScnView: Bool { false }
+	var vewBase: VewBase! {
+		get {			bug; return self.vewBase								}
+		set {			bug; return self.vewBase = newValue 								}
+	}
+	var getScene : SCNScene? {
+		get { bug; return self.scene as? SCNScene								}
+		set { fatalError("RealityKit doesn't use SCNScene") 					}
+	}
+	var animatePhysics: Bool {
+		get { return true 														}
+		set { bug 																}
+	}
+	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
+		bug
+		return []
+		//		let raycast = self.raycast(from: point, allowing:.estimatedPlane, alignment:.any)
+//	//	let cgPoint 			= CGPoint(x: point.x, y: point.y)
+//	//	let xxx:ARView 			= self as! ARView
+//	//	let ray 				= xxx.raycast(from:cgPoint, allowing:.estimatedPlane, alignment:.any)
+//		let ray					= self.raycast(from: point, allowing: .estimatedPlane, alignment: .any)
+//		return ray.map { result in
+//			HitTestResult(
+//				node: result.anchor,
+//				//position: SCNVector3(result.worldTransform.columns.3.x,
+//				//					 result.worldTransform.columns.3.y,
+//				//					 result.worldTransform.columns.3.z),
+//				position: result.worldTransform.columns.3.xyz,
+//	//			distance: simd_length(result.worldTransform.columns.3.xyz)
+//			)
+//		}
+	}
+}
+
 struct RealityKitView: View {
 	@State		   var selfiePole 				 = SelfiePole()
 	@State 		   var focusPosition:Vect3 		 = Vect3(0, 0, 0)
@@ -32,13 +80,11 @@ struct RealityKitView: View {
 			}
 
 //	func makeNSViewXX() -> SCNView {
-//
 //		 // Make delegate
 //		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
 //		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
 //		assert(scnBase.gui != nil, "scnBase.gui is nil")
 //		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
-//
 //		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
 //		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 //		vewBase.gui 			= rv
@@ -353,52 +399,6 @@ struct RealityKitView: View {
 				}
 			}
 		}
-	}
-}
-class ArView : ARView {
-	typealias Body = ARView
-	weak var delegate: SCNSceneRendererDelegate?
-	
-	
-}
-
-/*
-weak var delegate: (any SCNSceneRendererDelegate)? { get set }
- */
-extension ARView : Gui {				/// RealityKit's Gui
-//	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
-	var isScnView: Bool { false }
-	var vewBase: VewBase! {
-		get {			bug; return self.vewBase								}
-		set {			bug; return self.vewBase = newValue 								}
-	}
-	var getScene: SCNScene {
-		get { self.getScene
-		fatalError("RealityKit doesn't use SCNScene") 					}
-		set { fatalError("RealityKit doesn't use SCNScene") 					}
-	}
-	var animatePhysics: Bool {
-		get { return true 														}
-		set { bug 																}
-	}
-	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
-		bug
-		return []
-		//		let raycast = self.raycast(from: point, allowing:.estimatedPlane, alignment:.any)
-//	//	let cgPoint 			= CGPoint(x: point.x, y: point.y)
-//	//	let xxx:ARView 			= self as! ARView
-//	//	let ray 				= xxx.raycast(from:cgPoint, allowing:.estimatedPlane, alignment:.any)
-//		let ray					= self.raycast(from: point, allowing: .estimatedPlane, alignment: .any)
-//		return ray.map { result in
-//			HitTestResult(
-//				node: result.anchor,
-//				//position: SCNVector3(result.worldTransform.columns.3.x,
-//				//					 result.worldTransform.columns.3.y,
-//				//					 result.worldTransform.columns.3.z),
-//				position: result.worldTransform.columns.3.xyz,
-//	//			distance: simd_length(result.worldTransform.columns.3.xyz)
-//			)
-//		}
 	}
 }
  // Scroll wheel capture using NSViewRepresentable

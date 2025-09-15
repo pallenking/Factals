@@ -37,7 +37,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
  	var cameraScn	: SCNNode?
-	{	return gui?.getScene.rootNode.findScn(named:"*-camera", maxLevel:1)	}
+	{	return gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)	}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -73,38 +73,15 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	//	objectWillChange.send()
 	}
 
-	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
-		self.partBase			= pb
-		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
-		VewBase.nVewBase 		+= 1
-
-		self.gui 				= nil
-		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
-		self.tree.vewConfig		= vewConfig
-		lookAtVew				= tree			// set default
-
-		gui?.vewBase			= self			// weak backpointer to owner (vewBase)
-	//	gui!.monitor(onChangeOf:$selfiePole)
-	//	{ [weak self] in						// scnBase.subscribe()
-	//		guard let self?.cameraScn else { 		return 								}
-	//		self!.gui.selfiePole2camera()
-	//	}
-
-	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
-	//	scnBase.monitor(onChangeOf:$selfiePole)
-	//	{ [weak self] in						// scnBase.subscribe()
-	//		if self?.cameraScn == nil {		return 								}
-	//		self!.scnBase.selfiePole2camera()
-	//	}
-	}
-
 	func configure(from:FwConfig) {
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
-		selfiePole.configure(from:from)
-	//	if let lrl				= from.bool("logRenderLocks") {
-	//		scnBase.logRenderLocks = lrl		// unset (not reset) if not present
-	//	}
+		self.selfiePole.configure(from:from)
+		if let lrl				= from.bool("logRenderLocks"),
+		  let gui				= gui as? SCNView,
+		  let scnBase			= gui.delegate as? ScnBase
+		{	scnBase.logRenderLocks	= lrl
+			//((gui as? SCNView)?.delegate as? ScnBase)?.logRenderLocks = lrl		// unset (not reset) if not present
+		}
 		if let delay			= from.float("animateVBdelay") {
 			animateVBdelay		= delay			// unset (not reset) if not present
 		}
@@ -158,6 +135,35 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 //		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
 		try container.encode(prefFps,			forKey:.prefFps					)
 		logSer(3, "Encoded")
+	}
+	init() {					// VewBase() 
+		fatalError()
+	}
+
+	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
+		self.partBase			= pb
+		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
+		VewBase.nVewBase 		+= 1
+
+		self.gui 				= nil
+		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+		self.tree.vewConfig		= vewConfig
+		lookAtVew				= tree			// set default
+
+		gui?.vewBase			= self			// weak backpointer to owner (vewBase)
+	//	gui!.monitor(onChangeOf:$selfiePole)
+	//	{ [weak self] in						// scnBase.subscribe()
+	//		guard let self?.cameraScn else { 		return 								}
+	//		self!.gui.selfiePole2camera()
+	//	}
+
+	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
+	//	scnBase.monitor(onChangeOf:$selfiePole)
+	//	{ [weak self] in						// scnBase.subscribe()
+	//		if self?.cameraScn == nil {		return 								}
+	//		self!.scnBase.selfiePole2camera()
+	//	}
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {

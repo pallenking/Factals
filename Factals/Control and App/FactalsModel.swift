@@ -51,22 +51,22 @@ import SwiftUI
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs	{	// Open one for each elt
-					let vb = NewVewBase(vewConfig:vewConfig, fwConfig:config)
+					_ = NewVewBase(vewConfig:vewConfig, fwConfig:config)
 				}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig {
-					let vb = NewVewBase(vewConfig:vewConfig, fwConfig:config)
+					_ = NewVewBase(vewConfig:vewConfig, fwConfig:config)
 				}
 				else {	panic("Confused wo38r")									}
 			}
 		}
 
 		 // Ensure 1 View
-		if false,vewBases.isEmpty {
-			// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
-			let vb = NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
-		}
+	//	if vewBases.isEmpty {			//false,
+	//		// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
+	//		_ = NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
+	//	}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) -> VewBase {
 		logBld(5, "### ---======= NewVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
@@ -75,7 +75,7 @@ import SwiftUI
 		vewBases.append(vewBase)						// Install vewBase
 														// Install in scnBase
 		vewBase.configure(from:fwConfig)
-		vewBase.gui?.getScene.rootNode.addChildNode(vewBase.tree.scn)
+//		vewBase.gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
 		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
 		vewBase.tree.openChildren(using:vewConfig)		// Open Vews per config
 		vewBase.updateVSP()							// DELETE?

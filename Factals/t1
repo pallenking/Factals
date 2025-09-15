@@ -45,3 +45,25 @@
  f9a7  | *-camera. . . . . . pI[0.0]        s 0.0< 0.001 geom:nil
  938d  | |  \camera:. . . . . 
  ddbc  | *-axis  . . . . . .                s-0.1<15.104 geom:nil (TRUNCATED)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class FactalsModel
+	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) -> VewBase
+
+struct FactalsModelView: View
+	addNewTab()
+
+Button(label:{ Text("++") })

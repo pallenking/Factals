@@ -1,7 +1,20 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xcodebuild:*)"
+      "Bash(xcodebuild:*)",
+      "Bash(chmod:*)",
+      "Bash(./quick_test.sh:*)",
+      "Bash(find:*)",
+      "Bash(./chronological_50.sh:*)",
+      "Bash(./complete_chronological.sh:*)",
+      "Bash(./complete_vertical_diagram.sh:*)",
+      "Bash(./complete_sui_diagram.sh:*)",
+      "Bash(git log:*)",
+      "Bash(python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(./ffmpeg_smooth_animation.sh:*)",
+      "Bash(ffprobe:*)",
+      "Bash(./test_extraction.sh:*)"
     ],
     "deny": [],
     "ask": []

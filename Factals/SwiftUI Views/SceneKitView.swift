@@ -79,7 +79,7 @@ import AppKit
 	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
-struct SceneKitView: NSViewRepresentable {
+struct SceneKitView : NSViewRepresentable {
 	var scnView 		 		= SCNView()		// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
@@ -89,29 +89,28 @@ struct SceneKitView: NSViewRepresentable {
 	typealias Matrix4x4 		= SCNMatrix4
 	typealias NSViewType 		= SCNView		// Type represented
 
-	func makeNSView(context: Context) -> SCNView {
-		let rv					= scnView		// ARG1
-		rv.isPlaying			= false			// book keepscnViewing
-		rv.showsStatistics		= true			// controls extra bar
-		rv.debugOptions			= 				// enable display of:
-		  [	SCNDebugOptions.showPhysicsFields]	//  regions affected by each SCNPhysicsField object
-		rv.allowsCameraControl	= true			// user may control camera	//args.options.contains(.allowsCameraControl)
-		rv.autoenablesDefaultLighting = false 	// we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
-		rv.rendersContinuously	= true			//args.options.contains(.rendersContinuously)
-		rv.preferredFramesPerSecond = Int(prefFpsC)
-
-		 // Make delegate
-		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
-		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
-		rv.getScene				= scnBase.gui!.getScene	// wrapped.scnScene //gui.scene //.scene
-
+	func makeNSView(context:Context) -> SCNView {
+		 // Make a new VewBase
 		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
 		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		vewBase.gui 			= rv
-		return rv
+		vewBase.gui 			= scnView
+		 // Make delegate ScnBase
+		let scnBase 			= ScnBase(gui:scnView)	// scnBase.gui = rv // important BACKPOINTER
+		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
+		scnView.getScene		= scnBase.gui!.getScene	// wrapped.scnScene //gui.scene //.scene
+
+		scnView.isPlaying		= false			// book keepscnViewing
+		scnView.showsStatistics	= true			// controls extra bar
+		scnView.debugOptions	= 				// enable display of:
+		  [	SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
+		scnView.allowsCameraControl	= true		// user may control camera	//args.options.contains(.allowsCameraControl)
+		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
+		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
+		scnView.preferredFramesPerSecond = Int(prefFpsC)
+		return scnView
 	}
-	func updateNSView(_ nsView: SCNView, context:Context) {
-		let scnView				= nsView as SCNView			//	scnBase.scnView
+	func updateNSView(_ scnView:SCNView, context:Context) {
+	//	let scnView				= scnView as SCNView			//	scnBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
 }

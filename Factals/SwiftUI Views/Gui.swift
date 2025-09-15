@@ -6,6 +6,7 @@
 //
 
 import SceneKit
+import RealityFoundation
 //	// // VIDEO: (OUTPUT)
 //		 // make ScnBase()				// Make SCNView
 //			// func SCNScene(for:SCNNode)		// skins for one Part. perhaps 3 .. 5 SCNNodes
@@ -32,16 +33,15 @@ import SceneKit
 // Vect4 		||	SCNVector4	|	SIMD4<Float>
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
-protocol Gui: NSView {			 /// Protypical Graphical User Interface
-//protocol Gui: AnyObject {  PW		 /// Protypical Graphical User Interface
+protocol Gui : NSView {			 /// Protypical Graphical User Interface
+//protocol Gui : AnyObject {  PW		 /// Protypical Graphical User Interface
 	var vewBase	: VewBase!		{	get set										}
 	var isScnView : Bool 		{	get											}
-//	var makeScenery:  Type 		{	get set										}
-//	var OriginMark				{	get set										}
+	func makeScenery(anchorEntity:AnchorEntity)->()//	var OriginMark				{	get set										}
 //	var cameraXform				{	get set										}
 //	var Sounds					{	get set										}
 //	var codable					{	get set										}
-	var getScene : SCNScene		{	get set										}
+	var getScene : SCNScene?	{	get set										}
 	var animatePhysics : Bool 	{	get set										}
 	 // Abstract hitTest that works for both SceneKit and RealityKit
 	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult]

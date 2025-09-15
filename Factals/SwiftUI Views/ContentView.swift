@@ -127,9 +127,9 @@ struct FactalsModelView: View {
 			Button(label:{ Text("--") })
 			{ 	deleteCurrentTab()												}
 			Button(label:{ Text("++") })
-			{	addNewTab()														}
+			{	addNewTabPreNPost()												}
 			Button(label:{ Text("Test Sound") })
-			{	let rootScn = FACTALSMODEL!.vewBases.first!.gui?.getScene.rootNode
+			{	let rootScn = FACTALSMODEL!.vewBases.first!.gui?.getScene?.rootNode
 				rootScn?.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}
 	}
@@ -143,10 +143,10 @@ struct FactalsModelView: View {
 					 }
 					 .tag(vewBase.wrappedValue.slot_)
 				}
-		//		// -3: Reality Kit
-		//		RealityKitView(/*fa ctalsModel:factalsModel*/)
-		//		 .tabItem { Label("RealityView()", systemImage: "")			}
-		//		 .tag(-3)
+			//	// -3: Reality Kit
+			//	RealityKitView(/*fa ctalsModel:factalsModel*/)
+			//	 .tabItem { Label("RealityView()", systemImage: "")			}
+			//	 .tag(-3)
 			}
 			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTabTitle()											}
@@ -156,32 +156,20 @@ struct FactalsModelView: View {
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
 		HStack (alignment:.top) {
 			VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
-	//			let guiAQ		= vewBase.wrappedValue.gui	// might have a thing
-	//			if let guiA 	= guiAQ {						// safely unwrap the optional
-					ZStack {
-						//let _ = Self._printChanges()
-						SceneKitView(prefFpsC:vewBase.prefFpsC)
-						 .frame(maxWidth: .infinity)
-						 .border(.black, width:1)
-						EventReceiver { nsEvent in // Catch events (goes underneath)
-							if let guiXA = vewBase.wrappedValue.gui as? SCNView {
-								if !guiXA.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-									guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-									print("Key '\(c)' not recognized and hence ignored...")
-								}
+				ZStack {
+					//let _ 	= Self._printChanges()
+					SceneKitView(prefFpsC:vewBase.prefFpsC)
+					 .frame(maxWidth: .infinity)
+					 .border(.black, width:1)
+					EventReceiver { nsEvent in // Catch events (goes underneath)
+						if let guiXA = vewBase.wrappedValue.gui as? SCNView {
+							if !guiXA.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+								print("Key '\(c)' not recognized and hence ignored...")
 							}
 						}
 					}
-//				} else {	// guiAQ was nil
-//					Rectangle()
-//						.fill(Color.gray.opacity(0.3))
-//						.frame(maxWidth: .infinity)
-//						.border(.red, width:1)
-//						.overlay(
-//							Text("No GUI Available")
-//							.foregroundColor(.red)
-//						)
-//				}
+				}
 			}//.frame(width: 555)
 			VStack {
 				VewBaseBar(vewBase:vewBase)
@@ -192,8 +180,8 @@ struct FactalsModelView: View {
 
 	private func updateTabTitle() {		// NO:factalsModel.partBase.title: XXXX
 	}
-	private func addNewTab() {
-		let vb = factalsModel.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+	private func addNewTabPreNPost() {
+		_ = factalsModel.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
 	}
 	private func deleteCurrentTab() {
