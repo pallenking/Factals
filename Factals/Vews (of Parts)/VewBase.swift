@@ -12,6 +12,7 @@ extension VewBase : Equatable {
 }
 class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	static var nVewBase 		= 0
+//	static var vewBase0 		= VewBase(for:Part.part0, vewConfig:[:])
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
 	var title					= "VewBase\(nVewBase)"
@@ -136,9 +137,14 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		try container.encode(prefFps,			forKey:.prefFps					)
 		logSer(3, "Encoded")
 	}
-	init() {					// VewBase() 
-		fatalError()
-	}
+//	init() {					// VewBase() 
+//		self.title = ""
+//		self.partBase 				= nil
+//		self.tree					= Vew(forPart: Part)
+////		self.scnBase 				= nil
+//		self.prefFps 				= 60.0
+////		fatalError("new code")
+//	}
 
 	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
 		self.partBase			= pb

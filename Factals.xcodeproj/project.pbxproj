@@ -379,6 +379,11 @@
 			path = FactalsTests;
 			sourceTree = "<group>";
 		};
+		9F5A33FE2E7B0A9D009B2C82 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9FAD595C29A270430065406B /* SwiftUI Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,6 +600,12 @@
 			mainGroup = 9FEE6F092835778A00E9E2AE;
 			productRefGroup = 9FEE6F132835778A00E9E2AE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9F5A33FE2E7B0A9D009B2C82 /* Products */;
+					ProjectRef = 9FF12C632E77863E00EC6ECD /* Factals.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9FEE6F112835778A00E9E2AE /* Factals */,

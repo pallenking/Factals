@@ -40,6 +40,7 @@ custom getter from UIFile
  */
 import SwiftUI
 import SceneKit
+import Combine
 
 struct ContentView: View {
 	@Binding var document : FactalsDocument
@@ -110,6 +111,7 @@ struct ContentView: View {
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel
 	@State private var tabViewSelect : Int	= 0
+	@State private var evaluationTrigger = PassthroughSubject<Int, Never>()
 
 	var body: some View {
 		//let _ = Self._printChanges()
@@ -148,9 +150,16 @@ struct FactalsModelView: View {
 			//	 .tabItem { Label("RealityView()", systemImage: "")			}
 			//	 .tag(-3)
 			}
-			.onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+			 .onChange(of: factalsModel.vewBases, initial:true) { _,_  in
 				updateTabTitle()											}
-			.accentColor(.green) // Change the color of the selected tab
+			 .onChange(of: tabViewSelect) { _, newValue in
+				evaluationTrigger.send(newValue)
+			 }
+			 .onReceive(evaluationTrigger) { newSelection in
+			  // Pre-evaluation logic
+			  print("Pre-evaluating for selection: \(newSelection)")
+			 }
+			 .accentColor(.green) // Change the color of the selected tab
 		}
 	}
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
@@ -183,6 +192,7 @@ struct FactalsModelView: View {
 	private func addNewTabPreNPost() {
 		_ = factalsModel.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
+//		factalsModel.vewBases.removeLast()	// KROCK OF S***
 	}
 	private func deleteCurrentTab() {
 		factalsModel.vewBases.removeFirst(tabViewSelect)

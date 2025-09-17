@@ -6,7 +6,7 @@
 //
 
 import SceneKit
-import RealityFoundation
+import RealityKit
 //	// // VIDEO: (OUTPUT)
 //		 // make ScnBase()				// Make SCNView
 //			// func SCNScene(for:SCNNode)		// skins for one Part. perhaps 3 .. 5 SCNNodes
