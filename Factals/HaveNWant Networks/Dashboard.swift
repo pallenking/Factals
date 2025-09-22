@@ -26,7 +26,7 @@ let params4logDetail : FwConfig =	// Set events to be logged
 	/* " except  review, resize 			*/	logAt(9, rve:0, rsi:0) +
 
 	[							// + +  + +
-		"breakAtEvent"				:-357,//-208,//150//-54,//240/3/0:off
+		"breakAtEvent"				:-26,//-208,//150//-54,//240/3/0:off
 								// + +  + +
 
 		"debugOutterLock"			: false, 	//true//false// Helpful logging, quite noisy

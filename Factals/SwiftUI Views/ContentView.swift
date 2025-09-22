@@ -42,6 +42,16 @@ import SwiftUI
 import SceneKit
 import Combine
 
+struct LazyView<Content: View>: View {
+	let build: () -> Content
+	init(_ build: @escaping () -> Content) {
+		self.build = build
+	}
+	var body: Content {
+		build()
+	}
+}
+
 struct ContentView: View {
 	@Binding var document : FactalsDocument
 	@State var prefFps = Float(0.5)
@@ -73,7 +83,7 @@ struct ContentView: View {
 //				.frame(maxWidth: .infinity)
 //				.border(.black, width:1)
 //			EventReceiver { nsEvent in // Catch events (goes underneath)
-//				//print("Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
+//				//logApp(3, "Recieved NSEvent.locationInWindow\(nsEvent.locationInWindow)")
 //				let _ 			= scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase!.tree)
 //			}
 //		}
@@ -150,47 +160,56 @@ struct FactalsModelView: View {
 			//	 .tabItem { Label("RealityView()", systemImage: "")			}
 			//	 .tag(-3)
 			}
+			 .task(id: tabViewSelect) {
+				// This triggers BEFORE the new content view is generated
+				logApp(3, "NavigationStack[\(tabViewSelect)].task(id): Pre-evaluating")
+				// Your pre-evaluation logic here
+			 }
 			 .onChange(of: factalsModel.vewBases, initial:true) { _,_  in
+				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of): updateTabTitle")
 				updateTabTitle()											}
 			 .onChange(of: tabViewSelect) { _, newValue in
 				evaluationTrigger.send(newValue)
 			 }
 			 .onReceive(evaluationTrigger) { newSelection in
 			  // Pre-evaluation logic
-			  print("Pre-evaluating for selection: \(newSelection)")
+				logApp(3, "NavigationStack[\(tabViewSelect)].onReceive(evaluationTrigger): Pre-evaluating")
 			 }
 			 .accentColor(.green) // Change the color of the selected tab
 		}
 	}
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
-		HStack (alignment:.top) {
-			VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
-				ZStack {
-					//let _ 	= Self._printChanges()
-					SceneKitView(prefFpsC:vewBase.prefFpsC)
-					 .frame(maxWidth: .infinity)
-					 .border(.black, width:1)
-					EventReceiver { nsEvent in // Catch events (goes underneath)
-						if let guiXA = vewBase.wrappedValue.gui as? SCNView {
-							if !guiXA.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-								print("Key '\(c)' not recognized and hence ignored...")
+		LazyView {
+			logApp(3, "NavigationStack:\(tabViewSelect): Generating content for tab: \(vewBase.wrappedValue.slot_)")
+			return HStack (alignment:.top) {
+				VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
+					ZStack {
+						//let _ 	= Self._printChanges()
+						SceneKitView(prefFpsC:vewBase.prefFpsC)
+						 .frame(maxWidth: .infinity)
+						 .border(.black, width:1)
+						EventReceiver { nsEvent in // Catch events (goes underneath)
+							if let guiXA = vewBase.wrappedValue.gui as? SCNView {
+								if !guiXA.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+									guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+									logApp(3, "Key '\(c)' not recognized and hence ignored...")
+								}
 							}
 						}
 					}
-				}
-			}//.frame(width: 555)
-			VStack {
-				VewBaseBar(vewBase:vewBase)
-				InspectorsVew(vewBase:vewBase.wrappedValue)
-			}.frame(width:400)
+				}//.frame(width: 555)
+				VStack {
+					VewBaseBar(vewBase:vewBase)
+					InspectorsVew(vewBase:vewBase.wrappedValue)
+				}.frame(width:400)
+			}
 		}
 	}
 
 	private func updateTabTitle() {		// NO:factalsModel.partBase.title: XXXX
 	}
 	private func addNewTabPreNPost() {
-		_ = factalsModel.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+	//	_ = factalsModel.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
 //		factalsModel.vewBases.removeLast()	// KROCK OF S***
 	}
@@ -235,7 +254,7 @@ struct SelfiePoleBar2: View   {													//xyzzy15.5
 				LabeledCGFloat(label:"gaze", val:$selfiePole.gaze, oneLine:false)
 				LabeledCGFloat(label:"zoom", val:$selfiePole.zoom, oneLine:false)
 	//		}
-	//		.onChange(of: selfiePole.zoom) { print(".onChange(of:selfiePole.zoom:",$0, $1) }
+	//		.onChange(of: selfiePole.zoom) { logApp(3, .onChange(of:selfiePole.zoom:",$0, $1) }
 	//		.background(Color(red:1.0, green:0.9, blue:0.9))	// pink
 		}
 		// .padding(6)

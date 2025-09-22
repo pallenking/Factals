@@ -90,21 +90,20 @@ struct SimulatorBar : View {
 					simulator.simRun = false									}
 				Text(" timeNow=")
 				TextField("timeNow=", value:$simulator.timeNow,
-					format:.number.precision(.significantDigits(5))).frame(width:80)
-				Text(" volume=")
-				TextField("volume=", value:$volume,
-					format:.number.precision(.significantDigits(5))).frame(width:80)
-				Spacer()
+					format:.number.precision(.significantDigits(3))).frame(width:50)
 
 				Text("timeStep:")
 				TextField("timeStep=", value:$simulator.timeStep,
-					format:.number.precision(.significantDigits(5))).frame(width:70)
-
+					format:.number.precision(.significantDigits(3))).frame(width:50)
 				Text("taskPeriod:")
 				TextField("taskPeriod=", value:$simulator.simTaskPeriod,
-					format:.number.precision(.significantDigits(5))).frame(width:70)
+					format:.number.precision(.significantDigits(3))).frame(width:50)
 		//		Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
 		//			.frame(width:100 )
+				Spacer()
+				Text(" volume=")
+				TextField("volume", value:$volume,
+					format:.number.precision(.significantDigits(3))).frame(width:50)
 			}}
 		}
 	}
