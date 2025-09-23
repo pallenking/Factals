@@ -101,7 +101,7 @@ struct SimulatorBar : View {
 		//		Slider(value:$simulator.timeStep, in: 0.0...0.1) { e in }//isEditing = e	}
 		//			.frame(width:100 )
 				Spacer()
-				Text(" volume=")
+				Text(" volume")
 				TextField("volume", value:$volume,
 					format:.number.precision(.significantDigits(3))).frame(width:50)
 			}}

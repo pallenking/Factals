@@ -7,19 +7,18 @@ import SwiftUI
  class FactalsModel : Uid {
 	let nameTag					= getNametag()
  	var epoch: UInt16			= 1				// to mark dirty
-
 	  // MARK: - 2. Object Variables:
 	var fmConfig  : FwConfig
 	var partBase  : PartBase
 	var simulator : Simulator
 	var vewBases  : [VewBase] 	= []
+
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
 			//if ((vewBase.gui?.scnBase.keyIsDown) != nil) { return true 					}
 		}
 		return false
 	}
-
 	 // MARK: - 3. Factory
 	init(partBase pb:PartBase, configure c:FwConfig) {	// FactalsModel(partBase:)
 		partBase				= pb
@@ -69,7 +68,8 @@ import SwiftUI
 	//	}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) -> VewBase {
-		logBld(5, "### ---======= NewVewBase\(vewBases.count)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
+		let newVbInd			= vewBases.count
+		logApp(5, "### ---======= NewVewBase\(newVbInd)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 		let vewBase				= VewBase(for:partBase, vewConfig:vewConfig) // Create
 		vewBase.factalsModel	= self					// Backpointer
 		vewBases.append(vewBase)						// Install vewBase
@@ -80,7 +80,7 @@ import SwiftUI
 		vewBase.tree.openChildren(using:vewConfig)		// Open Vews per config
 		vewBase.updateVSP()							// DELETE?
 
-		logBld(5, "---====--- NewVewBase() done \(vewBase.pp(.tagClass)) ")
+		logApp(5, "---====--- NewVewBase\(newVbInd) -> \(vewBase.pp(.tagClass)) ")
 		return vewBase
 	}
 					//	//	// FileDocument requires these interfaces:
@@ -406,7 +406,7 @@ import SwiftUI
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.gui?.getScene ?? {	debugger("") } ()//scnBase
+			let rootVews0scene	= vewBases.first?.gui?.getScene ?? {debugger("")}()	//scnBase
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 						else { debugger("writing dumpSCN.\(suffix) failed")	}
 		case "V":								// Update Views

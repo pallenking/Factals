@@ -160,31 +160,42 @@ struct FactalsModelView: View {
 			//	 .tabItem { Label("RealityView()", systemImage: "")			}
 			//	 .tag(-3)
 			}
-			 .task(id: tabViewSelect) {
-				// This triggers BEFORE the new content view is generated
+			 .task(id:tabViewSelect) {
+				 // This triggers BEFORE the new content view is generated
 				logApp(3, "NavigationStack[\(tabViewSelect)].task(id): Pre-evaluating")
-				// Your pre-evaluation logic here
+				 // Your pre-evaluation logic here
 			 }
-			 .onChange(of: factalsModel.vewBases, initial:true) { _,_  in
-				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of): updateTabTitle")
+			 .onChange(of:factalsModel.vewBases, initial:true) { a,b  in
+				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:vewBases): updateTabTitle")
 				updateTabTitle()											}
-			 .onChange(of: tabViewSelect) { _, newValue in
+
+			 .onChange(of:tabViewSelect) { oldValue, newValue in
+				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:tabViewSelect(\(oldValue)->\(newValue))): evaluationTrigger.send(\(newValue))")
 				evaluationTrigger.send(newValue)
 			 }
 			 .onReceive(evaluationTrigger) { newSelection in
-			  // Pre-evaluation logic
+				 // Pre-evaluation logic
 				logApp(3, "NavigationStack[\(tabViewSelect)].onReceive(evaluationTrigger): Pre-evaluating")
 			 }
 			 .accentColor(.green) // Change the color of the selected tab
-		}
+ 		}
 	}
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
-		LazyView {
-			logApp(3, "NavigationStack:\(tabViewSelect): Generating content for tab: \(vewBase.wrappedValue.slot_)")
+//		return HStack (alignment:.top) {
+//			VStack {									//Binding<VewBase>
+//				let SeeView 	= vewBase.wrappedValue.SeeView
+//				ZStack {
+//					//let _ 	= Self._printChanges()
+//					SceneKitView(scnView:SeeView as? SCNView, prefFpsC:vewBase.prefFpsC)
+
+	//	LazyView {
+	//		logApp(3, "NavigationStack:\(tabViewSelect): Generating content for tab: \(vewBase.wrappedValue.slot_)")
 			return HStack (alignment:.top) {
 				VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
+					//let SeeView = vewBase.wrappedValue.SeeView
 					ZStack {
-						//let _ 	= Self._printChanges()
+						//let _ = Self._printChanges()
+						//SceneKitView(scnView:SeeView as? SCNView, prefFpsC:vewBase.prefFpsC)
 						SceneKitView(prefFpsC:vewBase.prefFpsC)
 						 .frame(maxWidth: .infinity)
 						 .border(.black, width:1)
@@ -203,14 +214,15 @@ struct FactalsModelView: View {
 					InspectorsVew(vewBase:vewBase.wrappedValue)
 				}.frame(width:400)
 			}
-		}
+		//}
 	}
 
 	private func updateTabTitle() {		// NO:factalsModel.partBase.title: XXXX
 	}
 	private func addNewTabPreNPost() {
-	//	_ = factalsModel.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		tabViewSelect 			= factalsModel.vewBases.count - 1	// set to newly added
+		let x  					= factalsModel.NewVewBase(vewConfig:.openAllChildren(
+									  toDeapth:5), fwConfig:[:])
+		tabViewSelect 			= factalsModel.vewBases.count - 1	// newly added is at end
 //		factalsModel.vewBases.removeLast()	// KROCK OF S***
 	}
 	private func deleteCurrentTab() {
