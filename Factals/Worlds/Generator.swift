@@ -109,3 +109,4 @@ class Generator : Net {
 bug;	return super.equalsFW(rhs)
 	}
 }
+

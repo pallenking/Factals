@@ -219,11 +219,13 @@ struct FactalsModelView: View {
 
 	private func updateTabTitle() {		// NO:factalsModel.partBase.title: XXXX
 	}
-	private func addNewTabPreNPost() {
-		let x  					= factalsModel.NewVewBase(vewConfig:.openAllChildren(
-									  toDeapth:5), fwConfig:[:])
+	private func addNewTabPreNPost() {	// was factalsModel.NewVewBase(..)
+bug;	let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		vewBase.factalsModel	= factalsModel
+//		vewBase.partBase		= partBase
+//		vewBase.gui 			= scnView
+		factalsModel.vewBases.append(vewBase)
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// newly added is at end
-//		factalsModel.vewBases.removeLast()	// KROCK OF S***
 	}
 	private func deleteCurrentTab() {
 		factalsModel.vewBases.removeFirst(tabViewSelect)

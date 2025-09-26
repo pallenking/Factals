@@ -11,15 +11,15 @@ extension VewBase : Equatable {
 	}
 }
 class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
-	static var nVewBase 		= 0
+	static var nVewBases 		= 0
 //	static var vewBase0 		= VewBase(for:Part.part0, vewConfig:[:])
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
-	var title					= "VewBase\(nVewBase)"
+	var title					= "VewBase\(nVewBases)"
 	weak
-	 var factalsModel : FactalsModel!	// Our Owner
+	 var factalsModel : FactalsModel?		// Our Owner
 	weak
-	 var partBase	  : PartBase!		//, or a friend of his
+	 var partBase	  : PartBase!			//, or a friend of his
 
 	var tree		  : Vew
 	var gui	 	 	  : Gui?			// attached and used from here
@@ -28,7 +28,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	//   'SelfiePole' conform to 'Publisher'
 	@Published							// subscribe to selfiePole.sink for changes
 	 var selfiePole 			= SelfiePole()
-	var lookAtVew	  : Vew!			// Vew we are looking at
+	var lookAtVew	  : Vew!	= nil	// Vew we are looking at
 
 	var animateVBdelay: Float	= 0.3
 	var prefFps		  : Float	= 30.0
@@ -88,16 +88,17 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		}
 	}
 	// MARK: -
-	func setupSceneVisuals(fwConfig:FwConfig) {
+	func configOfSceneVisuals(fwConfig:FwConfig) {
 
-		 // 3. Add Lights, Camera and SelfiePole
+		 // Add Lights, Camera and SelfiePole
 //		scnBase.lightsOn()
 //		scnBase.cameraOn()				// (had factalsModel.document.config)
 //		let _ /*axesScn*/		= scnBase.touchAxesScn()
 
-		 // 4.  Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
+		guard let factalsModel else {	fatalError("factalsModel is nil!"); return }
+		 // Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 		selfiePole.configure(from:factalsModel.fmConfig)
-		 // 5.  Configure Initial Camera Target:
+		 // Configure Initial Camera Target:
 		lookAtVew				= tree		// default is trunk
 		if let laStr			= factalsModel.fmConfig.string("lookAt"),
 		  laStr != "",
@@ -139,17 +140,33 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	}
 //	init() {					// VewBase() 
 //		self.title = ""
-//		self.partBase 				= nil
-//		self.tree					= Vew(forPart: Part)
-////		self.scnBase 				= nil
-//		self.prefFps 				= 60.0
+//		self.partBase 			= nil
+//		self.tree				= Vew(forPart: Part)
+////		self.scnBase   				= nil
+//		self.prefFps 			= 60.0
 ////		fatalError("new code")
 //	}
+	/// Moved from FactalsModel.swift
+	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {
+		let newVbInd			= -22//vewBases.count
+		logApp(5, "### ---======= VewBase\(newVbInd)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
+
+		let partBase			= PartBase(fromLibrary:"xr()")
+		self.init(for:partBase, vewConfig:vewConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
+														// Install in scnBase
+		configure(from:fwConfig)
+//		gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
+		configOfSceneVisuals(fwConfig:fwConfig)			// Lights and Camera
+		tree.openChildren(using:vewConfig)				// Open Vews per config
+		updateVSP()									// DELETE?
+
+		logApp(5, "---====--- VewBase\(newVbInd) -> \(pp(.tagClass)) ")
+	}
 
 	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
 		self.partBase			= pb
 		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
-		VewBase.nVewBase 		+= 1
+		VewBase.nVewBases 		+= 1
 
 		self.gui 				= nil
 		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

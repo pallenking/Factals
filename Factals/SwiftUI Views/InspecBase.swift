@@ -124,7 +124,7 @@ struct InspecTest : View {
 			/// WHY: Instance method 'appendInterpolation(_:formatter:)' requires that 'FwAny?' inherit from 'NSObject'
 			TextField("placeSelfy", text:$placeSelfy).frame(width:40)
 //				.textFieldStyle(RoundedBorderTextFieldStyle)	/// BROKEN
-				.onChange(of:placeSelfy) { newVal in 	// min 35: https://www.youtube.com/watch?v=uitE6bmeFxM
+				.onChange(of:placeSelfy) { _, newVal in 	// min 35: https://www.youtube.com/watch?v=uitE6bmeFxM
 					print("placeSelfy: \(placeSelfy)  --> \(newVal)")
 				}
 

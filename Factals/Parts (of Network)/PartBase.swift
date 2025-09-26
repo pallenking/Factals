@@ -49,7 +49,7 @@ class PartBase : Codable, ObservableObject, Uid {
 		{
 			hnwMachine		= hnwm
 			hnwMachine.sourceOfTest	= "\(hnwMachine.testNum) \(hnwMachine.fileName ?? "<unnamed>"):" +
-								  "\(hnwMachine.lineNumber ?? -99)"
+								  	  "\(hnwMachine.lineNumber ?? -99)"
 			tree			= newTree
 		}
 		else {

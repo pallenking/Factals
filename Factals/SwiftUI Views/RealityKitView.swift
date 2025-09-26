@@ -78,24 +78,17 @@ struct RealityKitView: View {
 				 .border(Color.gray, width: 3)
 				 .frame(width:800, height:20)
 			}
-
-//	func makeNSViewXX() -> SCNView {
-//		 // Make delegate
-//		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
-//		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
-//		assert(scnBase.gui != nil, "scnBase.gui is nil")
-//		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
-//		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
-//		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-//		vewBase.gui 			= rv
-//		return rv
-//	}
 			RealityView { content in
 				let anchor 			= AnchorEntity(.world(transform: matrix_identity_float4x4))
 				anchor.name 		= "mainAnchor"		// Create anchor for the scene
 	/**/		createGeometries(anchor:anchor)
 				content.add(anchor)
 				print("RealityView loaded with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation) \n\t translation: \(anchor.transform.translation)")
+		//		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
+		//		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
+		//		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
+		//		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		//		vewBase.gui 			= rv
 			} update: { content in
 			  // Update camera transform using SelfiePole mathematics
 				if let anchor 		= content.entities.first(where: { $0.name == "mainAnchor" }) {

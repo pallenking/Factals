@@ -15,7 +15,8 @@ import SwiftUI
 
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-			//if ((vewBase.gui?.scnBase.keyIsDown) != nil) { return true 					}
+	//		if ((vewBase.gui?.delegate as? ScnBase)?.keyIsDown) != nil) { return true 					}
+//			if ((vewBase.gui?.scnBase.keyIsDown) != nil) { return true 					}
 		}
 		return false
 	}
@@ -39,80 +40,31 @@ import SwiftUI
 	}
 
 	func createVews(from config:FwConfig) {
-
-	//	 // Update existing VewBases with new config
-	//	for vewBase in vewBases {
-	//		vewBase.configure(from:config)
-	//	}
-
-		 // Create new Views from config
+		 // Create new Views from FwConfig
 		for (key, value) in config {				// params4all
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
-				for vewConfig in vewConfigs	{	// Open one for each elt
-					_ = NewVewBase(vewConfig:vewConfig, fwConfig:config)
-				}
+				for vewConfig in vewConfigs			// Open one for each elt
+				{	NewVewBase(vewConfig:vewConfig, fwConfig:config)			}
 			}
 			else if key.hasPrefix("Vew") {
-				if let vewConfig = value as? VewConfig {
-					_ = NewVewBase(vewConfig:vewConfig, fwConfig:config)
-				}
+				if let vewConfig = value as? VewConfig
+				{	NewVewBase(vewConfig:vewConfig, fwConfig:config)			}
 				else {	panic("Confused wo38r")									}
 			}
 		}
 
 		 // Ensure 1 View
-	//	if vewBases.isEmpty {			//false,
-	//		// logBld(3, warning("xr()'s config contains no \"Vew\". Setting it avoids this"))
-	//		_ = NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
-	//	}
+		if vewBases.isEmpty 			//false,
+		{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
 	}
-	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) -> VewBase {
-		let newVbInd			= vewBases.count
-		logApp(5, "### ---======= NewVewBase\(newVbInd)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
-		let vewBase				= VewBase(for:partBase, vewConfig:vewConfig) // Create
-		vewBase.factalsModel	= self					// Backpointer
-		vewBases.append(vewBase)						// Install vewBase
-														// Install in scnBase
-		vewBase.configure(from:fwConfig)
-//		vewBase.gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
-		vewBase.setupSceneVisuals(fwConfig:fwConfig)	// Lights and Camera
-		vewBase.tree.openChildren(using:vewConfig)		// Open Vews per config
-		vewBase.updateVSP()							// DELETE?
-
-		logApp(5, "---====--- NewVewBase\(newVbInd) -> \(vewBase.pp(.tagClass)) ")
-		return vewBase
+	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
+		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:fwConfig)
+		vewBase.partBase		= partBase
+		vewBase.factalsModel	= self
+//		vewBase.gui 			= scnView
+		vewBases.append(vewBase)
 	}
-					//	//	// FileDocument requires these interfaces:
-					//		 // Data in the SCNScene
-					//		var data : Data? {
-					//	bug;return nil
-					//	//		do {		// 1. Write SCNScene to file. (older, SCNScene supported serialization)
-					//	//			try self.document.write(to: fileURL)
-					//	//		} catch {
-					//	//			print("error writing file: \(error)")
-					//	//		}
-					//	//					// 2. Get file to data
-					//	//		let data				= try? Data(contentsOf:fileURL)
-					//	//		return data//Cannot convert value of type '() -> ()' to expected argument type 'Int'
-					//		}
-					//		 // initialize new SCNScene from Data
-					//		convenience init?(data:Data, encoding:String.Encoding) {
-					//			debugger("FactalsModel.init?(data:Data")
-					//		//	do {		// 1. Write data to file.
-					//		//		try data.write(to: fileURL)
-					//		//	} catch {
-					//		//		print("error writing file: \(error)")
-					//		//	}
-					//		//	self.init()
-					//	//		do {		// 2. Init self from file
-					//	//			try self.init(fwConfig:[:])
-					//	//	//		try super.init(url: fileURL)
-					//	//		} catch {
-					//	//			print("error initing from url: \(error)")
-					//	//			return nil
-					//	//		}
-					//		}
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
 	func encode(to encoder: Encoder) throws  {
