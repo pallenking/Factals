@@ -220,7 +220,7 @@ struct FactalsModelView: View {
 	private func updateTabTitle() {		// NO:factalsModel.partBase.title: XXXX
 	}
 	private func addNewTabPreNPost() {	// was factalsModel.NewVewBase(..)
-bug;	let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		vewBase.factalsModel	= factalsModel
 //		vewBase.partBase		= partBase
 //		vewBase.gui 			= scnView

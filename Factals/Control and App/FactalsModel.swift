@@ -55,11 +55,11 @@ import SwiftUI
 		}
 
 		 // Ensure 1 View
-		if vewBases.isEmpty 			//false,
-		{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
+	//	if vewBases.isEmpty 			//false,
+	//	{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:fwConfig)
+		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)//openAllChildren(toDeapth:5)
 		vewBase.partBase		= partBase
 		vewBase.factalsModel	= self
 //		vewBase.gui 			= scnView

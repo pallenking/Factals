@@ -154,17 +154,17 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		let partBase			= PartBase(fromLibrary:"xr()")
 		self.init(for:partBase, vewConfig:vewConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 														// Install in scnBase
-		configure(from:fwConfig)
-//		gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
-		configOfSceneVisuals(fwConfig:fwConfig)			// Lights and Camera
-		tree.openChildren(using:vewConfig)				// Open Vews per config
-		updateVSP()									// DELETE?
+	//	configure(from:fwConfig)
+//	//	gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
+	//	configOfSceneVisuals(fwConfig:fwConfig)			// Lights and Camera
+	//	tree.openChildren(using:vewConfig)				// Open Vews per config
+	//	updateVSP()									// DELETE?
 
 		logApp(5, "---====--- VewBase\(newVbInd) -> \(pp(.tagClass)) ")
 	}
 
 	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
-		self.partBase			= pb
+bug;	self.partBase			= pb
 		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
 		VewBase.nVewBases 		+= 1
 
