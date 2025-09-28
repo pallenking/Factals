@@ -22,8 +22,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 var partBase	  : PartBase!			//, or a friend of his
 
 	var tree		  : Vew
-	var vewConfig	  : VewConfig
-	var fwConfig	  : FwConfig
+//	var vewConfig	  : VewConfig
+//	var fwConfig	  : FwConfig
 	var gui	 	 	  : Gui?			// attached and used from here
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
@@ -150,8 +150,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	}
 
 	init(for pb:PartBase, vewConfig:VewConfig, fwConfig:FwConfig) {	 			/// VewBase(for:) ///
-		self.vewConfig			= vewConfig
-		self.fwConfig			= fwConfig
+	//	self.vewConfig			= vewConfig
+	//	self.fwConfig			= fwConfig
 		self.partBase			= pb
 		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
 		VewBase.nVewBases 		+= 1
@@ -185,9 +185,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
-		fwConfig				= [:]
-		vewConfig				= VewConfig.nothing
-		//super.init() // NSObject
+	//	fwConfig				= [:]
+	//	vewConfig				= VewConfig.nothing
 		logSer(3, "Decoded  as? Vew \(ppUid(self))")
 	}
 
