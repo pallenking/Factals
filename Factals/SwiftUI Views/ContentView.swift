@@ -121,6 +121,7 @@ struct ContentView: View {
 struct FactalsModelView: View {
 	@Bindable var factalsModel : FactalsModel
 	@State private var tabViewSelect : Int	= 0
+	@State private var tabViewAddCt  : Int	= 0
 	@State private var evaluationTrigger = PassthroughSubject<Int, Never>()
 
 	var body: some View {
@@ -139,20 +140,21 @@ struct FactalsModelView: View {
 			Button(label:{ Text("--") })
 			{ 	deleteCurrentTab()												}
 			Button(label:{ Text("++") })
-			{	addNewTabPreNPost()												}
+			{	addNewTabPre()													}
 			Button(label:{ Text("Test Sound") })
-			{	let rootScn = FACTALSMODEL!.vewBases.first!.gui?.getScene?.rootNode
-				rootScn?.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
+			{	guard let rootScn = FACTALSMODEL?.vewBases.first?.gui?.getScene?.rootNode
+				 else { print("no rootScn found to play sound"); return}
+				rootScn.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}
 	}
 	private var navigationView: some View {
-		NavigationStack {
-			TabView(selection:$tabViewSelect)  {
+		let _ = Self._printChanges()
+		return NavigationStack {
+			TabView(selection:$tabViewSelect) {
 				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
-					tabContentView(vewBase: vewBase)
-					 .tabItem {
-						Label(vewBase.wrappedValue.title, systemImage: "")	//vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
-					 }
+					tabContentView(vewBase:vewBase)
+					 .tabItem
+					 {	Label(vewBase.wrappedValue.title, systemImage: "")		} //vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
 					 .tag(vewBase.wrappedValue.slot_)
 				}
 			//	// -3: Reality Kit
@@ -160,36 +162,35 @@ struct FactalsModelView: View {
 			//	 .tabItem { Label("RealityView()", systemImage: "")			}
 			//	 .tag(-3)
 			}
-			 .task(id:tabViewSelect) {
-				 // This triggers BEFORE the new content view is generated
-				logApp(3, "NavigationStack[\(tabViewSelect)].task(id): Pre-evaluating")
-				 // Your pre-evaluation logic here
-			 }
+												//	 .task(id:tabViewSelect) {
+												//		 // This triggers BEFORE the new content view is generated
+												//		logApp(3, "NavigationStack[\(tabViewSelect)].task(id): Pre-evaluating")
+												//		 // Your pre-evaluation logic here
+												//	 }
+												//	 .task(id:tabViewAddCt) {			// on change of tabViewAddCt
+												//		 // This triggers BEFORE the new content view is generated
+												//		logApp(3, "NavigationStack[\(tabViewSelect)].task(    tabViewAddCt):\(tabViewAddCt)=>\(tabViewAddCt+1)")
+												//	//	tabViewAddCt		+= 1
+												//		 // Your pre-evaluation logic here
+												//	 }
 			 .onChange(of:factalsModel.vewBases, initial:true) { a,b  in
-				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:vewBases): updateTabTitle")
-				updateTabTitle()											}
-
+				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:vewBases): vewBases:\(a)->\(b)")
+				updateTabTitle()												}
 			 .onChange(of:tabViewSelect) { oldValue, newValue in
 				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:tabViewSelect(\(oldValue)->\(newValue))): evaluationTrigger.send(\(newValue))")
-				evaluationTrigger.send(newValue)
-			 }
-			 .onReceive(evaluationTrigger) { newSelection in
-				 // Pre-evaluation logic
-				logApp(3, "NavigationStack[\(tabViewSelect)].onReceive(evaluationTrigger): Pre-evaluating")
+				evaluationTrigger.send(newValue)								}
+			 .onChange(of:tabViewAddCt) { oldValue, newValue in
+				logApp(3, "NavigationStack[\(tabViewSelect)] onChange tabViewAddCt:\(oldValue)=>\(newValue)")
+				evaluationTrigger.send(newValue)								}
+			 .onReceive(evaluationTrigger) { newSelection in	 // Invalidate View on evaluationTrigger.
+				logApp(3, "NavigationStack[\(tabViewSelect)].onReceive(evaluationTrigger \(newSelection): causes redraw of \($factalsModel.vewBases.count) vewBases")
 			 }
 			 .accentColor(.green) // Change the color of the selected tab
  		}
 	}
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
-//		return HStack (alignment:.top) {
-//			VStack {									//Binding<VewBase>
-//				let SeeView 	= vewBase.wrappedValue.SeeView
-//				ZStack {
-//					//let _ 	= Self._printChanges()
-//					SceneKitView(scnView:SeeView as? SCNView, prefFpsC:vewBase.prefFpsC)
-
 	//	LazyView {
-	//		logApp(3, "NavigationStack:\(tabViewSelect): Generating content for tab: \(vewBase.wrappedValue.slot_)")
+			logApp(3, "NavigationStack:\(tabViewSelect): Generating content for tab: \(vewBase.wrappedValue.slot_)")
 			return HStack (alignment:.top) {
 				VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
 					//let SeeView = vewBase.wrappedValue.SeeView
@@ -217,15 +218,16 @@ struct FactalsModelView: View {
 		//}
 	}
 
-	private func updateTabTitle() {		// NO:factalsModel.partBase.title: XXXX
-	}
-	private func addNewTabPreNPost() {	// was factalsModel.NewVewBase(..)
+	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
+	private func addNewTabPre()	  {		// was factalsModel.NewVewBase(..)
+	 // OLD WAY:
 		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		vewBase.factalsModel	= factalsModel
-//		vewBase.partBase		= partBase
-//		vewBase.gui 			= scnView
 		factalsModel.vewBases.append(vewBase)
 		tabViewSelect 			= factalsModel.vewBases.count - 1	// newly added is at end
+
+		logApp(3, "Modify tabViewAddCt (\(tabViewAddCt)->\(tabViewAddCt+1)) to cause redraw of VewBases.")
+		tabViewAddCt			+= 1
 	}
 	private func deleteCurrentTab() {
 		factalsModel.vewBases.removeFirst(tabViewSelect)

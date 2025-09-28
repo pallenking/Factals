@@ -159,7 +159,7 @@ bug;	urlStr      			= String(urlStr[index...])
 			andSelector:#selector(handleGetURLEvent(event:withReplyEvent:)),
 			forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
 		//sounds.play(sound:"GameStarting")
-		logApp(5, ppControllers())
+		logApp(5, "Controller State:\n" + ppControllers())
 		logApp(3, "------------- FactalsAppDelegate: Application Did Finish Launching --------------\n")
 	}
 	func appPreferences(_ sender: Any)		{ bug }	// Show App preferences

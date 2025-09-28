@@ -22,6 +22,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 var partBase	  : PartBase!			//, or a friend of his
 
 	var tree		  : Vew
+	var vewConfig	  : VewConfig
+	var fwConfig	  : FwConfig
 	var gui	 	 	  : Gui?			// attached and used from here
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
@@ -47,11 +49,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var verbose 				= false		// (unused)
 	 // Sugar
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
-	 var slot_ 		: Int 		{
-	 	let s					= slot ?? -1
-//		print("######### Fetching slot_for '\(self.title)': returns \(s) ######### ")
-		return s
-	}
+	 var slot_ 		: Int 		{	slot ?? -1									}
+
 	func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
 		 // use pre-existing
 		if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
@@ -138,33 +137,22 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		try container.encode(prefFps,			forKey:.prefFps					)
 		logSer(3, "Encoded")
 	}
-//	init() {					// VewBase() 
-//		self.title = ""
-//		self.partBase 			= nil
-//		self.tree				= Vew(forPart: Part)
-////		self.scnBase   				= nil
-//		self.prefFps 			= 60.0
-////		fatalError("new code")
-//	}
-	/// Moved from FactalsModel.swift
-	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let newVbInd			= -22//vewBases.count
-		logApp(5, "### ---======= VewBase\(newVbInd)(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
-
+	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {	/// VewBase(vewConfig:fwConfig:)
 		let partBase			= PartBase(fromLibrary:"xr()")
-		self.init(for:partBase, vewConfig:vewConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
+		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 														// Install in scnBase
-	//	configure(from:fwConfig)
-//	//	gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
+		configure(from:fwConfig)
+//		gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
 	//	configOfSceneVisuals(fwConfig:fwConfig)			// Lights and Camera
-	//	tree.openChildren(using:vewConfig)				// Open Vews per config
-	//	updateVSP()									// DELETE?
-
-		logApp(5, "---====--- VewBase\(newVbInd) -> \(pp(.tagClass)) ")
+		tree.openChildren(using:vewConfig)				// Open Vews per config
+		updateVSP()									// DELETE?
+		logApp(5, "\(pp(.tagClass)) = VewBase(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 	}
 
-	init(for pb:PartBase, vewConfig:VewConfig) {	 			/// VewBase(for:) ///
-bug;	self.partBase			= pb
+	init(for pb:PartBase, vewConfig:VewConfig, fwConfig:FwConfig) {	 			/// VewBase(for:) ///
+		self.vewConfig			= vewConfig
+		self.fwConfig			= fwConfig
+		self.partBase			= pb
 		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
 		VewBase.nVewBases 		+= 1
 
@@ -177,7 +165,7 @@ bug;	self.partBase			= pb
 		gui?.vewBase			= self			// weak backpointer to owner (vewBase)
 	//	gui!.monitor(onChangeOf:$selfiePole)
 	//	{ [weak self] in						// scnBase.subscribe()
-	//		guard let self?.cameraScn else { 		return 								}
+	//		guard let self?.cameraScn else { 		return 						}
 	//		self!.gui.selfiePole2camera()
 	//	}
 
@@ -197,7 +185,8 @@ bug;	self.partBase			= pb
 		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
 		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
-
+		fwConfig				= [:]
+		vewConfig				= VewConfig.nothing
 		//super.init() // NSObject
 		logSer(3, "Decoded  as? Vew \(ppUid(self))")
 	}
@@ -323,11 +312,11 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	 // MARK: - 15. PrettyPrint
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
  							 	// Report any improper linking:
-		var rv					= ""
-		if slot == nil || factalsModel?.vewBases[slot!] != self {
-			rv					+= "not placed in a VewBase slot properly\n"
-		}
-		rv						+= tree.pp(mode, aux)
+	//	var rv					= ""
+	//	if slot == nil || factalsModel?.vewBases[slot!] != self {
+	//		rv					+= "not placed in a VewBase slot properly\n"
+	//	}
+		var rv					= tree.pp(mode, aux)
 		if mode == .line {
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "

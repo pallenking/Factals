@@ -592,34 +592,25 @@ extension NSTextField : Nib2Bool {
 	}
 }
 
-infix operator ??= :  AssignmentPrecedence
+func ||=( left: inout Bool, right:Bool) {	left	= left || right	/* OR */	}
+func &&=( left: inout Bool, right:Bool) {	left	= left && right	/* AND */	}
+func ^^=( left: inout Bool, right:Bool) {	left	= left ^^ right	/* EXOR */	}
+func ^^(left:Bool, right:Bool) -> Bool  {	return left != right	/* EXOR= */	}
 /// If `lhs` is nil, assign the result of `rhs` to it, ensuring `rhs` is only evaluated if needed.
 /// - Parameters:
 ///   - lhs: The optional variable to update if nil.
 ///   - rhs: A closure returning the value to assign if `lhs` is nil.
 func ??=<T>(lhs: inout T?, rhs: @autoclosure () -> T) {
-    if lhs == nil {
-        lhs = rhs()
-    }
+	guard lhs == nil else { return 												}
+	lhs = rhs()
+//	if lhs == nil
+//	{	lhs = rhs()																}
 }
-/// BUG a ??= b isn't equivalent to a = a ?? b
-//func ??=<T> (lhs:inout T?, rhs:T?) {											//func ??=(lhs: inout Any?, rhs:  Any?) {
-//	if lhs == nil,
-//	  let r					= rhs {
-//		lhs					= r
-//	}
-//}
-
-
-
+infix operator ??= : AssignmentPrecedence
 infix operator ||= : AssignmentPrecedence
-func ||=( left: inout Bool, right:Bool) {	left	= left || right	/* OR */	}
 infix operator &&= : AssignmentPrecedence
-func &&=( left: inout Bool, right:Bool) {	left	= left && right	/* AND */	}
 infix operator ^^= : AssignmentPrecedence
-func ^^=( left: inout Bool, right:Bool) {	left	= left ^^ right	/* EXOR */	}
 infix operator ^^  : ComparisonPrecedence
-func ^^(left:Bool, right:Bool) -> Bool  {	return left != right	/* EXOR= */	}
 
 extension Bool {
 	init?(fwAny:FwAny) {

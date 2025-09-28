@@ -222,10 +222,11 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 
 		let vewTreeScnParent	= self.tree.scn.parent
 		let scnTreeRoot			= gui?.getScene?.rootNode
-		var myLine				= vewTreeScnParent != nil &&
-								  vewTreeScnParent===scnTreeRoot ? "" : ("ERROR< "
-								+	"vewTreeScnParent(\(vewTreeScnParent?.pp(.nameTag) ?? "nil"))  "
-								+	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") >ERROR\n\t\t\t\t")
+		var myLine				= vewTreeScnParent === scnTreeRoot ||
+								  vewTreeScnParent == nil && scnTreeRoot == nil ? "" : ("ERROR< "
+								+	"vewTreeScnParent=\(vewTreeScnParent?.pp(.nameTag) ?? "nil")  "
+								+	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") "
+								+ ">ERROR\n\t\t\t\t")
 		myLine					+= "vewBase.tree:\(tree.pp(.tagClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'

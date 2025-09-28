@@ -14,7 +14,8 @@
       "Bash(pip3 install:*)",
       "Bash(./ffmpeg_smooth_animation.sh:*)",
       "Bash(ffprobe:*)",
-      "Bash(./test_extraction.sh:*)"
+      "Bash(./test_extraction.sh:*)",
+      "Bash(./recent_debugging_evolution.sh:*)"
     ],
     "deny": [],
     "ask": []

@@ -14,7 +14,7 @@ import SwiftUI
 	var vewBases  : [VewBase] 	= []
 
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
-		for vewBase in vewBases {
+bug;	for vewBase in vewBases {
 	//		if ((vewBase.gui?.delegate as? ScnBase)?.keyIsDown) != nil) { return true 					}
 //			if ((vewBase.gui?.scnBase.keyIsDown) != nil) { return true 					}
 		}
@@ -55,11 +55,11 @@ import SwiftUI
 		}
 
 		 // Ensure 1 View
-	//	if vewBases.isEmpty 			//false,
-	//	{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
+		if vewBases.isEmpty 			//false,
+		{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
-		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)//openAllChildren(toDeapth:5)
+		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)
 		vewBase.partBase		= partBase
 		vewBase.factalsModel	= self
 //		vewBase.gui 			= scnView

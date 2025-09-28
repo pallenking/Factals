@@ -15,6 +15,7 @@ enum VewConfig : FwAny {
 	case openAllChildren(toDeapth:Int = -1)	// Open all of children, down to deapth
 	case subVewList([VewConfig])			// array of directives, to
 	case subVew(FwConfig)
+	case nothing
 
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String	{
 		switch mode {
@@ -28,6 +29,8 @@ enum VewConfig : FwAny {
 				return ".subVewList([\(vewConfigs.count)])"
 			case .subVew(let fwConfig):
 				return ".subVew(fwConfig:[\(fwConfig.count) elts])"
+			case .nothing:
+				return ".nothing"
 			}
 		default:
 			return ppFixedDefault(mode, aux)		// NO, try default method
@@ -79,6 +82,7 @@ extension Vew {
 			bug//self.config = fwConfig	//??
 			print("??? adorn(.subVew(let fwConfig): ???")
 			panic(".subVew(\(fwConfig.pp(.phrase))")
+		case .nothing: nop
 		}
 	}
 //	/// Insure the Vews for the parts in config are present in self
