@@ -386,8 +386,7 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 //	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 //			{	nop		/*taken*/												}
 //			else if char != "?"  		// others  besides"?" to get here
-//			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")
-//			}
+//			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")}
 		case .keyUp:
 //			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
 //			assert(keyIsDown==true, "keyIsDown has gone false")

@@ -286,14 +286,14 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			partsTree.reVewPost(vew:tree)
 		}
 		 // ---- 2.  Adjust   S I Z E s   ----- //
-		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()" {
+		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()"
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
 			
-			tree.bBox		|= BBox.unity			// insure a 1x1x1 minimum
+			tree.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 								
-			partsTree.rePosition(vew:tree)				// === only outter vew centered
+			partsTree.rePosition(vew:tree)			// === only outter vew centered
 			tree.orBBoxIntoParent()
-			partsTree.reSizePost(vew:tree)				// ===(set link Billboard constraints)
+			partsTree.reSizePost(vew:tree)			// ===(set link Billboard constraints)
 	//		vRoot.bBox			= .empty			// Set view's bBox EMPTY
 		}
 		 // --- 3.  Re  P A I N T   Skins ----- //

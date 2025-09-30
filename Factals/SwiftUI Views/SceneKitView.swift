@@ -90,20 +90,30 @@ struct SceneKitView : NSViewRepresentable {
 	typealias NSViewType 		= SCNView		// Type represented
 
 	func makeNSView(context:Context) -> SCNView {
-		 // Make a new VewBase
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
-		 // BUG AVOIDANCE HACK: use the
-		assert(fm.vewBases.count == 1, "BUG AVOIDANCE HACK requires 1")
-		guard let vewBase		= fm.vewBases.first else { fatalError("no preMade VewBase") }
+		 // BUG AVOIDANCE HACK: find existing one:
+		guard let vewBase		= fm.vewBases.first(where: {
+				$0.gui == nil 			&&		// unused
+				$0.factalsModel === fm 	&&		// matches me
+				$0.partBase === fm.partBase
+			})
+			else { fatalError("no preMade VewBase matches") }
+		assert(vewBase === fm.vewBases.last, "paranoia")
+ 		vewBase.gui 			= scnView		// needed
+		 // FIRST TRY
+	//	assert(fm.vewBases.count == 1, "BUG AVOIDANCE HACK requires 1, is \(fm.vewBases.count)")
+	//	guard let vewBase		= fm.vewBases.first else { fatalError("no preMade VewBase") }
+	//	assert(vewBase.factalsModel === fm, "factalsModel mismatch error")
+	//	assert(vewBase.partBase === fm.partBase, "factalsModel mismatch error")
+		 // ELSE NORMAL:
 //		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-
-		vewBase.factalsModel	= fm
-		vewBase.partBase		= fm.partBase
-		vewBase.gui 			= scnView		// needed
-		if false == fm.vewBases.contains(where: { $0 === vewBase }) {	// $0.id == vewBase.id
-			fm.vewBases.append(vewBase)
-		}
+//		vewBase.factalsModel	= fm
+//		vewBase.partBase		= fm.partBase
+ //		vewBase.gui 			= scnView		// needed
+ //		if false == fm.vewBases.contains(where: { $0 === vewBase }) {	// $0.id == vewBase.id
+ //			fm.vewBases.append(vewBase)
+ //		}
 
 		 // Make delegate ScnBase
 		let scnBase 			= ScnBase(gui:scnView)	// scnBase.gui = rv // important BACKPOINTER

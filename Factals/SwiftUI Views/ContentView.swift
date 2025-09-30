@@ -201,8 +201,9 @@ struct FactalsModelView: View {
 						 .frame(maxWidth: .infinity)
 						 .border(.black, width:1)
 						EventReceiver { nsEvent in // Catch events (goes underneath)
-							if let guiXA = vewBase.wrappedValue.gui as? SCNView {
-								if !guiXA.scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+							if let scnView = vewBase.wrappedValue.gui as? SCNView {
+								let scnBase = scnView.scnBase
+								if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 									guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 									logApp(3, "Key '\(c)' not recognized and hence ignored...")
 								}

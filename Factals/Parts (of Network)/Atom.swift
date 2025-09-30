@@ -619,7 +619,7 @@ class Atom : Part {	//Part//FwPart
 	 */
 	override func reSize(vew:Vew) {
 				// 1. Mark children as expendable
-		vew.children.forEach {$0.keep = false}	// mark all Views as unused
+		vew.children.forEach { $0.keep = false } // mark all Views as unused
 				// 2. Resizes all  _CHILD Atoms_ FIRST (no _CHILD Ports_)
 		super.reSize(vew:vew)
 				// 3. reSize  _CHILD Ports_ around the packed Atoms LAST

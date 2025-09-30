@@ -62,7 +62,7 @@ bug;	for vewBase in vewBases {
 		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)
 		vewBase.partBase		= partBase
 		vewBase.factalsModel	= self
-//		vewBase.gui 			= scnView
+		vewBase.gui 			= nil			// A signal of need!
 		vewBases.append(vewBase)
 	}
 	 // MARK: - 3.5 Codable
