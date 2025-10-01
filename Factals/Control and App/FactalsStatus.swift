@@ -222,16 +222,17 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 
 		let vewTreeScnParent	= self.tree.scn.parent
 		let scnTreeRoot			= gui?.getScene?.rootNode
-		var myLine				= vewTreeScnParent === scnTreeRoot ||
-								  vewTreeScnParent == nil && scnTreeRoot == nil ? "" : ("ERROR< "
-								+	"vewTreeScnParent=\(vewTreeScnParent?.pp(.nameTag) ?? "nil")  "
-								+	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") "
-								+ ">ERROR\n\t\t\t\t")
-		myLine					+= "vewBase.tree:\(tree.pp(.tagClass)) "
+		var myLine				= "vewBase.tree:\(tree.pp(.tagClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classTag) ?? "nil") "
 		myLine					+= "\(inspectedVews.count) inspectedVews"
+		myLine					+= vewTreeScnParent === scnTreeRoot ||
+								   vewTreeScnParent == nil && scnTreeRoot == nil ? "" :
+									( "\n<<ERROR<< "
+									+	"vewTreeScnParent=\(vewTreeScnParent?.pp(.nameTag) ?? "nil")  "
+									+	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") "
+									+ ">>ERROR>>\n\t\t\t\t")
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
 			var rv				=  self.gui?      .ppControlElement(config:config)

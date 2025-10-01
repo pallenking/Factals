@@ -94,18 +94,15 @@ struct SceneKitView : NSViewRepresentable {
 
 		 // BUG AVOIDANCE HACK: find existing one:
 		guard let vewBase		= fm.vewBases.first(where: {
-				$0.gui == nil 			&&		// unused
-				$0.factalsModel === fm 	&&		// matches me
-				$0.partBase === fm.partBase
+				$0.gui == nil 					// unused
+	//		&&	$0.factalsModel === fm 			// matches me
+	//		&&	$0.partBase === fm.partBase
 			})
 			else { fatalError("no preMade VewBase matches") }
-		assert(vewBase === fm.vewBases.last, "paranoia")
+		assert(vewBase === fm.vewBases.last,	 "paranoia")
+		assert(vewBase.factalsModel === fm,		 "paranoia")
+		assert(vewBase.partBase === fm.partBase, "paranoia")
  		vewBase.gui 			= scnView		// needed
-		 // FIRST TRY
-	//	assert(fm.vewBases.count == 1, "BUG AVOIDANCE HACK requires 1, is \(fm.vewBases.count)")
-	//	guard let vewBase		= fm.vewBases.first else { fatalError("no preMade VewBase") }
-	//	assert(vewBase.factalsModel === fm, "factalsModel mismatch error")
-	//	assert(vewBase.partBase === fm.partBase, "factalsModel mismatch error")
 		 // ELSE NORMAL:
 //		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 //		vewBase.factalsModel	= fm

@@ -669,7 +669,7 @@ extension ScnBase : SCNPhysicsContactDelegate {
 
 
 extension SCNView {		//
-	var scnBase : ScnBase		{ delegate as! ScnBase							}
+	var scnBase : ScnBase?		{ delegate as? ScnBase							}
 	var handler : EventHandler 	{
 		get { return			( delegate as! ScnBase).eventHandler			}
 		set(val) { }
