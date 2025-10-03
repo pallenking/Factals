@@ -22,6 +22,17 @@ extension ArView : Gui {
 	func makeScenery(anchorEntity:AnchorEntity) {
 		bug//createGeometries(anchor: AnchorEntity)
 	}
+	func makeAxis() {	}
+	func makeCamera() {	}
+	func makeLights() {	}
+	var cameraXform: SCNNode {
+		get {	bug; return SCNNode()											}
+		set {		}
+	}
+	var anchor: SCNNode {
+		get {	bug; return SCNNode()											}
+		set {		}
+	}
 	/// RealityKit's Gui
 //	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
 	var isScnView: Bool { false }

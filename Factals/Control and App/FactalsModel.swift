@@ -14,9 +14,8 @@ import SwiftUI
 	var vewBases  : [VewBase] 	= []
 
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
-bug;	for vewBase in vewBases {
-	//		if ((vewBase.gui?.delegate as? ScnBase)?.keyIsDown) != nil) { return true 					}
-//			if ((vewBase.gui?.scnBase.keyIsDown) != nil) { return true 					}
+		for vewBase in vewBases {
+			if ((vewBase.gui?.delegate as? ScnBase)?.keyIsDown) != nil { return true 					}
 		}
 		return false
 	}

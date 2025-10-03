@@ -220,19 +220,21 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 //			return "\t\t\t\t vewBases[] mismatch\n" }
 		let myName				= "VewBase[\(slot)]:  "
 
-		let vewTreeScnParent	= self.tree.scn.parent
-		let scnTreeRoot			= gui?.getScene?.rootNode
 		var myLine				= "vewBase.tree:\(tree.pp(.tagClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
-		myLine					+= "lookAtVew:\(lookAtVew?.pp(.classTag) ?? "nil") "
+		myLine					+= "lookAt:\(lookAtVew?.pp(.classTag) ?? "nil") "
 		myLine					+= "\(inspectedVews.count) inspectedVews"
+
+		let vewTreeScn			= self.tree.scn
+		let vewTreeScnParent	= vewTreeScn.parent
+		let scnTreeRoot			= gui?.getScene?.rootNode
 		myLine					+= vewTreeScnParent === scnTreeRoot ||
 								   vewTreeScnParent == nil && scnTreeRoot == nil ? "" :
-									( "\n<<ERROR<< "
-									+	"vewTreeScnParent=\(vewTreeScnParent?.pp(.nameTag) ?? "nil")  "
-									+	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.nameTag) ?? "nil") "
-									+ ">>ERROR>>\n\t\t\t\t")
+									( "\n\t\t\t\t<<ERROR<< "
+									  +	"vewTreeScn=\(vewTreeScn.pp(.tagClass)) .parent=\(vewTreeScnParent?.pp(.tagClass) ?? "nil")  "
+									  +	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.tagClass) ?? "nil") "
+									  +         ">>ERROR>>")
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
 			var rv				=  self.gui?      .ppControlElement(config:config)

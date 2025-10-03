@@ -94,14 +94,14 @@ struct SceneKitView : NSViewRepresentable {
 
 		 // BUG AVOIDANCE HACK: find existing one:
 		guard let vewBase		= fm.vewBases.first(where: {
-				$0.gui == nil 					// unused
-	//		&&	$0.factalsModel === fm 			// matches me
-	//		&&	$0.partBase === fm.partBase
-			})
-			else { fatalError("no preMade VewBase matches") }
+				$0.gui == nil 					// not used yet
+			&&	$0.factalsModel === fm 			// matches my
+			&&	$0.partBase === fm.partBase		//  factory and part
+		})
+		 else { fatalError("no preMade VewBase matches")						}
 		assert(vewBase === fm.vewBases.last,	 "paranoia")
-		assert(vewBase.factalsModel === fm,		 "paranoia")
-		assert(vewBase.partBase === fm.partBase, "paranoia")
+	//	assert(vewBase.factalsModel === fm,		 "paranoia")
+	//	assert(vewBase.partBase === fm.partBase, "paranoia")
  		vewBase.gui 			= scnView		// needed
 		 // ELSE NORMAL:
 //		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])

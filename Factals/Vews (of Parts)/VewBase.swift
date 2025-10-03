@@ -12,7 +12,6 @@ extension VewBase : Equatable {
 }
 class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	static var nVewBases 		= 0
-//	static var vewBase0 		= VewBase(for:Part.part0, vewConfig:[:])
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
 	var title					= "VewBase\(nVewBases)"
@@ -40,7 +39,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
  	var cameraScn	: SCNNode?
-	{	return gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)	}
+	{	gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -51,102 +50,24 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
 	 var slot_ 		: Int 		{	slot ?? -1									}
 
-	func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
-		 // use pre-existing
-		if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
-			inspectedVews[i]	= forVew	// Replace existing
-			return
-		}
-		if inspectedVews.count > 2 {		// Limit growth
-			inspectedVews.removeFirst()
-		}
-		inspectedVews.append(forVew)			// Add to end
-		print("Now \(title) has \(inspectedVews.count) inspectors")
-	//	objectWillChange.send()
-	}
-	func removeInspector(forVew:Vew){
-		guard let i				= inspectedVews.firstIndex(of:forVew) else {
-			panic("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
-			return
-		}
-		inspectedVews.remove(at:i)
-	//	objectWillChange.send()
-	}
-
-	func configure(from:FwConfig) {
-	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
-		self.selfiePole.configure(from:from)
-		if let lrl				= from.bool("logRenderLocks"),
-		  let gui				= gui as? SCNView,
-		  let scnBase			= gui.delegate as? ScnBase
-		{	scnBase.logRenderLocks	= lrl
-			//((gui as? SCNView)?.delegate as? ScnBase)?.logRenderLocks = lrl		// unset (not reset) if not present
-		}
-		if let delay			= from.float("animateVBdelay") {
-			animateVBdelay		= delay			// unset (not reset) if not present
-		}
-	}
 	// MARK: -
-	func configOfSceneVisuals(fwConfig:FwConfig) {
-
-		 // Add Lights, Camera and SelfiePole
-//		scnBase.lightsOn()
-//		scnBase.cameraOn()				// (had factalsModel.document.config)
-//		let _ /*axesScn*/		= scnBase.touchAxesScn()
-
-		guard let factalsModel else {	fatalError("factalsModel is nil!"); return }
-		 // Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
-		selfiePole.configure(from:factalsModel.fmConfig)
-		 // Configure Initial Camera Target:
-		lookAtVew				= tree		// default is trunk
-		if let laStr			= factalsModel.fmConfig.string("lookAt"),
-		  laStr != "",
-		  let  laPart 			= partBase.tree.find(path:Path(withName:laStr), inMe2:true),
-		  let laVew				= tree.find(part:laPart) {
-			lookAtVew			= laVew
-		}
-
-		 // 6. Set LookAtNode's position
-		let posn				= lookAtVew.bBox.center
-		let worldPosition		= lookAtVew.scn.convertPosition(posn, to:nil/*scnScene*/)
-		assert(!worldPosition.isNan, "About to use a NAN World Position")
-		selfiePole.position		= worldPosition
-	}
-
-//	 // MARK: - 3.5 Codable
-	enum VewKeys: String, CodingKey {
-		case title
-		case partBase
-		case tree
-		case scnBase
-		case selfiePole
-		case prefFps
-//		case sliderTestVal
-	}
-
-	 // Serialize 					// po container.contains(.name)
-	func encode(to encoder: Encoder) throws  {
-		//try super.encode(to: encoder) // Not needed for NSObject
-		var container 			= encoder.container(keyedBy:VewKeys.self)
-
-		try container.encode(title,				forKey:.title					)
-		try container.encode(partBase,			forKey:.partBase				)
-		try container.encode(tree,				forKey:.tree					)
-	//	try container.encode(scnBase,			forKey:.scnBase					)
-//		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
-		try container.encode(prefFps,			forKey:.prefFps					)
-		logSer(3, "Encoded")
-	}
 	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {	/// VewBase(vewConfig:fwConfig:)
 		let partBase			= PartBase(fromLibrary:"xr()")
+
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 														// Install in scnBase
 		configure(from:fwConfig)
-//		gui?.getScene?.rootNode.addChildNode(vewBase.tree.scn)
-	//	configOfSceneVisuals(fwConfig:fwConfig)			// Lights and Camera
+		gui?.getScene?.rootNode.addChildNode(tree.scn)
+		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position
+
+		 // Add Lights and Camera
+		gui?.makeLights()
+		gui?.makeCamera()
+		gui?.makeAxis()
+
 		tree.openChildren(using:vewConfig)				// Open Vews per config
-		updateVSP()									// DELETE?
-		logApp(5, "\(pp(.tagClass)) = VewBase(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
+		//updateVSP() 								// DELETE?
+		logApp(5, "Created \(pp(.tagClass)) = VewBase(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 	}
 
 	init(for pb:PartBase, vewConfig:VewConfig, fwConfig:FwConfig) {	 			/// VewBase(for:) ///
@@ -188,6 +109,87 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	//	fwConfig				= [:]
 	//	vewConfig				= VewConfig.nothing
 		logSer(3, "Decoded  as? Vew \(ppUid(self))")
+	}
+
+	func addInspector(forVew:Vew, allowNew:Bool) {//was AnyView
+		 // use pre-existing
+		if let i				= inspectedVews.firstIndex(where:{$0==forVew}) {		//inspectors.contains(newInspector),
+			inspectedVews[i]	= forVew	// Replace existing
+			return
+		}
+		if inspectedVews.count > 2 {		// Limit growth
+			inspectedVews.removeFirst()
+		}
+		inspectedVews.append(forVew)			// Add to end
+		print("Now \(title) has \(inspectedVews.count) inspectors")
+	//	objectWillChange.send()
+	}
+	func removeInspector(forVew:Vew){
+		guard let i				= inspectedVews.firstIndex(of:forVew) else {
+			panic("\(inspectedVews.pp(.tagClass)) does not contain \(forVew.pp(.tagClass))")
+			return
+		}
+		inspectedVews.remove(at:i)
+	//	objectWillChange.send()
+	}
+
+	func configure(from:FwConfig) {
+	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
+		self.selfiePole.configure(from:from)
+		if let lrl				= from.bool("logRenderLocks"),
+		  let gui				= gui as? SCNView,
+		  let scnBase			= gui.delegate as? ScnBase
+		{	scnBase.logRenderLocks	= lrl										}
+		if let delay			= from.float("animateVBdelay")
+		{	animateVBdelay		= delay		}	// unset (not reset) if not present
+	}
+	// MARK: -
+	func configSceneVisuals(fwConfig:FwConfig) {
+		guard let factalsModel = FACTALSMODEL else { fatalError("FACTALSMODEL is nil!") }
+//		guard let factalsModel else {	fatalError("factalsModel is nil!") 		}
+
+		 // Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
+		selfiePole.configure(from:factalsModel.fmConfig)
+
+		 // Configure Initial Camera Target:
+		lookAtVew				= tree		// default is trunk
+		if let laStr			= factalsModel.fmConfig.string("lookAt"),
+		  laStr != "",
+		  let laPart 			= partBase.tree.find(path:Path(withName:laStr), inMe2:true),
+		  let laVew				= tree.find(part:laPart) {
+			lookAtVew			= laVew
+		}
+
+		 // 6. Set LookAtNode's position
+		let posn				= lookAtVew.bBox.center
+		let worldPosition		= lookAtVew.scn.convertPosition(posn, to:nil/*scnScene*/)
+		assert(!worldPosition.isNan, "About to use a NAN World Position")
+		selfiePole.position		= worldPosition
+	}
+
+//	 // MARK: - 3.5 Codable
+	enum VewKeys: String, CodingKey {
+		case title
+		case partBase
+		case tree
+		case scnBase
+		case selfiePole
+		case prefFps
+//		case sliderTestVal
+	}
+
+	 // Serialize 					// po container.contains(.name)
+	func encode(to encoder: Encoder) throws  {
+		//try super.encode(to: encoder) // Not needed for NSObject
+		var container 			= encoder.container(keyedBy:VewKeys.self)
+
+		try container.encode(title,				forKey:.title					)
+		try container.encode(partBase,			forKey:.partBase				)
+		try container.encode(tree,				forKey:.tree					)
+	//	try container.encode(scnBase,			forKey:.scnBase					)
+//		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
+		try container.encode(prefFps,			forKey:.prefFps					)
+		logSer(3, "Encoded")
 	}
 
 	 // MARK: - 3.5.1 Data

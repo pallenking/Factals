@@ -48,6 +48,14 @@
 
 
 
+0014 FactalsModel . . . . . . . 1 vewBases 
+ 000f | PartBase     . . . . . . tree:0011:Broadcast (1 Ports) lock=1 UNOWNED, dirty:'VSP' 
+ 7ad8 | Simulator    . . . . . . simBuilt simHalt, timeNow:0 going:up, timeStep:0.01 taskHalt  0/L 0/S)
+ 0019 | VewBase[0]:  . . . . . . vewBase.tree:001b:Vew Lock=1 UNOWNED, lookAt:Vew<001b> 0 inspectedVews
+				<<ERROR<< vewTreeScnParent=nil  !==  scnTreeRoot=b3e2 >>ERROR>>
+ 84f1 | | SCNView      . . . . . 0 children superv:NSView:542a win:AppKitWindow<0aca> 
+				cameraScn is nil
+ 001a | | SelfiePole   . . . . . [at:[0 0 0], s:0.00, u:0.00, z:1.00, o:0.00]
 
 
 

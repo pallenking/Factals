@@ -193,19 +193,16 @@ struct FactalsModelView: View {
 			logApp(3, "NavigationStack:\(tabViewSelect): Generating content for tab: \(vewBase.wrappedValue.slot_)")
 			return HStack (alignment:.top) {
 				VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
-					//let SeeView = vewBase.wrappedValue.SeeView
+					//let seeView = vewBase.wrappedValue.seeView as? SCNView
 					ZStack {
 						//let _ = Self._printChanges()
-						//SceneKitView(scnView:SeeView as? SCNView, prefFpsC:vewBase.prefFpsC)
-						SceneKitView(prefFpsC:vewBase.prefFpsC)
+				/**/	SceneKitView(/*scnView:seeView,*/ prefFpsC:vewBase.prefFpsC)
 						 .frame(maxWidth: .infinity)
 						 .border(.black, width:1)
 						EventReceiver { nsEvent in // Catch events (goes underneath)
 							if let scnView = vewBase.wrappedValue.gui as? SCNView {
-
-
 								guard let scnBase = scnView.scnBase else { fatalError("scnView.scnBase is nil")}
-								if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
+				/**/			if false == scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
 									guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 									logApp(3, "Key '\(c)' not recognized and hence ignored...")
 								}

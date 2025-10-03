@@ -16,7 +16,7 @@ class ScnBase : NSObject {
 	var eventHandler 	: EventHandler
 
 	var logRenderLocks			= true			// Overwritten by Configuration
-//	var keyIsDown 	 	: Bool 	= false 		// filter out AUTOREPEAT keys
+	var keyIsDown 	 	: Bool 	= false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
@@ -52,24 +52,23 @@ class ScnBase : NSObject {
 //}
 //extension ScnBase {		// lights and camera
 	 // MARK: - 4.1 Lights
-	func lightsOn() {
-		touchLight("*-omni1",  .omni,position:SCNVector3(0, 0, 15))
-		touchLight("*-amb1",.ambient,color:NSColor.darkGray)
-		touchLight("*-amb2",.ambient,color:NSColor.white, intensity:500)				//blue//
-		touchLight("*-omni2",  .omni,color:NSColor.green, intensity:500)				//blue//
+	func makeLights() {
+		touchLight("*-omni1",.omni,	  position:SCNVector3(0, 0, 15))
+		touchLight("*-amb1",.ambient, color:NSColor.darkGray)
+		touchLight("*-amb2",.ambient, color:NSColor.white, intensity:500)				//blue//
+		touchLight("*-omni2",.omni,   color:NSColor.green, intensity:500)				//blue//
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
-//			guard let scene 		else { return								}
-bug;		let scene 			= SCNScene(named:"fooNadaMach")!
-			if scene.rootNode.findScn(named:name) == nil {
+			guard let anchor	= gui?.anchor else { fatalError()				}
+			if anchor.findScn(named:name) == nil {
 										 // Light's SCNNode:
 				let scn4light 	= SCNNode()
 				scn4light.name	= name				// arg 1
 				if let position {
 					scn4light.position = position	// arg 5
 				}
-				scene.rootNode.addChildNode(scn4light)
+				anchor.addChildNode(scn4light)
 										 // Light:
 				let light		= SCNLight()
 				light.type 		= lightType			// arg 2
@@ -379,18 +378,16 @@ extension ScnBase : ProcessNsEvent {	//, FwAny
 		 //  ====== KEYBOARD ===================================================
 		case .keyDown:
 			guard let char		= nsEvent.charactersIgnoringModifiers else { return false}
-//			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
-//			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
-//			assert(keyIsDown==false, "keyIsDown is already true")
-//			keyIsDown 			= true
-//	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
-//			{	nop		/*taken*/												}
-//			else if char != "?"  		// others  besides"?" to get here
-//			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")}
+			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
+			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
+	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
+			{	nop		/*taken*/												}
+			else if char != "?"  		// others  besides"?" to get here
+			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")}
 		case .keyUp:
-//			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-//			assert(keyIsDown==true, "keyIsDown has gone false")
-//			keyIsDown 			= false
+			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
+			assert(keyIsDown==true, "keyIsDown has gone false")
+			keyIsDown 			= false
 	/**/	let _ 				= factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		 //  ====== LEFT MOUSE =================================================
@@ -680,10 +677,18 @@ extension SCNView {		//
 	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
 }
 extension SCNView : Gui {
-	func makeScenery(anchorEntity:AnchorEntity) {
-		bug
+	func makeScenery(anchorEntity:AnchorEntity) { bug }
+	func makeAxis()   { bug	}
+	func makeCamera() { bug	}
+	func makeLights() { bug	}
+	var cameraXform: SCNNode {
+		get { bug; return SCNNode()	}
+		set { bug	}
 	}
-	
+	var anchor: SCNNode {
+		get { bug; return SCNNode()	}
+		set { bug	}
+	}
 	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
 	/// SceneKit's Gui
 	var isScnView: Bool		{ true		}
