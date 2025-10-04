@@ -32,7 +32,7 @@ class PartBase : Codable, ObservableObject, Uid {
 	var prevOnwer  : String?	= nil
 	var verboseLocks			= true//false//
 
-	weak
+	weak		
 	 var factalsModel: FactalsModel? = nil			// OWNER
 
 	 // MARK: - 3. Part Factory
