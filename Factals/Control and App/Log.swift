@@ -2,6 +2,7 @@
 
 // Log must deal with the case that it should handle it's own printing before Log
 // lifeCycleLogger
+// SwiftLog (Ray)
 
 import SceneKit
 

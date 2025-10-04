@@ -677,10 +677,10 @@ extension SCNView {		//
 	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
 }
 extension SCNView : Gui {
-	func makeScenery(anchorEntity:AnchorEntity) { bug }
-	func makeAxis()   { bug	}
-	func makeCamera() { bug	}
-	func makeLights() { bug	}
+	func makeScenery(anchorEntity:AnchorEntity) { gui!.makeScenery(anchorEntity:anchorEntity)   			}
+	func makeAxis()   							{ gui!.makeAxis()   			}
+	func makeCamera() 							{ gui!.makeCamera() 			}
+	func makeLights() 							{ gui!.makeLights() 			}
 	var cameraXform: SCNNode {
 		get { bug; return SCNNode()	}
 		set { bug	}

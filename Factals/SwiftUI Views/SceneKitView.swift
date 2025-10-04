@@ -102,12 +102,11 @@ struct SceneKitView : NSViewRepresentable {
 		assert(vewBase === fm.vewBases.last,	 "paranoia")
 	//	assert(vewBase.factalsModel === fm,		 "paranoia")
 	//	assert(vewBase.partBase === fm.partBase, "paranoia")
- 		vewBase.gui 			= scnView		// needed
+ 
 		 // ELSE NORMAL:
 //		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 //		vewBase.factalsModel	= fm
 //		vewBase.partBase		= fm.partBase
- //		vewBase.gui 			= scnView		// needed
  //		if false == fm.vewBases.contains(where: { $0 === vewBase }) {	// $0.id == vewBase.id
  //			fm.vewBases.append(vewBase)
  //		}
@@ -116,6 +115,11 @@ struct SceneKitView : NSViewRepresentable {
 		let scnBase 			= ScnBase(gui:scnView)	// scnBase.gui = rv // important BACKPOINTER
 		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
 		scnView.getScene		= scnBase.gui!.getScene	// wrapped.scnScene //gui.scene //.scene
+		vewBase.gui 			= scnView		// needed
+		scnView.getScene?.rootNode.addChildNode(vewBase.tree.scn)
+		scnView.makeLights()
+		scnView.makeCamera()
+		scnView.makeAxis()
 
 		scnView.isPlaying		= false			// book keepscnViewing
 		scnView.showsStatistics	= true			// controls extra bar

@@ -57,16 +57,10 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 														// Install in scnBase
 		configure(from:fwConfig)
-		gui?.getScene?.rootNode.addChildNode(tree.scn)
 		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position
 
-		 // Add Lights and Camera
-		gui?.makeLights()
-		gui?.makeCamera()
-		gui?.makeAxis()
-
 		tree.openChildren(using:vewConfig)				// Open Vews per config
-		//updateVSP() 								// DELETE?
+//		updateVSP() 								// DELETE?
 		logApp(5, "Created \(pp(.tagClass)) = VewBase(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 	}
 
@@ -289,10 +283,10 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		}
 		 // ---- 2.  Adjust   S I Z E s   ----- //
 		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()"
+
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
-			
+
 			tree.bBox			|= BBox.unity		// insure a 1x1x1 minimum
-								
 			partsTree.rePosition(vew:tree)			// === only outter vew centered
 			tree.orBBoxIntoParent()
 			partsTree.reSizePost(vew:tree)			// ===(set link Billboard constraints)

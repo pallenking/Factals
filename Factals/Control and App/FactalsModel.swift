@@ -63,6 +63,7 @@ import SwiftUI
 		vewBase.factalsModel	= self
 		vewBase.gui 			= nil			// A signal of need!
 		vewBases.append(vewBase)
+		vewBase.updateVSP() 								// DELETE?
 	}
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize
