@@ -110,16 +110,15 @@ class ScnBase : NSObject {
 	 coords:          |
 			 ====== SCREEN ========================= SCREEN		[x, y]
  */
-	func cameraOn() {
+	func makeCamera() {
 		let name				= "*-camera"
-//		guard let scene 		else { return									}
-bug;	let scene 				= SCNScene(named:"fooNadaMach")!
-		let camNode				= scene.rootNode.findScn(named:name, maxLevel:1) ?? { // use old
+		guard let anchor		= gui?.anchor 		else { return				}
+		let camNode				= anchor.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-			scene.rootNode.addChildNode(rv)
+			anchor.addChildNode(rv)
 
 			 // Just make a whole new camera system from scratch
 			let camera			= SCNCamera()
@@ -127,13 +126,13 @@ bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 			rv.camera			= camera
 			return rv
 		}()
-		guard let camera 		= camNode.camera else { debugger("camera node not proper") }
-
-		let perspective		= false
+								
 		// Check the condition to determine the camera mode in perspective
-		camera.zNear 		= 0.1 	// 1    Set the near clipping distance
-		camera.zFar 		= 1000	// 100  Set the far clipping distance
-		camera.fieldOfView 	= 60	// Set the field of view, in degrees
+		guard let camera 		= camNode.camera else { debugger("camera node not proper") }
+		camera.zNear 			= 0.1 	// 1    Set the near clipping distance
+		camera.zFar 			= 1000	// 100  Set the far clipping distance
+		camera.fieldOfView 		= 60	// Set the field of view, in degrees
+		let perspective			= false
 		if !perspective {
 			 // Orthographic (non-perspective) mode
 			camera.usesOrthographicProjection = true
@@ -148,7 +147,7 @@ bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 
 	  // MARK: - 4.3 Axes
 	 // ///// Rebuild the Axis Markings
-	func axisOn() {			// was updatePole()
+	func makeAxis() {			// was updatePole()
 		guard let scene			= gui?.getScene	else { return					}
 		let name				= "*-axis"
 		if scene.rootNode.findScn(named:name) != nil {
@@ -217,6 +216,9 @@ bug;	let scene 				= SCNScene(named:"fooNadaMach")!
 				toNode.addChild(node:tic)
 			}
 		}
+	}
+	func makeScenery(anchorEntity:AnchorEntity) {
+		bug
 	}
 //
 //	 // MARK: 4.4 - Look At Updates
@@ -666,30 +668,32 @@ extension ScnBase : SCNPhysicsContactDelegate {
 
 
 extension SCNView {		//
-	var scnBase : ScnBase?		{ delegate as? ScnBase							}
+	//var scnBase : ScnBase?		{ delegate as? ScnBase						}
 	var handler : EventHandler 	{
 		get { return			( delegate as! ScnBase).eventHandler			}
 		set(val) { }
 	}
 
 	 // MARK: - 13.1 Keys
-	open override func keyDown(with event:NSEvent) 		{	handler(event)	}
-	open override func keyUp(  with event:NSEvent) 		{	handler(event)	}
+	open override func keyDown(with event:NSEvent) 		{	handler(event)		}
+	open override func keyUp(  with event:NSEvent) 		{	handler(event)		}
 }
 extension SCNView : Gui {
-	func makeScenery(anchorEntity:AnchorEntity) { gui!.makeScenery(anchorEntity:anchorEntity)   			}
-	func makeAxis()   							{ gui!.makeAxis()   			}
-	func makeCamera() 							{ gui!.makeCamera() 			}
-	func makeLights() 							{ gui!.makeLights() 			}
+	func makeScenery(anchorEntity:AnchorEntity) { scnBase!.makeScenery(anchorEntity:anchorEntity) }
+	func makeAxis()   							{ scnBase!.makeAxis()   		}
+	func makeCamera() 							{ scnBase!.makeCamera() 		}
+	func makeLights() 							{ scnBase!.makeLights() 		}
 	var cameraXform: SCNNode {
 		get { bug; return SCNNode()	}
 		set { bug	}
 	}
 	var anchor: SCNNode {
-		get { bug; return SCNNode()	}
-		set { bug	}
+		get { self.scene!.rootNode												}
+		set { bug																}
 	}
-	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
+	 // Sugar:
+	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
+	var gui 	: Gui? 	   { (self.delegate as? ScnBase)?.gui					}
 	/// SceneKit's Gui
 	var isScnView: Bool		{ true		}
 	var vewBase:VewBase! {

@@ -20,7 +20,7 @@ weak var delegate: (any SCNSceneRendererDelegate)? { get set }
  */
 extension ArView : Gui {
 	func makeScenery(anchorEntity:AnchorEntity) {
-		bug//createGeometries(anchor: AnchorEntity)
+		gui!.makeScenery (anchorEntity:anchorEntity)
 	}
 	func makeAxis() {	}
 	func makeCamera() {	}
@@ -34,7 +34,7 @@ extension ArView : Gui {
 		set {		}
 	}
 	/// RealityKit's Gui
-//	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
+	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
 	var isScnView: Bool { false }
 	var vewBase: VewBase! {
 		get {			bug; return self.vewBase								}
@@ -92,7 +92,7 @@ struct RealityKitView: View {
 			RealityView { content in
 				let anchor 			= AnchorEntity(.world(transform: matrix_identity_float4x4))
 				anchor.name 		= "mainAnchor"		// Create anchor for the scene
-	/**/		createGeometries(anchor:anchor)
+	/**/		makeScenery(anchor:anchor)
 				content.add(anchor)
 				print("RealityView loaded with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation) \n\t translation: \(anchor.transform.translation)")
 		//		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
@@ -145,7 +145,7 @@ struct RealityKitView: View {
 	}
 //}
 //extension RealityKitView {
-	func createGeometries(anchor:AnchorEntity) {
+	func makeScenery(anchor:AnchorEntity) {
 		ArkOriginMark(size: 0.5, position:Vect3(0, 0, 0), anchor:anchor, name:"OriginMark")
 									
 		// Standard SceneKit primitives 	- Row 1

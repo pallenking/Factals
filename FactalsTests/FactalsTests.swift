@@ -108,7 +108,7 @@ final class FactalsTests: XCTestCase {
 		XCTAssertTrue(n2.hasSuffix(":Vew"))
 
 		let o0 = PartBase(tree:Part())
-		let o1 = VewBase(for:o0, vewConfig:.openAllChildren(toDeapth:5) )
+		let o1 = VewBase(for:o0, vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		let o2 = o1.pp(.tagClass)
 //??	XCTAssertTrue(o2.hasSuffix("factalsModel BAD"))		// may be wrong
 
@@ -478,7 +478,7 @@ final class FactalsTests: XCTestCase {
 		let strP1				= p1?.fullName
 		XCTAssert(strP1 == "/p2/p1")
 
-		let vewBase				= VewBase(for:partBase, vewConfig:vewConfigAllToDeapth4)		// Create
+		let vewBase				= VewBase(for:partBase, vewConfig:vewConfigAllToDeapth4, fwConfig:[:])		// Create
 		vewBase.tree.openChildren(using:vewConfigAllToDeapth4)	// Vew configuration	//vewBase.updateVSP()
 		let vewP1				= vewBase.tree.find(part:p1!)
 		let strVew				= vewP1?.fullName
