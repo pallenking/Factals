@@ -305,6 +305,9 @@ extension SCNScene : FactalsStatus {								 ///SCNScene
  			})
 	}
 }
+//extension SCNView : FactalsStatus   {
+//	func ppControlElement(config:Bool=false) -> String { "jfaoehifvjhao" }
+//}
 extension SCNNode : FactalsStatus	{								  ///SCNNode
 	func ppControlElement(config:Bool=false) -> String {
 		var myLine				= "'\(fullName)': \(children.count) children, (\(nodeCount()) SCNNodes) "

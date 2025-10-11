@@ -1,6 +1,7 @@
 //
 //  EventReceiver.swift
 //      Concept by Zev Eisenberg, repackaged for NSEvent capture by Allen King on 8/18/22.
+//		Capture all event outputs, send them to
 //
 //	Usage Case:
 //		ZStack {

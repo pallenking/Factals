@@ -80,16 +80,14 @@ class SCNHemisphere : SCNGeometry {		///			  ---*---		<-- PREVious BASE
 					 stepsBetweenPoles:Int	= 8,
 					 cap		:Bool		= true
 					 ) {
-//		self.init(sources:[], elements:[]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-
-//		self.radius	 			= radius
-//		self.slice	 			= slice
-//		self.stepsAround	 	= stepsAround
-//		self.stepsBetweenPoles	= stepsBetweenPoles
-//		self.cap				= cap
-
-//		let (vert, indx)		= regen()
-//	func regen() -> ([SCNVector3], [Int16]) {
+						//		self.init(sources:[], elements:[]) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+						//		self.radius	 			= radius
+						//		self.slice	 			= slice
+						//		self.stepsAround	 	= stepsAround
+						//		self.stepsBetweenPoles	= stepsBetweenPoles
+						//		self.cap				= cap
+						//		let (vert, indx)		= regen()
+						//	func regen() -> ([SCNVector3], [Int16]) {
 		var vert:[SCNVector3]	= [1.0 * .uY]			// North Pole
 		var norm:[SCNVector3]	= [1.0 * .uY]			// North Pole
 		var indx:[Int16]		= []
@@ -124,7 +122,6 @@ class SCNHemisphere : SCNGeometry {		///			  ---*---		<-- PREVious BASE
 				assert(prevIndex >= 0 && prevIndex < vert.count, "index out of range")
 				indx.append(Int16(prevIndex))		// A 	B
 				indx.append(Int16(base + lon0))		// B 	C
-				//indx.append(Int16(base + lon0)) 	// B 	C
 			}
 			prevBase			= base
 			base				+= stepsAround // latitude % 2 == 0 ? 1 : 0

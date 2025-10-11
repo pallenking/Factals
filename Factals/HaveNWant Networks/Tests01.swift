@@ -256,14 +256,14 @@ r("Port", 		e + selfiePole(s:-134,u:5), { Port()						})
 
  // MARK: - * Basic Atoms
 state.scanSubMenu				= "Basic Atoms"
-xr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":0])})				// 190311 +
+xxr("Broatcast",  		e,	{ Broadcast([n:"a", "lat":0])})				// 190311 +
 r("Portless",  			e,  { Portless( [n:"a"]) 		})				// 190311 +
 r("Broatcast flipped",	e,  { Broadcast([n:"a", f:1])	}) 				// 190311 +
 r("MaxOr", 	   			e,  { MaxOr([    n:"a"]) 		})				// 190311 +
 r("MaxOr flipped",		e,  { MaxOr([    n:"a", f:1])	}) 	 			// 190311 +
 r("Ago",				e,  { Ago([      n:"a"])		}) 				// 190311 +
-r("Previous",			eSim + selfiePole(s:45,u:10), { Previous([n:"a"])})	// 190311 +
-r("NetPrevious", eSim + selfiePole(s:45,u:10), {
+xxr("Previous",			eSim + selfiePole(s:45,u:10), { Previous([n:"a"])})	// 190311 +
+xxr("NetPrevious", eSim + selfiePole(s:45,u:10), {
 	Net([placeMy:"stackZ -1", "minSizeX":"3.14159 2 2", parts:[
 		Net([placeMy:"stackX -1", "minSizeX":"2.717 3 3", parts:[
 			Previous([n:"prev"])
@@ -272,11 +272,11 @@ r("NetPrevious", eSim + selfiePole(s:45,u:10), {
 	]])
 })
 
-	r("Mirror Display WORKS", e + logAt(8), {
+	xxr("Mirror Display WORKS", e + logAt(8), {
 		Net([parts:[
-			Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
+	//		Sphere(		["size":"1 1 1", "color":"orange"]),		//	//	b.color0		= NSColor.red
 			Mirror(),
-			Cylinder(	["size":"1 1 1", "color":"red"]),		//		parts.addChild(b)
+	//		Cylinder(	["size":"1 1 1", "color":"red"]),		//		parts.addChild(b)
 		] ])
 	})
 	r("Mirror Display BROKEN", e + logAt(8), {
@@ -323,41 +323,41 @@ r("-Hangs as 2'nd ^r", e + selfiePole(s:9, u:3), { Net([placeMy:"stackX -1", par
 //		Broadcast()
 	})
 
-xxr("+Family Portrait", e + selfiePole(s:-90, u:30) +
+xr("+Family Portrait", e + selfiePole(s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
-	Net([placeMy:"stackz 0 -1", parts:[
+//	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),
 		MaxOr(),
 		MinAnd(),
 		Bayes(),
 		Hamming(),
-		Multiply(),
-		KNorm(),
-		Sequence([spin:3]),
-		Bulb(),
-	]]),
-	Net([placeMy:"stackz 0 -1", parts:[
-		Atom(), // BAD BODY
-		Ago(),
-		Previous(),
-		Mirror(),
-		Modulator(),
-		Rotator(),
-	]]),
-	Net([placeMy:"stackz 0 -1", parts:[
-		WriteHead(),
-		DiscreteTime(),
-		TimingChain(),
-		WorldModel(),
-		GenAtom(),
-	]]),
-	Net([placeMy:"stackz 0 -1", parts:[
-		Box(		[size:SCNVector3(3,  2,  2),	color:"red"]),
-		Cylinder(	[size:SCNVector3(1.5,1.5,1.5),	color:"yellow"]),
-		Hemisphere(	[size:SCNVector3(2,  2,  2),	color:"green"]),
-		TunnelHood(	[size:SCNVector3(1.5,1.5,1.5),	color:"blue"]),
-		Sphere(		[size:SCNVector3(2,  2,  2),	color:"[purple]"]),
-	]]),
+//		Multiply(),
+//		KNorm(),
+//		Sequence([spin:3]),
+//		Bulb(),
+//	]]),
+//	Net([placeMy:"stackz 0 -1", parts:[
+//		Atom(), // BAD BODY
+//		Ago(),
+//		Previous(),
+//		Mirror(),
+//		Modulator(),
+//		Rotator(),
+//	]]),
+//	Net([placeMy:"stackz 0 -1", parts:[
+//		WriteHead(),
+//		DiscreteTime(),
+//		TimingChain(),
+//		WorldModel(),
+//		GenAtom(),
+//	]]),
+//	Net([placeMy:"stackz 0 -1", parts:[
+//		Box(		[size:SCNVector3(3,  2,  2),	color:"red"]),
+//		Cylinder(	[size:SCNVector3(1.5,1.5,1.5),	color:"yellow"]),
+//		Hemisphere(	[size:SCNVector3(2,  2,  2),	color:"green"]),
+//		TunnelHood(	[size:SCNVector3(1.5,1.5,1.5),	color:"blue"]),
+//		Sphere(		[size:SCNVector3(2,  2,  2),	color:"[purple]"]),
+//	]]),
 ]]) })
 	r("-Should never get here", e + selfiePole( s:-90, u:30) +
 				["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[

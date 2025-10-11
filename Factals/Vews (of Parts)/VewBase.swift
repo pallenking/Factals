@@ -52,7 +52,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 
 	// MARK: -
 	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {	/// VewBase(vewConfig:fwConfig:)
-		let partBase			= PartBase(fromLibrary:"xr()")
+		let partBase			= FACTALSMODEL!.partBase
+//		let partBase			= PartBase(fromLibrary:"xr()")	// BUG
 
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 														// Install in scnBase

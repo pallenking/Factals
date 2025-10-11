@@ -47,6 +47,8 @@
 		9F1E3CE628D926C5004548C9 /* VewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E3CE528D926C5004548C9 /* VewBase.swift */; };
 		9F2BC4162B7FE38F0045991D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
 		9F2BC4172B7FE38F0045991D /* XXGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */; };
+		9F3267872E985D9C00ECDF39 /* ScnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3267862E985D7D00ECDF39 /* ScnView.swift */; };
+		9F3267882E985D9C00ECDF39 /* ScnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3267862E985D7D00ECDF39 /* ScnView.swift */; };
 		9F3E49A828B27238003D450D /* EventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E49A728B27238003D450D /* EventReceiver.swift */; };
 		9F417F0528EB91FE0047B359 /* FactalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F417F0428EB91FE0047B359 /* FactalsTests.swift */; };
 		9F417F0B28EB93D80047B359 /* LangDeser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE51AC286BA57900C8C22A /* LangDeser.swift */; };
@@ -239,6 +241,7 @@
 		9F19CA34285EB0730072C50E /* PartBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartBase.swift; sourceTree = "<group>"; };
 		9F19FD9A2D0105EA000851FA /* di-sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "di-sound.m4a"; sourceTree = "<group>"; };
 		9F1E3CE528D926C5004548C9 /* VewBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VewBase.swift; sourceTree = "<group>"; };
+		9F3267862E985D7D00ECDF39 /* ScnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnView.swift; sourceTree = "<group>"; };
 		9F369DD6287C68F700196211 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3E49A728B27238003D450D /* EventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReceiver.swift; sourceTree = "<group>"; };
 		9F3E4A0A28B7A7C4003D450D /* XXGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXGestures.swift; sourceTree = "<group>"; };
@@ -392,6 +395,7 @@
 				9F9AF6702E3DA738004E4F79 /* RealityKitView.swift */,
 				9F9AF68D2E3E2DBD004E4F79 /* RealityKitShapes.swift */,
 				9F6B946B2B8A5073007A14E5 /* SceneKitView.swift */,
+				9F3267862E985D7D00ECDF39 /* ScnView.swift */,
 				9F3E49A728B27238003D450D /* EventReceiver.swift */,
 				9F9AC6A3299C7C6000CDEB08 /* FactalsModelBar.swift */,
 				9FAD595E29A2775A0065406B /* SelfiePoleBar.swift */,
@@ -662,6 +666,7 @@
 				9F417F5B28EB956A0047B359 /* LldbInit.swift in Sources */,
 				9F417F1528EB93FF0047B359 /* Actor.swift in Sources */,
 				9F417F3B28EB94B60047B359 /* ContentView.swift in Sources */,
+				9F3267872E985D9C00ECDF39 /* ScnView.swift in Sources */,
 				9F417F4328EB94D10047B359 /* FactalsStatus.swift in Sources */,
 				9F417F3E28EB94C10047B359 /* FactalsModel.swift in Sources */,
 				9F2BC4162B7FE38F0045991D /* XXGestures.swift in Sources */,
@@ -754,6 +759,7 @@
 				9F19CA35285EB0730072C50E /* PartBase.swift in Sources */,
 				9FEE51C0286BCF0A00C8C22A /* BBox.swift in Sources */,
 				9FEE51B4286BA57A00C8C22A /* Tests01.swift in Sources */,
+				9F3267882E985D9C00ECDF39 /* ScnView.swift in Sources */,
 				9F9AF68F2E3E2DC5004E4F79 /* RealityKitShapes.swift in Sources */,
 				9F19CA32285EA5090072C50E /* Simulator.swift in Sources */,
 				9F2BC4172B7FE38F0045991D /* XXGestures.swift in Sources */,

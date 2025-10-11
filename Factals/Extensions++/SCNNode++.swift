@@ -382,7 +382,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			 /// 6. LAST print lower Parts, some are Ports
 			for child in children {
 				guard child.name != nil else {  debugger("scnScene with nil name")  }
-				rv				+= child.name! == "*-axis"
+				rv				+= child.name! == "*-axis"	// not DISABLED
 								?  child.pp(.line, aux)+" (TRUNCATED)\n"
 								:  child.pp(.tree, aux)
 			}

@@ -173,13 +173,14 @@ struct FactalsModelView: View {
 												//	//	tabViewAddCt		+= 1
 												//		 // Your pre-evaluation logic here
 												//	 }
-			 .onChange(of:factalsModel.vewBases, initial:true) { a,b  in
-				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:vewBases): vewBases:\(a)->\(b)")
+			 .onChange(  of:factalsModel.vewBases, initial:true) { oldValue, newValue  in
+				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:vewBases): vewBases:\(oldValue)->\(newValue)")
+
 				updateTabTitle()												}
-			 .onChange(of:tabViewSelect) { oldValue, newValue in
+			 .onChange(  of:tabViewSelect  ) { oldValue, newValue in
 				logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:tabViewSelect(\(oldValue)->\(newValue))): evaluationTrigger.send(\(newValue))")
 				evaluationTrigger.send(newValue)								}
-			 .onChange(of:tabViewAddCt) { oldValue, newValue in
+			 .onChange(  of:tabViewAddCt  ) { oldValue, newValue in
 				logApp(3, "NavigationStack[\(tabViewSelect)] onChange tabViewAddCt:\(oldValue)=>\(newValue)")
 				evaluationTrigger.send(newValue)								}
 			 .onReceive(evaluationTrigger) { newSelection in	 // Invalidate View on evaluationTrigger.
@@ -201,11 +202,14 @@ struct FactalsModelView: View {
 						 .border(.black, width:1)
 						EventReceiver { nsEvent in // Catch events (goes underneath)
 							if let scnView = vewBase.wrappedValue.gui as? SCNView {
-								guard let scnBase = scnView.scnBase else { fatalError("scnView.scnBase is nil")}
-				/**/			if false == scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue) {
-									guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-									logApp(3, "Key '\(c)' not recognized and hence ignored...")
-								}
+								logApp(5, "Check 2 scnView=\( 		 scnView.pp(.nameTag)), "
+										+ "scnView.scnBase=\(scnView.scnBase?.pp(.nameTag) ?? "<nil>")")
+
+								if let scnBase = scnView.scnBase,
+								  scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+								{	return		/* understood */				}
+								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+								logApp(3, "Key '\(c)' not recognized and hence ignored...")
 							}
 						}
 					}

@@ -9,8 +9,82 @@ import SwiftUI
 import SceneKit
 import AppKit
 
-// ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
 
+	//		that communicates with a ViewModel
+	//			to render a SceneKit scene and
+	//		the ViewModel updates
+	//			with changes from SceneKit,
+	//				acting as the single source of truth.
+	////////////////////////////// Testing	$publisher/	$view
+	// Generate code exemplefying the following thoughts that I am told:
+	// sceneview takes in a publisher		// PW essential/big
+	// swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
+	// scenkit -> write models back to viewmodel. s
+	// viewmodel single source of truth.
+	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+	// now       : SceneView 	native SwiftUI (not full-featured)
+
+struct SceneKitView : NSViewRepresentable {
+	var scnView 		 		= SCNView()		// ARG1: exposes visual world
+	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
+
+	typealias Visible			= SCNNode
+	typealias Vect3 			= SCNVector3
+	typealias Vect4 			= SCNVector4
+	typealias Matrix4x4 		= SCNMatrix4
+	typealias NSViewType 		= SCNView		// Type represented
+
+	func makeNSView(context:Context) -> SCNView {
+		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
+
+		 // BUG AVOIDANCE HACK: find existing one:
+		guard let vewBase		= fm.vewBases.first(where: {
+				$0.gui == nil 					// not used yet
+			&&	$0.factalsModel === fm 			// matches my
+			&&	$0.partBase === fm.partBase		//  factory and part
+		})
+		 else { fatalError("no preMade VewBase matches")						}
+		assert(vewBase === fm.vewBases.last,	 "paranoia")
+	//	assert(vewBase.factalsModel === fm,		 "paranoia")
+	//	assert(vewBase.partBase === fm.partBase, "paranoia")
+												 // ELSE NORMAL:
+										//		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+										//		vewBase.factalsModel	= fm
+										//		vewBase.partBase		= fm.partBase
+										 //		if false == fm.vewBases.contains(where: { $0 === vewBase }) {	// $0.id == vewBase.id
+										 //			fm.vewBases.append(vewBase)
+										 //		}
+		 // Make delegate ScnBase
+		let scnBase 			= ScnBase(gui:scnView)	// scnBase.gui = rv // important BACKPOINTER
+		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
+		scnView.getScene		= scnBase.gui!.getScene	// wrapped.scnScene //gui.scene //.scene
+		vewBase.gui 			= scnView		// needed
+
+		logApp(5, "Check 1: scnView=\( 		 scnView.pp(.nameTag)), "
+				+ "scnView.scnBase=\(scnView.scnBase?.pp(.nameTag) ?? "<nil>")")
+		scnView.getScene?.rootNode.addChildNode(vewBase.tree.scn)
+		scnView.makeLights()
+		scnView.makeCamera()
+		scnView.makeAxis()
+
+		scnView.isPlaying		= false			// book keepscnViewing
+		scnView.showsStatistics	= true			// controls extra bar
+		scnView.debugOptions	= 				// enable display of:
+		  [	SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
+		scnView.allowsCameraControl	= true		// user may control camera	//args.options.contains(.allowsCameraControl)
+		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
+		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
+		scnView.preferredFramesPerSecond = Int(prefFpsC)
+		return scnView
+	}
+	func updateNSView(_ scnView:SCNView, context:Context) {
+	//	let scnView				= scnView as SCNView			//	scnBase.scnView
+		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
+	}
+}
+
+//------------------------------ Scraps to end -------------------------
+// ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
  // Simple test of things like VIEWREPresentable
 //struct SceneKit2View: View {
 //	@Bindable var factalsModel : FactalsModel
@@ -63,79 +137,6 @@ import AppKit
 //}
 // Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
 // MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
-
-
-	//		that communicates with a ViewModel
-	//			to render a SceneKit scene and
-	//		the ViewModel updates
-	//			with changes from SceneKit,
-	//				acting as the single source of truth.
-	////////////////////////////// Testing	$publisher/	$view
-	// Generate code exemplefying the following thoughts that I am told:
-	// sceneview takes in a publisher		// PW essential/big
-	// swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
-	// scenkit -> write models back to viewmodel. s
-	// viewmodel single source of truth.
-	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-	// now       : SceneView 	native SwiftUI (not full-featured)
-
-struct SceneKitView : NSViewRepresentable {
-	var scnView 		 		= SCNView()		// ARG1: exposes visual world
-	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
-
-	typealias Visible			= SCNNode
-	typealias Vect3 			= SCNVector3
-	typealias Vect4 			= SCNVector4
-	typealias Matrix4x4 		= SCNMatrix4
-	typealias NSViewType 		= SCNView		// Type represented
-
-	func makeNSView(context:Context) -> SCNView {
-		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
-
-		 // BUG AVOIDANCE HACK: find existing one:
-		guard let vewBase		= fm.vewBases.first(where: {
-				$0.gui == nil 					// not used yet
-			&&	$0.factalsModel === fm 			// matches my
-			&&	$0.partBase === fm.partBase		//  factory and part
-		})
-		 else { fatalError("no preMade VewBase matches")						}
-		assert(vewBase === fm.vewBases.last,	 "paranoia")
-	//	assert(vewBase.factalsModel === fm,		 "paranoia")
-	//	assert(vewBase.partBase === fm.partBase, "paranoia")
- 
-		 // ELSE NORMAL:
-//		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-//		vewBase.factalsModel	= fm
-//		vewBase.partBase		= fm.partBase
- //		if false == fm.vewBases.contains(where: { $0 === vewBase }) {	// $0.id == vewBase.id
- //			fm.vewBases.append(vewBase)
- //		}
-
-		 // Make delegate ScnBase
-		let scnBase 			= ScnBase(gui:scnView)	// scnBase.gui = rv // important BACKPOINTER
-		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
-		scnView.getScene		= scnBase.gui!.getScene	// wrapped.scnScene //gui.scene //.scene
-		vewBase.gui 			= scnView		// needed
-		scnView.getScene?.rootNode.addChildNode(vewBase.tree.scn)
-		scnView.makeLights()
-		scnView.makeCamera()
-		scnView.makeAxis()
-
-		scnView.isPlaying		= false			// book keepscnViewing
-		scnView.showsStatistics	= true			// controls extra bar
-		scnView.debugOptions	= 				// enable display of:
-		  [	SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
-		scnView.allowsCameraControl	= true		// user may control camera	//args.options.contains(.allowsCameraControl)
-		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
-		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
-		scnView.preferredFramesPerSecond = Int(prefFpsC)
-		return scnView
-	}
-	func updateNSView(_ scnView:SCNView, context:Context) {
-	//	let scnView				= scnView as SCNView			//	scnBase.scnView
-		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
-	}
-}
 
 // /////////////////////////////// SceneView ////////////////////////////
 

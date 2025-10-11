@@ -12,32 +12,19 @@ typealias EventHandler			= (NSEvent) -> Void
 
 class ScnBase : NSObject {
 	weak
-	 var gui 	 		: Gui?					// Owner
-	var eventHandler 	: EventHandler
+	 var gui 	 	 : Gui?					// Owner
+	var eventHandler : EventHandler
 
 	var logRenderLocks			= true			// Overwritten by Configuration
-	var keyIsDown 	 	: Bool 	= false 		// filter out AUTOREPEAT keys
+	var keyIsDown 	 : Bool 	= false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
-//	var animatePhysics	: Bool {
-//		get {			return !(scene?.isPaused ?? false)						}
-//		set(v) {		scene?.isPaused = !v									}
-//	}
-
-//	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
-//													where T.Failure == Never {
-//		publisher.sink { _ in				//	{ [weak self] _ in
-//			performs()						//		guard self != nil else { return }
-//		}
-//		 .store(in: &monitoring)
-//	}
-//	var monitoring 				= Set<AnyCancellable>()
-//	deinit {
-//		monitoring.forEach { 	$0.cancel() 									}
-//		monitoring.removeAll()
-//	}
+	var animatePhysics : Bool {
+		get {			return !(gui?.getScene?.isPaused ?? false)				}
+		set(v) {		gui?.getScene?.isPaused = !v							}
+	}
 	 // MARK: - 3.1 init
 	init(gui:Gui, scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in}) { // ScnBase(gui:Gui, scnScene:eventHandler)
 		// try SCNScene(named: "art.scnassets/MyScene.scn")
@@ -51,6 +38,20 @@ class ScnBase : NSObject {
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
 //}
 //extension ScnBase {		// lights and camera
+	 // MARK: - 3.? Monitor
+	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
+													where T.Failure == Never {
+		publisher.sink { _ in				//	{ [weak self] _ in
+			performs()						//		guard self != nil else { return }
+		}
+		 .store(in: &monitoring)
+	}
+	var monitoring 				= Set<AnyCancellable>()
+	deinit {
+		monitoring.forEach { 	$0.cancel() 									}
+		monitoring.removeAll()
+		print("############ ScnBase deinit")
+	}
 	 // MARK: - 4.1 Lights
 	func makeLights() {
 		touchLight("*-omni1",.omni,	  position:SCNVector3(0, 0, 15))
@@ -63,20 +64,20 @@ class ScnBase : NSObject {
 			guard let anchor	= gui?.anchor else { fatalError()				}
 			if anchor.findScn(named:name) == nil {
 										 // Light's SCNNode:
-				let scn4light 	= SCNNode()
-				scn4light.name	= name				// arg 1
+				let scn 		= SCNNode()
+				scn.name		= name				// arg 1
 				if let position {
-					scn4light.position = position	// arg 5
+					scn.position = position			// arg 5
 				}
-				anchor.addChildNode(scn4light)
+				anchor.addChildNode(scn)
 										 // Light:
-				let light		= SCNLight()
-				light.type 		= lightType			// arg 2
+				let lightScnLight = SCNLight()
+				lightScnLight.type = lightType		// arg 2
 				if let color	= color {
-					light.color = color				// arg 3
+					lightScnLight.color = color		// arg 3
 				}
-				light.intensity = intensity			// arg 4
-				scn4light.light	= light
+				lightScnLight.intensity = intensity	// arg 4
+				scn.light	= lightScnLight
 			}
 		}
 	}
@@ -697,8 +698,10 @@ extension SCNView : Gui {
 	/// SceneKit's Gui
 	var isScnView: Bool		{ true		}
 	var vewBase:VewBase! {
-		get {	gui?.vewBase													}
+		get {	self.gui?.vewBase													}
 		set {	gui?.vewBase		= newValue									}
+//		get {	gui?.vewBase													}
+//		set {	gui?.vewBase		= newValue									}
 	}
 	var getScene : SCNScene? {
 		get {	self.scene														}
