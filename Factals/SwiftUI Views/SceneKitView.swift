@@ -55,9 +55,9 @@ struct SceneKitView : NSViewRepresentable {
 										 //			fm.vewBases.append(vewBase)
 										 //		}
 		 // Make delegate ScnBase
-		let scnBase 			= ScnBase(gui:scnView)	// scnBase.gui = rv // important BACKPOINTER
+		let scnBase 			= ScnBase(gui:scnView)							// scnBase.gui = rv // important BACKPOINTER
 		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
-		scnView.getScene		= scnBase.gui!.getScene	// wrapped.scnScene //gui.scene //.scene
+		scnView.getScene		= scnBase.gui!.getScene							// wrapped.scnScene //gui.scene //.scene
 		vewBase.gui 			= scnView		// needed
 
 		logApp(5, "Check 1: scnView=\( 		 scnView.pp(.nameTag)), "

@@ -305,6 +305,7 @@ extension SCNScene : FactalsStatus {								 ///SCNScene
  			})
 	}
 }
+// Conformance of 'SCNView' to protocol 'FactalsStatus' was already stated in the type's module 'SceneKit'
 //extension SCNView : FactalsStatus   {
 //	func ppControlElement(config:Bool=false) -> String { "jfaoehifvjhao" }
 //}
