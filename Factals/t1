@@ -75,3 +75,27 @@ struct FactalsModelView: View
 	addNewTab()
 
 Button(label:{ Text("++") })
+
+
+<SCNView: 0x14b07a840 | scene=<SCNScene: 0x600001ca39c0>
+<SCNView: 0x12054d230 | scene=<SCNScene: 0x6000009fd800> sceneTime=0.000000 frame={{0, 0}, {1, 1}} pointOfView=(null)>
+
+
+https://youtu.be/erXG9vnN-GI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+034 app5 Checking scnBase=c143, scnView=3be2.scnBase=c143
+038 app5 Checking scnView=3be2,scnView.scnBase=<nil>
