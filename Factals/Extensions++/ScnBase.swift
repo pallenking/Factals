@@ -12,7 +12,7 @@ typealias EventHandler			= (NSEvent) -> Void
 
 class ScnBase : NSObject {
 	weak
-	 var gui 	 	 : Gui?					// Owner
+	 var scnView 	 : ScnView?					// Owner
 	var eventHandler : EventHandler
 
 	var logRenderLocks			= true			// Overwritten by Configuration
@@ -21,17 +21,17 @@ class ScnBase : NSObject {
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 	 /// animatePhysics is a posative quantity (isPaused is a negative)
-	var animatePhysics : Bool {
-		get {			return !(gui?.getScene?.isPaused ?? false)				}
-		set(v) {		gui?.getScene?.isPaused = !v							}
+	var animatePhysics : Bool {	bug; return false
+//		get {			return !(gui?.getScene?.isPaused ?? false)				}
+//		set(v) {		gui?.getScene?.isPaused = !v							}
 	}
 	 // MARK: - 3.1 init
-	init(gui:Gui, scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in}) { // ScnBase(gui:Gui, scnScene:eventHandler)
+	init(scnView:ScnView, scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in}) { // ScnBase(scnView:ScnView, scnScene:eventHandler)
 		// try SCNScene(named: "art.scnassets/MyScene.scn")
 	//	assert(gui != nil, "gui == nil")
 		gui.getScene 			= scnScene
 		gui.getScene!.rootNode.name = "tree"
-		self.gui				= gui									//self.scene!.rootNode.name = "tree"
+		self.scnView			= scnView									//self.scene!.rootNode.name = "tree"
 		self.eventHandler		= eventHandler
  		super.init()//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 	}
@@ -290,33 +290,33 @@ class ScnBase : NSObject {
 //	}
 		
 	 /// Determine zoom so that all parts of the scene are seen.
-	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
-		guard let vewBase 		= gui?.vewBase else {	debugger("RootScn.vews is nil")}
-
-		 //		(ortho-good, check perspective)
-		let rootVewBbInWorld	= vewBase.tree.bBox //BBox(size:3, 3, 3)//			// in world coords
-		let world2eye			= SCNMatrix4Invert(vewBase.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
-		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
-		let rootVewSizeInEye	= rootVewBbInEye.size
-		let nsRect				= gui?.frame ?? NSRect(x:9,y:9,width:200, height:200)
-
-		 // Orientation is "Height Dominated"
-		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
-		 // Is side going to be clipped off?
-		let ratioHigher			= nsRect.height / nsRect.width
-		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
-			zoomRv				*= ratioHigher
-		}
-		if rootVewSizeInEye.x * nsRect.height < nsRect.width * rootVewSizeInEye.y {
-			 // Orientation is "Width Dominated"
-			zoomRv				= rootVewSizeInEye.y
-			 // Is top going to be clipped off?
-			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
-				zoomRv			/= ratioHigher
-			}
-		}
-		return zoomRv
-	}
+//	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
+//		guard let vewBase 		= gui?.vewBase else {	debugger("RootScn.vews is nil")}
+//
+//		 //		(ortho-good, check perspective)
+//		let rootVewBbInWorld	= vewBase.tree.bBox //BBox(size:3, 3, 3)//			// in world coords
+//		let world2eye			= SCNMatrix4Invert(vewBase.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
+//		let rootVewBbInEye		= rootVewBbInWorld.transformed(by:world2eye)
+//		let rootVewSizeInEye	= rootVewBbInEye.size
+//		let nsRect				= gui?.frame ?? NSRect(x:9,y:9,width:200, height:200)
+//
+//		 // Orientation is "Height Dominated"
+//		var zoomRv				= rootVewSizeInEye.x	// 1 ==> unit cube fills screen
+//		 // Is side going to be clipped off?
+//		let ratioHigher			= nsRect.height / nsRect.width
+//		if rootVewSizeInEye.y > rootVewSizeInEye.x * ratioHigher {
+//			zoomRv				*= ratioHigher
+//		}
+//		if rootVewSizeInEye.x * nsRect.height < nsRect.width * rootVewSizeInEye.y {
+//			 // Orientation is "Width Dominated"
+//			zoomRv				= rootVewSizeInEye.y
+//			 // Is top going to be clipped off?
+//			if rootVewSizeInEye.x > rootVewSizeInEye.y / ratioHigher {
+//				zoomRv			/= ratioHigher
+//			}
+//		}
+//		return zoomRv
+//	}
 }
 //
 //	func convertToRoot(windowPosition:NSPoint) -> NSPoint {
@@ -338,7 +338,8 @@ enum FwNodeCategory : Int {
 }
 
 extension ScnBase : SCNSceneRendererDelegate {
-	func facMod() -> FactalsModel? {	gui?.vewBase.factalsModel				}
+	func facMod() -> FactalsModel? {	scnView?.vewBase.factalsModel				}
+//	func facMod() -> FactalsModel? {	gui?.vewBase.factalsModel				}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in

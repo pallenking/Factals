@@ -198,10 +198,11 @@ struct FactalsModelView: View {
 					ZStack {
 						//let _ = Self._printChanges()
 				/**/	SceneKitView(/*scnView:seeView,*/ prefFpsC:vewBase.prefFpsC)
-						 .frame(maxWidth: .infinity)
-						 .border(.black, width:1)
+		///				 .frame(maxWidth: .infinity)
+		///				 .border(.black, width:1)
 						EventReceiver { nsEvent in // Catch events (goes underneath)
-							if let scnView = vewBase.wrappedValue.gui as? SCNView {
+							if let scnView = vewBase.wrappedValue.gui as? ScnView {
+//							if let scnView = vewBase.wrappedValue.gui as? SCNView {
 								logApp(5, "Check 2 scnView=\( 		 scnView.pp(.nameTag)), "
 										+ "scnView.scnBase=\(scnView.scnBase?.pp(.nameTag) ?? "<nil>")")
 

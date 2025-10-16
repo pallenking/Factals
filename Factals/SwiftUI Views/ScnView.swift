@@ -7,8 +7,10 @@
 import SceneKit
 import RealityKit
 
-extension SCNView {		//
-	//var scnBase : ScnBase?		{ delegate as? ScnBase						}
+class ScnView : SCNView {
+	var scnBase : ScnBase?
+//extension SCNView {
+//	var scnBase : ScnBase?		{ delegate as? ScnBase						}
 	var handler : EventHandler 	{
 		get { return			( delegate as! ScnBase).eventHandler			}
 		set(val) { }
@@ -18,7 +20,8 @@ extension SCNView {		//
 	open override func keyDown(with event:NSEvent) 		{	handler(event)		}
 	open override func keyUp(  with event:NSEvent) 		{	handler(event)		}
 }
-extension SCNView : Gui {
+extension ScnView : Gui {
+//extension SCNView : Gui {
 	func makeScenery(anchorEntity:AnchorEntity) { scnBase!.makeScenery(anchorEntity:anchorEntity) }
 	func makeAxis()   							{ scnBase!.makeAxis()   		}
 	func makeCamera() 							{ scnBase!.makeCamera() 		}
@@ -32,22 +35,22 @@ extension SCNView : Gui {
 		set { bug																}
 	}
 	 // Sugar:
-	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
+//	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
 	var gui 	: Gui? 	   { (self.delegate as? ScnBase)?.gui					}
 	/// SceneKit's Gui
 	var isScnView: Bool		{ true		}
-	var vewBase:VewBase! {
-		get {	self.gui?.vewBase													}
-		set {	gui?.vewBase		= newValue									}
-	}
+//	var vewBase:VewBase! {
+//		get {	self.gui?.vewBase													}
+//		set {	gui?.vewBase		= newValue									}
+//	}
 	var getScene : SCNScene? {
 		get {	self.scene														}
 		set {	self.scene			= newValue									}
 	}
-	var animatePhysics:Bool {
-		get {	gui!.animatePhysics												}
-		set {	gui!.animatePhysics	= newValue									}
-	}
+//	var animatePhysics:Bool {
+//		get {	gui!.animatePhysics												}
+//		set {	gui!.animatePhysics	= newValue									}
+//	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let scnResults = self.hitTest(point, options: options!)
 		return scnResults.map { scnHit in

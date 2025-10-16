@@ -78,7 +78,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-		gui?.vewBase			= self			// weak backpointer to owner (vewBase)
+bug//		gui?.vewBase			= self			// weak backpointer to owner (vewBase)
 	//	gui!.monitor(onChangeOf:$selfiePole)
 	//	{ [weak self] in						// scnBase.subscribe()
 	//		guard let self?.cameraScn else { 		return 						}

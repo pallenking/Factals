@@ -14,8 +14,8 @@
             filePath = "Factals/SwiftUI Views/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "tabContentView(vewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Factals/SwiftUI Views/SceneKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "makeNSView(context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -146,6 +146,36 @@
             endingLineNumber = "51"
             landmarkName = "deinit"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3F91FDAD-8B90-4774-9623-1CAEE3B3BEF5 - 3a035e02486d4c6c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Factals.ScnBase.__deallocating_deinit"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51">
+               </Location>
+               <Location
+                  uuid = "3F91FDAD-8B90-4774-9623-1CAEE3B3BEF5 - 2c592928e49a9ac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Combine.AnyCancellable) -&gt; () in Factals.ScnBase.deinit"
+                  moduleName = "Factals.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/allen/DocLocal/HaveNWant/Factals/Factals/Extensions++/ScnBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

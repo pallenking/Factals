@@ -43,11 +43,11 @@ protocol   Gui : NSView /*AnyObject PW*/{		 /// Protypical Graphical User Interf
 	var isScnView : Bool 		{	get											}
 	var getScene 	: SCNScene?	{	get set										}
 	var delegate    : SCNSceneRendererDelegate?	{	get set						}
-	var vewBase   : VewBase!	{	get set										}
+//	var vewBase   : VewBase!	{	get set										}
 ////
 //	var Sounds					{	get set										}
 //	var codable					{	get set										}
-	var animatePhysics : Bool 	{	get set										}
+//	var animatePhysics : Bool 	{	get set										}
 	 // Abstract hitTest that works for both SceneKit and RealityKit
 	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult]
 }

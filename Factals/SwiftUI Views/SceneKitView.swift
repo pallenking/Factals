@@ -25,7 +25,8 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView : NSViewRepresentable {
-	var scnView 		 		= SCNView()		// ARG1: exposes visual world
+	var scnView 		 		= ScnView()		// ARG1: exposes visual world
+//	var scnView 		 		= SCNView()		// ARG1: exposes visual world
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
 	typealias Visible			= SCNNode
@@ -175,37 +176,6 @@ struct SceneKitView : NSViewRepresentable {
 							//	 .onAppear { 			//setupHitTesting
 							//		//coordinator.onAppear()
 							//		//$factalsModel.coordinator.onAppear {				}
-						//		 .onAppear {
-						//			EventMonitor(mask: [.keyDown, .leftMouseDown, .rightMouseDown]) { event in
-						//	bug;		print("Event: \(event)")			// Handle the event here
-						//			}.startMonitoring(for: windows.first!)
-						//		}
-						//	class EventMonitor {
-						//		private var monitor: Any?
-						//		private let mask: NSEvent.EventTypeMask
-						//		private let handler: EventHandler
-						//		init(mask: NSEvent.EventTypeMask, handler: @escaping EventHandler {
-						//			self.mask = mask
-						//			self.handler = handler
-						//		}
-						//		deinit {		stopMonitoring()	}
-						//		func startMonitoring(for window: NSWindow) {
-						//			monitor = NSEvent.addLocalMonitorForEvents(matching: mask) { [weak self] event in
-						//				self?.handleEvent(event)
-						//				return event
-						//			}
-						//			window.makeFirstResponder(window.contentView)
-						//		}
-						//		func stopMonitoring() {
-						//			if let monitor = monitor {
-						//				NSEvent.removeMonitor(monitor)
-						//				self.monitor = nil
-						//			}
-						//		}
-						//		private func handleEvent(_ event: NSEvent) {
-						//			handler(event)
-						//		}
-						//	}
 									//NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 									//	print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
 									//	return $0
