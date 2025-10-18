@@ -278,20 +278,20 @@ extension Inspec : FactalsStatus	{									///Inspec
 	}
 }
 
-extension ScnBase : FactalsStatus	{						  ///ScnBase
-	func ppControlElement(config:Bool=false) -> String {
-bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-//		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-		var myLine				= "tree:\(gui?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-		myLine					+= "\(gui?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
-		myLine					+= "gui:\(	  gui?.pp(.tagClass) ?? "<nil>") "			//classUid
-		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
-//			otherLines: {
-//				return self.tree!   .ppControlElement()
-//					+ (self.scnView?.ppControlElement() ?? "")
-//			},
-	}
-}
+			//extension ScnView : FactalsStatus	{						  ///ScnView
+			//	func ppControlElement(config:Bool=false) -> String {
+			//bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+			////		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+			//		var myLine				= "tree:\(gui?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+			//		myLine					+= "\(gui?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
+			//		myLine					+= "gui:\(	  gui?.pp(.tagClass) ?? "<nil>") "			//classUid
+			//		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
+			////			otherLines: {
+			////				return self.tree!   .ppControlElement()
+			////					+ (self.scnView?.ppControlElement() ?? "")
+			////			},
+			//	}
+			//}
 extension SCNScene : FactalsStatus {								 ///SCNScene
 	func ppControlElement(config:Bool=false) -> String {
 		let myLine				= rootNode.name == "rootNode" ? "" : "rootNode.name=\(rootNode .name ?? "?") -- BAD!!"

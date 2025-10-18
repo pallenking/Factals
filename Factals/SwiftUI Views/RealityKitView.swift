@@ -19,10 +19,11 @@ class ArView : ARView {
 weak var delegate: (any SCNSceneRendererDelegate)? { get set }
  */
 extension ArView : Gui {
-	func makeScenery(anchorEntity:AnchorEntity) {
-		gui!.makeScenery (anchorEntity:anchorEntity)
-	}
-	func makeAxis() {	}
+	func configure(from: FwConfig) 				{	bug 						}
+	func makeScenery(anchorEntity:AnchorEntity) {	bug 						}
+//		gui!.makeScenery (anchorEntity:anchorEntity)
+//	}
+	func makeAxis()   {	}
 	func makeCamera() {	}
 	func makeLights() {	}
 	var cameraXform: SCNNode {
@@ -34,7 +35,8 @@ extension ArView : Gui {
 		set {		}
 	}
 	/// RealityKit's Gui
-	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
+	var gui : Gui? { self														}
+//	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
 	var isScnView: Bool { false }
 	var vewBase: VewBase! {
 		get {			bug; return self.vewBase								}
@@ -143,8 +145,6 @@ struct RealityKitView: View {
 			}
 		}
 	}
-//}
-//extension RealityKitView {
 	func makeScenery(anchor:AnchorEntity) {
 		ArkOriginMark(size: 0.5, position:Vect3(0, 0, 0), anchor:anchor, name:"OriginMark")
 									

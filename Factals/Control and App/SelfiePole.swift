@@ -52,25 +52,13 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 		}
 	}
 
+	var transform : SCNMatrix4 { transform(lookAt:.zero)						}
 	 // Computes the transform from a camera A on a selfie stick back to the origin
 	func transform(lookAtVew:Vew) -> SCNMatrix4 {								//xyzzy15.4
 		let posnBoxCtr			= lookAtVew.bBox.center
 		let position			= lookAtVew.scn.convertPosition(posnBoxCtr, to:nil)
 		return transform(lookAt: position)
 	}
-	
-	// Computes the transform matrix for the camera/view position
-	// Based on the SelfiePole mathematics: spin about Y, gaze tilt, then translate out on boom
-//	func transform(lookingAt focusPoint: Vect3) -> Matrix4x4 {
-//		
-//		let focusTranslation 	= Matrix4x4(translation:focusPoint+position)
-//		let spinMatrix 			= Matrix4x4(rotationAbout:Vect3(0, 1, 0), angle:spin)
-//		let gazeMatrix 			= Matrix4x4(rotationAbout:Vect3(1, 0, 0), angle:gaze)
-//		let boomTranslation 	= Matrix4x4(translation  :Vect3(0, 0, 50.0 * zoom))
-//		// Combine transformations: 1) to focus, 2) spin, 3) gaze, 4) to boom end
-//		let rv 					= boomTranslation * gazeMatrix * spinMatrix * focusTranslation
-//		return rv
-//	}
 	func transform(lookAt posn:SCNVector3) -> SCNMatrix4 {								//xyzzy15.4
 		assert(!posn.isNan, "About to use a NAN World Position")
 

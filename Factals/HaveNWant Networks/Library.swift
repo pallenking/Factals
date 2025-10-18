@@ -45,7 +45,7 @@ class Library : Uid {			// NEVER NSCopying, Equatable : NSObject// CherryPick202
 	}
 
 	static func hnwMachine(fromSelector s:String?) -> HnwMachine? {	//LibraryLibrary
-		guard let s 			= s else { return nil } // no selector, no lib
+		guard let s				else { return nil 	} // no selector, no lib
 		var rv : HnwMachine?	= nil					// search value for desired string
 		let args				= ScanForKey(selectionString:s, wantOnlyIndex:false)
 

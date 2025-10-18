@@ -13,9 +13,9 @@
 
 import SwiftUI
 
-struct EventReceiver: NSViewRepresentable {
-	let eventHandler:EventHandler
 
+struct EventReceiver: NSViewRepresentable {
+	let eventHandler:EventHandlerType.EventHandler
 	func makeNSView(context:Context) -> EventReceiverView {
 		return EventReceiverView(eventHandler:eventHandler)
 	}
@@ -24,9 +24,9 @@ struct EventReceiver: NSViewRepresentable {
 }
 								
 final class EventReceiverView : NSView {
-	let eventHandler:EventHandler
+	let eventHandler:EventHandlerType.EventHandler
 
-	init(eventHandler: @escaping EventHandler) {
+	init(eventHandler: @escaping EventHandlerType.EventHandler) {
 		self.eventHandler		= eventHandler
 		super.init(frame:.zero)
 	}

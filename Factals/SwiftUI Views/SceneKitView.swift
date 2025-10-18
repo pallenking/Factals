@@ -25,44 +25,43 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView : NSViewRepresentable {
-	var scnView 		 		= ScnView()		// ARG1: exposes visual world
-//	var scnView 		 		= SCNView()		// ARG1: exposes visual world
+	var scnView 		 		= ScnView()		// ARG1: exposes visual world // was SCNView()
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
 	typealias Visible			= SCNNode
 	typealias Vect3 			= SCNVector3
 	typealias Vect4 			= SCNVector4
 	typealias Matrix4x4 		= SCNMatrix4
-	typealias NSViewType 		= SCNView		// Type represented
+	typealias NSViewType 		= ScnView		// Type represented
 
-	func makeNSView(context:Context) -> SCNView {
+	 // NSViewRepresentable calls this, aka init
+	func makeNSView(context:Context) -> ScnView {
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
 		 // BUG AVOIDANCE HACK: find existing one:
 		guard let vewBase		= fm.vewBases.first(where: {
 				$0.gui == nil 					// not used yet
-			&&	$0.factalsModel === fm 			// matches my
-			&&	$0.partBase === fm.partBase		//  factory and part
+			&&	$0.factalsModel === fm 			// matches my factory
+			&&	$0.partBase === fm.partBase		//  and part
 		})
 		 else { fatalError("no preMade VewBase matches")						}
 		assert(vewBase === fm.vewBases.last,	 "paranoia")
-	//	assert(vewBase.factalsModel === fm,		 "paranoia")
-	//	assert(vewBase.partBase === fm.partBase, "paranoia")
+						//	assert(vewBase.factalsModel === fm,		 "paranoia")
+						//	assert(vewBase.partBase === fm.partBase, "paranoia")
 												 // ELSE NORMAL:
 										//		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 										//		vewBase.factalsModel	= fm
 										//		vewBase.partBase		= fm.partBase
-										 //		if false == fm.vewBases.contains(where: { $0 === vewBase }) {	// $0.id == vewBase.id
-										 //			fm.vewBases.append(vewBase)
-										 //		}
-		 // Make delegate ScnBase
-		let scnBase 			= ScnBase(gui:scnView)							// scnBase.gui = rv // important BACKPOINTER
-		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
-		scnView.getScene		= scnBase.gui!.getScene							// wrapped.scnScene //gui.scene //.scene
-		vewBase.gui 			= scnView		// needed
-
-		logApp(5, "Check 1: scnView=\( 		 scnView.pp(.nameTag)), "
-				+ "scnView.scnBase=\(scnView.scnBase?.pp(.nameTag) ?? "<nil>")")
+										 //		if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
+										 //		{	fm.vewBases.append(vewBase)							}
+	//	scnView.delegate		=
+	//	scnView.getScene		= 							// wrapped.scnScene //gui.scene //.scene
+		vewBase.gui 			= scnView		//
+										//		 // Make delegate ScnBase
+										//		let scnBase 			= ScnBase(gui:scnView)							// scnBase.gui = rv // important BACKPOINTER
+										//		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
+										//		scnView.getScene		= scnBase.gui!.getScene							// wrapped.scnScene //gui.scene //.scene
+										//		vewBase.gui 			= scnView		// needed
 		scnView.getScene?.rootNode.addChildNode(vewBase.tree.scn)
 		scnView.makeLights()
 		scnView.makeCamera()
@@ -78,7 +77,7 @@ struct SceneKitView : NSViewRepresentable {
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
 		return scnView
 	}
-	func updateNSView(_ scnView:SCNView, context:Context) {
+	func updateNSView(_ nsView: ScnView, context:Context) {
 	//	let scnView				= scnView as SCNView			//	scnBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}

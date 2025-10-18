@@ -15,7 +15,8 @@
       "Bash(./ffmpeg_smooth_animation.sh:*)",
       "Bash(ffprobe:*)",
       "Bash(./test_extraction.sh:*)",
-      "Bash(./recent_debugging_evolution.sh:*)"
+      "Bash(./recent_debugging_evolution.sh:*)",
+      "Read(//Library/Frameworks/Python.framework/Versions/3.7/bin/**)"
     ],
     "deny": [],
     "ask": []

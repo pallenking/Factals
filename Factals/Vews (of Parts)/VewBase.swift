@@ -54,6 +54,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {	/// VewBase(vewConfig:fwConfig:)
 		let partBase			= FACTALSMODEL!.partBase
 //		let partBase			= PartBase(fromLibrary:"xr()")	// BUG
+bug	//?	gui?.configure(from:vewConfig)
 
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 														// Install in scnBase
@@ -131,10 +132,10 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	func configure(from:FwConfig) {
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		self.selfiePole.configure(from:from)
-		if let lrl				= from.bool("logRenderLocks"),
-		  let gui				= gui as? SCNView,
-		  let scnBase			= gui.delegate as? ScnBase
-		{	scnBase.logRenderLocks	= lrl										}
+//		if let lrl				= from.bool("logRenderLocks"),
+//		  let gui				= gui as? SCNView
+////		  let scnBase			= gui.delegate as? ScnBase
+//		{	logRenderLocks		= lrl										}
 		if let delay			= from.float("animateVBdelay")
 		{	animateVBdelay		= delay		}	// unset (not reset) if not present
 	}
