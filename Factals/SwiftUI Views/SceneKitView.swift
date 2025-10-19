@@ -25,17 +25,18 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView : NSViewRepresentable {
-	var scnView 		 		= ScnView()		// ARG1: exposes visual world // was SCNView()
+	var scnView 				= ScnViewX(foo:true, scnScene:nil, eventHandler:{_ in})
+//	var scnView  		 		= ScnViewX()	// ARG1: exposes visual world // was SCNView()
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
 	typealias Visible			= SCNNode
 	typealias Vect3 			= SCNVector3
 	typealias Vect4 			= SCNVector4
 	typealias Matrix4x4 		= SCNMatrix4
-	typealias NSViewType 		= ScnView		// Type represented
+	typealias NSViewType 		= ScnViewX		// Type represented
 
 	 // NSViewRepresentable calls this, aka init
-	func makeNSView(context:Context) -> ScnView {
+	func makeNSView(context:Context) -> ScnViewX {
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
 		 // BUG AVOIDANCE HACK: find existing one:
@@ -62,6 +63,7 @@ struct SceneKitView : NSViewRepresentable {
 										//		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
 										//		scnView.getScene		= scnBase.gui!.getScene							// wrapped.scnScene //gui.scene //.scene
 										//		vewBase.gui 			= scnView		// needed
+		scnView.vewBase			= vewBase
 		scnView.getScene?.rootNode.addChildNode(vewBase.tree.scn)
 		scnView.makeLights()
 		scnView.makeCamera()
@@ -77,7 +79,7 @@ struct SceneKitView : NSViewRepresentable {
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
 		return scnView
 	}
-	func updateNSView(_ nsView: ScnView, context:Context) {
+	func updateNSView(_ nsView: ScnViewX, context:Context) {
 	//	let scnView				= scnView as SCNView			//	scnBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}

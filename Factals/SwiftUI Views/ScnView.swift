@@ -1,5 +1,5 @@
 //
-//  ScnView.swift
+//  ScnViewX.swift
 //  Factals
 //
 //  Created by Allen King on 10/9/25.
@@ -12,9 +12,7 @@ enum EventHandlerType {
 	typealias EventHandler		= (NSEvent) -> Void
 }
 
-class ScnView : SCNView {
-
-//	typealias EventHandler		= (NSEvent) -> Void
+class ScnViewX : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
 	var vewBase 	 : VewBase? = nil			// Owner
 
@@ -33,6 +31,16 @@ class ScnView : SCNView {
 		get { 	eventHandler													}
 		set(val) { bug }
 	}
+	 // MARK: - 3.1 init
+	init(foo:Bool, scnScene:SCNScene?=nil, eventHandler: @escaping EventHandlerType.EventHandler={_ in}) { // ScnBase(scnView:ScnViewX, scnScene:eventHandler)
+		self.eventHandler		= eventHandler
+		super.init(frame:CGRect(x:0, y:0, width:800, height:400), options:[:])
+		scene 					= scnScene
+								?? SCNScene(named: "art.scnassets/MyScene.scn")
+								?? SCNScene()
+		scene!.rootNode.name 	= "tree"
+	}
+	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
 	 // MARK: - 3.? Monitor
 	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
 													where T.Failure == Never {
@@ -51,20 +59,9 @@ class ScnView : SCNView {
 	 // MARK: - 13.1 Keys
 	open override func keyDown(with event:NSEvent) 		{	handler(event)		}
 	open override func keyUp(  with event:NSEvent) 		{	handler(event)		}
-
-	 // MARK: - 3.1 init
-	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandlerType.EventHandler={_ in}) { // ScnBase(scnView:ScnView, scnScene:eventHandler)
-		self.eventHandler		= eventHandler
-		super.init(frame: NSRect(x:0,y:0,width:800,height:400))
-		scene 					= scnScene
-								?? SCNScene(named: "art.scnassets/MyScene.scn")
-								?? SCNScene()
-		scene!.rootNode.name 	= "tree"
-	}
-	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
 }
 
-extension ScnView : Gui {
+extension ScnViewX : Gui {
 	var cameraXform: SCNNode {
 		get { bug; return SCNNode()	}
 		set { bug	}
@@ -145,7 +142,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 
 // From ScnBase
-extension ScnView {
+extension ScnViewX {
 
 	 // MARK: - 4.1 Lights
 	func makeLights() {
@@ -432,7 +429,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 
-extension ScnView : SCNSceneRendererDelegate {
+extension ScnViewX : SCNSceneRendererDelegate {
 	var factalsModel : FactalsModel {	vewBase!.factalsModel!					}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
@@ -463,7 +460,7 @@ extension ScnView : SCNSceneRendererDelegate {
 		}
 	}
 }
-extension ScnView : ProcessNsEvent {	//, FwAny
+extension ScnViewX : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
@@ -753,7 +750,7 @@ bug;	return nil
 }
 
  // currently unused
-extension ScnView : SCNPhysicsContactDelegate {
+extension ScnViewX : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world:SCNPhysicsWorld, didBegin  contact:SCNPhysicsContact) {	bug	}
 	func physicsWorld(_ world:SCNPhysicsWorld, didUpdate contact:SCNPhysicsContact) {	bug	}
 	func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {	bug	}

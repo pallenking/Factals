@@ -10,17 +10,17 @@
 //import RealityKit
 
 
-															 // Moved to ScnView
+															 // Moved to ScnViewX
 															//typealias EventHandler			= (NSEvent) -> Void
 															//
 															//class ScnBase : NSObject {
 															//	weak
-															//	 var scnView 	 : ScnView?					// Owner
+															//	 var scnView 	 : ScnViewX?					// Owner
 															//	var eventHandler : EventHandler
 															// ...
 															//	}
 															//	 // MARK: - 3.1 init
-															//	init(scnView:ScnView, scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in}) { // ScnBase(scnView:ScnView, scnScene:eventHandler)
+															//	init(scnView:ScnViewX, scnScene:SCNScene=SCNScene(), eventHandler: @escaping EventHandler={_ in}) { // ScnBase(scnView:ScnViewX, scnScene:eventHandler)
 															//		// try SCNScene(named: "art.scnassets/MyScene.scn")
 															//	//	assert(gui != nil, "gui == nil")
 															//		gui.getScene 			= scnScene

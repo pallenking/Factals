@@ -278,7 +278,7 @@ extension Inspec : FactalsStatus	{									///Inspec
 	}
 }
 
-			//extension ScnView : FactalsStatus	{						  ///ScnView
+			//extension ScnViewX : FactalsStatus	{						  ///ScnViewX
 			//	func ppControlElement(config:Bool=false) -> String {
 			//bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 			////		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"

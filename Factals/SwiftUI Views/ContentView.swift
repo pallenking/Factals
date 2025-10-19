@@ -28,7 +28,7 @@ https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-an-adaptive-l
  */
 
 /*
-ScnView:
+ScnViewX:
 	SCNSceneRenderer(frame) --> ScnBase -> ...
 					(key)   --> SYSTEMWIDE
 					(key)	--> command
@@ -151,7 +151,7 @@ struct FactalsModelView: View {
 		let _ = Self._printChanges()
 		return NavigationStack {
 			TabView(selection:$tabViewSelect) {
-				ForEach($factalsModel.vewBases) {	vewBase in	//Binding<[VewBase]>.Element
+				ForEach($factalsModel.vewBases) {	vewBase in	// Binding<[VewBase]>.Element
 					tabContentView(vewBase:vewBase)
 					 .tabItem
 					 {	Label(vewBase.wrappedValue.title, systemImage: "")		} //vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
@@ -191,26 +191,26 @@ struct FactalsModelView: View {
 	}
 	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
 	//	LazyView {
-			logApp(3, "NavigationStack:\(tabViewSelect): Generating content for tab: \(vewBase.wrappedValue.slot_)")
+			logApp(3, "NavigationStack:\(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
 			return HStack (alignment:.top) {
 				VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
 					//let seeView = vewBase.wrappedValue.seeView as? SCNView
 					ZStack {
 						//let _ = Self._printChanges()
 				/**/	SceneKitView(/*scnView:seeView,*/ prefFpsC:vewBase.prefFpsC)
-		///				 .frame(maxWidth: .infinity)
-		///				 .border(.black, width:1)
-						EventReceiver { nsEvent in // Catch events (goes underneath)
-							if let scnView = vewBase.wrappedValue.gui as? ScnView {
-//							if let scnView = vewBase.wrappedValue.gui as? SCNView {
-								logApp(5, "Check 2 scnView=\( 		 scnView.pp(.nameTag))")
-
-								if scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-								{	return		/* understood */				}
-								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-								logApp(3, "Key '\(c)' not recognized and hence ignored...")
-							}
-						}
+		//				 .frame(maxWidth: .infinity)
+		//				 .border(.black, width:1)
+			//			EventReceiver { nsEvent in // Catch events (goes underneath)
+			//				if let scnView = vewBase.wrappedValue.gui as? ScnViewX {
+//			//				if let scnView = vewBase.wrappedValue.gui as? SCNView {
+			//					logApp(5, "Check 2 scnView=\( 		 scnView.pp(.nameTag))")
+			//
+			//					if scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+			//					{	return		/* understood */				}
+			//					guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+			//					logApp(3, "Key '\(c)' not recognized and hence ignored...")
+			//				}
+			//			}
 					}
 				}//.frame(width: 555)
 				VStack {

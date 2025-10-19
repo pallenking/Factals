@@ -53,12 +53,11 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	// MARK: -
 	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {	/// VewBase(vewConfig:fwConfig:)
 		let partBase			= FACTALSMODEL!.partBase
-//		let partBase			= PartBase(fromLibrary:"xr()")	// BUG
-bug	//?	gui?.configure(from:vewConfig)
 
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
+		configure(     from:fwConfig)
+		gui?.configure(from:fwConfig)
 														// Install in scnBase
-		configure(from:fwConfig)
 		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position
 
 		tree.openChildren(using:vewConfig)				// Open Vews per config
@@ -79,14 +78,11 @@ bug	//?	gui?.configure(from:vewConfig)
 		self.tree.vewConfig		= vewConfig
 		lookAtVew				= tree			// set default
 
-bug//		gui?.vewBase			= self			// weak backpointer to owner (vewBase)
-	//	gui!.monitor(onChangeOf:$selfiePole)
-	//	{ [weak self] in						// scnBase.subscribe()
-	//		guard let self?.cameraScn else { 		return 						}
-	//		self!.gui.selfiePole2camera()
-	//	}
-
-	//	scnBase.vewBase			= self			// weak backpointer to owner (vewBase)
+	 //	scnView.monitor(onChangeOf:$selfiePole)
+	 //	{ [weak self] in						// scnBase.subscribe()
+	 //		guard let self?.cameraScn else { 		return 						}
+	 //		self!.gui.selfiePole2camera()
+	 //	}
 	//	scnBase.monitor(onChangeOf:$selfiePole)
 	//	{ [weak self] in						// scnBase.subscribe()
 	//		if self?.cameraScn == nil {		return 								}
