@@ -51,15 +51,11 @@ class ScnView : SCNView {
 		monitoring.removeAll()
 		print(ifArea:"bld", detail:6, "############ deinit(\(self.pp()))")
 	}
-
-	 // MARK: - 13.1 Keys
-	open override func keyDown(with event:NSEvent) 		{	bug;handler(event)		}
-	open override func keyUp(  with event:NSEvent) 		{	bug;handler(event)		}
 }
 
 extension ScnView : Gui {
-	var cameraXform: SCNNode {
-		get { bug; return SCNNode()	}
+	var cameraXform: SCNMatrix4 {
+		get { .identity	}
 		set { bug	}
 	}
 	var anchor: SCNNode {

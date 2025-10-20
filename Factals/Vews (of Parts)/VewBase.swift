@@ -37,7 +37,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 																			// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
 	@Published
 	 var inspectedVews : [Vew]	= []	// ... to be Inspected
- 	var cameraScn	: SCNNode?
+	var cameraScn	: SCNNode?
 	{	gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
 
 	 // Locks
@@ -82,11 +82,6 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 //		guard let self?.cameraScn else { 		return 						}
 	 //		self!.gui.selfiePole2camera()
 	 //	}
-	//	scnBase.monitor(onChangeOf:$selfiePole)
-	//	{ [weak self] in						// scnBase.subscribe()
-	//		if self?.cameraScn == nil {		return 								}
-	//		self!.scnBase.selfiePole2camera()
-	//	}
 	}
 	 // Deserialize
 	required init(from decoder: Decoder) throws {

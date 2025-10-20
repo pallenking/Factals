@@ -26,9 +26,9 @@ extension ArView : Gui {
 	func makeAxis()   {	}
 	func makeCamera() {	}
 	func makeLights() {	}
-	var cameraXform: SCNNode {
-		get {	bug; return SCNNode()											}
-		set {		}
+	var cameraXform: SCNMatrix4 {
+		get {	.identity														}
+		set {																	}
 	}
 	var anchor: SCNNode {
 		get {	bug; return SCNNode()											}

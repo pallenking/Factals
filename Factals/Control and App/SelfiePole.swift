@@ -64,7 +64,7 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 		let    boomMatrix		= SCNMatrix4Translate(SCNMatrix4.identity, 0, 0, 50.0*zoom) //cameraZoom)//10 ad hoc .5
 		let rv					= boomMatrix * gazeMatrix * spinMatrix * toFocusMatrix
 		assert(!rv.isNan, "newCameraXform is Not a Number")
-		assert(rv.at(3,3) == 1.0, "why?")	// Understand cameraXform.at(3,3). Is it 1.0? is it prudent to change it here
+		assert(rv.at(3,3) == 1.0, "why?")	// Understand transform.at(3,3). Is it 1.0? is it prudent to change it here
 		return rv
 	}
 	

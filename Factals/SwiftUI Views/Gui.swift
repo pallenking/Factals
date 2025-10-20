@@ -39,9 +39,9 @@ protocol   Gui : NSView /*AnyObject PW*/{		 /// Protypical Graphical User Interf
 	func makeAxis()
 	func makeCamera()
 	func makeLights()
-	var cameraXform : SCNNode	{	get set										}
+	var cameraXform :SCNMatrix4	{	get set										}
 	var anchor      : SCNNode	{	get set										}
-	var isScnView : Bool 		{	get											}
+	var isScnView 	: Bool 		{	get											}
 	var getScene 	: SCNScene?	{	get set										}
 	var delegate    : SCNSceneRendererDelegate?	{	get set						}
 //	var vewBase     : VewBase!	{	get set										}
