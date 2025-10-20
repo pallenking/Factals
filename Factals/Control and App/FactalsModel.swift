@@ -15,9 +15,9 @@ import SwiftUI
 
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-//			if vewBase.gui.f  != nil { return true 					}
-			if ((vewBase.gui?.delegate as? ScnView)?.keyIsDown) != nil { return true 					}
-//			if ((vewBase.gui?.delegate as? ScnBase)?.keyIsDown) != nil { return true 					}
+			if ((vewBase.gui?.delegate as? ScnView)?.nextIsAutoRepeat) != nil
+//			if ((vewBase.gui?.delegate as? ScnView)?.nextIsAutoRepeat) != nil
+			{	return true 													}
 		}
 		return false
 	}
@@ -26,11 +26,10 @@ import SwiftUI
 		partBase				= pb
 		simulator 				= Simulator(configure:c)
 		fmConfig				= c				// Save in ourselves   WHY???
-
 		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		if let fm 				= FACTALSMODEL {
-			 print("******** FACTALSMODEL already set by \(fm) ********")	//assert(FACTALSMODEL == nil, "FACTALSMODEL is nil")
+			 print("******** FACTALSMODEL already set to '\(fm)' ********")
 		}
 		FACTALSMODEL			= self			// set GLOBAL <<<< UGLY >>>>
 
@@ -54,7 +53,6 @@ import SwiftUI
 				else {	panic("Confused wo38r")									}
 			}
 		}
-
 		 // Ensure 1 View
 		if vewBases.isEmpty 			//false,
 		{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
@@ -375,7 +373,7 @@ import SwiftUI
 			print("\n******************** 'P': Paint the skins of Views:\n")
 			partBase.tree.forAllParts({	$0.markTreeDirty(bit:.paint)			})
 			updateVews()
-		case "w": bug
+		case "w":
 			print("\n******************** 'w': ==== FactalsModel = [\(pp())]\n")
 		case "x":
 			print("\n******************** 'x':   === FactalsModel: --> parts")
@@ -432,8 +430,8 @@ bug	//		var msg					= "\n"
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig=params4defaultPp) -> String	{// CherryPick2023-0520:
 		switch mode {
 		case .line:
-			var rv				= "\(partBase.tree.pp(.classTag, aux)) "
-			rv					+= "\(vewBases.count) VewBases "
+			var rv				= "Parts Tree=\(partBase.tree.pp(.classTag, aux)),  "
+			rv					+= "vewBases=\(vewBases.pp(.short, aux)) "
 			return rv
 		default:
 			return ppFixedDefault(mode, aux)		// NO, try default method

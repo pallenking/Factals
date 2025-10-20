@@ -14,10 +14,11 @@ enum EventHandlerType {
 
 class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
-	var vewBase 	 : VewBase? = nil			// Owner
+	weak
+	 var vewBase 	 : VewBase? = nil			// Owner
 
 	var logRenderLocks			= true			// Overwritten by Configuration
-	var keyIsDown 	 : Bool 	= false 		// filter out AUTOREPEAT keys
+	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
@@ -52,8 +53,8 @@ class ScnView : SCNView {
 	}
 
 	 // MARK: - 13.1 Keys
-	open override func keyDown(with event:NSEvent) 		{	handler(event)		}
-	open override func keyUp(  with event:NSEvent) 		{	handler(event)		}
+	open override func keyDown(with event:NSEvent) 		{	bug;handler(event)		}
+	open override func keyUp(  with event:NSEvent) 		{	bug;handler(event)		}
 }
 
 extension ScnView : Gui {
@@ -425,6 +426,20 @@ enum FwNodeCategory : Int {
 	case adornment				= 0x4		// unpickable e.g. bounding box
 	case collides				= 0x8		// Experimental
 }
+func ppNodeType(_ i:Int) -> String {
+	var (rv, sep)				= ("", "")
+	for (val, str) in [
+		(.byDefault, "def"),
+		(.picable  , "pic"),
+		(.adornment, "dor"),
+		(.collides , "col"),
+	 ] as [(FwNodeCategory, String)] {
+     	guard i & val.rawValue != 0 else { continue }
+ 		rv 						+= str + sep
+		sep						= " "
+	}
+	return rv
+}
 
 extension ScnView : SCNSceneRendererDelegate {
 	var factalsModel : FactalsModel {	vewBase!.factalsModel!					}
@@ -469,18 +484,19 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 
 		 //  ====== KEYBOARD ===================================================
 		case .keyDown:
-			guard let char		= nsEvent.charactersIgnoringModifiers else { return false}
-			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
+			guard let chars		= nsEvent.charactersIgnoringModifiers else { return false}
+			assert(chars.count==1, "Slot\(slot): multiple keystrokes not supported")
 			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
+			nextIsAutoRepeat 	= true
 	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 			{	nop		/*taken*/												}
-			else if char != "?"  		// others  besides"?" to get here
+			else if chars != "?"  		// others  besides"?" to get here
 			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")}
 		case .keyUp:
 			assert(nsEvent.charactersIgnoringModifiers?.count == 1, "1 key at a time")
-			assert(keyIsDown==true, "keyIsDown has gone false")
-			keyIsDown 			= false
-	/**/	let _ 				= /*factalsModel.*/processEvent(nsEvent:nsEvent, inVew:vew)
+			assert(nextIsAutoRepeat, "keyIsDown has gone false")
+			nextIsAutoRepeat 	= false
+	/**/	let _ 				= factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 
 		 //  ====== LEFT MOUSE =================================================
 		case .leftMouseDown:
@@ -644,39 +660,37 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-
 		guard let tree			= vewBase.gui?.getScene    else { return nil	}
-//		guard let tree			= vewBase. scnBase.scene    else { return nil	}
+
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-			.categoryBitMask	:		// ++ search only for objects with value overlapping this bitmask
-				FwNodeCategory.picable  .rawValue | // 3:works ??, f:all drop together
+			.categoryBitMask	:		// ++ search only for objects whose bit is ON:
+				FwNodeCategory.picable  .rawValue |
 				FwNodeCategory.byDefault.rawValue ,
 			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-		  //.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-		  //.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
 			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-		  //.sortResults:1, 			// (implied)
-	//		.rootNode:tree				// The root of the node hierarchy to be searched. 			MOTOR BUSTED
+										//.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+										//.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+										//.sortResults:1, 			// (implied)
+										//.rootNode:tree				// Where to start search
 		]
-
 		let locationInRoot		= convert(nsEvent.locationInWindow, from:nil)
-//bug;	return nil
-		let hits 				= hitTest(locationInRoot, options:configHitTest)
-
-		 // Find closest to screen:
-		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
+/**/	let hits 				= hitTest(locationInRoot, options:configHitTest)
+		let sortedHits			= hits.sorted	 	// Find closest to screen:
+		{	$0.node.position.z > $1.node.position.z }
 		var pickedScn : SCNNode	= sortedHits.first?.node ?? tree.rootNode
 
 		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
 		var msg					= "******************************************\n Slot\(vewBase.slot_): "
 		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
 			
-		 // While not picable, try parent
-		while pickedScn.categoryBitMask & FwNodeCategory .picable .rawValue == 0,	//
+		 // Picable bit try parent
+		while pickedScn.categoryBitMask & (FwNodeCategory .picable .rawValue) == 0,	//
 			 	let parent 		= pickedScn.parent	{
-			msg					+= fmt("\t--> category %02x subpart", pickedScn.categoryBitMask)
+			let m				= pickedScn.categoryBitMask
+			msg					+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
+// A BUG!!	msg					+= fmt("\t--> %02x = %s", m, ppNodeType(m))
 			pickedScn 			= parent				// use parent
 			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
 		}
@@ -684,7 +698,8 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 		 // Get Vew from SCNNode
 		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true)
 		 else {	return nil														}
-		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
+		let m					= pickedScn.categoryBitMask
+		msg						+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
 		if Log.shared.eventIsWanted(ofArea:"eve", detail:3)
 		 {	print("\n" + msg)											}
 		return vew

@@ -45,7 +45,6 @@ protocol   Gui : NSView /*AnyObject PW*/{		 /// Protypical Graphical User Interf
 	var getScene 	: SCNScene?	{	get set										}
 	var delegate    : SCNSceneRendererDelegate?	{	get set						}
 //	var vewBase     : VewBase!	{	get set										}
-////
 //	var Sounds					{	get set										}
 //	var codable					{	get set										}
 //	var animatePhysics : Bool 	{	get set										}

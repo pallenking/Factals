@@ -197,17 +197,16 @@ struct FactalsModelView: View {
 					//let seeView = vewBase.wrappedValue.seeView as? SCNView
 					ZStack {
 						//let _ = Self._printChanges()
-				/**/	SceneKitView(/*scnView:seeView,*/ prefFpsC:vewBase.prefFps)
+				/**/	SceneKitView(prefFpsC:vewBase.prefFps)
 						 .frame(maxWidth: .infinity)
 						 .border(.black, width:1)
 						EventReceiver { nsEvent in // Catch events (goes underneath)
-							if let scnView = vewBase.wrappedValue.gui as? ScnView {
-								logApp(5, "Check 2 scnView=\(scnView.pp(.nameTag))")
-								if scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-								{	return		/* understood */				}
+							guard let scnView = vewBase.wrappedValue.gui as? ScnView
+							 else { // ERROR
 								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-								logApp(3, "Key '\(c)' not recognized and hence ignored...")
-							}
+							 	logApp(3, "Key '\(c)' not recognized and hence ignored...")
+								return 											}
+							let _ = scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 						}
 					}
 				}//.frame(width: 555)

@@ -25,8 +25,7 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView : NSViewRepresentable {
-//	var scnView 				= ScnView(scnScene:nil, eventHandler:{_ in})
-	var scnView  		 		= ScnView()	// ARG1: exposes visual world // was SCNView()
+	var scnView  		 		= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
 	typealias Visible			= SCNNode
@@ -39,48 +38,43 @@ struct SceneKitView : NSViewRepresentable {
 	func makeNSView(context:Context) -> ScnView {
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
-		 // BUG AVOIDANCE HACK: find existing one:
-		guard let vewBase		= fm.vewBases.first(where: {
+		let vewBase				= fm.vewBases.first {		//** EXISTING (as a HACK, use it)
 				$0.gui == nil 					// not used yet
 			&&	$0.factalsModel === fm 			// matches my factory
-			&&	$0.partBase === fm.partBase		//  and part
-		})
-		 else { fatalError("no preMade VewBase matches")						}
-		assert(vewBase === fm.vewBases.last,	 "paranoia")
-						//	assert(vewBase.factalsModel === fm,		 "paranoia")
-						//	assert(vewBase.partBase === fm.partBase, "paranoia")
-												 // ELSE NORMAL:
-										//		let vewBase				= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-										//		vewBase.factalsModel	= fm
-										//		vewBase.partBase		= fm.partBase
-										 //		if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
-										 //		{	fm.vewBases.append(vewBase)							}
-	//	scnView.delegate		=
-	//	scnView.getScene		= 							// wrapped.scnScene //gui.scene //.scene
-		vewBase.gui 			= scnView		//
-										//		 // Make delegate ScnBase
-										//		let scnBase 			= ScnBase(gui:scnView)							// scnBase.gui = rv // important BACKPOINTER
-										//		scnView.delegate		= scnBase 		// (the SCNSceneRendererDelegate)
-										//		scnView.getScene		= scnBase.gui!.getScene							// wrapped.scnScene //gui.scene //.scene
-										//		vewBase.gui 			= scnView		// needed
-		scnView.vewBase			= vewBase
+			&&	$0.partBase === fm.partBase		//  and its Parts
+		} ?? {												//** NEW
+			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+			vewBase.factalsModel = fm
+			vewBase.partBase	= fm.partBase
+			if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
+			{	fm.vewBases.append(vewBase)							}
+			return vewBase
+		} ()
+		assert(vewBase === fm.vewBases.last, "paranoia")
+		vewBase.gui 			= scnView		// usage
+		scnView.vewBase			= vewBase		// backpointer
+
 		scnView.getScene?.rootNode.addChildNode(vewBase.tree.scn)
-		scnView.makeLights()
-		scnView.makeCamera()
-		scnView.makeAxis()
+
+		scnView.backgroundColor = NSColor("veryLightGray")!
+		scnView.antialiasingMode = .multisampling16X
+		scnView.delegate		= scnView // STRANGE
 
 		scnView.isPlaying		= false			// book keepscnViewing
 		scnView.showsStatistics	= true			// controls extra bar
 		scnView.debugOptions	= 				// enable display of:
-		  [	SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
+		 [	SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
 		scnView.allowsCameraControl	= true		// user may control camera	//args.options.contains(.allowsCameraControl)
 		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
+
+		scnView.makeLights()
+		scnView.makeCamera()
+		scnView.makeAxis()
 		return scnView
 	}
 	func updateNSView(_ nsView: ScnView, context:Context) {
-	//	let scnView				= scnView as SCNView			//	scnBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
 }
@@ -133,7 +127,4 @@ struct SceneKitView : NSViewRepresentable {
 		//if let speed			= c.cgFloat("speed") {
 		//	scnScene.physicsWorld.speed	= speed
 		//}
-//		scnView!.backgroundColor = NSColor("veryLightGray")!
-//		scnView!.antialiasingMode = .multisampling16X
-//		scnView!.delegate		= self as any SCNSceneRendererDelegate
 
