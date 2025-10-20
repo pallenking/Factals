@@ -11,8 +11,9 @@ class Net : Atom {		// Atom // Part
 		var config				= ["placeMy":"linky"] + c	// default
 		super.init(config)	//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		if let a 				= config["parts"] as? [Part] {
-			a.forEach { addChild($0) }						// add children in "parts"
+		if let subParts 		= config["parts"] as? [Part] {
+			subParts.forEach
+			{	addChild($0) 					/* add children in "parts" */	}
 			config["parts"]		= nil
 		}
 		if let parts 			= config["parts"] {

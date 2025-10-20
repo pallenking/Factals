@@ -1,5 +1,5 @@
 //
-//  ScnViewX.swift
+//  ScnView.swift
 //  Factals
 //
 //  Created by Allen King on 10/9/25.
@@ -12,7 +12,7 @@ enum EventHandlerType {
 	typealias EventHandler		= (NSEvent) -> Void
 }
 
-class ScnViewX : SCNView {
+class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
 	var vewBase 	 : VewBase? = nil			// Owner
 
@@ -21,24 +21,19 @@ class ScnViewX : SCNView {
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition : SCNVector3? = nil		// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
-	func configure(from:FwConfig)	{ bug }
-	 /// animatePhysics is a posative quantity (isPaused is a negative)
-	var animatePhysics : Bool {	bug; return false
-//		get {			return !(gui?.getScene?.isPaused ?? false)				}
-//		set(v) {		gui?.getScene?.isPaused = !v							}
-	}
 	var handler : EventHandlerType.EventHandler 	{
 		get { 	eventHandler													}
 		set(val) { bug }
 	}
 	 // MARK: - 3.1 init
-	init(foo:Bool, scnScene:SCNScene?=nil, eventHandler: @escaping EventHandlerType.EventHandler={_ in}) { // ScnBase(scnView:ScnViewX, scnScene:eventHandler)
+	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandlerType.EventHandler={_ in}) { // ScnView(scnView:ScnView, scnScene:eventHandler)
 		self.eventHandler		= eventHandler
 		super.init(frame:CGRect(x:0, y:0, width:800, height:400), options:[:])
 		scene 					= scnScene
-								?? SCNScene(named: "art.scnassets/MyScene.scn")
+								?? SCNScene(named:"art.scnassets/MyScene.scn")
 								?? SCNScene()
 		scene!.rootNode.name 	= "tree"
+		print(ifArea:"bld", detail:6, "############ init(\(self.pp()))")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
 	 // MARK: - 3.? Monitor
@@ -53,7 +48,7 @@ class ScnViewX : SCNView {
 	deinit {
 		monitoring.forEach { 	$0.cancel() 									}
 		monitoring.removeAll()
-		print("############ deinit(\(self.pp()))")
+		print(ifArea:"bld", detail:6, "############ deinit(\(self.pp()))")
 	}
 
 	 // MARK: - 13.1 Keys
@@ -61,7 +56,7 @@ class ScnViewX : SCNView {
 	open override func keyUp(  with event:NSEvent) 		{	handler(event)		}
 }
 
-extension ScnViewX : Gui {
+extension ScnView : Gui {
 	var cameraXform: SCNNode {
 		get { bug; return SCNNode()	}
 		set { bug	}
@@ -83,10 +78,12 @@ extension ScnViewX : Gui {
 		get {	self.scene														}
 		set {	self.scene			= newValue									}
 	}
-//	var animatePhysics:Bool {
-//		get {	gui!.animatePhysics												}
-//		set {	gui!.animatePhysics	= newValue									}
-//	}
+	func configure(from:FwConfig)	{ bug }
+	 /// animatePhysics is a posative quantity (isPaused is a negative)
+	var animatePhysics : Bool {	//bug; return false
+		get {			return false == (getScene?.isPaused ?? false)			}
+		set(v) {		getScene?.isPaused = !v									}
+	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let scnResults = self.hitTest(point, options: options!)
 		return scnResults.map { scnHit in
@@ -142,7 +139,7 @@ https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
  */
 
 // From ScnBase
-extension ScnViewX {
+extension ScnView {
 
 	 // MARK: - 4.1 Lights
 	func makeLights() {
@@ -352,7 +349,7 @@ bug//	let animateIt			= configure.bool_("animatePole") ; bug
 		guard let vewBase		= vewBase 			else {	return				}
 		guard let cameraScn		= vewBase.cameraScn else {	return 				}
 								
-		vewBase.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
+bug//	vewBase.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
 
 		guard let factalsModel	= vewBase.factalsModel else {debugger("")		}
 
@@ -385,7 +382,7 @@ bug//	let animateIt			= configure.bool_("animatePole") ; bug
 	 /// Determine zoom so that all parts of the scene are seen.
 	func zoom4fullScreen() -> CGFloat {		//selfiePole:SelfiePole, cameraScn:SCNNode
 		guard let vewBase 		else {	debugger("RootScn.vews is nil")			}
-
+bug
 		 //		(ortho-good, check perspective)
 		let rootVewBbInWorld	= vewBase.tree.bBox //BBox(size:3, 3, 3)//			// in world coords
 		let world2eye			= SCNMatrix4Invert(vewBase.cameraScn?.transform ?? .identity)	//vews.scn.convertTransform(.identity, to:nil)	// to screen coordinates
@@ -429,7 +426,7 @@ enum FwNodeCategory : Int {
 	case collides				= 0x8		// Experimental
 }
 
-extension ScnViewX : SCNSceneRendererDelegate {
+extension ScnView : SCNSceneRendererDelegate {
 	var factalsModel : FactalsModel {	vewBase!.factalsModel!					}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
@@ -460,7 +457,7 @@ extension ScnViewX : SCNSceneRendererDelegate {
 		}
 	}
 }
-extension ScnViewX : ProcessNsEvent {	//, FwAny
+extension ScnView : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
@@ -475,7 +472,7 @@ extension ScnViewX : ProcessNsEvent {	//, FwAny
 			guard let char		= nsEvent.charactersIgnoringModifiers else { return false}
 			assert(char.count==1, "Slot\(slot): multiple keystrokes not supported")
 			if nsEvent.isARepeat {		return false  /* Ignore repeats */		}
-	/**/	if /*factalsModel.*/processEvent(nsEvent:nsEvent, inVew:vew)
+	/**/	if factalsModel.processEvent(nsEvent:nsEvent, inVew:vew)
 			{	nop		/*taken*/												}
 			else if char != "?"  		// others  besides"?" to get here
 			{	logEve(3, "Slot\(slot):   ==== nsEvent not processed\n\(nsEvent)")}
@@ -665,34 +662,32 @@ extension ScnViewX : ProcessNsEvent {	//, FwAny
 		]
 
 		let locationInRoot		= convert(nsEvent.locationInWindow, from:nil)
-bug;	return nil
-//		let hits 				= hitTest(locationInRoot, options:configHitTest)
-//
-//		 // Find closest to screen:
-//		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
-//		var pickedScn : SCNNode	= sortedHits.first?.node ?? tree.rootNode
-//
-//		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
-//		var msg					= "******************************************\n Slot\(vewBase.slot_): "
-//		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
-//			
-//		 // While not picable, try parent
-//		while pickedScn.categoryBitMask & FwNodeCategory .picable .rawValue == 0,	//
-//			  let parent 		= pickedScn.parent
-//		{
-//			msg					+= fmt("\t--> category %02x subpart", pickedScn.categoryBitMask)
-//			pickedScn 			= parent				// use parent
-//			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
-//		}
-//								
-//		 // Get Vew from SCNNode
-//		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true) else
-//		{	return nil															}
-//		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
-//		if Log.shared.eventIsWanted(ofArea:"eve", detail:3) {
-//			print("\n" + msg)
-//		}
-//		return vew
+//bug;	return nil
+		let hits 				= hitTest(locationInRoot, options:configHitTest)
+
+		 // Find closest to screen:
+		let sortedHits			= hits.sorted {	$0.node.position.z > $1.node.position.z }
+		var pickedScn : SCNNode	= sortedHits.first?.node ?? tree.rootNode
+
+		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
+		var msg					= "******************************************\n Slot\(vewBase.slot_): "
+		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
+			
+		 // While not picable, try parent
+		while pickedScn.categoryBitMask & FwNodeCategory .picable .rawValue == 0,	//
+			 	let parent 		= pickedScn.parent	{
+			msg					+= fmt("\t--> category %02x subpart", pickedScn.categoryBitMask)
+			pickedScn 			= parent				// use parent
+			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
+		}
+								
+		 // Get Vew from SCNNode
+		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true)
+		 else {	return nil														}
+		msg						+= "\t\t\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
+		if Log.shared.eventIsWanted(ofArea:"eve", detail:3)
+		 {	print("\n" + msg)											}
+		return vew
 	}
 
 	 // MARK: - 13.4 Mouse Variables
@@ -725,7 +720,7 @@ bug;	return nil
 	func selfiePole2camera(duration:Float=0, reason:String="") {
 		guard let vewBase		else { return								 	}
 		var selfiePole			= vewBase.selfiePole
-		selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
+//bug;	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 		let transform			= selfiePole.transform(lookAtVew:vewBase.lookAtVew)
 		//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.nameTag))")
 		//print("selfiePole:\(selfiePole.pp(.nameTag)) = \(selfiePole.pp(.line))\n")
@@ -750,7 +745,7 @@ bug;	return nil
 }
 
  // currently unused
-extension ScnViewX : SCNPhysicsContactDelegate {
+extension ScnView : SCNPhysicsContactDelegate {
 	func physicsWorld(_ world:SCNPhysicsWorld, didBegin  contact:SCNPhysicsContact) {	bug	}
 	func physicsWorld(_ world:SCNPhysicsWorld, didUpdate contact:SCNPhysicsContact) {	bug	}
 	func physicsWorld(_ world:SCNPhysicsWorld, didEnd    contact:SCNPhysicsContact) {	bug	}

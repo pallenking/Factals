@@ -323,41 +323,46 @@ r("-Hangs as 2'nd ^r", e + selfiePole(s:9, u:3), { Net([placeMy:"stackX -1", par
 //		Broadcast()
 	})
 
-xr("+Family Portrait", e + selfiePole(s:-90, u:30) +
+xr("- double appearance", e + selfiePole(s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
-//	Net([placeMy:"stackz 0 -1", parts:[
+	Sphere(),
+	Box(),
+]]) })
+r("+Family Portrait", e + selfiePole(s:-90, u:30) +
+			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
+	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),
 		MaxOr(),
 		MinAnd(),
 		Bayes(),
 		Hamming(),
-//		Multiply(),
-//		KNorm(),
-//		Sequence([spin:3]),
-//		Bulb(),
-//	]]),
-//	Net([placeMy:"stackz 0 -1", parts:[
-//		Atom(), // BAD BODY
-//		Ago(),
-//		Previous(),
-//		Mirror(),
-//		Modulator(),
-//		Rotator(),
-//	]]),
-//	Net([placeMy:"stackz 0 -1", parts:[
-//		WriteHead(),
-//		DiscreteTime(),
-//		TimingChain(),
-//		WorldModel(),
-//		GenAtom(),
-//	]]),
-//	Net([placeMy:"stackz 0 -1", parts:[
-//		Box(		[size:SCNVector3(3,  2,  2),	color:"red"]),
-//		Cylinder(	[size:SCNVector3(1.5,1.5,1.5),	color:"yellow"]),
-//		Hemisphere(	[size:SCNVector3(2,  2,  2),	color:"green"]),
-//		TunnelHood(	[size:SCNVector3(1.5,1.5,1.5),	color:"blue"]),
-//		Sphere(		[size:SCNVector3(2,  2,  2),	color:"[purple]"]),
-//	]]),
+		Multiply(),
+		KNorm(),
+		Sequence([spin:3]),
+		Bulb(),
+	]]),
+	Net([placeMy:"stackz 0 -1", parts:[
+		Atom(), // BAD BODY
+		Ago(),
+		Previous(),
+		Mirror(),
+		Modulator(),
+		Rotator(),
+	]]),
+	Net([placeMy:"stackz 0 -1", parts:[
+		WriteHead(),
+		DiscreteTime(),
+		TimingChain(),
+		WorldModel(),
+		GenAtom(),
+	]]),
+	Net([placeMy:"stackz 0 -1", parts:[
+		Box(		[size:SCNVector3(3,  2,  2),	color:"red"]),
+		Cylinder(	[size:SCNVector3(1.5,1.5,1.5),	color:"yellow"]),
+		Hemisphere(	[size:SCNVector3(2,  2,  2),	color:"green"]),
+		TunnelHood(	[size:SCNVector3(1.5,1.5,1.5),	color:"blue"]),
+		Sphere(		[size:SCNVector3(2,  2,  2),	color:"[purple]"]),
+	]]),
 ]]) })
 	r("-Should never get here", e + selfiePole( s:-90, u:30) +
 				["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[

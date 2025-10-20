@@ -38,6 +38,13 @@ import Foundation
 // 		tst	-- TeSTing			 3
 // 		defalt (note unusual spelling) -- otherwise 
 
+func print(ifArea area:String, detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n") {
+	if Log.shared.eventIsWanted(ofArea:area, detail:detail) {
+		let eventStr		= "--- " + area + String(format:"%1d ", detail)
+		print(eventStr + String(format:format, args), terminator:terminator)
+	}
+}
+
 // MARK: 2 Program Generates an Event to log, at an area of a certain detail:
  // Sugar to shorten commonl y used cliche.
 func  logApp(_ detail:Int, _ format:String, _ args:CVarArg..., terminator:String="\n")		// APPlication

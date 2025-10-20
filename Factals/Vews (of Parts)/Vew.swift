@@ -562,11 +562,24 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 			scn.addChild(node:bBoxScn, atIndex:0)
 
 			 // Name the wire frame
-			let partBase		= part.partBase
-			let wBoxNameIndex	= partBase?.indexFor["WBox"] ?? 1
-			partBase?.indexFor["WBox"] = wBoxNameIndex + 1
-//			assert(partBase != nil, "%%%%%%%% partBase==nil")
-			print(partBase != nil ? "" : "%%%%%%%% partBase==nil")
+			var wBoxNameIndex : Int = 1
+			if let partBase		= part.partBase {
+				wBoxNameIndex	= partBase.indexFor["WBox", default: 1]
+				partBase.indexFor["WBox"] = wBoxNameIndex + 1
+			} else
+			 {	print("%%%%%%%% partBase==nil")									}
+								//			let partBase		= part.partBase
+								//			if partBase == nil
+								//			 {	print("%%%%%%%% partBase==nil")									}
+								//			let wBoxNameIndex	= partBase?.indexFor["WBox", default: 1] ?? 1
+								//			partBase?.indexFor["WBox"] = wBoxNameIndex + 1
+								 //			assert(partBase != nil, "%%%%%%%% partBase==nil")
+								//			let partBase		= part.partBase
+								//			let wBoxNameIndex	= partBase?.indexFor["WBox"] ?? 1
+								//			partBase?.indexFor["WBox", default: 1] = wBoxNameIndex + 1
+								////			assert(partBase != nil, "%%%%%%%% partBase==nil")
+								//			if partBase != nil
+								//			 {	print("%%%%%%%% partBase==nil")									}
 			bBoxScn.name		= fmt("w-%d", wBoxNameIndex)
 			bBoxScn.geometry 	= SCNGeometry.lines(lines:indices, withPoints:corners) //material.diffuse.contents = color0		// BUG doesn't work, all are white
 			bBoxScn.categoryBitMask = FwNodeCategory.adornment.rawValue			//material.lightingModel 	= .blinn

@@ -32,8 +32,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var lookAtVew	  : Vew!	= nil	// Vew we are looking at
 
 	var animateVBdelay: Float	= 0.3
-	var prefFps		  : Float	= 30.0
-	var prefFpsC	  : CGFloat	= 33.0
+	var prefFps		  : CGFloat	= 30.0
 	var sliderTestVal : Double 	= 0.5
 																			// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
 	@Published
@@ -97,7 +96,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		partBase				= try container.decode( PartBase.self, forKey:.partBase		)
 		tree					= try container.decode(   	 Vew.self, forKey:.tree			)
 bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTestVal)
-		prefFps					= try container.decode(    Float.self, forKey:.prefFps		)
+		prefFps					= try container.decode(  CGFloat.self, forKey:.prefFps		)
 	//	fwConfig				= [:]
 	//	vewConfig				= VewConfig.nothing
 		logSer(3, "Decoded  as? Vew \(ppUid(self))")
@@ -140,8 +139,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		guard let factalsModel = FACTALSMODEL else { fatalError("FACTALSMODEL is nil!") }
 //		guard let factalsModel else {	fatalError("factalsModel is nil!") 		}
 
-		 // Configure SelfiePole:											//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
-		selfiePole.configure(from:factalsModel.fmConfig)
+		selfiePole.configure(from:factalsModel.fmConfig)						//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 
 		 // Configure Initial Camera Target:
 		lookAtVew				= tree		// default is trunk

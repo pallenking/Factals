@@ -25,18 +25,18 @@ import AppKit
 	// now       : SceneView 	native SwiftUI (not full-featured)
 
 struct SceneKitView : NSViewRepresentable {
-	var scnView 				= ScnViewX(foo:true, scnScene:nil, eventHandler:{_ in})
-//	var scnView  		 		= ScnViewX()	// ARG1: exposes visual world // was SCNView()
+//	var scnView 				= ScnView(scnScene:nil, eventHandler:{_ in})
+	var scnView  		 		= ScnView()	// ARG1: exposes visual world // was SCNView()
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
 	typealias Visible			= SCNNode
 	typealias Vect3 			= SCNVector3
 	typealias Vect4 			= SCNVector4
 	typealias Matrix4x4 		= SCNMatrix4
-	typealias NSViewType 		= ScnViewX		// Type represented
+	typealias NSViewType 		= ScnView		// Type represented
 
 	 // NSViewRepresentable calls this, aka init
-	func makeNSView(context:Context) -> ScnViewX {
+	func makeNSView(context:Context) -> ScnView {
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
 		 // BUG AVOIDANCE HACK: find existing one:
@@ -79,7 +79,7 @@ struct SceneKitView : NSViewRepresentable {
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
 		return scnView
 	}
-	func updateNSView(_ nsView: ScnViewX, context:Context) {
+	func updateNSView(_ nsView: ScnView, context:Context) {
 	//	let scnView				= scnView as SCNView			//	scnBase.scnView
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
@@ -87,78 +87,8 @@ struct SceneKitView : NSViewRepresentable {
 
 //------------------------------ Scraps to end -------------------------
 // ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
- // Simple test of things like VIEWREPresentable
-//struct SceneKit2View: View {
-//	@Bindable var factalsModel : FactalsModel
-//	@State var prefFpsC : CGFloat	= 30.0
-//
-//	var body: some View {
-////		let x = factalsModel.simulator.timeNow
-//		VStack (alignment:.leading) {
-//			let size = CGFloat(12)		// of Text
-//			Text("TextField:NSViewRepresentable / TextField:View ").font(.system(size:size))
-//			HStack {
-//				//Text("ViewRepTest:").foregroundStyle(.red).font(.system(size:18))	/// A: SwiftUI Text
-//				Text("timeNow=(factalsModel.simulator.timeNow)")
-//				TextField("timeNow=", value:$factalsModel.simulator.timeNow,
-//						  format:.number.precision(.significantDigits(5)))
-//					.frame(width:100)
-//				Button("+=1") {
-//					factalsModel.simulator.timeNow += 1.0						}
-//			}
-//			 .font(.system(size:12))
-//			Text("SelfiePoleBar(selfiePole):View").font(.system(size:size))
-//			VStack {									//Binding<VewBase>
-//				let vewBase0		= $factalsModel.vewBases[0]
-//				SelfiePoleBar(selfiePole:vewBase0.selfiePole)
-//					.font(.system(size:12))
-//			}
-//			Text("SceneKitView:NSViewRepresentable").font(.system(size:size))
-//			VStack {									//Binding<VewBase>
-//				let vewBase0		= factalsModel.vewBases[0]
-//				let scnBase	= vewBase0.scnBase
-//				ZStack {
-//					SceneKitView(scnBase:scnBase, prefFpsC:$prefFpsC)		 // New Way (uses old NSViewRepresentable)
-//					 .frame(maxWidth: .infinity)
-//					 .border(.black, width:1)
-//					Text("Overlayed Text")
-//					EventReceiver {	nsEvent in // Catch events (goes underneath)
-// 						//print("EventReceiver:point = \(nsEvent.locationInWindow)")
-//						if !scnBase.processEvent(nsEvent:nsEvent, inVew:vewBase0.tree) {
-//							guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-//							//print("Key '\(c)' not recognized and hence ignored")
-//						}
-//					}
-//					MySceneView(scnBase:scnBase)
-//				}
-//			//	VewBaseBar(vewBase:$vewBase0)
-//			}
-//		}
-//		.font(.largeTitle)
-//	}
-//}
 // Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
 // MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
-
-// /////////////////////////////// SceneView ////////////////////////////
-
-//struct MySceneView : View {
-//	var scnBase : ScnBase?			// ARG1: exposes visual world
-//
-//	var body : some View {
-//		SceneView(					 // Old Way
-//			scene:scnBase?.nsView!.scene,		//scnBase.
-//			pointOfView:nil,	// SCNNode
-//			options:[.rendersContinuously],
-//			preferredFramesPerSecond:30,
-//			antialiasingMode:.none,
-//			delegate:scnBase,	//SCNSceneRendererDelegate?
-//			technique: nil		//SCNTechnique?
-//		)
-//		 .frame(maxWidth: .infinity)// .frame(width:500, height:300)
-//		 .border(.black, width:1)
-//	}
-//}
 
 // ///////////////////////  SCRAPS   //////////////////////////////////
 						//		@State		var isLoaded	= false
@@ -191,7 +121,7 @@ struct SceneKitView : NSViewRepresentable {
 								//	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
 								//  print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
 								//}
-		//animatePhysics 			= c.bool("animatePhysics") ?? false
+		//animatePhysics 		= c.bool("animatePhysics") ?? false
 		//if let gravityAny		= c["gravity"] {
 		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
 		//		scnScene.physicsWorld.gravity = gravityVect

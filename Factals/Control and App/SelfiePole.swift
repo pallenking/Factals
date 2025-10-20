@@ -23,37 +23,32 @@ struct SelfiePole: Equatable {		//Observable, 								//xyzzy15.3
 								
 	init(position:SCNVector3 = .zero, spin:Float=0.0, gaze:Float=0.0, zoom:Float=1.0, ortho:Float=0.0) {
 		self.position 			= SCNVector3(position)
- 		self.spin 				= CGFloat(   spin)
- 		self.gaze 				= CGFloat(   gaze)
- 		self.zoom 				= CGFloat(   zoom)
- 		self.ortho 				= CGFloat(   ortho)
+ 		self.spin 				= CGFloat(spin)
+ 		self.gaze 				= CGFloat(gaze)
+ 		self.zoom 				= CGFloat(zoom)
+ 		self.ortho 				= CGFloat(ortho)
 	}
 
 	mutating func configure(from config:FwConfig) {								//xyzzy15.2
 		 // Configure Camera from Source Code: ["camera":["p":[1,2,3], "u":3.4] ...]]
 		if let c 				= config.fwConfig("selfiePole") {//camera") {
-			if let n	 		= c.string("n") {
-				debugger("NameTags are read only. '\(n)' ignored")
-			}
-			if let p 			= c.string("p") {			// 1, 1 2, 1 2 3, 1 2 3 4
-				position		= SCNVector3(string:p)
-			}
-			if let s 			= c.float("s"), !s.isNan {	// Spin
-				spin 			= CGFloat(s) 					// (in degrees)
-			}
-			if let g 			= c.float("g"), !g.isNan {	// Horizon look Up
-				gaze 			= -CGFloat(g)					// (in degrees)
-			}
-			if let z 			= c.float("z"), !z.isNan {	// Zoom
-				zoom 			= CGFloat(z)
-			}
+			if let n	 		= c.string("n")
+			 {	debugger("NameTags are read only. '\(n)' ignored")				}
+			if let p 			= c.string("p") 			// 1, 1 2, 1 2 3, 1 2 3 4
+			 {	position		= SCNVector3(string:p)							}
+			if let s 			= c.float("s"), !s.isNan 	// Spin
+			 {	spin 			= CGFloat(s) 				  /* (in degrees) */}
+			if let g 			= c.float("g"), !g.isNan 	// Horizon look Up
+			 {	gaze 			= -CGFloat(g)				  /* (in degrees) */}
+			if let z 			= c.float("z"), !z.isNan 	// Zoom
+			 {	zoom 			= CGFloat(z)									}
 			ortho 				= c.cgFloat("o") ?? 0.0		// Ortho
 			logRve(2, "=== Configure selfiePole(from:\(c.pp(.line)) -> \(pp(.line))")
 		}
 	}
 
-	var transform : SCNMatrix4 { transform(lookAt:.zero)						}
 	 // Computes the transform from a camera A on a selfie stick back to the origin
+	var transform : SCNMatrix4 { transform(lookAt:.zero)						}
 	func transform(lookAtVew:Vew) -> SCNMatrix4 {								//xyzzy15.4
 		let posnBoxCtr			= lookAtVew.bBox.center
 		let position			= lookAtVew.scn.convertPosition(posnBoxCtr, to:nil)

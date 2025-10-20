@@ -25,7 +25,6 @@ struct VewBaseBar: View {
 					TextField("title", text:$vewBase.title)
 				}
 				HStack {
-					Spacer()
 					Button(label:{	Text("ptv")									})
 					{	print("===== Vew of Slot\(slot): =====")
 						print(vewBase.tree.pp(.tree, factalsGlobals.factalsConfig))
@@ -37,6 +36,29 @@ struct VewBaseBar: View {
 						print(scnScene?.rootNode.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 //						print(scnScene?.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 					}
+					Spacer()
+					Button(label:{	Text("Test")								})
+					{	print("===== Test =====")
+						let v1 = 1.0
+						let v2 = 0.0
+						logDat(3, "\n1:v1=%.2f, v2=%.2f", v1, v2)						// v1 = 0.00   v2 = 0.00
+						logDat(3, "\n2:v1=%.2f, v2=%.2f", v1, v2)	// v1=0.00, v2=0.00
+//						print("\n3:")
+				//		let eventArea="dat", eventDetail=3, args:1.0;, 0.0//v1, v2
+				//		let eventStr = eventArea + String(format:"%1d ", eventDetail)
+				//		let message	 = eventStr + String(format:format, args)	// FINALLY
+				//		Log.shared.logd(message, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
+				//		ld way
+				//		let str		 = String(format:"%1d", eventDetail)
+				//		let format	 = eventArea + str + " " + format
+				//		Log.shared.logd(format, args, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
+						//Log.shared.atFoo("dat", 3, format:"v1=%.2f, v2=%.2f", args:v1, v2)	// v1=0.00, v2=0.00
+					}
+					LabeledCGFloat(label:"prefFps",val:$vewBase.prefFps)
+					Slider(value:$vewBase.prefFps, in: 0.0...60.0) { e in isEditing = e	}
+					 .frame(width:100 )
+				}
+				HStack {
 					Text("Re-")
 					Button(label:{	Text("Vew")									})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
@@ -53,31 +75,7 @@ struct VewBaseBar: View {
 						vewBase.partBase.tree.forAllParts({$0.markTreeDirty(bit:.size)})
 						factalsModel.updateVews()
 					}
-																			//		Button(label:{	Text("Test")								})
-																			//		{	print("===== Test =====")
-																			//			let v1 = 1.0
-																			//			let v2 = 0.0
-																			//			print("\n1:")
-																			//			logDat(3, "v1=%.2f, v2=%.2f", v1, v2)						// v1 = 0.00   v2 = 0.00
-																			//			print("\n2:")
-																			//		 	Log.shared.at("dat", 3, format:"v1=%.2f, v2=%.2f", args:v1, v2)	// v1=0.00, v2=0.00
-																			//			print("\n3:")
-																			//	//		let eventArea="dat", eventDetail=3, args:1.0;, 0.0//v1, v2
-																			//	//		let eventStr = eventArea + String(format:"%1d ", eventDetail)
-																			//	//		let message	 = eventStr + String(format:format, args)	// FINALLY
-																			//	//		Log.shared.logd(message, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
-																			//	//		ld way
-																			//	//		let str		 = String(format:"%1d", eventDetail)
-																			//	//		let format	 = eventArea + str + " " + format
-																			//	//		Log.shared.logd(format, args, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
-																			//		 	//Log.shared.atFoo("dat", 3, format:"v1=%.2f, v2=%.2f", args:v1, v2)	// v1=0.00, v2=0.00
-																			//		}
-																				//				LabeledCGFloat(label:"prefFpsC",val:$vewBase.prefFpsC)
-																			//					Text("prefFps=")
-																			//					TextField("prefFps", value:$vewBase.prefFps, formatter:d2formatter)
-																			//					 .frame(width:60 ).foregroundColor(Color(.red))
-																				//				Slider(value:$vewBase.prefFpsC, in: 0.0...60.0) { e in isEditing = e	}
-																				//				 .frame(width:100 )
+					Spacer()
 				}
 			} else {
 				Text("FactalsModel not registered in VewBase!").foregroundColor(.red).bold()

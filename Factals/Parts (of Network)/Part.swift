@@ -433,20 +433,20 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	  ///   - index: index to added after. >0 is from start, <=0 is from start, nil is at end
 	 /// dirtyness of child is inhereted by self
 	func addChild(_ newChild:Part?, atIndex index:Int?=nil) {
-		guard let newChild 		else {		return								}
+		guard let newChild 		else {		return	/* add noting if nil */		}
 		assert(self !== newChild, "can't add self to self (non-exhaustive check)")
- // 20241019PAK: uses == on Part, which is depricated?
-//		assert(!children.containsFW(child), "Adding child that's already there")
-
-		 // add at index
-		if var index {							// Find right spot in children
+		if children.contains(newChild)
+		 {	logBld(4, "Attempt to add child '\(newChild.pp(.fullNameUidClass))' that's already there"); return					}
+												// assert(!children.contains(newChild), "Adding child that's already there")
+		 // Add at index in children
+		if var index {							// Find right spot
 			if index < 0 {						// Negative are distance from end
 				index = children.count - index
 			}
 			assert(index>=0 && index<=children.count, "index \(index) out of range")
 			children.insert(newChild, at:index)	// add at index
 		}
-		else {	// add at end
+		else {									// add at end
 			children.append(newChild)
 		}
 								
@@ -456,9 +456,9 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		let _ 					= newChild.checkTreeThat(parent:self, partBase:partBase)
 
 		 // Process tree dirtyness:
-		markTreeDirty(bit:.vew)				// ? tree has dirty.vew
-		markTreeDirty(bit:newChild.dirty)			// ? tree also inherits child's other dirtynesses
-	}										// (child is not dirtied any more)
+		markTreeDirty(bit:.vew)					// ? tree has dirty.vew
+		markTreeDirty(bit:newChild.dirty)		// ? tree also inherits child's other dirtynesses
+	}											// (child is not dirtied any more)
 		/// Groom Part tree after construction.
 	   /// - Parameters:
 	  ///   - parent_: ---- if known
