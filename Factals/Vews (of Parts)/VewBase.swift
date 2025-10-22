@@ -36,8 +36,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var sliderTestVal : Double 	= 0.5
 																			// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
 	@Published
-	 var inspectedVews : [Vew]	= []	// ... to be Inspected
-	var cameraScn	: SCNNode?
+	 var inspectedVews: [Vew]	= []	// ... to be Inspected
+	var cameraScn	  : SCNNode?
 	{	gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
 
 	 // Locks
@@ -55,7 +55,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 		configure(     from:fwConfig)
-		gui?.configure(from:fwConfig)
+		//gui?.configure(from:fwConfig)		// gui nil
 														// Install in scnBase
 		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position
 

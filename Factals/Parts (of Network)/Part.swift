@@ -189,7 +189,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 
 		if let a 				= config["parts"] as? [Part] {
-			a.forEach { addChild($0) }						// add children in "parts"
+			a.forEach
+			{	addChild($0) 		/* add children in "parts" */				}
 		}
 	}
 	required init?(coder: NSCoder) { debugger("init(coder:) has not been implemented")}

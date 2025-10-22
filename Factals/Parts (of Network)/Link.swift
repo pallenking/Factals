@@ -535,8 +535,8 @@ bug	// Never USED?
 	 // Transform so endpoints so [0,1] aligned with [.origin, .uZ]:
 	override func rotateLinkSkins(vew:Vew) {	// create Line transform
 		guard let linkVew		= vew as? LinkVew 	 else { debugger("Vew type mismach")}
-		guard let base			= vew.vewBase(),
-		 	  let cameraScn		= base.cameraScn else 
+		guard let vewBase		= vew.vewBase(),
+		 	  let cameraScn		= vewBase.cameraScn else
 		{	print("silently: can't find camera")
 			return
 		}			// :H: VECTor,Vector,  InWorld, InParent
@@ -553,7 +553,7 @@ bug	// Never USED?
 			let linkVectIp		= sEndVectIp - pEndVectIp
 			let len				= length(linkVectIp)
 			 assertWarn(!len.isNan, "\(linkVew.pp(.fullNameUidClass).field(-35)) position is nan")
-			guard let cameraPosnIp	= vew.parent?.scn.convertPosition(cameraScn.position, from:nil as SCNNode?)
+			guard let cameraPosnIp = vew.parent?.scn.convertPosition(cameraScn.position, from:nil as SCNNode?)
 			 else {fatalError()}
 			let f1				= cameraPosnIp.crossProduct(linkVectIp)
 			let fLen			= length(f1)

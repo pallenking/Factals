@@ -55,8 +55,8 @@ class ScnView : SCNView {
 
 extension ScnView : Gui {
 	var cameraXform: SCNMatrix4 {
-		get { .identity	}
-		set { bug	}
+		get 	{	scene!.rootNode.findScn(named:"*-camera")!.transform		}
+		set(v)	{	scene!.rootNode.findScn(named:"*-camera")!.transform = v	}
 	}
 	var anchor: SCNNode {
 		get { self.scene!.rootNode												}
@@ -502,10 +502,14 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 			}
 			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:			// override func mouseDragged(with nsEvent:NSEvent) {
+			print("leftMouseDragged 1: selfiePole=\(vewBase.selfiePole.pp(.line))")
 			prepareDeltas(with:nsEvent)
-			motorSpinNUp(with:nsEvent)			// change Spin and Up of camera
+			print("leftMouseDragged 2: selfiePole=\(vewBase.selfiePole.pp(.line))")
+			motorSpinNUp( with:nsEvent)		// change Spin and Up of camera
 	/**/	mouseWasDragged 	= true
+			print("leftMouseDragged 3: selfiePole=\(vewBase.selfiePole.pp(.line))")
 			selfiePole2camera(reason:"Left mouseDragged")
+			print("leftMouseDragged 4: selfiePole=\(vewBase.selfiePole.pp(.line))")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
@@ -663,7 +667,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 			.boundingBoxOnly	:false,	// search for objects by bounding box only.
 			.categoryBitMask	:		// ++ search only for objects whose bit is ON:
 				FwNodeCategory.picable  .rawValue |
-				FwNodeCategory.byDefault.rawValue ,
+				FwNodeCategory.byDefault.rawValue ,			// ??? //
 			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
 			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
 										//.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
@@ -674,7 +678,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 		let locationInRoot		= convert(nsEvent.locationInWindow, from:nil)
 /**/	let hits 				= hitTest(locationInRoot, options:configHitTest)
 		let sortedHits			= hits.sorted	 	// Find closest to screen:
-		{	$0.node.position.z > $1.node.position.z }
+		{	$0.node.position.z > $1.node.position.z 							}
 		var pickedScn : SCNNode	= sortedHits.first?.node ?? tree.rootNode
 
 		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
@@ -695,7 +699,8 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true)
 		 else {	return nil														}
 		let m					= pickedScn.categoryBitMask
-		msg						+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")\t=====> \(vew.part.pp(.fullNameUidClass)) <====="
+		msg						+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
+		msg						+= "\n**********************************************\t\t\(vew.part.pp(.fullNameUidClass))"
 		if Log.shared.eventIsWanted(ofArea:"eve", detail:3)
 		 {	print("\n" + msg)											}
 		return vew
@@ -713,9 +718,10 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 		//print("Start position=\(hitPosnV3.pp(.phrase)) in frame of \(contentNsView.frame)")
 
 		 // Movement since last, 0 if first time and there is none
-		deltaPosition			= lastPosition == nil ? SCNVector3.zero : hitPosnV3 - lastPosition!
-		//print("beginCameraMotion: deltaPosition=\(deltaPosition.pp(.phrase))")
+/**/	deltaPosition			= lastPosition == nil ? SCNVector3.zero
+								: hitPosnV3 - lastPosition!
 		lastPosition			= hitPosnV3
+		//print("beginCameraMotion: deltaPosition=\(deltaPosition.pp(.phrase))")
 	}
 
 	func motorSpinNUp(with nsEvent:NSEvent) {
@@ -733,9 +739,9 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 		var selfiePole			= vewBase.selfiePole
 //bug;	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
 		let transform			= selfiePole.transform(lookAtVew:vewBase.lookAtVew)
-		//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.nameTag))")
-		//print("selfiePole:\(selfiePole.pp(.nameTag)) = \(selfiePole.pp(.line))\n")
-		vewBase.cameraScn!.transform = transform		//SCNMatrix4.identity // does nothing
+								//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.nameTag))")
+								//print("selfiePole:\(selfiePole.pp(.nameTag)) = \(selfiePole.pp(.line))\n")
+		cameraXform				= transform										//vewBase.cameraScn!.transform = transform
 			// add ortho magnification.
 		vewBase.cameraScn?.camera?.orthographicScale = selfiePole.zoom * 10
 	}
