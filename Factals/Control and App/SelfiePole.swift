@@ -40,28 +40,18 @@ struct SelfiePole: Equatable {  			//Observable, 						//xyzzy15.3
 	mutating func configure(from config: FwConfig) {  //xyzzy15.2
 		// Configure Camera from Source Code: ["selfiePole":["p":[1,2,3], "u":3.4] ...]]
 		if let c = config.fwConfig("selfiePole") {
-			if let n = c.string("n") {
-				debugger("NameTags are read only. '\(n)' ignored")
-			}
+			if let n = c.string("n")
+			 {	debugger("NameTags are read only. '\(n)' ignored")				}
 			if let p = c.string("p")  // 1, 1 2, 1 2 3, 1 2 3 4
-			{
-				position = SCNVector3(string: p)
-			}
-			if let s = c.float("s"), !s.isNan  // Spin
-			{
-				spin = CGFloat(s) /* (in degrees) */
-			}
-			if let g = c.float("g"), !g.isNan  // Horizon look Up
-			{
-				gaze = -CGFloat(g) /* (in degrees) */
-			}
-			if let z = c.float("z"), !z.isNan  // Zoom
-			{
-				zoom = CGFloat(z)
-			}
-			ortho = c.cgFloat("o") ?? 0.0  // Ortho
-			logRve(2, "=== Configure selfiePole(from:\(c.pp(.line)) -> \(pp(.line))"
-			)
+			 {	position = SCNVector3(string: p)								}
+			if let s = c.float("s"), !s.isNan	// Spin
+			 {	spin = CGFloat(s) 					/* (in degrees) */			}
+			if let g = c.float("g"), !g.isNan	// Horizon look Up
+			 {	gaze = -CGFloat(g)					/* (in degrees) */			}
+			if let z = c.float("z"), !z.isNan 	// Zoom
+			 {	zoom = CGFloat(z)												}
+			ortho = c.cgFloat("o") ?? 0.0	// Ortho
+			logRve(2, "=== Configure selfiePole(from:\(c.pp(.line)) -> \(pp(.line))")
 		}
 	}
 

@@ -36,8 +36,30 @@ Scene
  */
 /*
 custom getter from UIFile
-
  */
+
+/*
+window group
+ */
+/*
+struct SizeEnvironmentKey: EnvironmentKey {
+	static var defaultValue: CGSize = .zero
+}
+extension EnvironmentValues {
+	var windowSize: CGSize {
+		get { self[SizeEnvironmentKey.self] }
+		set { self[SizeEnvironmentKey.self] = newValue }
+	}
+}
+extension View {
+	func insertSizeIntoEnvironment(_ size: CGSize) -> some View {
+		environment(\.windowSize, size)
+	}
+}
+
+@Environment(\.windowSize) private var size
+ */
+
 import SwiftUI
 import SceneKit
 import Combine
@@ -213,7 +235,7 @@ struct FactalsModelView: View {
 				VStack {
 					VewBaseBar(vewBase:vewBase)
 					InspectorsVew(vewBase:vewBase.wrappedValue)
-				}.frame(width:400)
+				}//.frame(width:500)
 			}
 		//}
 	}
@@ -277,24 +299,3 @@ struct SelfiePoleBar2: View   {													//xyzzy15.5
 	}
 }
 
-/*
-window group
- */
-/*
-struct SizeEnvironmentKey: EnvironmentKey {
-	static var defaultValue: CGSize = .zero
-}
-extension EnvironmentValues {
-	var windowSize: CGSize {
-		get { self[SizeEnvironmentKey.self] }
-		set { self[SizeEnvironmentKey.self] = newValue }
-	}
-}
-extension View {
-	func insertSizeIntoEnvironment(_ size: CGSize) -> some View {
-		environment(\.windowSize, size)
-	}
-}
-
-@Environment(\.windowSize) private var size
- */
