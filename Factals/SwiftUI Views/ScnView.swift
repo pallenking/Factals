@@ -20,7 +20,7 @@ class ScnView : SCNView {
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
-	var lastPosition : SCNVector3? = nil		// spot cursor hit
+	var lastPosition:SCNVector3 = .zero			// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
 	var handler : EventHandlerType.EventHandler 	{
 		get { 	eventHandler													}
@@ -502,14 +502,14 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 			}
 			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:			// override func mouseDragged(with nsEvent:NSEvent) {
-			print("leftMouseDragged 1: selfiePole=\(vewBase.selfiePole.pp(.line))")
 			prepareDeltas(with:nsEvent)
-			print("leftMouseDragged 2: selfiePole=\(vewBase.selfiePole.pp(.line))")
+			print("leftMouseDragged \(deltaPosition.pp(.short)) from \(lastPosition.pp(.short))")
+			print("\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
 			motorSpinNUp( with:nsEvent)		// change Spin and Up of camera
-	/**/	mouseWasDragged 	= true
-			print("leftMouseDragged 3: selfiePole=\(vewBase.selfiePole.pp(.line))")
+			print("\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
+			mouseWasDragged 	= true
 			selfiePole2camera(reason:"Left mouseDragged")
-			print("leftMouseDragged 4: selfiePole=\(vewBase.selfiePole.pp(.line))")
+			print("\(vewBase.gui!.cameraXform.pp(.tree))")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
@@ -710,31 +710,27 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 	 /// Common update: deltaPosition and lastPosition
 	func prepareDeltas(with nsEvent:NSEvent)	{
 		guard let contentNsView	= nsEvent.window?.contentView else {	return	}
-
 		let hitPosn 			= contentNsView.convert(nsEvent.locationInWindow, from:nil)	// nil -> window
-			//	 : NSPoint			     NsView:								: NSPoint :window
-			//	 : CGPoint
 		let hitPosnV3			= SCNVector3(hitPosn.x, hitPosn.y, 0)		// BAD: unprojectPoint(
-		//print("Start position=\(hitPosnV3.pp(.phrase)) in frame of \(contentNsView.frame)")
 
 		 // Movement since last, 0 if first time and there is none
-/**/	deltaPosition			= lastPosition == nil ? SCNVector3.zero
-								: hitPosnV3 - lastPosition!
+ /**/	deltaPosition			= hitPosnV3 - lastPosition
 		lastPosition			= hitPosnV3
-		//print("beginCameraMotion: deltaPosition=\(deltaPosition.pp(.phrase))")
 	}
 
 	func motorSpinNUp(with nsEvent:NSEvent) {
-		var selfiePole			= vewBase!.selfiePole
-		selfiePole.spin 		-= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
-		selfiePole.gaze 		-= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
+		vewBase!.selfiePole.spin -= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+		vewBase!.selfiePole.gaze -= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
+//		var selfiePole			= vewBase!.selfiePole
+//		selfiePole.spin 		-= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
+//		selfiePole.gaze 		-= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
 	}
 	func motorZ(with nsEvent:NSEvent) {
 		var selfiePole			= vewBase!.selfiePole
 		selfiePole.position.z 	+= deltaPosition.y * 20
 	}
 
-	func selfiePole2camera(duration:Float=0, reason:String="") {
+	func  selfiePole2camera(duration:Float=0, reason:String="") {
 		guard let vewBase		else { return								 	}
 		var selfiePole			= vewBase.selfiePole
 //bug;	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE

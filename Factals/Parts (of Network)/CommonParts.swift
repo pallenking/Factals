@@ -57,7 +57,8 @@ class CommonPart : Part {
 //		return rv
 //	}
  	override func reSize(vew:Vew) {
-		vew.bBox				= reSkin(fullOnto:vew)				// xyzzy32 sets up bBox
+		vew.bBox				= reSkin(fullOnto:vew)
+		super.reSize(vew:vew)
 	}
 	 // MARK: - 9.3 reSkin
 	override func reSkin(fullOnto vew:Vew) -> BBox  {

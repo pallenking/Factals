@@ -323,12 +323,16 @@ r("-Hangs as 2'nd ^r", e + selfiePole(s:9, u:3), { Net([placeMy:"stackX -1", par
 //		Broadcast()
 	})
 
-xr("- double appearance", e + selfiePole(s:-90, u:30) +
+r("- double appearance", e + selfiePole(s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
-	Sphere(),
-	Box(),
+//	Ago(),
+//	Previous(),
+//	Mirror(),
+ //	Sphere(),
+	Box([size:SCNVector3(2, 1, 2), color:"red"]),
+ //	Box(),
 ]]) })
-r("+Family Portrait", e + selfiePole(s:-90, u:30) +
+xr("+Family Portrait", e + selfiePole(s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),

@@ -86,6 +86,7 @@ struct VewBaseBar: View {
 	//	 .border(Color.gray, width: 3)
 //		 .frame(width:800, height:20)
 			}
+			Divider()
 		}
 		 .padding(4)
 //		 .background(Color(red:1.0, green:1.0, blue:0.9))

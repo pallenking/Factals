@@ -354,8 +354,8 @@ extension SCNVector3 : Codable {			// : Codable (see SCNVector9XCTest)
 				// TODO: .short is a bad name, should be .fixed
 				let a 		= aux.int_("ppFloatA")
 				let b 		= aux.int_("ppFloatB")
-				if m.contains("X") 	{	rv += pre+fmt("%*.*f", a, b, x)			}
-				if m.contains("Y") 	{	rv += pre+fmt("%*.*f", a, b, y)			}
+				if m.contains("X") 	{	rv += pre+fmt("%*.*f", a, b, x);pre=","	}
+				if m.contains("Y") 	{	rv += pre+fmt("%*.*f", a, b, y);pre=","	}
 				if m.contains("Z") 	{	rv += pre+fmt("%*.*f", a, b, z)			}
 			case .phrase:
 				if self.x ~== 0 && self.y ~== 0 && self.z ~== 0 {
