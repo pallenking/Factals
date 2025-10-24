@@ -10,13 +10,11 @@ import SwiftUI
 //let superclassOfB	: AnyClass? = Swift._getSuperclass (B.self)
 //let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
-// sound support bulse wireless headphones case: 02108778 $195 june
 protocol EquatableFW {
 	func equalsFW(_:Part) -> Bool
 }
 extension Part : EquatableFW {													}
-
- // NOTE: 20230117 Equatable was only added for Hashable for ForEach for 
+ // NOTE: 20230117 Equatable was only added for Hashable for ForEach for
 extension Part : Equatable {
 	static func ==(lhs: Part, rhs: Part) -> Bool {
 		return lhs.equalsFW(rhs)
@@ -318,12 +316,13 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 //		return theCopy
 //	}
 	 // MARK: - 3.7 EquatableFW
+	// All values of two tree are equal even though they are different trees
+
 	// https://forums.swift.org/t/implement-equatable-protocol-in-a-class-hierarchy/13844
 	// https://stackoverflow.com/questions/39909805/how-to-properly-implement-the-equatable-protocol-in-a-class-hierarchy
 	// https://jayeshkawli.ghost.io/using-equatable/
-	  // Allow Arrays of Equatables to be Equatable
-	 // https://jayeshkawli.ghost.io/using-equatable/
-
+	 // Allow Arrays of Equatables to be Equatable
+	// https://jayeshkawli.ghost.io/using-equatable/
 	// 2023-0725PAK: EquatableFW uses ".equals()", not "==". This prevents abuse
 //	static func ==(lhs:Part, rhs:Part) -> Bool {
 //		//bug  			// Option for abuse-checking: Illegal to use
@@ -357,10 +356,8 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		}
 		return true
 	}
-	func containsFW(_ part:Part) -> Bool {
-		bug
-		return false
-	}
+	func containsFW(_ part:Part) -> Bool
+	{	bug; return false														}
 
 	 // MARK: - 4.1 Part Properties
 	 /// Short forms for Spin
@@ -437,12 +434,12 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		guard let newChild 		else {		return	/* add noting if nil */		}
 		assert(self !== newChild, "can't add self to self (non-exhaustive check)")
 		if children.contains(newChild)
-		 {	logBld(4, "Attempt to add child '\(newChild.pp(.fullNameUidClass))' that's already there"); return					}
+		{	logBld(4, "Attempt to add child '\(newChild.pp(.fullNameUidClass))' that's already there"); return					}
 												// assert(!children.contains(newChild), "Adding child that's already there")
 		 // Add at index in children
-		if var index {							// Find right spot
-			if index < 0 {						// Negative are distance from end
-				index = children.count - index
+		if var  index {							// Find right spot
+			if  index < 0 {						// Negative are distance from end
+				index 			= children.count - index
 			}
 			assert(index>=0 && index<=children.count, "index \(index) out of range")
 			children.insert(newChild, at:index)	// add at index

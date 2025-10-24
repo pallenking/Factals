@@ -332,7 +332,7 @@ r("- double appearance", e + selfiePole(s:-90, u:30) +
 	Box([size:SCNVector3(2, 1, 2), color:"red"]),
  //	Box(),
 ]]) })
-xr("+Family Portrait", e + selfiePole(s:-90, u:30) +
+xxr("+Family Portrait", e + selfiePole(s:-90, u:30) +
 			["wBox":"none", lookAt:"tc0"], { Net([placeMy:"stackX -1", parts:[
 	Net([placeMy:"stackz 0 -1", parts:[
 		Broadcast(),
@@ -1687,7 +1687,7 @@ state.scanSubMenu				= "Generator"
 //	xxr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
 //			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { //Net([placeMy:"linky", parts:[
 //xr("+ Shaft Spin 3", e + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
-xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+r("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
   Net([parts:[												// logAt(dat:5, eve:5)
  	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",
@@ -1702,6 +1702,13 @@ xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX
 	]),
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
+]]) })
+xr("- Generator/Actor bug", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+  Net([parts:[												// logAt(dat:5, eve:5)
+	Actor([n:"wheelA", placeMy:"linky",
+		"evi":Tunnel([struc:["a", "b", "c", "d"], of:"bcast"/*nil_A*/, placeMy:"stackz 0 -1"]),
+	]),
+	Generator([n:"loGen", events:["a", "again"]]),
 ]]) })
 	xxr("- bad paranoia", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
 	  Net([parts:[

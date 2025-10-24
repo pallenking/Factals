@@ -269,7 +269,7 @@ class Port : Part, PortTalk {
 		guard let rhs			= rhs as? Port 			else { return false		}
 		guard super.equalsFW(rhs)						else { return false		}
 		guard value     		== rhs.value			else { return false		}
-		guard con2 		== rhs.con2 		else { return false		}
+		guard con2 				== rhs.con2 			else { return false		}
 		guard noCheck			== rhs.noCheck			else { return false		}
 		guard dominant			== rhs.dominant			else { return false		}
 		return true
