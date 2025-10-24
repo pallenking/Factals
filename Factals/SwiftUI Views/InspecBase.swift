@@ -41,9 +41,7 @@ struct Inspec: View, Equatable, Uid {
 		VStack(alignment:.leading)  {	// Add Class Inspectors
 			 // Inspec's Title/Control Line
 			HStack {
-				Text("\(index)").bold().foregroundColor(.red)
-				Text(": Location")
-				Text(vew.part.fullName)
+				Text("\(index):     \(vew.part.fullName)")
 					.bold().foregroundColor(.red) //.font(.system(size:12) //.frame(maxWidth:.infinity)
 					.onChange(of: vew.part.fullName) { oldValue, newValue in
 						print("newValue: \(newValue)")

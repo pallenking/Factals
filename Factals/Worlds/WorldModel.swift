@@ -97,10 +97,10 @@ class WorldModel : Atom {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 							 else {		return true		}
 		guard let rhs			= rhs as? WorldModel else {		return false 	}
-		let rv 					= super.equalsFW(rhs)
+		let rv 					= super.equalValue(rhs)
 						//??		&& timingChain 	 == rhs.timingChain
 						//??		&& delayedEvents == rhs.delayedEvents
 								&& eventNow 	 == rhs.eventNow

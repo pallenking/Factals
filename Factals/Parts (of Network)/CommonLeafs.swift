@@ -10,10 +10,10 @@ let bPrevPM			= ["":"prev.S", "+":"prev.S", "-":"prev.T"					]
 
 extension LeafKind : Equatable {
 	static func == (lhs: LeafKind, rhs: LeafKind) -> Bool {
-		lhs.equalsFW(rhs)
+		lhs.equalValue(rhs)
 	}
 	
-	func equalsFW(_ rhs: LeafKind) -> Bool {
+	func equalValue(_ rhs: LeafKind) -> Bool {
 	//	guard self !== rhs 					  else {	return true				}
 bug;	return self == rhs
 	}

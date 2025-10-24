@@ -79,10 +79,10 @@ class DiscreteTime : Atom {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 							   else {	return true		}
 		guard let rhs			= rhs as? DiscreteTime else {	return false 	}
-		let rv					= super.equalsFW(rhs)
+		let rv					= super.equalValue(rhs)
 							////	&& resetTo 			 == rhs.resetTo
 								&& incrementalEvents == rhs.incrementalEvents
 								&& anonValue 		 == rhs.anonValue

@@ -366,14 +366,14 @@ final class FactalsTests: XCTestCase {
 			print("\n############  \(i+1). (\(p1.pp(.tagClass))).equalsPart(\(p2.pp(.tagClass)))  ###########")
 			print("\(p1.pp(.tree)) ??====(\(identity ? " " : "!")identical, \(equatable ? " " : "!")equatable)====??  CALCULATED\n\(p2.pp(.tree))", terminator:"")
 			let matchIdnetP		= p1 === p2						//  identity
-			let matchEqualP		= p1.equalsFW(p2)				//  equatableFW
+			let matchEqualP		= p1.equalValue(p2)				//  equatableFW
 
 			 // Questionable Value:
 			print(" p1 \(matchIdnetP ? "=" : "!")== p2, p1.equals(p2) => \(matchEqualP)")
 			XCTAssertEqual(matchIdnetP, identity,  "testPartIdenticle \(i): \(p1.pp(.tagClass)) === \(p2.pp(.tagClass)) isn't \(identity)")
 			XCTAssertEqual(matchEqualP, equatable, "testPartEquatable \(i): \(p1.pp(.tagClass))  == \(p2.pp(.tagClass)) isn't \(equatable)")
 			let matchIdnetM		= p1 !== p2						// !identity
-			let matchEqualM		= p1.equalsFW(p2)	== false 	// !equatableFW
+			let matchEqualM		= p1.equalValue(p2)	== false 	// !equatableFW
 			XCTAssertEqual(matchIdnetM, !identity, "!testPartIdenticle \(i): \(p1.pp(.tagClass)) === \(p2.pp(.tagClass)) isn't \(identity)")
 			XCTAssertEqual(matchEqualM, !equatable,"!testPartEquatable \(i): \(p1.pp(.tagClass))  == \(p2.pp(.tagClass)) isn't \(equatable)")
 

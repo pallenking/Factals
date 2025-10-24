@@ -172,10 +172,10 @@ class Mirror : Atom {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 						 else {		return true			}
 		guard let rhs			= rhs as? Mirror else {		return false 		}
-		let rv					= super.equalsFW(rhs)
+		let rv					= super.equalValue(rhs)
 								&& gain   == rhs.gain
 								&& offset == rhs.offset
 		return rv
@@ -247,10 +247,10 @@ class Modulator : Atom {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 							else {	return true			}
 		guard let rhs			= rhs as? Modulator else {	return false 		}
-		let rv					= super.equalsFW(rhs)
+		let rv					= super.equalValue(rhs)
 								&& sHeight 	== rhs.sHeight
 								&& sRadius 	== rhs.sRadius
 								&& armLen 	== rhs.armLen

@@ -94,11 +94,11 @@ class LinkPort : Port {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 							   else {	return true		}
 		guard let rhs			= rhs as? LinkPort else {	return false 	}
-		let rv					= super.equalsFW(rhs)
-							//??	&& equalsFW(outPort, rhs.outPort)
+		let rv					= super.equalValue(rhs)
+							//??	&& equalValue(outPort, rhs.outPort)
 								&& imageX0	  == rhs.imageX0
 								&& imageY0	  == rhs.imageY0
 		//						&& colorOfVal == rhs.colorOfVal

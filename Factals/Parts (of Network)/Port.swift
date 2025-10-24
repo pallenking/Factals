@@ -264,10 +264,10 @@ class Port : Part, PortTalk {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 								else { return true		}
 		guard let rhs			= rhs as? Port 			else { return false		}
-		guard super.equalsFW(rhs)						else { return false		}
+		guard super.equalValue(rhs)						else { return false		}
 		guard value     		== rhs.value			else { return false		}
 		guard con2 				== rhs.con2 			else { return false		}
 		guard noCheck			== rhs.noCheck			else { return false		}

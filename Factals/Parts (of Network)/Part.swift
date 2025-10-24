@@ -10,16 +10,19 @@ import SwiftUI
 //let superclassOfB	: AnyClass? = Swift._getSuperclass (B.self)
 //let superclassOfPoly: AnyClass? = Swift._getSuperclass (Part.self)
 
-protocol EquatableFW {
-	func equalsFW(_:Part) -> Bool
-}
-extension Part : EquatableFW {													}
- // NOTE: 20230117 Equatable was only added for Hashable for ForEach for
-extension Part : Equatable {
-	static func ==(lhs: Part, rhs: Part) -> Bool {
-		return lhs.equalsFW(rhs)
+	extension Part : Equatable {	// might be based on one of 2 methods
+//**/	static func ==(lhs: Part, rhs: Part) -> Bool {	lhs.equalValue(rhs)		}	// 	VALUE
+/**/	static func ==(lhs: Part, rhs: Part) -> Bool {	lhs === rhs				}	//  POINTER
 	}
-}
+
+	protocol EquatableValue {		// "==" is identicaltrees
+		func equalValuez(_ rhs:Part) -> Bool
+	}
+ //	extension Part : EquatableValue {
+ //		func equalValue(_ rhs:Part) -> Bool{	self.equalValue(rhs)		}	// 	VALUE
+ //	}
+
+  // NOTE: 20230117 Equatable was only added for Hashable for ForEach.
  // Generic struct 'ForEach' requires that 'Part' conform to 'Hashable' (from InspecPart.body.Picker)
 extension Part : Hashable {
 	func hash(into hasher: inout Hasher) {
@@ -315,7 +318,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 //		logSer(3, "copy(with as? Part       '\(fullName)'")
 //		return theCopy
 //	}
-	 // MARK: - 3.7 EquatableFW
+	 // MARK: - 3.7 EquatableValue
 	// All values of two tree are equal even though they are different trees
 
 	// https://forums.swift.org/t/implement-equatable-protocol-in-a-class-hierarchy/13844
@@ -323,7 +326,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 	// https://jayeshkawli.ghost.io/using-equatable/
 	 // Allow Arrays of Equatables to be Equatable
 	// https://jayeshkawli.ghost.io/using-equatable/
-	// 2023-0725PAK: EquatableFW uses ".equals()", not "==". This prevents abuse
+	// 2023-0725PAK: EquatableValue uses ".equals()", not "==". This prevents abuse
 //	static func ==(lhs:Part, rhs:Part) -> Bool {
 //		//bug  			// Option for abuse-checking: Illegal to use
 //		guard type(of:lhs) == type(of:rhs)	else {	return false				}
@@ -332,7 +335,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 //		return rv
 //	}
 
-	func equalsFW(_ rhs:Part) -> Bool {
+	func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 					  else {	return true				}
 		let rv 					= true				// Swift types use "=="
 			&& type(of:self) 	== type(of:rhs)			// A
@@ -352,7 +355,7 @@ class Part : Codable, ObservableObject, Uid {			//, Equatable Hashable
 		 // Paw through children by hand:
 		guard  children.count == rhs.children.count else {	return false}
 		for i in 0 ..< children.count {				// Parts use ".equals()"
-			guard children[i].equalsFW(rhs.children[i])else {	return false }
+			guard children[i].equalValue(rhs.children[i])else {	return false }
 		}
 		return true
 	}

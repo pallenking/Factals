@@ -44,9 +44,9 @@ class LinkVew : Vew {
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable
-//	override func equalsFW(_ rhs:Vew) -> Bool {
+//	override func equalValue(_ rhs:Vew) -> Bool {
 //		guard let rhs			= rhs as? LinkVew else {	return false		}//false }
-//		let rv					= super.equalsFW(rhs)
+//		let rv					= super.equalValue(rhs)
 //								&& pCon2Vew	== rhs.pCon2Vew
 //								&& sCon2Vew	== rhs.sCon2Vew
 //		return rv																//rv

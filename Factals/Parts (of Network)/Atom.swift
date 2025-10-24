@@ -120,22 +120,22 @@ class Atom : Part {	//Part//FwPart
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 						else {		return true			}
 		guard let rhs			= rhs as? Atom	else {		return false		}
-		guard super.equalsFW(rhs)				else {		return false		}
+		guard super.equalValue(rhs)				else {		return false		}
 		guard postBuilt	 == rhs.postBuilt		else {		return false		}
 		guard bandColor	 == rhs.bandColor		else {		return false		}
 		guard proxyColor == rhs.proxyColor		else {		return false		}
 		guard ports.equals(rhs.ports)			else {		return false		}		//. Ports are also in Children!!!
 		guard bindings	 == rhs.bindings		else {		return false		}
 		return true
-// 		let rv					= super.equalsFW(rhs)
+// 		let rv					= super.equalValue(rhs)
 // 			&& postBuilt		== rhs.postBuilt
 // 			&& bandColor		== rhs.bandColor
 // 			&& proxyColor		== rhs.proxyColor
-// 		//??	&& ports.equalsFW(rhs.ports)			//. Ports are also in Children!!!
-//				//Referencing instance method 'equalsFW' on 'Dictionary' requires that 'Port' conform to 'Equatable'
+// 		//??	&& ports.equalValue(rhs.ports)			//. Ports are also in Children!!!
+//				//Referencing instance method 'equalValue' on 'Dictionary' requires that 'Port' conform to 'Equatable'
 // 			&& bindings			== rhs.bindings
 // 		return rv
 	}

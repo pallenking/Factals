@@ -111,8 +111,8 @@ class HnwEvent {							// NOT NSObject
 	}
 }
 
-extension FwwEvent : EquatableFW {
-	func equalsFW(_: Part) -> Bool {
+extension FwwEvent : Equatable/*Value*/ {
+	func equalValue(_: Part) -> Bool {
 		bug
 		return false
 	}

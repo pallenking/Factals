@@ -136,7 +136,7 @@ bug;	portName  				= try container.decode( String?.self, forKey:.portName)
 //		return theCopy
 //	}
 //	 // MARK: - 3.7 Equatable
-//	func equalsFW(_ rhs:Path) -> Bool {
+//	func equalValue(_ rhs:Path) -> Bool {
 //		return true
 //			&& atomTokens 			== rhs.atomTokens
 //			&& portName   			== rhs.portName

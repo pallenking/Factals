@@ -153,36 +153,36 @@ class TimingChain : Atom {
 //		logSer(3, "copy(with as? TimingChain       '\(fullName)'")
 //		return theCopy
 //	}
-	 // MARK: - 3.7 EquatableFW
-	func equalsFW(_ a:Part?, _ b:Part?) -> Bool {
+	 // MARK: - 3.7 EquatableValue
+	func equalValue(_ a:Part?, _ b:Part?) -> Bool {
 		if a == nil && b == nil {	return true		}	// nil == nil
 		if a != nil || b != nil {	return false	}	// nil != !nil
-		return a!.equalsFW(b!)							// both !nil
+		return a!.equalValue(b!)							// both !nil
 	}
-	func equalsFW(_ a:[Part], _ b:[Part]) -> Bool {
+	func equalValue(_ a:[Part], _ b:[Part]) -> Bool {
 		guard a.count == b.count 					  else {	return false	}
 		for i in 0...a.count {
-			guard a[i].equalsFW(b[i])				  else {	return true		}
+			guard a[i].equalValue(b[i])				  else {	return true		}
 		}
 		return true
 	}
-	func equalsFW(_ a:FwwEvent?, _ b:FwwEvent?) -> Bool {
+	func equalValue(_ a:FwwEvent?, _ b:FwwEvent?) -> Bool {
 		if a == nil && b == nil {	return true		}	// nils match
 		if a != nil || b != nil {	return false	}	// only 1 nil mismatches
 		bug; return false								// not debugged past here
 //		bug;return a!.equals(b! ??? )					// both exist
 	}
-	override func equalsFW(_ rhs:Part) -> Bool {
+	override func equalValue(_ rhs:Part) -> Bool {
 		guard self !== rhs 							  else {	return true		}
 		guard let rhs			= rhs as? TimingChain else {	return false	}
-		let rv					= super.equalsFW(rhs)
-								&& equalsFW(worldModel,    rhs.worldModel)
-								&& equalsFW(discreteTimes, rhs.discreteTimes)
-								&& equalsFW(event,		   rhs.event)
+		let rv					= super.equalValue(rhs)
+								&& equalValue(worldModel,    rhs.worldModel)
+								&& equalValue(discreteTimes, rhs.discreteTimes)
+								&& equalValue(event,		   rhs.event)
 								&& state 		  		== rhs.state
 								&& animateChain   		== rhs.animateChain
 								&& asyncData 	  		== rhs.asyncData
-								&& equalsFW(retractPort,   rhs.retractPort)
+								&& equalValue(retractPort,   rhs.retractPort)
 		return rv
 	}
 	 // MARK: - 5 Groom

@@ -105,8 +105,8 @@ class Generator : Net {
 //		return theCopy
 //	}
 	 // MARK: - 3.7 Equatable
-	override func equalsFW(_ rhs:Part) -> Bool {
-bug;	return super.equalsFW(rhs)
+	override func equalValue(_ rhs:Part) -> Bool {
+bug;	return super.equalValue(rhs)
 	}
 }
 
