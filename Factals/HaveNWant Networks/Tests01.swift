@@ -731,11 +731,11 @@ xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 		Broadcast([P:"a"]),		//Bulb
 	] ]),
 	Mirror([n:"a", f:1]),
- ] ]) })
-xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
+] ]) })
+xr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 	Mirror([n:"b", P:"a,v:4,l:3", jog+X:"4"]),	//+X
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
- ] ]) })
+] ]) })
 		xxr("- bug: ???", e + selfiePole(s:0,u:0), { Net(["parts":[
 			Mirror(  [n:"x", f:0, P:"y,v:1,l:2", "gain":-1, "offset":1]),
 			Sequence([n:"y", f:1, spin:12, "share":["a,v:5","b,v:5","c,v:5","d,v:5"]]),
@@ -1687,7 +1687,7 @@ state.scanSubMenu				= "Generator"
 //	xxr("+'f': link positioning", e + selfiePole(s:0,u:5) + ["animatePhysics":true,
 //			lookAt:"t1a", "scene":[gravity:"0 10 0"]], { //Net([placeMy:"linky", parts:[
 //xr("+ Shaft Spin 3", e + selfiePole(s:45,u:10) + vel(-3) + logAt(dat:5, eve:5) + ["wBoxX":"none"], {
-r("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+xxr("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
   Net([parts:[												// logAt(dat:5, eve:5)
  	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
 	Actor([n:"wheelA", placeMy:"linky",
@@ -1703,7 +1703,21 @@ r("+ Shaft Spin 3", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":
 	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
 			P:"wheelA/evi", expose+X:"atomic"]),
 ]]) })
-xr("- Generator/Actor bug", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+xxr("- bug", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
+  Net([parts:[												// logAt(dat:5, eve:5)
+ 	DiscreteTime([n:"hiGen", P:"wheelA/con", "generator":"loGen", events:["y", "z", [], "again"]]),
+	Actor([n:"wheelA", placeMy:"linky",
+		"con":Tunnel([struc:["z", "y"], of:"bcast"/*nil_A*/, f:1]),
+		parts:[
+			MaxOr(	[n:"ma", share:["z", "y"], f:0]),
+			MinAnd(	[n:"mi", share:["a", "b", "c", "d"], P:"ma", f:1]),
+		],
+		"evi":Tunnel([struc:["a", "b", "c", "d"], of:"bcast"/*nil_A*/, placeMy:"stackz 0 -1"]),
+	]),
+	Generator([n:"loGen", events:["a", ["a", "b"], "b", "c", ["a", "b", "c", "d"], "again"],
+			P:"wheelA/evi", expose+X:"atomic"]),
+]]) })
+xxr("- Generator/Actor bug", eSim + selfiePole(s:45,u:10) + vel(-3) + logAt() + ["wBoxX":"none"], {	// FAILS
   Net([parts:[												// logAt(dat:5, eve:5)
 	Actor([n:"wheelA", placeMy:"linky",
 		"evi":Tunnel([struc:["a", "b", "c", "d"], of:"bcast"/*nil_A*/, placeMy:"stackz 0 -1"]),

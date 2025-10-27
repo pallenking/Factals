@@ -37,6 +37,32 @@ class ScnView : SCNView {
 		print(ifArea:"bld", detail:6, "############ init(\(self.pp()))")
 	}
 	required init?(coder: NSCoder) {debugger("init(coder:) has not been implemented")	}
+
+	convenience init () {
+		self.init(scnScene:nil) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+		self.scene?.rootNode.addChildNode(vewBase!.tree.scn)
+
+		self.backgroundColor 	= NSColor("veryLightGray")!
+		self.antialiasingMode 	= .multisampling16X
+	//	self.delegate			= scnView // STRANGE
+
+		self.isPlaying			= false			// book keepscnViewing
+		self.showsStatistics	= true			// controls extra bar
+		self.debugOptions		= 				// enable display of:
+		[ SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
+		self.allowsCameraControl = true			// user may control camera	//args.options.contains(.allowsCameraControl)
+		self.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
+		self.rendersContinuously = true			//args.options.contains(.rendersContinuously)
+	//	self.preferredFramesPerSecond = Int(prefFpsC)
+		
+		self.makeLights()
+		self.makeCamera()
+		self.makeAxis()
+/**/
+	
+	}
+
 	 // MARK: - 3.? Monitor
 	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
 													where T.Failure == Never {
@@ -438,32 +464,32 @@ func ppNodeType(_ i:Int) -> String {
 }
 
 extension ScnView : SCNSceneRendererDelegate {
-	var factalsModel : FactalsModel {	vewBase!.factalsModel!					}
+	var factalsModel : FactalsModel? {	vewBase?.factalsModel					}
 
 	func renderer(_ r:SCNSceneRenderer, updateAtTime t:TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			factalsModel.doPartNViewsLocked(workNamed:"A_updateVSP", logIf:self.logRenderLocks) {
+			factalsModel?.doPartNViewsLocked(workNamed:"A_updateVSP", logIf:self.logRenderLocks) {
 				$0.updateVSP()
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didApplyAnimationsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			factalsModel.doPartNViewsLocked(workNamed:"B_computeLinkForces", logIf:self.logRenderLocks) {
+			factalsModel?.doPartNViewsLocked(workNamed:"B_computeLinkForces", logIf:self.logRenderLocks) {
 				$0.factalsModel?.partBase.tree.computeLinkForces(vew:$0.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, didSimulatePhysicsAtTime atTime: TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			factalsModel.doPartNViewsLocked(workNamed: "C_applyLinkForces", logIf:self.logRenderLocks) {
+			factalsModel?.doPartNViewsLocked(workNamed: "C_applyLinkForces", logIf:self.logRenderLocks) {
 				$0.factalsModel?.partBase.tree.applyLinkForces(vew:$0.tree)
 			}
 		}
 	}
 	func renderer(_ r:SCNSceneRenderer, willRenderScene scene:SCNScene, atTime:TimeInterval) {
 		DispatchQueue.main.async { [self] in
-			factalsModel.doPartNViewsLocked(workNamed:"D_xx", logIf:self.logRenderLocks) {_ in
+			factalsModel?.doPartNViewsLocked(workNamed:"D_xx", logIf:self.logRenderLocks) {_ in
 			}
 		}
 	}
@@ -503,13 +529,13 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 			selfiePole2camera(duration:duration, reason:"Left mouseDown")
 		case .leftMouseDragged:			// override func mouseDragged(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
-			print("leftMouseDragged \(deltaPosition.pp(.short)) from \(lastPosition.pp(.short))")
-			print("\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
+			logEve(5, "leftMouseDragged \(deltaPosition.pp(.short)) from \(lastPosition.pp(.short))")
+			logEve(5, "\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
 			motorSpinNUp( with:nsEvent)		// change Spin and Up of camera
-			print("\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
+			logEve(5, "\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
 			mouseWasDragged 	= true
 			selfiePole2camera(reason:"Left mouseDragged")
-			print("\(vewBase.gui!.cameraXform.pp(.tree))")
+			logEve(6, "\(vewBase.gui!.cameraXform.pp(.tree))")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic

@@ -38,11 +38,11 @@ struct SceneKitView : NSViewRepresentable {
 	func makeNSView(context:Context) -> ScnView {
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
-		let vewBase				= fm.vewBases.first {		//** EXISTING (as a HACK, use it)
+		let vewBase				= fm.vewBases.first {		//** USE EXISTING (as a HACK, use it)
 				$0.gui == nil 					// not used yet
 			&&	$0.factalsModel === fm 			// matches my factory
 			&&	$0.partBase === fm.partBase		//  and its Parts
-		} ?? {												//** NEW
+		} ?? {												//** MAKE NEW
 			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 			vewBase.factalsModel = fm
 			vewBase.partBase	= fm.partBase
@@ -52,26 +52,9 @@ struct SceneKitView : NSViewRepresentable {
 		} ()
 		assert(vewBase === fm.vewBases.last, "paranoia")
 		vewBase.gui 			= scnView		// usage
-		scnView.vewBase			= vewBase		// backpointer
-
-		scnView.getScene?.rootNode.addChildNode(vewBase.tree.scn)
-
-		scnView.backgroundColor = NSColor("veryLightGray")!
-		scnView.antialiasingMode = .multisampling16X
-		scnView.delegate		= scnView // STRANGE
-
-		scnView.isPlaying		= false			// book keepscnViewing
-		scnView.showsStatistics	= true			// controls extra bar
-		scnView.debugOptions	= 				// enable display of:
-		 [	SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
-		scnView.allowsCameraControl	= true		// user may control camera	//args.options.contains(.allowsCameraControl)
-		scnView.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
-		scnView.rendersContinuously	= true		//args.options.contains(.rendersContinuously)
+		scnView.vewBase			= vewBase
+		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
 		scnView.preferredFramesPerSecond = Int(prefFpsC)
-
-		scnView.makeLights()
-		scnView.makeCamera()
-		scnView.makeAxis()
 		return scnView
 	}
 	func updateNSView(_ nsView: ScnView, context:Context) {

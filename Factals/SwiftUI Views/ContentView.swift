@@ -161,7 +161,9 @@ struct FactalsModelView: View {
 
 			Button(label:{ Text("--") })
 			{ 	deleteCurrentTab()												}
-			Button(label:{ Text("++") })
+			Button(label:{ Text("SCN++") })
+			{	addNewTabPre()													}
+			Button(label:{ Text("AR++") })
 			{	addNewTabPre()													}
 			Button(label:{ Text("Test Sound") })
 			{	guard let rootScn = FACTALSMODEL?.vewBases.first?.gui?.getScene?.rootNode
