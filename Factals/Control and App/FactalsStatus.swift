@@ -226,14 +226,14 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "lookAt:\(lookAtVew?.pp(.classTag) ?? "nil") "
 		myLine					+= "\(inspectedVews.count) inspectedVews"
 
-		let vewTreeScn			= self.tree.scn
-		let vewTreeScnParent	= vewTreeScn.parent
-		let scnTreeRoot			= gui?.getScene?.rootNode
-		myLine					+= vewTreeScnParent === scnTreeRoot ||
-								   vewTreeScnParent == nil && scnTreeRoot == nil ? "" :
+		let treeScn				= self.tree.scn
+		let treeScnParent		= treeScn.parent
+		let scnTreeRoot			= gui!.anchor
+		myLine					+= treeScnParent === scnTreeRoot /*||
+								   treeScnParent == nil && scnTreeRoot == nil*/ ? "" :
 									( "\n\t\t\t\t<<ERROR<< "
-									  +	"vewTreeScn=\(vewTreeScn.pp(.tagClass)) .parent=\(vewTreeScnParent?.pp(.tagClass) ?? "nil")  "
-									  +	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.tagClass) ?? "nil") "
+									  +	"vewTreeScn=\(treeScn.pp(.tagClass)) .parent=\(treeScnParent?.pp(.tagClass) ?? "nil")  "
+									  +	     "!==  scnTreeRoot=\(scnTreeRoot.pp(.tagClass)/* ?? "nil"*/) "
 									  +         ">>ERROR>>")
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {

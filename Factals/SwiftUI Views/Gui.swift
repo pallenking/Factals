@@ -34,16 +34,16 @@ import RealityKit
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
 protocol   Gui : NSView /*AnyObject PW*/{		 /// Protypical Graphical User Interface
-	func configure(from:FwConfig) 
 	func makeScenery(anchorEntity:AnchorEntity)->()//	var OriginMark				{	get set										}
 	func makeAxis()
 	func makeCamera()
 	func makeLights()
 	var cameraXform :SCNMatrix4	{	get set										}
+	func configure(from:FwConfig) 
 	var anchor      : SCNNode	{	get set										}
 	var isScnView 	: Bool 		{	get											}
-	var getScene 	: SCNScene?	{	get set										}
-	var delegate    : SCNSceneRendererDelegate?	{	get set						}
+  //var getScene 	: SCNScene?	{	get set										}
+  //var delegate    : SCNSceneRendererDelegate?	{	get set						}
 //	var vewBase     : VewBase!	{	get set										}
 //	var Sounds					{	get set										}
 //	var codable					{	get set										}

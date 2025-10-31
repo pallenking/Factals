@@ -166,7 +166,7 @@ struct FactalsModelView: View {
 			Button(label:{ Text("AR++") })
 			{	addNewTabPre()													}
 			Button(label:{ Text("Test Sound") })
-			{	guard let rootScn = FACTALSMODEL?.vewBases.first?.gui?.getScene?.rootNode
+			{	guard let rootScn = (FACTALSMODEL?.vewBases.first?.gui as? SCNView)?.scene?.rootNode
 				 else { print("no rootScn found to play sound"); return}
 				rootScn.play(sound:"da")  										} //"forward"//"tick"// playSimple(rootScn:rootScn)
 		}

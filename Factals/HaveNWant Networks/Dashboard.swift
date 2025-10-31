@@ -130,7 +130,7 @@ let params4partVew : FwConfig = [
 //	"signalSize"				: Float(1.0),	// size of bands that display
 
 	 // Animate actions:
-	"animatePhysics"			: true,			// Animate SCNNode physics
+//	"animatePhysics"			: true,			// Animate SCNNode physics
 	"animateChain"				: true, 		// Animate Timing Chain state
 //	"animateBirth"				: true,			// when OFF, new elt is in final place immediately
 	"animateFlash"				: false, 		//false//

@@ -15,7 +15,7 @@ import SwiftUI
 
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-			if ((vewBase.gui?.delegate as? ScnView)?.nextIsAutoRepeat) != nil
+			if (vewBase.gui as? ScnView)?.nextIsAutoRepeat ?? false
 //			if ((vewBase.gui?.delegate as? ScnView)?.nextIsAutoRepeat) != nil
 			{	return true 													}
 		}
@@ -358,9 +358,9 @@ import SwiftUI
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= vewBases.first?.gui?.getScene ?? {debugger("")}()	//scnBase
+			let rootVews0scene	= (vewBases.first?.gui as? SCNView)?.scene ?? {debugger("")}()	//scnBase
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
-						else { debugger("writing dumpSCN.\(suffix) failed")	}
+			 else { debugger("writing dumpSCN.\(suffix) failed")				}
 		case "V":								// Update Views
 			print("\n******************** 'V': Update Views:\n")
 			partBase.tree.forAllParts({		$0.markTreeDirty(bit:.vew)				})

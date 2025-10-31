@@ -41,7 +41,8 @@ class ScnView : SCNView {
 	convenience init () {
 		self.init(scnScene:nil) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		self.scene?.rootNode.addChildNode(vewBase!.tree.scn)
+		if let scn				= vewBase?.tree.scn
+		{	self.scene?.rootNode.addChildNode(scn)								}
 
 		self.backgroundColor 	= NSColor("veryLightGray")!
 		self.antialiasingMode 	= .multisampling16X
@@ -97,16 +98,16 @@ extension ScnView : Gui {
 //		get {	self.gui?.vewBase												}
 //		set {	gui?.vewBase		= newValue									}
 //	}
-	var getScene : SCNScene? {
-		get {	self.scene														}
-		set {	self.scene			= newValue									}
-	}
+//	var getScene : SCNScene? {
+//		get {	self.scene														}
+//		set {	self.scene			= newValue									}
+//	}
 	func configure(from:FwConfig)	{ bug }
-	 /// animatePhysics is a posative quantity (isPaused is a negative)
-	var animatePhysics : Bool {	//bug; return false
-		get {			return false == (getScene?.isPaused ?? false)			}
-		set(v) {		getScene?.isPaused = !v									}
-	}
+//	 /// animatePhysics is a posative quantity (isPaused is a negative)
+//	var animatePhysics : Bool {	//bug; return false
+//		get {			return false == (getScene?.isPaused ?? false)			}
+//		set(v) {		getScene?.isPaused = !v									}
+//	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let scnResults = self.hitTest(point, options: options!)
 		return scnResults.map { scnHit in
@@ -338,19 +339,15 @@ extension ScnView {
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 		guard let factalsModel	= vewBase!.factalsModel else {		return		}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		guard let rootNode		= getScene?.rootNode	else {		return		}
-		let wPosn				= getScene?.rootNode.convertPosition(localPoint, to:rootNode)
+		let wPosn				= anchor.convertPosition(localPoint, to:anchor)
 
  //	assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 
 bug//	let animateIt			= configure.bool_("animatePole") ; bug
 		if true /*animateIt*/ {	 // Animate 3D Cursor Pole motion"∫
 			SCNTransaction.begin()
-// 		logRve(8, logg("  /#######  SCNTransaction: BEGIN"))
+// 			logRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 		}
-
- //	pole.worldPosition		= wPosn
-
 		if true /*animateIt*/ {
 			SCNTransaction.animationDuration = CFTimeInterval(1.0/3)
 			logRve(8, "  \\#######  SCNTransaction: COMMIT")
@@ -686,50 +683,50 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-		guard let tree			= vewBase.gui?.getScene    else { return nil	}
-
-		let configHitTest : [SCNHitTestOption:Any]? = [
-			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-			.categoryBitMask	:		// ++ search only for objects whose bit is ON:
-				FwNodeCategory.picable  .rawValue |
-				FwNodeCategory.byDefault.rawValue ,			// ??? //
-			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-										//.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-										//.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-										//.sortResults:1, 			// (implied)
-										//.rootNode:tree				// Where to start search
-		]
-		let locationInRoot		= convert(nsEvent.locationInWindow, from:nil)
-/**/	let hits 				= hitTest(locationInRoot, options:configHitTest)
-		let sortedHits			= hits.sorted	 	// Find closest to screen:
-		{	$0.node.position.z > $1.node.position.z 							}
-		var pickedScn : SCNNode	= sortedHits.first?.node ?? tree.rootNode
-
-		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
-		var msg					= "******************************************\n Slot\(vewBase.slot_): "
-		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
-			
-		 // Picable bit try parent
-		while pickedScn.categoryBitMask & (FwNodeCategory .picable .rawValue) == 0,	//
-			 	let parent 		= pickedScn.parent	{
-			let m				= pickedScn.categoryBitMask
-			msg					+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
-// A BUG!!	msg					+= fmt("\t--> %02x = %s", m, ppNodeType(m))
-			pickedScn 			= parent				// use parent
-			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
-		}
-								
-		 // Get Vew from SCNNode
-		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true)
-		 else {	return nil														}
-		let m					= pickedScn.categoryBitMask
-		msg						+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
-		msg						+= "\n**********************************************\t\t\(vew.part.pp(.fullNameUidClass))"
-		if Log.shared.eventIsWanted(ofArea:"eve", detail:3)
-		 {	print("\n" + msg)											}
-		return vew
+//		guard let scene			= vewBase.gui?.getScene    else { return nil	}
+//
+//		let configHitTest : [SCNHitTestOption:Any]? = [
+//			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+//			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+//			.categoryBitMask	:		// ++ search only for objects whose bit is ON:
+//				FwNodeCategory.picable  .rawValue |
+//				FwNodeCategory.byDefault.rawValue ,			// ??? //
+//			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+//			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+//										//.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+//										//.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+//										//.sortResults:1, 			// (implied)
+//										//.rootNode:tree				// Where to start search
+//		]
+//		let locationInRoot		= convert(nsEvent.locationInWindow, from:nil)
+///**/	let hits 				= hitTest(locationInRoot, options:configHitTest)
+//		let sortedHits			= hits.sorted	 	// Find closest to screen:
+//		{	$0.node.position.z > $1.node.position.z 							}
+//		var pickedScn : SCNNode	= sortedHits.first?.node ?? scene.rootNode
+//
+//		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
+//		var msg					= "******************************************\n Slot\(vewBase.slot_): "
+//		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
+//			
+//		 // Picable bit try parent
+//		while pickedScn.categoryBitMask & (FwNodeCategory .picable .rawValue) == 0,	//
+//			 	let parent 		= pickedScn.parent	{
+//			let m				= pickedScn.categoryBitMask
+//			msg					+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
+//// A BUG!!	msg					+= fmt("\t--> %02x = %s", m, ppNodeType(m))
+//			pickedScn 			= parent				// use parent
+//			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
+//		}
+//								
+//		 // Get Vew from SCNNode
+//		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true)
+//		 else {	return nil														}
+//		let m					= pickedScn.categoryBitMask
+//		msg						+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
+//		msg						+= "\n**********************************************\t\t\(vew.part.pp(.fullNameUidClass))"
+//		if Log.shared.eventIsWanted(ofArea:"eve", detail:3)
+//		 {	print("\n" + msg)											}
+		return nil//vew
 	}
 
 	 // MARK: - 13.4 Mouse Variables

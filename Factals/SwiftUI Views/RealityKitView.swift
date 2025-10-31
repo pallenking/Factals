@@ -42,14 +42,14 @@ extension ArView : Gui {
 		get {			bug; return self.vewBase								}
 		set {			bug; return self.vewBase = newValue 								}
 	}
-	var getScene : SCNScene? {
-		get { bug; return self.scene as? SCNScene								}
-		set { fatalError("RealityKit doesn't use SCNScene") 					}
-	}
-	var animatePhysics: Bool {
-		get { return true 														}
-		set { bug 																}
-	}
+//	var getScene : SCNScene? {
+//		get { bug; return self.scene as? SCNScene								}
+//		set { fatalError("RealityKit doesn't use SCNScene") 					}
+//	}
+//	var animatePhysics: Bool {
+//		get { return true 														}
+//		set { bug 																}
+//	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		bug
 		return []
