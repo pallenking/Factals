@@ -69,10 +69,10 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	//	self.vewConfig			= vewConfig
 	//	self.fwConfig			= fwConfig
 		self.partBase			= pb
-		self.tree				= pb.tree.VewForSelf()!			//not Vew(forPart:pb.tree)
+		self.tree				= pb.tree.VewForSelf()!	//not Vew(forPart:pb.tree)
 		VewBase.nVewBases 		+= 1
 
-		self.gui 				= nil
+		self.gui 				= nil			// no scene initially
 		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		self.tree.vewConfig		= vewConfig

@@ -82,8 +82,8 @@ class ScnView : SCNView {
 
 extension ScnView : Gui {
 	var cameraXform: SCNMatrix4 {
-		get 	{	scene!.rootNode.findScn(named:"*-camera")!.transform		}
-		set(v)	{	scene!.rootNode.findScn(named:"*-camera")!.transform = v	}
+		get 	{	scene?.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
+		set(v)	{	scene?.rootNode.findScn(named:"*-camera")?.transform = v	}
 	}
 	var anchor: SCNNode {
 		get { self.scene!.rootNode												}

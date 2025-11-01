@@ -37,7 +37,7 @@ extension ArView : Gui {
 	/// RealityKit's Gui
 	var gui : Gui? { self														}
 //	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
-	var isScnView: Bool { false }
+	var isScnView: Bool { false 												}
 	var vewBase: VewBase! {
 		get {			bug; return self.vewBase								}
 		set {			bug; return self.vewBase = newValue 								}
@@ -70,6 +70,31 @@ extension ArView : Gui {
 //		}
 	}
 }
+//struct RealityKitContentView {
+func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
+	//logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
+	return HStack (alignment:.top) {
+		VStack { 		// H: Q=optional, Any/callable		//Binding<VewBase>
+			ZStack {
+		/**/	RealityKitView()
+				 .frame(maxWidth: .infinity)
+				 .border(.black, width:1)
+				EventReceiver { nsEvent in // Catch events (goes underneath)
+					guard let scnView = vewBase.wrappedValue.gui as? ScnView
+					 else { 	// ERROR:
+						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+						logApp(3, "Key '\(c)' not recognized and hence ignored...")
+						return 											}
+					let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+				}
+			}
+		}//.frame(width: 555)
+		VStack {
+			VewBaseBar(vewBase:vewBase)
+			InspectorsVew(vewBase:vewBase.wrappedValue)
+		}//.frame(width:500)
+	}
+}
 
 struct RealityKitView: View {
 	@State		   var selfiePole 				 = SelfiePole()
@@ -82,30 +107,30 @@ struct RealityKitView: View {
 	typealias Vect3 			= SIMD3<Float>
 	typealias Vect4 			= SIMD4<Float>
 	typealias Matrix4x4 		= simd_float4x4
-
+								
 	var body: some View {
 		VStack {
 			HStack {
 				Spacer()
 				SelfiePoleBar(selfiePole:$selfiePole)
-				 .border(Color.gray, width: 3)
-				 .frame(width:800, height:20)
+			//	 .border(Color.gray, width: 3)
+			//	 .frame(width:800, height:20)
 			}
 			RealityView { content in
-				let anchor 			= AnchorEntity(.world(transform: matrix_identity_float4x4))
-				anchor.name 		= "mainAnchor"		// Create anchor for the scene
+				let anchor 		= AnchorEntity(.world(transform: matrix_identity_float4x4))
+				anchor.name 	= "mainAnchor"			// Create anchor for the scene
 	/**/		makeScenery(anchor:anchor)
 				content.add(anchor)
 				print("RealityView loaded with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation) \n\t translation: \(anchor.transform.translation)")
-		//		let scnBase 			= ScnBase(gui:rv)	// scnBase.gui = rv // important BACKPOINTER
-		//		rv.delegate				= scnBase 		// (the SCNSceneRendererDelegate)
-		//		rv.scene				= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
-		//		let vewBase				= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		//		vewBase.gui 			= rv
+		//		let scnBase 	= ScnBase(gui:rv)		// scnBase.gui = rv // important BACKPOINTER
+		//		rv.delegate		= scnBase 				// (the SCNSceneRendererDelegate)
+		//		rv.scene		= scnBase.gui!.scene	// wrapped.scnScene //gui.scene //.scene
+		//		let vewBase		= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+		//		vewBase.gui 	= rv
 			} update: { content in
 			  // Update camera transform using SelfiePole mathematics
-				if let anchor 		= content.entities.first(where: { $0.name == "mainAnchor" }) {
-					let self2focus	= selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
+				if let anchor 	  = content.entities.first(where: { $0.name == "mainAnchor" }) {
+					let self2focus = selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
 					let focus2self	= self2focus.inverse()									// SCNMatrix4
 	/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
 					updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
@@ -373,12 +398,11 @@ struct RealityKitView: View {
 		NSEvent.addLocalMonitorForEvents(matching:.scrollWheel) { event in
 			print("NSEvent scroll wheel detected: deltaY=\(event.scrollingDeltaY)")
 			let scrollDelta 		= event.scrollingDeltaY
-			if abs(scrollDelta) < 0.0001 {	// Ignore very small deltas
-			} else if scrollDelta > 0 {		// Scroll up - zoom in (closer)
-				rkView.selfiePole.zoom = max(0.0001, rkView.selfiePole.zoom / 1.05)
-			} else {						// Scroll down - zoom out (farther)
-				rkView.selfiePole.zoom = min(10000.0, rkView.selfiePole.zoom * 1.05)
-			}
+			if abs(scrollDelta) < 0.0001 { }// Ignore very small deltas
+			else if scrollDelta > 0 		// Scroll up - zoom in (closer)
+			{	rkView.selfiePole.zoom = max(0.00010, rkView.selfiePole.zoom / 1.05) }
+			else 						// Scroll down - zoom out (farther)
+			{	rkView.selfiePole.zoom = min(10000.0, rkView.selfiePole.zoom * 1.05) }
 			print("SelfiePole zoom updated: \(rkView.selfiePole.zoom)")
 			return nil						// Return nil to prevent the event from being handled by other views
 		}

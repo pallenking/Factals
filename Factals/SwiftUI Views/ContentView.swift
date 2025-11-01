@@ -172,19 +172,24 @@ struct FactalsModelView: View {
 		}
 	}
 	private var navigationView: some View {
-		let _ = Self._printChanges()
+		let _ 					= Self._printChanges()
 		return NavigationStack {
 			TabView(selection:$tabViewSelect) {
-				ForEach($factalsModel.vewBases) {	vewBase in	// Binding<[VewBase]>.Element
-					tabContentView(vewBase:vewBase)
-					 .tabItem
-					 {	Label(vewBase.wrappedValue.title, systemImage: "")		} //vewBase.wrapppedValue.slot_//"abcde"//"\(vewBase.vewBase.slot_)"//
-					 .tag(vewBase.wrappedValue.slot_)
+				ForEach($factalsModel.vewBases) {	vewBase in
+					if let gui	= vewBase.wrappedValue.gui {
+						if gui.isScnView {				// Scene Kit
+							sceneKitContentView(vewBase:vewBase)
+							 .tabItem
+							 {	Label(vewBase.wrappedValue.title, systemImage: "") }
+							 .tag(vewBase.wrappedValue.slot_)
+						} else {						// Reality Kit
+							realityKitContentView(vewBase:vewBase)
+							 .tabItem
+							 {	Label("RealityView()", systemImage: "")			}
+							 .tag(vewBase.wrappedValue.slot_)
+						}
+					}
 				}
-			//	// -3: Reality Kit
-			//	RealityKitView(/*fa ctalsModel:factalsModel*/)
-			//	 .tabItem { Label("RealityView()", systemImage: "")			}
-			//	 .tag(-3)
 			}
 												//	 .task(id:tabViewSelect) {
 												//		 // This triggers BEFORE the new content view is generated
@@ -213,35 +218,34 @@ struct FactalsModelView: View {
 			 .accentColor(.green) // Change the color of the selected tab
  		}
 	}
-	private func tabContentView(vewBase:Binding<VewBase>) -> some View {
-	//	LazyView {
-			logApp(3, "NavigationStack:\(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
-			return HStack (alignment:.top) {
-				VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
-					//let seeView = vewBase.wrappedValue.seeView as? SCNView
-					ZStack {
-						//let _ = Self._printChanges()
-				/**/	SceneKitView(prefFpsC:vewBase.prefFps)
-						 .frame(maxWidth: .infinity)
-						 .border(.black, width:1)
-						EventReceiver { nsEvent in // Catch events (goes underneath)
-							guard let scnView = vewBase.wrappedValue.gui as? ScnView
-							 else { 	// ERROR:
-								guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-							 	logApp(3, "Key '\(c)' not recognized and hence ignored...")
-								return 											}
-							let _ = scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-						}
-					}
-				}//.frame(width: 555)
-				VStack {
-					VewBaseBar(vewBase:vewBase)
-					InspectorsVew(vewBase:vewBase.wrappedValue)
-				}//.frame(width:500)
-			}
-		//}
-	}
-
+//	private func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
+//		logApp(3, "NavigationStack:\(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
+//		return HStack (alignment:.top) {
+//			VStack { // H: Q=optional, Any/callable		//Binding<VewBase>
+//				//let seeView 	= vewBase.wrappedValue.seeView as? SCNView
+//				ZStack {
+//					//let _ 	= Self._printChanges()
+//			/**/	SceneKitView(prefFpsC:vewBase.prefFps)
+//					 .frame(maxWidth: .infinity)
+//					 .border(.black, width:1)
+//					EventReceiver { nsEvent in // Catch events (goes underneath)
+//						guard let scnView = vewBase.wrappedValue.gui as? ScnView
+//						 else { 	// ERROR:
+//							guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+//							logApp(3, "Key '\(c)' not recognized and hence ignored...")
+//							return 											}
+//						let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+//								
+//					}
+//				}
+//			}//.frame(width: 555)
+//			VStack {
+//				VewBaseBar(vewBase:vewBase)
+//				InspectorsVew(vewBase:vewBase.wrappedValue)
+//			}//.frame(width:500)
+//		}
+//	}
+//
 	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
 	private func addNewTabPre()	  {		// was factalsModel.NewVewBase(..)
 	 // OLD WAY:

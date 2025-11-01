@@ -4,18 +4,12 @@
 //
 //  Created by Allen King on 2/24/24.
 //
-
-import SwiftUI
-import SceneKit
-import AppKit
-
-
 	//		that communicates with a ViewModel
 	//			to render a SceneKit scene and
 	//		the ViewModel updates
 	//			with changes from SceneKit,
 	//				acting as the single source of truth.
-	////////////////////////////// Testing	$publisher/	$view
+	// //////////////////////////// Testing	$publisher/	$view
 	// Generate code exemplefying the following thoughts that I am told:
 	// sceneview takes in a publisher		// PW essential/big
 	// swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
@@ -23,6 +17,37 @@ import AppKit
 	// viewmodel single source of truth.
 	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 	// now       : SceneView 	native SwiftUI (not full-featured)
+
+import SwiftUI
+import SceneKit
+import AppKit
+
+func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
+	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
+	return HStack (alignment:.top) {
+		VStack { 		// H: Q=optional, Any/callable		//Binding<VewBase>
+			ZStack {
+				//let _ 		= Self._printChanges()
+		/**/	SceneKitView(prefFpsC:vewBase.prefFps)
+				 .frame(maxWidth: .infinity)
+				 .border(.black, width:1)
+				EventReceiver { nsEvent in // Catch events (goes underneath)
+					guard let scnView = vewBase.wrappedValue.gui as? ScnView
+					 else { 	// ERROR:
+						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+						logApp(3, "Key '\(c)' not recognized and hence ignored...")
+						return 											}
+					let _ 		= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+							
+				}
+			}
+		}//.frame(width: 555)
+		VStack {
+			VewBaseBar(vewBase:vewBase)
+			InspectorsVew(vewBase:vewBase.wrappedValue)
+		}//.frame(width:500)
+	}
+}
 
 struct SceneKitView : NSViewRepresentable {
 	var scnView  		 		= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
@@ -38,11 +63,11 @@ struct SceneKitView : NSViewRepresentable {
 	func makeNSView(context:Context) -> ScnView {
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
-		let vewBase				= fm.vewBases.first {		//** USE EXISTING (as a HACK, use it)
-				$0.gui == nil 					// not used yet
-			&&	$0.factalsModel === fm 			// matches my factory
-			&&	$0.partBase === fm.partBase		//  and its Parts
-		} ?? {												//** MAKE NEW
+		let vewBase				= fm.vewBases.first {	//** USE EXISTING (as a HACK, use it)
+				$0.gui == nil 								// not used yet
+			&&	$0.factalsModel === fm 						// matches my factory
+			&&	$0.partBase === fm.partBase					//  and its Parts
+		} ?? {											//** MAKE NEW
 			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 			vewBase.factalsModel = fm
 			vewBase.partBase	= fm.partBase
@@ -84,20 +109,20 @@ struct SceneKitView : NSViewRepresentable {
 							//	 .onAppear { 			//setupHitTesting
 							//		//coordinator.onAppear()
 							//		//$factalsModel.coordinator.onAppear {				}
-									//NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
-									//	print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
-									//	return $0
-									//}
-								//.onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
-								//.onKeyPress(phases: .up)  { press in
-								//	print(press.characters)
-								//	return .handled
-								//}
-								//.gesture(tapGesture)// NSClickGestureRecognizer
-								//.onTapGesture {
-								//	let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
-								//  print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
-								//}
+								//	NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
+								//		print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
+								//		return $0
+								//	}
+						//		.onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
+						//		.onKeyPress(phases: .up)  { press in
+						//			print(press.characters)
+						//			return .handled
+						//		}
+						//		.gesture(tapGesture)// NSClickGestureRecognizer
+						//		.onTapGesture {
+						//			let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
+						//		  print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
+						//		}
 		//animatePhysics 		= c.bool("animatePhysics") ?? false
 		//if let gravityAny		= c["gravity"] {
 		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
