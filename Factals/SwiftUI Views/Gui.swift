@@ -33,7 +33,7 @@ import RealityKit
 // Vect4 		||	SCNVector4	|	SIMD4<Float>
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
-protocol   Gui : NSView /*AnyObject PW*/{		 /// Protypical Graphical User Interface
+protocol   Gui : AnyObject /*PW*/{		 /// Protypical Graphical User Interface			*/NSView/*
 	func makeScenery(anchorEntity:AnchorEntity)->()//	var OriginMark				{	get set										}
 	func makeAxis()
 	func makeCamera()
@@ -41,7 +41,7 @@ protocol   Gui : NSView /*AnyObject PW*/{		 /// Protypical Graphical User Interf
 	var cameraXform :SCNMatrix4	{	get set										}
 	func configure(from:FwConfig) 
 	var anchor      : SCNNode	{	get set										}
-	var isScnView 	: Bool 		{	get											}
+	var isSceneKit 	: Bool 		{	get											}
   //var getScene 	: SCNScene?	{	get set										}
   //var delegate    : SCNSceneRendererDelegate?	{	get set						}
 //	var vewBase     : VewBase!	{	get set										}

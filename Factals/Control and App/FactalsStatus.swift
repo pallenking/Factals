@@ -237,7 +237,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 									  +         ">>ERROR>>")
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  self.gui?      .ppControlElement(config:config)
+			var rv				=  (self.gui as? NSView)?.ppControlElement(config:config)
 									?? "\t\t\t\tgui is nil\n"
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
 									?? "\t\t\t\tcameraScn is nil\n"

@@ -14,7 +14,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	static var nVewBases 		= 0
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
-	var title					= "VewBase\(nVewBases)"
+	var title					= "\(nVewBases)"
 	weak
 	 var factalsModel : FactalsModel?		// Our Owner
 	weak
@@ -51,7 +51,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 var slot_ 		: Int 		{	slot ?? -1									}
 
 	// MARK: -
-	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {	/// VewBase(vewConfig:fwConfig:)
+	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {					/// VewBase(vewConfig:fwConfig:)
 		let partBase			= FACTALSMODEL!.partBase
 
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
@@ -308,7 +308,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-			rv					+= "\(gui?.pp(.nameTagClass) ?? "nsView:nil") "
+//			rv					+= "\(gui?.pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv

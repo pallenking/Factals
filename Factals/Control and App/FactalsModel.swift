@@ -45,17 +45,17 @@ import SwiftUI
 			if key == "Vews",
 			  let vewConfigs 	= value as? [VewConfig] {
 				for vewConfig in vewConfigs			// Open one for each elt
-				{	NewVewBase(vewConfig:vewConfig, fwConfig:config)			}
+				{	NewVewBase(vewConfig:vewConfig,			   fwConfig:config)	}
 			}
 			else if key.hasPrefix("Vew") {
 				if let vewConfig = value as? VewConfig
-				{	NewVewBase(vewConfig:vewConfig, fwConfig:config)			}
+				{	NewVewBase(vewConfig:vewConfig,			   fwConfig:config)	}
 				else {	panic("Confused wo38r")									}
 			}
 		}
-		 // Ensure 1 View
-		if vewBases.isEmpty 			//false,
-		{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
+	//	 // Ensure 1 View
+	//	if vewBases.isEmpty 			//false,
+	//	{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
 		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)
@@ -345,9 +345,9 @@ import SwiftUI
 			print("\n******************** 'n': ==== SCNNodes:")
 //			log.ppIndentCols = 3
 			for vewBase in vewBases {
-				print("-------- ptn   rootVews(\(ppUid(vewBase))).rootScn(\(ppUid(vewBase.gui)))" +//scnBase
-					  ".scnScene(\(ppUid(vewBase.gui))):")	//scnBase
-				print(vewBase.gui?.pp(.tree) ?? "gui=nil", terminator:"")//scnBase
+				print("-------- ptn   rootVews(\(ppUid(vewBase))).rootScn(\(ppUid(vewBase.gui as? any Uid)))" +//scnBase
+					  ".scnScene(\(ppUid(vewBase.gui as? any Uid))):")	//scnBase
+				print((vewBase.gui as? NSView)?.pp(.tree) ?? "gui=nil", terminator:"")//scnBase
 			}
 		case "#":								// write out SCNNode tree as .scnScene
 			let documentDirURL	= try! FileManager.default.url(

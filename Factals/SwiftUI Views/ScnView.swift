@@ -93,7 +93,7 @@ extension ScnView : Gui {
 //	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
  //	var gui 	: Gui? 	   { (self.delegate as? ScnBase)?.gui					}
 	/// SceneKit's Gui
-	var isScnView: Bool	   { true												}
+	var isSceneKit: Bool	   { true												}
 //	var vewBase:VewBase! {
 //		get {	self.gui?.vewBase												}
 //		set {	gui?.vewBase		= newValue									}

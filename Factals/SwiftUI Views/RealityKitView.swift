@@ -37,7 +37,7 @@ extension ArView : Gui {
 	/// RealityKit's Gui
 	var gui : Gui? { self														}
 //	var gui : Gui? { (self.delegate as? ScnBase)?.gui							}
-	var isScnView: Bool { false 												}
+	var isSceneKit: Bool { false 												}
 	var vewBase: VewBase! {
 		get {			bug; return self.vewBase								}
 		set {			bug; return self.vewBase = newValue 								}
