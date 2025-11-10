@@ -16,7 +16,7 @@ class TimingChain : Atom {
 			}
 		}
 	}
-		 // ____ Asynchronous Gui ____: Data with Snapshot:
+		 // ____ Asynchronous GuiView ____: Data with Snapshot:
 		//	User adjusts sliders and buttons, changes propigate through the network real time
 		//	User presses button to capture existing data. (optional)
 

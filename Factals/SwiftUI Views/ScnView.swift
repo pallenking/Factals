@@ -16,16 +16,16 @@ class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
 	weak
 	 var vewBase 	 : VewBase? = nil			// Owner
+	var handler : EventHandlerType.EventHandler 	{
+		get { 	eventHandler													}
+		set(val) { bug }
+	}
 
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
 	var lastPosition:SCNVector3 = .zero			// spot cursor hit
 	var deltaPosition			= SCNVector3.zero
-	var handler : EventHandlerType.EventHandler 	{
-		get { 	eventHandler													}
-		set(val) { bug }
-	}
 	 // MARK: - 3.1 init
 	init(scnScene:SCNScene?=nil, eventHandler: @escaping EventHandlerType.EventHandler={_ in}) { // ScnView(scnView:ScnView, scnScene:eventHandler)
 		self.eventHandler		= eventHandler
@@ -80,7 +80,7 @@ class ScnView : SCNView {
 	}
 }
 
-extension ScnView : Gui {
+extension ScnView : GuiView {
 	var cameraXform: SCNMatrix4 {
 		get 	{	scene?.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
 		set(v)	{	scene?.rootNode.findScn(named:"*-camera")?.transform = v	}
@@ -91,12 +91,12 @@ extension ScnView : Gui {
 	}
 	 // Sugar:
 //	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
- //	var gui 	: Gui? 	   { (self.delegate as? ScnBase)?.gui					}
-	/// SceneKit's Gui
+ //	var guiView 	: GuiView? 	   { (self.delegate as? ScnBase)?.guiView					}
+	/// SceneKit's GuiView
 	var isSceneKit: Bool	   { true												}
 //	var vewBase:VewBase! {
-//		get {	self.gui?.vewBase												}
-//		set {	gui?.vewBase		= newValue									}
+//		get {	self.guiView?.vewBase												}
+//		set {	guiView?.vewBase		= newValue									}
 //	}
 //	var getScene : SCNScene? {
 //		get {	self.scene														}
@@ -226,7 +226,7 @@ extension ScnView {
  */
 	func makeCamera() {
 		let name				= "*-camera"
-		guard let anchor		= vewBase?.gui?.anchor 		else { return		}
+		guard let anchor		= vewBase?.guiView?.anchor 		else { return		}
 		let camNode				= anchor.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
@@ -532,7 +532,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 			logEve(5, "\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
 			mouseWasDragged 	= true
 			selfiePole2camera(reason:"Left mouseDragged")
-			logEve(6, "\(vewBase.gui!.cameraXform.pp(.tree))")
+			logEve(6, "\(vewBase.guiView!.cameraXform.pp(.tree))")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
@@ -683,7 +683,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-//		guard let scene			= vewBase.gui?.getScene    else { return nil	}
+//		guard let scene			= vewBase.guiView?.getScene    else { return nil	}
 //
 //		let configHitTest : [SCNHitTestOption:Any]? = [
 //			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -768,7 +768,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		var rv					= "super.pp(mode, aux)"
 		if mode == .line {
-			rv					+= ""//gui?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
+			rv					+= ""//guiView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
 //			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "

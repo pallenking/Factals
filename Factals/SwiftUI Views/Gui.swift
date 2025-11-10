@@ -1,5 +1,5 @@
 //
-//  Gui.swift
+//  GuiView.swift
 //  Factals
 //
 //  Created by Allen King on 8/3/24.
@@ -33,7 +33,7 @@ import RealityKit
 // Vect4 		||	SCNVector4	|	SIMD4<Float>
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
-protocol   Gui : AnyObject /*PW*/{		 /// Protypical Graphical User Interface			*/NSView/*
+protocol   GuiView : AnyObject /*PW*/{		 /// Protypical Graphical User Interface			*/NSView/*
 	func makeScenery(anchorEntity:AnchorEntity)->()//	var OriginMark				{	get set										}
 	func makeAxis()
 	func makeCamera()

@@ -23,7 +23,7 @@ import SceneKit
 import AppKit
 
 func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
-	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
+	logApp(3, "*** Scene Kit Chosen, for slot \(vewBase.wrappedValue.slot_) ***")
 	return HStack (alignment:.top) {
 		VStack { 		// H: Q=optional, Any/callable		//Binding<VewBase>
 			ZStack { 	//let _ = Self._printChanges()
@@ -31,23 +31,30 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 				 .frame(maxWidth: .infinity)
 				 .border(.black, width:1)
 				EventReceiver { nsEvent in // Catch events (goes underneath)
-					guard let scnView = vewBase.wrappedValue.gui as? ScnView
-					 else { 	// ERROR:
+					if let scnView = vewBase.wrappedValue.guiView as? ScnView {
+						let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+					} else { 	// ERROR:
 						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 						logApp(3, "Key '\(c)' not recognized and hence ignored...")
-						return 											}
-					let _ 		= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+						return
+					}
+//					guard let scnView = vewBase.wrappedValue.guiView as? ScnView
+//					 else { 	// ERROR:
+//						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+//						logApp(3, "Key '\(c)' not recognized and hence ignored...")
+//						return 											}
+//					let _ 		= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 				}
 			}
-		}//.frame(width: 555)
+		}
 		VStack {
 			VewBaseBar(vewBase:vewBase)
 			InspectorsVew(vewBase:vewBase.wrappedValue)
-		}//.frame(width:500)
+		}
 	}
 }
 
-struct SceneKitView : NSViewRepresentable {
+struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 	var scnView  		 		= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
@@ -62,7 +69,7 @@ struct SceneKitView : NSViewRepresentable {
 		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
 
 		let vewBase				= fm.vewBases.first {	//** USE EXISTING (as a HACK, use it)
-				$0.gui == nil 								// not used yet
+				$0.guiView == nil 								// not used yet
 			&&	$0.factalsModel === fm 						// matches my factory
 			&&	$0.partBase === fm.partBase					//  and its Parts
 		} ?? {											//** MAKE NEW
@@ -70,11 +77,11 @@ struct SceneKitView : NSViewRepresentable {
 			vewBase.factalsModel = fm
 			vewBase.partBase	= fm.partBase
 			if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
-			{	fm.vewBases.append(vewBase)							}
+			{	fm.vewBases.append(vewBase)										}
 			return vewBase
 		} ()
 		assert(vewBase === fm.vewBases.last, "paranoia")
-		vewBase.gui 			= scnView		// usage
+		vewBase.guiView 		= scnView		// usage
 		scnView.vewBase			= vewBase
 		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
 		scnView.preferredFramesPerSecond = Int(prefFpsC)

@@ -112,7 +112,7 @@ struct FactalsModelView: View {
 				Button(label:{ Text("delete") })
 				{ 	deleteCurrentTab()											}
 				Button(label:{ Text("Test Sound") })
-				{	guard let rootScn = (FACTALSMODEL?.vewBases.first?.gui as? SCNView)?.scene?.rootNode
+				{	guard let rootScn = (FACTALSMODEL?.vewBases.first?.guiView as? SCNView)?.scene?.rootNode
 					 else { print("no rootScn found to play sound"); return}
 					rootScn.play(sound:"da")  									}
 			}
@@ -148,15 +148,21 @@ struct FactalsModelView: View {
 	}
 	@ViewBuilder
 	func kitContentView(vewBase:Binding<VewBase>) -> some View {
-		if let gui				= vewBase.wrappedValue.gui {
-			if gui.isSceneKit {
-				sceneKitContentView(vewBase:vewBase)
-			} else {
-				realityKitContentView(vewBase:vewBase)
-			}
+		let useSceneKit				= true
+		if useSceneKit {
+			sceneKitContentView(vewBase:vewBase)
 		} else {
-			Text("No GUI available")
- 		}
+			realityKitContentView(vewBase:vewBase)
+		}
+//		if let guiView				= vewBase.wrappedValue.guiView {
+//			if guiView.isSceneKit {
+//				sceneKitContentView(vewBase:vewBase)
+//			} else {
+//				realityKitContentView(vewBase:vewBase)
+//			}
+//		} else {
+//			Text("No GUI available")
+// 		}
 	}
  	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
 	private func addNewTab(subTitled:String)	  {

@@ -228,8 +228,8 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 
 		let treeScn				= self.tree.scn
 		let treeScnParent		= treeScn.parent
-		let scnTreeRoot			= gui?.anchor
-		myLine					+= gui == nil ? "gui == nil" :
+		let scnTreeRoot			= guiView?.anchor
+		myLine					+= guiView == nil ? "guiView == nil" :
 								   treeScnParent === scnTreeRoot /*|| treeScnParent == nil && scnTreeRoot == nil*/ ? "" :
 									( "\n\t\t\t\t<<ERROR<< "
 									  +	"vewTreeScn=\(treeScn.pp(.tagClass)) .parent=\(treeScnParent?.pp(.tagClass) ?? "nil")  "
@@ -237,7 +237,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 									  +         ">>ERROR>>")
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  (self.gui as? NSView)?.ppControlElement(config:config)
+			var rv				=  (self.guiView as? NSView)?.ppControlElement(config:config)
 									?? "\t\t\t\tgui is nil\n"
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
 									?? "\t\t\t\tcameraScn is nil\n"
@@ -282,9 +282,9 @@ extension Inspec : FactalsStatus	{									///Inspec
 			//	func ppControlElement(config:Bool=false) -> String {
 			//bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 			////		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-			//		var myLine				= "tree:\(gui?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-			//		myLine					+= "\(gui?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
-			//		myLine					+= "gui:\(	  gui?.pp(.tagClass) ?? "<nil>") "			//classUid
+			//		var myLine				= "tree:\(guiView?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+			//		myLine					+= "\(guiView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
+			//		myLine					+= "guiView:\(	  guiView?.pp(.tagClass) ?? "<nil>") "			//classUid
 			//		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
 			////			otherLines: {
 			////				return self.tree!   .ppControlElement()

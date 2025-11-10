@@ -23,7 +23,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var tree		  : Vew
 //	var vewConfig	  : VewConfig
 //	var fwConfig	  : FwConfig
-	var gui	 	 	  : Gui?			// attached and used from here
+	var guiView	 	  : GuiView?			// attached and used from here
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -38,8 +38,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews: [Vew]	= []	// ... to be Inspected
 	var cameraScn	  : SCNNode?
-	 {	gui?.anchor.findScn(named:"*-camera", maxLevel:1)						}
-//	 {	gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
+	 {	guiView?.anchor.findScn(named:"*-camera", maxLevel:1)						}
+//	 {	guiView?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -55,7 +55,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		let partBase			= FACTALSMODEL!.partBase
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 		configure(from:fwConfig)
-		//gui?.configure(from:fwConfig)		// gui nil
+		//guiView?.configure(from:fwConfig)				// guiView nil
 														// Install in scnBase
 		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position
 
@@ -71,7 +71,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.tree				= pb.tree.VewForSelf()!	//not Vew(forPart:pb.tree)
 		VewBase.nVewBases 		+= 1
 
-		self.gui 				= nil			// no scene initially
+		self.guiView 				= nil			// no scene initially
 		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		self.tree.vewConfig		= vewConfig
@@ -80,7 +80,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 //	scnView.monitor(onChangeOf:$selfiePole)
 	 //	{ [weak self] in						// scnBase.subscribe()
 	 //		guard let self?.cameraScn else { 		return 						}
-	 //		self!.gui.selfiePole2camera()
+	 //		self!.guiView.selfiePole2camera()
 	 //	}
 	}
 	 // Deserialize
@@ -123,8 +123,8 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		self.selfiePole.configure(from:from)
 //		if let lrl				= from.bool("logRenderLocks"),
-//		  let gui				= gui as? SCNView
-////		  let scnBase			= gui.delegate as? ScnBase
+//		  let guiView				= guiView as? SCNView
+////		  let scnBase			= guiView.delegate as? ScnBase
 //		{	logRenderLocks		= lrl										}
 		if let delay			= from.float("animateVBdelay")
 		{	animateVBdelay		= delay		}	// unset (not reset) if not present
@@ -307,7 +307,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-//			rv					+= "\(gui?.pp(.nameTagClass) ?? "nsView:nil") "
+//			rv					+= "\(guiView?.pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv
