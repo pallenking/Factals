@@ -4,7 +4,7 @@
 	FactalsApp.appState(sender:)	<many> (Lldbinit, FactalsModel(Bar)) macro
 					|				  /
 			Factals.ppControlElement()
-			FactalsStatus.ppControlElement() FACTALSMODEL? to all Classes)
+			FactalsStatus.ppControlElement() FactalsModel.shared? to all Classes)
 			ppFactalsStateHelper
  */
 import SceneKit
@@ -13,7 +13,7 @@ import SceneKit
  /// - Returns: State of all Controllers, one per line
 func ppControllers(config:Bool=false) -> String {
 	let fm : FactalsStatus?	= false ? FactalsAppDelegate.shared
-									: FACTALSMODEL
+									: FactalsModel.shared
 	return fm?.ppControlElement(config:config) ?? ""
 //	return fm?.ppControlElement(config:false)  ?? ""
 }

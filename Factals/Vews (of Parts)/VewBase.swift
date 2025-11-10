@@ -52,7 +52,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 
 	// MARK: -
 	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {					/// VewBase(vewConfig:fwConfig:)
-		let partBase			= FACTALSMODEL!.partBase
+		let partBase			= FactalsModel.shared!.partBase
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 		configure(from:fwConfig)
 		//guiView?.configure(from:fwConfig)				// guiView nil
@@ -131,7 +131,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	}
 	// MARK: -
 	func configSceneVisuals(fwConfig:FwConfig) {
-		guard let factalsModel	= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!") }
+		guard let factalsModel	= FactalsModel.shared else { fatalError("FactalsModel.shared is nil!") }
 //		guard let factalsModel else {	fatalError("factalsModel is nil!") 		}
 
 		selfiePole.configure(from:factalsModel.fmConfig)						//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access

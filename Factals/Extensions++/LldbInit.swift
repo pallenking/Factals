@@ -30,10 +30,10 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 }
 
  // Access to current ////// Part Tree //////return nil }// 
-var  LLDBParts : PartBase {	FACTALSMODEL?.partBase ??
-							fatalError("FACTALSMODEL is nil") as! PartBase		}
+var  LLDBParts : PartBase {	FactalsModel.shared?.partBase ??
+							fatalError("FactalsModel.shared is nil") as! PartBase		}
 func LLDBParts(_ name:String?=nil) -> Part  {
-	guard var rv : Part			= FACTALSMODEL?.partBase.tree
+	guard var rv : Part			= FactalsModel.shared?.partBase.tree
 	 else { return Part(["name":"COULD NOT FIND tree"])							}
 	if name != nil 				// Search for sought Part	//maxLevel:1,
 	{	rv						= rv.find(name:name!, up2:false, inMe2:true) ?? rv }
@@ -42,23 +42,23 @@ func LLDBParts(_ name:String?=nil) -> Part  {
 
  /// Access to current ////// Vew Tree //////
 var  LLDBvews0  : VewBase {
-	get 		{	return FACTALSMODEL?.vewBases.first ??
+	get 		{	return FactalsModel.shared?.vewBases.first ??
 						   fatalError("vewBases.first is nil") as! VewBase		}
-	set (v)		{		   FACTALSMODEL?.vewBases[0] = v						}
+	set (v)		{		   FactalsModel.shared?.vewBases[0] = v						}
 }
 var  LLDBvews1  : VewBase {
-	get 		{	return FACTALSMODEL!.vewBases.count > 1 ? FACTALSMODEL!.vewBases[1]
+	get 		{	return FactalsModel.shared!.vewBases.count > 1 ? FactalsModel.shared!.vewBases[1]
 						 : fatalError("vewBases.first is nil") as! VewBase		}
-	set (v)		{		   FACTALSMODEL?.vewBases[1] = v						}
+	set (v)		{		   FactalsModel.shared?.vewBases[1] = v						}
 }
 var  LLDBvews2  : VewBase {
-	get 		{	return FACTALSMODEL!.vewBases.count > 2 ? FACTALSMODEL!.vewBases[2]
+	get 		{	return FactalsModel.shared!.vewBases.count > 2 ? FactalsModel.shared!.vewBases[2]
 						 : fatalError("vewBases[2] is nil") as! VewBase			}
-	set (v)		{		   FACTALSMODEL?.vewBases[2] = v						}
+	set (v)		{		   FactalsModel.shared?.vewBases[2] = v						}
 }
 func rootVewL(_ name:String?=nil, _ index:Int=0) -> Vew  {
-	guard let factalsModel 		= FACTALSMODEL else {
-		debugger("FACTALSMODEL returns nil !!!")
+	guard let factalsModel 		= FactalsModel.shared else {
+		debugger("FactalsModel.shared returns nil !!!")
 	}
 	guard index >= 0 && index < factalsModel.vewBases.count else { debugger("rootvew() returns .null !!!")	}
 	var vew : Vew				= factalsModel.vewBases[index].tree
@@ -73,7 +73,7 @@ var LLDBvew0sceneTreeRoot : SCNNode  		{ 	LLDBvewISceneTreeRoot(0) 		}
 var LLDBvew1sceneTreeRoot : SCNNode  		{ 	LLDBvewISceneTreeRoot(1) 		}
 var LLDBvew2sceneTreeRoot : SCNNode  		{ 	LLDBvewISceneTreeRoot(2) 		}
 func LLDBvewISceneTreeRoot(_ index:Int) -> SCNNode {
-	guard let vewBases			= FACTALSMODEL?.vewBases,
+	guard let vewBases			= FactalsModel.shared?.vewBases,
 	  vewBases.count > index,
 		  let scn					= vewBases[index].guiView?.anchor else {
 //	  let scn					= vewBases[index].scnBase.scene?.rootNode else {
@@ -83,9 +83,9 @@ func LLDBvewISceneTreeRoot(_ index:Int) -> SCNNode {
 }
 
 //func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNScene	{
-//	guard let factalsModel 			= FACTALSMODEL else {
-//		print("FACTALSMODEL is nil! returning SCNNode.null")
-//		debugger("FACTALSMODEL is nil! returning SCNNode.null")
+//	guard let factalsModel 			= FactalsModel.shared else {
+//		print("FactalsModel.shared is nil! returning SCNNode.null")
+//		debugger("FactalsModel.shared is nil! returning SCNNode.null")
 //	}
 //	guard index >= 0 && index < factalsModel.vewBases.count else {
 //		print("index:\(index) exceeds rootVews=\(factalsModel.vewBases.count)! returning SCNNode.null")

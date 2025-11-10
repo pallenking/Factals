@@ -66,7 +66,7 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 
 	 // NSViewRepresentable calls this, aka init
 	func makeNSView(context:Context) -> ScnView {
-		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
+		guard let fm			= FactalsModel.shared else { fatalError("FactalsModel.shared is nil!!") }
 
 		let vewBase				= fm.vewBases.first {	//** USE EXISTING (as a HACK, use it)
 				$0.guiView == nil 								// not used yet

@@ -91,7 +91,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 				//m0?.locksAmbientWithDiffuse = true
 				///https://www.raywenderlich.com/2243-scene-kit-tutorial-getting-started self[k]!.asCGFloat
 				var color2		= newColor
-				if let skinAlpha = FACTALSMODEL?.fmConfig.cgFloat("skinAlpha") {
+				if let skinAlpha = FactalsModel.shared?.fmConfig.cgFloat("skinAlpha") {
 					color2		= color2.change(alphaTo:skinAlpha)
 				}
 				m.diffuse.contents = color2
@@ -405,7 +405,7 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 
 		 // display position in trunk:
 	//	if params4partPp.string_("ppViewOptions").contains("W"),	// DOClog.params4defaultPp; params4defaultPp
-	//	  let vews : VewBase	= FACTALSMODEL?.vewBase(ofScnScene:self) {
+	//	  let vews : VewBase	= FactalsModel.shared?.vewBase(ofScnScene:self) {
 	//		let p				= convertPosition(.zero, to:vews.tree.scnScene)
 	//		rv2					+= p.pp(.short, aux).field(-11, dots:false)
 	//	}

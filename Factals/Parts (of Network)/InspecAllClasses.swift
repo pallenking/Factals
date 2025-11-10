@@ -186,7 +186,7 @@ struct InspecAtom : View {												 // Atom
 				Text("Ports:")
 				Picker("", selection:Binding<String>(	get:{ "" }, set:{x in 		// Always out of range
 					let port	= atom.ports[x]!
-						let factalsModel = FACTALSMODEL!//self.partBase?.factalsModel
+						let factalsModel = FactalsModel.shared!//self.partBase?.factalsModel
 						for vewBase in factalsModel.vewBases {
 							let newVew = vewBase.tree.find(part:port, inMe2:true) ?? vew
 bug						//	if var fwDocument = atom.partBase?.factalsModel.document {

@@ -112,7 +112,7 @@ struct FactalsModelView: View {
 				Button(label:{ Text("delete") })
 				{ 	deleteCurrentTab()											}
 				Button(label:{ Text("Test Sound") })
-				{	guard let rootScn = (FACTALSMODEL?.vewBases.first?.guiView as? SCNView)?.scene?.rootNode
+				{	guard let rootScn = (FactalsModel.shared?.vewBases.first?.guiView as? SCNView)?.scene?.rootNode
 					 else { print("no rootScn found to play sound"); return}
 					rootScn.play(sound:"da")  									}
 			}

@@ -5,8 +5,7 @@ import SwiftUI
 
 @Observable
  class FactalsModel : Uid {
-	static var shared:FactalsModel? = nil				// = FactalsModel(partBase:PartBase(), configure:FwConfig())
-
+	static var shared:FactalsModel? = nil				// FactalsModel()
 
 	let nameTag					= getNametag()
  	var epoch: UInt16			= 1				// to mark dirty
@@ -25,18 +24,18 @@ import SwiftUI
 		return false
 	}
 	 // MARK: - 3. Factory
-	init(partBase pb:PartBase, configure c:FwConfig) {	// FactalsModel(partBase:)
+	init(partBase pb:PartBase, configure c:FwConfig) {	// FactalsModel(partBase:configure:)
 		partBase				= pb
 		simulator 				= Simulator(configure:c)
 		fmConfig				= c				// Save in ourselves   WHY???
 		 // self now valid /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-		if let fm 				= FACTALSMODEL {
-			 print("******** FACTALSMODEL already set to '\(fm)' ********")
+		if let fm 				= FactalsModel.shared {
+			 print("******** FactalsModel.shared already set to '\(fm)' ********")
 		}
 
-		assert(FactalsModel.shared == nil , "FACTALSMODEL already set ???")
-		FACTALSMODEL			= self			// set GLOBAL <<<< UGLY >>>>
+		assert(FactalsModel.shared == nil , "FactalsModel.shared already set ???")
+		FactalsModel.shared		= self			// set static shared
 
 		partBase .factalsModel	= self			// backpointer
 		simulator.factalsModel	= self			// backpointer

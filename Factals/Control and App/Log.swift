@@ -159,7 +159,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 		let sh	 					= Log.shared	// There should be only one Log in the system
 		//print("format_:\(format_) args:\(args) --> '\(String(format:format_, arguments:args))'")
 		 // note Similator time change?
-		if let fm					= FACTALSMODEL {
+		if let fm					= FactalsModel.shared {
 			let sim					= fm.simulator
 			let deltaTime 			= sim.timeNow  - (sh.simTimeLastLog ?? 0)
 			if deltaTime > 0 || sh.simTimeLastLog == nil {
@@ -203,7 +203,7 @@ class Log : Uid {				// Never Equatable, NSCopying, NSObject // CherryPick2023-0
 	}
 	 /// Character to represent Transaction ID:
 	var ppCurLock : String {
-		if let curLockStr		= FACTALSMODEL?.partBase.curOwner {
+		if let curLockStr		= FactalsModel.shared?.partBase.curOwner {
 			return Log.shortNames[curLockStr] ?? "<<\(curLockStr)>>"
 		}
 		return ".,."

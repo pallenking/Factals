@@ -45,7 +45,7 @@ extension Simulator			: ProcessNsEvent {}
 extension NSEvent {
 		// Determine the Vews referenced by this event.
 	func vewBase() -> VewBase? {
-		guard let factalsModel 	= FACTALSMODEL else { fatalError() 			}
+		guard let factalsModel 	= FactalsModel.shared else { fatalError() 			}
 		if let nsViewOfEv 		= window?.contentView {		// NSView of all SwiftUI
 
 			 // Find vewBase whose scnView is a descendant of nsViewOfEv

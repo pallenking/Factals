@@ -22,7 +22,7 @@ import Foundation
 //	file:StaticString = #file,	line:UInt = #line)
 //{
 //	if truthValue == false {
-//		guard let log 			= FACTALSMODEL?.log else { fatal("klwjowjvo");return}
+//		guard let log 			= FactalsModel.shared?.log else { fatal("klwjowjvo");return}
 //		let pre 				= fmt("%03d", log.eventNumber) + log.ppCurThread + log.ppCurLock
 //		fatal("\n\n" + """
 //			\t\(pre) ERROR ------------
