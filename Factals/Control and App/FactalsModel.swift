@@ -5,6 +5,9 @@ import SwiftUI
 
 @Observable
  class FactalsModel : Uid {
+	static var shared:FactalsModel? = nil				// = FactalsModel(partBase:PartBase(), configure:FwConfig())
+
+
 	let nameTag					= getNametag()
  	var epoch: UInt16			= 1				// to mark dirty
 	  // MARK: - 2. Object Variables:
@@ -31,6 +34,8 @@ import SwiftUI
 		if let fm 				= FACTALSMODEL {
 			 print("******** FACTALSMODEL already set to '\(fm)' ********")
 		}
+
+		assert(FactalsModel.shared == nil , "FACTALSMODEL already set ???")
 		FACTALSMODEL			= self			// set GLOBAL <<<< UGLY >>>>
 
 		partBase .factalsModel	= self			// backpointer

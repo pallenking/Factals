@@ -55,7 +55,7 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 }
 
 struct SceneKitView : NSViewRepresentable {		// SceneKitView()
-	var scnView  		 		= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
+//	var scnView  		 		= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
 
 	typealias Visible			= SCNNode
@@ -66,7 +66,7 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 
 	 // NSViewRepresentable calls this, aka init
 	func makeNSView(context:Context) -> ScnView {
-		guard let fm			= FACTALSMODEL 		else { fatalError("FACTALSMODEL is nil!!") }
+		guard let fm			= FACTALSMODEL else { fatalError("FACTALSMODEL is nil!!") }
 
 		let vewBase				= fm.vewBases.first {	//** USE EXISTING (as a HACK, use it)
 				$0.guiView == nil 								// not used yet
@@ -81,6 +81,7 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 			return vewBase
 		} ()
 		assert(vewBase === fm.vewBases.last, "paranoia")
+		var scnView  		 	= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
 		vewBase.guiView 		= scnView		// usage
 		scnView.vewBase			= vewBase
 		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
@@ -88,7 +89,7 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 		return scnView
 	}
 	func updateNSView(_ nsView: ScnView, context:Context) {
-		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
+		//! scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
 }
 

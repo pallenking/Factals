@@ -98,7 +98,8 @@ extension FactalsApp : App {
 }
 
  // MARK: - Singleton
-var FACTALSMODEL : FactalsModel?=nil
+var FACTALSMODEL   : FactalsModel? {	FactalsModel.shared							}
+//var FACTALSMODEL : FactalsModel?=nil
 
   // https://stackoverflow.com/questions/27500940/how-to-let-the-app-know-if-its-running-unit-tests-in-a-pure-swift-project
 	var isRunningXcTests : Bool	= ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
