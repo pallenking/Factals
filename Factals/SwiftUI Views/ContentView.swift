@@ -105,12 +105,12 @@ struct FactalsModelView: View {
 			HStack {			// Body Header 0 Buttons
 				Text("")
 				Spacer()
-				Button(label:{ Text("--") })
-				{ 	deleteCurrentTab()											}
 				Button(label:{ Text("SCN++") }) {
 					addNewTab(subTitled:"SCN")									}
 				Button(label:{ Text("AR++") })
 				{	addNewTab(subTitled:"AR")									}
+				Button(label:{ Text("delete") })
+				{ 	deleteCurrentTab()											}
 				Button(label:{ Text("Test Sound") })
 				{	guard let rootScn = (FACTALSMODEL?.vewBases.first?.gui as? SCNView)?.scene?.rootNode
 					 else { print("no rootScn found to play sound"); return}
@@ -172,7 +172,6 @@ struct FactalsModelView: View {
 	}
 	private func deleteCurrentTab() {
 		factalsModel.vewBases.remove(at:tabViewSelect)
-//		factalsModel.vewBases[tabViewSelect] = nil
-//		factalsModel.vewBases.removeFirst(tabViewSelect)
+		tabViewSelect			-= 1
 	}
 }

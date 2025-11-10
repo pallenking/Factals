@@ -38,8 +38,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews: [Vew]	= []	// ... to be Inspected
 	var cameraScn	  : SCNNode?
-	{	gui?.anchor.findScn(named:"*-camera", maxLevel:1)			}
-//	{	gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
+	 {	gui?.anchor.findScn(named:"*-camera", maxLevel:1)						}
+//	 {	gui?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -53,9 +53,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	// MARK: -
 	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {					/// VewBase(vewConfig:fwConfig:)
 		let partBase			= FACTALSMODEL!.partBase
-
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
-		configure(     from:fwConfig)
+		configure(from:fwConfig)
 		//gui?.configure(from:fwConfig)		// gui nil
 														// Install in scnBase
 		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position

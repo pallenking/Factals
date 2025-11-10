@@ -26,8 +26,7 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
 	return HStack (alignment:.top) {
 		VStack { 		// H: Q=optional, Any/callable		//Binding<VewBase>
-			ZStack {
-				//let _ 		= Self._printChanges()
+			ZStack { 	//let _ = Self._printChanges()
 		/**/	SceneKitView(prefFpsC:vewBase.prefFps)
 				 .frame(maxWidth: .infinity)
 				 .border(.black, width:1)
@@ -38,7 +37,6 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 						logApp(3, "Key '\(c)' not recognized and hence ignored...")
 						return 											}
 					let _ 		= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-							
 				}
 			}
 		}//.frame(width: 555)
