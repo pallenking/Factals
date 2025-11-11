@@ -148,21 +148,11 @@ struct FactalsModelView: View {
 	}
 	@ViewBuilder
 	func kitContentView(vewBase:Binding<VewBase>) -> some View {
-		let useSceneKit				= true
-		if useSceneKit {
+		if true {
 			sceneKitContentView(vewBase:vewBase)
 		} else {
 			realityKitContentView(vewBase:vewBase)
 		}
-//		if let guiView				= vewBase.wrappedValue.guiView {
-//			if guiView.isSceneKit {
-//				sceneKitContentView(vewBase:vewBase)
-//			} else {
-//				realityKitContentView(vewBase:vewBase)
-//			}
-//		} else {
-//			Text("No GUI available")
-// 		}
 	}
  	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
 	private func addNewTab(subTitled:String)	  {

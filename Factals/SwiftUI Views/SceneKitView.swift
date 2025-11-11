@@ -55,8 +55,8 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 }
 
 struct SceneKitView : NSViewRepresentable {		// SceneKitView()
-//	var scnView  		 		= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
+	var scnView 				= ScnView()		//	var scnView : ScnView?		= nil
 
 	typealias Visible			= SCNNode
 	typealias Vect3 			= SCNVector3
@@ -66,30 +66,14 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 
 	 // NSViewRepresentable calls this, aka init
 	func makeNSView(context:Context) -> ScnView {
-		guard let fm			= FactalsModel.shared else { fatalError("FactalsModel.shared is nil!!") }
-
-		let vewBase				= fm.vewBases.first {	//** USE EXISTING (as a HACK, use it)
-				$0.guiView == nil 								// not used yet
-			&&	$0.factalsModel === fm 						// matches my factory
-			&&	$0.partBase === fm.partBase					//  and its Parts
-		} ?? {											//** MAKE NEW
-			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-			vewBase.factalsModel = fm
-			vewBase.partBase	= fm.partBase
-			if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
-			{	fm.vewBases.append(vewBase)										}
-			return vewBase
-		} ()
-		assert(vewBase === fm.vewBases.last, "paranoia")
-		var scnView  		 	= ScnView()		// ARG1: exposes visual world // was SCNView(scnScene:nil, eventHandler:{_ in})
+		let vewBase 			= scnView.myVewBase()
 		vewBase.guiView 		= scnView		// usage
 		scnView.vewBase			= vewBase
 		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
-		scnView.preferredFramesPerSecond = Int(prefFpsC)
 		return scnView
 	}
 	func updateNSView(_ nsView: ScnView, context:Context) {
-		//! scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
+		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
 }
 

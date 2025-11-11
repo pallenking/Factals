@@ -42,7 +42,7 @@ class ScnView : SCNView {
 		self.init(scnScene:nil) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 		if let scn				= vewBase?.tree.scn
-		{	self.scene?.rootNode.addChildNode(scn)								}
+		 {	self.scene?.rootNode.addChildNode(scn)								}
 
 		self.backgroundColor 	= NSColor("veryLightGray")!
 		self.antialiasingMode 	= .multisampling16X

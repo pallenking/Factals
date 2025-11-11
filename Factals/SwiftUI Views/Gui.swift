@@ -33,7 +33,7 @@ import RealityKit
 // Vect4 		||	SCNVector4	|	SIMD4<Float>
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
-protocol   GuiView : AnyObject /*PW*/{		 /// Protypical Graphical User Interface			*/NSView/*
+protocol GuiView : AnyObject {		 /// Protypical Graphical User Interface			*/NSView/*
 	func makeScenery(anchorEntity:AnchorEntity)->()//	var OriginMark				{	get set										}
 	func makeAxis()
 	func makeCamera()
@@ -50,6 +50,25 @@ protocol   GuiView : AnyObject /*PW*/{		 /// Protypical Graphical User Interface
 //	var animatePhysics : Bool 	{	get set										}
 	 // Abstract hitTest that works for both SceneKit and RealityKit
 	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult]
+}
+extension GuiView {
+	func myVewBase() -> VewBase {
+		guard let fm			= FactalsModel.shared else { fatalError("FactalsModel.shared is nil!!") }
+		let vewBase				= fm.vewBases.last {	//** USE EXISTING (as a HACK, use it)
+				$0.guiView		== nil 						// not used yet
+			&&	$0.factalsModel === fm 						// matches my factory
+			&&	$0.partBase 	=== fm.partBase				//  and its Parts
+		} ?? {											//** MAKE NEW
+			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+			vewBase.factalsModel = fm
+			vewBase.partBase	= fm.partBase
+			if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
+			 {	fm.vewBases.append(vewBase)				/* ** Install ** */		}
+			return vewBase
+		} ()
+		assert(vewBase === fm.vewBases.last, "paranoia")
+		return vewBase
+	}
 }
 
 
