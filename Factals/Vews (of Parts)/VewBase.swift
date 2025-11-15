@@ -24,6 +24,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 //	var vewConfig	  : VewConfig
 //	var fwConfig	  : FwConfig
 	var guiView	 	  : GuiView?			// attached and used from here
+	var guiKind		 			= "unknown"
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'

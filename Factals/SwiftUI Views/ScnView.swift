@@ -760,7 +760,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 		selfiePole.position.z 	+= deltaPosition.y * 20
 	}
 
-	func  selfiePole2camera(duration:Float=0, reason:String="") {
+	func selfiePole2camera(duration:Float=0, reason:String="") {
 		guard let vewBase		else { return								 	}
 		let selfiePole			= vewBase.selfiePole
 //bug;	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE

@@ -72,7 +72,7 @@ extension ArView : GuiView {
 }
 //struct RealityKitContentView {
 func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
-	//logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
+	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
 	return HStack (alignment:.top) {
 		VStack { 		// H: Q=optional, Any/callable		//Binding<VewBase>
 			ZStack {
@@ -83,7 +83,7 @@ func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
 					guard let scnView = vewBase.wrappedValue.guiView as? ScnView
 					 else { 	// ERROR:
 						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-						logApp(3, "Key '\(c)' not recognized and hence ignored...")
+						logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
 						return 											}
 					let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 				}
@@ -141,25 +141,23 @@ struct RealityKitView: View {
 			.background(Color.gray.opacity(0.1))
 			.gesture(
 				DragGesture(minimumDistance: 0)
-					.onChanged { value in
-						if !isDragging {
-							// Perform hit testing on drag start
-							performHitTest(from:self, at: value.startLocation)
-							lastDragLocation = value.startLocation
-							isDragging = true
-						}
-
-						let deltaX	= Float(value.location.x - lastDragLocation.x)
-						let deltaY	= Float(value.location.y - lastDragLocation.y)
-						
-						// Use SelfiePole's mouse delta handling
-						selfiePole.updateFromMouseDelta(deltaX:deltaX, deltaY:deltaY, sensitivity:0.005)
-						
-						lastDragLocation = value.location
-					}
-					.onEnded { _ in
-						isDragging	= false
-					}
+				 .onChanged { value in
+				 	if !isDragging { 		// Perform hit testing on drag start
+				 		performHitTest(from:self, at: value.startLocation)
+				 		lastDragLocation = value.startLocation
+				 		isDragging = true
+				 	}
+				 	//
+				 	let deltaX	= Float(value.location.x - lastDragLocation.x)
+				 	let deltaY	= Float(value.location.y - lastDragLocation.y)
+				 	// Use SelfiePole's mouse delta handling
+				 	selfiePole.updateFromMouseDelta(deltaX:deltaX, deltaY:deltaY, sensitivity:0.005)
+				 
+				 	lastDragLocation = value.location
+				 }
+				 .onEnded { _ in
+				 	isDragging	= false
+				 }
 			)
 			.onTapGesture { location in
 				performHitTest(from:self, at:location)

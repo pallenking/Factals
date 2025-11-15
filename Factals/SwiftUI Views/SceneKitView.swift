@@ -31,8 +31,12 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 				 .frame(maxWidth: .infinity)
 				 .border(.black, width:1)
 				EventReceiver { nsEvent in // Catch events (goes underneath)
-					let scnView = vewBase.wrappedValue.guiView as? ScnView
-					let _ 		= scnView?.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+					guard let scnView = vewBase.wrappedValue.guiView as? ScnView
+					 else { 	// ERROR:
+						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+						logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
+						return 											}
+					let _ 		= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 				}
 			}
 		}

@@ -148,16 +148,18 @@ struct FactalsModelView: View {
 	}
 	@ViewBuilder
 	func kitContentView(vewBase:Binding<VewBase>) -> some View {
-		if true {
-			sceneKitContentView(vewBase:vewBase)
-		} else {
-			realityKitContentView(vewBase:vewBase)
-		}
+		if 		 vewBase.wrappedValue.guiKind == "SCN"
+		 {	sceneKitContentView(vewBase:vewBase)								}
+		 else if vewBase.wrappedValue.guiKind == "AR"
+		 {	realityKitContentView(vewBase:vewBase)								}
+		 else
+		 {	fatalError("Illegal guiKind:\(vewBase.wrappedValue.guiKind)")		}
 	}
  	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
 	private func addNewTab(subTitled:String)	  {
 		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		vewBase.title			= "\(subTitled) \(vewBase.title)"		//assert(vewBase.title == "\(VewBase.nVewBases)", "vewBase.title != nVewBases: \(vewBase.title) != \(VewBase.nVewBases)")
+		vewBase.guiKind			= subTitled
 		vewBase.factalsModel	= factalsModel
 
 		factalsModel.vewBases.append(vewBase)
