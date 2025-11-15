@@ -537,9 +537,8 @@ bug	// Never USED?
 		guard let linkVew		= vew as? LinkVew 	 else { debugger("Vew type mismach")}
 		guard let vewBase		= vew.vewBase(),
 		 	  let cameraScn		= vewBase.cameraScn else
-		{	logRsi(8, "can't find camera")
-			return
-		}			// :H: VECTor,Vector,  InWorld, InParent
+		{	return logRsi(8, "can't find camera")								}
+			// :H: VECTor,Vector,  InWorld, InParent
 		 // Get ends of link, and set positions
 		if let pEndVectIp		= linkVew.pEndVip,
 		  let  sEndVectIp 		= linkVew.sEndVip {

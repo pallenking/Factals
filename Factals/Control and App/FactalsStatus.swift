@@ -277,21 +277,6 @@ extension Inspec : FactalsStatus	{									///Inspec
 			myLine:myLine)
 	}
 }
-
-			//extension ScnView : FactalsStatus	{						  ///ScnView
-			//	func ppControlElement(config:Bool=false) -> String {
-			//bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-			////		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-			//		var myLine				= "tree:\(guiView?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-			//		myLine					+= "\(guiView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
-			//		myLine					+= "guiView:\(	  guiView?.pp(.tagClass) ?? "<nil>") "			//classUid
-			//		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
-			////			otherLines: {
-			////				return self.tree!   .ppControlElement()
-			////					+ (self.scnView?.ppControlElement() ?? "")
-			////			},
-			//	}
-			//}
 extension SCNScene : FactalsStatus {								 ///SCNScene
 	func ppControlElement(config:Bool=false) -> String {
 		let myLine				= rootNode.name == "rootNode" ? "" : "rootNode.name=\(rootNode .name ?? "?") -- BAD!!"
@@ -410,6 +395,21 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 //		return  nibName == nil ? 		"Nib nil"	 	: "Nib loaded"
 //	}
 //}
+
+//extension ScnView : FactalsStatus	{						  ///ScnView
+//	//func ppControlElement(config:Bool=false) -> String {
+//	//	bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+//	//	//		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
+//	//	var myLine				= "tree:\(guiView?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+//	//	myLine					+= "\(guiView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
+//	//	myLine					+= "guiView:\(	  guiView?.pp(.tagClass) ?? "<nil>") "			//classUid
+//	//	return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
+//	//	//			otherLines: {
+//	//	//				return self.tree!   .ppControlElement()
+//	//	//					+ (self.scnView?.ppControlElement() ?? "")
+//	//	//			},
+//	//}
+//}
 extension NSView : FactalsStatus	{								   ///NSView
 	func ppControlElement(config:Bool=false) -> String {
 		let msg					= fwClassName.field(-13)
@@ -418,11 +418,9 @@ extension NSView : FactalsStatus	{								   ///NSView
 				"\(subviews.count) children "									+
 				"superv:\(superview?.pp(.classTag) ?? "nil") "					+
 				   "win:\(window?   .pp(.classTag) ?? "nil") " 					,
-//				"superv:\(ppUid(superview, showNil:true)) "						+
-//				   "win:\(ppUid(window,    showNil:true)) " 					,
 			otherLines:{
+			//	self.subviews.map { $0.ppControlElement(deapth:deapth-1)		}
 				var rv			= ""
-	//			rv				+= self.subviews.map { $0.ppControlElement(deapth:deapth-1)			}
 				for view in self.subviews {
 					rv			+= view.ppControlElement(config:config)
 				}

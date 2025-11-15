@@ -31,19 +31,8 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 				 .frame(maxWidth: .infinity)
 				 .border(.black, width:1)
 				EventReceiver { nsEvent in // Catch events (goes underneath)
-					if let scnView = vewBase.wrappedValue.guiView as? ScnView {
-						let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-					} else { 	// ERROR:
-						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-						logApp(3, "Key '\(c)' not recognized and hence ignored...")
-						return
-					}
-//					guard let scnView = vewBase.wrappedValue.guiView as? ScnView
-//					 else { 	// ERROR:
-//						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-//						logApp(3, "Key '\(c)' not recognized and hence ignored...")
-//						return 											}
-//					let _ 		= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+					let scnView = vewBase.wrappedValue.guiView as? ScnView
+					let _ 		= scnView?.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 				}
 			}
 		}
@@ -56,7 +45,6 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 
 struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 	@Binding var prefFpsC : CGFloat				// ARG2: (DEBUG)
-	var scnView 				= ScnView()		//	var scnView : ScnView?		= nil
 
 	typealias Visible			= SCNNode
 	typealias Vect3 			= SCNVector3
@@ -66,13 +54,14 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 
 	 // NSViewRepresentable calls this, aka init
 	func makeNSView(context:Context) -> ScnView {
-		let vewBase 			= scnView.myVewBase()
+		let scnView 			= ScnView()		//	var scnView : ScnView? = nil
+		let vewBase 			= scnView.myVewBase(guiView:scnView)
 		vewBase.guiView 		= scnView		// usage
 		scnView.vewBase			= vewBase
 		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
 		return scnView
 	}
-	func updateNSView(_ nsView: ScnView, context:Context) {
+	func updateNSView(_ scnView: ScnView, context:Context) {
 		scnView.preferredFramesPerSecond = Int(prefFpsC)		//args.preferredFramesPerSecond
 	}
 }

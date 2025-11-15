@@ -52,16 +52,15 @@ protocol GuiView : AnyObject {		 /// Protypical Graphical User Interface			*/NSV
 	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult]
 }
 extension GuiView {
-	func myVewBase() -> VewBase {
+	func myVewBase(guiView:GuiView) -> VewBase {
 		guard let fm			= FactalsModel.shared else { fatalError("FactalsModel.shared is nil!!") }
 		let vewBase				= fm.vewBases.last {	//** USE EXISTING (as a HACK, use it)
-				$0.guiView		== nil 						// not used yet
-			&&	$0.factalsModel === fm 						// matches my factory
-			&&	$0.partBase 	=== fm.partBase				//  and its Parts
-		} ?? {											//** MAKE NEW
+				$0.guiView		== nil
+		} ?? {											//** None, MAKE NEW
 			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 			vewBase.factalsModel = fm
 			vewBase.partBase	= fm.partBase
+			vewBase.guiView		= guiView
 			if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
 			 {	fm.vewBases.append(vewBase)				/* ** Install ** */		}
 			return vewBase

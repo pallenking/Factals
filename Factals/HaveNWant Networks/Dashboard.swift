@@ -49,7 +49,8 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 		// "S":		Show ( V ) Scn		// "I":		Show (  I) pIvot point
 		// "P":		Show ( V ) Part		// "W":		Show (PVI) position in World coordinates
 		// "L":		Show ( V ) Leaf height				   '-> :H: Part, View, scN
-	"ppViewOptions"	/**/:	"UFV    TB W",	// Compact
+	"ppViewOptions"	//**/:	"UFV    TB  ",	// Experimental Compact
+					/**/:	"UFV    TB W",	// Compact
 					//**/:	"UFVSPLETBIW",	// Everything
 					//**/:	"UFV       W",	// WIP
 					//**/:	"UFVTWB",		// Tests
@@ -60,7 +61,7 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 	"ppScnBBox"			: true, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
-	"ppXYZWena"  		: "XYZ",  	//"Y"XYZ"	// disable some dimensions //"XYZW"//
+	"ppXYZWena"  		: "Y",  	//"Y"XYZ"	// disable some dimensions //"XYZW"//
 				// Column Usage:
 	"ppViewTight"		: false, 	// better for ascii text //false//true
 	"ppBBoxCols"		: 28,		// columns printout for bounding boxs//32//24

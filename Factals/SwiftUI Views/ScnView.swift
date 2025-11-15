@@ -15,10 +15,10 @@ enum EventHandlerType {
 class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
 	weak
-	 var vewBase 	 : VewBase? = nil			// Owner
-	var handler : EventHandlerType.EventHandler 	{
+	 var vewBase : VewBase? = nil			// Owner
+	var handler  : EventHandlerType.EventHandler 	{
 		get { 	eventHandler													}
-		set(val) { bug }
+		set(val) { bug 															}
 	}
 
 	var logRenderLocks			= true			// Overwritten by Configuration
@@ -226,7 +226,7 @@ extension ScnView {
  */
 	func makeCamera() {
 		let name				= "*-camera"
-		guard let anchor		= vewBase?.guiView?.anchor 		else { return		}
+		guard let anchor		= vewBase?.guiView?.anchor 		else {  return	}
 		let camNode				= anchor.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
@@ -356,9 +356,10 @@ bug//	let animateIt			= configure.bool_("animatePole") ; bug
 	}
 	//
 	func selfiePole2camera(duration:Float=0, reason:String?=nil) -> SCNMatrix4 {
-	//	selfiePole.zoom			= zoom4fullScreen()
-		let transform			= vewBase!.selfiePole.transform
-		return transform
+		vewBase!.selfiePole.transform
+	//	//selfiePole.zoom		= zoom4fullScreen()
+	//	let transform			= vewBase!.selfiePole.transform
+	//	return transform
 	}
 		 /// Compute Camera Transform from pole config
 		/// - Parameters:
@@ -495,7 +496,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
-		guard let vewBase		else { print("ScnBase.vewBase is nil"); return false	}
+		guard let vewBase		else { print("ScnBase.vewBase is nil"); return false }
 		let slot				= vewBase.slot_
 		guard let factalsModel	= vewBase.factalsModel else 	{ return false	}
 
@@ -755,12 +756,9 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 
 	func  selfiePole2camera(duration:Float=0, reason:String="") {
 		guard let vewBase		else { return								 	}
-		var selfiePole			= vewBase.selfiePole
+		let selfiePole			= vewBase.selfiePole
 //bug;	selfiePole.zoom			= zoom4fullScreen()		// BUG HERE
-		let transform			= selfiePole.transform(lookAtVew:vewBase.lookAtVew)
-								//print("commitCameraMotion(:reason:'\(reason)')\n\(transform.pp(.line)) -> cameraScn:\(cameraScn.pp(.nameTag))")
-								//print("selfiePole:\(selfiePole.pp(.nameTag)) = \(selfiePole.pp(.line))\n")
-		cameraXform				= transform										//vewBase.cameraScn!.transform = transform
+		cameraXform				= selfiePole.transform(lookAtVew:vewBase.lookAtVew)
 			// add ortho magnification.
 		vewBase.cameraScn?.camera?.orthographicScale = selfiePole.zoom * 10
 	}

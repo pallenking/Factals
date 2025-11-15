@@ -57,15 +57,15 @@ import SwiftUI
 				else {	panic("Confused wo38r")									}
 			}
 		}
-	//	 // Ensure 1 View
-	//	if vewBases.isEmpty 			//false,
-	//	{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
+		 // Ensure 1 View
+		if false, vewBases.isEmpty 			//false,
+		{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
 		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)
 		vewBase.partBase		= partBase
 		vewBase.factalsModel	= self
-		vewBase.guiView 			= nil			// A signal of need!
+		vewBase.guiView 		= nil			// A signal of need!
 		vewBases.append(vewBase)
 		vewBase.updateVSP() 								// DELETE?
 	}
