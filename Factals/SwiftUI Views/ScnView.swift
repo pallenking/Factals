@@ -690,50 +690,50 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-//		guard let scene			= vewBase.guiView?.getScene    else { return nil	}
-//
-//		let configHitTest : [SCNHitTestOption:Any]? = [
-//			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
-//			.boundingBoxOnly	:false,	// search for objects by bounding box only.
-//			.categoryBitMask	:		// ++ search only for objects whose bit is ON:
-//				FwNodeCategory.picable  .rawValue |
-//				FwNodeCategory.byDefault.rawValue ,			// ??? //
-//			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
-//			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
-//										//.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
-//										//.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
-//										//.sortResults:1, 			// (implied)
-//										//.rootNode:tree				// Where to start search
-//		]
-//		let locationInRoot		= convert(nsEvent.locationInWindow, from:nil)
-///**/	let hits 				= hitTest(locationInRoot, options:configHitTest)
-//		let sortedHits			= hits.sorted	 	// Find closest to screen:
-//		{	$0.node.position.z > $1.node.position.z 							}
-//		var pickedScn : SCNNode	= sortedHits.first?.node ?? scene.rootNode
-//
-//		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
-//		var msg					= "******************************************\n Slot\(vewBase.slot_): "
-//		msg 					+= "find \(pickedScn.pp(.classTag))'\(pickedScn.fullName)':"
-//			
-//		 // Picable bit try parent
-//		while pickedScn.categoryBitMask & (FwNodeCategory .picable .rawValue) == 0,	//
-//			 	let parent 		= pickedScn.parent	{
-//			let m				= pickedScn.categoryBitMask
-//			msg					+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
-//// A BUG!!	msg					+= fmt("\t--> %02x = %s", m, ppNodeType(m))
-//			pickedScn 			= parent				// use parent
-//			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
-//		}
-//								
-//		 // Get Vew from SCNNode
-//		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true)
-//		 else {	return nil														}
-//		let m					= pickedScn.categoryBitMask
-//		msg						+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
-//		msg						+= "\n**********************************************\t\t\(vew.part.pp(.fullNameUidClass))"
-//		if Log.shared.eventIsWanted(ofArea:"eve", detail:3)
-//		 {	print("\n" + msg)											}
-		return nil//vew
+		guard let scene			= (vewBase.guiView as? SCNView)?.scene else { return nil	}
+
+		let configHitTest : [SCNHitTestOption:Any]? = [
+			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
+			.boundingBoxOnly	:false,	// search for objects by bounding box only.
+			.categoryBitMask	:		// ++ search only for objects whose bit is ON:
+				FwNodeCategory.picable  .rawValue |
+				FwNodeCategory.byDefault.rawValue ,			// ??? //
+			.clipToZRange		:true,	// search for objects only within the depth range zNear and zFar
+			.searchMode:1				// ++ any:2, all:1. closest:0, //SCNHitTestSearchMode.closest
+										//.ignoreChildNodes	:true,	// BAD ignore child nodes when searching
+										//.ignoreHiddenNodes	:true 	// ignore hidden nodes not rendered when searching.
+										//.sortResults:1, 			// (implied)
+										//.rootNode:tree				// Where to start search
+		]
+		let locationInRoot		= convert(nsEvent.locationInWindow, from:nil)
+/**/	let hits 				= hitTest(locationInRoot, options:configHitTest)
+		let sortedHits			= hits.sorted	 	// Find closest to screen:
+		{	$0.node.position.z > $1.node.position.z 							}
+		var pickedScn : SCNNode	= sortedHits.first?.node ?? scene.rootNode
+
+		   // Example: SCNNode<3433>'/*-ROOT'  = <Classname><nameTag>'<fullName>'
+		var msg					= "******************************************\n Slot\(vewBase.slot_): "
+		msg 					+= "found \(pickedScn.pp(.classTag)): \(pickedScn.fullName)"
+			
+		 // Picable bit try parent
+		while pickedScn.categoryBitMask & (FwNodeCategory .picable .rawValue) == 0,	//
+			 	let parent 		= pickedScn.parent	{
+			let m				= pickedScn.categoryBitMask
+			msg					+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
+// A BUG!!	msg					+= fmt("\t--> %02x = %s", m, ppNodeType(m))
+			pickedScn 			= parent				// use parent
+			msg 				+= "\n\t " + "parent " + "\(pickedScn.pp(.classTag))'\(pickedScn.fullName)': "
+		}
+								
+		 // Get Vew from SCNNode
+		guard let vew 			= vewBase.tree.find(scnNode:pickedScn, inMe2:true)
+		 else {	return nil														}
+		let m					= pickedScn.categoryBitMask
+		msg						+= fmt("\t--> %02x(=", m) + ppNodeType(m) + ")"
+		msg						+= "\n**********************************************\t\t\(vew.part.pp(.fullNameUidClass))"
+		if Log.shared.eventIsWanted(ofArea:"eve", detail:3)
+		 {	print("\n" + msg)											}
+		return vew	//nil//
 	}
 
 	 // MARK: - 13.4 Mouse Variables

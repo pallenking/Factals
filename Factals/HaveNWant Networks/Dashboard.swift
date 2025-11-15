@@ -61,11 +61,11 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 	"ppScnBBox"			: true, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
-	"a"  		: "XY",  	//"Y"XYZ"	// disable some dimensions //"XYZW"//
+	"ppXYZWena"  		: "XY",  	//"XYZW"// disable some dimensions //"XYZW"//
 				// Column Usage:
 	"ppViewTight"		: false, 	// better for ascii text //false//true
 	"ppBBoxCols"		: 28,		// columns printout for bounding boxs//32//24
-	"ppIndentCols"		: 14,//12/12/8// columns allowed for printout for indentation
+	"ppIndentCols"		: 14,//12/12/8// a allowed for printout for indentation
 	"ppNNameCols"		: 8,		// columns printout for names
 	"ppNClassCols"		: 8,		// columns printout for names
 	"ppNUid4Tree"		: 4,  //0/3/4/ hex digits of UID identifier for parts 0...4
