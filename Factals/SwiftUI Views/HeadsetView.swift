@@ -1,5 +1,5 @@
 //
-//  GuiView.swift
+//  HeadsetView.swift
 //  Factals
 //
 //  Created by Allen King on 8/3/24.
@@ -33,7 +33,7 @@ import RealityKit
 // Vect4 		||	SCNVector4	|	SIMD4<Float>
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
-protocol GuiView : AnyObject {		 /// Protypical Graphical User Interface			*/NSView/*
+protocol HeadsetView : AnyObject {		 /// Protypical Graphical User Interface			*/NSView/*
 	func makeScenery(anchorEntity:AnchorEntity)->()//	var OriginMark				{	get set										}
 	func makeAxis()
 	func makeCamera()
@@ -51,16 +51,16 @@ protocol GuiView : AnyObject {		 /// Protypical Graphical User Interface			*/NSV
 	 // Abstract hitTest that works for both SceneKit and RealityKit
 	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult]
 }
-extension GuiView {
-	func myVewBase(guiView:GuiView) -> VewBase {
+extension HeadsetView {
+	func myVewBase(headsetView:HeadsetView) -> VewBase {
 		guard let fm			= FactalsModel.shared else { fatalError("FactalsModel.shared is nil!!") }
 		let vewBase				= fm.vewBases.last {	//** USE EXISTING (as a HACK, use it)
-				$0.guiView		== nil
+				$0.headsetView		== nil
 		} ?? {											//** None, MAKE NEW
 			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 			vewBase.factalsModel = fm
 			vewBase.partBase	= fm.partBase
-			vewBase.guiView		= guiView
+			vewBase.headsetView		= headsetView
 			if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
 			 {	fm.vewBases.append(vewBase)				/* ** Install ** */		}
 			return vewBase
@@ -69,7 +69,6 @@ extension GuiView {
 		return vewBase
 	}
 }
-
 
 // Common result type for both renderers
 struct HitTestResult {

@@ -1190,7 +1190,7 @@ xxr("+Mirror Sequence Osc", eSimX + selfiePole(s:90,u:0) + vel(-5) + logAt(0), {
 		Mirror(   [n:"t1", "gain":0, "offset":1, P:"t2,l:4", f:1, ]),
 	] ]) })
 	 // Use Inspec to change offset
-	r("testing Mirror GuiView", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(0), { Net([placeMy:"linky", parts:[
+	r("testing Mirror HeadsetView", eSimX + selfiePole(s:0,u:0) + vel(-7) + logAt(0), { Net([placeMy:"linky", parts:[
 		Mirror(   [n:"t3", "gain":-1, "offset":1]),
 		//Broadcast([n:"t2", share:"t3", jog:"5"]),
 		Mirror(   [n:"t1", P:"t3,l:5", f:1]),

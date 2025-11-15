@@ -18,10 +18,10 @@ class ArView : ARView {
 /*
 weak var delegate: (any SCNSceneRendererDelegate)? { get set }
  */
-extension ArView : GuiView {
+extension ArView : HeadsetView {
 	func configure(from: FwConfig) 				{	bug 						}
 	func makeScenery(anchorEntity:AnchorEntity) {	bug 						}
-//		guiView!.makeScenery (anchorEntity:anchorEntity)
+//		headsetView!.makeScenery (anchorEntity:anchorEntity)
 //	}
 	func makeAxis()   {	}
 	func makeCamera() {	}
@@ -34,9 +34,9 @@ extension ArView : GuiView {
 		get {	bug; return SCNNode()											}
 		set {		}
 	}
-	/// RealityKit's GuiView
-	var guiView : GuiView? { self														}
-//	var guiView : GuiView? { (self.delegate as? ScnBase)?.guiView							}
+	/// RealityKit's HeadsetView
+	var headsetView : HeadsetView? { self														}
+//	var headsetView : HeadsetView? { (self.delegate as? ScnBase)?.headsetView							}
 	var isSceneKit: Bool { false 												}
 	var vewBase: VewBase! {
 		get {			bug; return self.vewBase								}
@@ -80,7 +80,7 @@ func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
 				 .frame(maxWidth: .infinity)
 				 .border(.black, width:1)
 				EventReceiver { nsEvent in // Catch events (goes underneath)
-					guard let scnView = vewBase.wrappedValue.guiView as? ScnView
+					guard let scnView = vewBase.wrappedValue.headsetView as? ScnView
 					 else { 	// ERROR:
 						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 						logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
@@ -122,11 +122,11 @@ struct RealityKitView: View {
 	/**/		makeScenery(anchor:anchor)
 				content.add(anchor)
 				print("RealityView loaded with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation) \n\t translation: \(anchor.transform.translation)")
-		//		let scnBase 	= ScnBase(guiView:rv)		// scnBase.guiView = rv // important BACKPOINTER
+		//		let scnBase 	= ScnBase(headsetView:rv)		// scnBase.headsetView = rv // important BACKPOINTER
 		//		rv.delegate		= scnBase 				// (the SCNSceneRendererDelegate)
-		//		rv.scene		= scnBase.guiView!.scene	// wrapped.scnScene //guiView.scene //.scene
+		//		rv.scene		= scnBase.headsetView!.scene	// wrapped.scnScene //headsetView.scene //.scene
 		//		let vewBase		= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		//		vewBase.guiView 	= rv
+		//		vewBase.headsetView 	= rv
 			} update: { content in
 			  // Update camera transform using SelfiePole mathematics
 				if let anchor 	  = content.entities.first(where: { $0.name == "mainAnchor" }) {

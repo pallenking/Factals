@@ -228,8 +228,8 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 
 		let treeScn				= self.tree.scn
 		let treeScnParent		= treeScn.parent
-		let scnTreeRoot			= guiView?.anchor
-		myLine					+= guiView == nil ? "guiView == nil" :
+		let scnTreeRoot			= headsetView?.anchor
+		myLine					+= headsetView == nil ? "headsetView == nil" :
 								   treeScnParent === scnTreeRoot /*|| treeScnParent == nil && scnTreeRoot == nil*/ ? "" :
 									( "\n\t\t\t\t<<ERROR<< "
 									  +	"vewTreeScn=\(treeScn.pp(.tagClass)) .parent=\(treeScnParent?.pp(.tagClass) ?? "nil")  "
@@ -237,10 +237,10 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 									  +         ">>ERROR>>")
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  (self.guiView as? NSView)?.ppControlElement(config:config)
-									?? "\t\t\t\tgui is nil\n"
+			var rv				=  (self.headsetView as? NSView)?.ppControlElement(config:config)
+									?? "\t\t\t\t headsetView is nil\n"
 				rv 				+= self.cameraScn?.ppControlElement(config:config)
-									?? "\t\t\t\tcameraScn is nil\n"
+									?? "\t\t\t\t cameraScn is nil\n"
 				rv				+= self.selfiePole.ppControlElement(config:config)
 				for vew in self.inspectedVews {
 					rv 			+= vew	   		  .ppControlElement(config:config)		//deapth:0,
@@ -400,9 +400,9 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 //	//func ppControlElement(config:Bool=false) -> String {
 //	//	bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
 //	//	//		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-//	//	var myLine				= "tree:\(guiView?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-//	//	myLine					+= "\(guiView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
-//	//	myLine					+= "guiView:\(	  guiView?.pp(.tagClass) ?? "<nil>") "			//classUid
+//	//	var myLine				= "tree:\(headsetView?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+//	//	myLine					+= "\(headsetView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
+//	//	myLine					+= "headsetView:\(	  headsetView?.pp(.tagClass) ?? "<nil>") "			//classUid
 //	//	return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
 //	//	//			otherLines: {
 //	//	//				return self.tree!   .ppControlElement()

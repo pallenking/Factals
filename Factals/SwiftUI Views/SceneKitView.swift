@@ -31,7 +31,7 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 				 .frame(maxWidth: .infinity)
 				 .border(.black, width:1)
 				EventReceiver { nsEvent in // Catch events (goes underneath)
-					guard let scnView = vewBase.wrappedValue.guiView as? ScnView
+					guard let scnView = vewBase.wrappedValue.headsetView as? ScnView
 					 else { 	// ERROR:
 						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 						logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
@@ -59,8 +59,8 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 	 // NSViewRepresentable calls this, aka init
 	func makeNSView(context:Context) -> ScnView {
 		let scnView 			= ScnView()		//	var scnView : ScnView? = nil
-		let vewBase 			= scnView.myVewBase(guiView:scnView)
-		vewBase.guiView 		= scnView		// usage
+		let vewBase 			= scnView.myVewBase(headsetView:scnView)
+		vewBase.headsetView 		= scnView		// usage
 		scnView.vewBase			= vewBase
 		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
 

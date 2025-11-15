@@ -112,7 +112,7 @@ struct FactalsModelView: View {
 				Button(label:{ Text("delete") })
 				{ 	deleteCurrentTab()											}
 				Button(label:{ Text("Test Sound") })
-				{	guard let rootScn = (FactalsModel.shared?.vewBases.first?.guiView as? SCNView)?.scene?.rootNode
+				{	guard let rootScn = (FactalsModel.shared?.vewBases.first?.headsetView as? SCNView)?.scene?.rootNode
 					 else { print("no rootScn found to play sound"); return}
 					rootScn.play(sound:"da")  									}
 			}
@@ -148,18 +148,18 @@ struct FactalsModelView: View {
 	}
 	@ViewBuilder
 	func kitContentView(vewBase:Binding<VewBase>) -> some View {
-		if 		 vewBase.wrappedValue.guiKind == "SCN"
+		if 		 vewBase.wrappedValue.headsetKind == "SCN"
 		 {	sceneKitContentView(vewBase:vewBase)								}
-		 else if vewBase.wrappedValue.guiKind == "AR"
+		 else if vewBase.wrappedValue.headsetKind == "AR"
 		 {	realityKitContentView(vewBase:vewBase)								}
 		 else
-		 {	fatalError("Illegal guiKind:\(vewBase.wrappedValue.guiKind)")		}
+		 {	fatalError("Illegal headsetKind:\(vewBase.wrappedValue.headsetKind)")		}
 	}
  	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
 	private func addNewTab(subTitled:String)	  {
 		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		vewBase.title			= "\(subTitled) \(vewBase.title)"		//assert(vewBase.title == "\(VewBase.nVewBases)", "vewBase.title != nVewBases: \(vewBase.title) != \(VewBase.nVewBases)")
-		vewBase.guiKind			= subTitled
+		vewBase.headsetKind		= subTitled
 		vewBase.factalsModel	= factalsModel
 
 		factalsModel.vewBases.append(vewBase)

@@ -23,8 +23,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var tree		  : Vew
 //	var vewConfig	  : VewConfig
 //	var fwConfig	  : FwConfig
-	var guiView	 	  : GuiView?			// attached and used from here
-	var guiKind		 			= "unknown"
+	var headsetView	 	  : HeadsetView?			// attached and used from here
+	var headsetKind		 			= "unknown"
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -39,8 +39,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews: [Vew]	= []	// ... to be Inspected
 	var cameraScn	  : SCNNode?
-	 {	guiView?.anchor.findScn(named:"*-camera", maxLevel:1)						}
-//	 {	guiView?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
+	 {	headsetView?.anchor.findScn(named:"*-camera", maxLevel:1)						}
+//	 {	headsetView?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -56,7 +56,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		let partBase			= FactalsModel.shared!.partBase
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 		configure(from:fwConfig)
-		//guiView?.configure(from:fwConfig)				// guiView nil
+		//headsetView?.configure(from:fwConfig)				// headsetView nil
 														// Install in scnBase
 		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position
 
@@ -72,7 +72,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.tree				= pb.tree.VewForSelf()!	//not Vew(forPart:pb.tree)
 		VewBase.nVewBases 		+= 1
 
-		self.guiView 				= nil			// no scene initially
+		self.headsetView 				= nil			// no scene initially
 		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		self.tree.vewConfig		= vewConfig
@@ -81,7 +81,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 //	scnView.monitor(onChangeOf:$selfiePole)
 	 //	{ [weak self] in						// scnBase.subscribe()
 	 //		guard let self?.cameraScn else { 		return 						}
-	 //		self!.guiView.selfiePole2camera()
+	 //		self!.headsetView.selfiePole2camera()
 	 //	}
 	}
 	 // Deserialize
@@ -124,8 +124,8 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		self.selfiePole.configure(from:from)
 //		if let lrl				= from.bool("logRenderLocks"),
-//		  let guiView				= guiView as? SCNView
-////		  let scnBase			= guiView.delegate as? ScnBase
+//		  let headsetView				= headsetView as? SCNView
+////		  let scnBase			= headsetView.delegate as? ScnBase
 //		{	logRenderLocks		= lrl										}
 		if let delay			= from.float("animateVBdelay")
 		{	animateVBdelay		= delay		}	// unset (not reset) if not present
@@ -308,7 +308,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= " \"\(title)\""
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
-//			rv					+= "\(guiView?.pp(.nameTagClass) ?? "nsView:nil") "
+//			rv					+= "\(headsetView?.pp(.nameTagClass) ?? "nsView:nil") "
 //			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv

@@ -86,7 +86,7 @@ class ScnView : SCNView {
 	}
 }
 
-extension ScnView : GuiView {
+extension ScnView : HeadsetView {
 	var cameraXform: SCNMatrix4 {
 		get 	{	scene?.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
 		set(v)	{	scene?.rootNode.findScn(named:"*-camera")?.transform = v	}
@@ -97,12 +97,12 @@ extension ScnView : GuiView {
 	}
 	 // Sugar:
 //	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
- //	var guiView 	: GuiView? 	   { (self.delegate as? ScnBase)?.guiView					}
-	/// SceneKit's GuiView
+ //	var headsetView 	: HeadsetView? 	   { (self.delegate as? ScnBase)?.headsetView					}
+	/// SceneKit's HeadsetView
 	var isSceneKit: Bool	   { true												}
 //	var vewBase:VewBase! {
-//		get {	self.guiView?.vewBase												}
-//		set {	guiView?.vewBase		= newValue									}
+//		get {	self.headsetView?.vewBase												}
+//		set {	headsetView?.vewBase		= newValue									}
 //	}
 //	var getScene : SCNScene? {
 //		get {	self.scene														}
@@ -232,7 +232,7 @@ extension ScnView {
  */
 	func makeCamera() {
 		let name				= "*-camera"
-		guard let anchor		= vewBase?.guiView?.anchor 		else {  return	}
+		guard let anchor		= vewBase?.headsetView?.anchor 		else {  return	}
 		let camNode				= anchor.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
@@ -539,7 +539,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 			logEve(5, "\t\t selfiePole=\(vewBase.selfiePole.pp(.line)) becomes:")
 			mouseWasDragged 	= true
 			selfiePole2camera(reason:"Left mouseDragged")
-			logEve(6, "\(vewBase.guiView!.cameraXform.pp(.tree))")
+			logEve(6, "\(vewBase.headsetView!.cameraXform.pp(.tree))")
 		case .leftMouseUp:				// override func mouseUp(with nsEvent:NSEvent) {
 			prepareDeltas(with:nsEvent)
 			if !mouseWasDragged {			// UnDragged Up -> pic
@@ -690,7 +690,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 //		let locationInRoot		= contentView.convert(nsEvent.locationInWindow, from:nil)	// nil => from window coordinates //view
 
 	func findVew(nsEvent:NSEvent, inVewBase vewBase:VewBase) -> Vew? {
-		guard let scene			= (vewBase.guiView as? SCNView)?.scene else { return nil	}
+		guard let scene			= (vewBase.headsetView as? SCNView)?.scene else { return nil	}
 
 		let configHitTest : [SCNHitTestOption:Any]? = [
 			.backFaceCulling	:true,	// ++ ignore faces not oriented toward the camera.
@@ -772,7 +772,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		var rv					= "super.pp(mode, aux)"
 		if mode == .line {
-			rv					+= ""//guiView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
+			rv					+= ""//headsetView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
 //			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
 	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
 			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "

@@ -17,8 +17,8 @@ import SwiftUI
 
 	func aKeyIsDown() -> Bool {			//vewFirstThatReferencesUs?
 		for vewBase in vewBases {
-			if (vewBase.guiView as? ScnView)?.nextIsAutoRepeat ?? false
-//			if ((vewBase.guiView?.delegate as? ScnView)?.nextIsAutoRepeat) != nil
+			if (vewBase.headsetView as? ScnView)?.nextIsAutoRepeat ?? false
+//			if ((vewBase.headsetView?.delegate as? ScnView)?.nextIsAutoRepeat) != nil
 			{	return true 													}
 		}
 		return false
@@ -65,7 +65,7 @@ import SwiftUI
 		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)
 		vewBase.partBase		= partBase
 		vewBase.factalsModel	= self
-		vewBase.guiView 		= nil			// A signal of need!
+		vewBase.headsetView 		= nil			// A signal of need!
 		vewBases.append(vewBase)
 		vewBase.updateVSP() 								// DELETE?
 	}
@@ -349,9 +349,9 @@ import SwiftUI
 			print("\n******************** 'n': ==== SCNNodes:")
 //			log.ppIndentCols = 3
 			for vewBase in vewBases {
-				print("-------- ptn   rootVews(\(ppUid(vewBase))).rootScn(\(ppUid(vewBase.guiView as? any Uid)))" +//scnBase
-					  ".scnScene(\(ppUid(vewBase.guiView as? any Uid))):")	//scnBase
-				print((vewBase.guiView as? NSView)?.pp(.tree) ?? "guiView=nil", terminator:"")//scnBase
+				print("-------- ptn   rootVews(\(ppUid(vewBase))).rootScn(\(ppUid(vewBase.headsetView as? any Uid)))" +//scnBase
+					  ".scnScene(\(ppUid(vewBase.headsetView as? any Uid))):")	//scnBase
+				print((vewBase.headsetView as? NSView)?.pp(.tree) ?? "headsetView=nil", terminator:"")//scnBase
 			}
 		case "#":								// write out SCNNode tree as .scnScene
 			let documentDirURL	= try! FileManager.default.url(
@@ -362,7 +362,7 @@ import SwiftUI
 			let suffix			= alt ? ".dae" : ".scnScene"
 			let fileURL 		= documentDirURL.appendingPathComponent("dumpSCN" + suffix)//.dae//scn//
 			print("\n******************** '#': ==== Write out SCNNode to \(documentDirURL)dumpSCN\(suffix):\n")
-			let rootVews0scene	= (vewBases.first?.guiView as? SCNView)?.scene ?? {debugger("")}()	//scnBase
+			let rootVews0scene	= (vewBases.first?.headsetView as? SCNView)?.scene ?? {debugger("")}()	//scnBase
 			guard rootVews0scene.write(to:fileURL, options:[:], delegate:nil)
 			 else { debugger("writing dumpSCN.\(suffix) failed")				}
 		case "V":								// Update Views
@@ -386,10 +386,10 @@ import SwiftUI
 		case "f": 						// // f // //
 bug	//		var msg					= "\n"
 	//		for vewBase in vewBases {
-	//			guard let guiView		= vewBase.guiView else {	continue		}
-	//			guiView.animatePhysics ^^= true
+	//			guard let headsetView		= vewBase.headsetView else {	continue		}
+	//			headsetView.animatePhysics ^^= true
 	//			msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
-	//								(guiView.animatePhysics ? "Run   " : "Freeze")
+	//								(headsetView.animatePhysics ? "Run   " : "Freeze")
 	//		}
 	//		print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
 	//		return true								// recognize both

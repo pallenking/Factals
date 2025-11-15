@@ -31,7 +31,7 @@ struct VewBaseBar: View {
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot\(slot): =====")
-						print(vewBase.guiView?.anchor.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
+						print(vewBase.headsetView?.anchor.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
 					}
 					Spacer()
 					Button(label:{	Text("Test")								})
@@ -60,7 +60,7 @@ struct VewBaseBar: View {
 					Button(label:{	Text("Vew")									})
 					{	print("===== Rebuild Views of Slot\(slot): =====")
 						vewBase.partBase.tree.forAllParts({$0.markTreeDirty(bit:.vew)	})
-						factalsModel.updateVews()		//(guiView instgated)
+						factalsModel.updateVews()		//(headsetView instgated)
 					}
 					Button(label:{	Text("siZe")								})
 					{	print("===== Review siZes of Slot\(slot): =====")
