@@ -53,10 +53,13 @@ final class EventReceiverView : NSView {
 	override func mouseUp(with 			event:NSEvent)		{	eventHandler(event)	}
 	 //  ====== CENTER MOUSE ======
 	override func otherMouseDown(with 	event:NSEvent)		{	eventHandler(event)	}
-	override func otherMouseDragged(with event:NSEvent)		{	eventHandler(event)	}
+	override func otherMouseDragged(with vent:NSEvent)		{	eventHandler( vent)	}
 	override func otherMouseUp(with 	event:NSEvent)		{	eventHandler(event)	}
 	 //  ====== CENTER SCROLL WHEEL ======
 	override func scrollWheel(with 		event:NSEvent) 		{	eventHandler(event)	}
+	//override func scrollWheel(with		event:NSEvent)		{	eventHandler(event)
+	//	super.scrollWheel(with: event)  // Let system handle scrolling too
+	//}
 	 //  ====== RIGHT MOUSE ======			Right Mouse not used
 	override func rightMouseDown(with 	event:NSEvent) 		{	eventHandler(event)	}
 	override func rightMouseDragged(with event:NSEvent) 	{	eventHandler(event)	}

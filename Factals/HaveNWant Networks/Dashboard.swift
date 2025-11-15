@@ -61,7 +61,7 @@ let params4partPp	 : FwConfig = [	// ///// All prameters controlling printing Pa
 	"ppScnBBox"			: true, 	// pp SCNNode's bounding box	//false//true
 	"ppFwBBox"			: true, 	// pp Factal Workbench's bounding box
 				// SCN3Vector shortening:
-	"ppXYZWena"  		: "Y",  	//"Y"XYZ"	// disable some dimensions //"XYZW"//
+	"a"  		: "XY",  	//"Y"XYZ"	// disable some dimensions //"XYZW"//
 				// Column Usage:
 	"ppViewTight"		: false, 	// better for ascii text //false//true
 	"ppBBoxCols"		: 28,		// columns printout for bounding boxs//32//24

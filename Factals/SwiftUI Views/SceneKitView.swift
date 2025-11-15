@@ -59,6 +59,11 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 		vewBase.guiView 		= scnView		// usage
 		scnView.vewBase			= vewBase
 		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
+
+		scnView.makeLights()
+		scnView.makeCamera()
+		scnView.makeAxis()
+
 		return scnView
 	}
 	func updateNSView(_ scnView: ScnView, context:Context) {

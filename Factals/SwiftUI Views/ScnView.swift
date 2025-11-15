@@ -15,7 +15,14 @@ enum EventHandlerType {
 class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
 	weak
-	 var vewBase : VewBase? = nil			// Owner
+	 var vewBase : VewBase? = nil {			// Owner
+		didSet {
+			// Add the tree.scn to the scene when vewBase is set
+			if let scn = vewBase?.tree.scn {
+				self.scene?.rootNode.addChildNode(scn)
+			}
+		}
+	}
 	var handler  : EventHandlerType.EventHandler 	{
 		get { 	eventHandler													}
 		set(val) { bug 															}
@@ -41,8 +48,7 @@ class ScnView : SCNView {
 	convenience init () {
 		self.init(scnScene:nil) //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
-		if let scn				= vewBase?.tree.scn
-		 {	self.scene?.rootNode.addChildNode(scn)								}
+		// Note: vewBase is nil here, so tree.scn is added in vewBase's didSet instead
 
 		self.backgroundColor 	= NSColor("veryLightGray")!
 		self.antialiasingMode 	= .multisampling16X
@@ -57,9 +63,9 @@ class ScnView : SCNView {
 		self.rendersContinuously = true			//args.options.contains(.rendersContinuously)
 	//	self.preferredFramesPerSecond = Int(prefFpsC)
 		
-		self.makeLights()
-		self.makeCamera()
-		self.makeAxis()
+//		self.makeLights()
+//		self.makeCamera()
+//		self.makeAxis()
 /**/
 	
 	}
