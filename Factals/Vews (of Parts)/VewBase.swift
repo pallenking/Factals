@@ -23,8 +23,8 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var tree		  : Vew
 //	var vewConfig	  : VewConfig
 //	var fwConfig	  : FwConfig
-	var headsetView	 	  : HeadsetView?			// attached and used from here
-	var headsetKind		 			= "unknown"
+	var headsetView	  : HeadsetView?		// attached and used from here
+	var headsetKind		 		= "disconnected"
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'
@@ -56,12 +56,11 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		let partBase			= FactalsModel.shared!.partBase
 		self.init(for:partBase, vewConfig:vewConfig, fwConfig:fwConfig) //\/\/\/\/\/\/\/\/\/\/\/\/\/
 		configure(from:fwConfig)
-		//headsetView?.configure(from:fwConfig)				// headsetView nil
+		headsetView?.configure(from:fwConfig)			// headsetView nil
 														// Install in scnBase
 		configSceneVisuals(fwConfig:fwConfig)			// SelfiePole, lookAt, position
 
 		tree.openChildren(using:vewConfig)				// Open Vews per config
-//		updateVSP() 								// DELETE?
 		logApp(5, "Created \(pp(.tagClass)) = VewBase(vewConfig:\(vewConfig.pp()), fwConfig.count:\(fwConfig.count)):")
 	}
 
@@ -72,7 +71,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 		self.tree				= pb.tree.VewForSelf()!	//not Vew(forPart:pb.tree)
 		VewBase.nVewBases 		+= 1
 
-		self.headsetView 				= nil			// no scene initially
+		self.headsetView 		= nil			// no scene initially
 		//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 		self.tree.vewConfig		= vewConfig

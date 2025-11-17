@@ -60,11 +60,11 @@ extension HeadsetView {
 			let vewBase			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 			vewBase.factalsModel = fm
 			vewBase.partBase	= fm.partBase
-			vewBase.headsetView		= headsetView
 			if false == fm.vewBases.contains(where: { $0 === vewBase }) 	// $0.id == vewBase.id
 			 {	fm.vewBases.append(vewBase)				/* ** Install ** */		}
 			return vewBase
 		} ()
+		vewBase.headsetView		= headsetView				// Always set, whether existing or new
 		assert(vewBase === fm.vewBases.last, "paranoia")
 		return vewBase
 	}

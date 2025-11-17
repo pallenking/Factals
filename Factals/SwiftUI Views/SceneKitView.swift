@@ -60,7 +60,7 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 	func makeNSView(context:Context) -> ScnView {
 		let scnView 			= ScnView()		//	var scnView : ScnView? = nil
 		let vewBase 			= scnView.myVewBase(headsetView:scnView)
-		vewBase.headsetView 		= scnView		// usage
+		vewBase.headsetView 	= scnView		// usage
 		scnView.vewBase			= vewBase
 		scnView.delegate		= scnView 		//  ? ?  ? ?  ? ?  STRANGE
 

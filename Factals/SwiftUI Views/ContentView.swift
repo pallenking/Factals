@@ -106,9 +106,9 @@ struct FactalsModelView: View {
 				Text("")
 				Spacer()
 				Button(label:{ Text("SCN++") }) {
-					addNewTab(subTitled:"SCN")									}
+					addNewTab(kind:"SCN")										}
 				Button(label:{ Text("AR++") })
-				{	addNewTab(subTitled:"AR")									}
+				{	addNewTab(kind:"AR")										}
 				Button(label:{ Text("delete") })
 				{ 	deleteCurrentTab()											}
 				Button(label:{ Text("Test Sound") })
@@ -153,13 +153,13 @@ struct FactalsModelView: View {
 		 else if vewBase.wrappedValue.headsetKind == "AR"
 		 {	realityKitContentView(vewBase:vewBase)								}
 		 else
-		 {	fatalError("Illegal headsetKind:\(vewBase.wrappedValue.headsetKind)")		}
+		 {	fatalError("Illegal headsetKind:\(vewBase.wrappedValue.headsetKind)") }
 	}
  	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
-	private func addNewTab(subTitled:String)	  {
+	private func addNewTab(kind:String)	  {
 		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		vewBase.title			= "\(subTitled) \(vewBase.title)"		//assert(vewBase.title == "\(VewBase.nVewBases)", "vewBase.title != nVewBases: \(vewBase.title) != \(VewBase.nVewBases)")
-		vewBase.headsetKind		= subTitled
+		vewBase.title			= "\(kind) \(vewBase.title)"		//assert(vewBase.title == "\(VewBase.nVewBases)", "vewBase.title != nVewBases: \(vewBase.title) != \(VewBase.nVewBases)")
+		vewBase.headsetKind		= kind
 		vewBase.factalsModel	= factalsModel
 
 		factalsModel.vewBases.append(vewBase)
