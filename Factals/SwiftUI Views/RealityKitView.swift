@@ -47,21 +47,17 @@ extension ArView : HeadsetView {
 								//	{	get { return true 														}
 								//		set { bug 																}}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
-		// bug; return []
+		let cgPoint 			= CGPoint(x: point.x, y: point.y)
 
-	//	let cgPoint 			= CGPoint(x: point.x, y: point.y)
-		let xxx:ARView 			= self as! ARView
-		let ray 				= xxx.raycast(from:cgPoint, allowing:.estimatedPlane, alignment:.any)
-	//	let ray2				= self.raycast(from:point, allowing:.estimatedPlane, alignment:.any)
-		let ray					= self.raycast(from:point, allowing:.estimatedPlane, alignment:.any)
-		return ray.map { result in
-			HitTestResult(
-				node: result.anchor,
-				//position: SCNVector3(result.worldTransform.columns.3.x,
-				//					 result.worldTransform.columns.3.y,
-				//					 result.worldTransform.columns.3.z),
-				position: result.worldTransform.columns.3.xyz,
-	//			distance: simd_length(result.worldTransform.columns.3.xyz)
+		// Use RealityKit's entity hit testing (not AR plane detection)
+		let entities 			= self.entities(at: cgPoint)
+
+		return entities.compactMap { entity in
+			// Get world position from entity
+			let worldPos 		= entity.position(relativeTo: nil)
+			return HitTestResult(
+				node: entity as Any,
+				position: worldPos
 			)
 		}
 	}
@@ -98,70 +94,78 @@ struct RealityKitView: View {
 	@State 		   var selectedPrimitiveName:String = ""
 	@State private var lastDragLocation:CGPoint	 = .zero
 	@State private var isDragging:Bool 			 = false
+	@State private var viewSize:CGSize 			 = .zero
 
 	typealias Visible			= Entity
 	typealias Vect3 			= SIMD3<Float>
 	typealias Vect4 			= SIMD4<Float>
 	typealias Matrix4x4 		= simd_float4x4
-								
+
 	var body: some View {
 		VStack {
-			HStack {
-				Spacer()
-				SelfiePoleBar(selfiePole:$selfiePole)
-			//	 .border(Color.gray, width: 3)
-			//	 .frame(width:800, height:20)
-			}
-			RealityView { content in
-				let anchor 		= AnchorEntity(.world(transform: matrix_identity_float4x4))
-				anchor.name 	= "mainAnchor"			// Create anchor for the scene
-	/**/		makeScenery(anchor:anchor)
-				content.add(anchor)
-				print("RealityView loaded with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation) \n\t translation: \(anchor.transform.translation)")
-		//		let scnBase 	= ScnBase(headsetView:rv)		// scnBase.headsetView = rv // important BACKPOINTER
-		//		rv.delegate		= scnBase 				// (the SCNSceneRendererDelegate)
-		//		rv.scene		= scnBase.headsetView!.scene	// wrapped.scnScene //headsetView.scene //.scene
-		//		let vewBase		= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		//		vewBase.headsetView 	= rv
-			} update: { content in
-			  // Update camera transform using SelfiePole mathematics
-				if let anchor 	  = content.entities.first(where: { $0.name == "mainAnchor" }) {
-					let self2focus = selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
-					let focus2self	= self2focus.inverse()									// SCNMatrix4
-	/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
-					updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
-					Swift.print("RealityView update with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation)\n\t translation: \(anchor.transform.translation)")
-				//	printTreeBase(entity:anchor)													// ENTITY
+		//	HStack {
+		//		Spacer()
+		//		SelfiePoleBar(selfiePole:$selfiePole)
+		//	//	 .border(Color.gray, width: 3)
+		//	//	 .frame(width:800, height:20)
+		//	}
+			var anchor : AnchorEntity? = nil
+			GeometryReader { geometry in
+				RealityView { content in
+					anchor			= AnchorEntity(.world(transform:matrix_identity_float4x4))
+					anchor!.name 	= "mainAnchor"			// Create anchor for the scene
+		/**/		makeScenery(anchor:anchor!)
+					content.add(anchor!)
+					logApp(3, "RealityView loaded with \(anchor!.children.count) children, " +
+							  "\n\t rotation: \(   		 anchor!.transform.rotation) " +
+							  "\n\t translation: \(		 anchor!.transform.translation)")
+			//		let scnBase 	= ScnBase(headsetView:rv)		// scnBase.headsetView = rv // important BACKPOINTER
+			//		rv.delegate		= scnBase 						// (the SCNSceneRendererDelegate)
+			//		rv.scene		= scnBase.headsetView!.scene	// wrapped.scnScene //headsetView.scene //.scene
+			//		let vewBase		= fm.NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
+			//		vewBase.headsetView = rv
+				} update: { content in
+				  // Update camera transform using SelfiePole mathematics
+					if let anchor 	  = content.entities.first(where: { $0.name == "mainAnchor" }) {
+						let self2focus = selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
+						let focus2self	= self2focus.inverse()									// SCNMatrix4
+		/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
+						updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
+						logApp(3, "RealityView update with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation)\n\t translation: \(anchor.transform.translation)")
+					//	printTreeBase(entity:anchor)													// ENTITY
+					}
+				}
+				.background(Color.yellow)//gray.opacity(0.1))
+				.gesture(
+					DragGesture(minimumDistance: 0)
+					 .onChanged { value in
+					 	if !isDragging { 		// Perform hit testing on drag start
+					 		performHitTest(from:self, at: value.startLocation, viewSize: geometry.size)
+					 		lastDragLocation = value.startLocation
+					 		isDragging = true
+					 	}
+					 	// Use SelfiePole's mouse delta handling
+						let d		=  value.location - value.startLocation
+					 	selfiePole.updateFromMouseDelta(deltaX:Float(d.x), deltaY:Float(d.y), sensitivity:0.005)
+
+					 	lastDragLocation = value.location
+					 }
+					 .onEnded { _ in
+					 	isDragging	= false
+					 }
+				)
+				.onTapGesture { location in
+					performHitTest(from:self, at:location, viewSize: geometry.size)
+				}
+				.background(ScrollWheelCaptureView(selfiePole:$selfiePole))
+				.onAppear {
+					setupScrollWheelMonitor(realityKitView:self)
+				}
+				.onChange(of: geometry.size) { _, newSize in
+					viewSize = newSize
 				}
 			}
-			.background(Color.gray.opacity(0.1))
-			.gesture(
-				DragGesture(minimumDistance: 0)
-				 .onChanged { value in
-				 	if !isDragging { 		// Perform hit testing on drag start
-				 		performHitTest(from:self, at: value.startLocation)
-				 		lastDragLocation = value.startLocation
-				 		isDragging = true
-				 	}
-				 	//
-				 	let deltaX	= Float(value.location.x - lastDragLocation.x)
-				 	let deltaY	= Float(value.location.y - lastDragLocation.y)
-				 	// Use SelfiePole's mouse delta handling
-				 	selfiePole.updateFromMouseDelta(deltaX:deltaX, deltaY:deltaY, sensitivity:0.005)
-				 
-				 	lastDragLocation = value.location
-				 }
-				 .onEnded { _ in
-				 	isDragging	= false
-				 }
-			)
-			.onTapGesture { location in
-				performHitTest(from:self, at:location)
-			}
-			.background(ScrollWheelCaptureView(selfiePole:$selfiePole))
-			.onAppear {
-				setupScrollWheelMonitor(realityKitView:self)
-			}
+			Text("TEST POINT1\(anchor?.children.count ?? -1)")
 		}
 	}
 	func makeScenery(anchor:AnchorEntity) {
@@ -182,7 +186,7 @@ struct RealityKitView: View {
 		boxEnt2.name 				= "RksBox2"
 		boxEnt2.model?.materials 	= [SimpleMaterial(color: .cyan, isMetallic: false)]
 		anchor.addChild(boxEnt2)
-	return
+	return ; nop
 		let sphere 					= RksSphere(radius: 0.15)
 		sphere.position 			= position
 		sphere.name 				= "RksSphere"
@@ -340,52 +344,56 @@ struct RealityKitView: View {
 		let boxEntity 				= ModelEntity(mesh:boxMesh, materials:[boxMaterial])
 		return boxEntity
 	}
-									
-	func performHitTest(from rkView:RealityKitView, at location: CGPoint) {
-		// Map screen coordinates to 3D space based on our grid layout
-		// This is a simplified approach that works with our known grid arrangement
-								
-		// Normalize coordinates to view bounds
-		let normalizedX 			= Float(location.x) / 800.0  // View width
-		let normalizedY 			= Float(location.y) / 600.0  // View height
-		
-		// Map to our grid layout (5 columns, 4 rows)
+
+	func performHitTest(from rkView:RealityKitView, at location: CGPoint, viewSize: CGSize) {
+		// NOTE: Full 3D raycasting hit testing would require direct ARView access.
+		// SwiftUI's RealityView doesn't expose the underlying ARView for hit testing in gesture handlers.
+		// For now, using entity position-based approximation suitable for this grid demo.
+		//
+		// TODO: Refactor to use UIViewRepresentable wrapper to get direct ARView access for proper hitTest3D()
+
+		guard viewSize.width > 0 && viewSize.height > 0 else { return }
+
+		// Normalize coordinates to view bounds (using actual view size, not hardcoded)
+		let normalizedX 			= Float(location.x / viewSize.width)
+		let normalizedY 			= Float(location.y / viewSize.height)
+
+		// Map to our grid layout (5 columns, 4 rows) /// Modifying state during view update, this will cause undefined behavior.
 		let gridX 					= min(Int(normalizedX * 5), 4)  // Clamp to 0-4
 		let gridY 					= min(Int(normalizedY * 4), 3)  // Clamp to 0-3
-									
-		// Map to actual positions used in createGeometries
+
+		// Map to actual positions used in makeScenery
 		let spacing: Float 			= 0.8
 		let startX: Float 			= -4
 		let startZ: Float 			= -2
-		
+
 		// Calculate the focus position based on grid coordinates
 		let focusX 					= startX + Float(gridX) * spacing
 		let focusZ 					= startZ + Float(gridY)
-		
+
 		rkView.focusPosition 		= Vect3(focusX, 0, focusZ)
-		
+
 		// Determine which primitive was selected for display purposes
 		let primitiveNames 			= [
-			"Box", 		  "Box2", 		  "Sphere", 		"Cylinder", 	 "Cone",	// Row 0
-			"Plane", 	  "Capsule", 	  "", 				"", 			 "",		// Row 1
-			"Hemisphere", "Point", 		  "Torus", 			"Tube", 		 "Pyramid",	// Row 2
+			"RksBox1", 	  "RksBox2", 	  "RksSphere", 		"Cylinder", 	  "Cone",		// Row 0
+			"Plane", 	  "Capsule", 	  "", 				"", 			  "",			// Row 1
+			"Hemisphere", "Point", 		  "Torus", 			"Tube", 		  "Pyramid",	// Row 2
 			"TunnelHood", "Pictureframe", "3DPictureframe", "CornerTriangle", "OpenBox"	// Row 3
 		]
-									
+
 		let primitiveIndex 			= gridY * 5 + gridX
 		let primitiveName 			= primitiveIndex < primitiveNames.count ? primitiveNames[primitiveIndex] : "Unknown"
-		
+
 		rkView.selectedPrimitiveName = primitiveName
-									
-		// Reset SelfiePole to a good viewing angle for the new focus point
-		var selfiePole				= rkView.selfiePole
-		selfiePole.spin 			=  0.0
-		selfiePole.gaze 			= -0.3  // Slight downward angle
-		selfiePole.zoom 			=  1.0
-		selfiePole.ortho 			=  0.0  // Default to perspective
-		
-		print("Selected: \(primitiveName) at grid(\(gridX),\(gridY)) focus: \(rkView.focusPosition)")
-		print("SelfiePole reset - spin: \(rkView.selfiePole.spin), gaze: \(rkView.selfiePole.gaze), zoom: \(rkView.selfiePole.zoom), ortho: \(rkView.selfiePole.ortho)")
+
+		// Reset SelfiePole to a good viewing angle for the new focus point (FIX #4: Update state properly)
+		rkView.selfiePole.spin 		=  0.0
+		rkView.selfiePole.gaze 		= -0.3  // Slight downward angle
+		rkView.selfiePole.zoom 		=  1.0
+		rkView.selfiePole.ortho 	=  0.0  // Default to perspective
+
+		logApp(3, "Selected: \(primitiveName) at grid(\(gridX),\(gridY)) focus: \(rkView.focusPosition)")
+		logApp(3, SelfiePole reset - spin: \(rkView.selfiePole.spin), gaze: \(rkView.selfiePole.gaze), zoom: \(rkView.selfiePole.zoom), ortho: \(rkView.selfiePole.ortho)")
 	}
 									
 	private func setupScrollWheelMonitor(realityKitView rkView:RealityKitView) {
@@ -414,10 +422,6 @@ struct RealityKitView: View {
 				} else {
 					// Keep original material (simplified - in practice you'd store originals)
 					// This is a simplified approach for the demo
-				}
-				let someArView = ARView()
-				if let someArViewSubclass = someArView as? ArView {
-					someArViewSubclass.delegate
 				}
 			}
 		}

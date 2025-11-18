@@ -1,5 +1,6 @@
 //  FwTypes.swift -- Factal Workbench: common Swift types C2018PAK
 import SceneKit
+import RealityKit
 import SwiftUI
 
 //static let error<C:FwAny>		= C()	// Any use of this should fail (NOT IMPLEMENTED)
@@ -187,12 +188,13 @@ extension NSView 					{		// also SCNView : FwAny
 }
 extension FactalsDocument 	: FwAny { }
 
+extension AnchorEntity	: FwAny		{}
 //extension NSNull		: FwAny 	{}	//extend Extension outside of file declaring class 'NSNull' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 //extension SCNNode		: FwAny 	{}	// Extension outside of file declaring class 'SCNNode' prevents automatic synthesis of 'init(from:)' for protocol 'Decodable'
 extension SelfiePole	: FwAny		{}
 //extension SCNMaterial	: FwAny 	{}	// Extension outside of file declaring class 'SCNMaterial' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 //extension SCNConstraint : FwAny 	{}	// Extension outside of file declaring class 'SCNConstraint' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
-extension SCNGeometry : FwAny {				// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
+extension SCNGeometry : FwAny {			// Extension outside of file declaring class 'SCNGeometry' prevents automatic synthesis of 'encode(to:)' for protocol 'Encodable'
 	func pp(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 		return ppFixedDefault(mode, aux)		// NO, try default method
 	}

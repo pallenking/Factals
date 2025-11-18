@@ -3,10 +3,15 @@
 //  Factals
 //
 //  Created by Allen King on 8/3/24.
-//
 
 import SceneKit
 import RealityKit
+
+//		AR is the concept,
+//		ARKit does the tracking,
+//		RealityKitView.swift - Uses RealityKit renderer (the newer ArView class)
+//		ScnView.swift		 - Uses SceneKit renderer
+
 //	// // VIDEO: (OUTPUT)
 //		 // make ScnBase()				// Make SCNView
 //			// func SCNScene(for:SCNNode)		// skins for one Part. perhaps 3 .. 5 SCNNodes
