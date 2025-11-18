@@ -33,13 +33,12 @@ extension ArView : HeadsetView {
 	var isSceneKit: Bool { false 												}
 
 	func configure(from: FwConfig) 				{	bug 						}
-	func makeScenery(anchorEntity:AnchorEntity) {	bug 						} // { headsetView!.makeScenery (anchorEntity:anchorEntity)					}
-	func makeLights() {	}
-	func makeCamera() {	}
-	func makeAxis()   {	}
+	func makeLights() {															}
+	func makeCamera() {															}
+	func makeAxis()   {															}
 
 	/// RealityKit's HeadsetView
-	var headsetView : HeadsetView? { self }//.delegate as? ScnBase)?.headsetView	}
+	var headsetView : HeadsetView? { self }//.delegate as? ScnBase)?.headsetView}
 								//	var getScene : SCNScene?
 								//	{	get { bug; return self.scene as? SCNScene								}
 								//		set { fatalError("RealityKit doesn't use SCNScene") 					}}
@@ -95,6 +94,7 @@ struct RealityKitView: View {
 	@State private var lastDragLocation:CGPoint	 = .zero
 	@State private var isDragging:Bool 			 = false
 	@State private var viewSize:CGSize 			 = .zero
+	@State private var anchor : AnchorEntity? 	 = nil
 
 	typealias Visible			= Entity
 	typealias Vect3 			= SIMD3<Float>
@@ -109,12 +109,11 @@ struct RealityKitView: View {
 		//	//	 .border(Color.gray, width: 3)
 		//	//	 .frame(width:800, height:20)
 		//	}
-			var anchor : AnchorEntity? = nil
 			GeometryReader { geometry in
 				RealityView { content in
 					anchor			= AnchorEntity(.world(transform:matrix_identity_float4x4))
 					anchor!.name 	= "mainAnchor"			// Create anchor for the scene
-		/**/		makeScenery(anchor:anchor!)
+		/**/		RkMakeScenery(anchor:anchor!)
 					content.add(anchor!)
 					logApp(3, "RealityView loaded with \(anchor!.children.count) children, " +
 							  "\n\t rotation: \(   		 anchor!.transform.rotation) " +
@@ -135,7 +134,7 @@ struct RealityKitView: View {
 					//	printTreeBase(entity:anchor)													// ENTITY
 					}
 				}
-				.background(Color.yellow)//gray.opacity(0.1))
+				.background(Color.gray.opacity(0.1))	//yellow)//
 				.gesture(
 					DragGesture(minimumDistance: 0)
 					 .onChanged { value in
@@ -168,11 +167,18 @@ struct RealityKitView: View {
 			Text("TEST POINT1\(anchor?.children.count ?? -1)")
 		}
 	}
-	func makeScenery(anchor:AnchorEntity) {
+	func RkMakeScenery(anchor:AnchorEntity) {
+		// Add lighting so we can see the materials
+		let light = DirectionalLight()
+		light.light.intensity = 1000
+		light.position = [0, 5, 5]
+		light.look(at: [0, 0, 0], from: light.position, relativeTo: nil)
+		anchor.addChild(light)
+
 		ArkOriginMark(size: 0.5, position:Vect3(0, 0, 0), anchor:anchor, name:"OriginMark")
-									
+
 		// Standard SceneKit primitives 	- Row 1
-		var position = Vect3(0,0,0)	//[-4, 0, -2]	// IN USE
+		var position = Vect3(-4, 0, -2)	// Moved back from origin so camera can see
 		let spacing: Float 			= 0.8
 
 		let boxEnt1 				= RksBox(width:0.3, height:0.3, length:0.3)
@@ -186,7 +192,7 @@ struct RealityKitView: View {
 		boxEnt2.name 				= "RksBox2"
 		boxEnt2.model?.materials 	= [SimpleMaterial(color: .cyan, isMetallic: false)]
 		anchor.addChild(boxEnt2)
-	return ; nop
+//	return ; nop
 		let sphere 					= RksSphere(radius: 0.15)
 		sphere.position 			= position
 		sphere.name 				= "RksSphere"

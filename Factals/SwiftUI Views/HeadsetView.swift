@@ -38,8 +38,7 @@ import RealityKit
 // Vect4 		||	SCNVector4	|	SIMD4<Float>
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
-protocol HeadsetView : AnyObject {		 /// Protypical Graphical User Interface			*/NSView/*
-	func makeScenery(anchorEntity:AnchorEntity)->()//	var OriginMark				{	get set										}
+protocol HeadsetView : NSView {		 /// Protypical Graphical User Interface			*/AnyObject/*
 	func makeAxis()
 	func makeCamera()
 	func makeLights()

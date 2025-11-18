@@ -50,11 +50,11 @@ extension NSEvent {
 
 			 // Find vewBase whose scnView is a descendant of nsViewOfEv
 			for vewBase in factalsModel.vewBases {
-bug;		//	if let scnView	= vewBase.headsetView,		//rootScn.scnView,
-//			//	if let scnView	= vewBase.scnBase.scnView,		//rootScn.scnView,
-			//	  scnView.isDescendant(of:nsViewOfEv) {
-			//		return vewBase
-			//	}
+bug;			if let scnView	= vewBase.headsetView,		//rootScn.scnView,
+//				if let scnView	= vewBase.scnBase.scnView,		//rootScn.scnView,
+				  scnView.isDescendant(of:nsViewOfEv) {
+					return vewBase
+				}
 			}
 		}
 		return nil

@@ -39,17 +39,17 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews: [Vew]	= []	// ... to be Inspected
 	var cameraScn	  : SCNNode?
-	 {	headsetView?.anchor.findScn(named:"*-camera", maxLevel:1)						}
-//	 {	headsetView?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)			}
+	 {	headsetView?.anchor.findScn(named:"*-camera", maxLevel:1)				}
+//	 {	headsetView?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)	}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
-	var curLockOwner: String?	= nil
-	var prevOwner	: String? 	= nil
+	var curLockOwner  : String?	= nil
+	var prevOwner	  : String? = nil
 	var verbose 				= false		// (unused)
 	 // Sugar
-	var slot	 	: Int?		{	factalsModel?.vewBases.firstIndex(of:self)	}
-	 var slot_ 		: Int 		{	slot ?? -1									}
+	var slot	 	  : Int?	{	factalsModel?.vewBases.firstIndex(of:self)	}
+	 var slot_ 		  : Int 	{	slot ?? -1									}
 
 	// MARK: -
 	convenience init(vewConfig:VewConfig, fwConfig:FwConfig) {					/// VewBase(vewConfig:fwConfig:)
@@ -125,7 +125,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 //		if let lrl				= from.bool("logRenderLocks"),
 //		  let headsetView				= headsetView as? SCNView
 ////		  let scnBase			= headsetView.delegate as? ScnBase
-//		{	logRenderLocks		= lrl										}
+//		{	logRenderLocks		= lrl											}
 		if let delay			= from.float("animateVBdelay")
 		{	animateVBdelay		= delay		}	// unset (not reset) if not present
 	}
@@ -157,7 +157,6 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		case title
 		case partBase
 		case tree
-		case scnBase
 		case selfiePole
 		case prefFps
 //		case sliderTestVal
@@ -171,7 +170,6 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		try container.encode(title,				forKey:.title					)
 		try container.encode(partBase,			forKey:.partBase				)
 		try container.encode(tree,				forKey:.tree					)
-	//	try container.encode(scnBase,			forKey:.scnBase					)
 //		try container.encode(sliderTestVal,		forKey:.sliderTestVal			)
 		try container.encode(prefFps,			forKey:.prefFps					)
 		logSer(3, "Encoded")
@@ -308,7 +306,6 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 			rv					+= "\(nameTag) "
 			rv					+= "\(partBase.pp(.nameTagClass)) "
 //			rv					+= "\(headsetView?.pp(.nameTagClass) ?? "nsView:nil") "
-//			rv					+= "\(scnBase .pp(.nameTagClass)) "
 		}
 		return rv
 	}

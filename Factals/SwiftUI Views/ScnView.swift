@@ -60,12 +60,6 @@ class ScnView : SCNView {
 		self.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		self.rendersContinuously = true			//args.options.contains(.rendersContinuously)
 	//	self.preferredFramesPerSecond = Int(prefFpsC)
-		
-//		self.makeLights()
-//		self.makeCamera()
-//		self.makeAxis()
-/**/
-	
 	}
 
 	 // MARK: - 3.? Monitor
@@ -335,9 +329,6 @@ extension ScnView {
 			}
 		}
 	}
-	func makeScenery(anchorEntity:AnchorEntity) {
-		bug
-	}
 
 	 // MARK: 4.4 - Look At Updates
 	func movePole(toWorldPosition wPosn:SCNVector3) {
@@ -500,7 +491,7 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 	 // MARK: - 13. IBActions
 	func processEvent(nsEvent:NSEvent, inVew vew:Vew?) -> Bool {
 		let duration			= Float(1)
-		guard let vewBase		else { print("ScnBase.vewBase is nil"); return false }
+		guard let vewBase		else { print("vewBase is nil"); return false 	}
 		let slot				= vewBase.slot_
 		guard let factalsModel	= vewBase.factalsModel else 	{ return false	}
 
@@ -768,16 +759,16 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 	}
 	 // MARK: - 15. PrettyPrint
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
-		var rv					= "super.pp(mode, aux)"
-		if mode == .line {
-			rv					+= ""//headsetView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
-//			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
-	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
-			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
-		//	rv					+= "animatePhysics:\(animatePhysics) "
-		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
-//			rv					+= "\(self.scnView?.pp(.uidClass, aux) ?? "BAD: scnView=nil") "
-		}
+bug;	var rv					= "super.pp(mode, aux)"
+//		if mode == .line {
+//			rv					+= ""//headsetView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
+////			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
+//	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
+//			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
+//		//	rv					+= "animatePhysics:\(animatePhysics) "
+//		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
+////			rv					+= "\(self.scnView?.pp(.uidClass, aux) ?? "BAD: scnView=nil") "
+//		}
 		return rv
 	}
 }

@@ -76,51 +76,27 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 }
 
 //------------------------------ Scraps to end -------------------------
-// ///////////////// Texting Scaffolding, after Josh and Peter help:///////////
-// Flock: nscontrol delegate controltextdideneediting nstextfield delegate nscontrol method
-// MARK: END OF SCAFFOLDING //////////////////////////////////////////////////
-
-// ///////////////////////  SCRAPS   //////////////////////////////////
 						//		@State		var isLoaded	= false
 						//		 .onChange(of:isLoaded) { oldVal, newVal in				// compiles, seems OK
 						//		 	print(".onChange(of:isLoaded) { \(oldVal), \(newVal)")
-						//		 }
-							//	 .onAppear { 			//setupHitTesting
-							//		let scnBase			= vewBase.scnBase
-							//		let bind_fwView		= scnBase.scnView		//Binding<FwView?>
-							//		var y				= "nil"
-							//		if let scnView		= bind_fwView.wrappedValue,
-							//		   let s			= scnView.scnBase {
-							//			y				= s.pp()
-							//		}
-							//		print("\(scnBase).scnView.scnBase = \(y)")
-							//	 .onAppear { 			//setupHitTesting
-							//		//coordinator.onAppear()
-							//		//$factalsModel.coordinator.onAppear {				}
-								//	NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
-								//		print("\(isOverContentView ? "Mouse inside ContentView" : "Not inside Content View") x: \(self.mouseLocation.x) y: \(self.mouseLocation.y)")
-								//		return $0
-								//	}
+						//		 .onAppear {
+						//			//coordinator.onAppear()
+						//			//$factalsModel.coordinator.onAppear {				}
+						//			NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 						//		.onMouseDown(perform:handleMouseDown)				/// no member 'onMouseDown'
 						//		.onKeyPress(phases: .up)  { press in
-						//			print(press.characters)
-						//			return .handled
-						//		}
-						//		.gesture(tapGesture)// NSClickGestureRecognizer
+						//		.gesture(tapGesture)				/ NSClickGestureRecognizer
 						//		.onTapGesture {
-						//			let vew:Vew? 		= DOCfactalsModel.modelPic()							//with:nsEvent, inVew:v!
-						//		  print("tapGesture -> \(vew?.pp(.classUid) ?? "nil")")
-						//		}
-		//animatePhysics 		= c.bool("animatePhysics") ?? false
-		//if let gravityAny		= c["gravity"] {
-		//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
-		//		scnScene.physicsWorld.gravity = gravityVect
-		//	}
-		//	else if let gravityY: Double = gravityAny.asDouble {
-		//		scnScene.physicsWorld.gravity.y = gravityY
-		//	}
-		//}
-		//if let speed			= c.cgFloat("speed") {
-		//	scnScene.physicsWorld.speed	= speed
-		//}
+						//animatePhysics 		= c.bool("animatePhysics") ?? false
+						//if let gravityAny		= c["gravity"] {
+						//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
+						//		scnScene.physicsWorld.gravity = gravityVect
+						//	}
+						//	else if let gravityY: Double = gravityAny.asDouble {
+						//		scnScene.physicsWorld.gravity.y = gravityY
+						//	}
+						//}
+						//if let speed			= c.cgFloat("speed") {
+						//	scnScene.physicsWorld.speed	= speed
+						//}
 

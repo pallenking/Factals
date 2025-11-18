@@ -111,21 +111,20 @@ struct FactalsModelView: View {
 					ForEach($factalsModel.vewBases) {	vewBase in
 //						kitContentView(vewBase:vewBase)
 //						 .tag(vewBase.wrappedValue.slot_)
-//						 .tabItem
-//						 {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
+//						 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
 						if 		vewBase.wrappedValue.headsetKind == "SCN" {
 							sceneKitContentView(vewBase:vewBase)
-							 .tag("SCN \(vewBase.wrappedValue.slot_)")
+							 .tag(			  vewBase.wrappedValue.slot_)
 						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
 						}
 						else if vewBase.wrappedValue.headsetKind == "AR" {
 							realityKitContentView(vewBase:vewBase)
-							 .tag("AR \(vewBase.wrappedValue.slot_)")
+							 .tag(			  vewBase.wrappedValue.slot_)
 						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
 						}
 						else {
 							Text("*** Illegal headsetKind:\(vewBase.wrappedValue.headsetKind) ***")
-							 .tag(vewBase.wrappedValue.slot_)
+							 .tag(			  vewBase.wrappedValue.slot_)
 						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
 						}
 					}
