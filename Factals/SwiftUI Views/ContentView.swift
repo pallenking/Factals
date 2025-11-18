@@ -66,24 +66,14 @@ import SwiftUI
 import SceneKit
 import Combine
 
-struct LazyView<Content: View>: View {
-	let build: () -> Content
-	init(_ build: @escaping () -> Content) {
-		self.build = build
-	}
-	var body: Content {
-		build()
-	}
-}
-
 struct ContentView: View {
 	@Binding var document : FactalsDocument
 	@State var prefFps = Float(0.5)
 	var body: some View {
-		FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
-												//	guard let fm = document.factalsModel else { return Text("No FactalsModel") }
-												//	return FactalsModelView(factalsModel:fm)		// Full App Views
-												//	FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
+		FactalsModelView(factalsModel:document.factalsModel)					// Full App Views
+																				// guard let fm = document.factalsModel else { return Text("No FactalsModel") }
+																				// return FactalsModelView(factalsModel:fm)		// Full App Views
+																				// FactalsModelView(factalsModel:document.factalsModel)		// Full App Views
 		.onAppear {
 			if let window = NSApplication.shared.windows.first {	//where: { $0.isMainWindow }
 				window.title 	= "HnwM: " + document.factalsModel.partBase.hnwMachine.titlePlus()// + "   from ContentView"
@@ -119,10 +109,25 @@ struct FactalsModelView: View {
 			NavigationStack {
 				TabView(selection:$tabViewSelect) {
 					ForEach($factalsModel.vewBases) {	vewBase in
-						kitContentView(vewBase:vewBase)
-						 .tag(vewBase.wrappedValue.slot_)
-						 .tabItem
-						 {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
+//						kitContentView(vewBase:vewBase)
+//						 .tag(vewBase.wrappedValue.slot_)
+//						 .tabItem
+//						 {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
+						if 		vewBase.wrappedValue.headsetKind == "SCN" {
+							sceneKitContentView(vewBase:vewBase)
+							 .tag("SCN \(vewBase.wrappedValue.slot_)")
+						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
+						}
+						else if vewBase.wrappedValue.headsetKind == "AR" {
+							realityKitContentView(vewBase:vewBase)
+							 .tag("AR \(vewBase.wrappedValue.slot_)")
+						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
+						}
+						else {
+							Text("*** Illegal headsetKind:\(vewBase.wrappedValue.headsetKind) ***")
+							 .tag(vewBase.wrappedValue.slot_)
+						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
+						}
 					}
 				}
 				 .onChange(  of:factalsModel.vewBases, initial:true) { oldValue, newValue  in
@@ -146,25 +151,15 @@ struct FactalsModelView: View {
 			}
 		}
 	}
-	@ViewBuilder
-	func kitContentView(vewBase:Binding<VewBase>) -> some View {
-		if 		 vewBase.wrappedValue.headsetKind == "SCN"
-		 {	sceneKitContentView(vewBase:vewBase)								}
-		 else if vewBase.wrappedValue.headsetKind == "AR"
-		 {	realityKitContentView(vewBase:vewBase)								}
-		 else
-		 {	fatalError("Illegal headsetKind:\(vewBase.wrappedValue.headsetKind)") }
-	}
  	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
 	private func addNewTab(kind:String)	  {
+		tabViewSelect 			= factalsModel.vewBases.count	// select newly added, its at end
 		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
-		vewBase.title			= "\(kind) \(vewBase.title)"		//assert(vewBase.title == "\(VewBase.nVewBases)", "vewBase.title != nVewBases: \(vewBase.title) != \(VewBase.nVewBases)")
+		vewBase.title			= "\(kind) \(tabViewSelect)"
 		vewBase.headsetKind		= kind
 		vewBase.factalsModel	= factalsModel
 
 		factalsModel.vewBases.append(vewBase)
-		tabViewSelect 			= factalsModel.vewBases.count - 1	// newly added is at end
-
 		logApp(3, "Modify tabViewAddCt (\(tabViewAddCt)->\(tabViewAddCt+1)) to cause redraw of VewBases.")
 		tabViewAddCt			+= 1
 	}

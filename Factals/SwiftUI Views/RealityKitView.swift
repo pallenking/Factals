@@ -393,7 +393,8 @@ struct RealityKitView: View {
 		rkView.selfiePole.ortho 	=  0.0  // Default to perspective
 
 		logApp(3, "Selected: \(primitiveName) at grid(\(gridX),\(gridY)) focus: \(rkView.focusPosition)")
-		logApp(3, SelfiePole reset - spin: \(rkView.selfiePole.spin), gaze: \(rkView.selfiePole.gaze), zoom: \(rkView.selfiePole.zoom), ortho: \(rkView.selfiePole.ortho)")
+		logApp(3, "SelfiePole reset - spin: \(rkView.selfiePole.spin), gaze: \(rkView.selfiePole.gaze), " +
+					"zoom: \(rkView.selfiePole.zoom), ortho: \(rkView.selfiePole.ortho)")
 	}
 									
 	private func setupScrollWheelMonitor(realityKitView rkView:RealityKitView) {

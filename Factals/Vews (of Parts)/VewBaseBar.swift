@@ -31,7 +31,7 @@ struct VewBaseBar: View {
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot\(slot): =====")
-						print(vewBase.headsetView?.anchor.pp(.tree, factalsGlobals.factalsConfig) ?? "ews.scnBase.tree == nil")
+						print(vewBase.headsetView?.anchor.pp(.tree, factalsGlobals.factalsConfig) ?? "headsetView == nil")
 					}
 					Spacer()
 					Button(label:{	Text("Test")								})
