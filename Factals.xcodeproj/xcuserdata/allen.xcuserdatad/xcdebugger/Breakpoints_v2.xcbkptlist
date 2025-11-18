@@ -126,8 +126,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "ScnView"
             landmarkType = "21">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
             landmarkName = "movePole(toWorldPosition:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "583"
-            endingLineNumber = "583"
+            startingLineNumber = "581"
+            endingLineNumber = "581"
             landmarkName = "processEvent(nsEvent:inVew:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +206,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "767"
-            endingLineNumber = "767"
+            startingLineNumber = "765"
+            endingLineNumber = "765"
             landmarkName = "selfiePole2camera(duration:reason:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -222,8 +222,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "cameraXform"
             landmarkType = "24">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "makeCamera()"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "650"
-            endingLineNumber = "650"
+            startingLineNumber = "648"
+            endingLineNumber = "648"
             landmarkName = "modelPic(with:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "Factals/SwiftUI Views/ScnView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "719"
-            endingLineNumber = "719"
+            startingLineNumber = "717"
+            endingLineNumber = "717"
             landmarkName = "findVew(nsEvent:inVewBase:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +382,8 @@
             filePath = "Factals/SwiftUI Views/RealityKitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "realityKitContentView(vewBase:)"
             landmarkType = "9">
          </BreakpointContent>

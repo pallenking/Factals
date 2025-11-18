@@ -13,61 +13,57 @@ import AppKit
 class ArView : ARView {
 	typealias Body = ARView
 	weak var delegate: SCNSceneRendererDelegate?
+	var vewBase: VewBase? = nil
 }
 
 /*
 weak var delegate: (any SCNSceneRendererDelegate)? { get set }
  */
 extension ArView : HeadsetView {
-	func configure(from: FwConfig) 				{	bug 						}
-	func makeScenery(anchorEntity:AnchorEntity) {	bug 						}
-//		headsetView!.makeScenery (anchorEntity:anchorEntity)
-//	}
-	func makeAxis()   {	}
-	func makeCamera() {	}
-	func makeLights() {	}
 	var cameraXform: SCNMatrix4 {
 		get {	.identity														}
 		set {																	}
+//		get 	{	scene.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
+//		set(v)	{	scene.rootNode.findScn(named:"*-camera")?.transform = v	}
 	}
 	var anchor: SCNNode {
 		get {	bug; return SCNNode()											}
 		set {		}
 	}
-	/// RealityKit's HeadsetView
-	var headsetView : HeadsetView? { self														}
-//	var headsetView : HeadsetView? { (self.delegate as? ScnBase)?.headsetView							}
 	var isSceneKit: Bool { false 												}
-	var vewBase: VewBase! {
-		get {			bug; return self.vewBase								}
-		set {			bug; return self.vewBase = newValue 								}
-	}
-//	var getScene : SCNScene? {
-//		get { bug; return self.scene as? SCNScene								}
-//		set { fatalError("RealityKit doesn't use SCNScene") 					}
-//	}
-//	var animatePhysics: Bool {
-//		get { return true 														}
-//		set { bug 																}
-//	}
+
+	func configure(from: FwConfig) 				{	bug 						}
+	func makeScenery(anchorEntity:AnchorEntity) {	bug 						} // { headsetView!.makeScenery (anchorEntity:anchorEntity)					}
+	func makeLights() {	}
+	func makeCamera() {	}
+	func makeAxis()   {	}
+
+	/// RealityKit's HeadsetView
+	var headsetView : HeadsetView? { self }//.delegate as? ScnBase)?.headsetView	}
+								//	var getScene : SCNScene?
+								//	{	get { bug; return self.scene as? SCNScene								}
+								//		set { fatalError("RealityKit doesn't use SCNScene") 					}}
+								//	var animatePhysics: Bool
+								//	{	get { return true 														}
+								//		set { bug 																}}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
-		bug
-		return []
-		//		let raycast = self.raycast(from: point, allowing:.estimatedPlane, alignment:.any)
-//	//	let cgPoint 			= CGPoint(x: point.x, y: point.y)
-//	//	let xxx:ARView 			= self as! ARView
-//	//	let ray 				= xxx.raycast(from:cgPoint, allowing:.estimatedPlane, alignment:.any)
-//		let ray					= self.raycast(from: point, allowing: .estimatedPlane, alignment: .any)
-//		return ray.map { result in
-//			HitTestResult(
-//				node: result.anchor,
-//				//position: SCNVector3(result.worldTransform.columns.3.x,
-//				//					 result.worldTransform.columns.3.y,
-//				//					 result.worldTransform.columns.3.z),
-//				position: result.worldTransform.columns.3.xyz,
-//	//			distance: simd_length(result.worldTransform.columns.3.xyz)
-//			)
-//		}
+		// bug; return []
+
+	//	let cgPoint 			= CGPoint(x: point.x, y: point.y)
+		let xxx:ARView 			= self as! ARView
+		let ray 				= xxx.raycast(from:cgPoint, allowing:.estimatedPlane, alignment:.any)
+	//	let ray2				= self.raycast(from:point, allowing:.estimatedPlane, alignment:.any)
+		let ray					= self.raycast(from:point, allowing:.estimatedPlane, alignment:.any)
+		return ray.map { result in
+			HitTestResult(
+				node: result.anchor,
+				//position: SCNVector3(result.worldTransform.columns.3.x,
+				//					 result.worldTransform.columns.3.y,
+				//					 result.worldTransform.columns.3.z),
+				position: result.worldTransform.columns.3.xyz,
+	//			distance: simd_length(result.worldTransform.columns.3.xyz)
+			)
+		}
 	}
 }
 //struct RealityKitContentView {

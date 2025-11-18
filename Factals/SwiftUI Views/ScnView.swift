@@ -15,14 +15,12 @@ enum EventHandlerType {
 class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
 	weak
-	 var vewBase : VewBase? = nil {			// Owner
-		didSet {
-			// Add the tree.scn to the scene when vewBase is set
+	 var vewBase : VewBase? = nil 			// Owner
+	 {	didSet {	// Add the tree.scn to the scene when vewBase is set
 			if let scn = vewBase?.tree.scn {
 				self.scene?.rootNode.addChildNode(scn)
 			}
-		}
-	}
+		}																		}
 	var handler  : EventHandlerType.EventHandler 	{
 		get { 	eventHandler													}
 		set(val) { bug 															}
