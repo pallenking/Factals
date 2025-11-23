@@ -8,10 +8,6 @@ import SceneKit
 import RealityKit
 import Combine
 
-enum EventHandlerType {
-	typealias EventHandler		= (NSEvent) -> Void
-}
-
 class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
 	weak
@@ -77,7 +73,10 @@ class ScnView : SCNView {
 		print(ifArea:"bld", detail:6, "############ deinit(\(self.pp()))")
 	}
 }
-
+enum EventHandlerType {
+	typealias EventHandler		= (NSEvent) -> Void
+}
+										
 extension ScnView : HeadsetView {
 	var cameraXform: SCNMatrix4 {
 		get 	{	scene?.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
@@ -87,25 +86,25 @@ extension ScnView : HeadsetView {
 		get { self.scene!.rootNode												}
 		set { bug																}
 	}
-	 // Sugar:
-//	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
- //	var headsetView 	: HeadsetView? 	   { (self.delegate as? ScnBase)?.headsetView					}
-	/// SceneKit's HeadsetView
+										 // Sugar:
+										//	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
+										//	var headsetView 	: HeadsetView? 	   { (self.delegate as? ScnBase)?.headsetView					}
+										 // SceneKit's HeadsetView
 	var isSceneKit: Bool	   { true												}
-//	var vewBase:VewBase! {
-//		get {	self.headsetView?.vewBase												}
-//		set {	headsetView?.vewBase		= newValue									}
-//	}
-//	var getScene : SCNScene? {
-//		get {	self.scene														}
-//		set {	self.scene			= newValue									}
-//	}
+										//	var vewBase:VewBase! {
+										//		get {	self.headsetView?.vewBase												}
+										//		set {	headsetView?.vewBase		= newValue									}
+										//	}
+										//	var getScene : SCNScene? {
+										//		get {	self.scene														}
+										//		set {	self.scene			= newValue									}
+										//	}
 	func configure(from:FwConfig)	{ bug }
-//	 /// animatePhysics is a posative quantity (isPaused is a negative)
-//	var animatePhysics : Bool {	//bug; return false
-//		get {			return false == (getScene?.isPaused ?? false)			}
-//		set(v) {		getScene?.isPaused = !v									}
-//	}
+										//	 /// animatePhysics is a posative quantity (isPaused is a negative)
+										//	var animatePhysics : Bool {	//bug; return false
+										//		get {			return false == (getScene?.isPaused ?? false)			}
+										//		set(v) {		getScene?.isPaused = !v									}
+										//	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let scnResults = self.hitTest(point, options: options!)
 		return scnResults.map { scnHit in
@@ -334,12 +333,10 @@ extension ScnView {
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 		guard let factalsModel	= vewBase!.factalsModel else {		return		}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-		let wPosn				= anchor.convertPosition(localPoint, to:anchor)
-
- //	assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
-
-bug//	let animateIt			= configure.bool_("animatePole") ; bug
-		if true /*animateIt*/ {	 // Animate 3D Cursor Pole motion"∫
+bug;	let wPosn				= anchor.convertPosition(localPoint, to:anchor)
+ 	//	assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
+		let animateIt			= true//configure.bool_("animatePole") ; bug
+		if animateIt {	 // Animate 3D Cursor Pole motion"∫
 			SCNTransaction.begin()
 // 			logRve(8, logg("  /#######  SCNTransaction: BEGIN"))
 		}
@@ -365,7 +362,7 @@ bug//	let animateIt			= configure.bool_("animatePole") ; bug
 		guard let vewBase		= vewBase 			else {	return				}
 		guard let cameraScn		= vewBase.cameraScn else {	return 				}
 								
-bug//	vewBase.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
+	vewBase.selfiePole.zoom = zoom4fullScreen()	//(selfiePole:selfiePole, cameraScn:cameraScn)
 
 		guard let factalsModel	= vewBase.factalsModel else {debugger("")		}
 

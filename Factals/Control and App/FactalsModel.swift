@@ -58,16 +58,19 @@ import SwiftUI
 			}
 		}
 		 // Ensure 1 View
-		if false, vewBases.isEmpty 			//false,
-		{	NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)	}
+		if vewBases.isEmpty {			//false,
+			NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
+			vewBases.last!.title	= "\("kind") \(vewBases.count)"
+			tabViewSelect 			= 0	// select newly added, its at end
+		}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
 		let vewBase				= VewBase(vewConfig:vewConfig, fwConfig:fwConfig)
 		vewBase.partBase		= partBase
 		vewBase.factalsModel	= self
-		vewBase.headsetView 		= nil			// A signal of need!
+		vewBase.headsetView 	= nil			// A signal of need!
 		vewBases.append(vewBase)
-		vewBase.updateVSP() 								// DELETE?
+//		vewBase.updateVSP() 								// DELETE?
 	}
 	 // MARK: - 3.5 Codable
 	 // ///////// Serialize

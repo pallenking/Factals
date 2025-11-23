@@ -5,9 +5,6 @@ import SceneKit
 extension VewBase : Equatable {
 	static func == (lhs:VewBase, rhs:VewBase) -> Bool {	// protocol Equatable
 		lhs === rhs
-	//	if lhs.partBase !== rhs.partBase 	{ 					return false 	}
-	//	if lhs.tree != rhs.tree 	{ 							return false 	}
-	//	return true
 	}
 }
 class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
@@ -24,7 +21,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 //	var vewConfig	  : VewConfig
 //	var fwConfig	  : FwConfig
 	var headsetView	  : HeadsetView?		// attached and used from here
-	var headsetKind		 		= "disconnected"
+	var headsetKind		 		= "UNSET"
 
 	 // Instance method 'monitor(onChangeOf:performs:)' requires that
 	//   'SelfiePole' conform to 'Publisher'

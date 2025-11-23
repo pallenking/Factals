@@ -13,7 +13,6 @@
 
 import SwiftUI
 
-
 struct EventReceiver: NSViewRepresentable {
 	let eventHandler:EventHandlerType.EventHandler
 	func makeNSView(context:Context) -> EventReceiverView {

@@ -131,8 +131,7 @@ bug;		self.init(factalsModel:factalsModel)
 		partBase.wireAndGroom([:])
 
 		 // 4. Vews ******
-		let c2					= fmConfig + testConfig
-		factalsModel.createVews(from:c2)
+		factalsModel.createVews(from:fmConfig + testConfig)
 		 // maybe before config4log, so loading simEnable works:
 		factalsModel.simulator.simBuilt	= true
 	}

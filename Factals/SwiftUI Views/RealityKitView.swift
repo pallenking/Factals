@@ -69,13 +69,13 @@ func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
 			ZStack {
 		/**/	RealityKitView()
 				 .frame(maxWidth: .infinity)
-				 .border(.black, width:1)
+				 .border(.yellow, width:4)	//(.black, width:1)
 				EventReceiver { nsEvent in // Catch events (goes underneath)
 					guard let scnView = vewBase.wrappedValue.headsetView as? ScnView
 					 else { 	// ERROR:
 						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
 						logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
-						return 											}
+						return 													}
 					let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
 				}
 			}

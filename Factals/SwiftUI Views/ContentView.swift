@@ -123,7 +123,7 @@ struct FactalsModelView: View {
 						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
 						}
 						else {
-							Text("*** Illegal headsetKind:\(vewBase.wrappedValue.headsetKind) ***")
+							Text("*** Illegal headsetKind: '\(vewBase.wrappedValue.headsetKind)' ***")
 							 .tag(			  vewBase.wrappedValue.slot_)
 						 	 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
 						}
@@ -151,7 +151,7 @@ struct FactalsModelView: View {
 		}
 	}
  	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
-	private func addNewTab(kind:String)	  {
+	func addNewTab(kind:String)	  {
 		tabViewSelect 			= factalsModel.vewBases.count	// select newly added, its at end
 		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])
 		vewBase.title			= "\(kind) \(tabViewSelect)"
@@ -164,6 +164,6 @@ struct FactalsModelView: View {
 	}
 	private func deleteCurrentTab() {
 		factalsModel.vewBases.remove(at:tabViewSelect)
-		tabViewSelect			-= 1
+		tabViewSelect			-= tabViewSelect > 0 ? 1 : 0
 	}
 }
