@@ -146,11 +146,11 @@ struct FactalsModelView: View {
 			//	 .task(id:tabViewAddCt) 	// on change of tabViewAddCt (This triggers BEFORE, as above)
 			//	 {	logApp(3, "NavigationStack[\(tabViewSelect)].task(    tabViewAddCt):\(tabViewAddCt)=>\(tabViewAddCt+1)")
 			//		tabViewAddCt		+= 1															 }
-				 .accentColor(.green) // Change the color of the selected tab
+				 .accentColor(.green) 		// Change the color of the selected tab
 			}
 		}
 	}
- 	private func updateTabTitle() { }	// NO:factalsModel.partBase.title: XXXX
+ 	private func updateTabTitle() { }		// NO:factalsModel.partBase.title: XXXX
 	func addNewTab(kind:String)	  {
 		tabViewSelect 			= factalsModel.vewBases.count	// select newly added, its at end
 		let vewBase 			= VewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:[:])

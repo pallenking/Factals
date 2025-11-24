@@ -210,7 +210,24 @@ extension Simulator : FactalsStatus	{								///Simulator
 			}
 	}
 }
-
+/*	var title					= "\(nVewBases)"
+	var partBase	  : PartBase!			//, or a friend of his
+	var tree		  : Vew
+	var headsetView	  : HeadsetView?		// attached and used from here
+	var headsetKind		 		= "UNSET"
+	var selfiePole 				= SelfiePole()
+	var lookAtVew	  : Vew!	= nil	// Vew we are looking at
+	var animateVBdelay: Float	= 0.3
+	var prefFps		  : CGFloat	= 30.0
+	var sliderTestVal : Double 	= 0.5
+	var inspectedVews : [Vew]	= []	// ... to be Inspected
+	var cameraScn	  : SCNNode?	 {	headsetView?.anchor.findScn(named:"*-camera", maxLevel:1) }
+	let semiphore 				= DispatchSemaphore(value:1)
+	var curLockOwner  : String?	= nil
+	var prevOwner	  : String? = nil
+	var verbose 				= false		// (unused)
+	var slot	 	  : Int?	{	factalsModel?.vewBases.firstIndex(of:self)	}
+ */
 extension VewBase : FactalsStatus	{								  ///VewBase
 	func ppControlElement(config:Bool=false) -> String {
 		guard let factalsModel	else {	return "Vew.vews?.factalsModel == nil\n" }
@@ -224,26 +241,29 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 		myLine					+= "Lock=\(semiphore.value ?? -99) "
 		myLine					+= curLockOwner==nil ? "UNOWNED, " : "OWNER:'\(curLockOwner!)', "		// dirty:'\(tree.dirty.pp())'
 		myLine					+= "lookAt:\(lookAtVew?.pp(.classTag) ?? "nil") "
-		myLine					+= "\(inspectedVews.count) inspectedVews"
+		myLine					+= "\(inspectedVews.count) inspectedVews, "
 
 		let treeScn				= self.tree.scn
 		let treeScnParent		= treeScn.parent
 		let scnTreeRoot			= headsetView?.anchor
-		myLine					+= headsetView == nil ? "headsetView == nil" :
-								   treeScnParent === scnTreeRoot /*|| treeScnParent == nil && scnTreeRoot == nil*/ ? "" :
+		myLine					+= "headsetKind=\(headsetKind), "
+		myLine					+= headsetView != nil ? "headsetView:\(headsetView!.pp(.tagClass)) " : ""
+//		myLine					+= (headsetView?.pp(.tagClass) + " ") ?? ""
+		myLine					+= //headsetView == nil ? "headsetView==nil" :
+								   treeScnParent === scnTreeRoot ? "" : 		// || treeScnParent == nil && scnTreeRoot == nil ? "" :
 									( "\n\t\t\t\t<<ERROR<< "
 									  +	"vewTreeScn=\(treeScn.pp(.tagClass)) .parent=\(treeScnParent?.pp(.tagClass) ?? "nil")  "
 									  +	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.tagClass) ?? "nil") "
 									  +         ">>ERROR>>")
 		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
 			otherLines: {
-			var rv				=  (self.headsetView as? NSView)?.ppControlElement(config:config)
+			var rv				=  self.headsetView?.ppControlElement(config:config)
 									?? "\t\t\t\t headsetView is nil\n"
-				rv 				+= self.cameraScn?.ppControlElement(config:config)
+				rv 				+= self.cameraScn?	.ppControlElement(config:config)
 									?? "\t\t\t\t cameraScn is nil\n"
-				rv				+= self.selfiePole.ppControlElement(config:config)
+				rv				+= self.selfiePole	.ppControlElement(config:config)
 				for vew in self.inspectedVews {
-					rv 			+= vew	   		  .ppControlElement(config:config)		//deapth:0,
+					rv 			+= vew	   		  	.ppControlElement(config:config)		//deapth:0,
 				}
 				return rv
 			}

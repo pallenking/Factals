@@ -70,14 +70,14 @@ func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
 		/**/	RealityKitView()
 				 .frame(maxWidth: .infinity)
 				 .border(.yellow, width:4)	//(.black, width:1)
-				EventReceiver { nsEvent in // Catch events (goes underneath)
-					guard let scnView = vewBase.wrappedValue.headsetView as? ScnView
-					 else { 	// ERROR:
-						guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-						logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
-						return 													}
-					let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-				}
+			//	EventReceiver { nsEvent in // Catch events (goes underneath)
+			//		guard let scnView = vewBase.wrappedValue.headsetView as? ScnView
+			//		 else { 	// ERROR:
+			//			guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
+			//			logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
+			//			return 													}
+			//		let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
+			//	}
 			}
 		}//.frame(width: 555)
 		VStack {
@@ -113,7 +113,8 @@ struct RealityKitView: View {
 				RealityView { content in
 					anchor			= AnchorEntity(.world(transform:matrix_identity_float4x4))
 					anchor!.name 	= "mainAnchor"			// Create anchor for the scene
-		/**/		RkMakeScenery(anchor:anchor!)
+//		/**/		RkMakeScenery(anchor:anchor!)
+		/**/		XxMakeScenery(anchor:anchor!)
 					content.add(anchor!)
 					logApp(3, "RealityView loaded with \(anchor!.children.count) children, " +
 							  "\n\t rotation: \(   		 anchor!.transform.rotation) " +
@@ -125,14 +126,23 @@ struct RealityKitView: View {
 			//		vewBase.headsetView = rv
 				} update: { content in
 				  // Update camera transform using SelfiePole mathematics
-					if let anchor 	  = content.entities.first(where: { $0.name == "mainAnchor" }) {
-						let self2focus = selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
-						let focus2self	= self2focus.inverse()									// SCNMatrix4
-		/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
-						updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
-						logApp(3, "RealityView update with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation)\n\t translation: \(anchor.transform.translation)")
-					//	printTreeBase(entity:anchor)													// ENTITY
-					}
+					guard let anchor = content.entities.first(where: { $0.name == "mainAnchor" })
+					 else { return 												}
+					let self2focus	= selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
+					let focus2self	= self2focus.inverse()									// SCNMatrix4
+	/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
+					updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
+					logApp(3, "RealityView update with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation)\n\t translation: \(anchor.transform.translation)")
+				//	printTreeBase(entity:anchor)													// ENTITY
+//				  // Update camera transform using SelfiePole mathematics
+//					if let anchor 	  = content.entities.first(where: { $0.name == "mainAnchor" }) {
+//						let self2focus = selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
+//						let focus2self	= self2focus.inverse()									// SCNMatrix4
+//		/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
+//						updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
+//						logApp(3, "RealityView update with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation)\n\t translation: \(anchor.transform.translation)")
+//					//	printTreeBase(entity:anchor)													// ENTITY
+//					}
 				}
 				.background(Color.gray.opacity(0.1))	//yellow)//
 				.gesture(
@@ -166,6 +176,8 @@ struct RealityKitView: View {
 			}
 			Text("TEST POINT1\(anchor?.children.count ?? -1)")
 		}
+	}
+	func XxMakeScenery(anchor:AnchorEntity) {
 	}
 	func RkMakeScenery(anchor:AnchorEntity) {
 		// Add lighting so we can see the materials

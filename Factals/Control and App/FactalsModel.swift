@@ -58,10 +58,9 @@ import SwiftUI
 			}
 		}
 		 // Ensure 1 View
-		if vewBases.isEmpty {			//false,
+		if false, vewBases.isEmpty {			//false,
 			NewVewBase(vewConfig:.openAllChildren(toDeapth:5), fwConfig:config)
-			vewBases.last!.title	= "\("kind") \(vewBases.count)"
-			tabViewSelect 			= 0	// select newly added, its at end
+			vewBases.last!.title	= "AR \(vewBases.count)"
 		}
 	}
 	func NewVewBase(vewConfig:VewConfig, fwConfig:FwConfig) {
