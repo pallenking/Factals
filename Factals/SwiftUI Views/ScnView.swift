@@ -44,10 +44,9 @@ class ScnView : SCNView {
 
 		// Note: vewBase is nil here, so tree.scn is added in vewBase's didSet instead
 
+		 // Details of ScnView:
 		self.backgroundColor 	= NSColor("veryLightGray")!
 		self.antialiasingMode 	= .multisampling16X
-	//	self.delegate			= scnView // STRANGE
-
 		self.isPlaying			= false			// book keepscnViewing
 		self.showsStatistics	= true			// controls extra bar
 		self.debugOptions		= 				// enable display of:

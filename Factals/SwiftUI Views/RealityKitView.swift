@@ -113,8 +113,8 @@ struct RealityKitView: View {
 				RealityView { content in
 					anchor			= AnchorEntity(.world(transform:matrix_identity_float4x4))
 					anchor!.name 	= "mainAnchor"			// Create anchor for the scene
-//		/**/		RkMakeScenery(anchor:anchor!)
-		/**/		XxMakeScenery(anchor:anchor!)
+		/**/		RkMakeScenery(anchor:anchor!)
+//		/**/		XxMakeScenery(anchor:anchor!)
 					content.add(anchor!)
 					logApp(3, "RealityView loaded with \(anchor!.children.count) children, " +
 							  "\n\t rotation: \(   		 anchor!.transform.rotation) " +
@@ -178,6 +178,22 @@ struct RealityKitView: View {
 		}
 	}
 	func XxMakeScenery(anchor:AnchorEntity) {
+		// ??? Add lighting so we can see the materials
+		let light = DirectionalLight()
+		light.light.intensity = 1000
+		light.position = [0, 5, 5]
+		light.look(at: [0, 0, 0], from: light.position, relativeTo: nil)
+		anchor.addChild(light)
+
+		// Standard SceneKit primitives 	- Row 1
+		var position = Vect3(-4, 0, -2)	// Moved back from origin so camera can see
+		let spacing: Float 			= 0.8
+
+		let boxEnt1 				= RksBox(width:0.3, height:0.3, length:0.3)
+		boxEnt1.position 			= position;		position.x += spacing
+		boxEnt1.name 				= "RksBox1"
+		boxEnt1.model?.materials 	= [SimpleMaterial(color:.blue, isMetallic:false)]
+		anchor.addChild(boxEnt1)
 	}
 	func RkMakeScenery(anchor:AnchorEntity) {
 		// Add lighting so we can see the materials
