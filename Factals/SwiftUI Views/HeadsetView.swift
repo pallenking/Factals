@@ -44,9 +44,9 @@ protocol HeadsetView : NSView {		 /// Protypical Graphical User Interface			*/An
 	func makeLights()
 	var cameraXform :SCNMatrix4	{	get set										}
 	func configure(from:FwConfig) 
-	var anchor      : SCNNode	{	get set										}
+	var shapeBase	: SCNNode	{	get set										}
 	var isSceneKit 	: Bool 		{	get											}
-  //var getScene 	: SCNScene?	{	get set										}
+  //var getScene 	:
   //var delegate    : SCNSceneRendererDelegate?	{	get set						}
 //	var vewBase     : VewBase!	{	get set										}
 //	var Sounds					{	get set										}

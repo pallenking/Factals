@@ -81,7 +81,7 @@ extension ScnView : HeadsetView {
 		get 	{	scene?.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
 		set(v)	{	scene?.rootNode.findScn(named:"*-camera")?.transform = v	}
 	}
-	var anchor: SCNNode {
+	var shapeBase: SCNNode {
 		get { self.scene!.rootNode												}
 		set { bug																}
 	}
@@ -170,15 +170,15 @@ extension ScnView {
 
 		func touchLight(_ name:String, _ lightType:SCNLight.LightType, color:Any?=nil,
 					intensity:CGFloat=100, position:SCNVector3?=nil) {
-			//guard let anchor	= anchor else { fatalError()					}
-			if anchor.findScn(named:name) == nil {
+			//guard let shapeBase	= shapeBase else { fatalError()					}
+			if shapeBase.findScn(named:name) == nil {
 										 // Light's SCNNode:
 				let scn 		= SCNNode()
 				scn.name		= name				// arg 1
 				if let position {
 					scn.position = position			// arg 5
 				}
-				anchor.addChildNode(scn)
+				shapeBase.addChildNode(scn)
 										 // Light:
 				let lightScnLight = SCNLight()
 				lightScnLight.type = lightType		// arg 2
@@ -222,13 +222,13 @@ extension ScnView {
  */
 	func makeCamera() {
 		let name				= "*-camera"
-		guard let anchor		= vewBase?.headsetView?.anchor 		else {  return	}
-		let camNode				= anchor.findScn(named:name, maxLevel:1) ?? { // use old
+		guard let shapeBase		= vewBase?.headsetView?.shapeBase 		else {  return	}
+		let camNode				= shapeBase.findScn(named:name, maxLevel:1) ?? { // use old
 			 // New camera system:
 			let rv				= SCNNode()
 			rv.name				= name
 			rv.position 		= SCNVector3(0, 0, 55)	// HACK: must agree with updateCameraRotator
-			anchor.addChildNode(rv)
+			shapeBase.addChildNode(rv)
 
 			 // Just make a whole new camera system from scratch
 			let camera			= SCNCamera()
@@ -332,7 +332,7 @@ extension ScnView {
 	func movePole(toWorldPosition wPosn:SCNVector3) {
 		guard let factalsModel	= vewBase!.factalsModel else {		return		}
 		let localPoint			= SCNVector3.origin		//falseF ? bBox.center : 		//trueF//falseF//
-bug;	let wPosn				= anchor.convertPosition(localPoint, to:anchor)
+bug;	let wPosn				= shapeBase.convertPosition(localPoint, to:shapeBase)
  	//	assert(pole.worldPosition.isNan == false, "Pole has position = NAN")
 		let animateIt			= true//configure.bool_("animatePole") ; bug
 		if animateIt {	 // Animate 3D Cursor Pole motion"∫

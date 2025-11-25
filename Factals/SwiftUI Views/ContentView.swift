@@ -109,9 +109,6 @@ struct FactalsModelView: View {
 			NavigationStack {
 				TabView(selection:$tabViewSelect) {
 					ForEach($factalsModel.vewBases) {	vewBase in
-//						kitContentView(vewBase:vewBase)
-//						 .tag(vewBase.wrappedValue.slot_)
-//						 .tabItem {	Label(vewBase.wrappedValue.title, systemImage: "") 	}
 						if 		vewBase.wrappedValue.headsetKind == "SCN" {
 							sceneKitContentView(vewBase:vewBase)
 							 .tag(			  vewBase.wrappedValue.slot_)

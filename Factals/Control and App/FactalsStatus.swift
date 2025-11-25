@@ -221,7 +221,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 	var prefFps		  : CGFloat	= 30.0
 	var sliderTestVal : Double 	= 0.5
 	var inspectedVews : [Vew]	= []	// ... to be Inspected
-	var cameraScn	  : SCNNode?	 {	headsetView?.anchor.findScn(named:"*-camera", maxLevel:1) }
+	var cameraScn	  : SCNNode?	 {	headsetView?.shapeBase.findScn(named:"*-camera", maxLevel:1) }
 	let semiphore 				= DispatchSemaphore(value:1)
 	var curLockOwner  : String?	= nil
 	var prevOwner	  : String? = nil
@@ -245,7 +245,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 
 		let treeScn				= self.tree.scn
 		let treeScnParent		= treeScn.parent
-		let scnTreeRoot			= headsetView?.anchor
+		let scnTreeRoot			= headsetView?.shapeBase
 		myLine					+= "headsetKind=\(headsetKind), "
 		myLine					+= headsetView != nil ? "headsetView:\(headsetView!.pp(.tagClass)) " : ""
 //		myLine					+= (headsetView?.pp(.tagClass) + " ") ?? ""

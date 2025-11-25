@@ -693,7 +693,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 				let nCols		= tight(12, aux.int_("ppNCols4VewPosns"))
 				rv				+= rv1.field(-nCols, dots:false) + " "
 
-				if let rootScn	= vewBase()?.headsetView?.anchor {
+				if let rootScn	= vewBase()?.headsetView?.shapeBase {
 					rv			+= !ppViewOptions.contains("W") ? ""	// World coordinates
 								:  "w" + scn.convertPosition(.zero, to:rootScn).pp(.line, aux) + " "
 				}

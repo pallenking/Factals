@@ -26,7 +26,7 @@ extension ArView : HeadsetView {
 //		get 	{	scene.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
 //		set(v)	{	scene.rootNode.findScn(named:"*-camera")?.transform = v	}
 	}
-	var anchor: SCNNode {
+	var shapeBase: SCNNode {
 		get {	bug; return SCNNode()											}
 		set {		}
 	}
@@ -61,40 +61,40 @@ extension ArView : HeadsetView {
 		}
 	}
 }
-//struct RealityKitContentView {
 func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
 	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
 	return HStack (alignment:.top) {
-		VStack { 		// H: Q=optional, Any/callable		//Binding<VewBase>
-			ZStack {
-		/**/	RealityKitView()
-				 .frame(maxWidth: .infinity)
-				 .border(.yellow, width:4)	//(.black, width:1)
-			//	EventReceiver { nsEvent in // Catch events (goes underneath)
-			//		guard let scnView = vewBase.wrappedValue.headsetView as? ScnView
-			//		 else { 	// ERROR:
-			//			guard let c = nsEvent.charactersIgnoringModifiers?.first else {fatalError()}
-			//			logApp(3, "RealityKitView Key '\(c)' not recognized and hence ignored...")
-			//			return 													}
-			//		let _ 	= scnView.processEvent(nsEvent:nsEvent, inVew:vewBase.tree.wrappedValue)
-			//	}
-			}
-		}//.frame(width: 555)
+		RealityKitView()
+		 .frame(maxWidth: .infinity)
+		 .border(.yellow, width:4)	//(.black, width:1)
 		VStack {
+			Text("Reality Kit:").font(Font.title)
 			VewBaseBar(vewBase:vewBase)
 			InspectorsVew(vewBase:vewBase.wrappedValue)
-		}//.frame(width:500)
+		}
 	}
 }
+//struct RealityKitContentView : View {
+//	HStack (alignment:.top) {
+//		RealityKitView()
+//		 .frame(maxWidth: .infinity)
+//		 .border(.yellow, width:4)	//(.black, width:1)
+//		VStack {
+//			Text("Reality Kit:").font(Font.title)
+//			VewBaseBar(vewBase:vewBase)
+//			InspectorsVew(vewBase:vewBase.wrappedValue)
+//		}																		//.frame(width:500)
+//	}
+//}
 
 struct RealityKitView: View {
-	@State		   var selfiePole 				 = SelfiePole()
-	@State 		   var focusPosition:Vect3 		 = Vect3(0, 0, 0)
+	@State		   var selfiePole 					= SelfiePole()
+	@State 		   var focusPosition:Vect3 			= Vect3(0, 0, 0)
 	@State 		   var selectedPrimitiveName:String = ""
-	@State private var lastDragLocation:CGPoint	 = .zero
-	@State private var isDragging:Bool 			 = false
-	@State private var viewSize:CGSize 			 = .zero
-	@State private var anchor : AnchorEntity? 	 = nil
+	@State private var lastDragLocation:CGPoint		= .zero
+	@State private var isDragging	:Bool 			= false
+	@State private var viewSize		:CGSize 		= .zero
+	@State private var sceneBase	:AnchorEntity?	= nil
 
 	typealias Visible			= Entity
 	typealias Vect3 			= SIMD3<Float>
@@ -103,22 +103,16 @@ struct RealityKitView: View {
 
 	var body: some View {
 		VStack {
-		//	HStack {
-		//		Spacer()
-		//		SelfiePoleBar(selfiePole:$selfiePole)
-		//	//	 .border(Color.gray, width: 3)
-		//	//	 .frame(width:800, height:20)
-		//	}
 			GeometryReader { geometry in
 				RealityView { content in
-					anchor			= AnchorEntity(.world(transform:matrix_identity_float4x4))
-					anchor!.name 	= "mainAnchor"			// Create anchor for the scene
-		/**/		RkMakeScenery(anchor:anchor!)
-//		/**/		XxMakeScenery(anchor:anchor!)
-					content.add(anchor!)
-					logApp(3, "RealityView loaded with \(anchor!.children.count) children, " +
-							  "\n\t rotation: \(   		 anchor!.transform.rotation) " +
-							  "\n\t translation: \(		 anchor!.transform.translation)")
+					sceneBase		= AnchorEntity(.world(transform:matrix_identity_float4x4))
+					sceneBase!.name = "shapeBase"			// Create anchor for the scene
+		/**/		RkMakeScenery(anchor:sceneBase!)
+//		/**/		XxMakeScenery(anchor:sceneBase!)
+					content.add(sceneBase!)
+					logApp(3, "RealityView loaded with \(sceneBase!.children.count) children, " +
+							  "\n\t rotation: \(   		 sceneBase!.transform.rotation) " 		+
+							  "\n\t translation: \(		 sceneBase!.transform.translation)"			)
 			//		let scnBase 	= ScnBase(headsetView:rv)		// scnBase.headsetView = rv // important BACKPOINTER
 			//		rv.delegate		= scnBase 						// (the SCNSceneRendererDelegate)
 			//		rv.scene		= scnBase.headsetView!.scene	// wrapped.scnScene //headsetView.scene //.scene
@@ -126,22 +120,22 @@ struct RealityKitView: View {
 			//		vewBase.headsetView = rv
 				} update: { content in
 				  // Update camera transform using SelfiePole mathematics
-					guard let anchor = content.entities.first(where: { $0.name == "mainAnchor" })
+					guard let anchor = content.entities.first(where: { $0.name == "shapeBase" })
 					 else { return 												}
 					let self2focus	= selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
 					let focus2self	= self2focus.inverse()									// SCNMatrix4
 	/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
 					updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
 					logApp(3, "RealityView update with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation)\n\t translation: \(anchor.transform.translation)")
-				//	printTreeBase(entity:anchor)													// ENTITY
+				//	printTreeBase(entity:sceneBase)													// ENTITY
 //				  // Update camera transform using SelfiePole mathematics
-//					if let anchor 	  = content.entities.first(where: { $0.name == "mainAnchor" }) {
+//					if let sceneBase 	  = content.entities.first(where: { $0.name == "shapeBase" }) {
 //						let self2focus = selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
 //						let focus2self	= self2focus.inverse()									// SCNMatrix4
-//		/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
-//						updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
-//						logApp(3, "RealityView update with \(anchor.children.count) children,\n\t rotation:\(anchor.transform.rotation)\n\t translation: \(anchor.transform.translation)")
-//					//	printTreeBase(entity:anchor)													// ENTITY
+//		/**/			sceneBase.transform = Transform(matrix:Matrix4x4(focus2self))
+//						updateHighlighting(from:self, sceneBase: sceneBase as! AnchorEntity)
+//						logApp(3, "RealityView update with \(sceneBase.children.count) children,\n\t rotation:\(sceneBase.transform.rotation)\n\t translation: \(anchor.transform.translation)")
+//					//	printTreeBase(entity:sceneBase)													// ENTITY
 //					}
 				}
 				.background(Color.gray.opacity(0.1))	//yellow)//
@@ -174,7 +168,7 @@ struct RealityKitView: View {
 					viewSize = newSize
 				}
 			}
-			Text("TEST POINT1\(anchor?.children.count ?? -1)")
+			//Text("TEST POINT: \(sceneBase?.children.count ?? -1)")
 		}
 	}
 	func XxMakeScenery(anchor:AnchorEntity) {

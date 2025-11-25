@@ -36,7 +36,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	@Published
 	 var inspectedVews: [Vew]	= []	// ... to be Inspected
 	var cameraScn	  : SCNNode?
-	 {	headsetView?.anchor.findScn(named:"*-camera", maxLevel:1)				}
+	 {	headsetView?.shapeBase.findScn(named:"*-camera", maxLevel:1)				}
 //	 {	headsetView?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)	}
 
 	 // Locks

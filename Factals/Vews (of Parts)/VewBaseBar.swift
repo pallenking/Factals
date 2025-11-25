@@ -11,7 +11,6 @@ struct VewBaseBar: View {
 	@Binding var vewBase : VewBase
 	@EnvironmentObject var factalsGlobals: FactalsApp.FactalsGlobals
 	@State   var isEditing = false
-
 //	@EnvironmentObject private var appDelegate: FactalsAppDelegate
 
 	var body: some View {
@@ -31,7 +30,7 @@ struct VewBaseBar: View {
 					}
 					Button(label:{	Text("ptn")									})
 					{	print("===== SCNNodes of Slot\(slot): =====")
-						print(vewBase.headsetView?.anchor.pp(.tree, factalsGlobals.factalsConfig) ?? "headsetView == nil")
+						print(vewBase.headsetView?.shapeBase.pp(.tree, factalsGlobals.factalsConfig) ?? "headsetView == nil")
 					}
 					Spacer()
 					Button(label:{	Text("Test")								})
@@ -77,12 +76,10 @@ struct VewBaseBar: View {
 			} else {
 				Text("FactalsModel not registered in VewBase!").foregroundColor(.red).bold()
 			}
+			Divider()
 			HStack {
- //				SelfiePoleBar3(selfiePole:$vewBase.selfiePole)
-				SelfiePoleBar(selfiePole:$vewBase.selfiePole)
-	//	 .border(Color.gray, width: 3)
-//		 .frame(width:800, height:20)
-			}
+				SelfiePoleBar(selfiePole:$vewBase.selfiePole)					// .border(Color.gray, width: 3)
+			}																	// .frame(width:800, height:20)
 			Divider()
 		}
 		 .padding(4)
