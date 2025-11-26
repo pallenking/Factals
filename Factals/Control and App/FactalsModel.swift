@@ -386,15 +386,15 @@ import SwiftUI
 	bug	//	if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
 			return true								// recognize both
 		case "f": 						// // f // //
-bug	//		var msg					= "\n"
-	//		for vewBase in vewBases {
-	//			guard let headsetView		= vewBase.headsetView else {	continue		}
-	//			headsetView.animatePhysics ^^= true
-	//			msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
-	//								(headsetView.animatePhysics ? "Run   " : "Freeze")
-	//		}
-	//		print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
-	//		return true								// recognize both
+bug;		var msg					= "\n"
+			for vewBase in vewBases {
+				guard let headsetView		= vewBase.headsetView else {	continue		}
+				headsetView.animatePhysics ^^= true
+				msg 				+= "\(vewBase.pp(.fullNameUidClass)) " +
+									(headsetView.animatePhysics ? "Run   " : "Freeze")
+			}
+			print("\n******************** 'f':   === FactalsModel: animatePhysics <-- \(msg)")
+			return true								// recognize both
 		case "?":
 			printDebuggerHints()
 			print ("\n=== FactalsModel   commands:",

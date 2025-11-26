@@ -41,8 +41,11 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 			}
 		}
 		VStack {
-			Text("Scene Kit:").font(Font.title)
-			VewBaseBar(vewBase:vewBase)
+			VStack {
+				Text("Scene Kit:").font(Font.title)
+				VewBaseBar(vewBase:vewBase)
+			}
+			 .background(Color(red:1.0, green:1.0, blue:0.9))
 			InspectorsVew(vewBase:vewBase.wrappedValue)
 		}
 	}

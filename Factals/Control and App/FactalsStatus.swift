@@ -22,13 +22,13 @@ protocol FactalsStatus : FwAny {
 	func ppControlElement(config:Bool) -> String
 }
 
-func ppFactalsStateHelper(_ fwClassName_: String,
-							nameTag		: Uid,
-							myLine		: String 		= "",	// stuff after ". . ."
-							otherLines	: (()->String)?	= nil	// hash generating trailing lines
+func ppFactalsStateHelper(fwClass : String,
+						  nameTag		: Uid,
+						  myLine		: String 		= "",	// stuff after ". . ."
+						  otherLines	: (()->String)?	= nil	// hash generating trailing lines
 						 ) -> String
 {
-	var rv						= ppFwPrefix(nameTag:nameTag, fwClassName_) + myLine + "\n"
+	var rv						= ppFwPrefix(nameTag:nameTag, fwClass) + myLine + "\n"
 		// Other Lines:
 	Log.shared.nIndent			+= 1
 	rv 							+= otherLines?() ?? ""
@@ -56,7 +56,7 @@ func ppFwPrefix(nameTag:Uid?, _ fwClassName_:String) -> String {
 extension FactalsApp : FactalsStatus	{							///FactalsApp
 	func ppControlElement(config:Bool=false) -> String {
 	//	let documents 			= NSDocumentController.shared.documents		// THIS BREAKS THINGS
-		return ppFactalsStateHelper("FactalsApp   ", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "FactalsApp   ", nameTag:self,
 			myLine://(documents.count == 0 ? "No Open Files, " :"") 				+
 				"menuScene:\(menuScene), regressScene:\(regressScene), " 								,
 			otherLines:{
@@ -73,12 +73,12 @@ extension FactalsApp : FactalsStatus	{							///FactalsApp
 }
 extension FactalsAppDelegate : FactalsStatus	{			  ///FactalsAppDelegate
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("FactalsAppDel", nameTag:self)
+		return ppFactalsStateHelper(fwClass: "FactalsAppDel", nameTag:self)
 	}
 }
 extension Library : FactalsStatus {										///Library
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("\(self.fileName.field(-13))", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "\(self.fileName.field(-13))", nameTag:self,
 			myLine:"(\(Library.books.count.asString!.field(4)) Books)",
 			otherLines: {
 				var rv			= ""
@@ -92,14 +92,14 @@ extension Library : FactalsStatus {										///Library
 extension Book : FactalsStatus {								///Book or ///Tests01, ...
 	func ppControlElement(config:Bool=false) -> String {
 		let myLine				= "?? tests" //"(\(??.asString!.field(4)) tests)"
-		return ppFactalsStateHelper("\(self.fileName.field(-13))", nameTag:self, myLine:myLine)
+		return ppFactalsStateHelper(fwClass: "\(self.fileName.field(-13))", nameTag:self, myLine:myLine)
 	}
 }
 
 // MARK : - DOCUMENT
 extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("FactalsDocume", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "FactalsDocume", nameTag:self,
 			myLine: factalsModel == nil ? "factalsModel is nil" : "",
 			otherLines:{
 				guard let factalsModel else {	return ""						}
@@ -143,7 +143,7 @@ extension FactalsDocument : FactalsStatus	{				  	 ///FactalsDocument
 //}
 extension FactalsModel : FactalsStatus	{							///FactalsModel
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("FactalsModel ", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "FactalsModel ", nameTag:self,
 			myLine : "\(vewBases.count) vewBases ",
 			otherLines:{
 
@@ -160,7 +160,7 @@ extension FactalsModel : FactalsStatus	{							///FactalsModel
 }
 extension PartBase : FactalsStatus	{								 ///PartBase
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("PartBase     ", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "PartBase     ", nameTag:self,
 			myLine: "tree:\(tree.pp(.tagClass)) "		 			+
 					"(\(portCount()) Ports) " 						+
 					"lock=\(semiphore.value ?? -98) " 				+
@@ -176,7 +176,7 @@ extension TimingChain : FactalsStatus {								///TimingChain
 //		myline				+= eventDownPause ? " eventDownPause": ""
 		myline				+= animateChain   ? " animateChain"  : ""
 		myline				+= asyncData 	  ? " asyncData" 	 : ""
-		return ppFactalsStateHelper("TimingChain  ", nameTag:self, myLine:myline)
+		return ppFactalsStateHelper(fwClass: "TimingChain  ", nameTag:self, myLine:myline)
 	}
 }
 
@@ -197,7 +197,7 @@ extension Simulator : FactalsStatus	{								///Simulator
 		myline					+= " \(linkChits)/L"
 		myline					+= " \(startChits)/S)"
 		return ppFactalsStateHelper(
-			"Simulator    ", nameTag:self, myLine:myline)
+			fwClass: "Simulator    ", nameTag:self, myLine:myline)
 			{	guard let fm	= self.factalsModel else { return "factalsModel in nil"}
 				var rv			= ""
 				let _ 			= fm.partBase.tree.findCommon() {
@@ -255,7 +255,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 									  +	"vewTreeScn=\(treeScn.pp(.tagClass)) .parent=\(treeScnParent?.pp(.tagClass) ?? "nil")  "
 									  +	     "!==  scnTreeRoot=\(scnTreeRoot?.pp(.tagClass) ?? "nil") "
 									  +         ">>ERROR>>")
-		return ppFactalsStateHelper(myName, nameTag:self, myLine:myLine,
+		return ppFactalsStateHelper(fwClass: myName, nameTag:self, myLine:myLine,
 			otherLines: {
 			var rv				=  self.headsetView?.ppControlElement(config:config)
 									?? "\t\t\t\t headsetView is nil\n"
@@ -273,7 +273,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 extension Vew : FactalsStatus	{										  ///Vew
 	func ppControlElement(config:Bool=false) -> String {
 		var rv					= ""
-		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self,
+		return ppFactalsStateHelper(fwClass: fwClassName.field(-13), nameTag:self,
 			myLine:"'\(fullName)'",
 			otherLines: {
 				for child in self.children {
@@ -286,21 +286,21 @@ extension Vew : FactalsStatus	{										  ///Vew
 extension SelfiePole : FactalsStatus	{							///SelfiePole
 	func ppControlElement(config:Bool=false) -> String {
 		let myLine				= self.pp(.line)
-		return ppFactalsStateHelper("SelfiePole   ", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "SelfiePole   ", nameTag:self,
 			myLine:myLine)
 	}
 }
 extension Inspec : FactalsStatus	{									///Inspec
 	func ppControlElement(config:Bool=false) -> String {
 		let myLine				= self.pp(.line)
-		return ppFactalsStateHelper("SelfiePole   ", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "SelfiePole   ", nameTag:self,
 			myLine:myLine)
 	}
 }
 extension SCNScene : FactalsStatus {								 ///SCNScene
 	func ppControlElement(config:Bool=false) -> String {
 		let myLine				= rootNode.name == "rootNode" ? "" : "rootNode.name=\(rootNode .name ?? "?") -- BAD!!"
-		return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self,
+		return ppFactalsStateHelper(fwClass: fwClassName.field(-13), nameTag:self,
 			myLine:myLine,
 			otherLines: {
 				return self.rootNode    .ppControlElement(config:config)
@@ -319,13 +319,13 @@ extension SCNNode : FactalsStatus	{								  ///SCNNode
 		var myLine				= "'\(fullName)': \(children.count) children, (\(nodeCount()) SCNNodes) "
 		myLine					+= camera == nil ? "" : "camera:(camera!.pp(.classTag)) "
 		myLine					+= light  == nil ? "" :  "light:( light!.pp(.classTag)) "
-		return ppFactalsStateHelper("SCNNode      ", nameTag:self,				//"SCNPhysicsWor"
+		return ppFactalsStateHelper(fwClass: "SCNNode      ", nameTag:self,				//"SCNPhysicsWor"
 			myLine:myLine)
 	}
 }
 extension SCNPhysicsWorld : FactalsStatus	{					///SCNPhysicsWorld
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("SCNPhysicsWor", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "SCNPhysicsWor", nameTag:self,
 			myLine:fmt("gravity:\(gravity.pp(.phrase)), speed:%.4f, timeStep:%.4f", speed, timeStep))
 	}
 }
@@ -340,14 +340,14 @@ extension SCNMaterialProperty : FactalsStatus	{			  ///SCNMaterialProperty
 		// textureComponents
 		// intensity
 		// maxAnisotropy		3.4028234663852886e+38
-		return ppFactalsStateHelper("SCNMaterialPr", nameTag:self, myLine:"--")
+		return ppFactalsStateHelper(fwClass: "SCNMaterialPr", nameTag:self, myLine:"--")
 	}
 }
 extension Log : FactalsStatus {											  ///Log
 	func ppControlElement(config:Bool=false) -> String {
 		let msg					= "event:\(eventNumber), breakAt:\(breakAtEvent), " +
 			"detailWanted:\(detailWanted.pp(.line)),"
-		return ppFactalsStateHelper("Log".field(-13), nameTag:self, myLine:msg)
+		return ppFactalsStateHelper(fwClass: "Log".field(-13), nameTag:self, myLine:msg)
 	}
 }
 //extension Sound : FactalsStatus {										///Sound
@@ -361,7 +361,7 @@ extension Log : FactalsStatus {											  ///Log
 
 extension NSWindowController : FactalsStatus {				///NSWindowController
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("\("NSWindowCtlr ")", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "\("NSWindowCtlr ")", nameTag:self,
 			myLine:
 				ppState() + (windowNibName == nil ? ";;" : ":\"\(windowNibName!)\" ") +
 				ppUid(pre:"doc:",document as? NSDocument,post:" ",showNil:true) +
@@ -383,7 +383,7 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 								//
 		let contract 			= trueF
 		let log					= Log.shared
-		return ppFactalsStateHelper("NSWindow     ", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "NSWindow     ", nameTag:self,
 			myLine:
    			       "title:'\(title)' "											+
    			   "contentVC:\(ppUid(contentViewController, showNil:true)) "		+
@@ -418,12 +418,10 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 
 extension NSView : FactalsStatus	{								   ///NSView, ///ScnView
 	func ppControlElement(config:Bool=false) -> String {
-		let msg					= fwClassName.field(-13)
-//		var myLine				= "tree:\(headsetView?.shapeBase.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-//		myLine					+= "\(headsetView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
-//		myLine					+= "headsetView:\(	  headsetView?.pp(.tagClass) ?? "<nil>") "			//classUid
-		return ppFactalsStateHelper(msg, nameTag:self,
+		let myClass				= fwClassName.field(-13)
+		return ppFactalsStateHelper(fwClass:myClass, nameTag:self,
 			myLine:
+				"shapeBase:\((self as? ScnView)?.shapeBase.pp(.tagClass) ?? "")" +
 				"\(subviews.count) children "									+
 				"superv:\(superview?.pp(.classTag) ?? "nil") "					+
 				   "win:\(window?   .pp(.classTag) ?? "nil") " 					,
@@ -432,8 +430,7 @@ extension NSView : FactalsStatus	{								   ///NSView, ///ScnView
 				if let scnView	= self as? ScnView {
 					rv			+= scnView.shapeBase   .ppControlElement()
 				}
-				rv				+= self.subviews.map { $0.ppControlElement(config:config) }
-				for view in self.subviews {
+				for view in self.subviews {										//				rv				+= self.subviews.map { $0.ppControlElement(config:config) }
 					rv			+= view.ppControlElement(config:config)
 				}
 				return rv
@@ -443,7 +440,7 @@ extension NSView : FactalsStatus	{								   ///NSView, ///ScnView
 
 extension NSException : FactalsStatus	{						  ///NSException
 	func ppControlElement(config:Bool=false) -> String {
-		return ppFactalsStateHelper("NSException  ", nameTag:self,
+		return ppFactalsStateHelper(fwClass: "NSException  ", nameTag:self,
 			myLine:"reason:'\(reason ?? "<nil>")'")
 	}
 }
