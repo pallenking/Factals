@@ -39,9 +39,6 @@ extension ArView : HeadsetView {
 
 	/// RealityKit's HeadsetView
 	var headsetView : HeadsetView? { self }//.delegate as? ScnBase)?.headsetView}
-								//	var getScene : SCNScene?
-								//	{	get { bug; return self.scene as? SCNScene								}
-								//		set { fatalError("RealityKit doesn't use SCNScene") 					}}
 								//	var animatePhysics: Bool
 								//	{	get { return true 														}
 								//		set { bug 																}}

@@ -37,7 +37,6 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	 var inspectedVews: [Vew]	= []	// ... to be Inspected
 	var cameraScn	  : SCNNode?
 	 {	headsetView?.shapeBase.findScn(named:"*-camera", maxLevel:1)				}
-//	 {	headsetView?.getScene?.rootNode.findScn(named:"*-camera", maxLevel:1)	}
 
 	 // Locks
 	let semiphore 				= DispatchSemaphore(value:1)
@@ -119,37 +118,35 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	func configure(from:FwConfig) {
 	//	self.tree.vewConfig		= from			// Vew.vewConfig = c
 		self.selfiePole.configure(from:from)
-//		if let lrl				= from.bool("logRenderLocks"),
-//		  let headsetView				= headsetView as? SCNView
-////		  let scnBase			= headsetView.delegate as? ScnBase
-//		{	logRenderLocks		= lrl											}
+		if let lrl				= from.bool("logRenderLocks"),
+		  let headsetView		= headsetView as? ScnView
+		{	headsetView.logRenderLocks = lrl									}
 		if let delay			= from.float("animateVBdelay")
 		{	animateVBdelay		= delay		}	// unset (not reset) if not present
 	}
 	// MARK: -
 	func configSceneVisuals(fwConfig:FwConfig) {
 		guard let factalsModel	= FactalsModel.shared else { fatalError("FactalsModel.shared is nil!") }
-//		guard let factalsModel else {	fatalError("factalsModel is nil!") 		}
 
 		selfiePole.configure(from:factalsModel.fmConfig)						//Thread 1: Simultaneous accesses to 0x6000007bc598, but modification requires exclusive access
 
-		 // Configure Initial Camera Target:
+		 // Camera Target:
 		lookAtVew				= tree		// default is trunk
 		if let laStr			= factalsModel.fmConfig.string("lookAt"),
 		  laStr != "",
 		  let laPart 			= partBase.tree.find(path:Path(withName:laStr), inMe2:true),
-		  let laVew				= tree.find(part:laPart) {
+		  let laVew				= tree.find(part:laPart)
+		{
 			lookAtVew			= laVew
 		}
-
-		 // 6. Set LookAtNode's position
+		 // LookAtNode's position
 		let posn				= lookAtVew.bBox.center
 		let worldPosition		= lookAtVew.scn.convertPosition(posn, to:nil/*scnScene*/)
 		assert(!worldPosition.isNan, "About to use a NAN World Position")
 		selfiePole.position		= worldPosition
 	}
 
-//	 // MARK: - 3.5 Codable
+	 // MARK: - 3.5 Codable
 	enum VewKeys: String, CodingKey {
 		case title
 		case partBase

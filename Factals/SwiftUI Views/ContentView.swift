@@ -29,7 +29,7 @@ https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-an-adaptive-l
 
 /*
 ScnView:
-	SCNSceneRenderer(frame) --> ScnBase -> ...
+	SCNSceneRenderer(frame) --> HeadsetView -> ...
 					(key)   --> SYSTEMWIDE
 					(key)	--> command
 Scene

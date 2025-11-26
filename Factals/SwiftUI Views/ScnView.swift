@@ -7,6 +7,76 @@
 import SceneKit
 import RealityKit
 import Combine
+/*
+	Concepts:  https://learnopengl.com/Getting-started/Coordinate-Systems
+	The camera is positioned in the world with the camera transform
+
+				3D MODEL SPACE       camera
+	model             v                ^         LOCAL
+	 coords:          |                |					getModelViewMatrix()
+				\ ∏ Tmodel i/    trans = cameraScn.transform
+				 \  Matrix /           |
+	world    =====    v   =============*============ WORLD			[x, y, z, 1]
+	 coords:          |
+			   \ trans.inverse /
+				\   Matrix    /
+	camera   ======   v    ========================= EYE			[x, y, z, 1]
+	 coords:          |
+				\ PROJECTION /
+				 \  Matrix  /pm
+	clip     ======   v    ========================= ?        		[x, y, 1]
+	 coords:          |
+				\ Perspective/         (not used)
+				 \ division /
+	device   ======   v    ========================= RETINA:		[x, y, 1]
+	 coords:          |								CLIP
+				 \ Viewport /  A = | fx 0  cx |  Intrinsic Matrix
+				  \ Matrix /       | 0  fy cy |  f = focal length
+	window            v			 			   c = center of image
+	 coords:          |
+			 ====== SCREEN ========================= SCREEN		[x, y]
+ */
+/*
+			View.convert(_:NSPoint, from:NSView?)
+- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
+
+Vew.swift:
+           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
+		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
+SceneKit:
+		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
+	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
+	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
+NSView:
+		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
+SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
+		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
+	       convert         (_:NSRect,        from:NSView?)       -> NSRect
+Quartzcore Calayer: UIView:
+		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
+		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
+		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
+SpriteKit:
+		   convertPoint    (fromView:CGPoint)			         -> CGPoint
+		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
+UIView:
+		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
+		   convert         (_:CGRect,      from:UIView?)         -> CGRect
+AppKit:
+		   convert         (_:NSFont                          )  -> NSFont
+
+			convertPointFromBacking:
+
+		   convert        (              to: UnitType)							UnitType conforms to Dimension
+
+https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
+- convertPointToBase:
+- convertSizeToBase:
+- convertSizeFromBase:
+- convertRectToBase:
+- convertRectFromBase:
+ */
 
 class ScnView : SCNView {
 	var eventHandler : EventHandlerType.EventHandler
@@ -50,7 +120,18 @@ class ScnView : SCNView {
 		self.isPlaying			= false			// book keepscnViewing
 		self.showsStatistics	= true			// controls extra bar
 		self.debugOptions		= 				// enable display of:
-		[ SCNDebugOptions.showPhysicsFields ]	//  regions affected by each SCNPhysicsField object
+		[   //SCNDebugOptions.showPhysicsFields,
+		    //SCNDebugOptions.showBoundingBoxes,
+		    //SCNDebugOptions.showLightInfluences,
+		    //SCNDebugOptions.showLightExtents,
+		    //SCNDebugOptions.showPhysicsFields,
+		    //SCNDebugOptions.showWireframe,
+		    //SCNDebugOptions.renderAsWireframe,
+		    //SCNDebugOptions.showSkeletons,
+		    //SCNDebugOptions.showCreases,
+		    //SCNDebugOptions.showConstraints,
+		    //SCNDebugOptions.showCameras,
+		]
 		self.allowsCameraControl = true			// user may control camera	//args.options.contains(.allowsCameraControl)
 		self.autoenablesDefaultLighting = false // we contol lighting	    //args.options.contains(.autoenablesDefaultLighting)
 		self.rendersContinuously = true			//args.options.contains(.rendersContinuously)
@@ -60,8 +141,8 @@ class ScnView : SCNView {
 	 // MARK: - 3.? Monitor
 	func monitor<T: Publisher>(onChangeOf publisher:T, performs:@escaping () -> Void)
 													where T.Failure == Never {
-		publisher.sink { _ in				//	{ [weak self] _ in
-			performs()						//		guard self != nil else { return }
+		publisher.sink { _ in					//{ [weak self] _ in
+			performs()							//		guard self != nil else { return }
 		}
 		 .store(in: &monitoring)
 	}
@@ -85,25 +166,8 @@ extension ScnView : HeadsetView {
 		get { self.scene!.rootNode												}
 		set { bug																}
 	}
-										 // Sugar:
-										//	var scnBase : ScnBase? {  self.delegate as? ScnBase							}
-										//	var headsetView 	: HeadsetView? 	   { (self.delegate as? ScnBase)?.headsetView					}
-										 // SceneKit's HeadsetView
 	var isSceneKit: Bool	   { true												}
-										//	var vewBase:VewBase! {
-										//		get {	self.headsetView?.vewBase												}
-										//		set {	headsetView?.vewBase		= newValue									}
-										//	}
-										//	var getScene : SCNScene? {
-										//		get {	self.scene														}
-										//		set {	self.scene			= newValue									}
-										//	}
 	func configure(from:FwConfig)	{ bug }
-										//	 /// animatePhysics is a posative quantity (isPaused is a negative)
-										//	var animatePhysics : Bool {	//bug; return false
-										//		get {			return false == (getScene?.isPaused ?? false)			}
-										//		set(v) {		getScene?.isPaused = !v									}
-										//	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let scnResults = self.hitTest(point, options: options!)
 		return scnResults.map { scnHit in
@@ -115,51 +179,7 @@ extension ScnView : HeadsetView {
 		}
 	}
 }
-/*
-			View.convert(_:NSPoint, from:NSView?)
-- (NSPoint)convertPoint:(NSPoint)point fromView:(nullable NSView *)view;
-
-Vew.swift:
-           localPosition   (of:SCNVector3,inSubVew:Vew)          -> SCNVector3			REFACTOR
-		   convert		   (bBox:BBox,       from:Vew)	         -> BBox
-SceneKit:
-		   convertPosition (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-FACTALS ->		nil ==> from scene’s WORLD coordinates.	FAILS _/
-	       convertVector   (_:SCNVector3,    from:SCNNode?)      -> SCNVector3		SCNNode.h
-	       convertTransform(_:SCNMatrix4,    from:SCNNode?)      -> SCNMatrix4		SCNNode.h
-NSView:
-		   convert         (_:NSPoint,       from:NSView?)       -> NSPoint			<== SwiftFactals (motionFromLastEvent)
-SWIFTFACTALS ->	nil ==> from WINDOW coordinates.		WORKS _/
-		   convert		   (_:NSSize,        from:NSView?)       -> NSSize
-	       convert         (_:NSRect,        from:NSView?)       -> NSRect
-Quartzcore Calayer: UIView:
-		   convertPoint    (_:CGPoint,	     fromLayer:CALayer?) -> CGPoint
-		   convertRect     (_:CGRect, 	     fromLayer:CALayer?) -> CGRect
-		   convertTime     (_:CFTimeInterval,fromLayer:CALayer?) -> CFTimeInterval,
-SpriteKit:
-		   convertPoint    (fromView:CGPoint)			         -> CGPoint
-		   convertPoint    (fromScreen:NSPoint) 		         -> NSPoint
-UIView:
-		   convert         (_:CGPoint,     from:UIView?)         -> CGPoint
-		   convert         (_:CGRect,      from:UIView?)         -> CGRect
-AppKit:
-		   convert         (_:NSFont                          )  -> NSFont
-
-			convertPointFromBacking:
-
-		   convert        (              to: UnitType)							UnitType conforms to Dimension
-
-https://groups.google.com/a/chromium.org/g/chromium-dev/c/BrmJ3Lt56bo?pli=1
-- convertPointToBase:
-- convertSizeToBase:
-- convertSizeFromBase:
-- convertRectToBase:
-- convertRectFromBase:
-
- */
-
-// From ScnBase
-extension ScnView {
+extension ScnView { // (From ScnBase)
 
 	 // MARK: - 4.1 Lights
 	func makeLights() {
@@ -191,35 +211,6 @@ extension ScnView {
 		}
 	}
 	 // MARK: - 4.2 Camera
-/*
-	Concepts:  https://learnopengl.com/Getting-started/Coordinate-Systems
-	The camera is positioned in the world with the camera transform
-
-				3D MODEL SPACE       camera
-	model             v                ^         LOCAL
-	 coords:          |                |					getModelViewMatrix()
-				\ ∏ Tmodel i/    trans = cameraScn.transform
-				 \  Matrix /           |
-	world    =====    v   =============*============ WORLD			[x, y, z, 1]
-	 coords:          |
-			   \ trans.inverse /
-				\   Matrix    /
-	camera   ======   v    ========================= EYE			[x, y, z, 1]
-	 coords:          |
-				\ PROJECTION /
-				 \  Matrix  /pm
-	clip     ======   v    ========================= ?        		[x, y, 1]
-	 coords:          |
-				\ Perspective/         (not used)
-				 \ division /
-	device   ======   v    ========================= RETINA:		[x, y, 1]
-	 coords:          |								CLIP
-				 \ Viewport /  A = | fx 0  cx |  Intrinsic Matrix
-				  \ Matrix /       | 0  fy cy |  f = focal length
-	window            v			 			   c = center of image
-	 coords:          |
-			 ====== SCREEN ========================= SCREEN		[x, y]
- */
 	func makeCamera() {
 		let name				= "*-camera"
 		guard let shapeBase		= vewBase?.headsetView?.shapeBase 		else {  return	}

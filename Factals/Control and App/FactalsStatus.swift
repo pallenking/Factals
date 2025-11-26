@@ -416,31 +416,23 @@ extension NSWindow : FactalsStatus {								 ///NSWindow
 //	}
 //}
 
-//extension ScnView : FactalsStatus	{						  ///ScnView
-//	//func ppControlElement(config:Bool=false) -> String {
-//	//	bug	//	var myLine2				= scnView.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-//	//	//		var myLine				= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' is BAD"
-//	//	var myLine				= "tree:\(headsetView?.getScene?.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
-//	//	myLine					+= "\(headsetView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
-//	//	myLine					+= "headsetView:\(	  headsetView?.pp(.tagClass) ?? "<nil>") "			//classUid
-//	//	return ppFactalsStateHelper(fwClassName.field(-13), nameTag:self, myLine:myLine)//,
-//	//	//			otherLines: {
-//	//	//				return self.tree!   .ppControlElement()
-//	//	//					+ (self.scnView?.ppControlElement() ?? "")
-//	//	//			},
-//	//}
-//}
-extension NSView : FactalsStatus	{								   ///NSView
+extension NSView : FactalsStatus	{								   ///NSView, ///ScnView
 	func ppControlElement(config:Bool=false) -> String {
 		let msg					= fwClassName.field(-13)
+//		var myLine				= "tree:\(headsetView?.shapeBase.rootNode.pp(.tagClass) ?? "<nil>")=rootNode "
+//		myLine					+= "\(headsetView?.getScene?			 .pp(.tagClass) ?? "<nil>") "	//classUid
+//		myLine					+= "headsetView:\(	  headsetView?.pp(.tagClass) ?? "<nil>") "			//classUid
 		return ppFactalsStateHelper(msg, nameTag:self,
 			myLine:
 				"\(subviews.count) children "									+
 				"superv:\(superview?.pp(.classTag) ?? "nil") "					+
 				   "win:\(window?   .pp(.classTag) ?? "nil") " 					,
 			otherLines:{
-			//	self.subviews.map { $0.ppControlElement(deapth:deapth-1)		}
 				var rv			= ""
+				if let scnView	= self as? ScnView {
+					rv			+= scnView.shapeBase   .ppControlElement()
+				}
+				rv				+= self.subviews.map { $0.ppControlElement(config:config) }
 				for view in self.subviews {
 					rv			+= view.ppControlElement(config:config)
 				}

@@ -7,29 +7,30 @@
 import SceneKit
 import RealityKit
 
+//					SYSTEM FUNCTIONALITY
+//	VIDEO: (OUTPUT)
+//		make ScnBase()				// Make SCNView
+//		Skins for Parts
+//		func reSkin()
+//	SOUND: (OUTPUT)
+//		sound actions
+//	STATE PERSISTENCE / MANAGEMENT
+//	LOGGING
+//	INPUT
+//		keyboard
+//		mouse
+//		gestures, including fingera (pinching)
+//	Simulation Environment
+//		user defaults
+//		experiment parameters
+//		experiment state (load generate save)
+//		time slider
+
+//					COMPONENTS
 //		AR is the concept,
 //		ARKit does the tracking,
 //		RealityKitView.swift - Uses RealityKit renderer (the newer ArView class)
 //		ScnView.swift		 - Uses SceneKit renderer
-
-//	// // VIDEO: (OUTPUT)
-//		 // make ScnBase()				// Make SCNView
-//			// func SCNScene(for:SCNNode)		// skins for one Part. perhaps 3 .. 5 SCNNodes
-//		// Skins for Parts
-//			// func reSkin()
-//	// // SOUND: (OUTPUT)
-//		 // sound actions
-//	// // STATE PERSISTENCE / MANAGEMENT
-//	// // LOGGING:
-//	// // (INPUT)
-//		// keyboard
-//		// mouse
-//		// 		gestures, including fingera (pinching)
-//	// // C. Simulation Environment
-//		//	user defaults
-//		//	experiment parameters
-//		//	experiment state (load generate save)
-//		//	time slider
 
 // Generic		||	Scene Kit	|	Reality Kit
 //--------------++--------------+-------------------
@@ -46,8 +47,6 @@ protocol HeadsetView : NSView {		 /// Protypical Graphical User Interface			*/An
 	func configure(from:FwConfig) 
 	var shapeBase	: SCNNode	{	get set										}
 	var isSceneKit 	: Bool 		{	get											}
-  //var getScene 	:
-  //var delegate    : SCNSceneRendererDelegate?	{	get set						}
 //	var vewBase     : VewBase!	{	get set										}
 //	var Sounds					{	get set										}
 //	var codable					{	get set										}
