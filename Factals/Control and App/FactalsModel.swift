@@ -386,7 +386,7 @@ import SwiftUI
 	bug	//	if parts!.processEvent(nsEvent:nsEvent, inVew:vew) {
 			return true								// recognize both
 		case "f": 						// // f // //
-bug;		var msg					= "\n"
+			var msg					= "\n"
 			for vewBase in vewBases {
 				guard let headsetView		= vewBase.headsetView else {	continue		}
 				headsetView.animatePhysics ^^= true

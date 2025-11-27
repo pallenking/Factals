@@ -21,7 +21,7 @@ enum PpMode : Int {
 	case fwClassName	//    (Really should be "class"?)		(e.g: "Port"
 	case nameTag		// 10 Uid								(e.g: "4C4")
 	case tagClass		//5,8 Uid:Class							(e.g: "4C4:Port")
-	case classTag		//  9 Class<nameTag>						(e.g: "Port<4C4>")
+	case classTag		//  9 Class<nameTag>					(e.g: "Port<4C4>")
 //	case classUidFullName //? 									(e.g: "Port<4C4>'a/b.P'" OOPS -- fullName not in FwAny
   
 	case name			//6,14name in parent, a single token 	(e.g: "P")

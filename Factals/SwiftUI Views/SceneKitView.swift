@@ -4,19 +4,6 @@
 //
 //  Created by Allen King on 2/24/24.
 //
-	//		that communicates with a ViewModel
-	//			to render a SceneKit scene and
-	//		the ViewModel updates
-	//			with changes from SceneKit,
-	//				acting as the single source of truth.
-	// //////////////////////////// Testing	$publisher/	$view
-	// Generate code exemplefying the following thoughts that I am told:
-	// sceneview takes in a publisher		// PW essential/big
-	// swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
-	// scenkit -> write models back to viewmodel. s
-	// viewmodel single source of truth.
-	// was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-	// now       : SceneView 	native SwiftUI (not full-featured)
 
 import SwiftUI
 import SceneKit
@@ -46,6 +33,8 @@ func sceneKitContentView(vewBase:Binding<VewBase>) -> some View {
 				VewBaseBar(vewBase:vewBase)
 			}
 			 .background(Color(red:1.0, green:1.0, blue:0.9))
+			SelfiePoleBar(selfiePole:vewBase.selfiePole)					// .border(Color.gray, width: 3)
+			Divider()
 			InspectorsVew(vewBase:vewBase.wrappedValue)
 		}
 	}
@@ -91,16 +80,4 @@ struct SceneKitView : NSViewRepresentable {		// SceneKitView()
 						//		.onKeyPress(phases: .up)  { press in
 						//		.gesture(tapGesture)				/ NSClickGestureRecognizer
 						//		.onTapGesture {
-						//animatePhysics 		= c.bool("animatePhysics") ?? false
-						//if let gravityAny		= c["gravity"] {
-						//	if let gravityVect : SCNVector3 = SCNVector3(from:gravityAny) {
-						//		scnScene.physicsWorld.gravity = gravityVect
-						//	}
-						//	else if let gravityY: Double = gravityAny.asDouble {
-						//		scnScene.physicsWorld.gravity.y = gravityY
-						//	}
-						//}
-						//if let speed			= c.cgFloat("speed") {
-						//	scnScene.physicsWorld.speed	= speed
-						//}
 

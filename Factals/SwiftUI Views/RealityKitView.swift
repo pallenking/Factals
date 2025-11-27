@@ -10,25 +10,39 @@ import RealityKit
 import SceneKit
 import AppKit
 
-class ArView : ARView {
-	typealias Body = ARView
-	weak var delegate: SCNSceneRendererDelegate?
-	var vewBase: VewBase? = nil
+func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
+	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
+	return HStack (alignment:.top) {
+		RealityKitView()
+		 .frame(maxWidth: .infinity)
+		 .border(.yellow, width:4)	//(.black, width:1)
+		VStack {
+			VStack {
+				Text("Reality Kit:").font(Font.title)
+				VewBaseBar(vewBase:vewBase)
+			}
+			 .background(Color(red:1.0, green:1.0, blue:0.9))
+			SelfiePoleBar(selfiePole:vewBase.selfiePole)					// .border(Color.gray, width: 3)
+			Divider()
+			InspectorsVew(vewBase:vewBase.wrappedValue)
+		}
+	}
 }
 
-/*
-weak var delegate: (any SCNSceneRendererDelegate)? { get set }
- */
+
+class ArView : ARView {
+	typealias Body = ARView
+//	weak var delegate: SCNSceneRendererDelegate?		//weak var delegate: (any SCNSceneRendererDelegate)? { get set }
+	var vewBase: VewBase? = nil
+}
 extension ArView : HeadsetView {
 	var cameraXform: SCNMatrix4 {
-		get {	.identity														}
-		set {																	}
-//		get 	{	scene.rootNode.findScn(named:"*-camera")?.transform ?? .identity }
-//		set(v)	{	scene.rootNode.findScn(named:"*-camera")?.transform = v	}
+		get 	{	shapeBase.findScn(named:"*-camera")?.transform ?? .identity }//self.scene.anchors.first.XXfindScn(named:"*-camera")
+		set(v) 	{	shapeBase.findScn(named:"*-camera")?.transform = v 			}
 	}
 	var shapeBase: SCNNode {
 		get {	bug; return SCNNode()											}
-		set {		}
+		set {																	}
 	}
 	var isSceneKit: Bool { false 												}
 
@@ -39,9 +53,10 @@ extension ArView : HeadsetView {
 
 	/// RealityKit's HeadsetView
 	var headsetView : HeadsetView? { self }//.delegate as? ScnBase)?.headsetView}
-								//	var animatePhysics: Bool
-								//	{	get { return true 														}
-								//		set { bug 																}}
+	var animatePhysics: Bool {
+		get { bug; return false													}
+		set { bug																}
+	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let cgPoint 			= CGPoint(x: point.x, y: point.y)
 
@@ -58,34 +73,9 @@ extension ArView : HeadsetView {
 		}
 	}
 }
-func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
-	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
-	return HStack (alignment:.top) {
-		RealityKitView()
-		 .frame(maxWidth: .infinity)
-		 .border(.yellow, width:4)	//(.black, width:1)
-		VStack {
-			Text("Reality Kit:").font(Font.title)
-			VewBaseBar(vewBase:vewBase)
-			InspectorsVew(vewBase:vewBase.wrappedValue)
-		}
-	}
-}
-//struct RealityKitContentView : View {
-//	HStack (alignment:.top) {
-//		RealityKitView()
-//		 .frame(maxWidth: .infinity)
-//		 .border(.yellow, width:4)	//(.black, width:1)
-//		VStack {
-//			Text("Reality Kit:").font(Font.title)
-//			VewBaseBar(vewBase:vewBase)
-//			InspectorsVew(vewBase:vewBase.wrappedValue)
-//		}																		//.frame(width:500)
-//	}
-//}
 
 struct RealityKitView: View {
-	@State		   var selfiePole 					= SelfiePole()
+	@State		   var selfiePole 					= SelfiePole(zoom: 0.2)
 	@State 		   var focusPosition:Vect3 			= Vect3(0, 0, 0)
 	@State 		   var selectedPrimitiveName:String = ""
 	@State private var lastDragLocation:CGPoint		= .zero

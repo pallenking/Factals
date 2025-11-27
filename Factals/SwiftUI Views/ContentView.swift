@@ -128,13 +128,13 @@ struct FactalsModelView: View {
 				}
 				 .onChange(  of:factalsModel.vewBases, initial:true) { oldValue, newValue  in
 					logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:vewBases): vewBases:\(oldValue)->\(newValue)")
-					updateTabTitle()												}
+					updateTabTitle()											}
 				 .onChange(  of:tabViewSelect  ) { oldValue, newValue in
 					logApp(3, "NavigationStack[\(tabViewSelect)].onChange(of:tabViewSelect(\(oldValue)->\(newValue))): evaluationTrigger.send(\(newValue))")
-					evaluationTrigger.send(newValue)								}
+					evaluationTrigger.send(newValue)							}
 				 .onChange(  of:tabViewAddCt  ) { oldValue, newValue in
 					logApp(3, "NavigationStack[\(tabViewSelect)] onChange tabViewAddCt:\(oldValue)=>\(newValue)")
-					evaluationTrigger.send(newValue)								}
+					evaluationTrigger.send(newValue)							}
 				 .onReceive(evaluationTrigger) { newSelection in	 // Invalidate View on evaluationTrigger.
 					logApp(3, "NavigationStack[\(tabViewSelect)].onReceive(evaluationTrigger \(newSelection): causes redraw of \($factalsModel.vewBases.count) vewBases")
 				 }

@@ -33,23 +33,23 @@ struct VewBaseBar: View {
 						print(vewBase.headsetView?.shapeBase.pp(.tree, factalsGlobals.factalsConfig) ?? "headsetView == nil")
 					}
 					Spacer()
-					Button(label:{	Text("Test")								})
-					{	print("===== Test =====")
-						let v1 = 1.0
-						let v2 = 0.0
-						logDat(3, "\n1:v1=%.2f, v2=%.2f", v1, v2)						// v1 = 0.00   v2 = 0.00
-						logDat(3, "\n2:v1=%.2f, v2=%.2f", v1, v2)	// v1=0.00, v2=0.00
-//						print("\n3:")
-				//		let eventArea="dat", eventDetail=3, args:1.0;, 0.0//v1, v2
+				//	Button(label:{	Text("Test")								})
+				//	{	print("===== Test =====")
+				//		let v1 = 1.0
+				//		let v2 = 0.0
+				//		logDat(3, "\n1:v1=%.2f, v2=%.2f", v1, v2)						// v1 = 0.00   v2 = 0.00
+				//		logDat(3, "\n2:v1=%.2f, v2=%.2f", v1, v2)	// v1=0.00, v2=0.00
+				//		let eventArea="dat", eventDetail=3, args=1.0//, 0.0//v1, v2
 				//		let eventStr = eventArea + String(format:"%1d ", eventDetail)
-				//		let message	 = eventStr + String(format:format, args)	// FINALLY
+				//		let message	 = eventStr + String(format:"%1d ", args)	// FINALLY
+				//		logDat(3, message)
 				//		Log.shared.logd(message, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
 				//		ld way
 				//		let str		 = String(format:"%1d", eventDetail)
 				//		let format	 = eventArea + str + " " + format
 				//		Log.shared.logd(format, args, terminator:terminator, msgFilter:eventArea, msgPriority:eventDetail)
-						//Log.shared.atFoo("dat", 3, format:"v1=%.2f, v2=%.2f", args:v1, v2)	// v1=0.00, v2=0.00
-					}
+				//		//Log.shared.atFoo("dat", 3, format:"v1=%.2f, v2=%.2f", args:v1, v2)	// v1=0.00, v2=0.00
+				//	}
 					LabeledCGFloat(label:"prefFps",val:$vewBase.prefFps)
 					Slider(value:$vewBase.prefFps, in: 0.0...60.0) { e in isEditing = e	}
 					 .frame(width:100 )
@@ -76,15 +76,15 @@ struct VewBaseBar: View {
 			} else {
 				Text("FactalsModel not registered in VewBase!").foregroundColor(.red).bold()
 			}
-			Divider()
-			HStack {
-				SelfiePoleBar(selfiePole:$vewBase.selfiePole)					// .border(Color.gray, width: 3)
-			}																	// .frame(width:800, height:20)
-			Divider()
+												//	Divider()
+												//	HStack {
+												//		SelfiePoleBar(selfiePole:$vewBase.selfiePole)
+												//	}	// .border(Color.gray, width: 3) .frame(width:800, height:20)
+												//	Divider()
 		}
 		 .padding(4)
 //		 .background(Color(red:1.0, green:1.0, blue:0.9))
-	//	 .border(Color.black, width:1.0)
+//		 .border(Color.red, width:2.0)
 //		 .padding(2)
 	}
 }

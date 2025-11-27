@@ -39,6 +39,33 @@ import RealityKit
 // Vect4 		||	SCNVector4	|	SIMD4<Float>
 // Matrix4x4 	||	SCNMatrix4	|	simd_float4x4
 
+//					TO DO:
+//		that communicates with a ViewModel
+//			to render a SceneKit scene and
+//		the ViewModel updates
+//			with changes from SceneKit,
+//				acting as the single source of truth.
+//		 //////////////////////////// Testing	$publisher/	$view
+//		 Generate code exemplefying the following thoughts that I am told:
+/*
+		Propose changes so changes in SceneKit or RealityKit get reflected in the app's SwiftUI, and vice versa
+		Here are some scattered notes
+			sceneview takes in a publisher		// PW essential/big
+			swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
+			scenkit -> write models back to viewmodel. s
+			viewmodel single source of truth.
+			was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+			now       : SceneView 	native SwiftUI (not full-featured)
+
+
+ */
+//		 sceneview takes in a publisher		// PW essential/big
+//		 swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
+//		 scenkit -> write models back to viewmodel. s
+//		 viewmodel single source of truth.
+//		 was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
+//		 now       : SceneView 	native SwiftUI (not full-featured)
+
 protocol HeadsetView : NSView {		 /// Protypical Graphical User Interface			*/AnyObject/*
 	func makeAxis()
 	func makeCamera()
@@ -50,7 +77,7 @@ protocol HeadsetView : NSView {		 /// Protypical Graphical User Interface			*/An
 //	var vewBase     : VewBase!	{	get set										}
 //	var Sounds					{	get set										}
 //	var codable					{	get set										}
-//	var animatePhysics : Bool 	{	get set										}
+	var animatePhysics : Bool 	{	get set										}
 	 // Abstract hitTest that works for both SceneKit and RealityKit
 	func hitTest3D(_ point: NSPoint, options: [SCNHitTestOption:Any]?) -> [HitTestResult]
 }

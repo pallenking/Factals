@@ -91,7 +91,6 @@ class ScnView : SCNView {
 		get { 	eventHandler													}
 		set(val) { bug 															}
 	}
-
 	var logRenderLocks			= true			// Overwritten by Configuration
 	var nextIsAutoRepeat : Bool = false 		// filter out AUTOREPEAT keys
 	var mouseWasDragged			= false			// have dragging cancel pic
@@ -166,8 +165,12 @@ extension ScnView : HeadsetView {
 		get { self.scene!.rootNode												}
 		set { bug																}
 	}
-	var isSceneKit: Bool	   { true												}
+	var isSceneKit : Bool	   { true											}
 	func configure(from:FwConfig)	{ bug }
+	var animatePhysics: Bool {
+		get { bug; return false													}
+		set { bug																}
+	}
 	func hitTest3D(_ point:NSPoint, options:[SCNHitTestOption:Any]?) -> [HitTestResult] {
 		let scnResults = self.hitTest(point, options: options!)
 		return scnResults.map { scnHit in
@@ -747,15 +750,13 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 	 // MARK: - 15. PrettyPrint
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 bug;	var rv					= "super.pp(mode, aux)"
-//		if mode == .line {
-//			rv					+= ""//headsetView?.scnBase === self ? "" : "OWNER:'\(scnView!)' BAD"
-////			rv					+= vewBase?.scnBase === self ? "" : "OWNER:'\(vewBase!)' BAD"
-//	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
-//			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
-//		//	rv					+= "animatePhysics:\(animatePhysics) "
-//		//	rv					+= "\(self.scnScene.pp(.uidClass, aux)) "
-////			rv					+= "\(self.scnView?.pp(.uidClass, aux) ?? "BAD: scnView=nil") "
-//		}
+		if mode == .line {
+	//		guard let tree		= self.tree	else { return "tree==nil!! "		}
+			rv					+= "scnScene:\(ppUid(self, showNil:true)) ((tree.nodeCount()) SCNNodes total) "
+			rv					+= "animatePhysics:\(animatePhysics) "
+			rv					+= "scnScene\(self.scene!.pp(.tagClass, aux)) "
+//			rv					+= "\(self.scnView?.pp(.uidClass, aux) ?? "BAD: scnView=nil") "
+		}
 		return rv
 	}
 }
