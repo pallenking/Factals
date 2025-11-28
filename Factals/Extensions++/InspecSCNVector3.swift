@@ -65,6 +65,9 @@ struct LabeledCGFloat: View {				// 2: New, requires 2 enters!
 		.onAppear {
 			localVal = val  // Initialize the local value with the bound value
 		}
+		.onChange(of: val) { oldValue, newValue in
+			localVal = newValue  // Sync local copy when binding changes externally
+		}
 		.padding(.horizontal, -3)
 	}
 }								//

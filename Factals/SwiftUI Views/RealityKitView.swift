@@ -10,23 +10,34 @@ import RealityKit
 import SceneKit
 import AppKit
 
-func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
-	logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.wrappedValue.slot_)")
-	return HStack (alignment:.top) {
-		RealityKitView()
-		 .frame(maxWidth: .infinity)
-		 .border(.yellow, width:4)	//(.black, width:1)
-		VStack {
+struct RealityKitContentView: View {
+	@Bindable var vewBase: VewBase
+
+	var body: some View {
+		logApp(3, "NavigationStack:(tabViewSelect): Generating content for slot:\(vewBase.slot_)")
+		return HStack (alignment:.top) {
+			RealityKitView(vewBase: vewBase)
+			 .frame(maxWidth: .infinity)
+			 .border(.yellow, width:4)	//(.black, width:1)
 			VStack {
-				Text("Reality Kit:").font(Font.title)
-				VewBaseBar(vewBase:vewBase)
+				VStack {
+					Text("Reality Kit:").font(Font.title)
+					VewBaseBar(vewBase: Binding(
+						get: { vewBase },
+						set: { _ in }  // VewBase itself doesn't change, only its properties
+					))
+				}
+				 .background(Color(red:1.0, green:1.0, blue:0.9))
+				SelfiePoleBar(vewBase: vewBase)		// Pass parent to maintain observation chain
+				Divider()
+				InspectorsVew(vewBase:vewBase)
 			}
-			 .background(Color(red:1.0, green:1.0, blue:0.9))
-			SelfiePoleBar(selfiePole:vewBase.selfiePole)					// .border(Color.gray, width: 3)
-			Divider()
-			InspectorsVew(vewBase:vewBase.wrappedValue)
 		}
 	}
+}
+
+func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
+	RealityKitContentView(vewBase: vewBase.wrappedValue)
 }
 
 
@@ -75,13 +86,14 @@ extension ArView : HeadsetView {
 }
 
 struct RealityKitView: View {
-	@State		   var selfiePole 					= SelfiePole(zoom: 0.2)
+	@Bindable      var vewBase: VewBase
 	@State 		   var focusPosition:Vect3 			= Vect3(0, 0, 0)
 	@State 		   var selectedPrimitiveName:String = ""
 	@State private var lastDragLocation:CGPoint		= .zero
 	@State private var isDragging	:Bool 			= false
 	@State private var viewSize		:CGSize 		= .zero
 	@State private var sceneBase	:AnchorEntity?	= nil
+	@State private var isUpdatingFromUI:Bool		= false		// Prevent feedback loops
 
 	typealias Visible			= Entity
 	typealias Vect3 			= SIMD3<Float>
@@ -109,7 +121,7 @@ struct RealityKitView: View {
 				  // Update camera transform using SelfiePole mathematics
 					guard let anchor = content.entities.first(where: { $0.name == "shapeBase" })
 					 else { return 												}
-					let self2focus	= selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
+					let self2focus	= vewBase.selfiePole.transform(lookAt:SCNVector3(focusPosition))// SCNMatrix4
 					let focus2self	= self2focus.inverse()									// SCNMatrix4
 	/**/			anchor.transform = Transform(matrix:Matrix4x4(focus2self))
 					updateHighlighting(from:self, anchor: anchor as! AnchorEntity)
@@ -129,14 +141,15 @@ struct RealityKitView: View {
 				.gesture(
 					DragGesture(minimumDistance: 0)
 					 .onChanged { value in
-					 	if !isDragging { 		// Perform hit testing on drag start
-					 		performHitTest(from:self, at: value.startLocation, viewSize: geometry.size)
-					 		lastDragLocation = value.startLocation
+					 	if !isDragging {
+					 		lastDragLocation = value.location
 					 		isDragging = true
+					 		return  // Skip first update to establish baseline
 					 	}
-					 	// Use SelfiePole's mouse delta handling
-						let d		=  value.location - value.startLocation
-					 	selfiePole.updateFromMouseDelta(deltaX:Float(d.x), deltaY:Float(d.y), sensitivity:0.005)
+					 	// Use incremental delta from last position (not from start)
+						let dx = Float(value.location.x - lastDragLocation.x) / 3.0  // Left/right: 1/3 strength
+						let dy = Float(value.location.y - lastDragLocation.y) * 5.0  // Up/down: 5x strength
+					 	vewBase.selfiePole.updateFromMouseDelta(deltaX:dx, deltaY:dy, sensitivity:0.5)
 
 					 	lastDragLocation = value.location
 					 }
@@ -147,7 +160,7 @@ struct RealityKitView: View {
 				.onTapGesture { location in
 					performHitTest(from:self, at:location, viewSize: geometry.size)
 				}
-				.background(ScrollWheelCaptureView(selfiePole:$selfiePole))
+				.background(ScrollWheelCaptureView(selfiePole:$vewBase.selfiePole))
 				.onAppear {
 					setupScrollWheelMonitor(realityKitView:self)
 				}
@@ -402,14 +415,14 @@ struct RealityKitView: View {
 		rkView.selectedPrimitiveName = primitiveName
 
 		// Reset SelfiePole to a good viewing angle for the new focus point (FIX #4: Update state properly)
-		rkView.selfiePole.spin 		=  0.0
-		rkView.selfiePole.gaze 		= -0.3  // Slight downward angle
-		rkView.selfiePole.zoom 		=  1.0
-		rkView.selfiePole.ortho 	=  0.0  // Default to perspective
+		rkView.vewBase.selfiePole.spin 		=  0.0
+		rkView.vewBase.selfiePole.gaze 		= -0.3  // Slight downward angle
+		rkView.vewBase.selfiePole.zoom 		=  1.0
+		rkView.vewBase.selfiePole.ortho 	=  0.0  // Default to perspective
 
 		logApp(3, "Selected: \(primitiveName) at grid(\(gridX),\(gridY)) focus: \(rkView.focusPosition)")
-		logApp(3, "SelfiePole reset - spin: \(rkView.selfiePole.spin), gaze: \(rkView.selfiePole.gaze), " +
-					"zoom: \(rkView.selfiePole.zoom), ortho: \(rkView.selfiePole.ortho)")
+		logApp(3, "SelfiePole reset - spin: \(rkView.vewBase.selfiePole.spin), gaze: \(rkView.vewBase.selfiePole.gaze), " +
+					"zoom: \(rkView.vewBase.selfiePole.zoom), ortho: \(rkView.vewBase.selfiePole.ortho)")
 	}
 									
 	private func setupScrollWheelMonitor(realityKitView rkView:RealityKitView) {
@@ -418,10 +431,10 @@ struct RealityKitView: View {
 			let scrollDelta 		= event.scrollingDeltaY
 			if abs(scrollDelta) < 0.0001 { }// Ignore very small deltas
 			else if scrollDelta > 0 		// Scroll up - zoom in (closer)
-			{	rkView.selfiePole.zoom = max(0.00010, rkView.selfiePole.zoom / 1.05) }
+			{	rkView.vewBase.selfiePole.zoom = max(0.00010, rkView.vewBase.selfiePole.zoom / 1.05) }
 			else 						// Scroll down - zoom out (farther)
-			{	rkView.selfiePole.zoom = min(10000.0, rkView.selfiePole.zoom * 1.05) }
-			print("SelfiePole zoom updated: \(rkView.selfiePole.zoom)")
+			{	rkView.vewBase.selfiePole.zoom = min(10000.0, rkView.vewBase.selfiePole.zoom * 1.05) }
+			print("SelfiePole zoom updated: \(rkView.vewBase.selfiePole.zoom)")
 			return nil						// Return nil to prevent the event from being handled by other views
 		}
 	}

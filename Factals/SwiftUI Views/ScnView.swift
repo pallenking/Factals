@@ -87,6 +87,9 @@ class ScnView : SCNView {
 				self.scene?.rootNode.addChildNode(scn)
 			}
 		}																		}
+	weak
+	 var coordinator: SceneKitView.Coordinator? = nil  // Bidirectional data flow coordinator
+
 	var handler  : EventHandlerType.EventHandler 	{
 		get { 	eventHandler													}
 		set(val) { bug 															}
@@ -733,6 +736,9 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 //		var selfiePole			= vewBase!.selfiePole
 //		selfiePole.spin 		-= deltaPosition.x * 0.5	// / deg2rad * 4/*fudge*/
 //		selfiePole.gaze 		-= deltaPosition.y * 0.2	// * self.cameraZoom/10.0
+
+		// Notify coordinator that scene updated selfiePole (prevents feedback loop)
+		coordinator?.sceneDidUpdateSelfiePole()
 	}
 	func motorZ(with nsEvent:NSEvent) {
 		var selfiePole			= vewBase!.selfiePole
@@ -747,6 +753,38 @@ extension ScnView : ProcessNsEvent {	//, FwAny
 			// add ortho magnification.
 		vewBase.cameraScn?.camera?.orthographicScale = selfiePole.zoom * 10
 	}
+
+	// MARK: - Bidirectional Data Flow
+	/// Update camera from SelfiePole (called by Coordinator when UI changes SelfiePole)
+	func updateCamera(from selfiePole: SelfiePole) {
+		guard let vewBase else { return }
+		guard let cameraScn = vewBase.cameraScn else { return }
+
+		// Update camera transform from SelfiePole
+		let transform = selfiePole.transform(lookAtVew: vewBase.lookAtVew)
+		cameraScn.transform = transform
+
+		// Update projection based on ortho value
+		if selfiePole.ortho < 0.05 {
+			// ortho = 0.0: Perspective, normal angle
+			cameraScn.camera?.usesOrthographicProjection = false
+			cameraScn.camera?.fieldOfView = 60
+			print("🎥 Camera: PERSPECTIVE NORMAL - ortho=\(selfiePole.ortho), FOV=60")
+		} else if selfiePole.ortho < 0.5 {
+			// ortho = 0.1: Perspective, wide angle
+			cameraScn.camera?.usesOrthographicProjection = false
+			cameraScn.camera?.fieldOfView = 90
+			print("🎥 Camera: PERSPECTIVE WIDE - ortho=\(selfiePole.ortho), FOV=90")
+		} else {
+			// ortho = 1.0 or 10: Orthographic projection
+			cameraScn.camera?.usesOrthographicProjection = true
+			cameraScn.camera?.orthographicScale = selfiePole.zoom * selfiePole.ortho
+			print("🎥 Camera: ORTHOGRAPHIC - ortho=\(selfiePole.ortho), scale=\(selfiePole.zoom * selfiePole.ortho)")
+		}
+
+		logRve(5, "Camera updated from SelfiePole: spin=\(selfiePole.spin), gaze=\(selfiePole.gaze), zoom=\(selfiePole.zoom), ortho=\(selfiePole.ortho)")
+	}
+
 	 // MARK: - 15. PrettyPrint
 	func ppSuperHack(_ mode:PpMode = .tree, _ aux:FwConfig = params4defaultPp) -> String {
 bug;	var rv					= "super.pp(mode, aux)"

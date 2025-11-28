@@ -235,7 +235,7 @@ extension VewBase : FactalsStatus	{								  ///VewBase
 								else { 	return("Error Illegal slot: \(slot ?? -1)") }
 //		guard factalsModel.vewBases[slot] === self else {
 //			return "\t\t\t\t vewBases[] mismatch\n" }
-		let myName				= "VewBase[\(slot)]:  "
+		let myName				= "VewBases[\(slot)]:  "
 
 		var myLine				= "vewBase.tree:\(tree.pp(.tagClass)) "
 		myLine					+= "Lock=\(semiphore.value ?? -99) "

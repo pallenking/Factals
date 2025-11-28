@@ -56,7 +56,6 @@ extension View {
 		environment(\.windowSize, size)
 	}
 }
-
 @Environment(\.windowSize) private var size
 
 let layout = falseF ? AnyLayout(HStackLayout()) : AnyLayout(VStackLayout())

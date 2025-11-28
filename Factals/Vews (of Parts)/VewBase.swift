@@ -1,13 +1,15 @@
 //  VewBase.swift --  Created by Allen King on 9/19/22.
 //
 import SceneKit
+import Observation
 
 extension VewBase : Equatable {
 	static func == (lhs:VewBase, rhs:VewBase) -> Bool {	// protocol Equatable
 		lhs === rhs
 	}
 }
-class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
+@Observable
+class VewBase : Identifiable, Codable, Uid { // NOT NSObject
 	static var nVewBases 		= 0
 	var nameTag: UInt16			= getNametag()				// protocol Uid
 
@@ -23,9 +25,7 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var headsetView	  : HeadsetView?		// attached and used from here
 	var headsetKind		 		= "UNSET"
 
-	 // Instance method 'monitor(onChangeOf:performs:)' requires that
-	//   'SelfiePole' conform to 'Publisher'
-	@Published							// subscribe to selfiePole.sink for changes
+	 // @Observable handles change tracking automatically - no @Published needed
 	 var selfiePole 			= SelfiePole()
 	var lookAtVew	  : Vew!	= nil	// Vew we are looking at
 
@@ -33,7 +33,6 @@ class VewBase : Identifiable, ObservableObject, Codable, Uid { // NOT NSObject
 	var prefFps		  : CGFloat	= 30.0
 	var sliderTestVal : Double 	= 0.5
 																			// From RealityQ://	lazy var renderer : any FactalsRenderer = rendererManager.createRenderer()
-	@Published
 	 var inspectedVews: [Vew]	= []	// ... to be Inspected
 	var cameraScn	  : SCNNode?
 	 {	headsetView?.shapeBase.findScn(named:"*-camera", maxLevel:1)				}

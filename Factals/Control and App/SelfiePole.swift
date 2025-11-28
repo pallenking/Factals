@@ -6,6 +6,7 @@
 //
 
 import SceneKit
+import Observation
 
 // Imagine a camera A on a selfie pole, pointing back to the holder B
 //
@@ -13,7 +14,8 @@ import SceneKit
 //  ---- spun about Y axis
 
 // Uses Cylindrical Coordinates
-struct SelfiePole: Equatable {  			//Observable, 						//xyzzy15.3
+@Observable
+class SelfiePole: Equatable {
 	var nameTag   : NameTag
 	var position  : SCNVector3				// world coordinates
 	var spin	  : CGFloat					// in degrees
@@ -37,7 +39,7 @@ struct SelfiePole: Equatable {  			//Observable, 						//xyzzy15.3
 		self.ortho 				= CGFloat(ortho)
 	}
 
-	mutating func configure(from config: FwConfig) {  //xyzzy15.2
+	func configure(from config: FwConfig) {  //xyzzy15.2
 		// Configure Camera from Source Code: ["selfiePole":["p":[1,2,3], "u":3.4] ...]]
 		if let c = config.fwConfig("selfiePole") {
 			if let n = c.string("n")
@@ -87,7 +89,7 @@ struct SelfiePole: Equatable {  			//Observable, 						//xyzzy15.3
 	}
 
 	// Update spin and gaze based on mouse delta
-	mutating func updateFromMouseDelta(
+	func updateFromMouseDelta(
 		deltaX: Float,
 		deltaY: Float,
 		sensitivity: Float = 0.005
@@ -104,6 +106,16 @@ struct SelfiePole: Equatable {  			//Observable, 						//xyzzy15.3
 	func getCameraPosition(focusPoint: SCNVector3) -> SCNVector3 {
 		bug  //	let transform = self.transform(lookingAt: focusPoint)
 		return SCNVector3()  //transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+	}
+
+	// MARK: - Equatable conformance
+	static func == (lhs: SelfiePole, rhs: SelfiePole) -> Bool {
+		return lhs.nameTag == rhs.nameTag &&
+			   lhs.position == rhs.position &&
+			   lhs.spin == rhs.spin &&
+			   lhs.gaze == rhs.gaze &&
+			   lhs.zoom == rhs.zoom &&
+			   lhs.ortho == rhs.ortho
 	}
 }
 extension SelfiePole: Uid {

@@ -48,7 +48,7 @@ import RealityKit
 //		 //////////////////////////// Testing	$publisher/	$view
 //		 Generate code exemplefying the following thoughts that I am told:
 /*
-		Propose changes so changes in SceneKit or RealityKit get reflected in the app's SwiftUI, and vice versa
+		Propose changes so changes in SceneKit or RealityKit get reflected in the app's SwiftUI
 		Here are some scattered notes
 			sceneview takes in a publisher		// PW essential/big
 			swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
