@@ -3,6 +3,7 @@
 // :H: bbox=BBox, fw=FactalWorkbench
 
 import SceneKit
+import RealityKit
 
 extension Vew : Equatable {
 	static func == (lhs: Vew, rhs: Vew) -> Bool {
@@ -33,7 +34,8 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 	var parent		:  Vew?		= nil
 	var children 	: [Vew]		= []
 
-	var scn			: SCNNode		 // PAK20240913 reverting back:
+	var scn			: SCNNode		 // SceneKit representation
+	var entity		: Entity?		 // RealityKit representation (optional, created on demand)
 	var vewConfig   : VewConfig	= .null
 
 	var keep		:  Bool		= false			// used in reVew
@@ -728,6 +730,40 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 	/*override*/ var description	  : String {	return "'\(pp(.short))'"	}
 	/*override*/ var debugDescription : String {	return "'\(pp(.short))'" 	}
 	var summary					 	  : String {	return "'\(pp(.short))'"	}
+
+	 // MARK: - 18. RealityKit Entity Updates
+	/// Update RealityKit Entity to match current SCNNode state
+	/// Called after updateVSP() completes SCNNode updates
+	func updateEntityFromVew() {
+		// If entity doesn't exist, this Vew was created after initial tree build
+		// A full rebuild should have been triggered, but skip for now
+		guard let entity = entity else {
+			print("⚠️ Vew '\(name)' has no entity - skipping update (needs rebuild)")
+			return
+		}
+
+		// Sync transform from SCNNode
+		entity.transform = Transform(matrix: simd_float4x4(scn.transform))
+
+		// Sync visibility
+		entity.isEnabled = !scn.isHidden
+
+		// Update materials if this is a ModelEntity
+		if let modelEntity = entity.children.first as? ModelEntity,
+		   let geometry = scn.geometry {
+			let scnMaterials = geometry.materials
+			if !scnMaterials.isEmpty {
+				let rkMaterials = scnMaterials.map { $0.toSimpleMaterial() }
+				modelEntity.model?.materials = rkMaterials
+			}
+		}
+
+		// Recursively update children
+		for childVew in children {
+			childVew.updateEntityFromVew()
+		}
+	}
+
 	 // MARK: - 20. Extension variables
 	var adornTargetVew 			  : Vew?	= nil
 }

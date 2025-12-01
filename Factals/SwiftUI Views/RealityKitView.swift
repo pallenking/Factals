@@ -9,6 +9,42 @@ import SwiftUI
 import RealityKit
 import SceneKit
 import AppKit
+import Combine
+
+// MARK: SCNGeometry → RealityKit Extensions
+extension SCNGeometry {
+	func toMeshResource() -> MeshResource? {
+		switch self {
+		case let box as SCNBox:
+			return .generateBox(width: Float(box.width), height: Float(box.height), depth: Float(box.length))
+		case let sphere as SCNSphere:
+			return .generateSphere(radius: Float(sphere.radius))
+		case let cylinder as SCNCylinder:
+			return .generateCylinder(height: Float(cylinder.height), radius: Float(cylinder.radius))
+		case let cone as SCNCone:
+			return .generateCone(height: Float(cone.height), radius: Float(cone.bottomRadius))
+		case let plane as SCNPlane:
+			return .generatePlane(width: Float(plane.width), depth: Float(plane.height))
+		case let capsule as SCNCapsule:
+			// RealityKit doesn't have generateCapsule, approximate with cylinder
+			return .generateCylinder(height: Float(capsule.height), radius: Float(capsule.capRadius))
+		default:
+			// Custom geometries - would need vertex extraction (Phase 2 detail)
+			print("⚠️ Geometry type \(type(of: self)) not yet supported, using placeholder")
+			return .generateBox(size: 0.1) // Placeholder
+		}
+	}
+}
+
+extension SCNMaterial {
+	func toSimpleMaterial() -> SimpleMaterial {
+		var material = SimpleMaterial()
+		if let color = diffuse.contents as? NSColor {
+			material.color = .init(tint: color)
+		}
+		return material
+	}
+}
 
 struct RealityKitContentView: View {
 	@Bindable var vewBase: VewBase
@@ -43,24 +79,119 @@ func realityKitContentView(vewBase:Binding<VewBase>) -> some View {
 
 class ArView : ARView {
 	typealias Body = ARView
-//	weak var delegate: SCNSceneRendererDelegate?		//weak var delegate: (any SCNSceneRendererDelegate)? { get set }
 	var vewBase: VewBase? = nil
+	var sceneAnchor: AnchorEntity?
+	var cameraEntity: Entity?
+	var shapeBaseWrapper: EntityWrapperNode?  // Bridge to SceneKit interface
+
+	// Don't override myVewBase - use default from HeadsetView extension
+	// which finds existing VewBase with loaded network
+
+	func makeLights() {
+		guard let anchor = sceneAnchor else { return }
+		let light = DirectionalLight()
+		light.light.intensity = 1000
+		light.position = [0, 5, 5]
+		light.look(at: [0, 0, 0], from: light.position, relativeTo: nil)
+		light.name = "DirectionalLight"
+		anchor.addChild(light)
+	}
+
+	func makeCamera() {
+		// RealityKit camera is managed by ARView automatically
+		// Create a reference entity for camera position if needed
+		cameraEntity = Entity()
+		cameraEntity?.name = "*-camera"
+	}
+
+	func makeAxis() {
+		guard let anchor = sceneAnchor else { return }
+		// Create axis markers (X=red, Y=green, Z=blue)
+		let axisSize: Float = 0.5
+		createAxisLine(anchor: anchor, color: .red, axis: SIMD3<Float>(1,0,0), length: axisSize, name: "AxisX")
+		createAxisLine(anchor: anchor, color: .green, axis: SIMD3<Float>(0,1,0), length: axisSize, name: "AxisY")
+		createAxisLine(anchor: anchor, color: .blue, axis: SIMD3<Float>(0,0,1), length: axisSize, name: "AxisZ")
+	}
+
+	private func createAxisLine(anchor: Entity, color: NSColor, axis: SIMD3<Float>, length: Float, name: String) {
+		let mesh = MeshResource.generateCylinder(height: length * 2, radius: 0.005)
+		let material = SimpleMaterial(color: color, isMetallic: false)
+		let entity = ModelEntity(mesh: mesh, materials: [material])
+		entity.name = name
+		// Rotate to align with axis
+		if axis.x != 0 {
+			entity.transform.rotation = simd_quatf(angle: .pi/2, axis: SIMD3<Float>(0,0,1))
+		} else if axis.z != 0 {
+			entity.transform.rotation = simd_quatf(angle: .pi/2, axis: SIMD3<Float>(1,0,0))
+		}
+		anchor.addChild(entity)
+	}
+
+	func updateCamera(from selfiePole: SelfiePole) {
+		guard let vewBase = vewBase else { return }
+		// Transform camera using SelfiePole mathematics
+		let self2focus = selfiePole.transform(lookAtVew: vewBase.lookAtVew)
+		let focus2self = self2focus.inverse()
+		// Update ARView camera (note: ARView camera is implicit, update scene anchor instead)
+		sceneAnchor?.transform = Transform(matrix: simd_float4x4(focus2self))
+	}
+
+	/// Setup RealityKit update loop (equivalent to SceneKit's renderer delegate)
+	func setupUpdateLoop() {
+		var frameCount = 0
+
+		// Subscribe to scene updates - called every frame
+		scene.subscribe(to: SceneEvents.Update.self) { [weak self] event in
+			guard let self = self, let vewBase = self.vewBase else { return }
+
+			// Only update every 2nd frame to reduce load (30fps instead of 60fps)
+			frameCount += 1
+			guard frameCount % 2 == 0 else { return }
+
+			// Call updateVSP on main thread (same as SceneKit does)
+			DispatchQueue.main.async {
+				vewBase.factalsModel?.doPartNViewsLocked(workNamed:"AR_updateVSP", logIf:false) {
+					$0.updateVSP()
+				}
+			}
+		}.store(in: &cancellables)
+		print("🔄 ArView update loop started (30fps)")
+	}
+
+	private var cancellables: Set<AnyCancellable> = []
 }
 extension ArView : HeadsetView {
 	var cameraXform: SCNMatrix4 {
-		get 	{	shapeBase.findScn(named:"*-camera")?.transform ?? .identity }//self.scene.anchors.first.XXfindScn(named:"*-camera")
-		set(v) 	{	shapeBase.findScn(named:"*-camera")?.transform = v 			}
+		get {
+			guard let transform = sceneAnchor?.transform else { return .identity }
+			return SCNMatrix4(transform.matrix)
+		}
+		set(v) {
+			sceneAnchor?.transform = Transform(matrix: simd_float4x4(v))
+		}
 	}
 	var shapeBase: SCNNode {
-		get {	bug; return SCNNode()											}
-		set {																	}
+		get {
+			// Return wrapper node that bridges to RealityKit Entity hierarchy
+			if let wrapper = shapeBaseWrapper {
+				return wrapper
+			}
+			// Create wrapper if it doesn't exist yet
+			if let anchor = sceneAnchor {
+				let wrapper = EntityWrapperNode(wrapping: anchor)
+				shapeBaseWrapper = wrapper
+				return wrapper
+			}
+			// Fallback: return empty node if no anchor yet
+			return SCNNode()
+		}
+		set { /* Ignored in RealityKit - entities are managed directly */ }
 	}
-	var isSceneKit: Bool { false 												}
+	var isSceneKit: Bool { false }
 
-	func configure(from: FwConfig) 				{	bug 						}
-	func makeLights() {															}
-	func makeCamera() {															}
-	func makeAxis()   {															}
+	func configure(from: FwConfig) {
+		// Configuration handled in makeNSView
+	}
 
 	/// RealityKit's HeadsetView
 	var headsetView : HeadsetView? { self }//.delegate as? ScnBase)?.headsetView}
@@ -85,7 +216,54 @@ extension ArView : HeadsetView {
 	}
 }
 
-struct RealityKitView: View {
+// MARK: - RealityKitView (NSViewRepresentable - parallel to SceneKitView)
+struct RealityKitView: NSViewRepresentable {
+	@Bindable var vewBase: VewBase
+
+	typealias Visible = Entity
+	typealias Vect3 = SIMD3<Float>
+	typealias Vect4 = SIMD4<Float>
+	typealias Matrix4x4 = simd_float4x4
+	typealias NSViewType = ArView
+
+	func makeNSView(context: Context) -> ArView {
+		let arView = ArView(frame: .zero)
+
+		// Create and configure scene anchor
+		let anchor = AnchorEntity(.world(transform: matrix_identity_float4x4))
+		anchor.name = "shapeBase"
+		arView.sceneAnchor = anchor
+		arView.scene.addAnchor(anchor)
+
+		// Create wrapper node for SceneKit/RealityKit bridge
+		arView.shapeBaseWrapper = EntityWrapperNode(wrapping: anchor)
+
+		// Initialize VewBase with headsetView reference
+		vewBase.headsetView = arView
+		arView.vewBase = vewBase
+
+		arView.makeLights()
+		arView.makeCamera()
+		arView.makeAxis()
+
+		// Setup update loop to call updateVSP() every frame (like SceneKit's renderer delegate)
+		arView.setupUpdateLoop()
+
+		// NOTE: Don't build Entity tree here - VewBase.tree exists but SCNNodes don't have geometry yet
+		// Entity tree will be built on first updateVSP() call when dirty:.vew is set
+		print("✅ ArView initialized (Entity tree will build on first updateVSP)")
+
+		return arView
+	}
+
+	func updateNSView(_ arView: ArView, context: Context) {
+		// Update frame rate if needed
+	}
+}
+
+// MARK: - Legacy RealityView-based implementation (for reference)
+#if false  // Disabled - using NSViewRepresentable wrapper instead
+struct RealityKitViewOLD: View {
 	@Bindable      var vewBase: VewBase
 	@State 		   var focusPosition:Vect3 			= Vect3(0, 0, 0)
 	@State 		   var selectedPrimitiveName:String = ""
@@ -106,8 +284,14 @@ struct RealityKitView: View {
 				RealityView { content in
 					sceneBase		= AnchorEntity(.world(transform:matrix_identity_float4x4))
 					sceneBase!.name = "shapeBase"			// Create anchor for the scene
+
+					// Load from VewBase.tree (NEW: Phase 4)
+					rebuildEntityTree(vewBase: vewBase, rootAnchor: sceneBase!)
+
+					// Keep test scenery for now (comment out later when tree loading works)
 		/**/		RkMakeScenery(anchor:sceneBase!)
 //		/**/		XxMakeScenery(anchor:sceneBase!)
+
 					content.add(sceneBase!)
 					logApp(3, "RealityView loaded with \(sceneBase!.children.count) children, " +
 							  "\n\t rotation: \(   		 sceneBase!.transform.rotation) " 		+
@@ -506,6 +690,83 @@ class ScrollWheelNSView: NSView {
 	}
 	override var acceptsFirstResponder: Bool { return true }
 }
+#endif  // End legacy RealityKitViewOLD code
+
+// MARK: - Vew → Entity Tree Builder (Standalone Functions)
+/// Build RealityKit Entity tree from Vew tree (manual update approach)
+/// Call this to populate RealityKit scene from VewBase.tree
+func buildEntityTree(from vew: Vew, parent: Entity) -> Entity? {
+	// Create Entity for this Vew
+	let entity = Entity()
+	entity.name = vew.name
+
+	// Store reference in Vew for future updates
+	vew.entity = entity
+
+	// Convert SCNNode geometry to RealityKit MeshResource
+	if let geometry = vew.scn.geometry,
+	   let meshResource = geometry.toMeshResource() {
+
+		// Convert materials
+		var materials: [SimpleMaterial] = []
+		let scnMaterials = geometry.materials
+		if !scnMaterials.isEmpty {
+			materials = scnMaterials.map { $0.toSimpleMaterial() }
+		} else {
+			// Default material if none specified
+			materials = [SimpleMaterial(color: .gray, isMetallic: false)]
+		}
+
+		// Create ModelEntity with geometry and materials
+		let modelEntity = ModelEntity(mesh: meshResource, materials: materials)
+		modelEntity.name = vew.name + "_model"
+		entity.addChild(modelEntity)
+		print("   ✓ Created ModelEntity for '\(vew.name)' - geometry: \(type(of: geometry))")
+	} else {
+		print("   ⊘ No geometry for '\(vew.name)' - just container entity")
+	}
+
+	// Copy transform from SCNNode to Entity
+	let scnTransform = vew.scn.transform
+	entity.transform = Transform(matrix: simd_float4x4(scnTransform))
+
+	// Add to parent
+	parent.addChild(entity)
+
+	// Recursively build children
+	for childVew in vew.children {
+		_ = buildEntityTree(from: childVew, parent: entity)
+	}
+
+	return entity
+}
+
+/// Rebuild entire Entity tree from VewBase.tree
+/// Call this after loading a new network or when tree structure changes
+func rebuildEntityTree(vewBase: VewBase, rootAnchor: Entity) {
+	// Debug: Show what we're building from
+	print("🔍 rebuildEntityTree called:")
+	print("   VewBase.tree name: '\(vewBase.tree.name)'")
+	print("   VewBase.tree children: \(vewBase.tree.children.count)")
+	print("   VewBase.tree has geometry: \(vewBase.tree.scn.geometry != nil)")
+
+	// Remove all existing children (except lights, camera markers, etc.)
+	for child in rootAnchor.children {
+		if !child.name.contains("Light") &&
+		   !child.name.contains("OriginMark") &&
+		   !child.name.contains("GroundPlane") {
+			child.removeFromParent()
+		}
+	}
+
+	// Build new tree from VewBase.tree
+	let builtEntity = buildEntityTree(from: vewBase.tree, parent: rootAnchor)
+
+	print("🌳 RealityKit Entity tree rebuilt from VewBase.tree")
+	print("   Built entity name: '\(builtEntity?.name ?? "nil")'")
+	print("   Root anchor children count: \(rootAnchor.children.count)")
+}
+
  /// Debugging
 func printTreeBase(entity: Entity, indent: String = "") {
 	print("\(indent)\(type(of:entity)):\(entity.name)' - children:\(entity.children.count)")

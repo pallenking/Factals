@@ -56,15 +56,7 @@ import RealityKit
 			viewmodel single source of truth.
 			was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
 			now       : SceneView 	native SwiftUI (not full-featured)
-
-
  */
-//		 sceneview takes in a publisher		// PW essential/big
-//		 swift publishes deltas - $viewmodel.property -> sceneview .sink -> camera of view scenekit
-//		 scenkit -> write models back to viewmodel. s
-//		 viewmodel single source of truth.
-//		 was, back2: SCNView		AppKit wrapped in an NSViewRepresentable (subclass SceneKitHostingView)
-//		 now       : SceneView 	native SwiftUI (not full-featured)
 
 protocol HeadsetView : NSView {		 /// Protypical Graphical User Interface			*/AnyObject/*
 	func makeAxis()

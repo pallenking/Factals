@@ -1,12 +1,21 @@
  //  SCNNode++.swift -- Customization of SceneKit C2018PAK
 
 import SceneKit
+//import ARKit
+import RealityKit
 
 //	SCNNode 'name' Convention:
 //		*-<name>	-- SCNNode pointed to by	  Vew _<name>
 //		s-<name>	-- SCNNode used for Skin of Vew _<name>
 //		w-...		-- SCNNode bounding box  of Vew _<name>
 //j∆
+
+extension SCNNode {
+	// Note: SCNNode doesn't have an init(entity:) to override
+	// Removed invalid override initializer
+}
+
+
 
 extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 	typealias T = SCNNode
@@ -99,9 +108,6 @@ extension SCNNode /*: HasChildren */ {		// : FwAny from SceneKit (extension)
 			}
 		}
 	}
-
-
-
 
 	 // Several ways to flip, each has problems:
 	  /// 1. ugly, inverts Z along with Y:

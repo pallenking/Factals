@@ -16,7 +16,8 @@
       "Bash(ffprobe:*)",
       "Bash(./test_extraction.sh:*)",
       "Bash(./recent_debugging_evolution.sh:*)",
-      "Read(//Library/Frameworks/Python.framework/Versions/3.7/bin/**)"
+      "Read(//Library/Frameworks/Python.framework/Versions/3.7/bin/**)",
+      "Bash(wc:*)"
     ],
     "deny": [],
     "ask": []

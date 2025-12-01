@@ -249,6 +249,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	  ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
 	 /// - Parameter initial:	-- VewConfig for first appearance
 	func updateVSP() { 			// VIEWS
+		print("🔧 updateVSP() called - headsetView isSceneKit: \(headsetView?.isSceneKit ?? true)")
 		SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(animateVBdelay)	//0.15//0.3//0.6//
 
@@ -257,7 +258,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		if partsTree.test(dirty:.vew) {				//" _ reVew _   VewBase (per updateVSP()" {
 			logRve(6, "updateVSP(vewConfig:(initial)")
 			  // Update Vew tree objects from Part tree
-			 // (Also build a sparse SCN "entry point" tree for Vew tree)
+			 //  Create SCN "entry points" a sparse tree for Vew tree)
 /**/		partsTree.reVew(vew:tree, parentVew:nil)
 			  // Links: LinkVew [sp]Con2Vew endpoints and constraints:
 			 // should have created all Vews and one *-<name> in ptn tree
@@ -281,9 +282,33 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 									//	partsTree.computeLinkForces(vew:tree)	// Compute Forces (.force == 0 initially)
 									//	partsTree  .applyLinkForces(vew:tree)	// Apply   Forces (zero out .force)
 		}
-   		partsTree.rotateLinkSkins (vew:tree)	// WHY HERE? Rotate Link Skins, no delay
+   		partsTree.rotateLinkSkins (vew:tree)
 		SCNTransaction.commit()
-//		partsTree.rotateLinkSkins (vew:tree)	// WHY HERE? Rotate Link Skins, no delay
+
+		// ---- 4. Update RealityKit Entity tree (if in AR mode) ----
+		let isSceneKit = headsetView?.isSceneKit ?? true
+		print("🔧 updateVSP() done - isSceneKit: \(isSceneKit), dirty.vew: \(partsTree.test(dirty:.vew))")
+		if !isSceneKit {
+			print("🔧 Calling updateEntityTree(fullRebuild: \(partsTree.test(dirty:.vew)))")
+			updateEntityTree(fullRebuild: partsTree.test(dirty:.vew))
+		}
+	}
+
+	/// Update RealityKit Entity tree to match Vew/SCN changes
+	/// - Parameter fullRebuild: If true, rebuild entire tree; if false, just update existing entities
+	func updateEntityTree(fullRebuild: Bool = false) {
+		guard let arView = headsetView as? ArView,
+			  let anchor = arView.sceneAnchor else { return }
+
+		if fullRebuild {
+			// Tree structure changed - rebuild everything
+			rebuildEntityTree(vewBase: self, rootAnchor: anchor)
+			print("🔄 RealityKit Entity tree rebuilt (structure changed)")
+		} else {
+			// Just update existing entities
+			tree.updateEntityFromVew()
+		}
+		// Note: No transaction needed - RealityKit handles its own animation
 	}
 								
 	 // MARK: - 15. PrettyPrint
