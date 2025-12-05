@@ -748,15 +748,7 @@ class Vew : /*NSObject, */ ObservableObject, Codable, Uid {	// NEVER NSCopying, 
 		// Sync visibility
 		entity.isEnabled = !scn.isHidden
 
-		// Update materials if this is a ModelEntity
-		if let modelEntity = entity.children.first as? ModelEntity,
-		   let geometry = scn.geometry {
-			let scnMaterials = geometry.materials
-			if !scnMaterials.isEmpty {
-				let rkMaterials = scnMaterials.map { $0.toSimpleMaterial() }
-				modelEntity.model?.materials = rkMaterials
-			}
-		}
+		// Note: Using bounding boxes now, so no material updates needed
 
 		// Recursively update children
 		for childVew in children {

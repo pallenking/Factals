@@ -255,6 +255,106 @@ command alias ptLP1     ptLP  LLDBvews1.tree
 command alias ptLP2     ptLP  LLDBvews2.tree
 
 
+##---------------- 'e' is for Entity tree (RealityKit) ----------------------
+command alias pce      pc    LLDBvew0entityTreeRoot
+command alias pce0      pc    LLDBvew0entityTreeRoot
+command alias pce1      pc    LLDBvew1entityTreeRoot
+command alias pce2      pc    LLDBvew2entityTreeRoot
+command alias pne      pn    LLDBvew0entityTreeRoot
+command alias pne0      pn    LLDBvew0entityTreeRoot
+command alias pne1      pn    LLDBvew1entityTreeRoot
+command alias pne2      pn    LLDBvew2entityTreeRoot
+command alias pnuce    pnuc  LLDBvew0entityTreeRoot
+command alias pnuce0    pnuc  LLDBvew0entityTreeRoot
+command alias pnuce1    pnuc  LLDBvew1entityTreeRoot
+command alias pnuce2    pnuc  LLDBvew2entityTreeRoot
+command alias pfe      pf    LLDBvew0entityTreeRoot
+command alias pfe0      pf    LLDBvew0entityTreeRoot
+command alias pfe1      pf    LLDBvew1entityTreeRoot
+command alias pfe2      pf    LLDBvew2entityTreeRoot
+command alias poe      po    LLDBvew0entityTreeRoot
+command alias poe0      po    LLDBvew0entityTreeRoot
+command alias poe1      po    LLDBvew1entityTreeRoot
+command alias poe2      po    LLDBvew2entityTreeRoot
+# ---- pi*e
+command alias pie      pi    LLDBvew0entityTreeRoot
+command alias pie0      pi    LLDBvew0entityTreeRoot
+command alias pie1      pi    LLDBvew1entityTreeRoot
+command alias pie2      pi    LLDBvew2entityTreeRoot
+command alias piUe     piU   LLDBvew0entityTreeRoot
+command alias piUe0     piU   LLDBvew0entityTreeRoot
+command alias piUe1     piU   LLDBvew1entityTreeRoot
+command alias piUe2     piU   LLDBvew2entityTreeRoot
+command alias piCue    piCu  LLDBvew0entityTreeRoot
+command alias piCue0    piCu  LLDBvew0entityTreeRoot
+command alias piCue1    piCu  LLDBvew1entityTreeRoot
+command alias piCue2    piCu  LLDBvew2entityTreeRoot
+command alias piUce    piUc  LLDBvew0entityTreeRoot
+command alias piUce0    piUc  LLDBvew0entityTreeRoot
+command alias piUce1    piUc  LLDBvew1entityTreeRoot
+command alias piUce2    piUc  LLDBvew2entityTreeRoot
+command alias piFuce   piFuc LLDBvew0entityTreeRoot
+command alias piFuce0   piFuc LLDBvew0entityTreeRoot
+command alias piFuce1   piFuc LLDBvew1entityTreeRoot
+command alias piFuce2   piFuc LLDBvew2entityTreeRoot
+# ---- p*e
+command alias ppe      pp    LLDBvew0entityTreeRoot
+command alias ppe0      pp    LLDBvew0entityTreeRoot
+command alias ppe1      pp    LLDBvew1entityTreeRoot
+command alias ppe2      pp    LLDBvew2entityTreeRoot
+command alias pse      ps    LLDBvew0entityTreeRoot
+command alias pse0      ps    LLDBvew0entityTreeRoot
+command alias pse1      ps    LLDBvew1entityTreeRoot
+command alias pse2      ps    LLDBvew2entityTreeRoot
+command alias ple      pl    LLDBvew0entityTreeRoot
+command alias ple0      pl    LLDBvew0entityTreeRoot
+command alias ple1      pl    LLDBvew1entityTreeRoot
+command alias ple2      pl    LLDBvew2entityTreeRoot
+command alias pte      pt    LLDBvew0entityTreeRoot
+command alias pte0      pt    LLDBvew0entityTreeRoot
+command alias pte1      pt    LLDBvew1entityTreeRoot
+command alias pte2      pt    LLDBvew2entityTreeRoot
+# ---- p*Le
+command alias ppLe     ppL   LLDBvew0entityTreeRoot
+command alias ppLe0     ppL   LLDBvew0entityTreeRoot
+command alias ppLe1     ppL   LLDBvew1entityTreeRoot
+command alias ppLe2     ppL   LLDBvew2entityTreeRoot
+command alias plLe     plL   LLDBvew0entityTreeRoot
+command alias plLe0     plL   LLDBvew0entityTreeRoot
+command alias plLe1     plL   LLDBvew1entityTreeRoot
+command alias plLe2     plL   LLDBvew2entityTreeRoot
+command alias ptLe     ptL   LLDBvew0entityTreeRoot
+command alias ptLe0     ptL   LLDBvew0entityTreeRoot
+command alias ptLe1     ptL   LLDBvew1entityTreeRoot
+command alias ptLe2     ptL   LLDBvew2entityTreeRoot
+# ---- p*Pe
+command alias ppPe     ppP   LLDBvew0entityTreeRoot
+command alias ppPe0     ppP   LLDBvew0entityTreeRoot
+command alias ppPe1     ppP   LLDBvew1entityTreeRoot
+command alias ppPe2     ppP   LLDBvew2entityTreeRoot
+command alias plPe     plP   LLDBvew0entityTreeRoot
+command alias plPe0     plP   LLDBvew0entityTreeRoot
+command alias plPe1     plP   LLDBvew1entityTreeRoot
+command alias plPe2     plP   LLDBvew2entityTreeRoot
+command alias ptPe     ptP   LLDBvew0entityTreeRoot
+command alias ptPe0     ptP   LLDBvew0entityTreeRoot
+command alias ptPe1     ptP   LLDBvew1entityTreeRoot
+command alias ptPe2     ptP   LLDBvew2entityTreeRoot
+# ---- p*LPe
+command alias ppLPe    ppLP  LLDBvew0entityTreeRoot
+command alias ppLPe0    ppLP  LLDBvew0entityTreeRoot
+command alias ppLPe1    ppLP  LLDBvew1entityTreeRoot
+command alias ppLPe2    ppLP  LLDBvew2entityTreeRoot
+command alias plLPe    plLP  LLDBvew0entityTreeRoot
+command alias plLPe0    plLP  LLDBvew0entityTreeRoot
+command alias plLPe1    plLP  LLDBvew1entityTreeRoot
+command alias plLPe2    plLP  LLDBvew2entityTreeRoot
+command alias ptLPe    ptLP  LLDBvew0entityTreeRoot
+command alias ptLPe0    ptLP  LLDBvew0entityTreeRoot
+command alias ptLPe1    ptLP  LLDBvew1entityTreeRoot
+command alias ptLPe2    ptLP  LLDBvew2entityTreeRoot
+
+
 ##---------------- 'n' is for all SCNNodes ----------------------
 command alias pcn      pc    LLDBvew0sceneTreeRoot
 command alias pcn0      pc    LLDBvew0sceneTreeRoot
@@ -421,7 +521,8 @@ command alias lldbinitFactalWorkbench command source ~/DocLocal/HaveNWant/Factal
 # :H: Character 2:   -p -:.phrase; -l -:.line,          -t--:.tree,
 # :H: Character 2:   -c -:classF;  -n -:name,           -f--:fullName, -i--:.id,aaaaaaa
 # :H: Character 2.5: --L-:ppLinks; --P-:ppParameters
-# :H: Character 3:   -- s:self;    ---m:root_Experiment ---v:root Vew  --n-:root SCNNode
+# :H: Character 3:   -- s:self;    ---m:root_Experiment ---v:root Vew  --n-:root SCNNode --e-:Entity (RealityKit)
 ## use LLDBParts("<name>") and LLDBrootVew("<name>") to find a part in tree
+## Entity tree: pte (tree), ple (line), pne (name), pce (class)
 ## pFwState, pFwConfig fwHelp("C")
 

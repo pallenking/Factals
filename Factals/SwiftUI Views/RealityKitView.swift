@@ -11,38 +11,134 @@ import SceneKit
 import AppKit
 import Combine
 
-// MARK: SCNGeometry → RealityKit Extensions
+// MARK: SCNGeometry → RealityKit Conversion
+
+/// Generate a box mesh with optional chamfered (rounded) edges
+func RksBox(width: Float, height: Float, depth: Float, chamferRadius: Float = 0) -> MeshResource {
+	// TODO: Implement proper chamfered box mesh generation
+	// For now, using standard box (chamferRadius ignored)
+	// Future: Generate custom mesh with rounded corners using vertex data
+	return .generateBox(width: width, height: height, depth: depth)
+}
+
+/// Generate a sphere mesh (from SCNSphere)
+func RksSphere(radius: Float, segmentCount: Int = 48) -> MeshResource {
+	// TODO: RealityKit .generateSphere doesn't support segmentCount
+	// For now, using default sphere (segmentCount ignored)
+	return .generateSphere(radius: radius)
+}
+
+/// Generate a cylinder mesh (from SCNCylinder)
+func RksCylinder(height: Float, radius: Float, radialSegmentCount: Int = 48, heightSegmentCount: Int = 1) -> MeshResource {
+	// TODO: RealityKit .generateCylinder doesn't support segment counts
+	// For now, using default cylinder (segment counts ignored)
+	return .generateCylinder(height: height, radius: radius)
+}
+
+/// Generate a cone mesh (from SCNCone)
+func RksCone(height: Float, topRadius: Float = 0, bottomRadius: Float) -> MeshResource {
+	// TODO: RealityKit .generateCone doesn't support truncated cones (topRadius)
+	// For now, using standard cone (topRadius ignored)
+	return .generateCone(height: height, radius: bottomRadius)
+}
+
+/// Generate a plane mesh (from SCNPlane)
+func RksPlane(width: Float, depth: Float) -> MeshResource {
+	return .generatePlane(width: width, depth: depth)
+}
+
+/// Generate a capsule mesh (from SCNCapsule)
+func RksCapsule(height: Float, radius: Float) -> MeshResource {
+	return .generateCylinder(height: height, radius: radius)
+}
+
+/// Generate a tube mesh (from SCNTube)
+func RksTube(innerRadius: Float, outerRadius: Float, height: Float) -> MeshResource {
+	// TODO: RealityKit doesn't have a built-in tube/hollow cylinder generator
+	// For now, using outer cylinder (not hollow - innerRadius ignored)
+	// Future: Generate custom mesh with inner/outer walls
+	return .generateCylinder(height: height, radius: outerRadius)
+}
+
 extension SCNGeometry {
+	/// Convert SCNGeometry to RealityKit MeshResource, returns nil for unsupported types
 	func toMeshResource() -> MeshResource? {
 		switch self {
 		case let box as SCNBox:
-			return .generateBox(width: Float(box.width), height: Float(box.height), depth: Float(box.length))
+			return RksBox(width: Float(box.width),
+						  height: Float(box.height),
+						  depth: Float(box.length),
+						  chamferRadius: Float(box.chamferRadius))
 		case let sphere as SCNSphere:
-			return .generateSphere(radius: Float(sphere.radius))
+			return RksSphere(radius: Float(sphere.radius),
+							 segmentCount: sphere.segmentCount)
 		case let cylinder as SCNCylinder:
-			return .generateCylinder(height: Float(cylinder.height), radius: Float(cylinder.radius))
+			return RksCylinder(height: Float(cylinder.height),
+							   radius: Float(cylinder.radius),
+							   radialSegmentCount: cylinder.radialSegmentCount,
+							   heightSegmentCount: cylinder.heightSegmentCount)
 		case let cone as SCNCone:
-			return .generateCone(height: Float(cone.height), radius: Float(cone.bottomRadius))
+			return RksCone(height: Float(cone.height),
+						   topRadius: Float(cone.topRadius),
+						   bottomRadius: Float(cone.bottomRadius))
 		case let plane as SCNPlane:
-			return .generatePlane(width: Float(plane.width), depth: Float(plane.height))
+			return RksPlane(width: Float(plane.width), depth: Float(plane.height))
 		case let capsule as SCNCapsule:
-			// RealityKit doesn't have generateCapsule, approximate with cylinder
-			return .generateCylinder(height: Float(capsule.height), radius: Float(capsule.capRadius))
+			return RksCapsule(height: Float(capsule.height), radius: Float(capsule.capRadius))
+		case let tube as SCNTube:
+			return RksTube(innerRadius: Float(tube.innerRadius),
+						   outerRadius: Float(tube.outerRadius),
+						   height: Float(tube.height))
 		default:
-			// Custom geometries - would need vertex extraction (Phase 2 detail)
-			print("⚠️ Geometry type \(type(of: self)) not yet supported, using placeholder")
-			return .generateBox(size: 0.1) // Placeholder
+			// Custom geometries - return nil to use bounding box fallback
+			return nil
 		}
 	}
 }
 
 extension SCNMaterial {
+	/// Convert SCNMaterial to RealityKit SimpleMaterial
 	func toSimpleMaterial() -> SimpleMaterial {
 		var material = SimpleMaterial()
 		if let color = diffuse.contents as? NSColor {
 			material.color = .init(tint: color)
 		}
 		return material
+	}
+}
+
+extension SCNNode {
+	/// Create bounding box ModelEntity as fallback for unsupported geometries
+	func createBoundingBoxEntity(name: String) -> ModelEntity? {
+		let bbox = boundingBox
+		let minVec = bbox.min
+		let maxVec = bbox.max
+
+		let width = Float(abs(maxVec.x - minVec.x))
+		let height = Float(abs(maxVec.y - minVec.y))
+		let depth = Float(abs(maxVec.z - minVec.z))
+
+		guard width > 0.001 && height > 0.001 && depth > 0.001 else { return nil }
+
+		let mesh = MeshResource.generateBox(width: width, height: height, depth: depth)
+
+		var material = SimpleMaterial()
+		if let scnMaterial = geometry?.firstMaterial,
+		   let nsColor = scnMaterial.diffuse.contents as? NSColor {
+			material.color = .init(tint: nsColor.withAlphaComponent(0.7))
+		} else {
+			material.color = .init(tint: .gray.withAlphaComponent(0.5))
+		}
+
+		let modelEntity = ModelEntity(mesh: mesh, materials: [material])
+		modelEntity.name = name + "_bbox"
+
+		let centerX = Float((minVec.x + maxVec.x) / 2)
+		let centerY = Float((minVec.y + maxVec.y) / 2)
+		let centerZ = Float((minVec.z + maxVec.z) / 2)
+		modelEntity.position = SIMD3<Float>(centerX, centerY, centerZ)
+
+		return modelEntity
 	}
 }
 
@@ -83,6 +179,11 @@ class ArView : ARView {
 	var sceneAnchor: AnchorEntity?
 	var cameraEntity: Entity?
 	var shapeBaseWrapper: EntityWrapperNode?  // Bridge to SceneKit interface
+
+	// Mouse tracking state (matching ScnView)
+	var lastPosition: SCNVector3 = .zero
+	var deltaPosition: SCNVector3 = .zero
+	var mouseWasDragged = false
 
 	// Don't override myVewBase - use default from HeadsetView extension
 	// which finds existing VewBase with loaded network
@@ -157,6 +258,104 @@ class ArView : ARView {
 		}.store(in: &cancellables)
 		print("🔄 ArView update loop started (30fps)")
 	}
+
+	/// Setup observation of selfiePole changes to update camera
+	func setupSelfiePoleObservation() {
+		guard let vewBase = vewBase else { return }
+
+		// Observe selfiePole changes using withObservationTracking
+		// This is a one-shot observation, but we'll re-establish it each time
+		func observeSelfiePole() {
+			withObservationTracking {
+				// Access the properties we want to observe
+				_ = vewBase.selfiePole.spin
+				_ = vewBase.selfiePole.gaze
+				_ = vewBase.selfiePole.zoom
+				_ = vewBase.selfiePole.position
+			} onChange: { [weak self] in
+				// When selfiePole changes, update camera on main thread
+				DispatchQueue.main.async {
+					guard let self = self, let vewBase = self.vewBase else { return }
+					self.updateCamera(from: vewBase.selfiePole)
+					// Re-establish observation for next change
+					observeSelfiePole()
+				}
+			}
+		}
+
+		observeSelfiePole()
+	}
+
+	/// Handle scroll wheel for zoom (matching SceneKit behavior)
+	override func scrollWheel(with event: NSEvent) {
+		guard let vewBase = vewBase else {
+			super.scrollWheel(with: event)
+			return
+		}
+
+		let deltaY = event.deltaY
+		// Same logic as ScnView: deltaY > 0 means scroll up = zoom in (0.95),
+		// deltaY < 0 means scroll down = zoom out (1.05)
+		let delta: CGFloat = deltaY > 0 ? 0.95 : deltaY == 0 ? 1.0 : 1.05
+		vewBase.selfiePole.zoom *= delta
+
+		// Update camera immediately
+		updateCamera(from: vewBase.selfiePole)
+	}
+
+	// MARK: - Mouse Event Handling (matching ScnView)
+
+	/// Prepare delta position from event (matching ScnView.prepareDeltas)
+	private func prepareDeltas(with event: NSEvent) {
+		guard let contentView = event.window?.contentView else { return }
+		let hitPosn = contentView.convert(event.locationInWindow, from: nil)
+		let hitPosnV3 = SCNVector3(hitPosn.x, hitPosn.y, 0)
+
+		// Movement since last, 0 if first time
+		deltaPosition = hitPosnV3 - lastPosition
+		lastPosition = hitPosnV3
+	}
+
+	/// Update spin and gaze from mouse drag (matching ScnView.motorSpinNUp)
+	private func motorSpinNUp() {
+		guard let vewBase = vewBase else { return }
+		vewBase.selfiePole.spin -= deltaPosition.x * 0.5
+		vewBase.selfiePole.gaze -= deltaPosition.y * 0.2
+	}
+
+	override func mouseDown(with event: NSEvent) {
+		guard let vewBase = vewBase else {
+			super.mouseDown(with: event)
+			return
+		}
+		prepareDeltas(with: event)
+		mouseWasDragged = false
+		updateCamera(from: vewBase.selfiePole)
+	}
+
+	override func mouseDragged(with event: NSEvent) {
+		guard let vewBase = vewBase else {
+			super.mouseDragged(with: event)
+			return
+		}
+		prepareDeltas(with: event)
+		motorSpinNUp()
+		mouseWasDragged = true
+		updateCamera(from: vewBase.selfiePole)
+	}
+
+	override func mouseUp(with event: NSEvent) {
+		guard let vewBase = vewBase else {
+			super.mouseUp(with: event)
+			return
+		}
+		prepareDeltas(with: event)
+		// TODO: If !mouseWasDragged, could implement modelPic() to select vew
+		updateCamera(from: vewBase.selfiePole)
+	}
+
+	// Accept first responder to receive mouse and keyboard events
+	override var acceptsFirstResponder: Bool { return true }
 
 	private var cancellables: Set<AnyCancellable> = []
 }
@@ -239,6 +438,10 @@ struct RealityKitView: NSViewRepresentable {
 		arView.shapeBaseWrapper = EntityWrapperNode(wrapping: anchor)
 
 		// Initialize VewBase with headsetView reference
+		print("🔍 makeNSView: Got VewBase \(vewBase.nameTag)")
+		print("   - partBase.tree: \(vewBase.partBase.tree.name)")
+		print("   - tree: \(vewBase.tree.name)")
+		print("   - tree.children: \(vewBase.tree.children.count)")
 		vewBase.headsetView = arView
 		arView.vewBase = vewBase
 
@@ -248,6 +451,9 @@ struct RealityKitView: NSViewRepresentable {
 
 		// Setup update loop to call updateVSP() every frame (like SceneKit's renderer delegate)
 		arView.setupUpdateLoop()
+
+		// Setup observation of selfiePole changes to update camera (for UI button changes)
+		arView.setupSelfiePoleObservation()
 
 		// NOTE: Don't build Entity tree here - VewBase.tree exists but SCNNodes don't have geometry yet
 		// Entity tree will be built on first updateVSP() call when dirty:.vew is set
@@ -693,52 +899,111 @@ class ScrollWheelNSView: NSView {
 #endif  // End legacy RealityKitViewOLD code
 
 // MARK: - Vew → Entity Tree Builder (Standalone Functions)
-/// Build RealityKit Entity tree from Vew tree (manual update approach)
-/// Call this to populate RealityKit scene from VewBase.tree
+/// Build RealityKit Entity tree from Vew tree (real geometry where possible, bbox fallback)
 func buildEntityTree(from vew: Vew, parent: Entity) -> Entity? {
-	// Create Entity for this Vew
+	// Create container Entity for this Vew
 	let entity = Entity()
 	entity.name = vew.name
-
-	// Store reference in Vew for future updates
 	vew.entity = entity
 
-	// Convert SCNNode geometry to RealityKit MeshResource
-	if let geometry = vew.scn.geometry,
-	   let meshResource = geometry.toMeshResource() {
+	// Copy transform from SCNNode
+	entity.transform = Transform(matrix: simd_float4x4(vew.scn.transform))
 
-		// Convert materials
-		var materials: [SimpleMaterial] = []
-		let scnMaterials = geometry.materials
-		if !scnMaterials.isEmpty {
-			materials = scnMaterials.map { $0.toSimpleMaterial() }
+	// Try to convert root geometry (e.g., Atom sphere, Port cone)
+	if let geometry = vew.scn.geometry {
+		if let meshResource = geometry.toMeshResource() {
+			// Supported geometry type - use real mesh
+			let materials = geometry.materials.isEmpty
+				? [SimpleMaterial(color: .gray, isMetallic: false)]
+				: geometry.materials.map { $0.toSimpleMaterial() }
+			let modelEntity = ModelEntity(mesh: meshResource, materials: materials)
+			modelEntity.name = vew.name + "_model"
+			entity.addChild(modelEntity)
 		} else {
-			// Default material if none specified
-			materials = [SimpleMaterial(color: .gray, isMetallic: false)]
+			// Unsupported custom geometry - use bounding box
+			if let bboxEntity = vew.scn.createBoundingBoxEntity(name: vew.name) {
+				entity.addChild(bboxEntity)
+			}
 		}
-
-		// Create ModelEntity with geometry and materials
-		let modelEntity = ModelEntity(mesh: meshResource, materials: materials)
-		modelEntity.name = vew.name + "_model"
-		entity.addChild(modelEntity)
-		print("   ✓ Created ModelEntity for '\(vew.name)' - geometry: \(type(of: geometry))")
-	} else {
-		print("   ⊘ No geometry for '\(vew.name)' - just container entity")
 	}
 
-	// Copy transform from SCNNode to Entity
-	let scnTransform = vew.scn.transform
-	entity.transform = Transform(matrix: simd_float4x4(scnTransform))
+	// Process child SCNNodes recursively (e.g., Port's disc/cone/tube, Net's frames)
+	func processScnChildren(_ scnNode: SCNNode, into parentEntity: Entity) {
+		for childScn in scnNode.childNodes where childScn.geometry != nil {
+			let childName = childScn.name ?? "child"
+			if let geometry = childScn.geometry,
+			   let meshResource = geometry.toMeshResource() {
+				// Supported - use real mesh
+				let materials = geometry.materials.isEmpty
+					? [SimpleMaterial(color: .gray, isMetallic: false)]
+					: geometry.materials.map { $0.toSimpleMaterial() }
+				let modelEntity = ModelEntity(mesh: meshResource, materials: materials)
+				modelEntity.name = childName + "_model"
+				// Copy transform from SCNNode
+				modelEntity.transform = Transform(matrix: simd_float4x4(childScn.transform))
+				parentEntity.addChild(modelEntity)
+				// Recursively process nested children
+				processScnChildren(childScn, into: modelEntity)
+			}
+			// Note: Unsupported geometries are silently skipped (no bbox fallback)
+		}
+	}
+	processScnChildren(vew.scn, into: entity)
 
 	// Add to parent
 	parent.addChild(entity)
 
-	// Recursively build children
+	// Recursively build Vew children (e.g., Ports)
 	for childVew in vew.children {
 		_ = buildEntityTree(from: childVew, parent: entity)
 	}
 
 	return entity
+}
+
+// MARK: - Entity PrettyPrint Extension (matching SCNNode style)
+extension Entity {
+	/// Pretty print Entity in .tree mode (matching SCNNode pp style)
+	func pp(_ mode: PpMode = .tree, _ aux: FwConfig = params4defaultPp) -> String {
+		let log = Log.shared
+		var rv = ""
+
+		switch mode {
+		case .name:
+			rv = name
+		case .line:
+			// Manual indentation (Entity doesn't conform to Uid for pidNindent)
+			let indent = String(repeating: "|  ", count: max(0, log.nIndent))
+			rv = indent + "\(name.field(-20, dots:false))"
+
+			// Entity type and child count
+			let typeStr = String(describing: type(of: self)).replacingOccurrences(of: "RealityFoundation.", with: "")
+			rv += " \(typeStr) children:\(children.count)"
+
+			// ModelEntity geometry info
+			if let modelEntity = self as? ModelEntity {
+				if let model = modelEntity.model {
+					rv += " mesh:\(model.mesh.contents.models.count)"
+					rv += " mats:\(model.materials.count)"
+				}
+			}
+
+		case .tree:
+			// 1. Print self on one line
+			rv = pp(.line, aux) + "\n"
+
+			// 2. Print children recursively
+			log.nIndent += 1
+			for child in children {
+				rv += child.pp(.tree, aux)
+			}
+			log.nIndent -= 1
+
+		default:
+			rv = "Entity[\(name)]"
+		}
+		return rv
+	}
 }
 
 /// Rebuild entire Entity tree from VewBase.tree

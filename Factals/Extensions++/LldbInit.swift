@@ -1,6 +1,7 @@
 //  LldbInit.swift -- Pretty Print common FW types, thru ~/.lldbinit C2018PAK
 
 import SceneKit
+import RealityKit
 // See INSTALL.md
 
 /* To do:
@@ -23,6 +24,9 @@ func lldbPrint(_ ob:FwAny, mode:PpMode, _ aux:FwConfig = [:], terminator t:Strin
 	}
 	else if let scn				= ob as? SCNNode{
 		print(scn.pp(mode, aux), terminator:t)
+	}
+	else if let entity			= ob as? Entity {
+		print(entity.pp(mode, aux), terminator:t)
 	}
 	else {
 		print(ob.pp(mode, aux), terminator:t)
@@ -80,6 +84,21 @@ func LLDBvewISceneTreeRoot(_ index:Int) -> SCNNode {
 		debugger("Found ...vewBases[\(index)].scnBase.tree?.rootNode = nil")
 	}
 	return scn
+}
+
+ /// Access to current ////// Entity Tree (RealityKit)  //////
+var LLDBvew0entityTreeRoot : Entity?  		{ 	LLDBvewIEntityTreeRoot(0) 		}
+var LLDBvew1entityTreeRoot : Entity?  		{ 	LLDBvewIEntityTreeRoot(1) 		}
+var LLDBvew2entityTreeRoot : Entity?  		{ 	LLDBvewIEntityTreeRoot(2) 		}
+func LLDBvewIEntityTreeRoot(_ index:Int) -> Entity? {
+	guard let vewBases			= FactalsModel.shared?.vewBases,
+	  vewBases.count > index,
+	  let arView				= vewBases[index].headsetView as? ArView,
+	  let anchor				= arView.sceneAnchor else {
+		print("Warning: vewBases[\(index)] is not RealityKit or has no sceneAnchor")
+		return nil
+	}
+	return anchor
 }
 
 //func LLDBscnNodesTree(_ name:String?=nil, _ index:Int=0) -> SCNScene	{

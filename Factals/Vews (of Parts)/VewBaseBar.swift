@@ -29,8 +29,22 @@ struct VewBaseBar: View {
 						print(vewBase.tree.pp(.tree, factalsGlobals.factalsConfig))
 					}
 					Button(label:{	Text("ptn")									})
-					{	print("===== SCNNodes of Slot\(slot): =====")
-						print(vewBase.headsetView?.shapeBase.pp(.tree, factalsGlobals.factalsConfig) ?? "headsetView == nil")
+					{	if let headsetView = vewBase.headsetView {
+							if headsetView.isSceneKit {
+								print("===== SCNNodes of Slot\(slot): =====")
+								print(headsetView.shapeBase.pp(.tree, factalsGlobals.factalsConfig))
+							} else {
+								print("===== Entity Tree of Slot\(slot): =====")
+								if let arView = headsetView as? ArView,
+								   let anchor = arView.sceneAnchor {
+									print(anchor.pp(.tree, factalsGlobals.factalsConfig))
+								} else {
+									print("ArView or sceneAnchor == nil")
+								}
+							}
+						} else {
+							print("headsetView == nil")
+						}
 					}
 					Spacer()
 				//	Button(label:{	Text("Test")								})

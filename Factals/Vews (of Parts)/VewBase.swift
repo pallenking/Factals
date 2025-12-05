@@ -249,26 +249,32 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	  ///		Part.Tree.dirty is not changed here, only when all VewBases are updated
 	 /// - Parameter initial:	-- VewConfig for first appearance
 	func updateVSP() { 			// VIEWS
-		print("🔧 updateVSP() called - headsetView isSceneKit: \(headsetView?.isSceneKit ?? true)")
 		SCNTransaction.begin()
 		SCNTransaction.animationDuration = CFTimeInterval(animateVBdelay)	//0.15//0.3//0.6//
 
-		 // ---- 1.  Create   V i E W s   ----  // and SCNs entry points ("*-...")
+		 // ---- 1.  Create   V i E W s  	and SCNs entry points ("*-...")  ----
 		let partsTree			= partBase.tree		// Model
 		if partsTree.test(dirty:.vew) {				//" _ reVew _   VewBase (per updateVSP()" {
 			logRve(6, "updateVSP(vewConfig:(initial)")
+			print("🔍 PHASE 1: reVew - Creating Vew tree and SCN geometries")
 			  // Update Vew tree objects from Part tree
 			 //  Create SCN "entry points" a sparse tree for Vew tree)
 /**/		partsTree.reVew(vew:tree, parentVew:nil)
+			print("   After reVew: tree '\(tree.name)' has \(tree.children.count) children")
+			print("   tree.scn.geometry = \(tree.scn.geometry != nil ? "EXISTS" : "nil")")
 			  // Links: LinkVew [sp]Con2Vew endpoints and constraints:
 			 // should have created all Vews and one *-<name> in ptn tree
 			partsTree.reVewPost(vew:tree)
 		}
-		 // ---- 2.  Adjust   S I Z E s   ----- //
+		 // ---- 2.  Adjust   S I Z E s   	and Create/Adjust SCN skins ----- //
 		if partsTree.test(dirty:.size) {		//" _ reSize _  VewBase (per updateVSP()"
-
+			print("🔍 PHASE 2: reSize - Creating SCN geometries (via reSkin)")
 /**/		partsTree.reSize(vew:tree)				// also causes rePosition as necessary
-
+			print("   After reSize: tree.scn.geometry = \(tree.scn.geometry != nil ? "EXISTS" : "nil")")
+			print("   tree.scn has \(tree.scn.childNodes.count) child SCNNodes")
+			for (i, child) in tree.scn.childNodes.enumerated().prefix(3) {
+				print("      child[\(i)]: '\(child.name ?? "?")' geometry=\(child.geometry != nil)")
+			}
 			tree.bBox			|= BBox.unity		// insure a 1x1x1 minimum
 			partsTree.rePosition(vew:tree)			// === only outter vew centered
 			tree.orBBoxIntoParent()
@@ -286,10 +292,7 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 		SCNTransaction.commit()
 
 		// ---- 4. Update RealityKit Entity tree (if in AR mode) ----
-		let isSceneKit = headsetView?.isSceneKit ?? true
-		print("🔧 updateVSP() done - isSceneKit: \(isSceneKit), dirty.vew: \(partsTree.test(dirty:.vew))")
-		if !isSceneKit {
-			print("🔧 Calling updateEntityTree(fullRebuild: \(partsTree.test(dirty:.vew)))")
+		if !(headsetView?.isSceneKit ?? true) {
 			updateEntityTree(fullRebuild: partsTree.test(dirty:.vew))
 		}
 	}
@@ -298,14 +301,15 @@ bug	//	sliderTestVal			= try container.decode(   Double.self, forKey:.sliderTest
 	/// - Parameter fullRebuild: If true, rebuild entire tree; if false, just update existing entities
 	func updateEntityTree(fullRebuild: Bool = false) {
 		guard let arView = headsetView as? ArView,
-			  let anchor = arView.sceneAnchor else { return }
+			  let anchor = arView.sceneAnchor else { return 					}
 
-		if fullRebuild {
-			// Tree structure changed - rebuild everything
+		// Force rebuild if entities don't exist yet (first time, or after structure change)
+		if fullRebuild || tree.entity == nil {	// Tree structure changed - rebuild everything
 			rebuildEntityTree(vewBase: self, rootAnchor: anchor)
-			print("🔄 RealityKit Entity tree rebuilt (structure changed)")
-		} else {
-			// Just update existing entities
+			if fullRebuild {
+				print("🔄 RealityKit Entity tree rebuilt (structure changed)")
+			}
+		} else {			// Just update existing entities
 			tree.updateEntityFromVew()
 		}
 		// Note: No transaction needed - RealityKit handles its own animation

@@ -641,7 +641,7 @@ return "bug"
 //	}
 	 // MARK: - 9.4 rePosition
 	override func rePosition(vew:Vew, first:Bool=false) {
-bug;	(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition me (a Port)
+		(parent as? Atom)?.rePosition(portVew:vew)	// use my parent to reposition me (a Port)
 		vew.scn.transform = SCNMatrix4(0, -height/2, 0, flip:flipped)/// lone Port
 	}
 	 // MARK: - 9.5: RePaint:

@@ -13,7 +13,7 @@ import AppKit
 extension RealityKitView {
 	// MARK: - Standard Primitives
 	// Functions use NSColor directly since SimpleMaterial.Color is NSColor
-	func RksBox2(width:Float, height:Float, length:Float, chamferRadius:Float=0.0) -> ModelEntity {
+	func RksBox(width:Float, height:Float, length:Float, chamferRadius:Float=0.0) -> ModelEntity {
 		let boxMesh 			= MeshResource.generateBox(size:[width, height, length])
 		let boxMaterial 		= SimpleMaterial(color:.gray, isMetallic:false)
 		let boxEntity 			= ModelEntity(mesh:boxMesh, materials:[boxMaterial])

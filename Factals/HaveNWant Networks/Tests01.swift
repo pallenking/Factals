@@ -209,7 +209,7 @@ state.scanSubMenu				= "Micro Forms"
 //	Hamming([n:"t1"]),
 //]]) })
 r("e Part()",   e, { Part() })
-r("Port()",		e, { Port() })
+xr("Port()", 	e, { Port() })
 r("Atom()",		e, { Atom() })
 // Having an Atom having a Part as a child is odd
 //r("Atom(Part())",e, {															//	Atom([parts:[Atom([:])]])
@@ -296,6 +296,9 @@ r("testing Port BBoxes",e + selfiePole(s:45,u:0),  {
 	Leaf([n:"g", of:"genBcast"])		//
 } )
 
+xxr("-sphere", e + selfiePole( s:0, u:0), { Net([placeMy:"stackx -1 -1", parts:[
+		Sphere([size:SCNVector3(0.2, 0.2, 0.2),	color:"green"]),
+]]) })
 r("-bug frame of net wrong", e + selfiePole( s:0, u:0), { Net([placeMy:"stackx -1 -1", parts:[
 	Net(),
 	Net([parts:[
@@ -706,9 +709,16 @@ xxr("- way extra size", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10,
 ] ]) })
 var a8:String {"a,v:\(String(randomDist(3.0, 5.0))),l:3" }
 xxr("- bulb doesn't animate", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
+			+ ["animateVBdelay":3.0], {
+ 	Mirror([n:"a", "gain":-1, "offset":1, f:1])
+//	Net([placeMy:"linky", parts:[
+//		Mirror([n:"a", "gain":-1, "offset":1, f:1]),
+//	] ])
+})
+xxr("- bulb doesn't animate", eSimX + eYtight + vel(-4) + selfiePole(h:5.0, s:0, u:10, z:3.0)
 			+ ["animateVBdelay":3.0], { Net([placeMy:"linky", parts:[
-	Bulb(  [n:"x", P:"a,v:4.0,l:3"]),
-	Mirror([n:"y", P:"a,v:1.5,l:3"]),
+//	Bulb(  [n:"x", P:"a,v:4.0,l:3"]),
+//	Mirror([n:"y", P:"a,v:1.5,l:3"]),
 //	PortSound([n:"snd1", "inP":"a.P", "sounds":tickTock, "soundVolume":0.0 ]),
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
  ] ]) })
@@ -732,7 +742,8 @@ xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 	] ]),
 	Mirror([n:"a", f:1]),
 ] ]) })
-xr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
+
+xxr("- atomicToggle bug",eYtight, { Net([placeMy:"linky", parts:[
 	Mirror([n:"b", P:"a,v:4,l:3", jog+X:"4"]),	//+X
 	Mirror([n:"a", "gain":-1, "offset":1, f:1]),
 ] ]) })

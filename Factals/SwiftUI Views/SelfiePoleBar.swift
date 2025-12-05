@@ -56,7 +56,7 @@ struct SelfiePoleBar: View   {													//xyzzy15.5
 				}
 			}
 			.onChange(of:vewBase.selfiePole.zoom) {
-				print(".onChange(of:selfiePole.zoom:",$0, $1)
+				//print(".onChange(of:selfiePole.zoom:",$0, $1)
 				updateCameraFromUI()  // Update camera when zoom changes from any UI source
 			}
 			.background(Color(red:1.0, green:0.9, blue:0.9))	// pink
